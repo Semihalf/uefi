@@ -494,7 +494,7 @@ typedef union
                                                                    0x3        10G_R      10GBASE-R                    1
                                                                    0x4        40G_R      40GBASE-R                    4
                                                                    0x5        --         Reserved                     -
-                                                                   0x6        QSGMII     QSGMII                       4
+                                                                   0x6        QSGMII     QSGMII                       1
                                                                    Other      --         Reserved                     -
                                                                  </pre>
 
@@ -532,8 +532,7 @@ typedef union
                                                                  BGX()_SPU()_BR_LANE_MAP[LNx_MAPPING].
 
                                                                  This field must be programmed to its final value before [ENABLE] is set, and
-                                                                 must not be changed when [ENABLE] = 1.  When [LMAC_TYPE] = QSGMII, the PCS lane
-                                                                 IDss must be unique for each of the 4 LMACs. */
+                                                                 must not be changed when [ENABLE] = 1. */
 #else /* Word 0 - Little Endian */
         uint64_t lane_to_sds           : 8;  /**< [  7:  0](R/W) PCS lane-to-SerDes mapping.
                                                                  This is an array of 2-bit values that map each logical PCS lane to a
@@ -563,8 +562,7 @@ typedef union
                                                                  BGX()_SPU()_BR_LANE_MAP[LNx_MAPPING].
 
                                                                  This field must be programmed to its final value before [ENABLE] is set, and
-                                                                 must not be changed when [ENABLE] = 1.  When [LMAC_TYPE] = QSGMII, the PCS lane
-                                                                 IDss must be unique for each of the 4 LMACs. */
+                                                                 must not be changed when [ENABLE] = 1. */
         uint64_t lmac_type             : 3;  /**< [ 10:  8](R/W) Logical MAC/PCS/prt type:
 
                                                                  <pre>
@@ -576,7 +574,7 @@ typedef union
                                                                    0x3        10G_R      10GBASE-R                    1
                                                                    0x4        40G_R      40GBASE-R                    4
                                                                    0x5        --         Reserved                     -
-                                                                   0x6        QSGMII     QSGMII                       4
+                                                                   0x6        QSGMII     QSGMII                       1
                                                                    Other      --         Reserved                     -
                                                                  </pre>
 
@@ -685,7 +683,7 @@ typedef union
                                                                    0x3        10G_R      10GBASE-R                    1
                                                                    0x4        40G_R      40GBASE-R                    4
                                                                    0x5        --         Reserved                     -
-                                                                   0x6        QSGMII     QSGMII                       4
+                                                                   0x6        QSGMII     QSGMII                       1
                                                                    Other      --         Reserved                     -
                                                                  </pre>
 
@@ -722,11 +720,11 @@ typedef union
                                                                  detected RX PCS lane number is recorded in the corresponding
                                                                  BGX()_SPU()_BR_LANE_MAP[LNx_MAPPING].
 
-                                                                 For SGMII, for use with QLMs must be 0x0. For use with DLMs must be 0x0 or 0x2.
+                                                                 For QSGMII, [LANE_TO_SDS]<1:0> for LMAC 0 selects the physical SerDes lane shared by four
+                                                                 LMACs, and [LANE_TO_SDS]<1:0> must be unique for each of the four LMACs.
 
                                                                  This field must be programmed to its final value before [ENABLE] is set, and
-                                                                 must not be changed when [ENABLE] = 1.  When [LMAC_TYPE] = QSGMII, the PCS lane
-                                                                 IDss must be unique for each of the 4 LMACs. */
+                                                                 must not be changed when [ENABLE] = 1. */
 #else /* Word 0 - Little Endian */
         uint64_t lane_to_sds           : 8;  /**< [  7:  0](R/W) PCS lane-to-SerDes mapping.
                                                                  This is an array of 2-bit values that map each logical PCS lane to a
@@ -755,11 +753,11 @@ typedef union
                                                                  detected RX PCS lane number is recorded in the corresponding
                                                                  BGX()_SPU()_BR_LANE_MAP[LNx_MAPPING].
 
-                                                                 For SGMII, for use with QLMs must be 0x0. For use with DLMs must be 0x0 or 0x2.
+                                                                 For QSGMII, [LANE_TO_SDS]<1:0> for LMAC 0 selects the physical SerDes lane shared by four
+                                                                 LMACs, and [LANE_TO_SDS]<1:0> must be unique for each of the four LMACs.
 
                                                                  This field must be programmed to its final value before [ENABLE] is set, and
-                                                                 must not be changed when [ENABLE] = 1.  When [LMAC_TYPE] = QSGMII, the PCS lane
-                                                                 IDss must be unique for each of the 4 LMACs. */
+                                                                 must not be changed when [ENABLE] = 1. */
         uint64_t lmac_type             : 3;  /**< [ 10:  8](R/W) Logical MAC/PCS/prt type:
 
                                                                  <pre>
@@ -771,7 +769,7 @@ typedef union
                                                                    0x3        10G_R      10GBASE-R                    1
                                                                    0x4        40G_R      40GBASE-R                    4
                                                                    0x5        --         Reserved                     -
-                                                                   0x6        QSGMII     QSGMII                       4
+                                                                   0x6        QSGMII     QSGMII                       1
                                                                    Other      --         Reserved                     -
                                                                  </pre>
 
@@ -1035,7 +1033,7 @@ typedef union
                                                                    0x3        10G_R      10GBASE-R                    1
                                                                    0x4        40G_R      40GBASE-R                    4
                                                                    0x5        --         Reserved                     -
-                                                                   0x6        QSGMII     QSGMII                       4
+                                                                   0x6        QSGMII     QSGMII                       1
                                                                    Other      --         Reserved                     -
                                                                  </pre>
 
@@ -1072,11 +1070,11 @@ typedef union
                                                                  detected RX PCS lane number is recorded in the corresponding
                                                                  BGX()_SPU()_BR_LANE_MAP[LNx_MAPPING].
 
-                                                                 For SGMII, for use with QLMs must be 0x0. For use with DLMs must be 0x0 or 0x2.
+                                                                 For QSGMII, [LANE_TO_SDS]<1:0> for LMAC 0 selects the physical SerDes lane shared by four
+                                                                 LMACs, and [LANE_TO_SDS]<1:0> must be unique for each of the four LMACs.
 
                                                                  This field must be programmed to its final value before [ENABLE] is set, and
-                                                                 must not be changed when [ENABLE] = 1.  When [LMAC_TYPE] = QSGMII, the PCS lane
-                                                                 IDss must be unique for each of the 4 LMACs. */
+                                                                 must not be changed when [ENABLE] = 1. */
 #else /* Word 0 - Little Endian */
         uint64_t lane_to_sds           : 8;  /**< [  7:  0](R/W) PCS lane-to-SerDes mapping.
                                                                  This is an array of 2-bit values that map each logical PCS lane to a
@@ -1105,11 +1103,11 @@ typedef union
                                                                  detected RX PCS lane number is recorded in the corresponding
                                                                  BGX()_SPU()_BR_LANE_MAP[LNx_MAPPING].
 
-                                                                 For SGMII, for use with QLMs must be 0x0. For use with DLMs must be 0x0 or 0x2.
+                                                                 For QSGMII, [LANE_TO_SDS]<1:0> for LMAC 0 selects the physical SerDes lane shared by four
+                                                                 LMACs, and [LANE_TO_SDS]<1:0> must be unique for each of the four LMACs.
 
                                                                  This field must be programmed to its final value before [ENABLE] is set, and
-                                                                 must not be changed when [ENABLE] = 1.  When [LMAC_TYPE] = QSGMII, the PCS lane
-                                                                 IDss must be unique for each of the 4 LMACs. */
+                                                                 must not be changed when [ENABLE] = 1. */
         uint64_t lmac_type             : 3;  /**< [ 10:  8](R/W) Logical MAC/PCS/prt type:
 
                                                                  <pre>
@@ -1121,7 +1119,7 @@ typedef union
                                                                    0x3        10G_R      10GBASE-R                    1
                                                                    0x4        40G_R      40GBASE-R                    4
                                                                    0x5        --         Reserved                     -
-                                                                   0x6        QSGMII     QSGMII                       4
+                                                                   0x6        QSGMII     QSGMII                       1
                                                                    Other      --         Reserved                     -
                                                                  </pre>
 
@@ -6733,7 +6731,7 @@ static inline uint64_t BDK_BGXX_CMR_RX_LMACS(unsigned long a)
  *
  * BGX CMR Receive-Ports Backpressure Override Registers
  * Per-LMAC backpressure override register.
- * For SMU, BGX()_CMR_RX_OVR_BP[EN<0>] must be set to one and BGX()_CMR_RX_OVR_BP[BP<0>] must be
+ * For SMU, BGX()_CMR_RX_OVR_BP[EN]<0> must be set to one and BGX()_CMR_RX_OVR_BP[BP]<0> must be
  * cleared to zero (to forcibly disable hardware-automatic 802.3 PAUSE packet generation) with
  * the HiGig2 Protocol when BGX()_SMU()_HG2_CONTROL[HG2TX_EN]=0. (The HiGig2 protocol is
  * indicated by BGX()_SMU()_TX_CTL[HG_EN]=1 and BGX()_SMU()_RX_UDD_SKP[LEN]=16).
@@ -12212,7 +12210,7 @@ static inline uint64_t BDK_BGXX_SMUX_EXT_LOOPBACK(unsigned long a, unsigned long
  * [HG2RX_EN] are set. BGX()_SMU()_RX_UDD_SKP[LEN] must be set to 16 (to select HiGig2)
  * whenever either [HG2TX_EN] or [HG2RX_EN] are set.
  *
- * BGX()_CMR_RX_OVR_BP[EN<0>] must be set and BGX()_CMR_RX_OVR_BP[BP<0>] must be cleared
+ * BGX()_CMR_RX_OVR_BP[EN]<0> must be set and BGX()_CMR_RX_OVR_BP[BP]<0> must be cleared
  * to 0 (to forcibly disable hardware-automatic 802.3 PAUSE packet generation) with the HiGig2
  * Protocol when [HG2TX_EN] = 0. (The HiGig2 protocol is indicated
  * by BGX()_SMU()_TX_CTL[HG_EN] = 1 and BGX()_SMU()_RX_UDD_SKP[LEN]=16.) Hardware

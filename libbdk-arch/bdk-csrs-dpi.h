@@ -222,7 +222,7 @@ union bdk_dpi_dma_instr_hdr_s
 
                                                                  64-bit words, where the division removes the fraction.
 
-                                                                 With DPI_HDR_XTYPE_E:INTERNAL_ONLY instructions, the last pointers block
+                                                                 With DPI_HDR_XTYPE_E::INTERNAL_ONLY instructions, the last pointers block
                                                                  includes [NLST] DPI_DMA_LOCAL_PTR_S local pointers, and is
                                                                  [NLST] 64-bit words.
 
@@ -232,7 +232,7 @@ union bdk_dpi_dma_instr_hdr_s
         uint64_t nfst                  : 4;  /**< [ 51: 48] The number of pointers in the first pointers block.
 
                                                                  With DPI_HDR_XTYPE_E::INBOUND, DPI_HDR_XTYPE_E::OUTBOUND, and
-                                                                 DPI_HDR_XTYPE_E:INTERNAL_ONLY instructions, the first pointers block
+                                                                 DPI_HDR_XTYPE_E::INTERNAL_ONLY instructions, the first pointers block
                                                                  includes [NFST] DPI_DMA_LOCAL_PTR_S local pointers, and is
                                                                  [NFST] 64-bit words.
 
@@ -269,7 +269,7 @@ union bdk_dpi_dma_instr_hdr_s
         uint64_t nfst                  : 4;  /**< [ 51: 48] The number of pointers in the first pointers block.
 
                                                                  With DPI_HDR_XTYPE_E::INBOUND, DPI_HDR_XTYPE_E::OUTBOUND, and
-                                                                 DPI_HDR_XTYPE_E:INTERNAL_ONLY instructions, the first pointers block
+                                                                 DPI_HDR_XTYPE_E::INTERNAL_ONLY instructions, the first pointers block
                                                                  includes [NFST] DPI_DMA_LOCAL_PTR_S local pointers, and is
                                                                  [NFST] 64-bit words.
 
@@ -293,7 +293,7 @@ union bdk_dpi_dma_instr_hdr_s
 
                                                                  64-bit words, where the division removes the fraction.
 
-                                                                 With DPI_HDR_XTYPE_E:INTERNAL_ONLY instructions, the last pointers block
+                                                                 With DPI_HDR_XTYPE_E::INTERNAL_ONLY instructions, the last pointers block
                                                                  includes [NLST] DPI_DMA_LOCAL_PTR_S local pointers, and is
                                                                  [NLST] 64-bit words.
 
@@ -640,7 +640,7 @@ union bdk_dpi_dma_instr_hdr_s
 
                                                                  64-bit words, where the division removes the fraction.
 
-                                                                 With DPI_HDR_XTYPE_E:INTERNAL_ONLY instructions, the last pointers block
+                                                                 With DPI_HDR_XTYPE_E::INTERNAL_ONLY instructions, the last pointers block
                                                                  includes [NLST] DPI_DMA_LOCAL_PTR_S local pointers, and is
                                                                  [NLST] 64-bit words.
 
@@ -650,7 +650,7 @@ union bdk_dpi_dma_instr_hdr_s
         uint64_t nfst                  : 4;  /**< [ 51: 48] The number of pointers in the first pointers block.
 
                                                                  With DPI_HDR_XTYPE_E::INBOUND, DPI_HDR_XTYPE_E::OUTBOUND, and
-                                                                 DPI_HDR_XTYPE_E:INTERNAL_ONLY instructions, the first pointers block
+                                                                 DPI_HDR_XTYPE_E::INTERNAL_ONLY instructions, the first pointers block
                                                                  includes [NFST] DPI_DMA_LOCAL_PTR_S local pointers, and is
                                                                  [NFST] 64-bit words.
 
@@ -689,7 +689,7 @@ union bdk_dpi_dma_instr_hdr_s
         uint64_t nfst                  : 4;  /**< [ 51: 48] The number of pointers in the first pointers block.
 
                                                                  With DPI_HDR_XTYPE_E::INBOUND, DPI_HDR_XTYPE_E::OUTBOUND, and
-                                                                 DPI_HDR_XTYPE_E:INTERNAL_ONLY instructions, the first pointers block
+                                                                 DPI_HDR_XTYPE_E::INTERNAL_ONLY instructions, the first pointers block
                                                                  includes [NFST] DPI_DMA_LOCAL_PTR_S local pointers, and is
                                                                  [NFST] 64-bit words.
 
@@ -713,7 +713,7 @@ union bdk_dpi_dma_instr_hdr_s
 
                                                                  64-bit words, where the division removes the fraction.
 
-                                                                 With DPI_HDR_XTYPE_E:INTERNAL_ONLY instructions, the last pointers block
+                                                                 With DPI_HDR_XTYPE_E::INTERNAL_ONLY instructions, the last pointers block
                                                                  includes [NLST] DPI_DMA_LOCAL_PTR_S local pointers, and is
                                                                  [NLST] 64-bit words.
 

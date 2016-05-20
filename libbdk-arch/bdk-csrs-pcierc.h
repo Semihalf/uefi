@@ -147,10 +147,10 @@ typedef union
         uint32_t scse                  : 1;  /**< [  3:  3](RO) Special cycle enable. Not applicable for PCI Express. Must be hardwired to 0. */
         uint32_t me                    : 1;  /**< [  2:  2](R/W) Bus master enable. */
         uint32_t msae                  : 1;  /**< [  1:  1](R/W) Memory space access enable. */
-        uint32_t isae                  : 1;  /**< [  0:  0](RO) I/O space access enable.
+        uint32_t isae                  : 1;  /**< [  0:  0](R/W) I/O space access enable.
                                                                  There are no I/O bars supported. */
 #else /* Word 0 - Little Endian */
-        uint32_t isae                  : 1;  /**< [  0:  0](RO) I/O space access enable.
+        uint32_t isae                  : 1;  /**< [  0:  0](R/W) I/O space access enable.
                                                                  There are no I/O bars supported. */
         uint32_t msae                  : 1;  /**< [  1:  1](R/W) Memory space access enable. */
         uint32_t me                    : 1;  /**< [  2:  2](R/W) Bus master enable. */
@@ -233,62 +233,7 @@ typedef union
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_pciercx_cfg001_cn81xx cn88xx; */
-    struct bdk_pciercx_cfg001_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t dpe                   : 1;  /**< [ 31: 31](R/W1C/H) Detected parity error. */
-        uint32_t sse                   : 1;  /**< [ 30: 30](R/W1C/H) Signaled system error. */
-        uint32_t rma                   : 1;  /**< [ 29: 29](R/W1C/H) Received master abort. */
-        uint32_t rta                   : 1;  /**< [ 28: 28](R/W1C/H) Received target abort. */
-        uint32_t sta                   : 1;  /**< [ 27: 27](R/W1C/H) Signaled target abort. */
-        uint32_t devt                  : 2;  /**< [ 26: 25](RO) DEVSEL timing. Not applicable for PCI Express. Hardwired to 0x0. */
-        uint32_t mdpe                  : 1;  /**< [ 24: 24](R/W1C/H) Master data parity error. */
-        uint32_t fbb                   : 1;  /**< [ 23: 23](RO) Fast back-to-back capable. Not applicable for PCI Express. Hardwired to 0. */
-        uint32_t reserved_22           : 1;
-        uint32_t m66                   : 1;  /**< [ 21: 21](RO) 66 MHz capable. Not applicable for PCI Express. Hardwired to 0. */
-        uint32_t cl                    : 1;  /**< [ 20: 20](RO) Capabilities list. Indicates presence of an extended capability item. Hardwired to 1. */
-        uint32_t i_stat                : 1;  /**< [ 19: 19](RO) INTx status. */
-        uint32_t reserved_11_18        : 8;
-        uint32_t i_dis                 : 1;  /**< [ 10: 10](R/W) INTx assertion disable. */
-        uint32_t fbbe                  : 1;  /**< [  9:  9](RO) Fast back-to-back transaction enable. Not applicable for PCI Express. Must be hardwired to 0. */
-        uint32_t see                   : 1;  /**< [  8:  8](R/W) SERR# enable. */
-        uint32_t ids_wcc               : 1;  /**< [  7:  7](RO) IDSEL stepping/wait cycle control. Not applicable for PCI Express. Must be hardwired to 0. */
-        uint32_t per                   : 1;  /**< [  6:  6](R/W) Parity error response. */
-        uint32_t vps                   : 1;  /**< [  5:  5](RO) VGA palette snoop. Not applicable for PCI Express. Must be hardwired to 0. */
-        uint32_t mwice                 : 1;  /**< [  4:  4](RO) Memory write and invalidate. Not applicable for PCI Express. Must be hardwired to 0. */
-        uint32_t scse                  : 1;  /**< [  3:  3](RO) Special cycle enable. Not applicable for PCI Express. Must be hardwired to 0. */
-        uint32_t me                    : 1;  /**< [  2:  2](R/W) Bus master enable. */
-        uint32_t msae                  : 1;  /**< [  1:  1](R/W) Memory space access enable. */
-        uint32_t isae                  : 1;  /**< [  0:  0](R/W) I/O space access enable.
-                                                                 There are no I/O bars supported. */
-#else /* Word 0 - Little Endian */
-        uint32_t isae                  : 1;  /**< [  0:  0](R/W) I/O space access enable.
-                                                                 There are no I/O bars supported. */
-        uint32_t msae                  : 1;  /**< [  1:  1](R/W) Memory space access enable. */
-        uint32_t me                    : 1;  /**< [  2:  2](R/W) Bus master enable. */
-        uint32_t scse                  : 1;  /**< [  3:  3](RO) Special cycle enable. Not applicable for PCI Express. Must be hardwired to 0. */
-        uint32_t mwice                 : 1;  /**< [  4:  4](RO) Memory write and invalidate. Not applicable for PCI Express. Must be hardwired to 0. */
-        uint32_t vps                   : 1;  /**< [  5:  5](RO) VGA palette snoop. Not applicable for PCI Express. Must be hardwired to 0. */
-        uint32_t per                   : 1;  /**< [  6:  6](R/W) Parity error response. */
-        uint32_t ids_wcc               : 1;  /**< [  7:  7](RO) IDSEL stepping/wait cycle control. Not applicable for PCI Express. Must be hardwired to 0. */
-        uint32_t see                   : 1;  /**< [  8:  8](R/W) SERR# enable. */
-        uint32_t fbbe                  : 1;  /**< [  9:  9](RO) Fast back-to-back transaction enable. Not applicable for PCI Express. Must be hardwired to 0. */
-        uint32_t i_dis                 : 1;  /**< [ 10: 10](R/W) INTx assertion disable. */
-        uint32_t reserved_11_18        : 8;
-        uint32_t i_stat                : 1;  /**< [ 19: 19](RO) INTx status. */
-        uint32_t cl                    : 1;  /**< [ 20: 20](RO) Capabilities list. Indicates presence of an extended capability item. Hardwired to 1. */
-        uint32_t m66                   : 1;  /**< [ 21: 21](RO) 66 MHz capable. Not applicable for PCI Express. Hardwired to 0. */
-        uint32_t reserved_22           : 1;
-        uint32_t fbb                   : 1;  /**< [ 23: 23](RO) Fast back-to-back capable. Not applicable for PCI Express. Hardwired to 0. */
-        uint32_t mdpe                  : 1;  /**< [ 24: 24](R/W1C/H) Master data parity error. */
-        uint32_t devt                  : 2;  /**< [ 26: 25](RO) DEVSEL timing. Not applicable for PCI Express. Hardwired to 0x0. */
-        uint32_t sta                   : 1;  /**< [ 27: 27](R/W1C/H) Signaled target abort. */
-        uint32_t rta                   : 1;  /**< [ 28: 28](R/W1C/H) Received target abort. */
-        uint32_t rma                   : 1;  /**< [ 29: 29](R/W1C/H) Received master abort. */
-        uint32_t sse                   : 1;  /**< [ 30: 30](R/W1C/H) Signaled system error. */
-        uint32_t dpe                   : 1;  /**< [ 31: 31](R/W1C/H) Detected parity error. */
-#endif /* Word 0 - End */
-    } cn83xx;
+    /* struct bdk_pciercx_cfg001_s cn83xx; */
 } bdk_pciercx_cfg001_t;
 
 static inline uint64_t BDK_PCIERCX_CFG001(unsigned long a) __attribute__ ((pure, always_inline));

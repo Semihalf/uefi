@@ -396,10 +396,10 @@ static inline uint64_t BDK_LMCX_CHAR_DQ_ERR_COUNT(unsigned long a)
 /**
  * Register (RSL) lmc#_char_mask0
  *
- * INTERNAL: LMC Characterization Mask Register 0
- *
- * This register provides an assortment of various control fields needed to characterize the DDR3
- * interface.
+ * LMC Characterization Mask Register 0
+ * This register provides an assortment of various control fields needed to characterize the
+ * DDR3/DDR4 interface.
+ * It is also used to corrupt the write data bits when ECC Corrupt logic generator is enabled.
  */
 typedef union
 {
@@ -407,26 +407,18 @@ typedef union
     struct bdk_lmcx_char_mask0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t mask                  : 64; /**< [ 63:  0](R/W) Mask for DQ0<63:0>. */
+        uint64_t mask                  : 64; /**< [ 63:  0](R/W) Mask for DQ0<63:0>.
+                                                                 Before enabling ECC Corrupt generation logic by setting
+                                                                 LMC()_ECC_PARITY_TEST[ECC_CORRUPT_ENA], set any the MASK bits to 1 to flip the
+                                                                 corresponding bits of the lower 64-bit dataword during a write data transfer. */
 #else /* Word 0 - Little Endian */
-        uint64_t mask                  : 64; /**< [ 63:  0](R/W) Mask for DQ0<63:0>. */
+        uint64_t mask                  : 64; /**< [ 63:  0](R/W) Mask for DQ0<63:0>.
+                                                                 Before enabling ECC Corrupt generation logic by setting
+                                                                 LMC()_ECC_PARITY_TEST[ECC_CORRUPT_ENA], set any the MASK bits to 1 to flip the
+                                                                 corresponding bits of the lower 64-bit dataword during a write data transfer. */
 #endif /* Word 0 - End */
     } s;
-    struct bdk_lmcx_char_mask0_cn8
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t mask                  : 64; /**< [ 63:  0](R/W) Mask for DQ0<63:0>.
-                                                                 Before enabling ECC Corrupt generation logic by setting
-                                                                 LMC()_ECC_PARITY_TEST[ECC_CORRUPT_ENA], set any the MASK bits to 1 to flip the
-                                                                 corresponding bits of the lower 64-bit dataword during a write data transfer. */
-#else /* Word 0 - Little Endian */
-        uint64_t mask                  : 64; /**< [ 63:  0](R/W) Mask for DQ0<63:0>.
-                                                                 Before enabling ECC Corrupt generation logic by setting
-                                                                 LMC()_ECC_PARITY_TEST[ECC_CORRUPT_ENA], set any the MASK bits to 1 to flip the
-                                                                 corresponding bits of the lower 64-bit dataword during a write data transfer. */
-#endif /* Word 0 - End */
-    } cn8;
-    /* struct bdk_lmcx_char_mask0_s cn9; */
+    /* struct bdk_lmcx_char_mask0_s cn; */
 } bdk_lmcx_char_mask0_t;
 
 static inline uint64_t BDK_LMCX_CHAR_MASK0(unsigned long a) __attribute__ ((pure, always_inline));
@@ -498,10 +490,10 @@ static inline uint64_t BDK_LMCX_CHAR_MASK1(unsigned long a)
 /**
  * Register (RSL) lmc#_char_mask2
  *
- * INTERNAL: LMC Characterization Mask Register 2
- *
- * This register provides an assortment of various control fields needed to characterize the DDR3
- * interface.
+ * LMC Characterization Mask Register 2
+ * This register provides an assortment of various control fields needed to characterize the
+ * DDR3/DDR4 interface.
+ * It is also used to corrupt the write data bits when ECC Corrupt logic generator is enabled.
  */
 typedef union
 {
@@ -509,26 +501,18 @@ typedef union
     struct bdk_lmcx_char_mask2_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t mask                  : 64; /**< [ 63:  0](R/W) Mask for DQ1<63:0>. */
+        uint64_t mask                  : 64; /**< [ 63:  0](R/W) Mask for DQ1<63:0>.
+                                                                 Before enabling ECC Corrupt generation logic by setting
+                                                                 LMC()_ECC_PARITY_TEST[ECC_CORRUPT_ENA], set any the MASK bits to 1 to flip the
+                                                                 corresponding bits of the upper 64-bit dataword during a write data transfer. */
 #else /* Word 0 - Little Endian */
-        uint64_t mask                  : 64; /**< [ 63:  0](R/W) Mask for DQ1<63:0>. */
+        uint64_t mask                  : 64; /**< [ 63:  0](R/W) Mask for DQ1<63:0>.
+                                                                 Before enabling ECC Corrupt generation logic by setting
+                                                                 LMC()_ECC_PARITY_TEST[ECC_CORRUPT_ENA], set any the MASK bits to 1 to flip the
+                                                                 corresponding bits of the upper 64-bit dataword during a write data transfer. */
 #endif /* Word 0 - End */
     } s;
-    struct bdk_lmcx_char_mask2_cn8
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t mask                  : 64; /**< [ 63:  0](R/W) Mask for DQ1<63:0>.
-                                                                 Before enabling ECC Corrupt generation logic by setting
-                                                                 LMC()_ECC_PARITY_TEST[ECC_CORRUPT_ENA], set any the MASK bits to 1 to flip the
-                                                                 corresponding bits of the upper 64-bit dataword during a write data transfer. */
-#else /* Word 0 - Little Endian */
-        uint64_t mask                  : 64; /**< [ 63:  0](R/W) Mask for DQ1<63:0>.
-                                                                 Before enabling ECC Corrupt generation logic by setting
-                                                                 LMC()_ECC_PARITY_TEST[ECC_CORRUPT_ENA], set any the MASK bits to 1 to flip the
-                                                                 corresponding bits of the upper 64-bit dataword during a write data transfer. */
-#endif /* Word 0 - End */
-    } cn8;
-    /* struct bdk_lmcx_char_mask2_s cn9; */
+    /* struct bdk_lmcx_char_mask2_s cn; */
 } bdk_lmcx_char_mask2_t;
 
 static inline uint64_t BDK_LMCX_CHAR_MASK2(unsigned long a) __attribute__ ((pure, always_inline));
@@ -3349,15 +3333,14 @@ static inline uint64_t BDK_LMCX_DUAL_MEMCFG(unsigned long a)
  * Register (RSL) lmc#_ecc_parity_test
  *
  * LMC ECC Parity Test Registers
- * This register has bits to control the ECC and CA parity errors creation during test modes. ECC
- * error is generated by enabling [CA_PARITY_CORRUPT_ENA] and selecting
- * any [ECC_CORRUPT_IDX] index of the dataword from the cacheline to be corrupted. User can
- * select
- * which bit of the 128-bits dataword to corrupt by asserting any of the CHAR_MASK0 and
- * CHAR_MASK2 bits. (CHAR_MASK0 and CHAR_MASK2 corresponds to the lower and upper 64-bit signal
- * that can corrupt any individual bit of the data).
+ * This register has bits to control the generation of ECC and Command Address parity errors.
+ * ECC error is generated by enabling [CA_PARITY_CORRUPT_ENA] and selecting any of the
+ * [ECC_CORRUPT_IDX] index of the dataword from the cacheline to be corrupted.
+ * User needs to select which bit of the 128-bits dataword to corrupt by asserting any of the
+ * CHAR_MASK0 and CHAR_MASK2 bits. (CHAR_MASK0 and CHAR_MASK2 corresponds to the lower and upper
+ * 64-bit signal that can corrupt any individual bit of the data).
  *
- * CA parity error is generated by enabling [CA_PARITY_CORRUPT_ENA] and
+ * Command Address parity error is generated by enabling [CA_PARITY_CORRUPT_ENA] and
  * selecting the DDR command that the parity is to be corrupted with through [CA_PARITY_SEL].
  */
 typedef union
@@ -3371,9 +3354,51 @@ typedef union
         uint64_t ecc_corrupt_idx       : 3;  /**< [ 10:  8](R/W) Selects the cacheline index that the dataword is to be corrupted with. */
         uint64_t reserved_6_7          : 2;
         uint64_t ca_parity_corrupt_ena : 1;  /**< [  5:  5](R/W/H) Enables the CA parity bit corruption. */
-        uint64_t ca_parity_sel         : 5;  /**< [  4:  0](R/W) Selects the type of DDR command to corrupt the parity bit. */
+        uint64_t ca_parity_sel         : 5;  /**< [  4:  0](R/W) Selects the type of DDR command to corrupt the parity bit.
+                                                                 0x0  = No command selected.
+                                                                 0x1  = NOP.
+                                                                 0x2  = ACT.
+                                                                 0x3  = REF.
+                                                                 0x4  = WRS4.
+                                                                 0x5  = WRS8.
+                                                                 0x6  = WRAS4.
+                                                                 0x7  = WRAS8.
+                                                                 0x8  = RDS4.
+                                                                 0x9  = RDS8.
+                                                                 0xa  = RDAS4.
+                                                                 0xb  = RDAS8.
+                                                                 0xc  = SRE.
+                                                                 0xd  = SRX.
+                                                                 0xe  = PRE.
+                                                                 0xf  = PREA.
+                                                                 0x10 = MRS.
+                                                                 0x11-0x13 = Reserved.
+                                                                 0x14 = ZQCL.
+                                                                 0x15 = ZQCS.
+                                                                 0x16-0x16 = Reserved. */
 #else /* Word 0 - Little Endian */
-        uint64_t ca_parity_sel         : 5;  /**< [  4:  0](R/W) Selects the type of DDR command to corrupt the parity bit. */
+        uint64_t ca_parity_sel         : 5;  /**< [  4:  0](R/W) Selects the type of DDR command to corrupt the parity bit.
+                                                                 0x0  = No command selected.
+                                                                 0x1  = NOP.
+                                                                 0x2  = ACT.
+                                                                 0x3  = REF.
+                                                                 0x4  = WRS4.
+                                                                 0x5  = WRS8.
+                                                                 0x6  = WRAS4.
+                                                                 0x7  = WRAS8.
+                                                                 0x8  = RDS4.
+                                                                 0x9  = RDS8.
+                                                                 0xa  = RDAS4.
+                                                                 0xb  = RDAS8.
+                                                                 0xc  = SRE.
+                                                                 0xd  = SRX.
+                                                                 0xe  = PRE.
+                                                                 0xf  = PREA.
+                                                                 0x10 = MRS.
+                                                                 0x11-0x13 = Reserved.
+                                                                 0x14 = ZQCL.
+                                                                 0x15 = ZQCS.
+                                                                 0x16-0x16 = Reserved. */
         uint64_t ca_parity_corrupt_ena : 1;  /**< [  5:  5](R/W/H) Enables the CA parity bit corruption. */
         uint64_t reserved_6_7          : 2;
         uint64_t ecc_corrupt_idx       : 3;  /**< [ 10:  8](R/W) Selects the cacheline index that the dataword is to be corrupted with. */
@@ -3381,67 +3406,7 @@ typedef union
         uint64_t reserved_12_63        : 52;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_lmcx_ecc_parity_test_cn8
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_12_63        : 52;
-        uint64_t ecc_corrupt_ena       : 1;  /**< [ 11: 11](R/W/H) Enables the ECC data corruption. */
-        uint64_t ecc_corrupt_idx       : 3;  /**< [ 10:  8](R/W) Selects the cacheline index that the dataword is to be corrupted with. */
-        uint64_t reserved_6_7          : 2;
-        uint64_t ca_parity_corrupt_ena : 1;  /**< [  5:  5](R/W/H) Enables the CA parity bit corruption. */
-        uint64_t ca_parity_sel         : 5;  /**< [  4:  0](R/W) Selects the type of DDR command to corrupt the parity bit.
-                                                                 0x0  = No command selected.
-                                                                 0x1  = NOP.
-                                                                 0x2  = ACT.
-                                                                 0x3  = REF.
-                                                                 0x4  = WRS4.
-                                                                 0x5  = WRS8.
-                                                                 0x6  = WRAS4.
-                                                                 0x7  = WRAS8.
-                                                                 0x8  = RDS4.
-                                                                 0x9  = RDS8.
-                                                                 0xa  = RDAS4.
-                                                                 0xb  = RDAS8.
-                                                                 0xc  = SRE.
-                                                                 0xd  = SRX.
-                                                                 0xe  = PRE.
-                                                                 0xf  = PREA.
-                                                                 0x10 = MRS.
-                                                                 0x11-0x13 = Reserved.
-                                                                 0x14 = ZQCL.
-                                                                 0x15 = ZQCS.
-                                                                 0x16-0x16 = Reserved. */
-#else /* Word 0 - Little Endian */
-        uint64_t ca_parity_sel         : 5;  /**< [  4:  0](R/W) Selects the type of DDR command to corrupt the parity bit.
-                                                                 0x0  = No command selected.
-                                                                 0x1  = NOP.
-                                                                 0x2  = ACT.
-                                                                 0x3  = REF.
-                                                                 0x4  = WRS4.
-                                                                 0x5  = WRS8.
-                                                                 0x6  = WRAS4.
-                                                                 0x7  = WRAS8.
-                                                                 0x8  = RDS4.
-                                                                 0x9  = RDS8.
-                                                                 0xa  = RDAS4.
-                                                                 0xb  = RDAS8.
-                                                                 0xc  = SRE.
-                                                                 0xd  = SRX.
-                                                                 0xe  = PRE.
-                                                                 0xf  = PREA.
-                                                                 0x10 = MRS.
-                                                                 0x11-0x13 = Reserved.
-                                                                 0x14 = ZQCL.
-                                                                 0x15 = ZQCS.
-                                                                 0x16-0x16 = Reserved. */
-        uint64_t ca_parity_corrupt_ena : 1;  /**< [  5:  5](R/W/H) Enables the CA parity bit corruption. */
-        uint64_t reserved_6_7          : 2;
-        uint64_t ecc_corrupt_idx       : 3;  /**< [ 10:  8](R/W) Selects the cacheline index that the dataword is to be corrupted with. */
-        uint64_t ecc_corrupt_ena       : 1;  /**< [ 11: 11](R/W/H) Enables the ECC data corruption. */
-        uint64_t reserved_12_63        : 52;
-#endif /* Word 0 - End */
-    } cn8;
-    /* struct bdk_lmcx_ecc_parity_test_s cn9; */
+    /* struct bdk_lmcx_ecc_parity_test_s cn; */
 } bdk_lmcx_ecc_parity_test_t;
 
 static inline uint64_t BDK_LMCX_ECC_PARITY_TEST(unsigned long a) __attribute__ ((pure, always_inline));

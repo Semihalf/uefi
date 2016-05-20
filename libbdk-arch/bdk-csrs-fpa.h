@@ -830,26 +830,28 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_14_63        : 50;
-        uint64_t ncbo_cmd_fault_cmd    : 5;  /**< [ 13:  9](RO/H) Internal:
+        uint64_t ncbo_cmd_fault_cmd    : 5;  /**< [ 13:  9](RO/H) For diagnostic use only.
+                                                                 Internal:
                                                                  When an unsupported ncbo command is detected, a fault bit along with the cmd is latched.
 
                                                                  <13:9> = NCBO unsupport command. */
-        uint64_t ncbo_cmd_fault        : 1;  /**< [  8:  8](R/W1C/H) Internal:
+        uint64_t ncbo_cmd_fault        : 1;  /**< [  8:  8](R/W1C/H) For diagnostic use only.
+                                                                 Internal:
                                                                  When an unsupported ncbo command is detected, a fault bit along with the cmd is latched.
 
                                                                  <8> = NCBO cmd fault (unsupport command detected). */
         uint64_t reserved_6_7          : 2;
-        uint64_t dwb_pending           : 6;  /**< [  5:  0](RO/H) Internal:
-                                                                 Number of outstanding dwb requests in DWB queue. */
+        uint64_t dwb_pending           : 6;  /**< [  5:  0](RO/H) Number of outstanding DWB requests in the DWB queue. For diagnostic use only. */
 #else /* Word 0 - Little Endian */
-        uint64_t dwb_pending           : 6;  /**< [  5:  0](RO/H) Internal:
-                                                                 Number of outstanding dwb requests in DWB queue. */
+        uint64_t dwb_pending           : 6;  /**< [  5:  0](RO/H) Number of outstanding DWB requests in the DWB queue. For diagnostic use only. */
         uint64_t reserved_6_7          : 2;
-        uint64_t ncbo_cmd_fault        : 1;  /**< [  8:  8](R/W1C/H) Internal:
+        uint64_t ncbo_cmd_fault        : 1;  /**< [  8:  8](R/W1C/H) For diagnostic use only.
+                                                                 Internal:
                                                                  When an unsupported ncbo command is detected, a fault bit along with the cmd is latched.
 
                                                                  <8> = NCBO cmd fault (unsupport command detected). */
-        uint64_t ncbo_cmd_fault_cmd    : 5;  /**< [ 13:  9](RO/H) Internal:
+        uint64_t ncbo_cmd_fault_cmd    : 5;  /**< [ 13:  9](RO/H) For diagnostic use only.
+                                                                 Internal:
                                                                  When an unsupported ncbo command is detected, a fault bit along with the cmd is latched.
 
                                                                  <13:9> = NCBO unsupport command. */

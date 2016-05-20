@@ -5343,6 +5343,8 @@ static inline uint64_t BDK_SLIX_EPFX_DMA_INT_LEVELX(unsigned long a, unsigned lo
  *
  * SLI/DPI DTIME/DCNT/DMAFI Interrupt Registers
  * These registers contain interrupts related to the DPI DMA engines.
+ * The given register associated with an EPF will be reset due to a PF FLR or MAC reset.
+ * These registers are not affected by VF FLR.
  */
 typedef union
 {
@@ -5791,6 +5793,8 @@ static inline uint64_t BDK_SLIX_EPFX_DMA_VF_LINT_W1S(unsigned long a, unsigned l
  * SLI DMA Error Response VF Bit Array Registers
  * When an error response is received for a VF PP transaction read, the appropriate VF indexed
  * bit is set.  The appropriate PF should read the appropriate register.
+ * The given register associated with an EPF will be reset due to a PF FLR or MAC reset.
+ * These registers are not affected by VF FLR.
  * These registers are only valid for PEM0 PF0 and PEM2 PF0.
  */
 typedef union
@@ -6250,6 +6254,8 @@ static inline uint64_t BDK_SLIX_EPFX_MISC_LINT_W1S(unsigned long a, unsigned lon
  *
  * SLI MAC Interrupt Summary Register
  * This register contains the different interrupt-summary bits for one MAC in the SLI.
+ * The given register associated with an EPF will be reset due to a PF FLR or MAC reset.
+ * These registers are not affected by VF FLR.
  */
 typedef union
 {
@@ -6695,6 +6701,8 @@ static inline uint64_t BDK_SLIX_EPFX_PP_VF_LINT_W1S(unsigned long a, unsigned lo
  * SLI PP Error Response VF Bit Array Registers
  * When an error response is received for a VF PP transaction read, the appropriate VF indexed
  * bit is set.  The appropriate PF should read the appropriate register.
+ * The given register associated with an EPF will be reset due to a PF FLR or MAC reset.
+ * These registers are not affected by VF FLR.
  * These registers are only valid for PEM0 PF0 and PEM2 PF0.
  */
 typedef union
@@ -8753,9 +8761,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
-        uint64_t ccnt                  : 8;  /**< [ 31: 24](R/W) CPL-TLP FIFO credits. Legal values are 0x25 to 0x80. For diagnostic use only. */
-        uint64_t ncnt                  : 8;  /**< [ 23: 16](R/W) NP-TLP FIFO credits. Legal values are 0x5 to 0x10. For diagnostic use only. */
-        uint64_t pcnt                  : 8;  /**< [ 15:  8](R/W) P-TLP FIFO credits. Legal values are 0x25 to 0x80. For diagnostic use only. */
+        uint64_t ccnt                  : 8;  /**< [ 31: 24](R/W) CPL-TLP FIFO credits. Legal values are 0x25 to 0xF4. For diagnostic use only. */
+        uint64_t ncnt                  : 8;  /**< [ 23: 16](R/W) NP-TLP FIFO credits. Legal values are 0x5 to 0x20. For diagnostic use only. */
+        uint64_t pcnt                  : 8;  /**< [ 15:  8](R/W) P-TLP FIFO credits. Legal values are 0x25 to 0xF4. For diagnostic use only. */
         uint64_t tags                  : 8;  /**< [  7:  0](R/W) Number of tags available for MAC.
                                                                  One tag is needed for each outbound TLP that requires a CPL TLP.
                                                                  This field should only be written as part of a reset sequence and before issuing any read
@@ -8767,9 +8775,9 @@ typedef union
                                                                  This field should only be written as part of a reset sequence and before issuing any read
                                                                  operations, CFGs, or I/O transactions from the core(s). For diagnostic use only.
                                                                  Legal values are 1 to 32. */
-        uint64_t pcnt                  : 8;  /**< [ 15:  8](R/W) P-TLP FIFO credits. Legal values are 0x25 to 0x80. For diagnostic use only. */
-        uint64_t ncnt                  : 8;  /**< [ 23: 16](R/W) NP-TLP FIFO credits. Legal values are 0x5 to 0x10. For diagnostic use only. */
-        uint64_t ccnt                  : 8;  /**< [ 31: 24](R/W) CPL-TLP FIFO credits. Legal values are 0x25 to 0x80. For diagnostic use only. */
+        uint64_t pcnt                  : 8;  /**< [ 15:  8](R/W) P-TLP FIFO credits. Legal values are 0x25 to 0xF4. For diagnostic use only. */
+        uint64_t ncnt                  : 8;  /**< [ 23: 16](R/W) NP-TLP FIFO credits. Legal values are 0x5 to 0x20. For diagnostic use only. */
+        uint64_t ccnt                  : 8;  /**< [ 31: 24](R/W) CPL-TLP FIFO credits. Legal values are 0x25 to 0xF4. For diagnostic use only. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
@@ -8799,30 +8807,7 @@ typedef union
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_slix_s2m_macx_ctl_cn81xx cn88xx; */
-    struct bdk_slix_s2m_macx_ctl_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t ccnt                  : 8;  /**< [ 31: 24](R/W) CPL-TLP FIFO credits. Legal values are 0x25 to 0xF4. For diagnostic use only. */
-        uint64_t ncnt                  : 8;  /**< [ 23: 16](R/W) NP-TLP FIFO credits. Legal values are 0x5 to 0x20. For diagnostic use only. */
-        uint64_t pcnt                  : 8;  /**< [ 15:  8](R/W) P-TLP FIFO credits. Legal values are 0x25 to 0xF4. For diagnostic use only. */
-        uint64_t tags                  : 8;  /**< [  7:  0](R/W) Number of tags available for MAC.
-                                                                 One tag is needed for each outbound TLP that requires a CPL TLP.
-                                                                 This field should only be written as part of a reset sequence and before issuing any read
-                                                                 operations, CFGs, or I/O transactions from the core(s). For diagnostic use only.
-                                                                 Legal values are 1 to 32. */
-#else /* Word 0 - Little Endian */
-        uint64_t tags                  : 8;  /**< [  7:  0](R/W) Number of tags available for MAC.
-                                                                 One tag is needed for each outbound TLP that requires a CPL TLP.
-                                                                 This field should only be written as part of a reset sequence and before issuing any read
-                                                                 operations, CFGs, or I/O transactions from the core(s). For diagnostic use only.
-                                                                 Legal values are 1 to 32. */
-        uint64_t pcnt                  : 8;  /**< [ 15:  8](R/W) P-TLP FIFO credits. Legal values are 0x25 to 0xF4. For diagnostic use only. */
-        uint64_t ncnt                  : 8;  /**< [ 23: 16](R/W) NP-TLP FIFO credits. Legal values are 0x5 to 0x20. For diagnostic use only. */
-        uint64_t ccnt                  : 8;  /**< [ 31: 24](R/W) CPL-TLP FIFO credits. Legal values are 0x25 to 0xF4. For diagnostic use only. */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } cn83xx;
+    /* struct bdk_slix_s2m_macx_ctl_s cn83xx; */
 } bdk_slix_s2m_macx_ctl_t;
 
 static inline uint64_t BDK_SLIX_S2M_MACX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));

@@ -9227,7 +9227,8 @@ typedef union
         uint64_t hs_power_en           : 1;  /**< [ 12: 12](R/W) PHY high-speed block power enable.
                                                                  This is a strap signal; it should only be modified when [UPHY_RST] is asserted. */
         uint64_t ref_clk_sel           : 3;  /**< [ 11:  9](R/W) Reference clock select. Choose reference-clock source for the SuperSpeed and high-speed
-                                                                 PLL blocks.
+                                                                 PLL blocks. Both HighSpeed and SuperSpeed reference clocks must be supplied for USB
+                                                                 operation.
 
                                                                  <pre>
                                                                                 Source for      Source for
@@ -9294,7 +9295,8 @@ typedef union
                                                                  and UCTL registers starting from 0x30. */
         uint64_t reserved_5_8          : 4;
         uint64_t ref_clk_sel           : 3;  /**< [ 11:  9](R/W) Reference clock select. Choose reference-clock source for the SuperSpeed and high-speed
-                                                                 PLL blocks.
+                                                                 PLL blocks. Both HighSpeed and SuperSpeed reference clocks must be supplied for USB
+                                                                 operation.
 
                                                                  <pre>
                                                                                 Source for      Source for

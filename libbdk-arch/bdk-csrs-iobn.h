@@ -627,6 +627,125 @@ static inline uint64_t BDK_IOBNX_CHIP_PWR_OUT(unsigned long a)
 #define arguments_BDK_IOBNX_CHIP_PWR_OUT(a) (a),-1,-1,-1
 
 /**
+ * Register (RSL) iobn#_cond_clk_cap#
+ *
+ * IOBN Conditional Clock Capacitance Registers
+ * This register is for diagnostic use only.
+ * Internal:
+ * Each index corresponds to a different net as follows:
+ *   0 = bgx0___bgx___bgx_clk___csclk_drv.
+ *   1 = bgx0___bgx___bgx_clk___ssclk_drv.
+ *   2 = bgx0___bgx___bgx_clk___gsclk_drv.
+ *   3 = bgx1___bgx___bgx_clk___csclk_drv.
+ *   4 = bgx1___bgx___bgx_clk___ssclk_drv.
+ *   5 = bgx1___bgx___bgx_clk___gsclk_drv.
+ *   6 = bgx2___bgx___bgx_clk___csclk_drv.
+ *   7 = bgx2___bgx___bgx_clk___ssclk_drv.
+ *   8 = bgx2___bgx___bgx_clk___gsclk_drv.
+ *   9 = bgx3___bgx___bgx_clk___csclk_drv.
+ *   10 = bgx3___bgx___bgx_clk___ssclk_drv.
+ *   11 = bgx3___bgx___bgx_clk___gsclk_drv.
+ *   12 = dpi___dpi___csclk_drv.
+ *   13 = fpa___fpa___gbl___csclk_drv.
+ *   14 = lbk___lbk___lbk_core_p0x0___csclk_drv.
+ *   15 = lbk___lbk___lbk_core_p0x1___csclk_drv.
+ *   16 = lbk___lbk___lbk_core_p1x0___csclk_drv.
+ *   17 = lbk___lbk___lbk_core_p1x1___csclk_drv.
+ *   18 = mio___mio___uaa0___u_csclk_drv.
+ *   19 = mio___mio___uaa1___u_csclk_drv.
+ *   20 = mio___mio___uaa2___u_csclk_drv.
+ *   21 = mio___mio___uaa3___u_csclk_drv.
+ *   22 = nic___nic___nic_l___nic_l1___nic_clk___csclk_drv.
+ *   23 = nic___nic___nic_l___nic_l2___nic_clk___csclk_drv.
+ *   24 = nic___nic___nic_u___nic_u1___nic_clk___csclk_drv.
+ *   25 = pem0___pem___pem_clks___csclk_drv.
+ *   26 = pem0___pem___pem_clks___sync_pwr_thr_pclk.
+ *   27 = pem1___pem___pem_clks___csclk_drv.
+ *   28 = pem1___pem___pem_clks___sync_pwr_thr_pclk.
+ *   29 = pem2___pem___pem_clks___csclk_drv.
+ *   30 = pem2___pem___pem_clks___sync_pwr_thr_pclk.
+ *   31 = pem3___pem___pem_clks___csclk_drv.
+ *   32 = pem3___pem___pem_clks___sync_pwr_thr_pclk.
+ *   33 = pki___pki___pdp___pfe___csclk_drv.
+ *   34 = pki___pki___pdp___pbe___csclk_drv.
+ *   35 = pki___pki___pix___ipec0___csclk_drv.
+ *   36 = pki___pki___pix___ipec1___csclk_drv.
+ *   37 = pki___pki___pix___mech___csclk_drv.
+ *   38 = roc_ocla___roc_ocla___core___clks___csclk_drv.
+ *   39 = rst___rst___mio_clk_ctl___csclk_drv.
+ *   40 = sata0___sata___u_csclk_drv.
+ *   41 = sata0___sata___u_csclk_drv.
+ *   42 = sata0___sata___u_csclk_drv.
+ *   43 = sata0___sata___u_csclk_drv.
+ *   44 = sata0___sata___u_csclk_drv.
+ *   45 = sata0___sata___u_csclk_drv.
+ *   46 = smmu___smmu___wcsr___gbl___crclk_drv.
+ *   47 = smmu___smmu___wcsr___gbl___u_c2rclk_drv.
+ *   48 = smmu___smmu___wcsr___gbl___u_c2rclk_drv_n.
+ *   49 = smmu___smmu___xl___ctl___crclk_drv.
+ *   50 = sso___sso___sso_pnr___sso_aw___clk___csclk_drv.
+ *   51 = sso___sso___sso_pnr___sso_gw___clk___csclk_drv.
+ *   52 = sso___sso___sso_pnr___sso_ws___clk___csclk_drv.
+ *   53 = usbdrd0___usbdrd_i___u_csclk_drv.
+ *   54 = usbdrd0___usbdrd_i___u_csclk_drv.
+ *   55 = zipc0___zipc___zipc_clk___zip_hash_csclk_drv.
+ *   56 = zipc0___zipc___zipc_clk___zip_history_csclk_drv.
+ *   57 = zipc0___zipc___zipc_clk___zip_state_csclk_drv.
+ *   58 = zipc0___zipc___zipc_clk___zip_sha_csclk_drv.
+ *   59 = zipc1___zipc___zipc_clk___zip_hash_csclk_drv.
+ *   60 = zipc1___zipc___zipc_clk___zip_history_csclk_drv.
+ *   61 = zipc1___zipc___zipc_clk___zip_state_csclk_drv.
+ *   62 = zipc1___zipc___zipc_clk___zip_sha_csclk_drv.
+ *   63 = zipc2___zipc___zipc_clk___zip_hash_csclk_drv.
+ *   64 = zipc2___zipc___zipc_clk___zip_history_csclk_drv.
+ *   65 = zipc2___zipc___zipc_clk___zip_state_csclk_drv.
+ *   66 = zipc2___zipc___zipc_clk___zip_sha_csclk_drv.
+ *   67 = zipd3___zipd___zipd_clk___zip_history_csclk_drv.
+ *   68 = zipd3___zipd___zipd_clk___zip_state_csclk_drv.
+ *   69 = zipd3___zipd___zipd_clk___zip_sha_csclk_drv.
+ *   70 = zipd4___zipd___zipd_clk___zip_history_csclk_drv.
+ *   71 = zipd4___zipd___zipd_clk___zip_state_csclk_drv.
+ *   72 = zipd4___zipd___zipd_clk___zip_sha_csclk_drv.
+ *   73 = zipd5___zipd___zipd_clk___zip_history_csclk_drv.
+ *   74 = zipd5___zipd___zipd_clk___zip_state_csclk_drv.
+ *   75 = zipd5___zipd___zipd_clk___zip_sha_csclk_drv.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_iobnx_cond_clk_capx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t cap                   : 16; /**< [ 15:  0](R/W) Conditional clock capacitance for drivers. (cap value * 0.9/128.)
+                                                                 For diagnostic use only. */
+#else /* Word 0 - Little Endian */
+        uint64_t cap                   : 16; /**< [ 15:  0](R/W) Conditional clock capacitance for drivers. (cap value * 0.9/128.)
+                                                                 For diagnostic use only. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_iobnx_cond_clk_capx_s cn; */
+} bdk_iobnx_cond_clk_capx_t;
+
+static inline uint64_t BDK_IOBNX_COND_CLK_CAPX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_IOBNX_COND_CLK_CAPX(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=75)))
+        return 0x87e0f000f000ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0x7f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=1) && (b<=75)))
+        return 0x87e0f000f000ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0x7f);
+    __bdk_csr_fatal("IOBNX_COND_CLK_CAPX", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_IOBNX_COND_CLK_CAPX(a,b) bdk_iobnx_cond_clk_capx_t
+#define bustype_BDK_IOBNX_COND_CLK_CAPX(a,b) BDK_CSR_TYPE_RSL
+#define basename_BDK_IOBNX_COND_CLK_CAPX(a,b) "IOBNX_COND_CLK_CAPX"
+#define device_bar_BDK_IOBNX_COND_CLK_CAPX(a,b) 0x0 /* PF_BAR0 */
+#define busnum_BDK_IOBNX_COND_CLK_CAPX(a,b) (a)
+#define arguments_BDK_IOBNX_COND_CLK_CAPX(a,b) (a),(b),-1,-1
+
+/**
  * Register (RSL) iobn#_core_bist_status
  *
  * IOBN Cores BIST Status Register

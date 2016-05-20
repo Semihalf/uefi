@@ -725,9 +725,9 @@ static inline uint64_t BDK_CPTX_PF_ACTIVE_CYCLES_PC(unsigned long a)
  * Register (NCB) cpt#_pf_active_vf#
  *
  * CPT PF Active VF Register
- * This register will be non-zero if the engine is allocated to a VF.  In the
+ * This register will be nonzero if the engine is allocated to a VF. In the
  * event of a UCERR, this register can be consulted to determine whether any
- * action is required for the VF.  This register should be cleared by software
+ * action is required for the VF. This register should be cleared by software
  * before re-enabling an engine.
  */
 typedef union
@@ -2398,7 +2398,7 @@ typedef union
                                                                  corresponding to AE<0>, and bit <1> to SE<1>, and bit<0> to SE<0>.
 
                                                                  Before disabling an engine, the corresponding bit in each group must be cleared.
-                                                                 CPT()_PF_EXEC_BUSY can then be polled to determing when the engine becomes
+                                                                 CPT()_PF_EXEC_BUSY can then be polled to determine when the engine becomes
                                                                  idle.  At the point, the engine can be disabled. */
 #else /* Word 0 - Little Endian */
         uint64_t en                    : 64; /**< [ 63:  0](R/W/H) Engine group enable. One bit corresponds to each engine, with the bit set to
@@ -2411,7 +2411,7 @@ typedef union
                                                                  corresponding to AE<0>, and bit <1> to SE<1>, and bit<0> to SE<0>.
 
                                                                  Before disabling an engine, the corresponding bit in each group must be cleared.
-                                                                 CPT()_PF_EXEC_BUSY can then be polled to determing when the engine becomes
+                                                                 CPT()_PF_EXEC_BUSY can then be polled to determine when the engine becomes
                                                                  idle.  At the point, the engine can be disabled. */
 #endif /* Word 0 - End */
     } s;
@@ -3465,14 +3465,14 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t ucerr                 : 64; /**< [ 63:  0](R/W1C/H) One interrupt bit per engine. Each bit is set
                                                                   when the associated engine receives an error
-                                                                  indication (Fault) during a microcode fetch.
+                                                                  indication (fault) during a microcode fetch.
                                                                  If CPT(0..1)_PF_ACTIVE_VF(ENG) indicates that
                                                                   the engine was active for a queue (non-zero),
                                                                   software must reset that queue. */
 #else /* Word 0 - Little Endian */
         uint64_t ucerr                 : 64; /**< [ 63:  0](R/W1C/H) One interrupt bit per engine. Each bit is set
                                                                   when the associated engine receives an error
-                                                                  indication (Fault) during a microcode fetch.
+                                                                  indication (fault) during a microcode fetch.
                                                                  If CPT(0..1)_PF_ACTIVE_VF(ENG) indicates that
                                                                   the engine was active for a queue (non-zero),
                                                                   software must reset that queue. */

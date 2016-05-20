@@ -794,14 +794,14 @@ typedef union
                                                                    0x3 = 8x multiplier. */
         uint64_t rd_dly                : 3;  /**< [ 39: 37](R/W) Region read sample delay. Specifies the read sample delay in coprocessor-clock
                                                                  cycles for a region. For read operations, the data bus is normally sampled on
-                                                                 the same coprocessor-clock edge that drives PBUS_OE_L to the inactive state (or
+                                                                 the same coprocessor-clock edge that drives PBUS_OE to the inactive state (or
                                                                  the coprocessor-clock edge that toggles the lower address bits in page
                                                                  mode). This parameter can delay that sampling edge by up to seven
                                                                  coprocessor-clock cycles. The number of coprocessor-clock cycles counted by the
                                                                  PBUS_REG()_TIM[PAGE] and PBUS_REG()_TIM[RD_HLD] timing parameters must be
                                                                  greater than or equal to [RD_DLY]. */
         uint64_t sam                   : 1;  /**< [ 36: 36](R/W) Region strobe AND mode. Internally combines the output-enable and write-enable
-                                                                 strobes into a single strobe that is then driven onto both PBUS_OE_L and PBUS_WE_L.
+                                                                 strobes into a single strobe that is then driven onto both PBUS_OE and PBUS_WE.
 
                                                                  This is useful for parts that use a single strobe along with a read/write bit
                                                                  (the read/write bit can be driven from an address pin). */
@@ -831,13 +831,13 @@ typedef union
         uint64_t oe_ext                : 2;  /**< [ 33: 32](R/W) Region output-enable count extension. */
         uint64_t we_ext                : 2;  /**< [ 35: 34](R/W) Region write-enable count extension. */
         uint64_t sam                   : 1;  /**< [ 36: 36](R/W) Region strobe AND mode. Internally combines the output-enable and write-enable
-                                                                 strobes into a single strobe that is then driven onto both PBUS_OE_L and PBUS_WE_L.
+                                                                 strobes into a single strobe that is then driven onto both PBUS_OE and PBUS_WE.
 
                                                                  This is useful for parts that use a single strobe along with a read/write bit
                                                                  (the read/write bit can be driven from an address pin). */
         uint64_t rd_dly                : 3;  /**< [ 39: 37](R/W) Region read sample delay. Specifies the read sample delay in coprocessor-clock
                                                                  cycles for a region. For read operations, the data bus is normally sampled on
-                                                                 the same coprocessor-clock edge that drives PBUS_OE_L to the inactive state (or
+                                                                 the same coprocessor-clock edge that drives PBUS_OE to the inactive state (or
                                                                  the coprocessor-clock edge that toggles the lower address bits in page
                                                                  mode). This parameter can delay that sampling edge by up to seven
                                                                  coprocessor-clock cycles. The number of coprocessor-clock cycles counted by the
@@ -959,8 +959,9 @@ typedef union
                                                                  (two, four and 8 pages of data) to complete the operation.  If this bit is
                                                                  not set, only single accesses are used. */
         uint64_t waitm                 : 1;  /**< [ 62: 62](R/W) Region wait mode enable.
-                                                                 When set, the hardware waits for the PBUS_WAIT signal to be deasserted
-                                                                 (or [OE] expires which ever occurs first) before finishing the data cycle.
+                                                                 When set, the hardware waits for the PBUS_WAIT signal to deassert for
+                                                                 WAIT coprocessor clock cycles as well as
+                                                                 (or [OE] expires which ever occurs last) before finishing the data cycle.
                                                                  Note that this bit should not be set with PAGEM. */
         uint64_t pages                 : 2;  /**< [ 61: 60](R/W) Region page size.
                                                                   0x0 = 8 bytes.
@@ -972,7 +973,13 @@ typedef union
                                                                  the corresponding PBUS outputs. */
         uint64_t page                  : 6;  /**< [ 53: 48](R/W) Region page count. Must be nonzero to ensure legal transitions on
                                                                  the corresponding PBUS outputs. */
-        uint64_t wait                  : 6;  /**< [ 47: 42](R/W) Region wait count, must be greater than 1 when [WAITM] is set. */
+        uint64_t wait                  : 6;  /**< [ 47: 42](R/W) Region wait count, when WAITM is set, this count plus 1,
+                                                                 determines the number of coprocessor clocks to lengthen OE/WE
+                                                                 after PBUS_WAIT deasserts.  The minimum OE/WE period is determined
+                                                                 by OE and WE fields.  If PBUS_WAIT is asserted at least 1 coprocessor
+                                                                 clock before the end of the minimum OE/WE period then the OE/WE cycle is
+                                                                 extended until PBUS_WAIT is deasserted for WAIT+1 coprocessor clocks.
+                                                                 Value must be greater than 1 if WAITM is set. */
         uint64_t pause                 : 6;  /**< [ 41: 36](R/W) Region pause count. */
         uint64_t wr_hld                : 6;  /**< [ 35: 30](R/W) Region write-hold count. */
         uint64_t rd_hld                : 6;  /**< [ 29: 24](R/W) Region read-hold count. */
@@ -992,7 +999,13 @@ typedef union
         uint64_t rd_hld                : 6;  /**< [ 29: 24](R/W) Region read-hold count. */
         uint64_t wr_hld                : 6;  /**< [ 35: 30](R/W) Region write-hold count. */
         uint64_t pause                 : 6;  /**< [ 41: 36](R/W) Region pause count. */
-        uint64_t wait                  : 6;  /**< [ 47: 42](R/W) Region wait count, must be greater than 1 when [WAITM] is set. */
+        uint64_t wait                  : 6;  /**< [ 47: 42](R/W) Region wait count, when WAITM is set, this count plus 1,
+                                                                 determines the number of coprocessor clocks to lengthen OE/WE
+                                                                 after PBUS_WAIT deasserts.  The minimum OE/WE period is determined
+                                                                 by OE and WE fields.  If PBUS_WAIT is asserted at least 1 coprocessor
+                                                                 clock before the end of the minimum OE/WE period then the OE/WE cycle is
+                                                                 extended until PBUS_WAIT is deasserted for WAIT+1 coprocessor clocks.
+                                                                 Value must be greater than 1 if WAITM is set. */
         uint64_t page                  : 6;  /**< [ 53: 48](R/W) Region page count. Must be nonzero to ensure legal transitions on
                                                                  the corresponding PBUS outputs. */
         uint64_t ale                   : 6;  /**< [ 59: 54](R/W) Region ALE count. Must be nonzero to ensure legal transitions on
@@ -1004,8 +1017,9 @@ typedef union
                                                                   0x3 = 8 bytes.
                                                                   These bits are only valid when PBUS_REG_TIM[PAGM] is set. */
         uint64_t waitm                 : 1;  /**< [ 62: 62](R/W) Region wait mode enable.
-                                                                 When set, the hardware waits for the PBUS_WAIT signal to be deasserted
-                                                                 (or [OE] expires which ever occurs first) before finishing the data cycle.
+                                                                 When set, the hardware waits for the PBUS_WAIT signal to deassert for
+                                                                 WAIT coprocessor clock cycles as well as
+                                                                 (or [OE] expires which ever occurs last) before finishing the data cycle.
                                                                  Note that this bit should not be set with PAGEM. */
         uint64_t pagem                 : 1;  /**< [ 63: 63](R/W) Region page mode enable.
                                                                  When set, the returned data from the target device can uses than one page
