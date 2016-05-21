@@ -67,6 +67,7 @@ _DEFUN (strcpy, (dst0, src0),
 
   while (*src0)
     *dst0++ = *src0++;
+  *dst0 = 0;
 
   return s;
 #else
