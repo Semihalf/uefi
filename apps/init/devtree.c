@@ -644,7 +644,7 @@ int devtree_process(void)
     /* Load generic-linux.dtb if it is there */
     if (!fdt)
     {
-        strncpy(filename, "/fatfs/generic-linux.dtb", sizeof(filename));
+        snprintf(filename, sizeof(filename), "/fatfs/generic-linux.dtb");
         fdt = devtree_load(filename);
     }
 
