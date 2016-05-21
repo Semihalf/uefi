@@ -276,6 +276,12 @@ cavium,bdk {
 	GPIO low. The default value drives the GPIO high. */
 	//USB-PWR-GPIO-POLARITY.N%d.PORT%d = "1";
 
+	/* CN88XX SC and SNT parts have an errata where a GPIO is used to
+	toggle DC_OK. For boards with SC and SNT parts, a GPIO must be wired
+	per errata description. */
+	//NITROX-GPIO.N%d = "-1";
+	NITROX-GPIO = "49";
+
 	/* Number of reading with no errors to signal the start of an
 	eye. The default value should be good for most cases. */
 	//QLM-EYE-NUM-ZEROS = "2";

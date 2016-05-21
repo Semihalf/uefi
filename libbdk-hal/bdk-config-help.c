@@ -899,6 +899,11 @@ const char* bdk_config_get_help(bdk_config_t cfg_item)
             "Specify the polarity of a on-chip GPIO used to control power for\n"
             "a USB port. The GPIO used is specified by USB-PWR-GPIO. Setting this\n"
             "GPIO low. The default value drives the GPIO high.",
+    /* Nitrox reset - For CN88XX SC and SNT part. High drives Nitrox DC_OK high */
+    [BDK_CONFIG_NITROX_GPIO] =
+            "CN88XX SC and SNT parts have an errata where a GPIO is used to\n"
+            "toggle DC_OK. For boards with SC and SNT parts, a GPIO must be wired\n"
+            "per errata description.",
     /* How EYE diagrams are captured from a QLM */
     [BDK_CONFIG_EYE_ZEROS] =
             "Number of reading with no errors to signal the start of an\n"

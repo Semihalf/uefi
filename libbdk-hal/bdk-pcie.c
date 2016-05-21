@@ -467,6 +467,23 @@ int bdk_pcie_rc_initialize(bdk_node_t node, int pcie_port)
         /* Wait until pcie resets the ports. */
         bdk_wait_usec(2000);
     }
+
+    /* Adding support for Thunder-SC which used GPIO to toggle DC OK. PEM2 is
+       connected between the t88 and Nitrox 3 device */
+    if (pcie_port == 2)
+    {
+        int gpio = bdk_config_get_int(BDK_CONFIG_NITROX_GPIO, node);
+        if (gpio != -1)
+        {
+            /* Drive DC_OK low */
+            bdk_gpio_initialize(node, gpio, true, 0);
+            bdk_wait_usec(2000); /* 2ms */
+            /* Drive DC_OK high */
+            bdk_gpio_set(node, 1ull << gpio);
+            bdk_wait_usec(2000); /* 2ms */
+        }
+    }
+
     BDK_TRACE(PCIE, "N%d.PCIe%d: Taking port out of reset\n", node, pcie_port);
     BDK_CSR_WRITE(node, BDK_RST_SOFT_PRSTX(pcie_port), 0);
 

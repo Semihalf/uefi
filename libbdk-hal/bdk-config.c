@@ -589,6 +589,15 @@ static bdk_config_info_t config_info[__BDK_CONFIG_END] = {
         .max_value = 1,
     },
 
+    /* Nitrox reset - For CN88XX SC and SNT part. High drives Nitrox DC_OK high */
+    [BDK_CONFIG_NITROX_GPIO] = {
+        .format = "NITROX-GPIO.N%d", /* Parameters: Node */
+        .ctype = BDK_CONFIG_TYPE_INT,
+        .default_value = -1, /* GPIO number, or -1 for none */
+        .min_value = -1,
+        .max_value = 49,
+    },
+
     /* How EYE diagrams are captured from a QLM */
     [BDK_CONFIG_EYE_ZEROS] = {
         .format = "QLM-EYE-NUM-ZEROS", /* No parameters */

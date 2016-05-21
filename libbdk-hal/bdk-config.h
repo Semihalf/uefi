@@ -112,6 +112,9 @@ typedef enum
     BDK_CONFIG_USB_PWR_GPIO,        /* Parameters: Node, Port */
     BDK_CONFIG_USB_PWR_GPIO_POLARITY, /* Parameters: Node, Port */
 
+    /* Nitrox reset - For CN88XX SC and SNT part. High drives Nitrox DC_OK high */
+    BDK_CONFIG_NITROX_GPIO,         /* Parameters: Node */
+
     /* How EYE diagrams are captured from a QLM */
     BDK_CONFIG_EYE_ZEROS,           /* No parameters */
     BDK_CONFIG_EYE_SAMPLE_TIME,     /* No parameters */
