@@ -194,7 +194,7 @@ static int ccpi_get_speed(void)
 }
 
 /**
- * Called very early in during init of both the master and slave. It perfroms one
+ * Called very early in during init of both the master and slave. It performs one
  * time init of CCPI QLM and link parameters. It must only be called once per
  * boot.
  *

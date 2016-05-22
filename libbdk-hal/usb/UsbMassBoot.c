@@ -226,7 +226,7 @@ UsbBootExecCmd (
 
   //
   // If ExecCommand() returns no error and CmdResult is success,
-  // then the commnad transfer is successful.
+  // then the command transfer is successful.
   //
   if ((CmdResult == USB_MASS_CMD_SUCCESS) && !EFI_ERROR (Status)) {
     return EFI_SUCCESS;

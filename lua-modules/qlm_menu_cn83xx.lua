@@ -128,7 +128,7 @@ qlm_modes[6] = {
 -- This is called when the user selects a QLM to change its config
 --
 local function do_setup(qlm)
-    -- Only the first 8 QLMs can select differnet reference clocks
+    -- Only the first 8 QLMs can select different reference clocks
     -- CCPI QLMs 8-13 always use an external reference clock
     if qlm < 8 then
         local m = menu.new("Select a reference clock for QLM%d" % qlm)

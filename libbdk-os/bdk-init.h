@@ -45,7 +45,7 @@ extern int bdk_reset_cores(bdk_node_t node, uint64_t coremask);
 extern int bdk_init_nodes(int skip_cores, int ccpi_sw_gbaud);
 
 /**
- * Called very early in during init of both the master and slave. It perfroms one
+ * Called very early in during init of both the master and slave. It performs one
  * time init of CCPI QLM and link parameters. It must only be called once per
  * boot.
  *
