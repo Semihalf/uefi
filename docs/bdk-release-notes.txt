@@ -8,7 +8,7 @@
 This document gives a short overview of the major changes
 incorporated into each BDK release.
 
-== thunder-release-v1.22-rc15 ==
+== thunder-release-v1.22 ==
 * Added support for CN88XX pass 2.1. Prior releases will crash when entering diagnostics on CN88XX pass 2.1 and higher.
 * Added support for CN81XX.
 * Added support for measuring SERDES quality using a vertical eye measurement
@@ -88,7 +88,6 @@ incorporated into each BDK release.
 ** File menu now has an option to list files in BDK file systems.
 ** Fixed issue where the device tree wasn't passed into diagnostics correctly if the machine had lots of DRAM
 ** Disabled SATA staggered spinup. Staggered spinup was found to cause issues with some SSDs
-** FatFS now uses 4KB block sizes instead of 512B. This required updates to fatfs-tool
 ** PCIe scan and enumeration now understand ARI and Enhanced Allocation
 ** Change the SMI/MDIO drive strength to 30 ohm
 
