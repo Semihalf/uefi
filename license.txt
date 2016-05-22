@@ -68,6 +68,13 @@ Directories:    utils/scripts/elftools/*
 Notes:          This is used by the BDK build scripts, but does not appear in
                 the final THUNDERX binary.
 
+Component:      XHCI Driver
+License:        BSD
+License Text:   http://opensource.org/licenses/bsd-license.php
+Project URL:    https://github.com/tianocore/edk2
+Directories:    libbdk-hal/usb/*
+Notes:          Driver is originally from Intel's EDK2
+
 Component:      Cavium BDK Code
 License:        BSD
 License Text:   docs/cavium-license-type5.txt
