@@ -52,7 +52,7 @@ static struct drv_list_d
 } drv_list[] = {
 	{
 		"/boot",
-		_MAX_SS,
+		512,
 		0x00000,
 		NULL,
 		0
@@ -261,11 +261,6 @@ DRESULT disk_ioctl (
 	if (pdrv >= DRV_NUM_DEVICES)
 		return RES_PARERR;
 
-        if (GET_SECTOR_SIZE == cmd) {
-            if (NULL == buff) 	return RES_PARERR;
-            WORD *res = buff;
-            *res = DRV_SECTOR_SIZE(pdrv);
-        }
 	return RES_OK;
 }
 #endif
