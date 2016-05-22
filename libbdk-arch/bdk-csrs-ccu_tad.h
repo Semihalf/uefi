@@ -58,8 +58,8 @@
  * CCU_TAD Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define BDK_CCU_TAD_BAR_E_CCUX_TADX_PF_BAR0(a,b) (0x87e070000000ll + 0x2000000ll * (a) + 0x800000ll * (b))
-#define BDK_CCU_TAD_BAR_E_CCUX_TADX_PF_BAR0_SIZE 0x800000ull
+#define BDK_CCU_TAD_BAR_E_CCUX_TADX_PF_BAR0(a,b) (0x87e070100000ll + 0x2000000ll * (a) + 0x1000000ll * (b))
+#define BDK_CCU_TAD_BAR_E_CCUX_TADX_PF_BAR0_SIZE 0x100000ull
 
 /**
  * Register (RSL) ccu#_tad#_eco
@@ -88,7 +88,7 @@ static inline uint64_t BDK_CCUX_TADX_ECO(unsigned long a, unsigned long b) __att
 static inline uint64_t BDK_CCUX_TADX_ECO(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=8) && (b<=1)))
-        return 0x87e070100008ll + 0x2000000ll * ((a) & 0xf) + 0x800000ll * ((b) & 0x1);
+        return 0x87e070100008ll + 0x2000000ll * ((a) & 0xf) + 0x1000000ll * ((b) & 0x1);
     __bdk_csr_fatal("CCUX_TADX_ECO", 2, a, b, 0, 0);
 }
 
@@ -127,7 +127,7 @@ static inline uint64_t BDK_CCUX_TADX_SCRATCH(unsigned long a, unsigned long b) _
 static inline uint64_t BDK_CCUX_TADX_SCRATCH(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=8) && (b<=1)))
-        return 0x87e070100000ll + 0x2000000ll * ((a) & 0xf) + 0x800000ll * ((b) & 0x1);
+        return 0x87e070100000ll + 0x2000000ll * ((a) & 0xf) + 0x1000000ll * ((b) & 0x1);
     __bdk_csr_fatal("CCUX_TADX_SCRATCH", 2, a, b, 0, 0);
 }
 

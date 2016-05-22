@@ -7864,6 +7864,74 @@ typedef union
                                                                      to CPSR[C] on exiting Debug state. */
         uint32_t v                     : 1;  /**< [ 28: 28](R/W) Set to the value of CPSR[V] on entering Debug state, and copied
                                                                      to CPSR[V] on exiting Debug state. */
+        uint32_t reserved_24_27        : 4;
+        uint32_t uao                   : 1;  /**< [ 23: 23](R/W) User access override. */
+        uint32_t reserved_22           : 1;
+        uint32_t ss                    : 1;  /**< [ 21: 21](R/W) Software step. Indicates whether software step was enabled when
+                                                                 Debug state was entered. */
+        uint32_t il                    : 1;  /**< [ 20: 20](R/W) Illegal Execution State bit. Shows the value of PSTATE[IL]
+                                                                     immediately before Debug state was entered. */
+        uint32_t reserved_10_19        : 10;
+        uint32_t dd                    : 1;  /**< [  9:  9](R/W) Interrupt masks - can also be accessed as PSTATE.[D,A,I,F] */
+        uint32_t aa                    : 1;  /**< [  8:  8](R/W) Asynchronous data abort mask bit.
+                                                                 0 = Exception not masked.
+                                                                 1 = Exception masked. */
+        uint32_t i                     : 1;  /**< [  7:  7](R/W) IRQ mask bit.
+                                                                 0 = Exception not masked.
+                                                                 1 = Exception masked. */
+        uint32_t f                     : 1;  /**< [  6:  6](R/W) FIQ mask bit.
+                                                                 0 = Exception not masked.
+                                                                 1 = Exception masked. */
+        uint32_t reserved_5            : 1;
+        uint32_t nrw                   : 1;  /**< [  4:  4](R/W) Current register width:  0 = AArch64, 1 = AArch32. */
+        uint32_t el                    : 2;  /**< [  3:  2](R/W) Current exception level: 0x0 = EL0, 0x1 = EL1, 0x2 = EL2, 0x3 = EL3. */
+        uint32_t reserved_1            : 1;
+        uint32_t sp                    : 1;  /**< [  0:  0](R/W) AArch64 only - Stack Pointer selection - 0 - SP0, 1 - SPx. */
+#else /* Word 0 - Little Endian */
+        uint32_t sp                    : 1;  /**< [  0:  0](R/W) AArch64 only - Stack Pointer selection - 0 - SP0, 1 - SPx. */
+        uint32_t reserved_1            : 1;
+        uint32_t el                    : 2;  /**< [  3:  2](R/W) Current exception level: 0x0 = EL0, 0x1 = EL1, 0x2 = EL2, 0x3 = EL3. */
+        uint32_t nrw                   : 1;  /**< [  4:  4](R/W) Current register width:  0 = AArch64, 1 = AArch32. */
+        uint32_t reserved_5            : 1;
+        uint32_t f                     : 1;  /**< [  6:  6](R/W) FIQ mask bit.
+                                                                 0 = Exception not masked.
+                                                                 1 = Exception masked. */
+        uint32_t i                     : 1;  /**< [  7:  7](R/W) IRQ mask bit.
+                                                                 0 = Exception not masked.
+                                                                 1 = Exception masked. */
+        uint32_t aa                    : 1;  /**< [  8:  8](R/W) Asynchronous data abort mask bit.
+                                                                 0 = Exception not masked.
+                                                                 1 = Exception masked. */
+        uint32_t dd                    : 1;  /**< [  9:  9](R/W) Interrupt masks - can also be accessed as PSTATE.[D,A,I,F] */
+        uint32_t reserved_10_19        : 10;
+        uint32_t il                    : 1;  /**< [ 20: 20](R/W) Illegal Execution State bit. Shows the value of PSTATE[IL]
+                                                                     immediately before Debug state was entered. */
+        uint32_t ss                    : 1;  /**< [ 21: 21](R/W) Software step. Indicates whether software step was enabled when
+                                                                 Debug state was entered. */
+        uint32_t reserved_22           : 1;
+        uint32_t uao                   : 1;  /**< [ 23: 23](R/W) User access override. */
+        uint32_t reserved_24_27        : 4;
+        uint32_t v                     : 1;  /**< [ 28: 28](R/W) Set to the value of CPSR[V] on entering Debug state, and copied
+                                                                     to CPSR[V] on exiting Debug state. */
+        uint32_t cc                    : 1;  /**< [ 29: 29](R/W) Set to the value of CPSR[C] on entering Debug state, and copied
+                                                                     to CPSR[C] on exiting Debug state. */
+        uint32_t z                     : 1;  /**< [ 30: 30](R/W) Set to the value of CPSR[Z] on entering Debug state, and copied
+                                                                     to CPSR[Z] on exiting Debug state. */
+        uint32_t n                     : 1;  /**< [ 31: 31](R/W) Set to the value of CPSR[N] on entering Debug state, and copied
+                                                                     to CPSR[N] on exiting Debug state. */
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_ap_dspsr_el0_cn8
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t n                     : 1;  /**< [ 31: 31](R/W) Set to the value of CPSR[N] on entering Debug state, and copied
+                                                                     to CPSR[N] on exiting Debug state. */
+        uint32_t z                     : 1;  /**< [ 30: 30](R/W) Set to the value of CPSR[Z] on entering Debug state, and copied
+                                                                     to CPSR[Z] on exiting Debug state. */
+        uint32_t cc                    : 1;  /**< [ 29: 29](R/W) Set to the value of CPSR[C] on entering Debug state, and copied
+                                                                     to CPSR[C] on exiting Debug state. */
+        uint32_t v                     : 1;  /**< [ 28: 28](R/W) Set to the value of CPSR[V] on entering Debug state, and copied
+                                                                     to CPSR[V] on exiting Debug state. */
         uint32_t reserved_22_27        : 6;
         uint32_t ss                    : 1;  /**< [ 21: 21](R/W) Software step. Indicates whether software step was enabled when
                                                                  Debug state was entered. */
@@ -7916,8 +7984,8 @@ typedef union
         uint32_t n                     : 1;  /**< [ 31: 31](R/W) Set to the value of CPSR[N] on entering Debug state, and copied
                                                                      to CPSR[N] on exiting Debug state. */
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_ap_dspsr_el0_s cn; */
+    } cn8;
+    /* struct bdk_ap_dspsr_el0_s cn9; */
 } bdk_ap_dspsr_el0_t;
 
 #define BDK_AP_DSPSR_EL0 BDK_AP_DSPSR_EL0_FUNC()
@@ -29640,6 +29708,64 @@ static inline uint64_t BDK_AP_TTBR1_EL2_FUNC(void)
 #define basename_BDK_AP_TTBR1_EL2 "AP_TTBR1_EL2"
 #define busnum_BDK_AP_TTBR1_EL2 0
 #define arguments_BDK_AP_TTBR1_EL2 -1,-1,-1,-1
+
+/**
+ * Register (SYSREG) ap_uao
+ *
+ * AP User Access Override Register
+ * v8.2: User Access Override bit.
+ *
+ * When 0, The behaviour of LDTR* /STTR* instructions is as defined in the base
+ * ARMv8 architecture.
+ * When 1, LDTR* /STTR* instructions when executed at EL1, or at EL2 with
+ * HCR_EL2.E2H==1 && HCR_EL2.TGE==1, behave as the equivalent LDR* /STR*
+ * instructions.
+ *
+ * UAO is held in SPSR_ELx[23] and DSPSR_EL0[23].
+ * PSTATE.UAO is copied to SPSR_ELx.UAO and is then set to 0 on an exception taken from AArch64
+ * to AArch64
+ * PSTATE.UAO is set to 0 on an exception taken from AArch32 to AArch64.
+ * SPSR_ELx.UAO is set to 0 on an exception taken from AArch32 to AArch64
+ * SPSR_ELx.UAO is copied to PSTATE.UAO on an exception return to AArch64 from AArch64
+ * PSTATE.UAO is set to zero by a DCPS instruction to AArch64 in Debug state.
+ * SPSR_ELx.UAO is copied to PSTATE.UAO by DRPS to AArch64 from AArch64 in Debug state.
+ * DSPSR_EL0.UAO is copied to PSTATE.UAO on exit from Debug state to AArch64.
+ * PSTATE.UAO is copied to DSPSR_EL0.UAO on entry to Debug state from AArch64
+ *
+ * Note, PSTATE.UAO is unchanged on entry into Debug state
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_ap_uao_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_24_63        : 40;
+        uint64_t uao                   : 1;  /**< [ 23: 23](R/W) User access override bit. */
+        uint64_t reserved_0_22         : 23;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_22         : 23;
+        uint64_t uao                   : 1;  /**< [ 23: 23](R/W) User access override bit. */
+        uint64_t reserved_24_63        : 40;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ap_uao_s cn; */
+} bdk_ap_uao_t;
+
+#define BDK_AP_UAO BDK_AP_UAO_FUNC()
+static inline uint64_t BDK_AP_UAO_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_AP_UAO_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
+        return 0x30004020400ll;
+    __bdk_csr_fatal("AP_UAO", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_AP_UAO bdk_ap_uao_t
+#define bustype_BDK_AP_UAO BDK_CSR_TYPE_SYSREG
+#define basename_BDK_AP_UAO "AP_UAO"
+#define busnum_BDK_AP_UAO 0
+#define arguments_BDK_AP_UAO -1,-1,-1,-1
 
 /**
  * Register (SYSREG) ap_vbar_el#

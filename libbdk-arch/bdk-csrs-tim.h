@@ -509,7 +509,8 @@ typedef union
         uint64_t ncb_csrf_bp           : 1;  /**< [  3:  3](R/W) NCB CSR FIFO backpressure.
                                                                  When asserted, the tim.tim_ncb.tim_ncb_arb.ncbi_csrf FIFO
                                                                  valid (an entry is in the FIFO) is blocked. This creates
-                                                                 no popping of the FIFO, allowing it to fill.
+                                                                 no popping of the FIFO, beyond what was already arbitrated
+                                                                 for the NCBI bus, allowing it to fill.
                                                                  Only the RSL path can be used for access when this bit is
                                                                  set. All NCB-based CSR accesses will not respond, and NCB
                                                                  credits will not be returned, once the downstream FIFOs
@@ -517,7 +518,8 @@ typedef union
         uint64_t ncb_lslr_bp           : 1;  /**< [  2:  2](R/W) NCB LSLR FIFO backpressure.
                                                                  When asserted, the tim.tim_ncb.tim_ncb_arb.lslr_mem FIFO
                                                                  valid (an entry is in the FIFO) is blocked. This creates
-                                                                 no popping of the FIFO, allowing it to fill.
+                                                                 no popping of the FIFO, beyond what was already arbitrated
+                                                                 for the NCBI bus, allowing it to fill.
                                                                  This will stop requests from the STA engines, when the
                                                                  FIFO reaches full. */
         uint64_t ncbi_rsp_gnt_bp       : 1;  /**< [  1:  1](R/W) NCBI response grant FIFO backpressure.
@@ -552,13 +554,15 @@ typedef union
         uint64_t ncb_lslr_bp           : 1;  /**< [  2:  2](R/W) NCB LSLR FIFO backpressure.
                                                                  When asserted, the tim.tim_ncb.tim_ncb_arb.lslr_mem FIFO
                                                                  valid (an entry is in the FIFO) is blocked. This creates
-                                                                 no popping of the FIFO, allowing it to fill.
+                                                                 no popping of the FIFO, beyond what was already arbitrated
+                                                                 for the NCBI bus, allowing it to fill.
                                                                  This will stop requests from the STA engines, when the
                                                                  FIFO reaches full. */
         uint64_t ncb_csrf_bp           : 1;  /**< [  3:  3](R/W) NCB CSR FIFO backpressure.
                                                                  When asserted, the tim.tim_ncb.tim_ncb_arb.ncbi_csrf FIFO
                                                                  valid (an entry is in the FIFO) is blocked. This creates
-                                                                 no popping of the FIFO, allowing it to fill.
+                                                                 no popping of the FIFO, beyond what was already arbitrated
+                                                                 for the NCBI bus, allowing it to fill.
                                                                  Only the RSL path can be used for access when this bit is
                                                                  set. All NCB-based CSR accesses will not respond, and NCB
                                                                  credits will not be returned, once the downstream FIFOs
@@ -758,23 +762,33 @@ typedef union
     struct bdk_tim_eccerr_ena_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_8_63         : 56;
-        uint64_t msix_pmem_dbe         : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for TIM_ECCERR_INT[MSIX_PMEM_DBE]. */
-        uint64_t msix_pmem_sbe         : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for TIM_ECCERR_INT[MSIX_PMEM_SBE]. */
-        uint64_t msix_vmem_dbe         : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for TIM_ECCERR_INT[MSIX_VMEM_DBE]. */
-        uint64_t msix_vmem_sbe         : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for TIM_ECCERR_INT[MSIX_VMEM_SBE]. */
-        uint64_t ctl_dbe               : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for TIM_ECCERR_INT[CTL_DBE]. */
-        uint64_t ctl_sbe               : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for TIM_ECCERR_INT[CTL_SBE]. */
-        uint64_t reserved_0_1          : 2;
+        uint64_t reserved_12_63        : 52;
+        uint64_t msix_pmem_dbe         : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for TIM_ECCERR_INT[MSIX_PMEM_DBE]. */
+        uint64_t msix_pmem_sbe         : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for TIM_ECCERR_INT[MSIX_PMEM_SBE]. */
+        uint64_t msix_vmem_dbe         : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for TIM_ECCERR_INT[MSIX_VMEM_DBE]. */
+        uint64_t msix_vmem_sbe         : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for TIM_ECCERR_INT[MSIX_VMEM_SBE]. */
+        uint64_t ctl0_dbe              : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for TIM_ECCERR_INT[CTL0_DBE]. */
+        uint64_t ctl0_sbe              : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for TIM_ECCERR_INT[CTL0_SBE]. */
+        uint64_t ctl1_dbe              : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for TIM_ECCERR_INT[CTL1_DBE]. */
+        uint64_t ctl1_sbe              : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for TIM_ECCERR_INT[CTL1_SBE]. */
+        uint64_t ctl2_dbe              : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for TIM_ECCERR_INT[CTL2_DBE]. */
+        uint64_t ctl2_sbe              : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for TIM_ECCERR_INT[CTL2_SBE]. */
+        uint64_t base_dbe              : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for TIM_ECCERR_INT[BASE_DBE]. */
+        uint64_t base_sbe              : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for TIM_ECCERR_INT[BASE_SBE]. */
 #else /* Word 0 - Little Endian */
-        uint64_t reserved_0_1          : 2;
-        uint64_t ctl_sbe               : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for TIM_ECCERR_INT[CTL_SBE]. */
-        uint64_t ctl_dbe               : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for TIM_ECCERR_INT[CTL_DBE]. */
-        uint64_t msix_vmem_sbe         : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for TIM_ECCERR_INT[MSIX_VMEM_SBE]. */
-        uint64_t msix_vmem_dbe         : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for TIM_ECCERR_INT[MSIX_VMEM_DBE]. */
-        uint64_t msix_pmem_sbe         : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for TIM_ECCERR_INT[MSIX_PMEM_SBE]. */
-        uint64_t msix_pmem_dbe         : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for TIM_ECCERR_INT[MSIX_PMEM_DBE]. */
-        uint64_t reserved_8_63         : 56;
+        uint64_t base_sbe              : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for TIM_ECCERR_INT[BASE_SBE]. */
+        uint64_t base_dbe              : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for TIM_ECCERR_INT[BASE_DBE]. */
+        uint64_t ctl2_sbe              : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for TIM_ECCERR_INT[CTL2_SBE]. */
+        uint64_t ctl2_dbe              : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for TIM_ECCERR_INT[CTL2_DBE]. */
+        uint64_t ctl1_sbe              : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for TIM_ECCERR_INT[CTL1_SBE]. */
+        uint64_t ctl1_dbe              : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for TIM_ECCERR_INT[CTL1_DBE]. */
+        uint64_t ctl0_sbe              : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for TIM_ECCERR_INT[CTL0_SBE]. */
+        uint64_t ctl0_dbe              : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for TIM_ECCERR_INT[CTL0_DBE]. */
+        uint64_t msix_vmem_sbe         : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for TIM_ECCERR_INT[MSIX_VMEM_SBE]. */
+        uint64_t msix_vmem_dbe         : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for TIM_ECCERR_INT[MSIX_VMEM_DBE]. */
+        uint64_t msix_pmem_sbe         : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for TIM_ECCERR_INT[MSIX_PMEM_SBE]. */
+        uint64_t msix_pmem_dbe         : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for TIM_ECCERR_INT[MSIX_PMEM_DBE]. */
+        uint64_t reserved_12_63        : 52;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tim_eccerr_ena_w1c_s cn; */
@@ -808,23 +822,33 @@ typedef union
     struct bdk_tim_eccerr_ena_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_8_63         : 56;
-        uint64_t msix_pmem_dbe         : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for TIM_ECCERR_INT[MSIX_PMEM_DBE]. */
-        uint64_t msix_pmem_sbe         : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for TIM_ECCERR_INT[MSIX_PMEM_SBE]. */
-        uint64_t msix_vmem_dbe         : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for TIM_ECCERR_INT[MSIX_VMEM_DBE]. */
-        uint64_t msix_vmem_sbe         : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for TIM_ECCERR_INT[MSIX_VMEM_SBE]. */
-        uint64_t ctl_dbe               : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for TIM_ECCERR_INT[CTL_DBE]. */
-        uint64_t ctl_sbe               : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for TIM_ECCERR_INT[CTL_SBE]. */
-        uint64_t reserved_0_1          : 2;
+        uint64_t reserved_12_63        : 52;
+        uint64_t msix_pmem_dbe         : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for TIM_ECCERR_INT[MSIX_PMEM_DBE]. */
+        uint64_t msix_pmem_sbe         : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for TIM_ECCERR_INT[MSIX_PMEM_SBE]. */
+        uint64_t msix_vmem_dbe         : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for TIM_ECCERR_INT[MSIX_VMEM_DBE]. */
+        uint64_t msix_vmem_sbe         : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for TIM_ECCERR_INT[MSIX_VMEM_SBE]. */
+        uint64_t ctl0_dbe              : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for TIM_ECCERR_INT[CTL0_DBE]. */
+        uint64_t ctl0_sbe              : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for TIM_ECCERR_INT[CTL0_SBE]. */
+        uint64_t ctl1_dbe              : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for TIM_ECCERR_INT[CTL1_DBE]. */
+        uint64_t ctl1_sbe              : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for TIM_ECCERR_INT[CTL1_SBE]. */
+        uint64_t ctl2_dbe              : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for TIM_ECCERR_INT[CTL2_DBE]. */
+        uint64_t ctl2_sbe              : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for TIM_ECCERR_INT[CTL2_SBE]. */
+        uint64_t base_dbe              : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for TIM_ECCERR_INT[BASE_DBE]. */
+        uint64_t base_sbe              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for TIM_ECCERR_INT[BASE_SBE]. */
 #else /* Word 0 - Little Endian */
-        uint64_t reserved_0_1          : 2;
-        uint64_t ctl_sbe               : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for TIM_ECCERR_INT[CTL_SBE]. */
-        uint64_t ctl_dbe               : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for TIM_ECCERR_INT[CTL_DBE]. */
-        uint64_t msix_vmem_sbe         : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for TIM_ECCERR_INT[MSIX_VMEM_SBE]. */
-        uint64_t msix_vmem_dbe         : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for TIM_ECCERR_INT[MSIX_VMEM_DBE]. */
-        uint64_t msix_pmem_sbe         : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for TIM_ECCERR_INT[MSIX_PMEM_SBE]. */
-        uint64_t msix_pmem_dbe         : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for TIM_ECCERR_INT[MSIX_PMEM_DBE]. */
-        uint64_t reserved_8_63         : 56;
+        uint64_t base_sbe              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for TIM_ECCERR_INT[BASE_SBE]. */
+        uint64_t base_dbe              : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for TIM_ECCERR_INT[BASE_DBE]. */
+        uint64_t ctl2_sbe              : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for TIM_ECCERR_INT[CTL2_SBE]. */
+        uint64_t ctl2_dbe              : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for TIM_ECCERR_INT[CTL2_DBE]. */
+        uint64_t ctl1_sbe              : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for TIM_ECCERR_INT[CTL1_SBE]. */
+        uint64_t ctl1_dbe              : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for TIM_ECCERR_INT[CTL1_DBE]. */
+        uint64_t ctl0_sbe              : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for TIM_ECCERR_INT[CTL0_SBE]. */
+        uint64_t ctl0_dbe              : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for TIM_ECCERR_INT[CTL0_DBE]. */
+        uint64_t msix_vmem_sbe         : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for TIM_ECCERR_INT[MSIX_VMEM_SBE]. */
+        uint64_t msix_vmem_dbe         : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for TIM_ECCERR_INT[MSIX_VMEM_DBE]. */
+        uint64_t msix_pmem_sbe         : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for TIM_ECCERR_INT[MSIX_PMEM_SBE]. */
+        uint64_t msix_pmem_dbe         : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for TIM_ECCERR_INT[MSIX_PMEM_DBE]. */
+        uint64_t reserved_12_63        : 52;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tim_eccerr_ena_w1s_s cn; */
@@ -857,23 +881,33 @@ typedef union
     struct bdk_tim_eccerr_int_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_8_63         : 56;
-        uint64_t msix_pmem_dbe         : 1;  /**< [  7:  7](R/W1C/H) MSIX PMEM memory had a double-bit error. */
-        uint64_t msix_pmem_sbe         : 1;  /**< [  6:  6](R/W1C/H) MSIX PMEM memory had a single-bit error. */
-        uint64_t msix_vmem_dbe         : 1;  /**< [  5:  5](R/W1C/H) MSIX VMEM memory had a double-bit error. */
-        uint64_t msix_vmem_sbe         : 1;  /**< [  4:  4](R/W1C/H) MSIX VMEM memory had a single-bit error. */
-        uint64_t ctl_dbe               : 1;  /**< [  3:  3](R/W1C/H) TIM CTL memory had a double-bit error. */
-        uint64_t ctl_sbe               : 1;  /**< [  2:  2](R/W1C/H) TIM CTL memory had a single-bit error. */
-        uint64_t reserved_0_1          : 2;
+        uint64_t reserved_12_63        : 52;
+        uint64_t msix_pmem_dbe         : 1;  /**< [ 11: 11](R/W1C/H) MSIX PMEM memory had a double-bit error. */
+        uint64_t msix_pmem_sbe         : 1;  /**< [ 10: 10](R/W1C/H) MSIX PMEM memory had a single-bit error. */
+        uint64_t msix_vmem_dbe         : 1;  /**< [  9:  9](R/W1C/H) MSIX VMEM memory had a double-bit error. */
+        uint64_t msix_vmem_sbe         : 1;  /**< [  8:  8](R/W1C/H) MSIX VMEM memory had a single-bit error. */
+        uint64_t ctl0_dbe              : 1;  /**< [  7:  7](R/W1C/H) TIM CTL0 memory had a double-bit error. */
+        uint64_t ctl0_sbe              : 1;  /**< [  6:  6](R/W1C/H) TIM CTL0 memory had a single-bit error. */
+        uint64_t ctl1_dbe              : 1;  /**< [  5:  5](R/W1C/H) TIM CTL1 memory had a double-bit error. */
+        uint64_t ctl1_sbe              : 1;  /**< [  4:  4](R/W1C/H) TIM CTL1 memory had a single-bit error. */
+        uint64_t ctl2_dbe              : 1;  /**< [  3:  3](R/W1C/H) TIM CTL2 memory had a double-bit error. */
+        uint64_t ctl2_sbe              : 1;  /**< [  2:  2](R/W1C/H) TIM CTL2 memory had a single-bit error. */
+        uint64_t base_dbe              : 1;  /**< [  1:  1](R/W1C/H) TIM BASE memory had a double-bit error. */
+        uint64_t base_sbe              : 1;  /**< [  0:  0](R/W1C/H) TIM BASE memory had a single-bit error. */
 #else /* Word 0 - Little Endian */
-        uint64_t reserved_0_1          : 2;
-        uint64_t ctl_sbe               : 1;  /**< [  2:  2](R/W1C/H) TIM CTL memory had a single-bit error. */
-        uint64_t ctl_dbe               : 1;  /**< [  3:  3](R/W1C/H) TIM CTL memory had a double-bit error. */
-        uint64_t msix_vmem_sbe         : 1;  /**< [  4:  4](R/W1C/H) MSIX VMEM memory had a single-bit error. */
-        uint64_t msix_vmem_dbe         : 1;  /**< [  5:  5](R/W1C/H) MSIX VMEM memory had a double-bit error. */
-        uint64_t msix_pmem_sbe         : 1;  /**< [  6:  6](R/W1C/H) MSIX PMEM memory had a single-bit error. */
-        uint64_t msix_pmem_dbe         : 1;  /**< [  7:  7](R/W1C/H) MSIX PMEM memory had a double-bit error. */
-        uint64_t reserved_8_63         : 56;
+        uint64_t base_sbe              : 1;  /**< [  0:  0](R/W1C/H) TIM BASE memory had a single-bit error. */
+        uint64_t base_dbe              : 1;  /**< [  1:  1](R/W1C/H) TIM BASE memory had a double-bit error. */
+        uint64_t ctl2_sbe              : 1;  /**< [  2:  2](R/W1C/H) TIM CTL2 memory had a single-bit error. */
+        uint64_t ctl2_dbe              : 1;  /**< [  3:  3](R/W1C/H) TIM CTL2 memory had a double-bit error. */
+        uint64_t ctl1_sbe              : 1;  /**< [  4:  4](R/W1C/H) TIM CTL1 memory had a single-bit error. */
+        uint64_t ctl1_dbe              : 1;  /**< [  5:  5](R/W1C/H) TIM CTL1 memory had a double-bit error. */
+        uint64_t ctl0_sbe              : 1;  /**< [  6:  6](R/W1C/H) TIM CTL0 memory had a single-bit error. */
+        uint64_t ctl0_dbe              : 1;  /**< [  7:  7](R/W1C/H) TIM CTL0 memory had a double-bit error. */
+        uint64_t msix_vmem_sbe         : 1;  /**< [  8:  8](R/W1C/H) MSIX VMEM memory had a single-bit error. */
+        uint64_t msix_vmem_dbe         : 1;  /**< [  9:  9](R/W1C/H) MSIX VMEM memory had a double-bit error. */
+        uint64_t msix_pmem_sbe         : 1;  /**< [ 10: 10](R/W1C/H) MSIX PMEM memory had a single-bit error. */
+        uint64_t msix_pmem_dbe         : 1;  /**< [ 11: 11](R/W1C/H) MSIX PMEM memory had a double-bit error. */
+        uint64_t reserved_12_63        : 52;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tim_eccerr_int_s cn; */
@@ -907,23 +941,33 @@ typedef union
     struct bdk_tim_eccerr_int_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_8_63         : 56;
-        uint64_t msix_pmem_dbe         : 1;  /**< [  7:  7](R/W1S/H) Reads or sets TIM_ECCERR_INT[MSIX_PMEM_DBE]. */
-        uint64_t msix_pmem_sbe         : 1;  /**< [  6:  6](R/W1S/H) Reads or sets TIM_ECCERR_INT[MSIX_PMEM_SBE]. */
-        uint64_t msix_vmem_dbe         : 1;  /**< [  5:  5](R/W1S/H) Reads or sets TIM_ECCERR_INT[MSIX_VMEM_DBE]. */
-        uint64_t msix_vmem_sbe         : 1;  /**< [  4:  4](R/W1S/H) Reads or sets TIM_ECCERR_INT[MSIX_VMEM_SBE]. */
-        uint64_t ctl_dbe               : 1;  /**< [  3:  3](R/W1S/H) Reads or sets TIM_ECCERR_INT[CTL_DBE]. */
-        uint64_t ctl_sbe               : 1;  /**< [  2:  2](R/W1S/H) Reads or sets TIM_ECCERR_INT[CTL_SBE]. */
-        uint64_t reserved_0_1          : 2;
+        uint64_t reserved_12_63        : 52;
+        uint64_t msix_pmem_dbe         : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets TIM_ECCERR_INT[MSIX_PMEM_DBE]. */
+        uint64_t msix_pmem_sbe         : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets TIM_ECCERR_INT[MSIX_PMEM_SBE]. */
+        uint64_t msix_vmem_dbe         : 1;  /**< [  9:  9](R/W1S/H) Reads or sets TIM_ECCERR_INT[MSIX_VMEM_DBE]. */
+        uint64_t msix_vmem_sbe         : 1;  /**< [  8:  8](R/W1S/H) Reads or sets TIM_ECCERR_INT[MSIX_VMEM_SBE]. */
+        uint64_t ctl0_dbe              : 1;  /**< [  7:  7](R/W1S/H) Reads or sets TIM_ECCERR_INT[CTL0_DBE]. */
+        uint64_t ctl0_sbe              : 1;  /**< [  6:  6](R/W1S/H) Reads or sets TIM_ECCERR_INT[CTL0_SBE]. */
+        uint64_t ctl1_dbe              : 1;  /**< [  5:  5](R/W1S/H) Reads or sets TIM_ECCERR_INT[CTL1_DBE]. */
+        uint64_t ctl1_sbe              : 1;  /**< [  4:  4](R/W1S/H) Reads or sets TIM_ECCERR_INT[CTL1_SBE]. */
+        uint64_t ctl2_dbe              : 1;  /**< [  3:  3](R/W1S/H) Reads or sets TIM_ECCERR_INT[CTL2_DBE]. */
+        uint64_t ctl2_sbe              : 1;  /**< [  2:  2](R/W1S/H) Reads or sets TIM_ECCERR_INT[CTL2_SBE]. */
+        uint64_t base_dbe              : 1;  /**< [  1:  1](R/W1S/H) Reads or sets TIM_ECCERR_INT[BASE_DBE]. */
+        uint64_t base_sbe              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets TIM_ECCERR_INT[BASE_SBE]. */
 #else /* Word 0 - Little Endian */
-        uint64_t reserved_0_1          : 2;
-        uint64_t ctl_sbe               : 1;  /**< [  2:  2](R/W1S/H) Reads or sets TIM_ECCERR_INT[CTL_SBE]. */
-        uint64_t ctl_dbe               : 1;  /**< [  3:  3](R/W1S/H) Reads or sets TIM_ECCERR_INT[CTL_DBE]. */
-        uint64_t msix_vmem_sbe         : 1;  /**< [  4:  4](R/W1S/H) Reads or sets TIM_ECCERR_INT[MSIX_VMEM_SBE]. */
-        uint64_t msix_vmem_dbe         : 1;  /**< [  5:  5](R/W1S/H) Reads or sets TIM_ECCERR_INT[MSIX_VMEM_DBE]. */
-        uint64_t msix_pmem_sbe         : 1;  /**< [  6:  6](R/W1S/H) Reads or sets TIM_ECCERR_INT[MSIX_PMEM_SBE]. */
-        uint64_t msix_pmem_dbe         : 1;  /**< [  7:  7](R/W1S/H) Reads or sets TIM_ECCERR_INT[MSIX_PMEM_DBE]. */
-        uint64_t reserved_8_63         : 56;
+        uint64_t base_sbe              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets TIM_ECCERR_INT[BASE_SBE]. */
+        uint64_t base_dbe              : 1;  /**< [  1:  1](R/W1S/H) Reads or sets TIM_ECCERR_INT[BASE_DBE]. */
+        uint64_t ctl2_sbe              : 1;  /**< [  2:  2](R/W1S/H) Reads or sets TIM_ECCERR_INT[CTL2_SBE]. */
+        uint64_t ctl2_dbe              : 1;  /**< [  3:  3](R/W1S/H) Reads or sets TIM_ECCERR_INT[CTL2_DBE]. */
+        uint64_t ctl1_sbe              : 1;  /**< [  4:  4](R/W1S/H) Reads or sets TIM_ECCERR_INT[CTL1_SBE]. */
+        uint64_t ctl1_dbe              : 1;  /**< [  5:  5](R/W1S/H) Reads or sets TIM_ECCERR_INT[CTL1_DBE]. */
+        uint64_t ctl0_sbe              : 1;  /**< [  6:  6](R/W1S/H) Reads or sets TIM_ECCERR_INT[CTL0_SBE]. */
+        uint64_t ctl0_dbe              : 1;  /**< [  7:  7](R/W1S/H) Reads or sets TIM_ECCERR_INT[CTL0_DBE]. */
+        uint64_t msix_vmem_sbe         : 1;  /**< [  8:  8](R/W1S/H) Reads or sets TIM_ECCERR_INT[MSIX_VMEM_SBE]. */
+        uint64_t msix_vmem_dbe         : 1;  /**< [  9:  9](R/W1S/H) Reads or sets TIM_ECCERR_INT[MSIX_VMEM_DBE]. */
+        uint64_t msix_pmem_sbe         : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets TIM_ECCERR_INT[MSIX_PMEM_SBE]. */
+        uint64_t msix_pmem_dbe         : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets TIM_ECCERR_INT[MSIX_PMEM_DBE]. */
+        uint64_t reserved_12_63        : 52;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tim_eccerr_int_w1s_s cn; */
@@ -1653,8 +1697,8 @@ static inline uint64_t BDK_TIM_RINGX_GMCTL(unsigned long a)
 /**
  * Register (NCB) tim_vf#_msix_pba#
  *
- * TIM PF MSI-X Pending Bit Array Registers
- * This register is the MSI-X PBA table; the bit number is indexed by the TIM_PF_INT_VEC_E
+ * TIM VF MSI-X Pending Bit Array Registers
+ * This register is the MSI-X PBA table; the bit number is indexed by the TIM_VF_INT_VEC_E
  * enumeration.
  */
 typedef union

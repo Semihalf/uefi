@@ -1292,14 +1292,33 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_29_63        : 35;
+        uint64_t strap                 : 29; /**< [ 28:  0](RO/H) GPIO strap data of GPIO pins 64-79. Unimplemented pins bits read as 0. */
+#else /* Word 0 - Little Endian */
+        uint64_t strap                 : 29; /**< [ 28:  0](RO/H) GPIO strap data of GPIO pins 64-79. Unimplemented pins bits read as 0. */
+        uint64_t reserved_29_63        : 35;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_gpio_strap1_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_29_63        : 35;
         uint64_t strap                 : 29; /**< [ 28:  0](RO/H) GPIO strap data of GPIO pins less than 64. Unimplemented pins bits read as 0. */
 #else /* Word 0 - Little Endian */
         uint64_t strap                 : 29; /**< [ 28:  0](RO/H) GPIO strap data of GPIO pins less than 64. Unimplemented pins bits read as 0. */
         uint64_t reserved_29_63        : 35;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_gpio_strap1_s cn81xx; */
+    } cn81xx;
     struct bdk_gpio_strap1_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t strap                 : 16; /**< [ 15:  0](RO/H) GPIO strap data of GPIO pins 64-79. Unimplemented pins bits read as 0. */
+#else /* Word 0 - Little Endian */
+        uint64_t strap                 : 16; /**< [ 15:  0](RO/H) GPIO strap data of GPIO pins 64-79. Unimplemented pins bits read as 0. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } cn83xx;
+    struct bdk_gpio_strap1_cn9
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
@@ -1308,8 +1327,7 @@ typedef union
         uint64_t strap                 : 16; /**< [ 15:  0](RO/H) GPIO strap data of GPIO pins less than 64. Unimplemented pins bits read as 0. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
-    } cn83xx;
-    /* struct bdk_gpio_strap1_cn83xx cn9; */
+    } cn9;
 } bdk_gpio_strap1_t;
 
 #define BDK_GPIO_STRAP1 BDK_GPIO_STRAP1_FUNC()

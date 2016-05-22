@@ -1835,48 +1835,24 @@ typedef union
                                                                  In CNXXXX, enumerated by PCC_PROD_E. */
         uint32_t reserved_20_23        : 4;
         uint32_t variant               : 4;  /**< [ 19: 16](RO) Indicates the major revision or variant of the product.
-                                                                 In CNXXXX, the major pass number. */
+                                                                 On CNXXXX, this is the major revision. See MIO_FUS_DAT2[CHIP_ID]. */
         uint32_t revision              : 4;  /**< [ 15: 12](RO) Indicates the minor revision of the product.
-                                                                 In CNXXXX, the minor pass number. */
+                                                                 On CNXXXX, this is the minor revision. See MIO_FUS_DAT2[CHIP_ID]. */
         uint32_t implementer           : 12; /**< [ 11:  0](RO) Indicates the implementer:
                                                                     0x34C = Cavium. */
 #else /* Word 0 - Little Endian */
         uint32_t implementer           : 12; /**< [ 11:  0](RO) Indicates the implementer:
                                                                     0x34C = Cavium. */
         uint32_t revision              : 4;  /**< [ 15: 12](RO) Indicates the minor revision of the product.
-                                                                 In CNXXXX, the minor pass number. */
+                                                                 On CNXXXX, this is the minor revision. See MIO_FUS_DAT2[CHIP_ID]. */
         uint32_t variant               : 4;  /**< [ 19: 16](RO) Indicates the major revision or variant of the product.
-                                                                 In CNXXXX, the major pass number. */
+                                                                 On CNXXXX, this is the major revision. See MIO_FUS_DAT2[CHIP_ID]. */
         uint32_t reserved_20_23        : 4;
         uint32_t productid             : 8;  /**< [ 31: 24](RO) An implementation defined product number for the device.
                                                                  In CNXXXX, enumerated by PCC_PROD_E. */
 #endif /* Word 0 - End */
     } s;
-    struct bdk_gicd_iidr_cn8
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t productid             : 8;  /**< [ 31: 24](RO) An implementation defined product number for the device.
-                                                                 In CNXXXX, enumerated by PCC_PROD_E. */
-        uint32_t reserved_20_23        : 4;
-        uint32_t variant               : 4;  /**< [ 19: 16](RO) Indicates the major revision or variant of the product.
-                                                                 On CNXXXX, this is the major revision. See MIO_FUS_DAT2[CHIP_ID]. */
-        uint32_t revision              : 4;  /**< [ 15: 12](RO) Indicates the minor revision of the product.
-                                                                 On CNXXXX, this is the minor revision. See MIO_FUS_DAT2[CHIP_ID]. */
-        uint32_t implementer           : 12; /**< [ 11:  0](RO) Indicates the implementer:
-                                                                    0x34C = Cavium. */
-#else /* Word 0 - Little Endian */
-        uint32_t implementer           : 12; /**< [ 11:  0](RO) Indicates the implementer:
-                                                                    0x34C = Cavium. */
-        uint32_t revision              : 4;  /**< [ 15: 12](RO) Indicates the minor revision of the product.
-                                                                 On CNXXXX, this is the minor revision. See MIO_FUS_DAT2[CHIP_ID]. */
-        uint32_t variant               : 4;  /**< [ 19: 16](RO) Indicates the major revision or variant of the product.
-                                                                 On CNXXXX, this is the major revision. See MIO_FUS_DAT2[CHIP_ID]. */
-        uint32_t reserved_20_23        : 4;
-        uint32_t productid             : 8;  /**< [ 31: 24](RO) An implementation defined product number for the device.
-                                                                 In CNXXXX, enumerated by PCC_PROD_E. */
-#endif /* Word 0 - End */
-    } cn8;
-    /* struct bdk_gicd_iidr_s cn9; */
+    /* struct bdk_gicd_iidr_s cn; */
 } bdk_gicd_iidr_t;
 
 #define BDK_GICD_IIDR BDK_GICD_IIDR_FUNC()

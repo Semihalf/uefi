@@ -137,27 +137,27 @@ typedef union
         uint32_t vps                   : 1;  /**< [  5:  5](RO) VGA palette snoop. Not applicable for PCI Express. Must be hardwired to 0. */
         uint32_t mwice                 : 1;  /**< [  4:  4](RO) Memory write and invalidate. Not applicable for PCI Express. Must be hardwired to 0. */
         uint32_t scse                  : 1;  /**< [  3:  3](RO) Special cycle enable. Not applicable for PCI Express. Must be hardwired to 0. */
-        uint32_t me                    : 1;  /**< [  2:  2](R/W) Bus master enable.  If the PF or any of its VF's try to master the bus when this bit is
+        uint32_t me                    : 1;  /**< [  2:  2](R/W) Bus master enable.  If the PF or any of its VFs try to master the bus when this bit is
                                                                  not set,
-                                                                 the request is discarded. A interrupt will be generated setting the
+                                                                 the request is discarded. An interrupt will be generated setting the
                                                                  PEM()_PF()_DBG_INFO[P()_BMD_E bit.
-                                                                 Transactions are dropped in the Client.  Non-posted transactions returns a SWI_RSP_ERROR
+                                                                 Transactions are dropped in the client. Nonposted transactions returns a SWI_RSP_ERROR
                                                                  to SLI/DPI soon thereafter.
-                                                                 Bus master enable mimics the behavor of PEM()_FLR_PF_STOPREQ. */
+                                                                 Bus master enable mimics the behavior of PEM()_FLR_PF_STOPREQ. */
         uint32_t msae                  : 1;  /**< [  1:  1](R/W) Memory space access enable. */
         uint32_t isae                  : 1;  /**< [  0:  0](RO) I/O space access enable.
-                                                                 There are no I/O bars supported. */
+                                                                 There are no I/O BARs supported. */
 #else /* Word 0 - Little Endian */
         uint32_t isae                  : 1;  /**< [  0:  0](RO) I/O space access enable.
-                                                                 There are no I/O bars supported. */
+                                                                 There are no I/O BARs supported. */
         uint32_t msae                  : 1;  /**< [  1:  1](R/W) Memory space access enable. */
-        uint32_t me                    : 1;  /**< [  2:  2](R/W) Bus master enable.  If the PF or any of its VF's try to master the bus when this bit is
+        uint32_t me                    : 1;  /**< [  2:  2](R/W) Bus master enable.  If the PF or any of its VFs try to master the bus when this bit is
                                                                  not set,
-                                                                 the request is discarded. A interrupt will be generated setting the
+                                                                 the request is discarded. An interrupt will be generated setting the
                                                                  PEM()_PF()_DBG_INFO[P()_BMD_E bit.
-                                                                 Transactions are dropped in the Client.  Non-posted transactions returns a SWI_RSP_ERROR
+                                                                 Transactions are dropped in the client. Nonposted transactions returns a SWI_RSP_ERROR
                                                                  to SLI/DPI soon thereafter.
-                                                                 Bus master enable mimics the behavor of PEM()_FLR_PF_STOPREQ. */
+                                                                 Bus master enable mimics the behavior of PEM()_FLR_PF_STOPREQ. */
         uint32_t scse                  : 1;  /**< [  3:  3](RO) Special cycle enable. Not applicable for PCI Express. Must be hardwired to 0. */
         uint32_t mwice                 : 1;  /**< [  4:  4](RO) Memory write and invalidate. Not applicable for PCI Express. Must be hardwired to 0. */
         uint32_t vps                   : 1;  /**< [  5:  5](RO) VGA palette snoop. Not applicable for PCI Express. Must be hardwired to 0. */
@@ -3940,7 +3940,15 @@ typedef union
         uint32_t reserved_2_31         : 30;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pcieepx_cfg087_s cn; */
+    struct bdk_pcieepx_cfg087_cn8
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_0_31         : 32;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_31         : 32;
+#endif /* Word 0 - End */
+    } cn8;
+    /* struct bdk_pcieepx_cfg087_s cn9; */
 } bdk_pcieepx_cfg087_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG087(unsigned long a) __attribute__ ((pure, always_inline));

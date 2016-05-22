@@ -157,7 +157,7 @@ static int is_any_internal_cn88xxp1_0(const bdk_device_t *device)
         BDK_PCC_DEV_CON_E_SMI,
         BDK_PCC_DEV_CON_E_SMMU0,
         BDK_PCC_DEV_CON_E_SMMU1,
-        BDK_PCC_DEV_CON_E_SMMU2,
+        BDK_PCC_DEV_CON_E_SMMU2_CN8,
         BDK_PCC_DEV_CON_E_SMMU3,
         BDK_PCC_DEV_CON_E_TNS,
         BDK_PCC_DEV_CON_E_UAAX(0),

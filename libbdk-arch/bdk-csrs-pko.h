@@ -9020,8 +9020,9 @@ typedef union
                                                                  PKO_PDM_CFG[PDM_EN]. If set, ignore faults with respect to clearing
                                                                  PKO_PDM_CFG[PDM_EN]. Note with either seting if a fault occurs, the internal
                                                                  state of PKO is corrupted and PKO must be reset. */
-        uint64_t pdm_en                : 1;  /**< [ 28: 28](R/W/H) PDM enable. Set for normal operation. The PDM will clear if a memory load/store/CRC
-                                                                 error occurs on the NCB interface. When cleared, the PDM will be off. */
+        uint64_t pdm_en                : 1;  /**< [ 28: 28](R/W/H) PDM enable. Set for normal operation. Must be set to do any queue-open, queue-close, or
+                                                                 send-packets. The PDM will clear if a memory load/store/CRC error occurs on the NCB
+                                                                 interface. When cleared, the PDM will be off. */
         uint64_t reserved_26_27        : 2;
         uint64_t dq_fc_skid            : 10; /**< [ 25: 16](R/W) DQ flow control skid. Constant unsigned value that is subtracted from
                                                                  all DQ buffer flow control counts PKO_VF()_DQ()_FC_STATUS[COUNT] prior
@@ -9089,8 +9090,9 @@ typedef union
                                                                  all DQ buffer flow control counts PKO_VF()_DQ()_FC_STATUS[COUNT] prior
                                                                  to thier being stored into L2/DRAM for flow control purposes. */
         uint64_t reserved_26_27        : 2;
-        uint64_t pdm_en                : 1;  /**< [ 28: 28](R/W/H) PDM enable. Set for normal operation. The PDM will clear if a memory load/store/CRC
-                                                                 error occurs on the NCB interface. When cleared, the PDM will be off. */
+        uint64_t pdm_en                : 1;  /**< [ 28: 28](R/W/H) PDM enable. Set for normal operation. Must be set to do any queue-open, queue-close, or
+                                                                 send-packets. The PDM will clear if a memory load/store/CRC error occurs on the NCB
+                                                                 interface. When cleared, the PDM will be off. */
         uint64_t pdm_mem_fault_ign     : 1;  /**< [ 29: 29](R/W) Fault ignore. If clear, NCB memory load/store/CRC errors will clear
                                                                  PKO_PDM_CFG[PDM_EN]. If set, ignore faults with respect to clearing
                                                                  PKO_PDM_CFG[PDM_EN]. Note with either seting if a fault occurs, the internal
@@ -14744,17 +14746,17 @@ typedef union
     struct bdk_pko_pse_dq_bist_status_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_5_63         : 59;
-        uint64_t wt_sram               : 1;  /**< [  4:  4](RO) Work table. */
-        uint64_t reserved_2_3          : 2;
+        uint64_t reserved_4_63         : 60;
+        uint64_t msix_sram             : 1;  /**< [  3:  3](RO) PCC MSIX table. */
+        uint64_t wt_sram               : 1;  /**< [  2:  2](RO) Work table. */
         uint64_t rt1_sram              : 1;  /**< [  1:  1](RO) Result table 1 - DQ FIFO[255:128]. */
         uint64_t rt0_sram              : 1;  /**< [  0:  0](RO) Result table 0 - DQ FIFO[127:0]. */
 #else /* Word 0 - Little Endian */
         uint64_t rt0_sram              : 1;  /**< [  0:  0](RO) Result table 0 - DQ FIFO[127:0]. */
         uint64_t rt1_sram              : 1;  /**< [  1:  1](RO) Result table 1 - DQ FIFO[255:128]. */
-        uint64_t reserved_2_3          : 2;
-        uint64_t wt_sram               : 1;  /**< [  4:  4](RO) Work table. */
-        uint64_t reserved_5_63         : 59;
+        uint64_t wt_sram               : 1;  /**< [  2:  2](RO) Work table. */
+        uint64_t msix_sram             : 1;  /**< [  3:  3](RO) PCC MSIX table. */
+        uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pse_dq_bist_status_s cn; */

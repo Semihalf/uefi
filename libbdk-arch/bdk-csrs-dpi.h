@@ -58,10 +58,18 @@
  * DPI Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define BDK_DPI_BAR_E_DPIX_PF_BAR0(a) (0x86e000000000ll + 0x10000000000ll * (a))
-#define BDK_DPI_BAR_E_DPIX_PF_BAR0_SIZE 0x1000000ull
-#define BDK_DPI_BAR_E_DPIX_PF_BAR4(a) (0x86e001000000ll + 0x10000000000ll * (a))
-#define BDK_DPI_BAR_E_DPIX_PF_BAR4_SIZE 0x100000ull
+#define BDK_DPI_BAR_E_DPIX_PF_BAR0_CN8(a) (0x86e000000000ll + 0x10000000000ll * (a))
+#define BDK_DPI_BAR_E_DPIX_PF_BAR0_CN8_SIZE 0x100000ull
+#define BDK_DPI_BAR_E_DPIX_PF_BAR0_CN9(a) (0x86e000000000ll + 0x10000000000ll * (a))
+#define BDK_DPI_BAR_E_DPIX_PF_BAR0_CN9_SIZE 0x1000000ull
+#define BDK_DPI_BAR_E_DPIX_PF_BAR4_CN8(a) (0x86e010000000ll + 0x10000000000ll * (a))
+#define BDK_DPI_BAR_E_DPIX_PF_BAR4_CN8_SIZE 0x100000ull
+#define BDK_DPI_BAR_E_DPIX_PF_BAR4_CN9(a) (0x86e001000000ll + 0x10000000000ll * (a))
+#define BDK_DPI_BAR_E_DPIX_PF_BAR4_CN9_SIZE 0x100000ull
+#define BDK_DPI_BAR_E_DPIX_VFX_BAR0(a,b) (0x86e020000000ll + 0x10000000000ll * (a) + 0x100000ll * (b))
+#define BDK_DPI_BAR_E_DPIX_VFX_BAR0_SIZE 0x100000ull
+#define BDK_DPI_BAR_E_DPIX_VFX_BAR4(a,b) (0x86e030000000ll + 0x10000000000ll * (a) + 0x100000ll * (b))
+#define BDK_DPI_BAR_E_DPIX_VFX_BAR4_SIZE 0x100000ull
 
 /**
  * Enumeration dpi_cs_e
@@ -132,6 +140,26 @@
 #define BDK_DPI_INT_VEC_E_DPI_INT_REG (0x48)
 #define BDK_DPI_INT_VEC_E_DPI_REQQX_INT(a) (0x40 + (a))
 #define BDK_DPI_INT_VEC_E_DPI_SBE_INT (0x49)
+
+/**
+ * Enumeration dpi_pf_int_vec_e
+ *
+ * DPI MSI-X Vector Enumeration
+ * Enumerates the MSI-X interrupt vectors.
+ */
+#define BDK_DPI_PF_INT_VEC_E_DPI_CCX_INT(a) (0 + (a))
+#define BDK_DPI_PF_INT_VEC_E_DPI_DBE_INT (0x4a)
+#define BDK_DPI_PF_INT_VEC_E_DPI_INT_REG (0x48)
+#define BDK_DPI_PF_INT_VEC_E_DPI_REQQX_INT(a) (0x40 + (a))
+#define BDK_DPI_PF_INT_VEC_E_DPI_SBE_INT (0x49)
+
+/**
+ * Enumeration dpi_vf_int_vec_e
+ *
+ * DPI MSI-X Vector Enumeration
+ * Enumerates the MSI-X interrupt vectors.
+ */
+#define BDK_DPI_VF_INT_VEC_E_DPI_VF_INT (0)
 
 /**
  * Structure dpi_dma_func_sel_s
@@ -625,7 +653,394 @@ union bdk_dpi_dma_instr_hdr_s
         uint64_t reserved_192_255      : 64;
 #endif /* Word 3 - End */
     } s;
-    struct bdk_dpi_dma_instr_hdr_s_cn
+    struct bdk_dpi_dma_instr_hdr_s_cn8
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_60_63        : 4;
+        uint64_t reserved_58_59        : 2;
+        uint64_t nlst                  : 4;  /**< [ 57: 54] The number of pointers in the last pointers block. Valid values are 1 thru 15.
+
+                                                                 The last pointers block includes [NFST] DPI_DMA_LOCAL_PTR_S local pointers and is [NFST] *
+                                                                 2 64-bit words.
+
+                                                                 Note that the sum of the number of 64-bit words in the last pointers block
+                                                                 and first pointers block must never exceed 60. */
+        uint64_t reserved_52_53        : 2;
+        uint64_t nfst                  : 4;  /**< [ 51: 48] The number of pointers in the first pointers block. Valid values are 1 thru 15.
+
+                                                                 The first pointers block includes [NFST] DPI_DMA_LOCAL_PTR_S local pointers and is [NFST]
+                                                                 * 2 64-bit words.
+
+                                                                 Note that the sum of the number of 64-bit words in the last pointers block
+                                                                 and first pointers block must never exceed 60. */
+        uint64_t reserved_46_47        : 2;
+        uint64_t reserved_44_45        : 2;
+        uint64_t grp                   : 10; /**< [ 43: 34] SSO guest-group. Sent to SSO upon instruction completion when [PT] = DPI_HDR_PT_E::WQP.
+                                                                 For the SSO to not discard the add-work request, SSO_PF_MAP() must map
+                                                                 [GRP] and DPI()_DMA()_IDS[GMID] as valid.
+
+                                                                 [GRP] must be zero when [PT] != DPI_HDR_PT_E::WQP. */
+        uint64_t tt                    : 2;  /**< [ 33: 32] SSO tag type. Sent to SSO upon instruction completion when [PT] = DPI_HDR_PT_E::WQP.
+
+                                                                 [TT] must be zero when [PT] != DPI_HDR_PT_E::WQP. */
+        uint64_t tag                   : 32; /**< [ 31:  0] SSO Tag */
+#else /* Word 0 - Little Endian */
+        uint64_t tag                   : 32; /**< [ 31:  0] SSO Tag */
+        uint64_t tt                    : 2;  /**< [ 33: 32] SSO tag type. Sent to SSO upon instruction completion when [PT] = DPI_HDR_PT_E::WQP.
+
+                                                                 [TT] must be zero when [PT] != DPI_HDR_PT_E::WQP. */
+        uint64_t grp                   : 10; /**< [ 43: 34] SSO guest-group. Sent to SSO upon instruction completion when [PT] = DPI_HDR_PT_E::WQP.
+                                                                 For the SSO to not discard the add-work request, SSO_PF_MAP() must map
+                                                                 [GRP] and DPI()_DMA()_IDS[GMID] as valid.
+
+                                                                 [GRP] must be zero when [PT] != DPI_HDR_PT_E::WQP. */
+        uint64_t reserved_44_45        : 2;
+        uint64_t reserved_46_47        : 2;
+        uint64_t nfst                  : 4;  /**< [ 51: 48] The number of pointers in the first pointers block. Valid values are 1 thru 15.
+
+                                                                 The first pointers block includes [NFST] DPI_DMA_LOCAL_PTR_S local pointers and is [NFST]
+                                                                 * 2 64-bit words.
+
+                                                                 Note that the sum of the number of 64-bit words in the last pointers block
+                                                                 and first pointers block must never exceed 60. */
+        uint64_t reserved_52_53        : 2;
+        uint64_t nlst                  : 4;  /**< [ 57: 54] The number of pointers in the last pointers block. Valid values are 1 thru 15.
+
+                                                                 The last pointers block includes [NFST] DPI_DMA_LOCAL_PTR_S local pointers and is [NFST] *
+                                                                 2 64-bit words.
+
+                                                                 Note that the sum of the number of 64-bit words in the last pointers block
+                                                                 and first pointers block must never exceed 60. */
+        uint64_t reserved_58_59        : 2;
+        uint64_t reserved_60_63        : 4;
+#endif /* Word 0 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
+        uint64_t reserved_126_127      : 2;
+        uint64_t lport                 : 2;  /**< [125:124] Port for the last pointers block.
+
+                                                                 DPI sends MAC memory space reads and writes for the MAC addresses
+                                                                 in the last pointers block to the MAC selected by [LPORT]
+                                                                 while processing DPI_HDR_XTYPE_E::OUTBOUND, DPI_HDR_XTYPE_E::INBOUND,
+                                                                 and DPI_HDR_XTYPE_E::EXTERNAL_ONLY instructions.
+
+                                                                 [LPORT<0>] normally determines the IOI/NCB DPI uses for DPI_HDR_XTYPE_E::INTERNAL_ONLY
+                                                                 instructions.
+
+                                                                 [LPORT<1>] must be zero for DPI_HDR_XTYPE_E::INTERNAL_ONLY
+                                                                 instructions. */
+        uint64_t reserved_122_123      : 2;
+        uint64_t fport                 : 2;  /**< [121:120] Port for the first pointers block.
+
+                                                                 DPI sends MAC memory space reads for the MAC addresses in the first
+                                                                 pointers block to the MAC selected by [FPORT] while processing
+                                                                 a DPI_HDR_XTYPE_E::EXTERNAL_ONLY DPI DMA instruction.
+
+                                                                 [FPORT<0>] normally determines the IOI/NCB DPI uses for
+                                                                 DPI_HDR_XTYPE_E::OUTBOUND and DPI_HDR_XTYPE_E::INBOUND instructions.
+
+                                                                 [FPORT<0>] normally determines the IOI/NCB DPI uses for DPI_HDR_XTYPE_E::INTERNAL_ONLY
+                                                                 instructions.
+
+                                                                 [FPORT<1>] must be zero for DPI_HDR_XTYPE_E::OUTBOUND,
+                                                                 DPI_HDR_XTYPE_E::INBOUND, and DPI_HDR_XTYPE_E::INTERNAL_ONLY
+                                                                 instructions. */
+        uint64_t reserved_116_119      : 4;
+        uint64_t reserved_114_115      : 2;
+        uint64_t xtype                 : 2;  /**< [113:112] Transfer type of the instruction. Enumerated by DPI_HDR_XTYPE_E. Each DPI DMA
+                                                                 instruction can be DPI_HDR_XTYPE_E::OUTBOUND (L2/DRAM->MAC),
+                                                                 DPI_HDR_XTYPE_E::INBOUND (MAC->L2/DRAM), DPI_HDR_XTYPE_E::INTERNAL_ONLY
+                                                                 (L2/DRAM->L2/DRAM), or DPI_HDR_XTYPE_E::EXTERNAL_ONLY (MAC->MAC). */
+        uint64_t reserved_109_111      : 3;
+        uint64_t csel                  : 1;  /**< [108:108] Counter and interrupt select. See [CA] and [FI]. [CSEL] selects which of two counters
+                                                                 (SLI_DMA()_CNT[CNT]) and/or two interrupt bits (SLI_MAC()_PF()_INT_SUM[DMAFI])
+                                                                 DPI can modify during DPI_HDR_XTYPE_E::OUTBOUND or DPI_HDR_XTYPE_E::EXTERNAL_ONLY
+                                                                 instruction execution.
+
+                                                                 For DPI_HDR_XTYPE_E::INBOUND or DPI_HDR_XTYPE_E::INTERNAL_ONLY DPI DMA
+                                                                 instructions, [CSEL] must be zero. */
+        uint64_t ca                    : 1;  /**< [107:107] Add to a counter that can interrupt a remote host.
+
+                                                                 When [CA] = 1, DPI updates a selected counter after it completes the DMA
+                                                                 DPI_HDR_XTYPE_E::OUTBOUND or DPI_HDR_XTYPE_E::EXTERNAL_ONLY instruction.
+
+                                                                 _ If [CSEL] = 0, DPI updates SLI_DMA(0)_CNT[CNT].
+                                                                 _ If [CSEL] = 1, DPI updates SLI_DMA(1)_CNT[CNT].
+
+                                                                 Note that these updates may indirectly cause
+                                                                 SLI_MAC()_PF()_INT_SUM[DCNT,DTIME] to become set for all MACs
+                                                                 (depending on the SLI_DMA()_INT_LEVEL settings), so may cause interrupts to
+                                                                 be sent to a remote MAC host.
+
+                                                                 If DPI()_DMA_CONTROL[O_ADD1] = 1, DPI updates the counter by 1.
+
+                                                                 If DPI()_DMA_CONTROL[O_ADD1] = 0, DPI updates the counter by the total bytes in
+                                                                 the transfer.
+
+                                                                 When [CA] = 0, DPI does not update any SLI_DMA()_CNT[CNT].
+
+                                                                 For DPI_HDR_XTYPE_E::INBOUND or DPI_HDR_XTYPE_E::INTERNAL_ONLY DPI DMA
+                                                                 instructions, [CA] must never be set, and DPI never adds to any
+                                                                 SLI_DMA()_CNT[CNT]. */
+        uint64_t fi                    : 1;  /**< [106:106] Force interrupt to a remote host.
+
+                                                                 When [FI] is set for a (DPI_HDR_XTYPE_E::OUTBOUND or
+                                                                 DPI_HDR_XTYPE_E::EXTERNAL_ONLY) DPI DMA instruction, DPI sets an
+                                                                 interrupt bit after completing instruction. If [CSEL] = 0, DPI sets
+                                                                 SLI_MAC()_PF()_INT_SUM[DMAFI<0>] for all MACs, else DPI sets
+                                                                 SLI_MAC()_PF()_INT_SUM[DMAFI<1>] for all MACs. This may
+                                                                 cause an interrupt to be sent to a remote host.
+
+                                                                 For DPI_HDR_XTYPE_E::INBOUND or DPI_HDR_XTYPE_E::INTERNAL_ONLY
+                                                                 instructions, [II] must be clear, and DPI never sets DMAFI interrupt bits. */
+        uint64_t ii                    : 1;  /**< [105:105] Ignore I. Determines if DPI_DMA_LOCAL_PTR_S[I]'s influence whether
+                                                                 DPI frees a DPI_DMA_LOCAL_PTR_S[PTR] during DPI_HDR_XTYPE_E::OUTBOUND
+                                                                 instruction processing.
+
+                                                                 If [II] is set, [FL] solely determines whether DPI frees, and
+                                                                 all DPI_DMA_LOCAL_PTR_S[PTR]'s in the DPI_HDR_XTYPE_E::OUTBOUND
+                                                                 instruction are either freed or not.
+
+                                                                 If [II] is clear, ([FL] XOR DPI_DMA_LOCAL_PTR_S[I]) determines
+                                                                 whether DPI frees a given DPI_DMA_LOCAL_PTR_S[PTR] in the
+                                                                 DPI_HDR_XTYPE_E::OUTBOUND instruction, and each .
+
+                                                                 For DPI_HDR_XTYPE_E::INBOUND, DPI_HDR_XTYPE_E::INTERNAL_ONLY, or
+                                                                 DPI_HDR_XTYPE_E::EXTERNAL_ONLY instructions, [II] must be clear,
+                                                                 and DPI never frees local buffers. */
+        uint64_t fl                    : 1;  /**< [104:104] Determines whether DPI frees a DPI_DMA_LOCAL_PTR_S[PTR] during
+                                                                 DPI_HDR_XTYPE_E::OUTBOUND instruction processing
+                                                                 (along with [II] and DPI_DMA_LOCAL_PTR_S[I]).
+
+                                                                 During DPI_HDR_XTYPE_E::OUTBOUND instruction processing, DPI frees a
+                                                                 DPI_DMA_LOCAL_PTR_S[PTR] to [AURA] in FPA when:
+
+                                                                 _ [FL] XOR (![II] AND DPI_DMA_LOCAL_PTR_S[I])
+
+                                                                 For DPI_HDR_XTYPE_E::INBOUND, DPI_HDR_XTYPE_E::INTERNAL_ONLY, or
+                                                                 DPI_HDR_XTYPE_E::EXTERNAL_ONLY instructions, [FL] must be clear,
+                                                                 and DPI never frees local buffers. */
+        uint64_t reserved_102_103      : 2;
+        uint64_t pt                    : 2;  /**< [101:100] Pointer type. Enumerated by DPI_HDR_PT_E. Indicates how [PTR] is used
+                                                                 upon completion of the DPI DMA instruction: byte write, SSO
+                                                                 work add, or counter add.
+
+                                                                 If no completion indication is desired for the DPI DMA instruction,
+                                                                 software should set [PT]=DPI_HDR_PT_E::ZBW_CA(0) and [PTR]=0. */
+        uint64_t reserved_98_99        : 2;
+        uint64_t pvfe                  : 1;  /**< [ 97: 97] Function enable. When [PVFE] is set, DPI directs all MAC reads/writes
+                                                                 to the function (physical or virtual) that [DEALLOCV] selects within
+                                                                 MAC/port [LPORT]. When [PVFE] is clear, DPI directs all MAC reads/writes
+                                                                 to physical function 0 within the MACs/ports [LPORT] or [FPORT]. [PVFE]
+                                                                 must not be set when [DEALLOCE] is set. [PVFE] must not be set when
+                                                                 [XTYPE] is DPI_HDR_XTYPE_E::INTERNAL_ONLY or
+                                                                 DPI_HDR_XTYPE_E::EXTERNAL_ONLY. [PVFE] can only be set when MAC/PORT
+                                                                 [LPORT] is a PCIe MAC that either has multiple physical functions or
+                                                                 has SR-IOV enabled. */
+        uint64_t dealloce              : 1;  /**< [ 96: 96] Aura count subtract enable. When [DEALLOCE] is set, DPI subtracts
+                                                                 [DEALLOCV] from the FPA aura count selected by [AURA]. When [DEALLOCE]
+                                                                 is clear, DPI does not subtract [DEALLOCV] from any aura count.
+                                                                 [DEALLOCE] can only be set when [XTYPE]=DPI_HDR_XTYPE_E::OUTBOUND.
+                                                                 [DEALLOCE] must not be set when [PVFE] is set. [DEALLOCV] must not be 0
+                                                                 when [DEALLOCE] is set.
+
+                                                                 The [DEALLOCV] aura count subtract is in addition to other
+                                                                 aura count activity. When FPA_AURA([AURA])_CFG[PTR_DIS]==0, FPA also
+                                                                 decrements the aura count by one for each DPI_DMA_LOCAL_PTR_S local
+                                                                 pointer free. */
+        uint64_t deallocv              : 16; /**< [ 95: 80] The DEALLOCV/FUNC field.
+
+                                                                 When [DEALLOCE] is set, [DEALLOCV] is the value to decrement the aura count on
+                                                                 the instruction's final pointer return.
+
+                                                                 When [PVFE] is set, DPI_DMA_FUNC_SEL_S describes the [DEALLOCV] format.
+                                                                 [DEALLOCV] selects the function within the MAC selected by [LPORT]
+                                                                 when [PVFE] is set. */
+        uint64_t reserved_76_79        : 4;
+        uint64_t aura                  : 12; /**< [ 75: 64] FPA guest-aura.  The FPA guest-aura DPI uses for all FPA transactions for the
+                                                                 DPI DMA instruction. [AURA] can only be used when
+                                                                 [XTYPE]=DPI_HDR_XTYPE_E::OUTBOUND, and must be zero otherwise.
+
+                                                                 For the FPA to not discard the request, FPA_PF_MAP() must map
+                                                                 [AURA] and DPI()_DMA()_IDS[GMID] as valid.
+
+                                                                 During an DPI_HDR_XTYPE_E::OUTBOUND DPI DMA instruction, [FL], [II],
+                                                                 and DPI_DMA_LOCAL_PTR_S[I] determine whether DPI frees a
+                                                                 DPI_DMA_LOCAL_PTR_S[PTR] to [AURA] in FPA, and [DEALLOCE] determines
+                                                                 whether DPI subtracts [DEALLOCV] from [AURA]'s FPA aura counter. */
+#else /* Word 1 - Little Endian */
+        uint64_t aura                  : 12; /**< [ 75: 64] FPA guest-aura.  The FPA guest-aura DPI uses for all FPA transactions for the
+                                                                 DPI DMA instruction. [AURA] can only be used when
+                                                                 [XTYPE]=DPI_HDR_XTYPE_E::OUTBOUND, and must be zero otherwise.
+
+                                                                 For the FPA to not discard the request, FPA_PF_MAP() must map
+                                                                 [AURA] and DPI()_DMA()_IDS[GMID] as valid.
+
+                                                                 During an DPI_HDR_XTYPE_E::OUTBOUND DPI DMA instruction, [FL], [II],
+                                                                 and DPI_DMA_LOCAL_PTR_S[I] determine whether DPI frees a
+                                                                 DPI_DMA_LOCAL_PTR_S[PTR] to [AURA] in FPA, and [DEALLOCE] determines
+                                                                 whether DPI subtracts [DEALLOCV] from [AURA]'s FPA aura counter. */
+        uint64_t reserved_76_79        : 4;
+        uint64_t deallocv              : 16; /**< [ 95: 80] The DEALLOCV/FUNC field.
+
+                                                                 When [DEALLOCE] is set, [DEALLOCV] is the value to decrement the aura count on
+                                                                 the instruction's final pointer return.
+
+                                                                 When [PVFE] is set, DPI_DMA_FUNC_SEL_S describes the [DEALLOCV] format.
+                                                                 [DEALLOCV] selects the function within the MAC selected by [LPORT]
+                                                                 when [PVFE] is set. */
+        uint64_t dealloce              : 1;  /**< [ 96: 96] Aura count subtract enable. When [DEALLOCE] is set, DPI subtracts
+                                                                 [DEALLOCV] from the FPA aura count selected by [AURA]. When [DEALLOCE]
+                                                                 is clear, DPI does not subtract [DEALLOCV] from any aura count.
+                                                                 [DEALLOCE] can only be set when [XTYPE]=DPI_HDR_XTYPE_E::OUTBOUND.
+                                                                 [DEALLOCE] must not be set when [PVFE] is set. [DEALLOCV] must not be 0
+                                                                 when [DEALLOCE] is set.
+
+                                                                 The [DEALLOCV] aura count subtract is in addition to other
+                                                                 aura count activity. When FPA_AURA([AURA])_CFG[PTR_DIS]==0, FPA also
+                                                                 decrements the aura count by one for each DPI_DMA_LOCAL_PTR_S local
+                                                                 pointer free. */
+        uint64_t pvfe                  : 1;  /**< [ 97: 97] Function enable. When [PVFE] is set, DPI directs all MAC reads/writes
+                                                                 to the function (physical or virtual) that [DEALLOCV] selects within
+                                                                 MAC/port [LPORT]. When [PVFE] is clear, DPI directs all MAC reads/writes
+                                                                 to physical function 0 within the MACs/ports [LPORT] or [FPORT]. [PVFE]
+                                                                 must not be set when [DEALLOCE] is set. [PVFE] must not be set when
+                                                                 [XTYPE] is DPI_HDR_XTYPE_E::INTERNAL_ONLY or
+                                                                 DPI_HDR_XTYPE_E::EXTERNAL_ONLY. [PVFE] can only be set when MAC/PORT
+                                                                 [LPORT] is a PCIe MAC that either has multiple physical functions or
+                                                                 has SR-IOV enabled. */
+        uint64_t reserved_98_99        : 2;
+        uint64_t pt                    : 2;  /**< [101:100] Pointer type. Enumerated by DPI_HDR_PT_E. Indicates how [PTR] is used
+                                                                 upon completion of the DPI DMA instruction: byte write, SSO
+                                                                 work add, or counter add.
+
+                                                                 If no completion indication is desired for the DPI DMA instruction,
+                                                                 software should set [PT]=DPI_HDR_PT_E::ZBW_CA(0) and [PTR]=0. */
+        uint64_t reserved_102_103      : 2;
+        uint64_t fl                    : 1;  /**< [104:104] Determines whether DPI frees a DPI_DMA_LOCAL_PTR_S[PTR] during
+                                                                 DPI_HDR_XTYPE_E::OUTBOUND instruction processing
+                                                                 (along with [II] and DPI_DMA_LOCAL_PTR_S[I]).
+
+                                                                 During DPI_HDR_XTYPE_E::OUTBOUND instruction processing, DPI frees a
+                                                                 DPI_DMA_LOCAL_PTR_S[PTR] to [AURA] in FPA when:
+
+                                                                 _ [FL] XOR (![II] AND DPI_DMA_LOCAL_PTR_S[I])
+
+                                                                 For DPI_HDR_XTYPE_E::INBOUND, DPI_HDR_XTYPE_E::INTERNAL_ONLY, or
+                                                                 DPI_HDR_XTYPE_E::EXTERNAL_ONLY instructions, [FL] must be clear,
+                                                                 and DPI never frees local buffers. */
+        uint64_t ii                    : 1;  /**< [105:105] Ignore I. Determines if DPI_DMA_LOCAL_PTR_S[I]'s influence whether
+                                                                 DPI frees a DPI_DMA_LOCAL_PTR_S[PTR] during DPI_HDR_XTYPE_E::OUTBOUND
+                                                                 instruction processing.
+
+                                                                 If [II] is set, [FL] solely determines whether DPI frees, and
+                                                                 all DPI_DMA_LOCAL_PTR_S[PTR]'s in the DPI_HDR_XTYPE_E::OUTBOUND
+                                                                 instruction are either freed or not.
+
+                                                                 If [II] is clear, ([FL] XOR DPI_DMA_LOCAL_PTR_S[I]) determines
+                                                                 whether DPI frees a given DPI_DMA_LOCAL_PTR_S[PTR] in the
+                                                                 DPI_HDR_XTYPE_E::OUTBOUND instruction, and each .
+
+                                                                 For DPI_HDR_XTYPE_E::INBOUND, DPI_HDR_XTYPE_E::INTERNAL_ONLY, or
+                                                                 DPI_HDR_XTYPE_E::EXTERNAL_ONLY instructions, [II] must be clear,
+                                                                 and DPI never frees local buffers. */
+        uint64_t fi                    : 1;  /**< [106:106] Force interrupt to a remote host.
+
+                                                                 When [FI] is set for a (DPI_HDR_XTYPE_E::OUTBOUND or
+                                                                 DPI_HDR_XTYPE_E::EXTERNAL_ONLY) DPI DMA instruction, DPI sets an
+                                                                 interrupt bit after completing instruction. If [CSEL] = 0, DPI sets
+                                                                 SLI_MAC()_PF()_INT_SUM[DMAFI<0>] for all MACs, else DPI sets
+                                                                 SLI_MAC()_PF()_INT_SUM[DMAFI<1>] for all MACs. This may
+                                                                 cause an interrupt to be sent to a remote host.
+
+                                                                 For DPI_HDR_XTYPE_E::INBOUND or DPI_HDR_XTYPE_E::INTERNAL_ONLY
+                                                                 instructions, [II] must be clear, and DPI never sets DMAFI interrupt bits. */
+        uint64_t ca                    : 1;  /**< [107:107] Add to a counter that can interrupt a remote host.
+
+                                                                 When [CA] = 1, DPI updates a selected counter after it completes the DMA
+                                                                 DPI_HDR_XTYPE_E::OUTBOUND or DPI_HDR_XTYPE_E::EXTERNAL_ONLY instruction.
+
+                                                                 _ If [CSEL] = 0, DPI updates SLI_DMA(0)_CNT[CNT].
+                                                                 _ If [CSEL] = 1, DPI updates SLI_DMA(1)_CNT[CNT].
+
+                                                                 Note that these updates may indirectly cause
+                                                                 SLI_MAC()_PF()_INT_SUM[DCNT,DTIME] to become set for all MACs
+                                                                 (depending on the SLI_DMA()_INT_LEVEL settings), so may cause interrupts to
+                                                                 be sent to a remote MAC host.
+
+                                                                 If DPI()_DMA_CONTROL[O_ADD1] = 1, DPI updates the counter by 1.
+
+                                                                 If DPI()_DMA_CONTROL[O_ADD1] = 0, DPI updates the counter by the total bytes in
+                                                                 the transfer.
+
+                                                                 When [CA] = 0, DPI does not update any SLI_DMA()_CNT[CNT].
+
+                                                                 For DPI_HDR_XTYPE_E::INBOUND or DPI_HDR_XTYPE_E::INTERNAL_ONLY DPI DMA
+                                                                 instructions, [CA] must never be set, and DPI never adds to any
+                                                                 SLI_DMA()_CNT[CNT]. */
+        uint64_t csel                  : 1;  /**< [108:108] Counter and interrupt select. See [CA] and [FI]. [CSEL] selects which of two counters
+                                                                 (SLI_DMA()_CNT[CNT]) and/or two interrupt bits (SLI_MAC()_PF()_INT_SUM[DMAFI])
+                                                                 DPI can modify during DPI_HDR_XTYPE_E::OUTBOUND or DPI_HDR_XTYPE_E::EXTERNAL_ONLY
+                                                                 instruction execution.
+
+                                                                 For DPI_HDR_XTYPE_E::INBOUND or DPI_HDR_XTYPE_E::INTERNAL_ONLY DPI DMA
+                                                                 instructions, [CSEL] must be zero. */
+        uint64_t reserved_109_111      : 3;
+        uint64_t xtype                 : 2;  /**< [113:112] Transfer type of the instruction. Enumerated by DPI_HDR_XTYPE_E. Each DPI DMA
+                                                                 instruction can be DPI_HDR_XTYPE_E::OUTBOUND (L2/DRAM->MAC),
+                                                                 DPI_HDR_XTYPE_E::INBOUND (MAC->L2/DRAM), DPI_HDR_XTYPE_E::INTERNAL_ONLY
+                                                                 (L2/DRAM->L2/DRAM), or DPI_HDR_XTYPE_E::EXTERNAL_ONLY (MAC->MAC). */
+        uint64_t reserved_114_115      : 2;
+        uint64_t reserved_116_119      : 4;
+        uint64_t fport                 : 2;  /**< [121:120] Port for the first pointers block.
+
+                                                                 DPI sends MAC memory space reads for the MAC addresses in the first
+                                                                 pointers block to the MAC selected by [FPORT] while processing
+                                                                 a DPI_HDR_XTYPE_E::EXTERNAL_ONLY DPI DMA instruction.
+
+                                                                 [FPORT<0>] normally determines the IOI/NCB DPI uses for
+                                                                 DPI_HDR_XTYPE_E::OUTBOUND and DPI_HDR_XTYPE_E::INBOUND instructions.
+
+                                                                 [FPORT<0>] normally determines the IOI/NCB DPI uses for DPI_HDR_XTYPE_E::INTERNAL_ONLY
+                                                                 instructions.
+
+                                                                 [FPORT<1>] must be zero for DPI_HDR_XTYPE_E::OUTBOUND,
+                                                                 DPI_HDR_XTYPE_E::INBOUND, and DPI_HDR_XTYPE_E::INTERNAL_ONLY
+                                                                 instructions. */
+        uint64_t reserved_122_123      : 2;
+        uint64_t lport                 : 2;  /**< [125:124] Port for the last pointers block.
+
+                                                                 DPI sends MAC memory space reads and writes for the MAC addresses
+                                                                 in the last pointers block to the MAC selected by [LPORT]
+                                                                 while processing DPI_HDR_XTYPE_E::OUTBOUND, DPI_HDR_XTYPE_E::INBOUND,
+                                                                 and DPI_HDR_XTYPE_E::EXTERNAL_ONLY instructions.
+
+                                                                 [LPORT<0>] normally determines the IOI/NCB DPI uses for DPI_HDR_XTYPE_E::INTERNAL_ONLY
+                                                                 instructions.
+
+                                                                 [LPORT<1>] must be zero for DPI_HDR_XTYPE_E::INTERNAL_ONLY
+                                                                 instructions. */
+        uint64_t reserved_126_127      : 2;
+#endif /* Word 1 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 2 - Big Endian */
+        uint64_t ptr                   : 64; /**< [191:128] Completion pointer. Usage determined by [PT] value. The DPI_HDR_PT_E
+                                                                 enumeration describes the supported [PT] values and the [PTR] usage
+                                                                 and requirements in each case.
+                                                                 Bits <63:49> are ignored by hardware; software should use a sign-extended bit
+                                                                 <48> for forward compatibility. */
+#else /* Word 2 - Little Endian */
+        uint64_t ptr                   : 64; /**< [191:128] Completion pointer. Usage determined by [PT] value. The DPI_HDR_PT_E
+                                                                 enumeration describes the supported [PT] values and the [PTR] usage
+                                                                 and requirements in each case.
+                                                                 Bits <63:49> are ignored by hardware; software should use a sign-extended bit
+                                                                 <48> for forward compatibility. */
+#endif /* Word 2 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 3 - Big Endian */
+        uint64_t reserved_192_255      : 64;
+#else /* Word 3 - Little Endian */
+        uint64_t reserved_192_255      : 64;
+#endif /* Word 3 - End */
+    } cn8;
+    struct bdk_dpi_dma_instr_hdr_s_cn9
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_60_63        : 4;
@@ -1047,7 +1462,7 @@ union bdk_dpi_dma_instr_hdr_s
 #else /* Word 3 - Little Endian */
         uint64_t reserved_192_255      : 64;
 #endif /* Word 3 - End */
-    } cn;
+    } cn9;
 };
 
 /**
@@ -1060,6 +1475,162 @@ union bdk_dpi_dma_local_ptr_s
 {
     uint64_t u[2];
     struct bdk_dpi_dma_local_ptr_s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t i                     : 1;  /**< [ 63: 63] Invert free. Only used with L2/DRAM Pointers.
+
+                                                                 This bit gives the software the ability to free buffers
+                                                                 independently for a DPI_HDR_XTYPE_E::OUTBOUND DMA transfer when
+                                                                 DPI_DMA_INSTR_HDR_S[II] is clear. See DPI_DMA_INSTR_HDR_S[II] and
+                                                                 DPI_DMA_INSTR_HDR_S[FL].
+
+                                                                 [I] is not used by DPI when DPI_DMA_INSTR_HDR_S[II] is set. [I] must not be set,
+                                                                 and DPI never frees buffers for DPI_HDR_XTYPE_E::INBOUND and
+                                                                 DPI_HDR_XTYPE_E::INTERNAL_ONLY DPI DMA instructions. */
+        uint64_t f                     : 1;  /**< [ 62: 62] Full-block write operations are allowed.
+                                                                 Only used with L2/DRAM Pointers.
+
+                                                                 When set, the hardware is permitted to write all the bytes in the cache blocks
+                                                                 covered by [PTR] .. [PTR] + [SIZE] - 1. This can improve memory system performance
+                                                                 when the write misses in the L2 cache.
+
+                                                                 [F] can only be set for DPI_DMA_LOCAL_PTR_S's that can be written to:
+
+                                                                 * The DPI_DMA_LOCAL_PTR_S's in the first-pointers area that are write pointers
+                                                                   for DPI_HDR_XTYPE_E::INBOUND DPI DMA instructions.
+
+                                                                 * The DPI_DMA_LOCAL_PTR_S's in the last-pointers area that are always write
+                                                                   pointers (when present for DPI_HDR_XTYPE_E::INTERNAL_ONLY DPI DMA instructions).
+
+                                                                 [F] must not be set for DPI_DMA_LOCAL_PTR_S's that are not written to:
+
+                                                                 * The DPI_DMA_LOCAL_PTR_S's in the first-pointers area for DPI_HDR_XTYPE_E::OUTBOUND
+                                                                   and DPI_HDR_XTYPE_E::INTERNAL_ONLY DPI DMA instructions */
+        uint64_t ac                    : 1;  /**< [ 61: 61] Allocate L2.  Only used with L2/DRAM Pointers.
+                                                                 This is a hint to DPI that the cache blocks should be allocated in
+                                                                 the L2 cache (if they were not already). Should typically be set to allocate the
+                                                                 referenced cache blocks into the L2 cache.
+
+                                                                 When the DPI_DMA_LOCAL_PTR_S is a source of data (e.g. a DPI_HDR_XTYPE_E::OUTBOUND
+                                                                 DPI DMA instruction), the referenced cache blocks are not allocated into the L2
+                                                                 cache as part of completing the DMA (when not already present in the L2) if [AC]
+                                                                 is clear.
+
+                                                                 When the DPI_DMA_LOCAL_PTR_S is a destination for data (e.g. a
+                                                                 DPI_HDR_XTYPE_E::INBOUND DPI DMA instruction), the referenced cache blocks are
+                                                                 not allocated into the cache as part of completing the DMA (when not already
+                                                                 present in the L2) if [AC] is clear, and either:
+
+                                                                 * the entire cache block is written by this DPI_DMA_LOCAL_PTR_S, or
+
+                                                                 * [F] is set so that the entire cache block can be written. */
+        uint64_t bed                   : 1;  /**< [ 60: 60] Big-endian data.
+                                                                 Only used with L2/DRAM Pointers */
+        uint64_t reserved_16_59        : 44;
+        uint64_t length                : 16; /**< [ 15:  0] For L2/DRAM - only bits 11:0 used. bits 15:12 should be zero.
+
+                                                                 Size in bytes of the contiguous space specified by PTR. A SIZE value of 0x0 is
+                                                                 illegal.
+
+                                                                 Note that the sum of the sizes in the first-pointers area must always exactly
+                                                                 equal the sum of the sizes/lengths in the last-pointers area:
+
+                                                                 * With DPI_HDR_XTYPE_E::OUTBOUND and DPI_HDR_XTYPE_E::INBOUND DPI DMA
+                                                                   instructions, the sum of the [NFST] DPI_DMA_LOCAL_PTR_S[SIZE]'s in the
+                                                                   first pointers block must exactly equal the sum of the [NLST] lengths
+                                                                   DPI components in the last pointers block.
+
+                                                                 * With DPI_HDR_XTYPE_E::INTERNAL_ONLY DPI DMA instructions, the sum of the
+                                                                   [NFST] DPI_DMA_LOCAL_PTR_S[SIZE]'s in the first pointers block must exactly
+                                                                   equal the sum of the [NLST] DPI_DMA_LOCAL_PTR_S[SIZE]'s in the last pointers
+                                                                   block. */
+#else /* Word 0 - Little Endian */
+        uint64_t length                : 16; /**< [ 15:  0] For L2/DRAM - only bits 11:0 used. bits 15:12 should be zero.
+
+                                                                 Size in bytes of the contiguous space specified by PTR. A SIZE value of 0x0 is
+                                                                 illegal.
+
+                                                                 Note that the sum of the sizes in the first-pointers area must always exactly
+                                                                 equal the sum of the sizes/lengths in the last-pointers area:
+
+                                                                 * With DPI_HDR_XTYPE_E::OUTBOUND and DPI_HDR_XTYPE_E::INBOUND DPI DMA
+                                                                   instructions, the sum of the [NFST] DPI_DMA_LOCAL_PTR_S[SIZE]'s in the
+                                                                   first pointers block must exactly equal the sum of the [NLST] lengths
+                                                                   DPI components in the last pointers block.
+
+                                                                 * With DPI_HDR_XTYPE_E::INTERNAL_ONLY DPI DMA instructions, the sum of the
+                                                                   [NFST] DPI_DMA_LOCAL_PTR_S[SIZE]'s in the first pointers block must exactly
+                                                                   equal the sum of the [NLST] DPI_DMA_LOCAL_PTR_S[SIZE]'s in the last pointers
+                                                                   block. */
+        uint64_t reserved_16_59        : 44;
+        uint64_t bed                   : 1;  /**< [ 60: 60] Big-endian data.
+                                                                 Only used with L2/DRAM Pointers */
+        uint64_t ac                    : 1;  /**< [ 61: 61] Allocate L2.  Only used with L2/DRAM Pointers.
+                                                                 This is a hint to DPI that the cache blocks should be allocated in
+                                                                 the L2 cache (if they were not already). Should typically be set to allocate the
+                                                                 referenced cache blocks into the L2 cache.
+
+                                                                 When the DPI_DMA_LOCAL_PTR_S is a source of data (e.g. a DPI_HDR_XTYPE_E::OUTBOUND
+                                                                 DPI DMA instruction), the referenced cache blocks are not allocated into the L2
+                                                                 cache as part of completing the DMA (when not already present in the L2) if [AC]
+                                                                 is clear.
+
+                                                                 When the DPI_DMA_LOCAL_PTR_S is a destination for data (e.g. a
+                                                                 DPI_HDR_XTYPE_E::INBOUND DPI DMA instruction), the referenced cache blocks are
+                                                                 not allocated into the cache as part of completing the DMA (when not already
+                                                                 present in the L2) if [AC] is clear, and either:
+
+                                                                 * the entire cache block is written by this DPI_DMA_LOCAL_PTR_S, or
+
+                                                                 * [F] is set so that the entire cache block can be written. */
+        uint64_t f                     : 1;  /**< [ 62: 62] Full-block write operations are allowed.
+                                                                 Only used with L2/DRAM Pointers.
+
+                                                                 When set, the hardware is permitted to write all the bytes in the cache blocks
+                                                                 covered by [PTR] .. [PTR] + [SIZE] - 1. This can improve memory system performance
+                                                                 when the write misses in the L2 cache.
+
+                                                                 [F] can only be set for DPI_DMA_LOCAL_PTR_S's that can be written to:
+
+                                                                 * The DPI_DMA_LOCAL_PTR_S's in the first-pointers area that are write pointers
+                                                                   for DPI_HDR_XTYPE_E::INBOUND DPI DMA instructions.
+
+                                                                 * The DPI_DMA_LOCAL_PTR_S's in the last-pointers area that are always write
+                                                                   pointers (when present for DPI_HDR_XTYPE_E::INTERNAL_ONLY DPI DMA instructions).
+
+                                                                 [F] must not be set for DPI_DMA_LOCAL_PTR_S's that are not written to:
+
+                                                                 * The DPI_DMA_LOCAL_PTR_S's in the first-pointers area for DPI_HDR_XTYPE_E::OUTBOUND
+                                                                   and DPI_HDR_XTYPE_E::INTERNAL_ONLY DPI DMA instructions */
+        uint64_t i                     : 1;  /**< [ 63: 63] Invert free. Only used with L2/DRAM Pointers.
+
+                                                                 This bit gives the software the ability to free buffers
+                                                                 independently for a DPI_HDR_XTYPE_E::OUTBOUND DMA transfer when
+                                                                 DPI_DMA_INSTR_HDR_S[II] is clear. See DPI_DMA_INSTR_HDR_S[II] and
+                                                                 DPI_DMA_INSTR_HDR_S[FL].
+
+                                                                 [I] is not used by DPI when DPI_DMA_INSTR_HDR_S[II] is set. [I] must not be set,
+                                                                 and DPI never frees buffers for DPI_HDR_XTYPE_E::INBOUND and
+                                                                 DPI_HDR_XTYPE_E::INTERNAL_ONLY DPI DMA instructions. */
+#endif /* Word 0 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
+        uint64_t ptr                   : 64; /**< [127: 64] For L2/DRAM - bits [48:0] used for byte pointer. Points to where the packet data starts.
+                                                                 PTR can be any
+                                                                 byte alignment. Note that PTR is interpreted as a little-endian byte pointer when BED
+                                                                 is clear, a big-endian byte pointer when BED is set. Bits [63:49] ignored and should be
+                                                                 zero
+                                                                 For MAC - 64-bit memory space pointer */
+#else /* Word 1 - Little Endian */
+        uint64_t ptr                   : 64; /**< [127: 64] For L2/DRAM - bits [48:0] used for byte pointer. Points to where the packet data starts.
+                                                                 PTR can be any
+                                                                 byte alignment. Note that PTR is interpreted as a little-endian byte pointer when BED
+                                                                 is clear, a big-endian byte pointer when BED is set. Bits [63:49] ignored and should be
+                                                                 zero
+                                                                 For MAC - 64-bit memory space pointer */
+#endif /* Word 1 - End */
+    } s;
+    /* struct bdk_dpi_dma_local_ptr_s_s cn8; */
+    struct bdk_dpi_dma_local_ptr_s_cn9
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t i                     : 1;  /**< [ 63: 63] Invert free. Only used with L2/DRAM Pointers.
@@ -1213,8 +1784,7 @@ union bdk_dpi_dma_local_ptr_s
                                                                  zero
                                                                  For MAC - 64-bit memory space pointer */
 #endif /* Word 1 - End */
-    } s;
-    /* struct bdk_dpi_dma_local_ptr_s_s cn; */
+    } cn9;
 };
 
 /**
@@ -1507,7 +2077,7 @@ static inline uint64_t BDK_DPIX_DMAX_ERR_RSP_STATUS(unsigned long a, unsigned lo
 static inline uint64_t BDK_DPIX_DMAX_ERR_RSP_STATUS(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7)))
-        return 0x86e000000438ll + 0x10000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
+        return 0x86e000000030ll + 0x10000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a==0) && (b<=7)))
         return 0x86e000000438ll + 0x10000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
     __bdk_csr_fatal("DPIX_DMAX_ERR_RSP_STATUS", 2, a, b, 0, 0);
@@ -1550,7 +2120,7 @@ static inline uint64_t BDK_DPIX_DMAX_IBUFF_CSIZE(unsigned long a, unsigned long 
 static inline uint64_t BDK_DPIX_DMAX_IBUFF_CSIZE(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7)))
-        return 0x86e000000400ll + 0x10000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
+        return 0x86e000000000ll + 0x10000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a==0) && (b<=7)))
         return 0x86e000000400ll + 0x10000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
     __bdk_csr_fatal("DPIX_DMAX_IBUFF_CSIZE", 2, a, b, 0, 0);
@@ -1619,7 +2189,7 @@ static inline uint64_t BDK_DPIX_DMAX_IDS(unsigned long a, unsigned long b) __att
 static inline uint64_t BDK_DPIX_DMAX_IDS(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7)))
-        return 0x86e000000418ll + 0x10000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
+        return 0x86e000000018ll + 0x10000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a==0) && (b<=7)))
         return 0x86e000000418ll + 0x10000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
     __bdk_csr_fatal("DPIX_DMAX_IDS", 2, a, b, 0, 0);
@@ -1659,7 +2229,7 @@ static inline uint64_t BDK_DPIX_DMAX_IFLIGHT(unsigned long a, unsigned long b) _
 static inline uint64_t BDK_DPIX_DMAX_IFLIGHT(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7)))
-        return 0x86e000000420ll + 0x10000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
+        return 0x86e000000020ll + 0x10000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a==0) && (b<=7)))
         return 0x86e000000420ll + 0x10000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
     __bdk_csr_fatal("DPIX_DMAX_IFLIGHT", 2, a, b, 0, 0);
@@ -1701,7 +2271,7 @@ static inline uint64_t BDK_DPIX_DMAX_QRST(unsigned long a, unsigned long b) __at
 static inline uint64_t BDK_DPIX_DMAX_QRST(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7)))
-        return 0x86e000000430ll + 0x10000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
+        return 0x86e000000028ll + 0x10000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a==0) && (b<=7)))
         return 0x86e000000430ll + 0x10000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
     __bdk_csr_fatal("DPIX_DMAX_QRST", 2, a, b, 0, 0);
@@ -1738,7 +2308,7 @@ static inline uint64_t BDK_DPIX_DMAX_REQBNK0(unsigned long a, unsigned long b) _
 static inline uint64_t BDK_DPIX_DMAX_REQBNK0(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7)))
-        return 0x86e000000408ll + 0x10000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
+        return 0x86e000000008ll + 0x10000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a==0) && (b<=7)))
         return 0x86e000000408ll + 0x10000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
     __bdk_csr_fatal("DPIX_DMAX_REQBNK0", 2, a, b, 0, 0);
@@ -1775,7 +2345,7 @@ static inline uint64_t BDK_DPIX_DMAX_REQBNK1(unsigned long a, unsigned long b) _
 static inline uint64_t BDK_DPIX_DMAX_REQBNK1(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7)))
-        return 0x86e000000410ll + 0x10000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
+        return 0x86e000000010ll + 0x10000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a==0) && (b<=7)))
         return 0x86e000000410ll + 0x10000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
     __bdk_csr_fatal("DPIX_DMAX_REQBNK1", 2, a, b, 0, 0);
@@ -1852,13 +2422,27 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
+        uint64_t complete              : 1;  /**< [  0:  0](R/W1C/H) DPI DMA per-process instruction completion interrupt. See DPI()_DMA_CC()_CNT.
+
+                                                                 If these interrupts are enabled, the DPI()_VF()_INT interrupts should not be enabled. */
+#else /* Word 0 - Little Endian */
+        uint64_t complete              : 1;  /**< [  0:  0](R/W1C/H) DPI DMA per-process instruction completion interrupt. See DPI()_DMA_CC()_CNT.
+
+                                                                 If these interrupts are enabled, the DPI()_VF()_INT interrupts should not be enabled. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_dpix_dma_ccx_int_s cn8; */
+    struct bdk_dpix_dma_ccx_int_cn9
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
         uint64_t complete              : 1;  /**< [  0:  0](R/W1C/H) DPI DMA per-process instruction completion interrupt. See DPI()_DMA_CC()_CNT. */
 #else /* Word 0 - Little Endian */
         uint64_t complete              : 1;  /**< [  0:  0](R/W1C/H) DPI DMA per-process instruction completion interrupt. See DPI()_DMA_CC()_CNT. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_dpix_dma_ccx_int_s cn; */
+    } cn9;
 } bdk_dpix_dma_ccx_int_t;
 
 static inline uint64_t BDK_DPIX_DMA_CCX_INT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -2025,6 +2609,189 @@ typedef union
         uint64_t pkt_en                : 1;  /**< [ 56: 56](R/W) Enables the packet interface. When the packet interface is enabled, engines 4 and 5 are
                                                                  used for packets and are not available for DMA. When PKT_EN=1, then DMA_ENB<5>=0 and
                                                                  DMA_ENB<4>=0. */
+        uint64_t uo_dis                : 1;  /**< [ 55: 55](R/W) Disables the use of the Unordered mode for SLI Packet reads */
+        uint64_t reserved_54           : 1;
+        uint64_t dma_enb               : 6;  /**< [ 53: 48](R/W) DMA engine enable. Enables the operation of the DMA engine. After being enabled an engine
+                                                                 should not be disabled while processing instructions.
+                                                                 When PKT_EN=1, then DMA_ENB<5>=0 and DMA_ENB<4>=0. */
+        uint64_t wqecsdis              : 1;  /**< [ 47: 47](R/W) Work queue completion status disable. See DPI_HDR_PT_WQP_E.
+
+                                                                 When [WQECSDIS] is set, DPI never writes completion status into a work queue entry. */
+        uint64_t wqecsoff              : 7;  /**< [ 46: 40](R/W) Work queue completion status byte offset. For a DPI_HDR_PT_WQP_E::STATUSCA
+                                                                 or DPI_HDR_PT_WQP_E::STATUSNC DPI DMA instruction, DPI writes a
+                                                                 non-DPI_CS_E::NOERR (i.e. nonzero) completion status byte to (big-endian
+                                                                 byte address) L2/DRAM address
+                                                                    (DPI_DMA_INSTR_HDR_S[PTR] & 0xFFFFFFFFFFFFFFF8) + [WQECSOFF]
+
+                                                                 With the reset value 0x7, DPI will write WORD0<7:0> of the WQE. */
+        uint64_t zbwcsen               : 1;  /**< [ 39: 39](R/W) Zero-byte-write completion status enable.
+                                                                 See DPI_HDR_PT_E::ZBC_CA and DPI_HDR_PT_E::ZBC_NC. */
+        uint64_t wqecsmode             : 2;  /**< [ 38: 37](R/W) WQE completion status mode. Relevant for DPI DMA instructions with
+                                                                 DPI_DMA_INSTR_HDR_S[PT]=DPI_HDR_PT_E::WQP when [WQECSDIS]=0.
+                                                                 0x0 = Normal behavior. DPI will not write the completion status byte for
+                                                                       DPI_HDR_PT_E::WQP DPI DMA instructions with DPI_CS_E::NOERR (i.e. zero)
+                                                                       completion status, regardless of the DPI_HDR_PT_WQP_E selection of
+                                                                       DPI_DMA_INSTR_HDR_S[PTR<2:0>]. DPI will write the completion
+                                                                       status byte for all other DPI_CS_E (i.e. nonzero) values
+                                                                       when DPI_DMA_INSTR_HDR_S[PTR<2:0>] is DPI_HDR_PT_WQP_E::STATUSCA
+                                                                       or DPI_HDR_PT_WQP_E::STATUSNC and [WQECSDIS] is clear.
+                                                                 0x1 = DPI will perform the completion status byte write for all
+                                                                       DPI_HDR_PT_E::WQP DPI DMA instructions when DPI_DMA_INSTR_HDR_S[PTR<2:0>]
+                                                                       is DPI_HDR_PT_WQP_E::STATUSCA or DPI_HDR_PT_WQP_E::STATUSNC
+                                                                       and [WQECSDIS] is clear, regardless of the DPI_CS_E completion
+                                                                       status value for the instruction.
+                                                                 0x2 = DPI will not wait for the completion status write commit before issuing
+                                                                       SSO work queue add.
+                                                                 0x3 = Both debug modes specified above (under 0x1 and 0x2) are enabled. */
+        uint64_t reserved_35_36        : 2;
+        uint64_t ncb_tag_dis           : 1;  /**< [ 34: 34](R/W) NCB tag disable. DMA read/write transactions over NCB are mapped to individual
+                                                                 request queues by using tags. If this bit is set, all NCB DMA transactions will
+                                                                 use a tag of 0x0, reducing performance. */
+        uint64_t reserved_33           : 1;
+        uint64_t ldwb                  : 1;  /**< [ 32: 32](R/W) Load don't write back. When set, the hardware is able to issue LDWB commands for pointers
+                                                                 that are being freed. As a result, the line will not be written back when replaced.
+                                                                 When clear, the hardware issues regular load commands to the cache which cause the
+                                                                 line to be written back before being replaced. */
+        uint64_t reserved_20_31        : 12;
+        uint64_t o_add1                : 1;  /**< [ 19: 19](R/W) Add one.
+                                                                 0 = The number of bytes in the DMA transfer is added to SLI_DMA()_CNT.
+                                                                 1 = Add 1 to the SLI_DMA()_CNT DMA counters. */
+        uint64_t o_ro                  : 1;  /**< [ 18: 18](R/W) If [O_MODE]=1 (DPTR format 0), [O_RO] is the relaxed ordering mode attribute
+                                                                 for PCIe DMA transactions.
+
+                                                                 If [O_MODE]=0 (DPTR format 1), [O_RO] is MACADD<60> in the PCIE MAC address and
+                                                                 the relaxed ordering mode attribute comes from DPTR<60> in the DMA MAC pointer. */
+        uint64_t o_ns                  : 1;  /**< [ 17: 17](R/W) If [O_MODE]=1 (DPTR format 0), [O_NS] is the no snoop attribute for PCIe DMA
+                                                                 transactions.
+
+                                                                 If [O_MODE]=0 (DPTR format 1), [O_NS] is MACADD<61> in the PCIE MAC Address and
+                                                                 the no snoop mode attribute comes from DPTR<61> in the DMA MAC pointer. */
+        uint64_t o_es                  : 2;  /**< [ 16: 15](R/W) If [O_MODE]=1 (DPTR format 0), [O_ES] is the endian swap mode for PCIe DMA
+                                                                 transactions.
+
+                                                                 If [O_MODE]=0 (DPTR format 1), [O_ES] is MACADD<63:62> in the PCIE MAC address
+                                                                 and the endian swap mode comes from DPTR<63:62> in the DMA MAC pointer.
+
+                                                                 See DPI_ENDIANSWAP_E. */
+        uint64_t o_mode                : 1;  /**< [ 14: 14](R/W) Select PCI_POINTER mode.
+                                                                 0 = DPTR format 1 is used. Use register values for address; use pointer values for ES, NS,
+                                                                 RO.
+                                                                 1 = DPTR format 0 is used. Use pointer values for address; use register values for ES, NS,
+                                                                 RO. */
+        uint64_t reserved_0_13         : 14;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_13         : 14;
+        uint64_t o_mode                : 1;  /**< [ 14: 14](R/W) Select PCI_POINTER mode.
+                                                                 0 = DPTR format 1 is used. Use register values for address; use pointer values for ES, NS,
+                                                                 RO.
+                                                                 1 = DPTR format 0 is used. Use pointer values for address; use register values for ES, NS,
+                                                                 RO. */
+        uint64_t o_es                  : 2;  /**< [ 16: 15](R/W) If [O_MODE]=1 (DPTR format 0), [O_ES] is the endian swap mode for PCIe DMA
+                                                                 transactions.
+
+                                                                 If [O_MODE]=0 (DPTR format 1), [O_ES] is MACADD<63:62> in the PCIE MAC address
+                                                                 and the endian swap mode comes from DPTR<63:62> in the DMA MAC pointer.
+
+                                                                 See DPI_ENDIANSWAP_E. */
+        uint64_t o_ns                  : 1;  /**< [ 17: 17](R/W) If [O_MODE]=1 (DPTR format 0), [O_NS] is the no snoop attribute for PCIe DMA
+                                                                 transactions.
+
+                                                                 If [O_MODE]=0 (DPTR format 1), [O_NS] is MACADD<61> in the PCIE MAC Address and
+                                                                 the no snoop mode attribute comes from DPTR<61> in the DMA MAC pointer. */
+        uint64_t o_ro                  : 1;  /**< [ 18: 18](R/W) If [O_MODE]=1 (DPTR format 0), [O_RO] is the relaxed ordering mode attribute
+                                                                 for PCIe DMA transactions.
+
+                                                                 If [O_MODE]=0 (DPTR format 1), [O_RO] is MACADD<60> in the PCIE MAC address and
+                                                                 the relaxed ordering mode attribute comes from DPTR<60> in the DMA MAC pointer. */
+        uint64_t o_add1                : 1;  /**< [ 19: 19](R/W) Add one.
+                                                                 0 = The number of bytes in the DMA transfer is added to SLI_DMA()_CNT.
+                                                                 1 = Add 1 to the SLI_DMA()_CNT DMA counters. */
+        uint64_t reserved_20_31        : 12;
+        uint64_t ldwb                  : 1;  /**< [ 32: 32](R/W) Load don't write back. When set, the hardware is able to issue LDWB commands for pointers
+                                                                 that are being freed. As a result, the line will not be written back when replaced.
+                                                                 When clear, the hardware issues regular load commands to the cache which cause the
+                                                                 line to be written back before being replaced. */
+        uint64_t reserved_33           : 1;
+        uint64_t ncb_tag_dis           : 1;  /**< [ 34: 34](R/W) NCB tag disable. DMA read/write transactions over NCB are mapped to individual
+                                                                 request queues by using tags. If this bit is set, all NCB DMA transactions will
+                                                                 use a tag of 0x0, reducing performance. */
+        uint64_t reserved_35_36        : 2;
+        uint64_t wqecsmode             : 2;  /**< [ 38: 37](R/W) WQE completion status mode. Relevant for DPI DMA instructions with
+                                                                 DPI_DMA_INSTR_HDR_S[PT]=DPI_HDR_PT_E::WQP when [WQECSDIS]=0.
+                                                                 0x0 = Normal behavior. DPI will not write the completion status byte for
+                                                                       DPI_HDR_PT_E::WQP DPI DMA instructions with DPI_CS_E::NOERR (i.e. zero)
+                                                                       completion status, regardless of the DPI_HDR_PT_WQP_E selection of
+                                                                       DPI_DMA_INSTR_HDR_S[PTR<2:0>]. DPI will write the completion
+                                                                       status byte for all other DPI_CS_E (i.e. nonzero) values
+                                                                       when DPI_DMA_INSTR_HDR_S[PTR<2:0>] is DPI_HDR_PT_WQP_E::STATUSCA
+                                                                       or DPI_HDR_PT_WQP_E::STATUSNC and [WQECSDIS] is clear.
+                                                                 0x1 = DPI will perform the completion status byte write for all
+                                                                       DPI_HDR_PT_E::WQP DPI DMA instructions when DPI_DMA_INSTR_HDR_S[PTR<2:0>]
+                                                                       is DPI_HDR_PT_WQP_E::STATUSCA or DPI_HDR_PT_WQP_E::STATUSNC
+                                                                       and [WQECSDIS] is clear, regardless of the DPI_CS_E completion
+                                                                       status value for the instruction.
+                                                                 0x2 = DPI will not wait for the completion status write commit before issuing
+                                                                       SSO work queue add.
+                                                                 0x3 = Both debug modes specified above (under 0x1 and 0x2) are enabled. */
+        uint64_t zbwcsen               : 1;  /**< [ 39: 39](R/W) Zero-byte-write completion status enable.
+                                                                 See DPI_HDR_PT_E::ZBC_CA and DPI_HDR_PT_E::ZBC_NC. */
+        uint64_t wqecsoff              : 7;  /**< [ 46: 40](R/W) Work queue completion status byte offset. For a DPI_HDR_PT_WQP_E::STATUSCA
+                                                                 or DPI_HDR_PT_WQP_E::STATUSNC DPI DMA instruction, DPI writes a
+                                                                 non-DPI_CS_E::NOERR (i.e. nonzero) completion status byte to (big-endian
+                                                                 byte address) L2/DRAM address
+                                                                    (DPI_DMA_INSTR_HDR_S[PTR] & 0xFFFFFFFFFFFFFFF8) + [WQECSOFF]
+
+                                                                 With the reset value 0x7, DPI will write WORD0<7:0> of the WQE. */
+        uint64_t wqecsdis              : 1;  /**< [ 47: 47](R/W) Work queue completion status disable. See DPI_HDR_PT_WQP_E.
+
+                                                                 When [WQECSDIS] is set, DPI never writes completion status into a work queue entry. */
+        uint64_t dma_enb               : 6;  /**< [ 53: 48](R/W) DMA engine enable. Enables the operation of the DMA engine. After being enabled an engine
+                                                                 should not be disabled while processing instructions.
+                                                                 When PKT_EN=1, then DMA_ENB<5>=0 and DMA_ENB<4>=0. */
+        uint64_t reserved_54           : 1;
+        uint64_t uo_dis                : 1;  /**< [ 55: 55](R/W) Disables the use of the Unordered mode for SLI Packet reads */
+        uint64_t pkt_en                : 1;  /**< [ 56: 56](R/W) Enables the packet interface. When the packet interface is enabled, engines 4 and 5 are
+                                                                 used for packets and are not available for DMA. When PKT_EN=1, then DMA_ENB<5>=0 and
+                                                                 DMA_ENB<4>=0. */
+        uint64_t reserved_57           : 1;
+        uint64_t commit_mode           : 1;  /**< [ 58: 58](R/W) DMA engine commit mode.
+                                                                 When COMMIT_MODE=1, DPI considers an instruction complete when the hardware internally
+                                                                 generates the final write for the current instruction.
+
+                                                                 When COMMIT_MODE=0, DPI additionally waits for the final write to reach the interface
+                                                                 coherency point to declare the instructions complete.
+
+                                                                 When COMMIT_MODE=1, DPI may not follow the HRM ordering rules. DPI
+                                                                 hardware performance may be better with COMMIT_MODE=1 than with COMMIT_MODE=0 due to
+                                                                 the relaxed ordering rules. If the HRM ordering rules are required, set COMMIT_MODE=0. */
+        uint64_t ffp_dis               : 1;  /**< [ 59: 59](R/W) Force forward progress disable. The DMA engines will compete for shared resources. If the
+                                                                 hardware detects that particular engines are not able to make requests to an interface,
+                                                                 the hardware will periodically trade-off throughput for fairness. */
+        uint64_t reserved_60_63        : 4;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_dpix_dma_control_s cn8; */
+    struct bdk_dpix_dma_control_cn9
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_60_63        : 4;
+        uint64_t ffp_dis               : 1;  /**< [ 59: 59](R/W) Force forward progress disable. The DMA engines will compete for shared resources. If the
+                                                                 hardware detects that particular engines are not able to make requests to an interface,
+                                                                 the hardware will periodically trade-off throughput for fairness. */
+        uint64_t commit_mode           : 1;  /**< [ 58: 58](R/W) DMA engine commit mode.
+                                                                 When COMMIT_MODE=1, DPI considers an instruction complete when the hardware internally
+                                                                 generates the final write for the current instruction.
+
+                                                                 When COMMIT_MODE=0, DPI additionally waits for the final write to reach the interface
+                                                                 coherency point to declare the instructions complete.
+
+                                                                 When COMMIT_MODE=1, DPI may not follow the HRM ordering rules. DPI
+                                                                 hardware performance may be better with COMMIT_MODE=1 than with COMMIT_MODE=0 due to
+                                                                 the relaxed ordering rules. If the HRM ordering rules are required, set COMMIT_MODE=0. */
+        uint64_t reserved_57           : 1;
+        uint64_t pkt_en                : 1;  /**< [ 56: 56](R/W) Enables the packet interface. When the packet interface is enabled, engines 4 and 5 are
+                                                                 used for packets and are not available for DMA. When PKT_EN=1, then DMA_ENB<5>=0 and
+                                                                 DMA_ENB<4>=0. */
         uint64_t reserved_54_55        : 2;
         uint64_t dma_enb               : 6;  /**< [ 53: 48](R/W) DMA engine enable. Enables the operation of the DMA engine. After being enabled an engine
                                                                  should not be disabled while processing instructions.
@@ -2183,8 +2950,7 @@ typedef union
                                                                  the hardware will periodically trade-off throughput for fairness. */
         uint64_t reserved_60_63        : 4;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_dpix_dma_control_s cn; */
+    } cn9;
 } bdk_dpix_dma_control_t;
 
 static inline uint64_t BDK_DPIX_DMA_CONTROL(unsigned long a) __attribute__ ((pure, always_inline));
@@ -2499,7 +3265,19 @@ typedef union
         uint64_t reserved_23_63        : 41;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_dpix_int_ena_w1c_s cn; */
+    struct bdk_dpix_int_ena_w1c_cn8
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_2_63         : 62;
+        uint64_t nfovr                 : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for DPI(0)_INT_REG[NFOVR]. */
+        uint64_t nderr                 : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for DPI(0)_INT_REG[NDERR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t nderr                 : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for DPI(0)_INT_REG[NDERR]. */
+        uint64_t nfovr                 : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for DPI(0)_INT_REG[NFOVR]. */
+        uint64_t reserved_2_63         : 62;
+#endif /* Word 0 - End */
+    } cn8;
+    /* struct bdk_dpix_int_ena_w1c_s cn9; */
 } bdk_dpix_int_ena_w1c_t;
 
 static inline uint64_t BDK_DPIX_INT_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
@@ -2572,7 +3350,19 @@ typedef union
         uint64_t reserved_23_63        : 41;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_dpix_int_ena_w1s_s cn; */
+    struct bdk_dpix_int_ena_w1s_cn8
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_2_63         : 62;
+        uint64_t nfovr                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for DPI(0)_INT_REG[NFOVR]. */
+        uint64_t nderr                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for DPI(0)_INT_REG[NDERR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t nderr                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for DPI(0)_INT_REG[NDERR]. */
+        uint64_t nfovr                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for DPI(0)_INT_REG[NFOVR]. */
+        uint64_t reserved_2_63         : 62;
+#endif /* Word 0 - End */
+    } cn8;
+    /* struct bdk_dpix_int_ena_w1s_s cn9; */
 } bdk_dpix_int_ena_w1s_t;
 
 static inline uint64_t BDK_DPIX_INT_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
@@ -2657,7 +3447,23 @@ typedef union
         uint64_t reserved_23_63        : 41;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_dpix_int_reg_s cn; */
+    struct bdk_dpix_int_reg_cn8
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_2_63         : 62;
+        uint64_t nfovr                 : 1;  /**< [  1:  1](R/W1C/H) CSR FIFO overflow error. DPI can store up to 16 CSR requests, and the FIFO overflows if
+                                                                 that number is exceeded. */
+        uint64_t nderr                 : 1;  /**< [  0:  0](R/W1C/H) IOI decode error. This bit is set when the DPI received an IOI transaction on the outbound
+                                                                 bus to the DPI device ID, but the command was not recognized. */
+#else /* Word 0 - Little Endian */
+        uint64_t nderr                 : 1;  /**< [  0:  0](R/W1C/H) IOI decode error. This bit is set when the DPI received an IOI transaction on the outbound
+                                                                 bus to the DPI device ID, but the command was not recognized. */
+        uint64_t nfovr                 : 1;  /**< [  1:  1](R/W1C/H) CSR FIFO overflow error. DPI can store up to 16 CSR requests, and the FIFO overflows if
+                                                                 that number is exceeded. */
+        uint64_t reserved_2_63         : 62;
+#endif /* Word 0 - End */
+    } cn8;
+    /* struct bdk_dpix_int_reg_s cn9; */
 } bdk_dpix_int_reg_t;
 
 static inline uint64_t BDK_DPIX_INT_REG(unsigned long a) __attribute__ ((pure, always_inline));
@@ -2730,7 +3536,19 @@ typedef union
         uint64_t reserved_23_63        : 41;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_dpix_int_reg_w1s_s cn; */
+    struct bdk_dpix_int_reg_w1s_cn8
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_2_63         : 62;
+        uint64_t nfovr                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets DPI(0)_INT_REG[NFOVR]. */
+        uint64_t nderr                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets DPI(0)_INT_REG[NDERR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t nderr                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets DPI(0)_INT_REG[NDERR]. */
+        uint64_t nfovr                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets DPI(0)_INT_REG[NFOVR]. */
+        uint64_t reserved_2_63         : 62;
+#endif /* Word 0 - End */
+    } cn8;
+    /* struct bdk_dpix_int_reg_w1s_s cn9; */
 } bdk_dpix_int_reg_w1s_t;
 
 static inline uint64_t BDK_DPIX_INT_REG_W1S(unsigned long a) __attribute__ ((pure, always_inline));
@@ -2776,8 +3594,6 @@ typedef union
 static inline uint64_t BDK_DPIX_MSIX_PBAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DPIX_MSIX_PBAX(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=1)))
-        return 0x86e0010f0000ll + 0x10000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a==0) && (b<=1)))
         return 0x86e0010f0000ll + 0x10000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x1);
     __bdk_csr_fatal("DPIX_MSIX_PBAX", 2, a, b, 0, 0);
@@ -2835,8 +3651,6 @@ typedef union
 static inline uint64_t BDK_DPIX_MSIX_VECX_ADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DPIX_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=74)))
-        return 0x86e001000000ll + 0x10000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x7f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a==0) && (b<=74)))
         return 0x86e001000000ll + 0x10000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x7f);
     __bdk_csr_fatal("DPIX_MSIX_VECX_ADDR", 2, a, b, 0, 0);
@@ -2878,8 +3692,6 @@ typedef union
 static inline uint64_t BDK_DPIX_MSIX_VECX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DPIX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=74)))
-        return 0x86e001000008ll + 0x10000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x7f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a==0) && (b<=74)))
         return 0x86e001000008ll + 0x10000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x7f);
     __bdk_csr_fatal("DPIX_MSIX_VECX_CTL", 2, a, b, 0, 0);
@@ -2943,6 +3755,142 @@ static inline uint64_t BDK_DPIX_NCBX_CFG(unsigned long a, unsigned long b)
 #define device_bar_BDK_DPIX_NCBX_CFG(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_DPIX_NCBX_CFG(a,b) (a)
 #define arguments_BDK_DPIX_NCBX_CFG(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB) dpi#_pf_msix_pba#
+ *
+ * DPI MSI-X Pending Bit Array Registers
+ * This register is the MSI-X PBA table; the bit number is indexed by the DPI_PF_INT_VEC_E
+ * enumeration.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_dpix_pf_msix_pbax_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t pend                  : 64; /**< [ 63:  0](RO/H) Pending message for the associated DPI_PF_MSIX_VEC()_CTL, enumerated by
+                                                                 DPI_PF_INT_VEC_E. Bits that have no associated DPI_PF_INT_VEC_E are 0. */
+#else /* Word 0 - Little Endian */
+        uint64_t pend                  : 64; /**< [ 63:  0](RO/H) Pending message for the associated DPI_PF_MSIX_VEC()_CTL, enumerated by
+                                                                 DPI_PF_INT_VEC_E. Bits that have no associated DPI_PF_INT_VEC_E are 0. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_dpix_pf_msix_pbax_s cn; */
+} bdk_dpix_pf_msix_pbax_t;
+
+static inline uint64_t BDK_DPIX_PF_MSIX_PBAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DPIX_PF_MSIX_PBAX(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=1)))
+        return 0x86e0100f0000ll + 0x10000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x1);
+    __bdk_csr_fatal("DPIX_PF_MSIX_PBAX", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_DPIX_PF_MSIX_PBAX(a,b) bdk_dpix_pf_msix_pbax_t
+#define bustype_BDK_DPIX_PF_MSIX_PBAX(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_DPIX_PF_MSIX_PBAX(a,b) "DPIX_PF_MSIX_PBAX"
+#define device_bar_BDK_DPIX_PF_MSIX_PBAX(a,b) 0x4 /* PF_BAR4 */
+#define busnum_BDK_DPIX_PF_MSIX_PBAX(a,b) (a)
+#define arguments_BDK_DPIX_PF_MSIX_PBAX(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB) dpi#_pf_msix_vec#_addr
+ *
+ * DPI MSI-X Vector-Table Address Register
+ * This register is the MSI-X vector table, indexed by the DPI_PF_INT_VEC_E enumeration.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_dpix_pf_msix_vecx_addr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_49_63        : 15;
+        uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
+        uint64_t reserved_1            : 1;
+        uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
+                                                                 1 =  This vector's DPI_PF_MSIX_VEC()_ADDR, DPI_PF_MSIX_VEC()_CTL, and corresponding
+                                                                 bit of DPI_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
+                                                                 by the nonsecure world.
+
+                                                                 If PCCPF_DPI_VSEC_SCTL[MSIX_SEC] (for documentation, see
+                                                                 PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is set, all vectors are secure and function as if
+                                                                 [SECVEC] was set. */
+#else /* Word 0 - Little Endian */
+        uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
+                                                                 0 = This vector may be read or written by either secure or nonsecure states.
+                                                                 1 =  This vector's DPI_PF_MSIX_VEC()_ADDR, DPI_PF_MSIX_VEC()_CTL, and corresponding
+                                                                 bit of DPI_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
+                                                                 by the nonsecure world.
+
+                                                                 If PCCPF_DPI_VSEC_SCTL[MSIX_SEC] (for documentation, see
+                                                                 PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is set, all vectors are secure and function as if
+                                                                 [SECVEC] was set. */
+        uint64_t reserved_1            : 1;
+        uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
+        uint64_t reserved_49_63        : 15;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_dpix_pf_msix_vecx_addr_s cn; */
+} bdk_dpix_pf_msix_vecx_addr_t;
+
+static inline uint64_t BDK_DPIX_PF_MSIX_VECX_ADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DPIX_PF_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=74)))
+        return 0x86e010000000ll + 0x10000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x7f);
+    __bdk_csr_fatal("DPIX_PF_MSIX_VECX_ADDR", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_DPIX_PF_MSIX_VECX_ADDR(a,b) bdk_dpix_pf_msix_vecx_addr_t
+#define bustype_BDK_DPIX_PF_MSIX_VECX_ADDR(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_DPIX_PF_MSIX_VECX_ADDR(a,b) "DPIX_PF_MSIX_VECX_ADDR"
+#define device_bar_BDK_DPIX_PF_MSIX_VECX_ADDR(a,b) 0x4 /* PF_BAR4 */
+#define busnum_BDK_DPIX_PF_MSIX_VECX_ADDR(a,b) (a)
+#define arguments_BDK_DPIX_PF_MSIX_VECX_ADDR(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB) dpi#_pf_msix_vec#_ctl
+ *
+ * DPI MSI-X Vector-Table Control and Data Register
+ * This register is the MSI-X vector table, indexed by the DPI_PF_INT_VEC_E enumeration.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_dpix_pf_msix_vecx_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_33_63        : 31;
+        uint64_t mask                  : 1;  /**< [ 32: 32](R/W) When set, no MSI-X interrupts are sent to this vector. */
+        uint64_t reserved_20_31        : 12;
+        uint64_t data                  : 20; /**< [ 19:  0](R/W) Data to use for MSI-X delivery of this vector. */
+#else /* Word 0 - Little Endian */
+        uint64_t data                  : 20; /**< [ 19:  0](R/W) Data to use for MSI-X delivery of this vector. */
+        uint64_t reserved_20_31        : 12;
+        uint64_t mask                  : 1;  /**< [ 32: 32](R/W) When set, no MSI-X interrupts are sent to this vector. */
+        uint64_t reserved_33_63        : 31;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_dpix_pf_msix_vecx_ctl_s cn; */
+} bdk_dpix_pf_msix_vecx_ctl_t;
+
+static inline uint64_t BDK_DPIX_PF_MSIX_VECX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DPIX_PF_MSIX_VECX_CTL(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=74)))
+        return 0x86e010000008ll + 0x10000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x7f);
+    __bdk_csr_fatal("DPIX_PF_MSIX_VECX_CTL", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_DPIX_PF_MSIX_VECX_CTL(a,b) bdk_dpix_pf_msix_vecx_ctl_t
+#define bustype_BDK_DPIX_PF_MSIX_VECX_CTL(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_DPIX_PF_MSIX_VECX_CTL(a,b) "DPIX_PF_MSIX_VECX_CTL"
+#define device_bar_BDK_DPIX_PF_MSIX_VECX_CTL(a,b) 0x4 /* PF_BAR4 */
+#define busnum_BDK_DPIX_PF_MSIX_VECX_CTL(a,b) (a)
+#define arguments_BDK_DPIX_PF_MSIX_VECX_CTL(a,b) (a),(b),-1,-1
 
 /**
  * Register (NCB) dpi#_pkt_err_rsp
@@ -3090,8 +4038,6 @@ typedef union
 static inline uint64_t BDK_DPIX_REQ_GBL_EN(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DPIX_REQ_GBL_EN(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
-        return 0x86e000004070ll + 0x10000000000ll * ((a) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a==0))
         return 0x86e000004070ll + 0x10000000000ll * ((a) & 0x0);
     __bdk_csr_fatal("DPIX_REQ_GBL_EN", 1, a, 0, 0, 0);
@@ -3116,6 +4062,53 @@ typedef union
     struct bdk_dpix_reqqx_int_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_7_63         : 57;
+        uint64_t inst_fill_inval       : 1;  /**< [  6:  6](R/W1C/H) Checks on Instruction words during fill detected an error. Checks include:
+                                                                   - NFST or NLST value in Header is Zero
+                                                                   - Read or Write pointer length is Zero
+                                                                   - Total byte count for all Read pointers is not equal to total for all Write pointers
+
+                                                                 This error will also disable the corresponding Instruction Queue (DPI()_VDMA()_EN[QEN])
+                                                                 and must be reset with DPI()_DMA()_QRST[QRST] before re-enabling. */
+        uint64_t inst_addr_null        : 1;  /**< [  5:  5](R/W1C/H) Instruction Fill returned all zeros for starting address of next chunk. This error will
+                                                                 also disable the corresponding Instruction Queue (DPI()_VDMA()_EN[QEN]) and must be reset
+                                                                 with DPI()_DMA()_QRST[QRST] before re-enabling. */
+        uint64_t inst_dbo              : 1;  /**< [  4:  4](R/W1C/H) Instruction Fill Doorbell overflow error. This error will also disable the corresponding
+                                                                 Instruction Queue (DPI()_VDMA()_EN[QEN]) and must be reset with DPI()_DMA()_QRST[QRST]
+                                                                 before re-enabling. */
+        uint64_t csflt                 : 1;  /**< [  3:  3](R/W1C/H) NCB fault on completion status or zero byte write. */
+        uint64_t wrflt                 : 1;  /**< [  2:  2](R/W1C/H) NCB fault on DMA data write. */
+        uint64_t rdflt                 : 1;  /**< [  1:  1](R/W1C/H) NCB fault on DMA data read. */
+        uint64_t instrflt              : 1;  /**< [  0:  0](R/W1C/H) NCB fault on instruction read. This error will also disable the corresponding Instruction
+                                                                 Queue (DPI()_VDMA()_EN[QEN]) and must be reset with DPI()_DMA()_QRST[QRST] before re-
+                                                                 enabling. */
+#else /* Word 0 - Little Endian */
+        uint64_t instrflt              : 1;  /**< [  0:  0](R/W1C/H) NCB fault on instruction read. This error will also disable the corresponding Instruction
+                                                                 Queue (DPI()_VDMA()_EN[QEN]) and must be reset with DPI()_DMA()_QRST[QRST] before re-
+                                                                 enabling. */
+        uint64_t rdflt                 : 1;  /**< [  1:  1](R/W1C/H) NCB fault on DMA data read. */
+        uint64_t wrflt                 : 1;  /**< [  2:  2](R/W1C/H) NCB fault on DMA data write. */
+        uint64_t csflt                 : 1;  /**< [  3:  3](R/W1C/H) NCB fault on completion status or zero byte write. */
+        uint64_t inst_dbo              : 1;  /**< [  4:  4](R/W1C/H) Instruction Fill Doorbell overflow error. This error will also disable the corresponding
+                                                                 Instruction Queue (DPI()_VDMA()_EN[QEN]) and must be reset with DPI()_DMA()_QRST[QRST]
+                                                                 before re-enabling. */
+        uint64_t inst_addr_null        : 1;  /**< [  5:  5](R/W1C/H) Instruction Fill returned all zeros for starting address of next chunk. This error will
+                                                                 also disable the corresponding Instruction Queue (DPI()_VDMA()_EN[QEN]) and must be reset
+                                                                 with DPI()_DMA()_QRST[QRST] before re-enabling. */
+        uint64_t inst_fill_inval       : 1;  /**< [  6:  6](R/W1C/H) Checks on Instruction words during fill detected an error. Checks include:
+                                                                   - NFST or NLST value in Header is Zero
+                                                                   - Read or Write pointer length is Zero
+                                                                   - Total byte count for all Read pointers is not equal to total for all Write pointers
+
+                                                                 This error will also disable the corresponding Instruction Queue (DPI()_VDMA()_EN[QEN])
+                                                                 and must be reset with DPI()_DMA()_QRST[QRST] before re-enabling. */
+        uint64_t reserved_7_63         : 57;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_dpix_reqqx_int_s cn8; */
+    struct bdk_dpix_reqqx_int_cn9
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
         uint64_t csflt                 : 1;  /**< [  3:  3](R/W1C/H) NCB fault on completion status or zero byte write. */
         uint64_t wrflt                 : 1;  /**< [  2:  2](R/W1C/H) NCB fault on DMA data write. */
@@ -3128,8 +4121,7 @@ typedef union
         uint64_t csflt                 : 1;  /**< [  3:  3](R/W1C/H) NCB fault on completion status or zero byte write. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_dpix_reqqx_int_s cn; */
+    } cn9;
 } bdk_dpix_reqqx_int_t;
 
 static inline uint64_t BDK_DPIX_REQQX_INT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -3161,6 +4153,29 @@ typedef union
     struct bdk_dpix_reqqx_int_ena_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_7_63         : 57;
+        uint64_t inst_fill_inval       : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for DPI(0)_REQQ(0..7)_INT[INST_FILL_INVAL]. */
+        uint64_t inst_addr_null        : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for DPI(0)_REQQ(0..7)_INT[INST_ADDR_NULL]. */
+        uint64_t inst_dbo              : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for DPI(0)_REQQ(0..7)_INT[INST_DBO]. */
+        uint64_t csflt                 : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for DPI(0)_REQQ(0..7)_INT[CSFLT]. */
+        uint64_t wrflt                 : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for DPI(0)_REQQ(0..7)_INT[WRFLT]. */
+        uint64_t rdflt                 : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for DPI(0)_REQQ(0..7)_INT[RDFLT]. */
+        uint64_t instrflt              : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for DPI(0)_REQQ(0..7)_INT[INSTRFLT]. */
+#else /* Word 0 - Little Endian */
+        uint64_t instrflt              : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for DPI(0)_REQQ(0..7)_INT[INSTRFLT]. */
+        uint64_t rdflt                 : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for DPI(0)_REQQ(0..7)_INT[RDFLT]. */
+        uint64_t wrflt                 : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for DPI(0)_REQQ(0..7)_INT[WRFLT]. */
+        uint64_t csflt                 : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for DPI(0)_REQQ(0..7)_INT[CSFLT]. */
+        uint64_t inst_dbo              : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for DPI(0)_REQQ(0..7)_INT[INST_DBO]. */
+        uint64_t inst_addr_null        : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for DPI(0)_REQQ(0..7)_INT[INST_ADDR_NULL]. */
+        uint64_t inst_fill_inval       : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for DPI(0)_REQQ(0..7)_INT[INST_FILL_INVAL]. */
+        uint64_t reserved_7_63         : 57;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_dpix_reqqx_int_ena_w1c_s cn8; */
+    struct bdk_dpix_reqqx_int_ena_w1c_cn9
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
         uint64_t csflt                 : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for DPI(0)_REQQ(0..7)_INT[CSFLT]. */
         uint64_t wrflt                 : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for DPI(0)_REQQ(0..7)_INT[WRFLT]. */
@@ -3173,8 +4188,7 @@ typedef union
         uint64_t csflt                 : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for DPI(0)_REQQ(0..7)_INT[CSFLT]. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_dpix_reqqx_int_ena_w1c_s cn; */
+    } cn9;
 } bdk_dpix_reqqx_int_ena_w1c_t;
 
 static inline uint64_t BDK_DPIX_REQQX_INT_ENA_W1C(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -3206,6 +4220,29 @@ typedef union
     struct bdk_dpix_reqqx_int_ena_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_7_63         : 57;
+        uint64_t inst_fill_inval       : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for DPI(0)_REQQ(0..7)_INT[INST_FILL_INVAL]. */
+        uint64_t inst_addr_null        : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for DPI(0)_REQQ(0..7)_INT[INST_ADDR_NULL]. */
+        uint64_t inst_dbo              : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for DPI(0)_REQQ(0..7)_INT[INST_DBO]. */
+        uint64_t csflt                 : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for DPI(0)_REQQ(0..7)_INT[CSFLT]. */
+        uint64_t wrflt                 : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for DPI(0)_REQQ(0..7)_INT[WRFLT]. */
+        uint64_t rdflt                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for DPI(0)_REQQ(0..7)_INT[RDFLT]. */
+        uint64_t instrflt              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for DPI(0)_REQQ(0..7)_INT[INSTRFLT]. */
+#else /* Word 0 - Little Endian */
+        uint64_t instrflt              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for DPI(0)_REQQ(0..7)_INT[INSTRFLT]. */
+        uint64_t rdflt                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for DPI(0)_REQQ(0..7)_INT[RDFLT]. */
+        uint64_t wrflt                 : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for DPI(0)_REQQ(0..7)_INT[WRFLT]. */
+        uint64_t csflt                 : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for DPI(0)_REQQ(0..7)_INT[CSFLT]. */
+        uint64_t inst_dbo              : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for DPI(0)_REQQ(0..7)_INT[INST_DBO]. */
+        uint64_t inst_addr_null        : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for DPI(0)_REQQ(0..7)_INT[INST_ADDR_NULL]. */
+        uint64_t inst_fill_inval       : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for DPI(0)_REQQ(0..7)_INT[INST_FILL_INVAL]. */
+        uint64_t reserved_7_63         : 57;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_dpix_reqqx_int_ena_w1s_s cn8; */
+    struct bdk_dpix_reqqx_int_ena_w1s_cn9
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
         uint64_t csflt                 : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for DPI(0)_REQQ(0..7)_INT[CSFLT]. */
         uint64_t wrflt                 : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for DPI(0)_REQQ(0..7)_INT[WRFLT]. */
@@ -3218,8 +4255,7 @@ typedef union
         uint64_t csflt                 : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for DPI(0)_REQQ(0..7)_INT[CSFLT]. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_dpix_reqqx_int_ena_w1s_s cn; */
+    } cn9;
 } bdk_dpix_reqqx_int_ena_w1s_t;
 
 static inline uint64_t BDK_DPIX_REQQX_INT_ENA_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -3251,6 +4287,29 @@ typedef union
     struct bdk_dpix_reqqx_int_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_7_63         : 57;
+        uint64_t inst_fill_inval       : 1;  /**< [  6:  6](R/W1S/H) Reads or sets DPI(0)_REQQ(0..7)_INT[INST_FILL_INVAL]. */
+        uint64_t inst_addr_null        : 1;  /**< [  5:  5](R/W1S/H) Reads or sets DPI(0)_REQQ(0..7)_INT[INST_ADDR_NULL]. */
+        uint64_t inst_dbo              : 1;  /**< [  4:  4](R/W1S/H) Reads or sets DPI(0)_REQQ(0..7)_INT[INST_DBO]. */
+        uint64_t csflt                 : 1;  /**< [  3:  3](R/W1S/H) Reads or sets DPI(0)_REQQ(0..7)_INT[CSFLT]. */
+        uint64_t wrflt                 : 1;  /**< [  2:  2](R/W1S/H) Reads or sets DPI(0)_REQQ(0..7)_INT[WRFLT]. */
+        uint64_t rdflt                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets DPI(0)_REQQ(0..7)_INT[RDFLT]. */
+        uint64_t instrflt              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets DPI(0)_REQQ(0..7)_INT[INSTRFLT]. */
+#else /* Word 0 - Little Endian */
+        uint64_t instrflt              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets DPI(0)_REQQ(0..7)_INT[INSTRFLT]. */
+        uint64_t rdflt                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets DPI(0)_REQQ(0..7)_INT[RDFLT]. */
+        uint64_t wrflt                 : 1;  /**< [  2:  2](R/W1S/H) Reads or sets DPI(0)_REQQ(0..7)_INT[WRFLT]. */
+        uint64_t csflt                 : 1;  /**< [  3:  3](R/W1S/H) Reads or sets DPI(0)_REQQ(0..7)_INT[CSFLT]. */
+        uint64_t inst_dbo              : 1;  /**< [  4:  4](R/W1S/H) Reads or sets DPI(0)_REQQ(0..7)_INT[INST_DBO]. */
+        uint64_t inst_addr_null        : 1;  /**< [  5:  5](R/W1S/H) Reads or sets DPI(0)_REQQ(0..7)_INT[INST_ADDR_NULL]. */
+        uint64_t inst_fill_inval       : 1;  /**< [  6:  6](R/W1S/H) Reads or sets DPI(0)_REQQ(0..7)_INT[INST_FILL_INVAL]. */
+        uint64_t reserved_7_63         : 57;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_dpix_reqqx_int_w1s_s cn8; */
+    struct bdk_dpix_reqqx_int_w1s_cn9
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
         uint64_t csflt                 : 1;  /**< [  3:  3](R/W1S/H) Reads or sets DPI(0)_REQQ(0..7)_INT[CSFLT]. */
         uint64_t wrflt                 : 1;  /**< [  2:  2](R/W1S/H) Reads or sets DPI(0)_REQQ(0..7)_INT[WRFLT]. */
@@ -3263,8 +4322,7 @@ typedef union
         uint64_t csflt                 : 1;  /**< [  3:  3](R/W1S/H) Reads or sets DPI(0)_REQQ(0..7)_INT[CSFLT]. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_dpix_reqqx_int_w1s_s cn; */
+    } cn9;
 } bdk_dpix_reqqx_int_w1s_t;
 
 static inline uint64_t BDK_DPIX_REQQX_INT_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -3478,6 +4536,107 @@ typedef union
         uint64_t mps                   : 3;  /**< [  6:  4](R/W) Maximum payload size.
                                                                  0x0 = 128B.
                                                                  0x1 = 256B.
+                                                                 0x2 = 512B.
+
+                                                                 Larger sizes are not supported. If MPS = 0x2, Outbound Packet writes will use the 512B
+                                                                 size but DMA is limited to 256B.
+
+                                                                 The MPS size must not exceed the size selected by PCIE*_CFG030[MPS]. */
+        uint64_t mrrs_lim              : 1;  /**< [  3:  3](R/W) MAC memory space read requests cannot cross the (naturally-aligned) MRRS boundary.
+
+                                                                 When clear, DPI is allowed to issue a MAC memory-space read that crosses the naturally-
+                                                                 aligned boundary of size defined by MRRS. (DPI will still only cross the boundary when it
+                                                                 would eliminate a read by doing so.)
+
+                                                                 When set, DPI will never issue a MAC memory space read that crosses the naturally-aligned
+                                                                 boundary of size defined by MRRS. */
+        uint64_t mrrs                  : 3;  /**< [  2:  0](R/W) Maximum read-request size.
+                                                                 0x0 = 128B.
+                                                                 0x1 = 256B.
+                                                                 0x2 = 512B.
+
+                                                                 Larger sizes are not supported.
+
+                                                                 The MRRS size must not exceed the size selected by PCIE*_CFG030[MRRS]. */
+#else /* Word 0 - Little Endian */
+        uint64_t mrrs                  : 3;  /**< [  2:  0](R/W) Maximum read-request size.
+                                                                 0x0 = 128B.
+                                                                 0x1 = 256B.
+                                                                 0x2 = 512B.
+
+                                                                 Larger sizes are not supported.
+
+                                                                 The MRRS size must not exceed the size selected by PCIE*_CFG030[MRRS]. */
+        uint64_t mrrs_lim              : 1;  /**< [  3:  3](R/W) MAC memory space read requests cannot cross the (naturally-aligned) MRRS boundary.
+
+                                                                 When clear, DPI is allowed to issue a MAC memory-space read that crosses the naturally-
+                                                                 aligned boundary of size defined by MRRS. (DPI will still only cross the boundary when it
+                                                                 would eliminate a read by doing so.)
+
+                                                                 When set, DPI will never issue a MAC memory space read that crosses the naturally-aligned
+                                                                 boundary of size defined by MRRS. */
+        uint64_t mps                   : 3;  /**< [  6:  4](R/W) Maximum payload size.
+                                                                 0x0 = 128B.
+                                                                 0x1 = 256B.
+                                                                 0x2 = 512B.
+
+                                                                 Larger sizes are not supported. If MPS = 0x2, Outbound Packet writes will use the 512B
+                                                                 size but DMA is limited to 256B.
+
+                                                                 The MPS size must not exceed the size selected by PCIE*_CFG030[MPS]. */
+        uint64_t mps_lim               : 1;  /**< [  7:  7](R/W) MAC memory space write requests cannot cross the (naturally-aligned) MPS boundary.
+                                                                 When clear, DPI is allowed to issue a MAC memory- space read that crosses the naturally-
+                                                                 aligned boundary of size defined by MPS. (DPI will still only cross the boundary when it
+                                                                 would eliminate a write by doing so.)
+
+                                                                 When set, DPI will never issue a MAC memory space write that crosses the naturally-aligned
+                                                                 boundary of size defined by MPS. */
+        uint64_t molr                  : 7;  /**< [ 14:  8](R/W) Maximum outstanding load requests. Limits the number of outstanding load requests on the
+                                                                 port by restricting the number of tags used by the SLI to track load responses. This value
+                                                                 can range from 1 to 64 (maximum of 32 if port not configured for 8 lanes). Setting MOLR
+                                                                 to a value of 0 halts all read traffic to the port. There are no restrictions on when this
+                                                                 value can be changed. */
+        uint64_t reserved_15           : 1;
+        uint64_t exact_rd_dis          : 1;  /**< [ 16: 16](R/W) Exact read mode disable.
+                                                                 0 = DPI will issue a 32-bit read request to the PEM when the size and alignment
+                                                                 ensure that the request will not cross a 32-bit boundary.
+                                                                 1 = DPI will always use a minimum 64-bit read request to the PEM. */
+        uint64_t reserved_17_23        : 7;
+        uint64_t halt                  : 1;  /**< [ 24: 24](RO/H) When set, HALT indicates that the MAC has detected a reset condition. No further
+                                                                 instructions that reference the MAC from any instruction queue will be issued until the
+                                                                 MAC comes out of reset and HALT is cleared in SLI_CTL_PORT()[DIS_PORT]. */
+        uint64_t reserved_25_63        : 39;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_dpix_sli_prtx_cfg_s cn8; */
+    struct bdk_dpix_sli_prtx_cfg_cn9
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_25_63        : 39;
+        uint64_t halt                  : 1;  /**< [ 24: 24](RO/H) When set, HALT indicates that the MAC has detected a reset condition. No further
+                                                                 instructions that reference the MAC from any instruction queue will be issued until the
+                                                                 MAC comes out of reset and HALT is cleared in SLI_CTL_PORT()[DIS_PORT]. */
+        uint64_t reserved_17_23        : 7;
+        uint64_t exact_rd_dis          : 1;  /**< [ 16: 16](R/W) Exact read mode disable.
+                                                                 0 = DPI will issue a 32-bit read request to the PEM when the size and alignment
+                                                                 ensure that the request will not cross a 32-bit boundary.
+                                                                 1 = DPI will always use a minimum 64-bit read request to the PEM. */
+        uint64_t reserved_15           : 1;
+        uint64_t molr                  : 7;  /**< [ 14:  8](R/W) Maximum outstanding load requests. Limits the number of outstanding load requests on the
+                                                                 port by restricting the number of tags used by the SLI to track load responses. This value
+                                                                 can range from 1 to 64 (maximum of 32 if port not configured for 8 lanes). Setting MOLR
+                                                                 to a value of 0 halts all read traffic to the port. There are no restrictions on when this
+                                                                 value can be changed. */
+        uint64_t mps_lim               : 1;  /**< [  7:  7](R/W) MAC memory space write requests cannot cross the (naturally-aligned) MPS boundary.
+                                                                 When clear, DPI is allowed to issue a MAC memory- space read that crosses the naturally-
+                                                                 aligned boundary of size defined by MPS. (DPI will still only cross the boundary when it
+                                                                 would eliminate a write by doing so.)
+
+                                                                 When set, DPI will never issue a MAC memory space write that crosses the naturally-aligned
+                                                                 boundary of size defined by MPS. */
+        uint64_t mps                   : 3;  /**< [  6:  4](R/W) Maximum payload size.
+                                                                 0x0 = 128B.
+                                                                 0x1 = 256B.
 
                                                                  Larger sizes are not supported.
 
@@ -3547,8 +4706,7 @@ typedef union
                                                                  MAC comes out of reset and HALT is cleared in SLI_CTL_PORT()[DIS_PORT]. */
         uint64_t reserved_25_63        : 39;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_dpix_sli_prtx_cfg_s cn; */
+    } cn9;
 } bdk_dpix_sli_prtx_cfg_t;
 
 static inline uint64_t BDK_DPIX_SLI_PRTX_CFG(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -3689,6 +4847,55 @@ static inline uint64_t BDK_DPIX_SLI_PRTX_ERR_INFO(unsigned long a, unsigned long
 #define arguments_BDK_DPIX_SLI_PRTX_ERR_INFO(a,b) (a),(b),-1,-1
 
 /**
+ * Register (NCB) dpi#_vdma#_cnt
+ *
+ * DPI DMA  Per-Request Queue Instruction Completion Counter Register
+ * These registers provide a per-request queue instruction completion counter.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_dpix_vdmax_cnt_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t cnt                   : 16; /**< [ 15:  0](R/W/H) DPI DMA per-request queue instruction completion counter. DPI can increment a counter upon
+                                                                 completion of a DPI DMA instruction. DPI subtracts the value written
+                                                                 from [CNT] on a software write. A nonzero [CNT] asserts the corresponding
+                                                                 DPI()_DMA_VF_INT bit.
+
+                                                                 DPI increments the [CNT] for the corresponding requeust queue by one after completing
+                                                                 a DPI_DMA_INSTR_HDR_S[PT]=DPI_HDR_PT_E::CNT DPI DMA instruction. */
+#else /* Word 0 - Little Endian */
+        uint64_t cnt                   : 16; /**< [ 15:  0](R/W/H) DPI DMA per-request queue instruction completion counter. DPI can increment a counter upon
+                                                                 completion of a DPI DMA instruction. DPI subtracts the value written
+                                                                 from [CNT] on a software write. A nonzero [CNT] asserts the corresponding
+                                                                 DPI()_DMA_VF_INT bit.
+
+                                                                 DPI increments the [CNT] for the corresponding requeust queue by one after completing
+                                                                 a DPI_DMA_INSTR_HDR_S[PT]=DPI_HDR_PT_E::CNT DPI DMA instruction. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_dpix_vdmax_cnt_s cn; */
+} bdk_dpix_vdmax_cnt_t;
+
+static inline uint64_t BDK_DPIX_VDMAX_CNT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DPIX_VDMAX_CNT(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7)))
+        return 0x86e020000038ll + 0x10000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7);
+    __bdk_csr_fatal("DPIX_VDMAX_CNT", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_DPIX_VDMAX_CNT(a,b) bdk_dpix_vdmax_cnt_t
+#define bustype_BDK_DPIX_VDMAX_CNT(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_DPIX_VDMAX_CNT(a,b) "DPIX_VDMAX_CNT"
+#define device_bar_BDK_DPIX_VDMAX_CNT(a,b) 0x10 /* VF_BAR0 */
+#define busnum_BDK_DPIX_VDMAX_CNT(a,b) (a)
+#define arguments_BDK_DPIX_VDMAX_CNT(a,b) (a),(b),-1,-1
+
+/**
  * Register (NCB) dpi#_vdma#_counts
  *
  * DPI DMA Instruction Counts Registers
@@ -3717,7 +4924,7 @@ static inline uint64_t BDK_DPIX_VDMAX_COUNTS(unsigned long a, unsigned long b) _
 static inline uint64_t BDK_DPIX_VDMAX_COUNTS(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7)))
-        return 0x86e000000018ll + 0x10000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
+        return 0x86e020000020ll + 0x10000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a==0) && (b<=7)))
         return 0x86e000000018ll + 0x10000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
     __bdk_csr_fatal("DPIX_VDMAX_COUNTS", 2, a, b, 0, 0);
@@ -3758,7 +4965,7 @@ static inline uint64_t BDK_DPIX_VDMAX_DBELL(unsigned long a, unsigned long b) __
 static inline uint64_t BDK_DPIX_VDMAX_DBELL(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7)))
-        return 0x86e000000008ll + 0x10000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
+        return 0x86e020000010ll + 0x10000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a==0) && (b<=7)))
         return 0x86e000000008ll + 0x10000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
     __bdk_csr_fatal("DPIX_VDMAX_DBELL", 2, a, b, 0, 0);
@@ -3770,6 +4977,42 @@ static inline uint64_t BDK_DPIX_VDMAX_DBELL(unsigned long a, unsigned long b)
 #define device_bar_BDK_DPIX_VDMAX_DBELL(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_DPIX_VDMAX_DBELL(a,b) (a)
 #define arguments_BDK_DPIX_VDMAX_DBELL(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB) dpi#_vdma#_en
+ *
+ * DPI Request Global Enable Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_dpix_vdmax_en_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t qen                   : 1;  /**< [  0:  0](R/W/H) Controls if Instruction Queue is enabled and can dispatch instructions to a requesting engine. */
+#else /* Word 0 - Little Endian */
+        uint64_t qen                   : 1;  /**< [  0:  0](R/W/H) Controls if Instruction Queue is enabled and can dispatch instructions to a requesting engine. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_dpix_vdmax_en_s cn; */
+} bdk_dpix_vdmax_en_t;
+
+static inline uint64_t BDK_DPIX_VDMAX_EN(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DPIX_VDMAX_EN(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7)))
+        return 0x86e020000000ll + 0x10000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7);
+    __bdk_csr_fatal("DPIX_VDMAX_EN", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_DPIX_VDMAX_EN(a,b) bdk_dpix_vdmax_en_t
+#define bustype_BDK_DPIX_VDMAX_EN(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_DPIX_VDMAX_EN(a,b) "DPIX_VDMAX_EN"
+#define device_bar_BDK_DPIX_VDMAX_EN(a,b) 0x10 /* VF_BAR0 */
+#define busnum_BDK_DPIX_VDMAX_EN(a,b) (a)
+#define arguments_BDK_DPIX_VDMAX_EN(a,b) (a),(b),-1,-1
 
 /**
  * Register (NCB) dpi#_vdma#_iwbusy
@@ -3800,7 +5043,7 @@ static inline uint64_t BDK_DPIX_VDMAX_IWBUSY(unsigned long a, unsigned long b) _
 static inline uint64_t BDK_DPIX_VDMAX_IWBUSY(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7)))
-        return 0x86e000000028ll + 0x10000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
+        return 0x86e020000030ll + 0x10000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a==0) && (b<=7)))
         return 0x86e000000028ll + 0x10000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
     __bdk_csr_fatal("DPIX_VDMAX_IWBUSY", 2, a, b, 0, 0);
@@ -3839,7 +5082,7 @@ static inline uint64_t BDK_DPIX_VDMAX_NADDR(unsigned long a, unsigned long b) __
 static inline uint64_t BDK_DPIX_VDMAX_NADDR(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7)))
-        return 0x86e000000020ll + 0x10000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
+        return 0x86e020000028ll + 0x10000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a==0) && (b<=7)))
         return 0x86e000000020ll + 0x10000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
     __bdk_csr_fatal("DPIX_VDMAX_NADDR", 2, a, b, 0, 0);
@@ -3904,7 +5147,7 @@ static inline uint64_t BDK_DPIX_VDMAX_REQQ_CTL(unsigned long a, unsigned long b)
 static inline uint64_t BDK_DPIX_VDMAX_REQQ_CTL(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7)))
-        return 0x86e000000000ll + 0x10000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
+        return 0x86e020000008ll + 0x10000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a==0) && (b<=7)))
         return 0x86e000000000ll + 0x10000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
     __bdk_csr_fatal("DPIX_VDMAX_REQQ_CTL", 2, a, b, 0, 0);
@@ -3957,7 +5200,7 @@ static inline uint64_t BDK_DPIX_VDMAX_SADDR(unsigned long a, unsigned long b) __
 static inline uint64_t BDK_DPIX_VDMAX_SADDR(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7)))
-        return 0x86e000000010ll + 0x10000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
+        return 0x86e020000018ll + 0x10000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a==0) && (b<=7)))
         return 0x86e000000010ll + 0x10000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
     __bdk_csr_fatal("DPIX_VDMAX_SADDR", 2, a, b, 0, 0);
@@ -3969,5 +5212,281 @@ static inline uint64_t BDK_DPIX_VDMAX_SADDR(unsigned long a, unsigned long b)
 #define device_bar_BDK_DPIX_VDMAX_SADDR(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_DPIX_VDMAX_SADDR(a,b) (a)
 #define arguments_BDK_DPIX_VDMAX_SADDR(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB) dpi#_vf#_int
+ *
+ * DPI DMA Per-Request Queue Instruction Completion Interrupt Register
+ * This register contains per-request queue completion interrupt bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_dpix_vfx_int_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t complete              : 1;  /**< [  0:  0](R/W1C/H) DPI DMA per-process instruction completion interrupt. See DPI()_VDMA()_CNT.
+
+                                                                 If these interrupts are enabled, the DPI()_DMA_CC()_INT interrupts should not be enabled. */
+#else /* Word 0 - Little Endian */
+        uint64_t complete              : 1;  /**< [  0:  0](R/W1C/H) DPI DMA per-process instruction completion interrupt. See DPI()_VDMA()_CNT.
+
+                                                                 If these interrupts are enabled, the DPI()_DMA_CC()_INT interrupts should not be enabled. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_dpix_vfx_int_s cn; */
+} bdk_dpix_vfx_int_t;
+
+static inline uint64_t BDK_DPIX_VFX_INT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DPIX_VFX_INT(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7)))
+        return 0x86e020000100ll + 0x10000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7);
+    __bdk_csr_fatal("DPIX_VFX_INT", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_DPIX_VFX_INT(a,b) bdk_dpix_vfx_int_t
+#define bustype_BDK_DPIX_VFX_INT(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_DPIX_VFX_INT(a,b) "DPIX_VFX_INT"
+#define device_bar_BDK_DPIX_VFX_INT(a,b) 0x10 /* VF_BAR0 */
+#define busnum_BDK_DPIX_VFX_INT(a,b) (a)
+#define arguments_BDK_DPIX_VFX_INT(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB) dpi#_vf#_int_ena_w1c
+ *
+ * DPI DMA Per-Request Queue Instruction Completion Interrupt Enable Clear Register
+ * This register clears interrupt enable bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_dpix_vfx_int_ena_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t complete              : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for DPI(0)_VF(0..7)_INT[COMPLETE]. */
+#else /* Word 0 - Little Endian */
+        uint64_t complete              : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for DPI(0)_VF(0..7)_INT[COMPLETE]. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_dpix_vfx_int_ena_w1c_s cn; */
+} bdk_dpix_vfx_int_ena_w1c_t;
+
+static inline uint64_t BDK_DPIX_VFX_INT_ENA_W1C(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DPIX_VFX_INT_ENA_W1C(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7)))
+        return 0x86e020000110ll + 0x10000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7);
+    __bdk_csr_fatal("DPIX_VFX_INT_ENA_W1C", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_DPIX_VFX_INT_ENA_W1C(a,b) bdk_dpix_vfx_int_ena_w1c_t
+#define bustype_BDK_DPIX_VFX_INT_ENA_W1C(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_DPIX_VFX_INT_ENA_W1C(a,b) "DPIX_VFX_INT_ENA_W1C"
+#define device_bar_BDK_DPIX_VFX_INT_ENA_W1C(a,b) 0x10 /* VF_BAR0 */
+#define busnum_BDK_DPIX_VFX_INT_ENA_W1C(a,b) (a)
+#define arguments_BDK_DPIX_VFX_INT_ENA_W1C(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB) dpi#_vf#_int_ena_w1s
+ *
+ * DPI DMA Per-Request Queue Instruction Completion Interrupt Enable Set Register
+ * This register sets interrupt enable bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_dpix_vfx_int_ena_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t complete              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for DPI(0)_VF(0..7)_INT[COMPLETE]. */
+#else /* Word 0 - Little Endian */
+        uint64_t complete              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for DPI(0)_VF(0..7)_INT[COMPLETE]. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_dpix_vfx_int_ena_w1s_s cn; */
+} bdk_dpix_vfx_int_ena_w1s_t;
+
+static inline uint64_t BDK_DPIX_VFX_INT_ENA_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DPIX_VFX_INT_ENA_W1S(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7)))
+        return 0x86e020000118ll + 0x10000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7);
+    __bdk_csr_fatal("DPIX_VFX_INT_ENA_W1S", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_DPIX_VFX_INT_ENA_W1S(a,b) bdk_dpix_vfx_int_ena_w1s_t
+#define bustype_BDK_DPIX_VFX_INT_ENA_W1S(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_DPIX_VFX_INT_ENA_W1S(a,b) "DPIX_VFX_INT_ENA_W1S"
+#define device_bar_BDK_DPIX_VFX_INT_ENA_W1S(a,b) 0x10 /* VF_BAR0 */
+#define busnum_BDK_DPIX_VFX_INT_ENA_W1S(a,b) (a)
+#define arguments_BDK_DPIX_VFX_INT_ENA_W1S(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB) dpi#_vf#_int_w1s
+ *
+ * DPI DMA Per-Request Queue Instruction Completion Interrupt Set Register
+ * This register sets interrupt bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_dpix_vfx_int_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t complete              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets DPI(0)_VF(0..7)_INT[COMPLETE]. */
+#else /* Word 0 - Little Endian */
+        uint64_t complete              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets DPI(0)_VF(0..7)_INT[COMPLETE]. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_dpix_vfx_int_w1s_s cn; */
+} bdk_dpix_vfx_int_w1s_t;
+
+static inline uint64_t BDK_DPIX_VFX_INT_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DPIX_VFX_INT_W1S(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7)))
+        return 0x86e020000108ll + 0x10000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7);
+    __bdk_csr_fatal("DPIX_VFX_INT_W1S", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_DPIX_VFX_INT_W1S(a,b) bdk_dpix_vfx_int_w1s_t
+#define bustype_BDK_DPIX_VFX_INT_W1S(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_DPIX_VFX_INT_W1S(a,b) "DPIX_VFX_INT_W1S"
+#define device_bar_BDK_DPIX_VFX_INT_W1S(a,b) 0x10 /* VF_BAR0 */
+#define busnum_BDK_DPIX_VFX_INT_W1S(a,b) (a)
+#define arguments_BDK_DPIX_VFX_INT_W1S(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB) dpi#_vf#_msix_pba#
+ *
+ * DPI MSI-X Pending Bit Array Registers
+ * This register is the MSI-X PBA table; the bit number is indexed by the DPI_VF()_INT_VEC_E
+ * enumeration.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_dpix_vfx_msix_pbax_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t pend                  : 64; /**< [ 63:  0](RO/H) Pending message for the associated DPI_PF_MSIX_VEC()_CTL, enumerated by
+                                                                 DPI_PF_INT_VEC_E. Bits that have no associated DPI_PF_INT_VEC_E are 0. */
+#else /* Word 0 - Little Endian */
+        uint64_t pend                  : 64; /**< [ 63:  0](RO/H) Pending message for the associated DPI_PF_MSIX_VEC()_CTL, enumerated by
+                                                                 DPI_PF_INT_VEC_E. Bits that have no associated DPI_PF_INT_VEC_E are 0. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_dpix_vfx_msix_pbax_s cn; */
+} bdk_dpix_vfx_msix_pbax_t;
+
+static inline uint64_t BDK_DPIX_VFX_MSIX_PBAX(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DPIX_VFX_MSIX_PBAX(unsigned long a, unsigned long b, unsigned long c)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7) && (c==0)))
+        return 0x86e0300f0000ll + 0x10000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7) + 8ll * ((c) & 0x0);
+    __bdk_csr_fatal("DPIX_VFX_MSIX_PBAX", 3, a, b, c, 0);
+}
+
+#define typedef_BDK_DPIX_VFX_MSIX_PBAX(a,b,c) bdk_dpix_vfx_msix_pbax_t
+#define bustype_BDK_DPIX_VFX_MSIX_PBAX(a,b,c) BDK_CSR_TYPE_NCB
+#define basename_BDK_DPIX_VFX_MSIX_PBAX(a,b,c) "DPIX_VFX_MSIX_PBAX"
+#define device_bar_BDK_DPIX_VFX_MSIX_PBAX(a,b,c) 0x14 /* VF_BAR4 */
+#define busnum_BDK_DPIX_VFX_MSIX_PBAX(a,b,c) (a)
+#define arguments_BDK_DPIX_VFX_MSIX_PBAX(a,b,c) (a),(b),(c),-1
+
+/**
+ * Register (NCB) dpi#_vf#_msix_vec#_addr
+ *
+ * DPI VF MSI-X Vector-Table Address Register
+ * This register is the MSI-X vector table, indexed by the DPI_VF_INT_VEC_E enumeration.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_dpix_vfx_msix_vecx_addr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_49_63        : 15;
+        uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
+        uint64_t reserved_1            : 1;
+        uint64_t secvec                : 1;  /**< [  0:  0](RAZ) Secure vector. Zero as not supported on a per-vector basis for VFs; use
+                                                                 PCCPF_DPI_VSEC_SCTL[MSIX_SEC] instead (for documentation, see
+                                                                 PCCPF_XXX_VSEC_SCTL[MSIX_SEC]). */
+#else /* Word 0 - Little Endian */
+        uint64_t secvec                : 1;  /**< [  0:  0](RAZ) Secure vector. Zero as not supported on a per-vector basis for VFs; use
+                                                                 PCCPF_DPI_VSEC_SCTL[MSIX_SEC] instead (for documentation, see
+                                                                 PCCPF_XXX_VSEC_SCTL[MSIX_SEC]). */
+        uint64_t reserved_1            : 1;
+        uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
+        uint64_t reserved_49_63        : 15;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_dpix_vfx_msix_vecx_addr_s cn; */
+} bdk_dpix_vfx_msix_vecx_addr_t;
+
+static inline uint64_t BDK_DPIX_VFX_MSIX_VECX_ADDR(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DPIX_VFX_MSIX_VECX_ADDR(unsigned long a, unsigned long b, unsigned long c)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7) && (c==0)))
+        return 0x86e030000000ll + 0x10000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7) + 0x10ll * ((c) & 0x0);
+    __bdk_csr_fatal("DPIX_VFX_MSIX_VECX_ADDR", 3, a, b, c, 0);
+}
+
+#define typedef_BDK_DPIX_VFX_MSIX_VECX_ADDR(a,b,c) bdk_dpix_vfx_msix_vecx_addr_t
+#define bustype_BDK_DPIX_VFX_MSIX_VECX_ADDR(a,b,c) BDK_CSR_TYPE_NCB
+#define basename_BDK_DPIX_VFX_MSIX_VECX_ADDR(a,b,c) "DPIX_VFX_MSIX_VECX_ADDR"
+#define device_bar_BDK_DPIX_VFX_MSIX_VECX_ADDR(a,b,c) 0x14 /* VF_BAR4 */
+#define busnum_BDK_DPIX_VFX_MSIX_VECX_ADDR(a,b,c) (a)
+#define arguments_BDK_DPIX_VFX_MSIX_VECX_ADDR(a,b,c) (a),(b),(c),-1
+
+/**
+ * Register (NCB) dpi#_vf#_msix_vec#_ctl
+ *
+ * DPI MSI-X Vector-Table Control and Data Register
+ * This register is the MSI-X vector table, indexed by the DPI_VF_INT_VEC_E enumeration.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_dpix_vfx_msix_vecx_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_33_63        : 31;
+        uint64_t mask                  : 1;  /**< [ 32: 32](R/W) When set, no MSI-X interrupts are sent to this vector. */
+        uint64_t reserved_20_31        : 12;
+        uint64_t data                  : 20; /**< [ 19:  0](R/W) Data to use for MSI-X delivery of this vector. */
+#else /* Word 0 - Little Endian */
+        uint64_t data                  : 20; /**< [ 19:  0](R/W) Data to use for MSI-X delivery of this vector. */
+        uint64_t reserved_20_31        : 12;
+        uint64_t mask                  : 1;  /**< [ 32: 32](R/W) When set, no MSI-X interrupts are sent to this vector. */
+        uint64_t reserved_33_63        : 31;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_dpix_vfx_msix_vecx_ctl_s cn; */
+} bdk_dpix_vfx_msix_vecx_ctl_t;
+
+static inline uint64_t BDK_DPIX_VFX_MSIX_VECX_CTL(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DPIX_VFX_MSIX_VECX_CTL(unsigned long a, unsigned long b, unsigned long c)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7) && (c==0)))
+        return 0x86e030000008ll + 0x10000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7) + 0x10ll * ((c) & 0x0);
+    __bdk_csr_fatal("DPIX_VFX_MSIX_VECX_CTL", 3, a, b, c, 0);
+}
+
+#define typedef_BDK_DPIX_VFX_MSIX_VECX_CTL(a,b,c) bdk_dpix_vfx_msix_vecx_ctl_t
+#define bustype_BDK_DPIX_VFX_MSIX_VECX_CTL(a,b,c) BDK_CSR_TYPE_NCB
+#define basename_BDK_DPIX_VFX_MSIX_VECX_CTL(a,b,c) "DPIX_VFX_MSIX_VECX_CTL"
+#define device_bar_BDK_DPIX_VFX_MSIX_VECX_CTL(a,b,c) 0x14 /* VF_BAR4 */
+#define busnum_BDK_DPIX_VFX_MSIX_VECX_CTL(a,b,c) (a)
+#define arguments_BDK_DPIX_VFX_MSIX_VECX_CTL(a,b,c) (a),(b),(c),-1
 
 #endif /* __BDK_CSRS_DPI_H__ */

@@ -7005,7 +7005,7 @@ static inline uint64_t BDK_PEMX_FLR_GLBLCNT_CTL(unsigned long a)
  * as long as 100 ms.  It may be appropriate for software to wait longer before clearing
  * STOPREQ, software may need to drain deep DPI queues for example.
  *
- * Whenever PEM receives a request mastered by Octeon over S2M (i.e. P or NP),
+ * Whenever PEM receives a request mastered by {ProductLine} over S2M (i.e. P or NP),
  * when STOPREQ is set for the function, PEM will discard the outgoing request
  * before sending it to the PCIe core.  If a NP, PEM will schedule an immediate
  * SWI_RSP_ERROR completion for the request - no timeout is required.
@@ -7015,7 +7015,7 @@ static inline uint64_t BDK_PEMX_FLR_GLBLCNT_CTL(unsigned long a)
  * STOPREQ mimics the behavior of PCIEEPVF()_CFG001.ME for outbound requests that will
  * master the PCIe bus (P and NP).
  *
- * Note that STOPREQ will have no effect on completions returned by Octeon over the S2M.
+ * Note that STOPREQ will have no effect on completions returned by {ProductLine} over the S2M.
  *
  * Note that STOPREQ will have no effect on M2S traffic.
  */
@@ -7060,7 +7060,8 @@ static inline uint64_t BDK_PEMX_FLR_PF0_VF_STOPREQ(unsigned long a)
  * bit but must not do so prior to hardware taking down the FLR, which could be
  * as long as 100 ms.  It may be appropriate for software to wait longer before clearing
  * STOPREQ, software may need to drain deep DPI queues for example.
- * Whenever PEM receives a PF or child VF request mastered by Octeon over S2M (i.e. P or NP),
+ * Whenever PEM receives a PF or child VF request mastered by {ProductLine} over S2M (i.e. P or
+ * NP),
  * when STOPREQ is set for the function, PEM will discard the outgoing request
  * before sending it to the PCIe core.  If a NP, PEM will schedule an immediate
  * SWI_RSP_ERROR completion for the request - no timeout is required.
@@ -7068,7 +7069,7 @@ static inline uint64_t BDK_PEMX_FLR_PF0_VF_STOPREQ(unsigned long a)
  * interrupt is generated.
  * STOPREQ mimics the behavior of PCIEEP()_CFG001.ME for outbound requests that will
  * master the PCIe bus (P and NP).
- * Note that STOPREQ has no effect on completions returned by NITROX V over the S2M.
+ * Note that STOPREQ has no effect on completions returned by {ProductLine} over the S2M.
  * Note that STOPREQ has no effect on M2S traffic.
  * Note that when PF0_STOPREQ is set, none of the PEM()_FLR_PF0_VF_STOPREQ[VF_STOPREQ]
  * will be set.
@@ -7126,7 +7127,7 @@ typedef union
                                                                  case of a VF, only one STOPREQ bit gets cleared upon each FLR ack when
                                                                  STOPREQCLR mode bit is set. The srst will assert upon a PF
                                                                  FLR, and srst could be used to reset all STOPREQ bits regardless of
-                                                                 STOPREQCLR. Otherwise (e.g. NITROX V), where a PF FLR does not
+                                                                 STOPREQCLR. Otherwise (e.g. {ProductLine}), where a PF FLR does not
                                                                  assert srst. */
 #else /* Word 0 - Little Endian */
         uint64_t stopreqclr            : 1;  /**< [  0:  0](R/W) When [STOPREQCLR] is clear, only software (and reset) can clear
@@ -7136,7 +7137,7 @@ typedef union
                                                                  case of a VF, only one STOPREQ bit gets cleared upon each FLR ack when
                                                                  STOPREQCLR mode bit is set. The srst will assert upon a PF
                                                                  FLR, and srst could be used to reset all STOPREQ bits regardless of
-                                                                 STOPREQCLR. Otherwise (e.g. NITROX V), where a PF FLR does not
+                                                                 STOPREQCLR. Otherwise (e.g. {ProductLine}), where a PF FLR does not
                                                                  assert srst. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
@@ -8608,7 +8609,7 @@ typedef union
                                                                  affect the contents of PCIEEP()_CFG114/RC()_CFG114[TIMER_START].
                                                                  0x0 = No action.
                                                                  0x1 = Start time based analysis.
-                                                                 0x2 = End time based anaylsis.
+                                                                 0x2 = End time based analysis.
                                                                        Only used if PCIEEP()_CFG114/RC()_CFG114[TBASE_DUR_SEL] is set to manual control,
                                                                        otherwise it is ignored.
                                                                  0x3 = Reserved. */
@@ -8619,7 +8620,7 @@ typedef union
                                                                  affect the contents of PCIEEP()_CFG114/RC()_CFG114[TIMER_START].
                                                                  0x0 = No action.
                                                                  0x1 = Start time based analysis.
-                                                                 0x2 = End time based anaylsis.
+                                                                 0x2 = End time based analysis.
                                                                        Only used if PCIEEP()_CFG114/RC()_CFG114[TBASE_DUR_SEL] is set to manual control,
                                                                        otherwise it is ignored.
                                                                  0x3 = Reserved. */
