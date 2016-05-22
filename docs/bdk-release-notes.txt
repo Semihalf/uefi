@@ -8,13 +8,15 @@
 This document gives a short overview of the major changes
 incorporated into each BDK release.
 
-== thunder-release-v1.22-rc10 ==
+== thunder-release-v1.22-rc15 ==
 * Added support for CN88XX pass 2.1. Prior releases will crash when entering diagnostics on CN88XX pass 2.1 and higher.
+* Added support for CN81XX.
 * Added support for measuring SERDES quality using a vertical eye measurement
 ** New traffic-gen command "margin_rx" for networking related SERDES
 ** SATA menu option "Run margining tool"
 ** PCIe menu option "Run margining tool". This requires a CN73XX NIC plugged into the PCIe slot.
 ** New CCPI menu for testing and measurement
+** Add support for GPIO toggle required for CN88XX with Nitrox
 * Improved Power burn functionality
 ** Start / stop power burn manually
 ** Automated power burn transient load. On for 1 second, off for 1 second
@@ -33,6 +35,9 @@ incorporated into each BDK release.
 ** Enable ECC byte tuning by default; fix speed caclulation.
 ** Fix handling of mini-UDIMMs and mini-RDIMMs.
 ** DBI support.
+** Fix some DDR4 ODT defaults for 2-rank 2-slot configs.
+** Allow hardware-assisted software write-leveling.
+
 * SERDES
 ** Have RX equalization check that a lane has CDR lock before trying equalization
 ** BGX: Don't allow lane up to continue until RX equalization succeeds on all lanes
@@ -43,6 +48,11 @@ incorporated into each BDK release.
 ** Apply GSER-26150 to 8G and higher, not just 10G
 ** Implement workaround for GSER-27882 in BGX
 ** Change how KR training is tracked for BGX interfaces. Direction hints should always be correct now.
+** The QLM tuning set function now allows setting PRE and POST independently
+** Add a device tree config item for QLM insertion loss
+** Change the default 10G swing and post emphasis for all CN8XXX chips
+** Fix incorrect function call on eye parameters. Eye diagram should be avoided, only works on CN88XX pass 1.x
+
 * Networking
 ** Various fixes for Cortina PHY update app
 ** Disable TNS support
@@ -50,7 +60,10 @@ incorporated into each BDK release.
 ** Change SERDES lane tuning to not override values when defaults are used
 ** Apply tuning to CCPI with KR training. Previously this was skipped
 ** TX POST limit changed from 31 to 15. 15 is the highest legal value
-** Cortina ROM updated to 23/10/2015 @ 15:33
+** Inphi / Cortina ROM updated to 23/10/2015 @ 15:33
+** Update Inphi / Cortina PHY access functions to support multi-node. ODMs need to modify the updater app for their board
+** Program Vitesse PHY for QSGMII / SGMII selection during initialization
+
 * PCIe
 ** Update PEM-21178 workaround as soem fields weren't covered
 ** Don't apply QLM tuning to PCIe Gen3 links
@@ -71,10 +84,13 @@ incorporated into each BDK release.
 ** Use recursive lock for console output instead of spinlock. Fixes potential hangs with many output threads on one core.
 ** Add init of IOBX_NCB0_HP
 ** Many messages renames to remove references to THUNDERX
-** USB XHCI support for hubs and mass storage. Storage devices with FatFS volumes can be read/written.
+** USB XHCI support for hubs and mass storage. Storage devices with FatFS volumes can be read/written. Currently only the PAD reference clock is supported.
 ** File menu now has an option to list files in BDK file systems.
 ** Fixed issue where the device tree wasn't passed into diagnostics correctly if the machine had lots of DRAM
 ** Disabled SATA staggered spinup. Staggered spinup was found to cause issues with some SSDs
+** FatFS now uses 4KB block sizes instead of 512B. This required updates to fatfs-tool
+** PCIe scan and enumeration now understand ARI and Enhanced Allocation
+** Change the SMI/MDIO drive strength to 30 ohm
 
 == thunder-release-v1.21 ==
 * Redo handling of CCPI link init to support CN88XX pass 2.0.
