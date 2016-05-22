@@ -1326,22 +1326,39 @@ static bdk_if_link_t if_link_get_xaui(bdk_if_handle_t handle)
     if (link_up)
     {
         int qlm = bdk_qlm_get(handle->node, BDK_IF_BGX, handle->interface, handle->index);
-        result.s.lanes = 4 / priv->num_port;
         result.s.up = 1;
         result.s.full_duplex = 1;
         uint64_t speed = bdk_qlm_get_gbaud_mhz(handle->node, qlm);
         switch (priv->mode)
         {
+            case BGX_MODE_SGMII:
+            case BGX_MODE_QSGMII:
+                /* Using 8b10b symbol encoding */
+                speed = (speed * 8 + 5) / 10;
+                result.s.lanes = 1;
+                break;
             case BGX_MODE_XFI:
-            case BGX_MODE_XLAUI:
             case BGX_MODE_10G_KR:
+                /* Using 64b66b symbol encoding */
+                speed = (speed * 64 + 33) / 66;
+                result.s.lanes = 1;
+                break;
+            case BGX_MODE_XAUI:
+            case BGX_MODE_DXAUI:
+                /* Using 8b10b symbol encoding */
+                speed = (speed * 8 + 5) / 10;
+                result.s.lanes = 4;
+                break;
+            case BGX_MODE_RXAUI:
+                /* Using 8b10b symbol encoding */
+                speed = (speed * 8 + 5) / 10;
+                result.s.lanes = 2;
+                break;
+            case BGX_MODE_XLAUI:
             case BGX_MODE_40G_KR:
                 /* Using 64b66b symbol encoding */
                 speed = (speed * 64 + 33) / 66;
-                break;
-            default:
-                /* Using 8b10b symbol encoding */
-                speed = (speed * 8 + 5) / 10;
+                result.s.lanes = 4;
                 break;
         }
         speed *= result.s.lanes;
