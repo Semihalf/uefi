@@ -334,7 +334,7 @@ static const model_sku_info_t t81_sku_info[] =
 static int model_digits_for_cores(int cores)
 {
     /* If the number of cores is between two model levels, use the lower
-       level. This assumes that a model gaurantees a minimum number of
+       level. This assumes that a model guarantees a minimum number of
        cores. This should never happen, but you never know */
     switch (cores)
     {

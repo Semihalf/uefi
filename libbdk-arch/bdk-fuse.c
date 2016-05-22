@@ -37,7 +37,7 @@ int bdk_fuse_read(bdk_node_t node, int fuse)
 
 /**
  * Soft blow a fuse. Soft blown fuses keep there new value over soft resets, but
- * not pwoer cycles.
+ * not power cycles.
  *
  * @param node   Node to blow
  * @param fuse   Fuse to blow
@@ -116,7 +116,7 @@ int bdk_fuse_field_read(bdk_node_t node, int fuse)
 
 /**
  * Soft blow a fuse in the field set (FUSF). Soft blown fuses
- * keep there new value over soft resets, but not pwoer cycles.
+ * keep there new value over soft resets, but not power cycles.
  *
  * @param node   Node to blow
  * @param fuse   Fuse to blow
