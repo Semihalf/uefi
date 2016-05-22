@@ -892,7 +892,7 @@ MatchUsbClass (
   // If connect class policy, determine whether to create device handle by the five fields
   // in class device path node.
   //
-  // In addtion, hub interface is always matched for this policy.
+  // In addition, hub interface is always matched for this policy.
   //
   if ((ActIfDesc->InterfaceClass == USB_HUB_CLASS_CODE) &&
       (ActIfDesc->InterfaceSubClass == USB_HUB_SUBCLASS_CODE)) {

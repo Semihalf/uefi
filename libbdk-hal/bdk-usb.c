@@ -494,7 +494,7 @@ const char* bdk_usb_get_test_mode_string(bdk_node_t node, int usb_port, bdk_usb_
         case BDK_USB_TEST_USB2_FORCE_ENABLE:
             return "USB 2.0 FORCE_ENABLE test";
         case BDK_USB_XHCI_INIT:
-            return "Initilize host controller";
+            return "Initialize host controller";
         case BDK_USB_XHCI_LIST_ADDRESSES:
             return "List USB interfaces";
     	case BDK_USB_XHCI_POLL_STATUS:

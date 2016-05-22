@@ -182,7 +182,7 @@ typedef struct _EFI_USB_BUS_PROTOCOL {
 
 //
 // Stands for the real USB device. Each device may
-// has several seperately working interfaces.
+// has several separately working interfaces.
 //
 struct _USB_DEVICE {
   USB_BUS                   *Bus;
@@ -392,7 +392,7 @@ UsbBusIsWantedUsbIO (
   @param  UsbStatus              USB result
 
   @retval EFI_INVALID_PARAMETER  The parameters are invalid
-  @retval EFI_SUCCESS            The control transfer succeded.
+  @retval EFI_SUCCESS            The control transfer succeeded.
   @retval Others                 Failed to execute the transfer
 
 **/

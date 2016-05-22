@@ -20,7 +20,7 @@ WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED.
 extern USB_MASS_TRANSPORT mUsbBotTransport;
 
 //
-// Usb Bulk-Only class specfic request
+// Usb Bulk-Only class specific request
 //
 #define USB_BOT_RESET_REQUEST    0xFF       ///< Bulk-Only Mass Storage Reset
 #define USB_BOT_GETLUN_REQUEST   0xFE       ///< Get Max Lun

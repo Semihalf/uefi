@@ -108,7 +108,7 @@ typedef union _USB_DEV_ROUTE {
 typedef struct _USB_ENDPOINT {
   //
   // Store logical device address assigned by UsbBus
-  // It's because some XHCI host controllers may assign the same physcial device
+  // It's because some XHCI host controllers may assign the same physical device
   // address for those devices inserted at different root port.
   //
   UINT8                     BusAddr;
@@ -185,7 +185,7 @@ typedef struct _URB {
   //
   UINTN                           Completed;
   //
-  // Command/Tranfer Ring info
+  // Command/Transfer Ring info
   //
   TRANSFER_RING                   *Ring;
   TRB_TEMPLATE                    *TrbStart;

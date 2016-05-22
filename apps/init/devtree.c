@@ -206,7 +206,7 @@ static int devtree_copy_settings(void *fdt)
 }
 
 /**
- * The operating system following the BDK needs soem changes made to the device
+ * The operating system following the BDK needs some changes made to the device
  * tree, making it match the dynamic state of the hardware
  *
  * @param fdt    Device tree to update
@@ -339,7 +339,7 @@ static int devtree_fixups(void *fdt)
                         int proplen = 0;
                         const uint32_t *propvalue = fdt_getprop(fdt, fdt_node, propname, &proplen);
                         const uint32_t *propend = propvalue + proplen / sizeof(uint32_t);
-                        /* Loop removing refernces to the PEMs phandle */
+                        /* Loop removing references to the PEMs phandle */
                         uint32_t mmu_masters[4][2];
                         int mmu_count = 0;
                         while (propvalue < propend)

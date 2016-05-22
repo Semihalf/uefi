@@ -259,7 +259,7 @@ extern int bdk_config_set_fdt(void *fdt);
 /**
  * Write all default values to a FDT. Missing config items get defaults in the
  * BDK config, this function adds those defaults to the FDT. This way other code
- * gets teh default value without needing special code.
+ * gets the default value without needing special code.
  *
  * @param fdt    FDT structure to fill defaults into
  *

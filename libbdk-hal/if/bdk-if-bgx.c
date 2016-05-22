@@ -62,7 +62,7 @@ static void create_priv(bdk_node_t node, int interface, int index, bgx_priv_t *p
             priv->num_port = 4;
             priv->mode = BGX_MODE_QSGMII;
             /* Disparity check enable. When LMAC_TYPE=QSGMII the running
-               disparity check should be disabled to prevent propogation
+               disparity check should be disabled to prevent propagation
                across ports. */
             BDK_CSR_MODIFY(c, node, BDK_BGXX_GMP_PCS_MISCX_CTL(interface, index),
                 c.s.disp_en = 0);
