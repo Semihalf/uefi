@@ -82,8 +82,9 @@ static void get_table(lua_State* L, const char *name)
 static void l2_perf_cmb(lua_State* L, bdk_node_t node)
 {
     /* These define the array bounds for L2C_CBCX_*X_PFC */
-    const int  L2_BUS_ROWS = 4;
-    const int L2_BUS_COLS = 3;
+    const int  L2_BUS_ROWS = CAVIUM_IS_MODEL(CAVIUM_CN88XX) ? 4 : CAVIUM_IS_MODEL(CAVIUM_CN83XX) ? 2 : 1;
+    const int L2_BUS_COLS = CAVIUM_IS_MODEL(CAVIUM_CN81XX) ? 2 : 3;
+    const int L2_NUM_IOB = CAVIUM_IS_MODEL(CAVIUM_CN81XX) ? 1 : 2;
 
     /* This is the time of the last update for each counter */
     static uint64_t last_start;
@@ -131,7 +132,7 @@ static void l2_perf_cmb(lua_State* L, bdk_node_t node)
             lua_setfield(L, -2, "rsd(fill) %");
             /* It's not obvious, but column 2 (CMB 8-9) corespond to IOB, which
                doesn't have invalidates */
-            if (col < 2)
+            if (col < L2_NUM_IOB)
             {
                 /* Number of invalidates */
                 lua_pushnumber(L, BDK_CSR_READ(node, BDK_L2C_CBCX_INVX_PFC(row,col)));
@@ -146,7 +147,7 @@ static void l2_perf_cmb(lua_State* L, bdk_node_t node)
 
 static void l2_perf_io(lua_State* L, bdk_node_t node)
 {
-    const int L2_NUM_IO = 4;
+    const int L2_NUM_IO = CAVIUM_IS_MODEL(CAVIUM_CN88XX) ? 4 : CAVIUM_IS_MODEL(CAVIUM_CN83XX) ? 2 : 1;
 
     /* This is the time of the last update for each counter */
     static uint64_t last_start;
@@ -182,14 +183,14 @@ static void l2_perf_io(lua_State* L, bdk_node_t node)
 static void l2_perf_tad(lua_State* L, bdk_node_t node)
 {
     /* These define TAD counter ranges */
-    #define MAX_TADS 8
-    #define NUM_TAD_COUNTERS 4
+    const int MAX_TADS = CAVIUM_IS_MODEL(CAVIUM_CN88XX) ? 8 : CAVIUM_IS_MODEL(CAVIUM_CN83XX) ? 4 : 1;
+    const int NUM_TAD_COUNTERS = 4;
 
     /* We cycle through 6 counter sets. 0-3 are each quad, and 4,5 are
         handpicked values */
     static int tad_count_set = 0;
     /* This is the start time of the setup for current count_set */
-    static uint64_t last_start[BDK_NUMA_MAX_NODES][MAX_TADS][NUM_TAD_COUNTERS];
+    static uint64_t last_start[BDK_NUMA_MAX_NODES][8][4];
 
     uint64_t rclk_rate = bdk_clock_get_rate(node, BDK_CLOCK_RCLK);
     uint64_t current_rclk = bdk_clock_get_count(BDK_CLOCK_RCLK);
