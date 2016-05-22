@@ -556,8 +556,8 @@ static bdk_if_link_t if_link_get(bdk_if_handle_t handle)
         return result;
     }
 
-    BDK_CSR_INIT(gmp_pcs_mrx_control, handle->node, BDK_RGXX_GMP_PCS_MRX_CONTROL(rgx_block, rgx_index));
-    if (gmp_pcs_mrx_control.s.loopbck1)
+    BDK_CSR_INIT(xcv_ctl, handle->node, BDK_XCVX_CTL(handle->interface));
+    if (xcv_ctl.s.lpbk_int)
     {
         /* Force 1Gbps full duplex link for internal loopback */
         result.s.up = 1;
@@ -650,10 +650,9 @@ static void if_link_set(bdk_if_handle_t handle, bdk_if_link_t link_info)
  */
 static int if_loopback(bdk_if_handle_t handle, bdk_if_loopback_t loopback)
 {
-    BDK_CSR_MODIFY(c, handle->node, BDK_RGXX_GMP_PCS_MRX_CONTROL(handle->interface, handle->index),
-        c.s.loopbck1 = ((loopback & BDK_IF_LOOPBACK_INTERNAL) != 0));
     BDK_CSR_MODIFY(c, handle->node, BDK_XCVX_CTL(handle->interface),
-        c.s.lpbk_ext = ((loopback & BDK_IF_LOOPBACK_EXTERNAL) != 0));
+        c.s.lpbk_int = !!(loopback & BDK_IF_LOOPBACK_INTERNAL);
+        c.s.lpbk_ext = !!(loopback & BDK_IF_LOOPBACK_EXTERNAL));
     sgmii_link(handle);
     sgmii_speed(handle, if_link_get_rgmii(handle));
     rgmii_speed(handle, if_link_get_rgmii(handle));
