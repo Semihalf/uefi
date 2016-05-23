@@ -34,6 +34,8 @@ clean:
 	$(MAKE) -C boards clean
 	$(MAKE) -C docs clean
 	rm -f target-bin/*.bin
+	rm -f libbdk-arch/bdk-version.[cd]
+	rm -f lua-modules/bdk-version.lua
 
 .PHONY: distclean
 distclean: clean
