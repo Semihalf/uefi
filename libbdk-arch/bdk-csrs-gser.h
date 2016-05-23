@@ -4219,6 +4219,61 @@ static inline uint64_t BDK_GSERX_LANEX_RX_LOOP_CTRL(unsigned long a, unsigned lo
 #define arguments_BDK_GSERX_LANEX_RX_LOOP_CTRL(a,b) (a),(b),-1,-1
 
 /**
+ * Register (RSL) gser#_lane#_rx_misc_ctrl
+ *
+ * GSER Lane RX Miscellaneous Control Register
+ * These registers are for diagnostic use only.
+ * These registers are reset by hardware only during chip cold reset.
+ * The values of the CSR fields in these registers do not change during chip warm or soft resets.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_gserx_lanex_rx_misc_ctrl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_8_63         : 56;
+        uint64_t pcs_sds_rx_misc_ctrl  : 8;  /**< [  7:  0](R/W/H) Miscellaneous Rx control settings.
+
+                                                                 <0> = shadow_pi_ctrl.  Set when using the Rx internal eye monitor.
+                                                                 <1> = Reserved.
+                                                                 <3:2> = offset_cal.
+                                                                 <4> = Reserved.
+                                                                 <5> = Reserved.
+                                                                 <6> = 1149_hysteresis_control.
+                                                                 <7> = Reserved. */
+#else /* Word 0 - Little Endian */
+        uint64_t pcs_sds_rx_misc_ctrl  : 8;  /**< [  7:  0](R/W/H) Miscellaneous Rx control settings.
+
+                                                                 <0> = shadow_pi_ctrl.  Set when using the Rx internal eye monitor.
+                                                                 <1> = Reserved.
+                                                                 <3:2> = offset_cal.
+                                                                 <4> = Reserved.
+                                                                 <5> = Reserved.
+                                                                 <6> = 1149_hysteresis_control.
+                                                                 <7> = Reserved. */
+        uint64_t reserved_8_63         : 56;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_gserx_lanex_rx_misc_ctrl_s cn; */
+} bdk_gserx_lanex_rx_misc_ctrl_t;
+
+static inline uint64_t BDK_GSERX_LANEX_RX_MISC_CTRL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_GSERX_LANEX_RX_MISC_CTRL(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=13) && (b<=3)))
+        return 0x87e090440050ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("GSERX_LANEX_RX_MISC_CTRL", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_GSERX_LANEX_RX_MISC_CTRL(a,b) bdk_gserx_lanex_rx_misc_ctrl_t
+#define bustype_BDK_GSERX_LANEX_RX_MISC_CTRL(a,b) BDK_CSR_TYPE_RSL
+#define basename_BDK_GSERX_LANEX_RX_MISC_CTRL(a,b) "GSERX_LANEX_RX_MISC_CTRL"
+#define device_bar_BDK_GSERX_LANEX_RX_MISC_CTRL(a,b) 0x0 /* PF_BAR0 */
+#define busnum_BDK_GSERX_LANEX_RX_MISC_CTRL(a,b) (a)
+#define arguments_BDK_GSERX_LANEX_RX_MISC_CTRL(a,b) (a),(b),-1,-1
+
+/**
  * Register (RSL) gser#_lane#_rx_misc_ovrrd
  *
  * GSER Lane RX Miscellaneous Override Register

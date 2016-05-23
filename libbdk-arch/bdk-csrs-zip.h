@@ -2304,305 +2304,7 @@ union bdk_zip_zres_s
         uint64_t hash3                 : 64; /**< [511:448] Double-word 3 of computed hash. See [HASH0]. */
 #endif /* Word 7 - End */
     } s;
-    struct bdk_zip_zres_s_cn9
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t crc32                 : 32; /**< [ 63: 32] The CRC32 result corresponding to the bytes processed in the uncompressed stream,
-                                                                 seeded with ZIP_INST_S[ADLERCRC32].
-
-                                                                 For an error-free compression, [TOTALBYTESREAD] indicates the
-                                                                 number of non-history bytes from the input stream that contributed to the hardware
-                                                                 CRC32 calculation. CRC32 is valid for all error-free compression invocations,
-                                                                 whether at the beginning, middle, or end of file.
-
-                                                                 For decompression, CRC32 is valid only for error-free invocations that find the end of
-                                                                 file (i.e. that have [EF] = 1), where it indicates the ADLER/CRC32 result
-                                                                 for the file
-
-                                                                 For standalone hashing invocations, [CRC32] is always 0x0. */
-        uint64_t adler32               : 32; /**< [ 31:  0] The ADLER32 result corresponding to the bytes processed in the uncompressed
-                                                                 stream, starting with the checksum ZIP_INST_S[ADLERCRC32].
-
-                                                                 For an error-free compression, [TOTALBYTESREAD] indicates the
-                                                                 number of non-history bytes from the input stream that contributed to the hardware
-                                                                 ADLER32 calculation. ADLER32 is valid for all error-free compression invocations,
-                                                                 whether at the beginning, middle, or end of file.
-
-                                                                 For decompression, [ADLER32] is valid only for error-free invocations that find
-                                                                 the end of file (i.e. that have [EF] = 1), where it indicates the ADLER/CRC32
-                                                                 result for the file.
-
-                                                                 For standalone hashing invocations, [ADLER32] is always 0x0. */
-#else /* Word 0 - Little Endian */
-        uint64_t adler32               : 32; /**< [ 31:  0] The ADLER32 result corresponding to the bytes processed in the uncompressed
-                                                                 stream, starting with the checksum ZIP_INST_S[ADLERCRC32].
-
-                                                                 For an error-free compression, [TOTALBYTESREAD] indicates the
-                                                                 number of non-history bytes from the input stream that contributed to the hardware
-                                                                 ADLER32 calculation. ADLER32 is valid for all error-free compression invocations,
-                                                                 whether at the beginning, middle, or end of file.
-
-                                                                 For decompression, [ADLER32] is valid only for error-free invocations that find
-                                                                 the end of file (i.e. that have [EF] = 1), where it indicates the ADLER/CRC32
-                                                                 result for the file.
-
-                                                                 For standalone hashing invocations, [ADLER32] is always 0x0. */
-        uint64_t crc32                 : 32; /**< [ 63: 32] The CRC32 result corresponding to the bytes processed in the uncompressed stream,
-                                                                 seeded with ZIP_INST_S[ADLERCRC32].
-
-                                                                 For an error-free compression, [TOTALBYTESREAD] indicates the
-                                                                 number of non-history bytes from the input stream that contributed to the hardware
-                                                                 CRC32 calculation. CRC32 is valid for all error-free compression invocations,
-                                                                 whether at the beginning, middle, or end of file.
-
-                                                                 For decompression, CRC32 is valid only for error-free invocations that find the end of
-                                                                 file (i.e. that have [EF] = 1), where it indicates the ADLER/CRC32 result
-                                                                 for the file
-
-                                                                 For standalone hashing invocations, [CRC32] is always 0x0. */
-#endif /* Word 0 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
-        uint64_t totalbyteswritten     : 32; /**< [127: 96] The total number of bytes produced in the output stream during this coprocessor
-                                                                 invocation. [TOTALBYTESWRITTEN] <= ZIP_INST_S[TOTALOUTPUTLENGTH] in all
-                                                                 error-free cases.
-
-                                                                 For an error-free compression, [TOTALBYTESWRITTEN] is the number of
-                                                                 compressed output bytes that were written during the compression. This includes
-                                                                 any valid [EXN],[EXBITS] when [EF] = 1, and excludes
-                                                                 any valid [EXN],[EXBITS] when [EF] = 0.
-
-                                                                 For an error-free decompression, [TOTALBYTESWRITTEN] is the number of
-                                                                 uncompressed output bytes produced by the operation
-
-                                                                 For standalone hashing invocations, [TOTALBYTESWRITTEN] is always 0. */
-        uint64_t totalbytesread        : 32; /**< [ 95: 64] The total number of bytes processed from the input stream during this coprocessor
-                                                                 invocation. Note that for a compression operation, [TOTALBYTESREAD] does count
-                                                                 the history bytes read in (when ZIP_INST_S[HISTORYLENGTH] != 0x0).
-
-                                                                 For an error-free compression, [TOTALBYTESREAD] ZIP_INST_S[HISTORYLENGTH] is
-                                                                 the number of uncompressed input bytes which, when compressed and concatenated after
-                                                                 ZIP_INST_S[EXN], ZIP_INST_S[EXBITS], produces the compressed byte-output stream
-                                                                 (and [EXN],[EXBITS] when valid). In all error-free compression
-                                                                 invocations, [TOTALBYTESREAD] equals the total number of input bytes supplied
-                                                                 via [INP_PTR_ADDR] (input and compression history bytes).
-
-                                                                 For an error-free decompression, [TOTALBYTESREAD] is the number of compressed
-                                                                 input bytes which were read during the decompression.
-
-                                                                 For standalone hashing invocations, [TOTALBYTESREAD] is not used and is always 0x0. */
-#else /* Word 1 - Little Endian */
-        uint64_t totalbytesread        : 32; /**< [ 95: 64] The total number of bytes processed from the input stream during this coprocessor
-                                                                 invocation. Note that for a compression operation, [TOTALBYTESREAD] does count
-                                                                 the history bytes read in (when ZIP_INST_S[HISTORYLENGTH] != 0x0).
-
-                                                                 For an error-free compression, [TOTALBYTESREAD] ZIP_INST_S[HISTORYLENGTH] is
-                                                                 the number of uncompressed input bytes which, when compressed and concatenated after
-                                                                 ZIP_INST_S[EXN], ZIP_INST_S[EXBITS], produces the compressed byte-output stream
-                                                                 (and [EXN],[EXBITS] when valid). In all error-free compression
-                                                                 invocations, [TOTALBYTESREAD] equals the total number of input bytes supplied
-                                                                 via [INP_PTR_ADDR] (input and compression history bytes).
-
-                                                                 For an error-free decompression, [TOTALBYTESREAD] is the number of compressed
-                                                                 input bytes which were read during the decompression.
-
-                                                                 For standalone hashing invocations, [TOTALBYTESREAD] is not used and is always 0x0. */
-        uint64_t totalbyteswritten     : 32; /**< [127: 96] The total number of bytes produced in the output stream during this coprocessor
-                                                                 invocation. [TOTALBYTESWRITTEN] <= ZIP_INST_S[TOTALOUTPUTLENGTH] in all
-                                                                 error-free cases.
-
-                                                                 For an error-free compression, [TOTALBYTESWRITTEN] is the number of
-                                                                 compressed output bytes that were written during the compression. This includes
-                                                                 any valid [EXN],[EXBITS] when [EF] = 1, and excludes
-                                                                 any valid [EXN],[EXBITS] when [EF] = 0.
-
-                                                                 For an error-free decompression, [TOTALBYTESWRITTEN] is the number of
-                                                                 uncompressed output bytes produced by the operation
-
-                                                                 For standalone hashing invocations, [TOTALBYTESWRITTEN] is always 0. */
-#endif /* Word 1 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 2 - Big Endian */
-        uint64_t totalbitsprocessed    : 32; /**< [191:160] When [EF] = 1 for an error-free decompression operation,
-                                                                 [TOTALBITSPROCESSED] indicates the number of compressed input bits consumed
-                                                                 to decompress all blocks in the file. ([TOTALBITSPROCESSED] + 7)/8 is the total
-                                                                 number of bytes in the entire compressed input stream from the file in that case. (For
-                                                                 example, this can be used to find the location of the ADLER32/CRC32 codes that
-                                                                 follow the compressed data.) Note that [TOTALBITSPROCESSED] refers to the total
-                                                                 number of bits processed during all invocations of the ZIP decompression coprocessor
-                                                                 for the entire file.
-
-                                                                 For any decompress with an error or with [EF] = 0, [TOTALBITSPROCESSED] is
-                                                                 unused and undefined.
-
-                                                                 For any compress, [TOTALBITSPROCESSED] is unused and undefined.
-
-                                                                 For any standalone hashing, [TOTALBITSPROCESSED] is the bytes count of all the
-                                                                 bytes hashed in the current instruction. When ZIP_INST_S[BF] and ZIP_INST_S[IV]
-                                                                 are set, [TOTALBITSPROCESSED] also includes the ZIP_HASH_S[PREVLEN] bytes of
-                                                                 header included in ZIP_HASH_S[PDATA0...7].
-
-                                                                 If the true total bits processed by the ZIP coprocessor equals or exceeds 2^32
-                                                                 for a file, [TOTALBITSPROCESSED] contains the low-order 32-bits of the actual
-                                                                 value for the file. If necessary, in this large file decompression case,
-                                                                 software can calculate the true total bits processed by the ZIP coprocessor
-                                                                 using the [TOTALBITSPROCESSED] value returned by the hardware, together with the
-                                                                 total number of input bytes in the compressed file. */
-        uint64_t doneint               : 1;  /**< [159:159] Done interrupt. This bit is copied from the corrresponding ZIP instruction ZIP_INST_S[DONEINT]. */
-        uint64_t reserved_155_158      : 4;
-        uint64_t exn                   : 3;  /**< [154:152] The number of bits produced beyond the last output byte written.
-                                                                 See details in [EXBITS]. */
-        uint64_t reserved_151          : 1;
-        uint64_t exbits                : 7;  /**< [150:144] [EXN] and [EXBITS] are the compressed bits produced beyond the last compressed byte
-                                                                 written. These bits are required context for partial-file processing as the ZIP
-                                                                 compression algorithm produces a compressed bit stream, but the output stream of the
-                                                                 operation is byte-based. [EXN], [EXBITS] are valid for any error-free compress when
-                                                                 ZIP_INST_S[EF] = 0 and ZIP_INST_S[SF] = 0, and are not used and undefined in all other
-                                                                 cases.
-
-                                                                 [EXBITS] contains the extra bits. Bit <0> contains the first extra bit, <1> the
-                                                                 second extra bit, etc.
-
-                                                                 For decompression or standalone hashing, [EXN] and [EXBITS] are not used and are
-                                                                 undefined. */
-        uint64_t reserved_137_143      : 7;
-        uint64_t ef                    : 1;  /**< [136:136] End of file.
-
-                                                                 For any error-free decompression, [EF] indicates whether the ZIP coprocessor
-                                                                 completed decompression of all blocks in the file during this invocation. If
-                                                                 [EF] = 1 for a decompression operation, the ZIP coprocessor must not be invoked
-                                                                 again for further processing on this file.
-
-                                                                 For compression or standalone hashing, [EF] is not used and is undefined. */
-        uint64_t compcode              : 8;  /**< [135:128] Indicates completion/error status of the ZIP coprocessor for this invocation,
-                                                                 as enumerated by ZIP_COMP_E. Core
-                                                                 software may write the memory location containing [COMPCODE] to 0x0
-                                                                 before ringing the doorbell, and then poll for completion by checking for a nonzero
-                                                                 value.
-
-                                                                 Once the core observes a nonzero [COMPCODE] value in this case, the ZIP
-                                                                 coprocessor will have also completed L2/DRAM write operations for all context,
-                                                                 output stream, and result data.
-
-                                                                 For standalone hashing invocations, [COMPCODE] is either SUCCESS in all
-                                                                 error-free cases or PARIT in all internal hash engine error cases. */
-#else /* Word 2 - Little Endian */
-        uint64_t compcode              : 8;  /**< [135:128] Indicates completion/error status of the ZIP coprocessor for this invocation,
-                                                                 as enumerated by ZIP_COMP_E. Core
-                                                                 software may write the memory location containing [COMPCODE] to 0x0
-                                                                 before ringing the doorbell, and then poll for completion by checking for a nonzero
-                                                                 value.
-
-                                                                 Once the core observes a nonzero [COMPCODE] value in this case, the ZIP
-                                                                 coprocessor will have also completed L2/DRAM write operations for all context,
-                                                                 output stream, and result data.
-
-                                                                 For standalone hashing invocations, [COMPCODE] is either SUCCESS in all
-                                                                 error-free cases or PARIT in all internal hash engine error cases. */
-        uint64_t ef                    : 1;  /**< [136:136] End of file.
-
-                                                                 For any error-free decompression, [EF] indicates whether the ZIP coprocessor
-                                                                 completed decompression of all blocks in the file during this invocation. If
-                                                                 [EF] = 1 for a decompression operation, the ZIP coprocessor must not be invoked
-                                                                 again for further processing on this file.
-
-                                                                 For compression or standalone hashing, [EF] is not used and is undefined. */
-        uint64_t reserved_137_143      : 7;
-        uint64_t exbits                : 7;  /**< [150:144] [EXN] and [EXBITS] are the compressed bits produced beyond the last compressed byte
-                                                                 written. These bits are required context for partial-file processing as the ZIP
-                                                                 compression algorithm produces a compressed bit stream, but the output stream of the
-                                                                 operation is byte-based. [EXN], [EXBITS] are valid for any error-free compress when
-                                                                 ZIP_INST_S[EF] = 0 and ZIP_INST_S[SF] = 0, and are not used and undefined in all other
-                                                                 cases.
-
-                                                                 [EXBITS] contains the extra bits. Bit <0> contains the first extra bit, <1> the
-                                                                 second extra bit, etc.
-
-                                                                 For decompression or standalone hashing, [EXN] and [EXBITS] are not used and are
-                                                                 undefined. */
-        uint64_t reserved_151          : 1;
-        uint64_t exn                   : 3;  /**< [154:152] The number of bits produced beyond the last output byte written.
-                                                                 See details in [EXBITS]. */
-        uint64_t reserved_155_158      : 4;
-        uint64_t doneint               : 1;  /**< [159:159] Done interrupt. This bit is copied from the corrresponding ZIP instruction ZIP_INST_S[DONEINT]. */
-        uint64_t totalbitsprocessed    : 32; /**< [191:160] When [EF] = 1 for an error-free decompression operation,
-                                                                 [TOTALBITSPROCESSED] indicates the number of compressed input bits consumed
-                                                                 to decompress all blocks in the file. ([TOTALBITSPROCESSED] + 7)/8 is the total
-                                                                 number of bytes in the entire compressed input stream from the file in that case. (For
-                                                                 example, this can be used to find the location of the ADLER32/CRC32 codes that
-                                                                 follow the compressed data.) Note that [TOTALBITSPROCESSED] refers to the total
-                                                                 number of bits processed during all invocations of the ZIP decompression coprocessor
-                                                                 for the entire file.
-
-                                                                 For any decompress with an error or with [EF] = 0, [TOTALBITSPROCESSED] is
-                                                                 unused and undefined.
-
-                                                                 For any compress, [TOTALBITSPROCESSED] is unused and undefined.
-
-                                                                 For any standalone hashing, [TOTALBITSPROCESSED] is the bytes count of all the
-                                                                 bytes hashed in the current instruction. When ZIP_INST_S[BF] and ZIP_INST_S[IV]
-                                                                 are set, [TOTALBITSPROCESSED] also includes the ZIP_HASH_S[PREVLEN] bytes of
-                                                                 header included in ZIP_HASH_S[PDATA0...7].
-
-                                                                 If the true total bits processed by the ZIP coprocessor equals or exceeds 2^32
-                                                                 for a file, [TOTALBITSPROCESSED] contains the low-order 32-bits of the actual
-                                                                 value for the file. If necessary, in this large file decompression case,
-                                                                 software can calculate the true total bits processed by the ZIP coprocessor
-                                                                 using the [TOTALBITSPROCESSED] value returned by the hardware, together with the
-                                                                 total number of input bytes in the compressed file. */
-#endif /* Word 2 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 3 - Big Endian */
-        uint64_t reserved_253_255      : 3;
-        uint64_t hshlen                : 61; /**< [252:192] Total hash length in bytes. For compression-and-hash or standalone hashing, the
-                                                                 sum of ZIP_HASH_S[PREVLEN] (if any was read, otherwise 0x0) and
-                                                                 [TOTALBYTESREAD]. For decompress, the sum of ZIP_HASH_S[PREVLEN] (if any was
-                                                                 read, otherwise 0x0) and [TOTALBYTESWRITTEN].
-
-                                                                 This word is only written when ZIP_INST_S[HALG] != ZIP_HASH_ALG_E::NONE. When
-                                                                 ZIP_INST_S[HMIF] is set, [HSHLEN] is the total bytes hashed until the current
-                                                                 instruction. */
-#else /* Word 3 - Little Endian */
-        uint64_t hshlen                : 61; /**< [252:192] Total hash length in bytes. For compression-and-hash or standalone hashing, the
-                                                                 sum of ZIP_HASH_S[PREVLEN] (if any was read, otherwise 0x0) and
-                                                                 [TOTALBYTESREAD]. For decompress, the sum of ZIP_HASH_S[PREVLEN] (if any was
-                                                                 read, otherwise 0x0) and [TOTALBYTESWRITTEN].
-
-                                                                 This word is only written when ZIP_INST_S[HALG] != ZIP_HASH_ALG_E::NONE. When
-                                                                 ZIP_INST_S[HMIF] is set, [HSHLEN] is the total bytes hashed until the current
-                                                                 instruction. */
-        uint64_t reserved_253_255      : 3;
-#endif /* Word 3 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 4 - Big Endian */
-        uint64_t hash0                 : 64; /**< [319:256] Double-word 0 of computed hash.
-
-                                                                 This word is only written when ZIP_INST_S[HALG] != ZIP_HASH_ALG_E::NONE and
-                                                                 ZIP_INST_S[HMIF] is clear.
-
-                                                                 When ZIP_INST_S[HMIF] is set, HASH0 is the double-word 0 of computed hash till
-                                                                 the latest 64 byte block. */
-#else /* Word 4 - Little Endian */
-        uint64_t hash0                 : 64; /**< [319:256] Double-word 0 of computed hash.
-
-                                                                 This word is only written when ZIP_INST_S[HALG] != ZIP_HASH_ALG_E::NONE and
-                                                                 ZIP_INST_S[HMIF] is clear.
-
-                                                                 When ZIP_INST_S[HMIF] is set, HASH0 is the double-word 0 of computed hash till
-                                                                 the latest 64 byte block. */
-#endif /* Word 4 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 5 - Big Endian */
-        uint64_t hash1                 : 64; /**< [383:320] Double-word 1 of computed hash. See [HASH0]. */
-#else /* Word 5 - Little Endian */
-        uint64_t hash1                 : 64; /**< [383:320] Double-word 1 of computed hash. See [HASH0]. */
-#endif /* Word 5 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 6 - Big Endian */
-        uint64_t hash2                 : 64; /**< [447:384] Double-word 2 of computed hash. See [HASH0]. */
-#else /* Word 6 - Little Endian */
-        uint64_t hash2                 : 64; /**< [447:384] Double-word 2 of computed hash. See [HASH0]. */
-#endif /* Word 6 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 7 - Big Endian */
-        uint64_t hash3                 : 64; /**< [511:448] Double-word 3 of computed hash. See [HASH0]. */
-#else /* Word 7 - Little Endian */
-        uint64_t hash3                 : 64; /**< [511:448] Double-word 3 of computed hash. See [HASH0]. */
-#endif /* Word 7 - End */
-    } cn9;
+    /* struct bdk_zip_zres_s_s cn9; */
     struct bdk_zip_zres_s_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -3297,22 +2999,7 @@ typedef union
 #endif /* Word 0 - End */
     } cn88xx;
     /* struct bdk_zip_core_reset_s cn83xx; */
-    struct bdk_zip_core_reset_cn9
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reac                  : 1;  /**< [ 63: 63](R/W) Reset ZIP engine after completion of each instruction, to limit exposure to
-                                                                 corrupt commands and structures affecting subsequent commands. */
-        uint64_t reserved_6_62         : 57;
-        uint64_t reset                 : 6;  /**< [  5:  0](R/W) When set, the conresponding core will be put into reset. When clear, the core is out of
-                                                                 reset.  Bit[<a>] resets ZIP core <a>. */
-#else /* Word 0 - Little Endian */
-        uint64_t reset                 : 6;  /**< [  5:  0](R/W) When set, the conresponding core will be put into reset. When clear, the core is out of
-                                                                 reset.  Bit[<a>] resets ZIP core <a>. */
-        uint64_t reserved_6_62         : 57;
-        uint64_t reac                  : 1;  /**< [ 63: 63](R/W) Reset ZIP engine after completion of each instruction, to limit exposure to
-                                                                 corrupt commands and structures affecting subsequent commands. */
-#endif /* Word 0 - End */
-    } cn9;
+    /* struct bdk_zip_core_reset_s cn9; */
 } bdk_zip_core_reset_t;
 
 #define BDK_ZIP_CORE_RESET BDK_ZIP_CORE_RESET_FUNC()
@@ -3735,7 +3422,7 @@ typedef union
         uint64_t busy                  : 1;  /**< [ 63: 63](RO/H) Core state. 0 = core is idle; 1 = core is busy. */
 #endif /* Word 0 - End */
     } cn88xxp1;
-    /* struct bdk_zip_dbg_corex_inst_cn88xxp2 cn9; */
+    /* struct bdk_zip_dbg_corex_inst_s cn9; */
     /* struct bdk_zip_dbg_corex_inst_s cn83xx; */
 } bdk_zip_dbg_corex_inst_t;
 
@@ -6467,27 +6154,27 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_6_63         : 58;
         uint64_t ld_infl               : 6;  /**< [  5:  0](R/W) Maximum number of in-flight data fetch transactions on the NCB. Larger values may improve
-                                                                 ZIP performance but may starve other devices on the same NCB. Values > 32 are illegal. */
+                                                                 ZIP performance but may starve other devices on the same NCB. */
 #else /* Word 0 - Little Endian */
         uint64_t ld_infl               : 6;  /**< [  5:  0](R/W) Maximum number of in-flight data fetch transactions on the NCB. Larger values may improve
-                                                                 ZIP performance but may starve other devices on the same NCB. Values > 32 are illegal. */
+                                                                 ZIP performance but may starve other devices on the same NCB. */
         uint64_t reserved_6_63         : 58;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_zip_throttle_s cn9; */
-    /* struct bdk_zip_throttle_s cn88xx; */
-    struct bdk_zip_throttle_cn83xx
+    struct bdk_zip_throttle_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_6_63         : 58;
         uint64_t ld_infl               : 6;  /**< [  5:  0](R/W) Maximum number of in-flight data fetch transactions on the NCB. Larger values may improve
-                                                                 ZIP performance but may starve other devices on the same NCB. */
+                                                                 ZIP performance but may starve other devices on the same NCB. Values > 32 are illegal. */
 #else /* Word 0 - Little Endian */
         uint64_t ld_infl               : 6;  /**< [  5:  0](R/W) Maximum number of in-flight data fetch transactions on the NCB. Larger values may improve
-                                                                 ZIP performance but may starve other devices on the same NCB. */
+                                                                 ZIP performance but may starve other devices on the same NCB. Values > 32 are illegal. */
         uint64_t reserved_6_63         : 58;
 #endif /* Word 0 - End */
-    } cn83xx;
+    } cn88xx;
+    /* struct bdk_zip_throttle_s cn83xx; */
 } bdk_zip_throttle_t;
 
 #define BDK_ZIP_THROTTLE BDK_ZIP_THROTTLE_FUNC()

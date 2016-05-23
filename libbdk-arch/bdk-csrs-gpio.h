@@ -1318,16 +1318,7 @@ typedef union
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } cn83xx;
-    struct bdk_gpio_strap1_cn9
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t strap                 : 16; /**< [ 15:  0](RO/H) GPIO strap data of GPIO pins less than 64. Unimplemented pins bits read as 0. */
-#else /* Word 0 - Little Endian */
-        uint64_t strap                 : 16; /**< [ 15:  0](RO/H) GPIO strap data of GPIO pins less than 64. Unimplemented pins bits read as 0. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } cn9;
+    /* struct bdk_gpio_strap1_cn83xx cn9; */
 } bdk_gpio_strap1_t;
 
 #define BDK_GPIO_STRAP1 BDK_GPIO_STRAP1_FUNC()

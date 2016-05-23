@@ -629,7 +629,8 @@ static inline uint64_t BDK_IOBNX_CHIP_PWR_OUT(unsigned long a)
 /**
  * Register (RSL) iobn#_cond_clk_cap#
  *
- * IOBN Conditional Clock Capacitance Registers
+ * INTERNAL: IOBN Conditional Clock Capacitance Register
+ *
  * This register is for diagnostic use only.
  * Internal:
  * Each index corresponds to a different net as follows:

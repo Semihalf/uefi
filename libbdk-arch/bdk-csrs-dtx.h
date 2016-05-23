@@ -1580,7 +1580,7 @@ static inline uint64_t BDK_DTX_DFA_SELX(unsigned long a)
 /**
  * Register (RSL) dtx_dpi_bcst_rsp
  *
- * DTX DPI Control Register
+ * INTERNAL: DTX DPI Control Register
  */
 typedef union
 {
@@ -1618,7 +1618,7 @@ static inline uint64_t BDK_DTX_DPI_BCST_RSP_FUNC(void)
 /**
  * Register (RSL) dtx_dpi_ctl
  *
- * DTX DPI Control Register
+ * INTERNAL: DTX DPI Control Register
  */
 typedef union
 {
@@ -1666,7 +1666,7 @@ static inline uint64_t BDK_DTX_DPI_CTL_FUNC(void)
 /**
  * Register (RSL) dtx_dpi_dat#
  *
- * DTX DPI Raw Data Register
+ * INTERNAL: DTX DPI Raw Data Register
  */
 typedef union
 {
@@ -1705,7 +1705,7 @@ static inline uint64_t BDK_DTX_DPI_DATX(unsigned long a)
 /**
  * Register (RSL) dtx_dpi_ena#
  *
- * DTX DPI Data Enable Register
+ * INTERNAL: DTX DPI Data Enable Register
  */
 typedef union
 {
@@ -1744,7 +1744,7 @@ static inline uint64_t BDK_DTX_DPI_ENAX(unsigned long a)
 /**
  * Register (RSL) dtx_dpi_sel#
  *
- * DTX DPI Select Register
+ * INTERNAL: DTX DPI Select Register
  */
 typedef union
 {

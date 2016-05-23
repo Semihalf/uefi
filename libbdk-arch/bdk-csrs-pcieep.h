@@ -3931,24 +3931,12 @@ typedef union
     struct bdk_pcieepx_cfg087_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_2_31         : 30;
-        uint32_t ler                   : 1;  /**< [  1:  1](RO/WRSL) Link equalization request interrupt enable. */
-        uint32_t pe                    : 1;  /**< [  0:  0](RO/WRSL) Perform equalization. */
+        uint32_t reserved_0_31         : 32;
 #else /* Word 0 - Little Endian */
-        uint32_t pe                    : 1;  /**< [  0:  0](RO/WRSL) Perform equalization. */
-        uint32_t ler                   : 1;  /**< [  1:  1](RO/WRSL) Link equalization request interrupt enable. */
-        uint32_t reserved_2_31         : 30;
+        uint32_t reserved_0_31         : 32;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_pcieepx_cfg087_cn8
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_0_31         : 32;
-#else /* Word 0 - Little Endian */
-        uint32_t reserved_0_31         : 32;
-#endif /* Word 0 - End */
-    } cn8;
-    /* struct bdk_pcieepx_cfg087_s cn9; */
+    /* struct bdk_pcieepx_cfg087_s cn; */
 } bdk_pcieepx_cfg087_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG087(unsigned long a) __attribute__ ((pure, always_inline));

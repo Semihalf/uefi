@@ -2028,7 +2028,8 @@ typedef union
     struct bdk_pciercx_cfg029_cn9
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_28_31        : 4;
+        uint32_t reserved_29_31        : 3;
+        uint32_t flr_cap               : 1;  /**< [ 28: 28](RO) Function level reset capability. This bit applies to endpoints only. */
         uint32_t cspls                 : 2;  /**< [ 27: 26](RO) Captured slot power limit scale. Not applicable for RC port, upstream port only */
         uint32_t csplv                 : 8;  /**< [ 25: 18](RO) Captured slot power limit value. Not applicable for RC port, upstream port only. */
         uint32_t reserved_16_17        : 2;
@@ -2068,16 +2069,14 @@ typedef union
         uint32_t reserved_16_17        : 2;
         uint32_t csplv                 : 8;  /**< [ 25: 18](RO) Captured slot power limit value. Not applicable for RC port, upstream port only. */
         uint32_t cspls                 : 2;  /**< [ 27: 26](RO) Captured slot power limit scale. Not applicable for RC port, upstream port only */
-        uint32_t reserved_28_31        : 4;
+        uint32_t flr_cap               : 1;  /**< [ 28: 28](RO) Function level reset capability. This bit applies to endpoints only. */
+        uint32_t reserved_29_31        : 3;
 #endif /* Word 0 - End */
     } cn9;
-    /* struct bdk_pciercx_cfg029_cn9 cn81xx; */
-    /* struct bdk_pciercx_cfg029_cn9 cn88xx; */
-    struct bdk_pciercx_cfg029_cn83xx
+    struct bdk_pciercx_cfg029_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_29_31        : 3;
-        uint32_t flr_cap               : 1;  /**< [ 28: 28](RO) Function level reset capability. This bit applies to endpoints only. */
+        uint32_t reserved_28_31        : 4;
         uint32_t cspls                 : 2;  /**< [ 27: 26](RO) Captured slot power limit scale. Not applicable for RC port, upstream port only */
         uint32_t csplv                 : 8;  /**< [ 25: 18](RO) Captured slot power limit value. Not applicable for RC port, upstream port only. */
         uint32_t reserved_16_17        : 2;
@@ -2117,10 +2116,11 @@ typedef union
         uint32_t reserved_16_17        : 2;
         uint32_t csplv                 : 8;  /**< [ 25: 18](RO) Captured slot power limit value. Not applicable for RC port, upstream port only. */
         uint32_t cspls                 : 2;  /**< [ 27: 26](RO) Captured slot power limit scale. Not applicable for RC port, upstream port only */
-        uint32_t flr_cap               : 1;  /**< [ 28: 28](RO) Function level reset capability. This bit applies to endpoints only. */
-        uint32_t reserved_29_31        : 3;
+        uint32_t reserved_28_31        : 4;
 #endif /* Word 0 - End */
-    } cn83xx;
+    } cn81xx;
+    /* struct bdk_pciercx_cfg029_cn81xx cn88xx; */
+    /* struct bdk_pciercx_cfg029_cn9 cn83xx; */
 } bdk_pciercx_cfg029_t;
 
 static inline uint64_t BDK_PCIERCX_CFG029(unsigned long a) __attribute__ ((pure, always_inline));
