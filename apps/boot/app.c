@@ -138,7 +138,7 @@ int main(void)
     bdk_boot_status(BDK_BOOT_STATUS_BOOT_STUB_STARTING);
 
     const char *board = bdk_config_get_str(BDK_CONFIG_BOARD_MODEL);
-    if (strncasecmp(board, "EBB", 3) == 0)
+    if (strncasecmp(board, "EBB88", 5) == 0)
     {
         bdk_evb_display_init(node);
         bdk_evb_display_write_str(node, "Cavium");
