@@ -92,7 +92,10 @@ static const __bdk_fs_ops_t bdk_fs_fatfs_ops =
 };
 
 static const char* const volstr[] = {_VOLUME_STRS};
-static FATFS fatfs[_VOLUMES]; /* FATFS handles for all defined volumes */
+_Static_assert( _VOLUMES == (sizeof(volstr)/sizeof(volstr[0])), "Mismatch between _VOLUMES and _VOLUME_STRS");
+
+static FATFS *fatfs_ctl[_VOLUMES]; /* FATFS handles for all defined volumes */
+#define _FATFSCTL_SIZE (sizeof(*fatfs_ctl[0]))
 static uint32_t mountmask = 0;
 int __bdk_fs_fatfs_init(void)
 {
@@ -107,9 +110,11 @@ int __bdk_fs_fatfs_init(void)
     {
         char volume_id[16];
         if ((i < DRV_USB0) || (i > DRV_USB2)) {
-            snprintf(volume_id, sizeof(volume_id), "%s:", volstr[i]);
-            f_mount(&fatfs[i], volume_id, 0);
-            mountmask |= (1<<i);
+	    if (NULL != (fatfs_ctl[i] = calloc(1,_FATFSCTL_SIZE))) {
+                snprintf(volume_id, sizeof(volume_id), "%s:", volstr[i]);
+                f_mount(fatfs_ctl[i], volume_id, 0);
+                mountmask |= (1<<i);
+            }
         }
     }
 
@@ -133,19 +138,28 @@ void __bdk_fs_fatfs_usbnotify(int drvIndex, int available)
     char volume_id[16];
     snprintf(volume_id, sizeof(volume_id), "%s:", volstr[pdrv]);
     if (available) {
-        // Mass storage device became available
-        // - reset its interface to blockio
-        // - do lazy mount
-        disk_usbnotify(drvIndex, available);
-        f_mount(&fatfs[pdrv], volume_id, 0);
-        mountmask |= (1<<pdrv);
+	if (NULL == fatfs_ctl[pdrv])
+            fatfs_ctl[pdrv] = calloc(1,_FATFSCTL_SIZE);
+	if (fatfs_ctl[pdrv] ) {
+            // Mass storage device became available
+            // - reset its interface to blockio
+            // - do lazy mount
+            disk_usbnotify(drvIndex, available);
+            f_mount(fatfs_ctl[pdrv], volume_id, 0);
+            mountmask |= (1<<pdrv);
+	}
     } else {
         // device is no longer there
         // - unmount
         // - reset blockio underneath
-        f_mount(NULL, volume_id,1);
-        mountmask &= ~(1<<pdrv);
-        disk_usbnotify(drvIndex, available);
+	if (fatfs_ctl[pdrv] ) {
+            f_mount(NULL, volume_id,1);
+            mountmask &= ~(1<<pdrv);
+            free(fatfs_ctl[pdrv]);
+            fatfs_ctl[pdrv] = NULL;
+        }
+	disk_usbnotify(drvIndex, available);
+
     }
     printf("\n/fatfs/%s %savailable\n", volume_id, (available) ? "" : "un");
 }
@@ -158,9 +172,11 @@ static int  fatfs_list(const char *path,__bdk_fs_list_callback callback, void *c
         // List volumes
         uint32_t tmask = 1;
         for(int i = 0; i < _VOLUMES;tmask <<=1, i++) {
-            if (!(mountmask & tmask)) continue;
+            if (!(mountmask & tmask) && (fatfs_ctl[i] == NULL)) continue;
             char volume_id[16];
-            snprintf(volume_id, sizeof(volume_id), "%s:", volstr[i]);
+            snprintf(volume_id, sizeof(volume_id), "%s:%c", volstr[i],
+                     !(mountmask & tmask) ||  (fatfs_ctl[i] == NULL)  ? '?' : ' ');
+            volume_id[sizeof(volume_id)-1] = '\0';
             callback(volume_id,callback_state);
         }
         return 0;
