@@ -9,4 +9,4 @@ clean:
 	$(MAKE) -C bdk-lua clean
 	$(MAKE) -C bdk-luac clean
 	$(MAKE) -C fatfs-tool clean
-
+	find scripts/elftools -name "*.pyc" | xargs -r rm
