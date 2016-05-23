@@ -220,7 +220,35 @@ int __bdk_qlm_eye_capture_cn8xxx(bdk_node_t node, int qlm, int lane, bdk_qlm_eye
     const uint64_t Q_QB_ERR = 0x3f << 8;
     uint64_t Q_QB_ES_Original = Q_QB_ERR &  BDK_CSR_READ(node, BDK_GSERX_LANEX_RX_CFG_4(qlm, lane));
 
+    /* All chips after CN88XX pass 1.x use newer IP, requiring extra steps */
+    if (!CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
+    {
+        /* Assert Shadow PI power enable bit:
+           DWC_RX_MISC_CTRL.pcs_sds_rx_misc_ctrl[0] = 1'b1 */
+        BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_RX_MISC_CTRL(qlm, lane),
+            c.u = bdk_insert(c.u, 1, 0, 1));
+
+        /* Set Shadow PI phase to the middle of first UI:
+           DWC_RX_CDR_CTRL_2.cfg_rx_cdr_ctrl_ovrrd_val_15_0[14:8] = 7'd32 */
+        BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_RX_CDR_CTRL_2(qlm, lane),
+            c.u = bdk_insert(c.u, 32, 8, 7));
+
+        /* Enable the shadow relative mode PI phase control by setting the following field:
+           DWC_RX_CDR_CTRL_2.cfg_rx_cdr_ctrl_ovrrd_val_15_0[15] = 1'b0
+           Note: A bit value of 1 is the absolute mode and 0 is the relative mode. */
+        BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_RX_CDR_CTRL_2(qlm, lane),
+            c.u = bdk_insert(c.u, 0, 15, 1));
+    }
+
+    /* Turn on the RT-eye monitor test circuit by setting the following field
+       to one:
+       DWC_RX_CFG_0.pcs_sds_rx_eyemon_en = 1'b1 */
     RTEnable(node, qlm, lane, 1);
+
+    /* Enable the shadow PI clock and error sampler by setting bit 22 of the
+       23:16 range. That is, modify bit 6 of the 8 bits in the following
+       register as shown below:
+       DWC_RX_CDR_MISC_CTRL_0.pcs_sds_rx_cdr_misc_ctrl_23_16[6] = 1'b1 */
     ShadowPIVEnable(node, qlm, lane, 1);
 
     printf("Searching for eye...\n");
@@ -273,13 +301,36 @@ int __bdk_qlm_eye_capture_cn8xxx(bdk_node_t node, int qlm, int lane, bdk_qlm_eye
         for (int y = MAX_Y; y >= MIN_Y; y--)
             eye_data->data[y - MIN_Y][x + 1] = eye_measure_errors(node, qlm, lane, x + 1, y);
     }
+
     /* Save the overall size */
     eye_data->width = MAX_X;
     eye_data->height = MAX_Y - MIN_Y + 1;
 
-    /* Disable the eye capture */
-    RTEnable(node, qlm, lane, 0);
+    /* Move back to the middle Y position. This covers this step from the docs:
+       Set Shadow PI phase to middle of UI. Walk the value back to 7'd32 in
+       steps of 2 or 1 until:
+       DWC_RX_CDR_CTRL_2.cfg_rx_cdr_ctrl_ovrrd_val_15_0[14:8] = 7'd32 */
+    eye_move_location(node, qlm, lane, MAX_X - 1, 0);
+
+    /* Disable the shadow PI clock and Error Sampler by setting bit 22 of the
+       23:16 range. That is, modify bit 6 of the 8 bits in the following
+       register as shown below:
+       DWC_RX_CDR_MISC_CTRL_0[6] = 0 */
     ShadowPIVEnable(node, qlm, lane, 0);
+
+    /* Turn off the RT-eye monitor test circuit by setting the following field
+       to one:
+       DIG.DWC_RX_CFG_0.PCS_SDS_RX_EYEMON_EN = 0 */
+    RTEnable(node, qlm, lane, 0);
+
+    /* All chips after CN88XX pass 1.x use newer IP, requiring extra steps */
+    if (!CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
+    {
+        /* De-assert Shadow PI power enable bit:
+           pcs_sds_rx_misc_ctrl[0] = 1'b0 */
+        BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_RX_MISC_CTRL(qlm, lane),
+            c.u = bdk_insert(c.u, 0, 0, 1));
+    }
 
     /* Restore the Voltage Slicer */
     BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_RX_CFG_4(qlm, lane),
