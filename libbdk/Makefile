@@ -111,7 +111,7 @@ endif
 # Clean targets
 #
 clean:
-	rm -rf $(BDK_ROOT)/libbdk/libbdk.a $(objs) tmp bdk-functions.c bdk-functions.o bdk.h.gch
+	rm -rf $(BDK_ROOT)/libbdk/libbdk.a $(objs) tmp bdk-functions.c bdk-functions.o bdk.h.gch $(BDK_ROOT)/libbdk-hal/if/bdk-microcode-cn8xxx.c
 distclean: clean
 	rm -f $(deps)
 
