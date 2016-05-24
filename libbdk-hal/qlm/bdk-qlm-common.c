@@ -1317,6 +1317,8 @@ int __bdk_qlm_tune_lane_tx(bdk_node_t node, int qlm, int lane, int tx_swing, int
  */
 void __bdk_qlm_tune(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mhz)
 {
+    /* Note: This function is not called for CCPI. For CCPI tuning, see
+       bdk-init-nz-node.c */
     /* Tuning parameters override the KR training. Don't apply them for KR links */
     switch (mode)
     {
@@ -1333,17 +1335,6 @@ void __bdk_qlm_tune(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mhz
             if (baud_mhz > 5000)
                 return;
             break;
-        case BDK_QLM_MODE_OCI:
-        {
-#if 0 // FIXME: Apply tuning to CCPI as KR currently doesn't work
-            /* Skip tuning for CCPI running KR training as tuning overrides
-               the values found by training */
-            BDK_CSR_INIT(qlm_cfg, node, BDK_OCX_QLMX_CFG(qlm - 8));
-            if (qlm_cfg.s.trn_ena && !qlm_cfg.s.trn_rxeq_only)
-                return;
-#endif
-            break;
-        }
         default:
             break;
     }
@@ -1359,11 +1350,8 @@ void __bdk_qlm_tune(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mhz
         {
             if (baud_mhz == 6250)
             {
-                /* From lab measurements of EBB8800 at 6.25G */
-                if (mode == BDK_QLM_MODE_OCI)
-                    swing = 0xc;
-                else
-                    swing = 0x12; /* Email from Brendan Metzner about RXAUI around 2/7/2016 */
+                /* Email from Brendan Metzner about RXAUI around 2/7/2016 */
+                swing = 0x12;
             }
             else if (baud_mhz == 10312)
             {
@@ -1380,10 +1368,7 @@ void __bdk_qlm_tune(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mhz
             if (baud_mhz == 6250)
             {
                 /* From lab measurements of EBB8800 at 6.25G */
-                if (mode == BDK_QLM_MODE_OCI)
-                    premptap = 0xc0;
-                else
-                    premptap = 0xa0;
+                premptap = 0xa0;
             }
             else if (baud_mhz == 10312)
             {
