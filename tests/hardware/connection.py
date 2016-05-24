@@ -215,6 +215,8 @@ class GenericPort:
             if c != r:
                 try:
                     self.waitfor("JUNK", timeout=1)
+                except (KeyboardInterrupt, SystemExit):
+                    raise
                 except:
                     pass
                 raise Exception("Send wasn't echoed properly. Sent '%s', received '%s'" % (c, r))
@@ -223,6 +225,8 @@ class GenericPort:
     def delay(self, timeout):
         try:
             self.waitfor("ANY PENDING DATA", timeout)
+        except (KeyboardInterrupt, SystemExit):
+            raise
         except:
             pass
 

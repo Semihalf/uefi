@@ -110,6 +110,8 @@ class Board_EVB(Board):
         for m in mcu_list:
             try:
                 self.mcu.waitfor("JUNK")
+            except (KeyboardInterrupt, SystemExit):
+                raise
             except:
                 pass
         for m in mcu_list:
