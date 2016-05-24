@@ -407,6 +407,56 @@ static void ccpi_tx_tune(int ccpi_lane, int tx_swing, int tx_pre, int tx_post)
 }
 
 /**
+ * The definition of a short or long channel is whether the channel loss
+ * is less than or equal to 10dB. This function does the range
+ * check so it is only in one spot in the CCPI code.
+ *
+ * @param channel_loss
+ *               Channel loss in dB
+ *
+ * @return True for short channel, false otherwise
+ */
+static bool is_short_channel(int channel_loss)
+{
+    return (channel_loss >= 0) && (channel_loss <= 10);
+}
+
+/**
+ * Configure the channel for short or long. This function shouldn't be used
+ * directly, instead ccpi_channel_loss should be called with the
+ * proper channel loss. Due to limited space in training
+ * messages, the secondary node uses this function directly.
+ *
+ * @param ccpi_lane Lane to configure
+ * @param short_channel
+ *                  True if the channel is short, False if long
+ */
+static void ccpi_channel_length(int ccpi_lane, bool short_channel)
+{
+    int qlm = ccpi_lane / 4 + 8;
+    int lane = ccpi_lane & 3;
+    /* The gain setting can only be set for an entire QLM instead of
+       per lane. Only set it for lane 0 and ignore lanes 1-3 */
+    if (lane == 0)
+    {
+        BDK_CSR_MODIFY(c, node, BDK_GSERX_LANE_VMA_FINE_CTRL_2(qlm),
+            c.s.rx_prectle_gain_min_fine = short_channel ? 0x0 : 0x6);
+    }
+}
+
+/**
+ * Given a channel loss in dB, configure the ccpi lane
+ *
+ * @param ccpi_lane Lane to configure
+ * @param channel_loss
+ *                  Channel loss in dB
+ */
+static void ccpi_channel_loss(int ccpi_lane, int channel_loss)
+{
+    ccpi_channel_length(ccpi_lane, is_short_channel(channel_loss));
+}
+
+/**
  * Change a lane's current state. This is a function to make it easy to log the
  * various state changes.
  *
@@ -768,6 +818,24 @@ static void lane_handle_training_request(int ccpi_lane)
                     bdk_dbg_uart_str("\r\n");
                 }
             }
+            else if (v == 59) /* Request to set long channel */
+            {
+                ccpi_channel_length(ccpi_lane, false);
+                ld_sr.s.main_cst = BDK_BGX_SPU_BR_TRAIN_CST_E_UPDATED;
+                ld_sr.s.post_cst = BDK_BGX_SPU_BR_TRAIN_CST_E_UPDATED;
+                ld_sr.s.pre_cst = BDK_BGX_SPU_BR_TRAIN_CST_E_UPDATED;
+                if (DEBUG_PARAMETERS)
+                    bdk_dbg_uart_str("Received param channel=long\r\n");
+            }
+            else if (v == 60) /* Request to set short channel */
+            {
+                ccpi_channel_length(ccpi_lane, true);
+                ld_sr.s.main_cst = BDK_BGX_SPU_BR_TRAIN_CST_E_UPDATED;
+                ld_sr.s.post_cst = BDK_BGX_SPU_BR_TRAIN_CST_E_UPDATED;
+                ld_sr.s.pre_cst = BDK_BGX_SPU_BR_TRAIN_CST_E_UPDATED;
+                if (DEBUG_PARAMETERS)
+                    bdk_dbg_uart_str("Received param channel=short\r\n");
+            }
         }
 
         if (lp_cu.s.main_cup && !lp_cu.s.init)
@@ -942,7 +1010,23 @@ static union bdk_bgx_spu_br_train_cup_s lane_do_param_request(int ccpi_lane)
         ld_cu.u += 48; /* Encode as 48-58 */
         ld_cu.s.init = 1;
     }
-    else if (lstate->steps == 3) /* Send INIT */
+    else if (lstate->steps == 3) /* Send Channel length */
+    {
+        int channel_loss = bdk_config_get_int(BDK_CONFIG_QLM_CHANNEL_LOSS, node+1, qlm);
+        bool short_channel = is_short_channel(channel_loss);
+        if (short_channel)
+            ld_cu.u = 60; /* Short channel */
+        else
+            ld_cu.u = 59; /* Long channel */
+        if (DEBUG_PARAMETERS)
+        {
+            bdk_dbg_uart_str("Sent channel=");
+            bdk_dbg_uart_str(short_channel ? "short" : "long");
+            bdk_dbg_uart_str("\r\n");
+        }
+        ld_cu.s.init = 1;
+    }
+    else if (lstate->steps == 4) /* Send INIT */
     {
         ld_cu.u = 0;
         ld_cu.s.init = 1;
@@ -989,7 +1073,7 @@ static void lane_do_training(int ccpi_lane, bool is_master)
     if (have_request || (lstate->steps >= CCPI_MAX_STEPS))
         return;
 
-    if ((lstate->steps < 4) && is_master)
+    if ((lstate->steps < 5) && is_master)
         ld_cu = lane_do_param_request(ccpi_lane);
     else if (lstate->desired_main == RXT_ESM_INC)
         ld_cu.s.main_cup = BDK_BGX_SPU_BR_TRAIN_CUP_E_INCREMENT;
@@ -1252,6 +1336,8 @@ int __bdk_init_ccpi_connection(int is_master, uint64_t gbaud, int ccpi_trace)
                 lstate->init_post = tx_premptap >> 4;
                 lstate->init_pre = tx_premptap & 0xf;
             }
+            int channel_loss = bdk_config_get_int(BDK_CONFIG_QLM_CHANNEL_LOSS, node, qlm);
+            ccpi_channel_loss(ccpi_lane, channel_loss);
         }
         ccpi_set_lane_reversal();
     }
