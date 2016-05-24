@@ -759,7 +759,7 @@ UsbMassIfStart(EFI_USB_IO_PROTOCOL *UsbIo,
     EFI_STATUS                    Status;
 
     // Find and initialize transport
-    USB_MASS_TRANSPORT            **Transport;
+    USB_MASS_TRANSPORT            *Transport;
     VOID                          *tContext;
     UINT8                         MaxLun;
     Status = UsbIo->UsbGetInterfaceDescriptor (UsbIo, &Interface);
@@ -772,21 +772,21 @@ UsbMassIfStart(EFI_USB_IO_PROTOCOL *UsbIo,
     // If not found, return EFI_UNSUPPORTED.
     // If found, execute USB_MASS_TRANSPORT.Init() to initialize the transport context.
     Status = EFI_UNSUPPORTED;
-    Transport = NULL;
+
     tContext = NULL;
     for (unsigned Index = 0; Index < USB_MASS_TRANSPORT_COUNT; Index++) {
-        *Transport = mUsbMassTransport[Index];
+        Transport = mUsbMassTransport[Index];
 
-        if (Interface.InterfaceProtocol == (*Transport)->Protocol) {
-            Status  = (*Transport)->Init (UsbIo, &tContext);
+        if (Interface.InterfaceProtocol == Transport->Protocol) {
+            Status  = Transport->Init (UsbIo, &tContext);
             break;
         }
     }
     if (EFI_ERROR (Status)) {
         goto err_exit;
     }
-    if ((*Transport)->Protocol == USB_MASS_STORE_BOT) {
-        (*Transport)->GetMaxLun (tContext, &MaxLun);
+    if (Transport->Protocol == USB_MASS_STORE_BOT) {
+        Transport->GetMaxLun (tContext, &MaxLun);
     }
 
     // Initialize mass device
@@ -830,7 +830,7 @@ UsbMassIfStart(EFI_USB_IO_PROTOCOL *UsbIo,
     UsbMass->BlockIo.WriteBlocks  = UsbMassWriteBlocks;
     UsbMass->BlockIo.FlushBlocks  = UsbMassFlushBlocks;
     UsbMass->OpticalStorage       = FALSE;
-    UsbMass->Transport            = *Transport;
+    UsbMass->Transport            = Transport;
     UsbMass->Context              = tContext;
 
     Status = UsbMassInitMedia (UsbMass);
@@ -874,7 +874,7 @@ UsbMassIfStart(EFI_USB_IO_PROTOCOL *UsbIo,
 
 err_exit:
     if (Transport && tContext)
-        (*Transport)->CleanUp(tContext);
+        Transport->CleanUp(tContext);
 
     return Status;
 }
