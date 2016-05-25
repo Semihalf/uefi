@@ -469,6 +469,9 @@ int bdk_usb_togglePoll(bdk_node_t node, int usb_port, const bdk_usb_toggleReq_t 
         return -1;
     }
     if (!(thisDesc->async_mon_state & AM_Running)) { /* Polling needs to be started */
+        UsbHcReset (thisDesc->usb_bus, EFI_USB_HC_RESET_GLOBAL);
+        UsbHcSetState (thisDesc->usb_bus, EfiUsbHcStateOperational);
+
         bdk_thread_create(node, 0, (bdk_thread_func_t)async_request_monitor, 0, &usb_global_data[node][usb_port], 0);
         // Wait for polling to actually start, but not forever it matters only for LUA displays
         uint64_t done = bdk_clock_get_count(BDK_CLOCK_TIME) +
@@ -491,6 +494,6 @@ int bdk_usb_togglePoll(bdk_node_t node, int usb_port, const bdk_usb_toggleReq_t 
         bdk_thread_yield();
     }
 
-printf("\n*** USB-XHCI Polling have stopped ***\n");
+    printf("\n*** USB-XHCI Polling have stopped ***\n");
     return 0;
 }

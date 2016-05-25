@@ -21,6 +21,12 @@ int bdk_usb_initialize(bdk_node_t node, int usb_port, bdk_usb_clock_t clock_type
         return -1;
 
     int is_usbdrd = !CAVIUM_IS_MODEL(CAVIUM_CN88XX);
+
+    if (0 < bdk_usb_togglePoll(node, usb_port, DO_QUERY)) {
+        // If xhci polling was active turn it off
+        bdk_usb_togglePoll(node, usb_port, DO_TOGGLE);
+    }
+
     /* Perform the following steps to initiate a cold reset. */
 
     /* 1.  Wait for all voltages to reach a stable state.  Ensure the
