@@ -58,14 +58,10 @@
  * ZIP Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define BDK_ZIP_BAR_E_ZIP_PF_BAR0_CN9 (0x838000000000ll)
-#define BDK_ZIP_BAR_E_ZIP_PF_BAR0_CN9_SIZE 0x800000ull
 #define BDK_ZIP_BAR_E_ZIP_PF_BAR0_CN88XX (0x838000000000ll)
 #define BDK_ZIP_BAR_E_ZIP_PF_BAR0_CN88XX_SIZE 0x400000ull
 #define BDK_ZIP_BAR_E_ZIP_PF_BAR0_CN83XX (0x838000000000ll)
 #define BDK_ZIP_BAR_E_ZIP_PF_BAR0_CN83XX_SIZE 0x800000ull
-#define BDK_ZIP_BAR_E_ZIP_PF_BAR4_CN9 (0x838010000000ll)
-#define BDK_ZIP_BAR_E_ZIP_PF_BAR4_CN9_SIZE 0x100000ull
 #define BDK_ZIP_BAR_E_ZIP_PF_BAR4_CN88XX (0x838000f00000ll)
 #define BDK_ZIP_BAR_E_ZIP_PF_BAR4_CN88XX_SIZE 0x100000ull
 #define BDK_ZIP_BAR_E_ZIP_PF_BAR4_CN83XX (0x838010000000ll)
@@ -869,489 +865,6 @@ union bdk_zip_inst_s
                                                                  Bits <63:49>, <6:0> are ignored by hardware, treated as always 0x0. */
 #endif /* Word 15 - End */
     } s;
-    struct bdk_zip_inst_s_cn9
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t doneint               : 1;  /**< [ 63: 63] Done interrupt. When [DONEINT] is set and the instruction completes,
-                                                                 ZIP_VQ()_DONE[DONE] will be incremented. */
-        uint64_t reserved_56_62        : 7;
-        uint64_t totaloutputlength     : 24; /**< [ 55: 32] Indicates the maximum number of output-stream bytes that can be written.
-                                                                 [TOTALOUTPUTLENGTH] must exactly match the number of bytes indicated by
-                                                                 the output pointer (either by ZIP_ZPTR_S[LENGTH] directly if
-                                                                 [DS] = 0, or indirectly if [DS] = 1). */
-        uint64_t reserved_27_31        : 5;
-        uint64_t exn                   : 3;  /**< [ 26: 24] Number of bits produced beyond the last output byte written by
-                                                                 the prior ZIP coprocessor invocation. */
-        uint64_t iv                    : 1;  /**< [ 23: 23] Initial values for hashing.
-                                                                 0 = If hashing is performed, the initial values start a new hash, using the
-                                                                 algorithm-specific initial values specified in ZIP_HASH_ALG_E.
-                                                                 1 = If hashing is performed, load hash initial values and states from
-                                                                 the ZIP_HASH_S pointed to by [HASH_PTR].
-
-                                                                 Must be clear when if [HALG] = 0x0 (NONE), or [BF] is clear. */
-        uint64_t exbits                : 7;  /**< [ 22: 16] [EXN], [EXBITS] are the previously-generated compressed bits beyond the last
-                                                                 compressed byte written for the file. These bits are required context for partial-file
-                                                                 processing because the ZIP compression algorithm produces a compressed bit
-                                                                 stream, but the output stream is in bytes.
-
-                                                                 [EXN], [EXBITS] must be 0x0 when [BF] = 1. If [BF] = 0,
-                                                                 [EXN], [EXBITS] typically equal the ZIP_ZRES_S[EXN], ZIP_ZRES_S[EXBITS] from the
-                                                                 previous ZIP compression coprocessor invocation for the file. (If software instead
-                                                                 inserts its own blocks in the compressed output stream between ZIP compression
-                                                                 coprocessor invocations, [EXN], [EXBITS] will instead be the
-                                                                 result after the last software insertion.)
-
-                                                                 [EXBITS] contains the extra bits. Bit <0> contains the first extra bit, <1> the
-                                                                 second extra bit, etc. All unused EXBITS bits must be 0x0.
-
-                                                                 For decompression, [EXN], [EXBITS] must be 0x0. */
-        uint64_t hmif                  : 1;  /**< [ 15: 15] Hash more-in-file (i.e. not end-of-file).
-                                                                 0 = If hashing is performed, this is the final block in the file, and
-                                                                 store hash results in ZIP_ZRES_S.
-                                                                 1 = If hashing is performed, additional blocks will follow in this file,
-                                                                 and store intermediate state in the ZIP_HASH_S pointed to by [HASH_PTR].
-
-                                                                 If [HALG] = 0x0 (NONE), must be clear. */
-        uint64_t halg                  : 3;  /**< [ 14: 12] Hash algorithm and enable. Enumerated by ZIP_HASH_ALG_E. */
-        uint64_t sf                    : 1;  /**< [ 11: 11] Sync flush. When set, enables SYNC_FLUSH functionality.
-
-                                                                 For DEFLATE compression,
-                                                                 [SF] forces ZIP hardware to append a zero-length nocompress
-                                                                 block to the end of the partial compressed data stream. This forces the partial
-                                                                 compressed stream to be byte-aligned. This grows the output by 35-39 bits.
-                                                                 [SF] must not be set when [EF] is set.
-                                                                 ZIP_ZRES_S[EXN,EXBITS] will always be 0x0 when [SF] is set.
-
-                                                                 For LZS compression,
-                                                                 [SF] must always be set whenever [EF] is clear. ZIP
-                                                                 hardware always inserts an end-of-block marker at the end of the partial
-                                                                 compressed data stream. This forces the partial compressed stream to be
-                                                                 byte-aligned. [SF] must not be set when [EF] is set.
-                                                                 ZIP_ZRES_S[EXN,EXBITS] will always be 0x0.
-
-                                                                 For decompression,
-                                                                 [SF] should always be set. */
-        uint64_t ss                    : 2;  /**< [ 10:  9] Compression speed/storage.
-                                                                 Forces the ZIP compression engine to compress faster, at the expense of the compression
-                                                                 ratio.
-
-                                                                 For compression:
-                                                                 0x0 = best quality, slowest speed.
-                                                                 0x2 = lower quality, faster speed.
-                                                                 0x1 = medium quality, medium speed.
-                                                                 0x3 = lowest quality, best speed.
-
-                                                                 For decompression, [SS] must be 0x0. */
-        uint64_t cc                    : 2;  /**< [  8:  7] Compression coding.
-
-                                                                 For compression:
-                                                                 0x0 = hardware selects the better of fixed or dynamic Huffman encoding.
-                                                                 0x1 = force dynamic Huffman encoding.
-                                                                 0x2 = force fixed Huffman encoding.
-                                                                 0x3 = force LZS encoding.
-
-                                                                 For DEFLATE decompression, [CC] must be 0x0. For LZS decompression, [CC] must be 0x3. */
-        uint64_t ef                    : 1;  /**< [  6:  6] End of input data. Set when the end of the input-data stream ends a file.
-
-                                                                 For compression, if [EF] = 1, the ZIP engine always marks the last output block
-                                                                 to be final. (The extra bits are zero-extended and written out as an
-                                                                 output-stream byte.)
-
-                                                                 For decompression, it is an error if [EF] = 1 and the ZIP coprocessor does not
-                                                                 complete decompression of all blocks before it exhausts the input compressed
-                                                                 data stream (ZIP_ZRES_S[COMPCODE] = ZIP_COMP_E::ITRUNC in this case.). It is not
-                                                                 an error if [EF] = 0 when the ZIP coprocessor completes decompression of all
-                                                                 blocks in the file. */
-        uint64_t bf                    : 1;  /**< [  5:  5] Beginning of file. Set when the beginning of the (non-history) input stream starts a
-                                                                 file.
-
-                                                                 For compression:
-                                                                 0 = first byte of input data is not the beginning of the file.
-                                                                 1 = first byte of input data (after history data or not) is the beginning of the file.
-                                                                 Note that in the compress case when [HISTORYLENGTH] is nonzero, the
-                                                                 beginning of the input data stream is history data. Regardless of whether history
-                                                                 data is present for a compress, BF should indicate whether the first non-history byte
-                                                                 (i.e. the byte at position [HISTORYLENGTH] in the input data stream) is
-                                                                 the first byte of the file.
-
-                                                                 For decompression:
-                                                                 0 = not the beginning of the file, read context from memory.
-                                                                 1 = beginning of the file, create a new context.
-
-                                                                 For hash (SHA1/SHA256):
-                                                                 0 = not the beginning of the file, read hash context from memory at [HASH_PTR].
-                                                                 1 = beginning of the file, load IVs from memory if ZIP_INST_S[IV] is set, read
-                                                                 hash header text bytes (up to 64 bytes) from memory if ZIP_INST_S[PREVLEN] is
-                                                                 nonzero, and create a new context. */
-        uint64_t op                    : 2;  /**< [  4:  3] Compression/decompression operation. Enumerated by ZIP_OP_E. */
-        uint64_t ds                    : 1;  /**< [  2:  2] Data scatter:
-                                                                 1 = [OUT_PTR_ADDR] points to a list of scatter pointers that are read
-                                                                 by the coprocessor before writing the actual output data.
-                                                                 0 = [OUT_PTR_ADDR] points directly at the locations to write the output data.
-
-                                                                 If [DS] = 1, the [OUT_PTR_CTL] LENGTH field, indicating the number of pointers
-                                                                 in the output scatter list, must be at least 0x2. */
-        uint64_t dg                    : 1;  /**< [  1:  1] Data gather:
-                                                                 1 = [INP_PTR_ADDR] (the input and compression history pointer) points to a gather list of
-                                                                 pointers that are read by the coprocessor before reading the actual history/input data.
-                                                                 0 = [INP_PTR_ADDR] points directly at the actual history/input data.
-
-                                                                 If [DG] = 1, the [INP_PTR_CTL]'s LENGTH field, indicating the number of pointers
-                                                                 in the input and compression history gather list, must be at least 0x2. */
-        uint64_t hg                    : 1;  /**< [  0:  0] History gather:
-                                                                 1 = [HIS_PTR_ADDR] points to a gather list of
-                                                                 pointers that are read by the coprocessor before reading the actual history data.
-                                                                 0 = [HIS_PTR_ADDR] points directly at the actual history data.
-                                                                 HG must be zero for a compression operation.
-
-                                                                 If [HG] = 1, history data must be present for the decompression operation, and the
-                                                                 [HIST_PTR_ADDR]'s LENGTH field, indicating the number of pointers in the
-                                                                 decompression history gather list, must be at least 0x2. */
-#else /* Word 0 - Little Endian */
-        uint64_t hg                    : 1;  /**< [  0:  0] History gather:
-                                                                 1 = [HIS_PTR_ADDR] points to a gather list of
-                                                                 pointers that are read by the coprocessor before reading the actual history data.
-                                                                 0 = [HIS_PTR_ADDR] points directly at the actual history data.
-                                                                 HG must be zero for a compression operation.
-
-                                                                 If [HG] = 1, history data must be present for the decompression operation, and the
-                                                                 [HIST_PTR_ADDR]'s LENGTH field, indicating the number of pointers in the
-                                                                 decompression history gather list, must be at least 0x2. */
-        uint64_t dg                    : 1;  /**< [  1:  1] Data gather:
-                                                                 1 = [INP_PTR_ADDR] (the input and compression history pointer) points to a gather list of
-                                                                 pointers that are read by the coprocessor before reading the actual history/input data.
-                                                                 0 = [INP_PTR_ADDR] points directly at the actual history/input data.
-
-                                                                 If [DG] = 1, the [INP_PTR_CTL]'s LENGTH field, indicating the number of pointers
-                                                                 in the input and compression history gather list, must be at least 0x2. */
-        uint64_t ds                    : 1;  /**< [  2:  2] Data scatter:
-                                                                 1 = [OUT_PTR_ADDR] points to a list of scatter pointers that are read
-                                                                 by the coprocessor before writing the actual output data.
-                                                                 0 = [OUT_PTR_ADDR] points directly at the locations to write the output data.
-
-                                                                 If [DS] = 1, the [OUT_PTR_CTL] LENGTH field, indicating the number of pointers
-                                                                 in the output scatter list, must be at least 0x2. */
-        uint64_t op                    : 2;  /**< [  4:  3] Compression/decompression operation. Enumerated by ZIP_OP_E. */
-        uint64_t bf                    : 1;  /**< [  5:  5] Beginning of file. Set when the beginning of the (non-history) input stream starts a
-                                                                 file.
-
-                                                                 For compression:
-                                                                 0 = first byte of input data is not the beginning of the file.
-                                                                 1 = first byte of input data (after history data or not) is the beginning of the file.
-                                                                 Note that in the compress case when [HISTORYLENGTH] is nonzero, the
-                                                                 beginning of the input data stream is history data. Regardless of whether history
-                                                                 data is present for a compress, BF should indicate whether the first non-history byte
-                                                                 (i.e. the byte at position [HISTORYLENGTH] in the input data stream) is
-                                                                 the first byte of the file.
-
-                                                                 For decompression:
-                                                                 0 = not the beginning of the file, read context from memory.
-                                                                 1 = beginning of the file, create a new context.
-
-                                                                 For hash (SHA1/SHA256):
-                                                                 0 = not the beginning of the file, read hash context from memory at [HASH_PTR].
-                                                                 1 = beginning of the file, load IVs from memory if ZIP_INST_S[IV] is set, read
-                                                                 hash header text bytes (up to 64 bytes) from memory if ZIP_INST_S[PREVLEN] is
-                                                                 nonzero, and create a new context. */
-        uint64_t ef                    : 1;  /**< [  6:  6] End of input data. Set when the end of the input-data stream ends a file.
-
-                                                                 For compression, if [EF] = 1, the ZIP engine always marks the last output block
-                                                                 to be final. (The extra bits are zero-extended and written out as an
-                                                                 output-stream byte.)
-
-                                                                 For decompression, it is an error if [EF] = 1 and the ZIP coprocessor does not
-                                                                 complete decompression of all blocks before it exhausts the input compressed
-                                                                 data stream (ZIP_ZRES_S[COMPCODE] = ZIP_COMP_E::ITRUNC in this case.). It is not
-                                                                 an error if [EF] = 0 when the ZIP coprocessor completes decompression of all
-                                                                 blocks in the file. */
-        uint64_t cc                    : 2;  /**< [  8:  7] Compression coding.
-
-                                                                 For compression:
-                                                                 0x0 = hardware selects the better of fixed or dynamic Huffman encoding.
-                                                                 0x1 = force dynamic Huffman encoding.
-                                                                 0x2 = force fixed Huffman encoding.
-                                                                 0x3 = force LZS encoding.
-
-                                                                 For DEFLATE decompression, [CC] must be 0x0. For LZS decompression, [CC] must be 0x3. */
-        uint64_t ss                    : 2;  /**< [ 10:  9] Compression speed/storage.
-                                                                 Forces the ZIP compression engine to compress faster, at the expense of the compression
-                                                                 ratio.
-
-                                                                 For compression:
-                                                                 0x0 = best quality, slowest speed.
-                                                                 0x2 = lower quality, faster speed.
-                                                                 0x1 = medium quality, medium speed.
-                                                                 0x3 = lowest quality, best speed.
-
-                                                                 For decompression, [SS] must be 0x0. */
-        uint64_t sf                    : 1;  /**< [ 11: 11] Sync flush. When set, enables SYNC_FLUSH functionality.
-
-                                                                 For DEFLATE compression,
-                                                                 [SF] forces ZIP hardware to append a zero-length nocompress
-                                                                 block to the end of the partial compressed data stream. This forces the partial
-                                                                 compressed stream to be byte-aligned. This grows the output by 35-39 bits.
-                                                                 [SF] must not be set when [EF] is set.
-                                                                 ZIP_ZRES_S[EXN,EXBITS] will always be 0x0 when [SF] is set.
-
-                                                                 For LZS compression,
-                                                                 [SF] must always be set whenever [EF] is clear. ZIP
-                                                                 hardware always inserts an end-of-block marker at the end of the partial
-                                                                 compressed data stream. This forces the partial compressed stream to be
-                                                                 byte-aligned. [SF] must not be set when [EF] is set.
-                                                                 ZIP_ZRES_S[EXN,EXBITS] will always be 0x0.
-
-                                                                 For decompression,
-                                                                 [SF] should always be set. */
-        uint64_t halg                  : 3;  /**< [ 14: 12] Hash algorithm and enable. Enumerated by ZIP_HASH_ALG_E. */
-        uint64_t hmif                  : 1;  /**< [ 15: 15] Hash more-in-file (i.e. not end-of-file).
-                                                                 0 = If hashing is performed, this is the final block in the file, and
-                                                                 store hash results in ZIP_ZRES_S.
-                                                                 1 = If hashing is performed, additional blocks will follow in this file,
-                                                                 and store intermediate state in the ZIP_HASH_S pointed to by [HASH_PTR].
-
-                                                                 If [HALG] = 0x0 (NONE), must be clear. */
-        uint64_t exbits                : 7;  /**< [ 22: 16] [EXN], [EXBITS] are the previously-generated compressed bits beyond the last
-                                                                 compressed byte written for the file. These bits are required context for partial-file
-                                                                 processing because the ZIP compression algorithm produces a compressed bit
-                                                                 stream, but the output stream is in bytes.
-
-                                                                 [EXN], [EXBITS] must be 0x0 when [BF] = 1. If [BF] = 0,
-                                                                 [EXN], [EXBITS] typically equal the ZIP_ZRES_S[EXN], ZIP_ZRES_S[EXBITS] from the
-                                                                 previous ZIP compression coprocessor invocation for the file. (If software instead
-                                                                 inserts its own blocks in the compressed output stream between ZIP compression
-                                                                 coprocessor invocations, [EXN], [EXBITS] will instead be the
-                                                                 result after the last software insertion.)
-
-                                                                 [EXBITS] contains the extra bits. Bit <0> contains the first extra bit, <1> the
-                                                                 second extra bit, etc. All unused EXBITS bits must be 0x0.
-
-                                                                 For decompression, [EXN], [EXBITS] must be 0x0. */
-        uint64_t iv                    : 1;  /**< [ 23: 23] Initial values for hashing.
-                                                                 0 = If hashing is performed, the initial values start a new hash, using the
-                                                                 algorithm-specific initial values specified in ZIP_HASH_ALG_E.
-                                                                 1 = If hashing is performed, load hash initial values and states from
-                                                                 the ZIP_HASH_S pointed to by [HASH_PTR].
-
-                                                                 Must be clear when if [HALG] = 0x0 (NONE), or [BF] is clear. */
-        uint64_t exn                   : 3;  /**< [ 26: 24] Number of bits produced beyond the last output byte written by
-                                                                 the prior ZIP coprocessor invocation. */
-        uint64_t reserved_27_31        : 5;
-        uint64_t totaloutputlength     : 24; /**< [ 55: 32] Indicates the maximum number of output-stream bytes that can be written.
-                                                                 [TOTALOUTPUTLENGTH] must exactly match the number of bytes indicated by
-                                                                 the output pointer (either by ZIP_ZPTR_S[LENGTH] directly if
-                                                                 [DS] = 0, or indirectly if [DS] = 1). */
-        uint64_t reserved_56_62        : 7;
-        uint64_t doneint               : 1;  /**< [ 63: 63] Done interrupt. When [DONEINT] is set and the instruction completes,
-                                                                 ZIP_VQ()_DONE[DONE] will be incremented. */
-#endif /* Word 0 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
-        uint64_t historylength         : 16; /**< [127:112] With compression, history bytes can be prepended in the input data stream
-                                                                 before the bytes that are actually to be compressed. These history bytes
-                                                                 are generally the (uncompressed) file input bytes immediately preceding the file
-                                                                 bytes being compressed. However, it is also possible to pass in a preset dictionary at
-                                                                 the beginning of the file (which will be followed by the first bytes of the file).
-                                                                 [HISTORYLENGTH] must never exceed ZIP_CONSTANTS[DEPTH].
-                                                                 [HISTORYLENGTH] must never exceed the sum of the preset dictionary size plus the
-                                                                 number of bytes previously processed in the (uncompressed) input data stream for
-                                                                 the file. The supplied history bytes must exactly match the bytes previously
-                                                                 processed in the (uncompressed) input data stream for the file, preceded by the
-                                                                 preset dictionary, if necessary.
-                                                                 [HISTORYLENGTH] must never exceed 2048 with LZS. */
-        uint64_t reserved_96_111       : 16;
-        uint64_t adlercrc32            : 32; /**< [ 95: 64] This 32-bit field represents the current state of the ADLER32 or CRC32 units. The
-                                                                 hardware executes both ADLER32 and CRC32 on the processed uncompressed data
-                                                                 bytes using this value as the current checksum. Though the hardware outputs both
-                                                                 the ADLER32 and CRC32 results, [ADLERCRC32] is the only checksum input, so only
-                                                                 one of the two outputs is likely to be useful.
-
-                                                                 The ADLER32 algorithm is defined in RFC1950.
-
-                                                                 CRC32 is defined in ITU-T X.244, Annex D, pp. 144-145 / ISO 8073. */
-#else /* Word 1 - Little Endian */
-        uint64_t adlercrc32            : 32; /**< [ 95: 64] This 32-bit field represents the current state of the ADLER32 or CRC32 units. The
-                                                                 hardware executes both ADLER32 and CRC32 on the processed uncompressed data
-                                                                 bytes using this value as the current checksum. Though the hardware outputs both
-                                                                 the ADLER32 and CRC32 results, [ADLERCRC32] is the only checksum input, so only
-                                                                 one of the two outputs is likely to be useful.
-
-                                                                 The ADLER32 algorithm is defined in RFC1950.
-
-                                                                 CRC32 is defined in ITU-T X.244, Annex D, pp. 144-145 / ISO 8073. */
-        uint64_t reserved_96_111       : 16;
-        uint64_t historylength         : 16; /**< [127:112] With compression, history bytes can be prepended in the input data stream
-                                                                 before the bytes that are actually to be compressed. These history bytes
-                                                                 are generally the (uncompressed) file input bytes immediately preceding the file
-                                                                 bytes being compressed. However, it is also possible to pass in a preset dictionary at
-                                                                 the beginning of the file (which will be followed by the first bytes of the file).
-                                                                 [HISTORYLENGTH] must never exceed ZIP_CONSTANTS[DEPTH].
-                                                                 [HISTORYLENGTH] must never exceed the sum of the preset dictionary size plus the
-                                                                 number of bytes previously processed in the (uncompressed) input data stream for
-                                                                 the file. The supplied history bytes must exactly match the bytes previously
-                                                                 processed in the (uncompressed) input data stream for the file, preceded by the
-                                                                 preset dictionary, if necessary.
-                                                                 [HISTORYLENGTH] must never exceed 2048 with LZS. */
-#endif /* Word 1 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 2 - Big Endian */
-        uint64_t ctx_ptr_addr          : 64; /**< [191:128] Decompresion context pointer address (ZIP_ZPTR_S format address word definition).
-                                                                 The address must be 16-byte aligned. */
-#else /* Word 2 - Little Endian */
-        uint64_t ctx_ptr_addr          : 64; /**< [191:128] Decompresion context pointer address (ZIP_ZPTR_S format address word definition).
-                                                                 The address must be 16-byte aligned. */
-#endif /* Word 2 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 3 - Big Endian */
-        uint64_t ctx_ptr_ctl           : 64; /**< [255:192] Decompresion context pointer control (ZIP_ZPTR_S format control word definition).
-                                                                 ZIP_ZPTR_S[LENGTH] = 0 (2048 bytes implied). */
-#else /* Word 3 - Little Endian */
-        uint64_t ctx_ptr_ctl           : 64; /**< [255:192] Decompresion context pointer control (ZIP_ZPTR_S format control word definition).
-                                                                 ZIP_ZPTR_S[LENGTH] = 0 (2048 bytes implied). */
-#endif /* Word 3 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 4 - Big Endian */
-        uint64_t his_ptr_addr          : 64; /**< [319:256] Decompresion history pointer address (ZIP_ZPTR_S format address word definition). */
-#else /* Word 4 - Little Endian */
-        uint64_t his_ptr_addr          : 64; /**< [319:256] Decompresion history pointer address (ZIP_ZPTR_S format address word definition). */
-#endif /* Word 4 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 5 - Big Endian */
-        uint64_t his_ptr_ctl           : 64; /**< [383:320] Decompresion history pointer control (ZIP_ZPTR_S format control word definition).
-                                                                 [FW] = 0. ZIP_INST_S[HG] set if gather. */
-#else /* Word 5 - Little Endian */
-        uint64_t his_ptr_ctl           : 64; /**< [383:320] Decompresion history pointer control (ZIP_ZPTR_S format control word definition).
-                                                                 [FW] = 0. ZIP_INST_S[HG] set if gather. */
-#endif /* Word 5 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 6 - Big Endian */
-        uint64_t inp_ptr_addr          : 64; /**< [447:384] Input and compresion history pointer address (ZIP_ZPTR_S format address word definition). */
-#else /* Word 6 - Little Endian */
-        uint64_t inp_ptr_addr          : 64; /**< [447:384] Input and compresion history pointer address (ZIP_ZPTR_S format address word definition). */
-#endif /* Word 6 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 7 - Big Endian */
-        uint64_t inp_ptr_ctl           : 64; /**< [511:448] Input and compresion history pointer control (ZIP_ZPTR_S format control word definition).
-                                                                 [FW] = 0. ZIP_INST_S[DG] set if gather. */
-#else /* Word 7 - Little Endian */
-        uint64_t inp_ptr_ctl           : 64; /**< [511:448] Input and compresion history pointer control (ZIP_ZPTR_S format control word definition).
-                                                                 [FW] = 0. ZIP_INST_S[DG] set if gather. */
-#endif /* Word 7 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 8 - Big Endian */
-        uint64_t out_ptr_addr          : 64; /**< [575:512] Output pointer address  (ZIP_ZPTR_S format address word definition).
-                                                                 Points to where the output data will be written by the ZIP coprocessor for this
-                                                                 invocation. */
-#else /* Word 8 - Little Endian */
-        uint64_t out_ptr_addr          : 64; /**< [575:512] Output pointer address  (ZIP_ZPTR_S format address word definition).
-                                                                 Points to where the output data will be written by the ZIP coprocessor for this
-                                                                 invocation. */
-#endif /* Word 8 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 9 - Big Endian */
-        uint64_t out_ptr_ctl           : 64; /**< [639:576] Output pointer control (ZIP_ZPTR_S format control word definition).
-                                                                 [DS] set if scatter. */
-#else /* Word 9 - Little Endian */
-        uint64_t out_ptr_ctl           : 64; /**< [639:576] Output pointer control (ZIP_ZPTR_S format control word definition).
-                                                                 [DS] set if scatter. */
-#endif /* Word 9 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 10 - Big Endian */
-        uint64_t res_ptr_addr          : 64; /**< [703:640] Result pointer address (ZIP_ZPTR_S format address word definition).
-                                                                 If ZIP_INST_S[HALG]=NONE, address must be 32-byte aligned, otherwise must be 64-byte
-                                                                 aligned. */
-#else /* Word 10 - Little Endian */
-        uint64_t res_ptr_addr          : 64; /**< [703:640] Result pointer address (ZIP_ZPTR_S format address word definition).
-                                                                 If ZIP_INST_S[HALG]=NONE, address must be 32-byte aligned, otherwise must be 64-byte
-                                                                 aligned. */
-#endif /* Word 10 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 11 - Big Endian */
-        uint64_t res_ptr_ctl           : 64; /**< [767:704] Result pointer control (ZIP_ZPTR_S format control word definition).
-
-                                                                 Inside this ZIP_ZPTR_S:
-                                                                   * ZIP_ZPTR_S[FW] can be either 0 or 1.
-                                                                   * ZIP_ZPTR_S[NC] can be either 0 or 1.
-                                                                   * ZIP_ZPTR_S[LENGTH] must be 0. (24-bytes is implied).
-                                                                   * ZIP_ZPTR_S[ADDR] must be 16-byte aligned. */
-#else /* Word 11 - Little Endian */
-        uint64_t res_ptr_ctl           : 64; /**< [767:704] Result pointer control (ZIP_ZPTR_S format control word definition).
-
-                                                                 Inside this ZIP_ZPTR_S:
-                                                                   * ZIP_ZPTR_S[FW] can be either 0 or 1.
-                                                                   * ZIP_ZPTR_S[NC] can be either 0 or 1.
-                                                                   * ZIP_ZPTR_S[LENGTH] must be 0. (24-bytes is implied).
-                                                                   * ZIP_ZPTR_S[ADDR] must be 16-byte aligned. */
-#endif /* Word 11 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 12 - Big Endian */
-        uint64_t reserved_812_831      : 20;
-        uint64_t ggrp                  : 10; /**< [811:802] If [WQ_PTR] is nonzero, the SSO guest-group to use when ZIP submits work to
-                                                                 SSO.
-                                                                 For the SSO to not discard the add-work request, SSO_PF_MAP() must map
-                                                                 [GGRP] and the corresponding queue's ZIP_PF_QUE()_GMCTL[GMID] as valid. */
-        uint64_t tt                    : 2;  /**< [801:800] If [WQ_PTR] is nonzero, the SSO tag type to use when ZIP submits work to SSO. */
-        uint64_t tag                   : 32; /**< [799:768] If [WQ_PTR] is nonzero, the SSO tag to use when ZIP submits work to SSO. */
-#else /* Word 12 - Little Endian */
-        uint64_t tag                   : 32; /**< [799:768] If [WQ_PTR] is nonzero, the SSO tag to use when ZIP submits work to SSO. */
-        uint64_t tt                    : 2;  /**< [801:800] If [WQ_PTR] is nonzero, the SSO tag type to use when ZIP submits work to SSO. */
-        uint64_t ggrp                  : 10; /**< [811:802] If [WQ_PTR] is nonzero, the SSO guest-group to use when ZIP submits work to
-                                                                 SSO.
-                                                                 For the SSO to not discard the add-work request, SSO_PF_MAP() must map
-                                                                 [GGRP] and the corresponding queue's ZIP_PF_QUE()_GMCTL[GMID] as valid. */
-        uint64_t reserved_812_831      : 20;
-#endif /* Word 12 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 13 - Big Endian */
-        uint64_t wq_ptr                : 64; /**< [895:832] If [WQ_PTR] is nonzero, it is a pointer to a work-queue entry that ZIP submits
-                                                                 work to SSO after all context, output data, and result write operations are
-                                                                 visible to other CNXXXX units and the cores.
-
-                                                                 Bits <2:0> must be zero.  Bits <63:49> are ignored by hardware; software should
-                                                                 use a sign-extended bit <48> for forward compatibility.
-
-                                                                 Internal:
-                                                                 Bits <63:49>, <2:0> are ignored by hardware, treated as always 0x0. */
-#else /* Word 13 - Little Endian */
-        uint64_t wq_ptr                : 64; /**< [895:832] If [WQ_PTR] is nonzero, it is a pointer to a work-queue entry that ZIP submits
-                                                                 work to SSO after all context, output data, and result write operations are
-                                                                 visible to other CNXXXX units and the cores.
-
-                                                                 Bits <2:0> must be zero.  Bits <63:49> are ignored by hardware; software should
-                                                                 use a sign-extended bit <48> for forward compatibility.
-
-                                                                 Internal:
-                                                                 Bits <63:49>, <2:0> are ignored by hardware, treated as always 0x0. */
-#endif /* Word 13 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 14 - Big Endian */
-        uint64_t reserved_896_959      : 64;
-#else /* Word 14 - Little Endian */
-        uint64_t reserved_896_959      : 64;
-#endif /* Word 14 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 15 - Big Endian */
-        uint64_t hash_ptr              : 64; /**< [1023:960] Hash initial value pointer. Bits <6:0> must be zero.
-                                                                 Bits <63:49> are ignored by hardware; software should use a sign-extended bit
-                                                                 <48> for forward compatibility.
-
-                                                                 If [HALG] = 0x0 (NONE), must be 0x0.
-
-                                                                 If [HALG] = ZIP_HASH_ALG_E::SHA1/SHA256, [IV] is set, [HASH_PTR]
-                                                                 points to the IOVA of a ZIP_HASH_S, from which ZIP will read from to obtain the
-                                                                 initial hash state.
-
-                                                                 If [HALG] = ZIP_HASH_ALG_E::SHA1/SHA256, [HMIF] is set, [HASH_PTR]
-                                                                 points to the IOVA of a ZIP_HASH_S, which ZIP will write at the end of this
-                                                                 instruction, and may be used by subsequent instructions to continue hashing
-                                                                 other chunks of the same file.
-
-                                                                 Internal:
-                                                                 Bits <63:49>, <6:0> are ignored by hardware, treated as always 0x0. */
-#else /* Word 15 - Little Endian */
-        uint64_t hash_ptr              : 64; /**< [1023:960] Hash initial value pointer. Bits <6:0> must be zero.
-                                                                 Bits <63:49> are ignored by hardware; software should use a sign-extended bit
-                                                                 <48> for forward compatibility.
-
-                                                                 If [HALG] = 0x0 (NONE), must be 0x0.
-
-                                                                 If [HALG] = ZIP_HASH_ALG_E::SHA1/SHA256, [IV] is set, [HASH_PTR]
-                                                                 points to the IOVA of a ZIP_HASH_S, from which ZIP will read from to obtain the
-                                                                 initial hash state.
-
-                                                                 If [HALG] = ZIP_HASH_ALG_E::SHA1/SHA256, [HMIF] is set, [HASH_PTR]
-                                                                 points to the IOVA of a ZIP_HASH_S, which ZIP will write at the end of this
-                                                                 instruction, and may be used by subsequent instructions to continue hashing
-                                                                 other chunks of the same file.
-
-                                                                 Internal:
-                                                                 Bits <63:49>, <6:0> are ignored by hardware, treated as always 0x0. */
-#endif /* Word 15 - End */
-    } cn9;
     struct bdk_zip_inst_s_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -1759,7 +1272,489 @@ union bdk_zip_inst_s
         uint64_t reserved_960_1023     : 64;
 #endif /* Word 15 - End */
     } cn88xx;
-    /* struct bdk_zip_inst_s_cn9 cn83xx; */
+    struct bdk_zip_inst_s_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t doneint               : 1;  /**< [ 63: 63] Done interrupt. When [DONEINT] is set and the instruction completes,
+                                                                 ZIP_VQ()_DONE[DONE] will be incremented. */
+        uint64_t reserved_56_62        : 7;
+        uint64_t totaloutputlength     : 24; /**< [ 55: 32] Indicates the maximum number of output-stream bytes that can be written.
+                                                                 [TOTALOUTPUTLENGTH] must exactly match the number of bytes indicated by
+                                                                 the output pointer (either by ZIP_ZPTR_S[LENGTH] directly if
+                                                                 [DS] = 0, or indirectly if [DS] = 1). */
+        uint64_t reserved_27_31        : 5;
+        uint64_t exn                   : 3;  /**< [ 26: 24] Number of bits produced beyond the last output byte written by
+                                                                 the prior ZIP coprocessor invocation. */
+        uint64_t iv                    : 1;  /**< [ 23: 23] Initial values for hashing.
+                                                                 0 = If hashing is performed, the initial values start a new hash, using the
+                                                                 algorithm-specific initial values specified in ZIP_HASH_ALG_E.
+                                                                 1 = If hashing is performed, load hash initial values and states from
+                                                                 the ZIP_HASH_S pointed to by [HASH_PTR].
+
+                                                                 Must be clear when if [HALG] = 0x0 (NONE), or [BF] is clear. */
+        uint64_t exbits                : 7;  /**< [ 22: 16] [EXN], [EXBITS] are the previously-generated compressed bits beyond the last
+                                                                 compressed byte written for the file. These bits are required context for partial-file
+                                                                 processing because the ZIP compression algorithm produces a compressed bit
+                                                                 stream, but the output stream is in bytes.
+
+                                                                 [EXN], [EXBITS] must be 0x0 when [BF] = 1. If [BF] = 0,
+                                                                 [EXN], [EXBITS] typically equal the ZIP_ZRES_S[EXN], ZIP_ZRES_S[EXBITS] from the
+                                                                 previous ZIP compression coprocessor invocation for the file. (If software instead
+                                                                 inserts its own blocks in the compressed output stream between ZIP compression
+                                                                 coprocessor invocations, [EXN], [EXBITS] will instead be the
+                                                                 result after the last software insertion.)
+
+                                                                 [EXBITS] contains the extra bits. Bit <0> contains the first extra bit, <1> the
+                                                                 second extra bit, etc. All unused EXBITS bits must be 0x0.
+
+                                                                 For decompression, [EXN], [EXBITS] must be 0x0. */
+        uint64_t hmif                  : 1;  /**< [ 15: 15] Hash more-in-file (i.e. not end-of-file).
+                                                                 0 = If hashing is performed, this is the final block in the file, and
+                                                                 store hash results in ZIP_ZRES_S.
+                                                                 1 = If hashing is performed, additional blocks will follow in this file,
+                                                                 and store intermediate state in the ZIP_HASH_S pointed to by [HASH_PTR].
+
+                                                                 If [HALG] = 0x0 (NONE), must be clear. */
+        uint64_t halg                  : 3;  /**< [ 14: 12] Hash algorithm and enable. Enumerated by ZIP_HASH_ALG_E. */
+        uint64_t sf                    : 1;  /**< [ 11: 11] Sync flush. When set, enables SYNC_FLUSH functionality.
+
+                                                                 For DEFLATE compression,
+                                                                 [SF] forces ZIP hardware to append a zero-length nocompress
+                                                                 block to the end of the partial compressed data stream. This forces the partial
+                                                                 compressed stream to be byte-aligned. This grows the output by 35-39 bits.
+                                                                 [SF] must not be set when [EF] is set.
+                                                                 ZIP_ZRES_S[EXN,EXBITS] will always be 0x0 when [SF] is set.
+
+                                                                 For LZS compression,
+                                                                 [SF] must always be set whenever [EF] is clear. ZIP
+                                                                 hardware always inserts an end-of-block marker at the end of the partial
+                                                                 compressed data stream. This forces the partial compressed stream to be
+                                                                 byte-aligned. [SF] must not be set when [EF] is set.
+                                                                 ZIP_ZRES_S[EXN,EXBITS] will always be 0x0.
+
+                                                                 For decompression,
+                                                                 [SF] should always be set. */
+        uint64_t ss                    : 2;  /**< [ 10:  9] Compression speed/storage.
+                                                                 Forces the ZIP compression engine to compress faster, at the expense of the compression
+                                                                 ratio.
+
+                                                                 For compression:
+                                                                 0x0 = best quality, slowest speed.
+                                                                 0x2 = lower quality, faster speed.
+                                                                 0x1 = medium quality, medium speed.
+                                                                 0x3 = lowest quality, best speed.
+
+                                                                 For decompression, [SS] must be 0x0. */
+        uint64_t cc                    : 2;  /**< [  8:  7] Compression coding.
+
+                                                                 For compression:
+                                                                 0x0 = hardware selects the better of fixed or dynamic Huffman encoding.
+                                                                 0x1 = force dynamic Huffman encoding.
+                                                                 0x2 = force fixed Huffman encoding.
+                                                                 0x3 = force LZS encoding.
+
+                                                                 For DEFLATE decompression, [CC] must be 0x0. For LZS decompression, [CC] must be 0x3. */
+        uint64_t ef                    : 1;  /**< [  6:  6] End of input data. Set when the end of the input-data stream ends a file.
+
+                                                                 For compression, if [EF] = 1, the ZIP engine always marks the last output block
+                                                                 to be final. (The extra bits are zero-extended and written out as an
+                                                                 output-stream byte.)
+
+                                                                 For decompression, it is an error if [EF] = 1 and the ZIP coprocessor does not
+                                                                 complete decompression of all blocks before it exhausts the input compressed
+                                                                 data stream (ZIP_ZRES_S[COMPCODE] = ZIP_COMP_E::ITRUNC in this case.). It is not
+                                                                 an error if [EF] = 0 when the ZIP coprocessor completes decompression of all
+                                                                 blocks in the file. */
+        uint64_t bf                    : 1;  /**< [  5:  5] Beginning of file. Set when the beginning of the (non-history) input stream starts a
+                                                                 file.
+
+                                                                 For compression:
+                                                                 0 = first byte of input data is not the beginning of the file.
+                                                                 1 = first byte of input data (after history data or not) is the beginning of the file.
+                                                                 Note that in the compress case when [HISTORYLENGTH] is nonzero, the
+                                                                 beginning of the input data stream is history data. Regardless of whether history
+                                                                 data is present for a compress, BF should indicate whether the first non-history byte
+                                                                 (i.e. the byte at position [HISTORYLENGTH] in the input data stream) is
+                                                                 the first byte of the file.
+
+                                                                 For decompression:
+                                                                 0 = not the beginning of the file, read context from memory.
+                                                                 1 = beginning of the file, create a new context.
+
+                                                                 For hash (SHA1/SHA256):
+                                                                 0 = not the beginning of the file, read hash context from memory at [HASH_PTR].
+                                                                 1 = beginning of the file, load IVs from memory if ZIP_INST_S[IV] is set, read
+                                                                 hash header text bytes (up to 64 bytes) from memory if ZIP_INST_S[PREVLEN] is
+                                                                 nonzero, and create a new context. */
+        uint64_t op                    : 2;  /**< [  4:  3] Compression/decompression operation. Enumerated by ZIP_OP_E. */
+        uint64_t ds                    : 1;  /**< [  2:  2] Data scatter:
+                                                                 1 = [OUT_PTR_ADDR] points to a list of scatter pointers that are read
+                                                                 by the coprocessor before writing the actual output data.
+                                                                 0 = [OUT_PTR_ADDR] points directly at the locations to write the output data.
+
+                                                                 If [DS] = 1, the [OUT_PTR_CTL] LENGTH field, indicating the number of pointers
+                                                                 in the output scatter list, must be at least 0x2. */
+        uint64_t dg                    : 1;  /**< [  1:  1] Data gather:
+                                                                 1 = [INP_PTR_ADDR] (the input and compression history pointer) points to a gather list of
+                                                                 pointers that are read by the coprocessor before reading the actual history/input data.
+                                                                 0 = [INP_PTR_ADDR] points directly at the actual history/input data.
+
+                                                                 If [DG] = 1, the [INP_PTR_CTL]'s LENGTH field, indicating the number of pointers
+                                                                 in the input and compression history gather list, must be at least 0x2. */
+        uint64_t hg                    : 1;  /**< [  0:  0] History gather:
+                                                                 1 = [HIS_PTR_ADDR] points to a gather list of
+                                                                 pointers that are read by the coprocessor before reading the actual history data.
+                                                                 0 = [HIS_PTR_ADDR] points directly at the actual history data.
+                                                                 HG must be zero for a compression operation.
+
+                                                                 If [HG] = 1, history data must be present for the decompression operation, and the
+                                                                 [HIST_PTR_ADDR]'s LENGTH field, indicating the number of pointers in the
+                                                                 decompression history gather list, must be at least 0x2. */
+#else /* Word 0 - Little Endian */
+        uint64_t hg                    : 1;  /**< [  0:  0] History gather:
+                                                                 1 = [HIS_PTR_ADDR] points to a gather list of
+                                                                 pointers that are read by the coprocessor before reading the actual history data.
+                                                                 0 = [HIS_PTR_ADDR] points directly at the actual history data.
+                                                                 HG must be zero for a compression operation.
+
+                                                                 If [HG] = 1, history data must be present for the decompression operation, and the
+                                                                 [HIST_PTR_ADDR]'s LENGTH field, indicating the number of pointers in the
+                                                                 decompression history gather list, must be at least 0x2. */
+        uint64_t dg                    : 1;  /**< [  1:  1] Data gather:
+                                                                 1 = [INP_PTR_ADDR] (the input and compression history pointer) points to a gather list of
+                                                                 pointers that are read by the coprocessor before reading the actual history/input data.
+                                                                 0 = [INP_PTR_ADDR] points directly at the actual history/input data.
+
+                                                                 If [DG] = 1, the [INP_PTR_CTL]'s LENGTH field, indicating the number of pointers
+                                                                 in the input and compression history gather list, must be at least 0x2. */
+        uint64_t ds                    : 1;  /**< [  2:  2] Data scatter:
+                                                                 1 = [OUT_PTR_ADDR] points to a list of scatter pointers that are read
+                                                                 by the coprocessor before writing the actual output data.
+                                                                 0 = [OUT_PTR_ADDR] points directly at the locations to write the output data.
+
+                                                                 If [DS] = 1, the [OUT_PTR_CTL] LENGTH field, indicating the number of pointers
+                                                                 in the output scatter list, must be at least 0x2. */
+        uint64_t op                    : 2;  /**< [  4:  3] Compression/decompression operation. Enumerated by ZIP_OP_E. */
+        uint64_t bf                    : 1;  /**< [  5:  5] Beginning of file. Set when the beginning of the (non-history) input stream starts a
+                                                                 file.
+
+                                                                 For compression:
+                                                                 0 = first byte of input data is not the beginning of the file.
+                                                                 1 = first byte of input data (after history data or not) is the beginning of the file.
+                                                                 Note that in the compress case when [HISTORYLENGTH] is nonzero, the
+                                                                 beginning of the input data stream is history data. Regardless of whether history
+                                                                 data is present for a compress, BF should indicate whether the first non-history byte
+                                                                 (i.e. the byte at position [HISTORYLENGTH] in the input data stream) is
+                                                                 the first byte of the file.
+
+                                                                 For decompression:
+                                                                 0 = not the beginning of the file, read context from memory.
+                                                                 1 = beginning of the file, create a new context.
+
+                                                                 For hash (SHA1/SHA256):
+                                                                 0 = not the beginning of the file, read hash context from memory at [HASH_PTR].
+                                                                 1 = beginning of the file, load IVs from memory if ZIP_INST_S[IV] is set, read
+                                                                 hash header text bytes (up to 64 bytes) from memory if ZIP_INST_S[PREVLEN] is
+                                                                 nonzero, and create a new context. */
+        uint64_t ef                    : 1;  /**< [  6:  6] End of input data. Set when the end of the input-data stream ends a file.
+
+                                                                 For compression, if [EF] = 1, the ZIP engine always marks the last output block
+                                                                 to be final. (The extra bits are zero-extended and written out as an
+                                                                 output-stream byte.)
+
+                                                                 For decompression, it is an error if [EF] = 1 and the ZIP coprocessor does not
+                                                                 complete decompression of all blocks before it exhausts the input compressed
+                                                                 data stream (ZIP_ZRES_S[COMPCODE] = ZIP_COMP_E::ITRUNC in this case.). It is not
+                                                                 an error if [EF] = 0 when the ZIP coprocessor completes decompression of all
+                                                                 blocks in the file. */
+        uint64_t cc                    : 2;  /**< [  8:  7] Compression coding.
+
+                                                                 For compression:
+                                                                 0x0 = hardware selects the better of fixed or dynamic Huffman encoding.
+                                                                 0x1 = force dynamic Huffman encoding.
+                                                                 0x2 = force fixed Huffman encoding.
+                                                                 0x3 = force LZS encoding.
+
+                                                                 For DEFLATE decompression, [CC] must be 0x0. For LZS decompression, [CC] must be 0x3. */
+        uint64_t ss                    : 2;  /**< [ 10:  9] Compression speed/storage.
+                                                                 Forces the ZIP compression engine to compress faster, at the expense of the compression
+                                                                 ratio.
+
+                                                                 For compression:
+                                                                 0x0 = best quality, slowest speed.
+                                                                 0x2 = lower quality, faster speed.
+                                                                 0x1 = medium quality, medium speed.
+                                                                 0x3 = lowest quality, best speed.
+
+                                                                 For decompression, [SS] must be 0x0. */
+        uint64_t sf                    : 1;  /**< [ 11: 11] Sync flush. When set, enables SYNC_FLUSH functionality.
+
+                                                                 For DEFLATE compression,
+                                                                 [SF] forces ZIP hardware to append a zero-length nocompress
+                                                                 block to the end of the partial compressed data stream. This forces the partial
+                                                                 compressed stream to be byte-aligned. This grows the output by 35-39 bits.
+                                                                 [SF] must not be set when [EF] is set.
+                                                                 ZIP_ZRES_S[EXN,EXBITS] will always be 0x0 when [SF] is set.
+
+                                                                 For LZS compression,
+                                                                 [SF] must always be set whenever [EF] is clear. ZIP
+                                                                 hardware always inserts an end-of-block marker at the end of the partial
+                                                                 compressed data stream. This forces the partial compressed stream to be
+                                                                 byte-aligned. [SF] must not be set when [EF] is set.
+                                                                 ZIP_ZRES_S[EXN,EXBITS] will always be 0x0.
+
+                                                                 For decompression,
+                                                                 [SF] should always be set. */
+        uint64_t halg                  : 3;  /**< [ 14: 12] Hash algorithm and enable. Enumerated by ZIP_HASH_ALG_E. */
+        uint64_t hmif                  : 1;  /**< [ 15: 15] Hash more-in-file (i.e. not end-of-file).
+                                                                 0 = If hashing is performed, this is the final block in the file, and
+                                                                 store hash results in ZIP_ZRES_S.
+                                                                 1 = If hashing is performed, additional blocks will follow in this file,
+                                                                 and store intermediate state in the ZIP_HASH_S pointed to by [HASH_PTR].
+
+                                                                 If [HALG] = 0x0 (NONE), must be clear. */
+        uint64_t exbits                : 7;  /**< [ 22: 16] [EXN], [EXBITS] are the previously-generated compressed bits beyond the last
+                                                                 compressed byte written for the file. These bits are required context for partial-file
+                                                                 processing because the ZIP compression algorithm produces a compressed bit
+                                                                 stream, but the output stream is in bytes.
+
+                                                                 [EXN], [EXBITS] must be 0x0 when [BF] = 1. If [BF] = 0,
+                                                                 [EXN], [EXBITS] typically equal the ZIP_ZRES_S[EXN], ZIP_ZRES_S[EXBITS] from the
+                                                                 previous ZIP compression coprocessor invocation for the file. (If software instead
+                                                                 inserts its own blocks in the compressed output stream between ZIP compression
+                                                                 coprocessor invocations, [EXN], [EXBITS] will instead be the
+                                                                 result after the last software insertion.)
+
+                                                                 [EXBITS] contains the extra bits. Bit <0> contains the first extra bit, <1> the
+                                                                 second extra bit, etc. All unused EXBITS bits must be 0x0.
+
+                                                                 For decompression, [EXN], [EXBITS] must be 0x0. */
+        uint64_t iv                    : 1;  /**< [ 23: 23] Initial values for hashing.
+                                                                 0 = If hashing is performed, the initial values start a new hash, using the
+                                                                 algorithm-specific initial values specified in ZIP_HASH_ALG_E.
+                                                                 1 = If hashing is performed, load hash initial values and states from
+                                                                 the ZIP_HASH_S pointed to by [HASH_PTR].
+
+                                                                 Must be clear when if [HALG] = 0x0 (NONE), or [BF] is clear. */
+        uint64_t exn                   : 3;  /**< [ 26: 24] Number of bits produced beyond the last output byte written by
+                                                                 the prior ZIP coprocessor invocation. */
+        uint64_t reserved_27_31        : 5;
+        uint64_t totaloutputlength     : 24; /**< [ 55: 32] Indicates the maximum number of output-stream bytes that can be written.
+                                                                 [TOTALOUTPUTLENGTH] must exactly match the number of bytes indicated by
+                                                                 the output pointer (either by ZIP_ZPTR_S[LENGTH] directly if
+                                                                 [DS] = 0, or indirectly if [DS] = 1). */
+        uint64_t reserved_56_62        : 7;
+        uint64_t doneint               : 1;  /**< [ 63: 63] Done interrupt. When [DONEINT] is set and the instruction completes,
+                                                                 ZIP_VQ()_DONE[DONE] will be incremented. */
+#endif /* Word 0 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
+        uint64_t historylength         : 16; /**< [127:112] With compression, history bytes can be prepended in the input data stream
+                                                                 before the bytes that are actually to be compressed. These history bytes
+                                                                 are generally the (uncompressed) file input bytes immediately preceding the file
+                                                                 bytes being compressed. However, it is also possible to pass in a preset dictionary at
+                                                                 the beginning of the file (which will be followed by the first bytes of the file).
+                                                                 [HISTORYLENGTH] must never exceed ZIP_CONSTANTS[DEPTH].
+                                                                 [HISTORYLENGTH] must never exceed the sum of the preset dictionary size plus the
+                                                                 number of bytes previously processed in the (uncompressed) input data stream for
+                                                                 the file. The supplied history bytes must exactly match the bytes previously
+                                                                 processed in the (uncompressed) input data stream for the file, preceded by the
+                                                                 preset dictionary, if necessary.
+                                                                 [HISTORYLENGTH] must never exceed 2048 with LZS. */
+        uint64_t reserved_96_111       : 16;
+        uint64_t adlercrc32            : 32; /**< [ 95: 64] This 32-bit field represents the current state of the ADLER32 or CRC32 units. The
+                                                                 hardware executes both ADLER32 and CRC32 on the processed uncompressed data
+                                                                 bytes using this value as the current checksum. Though the hardware outputs both
+                                                                 the ADLER32 and CRC32 results, [ADLERCRC32] is the only checksum input, so only
+                                                                 one of the two outputs is likely to be useful.
+
+                                                                 The ADLER32 algorithm is defined in RFC1950.
+
+                                                                 CRC32 is defined in ITU-T X.244, Annex D, pp. 144-145 / ISO 8073. */
+#else /* Word 1 - Little Endian */
+        uint64_t adlercrc32            : 32; /**< [ 95: 64] This 32-bit field represents the current state of the ADLER32 or CRC32 units. The
+                                                                 hardware executes both ADLER32 and CRC32 on the processed uncompressed data
+                                                                 bytes using this value as the current checksum. Though the hardware outputs both
+                                                                 the ADLER32 and CRC32 results, [ADLERCRC32] is the only checksum input, so only
+                                                                 one of the two outputs is likely to be useful.
+
+                                                                 The ADLER32 algorithm is defined in RFC1950.
+
+                                                                 CRC32 is defined in ITU-T X.244, Annex D, pp. 144-145 / ISO 8073. */
+        uint64_t reserved_96_111       : 16;
+        uint64_t historylength         : 16; /**< [127:112] With compression, history bytes can be prepended in the input data stream
+                                                                 before the bytes that are actually to be compressed. These history bytes
+                                                                 are generally the (uncompressed) file input bytes immediately preceding the file
+                                                                 bytes being compressed. However, it is also possible to pass in a preset dictionary at
+                                                                 the beginning of the file (which will be followed by the first bytes of the file).
+                                                                 [HISTORYLENGTH] must never exceed ZIP_CONSTANTS[DEPTH].
+                                                                 [HISTORYLENGTH] must never exceed the sum of the preset dictionary size plus the
+                                                                 number of bytes previously processed in the (uncompressed) input data stream for
+                                                                 the file. The supplied history bytes must exactly match the bytes previously
+                                                                 processed in the (uncompressed) input data stream for the file, preceded by the
+                                                                 preset dictionary, if necessary.
+                                                                 [HISTORYLENGTH] must never exceed 2048 with LZS. */
+#endif /* Word 1 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 2 - Big Endian */
+        uint64_t ctx_ptr_addr          : 64; /**< [191:128] Decompresion context pointer address (ZIP_ZPTR_S format address word definition).
+                                                                 The address must be 16-byte aligned. */
+#else /* Word 2 - Little Endian */
+        uint64_t ctx_ptr_addr          : 64; /**< [191:128] Decompresion context pointer address (ZIP_ZPTR_S format address word definition).
+                                                                 The address must be 16-byte aligned. */
+#endif /* Word 2 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 3 - Big Endian */
+        uint64_t ctx_ptr_ctl           : 64; /**< [255:192] Decompresion context pointer control (ZIP_ZPTR_S format control word definition).
+                                                                 ZIP_ZPTR_S[LENGTH] = 0 (2048 bytes implied). */
+#else /* Word 3 - Little Endian */
+        uint64_t ctx_ptr_ctl           : 64; /**< [255:192] Decompresion context pointer control (ZIP_ZPTR_S format control word definition).
+                                                                 ZIP_ZPTR_S[LENGTH] = 0 (2048 bytes implied). */
+#endif /* Word 3 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 4 - Big Endian */
+        uint64_t his_ptr_addr          : 64; /**< [319:256] Decompresion history pointer address (ZIP_ZPTR_S format address word definition). */
+#else /* Word 4 - Little Endian */
+        uint64_t his_ptr_addr          : 64; /**< [319:256] Decompresion history pointer address (ZIP_ZPTR_S format address word definition). */
+#endif /* Word 4 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 5 - Big Endian */
+        uint64_t his_ptr_ctl           : 64; /**< [383:320] Decompresion history pointer control (ZIP_ZPTR_S format control word definition).
+                                                                 [FW] = 0. ZIP_INST_S[HG] set if gather. */
+#else /* Word 5 - Little Endian */
+        uint64_t his_ptr_ctl           : 64; /**< [383:320] Decompresion history pointer control (ZIP_ZPTR_S format control word definition).
+                                                                 [FW] = 0. ZIP_INST_S[HG] set if gather. */
+#endif /* Word 5 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 6 - Big Endian */
+        uint64_t inp_ptr_addr          : 64; /**< [447:384] Input and compresion history pointer address (ZIP_ZPTR_S format address word definition). */
+#else /* Word 6 - Little Endian */
+        uint64_t inp_ptr_addr          : 64; /**< [447:384] Input and compresion history pointer address (ZIP_ZPTR_S format address word definition). */
+#endif /* Word 6 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 7 - Big Endian */
+        uint64_t inp_ptr_ctl           : 64; /**< [511:448] Input and compresion history pointer control (ZIP_ZPTR_S format control word definition).
+                                                                 [FW] = 0. ZIP_INST_S[DG] set if gather. */
+#else /* Word 7 - Little Endian */
+        uint64_t inp_ptr_ctl           : 64; /**< [511:448] Input and compresion history pointer control (ZIP_ZPTR_S format control word definition).
+                                                                 [FW] = 0. ZIP_INST_S[DG] set if gather. */
+#endif /* Word 7 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 8 - Big Endian */
+        uint64_t out_ptr_addr          : 64; /**< [575:512] Output pointer address  (ZIP_ZPTR_S format address word definition).
+                                                                 Points to where the output data will be written by the ZIP coprocessor for this
+                                                                 invocation. */
+#else /* Word 8 - Little Endian */
+        uint64_t out_ptr_addr          : 64; /**< [575:512] Output pointer address  (ZIP_ZPTR_S format address word definition).
+                                                                 Points to where the output data will be written by the ZIP coprocessor for this
+                                                                 invocation. */
+#endif /* Word 8 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 9 - Big Endian */
+        uint64_t out_ptr_ctl           : 64; /**< [639:576] Output pointer control (ZIP_ZPTR_S format control word definition).
+                                                                 [DS] set if scatter. */
+#else /* Word 9 - Little Endian */
+        uint64_t out_ptr_ctl           : 64; /**< [639:576] Output pointer control (ZIP_ZPTR_S format control word definition).
+                                                                 [DS] set if scatter. */
+#endif /* Word 9 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 10 - Big Endian */
+        uint64_t res_ptr_addr          : 64; /**< [703:640] Result pointer address (ZIP_ZPTR_S format address word definition).
+                                                                 If ZIP_INST_S[HALG]=NONE, address must be 32-byte aligned, otherwise must be 64-byte
+                                                                 aligned. */
+#else /* Word 10 - Little Endian */
+        uint64_t res_ptr_addr          : 64; /**< [703:640] Result pointer address (ZIP_ZPTR_S format address word definition).
+                                                                 If ZIP_INST_S[HALG]=NONE, address must be 32-byte aligned, otherwise must be 64-byte
+                                                                 aligned. */
+#endif /* Word 10 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 11 - Big Endian */
+        uint64_t res_ptr_ctl           : 64; /**< [767:704] Result pointer control (ZIP_ZPTR_S format control word definition).
+
+                                                                 Inside this ZIP_ZPTR_S:
+                                                                   * ZIP_ZPTR_S[FW] can be either 0 or 1.
+                                                                   * ZIP_ZPTR_S[NC] can be either 0 or 1.
+                                                                   * ZIP_ZPTR_S[LENGTH] must be 0. (24-bytes is implied).
+                                                                   * ZIP_ZPTR_S[ADDR] must be 16-byte aligned. */
+#else /* Word 11 - Little Endian */
+        uint64_t res_ptr_ctl           : 64; /**< [767:704] Result pointer control (ZIP_ZPTR_S format control word definition).
+
+                                                                 Inside this ZIP_ZPTR_S:
+                                                                   * ZIP_ZPTR_S[FW] can be either 0 or 1.
+                                                                   * ZIP_ZPTR_S[NC] can be either 0 or 1.
+                                                                   * ZIP_ZPTR_S[LENGTH] must be 0. (24-bytes is implied).
+                                                                   * ZIP_ZPTR_S[ADDR] must be 16-byte aligned. */
+#endif /* Word 11 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 12 - Big Endian */
+        uint64_t reserved_812_831      : 20;
+        uint64_t ggrp                  : 10; /**< [811:802] If [WQ_PTR] is nonzero, the SSO guest-group to use when ZIP submits work to
+                                                                 SSO.
+                                                                 For the SSO to not discard the add-work request, SSO_PF_MAP() must map
+                                                                 [GGRP] and the corresponding queue's ZIP_PF_QUE()_GMCTL[GMID] as valid. */
+        uint64_t tt                    : 2;  /**< [801:800] If [WQ_PTR] is nonzero, the SSO tag type to use when ZIP submits work to SSO. */
+        uint64_t tag                   : 32; /**< [799:768] If [WQ_PTR] is nonzero, the SSO tag to use when ZIP submits work to SSO. */
+#else /* Word 12 - Little Endian */
+        uint64_t tag                   : 32; /**< [799:768] If [WQ_PTR] is nonzero, the SSO tag to use when ZIP submits work to SSO. */
+        uint64_t tt                    : 2;  /**< [801:800] If [WQ_PTR] is nonzero, the SSO tag type to use when ZIP submits work to SSO. */
+        uint64_t ggrp                  : 10; /**< [811:802] If [WQ_PTR] is nonzero, the SSO guest-group to use when ZIP submits work to
+                                                                 SSO.
+                                                                 For the SSO to not discard the add-work request, SSO_PF_MAP() must map
+                                                                 [GGRP] and the corresponding queue's ZIP_PF_QUE()_GMCTL[GMID] as valid. */
+        uint64_t reserved_812_831      : 20;
+#endif /* Word 12 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 13 - Big Endian */
+        uint64_t wq_ptr                : 64; /**< [895:832] If [WQ_PTR] is nonzero, it is a pointer to a work-queue entry that ZIP submits
+                                                                 work to SSO after all context, output data, and result write operations are
+                                                                 visible to other CNXXXX units and the cores.
+
+                                                                 Bits <2:0> must be zero.  Bits <63:49> are ignored by hardware; software should
+                                                                 use a sign-extended bit <48> for forward compatibility.
+
+                                                                 Internal:
+                                                                 Bits <63:49>, <2:0> are ignored by hardware, treated as always 0x0. */
+#else /* Word 13 - Little Endian */
+        uint64_t wq_ptr                : 64; /**< [895:832] If [WQ_PTR] is nonzero, it is a pointer to a work-queue entry that ZIP submits
+                                                                 work to SSO after all context, output data, and result write operations are
+                                                                 visible to other CNXXXX units and the cores.
+
+                                                                 Bits <2:0> must be zero.  Bits <63:49> are ignored by hardware; software should
+                                                                 use a sign-extended bit <48> for forward compatibility.
+
+                                                                 Internal:
+                                                                 Bits <63:49>, <2:0> are ignored by hardware, treated as always 0x0. */
+#endif /* Word 13 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 14 - Big Endian */
+        uint64_t reserved_896_959      : 64;
+#else /* Word 14 - Little Endian */
+        uint64_t reserved_896_959      : 64;
+#endif /* Word 14 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 15 - Big Endian */
+        uint64_t hash_ptr              : 64; /**< [1023:960] Hash initial value pointer. Bits <6:0> must be zero.
+                                                                 Bits <63:49> are ignored by hardware; software should use a sign-extended bit
+                                                                 <48> for forward compatibility.
+
+                                                                 If [HALG] = 0x0 (NONE), must be 0x0.
+
+                                                                 If [HALG] = ZIP_HASH_ALG_E::SHA1/SHA256, [IV] is set, [HASH_PTR]
+                                                                 points to the IOVA of a ZIP_HASH_S, from which ZIP will read from to obtain the
+                                                                 initial hash state.
+
+                                                                 If [HALG] = ZIP_HASH_ALG_E::SHA1/SHA256, [HMIF] is set, [HASH_PTR]
+                                                                 points to the IOVA of a ZIP_HASH_S, which ZIP will write at the end of this
+                                                                 instruction, and may be used by subsequent instructions to continue hashing
+                                                                 other chunks of the same file.
+
+                                                                 Internal:
+                                                                 Bits <63:49>, <6:0> are ignored by hardware, treated as always 0x0. */
+#else /* Word 15 - Little Endian */
+        uint64_t hash_ptr              : 64; /**< [1023:960] Hash initial value pointer. Bits <6:0> must be zero.
+                                                                 Bits <63:49> are ignored by hardware; software should use a sign-extended bit
+                                                                 <48> for forward compatibility.
+
+                                                                 If [HALG] = 0x0 (NONE), must be 0x0.
+
+                                                                 If [HALG] = ZIP_HASH_ALG_E::SHA1/SHA256, [IV] is set, [HASH_PTR]
+                                                                 points to the IOVA of a ZIP_HASH_S, from which ZIP will read from to obtain the
+                                                                 initial hash state.
+
+                                                                 If [HALG] = ZIP_HASH_ALG_E::SHA1/SHA256, [HMIF] is set, [HASH_PTR]
+                                                                 points to the IOVA of a ZIP_HASH_S, which ZIP will write at the end of this
+                                                                 instruction, and may be used by subsequent instructions to continue hashing
+                                                                 other chunks of the same file.
+
+                                                                 Internal:
+                                                                 Bits <63:49>, <6:0> are ignored by hardware, treated as always 0x0. */
+#endif /* Word 15 - End */
+    } cn83xx;
 };
 
 /**
@@ -1798,7 +1793,6 @@ union bdk_zip_nptr_s
                                                                  Bits <63:49> and <6:0> are ignored by hardware. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_zip_nptr_s_s cn9; */
     struct bdk_zip_nptr_s_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -1839,10 +1833,7 @@ union bdk_zip_zptr_s
                                                                  zero. (All these cases must be aligned on an 16 byte boundary.)
 
                                                                  In cases (a) or (c) above, [ADDR] may be any byte alignment (except for context
-                                                                 and result pointers).
-
-                                                                 In all cases bits <63:49> are ignored by hardware; software should use a
-                                                                 sign-extended bit <48> for forward compatibility. */
+                                                                 and result pointers). */
 #else /* Word 0 - Little Endian */
         uint64_t addr                  : 64; /**< [ 63:  0] When a ZIP_ZPTR_S is in an instruction word, [ADDR] is either:
                                                                  * (a) A direct IOVA byte pointer into L2C/DDR attached memory, or
@@ -1855,17 +1846,14 @@ union bdk_zip_zptr_s
                                                                  zero. (All these cases must be aligned on an 16 byte boundary.)
 
                                                                  In cases (a) or (c) above, [ADDR] may be any byte alignment (except for context
-                                                                 and result pointers).
-
-                                                                 In all cases bits <63:49> are ignored by hardware; software should use a
-                                                                 sign-extended bit <48> for forward compatibility. */
+                                                                 and result pointers). */
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
         uint64_t reserved_112_127      : 16;
         uint64_t length                : 16; /**< [111: 96] In case (a) and (c) under [ADDR], [LENGTH] is the number of bytes pointed at by [ADDR].
                                                                  [LENGTH] must be nonzero in this case.
                                                                  In case (b) under [ADDR], [LENGTH] is the number of gather/ scatter list pointer entries
-                                                                 pointed at by [ADDR]. ([LENGTH]*16 is the number of bytes.) [LENGTH] must be at least 2 in
+                                                                 pointed at by ADDR. ([LENGTH]*16 is the number of bytes.) [LENGTH] must be at least 2 in
                                                                  this case.
                                                                  [LENGTH] must be zero for context and result pointers, because each has an implied fixed-
                                                                  size length (of ZIP_CONSTANTS[CTXSIZE] or fewer bytes and 24 bytes, respectively). */
@@ -1901,14 +1889,13 @@ union bdk_zip_zptr_s
         uint64_t length                : 16; /**< [111: 96] In case (a) and (c) under [ADDR], [LENGTH] is the number of bytes pointed at by [ADDR].
                                                                  [LENGTH] must be nonzero in this case.
                                                                  In case (b) under [ADDR], [LENGTH] is the number of gather/ scatter list pointer entries
-                                                                 pointed at by [ADDR]. ([LENGTH]*16 is the number of bytes.) [LENGTH] must be at least 2 in
+                                                                 pointed at by ADDR. ([LENGTH]*16 is the number of bytes.) [LENGTH] must be at least 2 in
                                                                  this case.
                                                                  [LENGTH] must be zero for context and result pointers, because each has an implied fixed-
                                                                  size length (of ZIP_CONSTANTS[CTXSIZE] or fewer bytes and 24 bytes, respectively). */
         uint64_t reserved_112_127      : 16;
 #endif /* Word 1 - End */
     } s;
-    /* struct bdk_zip_zptr_s_s cn9; */
     struct bdk_zip_zptr_s_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -1988,17 +1975,98 @@ union bdk_zip_zptr_s
         uint64_t reserved_112_127      : 16;
 #endif /* Word 1 - End */
     } cn88xx;
-    /* struct bdk_zip_zptr_s_s cn83xx; */
+    struct bdk_zip_zptr_s_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t addr                  : 64; /**< [ 63:  0] When a ZIP_ZPTR_S is in an instruction word, [ADDR] is either:
+                                                                 * (a) A direct IOVA byte pointer into L2C/DDR attached memory, or
+                                                                 * (b) An IOVA pointer to a gather/scatter list in memory.
+
+                                                                 When a ZIP_ZPTR_S is in a gather/scatter list, [ADDR] is:
+                                                                 * (c) An IOVA direct byte pointer into the attached memory.
+
+                                                                 In case (b) above, and for context and result pointers, [ADDR]<3:0> must be
+                                                                 zero. (All these cases must be aligned on an 16 byte boundary.)
+
+                                                                 In cases (a) or (c) above, [ADDR] may be any byte alignment (except for context
+                                                                 and result pointers).
+
+                                                                 In all cases bits <63:49> are ignored by hardware; software should use a
+                                                                 sign-extended bit <48> for forward compatibility. */
+#else /* Word 0 - Little Endian */
+        uint64_t addr                  : 64; /**< [ 63:  0] When a ZIP_ZPTR_S is in an instruction word, [ADDR] is either:
+                                                                 * (a) A direct IOVA byte pointer into L2C/DDR attached memory, or
+                                                                 * (b) An IOVA pointer to a gather/scatter list in memory.
+
+                                                                 When a ZIP_ZPTR_S is in a gather/scatter list, [ADDR] is:
+                                                                 * (c) An IOVA direct byte pointer into the attached memory.
+
+                                                                 In case (b) above, and for context and result pointers, [ADDR]<3:0> must be
+                                                                 zero. (All these cases must be aligned on an 16 byte boundary.)
+
+                                                                 In cases (a) or (c) above, [ADDR] may be any byte alignment (except for context
+                                                                 and result pointers).
+
+                                                                 In all cases bits <63:49> are ignored by hardware; software should use a
+                                                                 sign-extended bit <48> for forward compatibility. */
+#endif /* Word 0 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
+        uint64_t reserved_112_127      : 16;
+        uint64_t length                : 16; /**< [111: 96] In case (a) and (c) under [ADDR], [LENGTH] is the number of bytes pointed at by [ADDR].
+                                                                 [LENGTH] must be nonzero in this case.
+                                                                 In case (b) under [ADDR], [LENGTH] is the number of gather/ scatter list pointer entries
+                                                                 pointed at by [ADDR]. ([LENGTH]*16 is the number of bytes.) [LENGTH] must be at least 2 in
+                                                                 this case.
+                                                                 [LENGTH] must be zero for context and result pointers, because each has an implied fixed-
+                                                                 size length (of ZIP_CONSTANTS[CTXSIZE] or fewer bytes and 24 bytes, respectively). */
+        uint64_t reserved_67_95        : 29;
+        uint64_t fw                    : 1;  /**< [ 66: 66] Full-block write. [FW] may be set in any case (a) or (c) where stores to [ADDR] can be
+                                                                 generated to indicate that the hardware may write random values into all bytes of all
+                                                                 cache blocks touched by the range [ADDR] ... [ADDR]+[LENGTH]-1.
+                                                                 [FW] must not be set in case (b) above, or whenever stores to [ADDR] cannot possibly be
+                                                                 generated. */
+        uint64_t nc                    : 1;  /**< [ 65: 65] No cache allocation. [NC] may be set in any case to indicate that the read/write
+                                                                 operations generated should preferably not load cache blocks into the L2 cache.
+                                                                 Note that in case (b) above, [NC] indicates that the gather/scatter list should not be
+                                                                 loaded into the cache. In cases (a) and (c) above, [NC] indicates that the data or results
+                                                                 should not be loaded into the L2 cache.
+                                                                 Note that the ZIP hardware will ignore [NC] for write operations when full cache blocks
+                                                                 cannot be written. */
+        uint64_t data_be               : 1;  /**< [ 64: 64] Reserved. */
+#else /* Word 1 - Little Endian */
+        uint64_t data_be               : 1;  /**< [ 64: 64] Reserved. */
+        uint64_t nc                    : 1;  /**< [ 65: 65] No cache allocation. [NC] may be set in any case to indicate that the read/write
+                                                                 operations generated should preferably not load cache blocks into the L2 cache.
+                                                                 Note that in case (b) above, [NC] indicates that the gather/scatter list should not be
+                                                                 loaded into the cache. In cases (a) and (c) above, [NC] indicates that the data or results
+                                                                 should not be loaded into the L2 cache.
+                                                                 Note that the ZIP hardware will ignore [NC] for write operations when full cache blocks
+                                                                 cannot be written. */
+        uint64_t fw                    : 1;  /**< [ 66: 66] Full-block write. [FW] may be set in any case (a) or (c) where stores to [ADDR] can be
+                                                                 generated to indicate that the hardware may write random values into all bytes of all
+                                                                 cache blocks touched by the range [ADDR] ... [ADDR]+[LENGTH]-1.
+                                                                 [FW] must not be set in case (b) above, or whenever stores to [ADDR] cannot possibly be
+                                                                 generated. */
+        uint64_t reserved_67_95        : 29;
+        uint64_t length                : 16; /**< [111: 96] In case (a) and (c) under [ADDR], [LENGTH] is the number of bytes pointed at by [ADDR].
+                                                                 [LENGTH] must be nonzero in this case.
+                                                                 In case (b) under [ADDR], [LENGTH] is the number of gather/ scatter list pointer entries
+                                                                 pointed at by [ADDR]. ([LENGTH]*16 is the number of bytes.) [LENGTH] must be at least 2 in
+                                                                 this case.
+                                                                 [LENGTH] must be zero for context and result pointers, because each has an implied fixed-
+                                                                 size length (of ZIP_CONSTANTS[CTXSIZE] or fewer bytes and 24 bytes, respectively). */
+        uint64_t reserved_112_127      : 16;
+#endif /* Word 1 - End */
+    } cn83xx;
 };
 
 /**
  * Structure zip_zres_s
  *
  * ZIP Result Structure
- * The ZIP coprocessor writes the result structure after it completes the
- * invocation. Each invocation of the ZIP coprocessor produces exactly one result
- * structure. The result structure is 24 bytes if ZIP_INST_S[HALG]=NONE, and is
- * otherwise 64 bytes. The endianness depends on ZIP_QUE()_SBUF_CTL[INST_BE].
+ * The ZIP coprocessor writes the result structure after it completes the invocation.
+ * The result structure is exactly 24 bytes, and each invocation of the ZIP coprocessor
+ * produces exactly one result structure.
  */
 union bdk_zip_zres_s
 {
@@ -2304,7 +2372,6 @@ union bdk_zip_zres_s
         uint64_t hash3                 : 64; /**< [511:448] Double-word 3 of computed hash. See [HASH0]. */
 #endif /* Word 7 - End */
     } s;
-    /* struct bdk_zip_zres_s_s cn9; */
     struct bdk_zip_zres_s_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -2567,8 +2634,6 @@ static inline uint64_t BDK_ZIP_CMD_CTL_FUNC(void)
         return 0x838000000000ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
         return 0x838000000000ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x838000000000ll;
     __bdk_csr_fatal("ZIP_CMD_CTL", 0, 0, 0, 0, 0);
 }
 
@@ -2592,9 +2657,7 @@ typedef union
     struct bdk_zip_constants_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t nexec                 : 8;  /**< [ 63: 56](RO) Number of available ZIP executive units (compression-only plus
-                                                                 decompression-only plus compression-or-decompression). If ZIP is disabled, this
-                                                                 field is 0x0. */
+        uint64_t nexec                 : 8;  /**< [ 63: 56](RO) Number of available ZIP executive units. If ZIP is disabled, this field is 0x0. */
         uint64_t reserved_50_55        : 6;
         uint64_t hash                  : 1;  /**< [ 49: 49](RO) Hashing supported: 1 = supported, 0 = not supported. */
         uint64_t syncflush_capable     : 1;  /**< [ 48: 48](RO) Sync flush supported: 1 = supported, 0 = not supported. */
@@ -2612,12 +2675,9 @@ typedef union
         uint64_t syncflush_capable     : 1;  /**< [ 48: 48](RO) Sync flush supported: 1 = supported, 0 = not supported. */
         uint64_t hash                  : 1;  /**< [ 49: 49](RO) Hashing supported: 1 = supported, 0 = not supported. */
         uint64_t reserved_50_55        : 6;
-        uint64_t nexec                 : 8;  /**< [ 63: 56](RO) Number of available ZIP executive units (compression-only plus
-                                                                 decompression-only plus compression-or-decompression). If ZIP is disabled, this
-                                                                 field is 0x0. */
+        uint64_t nexec                 : 8;  /**< [ 63: 56](RO) Number of available ZIP executive units. If ZIP is disabled, this field is 0x0. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_zip_constants_s cn9; */
     struct bdk_zip_constants_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -2640,7 +2700,34 @@ typedef union
         uint64_t nexec                 : 8;  /**< [ 63: 56](RO) Number of available ZIP executive units. If ZIP is disabled, this field is 0x0. */
 #endif /* Word 0 - End */
     } cn88xx;
-    /* struct bdk_zip_constants_s cn83xx; */
+    struct bdk_zip_constants_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t nexec                 : 8;  /**< [ 63: 56](RO) Number of available ZIP executive units (compression-only plus
+                                                                 decompression-only plus compression-or-decompression). If ZIP is disabled, this
+                                                                 field is 0x0. */
+        uint64_t reserved_50_55        : 6;
+        uint64_t hash                  : 1;  /**< [ 49: 49](RO) Hashing supported: 1 = supported, 0 = not supported. */
+        uint64_t syncflush_capable     : 1;  /**< [ 48: 48](RO) Sync flush supported: 1 = supported, 0 = not supported. */
+        uint64_t depth                 : 16; /**< [ 47: 32](RO) Maximum search depth for compression. */
+        uint64_t onfsize               : 12; /**< [ 31: 20](RO) Output near full threshold, in bytes. */
+        uint64_t ctxsize               : 12; /**< [ 19:  8](RO) Decompression context size in bytes. */
+        uint64_t reserved_1_7          : 7;
+        uint64_t disabled              : 1;  /**< [  0:  0](RO) Disable. 1 = ZIP is disabled, 0 = ZIP is enabled. */
+#else /* Word 0 - Little Endian */
+        uint64_t disabled              : 1;  /**< [  0:  0](RO) Disable. 1 = ZIP is disabled, 0 = ZIP is enabled. */
+        uint64_t reserved_1_7          : 7;
+        uint64_t ctxsize               : 12; /**< [ 19:  8](RO) Decompression context size in bytes. */
+        uint64_t onfsize               : 12; /**< [ 31: 20](RO) Output near full threshold, in bytes. */
+        uint64_t depth                 : 16; /**< [ 47: 32](RO) Maximum search depth for compression. */
+        uint64_t syncflush_capable     : 1;  /**< [ 48: 48](RO) Sync flush supported: 1 = supported, 0 = not supported. */
+        uint64_t hash                  : 1;  /**< [ 49: 49](RO) Hashing supported: 1 = supported, 0 = not supported. */
+        uint64_t reserved_50_55        : 6;
+        uint64_t nexec                 : 8;  /**< [ 63: 56](RO) Number of available ZIP executive units (compression-only plus
+                                                                 decompression-only plus compression-or-decompression). If ZIP is disabled, this
+                                                                 field is 0x0. */
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_zip_constants_t;
 
 #define BDK_ZIP_CONSTANTS BDK_ZIP_CONSTANTS_FUNC()
@@ -2650,8 +2737,6 @@ static inline uint64_t BDK_ZIP_CONSTANTS_FUNC(void)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x8380000000a0ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
-        return 0x8380000000a0ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x8380000000a0ll;
     __bdk_csr_fatal("ZIP_CONSTANTS", 0, 0, 0, 0, 0);
 }
@@ -2694,8 +2779,6 @@ static inline uint64_t BDK_ZIP_CONSTANTS2_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x8380000000a8ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x8380000000a8ll;
     __bdk_csr_fatal("ZIP_CONSTANTS2", 0, 0, 0, 0, 0);
 }
 
@@ -2720,79 +2803,14 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_53_63        : 11;
-        uint64_t bstatus               : 53; /**< [ 52:  0](RO/H) BIST result of the ZIP core memories.
-                                                                 Internal:
-                                                                 ZIPC (cores 0,2,4):
-                                                                 <25:18> = zipc_hash mem 7-0.
-                                                                 <17>    = zip state symbols.
-                                                                 <16>    = zip state code1.
-                                                                 <15>    = zip state code0.
-                                                                 <14>    = zip state data1 hi.
-                                                                 <13>    = zip state data1 lo.
-                                                                 <12>    = zip state data0 hi.
-                                                                 <11>    = zip state data0 lo.
-                                                                 <10:8>  = zip history mem1 banks 2-0.
-                                                                 <7:5>   = zip history mem0 banks 2-0.
-                                                                 <4>     = zip history outfifo.
-                                                                 <3:2>   = zip history bundle fifo 1-0.
-                                                                 <1>     = zip history dfifo.
-                                                                 <0>     = sha ifif.
-
-                                                                 ZIPD (cores 1,3,5):
-                                                                 <25:19> = 0.
-                                                                 <18>    = zip state cam.
-                                                                 <17>    = zip state symbols.
-                                                                 <16>    = zip state code1.
-                                                                 <15>    = zip state code0.
-                                                                 <14>    = zip state data1 hi.
-                                                                 <13>    = zip state data1 lo.
-                                                                 <12>    = zip state data0 hi.
-                                                                 <11>    = zip state data0 lo.
-                                                                 <10:8>  = zip history mem1 banks 2-0.
-                                                                 <7:5>   = zip history mem0 banks 2-0.
-                                                                 <4>     = zip history outfifo.
-                                                                 <3:2>   = zip history bundle fifo 1-0.
-                                                                 <1>     = zip history dfifo.
-                                                                 <0>     = sha ifif. */
+        uint64_t bstatus               : 53; /**< [ 52:  0](RO/H) BIST result of the ZIP core memories. */
 #else /* Word 0 - Little Endian */
-        uint64_t bstatus               : 53; /**< [ 52:  0](RO/H) BIST result of the ZIP core memories.
-                                                                 Internal:
-                                                                 ZIPC (cores 0,2,4):
-                                                                 <25:18> = zipc_hash mem 7-0.
-                                                                 <17>    = zip state symbols.
-                                                                 <16>    = zip state code1.
-                                                                 <15>    = zip state code0.
-                                                                 <14>    = zip state data1 hi.
-                                                                 <13>    = zip state data1 lo.
-                                                                 <12>    = zip state data0 hi.
-                                                                 <11>    = zip state data0 lo.
-                                                                 <10:8>  = zip history mem1 banks 2-0.
-                                                                 <7:5>   = zip history mem0 banks 2-0.
-                                                                 <4>     = zip history outfifo.
-                                                                 <3:2>   = zip history bundle fifo 1-0.
-                                                                 <1>     = zip history dfifo.
-                                                                 <0>     = sha ifif.
-
-                                                                 ZIPD (cores 1,3,5):
-                                                                 <25:19> = 0.
-                                                                 <18>    = zip state cam.
-                                                                 <17>    = zip state symbols.
-                                                                 <16>    = zip state code1.
-                                                                 <15>    = zip state code0.
-                                                                 <14>    = zip state data1 hi.
-                                                                 <13>    = zip state data1 lo.
-                                                                 <12>    = zip state data0 hi.
-                                                                 <11>    = zip state data0 lo.
-                                                                 <10:8>  = zip history mem1 banks 2-0.
-                                                                 <7:5>   = zip history mem0 banks 2-0.
-                                                                 <4>     = zip history outfifo.
-                                                                 <3:2>   = zip history bundle fifo 1-0.
-                                                                 <1>     = zip history dfifo.
-                                                                 <0>     = sha ifif. */
+        uint64_t bstatus               : 53; /**< [ 52:  0](RO/H) BIST result of the ZIP core memories. */
         uint64_t reserved_53_63        : 11;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_zip_corex_bist_status_cn9
+    /* struct bdk_zip_corex_bist_status_s cn88xx; */
+    struct bdk_zip_corex_bist_status_cn83xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_26_63        : 38;
@@ -2867,18 +2885,7 @@ typedef union
                                                                  <0>     = sha ifif. */
         uint64_t reserved_26_63        : 38;
 #endif /* Word 0 - End */
-    } cn9;
-    struct bdk_zip_corex_bist_status_cn88xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_53_63        : 11;
-        uint64_t bstatus               : 53; /**< [ 52:  0](RO/H) BIST result of the ZIP core memories. */
-#else /* Word 0 - Little Endian */
-        uint64_t bstatus               : 53; /**< [ 52:  0](RO/H) BIST result of the ZIP core memories. */
-        uint64_t reserved_53_63        : 11;
-#endif /* Word 0 - End */
-    } cn88xx;
-    /* struct bdk_zip_corex_bist_status_cn9 cn83xx; */
+    } cn83xx;
 } bdk_zip_corex_bist_status_t;
 
 static inline uint64_t BDK_ZIP_COREX_BIST_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
@@ -2888,8 +2895,6 @@ static inline uint64_t BDK_ZIP_COREX_BIST_STATUS(unsigned long a)
         return 0x838000000520ll + 8ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x838000000520ll + 8ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=5))
-        return 0x838000000520ll + 8ll * ((a) & 0x7);
     __bdk_csr_fatal("ZIP_COREX_BIST_STATUS", 1, a, 0, 0, 0);
 }
 
@@ -2933,8 +2938,6 @@ static inline uint64_t BDK_ZIP_COREX_TO_STA(unsigned long a)
         return 0x838000000780ll + 8ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && (a<=1))
         return 0x838000000780ll + 8ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=5))
-        return 0x838000000780ll + 8ll * ((a) & 0x7);
     __bdk_csr_fatal("ZIP_COREX_TO_STA", 1, a, 0, 0, 0);
 }
 
@@ -2999,7 +3002,6 @@ typedef union
 #endif /* Word 0 - End */
     } cn88xx;
     /* struct bdk_zip_core_reset_s cn83xx; */
-    /* struct bdk_zip_core_reset_s cn9; */
 } bdk_zip_core_reset_t;
 
 #define BDK_ZIP_CORE_RESET BDK_ZIP_CORE_RESET_FUNC()
@@ -3009,8 +3011,6 @@ static inline uint64_t BDK_ZIP_CORE_RESET_FUNC(void)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x838000000300ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
-        return 0x838000000300ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x838000000300ll;
     __bdk_csr_fatal("ZIP_CORE_RESET", 0, 0, 0, 0, 0);
 }
@@ -3144,7 +3144,6 @@ typedef union
 #endif /* Word 0 - End */
     } cn88xx;
     /* struct bdk_zip_core_to_cfg_s cn83xx; */
-    /* struct bdk_zip_core_to_cfg_s cn9; */
 } bdk_zip_core_to_cfg_t;
 
 #define BDK_ZIP_CORE_TO_CFG BDK_ZIP_CORE_TO_CFG_FUNC()
@@ -3154,8 +3153,6 @@ static inline uint64_t BDK_ZIP_CORE_TO_CFG_FUNC(void)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x838000000700ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
-        return 0x838000000700ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x838000000700ll;
     __bdk_csr_fatal("ZIP_CORE_TO_CFG", 0, 0, 0, 0, 0);
 }
@@ -3184,6 +3181,38 @@ typedef union
         uint64_t reserved_23_63        : 41;
         uint64_t bstatus               : 23; /**< [ 22:  0](RO/H) BIST result of CTL memories.
                                                                  Internal:
+                                                                 BSTATUS = {VMEM, STDF[1:0], OFIF[1:0],
+                                                                 IDF[1:0],GSPF, IQF}. */
+#else /* Word 0 - Little Endian */
+        uint64_t bstatus               : 23; /**< [ 22:  0](RO/H) BIST result of CTL memories.
+                                                                 Internal:
+                                                                 BSTATUS = {VMEM, STDF[1:0], OFIF[1:0],
+                                                                 IDF[1:0],GSPF, IQF}. */
+        uint64_t reserved_23_63        : 41;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_zip_ctl_bist_status_cn88xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_9_63         : 55;
+        uint64_t bstatus               : 9;  /**< [  8:  0](RO/H) BIST result of CTL memories.
+                                                                 Internal:
+                                                                 BSTATUS = {VMEM, STDF[1:0], OFIF[1:0],
+                                                                 IDF[1:0],GSPF, IQF}. */
+#else /* Word 0 - Little Endian */
+        uint64_t bstatus               : 9;  /**< [  8:  0](RO/H) BIST result of CTL memories.
+                                                                 Internal:
+                                                                 BSTATUS = {VMEM, STDF[1:0], OFIF[1:0],
+                                                                 IDF[1:0],GSPF, IQF}. */
+        uint64_t reserved_9_63         : 55;
+#endif /* Word 0 - End */
+    } cn88xx;
+    struct bdk_zip_ctl_bist_status_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_23_63        : 41;
+        uint64_t bstatus               : 23; /**< [ 22:  0](RO/H) BIST result of CTL memories.
+                                                                 Internal:
                                                                  <22> = MBOX.
                                                                  <21> = MSIX_PMEM.
                                                                  <20> = MSIX_VMEM.
@@ -3205,25 +3234,7 @@ typedef union
                                                                  <0> = Instruction buffer (iqf). */
         uint64_t reserved_23_63        : 41;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_zip_ctl_bist_status_s cn9; */
-    struct bdk_zip_ctl_bist_status_cn88xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_9_63         : 55;
-        uint64_t bstatus               : 9;  /**< [  8:  0](RO/H) BIST result of CTL memories.
-                                                                 Internal:
-                                                                 BSTATUS = {VMEM, STDF[1:0], OFIF[1:0],
-                                                                 IDF[1:0],GSPF, IQF}. */
-#else /* Word 0 - Little Endian */
-        uint64_t bstatus               : 9;  /**< [  8:  0](RO/H) BIST result of CTL memories.
-                                                                 Internal:
-                                                                 BSTATUS = {VMEM, STDF[1:0], OFIF[1:0],
-                                                                 IDF[1:0],GSPF, IQF}. */
-        uint64_t reserved_9_63         : 55;
-#endif /* Word 0 - End */
-    } cn88xx;
-    /* struct bdk_zip_ctl_bist_status_s cn83xx; */
+    } cn83xx;
 } bdk_zip_ctl_bist_status_t;
 
 #define BDK_ZIP_CTL_BIST_STATUS BDK_ZIP_CTL_BIST_STATUS_FUNC()
@@ -3233,8 +3244,6 @@ static inline uint64_t BDK_ZIP_CTL_BIST_STATUS_FUNC(void)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x838000000510ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
-        return 0x838000000510ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x838000000510ll;
     __bdk_csr_fatal("ZIP_CTL_BIST_STATUS", 0, 0, 0, 0, 0);
 }
@@ -3292,7 +3301,6 @@ typedef union
         uint64_t reserved_52_63        : 12;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_zip_ctl_cfg_s cn9; */
     struct bdk_zip_ctl_cfg_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -3333,8 +3341,6 @@ static inline uint64_t BDK_ZIP_CTL_CFG_FUNC(void)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x838000000560ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
-        return 0x838000000560ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x838000000560ll;
     __bdk_csr_fatal("ZIP_CTL_CFG", 0, 0, 0, 0, 0);
 }
@@ -3384,6 +3390,7 @@ typedef union
         uint64_t busy                  : 1;  /**< [ 63: 63](RO/H) Core state. 0 = core is idle; 1 = core is busy. */
 #endif /* Word 0 - End */
     } s;
+    /* struct bdk_zip_dbg_corex_inst_s cn83xx; */
     struct bdk_zip_dbg_corex_inst_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -3422,8 +3429,6 @@ typedef union
         uint64_t busy                  : 1;  /**< [ 63: 63](RO/H) Core state. 0 = core is idle; 1 = core is busy. */
 #endif /* Word 0 - End */
     } cn88xxp1;
-    /* struct bdk_zip_dbg_corex_inst_s cn9; */
-    /* struct bdk_zip_dbg_corex_inst_s cn83xx; */
 } bdk_zip_dbg_corex_inst_t;
 
 static inline uint64_t BDK_ZIP_DBG_COREX_INST(unsigned long a) __attribute__ ((pure, always_inline));
@@ -3433,8 +3438,6 @@ static inline uint64_t BDK_ZIP_DBG_COREX_INST(unsigned long a)
         return 0x838000000640ll + 8ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x838000000640ll + 8ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=5))
-        return 0x838000000640ll + 8ll * ((a) & 0x7);
     __bdk_csr_fatal("ZIP_DBG_COREX_INST", 1, a, 0, 0, 0);
 }
 
@@ -3468,7 +3471,6 @@ typedef union
         uint64_t busy                  : 1;  /**< [ 63: 63](RO/H) Core state. 0 = core is idle; 1 = core is busy. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_zip_dbg_corex_sta_s cn9; */
     struct bdk_zip_dbg_corex_sta_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -3493,8 +3495,6 @@ static inline uint64_t BDK_ZIP_DBG_COREX_STA(unsigned long a)
         return 0x838000000680ll + 8ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x838000000680ll + 8ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=5))
-        return 0x838000000680ll + 8ll * ((a) & 0x7);
     __bdk_csr_fatal("ZIP_DBG_COREX_STA", 1, a, 0, 0, 0);
 }
 
@@ -3522,6 +3522,26 @@ typedef union
                                                                  no outstanding L2C transactions and the queue can be reset. */
         uint64_t reserved_56_61        : 6;
         uint64_t rqwc                  : 24; /**< [ 55: 32](RO/H) Number of remaining instruction qwords to be fetched. */
+        uint64_t nii                   : 32; /**< [ 31:  0](RO/H) Number of instructions issued from this queue. Reset to 0x0 when ZIP_QUE(0..7)_SBUF_ADDR
+                                                                 is written. */
+#else /* Word 0 - Little Endian */
+        uint64_t nii                   : 32; /**< [ 31:  0](RO/H) Number of instructions issued from this queue. Reset to 0x0 when ZIP_QUE(0..7)_SBUF_ADDR
+                                                                 is written. */
+        uint64_t rqwc                  : 24; /**< [ 55: 32](RO/H) Number of remaining instruction qwords to be fetched. */
+        uint64_t reserved_56_61        : 6;
+        uint64_t outstanding           : 1;  /**< [ 62: 62](RO/H) When set, the queue is waiting for outstanding L2C transaction(s).  Otherwise, there are
+                                                                 no outstanding L2C transactions and the queue can be reset. */
+        uint64_t busy                  : 1;  /**< [ 63: 63](RO/H) Queue state. 0 = queue is idle; 1 = queue is busy. */
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_zip_dbg_quex_sta_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t busy                  : 1;  /**< [ 63: 63](RO/H) Queue state. 0 = queue is idle; 1 = queue is busy. */
+        uint64_t outstanding           : 1;  /**< [ 62: 62](RO/H) When set, the queue is waiting for outstanding L2C transaction(s).  Otherwise, there are
+                                                                 no outstanding L2C transactions and the queue can be reset. */
+        uint64_t reserved_56_61        : 6;
+        uint64_t rqwc                  : 24; /**< [ 55: 32](RO/H) Number of remaining instruction qwords to be fetched. */
         uint64_t nii                   : 32; /**< [ 31:  0](RO/H) Number of instructions issued from this queue. Reset to 0x0 when ZIP_VQ()_SBUF_ADDR
                                                                  is written. */
 #else /* Word 0 - Little Endian */
@@ -3533,7 +3553,7 @@ typedef union
                                                                  no outstanding L2C transactions and the queue can be reset. */
         uint64_t busy                  : 1;  /**< [ 63: 63](RO/H) Queue state. 0 = queue is idle; 1 = queue is busy. */
 #endif /* Word 0 - End */
-    } s;
+    } cn83xx;
     struct bdk_zip_dbg_quex_sta_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -3574,8 +3594,6 @@ typedef union
         uint64_t busy                  : 1;  /**< [ 63: 63](RO/H) Queue state. 0 = queue is idle; 1 = queue is busy. */
 #endif /* Word 0 - End */
     } cn88xxp1;
-    /* struct bdk_zip_dbg_quex_sta_s cn9; */
-    /* struct bdk_zip_dbg_quex_sta_s cn83xx; */
 } bdk_zip_dbg_quex_sta_t;
 
 static inline uint64_t BDK_ZIP_DBG_QUEX_STA(unsigned long a) __attribute__ ((pure, always_inline));
@@ -3584,8 +3602,6 @@ static inline uint64_t BDK_ZIP_DBG_QUEX_STA(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=7))
         return 0x838000001800ll + 8ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=7))
-        return 0x838000001800ll + 8ll * ((a) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=7))
         return 0x838000001800ll + 8ll * ((a) & 0x7);
     __bdk_csr_fatal("ZIP_DBG_QUEX_STA", 1, a, 0, 0, 0);
 }
@@ -3657,86 +3673,6 @@ typedef union
         uint64_t reserved_43_63        : 21;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_zip_ecc_ctl_cn9
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_43_63        : 21;
-        uint64_t mbox_cdis             : 1;  /**< [ 42: 42](R/W) MBOX memory ECC correction disable. */
-        uint64_t mbox_fs               : 2;  /**< [ 41: 40](R/W) Controls MBOX memory flip syndrome. */
-        uint64_t reserved_39           : 1;
-        uint64_t pmem_cdis             : 1;  /**< [ 38: 38](R/W) PMEM memory ECC correction disable. */
-        uint64_t pmem_fs               : 2;  /**< [ 37: 36](R/W) Controls PMEM memory flip syndrome. */
-        uint64_t reserved_35           : 1;
-        uint64_t vmem_cdis             : 1;  /**< [ 34: 34](R/W) VMEM memory ECC correction disable. */
-        uint64_t vmem_fs               : 2;  /**< [ 33: 32](R/W) Controls VMEM memory flip syndrome. */
-        uint64_t reserved_31           : 1;
-        uint64_t idf5_cdis             : 1;  /**< [ 30: 30](R/W) Input data FIFO 5 ECC correction disable. */
-        uint64_t idf5_fs               : 2;  /**< [ 29: 28](R/W) Controls input data FIFO 5 flip syndrome. */
-        uint64_t reserved_27           : 1;
-        uint64_t idf4_cdis             : 1;  /**< [ 26: 26](R/W) Input data FIFO 5 ECC correction disable. */
-        uint64_t idf4_fs               : 2;  /**< [ 25: 24](R/W) Controls input data FIFO 4 flip syndrome. */
-        uint64_t reserved_23           : 1;
-        uint64_t idf3_cdis             : 1;  /**< [ 22: 22](R/W) Input data FIFO 3 ECC correction disable. */
-        uint64_t idf3_fs               : 2;  /**< [ 21: 20](R/W) Controls input data FIFO 3 flip syndrome. */
-        uint64_t reserved_19           : 1;
-        uint64_t idf2_cdis             : 1;  /**< [ 18: 18](R/W) Input data FIFO 2 ECC correction disable. */
-        uint64_t idf2_fs               : 2;  /**< [ 17: 16](R/W) Controls input data FIFO 2 flip syndrome. */
-        uint64_t reserved_15           : 1;
-        uint64_t idf1_cdis             : 1;  /**< [ 14: 14](R/W) Input data FIFO 1 ECC correction disable. */
-        uint64_t idf1_fs               : 2;  /**< [ 13: 12](R/W) Controls input data FIFO 1 flip syndrome. */
-        uint64_t reserved_11           : 1;
-        uint64_t idf0_cdis             : 1;  /**< [ 10: 10](R/W) Input data FIFO 0 ECC correction disable. */
-        uint64_t idf0_fs               : 2;  /**< [  9:  8](R/W) Controls input data FIFO 0 flip syndrome. */
-        uint64_t reserved_7            : 1;
-        uint64_t gspf_cdis             : 1;  /**< [  6:  6](R/W) G/S pointer FIFO ECC correction disable. */
-        uint64_t gspf_fs               : 2;  /**< [  5:  4](R/W) Controls G/S pointer FIFO flip syndrome. */
-        uint64_t reserved_3            : 1;
-        uint64_t iqf_cdis              : 1;  /**< [  2:  2](R/W) Instruction queue FIFO ECC correction disable. */
-        uint64_t iqf_fs                : 2;  /**< [  1:  0](R/W) Controls instruction queue FIFO flip syndrome.
-                                                                 0x0 = no error generation.
-                                                                 0x1 = flip one bit.
-                                                                 0x2 = flip one bit.
-                                                                 0x3 = flip two bits. */
-#else /* Word 0 - Little Endian */
-        uint64_t iqf_fs                : 2;  /**< [  1:  0](R/W) Controls instruction queue FIFO flip syndrome.
-                                                                 0x0 = no error generation.
-                                                                 0x1 = flip one bit.
-                                                                 0x2 = flip one bit.
-                                                                 0x3 = flip two bits. */
-        uint64_t iqf_cdis              : 1;  /**< [  2:  2](R/W) Instruction queue FIFO ECC correction disable. */
-        uint64_t reserved_3            : 1;
-        uint64_t gspf_fs               : 2;  /**< [  5:  4](R/W) Controls G/S pointer FIFO flip syndrome. */
-        uint64_t gspf_cdis             : 1;  /**< [  6:  6](R/W) G/S pointer FIFO ECC correction disable. */
-        uint64_t reserved_7            : 1;
-        uint64_t idf0_fs               : 2;  /**< [  9:  8](R/W) Controls input data FIFO 0 flip syndrome. */
-        uint64_t idf0_cdis             : 1;  /**< [ 10: 10](R/W) Input data FIFO 0 ECC correction disable. */
-        uint64_t reserved_11           : 1;
-        uint64_t idf1_fs               : 2;  /**< [ 13: 12](R/W) Controls input data FIFO 1 flip syndrome. */
-        uint64_t idf1_cdis             : 1;  /**< [ 14: 14](R/W) Input data FIFO 1 ECC correction disable. */
-        uint64_t reserved_15           : 1;
-        uint64_t idf2_fs               : 2;  /**< [ 17: 16](R/W) Controls input data FIFO 2 flip syndrome. */
-        uint64_t idf2_cdis             : 1;  /**< [ 18: 18](R/W) Input data FIFO 2 ECC correction disable. */
-        uint64_t reserved_19           : 1;
-        uint64_t idf3_fs               : 2;  /**< [ 21: 20](R/W) Controls input data FIFO 3 flip syndrome. */
-        uint64_t idf3_cdis             : 1;  /**< [ 22: 22](R/W) Input data FIFO 3 ECC correction disable. */
-        uint64_t reserved_23           : 1;
-        uint64_t idf4_fs               : 2;  /**< [ 25: 24](R/W) Controls input data FIFO 4 flip syndrome. */
-        uint64_t idf4_cdis             : 1;  /**< [ 26: 26](R/W) Input data FIFO 5 ECC correction disable. */
-        uint64_t reserved_27           : 1;
-        uint64_t idf5_fs               : 2;  /**< [ 29: 28](R/W) Controls input data FIFO 5 flip syndrome. */
-        uint64_t idf5_cdis             : 1;  /**< [ 30: 30](R/W) Input data FIFO 5 ECC correction disable. */
-        uint64_t reserved_31           : 1;
-        uint64_t vmem_fs               : 2;  /**< [ 33: 32](R/W) Controls VMEM memory flip syndrome. */
-        uint64_t vmem_cdis             : 1;  /**< [ 34: 34](R/W) VMEM memory ECC correction disable. */
-        uint64_t reserved_35           : 1;
-        uint64_t pmem_fs               : 2;  /**< [ 37: 36](R/W) Controls PMEM memory flip syndrome. */
-        uint64_t pmem_cdis             : 1;  /**< [ 38: 38](R/W) PMEM memory ECC correction disable. */
-        uint64_t reserved_39           : 1;
-        uint64_t mbox_fs               : 2;  /**< [ 41: 40](R/W) Controls MBOX memory flip syndrome. */
-        uint64_t mbox_cdis             : 1;  /**< [ 42: 42](R/W) MBOX memory ECC correction disable. */
-        uint64_t reserved_43_63        : 21;
-#endif /* Word 0 - End */
-    } cn9;
     struct bdk_zip_ecc_ctl_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -3781,7 +3717,86 @@ typedef union
         uint64_t reserved_19_63        : 45;
 #endif /* Word 0 - End */
     } cn88xx;
-    /* struct bdk_zip_ecc_ctl_cn9 cn83xx; */
+    struct bdk_zip_ecc_ctl_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_43_63        : 21;
+        uint64_t mbox_cdis             : 1;  /**< [ 42: 42](R/W) MBOX memory ECC correction disable. */
+        uint64_t mbox_fs               : 2;  /**< [ 41: 40](R/W) Controls MBOX memory flip syndrome. */
+        uint64_t reserved_39           : 1;
+        uint64_t pmem_cdis             : 1;  /**< [ 38: 38](R/W) PMEM memory ECC correction disable. */
+        uint64_t pmem_fs               : 2;  /**< [ 37: 36](R/W) Controls PMEM memory flip syndrome. */
+        uint64_t reserved_35           : 1;
+        uint64_t vmem_cdis             : 1;  /**< [ 34: 34](R/W) VMEM memory ECC correction disable. */
+        uint64_t vmem_fs               : 2;  /**< [ 33: 32](R/W) Controls VMEM memory flip syndrome. */
+        uint64_t reserved_31           : 1;
+        uint64_t idf5_cdis             : 1;  /**< [ 30: 30](R/W) Input data FIFO 5 ECC correction disable. */
+        uint64_t idf5_fs               : 2;  /**< [ 29: 28](R/W) Controls input data FIFO 5 flip syndrome. */
+        uint64_t reserved_27           : 1;
+        uint64_t idf4_cdis             : 1;  /**< [ 26: 26](R/W) Input data FIFO 5 ECC correction disable. */
+        uint64_t idf4_fs               : 2;  /**< [ 25: 24](R/W) Controls input data FIFO 4 flip syndrome. */
+        uint64_t reserved_23           : 1;
+        uint64_t idf3_cdis             : 1;  /**< [ 22: 22](R/W) Input data FIFO 3 ECC correction disable. */
+        uint64_t idf3_fs               : 2;  /**< [ 21: 20](R/W) Controls input data FIFO 3 flip syndrome. */
+        uint64_t reserved_19           : 1;
+        uint64_t idf2_cdis             : 1;  /**< [ 18: 18](R/W) Input data FIFO 2 ECC correction disable. */
+        uint64_t idf2_fs               : 2;  /**< [ 17: 16](R/W) Controls input data FIFO 2 flip syndrome. */
+        uint64_t reserved_15           : 1;
+        uint64_t idf1_cdis             : 1;  /**< [ 14: 14](R/W) Input data FIFO 1 ECC correction disable. */
+        uint64_t idf1_fs               : 2;  /**< [ 13: 12](R/W) Controls input data FIFO 1 flip syndrome. */
+        uint64_t reserved_11           : 1;
+        uint64_t idf0_cdis             : 1;  /**< [ 10: 10](R/W) Input data FIFO 0 ECC correction disable. */
+        uint64_t idf0_fs               : 2;  /**< [  9:  8](R/W) Controls input data FIFO 0 flip syndrome. */
+        uint64_t reserved_7            : 1;
+        uint64_t gspf_cdis             : 1;  /**< [  6:  6](R/W) G/S pointer FIFO ECC correction disable. */
+        uint64_t gspf_fs               : 2;  /**< [  5:  4](R/W) Controls G/S pointer FIFO flip syndrome. */
+        uint64_t reserved_3            : 1;
+        uint64_t iqf_cdis              : 1;  /**< [  2:  2](R/W) Instruction queue FIFO ECC correction disable. */
+        uint64_t iqf_fs                : 2;  /**< [  1:  0](R/W) Controls instruction queue FIFO flip syndrome.
+                                                                 0x0 = no error generation.
+                                                                 0x1 = flip one bit.
+                                                                 0x2 = flip one bit.
+                                                                 0x3 = flip two bits. */
+#else /* Word 0 - Little Endian */
+        uint64_t iqf_fs                : 2;  /**< [  1:  0](R/W) Controls instruction queue FIFO flip syndrome.
+                                                                 0x0 = no error generation.
+                                                                 0x1 = flip one bit.
+                                                                 0x2 = flip one bit.
+                                                                 0x3 = flip two bits. */
+        uint64_t iqf_cdis              : 1;  /**< [  2:  2](R/W) Instruction queue FIFO ECC correction disable. */
+        uint64_t reserved_3            : 1;
+        uint64_t gspf_fs               : 2;  /**< [  5:  4](R/W) Controls G/S pointer FIFO flip syndrome. */
+        uint64_t gspf_cdis             : 1;  /**< [  6:  6](R/W) G/S pointer FIFO ECC correction disable. */
+        uint64_t reserved_7            : 1;
+        uint64_t idf0_fs               : 2;  /**< [  9:  8](R/W) Controls input data FIFO 0 flip syndrome. */
+        uint64_t idf0_cdis             : 1;  /**< [ 10: 10](R/W) Input data FIFO 0 ECC correction disable. */
+        uint64_t reserved_11           : 1;
+        uint64_t idf1_fs               : 2;  /**< [ 13: 12](R/W) Controls input data FIFO 1 flip syndrome. */
+        uint64_t idf1_cdis             : 1;  /**< [ 14: 14](R/W) Input data FIFO 1 ECC correction disable. */
+        uint64_t reserved_15           : 1;
+        uint64_t idf2_fs               : 2;  /**< [ 17: 16](R/W) Controls input data FIFO 2 flip syndrome. */
+        uint64_t idf2_cdis             : 1;  /**< [ 18: 18](R/W) Input data FIFO 2 ECC correction disable. */
+        uint64_t reserved_19           : 1;
+        uint64_t idf3_fs               : 2;  /**< [ 21: 20](R/W) Controls input data FIFO 3 flip syndrome. */
+        uint64_t idf3_cdis             : 1;  /**< [ 22: 22](R/W) Input data FIFO 3 ECC correction disable. */
+        uint64_t reserved_23           : 1;
+        uint64_t idf4_fs               : 2;  /**< [ 25: 24](R/W) Controls input data FIFO 4 flip syndrome. */
+        uint64_t idf4_cdis             : 1;  /**< [ 26: 26](R/W) Input data FIFO 5 ECC correction disable. */
+        uint64_t reserved_27           : 1;
+        uint64_t idf5_fs               : 2;  /**< [ 29: 28](R/W) Controls input data FIFO 5 flip syndrome. */
+        uint64_t idf5_cdis             : 1;  /**< [ 30: 30](R/W) Input data FIFO 5 ECC correction disable. */
+        uint64_t reserved_31           : 1;
+        uint64_t vmem_fs               : 2;  /**< [ 33: 32](R/W) Controls VMEM memory flip syndrome. */
+        uint64_t vmem_cdis             : 1;  /**< [ 34: 34](R/W) VMEM memory ECC correction disable. */
+        uint64_t reserved_35           : 1;
+        uint64_t pmem_fs               : 2;  /**< [ 37: 36](R/W) Controls PMEM memory flip syndrome. */
+        uint64_t pmem_cdis             : 1;  /**< [ 38: 38](R/W) PMEM memory ECC correction disable. */
+        uint64_t reserved_39           : 1;
+        uint64_t mbox_fs               : 2;  /**< [ 41: 40](R/W) Controls MBOX memory flip syndrome. */
+        uint64_t mbox_cdis             : 1;  /**< [ 42: 42](R/W) MBOX memory ECC correction disable. */
+        uint64_t reserved_43_63        : 21;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_zip_ecc_ctl_t;
 
 #define BDK_ZIP_ECC_CTL BDK_ZIP_ECC_CTL_FUNC()
@@ -3791,8 +3806,6 @@ static inline uint64_t BDK_ZIP_ECC_CTL_FUNC(void)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x838000000568ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
-        return 0x838000000568ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x838000000568ll;
     __bdk_csr_fatal("ZIP_ECC_CTL", 0, 0, 0, 0, 0);
 }
@@ -3859,7 +3872,6 @@ typedef union
         uint64_t reserved_43_63        : 21;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_zip_ecce_ena_w1c_s cn9; */
     struct bdk_zip_ecce_ena_w1c_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -3892,8 +3904,6 @@ static inline uint64_t BDK_ZIP_ECCE_ENA_W1C_FUNC(void)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x838000000598ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
-        return 0x838000000598ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x838000000598ll;
     __bdk_csr_fatal("ZIP_ECCE_ENA_W1C", 0, 0, 0, 0, 0);
 }
@@ -3960,7 +3970,6 @@ typedef union
         uint64_t reserved_43_63        : 21;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_zip_ecce_ena_w1s_s cn9; */
     struct bdk_zip_ecce_ena_w1s_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -3993,8 +4002,6 @@ static inline uint64_t BDK_ZIP_ECCE_ENA_W1S_FUNC(void)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x838000000590ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
-        return 0x838000000590ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x838000000590ll;
     __bdk_csr_fatal("ZIP_ECCE_ENA_W1S", 0, 0, 0, 0, 0);
 }
@@ -4061,7 +4068,6 @@ typedef union
         uint64_t reserved_43_63        : 21;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_zip_ecce_int_s cn9; */
     struct bdk_zip_ecce_int_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -4094,8 +4100,6 @@ static inline uint64_t BDK_ZIP_ECCE_INT_FUNC(void)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x838000000580ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
-        return 0x838000000580ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x838000000580ll;
     __bdk_csr_fatal("ZIP_ECCE_INT", 0, 0, 0, 0, 0);
 }
@@ -4162,7 +4166,6 @@ typedef union
         uint64_t reserved_43_63        : 21;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_zip_ecce_int_w1s_s cn9; */
     struct bdk_zip_ecce_int_w1s_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -4195,8 +4198,6 @@ static inline uint64_t BDK_ZIP_ECCE_INT_W1S_FUNC(void)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x838000000588ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
-        return 0x838000000588ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x838000000588ll;
     __bdk_csr_fatal("ZIP_ECCE_INT_W1S", 0, 0, 0, 0, 0);
 }
@@ -4239,8 +4240,6 @@ static inline uint64_t BDK_ZIP_ECO_FUNC(void)
         return 0x8380000005f0ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
         return 0x8380000005f0ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x8380000005f0ll;
     __bdk_csr_fatal("ZIP_ECO", 0, 0, 0, 0, 0);
 }
 
@@ -4280,8 +4279,6 @@ static inline uint64_t BDK_ZIP_FIFE_ENA_W1C_FUNC(void)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x838000000090ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
-        return 0x838000000090ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x838000000090ll;
     __bdk_csr_fatal("ZIP_FIFE_ENA_W1C", 0, 0, 0, 0, 0);
 }
@@ -4323,8 +4320,6 @@ static inline uint64_t BDK_ZIP_FIFE_ENA_W1S_FUNC(void)
         return 0x838000000088ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
         return 0x838000000088ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x838000000088ll;
     __bdk_csr_fatal("ZIP_FIFE_ENA_W1S", 0, 0, 0, 0, 0);
 }
 
@@ -4363,8 +4358,6 @@ static inline uint64_t BDK_ZIP_FIFE_INT_FUNC(void)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x838000000078ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
-        return 0x838000000078ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x838000000078ll;
     __bdk_csr_fatal("ZIP_FIFE_INT", 0, 0, 0, 0, 0);
 }
@@ -4405,8 +4398,6 @@ static inline uint64_t BDK_ZIP_FIFE_INT_W1S_FUNC(void)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x838000000080ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
-        return 0x838000000080ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x838000000080ll;
     __bdk_csr_fatal("ZIP_FIFE_INT_W1S", 0, 0, 0, 0, 0);
 }
@@ -4582,8 +4573,6 @@ static inline uint64_t BDK_ZIP_PF_INST_LATENCY_PC_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x838000000420ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x838000000420ll;
     __bdk_csr_fatal("ZIP_PF_INST_LATENCY_PC", 0, 0, 0, 0, 0);
 }
 
@@ -4618,8 +4607,6 @@ static inline uint64_t BDK_ZIP_PF_INST_REQ_PC_FUNC(void) __attribute__ ((pure, a
 static inline uint64_t BDK_ZIP_PF_INST_REQ_PC_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x838000000410ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x838000000410ll;
     __bdk_csr_fatal("ZIP_PF_INST_REQ_PC", 0, 0, 0, 0, 0);
 }
@@ -4656,8 +4643,6 @@ static inline uint64_t BDK_ZIP_PF_MBOX_ENA_W1CX(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
         return 0x838000000940ll + 8ll * ((a) & 0x0);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a==0))
-        return 0x838000000940ll + 8ll * ((a) & 0x0);
     __bdk_csr_fatal("ZIP_PF_MBOX_ENA_W1CX", 1, a, 0, 0, 0);
 }
 
@@ -4692,8 +4677,6 @@ static inline uint64_t BDK_ZIP_PF_MBOX_ENA_W1SX(unsigned long a) __attribute__ (
 static inline uint64_t BDK_ZIP_PF_MBOX_ENA_W1SX(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
-        return 0x838000000960ll + 8ll * ((a) & 0x0);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a==0))
         return 0x838000000960ll + 8ll * ((a) & 0x0);
     __bdk_csr_fatal("ZIP_PF_MBOX_ENA_W1SX", 1, a, 0, 0, 0);
 }
@@ -4733,8 +4716,6 @@ static inline uint64_t BDK_ZIP_PF_MBOX_INTX(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
         return 0x838000000900ll + 8ll * ((a) & 0x0);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a==0))
-        return 0x838000000900ll + 8ll * ((a) & 0x0);
     __bdk_csr_fatal("ZIP_PF_MBOX_INTX", 1, a, 0, 0, 0);
 }
 
@@ -4769,8 +4750,6 @@ static inline uint64_t BDK_ZIP_PF_MBOX_INT_W1SX(unsigned long a) __attribute__ (
 static inline uint64_t BDK_ZIP_PF_MBOX_INT_W1SX(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
-        return 0x838000000920ll + 8ll * ((a) & 0x0);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a==0))
         return 0x838000000920ll + 8ll * ((a) & 0x0);
     __bdk_csr_fatal("ZIP_PF_MBOX_INT_W1SX", 1, a, 0, 0, 0);
 }
@@ -4808,8 +4787,6 @@ static inline uint64_t BDK_ZIP_PF_MSIX_PBAX(unsigned long a) __attribute__ ((pur
 static inline uint64_t BDK_ZIP_PF_MSIX_PBAX(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
-        return 0x8380100f0000ll + 8ll * ((a) & 0x0);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a==0))
         return 0x8380100f0000ll + 8ll * ((a) & 0x0);
     __bdk_csr_fatal("ZIP_PF_MSIX_PBAX", 1, a, 0, 0, 0);
 }
@@ -4866,8 +4843,6 @@ static inline uint64_t BDK_ZIP_PF_MSIX_VECX_ADDR(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=2))
         return 0x838010000000ll + 0x10ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
-        return 0x838010000000ll + 0x10ll * ((a) & 0x3);
     __bdk_csr_fatal("ZIP_PF_MSIX_VECX_ADDR", 1, a, 0, 0, 0);
 }
 
@@ -4908,8 +4883,6 @@ static inline uint64_t BDK_ZIP_PF_MSIX_VECX_CTL(unsigned long a) __attribute__ (
 static inline uint64_t BDK_ZIP_PF_MSIX_VECX_CTL(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=2))
-        return 0x838010000008ll + 0x10ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x838010000008ll + 0x10ll * ((a) & 0x3);
     __bdk_csr_fatal("ZIP_PF_MSIX_VECX_CTL", 1, a, 0, 0, 0);
 }
@@ -4956,8 +4929,6 @@ static inline uint64_t BDK_ZIP_PF_QUEX_GMCTL(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=7))
         return 0x838000000800ll + 0x100000ll * ((a) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=7))
-        return 0x838000000800ll + 0x100000ll * ((a) & 0x7);
     __bdk_csr_fatal("ZIP_PF_QUEX_GMCTL", 1, a, 0, 0, 0);
 }
 
@@ -4997,8 +4968,6 @@ static inline uint64_t BDK_ZIP_PF_RD_LATENCY_PC_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x838000000440ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x838000000440ll;
     __bdk_csr_fatal("ZIP_PF_RD_LATENCY_PC", 0, 0, 0, 0, 0);
 }
 
@@ -5033,8 +5002,6 @@ static inline uint64_t BDK_ZIP_PF_RD_REQ_PC_FUNC(void) __attribute__ ((pure, alw
 static inline uint64_t BDK_ZIP_PF_RD_REQ_PC_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x838000000430ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x838000000430ll;
     __bdk_csr_fatal("ZIP_PF_RD_REQ_PC", 0, 0, 0, 0, 0);
 }
@@ -5081,8 +5048,6 @@ static inline uint64_t BDK_ZIP_PF_VFX_MBOXX(unsigned long a, unsigned long b) __
 static inline uint64_t BDK_ZIP_PF_VFX_MBOXX(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=7) && (b<=1)))
-        return 0x838000002000ll + 0x10ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=7) && (b<=1)))
         return 0x838000002000ll + 0x10ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
     __bdk_csr_fatal("ZIP_PF_VFX_MBOXX", 2, a, b, 0, 0);
 }
@@ -5759,8 +5724,6 @@ static inline uint64_t BDK_ZIP_QUEX_GCFG(unsigned long a)
         return 0x838000001a00ll + 8ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=7))
         return 0x838000001a00ll + 8ll * ((a) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=7))
-        return 0x838000001a00ll + 8ll * ((a) & 0x7);
     __bdk_csr_fatal("ZIP_QUEX_GCFG", 1, a, 0, 0, 0);
 }
 
@@ -5784,6 +5747,42 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_6_63         : 58;
+        uint64_t zce                   : 6;  /**< [  5:  0](R/W) ZIP core enable. Controls the logical instruction queue can be serviced by which ZIP core.
+                                                                 Setting ZCE to 0 effectively disables the queue from being served (however the instruction
+                                                                 can still be fetched).
+                                                                 _ ZCE<1> = 1: ZIP core 1 can serve the queue.
+                                                                 _ ZCE<0> = 1: ZIP core 0 can serve the queue. */
+#else /* Word 0 - Little Endian */
+        uint64_t zce                   : 6;  /**< [  5:  0](R/W) ZIP core enable. Controls the logical instruction queue can be serviced by which ZIP core.
+                                                                 Setting ZCE to 0 effectively disables the queue from being served (however the instruction
+                                                                 can still be fetched).
+                                                                 _ ZCE<1> = 1: ZIP core 1 can serve the queue.
+                                                                 _ ZCE<0> = 1: ZIP core 0 can serve the queue. */
+        uint64_t reserved_6_63         : 58;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_zip_quex_map_cn88xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_2_63         : 62;
+        uint64_t zce                   : 2;  /**< [  1:  0](R/W) ZIP core enable. Controls the logical instruction queue can be serviced by which ZIP core.
+                                                                 Setting ZCE to 0 effectively disables the queue from being served (however the instruction
+                                                                 can still be fetched).
+                                                                 _ ZCE<1> = 1: ZIP core 1 can serve the queue.
+                                                                 _ ZCE<0> = 1: ZIP core 0 can serve the queue. */
+#else /* Word 0 - Little Endian */
+        uint64_t zce                   : 2;  /**< [  1:  0](R/W) ZIP core enable. Controls the logical instruction queue can be serviced by which ZIP core.
+                                                                 Setting ZCE to 0 effectively disables the queue from being served (however the instruction
+                                                                 can still be fetched).
+                                                                 _ ZCE<1> = 1: ZIP core 1 can serve the queue.
+                                                                 _ ZCE<0> = 1: ZIP core 0 can serve the queue. */
+        uint64_t reserved_2_63         : 62;
+#endif /* Word 0 - End */
+    } cn88xx;
+    struct bdk_zip_quex_map_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_6_63         : 58;
         uint64_t zce                   : 6;  /**< [  5:  0](R/W) ZIP core enable. Controls the logical instruction queue can be serviced by which
                                                                  ZIP core. Setting [ZCE] to 0 effectively disables the queue from being served
                                                                  (however the instruction can still be fetched). Hardware automatically selects
@@ -5807,27 +5806,7 @@ typedef union
                                                                  _ ZCE<0> = 1: ZIP core 0 can serve the queue. */
         uint64_t reserved_6_63         : 58;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_zip_quex_map_s cn9; */
-    struct bdk_zip_quex_map_cn88xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_2_63         : 62;
-        uint64_t zce                   : 2;  /**< [  1:  0](R/W) ZIP core enable. Controls the logical instruction queue can be serviced by which ZIP core.
-                                                                 Setting ZCE to 0 effectively disables the queue from being served (however the instruction
-                                                                 can still be fetched).
-                                                                 _ ZCE<1> = 1: ZIP core 1 can serve the queue.
-                                                                 _ ZCE<0> = 1: ZIP core 0 can serve the queue. */
-#else /* Word 0 - Little Endian */
-        uint64_t zce                   : 2;  /**< [  1:  0](R/W) ZIP core enable. Controls the logical instruction queue can be serviced by which ZIP core.
-                                                                 Setting ZCE to 0 effectively disables the queue from being served (however the instruction
-                                                                 can still be fetched).
-                                                                 _ ZCE<1> = 1: ZIP core 1 can serve the queue.
-                                                                 _ ZCE<0> = 1: ZIP core 0 can serve the queue. */
-        uint64_t reserved_2_63         : 62;
-#endif /* Word 0 - End */
-    } cn88xx;
-    /* struct bdk_zip_quex_map_s cn83xx; */
+    } cn83xx;
 } bdk_zip_quex_map_t;
 
 static inline uint64_t BDK_ZIP_QUEX_MAP(unsigned long a) __attribute__ ((pure, always_inline));
@@ -5836,8 +5815,6 @@ static inline uint64_t BDK_ZIP_QUEX_MAP(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=7))
         return 0x838000001400ll + 8ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=7))
-        return 0x838000001400ll + 8ll * ((a) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=7))
         return 0x838000001400ll + 8ll * ((a) & 0x7);
     __bdk_csr_fatal("ZIP_QUEX_MAP", 1, a, 0, 0, 0);
 }
@@ -5910,7 +5887,7 @@ static inline uint64_t BDK_ZIP_QUEX_SBUF_ADDR(unsigned long a)
  * These registers set the buffer parameters for the instruction queues. When quiescent (i.e.
  * outstanding doorbell count is 0), it is safe to rewrite this register to effectively reset the
  * command buffer state machine. These registers must be programmed before software programms the
- * corresponding ZIP_VQ()_SBUF_ADDR.
+ * corresponding ZIP_QUE(0..7)_SBUF_ADDR.
  */
 typedef union
 {
@@ -5945,7 +5922,6 @@ typedef union
         uint64_t reserved_45_63        : 19;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_zip_quex_sbuf_ctl_s cn9; */
     struct bdk_zip_quex_sbuf_ctl_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -5979,8 +5955,6 @@ static inline uint64_t BDK_ZIP_QUEX_SBUF_CTL(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=7))
         return 0x838000001200ll + 8ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=7))
-        return 0x838000001200ll + 8ll * ((a) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=7))
         return 0x838000001200ll + 8ll * ((a) & 0x7);
     __bdk_csr_fatal("ZIP_QUEX_SBUF_CTL", 1, a, 0, 0, 0);
 }
@@ -6068,8 +6042,6 @@ static inline uint64_t BDK_ZIP_QUE_PRI_FUNC(void)
         return 0x838000000508ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
         return 0x838000000508ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x838000000508ll;
     __bdk_csr_fatal("ZIP_QUE_PRI", 0, 0, 0, 0, 0);
 }
 
@@ -6083,7 +6055,7 @@ static inline uint64_t BDK_ZIP_QUE_PRI_FUNC(void)
 /**
  * Register (NCB) zip_que_reset
  *
- * INTERNAL: ZIP Queue Reset Register
+ * INERNAL: ZIP Queue Reset Register
  *
  * This register resets the ZIP instruction queues.
  */
@@ -6115,7 +6087,6 @@ typedef union
 #endif /* Word 0 - End */
     } cn88xx;
     /* struct bdk_zip_que_reset_s cn83xx; */
-    /* struct bdk_zip_que_reset_s cn9; */
 } bdk_zip_que_reset_t;
 
 #define BDK_ZIP_QUE_RESET BDK_ZIP_QUE_RESET_FUNC()
@@ -6125,8 +6096,6 @@ static inline uint64_t BDK_ZIP_QUE_RESET_FUNC(void)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x838000000400ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
-        return 0x838000000400ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x838000000400ll;
     __bdk_csr_fatal("ZIP_QUE_RESET", 0, 0, 0, 0, 0);
 }
@@ -6154,27 +6123,26 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_6_63         : 58;
         uint64_t ld_infl               : 6;  /**< [  5:  0](R/W) Maximum number of in-flight data fetch transactions on the NCB. Larger values may improve
-                                                                 ZIP performance but may starve other devices on the same NCB. */
+                                                                 ZIP performance but may starve other devices on the same NCB. Values > 32 are illegal. */
 #else /* Word 0 - Little Endian */
         uint64_t ld_infl               : 6;  /**< [  5:  0](R/W) Maximum number of in-flight data fetch transactions on the NCB. Larger values may improve
-                                                                 ZIP performance but may starve other devices on the same NCB. */
+                                                                 ZIP performance but may starve other devices on the same NCB. Values > 32 are illegal. */
         uint64_t reserved_6_63         : 58;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_zip_throttle_s cn9; */
-    struct bdk_zip_throttle_cn88xx
+    /* struct bdk_zip_throttle_s cn88xx; */
+    struct bdk_zip_throttle_cn83xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_6_63         : 58;
         uint64_t ld_infl               : 6;  /**< [  5:  0](R/W) Maximum number of in-flight data fetch transactions on the NCB. Larger values may improve
-                                                                 ZIP performance but may starve other devices on the same NCB. Values > 32 are illegal. */
+                                                                 ZIP performance but may starve other devices on the same NCB. */
 #else /* Word 0 - Little Endian */
         uint64_t ld_infl               : 6;  /**< [  5:  0](R/W) Maximum number of in-flight data fetch transactions on the NCB. Larger values may improve
-                                                                 ZIP performance but may starve other devices on the same NCB. Values > 32 are illegal. */
+                                                                 ZIP performance but may starve other devices on the same NCB. */
         uint64_t reserved_6_63         : 58;
 #endif /* Word 0 - End */
-    } cn88xx;
-    /* struct bdk_zip_throttle_s cn83xx; */
+    } cn83xx;
 } bdk_zip_throttle_t;
 
 #define BDK_ZIP_THROTTLE BDK_ZIP_THROTTLE_FUNC()
@@ -6184,8 +6152,6 @@ static inline uint64_t BDK_ZIP_THROTTLE_FUNC(void)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x838000000010ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
-        return 0x838000000010ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x838000000010ll;
     __bdk_csr_fatal("ZIP_THROTTLE", 0, 0, 0, 0, 0);
 }
@@ -6236,8 +6202,6 @@ static inline uint64_t BDK_ZIP_VFX_MISC_ENA_W1C(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=7))
         return 0x838020000330ll + 0x100000ll * ((a) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=7))
-        return 0x838020000330ll + 0x100000ll * ((a) & 0x7);
     __bdk_csr_fatal("ZIP_VFX_MISC_ENA_W1C", 1, a, 0, 0, 0);
 }
 
@@ -6286,8 +6250,6 @@ static inline uint64_t BDK_ZIP_VFX_MISC_ENA_W1S(unsigned long a) __attribute__ (
 static inline uint64_t BDK_ZIP_VFX_MISC_ENA_W1S(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=7))
-        return 0x838020000320ll + 0x100000ll * ((a) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=7))
         return 0x838020000320ll + 0x100000ll * ((a) & 0x7);
     __bdk_csr_fatal("ZIP_VFX_MISC_ENA_W1S", 1, a, 0, 0, 0);
 }
@@ -6338,8 +6300,6 @@ static inline uint64_t BDK_ZIP_VFX_MISC_INT(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=7))
         return 0x838020000300ll + 0x100000ll * ((a) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=7))
-        return 0x838020000300ll + 0x100000ll * ((a) & 0x7);
     __bdk_csr_fatal("ZIP_VFX_MISC_INT", 1, a, 0, 0, 0);
 }
 
@@ -6389,8 +6349,6 @@ static inline uint64_t BDK_ZIP_VFX_MISC_INT_W1S(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=7))
         return 0x838020000310ll + 0x100000ll * ((a) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=7))
-        return 0x838020000310ll + 0x100000ll * ((a) & 0x7);
     __bdk_csr_fatal("ZIP_VFX_MISC_INT_W1S", 1, a, 0, 0, 0);
 }
 
@@ -6428,8 +6386,6 @@ static inline uint64_t BDK_ZIP_VFX_MSIX_PBAX(unsigned long a, unsigned long b) _
 static inline uint64_t BDK_ZIP_VFX_MSIX_PBAX(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=7) && (b==0)))
-        return 0x8380300f0000ll + 0x100000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=7) && (b==0)))
         return 0x8380300f0000ll + 0x100000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
     __bdk_csr_fatal("ZIP_VFX_MSIX_PBAX", 2, a, b, 0, 0);
 }
@@ -6476,8 +6432,6 @@ static inline uint64_t BDK_ZIP_VFX_MSIX_VECX_ADDR(unsigned long a, unsigned long
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=7) && (b<=1)))
         return 0x838030000000ll + 0x100000ll * ((a) & 0x7) + 0x10ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=7) && (b<=1)))
-        return 0x838030000000ll + 0x100000ll * ((a) & 0x7) + 0x10ll * ((b) & 0x1);
     __bdk_csr_fatal("ZIP_VFX_MSIX_VECX_ADDR", 2, a, b, 0, 0);
 }
 
@@ -6518,8 +6472,6 @@ static inline uint64_t BDK_ZIP_VFX_MSIX_VECX_CTL(unsigned long a, unsigned long 
 static inline uint64_t BDK_ZIP_VFX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=7) && (b<=1)))
-        return 0x838030000008ll + 0x100000ll * ((a) & 0x7) + 0x10ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=7) && (b<=1)))
         return 0x838030000008ll + 0x100000ll * ((a) & 0x7) + 0x10ll * ((b) & 0x1);
     __bdk_csr_fatal("ZIP_VFX_MSIX_VECX_CTL", 2, a, b, 0, 0);
 }
@@ -6564,8 +6516,6 @@ static inline uint64_t BDK_ZIP_VFX_PF_MBOXX(unsigned long a, unsigned long b) __
 static inline uint64_t BDK_ZIP_VFX_PF_MBOXX(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=7) && (b<=1)))
-        return 0x838020000400ll + 0x100000ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=7) && (b<=1)))
         return 0x838020000400ll + 0x100000ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
     __bdk_csr_fatal("ZIP_VFX_PF_MBOXX", 2, a, b, 0, 0);
 }
@@ -6672,8 +6622,6 @@ static inline uint64_t BDK_ZIP_VQX_DONE(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=7))
         return 0x838020000100ll + 0x100000ll * ((a) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=7))
-        return 0x838020000100ll + 0x100000ll * ((a) & 0x7);
     __bdk_csr_fatal("ZIP_VQX_DONE", 1, a, 0, 0, 0);
 }
 
@@ -6719,8 +6667,6 @@ static inline uint64_t BDK_ZIP_VQX_DONE_ACK(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=7))
         return 0x838020000110ll + 0x100000ll * ((a) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=7))
-        return 0x838020000110ll + 0x100000ll * ((a) & 0x7);
     __bdk_csr_fatal("ZIP_VQX_DONE_ACK", 1, a, 0, 0, 0);
 }
 
@@ -6760,8 +6706,6 @@ static inline uint64_t BDK_ZIP_VQX_DONE_ENA_W1C(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=7))
         return 0x838020000130ll + 0x100000ll * ((a) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=7))
-        return 0x838020000130ll + 0x100000ll * ((a) & 0x7);
     __bdk_csr_fatal("ZIP_VQX_DONE_ENA_W1C", 1, a, 0, 0, 0);
 }
 
@@ -6800,8 +6744,6 @@ static inline uint64_t BDK_ZIP_VQX_DONE_ENA_W1S(unsigned long a) __attribute__ (
 static inline uint64_t BDK_ZIP_VQX_DONE_ENA_W1S(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=7))
-        return 0x838020000120ll + 0x100000ll * ((a) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=7))
         return 0x838020000120ll + 0x100000ll * ((a) & 0x7);
     __bdk_csr_fatal("ZIP_VQX_DONE_ENA_W1S", 1, a, 0, 0, 0);
 }
@@ -6856,8 +6798,6 @@ static inline uint64_t BDK_ZIP_VQX_DONE_WAIT(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=7))
         return 0x838020000140ll + 0x100000ll * ((a) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=7))
-        return 0x838020000140ll + 0x100000ll * ((a) & 0x7);
     __bdk_csr_fatal("ZIP_VQX_DONE_WAIT", 1, a, 0, 0, 0);
 }
 
@@ -6895,8 +6835,6 @@ static inline uint64_t BDK_ZIP_VQX_DOORBELL(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=7))
         return 0x838020001000ll + 0x100000ll * ((a) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=7))
-        return 0x838020001000ll + 0x100000ll * ((a) & 0x7);
     __bdk_csr_fatal("ZIP_VQX_DOORBELL", 1, a, 0, 0, 0);
 }
 
@@ -6933,8 +6871,6 @@ static inline uint64_t BDK_ZIP_VQX_ENA(unsigned long a) __attribute__ ((pure, al
 static inline uint64_t BDK_ZIP_VQX_ENA(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=7))
-        return 0x838020000010ll + 0x100000ll * ((a) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=7))
         return 0x838020000010ll + 0x100000ll * ((a) & 0x7);
     __bdk_csr_fatal("ZIP_VQX_ENA", 1, a, 0, 0, 0);
 }
@@ -6989,8 +6925,6 @@ static inline uint64_t BDK_ZIP_VQX_SBUF_ADDR(unsigned long a) __attribute__ ((pu
 static inline uint64_t BDK_ZIP_VQX_SBUF_ADDR(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=7))
-        return 0x838020000020ll + 0x100000ll * ((a) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=7))
         return 0x838020000020ll + 0x100000ll * ((a) & 0x7);
     __bdk_csr_fatal("ZIP_VQX_SBUF_ADDR", 1, a, 0, 0, 0);
 }

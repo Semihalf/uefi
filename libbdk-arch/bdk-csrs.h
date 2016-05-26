@@ -135,6 +135,7 @@ extern void __bdk_csr_fatal(const char *name, int num_args, unsigned long arg1, 
 #include "bdk-csrs-usbdrd.h"
 #include "bdk-csrs-usbh.h"
 #include "bdk-csrs-vrm.h"
+#include "bdk-csrs-xcp.h"
 #include "bdk-csrs-xcv.h"
 #include "bdk-csrs-zip.h"
 

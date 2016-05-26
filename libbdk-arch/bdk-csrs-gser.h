@@ -4261,6 +4261,8 @@ typedef union
 static inline uint64_t BDK_GSERX_LANEX_RX_MISC_CTRL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_LANEX_RX_MISC_CTRL(unsigned long a, unsigned long b)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=3) && (b<=1)))
+        return 0x87e090440050ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=13) && (b<=3)))
         return 0x87e090440050ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("GSERX_LANEX_RX_MISC_CTRL", 2, a, b, 0, 0);
