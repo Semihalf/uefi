@@ -688,9 +688,13 @@ static void lane_check_messaging(int ccpi_lane, bool is_master)
         /* CN88XX pass 1.0 can't restart training */
         if (!CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_0))
         {
-            BDK_CSR_WRITE(node, BDK_OCX_LNEX_STATUS(ccpi_lane), 0);
-            BDK_CSR_MODIFY(c, node, BDK_OCX_LNEX_TRN_CTL(ccpi_lane),
-                c.s.done = 0);
+            BDK_CSR_INIT(trn_ctl, node, BDK_OCX_LNEX_TRN_CTL(ccpi_lane));
+            if (trn_ctl.s.done)
+            {
+                BDK_CSR_WRITE(node, BDK_OCX_LNEX_STATUS(ccpi_lane), 0);
+                BDK_CSR_MODIFY(c, node, BDK_OCX_LNEX_TRN_CTL(ccpi_lane),
+                    c.s.done = 0);
+            }
         }
         if (lstate->lp_cu.s.preset)
             lane_change_state(ccpi_lane, STATE_MESSAGE_CHECK);
@@ -1245,20 +1249,19 @@ void __bdk_init_ccpi_early(int is_master)
     if (gserx_phy_ctl.s.phy_reset)
         return;
 
+    /* Force training into manual mode so we can control it */
+    for (int ccpi_lane = 0; ccpi_lane < CCPI_LANES; ccpi_lane++)
+    {
+        BDK_CSR_DEFINE(trn_ld, BDK_OCX_LNEX_TRN_LD(ccpi_lane));
+        trn_ld.u = 0;
+        trn_ld.s.lp_manual = 1;
+        BDK_CSR_WRITE(node, BDK_OCX_LNEX_TRN_LD(ccpi_lane), trn_ld.u);
+    }
+
     /* Make sure the link layer is down by disabling lane alignment */
     for (int link = 0; link < CCPI_MAX_LINKS; link++)
         BDK_CSR_MODIFY(c, node, BDK_OCX_LNKX_CFG(link),
             c.s.lane_align_dis = 1);
-
-    /* CN88XX pass 1.0 can't restart training */
-    if (!CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_0))
-    {
-        /* Force stop training while we make changes */
-        for (int lane = 0; lane < CCPI_LANES; lane++)
-            BDK_CSR_MODIFY(c, node, BDK_OCX_LNEX_TRN_CTL(lane),
-                c.s.done = 1);
-        wait_usec(100000);
-    }
 
     /* Disable the bad lane timer and clear all bad bits */
     for (int ccpi_qlm = 0; ccpi_qlm < 6; ccpi_qlm++)
@@ -1287,18 +1290,12 @@ void __bdk_init_ccpi_early(int is_master)
     }
 
     memset(lane_state, 0, sizeof(lane_state));
-    /* Force training into manual mode so we can control it */
     for (int ccpi_lane = 0; ccpi_lane < CCPI_LANES; ccpi_lane++)
     {
         lane_state_t *lstate = &lane_state[ccpi_lane];
         lstate->init_main = TRAIN_INIT_TX_MAIN;
         lstate->init_post = TRAIN_INIT_TX_POST;
         lstate->init_pre = TRAIN_INIT_TX_PRE;
-
-        BDK_CSR_DEFINE(trn_ld, BDK_OCX_LNEX_TRN_LD(ccpi_lane));
-        trn_ld.u = 0;
-        trn_ld.s.lp_manual = 1;
-        BDK_CSR_WRITE(node, BDK_OCX_LNEX_TRN_LD(ccpi_lane), trn_ld.u);
     }
 }
 
