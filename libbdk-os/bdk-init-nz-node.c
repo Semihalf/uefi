@@ -418,7 +418,9 @@ static void ccpi_tx_tune(int ccpi_lane, int tx_swing, int tx_pre, int tx_post)
  */
 static bool is_short_channel(int channel_loss)
 {
-    return (channel_loss >= 0) && (channel_loss <= 10);
+    /* A value of -1, unknown channel loss, will be treated as short channel.
+       Short channel is the most common CCPI setup */
+    return (channel_loss <= 10);
 }
 
 /**
