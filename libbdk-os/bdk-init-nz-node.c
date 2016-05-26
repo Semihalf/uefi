@@ -679,9 +679,13 @@ static void lane_check_messaging(int ccpi_lane, bool is_master)
     if (lstate->lane_state == STATE_WAIT_TRAIN_PRESET)
     {
         /* Restart training */
-        BDK_CSR_WRITE(node, BDK_OCX_LNEX_STATUS(ccpi_lane), 0);
-        BDK_CSR_MODIFY(c, node, BDK_OCX_LNEX_TRN_CTL(ccpi_lane),
-            c.s.done = 0);
+        /* CN88XX pass 1.0 can't restart training */
+        if (!CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_0))
+        {
+            BDK_CSR_WRITE(node, BDK_OCX_LNEX_STATUS(ccpi_lane), 0);
+            BDK_CSR_MODIFY(c, node, BDK_OCX_LNEX_TRN_CTL(ccpi_lane),
+                c.s.done = 0);
+        }
         if (lstate->lp_cu.s.preset)
             lane_change_state(ccpi_lane, STATE_MESSAGE_CHECK);
     }
