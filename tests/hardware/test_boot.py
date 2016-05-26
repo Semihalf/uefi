@@ -23,7 +23,7 @@ def wait_for_bootstub_messages(cnx):
         except:
             pass
     cnx.matchRE("Chip:  0xa[1-9] Pass [1-7]\\.[0-7]")
-    cnx.matchRE("SKU:   CN[0-9]+-[0-9]+BG[0-9]+-[A-Z]+(-PR)?(-[Y-Z][0-8]*)?-G")
+    cnx.matchRE("SKU:   CN[0-9]+-[0-9]+BG[0-9]+-[A-Z]+(-PR)?(-[PYZ][0-8]*)?-G")
     cnx.matchRE("L2:    [0-9]+ KB")
     cnx.matchRE("RCLK:  [0-9]+ Mhz")
     cnx.matchRE("SCLK:  [0-9]+ Mhz")
@@ -89,7 +89,7 @@ def wait_for_bootstub_messages(cnx):
         except:
             pass
         cnx.matchRE("Chip:  0xa[1-9] Pass [1-2]\\.[0-1]")
-        cnx.matchRE("SKU:   CN[0-9]+-[0-9]+BG[0-9]+-[A-Z]+(-PR)?(-[Y-Z][0-8]*)?-G")
+        cnx.matchRE("SKU:   CN[0-9]+-[0-9]+BG[0-9]+-[A-Z]+(-PR)?(-[PYZ][0-8]*)?-G")
         cnx.matchRE("L2:    [0-9]+ KB")
         cnx.matchRE("RCLK:  [0-9]+ Mhz")
         cnx.matchRE("SCLK:  [0-9]+ Mhz")
