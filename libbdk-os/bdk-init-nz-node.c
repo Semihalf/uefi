@@ -291,6 +291,12 @@ static void ccpi_update_rx_equalization()
                     if (finish_time >= timeout)
                         break;
                     gserx_br_rxx_eer.u = BDK_CSR_READ(node, BDK_GSERX_BR_RXX_EER(qlm, lane));
+                    /* Update Link Partner message state */
+                    BDK_CSR_INIT(trn_lp, node, BDK_OCX_LNEX_TRN_LP(ccpi_lane));
+                    if (trn_lp.s.lp_cu_val)
+                        lstate->lp_cu.u = trn_lp.s.lp_cu_dat;
+                    if (trn_lp.s.lp_sr_val)
+                        lstate->lp_sr.u = trn_lp.s.lp_sr_dat;
                 }
 
                 /* Disable software control of RX equalization */
@@ -1213,16 +1219,16 @@ static void lane_state_update(int ccpi_lane, bool is_master)
     if (trn_lp.s.lp_sr_val)
         lstate->lp_sr.u = trn_lp.s.lp_sr_dat;
 
-    /* Update local device message state */
-    BDK_CSR_MODIFY(c, node, BDK_OCX_LNEX_TRN_LD(ccpi_lane),
-        c.s.ld_cu_dat = lstate->ld_cu.u;
-        c.s.ld_sr_dat = lstate->ld_sr.u);
-
     lane_check_eie(ccpi_lane);
     lane_check_cdr(ccpi_lane);
     lane_check_messaging(ccpi_lane, is_master);
     lane_check_training(ccpi_lane, is_master);
     lane_check_ready(ccpi_lane);
+
+    /* Update local device message state */
+    BDK_CSR_MODIFY(c, node, BDK_OCX_LNEX_TRN_LD(ccpi_lane),
+        c.s.ld_cu_dat = lstate->ld_cu.u;
+        c.s.ld_sr_dat = lstate->ld_sr.u);
 }
 
 /**
