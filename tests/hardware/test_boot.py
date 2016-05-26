@@ -73,6 +73,11 @@ def wait_for_bootstub_messages(cnx):
     cnx.matchRE("Node 0: DRAM: [0-9]+ MB, [0-9]+ MHz, DDR[34] [UR]DIMM", timeout=60)
     try:
         cnx.match("Starting CCPI links")
+        try:
+            # This only shows up on boards using lane reversal
+            cnx.match("N0.CCPI: Applying lane reversal")
+        except:
+            pass # Case for boards not using lane reversal
     except:
         pass
     if cnx.multinode:
