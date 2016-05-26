@@ -52,7 +52,8 @@ typedef struct
     union bdk_bgx_spu_br_train_cup_s ld_cu; /* Current Coef Update for local device */
     union bdk_bgx_spu_br_train_rep_s ld_sr; /* Current Status Response for local device */
     uint8_t merit;          /* RX equalization figure of merit */
-    uint8_t reserved    : 2;
+    uint8_t reserved    : 1;
+    uint8_t rx_ready    : 1;
     uint8_t desired_pre : 2;/* RX equalization recommended PRE change (RXT_ESM_*) */
     uint8_t desired_main: 2;/* RX equalization recommended MAIN change (RXT_ESM_*) */
     uint8_t desired_post: 2;/* RX equalization recommended POST change (RXT_ESM_*) */
@@ -966,7 +967,18 @@ static void lane_handle_training_request(int ccpi_lane)
         lane_stable = true;
     lane_stable &= ((lstate->ld_cu.u & TRAIN_DATA_MASK) == 0);
     lane_stable &= (lstate->steps >= 4);
-    ld_sr.s.rx_ready = lane_stable;
+    lstate->rx_ready = lane_stable;
+    if (DEBUG_ONE_LANE_AT_A_TIME)
+    {
+        ld_sr.s.rx_ready = lstate->rx_ready;
+    }
+    else
+    {
+        bool finished = true;
+        for (int l = 0; l < 24; l++)
+            finished &= lstate->rx_ready;
+        ld_sr.s.rx_ready = finished;
+    }
 
     lstate->ld_sr = ld_sr;
 
@@ -1151,6 +1163,7 @@ static void lane_check_training(int ccpi_lane, bool is_master)
         BDK_CSR_INIT(trn_ctl, node, BDK_OCX_LNEX_TRN_CTL(ccpi_lane));
         if (trn_ctl.s.done)
         {
+            lstate->rx_ready = 1;
             lstate->steps = 0;
             lane_change_state(ccpi_lane, STATE_WAIT_FOR_READY);
         }
