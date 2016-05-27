@@ -1,3 +1,5 @@
+import test_boot
+
 #
 # Wait for the DRAM main menu
 #
@@ -113,6 +115,7 @@ def dram_all(cnx):
     cnx.sendEcho("quit")
     wait_for_main_menu(cnx)
     cnx.sendEcho("quit")
+    test_boot.wait_for_main_menu(cnx)
 
 #
 # Run all DRAM tests over 64MB of memory
@@ -134,4 +137,5 @@ def dram_short(cnx):
     cnx.sendEcho("quit")
     wait_for_main_menu(cnx)
     cnx.sendEcho("quit")
+    test_boot.wait_for_main_menu(cnx)
 
