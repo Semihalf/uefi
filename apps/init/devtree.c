@@ -515,15 +515,15 @@ static int devtree_fixups(void *fdt)
             char refclkuua[32];
             snprintf(refclkuua, sizeof(refclkuua), "/%s/refclkuua", soc);
             BDK_CSR_INIT(ibrd, node, BDK_UAAX_IBRD(0));
-            BDK_CSR_INIT(fbrd, node, BDK_UAAX_IBRD(0));
-            int uaa_clock = ((ibrd.u * 64) + fbrd.u) * 115200 * (64 / 4);
+            BDK_CSR_INIT(fbrd, node, BDK_UAAX_FBRD(0));
+            int uaa_clock = (((ibrd.u * 64) + fbrd.u) * 115200) / 4;
             int fdt_node = fdt_path_offset(fdt, refclkuua);
             if ((fdt_node >= 0) && fdt_setprop_inplace_u32(fdt, fdt_node, "clock-frequency", uaa_clock))
             {
                 bdk_error("Unable to edit %s[clock-frequency] in FDT\n", refclkuua);
                 return -1;
             }
-            BDK_TRACE(FDT_OS, "    Set %s[clock-frequency] = %d\n", refclkuua, uaa_clock);
+            BDK_TRACE(FDT_OS, "    Set %s[clock-frequency] = 0x%x\n", refclkuua, uaa_clock);
         }
 
         /* 7) Set the sclk clock rate.  For the node "/sclk", set the
