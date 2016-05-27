@@ -1,6 +1,7 @@
 #include <bdk.h>
 
 #define DEBUG_STATE                 true /* Show state transitions for each lane */
+#define DEBUG_TRAIN_MESSAGES        false/* Show every transition of LD and LP messages */
 #define DEBUG_MESSAGE_CHECK         false/* Show counting numbers when we run the message check */
 #define DEBUG_TUNING_CHANGES        false/* Show setting when we send tuning to hardware */
 #define DEBUG_TIME_RX_EQ            false/* Show how long RX equalization takes */
@@ -245,6 +246,45 @@ static int ccpi_get_speed(void)
 }
 
 /**
+ * Update the per lane state with the current LP messages
+ *
+ * @param ccpi_lane Lane to update
+ */
+static void ccpi_update_lp_messages(int ccpi_lane)
+{
+    lane_state_t *lstate = &lane_state[ccpi_lane];
+    BDK_CSR_INIT(trn_lp, node, BDK_OCX_LNEX_TRN_LP(ccpi_lane));
+    if (trn_lp.s.lp_cu_val)
+    {
+        if (DEBUG_TRAIN_MESSAGES && do_trace && (lstate->lp_cu.u != trn_lp.s.lp_cu_dat))
+        {
+            bdk_dbg_uart_str("Lane ");
+            uart_dec2(ccpi_lane);
+            bdk_dbg_uart_str(": LP CU ");
+            bdk_dbg_uart_hex(lstate->lp_cu.u);
+            bdk_dbg_uart_str(" -> ");
+            bdk_dbg_uart_hex(trn_lp.s.lp_cu_dat);
+            bdk_dbg_uart_str("\r\n");
+        }
+        lstate->lp_cu.u = trn_lp.s.lp_cu_dat;
+    }
+    if (trn_lp.s.lp_sr_val)
+    {
+        if (DEBUG_TRAIN_MESSAGES && do_trace && (lstate->lp_sr.u != trn_lp.s.lp_sr_dat))
+        {
+            bdk_dbg_uart_str("Lane ");
+            uart_dec2(ccpi_lane);
+            bdk_dbg_uart_str(": LP SR ");
+            bdk_dbg_uart_hex(lstate->lp_sr.u);
+            bdk_dbg_uart_str(" -> ");
+            bdk_dbg_uart_hex(trn_lp.s.lp_sr_dat);
+            bdk_dbg_uart_str("\r\n");
+        }
+        lstate->lp_sr.u = trn_lp.s.lp_sr_dat;
+    }
+}
+
+/**
  * Perform an RX equalization request on all CCPI lanes and record the results
  * in the per lane global state
  */
@@ -293,11 +333,7 @@ static void ccpi_update_rx_equalization()
                         break;
                     gserx_br_rxx_eer.u = BDK_CSR_READ(node, BDK_GSERX_BR_RXX_EER(qlm, lane));
                     /* Update Link Partner message state */
-                    BDK_CSR_INIT(trn_lp, node, BDK_OCX_LNEX_TRN_LP(ccpi_lane));
-                    if (trn_lp.s.lp_cu_val)
-                        lstate->lp_cu.u = trn_lp.s.lp_cu_dat;
-                    if (trn_lp.s.lp_sr_val)
-                        lstate->lp_sr.u = trn_lp.s.lp_sr_dat;
+                    ccpi_update_lp_messages(ccpi_lane);
                 }
 
                 /* Disable software control of RX equalization */
@@ -727,10 +763,21 @@ static void lane_check_messaging(int ccpi_lane, bool is_master)
         {
             if (DEBUG_MESSAGE_CHECK && do_trace)
             {
-                bdk_dbg_uart_char(' ');
-                uart_dec2(request);
-                if ((request & 0x1f) == 0)
-                    bdk_dbg_uart_str("\r\n");
+                if (DEBUG_TRAIN_MESSAGES)
+                {
+                    bdk_dbg_uart_str("Lane ");
+                    uart_dec2(ccpi_lane);
+                    bdk_dbg_uart_str(": Message ");
+                    uart_dec2(request);
+                    bdk_dbg_uart_str(" was ACKed\r\n");
+                }
+                else
+                {
+                    bdk_dbg_uart_char(' ');
+                    uart_dec2(request);
+                    if ((request & 0x1f) == 0)
+                        bdk_dbg_uart_str("\r\n");
+                }
             }
             if (request == 0)
                 lane_change_state(ccpi_lane, STATE_TRAINING_INIT);
@@ -1246,11 +1293,7 @@ static void lane_state_update(int ccpi_lane, bool is_master)
         lane_change_state(ccpi_lane, STATE_WAIT_EIE);
 
     /* Update Link Partner message state */
-    BDK_CSR_INIT(trn_lp, node, BDK_OCX_LNEX_TRN_LP(ccpi_lane));
-    if (trn_lp.s.lp_cu_val)
-        lstate->lp_cu.u = trn_lp.s.lp_cu_dat;
-    if (trn_lp.s.lp_sr_val)
-        lstate->lp_sr.u = trn_lp.s.lp_sr_dat;
+    ccpi_update_lp_messages(ccpi_lane);
 
     lane_check_eie(ccpi_lane);
     lane_check_cdr(ccpi_lane);
@@ -1260,6 +1303,26 @@ static void lane_state_update(int ccpi_lane, bool is_master)
 
     /* Update local device message state */
     BDK_CSR_MODIFY(c, node, BDK_OCX_LNEX_TRN_LD(ccpi_lane),
+        if (DEBUG_TRAIN_MESSAGES && do_trace && (c.s.ld_cu_dat != lstate->ld_cu.u))
+        {
+            bdk_dbg_uart_str("Lane ");
+            uart_dec2(ccpi_lane);
+            bdk_dbg_uart_str(": LD CU ");
+            bdk_dbg_uart_hex(c.s.ld_cu_dat);
+            bdk_dbg_uart_str(" -> ");
+            bdk_dbg_uart_hex(lstate->ld_cu.u);
+            bdk_dbg_uart_str("\r\n");
+        }
+        if (DEBUG_TRAIN_MESSAGES && do_trace && (c.s.ld_sr_dat != lstate->ld_sr.u))
+        {
+            bdk_dbg_uart_str("Lane ");
+            uart_dec2(ccpi_lane);
+            bdk_dbg_uart_str(": LD SR ");
+            bdk_dbg_uart_hex(c.s.ld_sr_dat);
+            bdk_dbg_uart_str(" -> ");
+            bdk_dbg_uart_hex(lstate->ld_sr.u);
+            bdk_dbg_uart_str("\r\n");
+        }
         c.s.ld_cu_dat = lstate->ld_cu.u;
         c.s.ld_sr_dat = lstate->ld_sr.u);
 }
