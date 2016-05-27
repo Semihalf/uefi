@@ -744,8 +744,9 @@ static void lane_check_messaging(int ccpi_lane, bool is_master)
         }
         else
         {
-            /* Wrong message, go back to PRESET and start over */
-            lane_change_state(ccpi_lane, STATE_WAIT_TRAIN_PRESET);
+            /* Wrong message, start over */
+            lstate->ld_cu.u = 0x3f;
+            lstate->ld_cu.s.preset = 1;
         }
     }
 }
