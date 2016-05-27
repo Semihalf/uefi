@@ -2,8 +2,9 @@ import boards
 import connection
 import test_dram
 
-def wait_for_bootstub_messages(cnx):
-    cnx.powerCycle()
+def wait_for_bootstub_messages(cnx, powerCycle):
+    if powerCycle:
+        cnx.powerCycle()
     cnx.waitfor("Cavium SOC", timeout=20)
     cnx.match("Locking L2 cache")
     cnx.match("PASS: CRC32 verification")
@@ -157,7 +158,7 @@ def wait_for_main_menu(cnx):
     cnx.waitfor("rbt) Reboot")
     cnx.match("(INS)Menu choice []:")
 
-def boot_normal(cnx):
-    wait_for_bootstub_messages(cnx)
+def boot_normal(cnx, powerCycle = True):
+    wait_for_bootstub_messages(cnx, powerCycle)
     wait_for_bdk_boot(cnx)
     wait_for_main_menu(cnx)
