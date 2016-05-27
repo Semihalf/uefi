@@ -123,6 +123,7 @@ class Board_EVB(Board):
             else:
                 self.chip_model = "CN88XX"
             m.sendEcho("P -f -r")
+            self.delay(1) # Eat any stray output before the board powered off
         for m in mcu_list:
             m.waitforRE("EBB[0-9]{4} MCU Command>", timeout=15)
 
