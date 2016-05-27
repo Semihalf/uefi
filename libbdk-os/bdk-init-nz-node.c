@@ -685,11 +685,26 @@ static void lane_check_messaging(int ccpi_lane, bool is_master)
     }
     if (lstate->lane_state == STATE_WAIT_TRAIN_PRESET)
     {
-        /* Restart training */
+        BDK_CSR_INIT(trn_ctl, node, BDK_OCX_LNEX_TRN_CTL(ccpi_lane));
         /* CN88XX pass 1.0 can't restart training */
-        if (!CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_0))
+        if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_0))
         {
-            BDK_CSR_INIT(trn_ctl, node, BDK_OCX_LNEX_TRN_CTL(ccpi_lane));
+            /* If training already completed, jump to STATE_WAIT_FOR_READY */
+            if (trn_ctl.s.done)
+            {
+                if (do_trace)
+                {
+                    bdk_dbg_uart_str("Lane ");
+                    uart_dec2(ccpi_lane);
+                    bdk_dbg_uart_str(": Training complete too early on pass 1.0, skipping to STATE_WAIT_FOR_READY\r\n");
+                }
+                lstate->steps = 0;
+                lane_change_state(ccpi_lane, STATE_WAIT_FOR_READY);
+            }
+        }
+        else
+        {
+            /* Restart training */
             if (trn_ctl.s.done)
             {
                 BDK_CSR_WRITE(node, BDK_OCX_LNEX_STATUS(ccpi_lane), 0);
