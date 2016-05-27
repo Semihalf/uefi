@@ -198,7 +198,12 @@ int bdk_usb_initialize(bdk_node_t node, int usb_port, bdk_usb_clock_t clock_type
     /* 9.  Deassert UCTL and UAHC resets:
         a.  USBDRD(0..1)_UCTL_CTL[UCTL_RST] = 0
         b. USBDRD(0..1)_UCTL_CTL[UAHC_RST] = 0
-        c. You will have to wait 10 controller-clock cycles before accessing
+        c. [optional] For port-power control:
+        - Set one of GPIO_BIT_CFG(0..47)[PIN_SEL] =  USB0_VBUS_CTRLor USB1_VBUS_CTRL.
+        - Set USBDRD(0..1)_UCTL_HOST_CFG[PPC_EN] = 1 and USBDRD(0..1)_UCTL_HOST_CFG[PPC_ACTIVE_HIGH_EN] = 1.
+        - Wait for the external power management chip to power the VBUS.ional port-power control.
+        ]
+        d. You will have to wait 10 controller-clock cycles before accessing
             any controller-clock-only registers. */
     if (is_usbdrd)
     {
@@ -212,26 +217,41 @@ int bdk_usb_initialize(bdk_node_t node, int usb_port, bdk_usb_clock_t clock_type
     }
     bdk_wait_usec(1);
 
-    bdk_wait_usec(100000);
-    BDK_CSR_MODIFY(c, node, BDK_GPIO_BIT_CFGX(4+usb_port), c.s.tx_oe=1);
-    bdk_wait_usec(100000);
-    BDK_CSR_MODIFY(c, node, BDK_GPIO_BIT_CFGX(4+usb_port),
-        c.s.pin_sel = 0x74 + usb_port);
-    bdk_wait_usec(100000);
-    if (is_usbdrd)
-    {
-        BDK_CSR_MODIFY(c, node, BDK_USBDRDX_UCTL_HOST_CFG(usb_port),
-            c.s.ppc_en = 1;
-            c.s.ppc_active_high_en = 1);
-    }
-    else
-    {
-        BDK_CSR_MODIFY(c, node, BDK_USBHX_UCTL_HOST_CFG(usb_port),
-            c.s.ppc_en = 1;
-            c.s.ppc_active_high_en = 1);
-    }
+    int usb_gpio = bdk_config_get_int(BDK_CONFIG_USB_PWR_GPIO, node, usb_port);
+    int usb_polarity = bdk_config_get_int(BDK_CONFIG_USB_PWR_GPIO_POLARITY, node, usb_port);
+    if (-1 != usb_gpio) {
+        int gsrc = BDK_GPIO_PIN_SEL_E_USBX_VBUS_CTRL_CN9(usb_port);
+        if (CAVIUM_IS_MODEL(CAVIUM_CN88XX)) {
+            gsrc = BDK_GPIO_PIN_SEL_E_USBX_VBUS_CTRL_CN88XX(usb_port);
+        }
+        else if (CAVIUM_IS_MODEL(CAVIUM_CN81XX)) {
+            gsrc = BDK_GPIO_PIN_SEL_E_USBX_VBUS_CTRL_CN81XX(usb_port);
+        }
+        else if (CAVIUM_IS_MODEL(CAVIUM_CN83XX)) {
+            gsrc = BDK_GPIO_PIN_SEL_E_USBX_VBUS_CTRL_CN83XX(usb_port);}
+        else {
+            bdk_error("USB_VBUS_CTRL GPIO: unknown chip model\n");
+        }
 
-    bdk_wait_usec(100000);
+        BDK_CSR_MODIFY(c,node,BDK_GPIO_BIT_CFGX(usb_gpio),
+                       c.s.pin_sel = gsrc;
+                       c.s.pin_xor = (usb_polarity) ? 0 : 1;
+            );
+
+        if (is_usbdrd)
+        {
+            BDK_CSR_MODIFY(c, node, BDK_USBDRDX_UCTL_HOST_CFG(usb_port),
+                           c.s.ppc_en = 1;
+                           c.s.ppc_active_high_en = 1);
+        }
+        else
+        {
+            BDK_CSR_MODIFY(c, node, BDK_USBHX_UCTL_HOST_CFG(usb_port),
+                           c.s.ppc_en = 1;
+                           c.s.ppc_active_high_en = 1);
+        }
+        bdk_wait_usec(100000);
+    }
 
     if (is_usbdrd)
     {

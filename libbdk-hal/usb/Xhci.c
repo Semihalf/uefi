@@ -159,13 +159,13 @@ xhci_t* createUsbXHci(bdk_node_t node, int usb_port)
     const bdk_device_t *dev;
     if (NULL != (dev = bdk_device_lookup(node, USBH_DEVID, usb_port)) ) {
         BDK_CSR_INIT(uctl_ctl,node,BDK_USBHX_UCTL_CTL(usb_port));
-        if (0 == uctl_ctl.s.h_clk_en) {
+        if (0 == (uctl_ctl.s.h_clk_en & uctl_ctl.s.csclk_en) )  {
             printf("\nUSB port have not been initialized\n");
             goto err_exit;
         }
     } else if (NULL != (dev = bdk_device_lookup(node, USBDRD_DEVID, usb_port)) )  {
          BDK_CSR_INIT(uctl_ctl,node,BDK_USBDRDX_UCTL_CTL(usb_port));
-         if (0 == uctl_ctl.s.h_clk_en) {
+         if (0 == (uctl_ctl.s.h_clk_en & uctl_ctl.s.csclk_en) ) {
              printf("\nUSB port have not been initialized\n");
              goto err_exit;
          }
@@ -597,7 +597,7 @@ XhcReset (
       Xhc->DevicePath
       );
 #else
-  CAVIUM_NOTYET("Inform IO of reset");
+    // Nothing to do
 #endif
   }
 
@@ -1933,19 +1933,5 @@ cvmH2C_to_node(
     if (node) *node = Xhc->node;
     if (usb_port) *usb_port = Xhc->usb_port;
     if (lock) *lock = Xhc->xhci_lock;
-    return 0;
-}
-
-/**
- ** Cause xhci hardware to to begin operations
- ** @param xhc pointer to xhci instance created with createUsbXhci
- **
- ** @return Zero on success, non-zero on failure
- */
-int cvmXhcStart(xhci_t* xhc) {
-    if (XhcIsHalt(xhc)) {
-        // Starting controller in other then halted state will cause undefined results per xhci spec
-        return XhcRunHC(xhc, 2*XHC_GENERIC_TIMEOUT);
-    }
     return 0;
 }

@@ -619,15 +619,4 @@ cvmH2C_to_node(
     int *usb_port,
     void **lock);
 
-/**
- ** Cause xhci hardware to to begin operations
- **
- ** @param xhc                 pointer to controller
- **
- ** @return Zero on success, non-zero on failure
- */
-
-int cvmXhcStart(xhci_t* xhc);
-
-
 #endif

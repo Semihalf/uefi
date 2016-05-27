@@ -43,13 +43,7 @@ typedef struct usb_hc_descriptor_s {
 Internal helper routines
 */
 #define CVM_XHCI_OP_TIMEOUT (1000 * 1000) /* 1000 milliseconds */
-/*
- * Reset hxci host controller
- * @param node       Node
- * @param usb_port   Usb port
- *
- * @return Zero on success, non zero on failure
- */
+
 static usb_hc_descriptor_t usb_global_data[BDK_NUMA_MAX_NODES][CAVIUM_MAX_USB_INSTANCES];
 
 void async_request_monitor(int unused, void *ctl)
@@ -203,6 +197,27 @@ static void list_usb_interface(const USB_INTERFACE *UsbIf,const int tier)
    }
 }
 
+/*
+ * usb_check_node_and_port - verify that node and usb port combination is valid
+ * @param node cavium node number
+ * @param usb_port xhci instance on a node
+ *
+ * @return Zero	success
+ * @return Non-Zero error
+ **/
+static int usb_check_node_and_port(bdk_node_t node, int usb_port)
+{
+    if (!bdk_numa_exists(node)) {
+        printf("node %d does not exist", node);
+        return -1;
+    }
+    if (usb_port >= CAVIUM_MAX_USB_INSTANCES) {
+        printf("USB port must below then %d vs %d", CAVIUM_MAX_USB_INSTANCES, usb_port);
+        return -1;
+    }
+    return 0;
+}
+
 /**
  * Display current state of enumeration for USB XHCI
  *
@@ -263,15 +278,7 @@ int bdk_usb_HCList()
  **/
 int bdk_usb_HCInit(bdk_node_t node, int usb_port)
 {
-    if (!bdk_numa_exists(node)) {
-        printf("node %d does not exist", node);
-        return -1;
-    }
-    if (usb_port >= CAVIUM_MAX_USB_INSTANCES) {
-        printf("USB port must below then %d vs %d", CAVIUM_MAX_USB_INSTANCES, usb_port);
-        return -1;
-    }
-
+    if (0 > usb_check_node_and_port(node,usb_port)) return -1;
     int rc = 0;
     xhci_t *thisHC = usb_global_data[node][usb_port].xhci_priv;
     if (thisHC) {
@@ -340,8 +347,7 @@ int bdk_usb_HCInit(bdk_node_t node, int usb_port)
         if (UsbBus->Usb2Hc->MajorRevision == 0x3) {
             UsbBus->MaxDevices = 256;
         }
-        UsbBus->Usb2Hc->Reset(UsbBus->Usb2Hc,  EFI_USB_HC_RESET_GLOBAL);
-        UsbBus->Usb2Hc->SetState(UsbBus->Usb2Hc, EfiUsbHcStateOperational);
+        // We will reset at the end after hub is initialized
         InitializeListHead (&UsbBus->WantedUsbIoDPList);
         UsbBusAddWantedUsbIoDP (&UsbBus->BusId, NULL);
         UsbBus->DevicePath = AppendDevicePath( UsbBus->DevicePath,(const void*)ctlPath);
@@ -353,25 +359,9 @@ int bdk_usb_HCInit(bdk_node_t node, int usb_port)
         /* RootIf->Signature       = USB_INTERFACE_SIGNATURE; */
         RootIf->Device          = RootHub;
         RootIf->DevicePath      = UsbBus->DevicePath;
-        {
-          /*UsbHub.c:UsbRootHubInit */
-            /* EFI_STATUS              Status; */
-            UINT8                   MaxSpeed;
-            UINT8                   NumOfPort;
-            UINT8                   Support64;
-            UsbBus->Usb2Hc->GetCapability( UsbBus->Usb2Hc,
-                                           &MaxSpeed,
-                                           &NumOfPort,
-                                           &Support64);
 
-            RootIf->IsHub      = TRUE;
-            RootIf->HubApi     = &mUsbRootHubApi;
-            RootIf->HubEp      = NULL;
-            RootIf->MaxSpeed   = MaxSpeed;
-            RootIf->NumOfPort  = NumOfPort;
-            RootIf->HubNotify  =  UsbRootHubEnumeration;
-            /*** */
-        }
+        mUsbRootHubApi.Init (RootIf);
+
         UsbBus->Devices[0] = RootHub;
 
         usb_global_data[node][usb_port].root_if = RootIf;
@@ -381,7 +371,8 @@ int bdk_usb_HCInit(bdk_node_t node, int usb_port)
     // This portion of init would be done at the end of driver init
     // - start xhci host controller hardware
     // - start thread which handles async interrupt transfers from subordinate hubs and root hub enumeration
-    cvmXhcStart(thisHC);
+    UsbHcReset (UsbBus, EFI_USB_HC_RESET_GLOBAL);
+    UsbHcSetState (UsbBus, EfiUsbHcStateOperational);
 
     // Default stack is too small for async monitor - it issues callbacks into mass storage
 #define _ASYNC_STACK_SIZE (6 * 1024)
@@ -409,15 +400,7 @@ out:
  * @return Zero on success, negative on error
  */
 int bdk_usb_HCPoll(bdk_node_t node, int usb_port){
-    if (!bdk_numa_exists(node)) {
-        printf("node %d does not exist", node);
-        return -1;
-    }
-    if (usb_port >= CAVIUM_MAX_USB_INSTANCES) {
-        printf("USB port must be less then %d vs %d", CAVIUM_MAX_USB_INSTANCES, usb_port);
-        return -1;
-
-    }
+    if (usb_check_node_and_port(node,usb_port)) return -1;
 
     USB_INTERFACE* RootHubIf = (USB_INTERFACE *)usb_global_data[node][usb_port].root_if ;
     if (NULL == RootHubIf) {
@@ -449,15 +432,8 @@ int bdk_usb_HCPoll(bdk_node_t node, int usb_port){
  **/
 int bdk_usb_togglePoll(bdk_node_t node, int usb_port, const bdk_usb_toggleReq_t action)
 {
-    if (!bdk_numa_exists(node)) {
-        printf("node %d does not exist", node);
-        return -1;
-    }
-    if (usb_port >= CAVIUM_MAX_USB_INSTANCES) {
-        printf("USB port must be less then %d vs %d", CAVIUM_MAX_USB_INSTANCES, usb_port);
-        return -1;
+    if (usb_check_node_and_port(node,usb_port) ) return -1;
 
-    }
     usb_hc_descriptor_t *thisDesc  = &usb_global_data[node][usb_port];
     if (action == DO_QUERY) { /* State Inquiry */
         if (NULL == thisDesc->xhci_priv) return -1;
