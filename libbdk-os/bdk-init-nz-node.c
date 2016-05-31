@@ -53,8 +53,8 @@ typedef struct
     union bdk_bgx_spu_br_train_cup_s ld_cu; /* Current Coef Update for local device */
     union bdk_bgx_spu_br_train_rep_s ld_sr; /* Current Status Response for local device */
     uint8_t merit;          /* RX equalization figure of merit */
-    uint8_t reserved    : 1;
-    uint8_t rx_ready    : 1;
+    uint8_t chk_done    : 1;/* Set when this lane completes message check */
+    uint8_t rx_ready    : 1;/* Set when this lane is done with training */
     uint8_t desired_pre : 2;/* RX equalization recommended PRE change (RXT_ESM_*) */
     uint8_t desired_main: 2;/* RX equalization recommended MAIN change (RXT_ESM_*) */
     uint8_t desired_post: 2;/* RX equalization recommended POST change (RXT_ESM_*) */
@@ -631,6 +631,12 @@ static void lane_change_state(int ccpi_lane, state_t state)
     if (lstate->lane_state >= STATE_WAIT_FOR_READY)
         lstate->rx_ready = 1;
 
+    /* Force message check done bit clear before its state */
+    if (lstate->lane_state < STATE_MESSAGE_CHECK)
+        lstate->chk_done = 0;
+    /* Force message check done bit set after its state */
+    if (lstate->lane_state > STATE_MESSAGE_CHECK)
+        lstate->chk_done = 1;
 }
 
 /**
@@ -787,7 +793,14 @@ static void lane_check_messaging(int ccpi_lane, bool is_master)
                 }
             }
             if (request == 0)
-                lane_change_state(ccpi_lane, STATE_TRAINING_INIT);
+            {
+                lstate->chk_done = 1;
+                int finished = 1;
+                for (int l = 0; l < CCPI_LANES; l++)
+                    finished &= lane_state[l].chk_done;
+                if (finished)
+                    lane_change_state(ccpi_lane, STATE_TRAINING_INIT);
+            }
             else
                 lstate->ld_cu.u--;
         }
@@ -795,12 +808,14 @@ static void lane_check_messaging(int ccpi_lane, bool is_master)
         {
             /* Partner is one behind, assume we just haven't gotten the update
                yet. Continue in current state */
+            lstate->chk_done = 0;
         }
         else
         {
             /* Wrong message, start over */
             lstate->ld_cu.u = 0x3f;
             lstate->ld_cu.s.preset = 1;
+            lstate->chk_done = 0;
         }
     }
 }
