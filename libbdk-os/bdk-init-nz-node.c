@@ -38,7 +38,7 @@
 ***********************license end**************************************/
 #include <bdk.h>
 
-#define DEBUG_STATE                 true /* Show state transitions for each lane */
+#define DEBUG_STATE                 false/* Show state transitions for each lane */
 #define DEBUG_TRAIN_MESSAGES        false/* Show every transition of LD and LP messages */
 #define DEBUG_MESSAGE_CHECK         false/* Show counting numbers when we run the message check */
 #define DEBUG_TUNING_CHANGES        false/* Show setting when we send tuning to hardware */
@@ -537,6 +537,74 @@ static void ccpi_channel_length(int ccpi_lane, bool short_channel)
 static void ccpi_channel_loss(int ccpi_lane, int channel_loss)
 {
     ccpi_channel_length(ccpi_lane, is_short_channel(channel_loss));
+}
+
+/**
+ * Display the state of all lanes on a single output line
+ */
+static void display_state(void)
+{
+    static int count = 0;
+    if ((count & 0xf) == 0)
+    {
+        for (int ccpi_lane = 0; ccpi_lane < CCPI_LANES; ccpi_lane++)
+        {
+            bdk_dbg_uart_char(' ');
+            bdk_dbg_uart_char('[');
+            uart_dec2(ccpi_lane);
+            bdk_dbg_uart_char(']');
+        }
+        bdk_dbg_uart_str("\r\n");
+    }
+    count++;
+
+    for (int ccpi_lane = 0; ccpi_lane < CCPI_LANES; ccpi_lane++)
+    {
+        switch (lane_state[ccpi_lane].lane_state)
+        {
+            case STATE_START:
+                bdk_dbg_uart_str(" Strt");
+                break;
+            case STATE_WAIT_EIE:
+                bdk_dbg_uart_str(" Weie");
+                break;
+            case STATE_WAIT_CDR:
+                bdk_dbg_uart_str(" Wcdr");
+                break;
+            case STATE_WAIT_TRAIN_PRESET:
+                bdk_dbg_uart_str(" W1st");
+                break;
+            case STATE_MESSAGE_CHECK:
+            {
+                int request = lane_state[ccpi_lane].ld_cu.u & TRAIN_DATA_MASK;
+                bdk_dbg_uart_str(" Ck");
+                uart_dec2(request);
+                break;
+            }
+            case STATE_TRAINING_INIT:
+                bdk_dbg_uart_str(" Init");
+                break;
+            case STATE_TRAINING_IDLE:
+                bdk_dbg_uart_str(" Idle");
+                break;
+            case STATE_TRAINING_UPDATE:
+                bdk_dbg_uart_str(" Upd ");
+                break;
+            case STATE_TRAINING_REQ:
+                bdk_dbg_uart_str(" Req ");
+                break;
+            case STATE_TRAINING_REQ_UPDATE:
+                bdk_dbg_uart_str(" R+U ");
+                break;
+            case STATE_WAIT_FOR_READY:
+                bdk_dbg_uart_str(" Wrdy");
+                break;
+            case STATE_READY:
+                bdk_dbg_uart_str(" Rdy ");
+                break;
+        }
+    }
+    bdk_dbg_uart_str("\r\n");
 }
 
 /**
@@ -1639,6 +1707,8 @@ int __bdk_init_ccpi_connection(int is_master, uint64_t gbaud, int ccpi_trace)
         /* Perform RX equalization on all lanes, updating the training
            direction hints */
         ccpi_update_rx_equalization();
+        if (do_trace)
+            display_state();
 
         /* Loop updating the state of each lane. Count how many lanes
            are up and running */
