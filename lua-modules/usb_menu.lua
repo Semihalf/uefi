@@ -8,6 +8,9 @@ local usb_port = 0
 
 local function usb_init(usb_port)
     local clock_type = 0
+    if cavium.is_model(cavium.CN81XX) then
+        clock_type = menu.prompt_number("Clock type 0:USB_REF_CLK 1:DLMC_REF_CLK0 2:DLMC_REF_CLK1\n3:USB_REF_CLK/PLL_REF_CLK 4:DLMC_RF_CLK0/PLL_REF_CLK 5:DELMC_REF_CLK1/PLL_REF_CLK")
+    end
     local status = cavium.c.bdk_usb_initialize(menu.node, usb_port, clock_type)
     assert(status == 0, "Failed to initialize the USB port")
 end

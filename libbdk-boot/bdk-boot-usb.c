@@ -12,8 +12,9 @@ void bdk_boot_usb(void)
         {
             for (int p = 0; p < 2; p++)
             {
-                BDK_TRACE(INIT, "Initializing USB%d on Node %d\n", p, n);
-                bdk_usb_initialize(n, p, 0);
+                int usb_refclock = bdk_config_get_int(BDK_CONFIG_USB_REFCLK_SRC, n,p);
+                BDK_TRACE(INIT, "Initializing USB%d on Node %d clock type %d\n", p, n, usb_refclock);
+                bdk_usb_initialize(n, p, usb_refclock);
             }
         }
     }

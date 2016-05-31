@@ -899,6 +899,24 @@ const char* bdk_config_get_help(bdk_config_t cfg_item)
             "Specify the polarity of a on-chip GPIO used to control power for\n"
             "a USB port. The GPIO used is specified by USB-PWR-GPIO. Setting this\n"
             "GPIO low. The default value drives the GPIO high.",
+     [BDK_CONFIG_USB_REFCLK_SRC] =
+    	     "Specify reference clock source for SuperSpeed and HighSpeed PLL.\n"
+             "Possible sources:\n"
+             " USB_REF_CLK pin\n"
+             "Additional sources for CN81XX/CN80XX chips\n"
+             " DLMC_REF_CLK0 pin\n"
+             " DLMC_REF_CLK1 pin\n"
+             " PLL_REF_CLK\n"
+             "Clock used by usb needs to run at 100MHz frequency except PLL_REF_CLK\n"
+             "which requires 50MHz frequency.\n"
+             "Encoding:\n"
+             "0 - SS(USB_REF_CLK)   HS(USB_REF_CLK)\n"
+             "1 - SS(DLMC_REF_CLK0) HS(DLMC_REF_CLK0)\n"
+             "2 - SS(DLMC_REF_CLK1) HS(DLMC_REF_CLK1)\n"
+             "3 - SS(USB_REF_CLK)   HS(PLL_REF_CLK)\n"
+             "4 - SS(DLMC_REF_CLK0) HS(PLL_REF_CLK)\n"
+             "5 - SS(DLMC_REF_CLK1) HS(PLL_REF_CLK)\n"
+             "The default is 0 : USB_REF_CLK.",
     /* Nitrox reset - For CN88XX SC and SNT part. High drives Nitrox DC_OK high */
     [BDK_CONFIG_NITROX_GPIO] =
             "CN88XX SC and SNT parts have an errata where a GPIO is used to\n"

@@ -145,10 +145,32 @@ int bdk_usb_initialize(bdk_node_t node, int usb_port, bdk_usb_clock_t clock_type
             USBDRD(0..1)_UCTL_CTL[USB*_PORT_PERM_ATTACH, USB*_PORT_DISABLE]. */
     if (is_usbdrd)
     {
+        int ref_clk_src = 0;
+        int ref_clk_fsel = 0x27;
+        if (CAVIUM_IS_MODEL(CAVIUM_CN83XX)) {
+            if (BDK_USB_CLOCK_SS_PAD_HS_PAD != clock_type) {
+                bdk_error("Node %d usb_port %d: usb clock type %d is invaild\n", node, usb_port, clock_type);
+                return -1;
+            }
+        }
+        else if (CAVIUM_IS_MODEL(CAVIUM_CN81XX)) {
+            switch (clock_type)
+            {
+            default:
+                bdk_error("Node %d usb_port %d: usb clock type %d is invaild\n", node, usb_port, clock_type);
+                return -1;
+            case BDK_USB_CLOCK_SS_PAD_HS_PAD : ref_clk_src = 2; break;
+            case BDK_USB_CLOCK_SS_REF0_HS_REF0 : ref_clk_src = 0; break;  /* Superspeed and high speed use DLM/QLM ref clock 0 */
+            case BDK_USB_CLOCK_SS_REF1_HS_REF1 : ref_clk_src = 1; break;  /* Superspeed and high speed use DLM/QLM ref clock 1 */
+            case BDK_USB_CLOCK_SS_PAD_HS_PLL : ref_clk_src = 6; ref_clk_fsel = 0x7; break;    /* Superspeed uses PAD clock, high speed uses PLL ref clock */
+            case BDK_USB_CLOCK_SS_REF0_HS_PLL : ref_clk_src = 4; ref_clk_fsel = 0x7; break;    /* Superspeed uses DLM/QLM ref clock 0, high speed uses PLL ref clock */
+            case BDK_USB_CLOCK_SS_REF1_HS_PLL: ref_clk_src = 5; ref_clk_fsel =0x7; break;   /* Superspeed uses DLM/QLM ref clock 1, high speed uses PLL ref clock */
+            }
+        }
         BDK_CSR_MODIFY(c, node, BDK_USBDRDX_UCTL_CTL(usb_port),
-            c.s.ref_clk_fsel = 0x27;
+            c.s.ref_clk_fsel = ref_clk_fsel;
             c.s.mpll_multiplier = 0x19;
-            c.s.ref_clk_sel = 2;
+            c.s.ref_clk_sel = ref_clk_src;
             c.s.ref_clk_div2 = 0);
         BDK_CSR_MODIFY(c, node, BDK_USBDRDX_UCTL_CTL(usb_port),
             c.s.ssc_en = 1;
@@ -158,6 +180,10 @@ int bdk_usb_initialize(bdk_node_t node, int usb_port, bdk_usb_clock_t clock_type
     }
     else
     {
+        if (BDK_USB_CLOCK_SS_PAD_HS_PAD != clock_type) {
+            bdk_error("Node %d usb_port %d: usb clock type %d is invaild\n", node, usb_port, clock_type);
+            return -1;
+        }
         BDK_CSR_MODIFY(c, node, BDK_USBHX_UCTL_CTL(usb_port),
             c.s.ref_clk_fsel = 0x27;
             c.s.mpll_multiplier = 0;

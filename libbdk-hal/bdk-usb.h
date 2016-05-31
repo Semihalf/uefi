@@ -26,10 +26,12 @@ typedef enum
 
 typedef enum
 {
-    BDK_USB_CLOCK_SS_REF0_HS_REF0 = 0x0,  /* Superspeed and high speed use DLM/QLM ref clock 0 */
-    BDK_USB_CLOCK_SS_REF1_HS_REF1 = 0x1,  /* Superspeed and high speed use DLM/QLM ref clock 1 */
-    BDK_USB_CLOCK_SS_REF0_HS_PLL = 0x2,   /* Superspeed uses DLM/QLM ref clock 0, high speed uses PLL ref clock */
-    BDK_USB_CLOCK_SS_REF1_HS_PLL = 0x3,   /* Superspeed uses DLM/QLM ref clock 1, high speed uses PLL ref clock */
+    BDK_USB_CLOCK_SS_PAD_HS_PAD = 0x0,    /* Superspeed and high speed use PAD clock */
+    BDK_USB_CLOCK_SS_REF0_HS_REF0 = 0x1,  /* Superspeed and high speed use DLM/QLM ref clock 0 */
+    BDK_USB_CLOCK_SS_REF1_HS_REF1 = 0x2,  /* Superspeed and high speed use DLM/QLM ref clock 1 */
+    BDK_USB_CLOCK_SS_PAD_HS_PLL = 0x3,    /* Superspeed uses PAD clock, high speed uses PLL ref clock */
+    BDK_USB_CLOCK_SS_REF0_HS_PLL = 0x4,   /* Superspeed uses DLM/QLM ref clock 0, high speed uses PLL ref clock */
+    BDK_USB_CLOCK_SS_REF1_HS_PLL = 0x5,   /* Superspeed uses DLM/QLM ref clock 1, high speed uses PLL ref clock */
 } bdk_usb_clock_t;
 
 /**

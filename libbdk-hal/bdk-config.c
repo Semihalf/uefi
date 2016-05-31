@@ -588,6 +588,20 @@ static bdk_config_info_t config_info[__BDK_CONFIG_END] = {
         .min_value = 0,
         .max_value = 1,
     },
+    [BDK_CONFIG_USB_REFCLK_SRC] = {
+        .format = "USB-REFCLK-SRC.N%d.PORT%d", /* Parameters: Node, Port */
+        .ctype = BDK_CONFIG_TYPE_INT,
+        .default_value = 0, /* Clock Source (SS:HS)
+                            ** 0 - SS(USB_REF_CLK)   HS(USB_REF_CLK)
+                            ** 1 - SS(DLMC_REF_CLK0) HS(DLMC_REF_CLK0)
+                            ** 2 - SS(DLMC_REF_CLK1) HS(DLMC_REF_CLK1)
+                            ** 3 - SS(USB_REF_CLK)   HS(PLL_REF_CLK)
+                            ** 4 - SS(DLMC_REF_CLK0) HS(PLL_REF_CLK)
+                            ** 5 - SS(DLMC_REF_CLK1) HS(PLL_REF_CLK)
+                            */
+        .min_value = 0,
+        .max_value = 5,
+    },
 
     /* Nitrox reset - For CN88XX SC and SNT part. High drives Nitrox DC_OK high */
     [BDK_CONFIG_NITROX_GPIO] = {

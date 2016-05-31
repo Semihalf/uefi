@@ -265,7 +265,26 @@ cavium,bdk {
 	a USB port. The GPIO used is specified by USB-PWR-GPIO. Setting this
 	GPIO low. The default value drives the GPIO high. */
 	//USB-PWR-GPIO-POLARITY.N%d.PORT%d = "1";
-	USB-PWR-GPIO-POLARITY = "1";
+        USB-PWR-GPIO-POLARITY = "1";
+
+       /* Specify reference clock source for SuperSpeed and HighSpeed PLL.
+        Possible sources:
+         USB_REF_CLK pin
+        Additional sources for CN81XX/CN80XX chips
+         DLMC_REF_CLK0 pin
+         DLMC_REF_CLK1 pin
+         PLL_REF_CLK
+        Clock used by usb needs to run at 100MHz frequency except PLL_REF_CLK
+        which requires 50MHz frequency.
+        Encoding:
+        0 - SS(USB_REF_CLK)   HS(USB_REF_CLK)
+        1 - SS(DLMC_REF_CLK0) HS(DLMC_REF_CLK0)
+        2 - SS(DLMC_REF_CLK1) HS(DLMC_REF_CLK1)
+        3 - SS(USB_REF_CLK)   HS(PLL_REF_CLK)
+        4 - SS(DLMC_REF_CLK0) HS(PLL_REF_CLK)
+        5 - SS(DLMC_REF_CLK1) HS(PLL_REF_CLK)
+        The default is 0 : USB_REF_CLK. */
+        //USB-REFCLK-SRC.N%d.PORT%d = "0";
 
 	/* Number of reading with no errors to signal the start of an
 	eye. The default value should be good for most cases. */
