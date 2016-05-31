@@ -624,6 +624,13 @@ static void lane_change_state(int ccpi_lane, state_t state)
         bdk_dbg_uart_str("\r\n");
     }
     lstate->lane_state = state;
+    /* Force RX ready = 0 in states before training */
+    if (lstate->lane_state <= STATE_TRAINING_INIT)
+        lstate->rx_ready = 0;
+    /* Force RX ready = 1 in states after training */
+    if (lstate->lane_state >= STATE_WAIT_FOR_READY)
+        lstate->rx_ready = 1;
+
 }
 
 /**
@@ -1037,9 +1044,9 @@ static void lane_handle_training_request(int ccpi_lane)
     }
     else
     {
-        bool finished = true;
-        for (int l = 0; l < 24; l++)
-            finished &= lstate->rx_ready;
+        int finished = 1;
+        for (int l = 0; l < CCPI_LANES; l++)
+            finished &= lane_state[l].rx_ready;
         ld_sr.s.rx_ready = finished;
     }
 
@@ -1226,7 +1233,6 @@ static void lane_check_training(int ccpi_lane, bool is_master)
         BDK_CSR_INIT(trn_ctl, node, BDK_OCX_LNEX_TRN_CTL(ccpi_lane));
         if (trn_ctl.s.done)
         {
-            lstate->rx_ready = 1;
             lstate->steps = 0;
             lane_change_state(ccpi_lane, STATE_WAIT_FOR_READY);
         }
