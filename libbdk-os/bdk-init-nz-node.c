@@ -1362,6 +1362,21 @@ void __bdk_init_ccpi_early(int is_master)
     if (gserx_phy_ctl.s.phy_reset)
         return;
 
+    /* Force training to stop while we make changes. CN88XX pass 1.0
+       can't restart training, so this code doesn't run on that chip */
+    BDK_CSR_INIT(ocx_qlmx_cfg, node, BDK_OCX_QLMX_CFG(0));
+    if (!CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_0) && ocx_qlmx_cfg.s.trn_ena)
+    {
+        for (int ccpi_lane = 0; ccpi_lane < CCPI_LANES; ccpi_lane++)
+        {
+            BDK_CSR_DEFINE(trn_ctl, BDK_OCX_LNEX_TRN_CTL(ccpi_lane));
+            trn_ctl.u = 0;
+            trn_ctl.s.done = 1;
+            BDK_CSR_WRITE(node, BDK_OCX_LNEX_TRN_CTL(ccpi_lane), trn_ctl.u);
+        }
+        wait_usec(100000);
+    }
+
     /* Force training into manual mode so we can control it */
     for (int ccpi_lane = 0; ccpi_lane < CCPI_LANES; ccpi_lane++)
     {
