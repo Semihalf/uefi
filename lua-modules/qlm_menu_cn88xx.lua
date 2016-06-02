@@ -18,7 +18,7 @@ if not cavium.is_altpkg(cavium.CN88XX) then
         qlm_external_name[qlm] = "QLM%d" % qlm
     end
     qlm_modes[0] = {
-        {"sgmii", "SGMII   @  1 Gbps", cavium.QLM_MODE_SGMII, 1250, 0},
+        {"sgmii", "SGMII   @  1 Gbps", cavium.QLM_MODE_SGMII_4X1, 1250, 0},
         {"xaui",  "XAUI    @ 10 Gbps", cavium.QLM_MODE_XAUI_1X4, 3125, 0},
         {"dxaui", "DXAUI   @ 20 Gbps", cavium.QLM_MODE_XAUI_1X4, 6250, 0},
         {"rxaui", "RXAUI   @ 10 Gbps", cavium.QLM_MODE_RXAUI_2X2, 6250, 0},
@@ -111,7 +111,7 @@ else
     }
     qlm_external_name[0] = "QLM2(Internal QLM0)"
     qlm_modes[0] = {
-        {"sgmii", "SGMII   @  1 Gbps", cavium.QLM_MODE_SGMII, 1250, 0},
+        {"sgmii", "SGMII   @  1 Gbps", cavium.QLM_MODE_SGMII_4X1, 1250, 0},
         {"xaui",  "XAUI    @ 10 Gbps", cavium.QLM_MODE_XAUI_1X4, 3125, 0},
         {"dxaui", "DXAUI   @ 20 Gbps", cavium.QLM_MODE_XAUI_1X4, 6250, 0},
         {"rxaui", "RXAUI   @ 10 Gbps", cavium.QLM_MODE_RXAUI_2X2, 6250, 0},
