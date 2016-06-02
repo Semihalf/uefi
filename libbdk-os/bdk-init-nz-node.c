@@ -1362,34 +1362,59 @@ void __bdk_init_ccpi_early(int is_master)
     if (gserx_phy_ctl.s.phy_reset)
         return;
 
-    /* Force training to stop while we make changes. CN88XX pass 1.0
-       can't restart training, so this code doesn't run on that chip */
-    BDK_CSR_INIT(ocx_qlmx_cfg, node, BDK_OCX_QLMX_CFG(0));
-    if (!CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_0) && ocx_qlmx_cfg.s.trn_ena)
-    {
-        for (int ccpi_lane = 0; ccpi_lane < CCPI_LANES; ccpi_lane++)
-        {
-            BDK_CSR_DEFINE(trn_ctl, BDK_OCX_LNEX_TRN_CTL(ccpi_lane));
-            trn_ctl.u = 0;
-            trn_ctl.s.done = 1;
-            BDK_CSR_WRITE(node, BDK_OCX_LNEX_TRN_CTL(ccpi_lane), trn_ctl.u);
-        }
-        wait_usec(100000);
-    }
-
-    /* Force training into manual mode so we can control it */
-    for (int ccpi_lane = 0; ccpi_lane < CCPI_LANES; ccpi_lane++)
-    {
-        BDK_CSR_DEFINE(trn_ld, BDK_OCX_LNEX_TRN_LD(ccpi_lane));
-        trn_ld.u = 0;
-        trn_ld.s.lp_manual = 1;
-        BDK_CSR_WRITE(node, BDK_OCX_LNEX_TRN_LD(ccpi_lane), trn_ld.u);
-    }
-
     /* Make sure the link layer is down by disabling lane alignment */
     for (int link = 0; link < CCPI_MAX_LINKS; link++)
         BDK_CSR_MODIFY(c, node, BDK_OCX_LNKX_CFG(link),
             c.s.lane_align_dis = 1);
+
+    BDK_CSR_INIT(ocx_qlmx_cfg, node, BDK_OCX_QLMX_CFG(0));
+    if (ocx_qlmx_cfg.s.trn_ena)
+    {
+        /* Force training to stop while we make changes. CN88XX pass 1.0
+           can't restart training, so this code doesn't run on that chip */
+        if (!CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_0))
+        {
+            for (int ccpi_lane = 0; ccpi_lane < CCPI_LANES; ccpi_lane++)
+            {
+                BDK_CSR_DEFINE(trn_ctl, BDK_OCX_LNEX_TRN_CTL(ccpi_lane));
+                trn_ctl.u = 0;
+                trn_ctl.s.done = 1;
+                BDK_CSR_WRITE(node, BDK_OCX_LNEX_TRN_CTL(ccpi_lane), trn_ctl.u);
+            }
+            wait_usec(100000);
+        }
+
+        /* Force training into manual mode so we can control it */
+        for (int ccpi_lane = 0; ccpi_lane < CCPI_LANES; ccpi_lane++)
+        {
+            BDK_CSR_DEFINE(trn_ld, BDK_OCX_LNEX_TRN_LD(ccpi_lane));
+            trn_ld.u = 0;
+            trn_ld.s.lp_manual = 1;
+            BDK_CSR_WRITE(node, BDK_OCX_LNEX_TRN_LD(ccpi_lane), trn_ld.u);
+        }
+
+        for (int ccpi_qlm = 0; ccpi_qlm < 6; ccpi_qlm++)
+        {
+            /* Disable Each GSER Lane KR Training Time-out timer (330msec) */
+            for (int lane = 0; lane < 4; lane++)
+            {
+                BDK_CSR_MODIFY(c, node, BDK_GSERX_BR_RXX_CTL(ccpi_qlm + 8, lane),
+                    c.s.rxt_adtmout_disable = 1; /* Disable timer */
+                    c.s.rxt_swm = 1); /* Software control of RX equalization */
+            }
+            int baud_mhz = ccpi_get_speed();
+            /* Errata (GSER-25992) RX EQ Default Settings Update */
+            __bdk_qlm_errata_gser_25992(node, ccpi_qlm + 8, baud_mhz);
+            /* Errata (GSER-26150) 10G PHY PLL Temperature Failure */
+            __bdk_qlm_errata_gser_26150(node, ccpi_qlm + 8, baud_mhz);
+            /* Errata (GSER-26636) 10G-KR/40G-KR - Inverted Tx Coefficient Direction Change */
+            __bdk_qlm_errata_gser_26636(node, ccpi_qlm + 8, baud_mhz);
+            /* Errata (GSER-27140) SERDES temperature drift sensitivity in receiver */
+            __bdk_qlm_errata_gser_27140(node, ccpi_qlm + 8, baud_mhz, -1);
+            /* Errata (GSER-27882) GSER 10GBASE-KR Transmit Equalizer */
+            /* Doesn't apply since we are training is software */
+        }
+    }
 
     /* Disable the bad lane timer and clear all bad bits */
     for (int ccpi_qlm = 0; ccpi_qlm < 6; ccpi_qlm++)
@@ -1397,24 +1422,6 @@ void __bdk_init_ccpi_early(int is_master)
         BDK_CSR_MODIFY(c, node, BDK_OCX_QLMX_CFG(ccpi_qlm),
             c.s.timer_dis = 1;
             c.s.ser_lane_bad = 0);
-        /* Disable Each GSER Lane KR Training Time-out timer (330msec) */
-        for (int lane = 0; lane < 4; lane++)
-        {
-            BDK_CSR_MODIFY(c, node, BDK_GSERX_BR_RXX_CTL(ccpi_qlm + 8, lane),
-                c.s.rxt_adtmout_disable = 1; /* Disable timer */
-                c.s.rxt_swm = 1); /* Software control of RX equalization */
-        }
-        int baud_mhz = ccpi_get_speed();
-        /* Errata (GSER-25992) RX EQ Default Settings Update */
-        __bdk_qlm_errata_gser_25992(node, ccpi_qlm + 8, baud_mhz);
-        /* Errata (GSER-26150) 10G PHY PLL Temperature Failure */
-        __bdk_qlm_errata_gser_26150(node, ccpi_qlm + 8, baud_mhz);
-        /* Errata (GSER-26636) 10G-KR/40G-KR - Inverted Tx Coefficient Direction Change */
-        __bdk_qlm_errata_gser_26636(node, ccpi_qlm + 8, baud_mhz);
-        /* Errata (GSER-27140) SERDES temperature drift sensitivity in receiver */
-        __bdk_qlm_errata_gser_27140(node, ccpi_qlm + 8, baud_mhz, -1);
-        /* Errata (GSER-27882) GSER 10GBASE-KR Transmit Equalizer */
-        /* Doesn't apply since we are training is software */
     }
 
     memset(lane_state, 0, sizeof(lane_state));
@@ -1488,6 +1495,9 @@ int __bdk_init_ccpi_connection(int is_master, uint64_t gbaud, int ccpi_trace)
         lstate->tx_pre = lstate->init_pre;
         ccpi_tx_tune(ccpi_lane, lstate->tx_main, lstate->tx_pre, lstate->tx_post);
     }
+
+    /* Wait 100ms after making changes before continuing */
+    wait_usec(100000);
 
     const uint64_t one_second = REF_CLOCK;
     const uint64_t start_time = get_ref_clock();
