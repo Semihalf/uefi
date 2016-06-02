@@ -485,7 +485,18 @@ static int devtree_fixups(void *fdt)
                     propvalue = fdt_getprop(fdt, fdt_node, "local-mac-address", &proplen);
                     if (propvalue && num_free_mac_addresses)
                     {
-                        if (fdt_setprop_inplace_u64(fdt, fdt_node, "local-mac-address", next_free_mac_address))
+                        uint8_t new_mac_address[6];
+                        new_mac_address[0] = (next_free_mac_address >> 40) & 0xff;
+                        new_mac_address[1] = (next_free_mac_address >> 32) & 0xff;
+                        new_mac_address[2] = (next_free_mac_address >> 24) & 0xff;
+                        new_mac_address[3] = (next_free_mac_address >> 16) & 0xff;
+                        new_mac_address[4] = (next_free_mac_address >> 8) & 0xff;
+                        new_mac_address[5] = (next_free_mac_address >> 0) & 0xff;
+                        BDK_TRACE(FDT_OS, "Setting MAC address of %s to %02x:%02x:%02x:%02x:%02x:%02x\n",
+                                  fdt_node_name, new_mac_address[0], new_mac_address[1],
+                                  new_mac_address[2], new_mac_address[3],
+                                  new_mac_address[4], new_mac_address[5]);
+                        if (fdt_setprop_inplace(fdt, fdt_node, "local-mac-address", new_mac_address, 6))
                         {
                             bdk_error("Failed to update property %s[local-mac-address]\n", fdt_node_name);
                             return -1;
