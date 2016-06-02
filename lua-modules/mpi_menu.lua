@@ -100,7 +100,28 @@ local function mpi_xmodem(filename)
     cavium.c.bdk_set_baudrate(cavium.MASTER_NODE, 0, baudrate, 0)
     cavium.c.bdk_wait_usec(500000);
     printf("\nBaudrate is now %d\n", baudrate)
-    fileio.copy("/xmodem", nil, filename, offset)
+    fileio.copy("/xmodem", nil, "/ram/upload", nil)
+    cavium.c.bdk_wait_usec(500000);
+    printf("\n\nFile uploaded to /ram/upload\n")
+    local do_burn = menu.prompt_yes_no("Write to boot flash", true)
+    if do_burn then
+        printf("Writing to flash...")
+        io.flush()
+        fileio.copy("/ram/upload", nil, filename, offset)
+        io.flush()
+        printf("Done\n")
+        if (menu.node == 0) and (cavium.c.bdk_numa_is_only_one() == 0) then
+            do_burn = menu.prompt_yes_no("Write to boot flash on other node", true)
+            if do_burn then
+                local name = filename:gsub("/dev/n0", "/dev/n1")
+                printf("Writing to flash...")
+                io.flush()
+                fileio.copy("/ram/upload", nil, name, offset)
+                io.flush()
+                printf("Done\n")
+            end
+        end
+    end
 end
 
 local function mpi_device()

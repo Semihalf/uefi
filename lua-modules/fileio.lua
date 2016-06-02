@@ -10,7 +10,7 @@ require("utils")
 
 fileio = {}
 --- Maximum size of block to transfer in one read/write
-fileio.block_size = 512
+fileio.block_size = 4096
 
 --- Open a file, throwing an exception on failure
 -- @param filename File to open.
