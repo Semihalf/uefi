@@ -397,6 +397,15 @@ int bdk_pko_enable(bdk_node_t node)
     for (int i = 0; i < pko_const.s.ptgfs; i++)
         BDK_CSR_MODIFY(c, node, BDK_PKO_PTGFX_CFG(i), c.s.reset = 0);
 
+    BDK_CSR_MODIFY(c, node, BDK_PKO_ENABLE,
+        c.s.enable = 1);
+    /* Read needed to make sure enable is done before accesses below */
+    BDK_CSR_READ(node, BDK_PKO_ENABLE);
+
+    /* PDM needs to be enabled before opening channels*/
+    BDK_CSR_MODIFY(c, node, BDK_PKO_PDM_CFG,
+                   c.s.pdm_en = 1;);
+
     /* Wait for PKO to be ready (100us) */
     if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_PKO_STATUS, pko_rdy, ==, 1, 100))
     {
@@ -405,21 +414,14 @@ int bdk_pko_enable(bdk_node_t node)
             return -1;
     }
 
-    BDK_CSR_MODIFY(c, node, BDK_PKO_ENABLE,
-        c.s.enable = 1);
-    /* Read needed to make sure enable is done before accesses below */
-    BDK_CSR_READ(node, BDK_PKO_ENABLE);
-
     int dq_inc = 1;
     /* Open all configured descriptor queues */
     for (int dq=0; dq<node_state->pko_next_free_descr_queue; dq+=dq_inc)
     {
-        /* Any write causes an open */
-        BDK_CSR_WRITE(node, BDK_PKO_VFX_DQX_OP_OPEN(dq / 8, dq & 7), 0);
-        /* Read the status of the open */
+        /* Read the status of the open  - verb is implemented as read with side-effect*/
         BDK_CSR_INIT(pko_open, node, BDK_PKO_VFX_DQX_OP_OPEN(dq / 8, dq & 7));
         if (pko_open.s.dqstatus != BDK_PKO_DQSTATUS_E_PASS)
-            bdk_error("PKO open failed with response 0x%lx\n", pko_open.u);
+            bdk_error("PKO open failed with response 0x%lx for dq %d\n", pko_open.u, dq);
     }
     return 0;
 }
