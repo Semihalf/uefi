@@ -7,7 +7,7 @@ import connection
 import test_boot
 import test_dram
 import test_sata
-#import test_trafficgen
+import test_trafficgen
 
 SUPPORTED_BOARDS = {
     "crb-1s": {
@@ -46,7 +46,7 @@ SUPPORTED_TESTS = {
     "short-dram":   test_dram.dram_short,
     "full-dram":    test_dram.dram_all,
     "sata":         test_sata.sata_detect,
-    #"network":     test_trafficgen.None,
+    "network":      test_trafficgen.check_all_links,
 }
 
 #
