@@ -95,7 +95,8 @@ static bdk_thread_t *__bdk_thread_next(void)
  */
 void bdk_thread_yield(void)
 {
-    bdk_dbg_check_magic();
+    if (bdk_numa_local() == bdk_numa_master())
+        bdk_dbg_check_magic();
     bdk_thread_node_t *t_node = &bdk_thread_node[bdk_numa_local()];
     bdk_thread_t *current;
     BDK_MRS_NV(TPIDR_EL3, current);
@@ -230,7 +231,8 @@ void bdk_thread_destroy(void)
 
     while (1)
     {
-        bdk_dbg_check_magic();
+        if (bdk_numa_local() == bdk_numa_master())
+            bdk_dbg_check_magic();
         if (t_node->head)
         {
             bdk_spinlock_lock(&t_node->lock);
