@@ -723,9 +723,11 @@ typedef union
         uint64_t reserved_3_63         : 61;
         uint64_t ecc_flp_syn           : 2;  /**< [  2:  1](R/W) ECC flip syndrome. Flip the ECC's syndrome for testing purposes, to test SBE and DBE ECC
                                                                  interrupts. */
-        uint64_t ecc_en                : 1;  /**< [  0:  0](R/W) Enable ECC correction of the ring data structure memory. */
+        uint64_t ecc_en                : 1;  /**< [  0:  0](R/W) Enable ECC correction of the ring data structure memory.
+                                                                 Refer to TIM_ECCERR_INT for a list of ECC-protected memories. */
 #else /* Word 0 - Little Endian */
-        uint64_t ecc_en                : 1;  /**< [  0:  0](R/W) Enable ECC correction of the ring data structure memory. */
+        uint64_t ecc_en                : 1;  /**< [  0:  0](R/W) Enable ECC correction of the ring data structure memory.
+                                                                 Refer to TIM_ECCERR_INT for a list of ECC-protected memories. */
         uint64_t ecc_flp_syn           : 2;  /**< [  2:  1](R/W) ECC flip syndrome. Flip the ECC's syndrome for testing purposes, to test SBE and DBE ECC
                                                                  interrupts. */
         uint64_t reserved_3_63         : 61;
@@ -1526,8 +1528,9 @@ typedef union
                                                                  3. TIM_RING()_CTL0[EXPIRE_OFFSET] is reprogrammed appropriately.
 
                                                                  4. TIM_RING()_CTL1[ENA] is set. */
-        uint64_t rcf_busy              : 1;  /**< [ 50: 50](RO/H) Ring reconfiguration busy. When [ENA] is cleared, this bit will remain set until hardware
-                                                                 completes the idling of the ring. [ENA] must not be re-enabled until clear. */
+        uint64_t rcf_busy              : 1;  /**< [ 50: 50](RO/H) Ring reconfiguration busy. When [ENA] is cleared, this bit will be set, if an
+                                                                 engine is currently scheduled to, or is processing, a ring. It will remain set until
+                                                                 hardware completes the idling of the ring. [ENA] must not be re-enabled until clear. */
         uint64_t reserved_49           : 1;
         uint64_t lock_en               : 1;  /**< [ 48: 48](R/W) Enables bucket locking mechanism between hardware and software.
                                                                    0 = Hardware will always service the bucket when it expires.
@@ -1535,10 +1538,9 @@ typedef union
         uint64_t ena                   : 1;  /**< [ 47: 47](R/W/H) Ring timer enable. After a 1 to 0 transition on ENA, the hardware still
                                                                  completes a bucket traversal for the ring if it were pending or active
                                                                  prior to the transition. When clearing, software must delay until
-                                                                 TIM_VRING()_REL[RING_ESR] = 0 to ensure the completion of the traversal
-                                                                 before reprogramming the ring. When setting, [RCF_BUSY] must be clear.
-                                                                 Hardware will clear this bit when any TIM_VF()_NRSPERR_INT[*] bit is
-                                                                 set by hardware. */
+                                                                 [RCF_BUSY] = 0 to ensure the completion of the traversal before reprogramming
+                                                                 the ring. Hardware will clear this bit when any TIM_VF()_NRSPERR_INT[*] bit
+                                                                 is set by hardware. */
         uint64_t reserved_46           : 1;
         uint64_t ena_prd               : 1;  /**< [ 45: 45](R/W) Enable periodic mode, which disables the memory write of zeros to
                                                                  TIM_MEM_BUCKET_S[NUM_ENTRIES] and TIM_MEM_BUCKET_S[CHUNK_REMAINDER] when a
@@ -1565,16 +1567,16 @@ typedef union
         uint64_t ena                   : 1;  /**< [ 47: 47](R/W/H) Ring timer enable. After a 1 to 0 transition on ENA, the hardware still
                                                                  completes a bucket traversal for the ring if it were pending or active
                                                                  prior to the transition. When clearing, software must delay until
-                                                                 TIM_VRING()_REL[RING_ESR] = 0 to ensure the completion of the traversal
-                                                                 before reprogramming the ring. When setting, [RCF_BUSY] must be clear.
-                                                                 Hardware will clear this bit when any TIM_VF()_NRSPERR_INT[*] bit is
-                                                                 set by hardware. */
+                                                                 [RCF_BUSY] = 0 to ensure the completion of the traversal before reprogramming
+                                                                 the ring. Hardware will clear this bit when any TIM_VF()_NRSPERR_INT[*] bit
+                                                                 is set by hardware. */
         uint64_t lock_en               : 1;  /**< [ 48: 48](R/W) Enables bucket locking mechanism between hardware and software.
                                                                    0 = Hardware will always service the bucket when it expires.
                                                                    1 = Hardware skips buckets when it can't get the bucket's lock. */
         uint64_t reserved_49           : 1;
-        uint64_t rcf_busy              : 1;  /**< [ 50: 50](RO/H) Ring reconfiguration busy. When [ENA] is cleared, this bit will remain set until hardware
-                                                                 completes the idling of the ring. [ENA] must not be re-enabled until clear. */
+        uint64_t rcf_busy              : 1;  /**< [ 50: 50](RO/H) Ring reconfiguration busy. When [ENA] is cleared, this bit will be set, if an
+                                                                 engine is currently scheduled to, or is processing, a ring. It will remain set until
+                                                                 hardware completes the idling of the ring. [ENA] must not be re-enabled until clear. */
         uint64_t clk_src               : 3;  /**< [ 53: 51](R/W) Source of ring's timer tick. Enumerated by TIM_CLK_SRCS_E. To change [CLK_SRC]:
 
                                                                  1. TIM_RING()_CTL1[ENA] is cleared.

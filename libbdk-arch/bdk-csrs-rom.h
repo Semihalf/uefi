@@ -310,7 +310,224 @@ union bdk_rom_clib_s
         uint64_t reserved_1984_2047    : 64;
 #endif /* Word 31 - End */
     } s;
-    /* struct bdk_rom_clib_s_s cn; */
+    /* struct bdk_rom_clib_s_s cn9; */
+    /* struct bdk_rom_clib_s_s cn81xx; */
+    struct bdk_rom_clib_s_cn88xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t magic                 : 64; /**< [ 63:  0] Magic number.  Contains "CVM_CLIB" in ASCII (0x42494c43_5f4d5643)
+                                                                 to indicate a valid ROM_CLIB_S structure. */
+#else /* Word 0 - Little Endian */
+        uint64_t magic                 : 64; /**< [ 63:  0] Magic number.  Contains "CVM_CLIB" in ASCII (0x42494c43_5f4d5643)
+                                                                 to indicate a valid ROM_CLIB_S structure. */
+#endif /* Word 0 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
+        uint64_t ver                   : 8;  /**< [127:120] Version number.  0x0 to indicate first version of this format.
+                                                                 Internal:
+                                                                 Opaque to ROM, until we have a second version. */
+        uint64_t reserved_64_119       : 56;
+#else /* Word 1 - Little Endian */
+        uint64_t reserved_64_119       : 56;
+        uint64_t ver                   : 8;  /**< [127:120] Version number.  0x0 to indicate first version of this format.
+                                                                 Internal:
+                                                                 Opaque to ROM, until we have a second version. */
+#endif /* Word 1 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 2 - Big Endian */
+        uint64_t offset                : 64; /**< [191:128] Offset address. The flash address for first byte of image.
+                                                                 Must be 0x20000 for NBL1FW, 0x50000 for TBL1FW.
+
+                                                                 In NBL1FW, the first 256 bytes are ignored, should be zeros or random data.
+
+                                                                 In TBL1FW, the first 256 bytes of the image should be
+                                                                 random data for cypher security.  The first instruction
+                                                                 executed will be at [OFFSET] + 0x100.
+
+                                                                 Internal:
+                                                                 Future ROM code may allow this to be more flexible.
+                                                                 If so, must be aligned to 16 KB. Must be >= 16 KB (past the
+                                                                 ROM_CLIB_S and ROM_CSIB_S headers). */
+#else /* Word 2 - Little Endian */
+        uint64_t offset                : 64; /**< [191:128] Offset address. The flash address for first byte of image.
+                                                                 Must be 0x20000 for NBL1FW, 0x50000 for TBL1FW.
+
+                                                                 In NBL1FW, the first 256 bytes are ignored, should be zeros or random data.
+
+                                                                 In TBL1FW, the first 256 bytes of the image should be
+                                                                 random data for cypher security.  The first instruction
+                                                                 executed will be at [OFFSET] + 0x100.
+
+                                                                 Internal:
+                                                                 Future ROM code may allow this to be more flexible.
+                                                                 If so, must be aligned to 16 KB. Must be >= 16 KB (past the
+                                                                 ROM_CLIB_S and ROM_CSIB_S headers). */
+#endif /* Word 2 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 3 - Big Endian */
+        uint64_t size                  : 64; /**< [255:192] Size. The size of the TBL1FW material in bytes.  Must be 192 KB (0x30000).
+                                                                 Internal:
+                                                                 Future ROM code may allow this to be mode flexible.
+                                                                 If so, must be in increments of 1 KB.
+                                                                 For simulation purposes if MIO_FUS_DAT2[ROM_INFO<5>] is
+                                                                 set, there is only 4 KB of NBL1FW and TBL1FW code, at
+                                                                 addresses 0x20000 - 0x20FFFF and 0x21000 - 0x21FFFF. */
+#else /* Word 3 - Little Endian */
+        uint64_t size                  : 64; /**< [255:192] Size. The size of the TBL1FW material in bytes.  Must be 192 KB (0x30000).
+                                                                 Internal:
+                                                                 Future ROM code may allow this to be mode flexible.
+                                                                 If so, must be in increments of 1 KB.
+                                                                 For simulation purposes if MIO_FUS_DAT2[ROM_INFO<5>] is
+                                                                 set, there is only 4 KB of NBL1FW and TBL1FW code, at
+                                                                 addresses 0x20000 - 0x20FFFF and 0x21000 - 0x21FFFF. */
+#endif /* Word 3 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 4 - Big Endian */
+        uint64_t reserved_256_319      : 64;
+#else /* Word 4 - Little Endian */
+        uint64_t reserved_256_319      : 64;
+#endif /* Word 4 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 5 - Big Endian */
+        uint64_t reserved_320_383      : 64;
+#else /* Word 5 - Little Endian */
+        uint64_t reserved_320_383      : 64;
+#endif /* Word 5 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 6 - Big Endian */
+        uint64_t reserved_384_447      : 64;
+#else /* Word 6 - Little Endian */
+        uint64_t reserved_384_447      : 64;
+#endif /* Word 6 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 7 - Big Endian */
+        uint64_t reserved_448_511      : 64;
+#else /* Word 7 - Little Endian */
+        uint64_t reserved_448_511      : 64;
+#endif /* Word 7 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 8 - Big Endian */
+        uint64_t csib_sign0            : 64; /**< [575:512] CSIB signature, word 0. If this ROM_CLIB_S corresponds to a trusted image, this
+                                                                 contains a EC-DSA signature across the 256 bytes of the ROM_CSIB_S. The
+                                                                 signature must authenticate against ROM_CSIB_S[ROTPK*] for trusted boot to proceed.
+                                                                 These fields are to be interpreted as a pair (R,S) of 256-bit integers in little-endian
+                                                                 format. */
+#else /* Word 8 - Little Endian */
+        uint64_t csib_sign0            : 64; /**< [575:512] CSIB signature, word 0. If this ROM_CLIB_S corresponds to a trusted image, this
+                                                                 contains a EC-DSA signature across the 256 bytes of the ROM_CSIB_S. The
+                                                                 signature must authenticate against ROM_CSIB_S[ROTPK*] for trusted boot to proceed.
+                                                                 These fields are to be interpreted as a pair (R,S) of 256-bit integers in little-endian
+                                                                 format. */
+#endif /* Word 8 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 9 - Big Endian */
+        uint64_t csib_sign1            : 64; /**< [639:576] CSIB signature, word 1. */
+#else /* Word 9 - Little Endian */
+        uint64_t csib_sign1            : 64; /**< [639:576] CSIB signature, word 1. */
+#endif /* Word 9 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 10 - Big Endian */
+        uint64_t csib_sign2            : 64; /**< [703:640] CSIB signature, word 2. */
+#else /* Word 10 - Little Endian */
+        uint64_t csib_sign2            : 64; /**< [703:640] CSIB signature, word 2. */
+#endif /* Word 10 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 11 - Big Endian */
+        uint64_t csib_sign3            : 64; /**< [767:704] CSIB signature, word 3. */
+#else /* Word 11 - Little Endian */
+        uint64_t csib_sign3            : 64; /**< [767:704] CSIB signature, word 3. */
+#endif /* Word 11 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 12 - Big Endian */
+        uint64_t csib_sign4            : 64; /**< [831:768] CSIB signature, word 4. */
+#else /* Word 12 - Little Endian */
+        uint64_t csib_sign4            : 64; /**< [831:768] CSIB signature, word 4. */
+#endif /* Word 12 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 13 - Big Endian */
+        uint64_t csib_sign5            : 64; /**< [895:832] CSIB signature, word 5. */
+#else /* Word 13 - Little Endian */
+        uint64_t csib_sign5            : 64; /**< [895:832] CSIB signature, word 5. */
+#endif /* Word 13 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 14 - Big Endian */
+        uint64_t csib_sign6            : 64; /**< [959:896] CSIB signature, word 6. */
+#else /* Word 14 - Little Endian */
+        uint64_t csib_sign6            : 64; /**< [959:896] CSIB signature, word 6. */
+#endif /* Word 14 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 15 - Big Endian */
+        uint64_t csib_sign7            : 64; /**< [1023:960] CSIB signature, word 7. */
+#else /* Word 15 - Little Endian */
+        uint64_t csib_sign7            : 64; /**< [1023:960] CSIB signature, word 7. */
+#endif /* Word 15 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 16 - Big Endian */
+        uint64_t reserved_1024_1087    : 64;
+#else /* Word 16 - Little Endian */
+        uint64_t reserved_1024_1087    : 64;
+#endif /* Word 16 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 17 - Big Endian */
+        uint64_t reserved_1088_1151    : 64;
+#else /* Word 17 - Little Endian */
+        uint64_t reserved_1088_1151    : 64;
+#endif /* Word 17 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 18 - Big Endian */
+        uint64_t reserved_1152_1215    : 64;
+#else /* Word 18 - Little Endian */
+        uint64_t reserved_1152_1215    : 64;
+#endif /* Word 18 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 19 - Big Endian */
+        uint64_t reserved_1216_1279    : 64;
+#else /* Word 19 - Little Endian */
+        uint64_t reserved_1216_1279    : 64;
+#endif /* Word 19 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 20 - Big Endian */
+        uint64_t reserved_1280_1343    : 64;
+#else /* Word 20 - Little Endian */
+        uint64_t reserved_1280_1343    : 64;
+#endif /* Word 20 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 21 - Big Endian */
+        uint64_t reserved_1344_1407    : 64;
+#else /* Word 21 - Little Endian */
+        uint64_t reserved_1344_1407    : 64;
+#endif /* Word 21 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 22 - Big Endian */
+        uint64_t reserved_1408_1471    : 64;
+#else /* Word 22 - Little Endian */
+        uint64_t reserved_1408_1471    : 64;
+#endif /* Word 22 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 23 - Big Endian */
+        uint64_t reserved_1472_1535    : 64;
+#else /* Word 23 - Little Endian */
+        uint64_t reserved_1472_1535    : 64;
+#endif /* Word 23 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 24 - Big Endian */
+        uint64_t reserved_1536_1599    : 64;
+#else /* Word 24 - Little Endian */
+        uint64_t reserved_1536_1599    : 64;
+#endif /* Word 24 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 25 - Big Endian */
+        uint64_t reserved_1600_1663    : 64;
+#else /* Word 25 - Little Endian */
+        uint64_t reserved_1600_1663    : 64;
+#endif /* Word 25 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 26 - Big Endian */
+        uint64_t reserved_1664_1727    : 64;
+#else /* Word 26 - Little Endian */
+        uint64_t reserved_1664_1727    : 64;
+#endif /* Word 26 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 27 - Big Endian */
+        uint64_t reserved_1728_1791    : 64;
+#else /* Word 27 - Little Endian */
+        uint64_t reserved_1728_1791    : 64;
+#endif /* Word 27 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 28 - Big Endian */
+        uint64_t reserved_1792_1855    : 64;
+#else /* Word 28 - Little Endian */
+        uint64_t reserved_1792_1855    : 64;
+#endif /* Word 28 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 29 - Big Endian */
+        uint64_t reserved_1856_1919    : 64;
+#else /* Word 29 - Little Endian */
+        uint64_t reserved_1856_1919    : 64;
+#endif /* Word 29 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 30 - Big Endian */
+        uint64_t reserved_1920_1983    : 64;
+#else /* Word 30 - Little Endian */
+        uint64_t reserved_1920_1983    : 64;
+#endif /* Word 30 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 31 - Big Endian */
+        uint64_t reserved_1984_2047    : 64;
+#else /* Word 31 - Little Endian */
+        uint64_t reserved_1984_2047    : 64;
+#endif /* Word 31 - End */
+    } cn88xx;
+    /* struct bdk_rom_clib_s_s cn83xx; */
 };
 
 /**

@@ -2304,6 +2304,67 @@ typedef union
                                                                  * Reference clock was outside operating range of 25 to 100 MHz.
                                                                  * Reference clock duty cycle outside 50% +/- 20%.
                                                                  * Reference increased or decreased in frequency. */
+        uint64_t reserved_48_62        : 15;
+        uint64_t pcycle                : 16; /**< [ 47: 32](RO/H) Previous cycle count.  Sum of last [CNT0] and [CNT1]. */
+        uint64_t cnt1                  : 16; /**< [ 31: 16](RO/H) Number of internal ring-oscillator clock pulses counted over 16 reference clocks
+                                                                 while reference clock was high.
+                                                                 When used with [CNT0] the internal ring-oscillator frequency can be determined. */
+        uint64_t cnt0                  : 16; /**< [ 15:  0](RO/H) Number of internal ring-oscillator clock pulses counted over 16 reference clocks
+                                                                 while reference clock was low.
+                                                                 When used with [CNT1] the internal ring-oscillator frequency can be determined. */
+#else /* Word 0 - Little Endian */
+        uint64_t cnt0                  : 16; /**< [ 15:  0](RO/H) Number of internal ring-oscillator clock pulses counted over 16 reference clocks
+                                                                 while reference clock was low.
+                                                                 When used with [CNT1] the internal ring-oscillator frequency can be determined. */
+        uint64_t cnt1                  : 16; /**< [ 31: 16](RO/H) Number of internal ring-oscillator clock pulses counted over 16 reference clocks
+                                                                 while reference clock was high.
+                                                                 When used with [CNT0] the internal ring-oscillator frequency can be determined. */
+        uint64_t pcycle                : 16; /**< [ 47: 32](RO/H) Previous cycle count.  Sum of last [CNT0] and [CNT1]. */
+        uint64_t reserved_48_62        : 15;
+        uint64_t range                 : 1;  /**< [ 63: 63](RO/H) Reference ever out of range. Set when either:
+                                                                 * Reference clock was outside operating range of 25 to 100 MHz.
+                                                                 * Reference clock duty cycle outside 50% +/- 20%.
+                                                                 * Reference increased or decreased in frequency. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_rst_ref_check_s cn9; */
+    struct bdk_rst_ref_check_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t range                 : 1;  /**< [ 63: 63](RO/H) Reference ever out of range. Set when either:
+                                                                 * Reference clock was outside operating range of 25 to 100 MHz.
+                                                                 * Reference clock duty cycle outside 50% +/- 20%.
+                                                                 * Reference increased or decreased in frequency. */
+        uint64_t reserved_48_62        : 15;
+        uint64_t reserved_32_47        : 16;
+        uint64_t cnt1                  : 16; /**< [ 31: 16](RO/H) Number of internal ring-oscillator clock pulses counted over 16 reference clocks
+                                                                 while reference clock was high.
+                                                                 When used with [CNT0] the internal ring-oscillator frequency can be determined. */
+        uint64_t cnt0                  : 16; /**< [ 15:  0](RO/H) Number of internal ring-oscillator clock pulses counted over 16 reference clocks
+                                                                 while reference clock was low.
+                                                                 When used with [CNT1] the internal ring-oscillator frequency can be determined. */
+#else /* Word 0 - Little Endian */
+        uint64_t cnt0                  : 16; /**< [ 15:  0](RO/H) Number of internal ring-oscillator clock pulses counted over 16 reference clocks
+                                                                 while reference clock was low.
+                                                                 When used with [CNT1] the internal ring-oscillator frequency can be determined. */
+        uint64_t cnt1                  : 16; /**< [ 31: 16](RO/H) Number of internal ring-oscillator clock pulses counted over 16 reference clocks
+                                                                 while reference clock was high.
+                                                                 When used with [CNT0] the internal ring-oscillator frequency can be determined. */
+        uint64_t reserved_32_47        : 16;
+        uint64_t reserved_48_62        : 15;
+        uint64_t range                 : 1;  /**< [ 63: 63](RO/H) Reference ever out of range. Set when either:
+                                                                 * Reference clock was outside operating range of 25 to 100 MHz.
+                                                                 * Reference clock duty cycle outside 50% +/- 20%.
+                                                                 * Reference increased or decreased in frequency. */
+#endif /* Word 0 - End */
+    } cn81xx;
+    struct bdk_rst_ref_check_cn88xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t range                 : 1;  /**< [ 63: 63](RO/H) Reference ever out of range. Set when either:
+                                                                 * Reference clock was outside operating range of 25 to 100 MHz.
+                                                                 * Reference clock duty cycle outside 50% +/- 20%.
+                                                                 * Reference increased or decreased in frequency. */
         uint64_t reserved_32_62        : 31;
         uint64_t cnt1                  : 16; /**< [ 31: 16](RO/H) Number of internal ring-oscillator clock pulses counted over 16 reference clocks
                                                                  while reference clock was high.
@@ -2324,8 +2385,8 @@ typedef union
                                                                  * Reference clock duty cycle outside 50% +/- 20%.
                                                                  * Reference increased or decreased in frequency. */
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_rst_ref_check_s cn; */
+    } cn88xx;
+    /* struct bdk_rst_ref_check_s cn83xx; */
 } bdk_rst_ref_check_t;
 
 #define BDK_RST_REF_CHECK BDK_RST_REF_CHECK_FUNC()

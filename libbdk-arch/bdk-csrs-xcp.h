@@ -78,9 +78,92 @@
 #define BDK_XCP_NCB_TX_CMD_E_WRITE (2)
 
 /**
+ * Register (NCB32b) xcp#_cfg
+ *
+ * XCP Configuration Register
+ * This register contains the configuration bits for XCP.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_xcpx_cfg_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_2_31         : 30;
+        uint32_t sync_inv_rdc          : 1;  /**< [  1:  1](R/W) If set, invalidate all windows read caches on a sync operation. */
+        uint32_t ro_dis                : 1;  /**< [  0:  0](R/W) Disable for XCP_NCB relaxed ordering (ro) bit on NCBI transactions. */
+#else /* Word 0 - Little Endian */
+        uint32_t ro_dis                : 1;  /**< [  0:  0](R/W) Disable for XCP_NCB relaxed ordering (ro) bit on NCBI transactions. */
+        uint32_t sync_inv_rdc          : 1;  /**< [  1:  1](R/W) If set, invalidate all windows read caches on a sync operation. */
+        uint32_t reserved_2_31         : 30;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_xcpx_cfg_s cn; */
+} bdk_xcpx_cfg_t;
+
+static inline uint64_t BDK_XCPX_CFG(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_XCPX_CFG(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a==0))
+        return 0x82c000000000ll + 0x1000000000ll * ((a) & 0x0);
+    __bdk_csr_fatal("XCPX_CFG", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_XCPX_CFG(a) bdk_xcpx_cfg_t
+#define bustype_BDK_XCPX_CFG(a) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_XCPX_CFG(a) "XCPX_CFG"
+#define device_bar_BDK_XCPX_CFG(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_XCPX_CFG(a) (a)
+#define arguments_BDK_XCPX_CFG(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) xcp#_seg#_map_reg
+ *
+ * XCP Segment Mapping Register
+ * This register contains the segment mapping from the MIPS core addresses
+ * to sections of the CPC RAM.
+ * * SEG0 corresponds to kuseg.
+ * * SEG1 corresponds to kseg0/kseg1.
+ * * SEG2 corresponds to kseg2.
+ * * SEG3 corresponds to kseg3.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_xcpx_segx_map_reg_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_11_31        : 21;
+        uint32_t top                   : 6;  /**< [ 10:  5](R/W) Upper address <18:14> top limit for this segment. */
+        uint32_t base                  : 5;  /**< [  4:  0](R/W) CPC RAM base address <18:14> for this segment. */
+#else /* Word 0 - Little Endian */
+        uint32_t base                  : 5;  /**< [  4:  0](R/W) CPC RAM base address <18:14> for this segment. */
+        uint32_t top                   : 6;  /**< [ 10:  5](R/W) Upper address <18:14> top limit for this segment. */
+        uint32_t reserved_11_31        : 21;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_xcpx_segx_map_reg_s cn; */
+} bdk_xcpx_segx_map_reg_t;
+
+static inline uint64_t BDK_XCPX_SEGX_MAP_REG(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_XCPX_SEGX_MAP_REG(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a==0) && (b<=3)))
+        return 0x82c000000400ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x3);
+    __bdk_csr_fatal("XCPX_SEGX_MAP_REG", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_XCPX_SEGX_MAP_REG(a,b) bdk_xcpx_segx_map_reg_t
+#define bustype_BDK_XCPX_SEGX_MAP_REG(a,b) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_XCPX_SEGX_MAP_REG(a,b) "XCPX_SEGX_MAP_REG"
+#define device_bar_BDK_XCPX_SEGX_MAP_REG(a,b) 0x0 /* PF_BAR0 */
+#define busnum_BDK_XCPX_SEGX_MAP_REG(a,b) (a)
+#define arguments_BDK_XCPX_SEGX_MAP_REG(a,b) (a),(b),-1,-1
+
+/**
  * Register (NCB32b) xcp#_win#_addr
  *
- * XCP RSL/NCB WINDOW ADDRESS Register
+ * XCP Window Address Register
  * This register contains the upper address bits for the XCP core RSL/NCB access windows.
  */
 typedef union
@@ -119,7 +202,7 @@ static inline uint64_t BDK_XCPX_WINX_ADDR(unsigned long a, unsigned long b)
 /**
  * Register (NCB32b) xcp#_win#_cfg
  *
- * XCP RSL/NCB WINDOW CONFIG Register
+ * XCP Window Configuration Register
  * This register contains the control bits for the XCP core RSL/NCB access windows.
  */
 typedef union
@@ -202,8 +285,9 @@ static inline uint64_t BDK_XCPX_WINX_CFG(unsigned long a, unsigned long b)
 /**
  * Register (NCB32b) xcp#_win#_inv
  *
- * XCP RSL/NCB WINDOW INVALIDATE Register
- * This register contains the invalidate bits for the XCP core RSL/NCB access windows.
+ * XCP Window Invalidate Register
+ * This register contains the invalidate bits for the RSL/NCB window 0-3 for the MIPS core to
+ * read/write from/to to reach Thunder memory.
  */
 typedef union
 {
@@ -212,9 +296,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_1_31         : 31;
-        uint32_t invalidate            : 1;  /**< [  0:  0](WO) Writing a 1 will invalidate this window's read cache, and flush the write buffer. */
+        uint32_t invalidate            : 1;  /**< [  0:  0](WO) Writing a 1 will invalidate this window's read cache and flush the write cache. */
 #else /* Word 0 - Little Endian */
-        uint32_t invalidate            : 1;  /**< [  0:  0](WO) Writing a 1 will invalidate this window's read cache, and flush the write buffer. */
+        uint32_t invalidate            : 1;  /**< [  0:  0](WO) Writing a 1 will invalidate this window's read cache and flush the write cache. */
         uint32_t reserved_1_31         : 31;
 #endif /* Word 0 - End */
     } s;
@@ -225,7 +309,7 @@ static inline uint64_t BDK_XCPX_WINX_INV(unsigned long a, unsigned long b) __att
 static inline uint64_t BDK_XCPX_WINX_INV(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a==0) && (b<=3)))
-        return 0x82c000000000ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x3);
+        return 0x82c000000300ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x3);
     __bdk_csr_fatal("XCPX_WINX_INV", 2, a, b, 0, 0);
 }
 

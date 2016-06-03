@@ -238,10 +238,10 @@ typedef union
                                                                  will connect to original pin output. With both TX_OD and PIN_XOR set, a transmit
                                                                  of 1 will tristate the pin output driver to archive open-drain function. */
         uint64_t fil_sel               : 4;  /**< [ 11:  8](R/W) Filter select. Global counter bit-select (controls sample rate).
-                                                                 Filter are XOR inverter are also applicable to GPIO input muxing signals and interrupts. */
+                                                                 Filter and XOR inverter are also applicable to GPIO input muxing signals and interrupts. */
         uint64_t fil_cnt               : 4;  /**< [  7:  4](R/W) Filter count. Specifies the number of consecutive samples (FIL_CNT+1) to change state.
                                                                  Zero to disable the filter.
-                                                                 Filter are XOR inverter are also applicable to GPIO input muxing signals and interrupts. */
+                                                                 Filter and XOR inverter are also applicable to GPIO input muxing signals and interrupts. */
         uint64_t int_type              : 1;  /**< [  3:  3](R/W) Type of interrupt when pin is an input and [INT_EN] set. When set, rising edge
                                                                  interrupt, else level interrupt. The GPIO signal used to generate interrupt is after
                                                                  the filter as well XOR inverter. */
@@ -285,9 +285,9 @@ typedef union
                                                                  the filter as well XOR inverter. */
         uint64_t fil_cnt               : 4;  /**< [  7:  4](R/W) Filter count. Specifies the number of consecutive samples (FIL_CNT+1) to change state.
                                                                  Zero to disable the filter.
-                                                                 Filter are XOR inverter are also applicable to GPIO input muxing signals and interrupts. */
+                                                                 Filter and XOR inverter are also applicable to GPIO input muxing signals and interrupts. */
         uint64_t fil_sel               : 4;  /**< [ 11:  8](R/W) Filter select. Global counter bit-select (controls sample rate).
-                                                                 Filter are XOR inverter are also applicable to GPIO input muxing signals and interrupts. */
+                                                                 Filter and XOR inverter are also applicable to GPIO input muxing signals and interrupts. */
         uint64_t tx_od                 : 1;  /**< [ 12: 12](R/W) GPIO output open-drain conversion. This function is after PIN_SEL MUX
                                                                  and [PIN_XOR] inverter.
                                                                  When set, the pin output will connect to zero, and pin enable
@@ -318,10 +318,10 @@ typedef union
                                                                  will connect to original pin output. With both TX_OD and PIN_XOR set, a transmit
                                                                  of 1 will tristate the pin output driver to archive open-drain function. */
         uint64_t fil_sel               : 4;  /**< [ 11:  8](R/W) Filter select. Global counter bit-select (controls sample rate).
-                                                                 Filter are XOR inverter are also applicable to GPIO input muxing signals and interrupts. */
+                                                                 Filter and XOR inverter are also applicable to GPIO input muxing signals and interrupts. */
         uint64_t fil_cnt               : 4;  /**< [  7:  4](R/W) Filter count. Specifies the number of consecutive samples (FIL_CNT+1) to change state.
                                                                  Zero to disable the filter.
-                                                                 Filter are XOR inverter are also applicable to GPIO input muxing signals and interrupts. */
+                                                                 Filter and XOR inverter are also applicable to GPIO input muxing signals and interrupts. */
         uint64_t int_type              : 1;  /**< [  3:  3](R/W) Type of interrupt when pin is an input and [INT_EN] set. When set, rising edge
                                                                  interrupt, else level interrupt. The GPIO signal used to generate interrupt is after
                                                                  the filter as well XOR inverter. */
@@ -365,9 +365,9 @@ typedef union
                                                                  the filter as well XOR inverter. */
         uint64_t fil_cnt               : 4;  /**< [  7:  4](R/W) Filter count. Specifies the number of consecutive samples (FIL_CNT+1) to change state.
                                                                  Zero to disable the filter.
-                                                                 Filter are XOR inverter are also applicable to GPIO input muxing signals and interrupts. */
+                                                                 Filter and XOR inverter are also applicable to GPIO input muxing signals and interrupts. */
         uint64_t fil_sel               : 4;  /**< [ 11:  8](R/W) Filter select. Global counter bit-select (controls sample rate).
-                                                                 Filter are XOR inverter are also applicable to GPIO input muxing signals and interrupts. */
+                                                                 Filter and XOR inverter are also applicable to GPIO input muxing signals and interrupts. */
         uint64_t tx_od                 : 1;  /**< [ 12: 12](R/W) GPIO output open-drain conversion. This function is after PIN_SEL MUX
                                                                  and [PIN_XOR] inverter.
                                                                  When set, the pin output will connect to zero, and pin enable

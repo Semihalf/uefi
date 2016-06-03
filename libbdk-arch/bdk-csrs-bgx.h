@@ -531,6 +531,9 @@ typedef union
                                                                  detected RX PCS lane number is recorded in the corresponding
                                                                  BGX()_SPU()_BR_LANE_MAP[LNx_MAPPING].
 
+                                                                 For QSGMII, [LANE_TO_SDS]<1:0> for LMAC 0 selects the physical SerDes lane shared by four
+                                                                 LMACs, and [LANE_TO_SDS]<1:0> must be unique for each of the four LMACs.
+
                                                                  This field must be programmed to its final value before [ENABLE] is set, and
                                                                  must not be changed when [ENABLE] = 1. */
 #else /* Word 0 - Little Endian */
@@ -560,6 +563,9 @@ typedef union
                                                                  the associated BGX()_SPU()_BR_ALGN_STATUS[MARKER_LOCK] = 1), then the actual
                                                                  detected RX PCS lane number is recorded in the corresponding
                                                                  BGX()_SPU()_BR_LANE_MAP[LNx_MAPPING].
+
+                                                                 For QSGMII, [LANE_TO_SDS]<1:0> for LMAC 0 selects the physical SerDes lane shared by four
+                                                                 LMACs, and [LANE_TO_SDS]<1:0> must be unique for each of the four LMACs.
 
                                                                  This field must be programmed to its final value before [ENABLE] is set, and
                                                                  must not be changed when [ENABLE] = 1. */
@@ -978,200 +984,7 @@ typedef union
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } cn88xx;
-    struct bdk_bgxx_cmrx_config_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_18_63        : 46;
-        uint64_t p2x_select            : 1;  /**< [ 17: 17](R/W) Selects interior side P2X interface over which the LMAC will communicate:
-                                                                 <pre>
-                                                                   [P2X_SELECT]      Name      Connected block
-                                                                   -------------------------------------------
-                                                                   0                 P2X0      NIC
-                                                                   1                 P2X1      PKO
-                                                                 </pre> */
-        uint64_t x2p_select            : 1;  /**< [ 16: 16](R/W) Selects interior side X2P interface over which the LMAC will communicate:
-                                                                 <pre>
-                                                                   [X2P_SELECT]      Name      Connected block
-                                                                   -------------------------------------------
-                                                                   0                 X2P0      NIC
-                                                                   1                 X2P1      PKI
-                                                                 </pre> */
-        uint64_t enable                : 1;  /**< [ 15: 15](R/W) Logical MAC/PCS enable. This is the master enable for the LMAC. When clear, all the
-                                                                 dedicated BGX context state for the LMAC (state machines, FIFOs, counters, etc.) is reset,
-                                                                 and LMAC access to shared BGX resources (data path, SerDes lanes) is disabled.
-
-                                                                 When set, LMAC operation is enabled, including link bring-up, synchronization, and
-                                                                 transmit/receive of idles and fault sequences. Note that configuration registers for an
-                                                                 LMAC are not reset when this bit is clear, allowing software to program them before
-                                                                 setting this bit to enable the LMAC. This bit together with [LMAC_TYPE] is also used to
-                                                                 enable the clocking to the GMP and/or blocks of the Super path (SMU and SPU). CMR clocking
-                                                                 is enabled when any of the paths are enabled. */
-        uint64_t data_pkt_rx_en        : 1;  /**< [ 14: 14](R/W) Data packet receive enable. When [ENABLE] = 1 and [DATA_PKT_RX_EN] = 1, the reception of
-                                                                 data
-                                                                 packets is enabled in the MAC layer. When [ENABLE] = 1 and [DATA_PKT_RX_EN] = 0, the MAC
-                                                                 layer
-                                                                 drops received data and flow-control packets. */
-        uint64_t data_pkt_tx_en        : 1;  /**< [ 13: 13](R/W) Data packet transmit enable. When [ENABLE] = 1 and [DATA_PKT_TX_EN] = 1, the transmission
-                                                                 of
-                                                                 data
-                                                                 packets is enabled in the MAC layer. When [ENABLE] = 1 and [DATA_PKT_TX_EN] = 0, the MAC
-                                                                 layer
-                                                                 suppresses the transmission of new data and packets for the LMAC. */
-        uint64_t int_beat_gen          : 1;  /**< [ 12: 12](R/W) Internal beat generation. This bit is used for debug/test purposes and should be clear
-                                                                 during normal operation. When set, the LMAC's PCS layer ignores RXVALID and
-                                                                 TXREADY/TXCREDIT from the associated SerDes lanes, internally generates fake (idle)
-                                                                 RXVALID and TXCREDIT pulses, and suppresses transmission to the SerDes. */
-        uint64_t mix_en                : 1;  /**< [ 11: 11](R/W) Must be 0. */
-        uint64_t lmac_type             : 3;  /**< [ 10:  8](R/W) Logical MAC/PCS/prt type:
-
-                                                                 <pre>
-                                                                   LMAC_TYPE  Name       Description            NUM_PCS_LANES
-                                                                   ----------------------------------------------------------
-                                                                   0x0        SGMII      SGMII/1000BASE-X             1
-                                                                   0x1        XAUI       10GBASE-X/XAUI or DXAUI      4
-                                                                   0x2        RXAUI      Reduced XAUI                 2
-                                                                   0x3        10G_R      10GBASE-R                    1
-                                                                   0x4        40G_R      40GBASE-R                    4
-                                                                   0x5        --         Reserved                     -
-                                                                   0x6        QSGMII     QSGMII                       1
-                                                                   Other      --         Reserved                     -
-                                                                 </pre>
-
-                                                                 NUM_PCS_LANES specifies the number of PCS lanes that are valid for
-                                                                 each type. Each valid PCS lane is mapped to a physical SerDes lane
-                                                                 based on the programming of [LANE_TO_SDS].
-
-                                                                 This field must be programmed to its final value before [ENABLE] is set, and must not
-                                                                 be changed when [ENABLE] = 1. */
-        uint64_t lane_to_sds           : 8;  /**< [  7:  0](R/W) PCS lane-to-SerDes mapping.
-                                                                 This is an array of 2-bit values that map each logical PCS lane to a
-                                                                 physical SerDes lane, as follows:
-
-                                                                 <pre>
-                                                                   Bits    Description            Reset value
-                                                                   ------------------------------------------
-                                                                   <7:6>   PCS Lane 3 SerDes ID       0x3
-                                                                   <5:4>   PCS Lane 2 SerDes ID       0x2
-                                                                   <3:2>   PCS Lane 1 SerDes ID       0x1
-                                                                   <1:0>   PCS Lane 0 SerDes ID       0x0
-                                                                 </pre>
-
-                                                                 PCS lanes 0 through NUM_PCS_LANES-1 are valid, where NUM_PCS_LANES is a function of the
-                                                                 logical MAC/PCS type (see [LMAC_TYPE]). For example, when [LMAC_TYPE] = SGMII,
-                                                                 then NUM_PCS_LANES = 1, PCS lane 0 is valid and the associated physical SerDes lanes
-                                                                 are selected by bits <1:0>.
-
-                                                                 For 40GBASE-R ([LMAC_TYPE] = 40G_R), all four PCS lanes are valid, and the PCS lane IDs
-                                                                 determine the block distribution order and associated alignment markers on the transmit
-                                                                 side. This is not necessarily the order in which PCS lanes receive data because 802.3
-                                                                 allows multilane BASE-R receive lanes to be reordered. When a lane (called service
-                                                                 interface in 802.3ba-2010) has achieved alignment marker lock on the receive side (i.e.
-                                                                 the associated BGX()_SPU()_BR_ALGN_STATUS[MARKER_LOCK] = 1), then the actual
-                                                                 detected RX PCS lane number is recorded in the corresponding
-                                                                 BGX()_SPU()_BR_LANE_MAP[LNx_MAPPING].
-
-                                                                 For QSGMII, [LANE_TO_SDS]<1:0> for LMAC 0 selects the physical SerDes lane shared by four
-                                                                 LMACs, and [LANE_TO_SDS]<1:0> must be unique for each of the four LMACs.
-
-                                                                 This field must be programmed to its final value before [ENABLE] is set, and
-                                                                 must not be changed when [ENABLE] = 1. */
-#else /* Word 0 - Little Endian */
-        uint64_t lane_to_sds           : 8;  /**< [  7:  0](R/W) PCS lane-to-SerDes mapping.
-                                                                 This is an array of 2-bit values that map each logical PCS lane to a
-                                                                 physical SerDes lane, as follows:
-
-                                                                 <pre>
-                                                                   Bits    Description            Reset value
-                                                                   ------------------------------------------
-                                                                   <7:6>   PCS Lane 3 SerDes ID       0x3
-                                                                   <5:4>   PCS Lane 2 SerDes ID       0x2
-                                                                   <3:2>   PCS Lane 1 SerDes ID       0x1
-                                                                   <1:0>   PCS Lane 0 SerDes ID       0x0
-                                                                 </pre>
-
-                                                                 PCS lanes 0 through NUM_PCS_LANES-1 are valid, where NUM_PCS_LANES is a function of the
-                                                                 logical MAC/PCS type (see [LMAC_TYPE]). For example, when [LMAC_TYPE] = SGMII,
-                                                                 then NUM_PCS_LANES = 1, PCS lane 0 is valid and the associated physical SerDes lanes
-                                                                 are selected by bits <1:0>.
-
-                                                                 For 40GBASE-R ([LMAC_TYPE] = 40G_R), all four PCS lanes are valid, and the PCS lane IDs
-                                                                 determine the block distribution order and associated alignment markers on the transmit
-                                                                 side. This is not necessarily the order in which PCS lanes receive data because 802.3
-                                                                 allows multilane BASE-R receive lanes to be reordered. When a lane (called service
-                                                                 interface in 802.3ba-2010) has achieved alignment marker lock on the receive side (i.e.
-                                                                 the associated BGX()_SPU()_BR_ALGN_STATUS[MARKER_LOCK] = 1), then the actual
-                                                                 detected RX PCS lane number is recorded in the corresponding
-                                                                 BGX()_SPU()_BR_LANE_MAP[LNx_MAPPING].
-
-                                                                 For QSGMII, [LANE_TO_SDS]<1:0> for LMAC 0 selects the physical SerDes lane shared by four
-                                                                 LMACs, and [LANE_TO_SDS]<1:0> must be unique for each of the four LMACs.
-
-                                                                 This field must be programmed to its final value before [ENABLE] is set, and
-                                                                 must not be changed when [ENABLE] = 1. */
-        uint64_t lmac_type             : 3;  /**< [ 10:  8](R/W) Logical MAC/PCS/prt type:
-
-                                                                 <pre>
-                                                                   LMAC_TYPE  Name       Description            NUM_PCS_LANES
-                                                                   ----------------------------------------------------------
-                                                                   0x0        SGMII      SGMII/1000BASE-X             1
-                                                                   0x1        XAUI       10GBASE-X/XAUI or DXAUI      4
-                                                                   0x2        RXAUI      Reduced XAUI                 2
-                                                                   0x3        10G_R      10GBASE-R                    1
-                                                                   0x4        40G_R      40GBASE-R                    4
-                                                                   0x5        --         Reserved                     -
-                                                                   0x6        QSGMII     QSGMII                       1
-                                                                   Other      --         Reserved                     -
-                                                                 </pre>
-
-                                                                 NUM_PCS_LANES specifies the number of PCS lanes that are valid for
-                                                                 each type. Each valid PCS lane is mapped to a physical SerDes lane
-                                                                 based on the programming of [LANE_TO_SDS].
-
-                                                                 This field must be programmed to its final value before [ENABLE] is set, and must not
-                                                                 be changed when [ENABLE] = 1. */
-        uint64_t mix_en                : 1;  /**< [ 11: 11](R/W) Must be 0. */
-        uint64_t int_beat_gen          : 1;  /**< [ 12: 12](R/W) Internal beat generation. This bit is used for debug/test purposes and should be clear
-                                                                 during normal operation. When set, the LMAC's PCS layer ignores RXVALID and
-                                                                 TXREADY/TXCREDIT from the associated SerDes lanes, internally generates fake (idle)
-                                                                 RXVALID and TXCREDIT pulses, and suppresses transmission to the SerDes. */
-        uint64_t data_pkt_tx_en        : 1;  /**< [ 13: 13](R/W) Data packet transmit enable. When [ENABLE] = 1 and [DATA_PKT_TX_EN] = 1, the transmission
-                                                                 of
-                                                                 data
-                                                                 packets is enabled in the MAC layer. When [ENABLE] = 1 and [DATA_PKT_TX_EN] = 0, the MAC
-                                                                 layer
-                                                                 suppresses the transmission of new data and packets for the LMAC. */
-        uint64_t data_pkt_rx_en        : 1;  /**< [ 14: 14](R/W) Data packet receive enable. When [ENABLE] = 1 and [DATA_PKT_RX_EN] = 1, the reception of
-                                                                 data
-                                                                 packets is enabled in the MAC layer. When [ENABLE] = 1 and [DATA_PKT_RX_EN] = 0, the MAC
-                                                                 layer
-                                                                 drops received data and flow-control packets. */
-        uint64_t enable                : 1;  /**< [ 15: 15](R/W) Logical MAC/PCS enable. This is the master enable for the LMAC. When clear, all the
-                                                                 dedicated BGX context state for the LMAC (state machines, FIFOs, counters, etc.) is reset,
-                                                                 and LMAC access to shared BGX resources (data path, SerDes lanes) is disabled.
-
-                                                                 When set, LMAC operation is enabled, including link bring-up, synchronization, and
-                                                                 transmit/receive of idles and fault sequences. Note that configuration registers for an
-                                                                 LMAC are not reset when this bit is clear, allowing software to program them before
-                                                                 setting this bit to enable the LMAC. This bit together with [LMAC_TYPE] is also used to
-                                                                 enable the clocking to the GMP and/or blocks of the Super path (SMU and SPU). CMR clocking
-                                                                 is enabled when any of the paths are enabled. */
-        uint64_t x2p_select            : 1;  /**< [ 16: 16](R/W) Selects interior side X2P interface over which the LMAC will communicate:
-                                                                 <pre>
-                                                                   [X2P_SELECT]      Name      Connected block
-                                                                   -------------------------------------------
-                                                                   0                 X2P0      NIC
-                                                                   1                 X2P1      PKI
-                                                                 </pre> */
-        uint64_t p2x_select            : 1;  /**< [ 17: 17](R/W) Selects interior side P2X interface over which the LMAC will communicate:
-                                                                 <pre>
-                                                                   [P2X_SELECT]      Name      Connected block
-                                                                   -------------------------------------------
-                                                                   0                 P2X0      NIC
-                                                                   1                 P2X1      PKO
-                                                                 </pre> */
-        uint64_t reserved_18_63        : 46;
-#endif /* Word 0 - End */
-    } cn83xx;
+    /* struct bdk_bgxx_cmrx_config_s cn83xx; */
 } bdk_bgxx_cmrx_config_t;
 
 static inline uint64_t BDK_BGXX_CMRX_CONFIG(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -1535,6 +1348,33 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
+        uint64_t phys_bp               : 16; /**< [ 31: 16](R/W) When the hardware is backpressuring any LMACs. (from either DFC or PFC packets or
+                                                                 BGX()_CMR()_TX_OVR_BP[TX_CHAN_BP]) and all channels indicated by [PHYS_BP] are
+                                                                 backpressured,
+                                                                 simulate physical backpressure by deferring all packets on the transmitter.
+                                                                 (i.e. signal to the mac an assertion of physical backpressure).
+                                                                 If LMAC_TYPE != SGMII/QSGMII, BGX()_SMU()_CBFC_CTL[RX_EN] or
+                                                                 BGX()_SMU()_HG2_CONTROL[HG2RX_EN]
+                                                                 additionally need to be set. */
+        uint64_t reserved_0_15         : 16;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_15         : 16;
+        uint64_t phys_bp               : 16; /**< [ 31: 16](R/W) When the hardware is backpressuring any LMACs. (from either DFC or PFC packets or
+                                                                 BGX()_CMR()_TX_OVR_BP[TX_CHAN_BP]) and all channels indicated by [PHYS_BP] are
+                                                                 backpressured,
+                                                                 simulate physical backpressure by deferring all packets on the transmitter.
+                                                                 (i.e. signal to the mac an assertion of physical backpressure).
+                                                                 If LMAC_TYPE != SGMII/QSGMII, BGX()_SMU()_CBFC_CTL[RX_EN] or
+                                                                 BGX()_SMU()_HG2_CONTROL[HG2RX_EN]
+                                                                 additionally need to be set. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_bgxx_cmrx_prt_cbfc_ctl_s cn9; */
+    struct bdk_bgxx_cmrx_prt_cbfc_ctl_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
         uint64_t phys_bp               : 16; /**< [ 31: 16](R/W) When the hardware is backpressuring any LMACs. (from either DRF or PFC packets or
                                                                  BGX()_CMR()_TX_OVR_BP[TX_CHAN_BP]) and all channels indicated by [PHYS_BP] are
                                                                  backpressured,
@@ -1554,9 +1394,7 @@ typedef union
                                                                  additionally need to be set. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_bgxx_cmrx_prt_cbfc_ctl_s cn9; */
-    /* struct bdk_bgxx_cmrx_prt_cbfc_ctl_s cn81xx; */
+    } cn81xx;
     struct bdk_bgxx_cmrx_prt_cbfc_ctl_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -1577,32 +1415,7 @@ typedef union
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } cn88xx;
-    struct bdk_bgxx_cmrx_prt_cbfc_ctl_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t phys_bp               : 16; /**< [ 31: 16](R/W) When the hardware is backpressuring any LMACs. (from either DFC or PFC packets or
-                                                                 BGX()_CMR()_TX_OVR_BP[TX_CHAN_BP]) and all channels indicated by [PHYS_BP] are
-                                                                 backpressured,
-                                                                 simulate physical backpressure by deferring all packets on the transmitter.
-                                                                 (i.e. signal to the mac an assertion of physical backpressure).
-                                                                 If LMAC_TYPE != SGMII/QSGMII, BGX()_SMU()_CBFC_CTL[RX_EN] or
-                                                                 BGX()_SMU()_HG2_CONTROL[HG2RX_EN]
-                                                                 additionally need to be set. */
-        uint64_t reserved_0_15         : 16;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_15         : 16;
-        uint64_t phys_bp               : 16; /**< [ 31: 16](R/W) When the hardware is backpressuring any LMACs. (from either DFC or PFC packets or
-                                                                 BGX()_CMR()_TX_OVR_BP[TX_CHAN_BP]) and all channels indicated by [PHYS_BP] are
-                                                                 backpressured,
-                                                                 simulate physical backpressure by deferring all packets on the transmitter.
-                                                                 (i.e. signal to the mac an assertion of physical backpressure).
-                                                                 If LMAC_TYPE != SGMII/QSGMII, BGX()_SMU()_CBFC_CTL[RX_EN] or
-                                                                 BGX()_SMU()_HG2_CONTROL[HG2RX_EN]
-                                                                 additionally need to be set. */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } cn83xx;
+    /* struct bdk_bgxx_cmrx_prt_cbfc_ctl_s cn83xx; */
 } bdk_bgxx_cmrx_prt_cbfc_ctl_t;
 
 static inline uint64_t BDK_BGXX_CMRX_PRT_CBFC_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -4370,7 +4183,17 @@ typedef union
     struct bdk_bgxx_cmr_global_config_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_11_63        : 53;
+        uint64_t reserved_12_63        : 52;
+        uint64_t cmr_x2p1_reset        : 1;  /**< [ 11: 11](R/W) If the master block connected to X2P interface 1 is reset, software also needs
+                                                                 to reset the X2P interface in the BGX by setting this bit. It resets the X2P
+                                                                 interface state in the BGX (skid FIFO and pending requests to the master block)
+                                                                 and prevents the RXB FIFOs for all LMACs from pushing data to the
+                                                                 interface. Because the X2P and NCSI interfaces share the main RXB FIFOs it will
+                                                                 also impact the NCSI interface therefore it is required to set [CMR_NCSI_DROP]
+                                                                 bit first before setting this bit.
+
+                                                                 Clearing this does not reset the X2P interface nor NCSI interface.  After the
+                                                                 master block comes out of reset, software should clear this bit. */
         uint64_t cmr_ncsi_reset        : 1;  /**< [ 10: 10](R/W) Interface reset for the CMR NCSI block.
                                                                  Upon power up the CMR NCSI is in reset and the companion CNXXXX NCSI block will be
                                                                  commanded by the
@@ -4395,7 +4218,16 @@ typedef union
         uint64_t interleave_mode       : 1;  /**< [  5:  5](RAZ) Reserved. */
         uint64_t cmr_mix1_reset        : 1;  /**< [  4:  4](R/W) Must be 0. */
         uint64_t cmr_mix0_reset        : 1;  /**< [  3:  3](R/W) Must be 0. */
-        uint64_t reserved_2            : 1;
+        uint64_t cmr_x2p_reset         : 1;  /**< [  2:  2](R/W) If the master block connected to X2P interface 0 is reset, software also needs
+                                                                 to reset the X2P interface in the BGX by setting this bit. It resets the X2P
+                                                                 interface state in the BGX (skid FIFO and pending requests to the master block)
+                                                                 and prevents the RXB FIFOs for all LMACs from pushing data to the
+                                                                 interface. Because the X2P and NCSI interfaces share the main RXB FIFOs it will
+                                                                 also impact the NCSI interface therefore it is required to set [CMR_NCSI_DROP]
+                                                                 bit first before setting this bit.
+
+                                                                 Clearing this does not reset the X2P interface nor NCSI interface.  After the
+                                                                 master block comes out of reset, software should clear this bit. */
         uint64_t bgx_clk_enable        : 1;  /**< [  1:  1](R/W) The global clock enable for BGX. Setting this bit overrides clock enables set by
                                                                  BGX()_CMR()_CONFIG[ENABLE] and BGX()_CMR()_CONFIG[LMAC_TYPE], essentially
                                                                  turning on clocks for the entire BGX. Setting this bit to 0 results in not overriding
@@ -4409,7 +4241,16 @@ typedef union
                                                                  turning on clocks for the entire BGX. Setting this bit to 0 results in not overriding
                                                                  clock enables set by BGX()_CMR()_CONFIG[ENABLE] and
                                                                  BGX()_CMR()_CONFIG[LMAC_TYPE]. */
-        uint64_t reserved_2            : 1;
+        uint64_t cmr_x2p_reset         : 1;  /**< [  2:  2](R/W) If the master block connected to X2P interface 0 is reset, software also needs
+                                                                 to reset the X2P interface in the BGX by setting this bit. It resets the X2P
+                                                                 interface state in the BGX (skid FIFO and pending requests to the master block)
+                                                                 and prevents the RXB FIFOs for all LMACs from pushing data to the
+                                                                 interface. Because the X2P and NCSI interfaces share the main RXB FIFOs it will
+                                                                 also impact the NCSI interface therefore it is required to set [CMR_NCSI_DROP]
+                                                                 bit first before setting this bit.
+
+                                                                 Clearing this does not reset the X2P interface nor NCSI interface.  After the
+                                                                 master block comes out of reset, software should clear this bit. */
         uint64_t cmr_mix0_reset        : 1;  /**< [  3:  3](R/W) Must be 0. */
         uint64_t cmr_mix1_reset        : 1;  /**< [  4:  4](R/W) Must be 0. */
         uint64_t interleave_mode       : 1;  /**< [  5:  5](RAZ) Reserved. */
@@ -4434,7 +4275,17 @@ typedef union
 
                                                                  When set, will reset the CMR NCSI interface effectively disabling it at a traffic boundary
                                                                  should traffic be flowing.  This bit will not reset the main RXB fifos. */
-        uint64_t reserved_11_63        : 53;
+        uint64_t cmr_x2p1_reset        : 1;  /**< [ 11: 11](R/W) If the master block connected to X2P interface 1 is reset, software also needs
+                                                                 to reset the X2P interface in the BGX by setting this bit. It resets the X2P
+                                                                 interface state in the BGX (skid FIFO and pending requests to the master block)
+                                                                 and prevents the RXB FIFOs for all LMACs from pushing data to the
+                                                                 interface. Because the X2P and NCSI interfaces share the main RXB FIFOs it will
+                                                                 also impact the NCSI interface therefore it is required to set [CMR_NCSI_DROP]
+                                                                 bit first before setting this bit.
+
+                                                                 Clearing this does not reset the X2P interface nor NCSI interface.  After the
+                                                                 master block comes out of reset, software should clear this bit. */
+        uint64_t reserved_12_63        : 52;
 #endif /* Word 0 - End */
     } s;
     struct bdk_bgxx_cmr_global_config_cn88xxp1
@@ -4533,114 +4384,7 @@ typedef union
         uint64_t reserved_11_63        : 53;
 #endif /* Word 0 - End */
     } cn88xxp1;
-    struct bdk_bgxx_cmr_global_config_cn9
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_12_63        : 52;
-        uint64_t cmr_x2p_pki_reset     : 1;  /**< [ 11: 11](R/W) If the PKI is reset, software also needs to reset the X2P interface in the
-                                                                 BGX by setting this bit to 1. It resets the X2P interface state in the BGX (skid FIFO and
-                                                                 pending
-                                                                 requests to NIC) and prevents the RXB FIFOs for all LMACs from pushing data to the
-                                                                 interface. Because the X2P and NCSI interfaces share the main RXB fifos it will also
-                                                                 impact the NCSI interface therefore it is required to set [CMR_NCSI_DROP] bit first before
-                                                                 setting this bit.
-
-                                                                 Setting this bit to 0 does not reset the X2P interface nor NCSI interface.
-                                                                 After NIC comes out of reset, software should clear this bit. */
-        uint64_t cmr_ncsi_reset        : 1;  /**< [ 10: 10](R/W) Interface reset for the CMR NCSI block.
-                                                                 Upon power up the CMR NCSI is in reset and the companion CNXXXX NCSI block will be
-                                                                 commanded by the
-                                                                 external BMC to enable one of the CNXXXX BGX NCSI interfaces for passing network traffic.
-                                                                 Only one NCSI interface can be enabled in CNXXXX.  The BMC/NCSI will then proceed to
-                                                                 configure
-                                                                 the rest of the BGX csr for pass through traffic.
-
-                                                                 When set, will reset the CMR NCSI interface effectively disabling it at a traffic boundary
-                                                                 should traffic be flowing.  This bit will not reset the main RXB fifos. */
-        uint64_t cmr_ncsi_drop         : 1;  /**< [  9:  9](R/W) NCSI drop.
-                                                                 1 = Cleanly drop traffic going into the NCSI block of BGX.  Must set asserted
-                                                                 with with [CMR_X2P_RESET]=1 (in the same write operation) to avoid partial packets
-                                                                 to the NCSI interface while performing a X2P partner reset.
-                                                                 0 = Allow traffic to flow through the NCSI block. */
-        uint64_t ncsi_lmac_id          : 2;  /**< [  8:  7](R/W) Logical MAC ID that carries NCSI traffic for both RX and TX side of CMR.  On the RX side
-                                                                 is
-                                                                 also the LMAC_ID that is eligible for steering. */
-        uint64_t fcs_strip             : 1;  /**< [  6:  6](R/W) A setting of 1 means the BGX strip the FCS bytes of every packet.  For packets less than 4
-                                                                 bytes, the packet will be removed.
-                                                                 A setting of 0 means the BGX will not modify or remove the FCS bytes. */
-        uint64_t interleave_mode       : 1;  /**< [  5:  5](RAZ) Reserved. */
-        uint64_t cmr_mix1_reset        : 1;  /**< [  4:  4](R/W) Must be 0. */
-        uint64_t cmr_mix0_reset        : 1;  /**< [  3:  3](R/W) Must be 0. */
-        uint64_t cmr_x2p_nic_reset     : 1;  /**< [  2:  2](R/W) If the NIC is reset, software also needs to reset the X2P interface in the
-                                                                 BGX by setting this bit to 1. It resets the X2P interface state in the BGX (skid FIFO and
-                                                                 pending
-                                                                 requests to NIC) and prevents the RXB FIFOs for all LMACs from pushing data to the
-                                                                 interface. Because the X2P and NCSI interfaces share the main RXB fifos it will also
-                                                                 impact the NCSI interface therefore it is required to set [CMR_NCSI_DROP] bit first before
-                                                                 setting this bit.
-
-                                                                 Setting this bit to 0 does not reset the X2P interface nor NCSI interface.
-                                                                 After NIC comes out of reset, software should clear this bit. */
-        uint64_t bgx_clk_enable        : 1;  /**< [  1:  1](R/W) The global clock enable for BGX. Setting this bit overrides clock enables set by
-                                                                 BGX()_CMR()_CONFIG[ENABLE] and BGX()_CMR()_CONFIG[LMAC_TYPE], essentially
-                                                                 turning on clocks for the entire BGX. Setting this bit to 0 results in not overriding
-                                                                 clock enables set by BGX()_CMR()_CONFIG[ENABLE] and
-                                                                 BGX()_CMR()_CONFIG[LMAC_TYPE]. */
-        uint64_t pmux_sds_sel          : 1;  /**< [  0:  0](R/W) SerDes/GSER output select. Must be 0. */
-#else /* Word 0 - Little Endian */
-        uint64_t pmux_sds_sel          : 1;  /**< [  0:  0](R/W) SerDes/GSER output select. Must be 0. */
-        uint64_t bgx_clk_enable        : 1;  /**< [  1:  1](R/W) The global clock enable for BGX. Setting this bit overrides clock enables set by
-                                                                 BGX()_CMR()_CONFIG[ENABLE] and BGX()_CMR()_CONFIG[LMAC_TYPE], essentially
-                                                                 turning on clocks for the entire BGX. Setting this bit to 0 results in not overriding
-                                                                 clock enables set by BGX()_CMR()_CONFIG[ENABLE] and
-                                                                 BGX()_CMR()_CONFIG[LMAC_TYPE]. */
-        uint64_t cmr_x2p_nic_reset     : 1;  /**< [  2:  2](R/W) If the NIC is reset, software also needs to reset the X2P interface in the
-                                                                 BGX by setting this bit to 1. It resets the X2P interface state in the BGX (skid FIFO and
-                                                                 pending
-                                                                 requests to NIC) and prevents the RXB FIFOs for all LMACs from pushing data to the
-                                                                 interface. Because the X2P and NCSI interfaces share the main RXB fifos it will also
-                                                                 impact the NCSI interface therefore it is required to set [CMR_NCSI_DROP] bit first before
-                                                                 setting this bit.
-
-                                                                 Setting this bit to 0 does not reset the X2P interface nor NCSI interface.
-                                                                 After NIC comes out of reset, software should clear this bit. */
-        uint64_t cmr_mix0_reset        : 1;  /**< [  3:  3](R/W) Must be 0. */
-        uint64_t cmr_mix1_reset        : 1;  /**< [  4:  4](R/W) Must be 0. */
-        uint64_t interleave_mode       : 1;  /**< [  5:  5](RAZ) Reserved. */
-        uint64_t fcs_strip             : 1;  /**< [  6:  6](R/W) A setting of 1 means the BGX strip the FCS bytes of every packet.  For packets less than 4
-                                                                 bytes, the packet will be removed.
-                                                                 A setting of 0 means the BGX will not modify or remove the FCS bytes. */
-        uint64_t ncsi_lmac_id          : 2;  /**< [  8:  7](R/W) Logical MAC ID that carries NCSI traffic for both RX and TX side of CMR.  On the RX side
-                                                                 is
-                                                                 also the LMAC_ID that is eligible for steering. */
-        uint64_t cmr_ncsi_drop         : 1;  /**< [  9:  9](R/W) NCSI drop.
-                                                                 1 = Cleanly drop traffic going into the NCSI block of BGX.  Must set asserted
-                                                                 with with [CMR_X2P_RESET]=1 (in the same write operation) to avoid partial packets
-                                                                 to the NCSI interface while performing a X2P partner reset.
-                                                                 0 = Allow traffic to flow through the NCSI block. */
-        uint64_t cmr_ncsi_reset        : 1;  /**< [ 10: 10](R/W) Interface reset for the CMR NCSI block.
-                                                                 Upon power up the CMR NCSI is in reset and the companion CNXXXX NCSI block will be
-                                                                 commanded by the
-                                                                 external BMC to enable one of the CNXXXX BGX NCSI interfaces for passing network traffic.
-                                                                 Only one NCSI interface can be enabled in CNXXXX.  The BMC/NCSI will then proceed to
-                                                                 configure
-                                                                 the rest of the BGX csr for pass through traffic.
-
-                                                                 When set, will reset the CMR NCSI interface effectively disabling it at a traffic boundary
-                                                                 should traffic be flowing.  This bit will not reset the main RXB fifos. */
-        uint64_t cmr_x2p_pki_reset     : 1;  /**< [ 11: 11](R/W) If the PKI is reset, software also needs to reset the X2P interface in the
-                                                                 BGX by setting this bit to 1. It resets the X2P interface state in the BGX (skid FIFO and
-                                                                 pending
-                                                                 requests to NIC) and prevents the RXB FIFOs for all LMACs from pushing data to the
-                                                                 interface. Because the X2P and NCSI interfaces share the main RXB fifos it will also
-                                                                 impact the NCSI interface therefore it is required to set [CMR_NCSI_DROP] bit first before
-                                                                 setting this bit.
-
-                                                                 Setting this bit to 0 does not reset the X2P interface nor NCSI interface.
-                                                                 After NIC comes out of reset, software should clear this bit. */
-        uint64_t reserved_12_63        : 52;
-#endif /* Word 0 - End */
-    } cn9;
+    /* struct bdk_bgxx_cmr_global_config_s cn9; */
     struct bdk_bgxx_cmr_global_config_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -4695,114 +4439,7 @@ typedef union
         uint64_t reserved_11_63        : 53;
 #endif /* Word 0 - End */
     } cn81xx;
-    struct bdk_bgxx_cmr_global_config_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_12_63        : 52;
-        uint64_t cmr_x2p1_reset        : 1;  /**< [ 11: 11](R/W) If the master block connected to X2P interface 1 is reset, software also needs
-                                                                 to reset the X2P interface in the BGX by setting this bit. It resets the X2P
-                                                                 interface state in the BGX (skid FIFO and pending requests to the master block)
-                                                                 and prevents the RXB FIFOs for all LMACs from pushing data to the
-                                                                 interface. Because the X2P and NCSI interfaces share the main RXB FIFOs it will
-                                                                 also impact the NCSI interface therefore it is required to set [CMR_NCSI_DROP]
-                                                                 bit first before setting this bit.
-
-                                                                 Clearing this does not reset the X2P interface nor NCSI interface.  After the
-                                                                 master block comes out of reset, software should clear this bit. */
-        uint64_t cmr_ncsi_reset        : 1;  /**< [ 10: 10](R/W) Interface reset for the CMR NCSI block.
-                                                                 Upon power up the CMR NCSI is in reset and the companion CNXXXX NCSI block will be
-                                                                 commanded by the
-                                                                 external BMC to enable one of the CNXXXX BGX NCSI interfaces for passing network traffic.
-                                                                 Only one NCSI interface can be enabled in CNXXXX.  The BMC/NCSI will then proceed to
-                                                                 configure
-                                                                 the rest of the BGX csr for pass through traffic.
-
-                                                                 When set, will reset the CMR NCSI interface effectively disabling it at a traffic boundary
-                                                                 should traffic be flowing.  This bit will not reset the main RXB fifos. */
-        uint64_t cmr_ncsi_drop         : 1;  /**< [  9:  9](R/W) NCSI drop.
-                                                                 1 = Cleanly drop traffic going into the NCSI block of BGX.  Must set asserted
-                                                                 with with [CMR_X2P_RESET]=1 (in the same write operation) to avoid partial packets
-                                                                 to the NCSI interface while performing a X2P partner reset.
-                                                                 0 = Allow traffic to flow through the NCSI block. */
-        uint64_t ncsi_lmac_id          : 2;  /**< [  8:  7](R/W) Logical MAC ID that carries NCSI traffic for both RX and TX side of CMR.  On the RX side
-                                                                 is
-                                                                 also the LMAC_ID that is eligible for steering. */
-        uint64_t fcs_strip             : 1;  /**< [  6:  6](R/W) A setting of 1 means the BGX strip the FCS bytes of every packet.  For packets less than 4
-                                                                 bytes, the packet will be removed.
-                                                                 A setting of 0 means the BGX will not modify or remove the FCS bytes. */
-        uint64_t interleave_mode       : 1;  /**< [  5:  5](RAZ) Reserved. */
-        uint64_t cmr_mix1_reset        : 1;  /**< [  4:  4](R/W) Must be 0. */
-        uint64_t cmr_mix0_reset        : 1;  /**< [  3:  3](R/W) Must be 0. */
-        uint64_t cmr_x2p_reset         : 1;  /**< [  2:  2](R/W) If the master block connected to X2P interface 0 is reset, software also needs
-                                                                 to reset the X2P interface in the BGX by setting this bit. It resets the X2P
-                                                                 interface state in the BGX (skid FIFO and pending requests to the master block)
-                                                                 and prevents the RXB FIFOs for all LMACs from pushing data to the
-                                                                 interface. Because the X2P and NCSI interfaces share the main RXB FIFOs it will
-                                                                 also impact the NCSI interface therefore it is required to set [CMR_NCSI_DROP]
-                                                                 bit first before setting this bit.
-
-                                                                 Clearing this does not reset the X2P interface nor NCSI interface.  After the
-                                                                 master block comes out of reset, software should clear this bit. */
-        uint64_t bgx_clk_enable        : 1;  /**< [  1:  1](R/W) The global clock enable for BGX. Setting this bit overrides clock enables set by
-                                                                 BGX()_CMR()_CONFIG[ENABLE] and BGX()_CMR()_CONFIG[LMAC_TYPE], essentially
-                                                                 turning on clocks for the entire BGX. Setting this bit to 0 results in not overriding
-                                                                 clock enables set by BGX()_CMR()_CONFIG[ENABLE] and
-                                                                 BGX()_CMR()_CONFIG[LMAC_TYPE]. */
-        uint64_t pmux_sds_sel          : 1;  /**< [  0:  0](R/W) SerDes/GSER output select. Must be 0. */
-#else /* Word 0 - Little Endian */
-        uint64_t pmux_sds_sel          : 1;  /**< [  0:  0](R/W) SerDes/GSER output select. Must be 0. */
-        uint64_t bgx_clk_enable        : 1;  /**< [  1:  1](R/W) The global clock enable for BGX. Setting this bit overrides clock enables set by
-                                                                 BGX()_CMR()_CONFIG[ENABLE] and BGX()_CMR()_CONFIG[LMAC_TYPE], essentially
-                                                                 turning on clocks for the entire BGX. Setting this bit to 0 results in not overriding
-                                                                 clock enables set by BGX()_CMR()_CONFIG[ENABLE] and
-                                                                 BGX()_CMR()_CONFIG[LMAC_TYPE]. */
-        uint64_t cmr_x2p_reset         : 1;  /**< [  2:  2](R/W) If the master block connected to X2P interface 0 is reset, software also needs
-                                                                 to reset the X2P interface in the BGX by setting this bit. It resets the X2P
-                                                                 interface state in the BGX (skid FIFO and pending requests to the master block)
-                                                                 and prevents the RXB FIFOs for all LMACs from pushing data to the
-                                                                 interface. Because the X2P and NCSI interfaces share the main RXB FIFOs it will
-                                                                 also impact the NCSI interface therefore it is required to set [CMR_NCSI_DROP]
-                                                                 bit first before setting this bit.
-
-                                                                 Clearing this does not reset the X2P interface nor NCSI interface.  After the
-                                                                 master block comes out of reset, software should clear this bit. */
-        uint64_t cmr_mix0_reset        : 1;  /**< [  3:  3](R/W) Must be 0. */
-        uint64_t cmr_mix1_reset        : 1;  /**< [  4:  4](R/W) Must be 0. */
-        uint64_t interleave_mode       : 1;  /**< [  5:  5](RAZ) Reserved. */
-        uint64_t fcs_strip             : 1;  /**< [  6:  6](R/W) A setting of 1 means the BGX strip the FCS bytes of every packet.  For packets less than 4
-                                                                 bytes, the packet will be removed.
-                                                                 A setting of 0 means the BGX will not modify or remove the FCS bytes. */
-        uint64_t ncsi_lmac_id          : 2;  /**< [  8:  7](R/W) Logical MAC ID that carries NCSI traffic for both RX and TX side of CMR.  On the RX side
-                                                                 is
-                                                                 also the LMAC_ID that is eligible for steering. */
-        uint64_t cmr_ncsi_drop         : 1;  /**< [  9:  9](R/W) NCSI drop.
-                                                                 1 = Cleanly drop traffic going into the NCSI block of BGX.  Must set asserted
-                                                                 with with [CMR_X2P_RESET]=1 (in the same write operation) to avoid partial packets
-                                                                 to the NCSI interface while performing a X2P partner reset.
-                                                                 0 = Allow traffic to flow through the NCSI block. */
-        uint64_t cmr_ncsi_reset        : 1;  /**< [ 10: 10](R/W) Interface reset for the CMR NCSI block.
-                                                                 Upon power up the CMR NCSI is in reset and the companion CNXXXX NCSI block will be
-                                                                 commanded by the
-                                                                 external BMC to enable one of the CNXXXX BGX NCSI interfaces for passing network traffic.
-                                                                 Only one NCSI interface can be enabled in CNXXXX.  The BMC/NCSI will then proceed to
-                                                                 configure
-                                                                 the rest of the BGX csr for pass through traffic.
-
-                                                                 When set, will reset the CMR NCSI interface effectively disabling it at a traffic boundary
-                                                                 should traffic be flowing.  This bit will not reset the main RXB fifos. */
-        uint64_t cmr_x2p1_reset        : 1;  /**< [ 11: 11](R/W) If the master block connected to X2P interface 1 is reset, software also needs
-                                                                 to reset the X2P interface in the BGX by setting this bit. It resets the X2P
-                                                                 interface state in the BGX (skid FIFO and pending requests to the master block)
-                                                                 and prevents the RXB FIFOs for all LMACs from pushing data to the
-                                                                 interface. Because the X2P and NCSI interfaces share the main RXB FIFOs it will
-                                                                 also impact the NCSI interface therefore it is required to set [CMR_NCSI_DROP]
-                                                                 bit first before setting this bit.
-
-                                                                 Clearing this does not reset the X2P interface nor NCSI interface.  After the
-                                                                 master block comes out of reset, software should clear this bit. */
-        uint64_t reserved_12_63        : 52;
-#endif /* Word 0 - End */
-    } cn83xx;
+    /* struct bdk_bgxx_cmr_global_config_s cn83xx; */
     struct bdk_bgxx_cmr_global_config_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -8972,7 +8609,8 @@ typedef union
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_bgxx_gmp_gmi_txx_ctl_cn9
+    /* struct bdk_bgxx_gmp_gmi_txx_ctl_s cn9; */
+    struct bdk_bgxx_gmp_gmi_txx_ctl_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_3_63         : 61;
@@ -8993,8 +8631,7 @@ typedef union
                                                                  1 = GMI MAC transmits 802.3 pause frames. */
         uint64_t reserved_3_63         : 61;
 #endif /* Word 0 - End */
-    } cn9;
-    /* struct bdk_bgxx_gmp_gmi_txx_ctl_cn9 cn81xx; */
+    } cn81xx;
     struct bdk_bgxx_gmp_gmi_txx_ctl_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */

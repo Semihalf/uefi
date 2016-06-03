@@ -829,7 +829,11 @@ typedef union
     struct bdk_fpa_dbg_info_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_14_63        : 50;
+        uint64_t reserved_17_63        : 47;
+        uint64_t low_pool_deadlock     : 1;  /**< [ 16: 16](RO/H) For diagnostic use only.
+                                                                 Internal:
+                                                                 When the ADP pipeline is stalled indefinitely, this bit indicates the scenario in bug 28280. */
+        uint64_t reserved_14_15        : 2;
         uint64_t ncbo_cmd_fault_cmd    : 5;  /**< [ 13:  9](RO/H) For diagnostic use only.
                                                                  Internal:
                                                                  When an unsupported ncbo command is detected, a fault bit along with the cmd is latched.
@@ -855,7 +859,11 @@ typedef union
                                                                  When an unsupported ncbo command is detected, a fault bit along with the cmd is latched.
 
                                                                  <13:9> = NCBO unsupport command. */
-        uint64_t reserved_14_63        : 50;
+        uint64_t reserved_14_15        : 2;
+        uint64_t low_pool_deadlock     : 1;  /**< [ 16: 16](RO/H) For diagnostic use only.
+                                                                 Internal:
+                                                                 When the ADP pipeline is stalled indefinitely, this bit indicates the scenario in bug 28280. */
+        uint64_t reserved_17_63        : 47;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_dbg_info_s cn; */

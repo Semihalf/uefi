@@ -4939,8 +4939,15 @@ typedef union
         uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Syndrome flip for group 1 block 1 memories.
                                                                  Internal:
                                                                  RRM memories:
-                                                                   <15:7> = Reserved.
-                                                                   <6> = nic_l.nic_l2.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox64.nic_rrm_ptrmem.
+                                                                   <15:10> = Reserved.
+                                                                   <9> = nic_l.nic_l2.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox256.nic_rrm_ptrfifox64[3].nic_rr
+                                                                 m_ptrmem.
+                                                                   <8> = nic_l.nic_l2.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox256.nic_rrm_ptrfifox64[2].nic_rr
+                                                                 m_ptrmem.
+                                                                   <7> = nic_l.nic_l2.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox256.nic_rrm_ptrfifox64[1].nic_rr
+                                                                 m_ptrmem.
+                                                                   <6> = nic_l.nic_l2.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox256.nic_rrm_ptrfifox64[0].nic_rr
+                                                                 m_ptrmem.
                                                                    <5> = nic_l.nic_l2.rrm.nic_rrm_ncx_rsp_fifo.nic_rrm_fifo_512x86.nic_rrm_fifomem_512x86.
                                                                    <4> = nic_l.nic_l2.rrm.nic_rrm_rbdr_wrap.nic_rrm_r_mod_w_block.r_mod_w_shadow_regs.
                                                                    <3> = nic_l.nic_l2.rrm.nic_rrm_rbdr_wrap.nic_rrm_r_mod_w_block.r_mod_w_regs.
@@ -4985,8 +4992,15 @@ typedef union
         uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Syndrome flip for group 1 block 1 memories.
                                                                  Internal:
                                                                  RRM memories:
-                                                                   <15:7> = Reserved.
-                                                                   <6> = nic_l.nic_l2.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox64.nic_rrm_ptrmem.
+                                                                   <15:10> = Reserved.
+                                                                   <9> = nic_l.nic_l2.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox256.nic_rrm_ptrfifox64[3].nic_rr
+                                                                 m_ptrmem.
+                                                                   <8> = nic_l.nic_l2.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox256.nic_rrm_ptrfifox64[2].nic_rr
+                                                                 m_ptrmem.
+                                                                   <7> = nic_l.nic_l2.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox256.nic_rrm_ptrfifox64[1].nic_rr
+                                                                 m_ptrmem.
+                                                                   <6> = nic_l.nic_l2.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox256.nic_rrm_ptrfifox64[0].nic_rr
+                                                                 m_ptrmem.
                                                                    <5> = nic_l.nic_l2.rrm.nic_rrm_ncx_rsp_fifo.nic_rrm_fifo_512x86.nic_rrm_fifomem_512x86.
                                                                    <4> = nic_l.nic_l2.rrm.nic_rrm_rbdr_wrap.nic_rrm_r_mod_w_block.r_mod_w_shadow_regs.
                                                                    <3> = nic_l.nic_l2.rrm.nic_rrm_rbdr_wrap.nic_rrm_r_mod_w_block.r_mod_w_regs.
@@ -5181,7 +5195,70 @@ typedef union
         uint64_t reserved_40_63        : 24;
 #endif /* Word 0 - End */
     } cn88xx;
-    /* struct bdk_nic_pf_ecc1_cdis_s cn83xx; */
+    struct bdk_nic_pf_ecc1_cdis_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_40_63        : 24;
+        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Syndrome flip for group 1 block 1 memories.
+                                                                 Internal:
+                                                                 RRM memories:
+                                                                   <15:7> = Reserved.
+                                                                   <6> = nic_l.nic_l2.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox64.nic_rrm_ptrmem.
+                                                                   <5> = nic_l.nic_l2.rrm.nic_rrm_ncx_rsp_fifo.nic_rrm_fifo_512x86.nic_rrm_fifomem_512x86.
+                                                                   <4> = nic_l.nic_l2.rrm.nic_rrm_rbdr_wrap.nic_rrm_r_mod_w_block.r_mod_w_shadow_regs.
+                                                                   <3> = nic_l.nic_l2.rrm.nic_rrm_rbdr_wrap.nic_rrm_r_mod_w_block.r_mod_w_regs.
+                                                                   <2> = Reserved.
+                                                                   <1> = Reserved.
+                                                                   <0> = nic_l.nic_l2.rrm.nic_rrm_rbdr_wrap.status1_regs. */
+        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Syndrome flip for group 1 block 0 memories.
+                                                                 Internal:
+                                                                 RQM memories:
+                                                                   <23:21> = Reserved.
+                                                                   <20> = nic_l.nic_l2.nic_reb_x2p.nic_reb_resp_fifo.data_fifo.nic_reb_fifomem.
+                                                                   <19:17> = nic_l.nic_l2.rqm.nic_rqm_rq_wrap.mcam_wrap.mram_ecc.loop{2..0}.mem
+                                                                   <16>  = nic_l.nic_l2.rqm.nic_rqm_rss_wrap.nic_pf_mpi_cfg_regs.
+                                                                   <15> = nic_l.nic_l2.rqm.nic_rqm_rq_wrap.pf_qs_rq_cfg_regs.
+                                                                   <14> = nic_l.nic_l2.rqm.nic_rqm_rq_wrap.qs_rq_gen_cfg_regs.
+                                                                   <13:11> = nic_l.nic_l2.rqm.nic_rqm_stat_wrap.nic_rqm_stat_r_mod_w.r_mod_w_regs_{2..0}.
+                                                                   <10> = nic_l.nic_l2.rqm.nic_rqm_bp_wrap.pf_chan_bp_cfg_regs.
+                                                                   <9>  = nic_l.nic_l2.rqm.nic_rqm_bp_wrap.pf_qs_rq_bp_cfg_regs.
+                                                                   <8>  = nic_l.nic_l2.rqm.nic_rqm_bp_wrap.pf_qs_rq_drop_cfg_regs.
+                                                                   <7:3>  = nic_l.nic_l2.rqm.nic_rqm_rss_wrap.vnic_rss_key{4..0}_regs.
+                                                                   <2>  = nic_l.nic_l2.rqm.nic_rqm_rss_wrap.nic_pf_chan_rx_cfg_regs.
+                                                                   <1>  = nic_l.nic_l2.rqm.nic_rqm_rss_wrap.nic_pf_rssi_rq_regs.
+                                                                   <0>  = nic_l.nic_l2.rqm.nic_rqm_rss_wrap.nic_pf_cpi_cfg_regs. */
+#else /* Word 0 - Little Endian */
+        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Syndrome flip for group 1 block 0 memories.
+                                                                 Internal:
+                                                                 RQM memories:
+                                                                   <23:21> = Reserved.
+                                                                   <20> = nic_l.nic_l2.nic_reb_x2p.nic_reb_resp_fifo.data_fifo.nic_reb_fifomem.
+                                                                   <19:17> = nic_l.nic_l2.rqm.nic_rqm_rq_wrap.mcam_wrap.mram_ecc.loop{2..0}.mem
+                                                                   <16>  = nic_l.nic_l2.rqm.nic_rqm_rss_wrap.nic_pf_mpi_cfg_regs.
+                                                                   <15> = nic_l.nic_l2.rqm.nic_rqm_rq_wrap.pf_qs_rq_cfg_regs.
+                                                                   <14> = nic_l.nic_l2.rqm.nic_rqm_rq_wrap.qs_rq_gen_cfg_regs.
+                                                                   <13:11> = nic_l.nic_l2.rqm.nic_rqm_stat_wrap.nic_rqm_stat_r_mod_w.r_mod_w_regs_{2..0}.
+                                                                   <10> = nic_l.nic_l2.rqm.nic_rqm_bp_wrap.pf_chan_bp_cfg_regs.
+                                                                   <9>  = nic_l.nic_l2.rqm.nic_rqm_bp_wrap.pf_qs_rq_bp_cfg_regs.
+                                                                   <8>  = nic_l.nic_l2.rqm.nic_rqm_bp_wrap.pf_qs_rq_drop_cfg_regs.
+                                                                   <7:3>  = nic_l.nic_l2.rqm.nic_rqm_rss_wrap.vnic_rss_key{4..0}_regs.
+                                                                   <2>  = nic_l.nic_l2.rqm.nic_rqm_rss_wrap.nic_pf_chan_rx_cfg_regs.
+                                                                   <1>  = nic_l.nic_l2.rqm.nic_rqm_rss_wrap.nic_pf_rssi_rq_regs.
+                                                                   <0>  = nic_l.nic_l2.rqm.nic_rqm_rss_wrap.nic_pf_cpi_cfg_regs. */
+        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Syndrome flip for group 1 block 1 memories.
+                                                                 Internal:
+                                                                 RRM memories:
+                                                                   <15:7> = Reserved.
+                                                                   <6> = nic_l.nic_l2.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox64.nic_rrm_ptrmem.
+                                                                   <5> = nic_l.nic_l2.rrm.nic_rrm_ncx_rsp_fifo.nic_rrm_fifo_512x86.nic_rrm_fifomem_512x86.
+                                                                   <4> = nic_l.nic_l2.rrm.nic_rrm_rbdr_wrap.nic_rrm_r_mod_w_block.r_mod_w_shadow_regs.
+                                                                   <3> = nic_l.nic_l2.rrm.nic_rrm_rbdr_wrap.nic_rrm_r_mod_w_block.r_mod_w_regs.
+                                                                   <2> = Reserved.
+                                                                   <1> = Reserved.
+                                                                   <0> = nic_l.nic_l2.rrm.nic_rrm_rbdr_wrap.status1_regs. */
+        uint64_t reserved_40_63        : 24;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_nic_pf_ecc1_cdis_t;
 
 #define BDK_NIC_PF_ECC1_CDIS BDK_NIC_PF_ECC1_CDIS_FUNC()
@@ -5370,8 +5447,15 @@ typedef union
         uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Syndrome flip for group 1 block 1 memories.
                                                                  Internal:
                                                                  RRM memories:
-                                                                   <15:7> = Reserved.
-                                                                   <6> = nic_l.nic_l2.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox64.nic_rrm_ptrmem.
+                                                                   <15:10> = Reserved.
+                                                                   <9> = nic_l.nic_l2.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox256.nic_rrm_ptrfifox64[3].nic_rr
+                                                                 m_ptrmem.
+                                                                   <8> = nic_l.nic_l2.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox256.nic_rrm_ptrfifox64[2].nic_rr
+                                                                 m_ptrmem.
+                                                                   <7> = nic_l.nic_l2.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox256.nic_rrm_ptrfifox64[1].nic_rr
+                                                                 m_ptrmem.
+                                                                   <6> = nic_l.nic_l2.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox256.nic_rrm_ptrfifox64[0].nic_rr
+                                                                 m_ptrmem.
                                                                    <5> = nic_l.nic_l2.rrm.nic_rrm_ncx_rsp_fifo.nic_rrm_fifo_512x86.nic_rrm_fifomem_512x86.
                                                                    <4> = nic_l.nic_l2.rrm.nic_rrm_rbdr_wrap.nic_rrm_r_mod_w_block.r_mod_w_shadow_regs.
                                                                    <3> = nic_l.nic_l2.rrm.nic_rrm_rbdr_wrap.nic_rrm_r_mod_w_block.r_mod_w_regs.
@@ -5416,8 +5500,15 @@ typedef union
         uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Syndrome flip for group 1 block 1 memories.
                                                                  Internal:
                                                                  RRM memories:
-                                                                   <15:7> = Reserved.
-                                                                   <6> = nic_l.nic_l2.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox64.nic_rrm_ptrmem.
+                                                                   <15:10> = Reserved.
+                                                                   <9> = nic_l.nic_l2.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox256.nic_rrm_ptrfifox64[3].nic_rr
+                                                                 m_ptrmem.
+                                                                   <8> = nic_l.nic_l2.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox256.nic_rrm_ptrfifox64[2].nic_rr
+                                                                 m_ptrmem.
+                                                                   <7> = nic_l.nic_l2.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox256.nic_rrm_ptrfifox64[1].nic_rr
+                                                                 m_ptrmem.
+                                                                   <6> = nic_l.nic_l2.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox256.nic_rrm_ptrfifox64[0].nic_rr
+                                                                 m_ptrmem.
                                                                    <5> = nic_l.nic_l2.rrm.nic_rrm_ncx_rsp_fifo.nic_rrm_fifo_512x86.nic_rrm_fifomem_512x86.
                                                                    <4> = nic_l.nic_l2.rrm.nic_rrm_rbdr_wrap.nic_rrm_r_mod_w_block.r_mod_w_shadow_regs.
                                                                    <3> = nic_l.nic_l2.rrm.nic_rrm_rbdr_wrap.nic_rrm_r_mod_w_block.r_mod_w_regs.
@@ -5612,33 +5703,7 @@ typedef union
         uint64_t reserved_40_63        : 24;
 #endif /* Word 0 - End */
     } cn88xx;
-    /* struct bdk_nic_pf_ecc1_flip0_s cn83xx; */
-} bdk_nic_pf_ecc1_flip0_t;
-
-#define BDK_NIC_PF_ECC1_FLIP0 BDK_NIC_PF_ECC1_FLIP0_FUNC()
-static inline uint64_t BDK_NIC_PF_ECC1_FLIP0_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_NIC_PF_ECC1_FLIP0_FUNC(void)
-{
-    return 0x843000001008ll;
-}
-
-#define typedef_BDK_NIC_PF_ECC1_FLIP0 bdk_nic_pf_ecc1_flip0_t
-#define bustype_BDK_NIC_PF_ECC1_FLIP0 BDK_CSR_TYPE_NCB
-#define basename_BDK_NIC_PF_ECC1_FLIP0 "NIC_PF_ECC1_FLIP0"
-#define device_bar_BDK_NIC_PF_ECC1_FLIP0 0x0 /* PF_BAR0 */
-#define busnum_BDK_NIC_PF_ECC1_FLIP0 0
-#define arguments_BDK_NIC_PF_ECC1_FLIP0 -1,-1,-1,-1
-
-/**
- * Register (NCB) nic_pf_ecc1_flip1
- *
- * NIC Memory ECC 1 Flip 1 Register
- * See NIC_PF_ECC0_FLIP1.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_nic_pf_ecc1_flip1_s
+    struct bdk_nic_pf_ecc1_flip0_cn83xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_40_63        : 24;
@@ -5693,6 +5758,109 @@ typedef union
                                                                  RRM memories:
                                                                    <15:7> = Reserved.
                                                                    <6> = nic_l.nic_l2.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox64.nic_rrm_ptrmem.
+                                                                   <5> = nic_l.nic_l2.rrm.nic_rrm_ncx_rsp_fifo.nic_rrm_fifo_512x86.nic_rrm_fifomem_512x86.
+                                                                   <4> = nic_l.nic_l2.rrm.nic_rrm_rbdr_wrap.nic_rrm_r_mod_w_block.r_mod_w_shadow_regs.
+                                                                   <3> = nic_l.nic_l2.rrm.nic_rrm_rbdr_wrap.nic_rrm_r_mod_w_block.r_mod_w_regs.
+                                                                   <2> = Reserved.
+                                                                   <1> = Reserved.
+                                                                   <0> = nic_l.nic_l2.rrm.nic_rrm_rbdr_wrap.status1_regs. */
+        uint64_t reserved_40_63        : 24;
+#endif /* Word 0 - End */
+    } cn83xx;
+} bdk_nic_pf_ecc1_flip0_t;
+
+#define BDK_NIC_PF_ECC1_FLIP0 BDK_NIC_PF_ECC1_FLIP0_FUNC()
+static inline uint64_t BDK_NIC_PF_ECC1_FLIP0_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_NIC_PF_ECC1_FLIP0_FUNC(void)
+{
+    return 0x843000001008ll;
+}
+
+#define typedef_BDK_NIC_PF_ECC1_FLIP0 bdk_nic_pf_ecc1_flip0_t
+#define bustype_BDK_NIC_PF_ECC1_FLIP0 BDK_CSR_TYPE_NCB
+#define basename_BDK_NIC_PF_ECC1_FLIP0 "NIC_PF_ECC1_FLIP0"
+#define device_bar_BDK_NIC_PF_ECC1_FLIP0 0x0 /* PF_BAR0 */
+#define busnum_BDK_NIC_PF_ECC1_FLIP0 0
+#define arguments_BDK_NIC_PF_ECC1_FLIP0 -1,-1,-1,-1
+
+/**
+ * Register (NCB) nic_pf_ecc1_flip1
+ *
+ * NIC Memory ECC 1 Flip 1 Register
+ * See NIC_PF_ECC0_FLIP1.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_nic_pf_ecc1_flip1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_40_63        : 24;
+        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Syndrome flip for group 1 block 1 memories.
+                                                                 Internal:
+                                                                 RRM memories:
+                                                                   <15:10> = Reserved.
+                                                                   <9> = nic_l.nic_l2.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox256.nic_rrm_ptrfifox64[3].nic_rr
+                                                                 m_ptrmem.
+                                                                   <8> = nic_l.nic_l2.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox256.nic_rrm_ptrfifox64[2].nic_rr
+                                                                 m_ptrmem.
+                                                                   <7> = nic_l.nic_l2.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox256.nic_rrm_ptrfifox64[1].nic_rr
+                                                                 m_ptrmem.
+                                                                   <6> = nic_l.nic_l2.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox256.nic_rrm_ptrfifox64[0].nic_rr
+                                                                 m_ptrmem.
+                                                                   <5> = nic_l.nic_l2.rrm.nic_rrm_ncx_rsp_fifo.nic_rrm_fifo_512x86.nic_rrm_fifomem_512x86.
+                                                                   <4> = nic_l.nic_l2.rrm.nic_rrm_rbdr_wrap.nic_rrm_r_mod_w_block.r_mod_w_shadow_regs.
+                                                                   <3> = nic_l.nic_l2.rrm.nic_rrm_rbdr_wrap.nic_rrm_r_mod_w_block.r_mod_w_regs.
+                                                                   <2> = Reserved.
+                                                                   <1> = Reserved.
+                                                                   <0> = nic_l.nic_l2.rrm.nic_rrm_rbdr_wrap.status1_regs. */
+        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Syndrome flip for group 1 block 0 memories.
+                                                                 Internal:
+                                                                 RQM memories:
+                                                                   <23:21> = Reserved.
+                                                                   <20> = nic_l.nic_l2.nic_reb_x2p.nic_reb_resp_fifo.data_fifo.nic_reb_fifomem.
+                                                                   <19:17> = nic_l.nic_l2.rqm.nic_rqm_rq_wrap.mcam_wrap.mram_ecc.loop{2..0}.mem
+                                                                   <16>  = nic_l.nic_l2.rqm.nic_rqm_rss_wrap.nic_pf_mpi_cfg_regs.
+                                                                   <15> = nic_l.nic_l2.rqm.nic_rqm_rq_wrap.pf_qs_rq_cfg_regs.
+                                                                   <14> = nic_l.nic_l2.rqm.nic_rqm_rq_wrap.qs_rq_gen_cfg_regs.
+                                                                   <13:11> = nic_l.nic_l2.rqm.nic_rqm_stat_wrap.nic_rqm_stat_r_mod_w.r_mod_w_regs_{2..0}.
+                                                                   <10> = nic_l.nic_l2.rqm.nic_rqm_bp_wrap.pf_chan_bp_cfg_regs.
+                                                                   <9>  = nic_l.nic_l2.rqm.nic_rqm_bp_wrap.pf_qs_rq_bp_cfg_regs.
+                                                                   <8>  = nic_l.nic_l2.rqm.nic_rqm_bp_wrap.pf_qs_rq_drop_cfg_regs.
+                                                                   <7:3>  = nic_l.nic_l2.rqm.nic_rqm_rss_wrap.vnic_rss_key{4..0}_regs.
+                                                                   <2>  = nic_l.nic_l2.rqm.nic_rqm_rss_wrap.nic_pf_chan_rx_cfg_regs.
+                                                                   <1>  = nic_l.nic_l2.rqm.nic_rqm_rss_wrap.nic_pf_rssi_rq_regs.
+                                                                   <0>  = nic_l.nic_l2.rqm.nic_rqm_rss_wrap.nic_pf_cpi_cfg_regs. */
+#else /* Word 0 - Little Endian */
+        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Syndrome flip for group 1 block 0 memories.
+                                                                 Internal:
+                                                                 RQM memories:
+                                                                   <23:21> = Reserved.
+                                                                   <20> = nic_l.nic_l2.nic_reb_x2p.nic_reb_resp_fifo.data_fifo.nic_reb_fifomem.
+                                                                   <19:17> = nic_l.nic_l2.rqm.nic_rqm_rq_wrap.mcam_wrap.mram_ecc.loop{2..0}.mem
+                                                                   <16>  = nic_l.nic_l2.rqm.nic_rqm_rss_wrap.nic_pf_mpi_cfg_regs.
+                                                                   <15> = nic_l.nic_l2.rqm.nic_rqm_rq_wrap.pf_qs_rq_cfg_regs.
+                                                                   <14> = nic_l.nic_l2.rqm.nic_rqm_rq_wrap.qs_rq_gen_cfg_regs.
+                                                                   <13:11> = nic_l.nic_l2.rqm.nic_rqm_stat_wrap.nic_rqm_stat_r_mod_w.r_mod_w_regs_{2..0}.
+                                                                   <10> = nic_l.nic_l2.rqm.nic_rqm_bp_wrap.pf_chan_bp_cfg_regs.
+                                                                   <9>  = nic_l.nic_l2.rqm.nic_rqm_bp_wrap.pf_qs_rq_bp_cfg_regs.
+                                                                   <8>  = nic_l.nic_l2.rqm.nic_rqm_bp_wrap.pf_qs_rq_drop_cfg_regs.
+                                                                   <7:3>  = nic_l.nic_l2.rqm.nic_rqm_rss_wrap.vnic_rss_key{4..0}_regs.
+                                                                   <2>  = nic_l.nic_l2.rqm.nic_rqm_rss_wrap.nic_pf_chan_rx_cfg_regs.
+                                                                   <1>  = nic_l.nic_l2.rqm.nic_rqm_rss_wrap.nic_pf_rssi_rq_regs.
+                                                                   <0>  = nic_l.nic_l2.rqm.nic_rqm_rss_wrap.nic_pf_cpi_cfg_regs. */
+        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Syndrome flip for group 1 block 1 memories.
+                                                                 Internal:
+                                                                 RRM memories:
+                                                                   <15:10> = Reserved.
+                                                                   <9> = nic_l.nic_l2.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox256.nic_rrm_ptrfifox64[3].nic_rr
+                                                                 m_ptrmem.
+                                                                   <8> = nic_l.nic_l2.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox256.nic_rrm_ptrfifox64[2].nic_rr
+                                                                 m_ptrmem.
+                                                                   <7> = nic_l.nic_l2.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox256.nic_rrm_ptrfifox64[1].nic_rr
+                                                                 m_ptrmem.
+                                                                   <6> = nic_l.nic_l2.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox256.nic_rrm_ptrfifox64[0].nic_rr
+                                                                 m_ptrmem.
                                                                    <5> = nic_l.nic_l2.rrm.nic_rrm_ncx_rsp_fifo.nic_rrm_fifo_512x86.nic_rrm_fifomem_512x86.
                                                                    <4> = nic_l.nic_l2.rrm.nic_rrm_rbdr_wrap.nic_rrm_r_mod_w_block.r_mod_w_shadow_regs.
                                                                    <3> = nic_l.nic_l2.rrm.nic_rrm_rbdr_wrap.nic_rrm_r_mod_w_block.r_mod_w_regs.
@@ -5887,7 +6055,70 @@ typedef union
         uint64_t reserved_40_63        : 24;
 #endif /* Word 0 - End */
     } cn88xx;
-    /* struct bdk_nic_pf_ecc1_flip1_s cn83xx; */
+    struct bdk_nic_pf_ecc1_flip1_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_40_63        : 24;
+        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Syndrome flip for group 1 block 1 memories.
+                                                                 Internal:
+                                                                 RRM memories:
+                                                                   <15:7> = Reserved.
+                                                                   <6> = nic_l.nic_l2.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox64.nic_rrm_ptrmem.
+                                                                   <5> = nic_l.nic_l2.rrm.nic_rrm_ncx_rsp_fifo.nic_rrm_fifo_512x86.nic_rrm_fifomem_512x86.
+                                                                   <4> = nic_l.nic_l2.rrm.nic_rrm_rbdr_wrap.nic_rrm_r_mod_w_block.r_mod_w_shadow_regs.
+                                                                   <3> = nic_l.nic_l2.rrm.nic_rrm_rbdr_wrap.nic_rrm_r_mod_w_block.r_mod_w_regs.
+                                                                   <2> = Reserved.
+                                                                   <1> = Reserved.
+                                                                   <0> = nic_l.nic_l2.rrm.nic_rrm_rbdr_wrap.status1_regs. */
+        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Syndrome flip for group 1 block 0 memories.
+                                                                 Internal:
+                                                                 RQM memories:
+                                                                   <23:21> = Reserved.
+                                                                   <20> = nic_l.nic_l2.nic_reb_x2p.nic_reb_resp_fifo.data_fifo.nic_reb_fifomem.
+                                                                   <19:17> = nic_l.nic_l2.rqm.nic_rqm_rq_wrap.mcam_wrap.mram_ecc.loop{2..0}.mem
+                                                                   <16>  = nic_l.nic_l2.rqm.nic_rqm_rss_wrap.nic_pf_mpi_cfg_regs.
+                                                                   <15> = nic_l.nic_l2.rqm.nic_rqm_rq_wrap.pf_qs_rq_cfg_regs.
+                                                                   <14> = nic_l.nic_l2.rqm.nic_rqm_rq_wrap.qs_rq_gen_cfg_regs.
+                                                                   <13:11> = nic_l.nic_l2.rqm.nic_rqm_stat_wrap.nic_rqm_stat_r_mod_w.r_mod_w_regs_{2..0}.
+                                                                   <10> = nic_l.nic_l2.rqm.nic_rqm_bp_wrap.pf_chan_bp_cfg_regs.
+                                                                   <9>  = nic_l.nic_l2.rqm.nic_rqm_bp_wrap.pf_qs_rq_bp_cfg_regs.
+                                                                   <8>  = nic_l.nic_l2.rqm.nic_rqm_bp_wrap.pf_qs_rq_drop_cfg_regs.
+                                                                   <7:3>  = nic_l.nic_l2.rqm.nic_rqm_rss_wrap.vnic_rss_key{4..0}_regs.
+                                                                   <2>  = nic_l.nic_l2.rqm.nic_rqm_rss_wrap.nic_pf_chan_rx_cfg_regs.
+                                                                   <1>  = nic_l.nic_l2.rqm.nic_rqm_rss_wrap.nic_pf_rssi_rq_regs.
+                                                                   <0>  = nic_l.nic_l2.rqm.nic_rqm_rss_wrap.nic_pf_cpi_cfg_regs. */
+#else /* Word 0 - Little Endian */
+        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Syndrome flip for group 1 block 0 memories.
+                                                                 Internal:
+                                                                 RQM memories:
+                                                                   <23:21> = Reserved.
+                                                                   <20> = nic_l.nic_l2.nic_reb_x2p.nic_reb_resp_fifo.data_fifo.nic_reb_fifomem.
+                                                                   <19:17> = nic_l.nic_l2.rqm.nic_rqm_rq_wrap.mcam_wrap.mram_ecc.loop{2..0}.mem
+                                                                   <16>  = nic_l.nic_l2.rqm.nic_rqm_rss_wrap.nic_pf_mpi_cfg_regs.
+                                                                   <15> = nic_l.nic_l2.rqm.nic_rqm_rq_wrap.pf_qs_rq_cfg_regs.
+                                                                   <14> = nic_l.nic_l2.rqm.nic_rqm_rq_wrap.qs_rq_gen_cfg_regs.
+                                                                   <13:11> = nic_l.nic_l2.rqm.nic_rqm_stat_wrap.nic_rqm_stat_r_mod_w.r_mod_w_regs_{2..0}.
+                                                                   <10> = nic_l.nic_l2.rqm.nic_rqm_bp_wrap.pf_chan_bp_cfg_regs.
+                                                                   <9>  = nic_l.nic_l2.rqm.nic_rqm_bp_wrap.pf_qs_rq_bp_cfg_regs.
+                                                                   <8>  = nic_l.nic_l2.rqm.nic_rqm_bp_wrap.pf_qs_rq_drop_cfg_regs.
+                                                                   <7:3>  = nic_l.nic_l2.rqm.nic_rqm_rss_wrap.vnic_rss_key{4..0}_regs.
+                                                                   <2>  = nic_l.nic_l2.rqm.nic_rqm_rss_wrap.nic_pf_chan_rx_cfg_regs.
+                                                                   <1>  = nic_l.nic_l2.rqm.nic_rqm_rss_wrap.nic_pf_rssi_rq_regs.
+                                                                   <0>  = nic_l.nic_l2.rqm.nic_rqm_rss_wrap.nic_pf_cpi_cfg_regs. */
+        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Syndrome flip for group 1 block 1 memories.
+                                                                 Internal:
+                                                                 RRM memories:
+                                                                   <15:7> = Reserved.
+                                                                   <6> = nic_l.nic_l2.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox64.nic_rrm_ptrmem.
+                                                                   <5> = nic_l.nic_l2.rrm.nic_rrm_ncx_rsp_fifo.nic_rrm_fifo_512x86.nic_rrm_fifomem_512x86.
+                                                                   <4> = nic_l.nic_l2.rrm.nic_rrm_rbdr_wrap.nic_rrm_r_mod_w_block.r_mod_w_shadow_regs.
+                                                                   <3> = nic_l.nic_l2.rrm.nic_rrm_rbdr_wrap.nic_rrm_r_mod_w_block.r_mod_w_regs.
+                                                                   <2> = Reserved.
+                                                                   <1> = Reserved.
+                                                                   <0> = nic_l.nic_l2.rrm.nic_rrm_rbdr_wrap.status1_regs. */
+        uint64_t reserved_40_63        : 24;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_nic_pf_ecc1_flip1_t;
 
 #define BDK_NIC_PF_ECC1_FLIP1 BDK_NIC_PF_ECC1_FLIP1_FUNC()

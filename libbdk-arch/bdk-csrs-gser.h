@@ -534,8 +534,7 @@ typedef union
                                                                  including XFI, receiver (only) equalization should be manually performed.
                                                                  After GSER()_BR_RX()_CTL[RXT_SWM] is set, writing this CSR with
                                                                  [RXT_EER]=1 initiates this manual equalization. The operation may take up to
-                                                                 2 milliseconds, and then hardware sets [RXT_ESV]. [RXT_ESM] can be
-                                                                 ignored after these receiver-only equalizations. The SerDes input should
+                                                                 2 milliseconds, and then hardware sets [RXT_ESV]. The SerDes input should
                                                                  be a pattern (something similar to the BASE-R training sequence, ideally)
                                                                  during this receiver-only training. If DFE is to be disabled
                                                                  (recommended for 5 Gbaud and below), do it prior to this receiver-only
@@ -594,8 +593,7 @@ typedef union
                                                                  including XFI, receiver (only) equalization should be manually performed.
                                                                  After GSER()_BR_RX()_CTL[RXT_SWM] is set, writing this CSR with
                                                                  [RXT_EER]=1 initiates this manual equalization. The operation may take up to
-                                                                 2 milliseconds, and then hardware sets [RXT_ESV]. [RXT_ESM] can be
-                                                                 ignored after these receiver-only equalizations. The SerDes input should
+                                                                 2 milliseconds, and then hardware sets [RXT_ESV]. The SerDes input should
                                                                  be a pattern (something similar to the BASE-R training sequence, ideally)
                                                                  during this receiver-only training. If DFE is to be disabled
                                                                  (recommended for 5 Gbaud and below), do it prior to this receiver-only
@@ -4233,24 +4231,24 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_8_63         : 56;
-        uint64_t pcs_sds_rx_misc_ctrl  : 8;  /**< [  7:  0](R/W/H) Miscellaneous Rx control settings.
+        uint64_t pcs_sds_rx_misc_ctrl  : 8;  /**< [  7:  0](R/W/H) Miscellaneous receive control settings.
 
-                                                                 <0> = shadow_pi_ctrl.  Set when using the Rx internal eye monitor.
+                                                                 <0> = Shadow PI control. Must set when using the RX internal eye monitor.
                                                                  <1> = Reserved.
-                                                                 <3:2> = offset_cal.
+                                                                 <3:2> = Offset cal.
                                                                  <4> = Reserved.
                                                                  <5> = Reserved.
-                                                                 <6> = 1149_hysteresis_control.
+                                                                 <6> = 1149 hysteresis control.
                                                                  <7> = Reserved. */
 #else /* Word 0 - Little Endian */
-        uint64_t pcs_sds_rx_misc_ctrl  : 8;  /**< [  7:  0](R/W/H) Miscellaneous Rx control settings.
+        uint64_t pcs_sds_rx_misc_ctrl  : 8;  /**< [  7:  0](R/W/H) Miscellaneous receive control settings.
 
-                                                                 <0> = shadow_pi_ctrl.  Set when using the Rx internal eye monitor.
+                                                                 <0> = Shadow PI control. Must set when using the RX internal eye monitor.
                                                                  <1> = Reserved.
-                                                                 <3:2> = offset_cal.
+                                                                 <3:2> = Offset cal.
                                                                  <4> = Reserved.
                                                                  <5> = Reserved.
-                                                                 <6> = 1149_hysteresis_control.
+                                                                 <6> = 1149 hysteresis control.
                                                                  <7> = Reserved. */
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
@@ -4263,8 +4261,12 @@ static inline uint64_t BDK_GSERX_LANEX_RX_MISC_CTRL(unsigned long a, unsigned lo
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=3) && (b<=1)))
         return 0x87e090440050ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=6) && (b<=3)))
+        return 0x87e090440050ll + 0x1000000ll * ((a) & 0x7) + 0x100000ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=13) && (b<=3)))
         return 0x87e090440050ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=6) && (b<=3)))
+        return 0x87e090440050ll + 0x1000000ll * ((a) & 0x7) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("GSERX_LANEX_RX_MISC_CTRL", 2, a, b, 0, 0);
 }
 
