@@ -1463,6 +1463,13 @@ int __bdk_init_ccpi_connection(int is_master, uint64_t gbaud, int ccpi_trace)
 
     if (is_master)
     {
+        BDK_CSR_INIT(eie_detsts, node, BDK_GSERX_RX_EIE_DETSTS(8));
+        if (eie_detsts.s.cdrlock == 0)
+        {
+            if (do_trace)
+                bdk_dbg_uart_str("No CDR lock on QLM8, assuming multi-node not available\r\n");
+            return -1;
+        }
         for (int ccpi_lane = 0; ccpi_lane < CCPI_LANES; ccpi_lane++)
         {
             lane_state_t *lstate = &lane_state[ccpi_lane];
