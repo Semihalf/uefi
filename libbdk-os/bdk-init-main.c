@@ -119,6 +119,15 @@ void __bdk_init_node(bdk_node_t node)
                 c.s.hp = 0);
     }
 
+    BDK_TRACE(INIT, "N%d: Initialize LBK clocking\n", node);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) || CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    {
+        int num_lbk = CAVIUM_IS_MODEL(CAVIUM_CN83XX) ? 4 : 1;
+        for (int lbk = 0; lbk < num_lbk; lbk++)
+            BDK_CSR_MODIFY(c, node, BDK_LBKX_CLK_GATE_CTL(lbk),
+                c.s.dis = 0);
+    }
+
     if (BDK_IS_REQUIRED(ECAM))
     {
         BDK_TRACE(INIT, "N%d: Performing global ECAM initialization\n", node);
