@@ -18,6 +18,13 @@ void bdk_boot_pcie(void)
                     BDK_TRACE(INIT, "Initializing PCIe%d on Node %d\n", p, n);
                     bdk_pcie_rc_initialize(n, p);
                 }
+                else
+                {
+                    BDK_TRACE(INIT, "Disabled unused PCIe%d on Node %d\n", p, n);
+                    BDK_CSR_MODIFY(c, n, BDK_PEMX_CLK_EN(p),
+                        c.s.pceclk_gate = 1;
+                        c.s.csclk_gate = 1);
+                }
             }
         }
     }
