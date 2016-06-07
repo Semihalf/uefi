@@ -173,19 +173,28 @@ bdk_if_link_t __bdk_if_phy_get(bdk_node_t dev_node, int phy_addr)
         }
         case 0x0022: /* Kendin */
         {
-            /* Register 13h - Digital PMA/PCS Status */
-            phy_status = bdk_mdio_read(node, mdio_bus, mdio_addr, 0x13);
-            if (phy_status & 4) /* 1 Gbps, full duplex */
+            /* Register 1Fh - PHY Control */
+            /* Micrel KSZ9031RNX, EBB8104 RGMII transceiver */
+            /* Reports as "Kendin" in BDK_MDIO_PHY_REG_ID1 */
+            phy_status = bdk_mdio_read(node, mdio_bus, mdio_addr, 0x1F);
+            if (phy_status & (1 << 6)) // Speed Status - 1000Base-T
             {
                 result.s.up = 1;
-                result.s.full_duplex = 1;
                 result.s.speed = 1000;
             }
-            else if (phy_status & 1) /* 100 Mbs, full duplex */
+            else if (phy_status & (1 << 5)) // Speed Status - 100Base-TX
             {
                 result.s.up = 1;
-                result.s.full_duplex = 1;
                 result.s.speed = 100;
+            }
+            else if (phy_status & (1 << 4)) // Speed Status - 10Base-T
+            {
+                result.s.up = 1;
+                result.s.speed = 10;
+            }
+            if (phy_status & (1 << 3)) // Duplex Status
+            {
+                result.s.full_duplex = 1;
             }
             break;
         }
