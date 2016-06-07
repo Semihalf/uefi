@@ -13,14 +13,16 @@ import telnetlib
 #
 class Log:
     def __init__(self, filename):
-        filename += time.strftime("-%Y-%m-%d-%H:%M:%S")
-        self.file = open(filename, "w")
+        self.filename = filename + time.strftime("-%Y-%m-%d-%H:%M:%S") + ".log"
+        self.file = open(self.filename, "w")
+        print "Log file: %s" % self.filename
         self.outputbuf = ""
         self.saw_cr = False
 
     def close(self):
         self.flush()
         self.file.close()
+        print "Closed log file: %s" % self.filename
 
     def flush(self):
         if self.outputbuf:
@@ -152,7 +154,7 @@ class SerialOverLan:
         self.poll.register(self.ipmitool.stdout, select.POLLIN)
 
     def close(self):
-        self.ipmitool.terminiate()
+        self.ipmitool.terminate()
 
     def write(self, data):
         self.ipmitool.stdin.write(data)

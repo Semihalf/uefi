@@ -3,24 +3,24 @@
 import sys
 import os
 import time
-import traceback
 import connection
-
-bmc_user = "admin"
-bmc_password = "admin"
 
 #
 # Generic connection for a board. Serves as a base class for specific boards
 # below
 #
 class Board:
-    def __init__(self, console, logObject):
-        self.chip_model = None
+    def __init__(self, args, logObject):
+        self.board = args.board
         self.logging = logObject
-        self.console = connection.GenericPort(console, self.logging)
+        self.console = connection.GenericPort(args.console, self.logging)
+        # Info about the board, filled in later
+        self.chip_model = None
+        self.multinode = None
 
     def close(self):
         self.console.close()
+        self.logging.close()
 
     def write(self, data):
         self.console.write(data)
@@ -49,48 +49,18 @@ class Board:
     def matchRE(self, correct, timeout=5):
         return self.console.matchRE(correct, timeout)
 
-    def runTestLoop(self, test_func):
-        # Runs a test, defined in "test_func", in an infinite loop tracking pass
-        # and fail statistics. The test is given one argument, the connection
-        # instance.
-        count = 0
-        pass_count = 0
-        fail_count = 0
-        fail_in_row = 0
-        while True:
-            count += 1
-            print "Starting loop %d: Pass %d, Fail %d" % (count, pass_count, fail_count)
-            try:
-                test_func(self)
-                pass_count += 1
-                fail_in_row = 0
-            except (KeyboardInterrupt, SystemExit):
-                self.log("Abort forced during loop %d: Pass %d, Fail %d" % (count, pass_count, fail_count))
-                raise
-            except:
-                fail_count += 1
-                fail_in_row += 1
-                ex_str = traceback.format_exc()
-                try:
-                    self.waitfor("JUNK", timeout=1)
-                except:
-                    pass
-                self.log("FAIL: Exception: %s" % ex_str)
-            self.log("After loop %d: Pass %d, Fail %d" % (count, pass_count, fail_count))
-            if fail_in_row >= 10:
-                self.log("Failed %d in a row, stopping script" % (fail_in_row))
-                break
-
 #
 # Class for controlling EBB and EVB boards with MCUs that control power cycling
 # and reset
 #
 class Board_EVB(Board):
-    def __init__(self, console, mcu, mcu2, logObject):
-        Board.__init__(self, console, logObject)
-        self.mcu = connection.GenericPort(mcu, logObject)
-        if mcu2:
-            self.mcu2 = connection.GenericPort(mcu2, logObject)
+    def __init__(self, args, logObject):
+        assert args.mcu, "MCU IP or name must be specified"
+        assert not args.bmc, "BMC can't be specified with MCU"
+        Board.__init__(self, args, logObject)
+        self.mcu = connection.GenericPort(args.mcu, logObject)
+        if args.mcu2:
+            self.mcu2 = connection.GenericPort(args.mcu2, logObject)
             self.multinode = True
         else:
             self.mcu2 = None
@@ -130,109 +100,24 @@ class Board_EVB(Board):
 #
 # Class for controlling the CRB-1S
 #
-class Board_CRB_1S(Board):
-    def __init__(self, console, bmc, logObject):
-        Board.__init__(self, console, logObject)
+class Board_IPMI(Board):
+    def __init__(self, args, logObject):
+        assert args.bmc, "BMC IP or name must be specified"
+        assert not args.mcu, "MCU can't be specified with BMC"
+        Board.__init__(self, args, logObject)
         self.chip_model = "CN88XX"
-        self.bmc = bmc
-        self.multinode = False
+        self.bmc = args.bmc
+        self.bmc_user = args.bmc_user
+        self.bmc_pass = args.bmc_pass
+        self.multinode = (args.board != "crb-1s")
 
     def close(self):
         Board.close(self)
 
     def powerCycle(self):
-        global bmc_user
-        global bmc_password
         self.log("Power cycle board")
-        os.system("ipmitool -H %s -U %s -P %s power off" % (self.bmc, bmc_user, bmc_password))
+        ipmi = "ipmitool -H %s -U %s -P %s" % (self.bmc, self.bmc_user, self.bmc_pass)
+        os.system(ipmi + " power off")
         time.sleep(7)
-        os.system("ipmitool -H %s -U %s -P %s power on" % (self.bmc, bmc_user, bmc_password))
+        os.system(ipmi + " power on")
 
-#
-# Class for controlling the CRB-2S
-#
-class Board_CRB_2S(Board):
-    def __init__(self, console, bmc, logObject):
-        Board.__init__(self, console, logObject)
-        self.chip_model = "CN88XX"
-        self.bmc = bmc
-        self.multinode = True
-
-    def close(self):
-        Board.close(self)
-
-    def powerCycle(self):
-        global bmc_user
-        global bmc_password
-        self.log("Power cycle board")
-        os.system("ipmitool -H %s -U %s -P %s power off" % (self.bmc, bmc_user, bmc_password))
-        time.sleep(7)
-        os.system("ipmitool -H %s -U %s -P %s power on" % (self.bmc, bmc_user, bmc_password))
-
-def parseArgs():
-    global bmc_user
-    global bmc_password
-
-    if "BMC_USER" in os.environ:
-        bmc_user = os.environ["BMC_USER"]
-    if "BMC_PASSWORD" in os.environ:
-        bmc_password = os.environ["BMC_PASSWORD"]
-
-    try:
-        assert len(sys.argv) >= 2 # Remember 0 is program name
-        if ("/" in sys.argv[1]) or (":" in sys.argv[1]):
-            # Using either serial ports, or telnet with port number specified
-            # Need at least two arguments (console, mcu/control)
-            assert len(sys.argv) >= 3
-            console = sys.argv[1]
-            mcu1 = sys.argv[2]
-            # Third optional is for mcu2 in two node setup
-            if len(sys.argv) >= 4:
-                mcu2 = sys.argv[3]
-            else:
-                mcu2 = None
-        elif sys.argv[1] == "sol":
-            # Use Serial Over Lan. The second argument must be a BMC nmae or IP
-            assert len(sys.argv) == 3
-            console = "sol:%s" % sys.argv[2]
-            mcu1 = sys.argv[2]
-            mcu2 = None
-        else:
-            # Using telnet with a hostname. Assume it is the name of a MCU
-            # and the ports are 9761 and 9760
-            console = sys.argv[1] + ":9761"
-            mcu1 = sys.argv[1] + ":9760"
-            if len(sys.argv) >= 3:
-                mcu2 = sys.argv[2] + ":9760"
-            else:
-                mcu2 = None
-        print "Console connection:     %s" % console
-        print "MCU/control connection: %s" % mcu1
-        print "Second MCU connection:  %s" % mcu2
-        return (console, mcu1, mcu2)
-    except:
-        print
-        print "Test script for controlling boards remotely"
-        print
-        print "Usage:"
-        print "  SCRIPT host [host2]"
-        print "    host = MCU host name where the console is port 9761 and MCU is 9760"
-        print "    host2 = MCU host name for second board in dual node setup (Optional)"
-        print
-        print "  SCRIPT host:port host2:port2 [host3:port3]"
-        print "    host:port = Telnet to this host and port conencts to console"
-        print "    host2:port2 = MCU/control of board"
-        print "    host3:port3 = MCU of second board in dual node setup (Optional)"
-        print
-        print "  SCRIPT /dev/ttyUSB1 /dev/ttyUSB2 [/dev/ttyUSB3]"
-        print "    /dev/ttyUSB1 = Direct serial connection to the console"
-        print "    /dev/ttyUSB2 = MCU/control of board"
-        print "    /dev/ttyUSB3 = MCU of second board in dual node setup (Optional)"
-        print
-        print "  SCRIPT sol bmc"
-        print "    sol = Keyword to use ipmitool for console"
-        print "    bmc = BMC host name ir IP address"
-        print
-        print "  In EBB / EVB setups, control uses commands to the MCU"
-        print "  In CRB-2S, host2 should be the IP address or hostname of the BMC"
-        sys.exit(2)

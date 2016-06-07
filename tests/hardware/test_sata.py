@@ -1,3 +1,5 @@
+import test_boot
+
 #
 # Wait for the DRAM main menu
 #
@@ -43,14 +45,16 @@ def sata_id_detect(cnx):
 #
 # Run all DRAM tests over 64MB of memory
 #
-def sata_detect(cnx, sata):
-    cnx.sendEcho("sata")
-    wait_for_main_menu(cnx)
-    cnx.sendEcho("port")
-    cnx.match("(INS)SATA port to use (0 - 15) [0]:")
-    cnx.sendEcho("%d" % sata)
-    wait_for_main_menu(cnx)
-    sata_id_detect(cnx)
-    wait_for_main_menu(cnx)
-    cnx.sendEcho("quit")
+def sata_detect(cnx, board_info):
+    for sata in board_info["sata"]:
+        cnx.sendEcho("sata")
+        wait_for_main_menu(cnx)
+        cnx.sendEcho("port")
+        cnx.match("(INS)SATA port to use (0 - 15) [0]:")
+        cnx.sendEcho("%d" % sata)
+        wait_for_main_menu(cnx)
+        sata_id_detect(cnx)
+        wait_for_main_menu(cnx)
+        cnx.sendEcho("quit")
+        test_boot.wait_for_main_menu(cnx)
 

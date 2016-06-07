@@ -100,7 +100,7 @@ def wait_for_all_dram_test(cnx):
 #
 # Run all DRAM tests over all of memory
 #
-def dram_all(cnx):
+def dram_all(cnx, board_info):
     cnx.sendEcho("ddr")
     wait_for_main_menu(cnx)
     cnx.sendEcho("test")
@@ -120,7 +120,7 @@ def dram_all(cnx):
 #
 # Run all DRAM tests over 64MB of memory
 #
-def dram_short(cnx):
+def dram_short(cnx, board_info):
     cnx.sendEcho("ddr")
     wait_for_main_menu(cnx)
     cnx.sendEcho("test")
