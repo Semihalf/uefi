@@ -15,8 +15,6 @@ device io_memory n0.usb0 config 0x300000 0x868000000000
 device io_memory n0.usb1 config 0x300000 0x869000000000
 device io_memory n1.usb0 config 0x300000 0x968000000000
 device io_memory n1.usb1 config 0x300000 0x969000000000
-device io_memory n0.ocla config 0x1000000 0x87E0A8000000
-device io_memory n1.ocla config 0x1000000 0x97E0A8000000
 device io_memory n0.tns_bar0 config 0x10000 0x842000000000
 device io_memory n0.tns_bar2 config 0x40000000 0x842040000000
 device io_memory n0.tns_bar4 config 0x100000 0x842000f00000
