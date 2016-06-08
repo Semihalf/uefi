@@ -14,12 +14,12 @@ void bdk_clock_setup(bdk_node_t node)
     uint64_t inc = (BDK_GTI_RATE << 32) / sclk;
     BDK_CSR_WRITE(node, BDK_GTI_CC_CNTRATE, inc);
     BDK_CSR_WRITE(node, BDK_GTI_CTL_CNTFRQ, BDK_GTI_RATE);
+    cntcr.s.en = 1;
     /* Synchronize with master node. Very simple set of counter, will
        be off a little */
     BDK_CSR_WRITE(node, BDK_GTI_CC_CNTCV, BDK_CSR_READ(bdk_numa_master(), BDK_GTI_CC_CNTCV));
     /* Enable the counter */
-    BDK_CSR_MODIFY(c, node, BDK_GTI_CC_CNTCR,
-        c.s.en = 1);
+    BDK_CSR_WRITE(node, BDK_GTI_CC_CNTCR, cntcr.u);
 }
 
 /**
