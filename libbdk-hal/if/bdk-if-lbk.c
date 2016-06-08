@@ -70,6 +70,9 @@ static int if_probe(bdk_if_handle_t handle)
     int fifo_size = lbkx_const.s.buf_size;
     if (fifo_size == 0)
         bdk_fatal("%s: FIFO size is zero\n", handle->name);
+    else if (0 == handle->index)
+        printf("LBKX_CONST(%d) : chan %d dest %d src %d buf_size 0x%x\n",
+               handle->interface, lbkx_const.s.chan, lbkx_const.s.dest, lbkx_const.s.src, lbkx_const.s.buf_size);
 
     /* Setup input path */
     switch (lbkx_const.s.src)
@@ -117,10 +120,13 @@ static int if_init(bdk_if_handle_t handle)
     if (handle->nic_id)
     {
         BDK_CSR_INIT(lbkx_const, handle->node, BDK_LBKX_CONST(handle->interface));
-        /* Errata LBK-28315 LBKX_CONST[buf_size] is wrong. The value is suppose
-           to be 0x3000, not 0x1000 */
-        if (lbkx_const.s.buf_size == 0x1000)
-            lbkx_const.s.buf_size = 0x3000;
+        if (CAVIUM_IS_MODEL(CAVIUM_CN81XX)) {
+            /* Errata LBK-28315 LBKX_CONST[buf_size] is wrong. The value is suppose
+               to be 0x3000, not 0x1000 */
+            if (lbkx_const.s.buf_size == 0x1000) {
+                lbkx_const.s.buf_size = 0x3000;
+            }
+        }
         if (bdk_nic_port_init(handle, BDK_NIC_TYPE_LBK, lbkx_const.s.buf_size))
             return -1;
     }
