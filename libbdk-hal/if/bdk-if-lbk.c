@@ -70,9 +70,6 @@ static int if_probe(bdk_if_handle_t handle)
     int fifo_size = lbkx_const.s.buf_size;
     if (fifo_size == 0)
         bdk_fatal("%s: FIFO size is zero\n", handle->name);
-    else if (0 == handle->index)
-        printf("LBKX_CONST(%d) : chan %d dest %d src %d buf_size 0x%x\n",
-               handle->interface, lbkx_const.s.chan, lbkx_const.s.dest, lbkx_const.s.src, lbkx_const.s.buf_size);
 
     /* Setup input path */
     switch (lbkx_const.s.src)
