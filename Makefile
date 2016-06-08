@@ -89,7 +89,7 @@ ASIM_ENV += UART1PORT=2001
 ASIM_ENV += BIN_IMAGE=$(ASIM_IMAGE)
 ASIM_ENV += SYMBOL_IMAGE=$(ASIM_ELF)
 ASIM_SCRIPT = $(firstword $(subst :, ,$(ASIM_CHIP))).asim
-ASIM_CMD = $(ASIM_ENV) $(ASIM)/asim -e $(ASIM_SCRIPT)
+ASIM_CMD = $(ASIM_ENV) $(ASIM)/bin/asim -e $(ASIM_SCRIPT)
 export ASIM_PCI_EA_CAP=1
 
 #
