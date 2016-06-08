@@ -349,7 +349,7 @@ int bdk_pko_port_init(bdk_if_handle_t handle)
         c.s.rr_prio = 0);
     /* Program L3 = schedule queue */
     BDK_CSR_MODIFY(c, handle->node, BDK_PKO_L3_L2_SQX_CHANNEL(sq_l3),
-        c.s.cc_channel = handle->pki_channel);
+        c.s.cc_channel = compressed_channel_id);
     BDK_CSR_MODIFY(c, handle->node, BDK_PKO_L3_SQX_SCHEDULE(sq_l3),
         c.s.prio = 0;
         c.s.rr_quantum = 0);
