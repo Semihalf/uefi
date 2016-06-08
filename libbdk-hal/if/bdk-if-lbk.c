@@ -69,7 +69,10 @@ static int if_probe(bdk_if_handle_t handle)
     /* FIXME: Do something with LBK FIFO size */
     int fifo_size = lbkx_const.s.buf_size;
     if (fifo_size == 0)
-        bdk_fatal("%s: FIFO size is zero\n", handle->name);
+    {
+        bdk_error("%s: FIFO size is zero\n", handle->name);
+        fifo_size = 0x3000;
+    }
 
     /* Setup input path */
     switch (lbkx_const.s.src)
