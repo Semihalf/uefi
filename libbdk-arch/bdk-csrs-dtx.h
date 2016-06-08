@@ -1412,7 +1412,7 @@ static inline uint64_t BDK_DTX_DDF_BCST_RSP_FUNC(void) __attribute__ ((pure, alw
 static inline uint64_t BDK_DTX_DDF_BCST_RSP_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x87e0fe048080ll;
+        return 0x87e0fe848080ll;
     __bdk_csr_fatal("DTX_DDF_BCST_RSP", 0, 0, 0, 0, 0);
 }
 
@@ -1458,7 +1458,7 @@ static inline uint64_t BDK_DTX_DDF_CTL_FUNC(void) __attribute__ ((pure, always_i
 static inline uint64_t BDK_DTX_DDF_CTL_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x87e0fe048060ll;
+        return 0x87e0fe848060ll;
     __bdk_csr_fatal("DTX_DDF_CTL", 0, 0, 0, 0, 0);
 }
 
@@ -1495,7 +1495,7 @@ static inline uint64_t BDK_DTX_DDF_DATX(unsigned long a) __attribute__ ((pure, a
 static inline uint64_t BDK_DTX_DDF_DATX(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
-        return 0x87e0fe048040ll + 8ll * ((a) & 0x1);
+        return 0x87e0fe848040ll + 8ll * ((a) & 0x1);
     __bdk_csr_fatal("DTX_DDF_DATX", 1, a, 0, 0, 0);
 }
 
@@ -1532,7 +1532,7 @@ static inline uint64_t BDK_DTX_DDF_ENAX(unsigned long a) __attribute__ ((pure, a
 static inline uint64_t BDK_DTX_DDF_ENAX(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
-        return 0x87e0fe048020ll + 8ll * ((a) & 0x1);
+        return 0x87e0fe848020ll + 8ll * ((a) & 0x1);
     __bdk_csr_fatal("DTX_DDF_ENAX", 1, a, 0, 0, 0);
 }
 
@@ -1567,7 +1567,7 @@ static inline uint64_t BDK_DTX_DDF_SELX(unsigned long a) __attribute__ ((pure, a
 static inline uint64_t BDK_DTX_DDF_SELX(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
-        return 0x87e0fe048000ll + 8ll * ((a) & 0x1);
+        return 0x87e0fe848000ll + 8ll * ((a) & 0x1);
     __bdk_csr_fatal("DTX_DDF_SELX", 1, a, 0, 0, 0);
 }
 
@@ -2606,8 +2606,6 @@ static inline uint64_t BDK_DTX_IOBNX_BCST_RSP(unsigned long a)
         return 0x87e0fe780080ll + 0x8000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e0fe780080ll + 0x8000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
-        return 0x87e0fe780080ll + 0x8000ll * ((a) & 0x1);
     __bdk_csr_fatal("DTX_IOBNX_BCST_RSP", 1, a, 0, 0, 0);
 }
 
@@ -2657,8 +2655,6 @@ static inline uint64_t BDK_DTX_IOBNX_CTL(unsigned long a)
         return 0x87e0fe780060ll + 0x8000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e0fe780060ll + 0x8000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
-        return 0x87e0fe780060ll + 0x8000ll * ((a) & 0x1);
     __bdk_csr_fatal("DTX_IOBNX_CTL", 1, a, 0, 0, 0);
 }
 
@@ -2699,8 +2695,6 @@ static inline uint64_t BDK_DTX_IOBNX_DATX(unsigned long a, unsigned long b)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=1)))
         return 0x87e0fe780040ll + 0x8000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=1)))
-        return 0x87e0fe780040ll + 0x8000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=1) && (b<=1)))
         return 0x87e0fe780040ll + 0x8000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
     __bdk_csr_fatal("DTX_IOBNX_DATX", 2, a, b, 0, 0);
 }
@@ -2743,8 +2737,6 @@ static inline uint64_t BDK_DTX_IOBNX_ENAX(unsigned long a, unsigned long b)
         return 0x87e0fe780020ll + 0x8000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=1)))
         return 0x87e0fe780020ll + 0x8000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=1) && (b<=1)))
-        return 0x87e0fe780020ll + 0x8000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
     __bdk_csr_fatal("DTX_IOBNX_ENAX", 2, a, b, 0, 0);
 }
 
@@ -2783,8 +2775,6 @@ static inline uint64_t BDK_DTX_IOBNX_SELX(unsigned long a, unsigned long b)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=1)))
         return 0x87e0fe780000ll + 0x8000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=1)))
-        return 0x87e0fe780000ll + 0x8000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=1) && (b<=1)))
         return 0x87e0fe780000ll + 0x8000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
     __bdk_csr_fatal("DTX_IOBNX_SELX", 2, a, b, 0, 0);
 }

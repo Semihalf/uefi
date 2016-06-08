@@ -263,7 +263,7 @@ static inline uint64_t BDK_AP_AMAIR_EL12_FUNC(void)
  *
  * AP Current Cache Size ID Register
  * This register provides information about the architecture of the currently selected
- * cache.
+ * cache. AP_CSSELR_EL1 selects which Cache Size ID Register is accessible.
  */
 typedef union
 {
@@ -5252,11 +5252,7 @@ typedef union
     struct bdk_ap_cvmctl_el1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_44_63        : 20;
-        uint64_t dpref_delta           : 1;  /**< [ 43: 43](R/W) Enable hardware dstream delta prefetcher. */
-        uint64_t dpref_next_line       : 1;  /**< [ 42: 42](R/W) Enable hardware next line dstream prefetcher. */
-        uint64_t dpref_stride2         : 1;  /**< [ 41: 41](R/W) When set, hardware dstream prefetcher uses a stride of 2. When clear, stride of 1. */
-        uint64_t dpref_bp_dis          : 1;  /**< [ 40: 40](R/W) When set, hardware dstream prefetcher ingores memory system backpressure for next line. */
+        uint64_t reserved_40_63        : 24;
         uint64_t mrs_msr_hazard        : 1;  /**< [ 39: 39](R/W) Disable MRS/MSR pipelining, assume hazards. */
         uint64_t disable_eret_pred     : 1;  /**< [ 38: 38](R/W) Disable ERET prediction. */
         uint64_t disable_casp          : 1;  /**< [ 37: 37](R/W) Disable the CASP instruction. */
@@ -5318,11 +5314,7 @@ typedef union
         uint64_t disable_casp          : 1;  /**< [ 37: 37](R/W) Disable the CASP instruction. */
         uint64_t disable_eret_pred     : 1;  /**< [ 38: 38](R/W) Disable ERET prediction. */
         uint64_t mrs_msr_hazard        : 1;  /**< [ 39: 39](R/W) Disable MRS/MSR pipelining, assume hazards. */
-        uint64_t dpref_bp_dis          : 1;  /**< [ 40: 40](R/W) When set, hardware dstream prefetcher ingores memory system backpressure for next line. */
-        uint64_t dpref_stride2         : 1;  /**< [ 41: 41](R/W) When set, hardware dstream prefetcher uses a stride of 2. When clear, stride of 1. */
-        uint64_t dpref_next_line       : 1;  /**< [ 42: 42](R/W) Enable hardware next line dstream prefetcher. */
-        uint64_t dpref_delta           : 1;  /**< [ 43: 43](R/W) Enable hardware dstream delta prefetcher. */
-        uint64_t reserved_44_63        : 20;
+        uint64_t reserved_40_63        : 24;
 #endif /* Word 0 - End */
     } s;
     struct bdk_ap_cvmctl_el1_cn88xxp1
@@ -5389,8 +5381,7 @@ typedef union
         uint64_t reserved_40_63        : 24;
 #endif /* Word 0 - End */
     } cn88xxp1;
-    /* struct bdk_ap_cvmctl_el1_s cn9; */
-    struct bdk_ap_cvmctl_el1_cn81xx
+    struct bdk_ap_cvmctl_el1_cn9
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_44_63        : 20;
@@ -5398,6 +5389,82 @@ typedef union
         uint64_t dpref_next_line       : 1;  /**< [ 42: 42](R/W) Enable hardware next line dstream prefetcher. */
         uint64_t dpref_stride2         : 1;  /**< [ 41: 41](R/W) When set, hardware dstream prefetcher uses a stride of 2. When clear, stride of 1. */
         uint64_t dpref_bp_dis          : 1;  /**< [ 40: 40](R/W) When set, hardware dstream prefetcher ingores memory system backpressure for next line. */
+        uint64_t mrs_msr_hazard        : 1;  /**< [ 39: 39](R/W) Disable MRS/MSR pipelining, assume hazards. */
+        uint64_t disable_eret_pred     : 1;  /**< [ 38: 38](R/W) Disable ERET prediction. */
+        uint64_t disable_casp          : 1;  /**< [ 37: 37](R/W) Disable the CASP instruction. */
+        uint64_t disable_cas           : 1;  /**< [ 36: 36](R/W) Disable the CAS instruction. */
+        uint64_t force_cim_ich_vtr_to1 : 1;  /**< [ 35: 35](RAZ) Reserved. */
+        uint64_t disable_wfe           : 1;  /**< [ 34: 34](R/W) Disable WFE. */
+        uint64_t enable_v81            : 1;  /**< [ 33: 33](R/W) Enable v8.1 features, modifying the ID registers to show v8.1.
+                                                                 Internal:
+                                                                 FIXME does this go away with CN98XX. */
+        uint64_t isb_flush             : 1;  /**< [ 32: 32](R/W) Enable pipeline flush after an ISB. */
+        uint64_t wfe_defer             : 8;  /**< [ 31: 24](R/W) WFE defer timer setting.  Time in core-clocks = {| WFE_DEFER, WFE_DEFER<3:0>} <<
+                                                                 WFE_DEFER<7:4>. */
+        uint64_t disable_icache_probes : 1;  /**< [ 23: 23](R/W) Disable Icache probes. */
+        uint64_t force_icache_parity   : 1;  /**< [ 22: 22](R/W) Force icache correctable parity error on next Icache fill. This bit clears itself after
+                                                                 the fill operation. */
+        uint64_t suppress_parity_checking : 1;/**< [ 21: 21](R/W) Suppress Icache correctable parity checking. */
+        uint64_t no_exc_icache_parity  : 1;  /**< [ 20: 20](R/W) Suppress exception on Icache correctable parity error. */
+        uint64_t step_rate             : 4;  /**< [ 19: 16](R/W) Step rate. */
+        uint64_t reserved_10_15        : 6;
+        uint64_t disable_flex_execution : 1; /**< [  9:  9](R/W) Disable flex execution; also prevents overlapped execution of DIV/SQRT and other
+                                                                 instructions (to prevent a DIV load collision). */
+        uint64_t disable_branch_folding : 1; /**< [  8:  8](R/W) Disable branch folding. */
+        uint64_t disable_wfi           : 1;  /**< [  7:  7](R/W) Disable WFI/WFE. */
+        uint64_t disable_fetch_under_fill : 1;/**< [  6:  6](R/W) Disable fetch-under-fill. */
+        uint64_t force_issue_clock     : 1;  /**< [  5:  5](R/W) Force issue-unit clock. */
+        uint64_t force_exe_clock       : 1;  /**< [  4:  4](R/W) Force execution-unit clock. */
+        uint64_t force_csr_clock       : 1;  /**< [  3:  3](R/W) Force CSR clock. */
+        uint64_t disable_icache_prefetching : 1;/**< [  2:  2](R/W) Disable Icache prefetching. */
+        uint64_t random_icache         : 1;  /**< [  1:  1](R/W) Random Icache replacement. */
+        uint64_t disable_icache        : 1;  /**< [  0:  0](R/W) Disable Icache. */
+#else /* Word 0 - Little Endian */
+        uint64_t disable_icache        : 1;  /**< [  0:  0](R/W) Disable Icache. */
+        uint64_t random_icache         : 1;  /**< [  1:  1](R/W) Random Icache replacement. */
+        uint64_t disable_icache_prefetching : 1;/**< [  2:  2](R/W) Disable Icache prefetching. */
+        uint64_t force_csr_clock       : 1;  /**< [  3:  3](R/W) Force CSR clock. */
+        uint64_t force_exe_clock       : 1;  /**< [  4:  4](R/W) Force execution-unit clock. */
+        uint64_t force_issue_clock     : 1;  /**< [  5:  5](R/W) Force issue-unit clock. */
+        uint64_t disable_fetch_under_fill : 1;/**< [  6:  6](R/W) Disable fetch-under-fill. */
+        uint64_t disable_wfi           : 1;  /**< [  7:  7](R/W) Disable WFI/WFE. */
+        uint64_t disable_branch_folding : 1; /**< [  8:  8](R/W) Disable branch folding. */
+        uint64_t disable_flex_execution : 1; /**< [  9:  9](R/W) Disable flex execution; also prevents overlapped execution of DIV/SQRT and other
+                                                                 instructions (to prevent a DIV load collision). */
+        uint64_t reserved_10_15        : 6;
+        uint64_t step_rate             : 4;  /**< [ 19: 16](R/W) Step rate. */
+        uint64_t no_exc_icache_parity  : 1;  /**< [ 20: 20](R/W) Suppress exception on Icache correctable parity error. */
+        uint64_t suppress_parity_checking : 1;/**< [ 21: 21](R/W) Suppress Icache correctable parity checking. */
+        uint64_t force_icache_parity   : 1;  /**< [ 22: 22](R/W) Force icache correctable parity error on next Icache fill. This bit clears itself after
+                                                                 the fill operation. */
+        uint64_t disable_icache_probes : 1;  /**< [ 23: 23](R/W) Disable Icache probes. */
+        uint64_t wfe_defer             : 8;  /**< [ 31: 24](R/W) WFE defer timer setting.  Time in core-clocks = {| WFE_DEFER, WFE_DEFER<3:0>} <<
+                                                                 WFE_DEFER<7:4>. */
+        uint64_t isb_flush             : 1;  /**< [ 32: 32](R/W) Enable pipeline flush after an ISB. */
+        uint64_t enable_v81            : 1;  /**< [ 33: 33](R/W) Enable v8.1 features, modifying the ID registers to show v8.1.
+                                                                 Internal:
+                                                                 FIXME does this go away with CN98XX. */
+        uint64_t disable_wfe           : 1;  /**< [ 34: 34](R/W) Disable WFE. */
+        uint64_t force_cim_ich_vtr_to1 : 1;  /**< [ 35: 35](RAZ) Reserved. */
+        uint64_t disable_cas           : 1;  /**< [ 36: 36](R/W) Disable the CAS instruction. */
+        uint64_t disable_casp          : 1;  /**< [ 37: 37](R/W) Disable the CASP instruction. */
+        uint64_t disable_eret_pred     : 1;  /**< [ 38: 38](R/W) Disable ERET prediction. */
+        uint64_t mrs_msr_hazard        : 1;  /**< [ 39: 39](R/W) Disable MRS/MSR pipelining, assume hazards. */
+        uint64_t dpref_bp_dis          : 1;  /**< [ 40: 40](R/W) When set, hardware dstream prefetcher ingores memory system backpressure for next line. */
+        uint64_t dpref_stride2         : 1;  /**< [ 41: 41](R/W) When set, hardware dstream prefetcher uses a stride of 2. When clear, stride of 1. */
+        uint64_t dpref_next_line       : 1;  /**< [ 42: 42](R/W) Enable hardware next line dstream prefetcher. */
+        uint64_t dpref_delta           : 1;  /**< [ 43: 43](R/W) Enable hardware dstream delta prefetcher. */
+        uint64_t reserved_44_63        : 20;
+#endif /* Word 0 - End */
+    } cn9;
+    struct bdk_ap_cvmctl_el1_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_44_63        : 20;
+        uint64_t dpref_bp_dis          : 1;  /**< [ 43: 43](R/W) When set, hardware data prefetcher ignores memory system backpressure for next line prefetcher. */
+        uint64_t dpref_lookahead       : 1;  /**< [ 42: 42](R/W) When set, hardware data prefetcher uses a lookahead of 2. When clear, lookahead of 1. */
+        uint64_t dpref_next_line       : 1;  /**< [ 41: 41](R/W) Enable next line hardware data prefetcher. */
+        uint64_t dpref_delta           : 1;  /**< [ 40: 40](R/W) Enable delta stream hardware data prefetcher. */
         uint64_t mrs_msr_hazard        : 1;  /**< [ 39: 39](R/W) Disable MRS/MSR pipelining, assume hazards. */
         uint64_t disable_eret_pred     : 1;  /**< [ 38: 38](R/W) Disable ERET prediction. */
         uint64_t disable_casp          : 1;  /**< [ 37: 37](R/W) Disable the CASP instruction. */
@@ -5455,14 +5522,85 @@ typedef union
         uint64_t disable_casp          : 1;  /**< [ 37: 37](R/W) Disable the CASP instruction. */
         uint64_t disable_eret_pred     : 1;  /**< [ 38: 38](R/W) Disable ERET prediction. */
         uint64_t mrs_msr_hazard        : 1;  /**< [ 39: 39](R/W) Disable MRS/MSR pipelining, assume hazards. */
-        uint64_t dpref_bp_dis          : 1;  /**< [ 40: 40](R/W) When set, hardware dstream prefetcher ingores memory system backpressure for next line. */
-        uint64_t dpref_stride2         : 1;  /**< [ 41: 41](R/W) When set, hardware dstream prefetcher uses a stride of 2. When clear, stride of 1. */
-        uint64_t dpref_next_line       : 1;  /**< [ 42: 42](R/W) Enable hardware next line dstream prefetcher. */
-        uint64_t dpref_delta           : 1;  /**< [ 43: 43](R/W) Enable hardware dstream delta prefetcher. */
+        uint64_t dpref_delta           : 1;  /**< [ 40: 40](R/W) Enable delta stream hardware data prefetcher. */
+        uint64_t dpref_next_line       : 1;  /**< [ 41: 41](R/W) Enable next line hardware data prefetcher. */
+        uint64_t dpref_lookahead       : 1;  /**< [ 42: 42](R/W) When set, hardware data prefetcher uses a lookahead of 2. When clear, lookahead of 1. */
+        uint64_t dpref_bp_dis          : 1;  /**< [ 43: 43](R/W) When set, hardware data prefetcher ignores memory system backpressure for next line prefetcher. */
         uint64_t reserved_44_63        : 20;
 #endif /* Word 0 - End */
     } cn81xx;
-    /* struct bdk_ap_cvmctl_el1_cn81xx cn83xx; */
+    struct bdk_ap_cvmctl_el1_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_44_63        : 20;
+        uint64_t dpref_bp_dis          : 1;  /**< [ 43: 43](R/W) When set, hardware dstream prefetcher ingores memory system backpressure for next line. */
+        uint64_t dpref_stride2         : 1;  /**< [ 42: 42](R/W) When set, hardware dstream prefetcher uses a stride of 2. When clear, stride of 1. */
+        uint64_t dpref_next_line       : 1;  /**< [ 41: 41](R/W) Enable hardware next line dstream prefetcher. */
+        uint64_t dpref_delta           : 1;  /**< [ 40: 40](R/W) Enable hardware dstream delta prefetcher. */
+        uint64_t mrs_msr_hazard        : 1;  /**< [ 39: 39](R/W) Disable MRS/MSR pipelining, assume hazards. */
+        uint64_t disable_eret_pred     : 1;  /**< [ 38: 38](R/W) Disable ERET prediction. */
+        uint64_t disable_casp          : 1;  /**< [ 37: 37](R/W) Disable the CASP instruction. */
+        uint64_t disable_cas           : 1;  /**< [ 36: 36](R/W) Disable the CAS instruction. */
+        uint64_t force_cim_ich_vtr_to1 : 1;  /**< [ 35: 35](RAZ) Reserved. */
+        uint64_t disable_wfe           : 1;  /**< [ 34: 34](R/W) Disable WFE. */
+        uint64_t enable_v81            : 1;  /**< [ 33: 33](R/W) Enable v8.1 features, modifying the ID registers to show v8.1. */
+        uint64_t isb_flush             : 1;  /**< [ 32: 32](R/W) Enable pipeline flush after an ISB. */
+        uint64_t wfe_defer             : 8;  /**< [ 31: 24](R/W) WFE defer timer setting.  Time in core-clocks = {| WFE_DEFER, WFE_DEFER<3:0>} <<
+                                                                 WFE_DEFER<7:4>. */
+        uint64_t disable_icache_probes : 1;  /**< [ 23: 23](R/W) Disable Icache probes. */
+        uint64_t force_icache_parity   : 1;  /**< [ 22: 22](R/W) Force icache correctable parity error on next Icache fill. This bit clears itself after
+                                                                 the fill operation. */
+        uint64_t suppress_parity_checking : 1;/**< [ 21: 21](R/W) Suppress Icache correctable parity checking. */
+        uint64_t no_exc_icache_parity  : 1;  /**< [ 20: 20](R/W) Suppress exception on Icache correctable parity error. */
+        uint64_t step_rate             : 4;  /**< [ 19: 16](R/W) Step rate. */
+        uint64_t reserved_10_15        : 6;
+        uint64_t disable_flex_execution : 1; /**< [  9:  9](R/W) Disable flex execution; also prevents overlapped execution of DIV/SQRT and other
+                                                                 instructions (to prevent a DIV load collision). */
+        uint64_t disable_branch_folding : 1; /**< [  8:  8](R/W) Disable branch folding. */
+        uint64_t disable_wfi           : 1;  /**< [  7:  7](R/W) Disable WFI/WFE. */
+        uint64_t disable_fetch_under_fill : 1;/**< [  6:  6](R/W) Disable fetch-under-fill. */
+        uint64_t force_issue_clock     : 1;  /**< [  5:  5](R/W) Force issue-unit clock. */
+        uint64_t force_exe_clock       : 1;  /**< [  4:  4](R/W) Force execution-unit clock. */
+        uint64_t force_csr_clock       : 1;  /**< [  3:  3](R/W) Force CSR clock. */
+        uint64_t disable_icache_prefetching : 1;/**< [  2:  2](R/W) Disable Icache prefetching. */
+        uint64_t random_icache         : 1;  /**< [  1:  1](R/W) Random Icache replacement. */
+        uint64_t disable_icache        : 1;  /**< [  0:  0](R/W) Disable Icache. */
+#else /* Word 0 - Little Endian */
+        uint64_t disable_icache        : 1;  /**< [  0:  0](R/W) Disable Icache. */
+        uint64_t random_icache         : 1;  /**< [  1:  1](R/W) Random Icache replacement. */
+        uint64_t disable_icache_prefetching : 1;/**< [  2:  2](R/W) Disable Icache prefetching. */
+        uint64_t force_csr_clock       : 1;  /**< [  3:  3](R/W) Force CSR clock. */
+        uint64_t force_exe_clock       : 1;  /**< [  4:  4](R/W) Force execution-unit clock. */
+        uint64_t force_issue_clock     : 1;  /**< [  5:  5](R/W) Force issue-unit clock. */
+        uint64_t disable_fetch_under_fill : 1;/**< [  6:  6](R/W) Disable fetch-under-fill. */
+        uint64_t disable_wfi           : 1;  /**< [  7:  7](R/W) Disable WFI/WFE. */
+        uint64_t disable_branch_folding : 1; /**< [  8:  8](R/W) Disable branch folding. */
+        uint64_t disable_flex_execution : 1; /**< [  9:  9](R/W) Disable flex execution; also prevents overlapped execution of DIV/SQRT and other
+                                                                 instructions (to prevent a DIV load collision). */
+        uint64_t reserved_10_15        : 6;
+        uint64_t step_rate             : 4;  /**< [ 19: 16](R/W) Step rate. */
+        uint64_t no_exc_icache_parity  : 1;  /**< [ 20: 20](R/W) Suppress exception on Icache correctable parity error. */
+        uint64_t suppress_parity_checking : 1;/**< [ 21: 21](R/W) Suppress Icache correctable parity checking. */
+        uint64_t force_icache_parity   : 1;  /**< [ 22: 22](R/W) Force icache correctable parity error on next Icache fill. This bit clears itself after
+                                                                 the fill operation. */
+        uint64_t disable_icache_probes : 1;  /**< [ 23: 23](R/W) Disable Icache probes. */
+        uint64_t wfe_defer             : 8;  /**< [ 31: 24](R/W) WFE defer timer setting.  Time in core-clocks = {| WFE_DEFER, WFE_DEFER<3:0>} <<
+                                                                 WFE_DEFER<7:4>. */
+        uint64_t isb_flush             : 1;  /**< [ 32: 32](R/W) Enable pipeline flush after an ISB. */
+        uint64_t enable_v81            : 1;  /**< [ 33: 33](R/W) Enable v8.1 features, modifying the ID registers to show v8.1. */
+        uint64_t disable_wfe           : 1;  /**< [ 34: 34](R/W) Disable WFE. */
+        uint64_t force_cim_ich_vtr_to1 : 1;  /**< [ 35: 35](RAZ) Reserved. */
+        uint64_t disable_cas           : 1;  /**< [ 36: 36](R/W) Disable the CAS instruction. */
+        uint64_t disable_casp          : 1;  /**< [ 37: 37](R/W) Disable the CASP instruction. */
+        uint64_t disable_eret_pred     : 1;  /**< [ 38: 38](R/W) Disable ERET prediction. */
+        uint64_t mrs_msr_hazard        : 1;  /**< [ 39: 39](R/W) Disable MRS/MSR pipelining, assume hazards. */
+        uint64_t dpref_delta           : 1;  /**< [ 40: 40](R/W) Enable hardware dstream delta prefetcher. */
+        uint64_t dpref_next_line       : 1;  /**< [ 41: 41](R/W) Enable hardware next line dstream prefetcher. */
+        uint64_t dpref_stride2         : 1;  /**< [ 42: 42](R/W) When set, hardware dstream prefetcher uses a stride of 2. When clear, stride of 1. */
+        uint64_t dpref_bp_dis          : 1;  /**< [ 43: 43](R/W) When set, hardware dstream prefetcher ingores memory system backpressure for next line. */
+        uint64_t reserved_44_63        : 20;
+#endif /* Word 0 - End */
+    } cn83xx;
     struct bdk_ap_cvmctl_el1_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -7330,6 +7468,22 @@ typedef union
     struct bdk_ap_dbgdtrtx_el0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t data                  : 32; /**< [ 31:  0](WO) Target to host data. One word of data for transfer from the
+                                                                     debug target to the debug host.
+                                                                 For the full behavior of the Debug Communications Channel, see
+                                                                     section 9 (The Debug Communications Channel and Instruction
+                                                                     Transfer Register) in document PRD03-PRDC-010486. */
+#else /* Word 0 - Little Endian */
+        uint32_t data                  : 32; /**< [ 31:  0](WO) Target to host data. One word of data for transfer from the
+                                                                     debug target to the debug host.
+                                                                 For the full behavior of the Debug Communications Channel, see
+                                                                     section 9 (The Debug Communications Channel and Instruction
+                                                                     Transfer Register) in document PRD03-PRDC-010486. */
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_ap_dbgdtrtx_el0_cn8
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t data                  : 32; /**< [ 31:  0](RO) Target to host data. One word of data for transfer from the
                                                                      debug target to the debug host.
                                                                  For the full behavior of the Debug Communications Channel, see
@@ -7342,8 +7496,8 @@ typedef union
                                                                      section 9 (The Debug Communications Channel and Instruction
                                                                      Transfer Register) in document PRD03-PRDC-010486. */
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_ap_dbgdtrtx_el0_s cn; */
+    } cn8;
+    /* struct bdk_ap_dbgdtrtx_el0_s cn9; */
 } bdk_ap_dbgdtrtx_el0_t;
 
 #define BDK_AP_DBGDTRTX_EL0 BDK_AP_DBGDTRTX_EL0_FUNC()
@@ -10372,7 +10526,7 @@ static inline uint64_t BDK_AP_HSTR_EL2_FUNC(void)
 /**
  * Register (SYSREG) ap_icc_ap0r#_el1
  *
- * AP Interrupt Controller Active Priorities (0,0) Register
+ * AP Interrupt Controller Active Priorities Group 0 (1,3) Register
  * Provides information about the active priorities for the
  *     current interrupt regime.
  */
@@ -10479,7 +10633,9 @@ typedef union
 static inline uint64_t BDK_AP_ICC_AP0RX_EL1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_ICC_AP0RX_EL1(unsigned long a)
 {
-    if (a<=3)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=3))
+        return 0x3000c080400ll + 0x100ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a>=1)&&(a<=3)))
         return 0x3000c080400ll + 0x100ll * ((a) & 0x3);
     __bdk_csr_fatal("AP_ICC_AP0RX_EL1", 1, a, 0, 0, 0);
 }
@@ -10491,9 +10647,131 @@ static inline uint64_t BDK_AP_ICC_AP0RX_EL1(unsigned long a)
 #define arguments_BDK_AP_ICC_AP0RX_EL1(a) (a),-1,-1,-1
 
 /**
+ * Register (SYSREG) ap_icc_ap0r0_el1
+ *
+ * AP Interrupt Controller Active Priorities Group 0 (0,0) Register
+ * Provides information about the active priorities for the
+ *     current interrupt regime.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_ap_icc_ap0r0_el1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t prioritybits          : 32; /**< [ 31:  0](R/W) Provides information about priority M, according to the
+                                                                     following relationship:
+                                                                 Bit P<n> corresponds to priority (M divided by 22^(U))
+                                                                     minus 1, where U is the number of unimplemented bits of
+                                                                     priority and is equal to (7 -  AP_ICC_CTLR_EL1[PRI]bits).
+                                                                 For example, in a system with AP_ICC_CTLR_EL1[PRI]bits == 0b100:
+
+                                                                  There are 5 bits of implemented priority.
+
+                                                                  This means there are 3 bits of unimplemented priority, which
+                                                                     are always at the least significant end (bits [2:0] are RES0).
+
+                                                                  Valid priorities are 8, 16, 24, 32, and so on. Dividing these
+                                                                     by 22^(3) gives 1, 2, 3, 4, and so on.
+
+                                                                  Subtracting 1 from each gives bits 0, 1, 2, 3, and so on that
+                                                                     provide information about those priorities.
+
+                                                                 Accesses to these registers from an interrupt regime give a
+                                                                     view of the active priorities that is appropriate for that
+                                                                     interrupt regime, to allow save and restore of the appropriate
+                                                                     state.
+
+                                                                 Interrupt regime and the number of Security states supported
+                                                                     by the Distributor affect the view as follows. Unless
+                                                                     otherwise stated, when a bit is successfully set to one, this
+                                                                     clears any other active priorities corresponding to that bit.
+
+                                                                 Exception level     AP0Rn access
+
+                                                                 (Secure) EL3        Permitted. Accesses Group 0 Secure active priorities.
+
+                                                                 Secure EL1  Permitted. Accesses Group 0 Secure active priorities.
+
+                                                                 Nonsecure EL1 access for a Virtual interrupt       ICH_AP0Rn_EL2
+
+                                                                 Nonsecure EL1 or EL2 when GIC Distributor supports two Security states (GICD_CTLR[DS] is
+                                                                 0) Permitted. Accesses Group 0 Secure active priorities.
+
+                                                                 Nonsecure EL1 or EL2 when GIC Distributor supports one Security state (GICD_CTLR[DS] is
+                                                                 1)  Permitted. Accesses Group 0 active priorities.
+
+                                                                 A Virtual interrupt in this case means that the interrupt
+                                                                     group associated with the register has been virtualized. */
+#else /* Word 0 - Little Endian */
+        uint32_t prioritybits          : 32; /**< [ 31:  0](R/W) Provides information about priority M, according to the
+                                                                     following relationship:
+                                                                 Bit P<n> corresponds to priority (M divided by 22^(U))
+                                                                     minus 1, where U is the number of unimplemented bits of
+                                                                     priority and is equal to (7 -  AP_ICC_CTLR_EL1[PRI]bits).
+                                                                 For example, in a system with AP_ICC_CTLR_EL1[PRI]bits == 0b100:
+
+                                                                  There are 5 bits of implemented priority.
+
+                                                                  This means there are 3 bits of unimplemented priority, which
+                                                                     are always at the least significant end (bits [2:0] are RES0).
+
+                                                                  Valid priorities are 8, 16, 24, 32, and so on. Dividing these
+                                                                     by 22^(3) gives 1, 2, 3, 4, and so on.
+
+                                                                  Subtracting 1 from each gives bits 0, 1, 2, 3, and so on that
+                                                                     provide information about those priorities.
+
+                                                                 Accesses to these registers from an interrupt regime give a
+                                                                     view of the active priorities that is appropriate for that
+                                                                     interrupt regime, to allow save and restore of the appropriate
+                                                                     state.
+
+                                                                 Interrupt regime and the number of Security states supported
+                                                                     by the Distributor affect the view as follows. Unless
+                                                                     otherwise stated, when a bit is successfully set to one, this
+                                                                     clears any other active priorities corresponding to that bit.
+
+                                                                 Exception level     AP0Rn access
+
+                                                                 (Secure) EL3        Permitted. Accesses Group 0 Secure active priorities.
+
+                                                                 Secure EL1  Permitted. Accesses Group 0 Secure active priorities.
+
+                                                                 Nonsecure EL1 access for a Virtual interrupt       ICH_AP0Rn_EL2
+
+                                                                 Nonsecure EL1 or EL2 when GIC Distributor supports two Security states (GICD_CTLR[DS] is
+                                                                 0) Permitted. Accesses Group 0 Secure active priorities.
+
+                                                                 Nonsecure EL1 or EL2 when GIC Distributor supports one Security state (GICD_CTLR[DS] is
+                                                                 1)  Permitted. Accesses Group 0 active priorities.
+
+                                                                 A Virtual interrupt in this case means that the interrupt
+                                                                     group associated with the register has been virtualized. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ap_icc_ap0r0_el1_s cn; */
+} bdk_ap_icc_ap0r0_el1_t;
+
+#define BDK_AP_ICC_AP0R0_EL1 BDK_AP_ICC_AP0R0_EL1_FUNC()
+static inline uint64_t BDK_AP_ICC_AP0R0_EL1_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_AP_ICC_AP0R0_EL1_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
+        return 0x3000c080400ll;
+    __bdk_csr_fatal("AP_ICC_AP0R0_EL1", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_AP_ICC_AP0R0_EL1 bdk_ap_icc_ap0r0_el1_t
+#define bustype_BDK_AP_ICC_AP0R0_EL1 BDK_CSR_TYPE_SYSREG
+#define basename_BDK_AP_ICC_AP0R0_EL1 "AP_ICC_AP0R0_EL1"
+#define busnum_BDK_AP_ICC_AP0R0_EL1 0
+#define arguments_BDK_AP_ICC_AP0R0_EL1 -1,-1,-1,-1
+
+/**
  * Register (SYSREG) ap_icc_ap1r#_el1
  *
- * AP Interrupt Controller Active Priorities (1,3) Register
+ * AP Interrupt Controller Active Priorities Group 1(1,3) Register
  * Provides information about the active priorities for the
  *     current interrupt regime.
  */
@@ -10620,7 +10898,9 @@ typedef union
 static inline uint64_t BDK_AP_ICC_AP1RX_EL1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_ICC_AP1RX_EL1(unsigned long a)
 {
-    if (a<=3)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=3))
+        return 0x3000c090000ll + 0x100ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a>=1)&&(a<=3)))
         return 0x3000c090000ll + 0x100ll * ((a) & 0x3);
     __bdk_csr_fatal("AP_ICC_AP1RX_EL1", 1, a, 0, 0, 0);
 }
@@ -10630,6 +10910,148 @@ static inline uint64_t BDK_AP_ICC_AP1RX_EL1(unsigned long a)
 #define basename_BDK_AP_ICC_AP1RX_EL1(a) "AP_ICC_AP1RX_EL1"
 #define busnum_BDK_AP_ICC_AP1RX_EL1(a) (a)
 #define arguments_BDK_AP_ICC_AP1RX_EL1(a) (a),-1,-1,-1
+
+/**
+ * Register (SYSREG) ap_icc_ap1r0_el1
+ *
+ * AP Interrupt Controller Active Priorities Group 1 (0,0) Register
+ * Provides information about the active priorities for the
+ *     current interrupt regime.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_ap_icc_ap1r0_el1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t prioritybits          : 32; /**< [ 31:  0](R/W) Provides information about priority M, according to the
+                                                                     following relationship:
+
+                                                                 Bit P<n> corresponds to priority (M divided by 22^(U))
+                                                                     minus 1, where U is the number of unimplemented bits of
+                                                                     priority and is equal to (7 -  AP_ICC_CTLR_EL1[PRI]bits).
+
+                                                                 For example, in a system with AP_ICC_CTLR_EL1[PRI]bits ==0b100
+
+                                                                  There are 5 bits of implemented priority.
+
+                                                                  This means there are 3 bits of unimplemented priority, which
+                                                                     are always at the least significant end (bits [2:0] are RES0).
+
+                                                                  Valid priorities are 8, 16, 24, 32, and so on. Dividing these
+                                                                     by 22^(3) gives 1, 2, 3, 4, and so on.
+
+                                                                  Subtracting 1 from each gives bits 0, 1, 2, 3, and so on that
+                                                                     provide information about those priorities.
+
+                                                                 Accesses to these registers from an interrupt regime give a
+                                                                     view of the active priorities that is appropriate for that
+                                                                     interrupt regime, to allow save and restore of the appropriate
+                                                                     state.
+
+                                                                 Interrupt regime and the number of Security states supported
+                                                                     by the Distributor affect the view as follows. Unless
+                                                                     otherwise stated, when a bit is successfully set to one, this
+                                                                     clears any other active priorities corresponding to that bit.
+
+                                                                 Current Exception level and Security state  AP1Rn access
+
+                                                                 (Secure) EL3        Permitted. When AP_SCR_EL3[NS] is 0, accesses Group 1 Secure active
+                                                                 priorities. When AP_SCR_EL3[NS] is 1, accesses Group 1 nonsecure active priorities
+                                                                 (unshifted). When a bit is written, the bit is only updated if the corresponding Group 0
+                                                                 and Group 1 Secure active priority is zero.
+
+                                                                 Secure EL1  Permitted. Accesses Group 1 Secure active priorities (unshifted). When a bit
+                                                                 is written, the bit is only updated if the corresponding Group 0 Secure active priority is
+                                                                 zero.
+
+                                                                 Nonsecure EL1 access for a Virtual interrupt       ICH_AP1Rn_EL2
+
+                                                                 Nonsecure EL1 or EL2 when GIC Distributor supports two Security states (GICD_CTLR[DS] is
+                                                                 0) Permitted. Accesses Group 1 Nonsecure active priorities (shifted). When a bit is
+                                                                 written, the bit is only updated if the corresponding Group 0 and Group 1 Secure active
+                                                                 priority is zero.
+
+                                                                 Nonsecure EL1 or EL2 when GIC Distributor supports one Security state (GICD_CTLR[DS] is
+                                                                 1)  Permitted. Accesses Group 1 Nonsecure active priorities (unshifted). When a bit is
+                                                                 written, the bit is only updated if the Group 0 active priority is zero.
+
+                                                                 A Virtual interrupt in this case means that the interrupt
+                                                                     group associated with the register has been virtualized. */
+#else /* Word 0 - Little Endian */
+        uint32_t prioritybits          : 32; /**< [ 31:  0](R/W) Provides information about priority M, according to the
+                                                                     following relationship:
+
+                                                                 Bit P<n> corresponds to priority (M divided by 22^(U))
+                                                                     minus 1, where U is the number of unimplemented bits of
+                                                                     priority and is equal to (7 -  AP_ICC_CTLR_EL1[PRI]bits).
+
+                                                                 For example, in a system with AP_ICC_CTLR_EL1[PRI]bits ==0b100
+
+                                                                  There are 5 bits of implemented priority.
+
+                                                                  This means there are 3 bits of unimplemented priority, which
+                                                                     are always at the least significant end (bits [2:0] are RES0).
+
+                                                                  Valid priorities are 8, 16, 24, 32, and so on. Dividing these
+                                                                     by 22^(3) gives 1, 2, 3, 4, and so on.
+
+                                                                  Subtracting 1 from each gives bits 0, 1, 2, 3, and so on that
+                                                                     provide information about those priorities.
+
+                                                                 Accesses to these registers from an interrupt regime give a
+                                                                     view of the active priorities that is appropriate for that
+                                                                     interrupt regime, to allow save and restore of the appropriate
+                                                                     state.
+
+                                                                 Interrupt regime and the number of Security states supported
+                                                                     by the Distributor affect the view as follows. Unless
+                                                                     otherwise stated, when a bit is successfully set to one, this
+                                                                     clears any other active priorities corresponding to that bit.
+
+                                                                 Current Exception level and Security state  AP1Rn access
+
+                                                                 (Secure) EL3        Permitted. When AP_SCR_EL3[NS] is 0, accesses Group 1 Secure active
+                                                                 priorities. When AP_SCR_EL3[NS] is 1, accesses Group 1 nonsecure active priorities
+                                                                 (unshifted). When a bit is written, the bit is only updated if the corresponding Group 0
+                                                                 and Group 1 Secure active priority is zero.
+
+                                                                 Secure EL1  Permitted. Accesses Group 1 Secure active priorities (unshifted). When a bit
+                                                                 is written, the bit is only updated if the corresponding Group 0 Secure active priority is
+                                                                 zero.
+
+                                                                 Nonsecure EL1 access for a Virtual interrupt       ICH_AP1Rn_EL2
+
+                                                                 Nonsecure EL1 or EL2 when GIC Distributor supports two Security states (GICD_CTLR[DS] is
+                                                                 0) Permitted. Accesses Group 1 Nonsecure active priorities (shifted). When a bit is
+                                                                 written, the bit is only updated if the corresponding Group 0 and Group 1 Secure active
+                                                                 priority is zero.
+
+                                                                 Nonsecure EL1 or EL2 when GIC Distributor supports one Security state (GICD_CTLR[DS] is
+                                                                 1)  Permitted. Accesses Group 1 Nonsecure active priorities (unshifted). When a bit is
+                                                                 written, the bit is only updated if the Group 0 active priority is zero.
+
+                                                                 A Virtual interrupt in this case means that the interrupt
+                                                                     group associated with the register has been virtualized. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ap_icc_ap1r0_el1_s cn; */
+} bdk_ap_icc_ap1r0_el1_t;
+
+#define BDK_AP_ICC_AP1R0_EL1 BDK_AP_ICC_AP1R0_EL1_FUNC()
+static inline uint64_t BDK_AP_ICC_AP1R0_EL1_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_AP_ICC_AP1R0_EL1_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
+        return 0x3000c090000ll;
+    __bdk_csr_fatal("AP_ICC_AP1R0_EL1", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_AP_ICC_AP1R0_EL1 bdk_ap_icc_ap1r0_el1_t
+#define bustype_BDK_AP_ICC_AP1R0_EL1 BDK_CSR_TYPE_SYSREG
+#define basename_BDK_AP_ICC_AP1R0_EL1 "AP_ICC_AP1R0_EL1"
+#define busnum_BDK_AP_ICC_AP1R0_EL1 0
+#define arguments_BDK_AP_ICC_AP1R0_EL1 -1,-1,-1,-1
 
 /**
  * Register (SYSREG) ap_icc_asgi1r_el1
@@ -10645,23 +11067,23 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_56_63        : 8;
-        uint64_t aff3                  : 8;  /**< [ 55: 48](R/W) The affinity 3 value of the affinity path of the cluster for
+        uint64_t aff3                  : 8;  /**< [ 55: 48](WO) The affinity 3 value of the affinity path of the cluster for
                                                                      which SGI interrupts will be generated. */
         uint64_t reserved_41_47        : 7;
-        uint64_t irm                   : 1;  /**< [ 40: 40](R/W) Interrupt Routing Mode. Determines how the generated
+        uint64_t irm                   : 1;  /**< [ 40: 40](WO) Interrupt Routing Mode. Determines how the generated
                                                                      interrupts should be distributed to processors.
                                                                  0 = Interrupts routed to the processors specified by a.b.c.{target
                                                                      list}. In this routing, a, b, and c are the values of fields
                                                                      Aff3, Aff2, and Aff1 respectively.
                                                                  1 = Interrupts routed to all processors in the system, excluding
                                                                      self. */
-        uint64_t aff2                  : 8;  /**< [ 39: 32](R/W) The affinity 2 value of the affinity path of the cluster for
+        uint64_t aff2                  : 8;  /**< [ 39: 32](WO) The affinity 2 value of the affinity path of the cluster for
                                                                      which SGI interrupts will be generated. */
         uint64_t reserved_28_31        : 4;
-        uint64_t sgiid                 : 4;  /**< [ 27: 24](R/W) SGI Interrupt ID. */
-        uint64_t aff1                  : 8;  /**< [ 23: 16](R/W) The affinity 1 value of the affinity path of the cluster for
+        uint64_t sgiid                 : 4;  /**< [ 27: 24](WO) SGI Interrupt ID. */
+        uint64_t aff1                  : 8;  /**< [ 23: 16](WO) The affinity 1 value of the affinity path of the cluster for
                                                                      which SGI interrupts will be generated. */
-        uint64_t targetlist            : 16; /**< [ 15:  0](R/W) Target List. The set of processors for which SGI interrupts
+        uint64_t targetlist            : 16; /**< [ 15:  0](WO) Target List. The set of processors for which SGI interrupts
                                                                      will be generated. Each bit corresponds to the processor
                                                                      within a cluster with an Affinity 0 value equal to the bit
                                                                      number.
@@ -10674,7 +11096,7 @@ typedef union
                                                                  This restricts distribution of SGIs to the first 16 processors
                                                                      of an affinity 1 cluster. */
 #else /* Word 0 - Little Endian */
-        uint64_t targetlist            : 16; /**< [ 15:  0](R/W) Target List. The set of processors for which SGI interrupts
+        uint64_t targetlist            : 16; /**< [ 15:  0](WO) Target List. The set of processors for which SGI interrupts
                                                                      will be generated. Each bit corresponds to the processor
                                                                      within a cluster with an Affinity 0 value equal to the bit
                                                                      number.
@@ -10686,13 +11108,13 @@ typedef union
 
                                                                  This restricts distribution of SGIs to the first 16 processors
                                                                      of an affinity 1 cluster. */
-        uint64_t aff1                  : 8;  /**< [ 23: 16](R/W) The affinity 1 value of the affinity path of the cluster for
+        uint64_t aff1                  : 8;  /**< [ 23: 16](WO) The affinity 1 value of the affinity path of the cluster for
                                                                      which SGI interrupts will be generated. */
-        uint64_t sgiid                 : 4;  /**< [ 27: 24](R/W) SGI Interrupt ID. */
+        uint64_t sgiid                 : 4;  /**< [ 27: 24](WO) SGI Interrupt ID. */
         uint64_t reserved_28_31        : 4;
-        uint64_t aff2                  : 8;  /**< [ 39: 32](R/W) The affinity 2 value of the affinity path of the cluster for
+        uint64_t aff2                  : 8;  /**< [ 39: 32](WO) The affinity 2 value of the affinity path of the cluster for
                                                                      which SGI interrupts will be generated. */
-        uint64_t irm                   : 1;  /**< [ 40: 40](R/W) Interrupt Routing Mode. Determines how the generated
+        uint64_t irm                   : 1;  /**< [ 40: 40](WO) Interrupt Routing Mode. Determines how the generated
                                                                      interrupts should be distributed to processors.
                                                                  0 = Interrupts routed to the processors specified by a.b.c.{target
                                                                      list}. In this routing, a, b, and c are the values of fields
@@ -10700,7 +11122,7 @@ typedef union
                                                                  1 = Interrupts routed to all processors in the system, excluding
                                                                      self. */
         uint64_t reserved_41_47        : 7;
-        uint64_t aff3                  : 8;  /**< [ 55: 48](R/W) The affinity 3 value of the affinity path of the cluster for
+        uint64_t aff3                  : 8;  /**< [ 55: 48](WO) The affinity 3 value of the affinity path of the cluster for
                                                                      which SGI interrupts will be generated. */
         uint64_t reserved_56_63        : 8;
 #endif /* Word 0 - End */
@@ -11811,10 +12233,10 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_56_63        : 8;
-        uint64_t aff3                  : 8;  /**< [ 55: 48](R/W) The affinity 3 value of the affinity path of the cluster for
+        uint64_t aff3                  : 8;  /**< [ 55: 48](WO) The affinity 3 value of the affinity path of the cluster for
                                                                      which SGI interrupts will be generated. */
         uint64_t reserved_41_47        : 7;
-        uint64_t irm                   : 1;  /**< [ 40: 40](R/W) Interrupt Routing Mode. Determines how the generated
+        uint64_t irm                   : 1;  /**< [ 40: 40](WO) Interrupt Routing Mode. Determines how the generated
                                                                      interrupts should be distributed to processors. Possible
                                                                      values are:
                                                                  0 = Interrupts routed to the processors specified by a.b.c.{target
@@ -11822,13 +12244,13 @@ typedef union
                                                                      Aff3, Aff2, and Aff1 respectively.
                                                                  1 = Interrupts routed to all processors in the system, excluding
                                                                      self. */
-        uint64_t aff2                  : 8;  /**< [ 39: 32](R/W) The affinity 2 value of the affinity path of the cluster for
+        uint64_t aff2                  : 8;  /**< [ 39: 32](WO) The affinity 2 value of the affinity path of the cluster for
                                                                      which SGI interrupts will be generated. */
         uint64_t reserved_28_31        : 4;
-        uint64_t sgiid                 : 4;  /**< [ 27: 24](R/W) SGI Interrupt ID. */
-        uint64_t aff1                  : 8;  /**< [ 23: 16](R/W) The affinity 1 value of the affinity path of the cluster for
+        uint64_t sgiid                 : 4;  /**< [ 27: 24](WO) SGI Interrupt ID. */
+        uint64_t aff1                  : 8;  /**< [ 23: 16](WO) The affinity 1 value of the affinity path of the cluster for
                                                                      which SGI interrupts will be generated. */
-        uint64_t targetlist            : 16; /**< [ 15:  0](R/W) Target List. The set of processors for which SGI interrupts
+        uint64_t targetlist            : 16; /**< [ 15:  0](WO) Target List. The set of processors for which SGI interrupts
                                                                      will be generated. Each bit corresponds to the processor
                                                                      within a cluster with an Affinity 0 value equal to the bit
                                                                      number.
@@ -11841,7 +12263,7 @@ typedef union
                                                                  This restricts distribution of SGIs to the first 16 processors
                                                                      of an affinity 1 cluster. */
 #else /* Word 0 - Little Endian */
-        uint64_t targetlist            : 16; /**< [ 15:  0](R/W) Target List. The set of processors for which SGI interrupts
+        uint64_t targetlist            : 16; /**< [ 15:  0](WO) Target List. The set of processors for which SGI interrupts
                                                                      will be generated. Each bit corresponds to the processor
                                                                      within a cluster with an Affinity 0 value equal to the bit
                                                                      number.
@@ -11853,13 +12275,13 @@ typedef union
 
                                                                  This restricts distribution of SGIs to the first 16 processors
                                                                      of an affinity 1 cluster. */
-        uint64_t aff1                  : 8;  /**< [ 23: 16](R/W) The affinity 1 value of the affinity path of the cluster for
+        uint64_t aff1                  : 8;  /**< [ 23: 16](WO) The affinity 1 value of the affinity path of the cluster for
                                                                      which SGI interrupts will be generated. */
-        uint64_t sgiid                 : 4;  /**< [ 27: 24](R/W) SGI Interrupt ID. */
+        uint64_t sgiid                 : 4;  /**< [ 27: 24](WO) SGI Interrupt ID. */
         uint64_t reserved_28_31        : 4;
-        uint64_t aff2                  : 8;  /**< [ 39: 32](R/W) The affinity 2 value of the affinity path of the cluster for
+        uint64_t aff2                  : 8;  /**< [ 39: 32](WO) The affinity 2 value of the affinity path of the cluster for
                                                                      which SGI interrupts will be generated. */
-        uint64_t irm                   : 1;  /**< [ 40: 40](R/W) Interrupt Routing Mode. Determines how the generated
+        uint64_t irm                   : 1;  /**< [ 40: 40](WO) Interrupt Routing Mode. Determines how the generated
                                                                      interrupts should be distributed to processors. Possible
                                                                      values are:
                                                                  0 = Interrupts routed to the processors specified by a.b.c.{target
@@ -11868,7 +12290,7 @@ typedef union
                                                                  1 = Interrupts routed to all processors in the system, excluding
                                                                      self. */
         uint64_t reserved_41_47        : 7;
-        uint64_t aff3                  : 8;  /**< [ 55: 48](R/W) The affinity 3 value of the affinity path of the cluster for
+        uint64_t aff3                  : 8;  /**< [ 55: 48](WO) The affinity 3 value of the affinity path of the cluster for
                                                                      which SGI interrupts will be generated. */
         uint64_t reserved_56_63        : 8;
 #endif /* Word 0 - End */
@@ -11969,23 +12391,23 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_56_63        : 8;
-        uint64_t aff3                  : 8;  /**< [ 55: 48](R/W) The affinity 3 value of the affinity path of the cluster for
+        uint64_t aff3                  : 8;  /**< [ 55: 48](WO) The affinity 3 value of the affinity path of the cluster for
                                                                      which SGI interrupts will be generated. */
         uint64_t reserved_41_47        : 7;
-        uint64_t irm                   : 1;  /**< [ 40: 40](R/W) Interrupt Routing Mode. Determines how the generated
+        uint64_t irm                   : 1;  /**< [ 40: 40](WO) Interrupt Routing Mode. Determines how the generated
                                                                      interrupts should be distributed to processors.
                                                                  0 = Interrupts routed to the processors specified by a.b.c.{target
                                                                      list}. In this routing, a, b, and c are the values of fields
                                                                      Aff3, Aff2, and Aff1 respectively.
                                                                  1 = Interrupts routed to all processors in the system, excluding
                                                                      self. */
-        uint64_t aff2                  : 8;  /**< [ 39: 32](R/W) The affinity 2 value of the affinity path of the cluster for
+        uint64_t aff2                  : 8;  /**< [ 39: 32](WO) The affinity 2 value of the affinity path of the cluster for
                                                                      which SGI interrupts will be generated. */
         uint64_t reserved_28_31        : 4;
-        uint64_t sgiid                 : 4;  /**< [ 27: 24](R/W) SGI Interrupt ID. */
-        uint64_t aff1                  : 8;  /**< [ 23: 16](R/W) The affinity 1 value of the affinity path of the cluster for
+        uint64_t sgiid                 : 4;  /**< [ 27: 24](WO) SGI Interrupt ID. */
+        uint64_t aff1                  : 8;  /**< [ 23: 16](WO) The affinity 1 value of the affinity path of the cluster for
                                                                      which SGI interrupts will be generated. */
-        uint64_t targetlist            : 16; /**< [ 15:  0](R/W) Target List. The set of processors for which SGI interrupts
+        uint64_t targetlist            : 16; /**< [ 15:  0](WO) Target List. The set of processors for which SGI interrupts
                                                                      will be generated. Each bit corresponds to the processor
                                                                      within a cluster with an Affinity 0 value equal to the bit
                                                                      number.
@@ -11996,7 +12418,7 @@ typedef union
                                                                  This restricts distribution of SGIs to the first 16 processors
                                                                      of an affinity 1 cluster. */
 #else /* Word 0 - Little Endian */
-        uint64_t targetlist            : 16; /**< [ 15:  0](R/W) Target List. The set of processors for which SGI interrupts
+        uint64_t targetlist            : 16; /**< [ 15:  0](WO) Target List. The set of processors for which SGI interrupts
                                                                      will be generated. Each bit corresponds to the processor
                                                                      within a cluster with an Affinity 0 value equal to the bit
                                                                      number.
@@ -12006,13 +12428,13 @@ typedef union
                                                                      interrupt.
                                                                  This restricts distribution of SGIs to the first 16 processors
                                                                      of an affinity 1 cluster. */
-        uint64_t aff1                  : 8;  /**< [ 23: 16](R/W) The affinity 1 value of the affinity path of the cluster for
+        uint64_t aff1                  : 8;  /**< [ 23: 16](WO) The affinity 1 value of the affinity path of the cluster for
                                                                      which SGI interrupts will be generated. */
-        uint64_t sgiid                 : 4;  /**< [ 27: 24](R/W) SGI Interrupt ID. */
+        uint64_t sgiid                 : 4;  /**< [ 27: 24](WO) SGI Interrupt ID. */
         uint64_t reserved_28_31        : 4;
-        uint64_t aff2                  : 8;  /**< [ 39: 32](R/W) The affinity 2 value of the affinity path of the cluster for
+        uint64_t aff2                  : 8;  /**< [ 39: 32](WO) The affinity 2 value of the affinity path of the cluster for
                                                                      which SGI interrupts will be generated. */
-        uint64_t irm                   : 1;  /**< [ 40: 40](R/W) Interrupt Routing Mode. Determines how the generated
+        uint64_t irm                   : 1;  /**< [ 40: 40](WO) Interrupt Routing Mode. Determines how the generated
                                                                      interrupts should be distributed to processors.
                                                                  0 = Interrupts routed to the processors specified by a.b.c.{target
                                                                      list}. In this routing, a, b, and c are the values of fields
@@ -12020,7 +12442,7 @@ typedef union
                                                                  1 = Interrupts routed to all processors in the system, excluding
                                                                      self. */
         uint64_t reserved_41_47        : 7;
-        uint64_t aff3                  : 8;  /**< [ 55: 48](R/W) The affinity 3 value of the affinity path of the cluster for
+        uint64_t aff3                  : 8;  /**< [ 55: 48](WO) The affinity 3 value of the affinity path of the cluster for
                                                                      which SGI interrupts will be generated. */
         uint64_t reserved_56_63        : 8;
 #endif /* Word 0 - End */
@@ -12820,6 +13242,63 @@ static inline uint64_t BDK_AP_ICH_EISR_EL2_FUNC(void)
 #define arguments_BDK_AP_ICH_EISR_EL2 -1,-1,-1,-1
 
 /**
+ * Register (SYSREG) ap_ich_elrsr_el2
+ *
+ * AP Interrupt Controller Empty List Register Status Register
+ * This register can be used to locate a usable List register
+ *     when the hypervisor is delivering an interrupt to a Guest OS.
+ *
+ * Internal:
+ * This register was renamed ICH_ELRSR_EL2 in OBAN of 2014-06-13 after release v20 of GIC v3.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_ap_ich_elrsr_el2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t status_bits           : 32; /**< [ 31:  0](RO) Status bit for List register <n>, ICH_LR<n>_EL2:
+                                                                 For any ICH_LR<n>_EL2, the corresponding status bit is set to
+                                                                     1 if ICH_LR<n>_EL2[State] is 0x0.
+                                                                 0 = List register ICH_LR<n>_EL2, if implemented, contains a valid
+                                                                    interrupt. Using this List register can result in overwriting
+                                                                     a valid interrupt.
+                                                                 1 = List register ICH_LR<n>_EL2 does not contain a valid
+                                                                     interrupt. The List register is empty and can be used without
+                                                                     overwriting a valid interrupt or losing an EOI maintenance
+                                                                     interrupt. */
+#else /* Word 0 - Little Endian */
+        uint32_t status_bits           : 32; /**< [ 31:  0](RO) Status bit for List register <n>, ICH_LR<n>_EL2:
+                                                                 For any ICH_LR<n>_EL2, the corresponding status bit is set to
+                                                                     1 if ICH_LR<n>_EL2[State] is 0x0.
+                                                                 0 = List register ICH_LR<n>_EL2, if implemented, contains a valid
+                                                                    interrupt. Using this List register can result in overwriting
+                                                                     a valid interrupt.
+                                                                 1 = List register ICH_LR<n>_EL2 does not contain a valid
+                                                                     interrupt. The List register is empty and can be used without
+                                                                     overwriting a valid interrupt or losing an EOI maintenance
+                                                                     interrupt. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ap_ich_elrsr_el2_s cn; */
+} bdk_ap_ich_elrsr_el2_t;
+
+#define BDK_AP_ICH_ELRSR_EL2 BDK_AP_ICH_ELRSR_EL2_FUNC()
+static inline uint64_t BDK_AP_ICH_ELRSR_EL2_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_AP_ICH_ELRSR_EL2_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
+        return 0x3040c0b0500ll;
+    __bdk_csr_fatal("AP_ICH_ELRSR_EL2", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_AP_ICH_ELRSR_EL2 bdk_ap_ich_elrsr_el2_t
+#define bustype_BDK_AP_ICH_ELRSR_EL2 BDK_CSR_TYPE_SYSREG
+#define basename_BDK_AP_ICH_ELRSR_EL2 "AP_ICH_ELRSR_EL2"
+#define busnum_BDK_AP_ICH_ELRSR_EL2 0
+#define arguments_BDK_AP_ICH_ELRSR_EL2 -1,-1,-1,-1
+
+/**
  * Register (SYSREG) ap_ich_elsr_el2
  *
  * AP Interrupt Controller Empty List Register Status Register
@@ -12862,7 +13341,9 @@ typedef union
 static inline uint64_t BDK_AP_ICH_ELSR_EL2_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_ICH_ELSR_EL2_FUNC(void)
 {
-    return 0x3040c0b0500ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX))
+        return 0x3040c0b0500ll;
+    __bdk_csr_fatal("AP_ICH_ELSR_EL2", 0, 0, 0, 0, 0);
 }
 
 #define typedef_BDK_AP_ICH_ELSR_EL2 bdk_ap_ich_elsr_el2_t
@@ -13622,11 +14103,19 @@ typedef union
                                                                      Affinity 3 in SGI generation system registers.
                                                                  1 = The virtual CPU interface logic supports nonzero values of
                                                                      Affinity 3 in SGI generation system registers. */
-        uint32_t reserved_5_20         : 16;
+        uint32_t reserved_20           : 1;
+        uint32_t tds                   : 1;  /**< [ 19: 19](RO) Separate trapping of nonsecure EL1 writes supported.
+                                                                 0 = Implementation does not support CIM()_ICH_HCR_EL2[TDIR].
+                                                                 1 = Implementation supports CIM()_ICH_HCR_EL2[TDIR]. */
+        uint32_t reserved_5_18         : 14;
         uint32_t listregs              : 5;  /**< [  4:  0](RO) The number of implemented List registers, minus one. */
 #else /* Word 0 - Little Endian */
         uint32_t listregs              : 5;  /**< [  4:  0](RO) The number of implemented List registers, minus one. */
-        uint32_t reserved_5_20         : 16;
+        uint32_t reserved_5_18         : 14;
+        uint32_t tds                   : 1;  /**< [ 19: 19](RO) Separate trapping of nonsecure EL1 writes supported.
+                                                                 0 = Implementation does not support CIM()_ICH_HCR_EL2[TDIR].
+                                                                 1 = Implementation supports CIM()_ICH_HCR_EL2[TDIR]. */
+        uint32_t reserved_20           : 1;
         uint32_t a3v                   : 1;  /**< [ 21: 21](RO) Affinity 3 Valid.
                                                                  0 = The virtual CPU interface logic only supports zero values of
                                                                      Affinity 3 in SGI generation system registers.
@@ -21350,6 +21839,34 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_31           : 1;
+        uint32_t p                     : 31; /**< [ 30:  0](WO) Event counter software increment bit for PMEVCNTR<x>.
+                                                                 Bits [30:N] are RAZ/WI.
+                                                                 When EL2 is implemented, in nonsecure EL1 and EL0, N is the
+                                                                     value in AP_MDCR_EL2[HPMN]. Otherwise, N is the value in PMCR[N].
+                                                                 The effects of writing to this bit are:
+                                                                 0 = No action. The write to this bit is ignored.
+                                                                 1 = If PMEVCNTR<x> is enabled and configured to count the software
+                                                                     increment event, increments PMEVCNTR<x> by 1. If PMEVCNTR<x>
+                                                                     is disabled, or not configured to count the software increment
+                                                                     event, the write to this bit is ignored. */
+#else /* Word 0 - Little Endian */
+        uint32_t p                     : 31; /**< [ 30:  0](WO) Event counter software increment bit for PMEVCNTR<x>.
+                                                                 Bits [30:N] are RAZ/WI.
+                                                                 When EL2 is implemented, in nonsecure EL1 and EL0, N is the
+                                                                     value in AP_MDCR_EL2[HPMN]. Otherwise, N is the value in PMCR[N].
+                                                                 The effects of writing to this bit are:
+                                                                 0 = No action. The write to this bit is ignored.
+                                                                 1 = If PMEVCNTR<x> is enabled and configured to count the software
+                                                                     increment event, increments PMEVCNTR<x> by 1. If PMEVCNTR<x>
+                                                                     is disabled, or not configured to count the software increment
+                                                                     event, the write to this bit is ignored. */
+        uint32_t reserved_31           : 1;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_ap_pmswinc_el0_cn8
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_31           : 1;
         uint32_t p                     : 31; /**< [ 30:  0](RO) Event counter software increment bit for PMEVCNTR<x>.
                                                                  Bits [30:N] are RAZ/WI.
                                                                  When EL2 is implemented, in nonsecure EL1 and EL0, N is the
@@ -21373,8 +21890,8 @@ typedef union
                                                                      event, the write to this bit is ignored. */
         uint32_t reserved_31           : 1;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_ap_pmswinc_el0_s cn; */
+    } cn8;
+    /* struct bdk_ap_pmswinc_el0_s cn9; */
 } bdk_ap_pmswinc_el0_t;
 
 #define BDK_AP_PMSWINC_EL0 BDK_AP_PMSWINC_EL0_FUNC()

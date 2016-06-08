@@ -706,10 +706,10 @@ union bdk_zip_inst_s
 #endif /* Word 1 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 2 - Big Endian */
         uint64_t ctx_ptr_addr          : 64; /**< [191:128] Decompresion context pointer address (ZIP_ZPTR_S format address word definition).
-                                                                 The address must be 16-byte aligned. */
+                                                                 The address must be 16-byte aligned.  If 0x0 and [OP] = DECOMP, behavior is unpredictable. */
 #else /* Word 2 - Little Endian */
         uint64_t ctx_ptr_addr          : 64; /**< [191:128] Decompresion context pointer address (ZIP_ZPTR_S format address word definition).
-                                                                 The address must be 16-byte aligned. */
+                                                                 The address must be 16-byte aligned.  If 0x0 and [OP] = DECOMP, behavior is unpredictable. */
 #endif /* Word 2 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 3 - Big Endian */
         uint64_t ctx_ptr_ctl           : 64; /**< [255:192] Decompresion context pointer control (ZIP_ZPTR_S format control word definition).
@@ -719,9 +719,11 @@ union bdk_zip_inst_s
                                                                  ZIP_ZPTR_S[LENGTH] = 0 (2048 bytes implied). */
 #endif /* Word 3 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 4 - Big Endian */
-        uint64_t his_ptr_addr          : 64; /**< [319:256] Decompresion history pointer address (ZIP_ZPTR_S format address word definition). */
+        uint64_t his_ptr_addr          : 64; /**< [319:256] Decompresion history pointer address (ZIP_ZPTR_S format address word definition).
+                                                                 If 0x0 and [OP] = DECOMP, behavior is unpredictable. */
 #else /* Word 4 - Little Endian */
-        uint64_t his_ptr_addr          : 64; /**< [319:256] Decompresion history pointer address (ZIP_ZPTR_S format address word definition). */
+        uint64_t his_ptr_addr          : 64; /**< [319:256] Decompresion history pointer address (ZIP_ZPTR_S format address word definition).
+                                                                 If 0x0 and [OP] = DECOMP, behavior is unpredictable. */
 #endif /* Word 4 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 5 - Big Endian */
         uint64_t his_ptr_ctl           : 64; /**< [383:320] Decompresion history pointer control (ZIP_ZPTR_S format control word definition).
@@ -731,9 +733,11 @@ union bdk_zip_inst_s
                                                                  [FW] = 0. ZIP_INST_S[HG] set if gather. */
 #endif /* Word 5 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 6 - Big Endian */
-        uint64_t inp_ptr_addr          : 64; /**< [447:384] Input and compresion history pointer address (ZIP_ZPTR_S format address word definition). */
+        uint64_t inp_ptr_addr          : 64; /**< [447:384] Input and compresion history pointer address (ZIP_ZPTR_S format address word definition).
+                                                                 Behavior is unpredictable if the address is 0x0. */
 #else /* Word 6 - Little Endian */
-        uint64_t inp_ptr_addr          : 64; /**< [447:384] Input and compresion history pointer address (ZIP_ZPTR_S format address word definition). */
+        uint64_t inp_ptr_addr          : 64; /**< [447:384] Input and compresion history pointer address (ZIP_ZPTR_S format address word definition).
+                                                                 Behavior is unpredictable if the address is 0x0. */
 #endif /* Word 6 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 7 - Big Endian */
         uint64_t inp_ptr_ctl           : 64; /**< [511:448] Input and compresion history pointer control (ZIP_ZPTR_S format control word definition).
@@ -745,11 +749,11 @@ union bdk_zip_inst_s
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 8 - Big Endian */
         uint64_t out_ptr_addr          : 64; /**< [575:512] Output pointer address  (ZIP_ZPTR_S format address word definition).
                                                                  Points to where the output data will be written by the ZIP coprocessor for this
-                                                                 invocation. */
+                                                                 invocation.  Behavior is unpredictable if the address is 0x0. */
 #else /* Word 8 - Little Endian */
         uint64_t out_ptr_addr          : 64; /**< [575:512] Output pointer address  (ZIP_ZPTR_S format address word definition).
                                                                  Points to where the output data will be written by the ZIP coprocessor for this
-                                                                 invocation. */
+                                                                 invocation.  Behavior is unpredictable if the address is 0x0. */
 #endif /* Word 8 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 9 - Big Endian */
         uint64_t out_ptr_ctl           : 64; /**< [639:576] Output pointer control (ZIP_ZPTR_S format control word definition).
@@ -761,11 +765,11 @@ union bdk_zip_inst_s
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 10 - Big Endian */
         uint64_t res_ptr_addr          : 64; /**< [703:640] Result pointer address (ZIP_ZPTR_S format address word definition).
                                                                  If ZIP_INST_S[HALG]=NONE, address must be 32-byte aligned, otherwise must be 64-byte
-                                                                 aligned. */
+                                                                 aligned.  Behavior is unpredictable if the address is 0x0. */
 #else /* Word 10 - Little Endian */
         uint64_t res_ptr_addr          : 64; /**< [703:640] Result pointer address (ZIP_ZPTR_S format address word definition).
                                                                  If ZIP_INST_S[HALG]=NONE, address must be 32-byte aligned, otherwise must be 64-byte
-                                                                 aligned. */
+                                                                 aligned.  Behavior is unpredictable if the address is 0x0. */
 #endif /* Word 10 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 11 - Big Endian */
         uint64_t res_ptr_ctl           : 64; /**< [767:704] Result pointer control (ZIP_ZPTR_S format control word definition).
@@ -828,38 +832,44 @@ union bdk_zip_inst_s
         uint64_t reserved_896_959      : 64;
 #endif /* Word 14 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 15 - Big Endian */
-        uint64_t hash_ptr              : 64; /**< [1023:960] Hash initial value pointer. Bits <6:0> must be zero.
+        uint64_t hash_ptr              : 64; /**< [1023:960] Hash struct pointer. Bits <6:0> must be zero.
                                                                  Bits <63:49> are ignored by hardware; software should use a sign-extended bit
                                                                  <48> for forward compatibility.
 
                                                                  If [HALG] = 0x0 (NONE), must be 0x0.
 
-                                                                 If [HALG] = ZIP_HASH_ALG_E::SHA1/SHA256, [IV] is set, [HASH_PTR]
-                                                                 points to the IOVA of a ZIP_HASH_S, from which ZIP will read from to obtain the
-                                                                 initial hash state.
+                                                                 If [HALG] = ZIP_HASH_ALG_E::SHA1/SHA256, [HASH_PTR] points to the IOVA of a ZIP_HASH_S,
+                                                                 from which ZIP may read to obtain the initial hash state or hash context.  An initial hash
+                                                                 state is read if [BF] and [IV] are set.  The hash context is read if [BF] is not set.  If
+                                                                 [HASH_PTR] is 0x0, and [HALG] is not NONE, and [BF] and [IV] are both set or [BF] is not
+                                                                 set, behavior is unpredictable.
 
-                                                                 If [HALG] = ZIP_HASH_ALG_E::SHA1/SHA256, [HMIF] is set, [HASH_PTR]
+                                                                 If [HALG] = ZIP_HASH_ALG_E::SHA1/SHA256 and [HMIF] is set, [HASH_PTR]
                                                                  points to the IOVA of a ZIP_HASH_S, which ZIP will write at the end of this
                                                                  instruction, and may be used by subsequent instructions to continue hashing
-                                                                 other chunks of the same file.
+                                                                 other chunks of the same file.  If [HASH_PTR] is 0x0, and [HALG] is not NONE, and [HMIF]
+                                                                 is set, behavior is unpredictable.
 
                                                                  Internal:
                                                                  Bits <63:49>, <6:0> are ignored by hardware, treated as always 0x0. */
 #else /* Word 15 - Little Endian */
-        uint64_t hash_ptr              : 64; /**< [1023:960] Hash initial value pointer. Bits <6:0> must be zero.
+        uint64_t hash_ptr              : 64; /**< [1023:960] Hash struct pointer. Bits <6:0> must be zero.
                                                                  Bits <63:49> are ignored by hardware; software should use a sign-extended bit
                                                                  <48> for forward compatibility.
 
                                                                  If [HALG] = 0x0 (NONE), must be 0x0.
 
-                                                                 If [HALG] = ZIP_HASH_ALG_E::SHA1/SHA256, [IV] is set, [HASH_PTR]
-                                                                 points to the IOVA of a ZIP_HASH_S, from which ZIP will read from to obtain the
-                                                                 initial hash state.
+                                                                 If [HALG] = ZIP_HASH_ALG_E::SHA1/SHA256, [HASH_PTR] points to the IOVA of a ZIP_HASH_S,
+                                                                 from which ZIP may read to obtain the initial hash state or hash context.  An initial hash
+                                                                 state is read if [BF] and [IV] are set.  The hash context is read if [BF] is not set.  If
+                                                                 [HASH_PTR] is 0x0, and [HALG] is not NONE, and [BF] and [IV] are both set or [BF] is not
+                                                                 set, behavior is unpredictable.
 
-                                                                 If [HALG] = ZIP_HASH_ALG_E::SHA1/SHA256, [HMIF] is set, [HASH_PTR]
+                                                                 If [HALG] = ZIP_HASH_ALG_E::SHA1/SHA256 and [HMIF] is set, [HASH_PTR]
                                                                  points to the IOVA of a ZIP_HASH_S, which ZIP will write at the end of this
                                                                  instruction, and may be used by subsequent instructions to continue hashing
-                                                                 other chunks of the same file.
+                                                                 other chunks of the same file.  If [HASH_PTR] is 0x0, and [HALG] is not NONE, and [HMIF]
+                                                                 is set, behavior is unpredictable.
 
                                                                  Internal:
                                                                  Bits <63:49>, <6:0> are ignored by hardware, treated as always 0x0. */
@@ -1596,10 +1606,10 @@ union bdk_zip_inst_s
 #endif /* Word 1 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 2 - Big Endian */
         uint64_t ctx_ptr_addr          : 64; /**< [191:128] Decompresion context pointer address (ZIP_ZPTR_S format address word definition).
-                                                                 The address must be 16-byte aligned. */
+                                                                 The address must be 16-byte aligned.  If 0x0 and [OP] = DECOMP, behavior is unpredictable. */
 #else /* Word 2 - Little Endian */
         uint64_t ctx_ptr_addr          : 64; /**< [191:128] Decompresion context pointer address (ZIP_ZPTR_S format address word definition).
-                                                                 The address must be 16-byte aligned. */
+                                                                 The address must be 16-byte aligned.  If 0x0 and [OP] = DECOMP, behavior is unpredictable. */
 #endif /* Word 2 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 3 - Big Endian */
         uint64_t ctx_ptr_ctl           : 64; /**< [255:192] Decompresion context pointer control (ZIP_ZPTR_S format control word definition).
@@ -1609,9 +1619,11 @@ union bdk_zip_inst_s
                                                                  ZIP_ZPTR_S[LENGTH] = 0 (2048 bytes implied). */
 #endif /* Word 3 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 4 - Big Endian */
-        uint64_t his_ptr_addr          : 64; /**< [319:256] Decompresion history pointer address (ZIP_ZPTR_S format address word definition). */
+        uint64_t his_ptr_addr          : 64; /**< [319:256] Decompresion history pointer address (ZIP_ZPTR_S format address word definition).
+                                                                 If 0x0 and [OP] = DECOMP, behavior is unpredictable. */
 #else /* Word 4 - Little Endian */
-        uint64_t his_ptr_addr          : 64; /**< [319:256] Decompresion history pointer address (ZIP_ZPTR_S format address word definition). */
+        uint64_t his_ptr_addr          : 64; /**< [319:256] Decompresion history pointer address (ZIP_ZPTR_S format address word definition).
+                                                                 If 0x0 and [OP] = DECOMP, behavior is unpredictable. */
 #endif /* Word 4 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 5 - Big Endian */
         uint64_t his_ptr_ctl           : 64; /**< [383:320] Decompresion history pointer control (ZIP_ZPTR_S format control word definition).
@@ -1621,9 +1633,11 @@ union bdk_zip_inst_s
                                                                  [FW] = 0. ZIP_INST_S[HG] set if gather. */
 #endif /* Word 5 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 6 - Big Endian */
-        uint64_t inp_ptr_addr          : 64; /**< [447:384] Input and compresion history pointer address (ZIP_ZPTR_S format address word definition). */
+        uint64_t inp_ptr_addr          : 64; /**< [447:384] Input and compresion history pointer address (ZIP_ZPTR_S format address word definition).
+                                                                 Behavior is unpredictable if the address is 0x0. */
 #else /* Word 6 - Little Endian */
-        uint64_t inp_ptr_addr          : 64; /**< [447:384] Input and compresion history pointer address (ZIP_ZPTR_S format address word definition). */
+        uint64_t inp_ptr_addr          : 64; /**< [447:384] Input and compresion history pointer address (ZIP_ZPTR_S format address word definition).
+                                                                 Behavior is unpredictable if the address is 0x0. */
 #endif /* Word 6 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 7 - Big Endian */
         uint64_t inp_ptr_ctl           : 64; /**< [511:448] Input and compresion history pointer control (ZIP_ZPTR_S format control word definition).
@@ -1635,11 +1649,11 @@ union bdk_zip_inst_s
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 8 - Big Endian */
         uint64_t out_ptr_addr          : 64; /**< [575:512] Output pointer address  (ZIP_ZPTR_S format address word definition).
                                                                  Points to where the output data will be written by the ZIP coprocessor for this
-                                                                 invocation. */
+                                                                 invocation.  Behavior is unpredictable if the address is 0x0. */
 #else /* Word 8 - Little Endian */
         uint64_t out_ptr_addr          : 64; /**< [575:512] Output pointer address  (ZIP_ZPTR_S format address word definition).
                                                                  Points to where the output data will be written by the ZIP coprocessor for this
-                                                                 invocation. */
+                                                                 invocation.  Behavior is unpredictable if the address is 0x0. */
 #endif /* Word 8 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 9 - Big Endian */
         uint64_t out_ptr_ctl           : 64; /**< [639:576] Output pointer control (ZIP_ZPTR_S format control word definition).
@@ -1651,11 +1665,11 @@ union bdk_zip_inst_s
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 10 - Big Endian */
         uint64_t res_ptr_addr          : 64; /**< [703:640] Result pointer address (ZIP_ZPTR_S format address word definition).
                                                                  If ZIP_INST_S[HALG]=NONE, address must be 32-byte aligned, otherwise must be 64-byte
-                                                                 aligned. */
+                                                                 aligned.  Behavior is unpredictable if the address is 0x0. */
 #else /* Word 10 - Little Endian */
         uint64_t res_ptr_addr          : 64; /**< [703:640] Result pointer address (ZIP_ZPTR_S format address word definition).
                                                                  If ZIP_INST_S[HALG]=NONE, address must be 32-byte aligned, otherwise must be 64-byte
-                                                                 aligned. */
+                                                                 aligned.  Behavior is unpredictable if the address is 0x0. */
 #endif /* Word 10 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 11 - Big Endian */
         uint64_t res_ptr_ctl           : 64; /**< [767:704] Result pointer control (ZIP_ZPTR_S format control word definition).
@@ -1718,38 +1732,44 @@ union bdk_zip_inst_s
         uint64_t reserved_896_959      : 64;
 #endif /* Word 14 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 15 - Big Endian */
-        uint64_t hash_ptr              : 64; /**< [1023:960] Hash initial value pointer. Bits <6:0> must be zero.
+        uint64_t hash_ptr              : 64; /**< [1023:960] Hash struct pointer. Bits <6:0> must be zero.
                                                                  Bits <63:49> are ignored by hardware; software should use a sign-extended bit
                                                                  <48> for forward compatibility.
 
                                                                  If [HALG] = 0x0 (NONE), must be 0x0.
 
-                                                                 If [HALG] = ZIP_HASH_ALG_E::SHA1/SHA256, [IV] is set, [HASH_PTR]
-                                                                 points to the IOVA of a ZIP_HASH_S, from which ZIP will read from to obtain the
-                                                                 initial hash state.
+                                                                 If [HALG] = ZIP_HASH_ALG_E::SHA1/SHA256, [HASH_PTR] points to the IOVA of a ZIP_HASH_S,
+                                                                 from which ZIP may read to obtain the initial hash state or hash context.  An initial hash
+                                                                 state is read if [BF] and [IV] are set.  The hash context is read if [BF] is not set.  If
+                                                                 [HASH_PTR] is 0x0, and [HALG] is not NONE, and [BF] and [IV] are both set or [BF] is not
+                                                                 set, behavior is unpredictable.
 
-                                                                 If [HALG] = ZIP_HASH_ALG_E::SHA1/SHA256, [HMIF] is set, [HASH_PTR]
+                                                                 If [HALG] = ZIP_HASH_ALG_E::SHA1/SHA256 and [HMIF] is set, [HASH_PTR]
                                                                  points to the IOVA of a ZIP_HASH_S, which ZIP will write at the end of this
                                                                  instruction, and may be used by subsequent instructions to continue hashing
-                                                                 other chunks of the same file.
+                                                                 other chunks of the same file.  If [HASH_PTR] is 0x0, and [HALG] is not NONE, and [HMIF]
+                                                                 is set, behavior is unpredictable.
 
                                                                  Internal:
                                                                  Bits <63:49>, <6:0> are ignored by hardware, treated as always 0x0. */
 #else /* Word 15 - Little Endian */
-        uint64_t hash_ptr              : 64; /**< [1023:960] Hash initial value pointer. Bits <6:0> must be zero.
+        uint64_t hash_ptr              : 64; /**< [1023:960] Hash struct pointer. Bits <6:0> must be zero.
                                                                  Bits <63:49> are ignored by hardware; software should use a sign-extended bit
                                                                  <48> for forward compatibility.
 
                                                                  If [HALG] = 0x0 (NONE), must be 0x0.
 
-                                                                 If [HALG] = ZIP_HASH_ALG_E::SHA1/SHA256, [IV] is set, [HASH_PTR]
-                                                                 points to the IOVA of a ZIP_HASH_S, from which ZIP will read from to obtain the
-                                                                 initial hash state.
+                                                                 If [HALG] = ZIP_HASH_ALG_E::SHA1/SHA256, [HASH_PTR] points to the IOVA of a ZIP_HASH_S,
+                                                                 from which ZIP may read to obtain the initial hash state or hash context.  An initial hash
+                                                                 state is read if [BF] and [IV] are set.  The hash context is read if [BF] is not set.  If
+                                                                 [HASH_PTR] is 0x0, and [HALG] is not NONE, and [BF] and [IV] are both set or [BF] is not
+                                                                 set, behavior is unpredictable.
 
-                                                                 If [HALG] = ZIP_HASH_ALG_E::SHA1/SHA256, [HMIF] is set, [HASH_PTR]
+                                                                 If [HALG] = ZIP_HASH_ALG_E::SHA1/SHA256 and [HMIF] is set, [HASH_PTR]
                                                                  points to the IOVA of a ZIP_HASH_S, which ZIP will write at the end of this
                                                                  instruction, and may be used by subsequent instructions to continue hashing
-                                                                 other chunks of the same file.
+                                                                 other chunks of the same file.  If [HASH_PTR] is 0x0, and [HALG] is not NONE, and [HMIF]
+                                                                 is set, behavior is unpredictable.
 
                                                                  Internal:
                                                                  Bits <63:49>, <6:0> are ignored by hardware, treated as always 0x0. */
@@ -1770,7 +1790,7 @@ union bdk_zip_nptr_s
     struct bdk_zip_nptr_s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t addr                  : 64; /**< [ 63:  0] Pointer to next instruction's IOVA.
+        uint64_t addr                  : 64; /**< [ 63:  0] Pointer to next instruction's IOVA.  Behavior is unpredictable if the address is 0x0.
 
                                                                  Bits <6:0> must be zero. All the ZIP instruction buffers must be aligned on an
                                                                  128 byte boundary.
@@ -1781,7 +1801,7 @@ union bdk_zip_nptr_s
                                                                  Internal:
                                                                  Bits <63:49> and <6:0> are ignored by hardware. */
 #else /* Word 0 - Little Endian */
-        uint64_t addr                  : 64; /**< [ 63:  0] Pointer to next instruction's IOVA.
+        uint64_t addr                  : 64; /**< [ 63:  0] Pointer to next instruction's IOVA.  Behavior is unpredictable if the address is 0x0.
 
                                                                  Bits <6:0> must be zero. All the ZIP instruction buffers must be aligned on an
                                                                  128 byte boundary.
@@ -6898,21 +6918,21 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
-        uint64_t ptr                   : 42; /**< [ 48:  7](R/W/H) Instruction buffer pointer bits <41:7> (128-byte aligned). When written, it is the initial
-                                                                 buffer starting IOVA; when read, it is the next read pointer IOVA to be requested from
-                                                                 L2C.
-                                                                 The PTR field is overwritten with the next pointer each time that the command buffer
+        uint64_t ptr                   : 42; /**< [ 48:  7](R/W/H) Instruction buffer pointer bits <41:7> (128-byte aligned). Behavior is unpredictable if
+                                                                 the address is 0x0.  When written, it is the initial buffer starting IOVA; when read, it
+                                                                 is the next read pointer IOVA to be requested from L2C.
+                                                                 PTR is overwritten with the next pointer each time that the command buffer
                                                                  segment is exhausted. New commands will then be read from the newly specified command
                                                                  buffer pointer. */
-        uint64_t off                   : 7;  /**< [  6:  0](RO/H) When write, the value is ignored. When read, the returned value is the offset of the next
-                                                                 read pointer. */
+        uint64_t off                   : 7;  /**< [  6:  0](RO/H) When written, the value is ignored. When read, the returned value is the offset
+                                                                 of the next read pointer. */
 #else /* Word 0 - Little Endian */
-        uint64_t off                   : 7;  /**< [  6:  0](RO/H) When write, the value is ignored. When read, the returned value is the offset of the next
-                                                                 read pointer. */
-        uint64_t ptr                   : 42; /**< [ 48:  7](R/W/H) Instruction buffer pointer bits <41:7> (128-byte aligned). When written, it is the initial
-                                                                 buffer starting IOVA; when read, it is the next read pointer IOVA to be requested from
-                                                                 L2C.
-                                                                 The PTR field is overwritten with the next pointer each time that the command buffer
+        uint64_t off                   : 7;  /**< [  6:  0](RO/H) When written, the value is ignored. When read, the returned value is the offset
+                                                                 of the next read pointer. */
+        uint64_t ptr                   : 42; /**< [ 48:  7](R/W/H) Instruction buffer pointer bits <41:7> (128-byte aligned). Behavior is unpredictable if
+                                                                 the address is 0x0.  When written, it is the initial buffer starting IOVA; when read, it
+                                                                 is the next read pointer IOVA to be requested from L2C.
+                                                                 PTR is overwritten with the next pointer each time that the command buffer
                                                                  segment is exhausted. New commands will then be read from the newly specified command
                                                                  buffer pointer. */
         uint64_t reserved_49_63        : 15;

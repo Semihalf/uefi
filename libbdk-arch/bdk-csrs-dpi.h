@@ -2006,6 +2006,191 @@ typedef union
         uint64_t reserved_35_36        : 2;
         uint64_t ncb_tag_dis           : 1;  /**< [ 34: 34](R/W) NCB tag disable. DMA read/write transactions over NCB are mapped to individual
                                                                  request queues by using tags. If this bit is set, all NCB DMA transactions will
+                                                                 use a tag of 0x0, reducing performance. Additionally, any NCB faults will be
+                                                                 reported on request queue 0. */
+        uint64_t reserved_33           : 1;
+        uint64_t ldwb                  : 1;  /**< [ 32: 32](R/W) Load don't write back. When set, the hardware is able to issue LDWB commands for pointers
+                                                                 that are being freed. As a result, the line will not be written back when replaced.
+                                                                 When clear, the hardware issues regular load commands to the cache which cause the
+                                                                 line to be written back before being replaced. */
+        uint64_t reserved_20_31        : 12;
+        uint64_t o_add1                : 1;  /**< [ 19: 19](R/W) Add one.
+                                                                 0 = The number of bytes in the DMA transfer is added to SLI_DMA()_CNT.
+                                                                 1 = Add 1 to the SLI_DMA()_CNT DMA counters. */
+        uint64_t o_ro                  : 1;  /**< [ 18: 18](R/W) If [O_MODE]=1 (DPTR format 0), [O_RO] is the relaxed ordering mode attribute
+                                                                 for PCIe DMA transactions.
+
+                                                                 If [O_MODE]=0 (DPTR format 1), [O_RO] is MACADD<60> in the PCIE MAC address and
+                                                                 the relaxed ordering mode attribute comes from DPTR<60> in the DMA MAC pointer. */
+        uint64_t o_ns                  : 1;  /**< [ 17: 17](R/W) If [O_MODE]=1 (DPTR format 0), [O_NS] is the no snoop attribute for PCIe DMA
+                                                                 transactions.
+
+                                                                 If [O_MODE]=0 (DPTR format 1), [O_NS] is MACADD<61> in the PCIE MAC Address and
+                                                                 the no snoop mode attribute comes from DPTR<61> in the DMA MAC pointer. */
+        uint64_t o_es                  : 2;  /**< [ 16: 15](R/W) If [O_MODE]=1 (DPTR format 0), [O_ES] is the endian swap mode for PCIe DMA
+                                                                 transactions.
+
+                                                                 If [O_MODE]=0 (DPTR format 1), [O_ES] is MACADD<63:62> in the PCIE MAC address
+                                                                 and the endian swap mode comes from DPTR<63:62> in the DMA MAC pointer.
+
+                                                                 See DPI_ENDIANSWAP_E. */
+        uint64_t o_mode                : 1;  /**< [ 14: 14](R/W) Select PCI_POINTER mode.
+                                                                 0 = DPTR format 1 is used. Use register values for address; use pointer values for ES, NS,
+                                                                 RO.
+                                                                 1 = DPTR format 0 is used. Use pointer values for address; use register values for ES, NS,
+                                                                 RO. */
+        uint64_t reserved_0_13         : 14;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_13         : 14;
+        uint64_t o_mode                : 1;  /**< [ 14: 14](R/W) Select PCI_POINTER mode.
+                                                                 0 = DPTR format 1 is used. Use register values for address; use pointer values for ES, NS,
+                                                                 RO.
+                                                                 1 = DPTR format 0 is used. Use pointer values for address; use register values for ES, NS,
+                                                                 RO. */
+        uint64_t o_es                  : 2;  /**< [ 16: 15](R/W) If [O_MODE]=1 (DPTR format 0), [O_ES] is the endian swap mode for PCIe DMA
+                                                                 transactions.
+
+                                                                 If [O_MODE]=0 (DPTR format 1), [O_ES] is MACADD<63:62> in the PCIE MAC address
+                                                                 and the endian swap mode comes from DPTR<63:62> in the DMA MAC pointer.
+
+                                                                 See DPI_ENDIANSWAP_E. */
+        uint64_t o_ns                  : 1;  /**< [ 17: 17](R/W) If [O_MODE]=1 (DPTR format 0), [O_NS] is the no snoop attribute for PCIe DMA
+                                                                 transactions.
+
+                                                                 If [O_MODE]=0 (DPTR format 1), [O_NS] is MACADD<61> in the PCIE MAC Address and
+                                                                 the no snoop mode attribute comes from DPTR<61> in the DMA MAC pointer. */
+        uint64_t o_ro                  : 1;  /**< [ 18: 18](R/W) If [O_MODE]=1 (DPTR format 0), [O_RO] is the relaxed ordering mode attribute
+                                                                 for PCIe DMA transactions.
+
+                                                                 If [O_MODE]=0 (DPTR format 1), [O_RO] is MACADD<60> in the PCIE MAC address and
+                                                                 the relaxed ordering mode attribute comes from DPTR<60> in the DMA MAC pointer. */
+        uint64_t o_add1                : 1;  /**< [ 19: 19](R/W) Add one.
+                                                                 0 = The number of bytes in the DMA transfer is added to SLI_DMA()_CNT.
+                                                                 1 = Add 1 to the SLI_DMA()_CNT DMA counters. */
+        uint64_t reserved_20_31        : 12;
+        uint64_t ldwb                  : 1;  /**< [ 32: 32](R/W) Load don't write back. When set, the hardware is able to issue LDWB commands for pointers
+                                                                 that are being freed. As a result, the line will not be written back when replaced.
+                                                                 When clear, the hardware issues regular load commands to the cache which cause the
+                                                                 line to be written back before being replaced. */
+        uint64_t reserved_33           : 1;
+        uint64_t ncb_tag_dis           : 1;  /**< [ 34: 34](R/W) NCB tag disable. DMA read/write transactions over NCB are mapped to individual
+                                                                 request queues by using tags. If this bit is set, all NCB DMA transactions will
+                                                                 use a tag of 0x0, reducing performance. Additionally, any NCB faults will be
+                                                                 reported on request queue 0. */
+        uint64_t reserved_35_36        : 2;
+        uint64_t wqecsmode             : 2;  /**< [ 38: 37](R/W) WQE completion status mode. Relevant for DPI DMA instructions with
+                                                                 DPI_DMA_INSTR_HDR_S[PT]=DPI_HDR_PT_E::WQP when [WQECSDIS]=0.
+                                                                 0x0 = Normal behavior. DPI will not write the completion status byte for
+                                                                       DPI_HDR_PT_E::WQP DPI DMA instructions with DPI_CS_E::NOERR (i.e. zero)
+                                                                       completion status, regardless of the DPI_HDR_PT_WQP_E selection of
+                                                                       DPI_DMA_INSTR_HDR_S[PTR<2:0>]. DPI will write the completion
+                                                                       status byte for all other DPI_CS_E (i.e. nonzero) values
+                                                                       when DPI_DMA_INSTR_HDR_S[PTR<2:0>] is DPI_HDR_PT_WQP_E::STATUSCA
+                                                                       or DPI_HDR_PT_WQP_E::STATUSNC and [WQECSDIS] is clear.
+                                                                 0x1 = DPI will perform the completion status byte write for all
+                                                                       DPI_HDR_PT_E::WQP DPI DMA instructions when DPI_DMA_INSTR_HDR_S[PTR<2:0>]
+                                                                       is DPI_HDR_PT_WQP_E::STATUSCA or DPI_HDR_PT_WQP_E::STATUSNC
+                                                                       and [WQECSDIS] is clear, regardless of the DPI_CS_E completion
+                                                                       status value for the instruction.
+                                                                 0x2 = DPI will not wait for the completion status write commit before issuing
+                                                                       SSO work queue add.
+                                                                 0x3 = Both debug modes specified above (under 0x1 and 0x2) are enabled. */
+        uint64_t zbwcsen               : 1;  /**< [ 39: 39](R/W) Zero-byte-write completion status enable.
+                                                                 See DPI_HDR_PT_E::ZBC_CA and DPI_HDR_PT_E::ZBC_NC. */
+        uint64_t wqecsoff              : 7;  /**< [ 46: 40](R/W) Work queue completion status byte offset. For a DPI_HDR_PT_WQP_E::STATUSCA
+                                                                 or DPI_HDR_PT_WQP_E::STATUSNC DPI DMA instruction, DPI writes a
+                                                                 non-DPI_CS_E::NOERR (i.e. nonzero) completion status byte to (big-endian
+                                                                 byte address) L2/DRAM address
+                                                                    (DPI_DMA_INSTR_HDR_S[PTR] & 0xFFFFFFFFFFFFFFF8) + [WQECSOFF]
+
+                                                                 With the reset value 0x7, DPI will write WORD0<7:0> of the WQE. */
+        uint64_t wqecsdis              : 1;  /**< [ 47: 47](R/W) Work queue completion status disable. See DPI_HDR_PT_WQP_E.
+
+                                                                 When [WQECSDIS] is set, DPI never writes completion status into a work queue entry. */
+        uint64_t dma_enb               : 6;  /**< [ 53: 48](R/W) DMA engine enable. Enables the operation of the DMA engine. After being enabled an engine
+                                                                 should not be disabled while processing instructions.
+                                                                 When PKT_EN=1, then DMA_ENB<5>=0 and DMA_ENB<4>=0. */
+        uint64_t reserved_54           : 1;
+        uint64_t uo_dis                : 1;  /**< [ 55: 55](R/W) Disables the use of the Unordered mode for SLI Packet reads */
+        uint64_t pkt_en                : 1;  /**< [ 56: 56](R/W) Enables the packet interface. When the packet interface is enabled, engines 4 and 5 are
+                                                                 used for packets and are not available for DMA. When PKT_EN=1, then DMA_ENB<5>=0 and
+                                                                 DMA_ENB<4>=0. */
+        uint64_t reserved_57           : 1;
+        uint64_t commit_mode           : 1;  /**< [ 58: 58](R/W) DMA engine commit mode.
+                                                                 When COMMIT_MODE=1, DPI considers an instruction complete when the hardware internally
+                                                                 generates the final write for the current instruction.
+
+                                                                 When COMMIT_MODE=0, DPI additionally waits for the final write to reach the interface
+                                                                 coherency point to declare the instructions complete.
+
+                                                                 When COMMIT_MODE=1, DPI may not follow the HRM ordering rules. DPI
+                                                                 hardware performance may be better with COMMIT_MODE=1 than with COMMIT_MODE=0 due to
+                                                                 the relaxed ordering rules. If the HRM ordering rules are required, set COMMIT_MODE=0. */
+        uint64_t ffp_dis               : 1;  /**< [ 59: 59](R/W) Force forward progress disable. The DMA engines will compete for shared resources. If the
+                                                                 hardware detects that particular engines are not able to make requests to an interface,
+                                                                 the hardware will periodically trade-off throughput for fairness. */
+        uint64_t reserved_60_63        : 4;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_dpix_dma_control_s cn8; */
+    struct bdk_dpix_dma_control_cn9
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_60_63        : 4;
+        uint64_t ffp_dis               : 1;  /**< [ 59: 59](R/W) Force forward progress disable. The DMA engines will compete for shared resources. If the
+                                                                 hardware detects that particular engines are not able to make requests to an interface,
+                                                                 the hardware will periodically trade-off throughput for fairness. */
+        uint64_t commit_mode           : 1;  /**< [ 58: 58](R/W) DMA engine commit mode.
+                                                                 When COMMIT_MODE=1, DPI considers an instruction complete when the hardware internally
+                                                                 generates the final write for the current instruction.
+
+                                                                 When COMMIT_MODE=0, DPI additionally waits for the final write to reach the interface
+                                                                 coherency point to declare the instructions complete.
+
+                                                                 When COMMIT_MODE=1, DPI may not follow the HRM ordering rules. DPI
+                                                                 hardware performance may be better with COMMIT_MODE=1 than with COMMIT_MODE=0 due to
+                                                                 the relaxed ordering rules. If the HRM ordering rules are required, set COMMIT_MODE=0. */
+        uint64_t reserved_57           : 1;
+        uint64_t pkt_en                : 1;  /**< [ 56: 56](R/W) Enables the packet interface. When the packet interface is enabled, engines 4 and 5 are
+                                                                 used for packets and are not available for DMA. When PKT_EN=1, then DMA_ENB<5>=0 and
+                                                                 DMA_ENB<4>=0. */
+        uint64_t uo_dis                : 1;  /**< [ 55: 55](R/W) Disables the use of the Unordered mode for SLI Packet reads */
+        uint64_t reserved_54           : 1;
+        uint64_t dma_enb               : 6;  /**< [ 53: 48](R/W) DMA engine enable. Enables the operation of the DMA engine. After being enabled an engine
+                                                                 should not be disabled while processing instructions.
+                                                                 When PKT_EN=1, then DMA_ENB<5>=0 and DMA_ENB<4>=0. */
+        uint64_t wqecsdis              : 1;  /**< [ 47: 47](R/W) Work queue completion status disable. See DPI_HDR_PT_WQP_E.
+
+                                                                 When [WQECSDIS] is set, DPI never writes completion status into a work queue entry. */
+        uint64_t wqecsoff              : 7;  /**< [ 46: 40](R/W) Work queue completion status byte offset. For a DPI_HDR_PT_WQP_E::STATUSCA
+                                                                 or DPI_HDR_PT_WQP_E::STATUSNC DPI DMA instruction, DPI writes a
+                                                                 non-DPI_CS_E::NOERR (i.e. nonzero) completion status byte to (big-endian
+                                                                 byte address) L2/DRAM address
+                                                                    (DPI_DMA_INSTR_HDR_S[PTR] & 0xFFFFFFFFFFFFFFF8) + [WQECSOFF]
+
+                                                                 With the reset value 0x7, DPI will write WORD0<7:0> of the WQE. */
+        uint64_t zbwcsen               : 1;  /**< [ 39: 39](R/W) Zero-byte-write completion status enable.
+                                                                 See DPI_HDR_PT_E::ZBC_CA and DPI_HDR_PT_E::ZBC_NC. */
+        uint64_t wqecsmode             : 2;  /**< [ 38: 37](R/W) WQE completion status mode. Relevant for DPI DMA instructions with
+                                                                 DPI_DMA_INSTR_HDR_S[PT]=DPI_HDR_PT_E::WQP when [WQECSDIS]=0.
+                                                                 0x0 = Normal behavior. DPI will not write the completion status byte for
+                                                                       DPI_HDR_PT_E::WQP DPI DMA instructions with DPI_CS_E::NOERR (i.e. zero)
+                                                                       completion status, regardless of the DPI_HDR_PT_WQP_E selection of
+                                                                       DPI_DMA_INSTR_HDR_S[PTR<2:0>]. DPI will write the completion
+                                                                       status byte for all other DPI_CS_E (i.e. nonzero) values
+                                                                       when DPI_DMA_INSTR_HDR_S[PTR<2:0>] is DPI_HDR_PT_WQP_E::STATUSCA
+                                                                       or DPI_HDR_PT_WQP_E::STATUSNC and [WQECSDIS] is clear.
+                                                                 0x1 = DPI will perform the completion status byte write for all
+                                                                       DPI_HDR_PT_E::WQP DPI DMA instructions when DPI_DMA_INSTR_HDR_S[PTR<2:0>]
+                                                                       is DPI_HDR_PT_WQP_E::STATUSCA or DPI_HDR_PT_WQP_E::STATUSNC
+                                                                       and [WQECSDIS] is clear, regardless of the DPI_CS_E completion
+                                                                       status value for the instruction.
+                                                                 0x2 = DPI will not wait for the completion status write commit before issuing
+                                                                       SSO work queue add.
+                                                                 0x3 = Both debug modes specified above (under 0x1 and 0x2) are enabled. */
+        uint64_t reserved_35_36        : 2;
+        uint64_t ncb_tag_dis           : 1;  /**< [ 34: 34](R/W) NCB tag disable. DMA read/write transactions over NCB are mapped to individual
+                                                                 request queues by using tags. If this bit is set, all NCB DMA transactions will
                                                                  use a tag of 0x0, reducing performance. */
         uint64_t reserved_33           : 1;
         uint64_t ldwb                  : 1;  /**< [ 32: 32](R/W) Load don't write back. When set, the hardware is able to issue LDWB commands for pointers
@@ -2129,8 +2314,7 @@ typedef union
                                                                  the hardware will periodically trade-off throughput for fairness. */
         uint64_t reserved_60_63        : 4;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_dpix_dma_control_s cn; */
+    } cn9;
 } bdk_dpix_dma_control_t;
 
 static inline uint64_t BDK_DPIX_DMA_CONTROL(unsigned long a) __attribute__ ((pure, always_inline));

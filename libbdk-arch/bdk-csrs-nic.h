@@ -18131,8 +18131,10 @@ typedef union
     struct bdk_nic_vfx_msix_vecx_addr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_53_63        : 11;
-        uint64_t addr                  : 51; /**< [ 52:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
+        uint64_t reserved_49_63        : 15;
+        uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector.
+                                                                 Internal:
+                                                                 FIXME. This needs to be updated once the addr expansion is done in PCC. */
         uint64_t reserved_1            : 1;
         uint64_t secvec                : 1;  /**< [  0:  0](RAZ) Secure vector. Zero as not supported on a per-vector basis for VFs; use
                                                                  PCCPF_NIC_VSEC_SCTL[MSIX_SEC] instead (for documentation, see
@@ -18142,8 +18144,10 @@ typedef union
                                                                  PCCPF_NIC_VSEC_SCTL[MSIX_SEC] instead (for documentation, see
                                                                  PCCPF_XXX_VSEC_SCTL[MSIX_SEC]). */
         uint64_t reserved_1            : 1;
-        uint64_t addr                  : 51; /**< [ 52:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
-        uint64_t reserved_53_63        : 11;
+        uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector.
+                                                                 Internal:
+                                                                 FIXME. This needs to be updated once the addr expansion is done in PCC. */
+        uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } s;
     struct bdk_nic_vfx_msix_vecx_addr_cn8

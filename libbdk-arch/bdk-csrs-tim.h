@@ -1213,6 +1213,166 @@ static inline uint64_t BDK_TIM_FR_RN_PTP_FUNC(void)
 #define arguments_BDK_TIM_FR_RN_PTP -1,-1,-1,-1
 
 /**
+ * Register (NCB) tim_nxt_min_cycles_expire
+ *
+ * INTERNAL: TIM Next Minimum Cycles Expiration Time Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_tim_nxt_min_cycles_expire_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_33_63        : 31;
+        uint64_t min_exp_time          : 33; /**< [ 32:  0](RO/H) Indicates the value TIM_FR_RN_CYCLES must reach before the next possible
+                                                                 servicing of rings/buckets. For diagnostic use only. */
+#else /* Word 0 - Little Endian */
+        uint64_t min_exp_time          : 33; /**< [ 32:  0](RO/H) Indicates the value TIM_FR_RN_CYCLES must reach before the next possible
+                                                                 servicing of rings/buckets. For diagnostic use only. */
+        uint64_t reserved_33_63        : 31;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_tim_nxt_min_cycles_expire_s cn; */
+} bdk_tim_nxt_min_cycles_expire_t;
+
+#define BDK_TIM_NXT_MIN_CYCLES_EXPIRE BDK_TIM_NXT_MIN_CYCLES_EXPIRE_FUNC()
+static inline uint64_t BDK_TIM_NXT_MIN_CYCLES_EXPIRE_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_TIM_NXT_MIN_CYCLES_EXPIRE_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x858000001100ll;
+    __bdk_csr_fatal("TIM_NXT_MIN_CYCLES_EXPIRE", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_TIM_NXT_MIN_CYCLES_EXPIRE bdk_tim_nxt_min_cycles_expire_t
+#define bustype_BDK_TIM_NXT_MIN_CYCLES_EXPIRE BDK_CSR_TYPE_NCB
+#define basename_BDK_TIM_NXT_MIN_CYCLES_EXPIRE "TIM_NXT_MIN_CYCLES_EXPIRE"
+#define device_bar_BDK_TIM_NXT_MIN_CYCLES_EXPIRE 0x0 /* PF_BAR0 */
+#define busnum_BDK_TIM_NXT_MIN_CYCLES_EXPIRE 0
+#define arguments_BDK_TIM_NXT_MIN_CYCLES_EXPIRE -1,-1,-1,-1
+
+/**
+ * Register (NCB) tim_nxt_min_gpios_expire
+ *
+ * INTERNAL: TIM Next Minimum GPIOS Expiration Time Registers
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_tim_nxt_min_gpios_expire_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_33_63        : 31;
+        uint64_t min_exp_time          : 33; /**< [ 32:  0](RO/H) Indicates the value TIM_FR_RN_GPIOS must reach before the next possible
+                                                                 servicing of rings/buckets. For diagnostic use only. */
+#else /* Word 0 - Little Endian */
+        uint64_t min_exp_time          : 33; /**< [ 32:  0](RO/H) Indicates the value TIM_FR_RN_GPIOS must reach before the next possible
+                                                                 servicing of rings/buckets. For diagnostic use only. */
+        uint64_t reserved_33_63        : 31;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_tim_nxt_min_gpios_expire_s cn; */
+} bdk_tim_nxt_min_gpios_expire_t;
+
+#define BDK_TIM_NXT_MIN_GPIOS_EXPIRE BDK_TIM_NXT_MIN_GPIOS_EXPIRE_FUNC()
+static inline uint64_t BDK_TIM_NXT_MIN_GPIOS_EXPIRE_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_TIM_NXT_MIN_GPIOS_EXPIRE_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x858000001108ll;
+    __bdk_csr_fatal("TIM_NXT_MIN_GPIOS_EXPIRE", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_TIM_NXT_MIN_GPIOS_EXPIRE bdk_tim_nxt_min_gpios_expire_t
+#define bustype_BDK_TIM_NXT_MIN_GPIOS_EXPIRE BDK_CSR_TYPE_NCB
+#define basename_BDK_TIM_NXT_MIN_GPIOS_EXPIRE "TIM_NXT_MIN_GPIOS_EXPIRE"
+#define device_bar_BDK_TIM_NXT_MIN_GPIOS_EXPIRE 0x0 /* PF_BAR0 */
+#define busnum_BDK_TIM_NXT_MIN_GPIOS_EXPIRE 0
+#define arguments_BDK_TIM_NXT_MIN_GPIOS_EXPIRE -1,-1,-1,-1
+
+/**
+ * Register (NCB) tim_nxt_min_gti_expire
+ *
+ * INTERNAL: TIM Next Minimum GTI Expire Time Registers
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_tim_nxt_min_gti_expire_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_33_63        : 31;
+        uint64_t min_exp_time          : 33; /**< [ 32:  0](RO/H) This field indicates the value TIM_FR_RN_GTI must reach
+                                                                 before the next possible servicing of rings/buckets.
+                                                                 For diagnostic use. */
+#else /* Word 0 - Little Endian */
+        uint64_t min_exp_time          : 33; /**< [ 32:  0](RO/H) This field indicates the value TIM_FR_RN_GTI must reach
+                                                                 before the next possible servicing of rings/buckets.
+                                                                 For diagnostic use. */
+        uint64_t reserved_33_63        : 31;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_tim_nxt_min_gti_expire_s cn; */
+} bdk_tim_nxt_min_gti_expire_t;
+
+#define BDK_TIM_NXT_MIN_GTI_EXPIRE BDK_TIM_NXT_MIN_GTI_EXPIRE_FUNC()
+static inline uint64_t BDK_TIM_NXT_MIN_GTI_EXPIRE_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_TIM_NXT_MIN_GTI_EXPIRE_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x858000001110ll;
+    __bdk_csr_fatal("TIM_NXT_MIN_GTI_EXPIRE", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_TIM_NXT_MIN_GTI_EXPIRE bdk_tim_nxt_min_gti_expire_t
+#define bustype_BDK_TIM_NXT_MIN_GTI_EXPIRE BDK_CSR_TYPE_NCB
+#define basename_BDK_TIM_NXT_MIN_GTI_EXPIRE "TIM_NXT_MIN_GTI_EXPIRE"
+#define device_bar_BDK_TIM_NXT_MIN_GTI_EXPIRE 0x0 /* PF_BAR0 */
+#define busnum_BDK_TIM_NXT_MIN_GTI_EXPIRE 0
+#define arguments_BDK_TIM_NXT_MIN_GTI_EXPIRE -1,-1,-1,-1
+
+/**
+ * Register (NCB) tim_nxt_min_ptp_expire
+ *
+ * INTERNAL: TIM Next Minimum PTP Expire Time Registers
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_tim_nxt_min_ptp_expire_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_33_63        : 31;
+        uint64_t min_exp_time          : 33; /**< [ 32:  0](RO/H) This field indicates the value TIM_FR_RN_PTP must reach
+                                                                 before the next possible servicing of rings/buckets.
+                                                                 For diagnostic use. */
+#else /* Word 0 - Little Endian */
+        uint64_t min_exp_time          : 33; /**< [ 32:  0](RO/H) This field indicates the value TIM_FR_RN_PTP must reach
+                                                                 before the next possible servicing of rings/buckets.
+                                                                 For diagnostic use. */
+        uint64_t reserved_33_63        : 31;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_tim_nxt_min_ptp_expire_s cn; */
+} bdk_tim_nxt_min_ptp_expire_t;
+
+#define BDK_TIM_NXT_MIN_PTP_EXPIRE BDK_TIM_NXT_MIN_PTP_EXPIRE_FUNC()
+static inline uint64_t BDK_TIM_NXT_MIN_PTP_EXPIRE_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_TIM_NXT_MIN_PTP_EXPIRE_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x858000001118ll;
+    __bdk_csr_fatal("TIM_NXT_MIN_PTP_EXPIRE", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_TIM_NXT_MIN_PTP_EXPIRE bdk_tim_nxt_min_ptp_expire_t
+#define bustype_BDK_TIM_NXT_MIN_PTP_EXPIRE BDK_CSR_TYPE_NCB
+#define basename_BDK_TIM_NXT_MIN_PTP_EXPIRE "TIM_NXT_MIN_PTP_EXPIRE"
+#define device_bar_BDK_TIM_NXT_MIN_PTP_EXPIRE 0x0 /* PF_BAR0 */
+#define busnum_BDK_TIM_NXT_MIN_PTP_EXPIRE 0
+#define arguments_BDK_TIM_NXT_MIN_PTP_EXPIRE -1,-1,-1,-1
+
+/**
  * Register (NCB) tim_pf_msix_pba#
  *
  * TIM PF MSI-X Pending Bit Array Registers

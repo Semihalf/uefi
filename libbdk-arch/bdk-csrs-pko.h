@@ -14975,7 +14975,7 @@ typedef union
         uint64_t pc_sram               : 1;  /**< [ 27: 27](RO) SQ[1] physical channel - pko_pse_pc_srf32x12e. */
         uint64_t xon_sram              : 1;  /**< [ 26: 26](RO) XON SRAM. */
         uint64_t cc_sram               : 1;  /**< [ 25: 25](RO) SQ[1] channel credit OK state array. */
-        uint64_t vc1_sram              : 1;  /**< [ 24: 24](RO) SQ[1] virtual channel - pko_pse_sq1_vc_srf256x9e. */
+        uint64_t reserved_24           : 1;
         uint64_t vc0_sram              : 1;  /**< [ 23: 23](RO) SQ[1] virtual channel - pko_pse_sq1_vc_srf256x9e. */
         uint64_t reserved_20_22        : 3;
         uint64_t tp0_sram              : 1;  /**< [ 19: 19](RO) SQ[5:1] topology parent configuration. */
@@ -15007,7 +15007,7 @@ typedef union
         uint64_t tp0_sram              : 1;  /**< [ 19: 19](RO) SQ[5:1] topology parent configuration. */
         uint64_t reserved_20_22        : 3;
         uint64_t vc0_sram              : 1;  /**< [ 23: 23](RO) SQ[1] virtual channel - pko_pse_sq1_vc_srf256x9e. */
-        uint64_t vc1_sram              : 1;  /**< [ 24: 24](RO) SQ[1] virtual channel - pko_pse_sq1_vc_srf256x9e. */
+        uint64_t reserved_24           : 1;
         uint64_t cc_sram               : 1;  /**< [ 25: 25](RO) SQ[1] channel credit OK state array. */
         uint64_t xon_sram              : 1;  /**< [ 26: 26](RO) XON SRAM. */
         uint64_t pc_sram               : 1;  /**< [ 27: 27](RO) SQ[1] physical channel - pko_pse_pc_srf32x12e. */
@@ -15023,7 +15023,7 @@ typedef union
         uint64_t pc_sram               : 1;  /**< [ 27: 27](RO) SQ[1] physical channel - pko_pse_pc_srf32x12e. */
         uint64_t xon_sram              : 1;  /**< [ 26: 26](RO) XON SRAM. */
         uint64_t cc_sram               : 1;  /**< [ 25: 25](RO) SQ[1] channel credit OK state array. */
-        uint64_t vc1_sram              : 1;  /**< [ 24: 24](RO) SQ[1] virtual channel - pko_pse_sq1_vc_srf256x9e. */
+        uint64_t reserved_24           : 1;
         uint64_t vc0_sram              : 1;  /**< [ 23: 23](RO) SQ[1] virtual channel - pko_pse_sq1_vc_srf256x9e. */
         uint64_t reserved_20_22        : 3;
         uint64_t tp0_sram              : 1;  /**< [ 19: 19](RO) SQ[5:1] topology parent configuration. */
@@ -15057,7 +15057,7 @@ typedef union
         uint64_t tp0_sram              : 1;  /**< [ 19: 19](RO) SQ[5:1] topology parent configuration. */
         uint64_t reserved_20_22        : 3;
         uint64_t vc0_sram              : 1;  /**< [ 23: 23](RO) SQ[1] virtual channel - pko_pse_sq1_vc_srf256x9e. */
-        uint64_t vc1_sram              : 1;  /**< [ 24: 24](RO) SQ[1] virtual channel - pko_pse_sq1_vc_srf256x9e. */
+        uint64_t reserved_24           : 1;
         uint64_t cc_sram               : 1;  /**< [ 25: 25](RO) SQ[1] channel credit OK state array. */
         uint64_t xon_sram              : 1;  /**< [ 26: 26](RO) XON SRAM. */
         uint64_t pc_sram               : 1;  /**< [ 27: 27](RO) SQ[1] physical channel - pko_pse_pc_srf32x12e. */

@@ -13345,7 +13345,96 @@ typedef union
         uint32_t reserved_22_31        : 10;
 #endif /* Word 0 - End */
     } cn88xx;
-    /* struct bdk_pciercx_cfg515_cn9 cn83xx; */
+    struct bdk_pciercx_cfg515_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_22_31        : 10;
+        uint32_t reserved_21           : 1;
+        uint32_t s_d_e                 : 1;  /**< [ 20: 20](R/W) SEL_DE_EMPHASIS. Used to set the deemphasis level for upstream ports.
+                                                                 1 = -3.5 dB.
+                                                                 0 = -6 dB. */
+        uint32_t ctcrb                 : 1;  /**< [ 19: 19](R/W) Config TX compliance receive bit. When set to 1, signals LTSSM to transmit TS ordered sets
+                                                                 with the compliance receive bit assert (equal to 1). */
+        uint32_t cpyts                 : 1;  /**< [ 18: 18](R/W) Config PHY TX swing. Indicates the voltage level that the PHY should drive. When set to 1,
+                                                                 indicates low swing. When set to 0, indicates full swing. */
+        uint32_t dsc                   : 1;  /**< [ 17: 17](R/W/H) Directed speed change. A write of 1 initiates a speed change.
+                                                                 When the speed change occurs, the controller will clear the contents of this field. */
+        uint32_t alaneflip             : 1;  /**< [ 16: 16](R/W) Enable auto flipping of the lanes. */
+        uint32_t pdetlane              : 3;  /**< [ 15: 13](R/W) Predetermined lane for auto flip. This field defines which
+                                                                 physical lane is connected to logical Lane0 by the flip
+                                                                 operation performed in detect.
+                                                                   0x0 = Reserved.
+                                                                   0x1 = Connect logical Lane0 to physical lane 1.
+                                                                   0x2 = Connect logical Lane0 to physical lane 3.
+                                                                   0x3 = Connect logical Lane0 to physical lane 7.
+                                                                   0x4 = Connect logical Lane0 to physical lane 15.
+                                                                   0x5 - 0x7 = Reserved. */
+        uint32_t nlanes                : 5;  /**< [ 12:  8](R/W) Predetermined number of lanes.  Defines the number of
+                                                                 lanes which are connected and not bad. Used to limit the
+                                                                 effective link width to ignore 'broken" or "unused" lanes that
+                                                                 detect a receiver. Indicates the number of lanes to check for
+                                                                 exit from electrical idle in Polling.Active and L2.Idle.
+                                                                 0x1 = 1 lane.
+                                                                 0x2 = 2 lanes.
+                                                                 0x3 = 3 lanes.
+                                                                 ..
+                                                                 0x8 = 8 lanes.
+                                                                 0x9-0x1F =Reserved.
+                                                                 When you have unused lanes in your system, then you must
+                                                                 change the value in this register to reflect the number of
+                                                                 lanes. You must also change PCIEEP()_CFG452[LME]. */
+        uint32_t n_fts                 : 8;  /**< [  7:  0](R/W) N_FTS. Sets the number of fast training sequences (N_FTS) that the core advertises as its
+                                                                 N_FTS during GEN2 Link training. This value is used to inform the link partner about the
+                                                                 PHY's ability to recover synchronization after a low power state.
+
+                                                                 Do not set [N_FTS] to zero; doing so can cause the LTSSM to go into the recovery state
+                                                                 when
+                                                                 exiting from L0s. */
+#else /* Word 0 - Little Endian */
+        uint32_t n_fts                 : 8;  /**< [  7:  0](R/W) N_FTS. Sets the number of fast training sequences (N_FTS) that the core advertises as its
+                                                                 N_FTS during GEN2 Link training. This value is used to inform the link partner about the
+                                                                 PHY's ability to recover synchronization after a low power state.
+
+                                                                 Do not set [N_FTS] to zero; doing so can cause the LTSSM to go into the recovery state
+                                                                 when
+                                                                 exiting from L0s. */
+        uint32_t nlanes                : 5;  /**< [ 12:  8](R/W) Predetermined number of lanes.  Defines the number of
+                                                                 lanes which are connected and not bad. Used to limit the
+                                                                 effective link width to ignore 'broken" or "unused" lanes that
+                                                                 detect a receiver. Indicates the number of lanes to check for
+                                                                 exit from electrical idle in Polling.Active and L2.Idle.
+                                                                 0x1 = 1 lane.
+                                                                 0x2 = 2 lanes.
+                                                                 0x3 = 3 lanes.
+                                                                 ..
+                                                                 0x8 = 8 lanes.
+                                                                 0x9-0x1F =Reserved.
+                                                                 When you have unused lanes in your system, then you must
+                                                                 change the value in this register to reflect the number of
+                                                                 lanes. You must also change PCIEEP()_CFG452[LME]. */
+        uint32_t pdetlane              : 3;  /**< [ 15: 13](R/W) Predetermined lane for auto flip. This field defines which
+                                                                 physical lane is connected to logical Lane0 by the flip
+                                                                 operation performed in detect.
+                                                                   0x0 = Reserved.
+                                                                   0x1 = Connect logical Lane0 to physical lane 1.
+                                                                   0x2 = Connect logical Lane0 to physical lane 3.
+                                                                   0x3 = Connect logical Lane0 to physical lane 7.
+                                                                   0x4 = Connect logical Lane0 to physical lane 15.
+                                                                   0x5 - 0x7 = Reserved. */
+        uint32_t alaneflip             : 1;  /**< [ 16: 16](R/W) Enable auto flipping of the lanes. */
+        uint32_t dsc                   : 1;  /**< [ 17: 17](R/W/H) Directed speed change. A write of 1 initiates a speed change.
+                                                                 When the speed change occurs, the controller will clear the contents of this field. */
+        uint32_t cpyts                 : 1;  /**< [ 18: 18](R/W) Config PHY TX swing. Indicates the voltage level that the PHY should drive. When set to 1,
+                                                                 indicates low swing. When set to 0, indicates full swing. */
+        uint32_t ctcrb                 : 1;  /**< [ 19: 19](R/W) Config TX compliance receive bit. When set to 1, signals LTSSM to transmit TS ordered sets
+                                                                 with the compliance receive bit assert (equal to 1). */
+        uint32_t s_d_e                 : 1;  /**< [ 20: 20](R/W) SEL_DE_EMPHASIS. Used to set the deemphasis level for upstream ports.
+                                                                 1 = -3.5 dB.
+                                                                 0 = -6 dB. */
+        uint32_t reserved_21           : 1;
+        uint32_t reserved_22_31        : 10;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_pciercx_cfg515_t;
 
 static inline uint64_t BDK_PCIERCX_CFG515(unsigned long a) __attribute__ ((pure, always_inline));

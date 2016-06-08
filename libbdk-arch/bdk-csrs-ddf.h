@@ -1225,13 +1225,15 @@ union bdk_ddf_res_match_s
         uint64_t reserved_64_127       : 64;
 #endif /* Word 1 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 2 - Big Endian */
-        uint64_t rdata0                : 64; /**< [191:128] Key or opaque data bytes read.
-                                                                 If [HIT] is set, the data read from the nest before any updates take place.
-                                                                 If [HIT] is clear, unpredictable. */
+        uint64_t rdata0                : 64; /**< [191:128] Record data bytes read before any update.
+                                                                 If [HIT] is set, the data read from record. In the case of multiple matches and
+                                                                 modifications the contents of the first record are returned. In all other cases RDATA will
+                                                                 be all zeroes. */
 #else /* Word 2 - Little Endian */
-        uint64_t rdata0                : 64; /**< [191:128] Key or opaque data bytes read.
-                                                                 If [HIT] is set, the data read from the nest before any updates take place.
-                                                                 If [HIT] is clear, unpredictable. */
+        uint64_t rdata0                : 64; /**< [191:128] Record data bytes read before any update.
+                                                                 If [HIT] is set, the data read from record. In the case of multiple matches and
+                                                                 modifications the contents of the first record are returned. In all other cases RDATA will
+                                                                 be all zeroes. */
 #endif /* Word 2 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 3 - Big Endian */
         uint64_t rdata1                : 64; /**< [255:192] Extension of [RDATA0]. */
@@ -1269,7 +1271,92 @@ union bdk_ddf_res_match_s
         uint64_t rdata7                : 64; /**< [639:576] Extension of [RDATA0]. */
 #endif /* Word 9 - End */
     } s;
-    struct bdk_ddf_res_match_s_cn
+    struct bdk_ddf_res_match_s_cn8
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t hitrec                : 16; /**< [ 63: 48] Hit record. Record number in which the key was found or inserted into.
+
+                                                                 For DDF_OP_E::RABS_SET, unpredictable. */
+        uint64_t reserved_24_47        : 24;
+        uint64_t reserved_23           : 1;
+        uint64_t hit                   : 1;  /**< [ 22: 22] Hit. Set if item was found before any change was applied, i.e. for
+                                                                 DDF_OP_E::MATCH_INS, will be set if the record hit an existing record and clear
+                                                                 if inserted into a previously empty location.
+
+                                                                 For DDF_OP_E::REMPTY_INS, always clear.  For DDF_OP_E::RABS_SET, always set. */
+        uint64_t reserved_17_21        : 5;
+        uint64_t doneint               : 1;  /**< [ 16: 16] See DDF_RES_FIND_S[DONEINT]. */
+        uint64_t res_type              : 8;  /**< [ 15:  8] See DDF_RES_FIND_S[RES_TYPE]. */
+        uint64_t compcode              : 8;  /**< [  7:  0] See DDF_RES_FIND_S[COMPCODE]. */
+#else /* Word 0 - Little Endian */
+        uint64_t compcode              : 8;  /**< [  7:  0] See DDF_RES_FIND_S[COMPCODE]. */
+        uint64_t res_type              : 8;  /**< [ 15:  8] See DDF_RES_FIND_S[RES_TYPE]. */
+        uint64_t doneint               : 1;  /**< [ 16: 16] See DDF_RES_FIND_S[DONEINT]. */
+        uint64_t reserved_17_21        : 5;
+        uint64_t hit                   : 1;  /**< [ 22: 22] Hit. Set if item was found before any change was applied, i.e. for
+                                                                 DDF_OP_E::MATCH_INS, will be set if the record hit an existing record and clear
+                                                                 if inserted into a previously empty location.
+
+                                                                 For DDF_OP_E::REMPTY_INS, always clear.  For DDF_OP_E::RABS_SET, always set. */
+        uint64_t reserved_23           : 1;
+        uint64_t reserved_24_47        : 24;
+        uint64_t hitrec                : 16; /**< [ 63: 48] Hit record. Record number in which the key was found or inserted into.
+
+                                                                 For DDF_OP_E::RABS_SET, unpredictable. */
+#endif /* Word 0 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
+        uint64_t reserved_64_127       : 64;
+#else /* Word 1 - Little Endian */
+        uint64_t reserved_64_127       : 64;
+#endif /* Word 1 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 2 - Big Endian */
+        uint64_t rdata0                : 64; /**< [191:128] Record data bytes read before any update.
+                                                                 If [HIT] is set, the data read from record. In the case of multiple matches and
+                                                                 modifications the contents of the first record are returned. In all other cases RDATA will
+                                                                 be all zeroes. */
+#else /* Word 2 - Little Endian */
+        uint64_t rdata0                : 64; /**< [191:128] Record data bytes read before any update.
+                                                                 If [HIT] is set, the data read from record. In the case of multiple matches and
+                                                                 modifications the contents of the first record are returned. In all other cases RDATA will
+                                                                 be all zeroes. */
+#endif /* Word 2 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 3 - Big Endian */
+        uint64_t rdata1                : 64; /**< [255:192] Extension of [RDATA0]. */
+#else /* Word 3 - Little Endian */
+        uint64_t rdata1                : 64; /**< [255:192] Extension of [RDATA0]. */
+#endif /* Word 3 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 4 - Big Endian */
+        uint64_t rdata2                : 64; /**< [319:256] Extension of [RDATA0]. */
+#else /* Word 4 - Little Endian */
+        uint64_t rdata2                : 64; /**< [319:256] Extension of [RDATA0]. */
+#endif /* Word 4 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 5 - Big Endian */
+        uint64_t rdata3                : 64; /**< [383:320] Extension of [RDATA0]. */
+#else /* Word 5 - Little Endian */
+        uint64_t rdata3                : 64; /**< [383:320] Extension of [RDATA0]. */
+#endif /* Word 5 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 6 - Big Endian */
+        uint64_t rdata4                : 64; /**< [447:384] Extension of [RDATA0]. */
+#else /* Word 6 - Little Endian */
+        uint64_t rdata4                : 64; /**< [447:384] Extension of [RDATA0]. */
+#endif /* Word 6 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 7 - Big Endian */
+        uint64_t rdata5                : 64; /**< [511:448] Extension of [RDATA0]. */
+#else /* Word 7 - Little Endian */
+        uint64_t rdata5                : 64; /**< [511:448] Extension of [RDATA0]. */
+#endif /* Word 7 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 8 - Big Endian */
+        uint64_t rdata6                : 64; /**< [575:512] Extension of [RDATA0]. */
+#else /* Word 8 - Little Endian */
+        uint64_t rdata6                : 64; /**< [575:512] Extension of [RDATA0]. */
+#endif /* Word 8 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 9 - Big Endian */
+        uint64_t rdata7                : 64; /**< [639:576] Extension of [RDATA0]. */
+#else /* Word 9 - Little Endian */
+        uint64_t rdata7                : 64; /**< [639:576] Extension of [RDATA0]. */
+#endif /* Word 9 - End */
+    } cn8;
+    struct bdk_ddf_res_match_s_cn9
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t hitrec                : 16; /**< [ 63: 48] Hit record. Record number in which the key was found or inserted into.
@@ -1351,7 +1438,7 @@ union bdk_ddf_res_match_s
 #else /* Word 9 - Little Endian */
         uint64_t rdata7                : 64; /**< [639:576] Extension of [RDATA0]. */
 #endif /* Word 9 - End */
-    } cn;
+    } cn9;
 };
 
 /**

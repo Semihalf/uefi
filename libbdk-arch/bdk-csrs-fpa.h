@@ -1391,7 +1391,7 @@ typedef union
         uint64_t reserved_40_63        : 24;
         uint64_t alloc_dis             : 20; /**< [ 39: 20](R/W) Allocation input disable. Each bit corresponds to a hardware allocation input
                                                                  queue, and if set add-works from the corresponding coprocessor will be dropped
-                                                                 and FPA_GEN_INT[ALLOC_DIS] set.
+                                                                 with a no-pointer fault response and FPA_GEN_INT[ALLOC_DIS] set.
                                                                  <0> = SSO.
                                                                  <1> = PKO queue.
                                                                  <2> = PKI.
@@ -1403,13 +1403,13 @@ typedef union
                                                                  queue, and if set add-works from the corresponding coprocessor will be dropped
                                                                  and FPA_GEN_INT[FREE_DIS] set
                                                                  <0> = SSO.
-                                                                 <1> = PKO queue.
+                                                                 <1> = PKO dpfi.
                                                                  <2> = PKI.
                                                                  <3> = CPT1.
                                                                  <4> = ZIP.
                                                                  <5> = TIM.
                                                                  <6> = RAD.
-                                                                 <7> = PKO send commands.
+                                                                 <7> = PKO ppfi.
                                                                  <8> = CPT0.
                                                                  <9> = DPI.
                                                                  <10> = DDF.
@@ -1424,13 +1424,13 @@ typedef union
                                                                  queue, and if set add-works from the corresponding coprocessor will be dropped
                                                                  and FPA_GEN_INT[FREE_DIS] set
                                                                  <0> = SSO.
-                                                                 <1> = PKO queue.
+                                                                 <1> = PKO dpfi.
                                                                  <2> = PKI.
                                                                  <3> = CPT1.
                                                                  <4> = ZIP.
                                                                  <5> = TIM.
                                                                  <6> = RAD.
-                                                                 <7> = PKO send commands.
+                                                                 <7> = PKO ppfi.
                                                                  <8> = CPT0.
                                                                  <9> = DPI.
                                                                  <10> = DDF.
@@ -1442,7 +1442,7 @@ typedef union
                                                                  data is received. */
         uint64_t alloc_dis             : 20; /**< [ 39: 20](R/W) Allocation input disable. Each bit corresponds to a hardware allocation input
                                                                  queue, and if set add-works from the corresponding coprocessor will be dropped
-                                                                 and FPA_GEN_INT[ALLOC_DIS] set.
+                                                                 with a no-pointer fault response and FPA_GEN_INT[ALLOC_DIS] set.
                                                                  <0> = SSO.
                                                                  <1> = PKO queue.
                                                                  <2> = PKI.
