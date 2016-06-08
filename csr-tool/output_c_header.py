@@ -241,6 +241,7 @@ def writeStruct(out, arch, struct, title="Structure"):
     out.write(" * %s %s\n" % (title, struct["name"]))
     description = getAnyField(struct, "description", arch)
     if description:
+        description = description.replace("*/", "* /")
         out.write(" *\n")
         for l in description.split("\n"):
             l = l.rstrip();
