@@ -1416,6 +1416,11 @@ void __bdk_init_ccpi_early(int is_master)
         }
     }
 
+    /* We use L2C_OCI_CTL[iofrcl] to remember if this code has been run
+       when we pass through multiple images */
+    BDK_CSR_MODIFY(c, node, BDK_L2C_OCI_CTL,
+        c.s.iofrcl = 0);
+
     /* Disable the bad lane timer and clear all bad bits */
     for (int ccpi_qlm = 0; ccpi_qlm < 6; ccpi_qlm++)
     {

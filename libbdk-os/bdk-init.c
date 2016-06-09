@@ -2,10 +2,6 @@
 #include <stdio.h>
 #include <unistd.h>
 
-#ifndef MFG_SYSTEM_LEVEL_TEST
-#define MFG_SYSTEM_LEVEL_TEST 0
-#endif
-
 uint64_t __bdk_init_reg_x0; /* The contents of X0 when this image started */
 uint64_t __bdk_init_reg_x1; /* The contents of X1 when this image started */
 uint64_t __bdk_init_reg_pc; /* The contents of PC when this image started */
@@ -170,15 +166,14 @@ void __bdk_init(uint32_t image_crc, uint64_t reg_x0, uint64_t reg_x1, uint64_t r
         if (!bdk_is_platform(BDK_PLATFORM_EMULATOR) && CAVIUM_IS_MODEL(CAVIUM_CN88XX))
         {
             BDK_CSR_INIT(l2c_oci_ctl, node, BDK_L2C_OCI_CTL);
-            if (l2c_oci_ctl.s.enaoci == 0)
+            if (l2c_oci_ctl.s.iofrcl)
             {
                 /* CCPI isn't being used, so don't reset if the links change */
                 BDK_CSR_WRITE(node, BDK_RST_OCX, 0);
                 BDK_CSR_READ(node, BDK_RST_OCX);
                 /* Force CCPI links down so they aren't trying to run while
                    we're configuring the QLMs */
-                if (!MFG_SYSTEM_LEVEL_TEST)
-                    __bdk_init_ccpi_early(1);
+                __bdk_init_ccpi_early(1);
             }
         }
 
