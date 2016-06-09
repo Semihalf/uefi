@@ -1591,6 +1591,8 @@ int __bdk_init_ccpi_connection(int is_master, uint64_t gbaud, int ccpi_trace)
             BDK_CSR_INIT(ocx_lnkx_cfg, node, BDK_OCX_LNKX_CFG(0));
             if (ocx_lnkx_cfg.s.lane_align_dis == 0)
             {
+                if (do_trace)
+                    bdk_dbg_uart_str("Lanes not ready, disabling lane alignment\n");
                 /* Make sure the link layer is down using lane alignment */
                 for (int link = 0; link < CCPI_MAX_LINKS; link++)
                     BDK_CSR_MODIFY(c, node, BDK_OCX_LNKX_CFG(link),
@@ -1638,9 +1640,9 @@ int __bdk_init_ccpi_connection(int is_master, uint64_t gbaud, int ccpi_trace)
                     /* Reinit will be cleared the next time through the loop */
                     if (do_trace)
                     {
-                        bdk_dbg_uart_str("Re-init link ");
+                        bdk_dbg_uart_str("Link ");
                         uart_dec1(link);
-                        bdk_dbg_uart_str("\r\n");
+                        bdk_dbg_uart_str(": Re-init\r\n");
                     }
                 }
                 else
