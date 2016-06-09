@@ -548,12 +548,6 @@ int __bdk_init_ccpi_links(uint64_t gbaud)
     {
         BDK_TRACE(CCPI, "N%d: Applying CCPI errata fixes\n", node);
         ccpi_errata(node, gbaud);
-        /* We forced the link down before, let it come up now */
-        for (int link = 0; link < 3; link++)
-        {
-            BDK_CSR_MODIFY(c, node, BDK_OCX_LNKX_CFG(link),
-                c.s.lane_align_dis = 0);
-        }
         printf("Starting CCPI links\n");
         /* Bringup the  lanes and links */
         if (__bdk_init_ccpi_connection(1, gbaud, (1ull << BDK_TRACE_ENABLE_CCPI) & bdk_trace_enables))
