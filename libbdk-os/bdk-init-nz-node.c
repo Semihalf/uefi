@@ -1606,17 +1606,23 @@ int __bdk_init_ccpi_connection(int is_master, uint64_t gbaud, int ccpi_trace)
         /* Check that the three CCPI links are operating */
         for (int link = 0; link < CCPI_MAX_LINKS; link++)
         {
-            /* If lane alignment is disabled, enable it */
             BDK_CSR_INIT(ocx_lnkx_cfg, node, BDK_OCX_LNKX_CFG(link));
+            BDK_CSR_INIT(ocx_com_linkx_ctl, node, BDK_OCX_COM_LINKX_CTL(link));
+
+            /* If lane alignment is disabled, enable it */
             if (ocx_lnkx_cfg.s.lane_align_dis)
             {
-                BDK_CSR_MODIFY(c, node, BDK_OCX_LNKX_CFG(link),
-                    c.s.lane_align_dis = 0);
-                continue;
+                ocx_lnkx_cfg.s.lane_align_dis = 0;
+                BDK_CSR_WRITE(node, BDK_OCX_LNKX_CFG(link), ocx_lnkx_cfg.u);
+                if (do_trace)
+                {
+                    bdk_dbg_uart_str("Link ");
+                    uart_dec1(link);
+                    bdk_dbg_uart_str(": All lanes ready, enabling lane alignment\r\n");
+                }
             }
-            BDK_CSR_INIT(ocx_com_linkx_ctl, node, BDK_OCX_COM_LINKX_CTL(link));
             /* Clear bits that can get set by hardware/software on error */
-            if (ocx_com_linkx_ctl.s.auto_clr || ocx_com_linkx_ctl.s.drop ||
+            else if (ocx_com_linkx_ctl.s.auto_clr || ocx_com_linkx_ctl.s.drop ||
                 ocx_com_linkx_ctl.s.reinit)
             {
                 ocx_com_linkx_ctl.s.auto_clr = 0;
