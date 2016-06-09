@@ -390,10 +390,13 @@ static int rgmii_speed(bdk_if_handle_t handle, bdk_if_link_t link_info)
         BDK_CSR_MODIFY(c, handle->node, BDK_XCVX_RESET(handle->interface),
             c.s.comp = 1);
 
-        /* setup the RXC. CLKRST msut be zero for loopback, one otherwise */
+        /* setup the RXC. CLKRST must be zero for internal loopback, one otherwise */
         BDK_CSR_INIT(xcv_ctl, handle->node, BDK_XCVX_CTL(handle->interface));
         BDK_CSR_MODIFY(c, handle->node, BDK_XCVX_RESET(handle->interface),
             c.s.clkrst = !xcv_ctl.s.lpbk_int);
+        /* set refclk_sel=1 if external loopback */
+        BDK_CSR_MODIFY(c, handle->node, BDK_XCVX_DLL_CTL(handle->interface),
+            c.s.refclk_sel = xcv_ctl.s.lpbk_ext);
 
         /* datapaths come out of reset
             - The datapath resets will disengage BGX from the RGMII interface.
@@ -650,9 +653,25 @@ static void if_link_set(bdk_if_handle_t handle, bdk_if_link_t link_info)
  */
 static int if_loopback(bdk_if_handle_t handle, bdk_if_loopback_t loopback)
 {
+    if ((loopback & BDK_IF_LOOPBACK_INTERNAL) &&
+        (loopback & BDK_IF_LOOPBACK_EXTERNAL))
+    {
+        bdk_error("Can't set internal and external loopback at the same time on RGMII port\n");
+        return 0;
+    }
+    /* Set the loopback requested, reset the XCV to complete the initialization
+       into the new mode.
+       Reset per http://mawiki.caveonetworks.com/wiki/73xx/XCV#Reset_and_Initiailization */
+    BDK_CSR_MODIFY(c, handle->node, BDK_XCVX_RESET(handle->interface),
+                   c.s.tx_pkt_rst_n = 0;
+                   c.s.rx_pkt_rst_n = 0);
+    /* wait 2*MTU in time */
+    bdk_wait_usec(10000);
     BDK_CSR_MODIFY(c, handle->node, BDK_XCVX_CTL(handle->interface),
         c.s.lpbk_int = !!(loopback & BDK_IF_LOOPBACK_INTERNAL);
         c.s.lpbk_ext = !!(loopback & BDK_IF_LOOPBACK_EXTERNAL));
+    /* reset the world */
+    BDK_CSR_WRITE(handle->node, BDK_XCVX_RESET(handle->interface), 0);
     sgmii_link(handle);
     sgmii_speed(handle, if_link_get_rgmii(handle));
     rgmii_speed(handle, if_link_get_rgmii(handle));
