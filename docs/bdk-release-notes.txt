@@ -8,16 +8,18 @@
 This document gives a short overview of the major changes
 incorporated into each BDK release.
 
-== thunder-release-v1.23-rc3 ==
+== thunder-release-v1.23 ==
 * Operating system device tree changes
 ** Fix uart clock speed passed to next image. This fixes issues with Linux getting the incorrect baud rate.
 ** "local-mac-address" is stored as 6 bytes per Linux/Uboot standard
+** "local-mac-address" processing now includes RGMII
 
 * CN81XX / CN80XX
-** Fix RGMII internal loopback
+** Fix RGMII internal and external loopback
 ** Fix incorrect link speed reported for mixed DLM modes
 ** Support L2 stats in traffic-gen
 ** Disable EBB880x display code on EBB8104, which caused USB issues
+** Support for RGMII at 10Mbps and half / full duplex
 
 * SERDES
 ** Improved QLM tuning functionbased on CCPI updates
@@ -27,6 +29,7 @@ incorporated into each BDK release.
 ** Disable reporting of CCPI disp_err. It is informational only
 ** Rewrite CCPI init to perform KR training in software
 ** Add support for choosing long or short channel, default to short
+** Fix incorrect IO reads from disabled node during init
 
 * USB
 ** Clarified license for XHCI
@@ -37,6 +40,7 @@ incorporated into each BDK release.
 ** CN88XX: Fix typo in SGMII menu option
 ** Improve SPI flash upload using xmodem
 ** Only check for debug magic key on master node. This fixes a crash of node 1 core 0 when the uart baud rate is changed on node 0.
+** Improve GTI clock synchronization in dual node setups
 
 == thunder-release-v1.22 ==
 * Added support for CN88XX pass 2.1. Prior releases will crash when entering diagnostics on CN88XX pass 2.1 and higher.
