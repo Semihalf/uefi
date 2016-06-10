@@ -532,9 +532,11 @@ static void if_receive(int unused, void *hand)
 int bdk_nic_port_init(bdk_if_handle_t handle, bdk_nic_type_t ntype, int lmac_credits)
 {
     int nic_chan_idx_e;     /* Flow channel for the CPI */
-    int nic_intf_e;         /* Interface enumeration */
+    bool has_rx_nic = true;  /* true when nic tx channel exists ==  BDK_NIC_CHAN_IDX_E_BGXX_LMACX_CHX is valid for rx*/
+    bool has_tx_nic = true;  /* true when nic rx channel exists == BDK_NIC_CHAN_IDX_E_BGXX_LMACX_CHX is valid for tx*/
+    int nic_intf_e = -1;         /* Interface enumeration */
     int nic_intf_block_e;   /* Interface Block ID Enumeration */
-    int nic_lmac_e;         /* LMAC enumeration */
+    int nic_lmac_e=-1;         /* LMAC enumeration */
 
     if (global_buffer_size == 0)
         global_buffer_size = bdk_config_get_int(BDK_CONFIG_PACKET_BUFFER_SIZE);
@@ -565,9 +567,21 @@ int bdk_nic_port_init(bdk_if_handle_t handle, bdk_nic_type_t ntype, int lmac_cre
                 break;
             case BDK_NIC_TYPE_LBK:
                 nic_chan_idx_e = BDK_NIC_CHAN_IDX_E_LBKX_CHX_CN83XX((handle->interface == 3) ? 1 : 0, handle->index);
-                nic_intf_e = BDK_NIC_INTF_E_LBKX_CN83XX((handle->interface == 3) ? 1 : 0);
+                // rx interface
+                if (3 == handle->interface) {
+                    nic_intf_e = BDK_NIC_INTF_E_LBKX_CN83XX(1);
+                } else if  (2 == handle->interface) {
+                    nic_intf_e = BDK_NIC_INTF_E_LBKX_CN83XX(0);
+                } else
+                    has_rx_nic = false;
                 nic_intf_block_e = BDK_NIC_INTF_BLOCK_E_LBKX(handle->interface);
-                nic_lmac_e = BDK_NIC_LMAC_E_LBKX_CN83XX((handle->interface == 3) ? 1 : 0);
+                // tx interface
+                if (3 == handle->interface) {
+                    nic_lmac_e = BDK_NIC_LMAC_E_LBKX_CN83XX(1);
+                } else if  (1 == handle->interface) {
+                    nic_lmac_e = BDK_NIC_LMAC_E_LBKX_CN83XX(0);
+                } else
+                    has_tx_nic = false;
                 break;
             default:
                 bdk_error("%s: Unsupported NIC TYPE %d\n", handle->name, ntype);
@@ -698,12 +712,13 @@ int bdk_nic_port_init(bdk_if_handle_t handle, bdk_nic_type_t ntype, int lmac_cre
         c.s.bp_poll_dly = 3);
 
     /* Enable interface level backpresure */
-    BDK_CSR_MODIFY(c, nic->node, BDK_NIC_PF_INTFX_BP_CFG(nic_intf_e),
-        c.s.bp_ena = 1;
-        c.s.bp_type = ((nic->ntype == BDK_NIC_TYPE_BGX) ||
-                       (nic->ntype == BDK_NIC_TYPE_RGMII)) ? 0 : 1; /* 0=BGX, 1=LBK/TNS */
-        c.s.bp_id = nic_intf_block_e);
-
+    if (-1 != nic_intf_e) {
+        BDK_CSR_MODIFY(c, nic->node, BDK_NIC_PF_INTFX_BP_CFG(nic_intf_e),
+            c.s.bp_ena = 1;
+            c.s.bp_type = ((nic->ntype == BDK_NIC_TYPE_BGX) ||
+                           (nic->ntype == BDK_NIC_TYPE_RGMII)) ? 0 : 1; /* 0=BGX, 1=LBK/TNS */
+            c.s.bp_id = nic_intf_block_e);
+    }
     /* Configure the submit queue (SQ) */
     nic->sq_base = sq_memory;
     nic->sq_loc = 0;
@@ -737,15 +752,20 @@ int bdk_nic_port_init(bdk_if_handle_t handle, bdk_nic_type_t ntype, int lmac_cre
     int cpi = node_state->next_free_cpi++;  /* Allocate a new Channel Parse Index (CPI) */
     int rssi = node_state->next_free_rssi++;/* Allocate a new Receive-Side Scaling Index (RSSI) */
     /* NIC_CHAN_E hard mapped to "flow". Flow chooses the CPI */
-    BDK_CSR_MODIFY(c, nic->node, BDK_NIC_PF_CHANX_RX_CFG(nic_chan_idx_e),
-        c.s.cpi_alg = BDK_NIC_CPI_ALG_E_NONE;
-        c.s.cpi_base = cpi);
-    /* Setup backpressure */
-    BDK_CSR_MODIFY(c, nic->node, BDK_NIC_PF_CHANX_RX_BP_CFG(nic_chan_idx_e),
-        c.s.ena = 1;
-        c.s.bpid = nic->bpid);
-    BDK_CSR_MODIFY(c, nic->node, BDK_NIC_PF_CHANX_TX_CFG(nic_chan_idx_e),
-        c.s.bp_ena = 1);
+    if (has_rx_nic) {
+        BDK_CSR_MODIFY(c, nic->node, BDK_NIC_PF_CHANX_RX_CFG(nic_chan_idx_e),
+            c.s.cpi_alg = BDK_NIC_CPI_ALG_E_NONE;
+            c.s.cpi_base = cpi);
+        /* Setup backpressure */
+        BDK_CSR_MODIFY(c, nic->node, BDK_NIC_PF_CHANX_RX_BP_CFG(nic_chan_idx_e),
+            c.s.ena = 1;
+            c.s.bpid = nic->bpid);
+    }
+    if ( has_tx_nic) {
+        BDK_CSR_MODIFY(c, nic->node, BDK_NIC_PF_CHANX_TX_CFG(nic_chan_idx_e),
+            c.s.bp_ena = 1);
+    }
+
     /* CPI is the output of the above alogrithm, this is used to lookup the
        VNIC for receive and RSSI */
     BDK_CSR_MODIFY(c, nic->node, BDK_NIC_PF_CPIX_CFG(cpi),
@@ -786,7 +806,7 @@ int bdk_nic_port_init(bdk_if_handle_t handle, bdk_nic_type_t ntype, int lmac_cre
         c.s.ena = 1;
         c.s.vnic = nic->nic_vf);
 
-    if (vnic_setup_tx_shaping(nic))
+    if (has_tx_nic && vnic_setup_tx_shaping(nic))
         return -1;
     if (vnic_setup_cq(nic))
         return -1;
@@ -794,12 +814,17 @@ int bdk_nic_port_init(bdk_if_handle_t handle, bdk_nic_type_t ntype, int lmac_cre
         return -1;
 
     /* Program LMAC credits */
-    int credit = (lmac_credits - MAX_MTU) / 16;
-    BDK_CSR_MODIFY(c, nic->node, BDK_NIC_PF_LMACX_CREDIT(nic_lmac_e),
-        c.s.cc_unit_cnt = credit;
-        c.s.cc_packet_cnt = 0x1ff;
-        c.s.cc_enable = 1);
-
+    if (-1 != nic_lmac_e) {
+        int credit;
+        if ((BDK_NIC_TYPE_LBK == nic->ntype) && CAVIUM_IS_MODEL(CAVIUM_CN83XX) )
+            credit = 512; /* HRM guidance */
+        else
+            credit = (lmac_credits - MAX_MTU) / 16;
+        BDK_CSR_MODIFY(c, nic->node, BDK_NIC_PF_LMACX_CREDIT(nic_lmac_e),
+            c.s.cc_unit_cnt = credit;
+            c.s.cc_packet_cnt = 0x1ff;
+            c.s.cc_enable = 1);
+    }
     /* Pad packets to 60 bytes, 15 32bit words (before FCS) */
     if (nic->ntype != BDK_NIC_TYPE_LBK)
         BDK_CSR_MODIFY(c, nic->node, BDK_NIC_PF_LMACX_CFG(nic_lmac_e),
