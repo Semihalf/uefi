@@ -571,7 +571,7 @@ int __bdk_init_ccpi_links(uint64_t gbaud)
             if (bdk_numa_exists(node))
             {
                 /* Split across two links as HW currently only support 2 node */
-                BDK_CSR_INIT(dual_sort, node, BDK_OCX_COM_DUAL_SORT);
+                BDK_CSR_DEFINE(dual_sort, BDK_OCX_COM_DUAL_SORT);
                 dual_sort.u = ocx_pp_read(node, BDK_OCX_COM_DUAL_SORT);
                 dual_sort.s.sort = 2;
                 ocx_pp_write(node, BDK_OCX_COM_DUAL_SORT, dual_sort.u);
@@ -581,7 +581,7 @@ int __bdk_init_ccpi_links(uint64_t gbaud)
                 for (int lane=0; lane<24; lane++)
                 {
                     ocx_pp_write(node, BDK_OCX_LNEX_INT(lane), ocx_pp_read(node, BDK_OCX_LNEX_INT(lane)));
-                    BDK_CSR_INIT(ocx_lnex_cfg, node, BDK_OCX_LNEX_CFG(lane));
+                    BDK_CSR_DEFINE(ocx_lnex_cfg, BDK_OCX_LNEX_CFG(lane));
                     ocx_lnex_cfg.u = ocx_pp_read(node, BDK_OCX_LNEX_CFG(lane));
                     ocx_lnex_cfg.s.rx_stat_wrap_dis = 1;
                     ocx_lnex_cfg.s.rx_stat_ena = 1;
