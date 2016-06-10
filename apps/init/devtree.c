@@ -481,38 +481,6 @@ static int devtree_fixups(void *fdt)
                         return -1;
                     }
                     BDK_TRACE(FDT_OS, "    Removed property %s[%s]\n", fdt_node_name, propname);
-                    /* See if this node needs a MAC address updated */
-                    propvalue = fdt_getprop(fdt, fdt_node, "local-mac-address", &proplen);
-                    if (propvalue && num_free_mac_addresses)
-                    {
-                        uint8_t new_mac_address[6];
-                        new_mac_address[0] = (next_free_mac_address >> 40) & 0xff;
-                        new_mac_address[1] = (next_free_mac_address >> 32) & 0xff;
-                        new_mac_address[2] = (next_free_mac_address >> 24) & 0xff;
-                        new_mac_address[3] = (next_free_mac_address >> 16) & 0xff;
-                        new_mac_address[4] = (next_free_mac_address >> 8) & 0xff;
-                        new_mac_address[5] = (next_free_mac_address >> 0) & 0xff;
-                        BDK_TRACE(FDT_OS, "Setting MAC address of %s to %02x:%02x:%02x:%02x:%02x:%02x\n",
-                                  fdt_node_name, new_mac_address[0], new_mac_address[1],
-                                  new_mac_address[2], new_mac_address[3],
-                                  new_mac_address[4], new_mac_address[5]);
-                        if (fdt_setprop_inplace(fdt, fdt_node, "local-mac-address", new_mac_address, 6))
-                        {
-                            bdk_error("Failed to update property %s[local-mac-address]\n", fdt_node_name);
-                            return -1;
-                        }
-                        BDK_TRACE(FDT_OS, "    Set %s[local-mac-address] = 0x%lx\n", fdt_node_name, next_free_mac_address);
-                        next_free_mac_address++;
-                        num_free_mac_addresses--;
-                    }
-                    else if (propvalue)
-                    {
-                        if (fdt_nop_property(fdt, fdt_node, "local-mac-address"))
-                        {
-                            bdk_error("Failed to NOP property %s[local-mac-address]\n", fdt_node_name);
-                            return -1;
-                        }
-                    }
                 }
                 fdt_node = next_node;
             }
@@ -622,6 +590,64 @@ static int devtree_fixups(void *fdt)
     if (bdk_numa_is_only_one() && devtree_node_del(fdt, "/distance-map"))
         return -1;
 
+    /* All hardware changes are complete in the device tree. Iterate through the
+       whole tree fixing any MAC addresses that are left and not already filled
+       with a value. Zero MAC addresses in "local-mac-address" will be updated
+       or removed */
+    const char *propname = "local-mac-address";
+    int fdt_node = devtree_node_offset_by_prop_name(fdt, -1, propname);
+    while (fdt_node >= 0)
+    {
+        const char *fdt_node_name = fdt_get_name(fdt, fdt_node, NULL);
+        /* See if this node's MAC address needs update */
+        const uint8_t *old = fdt_getprop(fdt, fdt_node, propname, NULL);
+        if (old)
+        {
+            /* See if all 6 bytes are zero */
+            bool is_non_zero = old[0] || old[1] || old[2] || old[3] || old[4] || old[5];
+            if (!is_non_zero)
+            {
+                /* Found a zero MAC address, either update it or remove it if we
+                   are out of MAC addresses */
+                if (num_free_mac_addresses)
+                {
+                    /* Update */
+                    uint8_t new_mac_address[6];
+                    new_mac_address[0] = (next_free_mac_address >> 40) & 0xff;
+                    new_mac_address[1] = (next_free_mac_address >> 32) & 0xff;
+                    new_mac_address[2] = (next_free_mac_address >> 24) & 0xff;
+                    new_mac_address[3] = (next_free_mac_address >> 16) & 0xff;
+                    new_mac_address[4] = (next_free_mac_address >> 8) & 0xff;
+                    new_mac_address[5] = (next_free_mac_address >> 0) & 0xff;
+                    if (fdt_setprop_inplace(fdt, fdt_node, propname, new_mac_address, 6))
+                    {
+                        bdk_error("Failed to update property %s[%s]\n",
+                            fdt_node_name, propname);
+                        return -1;
+                    }
+                    BDK_TRACE(FDT_OS, "    Set %s[%s] = %02x:%02x:%02x:%02x:%02x:%02x\n",
+                        fdt_node_name, propname,
+                        new_mac_address[0], new_mac_address[1],
+                        new_mac_address[2], new_mac_address[3],
+                        new_mac_address[4], new_mac_address[5]);
+                    next_free_mac_address++;
+                    num_free_mac_addresses--;
+                }
+                else
+                {
+                    /* Out of MACs, remove it */
+                    if (fdt_nop_property(fdt, fdt_node, propname))
+                    {
+                        bdk_error("Failed to NOP property %s[%s]\n",
+                            fdt_node_name, propname);
+                        return -1;
+                    }
+                    BDK_TRACE(FDT_OS, "    Removed property %s[%s]\n", fdt_node_name, propname);
+                }
+            }
+        }
+        fdt_node = devtree_node_offset_by_prop_name(fdt, fdt_node, propname);
+    }
     return 0;
 }
 
