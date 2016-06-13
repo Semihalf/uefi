@@ -714,7 +714,7 @@ static int cvm_usb_close(__bdk_fs_dev_t *handle)
     DEBUG((EFI_D_BLKIO," H:%p %d \n",
            handle, handle->dev_index));
     USB_MASS_DEVICE *UsbMass = findUsbMass(handle->dev_index,false);
-    if (NULL == UsbMass) return -1;
+    if (NULL == UsbMass) return 0; // Null means it was never open
 
     return 0;
 }
