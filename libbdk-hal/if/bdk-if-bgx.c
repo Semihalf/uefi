@@ -1321,6 +1321,21 @@ static bdk_if_link_t if_link_get_xaui(bdk_if_handle_t handle)
     {
         BDK_CSR_INIT(status1, handle->node, BDK_BGXX_SPUX_STATUS1(bgx_block, bgx_index));
         link_up = status1.s.rcv_lnk;
+        /* Check the loc_fault bit (XAUI/RXAUI only).
+           It latches high, so W1C and read it back if needed.
+           XAUI module with BCM8706 PHY does not drop "rcv_lnk" when cable is pulled,
+           but does assert local fault. */
+        if ((priv->mode == BGX_MODE_XAUI) || (priv->mode == BGX_MODE_DXAUI) || (priv->mode == BGX_MODE_RXAUI))
+        {
+            BDK_CSR_INIT(smux_rx_int, handle->node, BDK_BGXX_SMUX_RX_INT(bgx_block, bgx_index));
+            if (smux_rx_int.s.loc_fault)
+            {
+                BDK_CSR_WRITE(handle->node, BDK_BGXX_SMUX_RX_INT(bgx_block, bgx_index), smux_rx_int.u);
+                smux_rx_int.u = BDK_CSR_READ(handle->node, BDK_BGXX_SMUX_RX_INT(bgx_block, bgx_index));
+            }
+            if (smux_rx_int.s.loc_fault)
+                link_up = 0;
+        }
     }
 
     if (link_up)
