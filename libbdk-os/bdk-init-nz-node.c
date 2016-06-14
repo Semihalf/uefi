@@ -1288,8 +1288,14 @@ static void lane_check_ready(int ccpi_lane)
     }
     else
     {
-        /* Not ready, retry */
+        /* Not ready, retry. In rare cases it seems necessary to toggle
+           SER_LANE_BAD to restart a lane, which is why there is a
+           write/read/write sequence below */
         qlmx_cfg.s.ser_lane_ready = 0xf;
+        qlmx_cfg.s.ser_lane_bad |= 1 << lane;
+        BDK_CSR_WRITE(node, BDK_OCX_QLMX_CFG(ccpi_qlm), qlmx_cfg.u);
+        BDK_CSR_READ(node, BDK_OCX_QLMX_CFG(ccpi_qlm));
+        wait_usec(1000);
         qlmx_cfg.s.ser_lane_bad = 0;
         BDK_CSR_WRITE(node, BDK_OCX_QLMX_CFG(ccpi_qlm), qlmx_cfg.u);
         /* Set count to zero */
