@@ -1055,14 +1055,14 @@ static void lane_handle_training_request(int ccpi_lane)
     lstate->rx_ready = lane_stable;
     if (DEBUG_ONE_LANE_AT_A_TIME)
     {
-        ld_sr.s.rx_ready = lstate->rx_ready;
+        ld_sr.s.rx_ready |= lstate->rx_ready;
     }
     else
     {
         int finished = 1;
         for (int l = 0; l < CCPI_LANES; l++)
             finished &= lane_state[l].rx_ready;
-        ld_sr.s.rx_ready = finished;
+        ld_sr.s.rx_ready |= finished;
     }
 
     lstate->ld_sr = ld_sr;
@@ -1188,6 +1188,8 @@ static void lane_do_training(int ccpi_lane, bool is_master)
 
     if ((lstate->steps < 5) && is_master)
         ld_cu = lane_do_param_request(ccpi_lane);
+    else if (lstate->ld_sr.s.rx_ready)
+        ld_cu.u = 0; /* Don't allow any more requests if we already said we're ready */
     else if (lstate->desired_main == RXT_ESM_INC)
         ld_cu.s.main_cup = BDK_BGX_SPU_BR_TRAIN_CUP_E_INCREMENT;
     else if (lstate->desired_main == RXT_ESM_DEC)
