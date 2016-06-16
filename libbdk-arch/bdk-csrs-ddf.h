@@ -156,8 +156,10 @@
 #define BDK_DDF_RAMS_E_DMEM0 (0x12)
 #define BDK_DDF_RAMS_E_DMEM1 (0x13)
 #define BDK_DDF_RAMS_E_FPA_MEM (0x11)
+#define BDK_DDF_RAMS_E_LFIFO0 (0x14)
+#define BDK_DDF_RAMS_E_LFIFO1 (0x15)
 #define BDK_DDF_RAMS_E_MBOX_MEM (0x10)
-#define BDK_DDF_RAMS_E_MSIX_VMEM (0x14)
+#define BDK_DDF_RAMS_E_MSIX_VMEM (0x16)
 #define BDK_DDF_RAMS_E_NCBI_DATFIF (0)
 #define BDK_DDF_RAMS_E_NCBO_MEM0 (1)
 
@@ -303,8 +305,8 @@ union bdk_ddf_inst_find_s
                                                                  <48> for forward compatibility. */
 #endif /* Word 1 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 2 - Big Endian */
-        uint64_t tag_rank              : 5;  /**< [191:187] If set, extract [TAG_RANK] number of bits from the computed nest number and
-                                                                 exclusive-or into the SSO TAG.
+        uint64_t tag_rank              : 5;  /**< [191:187] If set, extract [TAG_RANK] number of bits from the computed rank number and
+                                                                 exclusive-or into the SSO TAG. If [RANK_ABS]=1 computed rank number is 0.
                                                                     0x00: SSO tag = [TAG] ^ {0x0}.
                                                                     0x01: SSO tag = [TAG] ^ {DDF_RES_FIND_S[RANK]<0>}.
                                                                     ...
@@ -324,8 +326,8 @@ union bdk_ddf_inst_find_s
                                                                  For the SSO to not discard the add-work request, FPA_PF_MAP() must map
                                                                  [GRP] and DDF()_PF_Q()_GMCTL[GMID] as valid. */
         uint64_t reserved_172_186      : 15;
-        uint64_t tag_rank              : 5;  /**< [191:187] If set, extract [TAG_RANK] number of bits from the computed nest number and
-                                                                 exclusive-or into the SSO TAG.
+        uint64_t tag_rank              : 5;  /**< [191:187] If set, extract [TAG_RANK] number of bits from the computed rank number and
+                                                                 exclusive-or into the SSO TAG. If [RANK_ABS]=1 computed rank number is 0.
                                                                     0x00: SSO tag = [TAG] ^ {0x0}.
                                                                     0x01: SSO tag = [TAG] ^ {DDF_RES_FIND_S[RANK]<0>}.
                                                                     ...
@@ -1098,9 +1100,9 @@ union bdk_ddf_res_find_s
         uint64_t sbkt                  : 6;  /**< [109:104] Calculated secondary bucket number. */
         uint64_t reserved_102_103      : 2;
         uint64_t pbkt                  : 6;  /**< [101: 96] Calculated primary bucket number. */
-        uint64_t rank                  : 32; /**< [ 95: 64] Calculated rank number. If DDF_INST_FIND_S[RANK_ABS] was set, unpredictable. */
+        uint64_t rank                  : 32; /**< [ 95: 64] Calculated rank number. Is zero if DDF_INST_FIND_S[RANK_ABS] was set. */
 #else /* Word 1 - Little Endian */
-        uint64_t rank                  : 32; /**< [ 95: 64] Calculated rank number. If DDF_INST_FIND_S[RANK_ABS] was set, unpredictable. */
+        uint64_t rank                  : 32; /**< [ 95: 64] Calculated rank number. Is zero if DDF_INST_FIND_S[RANK_ABS] was set. */
         uint64_t pbkt                  : 6;  /**< [101: 96] Calculated primary bucket number. */
         uint64_t reserved_102_103      : 2;
         uint64_t sbkt                  : 6;  /**< [109:104] Calculated secondary bucket number. */
@@ -1271,7 +1273,7 @@ union bdk_ddf_res_match_s
         uint64_t rdata7                : 64; /**< [639:576] Extension of [RDATA0]. */
 #endif /* Word 9 - End */
     } s;
-    struct bdk_ddf_res_match_s_cn8
+    struct bdk_ddf_res_match_s_cn
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t hitrec                : 16; /**< [ 63: 48] Hit record. Record number in which the key was found or inserted into.
@@ -1355,90 +1357,7 @@ union bdk_ddf_res_match_s
 #else /* Word 9 - Little Endian */
         uint64_t rdata7                : 64; /**< [639:576] Extension of [RDATA0]. */
 #endif /* Word 9 - End */
-    } cn8;
-    struct bdk_ddf_res_match_s_cn9
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t hitrec                : 16; /**< [ 63: 48] Hit record. Record number in which the key was found or inserted into.
-
-                                                                 For DDF_OP_E::RABS_SET, unpredictable. */
-        uint64_t reserved_24_47        : 24;
-        uint64_t reserved_23           : 1;
-        uint64_t hit                   : 1;  /**< [ 22: 22] Hit. Set if item was found before any change was applied, i.e. for
-                                                                 DDF_OP_E::MATCH_INS, will be set if the record hit an existing record and clear
-                                                                 if inserted into a previously empty location.
-
-                                                                 For DDF_OP_E::REMPTY_INS, always clear.  For DDF_OP_E::RABS_SET, always set. */
-        uint64_t reserved_17_21        : 5;
-        uint64_t doneint               : 1;  /**< [ 16: 16] See DDF_RES_FIND_S[DONEINT]. */
-        uint64_t res_type              : 8;  /**< [ 15:  8] See DDF_RES_FIND_S[RES_TYPE]. */
-        uint64_t compcode              : 8;  /**< [  7:  0] See DDF_RES_FIND_S[COMPCODE]. */
-#else /* Word 0 - Little Endian */
-        uint64_t compcode              : 8;  /**< [  7:  0] See DDF_RES_FIND_S[COMPCODE]. */
-        uint64_t res_type              : 8;  /**< [ 15:  8] See DDF_RES_FIND_S[RES_TYPE]. */
-        uint64_t doneint               : 1;  /**< [ 16: 16] See DDF_RES_FIND_S[DONEINT]. */
-        uint64_t reserved_17_21        : 5;
-        uint64_t hit                   : 1;  /**< [ 22: 22] Hit. Set if item was found before any change was applied, i.e. for
-                                                                 DDF_OP_E::MATCH_INS, will be set if the record hit an existing record and clear
-                                                                 if inserted into a previously empty location.
-
-                                                                 For DDF_OP_E::REMPTY_INS, always clear.  For DDF_OP_E::RABS_SET, always set. */
-        uint64_t reserved_23           : 1;
-        uint64_t reserved_24_47        : 24;
-        uint64_t hitrec                : 16; /**< [ 63: 48] Hit record. Record number in which the key was found or inserted into.
-
-                                                                 For DDF_OP_E::RABS_SET, unpredictable. */
-#endif /* Word 0 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
-        uint64_t reserved_64_127       : 64;
-#else /* Word 1 - Little Endian */
-        uint64_t reserved_64_127       : 64;
-#endif /* Word 1 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 2 - Big Endian */
-        uint64_t rdata0                : 64; /**< [191:128] Key or opaque data bytes read.
-                                                                 If [HIT] is set, the data read from the nest before any updates take place.
-                                                                 If [HIT] is clear, unpredictable. */
-#else /* Word 2 - Little Endian */
-        uint64_t rdata0                : 64; /**< [191:128] Key or opaque data bytes read.
-                                                                 If [HIT] is set, the data read from the nest before any updates take place.
-                                                                 If [HIT] is clear, unpredictable. */
-#endif /* Word 2 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 3 - Big Endian */
-        uint64_t rdata1                : 64; /**< [255:192] Extension of [RDATA0]. */
-#else /* Word 3 - Little Endian */
-        uint64_t rdata1                : 64; /**< [255:192] Extension of [RDATA0]. */
-#endif /* Word 3 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 4 - Big Endian */
-        uint64_t rdata2                : 64; /**< [319:256] Extension of [RDATA0]. */
-#else /* Word 4 - Little Endian */
-        uint64_t rdata2                : 64; /**< [319:256] Extension of [RDATA0]. */
-#endif /* Word 4 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 5 - Big Endian */
-        uint64_t rdata3                : 64; /**< [383:320] Extension of [RDATA0]. */
-#else /* Word 5 - Little Endian */
-        uint64_t rdata3                : 64; /**< [383:320] Extension of [RDATA0]. */
-#endif /* Word 5 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 6 - Big Endian */
-        uint64_t rdata4                : 64; /**< [447:384] Extension of [RDATA0]. */
-#else /* Word 6 - Little Endian */
-        uint64_t rdata4                : 64; /**< [447:384] Extension of [RDATA0]. */
-#endif /* Word 6 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 7 - Big Endian */
-        uint64_t rdata5                : 64; /**< [511:448] Extension of [RDATA0]. */
-#else /* Word 7 - Little Endian */
-        uint64_t rdata5                : 64; /**< [511:448] Extension of [RDATA0]. */
-#endif /* Word 7 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 8 - Big Endian */
-        uint64_t rdata6                : 64; /**< [575:512] Extension of [RDATA0]. */
-#else /* Word 8 - Little Endian */
-        uint64_t rdata6                : 64; /**< [575:512] Extension of [RDATA0]. */
-#endif /* Word 8 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 9 - Big Endian */
-        uint64_t rdata7                : 64; /**< [639:576] Extension of [RDATA0]. */
-#else /* Word 9 - Little Endian */
-        uint64_t rdata7                : 64; /**< [639:576] Extension of [RDATA0]. */
-#endif /* Word 9 - End */
-    } cn9;
+    } cn;
 };
 
 /**
@@ -1921,7 +1840,8 @@ static inline uint64_t BDK_DDFX_PF_CONSTANTS(unsigned long a)
  * Register (NCB) ddf#_pf_ctl
  *
  * DDF PF Control Register
- * This register controls diagnostic features.
+ * This register controls diagnostic features. This register should be changed only when
+ * quiescent (see DDF()_VQ()_INPROG[INFLIGHT]).
  */
 typedef union
 {

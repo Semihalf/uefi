@@ -316,7 +316,36 @@ typedef union
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } cn88xxp1;
-    /* struct bdk_ncsi_config_s cn9; */
+    struct bdk_ncsi_config_cn9
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_5_63         : 59;
+        uint64_t pkg_id                : 3;  /**< [  4:  2](R/W/H) Override the NCSI package id
+                                                                 which defaults to the global node ID.  MSB must be set to 0
+                                                                 for NCSI V1.0 compliance. */
+        uint64_t pkg_desel_tx_ch_dis   : 1;  /**< [  1:  1](R/W) This bit controls whether the NCSI will disable the TX_CH upon pkg deselect command.
+                                                                 0 = On pkg deselect command, keep TX channel enabled, enabling pass through traffic to
+                                                                 CGX.
+                                                                 1 = On pkg deselect command, disable TX channel preventing pass through traffic to CGX. */
+        uint64_t cam_accept            : 1;  /**< [  0:  0](R/W) Allow or deny SMAC address filter.  Applies to both SMAC filters in the CAM.
+                                                                 See NCSI_TX_FRM_SMAC()_CAM for additional details.
+                                                                 0 = Reject the packet on SMAC CAM address match.
+                                                                 1 = Accept the packet on SMAC CAM address match. */
+#else /* Word 0 - Little Endian */
+        uint64_t cam_accept            : 1;  /**< [  0:  0](R/W) Allow or deny SMAC address filter.  Applies to both SMAC filters in the CAM.
+                                                                 See NCSI_TX_FRM_SMAC()_CAM for additional details.
+                                                                 0 = Reject the packet on SMAC CAM address match.
+                                                                 1 = Accept the packet on SMAC CAM address match. */
+        uint64_t pkg_desel_tx_ch_dis   : 1;  /**< [  1:  1](R/W) This bit controls whether the NCSI will disable the TX_CH upon pkg deselect command.
+                                                                 0 = On pkg deselect command, keep TX channel enabled, enabling pass through traffic to
+                                                                 CGX.
+                                                                 1 = On pkg deselect command, disable TX channel preventing pass through traffic to CGX. */
+        uint64_t pkg_id                : 3;  /**< [  4:  2](R/W/H) Override the NCSI package id
+                                                                 which defaults to the global node ID.  MSB must be set to 0
+                                                                 for NCSI V1.0 compliance. */
+        uint64_t reserved_5_63         : 59;
+#endif /* Word 0 - End */
+    } cn9;
     /* struct bdk_ncsi_config_s cn83xx; */
 } bdk_ncsi_config_t;
 
@@ -1106,11 +1135,11 @@ static inline uint64_t BDK_NCSI_MSIX_VECX_CTL(unsigned long a)
  * Register (RSL) ncsi_rx_frm_ctl
  *
  * NCSI RX Frame Control Registers
- * This register should be set in coordination with BGX registers that control similar
+ * This register should be set in coordination with CGX registers that control similar
  * parameters.
  * If NCSI should is configured to prepend preamble and postpend FCS, then these should be
  * stripped
- * by BGX.  If NCSI is configured not to prepend preamble and postpend FCS, then BGX should not
+ * by CGX.  If NCSI is configured not to prepend preamble and postpend FCS, then CGX should not
  * be stripping these values.
  * Practically speaking, preamble and FCS should be set together.
  */
@@ -1783,7 +1812,7 @@ static inline uint64_t BDK_NCSI_TX_JABBER_FUNC(void)
  * Register (RSL) ncsi_tx_mix
  *
  * NCSI TX MIX Configuration Register
- * This register specifies configuration parameters for the MIX interface of BGX.
+ * This register specifies configuration parameters for the MIX interface of CGX.
  */
 typedef union
 {
@@ -1798,7 +1827,17 @@ typedef union
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ncsi_tx_mix_s cn; */
+    /* struct bdk_ncsi_tx_mix_s cn8; */
+    struct bdk_ncsi_tx_mix_cn9
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_4_63         : 60;
+        uint64_t port                  : 4;  /**< [  3:  0](R/W) Port value inserted into MIX frames headed to the CGX where it is used as the channel number. */
+#else /* Word 0 - Little Endian */
+        uint64_t port                  : 4;  /**< [  3:  0](R/W) Port value inserted into MIX frames headed to the CGX where it is used as the channel number. */
+        uint64_t reserved_4_63         : 60;
+#endif /* Word 0 - End */
+    } cn9;
 } bdk_ncsi_tx_mix_t;
 
 #define BDK_NCSI_TX_MIX BDK_NCSI_TX_MIX_FUNC()
@@ -1926,7 +1965,58 @@ typedef union
                                                                  Access to NCSI_CPU2BMC_MSG and NCSI_BMC2CPU_MSG are always allowed. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ncsi_tx_ncp_permx_table_hi_s cn9; */
+    struct bdk_ncsi_tx_ncp_permx_table_hi_cn9
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t addr                  : 64; /**< [ 63:  0](SR/W) Specifies the high physical address in formulating a permissions filter for OEM command
+                                                                 access.
+                                                                 Together with the respective NCSI_TX_NCP_PERM()_TABLE_LOW entry, specifies
+                                                                 a range, from NCSI_TX_NCP_PERM_TABLE()_LOW[n] to NCSI_TX_NCP_PERM()_TABLE_HI[n] of
+                                                                 physical addresses, contained in the OEM command, that have permissions to execute
+                                                                 read or writes to CNXXXX general registers through MRML.
+
+                                                                 Values per entry should be set such that LOW[n]<=HI[n]. To specify a single address the hi
+                                                                 and low are programmed with the same value.
+                                                                 If a range in one set of HI/LOW entries overlaps with another, the
+                                                                 overlap is harmlessly redundant.
+
+                                                                 Address bit <63> is used as the secure bit, and thus to allow secure and
+                                                                 nonsecure access to a given register, both the register's address with <63>=0,
+                                                                 and register's address with <63>=1 must be within the range(s).
+
+                                                                 Default values allow default access to:
+
+                                                                   * All NCSI addresses except secure registers.
+                                                                   * All CGX(0..3) addresses except secure registers.
+                                                                   * All SERDES addresses serving CGX(0...3).
+
+                                                                 Access to NCSI_CPU2BMC_MSG and NCSI_BMC2CPU_MSG are always allowed. */
+#else /* Word 0 - Little Endian */
+        uint64_t addr                  : 64; /**< [ 63:  0](SR/W) Specifies the high physical address in formulating a permissions filter for OEM command
+                                                                 access.
+                                                                 Together with the respective NCSI_TX_NCP_PERM()_TABLE_LOW entry, specifies
+                                                                 a range, from NCSI_TX_NCP_PERM_TABLE()_LOW[n] to NCSI_TX_NCP_PERM()_TABLE_HI[n] of
+                                                                 physical addresses, contained in the OEM command, that have permissions to execute
+                                                                 read or writes to CNXXXX general registers through MRML.
+
+                                                                 Values per entry should be set such that LOW[n]<=HI[n]. To specify a single address the hi
+                                                                 and low are programmed with the same value.
+                                                                 If a range in one set of HI/LOW entries overlaps with another, the
+                                                                 overlap is harmlessly redundant.
+
+                                                                 Address bit <63> is used as the secure bit, and thus to allow secure and
+                                                                 nonsecure access to a given register, both the register's address with <63>=0,
+                                                                 and register's address with <63>=1 must be within the range(s).
+
+                                                                 Default values allow default access to:
+
+                                                                   * All NCSI addresses except secure registers.
+                                                                   * All CGX(0..3) addresses except secure registers.
+                                                                   * All SERDES addresses serving CGX(0...3).
+
+                                                                 Access to NCSI_CPU2BMC_MSG and NCSI_BMC2CPU_MSG are always allowed. */
+#endif /* Word 0 - End */
+    } cn9;
     struct bdk_ncsi_tx_ncp_permx_table_hi_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */

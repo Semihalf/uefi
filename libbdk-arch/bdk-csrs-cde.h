@@ -384,7 +384,7 @@ union bdk_cde_inst_s
  * CDE Result Structure
  * The CDE coprocessor writes the result structure after it completes a CDE_INST_S
  * instruction.
- * The result structure is exactly 16 (TBD) bytes, and each instruction completion
+ * The result structure is exactly 16 bytes, and each instruction completion
  * produces exactly one result structure.
  *
  * This structure is stored in memory as little-endian unless CDE()_PF_Q()_CTL[INST_BE]

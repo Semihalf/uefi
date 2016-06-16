@@ -891,11 +891,11 @@ typedef union
     struct bdk_gti_cc_cntfid0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](SR/W) Generic timer frequency mode table, index 1.
+        uint32_t data                  : 32; /**< [ 31:  0](SR/W) Generic timer frequency mode table, index 0.
                                                                  Programmed by boot software with the system counter clock frequency in Hertz.
                                                                  See also GTI_CTL_CNTFRQ. */
 #else /* Word 0 - Little Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](SR/W) Generic timer frequency mode table, index 1.
+        uint32_t data                  : 32; /**< [ 31:  0](SR/W) Generic timer frequency mode table, index 0.
                                                                  Programmed by boot software with the system counter clock frequency in Hertz.
                                                                  See also GTI_CTL_CNTFRQ. */
 #endif /* Word 0 - End */

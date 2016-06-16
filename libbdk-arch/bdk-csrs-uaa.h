@@ -447,7 +447,35 @@ typedef union
         uint32_t reserved_6_31         : 26;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_uaax_fbrd_s cn; */
+    /* struct bdk_uaax_fbrd_s cn9; */
+    /* struct bdk_uaax_fbrd_s cn81xx; */
+    struct bdk_uaax_fbrd_cn88xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_6_31         : 26;
+        uint32_t baud_divfrac          : 6;  /**< [  5:  0](R/W) Fractional part of baud rate divisor. The output baud rate is equal to the HCLK frequency
+                                                                 divided by sixteen times the value of the baud-rate divisor, as follows:
+
+                                                                 _ baud rate = HCLK / (16 * divisor).
+
+                                                                 Where the HCLK frequency is controlled by UAA()_UCTL_CTL[H_CLKDIV_SEL].
+
+                                                                 Once both divisor-latch registers are set, at least eight HCLK
+                                                                 cycles should be allowed to pass before transmitting or receiving data. */
+#else /* Word 0 - Little Endian */
+        uint32_t baud_divfrac          : 6;  /**< [  5:  0](R/W) Fractional part of baud rate divisor. The output baud rate is equal to the HCLK frequency
+                                                                 divided by sixteen times the value of the baud-rate divisor, as follows:
+
+                                                                 _ baud rate = HCLK / (16 * divisor).
+
+                                                                 Where the HCLK frequency is controlled by UAA()_UCTL_CTL[H_CLKDIV_SEL].
+
+                                                                 Once both divisor-latch registers are set, at least eight HCLK
+                                                                 cycles should be allowed to pass before transmitting or receiving data. */
+        uint32_t reserved_6_31         : 26;
+#endif /* Word 0 - End */
+    } cn88xx;
+    /* struct bdk_uaax_fbrd_s cn83xx; */
 } bdk_uaax_fbrd_t;
 
 static inline uint64_t BDK_UAAX_FBRD(unsigned long a) __attribute__ ((pure, always_inline));

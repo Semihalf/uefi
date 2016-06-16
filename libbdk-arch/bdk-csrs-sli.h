@@ -3763,83 +3763,7 @@ typedef union
         uint64_t reserved_37_63        : 27;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_sdpx_epfx_rx_out_control_s cn8; */
-    struct bdk_sdpx_epfx_rx_out_control_cn9
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_37_63        : 27;
-        uint64_t idle                  : 1;  /**< [ 36: 36](RO/H) Asserted when this ring has no packets in-flight. */
-        uint64_t es_i                  : 2;  /**< [ 35: 34](R/W) [ES_I] is ES<1:0> for info buffer write operations to buffer/info
-                                                                 pair MAC memory space addresses fetched from packet output ring. ES<1:0> is the
-                                                                 endian-swap attribute for these MAC memory space writes. */
-        uint64_t nsr_i                 : 1;  /**< [ 33: 33](R/W) [NSR] is ADDRTYPE<1> for info buffer write operations to buffer/info
-                                                                 pair MAC memory space addresses fetched from packet output ring. ADDRTYPE<1> is
-                                                                 the no-snoop attribute for PCIe. */
-        uint64_t ror_i                 : 1;  /**< [ 32: 32](R/W) [ROR] is ADDRTYPE<0> for info buffer write operations to buffer/info
-                                                                 pair MAC memory space addresses fetched from packet output ring. ADDRTYPE<0> is
-                                                                 the relaxed-order attribute for PCIe. */
-        uint64_t es_d                  : 2;  /**< [ 31: 30](R/W) [ES] is ES<1:0> for data buffer write operations to buffer/info
-                                                                 pair MAC memory space addresses fetched from packet output ring. ES<1:0> is the
-                                                                 endian-swap attribute for these MAC memory space writes. */
-        uint64_t nsr_d                 : 1;  /**< [ 29: 29](R/W) [NSR] is ADDRTYPE<1> for data buffer write operations to buffer/info
-                                                                 pair MAC memory space addresses fetched from packet output ring. ADDRTYPE<1> is
-                                                                 the no-snoop attribute for PCIe. */
-        uint64_t ror_d                 : 1;  /**< [ 28: 28](R/W) [ROR] is ADDRTYPE<0> for data buffer write operations to buffer/info
-                                                                 pair MAC memory space addresses fetched from packet output ring. ADDRTYPE<0> is
-                                                                 the relaxed-order attribute for PCIe. */
-        uint64_t es_p                  : 2;  /**< [ 27: 26](R/W) [ES_P] is ES<1:0> for the packet output ring reads that fetch buffer/info pointer pairs
-                                                                 (from SLI_PKT()_SLIST_BADDR[ADDR]+). ES<1:0> is the endian-swap attribute for these
-                                                                 MAC memory space reads. */
-        uint64_t nsr_p                 : 1;  /**< [ 25: 25](R/W) [NSR_P] is ADDRTYPE<1> for the packet output ring reads that fetch buffer/info pointer
-                                                                 pairs (from SLI_PKT()_SLIST_BADDR[ADDR]+). ADDRTYPE<1> is the no-snoop attribute for PCIe. */
-        uint64_t ror_p                 : 1;  /**< [ 24: 24](R/W) [ROR_P] is ADDRTYPE<0> for the packet output ring reads that fetch buffer/info pointer
-                                                                 pairs (from SLI_PKT()_SLIST_BADDR[ADDR]+). ADDRTYPE<0> is the relaxed-order attribute
-                                                                 for PCIe. */
-        uint64_t imode                 : 1;  /**< [ 23: 23](R/W) When IMODE=1, packet output ring is in info-pointer mode; otherwise the packet output ring
-                                                                 is in buffer-pointer-only mode. */
-        uint64_t isize                 : 7;  /**< [ 22: 16](R/W) Info bytes size (bytes) for the output port. Legal sizes are 0 to 120. Not used
-                                                                 in buffer-pointer-only mode.  If a value is written that is between 120-127 then
-                                                                 a value of 120 will be forced by hardware. */
-        uint64_t bsize                 : 16; /**< [ 15:  0](R/W) Buffer size (bytes) for the output ring.  The minimum size is 128 bytes; if a value
-                                                                 smaller than 128 is written, hardware will force a value of 128. */
-#else /* Word 0 - Little Endian */
-        uint64_t bsize                 : 16; /**< [ 15:  0](R/W) Buffer size (bytes) for the output ring.  The minimum size is 128 bytes; if a value
-                                                                 smaller than 128 is written, hardware will force a value of 128. */
-        uint64_t isize                 : 7;  /**< [ 22: 16](R/W) Info bytes size (bytes) for the output port. Legal sizes are 0 to 120. Not used
-                                                                 in buffer-pointer-only mode.  If a value is written that is between 120-127 then
-                                                                 a value of 120 will be forced by hardware. */
-        uint64_t imode                 : 1;  /**< [ 23: 23](R/W) When IMODE=1, packet output ring is in info-pointer mode; otherwise the packet output ring
-                                                                 is in buffer-pointer-only mode. */
-        uint64_t ror_p                 : 1;  /**< [ 24: 24](R/W) [ROR_P] is ADDRTYPE<0> for the packet output ring reads that fetch buffer/info pointer
-                                                                 pairs (from SLI_PKT()_SLIST_BADDR[ADDR]+). ADDRTYPE<0> is the relaxed-order attribute
-                                                                 for PCIe. */
-        uint64_t nsr_p                 : 1;  /**< [ 25: 25](R/W) [NSR_P] is ADDRTYPE<1> for the packet output ring reads that fetch buffer/info pointer
-                                                                 pairs (from SLI_PKT()_SLIST_BADDR[ADDR]+). ADDRTYPE<1> is the no-snoop attribute for PCIe. */
-        uint64_t es_p                  : 2;  /**< [ 27: 26](R/W) [ES_P] is ES<1:0> for the packet output ring reads that fetch buffer/info pointer pairs
-                                                                 (from SLI_PKT()_SLIST_BADDR[ADDR]+). ES<1:0> is the endian-swap attribute for these
-                                                                 MAC memory space reads. */
-        uint64_t ror_d                 : 1;  /**< [ 28: 28](R/W) [ROR] is ADDRTYPE<0> for data buffer write operations to buffer/info
-                                                                 pair MAC memory space addresses fetched from packet output ring. ADDRTYPE<0> is
-                                                                 the relaxed-order attribute for PCIe. */
-        uint64_t nsr_d                 : 1;  /**< [ 29: 29](R/W) [NSR] is ADDRTYPE<1> for data buffer write operations to buffer/info
-                                                                 pair MAC memory space addresses fetched from packet output ring. ADDRTYPE<1> is
-                                                                 the no-snoop attribute for PCIe. */
-        uint64_t es_d                  : 2;  /**< [ 31: 30](R/W) [ES] is ES<1:0> for data buffer write operations to buffer/info
-                                                                 pair MAC memory space addresses fetched from packet output ring. ES<1:0> is the
-                                                                 endian-swap attribute for these MAC memory space writes. */
-        uint64_t ror_i                 : 1;  /**< [ 32: 32](R/W) [ROR] is ADDRTYPE<0> for info buffer write operations to buffer/info
-                                                                 pair MAC memory space addresses fetched from packet output ring. ADDRTYPE<0> is
-                                                                 the relaxed-order attribute for PCIe. */
-        uint64_t nsr_i                 : 1;  /**< [ 33: 33](R/W) [NSR] is ADDRTYPE<1> for info buffer write operations to buffer/info
-                                                                 pair MAC memory space addresses fetched from packet output ring. ADDRTYPE<1> is
-                                                                 the no-snoop attribute for PCIe. */
-        uint64_t es_i                  : 2;  /**< [ 35: 34](R/W) [ES_I] is ES<1:0> for info buffer write operations to buffer/info
-                                                                 pair MAC memory space addresses fetched from packet output ring. ES<1:0> is the
-                                                                 endian-swap attribute for these MAC memory space writes. */
-        uint64_t idle                  : 1;  /**< [ 36: 36](RO/H) Asserted when this ring has no packets in-flight. */
-        uint64_t reserved_37_63        : 27;
-#endif /* Word 0 - End */
-    } cn9;
+    /* struct bdk_sdpx_epfx_rx_out_control_s cn; */
 } bdk_sdpx_epfx_rx_out_control_t;
 
 static inline uint64_t BDK_SDPX_EPFX_RX_OUT_CONTROL(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
@@ -4226,21 +4150,7 @@ typedef union
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_sdpx_epfx_rx_out_slist_rsize_s cn8; */
-    struct bdk_sdpx_epfx_rx_out_slist_rsize_cn9
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t rsize                 : 32; /**< [ 31:  0](R/W) Ring size (number of SDP_BUF_INFO_PAIR_S's). This value must be 10 or
-                                                                 greater. If a value is written that is less than 10, then hardware
-                                                                 will force a value of 10 to be written. */
-#else /* Word 0 - Little Endian */
-        uint64_t rsize                 : 32; /**< [ 31:  0](R/W) Ring size (number of SDP_BUF_INFO_PAIR_S's). This value must be 10 or
-                                                                 greater. If a value is written that is less than 10, then hardware
-                                                                 will force a value of 10 to be written. */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } cn9;
+    /* struct bdk_sdpx_epfx_rx_out_slist_rsize_s cn; */
 } bdk_sdpx_epfx_rx_out_slist_rsize_t;
 
 static inline uint64_t BDK_SDPX_EPFX_RX_OUT_SLIST_RSIZE(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
@@ -4452,8 +4362,8 @@ static inline uint64_t BDK_SDPX_EPFX_RMT_MSIX_PBAX(unsigned long a, unsigned lon
  * This register is the MSI-X vector table for remote hosts (when CNXXXX is an
  * endpoint), and is indexed by the SDP_RMT_INT_VEC_E enumeration.
  *
- * This register is not affected by PF-FLR or VF-FLR. It must be initialized before
- * use.
+ * This register is not affected by PF-FLR, VF-FLR, VF_EN falling edge, or
+ * MAC reset. It must be initialized before use.
  *
  * Note: EPF2..3 only advertise 16 MSI-X entries to the remote host, and table
  * entries above 15 do not exist.
@@ -4524,23 +4434,7 @@ typedef union
         uint64_t reserved_33_63        : 31;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_sdpx_epfx_rmt_msix_vecx_ctl_s cn8; */
-    struct bdk_sdpx_epfx_rmt_msix_vecx_ctl_cn9
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_33_63        : 31;
-        uint64_t mask                  : 1;  /**< [ 32: 32](R/W) When set, no MSI-X interrupts are sent to this vector.
-                                                                 This field is reset by PF-FLR and VF-FLR. */
-        uint64_t data                  : 32; /**< [ 31:  0](R/W) Data to use for MSI-X delivery of this vector.
-                                                                 This field is not affected by PF-FLR or VF-FLR. It must be initialized before use. */
-#else /* Word 0 - Little Endian */
-        uint64_t data                  : 32; /**< [ 31:  0](R/W) Data to use for MSI-X delivery of this vector.
-                                                                 This field is not affected by PF-FLR or VF-FLR. It must be initialized before use. */
-        uint64_t mask                  : 1;  /**< [ 32: 32](R/W) When set, no MSI-X interrupts are sent to this vector.
-                                                                 This field is reset by PF-FLR and VF-FLR. */
-        uint64_t reserved_33_63        : 31;
-#endif /* Word 0 - End */
-    } cn9;
+    /* struct bdk_sdpx_epfx_rmt_msix_vecx_ctl_s cn; */
 } bdk_sdpx_epfx_rmt_msix_vecx_ctl_t;
 
 static inline uint64_t BDK_SDPX_EPFX_RMT_MSIX_VECX_CTL(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
@@ -7880,27 +7774,7 @@ typedef union
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_slix_mac_numberx_s cn8; */
-    struct bdk_slix_mac_numberx_cn9
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t chip_rev              : 8;  /**< [ 31: 24](RO/H) Chip revision level. */
-        uint64_t reserved_20_23        : 4;
-        uint64_t oci_id                : 4;  /**< [ 19: 16](RO/H) The CCPI node ID. */
-        uint64_t reserved_9_15         : 7;
-        uint64_t a_mode                : 1;  /**< [  8:  8](RO/H) Trusted mode.  See RST_BOOT[TRUSTED_MODE]. */
-        uint64_t num                   : 8;  /**< [  7:  0](RO/H) MAC number. */
-#else /* Word 0 - Little Endian */
-        uint64_t num                   : 8;  /**< [  7:  0](RO/H) MAC number. */
-        uint64_t a_mode                : 1;  /**< [  8:  8](RO/H) Trusted mode.  See RST_BOOT[TRUSTED_MODE]. */
-        uint64_t reserved_9_15         : 7;
-        uint64_t oci_id                : 4;  /**< [ 19: 16](RO/H) The CCPI node ID. */
-        uint64_t reserved_20_23        : 4;
-        uint64_t chip_rev              : 8;  /**< [ 31: 24](RO/H) Chip revision level. */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } cn9;
+    /* struct bdk_slix_mac_numberx_s cn; */
 } bdk_slix_mac_numberx_t;
 
 static inline uint64_t BDK_SLIX_MAC_NUMBERX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -9056,11 +8930,10 @@ static inline uint64_t BDK_SLIX_S2M_REGX_ACC2(unsigned long a, unsigned long b)
 #define arguments_BDK_SLIX_S2M_REGX_ACC2(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sli#_scratch_1
+ * Register (NCB) sli#_scratch_1
  *
  * SLI Scratch 1 Register
- * These registers are general purpose 64-bit scratch registers for software use and can be
- * shared between MAC's
+ * These registers are general purpose 64-bit scratch registers for software use.
  */
 typedef union
 {
@@ -9091,18 +8964,17 @@ static inline uint64_t BDK_SLIX_SCRATCH_1(unsigned long a)
 }
 
 #define typedef_BDK_SLIX_SCRATCH_1(a) bdk_slix_scratch_1_t
-#define bustype_BDK_SLIX_SCRATCH_1(a) BDK_CSR_TYPE_PEXP_NCB
+#define bustype_BDK_SLIX_SCRATCH_1(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SLIX_SCRATCH_1(a) "SLIX_SCRATCH_1"
 #define device_bar_BDK_SLIX_SCRATCH_1(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SLIX_SCRATCH_1(a) (a)
 #define arguments_BDK_SLIX_SCRATCH_1(a) (a),-1,-1,-1
 
 /**
- * Register (PEXP_NCB) sli#_scratch_2
+ * Register (NCB) sli#_scratch_2
  *
  * SLI Scratch 2 Register
- * These registers are general purpose 64-bit scratch registers for software use and can be
- * shared between MAC's.
+ * These registers are general purpose 64-bit scratch registers for software use.
  */
 typedef union
 {
@@ -9133,7 +9005,7 @@ static inline uint64_t BDK_SLIX_SCRATCH_2(unsigned long a)
 }
 
 #define typedef_BDK_SLIX_SCRATCH_2(a) bdk_slix_scratch_2_t
-#define bustype_BDK_SLIX_SCRATCH_2(a) BDK_CSR_TYPE_PEXP_NCB
+#define bustype_BDK_SLIX_SCRATCH_2(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SLIX_SCRATCH_2(a) "SLIX_SCRATCH_2"
 #define device_bar_BDK_SLIX_SCRATCH_2(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SLIX_SCRATCH_2(a) (a)

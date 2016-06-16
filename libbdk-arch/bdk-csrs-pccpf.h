@@ -63,6 +63,7 @@
  */
 #define BDK_PCC_DEV_CON_E_BCH (0x300)
 #define BDK_PCC_DEV_CON_E_BGXX(a) (0x180 + (a))
+#define BDK_PCC_DEV_CON_E_CGXX(a) (0x188 + (a))
 #define BDK_PCC_DEV_CON_E_CPT0 (0x400)
 #define BDK_PCC_DEV_CON_E_CPT1 (0x500)
 #define BDK_PCC_DEV_CON_E_DAP (0x102)
@@ -218,6 +219,7 @@
 #define BDK_PCC_DEV_IDL_E_BCH_VF (0x44)
 #define BDK_PCC_DEV_IDL_E_BGX (0x26)
 #define BDK_PCC_DEV_IDL_E_CER (0x61)
+#define BDK_PCC_DEV_IDL_E_CGX (0x59)
 #define BDK_PCC_DEV_IDL_E_CHIP (0)
 #define BDK_PCC_DEV_IDL_E_CHIP_VF (3)
 #define BDK_PCC_DEV_IDL_E_CPT (0x40)

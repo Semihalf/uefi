@@ -246,7 +246,7 @@ typedef union
         uint64_t pf_msix_mem           : 1;  /**< [  8:  8](RO/H) BIST result of the PF_MSIX memory. */
         uint64_t vf_msix_mem           : 1;  /**< [  7:  7](RO/H) BIST result of the VF_MSIX memory. */
         uint64_t wqe_fifo              : 1;  /**< [  6:  6](RO/H) BIST result of the NCB WQE FIFO. */
-        uint64_t csrf_fifo             : 1;  /**< [  5:  5](RO/H) BIST result of the NCB CSRF FIFO. */
+        uint64_t csrf_fifo             : 1;  /**< [  5:  5](RO/H) Not used for this memory. Held at 0. */
         uint64_t lslr_fifo             : 1;  /**< [  4:  4](RO/H) BIST result of the NCB LSLR FIFO. */
         uint64_t ctl2                  : 1;  /**< [  3:  3](RO/H) BIST result of the CTL2 memory. */
         uint64_t ctl1                  : 1;  /**< [  2:  2](RO/H) BIST result of the CTL1 memory. */
@@ -258,7 +258,7 @@ typedef union
         uint64_t ctl1                  : 1;  /**< [  2:  2](RO/H) BIST result of the CTL1 memory. */
         uint64_t ctl2                  : 1;  /**< [  3:  3](RO/H) BIST result of the CTL2 memory. */
         uint64_t lslr_fifo             : 1;  /**< [  4:  4](RO/H) BIST result of the NCB LSLR FIFO. */
-        uint64_t csrf_fifo             : 1;  /**< [  5:  5](RO/H) BIST result of the NCB CSRF FIFO. */
+        uint64_t csrf_fifo             : 1;  /**< [  5:  5](RO/H) Not used for this memory. Held at 0. */
         uint64_t wqe_fifo              : 1;  /**< [  6:  6](RO/H) BIST result of the NCB WQE FIFO. */
         uint64_t vf_msix_mem           : 1;  /**< [  7:  7](RO/H) BIST result of the VF_MSIX memory. */
         uint64_t pf_msix_mem           : 1;  /**< [  8:  8](RO/H) BIST result of the PF_MSIX memory. */
@@ -1527,7 +1527,7 @@ typedef union
                                                                  0x2 = TIM counts high to low transitions.
                                                                  0x3 = TIM counts both low to high and high to low transitions. */
         uint64_t reserved_3_4          : 2;
-        uint64_t reset                 : 1;  /**< [  2:  2](WO) Reset. One-shot pulse for free-running timer TIM_FR_RN_CYCLES. */
+        uint64_t reset                 : 1;  /**< [  2:  2](WO/H) Reset. One-shot pulse for free-running timers TIM_FR_RN_<CLOCK>. */
         uint64_t reserved_1            : 1;
         uint64_t ena_tim               : 1;  /**< [  0:  0](R/W) When set, TIM is in normal operation. When clear, time is effectively stopped for all
                                                                  rings in TIM.
@@ -1559,7 +1559,7 @@ typedef union
                                                                  does traverse any rings that previously expired and are pending hardware
                                                                  traversal. */
         uint64_t reserved_1            : 1;
-        uint64_t reset                 : 1;  /**< [  2:  2](WO) Reset. One-shot pulse for free-running timer TIM_FR_RN_CYCLES. */
+        uint64_t reset                 : 1;  /**< [  2:  2](WO/H) Reset. One-shot pulse for free-running timers TIM_FR_RN_<CLOCK>. */
         uint64_t reserved_3_4          : 2;
         uint64_t gpio_edge             : 2;  /**< [  6:  5](R/W) Edge used for GPIO timing.
                                                                  0x0 = no edges and the timer tick is not generated.

@@ -1510,6 +1510,246 @@ union bdk_nic_send_hdr_s
                                                                  L2, L3 and
                                                                  L4 headers. In other words, the total TCP data payload size is [TOTAL] - [TSO_SB].
 
+                                                                 [TOTAL] does not include any of the outside FCS bytes that CGX may append to the
+                                                                 packet(s). NIC zero pads the packet when [TOTAL] is larger than the sum of all
+                                                                 NIC_SEND_GATHER_S[SIZE]s and NIC_SEND_IMM_S[SIZE]s in the descriptor, or when the packet
+                                                                 is less than the minimum size for the interface. */
+#else /* Word 0 - Little Endian */
+        uint64_t total                 : 20; /**< [ 19:  0] Total byte count. Must be greater than 0. For a non-TSO descriptor, the total number of
+                                                                 bytes to
+                                                                 send, including zero pad (if any), and should not exceed the lesser of 9212 (9216 minus 4
+                                                                 byte FCS) or NIC_PF_LMAC()_CFG2[MAX_PKT_SIZE].
+
+                                                                 For a TSO send descriptor, the total TCP payload size plus the size of the first packet's
+                                                                 L2, L3 and
+                                                                 L4 headers. In other words, the total TCP data payload size is [TOTAL] - [TSO_SB].
+
+                                                                 [TOTAL] does not include any of the outside FCS bytes that CGX may append to the
+                                                                 packet(s). NIC zero pads the packet when [TOTAL] is larger than the sum of all
+                                                                 NIC_SEND_GATHER_S[SIZE]s and NIC_SEND_IMM_S[SIZE]s in the descriptor, or when the packet
+                                                                 is less than the minimum size for the interface. */
+        uint64_t reserved_20_23        : 4;
+        uint64_t l3ptr                 : 8;  /**< [ 31: 24] Layer 3 IP offset. Specifies the location of the first byte of the IP packet for
+                                                                 L3 checksum, L4 checksum and/or TSO. (See [CKL3], [CKL4], [TSO].) The IP packet
+                                                                 must be exactly [L3PTR] bytes from the beginning of the packet. Software might
+                                                                 populate this field for forwarded packets from a computation based off
+                                                                 NIC_CQE_RX_S[L3PTR], which is the IP location computed by NIC when the packet is
+                                                                 parsed. When [L3PTR] is used for any of [CKL3], [CKL4], [TSO]
+                                                                 calculations/modifications, then no L3 nor L2 header bytes indicated by [L3PTR]
+                                                                 can overlap with any bytes covered by or inserted by NIC_SEND_CRC_S CRCs. */
+        uint64_t l4ptr                 : 8;  /**< [ 39: 32] Layer 4 offset. Specifies the location of the first byte of the TCP/UDP header for L4
+                                                                 checksumming and/or TSO.
+                                                                 The Layer 4 header must be exactly [L4PTR] bytes from the beginning of the
+                                                                 packet. Software might populate this field for forwarded packets from a computation based
+                                                                 off NIC_CQE_RX_S[L4PTR], which is the IP location computed by NIC when the packet is
+                                                                 parsed. When [L4PTR] is used for any of [CKL4], [TSO] calculations/modifications, no L4
+                                                                 header bytes indicated by [L4PTR] can overlap with any bytes covered by or inserted by
+                                                                 NIC_SEND_CRC_S CRCs (but the subsequent L4 payload bytes can overlap with the
+                                                                 NIC_SEND_CRC_S CRC bytes). */
+        uint64_t reserved_40_41        : 2;
+        uint64_t ckle                  : 1;  /**< [ 42: 42] Inner checksum L3. Similar to [CKL3] but for inner IP. */
+        uint64_t cklf                  : 2;  /**< [ 44: 43] Inner checksum L4, enumerated by NIC_SEND_CKL4_E. Similar to [CKL4] but for inner L4. */
+        uint64_t ckl3                  : 1;  /**< [ 45: 45] Checksum L3. If set, NIC hardware calculates the IPv4 header checksum and inserts it into
+                                                                 the packet, as described in L4 checksum. When set, [L3PTR] selects the location of the
+                                                                 first byte of the L3 header and no L3 header bytes selected by [L3PTR] can overlap with
+                                                                 any bytes covered or inserted by NIC_SEND_CRC_S CRCs. When [CKL3] is set, [L3PTR] must
+                                                                 point to a valid IPv4 header. */
+        uint64_t ckl4                  : 2;  /**< [ 47: 46] Checksum L4, enumerated by NIC_SEND_CKL4_E. If nonzero (not NONE):
+                                                                 * NIC hardware calculates the Layer 4 TCP/UDP checksum for the packet and inserts it
+                                                                 into the packet, as described in L4 Checksum.
+                                                                 * [L4PTR] selects the first byte of the L4 header, and [L3PTR] must indicate the location
+                                                                 of the immediately proceeding and adjacent L3 header.
+                                                                 * The L4 length field must not require more than [TOTAL] bytes in the packet.
+                                                                 * When NIC_SEND_CRC_S are present, the bytes covered or inserted by NIC_SEND_CRC_S must
+                                                                 all reside in the L4 payload. Conceptually, NIC processes NIC_SEND_CRC_S before L4
+                                                                 checksums when both are present. */
+        uint64_t subdcnt               : 8;  /**< [ 55: 48] Subdescriptor count. Number of 128-bit subdescriptors following the send header
+                                                                 subdescriptor, including immediate data. Must be between 1 and 255, thus the maximum send
+                                                                 descriptor size is 256 subdescriptors (4KB). */
+        uint64_t tstmp                 : 1;  /**< [ 56: 56] PTP timestamp. When this is set, [DS] is clear, [TSO] is clear and
+                                                                 NIC_PF_QS()_CFG[SEND_TSTMP_ENA]
+                                                                 is set, a CQE of NIC_CQE_SEND_S[CQE_TYPE] = NIC_CQE_TYPE_E::SEND_PTP is posted when the
+                                                                 packet is transmitted by the targeted Ethernet port. NIC_CQE_SEND_S[PTP_TIMESTAMP] is set
+                                                                 to the packet's timestamp. The posted NIC_CQE_TYPE_E::SEND_PTP CQ entry is asynchronous
+                                                                 relative to NIC_CQE_TYPE_E::SEND CQ entries in the same CQ.
+
+                                                                 If this bit is set along with [PNC], two entries are posted to the CQ. The first CQ entry
+                                                                 is posted with NIC_CQE_SEND_S[CQE_TYPE] = NIC_CQE_TYPE_E::SEND when the send descriptor's
+                                                                 operation is done as described above. The second CQ entry is posted with
+                                                                 NIC_CQE_SEND_S[CQE_TYPE] = NIC_CQE_TYPE_E::SEND_PTP when the packet's timestamp is
+                                                                 captured or times out.
+
+                                                                 Only one timestamp operation may be outstanding at once for a given Ethernet port.
+                                                                 Ignored when [DS] is set, [TSO] is set or NIC_PF_QS()_CFG[SEND_TSTMP_ENA] is clear. */
+        uint64_t ds                    : 1;  /**< [ 57: 57] Don't send. If set, NIC hardware will not send the packet bytes to the interface; however
+                                                                 it will still perform any NIC_SEND_MEM_S operations. */
+        uint64_t pnc                   : 1;  /**< [ 58: 58] Post normal completion. If set, a CQE is created with NIC_CQE_SEND_S[CQE_TYPE] =
+                                                                 NIC_CQE_TYPE_E::SEND when the send descriptor's operation completes normally with no
+                                                                 error. If [TSO] is set, a CQE is created when the send operation completes for all TSO
+                                                                 segments.
+
+                                                                 If clear, no CQE is added on normal completion.
+
+                                                                 Note that a CQE is always added if the send operation terminates with an error after the
+                                                                 packet is scheduled; except for NIC_CQE_SEND_STATUS_E::LOCK_VIOL, where a CQE is
+                                                                 determined  by NIC_PF_QS()_CFG[LOCK_VIOL_CQE_ENA].
+
+                                                                 NIC will not add a CQE for this send descriptor until after it has completed all L2/DRAM
+                                                                 fetches that service all prior NIC_SEND_GATHER_S subdescriptors, and it has fetched all
+                                                                 subdescriptors in the send descriptor. If NIC_SEND_MEM_S[WMEM]=1, NIC also will not post
+                                                                 the CQE until all NIC_SEND_MEM_S subdescriptors in the descriptor complete and commit. */
+        uint64_t tso                   : 1;  /**< [ 59: 59] TCP segmentation offload. Ignored and treated as clear when NIC_PF_TSO_CFG[ENABLE] is
+                                                                 clear. When set along with NIC_PF_TSO_CFG[ENABLE], the send descriptor is for a TCP
+                                                                 segmentation
+                                                                 operation to send one or more packets of a TCP flow, and the related [TSO_*] fields are
+                                                                 valid.
+                                                                 TSO can be tunneled or non-tunneled as follows:
+                                                                 * If [LFPTR] is nonzero, TSO is tunneled. [LEPTR] and [LFPTR] must point to the inner IP
+                                                                 and TCP headers, respectively, [L3PTR] must point to the outer IP, and [L4PTR] just point
+                                                                 to the tunneling header (e.g. UDP or GRE).
+                                                                 * If [LFPTR] is zero, TSO is non-tunneled. [L3PTR] and [L4PTR] must point to the IP and
+                                                                 TCP headers, respectively. */
+        uint64_t subdc                 : 4;  /**< [ 63: 60] Subdescriptor code. Indicates send header. Enumerated by NIC_SEND_SUBDC_E::HDR. */
+#endif /* Word 0 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
+        uint64_t reserved_104_127      : 24;
+        uint64_t lfptr                 : 8;  /**< [103: 96] Inner layer 4 offset. Specifies the location of the first byte of the TCP/UDP header for
+                                                                 LF checksumming and/or tunneled TSO. Similar to [L4PTR], but specifies the location of the
+                                                                 first byte of inner the TCP/UDP header for inner L4 checksumming and tunneled TSO, as
+                                                                 directed by [CKLF], [TSO]. If [CKLF] and [CKL4] are both nonzero, then [LFPTR] must be >
+                                                                 [L4PTR] + 20. */
+        uint64_t leptr                 : 8;  /**< [ 95: 88] Inner layer 3 IP offset. Specifies the location of the first byte of the IP packet for LE
+                                                                 checksum, LF checksum and/or tunneled TSO. Similar to [L3PTR] but for inner IP as directed
+                                                                 by [CKLE], [CKLF], [TSO]. If [CKLE] and [CKL3] are set, then [LEPTR] must be > [L3PTR] +
+                                                                 20. */
+        uint64_t tso_sb                : 8;  /**< [ 87: 80] Start bytes when [TSO] set. Location of the start byte of the TCP message payload (i.e.
+                                                                 the size of the headers preceding the payload). Must be nonzero and less than [TOTAL],
+                                                                 else the send descriptor is treated as non-TSO. */
+        uint64_t reserved_78_79        : 2;
+        uint64_t tso_mps               : 14; /**< [ 77: 64] When [TSO] set, maximum payload size in bytes per packet (a.k.a. maximum TCP segment
+                                                                 size). The maximum TSO packet size is [TSO_SB] + [TSO_MPS], which should not exceed the
+                                                                 lesser of 9212 bytes or NIC_PF_LMAC()_CFG2[MAX_PKT_SIZE]. Must be nonzero, else the send
+                                                                 descriptor is treated as non-TSO.
+                                                                 Must be greater than 256 to support maximum [TOTAL] value of 2**20 - 1 (the number of
+                                                                 TSO segments must be less than 4094). */
+#else /* Word 1 - Little Endian */
+        uint64_t tso_mps               : 14; /**< [ 77: 64] When [TSO] set, maximum payload size in bytes per packet (a.k.a. maximum TCP segment
+                                                                 size). The maximum TSO packet size is [TSO_SB] + [TSO_MPS], which should not exceed the
+                                                                 lesser of 9212 bytes or NIC_PF_LMAC()_CFG2[MAX_PKT_SIZE]. Must be nonzero, else the send
+                                                                 descriptor is treated as non-TSO.
+                                                                 Must be greater than 256 to support maximum [TOTAL] value of 2**20 - 1 (the number of
+                                                                 TSO segments must be less than 4094). */
+        uint64_t reserved_78_79        : 2;
+        uint64_t tso_sb                : 8;  /**< [ 87: 80] Start bytes when [TSO] set. Location of the start byte of the TCP message payload (i.e.
+                                                                 the size of the headers preceding the payload). Must be nonzero and less than [TOTAL],
+                                                                 else the send descriptor is treated as non-TSO. */
+        uint64_t leptr                 : 8;  /**< [ 95: 88] Inner layer 3 IP offset. Specifies the location of the first byte of the IP packet for LE
+                                                                 checksum, LF checksum and/or tunneled TSO. Similar to [L3PTR] but for inner IP as directed
+                                                                 by [CKLE], [CKLF], [TSO]. If [CKLE] and [CKL3] are set, then [LEPTR] must be > [L3PTR] +
+                                                                 20. */
+        uint64_t lfptr                 : 8;  /**< [103: 96] Inner layer 4 offset. Specifies the location of the first byte of the TCP/UDP header for
+                                                                 LF checksumming and/or tunneled TSO. Similar to [L4PTR], but specifies the location of the
+                                                                 first byte of inner the TCP/UDP header for inner L4 checksumming and tunneled TSO, as
+                                                                 directed by [CKLF], [TSO]. If [CKLF] and [CKL4] are both nonzero, then [LFPTR] must be >
+                                                                 [L4PTR] + 20. */
+        uint64_t reserved_104_127      : 24;
+#endif /* Word 1 - End */
+    } s;
+    /* struct bdk_nic_send_hdr_s_s cn9; */
+    struct bdk_nic_send_hdr_s_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t subdc                 : 4;  /**< [ 63: 60] Subdescriptor code. Indicates send header. Enumerated by NIC_SEND_SUBDC_E::HDR. */
+        uint64_t tso                   : 1;  /**< [ 59: 59] TCP segmentation offload. Ignored and treated as clear when NIC_PF_TSO_CFG[ENABLE] is
+                                                                 clear. When set along with NIC_PF_TSO_CFG[ENABLE], the send descriptor is for a TCP
+                                                                 segmentation
+                                                                 operation to send one or more packets of a TCP flow, and the related [TSO_*] fields are
+                                                                 valid.
+                                                                 TSO can be tunneled or non-tunneled as follows:
+                                                                 * If [LFPTR] is nonzero, TSO is tunneled. [LEPTR] and [LFPTR] must point to the inner IP
+                                                                 and TCP headers, respectively, [L3PTR] must point to the outer IP, and [L4PTR] just point
+                                                                 to the tunneling header (e.g. UDP or GRE).
+                                                                 * If [LFPTR] is zero, TSO is non-tunneled. [L3PTR] and [L4PTR] must point to the IP and
+                                                                 TCP headers, respectively. */
+        uint64_t pnc                   : 1;  /**< [ 58: 58] Post normal completion. If set, a CQE is created with NIC_CQE_SEND_S[CQE_TYPE] =
+                                                                 NIC_CQE_TYPE_E::SEND when the send descriptor's operation completes normally with no
+                                                                 error. If [TSO] is set, a CQE is created when the send operation completes for all TSO
+                                                                 segments.
+
+                                                                 If clear, no CQE is added on normal completion.
+
+                                                                 Note that a CQE is always added if the send operation terminates with an error after the
+                                                                 packet is scheduled; except for NIC_CQE_SEND_STATUS_E::LOCK_VIOL, where a CQE is
+                                                                 determined  by NIC_PF_QS()_CFG[LOCK_VIOL_CQE_ENA].
+
+                                                                 NIC will not add a CQE for this send descriptor until after it has completed all L2/DRAM
+                                                                 fetches that service all prior NIC_SEND_GATHER_S subdescriptors, and it has fetched all
+                                                                 subdescriptors in the send descriptor. If NIC_SEND_MEM_S[WMEM]=1, NIC also will not post
+                                                                 the CQE until all NIC_SEND_MEM_S subdescriptors in the descriptor complete and commit. */
+        uint64_t ds                    : 1;  /**< [ 57: 57] Don't send. If set, NIC hardware will not send the packet bytes to the interface; however
+                                                                 it will still perform any NIC_SEND_MEM_S operations. */
+        uint64_t tstmp                 : 1;  /**< [ 56: 56] PTP timestamp. When this is set, [DS] is clear, [TSO] is clear and
+                                                                 NIC_PF_QS()_CFG[SEND_TSTMP_ENA]
+                                                                 is set, a CQE of NIC_CQE_SEND_S[CQE_TYPE] = NIC_CQE_TYPE_E::SEND_PTP is posted when the
+                                                                 packet is transmitted by the targeted Ethernet port. NIC_CQE_SEND_S[PTP_TIMESTAMP] is set
+                                                                 to the packet's timestamp. The posted NIC_CQE_TYPE_E::SEND_PTP CQ entry is asynchronous
+                                                                 relative to NIC_CQE_TYPE_E::SEND CQ entries in the same CQ.
+
+                                                                 If this bit is set along with [PNC], two entries are posted to the CQ. The first CQ entry
+                                                                 is posted with NIC_CQE_SEND_S[CQE_TYPE] = NIC_CQE_TYPE_E::SEND when the send descriptor's
+                                                                 operation is done as described above. The second CQ entry is posted with
+                                                                 NIC_CQE_SEND_S[CQE_TYPE] = NIC_CQE_TYPE_E::SEND_PTP when the packet's timestamp is
+                                                                 captured or times out.
+
+                                                                 Only one timestamp operation may be outstanding at once for a given Ethernet port.
+                                                                 Ignored when [DS] is set, [TSO] is set or NIC_PF_QS()_CFG[SEND_TSTMP_ENA] is clear. */
+        uint64_t subdcnt               : 8;  /**< [ 55: 48] Subdescriptor count. Number of 128-bit subdescriptors following the send header
+                                                                 subdescriptor, including immediate data. Must be between 1 and 255, thus the maximum send
+                                                                 descriptor size is 256 subdescriptors (4KB). */
+        uint64_t ckl4                  : 2;  /**< [ 47: 46] Checksum L4, enumerated by NIC_SEND_CKL4_E. If nonzero (not NONE):
+                                                                 * NIC hardware calculates the Layer 4 TCP/UDP checksum for the packet and inserts it
+                                                                 into the packet, as described in L4 Checksum.
+                                                                 * [L4PTR] selects the first byte of the L4 header, and [L3PTR] must indicate the location
+                                                                 of the immediately proceeding and adjacent L3 header.
+                                                                 * The L4 length field must not require more than [TOTAL] bytes in the packet.
+                                                                 * When NIC_SEND_CRC_S are present, the bytes covered or inserted by NIC_SEND_CRC_S must
+                                                                 all reside in the L4 payload. Conceptually, NIC processes NIC_SEND_CRC_S before L4
+                                                                 checksums when both are present. */
+        uint64_t ckl3                  : 1;  /**< [ 45: 45] Checksum L3. If set, NIC hardware calculates the IPv4 header checksum and inserts it into
+                                                                 the packet, as described in L4 checksum. When set, [L3PTR] selects the location of the
+                                                                 first byte of the L3 header and no L3 header bytes selected by [L3PTR] can overlap with
+                                                                 any bytes covered or inserted by NIC_SEND_CRC_S CRCs. When [CKL3] is set, [L3PTR] must
+                                                                 point to a valid IPv4 header. */
+        uint64_t cklf                  : 2;  /**< [ 44: 43] Inner checksum L4, enumerated by NIC_SEND_CKL4_E. Similar to [CKL4] but for inner L4. */
+        uint64_t ckle                  : 1;  /**< [ 42: 42] Inner checksum L3. Similar to [CKL3] but for inner IP. */
+        uint64_t reserved_40_41        : 2;
+        uint64_t l4ptr                 : 8;  /**< [ 39: 32] Layer 4 offset. Specifies the location of the first byte of the TCP/UDP header for L4
+                                                                 checksumming and/or TSO.
+                                                                 The Layer 4 header must be exactly [L4PTR] bytes from the beginning of the
+                                                                 packet. Software might populate this field for forwarded packets from a computation based
+                                                                 off NIC_CQE_RX_S[L4PTR], which is the IP location computed by NIC when the packet is
+                                                                 parsed. When [L4PTR] is used for any of [CKL4], [TSO] calculations/modifications, no L4
+                                                                 header bytes indicated by [L4PTR] can overlap with any bytes covered by or inserted by
+                                                                 NIC_SEND_CRC_S CRCs (but the subsequent L4 payload bytes can overlap with the
+                                                                 NIC_SEND_CRC_S CRC bytes). */
+        uint64_t l3ptr                 : 8;  /**< [ 31: 24] Layer 3 IP offset. Specifies the location of the first byte of the IP packet for
+                                                                 L3 checksum, L4 checksum and/or TSO. (See [CKL3], [CKL4], [TSO].) The IP packet
+                                                                 must be exactly [L3PTR] bytes from the beginning of the packet. Software might
+                                                                 populate this field for forwarded packets from a computation based off
+                                                                 NIC_CQE_RX_S[L3PTR], which is the IP location computed by NIC when the packet is
+                                                                 parsed. When [L3PTR] is used for any of [CKL3], [CKL4], [TSO]
+                                                                 calculations/modifications, then no L3 nor L2 header bytes indicated by [L3PTR]
+                                                                 can overlap with any bytes covered by or inserted by NIC_SEND_CRC_S CRCs. */
+        uint64_t reserved_20_23        : 4;
+        uint64_t total                 : 20; /**< [ 19:  0] Total byte count. Must be greater than 0. For a non-TSO descriptor, the total number of
+                                                                 bytes to
+                                                                 send, including zero pad (if any), and should not exceed the lesser of 9212 (9216 minus 4
+                                                                 byte FCS) or NIC_PF_LMAC()_CFG2[MAX_PKT_SIZE].
+
+                                                                 For a TSO send descriptor, the total TCP payload size plus the size of the first packet's
+                                                                 L2, L3 and
+                                                                 L4 headers. In other words, the total TCP data payload size is [TOTAL] - [TSO_SB].
+
                                                                  [TOTAL] does not include any of the outside FCS bytes that BGX may append to the
                                                                  packet(s). NIC zero pads the packet when [TOTAL] is larger than the sum of all
                                                                  NIC_SEND_GATHER_S[SIZE]s and NIC_SEND_IMM_S[SIZE]s in the descriptor, or when the packet
@@ -1654,9 +1894,7 @@ union bdk_nic_send_hdr_s
                                                                  [L4PTR] + 20. */
         uint64_t reserved_104_127      : 24;
 #endif /* Word 1 - End */
-    } s;
-    /* struct bdk_nic_send_hdr_s_s cn9; */
-    /* struct bdk_nic_send_hdr_s_s cn81xx; */
+    } cn81xx;
     struct bdk_nic_send_hdr_s_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -1898,7 +2136,7 @@ union bdk_nic_send_hdr_s
         uint64_t reserved_104_127      : 24;
 #endif /* Word 1 - End */
     } cn88xx;
-    /* struct bdk_nic_send_hdr_s_s cn83xx; */
+    /* struct bdk_nic_send_hdr_s_cn81xx cn83xx; */
 };
 
 /**
@@ -2407,16 +2645,24 @@ typedef union
                                                                  be programmed as zero (positive count). This gives a maximum value for this field of 2^19
                                                                  - 1.
 
-                                                                 In order to prevent blocking between LMACs, [CC_ENABLE] should be set to 1 and
-                                                                 [CC_UNIT_CNT]
-                                                                 should be less than
+                                                                 In order to prevent blocking between CGX LMACs, [CC_ENABLE] should be set to 1 and
+                                                                 [CC_UNIT_CNT] should be less than
 
-                                                                 _     ((LMAC TX buffer size in BGX) - (MTU excluding FCS))/16
+                                                                 _     ((LMAC TX buffer size in CGX) - (MTU excluding FCS))/16
 
-                                                                 The LMAC TX buffer size is defined by BGX()_CMR_TX_LMACS[LMACS]. For example, if
-                                                                 BGX()_CMR_TX_LMACS[LMACS]=0x4 (12 KB per LMAC) and the LMAC's MTU excluding FCS
+                                                                 The LMAC TX buffer size is defined by CGX()_CMR_TX_LMACS[LMACS]. For example, if
+                                                                 CGX()_CMR_TX_LMACS[LMACS]=0x4 (12 KB per LMAC) and the LMAC's MTU excluding FCS
                                                                  is 9212 bytes (9216 minus 4 byte FCS), then [CC_UNIT_CNT] should be < (12288 - 9212)/16 =
-                                                                 192. */
+                                                                 192.
+
+                                                                 For LBK LMACs, the recommended configuration is [CC_ENABLE] = 1 and [CC_UNIT_CNT] = 512.
+
+                                                                 Internal:
+                                                                 LBK value allows for 80 Gbps loopback data rate with 800ns round trip latency:
+
+                                                                 _ Minimum LBK in-flight data = 80*800 = 64Kbits = 512 credit units.
+
+                                                                 Note: maximum LBK in-fligh data = min + MTU. */
         uint64_t cc_packet_cnt         : 10; /**< [ 11:  2](R/W/H) Channel-credit packet count. This value, plus 1, represents the maximum outstanding
                                                                  aggregate packet count for this LMAC. Note that this 10-bit field represents a signed
                                                                  value that decrements towards zero as credits are used. Packets are not allowed to flow
@@ -2440,21 +2686,96 @@ typedef union
                                                                  be programmed as zero (positive count). This gives a maximum value for this field of 2^19
                                                                  - 1.
 
-                                                                 In order to prevent blocking between LMACs, [CC_ENABLE] should be set to 1 and
-                                                                 [CC_UNIT_CNT]
-                                                                 should be less than
+                                                                 In order to prevent blocking between CGX LMACs, [CC_ENABLE] should be set to 1 and
+                                                                 [CC_UNIT_CNT] should be less than
+
+                                                                 _     ((LMAC TX buffer size in CGX) - (MTU excluding FCS))/16
+
+                                                                 The LMAC TX buffer size is defined by CGX()_CMR_TX_LMACS[LMACS]. For example, if
+                                                                 CGX()_CMR_TX_LMACS[LMACS]=0x4 (12 KB per LMAC) and the LMAC's MTU excluding FCS
+                                                                 is 9212 bytes (9216 minus 4 byte FCS), then [CC_UNIT_CNT] should be < (12288 - 9212)/16 =
+                                                                 192.
+
+                                                                 For LBK LMACs, the recommended configuration is [CC_ENABLE] = 1 and [CC_UNIT_CNT] = 512.
+
+                                                                 Internal:
+                                                                 LBK value allows for 80 Gbps loopback data rate with 800ns round trip latency:
+
+                                                                 _ Minimum LBK in-flight data = 80*800 = 64Kbits = 512 credit units.
+
+                                                                 Note: maximum LBK in-fligh data = min + MTU. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_nic_pf_chanx_credit_s cn9; */
+    struct bdk_nic_pf_chanx_credit_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t cc_unit_cnt           : 20; /**< [ 31: 12](R/W/H) Channel-credit unit count. This value, plus 1 MTU, represents the maximum outstanding
+                                                                 aggregate channel credit units for this LMAC. A credit unit is 16 bytes.  Note that this
+                                                                 20-bit field represents a
+                                                                 signed value that decrements towards zero as credits are used. Packets are not allowed to
+                                                                 flow when the count is less than zero. As such, the most significant bit should normally
+                                                                 be programmed as zero (positive count). This gives a maximum value for this field of 2^19
+                                                                 - 1.
+
+                                                                 In order to prevent blocking between BGX LMACs, [CC_ENABLE] should be set to 1 and
+                                                                 [CC_UNIT_CNT] should be less than
 
                                                                  _     ((LMAC TX buffer size in BGX) - (MTU excluding FCS))/16
 
                                                                  The LMAC TX buffer size is defined by BGX()_CMR_TX_LMACS[LMACS]. For example, if
                                                                  BGX()_CMR_TX_LMACS[LMACS]=0x4 (12 KB per LMAC) and the LMAC's MTU excluding FCS
                                                                  is 9212 bytes (9216 minus 4 byte FCS), then [CC_UNIT_CNT] should be < (12288 - 9212)/16 =
-                                                                 192. */
+                                                                 192.
+
+                                                                 For LBK LMACs, [CC_ENABLE] must be set and [CC_UNIT_CNT] must be less than
+
+                                                                 _     (LBK_FIFO_SIZE - (MTU excluding FCS))/16
+
+                                                                 where LBK_FIFO_SIZE = 12288 bytes. */
+        uint64_t cc_packet_cnt         : 10; /**< [ 11:  2](R/W/H) Channel-credit packet count. This value, plus 1, represents the maximum outstanding
+                                                                 aggregate packet count for this LMAC. Note that this 10-bit field represents a signed
+                                                                 value that decrements towards zero as credits are used. Packets are not allowed to flow
+                                                                 when the count is less than zero. As such the most significant bit should normally be
+                                                                 programmed as zero (positive count). This gives a maximum value for this field of 2^9 - 1. */
+        uint64_t cc_enable             : 1;  /**< [  1:  1](R/W) Channel-credit enable. Enables [CC_UNIT_CNT] and [CC_PACKET_CNT] aggregate credit processing. */
+        uint64_t reserved_0            : 1;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0            : 1;
+        uint64_t cc_enable             : 1;  /**< [  1:  1](R/W) Channel-credit enable. Enables [CC_UNIT_CNT] and [CC_PACKET_CNT] aggregate credit processing. */
+        uint64_t cc_packet_cnt         : 10; /**< [ 11:  2](R/W/H) Channel-credit packet count. This value, plus 1, represents the maximum outstanding
+                                                                 aggregate packet count for this LMAC. Note that this 10-bit field represents a signed
+                                                                 value that decrements towards zero as credits are used. Packets are not allowed to flow
+                                                                 when the count is less than zero. As such the most significant bit should normally be
+                                                                 programmed as zero (positive count). This gives a maximum value for this field of 2^9 - 1. */
+        uint64_t cc_unit_cnt           : 20; /**< [ 31: 12](R/W/H) Channel-credit unit count. This value, plus 1 MTU, represents the maximum outstanding
+                                                                 aggregate channel credit units for this LMAC. A credit unit is 16 bytes.  Note that this
+                                                                 20-bit field represents a
+                                                                 signed value that decrements towards zero as credits are used. Packets are not allowed to
+                                                                 flow when the count is less than zero. As such, the most significant bit should normally
+                                                                 be programmed as zero (positive count). This gives a maximum value for this field of 2^19
+                                                                 - 1.
+
+                                                                 In order to prevent blocking between BGX LMACs, [CC_ENABLE] should be set to 1 and
+                                                                 [CC_UNIT_CNT] should be less than
+
+                                                                 _     ((LMAC TX buffer size in BGX) - (MTU excluding FCS))/16
+
+                                                                 The LMAC TX buffer size is defined by BGX()_CMR_TX_LMACS[LMACS]. For example, if
+                                                                 BGX()_CMR_TX_LMACS[LMACS]=0x4 (12 KB per LMAC) and the LMAC's MTU excluding FCS
+                                                                 is 9212 bytes (9216 minus 4 byte FCS), then [CC_UNIT_CNT] should be < (12288 - 9212)/16 =
+                                                                 192.
+
+                                                                 For LBK LMACs, [CC_ENABLE] must be set and [CC_UNIT_CNT] must be less than
+
+                                                                 _     (LBK_FIFO_SIZE - (MTU excluding FCS))/16
+
+                                                                 where LBK_FIFO_SIZE = 12288 bytes. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_nic_pf_chanx_credit_s cn9; */
-    /* struct bdk_nic_pf_chanx_credit_s cn81xx; */
+    } cn81xx;
     struct bdk_nic_pf_chanx_credit_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -2515,7 +2836,80 @@ typedef union
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } cn88xx;
-    /* struct bdk_nic_pf_chanx_credit_s cn83xx; */
+    struct bdk_nic_pf_chanx_credit_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t cc_unit_cnt           : 20; /**< [ 31: 12](R/W/H) Channel-credit unit count. This value, plus 1 MTU, represents the maximum outstanding
+                                                                 aggregate channel credit units for this LMAC. A credit unit is 16 bytes.  Note that this
+                                                                 20-bit field represents a
+                                                                 signed value that decrements towards zero as credits are used. Packets are not allowed to
+                                                                 flow when the count is less than zero. As such, the most significant bit should normally
+                                                                 be programmed as zero (positive count). This gives a maximum value for this field of 2^19
+                                                                 - 1.
+
+                                                                 In order to prevent blocking between BGX LMACs, [CC_ENABLE] should be set to 1 and
+                                                                 [CC_UNIT_CNT] should be less than
+
+                                                                 _     ((LMAC TX buffer size in BGX) - (MTU excluding FCS))/16
+
+                                                                 The LMAC TX buffer size is defined by BGX()_CMR_TX_LMACS[LMACS]. For example, if
+                                                                 BGX()_CMR_TX_LMACS[LMACS]=0x4 (12 KB per LMAC) and the LMAC's MTU excluding FCS
+                                                                 is 9212 bytes (9216 minus 4 byte FCS), then [CC_UNIT_CNT] should be < (12288 - 9212)/16 =
+                                                                 192.
+
+                                                                 For LBK LMACs, the recommended configuration is [CC_ENABLE] = 1 and [CC_UNIT_CNT] = 512.
+
+                                                                 Internal:
+                                                                 LBK value allows for 80 Gbps loopback data rate with 800ns round trip latency:
+
+                                                                 _ Minimum LBK in-flight data = 80*800 = 64Kbits = 512 credit units.
+
+                                                                 Note: maximum LBK in-fligh data = min + MTU. */
+        uint64_t cc_packet_cnt         : 10; /**< [ 11:  2](R/W/H) Channel-credit packet count. This value, plus 1, represents the maximum outstanding
+                                                                 aggregate packet count for this LMAC. Note that this 10-bit field represents a signed
+                                                                 value that decrements towards zero as credits are used. Packets are not allowed to flow
+                                                                 when the count is less than zero. As such the most significant bit should normally be
+                                                                 programmed as zero (positive count). This gives a maximum value for this field of 2^9 - 1. */
+        uint64_t cc_enable             : 1;  /**< [  1:  1](R/W) Channel-credit enable. Enables [CC_UNIT_CNT] and [CC_PACKET_CNT] aggregate credit processing. */
+        uint64_t reserved_0            : 1;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0            : 1;
+        uint64_t cc_enable             : 1;  /**< [  1:  1](R/W) Channel-credit enable. Enables [CC_UNIT_CNT] and [CC_PACKET_CNT] aggregate credit processing. */
+        uint64_t cc_packet_cnt         : 10; /**< [ 11:  2](R/W/H) Channel-credit packet count. This value, plus 1, represents the maximum outstanding
+                                                                 aggregate packet count for this LMAC. Note that this 10-bit field represents a signed
+                                                                 value that decrements towards zero as credits are used. Packets are not allowed to flow
+                                                                 when the count is less than zero. As such the most significant bit should normally be
+                                                                 programmed as zero (positive count). This gives a maximum value for this field of 2^9 - 1. */
+        uint64_t cc_unit_cnt           : 20; /**< [ 31: 12](R/W/H) Channel-credit unit count. This value, plus 1 MTU, represents the maximum outstanding
+                                                                 aggregate channel credit units for this LMAC. A credit unit is 16 bytes.  Note that this
+                                                                 20-bit field represents a
+                                                                 signed value that decrements towards zero as credits are used. Packets are not allowed to
+                                                                 flow when the count is less than zero. As such, the most significant bit should normally
+                                                                 be programmed as zero (positive count). This gives a maximum value for this field of 2^19
+                                                                 - 1.
+
+                                                                 In order to prevent blocking between BGX LMACs, [CC_ENABLE] should be set to 1 and
+                                                                 [CC_UNIT_CNT] should be less than
+
+                                                                 _     ((LMAC TX buffer size in BGX) - (MTU excluding FCS))/16
+
+                                                                 The LMAC TX buffer size is defined by BGX()_CMR_TX_LMACS[LMACS]. For example, if
+                                                                 BGX()_CMR_TX_LMACS[LMACS]=0x4 (12 KB per LMAC) and the LMAC's MTU excluding FCS
+                                                                 is 9212 bytes (9216 minus 4 byte FCS), then [CC_UNIT_CNT] should be < (12288 - 9212)/16 =
+                                                                 192.
+
+                                                                 For LBK LMACs, the recommended configuration is [CC_ENABLE] = 1 and [CC_UNIT_CNT] = 512.
+
+                                                                 Internal:
+                                                                 LBK value allows for 80 Gbps loopback data rate with 800ns round trip latency:
+
+                                                                 _ Minimum LBK in-flight data = 80*800 = 64Kbits = 512 credit units.
+
+                                                                 Note: maximum LBK in-fligh data = min + MTU. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_nic_pf_chanx_credit_t;
 
 static inline uint64_t BDK_NIC_PF_CHANX_CREDIT(unsigned long a) __attribute__ ((pure, always_inline));
@@ -2799,7 +3193,33 @@ typedef union
         uint64_t reserved_56_63        : 8;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_nic_pf_const_s cn; */
+    /* struct bdk_nic_pf_const_s cn8; */
+    struct bdk_nic_pf_const_cn9
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_56_63        : 8;
+        uint64_t intfs                 : 4;  /**< [ 55: 52](RO) Number of interfaces enumerated by NIC_INTF_E. */
+        uint64_t lmacs                 : 8;  /**< [ 51: 44](RO) Number of LMACs enumerated by NIC_LMAC_E. */
+        uint64_t channels              : 12; /**< [ 43: 32](RO) Number of channels enumerated by NIC_CHAN_IDX_E. */
+        uint64_t num_lbk               : 4;  /**< [ 31: 28](RO) Number of LBK interfaces enumerated in NIC_INTF_E. */
+        uint64_t num_bgx_rgx           : 4;  /**< [ 27: 24](RO) Number of CGX/RGX interfaces enumerated in NIC_INTF_E. */
+        uint64_t rgx_map               : 8;  /**< [ 23: 16](RO) Bit map indexed by NIC_INTF_BLOCK_E::CGX() specifying which of the [NUM_BGX_RGX] instances
+                                                                 are RGX; bit 0 for CGX 0, bit 1 for CGX 1, etc. Per bit: 0=CGX, 1=RGX. */
+        uint64_t lbk_lmac_channels     : 8;  /**< [ 15:  8](RO) Number of channels supported by NIC per LBK interface/LMAC. */
+        uint64_t bgx_lmac_channels     : 8;  /**< [  7:  0](RO) Number of channels supported by NIC per CGX/RGX LMAC. */
+#else /* Word 0 - Little Endian */
+        uint64_t bgx_lmac_channels     : 8;  /**< [  7:  0](RO) Number of channels supported by NIC per CGX/RGX LMAC. */
+        uint64_t lbk_lmac_channels     : 8;  /**< [ 15:  8](RO) Number of channels supported by NIC per LBK interface/LMAC. */
+        uint64_t rgx_map               : 8;  /**< [ 23: 16](RO) Bit map indexed by NIC_INTF_BLOCK_E::CGX() specifying which of the [NUM_BGX_RGX] instances
+                                                                 are RGX; bit 0 for CGX 0, bit 1 for CGX 1, etc. Per bit: 0=CGX, 1=RGX. */
+        uint64_t num_bgx_rgx           : 4;  /**< [ 27: 24](RO) Number of CGX/RGX interfaces enumerated in NIC_INTF_E. */
+        uint64_t num_lbk               : 4;  /**< [ 31: 28](RO) Number of LBK interfaces enumerated in NIC_INTF_E. */
+        uint64_t channels              : 12; /**< [ 43: 32](RO) Number of channels enumerated by NIC_CHAN_IDX_E. */
+        uint64_t lmacs                 : 8;  /**< [ 51: 44](RO) Number of LMACs enumerated by NIC_LMAC_E. */
+        uint64_t intfs                 : 4;  /**< [ 55: 52](RO) Number of interfaces enumerated by NIC_INTF_E. */
+        uint64_t reserved_56_63        : 8;
+#endif /* Word 0 - End */
+    } cn9;
 } bdk_nic_pf_const_t;
 
 #define BDK_NIC_PF_CONST BDK_NIC_PF_CONST_FUNC()
@@ -8537,6 +8957,25 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t bp_ena                : 1;  /**< [ 63: 63](R/W) This bit is used to enable the BP bus for this interface. */
         uint64_t reserved_5_62         : 58;
+        uint64_t bp_type               : 1;  /**< [  4:  4](RO/H) Specifies backpressure type: 0=CGX, 1=LBK. */
+        uint64_t bp_id                 : 4;  /**< [  3:  0](RO/H) Backpressure block ID for the NIC receive interface. Enumerated by NIC_INTF_BLOCK_E.
+                                                                 Internal:
+                                                                 Specifies upper 4 bits of X2P channel ID. */
+#else /* Word 0 - Little Endian */
+        uint64_t bp_id                 : 4;  /**< [  3:  0](RO/H) Backpressure block ID for the NIC receive interface. Enumerated by NIC_INTF_BLOCK_E.
+                                                                 Internal:
+                                                                 Specifies upper 4 bits of X2P channel ID. */
+        uint64_t bp_type               : 1;  /**< [  4:  4](RO/H) Specifies backpressure type: 0=CGX, 1=LBK. */
+        uint64_t reserved_5_62         : 58;
+        uint64_t bp_ena                : 1;  /**< [ 63: 63](R/W) This bit is used to enable the BP bus for this interface. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_nic_pf_intfx_bp_cfg_s cn9; */
+    struct bdk_nic_pf_intfx_bp_cfg_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t bp_ena                : 1;  /**< [ 63: 63](R/W) This bit is used to enable the BP bus for this interface. */
+        uint64_t reserved_5_62         : 58;
         uint64_t bp_type               : 1;  /**< [  4:  4](RO/H) Specifies backpressure type: 0=BGX, 1=LBK. */
         uint64_t bp_id                 : 4;  /**< [  3:  0](RO/H) Backpressure block ID for the NIC receive interface. Enumerated by NIC_INTF_BLOCK_E.
                                                                  Internal:
@@ -8549,9 +8988,7 @@ typedef union
         uint64_t reserved_5_62         : 58;
         uint64_t bp_ena                : 1;  /**< [ 63: 63](R/W) This bit is used to enable the BP bus for this interface. */
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_nic_pf_intfx_bp_cfg_s cn9; */
-    /* struct bdk_nic_pf_intfx_bp_cfg_s cn81xx; */
+    } cn81xx;
     struct bdk_nic_pf_intfx_bp_cfg_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -8580,7 +9017,7 @@ typedef union
         uint64_t bp_ena                : 1;  /**< [ 63: 63](R/W) This bit is used to enable the BP bus for this interface. */
 #endif /* Word 0 - End */
     } cn88xx;
-    /* struct bdk_nic_pf_intfx_bp_cfg_s cn83xx; */
+    /* struct bdk_nic_pf_intfx_bp_cfg_cn81xx cn83xx; */
 } bdk_nic_pf_intfx_bp_cfg_t;
 
 static inline uint64_t BDK_NIC_PF_INTFX_BP_CFG(unsigned long a) __attribute__ ((pure, always_inline));
@@ -8947,6 +9384,28 @@ typedef union
                                                                  Reset of 6 (24 bytes) corresponds to 8 byte preamble, 12 byte IFG, 4 byte FCS. */
         uint64_t reserved_6_7          : 2;
         uint64_t min_pkt_size          : 4;  /**< [  5:  2](R/W) Minimum packet size as a multiple of 4 bytes, excluding FCS potentially appended outside
+                                                                 NIC by CGX. If a send descriptor specifies sending a smaller packet than this value, NIC
+                                                                 zero pads the packet to this length. */
+        uint64_t reserved_0_1          : 2;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_1          : 2;
+        uint64_t min_pkt_size          : 4;  /**< [  5:  2](R/W) Minimum packet size as a multiple of 4 bytes, excluding FCS potentially appended outside
+                                                                 NIC by CGX. If a send descriptor specifies sending a smaller packet than this value, NIC
+                                                                 zero pads the packet to this length. */
+        uint64_t reserved_6_7          : 2;
+        uint64_t adjust                : 7;  /**< [ 14:  8](R/W) Signed 4-byte adjustment to all scheduler decisions to account for per packet overhead.
+                                                                 Reset of 6 (24 bytes) corresponds to 8 byte preamble, 12 byte IFG, 4 byte FCS. */
+        uint64_t reserved_15_63        : 49;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_nic_pf_lmacx_cfg_cn8
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_15_63        : 49;
+        uint64_t adjust                : 7;  /**< [ 14:  8](R/W) Signed 4-byte adjustment to all scheduler decisions to account for per packet overhead.
+                                                                 Reset of 6 (24 bytes) corresponds to 8 byte preamble, 12 byte IFG, 4 byte FCS. */
+        uint64_t reserved_6_7          : 2;
+        uint64_t min_pkt_size          : 4;  /**< [  5:  2](R/W) Minimum packet size as a multiple of 4 bytes, excluding FCS potentially appended outside
                                                                  NIC by BGX. If a send descriptor specifies sending a smaller packet than this value, NIC
                                                                  zero pads the packet to this length. */
         uint64_t reserved_0_1          : 2;
@@ -8960,8 +9419,8 @@ typedef union
                                                                  Reset of 6 (24 bytes) corresponds to 8 byte preamble, 12 byte IFG, 4 byte FCS. */
         uint64_t reserved_15_63        : 49;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_nic_pf_lmacx_cfg_s cn; */
+    } cn8;
+    /* struct bdk_nic_pf_lmacx_cfg_s cn9; */
 } bdk_nic_pf_lmacx_cfg_t;
 
 static inline uint64_t BDK_NIC_PF_LMACX_CFG(unsigned long a) __attribute__ ((pure, always_inline));
@@ -9012,7 +9471,25 @@ typedef union
         uint64_t reserved_14_63        : 50;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_nic_pf_lmacx_cfg2_s cn; */
+    /* struct bdk_nic_pf_lmacx_cfg2_s cn8; */
+    struct bdk_nic_pf_lmacx_cfg2_cn9
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_14_63        : 50;
+        uint64_t max_pkt_size          : 14; /**< [ 13:  0](R/W) Maximum packet size in bytes, excluding FCS potentially appended outside NIC by CGX.
+                                                                 Must not be less than the minimum packet size (4*NIC_PF_LMAC()_CFG[MIN_PKT_SIZE]), and
+                                                                 should not exceed 9212 (9216 minus 4 byte FCS). If a send descriptor specifies sending a
+                                                                 larger packet than this value, NIC drops the packet and posts a CQE with
+                                                                 NIC_CQE_SEND_STATUS_E::MAX_SIZE_VIOL. */
+#else /* Word 0 - Little Endian */
+        uint64_t max_pkt_size          : 14; /**< [ 13:  0](R/W) Maximum packet size in bytes, excluding FCS potentially appended outside NIC by CGX.
+                                                                 Must not be less than the minimum packet size (4*NIC_PF_LMAC()_CFG[MIN_PKT_SIZE]), and
+                                                                 should not exceed 9212 (9216 minus 4 byte FCS). If a send descriptor specifies sending a
+                                                                 larger packet than this value, NIC drops the packet and posts a CQE with
+                                                                 NIC_CQE_SEND_STATUS_E::MAX_SIZE_VIOL. */
+        uint64_t reserved_14_63        : 50;
+#endif /* Word 0 - End */
+    } cn9;
 } bdk_nic_pf_lmacx_cfg2_t;
 
 static inline uint64_t BDK_NIC_PF_LMACX_CFG2(unsigned long a) __attribute__ ((pure, always_inline));
@@ -9057,16 +9534,24 @@ typedef union
                                                                  be programmed as zero (positive count). This gives a maximum value for this field of 2^19
                                                                  - 1.
 
-                                                                 In order to prevent blocking between LMACs, [CC_ENABLE] should be set to 1 and
-                                                                 [CC_UNIT_CNT]
-                                                                 should be less than
+                                                                 In order to prevent blocking between CGX LMACs, [CC_ENABLE] should be set to 1 and
+                                                                 [CC_UNIT_CNT] should be less than
 
-                                                                 _     ((LMAC TX buffer size in BGX) - (MTU excluding FCS))/16
+                                                                 _     ((LMAC TX buffer size in CGX) - (MTU excluding FCS))/16
 
-                                                                 The LMAC TX buffer size is defined by BGX()_CMR_TX_LMACS[LMACS]. For example, if
-                                                                 BGX()_CMR_TX_LMACS[LMACS]=0x4 (12 KB per LMAC) and the LMAC's MTU excluding FCS
+                                                                 The LMAC TX buffer size is defined by CGX()_CMR_TX_LMACS[LMACS]. For example, if
+                                                                 CGX()_CMR_TX_LMACS[LMACS]=0x4 (12 KB per LMAC) and the LMAC's MTU excluding FCS
                                                                  is 9212 bytes (9216 minus 4 byte FCS), then [CC_UNIT_CNT] should be < (12288 - 9212)/16 =
-                                                                 192. */
+                                                                 192.
+
+                                                                 For LBK LMACs, the recommended configuration is [CC_ENABLE] = 1 and [CC_UNIT_CNT] = 512.
+
+                                                                 Internal:
+                                                                 LBK value allows for 80 Gbps loopback data rate with 800ns round trip latency:
+
+                                                                 _ Minimum LBK in-flight data = 80*800 = 64Kbits = 512 credit units.
+
+                                                                 Note: maximum LBK in-fligh data = min + MTU. */
         uint64_t cc_packet_cnt         : 10; /**< [ 11:  2](R/W/H) Channel-credit packet count. This value, plus 1, represents the maximum outstanding
                                                                  aggregate packet count for this LMAC. Note that this 10-bit field represents a signed
                                                                  value that decrements towards zero as credits are used. Packets are not allowed to flow
@@ -9090,21 +9575,96 @@ typedef union
                                                                  be programmed as zero (positive count). This gives a maximum value for this field of 2^19
                                                                  - 1.
 
-                                                                 In order to prevent blocking between LMACs, [CC_ENABLE] should be set to 1 and
-                                                                 [CC_UNIT_CNT]
-                                                                 should be less than
+                                                                 In order to prevent blocking between CGX LMACs, [CC_ENABLE] should be set to 1 and
+                                                                 [CC_UNIT_CNT] should be less than
+
+                                                                 _     ((LMAC TX buffer size in CGX) - (MTU excluding FCS))/16
+
+                                                                 The LMAC TX buffer size is defined by CGX()_CMR_TX_LMACS[LMACS]. For example, if
+                                                                 CGX()_CMR_TX_LMACS[LMACS]=0x4 (12 KB per LMAC) and the LMAC's MTU excluding FCS
+                                                                 is 9212 bytes (9216 minus 4 byte FCS), then [CC_UNIT_CNT] should be < (12288 - 9212)/16 =
+                                                                 192.
+
+                                                                 For LBK LMACs, the recommended configuration is [CC_ENABLE] = 1 and [CC_UNIT_CNT] = 512.
+
+                                                                 Internal:
+                                                                 LBK value allows for 80 Gbps loopback data rate with 800ns round trip latency:
+
+                                                                 _ Minimum LBK in-flight data = 80*800 = 64Kbits = 512 credit units.
+
+                                                                 Note: maximum LBK in-fligh data = min + MTU. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_nic_pf_lmacx_credit_s cn9; */
+    struct bdk_nic_pf_lmacx_credit_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t cc_unit_cnt           : 20; /**< [ 31: 12](R/W/H) Channel-credit unit count. This value, plus 1 MTU, represents the maximum outstanding
+                                                                 aggregate channel credit units for this LMAC. A credit unit is 16 bytes.  Note that this
+                                                                 20-bit field represents a
+                                                                 signed value that decrements towards zero as credits are used. Packets are not allowed to
+                                                                 flow when the count is less than zero. As such, the most significant bit should normally
+                                                                 be programmed as zero (positive count). This gives a maximum value for this field of 2^19
+                                                                 - 1.
+
+                                                                 In order to prevent blocking between BGX LMACs, [CC_ENABLE] should be set to 1 and
+                                                                 [CC_UNIT_CNT] should be less than
 
                                                                  _     ((LMAC TX buffer size in BGX) - (MTU excluding FCS))/16
 
                                                                  The LMAC TX buffer size is defined by BGX()_CMR_TX_LMACS[LMACS]. For example, if
                                                                  BGX()_CMR_TX_LMACS[LMACS]=0x4 (12 KB per LMAC) and the LMAC's MTU excluding FCS
                                                                  is 9212 bytes (9216 minus 4 byte FCS), then [CC_UNIT_CNT] should be < (12288 - 9212)/16 =
-                                                                 192. */
+                                                                 192.
+
+                                                                 For LBK LMACs, [CC_ENABLE] must be set and [CC_UNIT_CNT] must be less than
+
+                                                                 _     (LBK_FIFO_SIZE - (MTU excluding FCS))/16
+
+                                                                 where LBK_FIFO_SIZE = 12288 bytes. */
+        uint64_t cc_packet_cnt         : 10; /**< [ 11:  2](R/W/H) Channel-credit packet count. This value, plus 1, represents the maximum outstanding
+                                                                 aggregate packet count for this LMAC. Note that this 10-bit field represents a signed
+                                                                 value that decrements towards zero as credits are used. Packets are not allowed to flow
+                                                                 when the count is less than zero. As such the most significant bit should normally be
+                                                                 programmed as zero (positive count). This gives a maximum value for this field of 2^9 - 1. */
+        uint64_t cc_enable             : 1;  /**< [  1:  1](R/W) Channel-credit enable. Enables [CC_UNIT_CNT] and [CC_PACKET_CNT] aggregate credit processing. */
+        uint64_t reserved_0            : 1;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0            : 1;
+        uint64_t cc_enable             : 1;  /**< [  1:  1](R/W) Channel-credit enable. Enables [CC_UNIT_CNT] and [CC_PACKET_CNT] aggregate credit processing. */
+        uint64_t cc_packet_cnt         : 10; /**< [ 11:  2](R/W/H) Channel-credit packet count. This value, plus 1, represents the maximum outstanding
+                                                                 aggregate packet count for this LMAC. Note that this 10-bit field represents a signed
+                                                                 value that decrements towards zero as credits are used. Packets are not allowed to flow
+                                                                 when the count is less than zero. As such the most significant bit should normally be
+                                                                 programmed as zero (positive count). This gives a maximum value for this field of 2^9 - 1. */
+        uint64_t cc_unit_cnt           : 20; /**< [ 31: 12](R/W/H) Channel-credit unit count. This value, plus 1 MTU, represents the maximum outstanding
+                                                                 aggregate channel credit units for this LMAC. A credit unit is 16 bytes.  Note that this
+                                                                 20-bit field represents a
+                                                                 signed value that decrements towards zero as credits are used. Packets are not allowed to
+                                                                 flow when the count is less than zero. As such, the most significant bit should normally
+                                                                 be programmed as zero (positive count). This gives a maximum value for this field of 2^19
+                                                                 - 1.
+
+                                                                 In order to prevent blocking between BGX LMACs, [CC_ENABLE] should be set to 1 and
+                                                                 [CC_UNIT_CNT] should be less than
+
+                                                                 _     ((LMAC TX buffer size in BGX) - (MTU excluding FCS))/16
+
+                                                                 The LMAC TX buffer size is defined by BGX()_CMR_TX_LMACS[LMACS]. For example, if
+                                                                 BGX()_CMR_TX_LMACS[LMACS]=0x4 (12 KB per LMAC) and the LMAC's MTU excluding FCS
+                                                                 is 9212 bytes (9216 minus 4 byte FCS), then [CC_UNIT_CNT] should be < (12288 - 9212)/16 =
+                                                                 192.
+
+                                                                 For LBK LMACs, [CC_ENABLE] must be set and [CC_UNIT_CNT] must be less than
+
+                                                                 _     (LBK_FIFO_SIZE - (MTU excluding FCS))/16
+
+                                                                 where LBK_FIFO_SIZE = 12288 bytes. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_nic_pf_lmacx_credit_s cn9; */
-    /* struct bdk_nic_pf_lmacx_credit_s cn81xx; */
+    } cn81xx;
     struct bdk_nic_pf_lmacx_credit_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -9165,7 +9725,80 @@ typedef union
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } cn88xx;
-    /* struct bdk_nic_pf_lmacx_credit_s cn83xx; */
+    struct bdk_nic_pf_lmacx_credit_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t cc_unit_cnt           : 20; /**< [ 31: 12](R/W/H) Channel-credit unit count. This value, plus 1 MTU, represents the maximum outstanding
+                                                                 aggregate channel credit units for this LMAC. A credit unit is 16 bytes.  Note that this
+                                                                 20-bit field represents a
+                                                                 signed value that decrements towards zero as credits are used. Packets are not allowed to
+                                                                 flow when the count is less than zero. As such, the most significant bit should normally
+                                                                 be programmed as zero (positive count). This gives a maximum value for this field of 2^19
+                                                                 - 1.
+
+                                                                 In order to prevent blocking between BGX LMACs, [CC_ENABLE] should be set to 1 and
+                                                                 [CC_UNIT_CNT] should be less than
+
+                                                                 _     ((LMAC TX buffer size in BGX) - (MTU excluding FCS))/16
+
+                                                                 The LMAC TX buffer size is defined by BGX()_CMR_TX_LMACS[LMACS]. For example, if
+                                                                 BGX()_CMR_TX_LMACS[LMACS]=0x4 (12 KB per LMAC) and the LMAC's MTU excluding FCS
+                                                                 is 9212 bytes (9216 minus 4 byte FCS), then [CC_UNIT_CNT] should be < (12288 - 9212)/16 =
+                                                                 192.
+
+                                                                 For LBK LMACs, the recommended configuration is [CC_ENABLE] = 1 and [CC_UNIT_CNT] = 512.
+
+                                                                 Internal:
+                                                                 LBK value allows for 80 Gbps loopback data rate with 800ns round trip latency:
+
+                                                                 _ Minimum LBK in-flight data = 80*800 = 64Kbits = 512 credit units.
+
+                                                                 Note: maximum LBK in-fligh data = min + MTU. */
+        uint64_t cc_packet_cnt         : 10; /**< [ 11:  2](R/W/H) Channel-credit packet count. This value, plus 1, represents the maximum outstanding
+                                                                 aggregate packet count for this LMAC. Note that this 10-bit field represents a signed
+                                                                 value that decrements towards zero as credits are used. Packets are not allowed to flow
+                                                                 when the count is less than zero. As such the most significant bit should normally be
+                                                                 programmed as zero (positive count). This gives a maximum value for this field of 2^9 - 1. */
+        uint64_t cc_enable             : 1;  /**< [  1:  1](R/W) Channel-credit enable. Enables [CC_UNIT_CNT] and [CC_PACKET_CNT] aggregate credit processing. */
+        uint64_t reserved_0            : 1;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0            : 1;
+        uint64_t cc_enable             : 1;  /**< [  1:  1](R/W) Channel-credit enable. Enables [CC_UNIT_CNT] and [CC_PACKET_CNT] aggregate credit processing. */
+        uint64_t cc_packet_cnt         : 10; /**< [ 11:  2](R/W/H) Channel-credit packet count. This value, plus 1, represents the maximum outstanding
+                                                                 aggregate packet count for this LMAC. Note that this 10-bit field represents a signed
+                                                                 value that decrements towards zero as credits are used. Packets are not allowed to flow
+                                                                 when the count is less than zero. As such the most significant bit should normally be
+                                                                 programmed as zero (positive count). This gives a maximum value for this field of 2^9 - 1. */
+        uint64_t cc_unit_cnt           : 20; /**< [ 31: 12](R/W/H) Channel-credit unit count. This value, plus 1 MTU, represents the maximum outstanding
+                                                                 aggregate channel credit units for this LMAC. A credit unit is 16 bytes.  Note that this
+                                                                 20-bit field represents a
+                                                                 signed value that decrements towards zero as credits are used. Packets are not allowed to
+                                                                 flow when the count is less than zero. As such, the most significant bit should normally
+                                                                 be programmed as zero (positive count). This gives a maximum value for this field of 2^19
+                                                                 - 1.
+
+                                                                 In order to prevent blocking between BGX LMACs, [CC_ENABLE] should be set to 1 and
+                                                                 [CC_UNIT_CNT] should be less than
+
+                                                                 _     ((LMAC TX buffer size in BGX) - (MTU excluding FCS))/16
+
+                                                                 The LMAC TX buffer size is defined by BGX()_CMR_TX_LMACS[LMACS]. For example, if
+                                                                 BGX()_CMR_TX_LMACS[LMACS]=0x4 (12 KB per LMAC) and the LMAC's MTU excluding FCS
+                                                                 is 9212 bytes (9216 minus 4 byte FCS), then [CC_UNIT_CNT] should be < (12288 - 9212)/16 =
+                                                                 192.
+
+                                                                 For LBK LMACs, the recommended configuration is [CC_ENABLE] = 1 and [CC_UNIT_CNT] = 512.
+
+                                                                 Internal:
+                                                                 LBK value allows for 80 Gbps loopback data rate with 800ns round trip latency:
+
+                                                                 _ Minimum LBK in-flight data = 80*800 = 64Kbits = 512 credit units.
+
+                                                                 Note: maximum LBK in-fligh data = min + MTU. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_nic_pf_lmacx_credit_t;
 
 static inline uint64_t BDK_NIC_PF_LMACX_CREDIT(unsigned long a) __attribute__ ((pure, always_inline));
@@ -10082,8 +10715,8 @@ typedef union
         uint64_t dext_sl               : 7;  /**< [ 62: 56](R/W) Number of 2-byte words between start of packet or start of L2 (see [DEXT_ABS]). */
         uint64_t reserved_42_55        : 14;
         uint64_t hdr_sl                : 5;  /**< [ 41: 37](R/W) Header skip length. Number of 2-byte words parser should skip between the start of the
-                                                                 packet and the Ethernet address. For BGX, should be 0x4 if a timestamp is present; see
-                                                                 also BGX()_SMU()_RX_FRM_CTL[PTP_MODE]. */
+                                                                 packet and the Ethernet address. For CGX, should be 0x4 if a timestamp is present; see
+                                                                 also CGX()_SMU()_RX_FRM_CTL[PTP_MODE]. */
         uint64_t rx_hdr                : 3;  /**< [ 36: 34](R/W) Receive header present.
                                                                  0x0 = No NIC_RX_HDR_S is present.
                                                                  0x1 = Reserved.
@@ -10120,8 +10753,8 @@ typedef union
                                                                  0x4 = NIC_RX_HDR_S is present, four bytes are valid.
                                                                  0x5-0x7 = Reserved. */
         uint64_t hdr_sl                : 5;  /**< [ 41: 37](R/W) Header skip length. Number of 2-byte words parser should skip between the start of the
-                                                                 packet and the Ethernet address. For BGX, should be 0x4 if a timestamp is present; see
-                                                                 also BGX()_SMU()_RX_FRM_CTL[PTP_MODE]. */
+                                                                 packet and the Ethernet address. For CGX, should be 0x4 if a timestamp is present; see
+                                                                 also CGX()_SMU()_RX_FRM_CTL[PTP_MODE]. */
         uint64_t reserved_42_55        : 14;
         uint64_t dext_sl               : 7;  /**< [ 62: 56](R/W) Number of 2-byte words between start of packet or start of L2 (see [DEXT_ABS]). */
         uint64_t dext_abs              : 1;  /**< [ 63: 63](R/W) 0 = DEXT position is relative to start of L2 (and thus is adjusted by [HDR_SL]).
@@ -10190,6 +10823,44 @@ typedef union
         uint64_t dext_sl               : 7;  /**< [ 62: 56](R/W) Number of 2-byte words between start of packet or start of L2 (see [DEXT_ABS]). */
         uint64_t reserved_42_55        : 14;
         uint64_t hdr_sl                : 5;  /**< [ 41: 37](R/W) Header skip length. Number of 2-byte words parser should skip between the start of the
+                                                                 packet and the Ethernet address. For CGX, should be 0x4 if a timestamp is present; see
+                                                                 also CGX()_SMU()_RX_FRM_CTL[PTP_MODE]. */
+        uint64_t reserved_34_36        : 3;
+        uint64_t lenerr_en             : 1;  /**< [ 33: 33](R/W) L2 length error check enable. Check if frame was received with L2 length error, see
+                                                                 NIC_ERROP_E::L2_LENMISM. */
+        uint64_t reserved_32           : 1;
+        uint64_t maxlen                : 16; /**< [ 31: 16](R/W) Byte count for max-sized frame check. See NIC_ERROP_E::L2_OVERSIZE. This length must
+                                                                 include any timstamps or NIC_CQE_RX_S, and any VLANs which may be stripped. FCS bytes are
+                                                                 not included. Set to all-ones to disable this check. */
+        uint64_t minlen                : 16; /**< [ 15:  0](R/W) Byte count for min-sized frame check. See NIC_ERROP_E::L2_UNDERSIZE. Set to zero to
+                                                                 disable this check. */
+#else /* Word 0 - Little Endian */
+        uint64_t minlen                : 16; /**< [ 15:  0](R/W) Byte count for min-sized frame check. See NIC_ERROP_E::L2_UNDERSIZE. Set to zero to
+                                                                 disable this check. */
+        uint64_t maxlen                : 16; /**< [ 31: 16](R/W) Byte count for max-sized frame check. See NIC_ERROP_E::L2_OVERSIZE. This length must
+                                                                 include any timstamps or NIC_CQE_RX_S, and any VLANs which may be stripped. FCS bytes are
+                                                                 not included. Set to all-ones to disable this check. */
+        uint64_t reserved_32           : 1;
+        uint64_t lenerr_en             : 1;  /**< [ 33: 33](R/W) L2 length error check enable. Check if frame was received with L2 length error, see
+                                                                 NIC_ERROP_E::L2_LENMISM. */
+        uint64_t reserved_34_36        : 3;
+        uint64_t hdr_sl                : 5;  /**< [ 41: 37](R/W) Header skip length. Number of 2-byte words parser should skip between the start of the
+                                                                 packet and the Ethernet address. For CGX, should be 0x4 if a timestamp is present; see
+                                                                 also CGX()_SMU()_RX_FRM_CTL[PTP_MODE]. */
+        uint64_t reserved_42_55        : 14;
+        uint64_t dext_sl               : 7;  /**< [ 62: 56](R/W) Number of 2-byte words between start of packet or start of L2 (see [DEXT_ABS]). */
+        uint64_t dext_abs              : 1;  /**< [ 63: 63](R/W) 0 = DEXT position is relative to start of L2 (and thus is adjusted by [HDR_SL]).
+                                                                 1 = DEXT position is absolute. */
+#endif /* Word 0 - End */
+    } cn9;
+    struct bdk_nic_pf_pkindx_cfg_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t dext_abs              : 1;  /**< [ 63: 63](R/W) 0 = DEXT position is relative to start of L2 (and thus is adjusted by [HDR_SL]).
+                                                                 1 = DEXT position is absolute. */
+        uint64_t dext_sl               : 7;  /**< [ 62: 56](R/W) Number of 2-byte words between start of packet or start of L2 (see [DEXT_ABS]). */
+        uint64_t reserved_42_55        : 14;
+        uint64_t hdr_sl                : 5;  /**< [ 41: 37](R/W) Header skip length. Number of 2-byte words parser should skip between the start of the
                                                                  packet and the Ethernet address. For BGX, should be 0x4 if a timestamp is present; see
                                                                  also BGX()_SMU()_RX_FRM_CTL[PTP_MODE]. */
         uint64_t reserved_34_36        : 3;
@@ -10219,9 +10890,8 @@ typedef union
         uint64_t dext_abs              : 1;  /**< [ 63: 63](R/W) 0 = DEXT position is relative to start of L2 (and thus is adjusted by [HDR_SL]).
                                                                  1 = DEXT position is absolute. */
 #endif /* Word 0 - End */
-    } cn9;
-    /* struct bdk_nic_pf_pkindx_cfg_cn9 cn81xx; */
-    /* struct bdk_nic_pf_pkindx_cfg_cn9 cn83xx; */
+    } cn81xx;
+    /* struct bdk_nic_pf_pkindx_cfg_cn81xx cn83xx; */
     struct bdk_nic_pf_pkindx_cfg_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -13373,12 +14043,12 @@ typedef union
         uint64_t chan                  : 8;  /**< [  7:  0](R/W) The channel-within-LMAC sending backpressure to this TL3. The LMAC is selected by
                                                                  NIC_PF_TL2()_LMAC[LMAC], indexed by the TL2 that pulls from this TL3 as selected by
                                                                  NIC_PF_TL3A()_CFG[TL3A].
-                                                                 Must be less than 8 for a BGX LMAC or 64 for LBK. */
+                                                                 Must be less than 8 for a CGX LMAC or 64 for LBK. */
 #else /* Word 0 - Little Endian */
         uint64_t chan                  : 8;  /**< [  7:  0](R/W) The channel-within-LMAC sending backpressure to this TL3. The LMAC is selected by
                                                                  NIC_PF_TL2()_LMAC[LMAC], indexed by the TL2 that pulls from this TL3 as selected by
                                                                  NIC_PF_TL3A()_CFG[TL3A].
-                                                                 Must be less than 8 for a BGX LMAC or 64 for LBK. */
+                                                                 Must be less than 8 for a CGX LMAC or 64 for LBK. */
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } s;

@@ -3510,14 +3510,14 @@ typedef union
                                                                  0x1 = VDDA. */
         uint64_t cfg_rx_dll_locken     : 1;  /**< [  8:  8](R/W) Enable DLL lock when GSER()_LANE()_RX_MISC_OVRRD[CFG_RX_DLL_LOCKEN_OVRRD_EN] is asserted. */
         uint64_t pcs_sds_rx_cdr_ssc_mode : 8;/**< [  7:  0](R/W) Per-lane RX CDR SSC control:
-                                                                 <7:4> = Resrted.
+                                                                 <7:4> = Reserved.
                                                                  <3> = Clean SSC error flag.
                                                                  <2> = Disable SSC filter.
                                                                  <1> = Enable SSC value usage.
                                                                  <0> = Reserved. */
 #else /* Word 0 - Little Endian */
         uint64_t pcs_sds_rx_cdr_ssc_mode : 8;/**< [  7:  0](R/W) Per-lane RX CDR SSC control:
-                                                                 <7:4> = Resrted.
+                                                                 <7:4> = Reserved.
                                                                  <3> = Clean SSC error flag.
                                                                  <2> = Disable SSC filter.
                                                                  <1> = Enable SSC value usage.

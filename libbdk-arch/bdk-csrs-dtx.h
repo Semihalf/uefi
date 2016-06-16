@@ -1413,6 +1413,8 @@ static inline uint64_t BDK_DTX_DDF_BCST_RSP_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x87e0fe848080ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
+        return 0x87e0fe848080ll;
     __bdk_csr_fatal("DTX_DDF_BCST_RSP", 0, 0, 0, 0, 0);
 }
 
@@ -1459,6 +1461,8 @@ static inline uint64_t BDK_DTX_DDF_CTL_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x87e0fe848060ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
+        return 0x87e0fe848060ll;
     __bdk_csr_fatal("DTX_DDF_CTL", 0, 0, 0, 0, 0);
 }
 
@@ -1495,6 +1499,8 @@ static inline uint64_t BDK_DTX_DDF_DATX(unsigned long a) __attribute__ ((pure, a
 static inline uint64_t BDK_DTX_DDF_DATX(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x87e0fe848040ll + 8ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
         return 0x87e0fe848040ll + 8ll * ((a) & 0x1);
     __bdk_csr_fatal("DTX_DDF_DATX", 1, a, 0, 0, 0);
 }
@@ -1533,6 +1539,8 @@ static inline uint64_t BDK_DTX_DDF_ENAX(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e0fe848020ll + 8ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
+        return 0x87e0fe848020ll + 8ll * ((a) & 0x1);
     __bdk_csr_fatal("DTX_DDF_ENAX", 1, a, 0, 0, 0);
 }
 
@@ -1567,6 +1575,8 @@ static inline uint64_t BDK_DTX_DDF_SELX(unsigned long a) __attribute__ ((pure, a
 static inline uint64_t BDK_DTX_DDF_SELX(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x87e0fe848000ll + 8ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
         return 0x87e0fe848000ll + 8ll * ((a) & 0x1);
     __bdk_csr_fatal("DTX_DDF_SELX", 1, a, 0, 0, 0);
 }
@@ -1771,7 +1781,7 @@ static inline uint64_t BDK_DTX_DFA_SELX(unsigned long a)
 /**
  * Register (RSL) dtx_dpi_bcst_rsp
  *
- * INTERNAL: DTX DPI Control Register
+ * DTX DPI Control Register
  */
 typedef union
 {
@@ -1796,7 +1806,7 @@ static inline uint64_t BDK_DTX_DPI_BCST_RSP_FUNC(void)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x87e0feb70080ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x87e0feef8080ll;
+        return 0x87e0feb70080ll;
     __bdk_csr_fatal("DTX_DPI_BCST_RSP", 0, 0, 0, 0, 0);
 }
 
@@ -1809,7 +1819,7 @@ static inline uint64_t BDK_DTX_DPI_BCST_RSP_FUNC(void)
 /**
  * Register (RSL) dtx_dpi_ctl
  *
- * INTERNAL: DTX DPI Control Register
+ * DTX DPI Control Register
  */
 typedef union
 {
@@ -1844,7 +1854,7 @@ static inline uint64_t BDK_DTX_DPI_CTL_FUNC(void)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x87e0feb70060ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x87e0feef8060ll;
+        return 0x87e0feb70060ll;
     __bdk_csr_fatal("DTX_DPI_CTL", 0, 0, 0, 0, 0);
 }
 
@@ -1857,7 +1867,7 @@ static inline uint64_t BDK_DTX_DPI_CTL_FUNC(void)
 /**
  * Register (RSL) dtx_dpi_dat#
  *
- * INTERNAL: DTX DPI Raw Data Register
+ * DTX DPI Raw Data Register
  */
 typedef union
 {
@@ -1883,7 +1893,7 @@ static inline uint64_t BDK_DTX_DPI_DATX(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e0feb70040ll + 8ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
-        return 0x87e0feef8040ll + 8ll * ((a) & 0x1);
+        return 0x87e0feb70040ll + 8ll * ((a) & 0x1);
     __bdk_csr_fatal("DTX_DPI_DATX", 1, a, 0, 0, 0);
 }
 
@@ -1896,7 +1906,7 @@ static inline uint64_t BDK_DTX_DPI_DATX(unsigned long a)
 /**
  * Register (RSL) dtx_dpi_ena#
  *
- * INTERNAL: DTX DPI Data Enable Register
+ * DTX DPI Data Enable Register
  */
 typedef union
 {
@@ -1922,7 +1932,7 @@ static inline uint64_t BDK_DTX_DPI_ENAX(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e0feb70020ll + 8ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
-        return 0x87e0feef8020ll + 8ll * ((a) & 0x1);
+        return 0x87e0feb70020ll + 8ll * ((a) & 0x1);
     __bdk_csr_fatal("DTX_DPI_ENAX", 1, a, 0, 0, 0);
 }
 
@@ -1935,7 +1945,7 @@ static inline uint64_t BDK_DTX_DPI_ENAX(unsigned long a)
 /**
  * Register (RSL) dtx_dpi_sel#
  *
- * INTERNAL: DTX DPI Select Register
+ * DTX DPI Select Register
  */
 typedef union
 {
@@ -1959,7 +1969,7 @@ static inline uint64_t BDK_DTX_DPI_SELX(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e0feb70000ll + 8ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
-        return 0x87e0feef8000ll + 8ll * ((a) & 0x1);
+        return 0x87e0feb70000ll + 8ll * ((a) & 0x1);
     __bdk_csr_fatal("DTX_DPI_SELX", 1, a, 0, 0, 0);
 }
 
@@ -3002,8 +3012,6 @@ static inline uint64_t BDK_DTX_L2C_CBCX_BCST_RSP(unsigned long a)
         return 0x87e0fe2c0080ll + 0x8000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
         return 0x87e0fe2c0080ll + 0x8000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
-        return 0x87e0fe2c0080ll + 0x8000ll * ((a) & 0x1);
     __bdk_csr_fatal("DTX_L2C_CBCX_BCST_RSP", 1, a, 0, 0, 0);
 }
 
@@ -3053,8 +3061,6 @@ static inline uint64_t BDK_DTX_L2C_CBCX_CTL(unsigned long a)
         return 0x87e0fe2c0060ll + 0x8000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
         return 0x87e0fe2c0060ll + 0x8000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
-        return 0x87e0fe2c0060ll + 0x8000ll * ((a) & 0x1);
     __bdk_csr_fatal("DTX_L2C_CBCX_CTL", 1, a, 0, 0, 0);
 }
 
@@ -3096,8 +3102,6 @@ static inline uint64_t BDK_DTX_L2C_CBCX_DATX(unsigned long a, unsigned long b)
         return 0x87e0fe2c0040ll + 0x8000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=3) && (b<=1)))
         return 0x87e0fe2c0040ll + 0x8000ll * ((a) & 0x3) + 8ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=1) && (b<=1)))
-        return 0x87e0fe2c0040ll + 0x8000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
     __bdk_csr_fatal("DTX_L2C_CBCX_DATX", 2, a, b, 0, 0);
 }
 
@@ -3139,8 +3143,6 @@ static inline uint64_t BDK_DTX_L2C_CBCX_ENAX(unsigned long a, unsigned long b)
         return 0x87e0fe2c0020ll + 0x8000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=3) && (b<=1)))
         return 0x87e0fe2c0020ll + 0x8000ll * ((a) & 0x3) + 8ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=1) && (b<=1)))
-        return 0x87e0fe2c0020ll + 0x8000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
     __bdk_csr_fatal("DTX_L2C_CBCX_ENAX", 2, a, b, 0, 0);
 }
 
@@ -3180,8 +3182,6 @@ static inline uint64_t BDK_DTX_L2C_CBCX_SELX(unsigned long a, unsigned long b)
         return 0x87e0fe2c0000ll + 0x8000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=3) && (b<=1)))
         return 0x87e0fe2c0000ll + 0x8000ll * ((a) & 0x3) + 8ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=1) && (b<=1)))
-        return 0x87e0fe2c0000ll + 0x8000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
     __bdk_csr_fatal("DTX_L2C_CBCX_SELX", 2, a, b, 0, 0);
 }
 
@@ -3220,8 +3220,6 @@ static inline uint64_t BDK_DTX_L2C_MCIX_BCST_RSP(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=2))
         return 0x87e0fe2e0080ll + 0x8000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
-        return 0x87e0fe2e0080ll + 0x8000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
         return 0x87e0fe2e0080ll + 0x8000ll * ((a) & 0x3);
     __bdk_csr_fatal("DTX_L2C_MCIX_BCST_RSP", 1, a, 0, 0, 0);
 }
@@ -3272,8 +3270,6 @@ static inline uint64_t BDK_DTX_L2C_MCIX_CTL(unsigned long a)
         return 0x87e0fe2e0060ll + 0x8000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
         return 0x87e0fe2e0060ll + 0x8000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
-        return 0x87e0fe2e0060ll + 0x8000ll * ((a) & 0x3);
     __bdk_csr_fatal("DTX_L2C_MCIX_CTL", 1, a, 0, 0, 0);
 }
 
@@ -3314,8 +3310,6 @@ static inline uint64_t BDK_DTX_L2C_MCIX_DATX(unsigned long a, unsigned long b)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=2) && (b<=1)))
         return 0x87e0fe2e0040ll + 0x8000ll * ((a) & 0x3) + 8ll * ((b) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=3) && (b<=1)))
-        return 0x87e0fe2e0040ll + 0x8000ll * ((a) & 0x3) + 8ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=2) && (b<=1)))
         return 0x87e0fe2e0040ll + 0x8000ll * ((a) & 0x3) + 8ll * ((b) & 0x1);
     __bdk_csr_fatal("DTX_L2C_MCIX_DATX", 2, a, b, 0, 0);
 }
@@ -3358,8 +3352,6 @@ static inline uint64_t BDK_DTX_L2C_MCIX_ENAX(unsigned long a, unsigned long b)
         return 0x87e0fe2e0020ll + 0x8000ll * ((a) & 0x3) + 8ll * ((b) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=3) && (b<=1)))
         return 0x87e0fe2e0020ll + 0x8000ll * ((a) & 0x3) + 8ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=2) && (b<=1)))
-        return 0x87e0fe2e0020ll + 0x8000ll * ((a) & 0x3) + 8ll * ((b) & 0x1);
     __bdk_csr_fatal("DTX_L2C_MCIX_ENAX", 2, a, b, 0, 0);
 }
 
@@ -3398,8 +3390,6 @@ static inline uint64_t BDK_DTX_L2C_MCIX_SELX(unsigned long a, unsigned long b)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=2) && (b<=1)))
         return 0x87e0fe2e0000ll + 0x8000ll * ((a) & 0x3) + 8ll * ((b) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=3) && (b<=1)))
-        return 0x87e0fe2e0000ll + 0x8000ll * ((a) & 0x3) + 8ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=2) && (b<=1)))
         return 0x87e0fe2e0000ll + 0x8000ll * ((a) & 0x3) + 8ll * ((b) & 0x1);
     __bdk_csr_fatal("DTX_L2C_MCIX_SELX", 2, a, b, 0, 0);
 }
@@ -3440,8 +3430,6 @@ static inline uint64_t BDK_DTX_L2C_TADX_BCST_RSP(unsigned long a)
         return 0x87e0fe280080ll + 0x8000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=7))
         return 0x87e0fe280080ll + 0x8000ll * ((a) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
-        return 0x87e0fe280080ll + 0x8000ll * ((a) & 0x3);
     __bdk_csr_fatal("DTX_L2C_TADX_BCST_RSP", 1, a, 0, 0, 0);
 }
 
@@ -3491,8 +3479,6 @@ static inline uint64_t BDK_DTX_L2C_TADX_CTL(unsigned long a)
         return 0x87e0fe280060ll + 0x8000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=7))
         return 0x87e0fe280060ll + 0x8000ll * ((a) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
-        return 0x87e0fe280060ll + 0x8000ll * ((a) & 0x3);
     __bdk_csr_fatal("DTX_L2C_TADX_CTL", 1, a, 0, 0, 0);
 }
 
@@ -3534,8 +3520,6 @@ static inline uint64_t BDK_DTX_L2C_TADX_DATX(unsigned long a, unsigned long b)
         return 0x87e0fe280040ll + 0x8000ll * ((a) & 0x3) + 8ll * ((b) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=7) && (b<=1)))
         return 0x87e0fe280040ll + 0x8000ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=3) && (b<=1)))
-        return 0x87e0fe280040ll + 0x8000ll * ((a) & 0x3) + 8ll * ((b) & 0x1);
     __bdk_csr_fatal("DTX_L2C_TADX_DATX", 2, a, b, 0, 0);
 }
 
@@ -3577,8 +3561,6 @@ static inline uint64_t BDK_DTX_L2C_TADX_ENAX(unsigned long a, unsigned long b)
         return 0x87e0fe280020ll + 0x8000ll * ((a) & 0x3) + 8ll * ((b) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=7) && (b<=1)))
         return 0x87e0fe280020ll + 0x8000ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=3) && (b<=1)))
-        return 0x87e0fe280020ll + 0x8000ll * ((a) & 0x3) + 8ll * ((b) & 0x1);
     __bdk_csr_fatal("DTX_L2C_TADX_ENAX", 2, a, b, 0, 0);
 }
 
@@ -3618,8 +3600,6 @@ static inline uint64_t BDK_DTX_L2C_TADX_SELX(unsigned long a, unsigned long b)
         return 0x87e0fe280000ll + 0x8000ll * ((a) & 0x3) + 8ll * ((b) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=7) && (b<=1)))
         return 0x87e0fe280000ll + 0x8000ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=3) && (b<=1)))
-        return 0x87e0fe280000ll + 0x8000ll * ((a) & 0x3) + 8ll * ((b) & 0x1);
     __bdk_csr_fatal("DTX_L2C_TADX_SELX", 2, a, b, 0, 0);
 }
 

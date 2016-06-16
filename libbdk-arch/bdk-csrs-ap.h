@@ -5252,7 +5252,11 @@ typedef union
     struct bdk_ap_cvmctl_el1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_40_63        : 24;
+        uint64_t reserved_44_63        : 20;
+        uint64_t dpref_bp_dis          : 1;  /**< [ 43: 43](R/W) When set, hardware data prefetcher ignores memory system backpressure for next line prefetcher. */
+        uint64_t dpref_lookahead       : 1;  /**< [ 42: 42](R/W) When set, hardware data prefetcher uses a lookahead of 2. When clear, lookahead of 1. */
+        uint64_t dpref_next_line       : 1;  /**< [ 41: 41](R/W) Enable next line hardware data prefetcher. */
+        uint64_t dpref_delta           : 1;  /**< [ 40: 40](R/W) Enable delta stream hardware data prefetcher. */
         uint64_t mrs_msr_hazard        : 1;  /**< [ 39: 39](R/W) Disable MRS/MSR pipelining, assume hazards. */
         uint64_t disable_eret_pred     : 1;  /**< [ 38: 38](R/W) Disable ERET prediction. */
         uint64_t disable_casp          : 1;  /**< [ 37: 37](R/W) Disable the CASP instruction. */
@@ -5314,7 +5318,11 @@ typedef union
         uint64_t disable_casp          : 1;  /**< [ 37: 37](R/W) Disable the CASP instruction. */
         uint64_t disable_eret_pred     : 1;  /**< [ 38: 38](R/W) Disable ERET prediction. */
         uint64_t mrs_msr_hazard        : 1;  /**< [ 39: 39](R/W) Disable MRS/MSR pipelining, assume hazards. */
-        uint64_t reserved_40_63        : 24;
+        uint64_t dpref_delta           : 1;  /**< [ 40: 40](R/W) Enable delta stream hardware data prefetcher. */
+        uint64_t dpref_next_line       : 1;  /**< [ 41: 41](R/W) Enable next line hardware data prefetcher. */
+        uint64_t dpref_lookahead       : 1;  /**< [ 42: 42](R/W) When set, hardware data prefetcher uses a lookahead of 2. When clear, lookahead of 1. */
+        uint64_t dpref_bp_dis          : 1;  /**< [ 43: 43](R/W) When set, hardware data prefetcher ignores memory system backpressure for next line prefetcher. */
+        uint64_t reserved_44_63        : 20;
 #endif /* Word 0 - End */
     } s;
     struct bdk_ap_cvmctl_el1_cn88xxp1
@@ -5381,82 +5389,7 @@ typedef union
         uint64_t reserved_40_63        : 24;
 #endif /* Word 0 - End */
     } cn88xxp1;
-    struct bdk_ap_cvmctl_el1_cn9
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_44_63        : 20;
-        uint64_t dpref_delta           : 1;  /**< [ 43: 43](R/W) Enable hardware dstream delta prefetcher. */
-        uint64_t dpref_next_line       : 1;  /**< [ 42: 42](R/W) Enable hardware next line dstream prefetcher. */
-        uint64_t dpref_stride2         : 1;  /**< [ 41: 41](R/W) When set, hardware dstream prefetcher uses a stride of 2. When clear, stride of 1. */
-        uint64_t dpref_bp_dis          : 1;  /**< [ 40: 40](R/W) When set, hardware dstream prefetcher ingores memory system backpressure for next line. */
-        uint64_t mrs_msr_hazard        : 1;  /**< [ 39: 39](R/W) Disable MRS/MSR pipelining, assume hazards. */
-        uint64_t disable_eret_pred     : 1;  /**< [ 38: 38](R/W) Disable ERET prediction. */
-        uint64_t disable_casp          : 1;  /**< [ 37: 37](R/W) Disable the CASP instruction. */
-        uint64_t disable_cas           : 1;  /**< [ 36: 36](R/W) Disable the CAS instruction. */
-        uint64_t force_cim_ich_vtr_to1 : 1;  /**< [ 35: 35](RAZ) Reserved. */
-        uint64_t disable_wfe           : 1;  /**< [ 34: 34](R/W) Disable WFE. */
-        uint64_t enable_v81            : 1;  /**< [ 33: 33](R/W) Enable v8.1 features, modifying the ID registers to show v8.1.
-                                                                 Internal:
-                                                                 FIXME does this go away with CN98XX. */
-        uint64_t isb_flush             : 1;  /**< [ 32: 32](R/W) Enable pipeline flush after an ISB. */
-        uint64_t wfe_defer             : 8;  /**< [ 31: 24](R/W) WFE defer timer setting.  Time in core-clocks = {| WFE_DEFER, WFE_DEFER<3:0>} <<
-                                                                 WFE_DEFER<7:4>. */
-        uint64_t disable_icache_probes : 1;  /**< [ 23: 23](R/W) Disable Icache probes. */
-        uint64_t force_icache_parity   : 1;  /**< [ 22: 22](R/W) Force icache correctable parity error on next Icache fill. This bit clears itself after
-                                                                 the fill operation. */
-        uint64_t suppress_parity_checking : 1;/**< [ 21: 21](R/W) Suppress Icache correctable parity checking. */
-        uint64_t no_exc_icache_parity  : 1;  /**< [ 20: 20](R/W) Suppress exception on Icache correctable parity error. */
-        uint64_t step_rate             : 4;  /**< [ 19: 16](R/W) Step rate. */
-        uint64_t reserved_10_15        : 6;
-        uint64_t disable_flex_execution : 1; /**< [  9:  9](R/W) Disable flex execution; also prevents overlapped execution of DIV/SQRT and other
-                                                                 instructions (to prevent a DIV load collision). */
-        uint64_t disable_branch_folding : 1; /**< [  8:  8](R/W) Disable branch folding. */
-        uint64_t disable_wfi           : 1;  /**< [  7:  7](R/W) Disable WFI/WFE. */
-        uint64_t disable_fetch_under_fill : 1;/**< [  6:  6](R/W) Disable fetch-under-fill. */
-        uint64_t force_issue_clock     : 1;  /**< [  5:  5](R/W) Force issue-unit clock. */
-        uint64_t force_exe_clock       : 1;  /**< [  4:  4](R/W) Force execution-unit clock. */
-        uint64_t force_csr_clock       : 1;  /**< [  3:  3](R/W) Force CSR clock. */
-        uint64_t disable_icache_prefetching : 1;/**< [  2:  2](R/W) Disable Icache prefetching. */
-        uint64_t random_icache         : 1;  /**< [  1:  1](R/W) Random Icache replacement. */
-        uint64_t disable_icache        : 1;  /**< [  0:  0](R/W) Disable Icache. */
-#else /* Word 0 - Little Endian */
-        uint64_t disable_icache        : 1;  /**< [  0:  0](R/W) Disable Icache. */
-        uint64_t random_icache         : 1;  /**< [  1:  1](R/W) Random Icache replacement. */
-        uint64_t disable_icache_prefetching : 1;/**< [  2:  2](R/W) Disable Icache prefetching. */
-        uint64_t force_csr_clock       : 1;  /**< [  3:  3](R/W) Force CSR clock. */
-        uint64_t force_exe_clock       : 1;  /**< [  4:  4](R/W) Force execution-unit clock. */
-        uint64_t force_issue_clock     : 1;  /**< [  5:  5](R/W) Force issue-unit clock. */
-        uint64_t disable_fetch_under_fill : 1;/**< [  6:  6](R/W) Disable fetch-under-fill. */
-        uint64_t disable_wfi           : 1;  /**< [  7:  7](R/W) Disable WFI/WFE. */
-        uint64_t disable_branch_folding : 1; /**< [  8:  8](R/W) Disable branch folding. */
-        uint64_t disable_flex_execution : 1; /**< [  9:  9](R/W) Disable flex execution; also prevents overlapped execution of DIV/SQRT and other
-                                                                 instructions (to prevent a DIV load collision). */
-        uint64_t reserved_10_15        : 6;
-        uint64_t step_rate             : 4;  /**< [ 19: 16](R/W) Step rate. */
-        uint64_t no_exc_icache_parity  : 1;  /**< [ 20: 20](R/W) Suppress exception on Icache correctable parity error. */
-        uint64_t suppress_parity_checking : 1;/**< [ 21: 21](R/W) Suppress Icache correctable parity checking. */
-        uint64_t force_icache_parity   : 1;  /**< [ 22: 22](R/W) Force icache correctable parity error on next Icache fill. This bit clears itself after
-                                                                 the fill operation. */
-        uint64_t disable_icache_probes : 1;  /**< [ 23: 23](R/W) Disable Icache probes. */
-        uint64_t wfe_defer             : 8;  /**< [ 31: 24](R/W) WFE defer timer setting.  Time in core-clocks = {| WFE_DEFER, WFE_DEFER<3:0>} <<
-                                                                 WFE_DEFER<7:4>. */
-        uint64_t isb_flush             : 1;  /**< [ 32: 32](R/W) Enable pipeline flush after an ISB. */
-        uint64_t enable_v81            : 1;  /**< [ 33: 33](R/W) Enable v8.1 features, modifying the ID registers to show v8.1.
-                                                                 Internal:
-                                                                 FIXME does this go away with CN98XX. */
-        uint64_t disable_wfe           : 1;  /**< [ 34: 34](R/W) Disable WFE. */
-        uint64_t force_cim_ich_vtr_to1 : 1;  /**< [ 35: 35](RAZ) Reserved. */
-        uint64_t disable_cas           : 1;  /**< [ 36: 36](R/W) Disable the CAS instruction. */
-        uint64_t disable_casp          : 1;  /**< [ 37: 37](R/W) Disable the CASP instruction. */
-        uint64_t disable_eret_pred     : 1;  /**< [ 38: 38](R/W) Disable ERET prediction. */
-        uint64_t mrs_msr_hazard        : 1;  /**< [ 39: 39](R/W) Disable MRS/MSR pipelining, assume hazards. */
-        uint64_t dpref_bp_dis          : 1;  /**< [ 40: 40](R/W) When set, hardware dstream prefetcher ingores memory system backpressure for next line. */
-        uint64_t dpref_stride2         : 1;  /**< [ 41: 41](R/W) When set, hardware dstream prefetcher uses a stride of 2. When clear, stride of 1. */
-        uint64_t dpref_next_line       : 1;  /**< [ 42: 42](R/W) Enable hardware next line dstream prefetcher. */
-        uint64_t dpref_delta           : 1;  /**< [ 43: 43](R/W) Enable hardware dstream delta prefetcher. */
-        uint64_t reserved_44_63        : 20;
-#endif /* Word 0 - End */
-    } cn9;
+    /* struct bdk_ap_cvmctl_el1_s cn9; */
     struct bdk_ap_cvmctl_el1_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -5529,78 +5462,7 @@ typedef union
         uint64_t reserved_44_63        : 20;
 #endif /* Word 0 - End */
     } cn81xx;
-    struct bdk_ap_cvmctl_el1_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_44_63        : 20;
-        uint64_t dpref_bp_dis          : 1;  /**< [ 43: 43](R/W) When set, hardware dstream prefetcher ingores memory system backpressure for next line. */
-        uint64_t dpref_stride2         : 1;  /**< [ 42: 42](R/W) When set, hardware dstream prefetcher uses a stride of 2. When clear, stride of 1. */
-        uint64_t dpref_next_line       : 1;  /**< [ 41: 41](R/W) Enable hardware next line dstream prefetcher. */
-        uint64_t dpref_delta           : 1;  /**< [ 40: 40](R/W) Enable hardware dstream delta prefetcher. */
-        uint64_t mrs_msr_hazard        : 1;  /**< [ 39: 39](R/W) Disable MRS/MSR pipelining, assume hazards. */
-        uint64_t disable_eret_pred     : 1;  /**< [ 38: 38](R/W) Disable ERET prediction. */
-        uint64_t disable_casp          : 1;  /**< [ 37: 37](R/W) Disable the CASP instruction. */
-        uint64_t disable_cas           : 1;  /**< [ 36: 36](R/W) Disable the CAS instruction. */
-        uint64_t force_cim_ich_vtr_to1 : 1;  /**< [ 35: 35](RAZ) Reserved. */
-        uint64_t disable_wfe           : 1;  /**< [ 34: 34](R/W) Disable WFE. */
-        uint64_t enable_v81            : 1;  /**< [ 33: 33](R/W) Enable v8.1 features, modifying the ID registers to show v8.1. */
-        uint64_t isb_flush             : 1;  /**< [ 32: 32](R/W) Enable pipeline flush after an ISB. */
-        uint64_t wfe_defer             : 8;  /**< [ 31: 24](R/W) WFE defer timer setting.  Time in core-clocks = {| WFE_DEFER, WFE_DEFER<3:0>} <<
-                                                                 WFE_DEFER<7:4>. */
-        uint64_t disable_icache_probes : 1;  /**< [ 23: 23](R/W) Disable Icache probes. */
-        uint64_t force_icache_parity   : 1;  /**< [ 22: 22](R/W) Force icache correctable parity error on next Icache fill. This bit clears itself after
-                                                                 the fill operation. */
-        uint64_t suppress_parity_checking : 1;/**< [ 21: 21](R/W) Suppress Icache correctable parity checking. */
-        uint64_t no_exc_icache_parity  : 1;  /**< [ 20: 20](R/W) Suppress exception on Icache correctable parity error. */
-        uint64_t step_rate             : 4;  /**< [ 19: 16](R/W) Step rate. */
-        uint64_t reserved_10_15        : 6;
-        uint64_t disable_flex_execution : 1; /**< [  9:  9](R/W) Disable flex execution; also prevents overlapped execution of DIV/SQRT and other
-                                                                 instructions (to prevent a DIV load collision). */
-        uint64_t disable_branch_folding : 1; /**< [  8:  8](R/W) Disable branch folding. */
-        uint64_t disable_wfi           : 1;  /**< [  7:  7](R/W) Disable WFI/WFE. */
-        uint64_t disable_fetch_under_fill : 1;/**< [  6:  6](R/W) Disable fetch-under-fill. */
-        uint64_t force_issue_clock     : 1;  /**< [  5:  5](R/W) Force issue-unit clock. */
-        uint64_t force_exe_clock       : 1;  /**< [  4:  4](R/W) Force execution-unit clock. */
-        uint64_t force_csr_clock       : 1;  /**< [  3:  3](R/W) Force CSR clock. */
-        uint64_t disable_icache_prefetching : 1;/**< [  2:  2](R/W) Disable Icache prefetching. */
-        uint64_t random_icache         : 1;  /**< [  1:  1](R/W) Random Icache replacement. */
-        uint64_t disable_icache        : 1;  /**< [  0:  0](R/W) Disable Icache. */
-#else /* Word 0 - Little Endian */
-        uint64_t disable_icache        : 1;  /**< [  0:  0](R/W) Disable Icache. */
-        uint64_t random_icache         : 1;  /**< [  1:  1](R/W) Random Icache replacement. */
-        uint64_t disable_icache_prefetching : 1;/**< [  2:  2](R/W) Disable Icache prefetching. */
-        uint64_t force_csr_clock       : 1;  /**< [  3:  3](R/W) Force CSR clock. */
-        uint64_t force_exe_clock       : 1;  /**< [  4:  4](R/W) Force execution-unit clock. */
-        uint64_t force_issue_clock     : 1;  /**< [  5:  5](R/W) Force issue-unit clock. */
-        uint64_t disable_fetch_under_fill : 1;/**< [  6:  6](R/W) Disable fetch-under-fill. */
-        uint64_t disable_wfi           : 1;  /**< [  7:  7](R/W) Disable WFI/WFE. */
-        uint64_t disable_branch_folding : 1; /**< [  8:  8](R/W) Disable branch folding. */
-        uint64_t disable_flex_execution : 1; /**< [  9:  9](R/W) Disable flex execution; also prevents overlapped execution of DIV/SQRT and other
-                                                                 instructions (to prevent a DIV load collision). */
-        uint64_t reserved_10_15        : 6;
-        uint64_t step_rate             : 4;  /**< [ 19: 16](R/W) Step rate. */
-        uint64_t no_exc_icache_parity  : 1;  /**< [ 20: 20](R/W) Suppress exception on Icache correctable parity error. */
-        uint64_t suppress_parity_checking : 1;/**< [ 21: 21](R/W) Suppress Icache correctable parity checking. */
-        uint64_t force_icache_parity   : 1;  /**< [ 22: 22](R/W) Force icache correctable parity error on next Icache fill. This bit clears itself after
-                                                                 the fill operation. */
-        uint64_t disable_icache_probes : 1;  /**< [ 23: 23](R/W) Disable Icache probes. */
-        uint64_t wfe_defer             : 8;  /**< [ 31: 24](R/W) WFE defer timer setting.  Time in core-clocks = {| WFE_DEFER, WFE_DEFER<3:0>} <<
-                                                                 WFE_DEFER<7:4>. */
-        uint64_t isb_flush             : 1;  /**< [ 32: 32](R/W) Enable pipeline flush after an ISB. */
-        uint64_t enable_v81            : 1;  /**< [ 33: 33](R/W) Enable v8.1 features, modifying the ID registers to show v8.1. */
-        uint64_t disable_wfe           : 1;  /**< [ 34: 34](R/W) Disable WFE. */
-        uint64_t force_cim_ich_vtr_to1 : 1;  /**< [ 35: 35](RAZ) Reserved. */
-        uint64_t disable_cas           : 1;  /**< [ 36: 36](R/W) Disable the CAS instruction. */
-        uint64_t disable_casp          : 1;  /**< [ 37: 37](R/W) Disable the CASP instruction. */
-        uint64_t disable_eret_pred     : 1;  /**< [ 38: 38](R/W) Disable ERET prediction. */
-        uint64_t mrs_msr_hazard        : 1;  /**< [ 39: 39](R/W) Disable MRS/MSR pipelining, assume hazards. */
-        uint64_t dpref_delta           : 1;  /**< [ 40: 40](R/W) Enable hardware dstream delta prefetcher. */
-        uint64_t dpref_next_line       : 1;  /**< [ 41: 41](R/W) Enable hardware next line dstream prefetcher. */
-        uint64_t dpref_stride2         : 1;  /**< [ 42: 42](R/W) When set, hardware dstream prefetcher uses a stride of 2. When clear, stride of 1. */
-        uint64_t dpref_bp_dis          : 1;  /**< [ 43: 43](R/W) When set, hardware dstream prefetcher ingores memory system backpressure for next line. */
-        uint64_t reserved_44_63        : 20;
-#endif /* Word 0 - End */
-    } cn83xx;
+    /* struct bdk_ap_cvmctl_el1_cn81xx cn83xx; */
     struct bdk_ap_cvmctl_el1_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -6357,7 +6219,10 @@ typedef union
     struct bdk_ap_cvmmemctl1_el1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_44_63        : 20;
+        uint64_t reserved_47_63        : 17;
+        uint64_t ldil3prefdis          : 1;  /**< [ 46: 46](R/W) LDIL3 PREF instructions disable. */
+        uint64_t ldil2prefdis          : 1;  /**< [ 45: 45](R/W) LDIL2 PREF instructions disable. */
+        uint64_t ldil1prefdis          : 1;  /**< [ 44: 44](R/W) LDIL1 PREF instructions disable. */
         uint64_t evatt_limited_size    : 1;  /**< [ 43: 43](R/W) 0 = do not limit ASIDMAP/VMIDMAP size
                                                                  1 = ASIDMAP has 7 entries, VMIDMAP has 7 entries */
         uint64_t evatt_periodic_flush  : 1;  /**< [ 42: 42](R/W) 0 = EVATT is not periodically flushed
@@ -6463,7 +6328,10 @@ typedef union
                                                                  1 = EVATT is flushed every 2^14 cycles */
         uint64_t evatt_limited_size    : 1;  /**< [ 43: 43](R/W) 0 = do not limit ASIDMAP/VMIDMAP size
                                                                  1 = ASIDMAP has 7 entries, VMIDMAP has 7 entries */
-        uint64_t reserved_44_63        : 20;
+        uint64_t ldil1prefdis          : 1;  /**< [ 44: 44](R/W) LDIL1 PREF instructions disable. */
+        uint64_t ldil2prefdis          : 1;  /**< [ 45: 45](R/W) LDIL2 PREF instructions disable. */
+        uint64_t ldil3prefdis          : 1;  /**< [ 46: 46](R/W) LDIL3 PREF instructions disable. */
+        uint64_t reserved_47_63        : 17;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_cvmmemctl1_el1_s cn9; */

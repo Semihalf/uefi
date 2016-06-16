@@ -66,10 +66,9 @@
 /**
  * Enumeration xcp_ncb_tx_cmd_e
  *
- * XCP Transaction Command Enumeration
+ * INTERNAL: XCP Transaction Command Enumeration
+ *
  * Enumerates the different transaction commands for XCP.
- * Internal:
- * FIXME is enum internal?
  */
 #define BDK_XCP_NCB_TX_CMD_E_INVALID (0)
 #define BDK_XCP_NCB_TX_CMD_E_INVALIDATE (4)
@@ -105,7 +104,7 @@ static inline uint64_t BDK_XCPX_CFG(unsigned long a) __attribute__ ((pure, alway
 static inline uint64_t BDK_XCPX_CFG(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a==0))
-        return 0x82c000000000ll + 0x1000000000ll * ((a) & 0x0);
+        return 0x82c000000200ll + 0x1000000000ll * ((a) & 0x0);
     __bdk_csr_fatal("XCPX_CFG", 1, a, 0, 0, 0);
 }
 
@@ -115,6 +114,76 @@ static inline uint64_t BDK_XCPX_CFG(unsigned long a)
 #define device_bar_BDK_XCPX_CFG(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_XCPX_CFG(a) (a)
 #define arguments_BDK_XCPX_CFG(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) xcp#_const
+ *
+ * XCP Constants Register
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_xcpx_const_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t wins                  : 8;  /**< [  7:  0](RO) Number of windows supported. */
+#else /* Word 0 - Little Endian */
+        uint32_t wins                  : 8;  /**< [  7:  0](RO) Number of windows supported. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_xcpx_const_s cn; */
+} bdk_xcpx_const_t;
+
+static inline uint64_t BDK_XCPX_CONST(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_XCPX_CONST(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a==0))
+        return 0x82c000000000ll + 0x1000000000ll * ((a) & 0x0);
+    __bdk_csr_fatal("XCPX_CONST", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_XCPX_CONST(a) bdk_xcpx_const_t
+#define bustype_BDK_XCPX_CONST(a) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_XCPX_CONST(a) "XCPX_CONST"
+#define device_bar_BDK_XCPX_CONST(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_XCPX_CONST(a) (a)
+#define arguments_BDK_XCPX_CONST(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) xcp#_eco
+ *
+ * INTERNAL: XCP ECO Register
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_xcpx_eco_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t eco_rw                : 32; /**< [ 31:  0](R/W) Reserved for ECO usage. */
+#else /* Word 0 - Little Endian */
+        uint32_t eco_rw                : 32; /**< [ 31:  0](R/W) Reserved for ECO usage. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_xcpx_eco_s cn; */
+} bdk_xcpx_eco_t;
+
+static inline uint64_t BDK_XCPX_ECO(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_XCPX_ECO(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a==0))
+        return 0x82c000000100ll + 0x1000000000ll * ((a) & 0x0);
+    __bdk_csr_fatal("XCPX_ECO", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_XCPX_ECO(a) bdk_xcpx_eco_t
+#define bustype_BDK_XCPX_ECO(a) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_XCPX_ECO(a) "XCPX_ECO"
+#define device_bar_BDK_XCPX_ECO(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_XCPX_ECO(a) (a)
+#define arguments_BDK_XCPX_ECO(a) (a),-1,-1,-1
 
 /**
  * Register (NCB32b) xcp#_seg#_map_reg
@@ -149,7 +218,7 @@ static inline uint64_t BDK_XCPX_SEGX_MAP_REG(unsigned long a, unsigned long b) _
 static inline uint64_t BDK_XCPX_SEGX_MAP_REG(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a==0) && (b<=3)))
-        return 0x82c000000400ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x3);
+        return 0x82c000000600ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x3);
     __bdk_csr_fatal("XCPX_SEGX_MAP_REG", 2, a, b, 0, 0);
 }
 
@@ -188,7 +257,7 @@ static inline uint64_t BDK_XCPX_WINX_ADDR(unsigned long a, unsigned long b) __at
 static inline uint64_t BDK_XCPX_WINX_ADDR(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a==0) && (b<=3)))
-        return 0x82c000000200ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x3);
+        return 0x82c000000400ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x3);
     __bdk_csr_fatal("XCPX_WINX_ADDR", 2, a, b, 0, 0);
 }
 
@@ -271,7 +340,7 @@ static inline uint64_t BDK_XCPX_WINX_CFG(unsigned long a, unsigned long b) __att
 static inline uint64_t BDK_XCPX_WINX_CFG(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a==0) && (b<=3)))
-        return 0x82c000000100ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x3);
+        return 0x82c000000300ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x3);
     __bdk_csr_fatal("XCPX_WINX_CFG", 2, a, b, 0, 0);
 }
 
@@ -309,7 +378,7 @@ static inline uint64_t BDK_XCPX_WINX_INV(unsigned long a, unsigned long b) __att
 static inline uint64_t BDK_XCPX_WINX_INV(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a==0) && (b<=3)))
-        return 0x82c000000300ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x3);
+        return 0x82c000000500ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x3);
     __bdk_csr_fatal("XCPX_WINX_INV", 2, a, b, 0, 0);
 }
 

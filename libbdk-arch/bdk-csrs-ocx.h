@@ -2157,6 +2157,30 @@ typedef union
         uint64_t reserved_49_62        : 14;
         uint64_t ld_cu_val             : 1;  /**< [ 48: 48](RO/H) Local device coefficient update field valid. */
         uint64_t ld_cu_dat             : 16; /**< [ 47: 32](R/W/H) Local device coefficient update field data.
+                                                                 The format of this field is CGX_SPU_BR_TRAIN_CUP_S. */
+        uint64_t reserved_17_31        : 15;
+        uint64_t ld_sr_val             : 1;  /**< [ 16: 16](RO/H) Local device status report field valid. */
+        uint64_t ld_sr_dat             : 16; /**< [ 15:  0](R/W/H) Local device status report field data.
+                                                                 The format of this field is CGX_SPU_BR_TRAIN_REP_S. */
+#else /* Word 0 - Little Endian */
+        uint64_t ld_sr_dat             : 16; /**< [ 15:  0](R/W/H) Local device status report field data.
+                                                                 The format of this field is CGX_SPU_BR_TRAIN_REP_S. */
+        uint64_t ld_sr_val             : 1;  /**< [ 16: 16](RO/H) Local device status report field valid. */
+        uint64_t reserved_17_31        : 15;
+        uint64_t ld_cu_dat             : 16; /**< [ 47: 32](R/W/H) Local device coefficient update field data.
+                                                                 The format of this field is CGX_SPU_BR_TRAIN_CUP_S. */
+        uint64_t ld_cu_val             : 1;  /**< [ 48: 48](RO/H) Local device coefficient update field valid. */
+        uint64_t reserved_49_62        : 14;
+        uint64_t lp_manual             : 1;  /**< [ 63: 63](R/W) Allow software to manually manipulate local device CU/SR by ignoring hardware update. */
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_ocx_lnex_trn_ld_cn8
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t lp_manual             : 1;  /**< [ 63: 63](R/W) Allow software to manually manipulate local device CU/SR by ignoring hardware update. */
+        uint64_t reserved_49_62        : 14;
+        uint64_t ld_cu_val             : 1;  /**< [ 48: 48](RO/H) Local device coefficient update field valid. */
+        uint64_t ld_cu_dat             : 16; /**< [ 47: 32](R/W/H) Local device coefficient update field data.
                                                                  The format of this field is BGX_SPU_BR_TRAIN_CUP_S. */
         uint64_t reserved_17_31        : 15;
         uint64_t ld_sr_val             : 1;  /**< [ 16: 16](RO/H) Local device status report field valid. */
@@ -2173,8 +2197,8 @@ typedef union
         uint64_t reserved_49_62        : 14;
         uint64_t lp_manual             : 1;  /**< [ 63: 63](R/W) Allow software to manually manipulate local device CU/SR by ignoring hardware update. */
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_ocx_lnex_trn_ld_s cn; */
+    } cn8;
+    /* struct bdk_ocx_lnex_trn_ld_s cn9; */
 } bdk_ocx_lnex_trn_ld_t;
 
 static inline uint64_t BDK_OCX_LNEX_TRN_LD(unsigned long a) __attribute__ ((pure, always_inline));
@@ -2208,6 +2232,28 @@ typedef union
         uint64_t reserved_49_63        : 15;
         uint64_t lp_cu_val             : 1;  /**< [ 48: 48](RO/H) Link partner coefficient update field valid. */
         uint64_t lp_cu_dat             : 16; /**< [ 47: 32](RO/H) Link partner coefficient update field data.
+                                                                 The format of this field is CGX_SPU_BR_TRAIN_CUP_S. */
+        uint64_t reserved_17_31        : 15;
+        uint64_t lp_sr_val             : 1;  /**< [ 16: 16](RO/H) Link partner status report field valid. */
+        uint64_t lp_sr_dat             : 16; /**< [ 15:  0](RO/H) Link partner status report field data.
+                                                                 The format of this field is CGX_SPU_BR_TRAIN_REP_S. */
+#else /* Word 0 - Little Endian */
+        uint64_t lp_sr_dat             : 16; /**< [ 15:  0](RO/H) Link partner status report field data.
+                                                                 The format of this field is CGX_SPU_BR_TRAIN_REP_S. */
+        uint64_t lp_sr_val             : 1;  /**< [ 16: 16](RO/H) Link partner status report field valid. */
+        uint64_t reserved_17_31        : 15;
+        uint64_t lp_cu_dat             : 16; /**< [ 47: 32](RO/H) Link partner coefficient update field data.
+                                                                 The format of this field is CGX_SPU_BR_TRAIN_CUP_S. */
+        uint64_t lp_cu_val             : 1;  /**< [ 48: 48](RO/H) Link partner coefficient update field valid. */
+        uint64_t reserved_49_63        : 15;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_ocx_lnex_trn_lp_cn8
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_49_63        : 15;
+        uint64_t lp_cu_val             : 1;  /**< [ 48: 48](RO/H) Link partner coefficient update field valid. */
+        uint64_t lp_cu_dat             : 16; /**< [ 47: 32](RO/H) Link partner coefficient update field data.
                                                                  The format of this field is BGX_SPU_BR_TRAIN_CUP_S. */
         uint64_t reserved_17_31        : 15;
         uint64_t lp_sr_val             : 1;  /**< [ 16: 16](RO/H) Link partner status report field valid. */
@@ -2223,8 +2269,8 @@ typedef union
         uint64_t lp_cu_val             : 1;  /**< [ 48: 48](RO/H) Link partner coefficient update field valid. */
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_ocx_lnex_trn_lp_s cn; */
+    } cn8;
+    /* struct bdk_ocx_lnex_trn_lp_s cn9; */
 } bdk_ocx_lnex_trn_lp_t;
 
 static inline uint64_t BDK_OCX_LNEX_TRN_LP(unsigned long a) __attribute__ ((pure, always_inline));

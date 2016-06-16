@@ -266,24 +266,24 @@ static inline uint64_t BDK_XCVX_CTL(unsigned long a)
  *
  * These are the possible modes of RGMII receive operation:
  *
- * * XCV_PRTx_CTL[CLKRX_BYP] = 0 (reset value) - The RGMII
+ * * XCV()_DLL_CTL[CLKRX_BYP] = 0 (reset value) - The RGMII
  * receive interface introduces clock delay using its internal DLL.
  * This mode is appropriate if neither the remote
  * transmitter nor the PC board delays the clock.
  *
- * * XCV_PRTx_CTL[CLKRX_BYP] = 1, [CLKRX_SET] = 0x0 - The
+ * * XCV()_DLL_CTL[CLKRX_BYP] = 1, [CLKRX_SET] = 0x0 - The
  * RGMII receive interface introduces no clock delay. This mode
  * is appropriate if either the remote transmitter or the PC board
  * delays the clock.
  *
  * These are the possible modes of RGMII transmit operation:
  *
- * * XCV_PRTx_CTL[CLKTX_BYP] = 1, [CLKTX_SET] = 0x0 (reset value) -
+ * * XCV()_DLL_CTL[CLKTX_BYP] = 1, [CLKTX_SET] = 0x0 (reset value) -
  * The RGMII transmit interface introduces no clock
  * delay. This mode is appropriate is either the remote receiver
  * or the PC board delays the clock.
  *
- * * XCV_PRTx_CTL[CLKTX_BYP] = 0 - The RGMII transmit
+ * * XCV()_DLL_CTL[CLKTX_BYP] = 0 - The RGMII transmit
  * interface introduces clock delay using its internal DLL.
  * This mode is appropriate if neither the remote receiver
  * nor the PC board delays the clock.
