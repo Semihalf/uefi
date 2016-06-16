@@ -381,5 +381,15 @@ cavium,bdk {
 	    N#: Setting can be different for each node. This specifies
 	        which node the value is for. Node must be 0-3. Optional. */
 	//GPIO-PIN-SELECT-GPIO%d.N%d = "-1";
+	GPIO-PIN-SELECT-GPIO7  = "0x24c"; // PCM_DATA0
+	GPIO-PIN-SELECT-GPIO9  = "0x24e"; // PCM_DATA2
+	GPIO-PIN-SELECT-GPIO13 = "0x246"; // PCM_BCLK0
+	GPIO-PIN-SELECT-GPIO14 = "0x24a"; // PCM_FSYNC0
+	GPIO-PIN-SELECT-GPIO15 = "0x24d"; // PCM_DATA1
+	GPIO-PIN-SELECT-GPIO16 = "0x247"; // PCM_BCLK1
+	GPIO-PIN-SELECT-GPIO17 = "0x24b"; // PCM_FSYNC1
+	GPIO-PIN-SELECT-GPIO18 = "0x24f"; // PCM_DATA3
+	GPIO-PIN-SELECT-GPIO19 = "0x235"; // SPI_CS2
+	GPIO-PIN-SELECT-GPIO20 = "0x236"; // SPI_CS3
 }; /* cavium,bdk */
 }; /* / */
