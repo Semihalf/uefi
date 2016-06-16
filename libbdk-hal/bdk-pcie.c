@@ -418,6 +418,7 @@ static void __bdk_pcie_sli_initialize(bdk_node_t node, int pcie_port)
 
     /* Setup MAC control */
     BDK_CSR_MODIFY(c, node, BDK_SLIX_M2S_MACX_CTL(sli, sli_group),
+        c.s.waitl_com = 1; /* Improves ordering in Ali flash testing */
         c.s.ctlp_ro = 1;
         c.s.ptlp_ro = 1;
         c.s.wind_d = 1;
