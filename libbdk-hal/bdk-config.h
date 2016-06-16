@@ -135,6 +135,9 @@ typedef enum
     BDK_CONFIG_VRM_THROTTLE_NORMAL, /* Parameters: Node */
     BDK_CONFIG_VRM_THROTTLE_THERM,  /* Parameters: Node */
 
+    /* Generic GPIO, unrelated to a specific block */
+    BDK_CONFIG_GPIO_PIN_SELECT,     /* Parameters: GPIO, Node */
+
     __BDK_CONFIG_END
 } bdk_config_t;
 

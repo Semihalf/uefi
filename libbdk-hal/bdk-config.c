@@ -708,6 +708,15 @@ static bdk_config_info_t config_info[__BDK_CONFIG_END] = {
         .min_value = 1, /* Percentage */
         .max_value = 100, /* Percentage */
     },
+
+    /* Generic GPIO, unrelated to a specific block */
+    [BDK_CONFIG_GPIO_PIN_SELECT] = {
+        .format = "GPIO-PIN-SELECT-GPIO%d.N%d",  /* Parameters: GPIO, Node */
+        .ctype = BDK_CONFIG_TYPE_INT,
+        .default_value = -1, /* Hardware default, normal GPIO pin */
+        .min_value = 0, /* GPIO_PIN_SEL_E enumeration */
+        .max_value = 65535, /* GPIO_PIN_SEL_E enumeration */
+    },
 };
 
 /**

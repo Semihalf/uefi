@@ -614,6 +614,18 @@ cavium,bdk {
 	disables dynamic throttling (not recommended). */
 	//VRM-THROTTLE-THERM.N%d = "0xf";
 
+	/* Internal source for GPIO pins. The enumeration GPIO_PIN_SEL_E
+	details the possible internal sources for GPIO pins in the chip.
+	The value of this setting is the numeric value from the GPIO_PIN_SEL_E
+	enumeration. The default value(-1) leaves the pin at the hardware
+	default, which is to connect the pin to the GPIO block for manual
+	control.
+	Parameters:
+	    GPIO#: Which GPIO pin to configure.
+	    N#: Setting can be different for each node. This specifies
+	        which node the value is for. Node must be 0-3. Optional. */
+	//GPIO-PIN-SELECT-GPIO%d.N%d = "-1";
+
 	/**********************************************************************
 	 * The entries below are currently not used by the BDK. They are being
 	 * used only by ATF / UEFI.

@@ -313,6 +313,7 @@ int main(int argc, const char **argv)
 
     bdk_watchdog_poke();
 
+    bdk_boot_gpio();
     bdk_boot_pcie();
     bdk_boot_twsi();
     bdk_boot_mdio();

@@ -978,6 +978,18 @@ const char* bdk_config_get_help(bdk_config_t cfg_item)
             "level (5%), allows for forward progress while still reducing power.\n"
             "Value is a percentage between 1 and 100. Setting a value of 100\n"
             "disables dynamic throttling (not recommended).",
+    /* Generic GPIO, unrelated to a specific block */
+    [BDK_CONFIG_GPIO_PIN_SELECT] =
+            "Internal source for GPIO pins. The enumeration GPIO_PIN_SEL_E\n"
+            "details the possible internal sources for GPIO pins in the chip.\n"
+            "The value of this setting is the numeric value from the GPIO_PIN_SEL_E\n"
+            "enumeration. The default value(-1) leaves the pin at the hardware\n"
+            "default, which is to connect the pin to the GPIO block for manual\n"
+            "control.\n"
+            "Parameters:\n"
+            "    GPIO#: Which GPIO pin to configure.\n"
+            "    N#: Setting can be different for each node. This specifies\n"
+            "        which node the value is for. Node must be 0-3. Optional.",
     };
     return help[cfg_item];
 }

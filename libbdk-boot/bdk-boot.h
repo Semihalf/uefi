@@ -16,6 +16,7 @@
 #include "bdk-boot-bgx.h"
 #include "bdk-boot-ccpi.h"
 #include "bdk-boot-dram.h"
+#include "bdk-boot-gpio.h"
 #include "bdk-boot-info.h"
 #include "bdk-boot-mdio.h"
 #include "bdk-boot-pcie.h"
