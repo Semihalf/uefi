@@ -712,10 +712,14 @@ write_done:
 static int cvm_usb_close(__bdk_fs_dev_t *handle)
 {
     DEBUG((EFI_D_BLKIO," H:%p %d \n",
-           handle, handle->dev_index));
+           handle, handle ?  handle->dev_index : -1));
+#if 0
+    if (NULL == handle) return 0;
+
+    // FIXME - do something with handle
     USB_MASS_DEVICE *UsbMass = findUsbMass(handle->dev_index,false);
     if (NULL == UsbMass) return 0; // Null means it was never open
-
+#endif
     return 0;
 }
 
