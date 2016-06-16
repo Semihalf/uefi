@@ -18,7 +18,7 @@ BDK_REQUIRE_DEFINE(GPIO);
  */
 int bdk_gpio_initialize(bdk_node_t node, int gpio, int is_output, int output_value)
 {
-    if ((gpio >= 0) && (gpio <= 50))
+    if ((gpio >= 0) && (gpio < bdk_gpio_get_num()))
     {
         if (output_value)
             bdk_gpio_set(node, 1ull<<gpio);
@@ -88,11 +88,34 @@ void bdk_gpio_set(bdk_node_t node, uint64_t set_mask)
  */
 void bdk_gpio_select_pin(bdk_node_t node, int gpio, int pin)
 {
-    if ((gpio < 0) || (gpio > 50))
+    if ((gpio < 0) || (gpio >= bdk_gpio_get_num()))
     {
         bdk_warn("bdk_gpio_select_pin: Illegal GPIO %d\n", gpio);
         return;
     }
 
     BDK_CSR_MODIFY(c, node, BDK_GPIO_BIT_CFGX(gpio), c.s.pin_sel = pin);
+}
+
+
+/**
+ * Return the number of GPIO pins on this chip
+ *
+ * @return Number of GPIO pins
+ */
+int bdk_gpio_get_num(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 51;
+    else if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 48;
+    else if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 80;
+    else if (CAVIUM_IS_MODEL(CAVIUM_CN98XX))
+        return 80;
+    else
+    {
+        bdk_error("bdk_gpio_get_num(): Unsupported chip");
+        return 0;
+    }
 }

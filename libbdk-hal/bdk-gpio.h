@@ -59,4 +59,11 @@ extern void bdk_gpio_set(bdk_node_t node, uint64_t set_mask);
  */
 extern void bdk_gpio_select_pin(bdk_node_t node, int gpio, int pin);
 
+/**
+ * Return the number of GPIO pins on this chip
+ *
+ * @return Number of GPIO pins
+ */
+extern int bdk_gpio_get_num(void);
+
 /** @} */

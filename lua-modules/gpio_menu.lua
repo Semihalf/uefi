@@ -10,7 +10,8 @@ require("menu")
 local bit64 = require("bit64")
 
 local function gpio_config()
-    local gpio = menu.prompt_number("GPIO number")
+    local num_gpio = cavium.c.bdk_gpio_get_num()
+    local gpio = menu.prompt_number("GPIO number", 0, 0, num_gpio-1)
     local is_output = menu.prompt_yes_no("Configure as output")
     local value
     if is_output then
@@ -22,7 +23,8 @@ local function gpio_config()
 end
 
 local function gpio_read()
-    local gpio = menu.prompt_number("GPIO number")
+    local num_gpio = cavium.c.bdk_gpio_get_num()
+    local gpio = menu.prompt_number("GPIO number", 0, 0, num_gpio-1)
     local state = cavium.c.bdk_gpio_read(menu.node)
     if bit64.btest(state, bit64.lshift(1, gpio)) then
         printf("GPIO %d: 1\n", gpio)
