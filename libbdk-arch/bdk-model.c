@@ -166,6 +166,7 @@ static const model_sku_info_t t88_sku_info[] =
             BDK_MIO_FUS_FUSE_NUM_E_SATA_DISX(0),/* Disable SATA0-3 */
             BDK_MIO_FUS_FUSE_NUM_E_SATA_DISX(2),/* Disable SATA8-11 */
             BDK_MIO_FUS_FUSE_NUM_E_SATA_DISX(3),/* Disable SATA12-15 */
+            BDK_MIO_FUS_FUSE_NUM_E_RSVD231X(0), /* Nitrox 3 is present */
             0 /* End of fuse list marker */
         }
     },
@@ -178,6 +179,7 @@ static const model_sku_info_t t88_sku_info[] =
             BDK_MIO_FUS_FUSE_NUM_E_SATA_DISX(0),/* Disable SATA0-3 */
             BDK_MIO_FUS_FUSE_NUM_E_SATA_DISX(2),/* Disable SATA8-11 */
             BDK_MIO_FUS_FUSE_NUM_E_SATA_DISX(3),/* Disable SATA12-15 */
+            BDK_MIO_FUS_FUSE_NUM_E_RSVD231X(0), /* Nitrox 3 is present */
             0 /* End of fuse list marker */
         }
     },
