@@ -85,6 +85,7 @@ extern int bdk_numa_is_only_one();
  *
  * @return Node specific address
  */
+static inline uint64_t bdk_numa_get_address(bdk_node_t node, uint64_t pa) __attribute__((pure,always_inline));
 static inline uint64_t bdk_numa_get_address(bdk_node_t node, uint64_t pa)
 {
     if (pa & (1ull << 47))
