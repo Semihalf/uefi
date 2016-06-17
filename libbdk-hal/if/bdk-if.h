@@ -213,6 +213,7 @@ extern void bdk_if_packet_read(const bdk_if_packet_t *packet, int location, int 
 extern void bdk_if_packet_write(bdk_if_packet_t *packet, int location, int length, const void *data);
 
 extern uint64_t bdk_update_stat_with_overflow(uint64_t new_value, uint64_t old_value, int bit_size);
+extern void __bdk_if_phy_xs_init(bdk_node_t dev_node, int phy_addr);
 
 /**
  * Get interface type. Use this function instead of accessing the handle

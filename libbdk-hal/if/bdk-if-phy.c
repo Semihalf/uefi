@@ -281,3 +281,83 @@ bdk_if_link_t __bdk_if_phy_get(bdk_node_t dev_node, int phy_addr)
     return result;
 }
 
+/**
+ * PHY XS initialization, primarily for RXAUI
+ *
+ * @param dev_node Node the ethernet device is on
+ * @param phy_addr Encoded PHY address, see bdk-if.h for format
+ *
+ * @return none
+ */
+void __bdk_if_phy_xs_init(bdk_node_t dev_node, int phy_addr)
+{
+    /* This code only supports PHYs connected through MDIO */
+    if ((phy_addr & BDK_IF_PHY_TYPE_MASK) != BDK_IF_PHY_MDIO)
+        return;
+
+    /* The simulator doesn't model PHYs */
+    if (bdk_is_platform(BDK_PLATFORM_ASIM))
+        return;
+
+    int node = (phy_addr >> 24) & 0xff;
+    int mdio_bus = (phy_addr >> 8) & 0xff;
+    int mdio_addr = phy_addr & 0xff;
+    if (node == 0xff)
+        node = dev_node;
+
+    /* Read the PMA/PMD Device Identifier (1.2, 1.3)
+       OUI is spread across both registers */
+    int dev_addr = 1;
+    int reg_addr = 2;
+    int phy_id1 = bdk_mdio_45_read(node, mdio_bus, mdio_addr, dev_addr, reg_addr);
+    if (phy_id1 == -1)
+        return;
+    reg_addr = 3;
+    int phy_id2 = bdk_mdio_45_read(node, mdio_bus, mdio_addr, dev_addr, reg_addr);
+    if (phy_id2 == -1)
+        return;
+    int model_number = (phy_id2 >> 4) & 0x3F;
+    int oui = phy_id1;
+    oui <<= 6;
+    oui |= (phy_id2 >> 10) & 0x3F;
+    switch (oui)
+    {
+       case 0x5016:  /* Marvell */
+           if (model_number == 9) /* 88X3140/3120 */
+           {
+               BDK_TRACE(BGX, "N%d.MDIO%d.%d: Performing PHY reset on Marvell RXAUI PHY\n",
+                   node, mdio_bus, mdio_addr);
+               dev_addr = 4;
+               reg_addr = 0;
+               /* Write bit 15, Software Reset, in PHY XS Control 1 (4.0).  On CN78xx,
+                  sometimes the PHY/BGX gets stuck in local fault mode, link never comes up,
+                  and this appears to clear it up.  Haven't seen this on CN81xx or T88,
+                  but the reset seems like cheap insurance. */
+               if (bdk_mdio_45_write(node, mdio_bus, mdio_addr, dev_addr, reg_addr, (1 << 15)))
+               {
+                   bdk_error("PHY XS: MDIO write to (%d.%d) failed\n", dev_addr, reg_addr);
+                   return;
+               }
+
+               int reset_pending = 1;
+               while (reset_pending)
+               {
+                   reset_pending = bdk_mdio_45_read(node, mdio_bus, mdio_addr, dev_addr, reg_addr);
+                   reset_pending &= (1 << 15);
+               }
+
+               /* Adjust the RXAUI TX Level for Marvell PHY, per Brendan Metzner
+                  write 5 to register 4.49155 */
+               reg_addr = 49155;
+               if (bdk_mdio_45_write(node, mdio_bus, mdio_addr, dev_addr, reg_addr, 5))
+               {
+                   bdk_error("PHY XS: MDIO write to (%d.%d) failed\n", dev_addr, reg_addr);
+                   return;
+               }
+           }
+           break;
+
+       default:  /* Unknown PHY, or no PHY present */
+           break;
+    }
+}

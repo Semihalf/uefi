@@ -869,6 +869,14 @@ static int xaui_init(bdk_if_handle_t handle)
         c.s.dic_en = 1; /* Enable better IFG packing and improves performance */
         c.s.uni_en = 0);
 
+    /* RXAUI with Marvell PHY requires some tweaking */
+    if (priv->mode == BGX_MODE_RXAUI)
+    {
+        int phy_address = get_phy_address(handle);
+        if (phy_address != -1)
+            __bdk_if_phy_xs_init(handle->node, phy_address);
+    }
+
     return 0;
 }
 
