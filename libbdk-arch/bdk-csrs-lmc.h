@@ -1377,7 +1377,435 @@ typedef union
                                                                  Load Reduced DIMM Enable. When set allows the use of JEDEC DDR4 LRDIMMs. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_lmcx_config_s cn; */
+    /* struct bdk_lmcx_config_s cn9; */
+    struct bdk_lmcx_config_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t lrdimm_ena            : 1;  /**< [ 63: 63](R/W) Reserved.
+                                                                 Internal:
+                                                                 Load Reduced DIMM Enable. When set allows the use of JEDEC DDR4 LRDIMMs. */
+        uint64_t bg2_enable            : 1;  /**< [ 62: 62](R/W) BG1 enable bit. Only has an effect when LMC()_CONFIG[MODEDDR4] = 1.
+                                                                 Set to 1 when using DDR4 x4 or x8 parts.
+                                                                 Clear to 0 when using DDR4 x16 parts. */
+        uint64_t mode_x4dev            : 1;  /**< [ 61: 61](R/W) DDR *4 device mode. */
+        uint64_t mode32b               : 1;  /**< [ 60: 60](R/W) 32-bit datapath mode. When set, only 32 DQ pins are used. */
+        uint64_t scrz                  : 1;  /**< [ 59: 59](R/W1S/H) Hide LMC()_SCRAMBLE_CFG0 and LMC()_SCRAMBLE_CFG1 when set. */
+        uint64_t early_unload_d1_r1    : 1;  /**< [ 58: 58](R/W) Reserved, MBZ.
+                                                                 Internal:
+                                                                 When set, unload the PHY silo one cycle early for Rank 3 reads.
+                                                                 The recommended EARLY_UNLOAD_D1_R1 value can be calculated after the final
+                                                                 LMC()_RLEVEL_RANK3[BYTE*] values are selected (as part of read-leveling initialization).
+                                                                 Then, determine the largest read-leveling setting for rank 3 (i.e. calculate
+                                                                 maxset=MAX(LMC()_RLEVEL_RANK3[BYTEi]) across all i), then set EARLY_UNLOAD_D1_R1 when the
+                                                                 low two bits of this largest setting is not 3 (i.e. EARLY_UNLOAD_D1_R1 = (maxset<1:0>
+                                                                 !=3)). */
+        uint64_t early_unload_d1_r0    : 1;  /**< [ 57: 57](R/W) Reserved, MBZ.
+                                                                 Internal:
+                                                                 When set, unload the PHY silo one cycle early for Rank 2 reads.
+                                                                 The recommended EARLY_UNLOAD_D1_RO value can be calculated after the final
+                                                                 LMC()_RLEVEL_RANK2[BYTE*] values are selected (as part of read-leveling initialization).
+                                                                 Then, determine the largest read-leveling setting for rank 2 (i.e. calculate
+                                                                 maxset=MAX(LMC()_RLEVEL_RANK2[BYTEi]) across all i), then set EARLY_UNLOAD_D1_RO when the
+                                                                 low two bits of this largest setting is not 3 (i.e. EARLY_UNLOAD_D1_RO = (maxset<1:0>
+                                                                 !=3)). */
+        uint64_t early_unload_d0_r1    : 1;  /**< [ 56: 56](R/W) Reserved, MBZ.
+                                                                 Internal:
+                                                                 When set, unload the PHY silo one cycle early for Rank 1 reads.
+                                                                 The recommended EARLY_UNLOAD_D0_R1 value can be calculated after the final
+                                                                 LMC()_RLEVEL_RANK1[BYTE*] values are selected (as part of read-leveling initialization).
+                                                                 Then, determine the largest read-leveling setting for rank 1 (i.e. calculate
+                                                                 maxset=MAX(LMC()_RLEVEL_RANK1[BYTEi]) across all i), then set EARLY_UNLOAD_D0_R1 when the
+                                                                 low two bits of this largest setting is not 3 (i.e. EARLY_UNLOAD_D0_R1 = (maxset<1:0>
+                                                                 !=3)). */
+        uint64_t early_unload_d0_r0    : 1;  /**< [ 55: 55](R/W) Reserved, MBZ.
+                                                                 Internal:
+                                                                 When set, unload the PHY silo one cycle early for Rank 0 reads.
+                                                                 The recommended EARLY_UNLOAD_D0_R0 value can be calculated after the final
+                                                                 LMC()_RLEVEL_RANK0[BYTE*] values are selected (as part of read-leveling initialization).
+                                                                 Then, determine the largest read-leveling setting for rank 0 (i.e. calculate
+                                                                 maxset=MAX(LMC()_RLEVEL_RANK0[BYTEi]) across all i), then set EARLY_UNLOAD_D0_R0 when the
+                                                                 low two bits of this largest setting is not 3 (i.e. EARLY_UNLOAD_D0_R0 = (maxset<1:0>
+                                                                 !=3)). */
+        uint64_t init_status           : 4;  /**< [ 54: 51](RO/H) Indicates status of initialization. [INIT_STATUS][n] = 1 implies rank n has been
+                                                                 initialized.
+                                                                 Software must set necessary [RANKMASK] bits before executing the initialization sequence
+                                                                 using LMC()_SEQ_CTL. If the rank has been selected for init with the [RANKMASK] bits,
+                                                                 the [INIT_STATUS] bits will be set after successful initialization and after self-refresh
+                                                                 exit. [INIT_STATUS] determines the chip-selects that assert during refresh, ZQCS,
+                                                                 precharge
+                                                                 power-down entry/exit, and self-refresh entry SEQ_SELs. */
+        uint64_t mirrmask              : 4;  /**< [ 50: 47](R/W) "Mask determining which ranks are address-mirrored.
+                                                                 [MIRRMASK]<n> = 1 means rank n addresses are mirrored for
+                                                                 0 <= n <= 3.
+                                                                 In DDR3, a mirrored read/write operation has the following differences:
+                                                                 * DDR#_BA<1> is swapped with DDR#_BA<0>.
+                                                                 * DDR#_A<8> is swapped with DDR#_A<7>.
+                                                                 * DDR#_A<6> is swapped with DDR#_A<5>.
+                                                                 * DDR#_A<4> is swapped with DDR#_A<3>.
+
+                                                                 When RANK_ENA = 0, MIRRMASK<1> MBZ.
+
+                                                                 In DDR4, a mirrored read/write operation has the following differences:
+                                                                 * DDR#_BG<1> is swapped with DDR#_BG<0>.
+                                                                 * DDR#_BA<1> is swapped with DDR#_BA<0>.
+                                                                 * DDR#_A<13> is swapped with DDR#_A<11>.
+                                                                 * DDR#_A<8> is swapped with DDR#_A<7>.
+                                                                 * DDR#_A<6> is swapped with DDR#_A<5>.
+                                                                 * DDR#_A<4> is swapped with DDR#_A<3>.
+
+                                                                 For CN70XX, MIRRMASK<3:2> MBZ.
+                                                                 * When RANK_ENA = 0, MIRRMASK<1> MBZ." */
+        uint64_t rankmask              : 4;  /**< [ 46: 43](R/W) Mask to select rank to be leveled/initialized. To write-level/read-level/initialize rank
+                                                                 i, set [RANKMASK]<i>:
+
+                                                                 <pre>
+                                                                               RANK_ENA = 1   RANK_ENA = 0
+                                                                 RANKMASK<0> = DIMM0_CS0      DIMM0_CS0
+                                                                 RANKMASK<1> = DIMM0_CS1      MBZ
+                                                                 RANKMASK<2> = Reserved       Reserved
+                                                                 RANKMASK<3> = Reserved       Reserved
+                                                                 </pre>
+
+                                                                 For read/write leveling, each rank has to be leveled separately, so [RANKMASK] should only
+                                                                 have one bit set. [RANKMASK] is not used during self-refresh entry/exit and precharge
+                                                                 power-
+                                                                 down entry/exit instruction sequences. When [RANK_ENA] = 0, [RANKMASK]<1> and
+                                                                 [RANKMASK]<3> MBZ. */
+        uint64_t rank_ena              : 1;  /**< [ 42: 42](R/W) "RANK enable (for use with dual-rank DIMMs).
+                                                                 * For dual-rank DIMMs, the [RANK_ENA] bit will enable the drive of the DDR#_DIMM*_CS*_L
+                                                                 and
+                                                                 ODT_<1:0> pins differently based on the ([PBANK_LSB] - 1) address bit.
+                                                                 * Write 0 for SINGLE ranked DIMMs." */
+        uint64_t sref_with_dll         : 1;  /**< [ 41: 41](R/W) Self-refresh entry/exit write mode registers. When set, self-refresh entry sequence writes
+                                                                 MR2 and MR1 (in this order, in all ranks), and self-refresh exit sequence writes MR1, MR0,
+                                                                 MR2, and MR3 (in this order, for all ranks). The write operations occur before self-
+                                                                 refresh entry, and after self-refresh exit. When clear, self-refresh entry and exit
+                                                                 instruction sequences do not write any mode registers in the DDR3/4 parts. */
+        uint64_t early_dqx             : 1;  /**< [ 40: 40](R/W) Set this bit to send DQx signals one CK cycle earlier for the case when the shortest DQx
+                                                                 lines have a larger delay than the CK line. */
+        uint64_t ref_zqcs_int          : 22; /**< [ 39: 18](R/W) Refresh interval is represented in number of 512 CK cycle increments. To get more precise
+                                                                 control of the refresh interval, LMC()_EXT_CONFIG[REF_INT_LSBS] can be set to a
+                                                                 nonzero value.
+                                                                 ZQCS interval is represented in a number of refresh intervals. A refresh sequence is
+                                                                 triggered when bits <24:18> are equal to 0x0, and a ZQCS sequence is triggered when
+                                                                 <39:18>
+                                                                 are equal to 0x0.
+
+                                                                 The ZQCS timer only decrements when the refresh timer is 0.
+
+                                                                 Program <24:18> to RND-DN(TREFI/clkPeriod/512).
+
+                                                                 A value of 0 in bits <24:18> will effectively turn off refresh.
+
+                                                                 Program <36:25> to (RND-DN(ZQCS_Period / Refresh_Period) - 1), where Refresh_Period is the
+                                                                 effective period programmed in bits <24:18>. Note that this value should always be greater
+                                                                 than 32, to account for resistor calibration delays.
+
+                                                                 000_00000000_0000000: Reserved
+
+                                                                 Max refresh interval = 127 * 512= 65024 CK cycles.
+
+                                                                 Max ZQCS interval = 32768 * 127 * 512 = 2130706432 CK cycles.
+
+                                                                 If refresh interval is programmed to ~8us, max ZQCS interval is ~262ms, or ~4 ZQCS
+                                                                 operations per second.
+                                                                 LMC()_CONFIG[INIT_STATUS] determines which ranks receive the REF / ZQCS. LMC does not
+                                                                 send any refreshes / ZQCS's when LMC()_CONFIG[INIT_STATUS]=0. */
+        uint64_t reset                 : 1;  /**< [ 17: 17](R/W) Reset one-shot pulse for LMC()_OPS_CNT, LMC()_IFB_CNT, and LMC()_DCLK_CNT.
+                                                                 To cause the reset, software writes this to a 1, then rewrites it to a 0. */
+        uint64_t ecc_adr               : 1;  /**< [ 16: 16](R/W) Include memory reference address in the ECC calculation.
+                                                                 0 = disabled, 1 = enabled. */
+        uint64_t forcewrite            : 4;  /**< [ 15: 12](R/W) Force the oldest outstanding write to complete after having waited for 2^[FORCEWRITE] CK
+                                                                 cycles. 0 = disabled. */
+        uint64_t idlepower             : 3;  /**< [ 11:  9](R/W) Enter precharge power-down mode after the memory controller has been idle for
+                                                                 2^(2+[IDLEPOWER]) CK cycles. 0 = disabled.
+
+                                                                 This field should only be programmed after initialization.
+                                                                 LMC()_MODEREG_PARAMS0[PPD] determines whether the DRAM DLL is disabled during the
+                                                                 precharge power-down. */
+        uint64_t pbank_lsb             : 4;  /**< [  8:  5](R/W) DIMM address bit select. Reverting to the explanation for [ROW_LSB], [PBANK_LSB] would be:
+                                                                 [ROW_LSB] bit + num_rowbits + num_rankbits
+
+                                                                 Decoding for PBANK_LSB:
+
+                                                                 0x0: DIMM = mem_adr<28>; if [RANK_ENA]=1, rank = mem_adr<27>.
+                                                                 0x1: DIMM = mem_adr<29>; if [RANK_ENA]=1, rank = mem_adr<28>.
+                                                                 0x2: DIMM = mem_adr<30>; if [RANK_ENA]=1, rank = mem_adr<29>.
+                                                                 0x3: DIMM = mem_adr<31>; if [RANK_ENA]=1, rank = mem_adr<30>.
+                                                                 0x4: DIMM = mem_adr<32>; if [RANK_ENA]=1, rank = mem_adr<31>.
+                                                                 0x5: DIMM = mem_adr<33>; if [RANK_ENA]=1, rank = mem_adr<32>.
+                                                                 0x6: DIMM = mem_adr<34>; if [RANK_ENA]=1, rank = mem_adr<33>.
+                                                                 0x7: DIMM = mem_adr<35>; if [RANK_ENA]=1, rank = mem_adr<34>.
+                                                                 0x8: DIMM = mem_adr<36>; if [RANK_ENA]=1, rank = mem_adr<35>.
+                                                                 0x9: DIMM = mem_adr<37>; if [RANK_ENA]=1, rank = mem_adr<36>.
+                                                                 0xA: DIMM = 0;           if [RANK_ENA]=1, rank = mem_adr<37>.
+                                                                 0xB-0xF: Reserved.
+
+                                                                 For example, for a DIMM made of Samsung's K4B1G0846C-F7 1Gb (16M * 8 bit * 8 bank)
+                                                                 parts, the column address width = 10, so with 10b of col, 3b of bus, 3b of bank, ROW_LSB =
+                                                                 16. So, row = mem_adr<29:16>.
+
+                                                                 With [RANK_ENA] = 0, [PBANK_LSB] = 2.
+                                                                 With [RANK_ENA] = 1, [PBANK_LSB] = 3.
+
+                                                                 Internal:
+                                                                 When interfacing with 8H 3DS, set this 0xA regardless of [RANK_ENA] value. */
+        uint64_t row_lsb               : 3;  /**< [  4:  2](R/W) Row address bit select.
+                                                                 0x0 = Address bit 14 is LSB.
+                                                                 0x1 = Address bit 15 is LSB.
+                                                                 0x2 = Address bit 16 is LSB.
+                                                                 0x3 = Address bit 17 is LSB.
+                                                                 0x4 = Address bit 18 is LSB.
+                                                                 0x5 = Address bit 19 is LSB.
+                                                                 0x6 = Address bit 20 is LSB.
+                                                                 0x6 = Reserved.
+
+                                                                 Encoding used to determine which memory address bit position represents the low order DDR
+                                                                 ROW address. The processor's memory address<34:7> needs to be translated to DRAM addresses
+                                                                 (bnk,row,col,rank and DIMM) and that is a function of the following:
+                                                                 * Datapath width (64).
+                                                                 * Number of banks (8).
+                                                                 * Number of column bits of the memory part--specified indirectly by this register.
+                                                                 * Number of row bits of the memory part--specified indirectly by [PBANK_LSB].
+                                                                 * Number of ranks in a DIMM--specified by [RANK_ENA].
+                                                                 * Number of DIMMs in the system by the register below ([PBANK_LSB]).
+
+                                                                 Column address starts from mem_addr[3] for 64b (8Bytes) DQ width. [ROW_LSB] is
+                                                                 mem_adr[15] for 64b mode. Therefore, the [ROW_LSB] parameter should be set to
+                                                                 0x1 (64b).
+
+                                                                 For example, for a DIMM made of Samsung's K4B1G0846C-F7 1GB (16M * 8 bit * 8 bank)
+                                                                 parts, the column address width = 10, so with 10b of col, 3b of bus, 3b of bank, ROW_LSB =
+                                                                 16. So, row = mem_adr<29:16>.
+
+                                                                 Refer to Cache-block Read Transaction Example, Cache-block Read Transaction Example. */
+        uint64_t ecc_ena               : 1;  /**< [  1:  1](R/W) ECC enable. When set, enables the 8b ECC check/correct logic. Should be 1 when used with
+                                                                 DIMMs with ECC; 0, otherwise.
+
+                                                                 * When this mode is turned on, DQ<71:64> on write operations contains the ECC code
+                                                                 generated for the 64 bits of data which will be written in the memory. Later on read
+                                                                 operations, will be used to check for single-bit error (which will be auto-corrected) and
+                                                                 double-bit error (which will be reported).
+
+                                                                 * When not turned on, DQ<71:64> are driven to 0. Please refer to SEC_ERR, DED_ERR,
+                                                                 LMC()_FADR, and LMC()_ECC_SYND registers for diagnostics information when there is
+                                                                 an error. */
+        uint64_t reserved_0            : 1;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0            : 1;
+        uint64_t ecc_ena               : 1;  /**< [  1:  1](R/W) ECC enable. When set, enables the 8b ECC check/correct logic. Should be 1 when used with
+                                                                 DIMMs with ECC; 0, otherwise.
+
+                                                                 * When this mode is turned on, DQ<71:64> on write operations contains the ECC code
+                                                                 generated for the 64 bits of data which will be written in the memory. Later on read
+                                                                 operations, will be used to check for single-bit error (which will be auto-corrected) and
+                                                                 double-bit error (which will be reported).
+
+                                                                 * When not turned on, DQ<71:64> are driven to 0. Please refer to SEC_ERR, DED_ERR,
+                                                                 LMC()_FADR, and LMC()_ECC_SYND registers for diagnostics information when there is
+                                                                 an error. */
+        uint64_t row_lsb               : 3;  /**< [  4:  2](R/W) Row address bit select.
+                                                                 0x0 = Address bit 14 is LSB.
+                                                                 0x1 = Address bit 15 is LSB.
+                                                                 0x2 = Address bit 16 is LSB.
+                                                                 0x3 = Address bit 17 is LSB.
+                                                                 0x4 = Address bit 18 is LSB.
+                                                                 0x5 = Address bit 19 is LSB.
+                                                                 0x6 = Address bit 20 is LSB.
+                                                                 0x6 = Reserved.
+
+                                                                 Encoding used to determine which memory address bit position represents the low order DDR
+                                                                 ROW address. The processor's memory address<34:7> needs to be translated to DRAM addresses
+                                                                 (bnk,row,col,rank and DIMM) and that is a function of the following:
+                                                                 * Datapath width (64).
+                                                                 * Number of banks (8).
+                                                                 * Number of column bits of the memory part--specified indirectly by this register.
+                                                                 * Number of row bits of the memory part--specified indirectly by [PBANK_LSB].
+                                                                 * Number of ranks in a DIMM--specified by [RANK_ENA].
+                                                                 * Number of DIMMs in the system by the register below ([PBANK_LSB]).
+
+                                                                 Column address starts from mem_addr[3] for 64b (8Bytes) DQ width. [ROW_LSB] is
+                                                                 mem_adr[15] for 64b mode. Therefore, the [ROW_LSB] parameter should be set to
+                                                                 0x1 (64b).
+
+                                                                 For example, for a DIMM made of Samsung's K4B1G0846C-F7 1GB (16M * 8 bit * 8 bank)
+                                                                 parts, the column address width = 10, so with 10b of col, 3b of bus, 3b of bank, ROW_LSB =
+                                                                 16. So, row = mem_adr<29:16>.
+
+                                                                 Refer to Cache-block Read Transaction Example, Cache-block Read Transaction Example. */
+        uint64_t pbank_lsb             : 4;  /**< [  8:  5](R/W) DIMM address bit select. Reverting to the explanation for [ROW_LSB], [PBANK_LSB] would be:
+                                                                 [ROW_LSB] bit + num_rowbits + num_rankbits
+
+                                                                 Decoding for PBANK_LSB:
+
+                                                                 0x0: DIMM = mem_adr<28>; if [RANK_ENA]=1, rank = mem_adr<27>.
+                                                                 0x1: DIMM = mem_adr<29>; if [RANK_ENA]=1, rank = mem_adr<28>.
+                                                                 0x2: DIMM = mem_adr<30>; if [RANK_ENA]=1, rank = mem_adr<29>.
+                                                                 0x3: DIMM = mem_adr<31>; if [RANK_ENA]=1, rank = mem_adr<30>.
+                                                                 0x4: DIMM = mem_adr<32>; if [RANK_ENA]=1, rank = mem_adr<31>.
+                                                                 0x5: DIMM = mem_adr<33>; if [RANK_ENA]=1, rank = mem_adr<32>.
+                                                                 0x6: DIMM = mem_adr<34>; if [RANK_ENA]=1, rank = mem_adr<33>.
+                                                                 0x7: DIMM = mem_adr<35>; if [RANK_ENA]=1, rank = mem_adr<34>.
+                                                                 0x8: DIMM = mem_adr<36>; if [RANK_ENA]=1, rank = mem_adr<35>.
+                                                                 0x9: DIMM = mem_adr<37>; if [RANK_ENA]=1, rank = mem_adr<36>.
+                                                                 0xA: DIMM = 0;           if [RANK_ENA]=1, rank = mem_adr<37>.
+                                                                 0xB-0xF: Reserved.
+
+                                                                 For example, for a DIMM made of Samsung's K4B1G0846C-F7 1Gb (16M * 8 bit * 8 bank)
+                                                                 parts, the column address width = 10, so with 10b of col, 3b of bus, 3b of bank, ROW_LSB =
+                                                                 16. So, row = mem_adr<29:16>.
+
+                                                                 With [RANK_ENA] = 0, [PBANK_LSB] = 2.
+                                                                 With [RANK_ENA] = 1, [PBANK_LSB] = 3.
+
+                                                                 Internal:
+                                                                 When interfacing with 8H 3DS, set this 0xA regardless of [RANK_ENA] value. */
+        uint64_t idlepower             : 3;  /**< [ 11:  9](R/W) Enter precharge power-down mode after the memory controller has been idle for
+                                                                 2^(2+[IDLEPOWER]) CK cycles. 0 = disabled.
+
+                                                                 This field should only be programmed after initialization.
+                                                                 LMC()_MODEREG_PARAMS0[PPD] determines whether the DRAM DLL is disabled during the
+                                                                 precharge power-down. */
+        uint64_t forcewrite            : 4;  /**< [ 15: 12](R/W) Force the oldest outstanding write to complete after having waited for 2^[FORCEWRITE] CK
+                                                                 cycles. 0 = disabled. */
+        uint64_t ecc_adr               : 1;  /**< [ 16: 16](R/W) Include memory reference address in the ECC calculation.
+                                                                 0 = disabled, 1 = enabled. */
+        uint64_t reset                 : 1;  /**< [ 17: 17](R/W) Reset one-shot pulse for LMC()_OPS_CNT, LMC()_IFB_CNT, and LMC()_DCLK_CNT.
+                                                                 To cause the reset, software writes this to a 1, then rewrites it to a 0. */
+        uint64_t ref_zqcs_int          : 22; /**< [ 39: 18](R/W) Refresh interval is represented in number of 512 CK cycle increments. To get more precise
+                                                                 control of the refresh interval, LMC()_EXT_CONFIG[REF_INT_LSBS] can be set to a
+                                                                 nonzero value.
+                                                                 ZQCS interval is represented in a number of refresh intervals. A refresh sequence is
+                                                                 triggered when bits <24:18> are equal to 0x0, and a ZQCS sequence is triggered when
+                                                                 <39:18>
+                                                                 are equal to 0x0.
+
+                                                                 The ZQCS timer only decrements when the refresh timer is 0.
+
+                                                                 Program <24:18> to RND-DN(TREFI/clkPeriod/512).
+
+                                                                 A value of 0 in bits <24:18> will effectively turn off refresh.
+
+                                                                 Program <36:25> to (RND-DN(ZQCS_Period / Refresh_Period) - 1), where Refresh_Period is the
+                                                                 effective period programmed in bits <24:18>. Note that this value should always be greater
+                                                                 than 32, to account for resistor calibration delays.
+
+                                                                 000_00000000_0000000: Reserved
+
+                                                                 Max refresh interval = 127 * 512= 65024 CK cycles.
+
+                                                                 Max ZQCS interval = 32768 * 127 * 512 = 2130706432 CK cycles.
+
+                                                                 If refresh interval is programmed to ~8us, max ZQCS interval is ~262ms, or ~4 ZQCS
+                                                                 operations per second.
+                                                                 LMC()_CONFIG[INIT_STATUS] determines which ranks receive the REF / ZQCS. LMC does not
+                                                                 send any refreshes / ZQCS's when LMC()_CONFIG[INIT_STATUS]=0. */
+        uint64_t early_dqx             : 1;  /**< [ 40: 40](R/W) Set this bit to send DQx signals one CK cycle earlier for the case when the shortest DQx
+                                                                 lines have a larger delay than the CK line. */
+        uint64_t sref_with_dll         : 1;  /**< [ 41: 41](R/W) Self-refresh entry/exit write mode registers. When set, self-refresh entry sequence writes
+                                                                 MR2 and MR1 (in this order, in all ranks), and self-refresh exit sequence writes MR1, MR0,
+                                                                 MR2, and MR3 (in this order, for all ranks). The write operations occur before self-
+                                                                 refresh entry, and after self-refresh exit. When clear, self-refresh entry and exit
+                                                                 instruction sequences do not write any mode registers in the DDR3/4 parts. */
+        uint64_t rank_ena              : 1;  /**< [ 42: 42](R/W) "RANK enable (for use with dual-rank DIMMs).
+                                                                 * For dual-rank DIMMs, the [RANK_ENA] bit will enable the drive of the DDR#_DIMM*_CS*_L
+                                                                 and
+                                                                 ODT_<1:0> pins differently based on the ([PBANK_LSB] - 1) address bit.
+                                                                 * Write 0 for SINGLE ranked DIMMs." */
+        uint64_t rankmask              : 4;  /**< [ 46: 43](R/W) Mask to select rank to be leveled/initialized. To write-level/read-level/initialize rank
+                                                                 i, set [RANKMASK]<i>:
+
+                                                                 <pre>
+                                                                               RANK_ENA = 1   RANK_ENA = 0
+                                                                 RANKMASK<0> = DIMM0_CS0      DIMM0_CS0
+                                                                 RANKMASK<1> = DIMM0_CS1      MBZ
+                                                                 RANKMASK<2> = Reserved       Reserved
+                                                                 RANKMASK<3> = Reserved       Reserved
+                                                                 </pre>
+
+                                                                 For read/write leveling, each rank has to be leveled separately, so [RANKMASK] should only
+                                                                 have one bit set. [RANKMASK] is not used during self-refresh entry/exit and precharge
+                                                                 power-
+                                                                 down entry/exit instruction sequences. When [RANK_ENA] = 0, [RANKMASK]<1> and
+                                                                 [RANKMASK]<3> MBZ. */
+        uint64_t mirrmask              : 4;  /**< [ 50: 47](R/W) "Mask determining which ranks are address-mirrored.
+                                                                 [MIRRMASK]<n> = 1 means rank n addresses are mirrored for
+                                                                 0 <= n <= 3.
+                                                                 In DDR3, a mirrored read/write operation has the following differences:
+                                                                 * DDR#_BA<1> is swapped with DDR#_BA<0>.
+                                                                 * DDR#_A<8> is swapped with DDR#_A<7>.
+                                                                 * DDR#_A<6> is swapped with DDR#_A<5>.
+                                                                 * DDR#_A<4> is swapped with DDR#_A<3>.
+
+                                                                 When RANK_ENA = 0, MIRRMASK<1> MBZ.
+
+                                                                 In DDR4, a mirrored read/write operation has the following differences:
+                                                                 * DDR#_BG<1> is swapped with DDR#_BG<0>.
+                                                                 * DDR#_BA<1> is swapped with DDR#_BA<0>.
+                                                                 * DDR#_A<13> is swapped with DDR#_A<11>.
+                                                                 * DDR#_A<8> is swapped with DDR#_A<7>.
+                                                                 * DDR#_A<6> is swapped with DDR#_A<5>.
+                                                                 * DDR#_A<4> is swapped with DDR#_A<3>.
+
+                                                                 For CN70XX, MIRRMASK<3:2> MBZ.
+                                                                 * When RANK_ENA = 0, MIRRMASK<1> MBZ." */
+        uint64_t init_status           : 4;  /**< [ 54: 51](RO/H) Indicates status of initialization. [INIT_STATUS][n] = 1 implies rank n has been
+                                                                 initialized.
+                                                                 Software must set necessary [RANKMASK] bits before executing the initialization sequence
+                                                                 using LMC()_SEQ_CTL. If the rank has been selected for init with the [RANKMASK] bits,
+                                                                 the [INIT_STATUS] bits will be set after successful initialization and after self-refresh
+                                                                 exit. [INIT_STATUS] determines the chip-selects that assert during refresh, ZQCS,
+                                                                 precharge
+                                                                 power-down entry/exit, and self-refresh entry SEQ_SELs. */
+        uint64_t early_unload_d0_r0    : 1;  /**< [ 55: 55](R/W) Reserved, MBZ.
+                                                                 Internal:
+                                                                 When set, unload the PHY silo one cycle early for Rank 0 reads.
+                                                                 The recommended EARLY_UNLOAD_D0_R0 value can be calculated after the final
+                                                                 LMC()_RLEVEL_RANK0[BYTE*] values are selected (as part of read-leveling initialization).
+                                                                 Then, determine the largest read-leveling setting for rank 0 (i.e. calculate
+                                                                 maxset=MAX(LMC()_RLEVEL_RANK0[BYTEi]) across all i), then set EARLY_UNLOAD_D0_R0 when the
+                                                                 low two bits of this largest setting is not 3 (i.e. EARLY_UNLOAD_D0_R0 = (maxset<1:0>
+                                                                 !=3)). */
+        uint64_t early_unload_d0_r1    : 1;  /**< [ 56: 56](R/W) Reserved, MBZ.
+                                                                 Internal:
+                                                                 When set, unload the PHY silo one cycle early for Rank 1 reads.
+                                                                 The recommended EARLY_UNLOAD_D0_R1 value can be calculated after the final
+                                                                 LMC()_RLEVEL_RANK1[BYTE*] values are selected (as part of read-leveling initialization).
+                                                                 Then, determine the largest read-leveling setting for rank 1 (i.e. calculate
+                                                                 maxset=MAX(LMC()_RLEVEL_RANK1[BYTEi]) across all i), then set EARLY_UNLOAD_D0_R1 when the
+                                                                 low two bits of this largest setting is not 3 (i.e. EARLY_UNLOAD_D0_R1 = (maxset<1:0>
+                                                                 !=3)). */
+        uint64_t early_unload_d1_r0    : 1;  /**< [ 57: 57](R/W) Reserved, MBZ.
+                                                                 Internal:
+                                                                 When set, unload the PHY silo one cycle early for Rank 2 reads.
+                                                                 The recommended EARLY_UNLOAD_D1_RO value can be calculated after the final
+                                                                 LMC()_RLEVEL_RANK2[BYTE*] values are selected (as part of read-leveling initialization).
+                                                                 Then, determine the largest read-leveling setting for rank 2 (i.e. calculate
+                                                                 maxset=MAX(LMC()_RLEVEL_RANK2[BYTEi]) across all i), then set EARLY_UNLOAD_D1_RO when the
+                                                                 low two bits of this largest setting is not 3 (i.e. EARLY_UNLOAD_D1_RO = (maxset<1:0>
+                                                                 !=3)). */
+        uint64_t early_unload_d1_r1    : 1;  /**< [ 58: 58](R/W) Reserved, MBZ.
+                                                                 Internal:
+                                                                 When set, unload the PHY silo one cycle early for Rank 3 reads.
+                                                                 The recommended EARLY_UNLOAD_D1_R1 value can be calculated after the final
+                                                                 LMC()_RLEVEL_RANK3[BYTE*] values are selected (as part of read-leveling initialization).
+                                                                 Then, determine the largest read-leveling setting for rank 3 (i.e. calculate
+                                                                 maxset=MAX(LMC()_RLEVEL_RANK3[BYTEi]) across all i), then set EARLY_UNLOAD_D1_R1 when the
+                                                                 low two bits of this largest setting is not 3 (i.e. EARLY_UNLOAD_D1_R1 = (maxset<1:0>
+                                                                 !=3)). */
+        uint64_t scrz                  : 1;  /**< [ 59: 59](R/W1S/H) Hide LMC()_SCRAMBLE_CFG0 and LMC()_SCRAMBLE_CFG1 when set. */
+        uint64_t mode32b               : 1;  /**< [ 60: 60](R/W) 32-bit datapath mode. When set, only 32 DQ pins are used. */
+        uint64_t mode_x4dev            : 1;  /**< [ 61: 61](R/W) DDR *4 device mode. */
+        uint64_t bg2_enable            : 1;  /**< [ 62: 62](R/W) BG1 enable bit. Only has an effect when LMC()_CONFIG[MODEDDR4] = 1.
+                                                                 Set to 1 when using DDR4 x4 or x8 parts.
+                                                                 Clear to 0 when using DDR4 x16 parts. */
+        uint64_t lrdimm_ena            : 1;  /**< [ 63: 63](R/W) Reserved.
+                                                                 Internal:
+                                                                 Load Reduced DIMM Enable. When set allows the use of JEDEC DDR4 LRDIMMs. */
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_lmcx_config_s cn88xx; */
+    /* struct bdk_lmcx_config_s cn83xx; */
 } bdk_lmcx_config_t;
 
 static inline uint64_t BDK_LMCX_CONFIG(unsigned long a) __attribute__ ((pure, always_inline));
@@ -2409,7 +2837,71 @@ typedef union
         uint64_t reserved_28_63        : 36;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_lmcx_ddr4_dimm_ctl_s cn; */
+    /* struct bdk_lmcx_ddr4_dimm_ctl_s cn9; */
+    struct bdk_lmcx_ddr4_dimm_ctl_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_28_63        : 36;
+        uint64_t rank_timing_enable    : 1;  /**< [ 27: 27](R/W) Reserved.
+                                                                 Internal:
+                                                                 Package Rank Timing Alignment Enable bit for the DDR4 LRDIMM Buffer Configuration Control
+                                                                 Word F0BC1x DA[7]. Used during PBA BCW Write through the MRW sequence. */
+        uint64_t bodt_trans_mode       : 1;  /**< [ 26: 26](R/W) Reserved.
+                                                                 Internal:
+                                                                 BODT input handling in Transparent Mode for the DDR4 LRDIMM Buffer Conifguration Control
+                                                                 Word F0BC1x. Used during PBA BCW Write through the MRW sequence. */
+        uint64_t trans_mode_ena        : 1;  /**< [ 25: 25](R/W) Reserved.
+                                                                 Internal:
+                                                                 Transparent Mode Enable bit for DDR4 LRDIMM Buffer Configuration Control Word
+                                                                 F0BC1x DA[5]. Used during PBA BCW Write through the MRW sequence. */
+        uint64_t read_preamble_mode    : 1;  /**< [ 24: 24](R/W) Reserved.
+                                                                 Internal:
+                                                                 Read Preamble Training Mode Enable bit for DDR4 LRDIMM Buffer Configuration Control Word
+                                                                 F0BC1x DA[4]. Used during PBA BCW Write through the MRW sequence. */
+        uint64_t buff_config_da3       : 1;  /**< [ 23: 23](R/W) Reserved.
+                                                                 Internal:
+                                                                 Reserved setting value in F0BC1x DA3. Used during PBA BCW Write through the MRW sequence. */
+        uint64_t mpr_over_ena          : 1;  /**< [ 22: 22](R/W) Reserved.
+                                                                 Internal:
+                                                                 MPR Override Mode Enable bit for the DDR4 LRDIMM Buffer Configuration Control Word
+                                                                 F0BC1x DA[1]. Used during PBA BCW Write through the MRW sequence. */
+        uint64_t ddr4_dimm1_wmask      : 11; /**< [ 21: 11](R/W) Reserved.
+                                                                 Internal:
+                                                                 DIMM1 write mask. If (DIMM1_WMASK[n] = 1), write DIMM1.RCn. */
+        uint64_t ddr4_dimm0_wmask      : 11; /**< [ 10:  0](R/W) DIMM0 write mask. If (DIMM0_WMASK[n] = 1), write DIMM0.RCn. */
+#else /* Word 0 - Little Endian */
+        uint64_t ddr4_dimm0_wmask      : 11; /**< [ 10:  0](R/W) DIMM0 write mask. If (DIMM0_WMASK[n] = 1), write DIMM0.RCn. */
+        uint64_t ddr4_dimm1_wmask      : 11; /**< [ 21: 11](R/W) Reserved.
+                                                                 Internal:
+                                                                 DIMM1 write mask. If (DIMM1_WMASK[n] = 1), write DIMM1.RCn. */
+        uint64_t mpr_over_ena          : 1;  /**< [ 22: 22](R/W) Reserved.
+                                                                 Internal:
+                                                                 MPR Override Mode Enable bit for the DDR4 LRDIMM Buffer Configuration Control Word
+                                                                 F0BC1x DA[1]. Used during PBA BCW Write through the MRW sequence. */
+        uint64_t buff_config_da3       : 1;  /**< [ 23: 23](R/W) Reserved.
+                                                                 Internal:
+                                                                 Reserved setting value in F0BC1x DA3. Used during PBA BCW Write through the MRW sequence. */
+        uint64_t read_preamble_mode    : 1;  /**< [ 24: 24](R/W) Reserved.
+                                                                 Internal:
+                                                                 Read Preamble Training Mode Enable bit for DDR4 LRDIMM Buffer Configuration Control Word
+                                                                 F0BC1x DA[4]. Used during PBA BCW Write through the MRW sequence. */
+        uint64_t trans_mode_ena        : 1;  /**< [ 25: 25](R/W) Reserved.
+                                                                 Internal:
+                                                                 Transparent Mode Enable bit for DDR4 LRDIMM Buffer Configuration Control Word
+                                                                 F0BC1x DA[5]. Used during PBA BCW Write through the MRW sequence. */
+        uint64_t bodt_trans_mode       : 1;  /**< [ 26: 26](R/W) Reserved.
+                                                                 Internal:
+                                                                 BODT input handling in Transparent Mode for the DDR4 LRDIMM Buffer Conifguration Control
+                                                                 Word F0BC1x. Used during PBA BCW Write through the MRW sequence. */
+        uint64_t rank_timing_enable    : 1;  /**< [ 27: 27](R/W) Reserved.
+                                                                 Internal:
+                                                                 Package Rank Timing Alignment Enable bit for the DDR4 LRDIMM Buffer Configuration Control
+                                                                 Word F0BC1x DA[7]. Used during PBA BCW Write through the MRW sequence. */
+        uint64_t reserved_28_63        : 36;
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_lmcx_ddr4_dimm_ctl_s cn88xx; */
+    /* struct bdk_lmcx_ddr4_dimm_ctl_s cn83xx; */
 } bdk_lmcx_ddr4_dimm_ctl_t;
 
 static inline uint64_t BDK_LMCX_DDR4_DIMM_CTL(unsigned long a) __attribute__ ((pure, always_inline));
@@ -2816,7 +3308,49 @@ typedef union
         uint64_t reserved_46_63        : 18;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_lmcx_dimm_ctl_s cn; */
+    /* struct bdk_lmcx_dimm_ctl_s cn9; */
+    struct bdk_lmcx_dimm_ctl_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_46_63        : 18;
+        uint64_t parity                : 1;  /**< [ 45: 45](R/W) "Parity. The Par_In input of a registered DIMM should be tied off. LMC adjusts the value
+                                                                 of the DDR_WE_L (DWE#) pin during DDR3 register part control word writes to ensure the
+                                                                 parity is observed correctly by the receiving DDR3 SSTE32882 or DDR4 DDR4RCD01 register
+                                                                 part. When Par_In is grounded, PARITY should be cleared to 0." */
+        uint64_t tcws                  : 13; /**< [ 44: 32](R/W) LMC waits for this time period before and after a RDIMM control word access during a
+                                                                 power-up/init SEQUENCE. TCWS is in multiples of 8 CK cycles.
+                                                                 Set TCWS (CSR field) = RNDUP[TCWS(ns)/(8 * TCYC(ns))], where TCWS is the desired time
+                                                                 (ns), and TCYC(ns) is the DDR clock frequency (not data rate).
+                                                                 TYP = 0x4E0 (equivalent to 15 us) when changing clock timing (RC2.DBA1, RC6.DA4, RC10.DA3,
+                                                                 RC10.DA4, RC11.DA3, and RC11.DA4)
+                                                                 TYP = 0x8, otherwise
+                                                                 0x0 = Reserved. */
+        uint64_t dimm1_wmask           : 16; /**< [ 31: 16](R/W) Reserved.
+                                                                 Internal:
+                                                                 DIMM1 write mask. If (DIMM1_WMASK[n] = 1), write DIMM1.RCn. */
+        uint64_t dimm0_wmask           : 16; /**< [ 15:  0](R/W) DIMM0 write mask. If (DIMM0_WMASK[n] = 1), write DIMM0.RCn. */
+#else /* Word 0 - Little Endian */
+        uint64_t dimm0_wmask           : 16; /**< [ 15:  0](R/W) DIMM0 write mask. If (DIMM0_WMASK[n] = 1), write DIMM0.RCn. */
+        uint64_t dimm1_wmask           : 16; /**< [ 31: 16](R/W) Reserved.
+                                                                 Internal:
+                                                                 DIMM1 write mask. If (DIMM1_WMASK[n] = 1), write DIMM1.RCn. */
+        uint64_t tcws                  : 13; /**< [ 44: 32](R/W) LMC waits for this time period before and after a RDIMM control word access during a
+                                                                 power-up/init SEQUENCE. TCWS is in multiples of 8 CK cycles.
+                                                                 Set TCWS (CSR field) = RNDUP[TCWS(ns)/(8 * TCYC(ns))], where TCWS is the desired time
+                                                                 (ns), and TCYC(ns) is the DDR clock frequency (not data rate).
+                                                                 TYP = 0x4E0 (equivalent to 15 us) when changing clock timing (RC2.DBA1, RC6.DA4, RC10.DA3,
+                                                                 RC10.DA4, RC11.DA3, and RC11.DA4)
+                                                                 TYP = 0x8, otherwise
+                                                                 0x0 = Reserved. */
+        uint64_t parity                : 1;  /**< [ 45: 45](R/W) "Parity. The Par_In input of a registered DIMM should be tied off. LMC adjusts the value
+                                                                 of the DDR_WE_L (DWE#) pin during DDR3 register part control word writes to ensure the
+                                                                 parity is observed correctly by the receiving DDR3 SSTE32882 or DDR4 DDR4RCD01 register
+                                                                 part. When Par_In is grounded, PARITY should be cleared to 0." */
+        uint64_t reserved_46_63        : 18;
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_lmcx_dimm_ctl_s cn88xx; */
+    /* struct bdk_lmcx_dimm_ctl_s cn83xx; */
 } bdk_lmcx_dimm_ctl_t;
 
 static inline uint64_t BDK_LMCX_DIMM_CTL(unsigned long a) __attribute__ ((pure, always_inline));
@@ -3780,7 +4314,294 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_lmcx_ext_config_s cn9; */
-    /* struct bdk_lmcx_ext_config_s cn81xx; */
+    struct bdk_lmcx_ext_config_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_61_63        : 3;
+        uint64_t bc4_dqs_ena           : 1;  /**< [ 60: 60](R/W) Reserved.
+                                                                 Internal:
+                                                                 For diagnostic use only.
+                                                                   0 = LMC produces the full bursts of DQS transitions,
+                                                                   even for BC4 Write ops.
+                                                                   1 = LMC produces only 3 cycles of DQS transitions
+                                                                   every time it sends out a BC4 Write operation. */
+        uint64_t ref_block             : 1;  /**< [ 59: 59](R/W) When set, LMC is blocked to initiate any refresh sequence. LMC then will only
+                                                                 allow refresh sequence to start when LMC()_REF_STATUS[REF_COUNT] has
+                                                                 reached the maximum value of 0x7. */
+        uint64_t mrs_side              : 1;  /**< [ 58: 58](R/W) Only applies when EXT_CONFIG[MRS_ONE_SIDE] is set.
+                                                                 0 = MRS command is sent to the A side of an RDIMM.
+                                                                 1 = MRS command is sent to the B side of an RDIMM. */
+        uint64_t mrs_one_side          : 1;  /**< [ 57: 57](R/W) Only applies to DDR4 RDIMM.
+                                                                 When set, MRS commands are directed to either the A or B
+                                                                 side of the RCD.
+
+                                                                 PDA operation is NOT allowed when this bit is set. In
+                                                                 other words, MR_MPR_CTL[MR_WR_PDA_ENABLE]
+                                                                 must be cleared before running MRW sequence with this
+                                                                 bit turned on. */
+        uint64_t mrs_bside_invert_disable : 1;/**< [ 56: 56](R/W) When set, the command decoder cancels the auto inversion of
+                                                                 A3-A9, A11, A13, A17, BA0, BA1 and BG0 during MRS/MRS_PDA
+                                                                 command to the B side of the RDIMM.
+                                                                 When set, make sure that the RCD's control word
+                                                                 RC00 DA[0] = 1 so that the output inversion is disabled in
+                                                                 the DDR4 RCD. */
+        uint64_t dimm_sel_invert_off   : 1;  /**< [ 55: 55](R/W) During coalesce_address_mode, the default logic would be to invert
+                                                                 the pbank bit whenever NXM[MEM_MSB_D1_R0] > NXM[MEM_MSB_D0_R0].
+                                                                 When this bit is set to 1, it disables this default behaviour.
+                                                                 This configuration has lower priority compared to
+                                                                 [DIMM_SEL_FORCE_INVERT]. */
+        uint64_t dimm_sel_force_invert : 1;  /**< [ 54: 54](R/W) Reserved.
+                                                                 Internal:
+                                                                 When set to 1, this bit forces the pbank bit to be inverted
+                                                                 when in coalesce_address_mode. That is, pbank value of 0 selects
+                                                                 DIMM1 instead of DIMM0.
+                                                                 Intended to be use for the case of DIMM1 having bigger rank/s
+                                                                 than DIMM0. This bit has priority over [DIMM_SEL_INVERT_OFF]. */
+        uint64_t coalesce_address_mode : 1;  /**< [ 53: 53](R/W) When set to 1, LMC coalesces the L2C+LMC internal address mapping
+                                                                 to create a uniform memory space that are free from holes in
+                                                                 between ranks. When different size DIMMs are used, the DIMM with
+                                                                 the higher capacity is mapped to the lower address space. */
+        uint64_t dimm1_cid             : 2;  /**< [ 52: 51](R/W) Reserved.
+                                                                 Internal:
+                                                                 DIMM1 configuration bits that represent the number of Chip
+                                                                 ID of the DRAM. This value is use for decoding address
+                                                                 as well as routing Chip IDs to the appropriate output
+                                                                 pins.
+                                                                 0x0 = 0 Chip ID  (Mono-Die stack).
+                                                                 0x1 = 1 Chip ID  (2H 3DS).
+                                                                 0x2 = 2 Chip IDs (4H 3DS).
+                                                                 0x3 = 3 Chip IDs (8H 3DS). */
+        uint64_t dimm0_cid             : 2;  /**< [ 50: 49](R/W) Reserved.
+                                                                 Internal:
+                                                                 DIMM0 configuration bits that represent the number of Chip
+                                                                 ID of the DRAM. This value is use for decoding address
+                                                                 as well as routing Chip IDs to the appropriate output
+                                                                 pins.
+                                                                 0x0 = 0 Chip ID  (Mono-Die stack).
+                                                                 0x1 = 1 Chip ID  (2H 3DS).
+                                                                 0x2 = 2 Chip IDs (4H 3DS).
+                                                                 0x3 = 3 Chip IDs (8H 3DS). */
+        uint64_t rcd_parity_check      : 1;  /**< [ 48: 48](R/W) Enables the one cycle delay of the CA parity output. This MUST be set to 1 when using DDR4
+                                                                 RDIMM AND parity checking in RCD is enabled (RC0E DA0 = 1). Set this to 0 otherwise.
+                                                                 To enable the parity checking in RCD, set this bit first BEFORE issuing the RCW write RC0E
+                                                                 DA0 = 1. */
+        uint64_t reserved_46_47        : 2;
+        uint64_t error_alert_n_sample  : 1;  /**< [ 45: 45](RO) Read to get a sample of the DDR*_ERROR_ALERT_L signal. */
+        uint64_t ea_int_polarity       : 1;  /**< [ 44: 44](R/W) Set to invert DDR*_ERROR_ALERT_L interrupt polarity. When clear, interrupt is signaled on
+                                                                 the rising edge of DDR*_ERROR_ALERT_L. When set, interrupt is signalled on the falling
+                                                                 edge of DDR*_ERROR_ALERT_L. */
+        uint64_t reserved_43           : 1;
+        uint64_t par_addr_mask         : 3;  /**< [ 42: 40](R/W) Mask applied to parity for address bits 14, 13, and 12. Clear to exclude these address
+                                                                 bits from the parity calculation, necessary if the DRAM device does not have these pins. */
+        uint64_t reserved_38_39        : 2;
+        uint64_t mrs_cmd_override      : 1;  /**< [ 37: 37](R/W) Set to override the behavior of MRS and RCW operations.
+                                                                 If this bit is set, the override behavior is governed by the control field
+                                                                 [MRS_CMD_SELECT]. See LMC()_EXT_CONFIG[MRS_CMD_SELECT] for detail.
+
+                                                                 If this bit is cleared, select operation where signals other than CS are active before
+                                                                 and after the CS_N active cycle (except for the case when interfacing with DDR3 RDIMM). */
+        uint64_t mrs_cmd_select        : 1;  /**< [ 36: 36](R/W) When [MRS_CMD_OVERRIDE] is set, use this bit to select which style of operation for MRS
+                                                                 and
+                                                                 RCW commands.
+
+                                                                 If this bit is clear, select operation where signals other than CS are active before and
+                                                                 after the CS_N active cycle.
+
+                                                                 When this bit is set, select the operation where the other command signals (DDR*_RAS_L,
+                                                                 DDR*_CAS_L, DDR*_WE_L, DDR*_A<15:0>, etc) all are active only during the cycle where the
+                                                                 CS_N is also active. */
+        uint64_t reserved_33_35        : 3;
+        uint64_t invert_data           : 1;  /**< [ 32: 32](R/W) Set this bit to cause all data to be inverted before writing or reading to/from DRAM. This
+                                                                 effectively uses the scramble logic to instead invert all the data, so this bit must not
+                                                                 be set if data scrambling is enabled. May be useful if data inversion will result in lower
+                                                                 power. */
+        uint64_t reserved_30_31        : 2;
+        uint64_t cmd_rti               : 1;  /**< [ 29: 29](R/W) Set this bit to change the behavior of the LMC to return to a completely idle command (no
+                                                                 CS active, no command pins active, and address/bank address/bank group all low) on the
+                                                                 interface after an active command, rather than only forcing the CS inactive between
+                                                                 commands. */
+        uint64_t cal_ena               : 1;  /**< [ 28: 28](R/W) Set to cause LMC to operate in CAL mode. First set LMC()_MODEREG_PARAMS3[CAL], then
+                                                                 set CAL_ENA. */
+        uint64_t reserved_27           : 1;
+        uint64_t par_include_a17       : 1;  /**< [ 26: 26](R/W) If set, include A17 in parity calculations in DDR4 mode. */
+        uint64_t par_include_bg1       : 1;  /**< [ 25: 25](R/W) If set, include BG1 in parity calculations in DDR4 mode. */
+        uint64_t gen_par               : 1;  /**< [ 24: 24](R/W) Enable parity generation in the DRAM commands; must be set prior to enabling parity in
+                                                                 register or DRAM devices. */
+        uint64_t reserved_21_23        : 3;
+        uint64_t vrefint_seq_deskew    : 1;  /**< [ 20: 20](R/W) Personality bit to change the operation of what is normally the internal Vref training
+                                                                 sequence into the deskew training sequence. */
+        uint64_t read_ena_bprch        : 1;  /**< [ 19: 19](R/W) Enable pad receiver one cycle longer than normal during read operations. */
+        uint64_t read_ena_fprch        : 1;  /**< [ 18: 18](R/W) Enable pad receiver starting one cycle earlier than normal during read operations. */
+        uint64_t slot_ctl_reset_force  : 1;  /**< [ 17: 17](WO) Write 1 to reset the slot-control override for all slot-control registers. After writing a
+                                                                 1 to this bit, slot-control registers will update with changes made to other timing-
+                                                                 control registers. This is a one-shot operation; it automatically returns to 0 after a
+                                                                 write to 1. */
+        uint64_t ref_int_lsbs          : 9;  /**< [ 16:  8](R/W) Refresh-interval value least-significant bits. The default is 0x0.
+                                                                 Refresh interval is represented in number of 512 CK cycle increments and is controlled by
+                                                                 LMC()_CONFIG[REF_ZQCS_INT]. More precise refresh interval however (in number of
+                                                                 1 CK cycle) can be achieved by setting this field to a nonzero value. */
+        uint64_t drive_ena_bprch       : 1;  /**< [  7:  7](R/W) Drive DQx for one cycle longer than normal during write operations. */
+        uint64_t drive_ena_fprch       : 1;  /**< [  6:  6](R/W) Drive DQx starting one cycle earlier than normal during write operations. */
+        uint64_t dlcram_flip_synd      : 2;  /**< [  5:  4](R/W) Reserved.
+                                                                 Internal:
+                                                                 DLC RAM flip syndrome control bits. */
+        uint64_t dlcram_cor_dis        : 1;  /**< [  3:  3](R/W) Reserved.
+                                                                 Internal:
+                                                                 DLC RAM correction disable control. */
+        uint64_t dlc_nxm_rd            : 1;  /**< [  2:  2](R/W) Reserved.
+                                                                 Internal:
+                                                                 When set, enable NXM events for HFA read operations.
+                                                                 Default is disabled, but
+                                                                 could be useful for debug of DLC/DFA accesses. */
+        uint64_t l2c_nxm_rd            : 1;  /**< [  1:  1](R/W) When set, enable NXM events for L2C read operations.
+                                                                 Internal:
+                                                                 Default is disabled as L2C
+                                                                 NXM read operations are possible and expected during normal operation. */
+        uint64_t l2c_nxm_wr            : 1;  /**< [  0:  0](R/W) When set, enable NXM events for L2C write operations. */
+#else /* Word 0 - Little Endian */
+        uint64_t l2c_nxm_wr            : 1;  /**< [  0:  0](R/W) When set, enable NXM events for L2C write operations. */
+        uint64_t l2c_nxm_rd            : 1;  /**< [  1:  1](R/W) When set, enable NXM events for L2C read operations.
+                                                                 Internal:
+                                                                 Default is disabled as L2C
+                                                                 NXM read operations are possible and expected during normal operation. */
+        uint64_t dlc_nxm_rd            : 1;  /**< [  2:  2](R/W) Reserved.
+                                                                 Internal:
+                                                                 When set, enable NXM events for HFA read operations.
+                                                                 Default is disabled, but
+                                                                 could be useful for debug of DLC/DFA accesses. */
+        uint64_t dlcram_cor_dis        : 1;  /**< [  3:  3](R/W) Reserved.
+                                                                 Internal:
+                                                                 DLC RAM correction disable control. */
+        uint64_t dlcram_flip_synd      : 2;  /**< [  5:  4](R/W) Reserved.
+                                                                 Internal:
+                                                                 DLC RAM flip syndrome control bits. */
+        uint64_t drive_ena_fprch       : 1;  /**< [  6:  6](R/W) Drive DQx starting one cycle earlier than normal during write operations. */
+        uint64_t drive_ena_bprch       : 1;  /**< [  7:  7](R/W) Drive DQx for one cycle longer than normal during write operations. */
+        uint64_t ref_int_lsbs          : 9;  /**< [ 16:  8](R/W) Refresh-interval value least-significant bits. The default is 0x0.
+                                                                 Refresh interval is represented in number of 512 CK cycle increments and is controlled by
+                                                                 LMC()_CONFIG[REF_ZQCS_INT]. More precise refresh interval however (in number of
+                                                                 1 CK cycle) can be achieved by setting this field to a nonzero value. */
+        uint64_t slot_ctl_reset_force  : 1;  /**< [ 17: 17](WO) Write 1 to reset the slot-control override for all slot-control registers. After writing a
+                                                                 1 to this bit, slot-control registers will update with changes made to other timing-
+                                                                 control registers. This is a one-shot operation; it automatically returns to 0 after a
+                                                                 write to 1. */
+        uint64_t read_ena_fprch        : 1;  /**< [ 18: 18](R/W) Enable pad receiver starting one cycle earlier than normal during read operations. */
+        uint64_t read_ena_bprch        : 1;  /**< [ 19: 19](R/W) Enable pad receiver one cycle longer than normal during read operations. */
+        uint64_t vrefint_seq_deskew    : 1;  /**< [ 20: 20](R/W) Personality bit to change the operation of what is normally the internal Vref training
+                                                                 sequence into the deskew training sequence. */
+        uint64_t reserved_21_23        : 3;
+        uint64_t gen_par               : 1;  /**< [ 24: 24](R/W) Enable parity generation in the DRAM commands; must be set prior to enabling parity in
+                                                                 register or DRAM devices. */
+        uint64_t par_include_bg1       : 1;  /**< [ 25: 25](R/W) If set, include BG1 in parity calculations in DDR4 mode. */
+        uint64_t par_include_a17       : 1;  /**< [ 26: 26](R/W) If set, include A17 in parity calculations in DDR4 mode. */
+        uint64_t reserved_27           : 1;
+        uint64_t cal_ena               : 1;  /**< [ 28: 28](R/W) Set to cause LMC to operate in CAL mode. First set LMC()_MODEREG_PARAMS3[CAL], then
+                                                                 set CAL_ENA. */
+        uint64_t cmd_rti               : 1;  /**< [ 29: 29](R/W) Set this bit to change the behavior of the LMC to return to a completely idle command (no
+                                                                 CS active, no command pins active, and address/bank address/bank group all low) on the
+                                                                 interface after an active command, rather than only forcing the CS inactive between
+                                                                 commands. */
+        uint64_t reserved_30_31        : 2;
+        uint64_t invert_data           : 1;  /**< [ 32: 32](R/W) Set this bit to cause all data to be inverted before writing or reading to/from DRAM. This
+                                                                 effectively uses the scramble logic to instead invert all the data, so this bit must not
+                                                                 be set if data scrambling is enabled. May be useful if data inversion will result in lower
+                                                                 power. */
+        uint64_t reserved_33_35        : 3;
+        uint64_t mrs_cmd_select        : 1;  /**< [ 36: 36](R/W) When [MRS_CMD_OVERRIDE] is set, use this bit to select which style of operation for MRS
+                                                                 and
+                                                                 RCW commands.
+
+                                                                 If this bit is clear, select operation where signals other than CS are active before and
+                                                                 after the CS_N active cycle.
+
+                                                                 When this bit is set, select the operation where the other command signals (DDR*_RAS_L,
+                                                                 DDR*_CAS_L, DDR*_WE_L, DDR*_A<15:0>, etc) all are active only during the cycle where the
+                                                                 CS_N is also active. */
+        uint64_t mrs_cmd_override      : 1;  /**< [ 37: 37](R/W) Set to override the behavior of MRS and RCW operations.
+                                                                 If this bit is set, the override behavior is governed by the control field
+                                                                 [MRS_CMD_SELECT]. See LMC()_EXT_CONFIG[MRS_CMD_SELECT] for detail.
+
+                                                                 If this bit is cleared, select operation where signals other than CS are active before
+                                                                 and after the CS_N active cycle (except for the case when interfacing with DDR3 RDIMM). */
+        uint64_t reserved_38_39        : 2;
+        uint64_t par_addr_mask         : 3;  /**< [ 42: 40](R/W) Mask applied to parity for address bits 14, 13, and 12. Clear to exclude these address
+                                                                 bits from the parity calculation, necessary if the DRAM device does not have these pins. */
+        uint64_t reserved_43           : 1;
+        uint64_t ea_int_polarity       : 1;  /**< [ 44: 44](R/W) Set to invert DDR*_ERROR_ALERT_L interrupt polarity. When clear, interrupt is signaled on
+                                                                 the rising edge of DDR*_ERROR_ALERT_L. When set, interrupt is signalled on the falling
+                                                                 edge of DDR*_ERROR_ALERT_L. */
+        uint64_t error_alert_n_sample  : 1;  /**< [ 45: 45](RO) Read to get a sample of the DDR*_ERROR_ALERT_L signal. */
+        uint64_t reserved_46_47        : 2;
+        uint64_t rcd_parity_check      : 1;  /**< [ 48: 48](R/W) Enables the one cycle delay of the CA parity output. This MUST be set to 1 when using DDR4
+                                                                 RDIMM AND parity checking in RCD is enabled (RC0E DA0 = 1). Set this to 0 otherwise.
+                                                                 To enable the parity checking in RCD, set this bit first BEFORE issuing the RCW write RC0E
+                                                                 DA0 = 1. */
+        uint64_t dimm0_cid             : 2;  /**< [ 50: 49](R/W) Reserved.
+                                                                 Internal:
+                                                                 DIMM0 configuration bits that represent the number of Chip
+                                                                 ID of the DRAM. This value is use for decoding address
+                                                                 as well as routing Chip IDs to the appropriate output
+                                                                 pins.
+                                                                 0x0 = 0 Chip ID  (Mono-Die stack).
+                                                                 0x1 = 1 Chip ID  (2H 3DS).
+                                                                 0x2 = 2 Chip IDs (4H 3DS).
+                                                                 0x3 = 3 Chip IDs (8H 3DS). */
+        uint64_t dimm1_cid             : 2;  /**< [ 52: 51](R/W) Reserved.
+                                                                 Internal:
+                                                                 DIMM1 configuration bits that represent the number of Chip
+                                                                 ID of the DRAM. This value is use for decoding address
+                                                                 as well as routing Chip IDs to the appropriate output
+                                                                 pins.
+                                                                 0x0 = 0 Chip ID  (Mono-Die stack).
+                                                                 0x1 = 1 Chip ID  (2H 3DS).
+                                                                 0x2 = 2 Chip IDs (4H 3DS).
+                                                                 0x3 = 3 Chip IDs (8H 3DS). */
+        uint64_t coalesce_address_mode : 1;  /**< [ 53: 53](R/W) When set to 1, LMC coalesces the L2C+LMC internal address mapping
+                                                                 to create a uniform memory space that are free from holes in
+                                                                 between ranks. When different size DIMMs are used, the DIMM with
+                                                                 the higher capacity is mapped to the lower address space. */
+        uint64_t dimm_sel_force_invert : 1;  /**< [ 54: 54](R/W) Reserved.
+                                                                 Internal:
+                                                                 When set to 1, this bit forces the pbank bit to be inverted
+                                                                 when in coalesce_address_mode. That is, pbank value of 0 selects
+                                                                 DIMM1 instead of DIMM0.
+                                                                 Intended to be use for the case of DIMM1 having bigger rank/s
+                                                                 than DIMM0. This bit has priority over [DIMM_SEL_INVERT_OFF]. */
+        uint64_t dimm_sel_invert_off   : 1;  /**< [ 55: 55](R/W) During coalesce_address_mode, the default logic would be to invert
+                                                                 the pbank bit whenever NXM[MEM_MSB_D1_R0] > NXM[MEM_MSB_D0_R0].
+                                                                 When this bit is set to 1, it disables this default behaviour.
+                                                                 This configuration has lower priority compared to
+                                                                 [DIMM_SEL_FORCE_INVERT]. */
+        uint64_t mrs_bside_invert_disable : 1;/**< [ 56: 56](R/W) When set, the command decoder cancels the auto inversion of
+                                                                 A3-A9, A11, A13, A17, BA0, BA1 and BG0 during MRS/MRS_PDA
+                                                                 command to the B side of the RDIMM.
+                                                                 When set, make sure that the RCD's control word
+                                                                 RC00 DA[0] = 1 so that the output inversion is disabled in
+                                                                 the DDR4 RCD. */
+        uint64_t mrs_one_side          : 1;  /**< [ 57: 57](R/W) Only applies to DDR4 RDIMM.
+                                                                 When set, MRS commands are directed to either the A or B
+                                                                 side of the RCD.
+
+                                                                 PDA operation is NOT allowed when this bit is set. In
+                                                                 other words, MR_MPR_CTL[MR_WR_PDA_ENABLE]
+                                                                 must be cleared before running MRW sequence with this
+                                                                 bit turned on. */
+        uint64_t mrs_side              : 1;  /**< [ 58: 58](R/W) Only applies when EXT_CONFIG[MRS_ONE_SIDE] is set.
+                                                                 0 = MRS command is sent to the A side of an RDIMM.
+                                                                 1 = MRS command is sent to the B side of an RDIMM. */
+        uint64_t ref_block             : 1;  /**< [ 59: 59](R/W) When set, LMC is blocked to initiate any refresh sequence. LMC then will only
+                                                                 allow refresh sequence to start when LMC()_REF_STATUS[REF_COUNT] has
+                                                                 reached the maximum value of 0x7. */
+        uint64_t bc4_dqs_ena           : 1;  /**< [ 60: 60](R/W) Reserved.
+                                                                 Internal:
+                                                                 For diagnostic use only.
+                                                                   0 = LMC produces the full bursts of DQS transitions,
+                                                                   even for BC4 Write ops.
+                                                                   1 = LMC produces only 3 cycles of DQS transitions
+                                                                   every time it sends out a BC4 Write operation. */
+        uint64_t reserved_61_63        : 3;
+#endif /* Word 0 - End */
+    } cn81xx;
     struct bdk_lmcx_ext_config_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -4568,7 +5389,41 @@ typedef union
         uint64_t reserved_43_63        : 21;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_lmcx_fadr_s cn; */
+    /* struct bdk_lmcx_fadr_s cn9; */
+    struct bdk_lmcx_fadr_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_43_63        : 21;
+        uint64_t fcid                  : 3;  /**< [ 42: 40](RO/H) Reserved.
+                                                                 Internal:
+                                                                 Failing CID number. This field is only valid when interfacing with 3DS DRAMs (i.e., when
+                                                                 LMC()_EXT_CONFIG[DIMM0_CID] is nonzero). Returns a value of zero otherwise. */
+        uint64_t fill_order            : 2;  /**< [ 39: 38](RO/H) Fill order for failing transaction. */
+        uint64_t fdimm                 : 1;  /**< [ 37: 37](RO/H) Failing DIMM number. */
+        uint64_t fbunk                 : 1;  /**< [ 36: 36](RO/H) Failing rank number. */
+        uint64_t fbank                 : 4;  /**< [ 35: 32](RO/H) Failing bank number. Bits <3:0>. */
+        uint64_t frow                  : 18; /**< [ 31: 14](RO/H) Failing row address. Bits <17:0>. */
+        uint64_t fcol                  : 14; /**< [ 13:  0](RO/H) Failing column address <13:0>. Technically, represents the address of the 64b data that
+                                                                 had an ECC error, i.e., FCOL[0] is always 0. Can be used in conjunction with
+                                                                 LMC()_INT[DED_ERR] to isolate the 64b chunk of data in error. */
+#else /* Word 0 - Little Endian */
+        uint64_t fcol                  : 14; /**< [ 13:  0](RO/H) Failing column address <13:0>. Technically, represents the address of the 64b data that
+                                                                 had an ECC error, i.e., FCOL[0] is always 0. Can be used in conjunction with
+                                                                 LMC()_INT[DED_ERR] to isolate the 64b chunk of data in error. */
+        uint64_t frow                  : 18; /**< [ 31: 14](RO/H) Failing row address. Bits <17:0>. */
+        uint64_t fbank                 : 4;  /**< [ 35: 32](RO/H) Failing bank number. Bits <3:0>. */
+        uint64_t fbunk                 : 1;  /**< [ 36: 36](RO/H) Failing rank number. */
+        uint64_t fdimm                 : 1;  /**< [ 37: 37](RO/H) Failing DIMM number. */
+        uint64_t fill_order            : 2;  /**< [ 39: 38](RO/H) Fill order for failing transaction. */
+        uint64_t fcid                  : 3;  /**< [ 42: 40](RO/H) Reserved.
+                                                                 Internal:
+                                                                 Failing CID number. This field is only valid when interfacing with 3DS DRAMs (i.e., when
+                                                                 LMC()_EXT_CONFIG[DIMM0_CID] is nonzero). Returns a value of zero otherwise. */
+        uint64_t reserved_43_63        : 21;
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_lmcx_fadr_s cn88xx; */
+    /* struct bdk_lmcx_fadr_s cn83xx; */
 } bdk_lmcx_fadr_t;
 
 static inline uint64_t BDK_LMCX_FADR(unsigned long a) __attribute__ ((pure, always_inline));
@@ -6759,7 +7614,360 @@ typedef union
 #endif /* Word 0 - End */
     } cn88xxp1;
     /* struct bdk_lmcx_modereg_params1_s cn9; */
-    /* struct bdk_lmcx_modereg_params1_s cn81xx; */
+    struct bdk_lmcx_modereg_params1_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_55_63        : 9;
+        uint64_t rtt_wr_11_ext         : 1;  /**< [ 54: 54](R/W) Reserved.
+                                                                 Internal:
+                                                                 RTT_WR rank 3 extension bit for DDR4. */
+        uint64_t rtt_wr_10_ext         : 1;  /**< [ 53: 53](R/W) Reserved.
+                                                                 Internal:
+                                                                 RTT_WR rank 2 extension bit for DDR4. */
+        uint64_t rtt_wr_01_ext         : 1;  /**< [ 52: 52](R/W) RTT_WR rank 1 extension bit for DDR4. */
+        uint64_t rtt_wr_00_ext         : 1;  /**< [ 51: 51](R/W) RTT_WR rank 0 extension bit for DDR4. */
+        uint64_t db_output_impedance   : 3;  /**< [ 50: 48](R/W) Reserved.
+                                                                 Internal:
+                                                                 Host Interface DQ/DQS Output Driver Impedance control for DIMM0's Data Buffer.
+                                                                 This is the default value used during Host Interface Write Leveling in LRDIMM
+                                                                 environment, i.e., LMC()_CONFIG[LRDIMM_ENA] = 1, LMC()_SEQ_CTL[SEQ_SEL] = 0x6.
+                                                                 0x0 = RZQ/6 (40 ohm).
+                                                                 0x1 = RZQ/7 (34 ohm).
+                                                                 0x2 = RZQ/5 (48 ohm).
+                                                                 0x3-0x7 = Reserved. */
+        uint64_t rtt_nom_11            : 3;  /**< [ 47: 45](R/W) Reserved.
+                                                                 Internal:
+                                                                 RTT_NOM rank 3. LMC writes this value to MR1[RTT_NOM] in the rank 3 (i.e. DIMM1_CS1) DDR3
+                                                                 parts when selected during power-up/init, write-leveling, and, if
+                                                                 LMC()_CONFIG[SREF_WITH_DLL] is set, self-refresh entry and exit instruction sequences.
+                                                                 See LMC()_SEQ_CTL[SEQ_SEL,INIT_START] and LMC()_CONFIG[RANKMASK] and
+                                                                 LMC()_RESET_CTL[DDR3PWARM,DDR3PSOFT]. Per JEDEC DDR3 specifications, if RTT_NOM is
+                                                                 used during write operations, only values MR1[RTT_NOM] = 1 (RZQ/4), 2 (RZQ/2), or 3
+                                                                 (RZQ/6) are allowed. Otherwise, values MR1[RTT_NOM] = 4 (RZQ/12) and 5 (RZQ/8) are also
+                                                                 allowed. */
+        uint64_t dic_11                : 2;  /**< [ 44: 43](R/W) Reserved.
+                                                                 Internal:
+                                                                 Output driver impedance control rank 3. LMC writes this value to MR1[D.I.C.] in the rank 3
+                                                                 (i.e. DIMM1_CS1) DDR3 parts when selected during power-up/init, write-leveling, and, if
+                                                                 LMC()_CONFIG[SREF_WITH_DLL] is set, self-refresh entry and exit instruction sequences.
+                                                                 See LMC()_SEQ_CTL[SEQ_SEL,INIT_START] and LMC()_CONFIG[RANKMASK] and
+                                                                 LMC()_RESET_CTL[DDR3PWARM, DDR3PSOFT]. */
+        uint64_t rtt_wr_11             : 2;  /**< [ 42: 41](R/W) Reserved.
+                                                                 Internal:
+                                                                 RTT_WR rank 3. LMC writes this value to MR2[Rtt_WR] in the rank 3 (i.e. DIMM1_CS1) DDR3
+                                                                 parts when selected during power-up/init, write-leveling, and, if LMC()_CONFIG
+                                                                 [SREF_WITH_DLL] is set, self-refresh entry and exit instruction sequences. See
+                                                                 LMC()_SEQ_CTL[SEQ_SEL,INIT_START] and LMC()_CONFIG[RANKMASK] and
+                                                                 LMC()_RESET_CTL [DDR3PWARM,DDR3PSOFT]. */
+        uint64_t srt_11                : 1;  /**< [ 40: 40](R/W) Reserved.
+                                                                 Internal:
+                                                                 Self-refresh temperature range rank 3. LMC writes this value to MR2[SRT] in the rank 3
+                                                                 (i.e. DIMM1_CS1) DDR3 parts when selected during power-up/init, write-leveling, and, if
+                                                                 LMC()_CONFIG[SREF_WITH_DLL] is set, self-refresh entry and exit instruction sequences.
+                                                                 See LMC()_SEQ_CTL[SEQ_SEL,INIT_START], LMC()_CONFIG[RANKMASK] and
+                                                                 LMC()_RESET_CTL[DDR3PWARM,DDR3PSOFT]. */
+        uint64_t asr_11                : 1;  /**< [ 39: 39](R/W) Reserved.
+                                                                 Internal:
+                                                                 Auto self-refresh rank 3. LMC writes this value to MR2[ASR] in the rank 3 (i.e. DIMM1_CS1)
+                                                                 DDR3 parts when selected during power-up/init, write-leveling, and, if LMC()_CONFIG
+                                                                 [SREF_WITH_DLL] is set, self-refresh entry and exit instruction sequences. See
+                                                                 LMC()_SEQ_CTL[SEQ_SEL,INIT_START], LMC()_CONFIG[RANKMASK] and
+                                                                 LMC()_RESET_CTL[DDR3PWARM,DDR3PSOFT]. */
+        uint64_t pasr_11               : 3;  /**< [ 38: 36](R/W) Reserved.
+                                                                 Internal:
+                                                                 Partial array self-refresh rank 3. LMC writes this value to MR2[PASR] in the rank 3 (i.e.
+                                                                 DIMM1_CS1) DDR3 parts when selected during power-up/init, write-leveling, and, if
+                                                                 LMC()_CONFIG[SREF_WITH_DLL] is set, self-refresh entry and exit instruction sequences.
+                                                                 See LMC()_SEQ_CTL[SEQ_SEL,INIT_START] and LMC()_CONFIG[RANKMASK] and
+                                                                 LMC()_RESET_CTL[DDR3PWARM,DDR3PSOFT]. */
+        uint64_t rtt_nom_10            : 3;  /**< [ 35: 33](R/W) Reserved.
+                                                                 Internal:
+                                                                 RTT_NOM rank 2. LMC writes this value to MR1[Rtt_Nom] in the rank 2 (i.e. DIMM1_CS0) DDR3
+                                                                 parts when selected during power-up/init, write-leveling, and, if LMC()_CONFIG
+                                                                 [SREF_WITH_DLL] is set, self-refresh entry and exit instruction sequences. See
+                                                                 LMC()_SEQ_CTL[SEQ_SEL,INIT_START] and LMC()_CONFIG[RANKMASK] and
+                                                                 LMC()_RESET_CTL [DDR3PWARM, DDR3PSOFT]. Per JEDEC DDR3 specifications, if RTT_NOM
+                                                                 is used during write operations, only values MR1[RTT_NOM] = 1 (RZQ/4), 2 (RZQ/2), or
+                                                                 3 (RZQ/6) are allowed. Otherwise, values MR1[RTT_NOM] = 4 (RZQ/12) and 5 (RZQ/8) are
+                                                                 also allowed. */
+        uint64_t dic_10                : 2;  /**< [ 32: 31](R/W) Reserved.
+                                                                 Internal:
+                                                                 Output driver impedance control rank 2. LMC writes this value to MR1[D.I.C.] in the rank 2
+                                                                 (i.e. DIMM1_CS0) DDR3 parts when selected during power-up/init, write-leveling, and, if
+                                                                 LMC()_CONFIG[SREF_WITH_DLL] is set, self-refresh entry and exit instruction sequences.
+                                                                 See LMC()_SEQ_CTL[SEQ_SEL,INIT_START] and LMC()_CONFIG[RANKMASK] and
+                                                                 LMC()_RESET_CTL[DDR3PWARM,DDR3PSOFT]. */
+        uint64_t rtt_wr_10             : 2;  /**< [ 30: 29](R/W) Reserved.
+                                                                 Internal:
+                                                                 RTT_WR rank 2. LMC writes this value to MR2[Rtt_WR] in the rank 2 (i.e. DIMM1_CS0) DDR3
+                                                                 parts when selected during power-up/init, write-leveling, and, if LMC()_CONFIG
+                                                                 [SREF_WITH_DLL] is set, self-refresh entry and exit instruction sequences. See
+                                                                 LMC()_SEQ_CTL[SEQ_SEL,INIT_START] and LMC()_CONFIG[RANKMASK] and
+                                                                 LMC()_RESET_CTL[DDR3PWARM, DDR3PSOFT]. */
+        uint64_t srt_10                : 1;  /**< [ 28: 28](R/W) Reserved.
+                                                                 Internal:
+                                                                 Self-refresh temperature range rank 2. LMC writes this value to MR2[SRT] in the rank 2
+                                                                 (i.e. DIMM1_CS0) DDR3 parts when selected during power-up/init, write-leveling, and, if
+                                                                 LMC()_CONFIG[SREF_WITH_DLL] is set, self-refresh entry and exit instruction sequences.
+                                                                 See LMC()_SEQ_CTL[SEQ_SEL,INIT_START] and LMC()_CONFIG[RANKMASK] and
+                                                                 LMC()_RESET_CTL[DDR3PWARM,DDR3PSOFT]. */
+        uint64_t asr_10                : 1;  /**< [ 27: 27](R/W) Reserved.
+                                                                 Internal:
+                                                                 Auto self-refresh rank 2. LMC writes this value to MR2[ASR] in the rank 2 (i.e. DIMM1_CS0)
+                                                                 DDR3 parts when selected during power-up/init, write-leveling, and, if LMC()_CONFIG
+                                                                 [SREF_WITH_DLL] is set, self-refresh entry and exit instruction sequences. See
+                                                                 LMC()_SEQ_CTL[SEQ_SEL,INIT_START] and LMC()_CONFIG[RANKMASK] and
+                                                                 LMC()_RESET_CTL[DDR3PWARM, DDR3PSOFT]. */
+        uint64_t pasr_10               : 3;  /**< [ 26: 24](R/W) Reserved.
+                                                                 Internal:
+                                                                 Partial array self-refresh rank 2. LMC writes this value to MR2[PASR] in the rank 2 (i.e.
+                                                                 DIMM1_CS0) DDR3 parts when selected during power-up/init, write-leveling, and, if
+                                                                 LMC()_CONFIG[SREF_WITH_DLL] is set, self-refresh entry and exit instruction sequences.
+                                                                 See LMC()_SEQ_CTL[SEQ_SEL,INIT_START] and LMC()_CONFIG[RANKMASK] and
+                                                                 LMC()_RESET_CTL[DDR3PWARM,DDR3PSOFT]. */
+        uint64_t rtt_nom_01            : 3;  /**< [ 23: 21](R/W) RTT_NOM rank 1. LMC writes this value to MR1[RTT_NOM] in the rank 1 (i.e. DIMM0_CS1) DDR3
+                                                                 parts when selected during power-up/init, write-leveling, and, if
+                                                                 LMC()_CONFIG[SREF_WITH_DLL] is set, self-refresh entry and exit instruction sequences.
+                                                                 See LMC()_SEQ_CTL[SEQ_SEL,INIT_START] and LMC()_CONFIG[RANKMASK] and
+                                                                 LMC()_RESET_CTL[DDR3PWARM,DDR3PSOFT]. Per JEDEC DDR3 specifications, if RTT_NOM is
+                                                                 used during write operations, only values MR1[RTT_NOM] = 1 (RZQ/4), 2 (RZQ/2), or 3
+                                                                 (RZQ/6) are allowed. Otherwise, values MR1[RTT_NOM] = 4 (RZQ/12) and 5 (RZQ/8) are also
+                                                                 allowed. */
+        uint64_t dic_01                : 2;  /**< [ 20: 19](R/W) Output driver impedance control rank 1. LMC writes this value to MR1[D.I.C.] in the rank 1
+                                                                 (i.e. DIMM0_CS1) DDR3 parts when selected during power-up/init, write-leveling, and, if
+                                                                 LMC()_CONFIG[SREF_WITH_DLL] is set, self-refresh entry and exit instruction sequences.
+                                                                 See LMC()_SEQ_CTL[SEQ_SEL,INIT_START] and LMC()_CONFIG[RANKMASK] and
+                                                                 LMC()_RESET_CTL[DDR3PWARM,DDR3PSOFT]. */
+        uint64_t rtt_wr_01             : 2;  /**< [ 18: 17](R/W) RTT_WR rank 1. LMC writes this value to MR2[RTT_WR] in the rank 1 (i.e. DIMM0_CS1) DDR3
+                                                                 parts when selected during power-up/init, write-leveling, and, if LMC()_CONFIG
+                                                                 [SREF_WITH_DLL] is set, self-refresh entry and exit instruction sequences. See
+                                                                 LMC()_SEQ_CTL[SEQ_SEL,INIT_START] and LMC()_CONFIG[RANKMASK] and
+                                                                 LMC()_RESET_CTL[DDR3PWARM, DDR3PSOFT]. */
+        uint64_t srt_01                : 1;  /**< [ 16: 16](R/W) Self-refresh temperature range rank 1. LMC writes this value to MR2[SRT] in the rank 1
+                                                                 (i.e. DIMM0_CS1) DDR3 parts when selected during power-up/init, write-leveling, and, if
+                                                                 LMC()_CONFIG[SREF_WITH_DLL] is set, self-refresh entry and exit instruction sequences.
+                                                                 See LMC()_SEQ_CTL[SEQ_SEL,INIT_START] and LMC()_CONFIG[RANKMASK] and
+                                                                 LMC()_RESET_CTL[DDR3PWARM,DDR3PSOFT]. */
+        uint64_t asr_01                : 1;  /**< [ 15: 15](R/W) Auto self-refresh rank 1. LMC writes this value to MR2[ASR] in the rank 1 (i.e. DIMM0_CS1)
+                                                                 DDR3 parts when selected during power-up/init, write-leveling, and, if LMC()_CONFIG
+                                                                 [SREF_WITH_DLL] is set, self-refresh entry and exit instruction sequences. See
+                                                                 LMC()_SEQ_CTL[SEQ_SEL,INIT_START] and LMC()_CONFIG[RANKMASK] and
+                                                                 LMC()_RESET_CTL[DDR3PWARM, DDR3PSOFT]. */
+        uint64_t pasr_01               : 3;  /**< [ 14: 12](R/W) Partial array self-refresh rank 1. LMC writes this value to MR2[PASR] in the rank 1 (i.e.
+                                                                 DIMM0_CS1) DDR3 parts when selected during power-up/init, write-leveling, and, if
+                                                                 LMC()_CONFIG[SREF_WITH_DLL] is set, self-refresh entry and exit instruction sequences.
+                                                                 See LMC()_SEQ_CTL[SEQ_SEL,INIT_START] and LMC()_CONFIG[RANKMASK] and
+                                                                 LMC()_RESET_CTL[DDR3PWARM,DDR3PSOFT]. */
+        uint64_t rtt_nom_00            : 3;  /**< [ 11:  9](R/W) RTT_NOM rank 0. LMC writes this value to MR1[RTT_NOM] in the rank 0 (i.e. DIMM0_CS0) DDR3
+                                                                 parts when selected during power-up/init, write-leveling, and, if LMC()_CONFIG
+                                                                 [SREF_WITH_DLL] is set, self-refresh entry and exit instruction sequences. See
+                                                                 LMC()_SEQ_CTL[SEQ_SEL,INIT_START] and LMC()_CONFIG[RANKMASK] and
+                                                                 LMC()_RESET_CTL[DDR3PWARM, DDR3PSOFT]. Per JEDEC DDR3 specifications, if RTT_NOM is
+                                                                 used during write operations, only values MR1[RTT_NOM] = 1 (RZQ/4), 2 (RZQ/2),
+                                                                 or 3 (RZQ/6) are allowed. Otherwise, values MR1[RTT_NOM] = 4 (RZQ/12) and 5 (RZQ/8)
+                                                                 are also allowed. */
+        uint64_t dic_00                : 2;  /**< [  8:  7](R/W) Output driver impedance control rank 0. LMC writes this value to MR1[D.I.C.] in the rank 0
+                                                                 (i.e. DIMM0_CS0) DDR3 parts when selected during power-up/init, write-leveling, and, if
+                                                                 LMC()_CONFIG[SREF_WITH_DLL] is set, self-refresh entry and exit instruction sequences.
+                                                                 See LMC()_SEQ_CTL[SEQ_SEL,INIT_START] and LMC()_CONFIG[RANKMASK] and
+                                                                 LMC()_RESET_CTL[DDR3PWARM,DDR3PSOFT]. */
+        uint64_t rtt_wr_00             : 2;  /**< [  6:  5](R/W) RTT_WR rank 0. LMC writes this value to MR2[RTT_WR] in the rank 0 (i.e. DIMM0_CS0) DDR3
+                                                                 parts when selected during power-up/init, write-leveling, and, if LMC()_CONFIG
+                                                                 [SREF_WITH_DLL] is set, self-refresh entry and exit instruction sequences. See
+                                                                 LMC()_SEQ_CTL[SEQ_SEL,INIT_START] and LMC()_CONFIG[RANKMASK] and
+                                                                 LMC()_RESET_CTL[DDR3PWARM, DDR3PSOFT]. */
+        uint64_t srt_00                : 1;  /**< [  4:  4](R/W) Self-refresh temperature range rank 0. LMC writes this value to MR2[SRT] in the rank 0
+                                                                 (i.e. DIMM0_CS0) DDR3 parts when selected during power-up/init, write-leveling, and, if
+                                                                 LMC()_CONFIG[SREF_WITH_DLL] is set, self-refresh entry and exit instruction sequences.
+                                                                 See LMC()_SEQ_CTL[SEQ_SEL,INIT_START] and LMC()_CONFIG[RANKMASK] and
+                                                                 LMC()_RESET_CTL[DDR3PWARM,DDR3PSOFT]. */
+        uint64_t asr_00                : 1;  /**< [  3:  3](R/W) Auto self-refresh rank 0. LMC writes this value to MR2[ASR] in the rank 0 (i.e. DIMM0_CS0)
+                                                                 DDR3 parts when selected during power-up/init, write-leveling, and, if LMC()_CONFIG
+                                                                 [SREF_WITH_DLL] is set, self-refresh entry and exit instruction sequences. See
+                                                                 LMC()_SEQ_CTL[SEQ_SEL,INIT_START] and LMC()_CONFIG[RANKMASK] and
+                                                                 LMC()_RESET_CTL [DDR3PWARM,DDR3PSOFT]. */
+        uint64_t pasr_00               : 3;  /**< [  2:  0](R/W) Partial array self-refresh rank 0. LMC writes this value to MR2[PASR] in the rank 0 (i.e.
+                                                                 DIMM0_CS0) DDR3 parts when selected during power-up/init, write-leveling, and, if
+                                                                 LMC()_CONFIG[SREF_WITH_DLL] is set, self-refresh entry and exit instruction sequences.
+                                                                 See LMC()_SEQ_CTL[SEQ_SEL,INIT_START] and LMC()_CONFIG[RANKMASK] and
+                                                                 LMC()_RESET_CTL[DDR3PWARM,DDR3PSOFT]. */
+#else /* Word 0 - Little Endian */
+        uint64_t pasr_00               : 3;  /**< [  2:  0](R/W) Partial array self-refresh rank 0. LMC writes this value to MR2[PASR] in the rank 0 (i.e.
+                                                                 DIMM0_CS0) DDR3 parts when selected during power-up/init, write-leveling, and, if
+                                                                 LMC()_CONFIG[SREF_WITH_DLL] is set, self-refresh entry and exit instruction sequences.
+                                                                 See LMC()_SEQ_CTL[SEQ_SEL,INIT_START] and LMC()_CONFIG[RANKMASK] and
+                                                                 LMC()_RESET_CTL[DDR3PWARM,DDR3PSOFT]. */
+        uint64_t asr_00                : 1;  /**< [  3:  3](R/W) Auto self-refresh rank 0. LMC writes this value to MR2[ASR] in the rank 0 (i.e. DIMM0_CS0)
+                                                                 DDR3 parts when selected during power-up/init, write-leveling, and, if LMC()_CONFIG
+                                                                 [SREF_WITH_DLL] is set, self-refresh entry and exit instruction sequences. See
+                                                                 LMC()_SEQ_CTL[SEQ_SEL,INIT_START] and LMC()_CONFIG[RANKMASK] and
+                                                                 LMC()_RESET_CTL [DDR3PWARM,DDR3PSOFT]. */
+        uint64_t srt_00                : 1;  /**< [  4:  4](R/W) Self-refresh temperature range rank 0. LMC writes this value to MR2[SRT] in the rank 0
+                                                                 (i.e. DIMM0_CS0) DDR3 parts when selected during power-up/init, write-leveling, and, if
+                                                                 LMC()_CONFIG[SREF_WITH_DLL] is set, self-refresh entry and exit instruction sequences.
+                                                                 See LMC()_SEQ_CTL[SEQ_SEL,INIT_START] and LMC()_CONFIG[RANKMASK] and
+                                                                 LMC()_RESET_CTL[DDR3PWARM,DDR3PSOFT]. */
+        uint64_t rtt_wr_00             : 2;  /**< [  6:  5](R/W) RTT_WR rank 0. LMC writes this value to MR2[RTT_WR] in the rank 0 (i.e. DIMM0_CS0) DDR3
+                                                                 parts when selected during power-up/init, write-leveling, and, if LMC()_CONFIG
+                                                                 [SREF_WITH_DLL] is set, self-refresh entry and exit instruction sequences. See
+                                                                 LMC()_SEQ_CTL[SEQ_SEL,INIT_START] and LMC()_CONFIG[RANKMASK] and
+                                                                 LMC()_RESET_CTL[DDR3PWARM, DDR3PSOFT]. */
+        uint64_t dic_00                : 2;  /**< [  8:  7](R/W) Output driver impedance control rank 0. LMC writes this value to MR1[D.I.C.] in the rank 0
+                                                                 (i.e. DIMM0_CS0) DDR3 parts when selected during power-up/init, write-leveling, and, if
+                                                                 LMC()_CONFIG[SREF_WITH_DLL] is set, self-refresh entry and exit instruction sequences.
+                                                                 See LMC()_SEQ_CTL[SEQ_SEL,INIT_START] and LMC()_CONFIG[RANKMASK] and
+                                                                 LMC()_RESET_CTL[DDR3PWARM,DDR3PSOFT]. */
+        uint64_t rtt_nom_00            : 3;  /**< [ 11:  9](R/W) RTT_NOM rank 0. LMC writes this value to MR1[RTT_NOM] in the rank 0 (i.e. DIMM0_CS0) DDR3
+                                                                 parts when selected during power-up/init, write-leveling, and, if LMC()_CONFIG
+                                                                 [SREF_WITH_DLL] is set, self-refresh entry and exit instruction sequences. See
+                                                                 LMC()_SEQ_CTL[SEQ_SEL,INIT_START] and LMC()_CONFIG[RANKMASK] and
+                                                                 LMC()_RESET_CTL[DDR3PWARM, DDR3PSOFT]. Per JEDEC DDR3 specifications, if RTT_NOM is
+                                                                 used during write operations, only values MR1[RTT_NOM] = 1 (RZQ/4), 2 (RZQ/2),
+                                                                 or 3 (RZQ/6) are allowed. Otherwise, values MR1[RTT_NOM] = 4 (RZQ/12) and 5 (RZQ/8)
+                                                                 are also allowed. */
+        uint64_t pasr_01               : 3;  /**< [ 14: 12](R/W) Partial array self-refresh rank 1. LMC writes this value to MR2[PASR] in the rank 1 (i.e.
+                                                                 DIMM0_CS1) DDR3 parts when selected during power-up/init, write-leveling, and, if
+                                                                 LMC()_CONFIG[SREF_WITH_DLL] is set, self-refresh entry and exit instruction sequences.
+                                                                 See LMC()_SEQ_CTL[SEQ_SEL,INIT_START] and LMC()_CONFIG[RANKMASK] and
+                                                                 LMC()_RESET_CTL[DDR3PWARM,DDR3PSOFT]. */
+        uint64_t asr_01                : 1;  /**< [ 15: 15](R/W) Auto self-refresh rank 1. LMC writes this value to MR2[ASR] in the rank 1 (i.e. DIMM0_CS1)
+                                                                 DDR3 parts when selected during power-up/init, write-leveling, and, if LMC()_CONFIG
+                                                                 [SREF_WITH_DLL] is set, self-refresh entry and exit instruction sequences. See
+                                                                 LMC()_SEQ_CTL[SEQ_SEL,INIT_START] and LMC()_CONFIG[RANKMASK] and
+                                                                 LMC()_RESET_CTL[DDR3PWARM, DDR3PSOFT]. */
+        uint64_t srt_01                : 1;  /**< [ 16: 16](R/W) Self-refresh temperature range rank 1. LMC writes this value to MR2[SRT] in the rank 1
+                                                                 (i.e. DIMM0_CS1) DDR3 parts when selected during power-up/init, write-leveling, and, if
+                                                                 LMC()_CONFIG[SREF_WITH_DLL] is set, self-refresh entry and exit instruction sequences.
+                                                                 See LMC()_SEQ_CTL[SEQ_SEL,INIT_START] and LMC()_CONFIG[RANKMASK] and
+                                                                 LMC()_RESET_CTL[DDR3PWARM,DDR3PSOFT]. */
+        uint64_t rtt_wr_01             : 2;  /**< [ 18: 17](R/W) RTT_WR rank 1. LMC writes this value to MR2[RTT_WR] in the rank 1 (i.e. DIMM0_CS1) DDR3
+                                                                 parts when selected during power-up/init, write-leveling, and, if LMC()_CONFIG
+                                                                 [SREF_WITH_DLL] is set, self-refresh entry and exit instruction sequences. See
+                                                                 LMC()_SEQ_CTL[SEQ_SEL,INIT_START] and LMC()_CONFIG[RANKMASK] and
+                                                                 LMC()_RESET_CTL[DDR3PWARM, DDR3PSOFT]. */
+        uint64_t dic_01                : 2;  /**< [ 20: 19](R/W) Output driver impedance control rank 1. LMC writes this value to MR1[D.I.C.] in the rank 1
+                                                                 (i.e. DIMM0_CS1) DDR3 parts when selected during power-up/init, write-leveling, and, if
+                                                                 LMC()_CONFIG[SREF_WITH_DLL] is set, self-refresh entry and exit instruction sequences.
+                                                                 See LMC()_SEQ_CTL[SEQ_SEL,INIT_START] and LMC()_CONFIG[RANKMASK] and
+                                                                 LMC()_RESET_CTL[DDR3PWARM,DDR3PSOFT]. */
+        uint64_t rtt_nom_01            : 3;  /**< [ 23: 21](R/W) RTT_NOM rank 1. LMC writes this value to MR1[RTT_NOM] in the rank 1 (i.e. DIMM0_CS1) DDR3
+                                                                 parts when selected during power-up/init, write-leveling, and, if
+                                                                 LMC()_CONFIG[SREF_WITH_DLL] is set, self-refresh entry and exit instruction sequences.
+                                                                 See LMC()_SEQ_CTL[SEQ_SEL,INIT_START] and LMC()_CONFIG[RANKMASK] and
+                                                                 LMC()_RESET_CTL[DDR3PWARM,DDR3PSOFT]. Per JEDEC DDR3 specifications, if RTT_NOM is
+                                                                 used during write operations, only values MR1[RTT_NOM] = 1 (RZQ/4), 2 (RZQ/2), or 3
+                                                                 (RZQ/6) are allowed. Otherwise, values MR1[RTT_NOM] = 4 (RZQ/12) and 5 (RZQ/8) are also
+                                                                 allowed. */
+        uint64_t pasr_10               : 3;  /**< [ 26: 24](R/W) Reserved.
+                                                                 Internal:
+                                                                 Partial array self-refresh rank 2. LMC writes this value to MR2[PASR] in the rank 2 (i.e.
+                                                                 DIMM1_CS0) DDR3 parts when selected during power-up/init, write-leveling, and, if
+                                                                 LMC()_CONFIG[SREF_WITH_DLL] is set, self-refresh entry and exit instruction sequences.
+                                                                 See LMC()_SEQ_CTL[SEQ_SEL,INIT_START] and LMC()_CONFIG[RANKMASK] and
+                                                                 LMC()_RESET_CTL[DDR3PWARM,DDR3PSOFT]. */
+        uint64_t asr_10                : 1;  /**< [ 27: 27](R/W) Reserved.
+                                                                 Internal:
+                                                                 Auto self-refresh rank 2. LMC writes this value to MR2[ASR] in the rank 2 (i.e. DIMM1_CS0)
+                                                                 DDR3 parts when selected during power-up/init, write-leveling, and, if LMC()_CONFIG
+                                                                 [SREF_WITH_DLL] is set, self-refresh entry and exit instruction sequences. See
+                                                                 LMC()_SEQ_CTL[SEQ_SEL,INIT_START] and LMC()_CONFIG[RANKMASK] and
+                                                                 LMC()_RESET_CTL[DDR3PWARM, DDR3PSOFT]. */
+        uint64_t srt_10                : 1;  /**< [ 28: 28](R/W) Reserved.
+                                                                 Internal:
+                                                                 Self-refresh temperature range rank 2. LMC writes this value to MR2[SRT] in the rank 2
+                                                                 (i.e. DIMM1_CS0) DDR3 parts when selected during power-up/init, write-leveling, and, if
+                                                                 LMC()_CONFIG[SREF_WITH_DLL] is set, self-refresh entry and exit instruction sequences.
+                                                                 See LMC()_SEQ_CTL[SEQ_SEL,INIT_START] and LMC()_CONFIG[RANKMASK] and
+                                                                 LMC()_RESET_CTL[DDR3PWARM,DDR3PSOFT]. */
+        uint64_t rtt_wr_10             : 2;  /**< [ 30: 29](R/W) Reserved.
+                                                                 Internal:
+                                                                 RTT_WR rank 2. LMC writes this value to MR2[Rtt_WR] in the rank 2 (i.e. DIMM1_CS0) DDR3
+                                                                 parts when selected during power-up/init, write-leveling, and, if LMC()_CONFIG
+                                                                 [SREF_WITH_DLL] is set, self-refresh entry and exit instruction sequences. See
+                                                                 LMC()_SEQ_CTL[SEQ_SEL,INIT_START] and LMC()_CONFIG[RANKMASK] and
+                                                                 LMC()_RESET_CTL[DDR3PWARM, DDR3PSOFT]. */
+        uint64_t dic_10                : 2;  /**< [ 32: 31](R/W) Reserved.
+                                                                 Internal:
+                                                                 Output driver impedance control rank 2. LMC writes this value to MR1[D.I.C.] in the rank 2
+                                                                 (i.e. DIMM1_CS0) DDR3 parts when selected during power-up/init, write-leveling, and, if
+                                                                 LMC()_CONFIG[SREF_WITH_DLL] is set, self-refresh entry and exit instruction sequences.
+                                                                 See LMC()_SEQ_CTL[SEQ_SEL,INIT_START] and LMC()_CONFIG[RANKMASK] and
+                                                                 LMC()_RESET_CTL[DDR3PWARM,DDR3PSOFT]. */
+        uint64_t rtt_nom_10            : 3;  /**< [ 35: 33](R/W) Reserved.
+                                                                 Internal:
+                                                                 RTT_NOM rank 2. LMC writes this value to MR1[Rtt_Nom] in the rank 2 (i.e. DIMM1_CS0) DDR3
+                                                                 parts when selected during power-up/init, write-leveling, and, if LMC()_CONFIG
+                                                                 [SREF_WITH_DLL] is set, self-refresh entry and exit instruction sequences. See
+                                                                 LMC()_SEQ_CTL[SEQ_SEL,INIT_START] and LMC()_CONFIG[RANKMASK] and
+                                                                 LMC()_RESET_CTL [DDR3PWARM, DDR3PSOFT]. Per JEDEC DDR3 specifications, if RTT_NOM
+                                                                 is used during write operations, only values MR1[RTT_NOM] = 1 (RZQ/4), 2 (RZQ/2), or
+                                                                 3 (RZQ/6) are allowed. Otherwise, values MR1[RTT_NOM] = 4 (RZQ/12) and 5 (RZQ/8) are
+                                                                 also allowed. */
+        uint64_t pasr_11               : 3;  /**< [ 38: 36](R/W) Reserved.
+                                                                 Internal:
+                                                                 Partial array self-refresh rank 3. LMC writes this value to MR2[PASR] in the rank 3 (i.e.
+                                                                 DIMM1_CS1) DDR3 parts when selected during power-up/init, write-leveling, and, if
+                                                                 LMC()_CONFIG[SREF_WITH_DLL] is set, self-refresh entry and exit instruction sequences.
+                                                                 See LMC()_SEQ_CTL[SEQ_SEL,INIT_START] and LMC()_CONFIG[RANKMASK] and
+                                                                 LMC()_RESET_CTL[DDR3PWARM,DDR3PSOFT]. */
+        uint64_t asr_11                : 1;  /**< [ 39: 39](R/W) Reserved.
+                                                                 Internal:
+                                                                 Auto self-refresh rank 3. LMC writes this value to MR2[ASR] in the rank 3 (i.e. DIMM1_CS1)
+                                                                 DDR3 parts when selected during power-up/init, write-leveling, and, if LMC()_CONFIG
+                                                                 [SREF_WITH_DLL] is set, self-refresh entry and exit instruction sequences. See
+                                                                 LMC()_SEQ_CTL[SEQ_SEL,INIT_START], LMC()_CONFIG[RANKMASK] and
+                                                                 LMC()_RESET_CTL[DDR3PWARM,DDR3PSOFT]. */
+        uint64_t srt_11                : 1;  /**< [ 40: 40](R/W) Reserved.
+                                                                 Internal:
+                                                                 Self-refresh temperature range rank 3. LMC writes this value to MR2[SRT] in the rank 3
+                                                                 (i.e. DIMM1_CS1) DDR3 parts when selected during power-up/init, write-leveling, and, if
+                                                                 LMC()_CONFIG[SREF_WITH_DLL] is set, self-refresh entry and exit instruction sequences.
+                                                                 See LMC()_SEQ_CTL[SEQ_SEL,INIT_START], LMC()_CONFIG[RANKMASK] and
+                                                                 LMC()_RESET_CTL[DDR3PWARM,DDR3PSOFT]. */
+        uint64_t rtt_wr_11             : 2;  /**< [ 42: 41](R/W) Reserved.
+                                                                 Internal:
+                                                                 RTT_WR rank 3. LMC writes this value to MR2[Rtt_WR] in the rank 3 (i.e. DIMM1_CS1) DDR3
+                                                                 parts when selected during power-up/init, write-leveling, and, if LMC()_CONFIG
+                                                                 [SREF_WITH_DLL] is set, self-refresh entry and exit instruction sequences. See
+                                                                 LMC()_SEQ_CTL[SEQ_SEL,INIT_START] and LMC()_CONFIG[RANKMASK] and
+                                                                 LMC()_RESET_CTL [DDR3PWARM,DDR3PSOFT]. */
+        uint64_t dic_11                : 2;  /**< [ 44: 43](R/W) Reserved.
+                                                                 Internal:
+                                                                 Output driver impedance control rank 3. LMC writes this value to MR1[D.I.C.] in the rank 3
+                                                                 (i.e. DIMM1_CS1) DDR3 parts when selected during power-up/init, write-leveling, and, if
+                                                                 LMC()_CONFIG[SREF_WITH_DLL] is set, self-refresh entry and exit instruction sequences.
+                                                                 See LMC()_SEQ_CTL[SEQ_SEL,INIT_START] and LMC()_CONFIG[RANKMASK] and
+                                                                 LMC()_RESET_CTL[DDR3PWARM, DDR3PSOFT]. */
+        uint64_t rtt_nom_11            : 3;  /**< [ 47: 45](R/W) Reserved.
+                                                                 Internal:
+                                                                 RTT_NOM rank 3. LMC writes this value to MR1[RTT_NOM] in the rank 3 (i.e. DIMM1_CS1) DDR3
+                                                                 parts when selected during power-up/init, write-leveling, and, if
+                                                                 LMC()_CONFIG[SREF_WITH_DLL] is set, self-refresh entry and exit instruction sequences.
+                                                                 See LMC()_SEQ_CTL[SEQ_SEL,INIT_START] and LMC()_CONFIG[RANKMASK] and
+                                                                 LMC()_RESET_CTL[DDR3PWARM,DDR3PSOFT]. Per JEDEC DDR3 specifications, if RTT_NOM is
+                                                                 used during write operations, only values MR1[RTT_NOM] = 1 (RZQ/4), 2 (RZQ/2), or 3
+                                                                 (RZQ/6) are allowed. Otherwise, values MR1[RTT_NOM] = 4 (RZQ/12) and 5 (RZQ/8) are also
+                                                                 allowed. */
+        uint64_t db_output_impedance   : 3;  /**< [ 50: 48](R/W) Reserved.
+                                                                 Internal:
+                                                                 Host Interface DQ/DQS Output Driver Impedance control for DIMM0's Data Buffer.
+                                                                 This is the default value used during Host Interface Write Leveling in LRDIMM
+                                                                 environment, i.e., LMC()_CONFIG[LRDIMM_ENA] = 1, LMC()_SEQ_CTL[SEQ_SEL] = 0x6.
+                                                                 0x0 = RZQ/6 (40 ohm).
+                                                                 0x1 = RZQ/7 (34 ohm).
+                                                                 0x2 = RZQ/5 (48 ohm).
+                                                                 0x3-0x7 = Reserved. */
+        uint64_t rtt_wr_00_ext         : 1;  /**< [ 51: 51](R/W) RTT_WR rank 0 extension bit for DDR4. */
+        uint64_t rtt_wr_01_ext         : 1;  /**< [ 52: 52](R/W) RTT_WR rank 1 extension bit for DDR4. */
+        uint64_t rtt_wr_10_ext         : 1;  /**< [ 53: 53](R/W) Reserved.
+                                                                 Internal:
+                                                                 RTT_WR rank 2 extension bit for DDR4. */
+        uint64_t rtt_wr_11_ext         : 1;  /**< [ 54: 54](R/W) Reserved.
+                                                                 Internal:
+                                                                 RTT_WR rank 3 extension bit for DDR4. */
+        uint64_t reserved_55_63        : 9;
+#endif /* Word 0 - End */
+    } cn81xx;
     /* struct bdk_lmcx_modereg_params1_s cn83xx; */
     /* struct bdk_lmcx_modereg_params1_s cn88xxp2; */
 } bdk_lmcx_modereg_params1_t;
@@ -7607,7 +8815,67 @@ typedef union
         uint64_t reserved_24_63        : 40;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_lmcx_nxm_s cn; */
+    /* struct bdk_lmcx_nxm_s cn9; */
+    struct bdk_lmcx_nxm_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_24_63        : 40;
+        uint64_t mem_msb_d1_r1         : 4;  /**< [ 23: 20](R/W) Reserved.
+                                                                 Internal:
+                                                                 Maximum row MSB for DIMM1, RANK1/DIMM1 in single ranked.
+                                                                 If DIMM1 is dual-sided, this should be set to
+                                                                 NXM[MEM_MSB_D1_R0]. If CONFIG[RANK_ENA] is cleared, this field is ignored. */
+        uint64_t mem_msb_d1_r0         : 4;  /**< [ 19: 16](R/W) Reserved.
+                                                                 Internal:
+                                                                 Maximum row MSB for DIMM1, RANK0.
+                                                                 if DIMM1 contains 3DS DRAMs, this would point to
+                                                                 the logical rank's most significant bit. */
+        uint64_t mem_msb_d0_r1         : 4;  /**< [ 15: 12](R/W) Maximum row MSB for DIMM0, RANK1/DIMM0 in single ranked.
+                                                                 If DIMM0 is dual-sided, this should be set to
+                                                                 NXM[MEM_MSB_D0_R0]. If CONFIG[RANK_ENA] is cleared, this field is ignored. */
+        uint64_t mem_msb_d0_r0         : 4;  /**< [ 11:  8](R/W) Maximum row MSB for DIMM0, RANK0.
+                                                                 Internal:
+                                                                 If DIMM0 contains 3DS DRAMs, this would point to
+                                                                 the logical rank's most significant bit. */
+        uint64_t reserved_4_7          : 4;
+        uint64_t cs_mask               : 4;  /**< [  3:  0](R/W) Chip select mask. This mask corresponds to the four chip selects for a memory
+                                                                 configuration. If LMC()_CONFIG[RANK_ENA]=0 then this mask must be set in pairs because
+                                                                 each reference address will assert a pair of chip selects. If the chip select(s) have a
+                                                                 corresponding CS_MASK bit set, then the reference is to nonexistent memory (NXM). LMC will
+                                                                 alias a NXM read reference to use the lowest, legal chip select(s) and return zeros. LMC
+                                                                 normally discards NXM write operations, but will also alias them when LMC()_CONTROL
+                                                                 [NXM_WRITE_EN]=1. */
+#else /* Word 0 - Little Endian */
+        uint64_t cs_mask               : 4;  /**< [  3:  0](R/W) Chip select mask. This mask corresponds to the four chip selects for a memory
+                                                                 configuration. If LMC()_CONFIG[RANK_ENA]=0 then this mask must be set in pairs because
+                                                                 each reference address will assert a pair of chip selects. If the chip select(s) have a
+                                                                 corresponding CS_MASK bit set, then the reference is to nonexistent memory (NXM). LMC will
+                                                                 alias a NXM read reference to use the lowest, legal chip select(s) and return zeros. LMC
+                                                                 normally discards NXM write operations, but will also alias them when LMC()_CONTROL
+                                                                 [NXM_WRITE_EN]=1. */
+        uint64_t reserved_4_7          : 4;
+        uint64_t mem_msb_d0_r0         : 4;  /**< [ 11:  8](R/W) Maximum row MSB for DIMM0, RANK0.
+                                                                 Internal:
+                                                                 If DIMM0 contains 3DS DRAMs, this would point to
+                                                                 the logical rank's most significant bit. */
+        uint64_t mem_msb_d0_r1         : 4;  /**< [ 15: 12](R/W) Maximum row MSB for DIMM0, RANK1/DIMM0 in single ranked.
+                                                                 If DIMM0 is dual-sided, this should be set to
+                                                                 NXM[MEM_MSB_D0_R0]. If CONFIG[RANK_ENA] is cleared, this field is ignored. */
+        uint64_t mem_msb_d1_r0         : 4;  /**< [ 19: 16](R/W) Reserved.
+                                                                 Internal:
+                                                                 Maximum row MSB for DIMM1, RANK0.
+                                                                 if DIMM1 contains 3DS DRAMs, this would point to
+                                                                 the logical rank's most significant bit. */
+        uint64_t mem_msb_d1_r1         : 4;  /**< [ 23: 20](R/W) Reserved.
+                                                                 Internal:
+                                                                 Maximum row MSB for DIMM1, RANK1/DIMM1 in single ranked.
+                                                                 If DIMM1 is dual-sided, this should be set to
+                                                                 NXM[MEM_MSB_D1_R0]. If CONFIG[RANK_ENA] is cleared, this field is ignored. */
+        uint64_t reserved_24_63        : 40;
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_lmcx_nxm_s cn88xx; */
+    /* struct bdk_lmcx_nxm_s cn83xx; */
 } bdk_lmcx_nxm_t;
 
 static inline uint64_t BDK_LMCX_NXM(unsigned long a) __attribute__ ((pure, always_inline));
@@ -10050,7 +11318,47 @@ typedef union
         uint64_t reserved_28_63        : 36;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_lmcx_rodt_mask_s cn; */
+    /* struct bdk_lmcx_rodt_mask_s cn9; */
+    struct bdk_lmcx_rodt_mask_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_28_63        : 36;
+        uint64_t rodt_d1_r1            : 4;  /**< [ 27: 24](R/W) Reserved.
+                                                                 Internal:
+                                                                 Read ODT mask DIMM1, RANK1/DIMM1 in SingleRanked. If RANK_ENA=1, [RODT_D1_R1]<3> must be
+                                                                 zero. Otherwise [RODT_D1_R1]<3:0> is not used and must be zero. */
+        uint64_t reserved_20_23        : 4;
+        uint64_t rodt_d1_r0            : 4;  /**< [ 19: 16](R/W) Reserved.
+                                                                 Internal:
+                                                                 Read ODT mask DIMM1, RANK0. If RANK_ENA=1, [RODT_D1_RO]<2> must be zero. Otherwise,
+                                                                 [RODT_D1_RO]<3:2,1> must be zero. */
+        uint64_t reserved_12_15        : 4;
+        uint64_t rodt_d0_r1            : 4;  /**< [ 11:  8](R/W) Read ODT mask DIMM0, RANK1/DIMM0 in SingleRanked. If RANK_ENA=1, [RODT_D0_R1]<1> must be
+                                                                 zero. Otherwise, [RODT_D0_R1]<3:0> is not used and must be zero. */
+        uint64_t reserved_4_7          : 4;
+        uint64_t rodt_d0_r0            : 4;  /**< [  3:  0](R/W) Read ODT mask DIMM0, RANK0. If RANK_ENA=1, [RODT_D0_R0]<0> must be zero. Otherwise,
+                                                                 [RODT_D0_R0]<1:0,3> must be zero. */
+#else /* Word 0 - Little Endian */
+        uint64_t rodt_d0_r0            : 4;  /**< [  3:  0](R/W) Read ODT mask DIMM0, RANK0. If RANK_ENA=1, [RODT_D0_R0]<0> must be zero. Otherwise,
+                                                                 [RODT_D0_R0]<1:0,3> must be zero. */
+        uint64_t reserved_4_7          : 4;
+        uint64_t rodt_d0_r1            : 4;  /**< [ 11:  8](R/W) Read ODT mask DIMM0, RANK1/DIMM0 in SingleRanked. If RANK_ENA=1, [RODT_D0_R1]<1> must be
+                                                                 zero. Otherwise, [RODT_D0_R1]<3:0> is not used and must be zero. */
+        uint64_t reserved_12_15        : 4;
+        uint64_t rodt_d1_r0            : 4;  /**< [ 19: 16](R/W) Reserved.
+                                                                 Internal:
+                                                                 Read ODT mask DIMM1, RANK0. If RANK_ENA=1, [RODT_D1_RO]<2> must be zero. Otherwise,
+                                                                 [RODT_D1_RO]<3:2,1> must be zero. */
+        uint64_t reserved_20_23        : 4;
+        uint64_t rodt_d1_r1            : 4;  /**< [ 27: 24](R/W) Reserved.
+                                                                 Internal:
+                                                                 Read ODT mask DIMM1, RANK1/DIMM1 in SingleRanked. If RANK_ENA=1, [RODT_D1_R1]<3> must be
+                                                                 zero. Otherwise [RODT_D1_R1]<3:0> is not used and must be zero. */
+        uint64_t reserved_28_63        : 36;
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_lmcx_rodt_mask_s cn88xx; */
+    /* struct bdk_lmcx_rodt_mask_s cn83xx; */
 } bdk_lmcx_rodt_mask_t;
 
 static inline uint64_t BDK_LMCX_RODT_MASK(unsigned long a) __attribute__ ((pure, always_inline));
@@ -10256,7 +11564,41 @@ typedef union
         uint64_t reserved_43_63        : 21;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_lmcx_scrambled_fadr_s cn; */
+    /* struct bdk_lmcx_scrambled_fadr_s cn9; */
+    struct bdk_lmcx_scrambled_fadr_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_43_63        : 21;
+        uint64_t fcid                  : 3;  /**< [ 42: 40](RO/H) Reserved.
+                                                                 Internal:
+                                                                 Failing CID number. This field is only valid when interfacing with 3DS DRAMs
+                                                                 (i.e., when LMC()_EXT_CONFIG[DIMM0_CID] is nonzero). Returns a value of zero otherwise. */
+        uint64_t fill_order            : 2;  /**< [ 39: 38](RO/H) Fill order for failing transaction. */
+        uint64_t fdimm                 : 1;  /**< [ 37: 37](RO/H) Failing DIMM number. */
+        uint64_t fbunk                 : 1;  /**< [ 36: 36](RO/H) Failing rank number. */
+        uint64_t fbank                 : 4;  /**< [ 35: 32](RO/H) Failing bank number. Bits <3:0>. */
+        uint64_t frow                  : 18; /**< [ 31: 14](RO/H) Failing row address. Bits <17:0>. */
+        uint64_t fcol                  : 14; /**< [ 13:  0](RO/H) Failing column address <13:0>. Technically, represents the address of the 128b data that
+                                                                 had an ECC error, i.e., FCOL<0> is always 0. Can be used in conjunction with
+                                                                 LMC()_CONFIG[DED_ERR] to isolate the 64b chunk of data in error. */
+#else /* Word 0 - Little Endian */
+        uint64_t fcol                  : 14; /**< [ 13:  0](RO/H) Failing column address <13:0>. Technically, represents the address of the 128b data that
+                                                                 had an ECC error, i.e., FCOL<0> is always 0. Can be used in conjunction with
+                                                                 LMC()_CONFIG[DED_ERR] to isolate the 64b chunk of data in error. */
+        uint64_t frow                  : 18; /**< [ 31: 14](RO/H) Failing row address. Bits <17:0>. */
+        uint64_t fbank                 : 4;  /**< [ 35: 32](RO/H) Failing bank number. Bits <3:0>. */
+        uint64_t fbunk                 : 1;  /**< [ 36: 36](RO/H) Failing rank number. */
+        uint64_t fdimm                 : 1;  /**< [ 37: 37](RO/H) Failing DIMM number. */
+        uint64_t fill_order            : 2;  /**< [ 39: 38](RO/H) Fill order for failing transaction. */
+        uint64_t fcid                  : 3;  /**< [ 42: 40](RO/H) Reserved.
+                                                                 Internal:
+                                                                 Failing CID number. This field is only valid when interfacing with 3DS DRAMs
+                                                                 (i.e., when LMC()_EXT_CONFIG[DIMM0_CID] is nonzero). Returns a value of zero otherwise. */
+        uint64_t reserved_43_63        : 21;
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_lmcx_scrambled_fadr_s cn88xx; */
+    /* struct bdk_lmcx_scrambled_fadr_s cn83xx; */
 } bdk_lmcx_scrambled_fadr_t;
 
 static inline uint64_t BDK_LMCX_SCRAMBLED_FADR(unsigned long a) __attribute__ ((pure, always_inline));
@@ -12410,7 +13752,45 @@ typedef union
         uint64_t reserved_28_63        : 36;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_lmcx_wodt_mask_s cn; */
+    /* struct bdk_lmcx_wodt_mask_s cn9; */
+    struct bdk_lmcx_wodt_mask_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_28_63        : 36;
+        uint64_t wodt_d1_r1            : 4;  /**< [ 27: 24](R/W) Reserved.
+                                                                 Internal:
+                                                                 Write ODT mask DIMM1, RANK1/DIMM1 in SingleRanked.
+                                                                 If RANK_ENA=0, [WODT_D1_R1]<3:0> must be zero. */
+        uint64_t reserved_20_23        : 4;
+        uint64_t wodt_d1_r0            : 4;  /**< [ 19: 16](R/W) Reserved.
+                                                                 Internal:
+                                                                 Write ODT mask DIMM1, RANK0. If [RANK_ENA]=0, [WODT_D1_R0]<3,1> must be zero. */
+        uint64_t reserved_12_15        : 4;
+        uint64_t wodt_d0_r1            : 4;  /**< [ 11:  8](R/W) Write ODT mask DIMM0, RANK1/DIMM0 in SingleRanked. If [RANK_ENA]=0, [WODT_D0_R1]<3:0> must
+                                                                 be
+                                                                 zero. */
+        uint64_t reserved_4_7          : 4;
+        uint64_t wodt_d0_r0            : 4;  /**< [  3:  0](R/W) Write ODT mask DIMM0, RANK0. If [RANK_ENA]=0, [WODT_D0_R0]<3,1> must be zero. */
+#else /* Word 0 - Little Endian */
+        uint64_t wodt_d0_r0            : 4;  /**< [  3:  0](R/W) Write ODT mask DIMM0, RANK0. If [RANK_ENA]=0, [WODT_D0_R0]<3,1> must be zero. */
+        uint64_t reserved_4_7          : 4;
+        uint64_t wodt_d0_r1            : 4;  /**< [ 11:  8](R/W) Write ODT mask DIMM0, RANK1/DIMM0 in SingleRanked. If [RANK_ENA]=0, [WODT_D0_R1]<3:0> must
+                                                                 be
+                                                                 zero. */
+        uint64_t reserved_12_15        : 4;
+        uint64_t wodt_d1_r0            : 4;  /**< [ 19: 16](R/W) Reserved.
+                                                                 Internal:
+                                                                 Write ODT mask DIMM1, RANK0. If [RANK_ENA]=0, [WODT_D1_R0]<3,1> must be zero. */
+        uint64_t reserved_20_23        : 4;
+        uint64_t wodt_d1_r1            : 4;  /**< [ 27: 24](R/W) Reserved.
+                                                                 Internal:
+                                                                 Write ODT mask DIMM1, RANK1/DIMM1 in SingleRanked.
+                                                                 If RANK_ENA=0, [WODT_D1_R1]<3:0> must be zero. */
+        uint64_t reserved_28_63        : 36;
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_lmcx_wodt_mask_s cn88xx; */
+    /* struct bdk_lmcx_wodt_mask_s cn83xx; */
 } bdk_lmcx_wodt_mask_t;
 
 static inline uint64_t BDK_LMCX_WODT_MASK(unsigned long a) __attribute__ ((pure, always_inline));

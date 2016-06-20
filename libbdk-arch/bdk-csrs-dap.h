@@ -323,7 +323,90 @@ typedef union
         uint32_t reserved_11_31        : 21;
 #endif /* Word 0 - End */
     } cn88xxp1;
-    /* struct bdk_dap_imp_dar_s cn9; */
+    struct bdk_dap_imp_dar_cn9
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_30_31        : 2;
+        uint32_t distracefeature       : 1;  /**< [ 29: 29](R/W) Reserved.
+                                                                 Internal:
+                                                                 Passed to trace unit, but not presently used.
+                                                                 0 = Future trace feature enabled.
+                                                                 1 = Future trace feature disabled. */
+        uint32_t distrace              : 1;  /**< [ 28: 28](RO) Trace unit is always discovery in t98.
+                                                                 0 = Trace unit is discoverable by software.
+                                                                 1 = Trace unit is hidden.
+
+                                                                 In CNXXXX, always discoverable. */
+        uint32_t reserved_11_27        : 17;
+        uint32_t cabnsen               : 1;  /**< [ 10: 10](R/W) Enable nonsecure CAB accesses from NCB and RSL devices.
+                                                                 0 = Return fault on nonsecure CAB accesses.
+                                                                 1 = Enable nonsecure CAB accesses. */
+        uint32_t caben                 : 1;  /**< [  9:  9](R/W) Enable CAB accesses from NCB and RSL devices.
+                                                                 0 = Return fault for all CAB accesses.
+                                                                 1 = Enable all CAB accesses.
+
+                                                                 When in trusted-mode resets to 0, else 1. */
+        uint32_t reserved_6_8          : 3;
+        uint32_t deviceen              : 1;  /**< [  5:  5](R/W) Set this bit to use CVM-AP inside DAP for CNXXXX addressing accesses.
+
+                                                                 When in trusted-mode resets to 0, else 1. */
+        uint32_t dabdeviceen           : 1;  /**< [  4:  4](R/W) Set this bit to use ARM-AP inside DAP for DAB serial bus accesses.
+
+                                                                 When in trusted-mode resets to 0, else 1. */
+        uint32_t spniden               : 1;  /**< [  3:  3](R/W) Set this bit to enable secure non invasive debug enable.
+
+                                                                 When in trusted-mode resets to 0, else 1. */
+        uint32_t spiden                : 1;  /**< [  2:  2](R/W) Set this bit to enable secure invasive debug enable.
+
+                                                                 When in trusted-mode resets to 0, else 1. */
+        uint32_t niden                 : 1;  /**< [  1:  1](R/W) Set this bit to enable non secure invasive debug enable.
+
+                                                                 When in trusted-mode resets to 0, else 1. */
+        uint32_t dbgen                 : 1;  /**< [  0:  0](R/W) Set this bit to enable debug enable.
+
+                                                                 When in trusted-mode resets to 0, else 1. */
+#else /* Word 0 - Little Endian */
+        uint32_t dbgen                 : 1;  /**< [  0:  0](R/W) Set this bit to enable debug enable.
+
+                                                                 When in trusted-mode resets to 0, else 1. */
+        uint32_t niden                 : 1;  /**< [  1:  1](R/W) Set this bit to enable non secure invasive debug enable.
+
+                                                                 When in trusted-mode resets to 0, else 1. */
+        uint32_t spiden                : 1;  /**< [  2:  2](R/W) Set this bit to enable secure invasive debug enable.
+
+                                                                 When in trusted-mode resets to 0, else 1. */
+        uint32_t spniden               : 1;  /**< [  3:  3](R/W) Set this bit to enable secure non invasive debug enable.
+
+                                                                 When in trusted-mode resets to 0, else 1. */
+        uint32_t dabdeviceen           : 1;  /**< [  4:  4](R/W) Set this bit to use ARM-AP inside DAP for DAB serial bus accesses.
+
+                                                                 When in trusted-mode resets to 0, else 1. */
+        uint32_t deviceen              : 1;  /**< [  5:  5](R/W) Set this bit to use CVM-AP inside DAP for CNXXXX addressing accesses.
+
+                                                                 When in trusted-mode resets to 0, else 1. */
+        uint32_t reserved_6_8          : 3;
+        uint32_t caben                 : 1;  /**< [  9:  9](R/W) Enable CAB accesses from NCB and RSL devices.
+                                                                 0 = Return fault for all CAB accesses.
+                                                                 1 = Enable all CAB accesses.
+
+                                                                 When in trusted-mode resets to 0, else 1. */
+        uint32_t cabnsen               : 1;  /**< [ 10: 10](R/W) Enable nonsecure CAB accesses from NCB and RSL devices.
+                                                                 0 = Return fault on nonsecure CAB accesses.
+                                                                 1 = Enable nonsecure CAB accesses. */
+        uint32_t reserved_11_27        : 17;
+        uint32_t distrace              : 1;  /**< [ 28: 28](RO) Trace unit is always discovery in t98.
+                                                                 0 = Trace unit is discoverable by software.
+                                                                 1 = Trace unit is hidden.
+
+                                                                 In CNXXXX, always discoverable. */
+        uint32_t distracefeature       : 1;  /**< [ 29: 29](R/W) Reserved.
+                                                                 Internal:
+                                                                 Passed to trace unit, but not presently used.
+                                                                 0 = Future trace feature enabled.
+                                                                 1 = Future trace feature disabled. */
+        uint32_t reserved_30_31        : 2;
+#endif /* Word 0 - End */
+    } cn9;
     /* struct bdk_dap_imp_dar_s cn81xx; */
     /* struct bdk_dap_imp_dar_s cn83xx; */
     /* struct bdk_dap_imp_dar_s cn88xxp2; */

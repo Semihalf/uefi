@@ -7269,7 +7269,7 @@ typedef union
                                                                  clock for 1.6 ms link timer.
 
                                                                  Internal:
-                                                                 FIXME use TBD rst__cgx_each_100mhz_s. */
+                                                                 FIXME use rst__gbl_100mhz_sclk_edge. */
 #else /* Word 0 - Little Endian */
         uint64_t count                 : 16; /**< [ 15:  0](R/W) (Coprocessor clock period * 1024) * [COUNT] should be 1.6 ms for SGMII/QSGMII and 10 ms
                                                                  otherwise,
@@ -7277,7 +7277,7 @@ typedef union
                                                                  clock for 1.6 ms link timer.
 
                                                                  Internal:
-                                                                 FIXME use TBD rst__cgx_each_100mhz_s. */
+                                                                 FIXME use rst__gbl_100mhz_sclk_edge. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;

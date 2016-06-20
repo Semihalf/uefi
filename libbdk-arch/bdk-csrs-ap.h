@@ -6219,7 +6219,8 @@ typedef union
     struct bdk_ap_cvmmemctl1_el1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_47_63        : 17;
+        uint64_t reserved_48_63        : 16;
+        uint64_t gclkforce             : 1;  /**< [ 47: 47](R/W) Force gated clocks to be on. For diagnostic use only. */
         uint64_t ldil3prefdis          : 1;  /**< [ 46: 46](R/W) LDIL3 PREF instructions disable. */
         uint64_t ldil2prefdis          : 1;  /**< [ 45: 45](R/W) LDIL2 PREF instructions disable. */
         uint64_t ldil1prefdis          : 1;  /**< [ 44: 44](R/W) LDIL1 PREF instructions disable. */
@@ -6331,7 +6332,8 @@ typedef union
         uint64_t ldil1prefdis          : 1;  /**< [ 44: 44](R/W) LDIL1 PREF instructions disable. */
         uint64_t ldil2prefdis          : 1;  /**< [ 45: 45](R/W) LDIL2 PREF instructions disable. */
         uint64_t ldil3prefdis          : 1;  /**< [ 46: 46](R/W) LDIL3 PREF instructions disable. */
-        uint64_t reserved_47_63        : 17;
+        uint64_t gclkforce             : 1;  /**< [ 47: 47](R/W) Force gated clocks to be on. For diagnostic use only. */
+        uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_cvmmemctl1_el1_s cn9; */

@@ -62,6 +62,62 @@
 #define BDK_CCU_BAR_E_CCU_PF_BAR0_SIZE 0x800000ull
 
 /**
+ * Register (RSL) ccu_adr_ctl
+ *
+ * CCU Address Control Register
+ * This register holds all the information required for TAD selection and set hashing.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_ccu_adr_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_43_63        : 21;
+        uint64_t mcc_lr_en             : 36; /**< [ 42:  7](R/W) Enable for each bit which is to participate in the hash that determines whether
+                                                                 a physical address is in MCC0 or MCC1. */
+        uint64_t reserved_4_6          : 3;
+        uint64_t mcc_lr_bit            : 3;  /**< [  3:  1](R/W) Which bit is removed from the physical address when calculating the LMC line
+                                                                 address and TAD set. Legal values 0..7 represent physical address bits 7..14. */
+        uint64_t dissetalias           : 1;  /**< [  0:  0](R/W) Disables TAD set hashing, which distributes addresses within a TAD across
+                                                                 different sets.
+
+                                                                 Internal:
+                                                                 FIXME, should reset to 0. */
+#else /* Word 0 - Little Endian */
+        uint64_t dissetalias           : 1;  /**< [  0:  0](R/W) Disables TAD set hashing, which distributes addresses within a TAD across
+                                                                 different sets.
+
+                                                                 Internal:
+                                                                 FIXME, should reset to 0. */
+        uint64_t mcc_lr_bit            : 3;  /**< [  3:  1](R/W) Which bit is removed from the physical address when calculating the LMC line
+                                                                 address and TAD set. Legal values 0..7 represent physical address bits 7..14. */
+        uint64_t reserved_4_6          : 3;
+        uint64_t mcc_lr_en             : 36; /**< [ 42:  7](R/W) Enable for each bit which is to participate in the hash that determines whether
+                                                                 a physical address is in MCC0 or MCC1. */
+        uint64_t reserved_43_63        : 21;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ccu_adr_ctl_s cn; */
+} bdk_ccu_adr_ctl_t;
+
+#define BDK_CCU_ADR_CTL BDK_CCU_ADR_CTL_FUNC()
+static inline uint64_t BDK_CCU_ADR_CTL_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_CCU_ADR_CTL_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
+        return 0x87e087100000ll;
+    __bdk_csr_fatal("CCU_ADR_CTL", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_CCU_ADR_CTL bdk_ccu_adr_ctl_t
+#define bustype_BDK_CCU_ADR_CTL BDK_CSR_TYPE_RSL
+#define basename_BDK_CCU_ADR_CTL "CCU_ADR_CTL"
+#define device_bar_BDK_CCU_ADR_CTL 0x0 /* PF_BAR0 */
+#define busnum_BDK_CCU_ADR_CTL 0
+#define arguments_BDK_CCU_ADR_CTL -1,-1,-1,-1
+
+/**
  * Register (RSL) ccu_scratch
  *
  * INTERNAL: CCU General Purpose Scratch Register
@@ -90,7 +146,7 @@ static inline uint64_t BDK_CCU_SCRATCH_FUNC(void) __attribute__ ((pure, always_i
 static inline uint64_t BDK_CCU_SCRATCH_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x87e087100000ll;
+        return 0x87e087100008ll;
     __bdk_csr_fatal("CCU_SCRATCH", 0, 0, 0, 0, 0);
 }
 

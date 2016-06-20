@@ -5902,7 +5902,7 @@ typedef union
 
                                                                  0x0-0x7 = Lane number.
                                                                  0x8-0xF = Reserved. */
-        uint32_t ev_cntr_stat          : 1;  /**< [  7:  7](RO) Event counter status.  Returns the Enable status of the event counter
+        uint32_t ev_cntr_stat          : 1;  /**< [  7:  7](RO/H) Event counter status.  Returns the Enable status of the event counter
                                                                  selected by [EV_CNTR_DATA_SEL] and [EV_CNTR_LANE_SEL]. */
         uint32_t reserved_5_6          : 2;
         uint32_t ev_cntr_en            : 3;  /**< [  4:  2](WO) Event counter enable.  Enables/disables the event counter
@@ -5951,7 +5951,7 @@ typedef union
                                                                  0x6 = No change.
                                                                  0x7 = All on. */
         uint32_t reserved_5_6          : 2;
-        uint32_t ev_cntr_stat          : 1;  /**< [  7:  7](RO) Event counter status.  Returns the Enable status of the event counter
+        uint32_t ev_cntr_stat          : 1;  /**< [  7:  7](RO/H) Event counter status.  Returns the Enable status of the event counter
                                                                  selected by [EV_CNTR_DATA_SEL] and [EV_CNTR_LANE_SEL]. */
         uint32_t ev_cntr_lane_sel      : 4;  /**< [ 11:  8](R/W) Event counter lane select.  This field in conjuction with [EV_CNTR_DATA_SEL]
                                                                  indexes the event counter data returned in the PCIEEP()_CFG113[EV_CNTR_DATA].
@@ -11543,9 +11543,11 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t ple                   : 1;  /**< [ 31: 31](R/W) Pipe loopback enable. */
-        uint32_t rxstatus              : 31; /**< [ 30:  0](RO/H) Reserved. */
+        uint32_t reserved_16_30        : 15;
+        uint32_t lpbk_rxvalid          : 16; /**< [ 15:  0](R/W) Loopback rxvalid (lane enable - 1 bit per lane) */
 #else /* Word 0 - Little Endian */
-        uint32_t rxstatus              : 31; /**< [ 30:  0](RO/H) Reserved. */
+        uint32_t lpbk_rxvalid          : 16; /**< [ 15:  0](R/W) Loopback rxvalid (lane enable - 1 bit per lane) */
+        uint32_t reserved_16_30        : 15;
         uint32_t ple                   : 1;  /**< [ 31: 31](R/W) Pipe loopback enable. */
 #endif /* Word 0 - End */
     } s;
@@ -13675,7 +13677,7 @@ typedef union
                                                                  must not change this field. */
         uint32_t mlw                   : 6;  /**< [  9:  4](RO/WRSL/H) Maximum link width.
                                                                  The reset value of this field is determined by the value read from the PEM
-                                                                 csr PEM()_CFG[LANES8]. If LANES8 is set the reset value is 0x8, otherwise 0x4.
+                                                                 csr PEM()_CFG[LANES16]. If LANES16 is set the reset value is 0x16, otherwise 0x8.
 
                                                                  This field is writable through PEM()_CFG_WR.
 
@@ -13720,7 +13722,7 @@ typedef union
                                                                  will then allow the lttsm to advance and the link to come up. */
         uint32_t mlw                   : 6;  /**< [  9:  4](RO/WRSL/H) Maximum link width.
                                                                  The reset value of this field is determined by the value read from the PEM
-                                                                 csr PEM()_CFG[LANES8]. If LANES8 is set the reset value is 0x8, otherwise 0x4.
+                                                                 csr PEM()_CFG[LANES16]. If LANES16 is set the reset value is 0x16, otherwise 0x8.
 
                                                                  This field is writable through PEM()_CFG_WR.
 
@@ -14974,18 +14976,18 @@ typedef union
                                                                  0x3 = x2.
                                                                  0x7 = x4.
                                                                  0xF = x8.
-                                                                 0x1F = x16 (not supported).
+                                                                 0x1F = x16.
                                                                  0x3F = x32 (not supported).
 
                                                                  This field indicates the maximum number of lanes supported by the PCIe port. The value can
-                                                                 be set less than 0xF to limit the number of lanes that the PCIe will attempt to use. If
+                                                                 be set less than 0x1F to limit the number of lanes that the PCIe will attempt to use. If
                                                                  the value of 0xF set by the hardware is not desired, this field can be programmed to a
                                                                  smaller value (i.e. EEPROM). See also PCIEEP()_LINK_CAP[MLW].
                                                                  The value of this field does not indicate the number of lanes in use by the PCIe. This
                                                                  field sets the maximum number of lanes in the PCIe core that could be used. As per the
-                                                                 PCIe specification, the PCIe core can negotiate a smaller link width, so all of x8, x4,
-                                                                 x2, and x1 are supported when
-                                                                 LME = 0xF, for example. */
+                                                                 PCIe specification, the PCIe core can negotiate a smaller link width, so all of x16, x8,
+                                                                 x4, x2, and x1 are supported when
+                                                                 LME = 0x1F, for example. */
         uint32_t reserved_12_15        : 4;
         uint32_t link_rate             : 4;  /**< [ 11:  8](RO/H) Reserved. */
         uint32_t flm                   : 1;  /**< [  7:  7](R/W/H) Fast link mode. Sets all internal timers to fast mode for simulation purposes.
@@ -15032,18 +15034,18 @@ typedef union
                                                                  0x3 = x2.
                                                                  0x7 = x4.
                                                                  0xF = x8.
-                                                                 0x1F = x16 (not supported).
+                                                                 0x1F = x16.
                                                                  0x3F = x32 (not supported).
 
                                                                  This field indicates the maximum number of lanes supported by the PCIe port. The value can
-                                                                 be set less than 0xF to limit the number of lanes that the PCIe will attempt to use. If
+                                                                 be set less than 0x1F to limit the number of lanes that the PCIe will attempt to use. If
                                                                  the value of 0xF set by the hardware is not desired, this field can be programmed to a
                                                                  smaller value (i.e. EEPROM). See also PCIEEP()_LINK_CAP[MLW].
                                                                  The value of this field does not indicate the number of lanes in use by the PCIe. This
                                                                  field sets the maximum number of lanes in the PCIe core that could be used. As per the
-                                                                 PCIe specification, the PCIe core can negotiate a smaller link width, so all of x8, x4,
-                                                                 x2, and x1 are supported when
-                                                                 LME = 0xF, for example. */
+                                                                 PCIe specification, the PCIe core can negotiate a smaller link width, so all of x16, x8,
+                                                                 x4, x2, and x1 are supported when
+                                                                 LME = 0x1F, for example. */
         uint32_t cle                   : 2;  /**< [ 23: 22](RAZ) Reserved. */
         uint32_t beacon_en             : 1;  /**< [ 24: 24](R/W) Beacon enable.  Internally reserved field, do not set. */
         uint32_t clcrc_en              : 1;  /**< [ 25: 25](R/W) Corrupt LCRC enable.  Internally reserved field, do not set. */

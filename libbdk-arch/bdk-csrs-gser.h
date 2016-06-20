@@ -10665,6 +10665,108 @@ static inline uint64_t BDK_GSERX_SRST(unsigned long a)
 #define arguments_BDK_GSERX_SRST(a) (a),-1,-1,-1
 
 /**
+ * Register (RSL) gser#_term_cfg
+ *
+ * GSER Termination Calibration Configuration Register
+ * These registers are for diagnostic use only.
+ * These registers are reset by hardware only during chip cold reset.
+ * The values of the CSR fields in these registers do not change during chip warm or soft resets.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_gserx_term_cfg_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_9_63         : 55;
+        uint64_t fast_term_cal         : 1;  /**< [  8:  8](R/W/H) Set to enable fast termination calibration.
+                                                                 For simulation use only. */
+        uint64_t reserved_7            : 1;
+        uint64_t cal_start_ovrd_en     : 1;  /**< [  6:  6](R/W/H) When set, calibration start is defined by
+                                                                 GSER()_TERM_CFG[CAL_START_OVRD_VAL]. */
+        uint64_t cal_start_ovrd_val    : 1;  /**< [  5:  5](R/W/H) Override calibration start value. */
+        uint64_t cal_code_ovrd_en      : 1;  /**< [  4:  4](R/W/H) When set, calibration code is defined by
+                                                                 GSER()_TERM_CFG[CAL_CODE_OVRD]. */
+        uint64_t cal_code_ovrd         : 4;  /**< [  3:  0](R/W/H) Override calibration code value. */
+#else /* Word 0 - Little Endian */
+        uint64_t cal_code_ovrd         : 4;  /**< [  3:  0](R/W/H) Override calibration code value. */
+        uint64_t cal_code_ovrd_en      : 1;  /**< [  4:  4](R/W/H) When set, calibration code is defined by
+                                                                 GSER()_TERM_CFG[CAL_CODE_OVRD]. */
+        uint64_t cal_start_ovrd_val    : 1;  /**< [  5:  5](R/W/H) Override calibration start value. */
+        uint64_t cal_start_ovrd_en     : 1;  /**< [  6:  6](R/W/H) When set, calibration start is defined by
+                                                                 GSER()_TERM_CFG[CAL_START_OVRD_VAL]. */
+        uint64_t reserved_7            : 1;
+        uint64_t fast_term_cal         : 1;  /**< [  8:  8](R/W/H) Set to enable fast termination calibration.
+                                                                 For simulation use only. */
+        uint64_t reserved_9_63         : 55;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_gserx_term_cfg_s cn; */
+} bdk_gserx_term_cfg_t;
+
+static inline uint64_t BDK_GSERX_TERM_CFG(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_GSERX_TERM_CFG(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
+        return 0x87e090460070ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=6))
+        return 0x87e090460070ll + 0x1000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=13))
+        return 0x87e090460070ll + 0x1000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("GSERX_TERM_CFG", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_GSERX_TERM_CFG(a) bdk_gserx_term_cfg_t
+#define bustype_BDK_GSERX_TERM_CFG(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_GSERX_TERM_CFG(a) "GSERX_TERM_CFG"
+#define device_bar_BDK_GSERX_TERM_CFG(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_GSERX_TERM_CFG(a) (a)
+#define arguments_BDK_GSERX_TERM_CFG(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) gser#_term_mon_1
+ *
+ * GSER Termination Cal Code Monitor Register
+ * These registers are for diagnostic use only.
+ * These registers are reset by hardware only during chip cold reset.
+ * The values of the CSR fields in these registers do not change during chip warm or soft resets.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_gserx_term_mon_1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_4_63         : 60;
+        uint64_t cal_code_mgmt         : 4;  /**< [  3:  0](RO/H) Rx and Tx termination resistance calibration code. */
+#else /* Word 0 - Little Endian */
+        uint64_t cal_code_mgmt         : 4;  /**< [  3:  0](RO/H) Rx and Tx termination resistance calibration code. */
+        uint64_t reserved_4_63         : 60;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_gserx_term_mon_1_s cn; */
+} bdk_gserx_term_mon_1_t;
+
+static inline uint64_t BDK_GSERX_TERM_MON_1(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_GSERX_TERM_MON_1(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
+        return 0x87e090460110ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=6))
+        return 0x87e090460110ll + 0x1000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=13))
+        return 0x87e090460110ll + 0x1000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("GSERX_TERM_MON_1", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_GSERX_TERM_MON_1(a) bdk_gserx_term_mon_1_t
+#define bustype_BDK_GSERX_TERM_MON_1(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_GSERX_TERM_MON_1(a) "GSERX_TERM_MON_1"
+#define device_bar_BDK_GSERX_TERM_MON_1(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_GSERX_TERM_MON_1(a) (a)
+#define arguments_BDK_GSERX_TERM_MON_1(a) (a),-1,-1,-1
+
+/**
  * Register (RSL) gser#_tx_vboost
  *
  * GSER TX Voltage Boost Enable Register

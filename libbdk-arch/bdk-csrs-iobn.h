@@ -86,9 +86,6 @@ typedef union
         uint64_t reserved_22_63        : 42;
         uint64_t status                : 22; /**< [ 21:  0](RO/H) Memory BIST status.
                                                                  Internal:
-                                                                 <21> = gmr_sli_ixofifo_bstatus_rclk.
-                                                                 <20> = sli_preq_2_ffifo_bstatus_rclk.
-                                                                 <19> = sli_req_2_ffifo_bstatus_rclk.
                                                                  <18> = gmr_ixofifo_bstatus_rclk.
                                                                    <17> = sli_preq_2_ffifo_bstatus_rclk.
                                                                    <16> = sli_req_2_ffifo_bstatus_rclk.
@@ -111,9 +108,6 @@ typedef union
 #else /* Word 0 - Little Endian */
         uint64_t status                : 22; /**< [ 21:  0](RO/H) Memory BIST status.
                                                                  Internal:
-                                                                 <21> = gmr_sli_ixofifo_bstatus_rclk.
-                                                                 <20> = sli_preq_2_ffifo_bstatus_rclk.
-                                                                 <19> = sli_req_2_ffifo_bstatus_rclk.
                                                                  <18> = gmr_ixofifo_bstatus_rclk.
                                                                    <17> = sli_preq_2_ffifo_bstatus_rclk.
                                                                    <16> = sli_req_2_ffifo_bstatus_rclk.
@@ -136,7 +130,6 @@ typedef union
         uint64_t reserved_22_63        : 42;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_iobnx_bistr_reg_s cn9; */
     struct bdk_iobnx_bistr_reg_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -237,7 +230,62 @@ typedef union
         uint64_t reserved_19_63        : 45;
 #endif /* Word 0 - End */
     } cn88xx;
-    /* struct bdk_iobnx_bistr_reg_s cn83xx; */
+    struct bdk_iobnx_bistr_reg_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_22_63        : 42;
+        uint64_t status                : 22; /**< [ 21:  0](RO/H) Memory BIST status.
+                                                                 Internal:
+                                                                 <21> = gmr_sli_ixofifo_bstatus_rclk.
+                                                                 <20> = sli_preq_2_ffifo_bstatus_rclk.
+                                                                 <19> = sli_req_2_ffifo_bstatus_rclk.
+                                                                 <18> = gmr_ixofifo_bstatus_rclk.
+                                                                   <17> = sli_preq_2_ffifo_bstatus_rclk.
+                                                                   <16> = sli_req_2_ffifo_bstatus_rclk.
+                                                                   <15> = sli_preq_1_ffifo_bstatus_rclk.
+                                                                   <14> = sli_req_1_ffifo_bstatus_rclk.
+                                                                   <13> = sli_preq_0_ffifo_bstatus_rclk.
+                                                                   <12> = sli_req_0_ffifo_bstatus_rclk.
+                                                                   <11> = iop_ffifo_bstatus_rclk.
+                                                                   <10> = ixo_icc_fifo0_bstatus_rclk.
+                                                                   <9> = ixo_icc_fifo1_bstatus_rclk.
+                                                                   <8>  = ixo_ics_mem_bstatus_rclk.
+                                                                   <7>  = iob_mem_data_xmd0_bstatus_rclk.
+                                                                   <6>  = iob_mem_data_xmd1_bstatus_rclk.
+                                                                   <5>  = ics_cmd_fifo_bstatus_rclk.
+                                                                   <4>  = ixo_xmd_mem0_bstatus_rclk.
+                                                                   <3>  = ixo_xmd_mem1_bstatus_rclk.
+                                                                   <2>  = iobn_iorn_ffifo0_bstatus_rclk.
+                                                                   <1>  = iobn_iorn_ffifo1_bstatus_rclk.
+                                                                   <0>  = ixo_smmu_mem0_bstatus_rclk. */
+#else /* Word 0 - Little Endian */
+        uint64_t status                : 22; /**< [ 21:  0](RO/H) Memory BIST status.
+                                                                 Internal:
+                                                                 <21> = gmr_sli_ixofifo_bstatus_rclk.
+                                                                 <20> = sli_preq_2_ffifo_bstatus_rclk.
+                                                                 <19> = sli_req_2_ffifo_bstatus_rclk.
+                                                                 <18> = gmr_ixofifo_bstatus_rclk.
+                                                                   <17> = sli_preq_2_ffifo_bstatus_rclk.
+                                                                   <16> = sli_req_2_ffifo_bstatus_rclk.
+                                                                   <15> = sli_preq_1_ffifo_bstatus_rclk.
+                                                                   <14> = sli_req_1_ffifo_bstatus_rclk.
+                                                                   <13> = sli_preq_0_ffifo_bstatus_rclk.
+                                                                   <12> = sli_req_0_ffifo_bstatus_rclk.
+                                                                   <11> = iop_ffifo_bstatus_rclk.
+                                                                   <10> = ixo_icc_fifo0_bstatus_rclk.
+                                                                   <9> = ixo_icc_fifo1_bstatus_rclk.
+                                                                   <8>  = ixo_ics_mem_bstatus_rclk.
+                                                                   <7>  = iob_mem_data_xmd0_bstatus_rclk.
+                                                                   <6>  = iob_mem_data_xmd1_bstatus_rclk.
+                                                                   <5>  = ics_cmd_fifo_bstatus_rclk.
+                                                                   <4>  = ixo_xmd_mem0_bstatus_rclk.
+                                                                   <3>  = ixo_xmd_mem1_bstatus_rclk.
+                                                                   <2>  = iobn_iorn_ffifo0_bstatus_rclk.
+                                                                   <1>  = iobn_iorn_ffifo1_bstatus_rclk.
+                                                                   <0>  = ixo_smmu_mem0_bstatus_rclk. */
+        uint64_t reserved_22_63        : 42;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_iobnx_bistr_reg_t;
 
 static inline uint64_t BDK_IOBNX_BISTR_REG(unsigned long a) __attribute__ ((pure, always_inline));
@@ -248,8 +296,6 @@ static inline uint64_t BDK_IOBNX_BISTR_REG(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e0f0005080ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
-        return 0x87e0f0005080ll + 0x1000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
         return 0x87e0f0005080ll + 0x1000000ll * ((a) & 0x1);
     __bdk_csr_fatal("IOBNX_BISTR_REG", 1, a, 0, 0, 0);
 }
@@ -422,8 +468,6 @@ static inline uint64_t BDK_IOBNX_CHIP_CUR_PWR(unsigned long a)
         return 0x87e0f000a110ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e0f000a110ll + 0x1000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
-        return 0x87e0f000a110ll + 0x1000000ll * ((a) & 0x1);
     __bdk_csr_fatal("IOBNX_CHIP_CUR_PWR", 1, a, 0, 0, 0);
 }
 
@@ -503,8 +547,6 @@ static inline uint64_t BDK_IOBNX_CHIP_GLB_PWR_THROTTLE(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e0f000a100ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
-        return 0x87e0f000a100ll + 0x1000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
         return 0x87e0f000a100ll + 0x1000000ll * ((a) & 0x1);
     __bdk_csr_fatal("IOBNX_CHIP_GLB_PWR_THROTTLE", 1, a, 0, 0, 0);
 }
@@ -613,8 +655,6 @@ static inline uint64_t BDK_IOBNX_CHIP_PWR_OUT(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e0f000a108ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
-        return 0x87e0f000a108ll + 0x1000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
         return 0x87e0f000a108ll + 0x1000000ll * ((a) & 0x1);
     __bdk_csr_fatal("IOBNX_CHIP_PWR_OUT", 1, a, 0, 0, 0);
 }
@@ -734,8 +774,6 @@ static inline uint64_t BDK_IOBNX_COND_CLK_CAPX(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=75)))
         return 0x87e0f000f000ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0x7f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=1) && (b<=75)))
-        return 0x87e0f000f000ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0x7f);
     __bdk_csr_fatal("IOBNX_COND_CLK_CAPX", 2, a, b, 0, 0);
 }
 
@@ -759,15 +797,30 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_24_63        : 40;
-        uint64_t core_bstat            : 24; /**< [ 23:  0](RO/H) BIST status of the cores. IOBN0 contains the BIST status for all cores. IOBN1
-                                                                 always returns 0x0. */
+        uint64_t core_bstat            : 24; /**< [ 23:  0](RO/H) BIST status of the cores. IOBN0 contains the BIST status for the even numbered cores and
+                                                                 IOBN1 contains the BIST status for the odd numbered cores.
+
+                                                                 <pre>
+                                                                    BIT    IOBN0     IOBN1
+                                                                    [0]    Core 0    Core 1
+                                                                    [1]    Core 2    Core 3
+                                                                    ...
+                                                                    [23]   Core 46   Core 47
+                                                                 </pre> */
 #else /* Word 0 - Little Endian */
-        uint64_t core_bstat            : 24; /**< [ 23:  0](RO/H) BIST status of the cores. IOBN0 contains the BIST status for all cores. IOBN1
-                                                                 always returns 0x0. */
+        uint64_t core_bstat            : 24; /**< [ 23:  0](RO/H) BIST status of the cores. IOBN0 contains the BIST status for the even numbered cores and
+                                                                 IOBN1 contains the BIST status for the odd numbered cores.
+
+                                                                 <pre>
+                                                                    BIT    IOBN0     IOBN1
+                                                                    [0]    Core 0    Core 1
+                                                                    [1]    Core 2    Core 3
+                                                                    ...
+                                                                    [23]   Core 46   Core 47
+                                                                 </pre> */
         uint64_t reserved_24_63        : 40;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_iobnx_core_bist_status_s cn9; */
     struct bdk_iobnx_core_bist_status_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -796,35 +849,19 @@ typedef union
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } cn81xx;
-    struct bdk_iobnx_core_bist_status_cn88xx
+    /* struct bdk_iobnx_core_bist_status_s cn88xx; */
+    struct bdk_iobnx_core_bist_status_cn83xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_24_63        : 40;
-        uint64_t core_bstat            : 24; /**< [ 23:  0](RO/H) BIST status of the cores. IOBN0 contains the BIST status for the even numbered cores and
-                                                                 IOBN1 contains the BIST status for the odd numbered cores.
-
-                                                                 <pre>
-                                                                    BIT    IOBN0     IOBN1
-                                                                    [0]    Core 0    Core 1
-                                                                    [1]    Core 2    Core 3
-                                                                    ...
-                                                                    [23]   Core 46   Core 47
-                                                                 </pre> */
+        uint64_t core_bstat            : 24; /**< [ 23:  0](RO/H) BIST status of the cores. IOBN0 contains the BIST status for all cores. IOBN1
+                                                                 always returns 0x0. */
 #else /* Word 0 - Little Endian */
-        uint64_t core_bstat            : 24; /**< [ 23:  0](RO/H) BIST status of the cores. IOBN0 contains the BIST status for the even numbered cores and
-                                                                 IOBN1 contains the BIST status for the odd numbered cores.
-
-                                                                 <pre>
-                                                                    BIT    IOBN0     IOBN1
-                                                                    [0]    Core 0    Core 1
-                                                                    [1]    Core 2    Core 3
-                                                                    ...
-                                                                    [23]   Core 46   Core 47
-                                                                 </pre> */
+        uint64_t core_bstat            : 24; /**< [ 23:  0](RO/H) BIST status of the cores. IOBN0 contains the BIST status for all cores. IOBN1
+                                                                 always returns 0x0. */
         uint64_t reserved_24_63        : 40;
 #endif /* Word 0 - End */
-    } cn88xx;
-    /* struct bdk_iobnx_core_bist_status_s cn83xx; */
+    } cn83xx;
 } bdk_iobnx_core_bist_status_t;
 
 static inline uint64_t BDK_IOBNX_CORE_BIST_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
@@ -835,8 +872,6 @@ static inline uint64_t BDK_IOBNX_CORE_BIST_STATUS(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e0f0005008ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
-        return 0x87e0f0005008ll + 0x1000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
         return 0x87e0f0005008ll + 0x1000000ll * ((a) & 0x1);
     __bdk_csr_fatal("IOBNX_CORE_BIST_STATUS", 1, a, 0, 0, 0);
 }
@@ -875,7 +910,7 @@ typedef union
                                                                      overrides [SLI_KEY_MEM]. */
         uint64_t tlb_sync_dis          : 1;  /**< [  3:  3](R/W) When set the IOBN will return SYNC-RDY to the SMMU without waiting for
                                                                  outstanding request to receive responses. */
-        uint64_t oci_key_only          : 1;  /**< [  2:  2](R/W) Restrict CCPI-sourced I/O write requests.
+        uint64_t oci_key_only          : 1;  /**< [  2:  2](RO) Restrict CCPI-sourced I/O write requests.
 
                                                                  0 = CCPI-sourced I/O read and write requests are allowed to any device through
                                                                  IOB, including allowing read/writes to all of KEY_MEM().
@@ -909,7 +944,7 @@ typedef union
                                                                    1 = All NCBI traffic to the GIC DID will be assumed to be interrupt delivery traffic.
                                                                  This will break NCBI write transactions to non-interrupt-delivery GIC registers, but may
                                                                  work around bugs whereby interrupt-delivery CSRs are mis-catagorized inside IOB. */
-        uint64_t oci_key_only          : 1;  /**< [  2:  2](R/W) Restrict CCPI-sourced I/O write requests.
+        uint64_t oci_key_only          : 1;  /**< [  2:  2](RO) Restrict CCPI-sourced I/O write requests.
 
                                                                  0 = CCPI-sourced I/O read and write requests are allowed to any device through
                                                                  IOB, including allowing read/writes to all of KEY_MEM().
@@ -997,7 +1032,6 @@ typedef union
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } cn88xxp1;
-    /* struct bdk_iobnx_dis_ncbi_io_s cn9; */
     struct bdk_iobnx_dis_ncbi_io_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -1056,7 +1090,88 @@ typedef union
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } cn81xx;
-    /* struct bdk_iobnx_dis_ncbi_io_s cn83xx; */
+    struct bdk_iobnx_dis_ncbi_io_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_6_63         : 58;
+        uint64_t sli_key_mem           : 1;  /**< [  5:  5](R/W) SLI KEY memory isolation.
+                                                                 0 = SLI initiated requests are allowed.
+                                                                 1 = SLI initiated read and write requests are allowed to
+                                                                     KEY_MEM(0..2047) (e.g. 16KB, not all of KEY_MEM) only.
+                                                                     SLI requests to any other address (non-KEY_MEM(0..2047))
+                                                                     will be redirected to ECAM0_NOP_ZF. */
+        uint64_t sli_off               : 1;  /**< [  4:  4](R/W) SLI isolation.
+                                                                 Resets to one in trusted mode, else zero.
+                                                                 0 = Operation of NCBI transactions are not impacted.
+                                                                 1 = NCBI transactions initiating at the SLI are disabled and
+                                                                     turn into accesses to ECAM0_NOP_ZF. When set, this bit
+                                                                     overrides [SLI_KEY_MEM]. */
+        uint64_t tlb_sync_dis          : 1;  /**< [  3:  3](R/W) When set the IOBN will return SYNC-RDY to the SMMU without waiting for
+                                                                 outstanding request to receive responses. */
+        uint64_t oci_key_only          : 1;  /**< [  2:  2](R/W) Restrict CCPI-sourced I/O write requests.
+
+                                                                 0 = CCPI-sourced I/O read and write requests are allowed to any device through
+                                                                 IOB, including allowing read/writes to all of KEY_MEM().
+
+                                                                 1 = CCPI-sourced I/O write requests allowed to KEY_MEM(0..2047) (e.g. 16KB, not
+                                                                 all of KEY_MEM) only. CCPI-sourced writes to __any__ other address
+                                                                 (non-KEY_MEM(0..2047)), or any CCPI-source read will be redirected to
+                                                                 ECAM0_NOP_ZF (for non-ECAM) or ECAM0_NOP_ONNF (for-ECAM).
+
+                                                                 This setting does not affect local-node originated traffic.
+
+                                                                 In pass 1, read-only. */
+        uint64_t all_gic               : 1;  /**< [  1:  1](R/W) All-to-GIC. For diagnostic use only.
+                                                                 Internal:
+                                                                 0 = Normal operation. NCBI traffic to GIC interrupt delivery registers will be ordered
+                                                                 with other interrupt delivery traffic and over the RIB bus.  NCBI traffic to normal non-
+                                                                 interrupt-delivery GIC registers will go via RSL.
+                                                                   1 = All NCBI traffic to the GIC DID will be assumed to be interrupt delivery traffic.
+                                                                 This will break NCBI write transactions to non-interrupt-delivery GIC registers, but may
+                                                                 work around bugs whereby interrupt-delivery CSRs are mis-catagorized inside IOB. */
+        uint64_t ncbi_off              : 1;  /**< [  0:  0](R/W) When set NCBI translation to I/O space (with exception of GIC traffic) will be disabled.
+                                                                 Disabled traffic will turn into access to ECAM0_NOP_ZF. */
+#else /* Word 0 - Little Endian */
+        uint64_t ncbi_off              : 1;  /**< [  0:  0](R/W) When set NCBI translation to I/O space (with exception of GIC traffic) will be disabled.
+                                                                 Disabled traffic will turn into access to ECAM0_NOP_ZF. */
+        uint64_t all_gic               : 1;  /**< [  1:  1](R/W) All-to-GIC. For diagnostic use only.
+                                                                 Internal:
+                                                                 0 = Normal operation. NCBI traffic to GIC interrupt delivery registers will be ordered
+                                                                 with other interrupt delivery traffic and over the RIB bus.  NCBI traffic to normal non-
+                                                                 interrupt-delivery GIC registers will go via RSL.
+                                                                   1 = All NCBI traffic to the GIC DID will be assumed to be interrupt delivery traffic.
+                                                                 This will break NCBI write transactions to non-interrupt-delivery GIC registers, but may
+                                                                 work around bugs whereby interrupt-delivery CSRs are mis-catagorized inside IOB. */
+        uint64_t oci_key_only          : 1;  /**< [  2:  2](R/W) Restrict CCPI-sourced I/O write requests.
+
+                                                                 0 = CCPI-sourced I/O read and write requests are allowed to any device through
+                                                                 IOB, including allowing read/writes to all of KEY_MEM().
+
+                                                                 1 = CCPI-sourced I/O write requests allowed to KEY_MEM(0..2047) (e.g. 16KB, not
+                                                                 all of KEY_MEM) only. CCPI-sourced writes to __any__ other address
+                                                                 (non-KEY_MEM(0..2047)), or any CCPI-source read will be redirected to
+                                                                 ECAM0_NOP_ZF (for non-ECAM) or ECAM0_NOP_ONNF (for-ECAM).
+
+                                                                 This setting does not affect local-node originated traffic.
+
+                                                                 In pass 1, read-only. */
+        uint64_t tlb_sync_dis          : 1;  /**< [  3:  3](R/W) When set the IOBN will return SYNC-RDY to the SMMU without waiting for
+                                                                 outstanding request to receive responses. */
+        uint64_t sli_off               : 1;  /**< [  4:  4](R/W) SLI isolation.
+                                                                 Resets to one in trusted mode, else zero.
+                                                                 0 = Operation of NCBI transactions are not impacted.
+                                                                 1 = NCBI transactions initiating at the SLI are disabled and
+                                                                     turn into accesses to ECAM0_NOP_ZF. When set, this bit
+                                                                     overrides [SLI_KEY_MEM]. */
+        uint64_t sli_key_mem           : 1;  /**< [  5:  5](R/W) SLI KEY memory isolation.
+                                                                 0 = SLI initiated requests are allowed.
+                                                                 1 = SLI initiated read and write requests are allowed to
+                                                                     KEY_MEM(0..2047) (e.g. 16KB, not all of KEY_MEM) only.
+                                                                     SLI requests to any other address (non-KEY_MEM(0..2047))
+                                                                     will be redirected to ECAM0_NOP_ZF. */
+        uint64_t reserved_6_63         : 58;
+#endif /* Word 0 - End */
+    } cn83xx;
     /* struct bdk_iobnx_dis_ncbi_io_cn81xx cn88xxp2; */
 } bdk_iobnx_dis_ncbi_io_t;
 
@@ -1068,8 +1183,6 @@ static inline uint64_t BDK_IOBNX_DIS_NCBI_IO(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e0f0003000ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
-        return 0x87e0f0003000ll + 0x1000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
         return 0x87e0f0003000ll + 0x1000000ll * ((a) & 0x1);
     __bdk_csr_fatal("IOBNX_DIS_NCBI_IO", 1, a, 0, 0, 0);
 }
@@ -1136,8 +1249,6 @@ static inline uint64_t BDK_IOBNX_GBL_DLL(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e0f000a000ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
-        return 0x87e0f000a000ll + 0x1000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
         return 0x87e0f000a000ll + 0x1000000ll * ((a) & 0x1);
     __bdk_csr_fatal("IOBNX_GBL_DLL", 1, a, 0, 0, 0);
 }
@@ -3480,8 +3591,7 @@ typedef union
         uint64_t reserved_49_63        : 15;
         uint64_t dis                   : 17; /**< [ 48: 32](R/W) Memory ECC disable.
                                                                  Internal:
-                                                                 <48:32>  = iobn_gmr_ixofifo_csr_cor_dis,
-                                                                              sli_req_3_cor_dis and sli_preq_3_cor_dis,
+                                                                 <47:32>  = iobn_gmr_ixofifo_csr_cor_dis,
                                                                               sli_req_2_cor_dis and sli_preq_2_cor_dis,
                                                                               sli_req_1_cor_dis and sli_preq_1_cor_dis,
                                                                               sli_req_0_cor_dis and sli_preq_0_cor_dis,
@@ -3500,8 +3610,7 @@ typedef union
         uint64_t reserved_30_31        : 2;
         uint64_t flip                  : 30; /**< [ 29:  0](R/W) Memory ECC flip.
                                                                  Internal:
-                                                                 <29:0>  = iobn_gmr_ixofifo_csr_flip_synd,
-                                                                             sli_req_3_flip_synd and sli_preq_3_flip_synd,
+                                                                 <27:0>  = iobn_gmr_ixofifo_csr_flip_synd,
                                                                              sli_req_2_flip_synd and sli_preq_2_flip_synd,
                                                                              sli_req_1_flip_synd and sli_preq_1_flip_synd,
                                                                              sli_req_0_flip_synd and sli_preq_0_flip_synd,
@@ -3518,8 +3627,7 @@ typedef union
 #else /* Word 0 - Little Endian */
         uint64_t flip                  : 30; /**< [ 29:  0](R/W) Memory ECC flip.
                                                                  Internal:
-                                                                 <29:0>  = iobn_gmr_ixofifo_csr_flip_synd,
-                                                                             sli_req_3_flip_synd and sli_preq_3_flip_synd,
+                                                                 <27:0>  = iobn_gmr_ixofifo_csr_flip_synd,
                                                                              sli_req_2_flip_synd and sli_preq_2_flip_synd,
                                                                              sli_req_1_flip_synd and sli_preq_1_flip_synd,
                                                                              sli_req_0_flip_synd and sli_preq_0_flip_synd,
@@ -3536,8 +3644,7 @@ typedef union
         uint64_t reserved_30_31        : 2;
         uint64_t dis                   : 17; /**< [ 48: 32](R/W) Memory ECC disable.
                                                                  Internal:
-                                                                 <48:32>  = iobn_gmr_ixofifo_csr_cor_dis,
-                                                                              sli_req_3_cor_dis and sli_preq_3_cor_dis,
+                                                                 <47:32>  = iobn_gmr_ixofifo_csr_cor_dis,
                                                                               sli_req_2_cor_dis and sli_preq_2_cor_dis,
                                                                               sli_req_1_cor_dis and sli_preq_1_cor_dis,
                                                                               sli_req_0_cor_dis and sli_preq_0_cor_dis,
@@ -3556,7 +3663,6 @@ typedef union
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_iobnx_mctlr_reg_s cn9; */
     struct bdk_iobnx_mctlr_reg_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -3636,7 +3742,88 @@ typedef union
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_iobnx_mctlr_reg_cn81xx cn88xx; */
-    /* struct bdk_iobnx_mctlr_reg_s cn83xx; */
+    struct bdk_iobnx_mctlr_reg_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_49_63        : 15;
+        uint64_t dis                   : 17; /**< [ 48: 32](R/W) Memory ECC disable.
+                                                                 Internal:
+                                                                 <48:32>  = iobn_gmr_ixofifo_csr_cor_dis,
+                                                                              sli_req_3_cor_dis and sli_preq_3_cor_dis,
+                                                                              sli_req_2_cor_dis and sli_preq_2_cor_dis,
+                                                                              sli_req_1_cor_dis and sli_preq_1_cor_dis,
+                                                                              sli_req_0_cor_dis and sli_preq_0_cor_dis,
+                                                                              iob__iob_xmd_csr_cor_dis_rclk,
+                                                                              ixo_smmu_mem0_csr_cor_dis,
+                                                                              ixo_smmu_mem1_csr_cor_dis,
+                                                                              ixo_ics_mem_csr_cor_dis,
+                                                                              ixo_icc_fifo0_csr_cor_dis,
+                                                                              ixo_icc_fifo1_csr_cor_dis,
+                                                                              ixo_xmd_mem0_csr_cor_dis,
+                                                                              ixo_xmd_mem1_csr_cor_dis,
+                                                                              iobn_iorn_ffifo0__csr_cor_dis,
+                                                                              iobn_iorn_ffifo1__csr_cor_dis,
+                                                                              iop_ffifo_csr_cor_dis,
+                                                                              ics_cmd_fifo_csr_cor_dis */
+        uint64_t reserved_30_31        : 2;
+        uint64_t flip                  : 30; /**< [ 29:  0](R/W) Memory ECC flip.
+                                                                 Internal:
+                                                                 <29:0>  = iobn_gmr_ixofifo_csr_flip_synd,
+                                                                             sli_req_3_flip_synd and sli_preq_3_flip_synd,
+                                                                             sli_req_2_flip_synd and sli_preq_2_flip_synd,
+                                                                             sli_req_1_flip_synd and sli_preq_1_flip_synd,
+                                                                             sli_req_0_flip_synd and sli_preq_0_flip_synd,
+                                                                             iobn_rsd_mem0_csr_flip_synd_rclk,
+                                                                             iobn_rsd_mem1_csr_flip_synd_rclk,
+                                                                             ixo_smmu_mem0_csr_flip_synd,
+                                                                             ixo_smmu_mem1_csr_flip_synd,
+                                                                             ixo_ics_mem_csr_flip_synd,
+                                                                             iop_ffifo_csr_flip_synd,
+                                                                             iop_breq_fifo0_csr_flip_synd,
+                                                                             iop_breq_fifo1_csr_flip_synd,
+                                                                             iop_breq_fifo2_csr_flip_synd,
+                                                                             iop_breq_fifo3_csr_flip_synd */
+#else /* Word 0 - Little Endian */
+        uint64_t flip                  : 30; /**< [ 29:  0](R/W) Memory ECC flip.
+                                                                 Internal:
+                                                                 <29:0>  = iobn_gmr_ixofifo_csr_flip_synd,
+                                                                             sli_req_3_flip_synd and sli_preq_3_flip_synd,
+                                                                             sli_req_2_flip_synd and sli_preq_2_flip_synd,
+                                                                             sli_req_1_flip_synd and sli_preq_1_flip_synd,
+                                                                             sli_req_0_flip_synd and sli_preq_0_flip_synd,
+                                                                             iobn_rsd_mem0_csr_flip_synd_rclk,
+                                                                             iobn_rsd_mem1_csr_flip_synd_rclk,
+                                                                             ixo_smmu_mem0_csr_flip_synd,
+                                                                             ixo_smmu_mem1_csr_flip_synd,
+                                                                             ixo_ics_mem_csr_flip_synd,
+                                                                             iop_ffifo_csr_flip_synd,
+                                                                             iop_breq_fifo0_csr_flip_synd,
+                                                                             iop_breq_fifo1_csr_flip_synd,
+                                                                             iop_breq_fifo2_csr_flip_synd,
+                                                                             iop_breq_fifo3_csr_flip_synd */
+        uint64_t reserved_30_31        : 2;
+        uint64_t dis                   : 17; /**< [ 48: 32](R/W) Memory ECC disable.
+                                                                 Internal:
+                                                                 <48:32>  = iobn_gmr_ixofifo_csr_cor_dis,
+                                                                              sli_req_3_cor_dis and sli_preq_3_cor_dis,
+                                                                              sli_req_2_cor_dis and sli_preq_2_cor_dis,
+                                                                              sli_req_1_cor_dis and sli_preq_1_cor_dis,
+                                                                              sli_req_0_cor_dis and sli_preq_0_cor_dis,
+                                                                              iob__iob_xmd_csr_cor_dis_rclk,
+                                                                              ixo_smmu_mem0_csr_cor_dis,
+                                                                              ixo_smmu_mem1_csr_cor_dis,
+                                                                              ixo_ics_mem_csr_cor_dis,
+                                                                              ixo_icc_fifo0_csr_cor_dis,
+                                                                              ixo_icc_fifo1_csr_cor_dis,
+                                                                              ixo_xmd_mem0_csr_cor_dis,
+                                                                              ixo_xmd_mem1_csr_cor_dis,
+                                                                              iobn_iorn_ffifo0__csr_cor_dis,
+                                                                              iobn_iorn_ffifo1__csr_cor_dis,
+                                                                              iop_ffifo_csr_cor_dis,
+                                                                              ics_cmd_fifo_csr_cor_dis */
+        uint64_t reserved_49_63        : 15;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_iobnx_mctlr_reg_t;
 
 static inline uint64_t BDK_IOBNX_MCTLR_REG(unsigned long a) __attribute__ ((pure, always_inline));
@@ -3647,8 +3834,6 @@ static inline uint64_t BDK_IOBNX_MCTLR_REG(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e0f0005108ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
-        return 0x87e0f0005108ll + 0x1000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
         return 0x87e0f0005108ll + 0x1000000ll * ((a) & 0x1);
     __bdk_csr_fatal("IOBNX_MCTLR_REG", 1, a, 0, 0, 0);
 }
@@ -3746,8 +3931,6 @@ static inline uint64_t BDK_IOBNX_MCTLS_REG(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e0f0005100ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
-        return 0x87e0f0005100ll + 0x1000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
         return 0x87e0f0005100ll + 0x1000000ll * ((a) & 0x1);
     __bdk_csr_fatal("IOBNX_MCTLS_REG", 1, a, 0, 0, 0);
 }
@@ -3957,8 +4140,6 @@ static inline uint64_t BDK_IOBNX_NCBX_CREDITS(unsigned long a, unsigned long b)
         return 0x87e0f0001000ll + 0x1000000ll * ((a) & 0x1) + 0x100ll * ((b) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=1)))
         return 0x87e0f0001000ll + 0x1000000ll * ((a) & 0x1) + 0x100ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=1) && (b<=1)))
-        return 0x87e0f0001000ll + 0x1000000ll * ((a) & 0x1) + 0x100ll * ((b) & 0x1);
     __bdk_csr_fatal("IOBNX_NCBX_CREDITS", 2, a, b, 0, 0);
 }
 
@@ -4019,8 +4200,6 @@ static inline uint64_t BDK_IOBNX_NCBX_CTL(unsigned long a, unsigned long b)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=1)))
         return 0x87e0f0004000ll + 0x1000000ll * ((a) & 0x1) + 0x100ll * ((b) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=1)))
-        return 0x87e0f0004000ll + 0x1000000ll * ((a) & 0x1) + 0x100ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=1) && (b<=1)))
         return 0x87e0f0004000ll + 0x1000000ll * ((a) & 0x1) + 0x100ll * ((b) & 0x1);
     __bdk_csr_fatal("IOBNX_NCBX_CTL", 2, a, b, 0, 0);
 }
@@ -4214,21 +4393,16 @@ typedef union
         uint64_t reserved_4_63         : 60;
         uint64_t lp                    : 1;  /**< [  3:  3](R/W) For IOBN0 the reset value for this is 0x1. For IOBN1 the reset value is 0x0.
                                                                  When set, NCBI 0 ARB 0 request port 3 will use the low performance path through ARB 0. */
-        uint64_t hp                    : 3;  /**< [  2:  0](R/W) For IOBN0 the reset value for this is 0x7. For IOBN1 the reset value is 0x0.
-                                                                 When set, NCBI 0 ARB 0 for request ports 2..0 will use the high performance path through
-                                                                 the IOBN.
-                                                                 Software typically must have IOB(0)_NCB0_HP[HP] = 0x7, and IOB(1)_NCB0_HP[HP] = 0x0. */
+        uint64_t hp                    : 3;  /**< [  2:  0](R/W) When set, NCBI 0 ARB 0 will use the high performance path through the IOBN.
+                                                                 Software typically must have IOB(0)_NCB0_HP[HP] set, and IOB(1)_NCB0_HP[HP] clear. */
 #else /* Word 0 - Little Endian */
-        uint64_t hp                    : 3;  /**< [  2:  0](R/W) For IOBN0 the reset value for this is 0x7. For IOBN1 the reset value is 0x0.
-                                                                 When set, NCBI 0 ARB 0 for request ports 2..0 will use the high performance path through
-                                                                 the IOBN.
-                                                                 Software typically must have IOB(0)_NCB0_HP[HP] = 0x7, and IOB(1)_NCB0_HP[HP] = 0x0. */
+        uint64_t hp                    : 3;  /**< [  2:  0](R/W) When set, NCBI 0 ARB 0 will use the high performance path through the IOBN.
+                                                                 Software typically must have IOB(0)_NCB0_HP[HP] set, and IOB(1)_NCB0_HP[HP] clear. */
         uint64_t lp                    : 1;  /**< [  3:  3](R/W) For IOBN0 the reset value for this is 0x1. For IOBN1 the reset value is 0x0.
                                                                  When set, NCBI 0 ARB 0 request port 3 will use the low performance path through ARB 0. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_iobnx_ncb0_hp_s cn9; */
     struct bdk_iobnx_ncb0_hp_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -4257,7 +4431,26 @@ typedef union
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } cn88xx;
-    /* struct bdk_iobnx_ncb0_hp_s cn83xx; */
+    struct bdk_iobnx_ncb0_hp_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_4_63         : 60;
+        uint64_t lp                    : 1;  /**< [  3:  3](R/W) For IOBN0 the reset value for this is 0x1. For IOBN1 the reset value is 0x0.
+                                                                 When set, NCBI 0 ARB 0 request port 3 will use the low performance path through ARB 0. */
+        uint64_t hp                    : 3;  /**< [  2:  0](R/W) For IOBN0 the reset value for this is 0x7. For IOBN1 the reset value is 0x0.
+                                                                 When set, NCBI 0 ARB 0 for request ports 2..0 will use the high performance path through
+                                                                 the IOBN.
+                                                                 Software typically must have IOB(0)_NCB0_HP[HP] = 0x7, and IOB(1)_NCB0_HP[HP] = 0x0. */
+#else /* Word 0 - Little Endian */
+        uint64_t hp                    : 3;  /**< [  2:  0](R/W) For IOBN0 the reset value for this is 0x7. For IOBN1 the reset value is 0x0.
+                                                                 When set, NCBI 0 ARB 0 for request ports 2..0 will use the high performance path through
+                                                                 the IOBN.
+                                                                 Software typically must have IOB(0)_NCB0_HP[HP] = 0x7, and IOB(1)_NCB0_HP[HP] = 0x0. */
+        uint64_t lp                    : 1;  /**< [  3:  3](R/W) For IOBN0 the reset value for this is 0x1. For IOBN1 the reset value is 0x0.
+                                                                 When set, NCBI 0 ARB 0 request port 3 will use the low performance path through ARB 0. */
+        uint64_t reserved_4_63         : 60;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_iobnx_ncb0_hp_t;
 
 static inline uint64_t BDK_IOBNX_NCB0_HP(unsigned long a) __attribute__ ((pure, always_inline));
@@ -4268,8 +4461,6 @@ static inline uint64_t BDK_IOBNX_NCB0_HP(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e0f0003008ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
-        return 0x87e0f0003008ll + 0x1000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
         return 0x87e0f0003008ll + 0x1000000ll * ((a) & 0x1);
     __bdk_csr_fatal("IOBNX_NCB0_HP", 1, a, 0, 0, 0);
 }
@@ -4316,8 +4507,6 @@ static inline uint64_t BDK_IOBNX_NCB0_SDISX(unsigned long a, unsigned long b)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=3)))
         return 0x87e0f0002000ll + 0x1000000ll * ((a) & 0x1) + 0x100ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
-        return 0x87e0f0002000ll + 0x1000000ll * ((a) & 0x1) + 0x100ll * ((b) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=1) && (b<=3)))
         return 0x87e0f0002000ll + 0x1000000ll * ((a) & 0x1) + 0x100ll * ((b) & 0x3);
     __bdk_csr_fatal("IOBNX_NCB0_SDISX", 2, a, b, 0, 0);
 }
@@ -4433,7 +4622,6 @@ typedef union
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } cn88xxp1;
-    /* struct bdk_iobnx_roc_dll_s cn9; */
     /* struct bdk_iobnx_roc_dll_s cn81xx; */
     /* struct bdk_iobnx_roc_dll_s cn83xx; */
     /* struct bdk_iobnx_roc_dll_s cn88xxp2; */
@@ -4447,8 +4635,6 @@ static inline uint64_t BDK_IOBNX_ROC_DLL(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e0f000a008ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
-        return 0x87e0f000a008ll + 0x1000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
         return 0x87e0f000a008ll + 0x1000000ll * ((a) & 0x1);
     __bdk_csr_fatal("IOBNX_ROC_DLL", 1, a, 0, 0, 0);
 }
@@ -4513,12 +4699,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_9_63         : 55;
-        uint64_t bits_dis              : 1;  /**< [  8:  8](SR/W) Bitstream disable.
-                                                                 0 = Check inbound stream IDs from a PEM are between the secondary and
-                                                                 subordinate bus numbers corresponding to that PEM (used when PEM is in host
-                                                                 mode), or from the stream ID PCC_DEV_CON_E::PCIERC() (used when PEM is in
-                                                                 endpoint mode). This prevents SR-IOV security issues.
-                                                                 1 = Do not check inbound stream IDs. See PEM()_CTL_STREAM[EPSBBASE]. */
+        uint64_t bits_dis              : 1;  /**< [  8:  8](RAZ) Reserved. */
         uint64_t reserved_4_7          : 4;
         uint64_t ld_ld_ord             : 1;  /**< [  3:  3](R/W) Enforce load-following-load ordering for SLI operations. A load operation must
                                                                  wait for all previous load operations' FILLs before issuing.
@@ -4556,62 +4737,11 @@ typedef union
                                                                  Atomic transactions (which for PCI are non-posted so not part of normal store
                                                                  ordering) are also considered loads for the purpose of this bit. */
         uint64_t reserved_4_7          : 4;
-        uint64_t bits_dis              : 1;  /**< [  8:  8](SR/W) Bitstream disable.
-                                                                 0 = Check inbound stream IDs from a PEM are between the secondary and
-                                                                 subordinate bus numbers corresponding to that PEM (used when PEM is in host
-                                                                 mode), or from the stream ID PCC_DEV_CON_E::PCIERC() (used when PEM is in
-                                                                 endpoint mode). This prevents SR-IOV security issues.
-                                                                 1 = Do not check inbound stream IDs. See PEM()_CTL_STREAM[EPSBBASE]. */
+        uint64_t bits_dis              : 1;  /**< [  8:  8](RAZ) Reserved. */
         uint64_t reserved_9_63         : 55;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_iobnx_slitagx_control_cn88xxp1
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_9_63         : 55;
-        uint64_t bits_dis              : 1;  /**< [  8:  8](RAZ) Reserved. */
-        uint64_t reserved_4_7          : 4;
-        uint64_t ld_ld_ord             : 1;  /**< [  3:  3](R/W) Enforce load-following-load ordering for SLI operations. A load operation must
-                                                                 wait for all previous load operations' FILLs before issuing.
-
-                                                                 Atomic transactions (which for PCI are non-posted so not part of normal store
-                                                                 ordering) are also considered loads for the purpose of this bit. */
-        uint64_t ld_st_ord             : 1;  /**< [  2:  2](R/W) Enforce load-following-store ordering for SLI operations. A load operation must
-                                                                 wait for all previous store operations' STDNs before issuing.
-
-                                                                 Atomic transactions (which for PCI are non-posted so not part of normal store
-                                                                 ordering) are also considered loads for the purpose of this bit. */
-        uint64_t st_ld_ord             : 1;  /**< [  1:  1](R/W) Enforce store-following-load ordering for SLI operations. A store operation must
-                                                                 wait for all previous load operations' FILLs before issuing.
-
-                                                                 Atomic transactions (which for PCI are non-posted so not part of normal store
-                                                                 ordering) are also considered loads for the purpose of this bit. */
-        uint64_t st_st_ord             : 1;  /**< [  0:  0](R/W) Enforce store-following-store ordering for SLI operations. A store operation must
-                                                                 wait for all previous store operations' STDNs before issuing. */
-#else /* Word 0 - Little Endian */
-        uint64_t st_st_ord             : 1;  /**< [  0:  0](R/W) Enforce store-following-store ordering for SLI operations. A store operation must
-                                                                 wait for all previous store operations' STDNs before issuing. */
-        uint64_t st_ld_ord             : 1;  /**< [  1:  1](R/W) Enforce store-following-load ordering for SLI operations. A store operation must
-                                                                 wait for all previous load operations' FILLs before issuing.
-
-                                                                 Atomic transactions (which for PCI are non-posted so not part of normal store
-                                                                 ordering) are also considered loads for the purpose of this bit. */
-        uint64_t ld_st_ord             : 1;  /**< [  2:  2](R/W) Enforce load-following-store ordering for SLI operations. A load operation must
-                                                                 wait for all previous store operations' STDNs before issuing.
-
-                                                                 Atomic transactions (which for PCI are non-posted so not part of normal store
-                                                                 ordering) are also considered loads for the purpose of this bit. */
-        uint64_t ld_ld_ord             : 1;  /**< [  3:  3](R/W) Enforce load-following-load ordering for SLI operations. A load operation must
-                                                                 wait for all previous load operations' FILLs before issuing.
-
-                                                                 Atomic transactions (which for PCI are non-posted so not part of normal store
-                                                                 ordering) are also considered loads for the purpose of this bit. */
-        uint64_t reserved_4_7          : 4;
-        uint64_t bits_dis              : 1;  /**< [  8:  8](RAZ) Reserved. */
-        uint64_t reserved_9_63         : 55;
-#endif /* Word 0 - End */
-    } cn88xxp1;
-    /* struct bdk_iobnx_slitagx_control_s cn9; */
+    /* struct bdk_iobnx_slitagx_control_s cn88xxp1; */
     struct bdk_iobnx_slitagx_control_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -4658,7 +4788,62 @@ typedef union
         uint64_t reserved_9_63         : 55;
 #endif /* Word 0 - End */
     } cn81xx;
-    /* struct bdk_iobnx_slitagx_control_s cn83xx; */
+    struct bdk_iobnx_slitagx_control_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_9_63         : 55;
+        uint64_t bits_dis              : 1;  /**< [  8:  8](SR/W) Bitstream disable.
+                                                                 0 = Check inbound stream IDs from a PEM are between the secondary and
+                                                                 subordinate bus numbers corresponding to that PEM (used when PEM is in host
+                                                                 mode), or from the stream ID PCC_DEV_CON_E::PCIERC() (used when PEM is in
+                                                                 endpoint mode). This prevents SR-IOV security issues.
+                                                                 1 = Do not check inbound stream IDs. See PEM()_CTL_STREAM[EPSBBASE]. */
+        uint64_t reserved_4_7          : 4;
+        uint64_t ld_ld_ord             : 1;  /**< [  3:  3](R/W) Enforce load-following-load ordering for SLI operations. A load operation must
+                                                                 wait for all previous load operations' FILLs before issuing.
+
+                                                                 Atomic transactions (which for PCI are non-posted so not part of normal store
+                                                                 ordering) are also considered loads for the purpose of this bit. */
+        uint64_t ld_st_ord             : 1;  /**< [  2:  2](R/W) Enforce load-following-store ordering for SLI operations. A load operation must
+                                                                 wait for all previous store operations' STDNs before issuing.
+
+                                                                 Atomic transactions (which for PCI are non-posted so not part of normal store
+                                                                 ordering) are also considered loads for the purpose of this bit. */
+        uint64_t st_ld_ord             : 1;  /**< [  1:  1](R/W) Enforce store-following-load ordering for SLI operations. A store operation must
+                                                                 wait for all previous load operations' FILLs before issuing.
+
+                                                                 Atomic transactions (which for PCI are non-posted so not part of normal store
+                                                                 ordering) are also considered loads for the purpose of this bit. */
+        uint64_t st_st_ord             : 1;  /**< [  0:  0](R/W) Enforce store-following-store ordering for SLI operations. A store operation must
+                                                                 wait for all previous store operations' STDNs before issuing. */
+#else /* Word 0 - Little Endian */
+        uint64_t st_st_ord             : 1;  /**< [  0:  0](R/W) Enforce store-following-store ordering for SLI operations. A store operation must
+                                                                 wait for all previous store operations' STDNs before issuing. */
+        uint64_t st_ld_ord             : 1;  /**< [  1:  1](R/W) Enforce store-following-load ordering for SLI operations. A store operation must
+                                                                 wait for all previous load operations' FILLs before issuing.
+
+                                                                 Atomic transactions (which for PCI are non-posted so not part of normal store
+                                                                 ordering) are also considered loads for the purpose of this bit. */
+        uint64_t ld_st_ord             : 1;  /**< [  2:  2](R/W) Enforce load-following-store ordering for SLI operations. A load operation must
+                                                                 wait for all previous store operations' STDNs before issuing.
+
+                                                                 Atomic transactions (which for PCI are non-posted so not part of normal store
+                                                                 ordering) are also considered loads for the purpose of this bit. */
+        uint64_t ld_ld_ord             : 1;  /**< [  3:  3](R/W) Enforce load-following-load ordering for SLI operations. A load operation must
+                                                                 wait for all previous load operations' FILLs before issuing.
+
+                                                                 Atomic transactions (which for PCI are non-posted so not part of normal store
+                                                                 ordering) are also considered loads for the purpose of this bit. */
+        uint64_t reserved_4_7          : 4;
+        uint64_t bits_dis              : 1;  /**< [  8:  8](SR/W) Bitstream disable.
+                                                                 0 = Check inbound stream IDs from a PEM are between the secondary and
+                                                                 subordinate bus numbers corresponding to that PEM (used when PEM is in host
+                                                                 mode), or from the stream ID PCC_DEV_CON_E::PCIERC() (used when PEM is in
+                                                                 endpoint mode). This prevents SR-IOV security issues.
+                                                                 1 = Do not check inbound stream IDs. See PEM()_CTL_STREAM[EPSBBASE]. */
+        uint64_t reserved_9_63         : 55;
+#endif /* Word 0 - End */
+    } cn83xx;
     /* struct bdk_iobnx_slitagx_control_cn81xx cn88xxp2; */
 } bdk_iobnx_slitagx_control_t;
 
@@ -4670,8 +4855,6 @@ static inline uint64_t BDK_IOBNX_SLITAGX_CONTROL(unsigned long a, unsigned long 
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=3)))
         return 0x87e0f0000000ll + 0x1000000ll * ((a) & 0x1) + 0x100ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=2)))
-        return 0x87e0f0000000ll + 0x1000000ll * ((a) & 0x1) + 0x100ll * ((b) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=1) && (b<=3)))
         return 0x87e0f0000000ll + 0x1000000ll * ((a) & 0x1) + 0x100ll * ((b) & 0x3);
     __bdk_csr_fatal("IOBNX_SLITAGX_CONTROL", 2, a, b, 0, 0);
 }
@@ -4695,25 +4878,24 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
-        uint64_t gibarb_testmode       : 1;  /**< [  0:  0](RO) When set, the IOBN GIB arbiters will only grant one requestor at a time. */
+        uint64_t gibarb_testmode       : 1;  /**< [  0:  0](R/W) When set, the IOBN GIB arbiters will only grant one requestor at a time. */
 #else /* Word 0 - Little Endian */
-        uint64_t gibarb_testmode       : 1;  /**< [  0:  0](RO) When set, the IOBN GIB arbiters will only grant one requestor at a time. */
+        uint64_t gibarb_testmode       : 1;  /**< [  0:  0](R/W) When set, the IOBN GIB arbiters will only grant one requestor at a time. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_iobnx_test_s cn9; */
-    /* struct bdk_iobnx_test_s cn81xx; */
-    struct bdk_iobnx_test_cn88xx
+    struct bdk_iobnx_test_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
-        uint64_t gibarb_testmode       : 1;  /**< [  0:  0](R/W) When set, the IOBN GIB arbiters will only grant one requestor at a time. */
+        uint64_t gibarb_testmode       : 1;  /**< [  0:  0](RO) When set, the IOBN GIB arbiters will only grant one requestor at a time. */
 #else /* Word 0 - Little Endian */
-        uint64_t gibarb_testmode       : 1;  /**< [  0:  0](R/W) When set, the IOBN GIB arbiters will only grant one requestor at a time. */
+        uint64_t gibarb_testmode       : 1;  /**< [  0:  0](RO) When set, the IOBN GIB arbiters will only grant one requestor at a time. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
-    } cn88xx;
-    /* struct bdk_iobnx_test_s cn83xx; */
+    } cn81xx;
+    /* struct bdk_iobnx_test_s cn88xx; */
+    /* struct bdk_iobnx_test_cn81xx cn83xx; */
 } bdk_iobnx_test_t;
 
 static inline uint64_t BDK_IOBNX_TEST(unsigned long a) __attribute__ ((pure, always_inline));
@@ -4724,8 +4906,6 @@ static inline uint64_t BDK_IOBNX_TEST(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e0f0003010ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
-        return 0x87e0f0003010ll + 0x1000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
         return 0x87e0f0003010ll + 0x1000000ll * ((a) & 0x1);
     __bdk_csr_fatal("IOBNX_TEST", 1, a, 0, 0, 0);
 }

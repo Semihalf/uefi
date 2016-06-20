@@ -1207,6 +1207,9 @@ union bdk_pko_send_hdr_s
                                                                  * The L4 length field must not require more than [TOTAL] bytes in the packet and the L4
                                                                  length must be nonzero.
 
+                                                                 * PKO does not support L4 checksums of IPv6 packets with options that modify the
+                                                                 pseudo-header (e.g. routing option); software checksums must be used.
+
                                                                  * When PKO_SEND_CRC_S are present, the bytes covered or inserted by PKO_SEND_CRC_S must
                                                                  all reside in the L4 payload. Conceptually, PKO processes PKO_SEND_CRC_S before L4
                                                                  checksums when both are present.
@@ -1521,6 +1524,9 @@ union bdk_pko_send_hdr_s
 
                                                                  * The L4 length field must not require more than [TOTAL] bytes in the packet and the L4
                                                                  length must be nonzero.
+
+                                                                 * PKO does not support L4 checksums of IPv6 packets with options that modify the
+                                                                 pseudo-header (e.g. routing option); software checksums must be used.
 
                                                                  * When PKO_SEND_CRC_S are present, the bytes covered or inserted by PKO_SEND_CRC_S must
                                                                  all reside in the L4 payload. Conceptually, PKO processes PKO_SEND_CRC_S before L4
@@ -16000,8 +16006,9 @@ static inline uint64_t BDK_PKO_VFX_DQX_MP_STATEX(unsigned long a, unsigned long 
  * Register (NCB) pko_vf#_dq#_op_close
  *
  * PKO DQ Close Operation Register
- * A read request performs a close operation and returns status identical to PKO_DQ()_OP_QUERY.
- * All other transaction types to these addresses are ignored.
+ * An atomic fetch-and-add performs a close operation and returns status identical to
+ * PKO_DQ()_OP_QUERY. A 64-bit LDADD instruction must be used, all other operations to these
+ * addresses are ignored.
  */
 typedef union
 {
@@ -16082,8 +16089,9 @@ static inline uint64_t BDK_PKO_VFX_DQX_OP_CLOSE(unsigned long a, unsigned long b
  * Register (NCB) pko_vf#_dq#_op_open
  *
  * PKO DQ Open Operation Register
- * A read request performs an open operation and returns status identical to PKO_DQ()_OP_QUERY.
- * All other transaction types to these addresses are ignored.
+ * An atomic fetch-and-add performs an open operation and returns status identical to
+ * PKO_DQ()_OP_QUERY. A 64-bit LDADD instruction must be used, all other operations to these
+ * addresses are ignored.
  */
 typedef union
 {
@@ -16246,9 +16254,9 @@ static inline uint64_t BDK_PKO_VFX_DQX_OP_QUERY(unsigned long a, unsigned long b
  * Register (NCB) pko_vf#_dq#_op_send#
  *
  * PKO DQ Send Operation Register
- * A 64-bit, 128-bit or larger atomic store or LMTST is used to this address to
+ * A 128-bit or larger LMTST is used to this address to
  * initiate a send operation.  All words for a given send command must be written using
- * a single instruction, resulting in up to 16 64-bit words of send descriptor.
+ * a single instruction, resulting in up to 7 (not 8) 128-bit words of send descriptor.
  *
  * The endinness of the instruction write data is controlled by PKO_PF_VF()_GMCTL[BE].
  *

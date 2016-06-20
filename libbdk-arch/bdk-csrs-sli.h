@@ -194,8 +194,10 @@
 #define BDK_SLI_RAMS_E_P2NP3C_FIF (6)
 #define BDK_SLI_RAMS_E_P2NP3N_FIF (5)
 #define BDK_SLI_RAMS_E_P2NP3P_FIF (4)
-#define BDK_SLI_RAMS_E_REG_FIF (0x1b)
-#define BDK_SLI_RAMS_E_SNCF0_FIF (0x1c)
+#define BDK_SLI_RAMS_E_REG_FIF_CN8 (0x1c)
+#define BDK_SLI_RAMS_E_REG_FIF_CN9 (0x1b)
+#define BDK_SLI_RAMS_E_SNCF0_FIF_CN8 (0x1b)
+#define BDK_SLI_RAMS_E_SNCF0_FIF_CN9 (0x1c)
 #define BDK_SLI_RAMS_E_SNCF1_FIF (0x18)
 #define BDK_SLI_RAMS_E_SNCF2_FIF (0x15)
 #define BDK_SLI_RAMS_E_SNCF3_FIF (0x12)
@@ -6981,11 +6983,14 @@ typedef union
                                                                  transitions from de-asserted to asserted. Writing a 1 to this location clears this
                                                                  condition when the MAC is no longer in reset and the output to the MAC is at the beginning
                                                                  of a transfer. */
-        uint64_t waitl_com             : 1;  /**< [ 16: 16](R/W) When set, causes the SLI to wait for a store done from the L2C for any previously sent
-                                                                 stores,
-                                                                 before sending additional completions to the L2C from the MAC.
-                                                                 Set this for more conservative behavior. Clear this for more aggressive, higher-
-                                                                 performance behavior. */
+        uint64_t waitl_com             : 1;  /**< [ 16: 16](R/W) When set, causes the SLI to wait for a store done from the L2C for any
+                                                                 previously sent stores, before sending additional completions to the L2C from
+                                                                 the MAC.
+                                                                 0 = More aggressive, higher-performance behavior. Suitable when device drivers are
+                                                                 appropriately written for performance and do not assume that IO reads force all DMAs
+                                                                 to be complete.
+                                                                 1 = Compliant, lower-performing behavior. Enforce PCI-compliant completion
+                                                                 versus posted/non-posted ordering. */
         uint64_t reserved_7_15         : 9;
         uint64_t ctlp_ro               : 1;  /**< [  6:  6](R/W) Relaxed ordering enable for completion TLPS. This permits the SLI to use the RO bit sent
                                                                  from
@@ -7025,11 +7030,14 @@ typedef union
                                                                  from
                                                                  the MACs. See WAITL_COM. */
         uint64_t reserved_7_15         : 9;
-        uint64_t waitl_com             : 1;  /**< [ 16: 16](R/W) When set, causes the SLI to wait for a store done from the L2C for any previously sent
-                                                                 stores,
-                                                                 before sending additional completions to the L2C from the MAC.
-                                                                 Set this for more conservative behavior. Clear this for more aggressive, higher-
-                                                                 performance behavior. */
+        uint64_t waitl_com             : 1;  /**< [ 16: 16](R/W) When set, causes the SLI to wait for a store done from the L2C for any
+                                                                 previously sent stores, before sending additional completions to the L2C from
+                                                                 the MAC.
+                                                                 0 = More aggressive, higher-performance behavior. Suitable when device drivers are
+                                                                 appropriately written for performance and do not assume that IO reads force all DMAs
+                                                                 to be complete.
+                                                                 1 = Compliant, lower-performing behavior. Enforce PCI-compliant completion
+                                                                 versus posted/non-posted ordering. */
         uint64_t dis_port              : 1;  /**< [ 17: 17](R/W1C/H) When set, the output to the MAC is disabled. This occurs when the MAC reset line
                                                                  transitions from de-asserted to asserted. Writing a 1 to this location clears this
                                                                  condition when the MAC is no longer in reset and the output to the MAC is at the beginning
@@ -7061,11 +7069,14 @@ typedef union
                                                                  transitions from de-asserted to asserted. Writing a 1 to this location clears this
                                                                  condition when the MAC is no longer in reset and the output to the MAC is at the beginning
                                                                  of a transfer. */
-        uint64_t waitl_com             : 1;  /**< [ 16: 16](R/W) When set, causes the SLI to wait for a store done from the L2C for any previously sent
-                                                                 stores,
-                                                                 before sending additional completions to the L2C from the MAC.
-                                                                 Set this for more conservative behavior. Clear this for more aggressive, higher-
-                                                                 performance behavior. */
+        uint64_t waitl_com             : 1;  /**< [ 16: 16](R/W) When set, causes the SLI to wait for a store done from the L2C for any
+                                                                 previously sent stores, before sending additional completions to the L2C from
+                                                                 the MAC.
+                                                                 0 = More aggressive, higher-performance behavior. Suitable when device drivers are
+                                                                 appropriately written for performance and do not assume that IO reads force all DMAs
+                                                                 to be complete.
+                                                                 1 = Compliant, lower-performing behavior. Enforce PCI-compliant completion
+                                                                 versus posted/non-posted ordering. */
         uint64_t reserved_7_15         : 9;
         uint64_t ctlp_ro               : 1;  /**< [  6:  6](R/W) Relaxed ordering enable for completion TLPS. This permits the SLI to use the RO bit sent
                                                                  from
@@ -7105,11 +7116,14 @@ typedef union
                                                                  from
                                                                  the MACs. See WAITL_COM. */
         uint64_t reserved_7_15         : 9;
-        uint64_t waitl_com             : 1;  /**< [ 16: 16](R/W) When set, causes the SLI to wait for a store done from the L2C for any previously sent
-                                                                 stores,
-                                                                 before sending additional completions to the L2C from the MAC.
-                                                                 Set this for more conservative behavior. Clear this for more aggressive, higher-
-                                                                 performance behavior. */
+        uint64_t waitl_com             : 1;  /**< [ 16: 16](R/W) When set, causes the SLI to wait for a store done from the L2C for any
+                                                                 previously sent stores, before sending additional completions to the L2C from
+                                                                 the MAC.
+                                                                 0 = More aggressive, higher-performance behavior. Suitable when device drivers are
+                                                                 appropriately written for performance and do not assume that IO reads force all DMAs
+                                                                 to be complete.
+                                                                 1 = Compliant, lower-performing behavior. Enforce PCI-compliant completion
+                                                                 versus posted/non-posted ordering. */
         uint64_t dis_port              : 1;  /**< [ 17: 17](R/W1C/H) When set, the output to the MAC is disabled. This occurs when the MAC reset line
                                                                  transitions from de-asserted to asserted. Writing a 1 to this location clears this
                                                                  condition when the MAC is no longer in reset and the output to the MAC is at the beginning
@@ -7142,11 +7156,14 @@ typedef union
                                                                  transitions from de-asserted to asserted. Writing a 1 to this location clears this
                                                                  condition when the MAC is no longer in reset and the output to the MAC is at the beginning
                                                                  of a transfer. */
-        uint64_t waitl_com             : 1;  /**< [ 16: 16](R/W) When set, causes the SLI to wait for a store done from the L2C for any previously sent
-                                                                 stores,
-                                                                 before sending additional completions to the L2C from the MAC.
-                                                                 Set this for more conservative behavior. Clear this for more aggressive, higher-
-                                                                 performance behavior. */
+        uint64_t waitl_com             : 1;  /**< [ 16: 16](R/W) When set, causes the SLI to wait for a store done from the L2C for any
+                                                                 previously sent stores, before sending additional completions to the L2C from
+                                                                 the MAC.
+                                                                 0 = More aggressive, higher-performance behavior. Suitable when device drivers are
+                                                                 appropriately written for performance and do not assume that IO reads force all DMAs
+                                                                 to be complete.
+                                                                 1 = Compliant, lower-performing behavior. Enforce PCI-compliant completion
+                                                                 versus posted/non-posted ordering. */
         uint64_t reserved_7_15         : 9;
         uint64_t ctlp_ro               : 1;  /**< [  6:  6](R/W) Relaxed ordering enable for completion TLPS. This permits the SLI to use the RO bit sent
                                                                  from
@@ -7186,11 +7203,14 @@ typedef union
                                                                  from
                                                                  the MACs. See WAITL_COM. */
         uint64_t reserved_7_15         : 9;
-        uint64_t waitl_com             : 1;  /**< [ 16: 16](R/W) When set, causes the SLI to wait for a store done from the L2C for any previously sent
-                                                                 stores,
-                                                                 before sending additional completions to the L2C from the MAC.
-                                                                 Set this for more conservative behavior. Clear this for more aggressive, higher-
-                                                                 performance behavior. */
+        uint64_t waitl_com             : 1;  /**< [ 16: 16](R/W) When set, causes the SLI to wait for a store done from the L2C for any
+                                                                 previously sent stores, before sending additional completions to the L2C from
+                                                                 the MAC.
+                                                                 0 = More aggressive, higher-performance behavior. Suitable when device drivers are
+                                                                 appropriately written for performance and do not assume that IO reads force all DMAs
+                                                                 to be complete.
+                                                                 1 = Compliant, lower-performing behavior. Enforce PCI-compliant completion
+                                                                 versus posted/non-posted ordering. */
         uint64_t dis_port              : 1;  /**< [ 17: 17](R/W1C/H) When set, the output to the MAC is disabled. This occurs when the MAC reset line
                                                                  transitions from de-asserted to asserted. Writing a 1 to this location clears this
                                                                  condition when the MAC is no longer in reset and the output to the MAC is at the beginning
@@ -7230,11 +7250,14 @@ typedef union
                                                                  transitions from de-asserted to asserted. Writing a 1 to this location clears this
                                                                  condition when the MAC is no longer in reset and the output to the MAC is at the beginning
                                                                  of a transfer. */
-        uint64_t waitl_com             : 1;  /**< [ 16: 16](R/W) When set, causes the SLI to wait for a store done from the L2C for any previously sent
-                                                                 stores,
-                                                                 before sending additional completions to the L2C from the MAC.
-                                                                 Set this for more conservative behavior. Clear this for more aggressive, higher-
-                                                                 performance behavior. */
+        uint64_t waitl_com             : 1;  /**< [ 16: 16](R/W) When set, causes the SLI to wait for a store done from the L2C for any
+                                                                 previously sent stores, before sending additional completions to the L2C from
+                                                                 the MAC.
+                                                                 0 = More aggressive, higher-performance behavior. Suitable when device drivers are
+                                                                 appropriately written for performance and do not assume that IO reads force all DMAs
+                                                                 to be complete.
+                                                                 1 = Compliant, lower-performing behavior. Enforce PCI-compliant completion
+                                                                 versus posted/non-posted ordering. */
         uint64_t reserved_7_15         : 9;
         uint64_t ctlp_ro               : 1;  /**< [  6:  6](R/W) Relaxed ordering enable for completion TLPS. This permits the SLI to use the RO bit sent
                                                                  from
@@ -7274,11 +7297,14 @@ typedef union
                                                                  from
                                                                  the MACs. See WAITL_COM. */
         uint64_t reserved_7_15         : 9;
-        uint64_t waitl_com             : 1;  /**< [ 16: 16](R/W) When set, causes the SLI to wait for a store done from the L2C for any previously sent
-                                                                 stores,
-                                                                 before sending additional completions to the L2C from the MAC.
-                                                                 Set this for more conservative behavior. Clear this for more aggressive, higher-
-                                                                 performance behavior. */
+        uint64_t waitl_com             : 1;  /**< [ 16: 16](R/W) When set, causes the SLI to wait for a store done from the L2C for any
+                                                                 previously sent stores, before sending additional completions to the L2C from
+                                                                 the MAC.
+                                                                 0 = More aggressive, higher-performance behavior. Suitable when device drivers are
+                                                                 appropriately written for performance and do not assume that IO reads force all DMAs
+                                                                 to be complete.
+                                                                 1 = Compliant, lower-performing behavior. Enforce PCI-compliant completion
+                                                                 versus posted/non-posted ordering. */
         uint64_t dis_port              : 1;  /**< [ 17: 17](R/W1C/H) When set, the output to the MAC is disabled. This occurs when the MAC reset line
                                                                  transitions from de-asserted to asserted. Writing a 1 to this location clears this
                                                                  condition when the MAC is no longer in reset and the output to the MAC is at the beginning

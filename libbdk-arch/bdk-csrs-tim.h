@@ -720,7 +720,10 @@ typedef union
     struct bdk_tim_ecc_cfg_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_3_63         : 61;
+        uint64_t reserved_4_63         : 60;
+        uint64_t auto_corr             : 1;  /**< [  3:  3](R/W) Enable ECC auto-correction of CTL0-2 and BASE RAM single-bit errors.
+                                                                 The internal logic will write back the corrected
+                                                                 data to the location reporting a single-bit error. */
         uint64_t ecc_flp_syn           : 2;  /**< [  2:  1](R/W) ECC flip syndrome. Flip the ECC's syndrome for testing purposes, to test SBE and DBE ECC
                                                                  interrupts. */
         uint64_t ecc_en                : 1;  /**< [  0:  0](R/W) Enable ECC correction of the ring data structure memory.
@@ -730,7 +733,10 @@ typedef union
                                                                  Refer to TIM_ECCERR_INT for a list of ECC-protected memories. */
         uint64_t ecc_flp_syn           : 2;  /**< [  2:  1](R/W) ECC flip syndrome. Flip the ECC's syndrome for testing purposes, to test SBE and DBE ECC
                                                                  interrupts. */
-        uint64_t reserved_3_63         : 61;
+        uint64_t auto_corr             : 1;  /**< [  3:  3](R/W) Enable ECC auto-correction of CTL0-2 and BASE RAM single-bit errors.
+                                                                 The internal logic will write back the corrected
+                                                                 data to the location reporting a single-bit error. */
+        uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tim_ecc_cfg_s cn; */
