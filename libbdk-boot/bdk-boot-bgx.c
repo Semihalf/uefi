@@ -16,8 +16,20 @@ void bdk_boot_bgx(void)
                 for (int p = 0; p < 4; p++)
                 {
                     int en = bdk_config_get_int(BDK_CONFIG_BGX_ENABLE, n, bgx, p);
-                    if (-1 != en)
-                        BDK_CSR_WRITE(n, BDK_BGXX_CMRX_RX_DMAC_CTL(bgx, p), en);
+                    if (en)
+                    {
+                        /* Make sure the DMAC starts at the hardware default */
+                        BDK_CSR_DEFINE(dmac_ctl, BDK_BGXX_CMRX_RX_DMAC_CTL(bgx, p));
+                        dmac_ctl.u = 0;
+                        dmac_ctl.s.mcst_mode = 1;
+                        dmac_ctl.s.bcst_accept = 1;
+                        BDK_CSR_WRITE(n, BDK_BGXX_CMRX_RX_DMAC_CTL(bgx, p), dmac_ctl.u);
+                    }
+                    else
+                    {
+                        /* Mark this port as disabled */
+                        BDK_CSR_WRITE(n, BDK_BGXX_CMRX_RX_DMAC_CTL(bgx, p), 0);
+                    }
                 }
             }
         }

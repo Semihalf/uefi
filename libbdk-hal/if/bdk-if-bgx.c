@@ -365,10 +365,6 @@ static int bgx_setup_one_time(bdk_if_handle_t handle)
     BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_SPUX_MISC_CONTROL(handle->interface, handle->index),
         c.s.intlv_rdisp = 1);
 
-    /* Disabling filtering of mcast so we get backpressure counters */
-    BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_CMRX_RX_DMAC_CTL(handle->interface, handle->index),
-        c.s.mcst_mode = 1);
-
     /* Errata GSER-27882 -GSER 10GBASE-KR Transmit Equalizer
        Applies to CN88XX pass 1.x, 2.0, and 2.1 */
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X) ||
