@@ -6,6 +6,7 @@ require("fileio")
 require("menu")
 
 local m = menu.new("File Menu")
+local ls_path = "/"
 
 m:item("view",  "View file", function()
     local name = menu.prompt_filename("Enter filename")
@@ -42,8 +43,8 @@ m:item("lua",   "Execute Lua file", function()
 end)
 
 m:item("listfs",   "List files", function()
-    local name = menu.prompt_filename("Enter diectory name")
-    local result =  cavium.c.bdk_fs_list(name, 0, 0);
+    ls_path = menu.prompt_filename("Enter directory name", ls_path)
+    local result =  cavium.c.bdk_fs_list(ls_path, 0, 0);
     if not result then
         printf("ERROR: %s\n", result)
     end
