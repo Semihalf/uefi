@@ -43,10 +43,17 @@ static int copy_file(const char *filename, const char *target_dir)
 	if (res)
 		goto out;
 
-	while (0 != (n = fread(buf, 1, sizeof(buf), sfp)))
-		f_write(&tfp, buf, n, &count);
-
 	rc = 0;
+	while (0 != (n = fread(buf, 1, sizeof(buf), sfp)))
+	{
+		rc = f_write(&tfp, buf, n, &count);
+		if (rc || (count != n))
+		{
+			rc = -1;
+			break;
+		}
+	}
+
 	f_close(&tfp);
 out:
 	if (sfp)
@@ -74,13 +81,13 @@ static int mkfs(int argc, char **argv)
 
 	if (*argv)
 	{
-		fprintf(stderr, "WARNING: Ignoring arguments for mkfs:");
+		printf("WARNING: Ignoring arguments for mkfs:");
 		while (*argv)
 		{
-			fprintf(stderr, " %s", *argv);
+			printf(" %s", *argv);
 			argv++;
 		}
-		fprintf(stderr, "\n");
+		printf("\n");
 	}
 
 	CHAT("Creating FAT filesystem - ");
@@ -90,7 +97,7 @@ static int mkfs(int argc, char **argv)
 
 	if (res)
 	{
-		CHAT("ERROR (%d)\n", res);
+		printf("fatfs-tool mkfs: ERROR (%d)\n", res);
 		return -1;
 	}
 	CHAT("OK\n");
@@ -108,7 +115,7 @@ static int mkdir(int argc, char **argv)
 		FRESULT res = f_mkdir(*argv);
 		if (res)
 		{
-			CHAT("ERROR (%d)\n", res);
+			printf("fatfs-tool mkdir: ERROR (%d)\n", res);
 			return -1;
 		}
 		else
@@ -125,7 +132,7 @@ static int cp(int argc, char **argv)
 
 	if (argc < 3)
 	{
-		fprintf(stderr, "cp: not enough arguments\n");
+		printf("cp: not enough arguments\n");
 		return -1;
 	}
 
@@ -133,7 +140,7 @@ static int cp(int argc, char **argv)
 
 	if (!dir_exists(target_dir))
 	{
-		fprintf(stderr, "cp: Target directory %s does not exist. Aborting.\n", target_dir);
+		printf("cp: Target directory %s does not exist. Aborting.\n", target_dir);
 		return -1;
 	}
 
@@ -147,9 +154,14 @@ static int cp(int argc, char **argv)
 		CHAT(" * %s -> %s%s%s ", *argv, target_dir, is_root ? "" : "/", base_name);
 
 		if (0 != copy_file(*argv, target_dir))
-			CHAT("ERROR\n");
+		{
+			printf("fatfs-tool cp: ERROR\n");
+			return -1;
+		}
 		else
+		{
 			CHAT("OK\n");
+		}
 
 		argv++;
 		argc--;
@@ -169,7 +181,7 @@ static int ls(int argc, char **argv)
 
 	if (!dir_exists(path))
 	{
-		fprintf(stderr, "ls: Target directory %s does not exist. Aborting.\n", path);
+		printf("ls: Target directory %s does not exist. Aborting.\n", path);
 		return -1;
 	}
 
@@ -235,7 +247,7 @@ int run_command(int argc, char **argv)
 
 	if (!cmd->cmd)
 	{
-		fprintf(stderr, "ERROR: Illegal command '%s'\n", *argv);
+		printf("ERROR: Illegal command '%s'\n", *argv);
 		return -1; /* command not found */
 	}
 

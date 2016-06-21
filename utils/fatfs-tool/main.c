@@ -38,6 +38,7 @@ static void usage()
 
 int main(int argc, char **argv)
 {
+	int rc = -1;
 	int  ch;
 	char *img_name = NULL;
 	while (EOF != (ch = getopt(argc, argv, "qdi:")))
@@ -81,17 +82,17 @@ int main(int argc, char **argv)
 	res = f_mount(&fatfs, "DISK_IMG", 0);
 	if (res)
 	{
-		fprintf(stderr, "ERROR: Could not mount FAT filesystem image %s: res:%d\n",
+		printf("ERROR: Could not mount FAT filesystem image %s: res:%d\n",
 				img_name, res);
 		goto out;
 	}
 
 	/* run the command that is left on the command line. */
-	run_command(argc, argv);
+	rc = run_command(argc, argv);
 
-
-	CHAT("Done.\n");
+	if (rc == 0)
+		CHAT("Done.\n");
 out:
 	diskio_img_file_close();
-	return 0;
+	return (rc) ? 1 : 0;
 }
