@@ -726,8 +726,14 @@ local function create_device(root, bus, deviceid, func)
     if newdev.did == 0xffffffff then
         return nil
     end
-    printf("Bus %d Dev %2d.%d Found %04x:%04x\n", newdev.bus, newdev.deviceid, newdev.func,
-           bit64.band(newdev.did, 0xffff), bit64.rshift(newdev.did, 16))
+    local vendor = bit64.band(newdev.did, 0xffff)
+    local id = bit64.rshift(newdev.did, 16)
+    local deviceid_str = ""
+    if (vendor == 0x177d) and (DEVICE_NAME[id]) then
+        deviceid_str = DEVICE_NAME[id]
+    end
+    printf("Bus %d Dev %2d.%d Found %04x:%04x %s\n", newdev.bus, newdev.deviceid,
+           newdev.func, vendor, id, deviceid_str)
 
     -- Figure out if the device supports multiple functions and/or
     -- if it is a switch
