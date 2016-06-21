@@ -7,6 +7,7 @@ typedef enum
     BDK_CONFIG_TYPE_INT,
     BDK_CONFIG_TYPE_STR,
     BDK_CONFIG_TYPE_STR_LIST,
+    BDK_CONFIG_TYPE_BINARY,
 } bdk_config_type_t;
 
 typedef struct
@@ -273,7 +274,7 @@ static bdk_config_info_t config_info[__BDK_CONFIG_END] = {
     },
     [BDK_CONFIG_DDR_SPD_DATA] = {
         .format = "DDR-CONFIG-SPD-DATA.DIMM%d.LMC%d.N%d", /* Parameters: DIMM, LMC, Node */
-        .ctype = BDK_CONFIG_TYPE_STR,
+        .ctype = BDK_CONFIG_TYPE_BINARY,
     },
     [BDK_CONFIG_DDR_RANKS_DQX_CTL] = {
         .format = "DDR-CONFIG-DQX-CTL.RANKS%d.DIMMS%d.LMC%d.N%d", /* Parameters: Num Ranks, Num DIMMs, LMC, Node */
@@ -947,8 +948,8 @@ void bdk_config_set_str(const char *value, bdk_config_t cfg_item, ...)
 void bdk_config_set_blob(int size, const void *value, bdk_config_t cfg_item, ...)
 {
     /* Make sure the correct access function was called */
-    if (config_info[cfg_item].ctype != BDK_CONFIG_TYPE_STR)
-        bdk_fatal("bdk_config_set_blob() called for %s, not a str\n",
+    if (config_info[cfg_item].ctype != BDK_CONFIG_TYPE_BINARY)
+        bdk_fatal("bdk_config_set_blob() called for %s, not binary\n",
             config_info[cfg_item].format);
 
     char name[64];
@@ -1014,6 +1015,9 @@ static void display_help(bdk_config_t cfg)
             else
                 printf("\"\"");
             break;
+        case BDK_CONFIG_TYPE_BINARY:
+            printf("[]");
+        break;
     }
     printf(";\n");
 }
@@ -1085,12 +1089,26 @@ void bdk_config_show(void)
             /* Print matching entries */
             if (match == 0)
             {
-                printf("\t%s = \"%s\"", name, data);
-                data += strlen(data) + 1;
-                while (data < data_end)
+                if (config_info[cfg].ctype == BDK_CONFIG_TYPE_BINARY)
                 {
-                    printf(",\n\t\t\"%s\"", data);
+                    printf("\t%s = [", name);
+                    const char *ptr = data;
+                    while (ptr < data_end)
+                    {
+                        printf(" %02x", (int)*ptr);
+                        ptr++;
+                    }
+                    printf(" ]");
+                }
+                else
+                {
+                    printf("\t%s = \"%s\"", name, data);
                     data += strlen(data) + 1;
+                    while (data < data_end)
+                    {
+                        printf(",\n\t\t\"%s\"", data);
+                        data += strlen(data) + 1;
+                    }
                 }
                 printf(";\n");
             }
@@ -1303,6 +1321,9 @@ int bdk_config_expand_defaults(void *fdt)
                     break;
                 case BDK_CONFIG_TYPE_STR_LIST:
                     /* Do nothing, string list default to empty */
+                    break;
+                case BDK_CONFIG_TYPE_BINARY:
+                    /* Do nothing, binary defaults to empty */
                     break;
             }
             if (status < 0)
