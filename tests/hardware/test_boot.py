@@ -130,7 +130,6 @@ def wait_for_bdk_boot(cnx):
     # Extra output allowed here
     cnx.waitfor("(INS)Menu choice []:")
     cnx.sendEcho("keys")
-    cnx.match("Selection not valid. Please choose an entry from the list above.")
 
 def wait_for_main_menu(cnx):
     cnx.waitfor("=================================")

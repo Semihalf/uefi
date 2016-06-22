@@ -85,6 +85,7 @@ local function show(m, default_choice)
     end
 
     while (true) do
+::repeat_menu::
         if m.title then
             print()
             print(BANNER)
@@ -111,6 +112,7 @@ local function show(m, default_choice)
         if response then
             if response == "keys" then
                 menu.show_keys = not menu.show_keys
+                goto repeat_menu
             elseif not menu.show_keys and tonumber(response) then
                 c = tonumber(response)
             else
