@@ -51,6 +51,22 @@ local PCICONFIG_PREF_LIMIT_UPPER    = 0x2c
 local PCICONFIG_IO_BASE_UPPER       = 0x30
 local PCICONFIG_IO_LIMIT_UPPER      = 0x32
 
+-- Single Root I/O Virtualization
+local PCISRIOV_CAP		= 0x04	-- Capabilities
+local PCISRIOV_CTRL		= 0x08	-- Control
+local PCISRIOV_STATUS	        = 0x0a	-- Status
+local PCISRIOV_INITIAL_VF	= 0x0c	-- Initial VFs
+local PCISRIOV_TOTAL_VF	        = 0x0e	-- Total VFs
+local PCISRIOV_NUM_VF	        = 0x10	-- Number of VFs
+local PCISRIOV_FUNC_LINK	= 0x12	-- Function Dependency Link
+local PCISRIOV_VF_OFFSET	= 0x14	-- First VF Offset
+local PCISRIOV_VF_STRIDE	= 0x16	-- Following VF Stride
+local PCISRIOV_VF_DID	        = 0x1a	-- VF Device ID
+local PCISRIOV_SUP_PGSIZE	= 0x1c	-- Supported Page Sizes
+local PCISRIOV_SYS_PGSIZE	= 0x20	-- System Page Size
+local PCISRIOV_BAR		= 0x24	-- VF BAR0
+
+
 -- Table to show nice names for devices that are Cavium internal
 local DEVICE_NAME = {
     [0xa001] = "MRML",
@@ -128,6 +144,7 @@ local DEVICE_NAME = {
     [0xa056] = "XCV",
     [0xa057] = "DPI",
     [0xa100] = "CN88XX",
+    [0xa200] = "CN81XX",
     [0xa300] = "CN83XX",
 }
 
@@ -143,13 +160,14 @@ local configw32 = cavium.c.bdk_pcie_config_write32
 -- the VENDOR and DEVICE ID. If these are undefined it returns nil as the
 -- device doesn't exist.
 --
-local function create_device(root, bus, deviceid, func)
+local function create_device(root, bus, deviceid, func, vparent)
     local newdev = {}
     newdev.root = root
     newdev.bus = bus
     newdev.deviceid = deviceid
     newdev.func = func
-
+    -- newdev.vftotal = 0 -- non zero if device has virtual children
+    newdev.vparent = vparent -- points to parent device if non-nil, also means VF
     --
     -- PCIe config space reads
     --
@@ -177,22 +195,26 @@ local function create_device(root, bus, deviceid, func)
     end
 
     --
-    -- Retrieve next device pointer from ari chain if there is one
+    -- return true if device is pcie-capable
     --
-    function newdev:ari_next()
-        local has_pcie = false
+    function newdev:cap_pcie()
         local cap_loc = self:read8(PCICONFIG_CAP_PTR)
         while (cap_loc ~= 0) do
             local cap_id = self:read8(cap_loc)
             local cap_next = self:read8(cap_loc + 1)
             if cap_id == 0x10 then
-                has_pcie = true
-                break
+                return true
             end
             cap_loc = cap_next
         end
-        if has_pcie then
-            cap_loc = PCICONFIG_E_CAP_HDR
+        return false
+    end
+    --
+    -- Retrieve next device pointer from ari chain if there is one
+    --
+    function newdev:ari_next()
+        if self:cap_pcie() then
+            local cap_loc = PCICONFIG_E_CAP_HDR
             while (cap_loc ~= 0) do
                 local cap = self:read32(cap_loc)
                 local cap_id = bit64.bextract(cap, 0, 15)
@@ -222,7 +244,7 @@ local function create_device(root, bus, deviceid, func)
         -- Scan all possible device IDs on the bus
         for deviceid = 0,31 do
             -- Try and create a device
-            local device = create_device(self.root, self.busnum, deviceid, 0)
+            local device = create_device(self.root, self.busnum, deviceid, 0,nil)
             -- Device will be nil if nothing was there
             if device then
                 -- Add the new device to my children
@@ -233,7 +255,7 @@ local function create_device(root, bus, deviceid, func)
                     local nd,nf = device:ari_next()
                     if nd then
                          while ((0 ~= nd) or (0 ~= nf)) do
-                            device = create_device(self.root, self.busnum, nd, nf)
+                            device = create_device(self.root, self.busnum, nd, nf, nil)
                             if device then
                               -- Add the new device to my children
                                 table.insert(self.devices, device)
@@ -248,7 +270,7 @@ local function create_device(root, bus, deviceid, func)
                 if device.ismultifunction then
                     for func = 1,7 do
                         -- Try and create a device
-                        device = create_device(self.root, self.busnum, deviceid, func)
+                        device = create_device(self.root, self.busnum, deviceid, func, nil)
                         -- Device will be nil if nothing was there
                         if device then
                             -- Add the new device to my children
@@ -442,12 +464,27 @@ local function create_device(root, bus, deviceid, func)
         if not indent then
             indent = ""
         end
-        local t = self:read32(PCICONFIG_CLASS_CODE_REV_ID)
-        local vendor = self:read16(PCICONFIG_VENDOR_ID)
-        local deviceid = self:read16(PCICONFIG_DEVICE_ID)
+        local t
+        local vendor
+        local deviceid
         local deviceid_str = ""
-        if (vendor == 0x177d) and (DEVICE_NAME[deviceid]) then
-            deviceid_str = DEVICE_NAME[deviceid]
+        if self.vparent then
+            local sub_vendor = self:read16(PCICONFIG_SUBVENDOR_ID)
+            local sub_deviceid = self:read16(PCICONFIG_SUBDEVICE_ID)
+            vendor = self.vparent:read16(PCICONFIG_VENDOR_ID)
+            deviceid = self.vparent:read16(self.vparent.sriov_base + PCISRIOV_VF_DID)
+            t = self.vparent:read32(PCICONFIG_CLASS_CODE_REV_ID)
+            if (vendor == 0x177d) and (DEVICE_NAME[deviceid]) then
+                deviceid_str = DEVICE_NAME[deviceid]
+            end
+            deviceid_str = string.format("%s <VF Subdev %04x:%04x>", deviceid_str, sub_vendor, sub_deviceid)
+        else
+            vendor = self:read16(PCICONFIG_VENDOR_ID)
+            deviceid = self:read16(PCICONFIG_DEVICE_ID)
+            t = self:read32(PCICONFIG_CLASS_CODE_REV_ID)
+            if (vendor == 0x177d) and (DEVICE_NAME[deviceid]) then
+                deviceid_str = DEVICE_NAME[deviceid]
+            end
         end
 
         printf("%s%d:%d.%d Class:%06x Vendor:%04x Device:%04x %s(Rev %02x)\n",
@@ -516,57 +553,58 @@ local function create_device(root, bus, deviceid, func)
                 self:read32(PCICONFIG_PREF_LIMIT_UPPER),
                 bit64.bor(self:read16(PCICONFIG_PREF_LIMIT), 0xf))
         end
-        local max_bar = PCICONFIG_CARDBUS_CIS
-        if self.isbridge then
-            max_bar = PCICONFIG_PRIMARY_BUS
-        end
-        local bar = PCICONFIG_BAR0
-        local barno = 0
-        while bar < max_bar do
-            local v = self:read32(bar)
-            local ismem = not bit64.btest(v, 1)
-            local is64 = ismem and bit64.btest(v, 4)
-            local ispref = ismem and bit64.btest(v, 8)
-            local display_type = "IO"
-            if ismem then
-                display_type = "Memory"
-                if ispref then
-                    display_type = "Prefetchable Memory"
-                end
+        if not self.vparent then
+            local max_bar = PCICONFIG_CARDBUS_CIS
+            if self.isbridge then
+                max_bar = PCICONFIG_PRIMARY_BUS
             end
-            if is64 then
-                v = self:read32(bar+4) * 2^32 + v
-                if v ~= 0 then
-                    printf("%s    BAR%d: %016x [%s]\n", indent, barno, v, display_type)
+            local bar = PCICONFIG_BAR0
+            local barno = 0
+            while bar < max_bar do
+                local v = self:read32(bar)
+                local ismem = not bit64.btest(v, 1)
+                local is64 = ismem and bit64.btest(v, 4)
+                local ispref = ismem and bit64.btest(v, 8)
+                local display_type = "IO"
+                if ismem then
+                    display_type = "Memory"
+                    if ispref then
+                        display_type = "Prefetchable Memory"
+                    end
                 end
-                bar = bar + 8
-            else
-                if v ~= 0 then
-                    printf("%s    BAR%d: %08x [%s]\n", indent, barno, v, display_type)
+                if is64 then
+                    v = self:read32(bar+4) * 2^32 + v
+                    if v ~= 0 then
+                        printf("%s    BAR%d: %016x [%s]\n", indent, barno, v, display_type)
+                    end
+                    bar = bar + 8
+                else
+                    if v ~= 0 then
+                        printf("%s    BAR%d: %08x [%s]\n", indent, barno, v, display_type)
+                    end
+                    bar = bar + 4
                 end
-                bar = bar + 4
+                barno = barno + 1
             end
-            barno = barno + 1
         end
-
         -- Display the PCI capabilities headers
         local has_pcie = false
         local cap_loc = self:read8(PCICONFIG_CAP_PTR)
         while cap_loc ~= 0 do
             local cap_id = self:read8(cap_loc)
             local cap_next = self:read8(cap_loc + 1)
-            printf("%s    PCI Capability %02x ID:%02x Next:%02x\n",
+            printf("%s    PCI Capability %02x ID:%02x Next:%02x",
                    indent, cap_loc, cap_id, cap_next)
             if cap_id == 0x10 then
                 has_pcie = true
-                printf("%s        PCIe\n", indent)
+                printf(" - PCIe\n")
             end
             if cap_id == 0x11 then
-                printf("%s        MSI-X\n", indent)
+                printf(" - MSI-X\n")
             end
             -- Extended Allocation
             if cap_id == 0x14 then
-                printf("%s        Enhanced Allocation\n", indent)
+                printf(" - Enhanced Allocation\n")
                 local nument = self:read8(cap_loc + 2)
                 nument = bit64.bextract(nument,0,5)
                 if self.isbridge then
@@ -671,8 +709,8 @@ local function create_device(root, bus, deviceid, func)
                 local cap_id = bit64.bextract(cap, 0, 15)
                 local cap_ver = bit64.bextract(cap, 16, 19)
                 local cap_next = bit64.bextract(cap, 20, 31)
-                printf("%s    PCIe Capability %03x ID:%04x Version:%x Next:%03x\n",
-                       indent, cap_loc, cap_id, cap_ver, cap_next)
+                -- ARI is different because it produces conditional output
+                local aristring = ""
                 if cap_id == 0xe then
                     local ari_cap_reg = self:read16(cap_loc+4)
                     local ari_cap_m = bit64.bextract(ari_cap_reg, 0, 0)
@@ -680,13 +718,21 @@ local function create_device(root, bus, deviceid, func)
                     local ari_cap_next = bit64.bextract(ari_cap_reg, 8, 15)
                     local next_dev = bit64.bextract(ari_cap_next, 3, 7)
                     local next_fun = bit64.bextract(ari_cap_next, 0, 2)
-                    printf("%s        ARI MFVC: %x ACS: %x Next: %02x (%d.%d)\n", indent, ari_cap_m, ari_cap_a, ari_cap_next, next_dev, next_fun)
                     local ari_ctl_reg = self:read16(cap_loc+6)
                     local ari_ctl_m = bit64.bextract(ari_ctl_reg, 0, 0)
                     local ari_ctl_a = bit64.bextract(ari_ctl_reg, 1, 1)
                     local ari_ctl_grp = bit64.bextract(ari_ctl_reg, 4, 6)
-                    printf("%s        MFVC Enable: %x ACS Enable: %x Group: %x\n", indent, ari_ctl_m, ari_ctl_a, ari_ctl_grp)
+                    if 0 ~= (ari_cap_m + ari_cap_a + ari_cap_next + ari_ctl_reg) then
+                        aristring = string.format("\n%s        ARI MFVC: %x ACS: %x Next: %02x (%d.%d)\n", indent, ari_cap_m, ari_cap_a, ari_cap_next, next_dev, next_fun)
+                        aristring = aristring .. string.format("%s        MFVC Enable: %x ACS Enable: %x Group: %x", indent, ari_ctl_m, ari_ctl_a, ari_ctl_grp)
+                    else
+                        aristring = " - Unused ARI"
+                    end
                 end
+
+                printf("%s    PCIe Capability %03x ID:%04x Version:%x Next:%03x%s\n",
+                       indent, cap_loc, cap_id, cap_ver, cap_next,aristring)
+
                 if cap_id == 0xb then
                     local vsec_id = self:read32(cap_loc+4)
                     local vsec_id_id = bit64.bextract(vsec_id, 0, 15)
@@ -708,11 +754,51 @@ local function create_device(root, bus, deviceid, func)
                         end
                     end
                 end
+                if cap_id == 0x10 then
+                    local sriov_cap = self:read32(cap_loc + PCISRIOV_CAP)
+                    local sriov_cap_arichp = bit64.bextract(sriov_cap,1,1)
+                    local sriov_cap_vfmc = bit64.bextract(sriov_cap,0,0)
+                    --sriov_cap_vfmimn = bit64.bextract(sriov_cap,21,31)
+                    local sriov_ctl = self:read32(cap_loc + PCISRIOV_CTRL)
+                    local sriov_ctl_vfe = bit64.bextract(sriov_ctl,0,0)
+
+                    local sriov_dev_vfdev = self:read16(cap_loc + PCISRIOV_VF_DID)
+                    local sriov_fo = self:read32(cap_loc+PCISRIOV_VF_OFFSET)
+                    local sriov_fo_fo = bit64.bextract(sriov_fo,0,15)
+                    local sriov_fo_vfs = bit64.bextract(sriov_fo,16,31)
+                    local sriov_nvf = self:read32(cap_loc + PCISRIOV_NUM_VF)
+                    local sriov_nvf_nvf = bit64.bextract(sriov_nvf,0,15)
+                    local sriov_vfs = self:read32(cap_loc + PCISRIOV_INITIAL_VF)
+                    local sriov_vfs_tvf = bit64.bextract(sriov_vfs,16,31)
+                    local sriov_vfs_ivf = bit64.bextract(sriov_vfs,0,15)
+                    printf("%s        SRIO-V Capabilties: ARI hint:%d VFMigrationCap:%d VFEnable:%d\n", indent, sriov_cap_arichp, sriov_cap_vfmc, sriov_ctl_vfe)
+                    local vdev_str
+                    if DEVICE_NAME[sriov_dev_vfdev] then
+                        vdev_str = DEVICE_NAME[sriov_dev_vfdev]
+                    else
+                        vdev_str = "????-VF"
+                    end
+                    printf("%s        VF device id: %04x %s\n", indent, sriov_dev_vfdev, vdev_str)
+                    printf("%s        VFOffset:%d VFStride:%d NumberVF:%d TotalVF:%d InitialVF:%d\n", indent, sriov_fo_fo, sriov_fo_vfs, sriov_nvf_nvf, sriov_vfs_tvf, sriov_vfs_ivf)
+                    -- local sriov_ps = self:read32(cap_loc + PCISRIOV_SYS_PGSIZE)
+
+                    local bar0l = self:read32(cap_loc + PCISRIOV_BAR)
+                    local bar0u = self:read32(cap_loc + PCISRIOV_BAR + 4)
+                    local bar2l = self:read32(cap_loc + PCISRIOV_BAR + 8)
+                    local bar2u = self:read32(cap_loc + PCISRIOV_BAR + 12)
+                    local bar4l = self:read32(cap_loc + PCISRIOV_BAR + 16)
+                    local bar4u = self:read32(cap_loc + PCISRIOV_BAR + 20)
+                    if (bar0l + bar0u + bar2l + bar2u + bar4l + bar4u) ~= 0 then
+                        printf("%s        VBAR0: %08x%08x\n",indent,bit64.bextract(bar0u,0,31),  bit64.bextract(bar0l,0,31));
+                        printf("%s        VBAR2: %08x%08x\n",indent,bit64.bextract(bar0u,2,31),  bit64.bextract(bar2l,0,31));
+                        printf("%s        VBAR4: %08x%08x\n",indent,bit64.bextract(bar0u,4,31),  bit64.bextract(bar4l,0,31));
+                    end
+                end
                 cap_loc = cap_next
             end
         end
 
-        if self.isbridge then
+        if self.isbridge or self.vftotal then
             indent = indent .. "    "
             for _,device in ipairs(self.devices) do
                 device:display(indent)
@@ -720,8 +806,23 @@ local function create_device(root, bus, deviceid, func)
         end
     end
 
-    -- Read the VENDOR and DEVICE ID
-    newdev.did = newdev:read32(PCICONFIG_VENDOR_ID)
+    local vstr
+    if newdev.vparent then
+        local vfdid
+        vfdid =  newdev:read16(PCICONFIG_SUBDEVICE_ID)
+        if vfdid == 0xffff then
+            return nil
+        end
+        vstr = string.format("(VDev:%04x)",vfdid)
+        -- read the deviceid from parent's sriov capability and inherit vendor from parent
+        local vdid = newdev.vparent:read32(newdev.vparent.sriov_base + 0x18)
+        vdid = bit64.band(vdid,0xffff0000)
+        newdev.did = bit64.bor(vdid,  bit64.band(newdev.vparent.did, 0xffff))
+    else
+        -- Read the VENDOR and DEVICE ID
+        newdev.did = newdev:read32(PCICONFIG_VENDOR_ID)
+        vstr = ""
+    end
     -- Fail create if device didn't respond
     if newdev.did == 0xffffffff then
         return nil
@@ -732,14 +833,19 @@ local function create_device(root, bus, deviceid, func)
     if (vendor == 0x177d) and (DEVICE_NAME[id]) then
         deviceid_str = DEVICE_NAME[id]
     end
-    printf("Bus %d Dev %2d.%d Found %04x:%04x %s\n", newdev.bus, newdev.deviceid,
-           newdev.func, vendor, id, deviceid_str)
+    printf("Bus %d Dev %2d.%d Found %04x:%04x %s %s\n", newdev.bus, newdev.deviceid,
+           newdev.func, vendor, id, deviceid_str, vstr)
 
     -- Figure out if the device supports multiple functions and/or
     -- if it is a switch
-    local header_type = newdev:read8(PCICONFIG_HEADER_TYPE)
-    newdev.ismultifunction = bit64.btest(header_type, 0x80)
-    newdev.isbridge = bit64.band(header_type, 0x7f) == 1
+    if newdev.vparent then
+        newdev.ismultifunction = false
+        newdev.isbridge = false
+    else
+        local header_type = newdev:read8(PCICONFIG_HEADER_TYPE)
+        newdev.ismultifunction = bit64.btest(header_type, 0x80)
+        newdev.isbridge = bit64.band(header_type, 0x7f) == 1
+    end
     if newdev.isbridge then
         -- Device is a bridge/switch. Assign bus numbers so we can
         -- scan for subordinate devices
@@ -762,6 +868,44 @@ local function create_device(root, bus, deviceid, func)
             newdev:write8(PCICONFIG_SUBORIDINATE_BUS, root.last_bus)
         else
             root.last_bus = newdev:read8(PCICONFIG_SUBORIDINATE_BUS)
+        end
+    else
+        -- check for subordinate VFs
+        if newdev:cap_pcie() and not newdev.vparent then
+            local cap_loc = PCICONFIG_E_CAP_HDR
+            while cap_loc ~= 0 do
+                local cap = newdev:read32(cap_loc)
+                local cap_id = bit64.bextract(cap, 0, 15)
+                local cap_next = bit64.bextract(cap, 20, 31)
+                if cap_id == 0x10 then
+                    local sriov_fo = newdev:read32(cap_loc + PCISRIOV_VF_OFFSET)
+                    local sriov_fo_fo = bit64.bextract(sriov_fo,0,15) -- offset
+                    local sriov_fo_vfs = bit64.bextract(sriov_fo,16,31) -- stride
+                    local sriov_vfs = newdev:read32(cap_loc + PCISRIOV_INITIAL_VF)
+                    local sriov_vfs_tvf = bit64.bextract(sriov_vfs,16,31) -- total vfs
+                    local sriov_vfs_ivf = bit64.bextract(sriov_vfs,0,15) -- initial vfs
+                    local sriov_nvf = newdev:read32(cap_loc + PCISRIOV_NUM_VF)
+                    local sriov_nvf_nvf = bit64.bextract(sriov_nvf,0,15) -- nvf
+                    newdev.vftotal = sriov_vfs_tvf;
+                    newdev.sriov_base = cap_loc;
+                    if sriov_vfs_ivf then
+                        newdev.devices = {}
+                        local vfn = 0
+                        while vfn < sriov_vfs_ivf do
+                            local busno =  newdev.bus + ((newdev.func + sriov_fo_fo  + vfn * sriov_fo_vfs)/ 256)
+                            -- next_vfn = ari_to_devfn( 1 + (devfn_to_ari(this_dev,this_fn)))
+                            local pdev = newdev.deviceid*8 + newdev.func +  sriov_fo_fo +  vfn * sriov_fo_vfs
+                            local device = create_device(newdev.root, busno, pdev/8, pdev%8, newdev)
+                            if device then
+                                table.insert(newdev.devices, device)
+                            end
+                            vfn = vfn + 1
+                        end
+                    end
+                    root.last_bus = newdev.bus + ((newdev.func + sriov_fo_fo  + sriov_vfs_tvf * sriov_fo_vfs)/256)
+                end
+                cap_loc = cap_next
+            end
         end
     end
     -- Return the device
@@ -811,14 +955,14 @@ function pcie.initialize(node, pcie_port)
         end
         local bus = self.last_bus
         for dev=0,max_device do
-            local device = create_device(self, bus, dev, 0)
+            local device = create_device(self, bus, dev, 0, nil)
             if device then
                 table.insert(self.devices, device)
                 -- Device is mulifunction so scan the other functions
                 if device.ismultifunction then
                     for func = 1,7 do
                         -- Try and create a device
-                        device = create_device(self, bus, dev, func)
+                        device = create_device(self, bus, dev, func, nil)
                         -- Device will be nil if nothing was there
                         if device then
                             -- Add the new device to my children
