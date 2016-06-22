@@ -44,7 +44,8 @@ SD_MMC_HC_PRIVATE_DATA gSdMmcPciHcTemplate = {
     SdMmcPassThruGetNextSlot,
     SdMmcPassThruBuildDevicePath,
     SdMmcPassThruGetSlotNumber,
-    SdMmcPassThruResetDevice
+    SdMmcPassThruResetDevice,
+    SdMmcPassThruIsDmaEnabled
   },
   0,                                // PciAttributes
   0,                                // PreviousSlot
@@ -617,6 +618,9 @@ SdMmcPciHcDriverBindingStart (
 
     Private->Capability[Slot].Sdr104 = 0;
     Private->Capability[Slot].Ddr50 = 0;
+    Private->Capability[Slot].Sdr50 = 0;
+    Private->Capability[Slot].Adma2 = 0;
+    Private->Capability[Slot].Sdma = 0;
     Private->Capability[Slot].BusWidth8 = 0;
 
     DumpCapabilityReg (Slot, &Private->Capability[Slot]);
@@ -1485,3 +1489,39 @@ SdMmcPassThruResetDevice (
   return EFI_SUCCESS;
 }
 
+/**
+  Checks if this SD controller support DMA transfer according to capabilities register.
+ 
+  If controller support ADMA or SDMA, EFI_SUCCESS is returned.
+ 
+  If controller does not support ADMA nor SDMA, EFI_UNSUPPORTED is returned.
+ 
+  @param[in]  This              A pointer to the EFI_SD_MMC_PASS_THRU_PROTOCOL instance.
+  @param[in]  Slot              Specifies the slot, whose DMA-support will be checked.
+ 
+  @retval EFI_SUCCESS           SD controller supports DMA operations.
+  @retval EFI_UNSUPPORTED       SD controller does not support DMA operations.
+
+**/
+EFI_STATUS
+EFIAPI
+SdMmcPassThruIsDmaEnabled (
+  IN EFI_SD_MMC_PASS_THRU_PROTOCOL           *This,
+  IN UINT8                                   Slot
+  )
+{
+  SD_MMC_HC_PRIVATE_DATA *Private;
+
+  if (This == NULL) {
+    return EFI_INVALID_PARAMETER;
+  }
+
+  Private = SD_MMC_HC_PRIVATE_FROM_THIS (This);
+
+  if (Private->Capability[Slot].Adma2 == 0 &&
+      Private->Capability[Slot].Sdma == 0) {
+    return EFI_UNSUPPORTED;
+  }
+
+  return EFI_SUCCESS;
+}
