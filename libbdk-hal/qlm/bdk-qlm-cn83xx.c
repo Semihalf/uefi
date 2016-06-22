@@ -178,7 +178,7 @@ static bdk_qlm_modes_t qlm_get_mode(bdk_node_t node, int qlm)
 {
     if (bdk_is_platform(BDK_PLATFORM_EMULATOR))
     {
-        if ((qlm == 2) || (qlm == 3))
+        if ((qlm == 2) || (qlm == 3) || (qlm == 5))
             return BDK_QLM_MODE_XFI_4X1;
         else
             return BDK_QLM_MODE_DISABLED;
