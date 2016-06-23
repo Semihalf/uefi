@@ -460,15 +460,19 @@ local function create_device(root, bus, deviceid, func, vparent)
     --
     -- Display a device and all children
     --
-    function newdev:display(indent)
+    function newdev:display(indent,show_vfs)
         if not indent then
             indent = ""
+        end
+        if not show_vfs then
+            show_vfs = false
         end
         local t
         local vendor
         local deviceid
         local deviceid_str = ""
         if self.vparent then
+            assert(show_vfs)
             local sub_vendor = self:read16(PCICONFIG_SUBVENDOR_ID)
             local sub_deviceid = self:read16(PCICONFIG_SUBDEVICE_ID)
             vendor = self.vparent:read16(PCICONFIG_VENDOR_ID)
@@ -798,10 +802,10 @@ local function create_device(root, bus, deviceid, func, vparent)
             end
         end
 
-        if self.isbridge or self.vftotal then
+        if self.isbridge or (show_vfs and self.sriov_base) then
             indent = indent .. "    "
             for _,device in ipairs(self.devices) do
-                device:display(indent)
+                device:display(indent, show_vfs)
             end
         end
     end
@@ -1001,14 +1005,14 @@ function pcie.initialize(node, pcie_port)
     --
     -- Display all devices on the bus
     --
-    function pcie_root:display()
+    function pcie_root:display(show_vfs)
         if self.port < 100 then
             printf("PCIe port %d:\n", self.port)
         else
             printf("Internal ECAM%d:\n", self.port - 100)
         end
         for _,device in ipairs(self.devices) do
-            device:display()
+            device:display("",show_vfs)
         end
     end
 

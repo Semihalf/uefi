@@ -37,7 +37,8 @@ end
 
 local function do_display(pcie_port)
     assert(pcie_root[pcie_port], prefix(pcie_port) .. " not initialized")
-    pcie_root[pcie_port]:display()
+    local show_vfs = menu.prompt_yes_no("Display VirtualFunctions",false)
+    pcie_root[pcie_port]:display(show_vfs)
 end
 
 local function do_read(pcie_port)
