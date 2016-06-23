@@ -15,11 +15,25 @@ void bdk_clock_setup(bdk_node_t node)
     BDK_CSR_WRITE(node, BDK_GTI_CC_CNTRATE, inc);
     BDK_CSR_WRITE(node, BDK_GTI_CTL_CNTFRQ, BDK_GTI_RATE);
     cntcr.s.en = 1;
-    /* Synchronize with master node. Very simple set of counter, will
-       be off a little */
-    BDK_CSR_WRITE(node, BDK_GTI_CC_CNTCV, BDK_CSR_READ(bdk_numa_master(), BDK_GTI_CC_CNTCV));
+    if (node != bdk_numa_master())
+    {
+        /* Synchronize with master node. Very simple set of counter, will
+           be off a little */
+        BDK_CSR_WRITE(node, BDK_GTI_CC_CNTCV, BDK_CSR_READ(bdk_numa_master(), BDK_GTI_CC_CNTCV));
+    }
     /* Enable the counter */
     BDK_CSR_WRITE(node, BDK_GTI_CC_CNTCR, cntcr.u);
+    BDK_CSR_READ(node, BDK_GTI_CC_CNTCR);
+
+    if (node != bdk_numa_master())
+    {
+        /* Assume the delay in each direction is the same, sync the counters */
+        int64_t local1 = bdk_clock_get_count(BDK_CLOCK_TIME);
+        int64_t remote = BDK_CSR_READ(node, BDK_GTI_CC_CNTCV);
+        int64_t local2 = bdk_clock_get_count(BDK_CLOCK_TIME);
+        int64_t expected = (local1 + local2) / 2;
+        BDK_CSR_WRITE(node, BDK_GTI_CC_CNTADD, expected - remote);
+    }
 }
 
 /**
