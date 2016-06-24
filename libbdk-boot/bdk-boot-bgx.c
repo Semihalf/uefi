@@ -5,13 +5,16 @@
  */
 void bdk_boot_bgx(void)
 {
+    int max_bgx = 2;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX)) max_bgx = 4;
+
     /* Initialize BGX, ready for driver */
     for (bdk_node_t n = BDK_NODE_0; n < BDK_NUMA_MAX_NODES; n++)
     {
         if (bdk_numa_exists(n))
         {
             /* Enable ports based on config file. */
-            for (int bgx = 0; bgx < 2; bgx++)
+            for (int bgx = 0; bgx < max_bgx; bgx++)
             {
                 for (int p = 0; p < 4; p++)
                 {
