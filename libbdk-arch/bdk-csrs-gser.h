@@ -946,7 +946,7 @@ typedef union
                                                                  set when [BGX] is set and [BGX_DUAL] is clear.
 
                                                                  When [BGX_QUAD] is set, GSER bundles all four lanes for one BGX controller.
-                                                                 [BGX_QUAD] must only be set for the XAUI/DXAUI and XLAUI protocols.
+                                                                 [BGX_QUAD] must only be set for the XAUI/DXAUI protocols.
 
                                                                  Internal:
                                                                  Not used in CCPI QLMs. */
@@ -1001,7 +1001,7 @@ typedef union
                                                                  set when [BGX] is set and [BGX_DUAL] is clear.
 
                                                                  When [BGX_QUAD] is set, GSER bundles all four lanes for one BGX controller.
-                                                                 [BGX_QUAD] must only be set for the XAUI/DXAUI and XLAUI protocols.
+                                                                 [BGX_QUAD] must only be set for the XAUI/DXAUI protocols.
 
                                                                  Internal:
                                                                  Not used in CCPI QLMs. */
@@ -10713,6 +10713,8 @@ static inline uint64_t BDK_GSERX_TERM_CFG(unsigned long a)
         return 0x87e090460070ll + 0x1000000ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=13))
         return 0x87e090460070ll + 0x1000000ll * ((a) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=6))
+        return 0x87e090460070ll + 0x1000000ll * ((a) & 0x7);
     __bdk_csr_fatal("GSERX_TERM_CFG", 1, a, 0, 0, 0);
 }
 
@@ -10738,9 +10740,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
-        uint64_t cal_code_mgmt         : 4;  /**< [  3:  0](RO/H) Rx and Tx termination resistance calibration code. */
+        uint64_t cal_code_mgmt         : 4;  /**< [  3:  0](RO/H) RX and TX termination resistance calibration code. */
 #else /* Word 0 - Little Endian */
-        uint64_t cal_code_mgmt         : 4;  /**< [  3:  0](RO/H) Rx and Tx termination resistance calibration code. */
+        uint64_t cal_code_mgmt         : 4;  /**< [  3:  0](RO/H) RX and TX termination resistance calibration code. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;
@@ -10756,6 +10758,8 @@ static inline uint64_t BDK_GSERX_TERM_MON_1(unsigned long a)
         return 0x87e090460110ll + 0x1000000ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=13))
         return 0x87e090460110ll + 0x1000000ll * ((a) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=6))
+        return 0x87e090460110ll + 0x1000000ll * ((a) & 0x7);
     __bdk_csr_fatal("GSERX_TERM_MON_1", 1, a, 0, 0, 0);
 }
 

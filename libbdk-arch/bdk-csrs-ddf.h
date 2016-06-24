@@ -131,7 +131,10 @@
  * Enumerates the MSI-X interrupt vectors.
  */
 #define BDK_DDF_PF_INT_VEC_E_ECC0 (0)
-#define BDK_DDF_PF_INT_VEC_E_MBOXX(a) (1 + (a))
+#define BDK_DDF_PF_INT_VEC_E_MBOXX_CN8(a) (3 + (a))
+#define BDK_DDF_PF_INT_VEC_E_MBOXX_CN9(a) (1 + (a))
+#define BDK_DDF_PF_INT_VEC_E_NOINT0 (1)
+#define BDK_DDF_PF_INT_VEC_E_NOINT1 (2)
 
 /**
  * Enumeration ddf_rams_e
@@ -1018,6 +1021,162 @@ union bdk_ddf_res_find_s
     struct bdk_ddf_res_find_s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_56_63        : 8;
+        uint64_t vmv                   : 1;  /**< [ 55: 55] For FIND_DEL, set if a victim was moved into the deleted nest from the header,
+                                                                  same way. Will be clear for all other instructions. */
+        uint64_t cuckoo                : 7;  /**< [ 54: 48] Number of cuckoo replacements made on insert. Valid only for DDF_OP_E::FIND_INS. */
+        uint64_t hits                  : 8;  /**< [ 47: 40] Hit secondary-ways. Bitmask of ways in which the item was found using the secondary bucket
+                                                                 number. For FIND_SET/FIND_INS/FIND_DEL/FEMPTY_INS a single bit in [HITP], [HITS] or
+                                                                 [HITVIC] will be set. For FIND with PBKT equal SBKT the same bits in [HITP] and [HITS]
+                                                                 will be set. For NBUCKP2 equal 0 only the [HITP] or [HITV] bits may be set.
+
+                                                                 Will be 0x00 for DDF_OP_E::FABS_SET. */
+        uint64_t hitp                  : 8;  /**< [ 39: 32] Hit primary-ways. Bitmask of ways in which the item was found using the primary bucket
+                                                                 number. For FIND_SET/FIND_INS/FIND_DEL/FEMPTY_INS a single bit in [HITP], [HITS] or
+                                                                 [HITVIC] will be set. For FIND with PBKT equal SBKT the same bits in [HITP] and [HITS]
+                                                                 will be set. For NBUCKP2 equal 0 only the [HITP] or [HITV] bits may be set.
+
+                                                                 Will be 0x00 for DDF_OP_E::FABS_SET. */
+        uint64_t hitvict               : 8;  /**< [ 31: 24] Hit victim-ways. Bitmask of ways in which the item was found as a victim, else clear.
+                                                                 For FIND_SET/FIND_INS/FIND_DEL/FEMPTY_INS a single bit in [HITP], [HITS] or [HITVIC] will
+                                                                 be set indicating the set/inserted/deleted location.
+
+                                                                 Will be 0x00 for DDF_OP_E::FABS_SET. */
+        uint64_t nest                  : 2;  /**< [ 23: 22] Hit nest number. Set to DDF_INST_FIND_S[NEST] for FABS_SET. Indicates selected nest number
+                                                                 for FIND, FIND_SET, FIND_INS, FIND_DEL, FEMPTY_INS when [HITP] or [HITS] != 0x0, else
+                                                                 clear. */
+        uint64_t reserved_17_21        : 5;
+        uint64_t doneint               : 1;  /**< [ 16: 16] Done interrupt. This bit is copied from the corresponding instruction's
+                                                                 DDF_INST_FIND_S[DONEINT]. */
+        uint64_t res_type              : 8;  /**< [ 15:  8] Type of response structure, enumerated by DDF_RES_TYPE_E. */
+        uint64_t compcode              : 8;  /**< [  7:  0] Indicates completion/error status of the DDF coprocessor for the
+                                                                 associated instruction, as enumerated by DDF_COMP_E. Core
+                                                                 software may write the memory location containing [COMPCODE] to 0x0
+                                                                 before ringing the doorbell, and then poll for completion by
+                                                                 checking for a nonzero value.
+
+                                                                 Once the core observes a nonzero [COMPCODE] value in this case, the DDF
+                                                                 coprocessor will have also completed L2/DRAM write operations for all context,
+                                                                 output stream, and result data. */
+#else /* Word 0 - Little Endian */
+        uint64_t compcode              : 8;  /**< [  7:  0] Indicates completion/error status of the DDF coprocessor for the
+                                                                 associated instruction, as enumerated by DDF_COMP_E. Core
+                                                                 software may write the memory location containing [COMPCODE] to 0x0
+                                                                 before ringing the doorbell, and then poll for completion by
+                                                                 checking for a nonzero value.
+
+                                                                 Once the core observes a nonzero [COMPCODE] value in this case, the DDF
+                                                                 coprocessor will have also completed L2/DRAM write operations for all context,
+                                                                 output stream, and result data. */
+        uint64_t res_type              : 8;  /**< [ 15:  8] Type of response structure, enumerated by DDF_RES_TYPE_E. */
+        uint64_t doneint               : 1;  /**< [ 16: 16] Done interrupt. This bit is copied from the corresponding instruction's
+                                                                 DDF_INST_FIND_S[DONEINT]. */
+        uint64_t reserved_17_21        : 5;
+        uint64_t nest                  : 2;  /**< [ 23: 22] Hit nest number. Set to DDF_INST_FIND_S[NEST] for FABS_SET. Indicates selected nest number
+                                                                 for FIND, FIND_SET, FIND_INS, FIND_DEL, FEMPTY_INS when [HITP] or [HITS] != 0x0, else
+                                                                 clear. */
+        uint64_t hitvict               : 8;  /**< [ 31: 24] Hit victim-ways. Bitmask of ways in which the item was found as a victim, else clear.
+                                                                 For FIND_SET/FIND_INS/FIND_DEL/FEMPTY_INS a single bit in [HITP], [HITS] or [HITVIC] will
+                                                                 be set indicating the set/inserted/deleted location.
+
+                                                                 Will be 0x00 for DDF_OP_E::FABS_SET. */
+        uint64_t hitp                  : 8;  /**< [ 39: 32] Hit primary-ways. Bitmask of ways in which the item was found using the primary bucket
+                                                                 number. For FIND_SET/FIND_INS/FIND_DEL/FEMPTY_INS a single bit in [HITP], [HITS] or
+                                                                 [HITVIC] will be set. For FIND with PBKT equal SBKT the same bits in [HITP] and [HITS]
+                                                                 will be set. For NBUCKP2 equal 0 only the [HITP] or [HITV] bits may be set.
+
+                                                                 Will be 0x00 for DDF_OP_E::FABS_SET. */
+        uint64_t hits                  : 8;  /**< [ 47: 40] Hit secondary-ways. Bitmask of ways in which the item was found using the secondary bucket
+                                                                 number. For FIND_SET/FIND_INS/FIND_DEL/FEMPTY_INS a single bit in [HITP], [HITS] or
+                                                                 [HITVIC] will be set. For FIND with PBKT equal SBKT the same bits in [HITP] and [HITS]
+                                                                 will be set. For NBUCKP2 equal 0 only the [HITP] or [HITV] bits may be set.
+
+                                                                 Will be 0x00 for DDF_OP_E::FABS_SET. */
+        uint64_t cuckoo                : 7;  /**< [ 54: 48] Number of cuckoo replacements made on insert. Valid only for DDF_OP_E::FIND_INS. */
+        uint64_t vmv                   : 1;  /**< [ 55: 55] For FIND_DEL, set if a victim was moved into the deleted nest from the header,
+                                                                  same way. Will be clear for all other instructions. */
+        uint64_t reserved_56_63        : 8;
+#endif /* Word 0 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
+        uint64_t reserved_118_127      : 10;
+        uint64_t bktb                  : 6;  /**< [117:112] BucketB number of the nest that is returned in [RDATA0]..[3]. Valid only for a
+                                                                 DDF_OP_E::FIND_INS or FEMPTY_INS that results in a cuckoo displacement as indicated by
+                                                                 [COMPCODE] of DDF_COMP_E::FULL. The key for the displaced nest can be reconstructed from
+                                                                 DDF_RES_FIND_S::RANK, DDF_RES_FIND_S::BKTB and [RDATA0]..[3]. Requires [RR] be set. */
+        uint64_t reserved_110_111      : 2;
+        uint64_t sbkt                  : 6;  /**< [109:104] Calculated secondary bucket number. */
+        uint64_t reserved_102_103      : 2;
+        uint64_t pbkt                  : 6;  /**< [101: 96] Calculated primary bucket number. */
+        uint64_t rank                  : 32; /**< [ 95: 64] Calculated rank number. Is zero if DDF_INST_FIND_S[RANK_ABS] was set. */
+#else /* Word 1 - Little Endian */
+        uint64_t rank                  : 32; /**< [ 95: 64] Calculated rank number. Is zero if DDF_INST_FIND_S[RANK_ABS] was set. */
+        uint64_t pbkt                  : 6;  /**< [101: 96] Calculated primary bucket number. */
+        uint64_t reserved_102_103      : 2;
+        uint64_t sbkt                  : 6;  /**< [109:104] Calculated secondary bucket number. */
+        uint64_t reserved_110_111      : 2;
+        uint64_t bktb                  : 6;  /**< [117:112] BucketB number of the nest that is returned in [RDATA0]..[3]. Valid only for a
+                                                                 DDF_OP_E::FIND_INS or FEMPTY_INS that results in a cuckoo displacement as indicated by
+                                                                 [COMPCODE] of DDF_COMP_E::FULL. The key for the displaced nest can be reconstructed from
+                                                                 DDF_RES_FIND_S::RANK, DDF_RES_FIND_S::BKTB and [RDATA0]..[3]. Requires [RR] be set. */
+        uint64_t reserved_118_127      : 10;
+#endif /* Word 1 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 2 - Big Endian */
+        uint64_t rdata0                : 64; /**< [191:128] Key data bytes read from the nest or header before any update.
+
+                                                                 If multiple hits resulted from a DDF_OP_E::FIND the nest data from [NEST] from the lowest
+                                                                 matching way is returned.
+
+                                                                 If both [HITP] and [HITS] are set in the lowest matching way, the primary nest is
+                                                                 returned.
+
+                                                                 For DDF_OP_E::FABS_SET the nest or header data as selected by [WAY],[PBKT],[NEST],[VICTEN]
+                                                                 from [KEYDATA0]..[3] is returned.
+
+                                                                 The data is read from the nest before any updates take place, including empty nest inserts
+                                                                 where RDATA will be all zeroes. RDATA will also be all zeroes if [HITP], [HITS] and [HITV]
+                                                                 are clear, except for a FEMPTY_INS or FIND_INS that returns DDF_COMP_E::FULL. In this case
+                                                                 RDATA0..3 will contain the unplaced/displaced key data.
+
+                                                                 [RDATA0]..[3] is only written if DDF_RES_FIND_S::RR is set. */
+#else /* Word 2 - Little Endian */
+        uint64_t rdata0                : 64; /**< [191:128] Key data bytes read from the nest or header before any update.
+
+                                                                 If multiple hits resulted from a DDF_OP_E::FIND the nest data from [NEST] from the lowest
+                                                                 matching way is returned.
+
+                                                                 If both [HITP] and [HITS] are set in the lowest matching way, the primary nest is
+                                                                 returned.
+
+                                                                 For DDF_OP_E::FABS_SET the nest or header data as selected by [WAY],[PBKT],[NEST],[VICTEN]
+                                                                 from [KEYDATA0]..[3] is returned.
+
+                                                                 The data is read from the nest before any updates take place, including empty nest inserts
+                                                                 where RDATA will be all zeroes. RDATA will also be all zeroes if [HITP], [HITS] and [HITV]
+                                                                 are clear, except for a FEMPTY_INS or FIND_INS that returns DDF_COMP_E::FULL. In this case
+                                                                 RDATA0..3 will contain the unplaced/displaced key data.
+
+                                                                 [RDATA0]..[3] is only written if DDF_RES_FIND_S::RR is set. */
+#endif /* Word 2 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 3 - Big Endian */
+        uint64_t rdata1                : 64; /**< [255:192] Extension of [RDATA0]. */
+#else /* Word 3 - Little Endian */
+        uint64_t rdata1                : 64; /**< [255:192] Extension of [RDATA0]. */
+#endif /* Word 3 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 4 - Big Endian */
+        uint64_t rdata2                : 64; /**< [319:256] Extension of [RDATA0]. */
+#else /* Word 4 - Little Endian */
+        uint64_t rdata2                : 64; /**< [319:256] Extension of [RDATA0]. */
+#endif /* Word 4 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 5 - Big Endian */
+        uint64_t rdata3                : 64; /**< [383:320] Extension of [RDATA0]. */
+#else /* Word 5 - Little Endian */
+        uint64_t rdata3                : 64; /**< [383:320] Extension of [RDATA0]. */
+#endif /* Word 5 - End */
+    } s;
+    /* struct bdk_ddf_res_find_s_s cn8; */
+    struct bdk_ddf_res_find_s_cn9
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_55_63        : 9;
         uint64_t cuckoo                : 7;  /**< [ 54: 48] Number of cuckoo replacements made on insert. Valid only for DDF_OP_E::FIND_INS. */
         uint64_t hits                  : 8;  /**< [ 47: 40] Hit secondary-ways. Bitmask of ways in which the item was found using the secondary bucket
@@ -1165,8 +1324,7 @@ union bdk_ddf_res_find_s
 #else /* Word 5 - Little Endian */
         uint64_t rdata3                : 64; /**< [383:320] Extension of [RDATA0]. */
 #endif /* Word 5 - End */
-    } s;
-    /* struct bdk_ddf_res_find_s_s cn; */
+    } cn9;
 };
 
 /**
@@ -2042,6 +2200,76 @@ static inline uint64_t BDK_DDFX_PF_DIAG2(unsigned long a)
 #define arguments_BDK_DDFX_PF_DIAG2(a) (a),-1,-1,-1
 
 /**
+ * Register (NCB) ddf#_pf_diag_cam#
+ *
+ * DDF PF Diagnostic CAM Access Register
+ * This register provides diagnostic read access to the CAM.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_ddfx_pf_diag_camx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t data                  : 64; /**< [ 63:  0](RO/H) Cam contents. For diagnostic use only. */
+#else /* Word 0 - Little Endian */
+        uint64_t data                  : 64; /**< [ 63:  0](RO/H) Cam contents. For diagnostic use only. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ddfx_pf_diag_camx_s cn; */
+} bdk_ddfx_pf_diag_camx_t;
+
+static inline uint64_t BDK_DDFX_PF_DIAG_CAMX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DDFX_PF_DIAG_CAMX(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && ((b>=127)&&(b<=0))))
+        return 0x809000000800ll + 0ll * ((a) & 0x0) + 8ll * ((b) & 0x7f);
+    __bdk_csr_fatal("DDFX_PF_DIAG_CAMX", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_DDFX_PF_DIAG_CAMX(a,b) bdk_ddfx_pf_diag_camx_t
+#define bustype_BDK_DDFX_PF_DIAG_CAMX(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_DDFX_PF_DIAG_CAMX(a,b) "DDFX_PF_DIAG_CAMX"
+#define device_bar_BDK_DDFX_PF_DIAG_CAMX(a,b) 0x0 /* PF_BAR0 */
+#define busnum_BDK_DDFX_PF_DIAG_CAMX(a,b) (a)
+#define arguments_BDK_DDFX_PF_DIAG_CAMX(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB) ddf#_pf_diag_dmem#
+ *
+ * DDF PF Diagnostic DMEM Access Register
+ * This register provides diagnostic read access to the DMEM.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_ddfx_pf_diag_dmemx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t data                  : 64; /**< [ 63:  0](RO/H) DMEM contents. For diagnostic use only. */
+#else /* Word 0 - Little Endian */
+        uint64_t data                  : 64; /**< [ 63:  0](RO/H) DMEM contents. For diagnostic use only. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ddfx_pf_diag_dmemx_s cn; */
+} bdk_ddfx_pf_diag_dmemx_t;
+
+static inline uint64_t BDK_DDFX_PF_DIAG_DMEMX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DDFX_PF_DIAG_DMEMX(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && ((b>=2047)&&(b<=0))))
+        return 0x809000004000ll + 0ll * ((a) & 0x0) + 8ll * ((b) & 0x7ff);
+    __bdk_csr_fatal("DDFX_PF_DIAG_DMEMX", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_DDFX_PF_DIAG_DMEMX(a,b) bdk_ddfx_pf_diag_dmemx_t
+#define bustype_BDK_DDFX_PF_DIAG_DMEMX(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_DDFX_PF_DIAG_DMEMX(a,b) "DDFX_PF_DIAG_DMEMX"
+#define device_bar_BDK_DDFX_PF_DIAG_DMEMX(a,b) 0x0 /* PF_BAR0 */
+#define busnum_BDK_DDFX_PF_DIAG_DMEMX(a,b) (a)
+#define arguments_BDK_DDFX_PF_DIAG_DMEMX(a,b) (a),(b),-1,-1
+
+/**
  * Register (NCB) ddf#_pf_ecc0_ctl
  *
  * DDF PF ECC Control Register
@@ -2631,8 +2859,8 @@ typedef union
 static inline uint64_t BDK_DDFX_PF_MSIX_VECX_ADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_PF_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=1)))
-        return 0x809010000000ll + 0ll * ((a) & 0x0) + 0x10ll * ((b) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=3)))
+        return 0x809010000000ll + 0ll * ((a) & 0x0) + 0x10ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a==0) && (b<=1)))
         return 0x809010000000ll + 0ll * ((a) & 0x0) + 0x10ll * ((b) & 0x1);
     __bdk_csr_fatal("DDFX_PF_MSIX_VECX_ADDR", 2, a, b, 0, 0);
@@ -2674,8 +2902,8 @@ typedef union
 static inline uint64_t BDK_DDFX_PF_MSIX_VECX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_PF_MSIX_VECX_CTL(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=1)))
-        return 0x809010000008ll + 0ll * ((a) & 0x0) + 0x10ll * ((b) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=3)))
+        return 0x809010000008ll + 0ll * ((a) & 0x0) + 0x10ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a==0) && (b<=1)))
         return 0x809010000008ll + 0ll * ((a) & 0x0) + 0x10ll * ((b) & 0x1);
     __bdk_csr_fatal("DDFX_PF_MSIX_VECX_CTL", 2, a, b, 0, 0);
@@ -2687,6 +2915,296 @@ static inline uint64_t BDK_DDFX_PF_MSIX_VECX_CTL(unsigned long a, unsigned long 
 #define device_bar_BDK_DDFX_PF_MSIX_VECX_CTL(a,b) 0x4 /* PF_BAR4 */
 #define busnum_BDK_DDFX_PF_MSIX_VECX_CTL(a,b) (a)
 #define arguments_BDK_DDFX_PF_MSIX_VECX_CTL(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB) ddf#_pf_noint0_ena_w1c
+ *
+ * INTERNAL: DDF Unused Interrupt Enable Clear Registers
+ *
+ * This register clears interrupt enable bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_ddfx_pf_noint0_ena_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t noint0                : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for DDF(0)_PF_NOINT0_INT[NOINT0]. */
+#else /* Word 0 - Little Endian */
+        uint64_t noint0                : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for DDF(0)_PF_NOINT0_INT[NOINT0]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ddfx_pf_noint0_ena_w1c_s cn; */
+} bdk_ddfx_pf_noint0_ena_w1c_t;
+
+static inline uint64_t BDK_DDFX_PF_NOINT0_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DDFX_PF_NOINT0_ENA_W1C(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
+        return 0x809000000540ll + 0ll * ((a) & 0x0);
+    __bdk_csr_fatal("DDFX_PF_NOINT0_ENA_W1C", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_DDFX_PF_NOINT0_ENA_W1C(a) bdk_ddfx_pf_noint0_ena_w1c_t
+#define bustype_BDK_DDFX_PF_NOINT0_ENA_W1C(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_DDFX_PF_NOINT0_ENA_W1C(a) "DDFX_PF_NOINT0_ENA_W1C"
+#define device_bar_BDK_DDFX_PF_NOINT0_ENA_W1C(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_DDFX_PF_NOINT0_ENA_W1C(a) (a)
+#define arguments_BDK_DDFX_PF_NOINT0_ENA_W1C(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) ddf#_pf_noint0_ena_w1s
+ *
+ * INTERNAL: DDF Unused Interrupt Enable Set Registers
+ *
+ * This register sets interrupt enable bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_ddfx_pf_noint0_ena_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t noint0                : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for DDF(0)_PF_NOINT0_INT[NOINT0]. */
+#else /* Word 0 - Little Endian */
+        uint64_t noint0                : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for DDF(0)_PF_NOINT0_INT[NOINT0]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ddfx_pf_noint0_ena_w1s_s cn; */
+} bdk_ddfx_pf_noint0_ena_w1s_t;
+
+static inline uint64_t BDK_DDFX_PF_NOINT0_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DDFX_PF_NOINT0_ENA_W1S(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
+        return 0x809000000560ll + 0ll * ((a) & 0x0);
+    __bdk_csr_fatal("DDFX_PF_NOINT0_ENA_W1S", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_DDFX_PF_NOINT0_ENA_W1S(a) bdk_ddfx_pf_noint0_ena_w1s_t
+#define bustype_BDK_DDFX_PF_NOINT0_ENA_W1S(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_DDFX_PF_NOINT0_ENA_W1S(a) "DDFX_PF_NOINT0_ENA_W1S"
+#define device_bar_BDK_DDFX_PF_NOINT0_ENA_W1S(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_DDFX_PF_NOINT0_ENA_W1S(a) (a)
+#define arguments_BDK_DDFX_PF_NOINT0_ENA_W1S(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) ddf#_pf_noint0_int
+ *
+ * INTERNAL: DDF Unused Interrupt Registers
+ *
+ * Internal:
+ * This register exists only to aid alignment with CDE interrupts.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_ddfx_pf_noint0_int_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t noint0                : 64; /**< [ 63:  0](R/W1C/H) Reserved. */
+#else /* Word 0 - Little Endian */
+        uint64_t noint0                : 64; /**< [ 63:  0](R/W1C/H) Reserved. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ddfx_pf_noint0_int_s cn; */
+} bdk_ddfx_pf_noint0_int_t;
+
+static inline uint64_t BDK_DDFX_PF_NOINT0_INT(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DDFX_PF_NOINT0_INT(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
+        return 0x809000000500ll + 0ll * ((a) & 0x0);
+    __bdk_csr_fatal("DDFX_PF_NOINT0_INT", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_DDFX_PF_NOINT0_INT(a) bdk_ddfx_pf_noint0_int_t
+#define bustype_BDK_DDFX_PF_NOINT0_INT(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_DDFX_PF_NOINT0_INT(a) "DDFX_PF_NOINT0_INT"
+#define device_bar_BDK_DDFX_PF_NOINT0_INT(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_DDFX_PF_NOINT0_INT(a) (a)
+#define arguments_BDK_DDFX_PF_NOINT0_INT(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) ddf#_pf_noint0_int_w1s
+ *
+ * INTERNAL: DDF Unused Interrupt Set Registers
+ *
+ * This register sets interrupt bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_ddfx_pf_noint0_int_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t noint0                : 64; /**< [ 63:  0](R/W1S/H) Reads or sets DDF(0)_PF_NOINT0_INT[NOINT0]. */
+#else /* Word 0 - Little Endian */
+        uint64_t noint0                : 64; /**< [ 63:  0](R/W1S/H) Reads or sets DDF(0)_PF_NOINT0_INT[NOINT0]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ddfx_pf_noint0_int_w1s_s cn; */
+} bdk_ddfx_pf_noint0_int_w1s_t;
+
+static inline uint64_t BDK_DDFX_PF_NOINT0_INT_W1S(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DDFX_PF_NOINT0_INT_W1S(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
+        return 0x809000000520ll + 0ll * ((a) & 0x0);
+    __bdk_csr_fatal("DDFX_PF_NOINT0_INT_W1S", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_DDFX_PF_NOINT0_INT_W1S(a) bdk_ddfx_pf_noint0_int_w1s_t
+#define bustype_BDK_DDFX_PF_NOINT0_INT_W1S(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_DDFX_PF_NOINT0_INT_W1S(a) "DDFX_PF_NOINT0_INT_W1S"
+#define device_bar_BDK_DDFX_PF_NOINT0_INT_W1S(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_DDFX_PF_NOINT0_INT_W1S(a) (a)
+#define arguments_BDK_DDFX_PF_NOINT0_INT_W1S(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) ddf#_pf_noint1_ena_w1c
+ *
+ * INTERNAL: DDF Unused Interrupt Enable Clear Registers
+ *
+ * This register clears interrupt enable bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_ddfx_pf_noint1_ena_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t noint1                : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for DDF(0)_PF_NOINT1_INT[NOINT1]. */
+#else /* Word 0 - Little Endian */
+        uint64_t noint1                : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for DDF(0)_PF_NOINT1_INT[NOINT1]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ddfx_pf_noint1_ena_w1c_s cn; */
+} bdk_ddfx_pf_noint1_ena_w1c_t;
+
+static inline uint64_t BDK_DDFX_PF_NOINT1_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DDFX_PF_NOINT1_ENA_W1C(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
+        return 0x8090000005a0ll + 0ll * ((a) & 0x0);
+    __bdk_csr_fatal("DDFX_PF_NOINT1_ENA_W1C", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_DDFX_PF_NOINT1_ENA_W1C(a) bdk_ddfx_pf_noint1_ena_w1c_t
+#define bustype_BDK_DDFX_PF_NOINT1_ENA_W1C(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_DDFX_PF_NOINT1_ENA_W1C(a) "DDFX_PF_NOINT1_ENA_W1C"
+#define device_bar_BDK_DDFX_PF_NOINT1_ENA_W1C(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_DDFX_PF_NOINT1_ENA_W1C(a) (a)
+#define arguments_BDK_DDFX_PF_NOINT1_ENA_W1C(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) ddf#_pf_noint1_ena_w1s
+ *
+ * INTERNAL: DDF Unused Interrupt Enable Set Registers
+ *
+ * This register sets interrupt enable bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_ddfx_pf_noint1_ena_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t noint1                : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for DDF(0)_PF_NOINT1_INT[NOINT1]. */
+#else /* Word 0 - Little Endian */
+        uint64_t noint1                : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for DDF(0)_PF_NOINT1_INT[NOINT1]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ddfx_pf_noint1_ena_w1s_s cn; */
+} bdk_ddfx_pf_noint1_ena_w1s_t;
+
+static inline uint64_t BDK_DDFX_PF_NOINT1_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DDFX_PF_NOINT1_ENA_W1S(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
+        return 0x8090000005b0ll + 0ll * ((a) & 0x0);
+    __bdk_csr_fatal("DDFX_PF_NOINT1_ENA_W1S", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_DDFX_PF_NOINT1_ENA_W1S(a) bdk_ddfx_pf_noint1_ena_w1s_t
+#define bustype_BDK_DDFX_PF_NOINT1_ENA_W1S(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_DDFX_PF_NOINT1_ENA_W1S(a) "DDFX_PF_NOINT1_ENA_W1S"
+#define device_bar_BDK_DDFX_PF_NOINT1_ENA_W1S(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_DDFX_PF_NOINT1_ENA_W1S(a) (a)
+#define arguments_BDK_DDFX_PF_NOINT1_ENA_W1S(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) ddf#_pf_noint1_int
+ *
+ * INTERNAL: DDF Unused Interrupt Registers
+ *
+ * Internal:
+ * This register exists only to aid alignment with CDE interrupts.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_ddfx_pf_noint1_int_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t noint1                : 64; /**< [ 63:  0](R/W1C/H) Reserved. */
+#else /* Word 0 - Little Endian */
+        uint64_t noint1                : 64; /**< [ 63:  0](R/W1C/H) Reserved. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ddfx_pf_noint1_int_s cn; */
+} bdk_ddfx_pf_noint1_int_t;
+
+static inline uint64_t BDK_DDFX_PF_NOINT1_INT(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DDFX_PF_NOINT1_INT(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
+        return 0x809000000580ll + 0ll * ((a) & 0x0);
+    __bdk_csr_fatal("DDFX_PF_NOINT1_INT", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_DDFX_PF_NOINT1_INT(a) bdk_ddfx_pf_noint1_int_t
+#define bustype_BDK_DDFX_PF_NOINT1_INT(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_DDFX_PF_NOINT1_INT(a) "DDFX_PF_NOINT1_INT"
+#define device_bar_BDK_DDFX_PF_NOINT1_INT(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_DDFX_PF_NOINT1_INT(a) (a)
+#define arguments_BDK_DDFX_PF_NOINT1_INT(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) ddf#_pf_noint1_int_w1s
+ *
+ * INTERNAL: DDF Unused Interrupt Set Registers
+ *
+ * This register sets interrupt bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_ddfx_pf_noint1_int_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t noint1                : 64; /**< [ 63:  0](R/W1S/H) Reads or sets DDF(0)_PF_NOINT1_INT[NOINT1]. */
+#else /* Word 0 - Little Endian */
+        uint64_t noint1                : 64; /**< [ 63:  0](R/W1S/H) Reads or sets DDF(0)_PF_NOINT1_INT[NOINT1]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ddfx_pf_noint1_int_w1s_s cn; */
+} bdk_ddfx_pf_noint1_int_w1s_t;
+
+static inline uint64_t BDK_DDFX_PF_NOINT1_INT_W1S(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DDFX_PF_NOINT1_INT_W1S(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
+        return 0x809000000590ll + 0ll * ((a) & 0x0);
+    __bdk_csr_fatal("DDFX_PF_NOINT1_INT_W1S", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_DDFX_PF_NOINT1_INT_W1S(a) bdk_ddfx_pf_noint1_int_w1s_t
+#define bustype_BDK_DDFX_PF_NOINT1_INT_W1S(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_DDFX_PF_NOINT1_INT_W1S(a) "DDFX_PF_NOINT1_INT_W1S"
+#define device_bar_BDK_DDFX_PF_NOINT1_INT_W1S(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_DDFX_PF_NOINT1_INT_W1S(a) (a)
+#define arguments_BDK_DDFX_PF_NOINT1_INT_W1S(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) ddf#_pf_q#_ctl

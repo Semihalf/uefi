@@ -440,6 +440,64 @@ static inline uint64_t BDK_OCLAX_CDHX_CTL(unsigned long a, unsigned long b)
 #define arguments_BDK_OCLAX_CDHX_CTL(a,b) (a),(b),-1,-1
 
 /**
+ * Register (RSL) ocla#_cdh#_inject_state
+ *
+ * OCLA Capture Inject State Register
+ * This register allows various state inputs to be inserted into the captured stream
+ * data, to assist debugging of OCLA FSMs. Each input has two insertion positions
+ * (e.g. MCD and ALT_MCD), so that some of the normal non-inject capture stream data
+ * may still be observable.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_oclax_cdhx_inject_state_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t alt_trig              : 1;  /**< [ 31: 31](R/W) When set, insert FSM trigger input into captured stream <31>. */
+        uint64_t alt_mcd               : 3;  /**< [ 30: 28](R/W) When set, insert multichip debug (MCD) 0..2 FSM inputs into captured strean <30:28>. */
+        uint64_t alt_match             : 4;  /**< [ 27: 24](R/W) When set, insert matcher FSM inputs into captured stream <27:24>. */
+        uint64_t alt_fsm1_state        : 4;  /**< [ 23: 20](R/W) When set, insert FSM 1 state input into captured stream <23:20>. */
+        uint64_t alt_fsm0_state        : 4;  /**< [ 19: 16](R/W) When set, insert FSM 0 state input into captured stream <19:16>. */
+        uint64_t trig                  : 1;  /**< [ 15: 15](R/W) When set, insert FSM trigger input into captured stream <15>. */
+        uint64_t mcd                   : 3;  /**< [ 14: 12](R/W) When set, insert multichip debug (MCD) 0..2 FSM inputs into captured strean <14:12>. */
+        uint64_t match                 : 4;  /**< [ 11:  8](R/W) When set, insert matcher FSM inputs into captured stream <11:8>. */
+        uint64_t fsm1_state            : 4;  /**< [  7:  4](R/W) When set, insert FSM 1 state input into captured stream <7:4>. */
+        uint64_t fsm0_state            : 4;  /**< [  3:  0](R/W) When set, insert FSM 0 state input into captured stream <3:0>. */
+#else /* Word 0 - Little Endian */
+        uint64_t fsm0_state            : 4;  /**< [  3:  0](R/W) When set, insert FSM 0 state input into captured stream <3:0>. */
+        uint64_t fsm1_state            : 4;  /**< [  7:  4](R/W) When set, insert FSM 1 state input into captured stream <7:4>. */
+        uint64_t match                 : 4;  /**< [ 11:  8](R/W) When set, insert matcher FSM inputs into captured stream <11:8>. */
+        uint64_t mcd                   : 3;  /**< [ 14: 12](R/W) When set, insert multichip debug (MCD) 0..2 FSM inputs into captured strean <14:12>. */
+        uint64_t trig                  : 1;  /**< [ 15: 15](R/W) When set, insert FSM trigger input into captured stream <15>. */
+        uint64_t alt_fsm0_state        : 4;  /**< [ 19: 16](R/W) When set, insert FSM 0 state input into captured stream <19:16>. */
+        uint64_t alt_fsm1_state        : 4;  /**< [ 23: 20](R/W) When set, insert FSM 1 state input into captured stream <23:20>. */
+        uint64_t alt_match             : 4;  /**< [ 27: 24](R/W) When set, insert matcher FSM inputs into captured stream <27:24>. */
+        uint64_t alt_mcd               : 3;  /**< [ 30: 28](R/W) When set, insert multichip debug (MCD) 0..2 FSM inputs into captured strean <30:28>. */
+        uint64_t alt_trig              : 1;  /**< [ 31: 31](R/W) When set, insert FSM trigger input into captured stream <31>. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_oclax_cdhx_inject_state_s cn; */
+} bdk_oclax_cdhx_inject_state_t;
+
+static inline uint64_t BDK_OCLAX_CDHX_INJECT_STATE(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_OCLAX_CDHX_INJECT_STATE(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=9) && (b<=1)))
+        return 0x87e0b0000610ll + 0x1000000ll * ((a) & 0xf) + 8ll * ((b) & 0x1);
+    __bdk_csr_fatal("OCLAX_CDHX_INJECT_STATE", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_OCLAX_CDHX_INJECT_STATE(a,b) bdk_oclax_cdhx_inject_state_t
+#define bustype_BDK_OCLAX_CDHX_INJECT_STATE(a,b) BDK_CSR_TYPE_RSL
+#define basename_BDK_OCLAX_CDHX_INJECT_STATE(a,b) "OCLAX_CDHX_INJECT_STATE"
+#define device_bar_BDK_OCLAX_CDHX_INJECT_STATE(a,b) 0x0 /* PF_BAR0 */
+#define busnum_BDK_OCLAX_CDHX_INJECT_STATE(a,b) (a)
+#define arguments_BDK_OCLAX_CDHX_INJECT_STATE(a,b) (a),(b),-1,-1
+
+/**
  * Register (RSL) ocla#_cond_clocks
  *
  * OCLA Conditional Clock Registers
@@ -450,11 +508,9 @@ typedef union
     struct bdk_oclax_cond_clocks_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t clock                 : 32; /**< [ 31:  0](R/W/H) Counts cycles for which the conditional clocks are running. */
+        uint64_t clock                 : 64; /**< [ 63:  0](R/W/H) Counts cycles for which the conditional clocks are running. */
 #else /* Word 0 - Little Endian */
-        uint64_t clock                 : 32; /**< [ 31:  0](R/W/H) Counts cycles for which the conditional clocks are running. */
-        uint64_t reserved_32_63        : 32;
+        uint64_t clock                 : 64; /**< [ 63:  0](R/W/H) Counts cycles for which the conditional clocks are running. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_oclax_cond_clocks_s cn; */

@@ -483,6 +483,54 @@ typedef union
         uint32_t reserved_26_31        : 6;
         uint32_t old_phy_ready         : 1;  /**< [ 25: 25](R/W) Old phy_ready. Do not change the value of this bit. */
         uint32_t late_phy_ready        : 1;  /**< [ 24: 24](R/W) Late phy_ready. */
+        uint32_t reserved_19_23        : 5;
+        uint32_t txo                   : 1;  /**< [ 18: 18](WO) Transmit only. */
+        uint32_t cntclr                : 1;  /**< [ 17: 17](WO) Counter clear. */
+        uint32_t nealb                 : 1;  /**< [ 16: 16](WO) Near-end analog loopback. */
+        uint32_t llb                   : 1;  /**< [ 15: 15](R/W) Lab loopback mode. */
+        uint32_t reserved_14           : 1;
+        uint32_t errlossen             : 1;  /**< [ 13: 13](R/W) Error loss detect enable. */
+        uint32_t sdfe                  : 1;  /**< [ 12: 12](R/W) Signal detect feature enable. */
+        uint32_t rsvd_1rsvd_11         : 1;  /**< [ 11: 11](R/W) Reserved. */
+        uint32_t llc                   : 3;  /**< [ 10:  8](R/W) Link layer control.
+                                                                 <10> = RPD - repeat primitive drop enable.
+                                                                 <9> = DESCRAM - descrambler enable.
+                                                                 <8> = SCRAM - scrambler enable. */
+        uint32_t reserved_7            : 1;
+        uint32_t erren                 : 1;  /**< [  6:  6](R/W) Error enable. */
+        uint32_t flip                  : 1;  /**< [  5:  5](R/W) Flip disparity. */
+        uint32_t pv                    : 1;  /**< [  4:  4](R/W) Pattern version. */
+        uint32_t pattern               : 4;  /**< [  3:  0](R/W) SATA compliant pattern selection. */
+#else /* Word 0 - Little Endian */
+        uint32_t pattern               : 4;  /**< [  3:  0](R/W) SATA compliant pattern selection. */
+        uint32_t pv                    : 1;  /**< [  4:  4](R/W) Pattern version. */
+        uint32_t flip                  : 1;  /**< [  5:  5](R/W) Flip disparity. */
+        uint32_t erren                 : 1;  /**< [  6:  6](R/W) Error enable. */
+        uint32_t reserved_7            : 1;
+        uint32_t llc                   : 3;  /**< [ 10:  8](R/W) Link layer control.
+                                                                 <10> = RPD - repeat primitive drop enable.
+                                                                 <9> = DESCRAM - descrambler enable.
+                                                                 <8> = SCRAM - scrambler enable. */
+        uint32_t rsvd_1rsvd_11         : 1;  /**< [ 11: 11](R/W) Reserved. */
+        uint32_t sdfe                  : 1;  /**< [ 12: 12](R/W) Signal detect feature enable. */
+        uint32_t errlossen             : 1;  /**< [ 13: 13](R/W) Error loss detect enable. */
+        uint32_t reserved_14           : 1;
+        uint32_t llb                   : 1;  /**< [ 15: 15](R/W) Lab loopback mode. */
+        uint32_t nealb                 : 1;  /**< [ 16: 16](WO) Near-end analog loopback. */
+        uint32_t cntclr                : 1;  /**< [ 17: 17](WO) Counter clear. */
+        uint32_t txo                   : 1;  /**< [ 18: 18](WO) Transmit only. */
+        uint32_t reserved_19_23        : 5;
+        uint32_t late_phy_ready        : 1;  /**< [ 24: 24](R/W) Late phy_ready. */
+        uint32_t old_phy_ready         : 1;  /**< [ 25: 25](R/W) Old phy_ready. Do not change the value of this bit. */
+        uint32_t reserved_26_31        : 6;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_satax_uahc_gbl_bistcr_cn8
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_26_31        : 6;
+        uint32_t old_phy_ready         : 1;  /**< [ 25: 25](R/W) Old phy_ready. Do not change the value of this bit. */
+        uint32_t late_phy_ready        : 1;  /**< [ 24: 24](R/W) Late phy_ready. */
         uint32_t reserved_21_23        : 3;
         uint32_t ferlib                : 1;  /**< [ 20: 20](WO) Far-end retimed loopback. */
         uint32_t reserved_19           : 1;
@@ -528,8 +576,59 @@ typedef union
         uint32_t old_phy_ready         : 1;  /**< [ 25: 25](R/W) Old phy_ready. Do not change the value of this bit. */
         uint32_t reserved_26_31        : 6;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_satax_uahc_gbl_bistcr_s cn; */
+    } cn8;
+    struct bdk_satax_uahc_gbl_bistcr_cn9
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_26_31        : 6;
+        uint32_t old_phy_ready         : 1;  /**< [ 25: 25](R/W) Old phy_ready. Do not change the value of this bit. */
+        uint32_t late_phy_ready        : 1;  /**< [ 24: 24](R/W) Late phy_ready. */
+        uint32_t reserved_21_23        : 3;
+        uint32_t ferlb                 : 1;  /**< [ 20: 20](WO) Far-end retimed loopback. */
+        uint32_t reserved_19           : 1;
+        uint32_t txo                   : 1;  /**< [ 18: 18](WO) Transmit only. */
+        uint32_t cntclr                : 1;  /**< [ 17: 17](WO) Counter clear. */
+        uint32_t nealb                 : 1;  /**< [ 16: 16](WO) Near-end analog loopback. */
+        uint32_t llb                   : 1;  /**< [ 15: 15](R/W) Lab loopback mode. */
+        uint32_t reserved_14           : 1;
+        uint32_t errlossen             : 1;  /**< [ 13: 13](R/W) Error loss detect enable. */
+        uint32_t sdfe                  : 1;  /**< [ 12: 12](R/W) Signal detect feature enable. */
+        uint32_t rsvd_1rsvd_11         : 1;  /**< [ 11: 11](R/W) Reserved. */
+        uint32_t llc                   : 3;  /**< [ 10:  8](R/W) Link layer control.
+                                                                 <10> = RPD - repeat primitive drop enable.
+                                                                 <9> = DESCRAM - descrambler enable.
+                                                                 <8> = SCRAM - scrambler enable. */
+        uint32_t reserved_7            : 1;
+        uint32_t erren                 : 1;  /**< [  6:  6](R/W) Error enable. */
+        uint32_t flip                  : 1;  /**< [  5:  5](R/W) Flip disparity. */
+        uint32_t pv                    : 1;  /**< [  4:  4](R/W) Pattern version. */
+        uint32_t pattern               : 4;  /**< [  3:  0](R/W) SATA compliant pattern selection. */
+#else /* Word 0 - Little Endian */
+        uint32_t pattern               : 4;  /**< [  3:  0](R/W) SATA compliant pattern selection. */
+        uint32_t pv                    : 1;  /**< [  4:  4](R/W) Pattern version. */
+        uint32_t flip                  : 1;  /**< [  5:  5](R/W) Flip disparity. */
+        uint32_t erren                 : 1;  /**< [  6:  6](R/W) Error enable. */
+        uint32_t reserved_7            : 1;
+        uint32_t llc                   : 3;  /**< [ 10:  8](R/W) Link layer control.
+                                                                 <10> = RPD - repeat primitive drop enable.
+                                                                 <9> = DESCRAM - descrambler enable.
+                                                                 <8> = SCRAM - scrambler enable. */
+        uint32_t rsvd_1rsvd_11         : 1;  /**< [ 11: 11](R/W) Reserved. */
+        uint32_t sdfe                  : 1;  /**< [ 12: 12](R/W) Signal detect feature enable. */
+        uint32_t errlossen             : 1;  /**< [ 13: 13](R/W) Error loss detect enable. */
+        uint32_t reserved_14           : 1;
+        uint32_t llb                   : 1;  /**< [ 15: 15](R/W) Lab loopback mode. */
+        uint32_t nealb                 : 1;  /**< [ 16: 16](WO) Near-end analog loopback. */
+        uint32_t cntclr                : 1;  /**< [ 17: 17](WO) Counter clear. */
+        uint32_t txo                   : 1;  /**< [ 18: 18](WO) Transmit only. */
+        uint32_t reserved_19           : 1;
+        uint32_t ferlb                 : 1;  /**< [ 20: 20](WO) Far-end retimed loopback. */
+        uint32_t reserved_21_23        : 3;
+        uint32_t late_phy_ready        : 1;  /**< [ 24: 24](R/W) Late phy_ready. */
+        uint32_t old_phy_ready         : 1;  /**< [ 25: 25](R/W) Old phy_ready. Do not change the value of this bit. */
+        uint32_t reserved_26_31        : 6;
+#endif /* Word 0 - End */
+    } cn9;
 } bdk_satax_uahc_gbl_bistcr_t;
 
 static inline uint64_t BDK_SATAX_UAHC_GBL_BISTCR(unsigned long a) __attribute__ ((pure, always_inline));
@@ -560,6 +659,8 @@ static inline uint64_t BDK_SATAX_UAHC_GBL_BISTCR(unsigned long a)
  * This register is shared between SATA ports. Before accessing this
  * register, first select the required port by writing the port number
  * to the SATA()_UAHC_GBL_TESTR[PSEL] field.
+ * Access to the register is disabled on power-on (system reset) or global
+ * SATA block reset, and when the TESTR.BSEL is set to 0.
  *
  * Internal:
  * See DWC_ahsata databook v4.20a.
@@ -695,12 +796,64 @@ static inline uint64_t BDK_SATAX_UAHC_GBL_BISTSR(unsigned long a)
  * Register (NCB32b) sata#_uahc_gbl_cap
  *
  * SATA AHCI HBA Capabilities Register
- * See AHCI specification v1.3 section 3.1.
+ * This register indicates basic capabilities of the SATA core to software.
  */
 typedef union
 {
     uint32_t u;
     struct bdk_satax_uahc_gbl_cap_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t s64a                  : 1;  /**< [ 31: 31](RO) Supports 64-bit addressing. */
+        uint32_t sncq                  : 1;  /**< [ 30: 30](RO) Supports native command queuing. */
+        uint32_t ssntf                 : 1;  /**< [ 29: 29](RO) Supports SNotification register. */
+        uint32_t smps                  : 1;  /**< [ 28: 28](R/W) Supports mechanical presence switch. One-time writable only. */
+        uint32_t sss                   : 1;  /**< [ 27: 27](R/W) Supports staggered spin-up. One-time writable only. */
+        uint32_t salp                  : 1;  /**< [ 26: 26](RO) Supports agressive link power management. */
+        uint32_t sal                   : 1;  /**< [ 25: 25](RO) Supports activity LED. */
+        uint32_t sclo                  : 1;  /**< [ 24: 24](RO) Supports command list override. */
+        uint32_t iss                   : 4;  /**< [ 23: 20](RO) Interface speed support. */
+        uint32_t snzo                  : 1;  /**< [ 19: 19](RO) Supports nonzero DMA offsets. */
+        uint32_t sam                   : 1;  /**< [ 18: 18](RO) Supports AHCI mode only. */
+        uint32_t spm                   : 1;  /**< [ 17: 17](RO) Supports port multiplier. */
+        uint32_t fbss                  : 1;  /**< [ 16: 16](RO) Supports FIS-based switching. */
+        uint32_t pmd                   : 1;  /**< [ 15: 15](RO) PIO multiple DRQ block. */
+        uint32_t ssc                   : 1;  /**< [ 14: 14](RO) Slumber state capable. */
+        uint32_t psc                   : 1;  /**< [ 13: 13](RO) Partial state capable. */
+        uint32_t ncs                   : 5;  /**< [ 12:  8](RO) Number of command slots. */
+        uint32_t cccs                  : 1;  /**< [  7:  7](RO) Command completion coalescing support. */
+        uint32_t ems                   : 1;  /**< [  6:  6](RO) Enclosure management support, as in termination of commands.
+                                                                 CNXXXX does not terminate enclosure management commands, but does support
+                                                                 passing enclosure management commands through to downstream controllers. */
+        uint32_t sxs                   : 1;  /**< [  5:  5](RO) Supports external SATA. */
+        uint32_t np                    : 5;  /**< [  4:  0](RO) Number of ports. 0x0 = 1 port. */
+#else /* Word 0 - Little Endian */
+        uint32_t np                    : 5;  /**< [  4:  0](RO) Number of ports. 0x0 = 1 port. */
+        uint32_t sxs                   : 1;  /**< [  5:  5](RO) Supports external SATA. */
+        uint32_t ems                   : 1;  /**< [  6:  6](RO) Enclosure management support, as in termination of commands.
+                                                                 CNXXXX does not terminate enclosure management commands, but does support
+                                                                 passing enclosure management commands through to downstream controllers. */
+        uint32_t cccs                  : 1;  /**< [  7:  7](RO) Command completion coalescing support. */
+        uint32_t ncs                   : 5;  /**< [ 12:  8](RO) Number of command slots. */
+        uint32_t psc                   : 1;  /**< [ 13: 13](RO) Partial state capable. */
+        uint32_t ssc                   : 1;  /**< [ 14: 14](RO) Slumber state capable. */
+        uint32_t pmd                   : 1;  /**< [ 15: 15](RO) PIO multiple DRQ block. */
+        uint32_t fbss                  : 1;  /**< [ 16: 16](RO) Supports FIS-based switching. */
+        uint32_t spm                   : 1;  /**< [ 17: 17](RO) Supports port multiplier. */
+        uint32_t sam                   : 1;  /**< [ 18: 18](RO) Supports AHCI mode only. */
+        uint32_t snzo                  : 1;  /**< [ 19: 19](RO) Supports nonzero DMA offsets. */
+        uint32_t iss                   : 4;  /**< [ 23: 20](RO) Interface speed support. */
+        uint32_t sclo                  : 1;  /**< [ 24: 24](RO) Supports command list override. */
+        uint32_t sal                   : 1;  /**< [ 25: 25](RO) Supports activity LED. */
+        uint32_t salp                  : 1;  /**< [ 26: 26](RO) Supports agressive link power management. */
+        uint32_t sss                   : 1;  /**< [ 27: 27](R/W) Supports staggered spin-up. One-time writable only. */
+        uint32_t smps                  : 1;  /**< [ 28: 28](R/W) Supports mechanical presence switch. One-time writable only. */
+        uint32_t ssntf                 : 1;  /**< [ 29: 29](RO) Supports SNotification register. */
+        uint32_t sncq                  : 1;  /**< [ 30: 30](RO) Supports native command queuing. */
+        uint32_t s64a                  : 1;  /**< [ 31: 31](RO) Supports 64-bit addressing. */
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_satax_uahc_gbl_cap_cn8
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t s64a                  : 1;  /**< [ 31: 31](RO) Supports 64-bit addressing. */
@@ -747,8 +900,8 @@ typedef union
         uint32_t sncq                  : 1;  /**< [ 30: 30](RO) Supports native command queuing. */
         uint32_t s64a                  : 1;  /**< [ 31: 31](RO) Supports 64-bit addressing. */
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_satax_uahc_gbl_cap_s cn; */
+    } cn8;
+    /* struct bdk_satax_uahc_gbl_cap_s cn9; */
 } bdk_satax_uahc_gbl_cap_t;
 
 static inline uint64_t BDK_SATAX_UAHC_GBL_CAP(unsigned long a) __attribute__ ((pure, always_inline));
@@ -776,7 +929,7 @@ static inline uint64_t BDK_SATAX_UAHC_GBL_CAP(unsigned long a)
  * Register (NCB32b) sata#_uahc_gbl_cap2
  *
  * SATA AHCI HBA Capabilities Extended Register
- * See AHCI specification v1.3 section 3.1.
+ * This register indicates capabilities of the SATA core to software.
  */
 typedef union
 {
@@ -829,7 +982,8 @@ static inline uint64_t BDK_SATAX_UAHC_GBL_CAP2(unsigned long a)
  * Register (NCB32b) sata#_uahc_gbl_ccc_ctl
  *
  * SATA AHCI CCC Control Register
- * See AHCI specification v1.3 section 3.1.
+ * This register is used to configure the command completion coalescing (CCC) feature for the
+ * SATA core. It is reset on global reset.
  */
 typedef union
 {
@@ -878,7 +1032,9 @@ static inline uint64_t BDK_SATAX_UAHC_GBL_CCC_CTL(unsigned long a)
  * Register (NCB32b) sata#_uahc_gbl_ccc_ports
  *
  * SATA AHCI CCC Ports Register
- * See AHCI specification v1.3 section 3.1.
+ * This register specifies the ports that are coalesced as part of the command completion
+ * coalescing
+ * (CCC) feature when CCC_CTL.EN=1. It is reset on global reset.
  */
 typedef union
 {
@@ -918,10 +1074,46 @@ static inline uint64_t BDK_SATAX_UAHC_GBL_CCC_PORTS(unsigned long a)
 #define arguments_BDK_SATAX_UAHC_GBL_CCC_PORTS(a) (a),-1,-1,-1
 
 /**
+ * Register (NCB32b) sata#_uahc_gbl_diagnr3
+ *
+ * SATA UAHC DIAGNR3 Register
+ * Internal:
+ * See DWC_ahsata databook v4.20a.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_satax_uahc_gbl_diagnr3_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t fbcsw_cnt             : 32; /**< [ 31:  0](R/W1C) FIS-based context switching counter. Any 32-bit write to this location clears the counter. */
+#else /* Word 0 - Little Endian */
+        uint32_t fbcsw_cnt             : 32; /**< [ 31:  0](R/W1C) FIS-based context switching counter. Any 32-bit write to this location clears the counter. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_satax_uahc_gbl_diagnr3_s cn; */
+} bdk_satax_uahc_gbl_diagnr3_t;
+
+static inline uint64_t BDK_SATAX_UAHC_GBL_DIAGNR3(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_SATAX_UAHC_GBL_DIAGNR3(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=19))
+        return 0x8100000000c4ll + 0x1000000000ll * ((a) & 0x1f);
+    __bdk_csr_fatal("SATAX_UAHC_GBL_DIAGNR3", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_SATAX_UAHC_GBL_DIAGNR3(a) bdk_satax_uahc_gbl_diagnr3_t
+#define bustype_BDK_SATAX_UAHC_GBL_DIAGNR3(a) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_SATAX_UAHC_GBL_DIAGNR3(a) "SATAX_UAHC_GBL_DIAGNR3"
+#define device_bar_BDK_SATAX_UAHC_GBL_DIAGNR3(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_SATAX_UAHC_GBL_DIAGNR3(a) (a)
+#define arguments_BDK_SATAX_UAHC_GBL_DIAGNR3(a) (a),-1,-1,-1
+
+/**
  * Register (NCB32b) sata#_uahc_gbl_ghc
  *
  * SATA AHCI Global HBA Control Register
- * See AHCI specification v1.3 section 3.1.
+ * This register controls various global actions of the SATA core.
  */
 typedef union
 {
@@ -967,7 +1159,7 @@ static inline uint64_t BDK_SATAX_UAHC_GBL_GHC(unsigned long a)
 /**
  * Register (NCB32b) sata#_uahc_gbl_gparam1r
  *
- * SATA UAHC Global Parameter Register 1
+ * SATA UAHC Global Parameter 1 Register
  * Internal:
  * See DWC_ahsata databook v4.20a.
  */
@@ -1045,6 +1237,38 @@ typedef union
     struct bdk_satax_uahc_gbl_gparam2r_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t fbs_mem_mode          : 1;  /**< [ 31: 31](RO) Selects FBS memory read port type. */
+        uint32_t rxoob_clk_units       : 1;  /**< [ 30: 30](RO) RX OOB clock frequency units. */
+        uint32_t rxoob_clk_upper       : 10; /**< [ 29: 20](RO) Upper bits of RX OOB clock frequency. */
+        uint32_t bist_m                : 1;  /**< [ 19: 19](RO) BIST loopback checking depth (BIST_MODE). */
+        uint32_t reserved_16_18        : 3;
+        uint32_t fbs_support           : 1;  /**< [ 15: 15](RO) FIS-based switching support (FBS_SUPPORT). */
+        uint32_t dev_cp                : 1;  /**< [ 14: 14](RO) Cold presence detect (DEV_CP_DET). */
+        uint32_t dev_mp                : 1;  /**< [ 13: 13](RO) Mechanical presence switch (DEV_MP_SWITCH). */
+        uint32_t encode_m              : 1;  /**< [ 12: 12](RO) 8/10 bit encoding/decoding (ENCODE_MODE). */
+        uint32_t rxoob_clk_m           : 1;  /**< [ 11: 11](RO) RX OOB clock mode (RXOOB_CLK_MODE). */
+        uint32_t rx_oob_m              : 1;  /**< [ 10: 10](RO) RX OOB mode (RX_OOB_MODE). */
+        uint32_t tx_oob_m              : 1;  /**< [  9:  9](RO) TX OOB mode (TX_OOB_MODE). */
+        uint32_t reserved_0_8          : 9;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_8          : 9;
+        uint32_t tx_oob_m              : 1;  /**< [  9:  9](RO) TX OOB mode (TX_OOB_MODE). */
+        uint32_t rx_oob_m              : 1;  /**< [ 10: 10](RO) RX OOB mode (RX_OOB_MODE). */
+        uint32_t rxoob_clk_m           : 1;  /**< [ 11: 11](RO) RX OOB clock mode (RXOOB_CLK_MODE). */
+        uint32_t encode_m              : 1;  /**< [ 12: 12](RO) 8/10 bit encoding/decoding (ENCODE_MODE). */
+        uint32_t dev_mp                : 1;  /**< [ 13: 13](RO) Mechanical presence switch (DEV_MP_SWITCH). */
+        uint32_t dev_cp                : 1;  /**< [ 14: 14](RO) Cold presence detect (DEV_CP_DET). */
+        uint32_t fbs_support           : 1;  /**< [ 15: 15](RO) FIS-based switching support (FBS_SUPPORT). */
+        uint32_t reserved_16_18        : 3;
+        uint32_t bist_m                : 1;  /**< [ 19: 19](RO) BIST loopback checking depth (BIST_MODE). */
+        uint32_t rxoob_clk_upper       : 10; /**< [ 29: 20](RO) Upper bits of RX OOB clock frequency. */
+        uint32_t rxoob_clk_units       : 1;  /**< [ 30: 30](RO) RX OOB clock frequency units. */
+        uint32_t fbs_mem_mode          : 1;  /**< [ 31: 31](RO) Selects FBS memory read port type. */
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_satax_uahc_gbl_gparam2r_cn8
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_31           : 1;
         uint32_t rxoob_clk_units       : 1;  /**< [ 30: 30](RO) RX OOB clock frequency units. */
         uint32_t rxoob_clk_upper       : 10; /**< [ 29: 20](RO) Upper bits of RX OOB clock frequency. */
@@ -1075,8 +1299,41 @@ typedef union
         uint32_t rxoob_clk_units       : 1;  /**< [ 30: 30](RO) RX OOB clock frequency units. */
         uint32_t reserved_31           : 1;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_satax_uahc_gbl_gparam2r_s cn; */
+    } cn8;
+    struct bdk_satax_uahc_gbl_gparam2r_cn9
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t fbs_mem_mode          : 1;  /**< [ 31: 31](RO) Selects FBS memory read port type. */
+        uint32_t rxoob_clk_units       : 1;  /**< [ 30: 30](RO) RX OOB clock frequency units. */
+        uint32_t rxoob_clk_upper       : 10; /**< [ 29: 20](RO) Upper bits of RX OOB clock frequency. */
+        uint32_t bist_m                : 1;  /**< [ 19: 19](RO) BIST loopback checking depth (BIST_MODE). */
+        uint32_t fbs_mem_select        : 1;  /**< [ 18: 18](RO) Context RAM memory location. */
+        uint32_t fbs_ram_depth         : 2;  /**< [ 17: 16](RO) FBS RAM depth FBS_RAM_DEPTH. */
+        uint32_t fbs_support           : 1;  /**< [ 15: 15](RO) FIS-based switching support (FBS_SUPPORT). */
+        uint32_t dev_cp                : 1;  /**< [ 14: 14](RO) Cold presence detect (DEV_CP_DET). */
+        uint32_t dev_mp                : 1;  /**< [ 13: 13](RO) Mechanical presence switch (DEV_MP_SWITCH). */
+        uint32_t encode_m              : 1;  /**< [ 12: 12](RO) 8/10 bit encoding/decoding (ENCODE_MODE). */
+        uint32_t rxoob_clk_m           : 1;  /**< [ 11: 11](RO) RX OOB clock mode (RXOOB_CLK_MODE). */
+        uint32_t rx_oob_m              : 1;  /**< [ 10: 10](RO) RX OOB mode (RX_OOB_MODE). */
+        uint32_t tx_oob_m              : 1;  /**< [  9:  9](RO) TX OOB mode (TX_OOB_MODE). */
+        uint32_t rxoob_clk_lower       : 9;  /**< [  8:  0](RO) RX OOB clock frequency (RXOOB_CLK). */
+#else /* Word 0 - Little Endian */
+        uint32_t rxoob_clk_lower       : 9;  /**< [  8:  0](RO) RX OOB clock frequency (RXOOB_CLK). */
+        uint32_t tx_oob_m              : 1;  /**< [  9:  9](RO) TX OOB mode (TX_OOB_MODE). */
+        uint32_t rx_oob_m              : 1;  /**< [ 10: 10](RO) RX OOB mode (RX_OOB_MODE). */
+        uint32_t rxoob_clk_m           : 1;  /**< [ 11: 11](RO) RX OOB clock mode (RXOOB_CLK_MODE). */
+        uint32_t encode_m              : 1;  /**< [ 12: 12](RO) 8/10 bit encoding/decoding (ENCODE_MODE). */
+        uint32_t dev_mp                : 1;  /**< [ 13: 13](RO) Mechanical presence switch (DEV_MP_SWITCH). */
+        uint32_t dev_cp                : 1;  /**< [ 14: 14](RO) Cold presence detect (DEV_CP_DET). */
+        uint32_t fbs_support           : 1;  /**< [ 15: 15](RO) FIS-based switching support (FBS_SUPPORT). */
+        uint32_t fbs_ram_depth         : 2;  /**< [ 17: 16](RO) FBS RAM depth FBS_RAM_DEPTH. */
+        uint32_t fbs_mem_select        : 1;  /**< [ 18: 18](RO) Context RAM memory location. */
+        uint32_t bist_m                : 1;  /**< [ 19: 19](RO) BIST loopback checking depth (BIST_MODE). */
+        uint32_t rxoob_clk_upper       : 10; /**< [ 29: 20](RO) Upper bits of RX OOB clock frequency. */
+        uint32_t rxoob_clk_units       : 1;  /**< [ 30: 30](RO) RX OOB clock frequency units. */
+        uint32_t fbs_mem_mode          : 1;  /**< [ 31: 31](RO) Selects FBS memory read port type. */
+#endif /* Word 0 - End */
+    } cn9;
 } bdk_satax_uahc_gbl_gparam2r_t;
 
 static inline uint64_t BDK_SATAX_UAHC_GBL_GPARAM2R(unsigned long a) __attribute__ ((pure, always_inline));
@@ -1099,6 +1356,50 @@ static inline uint64_t BDK_SATAX_UAHC_GBL_GPARAM2R(unsigned long a)
 #define device_bar_BDK_SATAX_UAHC_GBL_GPARAM2R(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SATAX_UAHC_GBL_GPARAM2R(a) (a)
 #define arguments_BDK_SATAX_UAHC_GBL_GPARAM2R(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) sata#_uahc_gbl_gparam3
+ *
+ * SATA UAHC Global Parameter 3 Register
+ * Internal:
+ * See DWC_ahsata databook v4.20a.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_satax_uahc_gbl_gparam3_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t phy_type              : 5;  /**< [  7:  3](RO) PHY interface type. */
+        uint32_t mem_ecc_cor_en        : 1;  /**< [  2:  2](RO) Single-bit correction enable. */
+        uint32_t mem_dp_type           : 1;  /**< [  1:  1](RO) Data protection type. */
+        uint32_t mem_dp_support        : 1;  /**< [  0:  0](RO) Enable data protection. */
+#else /* Word 0 - Little Endian */
+        uint32_t mem_dp_support        : 1;  /**< [  0:  0](RO) Enable data protection. */
+        uint32_t mem_dp_type           : 1;  /**< [  1:  1](RO) Data protection type. */
+        uint32_t mem_ecc_cor_en        : 1;  /**< [  2:  2](RO) Single-bit correction enable. */
+        uint32_t phy_type              : 5;  /**< [  7:  3](RO) PHY interface type. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_satax_uahc_gbl_gparam3_s cn; */
+} bdk_satax_uahc_gbl_gparam3_t;
+
+static inline uint64_t BDK_SATAX_UAHC_GBL_GPARAM3(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_SATAX_UAHC_GBL_GPARAM3(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=19))
+        return 0x8100000000dcll + 0x1000000000ll * ((a) & 0x1f);
+    __bdk_csr_fatal("SATAX_UAHC_GBL_GPARAM3", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_SATAX_UAHC_GBL_GPARAM3(a) bdk_satax_uahc_gbl_gparam3_t
+#define bustype_BDK_SATAX_UAHC_GBL_GPARAM3(a) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_SATAX_UAHC_GBL_GPARAM3(a) "SATAX_UAHC_GBL_GPARAM3"
+#define device_bar_BDK_SATAX_UAHC_GBL_GPARAM3(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_SATAX_UAHC_GBL_GPARAM3(a) (a)
+#define arguments_BDK_SATAX_UAHC_GBL_GPARAM3(a) (a),-1,-1,-1
 
 /**
  * Register (NCB32b) sata#_uahc_gbl_idr
@@ -1146,7 +1447,8 @@ static inline uint64_t BDK_SATAX_UAHC_GBL_IDR(unsigned long a)
  * Register (NCB32b) sata#_uahc_gbl_is
  *
  * SATA AHCI Interrupt Status Register
- * See AHCI specification v1.3 section 3.1.
+ * This register indicates which of the ports within the SATA core have an interrupt
+ * pending and require service. This register is reset on global reset (GHC.HR=1).
  */
 typedef union
 {
@@ -1243,7 +1545,8 @@ static inline uint64_t BDK_SATAX_UAHC_GBL_OOBR(unsigned long a)
  * Register (NCB32b) sata#_uahc_gbl_pi
  *
  * SATA AHCI Ports Implemented Register
- * See AHCI specification v1.3 section 3.1.
+ * This register indicates which ports are exposed by the SATA core and are available
+ * for the software to use.
  */
 typedef union
 {
@@ -1350,6 +1653,24 @@ typedef union
     struct bdk_satax_uahc_gbl_testr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_25_31        : 7;
+        uint32_t bsel                  : 1;  /**< [ 24: 24](R/W) Bank select. Always select 0 for BIST registers. */
+        uint32_t reserved_19_23        : 5;
+        uint32_t psel                  : 3;  /**< [ 18: 16](R/W) Port select. */
+        uint32_t reserved_1_15         : 15;
+        uint32_t test_if               : 1;  /**< [  0:  0](R/W) Test interface. */
+#else /* Word 0 - Little Endian */
+        uint32_t test_if               : 1;  /**< [  0:  0](R/W) Test interface. */
+        uint32_t reserved_1_15         : 15;
+        uint32_t psel                  : 3;  /**< [ 18: 16](R/W) Port select. */
+        uint32_t reserved_19_23        : 5;
+        uint32_t bsel                  : 1;  /**< [ 24: 24](R/W) Bank select. Always select 0 for BIST registers. */
+        uint32_t reserved_25_31        : 7;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_satax_uahc_gbl_testr_cn8
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_19_31        : 13;
         uint32_t psel                  : 3;  /**< [ 18: 16](R/W) Port select. */
         uint32_t reserved_1_15         : 15;
@@ -1360,8 +1681,8 @@ typedef union
         uint32_t psel                  : 3;  /**< [ 18: 16](R/W) Port select. */
         uint32_t reserved_19_31        : 13;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_satax_uahc_gbl_testr_s cn; */
+    } cn8;
+    /* struct bdk_satax_uahc_gbl_testr_s cn9; */
 } bdk_satax_uahc_gbl_testr_t;
 
 static inline uint64_t BDK_SATAX_UAHC_GBL_TESTR(unsigned long a) __attribute__ ((pure, always_inline));
@@ -1475,7 +1796,9 @@ static inline uint64_t BDK_SATAX_UAHC_GBL_VERSIONR(unsigned long a)
  * Register (NCB32b) sata#_uahc_gbl_vs
  *
  * SATA AHCI Version Register
- * See AHCI specification v1.3 section 3.1.
+ * This register indicates the major and minor version of the AHCI specification that
+ * the SATA core supports. This includes version 1.3.0 (DEVSLP_SUPPORT=Exclude) or
+ * 1.3.1 (DEVSLP_SUPPORT=Include).
  */
 typedef union
 {
@@ -1484,13 +1807,23 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t mjr                   : 16; /**< [ 31: 16](RO) Major version number. */
+        uint32_t mnr                   : 16; /**< [ 15:  0](RO) Minor version number. DEVSLP is supported. */
+#else /* Word 0 - Little Endian */
+        uint32_t mnr                   : 16; /**< [ 15:  0](RO) Minor version number. DEVSLP is supported. */
+        uint32_t mjr                   : 16; /**< [ 31: 16](RO) Major version number. */
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_satax_uahc_gbl_vs_cn8
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t mjr                   : 16; /**< [ 31: 16](RO) Major version number. */
         uint32_t mnr                   : 16; /**< [ 15:  0](RO) Minor version number. No DEVSLP support. */
 #else /* Word 0 - Little Endian */
         uint32_t mnr                   : 16; /**< [ 15:  0](RO) Minor version number. No DEVSLP support. */
         uint32_t mjr                   : 16; /**< [ 31: 16](RO) Major version number. */
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_satax_uahc_gbl_vs_s cn; */
+    } cn8;
+    /* struct bdk_satax_uahc_gbl_vs_s cn9; */
 } bdk_satax_uahc_gbl_vs_t;
 
 static inline uint64_t BDK_SATAX_UAHC_GBL_VS(unsigned long a) __attribute__ ((pure, always_inline));
@@ -1687,6 +2020,70 @@ static inline uint64_t BDK_SATAX_UAHC_P0_CMD(unsigned long a)
 #define device_bar_BDK_SATAX_UAHC_P0_CMD(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SATAX_UAHC_P0_CMD(a) (a)
 #define arguments_BDK_SATAX_UAHC_P0_CMD(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) sata#_uahc_p0_devslp
+ *
+ * SATA UAHC Device Sleep Register
+ * Internal:
+ * See DWC_ahsata databook v4.20a.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_satax_uahc_p0_devslp_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_29_31        : 3;
+        uint32_t dm                    : 4;  /**< [ 28: 25](R/W) DITO multiplier. Write once only. */
+        uint32_t dito                  : 10; /**< [ 24: 15](R/W) Device sleep idle timeout.
+                                                                 If [DSP]=0, then these bits are read-only 0 and software should treat them as reserved.
+                                                                 If [DSP]=1, then these bits are read-write and reset to 0xA on powerup only. */
+        uint32_t mdat                  : 5;  /**< [ 14: 10](R/W) Minimum device sleep assertion time.
+                                                                 If [DSP]=0, then these bits are read-only 0 and software should treat them as reserved.
+                                                                 If [DSP]=1, then these bits are read-write and reset to 0xA on powerup only. */
+        uint32_t deto                  : 8;  /**< [  9:  2](R/W) Device sleep exit timeout.
+                                                                 If [DSP]=0, then these bits are read-only 0 and software should treat them as reserved.
+                                                                 If [DSP]=1, then these bits are read-write and reset to 0x14 on powerup only. */
+        uint32_t dsp                   : 1;  /**< [  1:  1](R/W) Device sleep present. Write once only. */
+        uint32_t adse                  : 1;  /**< [  0:  0](R/W) Aggressive device sleep enable.
+                                                                 If [DSP]=0, then this bit is read-only 0 and software should treat it as reserved.
+                                                                 If [DSP]=1, then this bit is read-write. */
+#else /* Word 0 - Little Endian */
+        uint32_t adse                  : 1;  /**< [  0:  0](R/W) Aggressive device sleep enable.
+                                                                 If [DSP]=0, then this bit is read-only 0 and software should treat it as reserved.
+                                                                 If [DSP]=1, then this bit is read-write. */
+        uint32_t dsp                   : 1;  /**< [  1:  1](R/W) Device sleep present. Write once only. */
+        uint32_t deto                  : 8;  /**< [  9:  2](R/W) Device sleep exit timeout.
+                                                                 If [DSP]=0, then these bits are read-only 0 and software should treat them as reserved.
+                                                                 If [DSP]=1, then these bits are read-write and reset to 0x14 on powerup only. */
+        uint32_t mdat                  : 5;  /**< [ 14: 10](R/W) Minimum device sleep assertion time.
+                                                                 If [DSP]=0, then these bits are read-only 0 and software should treat them as reserved.
+                                                                 If [DSP]=1, then these bits are read-write and reset to 0xA on powerup only. */
+        uint32_t dito                  : 10; /**< [ 24: 15](R/W) Device sleep idle timeout.
+                                                                 If [DSP]=0, then these bits are read-only 0 and software should treat them as reserved.
+                                                                 If [DSP]=1, then these bits are read-write and reset to 0xA on powerup only. */
+        uint32_t dm                    : 4;  /**< [ 28: 25](R/W) DITO multiplier. Write once only. */
+        uint32_t reserved_29_31        : 3;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_satax_uahc_p0_devslp_s cn; */
+} bdk_satax_uahc_p0_devslp_t;
+
+static inline uint64_t BDK_SATAX_UAHC_P0_DEVSLP(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_SATAX_UAHC_P0_DEVSLP(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=19))
+        return 0x810000000144ll + 0x1000000000ll * ((a) & 0x1f);
+    __bdk_csr_fatal("SATAX_UAHC_P0_DEVSLP", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_SATAX_UAHC_P0_DEVSLP(a) bdk_satax_uahc_p0_devslp_t
+#define bustype_BDK_SATAX_UAHC_P0_DEVSLP(a) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_SATAX_UAHC_P0_DEVSLP(a) "SATAX_UAHC_P0_DEVSLP"
+#define device_bar_BDK_SATAX_UAHC_P0_DEVSLP(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_SATAX_UAHC_P0_DEVSLP(a) (a)
+#define arguments_BDK_SATAX_UAHC_P0_DEVSLP(a) (a),-1,-1,-1
 
 /**
  * Register (NCB32b) sata#_uahc_p0_dmacr
@@ -2133,6 +2530,24 @@ typedef union
     struct bdk_satax_uahc_p0_sctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_11_31        : 21;
+        uint32_t ipm                   : 3;  /**< [ 10:  8](R/W) Interface power-management transitions allowed. */
+        uint32_t reserved_6_7          : 2;
+        uint32_t spd                   : 2;  /**< [  5:  4](R/W) Speed allowed. */
+        uint32_t reserved_3            : 1;
+        uint32_t det                   : 3;  /**< [  2:  0](R/W) Device-detection initialization. */
+#else /* Word 0 - Little Endian */
+        uint32_t det                   : 3;  /**< [  2:  0](R/W) Device-detection initialization. */
+        uint32_t reserved_3            : 1;
+        uint32_t spd                   : 2;  /**< [  5:  4](R/W) Speed allowed. */
+        uint32_t reserved_6_7          : 2;
+        uint32_t ipm                   : 3;  /**< [ 10:  8](R/W) Interface power-management transitions allowed. */
+        uint32_t reserved_11_31        : 21;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_satax_uahc_p0_sctl_cn8
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_10_31        : 22;
         uint32_t ipm                   : 2;  /**< [  9:  8](R/W) Interface power-management transitions allowed. */
         uint32_t reserved_6_7          : 2;
@@ -2147,8 +2562,8 @@ typedef union
         uint32_t ipm                   : 2;  /**< [  9:  8](R/W) Interface power-management transitions allowed. */
         uint32_t reserved_10_31        : 22;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_satax_uahc_p0_sctl_s cn; */
+    } cn8;
+    /* struct bdk_satax_uahc_p0_sctl_s cn9; */
 } bdk_satax_uahc_p0_sctl_t;
 
 static inline uint64_t BDK_SATAX_UAHC_P0_SCTL(unsigned long a) __attribute__ ((pure, always_inline));

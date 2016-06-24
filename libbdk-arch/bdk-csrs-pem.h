@@ -121,8 +121,6 @@
  * Register (RSL) pem#_bar1_index#
  *
  * PEM BAR1 Index 0-15 Register
- * This register contains the address index and control bits for access to memory ranges of BAR1.
- * The index is built from supplied address [25:22].
  */
 typedef union
 {
@@ -386,27 +384,27 @@ typedef union
         uint64_t tlpan_ctl             : 1;  /**< [ 17: 17](RO) BIST Status for the tlp_n_afifo_ctl. */
         uint64_t tlpap_d0              : 1;  /**< [ 16: 16](RO) BIST Status for the tlp_p_afifo_data0. */
         uint64_t reserved_10_15        : 6;
-        uint64_t tlpn_d0               : 1;  /**< [  9:  9](RO) BIST status for tlp_n_fifo_data0. */
-        uint64_t tlpn_d1               : 1;  /**< [  8:  8](RO) BIST status for tlp_n_fifo_data1. */
-        uint64_t tlpn_ctl              : 1;  /**< [  7:  7](RO) BIST status for tlp_n_fifo_ctl. */
-        uint64_t tlpp_d0               : 1;  /**< [  6:  6](RO) BIST status for tlp_p_fifo_data0. */
-        uint64_t tlpp_d1               : 1;  /**< [  5:  5](RO) BIST status for tlp_p_fifo_data1. */
-        uint64_t tlpp_ctl              : 1;  /**< [  4:  4](RO) BIST status for tlp_p_fifo_ctl. */
-        uint64_t tlpc_d0               : 1;  /**< [  3:  3](RO) BIST status for tlp_c_fifo_data0. */
-        uint64_t tlpc_d1               : 1;  /**< [  2:  2](RO) BIST status for tlp_c_fifo_data1. */
-        uint64_t tlpc_ctl              : 1;  /**< [  1:  1](RO) BIST status for tlp_c_fifo_ctl. */
-        uint64_t m2s                   : 1;  /**< [  0:  0](RO) BIST status for m2s_fifo. */
+        uint64_t tlpn_d0               : 1;  /**< [  9:  9](RO/H) BIST status for tlp_n_fifo_data0. */
+        uint64_t tlpn_d1               : 1;  /**< [  8:  8](RO/H) BIST status for tlp_n_fifo_data1. */
+        uint64_t tlpn_ctl              : 1;  /**< [  7:  7](RO/H) BIST status for tlp_n_fifo_ctl. */
+        uint64_t tlpp_d0               : 1;  /**< [  6:  6](RO/H) BIST status for tlp_p_fifo_data0. */
+        uint64_t tlpp_d1               : 1;  /**< [  5:  5](RO/H) BIST status for tlp_p_fifo_data1. */
+        uint64_t tlpp_ctl              : 1;  /**< [  4:  4](RO/H) BIST status for tlp_p_fifo_ctl. */
+        uint64_t tlpc_d0               : 1;  /**< [  3:  3](RO/H) BIST status for tlp_c_fifo_data0. */
+        uint64_t tlpc_d1               : 1;  /**< [  2:  2](RO/H) BIST status for tlp_c_fifo_data1. */
+        uint64_t tlpc_ctl              : 1;  /**< [  1:  1](RO/H) BIST status for tlp_c_fifo_ctl. */
+        uint64_t m2s                   : 1;  /**< [  0:  0](RO/H) BIST status for m2s_fifo. */
 #else /* Word 0 - Little Endian */
-        uint64_t m2s                   : 1;  /**< [  0:  0](RO) BIST status for m2s_fifo. */
-        uint64_t tlpc_ctl              : 1;  /**< [  1:  1](RO) BIST status for tlp_c_fifo_ctl. */
-        uint64_t tlpc_d1               : 1;  /**< [  2:  2](RO) BIST status for tlp_c_fifo_data1. */
-        uint64_t tlpc_d0               : 1;  /**< [  3:  3](RO) BIST status for tlp_c_fifo_data0. */
-        uint64_t tlpp_ctl              : 1;  /**< [  4:  4](RO) BIST status for tlp_p_fifo_ctl. */
-        uint64_t tlpp_d1               : 1;  /**< [  5:  5](RO) BIST status for tlp_p_fifo_data1. */
-        uint64_t tlpp_d0               : 1;  /**< [  6:  6](RO) BIST status for tlp_p_fifo_data0. */
-        uint64_t tlpn_ctl              : 1;  /**< [  7:  7](RO) BIST status for tlp_n_fifo_ctl. */
-        uint64_t tlpn_d1               : 1;  /**< [  8:  8](RO) BIST status for tlp_n_fifo_data1. */
-        uint64_t tlpn_d0               : 1;  /**< [  9:  9](RO) BIST status for tlp_n_fifo_data0. */
+        uint64_t m2s                   : 1;  /**< [  0:  0](RO/H) BIST status for m2s_fifo. */
+        uint64_t tlpc_ctl              : 1;  /**< [  1:  1](RO/H) BIST status for tlp_c_fifo_ctl. */
+        uint64_t tlpc_d1               : 1;  /**< [  2:  2](RO/H) BIST status for tlp_c_fifo_data1. */
+        uint64_t tlpc_d0               : 1;  /**< [  3:  3](RO/H) BIST status for tlp_c_fifo_data0. */
+        uint64_t tlpp_ctl              : 1;  /**< [  4:  4](RO/H) BIST status for tlp_p_fifo_ctl. */
+        uint64_t tlpp_d1               : 1;  /**< [  5:  5](RO/H) BIST status for tlp_p_fifo_data1. */
+        uint64_t tlpp_d0               : 1;  /**< [  6:  6](RO/H) BIST status for tlp_p_fifo_data0. */
+        uint64_t tlpn_ctl              : 1;  /**< [  7:  7](RO/H) BIST status for tlp_n_fifo_ctl. */
+        uint64_t tlpn_d1               : 1;  /**< [  8:  8](RO/H) BIST status for tlp_n_fifo_data1. */
+        uint64_t tlpn_d0               : 1;  /**< [  9:  9](RO/H) BIST status for tlp_n_fifo_data0. */
         uint64_t reserved_10_15        : 6;
         uint64_t tlpap_d0              : 1;  /**< [ 16: 16](RO) BIST Status for the tlp_p_afifo_data0. */
         uint64_t tlpan_ctl             : 1;  /**< [ 17: 17](RO) BIST Status for the tlp_n_afifo_ctl. */
@@ -479,39 +477,39 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t retryc                : 1;  /**< [ 15: 15](RO) Retry buffer memory C. */
-        uint64_t sot                   : 1;  /**< [ 14: 14](RO) Start of transfer memory. */
-        uint64_t rqhdrb0               : 1;  /**< [ 13: 13](RO) RX queue header memory buffer 0. */
-        uint64_t rqhdrb1               : 1;  /**< [ 12: 12](RO) RX queue header memory buffer 1. */
-        uint64_t rqdatab0              : 1;  /**< [ 11: 11](RO) RX queue data buffer 0. */
-        uint64_t rqdatab1              : 1;  /**< [ 10: 10](RO) RX queue data buffer 1. */
-        uint64_t tlpn_d0               : 1;  /**< [  9:  9](RO) BIST status for tlp_n_fifo_data0. */
-        uint64_t tlpn_d1               : 1;  /**< [  8:  8](RO) BIST status for tlp_n_fifo_data1. */
-        uint64_t tlpn_ctl              : 1;  /**< [  7:  7](RO) BIST status for tlp_n_fifo_ctl. */
-        uint64_t tlpp_d0               : 1;  /**< [  6:  6](RO) BIST status for tlp_p_fifo_data0. */
-        uint64_t tlpp_d1               : 1;  /**< [  5:  5](RO) BIST status for tlp_p_fifo_data1. */
-        uint64_t tlpp_ctl              : 1;  /**< [  4:  4](RO) BIST status for tlp_p_fifo_ctl. */
-        uint64_t tlpc_d0               : 1;  /**< [  3:  3](RO) BIST status for tlp_c_fifo_data0. */
-        uint64_t tlpc_d1               : 1;  /**< [  2:  2](RO) BIST status for tlp_c_fifo_data1. */
-        uint64_t tlpc_ctl              : 1;  /**< [  1:  1](RO) BIST status for tlp_c_fifo_ctl. */
-        uint64_t m2s                   : 1;  /**< [  0:  0](RO) BIST status for m2s_fifo. */
+        uint64_t retryc                : 1;  /**< [ 15: 15](RO/H) Retry buffer memory C. */
+        uint64_t sot                   : 1;  /**< [ 14: 14](RO/H) Start of transfer memory. */
+        uint64_t rqhdrb0               : 1;  /**< [ 13: 13](RO/H) RX queue header memory buffer 0. */
+        uint64_t rqhdrb1               : 1;  /**< [ 12: 12](RO/H) RX queue header memory buffer 1. */
+        uint64_t rqdatab0              : 1;  /**< [ 11: 11](RO/H) RX queue data buffer 0. */
+        uint64_t rqdatab1              : 1;  /**< [ 10: 10](RO/H) RX queue data buffer 1. */
+        uint64_t tlpn_d0               : 1;  /**< [  9:  9](RO/H) BIST status for tlp_n_fifo_data0. */
+        uint64_t tlpn_d1               : 1;  /**< [  8:  8](RO/H) BIST status for tlp_n_fifo_data1. */
+        uint64_t tlpn_ctl              : 1;  /**< [  7:  7](RO/H) BIST status for tlp_n_fifo_ctl. */
+        uint64_t tlpp_d0               : 1;  /**< [  6:  6](RO/H) BIST status for tlp_p_fifo_data0. */
+        uint64_t tlpp_d1               : 1;  /**< [  5:  5](RO/H) BIST status for tlp_p_fifo_data1. */
+        uint64_t tlpp_ctl              : 1;  /**< [  4:  4](RO/H) BIST status for tlp_p_fifo_ctl. */
+        uint64_t tlpc_d0               : 1;  /**< [  3:  3](RO/H) BIST status for tlp_c_fifo_data0. */
+        uint64_t tlpc_d1               : 1;  /**< [  2:  2](RO/H) BIST status for tlp_c_fifo_data1. */
+        uint64_t tlpc_ctl              : 1;  /**< [  1:  1](RO/H) BIST status for tlp_c_fifo_ctl. */
+        uint64_t m2s                   : 1;  /**< [  0:  0](RO/H) BIST status for m2s_fifo. */
 #else /* Word 0 - Little Endian */
-        uint64_t m2s                   : 1;  /**< [  0:  0](RO) BIST status for m2s_fifo. */
-        uint64_t tlpc_ctl              : 1;  /**< [  1:  1](RO) BIST status for tlp_c_fifo_ctl. */
-        uint64_t tlpc_d1               : 1;  /**< [  2:  2](RO) BIST status for tlp_c_fifo_data1. */
-        uint64_t tlpc_d0               : 1;  /**< [  3:  3](RO) BIST status for tlp_c_fifo_data0. */
-        uint64_t tlpp_ctl              : 1;  /**< [  4:  4](RO) BIST status for tlp_p_fifo_ctl. */
-        uint64_t tlpp_d1               : 1;  /**< [  5:  5](RO) BIST status for tlp_p_fifo_data1. */
-        uint64_t tlpp_d0               : 1;  /**< [  6:  6](RO) BIST status for tlp_p_fifo_data0. */
-        uint64_t tlpn_ctl              : 1;  /**< [  7:  7](RO) BIST status for tlp_n_fifo_ctl. */
-        uint64_t tlpn_d1               : 1;  /**< [  8:  8](RO) BIST status for tlp_n_fifo_data1. */
-        uint64_t tlpn_d0               : 1;  /**< [  9:  9](RO) BIST status for tlp_n_fifo_data0. */
-        uint64_t rqdatab1              : 1;  /**< [ 10: 10](RO) RX queue data buffer 1. */
-        uint64_t rqdatab0              : 1;  /**< [ 11: 11](RO) RX queue data buffer 0. */
-        uint64_t rqhdrb1               : 1;  /**< [ 12: 12](RO) RX queue header memory buffer 1. */
-        uint64_t rqhdrb0               : 1;  /**< [ 13: 13](RO) RX queue header memory buffer 0. */
-        uint64_t sot                   : 1;  /**< [ 14: 14](RO) Start of transfer memory. */
-        uint64_t retryc                : 1;  /**< [ 15: 15](RO) Retry buffer memory C. */
+        uint64_t m2s                   : 1;  /**< [  0:  0](RO/H) BIST status for m2s_fifo. */
+        uint64_t tlpc_ctl              : 1;  /**< [  1:  1](RO/H) BIST status for tlp_c_fifo_ctl. */
+        uint64_t tlpc_d1               : 1;  /**< [  2:  2](RO/H) BIST status for tlp_c_fifo_data1. */
+        uint64_t tlpc_d0               : 1;  /**< [  3:  3](RO/H) BIST status for tlp_c_fifo_data0. */
+        uint64_t tlpp_ctl              : 1;  /**< [  4:  4](RO/H) BIST status for tlp_p_fifo_ctl. */
+        uint64_t tlpp_d1               : 1;  /**< [  5:  5](RO/H) BIST status for tlp_p_fifo_data1. */
+        uint64_t tlpp_d0               : 1;  /**< [  6:  6](RO/H) BIST status for tlp_p_fifo_data0. */
+        uint64_t tlpn_ctl              : 1;  /**< [  7:  7](RO/H) BIST status for tlp_n_fifo_ctl. */
+        uint64_t tlpn_d1               : 1;  /**< [  8:  8](RO/H) BIST status for tlp_n_fifo_data1. */
+        uint64_t tlpn_d0               : 1;  /**< [  9:  9](RO/H) BIST status for tlp_n_fifo_data0. */
+        uint64_t rqdatab1              : 1;  /**< [ 10: 10](RO/H) RX queue data buffer 1. */
+        uint64_t rqdatab0              : 1;  /**< [ 11: 11](RO/H) RX queue data buffer 0. */
+        uint64_t rqhdrb1               : 1;  /**< [ 12: 12](RO/H) RX queue header memory buffer 1. */
+        uint64_t rqhdrb0               : 1;  /**< [ 13: 13](RO/H) RX queue header memory buffer 0. */
+        uint64_t sot                   : 1;  /**< [ 14: 14](RO/H) Start of transfer memory. */
+        uint64_t retryc                : 1;  /**< [ 15: 15](RO/H) Retry buffer memory C. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } cn9;
@@ -575,7 +573,46 @@ typedef union
         uint64_t reserved_26_63        : 38;
 #endif /* Word 0 - End */
     } cn81xx;
-    /* struct bdk_pemx_bist_status_cn9 cn83xx; */
+    struct bdk_pemx_bist_status_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t retryc                : 1;  /**< [ 15: 15](RO) Retry buffer memory C. */
+        uint64_t sot                   : 1;  /**< [ 14: 14](RO) Start of transfer memory. */
+        uint64_t rqhdrb0               : 1;  /**< [ 13: 13](RO) RX queue header memory buffer 0. */
+        uint64_t rqhdrb1               : 1;  /**< [ 12: 12](RO) RX queue header memory buffer 1. */
+        uint64_t rqdatab0              : 1;  /**< [ 11: 11](RO) RX queue data buffer 0. */
+        uint64_t rqdatab1              : 1;  /**< [ 10: 10](RO) RX queue data buffer 1. */
+        uint64_t tlpn_d0               : 1;  /**< [  9:  9](RO) BIST status for tlp_n_fifo_data0. */
+        uint64_t tlpn_d1               : 1;  /**< [  8:  8](RO) BIST status for tlp_n_fifo_data1. */
+        uint64_t tlpn_ctl              : 1;  /**< [  7:  7](RO) BIST status for tlp_n_fifo_ctl. */
+        uint64_t tlpp_d0               : 1;  /**< [  6:  6](RO) BIST status for tlp_p_fifo_data0. */
+        uint64_t tlpp_d1               : 1;  /**< [  5:  5](RO) BIST status for tlp_p_fifo_data1. */
+        uint64_t tlpp_ctl              : 1;  /**< [  4:  4](RO) BIST status for tlp_p_fifo_ctl. */
+        uint64_t tlpc_d0               : 1;  /**< [  3:  3](RO) BIST status for tlp_c_fifo_data0. */
+        uint64_t tlpc_d1               : 1;  /**< [  2:  2](RO) BIST status for tlp_c_fifo_data1. */
+        uint64_t tlpc_ctl              : 1;  /**< [  1:  1](RO) BIST status for tlp_c_fifo_ctl. */
+        uint64_t m2s                   : 1;  /**< [  0:  0](RO) BIST status for m2s_fifo. */
+#else /* Word 0 - Little Endian */
+        uint64_t m2s                   : 1;  /**< [  0:  0](RO) BIST status for m2s_fifo. */
+        uint64_t tlpc_ctl              : 1;  /**< [  1:  1](RO) BIST status for tlp_c_fifo_ctl. */
+        uint64_t tlpc_d1               : 1;  /**< [  2:  2](RO) BIST status for tlp_c_fifo_data1. */
+        uint64_t tlpc_d0               : 1;  /**< [  3:  3](RO) BIST status for tlp_c_fifo_data0. */
+        uint64_t tlpp_ctl              : 1;  /**< [  4:  4](RO) BIST status for tlp_p_fifo_ctl. */
+        uint64_t tlpp_d1               : 1;  /**< [  5:  5](RO) BIST status for tlp_p_fifo_data1. */
+        uint64_t tlpp_d0               : 1;  /**< [  6:  6](RO) BIST status for tlp_p_fifo_data0. */
+        uint64_t tlpn_ctl              : 1;  /**< [  7:  7](RO) BIST status for tlp_n_fifo_ctl. */
+        uint64_t tlpn_d1               : 1;  /**< [  8:  8](RO) BIST status for tlp_n_fifo_data1. */
+        uint64_t tlpn_d0               : 1;  /**< [  9:  9](RO) BIST status for tlp_n_fifo_data0. */
+        uint64_t rqdatab1              : 1;  /**< [ 10: 10](RO) RX queue data buffer 1. */
+        uint64_t rqdatab0              : 1;  /**< [ 11: 11](RO) RX queue data buffer 0. */
+        uint64_t rqhdrb1               : 1;  /**< [ 12: 12](RO) RX queue header memory buffer 1. */
+        uint64_t rqhdrb0               : 1;  /**< [ 13: 13](RO) RX queue header memory buffer 0. */
+        uint64_t sot                   : 1;  /**< [ 14: 14](RO) Start of transfer memory. */
+        uint64_t retryc                : 1;  /**< [ 15: 15](RO) Retry buffer memory C. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } cn83xx;
     /* struct bdk_pemx_bist_status_cn81xx cn88xxp2; */
 } bdk_pemx_bist_status_t;
 
@@ -1058,20 +1095,20 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_2_63         : 62;
-        uint64_t pceclk_gate           : 1;  /**< [  1:  1](R/W/H) When set, PCE_CLK is gated off. When clear, PCE_CLK is enabled.
+        uint64_t pceclk_gate           : 1;  /**< [  1:  1](R/W) When set, PCE_CLK is gated off. When clear, PCE_CLK is enabled.
                                                                  PEM0 & PEM2 will come up with clocks disabled when configured as
                                                                  an RC i.e. PEM()_STRAP[PIMODE] set to 0x3.
                                                                  PEM1 & PEM3 always come up with clocks disabled. */
-        uint64_t csclk_gate            : 1;  /**< [  0:  0](R/W/H) When set, ECLK is gated off. When clear, ECLK is enabled.
+        uint64_t csclk_gate            : 1;  /**< [  0:  0](R/W) When set, ECLK is gated off. When clear, ECLK is enabled.
                                                                  PEM0 & PEM2 will come up with clocks disabled when configured as
                                                                  an RC i.e. PEM()_STRAP[PIMODE] set to 0x3.
                                                                  PEM1 & PEM3 always come up with clocks disabled. */
 #else /* Word 0 - Little Endian */
-        uint64_t csclk_gate            : 1;  /**< [  0:  0](R/W/H) When set, ECLK is gated off. When clear, ECLK is enabled.
+        uint64_t csclk_gate            : 1;  /**< [  0:  0](R/W) When set, ECLK is gated off. When clear, ECLK is enabled.
                                                                  PEM0 & PEM2 will come up with clocks disabled when configured as
                                                                  an RC i.e. PEM()_STRAP[PIMODE] set to 0x3.
                                                                  PEM1 & PEM3 always come up with clocks disabled. */
-        uint64_t pceclk_gate           : 1;  /**< [  1:  1](R/W/H) When set, PCE_CLK is gated off. When clear, PCE_CLK is enabled.
+        uint64_t pceclk_gate           : 1;  /**< [  1:  1](R/W) When set, PCE_CLK is gated off. When clear, PCE_CLK is enabled.
                                                                  PEM0 & PEM2 will come up with clocks disabled when configured as
                                                                  an RC i.e. PEM()_STRAP[PIMODE] set to 0x3.
                                                                  PEM1 & PEM3 always come up with clocks disabled. */
@@ -1100,7 +1137,30 @@ typedef union
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_pemx_clk_en_cn81xx cn88xx; */
-    /* struct bdk_pemx_clk_en_s cn83xx; */
+    struct bdk_pemx_clk_en_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_2_63         : 62;
+        uint64_t pceclk_gate           : 1;  /**< [  1:  1](R/W/H) When set, PCE_CLK is gated off. When clear, PCE_CLK is enabled.
+                                                                 PEM0 & PEM2 will come up with clocks disabled when configured as
+                                                                 an RC i.e. PEM()_STRAP[PIMODE] set to 0x3.
+                                                                 PEM1 & PEM3 always come up with clocks disabled. */
+        uint64_t csclk_gate            : 1;  /**< [  0:  0](R/W/H) When set, ECLK is gated off. When clear, ECLK is enabled.
+                                                                 PEM0 & PEM2 will come up with clocks disabled when configured as
+                                                                 an RC i.e. PEM()_STRAP[PIMODE] set to 0x3.
+                                                                 PEM1 & PEM3 always come up with clocks disabled. */
+#else /* Word 0 - Little Endian */
+        uint64_t csclk_gate            : 1;  /**< [  0:  0](R/W/H) When set, ECLK is gated off. When clear, ECLK is enabled.
+                                                                 PEM0 & PEM2 will come up with clocks disabled when configured as
+                                                                 an RC i.e. PEM()_STRAP[PIMODE] set to 0x3.
+                                                                 PEM1 & PEM3 always come up with clocks disabled. */
+        uint64_t pceclk_gate           : 1;  /**< [  1:  1](R/W/H) When set, PCE_CLK is gated off. When clear, PCE_CLK is enabled.
+                                                                 PEM0 & PEM2 will come up with clocks disabled when configured as
+                                                                 an RC i.e. PEM()_STRAP[PIMODE] set to 0x3.
+                                                                 PEM1 & PEM3 always come up with clocks disabled. */
+        uint64_t reserved_2_63         : 62;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_pemx_clk_en_t;
 
 static inline uint64_t BDK_PEMX_CLK_EN(unsigned long a) __attribute__ ((pure, always_inline));
@@ -8228,6 +8288,22 @@ typedef union
         uint64_t reserved_2_63         : 62;
         uint64_t pemoor                : 1;  /**< [  1:  1](RO/H) Indication to software that the PEM has been taken out of reset (i.e. BIST is done) and it
                                                                  is safe to configure core CSRs. */
+        uint64_t pemon                 : 1;  /**< [  0:  0](R/W) Indication to the GSER that the PEM is out of reset, configured, and ready to send/receive
+                                                                 traffic. Setting this bit takes the configured PIPE out of reset. */
+#else /* Word 0 - Little Endian */
+        uint64_t pemon                 : 1;  /**< [  0:  0](R/W) Indication to the GSER that the PEM is out of reset, configured, and ready to send/receive
+                                                                 traffic. Setting this bit takes the configured PIPE out of reset. */
+        uint64_t pemoor                : 1;  /**< [  1:  1](RO/H) Indication to software that the PEM has been taken out of reset (i.e. BIST is done) and it
+                                                                 is safe to configure core CSRs. */
+        uint64_t reserved_2_63         : 62;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_pemx_on_cn8
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_2_63         : 62;
+        uint64_t pemoor                : 1;  /**< [  1:  1](RO/H) Indication to software that the PEM has been taken out of reset (i.e. BIST is done) and it
+                                                                 is safe to configure core CSRs. */
         uint64_t pemon                 : 1;  /**< [  0:  0](R/W/H) Indication to the GSER that the PEM is out of reset, configured, and ready to send/receive
                                                                  traffic. Setting this bit takes the configured PIPE out of reset. */
 #else /* Word 0 - Little Endian */
@@ -8237,8 +8313,8 @@ typedef union
                                                                  is safe to configure core CSRs. */
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pemx_on_s cn; */
+    } cn8;
+    /* struct bdk_pemx_on_s cn9; */
 } bdk_pemx_on_t;
 
 static inline uint64_t BDK_PEMX_ON(unsigned long a) __attribute__ ((pure, always_inline));
@@ -8472,8 +8548,6 @@ static inline uint64_t BDK_PEMX_P2P_BARX_END(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
         return 0x87e0c0000048ll + 0x1000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=3) && (b<=3)))
-        return 0x87e0c0000048ll + 0x1000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x3);
     __bdk_csr_fatal("PEMX_P2P_BARX_END", 2, a, b, 0, 0);
 }
 
@@ -8521,8 +8595,6 @@ static inline uint64_t BDK_PEMX_P2P_BARX_START(unsigned long a, unsigned long b)
 static inline uint64_t BDK_PEMX_P2P_BARX_START(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
-        return 0x87e0c0000040ll + 0x1000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=3) && (b<=3)))
         return 0x87e0c0000040ll + 0x1000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x3);
     __bdk_csr_fatal("PEMX_P2P_BARX_START", 2, a, b, 0, 0);
 }

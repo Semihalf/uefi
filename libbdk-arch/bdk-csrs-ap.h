@@ -295,16 +295,24 @@ typedef union
                                                                  indicates 1 set in the cache. The number of sets does not have
                                                                  to be a power of 2.
 
-                                                                 For CNXXXX L1D (AP_CSSELR_EL1[LEVEL] = 0x0, AP_CSSELR_EL1[IND] = 0), is 0x7.
-                                                                 For CNXXXX L1I (AP_CSSELR_EL1[LEVEL] = 0x0, AP_CSSELR_EL1[IND] = 1), is 0x15.
-                                                                 For CNXXXX L2 (AP_CSSELR_EL1[LEVEL] = 0x1, AP_CSSELR_EL1[IND] = 0), is 0x8191. */
+                                                                 For CNXXXX L1D (AP_CSSELR_EL1[LEVEL] = 0x0, AP_CSSELR_EL1[IND] = 0), is TBD.
+
+                                                                 For CNXXXX L1I (AP_CSSELR_EL1[LEVEL] = 0x0, AP_CSSELR_EL1[IND] = 1), is TBD.
+
+                                                                 For CN98XX L2 (AP_CSSELR_EL1[LEVEL] = 0x1, AP_CSSELR_EL1[IND] = 0), is TBD.
+
+                                                                 For CN98XX L3 (AP_CSSELR_EL1[LEVEL] = 0x2, AP_CSSELR_EL1[IND] = 0), is TBD. */
         uint32_t associativity         : 10; /**< [ 12:  3](RO) Associativity of cache minus 1, therefore a value of 0 indicates
                                                                  an associativity of 1. The associativity does not have to be a
                                                                  power of 2.
 
-                                                                 For CNXXXX L1D (AP_CSSELR_EL1[LEVEL] = 0x0, AP_CSSELR_EL1[IND] = 0), is 0x31.
-                                                                 For CNXXXX L1I (AP_CSSELR_EL1[LEVEL] = 0x0, AP_CSSELR_EL1[IND] = 1), is 0x38.
-                                                                 For CNXXXX L2 (AP_CSSELR_EL1[LEVEL] = 0x1, AP_CSSELR_EL1[IND] = 0), is 0x15. */
+                                                                 For CNXXXX L1D (AP_CSSELR_EL1[LEVEL] = 0x0, AP_CSSELR_EL1[IND] = 0), is TBD.
+
+                                                                 For CNXXXX L1I (AP_CSSELR_EL1[LEVEL] = 0x0, AP_CSSELR_EL1[IND] = 1), is TBD.
+
+                                                                 For CN98XX L2 (AP_CSSELR_EL1[LEVEL] = 0x1, AP_CSSELR_EL1[IND] = 0), is TBD.
+
+                                                                 For CN98XX L3 (AP_CSSELR_EL1[LEVEL] = 0x1, AP_CSSELR_EL1[IND] = 0), is TBD. */
         uint32_t linesize              : 3;  /**< [  2:  0](RO) Cache-line size, in (Log2(Number of bytes in cache line)) - 4.
 
                                                                  For CNXXXX, 128 bytes. */
@@ -316,16 +324,24 @@ typedef union
                                                                  an associativity of 1. The associativity does not have to be a
                                                                  power of 2.
 
-                                                                 For CNXXXX L1D (AP_CSSELR_EL1[LEVEL] = 0x0, AP_CSSELR_EL1[IND] = 0), is 0x31.
-                                                                 For CNXXXX L1I (AP_CSSELR_EL1[LEVEL] = 0x0, AP_CSSELR_EL1[IND] = 1), is 0x38.
-                                                                 For CNXXXX L2 (AP_CSSELR_EL1[LEVEL] = 0x1, AP_CSSELR_EL1[IND] = 0), is 0x15. */
+                                                                 For CNXXXX L1D (AP_CSSELR_EL1[LEVEL] = 0x0, AP_CSSELR_EL1[IND] = 0), is TBD.
+
+                                                                 For CNXXXX L1I (AP_CSSELR_EL1[LEVEL] = 0x0, AP_CSSELR_EL1[IND] = 1), is TBD.
+
+                                                                 For CN98XX L2 (AP_CSSELR_EL1[LEVEL] = 0x1, AP_CSSELR_EL1[IND] = 0), is TBD.
+
+                                                                 For CN98XX L3 (AP_CSSELR_EL1[LEVEL] = 0x1, AP_CSSELR_EL1[IND] = 0), is TBD. */
         uint32_t numsets               : 15; /**< [ 27: 13](RO) Number of sets in cache minus 1, therefore a value of 0
                                                                  indicates 1 set in the cache. The number of sets does not have
                                                                  to be a power of 2.
 
-                                                                 For CNXXXX L1D (AP_CSSELR_EL1[LEVEL] = 0x0, AP_CSSELR_EL1[IND] = 0), is 0x7.
-                                                                 For CNXXXX L1I (AP_CSSELR_EL1[LEVEL] = 0x0, AP_CSSELR_EL1[IND] = 1), is 0x15.
-                                                                 For CNXXXX L2 (AP_CSSELR_EL1[LEVEL] = 0x1, AP_CSSELR_EL1[IND] = 0), is 0x8191. */
+                                                                 For CNXXXX L1D (AP_CSSELR_EL1[LEVEL] = 0x0, AP_CSSELR_EL1[IND] = 0), is TBD.
+
+                                                                 For CNXXXX L1I (AP_CSSELR_EL1[LEVEL] = 0x0, AP_CSSELR_EL1[IND] = 1), is TBD.
+
+                                                                 For CN98XX L2 (AP_CSSELR_EL1[LEVEL] = 0x1, AP_CSSELR_EL1[IND] = 0), is TBD.
+
+                                                                 For CN98XX L3 (AP_CSSELR_EL1[LEVEL] = 0x2, AP_CSSELR_EL1[IND] = 0), is TBD. */
         uint32_t wa                    : 1;  /**< [ 28: 28](RO) Indicates whether the selected cache level supports write-allocation.
                                                                  0 = Write-allocation not supported.
                                                                  1 = Write-allocation supported.
@@ -348,7 +364,279 @@ typedef union
                                                                  For CNXXXX does not apply as hardware managed coherence. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ap_ccsidr_el1_s cn; */
+    /* struct bdk_ap_ccsidr_el1_s cn9; */
+    struct bdk_ap_ccsidr_el1_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t wt                    : 1;  /**< [ 31: 31](RO) Indicates whether the selected cache level supports write-through.
+                                                                 0 = Write-through not supported.
+                                                                 1 = Write-through supported.
+
+                                                                 For CNXXXX does not apply as hardware managed coherence. */
+        uint32_t wb                    : 1;  /**< [ 30: 30](RO) Indicates whether the selected cache level supports write-back.
+                                                                 0 = Write-back not supported.
+                                                                 1 = Write-back supported.
+
+                                                                 For CNXXXX does not apply as hardware managed coherence. */
+        uint32_t ra                    : 1;  /**< [ 29: 29](RO) Indicates whether the selected cache level supports read-allocation.
+                                                                 0 = Read-allocation not supported.
+                                                                 1 = Read-allocation supported.
+
+                                                                 For CNXXXX does not apply as hardware managed coherence. */
+        uint32_t wa                    : 1;  /**< [ 28: 28](RO) Indicates whether the selected cache level supports write-allocation.
+                                                                 0 = Write-allocation not supported.
+                                                                 1 = Write-allocation supported.
+
+                                                                 For CNXXXX does not apply as hardware managed coherence. */
+        uint32_t numsets               : 15; /**< [ 27: 13](RO) Number of sets in cache minus 1, therefore a value of 0
+                                                                 indicates 1 set in the cache. The number of sets does not have
+                                                                 to be a power of 2.
+
+                                                                 For CNXXXX L1D (AP_CSSELR_EL1[LEVEL] = 0x0, AP_CSSELR_EL1[IND] = 0), is 7.
+
+                                                                 For CNXXXX L1I (AP_CSSELR_EL1[LEVEL] = 0x0, AP_CSSELR_EL1[IND] = 1), is 15.
+
+                                                                 For CN81XX L2 (AP_CSSELR_EL1[LEVEL] = 0x1, AP_CSSELR_EL1[IND] = 0), is 1023.
+
+                                                                 For CN80XX L2 (AP_CSSELR_EL1[LEVEL] = 0x1, AP_CSSELR_EL1[IND] = 0), is 1023. */
+        uint32_t associativity         : 10; /**< [ 12:  3](RO) Associativity of cache minus 1, therefore a value of 0 indicates
+                                                                 an associativity of 1. The associativity does not have to be a
+                                                                 power of 2.
+
+                                                                 For CNXXXX L1D (AP_CSSELR_EL1[LEVEL] = 0x0, AP_CSSELR_EL1[IND] = 0), is 31.
+
+                                                                 For CNXXXX L1I (AP_CSSELR_EL1[LEVEL] = 0x0, AP_CSSELR_EL1[IND] = 1), is 38.
+
+                                                                 For CN81XX L2 (AP_CSSELR_EL1[LEVEL] = 0x1, AP_CSSELR_EL1[IND] = 0), is 15.
+
+                                                                 For CN80XX L2 (AP_CSSELR_EL1[LEVEL] = 0x1, AP_CSSELR_EL1[IND] = 0), is 7. */
+        uint32_t linesize              : 3;  /**< [  2:  0](RO) Cache-line size, in (Log2(Number of bytes in cache line)) - 4.
+
+                                                                 For CNXXXX, 128 bytes. */
+#else /* Word 0 - Little Endian */
+        uint32_t linesize              : 3;  /**< [  2:  0](RO) Cache-line size, in (Log2(Number of bytes in cache line)) - 4.
+
+                                                                 For CNXXXX, 128 bytes. */
+        uint32_t associativity         : 10; /**< [ 12:  3](RO) Associativity of cache minus 1, therefore a value of 0 indicates
+                                                                 an associativity of 1. The associativity does not have to be a
+                                                                 power of 2.
+
+                                                                 For CNXXXX L1D (AP_CSSELR_EL1[LEVEL] = 0x0, AP_CSSELR_EL1[IND] = 0), is 31.
+
+                                                                 For CNXXXX L1I (AP_CSSELR_EL1[LEVEL] = 0x0, AP_CSSELR_EL1[IND] = 1), is 38.
+
+                                                                 For CN81XX L2 (AP_CSSELR_EL1[LEVEL] = 0x1, AP_CSSELR_EL1[IND] = 0), is 15.
+
+                                                                 For CN80XX L2 (AP_CSSELR_EL1[LEVEL] = 0x1, AP_CSSELR_EL1[IND] = 0), is 7. */
+        uint32_t numsets               : 15; /**< [ 27: 13](RO) Number of sets in cache minus 1, therefore a value of 0
+                                                                 indicates 1 set in the cache. The number of sets does not have
+                                                                 to be a power of 2.
+
+                                                                 For CNXXXX L1D (AP_CSSELR_EL1[LEVEL] = 0x0, AP_CSSELR_EL1[IND] = 0), is 7.
+
+                                                                 For CNXXXX L1I (AP_CSSELR_EL1[LEVEL] = 0x0, AP_CSSELR_EL1[IND] = 1), is 15.
+
+                                                                 For CN81XX L2 (AP_CSSELR_EL1[LEVEL] = 0x1, AP_CSSELR_EL1[IND] = 0), is 1023.
+
+                                                                 For CN80XX L2 (AP_CSSELR_EL1[LEVEL] = 0x1, AP_CSSELR_EL1[IND] = 0), is 1023. */
+        uint32_t wa                    : 1;  /**< [ 28: 28](RO) Indicates whether the selected cache level supports write-allocation.
+                                                                 0 = Write-allocation not supported.
+                                                                 1 = Write-allocation supported.
+
+                                                                 For CNXXXX does not apply as hardware managed coherence. */
+        uint32_t ra                    : 1;  /**< [ 29: 29](RO) Indicates whether the selected cache level supports read-allocation.
+                                                                 0 = Read-allocation not supported.
+                                                                 1 = Read-allocation supported.
+
+                                                                 For CNXXXX does not apply as hardware managed coherence. */
+        uint32_t wb                    : 1;  /**< [ 30: 30](RO) Indicates whether the selected cache level supports write-back.
+                                                                 0 = Write-back not supported.
+                                                                 1 = Write-back supported.
+
+                                                                 For CNXXXX does not apply as hardware managed coherence. */
+        uint32_t wt                    : 1;  /**< [ 31: 31](RO) Indicates whether the selected cache level supports write-through.
+                                                                 0 = Write-through not supported.
+                                                                 1 = Write-through supported.
+
+                                                                 For CNXXXX does not apply as hardware managed coherence. */
+#endif /* Word 0 - End */
+    } cn81xx;
+    struct bdk_ap_ccsidr_el1_cn88xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t wt                    : 1;  /**< [ 31: 31](RO) Indicates whether the selected cache level supports write-through.
+                                                                 0 = Write-through not supported.
+                                                                 1 = Write-through supported.
+
+                                                                 For CNXXXX does not apply as hardware managed coherence. */
+        uint32_t wb                    : 1;  /**< [ 30: 30](RO) Indicates whether the selected cache level supports write-back.
+                                                                 0 = Write-back not supported.
+                                                                 1 = Write-back supported.
+
+                                                                 For CNXXXX does not apply as hardware managed coherence. */
+        uint32_t ra                    : 1;  /**< [ 29: 29](RO) Indicates whether the selected cache level supports read-allocation.
+                                                                 0 = Read-allocation not supported.
+                                                                 1 = Read-allocation supported.
+
+                                                                 For CNXXXX does not apply as hardware managed coherence. */
+        uint32_t wa                    : 1;  /**< [ 28: 28](RO) Indicates whether the selected cache level supports write-allocation.
+                                                                 0 = Write-allocation not supported.
+                                                                 1 = Write-allocation supported.
+
+                                                                 For CNXXXX does not apply as hardware managed coherence. */
+        uint32_t numsets               : 15; /**< [ 27: 13](RO) Number of sets in cache minus 1, therefore a value of 0
+                                                                 indicates 1 set in the cache. The number of sets does not have
+                                                                 to be a power of 2.
+
+                                                                 For CNXXXX L1D (AP_CSSELR_EL1[LEVEL] = 0x0, AP_CSSELR_EL1[IND] = 0), is 7.
+
+                                                                 For CNXXXX L1I (AP_CSSELR_EL1[LEVEL] = 0x0, AP_CSSELR_EL1[IND] = 1), is 15.
+
+                                                                 For CN88XX L2 (AP_CSSELR_EL1[LEVEL] = 0x1, AP_CSSELR_EL1[IND] = 0), is 8191. */
+        uint32_t associativity         : 10; /**< [ 12:  3](RO) Associativity of cache minus 1, therefore a value of 0 indicates
+                                                                 an associativity of 1. The associativity does not have to be a
+                                                                 power of 2.
+
+                                                                 For CNXXXX L1D (AP_CSSELR_EL1[LEVEL] = 0x0, AP_CSSELR_EL1[IND] = 0), is 31.
+
+                                                                 For CNXXXX L1I (AP_CSSELR_EL1[LEVEL] = 0x0, AP_CSSELR_EL1[IND] = 1), is 38.
+
+                                                                 For CN88XX L2 (AP_CSSELR_EL1[LEVEL] = 0x1, AP_CSSELR_EL1[IND] = 0), is 15. */
+        uint32_t linesize              : 3;  /**< [  2:  0](RO) Cache-line size, in (Log2(Number of bytes in cache line)) - 4.
+
+                                                                 For CNXXXX, 128 bytes. */
+#else /* Word 0 - Little Endian */
+        uint32_t linesize              : 3;  /**< [  2:  0](RO) Cache-line size, in (Log2(Number of bytes in cache line)) - 4.
+
+                                                                 For CNXXXX, 128 bytes. */
+        uint32_t associativity         : 10; /**< [ 12:  3](RO) Associativity of cache minus 1, therefore a value of 0 indicates
+                                                                 an associativity of 1. The associativity does not have to be a
+                                                                 power of 2.
+
+                                                                 For CNXXXX L1D (AP_CSSELR_EL1[LEVEL] = 0x0, AP_CSSELR_EL1[IND] = 0), is 31.
+
+                                                                 For CNXXXX L1I (AP_CSSELR_EL1[LEVEL] = 0x0, AP_CSSELR_EL1[IND] = 1), is 38.
+
+                                                                 For CN88XX L2 (AP_CSSELR_EL1[LEVEL] = 0x1, AP_CSSELR_EL1[IND] = 0), is 15. */
+        uint32_t numsets               : 15; /**< [ 27: 13](RO) Number of sets in cache minus 1, therefore a value of 0
+                                                                 indicates 1 set in the cache. The number of sets does not have
+                                                                 to be a power of 2.
+
+                                                                 For CNXXXX L1D (AP_CSSELR_EL1[LEVEL] = 0x0, AP_CSSELR_EL1[IND] = 0), is 7.
+
+                                                                 For CNXXXX L1I (AP_CSSELR_EL1[LEVEL] = 0x0, AP_CSSELR_EL1[IND] = 1), is 15.
+
+                                                                 For CN88XX L2 (AP_CSSELR_EL1[LEVEL] = 0x1, AP_CSSELR_EL1[IND] = 0), is 8191. */
+        uint32_t wa                    : 1;  /**< [ 28: 28](RO) Indicates whether the selected cache level supports write-allocation.
+                                                                 0 = Write-allocation not supported.
+                                                                 1 = Write-allocation supported.
+
+                                                                 For CNXXXX does not apply as hardware managed coherence. */
+        uint32_t ra                    : 1;  /**< [ 29: 29](RO) Indicates whether the selected cache level supports read-allocation.
+                                                                 0 = Read-allocation not supported.
+                                                                 1 = Read-allocation supported.
+
+                                                                 For CNXXXX does not apply as hardware managed coherence. */
+        uint32_t wb                    : 1;  /**< [ 30: 30](RO) Indicates whether the selected cache level supports write-back.
+                                                                 0 = Write-back not supported.
+                                                                 1 = Write-back supported.
+
+                                                                 For CNXXXX does not apply as hardware managed coherence. */
+        uint32_t wt                    : 1;  /**< [ 31: 31](RO) Indicates whether the selected cache level supports write-through.
+                                                                 0 = Write-through not supported.
+                                                                 1 = Write-through supported.
+
+                                                                 For CNXXXX does not apply as hardware managed coherence. */
+#endif /* Word 0 - End */
+    } cn88xx;
+    struct bdk_ap_ccsidr_el1_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t wt                    : 1;  /**< [ 31: 31](RO) Indicates whether the selected cache level supports write-through.
+                                                                 0 = Write-through not supported.
+                                                                 1 = Write-through supported.
+
+                                                                 For CNXXXX does not apply as hardware managed coherence. */
+        uint32_t wb                    : 1;  /**< [ 30: 30](RO) Indicates whether the selected cache level supports write-back.
+                                                                 0 = Write-back not supported.
+                                                                 1 = Write-back supported.
+
+                                                                 For CNXXXX does not apply as hardware managed coherence. */
+        uint32_t ra                    : 1;  /**< [ 29: 29](RO) Indicates whether the selected cache level supports read-allocation.
+                                                                 0 = Read-allocation not supported.
+                                                                 1 = Read-allocation supported.
+
+                                                                 For CNXXXX does not apply as hardware managed coherence. */
+        uint32_t wa                    : 1;  /**< [ 28: 28](RO) Indicates whether the selected cache level supports write-allocation.
+                                                                 0 = Write-allocation not supported.
+                                                                 1 = Write-allocation supported.
+
+                                                                 For CNXXXX does not apply as hardware managed coherence. */
+        uint32_t numsets               : 15; /**< [ 27: 13](RO) Number of sets in cache minus 1, therefore a value of 0
+                                                                 indicates 1 set in the cache. The number of sets does not have
+                                                                 to be a power of 2.
+
+                                                                 For CNXXXX L1D (AP_CSSELR_EL1[LEVEL] = 0x0, AP_CSSELR_EL1[IND] = 0), is 7.
+
+                                                                 For CNXXXX L1I (AP_CSSELR_EL1[LEVEL] = 0x0, AP_CSSELR_EL1[IND] = 1), is 15.
+
+                                                                 For CN83XX L2 (AP_CSSELR_EL1[LEVEL] = 0x1, AP_CSSELR_EL1[IND] = 0), is 4095. */
+        uint32_t associativity         : 10; /**< [ 12:  3](RO) Associativity of cache minus 1, therefore a value of 0 indicates
+                                                                 an associativity of 1. The associativity does not have to be a
+                                                                 power of 2.
+
+                                                                 For CNXXXX L1D (AP_CSSELR_EL1[LEVEL] = 0x0, AP_CSSELR_EL1[IND] = 0), is 31.
+
+                                                                 For CNXXXX L1I (AP_CSSELR_EL1[LEVEL] = 0x0, AP_CSSELR_EL1[IND] = 1), is 38.
+
+                                                                 For CN83XX L2 (AP_CSSELR_EL1[LEVEL] = 0x1, AP_CSSELR_EL1[IND] = 0), is 15. */
+        uint32_t linesize              : 3;  /**< [  2:  0](RO) Cache-line size, in (Log2(Number of bytes in cache line)) - 4.
+
+                                                                 For CNXXXX, 128 bytes. */
+#else /* Word 0 - Little Endian */
+        uint32_t linesize              : 3;  /**< [  2:  0](RO) Cache-line size, in (Log2(Number of bytes in cache line)) - 4.
+
+                                                                 For CNXXXX, 128 bytes. */
+        uint32_t associativity         : 10; /**< [ 12:  3](RO) Associativity of cache minus 1, therefore a value of 0 indicates
+                                                                 an associativity of 1. The associativity does not have to be a
+                                                                 power of 2.
+
+                                                                 For CNXXXX L1D (AP_CSSELR_EL1[LEVEL] = 0x0, AP_CSSELR_EL1[IND] = 0), is 31.
+
+                                                                 For CNXXXX L1I (AP_CSSELR_EL1[LEVEL] = 0x0, AP_CSSELR_EL1[IND] = 1), is 38.
+
+                                                                 For CN83XX L2 (AP_CSSELR_EL1[LEVEL] = 0x1, AP_CSSELR_EL1[IND] = 0), is 15. */
+        uint32_t numsets               : 15; /**< [ 27: 13](RO) Number of sets in cache minus 1, therefore a value of 0
+                                                                 indicates 1 set in the cache. The number of sets does not have
+                                                                 to be a power of 2.
+
+                                                                 For CNXXXX L1D (AP_CSSELR_EL1[LEVEL] = 0x0, AP_CSSELR_EL1[IND] = 0), is 7.
+
+                                                                 For CNXXXX L1I (AP_CSSELR_EL1[LEVEL] = 0x0, AP_CSSELR_EL1[IND] = 1), is 15.
+
+                                                                 For CN83XX L2 (AP_CSSELR_EL1[LEVEL] = 0x1, AP_CSSELR_EL1[IND] = 0), is 4095. */
+        uint32_t wa                    : 1;  /**< [ 28: 28](RO) Indicates whether the selected cache level supports write-allocation.
+                                                                 0 = Write-allocation not supported.
+                                                                 1 = Write-allocation supported.
+
+                                                                 For CNXXXX does not apply as hardware managed coherence. */
+        uint32_t ra                    : 1;  /**< [ 29: 29](RO) Indicates whether the selected cache level supports read-allocation.
+                                                                 0 = Read-allocation not supported.
+                                                                 1 = Read-allocation supported.
+
+                                                                 For CNXXXX does not apply as hardware managed coherence. */
+        uint32_t wb                    : 1;  /**< [ 30: 30](RO) Indicates whether the selected cache level supports write-back.
+                                                                 0 = Write-back not supported.
+                                                                 1 = Write-back supported.
+
+                                                                 For CNXXXX does not apply as hardware managed coherence. */
+        uint32_t wt                    : 1;  /**< [ 31: 31](RO) Indicates whether the selected cache level supports write-through.
+                                                                 0 = Write-through not supported.
+                                                                 1 = Write-through supported.
+
+                                                                 For CNXXXX does not apply as hardware managed coherence. */
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_ap_ccsidr_el1_t;
 
 #define BDK_AP_CCSIDR_EL1 BDK_AP_CCSIDR_EL1_FUNC()

@@ -1135,8 +1135,8 @@ typedef union
         uint32_t scse                  : 1;  /**< [  3:  3](RO) Special cycle enable. Not applicable for PCI Express. Must be hardwired to 0. */
         uint32_t me                    : 1;  /**< [  2:  2](R/W) Bus master enable.  If the PF or any of its VFs try to master the bus when this bit is
                                                                  not set,
-                                                                 the request is discarded. An interrupt will be generated setting the
-                                                                 PEM()_PF()_DBG_INFO[P()_BMD_E bit.
+                                                                 the request is discarded. An interrupt will be generated setting
+                                                                 PEM()_DBG_INFO[BMD_E].
                                                                  Transactions are dropped in the client. Nonposted transactions returns a SWI_RSP_ERROR
                                                                  to SLI/DPI soon thereafter.
                                                                  Bus master enable mimics the behavior of PEM()_FLR_PF_STOPREQ. */
@@ -1149,8 +1149,8 @@ typedef union
         uint32_t msae                  : 1;  /**< [  1:  1](R/W) Memory space access enable. */
         uint32_t me                    : 1;  /**< [  2:  2](R/W) Bus master enable.  If the PF or any of its VFs try to master the bus when this bit is
                                                                  not set,
-                                                                 the request is discarded. An interrupt will be generated setting the
-                                                                 PEM()_PF()_DBG_INFO[P()_BMD_E bit.
+                                                                 the request is discarded. An interrupt will be generated setting
+                                                                 PEM()_DBG_INFO[BMD_E].
                                                                  Transactions are dropped in the client. Nonposted transactions returns a SWI_RSP_ERROR
                                                                  to SLI/DPI soon thereafter.
                                                                  Bus master enable mimics the behavior of PEM()_FLR_PF_STOPREQ. */
@@ -8133,7 +8133,7 @@ typedef union
                                                                  0x0 = VC0.
                                                                  0x1 = VC1.
                                                                  0x2 = VC2.
-                                                                 ..
+                                                                 _ ...
                                                                  0x7 = VC7. */
 #else /* Word 0 - Little Endian */
         uint32_t credit_sel_vc         : 3;  /**< [  2:  0](R/W) Credit select (VC).
@@ -8145,7 +8145,7 @@ typedef union
                                                                  0x0 = VC0.
                                                                  0x1 = VC1.
                                                                  0x2 = VC2.
-                                                                 ..
+                                                                 _ ...
                                                                  0x7 = VC7. */
         uint32_t credit_sel_credit_type : 1; /**< [  3:  3](R/W) Credit select (credit type).
                                                                  This field in conjunction with the [CREDIT_SEL_VC],
@@ -8343,7 +8343,7 @@ typedef union
                                                                  0x0 = Lane0.
                                                                  0x1 = Lane1.
                                                                  0x2 = Lane2.
-                                                                 ..
+                                                                 _ ...
                                                                  0x7 = Lane7.
                                                                  0x8-0xF = Reserved. */
 #else /* Word 0 - Little Endian */
@@ -8355,7 +8355,7 @@ typedef union
                                                                  0x0 = Lane0.
                                                                  0x1 = Lane1.
                                                                  0x2 = Lane2.
-                                                                 ..
+                                                                 _ ...
                                                                  0x7 = Lane7.
                                                                  0x8-0xF = Reserved. */
         uint32_t eq_rate_sel           : 1;  /**< [  4:  4](R/W) EQ status rate select.
@@ -9749,7 +9749,7 @@ typedef union
     struct bdk_pcieepx_cfg190_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t esrs                  : 16; /**< [ 31: 16](R/W/H) Extended supported resource sizes. PEM advertises the maximum allowable BAR size (512 GB)
+        uint32_t esrs                  : 16; /**< [ 31: 16](RO/WRSL) Extended supported resource sizes. PEM advertises the maximum allowable BAR size (512 GB)
                                                                  when the fus__bar2_size_conf is intact. When the fuse is blown, the CNXXXX
                                                                  advertises a BAR size of 4096TB (PCIEEP)_CFG190[SRS] = 0xFFF_FFFF and ESRS = 0x1F).
                                                                  The BAR is disabled at runtime by writing all zeros through PEM()_CFG_WR to this field. */
@@ -9766,7 +9766,7 @@ typedef union
         uint32_t rbars                 : 6;  /**< [ 13:  8](R/W) BAR Size. PEM advertises the minimum allowable BAR size of 0x0 (1MB) but will accept
                                                                  values as large as 0x2B (8EB). */
         uint32_t reserved_14_15        : 2;
-        uint32_t esrs                  : 16; /**< [ 31: 16](R/W/H) Extended supported resource sizes. PEM advertises the maximum allowable BAR size (512 GB)
+        uint32_t esrs                  : 16; /**< [ 31: 16](RO/WRSL) Extended supported resource sizes. PEM advertises the maximum allowable BAR size (512 GB)
                                                                  when the fus__bar2_size_conf is intact. When the fuse is blown, the CNXXXX
                                                                  advertises a BAR size of 4096TB (PCIEEP)_CFG190[SRS] = 0xFFF_FFFF and ESRS = 0x1F).
                                                                  The BAR is disabled at runtime by writing all zeros through PEM()_CFG_WR to this field. */
@@ -11807,8 +11807,8 @@ typedef union
         uint32_t scse                  : 1;  /**< [  3:  3](RO) Special cycle enable. Not applicable for PCI Express. Must be hardwired to 0. */
         uint32_t me                    : 1;  /**< [  2:  2](R/W) Bus master enable.  If the PF or any of its VFs try to master the bus when this bit is
                                                                  not set,
-                                                                 the request is discarded. An interrupt will be generated setting the
-                                                                 PEM()_PF()_DBG_INFO[P()_BMD_E bit.
+                                                                 the request is discarded. An interrupt will be generated setting
+                                                                 PEM()_DBG_INFO[BMD_E].
                                                                  Transactions are dropped in the client. Nonposted transactions returns a SWI_RSP_ERROR
                                                                  to SLI/DPI soon thereafter.
                                                                  Bus master enable mimics the behavior of PEM()_FLR_PF_STOPREQ. */
@@ -11821,8 +11821,8 @@ typedef union
         uint32_t msae                  : 1;  /**< [  1:  1](R/W) Memory space access enable. */
         uint32_t me                    : 1;  /**< [  2:  2](R/W) Bus master enable.  If the PF or any of its VFs try to master the bus when this bit is
                                                                  not set,
-                                                                 the request is discarded. An interrupt will be generated setting the
-                                                                 PEM()_PF()_DBG_INFO[P()_BMD_E bit.
+                                                                 the request is discarded. An interrupt will be generated setting
+                                                                 PEM()_DBG_INFO[BMD_E].
                                                                  Transactions are dropped in the client. Nonposted transactions returns a SWI_RSP_ERROR
                                                                  to SLI/DPI soon thereafter.
                                                                  Bus master enable mimics the behavior of PEM()_FLR_PF_STOPREQ. */
@@ -12164,17 +12164,16 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_24_31        : 8;
-        uint32_t meetp                 : 2;  /**< [ 23: 22](RO/WRSL) Max end-end TLP prefixes.
+        uint32_t meetp                 : 2;  /**< [ 23: 22](RO/WRSL) Max end-end TLP prefixes. Writable through PEM()_CFG_WR.
                                                                  0x1 = 1.
                                                                  0x2 = 2.
                                                                  0x3 = 3.
                                                                  0x0 = 4. */
-        uint32_t eetps                 : 1;  /**< [ 21: 21](RO) End-end TLP prefix supported (not supported). */
-        uint32_t effs                  : 1;  /**< [ 20: 20](RO/WRSL) Extended fmt field supported.  Writable through PEM()_CFG_WR.  However,
-                                                                 the application must not change this field. */
+        uint32_t eetps                 : 1;  /**< [ 21: 21](RO/WRSL) End-end TLP prefix supported. Writable through PEM()_CFG_WR. */
+        uint32_t effs                  : 1;  /**< [ 20: 20](RO/WRSL) Extended fmt field supported.  Writable through PEM()_CFG_WR. */
         uint32_t obffs                 : 2;  /**< [ 19: 18](RO) Optimized buffer flush fill (OBFF) supported (not supported). */
         uint32_t tag10b_req_supp       : 1;  /**< [ 17: 17](RO) 10-bit tag requestor supported (not supported). */
-        uint32_t tag10b_cpl_supp       : 1;  /**< [ 16: 16](RO) 10-bit tag completer supported (not supported). */
+        uint32_t tag10b_cpl_supp       : 1;  /**< [ 16: 16](RO) 10-bit tag completer supported. */
         uint32_t ln_sys_cls            : 2;  /**< [ 15: 14](RO) LN System CLS (not applicable for EP). */
         uint32_t tphs                  : 2;  /**< [ 13: 12](RO) TPH completer supported (not supported). */
         uint32_t ltrs                  : 1;  /**< [ 11: 11](RO) Latency tolerance reporting (LTR) mechanism supported (not supported). */
@@ -12208,13 +12207,12 @@ typedef union
         uint32_t ltrs                  : 1;  /**< [ 11: 11](RO) Latency tolerance reporting (LTR) mechanism supported (not supported). */
         uint32_t tphs                  : 2;  /**< [ 13: 12](RO) TPH completer supported (not supported). */
         uint32_t ln_sys_cls            : 2;  /**< [ 15: 14](RO) LN System CLS (not applicable for EP). */
-        uint32_t tag10b_cpl_supp       : 1;  /**< [ 16: 16](RO) 10-bit tag completer supported (not supported). */
+        uint32_t tag10b_cpl_supp       : 1;  /**< [ 16: 16](RO) 10-bit tag completer supported. */
         uint32_t tag10b_req_supp       : 1;  /**< [ 17: 17](RO) 10-bit tag requestor supported (not supported). */
         uint32_t obffs                 : 2;  /**< [ 19: 18](RO) Optimized buffer flush fill (OBFF) supported (not supported). */
-        uint32_t effs                  : 1;  /**< [ 20: 20](RO/WRSL) Extended fmt field supported.  Writable through PEM()_CFG_WR.  However,
-                                                                 the application must not change this field. */
-        uint32_t eetps                 : 1;  /**< [ 21: 21](RO) End-end TLP prefix supported (not supported). */
-        uint32_t meetp                 : 2;  /**< [ 23: 22](RO/WRSL) Max end-end TLP prefixes.
+        uint32_t effs                  : 1;  /**< [ 20: 20](RO/WRSL) Extended fmt field supported.  Writable through PEM()_CFG_WR. */
+        uint32_t eetps                 : 1;  /**< [ 21: 21](RO/WRSL) End-end TLP prefix supported. Writable through PEM()_CFG_WR. */
+        uint32_t meetp                 : 2;  /**< [ 23: 22](RO/WRSL) Max end-end TLP prefixes. Writable through PEM()_CFG_WR.
                                                                  0x1 = 1.
                                                                  0x2 = 2.
                                                                  0x3 = 3.
@@ -12398,13 +12396,13 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_16_31        : 16;
-        uint32_t eetpb                 : 1;  /**< [ 15: 15](RO) Unsupported end-end TLP prefix blocking. */
+        uint32_t eetpb                 : 1;  /**< [ 15: 15](RO) End-end TLP prefix blocking. */
         uint32_t obffe                 : 2;  /**< [ 14: 13](RO) Optimized buffer flush fill (OBFF) enable (not supported). */
         uint32_t reserved_12           : 1;
         uint32_t tag10b_req_en         : 1;  /**< [ 11: 11](RO) 10-bit tag requestoer enable (not supported). */
         uint32_t ltre                  : 1;  /**< [ 10: 10](RO) Latency tolerance reporting (LTR) mechanism enable (not supported). */
-        uint32_t id0_cp                : 1;  /**< [  9:  9](RO) ID based ordering completion enable (not supported). */
-        uint32_t id0_rq                : 1;  /**< [  8:  8](RO) ID based ordering request enable (not supported). */
+        uint32_t id0_cp                : 1;  /**< [  9:  9](R/W) ID based ordering completion enable (not supported). */
+        uint32_t id0_rq                : 1;  /**< [  8:  8](R/W) ID based ordering request enable. */
         uint32_t atom_op_eb            : 1;  /**< [  7:  7](R/W) AtomicOp egress blocking (not supported). */
         uint32_t atom_op               : 1;  /**< [  6:  6](R/W) AtomicOp requester enable. */
         uint32_t ari                   : 1;  /**< [  5:  5](RO) Alternate routing ID forwarding supported (not applicable for EP). */
@@ -12438,13 +12436,13 @@ typedef union
         uint32_t ari                   : 1;  /**< [  5:  5](RO) Alternate routing ID forwarding supported (not applicable for EP). */
         uint32_t atom_op               : 1;  /**< [  6:  6](R/W) AtomicOp requester enable. */
         uint32_t atom_op_eb            : 1;  /**< [  7:  7](R/W) AtomicOp egress blocking (not supported). */
-        uint32_t id0_rq                : 1;  /**< [  8:  8](RO) ID based ordering request enable (not supported). */
-        uint32_t id0_cp                : 1;  /**< [  9:  9](RO) ID based ordering completion enable (not supported). */
+        uint32_t id0_rq                : 1;  /**< [  8:  8](R/W) ID based ordering request enable. */
+        uint32_t id0_cp                : 1;  /**< [  9:  9](R/W) ID based ordering completion enable (not supported). */
         uint32_t ltre                  : 1;  /**< [ 10: 10](RO) Latency tolerance reporting (LTR) mechanism enable (not supported). */
         uint32_t tag10b_req_en         : 1;  /**< [ 11: 11](RO) 10-bit tag requestoer enable (not supported). */
         uint32_t reserved_12           : 1;
         uint32_t obffe                 : 2;  /**< [ 14: 13](RO) Optimized buffer flush fill (OBFF) enable (not supported). */
-        uint32_t eetpb                 : 1;  /**< [ 15: 15](RO) Unsupported end-end TLP prefix blocking. */
+        uint32_t eetpb                 : 1;  /**< [ 15: 15](RO) End-end TLP prefix blocking. */
         uint32_t reserved_16_31        : 16;
 #endif /* Word 0 - End */
     } s;
@@ -12985,12 +12983,14 @@ typedef union
                                                                  effective link width to ignore 'broken" or "unused" lanes that
                                                                  detect a receiver. Indicates the number of lanes to check for
                                                                  exit from electrical idle in Polling.Active and L2.Idle.
+
                                                                  0x1 = 1 lane.
                                                                  0x2 = 2 lanes.
                                                                  0x3 = 3 lanes.
-                                                                 ..
-                                                                 0x8 = 8 lanes.
-                                                                 0x9-0x1F =Reserved.
+                                                                 _ ...
+                                                                 0x10 = 16 lanes.
+                                                                 0x11-0x1F = Reserved.
+
                                                                  When you have unused lanes in your system, then you must
                                                                  change the value in this register to reflect the number of
                                                                  lanes. You must also change PCIEEP()_PORT_CTL[LME]. */
@@ -13014,12 +13014,14 @@ typedef union
                                                                  effective link width to ignore 'broken" or "unused" lanes that
                                                                  detect a receiver. Indicates the number of lanes to check for
                                                                  exit from electrical idle in Polling.Active and L2.Idle.
+
                                                                  0x1 = 1 lane.
                                                                  0x2 = 2 lanes.
                                                                  0x3 = 3 lanes.
-                                                                 ..
-                                                                 0x8 = 8 lanes.
-                                                                 0x9-0x1F =Reserved.
+                                                                 _ ...
+                                                                 0x10 = 16 lanes.
+                                                                 0x11-0x1F = Reserved.
+
                                                                  When you have unused lanes in your system, then you must
                                                                  change the value in this register to reflect the number of
                                                                  lanes. You must also change PCIEEP()_PORT_CTL[LME]. */
@@ -13070,12 +13072,14 @@ typedef union
                                                                  effective link width to ignore 'broken" or "unused" lanes that
                                                                  detect a receiver. Indicates the number of lanes to check for
                                                                  exit from electrical idle in Polling.Active and L2.Idle.
+
                                                                  0x1 = 1 lane.
                                                                  0x2 = 2 lanes.
                                                                  0x3 = 3 lanes.
-                                                                 ..
-                                                                 0x8 = 8 lanes.
-                                                                 0x9-0x1F =Reserved.
+                                                                 _ ...
+                                                                 0x10 = 16 lanes.
+                                                                 0x11-0x1F = Reserved.
+
                                                                  When you have unused lanes in your system, then you must
                                                                  change the value in this register to reflect the number of
                                                                  lanes. You must also change PCIEEP()_PORT_CTL[LME]. */
@@ -13099,12 +13103,14 @@ typedef union
                                                                  effective link width to ignore 'broken" or "unused" lanes that
                                                                  detect a receiver. Indicates the number of lanes to check for
                                                                  exit from electrical idle in Polling.Active and L2.Idle.
+
                                                                  0x1 = 1 lane.
                                                                  0x2 = 2 lanes.
                                                                  0x3 = 3 lanes.
-                                                                 ..
-                                                                 0x8 = 8 lanes.
-                                                                 0x9-0x1F =Reserved.
+                                                                 _ ...
+                                                                 0x10 = 16 lanes.
+                                                                 0x11-0x1F = Reserved.
+
                                                                  When you have unused lanes in your system, then you must
                                                                  change the value in this register to reflect the number of
                                                                  lanes. You must also change PCIEEP()_PORT_CTL[LME]. */
@@ -13314,9 +13320,11 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t ple                   : 1;  /**< [ 31: 31](R/W) Pipe loopback enable. */
-        uint32_t rxstatus              : 31; /**< [ 30:  0](RO/H) Reserved. */
+        uint32_t reserved_16_30        : 15;
+        uint32_t lpbk_rxvalid          : 16; /**< [ 15:  0](R/W) Loopback rxvalid (lane enable - 1 bit per lane) */
 #else /* Word 0 - Little Endian */
-        uint32_t rxstatus              : 31; /**< [ 30:  0](RO/H) Reserved. */
+        uint32_t lpbk_rxvalid          : 16; /**< [ 15:  0](R/W) Loopback rxvalid (lane enable - 1 bit per lane) */
+        uint32_t reserved_16_30        : 15;
         uint32_t ple                   : 1;  /**< [ 31: 31](R/W) Pipe loopback enable. */
 #endif /* Word 0 - End */
     } s;
@@ -13562,6 +13570,194 @@ static inline uint64_t BDK_PCIEEPX_INT(unsigned long a)
 #define basename_BDK_PCIEEPX_INT(a) "PCIEEPX_INT"
 #define busnum_BDK_PCIEEPX_INT(a) (a)
 #define arguments_BDK_PCIEEPX_INT(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGEP) pcieep#_l1sub_cap
+ *
+ * PCI Express L1 Substates Capability Register
+ * This register contains the one hundred eleventh 32-bits of PCIe type 0 configuration space.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pcieepx_l1sub_cap_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_24_31        : 8;
+        uint32_t pwron_val             : 5;  /**< [ 23: 19](R/W) Port T power on value. */
+        uint32_t reserved_18           : 1;
+        uint32_t pwron_scale           : 2;  /**< [ 17: 16](R/W) Port T power on scale. */
+        uint32_t com_md_supp           : 8;  /**< [ 15:  8](R/W) Port common mode restore time. */
+        uint32_t reserved_5_7          : 3;
+        uint32_t l1_pmsub_sup          : 1;  /**< [  4:  4](R/W) L1 PM Substates ECN supported. */
+        uint32_t l1_1_aspm_sup         : 1;  /**< [  3:  3](R/W) ASPM L11 supported. */
+        uint32_t l1_2_aspm_sup         : 1;  /**< [  2:  2](R/W) ASPM L12 supported. */
+        uint32_t l1_1_pcipm_sup        : 1;  /**< [  1:  1](R/W) PCI-PM L11 supported. */
+        uint32_t l1_2_pcipm_sup        : 1;  /**< [  0:  0](R/W) PCI-PM L12 supported. */
+#else /* Word 0 - Little Endian */
+        uint32_t l1_2_pcipm_sup        : 1;  /**< [  0:  0](R/W) PCI-PM L12 supported. */
+        uint32_t l1_1_pcipm_sup        : 1;  /**< [  1:  1](R/W) PCI-PM L11 supported. */
+        uint32_t l1_2_aspm_sup         : 1;  /**< [  2:  2](R/W) ASPM L12 supported. */
+        uint32_t l1_1_aspm_sup         : 1;  /**< [  3:  3](R/W) ASPM L11 supported. */
+        uint32_t l1_pmsub_sup          : 1;  /**< [  4:  4](R/W) L1 PM Substates ECN supported. */
+        uint32_t reserved_5_7          : 3;
+        uint32_t com_md_supp           : 8;  /**< [ 15:  8](R/W) Port common mode restore time. */
+        uint32_t pwron_scale           : 2;  /**< [ 17: 16](R/W) Port T power on scale. */
+        uint32_t reserved_18           : 1;
+        uint32_t pwron_val             : 5;  /**< [ 23: 19](R/W) Port T power on value. */
+        uint32_t reserved_24_31        : 8;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pcieepx_l1sub_cap_s cn; */
+} bdk_pcieepx_l1sub_cap_t;
+
+static inline uint64_t BDK_PCIEEPX_L1SUB_CAP(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIEEPX_L1SUB_CAP(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x300000001ccll + 0x100000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("PCIEEPX_L1SUB_CAP", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCIEEPX_L1SUB_CAP(a) bdk_pcieepx_l1sub_cap_t
+#define bustype_BDK_PCIEEPX_L1SUB_CAP(a) BDK_CSR_TYPE_PCICONFIGEP
+#define basename_BDK_PCIEEPX_L1SUB_CAP(a) "PCIEEPX_L1SUB_CAP"
+#define busnum_BDK_PCIEEPX_L1SUB_CAP(a) (a)
+#define arguments_BDK_PCIEEPX_L1SUB_CAP(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGEP) pcieep#_l1sub_cap_hdr
+ *
+ * PCI Express L1 Substates Capability Header Register
+ * This register contains the one hundred eleventh 32-bits of PCIe type 0 configuration space.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pcieepx_l1sub_cap_hdr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL) Next capability offset. Points to the PASID capabilities.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t cv                    : 4;  /**< [ 19: 16](RO/WRSL) Capability version.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t pcieec                : 16; /**< [ 15:  0](RO/WRSL) PCI Express extended capability.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#else /* Word 0 - Little Endian */
+        uint32_t pcieec                : 16; /**< [ 15:  0](RO/WRSL) PCI Express extended capability.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t cv                    : 4;  /**< [ 19: 16](RO/WRSL) Capability version.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL) Next capability offset. Points to the PASID capabilities.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pcieepx_l1sub_cap_hdr_s cn; */
+} bdk_pcieepx_l1sub_cap_hdr_t;
+
+static inline uint64_t BDK_PCIEEPX_L1SUB_CAP_HDR(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIEEPX_L1SUB_CAP_HDR(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x300000001c8ll + 0x100000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("PCIEEPX_L1SUB_CAP_HDR", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCIEEPX_L1SUB_CAP_HDR(a) bdk_pcieepx_l1sub_cap_hdr_t
+#define bustype_BDK_PCIEEPX_L1SUB_CAP_HDR(a) BDK_CSR_TYPE_PCICONFIGEP
+#define basename_BDK_PCIEEPX_L1SUB_CAP_HDR(a) "PCIEEPX_L1SUB_CAP_HDR"
+#define busnum_BDK_PCIEEPX_L1SUB_CAP_HDR(a) (a)
+#define arguments_BDK_PCIEEPX_L1SUB_CAP_HDR(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGEP) pcieep#_l1sub_ctl1
+ *
+ * PCI Express L1 Substates Control 1 Register
+ * This register contains the one hundred eleventh 32-bits of PCIe type 0 configuration space.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pcieepx_l1sub_ctl1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t l1_2_th_sca           : 3;  /**< [ 31: 29](R/W) LTR L12 threshold scale. */
+        uint32_t reserved_26_28        : 3;
+        uint32_t l1_2_th_val           : 10; /**< [ 25: 16](R/W) LTR L12 threshold value. */
+        uint32_t t_com_mode            : 8;  /**< [ 15:  8](RO) Common mode restore time.  Reserved for upstream port. */
+        uint32_t reserved_4_7          : 4;
+        uint32_t l1_1_aspm_en          : 1;  /**< [  3:  3](R/W) ASPM L11 enable. */
+        uint32_t l1_2_aspm_en          : 1;  /**< [  2:  2](R/W) ASPM L12 enable. */
+        uint32_t l1_1_pcipm_en         : 1;  /**< [  1:  1](R/W) PCI-PM L11 enable. */
+        uint32_t l1_2_pcipm_en         : 1;  /**< [  0:  0](R/W) PCI-PM L12 enable. */
+#else /* Word 0 - Little Endian */
+        uint32_t l1_2_pcipm_en         : 1;  /**< [  0:  0](R/W) PCI-PM L12 enable. */
+        uint32_t l1_1_pcipm_en         : 1;  /**< [  1:  1](R/W) PCI-PM L11 enable. */
+        uint32_t l1_2_aspm_en          : 1;  /**< [  2:  2](R/W) ASPM L12 enable. */
+        uint32_t l1_1_aspm_en          : 1;  /**< [  3:  3](R/W) ASPM L11 enable. */
+        uint32_t reserved_4_7          : 4;
+        uint32_t t_com_mode            : 8;  /**< [ 15:  8](RO) Common mode restore time.  Reserved for upstream port. */
+        uint32_t l1_2_th_val           : 10; /**< [ 25: 16](R/W) LTR L12 threshold value. */
+        uint32_t reserved_26_28        : 3;
+        uint32_t l1_2_th_sca           : 3;  /**< [ 31: 29](R/W) LTR L12 threshold scale. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pcieepx_l1sub_ctl1_s cn; */
+} bdk_pcieepx_l1sub_ctl1_t;
+
+static inline uint64_t BDK_PCIEEPX_L1SUB_CTL1(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIEEPX_L1SUB_CTL1(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x300000001d0ll + 0x100000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("PCIEEPX_L1SUB_CTL1", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCIEEPX_L1SUB_CTL1(a) bdk_pcieepx_l1sub_ctl1_t
+#define bustype_BDK_PCIEEPX_L1SUB_CTL1(a) BDK_CSR_TYPE_PCICONFIGEP
+#define basename_BDK_PCIEEPX_L1SUB_CTL1(a) "PCIEEPX_L1SUB_CTL1"
+#define busnum_BDK_PCIEEPX_L1SUB_CTL1(a) (a)
+#define arguments_BDK_PCIEEPX_L1SUB_CTL1(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGEP) pcieep#_l1sub_ctl2
+ *
+ * PCI Express L1 Substates Control 2 Register
+ * This register contains the one hundred eleventh 32-bits of PCIe type 0 configuration space.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pcieepx_l1sub_ctl2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t t_pwr_on_val          : 5;  /**< [  7:  3](R/W) T power on value. */
+        uint32_t reserved_2            : 1;
+        uint32_t t_pwr_on_sca          : 2;  /**< [  1:  0](R/W) T power on scale. */
+#else /* Word 0 - Little Endian */
+        uint32_t t_pwr_on_sca          : 2;  /**< [  1:  0](R/W) T power on scale. */
+        uint32_t reserved_2            : 1;
+        uint32_t t_pwr_on_val          : 5;  /**< [  7:  3](R/W) T power on value. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pcieepx_l1sub_ctl2_s cn; */
+} bdk_pcieepx_l1sub_ctl2_t;
+
+static inline uint64_t BDK_PCIEEPX_L1SUB_CTL2(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIEEPX_L1SUB_CTL2(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x300000001d4ll + 0x100000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("PCIEEPX_L1SUB_CTL2", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCIEEPX_L1SUB_CTL2(a) bdk_pcieepx_l1sub_ctl2_t
+#define bustype_BDK_PCIEEPX_L1SUB_CTL2(a) BDK_CSR_TYPE_PCICONFIGEP
+#define basename_BDK_PCIEEPX_L1SUB_CTL2(a) "PCIEEPX_L1SUB_CTL2"
+#define busnum_BDK_PCIEEPX_L1SUB_CTL2(a) (a)
+#define arguments_BDK_PCIEEPX_L1SUB_CTL2(a) (a),-1,-1,-1
 
 /**
  * Register (PCICONFIGEP) pcieep#_lane_err
@@ -14654,6 +14850,102 @@ static inline uint64_t BDK_PCIEEPX_P_XMIT_CREDIT(unsigned long a)
 #define arguments_BDK_PCIEEPX_P_XMIT_CREDIT(a) (a),-1,-1,-1
 
 /**
+ * Register (PCICONFIGEP) pcieep#_pasid_cap_hdr
+ *
+ * PCI Express PASID Extended Capability Header Register
+ * This register contains the one hundred eleventh 32-bits of PCIe type 0 configuration space.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pcieepx_pasid_cap_hdr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL) Next capability offset. Points to the Vendor Specific capabilities.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t cv                    : 4;  /**< [ 19: 16](RO/WRSL) Capability version.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t pcieec                : 16; /**< [ 15:  0](RO/WRSL) PCI Express extended capability.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#else /* Word 0 - Little Endian */
+        uint32_t pcieec                : 16; /**< [ 15:  0](RO/WRSL) PCI Express extended capability.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t cv                    : 4;  /**< [ 19: 16](RO/WRSL) Capability version.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL) Next capability offset. Points to the Vendor Specific capabilities.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pcieepx_pasid_cap_hdr_s cn; */
+} bdk_pcieepx_pasid_cap_hdr_t;
+
+static inline uint64_t BDK_PCIEEPX_PASID_CAP_HDR(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIEEPX_PASID_CAP_HDR(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x300000001d8ll + 0x100000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("PCIEEPX_PASID_CAP_HDR", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCIEEPX_PASID_CAP_HDR(a) bdk_pcieepx_pasid_cap_hdr_t
+#define bustype_BDK_PCIEEPX_PASID_CAP_HDR(a) BDK_CSR_TYPE_PCICONFIGEP
+#define basename_BDK_PCIEEPX_PASID_CAP_HDR(a) "PCIEEPX_PASID_CAP_HDR"
+#define busnum_BDK_PCIEEPX_PASID_CAP_HDR(a) (a)
+#define arguments_BDK_PCIEEPX_PASID_CAP_HDR(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGEP) pcieep#_pasid_ctl
+ *
+ * PCI Express PASID Capability Control Register
+ * This register contains the one hundred eleventh 32-bits of PCIe type 0 configuration space.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pcieepx_pasid_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_19_31        : 13;
+        uint32_t priv_mode_en          : 1;  /**< [ 18: 18](R/W) Privileged Mode Enable (endpoints only). */
+        uint32_t ex_perm_en            : 1;  /**< [ 17: 17](R/W) Execute Permission Enable (endpoints only). */
+        uint32_t en                    : 1;  /**< [ 16: 16](R/W) PASID Enable. */
+        uint32_t reserved_13_15        : 3;
+        uint32_t max_width             : 5;  /**< [ 12:  8](R/W) Max PASID Width. */
+        uint32_t reserved_3_7          : 5;
+        uint32_t priv_mode_sup         : 1;  /**< [  2:  2](RO/WRSL) Privileged Mode Supported (endpoints only). */
+        uint32_t ex_perm_sup           : 1;  /**< [  1:  1](RO/WRSL) Execute Permission Supported (endpoints only). */
+        uint32_t reserved_0            : 1;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0            : 1;
+        uint32_t ex_perm_sup           : 1;  /**< [  1:  1](RO/WRSL) Execute Permission Supported (endpoints only). */
+        uint32_t priv_mode_sup         : 1;  /**< [  2:  2](RO/WRSL) Privileged Mode Supported (endpoints only). */
+        uint32_t reserved_3_7          : 5;
+        uint32_t max_width             : 5;  /**< [ 12:  8](R/W) Max PASID Width. */
+        uint32_t reserved_13_15        : 3;
+        uint32_t en                    : 1;  /**< [ 16: 16](R/W) PASID Enable. */
+        uint32_t ex_perm_en            : 1;  /**< [ 17: 17](R/W) Execute Permission Enable (endpoints only). */
+        uint32_t priv_mode_en          : 1;  /**< [ 18: 18](R/W) Privileged Mode Enable (endpoints only). */
+        uint32_t reserved_19_31        : 13;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pcieepx_pasid_ctl_s cn; */
+} bdk_pcieepx_pasid_ctl_t;
+
+static inline uint64_t BDK_PCIEEPX_PASID_CTL(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIEEPX_PASID_CTL(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
+        return 0x300000001dcll + 0x100000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("PCIEEPX_PASID_CTL", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCIEEPX_PASID_CTL(a) bdk_pcieepx_pasid_ctl_t
+#define bustype_BDK_PCIEEPX_PASID_CTL(a) BDK_CSR_TYPE_PCICONFIGEP
+#define basename_BDK_PCIEEPX_PASID_CTL(a) "PCIEEPX_PASID_CTL"
+#define busnum_BDK_PCIEEPX_PASID_CTL(a) (a)
+#define arguments_BDK_PCIEEPX_PASID_CTL(a) (a),-1,-1,-1
+
+/**
  * Register (PCICONFIGEP) pcieep#_phy_ctl
  *
  * PCIe EP PF PHY Control Register
@@ -15285,7 +15577,7 @@ static inline uint64_t BDK_PCIEEPX_RAS_DES_CAP_HDR(unsigned long a) __attribute_
 static inline uint64_t BDK_PCIEEPX_RAS_DES_CAP_HDR(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
-        return 0x300000001b8ll + 0x100000000ll * ((a) & 0x3);
+        return 0x300000001e0ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_RAS_DES_CAP_HDR", 1, a, 0, 0, 0);
 }
 
@@ -15318,7 +15610,7 @@ typedef union
 
                                                                  0x0-0x7 = Lane number.
                                                                  0x8-0xF = Reserved. */
-        uint32_t ev_cntr_stat          : 1;  /**< [  7:  7](RO) Event counter status.  Returns the Enable status of the event counter
+        uint32_t ev_cntr_stat          : 1;  /**< [  7:  7](RO/H) Event counter status.  Returns the Enable status of the event counter
                                                                  selected by [EV_CNTR_DATA_SEL] and [EV_CNTR_LANE_SEL]. */
         uint32_t reserved_5_6          : 2;
         uint32_t ev_cntr_en            : 3;  /**< [  4:  2](WO) Event counter enable.  Enables/disables the event counter
@@ -15367,7 +15659,7 @@ typedef union
                                                                  0x6 = No change.
                                                                  0x7 = All on. */
         uint32_t reserved_5_6          : 2;
-        uint32_t ev_cntr_stat          : 1;  /**< [  7:  7](RO) Event counter status.  Returns the Enable status of the event counter
+        uint32_t ev_cntr_stat          : 1;  /**< [  7:  7](RO/H) Event counter status.  Returns the Enable status of the event counter
                                                                  selected by [EV_CNTR_DATA_SEL] and [EV_CNTR_LANE_SEL]. */
         uint32_t ev_cntr_lane_sel      : 4;  /**< [ 11:  8](R/W) Event counter lane select.  This field in conjuction with [EV_CNTR_DATA_SEL]
                                                                  indexes the event counter data returned in the PCIEEP()_RAS_EC_DATA[EV_CNTR_DATA].
@@ -15389,7 +15681,7 @@ static inline uint64_t BDK_PCIEEPX_RAS_EC_CTL(unsigned long a) __attribute__ ((p
 static inline uint64_t BDK_PCIEEPX_RAS_EC_CTL(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
-        return 0x300000001c0ll + 0x100000000ll * ((a) & 0x3);
+        return 0x300000001e8ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_RAS_EC_CTL", 1, a, 0, 0, 0);
 }
 
@@ -15427,7 +15719,7 @@ static inline uint64_t BDK_PCIEEPX_RAS_EC_DATA(unsigned long a) __attribute__ ((
 static inline uint64_t BDK_PCIEEPX_RAS_EC_DATA(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
-        return 0x300000001c4ll + 0x100000000ll * ((a) & 0x3);
+        return 0x300000001ecll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_RAS_EC_DATA", 1, a, 0, 0, 0);
 }
 
@@ -15509,7 +15801,7 @@ static inline uint64_t BDK_PCIEEPX_RAS_EINJ_CTL0(unsigned long a) __attribute__ 
 static inline uint64_t BDK_PCIEEPX_RAS_EINJ_CTL0(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
-        return 0x300000001ecll + 0x100000000ll * ((a) & 0x3);
+        return 0x30000000214ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_RAS_EINJ_CTL0", 1, a, 0, 0, 0);
 }
 
@@ -15595,7 +15887,7 @@ static inline uint64_t BDK_PCIEEPX_RAS_EINJ_CTL1(unsigned long a) __attribute__ 
 static inline uint64_t BDK_PCIEEPX_RAS_EINJ_CTL1(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
-        return 0x300000001f0ll + 0x100000000ll * ((a) & 0x3);
+        return 0x30000000218ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_RAS_EINJ_CTL1", 1, a, 0, 0, 0);
 }
 
@@ -15657,7 +15949,7 @@ static inline uint64_t BDK_PCIEEPX_RAS_EINJ_CTL2(unsigned long a) __attribute__ 
 static inline uint64_t BDK_PCIEEPX_RAS_EINJ_CTL2(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
-        return 0x300000001f4ll + 0x100000000ll * ((a) & 0x3);
+        return 0x3000000021cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_RAS_EINJ_CTL2", 1, a, 0, 0, 0);
 }
 
@@ -15727,7 +16019,7 @@ static inline uint64_t BDK_PCIEEPX_RAS_EINJ_CTL3(unsigned long a) __attribute__ 
 static inline uint64_t BDK_PCIEEPX_RAS_EINJ_CTL3(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
-        return 0x300000001f8ll + 0x100000000ll * ((a) & 0x3);
+        return 0x30000000220ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_RAS_EINJ_CTL3", 1, a, 0, 0, 0);
 }
 
@@ -15829,7 +16121,7 @@ static inline uint64_t BDK_PCIEEPX_RAS_EINJ_CTL4(unsigned long a) __attribute__ 
 static inline uint64_t BDK_PCIEEPX_RAS_EINJ_CTL4(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
-        return 0x300000001fcll + 0x100000000ll * ((a) & 0x3);
+        return 0x30000000224ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_RAS_EINJ_CTL4", 1, a, 0, 0, 0);
 }
 
@@ -15887,7 +16179,7 @@ static inline uint64_t BDK_PCIEEPX_RAS_EINJ_CTL5(unsigned long a) __attribute__ 
 static inline uint64_t BDK_PCIEEPX_RAS_EINJ_CTL5(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
-        return 0x30000000200ll + 0x100000000ll * ((a) & 0x3);
+        return 0x30000000228ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_RAS_EINJ_CTL5", 1, a, 0, 0, 0);
 }
 
@@ -15925,7 +16217,7 @@ static inline uint64_t BDK_PCIEEPX_RAS_EINJ_CTL6CHGP0(unsigned long a) __attribu
 static inline uint64_t BDK_PCIEEPX_RAS_EINJ_CTL6CHGP0(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
-        return 0x30000000224ll + 0x100000000ll * ((a) & 0x3);
+        return 0x3000000024cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_RAS_EINJ_CTL6CHGP0", 1, a, 0, 0, 0);
 }
 
@@ -15963,7 +16255,7 @@ static inline uint64_t BDK_PCIEEPX_RAS_EINJ_CTL6CHGP1(unsigned long a) __attribu
 static inline uint64_t BDK_PCIEEPX_RAS_EINJ_CTL6CHGP1(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
-        return 0x30000000228ll + 0x100000000ll * ((a) & 0x3);
+        return 0x30000000250ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_RAS_EINJ_CTL6CHGP1", 1, a, 0, 0, 0);
 }
 
@@ -16001,7 +16293,7 @@ static inline uint64_t BDK_PCIEEPX_RAS_EINJ_CTL6CHGP2(unsigned long a) __attribu
 static inline uint64_t BDK_PCIEEPX_RAS_EINJ_CTL6CHGP2(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
-        return 0x3000000022cll + 0x100000000ll * ((a) & 0x3);
+        return 0x30000000254ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_RAS_EINJ_CTL6CHGP2", 1, a, 0, 0, 0);
 }
 
@@ -16039,7 +16331,7 @@ static inline uint64_t BDK_PCIEEPX_RAS_EINJ_CTL6CHGP3(unsigned long a) __attribu
 static inline uint64_t BDK_PCIEEPX_RAS_EINJ_CTL6CHGP3(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
-        return 0x30000000230ll + 0x100000000ll * ((a) & 0x3);
+        return 0x30000000258ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_RAS_EINJ_CTL6CHGP3", 1, a, 0, 0, 0);
 }
 
@@ -16079,7 +16371,7 @@ static inline uint64_t BDK_PCIEEPX_RAS_EINJ_CTL6CHGV0(unsigned long a) __attribu
 static inline uint64_t BDK_PCIEEPX_RAS_EINJ_CTL6CHGV0(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
-        return 0x30000000234ll + 0x100000000ll * ((a) & 0x3);
+        return 0x3000000025cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_RAS_EINJ_CTL6CHGV0", 1, a, 0, 0, 0);
 }
 
@@ -16119,7 +16411,7 @@ static inline uint64_t BDK_PCIEEPX_RAS_EINJ_CTL6CHGV1(unsigned long a) __attribu
 static inline uint64_t BDK_PCIEEPX_RAS_EINJ_CTL6CHGV1(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
-        return 0x30000000238ll + 0x100000000ll * ((a) & 0x3);
+        return 0x30000000260ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_RAS_EINJ_CTL6CHGV1", 1, a, 0, 0, 0);
 }
 
@@ -16159,7 +16451,7 @@ static inline uint64_t BDK_PCIEEPX_RAS_EINJ_CTL6CHGV2(unsigned long a) __attribu
 static inline uint64_t BDK_PCIEEPX_RAS_EINJ_CTL6CHGV2(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
-        return 0x3000000023cll + 0x100000000ll * ((a) & 0x3);
+        return 0x30000000264ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_RAS_EINJ_CTL6CHGV2", 1, a, 0, 0, 0);
 }
 
@@ -16199,7 +16491,7 @@ static inline uint64_t BDK_PCIEEPX_RAS_EINJ_CTL6CHGV3(unsigned long a) __attribu
 static inline uint64_t BDK_PCIEEPX_RAS_EINJ_CTL6CHGV3(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
-        return 0x30000000240ll + 0x100000000ll * ((a) & 0x3);
+        return 0x30000000268ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_RAS_EINJ_CTL6CHGV3", 1, a, 0, 0, 0);
 }
 
@@ -16241,7 +16533,7 @@ static inline uint64_t BDK_PCIEEPX_RAS_EINJ_CTL6CMPP0(unsigned long a) __attribu
 static inline uint64_t BDK_PCIEEPX_RAS_EINJ_CTL6CMPP0(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
-        return 0x30000000204ll + 0x100000000ll * ((a) & 0x3);
+        return 0x3000000022cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_RAS_EINJ_CTL6CMPP0", 1, a, 0, 0, 0);
 }
 
@@ -16283,7 +16575,7 @@ static inline uint64_t BDK_PCIEEPX_RAS_EINJ_CTL6CMPP1(unsigned long a) __attribu
 static inline uint64_t BDK_PCIEEPX_RAS_EINJ_CTL6CMPP1(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
-        return 0x30000000208ll + 0x100000000ll * ((a) & 0x3);
+        return 0x30000000230ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_RAS_EINJ_CTL6CMPP1", 1, a, 0, 0, 0);
 }
 
@@ -16325,7 +16617,7 @@ static inline uint64_t BDK_PCIEEPX_RAS_EINJ_CTL6CMPP2(unsigned long a) __attribu
 static inline uint64_t BDK_PCIEEPX_RAS_EINJ_CTL6CMPP2(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
-        return 0x3000000020cll + 0x100000000ll * ((a) & 0x3);
+        return 0x30000000234ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_RAS_EINJ_CTL6CMPP2", 1, a, 0, 0, 0);
 }
 
@@ -16367,7 +16659,7 @@ static inline uint64_t BDK_PCIEEPX_RAS_EINJ_CTL6CMPP3(unsigned long a) __attribu
 static inline uint64_t BDK_PCIEEPX_RAS_EINJ_CTL6CMPP3(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
-        return 0x30000000210ll + 0x100000000ll * ((a) & 0x3);
+        return 0x30000000238ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_RAS_EINJ_CTL6CMPP3", 1, a, 0, 0, 0);
 }
 
@@ -16405,7 +16697,7 @@ static inline uint64_t BDK_PCIEEPX_RAS_EINJ_CTL6CMPV0(unsigned long a) __attribu
 static inline uint64_t BDK_PCIEEPX_RAS_EINJ_CTL6CMPV0(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
-        return 0x30000000214ll + 0x100000000ll * ((a) & 0x3);
+        return 0x3000000023cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_RAS_EINJ_CTL6CMPV0", 1, a, 0, 0, 0);
 }
 
@@ -16443,7 +16735,7 @@ static inline uint64_t BDK_PCIEEPX_RAS_EINJ_CTL6CMPV1(unsigned long a) __attribu
 static inline uint64_t BDK_PCIEEPX_RAS_EINJ_CTL6CMPV1(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
-        return 0x30000000218ll + 0x100000000ll * ((a) & 0x3);
+        return 0x30000000240ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_RAS_EINJ_CTL6CMPV1", 1, a, 0, 0, 0);
 }
 
@@ -16481,7 +16773,7 @@ static inline uint64_t BDK_PCIEEPX_RAS_EINJ_CTL6CMPV2(unsigned long a) __attribu
 static inline uint64_t BDK_PCIEEPX_RAS_EINJ_CTL6CMPV2(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
-        return 0x3000000021cll + 0x100000000ll * ((a) & 0x3);
+        return 0x30000000244ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_RAS_EINJ_CTL6CMPV2", 1, a, 0, 0, 0);
 }
 
@@ -16519,7 +16811,7 @@ static inline uint64_t BDK_PCIEEPX_RAS_EINJ_CTL6CMPV3(unsigned long a) __attribu
 static inline uint64_t BDK_PCIEEPX_RAS_EINJ_CTL6CMPV3(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
-        return 0x30000000220ll + 0x100000000ll * ((a) & 0x3);
+        return 0x30000000248ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_RAS_EINJ_CTL6CMPV3", 1, a, 0, 0, 0);
 }
 
@@ -16593,7 +16885,7 @@ static inline uint64_t BDK_PCIEEPX_RAS_EINJ_CTL6PE(unsigned long a) __attribute_
 static inline uint64_t BDK_PCIEEPX_RAS_EINJ_CTL6PE(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
-        return 0x30000000244ll + 0x100000000ll * ((a) & 0x3);
+        return 0x3000000026cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_RAS_EINJ_CTL6PE", 1, a, 0, 0, 0);
 }
 
@@ -16657,7 +16949,7 @@ static inline uint64_t BDK_PCIEEPX_RAS_EINJ_EN(unsigned long a) __attribute__ ((
 static inline uint64_t BDK_PCIEEPX_RAS_EINJ_EN(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
-        return 0x300000001e8ll + 0x100000000ll * ((a) & 0x3);
+        return 0x30000000210ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_RAS_EINJ_EN", 1, a, 0, 0, 0);
 }
 
@@ -16695,7 +16987,7 @@ static inline uint64_t BDK_PCIEEPX_RAS_HDR(unsigned long a) __attribute__ ((pure
 static inline uint64_t BDK_PCIEEPX_RAS_HDR(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
-        return 0x300000001bcll + 0x100000000ll * ((a) & 0x3);
+        return 0x300000001e4ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_RAS_HDR", 1, a, 0, 0, 0);
 }
 
@@ -16811,7 +17103,7 @@ static inline uint64_t BDK_PCIEEPX_RAS_SD_CTL1(unsigned long a) __attribute__ ((
 static inline uint64_t BDK_PCIEEPX_RAS_SD_CTL1(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
-        return 0x30000000258ll + 0x100000000ll * ((a) & 0x3);
+        return 0x30000000280ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_RAS_SD_CTL1", 1, a, 0, 0, 0);
 }
 
@@ -16895,7 +17187,7 @@ static inline uint64_t BDK_PCIEEPX_RAS_SD_CTL2(unsigned long a) __attribute__ ((
 static inline uint64_t BDK_PCIEEPX_RAS_SD_CTL2(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
-        return 0x3000000025cll + 0x100000000ll * ((a) & 0x3);
+        return 0x30000000284ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_RAS_SD_CTL2", 1, a, 0, 0, 0);
 }
 
@@ -16967,7 +17259,7 @@ typedef union
                                                                  0x0 = Lane0.
                                                                  0x1 = Lane1.
                                                                  0x2 = Lane2.
-                                                                 ..
+                                                                 _ ...
                                                                  0x7 = Lane7.
                                                                  0x8-0xF = Reserved. */
 #else /* Word 0 - Little Endian */
@@ -16979,7 +17271,7 @@ typedef union
                                                                  0x0 = Lane0.
                                                                  0x1 = Lane1.
                                                                  0x2 = Lane2.
-                                                                 ..
+                                                                 _ ...
                                                                  0x7 = Lane7.
                                                                  0x8-0xF = Reserved. */
         uint32_t eq_rate_sel           : 1;  /**< [  4:  4](R/W) EQ status rate select.
@@ -17033,7 +17325,7 @@ static inline uint64_t BDK_PCIEEPX_RAS_SD_EQ_CTL1(unsigned long a) __attribute__
 static inline uint64_t BDK_PCIEEPX_RAS_SD_EQ_CTL1(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
-        return 0x30000000288ll + 0x100000000ll * ((a) & 0x3);
+        return 0x300000002b0ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_RAS_SD_EQ_CTL1", 1, a, 0, 0, 0);
 }
 
@@ -17123,7 +17415,7 @@ static inline uint64_t BDK_PCIEEPX_RAS_SD_EQ_CTL2(unsigned long a) __attribute__
 static inline uint64_t BDK_PCIEEPX_RAS_SD_EQ_CTL2(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
-        return 0x3000000028cll + 0x100000000ll * ((a) & 0x3);
+        return 0x300000002b4ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_RAS_SD_EQ_CTL2", 1, a, 0, 0, 0);
 }
 
@@ -17201,7 +17493,7 @@ static inline uint64_t BDK_PCIEEPX_RAS_SD_EQ_CTL3(unsigned long a) __attribute__
 static inline uint64_t BDK_PCIEEPX_RAS_SD_EQ_CTL3(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
-        return 0x30000000290ll + 0x100000000ll * ((a) & 0x3);
+        return 0x300000002b8ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_RAS_SD_EQ_CTL3", 1, a, 0, 0, 0);
 }
 
@@ -17305,7 +17597,7 @@ static inline uint64_t BDK_PCIEEPX_RAS_SD_EQ_STAT1(unsigned long a) __attribute_
 static inline uint64_t BDK_PCIEEPX_RAS_SD_EQ_STAT1(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
-        return 0x30000000298ll + 0x100000000ll * ((a) & 0x3);
+        return 0x300000002c0ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_RAS_SD_EQ_STAT1", 1, a, 0, 0, 0);
 }
 
@@ -17359,7 +17651,7 @@ static inline uint64_t BDK_PCIEEPX_RAS_SD_EQ_STAT2(unsigned long a) __attribute_
 static inline uint64_t BDK_PCIEEPX_RAS_SD_EQ_STAT2(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
-        return 0x3000000029cll + 0x100000000ll * ((a) & 0x3);
+        return 0x300000002c4ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_RAS_SD_EQ_STAT2", 1, a, 0, 0, 0);
 }
 
@@ -17413,7 +17705,7 @@ static inline uint64_t BDK_PCIEEPX_RAS_SD_EQ_STAT3(unsigned long a) __attribute_
 static inline uint64_t BDK_PCIEEPX_RAS_SD_EQ_STAT3(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
-        return 0x300000002a0ll + 0x100000000ll * ((a) & 0x3);
+        return 0x300000002c8ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_RAS_SD_EQ_STAT3", 1, a, 0, 0, 0);
 }
 
@@ -17503,7 +17795,7 @@ static inline uint64_t BDK_PCIEEPX_RAS_SD_L1LANE(unsigned long a) __attribute__ 
 static inline uint64_t BDK_PCIEEPX_RAS_SD_L1LANE(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
-        return 0x30000000268ll + 0x100000000ll * ((a) & 0x3);
+        return 0x30000000290ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_RAS_SD_L1LANE", 1, a, 0, 0, 0);
 }
 
@@ -17667,7 +17959,7 @@ static inline uint64_t BDK_PCIEEPX_RAS_SD_L1LTSSM(unsigned long a) __attribute__
 static inline uint64_t BDK_PCIEEPX_RAS_SD_L1LTSSM(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
-        return 0x3000000026cll + 0x100000000ll * ((a) & 0x3);
+        return 0x30000000294ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_RAS_SD_L1LTSSM", 1, a, 0, 0, 0);
 }
 
@@ -17727,7 +18019,7 @@ static inline uint64_t BDK_PCIEEPX_RAS_SD_STATUSL2(unsigned long a) __attribute_
 static inline uint64_t BDK_PCIEEPX_RAS_SD_STATUSL2(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
-        return 0x30000000274ll + 0x100000000ll * ((a) & 0x3);
+        return 0x3000000029cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_RAS_SD_STATUSL2", 1, a, 0, 0, 0);
 }
 
@@ -17805,7 +18097,7 @@ static inline uint64_t BDK_PCIEEPX_RAS_SD_STATUSL3(unsigned long a) __attribute_
 static inline uint64_t BDK_PCIEEPX_RAS_SD_STATUSL3(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
-        return 0x3000000027cll + 0x100000000ll * ((a) & 0x3);
+        return 0x300000002a4ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_RAS_SD_STATUSL3", 1, a, 0, 0, 0);
 }
 
@@ -17873,7 +18165,7 @@ typedef union
                                                                  0x0 = VC0.
                                                                  0x1 = VC1.
                                                                  0x2 = VC2.
-                                                                 ..
+                                                                 _ ...
                                                                  0x7 = VC7. */
 #else /* Word 0 - Little Endian */
         uint32_t credit_sel_vc         : 3;  /**< [  2:  0](R/W) Credit select (VC).
@@ -17885,7 +18177,7 @@ typedef union
                                                                  0x0 = VC0.
                                                                  0x1 = VC1.
                                                                  0x2 = VC2.
-                                                                 ..
+                                                                 _ ...
                                                                  0x7 = VC7. */
         uint32_t credit_sel_credit_type : 1; /**< [  3:  3](R/W) Credit select (credit type).
                                                                  This field in conjunction with the [CREDIT_SEL_VC],
@@ -17933,7 +18225,7 @@ static inline uint64_t BDK_PCIEEPX_RAS_SD_STATUSL3FC(unsigned long a) __attribut
 static inline uint64_t BDK_PCIEEPX_RAS_SD_STATUSL3FC(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
-        return 0x30000000278ll + 0x100000000ll * ((a) & 0x3);
+        return 0x300000002a0ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_RAS_SD_STATUSL3FC", 1, a, 0, 0, 0);
 }
 
@@ -18095,7 +18387,7 @@ static inline uint64_t BDK_PCIEEPX_RAS_SD_STATUSPM(unsigned long a) __attribute_
 static inline uint64_t BDK_PCIEEPX_RAS_SD_STATUSPM(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
-        return 0x30000000270ll + 0x100000000ll * ((a) & 0x3);
+        return 0x30000000298ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_RAS_SD_STATUSPM", 1, a, 0, 0, 0);
 }
 
@@ -18207,7 +18499,7 @@ static inline uint64_t BDK_PCIEEPX_RAS_TBA_CTL(unsigned long a) __attribute__ ((
 static inline uint64_t BDK_PCIEEPX_RAS_TBA_CTL(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
-        return 0x300000001c8ll + 0x100000000ll * ((a) & 0x3);
+        return 0x300000001f0ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_RAS_TBA_CTL", 1, a, 0, 0, 0);
 }
 
@@ -18245,7 +18537,7 @@ static inline uint64_t BDK_PCIEEPX_RAS_TBA_DATA(unsigned long a) __attribute__ (
 static inline uint64_t BDK_PCIEEPX_RAS_TBA_DATA(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
-        return 0x300000001ccll + 0x100000000ll * ((a) & 0x3);
+        return 0x300000001f4ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_RAS_TBA_DATA", 1, a, 0, 0, 0);
 }
 
@@ -18289,7 +18581,7 @@ static inline uint64_t BDK_PCIEEPX_RASDP_CAP_HDR(unsigned long a) __attribute__ 
 static inline uint64_t BDK_PCIEEPX_RASDP_CAP_HDR(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
-        return 0x300000002b8ll + 0x100000000ll * ((a) & 0x3);
+        return 0x300000002e0ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_RASDP_CAP_HDR", 1, a, 0, 0, 0);
 }
 
@@ -18365,7 +18657,7 @@ static inline uint64_t BDK_PCIEEPX_RASDP_CE_CTL(unsigned long a) __attribute__ (
 static inline uint64_t BDK_PCIEEPX_RASDP_CE_CTL(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
-        return 0x300000002c4ll + 0x100000000ll * ((a) & 0x3);
+        return 0x300000002ecll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_RASDP_CE_CTL", 1, a, 0, 0, 0);
 }
 
@@ -18427,7 +18719,7 @@ static inline uint64_t BDK_PCIEEPX_RASDP_CE_ICTL(unsigned long a) __attribute__ 
 static inline uint64_t BDK_PCIEEPX_RASDP_CE_ICTL(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
-        return 0x300000002d4ll + 0x100000000ll * ((a) & 0x3);
+        return 0x300000002fcll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_RASDP_CE_ICTL", 1, a, 0, 0, 0);
 }
 
@@ -18527,7 +18819,7 @@ static inline uint64_t BDK_PCIEEPX_RASDP_CE_LOC(unsigned long a) __attribute__ (
 static inline uint64_t BDK_PCIEEPX_RASDP_CE_LOC(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
-        return 0x300000002d8ll + 0x100000000ll * ((a) & 0x3);
+        return 0x30000000300ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_RASDP_CE_LOC", 1, a, 0, 0, 0);
 }
 
@@ -18593,7 +18885,7 @@ static inline uint64_t BDK_PCIEEPX_RASDP_CE_RP(unsigned long a) __attribute__ ((
 static inline uint64_t BDK_PCIEEPX_RASDP_CE_RP(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
-        return 0x300000002c8ll + 0x100000000ll * ((a) & 0x3);
+        return 0x300000002f0ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_RASDP_CE_RP", 1, a, 0, 0, 0);
 }
 
@@ -18633,7 +18925,7 @@ static inline uint64_t BDK_PCIEEPX_RASDP_DE_MC(unsigned long a) __attribute__ ((
 static inline uint64_t BDK_PCIEEPX_RASDP_DE_MC(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
-        return 0x300000002e4ll + 0x100000000ll * ((a) & 0x3);
+        return 0x3000000030cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_RASDP_DE_MC", 1, a, 0, 0, 0);
 }
 
@@ -18673,7 +18965,7 @@ static inline uint64_t BDK_PCIEEPX_RASDP_DE_ME(unsigned long a) __attribute__ ((
 static inline uint64_t BDK_PCIEEPX_RASDP_DE_ME(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
-        return 0x300000002e0ll + 0x100000000ll * ((a) & 0x3);
+        return 0x30000000308ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_RASDP_DE_ME", 1, a, 0, 0, 0);
 }
 
@@ -18737,7 +19029,7 @@ static inline uint64_t BDK_PCIEEPX_RASDP_EP_CTL(unsigned long a) __attribute__ (
 static inline uint64_t BDK_PCIEEPX_RASDP_EP_CTL(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
-        return 0x300000002c0ll + 0x100000000ll * ((a) & 0x3);
+        return 0x300000002e8ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_RASDP_EP_CTL", 1, a, 0, 0, 0);
 }
 
@@ -18775,7 +19067,7 @@ static inline uint64_t BDK_PCIEEPX_RASDP_HDR(unsigned long a) __attribute__ ((pu
 static inline uint64_t BDK_PCIEEPX_RASDP_HDR(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
-        return 0x300000002bcll + 0x100000000ll * ((a) & 0x3);
+        return 0x300000002e4ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_RASDP_HDR", 1, a, 0, 0, 0);
 }
 
@@ -18813,7 +19105,7 @@ static inline uint64_t BDK_PCIEEPX_RASDP_RADR_CE(unsigned long a) __attribute__ 
 static inline uint64_t BDK_PCIEEPX_RASDP_RADR_CE(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
-        return 0x300000002e8ll + 0x100000000ll * ((a) & 0x3);
+        return 0x30000000310ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_RASDP_RADR_CE", 1, a, 0, 0, 0);
 }
 
@@ -18851,7 +19143,7 @@ static inline uint64_t BDK_PCIEEPX_RASDP_RADR_UCE(unsigned long a) __attribute__
 static inline uint64_t BDK_PCIEEPX_RASDP_RADR_UCE(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
-        return 0x300000002ecll + 0x100000000ll * ((a) & 0x3);
+        return 0x30000000314ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_RASDP_RADR_UCE", 1, a, 0, 0, 0);
 }
 
@@ -18927,7 +19219,7 @@ static inline uint64_t BDK_PCIEEPX_RASDP_UCE_CTL(unsigned long a) __attribute__ 
 static inline uint64_t BDK_PCIEEPX_RASDP_UCE_CTL(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
-        return 0x300000002ccll + 0x100000000ll * ((a) & 0x3);
+        return 0x300000002f4ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_RASDP_UCE_CTL", 1, a, 0, 0, 0);
 }
 
@@ -19027,7 +19319,7 @@ static inline uint64_t BDK_PCIEEPX_RASDP_UCE_LOC(unsigned long a) __attribute__ 
 static inline uint64_t BDK_PCIEEPX_RASDP_UCE_LOC(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
-        return 0x300000002dcll + 0x100000000ll * ((a) & 0x3);
+        return 0x30000000304ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_RASDP_UCE_LOC", 1, a, 0, 0, 0);
 }
 
@@ -19093,7 +19385,7 @@ static inline uint64_t BDK_PCIEEPX_RASDP_UCE_RP(unsigned long a) __attribute__ (
 static inline uint64_t BDK_PCIEEPX_RASDP_UCE_RP(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
-        return 0x300000002d0ll + 0x100000000ll * ((a) & 0x3);
+        return 0x300000002f8ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_RASDP_UCE_RP", 1, a, 0, 0, 0);
 }
 
@@ -19139,7 +19431,7 @@ static inline uint64_t BDK_PCIEEPX_RBAR_CAP(unsigned long a) __attribute__ ((pur
 static inline uint64_t BDK_PCIEEPX_RBAR_CAP(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
-        return 0x300000002f4ll + 0x100000000ll * ((a) & 0x3);
+        return 0x3000000031cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_RBAR_CAP", 1, a, 0, 0, 0);
 }
 
@@ -19183,7 +19475,7 @@ static inline uint64_t BDK_PCIEEPX_RBAR_CAP_HDR(unsigned long a) __attribute__ (
 static inline uint64_t BDK_PCIEEPX_RBAR_CAP_HDR(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
-        return 0x300000002f0ll + 0x100000000ll * ((a) & 0x3);
+        return 0x30000000318ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_RBAR_CAP_HDR", 1, a, 0, 0, 0);
 }
 
@@ -19235,7 +19527,7 @@ static inline uint64_t BDK_PCIEEPX_RBAR_CTL(unsigned long a) __attribute__ ((pur
 static inline uint64_t BDK_PCIEEPX_RBAR_CTL(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=3))
-        return 0x300000002f8ll + 0x100000000ll * ((a) & 0x3);
+        return 0x30000000320ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_RBAR_CTL", 1, a, 0, 0, 0);
 }
 
@@ -20256,7 +20548,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_26_31        : 6;
-        uint32_t tpbem                 : 1;  /**< [ 25: 25](RO) Unsupported TLP prefix blocked error mask. */
+        uint32_t tpbem                 : 1;  /**< [ 25: 25](R/W) TLP prefix blocked error mask. */
         uint32_t uatombm               : 1;  /**< [ 24: 24](RO) Unsupported AtomicOp egress blocked mask. */
         uint32_t reserved_23           : 1;
         uint32_t uciem                 : 1;  /**< [ 22: 22](R/W) Uncorrectable internal error mask. */
@@ -20292,7 +20584,7 @@ typedef union
         uint32_t uciem                 : 1;  /**< [ 22: 22](R/W) Uncorrectable internal error mask. */
         uint32_t reserved_23           : 1;
         uint32_t uatombm               : 1;  /**< [ 24: 24](RO) Unsupported AtomicOp egress blocked mask. */
-        uint32_t tpbem                 : 1;  /**< [ 25: 25](RO) Unsupported TLP prefix blocked error mask. */
+        uint32_t tpbem                 : 1;  /**< [ 25: 25](R/W) TLP prefix blocked error mask. */
         uint32_t reserved_26_31        : 6;
 #endif /* Word 0 - End */
     } s;
@@ -20300,7 +20592,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_26_31        : 6;
-        uint32_t tpbem                 : 1;  /**< [ 25: 25](RO) Unsupported TLP prefix blocked error mask. */
+        uint32_t tpbem                 : 1;  /**< [ 25: 25](R/W) TLP prefix blocked error mask. */
         uint32_t uatombm               : 1;  /**< [ 24: 24](RO) Unsupported AtomicOp egress blocked mask. */
         uint32_t reserved_23           : 1;
         uint32_t uciem                 : 1;  /**< [ 22: 22](R/W) Uncorrectable internal error mask. */
@@ -20338,7 +20630,7 @@ typedef union
         uint32_t uciem                 : 1;  /**< [ 22: 22](R/W) Uncorrectable internal error mask. */
         uint32_t reserved_23           : 1;
         uint32_t uatombm               : 1;  /**< [ 24: 24](RO) Unsupported AtomicOp egress blocked mask. */
-        uint32_t tpbem                 : 1;  /**< [ 25: 25](RO) Unsupported TLP prefix blocked error mask. */
+        uint32_t tpbem                 : 1;  /**< [ 25: 25](R/W) TLP prefix blocked error mask. */
         uint32_t reserved_26_31        : 6;
 #endif /* Word 0 - End */
     } cn;
@@ -20371,7 +20663,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_26_31        : 6;
-        uint32_t tpbes                 : 1;  /**< [ 25: 25](RO) Unsupported TLP prefix blocked error severity. */
+        uint32_t tpbes                 : 1;  /**< [ 25: 25](R/W) TLP prefix blocked error severity. */
         uint32_t uatombs               : 1;  /**< [ 24: 24](R/W) Unsupported AtomicOp egress blocked severity. */
         uint32_t reserved_23           : 1;
         uint32_t ucies                 : 1;  /**< [ 22: 22](R/W) Uncorrectable internal error severity. */
@@ -20407,7 +20699,7 @@ typedef union
         uint32_t ucies                 : 1;  /**< [ 22: 22](R/W) Uncorrectable internal error severity. */
         uint32_t reserved_23           : 1;
         uint32_t uatombs               : 1;  /**< [ 24: 24](R/W) Unsupported AtomicOp egress blocked severity. */
-        uint32_t tpbes                 : 1;  /**< [ 25: 25](RO) Unsupported TLP prefix blocked error severity. */
+        uint32_t tpbes                 : 1;  /**< [ 25: 25](R/W) TLP prefix blocked error severity. */
         uint32_t reserved_26_31        : 6;
 #endif /* Word 0 - End */
     } s;
@@ -20415,7 +20707,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_26_31        : 6;
-        uint32_t tpbes                 : 1;  /**< [ 25: 25](RO) Unsupported TLP prefix blocked error severity. */
+        uint32_t tpbes                 : 1;  /**< [ 25: 25](R/W) TLP prefix blocked error severity. */
         uint32_t uatombs               : 1;  /**< [ 24: 24](R/W) Unsupported AtomicOp egress blocked severity. */
         uint32_t reserved_23           : 1;
         uint32_t ucies                 : 1;  /**< [ 22: 22](R/W) Uncorrectable internal error severity. */
@@ -20453,7 +20745,7 @@ typedef union
         uint32_t ucies                 : 1;  /**< [ 22: 22](R/W) Uncorrectable internal error severity. */
         uint32_t reserved_23           : 1;
         uint32_t uatombs               : 1;  /**< [ 24: 24](R/W) Unsupported AtomicOp egress blocked severity. */
-        uint32_t tpbes                 : 1;  /**< [ 25: 25](RO) Unsupported TLP prefix blocked error severity. */
+        uint32_t tpbes                 : 1;  /**< [ 25: 25](R/W) TLP prefix blocked error severity. */
         uint32_t reserved_26_31        : 6;
 #endif /* Word 0 - End */
     } cn;

@@ -802,7 +802,7 @@ int bdk_sata_bist_fis(bdk_node_t node, int controller, int port, bdk_sata_bist_f
     {
         /* No FIS, just enter local retimed loopback */
         BDK_CSR_MODIFY(c, node, BDK_SATAX_UAHC_GBL_BISTCR(controller),
-            c.s.ferlib = 1);
+            c.cn9.ferlb = 1);
         BDK_TRACE(SATA, "N%d.SATA%d: Started Retimed loopback\n", node, controller);
         return 0;
     }

@@ -396,22 +396,22 @@ typedef union
         uint32_t mwice                 : 1;  /**< [  4:  4](RO) Memory write and invalidate. Not applicable for PCI Express. Must be hardwired to 0. */
         uint32_t scse                  : 1;  /**< [  3:  3](RO) Special cycle enable. Not applicable for PCI Express. Must be hardwired to 0. */
         uint32_t me                    : 1;  /**< [  2:  2](R/W/H) Bus master enable. If the VF tries to master the bus when this bit is not set,
-                                                                 the request is discarded. A interrupt will be generated setting the
-                                                                 SPEM()_PF()_DBG_INFO[P()_BMD_E bit.
+                                                                 the request is discarded. A interrupt will be generated setting
+                                                                 PEM()_DBG_INFO[BMD_E].
                                                                  Transactions are dropped in the Client.  Non-posted transactions returns a SWI_RSP_ERROR
                                                                  to SLI/DPI/NQM soon thereafter.
-                                                                 Bus master enable mimics the behavior of SPEM()_FLR_PF()_VF()_STOPREQ. */
+                                                                 Bus master enable mimics the behavior of PEM()_FLR_PF0_VF_STOPREQ. */
         uint32_t msae                  : 1;  /**< [  1:  1](RO) VF read-only zero. */
         uint32_t isae                  : 1;  /**< [  0:  0](RO) VF read-only zero. */
 #else /* Word 0 - Little Endian */
         uint32_t isae                  : 1;  /**< [  0:  0](RO) VF read-only zero. */
         uint32_t msae                  : 1;  /**< [  1:  1](RO) VF read-only zero. */
         uint32_t me                    : 1;  /**< [  2:  2](R/W/H) Bus master enable. If the VF tries to master the bus when this bit is not set,
-                                                                 the request is discarded. A interrupt will be generated setting the
-                                                                 SPEM()_PF()_DBG_INFO[P()_BMD_E bit.
+                                                                 the request is discarded. A interrupt will be generated setting
+                                                                 PEM()_DBG_INFO[BMD_E].
                                                                  Transactions are dropped in the Client.  Non-posted transactions returns a SWI_RSP_ERROR
                                                                  to SLI/DPI/NQM soon thereafter.
-                                                                 Bus master enable mimics the behavior of SPEM()_FLR_PF()_VF()_STOPREQ. */
+                                                                 Bus master enable mimics the behavior of PEM()_FLR_PF0_VF_STOPREQ. */
         uint32_t scse                  : 1;  /**< [  3:  3](RO) Special cycle enable. Not applicable for PCI Express. Must be hardwired to 0. */
         uint32_t mwice                 : 1;  /**< [  4:  4](RO) Memory write and invalidate. Not applicable for PCI Express. Must be hardwired to 0. */
         uint32_t vps                   : 1;  /**< [  5:  5](RO) VGA palette snoop. Not applicable for PCI Express. Must be hardwired to 0. */
@@ -1823,22 +1823,22 @@ typedef union
         uint32_t mwice                 : 1;  /**< [  4:  4](RO) Memory write and invalidate. Not applicable for PCI Express. Must be hardwired to 0. */
         uint32_t scse                  : 1;  /**< [  3:  3](RO) Special cycle enable. Not applicable for PCI Express. Must be hardwired to 0. */
         uint32_t me                    : 1;  /**< [  2:  2](R/W/H) Bus master enable. If the VF tries to master the bus when this bit is not set,
-                                                                 the request is discarded. A interrupt will be generated setting the
-                                                                 SPEM()_PF()_DBG_INFO[P()_BMD_E bit.
+                                                                 the request is discarded. A interrupt will be generated setting
+                                                                 PEM()_DBG_INFO[BMD_E].
                                                                  Transactions are dropped in the Client.  Non-posted transactions returns a SWI_RSP_ERROR
                                                                  to SLI/DPI/NQM soon thereafter.
-                                                                 Bus master enable mimics the behavior of SPEM()_FLR_PF()_VF()_STOPREQ. */
+                                                                 Bus master enable mimics the behavior of PEM()_FLR_PF0_VF_STOPREQ. */
         uint32_t msae                  : 1;  /**< [  1:  1](RO) VF read-only zero. */
         uint32_t isae                  : 1;  /**< [  0:  0](RO) VF read-only zero. */
 #else /* Word 0 - Little Endian */
         uint32_t isae                  : 1;  /**< [  0:  0](RO) VF read-only zero. */
         uint32_t msae                  : 1;  /**< [  1:  1](RO) VF read-only zero. */
         uint32_t me                    : 1;  /**< [  2:  2](R/W/H) Bus master enable. If the VF tries to master the bus when this bit is not set,
-                                                                 the request is discarded. A interrupt will be generated setting the
-                                                                 SPEM()_PF()_DBG_INFO[P()_BMD_E bit.
+                                                                 the request is discarded. A interrupt will be generated setting
+                                                                 PEM()_DBG_INFO[BMD_E].
                                                                  Transactions are dropped in the Client.  Non-posted transactions returns a SWI_RSP_ERROR
                                                                  to SLI/DPI/NQM soon thereafter.
-                                                                 Bus master enable mimics the behavior of SPEM()_FLR_PF()_VF()_STOPREQ. */
+                                                                 Bus master enable mimics the behavior of PEM()_FLR_PF0_VF_STOPREQ. */
         uint32_t scse                  : 1;  /**< [  3:  3](RO) Special cycle enable. Not applicable for PCI Express. Must be hardwired to 0. */
         uint32_t mwice                 : 1;  /**< [  4:  4](RO) Memory write and invalidate. Not applicable for PCI Express. Must be hardwired to 0. */
         uint32_t vps                   : 1;  /**< [  5:  5](RO) VGA palette snoop. Not applicable for PCI Express. Must be hardwired to 0. */

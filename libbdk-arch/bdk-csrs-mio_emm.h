@@ -250,7 +250,37 @@ typedef union
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_mio_emm_cfg_s cn; */
+    struct bdk_mio_emm_cfg_cn8
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_4_63         : 60;
+        uint64_t bus_ena               : 4;  /**< [  3:  0](R/W) eMMC bus enable mask.
+
+                                                                 Setting bits 0..2 enable the corresponding EMMC bus by allowing EMMC_CMD[BUS_ENA]
+                                                                 operation. Bit 3 is reserved.
+
+                                                                 Clearing all bits of this field will reset the other MIO_EMM_* registers.
+                                                                 To ensure a proper reset the BUS_ENA bits should be cleared for a minimum of 2 EMMC_CLK
+                                                                 periods.  This period be determined by waiting twice the number of coprocessor clocks
+                                                                 specified in MIO_EMM_MODE0[CLK_HI] and MIO_EMM_MODE0[CLK_LO].
+
+                                                                 Setting one or more bits will enable EMMC_CLK operation. */
+#else /* Word 0 - Little Endian */
+        uint64_t bus_ena               : 4;  /**< [  3:  0](R/W) eMMC bus enable mask.
+
+                                                                 Setting bits 0..2 enable the corresponding EMMC bus by allowing EMMC_CMD[BUS_ENA]
+                                                                 operation. Bit 3 is reserved.
+
+                                                                 Clearing all bits of this field will reset the other MIO_EMM_* registers.
+                                                                 To ensure a proper reset the BUS_ENA bits should be cleared for a minimum of 2 EMMC_CLK
+                                                                 periods.  This period be determined by waiting twice the number of coprocessor clocks
+                                                                 specified in MIO_EMM_MODE0[CLK_HI] and MIO_EMM_MODE0[CLK_LO].
+
+                                                                 Setting one or more bits will enable EMMC_CLK operation. */
+        uint64_t reserved_4_63         : 60;
+#endif /* Word 0 - End */
+    } cn8;
+    /* struct bdk_mio_emm_cfg_s cn9; */
 } bdk_mio_emm_cfg_t;
 
 #define BDK_MIO_EMM_CFG BDK_MIO_EMM_CFG_FUNC()

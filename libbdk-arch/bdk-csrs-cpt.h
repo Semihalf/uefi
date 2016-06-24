@@ -75,6 +75,7 @@
  */
 #define BDK_CPT_COMP_E_FAULT (2)
 #define BDK_CPT_COMP_E_GOOD (1)
+#define BDK_CPT_COMP_E_HWERR (4)
 #define BDK_CPT_COMP_E_NOTDONE (0)
 #define BDK_CPT_COMP_E_SWERR (3)
 

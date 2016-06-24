@@ -2586,6 +2586,46 @@ typedef union
     struct bdk_nic_pf_cfg_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_5_63         : 59;
+        uint64_t disable_clk_gating    : 2;  /**< [  4:  3](R/W) Set to disable internal clock gating. For diagnostic use only.
+                                                                 Internal:
+                                                                 <4> = Disable the internal dynamic clock islands internal to NIC. This will
+                                                                 increase power consumption and should only be done to work around a bug.
+                                                                 <3> = Disable the clock gating on the interfaces busses from NIC. This will
+                                                                 increase power consumption and should only be done to work around a bug. */
+        uint64_t calibrate_x2p         : 1;  /**< [  2:  2](R/W) Calibrate X2P bus. Writing this bit from 0 to 1 starts a calibration cycle.
+                                                                 Software may then monitor the NIC_PF_STATUS[CAILBRATE_DONE] bit for completion.
+                                                                 For diagnostic use only. */
+        uint64_t test_mode             : 1;  /**< [  1:  1](R/W) Enable test mode. Must be clear during normal operation in order to prevent a VF from
+                                                                 corrupting the operation of other VFs. When clear, writes to all CQ, SQ and RBDR ring
+                                                                 pointers (head, tail, debug) are ignored (WI). When set, writing to the ring
+                                                                 pointers is enabled. */
+        uint64_t ena                   : 1;  /**< [  0:  0](R/W) Enable NIC block.
+                                                                 Internal:
+                                                                 Used to enable conditional SCLK. */
+#else /* Word 0 - Little Endian */
+        uint64_t ena                   : 1;  /**< [  0:  0](R/W) Enable NIC block.
+                                                                 Internal:
+                                                                 Used to enable conditional SCLK. */
+        uint64_t test_mode             : 1;  /**< [  1:  1](R/W) Enable test mode. Must be clear during normal operation in order to prevent a VF from
+                                                                 corrupting the operation of other VFs. When clear, writes to all CQ, SQ and RBDR ring
+                                                                 pointers (head, tail, debug) are ignored (WI). When set, writing to the ring
+                                                                 pointers is enabled. */
+        uint64_t calibrate_x2p         : 1;  /**< [  2:  2](R/W) Calibrate X2P bus. Writing this bit from 0 to 1 starts a calibration cycle.
+                                                                 Software may then monitor the NIC_PF_STATUS[CAILBRATE_DONE] bit for completion.
+                                                                 For diagnostic use only. */
+        uint64_t disable_clk_gating    : 2;  /**< [  4:  3](R/W) Set to disable internal clock gating. For diagnostic use only.
+                                                                 Internal:
+                                                                 <4> = Disable the internal dynamic clock islands internal to NIC. This will
+                                                                 increase power consumption and should only be done to work around a bug.
+                                                                 <3> = Disable the clock gating on the interfaces busses from NIC. This will
+                                                                 increase power consumption and should only be done to work around a bug. */
+        uint64_t reserved_5_63         : 59;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_nic_pf_cfg_cn8
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_2_63         : 62;
         uint64_t test_mode             : 1;  /**< [  1:  1](R/W) Enable test mode. Must be clear during normal operation in order to prevent a VF from
                                                                  corrupting the operation of other VFs. When clear, writes to all CQ, SQ and RBDR ring
@@ -2604,8 +2644,8 @@ typedef union
                                                                  pointers is enabled. */
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_nic_pf_cfg_s cn; */
+    } cn8;
+    /* struct bdk_nic_pf_cfg_s cn9; */
 } bdk_nic_pf_cfg_t;
 
 #define BDK_NIC_PF_CFG BDK_NIC_PF_CFG_FUNC()
@@ -13503,6 +13543,52 @@ typedef union
     struct bdk_nic_pf_status_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_12_63        : 52;
+        uint64_t calibrate_status      : 1;  /**< [ 11: 11](RO/H) X2P bus calibratation status. Set if calibration failed.
+                                                                 Internal:
+                                                                 An X2P agent did not respond.  This means that one of the X2P agents (CGX, LBK, etc) were
+                                                                 in reset during the calibration cycle. */
+        uint64_t calibrate_done        : 1;  /**< [ 10: 10](RO/H) Calibrate cycle is complete. */
+        uint64_t blk_busy              : 10; /**< [  9:  0](RO/H) If nonzero, block is not ready for configuration.
+                                                                 Internal:
+                                                                 Each bit corresponds to a
+                                                                 subblock:
+                                                                 <9> = Reserved.
+                                                                 <8> = Reserved.
+                                                                 <7> = nic_sqm.
+                                                                 <6> = nic_sps.
+                                                                 <5> = nic_seb.
+                                                                 <4> = nic_rrm.
+                                                                 <3> = nic_rqm.
+                                                                 <2> = nic_reb.
+                                                                 <1> = nic_csi.
+                                                                 <0> = nic_cqm. */
+#else /* Word 0 - Little Endian */
+        uint64_t blk_busy              : 10; /**< [  9:  0](RO/H) If nonzero, block is not ready for configuration.
+                                                                 Internal:
+                                                                 Each bit corresponds to a
+                                                                 subblock:
+                                                                 <9> = Reserved.
+                                                                 <8> = Reserved.
+                                                                 <7> = nic_sqm.
+                                                                 <6> = nic_sps.
+                                                                 <5> = nic_seb.
+                                                                 <4> = nic_rrm.
+                                                                 <3> = nic_rqm.
+                                                                 <2> = nic_reb.
+                                                                 <1> = nic_csi.
+                                                                 <0> = nic_cqm. */
+        uint64_t calibrate_done        : 1;  /**< [ 10: 10](RO/H) Calibrate cycle is complete. */
+        uint64_t calibrate_status      : 1;  /**< [ 11: 11](RO/H) X2P bus calibratation status. Set if calibration failed.
+                                                                 Internal:
+                                                                 An X2P agent did not respond.  This means that one of the X2P agents (CGX, LBK, etc) were
+                                                                 in reset during the calibration cycle. */
+        uint64_t reserved_12_63        : 52;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_nic_pf_status_cn8
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_10_63        : 54;
         uint64_t blk_busy              : 10; /**< [  9:  0](RO/H) If nonzero, block is not ready for configuration.
                                                                  Internal:
@@ -13535,8 +13621,8 @@ typedef union
                                                                  <0> = nic_cqm. */
         uint64_t reserved_10_63        : 54;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_nic_pf_status_s cn; */
+    } cn8;
+    /* struct bdk_nic_pf_status_s cn9; */
 } bdk_nic_pf_status_t;
 
 #define BDK_NIC_PF_STATUS BDK_NIC_PF_STATUS_FUNC()

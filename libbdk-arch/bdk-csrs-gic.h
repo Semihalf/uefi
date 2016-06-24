@@ -1211,9 +1211,9 @@ typedef union
     struct bdk_gic_sync_cfg_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t te                    : 1;  /**< [ 63: 63](R/W) Transaltion enable. If set, there is interrupt tranlation is enabled during sync command
-                                                                 execution.
-                                                                 If clear, interrupt transaltion is diabled during sync command execution. */
+        uint64_t te                    : 1;  /**< [ 63: 63](R/W) Translation enable. If set, there is interrupt translation is enabled during
+                                                                 sync command execution. If clear, interrupt translation is disabled during sync
+                                                                 command execution. */
         uint64_t reserved_32_62        : 31;
         uint64_t tol                   : 32; /**< [ 31:  0](R/W) Time out limit. Timeout wait period for the ITS SYNC command. SYNC command will
                                                                  wait for ACK from a GICR for at most [TOL] system-clock cycles. If ACK is not
@@ -1227,9 +1227,9 @@ typedef union
                                                                  done. [TOL] = 0x0 means SYNC timeout scheme is not used and SYNC command always
                                                                  waits for ACK. */
         uint64_t reserved_32_62        : 31;
-        uint64_t te                    : 1;  /**< [ 63: 63](R/W) Transaltion enable. If set, there is interrupt tranlation is enabled during sync command
-                                                                 execution.
-                                                                 If clear, interrupt transaltion is diabled during sync command execution. */
+        uint64_t te                    : 1;  /**< [ 63: 63](R/W) Translation enable. If set, there is interrupt translation is enabled during
+                                                                 sync command execution. If clear, interrupt translation is disabled during sync
+                                                                 command execution. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gic_sync_cfg_s cn; */

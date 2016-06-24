@@ -16007,8 +16007,9 @@ static inline uint64_t BDK_PKO_VFX_DQX_MP_STATEX(unsigned long a, unsigned long 
  *
  * PKO DQ Close Operation Register
  * An atomic fetch-and-add performs a close operation and returns status identical to
- * PKO_DQ()_OP_QUERY. A 64-bit LDADD instruction must be used, all other operations to these
- * addresses are ignored.
+ * PKO_DQ()_OP_QUERY. A 64-bit LDADD instruction must be used, all other operations to
+ * these addresses are ignored. The increment provided to the fetch-and-add will be
+ * ignored. The CSR fields described are for the returned read data.
  */
 typedef union
 {
@@ -16090,8 +16091,9 @@ static inline uint64_t BDK_PKO_VFX_DQX_OP_CLOSE(unsigned long a, unsigned long b
  *
  * PKO DQ Open Operation Register
  * An atomic fetch-and-add performs an open operation and returns status identical to
- * PKO_DQ()_OP_QUERY. A 64-bit LDADD instruction must be used, all other operations to these
- * addresses are ignored.
+ * PKO_DQ()_OP_QUERY. A 64-bit LDADD instruction must be used, all other operations to
+ * these addresses are ignored. The increment provided to the fetch-and-add will be
+ * ignored. The CSR fields described are for the returned read data.
  */
 typedef union
 {
@@ -16172,8 +16174,8 @@ static inline uint64_t BDK_PKO_VFX_DQX_OP_OPEN(unsigned long a, unsigned long b)
  * Register (NCB) pko_vf#_dq#_op_query
  *
  * PKO DQ Query Operation Register
- * Read operations to these registers performs a query operation. All other transaction types to
- * these addresses are ignored.
+ * Read operations to these registers performs a query operation. All other transaction
+ * types to these addresses are unpredictable.
  */
 typedef union
 {
