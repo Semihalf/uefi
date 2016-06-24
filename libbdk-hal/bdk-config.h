@@ -46,6 +46,7 @@ typedef enum
     BDK_CONFIG_PCIE_ORDERING,       /* No parameters */
     BDK_CONFIG_CCPI_LANE_REVERSE,   /* No parameters */
     BDK_CONFIG_CHIP_SKU,            /* Parameter: Node */
+    BDK_CONFIG_CHIP_SERIAL,         /* Parameter: Node */
 
     /* QLM related config */
     BDK_CONFIG_QLM_AUTO_CONFIG,     /* Parameters: Node */

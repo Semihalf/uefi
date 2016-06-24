@@ -26,4 +26,13 @@ void bdk_boot_info_strapping(bdk_node_t node);
  */
 const char* bdk_boot_info_wafer(bdk_node_t node);
 
+/**
+ * Return a string containing the chip's unique serial number
+ *
+ * @param node   Node to query
+ *
+ * @return Static string, reused on each call
+ */
+const char* bdk_boot_info_serial(bdk_node_t node);
+
 /** @} */

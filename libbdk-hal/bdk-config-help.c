@@ -152,6 +152,10 @@ const char* bdk_config_get_help(bdk_config_t cfg_item)
             "Cavium SKU for the chip. This is determined by early code and\n"
             "passed to later software for display. This should not be set in\n"
             "the input device tree, it will be ignored.",
+    [BDK_CONFIG_CHIP_SERIAL] =
+            "Cavium serial number for the chip. This is determined by early\n"
+            "code and passed to later software for display. This should not be\n"
+            "set in the input device tree, it will be ignored.",
     /* QLM related config */
     [BDK_CONFIG_QLM_AUTO_CONFIG] =
             "For Cavium evaluation boards, query the MCU for QLM setup\n"

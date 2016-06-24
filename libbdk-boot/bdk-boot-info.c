@@ -266,3 +266,38 @@ const char *bdk_boot_info_wafer(bdk_node_t node)
 
     return buffer;
 }
+
+/**
+ * Return a string containing the chip's unique serial number
+ *
+ * @param node   Node to query
+ *
+ * @return Static string, reused on each call
+ */
+const char *bdk_boot_info_serial(bdk_node_t node)
+{
+    static char buffer[30];
+
+    /* This fuse read will load all 128 fuses into MIO_FUS_BNK_DATX */
+    bdk_fuse_read(node, BDK_MIO_FUS_FUSE_NUM_E_MFG0X(0));
+    /* Get MFG0 and MFG0 from MIO_FUS_BNK_DATX */
+    uint64_t mfg0 = BDK_CSR_READ(node, BDK_MIO_FUS_BNK_DATX(0));
+    uint64_t mfg1 = BDK_CSR_READ(node, BDK_MIO_FUS_BNK_DATX(1));
+
+    if (mfg0 || mfg1)
+    {
+        snprintf(buffer, sizeof(buffer), "%04lx-%04lx-%04lx-%04lx-%04lx-%04lx",
+            bdk_extract(mfg1, 16, 10), /* Total of 26 bits from mfg1 */
+            bdk_extract(mfg1, 0, 16),
+            bdk_extract(mfg0, 48, 16), /* Total of 64 bits from mfg0 */
+            bdk_extract(mfg0, 32, 16),
+            bdk_extract(mfg0, 16, 16),
+            bdk_extract(mfg0, 0, 16));
+    }
+    else
+    {
+        snprintf(buffer, sizeof(buffer), "Not Available");
+    }
+
+    return buffer;
+}

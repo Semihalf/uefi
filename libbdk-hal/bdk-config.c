@@ -187,6 +187,11 @@ static bdk_config_info_t config_info[__BDK_CONFIG_END] = {
         .ctype = BDK_CONFIG_TYPE_STR,
         .default_value = (long)"TBD",
     },
+    [BDK_CONFIG_CHIP_SERIAL] = {
+        .format = "CHIP-SERIAL.NODE%d", /* Parameter: Node */
+        .ctype = BDK_CONFIG_TYPE_STR,
+        .default_value = (long)"TBD",
+    },
 
     /* QLM related config */
     [BDK_CONFIG_QLM_AUTO_CONFIG] = {
