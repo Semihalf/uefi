@@ -11,7 +11,7 @@
 # 8 Hz = Jumped to copied code
 # 16 Hz = Calculated the CRC over the entire copied area
 # 32 Hz = Last assembly, jumping to C code in __bdk_init()
-# 64 Hz = Node ID is incrrect
+# 64 Hz = Node ID is incorrect
 #
 #define BDK_GPIO_BOOT_DEBUG -1
 
