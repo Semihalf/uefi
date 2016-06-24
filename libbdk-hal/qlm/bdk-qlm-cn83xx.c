@@ -118,10 +118,10 @@ static int qlm_get_qlm_num(bdk_node_t node, bdk_if_t iftype, int interface, int 
                     BDK_CSR_INIT(pemx_qlm, node, BDK_PEMX_QLM(2));
                     if (pemx_qlm.s.pem_bdlm)
                     {
-                        /* PEM2 is routed to DLM5 */
-                        BDK_CSR_INIT(gserx_cfg, node, BDK_GSERX_CFG(5));
+                        /* PEM2 is routed to DLM4 */
+                        BDK_CSR_INIT(gserx_cfg, node, BDK_GSERX_CFG(4));
                         if (gserx_cfg.s.pcie)
-                            return 5; /* PEM2 is on DLM5 */
+                            return 4; /* PEM2 is on DLM4 */
                         else
                             return -1; /* PEM2 is disabled */
                     }
@@ -140,10 +140,10 @@ static int qlm_get_qlm_num(bdk_node_t node, bdk_if_t iftype, int interface, int 
                     BDK_CSR_INIT(pemx_qlm, node, BDK_PEMX_QLM(3));
                     if (pemx_qlm.s.pem_bdlm)
                     {
-                        /* PEM3 is routed to DLM6 */
-                        BDK_CSR_INIT(gserx_cfg, node, BDK_GSERX_CFG(6));
+                        /* PEM3 is routed to DLM5 */
+                        BDK_CSR_INIT(gserx_cfg, node, BDK_GSERX_CFG(5));
                         if (gserx_cfg.s.pcie)
-                            return 6; /* PEM3 is on DLM6 */
+                            return 5; /* PEM3 is on DLM5 */
                         else
                             return -1; /* PEM3 is disabled */
                     }
@@ -214,10 +214,16 @@ static bdk_qlm_modes_t qlm_get_mode(bdk_node_t node, int qlm)
                 /* Can be 4 lanes of PEM3 */
                 return BDK_QLM_MODE_PCIE_1X4; /* PEM3 x4 */
             }
-            case 5: /* PEM2 x2 */
-                return BDK_QLM_MODE_PCIE_1X2; /* PEM2 x2 */
-            case 6: /* PEM3 x2 */
-                return BDK_QLM_MODE_PCIE_1X2; /* PEM3 x2 */
+            case 5: /* PEM3 x2 or PEM3 x4 */
+            {
+                BDK_CSR_INIT(pem3_cfg, node, BDK_PEMX_CFG(3));
+                if (pem3_cfg.s.lanes8)
+                    return BDK_QLM_MODE_PCIE_1X4; /* PEM3 x4 */
+                else
+                    return BDK_QLM_MODE_PCIE_1X2; /* PEM3 x2 */
+            }
+            case 6: /* PEM3 x4 */
+                return BDK_QLM_MODE_PCIE_1X4; /* PEM3 x4 */
             default:
                 return BDK_QLM_MODE_DISABLED;
         }
@@ -783,14 +789,15 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
                             c.s.md = cfg_md);
                         BDK_CSR_MODIFY(c, node, BDK_PEMX_ON(3),
                             c.s.pemon = 1);
-                        /* GSER6 can't be PCIe */
+                        /* GSER5-6 can't be PCIe */
+                        BDK_CSR_MODIFY(c, node, BDK_GSERX_CFG(5), c.s.pcie = 0);
                         BDK_CSR_MODIFY(c, node, BDK_GSERX_CFG(6), c.s.pcie = 0);
                     }
                     break;
                 }
-                case 5: /* PEM2 x2 on DLM5 */
+                case 4: /* PEM2 x2 on DLM4 */
                     BDK_CSR_MODIFY(c, node, BDK_PEMX_QLM(2),
-                        c.s.pem_bdlm = 1); /* PEM2 is on DLM5 */
+                        c.s.pem_bdlm = 1); /* PEM2 is on DLM4 */
                     BDK_CSR_MODIFY(c, node, BDK_RST_SOFT_PRSTX(2),
                         c.s.soft_prst = !(flags & BDK_QLM_MODE_FLAG_ENDPOINT));
                     __bdk_qlm_setup_pem_reset(node, 2, flags & BDK_QLM_MODE_FLAG_ENDPOINT);
@@ -803,9 +810,9 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
                     /* GSER2 can't be PCIe */
                     BDK_CSR_MODIFY(c, node, BDK_GSERX_CFG(2), c.s.pcie = 0);
                     break;
-                case 6: /* PEM3 x2 on DLM6 */
+                case 5: /* PEM3 x2 on DLM5 or x4 on DLM5-6 */
                     BDK_CSR_MODIFY(c, node, BDK_PEMX_QLM(3),
-                        c.s.pem_bdlm = 1); /* PEM3 is on DLM6 */
+                        c.s.pem_bdlm = 1); /* PEM3 is on DLM5 */
                     BDK_CSR_MODIFY(c, node, BDK_RST_SOFT_PRSTX(3),
                         c.s.soft_prst = !(flags & BDK_QLM_MODE_FLAG_ENDPOINT));
                     __bdk_qlm_setup_pem_reset(node, 3, flags & BDK_QLM_MODE_FLAG_ENDPOINT);
@@ -813,12 +820,18 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
                         c.s.lanes8 = 0;
                         c.s.hostmd = !(flags & BDK_QLM_MODE_FLAG_ENDPOINT);
                         c.s.md = cfg_md);
-                    BDK_CSR_MODIFY(c, node, BDK_PEMX_ON(3),
-                        c.s.pemon = 1);
+                    /* x4 mode waits for DLM6 setup before turning on the PEM */
+                    if (mode == BDK_QLM_MODE_PCIE_1X4)
+                        BDK_CSR_MODIFY(c, node, BDK_PEMX_ON(3), c.s.pemon = 1);
                     /* GSER3 can't be PCIe unless pem2 is x8 */
                     BDK_CSR_INIT(pemx_cfg, node, BDK_PEMX_CFG(2));
                     if (!pemx_cfg.s.lanes8)
                         BDK_CSR_MODIFY(c, node, BDK_GSERX_CFG(3), c.s.pcie = 0);
+                    break;
+                case 6: /* PEM3 x4 on DLM5-6 */
+                    /* PEMX_CFG already setup */
+                    BDK_CSR_MODIFY(c, node, BDK_PEMX_ON(3),
+                        c.s.pemon = 1);
                     break;
                 default:
                     return -1;
@@ -1057,10 +1070,10 @@ static int qlm_get_gbaud_mhz(bdk_node_t node, int qlm)
                 }
                 break;
             }
-            case 5: /* PEM2 x2 */
-                pem = 2;
+            case 5: /* PEM3 x2 or x4 */
+                pem = 3;
                 break;
-            case 6: /* PEM3 x2 */
+            case 6: /* PEM3 x4 */
                 pem = 3;
                 break;
             default:
