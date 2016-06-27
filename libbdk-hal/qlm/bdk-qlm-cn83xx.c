@@ -45,20 +45,30 @@ static int qlm_get_qlm_num(bdk_node_t node, bdk_if_t iftype, int interface, int 
         case BDK_IF_BGX:
         {
             if (bdk_is_platform(BDK_PLATFORM_EMULATOR)) {
-                if (interface > 2) return -1;
-		if (interface < 2) return interface + 2;
-		return 5;
+                switch (interface)
+                {
+                    case 0: /* BGX0 connects to QLM2 */
+                        return 2;
+                    case 1: /* BGX1 connects to QLM3 */
+                        return 3;
+                    case 2: /* BGX2 connects to DLM5-6 */
+                        return 5;
+                    case 3: /* BGX3 connects to DLM4 */
+                        return 4;
+                    default:
+                        return -1;
+                }
             }
             int qlm;
             switch (interface)
             {
-                case 0:
+                case 0: /* BGX0 connects to QLM2 */
                     qlm = 2;
                     break;
-                case 1:
+                case 1: /* BGX1 connects to QLM3 */
                     qlm = 3;
                     break;
-                case 2:
+                case 2: /* BGX2 connects to DLM5, DLM6, or DLM5-6 */
                 {
                     /* This BGX spans two DLMs. The index must be used to
                        figure out which DLM we are using */
@@ -76,6 +86,9 @@ static int qlm_get_qlm_num(bdk_node_t node, bdk_if_t iftype, int interface, int 
                         qlm = 6;
                     break;
                 }
+                case 3: /* BGX3 connects to DLM4 */
+                    qlm = 4;
+                    break;
                 default:
                     return -1;
             }
@@ -178,8 +191,10 @@ static bdk_qlm_modes_t qlm_get_mode(bdk_node_t node, int qlm)
 {
     if (bdk_is_platform(BDK_PLATFORM_EMULATOR))
     {
-        if ((qlm == 2) || (qlm == 3) || (qlm == 5))
+        if ((qlm == 2) || (qlm == 3))
             return BDK_QLM_MODE_XFI_4X1;
+        else if ((qlm >= 4) || (qlm <= 6))
+            return BDK_QLM_MODE_XFI_2X1;
         else
             return BDK_QLM_MODE_DISABLED;
     }
