@@ -193,7 +193,7 @@ static bdk_qlm_modes_t qlm_get_mode(bdk_node_t node, int qlm)
     {
         if ((qlm == 2) || (qlm == 3))
             return BDK_QLM_MODE_XFI_4X1;
-        else if ((qlm >= 4) || (qlm <= 6))
+        else if ((qlm >= 4) && (qlm <= 6))
             return BDK_QLM_MODE_XFI_2X1;
         else
             return BDK_QLM_MODE_DISABLED;
