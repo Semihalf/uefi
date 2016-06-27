@@ -54,7 +54,7 @@ static void create_priv(bdk_node_t node, int interface, int index, bgx_priv_t *p
         case BDK_QLM_MODE_SGMII_4X1:
         case BDK_QLM_MODE_SGMII_2X1:
             lmac_type = BDK_BGX_LMAC_TYPES_E_SGMII;
-            priv->num_port = 4;
+            priv->num_port = (qlm_mode == BDK_QLM_MODE_SGMII_2X1) ? 2 : 4;
             priv->mode = BGX_MODE_SGMII;
             break;
         case BDK_QLM_MODE_QSGMII_4X1:
@@ -79,13 +79,13 @@ static void create_priv(bdk_node_t node, int interface, int index, bgx_priv_t *p
         case BDK_QLM_MODE_RXAUI_2X2:
         case BDK_QLM_MODE_RXAUI_1X2:
             lmac_type = BDK_BGX_LMAC_TYPES_E_RXAUI;
-            priv->num_port = 2;
+            priv->num_port = (qlm_mode == BDK_QLM_MODE_RXAUI_1X2) ? 1 : 2;
             priv->mode = BGX_MODE_RXAUI;
             break;
         case BDK_QLM_MODE_XFI_4X1:
         case BDK_QLM_MODE_XFI_2X1:
             lmac_type = BDK_BGX_LMAC_TYPES_E_TENG_R;
-            priv->num_port = 4;
+            priv->num_port = (qlm_mode == BDK_QLM_MODE_XFI_2X1) ? 2 : 4;
             priv->mode = BGX_MODE_XFI;
             /* XFI doesn't support tx training */
             break;
@@ -98,7 +98,7 @@ static void create_priv(bdk_node_t node, int interface, int index, bgx_priv_t *p
         case BDK_QLM_MODE_10G_KR_4X1:
         case BDK_QLM_MODE_10G_KR_2X1:
             lmac_type = BDK_BGX_LMAC_TYPES_E_TENG_R;
-            priv->num_port = 4;
+            priv->num_port = (qlm_mode == BDK_QLM_MODE_10G_KR_2X1) ? 2 : 4;
             priv->mode = BGX_MODE_10G_KR;
             priv->use_training = 1; /* 10GBASE-KR supports tx training */
             break;
