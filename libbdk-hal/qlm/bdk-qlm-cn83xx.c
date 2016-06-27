@@ -105,8 +105,10 @@ static int qlm_get_qlm_num(bdk_node_t node, bdk_if_t iftype, int interface, int 
         }
         case BDK_IF_PCIE: /* PCIe */
         {
-            if (bdk_is_platform(BDK_PLATFORM_EMULATOR))
+            if (bdk_is_platform(BDK_PLATFORM_EMULATOR)) {
+                if (interface < 2) return interface;
                 return -1;
+            }
             switch (interface)
             {
                 case 0: /* PEM0 */
@@ -195,6 +197,8 @@ static bdk_qlm_modes_t qlm_get_mode(bdk_node_t node, int qlm)
             return BDK_QLM_MODE_XFI_4X1;
         else if ((qlm >= 4) && (qlm <= 6))
             return BDK_QLM_MODE_XFI_2X1;
+        else if (qlm < 2)
+            return BDK_QLM_MODE_PCIE_1X4;
         else
             return BDK_QLM_MODE_DISABLED;
     }
