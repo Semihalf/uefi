@@ -116,7 +116,7 @@ uint16_t bdk_pcie_config_read16(bdk_node_t node, int pcie_port, int bus, int dev
  *
  * @return Result of the read
  */
-uint32_t bdk_pcie_config_read32(bdk_node_t node, int pcie_port, int bus, int dev, int fn, int reg);
+uint32_t bdk_pcie_config_read32(bdk_node_t node, int pcie_port, int bus, int dev, int fn, int reg) BDK_WEAK;
 
 /**
  * Write 8bits to a Device's config space
@@ -158,7 +158,7 @@ void bdk_pcie_config_write16(bdk_node_t node, int pcie_port, int bus, int dev, i
  * @param reg       Register to access
  * @param val       Value to write
  */
-void bdk_pcie_config_write32(bdk_node_t node, int pcie_port, int bus, int dev, int fn, int reg, uint32_t val);
+void bdk_pcie_config_write32(bdk_node_t node, int pcie_port, int bus, int dev, int fn, int reg, uint32_t val) BDK_WEAK;
 
 /**
  * Read 64bits from PCIe using a memory transaction
