@@ -205,6 +205,7 @@ static int vnic_setup_rbdr(nic_t *nic)
         /* We probably don't have enough space to completely fill the RBDR. Use
            1/8 of the buffers available */
         int fill_num = bdk_config_get_int(BDK_CONFIG_NUM_PACKET_BUFFERS) / 8;
+        if (CAVIUM_IS_MODEL(CAVIUM_CN83XX)) fill_num = fill_num/3; /* CN83XX has more nics */
         /* Note that RBDR must leave one spot empty */
         if (fill_num > RBDR_ENTRIES - 1)
             fill_num = RBDR_ENTRIES - 1;

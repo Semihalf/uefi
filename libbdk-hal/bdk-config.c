@@ -1349,6 +1349,7 @@ int bdk_config_expand_defaults(void *fdt)
  */
 static void config_set_defaults(void)
 {
+    bool isEmulation = bdk_is_platform(BDK_PLATFORM_EMULATOR);
     /* This is Cavium's OUI with the local admin bit. We will use this as a
         default as it won't collide with official addresses, but is sort of
         part of the Cavium range. The lower three bytes will be updated with
@@ -1366,6 +1367,10 @@ static void config_set_defaults(void)
     /* If DRAM is setup, allocate 8K buffers for 8 ports plus some slop */
     if (__bdk_is_dram_enabled(bdk_numa_master()))
         num_packet_buffers = 8192 * 16 + 1024;
+    else if (isEmulation) {
+        if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+            num_packet_buffers = 4096 * 4;
+    }
     config_info[BDK_CONFIG_NUM_PACKET_BUFFERS].default_value = num_packet_buffers;
     config_info[BDK_CONFIG_PACKET_BUFFER_SIZE].default_value = 1024;
 
@@ -1376,7 +1381,7 @@ static void config_set_defaults(void)
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
         config_info[BDK_CONFIG_PCIE_EA].default_value = 0;
     /* Emulator only supports 4 cores */
-    if (bdk_is_platform(BDK_PLATFORM_EMULATOR))
+    if (isEmulation)
         config_info[BDK_CONFIG_COREMASK].default_value = 0xf;
 }
 
