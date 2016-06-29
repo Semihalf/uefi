@@ -239,22 +239,6 @@ bdk_qlm_modes_t bdk_qlm_get_mode(bdk_node_t node, int qlm)
  */
 int bdk_qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mhz, bdk_qlm_mode_flags_t flags)
 {
-    bdk_qlm_modes_t old_mode = bdk_qlm_get_mode(node, qlm);
-    if (old_mode == mode)
-    {
-        int old_baud_mhz = bdk_qlm_get_gbaud_mhz(node, qlm);
-        if (old_baud_mhz == baud_mhz)
-        {
-            if ((mode == BDK_QLM_MODE_PCIE_1X8) && ((qlm & 1) == 0))
-            {
-                /* Use the same reference clock for the second QLM */
-                BDK_CSR_WRITE(node, BDK_GSERX_REFCLK_SEL(qlm + 1),
-                    BDK_CSR_READ(node, BDK_GSERX_REFCLK_SEL(qlm)));
-            }
-            BDK_TRACE(QLM, "N%d.QLM%d: Skipping set_mode as QLM is already in correct mode\n", node, qlm);
-            return 0;
-        }
-    }
     return qlm_ops->set_mode(node, qlm, mode, baud_mhz, flags);
 }
 
