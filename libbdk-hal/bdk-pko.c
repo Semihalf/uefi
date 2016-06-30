@@ -1,15 +1,18 @@
 #include <bdk.h>
-
+#include <malloc.h> // for memalign
 #define PKO_MAX_DQ 256 /* CN83XX, Must be a define as it sizes static arrays */
 static const int PKO_QUEUES_PER_CHANNEL = 1;
-static const int PKO_DEPTH_LIMIT = 4096 / 8; /* Max command words to have pending in PKO queues */
+#define DQ_FC_NOMINAL_DEPTH 5 /* PKO pages */
+#define DQ_FC_PREALLOCATE 4 /* According to HW (Brian Folsom) opening dq preallocates 4 pages */
+#define DQ_FC_SKID 1
+#define DQ_FC_STRIDE16 16
+
+_Static_assert(DQ_FC_PREALLOCATE <= DQ_FC_NOMINAL_DEPTH, "Flow control watermark is too low");
 
 /* PKO global variables */
 typedef struct
 {
-    uint8_t pko_pending[PKO_MAX_DQ];/* Queue depth in SW before updating HW */
-    int64_t pko_depth[PKO_MAX_DQ];  /* Queue depth, updated with atomics from HW */
-    uint64_t pko_depth_address;     /* Cached physical address of pko_depth[] (above) */
+    int64_t pko_fc_depth[PKO_MAX_DQ*2] __attribute__ ((aligned (BDK_CACHE_LINE_SIZE))); /* Queue depth flow control counters */
     uint64_t pko_free_fifo_mask;    /* PKO_PTGFX_CFG(7) is reserved for NULL MAC */
     int pko_next_free_port_queue;   /* L1 = Port Queues are 0-15 (CN83XX) */
     int pko_next_free_l2_queue;     /* L2 = Channel Queues 0-255 (CN83XX) */
@@ -26,21 +29,21 @@ static global_node_state_t *global_node_state[BDK_NUMA_MAX_NODES] = { NULL, };
  */
 int bdk_pko_global_init(bdk_node_t node)
 {
-    global_node_state[node] = calloc(1, sizeof(global_node_state_t));
+    global_node_state[node] = memalign(BDK_CACHE_LINE_SIZE, sizeof(global_node_state_t));
     if (global_node_state[node] == NULL)
     {
         bdk_error("N%d.PKO: Failed to allocate global state\n", node);
         return -1;
     }
     global_node_state_t *node_state = global_node_state[node];
+    bzero(node_state,sizeof(*node_state));
+
     BDK_CSR_INIT(pko_const, node, BDK_PKO_CONST);
     node_state->pko_free_fifo_mask = bdk_build_mask((pko_const.s.ptgfs - 1) * 4);
-    node_state->pko_depth_address = bdk_ptr_to_phys(node_state->pko_depth);
-
-    int num_buffers = 128;
+    int num_buffers = 256;
     /* Use more buffers when dram is available */
     if (__bdk_is_dram_enabled(node))
-        num_buffers = 1024;
+        num_buffers = DQ_FC_PREALLOCATE * PKO_MAX_DQ;
     if (bdk_fpa_fill_pool(node, BDK_FPA_PKO_POOL, num_buffers))
         return -1;
     const int aura = BDK_FPA_PKO_POOL; /* Use 1:1 mapping aura */
@@ -54,6 +57,8 @@ int bdk_pko_global_init(bdk_node_t node)
         c.s.iobp1_magic_addr = bdk_numa_get_address(bdk_numa_master(), 0) >> 7;
         c.s.max_read_size = 16); /* Recommended by Joe Tompkins */
     BDK_CSR_MODIFY(c, node, BDK_PKO_PDM_CFG,
+        c.s.dq_fc_sa = 0;
+        c.s.dq_fc_skid = DQ_FC_SKID; /* Allow for 1 page worth of requests in flight for flow control*/
         c.s.pko_pad_minlen = 60);
     /* Configure format 0 so that if marking is used, yellow packets are
        marked with a 1 and red packets are marked with a 2. Set the mask
@@ -415,13 +420,31 @@ int bdk_pko_enable(bdk_node_t node)
     }
 
     /* Open all configured descriptor queues */
-    for (int dq=0; dq<node_state->pko_next_free_descr_queue; dq+=1)
+    int64_t *pko_depth_ptr = node_state->pko_fc_depth;
+    uint64_t pko_depth_address = bdk_ptr_to_phys(pko_depth_ptr);
+    for (int dq_index=0; dq_index<node_state->pko_next_free_descr_queue; dq_index+=1)
     {
+        int vf = dq_index/8;
+        int dq = dq_index & 7;
+        if (0 == dq) {
+            BDK_CSR_MODIFY(c,node,BDK_PKO_VFX_DQ_FC_CONFIG(vf),
+                           c.s.base = (pko_depth_address + 8 * DQ_FC_STRIDE16 * vf)>>7;
+                           c.s.hyst_bits = 0;
+                           c.s.stride=1; /* fc counter stride 16 bytes*/
+                           c.s.enable=1;
+                );
+        }
+        *(volatile int64_t *)pko_depth_ptr = DQ_FC_NOMINAL_DEPTH - DQ_FC_SKID;
+        pko_depth_ptr += DQ_FC_STRIDE16 /sizeof(*pko_depth_ptr);
+        BDK_WMB; // Successful open may cause update of value in memory, settle writes now
+        BDK_CSR_MODIFY(c,node,BDK_PKO_VFX_DQX_FC_STATUS(vf,dq),
+                       c.s.count = DQ_FC_NOMINAL_DEPTH);
+
         BDK_CSR_DEFINE(pko_open,BDK_PKO_VFX_DQX_OP_OPEN(0,0));
-        void *open_op_ptr = bdk_phys_to_ptr(bdk_numa_get_address(node, (BDK_PKO_VFX_DQX_OP_OPEN(dq / 8, dq & 7))));
+        void *open_op_ptr = bdk_phys_to_ptr(bdk_numa_get_address(node, (BDK_PKO_VFX_DQX_OP_OPEN(vf, dq))));
         pko_open.u = bdk_le64_to_cpu (bdk_atomic_fetch_and_add64_nosync( open_op_ptr , 0));
         if (pko_open.s.dqstatus != BDK_PKO_DQSTATUS_E_PASS)
-            bdk_error("PKO open failed with response 0x%lx for dq %d\n", pko_open.u, dq);
+            bdk_error("PKO open failed with response 0x%lx for vf %d dq %d\n", pko_open.u, vf, dq);
     }
     return 0;
 }
@@ -638,26 +661,32 @@ int bdk_pko_transmit(bdk_if_handle_t handle, const bdk_if_packet_t *packet)
     /* Flush pending writes */
     BDK_WMB;
 
-    int64_t *pko_depth_ptr = node_state->pko_depth + handle->pko_queue;
+    int64_t *pko_depth_ptr = node_state->pko_fc_depth + handle->pko_queue * DQ_FC_STRIDE16/sizeof(node_state->pko_fc_depth[0]);
     int64_t pko_depth = *(volatile int64_t *)pko_depth_ptr;
-    if (pko_depth >= PKO_DEPTH_LIMIT)
-    {
-        //bdk_error("%s: PKO transmit aborted due queue depth\n", bdk_if_name(handle));
+
+    if (pko_depth < 0) {
+       /* Reporting on backpressure is very expensive for test */
+ #if 0
+        int vf = handle->pko_queue / 8;
+        int dq = handle->pko_queue & 7;
+        BDK_CSR_INIT(fc_status,handle->node,BDK_PKO_VFX_DQX_FC_STATUS(vf,dq));
+        printf("Write failed pko_depth %ld pko_queue %d fc_count %d %p:%p\n",pko_depth, handle->pko_queue,
+               (int)fc_status.s.count,node_state->pko_fc_depth, pko_depth_ptr);
+#endif
         return -1;
     }
 
     int lmt_status;
-    bool doJump = packet->segments > BDK_PKO_SEG_LIMIT;
-    uint64_t *ctlBuf = NULL;
-    if (doJump) {
+    uint64_t *gather_ptr = NULL;
+    if (packet->segments > BDK_PKO_SEG_LIMIT) {
         /* Gather array is in the buffer - we need to build it only once*/
-        ctlBuf = bdk_phys_to_ptr(packet->packet[0].s.address + packet->packet[0].s.size);
+        gather_ptr = bdk_phys_to_ptr(packet->packet[0].s.address + packet->packet[0].s.size);
         for (int seg = 0; seg < packet->segments; seg++)
         {
             union bdk_pko_send_gather_s pko_send_gather_s;
             __bdk_pko_build_gather_subdesc(&packet->packet[seg],&pko_send_gather_s);
-            ctlBuf[2*seg] = bdk_cpu_to_le64( pko_send_gather_s.u[0]);
-            ctlBuf[2*seg+1] = bdk_cpu_to_le64(pko_send_gather_s.u[1]);
+            gather_ptr[2*seg] = bdk_cpu_to_le64( pko_send_gather_s.u[0]);
+            gather_ptr[2*seg+1] = bdk_cpu_to_le64(pko_send_gather_s.u[1]);
         }
         BDK_WMB;
     }
@@ -666,15 +695,9 @@ int bdk_pko_transmit(bdk_if_handle_t handle, const bdk_if_packet_t *packet)
     io_address = bdk_numa_get_address(handle->node, io_address);
     do
     {
-        /* To reduce NCB bus traffic, we decrement the queue depth for PKO
-           every ~256 commands instead of on every packet. Pending and pko offset
-           are 1 byte each, we write at most 15 words, round up to 16 */
-        int pko_pending = node_state->pko_pending[handle->pko_queue];
-        int need_decrement = (pko_pending >= (256 - 16)) ? 1 : 0;
-
         int lmstore_words = _LMTS_START;
 #undef _LMTS_START
-        /* Build the three PKO comamnd words we need */
+        /* Build the two PKO comamnd words we need */
         union bdk_pko_send_hdr_s pko_send_hdr_s;
         pko_send_hdr_s.u[0] = 0;
         pko_send_hdr_s.u[1] = 0;
@@ -691,7 +714,21 @@ int bdk_pko_transmit(bdk_if_handle_t handle, const bdk_if_packet_t *packet)
 
 
         /* PKO allows a max of 15 minus header and decrement */
-        if (!doJump) {
+        if ( gather_ptr ) {
+            /* Gather IO is too long for lmtst buffer, need to build it on the side
+             No need to free in the jump, gather array is part of data*/
+            union bdk_pko_send_jump_s pko_send_jump_s;
+            pko_send_jump_s.u[0] = 0;
+            pko_send_jump_s.u[1] = 0;
+            pko_send_jump_s.s.subdc = BDK_PKO_SENDSUBDC_E_JUMP;
+            pko_send_jump_s.s.size = packet->segments;
+            pko_send_jump_s.s.addr = bdk_ptr_to_phys( gather_ptr);
+
+            bdk_lmt_store(lmstore_words, pko_send_jump_s.u[0]);
+            lmstore_words++;
+            bdk_lmt_store(lmstore_words, pko_send_jump_s.u[1]);
+            lmstore_words++;
+        } else {
             /* Descriptor fits in the lmtst buffer */
             for (int seg = 0; seg < packet->segments; seg++)
             {
@@ -702,62 +739,7 @@ int bdk_pko_transmit(bdk_if_handle_t handle, const bdk_if_packet_t *packet)
                 bdk_lmt_store(lmstore_words, pko_send_gather_s.u[1]);
                 lmstore_words++;
             }
-
-            /* Memory decrement when done */
-            if (need_decrement)
-            {
-                union bdk_pko_send_mem_s pko_send_mem_s;
-                pko_send_mem_s.u[0] = 0;
-                pko_send_mem_s.u[1] = 0;
-                pko_send_mem_s.s.offset = pko_pending;
-                pko_send_mem_s.s.alg = 9; /* Subtract */
-                pko_send_mem_s.s.subdc = BDK_PKO_SENDSUBDC_E_MEM;
-                pko_send_mem_s.s.addr = node_state->pko_depth_address + handle->pko_queue * 8;
-                bdk_lmt_store(lmstore_words, pko_send_mem_s.u[0]);
-                lmstore_words++;
-                bdk_lmt_store(lmstore_words, pko_send_mem_s.u[1]);
-                lmstore_words++;
-                pko_pending = 0;
-            }
-        } else {
-            /* Gather IO is too long for lmtst buffer, need to build it on the side
-             No need to free in the jump, gather array is part of data*/
-            union bdk_pko_send_jump_s pko_send_jump_s;
-            pko_send_jump_s.u[0] = 0;
-            pko_send_jump_s.u[1] = 0;
-            pko_send_jump_s.s.subdc = BDK_PKO_SENDSUBDC_E_JUMP;
-            pko_send_jump_s.s.size = packet->segments + need_decrement;
-            pko_send_jump_s.s.addr = bdk_ptr_to_phys( ctlBuf);
-
-            bdk_lmt_store(lmstore_words, pko_send_jump_s.u[0]);
-            lmstore_words++;
-            bdk_lmt_store(lmstore_words, pko_send_jump_s.u[1]);
-            lmstore_words++;
-
-            /* Memory decrement when done */
-            if (need_decrement)
-            { /* Need to re-evaluate every time through the loop */
-                union bdk_pko_send_mem_s pko_send_mem_s;
-                pko_send_mem_s.u[0] = 0;
-                pko_send_mem_s.u[1] = 0;
-                pko_send_mem_s.s.offset = pko_pending;
-                pko_send_mem_s.s.alg = 9; /* Subtract */
-                pko_send_mem_s.s.subdc = BDK_PKO_SENDSUBDC_E_MEM;
-                pko_send_mem_s.s.addr = node_state->pko_depth_address + handle->pko_queue * 8;
-                ctlBuf[2*packet->segments] =  bdk_cpu_to_le64(pko_send_mem_s.u[0]);
-                ctlBuf[2*packet->segments+1] =  bdk_cpu_to_le64(pko_send_mem_s.u[1]);
-                pko_pending = 0;
-                BDK_WMB;
-            }
         }
-
-
-
-        /* Increment the PKO depth. PKO will decrement it when its done. This
-           will invalidate our L1 copy, so do it last before submit. It needs
-           to be before the submit to insure the depth never goes negative */
-        node_state->pko_pending[handle->pko_queue] = pko_pending + lmstore_words;
-        bdk_atomic_add64_nosync(pko_depth_ptr, lmstore_words);
 
         /* Issue LMTST, retrying if hardware says we should */
         lmt_status = bdk_lmt_submit(io_address);

@@ -8,10 +8,9 @@
  */
 
 /*
-** Maximum number of segments which fit flat lmtstore operation
-** We account for worst case with trailing memory decrement
+** Maximum number of segments which fit flat lmtstore operation.
 */
-#define BDK_PKO_SEG_LIMIT ((15/*lmtstore size*/ - 2 /* send header */ - 2 /*memory decrement*/)/2)
+#define BDK_PKO_SEG_LIMIT 6 /* (15<lmtst slots> - 2<send_hdr_size>)/2<slots_per_command_or_gather> */
 /**
  * Perform global init of PKO
  *
