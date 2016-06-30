@@ -488,6 +488,8 @@ int bdk_if_alloc(bdk_if_packet_t *packet, int length)
     }
     if (buf_size == 0)
         buf_size = bdk_config_get_int(BDK_CONFIG_PACKET_BUFFER_SIZE);
+    bool ctlPad = (length > BDK_PKO_SEG_LIMIT*buf_size) ;
+
     packet->if_handle = NULL;
     packet->rx_error = 0;
     packet->length = length;
@@ -503,6 +505,14 @@ int bdk_if_alloc(bdk_if_packet_t *packet, int length)
         {
             bdk_if_free(packet);
             return -1;
+        }
+        if (ctlPad) {
+            /* Rob trailing 256 bytes for potentially building PKO gather array
+            ** Longest array is 18 words(20 with sw flow control), its start needs to be 128 bytes aligned.
+            ** We can get away with subtracting 256 because buffers are aligned in memory
+            */
+            size -= 256;
+            ctlPad = false;
         }
         packet->packet[packet->segments].s.size = size;
         packet->packet[packet->segments].s.address = buf;

@@ -646,8 +646,21 @@ int bdk_pko_transmit(bdk_if_handle_t handle, const bdk_if_packet_t *packet)
         return -1;
     }
 
-    int lmt_status = -1;
+    int lmt_status;
+    bool doJump = packet->segments > BDK_PKO_SEG_LIMIT;
     uint64_t *ctlBuf = NULL;
+    if (doJump) {
+        /* Gather array is in the buffer - we need to build it only once*/
+        ctlBuf = bdk_phys_to_ptr(packet->packet[0].s.address + packet->packet[0].s.size);
+        for (int seg = 0; seg < packet->segments; seg++)
+        {
+            union bdk_pko_send_gather_s pko_send_gather_s;
+            __bdk_pko_build_gather_subdesc(&packet->packet[seg],&pko_send_gather_s);
+            ctlBuf[2*seg] = bdk_cpu_to_le64( pko_send_gather_s.u[0]);
+            ctlBuf[2*seg+1] = bdk_cpu_to_le64(pko_send_gather_s.u[1]);
+        }
+        BDK_WMB;
+    }
 #define _LMTS_START 0 /* Number of the lowest lmt slot used*/
     uint64_t io_address = BDK_PKO_VFX_DQX_OP_SENDX(handle->pko_queue / 8, handle->pko_queue & 7, _LMTS_START);
     io_address = bdk_numa_get_address(handle->node, io_address);
@@ -658,14 +671,6 @@ int bdk_pko_transmit(bdk_if_handle_t handle, const bdk_if_packet_t *packet)
            are 1 byte each, we write at most 15 words, round up to 16 */
         int pko_pending = node_state->pko_pending[handle->pko_queue];
         int need_decrement = (pko_pending >= (256 - 16)) ? 1 : 0;
-        int threshold = /*quota*/15 - /*send hdr */2 - /*suffix*/2*(need_decrement) ;
-        if (((packet->segments * 2) > threshold)  && (NULL == ctlBuf)) {
-            ctlBuf = bdk_fpa_alloc(handle->node,BDK_FPA_PKO_POOL);
-            if (NULL == ctlBuf) {
-                bdk_error("Failed to get control buffer from PKO pool\n");
-                return -1;
-            }
-        }
 
         int lmstore_words = _LMTS_START;
 #undef _LMTS_START
@@ -686,7 +691,7 @@ int bdk_pko_transmit(bdk_if_handle_t handle, const bdk_if_packet_t *packet)
 
 
         /* PKO allows a max of 15 minus header and decrement */
-        if (NULL == ctlBuf) {
+        if (!doJump) {
             /* Descriptor fits in the lmtst buffer */
             for (int seg = 0; seg < packet->segments; seg++)
             {
@@ -715,14 +720,13 @@ int bdk_pko_transmit(bdk_if_handle_t handle, const bdk_if_packet_t *packet)
                 pko_pending = 0;
             }
         } else {
-            /* Gather IO is too long for lmtst buffer, need to build it on the side */
+            /* Gather IO is too long for lmtst buffer, need to build it on the side
+             No need to free in the jump, gather array is part of data*/
             union bdk_pko_send_jump_s pko_send_jump_s;
             pko_send_jump_s.u[0] = 0;
             pko_send_jump_s.u[1] = 0;
             pko_send_jump_s.s.subdc = BDK_PKO_SENDSUBDC_E_JUMP;
             pko_send_jump_s.s.size = packet->segments + need_decrement;
-            pko_send_jump_s.s.aura = BDK_FPA_PKO_POOL;
-            pko_send_jump_s.s.f = 1; 			/* Free the jump buffer when done */
             pko_send_jump_s.s.addr = bdk_ptr_to_phys( ctlBuf);
 
             bdk_lmt_store(lmstore_words, pko_send_jump_s.u[0]);
@@ -730,17 +734,9 @@ int bdk_pko_transmit(bdk_if_handle_t handle, const bdk_if_packet_t *packet)
             bdk_lmt_store(lmstore_words, pko_send_jump_s.u[1]);
             lmstore_words++;
 
-            for (int seg = 0; seg < packet->segments; seg++)
-            {
-                union bdk_pko_send_gather_s pko_send_gather_s;
-                __bdk_pko_build_gather_subdesc(&packet->packet[seg],&pko_send_gather_s);
-                ctlBuf[2*seg] = bdk_cpu_to_le64( pko_send_gather_s.u[0]);
-                ctlBuf[2*seg+1] = bdk_cpu_to_le64(pko_send_gather_s.u[1]);
-            }
-
             /* Memory decrement when done */
             if (need_decrement)
-            {
+            { /* Need to re-evaluate every time through the loop */
                 union bdk_pko_send_mem_s pko_send_mem_s;
                 pko_send_mem_s.u[0] = 0;
                 pko_send_mem_s.u[1] = 0;
@@ -751,8 +747,8 @@ int bdk_pko_transmit(bdk_if_handle_t handle, const bdk_if_packet_t *packet)
                 ctlBuf[2*packet->segments] =  bdk_cpu_to_le64(pko_send_mem_s.u[0]);
                 ctlBuf[2*packet->segments+1] =  bdk_cpu_to_le64(pko_send_mem_s.u[1]);
                 pko_pending = 0;
+                BDK_WMB;
             }
-            BDK_WMB;
         }
 
 
