@@ -419,7 +419,7 @@ int bdk_pko_enable(bdk_node_t node)
     {
         BDK_CSR_DEFINE(pko_open,BDK_PKO_VFX_DQX_OP_OPEN(0,0));
         void *open_op_ptr = bdk_phys_to_ptr(bdk_numa_get_address(node, (BDK_PKO_VFX_DQX_OP_OPEN(dq / 8, dq & 7))));
-        pko_open.u = bdk_le64_to_cpu (bdk_atomic_fetch_and_add64_nosync( open_op_ptr , 1));
+        pko_open.u = bdk_le64_to_cpu (bdk_atomic_fetch_and_add64_nosync( open_op_ptr , 0));
         if (pko_open.s.dqstatus != BDK_PKO_DQSTATUS_E_PASS)
             bdk_error("PKO open failed with response 0x%lx for dq %d\n", pko_open.u, dq);
     }
