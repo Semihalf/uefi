@@ -497,12 +497,15 @@ static int devtree_fixups(void *fdt)
             BDK_CSR_INIT(fbrd, node, BDK_UAAX_FBRD(0));
             int uaa_clock = (((ibrd.u * 64) + fbrd.u) * 115200) / 4;
             int fdt_node = fdt_path_offset(fdt, refclkuaa);
-            if ((fdt_node >= 0) && fdt_setprop_inplace_u32(fdt, fdt_node, "clock-frequency", uaa_clock))
+            if (fdt_node >= 0)
             {
-                bdk_error("Unable to edit %s[clock-frequency] in FDT\n", refclkuaa);
-                return -1;
+                if (fdt_setprop_inplace_u32(fdt, fdt_node, "clock-frequency", uaa_clock))
+                {
+                    bdk_error("Unable to edit %s[clock-frequency] in FDT\n", refclkuaa);
+                    return -1;
+                }
+                BDK_TRACE(FDT_OS, "    Set %s[clock-frequency] = 0x%x\n", refclkuaa, uaa_clock);
             }
-            BDK_TRACE(FDT_OS, "    Set %s[clock-frequency] = 0x%x\n", refclkuaa, uaa_clock);
         }
 
         /* 7) Set the sclk clock rate.  For the node "/sclk", set the
@@ -513,12 +516,15 @@ static int devtree_fixups(void *fdt)
             snprintf(sclk_name, sizeof(sclk_name), "/%s/sclk", soc);
             int rate = bdk_clock_get_rate(node, BDK_CLOCK_SCLK);
             int fdt_node = fdt_path_offset(fdt, sclk_name);
-            if ((fdt_node >= 0) && fdt_setprop_inplace_u32(fdt, fdt_node, "clock-frequency", rate))
+            if (fdt_node >= 0)
             {
-                bdk_error("Unable to edit %s[clock-frequency] in FDT\n", sclk_name);
-                return -1;
+                if (fdt_setprop_inplace_u32(fdt, fdt_node, "clock-frequency", rate))
+                {
+                    bdk_error("Unable to edit %s[clock-frequency] in FDT\n", sclk_name);
+                    return -1;
+                }
+                BDK_TRACE(FDT_OS, "    Set %s[clock-frequency] = 0x%x\n", sclk_name, rate);
             }
-            BDK_TRACE(FDT_OS, "    Set %s[clock-frequency] = %d\n", sclk_name, rate);
         }
 
         /* 8) Patch ECAM property names.  For systems that are *not* either T88
