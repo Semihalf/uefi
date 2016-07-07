@@ -17,11 +17,11 @@ dram_config_t __libdram_global_cfg;
 static void bdk_dram_clear_mem(bdk_node_t node)
 {
     if (!bdk_is_platform(BDK_PLATFORM_ASIM)) {
-	uint64_t mbytes = bdk_dram_get_size_mbytes(node);
-	uint64_t skip = (node == bdk_numa_master()) ? bdk_dram_get_top_of_bdk() : 0;
-	uint64_t len =  (mbytes << 20) - skip;
+        uint64_t mbytes = bdk_dram_get_size_mbytes(node);
+        uint64_t skip = (node == bdk_numa_master()) ? bdk_dram_get_top_of_bdk() : 0;
+        uint64_t len =  (mbytes << 20) - skip;
 
-	BDK_TRACE(DRAM, "N%d: Clearing DRAM\n", node);
+        BDK_TRACE(DRAM, "N%d: Clearing DRAM\n", node);
         if (skip)
         {
             /* All memory below skip may contain valid data, so we can't clear
@@ -42,8 +42,8 @@ static void bdk_dram_clear_mem(bdk_node_t node)
             }
         }
         ddr_print("N%d: Clearing DRAM: start 0x%lx length 0x%lx\n", node, skip, len);
-	bdk_zero_memory(bdk_phys_to_ptr(bdk_numa_get_address(node, skip)), len);
-	BDK_TRACE(DRAM, "N%d: DRAM clear complete\n", node);
+        bdk_zero_memory(bdk_phys_to_ptr(bdk_numa_get_address(node, skip)), len);
+        BDK_TRACE(DRAM, "N%d: DRAM clear complete\n", node);
     }
 }
 
@@ -73,7 +73,7 @@ static int bdk_libdram_tune_node(int node)
     // NOTE: HW-assist will also tune the ECC byte 
     str = getenv("ddr_tune_hw_offsets");
     if (str)
-	do_dllro_hw = !!strtoul(str, NULL, 0);
+        do_dllro_hw = !!strtoul(str, NULL, 0);
     BDK_TRACE(DRAM, "N%d: Starting DLL Read Offset Tuning for LMCs\n", node);
     if (!do_dllro_hw) {
         errs = perform_dll_offset_tuning(node, 2, /* tune */1); 
@@ -89,13 +89,13 @@ static int bdk_libdram_tune_node(int node)
     // allow override of default setting
     str = getenv("ddr_tune_write_offsets");
     if (str)
-	do_dllwo = !!strtoul(str, NULL, 0);
+        do_dllwo = !!strtoul(str, NULL, 0);
     if (do_dllwo) {
-	BDK_TRACE(DRAM, "N%d: Starting DLL Write Offset Tuning for LMCs\n", node);
-	errs = perform_dll_offset_tuning(node, 1, /* tune */1); 
-	BDK_TRACE(DRAM, "N%d: Finished DLL Write Offset Tuning for LMCs, %d errors)\n",
-	       node, errs);
-	tot_errs += errs;
+        BDK_TRACE(DRAM, "N%d: Starting DLL Write Offset Tuning for LMCs\n", node);
+        errs = perform_dll_offset_tuning(node, 1, /* tune */1);
+        BDK_TRACE(DRAM, "N%d: Finished DLL Write Offset Tuning for LMCs, %d errors)\n",
+               node, errs);
+        tot_errs += errs;
     }
 
     // disabled by default for now, does not seem to be needed much?
@@ -129,24 +129,24 @@ static int bdk_libdram_tune_node(int node)
 // FIXME: DDR3 is not tuned
 static const uint32_t ddr_speed_filter[2][2][2] = {
     [IS_DDR4] = { 
-	[IS_RDIMM] = {
-	    [IS_1SLOT] =  940,
-	    [IS_2SLOT] =  800
-	},
-	[IS_UDIMM] = {
-	    [IS_1SLOT] = 1050,
-	    [IS_2SLOT] =  940
-	}, 
+        [IS_RDIMM] = {
+            [IS_1SLOT] =  940,
+            [IS_2SLOT] =  800
+        },
+        [IS_UDIMM] = {
+            [IS_1SLOT] = 1050,
+            [IS_2SLOT] =  940
+        },
     },
     [IS_DDR3] = {
-	[IS_RDIMM] = {
-	    [IS_1SLOT] =    0, // disabled
-	    [IS_2SLOT] =    0  // disabled
-	},
-	[IS_UDIMM] = {
-	    [IS_1SLOT] =    0, // disabled
-	    [IS_2SLOT] =    0  // disabled
-	}
+        [IS_RDIMM] = {
+            [IS_1SLOT] =    0, // disabled
+            [IS_2SLOT] =    0  // disabled
+        },
+        [IS_UDIMM] = {
+            [IS_1SLOT] =    0, // disabled
+            [IS_2SLOT] =    0  // disabled
+        }
     }
 };
 
@@ -157,9 +157,9 @@ static int bdk_libdram_maybe_tune_node(int node)
     // FIXME: allow an override here so that all configs can be tuned or none
     // If the envvar is defined, always either force it or avoid it accordingly
     if ((str = getenv("ddr_tune_all_configs")) != NULL) {
-	int tune_it = !!strtoul(str, NULL, 0);
-	printf("N%d: DRAM auto-tuning %s.\n", node, (tune_it) ? "forced" : "avoided");
-	return (tune_it) ? bdk_libdram_tune_node(node) : 0;
+        int tune_it = !!strtoul(str, NULL, 0);
+        printf("N%d: DRAM auto-tuning %s.\n", node, (tune_it) ? "forced" : "avoided");
+        return (tune_it) ? bdk_libdram_tune_node(node) : 0;
     }
 
     // filter the tuning calls here...
@@ -180,8 +180,8 @@ static int bdk_libdram_maybe_tune_node(int node)
     do_tune = (ddr_min_speed && (ddr_speed > ddr_min_speed));
 
     ddr_print("N%d: DDR%d %cDIMM %d-slot at %d MHz %s eligible for auto-tuning.\n",
-	      node, (is_ddr4)?4:3, (is_rdimm)?'R':'U', (is_1slot)?1:2,
-	      ddr_speed, (do_tune)?"is":"is not");
+              node, (is_ddr4)?4:3, (is_rdimm)?'R':'U', (is_1slot)?1:2,
+              ddr_speed, (do_tune)?"is":"is not");
 
     // call the tuning routines, done filtering...
     return ((do_tune) ? bdk_libdram_tune_node(node) : 0);
@@ -286,7 +286,7 @@ int libdram_config(int node, const dram_config_t *dram_config, int ddr_clock_ove
         0,
         0);
     BDK_TRACE(DRAM, "N%d: DRAM init returned %d, measured %u Hz\n",
-	      node, mbytes, measured_ddr_hertz[node]);
+              node, mbytes, measured_ddr_hertz[node]);
 
     // do not tune or mess with memory if there was an init problem...
     if (mbytes > 0) {
@@ -329,21 +329,21 @@ int libdram_tune(int node)
     // so, enable any non-running cores on this node, and leave them
     // running at the end...
     ddr_print("N%d: %s: Starting cores (mask was 0x%lx)\n",
-	      node, __FUNCTION__, bdk_get_running_coremask(node));
+              node, __FUNCTION__, bdk_get_running_coremask(node));
     bdk_init_cores(node, ~0ULL);
 
     // must test for L2C locked here, cannot go on with it unlocked
     // FIXME: but we only need to worry about Node 0???
     if (node == 0) {
-	if (l2c_num_locked == 0) { // is unlocked, must lock it now
-	    ddr_print("N%d: %s: L2C was unlocked - locking it now\n", node, __FUNCTION__);
-	    // FIXME: this should be common-ized; it currently matches bdk_init()... 
-	    bdk_l2c_lock_mem_region(node, 0, bdk_l2c_get_cache_size_bytes(node) * 3 / 4);
-	} else {
-	    ddr_print("N%d: %s: L2C was already locked - continuing\n", node, __FUNCTION__);
-	}
+        if (l2c_num_locked == 0) { // is unlocked, must lock it now
+            ddr_print("N%d: %s: L2C was unlocked - locking it now\n", node, __FUNCTION__);
+            // FIXME: this should be common-ized; it currently matches bdk_init()...
+            bdk_l2c_lock_mem_region(node, 0, bdk_l2c_get_cache_size_bytes(node) * 3 / 4);
+        } else {
+            ddr_print("N%d: %s: L2C was already locked - continuing\n", node, __FUNCTION__);
+        }
     } else {
-	ddr_print("N%d: %s: non-zero node, not worrying about L2C lock status\n", node, __FUNCTION__);
+        ddr_print("N%d: %s: non-zero node, not worrying about L2C lock status\n", node, __FUNCTION__);
     }
 
     // call the tuning routines, no filtering...
@@ -351,15 +351,15 @@ int libdram_tune(int node)
 
     // FIXME: only for node 0, unlock L2C if it was unlocked before...
     if (node == 0) {
-	if (l2c_num_locked == 0) { // it was Node 0 and unlocked, must re-unlock it now
-	    ddr_print("N%d: Node 0 L2C was unlocked before - unlocking it now\n", node);
-	    // FIXME: this should be common-ized; it currently matches bdk_init()... 
-	    bdk_l2c_unlock_mem_region(node, 0, bdk_l2c_get_cache_size_bytes(node) * 3 / 4);
-	} else {
-	    ddr_print("N%d: %s: L2C was already locked - leaving it locked\n", node, __FUNCTION__);
-	}
+        if (l2c_num_locked == 0) { // it was Node 0 and unlocked, must re-unlock it now
+            ddr_print("N%d: Node 0 L2C was unlocked before - unlocking it now\n", node);
+            // FIXME: this should be common-ized; it currently matches bdk_init()...
+            bdk_l2c_unlock_mem_region(node, 0, bdk_l2c_get_cache_size_bytes(node) * 3 / 4);
+        } else {
+            ddr_print("N%d: %s: L2C was already locked - leaving it locked\n", node, __FUNCTION__);
+        }
     } else {
-	ddr_print("N%d: %s: non-zero node, not worrying about L2C lock status\n", node, __FUNCTION__);
+        ddr_print("N%d: %s: non-zero node, not worrying about L2C lock status\n", node, __FUNCTION__);
     }
 
     // make sure to clear memory and any ECC errs when done... 
@@ -491,21 +491,21 @@ int libdram_margin(int node)
     // so, enable any non-running cores on this node, and leave them
     // running at the end...
     ddr_print("N%d: %s: Starting cores (mask was 0x%lx)\n",
-	      node, __FUNCTION__, bdk_get_running_coremask(node));
+              node, __FUNCTION__, bdk_get_running_coremask(node));
     bdk_init_cores(node, ~0ULL);
 
     // must test for L2C locked here, cannot go on with it unlocked
     // FIXME: but we only need to worry about Node 0???
     if (node == 0) {
-	if (l2c_num_locked == 0) { // is unlocked, must lock it now
-	    ddr_print("N%d: %s: L2C was unlocked - locking it now\n", node, __FUNCTION__);
-	    // FIXME: this should be common-ized; it currently matches bdk_init()... 
-	    bdk_l2c_lock_mem_region(node, 0, bdk_l2c_get_cache_size_bytes(node) * 3 / 4);
-	} else {
-	    ddr_print("N%d: %s: L2C was already locked - continuing\n", node, __FUNCTION__);
-	}
+        if (l2c_num_locked == 0) { // is unlocked, must lock it now
+            ddr_print("N%d: %s: L2C was unlocked - locking it now\n", node, __FUNCTION__);
+            // FIXME: this should be common-ized; it currently matches bdk_init()...
+            bdk_l2c_lock_mem_region(node, 0, bdk_l2c_get_cache_size_bytes(node) * 3 / 4);
+        } else {
+            ddr_print("N%d: %s: L2C was already locked - continuing\n", node, __FUNCTION__);
+        }
     } else {
-	ddr_print("N%d: %s: non-zero node, not worrying about L2C lock status\n", node, __FUNCTION__);
+        ddr_print("N%d: %s: non-zero node, not worrying about L2C lock status\n", node, __FUNCTION__);
     }
 
     debug_print("N%d: Starting DRAM Margin ALL\n", node);
@@ -540,15 +540,15 @@ int libdram_margin(int node)
 
     // FIXME: only for node 0, unlock L2C if it was unlocked before...
     if (node == 0) {
-	if (l2c_num_locked == 0) { // it was Node 0 and unlocked, must re-unlock it now
-	    ddr_print("N%d: Node 0 L2C was unlocked before - unlocking it now\n", node);
-	    // FIXME: this should be common-ized; it currently matches bdk_init()... 
-	    bdk_l2c_unlock_mem_region(node, 0, bdk_l2c_get_cache_size_bytes(node) * 3 / 4);
-	} else {
-	    ddr_print("N%d: %s: L2C was already locked - leaving it locked\n", node, __FUNCTION__);
-	}
+        if (l2c_num_locked == 0) { // it was Node 0 and unlocked, must re-unlock it now
+            ddr_print("N%d: Node 0 L2C was unlocked before - unlocking it now\n", node);
+            // FIXME: this should be common-ized; it currently matches bdk_init()...
+            bdk_l2c_unlock_mem_region(node, 0, bdk_l2c_get_cache_size_bytes(node) * 3 / 4);
+        } else {
+            ddr_print("N%d: %s: L2C was already locked - leaving it locked\n", node, __FUNCTION__);
+        }
     } else {
-	ddr_print("N%d: %s: non-zero node, not worrying about L2C lock status\n", node, __FUNCTION__);
+        ddr_print("N%d: %s: non-zero node, not worrying about L2C lock status\n", node, __FUNCTION__);
     }
 
     return 0;
