@@ -150,13 +150,17 @@ static int bdk_sso_wqe_to_packet(const void *work, bdk_if_packet_t *packet)
 void bdk_sso_thread_read(int arg, void *arg1)
 {
     bdk_node_t node = bdk_numa_local();
+    /* Build the offset into SSO */
+    union bdk_ssow_get_work_addr_s work_offset = {  .u = 0 };
+    work_offset.s.waitw = 0; /* Don't wait */
+    work_offset.s.index_ggrp_mask = 1; /* Use mask_set 0*/
+    work_offset.s.grouped = 0;	       /* ... */
+    work_offset.s.indexed = 0;         /* ... */
+
     while (true)
     {
-        /* Build the offset into SSO */
-        union bdk_ssow_get_work_addr_s work_offset;
-        work_offset.u = 0;
-        work_offset.s.waitw = 0; /* Don't wait */
-        work_offset.s.index_ggrp_mask = 1; /* Use group mask 1 */
+        /* We recalculate work address here to allow for called functions
+        ** to use wait/yield/printf */
         /* Get the base into SSO */
         uint64_t work_address = BDK_SSOW_VHWSX_OP_GET_WORK1(bdk_get_core_num());
         /* Add the base and offset to get the final GET_WORK address */
@@ -164,7 +168,7 @@ void bdk_sso_thread_read(int arg, void *arg1)
         /* Do a GET_WORK */
         bdk_ssow_vhwsx_op_get_work1_t work1;
         work1.u = bdk_read64_uint64(work_address);
-        while (work1.u)
+        if (work1.u)
         {
             bdk_if_packet_t packet;
             const union bdk_pki_wqe_s *wqe = bdk_phys_to_ptr(work1.u);
@@ -172,10 +176,9 @@ void bdk_sso_thread_read(int arg, void *arg1)
                 bdk_if_dispatch_packet(&packet);
             int aura = wqe->s.aura;
             for (int s = 0; s < packet.segments; s++)
-                __bdk_fpa_raw_free(node, packet.packet[s].s.address & ~BDK_CACHE_LINE_MASK, aura, 0);
-            /* Do a GET_WORK */
-            work1.u = bdk_read64_uint64(work_address);
-        }
-        bdk_wait_usec(1000);
+                __bdk_fpa_raw_free(node, packet.packet[s].s.address & (0xffffffffffffffffULL ^ BDK_CACHE_LINE_MASK), aura, 0);
+            /* Fall through to poll again if there was work */
+        } else
+            bdk_wait_usec(1000);
     }
 }
