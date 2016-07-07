@@ -22,7 +22,26 @@ static void bdk_dram_clear_mem(bdk_node_t node)
 	uint64_t len =  (mbytes << 20) - skip;
 
 	BDK_TRACE(DRAM, "N%d: Clearing DRAM\n", node);
-	ddr_print("N%d: Clearing DRAM: start 0x%lx length 0x%lx\n", node, skip, len);
+        if (skip)
+        {
+            /* All memory below skip may contain valid data, so we can't clear
+               it. We still need to make sure all cache lines in this area are
+               fully dirty so that ECC bits will be updated on store. A single
+               write to the cahce line isn't good enough because partial LMC
+               writes may be enabled */
+            ddr_print("N%d: Rewriting DRAM: start 0 length 0x%lx\n", node, skip);
+            volatile uint64_t *ptr = bdk_phys_to_ptr(bdk_numa_get_address(node, 8));
+            /* The above pointer got address 8 to avoid NULL pointer checking
+               in bdk_phys_to_ptr(). Correct it here */
+            ptr--;
+            uint64_t *end = bdk_phys_to_ptr(bdk_numa_get_address(node, skip));
+            while (ptr < end)
+            {
+                *ptr = *ptr;
+                ptr++;
+            }
+        }
+        ddr_print("N%d: Clearing DRAM: start 0x%lx length 0x%lx\n", node, skip, len);
 	bdk_zero_memory(bdk_phys_to_ptr(bdk_numa_get_address(node, skip)), len);
 	BDK_TRACE(DRAM, "N%d: DRAM clear complete\n", node);
     }
