@@ -31,7 +31,7 @@ static inline int bdk_get_core_num(void) __attribute__ ((always_inline));
 static inline int bdk_get_core_num(void)
 {
     int mpidr_el1;
-    BDK_MRS_NV(MPIDR_EL1, mpidr_el1);
+    BDK_MRS(MPIDR_EL1, mpidr_el1);
     int core_num = mpidr_el1 & 0xf;
     core_num |= (mpidr_el1 & 0xff00) >> 4;
     return core_num;
