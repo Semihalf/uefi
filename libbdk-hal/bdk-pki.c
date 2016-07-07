@@ -196,7 +196,7 @@ int bdk_pki_port_init(bdk_if_handle_t handle)
 int bdk_pki_enable(bdk_node_t node)
 {
     BDK_CSR_MODIFY(c, node, BDK_PKI_BUF_CTL,
-        c.s.fpa_wait = 1; /* Wait for FPA so drops are less often */
+        c.s.fpa_wait = 0; /* Drop packets on FPA buffer shortage */
         c.s.pbp_en = 1; /* Enable backpressure */
         c.s.pki_en = 1); /* Enable PKI */
     /* Enable cluster group 0 */
