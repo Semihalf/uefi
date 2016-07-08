@@ -744,7 +744,7 @@ int __bdk_qlm_round_refclock(int measured_hz)
     {
         ref_clk = REF_156MHZ;
     }
-    else if (measured_hz == 0)
+    else if (measured_hz < 1000000)
     {
         ref_clk = 0; /* Used for disabled QLMs */
     }
