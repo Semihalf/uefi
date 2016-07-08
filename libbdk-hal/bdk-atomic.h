@@ -151,9 +151,34 @@ static inline int64_t bdk_atomic_get64(int64_t *ptr)
  * @return 1 on success (match and store)
  *         0 on no match
  */
+static inline int bdk_atomic_compare_and_store32_nosync(uint32_t *ptr, uint32_t old_val, uint32_t new_val) __attribute__((always_inline));
 static inline int bdk_atomic_compare_and_store32_nosync(uint32_t *ptr, uint32_t old_val, uint32_t new_val)
 {
-    return __atomic_compare_exchange(ptr, &old_val, &new_val, 0, __ATOMIC_RELAXED, __ATOMIC_RELAXED);
+    uint32_t val = old_val;
+
+    /* CN88XX pass 1.x has errata AP-22500: GlobalSync request during a multi-cycle ATOMIC stalls forever
+       Don't use compare and swap on these chips */
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
+    {
+        asm volatile ("1:   ldxr    %w[v], [%[b]]       \n"
+                      "     cmp     %w[v], %w[o]        \n"
+                      "     b.ne    2f                  \n"
+                      "     stxr    %w[v], %w[n], [%[b]]\n" /* Returns zero on success */
+                      "     cbnz    %w[v], 1b           \n"
+                      "     mov     %w[v], %w[o]        \n"
+                      "2:                               \n"
+            : [mem] "+m" (*ptr), [v] "=&r" (val)
+            : [b] "r" (ptr), [n] "r" (new_val), [o] "r" (old_val)
+            : );
+    }
+    else
+    {
+        asm volatile ("cas %w[o], %w[n], [%[b]]"
+                      : [mem] "+m" (*ptr), [o] "+r" (val)
+                      : [b] "r" (ptr), [n] "r" (new_val)
+                      : );
+    }
+    return old_val == val;
 }
 
 /**
@@ -168,9 +193,34 @@ static inline int bdk_atomic_compare_and_store32_nosync(uint32_t *ptr, uint32_t 
  * @return 1 on success (match and store)
  *         0 on no match
  */
+static inline int bdk_atomic_compare_and_store32(uint32_t *ptr, uint32_t old_val, uint32_t new_val) __attribute__((always_inline));
 static inline int bdk_atomic_compare_and_store32(uint32_t *ptr, uint32_t old_val, uint32_t new_val)
 {
-    return __atomic_compare_exchange(ptr, &old_val, &new_val, 0, __ATOMIC_ACQ_REL, __ATOMIC_RELAXED);
+    uint32_t val = old_val;
+
+    /* CN88XX pass 1.x has errata AP-22500: GlobalSync request during a multi-cycle ATOMIC stalls forever
+       Don't use compare and swap on these chips */
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
+    {
+        asm volatile ("1:   ldaxr   %w[v], [%[b]]       \n"
+                      "     cmp     %w[v], %w[o]        \n"
+                      "     b.ne    2f                  \n"
+                      "     stlxr   %w[v], %w[n], [%[b]]\n" /* Returns zero on success */
+                      "     cbnz    %w[v], 1b           \n"
+                      "     mov     %w[v], %w[o]        \n"
+                      "2:                               \n"
+            : [mem] "+m" (*ptr), [v] "=&r" (val)
+            : [b] "r" (ptr), [n] "r" (new_val), [o] "r" (old_val)
+            : );
+    }
+    else
+    {
+        asm volatile ("casal %w[o], %w[n], [%[b]]"
+                      : [mem] "+m" (*ptr), [o] "+r" (val)
+                      : [b] "r" (ptr), [n] "r" (new_val)
+                      : );
+    }
+    return old_val == val;
 }
 
 /**
@@ -185,9 +235,34 @@ static inline int bdk_atomic_compare_and_store32(uint32_t *ptr, uint32_t old_val
  * @return 1 on success (match and store)
  *         0 on no match
  */
+static inline int bdk_atomic_compare_and_store64_nosync(uint64_t *ptr, uint64_t old_val, uint64_t new_val) __attribute__((always_inline));
 static inline int bdk_atomic_compare_and_store64_nosync(uint64_t *ptr, uint64_t old_val, uint64_t new_val)
 {
-    return __atomic_compare_exchange(ptr, &old_val, &new_val, 0, __ATOMIC_RELAXED, __ATOMIC_RELAXED);
+    uint32_t val = old_val;
+
+    /* CN88XX pass 1.x has errata AP-22500: GlobalSync request during a multi-cycle ATOMIC stalls forever
+       Don't use compare and swap on these chips */
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
+    {
+        asm volatile ("1:   ldxr    %x[v], [%[b]]       \n"
+                      "     cmp     %x[v], %x[o]        \n"
+                      "     b.ne    2f                  \n"
+                      "     stxr    %x[v], %x[n], [%[b]]\n" /* Returns zero on success */
+                      "     cbnz    %x[v], 1b           \n"
+                      "     mov     %x[v], %x[o]        \n"
+                      "2:                               \n"
+            : [mem] "+m" (*ptr), [v] "=&r" (val)
+            : [b] "r" (ptr), [n] "r" (new_val), [o] "r" (old_val)
+            : );
+    }
+    else
+    {
+        asm volatile ("cas %x[o], %x[n], [%[b]]"
+                      : [mem] "+m" (*ptr), [o] "+r" (val)
+                      : [b] "r" (ptr), [n] "r" (new_val)
+                      : );
+    }
+    return old_val == val;
 }
 
 /**
@@ -202,9 +277,34 @@ static inline int bdk_atomic_compare_and_store64_nosync(uint64_t *ptr, uint64_t 
  * @return 1 on success (match and store)
  *         0 on no match
  */
+static inline int bdk_atomic_compare_and_store64(uint64_t *ptr, uint64_t old_val, uint64_t new_val) __attribute__((always_inline));
 static inline int bdk_atomic_compare_and_store64(uint64_t *ptr, uint64_t old_val, uint64_t new_val)
 {
-    return __atomic_compare_exchange(ptr, &old_val, &new_val, 0, __ATOMIC_ACQ_REL, __ATOMIC_RELAXED);
+    uint32_t val = old_val;
+
+    /* CN88XX pass 1.x has errata AP-22500: GlobalSync request during a multi-cycle ATOMIC stalls forever
+       Don't use compare and swap on these chips */
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
+    {
+        asm volatile ("1:   ldaxr   %x[v], [%[b]]       \n"
+                      "     cmp     %x[v], %x[o]        \n"
+                      "     b.ne    2f                  \n"
+                      "     stlxr   %x[v], %x[n], [%[b]]\n" /* Returns zero on success */
+                      "     cbnz    %x[v], 1b           \n"
+                      "     mov     %x[v], %x[o]        \n"
+                      "2:                               \n"
+            : [mem] "+m" (*ptr), [v] "=&r" (val)
+            : [b] "r" (ptr), [n] "r" (new_val), [o] "r" (old_val)
+            : );
+    }
+    else
+    {
+        asm volatile ("casal %x[o], %x[n], [%[b]]"
+                      : [mem] "+m" (*ptr), [o] "+r" (val)
+                      : [b] "r" (ptr), [n] "r" (new_val)
+                      : );
+    }
+    return old_val == val;
 }
 
 /**

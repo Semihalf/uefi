@@ -100,7 +100,8 @@ static inline int bdk_spinlock_trylock(bdk_spinlock_t *lock)
     if (ticket != serving)
         return -1;
     uint64_t new_combined = combined + (1ull << 32);
-    return !__atomic_compare_exchange(&lock->combined, &combined, &new_combined, 0, __ATOMIC_ACQUIRE, __ATOMIC_RELAXED);
+    bool success = bdk_atomic_compare_and_store64(&lock->combined, combined, new_combined);
+    return success ? 0 : -1;
 }
 
 /** @} */
