@@ -315,7 +315,7 @@ int main(int argc, const char **argv)
         /* For emulation dram is just there
          * Fake minimal init to avoid nxm_wr errors.
          * 2 chip-selects, 1gb each, no ranking
-         * Memory does not have ecc - no need to scb
+         * Memory does not have ecc - no need to scrub
          */
         BDK_CSR_INIT(lmc0_cfg,node,BDK_LMCX_CONFIG(0));
         BDK_CSR_MODIFY(c,node,BDK_LMCX_NXM(0),
