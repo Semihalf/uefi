@@ -134,7 +134,8 @@ int __bdk_dram_is_rdimm(bdk_node_t node, int lmc)
 uint64_t bdk_dram_get_size_mbytes(int node)
 {
     if (bdk_is_platform(BDK_PLATFORM_EMULATOR))
-        return 1 << 10; /* 1GB is just a guess */
+        return 2 << 10; /* 2GB is available on t88 and t81 
+                        ** some t83 models have 8gb, but it is too long to init */
     /* Return zero if dram isn't enabled */
     if (!__bdk_is_dram_enabled(node))
         return 0;

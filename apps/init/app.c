@@ -311,6 +311,26 @@ int main(int argc, const char **argv)
 
         bdk_boot_bgx();
         bdk_boot_usb();
+    } else {
+        /* For emulation dram is just there
+         * Fake minimal init to avoid nxm_wr errors.
+         * 2 chip-selects, 1gb each, no ranking
+         * Memory does not have ecc - no need to scb
+         */
+        BDK_CSR_INIT(lmc0_cfg,node,BDK_LMCX_CONFIG(0));
+        BDK_CSR_MODIFY(c,node,BDK_LMCX_NXM(0),
+                       c.s.mem_msb_d1_r0 = lmc0_cfg.s.pbank_lsb + 2 - lmc0_cfg.s.rank_ena ;
+                       c.s.mem_msb_d0_r0 = lmc0_cfg.s.pbank_lsb + 2 - lmc0_cfg.s.rank_ena ;
+                       c.s.cs_mask = 0xc;);
+        if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) ||CAVIUM_IS_MODEL(CAVIUM_CN88XX) ) {
+            BDK_CSR_INIT(lmc1_cfg,node,BDK_LMCX_CONFIG(1));
+            BDK_CSR_MODIFY(c,node,BDK_LMCX_NXM(1),
+                           c.s.mem_msb_d1_r0 = lmc1_cfg.s.pbank_lsb + 2 - lmc1_cfg.s.rank_ena ;
+                           c.s.mem_msb_d0_r0 = lmc1_cfg.s.pbank_lsb + 2 - lmc1_cfg.s.rank_ena ;
+                           c.s.cs_mask = 0xc;);
+        }
+        BDK_CSR_MODIFY(lmcx_ddr_pll_ctl, node, BDK_LMCX_DDR_PLL_CTL(0),
+                       lmcx_ddr_pll_ctl.s.reset_n = 1);
     }
 
     bdk_watchdog_poke();
