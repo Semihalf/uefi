@@ -545,6 +545,17 @@ static int qlm_set_sata(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
 
     /* Apply any custom tuning */
     __bdk_qlm_tune(node, qlm, mode, baud_mhz);
+    bdk_wait_usec(1000);
+
+    /* Perform a host bus reset to make sure SATA is good. This seems to be
+       needed in rare cases. Without it, SATA will very rarely fail the first
+       identify */
+    for (int p = sata_port; p < sata_port_end; p++)
+    {
+        BDK_CSR_MODIFY(c, node, BDK_SATAX_UAHC_GBL_GHC(p),
+            c.s.hr = 1);
+    }
+
     return 0;
 }
 
