@@ -122,3 +122,5 @@ extern int validate_dimm(bdk_node_t node, const dimm_config_t *dimm_config,
 extern void report_dimm(bdk_node_t node, const dimm_config_t *dimm_config,
                         int upper_dimm, int dimm, int ddr_interface_num);
 
+extern const char *ddr3_dimm_types[];
+extern const char *ddr4_dimm_types[];

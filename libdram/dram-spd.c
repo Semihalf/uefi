@@ -337,31 +337,31 @@ void report_common_dimm(bdk_node_t node, const dimm_config_t *dimm_config, int u
 	   (spd_ecc ? "ECC" : "non-ECC"), part_number, sn_str, serial_number, volt_str);
 }
 
+const char *ddr3_dimm_types[16] = {
+    /* 0000 */ "Undefined",
+    /* 0001 */ "RDIMM",
+    /* 0010 */ "UDIMM",
+    /* 0011 */ "SO-DIMM",
+    /* 0100 */ "Micro-DIMM",
+    /* 0101 */ "Mini-RDIMM",
+    /* 0110 */ "Mini-UDIMM",
+    /* 0111 */ "Mini-CDIMM",
+    /* 1000 */ "72b-SO-UDIMM",
+    /* 1001 */ "72b-SO-RDIMM",
+    /* 1010 */ "72b-SO-CDIMM"
+    /* 1011 */ "LRDIMM",
+    /* 1100 */ "16b-SO-DIMM",
+    /* 1101 */ "32b-SO-DIMM",
+    /* 1110 */ "Reserved",
+    /* 1111 */ "Reserved"
+};
+
 static
 void report_ddr3_dimm(bdk_node_t node, const dimm_config_t *dimm_config,
                       int upper_dimm, int dimm, int ddr_interface_num)
 {
     int spd_voltage;
     char *volt_str;
-
-    static const char *dimm_types[16] = {
-        /* 0000	*/ "Undefined",
-        /* 0001	*/ "RDIMM",
-        /* 0010	*/ "UDIMM",
-        /* 0011	*/ "SO-DIMM",
-        /* 0100	*/ "Micro-DIMM",
-        /* 0101	*/ "Mini-RDIMM",
-        /* 0110	*/ "Mini-UDIMM",
-        /* 0111	*/ "Mini-CDIMM",
-        /* 1000	*/ "72b-SO-UDIMM",
-        /* 1001	*/ "72b-SO-RDIMM",
-        /* 1010	*/ "72b-SO-CDIMM"
-	/* 1011 */ "LRDIMM",
-	/* 1100 */ "16b-SO-DIMM",
-	/* 1101 */ "32b-SO-DIMM",
-	/* 1110 */ "Reserved",
-	/* 1111 */ "Reserved"
-    };
 
     spd_voltage = read_spd(node, dimm_config, upper_dimm, DDR3_SPD_NOMINAL_VOLTAGE);
     if ((spd_voltage == 0) || (spd_voltage & 3))
@@ -371,9 +371,28 @@ void report_ddr3_dimm(bdk_node_t node, const dimm_config_t *dimm_config,
     if (spd_voltage & 4)
         volt_str = "1.2xV";
 
-    report_common_dimm(node, dimm_config, upper_dimm, dimm, dimm_types,
+    report_common_dimm(node, dimm_config, upper_dimm, dimm, ddr3_dimm_types,
                        DDR3_DRAM, volt_str, ddr_interface_num);
 }
+
+const char *ddr4_dimm_types[16] = {
+    /* 0000 */ "Extended",
+    /* 0001 */ "RDIMM",
+    /* 0010 */ "UDIMM",
+    /* 0011 */ "SO-DIMM",
+    /* 0100 */ "LRDIMM",
+    /* 0101 */ "Mini-RDIMM",
+    /* 0110 */ "Mini-UDIMM",
+    /* 0111 */ "Reserved",
+    /* 1000 */ "72b-SO-RDIMM",
+    /* 1001 */ "72b-SO-UDIMM",
+    /* 1010 */ "Reserved",
+    /* 1011 */ "Reserved",
+    /* 1100 */ "16b-SO-DIMM",
+    /* 1101 */ "32b-SO-DIMM",
+    /* 1110 */ "Reserved",
+    /* 1111 */ "Reserved"
+};
 
 static
 void report_ddr4_dimm(bdk_node_t node, const dimm_config_t *dimm_config,
@@ -381,25 +400,6 @@ void report_ddr4_dimm(bdk_node_t node, const dimm_config_t *dimm_config,
 {
     int spd_voltage;
     char *volt_str;
-
-    static const char *dimm_types[16] = {
-	/* 0000 */ "Extended",
-	/* 0001 */ "RDIMM",
-	/* 0010 */ "UDIMM",
-	/* 0011 */ "SO-DIMM",
-	/* 0100 */ "LRDIMM",
-	/* 0101 */ "Mini-RDIMM",
-	/* 0110 */ "Mini-UDIMM",
-	/* 0111 */ "Reserved",
-	/* 1000 */ "72b-SO-RDIMM",
-	/* 1001 */ "72b-SO-UDIMM",
-	/* 1010 */ "Reserved",
-	/* 1011 */ "Reserved",
-	/* 1100 */ "16b-SO-DIMM",
-	/* 1101 */ "32b-SO-DIMM",
-	/* 1110 */ "Reserved",
-	/* 1111 */ "Reserved"
-    };
 
     spd_voltage = read_spd(node, dimm_config, upper_dimm, DDR4_SPD_MODULE_NOMINAL_VOLTAGE);
     if ((spd_voltage == 0x01) || (spd_voltage & 0x02))
@@ -409,7 +409,7 @@ void report_ddr4_dimm(bdk_node_t node, const dimm_config_t *dimm_config,
     if ((spd_voltage == 0x10) || (spd_voltage & 0x20))
 	volt_str = "TBD2 V";
 
-    report_common_dimm(node, dimm_config, upper_dimm, dimm, dimm_types,
+    report_common_dimm(node, dimm_config, upper_dimm, dimm, ddr4_dimm_types,
                        DDR4_DRAM, volt_str, ddr_interface_num);
 }
 

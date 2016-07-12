@@ -1325,7 +1325,7 @@ do_display_BM(bdk_node_t node, int ddr_interface_num, int rank, void *bm, int fl
     } else
     if (flags == WITH_RL_MASK_SCORES) {
         rlevel_bitmask_t *rlevel_bitmask = (rlevel_bitmask_t *)bm;
-        ddr_print("N%d.LMC%d.R%d: Rlevel Debug Bitmask Scores  8:0      : %05x %05x %05x %05x %05x %05x %05x %05x %05x\n",
+        ddr_print("N%d.LMC%d.R%d: Rlevel Debug Bitmask Scores  8:0      : %5d %5d %5d %5d %5d %5d %5d %5d %5d\n",
                   node, ddr_interface_num, rank,
                   rlevel_bitmask[8].errs,
                   rlevel_bitmask[7].errs,
@@ -2577,6 +2577,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
     int default_rodt_ctl;
     // default to disabled (ie, LMC restart, not chip reset)
     int ddr_disable_chip_reset = 1;
+    const char *dimm_type_name;
 
 #if SWL_TRY_HWL_ALT
     typedef struct {
@@ -2687,6 +2688,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
     if (ddr_type == DDR4_DRAM) {
         imp_values = &ddr4_impedence_values;
+        dimm_type_name = ddr4_dimm_types[spd_dimm_type];
 
         spd_addr = read_spd(node, &dimm_config_table[0], 0, DDR4_SPD_ADDRESSING_ROW_COL_BITS);
         spd_org = read_spd(node, &dimm_config_table[0], 0, DDR4_SPD_MODULE_ORGANIZATION);
@@ -2714,6 +2716,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 	}
     } else {
         imp_values = &ddr3_impedence_values;
+        dimm_type_name = ddr3_dimm_types[spd_dimm_type];
 
         spd_addr = read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_ADDRESSING_ROW_COL_BITS);
         spd_org = read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_MODULE_ORGANIZATION);
@@ -2851,8 +2854,8 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
     spd_ecc = get_dimm_ecc(node, &dimm_config_table[0], 0, ddr_type);
 
-    ddr_print("Summary: %d DIMM%s %dRx%d %s, %d MB total, row bits=%d, col bits=%d, bank bits=%d, banks=%d\n",
-              dimm_count, (dimm_count > 1) ? "s" : "",
+    ddr_print("Summary: %d %s%s %dRx%d %s, %d MB total, row bits=%d, col bits=%d, bank bits=%d, banks=%d\n",
+              dimm_count, dimm_type_name, (dimm_count > 1) ? "s" : "",
               num_ranks, dram_width, (spd_ecc) ? "ECC" : "non-ECC",
               mem_size_mbytes, row_bits, col_bits, bank_bits, num_banks);
 
