@@ -1148,6 +1148,7 @@ static int is_dll_offset_provided(const int8_t *dll_offset_table)
 #define WITH_SCORE   1
 #define WITH_AVERAGE 2
 #define WITH_FINAL   4
+#define WITH_COMPUTE 8
 static void do_display_RL(bdk_node_t node, int ddr_interface_num,
 			  bdk_lmcx_rlevel_rankx_t lmc_rlevel_rank,
 			  int rank, int flags, int score)
@@ -1165,6 +1166,8 @@ static void do_display_RL(bdk_node_t node, int ddr_interface_num,
 	msg_buf = "  DELAY AVERAGES  ";
     } else if (flags & WITH_FINAL) {
 	msg_buf = "  FINAL SETTINGS  ";
+    } else if (flags & WITH_COMPUTE) {
+	msg_buf = "  COMPUTED DELAYS ";
     } else {
 	snprintf(hex_buf, sizeof(hex_buf), "0x%016lX", lmc_rlevel_rank.u);
 	msg_buf = hex_buf;
@@ -1208,9 +1211,15 @@ display_RL_with_average(bdk_node_t node, int ddr_interface_num, bdk_lmcx_rlevel_
 #endif
 
 static inline void
-display_RL_with_final(bdk_node_t node, int ddr_interface_num, bdk_lmcx_rlevel_rankx_t lmc_rlevel_rank, int rank, int score)
+display_RL_with_final(bdk_node_t node, int ddr_interface_num, bdk_lmcx_rlevel_rankx_t lmc_rlevel_rank, int rank)
 {
     do_display_RL(node, ddr_interface_num, lmc_rlevel_rank, rank, 4, 0);
+}
+
+static inline void
+display_RL_with_computed(bdk_node_t node, int ddr_interface_num, bdk_lmcx_rlevel_rankx_t lmc_rlevel_rank, int rank)
+{
+    do_display_RL(node, ddr_interface_num, lmc_rlevel_rank, rank, 8, 0);
 }
 
 // flag values
@@ -6085,18 +6094,8 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 				    /* Override the copy of byte delays with the computed results. */
 				    unpack_rlevel_settings(ddr_interface_bytemask, ecc_ena, rlevel_byte, lmc_rlevel_rank);
 
-				    ddr_print("N%d.LMC%d.R%d: Computed delays                       : %5d %5d %5d %5d %5d %5d %5d %5d %5d\n",
-					      node, ddr_interface_num, rankx,
-					      lmc_rlevel_rank.s.byte8,
-					      lmc_rlevel_rank.s.byte7,
-					      lmc_rlevel_rank.s.byte6,
-					      lmc_rlevel_rank.s.byte5,
-					      lmc_rlevel_rank.s.byte4,
-					      lmc_rlevel_rank.s.byte3,
-					      lmc_rlevel_rank.s.byte2,
-					      lmc_rlevel_rank.s.byte1,
-					      lmc_rlevel_rank.s.byte0
-					      );
+                                    display_RL_with_computed(node, ddr_interface_num, lmc_rlevel_rank, rankx);
+
 				} /* if (ddr_rlevel_compute) */
 
 			    } // end bitmask interpretation block
@@ -6865,7 +6864,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 		    } else {
 			debug_print("Not Adjusting Read-Leveling per-RANK settings.\n");
 		    }
-		    display_RL_with_final(node, ddr_interface_num, lmc_rlevel_rank, rankx, best_rank_score);
+		    display_RL_with_final(node, ddr_interface_num, lmc_rlevel_rank, rankx);
 
 #if RLEXTRAS_PATCH
 #define RLEVEL_RANKX_EXTRAS_INCR  4
