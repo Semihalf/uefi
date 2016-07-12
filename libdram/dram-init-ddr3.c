@@ -19,7 +19,7 @@
 #define SWL_TRY_HWL_ALT    HW_WL_MAJORITY && 1 // try HW WL base alternate if available when SW WL fails
 #define DISABLE_SW_WL_PASS_2 1
 
-#define KEEP_PERFECT_AVG    1
+#define KEEP_PERFECT_AVG    0
 
 #define COUNT_RL_CANDIDATES 1
 #define LOOK_FOR_STUCK_BYTE 0
@@ -5747,6 +5747,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 #if PERFECT_BITMASK_COUNTING
         typedef struct {
             uint8_t count[9][32]; // 8+ECC by 32 values
+            uint8_t total[9];     // 8+ECC
         } rank_perfect_t;
         rank_perfect_t rank_perfect_counts[4];
 #endif
@@ -5807,8 +5808,11 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         rlevel_ctl.u = BDK_CSR_READ(node, BDK_LMCX_RLEVEL_CTL(ddr_interface_num));
 
         rlevel_avg_loops = custom_lmc_config->rlevel_average_loops;
-        if (rlevel_avg_loops == 0)
-	    rlevel_avg_loops = RLEVEL_AVG_LOOPS_DEFAULT;
+        if (rlevel_avg_loops == 0) {
+            rlevel_avg_loops = RLEVEL_AVG_LOOPS_DEFAULT;
+            if ((dimm_count == 1) || (num_ranks == 1)) // up the samples for these cases
+                rlevel_avg_loops = rlevel_avg_loops * 2 + 1;
+        }
 
         ddr_rlevel_compute = custom_lmc_config->rlevel_compute;
         rlevel_ctl.s.offset_en = custom_lmc_config->offset_en;
@@ -6146,6 +6150,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                                         // FIXME: could optimize this a bit?
                                         int delay = get_rlevel_rank_struct(&lmc_rlevel_rank, byte_idx);
                                         rank_perfect_counts[rankx].count[byte_idx][delay] += 1;
+                                        rank_perfect_counts[rankx].total[byte_idx] += 1;
                                     }
 #endif /* PERFECT_BITMASK_COUNTING */
 				}
@@ -7047,50 +7052,66 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                         }
 #endif /* FAILSAFE_CHECK */
 #if PERFECT_BITMASK_COUNTING
-                        if (ddr_type == DDR4_DRAM) { // look at counts for the "perfect" bitmasks
+                        // Look at counts for "perfect" bitmasks if we had any for this byte-lane.
+                        // Remember, we only counted for DDR4, so zero means none or DDR3, and we bypass this...
+                        if (rank_perfect_counts[rankx].total[byte_idx] > 0) {
                             // FIXME: should be more error checking, look for ties, etc...
-                            int i, delay_count, delay_value, delay_max, tie; 
+                            int i, delay_count, delay_value, delay_max; 
+                            uint32_t ties;
                             delay_value = -1;
                             delay_max = 0;
-                            tie = -1;
+                            ties = 0;
+
                             for (i = 0; i < 32; i++) {
                                 delay_count = rank_perfect_counts[rankx].count[byte_idx][i];
                                 if (delay_count > 0) { // only look closer if there are any,,,
                                     if (delay_count > delay_max) {
                                         delay_max = delay_count;
                                         delay_value = i;
-                                        tie = -1;
+                                        ties = 0; // reset ties to none
                                     } else if (delay_count == delay_max) {
-                                        tie = i;
+                                        if (ties == 0)
+                                            ties = 1UL << delay_value; // put in original value
+                                        ties |= 1UL << i; // add new value
                                     }
                                 }
                             } /* for (i = 0; i < 32; i++) */
+
                             if (delay_value >= 0) {
-                                if (tie >= 0) {
-                                    ddr_print("N%d.LMC%d.R%d: PERFECT: perfect for bytelane %d is %d TIED with %d (%d)\n",
-                                              node, ddr_interface_num, rankx, byte_idx, delay_value, tie, delay_max);
-                                    if ((tie == (int)new_byte) || (delay_value == (int)new_byte)) {
-                                        // leave new_byte if either tied ones is the same... 
+                                if (ties != 0) {
+                                    if (ties & (1UL << (int)new_byte)) {
+                                        // leave choice as new_byte if any tied one is the same... 
+
+
                                         delay_value = (int)new_byte;
+                                        ddr_print("N%d.LMC%d.R%d: PERFECT: TIES (0x%x) for bytelane %d INCLUDED %d (%d)\n",
+                                                  node, ddr_interface_num, rankx, ties, byte_idx, (int)new_byte, delay_max);
                                     } else {
-                                        // FIXME: need to choose one or the other!!!
-                                        // for now, leave it as the first one found (delay_value)
+                                        // FIXME: should choose a perfect one!!!
+                                        // FIXME: for now, leave the choice as new_byte
+                                        delay_value = (int)new_byte;
+                                        ddr_print("N%d.LMC%d.R%d: PERFECT: TIES (0x%x) for bytelane %d OMITTED %d (%d)\n",
+                                                  node, ddr_interface_num, rankx, ties, byte_idx, (int)new_byte, delay_max);
                                     }
-                                }
-                                if ((uint64_t)delay_value != new_byte) {
+                                } /* if (ties != 0) */
+
+                                if (delay_value != (int)new_byte) {
                                     ddr_print("N%d.LMC%d.R%d: PERFECT: perfect for bytelane %d is %d DIFF from %d: USING it! (%d)\n",
                                               node, ddr_interface_num, rankx, byte_idx, delay_value, (int)new_byte, delay_max);
                                     new_byte = (uint64_t)delay_value; // FIXME: make this optional via envvar?
                                 } else {
                                     debug_print("N%d.LMC%d.R%d: PERFECT: perfect for bytelane %d SAME as %d (%d)\n",
-                                                node, ddr_interface_num, rankx, byte_idx, (int)new_byte, delay_max);
+                                                node, ddr_interface_num, rankx, byte_idx, new_byte, delay_max);
                                 }
-                            } else {
+                            }
+                        } /* if (rank_perfect_counts[rankx].total[byte_idx] > 0) */
+                        else {
+                            if (ddr_type == DDR4_DRAM) { // only report when DDR4
                                 // FIXME: remove or increase VBL for this output...
                                 ddr_print("N%d.LMC%d.R%d: PERFECT: no perfect bitmasks for bytelane %d\n",
                                           node, ddr_interface_num, rankx, byte_idx);
                             }
-                        } /* if (ddr_type == DDR4_DRAM) */
+                        } /* if (rank_perfect_counts[rankx].total[byte_idx] > 0) */
 #endif /* PERFECT_BITMASK_COUNTING */
 
 			VB_PRT(VBL_DEV, "N%d.LMC%d.R%d: SUMMARY: Byte %d: %s: orig %d now %d, more %d same %d less %d, using %d\n",
