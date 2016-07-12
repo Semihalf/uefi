@@ -5929,31 +5929,34 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
 		perform_ddr_init_sequence(node, rank_mask, ddr_interface_num);
 
-		for (rodt_ctl = max_rodt_ctl; rodt_ctl >= min_rodt_ctl; --rodt_ctl) {
-		    rlevel_rodt_errors = 0;
-		    lmc_comp_ctl2.u = BDK_CSR_READ(node, BDK_LMCX_COMP_CTL2(ddr_interface_num));
-		    lmc_comp_ctl2.s.rodt_ctl = rodt_ctl;
-		    DRAM_CSR_WRITE(node, BDK_LMCX_COMP_CTL2(ddr_interface_num), lmc_comp_ctl2.u);
-		    lmc_comp_ctl2.u = BDK_CSR_READ(node, BDK_LMCX_COMP_CTL2(ddr_interface_num));
-		    bdk_wait_usec(1); /* Give it a little time to take affect */
-		    ddr_print("Read ODT_CTL                                  : 0x%x (%d ohms)\n",
-			      lmc_comp_ctl2.s.rodt_ctl, imp_values->rodt_ohms[lmc_comp_ctl2.s.rodt_ctl]);
-
-		    for (rankx = 0; rankx < dimm_count * 4; rankx++) {
-			int byte_idx;
-			rlevel_byte_data_t rlevel_byte[9];
-			int average_loops;
-			int rlevel_rank_errors, rlevel_bitmask_errors, rlevel_nonseq_errors;
-			rlevel_bitmask_t rlevel_bitmask[9];
+                // Try RANK outside RODT to rearrange the output...
+                for (rankx = 0; rankx < dimm_count * 4; rankx++) {
+                    int byte_idx;
+                    rlevel_byte_data_t rlevel_byte[9];
+                    int average_loops;
+                    int rlevel_rank_errors, rlevel_bitmask_errors, rlevel_nonseq_errors;
+                    rlevel_bitmask_t rlevel_bitmask[9];
 #if PICK_BEST_RANK_SCORE_NOT_AVG
-			int rlevel_best_rank_score = DEFAULT_BEST_RANK_SCORE;
+                    int rlevel_best_rank_score;
 #endif
 
-			if (!(rank_mask & (1 << rankx)))
-			    continue;
+                    if (!(rank_mask & (1 << rankx)))
+                        continue;
+
+                    for (rodt_ctl = max_rodt_ctl; rodt_ctl >= min_rodt_ctl; --rodt_ctl) {
+#if PICK_BEST_RANK_SCORE_NOT_AVG
+			rlevel_best_rank_score = DEFAULT_BEST_RANK_SCORE;
+#endif
+                        rlevel_rodt_errors = 0;
+                        lmc_comp_ctl2.u = BDK_CSR_READ(node, BDK_LMCX_COMP_CTL2(ddr_interface_num));
+                        lmc_comp_ctl2.s.rodt_ctl = rodt_ctl;
+                        DRAM_CSR_WRITE(node, BDK_LMCX_COMP_CTL2(ddr_interface_num), lmc_comp_ctl2.u);
+                        lmc_comp_ctl2.u = BDK_CSR_READ(node, BDK_LMCX_COMP_CTL2(ddr_interface_num));
+                        bdk_wait_usec(1); /* Give it a little time to take affect */
+                        ddr_print("Read ODT_CTL                                  : 0x%x (%d ohms)\n",
+                                  lmc_comp_ctl2.s.rodt_ctl, imp_values->rodt_ohms[lmc_comp_ctl2.s.rodt_ctl]);
 
 			memset(rlevel_byte, 0, sizeof(rlevel_byte));
-			memset(rlevel_bitmask, 0, sizeof(rlevel_bitmask));
 
 			for (average_loops = 0; average_loops < rlevel_avg_loops; average_loops++) {
 			    rlevel_bitmask_errors = 0;
@@ -5963,19 +5966,21 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 				/* Clear read-level delays */
 				DRAM_CSR_WRITE(node, BDK_LMCX_RLEVEL_RANKX(ddr_interface_num, rankx), 0);
 
-				perform_octeon3_ddr3_sequence(node, 1 << rankx, ddr_interface_num, 1); /* read-leveling */
+                                /* read-leveling */
+				perform_octeon3_ddr3_sequence(node, 1 << rankx, ddr_interface_num, 1);
 
 				if (!bdk_is_platform(BDK_PLATFORM_ASIM) &&
 				    BDK_CSR_WAIT_FOR_FIELD(node, BDK_LMCX_RLEVEL_RANKX(ddr_interface_num, rankx),
 							   status, ==, 3, 1000000))
-				    {
-					error_print("ERROR: Timeout waiting for RLEVEL\n");
-				    }
+				{
+                                    error_print("ERROR: Timeout waiting for RLEVEL\n");
+                                }
 			    }
 
 			    lmc_rlevel_rank.u = BDK_CSR_READ(node, BDK_LMCX_RLEVEL_RANKX(ddr_interface_num, rankx));
 
 			    { // start bitmask interpretation block
+                                memset(rlevel_bitmask, 0, sizeof(rlevel_bitmask));
 
 				if (rlevel_separate_ab && spd_rdimm && (ddr_type == DDR4_DRAM)) {
 				    bdk_lmcx_rlevel_rankx_t lmc_rlevel_rank_aside;
@@ -6270,8 +6275,8 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
 			rlevel_scoreboard[rtt_nom][rodt_ctl][rankx].setting = lmc_rlevel_rank.u;
 
-		    } /* for (rankx = 0; rankx < dimm_count*4; rankx++) */
-		} /* for (rodt_ctl = max_rodt_ctl; rodt_ctl >= min_rodt_ctl; --rodt_ctl) */
+                    } /* for (rodt_ctl = max_rodt_ctl; rodt_ctl >= min_rodt_ctl; --rodt_ctl) */
+                } /* for (rankx = 0; rankx < dimm_count*4; rankx++) */
 	    } /*  for (rtt_idx=min_rtt_nom_idx; rtt_idx<max_rtt_nom_idx; ++rtt_idx) */
 
 
