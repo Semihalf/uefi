@@ -2663,6 +2663,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
     int default_rodt_ctl;
     // default to disabled (ie, LMC restart, not chip reset)
     int ddr_disable_chip_reset = 1;
+    int disable_deskew_training = 0;
     const char *dimm_type_name;
 
 #if SWL_TRY_HWL_ALT
@@ -2694,6 +2695,10 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
     // this one controls whether chip RESET is done, or LMC init restarted from step 6.9.6
     if ((s = lookup_env_parameter("ddr_disable_chip_reset")) != NULL) {
         ddr_disable_chip_reset = !!strtoul(s, NULL, 0);
+    }
+    // this one controls whether Deskew Training is performed
+    if ((s = lookup_env_parameter("ddr_disable_deskew_training")) != NULL) {
+        disable_deskew_training = !!strtoul(s, NULL, 0);
     }
     // this one is in Validate_Deskew_Training and controls a preliminary delay
     if ((s = lookup_env_parameter("ddr_deskew_validation_delay")) != NULL) {
@@ -4720,28 +4725,32 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
     /*
      * 6.9.10 LMC Deskew Training
      */
-    deskew_training_errors = Perform_Deskew_Training(node, rank_mask, ddr_interface_num,
-                                                     spd_rawcard_AorB, 0, ddr_interface_64b);
+    if (! disable_deskew_training) {
 
-    // All the Deskew lock and saturation retries (may) have been done,
-    //  but we ended up with nibble errors; so, as a last ditch effort,
-    //  enable retries of the Internal Vref Training...
-    if (deskew_training_errors) {
-	if (internal_retries < DEFAULT_INTERNAL_VREF_TRAINING_LIMIT) {
-	    internal_retries++;
-	    VB_PRT(VBL_FAE, "N%d.LMC%d: Deskew training results still unsettled - retrying internal Vref training (%d)\n",
-		      node, ddr_interface_num, internal_retries);
-	    goto perform_internal_vref_training;
-	} else {
-	    VB_PRT(VBL_FAE, "N%d.LMC%d: Deskew training incomplete - %d retries exhausted, but continuing...\n",
-		      node, ddr_interface_num, internal_retries);
-	}
-    }
+        deskew_training_errors = Perform_Deskew_Training(node, rank_mask, ddr_interface_num,
+                                                         spd_rawcard_AorB, 0, ddr_interface_64b);
 
-    // FIXME: treat this as the final DSK print from now on, and print if VBL_NORM or above
-    // also, save the results of the original training
-    Validate_Deskew_Training(node, rank_mask, ddr_interface_num,
-                             &deskew_training_results, VBL_NORM, ddr_interface_64b);
+        // All the Deskew lock and saturation retries (may) have been done,
+        //  but we ended up with nibble errors; so, as a last ditch effort,
+        //  enable retries of the Internal Vref Training...
+        if (deskew_training_errors) {
+            if (internal_retries < DEFAULT_INTERNAL_VREF_TRAINING_LIMIT) {
+                internal_retries++;
+                VB_PRT(VBL_FAE, "N%d.LMC%d: Deskew training results still unsettled - retrying internal Vref training (%d)\n",
+                       node, ddr_interface_num, internal_retries);
+                goto perform_internal_vref_training;
+            } else {
+                VB_PRT(VBL_FAE, "N%d.LMC%d: Deskew training incomplete - %d retries exhausted, but continuing...\n",
+                       node, ddr_interface_num, internal_retries);
+            }
+        }
+
+        // FIXME: treat this as the final DSK print from now on, and print if VBL_NORM or above
+        // also, save the results of the original training
+        Validate_Deskew_Training(node, rank_mask, ddr_interface_num,
+                                 &deskew_training_results, VBL_NORM, ddr_interface_64b);
+
+    } /* if (! disable_deskew_training) */
 
 #if !DAC_OVERRIDE_EARLY
     // as a final step in internal VREF training, after deskew training but before HW WL:
@@ -5479,7 +5488,8 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
     } // End HW write-leveling block
 
     // At the end of HW Write Leveling, check on some things...
-    {
+    if (! disable_deskew_training) {
+
         deskew_counts_t dsk_counts;
 	int retry_count = 0;
 
@@ -5490,8 +5500,9 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                                      &dsk_counts, VBL_FAE, ddr_interface_64b);
 
 	    // only RAWCARD A or B will not benefit from retraining if there's only saturation
+            // or any rawcard if there is a nibble error
 	    if ((!spd_rawcard_AorB && dsk_counts.saturated > 0) ||
-		((dsk_counts.nibsat_errs != 0) || (dsk_counts.nibunl_errs != 0))) // or any rawcard if there is a nibble error
+		((dsk_counts.nibsat_errs != 0) || (dsk_counts.nibunl_errs != 0)))
 	    {
 		retry_count++;
 		VB_PRT(VBL_FAE, "N%d.LMC%d: Deskew Status indicates saturation or nibble errors - retry %d Training.\n",
@@ -7115,7 +7126,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
     }
 
     // this is here just for output, to allow check of the Deskew settings one last time...
-    {
+    if (! disable_deskew_training) {
         deskew_counts_t dsk_counts;
 	VB_PRT(VBL_TME, "N%d.LMC%d: Check Deskew Settings before software Write-Leveling.\n",
 		  node, ddr_interface_num);
