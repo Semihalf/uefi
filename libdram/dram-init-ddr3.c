@@ -5034,6 +5034,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         int ecc_ena;
         int ddr_wlevel_roundup = 0;
         int ddr_wlevel_printall = (dram_is_verbose(VBL_FAE)); // or default to 1 to print all HW WL samples
+        int disable_hwl_validity = 0;
 #pragma pack(pop)
 
         if (wlevel_loops)
@@ -5059,6 +5060,10 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 	}
 	if ((s = lookup_env_parameter("ddr_wlevel_printall")) != NULL) {
 	    ddr_wlevel_printall = strtoul(s, NULL, 0);
+	}
+
+	if ((s = lookup_env_parameter("ddr_disable_hwl_validity")) != NULL) {
+	    disable_hwl_validity = !!strtoul(s, NULL, 0);
 	}
 
 #if RUN_INIT_SEQ_3
@@ -5270,7 +5275,8 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                     if ((spd_dimm_type != 5) &&
                         (spd_dimm_type != 6) &&
                         (dram_width != 16)   &&
-                        (ddr_interface_64b))
+                        (ddr_interface_64b)  &&
+                        !(disable_hwl_validity))
                     { // bypass if mini-[RU]DIMM or x16 or 32-bit
                         wlevel_validity_errors =
                             Validate_HW_WL_Settings(node, ddr_interface_num,
