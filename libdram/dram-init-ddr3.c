@@ -6514,7 +6514,10 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 			bdk_reset_chip(node);
 		    }
 
-		    int MAX_RANK_SCORE = best_rank_score + (MAX_RANK_SCORE_LIMIT / dimm_count); // FIXME: relative now, but still arbitrary...
+                    // FIXME: relative now, but still arbitrary...
+                    // halve the range if 2 DIMMs unless they are single rank...
+		    int MAX_RANK_SCORE = best_rank_score;
+                    MAX_RANK_SCORE += (MAX_RANK_SCORE_LIMIT / ((num_ranks > 1) ? dimm_count : 1));
 
 		    if (!ecc_ena){
 			lmc_rlevel_rank.s.byte8 = lmc_rlevel_rank.s.byte0; /* ECC is not used */
