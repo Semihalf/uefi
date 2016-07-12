@@ -277,6 +277,11 @@ cavium,bdk {
 	DDR-CONFIG-MODE1-RTT-WR.RANKS2.DIMMS1.RANK1.LMC0 = "0x2";
 	DDR-CONFIG-MODE1-RTT-WR.RANKS2.DIMMS1.RANK0.LMC0 = "0x2";
 
+	DDR-CONFIG-MODE1-RTT-WR.RANKS1.DIMMS1.RANK0.LMC3 = "0x1";
+	DDR-CONFIG-MODE1-RTT-WR.RANKS1.DIMMS1.RANK0.LMC2 = "0x1";
+	DDR-CONFIG-MODE1-RTT-WR.RANKS1.DIMMS1.RANK0.LMC1 = "0x1";
+	DDR-CONFIG-MODE1-RTT-WR.RANKS1.DIMMS1.RANK0.LMC0 = "0x1";
+
 	/* Output driver impedance control per rank. LMC writes this value
 	to MR1[D.I.C.] in the rank (i.e. DIMM0_CS0) DDR3 parts when
 	selected during power-up/init, write-leveling, and, if

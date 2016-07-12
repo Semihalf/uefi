@@ -415,38 +415,39 @@ static void Write_Deskew_Config(int node, int rank_mask, int ddr_interface_num)
 }
 
 #define SCALING_FACTOR (1000)
-static int compute_Vref_1slot_2rank(int rtt_wr, int rtt_park, int dqx_ctl)
+#define Dprintf debug_print // make this "ddr_print" for extra debug output below
+static int compute_Vref_1slot_2rank(int rtt_wr, int rtt_park, int dqx_ctl, int rank_count)
 {
     uint64_t Reff_s;
     uint64_t Rser_s = 15;
     uint64_t Vdd = 1200;
     uint64_t Vref;
     //uint64_t Vl;
-    uint64_t rtt_wr_s = (rtt_wr == 0 ? 1*1024*1024 : rtt_wr);
-    uint64_t rtt_park_s = (rtt_park == 0 ? 1*1024*1024 : rtt_park);
+    uint64_t rtt_wr_s = (((rtt_wr == 0) || (rtt_wr == 99)) ? 1*1024*1024 : rtt_wr); // 99 == HiZ
+    uint64_t rtt_park_s = (((rtt_park == 0) || (rank_count == 1)) ? 1*1024*1024 : rtt_park);
     uint64_t dqx_ctl_s = (dqx_ctl == 0 ? 1*1024*1024 : dqx_ctl);
     int Vref_value;
     uint64_t Rangepc = 6000; // range1 base is 60%
     uint64_t Vrefpc;
     int Vref_range = 0;
 
-    //printf("rtt_wr = %d, rtt_park = %d, dqx_ctl = %d\n", rtt_wr, rtt_park, dqx_ctl);
-    //printf("rtt_wr_s = %d, rtt_park_s = %d, dqx_ctl_s = %d\n", rtt_wr_s, rtt_park_s, dqx_ctl_s);
+    Dprintf("rtt_wr = %d, rtt_park = %d, dqx_ctl = %d\n", rtt_wr, rtt_park, dqx_ctl);
+    Dprintf("rtt_wr_s = %d, rtt_park_s = %d, dqx_ctl_s = %d\n", rtt_wr_s, rtt_park_s, dqx_ctl_s);
 
     Reff_s = divide_nint((rtt_wr_s * rtt_park_s) , (rtt_wr_s + rtt_park_s));
-    //printf("Reff_s = %d\n", Reff_s);
+    Dprintf("Reff_s = %d\n", Reff_s);
 
     //Vl = (((Rser_s + dqx_ctl_s) * SCALING_FACTOR) / (Rser_s + dqx_ctl_s + Reff_s)) * Vdd / SCALING_FACTOR;
     //printf("Vl = %d\n", Vl);
 
     Vref = (((Rser_s + dqx_ctl_s) * SCALING_FACTOR) / (Rser_s + dqx_ctl_s + Reff_s)) + SCALING_FACTOR;
-    //printf("Vref = %d\n", Vref);
+    Dprintf("Vref = %d\n", Vref);
 
     Vref = (Vref * Vdd) / 2 / SCALING_FACTOR;
-    //printf("Vref = %d\n", Vref);
+    Dprintf("Vref = %d\n", Vref);
 
     Vrefpc = (Vref * 100 * 100) / Vdd;
-    //printf("Vrefpc = %d\n", Vrefpc);
+    Dprintf("Vrefpc = %d\n", Vrefpc);
 
     if (Vrefpc < Rangepc) { // < range1 base, use range2
 	Vref_range = 1 << 6; // set bit A6 for range2
@@ -458,7 +459,7 @@ static int compute_Vref_1slot_2rank(int rtt_wr, int rtt_park, int dqx_ctl)
 	Vref_value = Vref_range; // set to base of range as lowest value
     else
 	Vref_value |= Vref_range;
-    //printf("Vref_value = %d (0x%02x)\n", Vref_value, Vref_value);
+    Dprintf("Vref_value = %d (0x%02x)\n", Vref_value, Vref_value);
 
     debug_print("rtt_wr:%d, rtt_park:%d, dqx_ctl:%d, Vref_value:%d (0x%x)\n",
            rtt_wr, rtt_park, dqx_ctl, Vref_value, Vref_value);
@@ -472,7 +473,7 @@ static int compute_Vref_2slot_2rank(int rtt_wr, int rtt_park_00, int rtt_park_01
     //uint64_t Vref;
     uint64_t Vl, Vlp, Vcm;
     uint64_t Rd0, Rd1, Rpullup;
-    uint64_t rtt_wr_s = (rtt_wr == 0 ? 1*1024*1024 : rtt_wr);
+    uint64_t rtt_wr_s = (((rtt_wr == 0) || (rtt_wr == 99)) ? 1*1024*1024 : rtt_wr); // 99 == HiZ
     uint64_t rtt_park_00_s = (rtt_park_00 == 0 ? 1*1024*1024 : rtt_park_00);
     uint64_t rtt_park_01_s = (rtt_park_01 == 0 ? 1*1024*1024 : rtt_park_01);
     uint64_t dqx_ctl_s = (dqx_ctl == 0 ? 1*1024*1024 : dqx_ctl);
@@ -554,6 +555,9 @@ compute_vref_value(bdk_node_t node, int ddr_interface_num,
 
     // WR always comes from the current rank
     index   = (lmc_modereg_params1.u >> (rankx * 12 + 5)) & 0x03;
+    if (!CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X)) {
+        index |= lmc_modereg_params1.u >> (51+rankx-2) & 0x04;
+    }
     rtt_wr  = imp_values->rtt_wr_ohms [index];
 
     // separate calculations for 1 vs 2 DIMMs per LMC
@@ -561,7 +565,7 @@ compute_vref_value(bdk_node_t node, int ddr_interface_num,
 	// PARK comes from this rank if 1-rank, otherwise other rank
 	index = (lmc_modereg_params2.u >> ((rankx ^ (rank_count - 1)) * 10 + 0)) & 0x07;
 	int rtt_park   = imp_values->rtt_nom_ohms[index];
-	computed_final_vref_value = compute_Vref_1slot_2rank(rtt_wr, rtt_park, dqx_ctl);
+	computed_final_vref_value = compute_Vref_1slot_2rank(rtt_wr, rtt_park, dqx_ctl, rank_count);
     } else {
 	// get both PARK values from the other DIMM
 	index = (lmc_modereg_params2.u >> ((rankx ^ 0x02) * 10 + 0)) & 0x07;
@@ -611,6 +615,11 @@ compute_vref_value(bdk_node_t node, int ddr_interface_num,
     }
 #endif
     return computed_final_vref_value;
+}
+
+static int EXTR_WR(uint64_t u, int x)
+{
+    return (int)(((u >> (x*12+5)) & 0x3UL) | ((u >> (51+x-2)) & 0x4UL));
 }
 
 static int encode_row_lsb_ddr3(int row_lsb, int ddr_interface_wide)
@@ -2371,7 +2380,7 @@ static void change_rdimm_mpr_pattern3 (bdk_node_t node, int rank_mask,
 static unsigned char ddr4_rodt_ohms     [RODT_OHMS_COUNT     ] = {  0,  40,  60, 80, 120, 240, 34, 48 };
 static unsigned char ddr4_rtt_nom_ohms  [RTT_NOM_OHMS_COUNT  ] = {  0,  60, 120, 40, 240,  48, 80, 34 };
 static unsigned char ddr4_rtt_nom_table [RTT_NOM_TABLE_COUNT ] = {  0,   4,   2,  6,   1,   5,  3,  7 };
-static unsigned char ddr4_rtt_wr_ohms   [RTT_WR_OHMS_COUNT   ] = {  0, 120, 240,  0,  80 }; // setting HiZ ohms to 0 for computed vref
+static unsigned char ddr4_rtt_wr_ohms   [RTT_WR_OHMS_COUNT   ] = {  0, 120, 240, 99,  80 }; // setting HiZ ohms to 99 for computed vref
 static unsigned char ddr4_dic_ohms      [DIC_OHMS_COUNT      ] = { 34,  48 };
 static short         ddr4_drive_strength[DRIVE_STRENGTH_COUNT] = {  0,   0, 26, 30, 34, 40, 48, 68, 0,0,0,0,0,0,0 };
 static short         ddr4_dqx_strength  [DRIVE_STRENGTH_COUNT] = {  0,  24, 27, 30, 34, 40, 48, 60, 0,0,0,0,0,0,0 };
@@ -3809,13 +3818,11 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
             }
         }
 
-
         if ((s = lookup_env_parameter("ddr_rtt_nom")) == NULL)
             s = lookup_env_parameter("ddr%d_rtt_nom", ddr_interface_num);
         if (s != NULL) {
             uint64_t value;
             value = strtoul(s, NULL, 0);
-
 
             if (dyn_rtt_nom_mask & 1)
                 default_rtt_nom[0] = lmc_modereg_params1.s.rtt_nom_00 = value;
@@ -3834,6 +3841,11 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
             for (i=0; i<4; ++i) {
                 lmc_modereg_params1.u &= ~((uint64_t)0x3  << (i*12+5));
                 lmc_modereg_params1.u |=  ( (value & 0x3) << (i*12+5));
+                // handle extension bits
+                lmc_modereg_params1.u &= ~((uint64_t)0x1  << (51+i)); // always clear extension bit
+                if ((ddr_type == DDR4_DRAM) && !CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X)) {
+                    lmc_modereg_params1.u |= ((value & 0x4) << (51+i-2));
+                }
             }
         }
 
@@ -3845,6 +3857,11 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                 value = strtoul(s, NULL, 0);
                 lmc_modereg_params1.u &= ~((uint64_t)0x3  << (i*12+5));
                 lmc_modereg_params1.u |=  ( (value & 0x3) << (i*12+5));
+                // handle extension bits
+                lmc_modereg_params1.u &= ~((uint64_t)0x1  << (51+i)); // always clear extension bit
+                if ((ddr_type == DDR4_DRAM) && !CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X)) {
+                    lmc_modereg_params1.u |= ((value & 0x4) << (51+i-2));
+                }
             }
         }
 
@@ -3879,6 +3896,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                   lmc_modereg_params1.s.rtt_nom_01,
                   lmc_modereg_params1.s.rtt_nom_00);
 
+#if 0
         ddr_print("RTT_WR      %3d, %3d, %3d, %3d ohms           :  %x,%x,%x,%x\n",
                   imp_values->rtt_wr_ohms[lmc_modereg_params1.s.rtt_wr_11],
                   imp_values->rtt_wr_ohms[lmc_modereg_params1.s.rtt_wr_10],
@@ -3888,6 +3906,17 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                   lmc_modereg_params1.s.rtt_wr_10,
                   lmc_modereg_params1.s.rtt_wr_01,
                   lmc_modereg_params1.s.rtt_wr_00);
+#else
+        ddr_print("RTT_WR      %3d, %3d, %3d, %3d ohms           :  %x,%x,%x,%x\n",
+                  imp_values->rtt_wr_ohms[EXTR_WR(lmc_modereg_params1.u, 3)],
+                  imp_values->rtt_wr_ohms[EXTR_WR(lmc_modereg_params1.u, 2)],
+                  imp_values->rtt_wr_ohms[EXTR_WR(lmc_modereg_params1.u, 1)],
+                  imp_values->rtt_wr_ohms[EXTR_WR(lmc_modereg_params1.u, 0)],
+                  (unsigned int)EXTR_WR(lmc_modereg_params1.u, 3),
+                  (unsigned int)EXTR_WR(lmc_modereg_params1.u, 2),
+                  (unsigned int)EXTR_WR(lmc_modereg_params1.u, 1),
+                  (unsigned int)EXTR_WR(lmc_modereg_params1.u, 0));
+#endif
 
         ddr_print("DIC         %3d, %3d, %3d, %3d ohms           :  %x,%x,%x,%x\n",
                   imp_values->dic_ohms[lmc_modereg_params1.s.dic_11],
@@ -6312,6 +6341,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                         lmc_modereg_params1.s.rtt_nom_01,
                         lmc_modereg_params1.s.rtt_nom_00);
 
+#if 0
 		VB_PRT(VBL_DEV, "RTT_WR      %3d, %3d, %3d, %3d ohms           :  %x,%x,%x,%x\n",
                         imp_values->rtt_wr_ohms[lmc_modereg_params1.s.rtt_wr_11],
                         imp_values->rtt_wr_ohms[lmc_modereg_params1.s.rtt_wr_10],
@@ -6321,6 +6351,17 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                         lmc_modereg_params1.s.rtt_wr_10,
                         lmc_modereg_params1.s.rtt_wr_01,
                         lmc_modereg_params1.s.rtt_wr_00);
+#else
+		VB_PRT(VBL_DEV, "RTT_WR      %3d, %3d, %3d, %3d ohms           :  %x,%x,%x,%x\n",
+                       imp_values->rtt_wr_ohms[EXTR_WR(lmc_modereg_params1.u, 3)],
+                       imp_values->rtt_wr_ohms[EXTR_WR(lmc_modereg_params1.u, 2)],
+                       imp_values->rtt_wr_ohms[EXTR_WR(lmc_modereg_params1.u, 1)],
+                       imp_values->rtt_wr_ohms[EXTR_WR(lmc_modereg_params1.u, 0)],
+                       (unsigned int)EXTR_WR(lmc_modereg_params1.u, 3),
+                       (unsigned int)EXTR_WR(lmc_modereg_params1.u, 2),
+                       (unsigned int)EXTR_WR(lmc_modereg_params1.u, 1),
+                       (unsigned int)EXTR_WR(lmc_modereg_params1.u, 0));
+#endif
 
 		VB_PRT(VBL_DEV, "DIC         %3d, %3d, %3d, %3d ohms           :  %x,%x,%x,%x\n",
                         imp_values->dic_ohms[lmc_modereg_params1.s.dic_11],
