@@ -7329,14 +7329,18 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                                                 byte_test_status[8] = WL_ESTIMATED; /* say it is still estimated */
                                             }
                                     }
-                                    // check if we came up with a bad calculation
-                                    // this happens if some of the original values were off
-                                    if (byte_test_status[8] == WL_ESTIMATED) {
-                                        // ESTIMATED means there is an issue, will trigger bytes_failed later
-                                        ddr_print("N%d.LMC%d.R%d: SW write-leveling (%cDIMM): calculated ECC delay poor (%d/%d/%d)\n",
+                                    /*
+                                     * Report whenever the calculation appears bad.
+                                     * This happens if some of the original values were off, or unexpected geometry
+                                     * from DIMM type, or custom circuitry (NIC225E, I am looking at you!).
+                                     * We will trust the calculated value, and depend on later testing to catch
+                                     * any instances when that value is truly bad.
+                                     */
+                                    if (byte_test_status[8] == WL_ESTIMATED) { // ESTIMATED means there may be an issue
+                                        ddr_print("N%d.LMC%d.R%d: SWL: (%cDIMM): calculated ECC delay unexpected (%d/%d/%d)\n",
                                                   node, ddr_interface_num, rankx, (spd_rdimm?'R':'U'),
                                                   lmc_wlevel_rank.s.byte4, test_byte8, lmc_wlevel_rank.s.byte3);
-                                        test_byte8 = save_byte8; // restore orig HW value
+                                        byte_test_status[8] = WL_HARDWARE;
                                     }
                                 }
 #endif /* SW_WL_CHECK_PATCH */
