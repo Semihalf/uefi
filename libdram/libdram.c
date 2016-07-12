@@ -485,6 +485,12 @@ int libdram_margin(int node)
     char *risk[2] = { "Low Risk", "Needs Review" };
     int l2c_num_locked = bdk_l2c_get_num_locked(node);
 
+    // for now, no margining on 81xx or 83xx, until L2C locking detect works on them...
+    if (! CAVIUM_IS_MODEL(CAVIUM_CN88XX)) {
+        printf("Sorry, margining is not available on 81xx or 83xx yet...\n");
+        return 0;
+    }
+
     dram_verbosity = bdk_config_get_int(BDK_CONFIG_DRAM_VERBOSE);
 
     // the only way this entry point should be called is from a MENU item,
