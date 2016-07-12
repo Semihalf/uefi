@@ -618,9 +618,16 @@ compute_vref_value(bdk_node_t node, int ddr_interface_num,
     return computed_final_vref_value;
 }
 
-static int EXTR_WR(uint64_t u, int x)
+static unsigned int EXTR_WR(uint64_t u, int x)
 {
-    return (int)(((u >> (x*12+5)) & 0x3UL) | ((u >> (51+x-2)) & 0x4UL));
+    return (unsigned int)(((u >> (x*12+5)) & 0x3UL) | ((u >> (51+x-2)) & 0x4UL));
+}
+static void INSRT_WR(uint64_t *up, int x, int v)
+{
+    uint64_t u = *up;
+    u &= ~(((0x3UL) << (x*12+5)) | ((0x1UL) << (51+x)));
+    *up = (u | ((v & 0x3UL) << (x*12+5)) | ((v & 0x4UL) << (51+x-2)));
+    return;
 }
 
 static int encode_row_lsb_ddr3(int row_lsb, int ddr_interface_wide)
@@ -3853,32 +3860,31 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         if ((s = lookup_env_parameter("ddr_rtt_wr")) != NULL) {
             uint64_t value = strtoul(s, NULL, 0);
             for (i=0; i<4; ++i) {
-                lmc_modereg_params1.u &= ~((uint64_t)0x3  << (i*12+5));
-                lmc_modereg_params1.u |=  ( (value & 0x3) << (i*12+5));
-                // handle extension bits
-                lmc_modereg_params1.u &= ~((uint64_t)0x1  << (51+i)); // always clear extension bit
-                if ((ddr_type == DDR4_DRAM) && !CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X)) {
-                    lmc_modereg_params1.u |= ((value & 0x4) << (51+i-2));
-                }
+                INSRT_WR(&lmc_modereg_params1.u, i, value);
             }
         }
 
-        for (i=0; i<4; ++i) {
+        for (i = 0; i < 4; ++i) {
             uint64_t value;
             if ((s = lookup_env_parameter("ddr_rtt_wr_%1d%1d", !!(i&2), !!(i&1))) == NULL)
                 s = lookup_env_parameter("ddr%d_rtt_wr_%1d%1d", ddr_interface_num, !!(i&2), !!(i&1));
             if (s != NULL) {
                 value = strtoul(s, NULL, 0);
-                lmc_modereg_params1.u &= ~((uint64_t)0x3  << (i*12+5));
-                lmc_modereg_params1.u |=  ( (value & 0x3) << (i*12+5));
-                // handle extension bits
-                lmc_modereg_params1.u &= ~((uint64_t)0x1  << (51+i)); // always clear extension bit
-                if ((ddr_type == DDR4_DRAM) && !CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X)) {
-                    lmc_modereg_params1.u |= ((value & 0x4) << (51+i-2));
-                }
+                INSRT_WR(&lmc_modereg_params1.u, i, value);
             }
         }
 
+        // Make sure pass 1 has valid RTT_WR settings, because
+        // configuration files may be set-up for pass 2, and
+        // pass 1 supports no RTT_WR extension bits
+        if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X)) {
+            for (i = 0; i < 4; ++i) {
+                if (EXTR_WR(lmc_modereg_params1.u, i) > 3) { // if 80 or undefined
+                    INSRT_WR(&lmc_modereg_params1.u, i, 1); // FIXME? always insert 120
+                    ddr_print("RTT_WR_%d%d set to 120 for CN88XX pass 1\n", !!(i&2), i&1);
+                }
+            }
+        }
         if ((s = lookup_env_parameter("ddr_dic")) != NULL) {
             uint64_t value = strtoul(s, NULL, 0);
             for (i=0; i<4; ++i) {
@@ -3910,27 +3916,15 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                   lmc_modereg_params1.s.rtt_nom_01,
                   lmc_modereg_params1.s.rtt_nom_00);
 
-#if 0
-        ddr_print("RTT_WR      %3d, %3d, %3d, %3d ohms           :  %x,%x,%x,%x\n",
-                  imp_values->rtt_wr_ohms[lmc_modereg_params1.s.rtt_wr_11],
-                  imp_values->rtt_wr_ohms[lmc_modereg_params1.s.rtt_wr_10],
-                  imp_values->rtt_wr_ohms[lmc_modereg_params1.s.rtt_wr_01],
-                  imp_values->rtt_wr_ohms[lmc_modereg_params1.s.rtt_wr_00],
-                  lmc_modereg_params1.s.rtt_wr_11,
-                  lmc_modereg_params1.s.rtt_wr_10,
-                  lmc_modereg_params1.s.rtt_wr_01,
-                  lmc_modereg_params1.s.rtt_wr_00);
-#else
         ddr_print("RTT_WR      %3d, %3d, %3d, %3d ohms           :  %x,%x,%x,%x\n",
                   imp_values->rtt_wr_ohms[EXTR_WR(lmc_modereg_params1.u, 3)],
                   imp_values->rtt_wr_ohms[EXTR_WR(lmc_modereg_params1.u, 2)],
                   imp_values->rtt_wr_ohms[EXTR_WR(lmc_modereg_params1.u, 1)],
                   imp_values->rtt_wr_ohms[EXTR_WR(lmc_modereg_params1.u, 0)],
-                  (unsigned int)EXTR_WR(lmc_modereg_params1.u, 3),
-                  (unsigned int)EXTR_WR(lmc_modereg_params1.u, 2),
-                  (unsigned int)EXTR_WR(lmc_modereg_params1.u, 1),
-                  (unsigned int)EXTR_WR(lmc_modereg_params1.u, 0));
-#endif
+                  EXTR_WR(lmc_modereg_params1.u, 3),
+                  EXTR_WR(lmc_modereg_params1.u, 2),
+                  EXTR_WR(lmc_modereg_params1.u, 1),
+                  EXTR_WR(lmc_modereg_params1.u, 0));
 
         ddr_print("DIC         %3d, %3d, %3d, %3d ohms           :  %x,%x,%x,%x\n",
                   imp_values->dic_ohms[lmc_modereg_params1.s.dic_11],
@@ -6389,27 +6383,15 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                         lmc_modereg_params1.s.rtt_nom_01,
                         lmc_modereg_params1.s.rtt_nom_00);
 
-#if 0
-		VB_PRT(VBL_DEV, "RTT_WR      %3d, %3d, %3d, %3d ohms           :  %x,%x,%x,%x\n",
-                        imp_values->rtt_wr_ohms[lmc_modereg_params1.s.rtt_wr_11],
-                        imp_values->rtt_wr_ohms[lmc_modereg_params1.s.rtt_wr_10],
-                        imp_values->rtt_wr_ohms[lmc_modereg_params1.s.rtt_wr_01],
-                        imp_values->rtt_wr_ohms[lmc_modereg_params1.s.rtt_wr_00],
-                        lmc_modereg_params1.s.rtt_wr_11,
-                        lmc_modereg_params1.s.rtt_wr_10,
-                        lmc_modereg_params1.s.rtt_wr_01,
-                        lmc_modereg_params1.s.rtt_wr_00);
-#else
 		VB_PRT(VBL_DEV, "RTT_WR      %3d, %3d, %3d, %3d ohms           :  %x,%x,%x,%x\n",
                        imp_values->rtt_wr_ohms[EXTR_WR(lmc_modereg_params1.u, 3)],
                        imp_values->rtt_wr_ohms[EXTR_WR(lmc_modereg_params1.u, 2)],
                        imp_values->rtt_wr_ohms[EXTR_WR(lmc_modereg_params1.u, 1)],
                        imp_values->rtt_wr_ohms[EXTR_WR(lmc_modereg_params1.u, 0)],
-                       (unsigned int)EXTR_WR(lmc_modereg_params1.u, 3),
-                       (unsigned int)EXTR_WR(lmc_modereg_params1.u, 2),
-                       (unsigned int)EXTR_WR(lmc_modereg_params1.u, 1),
-                       (unsigned int)EXTR_WR(lmc_modereg_params1.u, 0));
-#endif
+                       EXTR_WR(lmc_modereg_params1.u, 3),
+                       EXTR_WR(lmc_modereg_params1.u, 2),
+                       EXTR_WR(lmc_modereg_params1.u, 1),
+                       EXTR_WR(lmc_modereg_params1.u, 0));
 
 		VB_PRT(VBL_DEV, "DIC         %3d, %3d, %3d, %3d ohms           :  %x,%x,%x,%x\n",
                         imp_values->dic_ohms[lmc_modereg_params1.s.dic_11],
