@@ -175,8 +175,19 @@ static void check_cn8xxx_l2c_tads(bdk_node_t node, int limit)
     }
 }
 
-static void check_cn8xxx_lmc(bdk_node_t node, int index)
+// "check_intf_en" arg: 0 = no check INTF_EN, 1 = check INTF_EN
+static void check_cn8xxx_lmc(bdk_node_t node, int index, int check_intf_en)
 {
+    BDK_CSR_INIT(lmcx_dll_ctl2, node, BDK_LMCX_DLL_CTL2(index));
+
+    // always make sure it is out of DRESET first...
+    if (lmcx_dll_ctl2.s.dreset)
+        return;
+
+    // then, if check_intf_en == 1, must have INTF_EN == 1
+    if ((check_intf_en != 0) && (lmcx_dll_ctl2.s.intf_en == 0))
+        return;
+
     BDK_CSR_INIT(c, node, BDK_LMCX_INT(index));
     CHECK_CHIP_ERROR(BDK_LMCX_INT(index), s, macram_ded_err);
     CHECK_CHIP_ERROR(BDK_LMCX_INT(index), s, macram_sec_err);
@@ -247,11 +258,11 @@ static void check_cn88xx(bdk_node_t node)
     check_cn8xxx_l2c_tads(node, 8);
 
     for (int index = 0; index < 4; index++) {
-        BDK_CSR_INIT(lmcx_dll_ctl2, node, BDK_LMCX_DLL_CTL2(index));
-        /* LMC0 and LMC1 are always enabled, though we never set their INTF_EN bits */
-        if (((index < 2) || (lmcx_dll_ctl2.s.intf_en == 1)) && !lmcx_dll_ctl2.s.dreset) {
-            check_cn8xxx_lmc(node, index);
-        }
+        /*
+         * LMC0 and LMC1 are always enabled, but we cannot set their INTF_EN bits.
+         * LMC2 and LMC3 may be disabled, so check their INTF_EN bits.
+         */
+        check_cn8xxx_lmc(node, index, (index >= 2));
     }
 
     BDK_CSR_INIT(l2c_oci_ctl, node, BDK_L2C_OCI_CTL);
@@ -355,13 +366,8 @@ static void check_cn83xx(bdk_node_t node)
     check_cn8xxx_l2c_mcis(node, 3);
     check_cn8xxx_l2c_tads(node, 4);
 
-    check_cn8xxx_lmc(node, 0); // always do LMC0
-
-    /* check LMC1, it may not be enabled */
-    BDK_CSR_INIT(lmcx_dll_ctl2, node, BDK_LMCX_DLL_CTL2(1));
-    if ((lmcx_dll_ctl2.s.intf_en == 1) && !lmcx_dll_ctl2.s.dreset) {
-        check_cn8xxx_lmc(node, 1);
-    }
+    check_cn8xxx_lmc(node, 0, 0); // LMC0 without INTF_EN
+    check_cn8xxx_lmc(node, 1, 1); // LMC1 maybe not, so check INTF_EN
 }
 
 //////////////
@@ -378,9 +384,7 @@ static void check_cn81xx(bdk_node_t node)
     check_cn8xxx_l2c_mcis(node, 1);
     check_cn8xxx_l2c_tads(node, 1);
 
-    BDK_CSR_INIT(lmcx_dll_ctl2, node, BDK_LMCX_DLL_CTL2(0));
-    if (!lmcx_dll_ctl2.s.dreset)
-        check_cn8xxx_lmc(node, 0);
+    check_cn8xxx_lmc(node, 0, 0); // LMC0 without INTF_EN
 }
 
 // Generic Error Enable
