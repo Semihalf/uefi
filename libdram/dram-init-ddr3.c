@@ -1237,9 +1237,9 @@ display_RL_with_final(bdk_node_t node, int ddr_interface_num, bdk_lmcx_rlevel_ra
 }
 
 static inline void
-display_RL_with_computed(bdk_node_t node, int ddr_interface_num, bdk_lmcx_rlevel_rankx_t lmc_rlevel_rank, int rank)
+display_RL_with_computed(bdk_node_t node, int ddr_interface_num, bdk_lmcx_rlevel_rankx_t lmc_rlevel_rank, int rank, int score)
 {
-    do_display_RL(node, ddr_interface_num, lmc_rlevel_rank, rank, 8, 0);
+    do_display_RL(node, ddr_interface_num, lmc_rlevel_rank, rank, 9, score);
 }
 
 // flag values
@@ -5981,7 +5981,6 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
 			for (average_loops = 0; average_loops < rlevel_avg_loops; average_loops++) {
 			    rlevel_bitmask_errors = 0;
-			    rlevel_nonseq_errors  = 0;
 
 			    if (! (rlevel_separate_ab && spd_rdimm && (ddr_type == DDR4_DRAM))) {
 				/* Clear read-level delays */
@@ -6001,6 +6000,8 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 			    lmc_rlevel_rank.u = BDK_CSR_READ(node, BDK_LMCX_RLEVEL_RANKX(ddr_interface_num, rankx));
 
 			    { // start bitmask interpretation block
+                                int redoing_nonseq_errs = 0;
+
                                 memset(rlevel_bitmask, 0, sizeof(rlevel_bitmask));
 
 				if (rlevel_separate_ab && spd_rdimm && (ddr_type == DDR4_DRAM)) {
@@ -6074,9 +6075,9 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 				} /* if (rlevel_separate_ab && spd_rdimm && (ddr_type == DDR4_DRAM)) */
 
 				/*
-                                 * Evaluate the quality of the read-leveling delays. Also
-                                 * save off a software computed read-leveling mask that
-                                 * may be used later to qualify the delay results from Octeon.
+                                 * Evaluate the quality of the read-leveling delays from the bitmasks.
+                                 * Also save off a software computed read-leveling mask that may be
+                                 * used later to qualify the delay results from Octeon.
                                  */
 				for (byte_idx = 0; byte_idx < (8+ecc_ena); ++byte_idx) {
 				    if (!(ddr_interface_bytemask&(1<<byte_idx)))
@@ -6100,6 +6101,9 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 				/* Save a copy of the byte delays in physical
 				   order for sequential evaluation. */
 				unpack_rlevel_settings(ddr_interface_bytemask, ecc_ena, rlevel_byte, lmc_rlevel_rank);
+                            redo_nonseq_errs:
+
+                                rlevel_nonseq_errors  = 0;
 
 				if (! disable_sequential_delay_check) {
 				    if ((ddr_interface_bytemask & 0xff) == 0xff) {
@@ -6129,7 +6133,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 					rlevel_nonseq_errors += nonsequential_delays(rlevel_byte, 0, 3+ecc_ena,
 										   maximum_adjacent_rlevel_delay_increment);
 				    }
-				}
+				} /* if (! disable_sequential_delay_check) */
 
 #if 0
                                 // FIXME FIXME: disabled for now, it was too much...
@@ -6149,8 +6153,9 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                                 rlevel_rank_errors = rlevel_bitmask_errors + rlevel_nonseq_errors;
 #endif
                                 
-				// print here only if we are not really averaging or picking best
-				if ((rlevel_avg_loops < 2) || dram_is_verbose(VBL_DEV2)) {
+				// print original sample here only if we are not really averaging or picking best
+                                // also do not print if we were redoing the NONSEQ score for using COMPUTED
+				if (!redoing_nonseq_errs && ((rlevel_avg_loops < 2) || dram_is_verbose(VBL_DEV2))) {
                                     display_RL_BM(node, ddr_interface_num, rankx, rlevel_bitmask, ecc_ena);
                                     display_RL_BM_scores(node, ddr_interface_num, rankx, rlevel_bitmask, ecc_ena);
                                     display_RL_SEQ_scores(node, ddr_interface_num, rankx, rlevel_byte, ecc_ena);
@@ -6158,21 +6163,31 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 				}
 
 				if (ddr_rlevel_compute) {
-				    /* Recompute the delays based on the bitmask */
-				    for (byte_idx = 0; byte_idx < (8+ecc_ena); ++byte_idx) {
-					if (!(ddr_interface_bytemask & (1 << byte_idx)))
-					    continue;
-					update_rlevel_rank_struct(&lmc_rlevel_rank, byte_idx,
-								  compute_ddr3_rlevel_delay(rlevel_bitmask[byte_idx].mstart,
-											    rlevel_bitmask[byte_idx].width,
-											    rlevel_ctl));
-				    }
+                                    if (!redoing_nonseq_errs) {
+                                        /* Recompute the delays based on the bitmask */
+                                        for (byte_idx = 0; byte_idx < (8+ecc_ena); ++byte_idx) {
+                                            if (!(ddr_interface_bytemask & (1 << byte_idx)))
+                                                continue;
+                                            update_rlevel_rank_struct(&lmc_rlevel_rank, byte_idx,
+                                                                      compute_ddr3_rlevel_delay(rlevel_bitmask[byte_idx].mstart,
+                                                                                                rlevel_bitmask[byte_idx].width,
+                                                                                                rlevel_ctl));
+                                        }
 
-				    /* Override the copy of byte delays with the computed results. */
-				    unpack_rlevel_settings(ddr_interface_bytemask, ecc_ena, rlevel_byte, lmc_rlevel_rank);
+                                        /* Override the copy of byte delays with the computed results. */
+                                        unpack_rlevel_settings(ddr_interface_bytemask, ecc_ena, rlevel_byte, lmc_rlevel_rank);
 
-                                    display_RL_with_computed(node, ddr_interface_num, lmc_rlevel_rank, rankx);
+                                        redoing_nonseq_errs = 1;
+                                        goto redo_nonseq_errs;
 
+                                    } else {
+                                        /* now print this if already printed the original sample */
+                                        if ((rlevel_avg_loops < 2) || dram_is_verbose(VBL_DEV2)) {
+                                            display_RL_with_computed(node, ddr_interface_num,
+                                                                     lmc_rlevel_rank, rankx,
+                                                                     rlevel_rank_errors);
+                                        }
+                                    }
 				} /* if (ddr_rlevel_compute) */
 
 			    } // end bitmask interpretation block
@@ -6182,7 +6197,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 			    if (rlevel_rank_errors < rlevel_best_rank_score) {
 				rlevel_best_rank_score = rlevel_rank_errors;
 
-				// save the new best delays in the best fields
+				// save the new best delays and best errors
 				for (byte_idx = 0; byte_idx < 9; ++byte_idx) {
 				    rlevel_byte[byte_idx].best = rlevel_byte[byte_idx].delay;
 				    rlevel_byte[byte_idx].bestsq = rlevel_byte[byte_idx].sqerrs;
