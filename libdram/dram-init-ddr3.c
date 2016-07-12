@@ -1056,7 +1056,7 @@ static void rlevel_to_wlevel(bdk_lmcx_rlevel_rankx_t *lmc_rlevel_rank,
 #endif /* !DISABLE_SW_WL_PASS_2 */
 
 /* Delay trend: constant=0, decreasing=-1, increasing=1 */
-static int64_t calc_delay_trend(int64_t v)
+static int calc_delay_trend(int v)
 {
     if (v == 0)
 	return (0);
@@ -1066,8 +1066,12 @@ static int64_t calc_delay_trend(int64_t v)
 }
 
 /* Evaluate delay sequence across the whole range of byte delays while
-** keeping track of the overall delay trand, increasing or decreasing.
-** If the trend changes charge an error amount to the score. */
+** keeping track of the overall delay trend, increasing or decreasing.
+** If the trend changes charge an error amount to the score.
+*/
+
+// NOTE: "max_adj_delay_inc" argument is, by default, 1 for DDR3 and 2 for DDR4
+
 static int nonsequential_delays(rlevel_byte_data_t *rlevel_byte,
 				int start, int end, int max_adj_delay_inc)
 {
@@ -1075,31 +1079,45 @@ static int nonsequential_delays(rlevel_byte_data_t *rlevel_byte,
     int delay_trend, prev_trend = 0;
     int byte_idx;
     int delay_inc;
-    for (byte_idx=start; byte_idx<end; ++byte_idx) {
-	delay_trend = calc_delay_trend(rlevel_byte[byte_idx+1].delay -
-				       rlevel_byte[byte_idx].delay);
+    int delay_diff;
+    int byte_err;
+
+    for (byte_idx = start; byte_idx < end; ++byte_idx) {
+        byte_err = 0;
+
+	delay_diff = rlevel_byte[byte_idx+1].delay - rlevel_byte[byte_idx].delay;
+	delay_trend = calc_delay_trend(delay_diff);
+				       
 	debug_bitmask_print("Byte %d: %2d, Byte %d: %2d, delay_trend: %2d, prev_trend: %2d",
 			    byte_idx+0, rlevel_byte[byte_idx+0].delay,
 			    byte_idx+1, rlevel_byte[byte_idx+1].delay,
 			    delay_trend, prev_trend);
-	if ((prev_trend != 0) && (delay_trend != 0) &&
-	    (prev_trend != delay_trend)) {
-	    /* Increment error each time the trend changes. */
-	    error += RLEVEL_NONSEQUENTIAL_DELAY_ERROR;
+
+        /* Increment error each time the trend changes to the opposite direction.
+         */
+	if ((prev_trend != 0) && (delay_trend != 0) && (prev_trend != delay_trend)) {
+	    byte_err += RLEVEL_NONSEQUENTIAL_DELAY_ERROR;
 	    prev_trend = delay_trend;
 	    debug_bitmask_print(" => Nonsequential byte delay");
 	}
 
-	delay_inc = _abs(rlevel_byte[byte_idx+1].delay
-			 - rlevel_byte[byte_idx].delay);
+	delay_inc = _abs(delay_diff); // how big was the delay change, if any
+        
+        /* Even if the trend did not change to the opposite direction, check for
+           the magnitude of the change, and scale the penalty by the amount that
+           the size is larger than the provided limit.
+         */
 	if ((max_adj_delay_inc != 0) && (delay_inc > max_adj_delay_inc)) {
-	    error += (delay_inc - max_adj_delay_inc) * RLEVEL_ADJACENT_DELAY_ERROR;
+	    byte_err += (delay_inc - max_adj_delay_inc) * RLEVEL_ADJACENT_DELAY_ERROR;
 	    debug_bitmask_print(" => Adjacent delay error");
 	}
 
 	debug_bitmask_print("\n");
 	if (delay_trend != 0)
 	    prev_trend = delay_trend;
+
+        rlevel_byte[byte_idx+1].sqerrs = byte_err;
+        error += byte_err;
     }
     return error;
 }
@@ -1332,6 +1350,7 @@ XPU(int index, int ecc_ena)
 #define WITH_WL_BITMASKS      0
 #define WITH_RL_BITMASKS      1
 #define WITH_RL_MASK_SCORES   2
+#define WITH_RL_SEQ_SCORES    3
 static void
 do_display_BM(bdk_node_t node, int ddr_interface_num, int rank, void *bm, int flags, int ecc_ena)
 {
@@ -1381,6 +1400,21 @@ do_display_BM(bdk_node_t node, int ddr_interface_num, int rank, void *bm, int fl
                   rlevel_bitmask[XPU(1,ecc)].errs,
                   rlevel_bitmask[XPU(0,ecc)].errs
                   );
+    } else
+    if (flags == WITH_RL_SEQ_SCORES) {
+        rlevel_byte_data_t *rlevel_byte = (rlevel_byte_data_t *)bm;
+        ddr_print("N%d.LMC%d.R%d: Rlevel Debug Non-seq Scores  8:0      : %5d %5d %5d %5d %5d %5d %5d %5d %5d\n",
+                  node, ddr_interface_num, rank,
+                  rlevel_byte[XPU(8,ecc)].sqerrs,
+                  rlevel_byte[XPU(7,ecc)].sqerrs,
+                  rlevel_byte[XPU(6,ecc)].sqerrs,
+                  rlevel_byte[XPU(5,ecc)].sqerrs,
+                  rlevel_byte[XPU(4,ecc)].sqerrs,
+                  rlevel_byte[XPU(3,ecc)].sqerrs,
+                  rlevel_byte[XPU(2,ecc)].sqerrs,
+                  rlevel_byte[XPU(1,ecc)].sqerrs,
+                  rlevel_byte[XPU(0,ecc)].sqerrs
+                  );
     }
 }
 
@@ -1400,6 +1434,12 @@ static inline void
 display_RL_BM_scores(bdk_node_t node, int ddr_interface_num, int rank, rlevel_bitmask_t *bitmasks, int ecc_ena)
 {
     do_display_BM(node, ddr_interface_num, rank, (void *)bitmasks, WITH_RL_MASK_SCORES, ecc_ena);
+}
+
+static inline void
+display_RL_SEQ_scores(bdk_node_t node, int ddr_interface_num, int rank, rlevel_byte_data_t *bytes, int ecc_ena)
+{
+    do_display_BM(node, ddr_interface_num, rank, (void *)bytes, WITH_RL_SEQ_SCORES, ecc_ena);
 }
 
 unsigned short load_dll_offset(bdk_node_t node, int ddr_interface_num,
@@ -6045,10 +6085,14 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 										       maximum_adjacent_rlevel_delay_increment);
 					    rlevel_nonseq_errors += nonsequential_delays(rlevel_byte, 5, 7+ecc_ena,
 										       maximum_adjacent_rlevel_delay_increment);
+                                            // byte 5 sqerrs never gets cleared for RDIMMs
+                                            rlevel_byte[5].sqerrs = 0;
 					    if (register_adjacent_delay > 1) {
 						/* Assess proximity of bytes on opposite sides of register */
 						rlevel_nonseq_errors += (register_adjacent_delay-1) * RLEVEL_ADJACENT_DELAY_ERROR;
-					    }
+                                                // update byte 5 error
+						rlevel_byte[5].sqerrs += (register_adjacent_delay-1) * RLEVEL_ADJACENT_DELAY_ERROR;
+                                            }
 					}
 					if ((spd_dimm_type == 2) || (spd_dimm_type == 6)) { /* 2=UDIMM, 6=Mini-UDIMM */
 					    /* Unbuffered dimm topology routes from end to end. */
@@ -6077,6 +6121,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 				if ((rlevel_avg_loops < 2) || dram_is_verbose(VBL_DEV2)) {
                                     display_RL_BM(node, ddr_interface_num, rankx, rlevel_bitmask, ecc_ena);
                                     display_RL_BM_scores(node, ddr_interface_num, rankx, rlevel_bitmask, ecc_ena);
+                                    display_RL_SEQ_scores(node, ddr_interface_num, rankx, rlevel_byte, ecc_ena);
 				    display_RL_with_score(node, ddr_interface_num, lmc_rlevel_rank, rankx, rlevel_rank_errors);
 				}
 
@@ -6108,9 +6153,10 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 				// save the new best delays in the best fields
 				for (byte_idx = 0; byte_idx < 9; ++byte_idx) {
 				    rlevel_byte[byte_idx].best = rlevel_byte[byte_idx].delay;
+				    rlevel_byte[byte_idx].bestsq = rlevel_byte[byte_idx].sqerrs;
                                     // save bitmasks and their scores as well
 				    rlevel_byte[byte_idx].bm   = rlevel_bitmask[byte_idx].bm;
-				    rlevel_byte[byte_idx].errs = rlevel_bitmask[byte_idx].errs;
+				    rlevel_byte[byte_idx].bmerrs = rlevel_bitmask[byte_idx].errs;
 				}
 			    }
 #if KEEP_PERFECT_AVG
@@ -6151,6 +6197,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 			/* Restore the delays from the best fields that go with the best score */
 			for (byte_idx = 0; byte_idx < 9; ++byte_idx) {
 			    rlevel_byte[byte_idx].delay = rlevel_byte[byte_idx].best;
+			    rlevel_byte[byte_idx].sqerrs = rlevel_byte[byte_idx].bestsq;
 			}
 #if KEEP_PERFECT_AVG
                         // calc average of the perfect bitmask scores
@@ -6161,7 +6208,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                                     (rlevel_byte[byte_idx].loop_total * 10) / rlevel_byte[byte_idx].loop_count;
                             }
                             // if best bitmask is not perfect and at least 1 was perfect
-                            if ((rlevel_byte[byte_idx].errs != 0) && (perfect_avg_delay != 0)) {
+                            if ((rlevel_byte[byte_idx].bmerrs != 0) && (perfect_avg_delay != 0)) {
                                 // and if best is not the perfect avg 
                                 if (rlevel_byte[byte_idx].best != (perfect_avg_delay / 10)) {
                                     ddr_print("N%d.LMC%d.R%d.B%d: PERFECT: best %d != perf %d.%d (%d)\n", 
@@ -6199,12 +6246,13 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                                 if ((ddr_interface_bytemask & (1 << byte_idx)) == 0)
                                     continue;
                                 rlevel_bitmask[byte_idx].bm   = rlevel_byte[byte_idx].bm;
-                                rlevel_bitmask[byte_idx].errs = rlevel_byte[byte_idx].errs;
+                                rlevel_bitmask[byte_idx].errs = rlevel_byte[byte_idx].bmerrs;
                             }
                             // print bitmasks/scores here only for DEV // FIXME? lower VBL?
                             if (dram_is_verbose(VBL_DEV)) {
                                 display_RL_BM(node, ddr_interface_num, rankx, rlevel_bitmask, ecc_ena);
                                 display_RL_BM_scores(node, ddr_interface_num, rankx, rlevel_bitmask, ecc_ena);
+                                display_RL_SEQ_scores(node, ddr_interface_num, rankx, rlevel_byte, ecc_ena);
                             }
 
                             display_RL_with_RODT(node, ddr_interface_num, lmc_rlevel_rank, rankx,

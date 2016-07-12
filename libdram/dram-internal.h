@@ -42,7 +42,9 @@ typedef struct {
     int loop_count;
     int best;
     uint64_t bm;
-    int errs;
+    int bmerrs;
+    int sqerrs;
+    int bestsq;
 } rlevel_byte_data_t;
 
 typedef struct {
