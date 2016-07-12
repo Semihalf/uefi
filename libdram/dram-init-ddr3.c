@@ -21,6 +21,7 @@
 
 #define KEEP_PERFECT_AVG    1
 #define COUNT_RL_CANDIDATES 1
+#define FAILSAFE_CHECK      1
 
 #define DAC_OVERRIDE_EARLY  1
 
@@ -6769,7 +6770,15 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
 			// NOTE: we do this next loop separately from above, because we count relative to "best_byte"
 			// which may have been modified by the above averaging operation...
+                        //
+                        // Also, the above only moves toward the average by +- 1, so that we will always have a count
+                        // of at least 1 for the original best byte, even if all the others are further away and not counted;
+                        // this ensures we will go back to the original if no others are counted...
+                        // FIXME: this could cause issue if the range of values for a byte-lane are too disparate...
 			int count_less = 0, count_same = 0, count_more = 0;
+#if FAILSAFE_CHECK
+                        uint64_t count_byte = new_byte; // save the value we will count around
+#endif /* FAILSAFE_CHECK */
 #if RANK_MAJORITY
 			int rank_less = 0, rank_same = 0, rank_more = 0;
 #endif /* RANK_MAJORITY */
@@ -6927,7 +6936,17 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 					    byte_idx, (int)new_byte);
 			}
 #endif
-
+#if FAILSAFE_CHECK
+                        // one last check:
+                        // if new_byte is still count_byte, BUT there was no count for that value, DO SOMETHING!!!
+                        // FIXME: go back to original best byte from the best row
+                        if ((new_byte == count_byte) && (count_same == 0)) {
+                            new_byte = orig_best_byte;
+			    VB_PRT(VBL_DEV, "N%d.LMC%d.R%d: FAILSAF: Byte %d: going back to original %d.\n",
+					    node, ddr_interface_num, rankx,
+					    byte_idx, (int)new_byte);
+                        }
+#endif /* FAILSAFE_CHECK */
 			VB_PRT(VBL_DEV, "N%d.LMC%d.R%d: SUMMARY: Byte %d: %s: orig %d now %d, more %d same %d less %d, using %d\n",
 					node, ddr_interface_num, rankx,
 					byte_idx, "AVG", (int)orig_best_byte, 
