@@ -1286,8 +1286,9 @@ display_WL_with_final(bdk_node_t node, int ddr_interface_num, bdk_lmcx_wlevel_ra
 }
 
 // flag values
-#define WITH_WL_BITMASKS   0
-#define WITH_RL_BITMASKS   1
+#define WITH_WL_BITMASKS      0
+#define WITH_RL_BITMASKS      1
+#define WITH_RL_MASK_SCORES   2
 static void
 do_display_BM(bdk_node_t node, int ddr_interface_num, int rank, void *bm, int flags)
 {
@@ -1309,7 +1310,7 @@ do_display_BM(bdk_node_t node, int ddr_interface_num, int rank, void *bm, int fl
     } else
     if (flags == WITH_RL_BITMASKS) {
         rlevel_bitmask_t *rlevel_bitmask = (rlevel_bitmask_t *)bm;
-        ddr_print("N%d.LMC%d.R%d: Rlevel Debug Test Results  8:0        : %05lx %05lx %05lx %05lx %05lx %05lx %05lx %05lx %05lx\n",
+        ddr_print("N%d.LMC%d.R%d: Rlevel Debug Bitmasks      8:0        : %05lx %05lx %05lx %05lx %05lx %05lx %05lx %05lx %05lx\n",
                   node, ddr_interface_num, rank,
                   rlevel_bitmask[8].bm,
                   rlevel_bitmask[7].bm,
@@ -1320,6 +1321,21 @@ do_display_BM(bdk_node_t node, int ddr_interface_num, int rank, void *bm, int fl
                   rlevel_bitmask[2].bm,
                   rlevel_bitmask[1].bm,
                   rlevel_bitmask[0].bm
+                  );
+    } else
+    if (flags == WITH_RL_MASK_SCORES) {
+        rlevel_bitmask_t *rlevel_bitmask = (rlevel_bitmask_t *)bm;
+        ddr_print("N%d.LMC%d.R%d: Rlevel Debug Bitmask Scores  8:0      : %05x %05x %05x %05x %05x %05x %05x %05x %05x\n",
+                  node, ddr_interface_num, rank,
+                  rlevel_bitmask[8].errs,
+                  rlevel_bitmask[7].errs,
+                  rlevel_bitmask[6].errs,
+                  rlevel_bitmask[5].errs,
+                  rlevel_bitmask[4].errs,
+                  rlevel_bitmask[3].errs,
+                  rlevel_bitmask[2].errs,
+                  rlevel_bitmask[1].errs,
+                  rlevel_bitmask[0].errs
                   );
     }
 }
@@ -1334,6 +1350,12 @@ static inline void
 display_RL_BM(bdk_node_t node, int ddr_interface_num, int rank, rlevel_bitmask_t *bitmasks)
 {
     do_display_BM(node, ddr_interface_num, rank, (void *)bitmasks, WITH_RL_BITMASKS);
+}
+
+static inline void
+display_RL_BM_scores(bdk_node_t node, int ddr_interface_num, int rank, rlevel_bitmask_t *bitmasks)
+{
+    do_display_BM(node, ddr_interface_num, rank, (void *)bitmasks, WITH_RL_MASK_SCORES);
 }
 
 unsigned short load_dll_offset(bdk_node_t node, int ddr_interface_num,
@@ -5970,6 +5992,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 				// print here only if we are not really averaging or picking best
 				if (rlevel_avg_loops < 2) {
                                     display_RL_BM(node, ddr_interface_num, rankx, rlevel_bitmask);
+                                    display_RL_BM_scores(node, ddr_interface_num, rankx, rlevel_bitmask);
 				    display_RL_with_score(node, ddr_interface_num, lmc_rlevel_rank, rankx, rlevel_rank_errors);
 				}
 
@@ -6011,6 +6034,9 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 				// save the new best delays in the best fields
 				for (byte_idx = 0; byte_idx < 9; ++byte_idx) {
 				    rlevel_byte[byte_idx].best = rlevel_byte[byte_idx].delay;
+                                    // save bitmasks and their scores as well
+				    rlevel_byte[byte_idx].bm   = rlevel_bitmask[byte_idx].bm;
+				    rlevel_byte[byte_idx].errs = rlevel_bitmask[byte_idx].errs;
 				}
 			    }
 
@@ -6064,6 +6090,19 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
 			if (rlevel_avg_loops > 1) {
 #if PICK_BEST_RANK_SCORE_NOT_AVG
+                            // restore the "best" bitmasks and their scores for printing
+                            for (byte_idx = 0; byte_idx < 9; ++byte_idx) {
+                                if ((ddr_interface_bytemask & (1 << byte_idx)) == 0)
+                                    continue;
+                                rlevel_bitmask[byte_idx].bm   = rlevel_byte[byte_idx].bm;
+                                rlevel_bitmask[byte_idx].errs = rlevel_byte[byte_idx].errs;
+                            }
+                            // print bitmasks/scores here only for DEV // FIXME? lower VBL?
+                            if (dram_is_verbose(VBL_DEV)) {
+                                display_RL_BM(node, ddr_interface_num, rankx, rlevel_bitmask);
+                                display_RL_BM_scores(node, ddr_interface_num, rankx, rlevel_bitmask);
+                            }
+
 			    display_RL_with_best(node, ddr_interface_num, lmc_rlevel_rank, rankx,
 						 rlevel_scoreboard[rtt_nom][rodt_ctl][rankx].score);
 #else /* PICK_BEST_RANK_SCORE_NOT_AVG */
@@ -7186,15 +7225,17 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 					byte_delay[byte] = delay;
 				    } else { // reached max delay, maybe really done with this byte
 #if SWL_TRY_HWL_ALT
-					if (!measured_vref_flag && // consider an alt only for DDR3 or computed VREF
-                                            (hwl_alts[rankx].hwl_alt_mask & (1 << byte))) { // does an alt exist
+					if (!measured_vref_flag && // consider an alt only for computed VREF and
+                                            (hwl_alts[rankx].hwl_alt_mask & (1 << byte))) // if an alt exists...
+                                        {
+                                            int bad_delay = delay & 0x6; // just orig low-3 bits
 					    delay = hwl_alts[rankx].hwl_alt_delay[byte]; // yes, use it
 					    hwl_alts[rankx].hwl_alt_mask &= ~(1 << byte); // clear that flag
 					    update_wlevel_rank_struct(&lmc_wlevel_rank, byte, delay);
 					    byte_delay[byte] = delay;
 					    debug_print("        byte %d delay %2d ALTERNATE\n", byte, delay);
-					    VB_PRT(VBL_DEV, "N%d.LMC%d.R%d: SWL: Byte %d: trying ALTERNATE %d\n",
-						      node, ddr_interface_num, rankx, byte, delay);
+					    VB_PRT(VBL_DEV, "N%d.LMC%d.R%d: SWL: Byte %d: %d FAIL, trying ALTERNATE %d\n",
+                                                   node, ddr_interface_num, rankx, byte, bad_delay, delay);
 
 					} else
 #endif /* SWL_TRY_HWL_ALT */
