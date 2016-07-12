@@ -1648,11 +1648,23 @@ static void
 display_DBI_settings(int node, int lmc, int ecc_ena, int *dbi_settings, char *title)
 {
     int byte;
+    int flags;
+    int deskew;
+    char fc;
 
     ddr_print("N%d.LMC%d: %s DBI Deskew Settings %d:0  :",
               node, lmc, title, 7+ecc_ena);
     for (byte = (7+ecc_ena); byte >= 0; --byte) {
-        ddr_print(" 0x%03x ", dbi_settings[byte]);
+        flags = dbi_settings[byte] & 7;
+        deskew = (dbi_settings[byte] >> 3) & 0x7f;
+        fc = ' ';
+        if (flags & 0x4)
+            fc = '+';        /* Saturated High */
+        if (flags & 0x2)
+            fc = '-';        /* Saturated Low */
+        if (! (flags & 0x1))
+            fc = '?';        /* Failed to Lock */
+        ddr_print(" %3d %c", deskew, fc);
     }
     ddr_print("\n");
 }
