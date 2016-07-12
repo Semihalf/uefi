@@ -739,7 +739,7 @@ static uint64_t octeon_read_lmcx_ddr3_wlevel_dbg(bdk_node_t node, int ddr_interf
  *   +++++++++++++++++++++++++++++++++++++++++++++++++++
  */
 #define RLEVEL_BITMASK_TRAILING_BITS_ERROR      5
-#define RLEVEL_BITMASK_BUBBLE_BITS_ERROR        12
+#define RLEVEL_BITMASK_BUBBLE_BITS_ERROR        11 // FIXME? now less than TOOLONG
 #define RLEVEL_BITMASK_NARROW_ERROR             6
 #define RLEVEL_BITMASK_BLANK_ERROR              100
 #define RLEVEL_BITMASK_TOOLONG_ERROR            12
@@ -2795,6 +2795,10 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 	ddr_print("DDR4: Package Type 0x%x %s die\n", spd_package, is_stacked_die ? "Stacked" : "Normal");
 
         spd_rdimm = (spd_dimm_type == 1) || (spd_dimm_type == 5) || (spd_dimm_type == 8);
+
+        spd_rawcard = 0xFF & read_spd(node, &dimm_config_table[0], 0, DDR4_SPD_REFERENCE_RAW_CARD);
+        ddr_print("DDR4: Reference Raw Card 0x%x \n", spd_rawcard);
+
 	if (spd_rdimm) {
 	    int spd_mfgr_id = read_spd(node, &dimm_config_table[0], 0, DDR4_SPD_REGISTER_MANUFACTURER_ID_LSB) |
 		(read_spd(node, &dimm_config_table[0], 0, DDR4_SPD_REGISTER_MANUFACTURER_ID_MSB) << 8);
@@ -2802,9 +2806,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 	    ddr_print("DDR4: RDIMM Register Manufacturer ID 0x%x Revision 0x%x\n",
 		      spd_mfgr_id, spd_register_rev);
 
-	    // RAWCARD A or B must be bit 7=0 and bits 4-0 either 00000(A) or 00001(B) 
-	    spd_rawcard = 0xFF & read_spd(node, &dimm_config_table[0], 0, DDR4_SPD_RDIMM_REFERENCE_RAW_CARD);
-	    ddr_print("DDR4: RDIMM Reference Raw Card 0x%x \n", spd_rawcard);
+            // RAWCARD A or B must be bit 7=0 and bits 4-0 either 00000(A) or 00001(B) 
 	    spd_rawcard_AorB = ((spd_rawcard & 0x9fUL) <= 1);
 	}
     } else {
@@ -6112,6 +6114,9 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 				    }
 				}
 
+#if 0
+                                // FIXME FIXME: disabled for now, it was too much...
+
                                 // Calculate total errors for the rank:
                                 // we do NOT add nonsequential errors if mini-[RU]DIMM or x16;
                                 // mini-DIMMs and x16 devices have unusual sequence geometries.
@@ -6123,6 +6128,9 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                                 {
                                     rlevel_rank_errors += rlevel_nonseq_errors;
                                 }
+#else
+                                rlevel_rank_errors = rlevel_bitmask_errors + rlevel_nonseq_errors;
+#endif
                                 
 				// print here only if we are not really averaging or picking best
 				if ((rlevel_avg_loops < 2) || dram_is_verbose(VBL_DEV2)) {
