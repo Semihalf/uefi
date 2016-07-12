@@ -152,7 +152,8 @@ static void dram_test_thread(int arg, void *arg1)
  * @return Number of errors found. Zero is success. Negative means the test
  *         did not run due to some other failure.
  */
-static int __bdk_dram_run_test(const dram_test_info_t *test_info, uint64_t start_address, uint64_t length, bdk_dram_test_flags_t flags)
+static int __bdk_dram_run_test(const dram_test_info_t *test_info, uint64_t start_address,
+                               uint64_t length, bdk_dram_test_flags_t flags)
 {
     /* Figure out the addess of the byte one off the top of memory */
     uint64_t max_address = bdk_dram_get_size_mbytes(bdk_numa_local());
@@ -339,7 +340,8 @@ static int __bdk_dram_run_test(const dram_test_info_t *test_info, uint64_t start
             cur_count = bdk_atomic_get64(&dram_test_thread_done);
             cur_time = bdk_clock_get_count(BDK_CLOCK_TIME);
             if (cur_time >= timeout) {
-                printf("Waiting for %d cores\n", total_count - cur_count);
+                BDK_TRACE(DRAM_TEST, "N%d: Waiting for %d cores\n",
+                          bdk_numa_local(), total_count - cur_count);
                 timeout = cur_time + period;
             }
         } while (cur_count < total_count);
