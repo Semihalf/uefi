@@ -19,9 +19,10 @@
 #define SWL_TRY_HWL_ALT    HW_WL_MAJORITY && 1 // try HW WL base alternate if available when SW WL fails
 #define DISABLE_SW_WL_PASS_2 1
 
-#define KEEP_PERFECT_AVG   1
+#define KEEP_PERFECT_AVG    1
+#define COUNT_RL_CANDIDATES 1
 
-#define DAC_OVERRIDE_EARLY 1
+#define DAC_OVERRIDE_EARLY  1
 
 #define DEBUG_VALIDATE_BITMASK 0
 #if DEBUG_VALIDATE_BITMASK
@@ -6571,7 +6572,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 				    // else next_ohms are greater, always choose it
 				}
 				// else next_score is less than current best, so always choose it
-				VB_PRT(VBL_DEV, "N%d.LMC%d.R%d: new best score: rank %d, rodt %d(%3d), new best %d, previous best %d(%d)\n",
+				VB_PRT(VBL_DEV2, "N%d.LMC%d.R%d: new best score: rank %d, rodt %d(%3d), new best %d, previous best %d(%d)\n",
                                         node, ddr_interface_num, rankx, orankx, rodt_ctl, next_ohms, next_score,
                                         best_rank_score, best_rank_ohms);
 				best_rank_score	    = next_score;
@@ -6616,6 +6617,13 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
 		    // for pass==0, print current rank, pass==1 print other rank(s) 
 		    // this is done because we want to show each ranks RODT values together, not interlaced
+#if COUNT_RL_CANDIDATES
+                    // keep separates for ranks - pass=0 target rank, pass=1 other rank on DIMM
+                    int mask_skipped[2] = {0,0};
+                    int score_skipped[2] = {0,0};
+                    int selected_rows[2] = {0,0};
+                    int zero_scores[2] = {0,0};
+#endif /* COUNT_RL_CANDIDATES */
 		    for (int pass = 0; pass < 2; pass++ ) {
 			for (int orankx = 0; orankx < dimm_count * 4; orankx++) {
 			    if (!(dimm_rank_mask & (1 << orankx))) // stay on the same DIMM
@@ -6637,8 +6645,25 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
 				    // skip RODT rows in mask, or rows with too high a score;
 				    // we will not use them for printing or evaluating...
+#if COUNT_RL_CANDIDATES
+				    int skip_row;
+                                    if ((1 << rodt_ctl) & rodt_row_skip_mask) {
+                                        skip_row = WITH_RODT_SKIPPING;
+                                        ++mask_skipped[pass];
+                                    } else if (temp_score > MAX_RANK_SCORE) {
+                                        skip_row = WITH_RODT_SKIPPING;
+                                        ++score_skipped[pass];
+                                    } else {
+                                        skip_row = WITH_RODT_BLANK;
+                                        ++selected_rows[pass];
+                                        if (temp_score == 0)
+                                            ++zero_scores[pass];
+                                    }
+				
+#else /* COUNT_RL_CANDIDATES */
 				    int skip_row = (((1 << rodt_ctl) & rodt_row_skip_mask) || (temp_score > MAX_RANK_SCORE))
 					            ? WITH_RODT_SKIPPING: WITH_RODT_BLANK;
+#endif /* COUNT_RL_CANDIDATES */
 
                                     // identify and print the BEST ROW when it comes up
                                     if ((skip_row == WITH_RODT_BLANK) &&
@@ -6659,6 +6684,14 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 			    } /* for (rtt_idx=min_rtt_nom_idx; rtt_idx<=max_rtt_nom_idx; ++rtt_idx) */
 			} /* for (int orankx = 0; orankx < dimm_count * 4; orankx++) { */
 		    } /* for (int pass = 0; pass < 2; pass++ ) */
+#if COUNT_RL_CANDIDATES
+                    VB_PRT(VBL_TME, "N%d.LMC%d.R%d: RLROWS: selected %d+%d, zero_scores %d+%d, mask_skipped %d+%d, score_skipped %d+%d\n",
+                           node, ddr_interface_num, rankx,
+                           selected_rows[0], selected_rows[1],
+                           zero_scores[0], zero_scores[1],
+                           mask_skipped[0], mask_skipped[1],
+                           score_skipped[0], score_skipped[1]);
+#endif /* COUNT_RL_CANDIDATES */
 
 		    ////////////////// this is the end of the PRINT LOOP 
 
