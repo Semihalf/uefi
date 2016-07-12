@@ -20,7 +20,10 @@
 #define DISABLE_SW_WL_PASS_2 1
 
 #define KEEP_PERFECT_AVG    1
+
 #define COUNT_RL_CANDIDATES 1
+#define LOOK_FOR_STUCK_BYTE 0
+
 #define FAILSAFE_CHECK      1
 
 #define PERFECT_BITMASK_COUNTING 1
@@ -55,6 +58,9 @@ typedef struct {
     int unlocked;
     int nibsat_errs;
     int nibunl_errs;
+#if LOOK_FOR_STUCK_BYTE
+    int bytes_stuck; // byte(s) stuck
+#endif
 } deskew_counts_t;
 
 static deskew_counts_t deskew_training_results;
@@ -72,6 +78,9 @@ static void Validate_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_int
     int is_t88p2 = !CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X); // added 81xx and 83xx
     int bit_start = (is_t88p2) ? 9 : 8;
     int byte_limit;
+#if LOOK_FOR_STUCK_BYTE
+    uint64_t bl_mask[2]; // enough for 128 values
+#endif
     
     lmc_config.u = BDK_CSR_READ(node, BDK_LMCX_CONFIG(ddr_interface_num));
     byte_limit = ((ddr_interface_64b) ? 8 : 4) + lmc_config.s.ecc_ena;
@@ -80,6 +89,9 @@ static void Validate_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_int
     counts->unlocked     = 0;
     counts->nibsat_errs  = 0;
     counts->nibunl_errs  = 0;
+#if LOOK_FOR_STUCK_BYTE
+    counts->bytes_stuck = 0;
+#endif
 
     BDK_CSR_MODIFY(phy_ctl, node, BDK_LMCX_PHY_CTL(ddr_interface_num),
                    phy_ctl.s.dsk_dbg_clk_scaler = 3);
@@ -101,7 +113,9 @@ static void Validate_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_int
 	nib_min[0] = 127; nib_min[1] = 127;
 	nib_max[0] = 0;   nib_max[1] = 0;
 	nib_unl[0] = 0;   nib_unl[1] = 0;
-
+#if LOOK_FOR_STUCK_BYTE
+        bl_mask[0] = bl_mask[1] = 0;
+#endif
 	for (bit_num = bit_start; bit_num >= 0; --bit_num) {	// NOTE: this is for pass 2.x
 	    if (bit_num == 4) continue;
 	    if ((bit_num == 5) && is_t88p2) continue;	// NOTE: this is for pass 2.x
@@ -138,7 +152,9 @@ static void Validate_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_int
             }
 	    nib_min[nib_num] = min(nib_min[nib_num], deskew);
 	    nib_max[nib_num] = max(nib_max[nib_num], deskew);
-
+#if LOOK_FOR_STUCK_BYTE
+            bl_mask[(deskew >> 6) & 1] |= 1UL << (deskew & 0x3f);
+#endif
             if (print_enable)
                 VB_PRT(print_enable, " %3d %c", deskew, c);
         } /* for (bit_num = 8; bit_num >= 0; --bit_num) */
@@ -177,6 +193,16 @@ static void Validate_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_int
 
 	counts->nibsat_errs |= nibsat_errs;
 	counts->nibunl_errs += nibunl_errs;
+
+#if LOOK_FOR_STUCK_BYTE
+        if ((__builtin_popcountl(bl_mask[0]) + __builtin_popcountl(bl_mask[1])) < 3) {
+            VB_PRT(VBL_DEV, "N%d.LMC%d: Deskew byte %d STUCK on value 0x%016lx,0x%016lx\n",
+                   node, ddr_interface_num, byte_lane, 
+                   bl_mask[1], bl_mask[0]);
+            counts->bytes_stuck += 1;
+        }
+#endif
+
     } /* for (byte_lane = 0; byte_lane < byte_limit; byte_lane++) */
 	
     return;
@@ -350,6 +376,18 @@ static int Perform_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_inter
 
         ++sat_retries;
 
+#if LOOK_FOR_STUCK_BYTE
+        // FIXME: this is a bit of a hack at the moment...
+        // We want to force a Deskew RESET hopefully to unstick the bytes values
+        // and then resume normal deskew training as usual.
+        // For now, do only if it is all locked...
+        if (locked && (dsk_counts.bytes_stuck > 0)) {
+            unsaturated = 0; // to always make sure the while continues
+            ddr_print("N%d.LMC%d: STUCK BYTES, forcing deskew RESET\n",
+                      node, ddr_interface_num );
+            continue; // bypass the rest to get back to the RESET
+        }
+#endif
 	/*
 	 * At this point, check for a DDR4 RDIMM that will not benefit from SAT retries; if so, no retries
 	 */
