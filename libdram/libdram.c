@@ -260,7 +260,9 @@ int libdram_config(int node, const dram_config_t *dram_config, int ddr_clock_ove
             } else if (ddr_clock_hertz > 1000000000) { // if more than 2000 MT/s
                 int ddr_type = get_ddr_type(node, &ddr_config[0].dimm_config_table[0], 0);
                 int spd_dimm_type = get_dimm_module_type(node, &ddr_config[0].dimm_config_table[0], 0, ddr_type);
-                if ((ddr_type == DDR4_DRAM) && (spd_dimm_type == 1)) { // is DDR4 and RDIMM just to be sure
+                // is DDR4 and RDIMM just to be sure
+                if ((ddr_type == DDR4_DRAM) &&
+                    ((spd_dimm_type == 1) || (spd_dimm_type == 5) || (spd_dimm_type == 8))) {
                     ddr_refclk_hertz = 100000000; // yes, we require 100MHz refclk, so set it
                     ddr_print("N%d: DRAM init: 100 MHz refclk is REQUIRED\n", node);
                 }
