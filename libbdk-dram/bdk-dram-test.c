@@ -572,12 +572,13 @@ static void __bdk_dram_report_address_decode(uint64_t address, char *buffer, int
  * @param xor     XOR of data read vs expected data
  *
  */
-static void __bdk_dram_report_address_decode_new(uint64_t address, uint64_t xor, char *buffer, int len)
+static void __bdk_dram_report_address_decode_new(uint64_t address, uint64_t orig_xor, char *buffer, int len)
 {
     int node, lmc, dimm, rank, bank, row, col;
 
     int byte = 8; // means no byte-lanes in error, should not happen
     uint64_t bits, print_bits = 0;
+    uint64_t xor = orig_xor;
 
     // find the byte-lane(s) with errors
     for (int i = 0; i < 8; i++) {
@@ -586,7 +587,7 @@ static void __bdk_dram_report_address_decode_new(uint64_t address, uint64_t xor,
 	if (bits) {
 	    if (byte != 8) {
 		byte = 9; // means more than 1 byte-lane was present
-                print_bits = xor;
+                print_bits = orig_xor; // print the full original
 		break; // quit now
 	    } else {
 		byte = i; // keep checking
