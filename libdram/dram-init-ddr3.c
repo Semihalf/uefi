@@ -3421,6 +3421,16 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         lmc_timing_params0.u = BDK_CSR_READ(node, BDK_LMCX_TIMING_PARAMS0(ddr_interface_num));
 
         trp_value = divide_roundup(trp, tclk_psecs) - 1;
+        ddr_print("TIMING_PARAMS0[TRP]: NEW 0x%x, OLD 0x%x\n", trp_value,
+                  trp_value + (unsigned)(divide_roundup(max(4*tclk_psecs, 7500ull), tclk_psecs)) - 4);
+#if 1
+        if ((s = lookup_env_parameter_ull("ddr_use_old_trp")) != NULL) {
+            if (!!strtoull(s, NULL, 0)) {
+                trp_value += divide_roundup(max(4*tclk_psecs, 7500ull), tclk_psecs) - 4;
+                ddr_print("TIMING_PARAMS0[trp]: USING OLD 0x%x\n", trp_value);
+            }
+        }
+#endif
 
         lmc_timing_params0.s.txpr     = divide_roundup(max(5*tclk_psecs, trfc+10000ull), 16*tclk_psecs);
         lmc_timing_params0.s.tzqinit  = divide_roundup(max(512*tclk_psecs, 640000ull), (256*tclk_psecs));
@@ -3455,13 +3465,16 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         bdk_lmcx_timing_params1_t lmc_timing_params1;
         lmc_timing_params1.u = BDK_CSR_READ(node, BDK_LMCX_TIMING_PARAMS1(ddr_interface_num));
 
-
         lmc_timing_params1.s.tmprr    = divide_roundup(DDR3_tMPRR*tclk_psecs, tclk_psecs) - 1;
 
         lmc_timing_params1.s.tras     = divide_roundup(tras, tclk_psecs) - 1;
 
 	// NOTE: this is reworked for pass 2.x
 	int temp_trcd = divide_roundup(trcd, tclk_psecs);
+#if 1
+        if (temp_trcd > 15)
+            ddr_print("TIMING_PARAMS1[trcd]: need extension bit for 0x%x\n", temp_trcd);
+#endif
 	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X) && (temp_trcd > 15)) {
 	    /* Let .trcd=0 serve as a flag that the field has
 	       overflowed. Must use Additive Latency mode as a
@@ -3482,7 +3495,6 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         } else
             lmc_timing_params1.s.trrd     = divide_roundup(trrd, tclk_psecs) - 2;
 
-
         /*
         ** tXP = max( 3nCK, 7.5 ns)     DDR3-800   tCLK = 2500 psec
         ** tXP = max( 3nCK, 7.5 ns)     DDR3-1066  tCLK = 1875 psec
@@ -3494,6 +3506,10 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         txp = (tclk_psecs < 1875) ? 6000 : 7500;
 	// NOTE: this is reworked for pass 2.x
 	int temp_txp = divide_roundup(max(3*tclk_psecs, (unsigned)txp), tclk_psecs) - 1;
+#if 1
+        if (temp_txp > 7)
+            ddr_print("TIMING_PARAMS1[txp]: need extension bit for 0x%x\n", temp_txp);
+#endif
 	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X) && (temp_txp > 7)) {
 	    temp_txp = 7; // max it out
 	}
@@ -3523,6 +3539,10 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         //lmc_timing_params2.s.trrd_l = divide_roundup(ddr4_tRRD_Lmin, tclk_psecs) - 1;
 	// NOTE: this is reworked for pass 2.x
 	int temp_trrd_l = divide_roundup(ddr4_tRRD_Lmin, tclk_psecs) - 2;
+#if 1
+        if (temp_trrd_l > 7)
+            ddr_print("TIMING_PARAMS2[trrd_l]: need extension bit for 0x%x\n", temp_trrd_l);
+#endif
 	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X) && (temp_trrd_l > 7)) {
 	    temp_trrd_l = 7; // max it out
 	}
