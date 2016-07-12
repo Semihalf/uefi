@@ -822,6 +822,7 @@ run_dram_tuning_threads(bdk_node_t node, int num_lmcs, uint64_t bytemask)
 extern int64_t __bdk_dram_ecc_single_bit_errors[];
 extern int64_t __bdk_dram_ecc_double_bit_errors[];
 
+#if 0
 // make the tuning test callable as a standalone
 int
 bdk_run_dram_tuning_test(int node)
@@ -946,6 +947,7 @@ bdk_run_dram_tuning_test(int node)
 
     return (errors + ecc_double + ecc_single);
 }
+#endif /* 0 */
 
 #define DEFAULT_SAMPLE_GRAN 3 // sample for errors every N offset values
 #define MIN_BYTE_OFFSET -63
@@ -1012,13 +1014,11 @@ auto_set_dll_offset(bdk_node_t node, int dll_offset_mode,
     //this_rodt = comp_ctl2.s.rodt_ctl;
 
     // construct the bytemask
-    int bytes_todo = (ddr_interface_64b) ? 0xff : 0x0f; // FIXME: hack?
+    int bytes_todo = (ddr_interface_64b) ? 0xff : 0x0f;
     uint64_t bytemask = 0;
     for (byte = 0; byte < 8; ++byte) {
-	uint64_t bitmask;
 	if (bytes_todo & (1 << byte)) {
-	    bitmask = ((!ddr_interface_64b) && (byte == 4)) ? 0x0f: 0xff;
-	    bytemask |= bitmask << (8*byte); // set the bytes bits in the bytemask 
+	    bytemask |= 0xfful << (8*byte); // set the bytes bits in the bytemask 
 	}
     } /* for (byte = 0; byte < 8; ++byte) */
 
@@ -1398,8 +1398,7 @@ int perform_dll_offset_tuning(bdk_node_t node, int dll_offset_mode, int do_tune)
     // FIXME: for now, loop here to show what happens multiple times
     for (loop = 0; loop < loops; loop++) {
 	/* Perform DLL offset tuning */
-	errs = auto_set_dll_offset(node, dll_offset_mode, num_lmcs,
-                                   ddr_interface_64b, do_tune);
+	errs = auto_set_dll_offset(node, dll_offset_mode, num_lmcs, ddr_interface_64b, do_tune);
     }
 
 #if USE_L2_WAYS_LIMIT
@@ -1538,7 +1537,7 @@ run_test_hw_patterns(bdk_node_t node, int lmc, uint64_t phys_addr, int flags)
 
 static void
 hw_assist_test_dll_offset(bdk_node_t node, int dll_offset_mode,
-                          int lmc, int bytelane, int ddr_interface_64b)
+                          int lmc, int bytelane)
 {
     int byte_offset, new_best_offset[9];
     int rank_delay_start[4][9];
@@ -1761,7 +1760,6 @@ hw_assist_test_dll_offset(bdk_node_t node, int dll_offset_mode,
  */
 int perform_HW_dll_offset_tuning(bdk_node_t node, int dll_offset_mode, int bytelane)
 {
-    int ddr_interface_64b;
     int save_ecc_ena[4];
     bdk_lmcx_config_t lmc_config;
     int lmc, num_lmcs = __bdk_dram_get_num_lmc(node);
@@ -1786,7 +1784,6 @@ int perform_HW_dll_offset_tuning(bdk_node_t node, int dll_offset_mode, int bytel
 
     // FIXME? get flag from LMC0 only
     lmc_config.u = BDK_CSR_READ(node, BDK_LMCX_CONFIG(0));
-    ddr_interface_64b = !lmc_config.s.mode32b;
 
     // do once for each active LMC
 
@@ -1806,8 +1803,8 @@ int perform_HW_dll_offset_tuning(bdk_node_t node, int dll_offset_mode, int bytel
 	// FIXME: for now, loop here to show what happens multiple times
 	for (loop = 0; loop < loops; loop++) {
 	    /* Perform DLL offset tuning */
-	    //auto_set_dll_offset(node,  1 /* 1=write */, lmc, ddr_interface_64b);
-	    hw_assist_test_dll_offset(node,  2 /* 2=read */, lmc, bytelane, ddr_interface_64b);
+	    //auto_set_dll_offset(node,  1 /* 1=write */, lmc, bytelane);
+	    hw_assist_test_dll_offset(node,  2 /* 2=read */, lmc, bytelane);
 	}
 
 	// perform cleanup on active LMC   

@@ -75,10 +75,10 @@ static int bdk_libdram_tune_node(int node)
     if (str)
         do_dllro_hw = !!strtoul(str, NULL, 0);
     BDK_TRACE(DRAM, "N%d: Starting DLL Read Offset Tuning for LMCs\n", node);
-    if (!do_dllro_hw) {
+    if (!do_dllro_hw || (lmc_config.s.mode32b != 0)) {
         errs = perform_dll_offset_tuning(node, 2, /* tune */1); 
     } else {
-        errs = perform_HW_dll_offset_tuning(node, 2, 0x0A/* all bytelanes */); 
+        errs = perform_HW_dll_offset_tuning(node, /* read */2, 0x0A/* all bytelanes */); 
     }
     BDK_TRACE(DRAM, "N%d: Finished DLL Read Offset Tuning for LMCs, %d errors)\n",
               node, errs);
@@ -91,11 +91,11 @@ static int bdk_libdram_tune_node(int node)
     if (str)
         do_dllwo = !!strtoul(str, NULL, 0);
     if (do_dllwo) {
-        BDK_TRACE(DRAM, "N%d: Starting DLL Write Offset Tuning for LMCs\n", node);
-        errs = perform_dll_offset_tuning(node, 1, /* tune */1);
-        BDK_TRACE(DRAM, "N%d: Finished DLL Write Offset Tuning for LMCs, %d errors)\n",
-               node, errs);
-        tot_errs += errs;
+	BDK_TRACE(DRAM, "N%d: Starting DLL Write Offset Tuning for LMCs\n", node);
+	errs = perform_dll_offset_tuning(node, /* write */1, /* tune */1); 
+	BDK_TRACE(DRAM, "N%d: Finished DLL Write Offset Tuning for LMCs, %d errors)\n",
+	       node, errs);
+	tot_errs += errs;
     }
 
     // disabled by default for now, does not seem to be needed much?
@@ -105,7 +105,7 @@ static int bdk_libdram_tune_node(int node)
     str = getenv("ddr_tune_ecc_enable");
     if (str)
         do_eccdll = !!strtoul(str, NULL, 10);
-    if (do_eccdll && !do_dllro_hw) { // do not do HW-assist twice for ECC
+    if (do_eccdll && !do_dllro_hw && (lmc_config.s.mode32b == 0)) { // do not do HW-assist twice for ECC
         BDK_TRACE(DRAM, "N%d: Starting ECC DLL Read Offset Tuning for LMCs\n", node);
         errs = perform_HW_dll_offset_tuning(node, 2, 8/* ECC bytelane */); 
         BDK_TRACE(DRAM, "N%d: Finished ECC DLL Read Offset Tuning for LMCs, %d errors\n",

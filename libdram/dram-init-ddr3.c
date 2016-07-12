@@ -56,7 +56,7 @@ static deskew_counts_t deskew_training_results;
 static int deskew_validation_delay = 10000; // FIXME: make this a var for overriding
 
 static void Validate_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_interface_num,
-                                     deskew_counts_t *counts, int print_enable)
+                                     deskew_counts_t *counts, int print_enable, int ddr_interface_64b)
 {
     bdk_lmcx_phy_ctl_t phy_ctl;
     int byte_lane, bit_num, nib_num, nibsat_errs, nibunl_errs;
@@ -66,8 +66,10 @@ static void Validate_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_int
     // NOTE: these are for pass 2.x
     int is_t88p2 = !CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X); // added 81xx and 83xx
     int bit_start = (is_t88p2) ? 9 : 8;
+    int byte_limit;
     
     lmc_config.u = BDK_CSR_READ(node, BDK_LMCX_CONFIG(ddr_interface_num));
+    byte_limit = ((ddr_interface_64b) ? 8 : 4) + lmc_config.s.ecc_ena;
 
     counts->saturated    = 0;
     counts->unlocked     = 0;
@@ -87,7 +89,7 @@ static void Validate_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_int
         VB_PRT(print_enable, "\n");
     }
 
-    for (byte_lane = 0; byte_lane < 8+lmc_config.s.ecc_ena; byte_lane++) {
+    for (byte_lane = 0; byte_lane < byte_limit; byte_lane++) {
         if (print_enable)
             VB_PRT(print_enable, "N%d.LMC%d: Bit Deskew Byte %d                        :",
                     node, ddr_interface_num, byte_lane);
@@ -170,7 +172,7 @@ static void Validate_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_int
 
 	counts->nibsat_errs |= nibsat_errs;
 	counts->nibunl_errs += nibunl_errs;
-    } /* for (byte_lane = 0; byte_lane < 8+lmc_config.s.ecc_ena; byte_lane++) */
+    } /* for (byte_lane = 0; byte_lane < byte_limit; byte_lane++) */
 	
     return;
 }
@@ -251,7 +253,7 @@ int read_DAC_DBI_settings(int node, int rank_mask, int ddr_interface_num,
 static int default_lock_retry_limit = 20;    // 20 retries // FIXME: make a var for overriding
 
 static int Perform_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_interface_num,
-                                       int spd_rawcard_AorB, int print_flags)
+                                   int spd_rawcard_AorB, int print_flags, int ddr_interface_64b)
 {
     int unsaturated, locked;
     int sat_retries, lock_retries, lock_retries_total, lock_retries_limit;
@@ -315,7 +317,8 @@ static int Perform_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_inter
         bdk_wait_usec(deskew_validation_delay);
 
         // Now go look at lock and saturation status...
-        Validate_Deskew_Training(node, rank_mask, ddr_interface_num, &dsk_counts, print_first);
+        Validate_Deskew_Training(node, rank_mask, ddr_interface_num,
+                                 &dsk_counts, print_first, ddr_interface_64b);
 	if (print_first && !print_them_all) // after printing the first and not doing them all, no more
 	    print_first = 0;
 
@@ -357,7 +360,7 @@ static int Perform_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_inter
     // FIXME: disable this print, we do not know yet if we will have to do this all again
     // always print the last one unless there was only one
     if ((sat_retries > 1) || (lock_retries_total > 0))
-	Validate_Deskew_Training(node, rank_mask, ddr_interface_num, &dsk_counts, VBL_NORM);
+	Validate_Deskew_Training(node, rank_mask, ddr_interface_num, &dsk_counts, VBL_NORM, ddr_interface_64b);
 #endif
 
     VB_PRT(VBL_FAE, "N%d.LMC%d: Deskew Training %s. %d sat-retries, %d lock-retries\n",
@@ -1286,6 +1289,15 @@ display_WL_with_final(bdk_node_t node, int ddr_interface_num, bdk_lmcx_wlevel_ra
     do_display_WL(node, ddr_interface_num, lmc_wlevel_rank, rank, WITH_FINAL);
 }
 
+static uint64_t
+PPBM(uint64_t bm)
+{
+    if (bm != 0ul) {
+        while ((bm & 0x0fful) == 0ul)
+            bm >>= 4;
+    }
+    return bm;
+}
 // flag values
 #define WITH_WL_BITMASKS      0
 #define WITH_RL_BITMASKS      1
@@ -1313,15 +1325,15 @@ do_display_BM(bdk_node_t node, int ddr_interface_num, int rank, void *bm, int fl
         rlevel_bitmask_t *rlevel_bitmask = (rlevel_bitmask_t *)bm;
         ddr_print("N%d.LMC%d.R%d: Rlevel Debug Bitmasks      8:0        : %05lx %05lx %05lx %05lx %05lx %05lx %05lx %05lx %05lx\n",
                   node, ddr_interface_num, rank,
-                  rlevel_bitmask[8].bm,
-                  rlevel_bitmask[7].bm,
-                  rlevel_bitmask[6].bm,
-                  rlevel_bitmask[5].bm,
-                  rlevel_bitmask[4].bm,
-                  rlevel_bitmask[3].bm,
-                  rlevel_bitmask[2].bm,
-                  rlevel_bitmask[1].bm,
-                  rlevel_bitmask[0].bm
+                  PPBM(rlevel_bitmask[8].bm),
+                  PPBM(rlevel_bitmask[7].bm),
+                  PPBM(rlevel_bitmask[6].bm),
+                  PPBM(rlevel_bitmask[5].bm),
+                  PPBM(rlevel_bitmask[4].bm),
+                  PPBM(rlevel_bitmask[3].bm),
+                  PPBM(rlevel_bitmask[2].bm),
+                  PPBM(rlevel_bitmask[1].bm),
+                  PPBM(rlevel_bitmask[0].bm)
                   );
     } else
     if (flags == WITH_RL_MASK_SCORES) {
@@ -2494,7 +2506,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
     int fatal_error = 0;        /* Accumulate and report all the errors before giving up */
 
     int safe_ddr_flag = 0; /* Flag that indicates safe DDR settings should be used */
-    int ddr_interface_64b = 1;  /* Octeon II Default: 64bit interface width */
+    int ddr_interface_64b = 1;  /* THUNDER Default: 64bit interface width */
     int ddr_interface_bytemask;
     uint32_t mem_size_mbytes = 0;
     unsigned int didx;
@@ -2589,6 +2601,8 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
     memset(hwl_alts, 0, sizeof(hwl_alts));
 #endif /* SWL_TRY_HWL_ALT */
 
+    bdk_lmcx_config_t  lmc_config;
+
     /* Initialize these to shut up the compiler. They are configured
        and used only for DDR4  */
     ddr4_tRRD_Lmin = 6000;
@@ -2677,8 +2691,13 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
     }
 
     if (ddr_interface_64b == 0) {
-        error_print("32-bit interface width is not supported for this Thunder model\n");
-        ++fatal_error;
+        if (!CAVIUM_IS_MODEL(CAVIUM_CN81XX)) {
+            error_print("32-bit interface width is not supported for this Thunder model\n");
+            ++fatal_error;
+        } else {
+            ddr_print("N%d.LMC%d: Setting 32-bit data width\n",
+                      node, ddr_interface_num);
+        }
     }
 
     /* ddr_type only indicates DDR4 or DDR3 */
@@ -3073,10 +3092,11 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
     ddr_interface_bytemask = ddr_interface_64b
         ? (use_ecc ? 0x1ff : 0xff)
-        : (use_ecc ? 0x01f : 0x0f);
+        : (use_ecc ? 0x01f : 0x0f); // FIXME? 81xx does diff from 70xx
 
-    ddr_print("DRAM Interface width: %d bits %s\n",
-              ddr_interface_64b ? 64 : 32, use_ecc ? "+ECC" : "");
+    ddr_print("DRAM Interface width: %d bits %s bytemask 0x%x\n",
+              ddr_interface_64b ? 64 : 32, use_ecc ? "+ECC" : "",
+              ddr_interface_bytemask);
 
     ddr_print("\n------ Board Custom Configuration Settings ------\n");
     ddr_print("%-45s : %d\n", "MIN_RTT_NOM_IDX   ", custom_lmc_config->min_rtt_nom_idx);
@@ -3285,28 +3305,26 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
     /* LMC(0)_CONFIG */
     {
-        bdk_lmcx_config_t lmcx_config;
+        lmc_config.u = 0;
 
-        lmcx_config.u = 0;
+        lmc_config.s.ecc_ena         = use_ecc;
+        lmc_config.s.row_lsb         = encode_row_lsb_ddr3(row_lsb, ddr_interface_64b);
+        lmc_config.s.pbank_lsb       = encode_pbank_lsb_ddr3(pbank_lsb, ddr_interface_64b);
 
-        lmcx_config.s.ecc_ena         = use_ecc;
-        lmcx_config.s.row_lsb         = encode_row_lsb_ddr3(row_lsb, ddr_interface_64b);
-        lmcx_config.s.pbank_lsb       = encode_pbank_lsb_ddr3(pbank_lsb, ddr_interface_64b);
-
-        lmcx_config.s.idlepower       = 0; /* Disabled */
+        lmc_config.s.idlepower       = 0; /* Disabled */
 
         if ((s = lookup_env_parameter("ddr_idlepower")) != NULL) {
-            lmcx_config.s.idlepower = strtoul(s, NULL, 0);
+            lmc_config.s.idlepower = strtoul(s, NULL, 0);
         }
 
-        lmcx_config.s.forcewrite      = 0; /* Disabled */
-        lmcx_config.s.ecc_adr         = 1; /* Include memory reference address in the ECC */
+        lmc_config.s.forcewrite      = 0; /* Disabled */
+        lmc_config.s.ecc_adr         = 1; /* Include memory reference address in the ECC */
 
         if ((s = lookup_env_parameter("ddr_ecc_adr")) != NULL) {
-            lmcx_config.s.ecc_adr = strtoul(s, NULL, 0);
+            lmc_config.s.ecc_adr = strtoul(s, NULL, 0);
         }
 
-        lmcx_config.s.reset           = 0;
+        lmc_config.s.reset           = 0;
 
         /*
          *  Program LMC0_CONFIG[24:18], ref_zqcs_int(6:0) to
@@ -3317,37 +3335,42 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
          *  resistor calibration delays.
          */
 
-        lmcx_config.s.ref_zqcs_int     = ((DDR3_tREFI/tclk_psecs/512) & 0x7f);
-        lmcx_config.s.ref_zqcs_int    |= ((max(33ull, (DDR3_ZQCS_Interval/(tclk_psecs/100)/(512*128))) & 0xfff) << 7);
+        lmc_config.s.ref_zqcs_int     = ((DDR3_tREFI/tclk_psecs/512) & 0x7f);
+        lmc_config.s.ref_zqcs_int    |= ((max(33ull, (DDR3_ZQCS_Interval/(tclk_psecs/100)/(512*128))) & 0xfff) << 7);
 
 
-        lmcx_config.s.early_dqx       = 1; /* Default to enabled */
+        lmc_config.s.early_dqx       = 1; /* Default to enabled */
 
         if ((s = lookup_env_parameter("ddr_early_dqx")) == NULL)
             s = lookup_env_parameter("ddr%d_early_dqx", ddr_interface_num);
         if (s != NULL) {
-            lmcx_config.s.early_dqx = strtoul(s, NULL, 0);
+            lmc_config.s.early_dqx = strtoul(s, NULL, 0);
         }
 
-        lmcx_config.s.sref_with_dll        = 0;
+        lmc_config.s.sref_with_dll        = 0;
 
-        lmcx_config.s.rank_ena        = bunk_enable;
-        lmcx_config.s.rankmask        = rank_mask; /* Set later */
-        lmcx_config.s.mirrmask        = (spd_addr_mirror << 1 | spd_addr_mirror << 3) & rank_mask;
-        lmcx_config.s.init_status     = rank_mask; /* Set once and don't change it. */
-        lmcx_config.s.early_unload_d0_r0   = 0;
-        lmcx_config.s.early_unload_d0_r1   = 0;
-        lmcx_config.s.early_unload_d1_r0   = 0;
-        lmcx_config.s.early_unload_d1_r1   = 0;
-        lmcx_config.s.scrz                 = 0;
-        lmcx_config.s.mode_x4dev           = (dram_width == 4) ? 1 : 0;
-        lmcx_config.s.bg2_enable	   = ((ddr_type == DDR4_DRAM) && (dram_width == 16)) ? 0 : 1;
+        lmc_config.s.rank_ena        = bunk_enable;
+        lmc_config.s.rankmask        = rank_mask; /* Set later */
+        lmc_config.s.mirrmask        = (spd_addr_mirror << 1 | spd_addr_mirror << 3) & rank_mask;
+        lmc_config.s.init_status     = rank_mask; /* Set once and don't change it. */
+        lmc_config.s.early_unload_d0_r0   = 0;
+        lmc_config.s.early_unload_d0_r1   = 0;
+        lmc_config.s.early_unload_d1_r0   = 0;
+        lmc_config.s.early_unload_d1_r1   = 0;
+        lmc_config.s.scrz                 = 0;
+        // set 32-bit mode for real only when selected AND 81xx...
+        if (!ddr_interface_64b && CAVIUM_IS_MODEL(CAVIUM_CN81XX)) {
+            lmc_config.s.mode32b          = 1;
+        }
+        VB_PRT(VBL_DEV, "%-45s : %d\n", "MODE32B (init)", lmc_config.s.mode32b);
+        lmc_config.s.mode_x4dev           = (dram_width == 4) ? 1 : 0;
+        lmc_config.s.bg2_enable	   = ((ddr_type == DDR4_DRAM) && (dram_width == 16)) ? 0 : 1;
 
         if ((s = lookup_env_parameter_ull("ddr_config")) != NULL) {
-            lmcx_config.u    = strtoull(s, NULL, 0);
+            lmc_config.u    = strtoull(s, NULL, 0);
         }
-        ddr_print("LMC_CONFIG                                    : 0x%016lx\n", lmcx_config.u);
-        DRAM_CSR_WRITE(node, BDK_LMCX_CONFIG(ddr_interface_num), lmcx_config.u);
+        ddr_print("LMC_CONFIG                                    : 0x%016lx\n", lmc_config.u);
+        DRAM_CSR_WRITE(node, BDK_LMCX_CONFIG(ddr_interface_num), lmc_config.u);
     }
 
     /* LMC(0)_CONTROL */
@@ -4615,7 +4638,8 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
     /*
      * 6.9.10 LMC Deskew Training
      */
-    deskew_training_errors = Perform_Deskew_Training(node, rank_mask, ddr_interface_num, spd_rawcard_AorB, 0);
+    deskew_training_errors = Perform_Deskew_Training(node, rank_mask, ddr_interface_num,
+                                                     spd_rawcard_AorB, 0, ddr_interface_64b);
 
     // All the Deskew lock and saturation retries (may) have been done,
     //  but we ended up with nibble errors; so, as a last ditch effort,
@@ -4634,7 +4658,8 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
     // FIXME: treat this as the final DSK print from now on, and print if VBL_NORM or above
     // also, save the results of the original training
-    Validate_Deskew_Training(node, rank_mask, ddr_interface_num, &deskew_training_results, VBL_NORM);
+    Validate_Deskew_Training(node, rank_mask, ddr_interface_num,
+                             &deskew_training_results, VBL_NORM, ddr_interface_64b);
 
 #if !DAC_OVERRIDE_EARLY
     // as a final step in internal VREF training, after deskew training but before HW WL:
@@ -4745,7 +4770,6 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
 
     {
-        bdk_lmcx_config_t lmc_config;
         int save_ref_zqcs_int;
         uint64_t temp_delay_usecs;
 
@@ -4921,14 +4945,12 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         bdk_lmcx_modereg_params0_t lmc_modereg_params0;
         bdk_lmcx_modereg_params1_t lmc_modereg_params1;
 #endif
-        bdk_lmcx_config_t lmc_config;
         int rankx = 0;
         int wlevel_bitmask[9];
         int byte_idx;
         int passx;
         int ecc_ena;
         int ddr_wlevel_roundup = 0;
-        int save_mode32b;
         int ddr_wlevel_printall = (dram_is_verbose(VBL_FAE)); // or default to 1 to print all HW WL samples
 #pragma pack(pop)
 
@@ -4949,10 +4971,6 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 #endif
         lmc_config.u = BDK_CSR_READ(node, BDK_LMCX_CONFIG(ddr_interface_num));
 	ecc_ena = lmc_config.s.ecc_ena;
-        save_mode32b = lmc_config.s.mode32b;
-        lmc_config.s.mode32b         = (! ddr_interface_64b);
-        DRAM_CSR_WRITE(node, BDK_LMCX_CONFIG(ddr_interface_num), lmc_config.u);
-        VB_PRT(VBL_DEV, "%-45s : %d\n", "MODE32B", lmc_config.s.mode32b);
 
 	if ((s = lookup_env_parameter("ddr_wlevel_roundup")) != NULL) {
 	    ddr_wlevel_roundup = strtoul(s, NULL, 0);
@@ -5095,6 +5113,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 #endif /* RUN_INIT_SEQ_3 */
 
 		DRAM_CSR_WRITE(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, rankx), 0); /* Clear write-level delays */
+
 		wlevel_bitmask_errors = 0; /* Reset error counters */
                 wlevel_validity_errors = 0;
 
@@ -5134,7 +5153,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 			++wlevel_bitmask_errors;
 		} /* for (passx=0; passx<(8+ecc_ena); ++passx) */
 #else
-		wlevel_ctl.s.lanemask = 0x1ff;
+		wlevel_ctl.s.lanemask = /*0x1ff*/ddr_interface_bytemask; // FIXME?
 
 		DRAM_CSR_WRITE(node, BDK_LMCX_WLEVEL_CTL(ddr_interface_num), wlevel_ctl.u);
 
@@ -5156,6 +5175,8 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 		lmc_wlevel_rank.u = BDK_CSR_READ(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, rankx));
 
 		for (passx=0; passx<(8+ecc_ena); ++passx) {
+		    if (!(ddr_interface_bytemask&(1<<passx)))
+			continue;
 		    wlevel_bitmask[passx] = octeon_read_lmcx_ddr3_wlevel_dbg(node, ddr_interface_num, passx);
 		    if (wlevel_bitmask[passx] == 0)
 			++wlevel_bitmask_errors;
@@ -5166,8 +5187,9 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                 if (wlevel_bitmask_errors == 0) {
                     if ((spd_dimm_type != 5) &&
                         (spd_dimm_type != 6) &&
-                        (dram_width != 16))
-                    { // bypass if mini-[RU]DIMM or x16
+                        (dram_width != 16)   &&
+                        (ddr_interface_64b))
+                    { // bypass if mini-[RU]DIMM or x16 or 32-bit
                         wlevel_validity_errors =
                             Validate_HW_WL_Settings(node, ddr_interface_num,
                                                     &lmc_wlevel_rank, ecc_ena);
@@ -5219,6 +5241,8 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 #if HW_WL_MAJORITY
 		// OK, we have a decent sample, no bitmask or validity errors
 		for (passx=0; passx<(8+ecc_ena); ++passx) {
+		    if (!(ddr_interface_bytemask&(1<<passx)))
+			continue;
 		    // increment count of byte-lane value
 		    int ix = (get_wlevel_rank_struct(&lmc_wlevel_rank, passx) >> 1) & 3; // only 4 values
 		    wlevel_bytes[passx][ix]++;
@@ -5285,6 +5309,8 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 		for (passx = 0; passx < (8+ecc_ena); ++passx) {
 		    int mx = -1, mc = 0, xc = 0, cc = 0; 
 		    int ix, ic;
+		    if (!(ddr_interface_bytemask&(1<<passx)))
+			continue;
 		    for (ix = 0; ix < 4; ix++) {
 			ic = wlevel_bytes[passx][ix];
 			// make a bitmask of the ones with a count
@@ -5361,10 +5387,6 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
             set_rdimm_mode(node, ddr_interface_num, 1);
         }
 #endif
-        lmc_config.u = BDK_CSR_READ(node, BDK_LMCX_CONFIG(ddr_interface_num));
-        lmc_config.s.mode32b         = save_mode32b;
-        DRAM_CSR_WRITE(node, BDK_LMCX_CONFIG(ddr_interface_num), lmc_config.u);
-        VB_PRT(VBL_DEV, "%-45s : %d\n", "MODE32B", lmc_config.s.mode32b);
 
     } // End HW write-leveling block
 
@@ -5376,7 +5398,8 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 	VB_PRT(VBL_FAE, "N%d.LMC%d: Check Deskew Settings before Read-Leveling.\n", node, ddr_interface_num);
 
 	do {
-	    Validate_Deskew_Training(node, rank_mask, ddr_interface_num, &dsk_counts, VBL_FAE);
+	    Validate_Deskew_Training(node, rank_mask, ddr_interface_num,
+                                     &dsk_counts, VBL_FAE, ddr_interface_64b);
 
 	    // only RAWCARD A or B will not benefit from retraining if there's only saturation
 	    if ((!spd_rawcard_AorB && dsk_counts.saturated > 0) ||
@@ -5385,14 +5408,16 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 		retry_count++;
 		VB_PRT(VBL_FAE, "N%d.LMC%d: Deskew Status indicates saturation or nibble errors - retry %d Training.\n",
 			  node, ddr_interface_num, retry_count);
-		Perform_Deskew_Training(node, rank_mask, ddr_interface_num, spd_rawcard_AorB, 0);
+		Perform_Deskew_Training(node, rank_mask, ddr_interface_num,
+                                        spd_rawcard_AorB, 0, ddr_interface_64b);
 	    } else
 		break;
 	} while (retry_count < 5);
 
         // print the final setting only if we had to do retries here
         if (retry_count > 0)
-            Validate_Deskew_Training(node, rank_mask, ddr_interface_num, &dsk_counts, VBL_NORM);
+            Validate_Deskew_Training(node, rank_mask, ddr_interface_num, 
+                                     &dsk_counts, VBL_NORM, ddr_interface_64b);
     }
 
     /* Enable the Write bit-deskew feature. */
@@ -5410,7 +5435,6 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
     if (enable_write_deskew) {
 
         bdk_lmcx_wlevel_rankx_t lmc_wlevel_rank;
-        bdk_lmcx_config_t lmc_config;
         int rankx;
         int passx;
         int ecc_ena;
@@ -5445,6 +5469,8 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
             } while (lmc_wlevel_rank.s.status != 3);
 
             for (passx=0; passx<(8+ecc_ena); ++passx) {
+                if (!(ddr_interface_bytemask&(1<<passx)))
+                    continue;
                 wlevel_bitmask[passx] = octeon_read_lmcx_ddr3_wlevel_dbg(node, ddr_interface_num, passx);
                 if (wlevel_bitmask[passx] == 0)
                     ++wlevel_bitmask_errors;
@@ -5553,7 +5579,6 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
     {
 #pragma pack(push,4)
         bdk_lmcx_rlevel_rankx_t lmc_rlevel_rank;
-        bdk_lmcx_config_t lmc_config;
         bdk_lmcx_comp_ctl2_t lmc_comp_ctl2;
         bdk_lmcx_rlevel_ctl_t rlevel_ctl;
         bdk_lmcx_control_t lmc_control;
@@ -5583,10 +5608,10 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 #pragma pack(pop)
 
         lmc_control.u = BDK_CSR_READ(node, BDK_LMCX_CONTROL(ddr_interface_num));
-        save_ddr2t                    = lmc_control.s.ddr2t;
+        save_ddr2t    = lmc_control.s.ddr2t;
 
         lmc_config.u = BDK_CSR_READ(node, BDK_LMCX_CONFIG(ddr_interface_num));
-        ecc_ena = lmc_config.s.ecc_ena;
+        ecc_ena      = lmc_config.s.ecc_ena;
 
 #if 0
         {
@@ -5646,17 +5671,14 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         rlevel_ctl.s.delay_unload_2 = 1; /* should normally be set */
         rlevel_ctl.s.delay_unload_3 = 1; /* should normally be set */
 
-        {
-            int byte_bitmask = 0xff;
-
-            /* If we will be switching to 32bit mode level based on only
-               four bits because there are only 4 ECC bits. */
-            if (! ddr_interface_64b)
-                byte_bitmask = 0x0f;
-
-	    rlevel_ctl.s.or_dis = 1;
-            rlevel_ctl.s.bitmask  = byte_bitmask;
+        rlevel_ctl.s.or_dis = 1; // default to get best bitmasks
+        if ((s = lookup_env_parameter("ddr_rlevel_or_dis")) != NULL) {
+            rlevel_ctl.s.or_dis = !!strtoul(s, NULL, 0);
         }
+        rlevel_ctl.s.bitmask = 0xff; // should work in 32b mode also
+        debug_print("N%d.LMC%d: RLEVEL_CTL: or_dis=%d, bitmask=0x%x\n",
+                    node, ddr_interface_num,
+                    rlevel_ctl.s.or_dis, rlevel_ctl.s.bitmask);
 
         rlevel_comp_offset = spd_rdimm
             ? custom_lmc_config->rlevel_comp_offset_rdimm
@@ -6832,8 +6854,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         lmc_control.s.ddr2t           = save_ddr2t;
         DRAM_CSR_WRITE(node, BDK_LMCX_CONTROL(ddr_interface_num), lmc_control.u);
         lmc_control.u = BDK_CSR_READ(node, BDK_LMCX_CONTROL(ddr_interface_num));
-        ddr_print("DDR2T                                         : %6d\n", lmc_control.s.ddr2t); /* Display final 2T value */
-
+        ddr_print("%-45s : %6d\n", "DDR2T", lmc_control.s.ddr2t); /* Display final 2T value */
 
 
         perform_ddr_init_sequence(node, rank_mask, ddr_interface_num);
@@ -6923,7 +6944,8 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         deskew_counts_t dsk_counts;
 	VB_PRT(VBL_TME, "N%d.LMC%d: Check Deskew Settings before software Write-Leveling.\n",
 		  node, ddr_interface_num);
-        Validate_Deskew_Training(node, rank_mask, ddr_interface_num, &dsk_counts, VBL_TME);
+        Validate_Deskew_Training(node, rank_mask, ddr_interface_num,
+                                 &dsk_counts, VBL_TME, ddr_interface_64b);
     }
 
 
@@ -6969,7 +6991,6 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 #pragma pack(push,1)
         bdk_lmcx_wlevel_rankx_t lmc_wlevel_rank;
         bdk_lmcx_wlevel_rankx_t lmc_wlevel_rank_hw_results;
-        bdk_lmcx_config_t lmc_config;
         int byte;
         int delay;
         int rankx = 0;
@@ -7003,6 +7024,11 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
         if ((s = lookup_env_parameter("ddr_sw_wlevel_hw")) != NULL) {
             sw_wlevel_hw = !!strtoul(s, NULL, 0);
+        }
+
+         // cannot use hw-assist when doing 32-bit
+        if (! ddr_interface_64b) {
+            sw_wlevel_hw = 0;
         }
 
         if ((s = lookup_env_parameter("ddr_software_wlevel")) != NULL) {
@@ -7198,15 +7224,13 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 			int errors = 0;
 			int byte_delay[8];
 			uint64_t bytemask = 0;
-			uint64_t bitmask;
-			int bytes_todo = ddr_interface_bytemask;
+			int bytes_todo = (ddr_interface_64b) ? 0xff : 0x0f; // only data bytes
 
 			for (byte = 0; byte < 8; ++byte) {
 			    if (!(bytes_todo & (1 << byte))) {
 				byte_delay[byte] = 0;
 			    } else {
-				bitmask = ((!ddr_interface_64b) && (byte == 4)) ? 0x0f: 0xff;
-				bytemask |= bitmask << (8*byte); // set the bytes bits in the bytemask 
+				bytemask |= 0xfful << (8*byte); // set the bytes bits in the bytemask 
 				byte_delay[byte] = get_wlevel_rank_struct(&lmc_wlevel_rank, byte);
 			    }
 			} /* for (byte = 0; byte < 8; ++byte) */
@@ -7362,15 +7386,18 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 			    byte_test_status[8] = WL_HARDWARE; /* H/W delay value */
                             lmc_wlevel_rank.s.byte8 = lmc_wlevel_rank.s.byte0; /* ECC is not used */
                         }
-                    } else {
+                    } else { /* if ((ddr_interface_bytemask & 0xff) == 0xff) */
                         if (save_ecc_ena) {
                             /* Estimate the ECC byte delay  */
-                            if (lmc_wlevel_rank.s.byte4 < lmc_wlevel_rank.s.byte3)
-                               lmc_wlevel_rank.s.byte4 = lmc_wlevel_rank.s.byte3;
+                            lmc_wlevel_rank.s.byte4 |= (lmc_wlevel_rank.s.byte3 & 0x38); // add hi-order to b4
+                            if ((lmc_wlevel_rank.s.byte4 & 0x06) < (lmc_wlevel_rank.s.byte3 & 0x06)) // orig b4 < orig b3
+                                lmc_wlevel_rank.s.byte4 += 8; // must be next clock
                         } else {
                             lmc_wlevel_rank.s.byte4 = lmc_wlevel_rank.s.byte0; /* ECC is not used */
                         }
-                    }
+                        /* Change the status if s/w adjusted the delay */
+                        byte_test_status[4] = WL_SOFTWARE; /* Estimated delay */
+                    } /* if ((ddr_interface_bytemask & 0xff) == 0xff) */
                 } /* if (wlevel_bitmask_errors == 0) */
 
                 bytes_failed = 0;
@@ -7699,10 +7726,6 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 #endif /* WLEXTRAS_PATCH */
 
         } /* for (rankx = 0; rankx < dimm_count * 4;rankx++) */
-
-        /* Enable 32-bit mode if required. */
-        lmc_config.s.mode32b         = (! ddr_interface_64b);
-        VB_PRT(VBL_DEV, "%-45s : %d\n", "MODE32B", lmc_config.s.mode32b);
 
         /* Restore the ECC configuration */
         lmc_config.s.ecc_ena = save_ecc_ena;
