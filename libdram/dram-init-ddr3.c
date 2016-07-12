@@ -11,6 +11,7 @@
 #define NOSKIP_40_48_OHM   1
 #define NOSKIP_48_STACKED  1
 #define NOSKIP_FOR_MINI    1
+#define NOSKIP_FOR_2S_1R   1
 #define MAJORITY_OVER_AVG  1
 #define RANK_MAJORITY      MAJORITY_OVER_AVG && 1
 #define SW_WL_CHECK_PATCH  1 // check validity after SW adjust
@@ -6223,6 +6224,12 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                         rodt_row_skip_mask = 0;
                     }
 #endif /* NOSKIP_FOR_MINI */
+#if NOSKIP_FOR_2S_1R
+                    // for now, leave all rows eligible when we have a 2-slot 1-rank config
+                    if ((dimm_count == 2) && (num_ranks == 1)) {
+                        rodt_row_skip_mask = 0;
+                    }
+#endif /* NOSKIP_FOR_2S_1R */
 		}
 
 		VB_PRT(VBL_DEV, "Evaluating Read-Leveling Scoreboard for AUTO settings.\n");
