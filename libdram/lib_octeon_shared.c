@@ -1686,8 +1686,11 @@ static void dbi_switchover_interface(int node, int lmc)
     ecc_ena = lmcx_config.s.ecc_ena;
 
     // FIXME: must filter out any non-supported configs
-    //        ie, no DDR3, no x4 devices 
-    if ((ddr_pll_ctl.s.ddr4_mode == 0) || (lmcx_config.s.mode_x4dev == 1)) {
+    //        ie, no DDR3, no x4 devices, no 81XX
+    if ((ddr_pll_ctl.s.ddr4_mode == 0)  ||
+        (lmcx_config.s.mode_x4dev == 1) ||
+        CAVIUM_IS_MODEL(CAVIUM_CN81XX)      )
+    {
         ddr_print("N%d.LMC%d: DBI switchover: inappropriate device; EXITING...\n",
                   node, lmc);
         return;

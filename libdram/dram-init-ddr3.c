@@ -3171,13 +3171,13 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         ++fatal_error;
     }
 
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX)) { // any THUNDER
+    if (! CAVIUM_IS_MODEL(CAVIUM_CN81XX)) { // 88XX or 83XX, but not 81XX
         if ((dram_width != 8) && (dram_width != 16) && (dram_width != 4)) {
-            error_print("Unsupported SDRAM Width, %d.  Must be 4, 8 or 16.\n", dram_width);
+            error_print("Unsupported SDRAM Width, x%d.  Must be x4, x8 or x16.\n", dram_width);
             ++fatal_error;
         }
-    } else if ((dram_width != 8) && (dram_width != 16)) {
-        error_print("Unsupported SDRAM Width, %d.  Must be 8 or 16.\n", dram_width);
+    } else if ((dram_width != 8) && (dram_width != 16)) { // 81XX can only do x8 or x16
+        error_print("Unsupported SDRAM Width, x%d.  Must be x8 or x16.\n", dram_width);
         ++fatal_error;
     }
 
