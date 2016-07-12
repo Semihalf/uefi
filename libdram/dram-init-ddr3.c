@@ -24,7 +24,7 @@
 
 #define DEBUG_VALIDATE_BITMASK 0
 #if DEBUG_VALIDATE_BITMASK
-#define debug_bitmask_print printf
+#define debug_bitmask_print ddr_print
 #else
 #define debug_bitmask_print(...)
 #endif
@@ -691,12 +691,14 @@ static uint64_t octeon_read_lmcx_ddr3_wlevel_dbg(bdk_node_t node, int ddr_interf
  * the bitmask so that they can be used to select the most reliable
  * results.
  *
- * The algorithm searches for the largest contigous MASK within a
- * maximum RANGE of bits beginning with the MSB.  A MASK with a WIDTH
- * less than 4 will be penalized.  Bubbles in the bitmask that occur
- * before or after the MASK will be penalized. If there are no
- * trailing bubbles then extra bits that occur beyond the maximum
- * RANGE will be penalized.
+ * The algorithm searches for the largest contiguous MASK within a
+ * maximum RANGE of bits beginning with the MSB.
+ *
+ * 1. a MASK with a WIDTH less than 4 will be penalized
+ * 2. Bubbles in the bitmask that occur before or after the MASK
+ *    will be penalized
+ * 3. If there are no trailing bubbles then extra bits that occur
+ *    beyond the maximum RANGE will be penalized.
  *
  *   +++++++++++++++++++++++++++++++++++++++++++++++++++
  *   +                                                 +
@@ -717,13 +719,20 @@ static uint64_t octeon_read_lmcx_ddr3_wlevel_dbg(bdk_node_t node, int ddr_interf
  *   +                                                 +
  *   +++++++++++++++++++++++++++++++++++++++++++++++++++
  */
-#define MASKRANGE 0x3f
+#define RLEVEL_BITMASK_TRAILING_BITS_ERROR      5
+#define RLEVEL_BITMASK_BUBBLE_BITS_ERROR        12
+#define RLEVEL_BITMASK_NARROW_ERROR             6
+#define RLEVEL_BITMASK_BLANK_ERROR              100
+#define RLEVEL_BITMASK_TOOLONG_ERROR            12
+
+#define MASKRANGE_BITS  6
+#define MASKRANGE       ((1 << MASKRANGE_BITS) - 1)
+
 static int
-validate_ddr3_rlevel_bitmask(rlevel_bitmask_t *rlevel_bitmask_p)
+validate_ddr3_rlevel_bitmask(rlevel_bitmask_t *rlevel_bitmask_p, int ddr_type)
 {
     int i;
     int errors  = 0;
-    uint32_t range;
     uint64_t mask = 0;      /* Used in 64-bit comparisons */
     int8_t  mstart = 0;
     uint8_t width = 0;
@@ -735,102 +744,85 @@ validate_ddr3_rlevel_bitmask(rlevel_bitmask_t *rlevel_bitmask_p)
     uint8_t narrow = 0;
     uint8_t trailing = 0;
     uint64_t bitmask = rlevel_bitmask_p->bm;
+    uint8_t extras = 0;
+    uint8_t toolong = 0;
+    uint64_t temp;
 
     if (bitmask == 0) {
 	blank += RLEVEL_BITMASK_BLANK_ERROR;
     } else {
+
 	/* Look for fb, the first bit */
-	for (firstbit = 0; firstbit < 64; ++firstbit) {
-	    if ((bitmask>>firstbit) & 1)
-		break;
-	}
+        temp = bitmask;
+        while (!(temp & 1)) {
+            firstbit++;
+            temp >>= 1;
+        }
 
 	/* Look for lb, the last bit */
-	for (lastbit = 63; lastbit >= firstbit; --lastbit) {
-	    if ((bitmask>>lastbit) & 1)
-		break;
-	}
+        lastbit = firstbit;
+        while ((temp >>= 1))
+            lastbit++;
 
-	/* Measure the max allowed mask range */
-	range=0;
-	while ((MASKRANGE >> range) & 1) {
-	    debug_bitmask_print("MASKRANGE:%x, range:%x\n", MASKRANGE, range);
-	    ++range;
-	}
-
-	/* Use the range to find the largest mask within the bitmask
-	 * data
-	 */
-	width = range;
-	for (mask=MASKRANGE; mask>0; mask >>= 1, width-=1) {
-	    int match = 0;
-	    for (mstart=lastbit-width+1; mstart>=0; --mstart) {
-		debug_bitmask_print("bm:%lx, mask: %lx, width:%2d, mstart:%2d\n",
-				    bitmask, mask, width,
-				    mstart);
-				
-		if ((bitmask&(mask<<mstart)) == (mask<<mstart)) {
-		    match = 1;
-		    break;
-		}
+	/* Start with the max range to try to find the largest mask within the bitmask data */
+        width = MASKRANGE_BITS;
+        for (mask = MASKRANGE; mask > 0; mask >>= 1, --width) {
+	    for (mstart = lastbit - width + 1; mstart >= firstbit; --mstart) {
+                temp = mask << mstart;
+		if ((bitmask & temp) == temp)
+                    goto done_now;
 	    }
-	    if (match)
-		break;
-	}
-
-	/* Shift mask into position incase the mask has contiguous
-	 * trailing bits.
-	 */
-	debug_bitmask_print("mstart:%d", mstart);
-	while ((bitmask >> mstart) & 1) {
-	    debug_bitmask_print(" %d", mstart);
-	    --mstart;
-	}
-	debug_bitmask_print("\n");
-	++mstart;
+        }
+    done_now:
+        /* look for any more contiguous 1's to the right of mstart */
+        if (width == MASKRANGE_BITS) { // only when maximum mask
+            while ((bitmask >> (mstart - 1)) & 1) { // slide right over more 1's
+                --mstart;
+                if (ddr_type == DDR4_DRAM) // only for DDR4
+                    extras++; // count the number of extra bits
+            }
+        }
+        
+        /* Penalize any extra 1's beyond the maximum desired mask */
+        if (extras > 0)
+            toolong = RLEVEL_BITMASK_TOOLONG_ERROR * ((1 << extras) - 1);
 
 	/* Detect if bitmask is too narrow. */
 	if (width < 4)
-	    narrow = (4-width) * RLEVEL_BITMASK_NARROW_ERROR;
+	    narrow = (4 - width) * RLEVEL_BITMASK_NARROW_ERROR;
 
-	/* detect leading bubble bits */
-	for (i = firstbit; i < mstart; ++i) {
-	    if (((bitmask >> i) & 1) == 0)
+	/* detect leading bubble bits, that is, any 0's between first and mstart */
+        temp = bitmask >> (firstbit + 1);
+        i = mstart - firstbit - 1;
+        while (--i >= 0) {
+	    if ((temp & 1) == 0)
 		bubble += RLEVEL_BITMASK_BUBBLE_BITS_ERROR;
-	}
+            temp >>= 1;
+        }
 
-	/* Detect trailing bubble bits. */
-	for (i = mstart + width; ((bitmask >> i) != 0) && (i < 64); ++i) {
-	    debug_bitmask_print("%d, mstart+width:%u, (bitmask>>i):%0lx\n",
-				i, mstart+width, (bitmask>>i));
-	    if (((bitmask >> i) & 1) == 0)
-		tbubble += RLEVEL_BITMASK_BUBBLE_BITS_ERROR;
-	}
-
-	/* Detect invalid bits at the trailing end of the range. */
-	for (i = mstart + range; i <= lastbit; ++i) {
-	    if ((bitmask >> i) & 1)
-		trailing += RLEVEL_BITMASK_TRAILING_BITS_ERROR;
-	}
+        temp = bitmask >> (mstart + width + extras);
+        i = lastbit - (mstart + width + extras - 1);
+        while (--i >= 0) {
+            if (temp & 1) { /* Detect 1 bits after the trailing end of the mask, including last. */
+                trailing += RLEVEL_BITMASK_TRAILING_BITS_ERROR;
+            } else { /* Detect trailing bubble bits, that is, any 0's between end-of-mask and last */
+		tbubble  += RLEVEL_BITMASK_BUBBLE_BITS_ERROR;
+            }
+            temp >>= 1;
+        }
     }
 
-    errors = bubble + tbubble + blank + narrow + trailing;
+    errors = bubble + tbubble + blank + narrow + trailing + toolong;
 
     /* Pass out useful statistics */
     rlevel_bitmask_p->mstart = mstart;
     rlevel_bitmask_p->width  = width;
 
     debug_bitmask_print("bm:%05lx mask:%2lx, width:%2u, mstart:%2d, fb:%2u, lb:%2u"
-			" (bu:%d, tb:%d, bl:%d, n:%d, t:%d) errors:%3d ",
+			" (bu:%d, tb:%d, bl:%d, n:%d, t:%d, x:%d) errors:%3d %s\n",
 			(unsigned long) bitmask, mask, width, mstart,
 			firstbit, lastbit, bubble, tbubble, blank, narrow,
-			trailing, errors);
-
-    if (errors) {
-	debug_bitmask_print(" => invalid");
-    }
-
-    debug_bitmask_print("\n");
+			trailing, toolong, errors, (errors) ? "=> invalid" : "");
 
     return errors;
 }
@@ -5982,7 +5974,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 					    octeon_read_lmcx_ddr3_rlevel_dbg(node, ddr_interface_num, byte_idx);
 				    }
 				    rlevel_bitmask[byte_idx].errs =
-					validate_ddr3_rlevel_bitmask(&rlevel_bitmask[byte_idx]);
+					validate_ddr3_rlevel_bitmask(&rlevel_bitmask[byte_idx], ddr_type);
 				    rlevel_bitmask_errors += rlevel_bitmask[byte_idx].errs;
 				}
 

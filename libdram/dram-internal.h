@@ -63,10 +63,6 @@ typedef struct {
     (ddr_dll_ctl3.s.field)
 
 
-#define RLEVEL_BITMASK_TRAILING_BITS_ERROR      5
-#define RLEVEL_BITMASK_BUBBLE_BITS_ERROR        12
-#define RLEVEL_BITMASK_NARROW_ERROR             6
-#define RLEVEL_BITMASK_BLANK_ERROR              100
 #define RLEVEL_NONSEQUENTIAL_DELAY_ERROR        50
 #define RLEVEL_ADJACENT_DELAY_ERROR             30
 
