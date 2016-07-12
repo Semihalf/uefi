@@ -23,6 +23,8 @@
 #define COUNT_RL_CANDIDATES 1
 #define FAILSAFE_CHECK      1
 
+#define PERFECT_BITMASK_COUNTING 1
+
 #define DAC_OVERRIDE_EARLY  1
 
 #define DEBUG_VALIDATE_BITMASK 0
@@ -5704,7 +5706,18 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
             uint64_t setting;
             int      score;
         } rlevel_scoreboard[RTT_NOM_OHMS_COUNT][RODT_OHMS_COUNT][4];
+#if PERFECT_BITMASK_COUNTING
+        typedef struct {
+            uint8_t count[9][32]; // 8+ECC by 32 values
+        } rank_perfect_t;
+        rank_perfect_t rank_perfect_counts[4];
+#endif
+
 #pragma pack(pop)
+
+#if PERFECT_BITMASK_COUNTING
+        memset(rank_perfect_counts, 0, sizeof(rank_perfect_counts));
+#endif /* PERFECT_BITMASK_COUNTING */
 
         lmc_control.u = BDK_CSR_READ(node, BDK_LMCX_CONTROL(ddr_interface_num));
         save_ddr2t    = lmc_control.s.ddr2t;
@@ -6080,15 +6093,23 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                                  * used later to qualify the delay results from Octeon.
                                  */
 				for (byte_idx = 0; byte_idx < (8+ecc_ena); ++byte_idx) {
+                                    int bmerr;
 				    if (!(ddr_interface_bytemask&(1<<byte_idx)))
 					continue;
 				    if (! (rlevel_separate_ab && spd_rdimm && (ddr_type == DDR4_DRAM))) {
 					rlevel_bitmask[byte_idx].bm =
 					    octeon_read_lmcx_ddr3_rlevel_dbg(node, ddr_interface_num, byte_idx);
 				    }
-				    rlevel_bitmask[byte_idx].errs =
-					validate_ddr3_rlevel_bitmask(&rlevel_bitmask[byte_idx], ddr_type);
-				    rlevel_bitmask_errors += rlevel_bitmask[byte_idx].errs;
+                                    bmerr = validate_ddr3_rlevel_bitmask(&rlevel_bitmask[byte_idx], ddr_type);
+				    rlevel_bitmask[byte_idx].errs = bmerr;
+				    rlevel_bitmask_errors += bmerr;
+#if PERFECT_BITMASK_COUNTING
+                                    if (! bmerr) { // count only the "perfect" bitmasks
+                                        // FIXME: could optimize this a bit?
+                                        int delay = get_rlevel_rank_struct(&lmc_rlevel_rank, byte_idx);
+                                        rank_perfect_counts[rankx].count[byte_idx][delay] += 1;
+                                    }
+#endif /* PERFECT_BITMASK_COUNTING */
 				}
 
 				/* Set delays for unused bytes to match byte 0. */
@@ -6987,6 +7008,46 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 					    byte_idx, (int)new_byte);
                         }
 #endif /* FAILSAFE_CHECK */
+#if PERFECT_BITMASK_COUNTING
+                        { // look at counts for the "perfect" bitmasks
+                            // FIXME: should be more error checking, look for ties, etc...
+                            int i, delay_count, delay_value, delay_max, tie; 
+                            delay_value = -1;
+                            delay_max = 0;
+                            tie = -1;
+                            for (i = 0; i < 32; i++) {
+                                delay_count = rank_perfect_counts[rankx].count[byte_idx][i];
+                                if (delay_count > 0) { // only look closer if there are any,,,
+                                    if (delay_count > delay_max) {
+                                        delay_max = delay_count;
+                                        delay_value = i;
+                                        tie = -1;
+                                    } else if (delay_count == delay_max) {
+                                        tie = i;
+                                    }
+                                }
+                            }
+                            if (tie >= 0) {
+                                ddr_print("N%d.LMC%d.R%d: PERFECT: perfect for bytelane %d is %d TIED with %d\n",
+                                          node, ddr_interface_num, rankx, byte_idx, delay_value, tie);
+                            }
+                            if (delay_value >= 0) {
+                                if ((uint64_t)delay_value != new_byte) {
+                                    ddr_print("N%d.LMC%d.R%d: PERFECT: perfect for bytelane %d is %d DIFF from %d: USING it!\n",
+                                              node, ddr_interface_num, rankx, byte_idx, delay_value, (int)new_byte);
+                                    new_byte = (uint64_t)delay_value; // FIXME: make this optional via envvar?
+                                } else {
+                                    debug_print("N%d.LMC%d.R%d: PERFECT: perfect for bytelane %d SAME as %d\n",
+                                                node, ddr_interface_num, rankx, byte_idx, (int)new_byte);
+                                }
+                            } else {
+                                // FIXME: remove or increase VBL for this output...
+                                ddr_print("N%d.LMC%d.R%d: PERFECT: no perfect bitmasks for bytelane %d\n",
+                                          node, ddr_interface_num, rankx, byte_idx);
+                            }
+                        }
+#endif /* PERFECT_BITMASK_COUNTING */
+
 			VB_PRT(VBL_DEV, "N%d.LMC%d.R%d: SUMMARY: Byte %d: %s: orig %d now %d, more %d same %d less %d, using %d\n",
 					node, ddr_interface_num, rankx,
 					byte_idx, "AVG", (int)orig_best_byte, 
