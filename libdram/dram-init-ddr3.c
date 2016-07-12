@@ -1141,7 +1141,6 @@ static int is_dll_offset_provided(const int8_t *dll_offset_table)
 #define WITH_SCORE   1
 #define WITH_AVERAGE 2
 #define WITH_FINAL   4
-#define WITH_BEST    8
 static void do_display_RL(bdk_node_t node, int ddr_interface_num,
 			  bdk_lmcx_rlevel_rankx_t lmc_rlevel_rank,
 			  int rank, int flags, int score)
@@ -1159,8 +1158,6 @@ static void do_display_RL(bdk_node_t node, int ddr_interface_num,
 	msg_buf = "  DELAY AVERAGES  ";
     } else if (flags & WITH_FINAL) {
 	msg_buf = "  FINAL SETTINGS  ";
-    } else if (flags & WITH_BEST) {
-	msg_buf = "  BEST SETTINGS   ";
     } else {
 	snprintf(hex_buf, sizeof(hex_buf), "0x%016lX", lmc_rlevel_rank.u);
 	msg_buf = hex_buf;
@@ -1181,10 +1178,6 @@ static void do_display_RL(bdk_node_t node, int ddr_interface_num,
               lmc_rlevel_rank.s.byte0,
 	      score_buf
               );
-    // FIXME: does this help make the output a little easier to focus?
-    if (flags & WITH_BEST) {
-        ddr_print("-----------\n");
-    }
 }
 
 static inline void
@@ -1213,29 +1206,27 @@ display_RL_with_final(bdk_node_t node, int ddr_interface_num, bdk_lmcx_rlevel_ra
     do_display_RL(node, ddr_interface_num, lmc_rlevel_rank, rank, 4, 0);
 }
 
-static inline void
-display_RL_with_best(bdk_node_t node, int ddr_interface_num, bdk_lmcx_rlevel_rankx_t lmc_rlevel_rank, int rank, int score)
-{
-    do_display_RL(node, ddr_interface_num, lmc_rlevel_rank, rank, 9, score);
-}
-
 // flag values
-#define WITH_RODT_BLANK    0
-#define WITH_RODT_SKIPPING 1
-#define WITH_RODT_BESTROW  2
+#define WITH_RODT_BLANK      0
+#define WITH_RODT_SKIPPING   1
+#define WITH_RODT_BESTROW    2
+#define WITH_RODT_BESTSCORE  3
 // control
 #define SKIP_SKIPPING 1
+
+static const char *with_rodt_canned_msgs[4] = { "          ", "SKIPPING  ", "BEST ROW  ", "BEST SCORE" }; 
+
 static void display_RL_with_RODT(bdk_node_t node, int ddr_interface_num, 
 				 bdk_lmcx_rlevel_rankx_t lmc_rlevel_rank, int rank, int score,
-				 int rtt_nom, int nom_ohms, int rodt_ctl, int rodt_ohms, int flag)
+				 int nom_ohms, int rodt_ohms, int flag)
 {
-    char *msg_buf;
+    const char *msg_buf;
 #if SKIP_SKIPPING
     if (flag == WITH_RODT_SKIPPING) return;
 #endif
-    msg_buf = (flag == WITH_RODT_SKIPPING) ? "SKIPPING" : ((flag == WITH_RODT_BESTROW) ? "BEST ROW" : "        ");
+    msg_buf = with_rodt_canned_msgs[flag];
     
-    VB_PRT(VBL_TME, "N%d.LMC%d.R%d: Rlevel NOM %3d RODT %3d    %s   : %5d %5d %5d %5d %5d %5d %5d %5d %5d (%d)\n",
+    VB_PRT(VBL_TME, "N%d.LMC%d.R%d: Rlevel NOM %3d RODT %3d   %s  : %5d %5d %5d %5d %5d %5d %5d %5d %5d (%d)\n",
 	      node, ddr_interface_num, rank,
 	      nom_ohms, rodt_ohms,
 	      msg_buf,
@@ -1250,6 +1241,11 @@ static void display_RL_with_RODT(bdk_node_t node, int ddr_interface_num,
 	      lmc_rlevel_rank.s.byte0,
 	      score
 	      );
+
+    // FIXME: does this help make the output a little easier to focus?
+    if (flag == WITH_RODT_BESTSCORE) {
+        VB_PRT(VBL_TME, "-----------\n");
+    }
 }
 
 static void
@@ -6218,8 +6214,12 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                                 display_RL_BM_scores(node, ddr_interface_num, rankx, rlevel_bitmask, ecc_ena);
                             }
 
-			    display_RL_with_best(node, ddr_interface_num, lmc_rlevel_rank, rankx,
-						 rlevel_scoreboard[rtt_nom][rodt_ctl][rankx].score);
+                            display_RL_with_RODT(node, ddr_interface_num, lmc_rlevel_rank, rankx,
+                                                 rlevel_scoreboard[rtt_nom][rodt_ctl][rankx].score,
+                                                 imp_values->rtt_nom_ohms[rtt_nom],
+                                                 imp_values->rodt_ohms[rodt_ctl],
+                                                 WITH_RODT_BESTSCORE);
+
 #else /* PICK_BEST_RANK_SCORE_NOT_AVG */
 			    display_RL_with_average(node, ddr_interface_num, lmc_rlevel_rank, rankx,
 						    rlevel_scoreboard[rtt_nom][rodt_ctl][rankx].score);
@@ -6575,15 +6575,6 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 		    DRAM_CSR_WRITE(node, BDK_LMCX_RLEVEL_RANKX(ddr_interface_num, rankx), lmc_rlevel_rank.u);
 		    lmc_rlevel_rank.u = BDK_CSR_READ(node, BDK_LMCX_RLEVEL_RANKX(ddr_interface_num, rankx));
 
-#if 0
-                    // FIXME: done below now...
-		    // print the best row selected
-		    display_RL_with_RODT(node, ddr_interface_num, 
-					 lmc_rlevel_rank, best_rankx, best_rank_score,
-					 best_rank_rtt_nom, best_rank_nom_ohms,
-					 best_rank_ctl, best_rank_ohms, WITH_RODT_BESTROW);
-#endif
-
 		    bdk_lmcx_rlevel_rankx_t saved_rlevel_rank;
 		    saved_rlevel_rank.u = lmc_rlevel_rank.u;
 
@@ -6626,8 +6617,8 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
 				    display_RL_with_RODT(node, ddr_interface_num, 
 							 temp_rlevel_rank, orankx, temp_score,
-							 rtt_nom,  imp_values->rtt_nom_ohms[rtt_nom],
-							 rodt_ctl, imp_values->rodt_ohms[rodt_ctl],
+							 imp_values->rtt_nom_ohms[rtt_nom],
+							 imp_values->rodt_ohms[rodt_ctl],
 							 skip_row);
 
 				} /* for (rodt_ctl = max_rodt_ctl; rodt_ctl >= min_rodt_ctl; --rodt_ctl) */
