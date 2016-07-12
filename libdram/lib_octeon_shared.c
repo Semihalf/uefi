@@ -2130,7 +2130,7 @@ int octeon_ddr_initialize(bdk_node_t node,
             do_dbi = !!strtoul(s, NULL, 10);
         }
         if (do_dbi) {
-            printf("DBI Switchover starting...\n");
+            ddr_print("DBI Switchover starting...\n");
             for (interface_index = 0; interface_index < 4; ++interface_index) {
                 if (! (ddr_config_valid_mask & (1 << interface_index)))
                     continue;
