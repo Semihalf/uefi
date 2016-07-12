@@ -6,7 +6,7 @@
 #define ddr_print2(format, ...) VB_PRT(VBL_FAE,  format, ##__VA_ARGS__)
 #define ddr_print3(format, ...) VB_PRT(VBL_TME,  format, ##__VA_ARGS__)
 #define ddr_print4(format, ...) VB_PRT(VBL_DEV,  format, ##__VA_ARGS__)
-#define ddr_print5(format, ...) VB_PRT(VBL_DEV2, format, ##__VA_ARGS__)
+#define ddr_print5(format, ...) VB_PRT(VBL_DEV3, format, ##__VA_ARGS__)
 #else
 #define ddr_print2 ddr_print
 #define ddr_print4 ddr_print

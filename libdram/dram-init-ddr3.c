@@ -17,8 +17,9 @@
 #define SW_WL_CHECK_PATCH  1 // check validity after SW adjust
 #define HW_WL_MAJORITY     1
 #define SWL_TRY_HWL_ALT    HW_WL_MAJORITY && 1 // try HW WL base alternate if available when SW WL fails
-
 #define DISABLE_SW_WL_PASS_2 1
+
+#define KEEP_PERFECT_AVG   1
 
 #define DAC_OVERRIDE_EARLY 1
 
@@ -267,7 +268,7 @@ static int Perform_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_inter
     lock_retries_total = 0;
     unsaturated = 0;
     print_first = VBL_FAE; // print the first one, FAE and above
-    print_them_all = dram_is_verbose(VBL_DEV2); // set to true for printing all normal deskew attempts
+    print_them_all = dram_is_verbose(VBL_DEV4); // set to true for printing all normal deskew attempts
 
     int loops, normal_loops = 1; // default to 1 NORMAL deskew training op...
     const char *s;
@@ -1180,6 +1181,10 @@ static void do_display_RL(bdk_node_t node, int ddr_interface_num,
               lmc_rlevel_rank.s.byte0,
 	      score_buf
               );
+    // FIXME: does this help make the output a little easier to focus?
+    if (flags & WITH_BEST) {
+        ddr_print("-----------\n");
+    }
 }
 
 static inline void
@@ -1299,13 +1304,26 @@ PPBM(uint64_t bm)
     }
     return bm;
 }
+#if 0
+static int
+XPU(int index, int ecc_ena)
+{
+    if (index < 4) return index;
+    if (index < 8) return index + !!ecc_ena;
+    return 4;
+}
+#else
+#define XPU(i,e) (((i) < 4)?(i):((i)<8)?(i)+(e):4)
+#endif
+#define XUP(i,e) (((i) < 4)?(i):((i)>4)?(i)-(e):8)
 // flag values
 #define WITH_WL_BITMASKS      0
 #define WITH_RL_BITMASKS      1
 #define WITH_RL_MASK_SCORES   2
 static void
-do_display_BM(bdk_node_t node, int ddr_interface_num, int rank, void *bm, int flags)
+do_display_BM(bdk_node_t node, int ddr_interface_num, int rank, void *bm, int flags, int ecc_ena)
 {
+    int ecc = !!ecc_ena;
     if (flags == WITH_WL_BITMASKS) {
         int *bitmasks = (int *)bm;
 
@@ -1326,30 +1344,30 @@ do_display_BM(bdk_node_t node, int ddr_interface_num, int rank, void *bm, int fl
         rlevel_bitmask_t *rlevel_bitmask = (rlevel_bitmask_t *)bm;
         ddr_print("N%d.LMC%d.R%d: Rlevel Debug Bitmasks      8:0        : %05lx %05lx %05lx %05lx %05lx %05lx %05lx %05lx %05lx\n",
                   node, ddr_interface_num, rank,
-                  PPBM(rlevel_bitmask[8].bm),
-                  PPBM(rlevel_bitmask[7].bm),
-                  PPBM(rlevel_bitmask[6].bm),
-                  PPBM(rlevel_bitmask[5].bm),
-                  PPBM(rlevel_bitmask[4].bm),
-                  PPBM(rlevel_bitmask[3].bm),
-                  PPBM(rlevel_bitmask[2].bm),
-                  PPBM(rlevel_bitmask[1].bm),
-                  PPBM(rlevel_bitmask[0].bm)
+                  PPBM(rlevel_bitmask[XPU(8,ecc)].bm),
+                  PPBM(rlevel_bitmask[XPU(7,ecc)].bm),
+                  PPBM(rlevel_bitmask[XPU(6,ecc)].bm),
+                  PPBM(rlevel_bitmask[XPU(5,ecc)].bm),
+                  PPBM(rlevel_bitmask[XPU(4,ecc)].bm),
+                  PPBM(rlevel_bitmask[XPU(3,ecc)].bm),
+                  PPBM(rlevel_bitmask[XPU(2,ecc)].bm),
+                  PPBM(rlevel_bitmask[XPU(1,ecc)].bm),
+                  PPBM(rlevel_bitmask[XPU(0,ecc)].bm)
                   );
     } else
     if (flags == WITH_RL_MASK_SCORES) {
         rlevel_bitmask_t *rlevel_bitmask = (rlevel_bitmask_t *)bm;
         ddr_print("N%d.LMC%d.R%d: Rlevel Debug Bitmask Scores  8:0      : %5d %5d %5d %5d %5d %5d %5d %5d %5d\n",
                   node, ddr_interface_num, rank,
-                  rlevel_bitmask[8].errs,
-                  rlevel_bitmask[7].errs,
-                  rlevel_bitmask[6].errs,
-                  rlevel_bitmask[5].errs,
-                  rlevel_bitmask[4].errs,
-                  rlevel_bitmask[3].errs,
-                  rlevel_bitmask[2].errs,
-                  rlevel_bitmask[1].errs,
-                  rlevel_bitmask[0].errs
+                  rlevel_bitmask[XPU(8,ecc)].errs,
+                  rlevel_bitmask[XPU(7,ecc)].errs,
+                  rlevel_bitmask[XPU(6,ecc)].errs,
+                  rlevel_bitmask[XPU(5,ecc)].errs,
+                  rlevel_bitmask[XPU(4,ecc)].errs,
+                  rlevel_bitmask[XPU(3,ecc)].errs,
+                  rlevel_bitmask[XPU(2,ecc)].errs,
+                  rlevel_bitmask[XPU(1,ecc)].errs,
+                  rlevel_bitmask[XPU(0,ecc)].errs
                   );
     }
 }
@@ -1357,19 +1375,19 @@ do_display_BM(bdk_node_t node, int ddr_interface_num, int rank, void *bm, int fl
 static inline void
 display_WL_BM(bdk_node_t node, int ddr_interface_num, int rank, int *bitmasks)
 {
-    do_display_BM(node, ddr_interface_num, rank, (void *)bitmasks, WITH_WL_BITMASKS);
+    do_display_BM(node, ddr_interface_num, rank, (void *)bitmasks, WITH_WL_BITMASKS, 0);
 }
 
 static inline void
-display_RL_BM(bdk_node_t node, int ddr_interface_num, int rank, rlevel_bitmask_t *bitmasks)
+display_RL_BM(bdk_node_t node, int ddr_interface_num, int rank, rlevel_bitmask_t *bitmasks, int ecc_ena)
 {
-    do_display_BM(node, ddr_interface_num, rank, (void *)bitmasks, WITH_RL_BITMASKS);
+    do_display_BM(node, ddr_interface_num, rank, (void *)bitmasks, WITH_RL_BITMASKS, ecc_ena);
 }
 
 static inline void
-display_RL_BM_scores(bdk_node_t node, int ddr_interface_num, int rank, rlevel_bitmask_t *bitmasks)
+display_RL_BM_scores(bdk_node_t node, int ddr_interface_num, int rank, rlevel_bitmask_t *bitmasks, int ecc_ena)
 {
-    do_display_BM(node, ddr_interface_num, rank, (void *)bitmasks, WITH_RL_MASK_SCORES);
+    do_display_BM(node, ddr_interface_num, rank, (void *)bitmasks, WITH_RL_MASK_SCORES, ecc_ena);
 }
 
 unsigned short load_dll_offset(bdk_node_t node, int ddr_interface_num,
@@ -6057,9 +6075,9 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                                 }
                                 
 				// print here only if we are not really averaging or picking best
-				if (rlevel_avg_loops < 2) {
-                                    display_RL_BM(node, ddr_interface_num, rankx, rlevel_bitmask);
-                                    display_RL_BM_scores(node, ddr_interface_num, rankx, rlevel_bitmask);
+				if ((rlevel_avg_loops < 2) || dram_is_verbose(VBL_DEV2)) {
+                                    display_RL_BM(node, ddr_interface_num, rankx, rlevel_bitmask, ecc_ena);
+                                    display_RL_BM_scores(node, ddr_interface_num, rankx, rlevel_bitmask, ecc_ena);
 				    display_RL_with_score(node, ddr_interface_num, lmc_rlevel_rank, rankx, rlevel_rank_errors);
 				}
 
@@ -6106,6 +6124,15 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 				    rlevel_byte[byte_idx].errs = rlevel_bitmask[byte_idx].errs;
 				}
 			    }
+#if KEEP_PERFECT_AVG
+                            // keep an average of the perfect bitmask scores, ignoring overall score
+                            for (byte_idx = 0; byte_idx < 9; ++byte_idx) {
+                                if (rlevel_bitmask[byte_idx].errs == 0) { // FIXME? only perfect?
+				    rlevel_byte[byte_idx].loop_count += 1;
+				    rlevel_byte[byte_idx].loop_total += rlevel_byte[byte_idx].delay;
+                                }
+                            }
+#endif /* KEEP_PERFECT_AVG */
 
 #else /* PICK_BEST_RANK_SCORE_NOT_AVG */
 
@@ -6136,6 +6163,27 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 			for (byte_idx = 0; byte_idx < 9; ++byte_idx) {
 			    rlevel_byte[byte_idx].delay = rlevel_byte[byte_idx].best;
 			}
+#if KEEP_PERFECT_AVG
+                        // calc average of the perfect bitmask scores
+                        for (byte_idx = 0; byte_idx < 9; ++byte_idx) {
+                            int perfect_avg_delay = 0;
+			    if (rlevel_byte[byte_idx].loop_count > 0) {
+                                perfect_avg_delay =
+                                    (rlevel_byte[byte_idx].loop_total * 10) / rlevel_byte[byte_idx].loop_count;
+                            }
+                            // if best bitmask is not perfect and at least 1 was perfect
+                            if ((rlevel_byte[byte_idx].errs != 0) && (perfect_avg_delay != 0)) {
+                                // and if best is not the perfect avg 
+                                if (rlevel_byte[byte_idx].best != (perfect_avg_delay / 10)) {
+                                    ddr_print("N%d.LMC%d.R%d.B%d: PERFECT: best %d != perf %d.%d (%d)\n", 
+                                              node, ddr_interface_num, rankx, XUP(byte_idx, !!ecc_ena),
+                                              rlevel_byte[byte_idx].best,
+                                              perfect_avg_delay / 10, perfect_avg_delay % 10,
+                                              rlevel_byte[byte_idx].loop_count);
+                                }
+                            }
+                        }
+#endif /* KEEP_PERFECT_AVG */
 #else /* PICK_BEST_RANK_SCORE_NOT_AVG */
 
 			/* Compute the average score across averaging loops */
@@ -6166,8 +6214,8 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                             }
                             // print bitmasks/scores here only for DEV // FIXME? lower VBL?
                             if (dram_is_verbose(VBL_DEV)) {
-                                display_RL_BM(node, ddr_interface_num, rankx, rlevel_bitmask);
-                                display_RL_BM_scores(node, ddr_interface_num, rankx, rlevel_bitmask);
+                                display_RL_BM(node, ddr_interface_num, rankx, rlevel_bitmask, ecc_ena);
+                                display_RL_BM_scores(node, ddr_interface_num, rankx, rlevel_bitmask, ecc_ena);
                             }
 
 			    display_RL_with_best(node, ddr_interface_num, lmc_rlevel_rank, rankx,
@@ -7253,7 +7301,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                     // FIXME: these now put in by test_dram_byte()
                     //rank_addr |= (ddr_interface_num<<7); /* Map address into proper interface */
                     //rank_addr = bdk_numa_get_address(node, rank_addr);
-                    VB_PRT(VBL_DEV2, "N%d.LMC%d.R%d: Active Rank %d Address: 0x%lx\n",
+                    VB_PRT(VBL_DEV4, "N%d.LMC%d.R%d: Active Rank %d Address: 0x%lx\n",
                            node, ddr_interface_num, rankx, active_rank, rank_addr);
 
 		    { // start parallel write-leveling block for delay high-order bits
@@ -7294,7 +7342,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                             } else
                                 errors = test_dram_byte(node, ddr_interface_num, rank_addr, bytemask);
 
-			    VB_PRT(VBL_DEV2, "WL pass1: test_dram_byte returned 0x%x\n", errors);
+			    VB_PRT(VBL_DEV4, "WL pass1: test_dram_byte returned 0x%x\n", errors);
 
 			    // remember, errors will not be returned for byte-lanes that have maxxed out...
 			    no_errors_count = (errors == 0) ? no_errors_count + 1 : 0; // bump or reset

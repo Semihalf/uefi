@@ -469,7 +469,7 @@ int test_dram_byte_hw(bdk_node_t node, int ddr_interface_num, uint64_t p, int fl
     errors = 0;
 
     bdk_dram_address_extract_info(p, &node_address, &lmc, &dimm, &rank, &bank, &row, &col);
-    VB_PRT(VBL_DEV2, "test_dram_byte_hw: Starting at A:0x%012lx, N%d L%d D%d R%d B%1x Row:%05x Col:%05x\n",
+    VB_PRT(VBL_DEV4, "test_dram_byte_hw: Starting at A:0x%012lx, N%d L%d D%d R%d B%1x Row:%05x Col:%05x\n",
 	      p, node_address, lmc, dimm, rank, bank, row, col);
 
     // only check once per call, and ignore if no match...
