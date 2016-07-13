@@ -870,12 +870,12 @@ int bdk_nic_transmit(bdk_if_handle_t handle, const bdk_if_packet_t *packet)
     {
         BDK_CSR_INIT(sq_status, nic->node, BDK_NIC_QSX_SQX_STATUS(nic->nic_vf, nic->sq));
         nic->sq_available = SQ_ENTRIES - sq_status.s.qcount;
-    }
-    /* Check for space. A packets is a header plus its segments */
-    if (nic->sq_available < packet->segments + 1 + SQ_SLOP)
-    {
-        BDK_TRACE(NIC, "%s: Transmit fail, queue full\n", nic->handle->name);
-        return -1;
+        /* Re-Check for space. A packets is a header plus its segments */
+        if (nic->sq_available < packet->segments + 1 + SQ_SLOP)
+        {
+            BDK_TRACE(NIC, "%s: Transmit fail, queue full\n", nic->handle->name);
+            return -1;
+        }
     }
 
     /* Build the command */
