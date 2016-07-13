@@ -1300,6 +1300,7 @@ static void lane_check_ready(int ccpi_lane)
         wait_usec(1000);
         qlmx_cfg.s.ser_lane_bad = 0;
         BDK_CSR_WRITE(node, BDK_OCX_QLMX_CFG(ccpi_qlm), qlmx_cfg.u);
+        wait_usec(1000);
         /* Set count to zero */
         lstate->steps = 0;
         /* Change our state if needed */
