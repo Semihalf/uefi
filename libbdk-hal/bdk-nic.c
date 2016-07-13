@@ -918,12 +918,13 @@ int bdk_nic_transmit(bdk_if_handle_t handle, const bdk_if_packet_t *packet)
     /* Update our cached state */
     nic->sq_available -= packet->segments + 1;
     nic->sq_loc = loc;
-
-    /* Update stats as we do them in software */
-    handle->stats.tx.packets++;
-    handle->stats.tx.octets += packet->length;
-    if (handle->flags & BDK_IF_FLAGS_HAS_FCS)
-        handle->stats.tx.octets += 4;
+    if (handle->iftype != BDK_IF_BGX) {
+        /* Update stats as we do them in software for non-BGX */
+        handle->stats.tx.packets++;
+        handle->stats.tx.octets += packet->length;
+        if (handle->flags & BDK_IF_FLAGS_HAS_FCS)
+            handle->stats.tx.octets += 4;
+    }
     return 0;
 }
 
