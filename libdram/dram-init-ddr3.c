@@ -5323,10 +5323,12 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                 if (wlevel_bitmask_errors == 0) {
                     if ((spd_dimm_type != 5) &&
                         (spd_dimm_type != 6) &&
+                        (spd_dimm_type != 8) &&
+                        (spd_dimm_type != 9) &&
                         (dram_width != 16)   &&
                         (ddr_interface_64b)  &&
                         !(disable_hwl_validity))
-                    { // bypass if mini-[RU]DIMM or x16 or 32-bit
+                    { // bypass if mini-[RU]DIMM or x16 or 32-bit or SO-[RU]DIMM
                         wlevel_validity_errors =
                             Validate_HW_WL_Settings(node, ddr_interface_num,
                                                     &lmc_wlevel_rank, ecc_ena);
