@@ -215,14 +215,20 @@ int bdk_pki_enable(bdk_node_t node)
  */
 void bdk_pki_fill_rx_stats(bdk_if_handle_t handle)
 {
+ /* Account for RX stripping FCS */
+    const int bytes_off_rx = (handle->flags & BDK_IF_FLAGS_HAS_FCS) ? 4 : 0;
+
     BDK_CSR_INIT(dstat_pkts, handle->node, BDK_PKI_DSTATX_STAT0(handle->pki_dstat)); /* 32 bits */
     BDK_CSR_INIT(dstat_octs, handle->node, BDK_PKI_DSTATX_STAT1(handle->pki_dstat)); /* 40 bits */
     BDK_CSR_INIT(dstat_errs, handle->node, BDK_PKI_DSTATX_STAT2(handle->pki_dstat)); /* 32 bits */
     BDK_CSR_INIT(dstat_drps, handle->node, BDK_PKI_DSTATX_STAT3(handle->pki_dstat)); /* 32 bits */
     BDK_CSR_INIT(dstat_doct, handle->node, BDK_PKI_DSTATX_STAT4(handle->pki_dstat)); /* 40 bits */
 
+    handle->stats.rx.octets         -= handle->stats.rx.packets * bytes_off_rx;
     handle->stats.rx.packets         = bdk_update_stat_with_overflow(dstat_pkts.u, handle->stats.rx.packets, 32);
     handle->stats.rx.octets          = bdk_update_stat_with_overflow(dstat_octs.u, handle->stats.rx.octets, 40);
+    handle->stats.rx.octets         += handle->stats.rx.packets * bytes_off_rx;
+
     handle->stats.rx.errors          = bdk_update_stat_with_overflow(dstat_errs.u, handle->stats.rx.errors, 32);
     handle->stats.rx.dropped_packets = bdk_update_stat_with_overflow(dstat_drps.u, handle->stats.rx.dropped_packets, 32);
     handle->stats.rx.dropped_octets  = bdk_update_stat_with_overflow(dstat_doct.u, handle->stats.rx.dropped_octets, 40);
