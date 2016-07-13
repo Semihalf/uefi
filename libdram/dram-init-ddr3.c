@@ -8094,10 +8094,10 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                       GET_DDR_DLL_CTL3(dll90_byte_sel), ddr_dll_ctl3.u, setting[i]);
         }
 
-        VB_PRT(VBL_DEV, "%-45s : %5d %5d %5d %5d %5d %5d %5d %5d %5d\n",
-                  "DLL90 Setting 8:0",
-                  setting[8], setting[7], setting[6], setting[5], setting[4],
-                  setting[3], setting[2], setting[1], setting[0]);
+        VB_PRT(VBL_DEV, "N%d.LMC%d: %-36s : %5d %5d %5d %5d %5d %5d %5d %5d %5d\n",
+               node, ddr_interface_num, "DLL90 Setting 8:0",
+               setting[8], setting[7], setting[6], setting[5], setting[4],
+               setting[3], setting[2], setting[1], setting[0]);
 
         //BDK_CSR_WRITE(node, BDK_LMCX_DLL_CTL3(ddr_interface_num),	save_ddr_dll_ctl3.u);
     }
