@@ -252,11 +252,11 @@ static int vnic_setup_tx_shaping(nic_t *nic)
         {
             case BDK_NIC_TYPE_BGX:
                 tl1_index = BDK_NIC_LMAC_E_BGXX_LMACX(nic->handle->interface, nic->handle->index);
-                nic_chan_e = BDK_NIC_CHAN_E_BGXX_LMACX_CHX(nic->handle->interface, nic->handle->index, 0/*channel*/);
+                nic_chan_e = 0 ; /* Channel is lmac-relative */
                 break;
             case BDK_NIC_TYPE_LBK:
                 tl1_index = BDK_NIC_LMAC_E_LBKX_CN83XX((nic->handle->interface == 3) ? 1 : 0);
-                nic_chan_e = BDK_NIC_CHAN_E_LBKX_CHX(nic->handle->interface, nic->handle->index);
+                nic_chan_e = nic->handle->index; /* Channel is lmac-relative */
                 break;
             default:
                 bdk_error("%s: Unsupported NIC TYPE %d\n", nic->handle->name, nic->ntype);
@@ -281,11 +281,11 @@ static int vnic_setup_tx_shaping(nic_t *nic)
                 break;
             case BDK_NIC_TYPE_RGMII:
                 tl1_index = BDK_NIC_LMAC_E_RGXX_LMACX(nic->handle->interface, nic->handle->index);
-                nic_chan_e = BDK_NIC_CHAN_E_BGXX_LMACX_CHX(nic->handle->interface + 2, nic->handle->index, 0/*channel*/);
+                nic_chan_e = 0; /* Channel is lmac-relative */
                 break;
             case BDK_NIC_TYPE_LBK:
                 tl1_index = BDK_NIC_LMAC_E_LBKX_CN81XX(nic->handle->interface);
-                nic_chan_e = BDK_NIC_CHAN_E_LBKX_CHX(nic->handle->interface, nic->handle->index);
+                nic_chan_e = nic->handle->index; /* Channel is lmac-relative */
                 break;
             default:
                 bdk_error("%s: Unsupported NIC TYPE %d\n", nic->handle->name, nic->ntype);
