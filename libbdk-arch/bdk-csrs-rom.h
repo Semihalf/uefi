@@ -127,7 +127,7 @@ union bdk_rom_clib_s
 
                                                                  Internal:
                                                                  Future ROM code may allow this to be more flexible.
-                                                                 If so, must be aligned to 1 KB. Must be >= 1 KB (past the
+                                                                 If so, must be aligned to 16 KB. Must be >= 16 KB (past the
                                                                  ROM_CLIB_S and ROM_CSIB_S headers). */
 #else /* Word 2 - Little Endian */
         uint64_t offset                : 64; /**< [191:128] Offset address. The flash address for first byte of image.
@@ -141,7 +141,7 @@ union bdk_rom_clib_s
 
                                                                  Internal:
                                                                  Future ROM code may allow this to be more flexible.
-                                                                 If so, must be aligned to 1 KB. Must be >= 1 KB (past the
+                                                                 If so, must be aligned to 16 KB. Must be >= 16 KB (past the
                                                                  ROM_CLIB_S and ROM_CSIB_S headers). */
 #endif /* Word 2 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 3 - Big Endian */
@@ -310,9 +310,7 @@ union bdk_rom_clib_s
         uint64_t reserved_1984_2047    : 64;
 #endif /* Word 31 - End */
     } s;
-    /* struct bdk_rom_clib_s_s cn9; */
-    /* struct bdk_rom_clib_s_s cn81xx; */
-    struct bdk_rom_clib_s_cn88xx
+    struct bdk_rom_clib_s_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t magic                 : 64; /**< [ 63:  0] Magic number.  Contains "CVM_CLIB" in ASCII (0x42494c43_5f4d5643)
@@ -344,7 +342,7 @@ union bdk_rom_clib_s
 
                                                                  Internal:
                                                                  Future ROM code may allow this to be more flexible.
-                                                                 If so, must be aligned to 16 KB. Must be >= 16 KB (past the
+                                                                 If so, must be aligned to 1 KB. Must be >= 1 KB (past the
                                                                  ROM_CLIB_S and ROM_CSIB_S headers). */
 #else /* Word 2 - Little Endian */
         uint64_t offset                : 64; /**< [191:128] Offset address. The flash address for first byte of image.
@@ -358,7 +356,7 @@ union bdk_rom_clib_s
 
                                                                  Internal:
                                                                  Future ROM code may allow this to be more flexible.
-                                                                 If so, must be aligned to 16 KB. Must be >= 16 KB (past the
+                                                                 If so, must be aligned to 1 KB. Must be >= 1 KB (past the
                                                                  ROM_CLIB_S and ROM_CSIB_S headers). */
 #endif /* Word 2 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 3 - Big Endian */
@@ -526,8 +524,9 @@ union bdk_rom_clib_s
 #else /* Word 31 - Little Endian */
         uint64_t reserved_1984_2047    : 64;
 #endif /* Word 31 - End */
-    } cn88xx;
-    /* struct bdk_rom_clib_s_s cn83xx; */
+    } cn81xx;
+    /* struct bdk_rom_clib_s_s cn88xx; */
+    /* struct bdk_rom_clib_s_cn81xx cn83xx; */
 };
 
 /**

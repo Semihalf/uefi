@@ -428,7 +428,8 @@ typedef union
         uint64_t reserved_13_63        : 51;
         uint64_t rxnum                 : 5;  /**< [ 12:  8](RO/H) Number of bytes written for the transaction. */
         uint64_t reserved_2_7          : 6;
-        uint64_t mpi_intr              : 1;  /**< [  1:  1](R/W1C/H) MPI interrupt on transaction done. */
+        uint64_t mpi_intr              : 1;  /**< [  1:  1](R/W1C/H) MPI interrupt on transaction done.  This interrupt should be cleared
+                                                                 before any new SPI/MPI transaction is requested. */
         uint64_t busy                  : 1;  /**< [  0:  0](RO/H) Busy.
                                                                  0 = No MPI/SPI transaction in progress.
                                                                  1 = MPI/SPI engine is processing a transaction. */
@@ -436,7 +437,8 @@ typedef union
         uint64_t busy                  : 1;  /**< [  0:  0](RO/H) Busy.
                                                                  0 = No MPI/SPI transaction in progress.
                                                                  1 = MPI/SPI engine is processing a transaction. */
-        uint64_t mpi_intr              : 1;  /**< [  1:  1](R/W1C/H) MPI interrupt on transaction done. */
+        uint64_t mpi_intr              : 1;  /**< [  1:  1](R/W1C/H) MPI interrupt on transaction done.  This interrupt should be cleared
+                                                                 before any new SPI/MPI transaction is requested. */
         uint64_t reserved_2_7          : 6;
         uint64_t rxnum                 : 5;  /**< [ 12:  8](RO/H) Number of bytes written for the transaction. */
         uint64_t reserved_13_63        : 51;

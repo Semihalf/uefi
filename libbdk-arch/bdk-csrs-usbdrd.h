@@ -184,8 +184,6 @@ static inline uint64_t BDK_USBDRDX_MSIX_PBAX(unsigned long a, unsigned long b)
         return 0x8680002f0000ll + 0x1000000000ll * ((a) & 0x1) + 8ll * ((b) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b==0)))
         return 0x8680002f0000ll + 0x1000000000ll * ((a) & 0x1) + 8ll * ((b) & 0x0);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=1) && (b==0)))
-        return 0x8680002f0000ll + 0x1000000000ll * ((a) & 0x1) + 8ll * ((b) & 0x0);
     __bdk_csr_fatal("USBDRDX_MSIX_PBAX", 2, a, b, 0, 0);
 }
 
@@ -247,8 +245,6 @@ static inline uint64_t BDK_USBDRDX_MSIX_VECX_ADDR(unsigned long a, unsigned long
         return 0x868000200000ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=3)))
         return 0x868000200000ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=1) && (b<=3)))
-        return 0x868000200000ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
     __bdk_csr_fatal("USBDRDX_MSIX_VECX_ADDR", 2, a, b, 0, 0);
 }
 
@@ -292,8 +288,6 @@ static inline uint64_t BDK_USBDRDX_MSIX_VECX_CTL(unsigned long a, unsigned long 
         return 0x868000200008ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=3)))
         return 0x868000200008ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=1) && (b<=3)))
-        return 0x868000200008ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
     __bdk_csr_fatal("USBDRDX_MSIX_VECX_CTL", 2, a, b, 0, 0);
 }
 
@@ -334,8 +328,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_CAPLENGTH(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x868000000000ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
-        return 0x868000000000ll + 0x1000000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
         return 0x868000000000ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("USBDRDX_UAHC_CAPLENGTH", 1, a, 0, 0, 0);
 }
@@ -380,8 +372,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_CONFIG(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x868000000058ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
-        return 0x868000000058ll + 0x1000000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
         return 0x868000000058ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("USBDRDX_UAHC_CONFIG", 1, a, 0, 0, 0);
 }
@@ -434,8 +424,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_CRCR(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x868000000038ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
-        return 0x868000000038ll + 0x1000000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
         return 0x868000000038ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("USBDRDX_UAHC_CRCR", 1, a, 0, 0, 0);
 }
@@ -527,8 +515,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_DALEPENA(unsigned long a)
         return 0x86800000c720ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x86800000c720ll + 0x1000000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
-        return 0x86800000c720ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("USBDRDX_UAHC_DALEPENA", 1, a, 0, 0, 0);
 }
 
@@ -579,8 +565,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_DBX(unsigned long a, unsigned long b)
         return 0x868000000480ll + 0x1000000000ll * ((a) & 0x1) + 4ll * ((b) & 0x7f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=64)))
         return 0x868000000480ll + 0x1000000000ll * ((a) & 0x1) + 4ll * ((b) & 0x7f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=1) && (b<=64)))
-        return 0x868000000480ll + 0x1000000000ll * ((a) & 0x1) + 4ll * ((b) & 0x7f);
     __bdk_csr_fatal("USBDRDX_UAHC_DBX", 2, a, b, 0, 0);
 }
 
@@ -619,8 +603,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_DBOFF(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x868000000014ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
-        return 0x868000000014ll + 0x1000000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
         return 0x868000000014ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("USBDRDX_UAHC_DBOFF", 1, a, 0, 0, 0);
 }
@@ -665,8 +647,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_DCBAAP(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x868000000050ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
-        return 0x868000000050ll + 0x1000000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
         return 0x868000000050ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("USBDRDX_UAHC_DCBAAP", 1, a, 0, 0, 0);
 }
@@ -814,8 +794,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_DCFG(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x86800000c700ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
-        return 0x86800000c700ll + 0x1000000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
         return 0x86800000c700ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("USBDRDX_UAHC_DCFG", 1, a, 0, 0, 0);
 }
@@ -1233,8 +1211,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_DCTL(unsigned long a)
         return 0x86800000c704ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x86800000c704ll + 0x1000000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
-        return 0x86800000c704ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("USBDRDX_UAHC_DCTL", 1, a, 0, 0, 0);
 }
 
@@ -1550,8 +1526,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_DEPCMDX(unsigned long a, unsigned long b
         return 0x86800000c80cll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0xf);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=15)))
         return 0x86800000c80cll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0xf);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=1) && (b<=15)))
-        return 0x86800000c80cll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0xf);
     __bdk_csr_fatal("USBDRDX_UAHC_DEPCMDX", 2, a, b, 0, 0);
 }
 
@@ -1597,8 +1571,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_DEPCMDPAR0_X(unsigned long a, unsigned l
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=15)))
         return 0x86800000c808ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0xf);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=15)))
-        return 0x86800000c808ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0xf);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=1) && (b<=15)))
         return 0x86800000c808ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0xf);
     __bdk_csr_fatal("USBDRDX_UAHC_DEPCMDPAR0_X", 2, a, b, 0, 0);
 }
@@ -1646,8 +1618,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_DEPCMDPAR1_X(unsigned long a, unsigned l
         return 0x86800000c804ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0xf);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=15)))
         return 0x86800000c804ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0xf);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=1) && (b<=15)))
-        return 0x86800000c804ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0xf);
     __bdk_csr_fatal("USBDRDX_UAHC_DEPCMDPAR1_X", 2, a, b, 0, 0);
 }
 
@@ -1693,8 +1663,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_DEPCMDPAR2_X(unsigned long a, unsigned l
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=15)))
         return 0x86800000c800ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0xf);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=15)))
-        return 0x86800000c800ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0xf);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=1) && (b<=15)))
         return 0x86800000c800ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0xf);
     __bdk_csr_fatal("USBDRDX_UAHC_DEPCMDPAR2_X", 2, a, b, 0, 0);
 }
@@ -1768,8 +1736,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_DEVTEN(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x86800000c708ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
-        return 0x86800000c708ll + 0x1000000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
         return 0x86800000c708ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("USBDRDX_UAHC_DEVTEN", 1, a, 0, 0, 0);
 }
@@ -1853,8 +1819,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_DGCMD(unsigned long a)
         return 0x86800000c714ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x86800000c714ll + 0x1000000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
-        return 0x86800000c714ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("USBDRDX_UAHC_DGCMD", 1, a, 0, 0, 0);
 }
 
@@ -1905,8 +1869,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_DGCMDPAR(unsigned long a)
         return 0x86800000c710ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x86800000c710ll + 0x1000000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
-        return 0x86800000c710ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("USBDRDX_UAHC_DGCMDPAR", 1, a, 0, 0, 0);
 }
 
@@ -1950,8 +1912,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_DNCTRL(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x868000000034ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
-        return 0x868000000034ll + 0x1000000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
         return 0x868000000034ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("USBDRDX_UAHC_DNCTRL", 1, a, 0, 0, 0);
 }
@@ -2168,8 +2128,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_DSTS(unsigned long a)
         return 0x86800000c70cll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x86800000c70cll + 0x1000000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
-        return 0x86800000c70cll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("USBDRDX_UAHC_DSTS", 1, a, 0, 0, 0);
 }
 
@@ -2216,8 +2174,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_ERDPX(unsigned long a, unsigned long b)
         return 0x868000000478ll + 0x1000000000ll * ((a) & 0x1) + 0ll * ((b) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b==0)))
         return 0x868000000478ll + 0x1000000000ll * ((a) & 0x1) + 0ll * ((b) & 0x0);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=1) && (b==0)))
-        return 0x868000000478ll + 0x1000000000ll * ((a) & 0x1) + 0ll * ((b) & 0x0);
     __bdk_csr_fatal("USBDRDX_UAHC_ERDPX", 2, a, b, 0, 0);
 }
 
@@ -2262,8 +2218,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_ERSTBAX(unsigned long a, unsigned long b
         return 0x868000000470ll + 0x1000000000ll * ((a) & 0x1) + 0ll * ((b) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b==0)))
         return 0x868000000470ll + 0x1000000000ll * ((a) & 0x1) + 0ll * ((b) & 0x0);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=1) && (b==0)))
-        return 0x868000000470ll + 0x1000000000ll * ((a) & 0x1) + 0ll * ((b) & 0x0);
     __bdk_csr_fatal("USBDRDX_UAHC_ERSTBAX", 2, a, b, 0, 0);
 }
 
@@ -2307,8 +2261,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_ERSTSZX(unsigned long a, unsigned long b
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b==0)))
         return 0x868000000468ll + 0x1000000000ll * ((a) & 0x1) + 0ll * ((b) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b==0)))
-        return 0x868000000468ll + 0x1000000000ll * ((a) & 0x1) + 0ll * ((b) & 0x0);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=1) && (b==0)))
         return 0x868000000468ll + 0x1000000000ll * ((a) & 0x1) + 0ll * ((b) & 0x0);
     __bdk_csr_fatal("USBDRDX_UAHC_ERSTSZX", 2, a, b, 0, 0);
 }
@@ -2369,8 +2321,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_GBUSERRADDR(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x86800000c130ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
-        return 0x86800000c130ll + 0x1000000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
         return 0x86800000c130ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("USBDRDX_UAHC_GBUSERRADDR", 1, a, 0, 0, 0);
 }
@@ -2693,8 +2643,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_GCTL(unsigned long a)
         return 0x86800000c110ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x86800000c110ll + 0x1000000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
-        return 0x86800000c110ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("USBDRDX_UAHC_GCTL", 1, a, 0, 0, 0);
 }
 
@@ -2741,8 +2689,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_GDBGBMU(unsigned long a)
         return 0x86800000c16cll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x86800000c16cll + 0x1000000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
-        return 0x86800000c16cll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("USBDRDX_UAHC_GDBGBMU", 1, a, 0, 0, 0);
 }
 
@@ -2781,8 +2727,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_GDBGEPINFO(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x86800000c178ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
-        return 0x86800000c178ll + 0x1000000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
         return 0x86800000c178ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("USBDRDX_UAHC_GDBGEPINFO", 1, a, 0, 0, 0);
 }
@@ -2861,8 +2805,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_GDBGFIFOSPACE(unsigned long a)
         return 0x86800000c160ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x86800000c160ll + 0x1000000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
-        return 0x86800000c160ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("USBDRDX_UAHC_GDBGFIFOSPACE", 1, a, 0, 0, 0);
 }
 
@@ -2911,8 +2853,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_GDBGLNMCC(unsigned long a)
         return 0x86800000c168ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x86800000c168ll + 0x1000000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
-        return 0x86800000c168ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("USBDRDX_UAHC_GDBGLNMCC", 1, a, 0, 0, 0);
 }
 
@@ -2951,8 +2891,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_GDBGLSP(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x86800000c174ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
-        return 0x86800000c174ll + 0x1000000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
         return 0x86800000c174ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("USBDRDX_UAHC_GDBGLSP", 1, a, 0, 0, 0);
 }
@@ -3020,8 +2958,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_GDBGLSPMUX(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x86800000c170ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
-        return 0x86800000c170ll + 0x1000000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
         return 0x86800000c170ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("USBDRDX_UAHC_GDBGLSPMUX", 1, a, 0, 0, 0);
 }
@@ -3128,8 +3064,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_GDBGLTSSM(unsigned long a)
         return 0x86800000c164ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x86800000c164ll + 0x1000000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
-        return 0x86800000c164ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("USBDRDX_UAHC_GDBGLTSSM", 1, a, 0, 0, 0);
 }
 
@@ -3195,8 +3129,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_GDMAHLRATIO(unsigned long a)
         return 0x86800000c624ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x86800000c624ll + 0x1000000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
-        return 0x86800000c624ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("USBDRDX_UAHC_GDMAHLRATIO", 1, a, 0, 0, 0);
 }
 
@@ -3249,8 +3181,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_GEVNTADRX(unsigned long a, unsigned long
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b==0)))
         return 0x86800000c400ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b==0)))
-        return 0x86800000c400ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x0);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=1) && (b==0)))
         return 0x86800000c400ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x0);
     __bdk_csr_fatal("USBDRDX_UAHC_GEVNTADRX", 2, a, b, 0, 0);
 }
@@ -3314,8 +3244,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_GEVNTCOUNTX(unsigned long a, unsigned lo
         return 0x86800000c40cll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b==0)))
         return 0x86800000c40cll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x0);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=1) && (b==0)))
-        return 0x86800000c40cll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x0);
     __bdk_csr_fatal("USBDRDX_UAHC_GEVNTCOUNTX", 2, a, b, 0, 0);
 }
 
@@ -3374,8 +3302,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_GEVNTSIZX(unsigned long a, unsigned long
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b==0)))
         return 0x86800000c408ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b==0)))
-        return 0x86800000c408ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x0);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=1) && (b==0)))
         return 0x86800000c408ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x0);
     __bdk_csr_fatal("USBDRDX_UAHC_GEVNTSIZX", 2, a, b, 0, 0);
 }
@@ -3602,8 +3528,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_GFLADJ(unsigned long a)
         return 0x86800000c630ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x86800000c630ll + 0x1000000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
-        return 0x86800000c630ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("USBDRDX_UAHC_GFLADJ", 1, a, 0, 0, 0);
 }
 
@@ -3648,8 +3572,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_GGPIO(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x86800000c124ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
-        return 0x86800000c124ll + 0x1000000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
         return 0x86800000c124ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("USBDRDX_UAHC_GGPIO", 1, a, 0, 0, 0);
 }
@@ -3700,8 +3622,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_GHWPARAMS0(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x86800000c140ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
-        return 0x86800000c140ll + 0x1000000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
         return 0x86800000c140ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("USBDRDX_UAHC_GHWPARAMS0", 1, a, 0, 0, 0);
 }
@@ -3781,8 +3701,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_GHWPARAMS1(unsigned long a)
         return 0x86800000c144ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x86800000c144ll + 0x1000000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
-        return 0x86800000c144ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("USBDRDX_UAHC_GHWPARAMS1", 1, a, 0, 0, 0);
 }
 
@@ -3822,8 +3740,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_GHWPARAMS2(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x86800000c148ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
-        return 0x86800000c148ll + 0x1000000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
         return 0x86800000c148ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("USBDRDX_UAHC_GHWPARAMS2", 1, a, 0, 0, 0);
 }
@@ -3884,8 +3800,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_GHWPARAMS3(unsigned long a)
         return 0x86800000c14cll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x86800000c14cll + 0x1000000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
-        return 0x86800000c14cll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("USBDRDX_UAHC_GHWPARAMS3", 1, a, 0, 0, 0);
 }
 
@@ -3942,8 +3856,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_GHWPARAMS4(unsigned long a)
         return 0x86800000c150ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x86800000c150ll + 0x1000000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
-        return 0x86800000c150ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("USBDRDX_UAHC_GHWPARAMS4", 1, a, 0, 0, 0);
 }
 
@@ -3993,8 +3905,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_GHWPARAMS5(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x86800000c154ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
-        return 0x86800000c154ll + 0x1000000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
         return 0x86800000c154ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("USBDRDX_UAHC_GHWPARAMS5", 1, a, 0, 0, 0);
 }
@@ -4056,8 +3966,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_GHWPARAMS6(unsigned long a)
         return 0x86800000c158ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x86800000c158ll + 0x1000000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
-        return 0x86800000c158ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("USBDRDX_UAHC_GHWPARAMS6", 1, a, 0, 0, 0);
 }
 
@@ -4100,8 +4008,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_GHWPARAMS7(unsigned long a)
         return 0x86800000c15cll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x86800000c15cll + 0x1000000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
-        return 0x86800000c15cll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("USBDRDX_UAHC_GHWPARAMS7", 1, a, 0, 0, 0);
 }
 
@@ -4141,8 +4047,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_GHWPARAMS8(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x86800000c600ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
-        return 0x86800000c600ll + 0x1000000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
         return 0x86800000c600ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("USBDRDX_UAHC_GHWPARAMS8", 1, a, 0, 0, 0);
 }
@@ -4229,8 +4133,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_GPMSTS(unsigned long a)
         return 0x86800000c114ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x86800000c114ll + 0x1000000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
-        return 0x86800000c114ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("USBDRDX_UAHC_GPMSTS", 1, a, 0, 0, 0);
 }
 
@@ -4278,8 +4180,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_GPRTBIMAP(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x86800000c138ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
-        return 0x86800000c138ll + 0x1000000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
         return 0x86800000c138ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("USBDRDX_UAHC_GPRTBIMAP", 1, a, 0, 0, 0);
 }
@@ -4329,8 +4229,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_GPRTBIMAP_FS(unsigned long a)
         return 0x86800000c188ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x86800000c188ll + 0x1000000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
-        return 0x86800000c188ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("USBDRDX_UAHC_GPRTBIMAP_FS", 1, a, 0, 0, 0);
 }
 
@@ -4378,8 +4276,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_GPRTBIMAP_HS(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x86800000c180ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
-        return 0x86800000c180ll + 0x1000000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
         return 0x86800000c180ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("USBDRDX_UAHC_GPRTBIMAP_HS", 1, a, 0, 0, 0);
 }
@@ -4430,8 +4326,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_GRLSID(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x86800000c120ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
-        return 0x86800000c120ll + 0x1000000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
         return 0x86800000c120ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("USBDRDX_UAHC_GRLSID", 1, a, 0, 0, 0);
 }
@@ -4496,8 +4390,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_GRXFIFOPRIHST(unsigned long a)
         return 0x86800000c61cll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x86800000c61cll + 0x1000000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
-        return 0x86800000c61cll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("USBDRDX_UAHC_GRXFIFOPRIHST", 1, a, 0, 0, 0);
 }
 
@@ -4561,8 +4453,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_GRXFIFOSIZX(unsigned long a, unsigned lo
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=2)))
         return 0x86800000c380ll + 0x1000000000ll * ((a) & 0x1) + 4ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=2)))
-        return 0x86800000c380ll + 0x1000000000ll * ((a) & 0x1) + 4ll * ((b) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=1) && (b<=2)))
         return 0x86800000c380ll + 0x1000000000ll * ((a) & 0x1) + 4ll * ((b) & 0x3);
     __bdk_csr_fatal("USBDRDX_UAHC_GRXFIFOSIZX", 2, a, b, 0, 0);
 }
@@ -4739,8 +4629,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_GRXTHRCFG(unsigned long a)
         return 0x86800000c10cll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x86800000c10cll + 0x1000000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
-        return 0x86800000c10cll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("USBDRDX_UAHC_GRXTHRCFG", 1, a, 0, 0, 0);
 }
 
@@ -4847,8 +4735,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_GSBUSCFG0(unsigned long a)
         return 0x86800000c100ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x86800000c100ll + 0x1000000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
-        return 0x86800000c100ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("USBDRDX_UAHC_GSBUSCFG0", 1, a, 0, 0, 0);
 }
 
@@ -4926,8 +4812,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_GSBUSCFG1(unsigned long a)
         return 0x86800000c104ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x86800000c104ll + 0x1000000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
-        return 0x86800000c104ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("USBDRDX_UAHC_GSBUSCFG1", 1, a, 0, 0, 0);
 }
 
@@ -4990,8 +4874,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_GSTS(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x86800000c118ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
-        return 0x86800000c118ll + 0x1000000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
         return 0x86800000c118ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("USBDRDX_UAHC_GSTS", 1, a, 0, 0, 0);
 }
@@ -5058,8 +4940,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_GTXFIFOPRIDEV(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x86800000c610ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
-        return 0x86800000c610ll + 0x1000000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
         return 0x86800000c610ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("USBDRDX_UAHC_GTXFIFOPRIDEV", 1, a, 0, 0, 0);
 }
@@ -5128,8 +5008,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_GTXFIFOPRIHST(unsigned long a)
         return 0x86800000c618ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x86800000c618ll + 0x1000000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
-        return 0x86800000c618ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("USBDRDX_UAHC_GTXFIFOPRIHST", 1, a, 0, 0, 0);
 }
 
@@ -5194,8 +5072,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_GTXFIFOSIZX(unsigned long a, unsigned lo
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
         return 0x86800000c300ll + 0x1000000000ll * ((a) & 0x1) + 4ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=3)))
-        return 0x86800000c300ll + 0x1000000000ll * ((a) & 0x1) + 4ll * ((b) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=1) && (b<=3)))
         return 0x86800000c300ll + 0x1000000000ll * ((a) & 0x1) + 4ll * ((b) & 0x3);
     __bdk_csr_fatal("USBDRDX_UAHC_GTXFIFOSIZX", 2, a, b, 0, 0);
 }
@@ -5346,8 +5222,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_GTXTHRCFG(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x86800000c108ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
-        return 0x86800000c108ll + 0x1000000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
         return 0x86800000c108ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("USBDRDX_UAHC_GTXTHRCFG", 1, a, 0, 0, 0);
 }
@@ -5598,8 +5472,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_GUCTL(unsigned long a)
         return 0x86800000c12cll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x86800000c12cll + 0x1000000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
-        return 0x86800000c12cll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("USBDRDX_UAHC_GUCTL", 1, a, 0, 0, 0);
 }
 
@@ -5713,8 +5585,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_GUCTL1(unsigned long a)
         return 0x86800000c11cll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x86800000c11cll + 0x1000000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
-        return 0x86800000c11cll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("USBDRDX_UAHC_GUCTL1", 1, a, 0, 0, 0);
 }
 
@@ -5762,8 +5632,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_GUID(unsigned long a)
         return 0x86800000c128ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x86800000c128ll + 0x1000000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
-        return 0x86800000c128ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("USBDRDX_UAHC_GUID", 1, a, 0, 0, 0);
 }
 
@@ -5805,8 +5673,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_GUSB2I2CCTLX(unsigned long a, unsigned l
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b==0)))
         return 0x86800000c240ll + 0x1000000000ll * ((a) & 0x1) + 4ll * ((b) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b==0)))
-        return 0x86800000c240ll + 0x1000000000ll * ((a) & 0x1) + 4ll * ((b) & 0x0);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=1) && (b==0)))
         return 0x86800000c240ll + 0x1000000000ll * ((a) & 0x1) + 4ll * ((b) & 0x0);
     __bdk_csr_fatal("USBDRDX_UAHC_GUSB2I2CCTLX", 2, a, b, 0, 0);
 }
@@ -6156,8 +6022,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_GUSB2PHYCFGX(unsigned long a, unsigned l
         return 0x86800000c200ll + 0x1000000000ll * ((a) & 0x1) + 4ll * ((b) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b==0)))
         return 0x86800000c200ll + 0x1000000000ll * ((a) & 0x1) + 4ll * ((b) & 0x0);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=1) && (b==0)))
-        return 0x86800000c200ll + 0x1000000000ll * ((a) & 0x1) + 4ll * ((b) & 0x0);
     __bdk_csr_fatal("USBDRDX_UAHC_GUSB2PHYCFGX", 2, a, b, 0, 0);
 }
 
@@ -6348,24 +6212,12 @@ typedef union
                                                                  0x0 =   -6 dB de-emphasis, use USBDRD()_UCTL_PORT()_CFG_SS[PCS_TX_DEEMPH_6DB].
                                                                  0x1 = -3.5 dB de-emphasis, use USBDRD()_UCTL_PORT()_CFG_SS[PCS_TX_DEEMPH_3P5DB].
                                                                  0x2 =     No de-emphasis.
-                                                                 0x3 =     Reserved.
-
-                                                                 Use the following values for the appropriate level of de-emphasis (From pipe3 spec):
-                                                                 0x0 =   -6 dB de-emphasis, use USBDRD()_UCTL_PORT()_CFG_SS[PCS_TX_DEEMPH_6DB].
-                                                                 0x1 = -3.5 dB de-emphasis, use USBDRD()_UCTL_PORT()_CFG_SS[PCS_TX_DEEMPH_3P5DB].
-                                                                 0x2 =     No de-emphasis.
                                                                  0x3 =     Reserved. */
         uint32_t elasticbuffermode     : 1;  /**< [  0:  0](R/W) Elastic buffer mode. Refer to the PIPE3 specification, table 5-3. */
 #else /* Word 0 - Little Endian */
         uint32_t elasticbuffermode     : 1;  /**< [  0:  0](R/W) Elastic buffer mode. Refer to the PIPE3 specification, table 5-3. */
         uint32_t txdeemphasis          : 2;  /**< [  2:  1](R/W) TX de-emphasis. The value driven to the PHY is controlled by the LTSSM during USB3
                                                                  compliance mode. Refer to the PIPE3 specification, table 5-3.
-
-                                                                 Use the following values for the appropriate level of de-emphasis (From pipe3 spec):
-                                                                 0x0 =   -6 dB de-emphasis, use USBDRD()_UCTL_PORT()_CFG_SS[PCS_TX_DEEMPH_6DB].
-                                                                 0x1 = -3.5 dB de-emphasis, use USBDRD()_UCTL_PORT()_CFG_SS[PCS_TX_DEEMPH_3P5DB].
-                                                                 0x2 =     No de-emphasis.
-                                                                 0x3 =     Reserved.
 
                                                                  Use the following values for the appropriate level of de-emphasis (From pipe3 spec):
                                                                  0x0 =   -6 dB de-emphasis, use USBDRD()_UCTL_PORT()_CFG_SS[PCS_TX_DEEMPH_6DB].
@@ -6525,7 +6377,8 @@ typedef union
                                                                  this bit to 1, the software needs to clear this bit. */
 #endif /* Word 0 - End */
     } s;
-    struct bdk_usbdrdx_uahc_gusb3pipectlx_cn81xx
+    /* struct bdk_usbdrdx_uahc_gusb3pipectlx_s cn81xx; */
+    struct bdk_usbdrdx_uahc_gusb3pipectlx_cn83xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t physoftrst            : 1;  /**< [ 31: 31](R/W) USB3 PHY soft reset (PHYSoftRst). When set to 1, initiates a PHY soft reset. After setting
@@ -6686,12 +6539,24 @@ typedef union
                                                                  0x0 =   -6 dB de-emphasis, use USBDRD()_UCTL_PORT()_CFG_SS[PCS_TX_DEEMPH_6DB].
                                                                  0x1 = -3.5 dB de-emphasis, use USBDRD()_UCTL_PORT()_CFG_SS[PCS_TX_DEEMPH_3P5DB].
                                                                  0x2 =     No de-emphasis.
+                                                                 0x3 =     Reserved.
+
+                                                                 Use the following values for the appropriate level of de-emphasis (From pipe3 spec):
+                                                                 0x0 =   -6 dB de-emphasis, use USBDRD()_UCTL_PORT()_CFG_SS[PCS_TX_DEEMPH_6DB].
+                                                                 0x1 = -3.5 dB de-emphasis, use USBDRD()_UCTL_PORT()_CFG_SS[PCS_TX_DEEMPH_3P5DB].
+                                                                 0x2 =     No de-emphasis.
                                                                  0x3 =     Reserved. */
         uint32_t elasticbuffermode     : 1;  /**< [  0:  0](R/W) Elastic buffer mode. Refer to the PIPE3 specification, table 5-3. */
 #else /* Word 0 - Little Endian */
         uint32_t elasticbuffermode     : 1;  /**< [  0:  0](R/W) Elastic buffer mode. Refer to the PIPE3 specification, table 5-3. */
         uint32_t txdeemphasis          : 2;  /**< [  2:  1](R/W) TX de-emphasis. The value driven to the PHY is controlled by the LTSSM during USB3
                                                                  compliance mode. Refer to the PIPE3 specification, table 5-3.
+
+                                                                 Use the following values for the appropriate level of de-emphasis (From pipe3 spec):
+                                                                 0x0 =   -6 dB de-emphasis, use USBDRD()_UCTL_PORT()_CFG_SS[PCS_TX_DEEMPH_6DB].
+                                                                 0x1 = -3.5 dB de-emphasis, use USBDRD()_UCTL_PORT()_CFG_SS[PCS_TX_DEEMPH_3P5DB].
+                                                                 0x2 =     No de-emphasis.
+                                                                 0x3 =     Reserved.
 
                                                                  Use the following values for the appropriate level of de-emphasis (From pipe3 spec):
                                                                  0x0 =   -6 dB de-emphasis, use USBDRD()_UCTL_PORT()_CFG_SS[PCS_TX_DEEMPH_6DB].
@@ -6850,9 +6715,7 @@ typedef union
         uint32_t physoftrst            : 1;  /**< [ 31: 31](R/W) USB3 PHY soft reset (PHYSoftRst). When set to 1, initiates a PHY soft reset. After setting
                                                                  this bit to 1, the software needs to clear this bit. */
 #endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_usbdrdx_uahc_gusb3pipectlx_s cn83xx; */
-    /* struct bdk_usbdrdx_uahc_gusb3pipectlx_s cn9; */
+    } cn83xx;
 } bdk_usbdrdx_uahc_gusb3pipectlx_t;
 
 static inline uint64_t BDK_USBDRDX_UAHC_GUSB3PIPECTLX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -6861,8 +6724,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_GUSB3PIPECTLX(unsigned long a, unsigned 
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b==0)))
         return 0x86800000c2c0ll + 0x1000000000ll * ((a) & 0x1) + 4ll * ((b) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b==0)))
-        return 0x86800000c2c0ll + 0x1000000000ll * ((a) & 0x1) + 4ll * ((b) & 0x0);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=1) && (b==0)))
         return 0x86800000c2c0ll + 0x1000000000ll * ((a) & 0x1) + 4ll * ((b) & 0x0);
     __bdk_csr_fatal("USBDRDX_UAHC_GUSB3PIPECTLX", 2, a, b, 0, 0);
 }
@@ -6927,8 +6788,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_HCCPARAMS(unsigned long a)
         return 0x868000000010ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x868000000010ll + 0x1000000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
-        return 0x868000000010ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("USBDRDX_UAHC_HCCPARAMS", 1, a, 0, 0, 0);
 }
 
@@ -6971,8 +6830,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_HCSPARAMS1(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x868000000004ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
-        return 0x868000000004ll + 0x1000000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
         return 0x868000000004ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("USBDRDX_UAHC_HCSPARAMS1", 1, a, 0, 0, 0);
 }
@@ -7021,8 +6878,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_HCSPARAMS2(unsigned long a)
         return 0x868000000008ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x868000000008ll + 0x1000000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
-        return 0x868000000008ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("USBDRDX_UAHC_HCSPARAMS2", 1, a, 0, 0, 0);
 }
 
@@ -7063,8 +6918,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_HCSPARAMS3(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x86800000000cll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
-        return 0x86800000000cll + 0x1000000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
         return 0x86800000000cll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("USBDRDX_UAHC_HCSPARAMS3", 1, a, 0, 0, 0);
 }
@@ -7112,8 +6965,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_IMANX(unsigned long a, unsigned long b)
         return 0x868000000460ll + 0x1000000000ll * ((a) & 0x1) + 0ll * ((b) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b==0)))
         return 0x868000000460ll + 0x1000000000ll * ((a) & 0x1) + 0ll * ((b) & 0x0);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=1) && (b==0)))
-        return 0x868000000460ll + 0x1000000000ll * ((a) & 0x1) + 0ll * ((b) & 0x0);
     __bdk_csr_fatal("USBDRDX_UAHC_IMANX", 2, a, b, 0, 0);
 }
 
@@ -7157,8 +7008,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_IMODX(unsigned long a, unsigned long b)
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b==0)))
         return 0x868000000464ll + 0x1000000000ll * ((a) & 0x1) + 0ll * ((b) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b==0)))
-        return 0x868000000464ll + 0x1000000000ll * ((a) & 0x1) + 0ll * ((b) & 0x0);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=1) && (b==0)))
         return 0x868000000464ll + 0x1000000000ll * ((a) & 0x1) + 0ll * ((b) & 0x0);
     __bdk_csr_fatal("USBDRDX_UAHC_IMODX", 2, a, b, 0, 0);
 }
@@ -7204,8 +7053,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_MFINDEX(unsigned long a)
         return 0x868000000440ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x868000000440ll + 0x1000000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
-        return 0x868000000440ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("USBDRDX_UAHC_MFINDEX", 1, a, 0, 0, 0);
 }
 
@@ -7244,8 +7091,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_PAGESIZE(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x868000000028ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
-        return 0x868000000028ll + 0x1000000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
         return 0x868000000028ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("USBDRDX_UAHC_PAGESIZE", 1, a, 0, 0, 0);
 }
@@ -7317,8 +7162,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_PORTHLPMC_20X(unsigned long a, unsigned 
         return 0x86800000042cll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b==0)))
         return 0x86800000042cll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x0);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=1) && (b==0)))
-        return 0x86800000042cll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x0);
     __bdk_csr_fatal("USBDRDX_UAHC_PORTHLPMC_20X", 2, a, b, 0, 0);
 }
 
@@ -7362,8 +7205,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_PORTHLPMC_SSX(unsigned long a, unsigned 
         return 0x86800000042cll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b==1)))
         return 0x86800000042cll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=1) && (b==1)))
-        return 0x86800000042cll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x1);
     __bdk_csr_fatal("USBDRDX_UAHC_PORTHLPMC_SSX", 2, a, b, 0, 0);
 }
 
@@ -7400,8 +7241,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_PORTLI_20X(unsigned long a, unsigned lon
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b==0)))
         return 0x868000000428ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b==0)))
-        return 0x868000000428ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x0);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=1) && (b==0)))
         return 0x868000000428ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x0);
     __bdk_csr_fatal("USBDRDX_UAHC_PORTLI_20X", 2, a, b, 0, 0);
 }
@@ -7441,8 +7280,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_PORTLI_SSX(unsigned long a, unsigned lon
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b==1)))
         return 0x868000000428ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b==1)))
-        return 0x868000000428ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=1) && (b==1)))
         return 0x868000000428ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x1);
     __bdk_csr_fatal("USBDRDX_UAHC_PORTLI_SSX", 2, a, b, 0, 0);
 }
@@ -7498,8 +7335,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_PORTPMSC_20X(unsigned long a, unsigned l
         return 0x868000000424ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b==0)))
         return 0x868000000424ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x0);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=1) && (b==0)))
-        return 0x868000000424ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x0);
     __bdk_csr_fatal("USBDRDX_UAHC_PORTPMSC_20X", 2, a, b, 0, 0);
 }
 
@@ -7547,8 +7382,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_PORTPMSC_SSX(unsigned long a, unsigned l
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b==1)))
         return 0x868000000424ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b==1)))
-        return 0x868000000424ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=1) && (b==1)))
         return 0x868000000424ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x1);
     __bdk_csr_fatal("USBDRDX_UAHC_PORTPMSC_SSX", 2, a, b, 0, 0);
 }
@@ -7639,8 +7472,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_PORTSCX(unsigned long a, unsigned long b
         return 0x868000000420ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=1)))
         return 0x868000000420ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=1) && (b<=1)))
-        return 0x868000000420ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x1);
     __bdk_csr_fatal("USBDRDX_UAHC_PORTSCX", 2, a, b, 0, 0);
 }
 
@@ -7679,8 +7510,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_RTSOFF(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x868000000018ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
-        return 0x868000000018ll + 0x1000000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
         return 0x868000000018ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("USBDRDX_UAHC_RTSOFF", 1, a, 0, 0, 0);
 }
@@ -7725,8 +7554,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_SUPTPRT2_DW0(unsigned long a)
         return 0x868000000890ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x868000000890ll + 0x1000000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
-        return 0x868000000890ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("USBDRDX_UAHC_SUPTPRT2_DW0", 1, a, 0, 0, 0);
 }
 
@@ -7763,8 +7590,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_SUPTPRT2_DW1(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x868000000894ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
-        return 0x868000000894ll + 0x1000000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
         return 0x868000000894ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("USBDRDX_UAHC_SUPTPRT2_DW1", 1, a, 0, 0, 0);
 }
@@ -7819,8 +7644,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_SUPTPRT2_DW2(unsigned long a)
         return 0x868000000898ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x868000000898ll + 0x1000000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
-        return 0x868000000898ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("USBDRDX_UAHC_SUPTPRT2_DW2", 1, a, 0, 0, 0);
 }
 
@@ -7859,8 +7682,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_SUPTPRT2_DW3(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x86800000089cll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
-        return 0x86800000089cll + 0x1000000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
         return 0x86800000089cll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("USBDRDX_UAHC_SUPTPRT2_DW3", 1, a, 0, 0, 0);
 }
@@ -7911,8 +7732,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_SUPTPRT3_DW0(unsigned long a)
         return 0x8680000008a0ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x8680000008a0ll + 0x1000000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
-        return 0x8680000008a0ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("USBDRDX_UAHC_SUPTPRT3_DW0", 1, a, 0, 0, 0);
 }
 
@@ -7949,8 +7768,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_SUPTPRT3_DW1(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x8680000008a4ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
-        return 0x8680000008a4ll + 0x1000000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
         return 0x8680000008a4ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("USBDRDX_UAHC_SUPTPRT3_DW1", 1, a, 0, 0, 0);
 }
@@ -7995,8 +7812,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_SUPTPRT3_DW2(unsigned long a)
         return 0x8680000008a8ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x8680000008a8ll + 0x1000000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
-        return 0x8680000008a8ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("USBDRDX_UAHC_SUPTPRT3_DW2", 1, a, 0, 0, 0);
 }
 
@@ -8035,8 +7850,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_SUPTPRT3_DW3(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x8680000008acll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
-        return 0x8680000008acll + 0x1000000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
         return 0x8680000008acll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("USBDRDX_UAHC_SUPTPRT3_DW3", 1, a, 0, 0, 0);
 }
@@ -8099,8 +7912,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_USBCMD(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x868000000020ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
-        return 0x868000000020ll + 0x1000000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
         return 0x868000000020ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("USBDRDX_UAHC_USBCMD", 1, a, 0, 0, 0);
 }
@@ -8189,8 +8000,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_USBLEGCTLSTS(unsigned long a)
         return 0x868000000884ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x868000000884ll + 0x1000000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
-        return 0x868000000884ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("USBDRDX_UAHC_USBLEGCTLSTS", 1, a, 0, 0, 0);
 }
 
@@ -8242,8 +8051,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_USBLEGSUP(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x868000000880ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
-        return 0x868000000880ll + 0x1000000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
         return 0x868000000880ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("USBDRDX_UAHC_USBLEGSUP", 1, a, 0, 0, 0);
 }
@@ -8308,8 +8115,6 @@ static inline uint64_t BDK_USBDRDX_UAHC_USBSTS(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x868000000024ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
-        return 0x868000000024ll + 0x1000000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
         return 0x868000000024ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("USBDRDX_UAHC_USBSTS", 1, a, 0, 0, 0);
 }
@@ -8376,8 +8181,6 @@ static inline uint64_t BDK_USBDRDX_UCTL_BIST_STATUS(unsigned long a)
         return 0x868000100008ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x868000100008ll + 0x1000000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
-        return 0x868000100008ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("USBDRDX_UCTL_BIST_STATUS", 1, a, 0, 0, 0);
 }
 
@@ -8433,6 +8236,9 @@ typedef union
                                                                  then do not enable this feature. The clocks sourced to the SuperSpeed function must have
                                                                  spread-spectrum to be compliant with the USB specification.
 
+                                                                 The high-speed PLL cannot support a spread-spectrum input, so [REF_CLK_SEL] =
+                                                                 0x0, 0x1, or 0x2 must enable this feature.
+
                                                                  This value may only be changed during [UPHY_RST]. */
         uint64_t ssc_range             : 3;  /**< [ 58: 56](R/W) Spread-spectrum clock range. Selects the range of spread-spectrum modulation when SSC_EN
                                                                  is asserted and the PHY is spreading the SuperSpeed transmit clocks.
@@ -8455,11 +8261,19 @@ typedef union
 
                                                                  A value of 0x0 means this feature is disabled.
 
-                                                                 The legal values are 0x0.
+                                                                 If [REF_CLK_SEL] = 0x0, 0x1 or 0x2, then the legal values are:
+                                                                 *  0x0 is the only legal value.
+
+                                                                 If [REF_CLK_SEL] = 0x4, 0x5 or 0x6, then the legal values are:
+                                                                 * 0x0:   if DLMC_REF_CLK* is another supported frequency (see list in
+                                                                            MPLL_MULTIPLIER description).
 
                                                                  All other values are reserved.
 
                                                                  This value may only be changed during [UPHY_RST].
+
+                                                                 If [REF_CLK_SEL] = 0x4 or 0x5 or 0x6, then [MPLL_MULTPLIER], [REF_CLK_DIV2], and
+                                                                 [SSC_REF_CLK_SEL] must all be programmed to the same frequency setting.
 
                                                                  Internal:
                                                                  If [REF_CLK_SEL] = 0x0, 0x1 or 0x2, then:
@@ -8472,13 +8286,22 @@ typedef union
                                                                               MPLL_MULTIPLIER description). */
         uint64_t mpll_multiplier       : 7;  /**< [ 46: 40](R/W) Multiplies the reference clock to a frequency suitable for intended operating speed.
 
-                                                                 As [REF_CLK_SEL] = 0x0, the legal values are:
+                                                                 If [REF_CLK_SEL] = 0x0, 0x1 or 0x2, then the legal values are:
 
-                                                                   0x19 = 100  MHz on DLMC_REF_CLK*.
+                                                                    0x19 = 100  MHz on DLMC_REF_CLK*.
 
-                                                                 All other values are reserved.
+                                                                 If [REF_CLK_SEL] = 0x4 or 0x5 or 0x6, then the legal values are:
 
-                                                                 This value may only be changed during [UPHY_RST].
+                                                                    0x32 =  50  MHz on DLMC_REF_CLK*.
+                                                                    0x19 =  100 MHz on DLMC_REF_CLK*.
+                                                                    0x28 =  125 MHz on DLMC_REF_CLK*.
+
+                                                                  All other values are reserved.
+
+                                                                  This value may only be changed during UPHY_RST.
+
+                                                                  If [REF_CLK_SEL] = 0x4 or 0x5 or 0x6, then [MPLL_MULTPLIER], [REF_CLK_DIV2],
+                                                                  and [SSC_REF_CLK_SEL] must all be programmed to the same frequency setting.
 
                                                                  Internal:
                                                                  If [REF_CLK_SEL] = 0x0, 0x1 or 0x2, then:
@@ -8514,9 +8337,20 @@ typedef union
                                                                  [REF_SSP_EN] is asserted. */
         uint64_t ref_clk_div2          : 1;  /**< [ 38: 38](R/W) Divides the reference clock by 2 before feeding it into the REF_CLK_FSEL divider.
 
-                                                                 As [REF_CLK_SEL] = 0x0, the legal value is 0x0.
+                                                                 If [REF_CLK_SEL] = 0x0, 0x1 or 0X2 then the legal values are:
+                                                                      all DLMC_REF_CLK* frequencies: 0x0 is the only legal value.
+
+                                                                 If [REF_CLK_SEL] = 0x4, 0x5 or 0x6 then the legal values are:
+
+                                                                   0x1: if DLMC_REF_CLK* is 125MHz.
+
+                                                                   0x0: if DLMC_REF_CLK* is another supported frequency (see list in
+                                                                           MPLL_MULTIPLIER description).
 
                                                                  This value can be changed only during UPHY_RST.
+
+                                                                 If [REF_CLK_SEL] = 0x2 or 0x3, then [MPLL_MULTPLIER], [REF_CLK_DIV2], and
+                                                                 [SSC_REF_CLK_SEL] must all be programmed to the same frequency setting.
 
                                                                  Internal:
                                                                  If [REF_CLK_SEL] = 0x0, 0x1 or 0x2 then:
@@ -8530,13 +8364,21 @@ typedef union
                                                                    [MPLL_MULTIPLIER] description). */
         uint64_t ref_clk_fsel          : 6;  /**< [ 37: 32](R/W) Selects the reference clock frequency for the SuperSpeed and high-speed PLL blocks.
 
-                                                                 As [REF_CLK_SEL] = 0x0, the legal values are:
+                                                                 If [REF_CLK_SEL] = 0x0, 0x1 or 0x2, then the legal values are:
 
                                                                    0x27 = 100  MHz on DLMC_REF_CLK*.
+
+                                                                 If [REF_CLK_SEL] = 0x4, 0x5 or 0x6, then the legal values are:
+
+                                                                   0x07 is the only legal value.
 
                                                                  All other values are reserved.
 
                                                                  This value may only be changed during [UPHY_RST].
+
+                                                                 When [REF_CLK_SEL] = 0x4 or 0x5 or 0x6, the [MPLL_MULTIPLIER], [REF_CLK_DIV2],
+                                                                 and [SSC_REF_CLK_SEL] settings are used to configure the SuperSpeed reference
+                                                                 clock multiplier.
 
                                                                  Internal:
                                                                  If [REF_CLK_SEL] = 0x0, 0x1 or 0x2 then:
@@ -8579,19 +8421,19 @@ typedef union
                                                                  0x6 = divide by 24.
                                                                  0x7 = divide by 32.
 
-                                                                 The hclk frequency must be at or below 300 MHz.
-                                                                 The hclk frequency must be at or above 150 MHz for full-rate USB3
+                                                                 The hclk frequency must be at or below 300MHz.
+                                                                 The hclk frequency must be at or above 150MHz for full-rate USB3
                                                                  operation.
-                                                                 The hclk frequency must be at or above 125 MHz for any USB3
+                                                                 The hclk frequency must be at or above 125MHz for any USB3
                                                                  functionality.
 
-                                                                 If [DRD_MODE] = DEVICE, the hclk frequency must be at or above 125 MHz for
+                                                                 If DRD_MODE = DEVICE, the hclk frequency must be at or above 125MHz for
                                                                  correct USB2 functionality.
 
-                                                                 If [DRD_MODE] = HOST, the hclk frequency must be at or above 90 MHz
+                                                                 If DRD_MODE = HOST, the hclk frequency must be at or above 90MHz
                                                                  for full-rate USB2 operation.
 
-                                                                 If [DRD_MODE] = HOST, the hclk frequency must be at or above 62.5 MHz
+                                                                 If DRD_MODE = HOST, the hclk frequency must be at or above 62.5MHz
                                                                  for any USB2 operation.
 
                                                                  This field can be changed only when [H_CLKDIV_RST] = 1.
@@ -8636,15 +8478,22 @@ typedef union
         uint64_t hs_power_en           : 1;  /**< [ 12: 12](R/W) PHY high-speed block power enable.
                                                                  This is a strap signal; it should only be modified when [UPHY_RST] is asserted. */
         uint64_t ref_clk_sel           : 3;  /**< [ 11:  9](R/W) Reference clock select. Choose reference-clock source for the SuperSpeed and high-speed
-                                                                 PLL blocks.
-                                                                 0x0 = Reference clock sources for both PLLs come from the USB pads.
-                                                                 0x1 = Reserved.
-                                                                 0x2 = Reserved.
-                                                                 0x3 = Reserved.
-                                                                 0x4 = Reserved.
-                                                                 0x5 = Reserved.
-                                                                 0x6 = Reserved.
-                                                                 0x7 = Reserved.
+                                                                 PLL blocks. Both HighSpeed and SuperSpeed reference clocks must be supplied for USB
+                                                                 operation.
+
+                                                                 <pre>
+                                                                                Source for      Source for
+                                                                 [REF_CLK_SEL]  SuperSpeed PLL  HighSpeed PLL
+                                                                 -------------  --------------  ------------------------
+                                                                  0x0           DLMC_REF_CLK0   DLMC_REF_CLK0
+                                                                  0x1           DLMC_REF_CLK1   DLMC_REF_CLK1
+                                                                  0x2           PAD_REF_CLK     PAD_REF_CLK
+                                                                  0x3           Reserved.
+                                                                  0x4           DLMC_REF_CLK0   PLL_REF_CLK
+                                                                  0x5           DLMC_REF_CLK1   PLL_REF_CLK
+                                                                  0x6           PAD_REF_CLK     PLL_REF_CLK
+                                                                  0x7           Reserved.
+                                                                 </pre>
 
                                                                  This value can be changed only during UPHY_RST.
 
@@ -8697,15 +8546,22 @@ typedef union
                                                                  and UCTL registers starting from 0x30. */
         uint64_t reserved_5_8          : 4;
         uint64_t ref_clk_sel           : 3;  /**< [ 11:  9](R/W) Reference clock select. Choose reference-clock source for the SuperSpeed and high-speed
-                                                                 PLL blocks.
-                                                                 0x0 = Reference clock sources for both PLLs come from the USB pads.
-                                                                 0x1 = Reserved.
-                                                                 0x2 = Reserved.
-                                                                 0x3 = Reserved.
-                                                                 0x4 = Reserved.
-                                                                 0x5 = Reserved.
-                                                                 0x6 = Reserved.
-                                                                 0x7 = Reserved.
+                                                                 PLL blocks. Both HighSpeed and SuperSpeed reference clocks must be supplied for USB
+                                                                 operation.
+
+                                                                 <pre>
+                                                                                Source for      Source for
+                                                                 [REF_CLK_SEL]  SuperSpeed PLL  HighSpeed PLL
+                                                                 -------------  --------------  ------------------------
+                                                                  0x0           DLMC_REF_CLK0   DLMC_REF_CLK0
+                                                                  0x1           DLMC_REF_CLK1   DLMC_REF_CLK1
+                                                                  0x2           PAD_REF_CLK     PAD_REF_CLK
+                                                                  0x3           Reserved.
+                                                                  0x4           DLMC_REF_CLK0   PLL_REF_CLK
+                                                                  0x5           DLMC_REF_CLK1   PLL_REF_CLK
+                                                                  0x6           PAD_REF_CLK     PLL_REF_CLK
+                                                                  0x7           Reserved.
+                                                                 </pre>
 
                                                                  This value can be changed only during UPHY_RST.
 
@@ -8757,19 +8613,19 @@ typedef union
                                                                  0x6 = divide by 24.
                                                                  0x7 = divide by 32.
 
-                                                                 The hclk frequency must be at or below 300 MHz.
-                                                                 The hclk frequency must be at or above 150 MHz for full-rate USB3
+                                                                 The hclk frequency must be at or below 300MHz.
+                                                                 The hclk frequency must be at or above 150MHz for full-rate USB3
                                                                  operation.
-                                                                 The hclk frequency must be at or above 125 MHz for any USB3
+                                                                 The hclk frequency must be at or above 125MHz for any USB3
                                                                  functionality.
 
-                                                                 If [DRD_MODE] = DEVICE, the hclk frequency must be at or above 125 MHz for
+                                                                 If DRD_MODE = DEVICE, the hclk frequency must be at or above 125MHz for
                                                                  correct USB2 functionality.
 
-                                                                 If [DRD_MODE] = HOST, the hclk frequency must be at or above 90 MHz
+                                                                 If DRD_MODE = HOST, the hclk frequency must be at or above 90MHz
                                                                  for full-rate USB2 operation.
 
-                                                                 If [DRD_MODE] = HOST, the hclk frequency must be at or above 62.5 MHz
+                                                                 If DRD_MODE = HOST, the hclk frequency must be at or above 62.5MHz
                                                                  for any USB2 operation.
 
                                                                  This field can be changed only when [H_CLKDIV_RST] = 1.
@@ -8806,13 +8662,21 @@ typedef union
         uint64_t reserved_31           : 1;
         uint64_t ref_clk_fsel          : 6;  /**< [ 37: 32](R/W) Selects the reference clock frequency for the SuperSpeed and high-speed PLL blocks.
 
-                                                                 As [REF_CLK_SEL] = 0x0, the legal values are:
+                                                                 If [REF_CLK_SEL] = 0x0, 0x1 or 0x2, then the legal values are:
 
                                                                    0x27 = 100  MHz on DLMC_REF_CLK*.
+
+                                                                 If [REF_CLK_SEL] = 0x4, 0x5 or 0x6, then the legal values are:
+
+                                                                   0x07 is the only legal value.
 
                                                                  All other values are reserved.
 
                                                                  This value may only be changed during [UPHY_RST].
+
+                                                                 When [REF_CLK_SEL] = 0x4 or 0x5 or 0x6, the [MPLL_MULTIPLIER], [REF_CLK_DIV2],
+                                                                 and [SSC_REF_CLK_SEL] settings are used to configure the SuperSpeed reference
+                                                                 clock multiplier.
 
                                                                  Internal:
                                                                  If [REF_CLK_SEL] = 0x0, 0x1 or 0x2 then:
@@ -8825,9 +8689,20 @@ typedef union
                                                                    0x07 is the only legal value. */
         uint64_t ref_clk_div2          : 1;  /**< [ 38: 38](R/W) Divides the reference clock by 2 before feeding it into the REF_CLK_FSEL divider.
 
-                                                                 As [REF_CLK_SEL] = 0x0, the legal value is 0x0.
+                                                                 If [REF_CLK_SEL] = 0x0, 0x1 or 0X2 then the legal values are:
+                                                                      all DLMC_REF_CLK* frequencies: 0x0 is the only legal value.
+
+                                                                 If [REF_CLK_SEL] = 0x4, 0x5 or 0x6 then the legal values are:
+
+                                                                   0x1: if DLMC_REF_CLK* is 125MHz.
+
+                                                                   0x0: if DLMC_REF_CLK* is another supported frequency (see list in
+                                                                           MPLL_MULTIPLIER description).
 
                                                                  This value can be changed only during UPHY_RST.
+
+                                                                 If [REF_CLK_SEL] = 0x2 or 0x3, then [MPLL_MULTPLIER], [REF_CLK_DIV2], and
+                                                                 [SSC_REF_CLK_SEL] must all be programmed to the same frequency setting.
 
                                                                  Internal:
                                                                  If [REF_CLK_SEL] = 0x0, 0x1 or 0x2 then:
@@ -8848,13 +8723,22 @@ typedef union
                                                                  [REF_SSP_EN] is asserted. */
         uint64_t mpll_multiplier       : 7;  /**< [ 46: 40](R/W) Multiplies the reference clock to a frequency suitable for intended operating speed.
 
-                                                                 As [REF_CLK_SEL] = 0x0, the legal values are:
+                                                                 If [REF_CLK_SEL] = 0x0, 0x1 or 0x2, then the legal values are:
 
-                                                                   0x19 = 100  MHz on DLMC_REF_CLK*.
+                                                                    0x19 = 100  MHz on DLMC_REF_CLK*.
 
-                                                                 All other values are reserved.
+                                                                 If [REF_CLK_SEL] = 0x4 or 0x5 or 0x6, then the legal values are:
 
-                                                                 This value may only be changed during [UPHY_RST].
+                                                                    0x32 =  50  MHz on DLMC_REF_CLK*.
+                                                                    0x19 =  100 MHz on DLMC_REF_CLK*.
+                                                                    0x28 =  125 MHz on DLMC_REF_CLK*.
+
+                                                                  All other values are reserved.
+
+                                                                  This value may only be changed during UPHY_RST.
+
+                                                                  If [REF_CLK_SEL] = 0x4 or 0x5 or 0x6, then [MPLL_MULTPLIER], [REF_CLK_DIV2],
+                                                                  and [SSC_REF_CLK_SEL] must all be programmed to the same frequency setting.
 
                                                                  Internal:
                                                                  If [REF_CLK_SEL] = 0x0, 0x1 or 0x2, then:
@@ -8889,11 +8773,19 @@ typedef union
 
                                                                  A value of 0x0 means this feature is disabled.
 
-                                                                 The legal values are 0x0.
+                                                                 If [REF_CLK_SEL] = 0x0, 0x1 or 0x2, then the legal values are:
+                                                                 *  0x0 is the only legal value.
+
+                                                                 If [REF_CLK_SEL] = 0x4, 0x5 or 0x6, then the legal values are:
+                                                                 * 0x0:   if DLMC_REF_CLK* is another supported frequency (see list in
+                                                                            MPLL_MULTIPLIER description).
 
                                                                  All other values are reserved.
 
                                                                  This value may only be changed during [UPHY_RST].
+
+                                                                 If [REF_CLK_SEL] = 0x4 or 0x5 or 0x6, then [MPLL_MULTPLIER], [REF_CLK_DIV2], and
+                                                                 [SSC_REF_CLK_SEL] must all be programmed to the same frequency setting.
 
                                                                  Internal:
                                                                  If [REF_CLK_SEL] = 0x0, 0x1 or 0x2, then:
@@ -8921,6 +8813,9 @@ typedef union
                                                                  function. If the input reference clock for the SuperSpeed PLL is already spread-spectrum,
                                                                  then do not enable this feature. The clocks sourced to the SuperSpeed function must have
                                                                  spread-spectrum to be compliant with the USB specification.
+
+                                                                 The high-speed PLL cannot support a spread-spectrum input, so [REF_CLK_SEL] =
+                                                                 0x0, 0x1, or 0x2 must enable this feature.
 
                                                                  This value may only be changed during [UPHY_RST]. */
         uint64_t reserved_60_61        : 2;
@@ -8951,7 +8846,8 @@ typedef union
                                                                  takes almost 2,000 controller-clock cycles for the largest RAM. */
 #endif /* Word 0 - End */
     } s;
-    struct bdk_usbdrdx_uctl_ctl_cn81xx
+    /* struct bdk_usbdrdx_uctl_ctl_s cn81xx; */
+    struct bdk_usbdrdx_uctl_ctl_cn83xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t clear_bist            : 1;  /**< [ 63: 63](R/W) BIST fast-clear mode select. A BIST run with this bit set clears all entries in USBDRD
@@ -8985,9 +8881,6 @@ typedef union
                                                                  then do not enable this feature. The clocks sourced to the SuperSpeed function must have
                                                                  spread-spectrum to be compliant with the USB specification.
 
-                                                                 The high-speed PLL cannot support a spread-spectrum input, so [REF_CLK_SEL] =
-                                                                 0x0, 0x1, or 0x2 must enable this feature.
-
                                                                  This value may only be changed during [UPHY_RST]. */
         uint64_t ssc_range             : 3;  /**< [ 58: 56](R/W) Spread-spectrum clock range. Selects the range of spread-spectrum modulation when SSC_EN
                                                                  is asserted and the PHY is spreading the SuperSpeed transmit clocks.
@@ -9010,19 +8903,11 @@ typedef union
 
                                                                  A value of 0x0 means this feature is disabled.
 
-                                                                 If [REF_CLK_SEL] = 0x0, 0x1 or 0x2, then the legal values are:
-                                                                 *  0x0 is the only legal value.
-
-                                                                 If [REF_CLK_SEL] = 0x4, 0x5 or 0x6, then the legal values are:
-                                                                 * 0x0:   if DLMC_REF_CLK* is another supported frequency (see list in
-                                                                            MPLL_MULTIPLIER description).
+                                                                 The legal values are 0x0.
 
                                                                  All other values are reserved.
 
                                                                  This value may only be changed during [UPHY_RST].
-
-                                                                 If [REF_CLK_SEL] = 0x4 or 0x5 or 0x6, then [MPLL_MULTPLIER], [REF_CLK_DIV2], and
-                                                                 [SSC_REF_CLK_SEL] must all be programmed to the same frequency setting.
 
                                                                  Internal:
                                                                  If [REF_CLK_SEL] = 0x0, 0x1 or 0x2, then:
@@ -9035,22 +8920,13 @@ typedef union
                                                                               MPLL_MULTIPLIER description). */
         uint64_t mpll_multiplier       : 7;  /**< [ 46: 40](R/W) Multiplies the reference clock to a frequency suitable for intended operating speed.
 
-                                                                 If [REF_CLK_SEL] = 0x0, 0x1 or 0x2, then the legal values are:
+                                                                 As [REF_CLK_SEL] = 0x0, the legal values are:
 
-                                                                    0x19 = 100  MHz on DLMC_REF_CLK*.
+                                                                   0x19 = 100  MHz on DLMC_REF_CLK*.
 
-                                                                 If [REF_CLK_SEL] = 0x4 or 0x5 or 0x6, then the legal values are:
+                                                                 All other values are reserved.
 
-                                                                    0x32 =  50  MHz on DLMC_REF_CLK*.
-                                                                    0x19 =  100 MHz on DLMC_REF_CLK*.
-                                                                    0x28 =  125 MHz on DLMC_REF_CLK*.
-
-                                                                  All other values are reserved.
-
-                                                                  This value may only be changed during UPHY_RST.
-
-                                                                  If [REF_CLK_SEL] = 0x4 or 0x5 or 0x6, then [MPLL_MULTPLIER], [REF_CLK_DIV2],
-                                                                  and [SSC_REF_CLK_SEL] must all be programmed to the same frequency setting.
+                                                                 This value may only be changed during [UPHY_RST].
 
                                                                  Internal:
                                                                  If [REF_CLK_SEL] = 0x0, 0x1 or 0x2, then:
@@ -9086,20 +8962,9 @@ typedef union
                                                                  [REF_SSP_EN] is asserted. */
         uint64_t ref_clk_div2          : 1;  /**< [ 38: 38](R/W) Divides the reference clock by 2 before feeding it into the REF_CLK_FSEL divider.
 
-                                                                 If [REF_CLK_SEL] = 0x0, 0x1 or 0X2 then the legal values are:
-                                                                      all DLMC_REF_CLK* frequencies: 0x0 is the only legal value.
-
-                                                                 If [REF_CLK_SEL] = 0x4, 0x5 or 0x6 then the legal values are:
-
-                                                                   0x1: if DLMC_REF_CLK* is 125MHz.
-
-                                                                   0x0: if DLMC_REF_CLK* is another supported frequency (see list in
-                                                                           MPLL_MULTIPLIER description).
+                                                                 As [REF_CLK_SEL] = 0x0, the legal value is 0x0.
 
                                                                  This value can be changed only during UPHY_RST.
-
-                                                                 If [REF_CLK_SEL] = 0x2 or 0x3, then [MPLL_MULTPLIER], [REF_CLK_DIV2], and
-                                                                 [SSC_REF_CLK_SEL] must all be programmed to the same frequency setting.
 
                                                                  Internal:
                                                                  If [REF_CLK_SEL] = 0x0, 0x1 or 0x2 then:
@@ -9113,21 +8978,13 @@ typedef union
                                                                    [MPLL_MULTIPLIER] description). */
         uint64_t ref_clk_fsel          : 6;  /**< [ 37: 32](R/W) Selects the reference clock frequency for the SuperSpeed and high-speed PLL blocks.
 
-                                                                 If [REF_CLK_SEL] = 0x0, 0x1 or 0x2, then the legal values are:
+                                                                 As [REF_CLK_SEL] = 0x0, the legal values are:
 
                                                                    0x27 = 100  MHz on DLMC_REF_CLK*.
-
-                                                                 If [REF_CLK_SEL] = 0x4, 0x5 or 0x6, then the legal values are:
-
-                                                                   0x07 is the only legal value.
 
                                                                  All other values are reserved.
 
                                                                  This value may only be changed during [UPHY_RST].
-
-                                                                 When [REF_CLK_SEL] = 0x4 or 0x5 or 0x6, the [MPLL_MULTIPLIER], [REF_CLK_DIV2],
-                                                                 and [SSC_REF_CLK_SEL] settings are used to configure the SuperSpeed reference
-                                                                 clock multiplier.
 
                                                                  Internal:
                                                                  If [REF_CLK_SEL] = 0x0, 0x1 or 0x2 then:
@@ -9170,19 +9027,19 @@ typedef union
                                                                  0x6 = divide by 24.
                                                                  0x7 = divide by 32.
 
-                                                                 The hclk frequency must be at or below 300MHz.
-                                                                 The hclk frequency must be at or above 150MHz for full-rate USB3
+                                                                 The hclk frequency must be at or below 300 MHz.
+                                                                 The hclk frequency must be at or above 150 MHz for full-rate USB3
                                                                  operation.
-                                                                 The hclk frequency must be at or above 125MHz for any USB3
+                                                                 The hclk frequency must be at or above 125 MHz for any USB3
                                                                  functionality.
 
-                                                                 If DRD_MODE = DEVICE, the hclk frequency must be at or above 125MHz for
+                                                                 If [DRD_MODE] = DEVICE, the hclk frequency must be at or above 125 MHz for
                                                                  correct USB2 functionality.
 
-                                                                 If DRD_MODE = HOST, the hclk frequency must be at or above 90MHz
+                                                                 If [DRD_MODE] = HOST, the hclk frequency must be at or above 90 MHz
                                                                  for full-rate USB2 operation.
 
-                                                                 If DRD_MODE = HOST, the hclk frequency must be at or above 62.5MHz
+                                                                 If [DRD_MODE] = HOST, the hclk frequency must be at or above 62.5 MHz
                                                                  for any USB2 operation.
 
                                                                  This field can be changed only when [H_CLKDIV_RST] = 1.
@@ -9227,22 +9084,15 @@ typedef union
         uint64_t hs_power_en           : 1;  /**< [ 12: 12](R/W) PHY high-speed block power enable.
                                                                  This is a strap signal; it should only be modified when [UPHY_RST] is asserted. */
         uint64_t ref_clk_sel           : 3;  /**< [ 11:  9](R/W) Reference clock select. Choose reference-clock source for the SuperSpeed and high-speed
-                                                                 PLL blocks. Both HighSpeed and SuperSpeed reference clocks must be supplied for USB
-                                                                 operation.
-
-                                                                 <pre>
-                                                                                Source for      Source for
-                                                                 [REF_CLK_SEL]  SuperSpeed PLL  HighSpeed PLL
-                                                                 -------------  --------------  ------------------------
-                                                                  0x0           DLMC_REF_CLK0   DLMC_REF_CLK0
-                                                                  0x1           DLMC_REF_CLK1   DLMC_REF_CLK1
-                                                                  0x2           PAD_REF_CLK     PAD_REF_CLK
-                                                                  0x3           Reserved.
-                                                                  0x4           DLMC_REF_CLK0   PLL_REF_CLK
-                                                                  0x5           DLMC_REF_CLK1   PLL_REF_CLK
-                                                                  0x6           PAD_REF_CLK     PLL_REF_CLK
-                                                                  0x7           Reserved.
-                                                                 </pre>
+                                                                 PLL blocks.
+                                                                 0x0 = Reference clock sources for both PLLs come from the USB pads.
+                                                                 0x1 = Reserved.
+                                                                 0x2 = Reserved.
+                                                                 0x3 = Reserved.
+                                                                 0x4 = Reserved.
+                                                                 0x5 = Reserved.
+                                                                 0x6 = Reserved.
+                                                                 0x7 = Reserved.
 
                                                                  This value can be changed only during UPHY_RST.
 
@@ -9295,22 +9145,15 @@ typedef union
                                                                  and UCTL registers starting from 0x30. */
         uint64_t reserved_5_8          : 4;
         uint64_t ref_clk_sel           : 3;  /**< [ 11:  9](R/W) Reference clock select. Choose reference-clock source for the SuperSpeed and high-speed
-                                                                 PLL blocks. Both HighSpeed and SuperSpeed reference clocks must be supplied for USB
-                                                                 operation.
-
-                                                                 <pre>
-                                                                                Source for      Source for
-                                                                 [REF_CLK_SEL]  SuperSpeed PLL  HighSpeed PLL
-                                                                 -------------  --------------  ------------------------
-                                                                  0x0           DLMC_REF_CLK0   DLMC_REF_CLK0
-                                                                  0x1           DLMC_REF_CLK1   DLMC_REF_CLK1
-                                                                  0x2           PAD_REF_CLK     PAD_REF_CLK
-                                                                  0x3           Reserved.
-                                                                  0x4           DLMC_REF_CLK0   PLL_REF_CLK
-                                                                  0x5           DLMC_REF_CLK1   PLL_REF_CLK
-                                                                  0x6           PAD_REF_CLK     PLL_REF_CLK
-                                                                  0x7           Reserved.
-                                                                 </pre>
+                                                                 PLL blocks.
+                                                                 0x0 = Reference clock sources for both PLLs come from the USB pads.
+                                                                 0x1 = Reserved.
+                                                                 0x2 = Reserved.
+                                                                 0x3 = Reserved.
+                                                                 0x4 = Reserved.
+                                                                 0x5 = Reserved.
+                                                                 0x6 = Reserved.
+                                                                 0x7 = Reserved.
 
                                                                  This value can be changed only during UPHY_RST.
 
@@ -9362,19 +9205,19 @@ typedef union
                                                                  0x6 = divide by 24.
                                                                  0x7 = divide by 32.
 
-                                                                 The hclk frequency must be at or below 300MHz.
-                                                                 The hclk frequency must be at or above 150MHz for full-rate USB3
+                                                                 The hclk frequency must be at or below 300 MHz.
+                                                                 The hclk frequency must be at or above 150 MHz for full-rate USB3
                                                                  operation.
-                                                                 The hclk frequency must be at or above 125MHz for any USB3
+                                                                 The hclk frequency must be at or above 125 MHz for any USB3
                                                                  functionality.
 
-                                                                 If DRD_MODE = DEVICE, the hclk frequency must be at or above 125MHz for
+                                                                 If [DRD_MODE] = DEVICE, the hclk frequency must be at or above 125 MHz for
                                                                  correct USB2 functionality.
 
-                                                                 If DRD_MODE = HOST, the hclk frequency must be at or above 90MHz
+                                                                 If [DRD_MODE] = HOST, the hclk frequency must be at or above 90 MHz
                                                                  for full-rate USB2 operation.
 
-                                                                 If DRD_MODE = HOST, the hclk frequency must be at or above 62.5MHz
+                                                                 If [DRD_MODE] = HOST, the hclk frequency must be at or above 62.5 MHz
                                                                  for any USB2 operation.
 
                                                                  This field can be changed only when [H_CLKDIV_RST] = 1.
@@ -9411,21 +9254,13 @@ typedef union
         uint64_t reserved_31           : 1;
         uint64_t ref_clk_fsel          : 6;  /**< [ 37: 32](R/W) Selects the reference clock frequency for the SuperSpeed and high-speed PLL blocks.
 
-                                                                 If [REF_CLK_SEL] = 0x0, 0x1 or 0x2, then the legal values are:
+                                                                 As [REF_CLK_SEL] = 0x0, the legal values are:
 
                                                                    0x27 = 100  MHz on DLMC_REF_CLK*.
-
-                                                                 If [REF_CLK_SEL] = 0x4, 0x5 or 0x6, then the legal values are:
-
-                                                                   0x07 is the only legal value.
 
                                                                  All other values are reserved.
 
                                                                  This value may only be changed during [UPHY_RST].
-
-                                                                 When [REF_CLK_SEL] = 0x4 or 0x5 or 0x6, the [MPLL_MULTIPLIER], [REF_CLK_DIV2],
-                                                                 and [SSC_REF_CLK_SEL] settings are used to configure the SuperSpeed reference
-                                                                 clock multiplier.
 
                                                                  Internal:
                                                                  If [REF_CLK_SEL] = 0x0, 0x1 or 0x2 then:
@@ -9438,20 +9273,9 @@ typedef union
                                                                    0x07 is the only legal value. */
         uint64_t ref_clk_div2          : 1;  /**< [ 38: 38](R/W) Divides the reference clock by 2 before feeding it into the REF_CLK_FSEL divider.
 
-                                                                 If [REF_CLK_SEL] = 0x0, 0x1 or 0X2 then the legal values are:
-                                                                      all DLMC_REF_CLK* frequencies: 0x0 is the only legal value.
-
-                                                                 If [REF_CLK_SEL] = 0x4, 0x5 or 0x6 then the legal values are:
-
-                                                                   0x1: if DLMC_REF_CLK* is 125MHz.
-
-                                                                   0x0: if DLMC_REF_CLK* is another supported frequency (see list in
-                                                                           MPLL_MULTIPLIER description).
+                                                                 As [REF_CLK_SEL] = 0x0, the legal value is 0x0.
 
                                                                  This value can be changed only during UPHY_RST.
-
-                                                                 If [REF_CLK_SEL] = 0x2 or 0x3, then [MPLL_MULTPLIER], [REF_CLK_DIV2], and
-                                                                 [SSC_REF_CLK_SEL] must all be programmed to the same frequency setting.
 
                                                                  Internal:
                                                                  If [REF_CLK_SEL] = 0x0, 0x1 or 0x2 then:
@@ -9472,22 +9296,13 @@ typedef union
                                                                  [REF_SSP_EN] is asserted. */
         uint64_t mpll_multiplier       : 7;  /**< [ 46: 40](R/W) Multiplies the reference clock to a frequency suitable for intended operating speed.
 
-                                                                 If [REF_CLK_SEL] = 0x0, 0x1 or 0x2, then the legal values are:
+                                                                 As [REF_CLK_SEL] = 0x0, the legal values are:
 
-                                                                    0x19 = 100  MHz on DLMC_REF_CLK*.
+                                                                   0x19 = 100  MHz on DLMC_REF_CLK*.
 
-                                                                 If [REF_CLK_SEL] = 0x4 or 0x5 or 0x6, then the legal values are:
+                                                                 All other values are reserved.
 
-                                                                    0x32 =  50  MHz on DLMC_REF_CLK*.
-                                                                    0x19 =  100 MHz on DLMC_REF_CLK*.
-                                                                    0x28 =  125 MHz on DLMC_REF_CLK*.
-
-                                                                  All other values are reserved.
-
-                                                                  This value may only be changed during UPHY_RST.
-
-                                                                  If [REF_CLK_SEL] = 0x4 or 0x5 or 0x6, then [MPLL_MULTPLIER], [REF_CLK_DIV2],
-                                                                  and [SSC_REF_CLK_SEL] must all be programmed to the same frequency setting.
+                                                                 This value may only be changed during [UPHY_RST].
 
                                                                  Internal:
                                                                  If [REF_CLK_SEL] = 0x0, 0x1 or 0x2, then:
@@ -9522,19 +9337,11 @@ typedef union
 
                                                                  A value of 0x0 means this feature is disabled.
 
-                                                                 If [REF_CLK_SEL] = 0x0, 0x1 or 0x2, then the legal values are:
-                                                                 *  0x0 is the only legal value.
-
-                                                                 If [REF_CLK_SEL] = 0x4, 0x5 or 0x6, then the legal values are:
-                                                                 * 0x0:   if DLMC_REF_CLK* is another supported frequency (see list in
-                                                                            MPLL_MULTIPLIER description).
+                                                                 The legal values are 0x0.
 
                                                                  All other values are reserved.
 
                                                                  This value may only be changed during [UPHY_RST].
-
-                                                                 If [REF_CLK_SEL] = 0x4 or 0x5 or 0x6, then [MPLL_MULTPLIER], [REF_CLK_DIV2], and
-                                                                 [SSC_REF_CLK_SEL] must all be programmed to the same frequency setting.
 
                                                                  Internal:
                                                                  If [REF_CLK_SEL] = 0x0, 0x1 or 0x2, then:
@@ -9562,9 +9369,6 @@ typedef union
                                                                  function. If the input reference clock for the SuperSpeed PLL is already spread-spectrum,
                                                                  then do not enable this feature. The clocks sourced to the SuperSpeed function must have
                                                                  spread-spectrum to be compliant with the USB specification.
-
-                                                                 The high-speed PLL cannot support a spread-spectrum input, so [REF_CLK_SEL] =
-                                                                 0x0, 0x1, or 0x2 must enable this feature.
 
                                                                  This value may only be changed during [UPHY_RST]. */
         uint64_t reserved_60_61        : 2;
@@ -9594,9 +9398,7 @@ typedef union
                                                                  CLEAR BIST completion is indicated by USBDRD()_UCTL_BIST_STATUS. A BIST clear operation
                                                                  takes almost 2,000 controller-clock cycles for the largest RAM. */
 #endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_usbdrdx_uctl_ctl_s cn83xx; */
-    /* struct bdk_usbdrdx_uctl_ctl_s cn9; */
+    } cn83xx;
 } bdk_usbdrdx_uctl_ctl_t;
 
 static inline uint64_t BDK_USBDRDX_UCTL_CTL(unsigned long a) __attribute__ ((pure, always_inline));
@@ -9605,8 +9407,6 @@ static inline uint64_t BDK_USBDRDX_UCTL_CTL(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x868000100000ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
-        return 0x868000100000ll + 0x1000000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
         return 0x868000100000ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("USBDRDX_UCTL_CTL", 1, a, 0, 0, 0);
 }
@@ -9692,8 +9492,6 @@ static inline uint64_t BDK_USBDRDX_UCTL_ECC(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x8680001000f0ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
-        return 0x8680001000f0ll + 0x1000000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
         return 0x8680001000f0ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("USBDRDX_UCTL_ECC", 1, a, 0, 0, 0);
 }
@@ -9841,8 +9639,6 @@ static inline uint64_t BDK_USBDRDX_UCTL_HOST_CFG(unsigned long a)
         return 0x8680001000e0ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x8680001000e0ll + 0x1000000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
-        return 0x8680001000e0ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("USBDRDX_UCTL_HOST_CFG", 1, a, 0, 0, 0);
 }
 
@@ -9916,8 +9712,6 @@ static inline uint64_t BDK_USBDRDX_UCTL_INTENA_W1C(unsigned long a)
         return 0x868000100040ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x868000100040ll + 0x1000000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
-        return 0x868000100040ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("USBDRDX_UCTL_INTENA_W1C", 1, a, 0, 0, 0);
 }
 
@@ -9990,8 +9784,6 @@ static inline uint64_t BDK_USBDRDX_UCTL_INTENA_W1S(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x868000100048ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
-        return 0x868000100048ll + 0x1000000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
         return 0x868000100048ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("USBDRDX_UCTL_INTENA_W1S", 1, a, 0, 0, 0);
 }
@@ -10088,8 +9880,6 @@ static inline uint64_t BDK_USBDRDX_UCTL_INTSTAT(unsigned long a)
         return 0x868000100030ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x868000100030ll + 0x1000000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
-        return 0x868000100030ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("USBDRDX_UCTL_INTSTAT", 1, a, 0, 0, 0);
 }
 
@@ -10162,8 +9952,6 @@ static inline uint64_t BDK_USBDRDX_UCTL_INTSTAT_W1S(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x868000100038ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
-        return 0x868000100038ll + 0x1000000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
         return 0x868000100038ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("USBDRDX_UCTL_INTSTAT_W1S", 1, a, 0, 0, 0);
 }
@@ -10386,8 +10174,6 @@ static inline uint64_t BDK_USBDRDX_UCTL_PORTX_CFG_HS(unsigned long a, unsigned l
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b==0)))
         return 0x868000100050ll + 0x1000000000ll * ((a) & 0x1) + 0x20ll * ((b) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b==0)))
-        return 0x868000100050ll + 0x1000000000ll * ((a) & 0x1) + 0x20ll * ((b) & 0x0);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=1) && (b==0)))
         return 0x868000100050ll + 0x1000000000ll * ((a) & 0x1) + 0x20ll * ((b) & 0x0);
     __bdk_csr_fatal("USBDRDX_UCTL_PORTX_CFG_HS", 2, a, b, 0, 0);
 }
@@ -10659,8 +10445,6 @@ static inline uint64_t BDK_USBDRDX_UCTL_PORTX_CFG_SS(unsigned long a, unsigned l
         return 0x868000100058ll + 0x1000000000ll * ((a) & 0x1) + 0x20ll * ((b) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b==0)))
         return 0x868000100058ll + 0x1000000000ll * ((a) & 0x1) + 0x20ll * ((b) & 0x0);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=1) && (b==0)))
-        return 0x868000100058ll + 0x1000000000ll * ((a) & 0x1) + 0x20ll * ((b) & 0x0);
     __bdk_csr_fatal("USBDRDX_UCTL_PORTX_CFG_SS", 2, a, b, 0, 0);
 }
 
@@ -10771,8 +10555,6 @@ static inline uint64_t BDK_USBDRDX_UCTL_PORTX_CR_DBG_CFG(unsigned long a, unsign
         return 0x868000100060ll + 0x1000000000ll * ((a) & 0x1) + 0ll * ((b) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b==0)))
         return 0x868000100060ll + 0x1000000000ll * ((a) & 0x1) + 0ll * ((b) & 0x0);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=1) && (b==0)))
-        return 0x868000100060ll + 0x1000000000ll * ((a) & 0x1) + 0ll * ((b) & 0x0);
     __bdk_csr_fatal("USBDRDX_UCTL_PORTX_CR_DBG_CFG", 2, a, b, 0, 0);
 }
 
@@ -10820,8 +10602,6 @@ static inline uint64_t BDK_USBDRDX_UCTL_PORTX_CR_DBG_STATUS(unsigned long a, uns
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b==0)))
         return 0x868000100068ll + 0x1000000000ll * ((a) & 0x1) + 0ll * ((b) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b==0)))
-        return 0x868000100068ll + 0x1000000000ll * ((a) & 0x1) + 0ll * ((b) & 0x0);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=1) && (b==0)))
         return 0x868000100068ll + 0x1000000000ll * ((a) & 0x1) + 0ll * ((b) & 0x0);
     __bdk_csr_fatal("USBDRDX_UCTL_PORTX_CR_DBG_STATUS", 2, a, b, 0, 0);
 }
@@ -10905,8 +10685,6 @@ static inline uint64_t BDK_USBDRDX_UCTL_SHIM_CFG(unsigned long a)
         return 0x8680001000e8ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x8680001000e8ll + 0x1000000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
-        return 0x8680001000e8ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("USBDRDX_UCTL_SHIM_CFG", 1, a, 0, 0, 0);
 }
 
@@ -10946,8 +10724,6 @@ static inline uint64_t BDK_USBDRDX_UCTL_SPARE0(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x868000100010ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
-        return 0x868000100010ll + 0x1000000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
         return 0x868000100010ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("USBDRDX_UCTL_SPARE0", 1, a, 0, 0, 0);
 }
@@ -10990,8 +10766,6 @@ static inline uint64_t BDK_USBDRDX_UCTL_SPARE1(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x8680001000f8ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
-        return 0x8680001000f8ll + 0x1000000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
         return 0x8680001000f8ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("USBDRDX_UCTL_SPARE1", 1, a, 0, 0, 0);
 }

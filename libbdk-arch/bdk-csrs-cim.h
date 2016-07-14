@@ -134,8 +134,6 @@ static inline uint64_t BDK_CIMX_ICC_AP0R0_EL1(unsigned long a)
         return 0x87b000063220ll + 0x80000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
         return 0x87b000063220ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
-        return 0x87b000063220ll + 0x80000ll * ((a) & 0x1f);
     __bdk_csr_fatal("CIMX_ICC_AP0R0_EL1", 1, a, 0, 0, 0);
 }
 
@@ -249,8 +247,6 @@ static inline uint64_t BDK_CIMX_ICC_AP1R0_EL1_NS(unsigned long a)
         return 0x87b000063240ll + 0x80000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
         return 0x87b000063240ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
-        return 0x87b000063240ll + 0x80000ll * ((a) & 0x1f);
     __bdk_csr_fatal("CIMX_ICC_AP1R0_EL1_NS", 1, a, 0, 0, 0);
 }
 
@@ -362,8 +358,6 @@ static inline uint64_t BDK_CIMX_ICC_AP1R0_EL1_S(unsigned long a)
         return 0x87b000067240ll + 0x80000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
         return 0x87b000067240ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
-        return 0x87b000067240ll + 0x80000ll * ((a) & 0x1f);
     __bdk_csr_fatal("CIMX_ICC_AP1R0_EL1_S", 1, a, 0, 0, 0);
 }
 
@@ -465,8 +459,6 @@ static inline uint64_t BDK_CIMX_ICC_ASGI1R_EL1(unsigned long a)
         return 0x87b0000632f8ll + 0x80000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
         return 0x87b0000632f8ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
-        return 0x87b0000632f8ll + 0x80000ll * ((a) & 0x1f);
     __bdk_csr_fatal("CIMX_ICC_ASGI1R_EL1", 1, a, 0, 0, 0);
 }
 
@@ -643,8 +635,6 @@ static inline uint64_t BDK_CIMX_ICC_BPR0_EL1(unsigned long a)
         return 0x87b000063218ll + 0x80000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
         return 0x87b000063218ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
-        return 0x87b000063218ll + 0x80000ll * ((a) & 0x1f);
     __bdk_csr_fatal("CIMX_ICC_BPR0_EL1", 1, a, 0, 0, 0);
 }
 
@@ -794,8 +784,6 @@ static inline uint64_t BDK_CIMX_ICC_BPR1_EL1_NS(unsigned long a)
         return 0x87b000063318ll + 0x80000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
         return 0x87b000063318ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
-        return 0x87b000063318ll + 0x80000ll * ((a) & 0x1f);
     __bdk_csr_fatal("CIMX_ICC_BPR1_EL1_NS", 1, a, 0, 0, 0);
 }
 
@@ -941,8 +929,6 @@ static inline uint64_t BDK_CIMX_ICC_BPR1_EL1_S(unsigned long a)
         return 0x87b000067318ll + 0x80000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
         return 0x87b000067318ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
-        return 0x87b000067318ll + 0x80000ll * ((a) & 0x1f);
     __bdk_csr_fatal("CIMX_ICC_BPR1_EL1_S", 1, a, 0, 0, 0);
 }
 
@@ -1035,8 +1021,6 @@ static inline uint64_t BDK_CIMX_ICC_CTLR_EL1_NS(unsigned long a)
         return 0x87b000063320ll + 0x80000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
         return 0x87b000063320ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
-        return 0x87b000063320ll + 0x80000ll * ((a) & 0x1f);
     __bdk_csr_fatal("CIMX_ICC_CTLR_EL1_NS", 1, a, 0, 0, 0);
 }
 
@@ -1129,8 +1113,6 @@ static inline uint64_t BDK_CIMX_ICC_CTLR_EL1_S(unsigned long a)
         return 0x87b000067320ll + 0x80000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
         return 0x87b000067320ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
-        return 0x87b000067320ll + 0x80000ll * ((a) & 0x1f);
     __bdk_csr_fatal("CIMX_ICC_CTLR_EL1_S", 1, a, 0, 0, 0);
 }
 
@@ -1172,7 +1154,10 @@ typedef union
 
                                                                  When changing PMHE from one to zero, software must write CIM()_ICC_PMR_EL1
                                                                  to 0xff prior to writing PMHE to zero. */
-        uint64_t rm                    : 1;  /**< [  5:  5](RAZ) Reserved. */
+        uint64_t rm                    : 1;  /**< [  5:  5](R/W) Routing modifier.
+                                                                 Legacy bit from GICv2.
+                                                                 In CNXXXX, this bit is always 0 because the secure copy of CIM()_ICC_SRE_EL1[SRE]
+                                                                 is one. */
         uint64_t eoimode_el1ns         : 1;  /**< [  4:  4](R/W/H) EOI mode for interrupts handled at nonsecure EL1/2 (i.e. the accesses to EOIR
                                                                  and DIR are performed at nonsecure EL1/2). */
         uint64_t eoimode_el1s          : 1;  /**< [  3:  3](R/W/H) EOI mode for interrupts handled at secure EL1 (i.e. the accesses to EOIR and DIR
@@ -1204,7 +1189,10 @@ typedef union
                                                                  are performed at nonsecure EL1). */
         uint64_t eoimode_el1ns         : 1;  /**< [  4:  4](R/W/H) EOI mode for interrupts handled at nonsecure EL1/2 (i.e. the accesses to EOIR
                                                                  and DIR are performed at nonsecure EL1/2). */
-        uint64_t rm                    : 1;  /**< [  5:  5](RAZ) Reserved. */
+        uint64_t rm                    : 1;  /**< [  5:  5](R/W) Routing modifier.
+                                                                 Legacy bit from GICv2.
+                                                                 In CNXXXX, this bit is always 0 because the secure copy of CIM()_ICC_SRE_EL1[SRE]
+                                                                 is one. */
         uint64_t pmhe                  : 1;  /**< [  6:  6](R/W/H) Priority mask hint enable. When set, enables use of the PMR as a hint for interrupt
                                                                  distribution.
 
@@ -1225,7 +1213,8 @@ typedef union
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_cimx_icc_ctlr_el3_cn88xxp1
+    /* struct bdk_cimx_icc_ctlr_el3_s cn88xxp1; */
+    struct bdk_cimx_icc_ctlr_el3_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
@@ -1246,10 +1235,7 @@ typedef union
 
                                                                  When changing PMHE from one to zero, software must write CIM()_ICC_PMR_EL1
                                                                  to 0xff prior to writing PMHE to zero. */
-        uint64_t rm                    : 1;  /**< [  5:  5](R/W) Routing modifier.
-                                                                 Legacy bit from GICv2.
-                                                                 In CNXXXX, this bit is always 0 because the secure copy of CIM()_ICC_SRE_EL1[SRE]
-                                                                 is one. */
+        uint64_t rm                    : 1;  /**< [  5:  5](RAZ) Reserved. */
         uint64_t eoimode_el1ns         : 1;  /**< [  4:  4](R/W/H) EOI mode for interrupts handled at nonsecure EL1/2 (i.e. the accesses to EOIR
                                                                  and DIR are performed at nonsecure EL1/2). */
         uint64_t eoimode_el1s          : 1;  /**< [  3:  3](R/W/H) EOI mode for interrupts handled at secure EL1 (i.e. the accesses to EOIR and DIR
@@ -1281,10 +1267,7 @@ typedef union
                                                                  are performed at nonsecure EL1). */
         uint64_t eoimode_el1ns         : 1;  /**< [  4:  4](R/W/H) EOI mode for interrupts handled at nonsecure EL1/2 (i.e. the accesses to EOIR
                                                                  and DIR are performed at nonsecure EL1/2). */
-        uint64_t rm                    : 1;  /**< [  5:  5](R/W) Routing modifier.
-                                                                 Legacy bit from GICv2.
-                                                                 In CNXXXX, this bit is always 0 because the secure copy of CIM()_ICC_SRE_EL1[SRE]
-                                                                 is one. */
+        uint64_t rm                    : 1;  /**< [  5:  5](RAZ) Reserved. */
         uint64_t pmhe                  : 1;  /**< [  6:  6](R/W/H) Priority mask hint enable. When set, enables use of the PMR as a hint for interrupt
                                                                  distribution.
 
@@ -1304,11 +1287,9 @@ typedef union
                                                                  In CNXXXX, this bit is always 0, as affinity 3 is not implemented. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
-    } cn88xxp1;
-    /* struct bdk_cimx_icc_ctlr_el3_s cn9; */
-    /* struct bdk_cimx_icc_ctlr_el3_s cn81xx; */
-    /* struct bdk_cimx_icc_ctlr_el3_s cn83xx; */
-    /* struct bdk_cimx_icc_ctlr_el3_s cn88xxp2; */
+    } cn81xx;
+    /* struct bdk_cimx_icc_ctlr_el3_cn81xx cn83xx; */
+    /* struct bdk_cimx_icc_ctlr_el3_cn81xx cn88xxp2; */
 } bdk_cimx_icc_ctlr_el3_t;
 
 static inline uint64_t BDK_CIMX_ICC_CTLR_EL3(unsigned long a) __attribute__ ((pure, always_inline));
@@ -1320,8 +1301,6 @@ static inline uint64_t BDK_CIMX_ICC_CTLR_EL3(unsigned long a)
         return 0x87b00007b320ll + 0x80000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
         return 0x87b00007b320ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
-        return 0x87b00007b320ll + 0x80000ll * ((a) & 0x1f);
     __bdk_csr_fatal("CIMX_ICC_CTLR_EL3", 1, a, 0, 0, 0);
 }
 
@@ -1407,7 +1386,6 @@ typedef union
         uint64_t reserved_24_63        : 40;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_cimx_icc_dir_el1_s cn9; */
     /* struct bdk_cimx_icc_dir_el1_s cn81xx; */
     struct bdk_cimx_icc_dir_el1_cn88xx
     {
@@ -1479,8 +1457,6 @@ static inline uint64_t BDK_CIMX_ICC_DIR_EL1(unsigned long a)
         return 0x87b0000632c8ll + 0x80000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
         return 0x87b0000632c8ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
-        return 0x87b0000632c8ll + 0x80000ll * ((a) & 0x1f);
     __bdk_csr_fatal("CIMX_ICC_DIR_EL1", 1, a, 0, 0, 0);
 }
 
@@ -1577,7 +1553,6 @@ typedef union
         uint64_t reserved_24_63        : 40;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_cimx_icc_eoir0_el1_s cn9; */
     /* struct bdk_cimx_icc_eoir0_el1_s cn81xx; */
     struct bdk_cimx_icc_eoir0_el1_cn88xx
     {
@@ -1661,8 +1636,6 @@ static inline uint64_t BDK_CIMX_ICC_EOIR0_EL1(unsigned long a)
         return 0x87b000063208ll + 0x80000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
         return 0x87b000063208ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
-        return 0x87b000063208ll + 0x80000ll * ((a) & 0x1f);
     __bdk_csr_fatal("CIMX_ICC_EOIR0_EL1", 1, a, 0, 0, 0);
 }
 
@@ -1765,7 +1738,6 @@ typedef union
         uint64_t reserved_24_63        : 40;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_cimx_icc_eoir1_el1_s cn9; */
     /* struct bdk_cimx_icc_eoir1_el1_s cn81xx; */
     struct bdk_cimx_icc_eoir1_el1_cn88xx
     {
@@ -1855,8 +1827,6 @@ static inline uint64_t BDK_CIMX_ICC_EOIR1_EL1(unsigned long a)
         return 0x87b000063308ll + 0x80000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
         return 0x87b000063308ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
-        return 0x87b000063308ll + 0x80000ll * ((a) & 0x1f);
     __bdk_csr_fatal("CIMX_ICC_EOIR1_EL1", 1, a, 0, 0, 0);
 }
 
@@ -1919,7 +1889,6 @@ typedef union
         uint64_t reserved_24_63        : 40;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_cimx_icc_hppir0_el1_s cn9; */
     /* struct bdk_cimx_icc_hppir0_el1_s cn81xx; */
     struct bdk_cimx_icc_hppir0_el1_cn88xx
     {
@@ -1975,8 +1944,6 @@ static inline uint64_t BDK_CIMX_ICC_HPPIR0_EL1(unsigned long a)
         return 0x87b000063210ll + 0x80000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
         return 0x87b000063210ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
-        return 0x87b000063210ll + 0x80000ll * ((a) & 0x1f);
     __bdk_csr_fatal("CIMX_ICC_HPPIR0_EL1", 1, a, 0, 0, 0);
 }
 
@@ -2039,7 +2006,6 @@ typedef union
         uint64_t reserved_24_63        : 40;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_cimx_icc_hppir1_el1_s cn9; */
     /* struct bdk_cimx_icc_hppir1_el1_s cn81xx; */
     struct bdk_cimx_icc_hppir1_el1_cn88xx
     {
@@ -2095,8 +2061,6 @@ static inline uint64_t BDK_CIMX_ICC_HPPIR1_EL1(unsigned long a)
         return 0x87b000063310ll + 0x80000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
         return 0x87b000063310ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
-        return 0x87b000063310ll + 0x80000ll * ((a) & 0x1f);
     __bdk_csr_fatal("CIMX_ICC_HPPIR1_EL1", 1, a, 0, 0, 0);
 }
 
@@ -2147,7 +2111,6 @@ typedef union
         uint64_t reserved_24_63        : 40;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_cimx_icc_iar0_el1_s cn9; */
     /* struct bdk_cimx_icc_iar0_el1_s cn81xx; */
     struct bdk_cimx_icc_iar0_el1_cn88xx
     {
@@ -2191,8 +2154,6 @@ static inline uint64_t BDK_CIMX_ICC_IAR0_EL1(unsigned long a)
         return 0x87b000063200ll + 0x80000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
         return 0x87b000063200ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
-        return 0x87b000063200ll + 0x80000ll * ((a) & 0x1f);
     __bdk_csr_fatal("CIMX_ICC_IAR0_EL1", 1, a, 0, 0, 0);
 }
 
@@ -2241,7 +2202,6 @@ typedef union
         uint64_t reserved_24_63        : 40;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_cimx_icc_iar1_el1_s cn9; */
     /* struct bdk_cimx_icc_iar1_el1_s cn81xx; */
     struct bdk_cimx_icc_iar1_el1_cn88xx
     {
@@ -2283,8 +2243,6 @@ static inline uint64_t BDK_CIMX_ICC_IAR1_EL1(unsigned long a)
         return 0x87b000063300ll + 0x80000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
         return 0x87b000063300ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
-        return 0x87b000063300ll + 0x80000ll * ((a) & 0x1f);
     __bdk_csr_fatal("CIMX_ICC_IAR1_EL1", 1, a, 0, 0, 0);
 }
 
@@ -2342,8 +2300,6 @@ static inline uint64_t BDK_CIMX_ICC_IGRPEN0_EL1(unsigned long a)
         return 0x87b000063330ll + 0x80000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
         return 0x87b000063330ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
-        return 0x87b000063330ll + 0x80000ll * ((a) & 0x1f);
     __bdk_csr_fatal("CIMX_ICC_IGRPEN0_EL1", 1, a, 0, 0, 0);
 }
 
@@ -2403,8 +2359,6 @@ static inline uint64_t BDK_CIMX_ICC_IGRPEN1_EL1_NS(unsigned long a)
         return 0x87b000063338ll + 0x80000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
         return 0x87b000063338ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
-        return 0x87b000063338ll + 0x80000ll * ((a) & 0x1f);
     __bdk_csr_fatal("CIMX_ICC_IGRPEN1_EL1_NS", 1, a, 0, 0, 0);
 }
 
@@ -2464,8 +2418,6 @@ static inline uint64_t BDK_CIMX_ICC_IGRPEN1_EL1_S(unsigned long a)
         return 0x87b000067338ll + 0x80000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
         return 0x87b000067338ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
-        return 0x87b000067338ll + 0x80000ll * ((a) & 0x1f);
     __bdk_csr_fatal("CIMX_ICC_IGRPEN1_EL1_S", 1, a, 0, 0, 0);
 }
 
@@ -2520,8 +2472,6 @@ static inline uint64_t BDK_CIMX_ICC_IGRPEN1_EL3(unsigned long a)
         return 0x87b00007b338ll + 0x80000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
         return 0x87b00007b338ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
-        return 0x87b00007b338ll + 0x80000ll * ((a) & 0x1f);
     __bdk_csr_fatal("CIMX_ICC_IGRPEN1_EL3", 1, a, 0, 0, 0);
 }
 
@@ -2573,8 +2523,6 @@ static inline uint64_t BDK_CIMX_ICC_IMP0(unsigned long a)
         return 0x87b00007c000ll + 0x80000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
         return 0x87b00007c000ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
-        return 0x87b00007c000ll + 0x80000ll * ((a) & 0x1f);
     __bdk_csr_fatal("CIMX_ICC_IMP0", 1, a, 0, 0, 0);
 }
 
@@ -2687,8 +2635,6 @@ static inline uint64_t BDK_CIMX_ICC_PMR_EL1(unsigned long a)
         return 0x87b000061180ll + 0x80000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
         return 0x87b000061180ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
-        return 0x87b000061180ll + 0x80000ll * ((a) & 0x1f);
     __bdk_csr_fatal("CIMX_ICC_PMR_EL1", 1, a, 0, 0, 0);
 }
 
@@ -2757,8 +2703,6 @@ static inline uint64_t BDK_CIMX_ICC_RPR_EL1(unsigned long a)
         return 0x87b0000632d8ll + 0x80000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
         return 0x87b0000632d8ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
-        return 0x87b0000632d8ll + 0x80000ll * ((a) & 0x1f);
     __bdk_csr_fatal("CIMX_ICC_RPR_EL1", 1, a, 0, 0, 0);
 }
 
@@ -2861,8 +2805,6 @@ static inline uint64_t BDK_CIMX_ICC_SGI0R_EL1(unsigned long a)
         return 0x87b0000632e8ll + 0x80000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
         return 0x87b0000632e8ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
-        return 0x87b0000632e8ll + 0x80000ll * ((a) & 0x1f);
     __bdk_csr_fatal("CIMX_ICC_SGI0R_EL1", 1, a, 0, 0, 0);
 }
 
@@ -2966,8 +2908,6 @@ static inline uint64_t BDK_CIMX_ICC_SGI1R_EL1(unsigned long a)
         return 0x87b0000632f0ll + 0x80000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
         return 0x87b0000632f0ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
-        return 0x87b0000632f0ll + 0x80000ll * ((a) & 0x1f);
     __bdk_csr_fatal("CIMX_ICC_SGI1R_EL1", 1, a, 0, 0, 0);
 }
 
@@ -3019,8 +2959,6 @@ static inline uint64_t BDK_CIMX_ICC_SRE_EL1_NS(unsigned long a)
         return 0x87b000063328ll + 0x80000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
         return 0x87b000063328ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
-        return 0x87b000063328ll + 0x80000ll * ((a) & 0x1f);
     __bdk_csr_fatal("CIMX_ICC_SRE_EL1_NS", 1, a, 0, 0, 0);
 }
 
@@ -3072,8 +3010,6 @@ static inline uint64_t BDK_CIMX_ICC_SRE_EL1_S(unsigned long a)
         return 0x87b000067328ll + 0x80000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
         return 0x87b000067328ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
-        return 0x87b000067328ll + 0x80000ll * ((a) & 0x1f);
     __bdk_csr_fatal("CIMX_ICC_SRE_EL1_S", 1, a, 0, 0, 0);
 }
 
@@ -3135,8 +3071,6 @@ static inline uint64_t BDK_CIMX_ICC_SRE_EL2(unsigned long a)
         return 0x87b000073268ll + 0x80000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
         return 0x87b000073268ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
-        return 0x87b000073268ll + 0x80000ll * ((a) & 0x1f);
     __bdk_csr_fatal("CIMX_ICC_SRE_EL2", 1, a, 0, 0, 0);
 }
 
@@ -3194,8 +3128,6 @@ static inline uint64_t BDK_CIMX_ICC_SRE_EL3(unsigned long a)
         return 0x87b00007b328ll + 0x80000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
         return 0x87b00007b328ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
-        return 0x87b00007b328ll + 0x80000ll * ((a) & 0x1f);
     __bdk_csr_fatal("CIMX_ICC_SRE_EL3", 1, a, 0, 0, 0);
 }
 
@@ -3266,8 +3198,6 @@ static inline uint64_t BDK_CIMX_ICH_AP0R0_EL2(unsigned long a)
         return 0x87b000073200ll + 0x80000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
         return 0x87b000073200ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
-        return 0x87b000073200ll + 0x80000ll * ((a) & 0x1f);
     __bdk_csr_fatal("CIMX_ICH_AP0R0_EL2", 1, a, 0, 0, 0);
 }
 
@@ -3326,8 +3256,6 @@ static inline uint64_t BDK_CIMX_ICH_AP1R0_EL2(unsigned long a)
         return 0x87b000073240ll + 0x80000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
         return 0x87b000073240ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
-        return 0x87b000073240ll + 0x80000ll * ((a) & 0x1f);
     __bdk_csr_fatal("CIMX_ICH_AP1R0_EL2", 1, a, 0, 0, 0);
 }
 
@@ -3381,8 +3309,6 @@ static inline uint64_t BDK_CIMX_ICH_EISR_EL2(unsigned long a)
         return 0x87b0000732d8ll + 0x80000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
         return 0x87b0000732d8ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
-        return 0x87b0000732d8ll + 0x80000ll * ((a) & 0x1f);
     __bdk_csr_fatal("CIMX_ICH_EISR_EL2", 1, a, 0, 0, 0);
 }
 
@@ -3452,8 +3378,6 @@ static inline uint64_t BDK_CIMX_ICH_ELSR_EL2(unsigned long a)
         return 0x87b0000732e8ll + 0x80000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
         return 0x87b0000732e8ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
-        return 0x87b0000732e8ll + 0x80000ll * ((a) & 0x1f);
     __bdk_csr_fatal("CIMX_ICH_ELSR_EL2", 1, a, 0, 0, 0);
 }
 
@@ -3489,11 +3413,17 @@ typedef union
                                                                  This allows software to manage more active interrupts than there are implemented list
                                                                  registers. */
         uint64_t reserved_15_26        : 12;
-        uint64_t tdir                  : 1;  /**< [ 14: 14](R/W) Trap nonsecure EL1 writes to ICC_DIR_EL1.
-                                                                 0 = Nonsecure EL1 writes of ICC_DIR_EL1 do not cause a trap to EL2,
-                                                                 unless trapped by other mechanisms.
-                                                                 1 = Nonsecure EL1 writes of ICC_DIR_EL1 are trapped to EL2. */
-        uint64_t tsei                  : 1;  /**< [ 13: 13](RAZ) Reserved. */
+        uint64_t tdir                  : 1;  /**< [ 14: 14](RAZ) Reserved. */
+        uint64_t tsei                  : 1;  /**< [ 13: 13](R/W) Trap all locally generated SEIs.
+                                                                 This bit allows the hypervisor to intercept locally generated SEIs that would
+                                                                 otherwise be taken by a guest operating system at nonsecure EL1.
+                                                                 0 = Locally generated SEIs do not cause a trap to EL2.
+                                                                 1 = Locally generated SEIs trap to EL2.
+
+                                                                 Virtual SEIs caused by writes to CIM()_ICH_VSEIR_EL2 are unaffected
+                                                                 by this bit.
+
+                                                                 This bit is reserved when CIM()_ICH_VTR_EL2[SEIS] is zero. */
         uint64_t tall1                 : 1;  /**< [ 12: 12](R/W) Trap all nonsecure EL1 accesses to CIM()_ICC_* system registers for group 1
                                                                  interrupts.
                                                                  0 = Nonsecure EL1 accesses to CIM()_ICC_* registers for group 1 interrupts proceed
@@ -3514,7 +3444,14 @@ typedef union
                                                                  CIM()_ICC_ASGI1R_EL1,
                                                                  CIM()_ICC_CTLR_EL1, CIM()_ICC_DIR_EL1, CIM()_ICC_PMR_EL1 and
                                                                  CIM()_ICC_RPR_EL1. */
-        uint64_t vare                  : 1;  /**< [  9:  9](RAZ) Reserved. */
+        uint64_t vare                  : 1;  /**< [  9:  9](R/W) Virtual ARE.
+                                                                 0 = The guest operating system does not use affinity routing and expects a source CPU ID
+                                                                 for SGIs. The guest operating system does not support LPIs and software
+                                                                 must ensure that no LPIs are presented to the guest using either the list registers or
+                                                                 from the distributor.
+                                                                 1 = The guest operating system uses affinity routing.
+
+                                                                 This bit has no hardware effect. */
         uint64_t reserved_8            : 1;
         uint64_t vgrp1die              : 1;  /**< [  7:  7](R/W) VM disable group 1 interrupt enable.
                                                                  Enables the signaling of a maintenance interrupt while signaling of group 1 interrupts
@@ -3628,7 +3565,14 @@ typedef union
                                                                  0 = Maintenance interrupt disabled.
                                                                  1 = Maintenance interrupt signaled while CIM()_ICH_VMCR_EL2[VENG1]==0. */
         uint64_t reserved_8            : 1;
-        uint64_t vare                  : 1;  /**< [  9:  9](RAZ) Reserved. */
+        uint64_t vare                  : 1;  /**< [  9:  9](R/W) Virtual ARE.
+                                                                 0 = The guest operating system does not use affinity routing and expects a source CPU ID
+                                                                 for SGIs. The guest operating system does not support LPIs and software
+                                                                 must ensure that no LPIs are presented to the guest using either the list registers or
+                                                                 from the distributor.
+                                                                 1 = The guest operating system uses affinity routing.
+
+                                                                 This bit has no hardware effect. */
         uint64_t tc                    : 1;  /**< [ 10: 10](R/W) Trap all nonsecure EL1 accesses to system register common to group 0 and group 1.
                                                                  0 = Nonsecure EL1 accesses to common registers proceed as normal.
                                                                  1 = Any nonsecure EL1 access to common registers trap to EL2.
@@ -3649,11 +3593,17 @@ typedef union
                                                                  as normal.
                                                                  1 = Any nonsecure EL1 accesses to CIM()_ICC_* registers for group 1 interrupts trap
                                                                  to EL2. */
-        uint64_t tsei                  : 1;  /**< [ 13: 13](RAZ) Reserved. */
-        uint64_t tdir                  : 1;  /**< [ 14: 14](R/W) Trap nonsecure EL1 writes to ICC_DIR_EL1.
-                                                                 0 = Nonsecure EL1 writes of ICC_DIR_EL1 do not cause a trap to EL2,
-                                                                 unless trapped by other mechanisms.
-                                                                 1 = Nonsecure EL1 writes of ICC_DIR_EL1 are trapped to EL2. */
+        uint64_t tsei                  : 1;  /**< [ 13: 13](R/W) Trap all locally generated SEIs.
+                                                                 This bit allows the hypervisor to intercept locally generated SEIs that would
+                                                                 otherwise be taken by a guest operating system at nonsecure EL1.
+                                                                 0 = Locally generated SEIs do not cause a trap to EL2.
+                                                                 1 = Locally generated SEIs trap to EL2.
+
+                                                                 Virtual SEIs caused by writes to CIM()_ICH_VSEIR_EL2 are unaffected
+                                                                 by this bit.
+
+                                                                 This bit is reserved when CIM()_ICH_VTR_EL2[SEIS] is zero. */
+        uint64_t tdir                  : 1;  /**< [ 14: 14](RAZ) Reserved. */
         uint64_t reserved_15_26        : 12;
         uint64_t eoicount              : 5;  /**< [ 31: 27](R/W/H) This field is incremented whenever a successful write to a virtual EOIR or DIR register
                                                                  would have resulted in a virtual interrupt deactivation. That is:
@@ -3670,7 +3620,8 @@ typedef union
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_cimx_ich_hcr_el2_cn88xxp1
+    /* struct bdk_cimx_ich_hcr_el2_s cn88xxp1; */
+    struct bdk_cimx_ich_hcr_el2_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
@@ -3687,17 +3638,11 @@ typedef union
                                                                  This allows software to manage more active interrupts than there are implemented list
                                                                  registers. */
         uint64_t reserved_15_26        : 12;
-        uint64_t tdir                  : 1;  /**< [ 14: 14](RAZ) Reserved. */
-        uint64_t tsei                  : 1;  /**< [ 13: 13](R/W) Trap all locally generated SEIs.
-                                                                 This bit allows the hypervisor to intercept locally generated SEIs that would
-                                                                 otherwise be taken by a guest operating system at nonsecure EL1.
-                                                                 0 = Locally generated SEIs do not cause a trap to EL2.
-                                                                 1 = Locally generated SEIs trap to EL2.
-
-                                                                 Virtual SEIs caused by writes to CIM()_ICH_VSEIR_EL2 are unaffected
-                                                                 by this bit.
-
-                                                                 This bit is reserved when CIM()_ICH_VTR_EL2[SEIS] is zero. */
+        uint64_t tdir                  : 1;  /**< [ 14: 14](R/W) Trap nonsecure EL1 writes to ICC_DIR_EL1.
+                                                                 0 = Nonsecure EL1 writes of ICC_DIR_EL1 do not cause a trap to EL2,
+                                                                 unless trapped by other mechanisms.
+                                                                 1 = Nonsecure EL1 writes of ICC_DIR_EL1 are trapped to EL2. */
+        uint64_t tsei                  : 1;  /**< [ 13: 13](RAZ) Reserved. */
         uint64_t tall1                 : 1;  /**< [ 12: 12](R/W) Trap all nonsecure EL1 accesses to CIM()_ICC_* system registers for group 1
                                                                  interrupts.
                                                                  0 = Nonsecure EL1 accesses to CIM()_ICC_* registers for group 1 interrupts proceed
@@ -3718,14 +3663,7 @@ typedef union
                                                                  CIM()_ICC_ASGI1R_EL1,
                                                                  CIM()_ICC_CTLR_EL1, CIM()_ICC_DIR_EL1, CIM()_ICC_PMR_EL1 and
                                                                  CIM()_ICC_RPR_EL1. */
-        uint64_t vare                  : 1;  /**< [  9:  9](R/W) Virtual ARE.
-                                                                 0 = The guest operating system does not use affinity routing and expects a source CPU ID
-                                                                 for SGIs. The guest operating system does not support LPIs and software
-                                                                 must ensure that no LPIs are presented to the guest using either the list registers or
-                                                                 from the distributor.
-                                                                 1 = The guest operating system uses affinity routing.
-
-                                                                 This bit has no hardware effect. */
+        uint64_t vare                  : 1;  /**< [  9:  9](RAZ) Reserved. */
         uint64_t reserved_8            : 1;
         uint64_t vgrp1die              : 1;  /**< [  7:  7](R/W) VM disable group 1 interrupt enable.
                                                                  Enables the signaling of a maintenance interrupt while signaling of group 1 interrupts
@@ -3839,14 +3777,7 @@ typedef union
                                                                  0 = Maintenance interrupt disabled.
                                                                  1 = Maintenance interrupt signaled while CIM()_ICH_VMCR_EL2[VENG1]==0. */
         uint64_t reserved_8            : 1;
-        uint64_t vare                  : 1;  /**< [  9:  9](R/W) Virtual ARE.
-                                                                 0 = The guest operating system does not use affinity routing and expects a source CPU ID
-                                                                 for SGIs. The guest operating system does not support LPIs and software
-                                                                 must ensure that no LPIs are presented to the guest using either the list registers or
-                                                                 from the distributor.
-                                                                 1 = The guest operating system uses affinity routing.
-
-                                                                 This bit has no hardware effect. */
+        uint64_t vare                  : 1;  /**< [  9:  9](RAZ) Reserved. */
         uint64_t tc                    : 1;  /**< [ 10: 10](R/W) Trap all nonsecure EL1 accesses to system register common to group 0 and group 1.
                                                                  0 = Nonsecure EL1 accesses to common registers proceed as normal.
                                                                  1 = Any nonsecure EL1 access to common registers trap to EL2.
@@ -3867,17 +3798,11 @@ typedef union
                                                                  as normal.
                                                                  1 = Any nonsecure EL1 accesses to CIM()_ICC_* registers for group 1 interrupts trap
                                                                  to EL2. */
-        uint64_t tsei                  : 1;  /**< [ 13: 13](R/W) Trap all locally generated SEIs.
-                                                                 This bit allows the hypervisor to intercept locally generated SEIs that would
-                                                                 otherwise be taken by a guest operating system at nonsecure EL1.
-                                                                 0 = Locally generated SEIs do not cause a trap to EL2.
-                                                                 1 = Locally generated SEIs trap to EL2.
-
-                                                                 Virtual SEIs caused by writes to CIM()_ICH_VSEIR_EL2 are unaffected
-                                                                 by this bit.
-
-                                                                 This bit is reserved when CIM()_ICH_VTR_EL2[SEIS] is zero. */
-        uint64_t tdir                  : 1;  /**< [ 14: 14](RAZ) Reserved. */
+        uint64_t tsei                  : 1;  /**< [ 13: 13](RAZ) Reserved. */
+        uint64_t tdir                  : 1;  /**< [ 14: 14](R/W) Trap nonsecure EL1 writes to ICC_DIR_EL1.
+                                                                 0 = Nonsecure EL1 writes of ICC_DIR_EL1 do not cause a trap to EL2,
+                                                                 unless trapped by other mechanisms.
+                                                                 1 = Nonsecure EL1 writes of ICC_DIR_EL1 are trapped to EL2. */
         uint64_t reserved_15_26        : 12;
         uint64_t eoicount              : 5;  /**< [ 31: 27](R/W/H) This field is incremented whenever a successful write to a virtual EOIR or DIR register
                                                                  would have resulted in a virtual interrupt deactivation. That is:
@@ -3893,11 +3818,9 @@ typedef union
                                                                  registers. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
-    } cn88xxp1;
-    /* struct bdk_cimx_ich_hcr_el2_s cn9; */
-    /* struct bdk_cimx_ich_hcr_el2_s cn81xx; */
-    /* struct bdk_cimx_ich_hcr_el2_s cn83xx; */
-    /* struct bdk_cimx_ich_hcr_el2_s cn88xxp2; */
+    } cn81xx;
+    /* struct bdk_cimx_ich_hcr_el2_cn81xx cn83xx; */
+    /* struct bdk_cimx_ich_hcr_el2_cn81xx cn88xxp2; */
 } bdk_cimx_ich_hcr_el2_t;
 
 static inline uint64_t BDK_CIMX_ICH_HCR_EL2(unsigned long a) __attribute__ ((pure, always_inline));
@@ -3909,8 +3832,6 @@ static inline uint64_t BDK_CIMX_ICH_HCR_EL2(unsigned long a)
         return 0x87b0000732c0ll + 0x80000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
         return 0x87b0000732c0ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
-        return 0x87b0000732c0ll + 0x80000ll * ((a) & 0x1f);
     __bdk_csr_fatal("CIMX_ICH_HCR_EL2", 1, a, 0, 0, 0);
 }
 
@@ -4138,8 +4059,6 @@ static inline uint64_t BDK_CIMX_ICH_LRX_EL2(unsigned long a, unsigned long b)
         return 0x87b000073300ll + 0x80000ll * ((a) & 0x1f) + 8ll * ((b) & 0xf);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=47) && (b<=15)))
         return 0x87b000073300ll + 0x80000ll * ((a) & 0x3f) + 8ll * ((b) & 0xf);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=23) && (b<=15)))
-        return 0x87b000073300ll + 0x80000ll * ((a) & 0x1f) + 8ll * ((b) & 0xf);
     __bdk_csr_fatal("CIMX_ICH_LRX_EL2", 2, a, b, 0, 0);
 }
 
@@ -4216,8 +4135,6 @@ static inline uint64_t BDK_CIMX_ICH_MISR_EL2(unsigned long a)
         return 0x87b0000732d0ll + 0x80000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
         return 0x87b0000732d0ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
-        return 0x87b0000732d0ll + 0x80000ll * ((a) & 0x1f);
     __bdk_csr_fatal("CIMX_ICH_MISR_EL2", 1, a, 0, 0, 0);
 }
 
@@ -4250,7 +4167,16 @@ typedef union
                                                                  Internal:
                                                                  An implementation might choose to make this field RAO/WI. */
         uint64_t reserved_6_8          : 3;
-        uint64_t vensei                : 1;  /**< [  5:  5](RAZ) Reserved. */
+        uint64_t vensei                : 1;  /**< [  5:  5](RO/H) Virtual SEI enable. Visible to the guest as CIM()_ICC_SEIEN_EL1[EN].
+                                                                 0 = Virtual SEIs will not be reported to nonsecure EL1 including any valid SEI in
+                                                                 CIM()_ICH_VSEIR_EL2.
+                                                                 1 = Virtual SEIs will be reported to nonsecure EL1 including any valid SEI in
+                                                                 CIM()_ICH_VSEIR_EL2.
+
+                                                                 If CIM()_ICH_VTR_EL2[SEIS] is one, this bit also covers reporting of SEIs locally
+                                                                 generated by the CPU interface logic.
+
+                                                                 In CNXXXX, this bit is always 0 as SEIs are not implemented. */
         uint64_t vcbpr                 : 1;  /**< [  4:  4](R/W/H) Visible to the guest as CIM()_ICC_CTLR_EL1[CBPR].
                                                                  0 = Virtual reads and writes to CIM()_ICC_BPR1_EL1 access
                                                                  CIM()_ICH_VMCR_EL2[VBPR1].
@@ -4288,7 +4214,16 @@ typedef union
                                                                  saturated to 0x7) and virtual writes to CIM()_ICC_BPR1_EL1 are ignored.
 
                                                                  This bit has no effect on accesses to GICV_ABPR but does affect preemption. */
-        uint64_t vensei                : 1;  /**< [  5:  5](RAZ) Reserved. */
+        uint64_t vensei                : 1;  /**< [  5:  5](RO/H) Virtual SEI enable. Visible to the guest as CIM()_ICC_SEIEN_EL1[EN].
+                                                                 0 = Virtual SEIs will not be reported to nonsecure EL1 including any valid SEI in
+                                                                 CIM()_ICH_VSEIR_EL2.
+                                                                 1 = Virtual SEIs will be reported to nonsecure EL1 including any valid SEI in
+                                                                 CIM()_ICH_VSEIR_EL2.
+
+                                                                 If CIM()_ICH_VTR_EL2[SEIS] is one, this bit also covers reporting of SEIs locally
+                                                                 generated by the CPU interface logic.
+
+                                                                 In CNXXXX, this bit is always 0 as SEIs are not implemented. */
         uint64_t reserved_6_8          : 3;
         uint64_t veoim                 : 1;  /**< [  9:  9](R/W/H) Virtual EOI mode. Visible to the guest as CIM()_ICC_CTLR_EL1[EOIMODE]
                                                                  Internal:
@@ -4302,7 +4237,8 @@ typedef union
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_cimx_ich_vmcr_el2_cn88xxp1
+    /* struct bdk_cimx_ich_vmcr_el2_s cn88xxp1; */
+    struct bdk_cimx_ich_vmcr_el2_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
@@ -4316,16 +4252,7 @@ typedef union
                                                                  Internal:
                                                                  An implementation might choose to make this field RAO/WI. */
         uint64_t reserved_6_8          : 3;
-        uint64_t vensei                : 1;  /**< [  5:  5](RO/H) Virtual SEI enable. Visible to the guest as CIM()_ICC_SEIEN_EL1[EN].
-                                                                 0 = Virtual SEIs will not be reported to nonsecure EL1 including any valid SEI in
-                                                                 CIM()_ICH_VSEIR_EL2.
-                                                                 1 = Virtual SEIs will be reported to nonsecure EL1 including any valid SEI in
-                                                                 CIM()_ICH_VSEIR_EL2.
-
-                                                                 If CIM()_ICH_VTR_EL2[SEIS] is one, this bit also covers reporting of SEIs locally
-                                                                 generated by the CPU interface logic.
-
-                                                                 In CNXXXX, this bit is always 0 as SEIs are not implemented. */
+        uint64_t vensei                : 1;  /**< [  5:  5](RAZ) Reserved. */
         uint64_t vcbpr                 : 1;  /**< [  4:  4](R/W/H) Visible to the guest as CIM()_ICC_CTLR_EL1[CBPR].
                                                                  0 = Virtual reads and writes to CIM()_ICC_BPR1_EL1 access
                                                                  CIM()_ICH_VMCR_EL2[VBPR1].
@@ -4363,16 +4290,7 @@ typedef union
                                                                  saturated to 0x7) and virtual writes to CIM()_ICC_BPR1_EL1 are ignored.
 
                                                                  This bit has no effect on accesses to GICV_ABPR but does affect preemption. */
-        uint64_t vensei                : 1;  /**< [  5:  5](RO/H) Virtual SEI enable. Visible to the guest as CIM()_ICC_SEIEN_EL1[EN].
-                                                                 0 = Virtual SEIs will not be reported to nonsecure EL1 including any valid SEI in
-                                                                 CIM()_ICH_VSEIR_EL2.
-                                                                 1 = Virtual SEIs will be reported to nonsecure EL1 including any valid SEI in
-                                                                 CIM()_ICH_VSEIR_EL2.
-
-                                                                 If CIM()_ICH_VTR_EL2[SEIS] is one, this bit also covers reporting of SEIs locally
-                                                                 generated by the CPU interface logic.
-
-                                                                 In CNXXXX, this bit is always 0 as SEIs are not implemented. */
+        uint64_t vensei                : 1;  /**< [  5:  5](RAZ) Reserved. */
         uint64_t reserved_6_8          : 3;
         uint64_t veoim                 : 1;  /**< [  9:  9](R/W/H) Virtual EOI mode. Visible to the guest as CIM()_ICC_CTLR_EL1[EOIMODE]
                                                                  Internal:
@@ -4385,11 +4303,9 @@ typedef union
         uint64_t vpmr                  : 8;  /**< [ 31: 24](R/W) Virtual priority mask. Visible to the guest as CIM()_ICC_PMR_EL1 */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
-    } cn88xxp1;
-    /* struct bdk_cimx_ich_vmcr_el2_s cn9; */
-    /* struct bdk_cimx_ich_vmcr_el2_s cn81xx; */
-    /* struct bdk_cimx_ich_vmcr_el2_s cn83xx; */
-    /* struct bdk_cimx_ich_vmcr_el2_s cn88xxp2; */
+    } cn81xx;
+    /* struct bdk_cimx_ich_vmcr_el2_cn81xx cn83xx; */
+    /* struct bdk_cimx_ich_vmcr_el2_cn81xx cn88xxp2; */
 } bdk_cimx_ich_vmcr_el2_t;
 
 static inline uint64_t BDK_CIMX_ICH_VMCR_EL2(unsigned long a) __attribute__ ((pure, always_inline));
@@ -4401,8 +4317,6 @@ static inline uint64_t BDK_CIMX_ICH_VMCR_EL2(unsigned long a)
         return 0x87b0000732f8ll + 0x80000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
         return 0x87b0000732f8ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
-        return 0x87b0000732f8ll + 0x80000ll * ((a) & 0x1f);
     __bdk_csr_fatal("CIMX_ICH_VMCR_EL2", 1, a, 0, 0, 0);
 }
 
@@ -4455,9 +4369,7 @@ typedef union
 
                                                                  In CNXXXX, this bit is always 0 as affinity3 is always 0. */
         uint64_t reserved_20           : 1;
-        uint64_t tds                   : 1;  /**< [ 19: 19](RO) Separate trapping of nonsecure EL1 writes supported.
-                                                                 0 = Implementation does not support CIM()_ICH_HCR_EL2[TDIR].
-                                                                 1 = Implementation supports CIM()_ICH_HCR_EL2[TDIR]. */
+        uint64_t tds                   : 1;  /**< [ 19: 19](RAZ) Reserved. */
         uint64_t reserved_5_18         : 14;
         uint64_t listregs              : 5;  /**< [  4:  0](RO/H) The number of implemented list registers, minus one.
                                                                  For example, a value of 0xF indicates that the maximum of 16 list registers are
@@ -4469,9 +4381,7 @@ typedef union
                                                                  implemented.
                                                                  In CNXXXX, this field is always 0xF as 16 list registers are implemented. */
         uint64_t reserved_5_18         : 14;
-        uint64_t tds                   : 1;  /**< [ 19: 19](RO) Separate trapping of nonsecure EL1 writes supported.
-                                                                 0 = Implementation does not support CIM()_ICH_HCR_EL2[TDIR].
-                                                                 1 = Implementation supports CIM()_ICH_HCR_EL2[TDIR]. */
+        uint64_t tds                   : 1;  /**< [ 19: 19](RAZ) Reserved. */
         uint64_t reserved_20           : 1;
         uint64_t a3v                   : 1;  /**< [ 21: 21](RO/H) Affinity 3 support:
                                                                  0 = The CPU interface logic does not support nonzero values of affinity 3 in SGI
@@ -4505,7 +4415,8 @@ typedef union
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_cimx_ich_vtr_el2_cn88xxp1
+    /* struct bdk_cimx_ich_vtr_el2_s cn88xxp1; */
+    struct bdk_cimx_ich_vtr_el2_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
@@ -4539,7 +4450,9 @@ typedef union
 
                                                                  In CNXXXX, this bit is always 0 as affinity3 is always 0. */
         uint64_t reserved_20           : 1;
-        uint64_t tds                   : 1;  /**< [ 19: 19](RAZ) Reserved. */
+        uint64_t tds                   : 1;  /**< [ 19: 19](RO) Separate trapping of nonsecure EL1 writes supported.
+                                                                 0 = Implementation does not support CIM()_ICH_HCR_EL2[TDIR].
+                                                                 1 = Implementation supports CIM()_ICH_HCR_EL2[TDIR]. */
         uint64_t reserved_5_18         : 14;
         uint64_t listregs              : 5;  /**< [  4:  0](RO/H) The number of implemented list registers, minus one.
                                                                  For example, a value of 0xF indicates that the maximum of 16 list registers are
@@ -4551,7 +4464,9 @@ typedef union
                                                                  implemented.
                                                                  In CNXXXX, this field is always 0xF as 16 list registers are implemented. */
         uint64_t reserved_5_18         : 14;
-        uint64_t tds                   : 1;  /**< [ 19: 19](RAZ) Reserved. */
+        uint64_t tds                   : 1;  /**< [ 19: 19](RO) Separate trapping of nonsecure EL1 writes supported.
+                                                                 0 = Implementation does not support CIM()_ICH_HCR_EL2[TDIR].
+                                                                 1 = Implementation supports CIM()_ICH_HCR_EL2[TDIR]. */
         uint64_t reserved_20           : 1;
         uint64_t a3v                   : 1;  /**< [ 21: 21](RO/H) Affinity 3 support:
                                                                  0 = The CPU interface logic does not support nonzero values of affinity 3 in SGI
@@ -4584,11 +4499,9 @@ typedef union
                                                                  In CNXXXX, this field is always 4 as only 32 priorities are implemented. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
-    } cn88xxp1;
-    /* struct bdk_cimx_ich_vtr_el2_s cn9; */
-    /* struct bdk_cimx_ich_vtr_el2_s cn81xx; */
-    /* struct bdk_cimx_ich_vtr_el2_s cn83xx; */
-    /* struct bdk_cimx_ich_vtr_el2_s cn88xxp2; */
+    } cn81xx;
+    /* struct bdk_cimx_ich_vtr_el2_cn81xx cn83xx; */
+    /* struct bdk_cimx_ich_vtr_el2_cn81xx cn88xxp2; */
 } bdk_cimx_ich_vtr_el2_t;
 
 static inline uint64_t BDK_CIMX_ICH_VTR_EL2(unsigned long a) __attribute__ ((pure, always_inline));
@@ -4600,8 +4513,6 @@ static inline uint64_t BDK_CIMX_ICH_VTR_EL2(unsigned long a)
         return 0x87b0000732c8ll + 0x80000ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
         return 0x87b0000732c8ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=23))
-        return 0x87b0000732c8ll + 0x80000ll * ((a) & 0x1f);
     __bdk_csr_fatal("CIMX_ICH_VTR_EL2", 1, a, 0, 0, 0);
 }
 

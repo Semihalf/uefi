@@ -65,43 +65,23 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_3_31         : 29;
-        uint32_t asicctl               : 3;  /**< [  2:  0](RAZ) Implementation defined ASIC control. Provides a control for
+        uint32_t asicctl               : 3;  /**< [  2:  0](R/W) Implementation defined ASIC control. Provides a control for
                                                                  external multiplexing of additional triggers.
                                                                  If external multiplexing of trigger signals is implemented
                                                                      then the number of multiplexed signals on each trigger must be
                                                                      reflected in SYSCTI()_CTIDEVID[EXTMUXNUM].
-                                                                 Since SYSCTI()_CTIDEVID[EXTMUXNUM] is zero, this field is 0x0. */
+                                                                 If SYSCTI()_CTIDEVID[EXTMUXNUM] is zero, this field is 0x0. */
 #else /* Word 0 - Little Endian */
-        uint32_t asicctl               : 3;  /**< [  2:  0](RAZ) Implementation defined ASIC control. Provides a control for
+        uint32_t asicctl               : 3;  /**< [  2:  0](R/W) Implementation defined ASIC control. Provides a control for
                                                                  external multiplexing of additional triggers.
                                                                  If external multiplexing of trigger signals is implemented
                                                                      then the number of multiplexed signals on each trigger must be
                                                                      reflected in SYSCTI()_CTIDEVID[EXTMUXNUM].
-                                                                 Since SYSCTI()_CTIDEVID[EXTMUXNUM] is zero, this field is 0x0. */
+                                                                 If SYSCTI()_CTIDEVID[EXTMUXNUM] is zero, this field is 0x0. */
         uint32_t reserved_3_31         : 29;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_sysctix_asicctl_cn8
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_3_31         : 29;
-        uint32_t asicctl               : 3;  /**< [  2:  0](R/W) Implementation defined ASIC control. Provides a control for
-                                                                 external multiplexing of additional triggers.
-                                                                 If external multiplexing of trigger signals is implemented
-                                                                     then the number of multiplexed signals on each trigger must be
-                                                                     reflected in SYSCTI()_CTIDEVID[EXTMUXNUM].
-                                                                 If SYSCTI()_CTIDEVID[EXTMUXNUM] is zero, this field is 0x0. */
-#else /* Word 0 - Little Endian */
-        uint32_t asicctl               : 3;  /**< [  2:  0](R/W) Implementation defined ASIC control. Provides a control for
-                                                                 external multiplexing of additional triggers.
-                                                                 If external multiplexing of trigger signals is implemented
-                                                                     then the number of multiplexed signals on each trigger must be
-                                                                     reflected in SYSCTI()_CTIDEVID[EXTMUXNUM].
-                                                                 If SYSCTI()_CTIDEVID[EXTMUXNUM] is zero, this field is 0x0. */
-        uint32_t reserved_3_31         : 29;
-#endif /* Word 0 - End */
-    } cn8;
-    /* struct bdk_sysctix_asicctl_s cn9; */
+    /* struct bdk_sysctix_asicctl_s cn; */
 } bdk_sysctix_asicctl_t;
 
 static inline uint64_t BDK_SYSCTIX_ASICCTL(unsigned long a) __attribute__ ((pure, always_inline));
@@ -350,7 +330,6 @@ typedef union
         uint32_t reserved_0_31         : 32;
 #endif /* Word 0 - End */
     } cn88xxp1;
-    /* struct bdk_sysctix_ctiappset_s cn9; */
     /* struct bdk_sysctix_ctiappset_s cn81xx; */
     /* struct bdk_sysctix_ctiappset_s cn83xx; */
     /* struct bdk_sysctix_ctiappset_s cn88xxp2; */

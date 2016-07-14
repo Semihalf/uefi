@@ -96,8 +96,6 @@ static inline uint64_t BDK_DAP_ECO_FUNC(void)
         return 0x87e002000120ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
         return 0x87e002000120ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x87e002000120ll;
     __bdk_csr_fatal("DAP_ECO", 0, 0, 0, 0, 0);
 }
 
@@ -152,7 +150,6 @@ typedef union
         uint32_t reserved_31           : 1;
 #endif /* Word 0 - End */
     } cn88xxp1;
-    /* struct bdk_dap_hwpoll_cnt_s cn9; */
     /* struct bdk_dap_hwpoll_cnt_s cn81xx; */
     /* struct bdk_dap_hwpoll_cnt_s cn83xx; */
     /* struct bdk_dap_hwpoll_cnt_s cn88xxp2; */
@@ -323,90 +320,6 @@ typedef union
         uint32_t reserved_11_31        : 21;
 #endif /* Word 0 - End */
     } cn88xxp1;
-    struct bdk_dap_imp_dar_cn9
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_30_31        : 2;
-        uint32_t distracefeature       : 1;  /**< [ 29: 29](R/W) Reserved.
-                                                                 Internal:
-                                                                 Passed to trace unit, but not presently used.
-                                                                 0 = Future trace feature enabled.
-                                                                 1 = Future trace feature disabled. */
-        uint32_t distrace              : 1;  /**< [ 28: 28](RO) Trace unit is always discovery in t98.
-                                                                 0 = Trace unit is discoverable by software.
-                                                                 1 = Trace unit is hidden.
-
-                                                                 In CNXXXX, always discoverable. */
-        uint32_t reserved_11_27        : 17;
-        uint32_t cabnsen               : 1;  /**< [ 10: 10](R/W) Enable nonsecure CAB accesses from NCB and RSL devices.
-                                                                 0 = Return fault on nonsecure CAB accesses.
-                                                                 1 = Enable nonsecure CAB accesses. */
-        uint32_t caben                 : 1;  /**< [  9:  9](R/W) Enable CAB accesses from NCB and RSL devices.
-                                                                 0 = Return fault for all CAB accesses.
-                                                                 1 = Enable all CAB accesses.
-
-                                                                 When in trusted-mode resets to 0, else 1. */
-        uint32_t reserved_6_8          : 3;
-        uint32_t deviceen              : 1;  /**< [  5:  5](R/W) Set this bit to use CVM-AP inside DAP for CNXXXX addressing accesses.
-
-                                                                 When in trusted-mode resets to 0, else 1. */
-        uint32_t dabdeviceen           : 1;  /**< [  4:  4](R/W) Set this bit to use ARM-AP inside DAP for DAB serial bus accesses.
-
-                                                                 When in trusted-mode resets to 0, else 1. */
-        uint32_t spniden               : 1;  /**< [  3:  3](R/W) Set this bit to enable secure non invasive debug enable.
-
-                                                                 When in trusted-mode resets to 0, else 1. */
-        uint32_t spiden                : 1;  /**< [  2:  2](R/W) Set this bit to enable secure invasive debug enable.
-
-                                                                 When in trusted-mode resets to 0, else 1. */
-        uint32_t niden                 : 1;  /**< [  1:  1](R/W) Set this bit to enable non secure invasive debug enable.
-
-                                                                 When in trusted-mode resets to 0, else 1. */
-        uint32_t dbgen                 : 1;  /**< [  0:  0](R/W) Set this bit to enable debug enable.
-
-                                                                 When in trusted-mode resets to 0, else 1. */
-#else /* Word 0 - Little Endian */
-        uint32_t dbgen                 : 1;  /**< [  0:  0](R/W) Set this bit to enable debug enable.
-
-                                                                 When in trusted-mode resets to 0, else 1. */
-        uint32_t niden                 : 1;  /**< [  1:  1](R/W) Set this bit to enable non secure invasive debug enable.
-
-                                                                 When in trusted-mode resets to 0, else 1. */
-        uint32_t spiden                : 1;  /**< [  2:  2](R/W) Set this bit to enable secure invasive debug enable.
-
-                                                                 When in trusted-mode resets to 0, else 1. */
-        uint32_t spniden               : 1;  /**< [  3:  3](R/W) Set this bit to enable secure non invasive debug enable.
-
-                                                                 When in trusted-mode resets to 0, else 1. */
-        uint32_t dabdeviceen           : 1;  /**< [  4:  4](R/W) Set this bit to use ARM-AP inside DAP for DAB serial bus accesses.
-
-                                                                 When in trusted-mode resets to 0, else 1. */
-        uint32_t deviceen              : 1;  /**< [  5:  5](R/W) Set this bit to use CVM-AP inside DAP for CNXXXX addressing accesses.
-
-                                                                 When in trusted-mode resets to 0, else 1. */
-        uint32_t reserved_6_8          : 3;
-        uint32_t caben                 : 1;  /**< [  9:  9](R/W) Enable CAB accesses from NCB and RSL devices.
-                                                                 0 = Return fault for all CAB accesses.
-                                                                 1 = Enable all CAB accesses.
-
-                                                                 When in trusted-mode resets to 0, else 1. */
-        uint32_t cabnsen               : 1;  /**< [ 10: 10](R/W) Enable nonsecure CAB accesses from NCB and RSL devices.
-                                                                 0 = Return fault on nonsecure CAB accesses.
-                                                                 1 = Enable nonsecure CAB accesses. */
-        uint32_t reserved_11_27        : 17;
-        uint32_t distrace              : 1;  /**< [ 28: 28](RO) Trace unit is always discovery in t98.
-                                                                 0 = Trace unit is discoverable by software.
-                                                                 1 = Trace unit is hidden.
-
-                                                                 In CNXXXX, always discoverable. */
-        uint32_t distracefeature       : 1;  /**< [ 29: 29](R/W) Reserved.
-                                                                 Internal:
-                                                                 Passed to trace unit, but not presently used.
-                                                                 0 = Future trace feature enabled.
-                                                                 1 = Future trace feature disabled. */
-        uint32_t reserved_30_31        : 2;
-#endif /* Word 0 - End */
-    } cn9;
     /* struct bdk_dap_imp_dar_s cn81xx; */
     /* struct bdk_dap_imp_dar_s cn83xx; */
     /* struct bdk_dap_imp_dar_s cn88xxp2; */
@@ -463,7 +376,6 @@ typedef union
         uint32_t reserved_31           : 1;
 #endif /* Word 0 - End */
     } cn88xxp1;
-    /* struct bdk_dap_owb_to_s cn9; */
     /* struct bdk_dap_owb_to_s cn81xx; */
     /* struct bdk_dap_owb_to_s cn83xx; */
     /* struct bdk_dap_owb_to_s cn88xxp2; */
@@ -520,8 +432,6 @@ static inline uint64_t BDK_DAP_RST_ON_WARM_FUNC(void)
         return 0x87e002000128ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
         return 0x87e002000128ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x87e002000128ll;
     __bdk_csr_fatal("DAP_RST_ON_WARM", 0, 0, 0, 0, 0);
 }
 
@@ -563,8 +473,6 @@ static inline uint64_t BDK_DAP_SCRATCH_FUNC(void)
         return 0x87e002000118ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
         return 0x87e002000118ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x87e002000118ll;
     __bdk_csr_fatal("DAP_SCRATCH", 0, 0, 0, 0, 0);
 }
 
@@ -601,7 +509,7 @@ typedef union
 
                                                                  If [CABDABSEL]=0, then [REGNUM] is the register offset. */
         uint32_t reserved_2_4          : 3;
-        uint32_t errstatus             : 1;  /**< [  1:  1](RAZ) Rurrently reserved. */
+        uint32_t errstatus             : 1;  /**< [  1:  1](RAZ) Currently reserved. */
         uint32_t busy                  : 1;  /**< [  0:  0](RO/H) Busy indicator if the broadcast write or polling still in progress.
                                                                  0 = Idle.
                                                                  1 = Broadcast write or polling still in progress. */
@@ -609,7 +517,7 @@ typedef union
         uint32_t busy                  : 1;  /**< [  0:  0](RO/H) Busy indicator if the broadcast write or polling still in progress.
                                                                  0 = Idle.
                                                                  1 = Broadcast write or polling still in progress. */
-        uint32_t errstatus             : 1;  /**< [  1:  1](RAZ) Rurrently reserved. */
+        uint32_t errstatus             : 1;  /**< [  1:  1](RAZ) Currently reserved. */
         uint32_t reserved_2_4          : 3;
         uint32_t regnum                : 16; /**< [ 20:  5](R/W) If [CABDABSEL]=1, then <19:5> is the register number with these bit definitions:
                                                                  <19>: Op0[0].
@@ -626,7 +534,8 @@ typedef union
         uint32_t reserved_29_31        : 3;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_dap_sraaddr_cn88xxp1
+    /* struct bdk_dap_sraaddr_s cn88xxp1; */
+    struct bdk_dap_sraaddr_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_29_31        : 3;
@@ -643,7 +552,7 @@ typedef union
 
                                                                  If [CABDABSEL]=0, then [REGNUM] is the register offset. */
         uint32_t reserved_2_4          : 3;
-        uint32_t errstatus             : 1;  /**< [  1:  1](RAZ) Currently reserved. */
+        uint32_t errstatus             : 1;  /**< [  1:  1](RAZ) Rurrently reserved. */
         uint32_t busy                  : 1;  /**< [  0:  0](RO/H) Busy indicator if the broadcast write or polling still in progress.
                                                                  0 = Idle.
                                                                  1 = Broadcast write or polling still in progress. */
@@ -651,7 +560,7 @@ typedef union
         uint32_t busy                  : 1;  /**< [  0:  0](RO/H) Busy indicator if the broadcast write or polling still in progress.
                                                                  0 = Idle.
                                                                  1 = Broadcast write or polling still in progress. */
-        uint32_t errstatus             : 1;  /**< [  1:  1](RAZ) Currently reserved. */
+        uint32_t errstatus             : 1;  /**< [  1:  1](RAZ) Rurrently reserved. */
         uint32_t reserved_2_4          : 3;
         uint32_t regnum                : 16; /**< [ 20:  5](R/W) If [CABDABSEL]=1, then <19:5> is the register number with these bit definitions:
                                                                  <19>: Op0[0].
@@ -667,11 +576,9 @@ typedef union
                                                                  1 = Polling/broadcast write is for CAB bus, bits <19:5> is the register number. */
         uint32_t reserved_29_31        : 3;
 #endif /* Word 0 - End */
-    } cn88xxp1;
-    /* struct bdk_dap_sraaddr_s cn9; */
-    /* struct bdk_dap_sraaddr_s cn81xx; */
-    /* struct bdk_dap_sraaddr_s cn83xx; */
-    /* struct bdk_dap_sraaddr_s cn88xxp2; */
+    } cn81xx;
+    /* struct bdk_dap_sraaddr_cn81xx cn83xx; */
+    /* struct bdk_dap_sraaddr_cn81xx cn88xxp2; */
 } bdk_dap_sraaddr_t;
 
 #define BDK_DAP_SRAADDR BDK_DAP_SRAADDR_FUNC()

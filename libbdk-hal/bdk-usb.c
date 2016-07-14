@@ -246,7 +246,7 @@ int bdk_usb_initialize(bdk_node_t node, int usb_port, bdk_usb_clock_t clock_type
     int usb_gpio = bdk_config_get_int(BDK_CONFIG_USB_PWR_GPIO, node, usb_port);
     int usb_polarity = bdk_config_get_int(BDK_CONFIG_USB_PWR_GPIO_POLARITY, node, usb_port);
     if (-1 != usb_gpio) {
-        int gsrc = BDK_GPIO_PIN_SEL_E_USBX_VBUS_CTRL_CN9(usb_port);
+        int gsrc = BDK_GPIO_PIN_SEL_E_USBX_VBUS_CTRL_CN88XX(usb_port);
         if (CAVIUM_IS_MODEL(CAVIUM_CN88XX)) {
             gsrc = BDK_GPIO_PIN_SEL_E_USBX_VBUS_CTRL_CN88XX(usb_port);
         }

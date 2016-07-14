@@ -80,7 +80,7 @@ union bdk_ecam_cfg_addr_s
         uint64_t io                    : 1;  /**< [ 47: 47] Indicates I/O space. */
         uint64_t reserved_46           : 1;
         uint64_t node                  : 2;  /**< [ 45: 44] CCPI node number. */
-        uint64_t did                   : 8;  /**< [ 43: 36] ECAM(0..1) DID. 0x48 + ECAM number. */
+        uint64_t did                   : 8;  /**< [ 43: 36] ECAM(0..3) DID. 0x48 + ECAM number. */
         uint64_t setup                 : 1;  /**< [ 35: 35] Reserved, MBZ.
                                                                  Internal:
                                                                  Reserved for future use - Setup. Allow certain PCC
@@ -112,14 +112,13 @@ union bdk_ecam_cfg_addr_s
                                                                  Reserved for future use - Setup. Allow certain PCC
                                                                  configuration registers to be written for boot-time initialization. Treated as 0
                                                                  unless in secure mode. */
-        uint64_t did                   : 8;  /**< [ 43: 36] ECAM(0..1) DID. 0x48 + ECAM number. */
+        uint64_t did                   : 8;  /**< [ 43: 36] ECAM(0..3) DID. 0x48 + ECAM number. */
         uint64_t node                  : 2;  /**< [ 45: 44] CCPI node number. */
         uint64_t reserved_46           : 1;
         uint64_t io                    : 1;  /**< [ 47: 47] Indicates I/O space. */
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ecam_cfg_addr_s_s cn9; */
     struct bdk_ecam_cfg_addr_s_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -166,14 +165,15 @@ union bdk_ecam_cfg_addr_s
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } cn81xx;
-    struct bdk_ecam_cfg_addr_s_cn88xx
+    /* struct bdk_ecam_cfg_addr_s_s cn88xx; */
+    struct bdk_ecam_cfg_addr_s_cn83xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_48_63        : 16;
         uint64_t io                    : 1;  /**< [ 47: 47] Indicates I/O space. */
         uint64_t reserved_46           : 1;
         uint64_t node                  : 2;  /**< [ 45: 44] CCPI node number. */
-        uint64_t did                   : 8;  /**< [ 43: 36] ECAM(0..3) DID. 0x48 + ECAM number. */
+        uint64_t did                   : 8;  /**< [ 43: 36] ECAM(0..1) DID. 0x48 + ECAM number. */
         uint64_t setup                 : 1;  /**< [ 35: 35] Reserved, MBZ.
                                                                  Internal:
                                                                  Reserved for future use - Setup. Allow certain PCC
@@ -205,14 +205,13 @@ union bdk_ecam_cfg_addr_s
                                                                  Reserved for future use - Setup. Allow certain PCC
                                                                  configuration registers to be written for boot-time initialization. Treated as 0
                                                                  unless in secure mode. */
-        uint64_t did                   : 8;  /**< [ 43: 36] ECAM(0..3) DID. 0x48 + ECAM number. */
+        uint64_t did                   : 8;  /**< [ 43: 36] ECAM(0..1) DID. 0x48 + ECAM number. */
         uint64_t node                  : 2;  /**< [ 45: 44] CCPI node number. */
         uint64_t reserved_46           : 1;
         uint64_t io                    : 1;  /**< [ 47: 47] Indicates I/O space. */
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
-    } cn88xx;
-    /* struct bdk_ecam_cfg_addr_s_s cn83xx; */
+    } cn83xx;
 };
 
 /**
@@ -253,8 +252,6 @@ static inline uint64_t BDK_ECAMX_BUSX_NSDIS(unsigned long a, unsigned long b)
         return 0x87e048030000ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0xff);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=3) && (b<=255)))
         return 0x87e048030000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0xff);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=1) && (b<=255)))
-        return 0x87e048030000ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0xff);
     __bdk_csr_fatal("ECAMX_BUSX_NSDIS", 2, a, b, 0, 0);
 }
 
@@ -305,8 +302,6 @@ static inline uint64_t BDK_ECAMX_BUSX_SDIS(unsigned long a, unsigned long b)
         return 0x87e048020000ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0xff);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=3) && (b<=255)))
         return 0x87e048020000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0xff);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=1) && (b<=255)))
-        return 0x87e048020000ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0xff);
     __bdk_csr_fatal("ECAMX_BUSX_SDIS", 2, a, b, 0, 0);
 }
 
@@ -353,8 +348,6 @@ static inline uint64_t BDK_ECAMX_BUSX_SKILL(unsigned long a, unsigned long b)
         return 0x87e048080000ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0xff);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((a<=3) && (b<=255)))
         return 0x87e048080000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0xff);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=1) && (b<=255)))
-        return 0x87e048080000ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0xff);
     __bdk_csr_fatal("ECAMX_BUSX_SKILL", 2, a, b, 0, 0);
 }
 
@@ -393,8 +386,6 @@ static inline uint64_t BDK_ECAMX_CONST(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
         return 0x87e048000200ll + 0x1000000ll * ((a) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
-        return 0x87e048000200ll + 0x1000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
         return 0x87e048000200ll + 0x1000000ll * ((a) & 0x1);
     __bdk_csr_fatal("ECAMX_CONST", 1, a, 0, 0, 0);
 }
@@ -442,8 +433,6 @@ static inline uint64_t BDK_ECAMX_DEVX_NSDIS(unsigned long a, unsigned long b)
         return 0x87e048070000ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=3) && (b<=31)))
         return 0x87e048070000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x1f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=1) && (b<=31)))
-        return 0x87e048070000ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0x1f);
     __bdk_csr_fatal("ECAMX_DEVX_NSDIS", 2, a, b, 0, 0);
 }
 
@@ -496,8 +485,6 @@ static inline uint64_t BDK_ECAMX_DEVX_SDIS(unsigned long a, unsigned long b)
         return 0x87e048060000ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=3) && (b<=31)))
         return 0x87e048060000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x1f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=1) && (b<=31)))
-        return 0x87e048060000ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0x1f);
     __bdk_csr_fatal("ECAMX_DEVX_SDIS", 2, a, b, 0, 0);
 }
 
@@ -544,8 +531,6 @@ static inline uint64_t BDK_ECAMX_DEVX_SKILL(unsigned long a, unsigned long b)
         return 0x87e0480a0000ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((a<=3) && (b<=31)))
         return 0x87e0480a0000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x1f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=1) && (b<=31)))
-        return 0x87e0480a0000ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0x1f);
     __bdk_csr_fatal("ECAMX_DEVX_SKILL", 2, a, b, 0, 0);
 }
 
@@ -584,8 +569,6 @@ static inline uint64_t BDK_ECAMX_NOP_OF(unsigned long a)
         return 0x87e048000000ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
         return 0x87e048000000ll + 0x1000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
-        return 0x87e048000000ll + 0x1000000ll * ((a) & 0x1);
     __bdk_csr_fatal("ECAMX_NOP_OF", 1, a, 0, 0, 0);
 }
 
@@ -624,8 +607,6 @@ static inline uint64_t BDK_ECAMX_NOP_ONF(unsigned long a)
         return 0x87e048000080ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
         return 0x87e048000080ll + 0x1000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
-        return 0x87e048000080ll + 0x1000000ll * ((a) & 0x1);
     __bdk_csr_fatal("ECAMX_NOP_ONF", 1, a, 0, 0, 0);
 }
 
@@ -664,8 +645,6 @@ static inline uint64_t BDK_ECAMX_NOP_ZF(unsigned long a)
         return 0x87e048000100ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
         return 0x87e048000100ll + 0x1000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
-        return 0x87e048000100ll + 0x1000000ll * ((a) & 0x1);
     __bdk_csr_fatal("ECAMX_NOP_ZF", 1, a, 0, 0, 0);
 }
 
@@ -704,8 +683,6 @@ static inline uint64_t BDK_ECAMX_NOP_ZNF(unsigned long a)
         return 0x87e048000180ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
         return 0x87e048000180ll + 0x1000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
-        return 0x87e048000180ll + 0x1000000ll * ((a) & 0x1);
     __bdk_csr_fatal("ECAMX_NOP_ZNF", 1, a, 0, 0, 0);
 }
 
@@ -753,8 +730,6 @@ static inline uint64_t BDK_ECAMX_RSLX_NSDIS(unsigned long a, unsigned long b)
         return 0x87e048050000ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0xff);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=3) && (b<=255)))
         return 0x87e048050000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0xff);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=1) && (b<=255)))
-        return 0x87e048050000ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0xff);
     __bdk_csr_fatal("ECAMX_RSLX_NSDIS", 2, a, b, 0, 0);
 }
 
@@ -808,8 +783,6 @@ static inline uint64_t BDK_ECAMX_RSLX_SDIS(unsigned long a, unsigned long b)
         return 0x87e048040000ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0xff);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=3) && (b<=255)))
         return 0x87e048040000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0xff);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=1) && (b<=255)))
-        return 0x87e048040000ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0xff);
     __bdk_csr_fatal("ECAMX_RSLX_SDIS", 2, a, b, 0, 0);
 }
 
@@ -857,8 +830,6 @@ static inline uint64_t BDK_ECAMX_RSLX_SKILL(unsigned long a, unsigned long b)
         return 0x87e048090000ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0xff);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((a<=3) && (b<=255)))
         return 0x87e048090000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0xff);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=1) && (b<=255)))
-        return 0x87e048090000ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0xff);
     __bdk_csr_fatal("ECAMX_RSLX_SKILL", 2, a, b, 0, 0);
 }
 

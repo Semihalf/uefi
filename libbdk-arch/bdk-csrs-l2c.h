@@ -477,7 +477,7 @@ typedef union
 static inline uint64_t BDK_L2C_ASC_REGIONX_ATTR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_ASC_REGIONX_ATTR(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=3))
+    if (a<=3)
         return 0x87e080801010ll + 0x40ll * ((a) & 0x3);
     __bdk_csr_fatal("L2C_ASC_REGIONX_ATTR", 1, a, 0, 0, 0);
 }
@@ -525,7 +525,7 @@ typedef union
 static inline uint64_t BDK_L2C_ASC_REGIONX_END(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_ASC_REGIONX_END(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=3))
+    if (a<=3)
         return 0x87e080801008ll + 0x40ll * ((a) & 0x3);
     __bdk_csr_fatal("L2C_ASC_REGIONX_END", 1, a, 0, 0, 0);
 }
@@ -565,7 +565,7 @@ typedef union
 static inline uint64_t BDK_L2C_ASC_REGIONX_START(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_ASC_REGIONX_START(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=3))
+    if (a<=3)
         return 0x87e080801000ll + 0x40ll * ((a) & 0x3);
     __bdk_csr_fatal("L2C_ASC_REGIONX_START", 1, a, 0, 0, 0);
 }
@@ -1092,9 +1092,7 @@ typedef union
 static inline uint64_t BDK_L2C_CTL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_CTL_FUNC(void)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX))
-        return 0x87e080800000ll;
-    __bdk_csr_fatal("L2C_CTL", 0, 0, 0, 0, 0);
+    return 0x87e080800000ll;
 }
 
 #define typedef_BDK_L2C_CTL bdk_l2c_ctl_t
@@ -1158,9 +1156,7 @@ typedef union
 static inline uint64_t BDK_L2C_ECC_CTL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_ECC_CTL_FUNC(void)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX))
-        return 0x87e080800010ll;
-    __bdk_csr_fatal("L2C_ECC_CTL", 0, 0, 0, 0, 0);
+    return 0x87e080800010ll;
 }
 
 #define typedef_BDK_L2C_ECC_CTL bdk_l2c_ecc_ctl_t
@@ -1638,9 +1634,7 @@ typedef union
 static inline uint64_t BDK_L2C_OCI_CTL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_OCI_CTL_FUNC(void)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX))
-        return 0x87e080800020ll;
-    __bdk_csr_fatal("L2C_OCI_CTL", 0, 0, 0, 0, 0);
+    return 0x87e080800020ll;
 }
 
 #define typedef_BDK_L2C_OCI_CTL bdk_l2c_oci_ctl_t
@@ -1727,9 +1721,7 @@ typedef union
 static inline uint64_t BDK_L2C_QOS_WGT_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_QOS_WGT_FUNC(void)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX))
-        return 0x87e080800008ll;
-    __bdk_csr_fatal("L2C_QOS_WGT", 0, 0, 0, 0, 0);
+    return 0x87e080800008ll;
 }
 
 #define typedef_BDK_L2C_QOS_WGT bdk_l2c_qos_wgt_t
@@ -2515,9 +2507,7 @@ typedef union
 static inline uint64_t BDK_L2C_TAD_CTL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_TAD_CTL_FUNC(void)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX))
-        return 0x87e080800018ll;
-    __bdk_csr_fatal("L2C_TAD_CTL", 0, 0, 0, 0, 0);
+    return 0x87e080800018ll;
 }
 
 #define typedef_BDK_L2C_TAD_CTL bdk_l2c_tad_ctl_t
@@ -2553,7 +2543,7 @@ typedef union
 static inline uint64_t BDK_L2C_WPAR_IOBX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_WPAR_IOBX(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=15))
+    if (a<=15)
         return 0x87e080840200ll + 8ll * ((a) & 0xf);
     __bdk_csr_fatal("L2C_WPAR_IOBX", 1, a, 0, 0, 0);
 }

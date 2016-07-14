@@ -185,9 +185,7 @@ typedef union
 static inline uint64_t BDK_DBGX_DBGAUTHSTATUS_EL1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_DBGAUTHSTATUS_EL1(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008000fb8ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008000fb8ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_DBGAUTHSTATUS_EL1", 1, a, 0, 0, 0);
 }
@@ -225,7 +223,7 @@ typedef union
                                                                      DBGBVR<n>_EL1[39:32] is a VMID.
                                                                   BT[0]: Enable linking.
                                                                  If the breakpoint is not context-aware, BT[3] and BT[1] are
-                                                                     clear. If EL2 is not implemented, BT[3] is 0. If EL1 using
+                                                                     clear. If EL2 is not implemented, BT[3] is RAZ. If EL1 using
                                                                      AArch32 is not implemented, BT[2] is clear.
                                                                  The values0b011x0b11xx
                                                                  <0000>      Unlinked instruction address match.
@@ -244,13 +242,13 @@ typedef union
         uint32_t ssc                   : 2;  /**< [ 15: 14](R/W) Security state control. Determines the security states under
                                                                      which a breakpoint debug event for breakpoint n is generated.
                                                                      This field must be interpreted along with the HMC and PMC
-                                                                     fields. Possible values are summarised in the "Processor state
-                                                                     matching" section of the Debug specification
+                                                                     fields. Possible values are summarized in the "Processor state
+                                                                     matching" section of the debug specification
                                                                      (PRD03-PRDC-010486). */
         uint32_t hmc                   : 1;  /**< [ 13: 13](R/W) Higher mode control. Determines the debug perspective for
                                                                      deciding when a breakpoint debug event for breakpoint n is
                                                                      generated. This field must be interpreted along with the SSC
-                                                                     and PMC fields. Possible values are summarised in the
+                                                                     and PMC fields. Possible values are summarized in the
                                                                      "Processor state matching" section of the Debug specification
                                                                      (PRD03-PRDC-010486). */
         uint32_t reserved_9_12         : 4;
@@ -264,7 +262,7 @@ typedef union
         uint32_t pmc                   : 2;  /**< [  2:  1](R/W) Privilege mode control. Determines the exception level or
                                                                      levels at which a breakpoint debug event for breakpoint n is
                                                                      generated. This field must be interpreted along with the SSC
-                                                                     and HMC fields. Possible values are summarised in the
+                                                                     and HMC fields. Possible values are summarized in the
                                                                      "Processor state matching" section of the Debug specification
                                                                      (PRD03-PRDC-010486). */
         uint32_t en                    : 1;  /**< [  0:  0](R/W) Enable breakpoint DBGBVR<n>_EL1. Possible values are:
@@ -277,7 +275,7 @@ typedef union
         uint32_t pmc                   : 2;  /**< [  2:  1](R/W) Privilege mode control. Determines the exception level or
                                                                      levels at which a breakpoint debug event for breakpoint n is
                                                                      generated. This field must be interpreted along with the SSC
-                                                                     and HMC fields. Possible values are summarised in the
+                                                                     and HMC fields. Possible values are summarized in the
                                                                      "Processor state matching" section of the Debug specification
                                                                      (PRD03-PRDC-010486). */
         uint32_t reserved_3_4          : 2;
@@ -291,14 +289,14 @@ typedef union
         uint32_t hmc                   : 1;  /**< [ 13: 13](R/W) Higher mode control. Determines the debug perspective for
                                                                      deciding when a breakpoint debug event for breakpoint n is
                                                                      generated. This field must be interpreted along with the SSC
-                                                                     and PMC fields. Possible values are summarised in the
+                                                                     and PMC fields. Possible values are summarized in the
                                                                      "Processor state matching" section of the Debug specification
                                                                      (PRD03-PRDC-010486). */
         uint32_t ssc                   : 2;  /**< [ 15: 14](R/W) Security state control. Determines the security states under
                                                                      which a breakpoint debug event for breakpoint n is generated.
                                                                      This field must be interpreted along with the HMC and PMC
-                                                                     fields. Possible values are summarised in the "Processor state
-                                                                     matching" section of the Debug specification
+                                                                     fields. Possible values are summarized in the "Processor state
+                                                                     matching" section of the debug specification
                                                                      (PRD03-PRDC-010486). */
         uint32_t lbn                   : 4;  /**< [ 19: 16](R/W) Linked breakpoint number. For linked address matching
                                                                      breakpoints, this specifies the index of the context-matching
@@ -315,7 +313,7 @@ typedef union
                                                                      DBGBVR<n>_EL1[39:32] is a VMID.
                                                                   BT[0]: Enable linking.
                                                                  If the breakpoint is not context-aware, BT[3] and BT[1] are
-                                                                     clear. If EL2 is not implemented, BT[3] is 0. If EL1 using
+                                                                     clear. If EL2 is not implemented, BT[3] is RAZ. If EL1 using
                                                                      AArch32 is not implemented, BT[2] is clear.
                                                                  The values0b011x0b11xx
                                                                  <0000>      Unlinked instruction address match.
@@ -331,9 +329,7 @@ typedef union
         uint32_t reserved_24_31        : 8;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_dbgx_dbgbcrx_el1_s cn9; */
-    /* struct bdk_dbgx_dbgbcrx_el1_s cn81xx; */
-    struct bdk_dbgx_dbgbcrx_el1_cn88xx
+    struct bdk_dbgx_dbgbcrx_el1_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_24_31        : 8;
@@ -349,7 +345,7 @@ typedef union
                                                                      DBGBVR<n>_EL1[39:32] is a VMID.
                                                                   BT[0]: Enable linking.
                                                                  If the breakpoint is not context-aware, BT[3] and BT[1] are
-                                                                     clear. If EL2 is not implemented, BT[3] is RAZ. If EL1 using
+                                                                     clear. If EL2 is not implemented, BT[3] is 0. If EL1 using
                                                                      AArch32 is not implemented, BT[2] is clear.
                                                                  The values0b011x0b11xx
                                                                  <0000>      Unlinked instruction address match.
@@ -368,13 +364,13 @@ typedef union
         uint32_t ssc                   : 2;  /**< [ 15: 14](R/W) Security state control. Determines the security states under
                                                                      which a breakpoint debug event for breakpoint n is generated.
                                                                      This field must be interpreted along with the HMC and PMC
-                                                                     fields. Possible values are summarized in the "Processor state
-                                                                     matching" section of the debug specification
+                                                                     fields. Possible values are summarised in the "Processor state
+                                                                     matching" section of the Debug specification
                                                                      (PRD03-PRDC-010486). */
         uint32_t hmc                   : 1;  /**< [ 13: 13](R/W) Higher mode control. Determines the debug perspective for
                                                                      deciding when a breakpoint debug event for breakpoint n is
                                                                      generated. This field must be interpreted along with the SSC
-                                                                     and PMC fields. Possible values are summarized in the
+                                                                     and PMC fields. Possible values are summarised in the
                                                                      "Processor state matching" section of the Debug specification
                                                                      (PRD03-PRDC-010486). */
         uint32_t reserved_9_12         : 4;
@@ -388,7 +384,7 @@ typedef union
         uint32_t pmc                   : 2;  /**< [  2:  1](R/W) Privilege mode control. Determines the exception level or
                                                                      levels at which a breakpoint debug event for breakpoint n is
                                                                      generated. This field must be interpreted along with the SSC
-                                                                     and HMC fields. Possible values are summarized in the
+                                                                     and HMC fields. Possible values are summarised in the
                                                                      "Processor state matching" section of the Debug specification
                                                                      (PRD03-PRDC-010486). */
         uint32_t en                    : 1;  /**< [  0:  0](R/W) Enable breakpoint DBGBVR<n>_EL1. Possible values are:
@@ -401,7 +397,7 @@ typedef union
         uint32_t pmc                   : 2;  /**< [  2:  1](R/W) Privilege mode control. Determines the exception level or
                                                                      levels at which a breakpoint debug event for breakpoint n is
                                                                      generated. This field must be interpreted along with the SSC
-                                                                     and HMC fields. Possible values are summarized in the
+                                                                     and HMC fields. Possible values are summarised in the
                                                                      "Processor state matching" section of the Debug specification
                                                                      (PRD03-PRDC-010486). */
         uint32_t reserved_3_4          : 2;
@@ -415,14 +411,14 @@ typedef union
         uint32_t hmc                   : 1;  /**< [ 13: 13](R/W) Higher mode control. Determines the debug perspective for
                                                                      deciding when a breakpoint debug event for breakpoint n is
                                                                      generated. This field must be interpreted along with the SSC
-                                                                     and PMC fields. Possible values are summarized in the
+                                                                     and PMC fields. Possible values are summarised in the
                                                                      "Processor state matching" section of the Debug specification
                                                                      (PRD03-PRDC-010486). */
         uint32_t ssc                   : 2;  /**< [ 15: 14](R/W) Security state control. Determines the security states under
                                                                      which a breakpoint debug event for breakpoint n is generated.
                                                                      This field must be interpreted along with the HMC and PMC
-                                                                     fields. Possible values are summarized in the "Processor state
-                                                                     matching" section of the debug specification
+                                                                     fields. Possible values are summarised in the "Processor state
+                                                                     matching" section of the Debug specification
                                                                      (PRD03-PRDC-010486). */
         uint32_t lbn                   : 4;  /**< [ 19: 16](R/W) Linked breakpoint number. For linked address matching
                                                                      breakpoints, this specifies the index of the context-matching
@@ -439,7 +435,7 @@ typedef union
                                                                      DBGBVR<n>_EL1[39:32] is a VMID.
                                                                   BT[0]: Enable linking.
                                                                  If the breakpoint is not context-aware, BT[3] and BT[1] are
-                                                                     clear. If EL2 is not implemented, BT[3] is RAZ. If EL1 using
+                                                                     clear. If EL2 is not implemented, BT[3] is 0. If EL1 using
                                                                      AArch32 is not implemented, BT[2] is clear.
                                                                  The values0b011x0b11xx
                                                                  <0000>      Unlinked instruction address match.
@@ -454,16 +450,15 @@ typedef union
                                                                  <1011>      Linked VMID and context ID match. */
         uint32_t reserved_24_31        : 8;
 #endif /* Word 0 - End */
-    } cn88xx;
-    /* struct bdk_dbgx_dbgbcrx_el1_s cn83xx; */
+    } cn81xx;
+    /* struct bdk_dbgx_dbgbcrx_el1_s cn88xx; */
+    /* struct bdk_dbgx_dbgbcrx_el1_cn81xx cn83xx; */
 } bdk_dbgx_dbgbcrx_el1_t;
 
 static inline uint64_t BDK_DBGX_DBGBCRX_EL1(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_DBGBCRX_EL1(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && ((a<=47) && (b<=5)))
-        return 0x87a008000408ll + 0x80000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=53) && (b<=5)))
+    if ((a<=47) && (b<=5))
         return 0x87a008000408ll + 0x80000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x7);
     __bdk_csr_fatal("DBGX_DBGBCRX_EL1", 2, a, b, 0, 0);
 }
@@ -497,9 +492,7 @@ typedef union
 static inline uint64_t BDK_DBGX_DBGBVRX_EL1_HI(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_DBGBVRX_EL1_HI(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && ((a<=47) && (b<=5)))
-        return 0x87a008000404ll + 0x80000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=53) && (b<=5)))
+    if ((a<=47) && (b<=5))
         return 0x87a008000404ll + 0x80000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x7);
     __bdk_csr_fatal("DBGX_DBGBVRX_EL1_HI", 2, a, b, 0, 0);
 }
@@ -533,9 +526,7 @@ typedef union
 static inline uint64_t BDK_DBGX_DBGBVRX_EL1_LO(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_DBGBVRX_EL1_LO(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && ((a<=47) && (b<=5)))
-        return 0x87a008000400ll + 0x80000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=53) && (b<=5)))
+    if ((a<=47) && (b<=5))
         return 0x87a008000400ll + 0x80000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x7);
     __bdk_csr_fatal("DBGX_DBGBVRX_EL1_LO", 2, a, b, 0, 0);
 }
@@ -582,9 +573,7 @@ typedef union
 static inline uint64_t BDK_DBGX_DBGCLAIMCLR_EL1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_DBGCLAIMCLR_EL1(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008000fa4ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008000fa4ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_DBGCLAIMCLR_EL1", 1, a, 0, 0, 0);
 }
@@ -628,9 +617,7 @@ typedef union
 static inline uint64_t BDK_DBGX_DBGCLAIMSET_EL1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_DBGCLAIMSET_EL1(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008000fa0ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008000fa0ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_DBGCLAIMSET_EL1", 1, a, 0, 0, 0);
 }
@@ -671,9 +658,7 @@ typedef union
 static inline uint64_t BDK_DBGX_DBGDTRRX_EL0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_DBGDTRRX_EL0(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008000080ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008000080ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_DBGDTRRX_EL0", 1, a, 0, 0, 0);
 }
@@ -718,9 +703,7 @@ typedef union
 static inline uint64_t BDK_DBGX_DBGDTRTX_EL0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_DBGDTRTX_EL0(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a00800008cll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a00800008cll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_DBGDTRTX_EL0", 1, a, 0, 0, 0);
 }
@@ -745,18 +728,18 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_29_31        : 3;
         uint32_t mask                  : 5;  /**< [ 28: 24](R/W) Address mask.   Ignored if E is zero.  Only objects up to 2GB
-                                                                 can be watched by a signle mask.
+                                                                 can be watched by a signal mask.
                                                                  00000  No Mask.
                                                                  00011  3 address bits masked (0x00000007).
                                                                  00100  4 address bits masked (0x0000000f).
                                                                  00101  5 address bits masked (0x0000001f).
                                                                   ...
                                                                  11111  31 address bits masked (0x7ffffffff).
-                                                                 All other values are reserved and behaviour is unpredictable. */
+                                                                 All other values are reserved and behavior is unpredictable. */
         uint32_t reserved_21_23        : 3;
         uint32_t wt                    : 1;  /**< [ 20: 20](R/W) Watchpoint type.  Ignored if E is 0.
-                                                                 0 - unlinked data address match.
-                                                                 1 - linked data address match. */
+                                                                 0 = Unlinked data address match.
+                                                                 1 = Linked data address match. */
         uint32_t lbn                   : 4;  /**< [ 19: 16](R/W) Linked breakpoint number.  If the watchpoint is linked,
                                                                  specifies the linked context breakpoint to which this watchpoint is linked.
                                                                  For unlinked watchpoints, this field is ignored. */
@@ -764,7 +747,7 @@ typedef union
                                                                      which a watchpoint debug event for watchpoint n is generated.
                                                                      This field must be interpreted along with the HMC and PMC
                                                                      fields. Possible values are summarized in the "Processor state
-                                                                     matching" section of the debug specification
+                                                                     matching" section of the Debug specification
                                                                      (PRD03-PRDC-010486). */
         uint32_t hmc                   : 1;  /**< [ 13: 13](R/W) Higher mode control. Determines the debug perspective for
                                                                      deciding when a watchpoint debug event for watchpoint n is
@@ -817,46 +800,44 @@ typedef union
                                                                      which a watchpoint debug event for watchpoint n is generated.
                                                                      This field must be interpreted along with the HMC and PMC
                                                                      fields. Possible values are summarized in the "Processor state
-                                                                     matching" section of the debug specification
+                                                                     matching" section of the Debug specification
                                                                      (PRD03-PRDC-010486). */
         uint32_t lbn                   : 4;  /**< [ 19: 16](R/W) Linked breakpoint number.  If the watchpoint is linked,
                                                                  specifies the linked context breakpoint to which this watchpoint is linked.
                                                                  For unlinked watchpoints, this field is ignored. */
         uint32_t wt                    : 1;  /**< [ 20: 20](R/W) Watchpoint type.  Ignored if E is 0.
-                                                                 0 - unlinked data address match.
-                                                                 1 - linked data address match. */
+                                                                 0 = Unlinked data address match.
+                                                                 1 = Linked data address match. */
         uint32_t reserved_21_23        : 3;
         uint32_t mask                  : 5;  /**< [ 28: 24](R/W) Address mask.   Ignored if E is zero.  Only objects up to 2GB
-                                                                 can be watched by a signle mask.
+                                                                 can be watched by a signal mask.
                                                                  00000  No Mask.
                                                                  00011  3 address bits masked (0x00000007).
                                                                  00100  4 address bits masked (0x0000000f).
                                                                  00101  5 address bits masked (0x0000001f).
                                                                   ...
                                                                  11111  31 address bits masked (0x7ffffffff).
-                                                                 All other values are reserved and behaviour is unpredictable. */
+                                                                 All other values are reserved and behavior is unpredictable. */
         uint32_t reserved_29_31        : 3;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_dbgx_dbgwcrx_el1_s cn9; */
-    /* struct bdk_dbgx_dbgwcrx_el1_s cn81xx; */
-    struct bdk_dbgx_dbgwcrx_el1_cn88xx
+    struct bdk_dbgx_dbgwcrx_el1_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_29_31        : 3;
         uint32_t mask                  : 5;  /**< [ 28: 24](R/W) Address mask.   Ignored if E is zero.  Only objects up to 2GB
-                                                                 can be watched by a signal mask.
+                                                                 can be watched by a signle mask.
                                                                  00000  No Mask.
                                                                  00011  3 address bits masked (0x00000007).
                                                                  00100  4 address bits masked (0x0000000f).
                                                                  00101  5 address bits masked (0x0000001f).
                                                                   ...
                                                                  11111  31 address bits masked (0x7ffffffff).
-                                                                 All other values are reserved and behavior is unpredictable. */
+                                                                 All other values are reserved and behaviour is unpredictable. */
         uint32_t reserved_21_23        : 3;
         uint32_t wt                    : 1;  /**< [ 20: 20](R/W) Watchpoint type.  Ignored if E is 0.
-                                                                 0 = Unlinked data address match.
-                                                                 1 = Linked data address match. */
+                                                                 0 - unlinked data address match.
+                                                                 1 - linked data address match. */
         uint32_t lbn                   : 4;  /**< [ 19: 16](R/W) Linked breakpoint number.  If the watchpoint is linked,
                                                                  specifies the linked context breakpoint to which this watchpoint is linked.
                                                                  For unlinked watchpoints, this field is ignored. */
@@ -864,7 +845,7 @@ typedef union
                                                                      which a watchpoint debug event for watchpoint n is generated.
                                                                      This field must be interpreted along with the HMC and PMC
                                                                      fields. Possible values are summarized in the "Processor state
-                                                                     matching" section of the Debug specification
+                                                                     matching" section of the debug specification
                                                                      (PRD03-PRDC-010486). */
         uint32_t hmc                   : 1;  /**< [ 13: 13](R/W) Higher mode control. Determines the debug perspective for
                                                                      deciding when a watchpoint debug event for watchpoint n is
@@ -917,36 +898,35 @@ typedef union
                                                                      which a watchpoint debug event for watchpoint n is generated.
                                                                      This field must be interpreted along with the HMC and PMC
                                                                      fields. Possible values are summarized in the "Processor state
-                                                                     matching" section of the Debug specification
+                                                                     matching" section of the debug specification
                                                                      (PRD03-PRDC-010486). */
         uint32_t lbn                   : 4;  /**< [ 19: 16](R/W) Linked breakpoint number.  If the watchpoint is linked,
                                                                  specifies the linked context breakpoint to which this watchpoint is linked.
                                                                  For unlinked watchpoints, this field is ignored. */
         uint32_t wt                    : 1;  /**< [ 20: 20](R/W) Watchpoint type.  Ignored if E is 0.
-                                                                 0 = Unlinked data address match.
-                                                                 1 = Linked data address match. */
+                                                                 0 - unlinked data address match.
+                                                                 1 - linked data address match. */
         uint32_t reserved_21_23        : 3;
         uint32_t mask                  : 5;  /**< [ 28: 24](R/W) Address mask.   Ignored if E is zero.  Only objects up to 2GB
-                                                                 can be watched by a signal mask.
+                                                                 can be watched by a signle mask.
                                                                  00000  No Mask.
                                                                  00011  3 address bits masked (0x00000007).
                                                                  00100  4 address bits masked (0x0000000f).
                                                                  00101  5 address bits masked (0x0000001f).
                                                                   ...
                                                                  11111  31 address bits masked (0x7ffffffff).
-                                                                 All other values are reserved and behavior is unpredictable. */
+                                                                 All other values are reserved and behaviour is unpredictable. */
         uint32_t reserved_29_31        : 3;
 #endif /* Word 0 - End */
-    } cn88xx;
-    /* struct bdk_dbgx_dbgwcrx_el1_s cn83xx; */
+    } cn81xx;
+    /* struct bdk_dbgx_dbgwcrx_el1_s cn88xx; */
+    /* struct bdk_dbgx_dbgwcrx_el1_cn81xx cn83xx; */
 } bdk_dbgx_dbgwcrx_el1_t;
 
 static inline uint64_t BDK_DBGX_DBGWCRX_EL1(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_DBGWCRX_EL1(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && ((a<=47) && (b<=5)))
-        return 0x87a008000808ll + 0x80000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=53) && (b<=5)))
+    if ((a<=47) && (b<=5))
         return 0x87a008000808ll + 0x80000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x7);
     __bdk_csr_fatal("DBGX_DBGWCRX_EL1", 2, a, b, 0, 0);
 }
@@ -961,7 +941,7 @@ static inline uint64_t BDK_DBGX_DBGWCRX_EL1(unsigned long a, unsigned long b)
  * Register (DAB32b) dbg#_dbgwvr#_el1_hi
  *
  * AP DBG Debug Watchpoint Value High Registers
- * Watchpoint value register - high order 32 bits.
+ * Watchpoint value register (high order 32 bits).
  */
 typedef union
 {
@@ -980,9 +960,7 @@ typedef union
 static inline uint64_t BDK_DBGX_DBGWVRX_EL1_HI(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_DBGWVRX_EL1_HI(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && ((a<=47) && (b<=5)))
-        return 0x87a008000804ll + 0x80000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=53) && (b<=5)))
+    if ((a<=47) && (b<=5))
         return 0x87a008000804ll + 0x80000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x7);
     __bdk_csr_fatal("DBGX_DBGWVRX_EL1_HI", 2, a, b, 0, 0);
 }
@@ -997,7 +975,7 @@ static inline uint64_t BDK_DBGX_DBGWVRX_EL1_HI(unsigned long a, unsigned long b)
  * Register (DAB32b) dbg#_dbgwvr#_el1_lo
  *
  * AP DBG Debug Watchpoint Value Low Registers
- * Watchpoint value register (low order 32 bits)
+ * Watchpoint value register (low order 32 bits).
  */
 typedef union
 {
@@ -1016,9 +994,7 @@ typedef union
 static inline uint64_t BDK_DBGX_DBGWVRX_EL1_LO(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_DBGWVRX_EL1_LO(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && ((a<=47) && (b<=5)))
-        return 0x87a008000800ll + 0x80000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=53) && (b<=5)))
+    if ((a<=47) && (b<=5))
         return 0x87a008000800ll + 0x80000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x7);
     __bdk_csr_fatal("DBGX_DBGWVRX_EL1_LO", 2, a, b, 0, 0);
 }
@@ -1054,9 +1030,7 @@ typedef union
 static inline uint64_t BDK_DBGX_EDCIDR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDCIDR0(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008000ff0ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008000ff0ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_EDCIDR0", 1, a, 0, 0, 0);
 }
@@ -1094,9 +1068,7 @@ typedef union
 static inline uint64_t BDK_DBGX_EDCIDR1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDCIDR1(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008000ff4ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008000ff4ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_EDCIDR1", 1, a, 0, 0, 0);
 }
@@ -1132,9 +1104,7 @@ typedef union
 static inline uint64_t BDK_DBGX_EDCIDR2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDCIDR2(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008000ff8ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008000ff8ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_EDCIDR2", 1, a, 0, 0, 0);
 }
@@ -1170,9 +1140,7 @@ typedef union
 static inline uint64_t BDK_DBGX_EDCIDR3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDCIDR3(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008000ffcll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008000ffcll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_EDCIDR3", 1, a, 0, 0, 0);
 }
@@ -1220,9 +1188,7 @@ typedef union
 static inline uint64_t BDK_DBGX_EDCIDSR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDCIDSR(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a0080000a4ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a0080000a4ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_EDCIDSR", 1, a, 0, 0, 0);
 }
@@ -1266,9 +1232,7 @@ typedef union
 static inline uint64_t BDK_DBGX_EDDEVAFF0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDDEVAFF0(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008000fa8ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008000fa8ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_EDDEVAFF0", 1, a, 0, 0, 0);
 }
@@ -1304,9 +1268,7 @@ typedef union
 static inline uint64_t BDK_DBGX_EDDEVAFF1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDDEVAFF1(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008000facll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008000facll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_EDDEVAFF1", 1, a, 0, 0, 0);
 }
@@ -1343,14 +1305,14 @@ typedef union
         uint32_t archid                : 16; /**< [ 15:  0](RO) Defines this part to be a v8-A debug component. For
                                                                      architectures defined by ARM this is further subdivided.
                                                                  For debug:
-                                                                  Bits [15:12] are the architecture version, 0x7.
+                                                                  Bits [15:12] are the architecture version, 0x6, v8.0.
                                                                   Bits [11:0] are the architecture part number, 0xA15.
                                                                  This corresponds to debug architecture version v8-A. */
 #else /* Word 0 - Little Endian */
         uint32_t archid                : 16; /**< [ 15:  0](RO) Defines this part to be a v8-A debug component. For
                                                                      architectures defined by ARM this is further subdivided.
                                                                  For debug:
-                                                                  Bits [15:12] are the architecture version, 0x7.
+                                                                  Bits [15:12] are the architecture version, 0x6, v8.0.
                                                                   Bits [11:0] are the architecture part number, 0xA15.
                                                                  This corresponds to debug architecture version v8-A. */
         uint32_t revision              : 4;  /**< [ 19: 16](RO) Defines the architecture revision. For architectures defined
@@ -1365,9 +1327,7 @@ typedef union
                                                                  Bits [27:21] are the JEP 106 ID code, 0x3B. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_dbgx_eddevarch_s cn9; */
-    /* struct bdk_dbgx_eddevarch_s cn81xx; */
-    struct bdk_dbgx_eddevarch_cn88xx
+    struct bdk_dbgx_eddevarch_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t architect             : 11; /**< [ 31: 21](RO) Defines the architecture of the component. For debug, this is
@@ -1383,14 +1343,14 @@ typedef union
         uint32_t archid                : 16; /**< [ 15:  0](RO) Defines this part to be a v8-A debug component. For
                                                                      architectures defined by ARM this is further subdivided.
                                                                  For debug:
-                                                                  Bits [15:12] are the architecture version, 0x6, v8.0.
+                                                                  Bits [15:12] are the architecture version, 0x7.
                                                                   Bits [11:0] are the architecture part number, 0xA15.
                                                                  This corresponds to debug architecture version v8-A. */
 #else /* Word 0 - Little Endian */
         uint32_t archid                : 16; /**< [ 15:  0](RO) Defines this part to be a v8-A debug component. For
                                                                      architectures defined by ARM this is further subdivided.
                                                                  For debug:
-                                                                  Bits [15:12] are the architecture version, 0x6, v8.0.
+                                                                  Bits [15:12] are the architecture version, 0x7.
                                                                   Bits [11:0] are the architecture part number, 0xA15.
                                                                  This corresponds to debug architecture version v8-A. */
         uint32_t revision              : 4;  /**< [ 19: 16](RO) Defines the architecture revision. For architectures defined
@@ -1404,16 +1364,15 @@ typedef union
                                                                  Bits [31:28] are the JEP 106 continuation code, 0x4.
                                                                  Bits [27:21] are the JEP 106 ID code, 0x3B. */
 #endif /* Word 0 - End */
-    } cn88xx;
-    /* struct bdk_dbgx_eddevarch_s cn83xx; */
+    } cn81xx;
+    /* struct bdk_dbgx_eddevarch_s cn88xx; */
+    /* struct bdk_dbgx_eddevarch_cn81xx cn83xx; */
 } bdk_dbgx_eddevarch_t;
 
 static inline uint64_t BDK_DBGX_EDDEVARCH(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDDEVARCH(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008000fbcll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008000fbcll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_EDDEVARCH", 1, a, 0, 0, 0);
 }
@@ -1481,9 +1440,7 @@ typedef union
 static inline uint64_t BDK_DBGX_EDDEVID(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDDEVID(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008000fc8ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008000fc8ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_EDDEVID", 1, a, 0, 0, 0);
 }
@@ -1539,9 +1496,7 @@ typedef union
 static inline uint64_t BDK_DBGX_EDDEVID1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDDEVID1(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008000fc4ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008000fc4ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_EDDEVID1", 1, a, 0, 0, 0);
 }
@@ -1579,9 +1534,7 @@ typedef union
 static inline uint64_t BDK_DBGX_EDDEVID2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDDEVID2(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008000fc0ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008000fc0ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_EDDEVID2", 1, a, 0, 0, 0);
 }
@@ -1620,9 +1573,7 @@ typedef union
 static inline uint64_t BDK_DBGX_EDDEVTYPE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDDEVTYPE(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008000fccll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008000fccll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_EDDEVTYPE", 1, a, 0, 0, 0);
 }
@@ -1701,9 +1652,7 @@ typedef union
 static inline uint64_t BDK_DBGX_EDDFR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDDFR(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008000d28ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008000d28ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_EDDFR", 1, a, 0, 0, 0);
 }
@@ -1773,9 +1722,7 @@ typedef union
 static inline uint64_t BDK_DBGX_EDECCR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDECCR(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008000098ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008000098ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_EDECCR", 1, a, 0, 0, 0);
 }
@@ -1831,9 +1778,7 @@ typedef union
 static inline uint64_t BDK_DBGX_EDECR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDECR(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008000024ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008000024ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_EDECR", 1, a, 0, 0, 0);
 }
@@ -1900,9 +1845,7 @@ typedef union
 static inline uint64_t BDK_DBGX_EDESR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDESR(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008000020ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008000020ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_EDESR", 1, a, 0, 0, 0);
 }
@@ -1949,9 +1892,7 @@ typedef union
 static inline uint64_t BDK_DBGX_EDITCTRL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDITCTRL(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008000f00ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008000f00ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_EDITCTRL", 1, a, 0, 0, 0);
 }
@@ -1992,9 +1933,7 @@ typedef union
 static inline uint64_t BDK_DBGX_EDITR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDITR(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008000084ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008000084ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_EDITR", 1, a, 0, 0, 0);
 }
@@ -2035,9 +1974,7 @@ typedef union
 static inline uint64_t BDK_DBGX_EDLAR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDLAR(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008000fb0ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008000fb0ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_EDLAR", 1, a, 0, 0, 0);
 }
@@ -2108,9 +2045,7 @@ typedef union
 static inline uint64_t BDK_DBGX_EDLSR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDLSR(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008000fb4ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008000fb4ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_EDLSR", 1, a, 0, 0, 0);
 }
@@ -2146,9 +2081,7 @@ typedef union
 static inline uint64_t BDK_DBGX_EDPCSR_HI(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDPCSR_HI(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a0080000acll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a0080000acll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_EDPCSR_HI", 1, a, 0, 0, 0);
 }
@@ -2185,9 +2118,7 @@ typedef union
 static inline uint64_t BDK_DBGX_EDPCSR_LO(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDPCSR_LO(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a0080000a0ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a0080000a0ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_EDPCSR_LO", 1, a, 0, 0, 0);
 }
@@ -2286,9 +2217,7 @@ typedef union
 static inline uint64_t BDK_DBGX_EDPFR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDPFR(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008000d20ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008000d20ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_EDPFR", 1, a, 0, 0, 0);
 }
@@ -2324,9 +2253,7 @@ typedef union
 static inline uint64_t BDK_DBGX_EDPIDR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDPIDR0(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008000fe0ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008000fe0ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_EDPIDR0", 1, a, 0, 0, 0);
 }
@@ -2364,9 +2291,7 @@ typedef union
 static inline uint64_t BDK_DBGX_EDPIDR1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDPIDR1(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008000fe4ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008000fe4ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_EDPIDR1", 1, a, 0, 0, 0);
 }
@@ -2406,9 +2331,7 @@ typedef union
 static inline uint64_t BDK_DBGX_EDPIDR2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDPIDR2(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008000fe8ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008000fe8ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_EDPIDR2", 1, a, 0, 0, 0);
 }
@@ -2448,9 +2371,7 @@ typedef union
 static inline uint64_t BDK_DBGX_EDPIDR3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDPIDR3(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008000fecll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008000fecll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_EDPIDR3", 1, a, 0, 0, 0);
 }
@@ -2492,9 +2413,7 @@ typedef union
 static inline uint64_t BDK_DBGX_EDPIDR4(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDPIDR4(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008000fd0ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008000fd0ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_EDPIDR4", 1, a, 0, 0, 0);
 }
@@ -2528,9 +2447,7 @@ typedef union
 static inline uint64_t BDK_DBGX_EDPIDR5(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDPIDR5(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008000fd4ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008000fd4ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_EDPIDR5", 1, a, 0, 0, 0);
 }
@@ -2564,9 +2481,7 @@ typedef union
 static inline uint64_t BDK_DBGX_EDPIDR6(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDPIDR6(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008000fd8ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008000fd8ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_EDPIDR6", 1, a, 0, 0, 0);
 }
@@ -2600,9 +2515,7 @@ typedef union
 static inline uint64_t BDK_DBGX_EDPIDR7(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDPIDR7(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008000fdcll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008000fdcll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_EDPIDR7", 1, a, 0, 0, 0);
 }
@@ -2695,9 +2608,7 @@ typedef union
 static inline uint64_t BDK_DBGX_EDPRCR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDPRCR(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008000310ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008000310ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_EDPRCR", 1, a, 0, 0, 0);
 }
@@ -2730,43 +2641,43 @@ typedef union
                                                                  This bit is UNKNOWN on reads if either of EDPRSR.{DLK, R} is
                                                                      1, or EDPRSR.PU is zero.
                                                                  This bit clears to 0 when following a read of EDPRSR.
-                                                                 0 = The processor has not restarted since EDPRSR was last read.
-                                                                 1 = The processor has restarted since EDPRSR was last read. */
+                                                                 <0> The processor has not restarted since EDPRSR was last read.
+                                                                 <1> The processor has restarted since EDPRSR was last read. */
         uint32_t spmad                 : 1;  /**< [ 10: 10](RO) Sticky EPMAD error. Set to 1 if an access returns an error
                                                                      because AllowExternalPMUAccess() == FALSE.
                                                                  This bit is UNKNOWN on reads if either of EDPRSR.{DLK, R} is
                                                                      1, or EDPRSR.PU is zero.
                                                                  This bit clears to 0 when following a read of EDPRSR.
-                                                                 0 = No accesses to the external performance monitors registers
+                                                                 <0> No accesses to the external performance monitors registers
                                                                      have failed since EDPRSR was last read.
-                                                                 1 = At least one access to the external performance monitors
+                                                                 <1> At least one access to the external performance monitors
                                                                      registers has failed since EDPRSR was last read. */
         uint32_t epmad                 : 1;  /**< [  9:  9](RO) External performance monitors access disable status.
                                                                  If external performance monitors access is not implemented,
                                                                      EPMAD is RAO. This bit is UNKNOWN on reads if either of
                                                                      EDPRSR.{DLK, R} is 1, or EDPRSR.PU is zero.
-                                                                 0 = External performance monitors access enabled.
-                                                                 1 = External performance monitors access disabled. */
+                                                                 <0> External performance monitors access enabled.
+                                                                 <1> External performance monitors access disabled. */
         uint32_t sdad                  : 1;  /**< [  8:  8](RO) Sticky EDAD error. Set to 1 if an access returns an error
                                                                      because AllowExternalDebugAccess() == FALSE.
                                                                  This bit is UNKNOWN on reads if either of EDPRSR.{DLK, R} is
                                                                      1, or EDPRSR.PU is zero.
                                                                  This bit clears to 0 following a read of EDPRSR.
-                                                                 0 = No accesses to the external debug registers have failed since
+                                                                 <0> No accesses to the external debug registers have failed since
                                                                      EDPRSR was last read.
-                                                                 1 = At least one access to the external debug registers has failed
+                                                                 <1> At least one access to the external debug registers has failed
                                                                      since EDPRSR was last read. */
         uint32_t edad                  : 1;  /**< [  7:  7](RO) External debug access disable status.
                                                                  This bit is UNKNOWN on reads if either of EDPRSR.{DLK, R} is
                                                                      1, or EDPRSR.PU is zero.
-                                                                 0 = External debug access enabled.
-                                                                 1 = External debug access disabled. */
+                                                                 <0> External debug access enabled.
+                                                                 <1> External debug access disabled. */
         uint32_t dlk                   : 1;  /**< [  6:  6](RO) OS double-lock status bit.
                                                                  This bit is UNKNOWN on reads if EDPRSR.PU is zero.
-                                                                 0 = OSDLR_EL1.DLK = 0 or EDPRCR.CORENPDRQ = 1 or the processor
-                                                                     is in debug state.
-                                                                 1 = OSDLR_EL1.DLK = 1 and EDPRCR.CORENPDRQ = 0 and the processor
-                                                                     is in non-debug state. */
+                                                                 <0> OSDLR_EL1.DLK == 0 or EDPRCR.CORENPDRQ == 1 or the processor
+                                                                     is in Debug state.
+                                                                 <1> OSDLR_EL1.DLK == 1 and EDPRCR.CORENPDRQ == 0 and the processor
+                                                                     is in Non-debug state. */
         uint32_t oslk                  : 1;  /**< [  5:  5](RO) OS lock status bit. This bit is UNKNOWN on reads if either of
                                                                      EDPRSR.{DLK, R} is 1 or EDPRSR.PU is zero. Otherwise, a read
                                                                      returns the value of OSLSR_EL1.OSLK. */
@@ -2777,15 +2688,15 @@ typedef union
                                                                      values are:
                                                                  This bit clears to 0 following a read of EDPRSR if the non-
                                                                      debug logic of the processor is not in reset state.
-                                                                 0 = The nondebug logic of the processor is not in reset state and
+                                                                 <0> The non-debug logic of the processor is not in reset state and
                                                                      has not been reset since the last time EDPRSR was read.
-                                                                 1 = The nondebug logic of the processor is in reset state or has
+                                                                 <1> The non-debug logic of the processor is in reset state or has
                                                                      been reset since the last time EDPRSR was read. */
         uint32_t r                     : 1;  /**< [  2:  2](RO) Core reset status bit. This bit is UNKNOWN on reads if either
                                                                      EDPRSR.DLK is 1 or EDPRSR.PU is zero. Otherwise its possible
                                                                      values are:
-                                                                 0 = The nondebug logic of the processor is not in reset state.
-                                                                 1 = The nondebug logic of the processor is in reset state. */
+                                                                 <0> The non-debug logic of the processor is not in reset state.
+                                                                 <1> The non-debug logic of the processor is in reset state. */
         uint32_t spd                   : 1;  /**< [  1:  1](RO) Sticky core power-down status bit. This bit is UNKNOWN on
                                                                      reads if both EDPRSR.DLK and EDPRSR.PU are 1.
                                                                  This bit is set to 1 on cold reset to indicate the state of
@@ -2795,35 +2706,36 @@ typedef union
                                                                  Possible values are:
                                                                  This bit clears to 0 following a read of EDPRSR if the
                                                                      processor is not in the powered down state.
-                                                                 There are two logical power off states for the core power
+                                                                 There are two logical power off states for the Core power
                                                                      domain:
+
                                                                  * Retention: The states of the debug registers, including
-                                                                     EDPRSR.SPD, in the core power domain is preserved, and
+                                                                     EDPRSR.SPD, in the Core power domain is preserved, and
                                                                      restored on leaving retention state.
-                                                                 * Power-down: The states of the debug registers in the core
-                                                                     power domain is lost, and a cold reset is asserted on leaving
+
+                                                                 * Power-down: The states of the debug registers in the Core
+                                                                     power domain is lost, and a Cold reset is asserted on leaving
                                                                      power-down state.
 
                                                                   If EDPRSR.PU is zero,
-                                                                  0 = It is now known whether the state of the debug registers in the core power domain is
+                                                                  <0> It is now known whether the state of the degug regsiters in the Core power domain is
                                                                  lost.
-                                                                  1 = The state of the debug registers int he core power domain is lost
-
+                                                                  <1> The state fo the debug registers int he Core power domain is lost
                                                                   If EDPRSR.PU is one,
-                                                                  0 = The state of the debug registers in the core power domain has not been lost.
-                                                                  1 = The state of the debug registers in the core power domain has been lost. */
+                                                                  <0> The state of the debug registers in the Core power domain has not been lost.
+                                                                  <1> The state of the debug registers in the Core power domain has been lost. */
         uint32_t pu                    : 1;  /**< [  0:  0](RO) Core power-up status bit. Indicates whether the core power
                                                                      domain debug registers can be accessed:
-                                                                 0 = Core is in a low-power or power-down state where the debug
+                                                                 <0> Core is in a low-power or power-down state where the debug
                                                                      registers cannot be accessed.
-                                                                 1 = Core is in a power-up state where the debug registers can be
+                                                                 <1> Core is in a power-up state where the debug registers can be
                                                                      accessed. */
 #else /* Word 0 - Little Endian */
         uint32_t pu                    : 1;  /**< [  0:  0](RO) Core power-up status bit. Indicates whether the core power
                                                                      domain debug registers can be accessed:
-                                                                 0 = Core is in a low-power or power-down state where the debug
+                                                                 <0> Core is in a low-power or power-down state where the debug
                                                                      registers cannot be accessed.
-                                                                 1 = Core is in a power-up state where the debug registers can be
+                                                                 <1> Core is in a power-up state where the debug registers can be
                                                                      accessed. */
         uint32_t spd                   : 1;  /**< [  1:  1](RO) Sticky core power-down status bit. This bit is UNKNOWN on
                                                                      reads if both EDPRSR.DLK and EDPRSR.PU are 1.
@@ -2834,36 +2746,37 @@ typedef union
                                                                  Possible values are:
                                                                  This bit clears to 0 following a read of EDPRSR if the
                                                                      processor is not in the powered down state.
-                                                                 There are two logical power off states for the core power
+                                                                 There are two logical power off states for the Core power
                                                                      domain:
+
                                                                  * Retention: The states of the debug registers, including
-                                                                     EDPRSR.SPD, in the core power domain is preserved, and
+                                                                     EDPRSR.SPD, in the Core power domain is preserved, and
                                                                      restored on leaving retention state.
-                                                                 * Power-down: The states of the debug registers in the core
-                                                                     power domain is lost, and a cold reset is asserted on leaving
+
+                                                                 * Power-down: The states of the debug registers in the Core
+                                                                     power domain is lost, and a Cold reset is asserted on leaving
                                                                      power-down state.
 
                                                                   If EDPRSR.PU is zero,
-                                                                  0 = It is now known whether the state of the debug registers in the core power domain is
+                                                                  <0> It is now known whether the state of the degug regsiters in the Core power domain is
                                                                  lost.
-                                                                  1 = The state of the debug registers int he core power domain is lost
-
+                                                                  <1> The state fo the debug registers int he Core power domain is lost
                                                                   If EDPRSR.PU is one,
-                                                                  0 = The state of the debug registers in the core power domain has not been lost.
-                                                                  1 = The state of the debug registers in the core power domain has been lost. */
+                                                                  <0> The state of the debug registers in the Core power domain has not been lost.
+                                                                  <1> The state of the debug registers in the Core power domain has been lost. */
         uint32_t r                     : 1;  /**< [  2:  2](RO) Core reset status bit. This bit is UNKNOWN on reads if either
                                                                      EDPRSR.DLK is 1 or EDPRSR.PU is zero. Otherwise its possible
                                                                      values are:
-                                                                 0 = The nondebug logic of the processor is not in reset state.
-                                                                 1 = The nondebug logic of the processor is in reset state. */
+                                                                 <0> The non-debug logic of the processor is not in reset state.
+                                                                 <1> The non-debug logic of the processor is in reset state. */
         uint32_t sr                    : 1;  /**< [  3:  3](RO) Sticky core reset status bit. This bit is UNKNOWN on reads if
                                                                      EDPRSR.DLK is 1 or EDPRSR.PU is zero. Otherwise its possible
                                                                      values are:
                                                                  This bit clears to 0 following a read of EDPRSR if the non-
                                                                      debug logic of the processor is not in reset state.
-                                                                 0 = The nondebug logic of the processor is not in reset state and
+                                                                 <0> The non-debug logic of the processor is not in reset state and
                                                                      has not been reset since the last time EDPRSR was read.
-                                                                 1 = The nondebug logic of the processor is in reset state or has
+                                                                 <1> The non-debug logic of the processor is in reset state or has
                                                                      been reset since the last time EDPRSR was read. */
         uint32_t halted                : 1;  /**< [  4:  4](RO) Halted status bit. This bit is UNKNOWN on reads if EDPRSR.PU
                                                                      is zero, 0 if EDSCR.STATUS == 0x2, 1 if EDSCR.STATUS != 0x2. */
@@ -2872,50 +2785,51 @@ typedef union
                                                                      returns the value of OSLSR_EL1.OSLK. */
         uint32_t dlk                   : 1;  /**< [  6:  6](RO) OS double-lock status bit.
                                                                  This bit is UNKNOWN on reads if EDPRSR.PU is zero.
-                                                                 0 = OSDLR_EL1.DLK = 0 or EDPRCR.CORENPDRQ = 1 or the processor
-                                                                     is in debug state.
-                                                                 1 = OSDLR_EL1.DLK = 1 and EDPRCR.CORENPDRQ = 0 and the processor
-                                                                     is in non-debug state. */
+                                                                 <0> OSDLR_EL1.DLK == 0 or EDPRCR.CORENPDRQ == 1 or the processor
+                                                                     is in Debug state.
+                                                                 <1> OSDLR_EL1.DLK == 1 and EDPRCR.CORENPDRQ == 0 and the processor
+                                                                     is in Non-debug state. */
         uint32_t edad                  : 1;  /**< [  7:  7](RO) External debug access disable status.
                                                                  This bit is UNKNOWN on reads if either of EDPRSR.{DLK, R} is
                                                                      1, or EDPRSR.PU is zero.
-                                                                 0 = External debug access enabled.
-                                                                 1 = External debug access disabled. */
+                                                                 <0> External debug access enabled.
+                                                                 <1> External debug access disabled. */
         uint32_t sdad                  : 1;  /**< [  8:  8](RO) Sticky EDAD error. Set to 1 if an access returns an error
                                                                      because AllowExternalDebugAccess() == FALSE.
                                                                  This bit is UNKNOWN on reads if either of EDPRSR.{DLK, R} is
                                                                      1, or EDPRSR.PU is zero.
                                                                  This bit clears to 0 following a read of EDPRSR.
-                                                                 0 = No accesses to the external debug registers have failed since
+                                                                 <0> No accesses to the external debug registers have failed since
                                                                      EDPRSR was last read.
-                                                                 1 = At least one access to the external debug registers has failed
+                                                                 <1> At least one access to the external debug registers has failed
                                                                      since EDPRSR was last read. */
         uint32_t epmad                 : 1;  /**< [  9:  9](RO) External performance monitors access disable status.
                                                                  If external performance monitors access is not implemented,
                                                                      EPMAD is RAO. This bit is UNKNOWN on reads if either of
                                                                      EDPRSR.{DLK, R} is 1, or EDPRSR.PU is zero.
-                                                                 0 = External performance monitors access enabled.
-                                                                 1 = External performance monitors access disabled. */
+                                                                 <0> External performance monitors access enabled.
+                                                                 <1> External performance monitors access disabled. */
         uint32_t spmad                 : 1;  /**< [ 10: 10](RO) Sticky EPMAD error. Set to 1 if an access returns an error
                                                                      because AllowExternalPMUAccess() == FALSE.
                                                                  This bit is UNKNOWN on reads if either of EDPRSR.{DLK, R} is
                                                                      1, or EDPRSR.PU is zero.
                                                                  This bit clears to 0 when following a read of EDPRSR.
-                                                                 0 = No accesses to the external performance monitors registers
+                                                                 <0> No accesses to the external performance monitors registers
                                                                      have failed since EDPRSR was last read.
-                                                                 1 = At least one access to the external performance monitors
+                                                                 <1> At least one access to the external performance monitors
                                                                      registers has failed since EDPRSR was last read. */
         uint32_t sdr                   : 1;  /**< [ 11: 11](RO) Sticky debug restart. Set to 1 when the processor exits Debug
                                                                      state and cleared to 0 following reads of EDPRSR.
                                                                  This bit is UNKNOWN on reads if either of EDPRSR.{DLK, R} is
                                                                      1, or EDPRSR.PU is zero.
                                                                  This bit clears to 0 when following a read of EDPRSR.
-                                                                 0 = The processor has not restarted since EDPRSR was last read.
-                                                                 1 = The processor has restarted since EDPRSR was last read. */
+                                                                 <0> The processor has not restarted since EDPRSR was last read.
+                                                                 <1> The processor has restarted since EDPRSR was last read. */
         uint32_t reserved_12_31        : 20;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_dbgx_edprsr_cn88xxp1
+    /* struct bdk_dbgx_edprsr_s cn88xxp1; */
+    struct bdk_dbgx_edprsr_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_12_31        : 20;
@@ -2924,43 +2838,43 @@ typedef union
                                                                  This bit is UNKNOWN on reads if either of EDPRSR.{DLK, R} is
                                                                      1, or EDPRSR.PU is zero.
                                                                  This bit clears to 0 when following a read of EDPRSR.
-                                                                 <0> The processor has not restarted since EDPRSR was last read.
-                                                                 <1> The processor has restarted since EDPRSR was last read. */
+                                                                 0 = The processor has not restarted since EDPRSR was last read.
+                                                                 1 = The processor has restarted since EDPRSR was last read. */
         uint32_t spmad                 : 1;  /**< [ 10: 10](RO) Sticky EPMAD error. Set to 1 if an access returns an error
                                                                      because AllowExternalPMUAccess() == FALSE.
                                                                  This bit is UNKNOWN on reads if either of EDPRSR.{DLK, R} is
                                                                      1, or EDPRSR.PU is zero.
                                                                  This bit clears to 0 when following a read of EDPRSR.
-                                                                 <0> No accesses to the external performance monitors registers
+                                                                 0 = No accesses to the external performance monitors registers
                                                                      have failed since EDPRSR was last read.
-                                                                 <1> At least one access to the external performance monitors
+                                                                 1 = At least one access to the external performance monitors
                                                                      registers has failed since EDPRSR was last read. */
         uint32_t epmad                 : 1;  /**< [  9:  9](RO) External performance monitors access disable status.
                                                                  If external performance monitors access is not implemented,
                                                                      EPMAD is RAO. This bit is UNKNOWN on reads if either of
                                                                      EDPRSR.{DLK, R} is 1, or EDPRSR.PU is zero.
-                                                                 <0> External performance monitors access enabled.
-                                                                 <1> External performance monitors access disabled. */
+                                                                 0 = External performance monitors access enabled.
+                                                                 1 = External performance monitors access disabled. */
         uint32_t sdad                  : 1;  /**< [  8:  8](RO) Sticky EDAD error. Set to 1 if an access returns an error
                                                                      because AllowExternalDebugAccess() == FALSE.
                                                                  This bit is UNKNOWN on reads if either of EDPRSR.{DLK, R} is
                                                                      1, or EDPRSR.PU is zero.
                                                                  This bit clears to 0 following a read of EDPRSR.
-                                                                 <0> No accesses to the external debug registers have failed since
+                                                                 0 = No accesses to the external debug registers have failed since
                                                                      EDPRSR was last read.
-                                                                 <1> At least one access to the external debug registers has failed
+                                                                 1 = At least one access to the external debug registers has failed
                                                                      since EDPRSR was last read. */
         uint32_t edad                  : 1;  /**< [  7:  7](RO) External debug access disable status.
                                                                  This bit is UNKNOWN on reads if either of EDPRSR.{DLK, R} is
                                                                      1, or EDPRSR.PU is zero.
-                                                                 <0> External debug access enabled.
-                                                                 <1> External debug access disabled. */
+                                                                 0 = External debug access enabled.
+                                                                 1 = External debug access disabled. */
         uint32_t dlk                   : 1;  /**< [  6:  6](RO) OS double-lock status bit.
                                                                  This bit is UNKNOWN on reads if EDPRSR.PU is zero.
-                                                                 <0> OSDLR_EL1.DLK == 0 or EDPRCR.CORENPDRQ == 1 or the processor
-                                                                     is in Debug state.
-                                                                 <1> OSDLR_EL1.DLK == 1 and EDPRCR.CORENPDRQ == 0 and the processor
-                                                                     is in Non-debug state. */
+                                                                 0 = OSDLR_EL1.DLK = 0 or EDPRCR.CORENPDRQ = 1 or the processor
+                                                                     is in debug state.
+                                                                 1 = OSDLR_EL1.DLK = 1 and EDPRCR.CORENPDRQ = 0 and the processor
+                                                                     is in non-debug state. */
         uint32_t oslk                  : 1;  /**< [  5:  5](RO) OS lock status bit. This bit is UNKNOWN on reads if either of
                                                                      EDPRSR.{DLK, R} is 1 or EDPRSR.PU is zero. Otherwise, a read
                                                                      returns the value of OSLSR_EL1.OSLK. */
@@ -2971,15 +2885,15 @@ typedef union
                                                                      values are:
                                                                  This bit clears to 0 following a read of EDPRSR if the non-
                                                                      debug logic of the processor is not in reset state.
-                                                                 <0> The non-debug logic of the processor is not in reset state and
+                                                                 0 = The nondebug logic of the processor is not in reset state and
                                                                      has not been reset since the last time EDPRSR was read.
-                                                                 <1> The non-debug logic of the processor is in reset state or has
+                                                                 1 = The nondebug logic of the processor is in reset state or has
                                                                      been reset since the last time EDPRSR was read. */
         uint32_t r                     : 1;  /**< [  2:  2](RO) Core reset status bit. This bit is UNKNOWN on reads if either
                                                                      EDPRSR.DLK is 1 or EDPRSR.PU is zero. Otherwise its possible
                                                                      values are:
-                                                                 <0> The non-debug logic of the processor is not in reset state.
-                                                                 <1> The non-debug logic of the processor is in reset state. */
+                                                                 0 = The nondebug logic of the processor is not in reset state.
+                                                                 1 = The nondebug logic of the processor is in reset state. */
         uint32_t spd                   : 1;  /**< [  1:  1](RO) Sticky core power-down status bit. This bit is UNKNOWN on
                                                                      reads if both EDPRSR.DLK and EDPRSR.PU are 1.
                                                                  This bit is set to 1 on cold reset to indicate the state of
@@ -2989,36 +2903,35 @@ typedef union
                                                                  Possible values are:
                                                                  This bit clears to 0 following a read of EDPRSR if the
                                                                      processor is not in the powered down state.
-                                                                 There are two logical power off states for the Core power
+                                                                 There are two logical power off states for the core power
                                                                      domain:
-
                                                                  * Retention: The states of the debug registers, including
-                                                                     EDPRSR.SPD, in the Core power domain is preserved, and
+                                                                     EDPRSR.SPD, in the core power domain is preserved, and
                                                                      restored on leaving retention state.
-
-                                                                 * Power-down: The states of the debug registers in the Core
-                                                                     power domain is lost, and a Cold reset is asserted on leaving
+                                                                 * Power-down: The states of the debug registers in the core
+                                                                     power domain is lost, and a cold reset is asserted on leaving
                                                                      power-down state.
 
                                                                   If EDPRSR.PU is zero,
-                                                                  <0> It is now known whether the state of the degug regsiters in the Core power domain is
+                                                                  0 = It is now known whether the state of the debug registers in the core power domain is
                                                                  lost.
-                                                                  <1> The state fo the debug registers int he Core power domain is lost
+                                                                  1 = The state of the debug registers int he core power domain is lost
+
                                                                   If EDPRSR.PU is one,
-                                                                  <0> The state of the debug registers in the Core power domain has not been lost.
-                                                                  <1> The state of the debug registers in the Core power domain has been lost. */
+                                                                  0 = The state of the debug registers in the core power domain has not been lost.
+                                                                  1 = The state of the debug registers in the core power domain has been lost. */
         uint32_t pu                    : 1;  /**< [  0:  0](RO) Core power-up status bit. Indicates whether the core power
                                                                      domain debug registers can be accessed:
-                                                                 <0> Core is in a low-power or power-down state where the debug
+                                                                 0 = Core is in a low-power or power-down state where the debug
                                                                      registers cannot be accessed.
-                                                                 <1> Core is in a power-up state where the debug registers can be
+                                                                 1 = Core is in a power-up state where the debug registers can be
                                                                      accessed. */
 #else /* Word 0 - Little Endian */
         uint32_t pu                    : 1;  /**< [  0:  0](RO) Core power-up status bit. Indicates whether the core power
                                                                      domain debug registers can be accessed:
-                                                                 <0> Core is in a low-power or power-down state where the debug
+                                                                 0 = Core is in a low-power or power-down state where the debug
                                                                      registers cannot be accessed.
-                                                                 <1> Core is in a power-up state where the debug registers can be
+                                                                 1 = Core is in a power-up state where the debug registers can be
                                                                      accessed. */
         uint32_t spd                   : 1;  /**< [  1:  1](RO) Sticky core power-down status bit. This bit is UNKNOWN on
                                                                      reads if both EDPRSR.DLK and EDPRSR.PU are 1.
@@ -3029,37 +2942,36 @@ typedef union
                                                                  Possible values are:
                                                                  This bit clears to 0 following a read of EDPRSR if the
                                                                      processor is not in the powered down state.
-                                                                 There are two logical power off states for the Core power
+                                                                 There are two logical power off states for the core power
                                                                      domain:
-
                                                                  * Retention: The states of the debug registers, including
-                                                                     EDPRSR.SPD, in the Core power domain is preserved, and
+                                                                     EDPRSR.SPD, in the core power domain is preserved, and
                                                                      restored on leaving retention state.
-
-                                                                 * Power-down: The states of the debug registers in the Core
-                                                                     power domain is lost, and a Cold reset is asserted on leaving
+                                                                 * Power-down: The states of the debug registers in the core
+                                                                     power domain is lost, and a cold reset is asserted on leaving
                                                                      power-down state.
 
                                                                   If EDPRSR.PU is zero,
-                                                                  <0> It is now known whether the state of the degug regsiters in the Core power domain is
+                                                                  0 = It is now known whether the state of the debug registers in the core power domain is
                                                                  lost.
-                                                                  <1> The state fo the debug registers int he Core power domain is lost
+                                                                  1 = The state of the debug registers int he core power domain is lost
+
                                                                   If EDPRSR.PU is one,
-                                                                  <0> The state of the debug registers in the Core power domain has not been lost.
-                                                                  <1> The state of the debug registers in the Core power domain has been lost. */
+                                                                  0 = The state of the debug registers in the core power domain has not been lost.
+                                                                  1 = The state of the debug registers in the core power domain has been lost. */
         uint32_t r                     : 1;  /**< [  2:  2](RO) Core reset status bit. This bit is UNKNOWN on reads if either
                                                                      EDPRSR.DLK is 1 or EDPRSR.PU is zero. Otherwise its possible
                                                                      values are:
-                                                                 <0> The non-debug logic of the processor is not in reset state.
-                                                                 <1> The non-debug logic of the processor is in reset state. */
+                                                                 0 = The nondebug logic of the processor is not in reset state.
+                                                                 1 = The nondebug logic of the processor is in reset state. */
         uint32_t sr                    : 1;  /**< [  3:  3](RO) Sticky core reset status bit. This bit is UNKNOWN on reads if
                                                                      EDPRSR.DLK is 1 or EDPRSR.PU is zero. Otherwise its possible
                                                                      values are:
                                                                  This bit clears to 0 following a read of EDPRSR if the non-
                                                                      debug logic of the processor is not in reset state.
-                                                                 <0> The non-debug logic of the processor is not in reset state and
+                                                                 0 = The nondebug logic of the processor is not in reset state and
                                                                      has not been reset since the last time EDPRSR was read.
-                                                                 <1> The non-debug logic of the processor is in reset state or has
+                                                                 1 = The nondebug logic of the processor is in reset state or has
                                                                      been reset since the last time EDPRSR was read. */
         uint32_t halted                : 1;  /**< [  4:  4](RO) Halted status bit. This bit is UNKNOWN on reads if EDPRSR.PU
                                                                      is zero, 0 if EDSCR.STATUS == 0x2, 1 if EDSCR.STATUS != 0x2. */
@@ -3068,61 +2980,57 @@ typedef union
                                                                      returns the value of OSLSR_EL1.OSLK. */
         uint32_t dlk                   : 1;  /**< [  6:  6](RO) OS double-lock status bit.
                                                                  This bit is UNKNOWN on reads if EDPRSR.PU is zero.
-                                                                 <0> OSDLR_EL1.DLK == 0 or EDPRCR.CORENPDRQ == 1 or the processor
-                                                                     is in Debug state.
-                                                                 <1> OSDLR_EL1.DLK == 1 and EDPRCR.CORENPDRQ == 0 and the processor
-                                                                     is in Non-debug state. */
+                                                                 0 = OSDLR_EL1.DLK = 0 or EDPRCR.CORENPDRQ = 1 or the processor
+                                                                     is in debug state.
+                                                                 1 = OSDLR_EL1.DLK = 1 and EDPRCR.CORENPDRQ = 0 and the processor
+                                                                     is in non-debug state. */
         uint32_t edad                  : 1;  /**< [  7:  7](RO) External debug access disable status.
                                                                  This bit is UNKNOWN on reads if either of EDPRSR.{DLK, R} is
                                                                      1, or EDPRSR.PU is zero.
-                                                                 <0> External debug access enabled.
-                                                                 <1> External debug access disabled. */
+                                                                 0 = External debug access enabled.
+                                                                 1 = External debug access disabled. */
         uint32_t sdad                  : 1;  /**< [  8:  8](RO) Sticky EDAD error. Set to 1 if an access returns an error
                                                                      because AllowExternalDebugAccess() == FALSE.
                                                                  This bit is UNKNOWN on reads if either of EDPRSR.{DLK, R} is
                                                                      1, or EDPRSR.PU is zero.
                                                                  This bit clears to 0 following a read of EDPRSR.
-                                                                 <0> No accesses to the external debug registers have failed since
+                                                                 0 = No accesses to the external debug registers have failed since
                                                                      EDPRSR was last read.
-                                                                 <1> At least one access to the external debug registers has failed
+                                                                 1 = At least one access to the external debug registers has failed
                                                                      since EDPRSR was last read. */
         uint32_t epmad                 : 1;  /**< [  9:  9](RO) External performance monitors access disable status.
                                                                  If external performance monitors access is not implemented,
                                                                      EPMAD is RAO. This bit is UNKNOWN on reads if either of
                                                                      EDPRSR.{DLK, R} is 1, or EDPRSR.PU is zero.
-                                                                 <0> External performance monitors access enabled.
-                                                                 <1> External performance monitors access disabled. */
+                                                                 0 = External performance monitors access enabled.
+                                                                 1 = External performance monitors access disabled. */
         uint32_t spmad                 : 1;  /**< [ 10: 10](RO) Sticky EPMAD error. Set to 1 if an access returns an error
                                                                      because AllowExternalPMUAccess() == FALSE.
                                                                  This bit is UNKNOWN on reads if either of EDPRSR.{DLK, R} is
                                                                      1, or EDPRSR.PU is zero.
                                                                  This bit clears to 0 when following a read of EDPRSR.
-                                                                 <0> No accesses to the external performance monitors registers
+                                                                 0 = No accesses to the external performance monitors registers
                                                                      have failed since EDPRSR was last read.
-                                                                 <1> At least one access to the external performance monitors
+                                                                 1 = At least one access to the external performance monitors
                                                                      registers has failed since EDPRSR was last read. */
         uint32_t sdr                   : 1;  /**< [ 11: 11](RO) Sticky debug restart. Set to 1 when the processor exits Debug
                                                                      state and cleared to 0 following reads of EDPRSR.
                                                                  This bit is UNKNOWN on reads if either of EDPRSR.{DLK, R} is
                                                                      1, or EDPRSR.PU is zero.
                                                                  This bit clears to 0 when following a read of EDPRSR.
-                                                                 <0> The processor has not restarted since EDPRSR was last read.
-                                                                 <1> The processor has restarted since EDPRSR was last read. */
+                                                                 0 = The processor has not restarted since EDPRSR was last read.
+                                                                 1 = The processor has restarted since EDPRSR was last read. */
         uint32_t reserved_12_31        : 20;
 #endif /* Word 0 - End */
-    } cn88xxp1;
-    /* struct bdk_dbgx_edprsr_s cn9; */
-    /* struct bdk_dbgx_edprsr_s cn81xx; */
-    /* struct bdk_dbgx_edprsr_s cn83xx; */
-    /* struct bdk_dbgx_edprsr_s cn88xxp2; */
+    } cn81xx;
+    /* struct bdk_dbgx_edprsr_cn81xx cn83xx; */
+    /* struct bdk_dbgx_edprsr_cn81xx cn88xxp2; */
 } bdk_dbgx_edprsr_t;
 
 static inline uint64_t BDK_DBGX_EDPRSR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDPRSR(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008000314ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008000314ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_EDPRSR", 1, a, 0, 0, 0);
 }
@@ -3181,9 +3089,7 @@ typedef union
 static inline uint64_t BDK_DBGX_EDRCR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDRCR(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008000090ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008000090ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_EDRCR", 1, a, 0, 0, 0);
 }
@@ -3789,7 +3695,6 @@ typedef union
         uint32_t reserved_31           : 1;
 #endif /* Word 0 - End */
     } cn88xxp1;
-    /* struct bdk_dbgx_edscr_s cn9; */
     /* struct bdk_dbgx_edscr_s cn81xx; */
     /* struct bdk_dbgx_edscr_s cn83xx; */
     /* struct bdk_dbgx_edscr_s cn88xxp2; */
@@ -3798,9 +3703,7 @@ typedef union
 static inline uint64_t BDK_DBGX_EDSCR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDSCR(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008000088ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008000088ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_EDSCR", 1, a, 0, 0, 0);
 }
@@ -3838,13 +3741,11 @@ typedef union
         uint32_t reserved_16_27        : 12;
         uint32_t vmid                  : 16; /**< [ 15:  0](RO) VMID sample. The value of VTTBR_EL2[VMID] associated with the
                                                                      most recent EDPCSR sample. If EDVIDSR[NS] = 0 or EDVIDSR[E2] =
-                                                                     1, this field is 0x0. When the SC2 bit is set to 0, EDVIDSR[15:0]
-                                                                     is extended to sample the 16-bit VMID if VTCR_EL2[VS] is set to 1. */
+                                                                     1, this field is 0x0. */
 #else /* Word 0 - Little Endian */
         uint32_t vmid                  : 16; /**< [ 15:  0](RO) VMID sample. The value of VTTBR_EL2[VMID] associated with the
                                                                      most recent EDPCSR sample. If EDVIDSR[NS] = 0 or EDVIDSR[E2] =
-                                                                     1, this field is 0x0. When the SC2 bit is set to 0, EDVIDSR[15:0]
-                                                                     is extended to sample the 16-bit VMID if VTCR_EL2[VS] is set to 1. */
+                                                                     1, this field is 0x0. */
         uint32_t reserved_16_27        : 12;
         uint32_t hv                    : 1;  /**< [ 28: 28](RO) EDPCSR high half valid. Indicates whether bits [63:32] of the
                                                                     most recent EDPCSR sample are valid. If EDVIDSR.HV == 0, the
@@ -3900,18 +3801,54 @@ typedef union
                                                                      associated with the most recent EDPCSR sample. */
 #endif /* Word 0 - End */
     } cn88xxp1;
-    /* struct bdk_dbgx_edvidsr_s cn9; */
-    /* struct bdk_dbgx_edvidsr_s cn81xx; */
-    /* struct bdk_dbgx_edvidsr_s cn83xx; */
-    /* struct bdk_dbgx_edvidsr_s cn88xxp2; */
+    struct bdk_dbgx_edvidsr_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t non_secure            : 1;  /**< [ 31: 31](RO) Nonsecure state sample. Indicates the security state
+                                                                     associated with the most recent EDPCSR sample. */
+        uint32_t e2                    : 1;  /**< [ 30: 30](RO) Exception level 2 status sample. Indicates whether the most
+                                                                     recent EDPCSR sample was associated with EL2. If EDVIDSR.NS ==
+                                                                     0, this bit is 0. */
+        uint32_t e3                    : 1;  /**< [ 29: 29](RO) Exception level 3 status sample. Indicates whether the most
+                                                                     recent EDPCSR sample was associated with AArch64 EL3. If
+                                                                     EDVIDSR.NS == 1 or the processor was in AArch32 state when
+                                                                     EDPCSR was read, this bit is 0. */
+        uint32_t hv                    : 1;  /**< [ 28: 28](RO) EDPCSR high half valid. Indicates whether bits [63:32] of the
+                                                                    most recent EDPCSR sample are valid. If EDVIDSR.HV == 0, the
+                                                                    value of EDPCSR[63:32] is 0x0. */
+        uint32_t reserved_16_27        : 12;
+        uint32_t vmid                  : 16; /**< [ 15:  0](RO) VMID sample. The value of VTTBR_EL2[VMID] associated with the
+                                                                     most recent EDPCSR sample. If EDVIDSR[NS] = 0 or EDVIDSR[E2] =
+                                                                     1, this field is 0x0. When the SC2 bit is set to 0, EDVIDSR[15:0]
+                                                                     is extended to sample the 16-bit VMID if VTCR_EL2[VS] is set to 1. */
+#else /* Word 0 - Little Endian */
+        uint32_t vmid                  : 16; /**< [ 15:  0](RO) VMID sample. The value of VTTBR_EL2[VMID] associated with the
+                                                                     most recent EDPCSR sample. If EDVIDSR[NS] = 0 or EDVIDSR[E2] =
+                                                                     1, this field is 0x0. When the SC2 bit is set to 0, EDVIDSR[15:0]
+                                                                     is extended to sample the 16-bit VMID if VTCR_EL2[VS] is set to 1. */
+        uint32_t reserved_16_27        : 12;
+        uint32_t hv                    : 1;  /**< [ 28: 28](RO) EDPCSR high half valid. Indicates whether bits [63:32] of the
+                                                                    most recent EDPCSR sample are valid. If EDVIDSR.HV == 0, the
+                                                                    value of EDPCSR[63:32] is 0x0. */
+        uint32_t e3                    : 1;  /**< [ 29: 29](RO) Exception level 3 status sample. Indicates whether the most
+                                                                     recent EDPCSR sample was associated with AArch64 EL3. If
+                                                                     EDVIDSR.NS == 1 or the processor was in AArch32 state when
+                                                                     EDPCSR was read, this bit is 0. */
+        uint32_t e2                    : 1;  /**< [ 30: 30](RO) Exception level 2 status sample. Indicates whether the most
+                                                                     recent EDPCSR sample was associated with EL2. If EDVIDSR.NS ==
+                                                                     0, this bit is 0. */
+        uint32_t non_secure            : 1;  /**< [ 31: 31](RO) Nonsecure state sample. Indicates the security state
+                                                                     associated with the most recent EDPCSR sample. */
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_dbgx_edvidsr_cn81xx cn83xx; */
+    /* struct bdk_dbgx_edvidsr_cn81xx cn88xxp2; */
 } bdk_dbgx_edvidsr_t;
 
 static inline uint64_t BDK_DBGX_EDVIDSR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDVIDSR(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a0080000a8ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a0080000a8ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_EDVIDSR", 1, a, 0, 0, 0);
 }
@@ -3947,9 +3884,7 @@ typedef union
 static inline uint64_t BDK_DBGX_EDWAR_HI(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDWAR_HI(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008000034ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008000034ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_EDWAR_HI", 1, a, 0, 0, 0);
 }
@@ -3987,9 +3922,7 @@ typedef union
 static inline uint64_t BDK_DBGX_EDWAR_LO(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDWAR_LO(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008000030ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008000030ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_EDWAR_LO", 1, a, 0, 0, 0);
 }
@@ -4100,9 +4033,7 @@ typedef union
 static inline uint64_t BDK_DBGX_MIDR_EL1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_MIDR_EL1(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008000d00ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008000d00ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_MIDR_EL1", 1, a, 0, 0, 0);
 }
@@ -4140,9 +4071,7 @@ typedef union
 static inline uint64_t BDK_DBGX_OSLAR_EL1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_OSLAR_EL1(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008000300ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008000300ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("DBGX_OSLAR_EL1", 1, a, 0, 0, 0);
 }

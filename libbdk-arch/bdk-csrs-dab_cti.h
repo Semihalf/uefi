@@ -65,55 +65,29 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_3_31         : 29;
-        uint32_t asicctl               : 3;  /**< [  2:  0](RAZ) Implementation defined ASIC control. Provides a control for
+        uint32_t asicctl               : 3;  /**< [  2:  0](R/W) Implementation defined ASIC control. Provides a control for
                                                                  external multiplexing of additional triggers.
                                                                  If external multiplexing of trigger signals is implemented
                                                                      then the number of multiplexed signals on each trigger must be
                                                                      reflected in CTI()_CTIDEVID[EXTMUXNUM].
-                                                                 If CTI()_CTIDEVID[EXTMUXNUM] is zero, this field is 0x0.
-
-                                                                 Since CTI()_CTIDEVID[EXTMUXNUM] is zero, this field is 0x0. */
+                                                                 If CTI()_CTIDEVID[EXTMUXNUM] is zero, this field is 0x0. */
 #else /* Word 0 - Little Endian */
-        uint32_t asicctl               : 3;  /**< [  2:  0](RAZ) Implementation defined ASIC control. Provides a control for
+        uint32_t asicctl               : 3;  /**< [  2:  0](R/W) Implementation defined ASIC control. Provides a control for
                                                                  external multiplexing of additional triggers.
                                                                  If external multiplexing of trigger signals is implemented
                                                                      then the number of multiplexed signals on each trigger must be
                                                                      reflected in CTI()_CTIDEVID[EXTMUXNUM].
-                                                                 If CTI()_CTIDEVID[EXTMUXNUM] is zero, this field is 0x0.
-
-                                                                 Since CTI()_CTIDEVID[EXTMUXNUM] is zero, this field is 0x0. */
+                                                                 If CTI()_CTIDEVID[EXTMUXNUM] is zero, this field is 0x0. */
         uint32_t reserved_3_31         : 29;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_ctix_asicctl_cn8
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_3_31         : 29;
-        uint32_t asicctl               : 3;  /**< [  2:  0](R/W) Implementation defined ASIC control. Provides a control for
-                                                                 external multiplexing of additional triggers.
-                                                                 If external multiplexing of trigger signals is implemented
-                                                                     then the number of multiplexed signals on each trigger must be
-                                                                     reflected in CTI()_CTIDEVID[EXTMUXNUM].
-                                                                 If CTI()_CTIDEVID[EXTMUXNUM] is zero, this field is 0x0. */
-#else /* Word 0 - Little Endian */
-        uint32_t asicctl               : 3;  /**< [  2:  0](R/W) Implementation defined ASIC control. Provides a control for
-                                                                 external multiplexing of additional triggers.
-                                                                 If external multiplexing of trigger signals is implemented
-                                                                     then the number of multiplexed signals on each trigger must be
-                                                                     reflected in CTI()_CTIDEVID[EXTMUXNUM].
-                                                                 If CTI()_CTIDEVID[EXTMUXNUM] is zero, this field is 0x0. */
-        uint32_t reserved_3_31         : 29;
-#endif /* Word 0 - End */
-    } cn8;
-    /* struct bdk_ctix_asicctl_s cn9; */
+    /* struct bdk_ctix_asicctl_s cn; */
 } bdk_ctix_asicctl_t;
 
 static inline uint64_t BDK_CTIX_ASICCTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CTIX_ASICCTL(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008010144ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008010144ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("CTIX_ASICCTL", 1, a, 0, 0, 0);
 }
@@ -160,9 +134,7 @@ typedef union
 static inline uint64_t BDK_CTIX_CLAIMCLR_EL1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CTIX_CLAIMCLR_EL1(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008010fa4ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008010fa4ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("CTIX_CLAIMCLR_EL1", 1, a, 0, 0, 0);
 }
@@ -206,9 +178,7 @@ typedef union
 static inline uint64_t BDK_CTIX_CLAIMSET_EL1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CTIX_CLAIMSET_EL1(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008010fa0ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008010fa0ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("CTIX_CLAIMSET_EL1", 1, a, 0, 0, 0);
 }
@@ -242,9 +212,7 @@ typedef union
 static inline uint64_t BDK_CTIX_CTIAPPCLEAR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CTIX_CTIAPPCLEAR(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008010018ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008010018ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("CTIX_CTIAPPCLEAR", 1, a, 0, 0, 0);
 }
@@ -294,9 +262,7 @@ typedef union
 static inline uint64_t BDK_CTIX_CTIAPPPULSE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CTIX_CTIAPPPULSE(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a00801001cll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a00801001cll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("CTIX_CTIAPPPULSE", 1, a, 0, 0, 0);
 }
@@ -362,7 +328,6 @@ typedef union
         uint32_t reserved_0_31         : 32;
 #endif /* Word 0 - End */
     } cn88xxp1;
-    /* struct bdk_ctix_ctiappset_s cn9; */
     /* struct bdk_ctix_ctiappset_s cn81xx; */
     /* struct bdk_ctix_ctiappset_s cn83xx; */
     struct bdk_ctix_ctiappset_cn88xxp2
@@ -412,9 +377,7 @@ typedef union
 static inline uint64_t BDK_CTIX_CTIAPPSET(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CTIX_CTIAPPSET(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008010014ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008010014ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("CTIX_CTIAPPSET", 1, a, 0, 0, 0);
 }
@@ -465,9 +428,7 @@ typedef union
 static inline uint64_t BDK_CTIX_CTIAUTHSTATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CTIX_CTIAUTHSTATUS(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008010fb8ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008010fb8ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("CTIX_CTIAUTHSTATUS", 1, a, 0, 0, 0);
 }
@@ -515,9 +476,7 @@ typedef union
 static inline uint64_t BDK_CTIX_CTICHINSTATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CTIX_CTICHINSTATUS(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008010138ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008010138ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("CTIX_CTICHINSTATUS", 1, a, 0, 0, 0);
 }
@@ -565,9 +524,7 @@ typedef union
 static inline uint64_t BDK_CTIX_CTICHOUTSTATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CTIX_CTICHOUTSTATUS(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a00801013cll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a00801013cll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("CTIX_CTICHOUTSTATUS", 1, a, 0, 0, 0);
 }
@@ -603,9 +560,7 @@ typedef union
 static inline uint64_t BDK_CTIX_CTICIDR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CTIX_CTICIDR0(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008010ff0ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008010ff0ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("CTIX_CTICIDR0", 1, a, 0, 0, 0);
 }
@@ -643,9 +598,7 @@ typedef union
 static inline uint64_t BDK_CTIX_CTICIDR1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CTIX_CTICIDR1(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008010ff4ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008010ff4ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("CTIX_CTICIDR1", 1, a, 0, 0, 0);
 }
@@ -681,9 +634,7 @@ typedef union
 static inline uint64_t BDK_CTIX_CTICIDR2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CTIX_CTICIDR2(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008010ff8ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008010ff8ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("CTIX_CTICIDR2", 1, a, 0, 0, 0);
 }
@@ -719,9 +670,7 @@ typedef union
 static inline uint64_t BDK_CTIX_CTICIDR3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CTIX_CTICIDR3(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008010ffcll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008010ffcll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("CTIX_CTICIDR3", 1, a, 0, 0, 0);
 }
@@ -773,9 +722,7 @@ typedef union
 static inline uint64_t BDK_CTIX_CTICONTROL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CTIX_CTICONTROL(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008010000ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008010000ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("CTIX_CTICONTROL", 1, a, 0, 0, 0);
 }
@@ -813,9 +760,7 @@ typedef union
 static inline uint64_t BDK_CTIX_CTIDEVAFF0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CTIX_CTIDEVAFF0(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008010fa8ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008010fa8ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("CTIX_CTIDEVAFF0", 1, a, 0, 0, 0);
 }
@@ -853,9 +798,7 @@ typedef union
 static inline uint64_t BDK_CTIX_CTIDEVAFF1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CTIX_CTIDEVAFF1(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008010facll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008010facll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("CTIX_CTIDEVAFF1", 1, a, 0, 0, 0);
 }
@@ -921,9 +864,7 @@ typedef union
 static inline uint64_t BDK_CTIX_CTIDEVARCH(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CTIX_CTIDEVARCH(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008010fbcll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008010fbcll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("CTIX_CTIDEVARCH", 1, a, 0, 0, 0);
 }
@@ -1025,9 +966,7 @@ typedef union
 static inline uint64_t BDK_CTIX_CTIDEVID(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CTIX_CTIDEVID(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008010fc8ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008010fc8ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("CTIX_CTIDEVID", 1, a, 0, 0, 0);
 }
@@ -1061,9 +1000,7 @@ typedef union
 static inline uint64_t BDK_CTIX_CTIDEVID1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CTIX_CTIDEVID1(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008010fc4ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008010fc4ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("CTIX_CTIDEVID1", 1, a, 0, 0, 0);
 }
@@ -1098,9 +1035,7 @@ typedef union
 static inline uint64_t BDK_CTIX_CTIDEVID2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CTIX_CTIDEVID2(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008010fc0ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008010fc0ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("CTIX_CTIDEVID2", 1, a, 0, 0, 0);
 }
@@ -1139,9 +1074,7 @@ typedef union
 static inline uint64_t BDK_CTIX_CTIDEVTYPE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CTIX_CTIDEVTYPE(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008010fccll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008010fccll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("CTIX_CTIDEVTYPE", 1, a, 0, 0, 0);
 }
@@ -1190,9 +1123,7 @@ typedef union
 static inline uint64_t BDK_CTIX_CTIGATE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CTIX_CTIGATE(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008010140ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008010140ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("CTIX_CTIGATE", 1, a, 0, 0, 0);
 }
@@ -1249,9 +1180,7 @@ typedef union
 static inline uint64_t BDK_CTIX_CTIINENX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CTIX_CTIINENX(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && ((a<=47) && (b<=2)))
-        return 0x87a008010020ll + 0x80000ll * ((a) & 0x3f) + 4ll * ((b) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=53) && (b<=2)))
+    if ((a<=47) && (b<=2))
         return 0x87a008010020ll + 0x80000ll * ((a) & 0x3f) + 4ll * ((b) & 0x3);
     __bdk_csr_fatal("CTIX_CTIINENX", 2, a, b, 0, 0);
 }
@@ -1325,9 +1254,7 @@ typedef union
 static inline uint64_t BDK_CTIX_CTIINTACK(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CTIX_CTIINTACK(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008010010ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008010010ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("CTIX_CTIINTACK", 1, a, 0, 0, 0);
 }
@@ -1376,9 +1303,7 @@ typedef union
 static inline uint64_t BDK_CTIX_CTIITCTRL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CTIX_CTIITCTRL(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008010f00ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008010f00ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("CTIX_CTIITCTRL", 1, a, 0, 0, 0);
 }
@@ -1417,9 +1342,7 @@ typedef union
 static inline uint64_t BDK_CTIX_CTILAR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CTIX_CTILAR(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008010fb0ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008010fb0ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("CTIX_CTILAR", 1, a, 0, 0, 0);
 }
@@ -1486,9 +1409,7 @@ typedef union
 static inline uint64_t BDK_CTIX_CTILSR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CTIX_CTILSR(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008010fb4ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008010fb4ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("CTIX_CTILSR", 1, a, 0, 0, 0);
 }
@@ -1544,9 +1465,7 @@ typedef union
 static inline uint64_t BDK_CTIX_CTIOUTENX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CTIX_CTIOUTENX(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && ((a<=47) && (b<=2)))
-        return 0x87a0080100a0ll + 0x80000ll * ((a) & 0x3f) + 4ll * ((b) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=53) && (b<=2)))
+    if ((a<=47) && (b<=2))
         return 0x87a0080100a0ll + 0x80000ll * ((a) & 0x3f) + 4ll * ((b) & 0x3);
     __bdk_csr_fatal("CTIX_CTIOUTENX", 2, a, b, 0, 0);
 }
@@ -1582,9 +1501,7 @@ typedef union
 static inline uint64_t BDK_CTIX_CTIPIDR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CTIX_CTIPIDR0(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008010fe0ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008010fe0ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("CTIX_CTIPIDR0", 1, a, 0, 0, 0);
 }
@@ -1622,9 +1539,7 @@ typedef union
 static inline uint64_t BDK_CTIX_CTIPIDR1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CTIX_CTIPIDR1(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008010fe4ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008010fe4ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("CTIX_CTIPIDR1", 1, a, 0, 0, 0);
 }
@@ -1664,9 +1579,7 @@ typedef union
 static inline uint64_t BDK_CTIX_CTIPIDR2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CTIX_CTIPIDR2(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008010fe8ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008010fe8ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("CTIX_CTIPIDR2", 1, a, 0, 0, 0);
 }
@@ -1706,9 +1619,7 @@ typedef union
 static inline uint64_t BDK_CTIX_CTIPIDR3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CTIX_CTIPIDR3(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008010fecll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008010fecll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("CTIX_CTIPIDR3", 1, a, 0, 0, 0);
 }
@@ -1748,9 +1659,7 @@ typedef union
 static inline uint64_t BDK_CTIX_CTIPIDR4(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CTIX_CTIPIDR4(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008010fd0ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008010fd0ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("CTIX_CTIPIDR4", 1, a, 0, 0, 0);
 }
@@ -1784,9 +1693,7 @@ typedef union
 static inline uint64_t BDK_CTIX_CTIPIDR5(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CTIX_CTIPIDR5(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008010fd4ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008010fd4ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("CTIX_CTIPIDR5", 1, a, 0, 0, 0);
 }
@@ -1820,9 +1727,7 @@ typedef union
 static inline uint64_t BDK_CTIX_CTIPIDR6(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CTIX_CTIPIDR6(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008010fd8ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008010fd8ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("CTIX_CTIPIDR6", 1, a, 0, 0, 0);
 }
@@ -1856,9 +1761,7 @@ typedef union
 static inline uint64_t BDK_CTIX_CTIPIDR7(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CTIX_CTIPIDR7(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008010fdcll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008010fdcll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("CTIX_CTIPIDR7", 1, a, 0, 0, 0);
 }
@@ -1908,9 +1811,7 @@ typedef union
 static inline uint64_t BDK_CTIX_CTITRIGINSTATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CTIX_CTITRIGINSTATUS(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008010130ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008010130ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("CTIX_CTITRIGINSTATUS", 1, a, 0, 0, 0);
 }
@@ -1966,9 +1867,7 @@ typedef union
 static inline uint64_t BDK_CTIX_CTITRIGOUTSTATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CTIX_CTITRIGOUTSTATUS(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008010134ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008010134ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("CTIX_CTITRIGOUTSTATUS", 1, a, 0, 0, 0);
 }

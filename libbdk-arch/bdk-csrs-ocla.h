@@ -58,14 +58,10 @@
  * OCLA Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define BDK_OCLA_BAR_E_OCLAX_PF_BAR0_CN8(a) (0x87e0a8000000ll + 0x1000000ll * (a))
-#define BDK_OCLA_BAR_E_OCLAX_PF_BAR0_CN8_SIZE 0x800000ull
-#define BDK_OCLA_BAR_E_OCLAX_PF_BAR0_CN9(a) (0x87e0b0000000ll + 0x1000000ll * (a))
-#define BDK_OCLA_BAR_E_OCLAX_PF_BAR0_CN9_SIZE 0x800000ull
-#define BDK_OCLA_BAR_E_OCLAX_PF_BAR4_CN8(a) (0x87e0a8f00000ll + 0x1000000ll * (a))
-#define BDK_OCLA_BAR_E_OCLAX_PF_BAR4_CN8_SIZE 0x100000ull
-#define BDK_OCLA_BAR_E_OCLAX_PF_BAR4_CN9(a) (0x87e0b0f00000ll + 0x1000000ll * (a))
-#define BDK_OCLA_BAR_E_OCLAX_PF_BAR4_CN9_SIZE 0x100000ull
+#define BDK_OCLA_BAR_E_OCLAX_PF_BAR0(a) (0x87e0a8000000ll + 0x1000000ll * (a))
+#define BDK_OCLA_BAR_E_OCLAX_PF_BAR0_SIZE 0x800000ull
+#define BDK_OCLA_BAR_E_OCLAX_PF_BAR4(a) (0x87e0a8f00000ll + 0x1000000ll * (a))
+#define BDK_OCLA_BAR_E_OCLAX_PF_BAR4_SIZE 0x100000ull
 
 /**
  * Enumeration ocla_int_vec_e
@@ -187,8 +183,6 @@ static inline uint64_t BDK_OCLAX_BIST_RESULT(unsigned long a)
         return 0x87e0a8000040ll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=4))
         return 0x87e0a8000040ll + 0x1000000ll * ((a) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=9))
-        return 0x87e0b0000040ll + 0x1000000ll * ((a) & 0xf);
     __bdk_csr_fatal("OCLAX_BIST_RESULT", 1, a, 0, 0, 0);
 }
 
@@ -215,8 +209,8 @@ typedef union
         uint64_t dis_stamp             : 1;  /**< [  4:  4](R/W) Remove time stamps from data stream. */
         uint64_t cap_ctl               : 4;  /**< [  3:  0](R/W) Minterms that will cause data to be captured. These minterms are the four inputs to a 4-1
                                                                  mux selected by PLA1 and 0. The output is thus calculated from the equation:
-                                                                   fsmcap0 = OCLA(0..9)_FSM(0)_STATE[state0][CAP].
-                                                                   fsmcap1 = OCLA(0..9)_FSM(1)_STATE[state1][CAP].
+                                                                   fsmcap0 = OCLA(0..1)_FSM(0)_STATE[state0][CAP].
+                                                                   fsmcap1 = OCLA(0..1)_FSM(1)_STATE[state1][CAP].
                                                                    out = (   (<3> & fsmcap1 & fsmcap0)
 
                                                                  _        || (<2> & fsmcap1 & !fsmcap0)
@@ -236,8 +230,8 @@ typedef union
 #else /* Word 0 - Little Endian */
         uint64_t cap_ctl               : 4;  /**< [  3:  0](R/W) Minterms that will cause data to be captured. These minterms are the four inputs to a 4-1
                                                                  mux selected by PLA1 and 0. The output is thus calculated from the equation:
-                                                                   fsmcap0 = OCLA(0..9)_FSM(0)_STATE[state0][CAP].
-                                                                   fsmcap1 = OCLA(0..9)_FSM(1)_STATE[state1][CAP].
+                                                                   fsmcap0 = OCLA(0..1)_FSM(0)_STATE[state0][CAP].
+                                                                   fsmcap1 = OCLA(0..1)_FSM(1)_STATE[state1][CAP].
                                                                    out = (   (<3> & fsmcap1 & fsmcap0)
 
                                                                  _        || (<2> & fsmcap1 & !fsmcap0)
@@ -259,59 +253,7 @@ typedef union
         uint64_t reserved_6_63         : 58;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_oclax_cdhx_ctl_s cn9; */
-    struct bdk_oclax_cdhx_ctl_cn81xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_6_63         : 58;
-        uint64_t dup                   : 1;  /**< [  5:  5](R/W) Retain duplicates in the data stream. */
-        uint64_t dis_stamp             : 1;  /**< [  4:  4](R/W) Remove time stamps from data stream. */
-        uint64_t cap_ctl               : 4;  /**< [  3:  0](R/W) Minterms that will cause data to be captured. These minterms are the four inputs to a 4-1
-                                                                 mux selected by PLA1 and 0. The output is thus calculated from the equation:
-                                                                   fsmcap0 = OCLA(0..1)_FSM(0)_STATE[state0][CAP].
-                                                                   fsmcap1 = OCLA(0..1)_FSM(1)_STATE[state1][CAP].
-                                                                   out = (   (<3> & fsmcap1 & fsmcap0)
-
-                                                                 _        || (<2> & fsmcap1 & !fsmcap0)
-
-                                                                 _        || (<1> & !fsmcap1 & fsmcap0)
-
-                                                                 _        || (<0> & !fsmcap1 & !fsmcap0)).
-
-                                                                 Common examples:
-                                                                 0x0 = No capture.
-                                                                 0xA = Capture when fsmcap0 requests capture.
-                                                                 0xC = Capture when fsmcap1 requests capture.
-                                                                 0x6 = Capture on fsmcap0 EXOR fsmcap1.
-                                                                 0x8 = Capture on fsmcap0 & fsmcap1.
-                                                                 0xE = Capture on fsmcap0 | fsmcap1.
-                                                                 0xF = Always capture. */
-#else /* Word 0 - Little Endian */
-        uint64_t cap_ctl               : 4;  /**< [  3:  0](R/W) Minterms that will cause data to be captured. These minterms are the four inputs to a 4-1
-                                                                 mux selected by PLA1 and 0. The output is thus calculated from the equation:
-                                                                   fsmcap0 = OCLA(0..1)_FSM(0)_STATE[state0][CAP].
-                                                                   fsmcap1 = OCLA(0..1)_FSM(1)_STATE[state1][CAP].
-                                                                   out = (   (<3> & fsmcap1 & fsmcap0)
-
-                                                                 _        || (<2> & fsmcap1 & !fsmcap0)
-
-                                                                 _        || (<1> & !fsmcap1 & fsmcap0)
-
-                                                                 _        || (<0> & !fsmcap1 & !fsmcap0)).
-
-                                                                 Common examples:
-                                                                 0x0 = No capture.
-                                                                 0xA = Capture when fsmcap0 requests capture.
-                                                                 0xC = Capture when fsmcap1 requests capture.
-                                                                 0x6 = Capture on fsmcap0 EXOR fsmcap1.
-                                                                 0x8 = Capture on fsmcap0 & fsmcap1.
-                                                                 0xE = Capture on fsmcap0 | fsmcap1.
-                                                                 0xF = Always capture. */
-        uint64_t dis_stamp             : 1;  /**< [  4:  4](R/W) Remove time stamps from data stream. */
-        uint64_t dup                   : 1;  /**< [  5:  5](R/W) Retain duplicates in the data stream. */
-        uint64_t reserved_6_63         : 58;
-#endif /* Word 0 - End */
-    } cn81xx;
+    /* struct bdk_oclax_cdhx_ctl_s cn81xx; */
     struct bdk_oclax_cdhx_ctl_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -427,8 +369,6 @@ static inline uint64_t BDK_OCLAX_CDHX_CTL(unsigned long a, unsigned long b)
         return 0x87e0a8000600ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=4) && (b<=1)))
         return 0x87e0a8000600ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=9) && (b<=1)))
-        return 0x87e0b0000600ll + 0x1000000ll * ((a) & 0xf) + 8ll * ((b) & 0x1);
     __bdk_csr_fatal("OCLAX_CDHX_CTL", 2, a, b, 0, 0);
 }
 
@@ -438,98 +378,6 @@ static inline uint64_t BDK_OCLAX_CDHX_CTL(unsigned long a, unsigned long b)
 #define device_bar_BDK_OCLAX_CDHX_CTL(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_OCLAX_CDHX_CTL(a,b) (a)
 #define arguments_BDK_OCLAX_CDHX_CTL(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) ocla#_cdh#_inject_state
- *
- * OCLA Capture Inject State Register
- * This register allows various state inputs to be inserted into the captured stream
- * data, to assist debugging of OCLA FSMs. Each input has two insertion positions
- * (e.g. MCD and ALT_MCD), so that some of the normal non-inject capture stream data
- * may still be observable.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_oclax_cdhx_inject_state_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t alt_trig              : 1;  /**< [ 31: 31](R/W) When set, insert FSM trigger input into captured stream <31>. */
-        uint64_t alt_mcd               : 3;  /**< [ 30: 28](R/W) When set, insert multichip debug (MCD) 0..2 FSM inputs into captured strean <30:28>. */
-        uint64_t alt_match             : 4;  /**< [ 27: 24](R/W) When set, insert matcher FSM inputs into captured stream <27:24>. */
-        uint64_t alt_fsm1_state        : 4;  /**< [ 23: 20](R/W) When set, insert FSM 1 state input into captured stream <23:20>. */
-        uint64_t alt_fsm0_state        : 4;  /**< [ 19: 16](R/W) When set, insert FSM 0 state input into captured stream <19:16>. */
-        uint64_t trig                  : 1;  /**< [ 15: 15](R/W) When set, insert FSM trigger input into captured stream <15>. */
-        uint64_t mcd                   : 3;  /**< [ 14: 12](R/W) When set, insert multichip debug (MCD) 0..2 FSM inputs into captured strean <14:12>. */
-        uint64_t match                 : 4;  /**< [ 11:  8](R/W) When set, insert matcher FSM inputs into captured stream <11:8>. */
-        uint64_t fsm1_state            : 4;  /**< [  7:  4](R/W) When set, insert FSM 1 state input into captured stream <7:4>. */
-        uint64_t fsm0_state            : 4;  /**< [  3:  0](R/W) When set, insert FSM 0 state input into captured stream <3:0>. */
-#else /* Word 0 - Little Endian */
-        uint64_t fsm0_state            : 4;  /**< [  3:  0](R/W) When set, insert FSM 0 state input into captured stream <3:0>. */
-        uint64_t fsm1_state            : 4;  /**< [  7:  4](R/W) When set, insert FSM 1 state input into captured stream <7:4>. */
-        uint64_t match                 : 4;  /**< [ 11:  8](R/W) When set, insert matcher FSM inputs into captured stream <11:8>. */
-        uint64_t mcd                   : 3;  /**< [ 14: 12](R/W) When set, insert multichip debug (MCD) 0..2 FSM inputs into captured strean <14:12>. */
-        uint64_t trig                  : 1;  /**< [ 15: 15](R/W) When set, insert FSM trigger input into captured stream <15>. */
-        uint64_t alt_fsm0_state        : 4;  /**< [ 19: 16](R/W) When set, insert FSM 0 state input into captured stream <19:16>. */
-        uint64_t alt_fsm1_state        : 4;  /**< [ 23: 20](R/W) When set, insert FSM 1 state input into captured stream <23:20>. */
-        uint64_t alt_match             : 4;  /**< [ 27: 24](R/W) When set, insert matcher FSM inputs into captured stream <27:24>. */
-        uint64_t alt_mcd               : 3;  /**< [ 30: 28](R/W) When set, insert multichip debug (MCD) 0..2 FSM inputs into captured strean <30:28>. */
-        uint64_t alt_trig              : 1;  /**< [ 31: 31](R/W) When set, insert FSM trigger input into captured stream <31>. */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_oclax_cdhx_inject_state_s cn; */
-} bdk_oclax_cdhx_inject_state_t;
-
-static inline uint64_t BDK_OCLAX_CDHX_INJECT_STATE(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_OCLAX_CDHX_INJECT_STATE(unsigned long a, unsigned long b)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=9) && (b<=1)))
-        return 0x87e0b0000610ll + 0x1000000ll * ((a) & 0xf) + 8ll * ((b) & 0x1);
-    __bdk_csr_fatal("OCLAX_CDHX_INJECT_STATE", 2, a, b, 0, 0);
-}
-
-#define typedef_BDK_OCLAX_CDHX_INJECT_STATE(a,b) bdk_oclax_cdhx_inject_state_t
-#define bustype_BDK_OCLAX_CDHX_INJECT_STATE(a,b) BDK_CSR_TYPE_RSL
-#define basename_BDK_OCLAX_CDHX_INJECT_STATE(a,b) "OCLAX_CDHX_INJECT_STATE"
-#define device_bar_BDK_OCLAX_CDHX_INJECT_STATE(a,b) 0x0 /* PF_BAR0 */
-#define busnum_BDK_OCLAX_CDHX_INJECT_STATE(a,b) (a)
-#define arguments_BDK_OCLAX_CDHX_INJECT_STATE(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) ocla#_cond_clocks
- *
- * OCLA Conditional Clock Registers
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_oclax_cond_clocks_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t clock                 : 64; /**< [ 63:  0](R/W/H) Counts cycles for which the conditional clocks are running. */
-#else /* Word 0 - Little Endian */
-        uint64_t clock                 : 64; /**< [ 63:  0](R/W/H) Counts cycles for which the conditional clocks are running. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_oclax_cond_clocks_s cn; */
-} bdk_oclax_cond_clocks_t;
-
-static inline uint64_t BDK_OCLAX_COND_CLOCKS(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_OCLAX_COND_CLOCKS(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=9))
-        return 0x87e0b0000620ll + 0x1000000ll * ((a) & 0xf);
-    __bdk_csr_fatal("OCLAX_COND_CLOCKS", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_OCLAX_COND_CLOCKS(a) bdk_oclax_cond_clocks_t
-#define bustype_BDK_OCLAX_COND_CLOCKS(a) BDK_CSR_TYPE_RSL
-#define basename_BDK_OCLAX_COND_CLOCKS(a) "OCLAX_COND_CLOCKS"
-#define device_bar_BDK_OCLAX_COND_CLOCKS(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_OCLAX_COND_CLOCKS(a) (a)
-#define arguments_BDK_OCLAX_COND_CLOCKS(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) ocla#_const
@@ -545,29 +393,15 @@ typedef union
         uint64_t reserved_16_63        : 48;
         uint64_t dat_size              : 16; /**< [ 15:  0](RO) Size of data RAM in units of 36-bit entries. This value is subject to change between chip
                                                                  passes, and software should thus use this value rather than a hard coded constant.
-                                                                 OCLA(0..8) size is 4096, OCLA(9) size is 16384. */
+                                                                 OCLA(0..1) size is 4096, OCLA(2) size is 8192. */
 #else /* Word 0 - Little Endian */
         uint64_t dat_size              : 16; /**< [ 15:  0](RO) Size of data RAM in units of 36-bit entries. This value is subject to change between chip
                                                                  passes, and software should thus use this value rather than a hard coded constant.
-                                                                 OCLA(0..8) size is 4096, OCLA(9) size is 16384. */
+                                                                 OCLA(0..1) size is 4096, OCLA(2) size is 8192. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_oclax_const_s cn9; */
-    struct bdk_oclax_const_cn81xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t dat_size              : 16; /**< [ 15:  0](RO) Size of data RAM in units of 36-bit entries. This value is subject to change between chip
-                                                                 passes, and software should thus use this value rather than a hard coded constant.
-                                                                 OCLA(0..1) size is 4096, OCLA(2) size is 8192. */
-#else /* Word 0 - Little Endian */
-        uint64_t dat_size              : 16; /**< [ 15:  0](RO) Size of data RAM in units of 36-bit entries. This value is subject to change between chip
-                                                                 passes, and software should thus use this value rather than a hard coded constant.
-                                                                 OCLA(0..1) size is 4096, OCLA(2) size is 8192. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } cn81xx;
+    /* struct bdk_oclax_const_s cn81xx; */
     struct bdk_oclax_const_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -582,7 +416,7 @@ typedef union
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } cn88xx;
-    /* struct bdk_oclax_const_cn81xx cn83xx; */
+    /* struct bdk_oclax_const_s cn83xx; */
 } bdk_oclax_const_t;
 
 static inline uint64_t BDK_OCLAX_CONST(unsigned long a) __attribute__ ((pure, always_inline));
@@ -594,8 +428,6 @@ static inline uint64_t BDK_OCLAX_CONST(unsigned long a)
         return 0x87e0a8000000ll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=4))
         return 0x87e0a8000000ll + 0x1000000ll * ((a) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=9))
-        return 0x87e0b0000000ll + 0x1000000ll * ((a) & 0xf);
     __bdk_csr_fatal("OCLAX_CONST", 1, a, 0, 0, 0);
 }
 
@@ -636,8 +468,6 @@ static inline uint64_t BDK_OCLAX_DATX(unsigned long a, unsigned long b)
         return 0x87e0a8400000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x1fff);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=4) && (b<=8191)))
         return 0x87e0a8400000ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x1fff);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=9) && (b<=16383)))
-        return 0x87e0b0400000ll + 0x1000000ll * ((a) & 0xf) + 8ll * ((b) & 0x3fff);
     __bdk_csr_fatal("OCLAX_DATX", 2, a, b, 0, 0);
 }
 
@@ -694,8 +524,6 @@ static inline uint64_t BDK_OCLAX_DAT_POP(unsigned long a)
         return 0x87e0a8000800ll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=4))
         return 0x87e0a8000800ll + 0x1000000ll * ((a) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=9))
-        return 0x87e0b0000800ll + 0x1000000ll * ((a) & 0xf);
     __bdk_csr_fatal("OCLAX_DAT_POP", 1, a, 0, 0, 0);
 }
 
@@ -738,8 +566,6 @@ static inline uint64_t BDK_OCLAX_ECO(unsigned long a)
         return 0x87e0a83200d0ll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && (a<=4))
         return 0x87e0a83200d0ll + 0x1000000ll * ((a) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=9))
-        return 0x87e0b03200d0ll + 0x1000000ll * ((a) & 0xf);
     __bdk_csr_fatal("OCLAX_ECO", 1, a, 0, 0, 0);
 }
 
@@ -780,8 +606,6 @@ static inline uint64_t BDK_OCLAX_FIFO_DEPTH(unsigned long a)
         return 0x87e0a8000200ll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=4))
         return 0x87e0a8000200ll + 0x1000000ll * ((a) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=9))
-        return 0x87e0b0000200ll + 0x1000000ll * ((a) & 0xf);
     __bdk_csr_fatal("OCLAX_FIFO_DEPTH", 1, a, 0, 0, 0);
 }
 
@@ -840,8 +664,6 @@ static inline uint64_t BDK_OCLAX_FIFO_LIMIT(unsigned long a)
         return 0x87e0a8000240ll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=4))
         return 0x87e0a8000240ll + 0x1000000ll * ((a) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=9))
-        return 0x87e0b0000240ll + 0x1000000ll * ((a) & 0xf);
     __bdk_csr_fatal("OCLAX_FIFO_LIMIT", 1, a, 0, 0, 0);
 }
 
@@ -882,8 +704,6 @@ static inline uint64_t BDK_OCLAX_FIFO_TAIL(unsigned long a)
         return 0x87e0a8000260ll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=4))
         return 0x87e0a8000260ll + 0x1000000ll * ((a) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=9))
-        return 0x87e0b0000260ll + 0x1000000ll * ((a) & 0xf);
     __bdk_csr_fatal("OCLAX_FIFO_TAIL", 1, a, 0, 0, 0);
 }
 
@@ -930,8 +750,6 @@ static inline uint64_t BDK_OCLAX_FIFO_TRIG(unsigned long a)
         return 0x87e0a80002a0ll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=4))
         return 0x87e0a80002a0ll + 0x1000000ll * ((a) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=9))
-        return 0x87e0b00002a0ll + 0x1000000ll * ((a) & 0xf);
     __bdk_csr_fatal("OCLAX_FIFO_TRIG", 1, a, 0, 0, 0);
 }
 
@@ -976,8 +794,6 @@ static inline uint64_t BDK_OCLAX_FIFO_WRAP(unsigned long a)
         return 0x87e0a8000280ll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=4))
         return 0x87e0a8000280ll + 0x1000000ll * ((a) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=9))
-        return 0x87e0b0000280ll + 0x1000000ll * ((a) & 0xf);
     __bdk_csr_fatal("OCLAX_FIFO_WRAP", 1, a, 0, 0, 0);
 }
 
@@ -1035,7 +851,6 @@ typedef union
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } cn88xxp1;
-    /* struct bdk_oclax_fsmx_andx_ix_s cn9; */
     /* struct bdk_oclax_fsmx_andx_ix_s cn81xx; */
     /* struct bdk_oclax_fsmx_andx_ix_s cn83xx; */
     /* struct bdk_oclax_fsmx_andx_ix_s cn88xxp2; */
@@ -1050,8 +865,6 @@ static inline uint64_t BDK_OCLAX_FSMX_ANDX_IX(unsigned long a, unsigned long b, 
         return 0x87e0a8300000ll + 0x1000000ll * ((a) & 0x3) + 0x1000ll * ((b) & 0x1) + 0x10ll * ((c) & 0xf) + 8ll * ((d) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=4) && (b<=1) && (c<=15) && (d<=1)))
         return 0x87e0a8300000ll + 0x1000000ll * ((a) & 0x7) + 0x1000ll * ((b) & 0x1) + 0x10ll * ((c) & 0xf) + 8ll * ((d) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=9) && (b<=1) && (c<=15) && (d<=1)))
-        return 0x87e0b0300000ll + 0x1000000ll * ((a) & 0xf) + 0x1000ll * ((b) & 0x1) + 0x10ll * ((c) & 0xf) + 8ll * ((d) & 0x1);
     __bdk_csr_fatal("OCLAX_FSMX_ANDX_IX", 4, a, b, c, d);
 }
 
@@ -1092,8 +905,6 @@ static inline uint64_t BDK_OCLAX_FSMX_ORX(unsigned long a, unsigned long b, unsi
         return 0x87e0a8310000ll + 0x1000000ll * ((a) & 0x3) + 0x1000ll * ((b) & 0x1) + 8ll * ((c) & 0xf);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=4) && (b<=1) && (c<=15)))
         return 0x87e0a8310000ll + 0x1000000ll * ((a) & 0x7) + 0x1000ll * ((b) & 0x1) + 8ll * ((c) & 0xf);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=9) && (b<=1) && (c<=15)))
-        return 0x87e0b0310000ll + 0x1000000ll * ((a) & 0xf) + 0x1000ll * ((b) & 0x1) + 8ll * ((c) & 0xf);
     __bdk_csr_fatal("OCLAX_FSMX_ORX", 3, a, b, c, 0);
 }
 
@@ -1159,8 +970,6 @@ static inline uint64_t BDK_OCLAX_FSMX_STATEX(unsigned long a, unsigned long b, u
         return 0x87e0a8320000ll + 0x1000000ll * ((a) & 0x3) + 0x1000ll * ((b) & 0x1) + 8ll * ((c) & 0xf);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=4) && (b<=1) && (c<=15)))
         return 0x87e0a8320000ll + 0x1000000ll * ((a) & 0x7) + 0x1000ll * ((b) & 0x1) + 8ll * ((c) & 0xf);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=9) && (b<=1) && (c<=15)))
-        return 0x87e0b0320000ll + 0x1000000ll * ((a) & 0xf) + 0x1000ll * ((b) & 0x1) + 8ll * ((c) & 0xf);
     __bdk_csr_fatal("OCLAX_FSMX_STATEX", 3, a, b, c, 0);
 }
 
@@ -1249,7 +1058,6 @@ typedef union
         uint64_t reserved_7_63         : 57;
 #endif /* Word 0 - End */
     } cn88xxp1;
-    /* struct bdk_oclax_gen_ctl_s cn9; */
     /* struct bdk_oclax_gen_ctl_s cn81xx; */
     /* struct bdk_oclax_gen_ctl_s cn83xx; */
     /* struct bdk_oclax_gen_ctl_s cn88xxp2; */
@@ -1264,8 +1072,6 @@ static inline uint64_t BDK_OCLAX_GEN_CTL(unsigned long a)
         return 0x87e0a8000060ll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=4))
         return 0x87e0a8000060ll + 0x1000000ll * ((a) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=9))
-        return 0x87e0b0000060ll + 0x1000000ll * ((a) & 0xf);
     __bdk_csr_fatal("OCLAX_GEN_CTL", 1, a, 0, 0, 0);
 }
 
@@ -1308,8 +1114,6 @@ static inline uint64_t BDK_OCLAX_MATX_COUNT(unsigned long a, unsigned long b)
         return 0x87e0a8230000ll + 0x1000000ll * ((a) & 0x3) + 0x1000ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=4) && (b<=3)))
         return 0x87e0a8230000ll + 0x1000000ll * ((a) & 0x7) + 0x1000ll * ((b) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=9) && (b<=3)))
-        return 0x87e0b0230000ll + 0x1000000ll * ((a) & 0xf) + 0x1000ll * ((b) & 0x3);
     __bdk_csr_fatal("OCLAX_MATX_COUNT", 2, a, b, 0, 0);
 }
 
@@ -1360,8 +1164,6 @@ static inline uint64_t BDK_OCLAX_MATX_CTL(unsigned long a, unsigned long b)
         return 0x87e0a8200000ll + 0x1000000ll * ((a) & 0x3) + 0x1000ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=4) && (b<=3)))
         return 0x87e0a8200000ll + 0x1000000ll * ((a) & 0x7) + 0x1000ll * ((b) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=9) && (b<=3)))
-        return 0x87e0b0200000ll + 0x1000000ll * ((a) & 0xf) + 0x1000ll * ((b) & 0x3);
     __bdk_csr_fatal("OCLAX_MATX_CTL", 2, a, b, 0, 0);
 }
 
@@ -1404,7 +1206,6 @@ typedef union
         uint64_t reserved_36_63        : 28;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_oclax_matx_maskx_s cn9; */
     /* struct bdk_oclax_matx_maskx_s cn81xx; */
     struct bdk_oclax_matx_maskx_cn88xx
     {
@@ -1444,8 +1245,6 @@ static inline uint64_t BDK_OCLAX_MATX_MASKX(unsigned long a, unsigned long b, un
         return 0x87e0a8220000ll + 0x1000000ll * ((a) & 0x3) + 0x1000ll * ((b) & 0x3) + 8ll * ((c) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=4) && (b<=3) && (c<=1)))
         return 0x87e0a8220000ll + 0x1000000ll * ((a) & 0x7) + 0x1000ll * ((b) & 0x3) + 8ll * ((c) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=9) && (b<=3) && (c<=1)))
-        return 0x87e0b0220000ll + 0x1000000ll * ((a) & 0xf) + 0x1000ll * ((b) & 0x3) + 8ll * ((c) & 0x1);
     __bdk_csr_fatal("OCLAX_MATX_MASKX", 3, a, b, c, 0);
 }
 
@@ -1488,8 +1287,6 @@ static inline uint64_t BDK_OCLAX_MATX_THRESH(unsigned long a, unsigned long b)
         return 0x87e0a8240000ll + 0x1000000ll * ((a) & 0x3) + 0x1000ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=4) && (b<=3)))
         return 0x87e0a8240000ll + 0x1000000ll * ((a) & 0x7) + 0x1000ll * ((b) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=9) && (b<=3)))
-        return 0x87e0b0240000ll + 0x1000000ll * ((a) & 0xf) + 0x1000ll * ((b) & 0x3);
     __bdk_csr_fatal("OCLAX_MATX_THRESH", 2, a, b, 0, 0);
 }
 
@@ -1532,8 +1329,6 @@ static inline uint64_t BDK_OCLAX_MATX_VALUEX(unsigned long a, unsigned long b, u
         return 0x87e0a8210000ll + 0x1000000ll * ((a) & 0x3) + 0x1000ll * ((b) & 0x3) + 8ll * ((c) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=4) && (b<=3) && (c<=1)))
         return 0x87e0a8210000ll + 0x1000000ll * ((a) & 0x7) + 0x1000ll * ((b) & 0x3) + 8ll * ((c) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=9) && (b<=3) && (c<=1)))
-        return 0x87e0b0210000ll + 0x1000000ll * ((a) & 0xf) + 0x1000ll * ((b) & 0x3) + 8ll * ((c) & 0x1);
     __bdk_csr_fatal("OCLAX_MATX_VALUEX", 3, a, b, c, 0);
 }
 
@@ -1575,8 +1370,6 @@ static inline uint64_t BDK_OCLAX_MSIX_PBAX(unsigned long a, unsigned long b)
         return 0x87e0a8ff0000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=4) && (b==0)))
         return 0x87e0a8ff0000ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=9) && (b==0)))
-        return 0x87e0b0ff0000ll + 0x1000000ll * ((a) & 0xf) + 8ll * ((b) & 0x0);
     __bdk_csr_fatal("OCLAX_MSIX_PBAX", 2, a, b, 0, 0);
 }
 
@@ -1599,8 +1392,8 @@ typedef union
     struct bdk_oclax_msix_vecx_addr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_53_63        : 11;
-        uint64_t addr                  : 51; /**< [ 52:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
+        uint64_t reserved_49_63        : 15;
+        uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_1            : 1;
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
                                                                  0 = This vector may be read or written by either secure or nonsecure states.
@@ -1622,41 +1415,11 @@ typedef union
                                                                  PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is set, all vectors are secure and function as if [SECVEC]
                                                                  was set. */
         uint64_t reserved_1            : 1;
-        uint64_t addr                  : 51; /**< [ 52:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
-        uint64_t reserved_53_63        : 11;
+        uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
+        uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_oclax_msix_vecx_addr_cn8
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_49_63        : 15;
-        uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
-        uint64_t reserved_1            : 1;
-        uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or nonsecure states.
-                                                                 1 = This vector's OCLA()_MSIX_VEC()_ADDR, OCLA()_MSIX_VEC()_CTL, and
-                                                                 corresponding bit of OCLA()_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the nonsecure world.
-
-                                                                 If PCCPF_OCLA()_VSEC_SCTL[MSIX_SEC] (for documentation, see
-                                                                 PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is set, all vectors are secure and function as if [SECVEC]
-                                                                 was set. */
-#else /* Word 0 - Little Endian */
-        uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or nonsecure states.
-                                                                 1 = This vector's OCLA()_MSIX_VEC()_ADDR, OCLA()_MSIX_VEC()_CTL, and
-                                                                 corresponding bit of OCLA()_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the nonsecure world.
-
-                                                                 If PCCPF_OCLA()_VSEC_SCTL[MSIX_SEC] (for documentation, see
-                                                                 PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is set, all vectors are secure and function as if [SECVEC]
-                                                                 was set. */
-        uint64_t reserved_1            : 1;
-        uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
-        uint64_t reserved_49_63        : 15;
-#endif /* Word 0 - End */
-    } cn8;
-    /* struct bdk_oclax_msix_vecx_addr_s cn9; */
+    /* struct bdk_oclax_msix_vecx_addr_s cn; */
 } bdk_oclax_msix_vecx_addr_t;
 
 static inline uint64_t BDK_OCLAX_MSIX_VECX_ADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -1668,8 +1431,6 @@ static inline uint64_t BDK_OCLAX_MSIX_VECX_ADDR(unsigned long a, unsigned long b
         return 0x87e0a8f00000ll + 0x1000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=4) && (b==0)))
         return 0x87e0a8f00000ll + 0x1000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0x0);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=9) && (b==0)))
-        return 0x87e0b0f00000ll + 0x1000000ll * ((a) & 0xf) + 0x10ll * ((b) & 0x0);
     __bdk_csr_fatal("OCLAX_MSIX_VECX_ADDR", 2, a, b, 0, 0);
 }
 
@@ -1715,8 +1476,6 @@ static inline uint64_t BDK_OCLAX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
         return 0x87e0a8f00008ll + 0x1000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=4) && (b==0)))
         return 0x87e0a8f00008ll + 0x1000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0x0);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=9) && (b==0)))
-        return 0x87e0b0f00008ll + 0x1000000ll * ((a) & 0xf) + 0x10ll * ((b) & 0x0);
     __bdk_csr_fatal("OCLAX_MSIX_VECX_CTL", 2, a, b, 0, 0);
 }
 
@@ -1757,8 +1516,6 @@ static inline uint64_t BDK_OCLAX_RAWX(unsigned long a, unsigned long b)
         return 0x87e0a8000100ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=4) && (b<=1)))
         return 0x87e0a8000100ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=9) && (b<=1)))
-        return 0x87e0b0000100ll + 0x1000000ll * ((a) & 0xf) + 8ll * ((b) & 0x1);
     __bdk_csr_fatal("OCLAX_RAWX", 2, a, b, 0, 0);
 }
 
@@ -1803,8 +1560,6 @@ static inline uint64_t BDK_OCLAX_SFT_RST(unsigned long a)
         return 0x87e0a8000020ll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=4))
         return 0x87e0a8000020ll + 0x1000000ll * ((a) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=9))
-        return 0x87e0b0000020ll + 0x1000000ll * ((a) & 0xf);
     __bdk_csr_fatal("OCLAX_SFT_RST", 1, a, 0, 0, 0);
 }
 
@@ -1826,8 +1581,8 @@ typedef union
     struct bdk_oclax_stack_base_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_53_63        : 11;
-        uint64_t ptr                   : 46; /**< [ 52:  7](R/W) Memory address for base of overflow stack. This address must be on the local node in a
+        uint64_t reserved_49_63        : 15;
+        uint64_t ptr                   : 42; /**< [ 48:  7](R/W) Memory address for base of overflow stack. This address must be on the local node in a
                                                                  CCPI system.
                                                                  This may be an IOVA or physical address; see [PA]. */
         uint64_t reserved_2_6          : 5;
@@ -1836,24 +1591,23 @@ typedef union
         uint64_t pa                    : 1;  /**< [  0:  0](R/W) When set, [PTR] and all DMA addresses are physical addresses and will not be translated by
                                                                  the SMMU.  When clear, is a virtual address which is subject to SMMU translation.
 
-                                                                 Only used for OCLA(9) in the coprocessor-clock domain; for OCLA(0..8) in the core-clock
+                                                                 Only used for OCLA(4) in the coprocessor-clock domain; for OCLA(0..3) in the core-clock
                                                                  domains this bit is ignored, addresses are always physical. */
 #else /* Word 0 - Little Endian */
         uint64_t pa                    : 1;  /**< [  0:  0](R/W) When set, [PTR] and all DMA addresses are physical addresses and will not be translated by
                                                                  the SMMU.  When clear, is a virtual address which is subject to SMMU translation.
 
-                                                                 Only used for OCLA(9) in the coprocessor-clock domain; for OCLA(0..8) in the core-clock
+                                                                 Only used for OCLA(4) in the coprocessor-clock domain; for OCLA(0..3) in the core-clock
                                                                  domains this bit is ignored, addresses are always physical. */
         uint64_t sec                   : 1;  /**< [  1:  1](SR/W) If set, and physical addressing is used as described under [PA], the physical address
                                                                  is in the secure world. */
         uint64_t reserved_2_6          : 5;
-        uint64_t ptr                   : 46; /**< [ 52:  7](R/W) Memory address for base of overflow stack. This address must be on the local node in a
+        uint64_t ptr                   : 42; /**< [ 48:  7](R/W) Memory address for base of overflow stack. This address must be on the local node in a
                                                                  CCPI system.
                                                                  This may be an IOVA or physical address; see [PA]. */
-        uint64_t reserved_53_63        : 11;
+        uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_oclax_stack_base_s cn9; */
     struct bdk_oclax_stack_base_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -1884,36 +1638,7 @@ typedef union
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } cn81xx;
-    struct bdk_oclax_stack_base_cn88xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_49_63        : 15;
-        uint64_t ptr                   : 42; /**< [ 48:  7](R/W) Memory address for base of overflow stack. This address must be on the local node in a
-                                                                 CCPI system.
-                                                                 This may be an IOVA or physical address; see [PA]. */
-        uint64_t reserved_2_6          : 5;
-        uint64_t sec                   : 1;  /**< [  1:  1](SR/W) If set, and physical addressing is used as described under [PA], the physical address
-                                                                 is in the secure world. */
-        uint64_t pa                    : 1;  /**< [  0:  0](R/W) When set, [PTR] and all DMA addresses are physical addresses and will not be translated by
-                                                                 the SMMU.  When clear, is a virtual address which is subject to SMMU translation.
-
-                                                                 Only used for OCLA(4) in the coprocessor-clock domain; for OCLA(0..3) in the core-clock
-                                                                 domains this bit is ignored, addresses are always physical. */
-#else /* Word 0 - Little Endian */
-        uint64_t pa                    : 1;  /**< [  0:  0](R/W) When set, [PTR] and all DMA addresses are physical addresses and will not be translated by
-                                                                 the SMMU.  When clear, is a virtual address which is subject to SMMU translation.
-
-                                                                 Only used for OCLA(4) in the coprocessor-clock domain; for OCLA(0..3) in the core-clock
-                                                                 domains this bit is ignored, addresses are always physical. */
-        uint64_t sec                   : 1;  /**< [  1:  1](SR/W) If set, and physical addressing is used as described under [PA], the physical address
-                                                                 is in the secure world. */
-        uint64_t reserved_2_6          : 5;
-        uint64_t ptr                   : 42; /**< [ 48:  7](R/W) Memory address for base of overflow stack. This address must be on the local node in a
-                                                                 CCPI system.
-                                                                 This may be an IOVA or physical address; see [PA]. */
-        uint64_t reserved_49_63        : 15;
-#endif /* Word 0 - End */
-    } cn88xx;
+    /* struct bdk_oclax_stack_base_s cn88xx; */
     /* struct bdk_oclax_stack_base_cn81xx cn83xx; */
 } bdk_oclax_stack_base_t;
 
@@ -1926,8 +1651,6 @@ static inline uint64_t BDK_OCLAX_STACK_BASE(unsigned long a)
         return 0x87e0a8000400ll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=4))
         return 0x87e0a8000400ll + 0x1000000ll * ((a) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=9))
-        return 0x87e0b0000400ll + 0x1000000ll * ((a) & 0xf);
     __bdk_csr_fatal("OCLAX_STACK_BASE", 1, a, 0, 0, 0);
 }
 
@@ -1949,40 +1672,22 @@ typedef union
     struct bdk_oclax_stack_cur_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_53_63        : 11;
-        uint64_t ptr                   : 46; /**< [ 52:  7](R/W/H) Next address to write for overflow stack. This address must be on the local node in a
+        uint64_t reserved_49_63        : 15;
+        uint64_t ptr                   : 42; /**< [ 48:  7](R/W/H) Next address to write for overflow stack. This address must be on the local node in a
                                                                  CCPI system. During initialization this must be between OCLA()_STACK_BASE and
                                                                  OCLA()_STACK_TOP.
                                                                  This may be an IOVA or physical address; see OCLA()_STACK_BASE[PA]. */
         uint64_t reserved_0_6          : 7;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_6          : 7;
-        uint64_t ptr                   : 46; /**< [ 52:  7](R/W/H) Next address to write for overflow stack. This address must be on the local node in a
+        uint64_t ptr                   : 42; /**< [ 48:  7](R/W/H) Next address to write for overflow stack. This address must be on the local node in a
                                                                  CCPI system. During initialization this must be between OCLA()_STACK_BASE and
                                                                  OCLA()_STACK_TOP.
                                                                  This may be an IOVA or physical address; see OCLA()_STACK_BASE[PA]. */
-        uint64_t reserved_53_63        : 11;
+        uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_oclax_stack_cur_cn8
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_49_63        : 15;
-        uint64_t ptr                   : 42; /**< [ 48:  7](R/W/H) Next address to write for overflow stack. This address must be on the local node in a
-                                                                 CCPI system. During initialization this must be between OCLA()_STACK_BASE and
-                                                                 OCLA()_STACK_TOP.
-                                                                 This may be an IOVA or physical address; see OCLA()_STACK_BASE[PA]. */
-        uint64_t reserved_0_6          : 7;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_6          : 7;
-        uint64_t ptr                   : 42; /**< [ 48:  7](R/W/H) Next address to write for overflow stack. This address must be on the local node in a
-                                                                 CCPI system. During initialization this must be between OCLA()_STACK_BASE and
-                                                                 OCLA()_STACK_TOP.
-                                                                 This may be an IOVA or physical address; see OCLA()_STACK_BASE[PA]. */
-        uint64_t reserved_49_63        : 15;
-#endif /* Word 0 - End */
-    } cn8;
-    /* struct bdk_oclax_stack_cur_s cn9; */
+    /* struct bdk_oclax_stack_cur_s cn; */
 } bdk_oclax_stack_cur_t;
 
 static inline uint64_t BDK_OCLAX_STACK_CUR(unsigned long a) __attribute__ ((pure, always_inline));
@@ -1994,8 +1699,6 @@ static inline uint64_t BDK_OCLAX_STACK_CUR(unsigned long a)
         return 0x87e0a8000480ll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=4))
         return 0x87e0a8000480ll + 0x1000000ll * ((a) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=9))
-        return 0x87e0b0000480ll + 0x1000000ll * ((a) & 0xf);
     __bdk_csr_fatal("OCLAX_STACK_CUR", 1, a, 0, 0, 0);
 }
 
@@ -2036,8 +1739,6 @@ static inline uint64_t BDK_OCLAX_STACK_STORE_CNT(unsigned long a)
         return 0x87e0a8000460ll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=4))
         return 0x87e0a8000460ll + 0x1000000ll * ((a) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=9))
-        return 0x87e0b0000460ll + 0x1000000ll * ((a) & 0xf);
     __bdk_csr_fatal("OCLAX_STACK_STORE_CNT", 1, a, 0, 0, 0);
 }
 
@@ -2059,36 +1760,20 @@ typedef union
     struct bdk_oclax_stack_top_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_53_63        : 11;
-        uint64_t ptr                   : 46; /**< [ 52:  7](R/W) Memory address for top of overflow stack plus one. This address must be on the local node
+        uint64_t reserved_49_63        : 15;
+        uint64_t ptr                   : 42; /**< [ 48:  7](R/W) Memory address for top of overflow stack plus one. This address must be on the local node
                                                                  in a CCPI system.
                                                                  This may be an IOVA or physical address; see OCLA()_STACK_BASE[PA]. */
         uint64_t reserved_0_6          : 7;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_6          : 7;
-        uint64_t ptr                   : 46; /**< [ 52:  7](R/W) Memory address for top of overflow stack plus one. This address must be on the local node
+        uint64_t ptr                   : 42; /**< [ 48:  7](R/W) Memory address for top of overflow stack plus one. This address must be on the local node
                                                                  in a CCPI system.
                                                                  This may be an IOVA or physical address; see OCLA()_STACK_BASE[PA]. */
-        uint64_t reserved_53_63        : 11;
+        uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_oclax_stack_top_cn8
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_49_63        : 15;
-        uint64_t ptr                   : 42; /**< [ 48:  7](R/W) Memory address for top of overflow stack plus one. This address must be on the local node
-                                                                 in a CCPI system.
-                                                                 This may be an IOVA or physical address; see OCLA()_STACK_BASE[PA]. */
-        uint64_t reserved_0_6          : 7;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_6          : 7;
-        uint64_t ptr                   : 42; /**< [ 48:  7](R/W) Memory address for top of overflow stack plus one. This address must be on the local node
-                                                                 in a CCPI system.
-                                                                 This may be an IOVA or physical address; see OCLA()_STACK_BASE[PA]. */
-        uint64_t reserved_49_63        : 15;
-#endif /* Word 0 - End */
-    } cn8;
-    /* struct bdk_oclax_stack_top_s cn9; */
+    /* struct bdk_oclax_stack_top_s cn; */
 } bdk_oclax_stack_top_t;
 
 static inline uint64_t BDK_OCLAX_STACK_TOP(unsigned long a) __attribute__ ((pure, always_inline));
@@ -2100,8 +1785,6 @@ static inline uint64_t BDK_OCLAX_STACK_TOP(unsigned long a)
         return 0x87e0a8000420ll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=4))
         return 0x87e0a8000420ll + 0x1000000ll * ((a) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=9))
-        return 0x87e0b0000420ll + 0x1000000ll * ((a) & 0xf);
     __bdk_csr_fatal("OCLAX_STACK_TOP", 1, a, 0, 0, 0);
 }
 
@@ -2144,8 +1827,6 @@ static inline uint64_t BDK_OCLAX_STACK_WRAP(unsigned long a)
         return 0x87e0a8000440ll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=4))
         return 0x87e0a8000440ll + 0x1000000ll * ((a) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=9))
-        return 0x87e0b0000440ll + 0x1000000ll * ((a) & 0xf);
     __bdk_csr_fatal("OCLAX_STACK_WRAP", 1, a, 0, 0, 0);
 }
 
@@ -2167,24 +1848,14 @@ typedef union
     struct bdk_oclax_stagex_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
-        uint64_t dly                   : 4;  /**< [  3:  0](R/W) Cycles of delay staging to apply to corresponding input bit. */
+        uint64_t reserved_3_63         : 61;
+        uint64_t dly                   : 3;  /**< [  2:  0](R/W) Cycles of delay staging to apply to corresponding input bit. */
 #else /* Word 0 - Little Endian */
-        uint64_t dly                   : 4;  /**< [  3:  0](R/W) Cycles of delay staging to apply to corresponding input bit. */
-        uint64_t reserved_4_63         : 60;
+        uint64_t dly                   : 3;  /**< [  2:  0](R/W) Cycles of delay staging to apply to corresponding input bit. */
+        uint64_t reserved_3_63         : 61;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_oclax_stagex_cn8
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_3_63         : 61;
-        uint64_t dly                   : 3;  /**< [  2:  0](R/W) Cycles of delay staging to apply to corresponding input bit. */
-#else /* Word 0 - Little Endian */
-        uint64_t dly                   : 3;  /**< [  2:  0](R/W) Cycles of delay staging to apply to corresponding input bit. */
-        uint64_t reserved_3_63         : 61;
-#endif /* Word 0 - End */
-    } cn8;
-    /* struct bdk_oclax_stagex_s cn9; */
+    /* struct bdk_oclax_stagex_s cn; */
 } bdk_oclax_stagex_t;
 
 static inline uint64_t BDK_OCLAX_STAGEX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -2196,8 +1867,6 @@ static inline uint64_t BDK_OCLAX_STAGEX(unsigned long a, unsigned long b)
         return 0x87e0a8100000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x7f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=4) && (b<=71)))
         return 0x87e0a8100000ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x7f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=9) && (b<=71)))
-        return 0x87e0b0100000ll + 0x1000000ll * ((a) & 0xf) + 8ll * ((b) & 0x7f);
     __bdk_csr_fatal("OCLAX_STAGEX", 2, a, b, 0, 0);
 }
 
@@ -2259,8 +1928,6 @@ static inline uint64_t BDK_OCLAX_STATE_ENA_W1C(unsigned long a)
         return 0x87e0a80000b8ll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=4))
         return 0x87e0a80000b8ll + 0x1000000ll * ((a) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=9))
-        return 0x87e0b00000b8ll + 0x1000000ll * ((a) & 0xf);
     __bdk_csr_fatal("OCLAX_STATE_ENA_W1C", 1, a, 0, 0, 0);
 }
 
@@ -2322,8 +1989,6 @@ static inline uint64_t BDK_OCLAX_STATE_ENA_W1S(unsigned long a)
         return 0x87e0a80000b0ll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=4))
         return 0x87e0a80000b0ll + 0x1000000ll * ((a) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=9))
-        return 0x87e0b00000b0ll + 0x1000000ll * ((a) & 0xf);
     __bdk_csr_fatal("OCLAX_STATE_ENA_W1S", 1, a, 0, 0, 0);
 }
 
@@ -2416,8 +2081,6 @@ static inline uint64_t BDK_OCLAX_STATE_INT(unsigned long a)
         return 0x87e0a8000080ll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=4))
         return 0x87e0a8000080ll + 0x1000000ll * ((a) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=9))
-        return 0x87e0b0000080ll + 0x1000000ll * ((a) & 0xf);
     __bdk_csr_fatal("OCLAX_STATE_INT", 1, a, 0, 0, 0);
 }
 
@@ -2493,8 +2156,6 @@ static inline uint64_t BDK_OCLAX_STATE_SET(unsigned long a)
         return 0x87e0a80000a0ll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=4))
         return 0x87e0a80000a0ll + 0x1000000ll * ((a) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=9))
-        return 0x87e0b00000a0ll + 0x1000000ll * ((a) & 0xf);
     __bdk_csr_fatal("OCLAX_STATE_SET", 1, a, 0, 0, 0);
 }
 
@@ -2535,7 +2196,6 @@ typedef union
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } cn88xxp1;
-    /* struct bdk_oclax_time_s cn9; */
     /* struct bdk_oclax_time_s cn81xx; */
     /* struct bdk_oclax_time_s cn83xx; */
     /* struct bdk_oclax_time_s cn88xxp2; */
@@ -2550,8 +2210,6 @@ static inline uint64_t BDK_OCLAX_TIME(unsigned long a)
         return 0x87e0a80000c0ll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=4))
         return 0x87e0a80000c0ll + 0x1000000ll * ((a) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=9))
-        return 0x87e0b00000c0ll + 0x1000000ll * ((a) & 0xf);
     __bdk_csr_fatal("OCLAX_TIME", 1, a, 0, 0, 0);
 }
 

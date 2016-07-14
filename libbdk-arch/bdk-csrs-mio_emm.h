@@ -210,16 +210,8 @@ typedef union
         uint64_t reserved_4_63         : 60;
         uint64_t bus_ena               : 4;  /**< [  3:  0](R/W) eMMC bus enable mask.
 
-                                                                 Setting bit0 of [BUS_ENA] causes EMMC_CMD[0] to become dedicated eMMC bus 0 command (i.e.
-                                                                 disabling any NOR use).
-
-                                                                 Setting bit1 of [BUS_ENA] causes EMMC_CMD[1] to become dedicated eMMC bus 1 command (i.e.
-                                                                 disabling any NOR use).
-
-                                                                 Setting bit2 of [BUS_ENA] causes EMMC_CMD[2] to become dedicated eMMC bus 2 command (i.e.
-                                                                 disabling any NOR use).
-
-                                                                 Bit3 of [BUS_ENA] is reserved.
+                                                                 Setting bits 0..2 enable the corresponding EMMC bus by allowing EMMC_CMD[BUS_ENA]
+                                                                 operation. Bit 3 is reserved.
 
                                                                  Clearing all bits of this field will reset the other MIO_EMM_* registers.
                                                                  To ensure a proper reset the BUS_ENA bits should be cleared for a minimum of 2 EMMC_CLK
@@ -230,16 +222,8 @@ typedef union
 #else /* Word 0 - Little Endian */
         uint64_t bus_ena               : 4;  /**< [  3:  0](R/W) eMMC bus enable mask.
 
-                                                                 Setting bit0 of [BUS_ENA] causes EMMC_CMD[0] to become dedicated eMMC bus 0 command (i.e.
-                                                                 disabling any NOR use).
-
-                                                                 Setting bit1 of [BUS_ENA] causes EMMC_CMD[1] to become dedicated eMMC bus 1 command (i.e.
-                                                                 disabling any NOR use).
-
-                                                                 Setting bit2 of [BUS_ENA] causes EMMC_CMD[2] to become dedicated eMMC bus 2 command (i.e.
-                                                                 disabling any NOR use).
-
-                                                                 Bit3 of [BUS_ENA] is reserved.
+                                                                 Setting bits 0..2 enable the corresponding EMMC bus by allowing EMMC_CMD[BUS_ENA]
+                                                                 operation. Bit 3 is reserved.
 
                                                                  Clearing all bits of this field will reset the other MIO_EMM_* registers.
                                                                  To ensure a proper reset the BUS_ENA bits should be cleared for a minimum of 2 EMMC_CLK
@@ -250,37 +234,7 @@ typedef union
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_mio_emm_cfg_cn8
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
-        uint64_t bus_ena               : 4;  /**< [  3:  0](R/W) eMMC bus enable mask.
-
-                                                                 Setting bits 0..2 enable the corresponding EMMC bus by allowing EMMC_CMD[BUS_ENA]
-                                                                 operation. Bit 3 is reserved.
-
-                                                                 Clearing all bits of this field will reset the other MIO_EMM_* registers.
-                                                                 To ensure a proper reset the BUS_ENA bits should be cleared for a minimum of 2 EMMC_CLK
-                                                                 periods.  This period be determined by waiting twice the number of coprocessor clocks
-                                                                 specified in MIO_EMM_MODE0[CLK_HI] and MIO_EMM_MODE0[CLK_LO].
-
-                                                                 Setting one or more bits will enable EMMC_CLK operation. */
-#else /* Word 0 - Little Endian */
-        uint64_t bus_ena               : 4;  /**< [  3:  0](R/W) eMMC bus enable mask.
-
-                                                                 Setting bits 0..2 enable the corresponding EMMC bus by allowing EMMC_CMD[BUS_ENA]
-                                                                 operation. Bit 3 is reserved.
-
-                                                                 Clearing all bits of this field will reset the other MIO_EMM_* registers.
-                                                                 To ensure a proper reset the BUS_ENA bits should be cleared for a minimum of 2 EMMC_CLK
-                                                                 periods.  This period be determined by waiting twice the number of coprocessor clocks
-                                                                 specified in MIO_EMM_MODE0[CLK_HI] and MIO_EMM_MODE0[CLK_LO].
-
-                                                                 Setting one or more bits will enable EMMC_CLK operation. */
-        uint64_t reserved_4_63         : 60;
-#endif /* Word 0 - End */
-    } cn8;
-    /* struct bdk_mio_emm_cfg_s cn9; */
+    /* struct bdk_mio_emm_cfg_s cn; */
 } bdk_mio_emm_cfg_t;
 
 #define BDK_MIO_EMM_CFG BDK_MIO_EMM_CFG_FUNC()
@@ -432,8 +386,6 @@ static inline uint64_t BDK_MIO_EMM_COMP_FUNC(void)
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
         return 0x87e009002040ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x87e009002040ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x87e009002040ll;
     __bdk_csr_fatal("MIO_EMM_COMP", 0, 0, 0, 0, 0);
 }
@@ -852,7 +804,6 @@ typedef union
         uint64_t reserved_63           : 1;
 #endif /* Word 0 - End */
     } cn88xxp1;
-    /* struct bdk_mio_emm_dma_fifo_cmd_s cn9; */
     /* struct bdk_mio_emm_dma_fifo_cmd_s cn81xx; */
     /* struct bdk_mio_emm_dma_fifo_cmd_s cn83xx; */
     /* struct bdk_mio_emm_dma_fifo_cmd_s cn88xxp2; */

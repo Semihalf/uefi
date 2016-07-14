@@ -69,11 +69,9 @@
  * GPIO MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define BDK_GPIO_INT_VEC_E_INTR_PINX_CN9(a) (0x18 + 2 * (a))
 #define BDK_GPIO_INT_VEC_E_INTR_PINX_CN81XX(a) (4 + 2 * (a))
 #define BDK_GPIO_INT_VEC_E_INTR_PINX_CN88XX(a) (0x30 + 2 * (a))
 #define BDK_GPIO_INT_VEC_E_INTR_PINX_CN83XX(a) (0x18 + 2 * (a))
-#define BDK_GPIO_INT_VEC_E_INTR_PINX_CLEAR_CN9(a) (0x19 + 2 * (a))
 #define BDK_GPIO_INT_VEC_E_INTR_PINX_CLEAR_CN81XX(a) (5 + 2 * (a))
 #define BDK_GPIO_INT_VEC_E_INTR_PINX_CLEAR_CN88XX(a) (0x31 + 2 * (a))
 #define BDK_GPIO_INT_VEC_E_INTR_PINX_CLEAR_CN83XX(a) (0x19 + 2 * (a))
@@ -94,15 +92,12 @@
 #define BDK_GPIO_PIN_SEL_E_GPIO_PTP_CKOUT (1)
 #define BDK_GPIO_PIN_SEL_E_GPIO_PTP_PPS (2)
 #define BDK_GPIO_PIN_SEL_E_GPIO_SW (0)
-#define BDK_GPIO_PIN_SEL_E_LMCX_ECC_CN9(a) (0x237 + (a))
 #define BDK_GPIO_PIN_SEL_E_LMCX_ECC_CN81XX(a) (0x237 + (a))
 #define BDK_GPIO_PIN_SEL_E_LMCX_ECC_CN88XX(a) (0x70 + (a))
 #define BDK_GPIO_PIN_SEL_E_LMCX_ECC_CN83XX(a) (0x237 + (a))
-#define BDK_GPIO_PIN_SEL_E_MCDX_IN_CN9(a) (0x23f + (a))
 #define BDK_GPIO_PIN_SEL_E_MCDX_IN_CN81XX(a) (0x23f + (a))
 #define BDK_GPIO_PIN_SEL_E_MCDX_IN_CN88XX(a) (0xb0 + (a))
 #define BDK_GPIO_PIN_SEL_E_MCDX_IN_CN83XX(a) (0x23f + (a))
-#define BDK_GPIO_PIN_SEL_E_MCDX_OUT_CN9(a) (0x242 + (a))
 #define BDK_GPIO_PIN_SEL_E_MCDX_OUT_CN81XX(a) (0x242 + (a))
 #define BDK_GPIO_PIN_SEL_E_MCDX_OUT_CN88XX(a) (0x14 + (a))
 #define BDK_GPIO_PIN_SEL_E_MCDX_OUT_CN83XX(a) (0x242 + (a))
@@ -112,7 +107,6 @@
 #define BDK_GPIO_PIN_SEL_E_NCSI_RX_ER (0x259)
 #define BDK_GPIO_PIN_SEL_E_NCSI_TXDX(a) (0x25e + (a))
 #define BDK_GPIO_PIN_SEL_E_NCSI_TX_EN (0x25d)
-#define BDK_GPIO_PIN_SEL_E_OCLA_EXT_TRIGGER_CN9 (0x231)
 #define BDK_GPIO_PIN_SEL_E_OCLA_EXT_TRIGGER_CN81XX (0x231)
 #define BDK_GPIO_PIN_SEL_E_OCLA_EXT_TRIGGER_CN88XX (0x8a)
 #define BDK_GPIO_PIN_SEL_E_OCLA_EXT_TRIGGER_CN83XX (0x231)
@@ -132,59 +126,45 @@
 #define BDK_GPIO_PIN_SEL_E_PTP_EVTCNT (0x252)
 #define BDK_GPIO_PIN_SEL_E_PTP_EXT_CLK (0x250)
 #define BDK_GPIO_PIN_SEL_E_PTP_TSTMP (0x251)
-#define BDK_GPIO_PIN_SEL_E_SATAX_ACT_LED_CN9(a) (0x16a + (a))
 #define BDK_GPIO_PIN_SEL_E_SATAX_ACT_LED_CN81XX(a) (0x16a + (a))
 #define BDK_GPIO_PIN_SEL_E_SATAX_ACT_LED_CN88XX(a) (0x60 + (a))
 #define BDK_GPIO_PIN_SEL_E_SATAX_ACT_LED_CN83XX(a) (0x16a + (a))
-#define BDK_GPIO_PIN_SEL_E_SATAX_CP_DET_CN9(a) (0x18b + (a))
 #define BDK_GPIO_PIN_SEL_E_SATAX_CP_DET_CN81XX(a) (0x18b + (a))
 #define BDK_GPIO_PIN_SEL_E_SATAX_CP_DET_CN88XX(a) (0x90 + (a))
 #define BDK_GPIO_PIN_SEL_E_SATAX_CP_DET_CN83XX(a) (0x18b + (a))
-#define BDK_GPIO_PIN_SEL_E_SATAX_CP_POD_CN9(a) (0x145 + (a))
 #define BDK_GPIO_PIN_SEL_E_SATAX_CP_POD_CN81XX(a) (0x145 + (a))
 #define BDK_GPIO_PIN_SEL_E_SATAX_CP_POD_CN88XX(a) (0x50 + (a))
 #define BDK_GPIO_PIN_SEL_E_SATAX_CP_POD_CN83XX(a) (0x145 + (a))
-#define BDK_GPIO_PIN_SEL_E_SATAX_MP_SWITCH_CN9(a) (0x200 + (a))
 #define BDK_GPIO_PIN_SEL_E_SATAX_MP_SWITCH_CN81XX(a) (0x200 + (a))
 #define BDK_GPIO_PIN_SEL_E_SATAX_MP_SWITCH_CN88XX(a) (0xa0 + (a))
 #define BDK_GPIO_PIN_SEL_E_SATAX_MP_SWITCH_CN83XX(a) (0x200 + (a))
-#define BDK_GPIO_PIN_SEL_E_SATA_LAB_LB_CN9 (0x18a)
 #define BDK_GPIO_PIN_SEL_E_SATA_LAB_LB_CN81XX (0x18a)
 #define BDK_GPIO_PIN_SEL_E_SATA_LAB_LB_CN88XX (0x8e)
 #define BDK_GPIO_PIN_SEL_E_SATA_LAB_LB_CN83XX (0x18a)
-#define BDK_GPIO_PIN_SEL_E_SGPIO_ACT_LEDX_CN9(a) (0xf + (a))
 #define BDK_GPIO_PIN_SEL_E_SGPIO_ACT_LEDX_CN81XX(a) (0xf + (a))
 #define BDK_GPIO_PIN_SEL_E_SGPIO_ACT_LEDX_CN88XX(a) (0x20 + (a))
 #define BDK_GPIO_PIN_SEL_E_SGPIO_ACT_LEDX_CN83XX(a) (0xf + (a))
-#define BDK_GPIO_PIN_SEL_E_SGPIO_ERR_LEDX_CN9(a) (0x90 + (a))
 #define BDK_GPIO_PIN_SEL_E_SGPIO_ERR_LEDX_CN81XX(a) (0x90 + (a))
 #define BDK_GPIO_PIN_SEL_E_SGPIO_ERR_LEDX_CN88XX(a) (0x30 + (a))
 #define BDK_GPIO_PIN_SEL_E_SGPIO_ERR_LEDX_CN83XX(a) (0x90 + (a))
-#define BDK_GPIO_PIN_SEL_E_SGPIO_LOC_LEDX_CN9(a) (0x50 + (a))
 #define BDK_GPIO_PIN_SEL_E_SGPIO_LOC_LEDX_CN81XX(a) (0x50 + (a))
 #define BDK_GPIO_PIN_SEL_E_SGPIO_LOC_LEDX_CN88XX(a) (0x40 + (a))
 #define BDK_GPIO_PIN_SEL_E_SGPIO_LOC_LEDX_CN83XX(a) (0x50 + (a))
-#define BDK_GPIO_PIN_SEL_E_SGPIO_SCLOCK_CN9 (9)
 #define BDK_GPIO_PIN_SEL_E_SGPIO_SCLOCK_CN81XX (9)
 #define BDK_GPIO_PIN_SEL_E_SGPIO_SCLOCK_CN88XX (0xb)
 #define BDK_GPIO_PIN_SEL_E_SGPIO_SCLOCK_CN83XX (9)
-#define BDK_GPIO_PIN_SEL_E_SGPIO_SDATAINX_CN9(a) (0xd0 + (a))
 #define BDK_GPIO_PIN_SEL_E_SGPIO_SDATAINX_CN81XX(a) (0xd0 + (a))
 #define BDK_GPIO_PIN_SEL_E_SGPIO_SDATAINX_CN88XX(a) (0x80 + (a))
 #define BDK_GPIO_PIN_SEL_E_SGPIO_SDATAINX_CN83XX(a) (0xd0 + (a))
-#define BDK_GPIO_PIN_SEL_E_SGPIO_SDATAOUTX_CN9(a) (0xb + (a))
 #define BDK_GPIO_PIN_SEL_E_SGPIO_SDATAOUTX_CN81XX(a) (0xb + (a))
 #define BDK_GPIO_PIN_SEL_E_SGPIO_SDATAOUTX_CN88XX(a) (0x10 + (a))
 #define BDK_GPIO_PIN_SEL_E_SGPIO_SDATAOUTX_CN83XX(a) (0xb + (a))
-#define BDK_GPIO_PIN_SEL_E_SGPIO_SLOAD_CN9 (0xa)
 #define BDK_GPIO_PIN_SEL_E_SGPIO_SLOAD_CN81XX (0xa)
 #define BDK_GPIO_PIN_SEL_E_SGPIO_SLOAD_CN88XX (0xc)
 #define BDK_GPIO_PIN_SEL_E_SGPIO_SLOAD_CN83XX (0xa)
-#define BDK_GPIO_PIN_SEL_E_SPI_CSX_CN9(a) (0x233 + (a))
 #define BDK_GPIO_PIN_SEL_E_SPI_CSX_CN81XX(a) (0x233 + (a))
 #define BDK_GPIO_PIN_SEL_E_SPI_CSX_CN88XX(a) (0x18 + (a))
 #define BDK_GPIO_PIN_SEL_E_SPI_CSX_CN83XX(a) (0x233 + (a))
-#define BDK_GPIO_PIN_SEL_E_TIMER_CN9 (0x11c)
 #define BDK_GPIO_PIN_SEL_E_TIMER_CN81XX (0x11c)
 #define BDK_GPIO_PIN_SEL_E_TIMER_CN88XX (0x8b)
 #define BDK_GPIO_PIN_SEL_E_TIMER_CN83XX (0x11c)
@@ -192,24 +172,20 @@
 #define BDK_GPIO_PIN_SEL_E_UARTX_CTS(a) (0x13f + (a))
 #define BDK_GPIO_PIN_SEL_E_UARTX_DCD(a) (0x131 + (a))
 #define BDK_GPIO_PIN_SEL_E_UARTX_DCD_N(a) (0x84 + (a))
-#define BDK_GPIO_PIN_SEL_E_UARTX_DSR_CN9(a) (0x139 + (a))
 #define BDK_GPIO_PIN_SEL_E_UARTX_DSR_CN81XX(a) (0x139 + (a))
 #define BDK_GPIO_PIN_SEL_E_UARTX_DSR_CN88XX(a) (0x88 + (a))
 #define BDK_GPIO_PIN_SEL_E_UARTX_DSR_CN83XX(a) (0x139 + (a))
 #define BDK_GPIO_PIN_SEL_E_UARTX_DTR(a) (0x11d + (a))
 #define BDK_GPIO_PIN_SEL_E_UARTX_DTR_N(a) (9 + (a))
-#define BDK_GPIO_PIN_SEL_E_UARTX_RI_CN9(a) (0x129 + (a))
 #define BDK_GPIO_PIN_SEL_E_UARTX_RI_CN81XX(a) (0x129 + (a))
 #define BDK_GPIO_PIN_SEL_E_UARTX_RI_CN88XX(a) (0x86 + (a))
 #define BDK_GPIO_PIN_SEL_E_UARTX_RI_CN83XX(a) (0x129 + (a))
 #define BDK_GPIO_PIN_SEL_E_UARTX_RTS(a) (0x123 + (a))
 #define BDK_GPIO_PIN_SEL_E_UARTX_SIN(a) (0x141 + (a))
 #define BDK_GPIO_PIN_SEL_E_UARTX_SOUT(a) (0x125 + (a))
-#define BDK_GPIO_PIN_SEL_E_USBX_OVR_CRNT_CN9(a) (0x228 + (a))
 #define BDK_GPIO_PIN_SEL_E_USBX_OVR_CRNT_CN81XX(a) (0x228 + (a))
 #define BDK_GPIO_PIN_SEL_E_USBX_OVR_CRNT_CN88XX(a) (0x8c + (a))
 #define BDK_GPIO_PIN_SEL_E_USBX_OVR_CRNT_CN83XX(a) (0x228 + (a))
-#define BDK_GPIO_PIN_SEL_E_USBX_VBUS_CTRL_CN9(a) (0x220 + (a))
 #define BDK_GPIO_PIN_SEL_E_USBX_VBUS_CTRL_CN81XX(a) (0x220 + (a))
 #define BDK_GPIO_PIN_SEL_E_USBX_VBUS_CTRL_CN88XX(a) (0x74 + (a))
 #define BDK_GPIO_PIN_SEL_E_USBX_VBUS_CTRL_CN83XX(a) (0x220 + (a))
@@ -301,7 +277,6 @@ typedef union
         uint64_t reserved_26_63        : 38;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_gpio_bit_cfgx_s cn9; */
     /* struct bdk_gpio_bit_cfgx_s cn81xx; */
     struct bdk_gpio_bit_cfgx_cn88xx
     {
@@ -393,8 +368,6 @@ static inline uint64_t BDK_GPIO_BIT_CFGX(unsigned long a)
         return 0x803000000400ll + 8ll * ((a) & 0x7f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=50))
         return 0x803000000400ll + 8ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=79))
-        return 0x803000000400ll + 8ll * ((a) & 0x7f);
     __bdk_csr_fatal("GPIO_BIT_CFGX", 1, a, 0, 0, 0);
 }
 
@@ -456,7 +429,7 @@ static inline uint64_t BDK_GPIO_CLK_GENX(unsigned long a)
  * A GSER can be configured as a clock source. The GPIO block can support up to two
  * unique clocks to send out any GPIO pin as configured when GPIO_BIT_CFG()[PIN_SEL] =
  * GPIO_PIN_SEL_E::GPIO_CLK_SYNCE(0..1). The clock can be divided by 20, 40, 80 or 160
- * of the selected GSER SerDes clock. Legal values are based on the number of SerDes.
+ * of the selected GSER SerDes clock.
  */
 typedef union
 {
@@ -465,7 +438,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_12_63        : 52;
-        uint64_t qlm_sel               : 4;  /**< [ 11:  8](R/W) Selects which GSER(0..6) to select from. */
+        uint64_t qlm_sel               : 4;  /**< [ 11:  8](R/W) Selects which GSER(0..3) to select from. */
         uint64_t reserved_4_7          : 4;
         uint64_t div                   : 2;  /**< [  3:  2](R/W) GPIO internal clock divider setting relative to GSER SerDes CLOCK_SYNCE. The maximum
                                                                  supported GPIO output frequency is 125 MHz.
@@ -474,12 +447,10 @@ typedef union
                                                                  0x2 = Divide by 80.
                                                                  0x3 = Divide by 160. */
         uint64_t lane_sel              : 2;  /**< [  1:  0](R/W) Which RX lane within the GSER selected with [QLM_SEL] to use as the GPIO
-                                                                 internal QLMx clock.  Note that GSER 0..3 have 4 selections each while
-                                                                 GSER 4..6 have 2 selections each. */
+                                                                 internal QLMx clock. */
 #else /* Word 0 - Little Endian */
         uint64_t lane_sel              : 2;  /**< [  1:  0](R/W) Which RX lane within the GSER selected with [QLM_SEL] to use as the GPIO
-                                                                 internal QLMx clock.  Note that GSER 0..3 have 4 selections each while
-                                                                 GSER 4..6 have 2 selections each. */
+                                                                 internal QLMx clock. */
         uint64_t div                   : 2;  /**< [  3:  2](R/W) GPIO internal clock divider setting relative to GSER SerDes CLOCK_SYNCE. The maximum
                                                                  supported GPIO output frequency is 125 MHz.
                                                                  0x0 = Divide by 20.
@@ -487,39 +458,11 @@ typedef union
                                                                  0x2 = Divide by 80.
                                                                  0x3 = Divide by 160. */
         uint64_t reserved_4_7          : 4;
-        uint64_t qlm_sel               : 4;  /**< [ 11:  8](R/W) Selects which GSER(0..6) to select from. */
+        uint64_t qlm_sel               : 4;  /**< [ 11:  8](R/W) Selects which GSER(0..3) to select from. */
         uint64_t reserved_12_63        : 52;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_gpio_clk_syncex_s cn9; */
-    struct bdk_gpio_clk_syncex_cn81xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_12_63        : 52;
-        uint64_t qlm_sel               : 4;  /**< [ 11:  8](R/W) Selects which GSER(0..3) to select from. */
-        uint64_t reserved_4_7          : 4;
-        uint64_t div                   : 2;  /**< [  3:  2](R/W) GPIO internal clock divider setting relative to GSER SerDes CLOCK_SYNCE. The maximum
-                                                                 supported GPIO output frequency is 125 MHz.
-                                                                 0x0 = Divide by 20.
-                                                                 0x1 = Divide by 40.
-                                                                 0x2 = Divide by 80.
-                                                                 0x3 = Divide by 160. */
-        uint64_t lane_sel              : 2;  /**< [  1:  0](R/W) Which RX lane within the GSER selected with [QLM_SEL] to use as the GPIO
-                                                                 internal QLMx clock. */
-#else /* Word 0 - Little Endian */
-        uint64_t lane_sel              : 2;  /**< [  1:  0](R/W) Which RX lane within the GSER selected with [QLM_SEL] to use as the GPIO
-                                                                 internal QLMx clock. */
-        uint64_t div                   : 2;  /**< [  3:  2](R/W) GPIO internal clock divider setting relative to GSER SerDes CLOCK_SYNCE. The maximum
-                                                                 supported GPIO output frequency is 125 MHz.
-                                                                 0x0 = Divide by 20.
-                                                                 0x1 = Divide by 40.
-                                                                 0x2 = Divide by 80.
-                                                                 0x3 = Divide by 160. */
-        uint64_t reserved_4_7          : 4;
-        uint64_t qlm_sel               : 4;  /**< [ 11:  8](R/W) Selects which GSER(0..3) to select from. */
-        uint64_t reserved_12_63        : 52;
-#endif /* Word 0 - End */
-    } cn81xx;
+    /* struct bdk_gpio_clk_syncex_s cn81xx; */
     struct bdk_gpio_clk_syncex_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -548,7 +491,36 @@ typedef union
         uint64_t reserved_12_63        : 52;
 #endif /* Word 0 - End */
     } cn88xx;
-    /* struct bdk_gpio_clk_syncex_s cn83xx; */
+    struct bdk_gpio_clk_syncex_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_12_63        : 52;
+        uint64_t qlm_sel               : 4;  /**< [ 11:  8](R/W) Selects which GSER(0..6) to select from. */
+        uint64_t reserved_4_7          : 4;
+        uint64_t div                   : 2;  /**< [  3:  2](R/W) GPIO internal clock divider setting relative to GSER SerDes CLOCK_SYNCE. The maximum
+                                                                 supported GPIO output frequency is 125 MHz.
+                                                                 0x0 = Divide by 20.
+                                                                 0x1 = Divide by 40.
+                                                                 0x2 = Divide by 80.
+                                                                 0x3 = Divide by 160. */
+        uint64_t lane_sel              : 2;  /**< [  1:  0](R/W) Which RX lane within the GSER selected with [QLM_SEL] to use as the GPIO
+                                                                 internal QLMx clock.  Note that GSER 0..3 have 4 selections each while
+                                                                 GSER 4..6 have 2 selections each. */
+#else /* Word 0 - Little Endian */
+        uint64_t lane_sel              : 2;  /**< [  1:  0](R/W) Which RX lane within the GSER selected with [QLM_SEL] to use as the GPIO
+                                                                 internal QLMx clock.  Note that GSER 0..3 have 4 selections each while
+                                                                 GSER 4..6 have 2 selections each. */
+        uint64_t div                   : 2;  /**< [  3:  2](R/W) GPIO internal clock divider setting relative to GSER SerDes CLOCK_SYNCE. The maximum
+                                                                 supported GPIO output frequency is 125 MHz.
+                                                                 0x0 = Divide by 20.
+                                                                 0x1 = Divide by 40.
+                                                                 0x2 = Divide by 80.
+                                                                 0x3 = Divide by 160. */
+        uint64_t reserved_4_7          : 4;
+        uint64_t qlm_sel               : 4;  /**< [ 11:  8](R/W) Selects which GSER(0..6) to select from. */
+        uint64_t reserved_12_63        : 52;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_gpio_clk_syncex_t;
 
 static inline uint64_t BDK_GPIO_CLK_SYNCEX(unsigned long a) __attribute__ ((pure, always_inline));
@@ -649,8 +621,6 @@ static inline uint64_t BDK_GPIO_CONST_FUNC(void)
         return 0x803000000090ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x803000000090ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x803000000090ll;
     __bdk_csr_fatal("GPIO_CONST", 0, 0, 0, 0, 0);
 }
 
@@ -713,8 +683,6 @@ static inline uint64_t BDK_GPIO_INTRX(unsigned long a)
         return 0x803000000800ll + 8ll * ((a) & 0x7f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=50))
         return 0x803000000800ll + 8ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=79))
-        return 0x803000000800ll + 8ll * ((a) & 0x7f);
     __bdk_csr_fatal("GPIO_INTRX", 1, a, 0, 0, 0);
 }
 
@@ -913,8 +881,6 @@ static inline uint64_t BDK_GPIO_MSIX_PBAX(unsigned long a)
         return 0x803000ff0000ll + 8ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=2))
         return 0x803000ff0000ll + 8ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=2))
-        return 0x803000ff0000ll + 8ll * ((a) & 0x3);
     __bdk_csr_fatal("GPIO_MSIX_PBAX", 1, a, 0, 0, 0);
 }
 
@@ -974,8 +940,6 @@ static inline uint64_t BDK_GPIO_MSIX_VECX_ADDR(unsigned long a)
         return 0x803000f00000ll + 0x10ll * ((a) & 0xff);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=149))
         return 0x803000f00000ll + 0x10ll * ((a) & 0xff);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=183))
-        return 0x803000f00000ll + 0x10ll * ((a) & 0xff);
     __bdk_csr_fatal("GPIO_MSIX_VECX_ADDR", 1, a, 0, 0, 0);
 }
 
@@ -1020,8 +984,6 @@ static inline uint64_t BDK_GPIO_MSIX_VECX_CTL(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=183))
         return 0x803000f00008ll + 0x10ll * ((a) & 0xff);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=149))
-        return 0x803000f00008ll + 0x10ll * ((a) & 0xff);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=183))
         return 0x803000f00008ll + 0x10ll * ((a) & 0xff);
     __bdk_csr_fatal("GPIO_MSIX_VECX_CTL", 1, a, 0, 0, 0);
 }
@@ -1144,7 +1106,6 @@ typedef union
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } cn83xx;
-    /* struct bdk_gpio_rx1_dat_cn83xx cn9; */
 } bdk_gpio_rx1_dat_t;
 
 #define BDK_GPIO_RX1_DAT BDK_GPIO_RX1_DAT_FUNC()
@@ -1154,8 +1115,6 @@ static inline uint64_t BDK_GPIO_RX1_DAT_FUNC(void)
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
         return 0x803000001400ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x803000001400ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x803000001400ll;
     __bdk_csr_fatal("GPIO_RX1_DAT", 0, 0, 0, 0, 0);
 }
@@ -1186,7 +1145,6 @@ typedef union
         uint64_t dat                   : 64; /**< [ 63:  0](RO/H) GPIO read data. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_gpio_rx_dat_s cn9; */
     struct bdk_gpio_rx_dat_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -1236,12 +1194,11 @@ typedef union
     struct bdk_gpio_strap_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t strap                 : 64; /**< [ 63:  0](RO/H) GPIO strap data of GPIO pins less than 64. Unimplemented pins bits read as 0. */
+        uint64_t strap                 : 64; /**< [ 63:  0](RO/H) GPIO strap data. */
 #else /* Word 0 - Little Endian */
-        uint64_t strap                 : 64; /**< [ 63:  0](RO/H) GPIO strap data of GPIO pins less than 64. Unimplemented pins bits read as 0. */
+        uint64_t strap                 : 64; /**< [ 63:  0](RO/H) GPIO strap data. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_gpio_strap_s cn9; */
     struct bdk_gpio_strap_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -1262,7 +1219,14 @@ typedef union
         uint64_t reserved_51_63        : 13;
 #endif /* Word 0 - End */
     } cn88xx;
-    /* struct bdk_gpio_strap_s cn83xx; */
+    struct bdk_gpio_strap_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t strap                 : 64; /**< [ 63:  0](RO/H) GPIO strap data of GPIO pins less than 64. Unimplemented pins bits read as 0. */
+#else /* Word 0 - Little Endian */
+        uint64_t strap                 : 64; /**< [ 63:  0](RO/H) GPIO strap data of GPIO pins less than 64. Unimplemented pins bits read as 0. */
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_gpio_strap_t;
 
 #define BDK_GPIO_STRAP BDK_GPIO_STRAP_FUNC()
@@ -1318,7 +1282,6 @@ typedef union
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } cn83xx;
-    /* struct bdk_gpio_strap1_cn83xx cn9; */
 } bdk_gpio_strap1_t;
 
 #define BDK_GPIO_STRAP1 BDK_GPIO_STRAP1_FUNC()
@@ -1328,8 +1291,6 @@ static inline uint64_t BDK_GPIO_STRAP1_FUNC(void)
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
         return 0x803000001418ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x803000001418ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x803000001418ll;
     __bdk_csr_fatal("GPIO_STRAP1", 0, 0, 0, 0, 0);
 }
@@ -1374,7 +1335,6 @@ typedef union
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } cn83xx;
-    /* struct bdk_gpio_tx1_clr_cn83xx cn9; */
 } bdk_gpio_tx1_clr_t;
 
 #define BDK_GPIO_TX1_CLR BDK_GPIO_TX1_CLR_FUNC()
@@ -1384,8 +1344,6 @@ static inline uint64_t BDK_GPIO_TX1_CLR_FUNC(void)
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
         return 0x803000001410ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x803000001410ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x803000001410ll;
     __bdk_csr_fatal("GPIO_TX1_CLR", 0, 0, 0, 0, 0);
 }
@@ -1430,7 +1388,6 @@ typedef union
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } cn83xx;
-    /* struct bdk_gpio_tx1_set_cn83xx cn9; */
 } bdk_gpio_tx1_set_t;
 
 #define BDK_GPIO_TX1_SET BDK_GPIO_TX1_SET_FUNC()
@@ -1440,8 +1397,6 @@ static inline uint64_t BDK_GPIO_TX1_SET_FUNC(void)
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
         return 0x803000001408ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x803000001408ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x803000001408ll;
     __bdk_csr_fatal("GPIO_TX1_SET", 0, 0, 0, 0, 0);
 }
@@ -1471,7 +1426,6 @@ typedef union
                                                                  returns the GPIO_TX_DAT storage. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_gpio_tx_clr_s cn9; */
     struct bdk_gpio_tx_clr_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -1531,7 +1485,6 @@ typedef union
                                                                  returns the GPIO_TX_DAT storage. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_gpio_tx_set_s cn9; */
     struct bdk_gpio_tx_set_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */

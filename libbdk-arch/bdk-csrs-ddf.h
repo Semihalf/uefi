@@ -131,8 +131,7 @@
  * Enumerates the MSI-X interrupt vectors.
  */
 #define BDK_DDF_PF_INT_VEC_E_ECC0 (0)
-#define BDK_DDF_PF_INT_VEC_E_MBOXX_CN8(a) (3 + (a))
-#define BDK_DDF_PF_INT_VEC_E_MBOXX_CN9(a) (1 + (a))
+#define BDK_DDF_PF_INT_VEC_E_MBOXX(a) (3 + (a))
 #define BDK_DDF_PF_INT_VEC_E_NOINT0 (1)
 #define BDK_DDF_PF_INT_VEC_E_NOINT1 (2)
 
@@ -493,7 +492,7 @@ union bdk_ddf_inst_find_s
 #endif /* Word 5 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 6 - Big Endian */
         uint64_t hdr_addr              : 64; /**< [447:384] Header IOVA. Must be nonzero when [VICTEN] is set, otherwise reserved. Must be aligned to
-                                                                 a 2^[NWAYP2 + HDRSZP2] byte boundary, minimum alignment of 16 bytes.
+                                                                 a 2^[NWAYP2 + HDRSZP2] byte boundary, minimum alignment of 4 bytes.
 
                                                                  If [RANK_ABS]=0, points to rank 0 way 0's header. Hardware accesses the way 0
                                                                  header at address [HDR_ADDR] + computed_rank * (2^[NWAYP2]) * (2^[HDRSZP2]).
@@ -505,7 +504,7 @@ union bdk_ddf_inst_find_s
                                                                  <48> for forward compatibility. */
 #else /* Word 6 - Little Endian */
         uint64_t hdr_addr              : 64; /**< [447:384] Header IOVA. Must be nonzero when [VICTEN] is set, otherwise reserved. Must be aligned to
-                                                                 a 2^[NWAYP2 + HDRSZP2] byte boundary, minimum alignment of 16 bytes.
+                                                                 a 2^[NWAYP2 + HDRSZP2] byte boundary, minimum alignment of 4 bytes.
 
                                                                  If [RANK_ABS]=0, points to rank 0 way 0's header. Hardware accesses the way 0
                                                                  header at address [HDR_ADDR] + computed_rank * (2^[NWAYP2]) * (2^[HDRSZP2]).
@@ -1173,158 +1172,7 @@ union bdk_ddf_res_find_s
         uint64_t rdata3                : 64; /**< [383:320] Extension of [RDATA0]. */
 #endif /* Word 5 - End */
     } s;
-    /* struct bdk_ddf_res_find_s_s cn8; */
-    struct bdk_ddf_res_find_s_cn9
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_55_63        : 9;
-        uint64_t cuckoo                : 7;  /**< [ 54: 48] Number of cuckoo replacements made on insert. Valid only for DDF_OP_E::FIND_INS. */
-        uint64_t hits                  : 8;  /**< [ 47: 40] Hit secondary-ways. Bitmask of ways in which the item was found using the secondary bucket
-                                                                 number. For FIND_SET/FIND_INS/FIND_DEL/FEMPTY_INS a single bit in [HITP], [HITS] or
-                                                                 [HITVIC] will be set. For FIND with PBKT equal SBKT the same bits in [HITP] and [HITS]
-                                                                 will be set. For NBUCKP2 equal 0 only the [HITP] or [HITV] bits may be set.
-
-                                                                 Will be 0x00 for DDF_OP_E::FABS_SET. */
-        uint64_t hitp                  : 8;  /**< [ 39: 32] Hit primary-ways. Bitmask of ways in which the item was found using the primary bucket
-                                                                 number. For FIND_SET/FIND_INS/FIND_DEL/FEMPTY_INS a single bit in [HITP], [HITS] or
-                                                                 [HITVIC] will be set. For FIND with PBKT equal SBKT the same bits in [HITP] and [HITS]
-                                                                 will be set. For NBUCKP2 equal 0 only the [HITP] or [HITV] bits may be set.
-
-                                                                 Will be 0x00 for DDF_OP_E::FABS_SET. */
-        uint64_t hitvict               : 8;  /**< [ 31: 24] Hit victim-ways. Bitmask of ways in which the item was found as a victim, else clear.
-                                                                 For FIND_SET/FIND_INS/FIND_DEL/FEMPTY_INS a single bit in [HITP], [HITS] or [HITVIC] will
-                                                                 be set indicating the set/inserted/deleted location.
-
-                                                                 Will be 0x00 for DDF_OP_E::FABS_SET. */
-        uint64_t nest                  : 2;  /**< [ 23: 22] Hit nest number. Set to DDF_INST_FIND_S[NEST] for FABS_SET. Indicates selected nest number
-                                                                 for FIND, FIND_SET, FIND_INS, FIND_DEL, FEMPTY_INS when [HITP] or [HITS] != 0x0, else
-                                                                 clear. */
-        uint64_t reserved_17_21        : 5;
-        uint64_t doneint               : 1;  /**< [ 16: 16] Done interrupt. This bit is copied from the corresponding instruction's
-                                                                 DDF_INST_FIND_S[DONEINT]. */
-        uint64_t res_type              : 8;  /**< [ 15:  8] Type of response structure, enumerated by DDF_RES_TYPE_E. */
-        uint64_t compcode              : 8;  /**< [  7:  0] Indicates completion/error status of the DDF coprocessor for the
-                                                                 associated instruction, as enumerated by DDF_COMP_E. Core
-                                                                 software may write the memory location containing [COMPCODE] to 0x0
-                                                                 before ringing the doorbell, and then poll for completion by
-                                                                 checking for a nonzero value.
-
-                                                                 Once the core observes a nonzero [COMPCODE] value in this case, the DDF
-                                                                 coprocessor will have also completed L2/DRAM write operations for all context,
-                                                                 output stream, and result data. */
-#else /* Word 0 - Little Endian */
-        uint64_t compcode              : 8;  /**< [  7:  0] Indicates completion/error status of the DDF coprocessor for the
-                                                                 associated instruction, as enumerated by DDF_COMP_E. Core
-                                                                 software may write the memory location containing [COMPCODE] to 0x0
-                                                                 before ringing the doorbell, and then poll for completion by
-                                                                 checking for a nonzero value.
-
-                                                                 Once the core observes a nonzero [COMPCODE] value in this case, the DDF
-                                                                 coprocessor will have also completed L2/DRAM write operations for all context,
-                                                                 output stream, and result data. */
-        uint64_t res_type              : 8;  /**< [ 15:  8] Type of response structure, enumerated by DDF_RES_TYPE_E. */
-        uint64_t doneint               : 1;  /**< [ 16: 16] Done interrupt. This bit is copied from the corresponding instruction's
-                                                                 DDF_INST_FIND_S[DONEINT]. */
-        uint64_t reserved_17_21        : 5;
-        uint64_t nest                  : 2;  /**< [ 23: 22] Hit nest number. Set to DDF_INST_FIND_S[NEST] for FABS_SET. Indicates selected nest number
-                                                                 for FIND, FIND_SET, FIND_INS, FIND_DEL, FEMPTY_INS when [HITP] or [HITS] != 0x0, else
-                                                                 clear. */
-        uint64_t hitvict               : 8;  /**< [ 31: 24] Hit victim-ways. Bitmask of ways in which the item was found as a victim, else clear.
-                                                                 For FIND_SET/FIND_INS/FIND_DEL/FEMPTY_INS a single bit in [HITP], [HITS] or [HITVIC] will
-                                                                 be set indicating the set/inserted/deleted location.
-
-                                                                 Will be 0x00 for DDF_OP_E::FABS_SET. */
-        uint64_t hitp                  : 8;  /**< [ 39: 32] Hit primary-ways. Bitmask of ways in which the item was found using the primary bucket
-                                                                 number. For FIND_SET/FIND_INS/FIND_DEL/FEMPTY_INS a single bit in [HITP], [HITS] or
-                                                                 [HITVIC] will be set. For FIND with PBKT equal SBKT the same bits in [HITP] and [HITS]
-                                                                 will be set. For NBUCKP2 equal 0 only the [HITP] or [HITV] bits may be set.
-
-                                                                 Will be 0x00 for DDF_OP_E::FABS_SET. */
-        uint64_t hits                  : 8;  /**< [ 47: 40] Hit secondary-ways. Bitmask of ways in which the item was found using the secondary bucket
-                                                                 number. For FIND_SET/FIND_INS/FIND_DEL/FEMPTY_INS a single bit in [HITP], [HITS] or
-                                                                 [HITVIC] will be set. For FIND with PBKT equal SBKT the same bits in [HITP] and [HITS]
-                                                                 will be set. For NBUCKP2 equal 0 only the [HITP] or [HITV] bits may be set.
-
-                                                                 Will be 0x00 for DDF_OP_E::FABS_SET. */
-        uint64_t cuckoo                : 7;  /**< [ 54: 48] Number of cuckoo replacements made on insert. Valid only for DDF_OP_E::FIND_INS. */
-        uint64_t reserved_55_63        : 9;
-#endif /* Word 0 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
-        uint64_t reserved_118_127      : 10;
-        uint64_t bktb                  : 6;  /**< [117:112] BucketB number of the nest that is returned in [RDATA0]..[3]. Valid only for a
-                                                                 DDF_OP_E::FIND_INS or FEMPTY_INS that results in a cuckoo displacement as indicated by
-                                                                 [COMPCODE] of DDF_COMP_E::FULL. The key for the displaced nest can be reconstructed from
-                                                                 DDF_RES_FIND_S::RANK, DDF_RES_FIND_S::BKTB and [RDATA0]..[3]. Requires [RR] be set. */
-        uint64_t reserved_110_111      : 2;
-        uint64_t sbkt                  : 6;  /**< [109:104] Calculated secondary bucket number. */
-        uint64_t reserved_102_103      : 2;
-        uint64_t pbkt                  : 6;  /**< [101: 96] Calculated primary bucket number. */
-        uint64_t rank                  : 32; /**< [ 95: 64] Calculated rank number. Is zero if DDF_INST_FIND_S[RANK_ABS] was set. */
-#else /* Word 1 - Little Endian */
-        uint64_t rank                  : 32; /**< [ 95: 64] Calculated rank number. Is zero if DDF_INST_FIND_S[RANK_ABS] was set. */
-        uint64_t pbkt                  : 6;  /**< [101: 96] Calculated primary bucket number. */
-        uint64_t reserved_102_103      : 2;
-        uint64_t sbkt                  : 6;  /**< [109:104] Calculated secondary bucket number. */
-        uint64_t reserved_110_111      : 2;
-        uint64_t bktb                  : 6;  /**< [117:112] BucketB number of the nest that is returned in [RDATA0]..[3]. Valid only for a
-                                                                 DDF_OP_E::FIND_INS or FEMPTY_INS that results in a cuckoo displacement as indicated by
-                                                                 [COMPCODE] of DDF_COMP_E::FULL. The key for the displaced nest can be reconstructed from
-                                                                 DDF_RES_FIND_S::RANK, DDF_RES_FIND_S::BKTB and [RDATA0]..[3]. Requires [RR] be set. */
-        uint64_t reserved_118_127      : 10;
-#endif /* Word 1 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 2 - Big Endian */
-        uint64_t rdata0                : 64; /**< [191:128] Key data bytes read from the nest or header before any update.
-
-                                                                 If multiple hits resulted from a DDF_OP_E::FIND the nest data from [NEST] from the lowest
-                                                                 matching way is returned.
-
-                                                                 If both [HITP] and [HITS] are set in the lowest matching way, the primary nest is
-                                                                 returned.
-
-                                                                 For DDF_OP_E::FABS_SET the nest or header data as selected by [WAY],[PBKT],[NEST],[VICTEN]
-                                                                 from [KEYDATA0]..[3] is returned.
-
-                                                                 The data is read from the nest before any updates take place, including empty nest inserts
-                                                                 where RDATA will be all zeroes. RDATA will also be all zeroes if [HITP], [HITS] and [HITV]
-                                                                 are clear, except for a FEMPTY_INS or FIND_INS that returns DDF_COMP_E::FULL. In this case
-                                                                 RDATA0..3 will contain the unplaced/displaced key data.
-
-                                                                 [RDATA0]..[3] is only written if DDF_RES_FIND_S::RR is set. */
-#else /* Word 2 - Little Endian */
-        uint64_t rdata0                : 64; /**< [191:128] Key data bytes read from the nest or header before any update.
-
-                                                                 If multiple hits resulted from a DDF_OP_E::FIND the nest data from [NEST] from the lowest
-                                                                 matching way is returned.
-
-                                                                 If both [HITP] and [HITS] are set in the lowest matching way, the primary nest is
-                                                                 returned.
-
-                                                                 For DDF_OP_E::FABS_SET the nest or header data as selected by [WAY],[PBKT],[NEST],[VICTEN]
-                                                                 from [KEYDATA0]..[3] is returned.
-
-                                                                 The data is read from the nest before any updates take place, including empty nest inserts
-                                                                 where RDATA will be all zeroes. RDATA will also be all zeroes if [HITP], [HITS] and [HITV]
-                                                                 are clear, except for a FEMPTY_INS or FIND_INS that returns DDF_COMP_E::FULL. In this case
-                                                                 RDATA0..3 will contain the unplaced/displaced key data.
-
-                                                                 [RDATA0]..[3] is only written if DDF_RES_FIND_S::RR is set. */
-#endif /* Word 2 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 3 - Big Endian */
-        uint64_t rdata1                : 64; /**< [255:192] Extension of [RDATA0]. */
-#else /* Word 3 - Little Endian */
-        uint64_t rdata1                : 64; /**< [255:192] Extension of [RDATA0]. */
-#endif /* Word 3 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 4 - Big Endian */
-        uint64_t rdata2                : 64; /**< [319:256] Extension of [RDATA0]. */
-#else /* Word 4 - Little Endian */
-        uint64_t rdata2                : 64; /**< [319:256] Extension of [RDATA0]. */
-#endif /* Word 4 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 5 - Big Endian */
-        uint64_t rdata3                : 64; /**< [383:320] Extension of [RDATA0]. */
-#else /* Word 5 - Little Endian */
-        uint64_t rdata3                : 64; /**< [383:320] Extension of [RDATA0]. */
-#endif /* Word 5 - End */
-    } cn9;
+    /* struct bdk_ddf_res_find_s_s cn; */
 };
 
 /**
@@ -1556,8 +1404,6 @@ static inline uint64_t BDK_DDFX_CQM_CORE_OBS0(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
         return 0x8090000001a0ll + 0ll * ((a) & 0x0);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a==0))
-        return 0x8090000001a0ll + 0ll * ((a) & 0x0);
     __bdk_csr_fatal("DDFX_CQM_CORE_OBS0", 1, a, 0, 0, 0);
 }
 
@@ -1618,8 +1464,6 @@ static inline uint64_t BDK_DDFX_CQM_CORE_OBS1(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
         return 0x8090000001a8ll + 0ll * ((a) & 0x0);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a==0))
-        return 0x8090000001a8ll + 0ll * ((a) & 0x0);
     __bdk_csr_fatal("DDFX_CQM_CORE_OBS1", 1, a, 0, 0, 0);
 }
 
@@ -1674,8 +1518,6 @@ static inline uint64_t BDK_DDFX_NCBI_OBS(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
         return 0x809000000190ll + 0ll * ((a) & 0x0);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a==0))
-        return 0x809000000190ll + 0ll * ((a) & 0x0);
     __bdk_csr_fatal("DDFX_NCBI_OBS", 1, a, 0, 0, 0);
 }
 
@@ -1714,8 +1556,6 @@ static inline uint64_t BDK_DDFX_PF_ACTIVE_CYCLES_PC(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
         return 0x809000010100ll + 0ll * ((a) & 0x0);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a==0))
-        return 0x809000010100ll + 0ll * ((a) & 0x0);
     __bdk_csr_fatal("DDFX_PF_ACTIVE_CYCLES_PC", 1, a, 0, 0, 0);
 }
 
@@ -1753,8 +1593,6 @@ static inline uint64_t BDK_DDFX_PF_BIST_STATUS(unsigned long a) __attribute__ ((
 static inline uint64_t BDK_DDFX_PF_BIST_STATUS(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
-        return 0x809000000160ll + 0ll * ((a) & 0x0);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a==0))
         return 0x809000000160ll + 0ll * ((a) & 0x0);
     __bdk_csr_fatal("DDFX_PF_BIST_STATUS", 1, a, 0, 0, 0);
 }
@@ -1827,8 +1665,6 @@ static inline uint64_t BDK_DDFX_PF_BP_TEST(unsigned long a) __attribute__ ((pure
 static inline uint64_t BDK_DDFX_PF_BP_TEST(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
-        return 0x809000000180ll + 0ll * ((a) & 0x0);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a==0))
         return 0x809000000180ll + 0ll * ((a) & 0x0);
     __bdk_csr_fatal("DDFX_PF_BP_TEST", 1, a, 0, 0, 0);
 }
@@ -1906,8 +1742,6 @@ static inline uint64_t BDK_DDFX_PF_BP_TEST0(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
         return 0x809008001200ll + 0ll * ((a) & 0x0);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a==0))
-        return 0x809008001200ll + 0ll * ((a) & 0x0);
     __bdk_csr_fatal("DDFX_PF_BP_TEST0", 1, a, 0, 0, 0);
 }
 
@@ -1942,8 +1776,6 @@ static inline uint64_t BDK_DDFX_PF_CAC_MISS_PC(unsigned long a) __attribute__ ((
 static inline uint64_t BDK_DDFX_PF_CAC_MISS_PC(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
-        return 0x809000000620ll + 0ll * ((a) & 0x0);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a==0))
         return 0x809000000620ll + 0ll * ((a) & 0x0);
     __bdk_csr_fatal("DDFX_PF_CAC_MISS_PC", 1, a, 0, 0, 0);
 }
@@ -1982,8 +1814,6 @@ static inline uint64_t BDK_DDFX_PF_CONSTANTS(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
         return 0x809000000000ll + 0ll * ((a) & 0x0);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a==0))
-        return 0x809000000000ll + 0ll * ((a) & 0x0);
     __bdk_csr_fatal("DDFX_PF_CONSTANTS", 1, a, 0, 0, 0);
 }
 
@@ -2019,14 +1849,18 @@ typedef union
         uint64_t cacgang_disable       : 1;  /**< [  9:  9](R/W) Disable LRU gang list. For diagnostic use only. */
         uint64_t cacfree_thrsh         : 2;  /**< [  8:  7](R/W) Minimum number of cache entries to keep available for new instructions, equals 2^[3+CACFREE_THRSH]. */
         uint64_t eng_disable           : 4;  /**< [  6:  3](R/W) Set to disable individual filter and record engines. Bit 0 for fproc0, bit 1 for fproc1,
-                                                                 bit 2 for rproc0, bit3 for rproc1. */
+                                                                 bit 2 for rproc0, bit3 for rproc1. Should always have one of each type enabled, or
+                                                                 guarantee that FIND instructions are always sent on group 0 and MATCH instructions on
+                                                                 group 1. Otherwise hardware operation is undefined. */
         uint64_t synctimer_dis         : 1;  /**< [  2:  2](R/W) Cause hardware to flush entire DDF cache every 1M system clocks. */
         uint64_t cacpart               : 2;  /**< [  1:  0](R/W) Sets cache partition policy as enumerated in DDF_CACPART_E. */
 #else /* Word 0 - Little Endian */
         uint64_t cacpart               : 2;  /**< [  1:  0](R/W) Sets cache partition policy as enumerated in DDF_CACPART_E. */
         uint64_t synctimer_dis         : 1;  /**< [  2:  2](R/W) Cause hardware to flush entire DDF cache every 1M system clocks. */
         uint64_t eng_disable           : 4;  /**< [  6:  3](R/W) Set to disable individual filter and record engines. Bit 0 for fproc0, bit 1 for fproc1,
-                                                                 bit 2 for rproc0, bit3 for rproc1. */
+                                                                 bit 2 for rproc0, bit3 for rproc1. Should always have one of each type enabled, or
+                                                                 guarantee that FIND instructions are always sent on group 0 and MATCH instructions on
+                                                                 group 1. Otherwise hardware operation is undefined. */
         uint64_t cacfree_thrsh         : 2;  /**< [  8:  7](R/W) Minimum number of cache entries to keep available for new instructions, equals 2^[3+CACFREE_THRSH]. */
         uint64_t cacgang_disable       : 1;  /**< [  9:  9](R/W) Disable LRU gang list. For diagnostic use only. */
         uint64_t stdn_sync_dis         : 1;  /**< [ 10: 10](R/W) Disable gating of result store on receipt of all NCB store-done's associated with cache
@@ -2047,8 +1881,6 @@ static inline uint64_t BDK_DDFX_PF_CTL(unsigned long a) __attribute__ ((pure, al
 static inline uint64_t BDK_DDFX_PF_CTL(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
-        return 0x809000000600ll + 0ll * ((a) & 0x0);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a==0))
         return 0x809000000600ll + 0ll * ((a) & 0x0);
     __bdk_csr_fatal("DDFX_PF_CTL", 1, a, 0, 0, 0);
 }
@@ -2097,8 +1929,6 @@ static inline uint64_t BDK_DDFX_PF_CTL2(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
         return 0x809000000610ll + 0ll * ((a) & 0x0);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a==0))
-        return 0x809000000610ll + 0ll * ((a) & 0x0);
     __bdk_csr_fatal("DDFX_PF_CTL2", 1, a, 0, 0, 0);
 }
 
@@ -2142,8 +1972,6 @@ static inline uint64_t BDK_DDFX_PF_DIAG(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
         return 0x809000000120ll + 0ll * ((a) & 0x0);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a==0))
-        return 0x809000000120ll + 0ll * ((a) & 0x0);
     __bdk_csr_fatal("DDFX_PF_DIAG", 1, a, 0, 0, 0);
 }
 
@@ -2186,8 +2014,6 @@ static inline uint64_t BDK_DDFX_PF_DIAG2(unsigned long a) __attribute__ ((pure, 
 static inline uint64_t BDK_DDFX_PF_DIAG2(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
-        return 0x809000000630ll + 0ll * ((a) & 0x0);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a==0))
         return 0x809000000630ll + 0ll * ((a) & 0x0);
     __bdk_csr_fatal("DDFX_PF_DIAG2", 1, a, 0, 0, 0);
 }
@@ -2297,8 +2123,6 @@ static inline uint64_t BDK_DDFX_PF_ECC0_CTL(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
         return 0x809000000200ll + 0ll * ((a) & 0x0);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a==0))
-        return 0x809000000200ll + 0ll * ((a) & 0x0);
     __bdk_csr_fatal("DDFX_PF_ECC0_CTL", 1, a, 0, 0, 0);
 }
 
@@ -2335,8 +2159,6 @@ static inline uint64_t BDK_DDFX_PF_ECC0_ENA_W1C(unsigned long a) __attribute__ (
 static inline uint64_t BDK_DDFX_PF_ECC0_ENA_W1C(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
-        return 0x809000000250ll + 0ll * ((a) & 0x0);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a==0))
         return 0x809000000250ll + 0ll * ((a) & 0x0);
     __bdk_csr_fatal("DDFX_PF_ECC0_ENA_W1C", 1, a, 0, 0, 0);
 }
@@ -2375,8 +2197,6 @@ static inline uint64_t BDK_DDFX_PF_ECC0_ENA_W1S(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
         return 0x809000000240ll + 0ll * ((a) & 0x0);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a==0))
-        return 0x809000000240ll + 0ll * ((a) & 0x0);
     __bdk_csr_fatal("DDFX_PF_ECC0_ENA_W1S", 1, a, 0, 0, 0);
 }
 
@@ -2414,8 +2234,6 @@ static inline uint64_t BDK_DDFX_PF_ECC0_FLIP(unsigned long a) __attribute__ ((pu
 static inline uint64_t BDK_DDFX_PF_ECC0_FLIP(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
-        return 0x809000000210ll + 0ll * ((a) & 0x0);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a==0))
         return 0x809000000210ll + 0ll * ((a) & 0x0);
     __bdk_csr_fatal("DDFX_PF_ECC0_FLIP", 1, a, 0, 0, 0);
 }
@@ -2458,8 +2276,6 @@ static inline uint64_t BDK_DDFX_PF_ECC0_INT(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
         return 0x809000000220ll + 0ll * ((a) & 0x0);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a==0))
-        return 0x809000000220ll + 0ll * ((a) & 0x0);
     __bdk_csr_fatal("DDFX_PF_ECC0_INT", 1, a, 0, 0, 0);
 }
 
@@ -2496,8 +2312,6 @@ static inline uint64_t BDK_DDFX_PF_ECC0_INT_W1S(unsigned long a) __attribute__ (
 static inline uint64_t BDK_DDFX_PF_ECC0_INT_W1S(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
-        return 0x809000000230ll + 0ll * ((a) & 0x0);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a==0))
         return 0x809000000230ll + 0ll * ((a) & 0x0);
     __bdk_csr_fatal("DDFX_PF_ECC0_INT_W1S", 1, a, 0, 0, 0);
 }
@@ -2536,8 +2350,6 @@ static inline uint64_t BDK_DDFX_PF_ECO(unsigned long a) __attribute__ ((pure, al
 static inline uint64_t BDK_DDFX_PF_ECO(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
-        return 0x809000000140ll + 0ll * ((a) & 0x0);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a==0))
         return 0x809000000140ll + 0ll * ((a) & 0x0);
     __bdk_csr_fatal("DDFX_PF_ECO", 1, a, 0, 0, 0);
 }
@@ -2579,8 +2391,6 @@ static inline uint64_t BDK_DDFX_PF_INST_LATENCY_PC(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
         return 0x809000010020ll + 0ll * ((a) & 0x0);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a==0))
-        return 0x809000010020ll + 0ll * ((a) & 0x0);
     __bdk_csr_fatal("DDFX_PF_INST_LATENCY_PC", 1, a, 0, 0, 0);
 }
 
@@ -2614,8 +2424,6 @@ static inline uint64_t BDK_DDFX_PF_INST_REQ_PC(unsigned long a) __attribute__ ((
 static inline uint64_t BDK_DDFX_PF_INST_REQ_PC(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
-        return 0x809000010000ll + 0ll * ((a) & 0x0);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a==0))
         return 0x809000010000ll + 0ll * ((a) & 0x0);
     __bdk_csr_fatal("DDFX_PF_INST_REQ_PC", 1, a, 0, 0, 0);
 }
@@ -2652,8 +2460,6 @@ static inline uint64_t BDK_DDFX_PF_MBOX_ENA_W1CX(unsigned long a, unsigned long 
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b==0)))
         return 0x809000000440ll + 0ll * ((a) & 0x0) + 8ll * ((b) & 0x0);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a==0) && (b==0)))
-        return 0x809000000440ll + 0ll * ((a) & 0x0) + 8ll * ((b) & 0x0);
     __bdk_csr_fatal("DDFX_PF_MBOX_ENA_W1CX", 2, a, b, 0, 0);
 }
 
@@ -2688,8 +2494,6 @@ static inline uint64_t BDK_DDFX_PF_MBOX_ENA_W1SX(unsigned long a, unsigned long 
 static inline uint64_t BDK_DDFX_PF_MBOX_ENA_W1SX(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b==0)))
-        return 0x809000000460ll + 0ll * ((a) & 0x0) + 8ll * ((b) & 0x0);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a==0) && (b==0)))
         return 0x809000000460ll + 0ll * ((a) & 0x0) + 8ll * ((b) & 0x0);
     __bdk_csr_fatal("DDFX_PF_MBOX_ENA_W1SX", 2, a, b, 0, 0);
 }
@@ -2727,8 +2531,6 @@ static inline uint64_t BDK_DDFX_PF_MBOX_INTX(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b==0)))
         return 0x809000000400ll + 0ll * ((a) & 0x0) + 8ll * ((b) & 0x0);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a==0) && (b==0)))
-        return 0x809000000400ll + 0ll * ((a) & 0x0) + 8ll * ((b) & 0x0);
     __bdk_csr_fatal("DDFX_PF_MBOX_INTX", 2, a, b, 0, 0);
 }
 
@@ -2763,8 +2565,6 @@ static inline uint64_t BDK_DDFX_PF_MBOX_INT_W1SX(unsigned long a, unsigned long 
 static inline uint64_t BDK_DDFX_PF_MBOX_INT_W1SX(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b==0)))
-        return 0x809000000420ll + 0ll * ((a) & 0x0) + 8ll * ((b) & 0x0);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a==0) && (b==0)))
         return 0x809000000420ll + 0ll * ((a) & 0x0) + 8ll * ((b) & 0x0);
     __bdk_csr_fatal("DDFX_PF_MBOX_INT_W1SX", 2, a, b, 0, 0);
 }
@@ -2803,8 +2603,6 @@ static inline uint64_t BDK_DDFX_PF_MSIX_PBAX(unsigned long a, unsigned long b) _
 static inline uint64_t BDK_DDFX_PF_MSIX_PBAX(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b==0)))
-        return 0x8090100f0000ll + 0ll * ((a) & 0x0) + 8ll * ((b) & 0x0);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a==0) && (b==0)))
         return 0x8090100f0000ll + 0ll * ((a) & 0x0) + 8ll * ((b) & 0x0);
     __bdk_csr_fatal("DDFX_PF_MSIX_PBAX", 2, a, b, 0, 0);
 }
@@ -2861,8 +2659,6 @@ static inline uint64_t BDK_DDFX_PF_MSIX_VECX_ADDR(unsigned long a, unsigned long
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=3)))
         return 0x809010000000ll + 0ll * ((a) & 0x0) + 0x10ll * ((b) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a==0) && (b<=1)))
-        return 0x809010000000ll + 0ll * ((a) & 0x0) + 0x10ll * ((b) & 0x1);
     __bdk_csr_fatal("DDFX_PF_MSIX_VECX_ADDR", 2, a, b, 0, 0);
 }
 
@@ -2904,8 +2700,6 @@ static inline uint64_t BDK_DDFX_PF_MSIX_VECX_CTL(unsigned long a, unsigned long 
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=3)))
         return 0x809010000008ll + 0ll * ((a) & 0x0) + 0x10ll * ((b) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a==0) && (b<=1)))
-        return 0x809010000008ll + 0ll * ((a) & 0x0) + 0x10ll * ((b) & 0x1);
     __bdk_csr_fatal("DDFX_PF_MSIX_VECX_CTL", 2, a, b, 0, 0);
 }
 
@@ -3312,8 +3106,6 @@ static inline uint64_t BDK_DDFX_PF_QX_CTL(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=63)))
         return 0x809008000000ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a==0) && (b<=63)))
-        return 0x809008000000ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x3f);
     __bdk_csr_fatal("DDFX_PF_QX_CTL", 2, a, b, 0, 0);
 }
 
@@ -3380,8 +3172,6 @@ static inline uint64_t BDK_DDFX_PF_QX_CTL2(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=63)))
         return 0x809008000100ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a==0) && (b<=63)))
-        return 0x809008000100ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x3f);
     __bdk_csr_fatal("DDFX_PF_QX_CTL2", 2, a, b, 0, 0);
 }
 
@@ -3442,8 +3232,6 @@ static inline uint64_t BDK_DDFX_PF_QX_GMCTL(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=63)))
         return 0x809008000020ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a==0) && (b<=63)))
-        return 0x809008000020ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x3f);
     __bdk_csr_fatal("DDFX_PF_QX_GMCTL", 2, a, b, 0, 0);
 }
 
@@ -3482,8 +3270,6 @@ static inline uint64_t BDK_DDFX_PF_RD_LATENCY_PC(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
         return 0x809000010060ll + 0ll * ((a) & 0x0);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a==0))
-        return 0x809000010060ll + 0ll * ((a) & 0x0);
     __bdk_csr_fatal("DDFX_PF_RD_LATENCY_PC", 1, a, 0, 0, 0);
 }
 
@@ -3517,8 +3303,6 @@ static inline uint64_t BDK_DDFX_PF_RD_REQ_PC(unsigned long a) __attribute__ ((pu
 static inline uint64_t BDK_DDFX_PF_RD_REQ_PC(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
-        return 0x809000010040ll + 0ll * ((a) & 0x0);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a==0))
         return 0x809000010040ll + 0ll * ((a) & 0x0);
     __bdk_csr_fatal("DDFX_PF_RD_REQ_PC", 1, a, 0, 0, 0);
 }
@@ -3556,8 +3340,6 @@ static inline uint64_t BDK_DDFX_PF_RESET(unsigned long a) __attribute__ ((pure, 
 static inline uint64_t BDK_DDFX_PF_RESET(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
-        return 0x809000000100ll + 0ll * ((a) & 0x0);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a==0))
         return 0x809000000100ll + 0ll * ((a) & 0x0);
     __bdk_csr_fatal("DDFX_PF_RESET", 1, a, 0, 0, 0);
 }
@@ -3605,8 +3387,6 @@ static inline uint64_t BDK_DDFX_PF_VFX_MBOXX(unsigned long a, unsigned long b, u
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=63) && (c<=1)))
         return 0x809008001000ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x3f) + 0x100ll * ((c) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a==0) && (b<=63) && (c<=1)))
-        return 0x809008001000ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x3f) + 0x100ll * ((c) & 0x1);
     __bdk_csr_fatal("DDFX_PF_VFX_MBOXX", 3, a, b, c, 0);
 }
 
@@ -3644,8 +3424,6 @@ static inline uint64_t BDK_DDFX_VFX_MSIX_PBAX(unsigned long a, unsigned long b, 
 static inline uint64_t BDK_DDFX_VFX_MSIX_PBAX(unsigned long a, unsigned long b, unsigned long c)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=63) && (c==0)))
-        return 0x8090300f0000ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x3f) + 8ll * ((c) & 0x0);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a==0) && (b<=63) && (c==0)))
         return 0x8090300f0000ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x3f) + 8ll * ((c) & 0x0);
     __bdk_csr_fatal("DDFX_VFX_MSIX_PBAX", 3, a, b, c, 0);
 }
@@ -3692,8 +3470,6 @@ static inline uint64_t BDK_DDFX_VFX_MSIX_VECX_ADDR(unsigned long a, unsigned lon
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=63) && (c<=1)))
         return 0x809030000000ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x3f) + 0x10ll * ((c) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a==0) && (b<=63) && (c<=1)))
-        return 0x809030000000ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x3f) + 0x10ll * ((c) & 0x1);
     __bdk_csr_fatal("DDFX_VFX_MSIX_VECX_ADDR", 3, a, b, c, 0);
 }
 
@@ -3734,8 +3510,6 @@ static inline uint64_t BDK_DDFX_VFX_MSIX_VECX_CTL(unsigned long a, unsigned long
 static inline uint64_t BDK_DDFX_VFX_MSIX_VECX_CTL(unsigned long a, unsigned long b, unsigned long c)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=63) && (c<=1)))
-        return 0x809030000008ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x3f) + 0x10ll * ((c) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a==0) && (b<=63) && (c<=1)))
         return 0x809030000008ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x3f) + 0x10ll * ((c) & 0x1);
     __bdk_csr_fatal("DDFX_VFX_MSIX_VECX_CTL", 3, a, b, c, 0);
 }
@@ -3781,8 +3555,6 @@ static inline uint64_t BDK_DDFX_VFX_PF_MBOXX(unsigned long a, unsigned long b, u
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=63) && (c<=1)))
         return 0x809020001000ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x3f) + 8ll * ((c) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a==0) && (b<=63) && (c<=1)))
-        return 0x809020001000ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x3f) + 8ll * ((c) & 0x1);
     __bdk_csr_fatal("DDFX_VFX_PF_MBOXX", 3, a, b, c, 0);
 }
 
@@ -3826,8 +3598,6 @@ static inline uint64_t BDK_DDFX_VQX_CTL(unsigned long a, unsigned long b) __attr
 static inline uint64_t BDK_DDFX_VQX_CTL(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=63)))
-        return 0x809020000100ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a==0) && (b<=63)))
         return 0x809020000100ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x3f);
     __bdk_csr_fatal("DDFX_VQX_CTL", 2, a, b, 0, 0);
 }
@@ -3934,8 +3704,6 @@ static inline uint64_t BDK_DDFX_VQX_DONE(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=63)))
         return 0x809020000420ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a==0) && (b<=63)))
-        return 0x809020000420ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x3f);
     __bdk_csr_fatal("DDFX_VQX_DONE", 2, a, b, 0, 0);
 }
 
@@ -3981,8 +3749,6 @@ static inline uint64_t BDK_DDFX_VQX_DONE_ACK(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=63)))
         return 0x809020000440ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a==0) && (b<=63)))
-        return 0x809020000440ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x3f);
     __bdk_csr_fatal("DDFX_VQX_DONE_ACK", 2, a, b, 0, 0);
 }
 
@@ -4018,8 +3784,6 @@ static inline uint64_t BDK_DDFX_VQX_DONE_ENA_W1C(unsigned long a, unsigned long 
 static inline uint64_t BDK_DDFX_VQX_DONE_ENA_W1C(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=63)))
-        return 0x809020000478ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a==0) && (b<=63)))
         return 0x809020000478ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x3f);
     __bdk_csr_fatal("DDFX_VQX_DONE_ENA_W1C", 2, a, b, 0, 0);
 }
@@ -4059,8 +3823,6 @@ static inline uint64_t BDK_DDFX_VQX_DONE_ENA_W1S(unsigned long a, unsigned long 
 static inline uint64_t BDK_DDFX_VQX_DONE_ENA_W1S(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=63)))
-        return 0x809020000470ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a==0) && (b<=63)))
         return 0x809020000470ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x3f);
     __bdk_csr_fatal("DDFX_VQX_DONE_ENA_W1S", 2, a, b, 0, 0);
 }
@@ -4102,8 +3864,6 @@ static inline uint64_t BDK_DDFX_VQX_DONE_INT_W1C(unsigned long a, unsigned long 
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=63)))
         return 0x809020000468ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a==0) && (b<=63)))
-        return 0x809020000468ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x3f);
     __bdk_csr_fatal("DDFX_VQX_DONE_INT_W1C", 2, a, b, 0, 0);
 }
 
@@ -4143,8 +3903,6 @@ static inline uint64_t BDK_DDFX_VQX_DONE_INT_W1S(unsigned long a, unsigned long 
 static inline uint64_t BDK_DDFX_VQX_DONE_INT_W1S(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=63)))
-        return 0x809020000460ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a==0) && (b<=63)))
         return 0x809020000460ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x3f);
     __bdk_csr_fatal("DDFX_VQX_DONE_INT_W1S", 2, a, b, 0, 0);
 }
@@ -4194,8 +3952,6 @@ static inline uint64_t BDK_DDFX_VQX_DONE_WAIT(unsigned long a, unsigned long b) 
 static inline uint64_t BDK_DDFX_VQX_DONE_WAIT(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=63)))
-        return 0x809020000400ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a==0) && (b<=63)))
         return 0x809020000400ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x3f);
     __bdk_csr_fatal("DDFX_VQX_DONE_WAIT", 2, a, b, 0, 0);
 }
@@ -4260,8 +4016,6 @@ static inline uint64_t BDK_DDFX_VQX_DOORBELL(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=63)))
         return 0x809020000600ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a==0) && (b<=63)))
-        return 0x809020000600ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x3f);
     __bdk_csr_fatal("DDFX_VQX_DOORBELL", 2, a, b, 0, 0);
 }
 
@@ -4313,8 +4067,6 @@ static inline uint64_t BDK_DDFX_VQX_INPROG(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=63)))
         return 0x809020000410ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a==0) && (b<=63)))
-        return 0x809020000410ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x3f);
     __bdk_csr_fatal("DDFX_VQX_INPROG", 2, a, b, 0, 0);
 }
 
@@ -4364,8 +4116,6 @@ static inline uint64_t BDK_DDFX_VQX_MISC_ENA_W1C(unsigned long a, unsigned long 
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=63)))
         return 0x809020000518ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a==0) && (b<=63)))
-        return 0x809020000518ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x3f);
     __bdk_csr_fatal("DDFX_VQX_MISC_ENA_W1C", 2, a, b, 0, 0);
 }
 
@@ -4414,8 +4164,6 @@ static inline uint64_t BDK_DDFX_VQX_MISC_ENA_W1S(unsigned long a, unsigned long 
 static inline uint64_t BDK_DDFX_VQX_MISC_ENA_W1S(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=63)))
-        return 0x809020000510ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a==0) && (b<=63)))
         return 0x809020000510ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x3f);
     __bdk_csr_fatal("DDFX_VQX_MISC_ENA_W1S", 2, a, b, 0, 0);
 }
@@ -4468,8 +4216,6 @@ static inline uint64_t BDK_DDFX_VQX_MISC_INT(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=63)))
         return 0x809020000500ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a==0) && (b<=63)))
-        return 0x809020000500ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x3f);
     __bdk_csr_fatal("DDFX_VQX_MISC_INT", 2, a, b, 0, 0);
 }
 
@@ -4518,8 +4264,6 @@ static inline uint64_t BDK_DDFX_VQX_MISC_INT_W1S(unsigned long a, unsigned long 
 static inline uint64_t BDK_DDFX_VQX_MISC_INT_W1S(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=63)))
-        return 0x809020000508ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a==0) && (b<=63)))
         return 0x809020000508ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x3f);
     __bdk_csr_fatal("DDFX_VQX_MISC_INT_W1S", 2, a, b, 0, 0);
 }
@@ -4571,8 +4315,6 @@ static inline uint64_t BDK_DDFX_VQX_SADDR(unsigned long a, unsigned long b) __at
 static inline uint64_t BDK_DDFX_VQX_SADDR(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=63)))
-        return 0x809020000200ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a==0) && (b<=63)))
         return 0x809020000200ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x3f);
     __bdk_csr_fatal("DDFX_VQX_SADDR", 2, a, b, 0, 0);
 }

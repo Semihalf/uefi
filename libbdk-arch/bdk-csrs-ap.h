@@ -263,7 +263,7 @@ static inline uint64_t BDK_AP_AMAIR_EL12_FUNC(void)
  *
  * AP Current Cache Size ID Register
  * This register provides information about the architecture of the currently selected
- * cache. AP_CSSELR_EL1 selects which Cache Size ID Register is accessible.
+ * cache.
  */
 typedef union
 {
@@ -295,24 +295,20 @@ typedef union
                                                                  indicates 1 set in the cache. The number of sets does not have
                                                                  to be a power of 2.
 
-                                                                 For CNXXXX L1D (AP_CSSELR_EL1[LEVEL] = 0x0, AP_CSSELR_EL1[IND] = 0), is TBD.
+                                                                 For CNXXXX L1D (AP_CSSELR_EL1[LEVEL] = 0x0, AP_CSSELR_EL1[IND] = 0), is 7.
 
-                                                                 For CNXXXX L1I (AP_CSSELR_EL1[LEVEL] = 0x0, AP_CSSELR_EL1[IND] = 1), is TBD.
+                                                                 For CNXXXX L1I (AP_CSSELR_EL1[LEVEL] = 0x0, AP_CSSELR_EL1[IND] = 1), is 15.
 
-                                                                 For CN98XX L2 (AP_CSSELR_EL1[LEVEL] = 0x1, AP_CSSELR_EL1[IND] = 0), is TBD.
-
-                                                                 For CN98XX L3 (AP_CSSELR_EL1[LEVEL] = 0x2, AP_CSSELR_EL1[IND] = 0), is TBD. */
+                                                                 For CN88XX L2 (AP_CSSELR_EL1[LEVEL] = 0x1, AP_CSSELR_EL1[IND] = 0), is 8191. */
         uint32_t associativity         : 10; /**< [ 12:  3](RO) Associativity of cache minus 1, therefore a value of 0 indicates
                                                                  an associativity of 1. The associativity does not have to be a
                                                                  power of 2.
 
-                                                                 For CNXXXX L1D (AP_CSSELR_EL1[LEVEL] = 0x0, AP_CSSELR_EL1[IND] = 0), is TBD.
+                                                                 For CNXXXX L1D (AP_CSSELR_EL1[LEVEL] = 0x0, AP_CSSELR_EL1[IND] = 0), is 31.
 
-                                                                 For CNXXXX L1I (AP_CSSELR_EL1[LEVEL] = 0x0, AP_CSSELR_EL1[IND] = 1), is TBD.
+                                                                 For CNXXXX L1I (AP_CSSELR_EL1[LEVEL] = 0x0, AP_CSSELR_EL1[IND] = 1), is 38.
 
-                                                                 For CN98XX L2 (AP_CSSELR_EL1[LEVEL] = 0x1, AP_CSSELR_EL1[IND] = 0), is TBD.
-
-                                                                 For CN98XX L3 (AP_CSSELR_EL1[LEVEL] = 0x1, AP_CSSELR_EL1[IND] = 0), is TBD. */
+                                                                 For CN88XX L2 (AP_CSSELR_EL1[LEVEL] = 0x1, AP_CSSELR_EL1[IND] = 0), is 15. */
         uint32_t linesize              : 3;  /**< [  2:  0](RO) Cache-line size, in (Log2(Number of bytes in cache line)) - 4.
 
                                                                  For CNXXXX, 128 bytes. */
@@ -324,24 +320,20 @@ typedef union
                                                                  an associativity of 1. The associativity does not have to be a
                                                                  power of 2.
 
-                                                                 For CNXXXX L1D (AP_CSSELR_EL1[LEVEL] = 0x0, AP_CSSELR_EL1[IND] = 0), is TBD.
+                                                                 For CNXXXX L1D (AP_CSSELR_EL1[LEVEL] = 0x0, AP_CSSELR_EL1[IND] = 0), is 31.
 
-                                                                 For CNXXXX L1I (AP_CSSELR_EL1[LEVEL] = 0x0, AP_CSSELR_EL1[IND] = 1), is TBD.
+                                                                 For CNXXXX L1I (AP_CSSELR_EL1[LEVEL] = 0x0, AP_CSSELR_EL1[IND] = 1), is 38.
 
-                                                                 For CN98XX L2 (AP_CSSELR_EL1[LEVEL] = 0x1, AP_CSSELR_EL1[IND] = 0), is TBD.
-
-                                                                 For CN98XX L3 (AP_CSSELR_EL1[LEVEL] = 0x1, AP_CSSELR_EL1[IND] = 0), is TBD. */
+                                                                 For CN88XX L2 (AP_CSSELR_EL1[LEVEL] = 0x1, AP_CSSELR_EL1[IND] = 0), is 15. */
         uint32_t numsets               : 15; /**< [ 27: 13](RO) Number of sets in cache minus 1, therefore a value of 0
                                                                  indicates 1 set in the cache. The number of sets does not have
                                                                  to be a power of 2.
 
-                                                                 For CNXXXX L1D (AP_CSSELR_EL1[LEVEL] = 0x0, AP_CSSELR_EL1[IND] = 0), is TBD.
+                                                                 For CNXXXX L1D (AP_CSSELR_EL1[LEVEL] = 0x0, AP_CSSELR_EL1[IND] = 0), is 7.
 
-                                                                 For CNXXXX L1I (AP_CSSELR_EL1[LEVEL] = 0x0, AP_CSSELR_EL1[IND] = 1), is TBD.
+                                                                 For CNXXXX L1I (AP_CSSELR_EL1[LEVEL] = 0x0, AP_CSSELR_EL1[IND] = 1), is 15.
 
-                                                                 For CN98XX L2 (AP_CSSELR_EL1[LEVEL] = 0x1, AP_CSSELR_EL1[IND] = 0), is TBD.
-
-                                                                 For CN98XX L3 (AP_CSSELR_EL1[LEVEL] = 0x2, AP_CSSELR_EL1[IND] = 0), is TBD. */
+                                                                 For CN88XX L2 (AP_CSSELR_EL1[LEVEL] = 0x1, AP_CSSELR_EL1[IND] = 0), is 8191. */
         uint32_t wa                    : 1;  /**< [ 28: 28](RO) Indicates whether the selected cache level supports write-allocation.
                                                                  0 = Write-allocation not supported.
                                                                  1 = Write-allocation supported.
@@ -364,7 +356,6 @@ typedef union
                                                                  For CNXXXX does not apply as hardware managed coherence. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ap_ccsidr_el1_s cn9; */
     struct bdk_ap_ccsidr_el1_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -461,94 +452,7 @@ typedef union
                                                                  For CNXXXX does not apply as hardware managed coherence. */
 #endif /* Word 0 - End */
     } cn81xx;
-    struct bdk_ap_ccsidr_el1_cn88xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t wt                    : 1;  /**< [ 31: 31](RO) Indicates whether the selected cache level supports write-through.
-                                                                 0 = Write-through not supported.
-                                                                 1 = Write-through supported.
-
-                                                                 For CNXXXX does not apply as hardware managed coherence. */
-        uint32_t wb                    : 1;  /**< [ 30: 30](RO) Indicates whether the selected cache level supports write-back.
-                                                                 0 = Write-back not supported.
-                                                                 1 = Write-back supported.
-
-                                                                 For CNXXXX does not apply as hardware managed coherence. */
-        uint32_t ra                    : 1;  /**< [ 29: 29](RO) Indicates whether the selected cache level supports read-allocation.
-                                                                 0 = Read-allocation not supported.
-                                                                 1 = Read-allocation supported.
-
-                                                                 For CNXXXX does not apply as hardware managed coherence. */
-        uint32_t wa                    : 1;  /**< [ 28: 28](RO) Indicates whether the selected cache level supports write-allocation.
-                                                                 0 = Write-allocation not supported.
-                                                                 1 = Write-allocation supported.
-
-                                                                 For CNXXXX does not apply as hardware managed coherence. */
-        uint32_t numsets               : 15; /**< [ 27: 13](RO) Number of sets in cache minus 1, therefore a value of 0
-                                                                 indicates 1 set in the cache. The number of sets does not have
-                                                                 to be a power of 2.
-
-                                                                 For CNXXXX L1D (AP_CSSELR_EL1[LEVEL] = 0x0, AP_CSSELR_EL1[IND] = 0), is 7.
-
-                                                                 For CNXXXX L1I (AP_CSSELR_EL1[LEVEL] = 0x0, AP_CSSELR_EL1[IND] = 1), is 15.
-
-                                                                 For CN88XX L2 (AP_CSSELR_EL1[LEVEL] = 0x1, AP_CSSELR_EL1[IND] = 0), is 8191. */
-        uint32_t associativity         : 10; /**< [ 12:  3](RO) Associativity of cache minus 1, therefore a value of 0 indicates
-                                                                 an associativity of 1. The associativity does not have to be a
-                                                                 power of 2.
-
-                                                                 For CNXXXX L1D (AP_CSSELR_EL1[LEVEL] = 0x0, AP_CSSELR_EL1[IND] = 0), is 31.
-
-                                                                 For CNXXXX L1I (AP_CSSELR_EL1[LEVEL] = 0x0, AP_CSSELR_EL1[IND] = 1), is 38.
-
-                                                                 For CN88XX L2 (AP_CSSELR_EL1[LEVEL] = 0x1, AP_CSSELR_EL1[IND] = 0), is 15. */
-        uint32_t linesize              : 3;  /**< [  2:  0](RO) Cache-line size, in (Log2(Number of bytes in cache line)) - 4.
-
-                                                                 For CNXXXX, 128 bytes. */
-#else /* Word 0 - Little Endian */
-        uint32_t linesize              : 3;  /**< [  2:  0](RO) Cache-line size, in (Log2(Number of bytes in cache line)) - 4.
-
-                                                                 For CNXXXX, 128 bytes. */
-        uint32_t associativity         : 10; /**< [ 12:  3](RO) Associativity of cache minus 1, therefore a value of 0 indicates
-                                                                 an associativity of 1. The associativity does not have to be a
-                                                                 power of 2.
-
-                                                                 For CNXXXX L1D (AP_CSSELR_EL1[LEVEL] = 0x0, AP_CSSELR_EL1[IND] = 0), is 31.
-
-                                                                 For CNXXXX L1I (AP_CSSELR_EL1[LEVEL] = 0x0, AP_CSSELR_EL1[IND] = 1), is 38.
-
-                                                                 For CN88XX L2 (AP_CSSELR_EL1[LEVEL] = 0x1, AP_CSSELR_EL1[IND] = 0), is 15. */
-        uint32_t numsets               : 15; /**< [ 27: 13](RO) Number of sets in cache minus 1, therefore a value of 0
-                                                                 indicates 1 set in the cache. The number of sets does not have
-                                                                 to be a power of 2.
-
-                                                                 For CNXXXX L1D (AP_CSSELR_EL1[LEVEL] = 0x0, AP_CSSELR_EL1[IND] = 0), is 7.
-
-                                                                 For CNXXXX L1I (AP_CSSELR_EL1[LEVEL] = 0x0, AP_CSSELR_EL1[IND] = 1), is 15.
-
-                                                                 For CN88XX L2 (AP_CSSELR_EL1[LEVEL] = 0x1, AP_CSSELR_EL1[IND] = 0), is 8191. */
-        uint32_t wa                    : 1;  /**< [ 28: 28](RO) Indicates whether the selected cache level supports write-allocation.
-                                                                 0 = Write-allocation not supported.
-                                                                 1 = Write-allocation supported.
-
-                                                                 For CNXXXX does not apply as hardware managed coherence. */
-        uint32_t ra                    : 1;  /**< [ 29: 29](RO) Indicates whether the selected cache level supports read-allocation.
-                                                                 0 = Read-allocation not supported.
-                                                                 1 = Read-allocation supported.
-
-                                                                 For CNXXXX does not apply as hardware managed coherence. */
-        uint32_t wb                    : 1;  /**< [ 30: 30](RO) Indicates whether the selected cache level supports write-back.
-                                                                 0 = Write-back not supported.
-                                                                 1 = Write-back supported.
-
-                                                                 For CNXXXX does not apply as hardware managed coherence. */
-        uint32_t wt                    : 1;  /**< [ 31: 31](RO) Indicates whether the selected cache level supports write-through.
-                                                                 0 = Write-through not supported.
-                                                                 1 = Write-through supported.
-
-                                                                 For CNXXXX does not apply as hardware managed coherence. */
-#endif /* Word 0 - End */
-    } cn88xx;
+    /* struct bdk_ap_ccsidr_el1_s cn88xx; */
     struct bdk_ap_ccsidr_el1_cn83xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -670,7 +574,7 @@ typedef union
         uint32_t louu                  : 3;  /**< [ 29: 27](RO) Level of unification uniprocessor for the cache hierarchy. */
         uint32_t loc                   : 3;  /**< [ 26: 24](RO) Level of coherence for the cache hierarchy.
 
-                                                                 For CNXXXX, 0x0. */
+                                                                 For CN88XX, 0x1 for pass 1, 0x0 for pass 2 and subsequent chips. */
         uint32_t louis                 : 3;  /**< [ 23: 21](RO) Level of unification inner shareable for the cache hierarchy. */
         uint32_t ctype7                : 3;  /**< [ 20: 18](RO) Cache type fields. Indicate the type of cache implemented at
                                                                      each level, from Level 1 up to a maximum of seven levels of
@@ -820,21 +724,19 @@ typedef union
         uint32_t louis                 : 3;  /**< [ 23: 21](RO) Level of unification inner shareable for the cache hierarchy. */
         uint32_t loc                   : 3;  /**< [ 26: 24](RO) Level of coherence for the cache hierarchy.
 
-                                                                 For CNXXXX, 0x0. */
+                                                                 For CN88XX, 0x1 for pass 1, 0x0 for pass 2 and subsequent chips. */
         uint32_t louu                  : 3;  /**< [ 29: 27](RO) Level of unification uniprocessor for the cache hierarchy. */
         uint32_t reserved_30_31        : 2;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ap_clidr_el1_s cn9; */
-    /* struct bdk_ap_clidr_el1_s cn81xx; */
-    struct bdk_ap_clidr_el1_cn88xx
+    struct bdk_ap_clidr_el1_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_30_31        : 2;
         uint32_t louu                  : 3;  /**< [ 29: 27](RO) Level of unification uniprocessor for the cache hierarchy. */
         uint32_t loc                   : 3;  /**< [ 26: 24](RO) Level of coherence for the cache hierarchy.
 
-                                                                 For CN88XX, 0x1 for pass 1, 0x0 for pass 2 and subsequent chips. */
+                                                                 For CNXXXX, 0x0. */
         uint32_t louis                 : 3;  /**< [ 23: 21](RO) Level of unification inner shareable for the cache hierarchy. */
         uint32_t ctype7                : 3;  /**< [ 20: 18](RO) Cache type fields. Indicate the type of cache implemented at
                                                                      each level, from Level 1 up to a maximum of seven levels of
@@ -984,12 +886,13 @@ typedef union
         uint32_t louis                 : 3;  /**< [ 23: 21](RO) Level of unification inner shareable for the cache hierarchy. */
         uint32_t loc                   : 3;  /**< [ 26: 24](RO) Level of coherence for the cache hierarchy.
 
-                                                                 For CN88XX, 0x1 for pass 1, 0x0 for pass 2 and subsequent chips. */
+                                                                 For CNXXXX, 0x0. */
         uint32_t louu                  : 3;  /**< [ 29: 27](RO) Level of unification uniprocessor for the cache hierarchy. */
         uint32_t reserved_30_31        : 2;
 #endif /* Word 0 - End */
-    } cn88xx;
-    /* struct bdk_ap_clidr_el1_s cn83xx; */
+    } cn81xx;
+    /* struct bdk_ap_clidr_el1_s cn88xx; */
+    /* struct bdk_ap_clidr_el1_cn81xx cn83xx; */
 } bdk_ap_clidr_el1_t;
 
 #define BDK_AP_CLIDR_EL1 BDK_AP_CLIDR_EL1_FUNC()
@@ -4365,7 +4268,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
-        uint64_t wbfsbeerr             : 1;  /**< [ 48: 48](R/W/H) Write-buffer single-bit error. */
+        uint64_t wbfsbeerr             : 1;  /**< [ 48: 48](RO) Reserved. */
         uint64_t gsynctonosw           : 1;  /**< [ 47: 47](R/W) Global sync timeout, no report to software. */
         uint64_t gsynctodis            : 1;  /**< [ 46: 46](R/W) Global sync timeout disable. */
         uint64_t gsyncto               : 1;  /**< [ 45: 45](R/W/H) Global sync timeout. */
@@ -4451,7 +4354,7 @@ typedef union
         uint64_t gsyncto               : 1;  /**< [ 45: 45](R/W/H) Global sync timeout. */
         uint64_t gsynctodis            : 1;  /**< [ 46: 46](R/W) Global sync timeout disable. */
         uint64_t gsynctonosw           : 1;  /**< [ 47: 47](R/W) Global sync timeout, no report to software. */
-        uint64_t wbfsbeerr             : 1;  /**< [ 48: 48](R/W/H) Write-buffer single-bit error. */
+        uint64_t wbfsbeerr             : 1;  /**< [ 48: 48](RO) Reserved. */
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } s;
@@ -4549,100 +4452,6 @@ typedef union
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } cn88xxp1;
-    struct bdk_ap_cvm_errmem_el1_cn9
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_49_63        : 15;
-        uint64_t wbfsbeerr             : 1;  /**< [ 48: 48](R/W/H) Write-buffer single-bit error. */
-        uint64_t gsynctonosw           : 1;  /**< [ 47: 47](R/W) Global sync timeout, no report to software. */
-        uint64_t gsynctodis            : 1;  /**< [ 46: 46](R/W) Global sync timeout disable. */
-        uint64_t gsyncto               : 1;  /**< [ 45: 45](R/W/H) Global sync timeout. */
-        uint64_t wcumultdis            : 1;  /**< [ 44: 44](R/W) WCU multiple match error disable. */
-        uint64_t wcumult               : 1;  /**< [ 43: 43](R/W/H) WCU multiple match error. */
-        uint64_t mtlbmultdis           : 1;  /**< [ 42: 42](R/W) MTLB multiple match error disable. */
-        uint64_t mtlbmult              : 1;  /**< [ 41: 41](R/W/H) MTLB multiple match error. */
-        uint64_t spare40               : 1;  /**< [ 40: 40](R/W/H) Reserved. */
-        uint64_t barriertonosw         : 1;  /**< [ 39: 39](R/W) Barrier timeout, no report to software. */
-        uint64_t barriertodis          : 1;  /**< [ 38: 38](R/W) Barrier timeout disable. */
-        uint64_t barrierto             : 1;  /**< [ 37: 37](R/W/H) Barrier timeout. */
-        uint64_t spare36               : 1;  /**< [ 36: 36](R/W/H) Reserved. */
-        uint64_t rbftonosw             : 1;  /**< [ 35: 35](R/W) Read buffer timeout, no report to software. */
-        uint64_t rbftodis              : 1;  /**< [ 34: 34](R/W) Read buffer timeout disable. */
-        uint64_t rbfto                 : 1;  /**< [ 33: 33](R/W/H) Read buffer timeout. */
-        uint64_t wcuperrforce          : 1;  /**< [ 32: 32](R/W/H) WCU parity error force. Bit is cleared when error is forced on next write operation. */
-        uint64_t wcuperrnosw           : 1;  /**< [ 31: 31](R/W) WCU parity error, no report to software. */
-        uint64_t wcuperrdis            : 1;  /**< [ 30: 30](R/W) WCU parity error disable. */
-        uint64_t wcuperr               : 1;  /**< [ 29: 29](R/W/H) WCU corrected parity error. */
-        uint64_t wbfdbeforce           : 1;  /**< [ 28: 28](R/W/H) Write-buffer DBE force. Bit is cleared when error is forced on next write operation. */
-        uint64_t wbfsbeforce           : 1;  /**< [ 27: 27](R/W/H) Write-buffer SBE force. Bit is cleared when error is forced on next write operation. */
-        uint64_t wbfperrnosw           : 1;  /**< [ 26: 26](R/W) Write-buffer single-bit error, no report to software. */
-        uint64_t wbfperrdis            : 1;  /**< [ 25: 25](R/W) Write-buffer double-bit error disable. */
-        uint64_t wbfperr               : 1;  /**< [ 24: 24](R/W/H) Write-buffer double-bit error. */
-        uint64_t mafperrforce          : 1;  /**< [ 23: 23](R/W/H) MAF parity error force. Bit is cleared when error is forced on next write operation. */
-        uint64_t mafperrnosw           : 1;  /**< [ 22: 22](R/W) MAF parity error, no report to software. */
-        uint64_t mafperrdis            : 1;  /**< [ 21: 21](R/W) MAF parity error disable. */
-        uint64_t mafperr               : 1;  /**< [ 20: 20](R/W/H) MAF parity error. */
-        uint64_t utlbperrforce         : 1;  /**< [ 19: 19](R/W/H) uTLB correctable parity error force. Bit is cleared when error is forced on next write operation. */
-        uint64_t utlbperrnosw          : 1;  /**< [ 18: 18](R/W) uTLB correctable parity error, no report to software. */
-        uint64_t utlbperrdis           : 1;  /**< [ 17: 17](R/W) uTLB correctable parity error disable. */
-        uint64_t utlbperr              : 1;  /**< [ 16: 16](R/W/H) uTLB corrected a parity error. */
-        uint64_t mtlbperrforce         : 1;  /**< [ 15: 15](R/W/H) MTLB correctable parity error force. Bit is cleared when error is forced on next write operation. */
-        uint64_t mtlbperrnosw          : 1;  /**< [ 14: 14](R/W) MTLB correctable parity error, no report to software. */
-        uint64_t mtlbperrdis           : 1;  /**< [ 13: 13](R/W) MTLB correctable parity error disable. */
-        uint64_t mtlbperr              : 1;  /**< [ 12: 12](R/W/H) MTLB corrected a parity error. */
-        uint64_t l1dperrforce          : 1;  /**< [ 11: 11](R/W/H) Dcache correctable parity error force. Bit is cleared when error is forced on next write operation. */
-        uint64_t l1dperrnosw           : 1;  /**< [ 10: 10](R/W) Dcache correctable parity error, no report to software. */
-        uint64_t l1dperrdis            : 1;  /**< [  9:  9](R/W) Dcache correctable parity error disable. */
-        uint64_t l1dperr               : 1;  /**< [  8:  8](R/W/H) Dcache corrected a parity error. */
-        uint64_t l1dway                : 5;  /**< [  7:  3](R/W/H) Indicates Dcache way. */
-        uint64_t l1dset                : 3;  /**< [  2:  0](R/W/H) Indicates Dcache set. */
-#else /* Word 0 - Little Endian */
-        uint64_t l1dset                : 3;  /**< [  2:  0](R/W/H) Indicates Dcache set. */
-        uint64_t l1dway                : 5;  /**< [  7:  3](R/W/H) Indicates Dcache way. */
-        uint64_t l1dperr               : 1;  /**< [  8:  8](R/W/H) Dcache corrected a parity error. */
-        uint64_t l1dperrdis            : 1;  /**< [  9:  9](R/W) Dcache correctable parity error disable. */
-        uint64_t l1dperrnosw           : 1;  /**< [ 10: 10](R/W) Dcache correctable parity error, no report to software. */
-        uint64_t l1dperrforce          : 1;  /**< [ 11: 11](R/W/H) Dcache correctable parity error force. Bit is cleared when error is forced on next write operation. */
-        uint64_t mtlbperr              : 1;  /**< [ 12: 12](R/W/H) MTLB corrected a parity error. */
-        uint64_t mtlbperrdis           : 1;  /**< [ 13: 13](R/W) MTLB correctable parity error disable. */
-        uint64_t mtlbperrnosw          : 1;  /**< [ 14: 14](R/W) MTLB correctable parity error, no report to software. */
-        uint64_t mtlbperrforce         : 1;  /**< [ 15: 15](R/W/H) MTLB correctable parity error force. Bit is cleared when error is forced on next write operation. */
-        uint64_t utlbperr              : 1;  /**< [ 16: 16](R/W/H) uTLB corrected a parity error. */
-        uint64_t utlbperrdis           : 1;  /**< [ 17: 17](R/W) uTLB correctable parity error disable. */
-        uint64_t utlbperrnosw          : 1;  /**< [ 18: 18](R/W) uTLB correctable parity error, no report to software. */
-        uint64_t utlbperrforce         : 1;  /**< [ 19: 19](R/W/H) uTLB correctable parity error force. Bit is cleared when error is forced on next write operation. */
-        uint64_t mafperr               : 1;  /**< [ 20: 20](R/W/H) MAF parity error. */
-        uint64_t mafperrdis            : 1;  /**< [ 21: 21](R/W) MAF parity error disable. */
-        uint64_t mafperrnosw           : 1;  /**< [ 22: 22](R/W) MAF parity error, no report to software. */
-        uint64_t mafperrforce          : 1;  /**< [ 23: 23](R/W/H) MAF parity error force. Bit is cleared when error is forced on next write operation. */
-        uint64_t wbfperr               : 1;  /**< [ 24: 24](R/W/H) Write-buffer double-bit error. */
-        uint64_t wbfperrdis            : 1;  /**< [ 25: 25](R/W) Write-buffer double-bit error disable. */
-        uint64_t wbfperrnosw           : 1;  /**< [ 26: 26](R/W) Write-buffer single-bit error, no report to software. */
-        uint64_t wbfsbeforce           : 1;  /**< [ 27: 27](R/W/H) Write-buffer SBE force. Bit is cleared when error is forced on next write operation. */
-        uint64_t wbfdbeforce           : 1;  /**< [ 28: 28](R/W/H) Write-buffer DBE force. Bit is cleared when error is forced on next write operation. */
-        uint64_t wcuperr               : 1;  /**< [ 29: 29](R/W/H) WCU corrected parity error. */
-        uint64_t wcuperrdis            : 1;  /**< [ 30: 30](R/W) WCU parity error disable. */
-        uint64_t wcuperrnosw           : 1;  /**< [ 31: 31](R/W) WCU parity error, no report to software. */
-        uint64_t wcuperrforce          : 1;  /**< [ 32: 32](R/W/H) WCU parity error force. Bit is cleared when error is forced on next write operation. */
-        uint64_t rbfto                 : 1;  /**< [ 33: 33](R/W/H) Read buffer timeout. */
-        uint64_t rbftodis              : 1;  /**< [ 34: 34](R/W) Read buffer timeout disable. */
-        uint64_t rbftonosw             : 1;  /**< [ 35: 35](R/W) Read buffer timeout, no report to software. */
-        uint64_t spare36               : 1;  /**< [ 36: 36](R/W/H) Reserved. */
-        uint64_t barrierto             : 1;  /**< [ 37: 37](R/W/H) Barrier timeout. */
-        uint64_t barriertodis          : 1;  /**< [ 38: 38](R/W) Barrier timeout disable. */
-        uint64_t barriertonosw         : 1;  /**< [ 39: 39](R/W) Barrier timeout, no report to software. */
-        uint64_t spare40               : 1;  /**< [ 40: 40](R/W/H) Reserved. */
-        uint64_t mtlbmult              : 1;  /**< [ 41: 41](R/W/H) MTLB multiple match error. */
-        uint64_t mtlbmultdis           : 1;  /**< [ 42: 42](R/W) MTLB multiple match error disable. */
-        uint64_t wcumult               : 1;  /**< [ 43: 43](R/W/H) WCU multiple match error. */
-        uint64_t wcumultdis            : 1;  /**< [ 44: 44](R/W) WCU multiple match error disable. */
-        uint64_t gsyncto               : 1;  /**< [ 45: 45](R/W/H) Global sync timeout. */
-        uint64_t gsynctodis            : 1;  /**< [ 46: 46](R/W) Global sync timeout disable. */
-        uint64_t gsynctonosw           : 1;  /**< [ 47: 47](R/W) Global sync timeout, no report to software. */
-        uint64_t wbfsbeerr             : 1;  /**< [ 48: 48](R/W/H) Write-buffer single-bit error. */
-        uint64_t reserved_49_63        : 15;
-#endif /* Word 0 - End */
-    } cn9;
     struct bdk_ap_cvm_errmem_el1_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -4737,7 +4546,100 @@ typedef union
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } cn81xx;
-    /* struct bdk_ap_cvm_errmem_el1_cn9 cn83xx; */
+    struct bdk_ap_cvm_errmem_el1_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_49_63        : 15;
+        uint64_t wbfsbeerr             : 1;  /**< [ 48: 48](R/W/H) Write-buffer single-bit error. */
+        uint64_t gsynctonosw           : 1;  /**< [ 47: 47](R/W) Global sync timeout, no report to software. */
+        uint64_t gsynctodis            : 1;  /**< [ 46: 46](R/W) Global sync timeout disable. */
+        uint64_t gsyncto               : 1;  /**< [ 45: 45](R/W/H) Global sync timeout. */
+        uint64_t wcumultdis            : 1;  /**< [ 44: 44](R/W) WCU multiple match error disable. */
+        uint64_t wcumult               : 1;  /**< [ 43: 43](R/W/H) WCU multiple match error. */
+        uint64_t mtlbmultdis           : 1;  /**< [ 42: 42](R/W) MTLB multiple match error disable. */
+        uint64_t mtlbmult              : 1;  /**< [ 41: 41](R/W/H) MTLB multiple match error. */
+        uint64_t spare40               : 1;  /**< [ 40: 40](R/W/H) Reserved. */
+        uint64_t barriertonosw         : 1;  /**< [ 39: 39](R/W) Barrier timeout, no report to software. */
+        uint64_t barriertodis          : 1;  /**< [ 38: 38](R/W) Barrier timeout disable. */
+        uint64_t barrierto             : 1;  /**< [ 37: 37](R/W/H) Barrier timeout. */
+        uint64_t spare36               : 1;  /**< [ 36: 36](R/W/H) Reserved. */
+        uint64_t rbftonosw             : 1;  /**< [ 35: 35](R/W) Read buffer timeout, no report to software. */
+        uint64_t rbftodis              : 1;  /**< [ 34: 34](R/W) Read buffer timeout disable. */
+        uint64_t rbfto                 : 1;  /**< [ 33: 33](R/W/H) Read buffer timeout. */
+        uint64_t wcuperrforce          : 1;  /**< [ 32: 32](R/W/H) WCU parity error force. Bit is cleared when error is forced on next write operation. */
+        uint64_t wcuperrnosw           : 1;  /**< [ 31: 31](R/W) WCU parity error, no report to software. */
+        uint64_t wcuperrdis            : 1;  /**< [ 30: 30](R/W) WCU parity error disable. */
+        uint64_t wcuperr               : 1;  /**< [ 29: 29](R/W/H) WCU corrected parity error. */
+        uint64_t wbfdbeforce           : 1;  /**< [ 28: 28](R/W/H) Write-buffer DBE force. Bit is cleared when error is forced on next write operation. */
+        uint64_t wbfsbeforce           : 1;  /**< [ 27: 27](R/W/H) Write-buffer SBE force. Bit is cleared when error is forced on next write operation. */
+        uint64_t wbfperrnosw           : 1;  /**< [ 26: 26](R/W) Write-buffer single-bit error, no report to software. */
+        uint64_t wbfperrdis            : 1;  /**< [ 25: 25](R/W) Write-buffer double-bit error disable. */
+        uint64_t wbfperr               : 1;  /**< [ 24: 24](R/W/H) Write-buffer double-bit error. */
+        uint64_t mafperrforce          : 1;  /**< [ 23: 23](R/W/H) MAF parity error force. Bit is cleared when error is forced on next write operation. */
+        uint64_t mafperrnosw           : 1;  /**< [ 22: 22](R/W) MAF parity error, no report to software. */
+        uint64_t mafperrdis            : 1;  /**< [ 21: 21](R/W) MAF parity error disable. */
+        uint64_t mafperr               : 1;  /**< [ 20: 20](R/W/H) MAF parity error. */
+        uint64_t utlbperrforce         : 1;  /**< [ 19: 19](R/W/H) uTLB correctable parity error force. Bit is cleared when error is forced on next write operation. */
+        uint64_t utlbperrnosw          : 1;  /**< [ 18: 18](R/W) uTLB correctable parity error, no report to software. */
+        uint64_t utlbperrdis           : 1;  /**< [ 17: 17](R/W) uTLB correctable parity error disable. */
+        uint64_t utlbperr              : 1;  /**< [ 16: 16](R/W/H) uTLB corrected a parity error. */
+        uint64_t mtlbperrforce         : 1;  /**< [ 15: 15](R/W/H) MTLB correctable parity error force. Bit is cleared when error is forced on next write operation. */
+        uint64_t mtlbperrnosw          : 1;  /**< [ 14: 14](R/W) MTLB correctable parity error, no report to software. */
+        uint64_t mtlbperrdis           : 1;  /**< [ 13: 13](R/W) MTLB correctable parity error disable. */
+        uint64_t mtlbperr              : 1;  /**< [ 12: 12](R/W/H) MTLB corrected a parity error. */
+        uint64_t l1dperrforce          : 1;  /**< [ 11: 11](R/W/H) Dcache correctable parity error force. Bit is cleared when error is forced on next write operation. */
+        uint64_t l1dperrnosw           : 1;  /**< [ 10: 10](R/W) Dcache correctable parity error, no report to software. */
+        uint64_t l1dperrdis            : 1;  /**< [  9:  9](R/W) Dcache correctable parity error disable. */
+        uint64_t l1dperr               : 1;  /**< [  8:  8](R/W/H) Dcache corrected a parity error. */
+        uint64_t l1dway                : 5;  /**< [  7:  3](R/W/H) Indicates Dcache way. */
+        uint64_t l1dset                : 3;  /**< [  2:  0](R/W/H) Indicates Dcache set. */
+#else /* Word 0 - Little Endian */
+        uint64_t l1dset                : 3;  /**< [  2:  0](R/W/H) Indicates Dcache set. */
+        uint64_t l1dway                : 5;  /**< [  7:  3](R/W/H) Indicates Dcache way. */
+        uint64_t l1dperr               : 1;  /**< [  8:  8](R/W/H) Dcache corrected a parity error. */
+        uint64_t l1dperrdis            : 1;  /**< [  9:  9](R/W) Dcache correctable parity error disable. */
+        uint64_t l1dperrnosw           : 1;  /**< [ 10: 10](R/W) Dcache correctable parity error, no report to software. */
+        uint64_t l1dperrforce          : 1;  /**< [ 11: 11](R/W/H) Dcache correctable parity error force. Bit is cleared when error is forced on next write operation. */
+        uint64_t mtlbperr              : 1;  /**< [ 12: 12](R/W/H) MTLB corrected a parity error. */
+        uint64_t mtlbperrdis           : 1;  /**< [ 13: 13](R/W) MTLB correctable parity error disable. */
+        uint64_t mtlbperrnosw          : 1;  /**< [ 14: 14](R/W) MTLB correctable parity error, no report to software. */
+        uint64_t mtlbperrforce         : 1;  /**< [ 15: 15](R/W/H) MTLB correctable parity error force. Bit is cleared when error is forced on next write operation. */
+        uint64_t utlbperr              : 1;  /**< [ 16: 16](R/W/H) uTLB corrected a parity error. */
+        uint64_t utlbperrdis           : 1;  /**< [ 17: 17](R/W) uTLB correctable parity error disable. */
+        uint64_t utlbperrnosw          : 1;  /**< [ 18: 18](R/W) uTLB correctable parity error, no report to software. */
+        uint64_t utlbperrforce         : 1;  /**< [ 19: 19](R/W/H) uTLB correctable parity error force. Bit is cleared when error is forced on next write operation. */
+        uint64_t mafperr               : 1;  /**< [ 20: 20](R/W/H) MAF parity error. */
+        uint64_t mafperrdis            : 1;  /**< [ 21: 21](R/W) MAF parity error disable. */
+        uint64_t mafperrnosw           : 1;  /**< [ 22: 22](R/W) MAF parity error, no report to software. */
+        uint64_t mafperrforce          : 1;  /**< [ 23: 23](R/W/H) MAF parity error force. Bit is cleared when error is forced on next write operation. */
+        uint64_t wbfperr               : 1;  /**< [ 24: 24](R/W/H) Write-buffer double-bit error. */
+        uint64_t wbfperrdis            : 1;  /**< [ 25: 25](R/W) Write-buffer double-bit error disable. */
+        uint64_t wbfperrnosw           : 1;  /**< [ 26: 26](R/W) Write-buffer single-bit error, no report to software. */
+        uint64_t wbfsbeforce           : 1;  /**< [ 27: 27](R/W/H) Write-buffer SBE force. Bit is cleared when error is forced on next write operation. */
+        uint64_t wbfdbeforce           : 1;  /**< [ 28: 28](R/W/H) Write-buffer DBE force. Bit is cleared when error is forced on next write operation. */
+        uint64_t wcuperr               : 1;  /**< [ 29: 29](R/W/H) WCU corrected parity error. */
+        uint64_t wcuperrdis            : 1;  /**< [ 30: 30](R/W) WCU parity error disable. */
+        uint64_t wcuperrnosw           : 1;  /**< [ 31: 31](R/W) WCU parity error, no report to software. */
+        uint64_t wcuperrforce          : 1;  /**< [ 32: 32](R/W/H) WCU parity error force. Bit is cleared when error is forced on next write operation. */
+        uint64_t rbfto                 : 1;  /**< [ 33: 33](R/W/H) Read buffer timeout. */
+        uint64_t rbftodis              : 1;  /**< [ 34: 34](R/W) Read buffer timeout disable. */
+        uint64_t rbftonosw             : 1;  /**< [ 35: 35](R/W) Read buffer timeout, no report to software. */
+        uint64_t spare36               : 1;  /**< [ 36: 36](R/W/H) Reserved. */
+        uint64_t barrierto             : 1;  /**< [ 37: 37](R/W/H) Barrier timeout. */
+        uint64_t barriertodis          : 1;  /**< [ 38: 38](R/W) Barrier timeout disable. */
+        uint64_t barriertonosw         : 1;  /**< [ 39: 39](R/W) Barrier timeout, no report to software. */
+        uint64_t spare40               : 1;  /**< [ 40: 40](R/W/H) Reserved. */
+        uint64_t mtlbmult              : 1;  /**< [ 41: 41](R/W/H) MTLB multiple match error. */
+        uint64_t mtlbmultdis           : 1;  /**< [ 42: 42](R/W) MTLB multiple match error disable. */
+        uint64_t wcumult               : 1;  /**< [ 43: 43](R/W/H) WCU multiple match error. */
+        uint64_t wcumultdis            : 1;  /**< [ 44: 44](R/W) WCU multiple match error disable. */
+        uint64_t gsyncto               : 1;  /**< [ 45: 45](R/W/H) Global sync timeout. */
+        uint64_t gsynctodis            : 1;  /**< [ 46: 46](R/W) Global sync timeout disable. */
+        uint64_t gsynctonosw           : 1;  /**< [ 47: 47](R/W) Global sync timeout, no report to software. */
+        uint64_t wbfsbeerr             : 1;  /**< [ 48: 48](R/W/H) Write-buffer single-bit error. */
+        uint64_t reserved_49_63        : 15;
+#endif /* Word 0 - End */
+    } cn83xx;
     /* struct bdk_ap_cvm_errmem_el1_cn81xx cn88xxp2; */
 } bdk_ap_cvm_errmem_el1_t;
 
@@ -5549,11 +5451,9 @@ typedef union
         uint64_t disable_eret_pred     : 1;  /**< [ 38: 38](R/W) Disable ERET prediction. */
         uint64_t disable_casp          : 1;  /**< [ 37: 37](R/W) Disable the CASP instruction. */
         uint64_t disable_cas           : 1;  /**< [ 36: 36](R/W) Disable the CAS instruction. */
-        uint64_t force_cim_ich_vtr_to1 : 1;  /**< [ 35: 35](RAZ) Reserved. */
+        uint64_t force_cim_ich_vtr_to1 : 1;  /**< [ 35: 35](R/W) Set CIM AP_ICH_VTR_EL2[LISTREGS] to 0x1 (i.e. two LRs) on Pass 1. */
         uint64_t disable_wfe           : 1;  /**< [ 34: 34](R/W) Disable WFE. */
-        uint64_t enable_v81            : 1;  /**< [ 33: 33](R/W) Enable v8.1 features, modifying the ID registers to show v8.1.
-                                                                 Internal:
-                                                                 FIXME does this go away with CN98XX. */
+        uint64_t enable_v81            : 1;  /**< [ 33: 33](R/W) Enable v8.1 features, modifying the ID registers to show v8.1. */
         uint64_t isb_flush             : 1;  /**< [ 32: 32](R/W) Enable pipeline flush after an ISB. */
         uint64_t wfe_defer             : 8;  /**< [ 31: 24](R/W) WFE defer timer setting.  Time in core-clocks = {| WFE_DEFER, WFE_DEFER<3:0>} <<
                                                                  WFE_DEFER<7:4>. */
@@ -5597,11 +5497,9 @@ typedef union
         uint64_t wfe_defer             : 8;  /**< [ 31: 24](R/W) WFE defer timer setting.  Time in core-clocks = {| WFE_DEFER, WFE_DEFER<3:0>} <<
                                                                  WFE_DEFER<7:4>. */
         uint64_t isb_flush             : 1;  /**< [ 32: 32](R/W) Enable pipeline flush after an ISB. */
-        uint64_t enable_v81            : 1;  /**< [ 33: 33](R/W) Enable v8.1 features, modifying the ID registers to show v8.1.
-                                                                 Internal:
-                                                                 FIXME does this go away with CN98XX. */
+        uint64_t enable_v81            : 1;  /**< [ 33: 33](R/W) Enable v8.1 features, modifying the ID registers to show v8.1. */
         uint64_t disable_wfe           : 1;  /**< [ 34: 34](R/W) Disable WFE. */
-        uint64_t force_cim_ich_vtr_to1 : 1;  /**< [ 35: 35](RAZ) Reserved. */
+        uint64_t force_cim_ich_vtr_to1 : 1;  /**< [ 35: 35](R/W) Set CIM AP_ICH_VTR_EL2[LISTREGS] to 0x1 (i.e. two LRs) on Pass 1. */
         uint64_t disable_cas           : 1;  /**< [ 36: 36](R/W) Disable the CAS instruction. */
         uint64_t disable_casp          : 1;  /**< [ 37: 37](R/W) Disable the CASP instruction. */
         uint64_t disable_eret_pred     : 1;  /**< [ 38: 38](R/W) Disable ERET prediction. */
@@ -5677,7 +5575,6 @@ typedef union
         uint64_t reserved_40_63        : 24;
 #endif /* Word 0 - End */
     } cn88xxp1;
-    /* struct bdk_ap_cvmctl_el1_s cn9; */
     struct bdk_ap_cvmctl_el1_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -5850,17 +5747,17 @@ typedef union
                                                                  from 1 to 0) causes SEV to local core.
                                                                  1 = A global monitor transition from exclusive to open (lock flag transition
                                                                  from 1 to 0) does not cause SEV to local core. */
-        uint64_t stlstallforce         : 1;  /**< [ 56: 56](R/W) Force ST_release to wait for flushed write-buffer entries to be ACKed.
+        uint64_t stlstallforce         : 1;  /**< [ 56: 56](R/W) Force ST_release to wait for flushed write-buffer entries to be ACKed (pass 2.0 only).
                                                                  0 = Store-release instructions mark prior relevant write-buffer entries for flush but do
                                                                  not wait for the ACKs to return.
                                                                  1 = Store-release instructions mark prior relevant write-buffer entries for flush and wait
                                                                  for all the ACKs to return. */
-        uint64_t dmbstallforce         : 1;  /**< [ 55: 55](R/W) Force DMB to wait for flushed write-buffer entries to be ACKed.
+        uint64_t dmbstallforce         : 1;  /**< [ 55: 55](R/W) Force DMB to wait for flushed write-buffer entries to be ACKed (pass 2.0 only).
                                                                  0 = DMB instructions mark prior relevant write-buffer entries for flush, but do not wait
                                                                  for the ACKs to return.
                                                                  1 = DMB instructions mark prior relevant write-buffer entries for flush and wait for all
                                                                  the ACKs to return. */
-        uint64_t tlbinopdis            : 1;  /**< [ 54: 54](R/W) Disable broadcast TLBI optimization.
+        uint64_t tlbinopdis            : 1;  /**< [ 54: 54](R/W) Disable broadcast TLBI optimization (pass 2.0 only).
 
                                                                  Address-based broadcast TLBI instructions that go to remote cores are converted
                                                                  from address-based TLBI instructions to context-based TLBI instructions. The
@@ -5873,7 +5770,7 @@ typedef union
 
                                                                  1 = The above-mentioned coalescing is suppressed and converted context-based
                                                                  remote TLBIs still go out as such. */
-        uint64_t tlbiicflush           : 1;  /**< [ 53: 53](R/W) Some local TLBI instructions cause ICache flush.
+        uint64_t tlbiicflush           : 1;  /**< [ 53: 53](R/W) Some local TLBI instructions cause ICache flush (pass 2.0 only).
                                                                  0 = Icache flush operation do not happen on the TLBI instructions listed below.
                                                                  1 = Icache is flushed on the TLBI instructions listed below:
                                                                    * TLBI ALLE2{IS}.
@@ -5888,28 +5785,27 @@ typedef union
                                                                    * TLBI VALE3{IS}.
                                                                    * TLBI IPAS2E1{IS}.
                                                                    * TLBI IPAS2LE1{IS}. */
-        uint64_t gsyncto               : 5;  /**< [ 52: 48](R/W) GlobalSync timeout.
+        uint64_t gsyncto               : 5;  /**< [ 52: 48](R/W) GlobalSync timeout. (pass 2.0 only.)
                                                                  timeout = 2^[GSYNCTO].
                                                                  0x0 = disable timeout. */
-        uint64_t utlbfillbypdis        : 1;  /**< [ 47: 47](R/W) Disable uTLB fill bypass.
+        uint64_t utlbfillbypdis        : 1;  /**< [ 47: 47](R/W) Disable uTLB fill bypass (pass 2.0 only).
                                                                  0 = On a stage1-only translation, the uTLB is written along with the MTLB.
                                                                  1 = On a stage1-only translation, the uTLB is not written along with the MTLB causing a
                                                                  uTLB miss replay to complete the uTLB fill. */
         uint64_t tlbiall               : 1;  /**< [ 46: 46](R/W) Treat all TLBIs like TLBI ALL for a specific exception level */
         uint64_t wbfdsbflushall        : 1;  /**< [ 45: 45](R/W) Any DSB instruction flushes the write buffer. */
-        uint64_t wbfdmbflushnext       : 1;  /**< [ 44: 44](R/W) DMB instruction to !NSH flushes next ST to !NSH.  uTLB is not flushed with this value is
+        uint64_t wbfdmbflushnext       : 1;  /**< [ 44: 44](R/W) DMB instruction to !NSH flushes next ST to !NSH.  uTLB is flushed when this value is
                                                                  changed. */
-        uint64_t stexl2cforce          : 1;  /**< [ 43: 43](R/W) Send all store-exclusive instructions to L2 cache.  uTLB is not flushed with this value is
+        uint64_t stexl2cforce          : 1;  /**< [ 43: 43](R/W) Send all store-exclusive instructions to L2 cache.  uTLB is flushed when this value is
                                                                  changed. */
-        uint64_t ioglobalforce         : 1;  /**< [ 42: 42](R/W) Reserved.
+        uint64_t ioglobalforce         : 1;  /**< [ 42: 42](R/W) Reserved.  uTLB is flushed when this value is changed.
                                                                  Internal:
                                                                  Force global order for IO references. */
-        uint64_t wcumissforce          : 1;  /**< [ 41: 41](R/W) Force all walker cache lookups to miss.  uTLB is not flushed with this value is changed. */
+        uint64_t wcumissforce          : 1;  /**< [ 41: 41](R/W) Force all walker cache lookups to miss.  uTLB is flushed when this value is changed. */
         uint64_t replayprefdis         : 1;  /**< [ 40: 40](R/W) Replay PREF disable. uTLB miss PREF instruction behavior (see chapter body).
                                                                  0 = PREF instructions do attempt a replay for MTLB to uTLB refill.
                                                                  1 = PREF instructions do not attempt a replay for MTLB to uTLB refill.
-
-                                                                 uTLB is not flushed with this value is changed. */
+                                                                 uTLB is flushed when this value is changed. */
         uint64_t zval2cdis             : 1;  /**< [ 39: 39](R/W) ZVA bypass L2C.
                                                                  0 = DC_ZVA instructions to L2C are STFIL1 (full block store operation allocating in
                                                                  requester L2, fill 0s, self-invalidate L1 cache).
@@ -5944,13 +5840,13 @@ typedef union
         uint64_t wbfto                 : 5;  /**< [ 16: 12](R/W) Write-buffer timeout for non-NSH entries; timeout = 2^WBFTO. */
         uint64_t wbfthresh             : 5;  /**< [ 11:  7](R/W) Write-buffer threshold. The write-buffer starts flushing entries to the L2 cache once the
                                                                  number of valid write-buffer entries reaches this threshold value. */
-        uint64_t utlbentriesm1         : 5;  /**< [  6:  2](R/W) Number of uTLB entries - 1.  uTLB is flushed when this value is changed. */
+        uint64_t utlbentriesm1         : 5;  /**< [  6:  2](R/W) Number of uTLB entries - 1.  Future allocation is limited to this size (pass 1, pass 2) */
         uint64_t cclkforce             : 1;  /**< [  1:  1](R/W) Force CSR clock enable. When set, force CSR conditional clocking. */
         uint64_t mclkforce             : 1;  /**< [  0:  0](R/W) Force memory clock enable. When set, force memory conditional clocking. */
 #else /* Word 0 - Little Endian */
         uint64_t mclkforce             : 1;  /**< [  0:  0](R/W) Force memory clock enable. When set, force memory conditional clocking. */
         uint64_t cclkforce             : 1;  /**< [  1:  1](R/W) Force CSR clock enable. When set, force CSR conditional clocking. */
-        uint64_t utlbentriesm1         : 5;  /**< [  6:  2](R/W) Number of uTLB entries - 1.  uTLB is flushed when this value is changed. */
+        uint64_t utlbentriesm1         : 5;  /**< [  6:  2](R/W) Number of uTLB entries - 1.  Future allocation is limited to this size (pass 1, pass 2) */
         uint64_t wbfthresh             : 5;  /**< [ 11:  7](R/W) Write-buffer threshold. The write-buffer starts flushing entries to the L2 cache once the
                                                                  number of valid write-buffer entries reaches this threshold value. */
         uint64_t wbfto                 : 5;  /**< [ 16: 12](R/W) Write-buffer timeout for non-NSH entries; timeout = 2^WBFTO. */
@@ -5988,26 +5884,25 @@ typedef union
         uint64_t replayprefdis         : 1;  /**< [ 40: 40](R/W) Replay PREF disable. uTLB miss PREF instruction behavior (see chapter body).
                                                                  0 = PREF instructions do attempt a replay for MTLB to uTLB refill.
                                                                  1 = PREF instructions do not attempt a replay for MTLB to uTLB refill.
-
-                                                                 uTLB is not flushed with this value is changed. */
-        uint64_t wcumissforce          : 1;  /**< [ 41: 41](R/W) Force all walker cache lookups to miss.  uTLB is not flushed with this value is changed. */
-        uint64_t ioglobalforce         : 1;  /**< [ 42: 42](R/W) Reserved.
+                                                                 uTLB is flushed when this value is changed. */
+        uint64_t wcumissforce          : 1;  /**< [ 41: 41](R/W) Force all walker cache lookups to miss.  uTLB is flushed when this value is changed. */
+        uint64_t ioglobalforce         : 1;  /**< [ 42: 42](R/W) Reserved.  uTLB is flushed when this value is changed.
                                                                  Internal:
                                                                  Force global order for IO references. */
-        uint64_t stexl2cforce          : 1;  /**< [ 43: 43](R/W) Send all store-exclusive instructions to L2 cache.  uTLB is not flushed with this value is
+        uint64_t stexl2cforce          : 1;  /**< [ 43: 43](R/W) Send all store-exclusive instructions to L2 cache.  uTLB is flushed when this value is
                                                                  changed. */
-        uint64_t wbfdmbflushnext       : 1;  /**< [ 44: 44](R/W) DMB instruction to !NSH flushes next ST to !NSH.  uTLB is not flushed with this value is
+        uint64_t wbfdmbflushnext       : 1;  /**< [ 44: 44](R/W) DMB instruction to !NSH flushes next ST to !NSH.  uTLB is flushed when this value is
                                                                  changed. */
         uint64_t wbfdsbflushall        : 1;  /**< [ 45: 45](R/W) Any DSB instruction flushes the write buffer. */
         uint64_t tlbiall               : 1;  /**< [ 46: 46](R/W) Treat all TLBIs like TLBI ALL for a specific exception level */
-        uint64_t utlbfillbypdis        : 1;  /**< [ 47: 47](R/W) Disable uTLB fill bypass.
+        uint64_t utlbfillbypdis        : 1;  /**< [ 47: 47](R/W) Disable uTLB fill bypass (pass 2.0 only).
                                                                  0 = On a stage1-only translation, the uTLB is written along with the MTLB.
                                                                  1 = On a stage1-only translation, the uTLB is not written along with the MTLB causing a
                                                                  uTLB miss replay to complete the uTLB fill. */
-        uint64_t gsyncto               : 5;  /**< [ 52: 48](R/W) GlobalSync timeout.
+        uint64_t gsyncto               : 5;  /**< [ 52: 48](R/W) GlobalSync timeout. (pass 2.0 only.)
                                                                  timeout = 2^[GSYNCTO].
                                                                  0x0 = disable timeout. */
-        uint64_t tlbiicflush           : 1;  /**< [ 53: 53](R/W) Some local TLBI instructions cause ICache flush.
+        uint64_t tlbiicflush           : 1;  /**< [ 53: 53](R/W) Some local TLBI instructions cause ICache flush (pass 2.0 only).
                                                                  0 = Icache flush operation do not happen on the TLBI instructions listed below.
                                                                  1 = Icache is flushed on the TLBI instructions listed below:
                                                                    * TLBI ALLE2{IS}.
@@ -6022,7 +5917,7 @@ typedef union
                                                                    * TLBI VALE3{IS}.
                                                                    * TLBI IPAS2E1{IS}.
                                                                    * TLBI IPAS2LE1{IS}. */
-        uint64_t tlbinopdis            : 1;  /**< [ 54: 54](R/W) Disable broadcast TLBI optimization.
+        uint64_t tlbinopdis            : 1;  /**< [ 54: 54](R/W) Disable broadcast TLBI optimization (pass 2.0 only).
 
                                                                  Address-based broadcast TLBI instructions that go to remote cores are converted
                                                                  from address-based TLBI instructions to context-based TLBI instructions. The
@@ -6035,12 +5930,12 @@ typedef union
 
                                                                  1 = The above-mentioned coalescing is suppressed and converted context-based
                                                                  remote TLBIs still go out as such. */
-        uint64_t dmbstallforce         : 1;  /**< [ 55: 55](R/W) Force DMB to wait for flushed write-buffer entries to be ACKed.
+        uint64_t dmbstallforce         : 1;  /**< [ 55: 55](R/W) Force DMB to wait for flushed write-buffer entries to be ACKed (pass 2.0 only).
                                                                  0 = DMB instructions mark prior relevant write-buffer entries for flush, but do not wait
                                                                  for the ACKs to return.
                                                                  1 = DMB instructions mark prior relevant write-buffer entries for flush and wait for all
                                                                  the ACKs to return. */
-        uint64_t stlstallforce         : 1;  /**< [ 56: 56](R/W) Force ST_release to wait for flushed write-buffer entries to be ACKed.
+        uint64_t stlstallforce         : 1;  /**< [ 56: 56](R/W) Force ST_release to wait for flushed write-buffer entries to be ACKed (pass 2.0 only).
                                                                  0 = Store-release instructions mark prior relevant write-buffer entries for flush but do
                                                                  not wait for the ACKs to return.
                                                                  1 = Store-release instructions mark prior relevant write-buffer entries for flush and wait
@@ -6261,10 +6156,7 @@ typedef union
         uint64_t reserved_63           : 1;
 #endif /* Word 0 - End */
     } cn88xxp1;
-    /* struct bdk_ap_cvmmemctl0_el1_s cn9; */
-    /* struct bdk_ap_cvmmemctl0_el1_s cn81xx; */
-    /* struct bdk_ap_cvmmemctl0_el1_s cn83xx; */
-    struct bdk_ap_cvmmemctl0_el1_cn88xxp2
+    struct bdk_ap_cvmmemctl0_el1_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_63           : 1;
@@ -6275,17 +6167,17 @@ typedef union
                                                                  from 1 to 0) causes SEV to local core.
                                                                  1 = A global monitor transition from exclusive to open (lock flag transition
                                                                  from 1 to 0) does not cause SEV to local core. */
-        uint64_t stlstallforce         : 1;  /**< [ 56: 56](R/W) Force ST_release to wait for flushed write-buffer entries to be ACKed (pass 2.0 only).
+        uint64_t stlstallforce         : 1;  /**< [ 56: 56](R/W) Force ST_release to wait for flushed write-buffer entries to be ACKed.
                                                                  0 = Store-release instructions mark prior relevant write-buffer entries for flush but do
                                                                  not wait for the ACKs to return.
                                                                  1 = Store-release instructions mark prior relevant write-buffer entries for flush and wait
                                                                  for all the ACKs to return. */
-        uint64_t dmbstallforce         : 1;  /**< [ 55: 55](R/W) Force DMB to wait for flushed write-buffer entries to be ACKed (pass 2.0 only).
+        uint64_t dmbstallforce         : 1;  /**< [ 55: 55](R/W) Force DMB to wait for flushed write-buffer entries to be ACKed.
                                                                  0 = DMB instructions mark prior relevant write-buffer entries for flush, but do not wait
                                                                  for the ACKs to return.
                                                                  1 = DMB instructions mark prior relevant write-buffer entries for flush and wait for all
                                                                  the ACKs to return. */
-        uint64_t tlbinopdis            : 1;  /**< [ 54: 54](R/W) Disable broadcast TLBI optimization (pass 2.0 only).
+        uint64_t tlbinopdis            : 1;  /**< [ 54: 54](R/W) Disable broadcast TLBI optimization.
 
                                                                  Address-based broadcast TLBI instructions that go to remote cores are converted
                                                                  from address-based TLBI instructions to context-based TLBI instructions. The
@@ -6298,7 +6190,7 @@ typedef union
 
                                                                  1 = The above-mentioned coalescing is suppressed and converted context-based
                                                                  remote TLBIs still go out as such. */
-        uint64_t tlbiicflush           : 1;  /**< [ 53: 53](R/W) Some local TLBI instructions cause ICache flush (pass 2.0 only).
+        uint64_t tlbiicflush           : 1;  /**< [ 53: 53](R/W) Some local TLBI instructions cause ICache flush.
                                                                  0 = Icache flush operation do not happen on the TLBI instructions listed below.
                                                                  1 = Icache is flushed on the TLBI instructions listed below:
                                                                    * TLBI ALLE2{IS}.
@@ -6313,27 +6205,28 @@ typedef union
                                                                    * TLBI VALE3{IS}.
                                                                    * TLBI IPAS2E1{IS}.
                                                                    * TLBI IPAS2LE1{IS}. */
-        uint64_t gsyncto               : 5;  /**< [ 52: 48](R/W) GlobalSync timeout. (pass 2.0 only.)
+        uint64_t gsyncto               : 5;  /**< [ 52: 48](R/W) GlobalSync timeout.
                                                                  timeout = 2^[GSYNCTO].
                                                                  0x0 = disable timeout. */
-        uint64_t utlbfillbypdis        : 1;  /**< [ 47: 47](R/W) Disable uTLB fill bypass (pass 2.0 only).
+        uint64_t utlbfillbypdis        : 1;  /**< [ 47: 47](R/W) Disable uTLB fill bypass.
                                                                  0 = On a stage1-only translation, the uTLB is written along with the MTLB.
                                                                  1 = On a stage1-only translation, the uTLB is not written along with the MTLB causing a
                                                                  uTLB miss replay to complete the uTLB fill. */
         uint64_t tlbiall               : 1;  /**< [ 46: 46](R/W) Treat all TLBIs like TLBI ALL for a specific exception level */
         uint64_t wbfdsbflushall        : 1;  /**< [ 45: 45](R/W) Any DSB instruction flushes the write buffer. */
-        uint64_t wbfdmbflushnext       : 1;  /**< [ 44: 44](R/W) DMB instruction to !NSH flushes next ST to !NSH.  uTLB is flushed when this value is
+        uint64_t wbfdmbflushnext       : 1;  /**< [ 44: 44](R/W) DMB instruction to !NSH flushes next ST to !NSH.  uTLB is not flushed with this value is
                                                                  changed. */
-        uint64_t stexl2cforce          : 1;  /**< [ 43: 43](R/W) Send all store-exclusive instructions to L2 cache.  uTLB is flushed when this value is
+        uint64_t stexl2cforce          : 1;  /**< [ 43: 43](R/W) Send all store-exclusive instructions to L2 cache.  uTLB is not flushed with this value is
                                                                  changed. */
-        uint64_t ioglobalforce         : 1;  /**< [ 42: 42](R/W) Reserved.  uTLB is flushed when this value is changed.
+        uint64_t ioglobalforce         : 1;  /**< [ 42: 42](R/W) Reserved.
                                                                  Internal:
                                                                  Force global order for IO references. */
-        uint64_t wcumissforce          : 1;  /**< [ 41: 41](R/W) Force all walker cache lookups to miss.  uTLB is flushed when this value is changed. */
+        uint64_t wcumissforce          : 1;  /**< [ 41: 41](R/W) Force all walker cache lookups to miss.  uTLB is not flushed with this value is changed. */
         uint64_t replayprefdis         : 1;  /**< [ 40: 40](R/W) Replay PREF disable. uTLB miss PREF instruction behavior (see chapter body).
                                                                  0 = PREF instructions do attempt a replay for MTLB to uTLB refill.
                                                                  1 = PREF instructions do not attempt a replay for MTLB to uTLB refill.
-                                                                 uTLB is flushed when this value is changed. */
+
+                                                                 uTLB is not flushed with this value is changed. */
         uint64_t zval2cdis             : 1;  /**< [ 39: 39](R/W) ZVA bypass L2C.
                                                                  0 = DC_ZVA instructions to L2C are STFIL1 (full block store operation allocating in
                                                                  requester L2, fill 0s, self-invalidate L1 cache).
@@ -6368,13 +6261,13 @@ typedef union
         uint64_t wbfto                 : 5;  /**< [ 16: 12](R/W) Write-buffer timeout for non-NSH entries; timeout = 2^WBFTO. */
         uint64_t wbfthresh             : 5;  /**< [ 11:  7](R/W) Write-buffer threshold. The write-buffer starts flushing entries to the L2 cache once the
                                                                  number of valid write-buffer entries reaches this threshold value. */
-        uint64_t utlbentriesm1         : 5;  /**< [  6:  2](R/W) Number of uTLB entries - 1.  Future allocation is limited to this size (pass 1, pass 2) */
+        uint64_t utlbentriesm1         : 5;  /**< [  6:  2](R/W) Number of uTLB entries - 1.  uTLB is flushed when this value is changed. */
         uint64_t cclkforce             : 1;  /**< [  1:  1](R/W) Force CSR clock enable. When set, force CSR conditional clocking. */
         uint64_t mclkforce             : 1;  /**< [  0:  0](R/W) Force memory clock enable. When set, force memory conditional clocking. */
 #else /* Word 0 - Little Endian */
         uint64_t mclkforce             : 1;  /**< [  0:  0](R/W) Force memory clock enable. When set, force memory conditional clocking. */
         uint64_t cclkforce             : 1;  /**< [  1:  1](R/W) Force CSR clock enable. When set, force CSR conditional clocking. */
-        uint64_t utlbentriesm1         : 5;  /**< [  6:  2](R/W) Number of uTLB entries - 1.  Future allocation is limited to this size (pass 1, pass 2) */
+        uint64_t utlbentriesm1         : 5;  /**< [  6:  2](R/W) Number of uTLB entries - 1.  uTLB is flushed when this value is changed. */
         uint64_t wbfthresh             : 5;  /**< [ 11:  7](R/W) Write-buffer threshold. The write-buffer starts flushing entries to the L2 cache once the
                                                                  number of valid write-buffer entries reaches this threshold value. */
         uint64_t wbfto                 : 5;  /**< [ 16: 12](R/W) Write-buffer timeout for non-NSH entries; timeout = 2^WBFTO. */
@@ -6412,25 +6305,26 @@ typedef union
         uint64_t replayprefdis         : 1;  /**< [ 40: 40](R/W) Replay PREF disable. uTLB miss PREF instruction behavior (see chapter body).
                                                                  0 = PREF instructions do attempt a replay for MTLB to uTLB refill.
                                                                  1 = PREF instructions do not attempt a replay for MTLB to uTLB refill.
-                                                                 uTLB is flushed when this value is changed. */
-        uint64_t wcumissforce          : 1;  /**< [ 41: 41](R/W) Force all walker cache lookups to miss.  uTLB is flushed when this value is changed. */
-        uint64_t ioglobalforce         : 1;  /**< [ 42: 42](R/W) Reserved.  uTLB is flushed when this value is changed.
+
+                                                                 uTLB is not flushed with this value is changed. */
+        uint64_t wcumissforce          : 1;  /**< [ 41: 41](R/W) Force all walker cache lookups to miss.  uTLB is not flushed with this value is changed. */
+        uint64_t ioglobalforce         : 1;  /**< [ 42: 42](R/W) Reserved.
                                                                  Internal:
                                                                  Force global order for IO references. */
-        uint64_t stexl2cforce          : 1;  /**< [ 43: 43](R/W) Send all store-exclusive instructions to L2 cache.  uTLB is flushed when this value is
+        uint64_t stexl2cforce          : 1;  /**< [ 43: 43](R/W) Send all store-exclusive instructions to L2 cache.  uTLB is not flushed with this value is
                                                                  changed. */
-        uint64_t wbfdmbflushnext       : 1;  /**< [ 44: 44](R/W) DMB instruction to !NSH flushes next ST to !NSH.  uTLB is flushed when this value is
+        uint64_t wbfdmbflushnext       : 1;  /**< [ 44: 44](R/W) DMB instruction to !NSH flushes next ST to !NSH.  uTLB is not flushed with this value is
                                                                  changed. */
         uint64_t wbfdsbflushall        : 1;  /**< [ 45: 45](R/W) Any DSB instruction flushes the write buffer. */
         uint64_t tlbiall               : 1;  /**< [ 46: 46](R/W) Treat all TLBIs like TLBI ALL for a specific exception level */
-        uint64_t utlbfillbypdis        : 1;  /**< [ 47: 47](R/W) Disable uTLB fill bypass (pass 2.0 only).
+        uint64_t utlbfillbypdis        : 1;  /**< [ 47: 47](R/W) Disable uTLB fill bypass.
                                                                  0 = On a stage1-only translation, the uTLB is written along with the MTLB.
                                                                  1 = On a stage1-only translation, the uTLB is not written along with the MTLB causing a
                                                                  uTLB miss replay to complete the uTLB fill. */
-        uint64_t gsyncto               : 5;  /**< [ 52: 48](R/W) GlobalSync timeout. (pass 2.0 only.)
+        uint64_t gsyncto               : 5;  /**< [ 52: 48](R/W) GlobalSync timeout.
                                                                  timeout = 2^[GSYNCTO].
                                                                  0x0 = disable timeout. */
-        uint64_t tlbiicflush           : 1;  /**< [ 53: 53](R/W) Some local TLBI instructions cause ICache flush (pass 2.0 only).
+        uint64_t tlbiicflush           : 1;  /**< [ 53: 53](R/W) Some local TLBI instructions cause ICache flush.
                                                                  0 = Icache flush operation do not happen on the TLBI instructions listed below.
                                                                  1 = Icache is flushed on the TLBI instructions listed below:
                                                                    * TLBI ALLE2{IS}.
@@ -6445,7 +6339,7 @@ typedef union
                                                                    * TLBI VALE3{IS}.
                                                                    * TLBI IPAS2E1{IS}.
                                                                    * TLBI IPAS2LE1{IS}. */
-        uint64_t tlbinopdis            : 1;  /**< [ 54: 54](R/W) Disable broadcast TLBI optimization (pass 2.0 only).
+        uint64_t tlbinopdis            : 1;  /**< [ 54: 54](R/W) Disable broadcast TLBI optimization.
 
                                                                  Address-based broadcast TLBI instructions that go to remote cores are converted
                                                                  from address-based TLBI instructions to context-based TLBI instructions. The
@@ -6458,12 +6352,12 @@ typedef union
 
                                                                  1 = The above-mentioned coalescing is suppressed and converted context-based
                                                                  remote TLBIs still go out as such. */
-        uint64_t dmbstallforce         : 1;  /**< [ 55: 55](R/W) Force DMB to wait for flushed write-buffer entries to be ACKed (pass 2.0 only).
+        uint64_t dmbstallforce         : 1;  /**< [ 55: 55](R/W) Force DMB to wait for flushed write-buffer entries to be ACKed.
                                                                  0 = DMB instructions mark prior relevant write-buffer entries for flush, but do not wait
                                                                  for the ACKs to return.
                                                                  1 = DMB instructions mark prior relevant write-buffer entries for flush and wait for all
                                                                  the ACKs to return. */
-        uint64_t stlstallforce         : 1;  /**< [ 56: 56](R/W) Force ST_release to wait for flushed write-buffer entries to be ACKed (pass 2.0 only).
+        uint64_t stlstallforce         : 1;  /**< [ 56: 56](R/W) Force ST_release to wait for flushed write-buffer entries to be ACKed.
                                                                  0 = Store-release instructions mark prior relevant write-buffer entries for flush but do
                                                                  not wait for the ACKs to return.
                                                                  1 = Store-release instructions mark prior relevant write-buffer entries for flush and wait
@@ -6477,7 +6371,9 @@ typedef union
         uint64_t node                  : 2;  /**< [ 62: 61](RO) Local node ID. */
         uint64_t reserved_63           : 1;
 #endif /* Word 0 - End */
-    } cn88xxp2;
+    } cn81xx;
+    /* struct bdk_ap_cvmmemctl0_el1_cn81xx cn83xx; */
+    /* struct bdk_ap_cvmmemctl0_el1_s cn88xxp2; */
 } bdk_ap_cvmmemctl0_el1_t;
 
 #define BDK_AP_CVMMEMCTL0_EL1 BDK_AP_CVMMEMCTL0_EL1_FUNC()
@@ -6507,20 +6403,7 @@ typedef union
     struct bdk_ap_cvmmemctl1_el1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_48_63        : 16;
-        uint64_t gclkforce             : 1;  /**< [ 47: 47](R/W) Force gated clocks to be on. For diagnostic use only. */
-        uint64_t ldil3prefdis          : 1;  /**< [ 46: 46](R/W) LDIL3 PREF instructions disable. */
-        uint64_t ldil2prefdis          : 1;  /**< [ 45: 45](R/W) LDIL2 PREF instructions disable. */
-        uint64_t ldil1prefdis          : 1;  /**< [ 44: 44](R/W) LDIL1 PREF instructions disable. */
-        uint64_t evatt_limited_size    : 1;  /**< [ 43: 43](R/W) 0 = do not limit ASIDMAP/VMIDMAP size
-                                                                 1 = ASIDMAP has 7 entries, VMIDMAP has 7 entries */
-        uint64_t evatt_periodic_flush  : 1;  /**< [ 42: 42](R/W) 0 = EVATT is not periodically flushed
-                                                                 1 = EVATT is flushed every 2^14 cycles */
-        uint64_t cvap_dis              : 1;  /**< [ 41: 41](R/W) If set, convert DC_CVAP into DC_CVAC.  For diagnostic use only. */
-        uint64_t tlbinoadr             : 1;  /**< [ 40: 40](R/W) If set, convert broadcast TLBI address-based opcodes to context-based opcode. For
-                                                                 diagnostic use only. */
-        uint64_t utlbentriesm1_5       : 1;  /**< [ 39: 39](R/W) Bit<5> of [UTLBENTRIESM1], the number of uTLB entries - 1. The uTLB is flushed when this
-                                                                 value is changed. */
+        uint64_t reserved_39_63        : 25;
         uint64_t tlbiremoteicflush     : 1;  /**< [ 38: 38](R/W) Force ICache flush when any remote TLBI is received.
                                                                  0 = Do nothing.
                                                                  1 = Flush the ICache. */
@@ -6551,13 +6434,9 @@ typedef union
         uint64_t node1trapena          : 1;  /**< [  5:  5](R/W) Reserved.
                                                                  Internal:
                                                                  83xx: Trap any access to nonzero node id. */
-        uint64_t ioatomicena           : 1;  /**< [  4:  4](R/W) Enable SSO and PKO address region.
-                                                                 0 = Accesses described below will trap.
-                                                                 1 = Allow > 64-bit memory instructions, multi-register memory instructions, and
-                                                                 atomic instructions to SSO and PKO I/O address regions. This must be set if SSO
-                                                                 or PKO are to be used.
-
-                                                                 Other address regions (e.g. SLI) are not affected by this setting. */
+        uint64_t ioatomicena           : 1;  /**< [  4:  4](R/W) Reserved.
+                                                                 Internal:
+                                                                 Enable I/O SSO and PKO address region. */
         uint64_t lmtstena              : 1;  /**< [  3:  3](R/W) Reserved.
                                                                  Internal:
                                                                  83xx: Enable/disable LMTST(a). */
@@ -6571,13 +6450,9 @@ typedef union
         uint64_t lmtstena              : 1;  /**< [  3:  3](R/W) Reserved.
                                                                  Internal:
                                                                  83xx: Enable/disable LMTST(a). */
-        uint64_t ioatomicena           : 1;  /**< [  4:  4](R/W) Enable SSO and PKO address region.
-                                                                 0 = Accesses described below will trap.
-                                                                 1 = Allow > 64-bit memory instructions, multi-register memory instructions, and
-                                                                 atomic instructions to SSO and PKO I/O address regions. This must be set if SSO
-                                                                 or PKO are to be used.
-
-                                                                 Other address regions (e.g. SLI) are not affected by this setting. */
+        uint64_t ioatomicena           : 1;  /**< [  4:  4](R/W) Reserved.
+                                                                 Internal:
+                                                                 Enable I/O SSO and PKO address region. */
         uint64_t node1trapena          : 1;  /**< [  5:  5](R/W) Reserved.
                                                                  Internal:
                                                                  83xx: Trap any access to nonzero node id. */
@@ -6608,109 +6483,10 @@ typedef union
         uint64_t tlbiremoteicflush     : 1;  /**< [ 38: 38](R/W) Force ICache flush when any remote TLBI is received.
                                                                  0 = Do nothing.
                                                                  1 = Flush the ICache. */
-        uint64_t utlbentriesm1_5       : 1;  /**< [ 39: 39](R/W) Bit<5> of [UTLBENTRIESM1], the number of uTLB entries - 1. The uTLB is flushed when this
-                                                                 value is changed. */
-        uint64_t tlbinoadr             : 1;  /**< [ 40: 40](R/W) If set, convert broadcast TLBI address-based opcodes to context-based opcode. For
-                                                                 diagnostic use only. */
-        uint64_t cvap_dis              : 1;  /**< [ 41: 41](R/W) If set, convert DC_CVAP into DC_CVAC.  For diagnostic use only. */
-        uint64_t evatt_periodic_flush  : 1;  /**< [ 42: 42](R/W) 0 = EVATT is not periodically flushed
-                                                                 1 = EVATT is flushed every 2^14 cycles */
-        uint64_t evatt_limited_size    : 1;  /**< [ 43: 43](R/W) 0 = do not limit ASIDMAP/VMIDMAP size
-                                                                 1 = ASIDMAP has 7 entries, VMIDMAP has 7 entries */
-        uint64_t ldil1prefdis          : 1;  /**< [ 44: 44](R/W) LDIL1 PREF instructions disable. */
-        uint64_t ldil2prefdis          : 1;  /**< [ 45: 45](R/W) LDIL2 PREF instructions disable. */
-        uint64_t ldil3prefdis          : 1;  /**< [ 46: 46](R/W) LDIL3 PREF instructions disable. */
-        uint64_t gclkforce             : 1;  /**< [ 47: 47](R/W) Force gated clocks to be on. For diagnostic use only. */
-        uint64_t reserved_48_63        : 16;
+        uint64_t reserved_39_63        : 25;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ap_cvmmemctl1_el1_s cn9; */
-    struct bdk_ap_cvmmemctl1_el1_cn81xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_39_63        : 25;
-        uint64_t tlbiremoteicflush     : 1;  /**< [ 38: 38](R/W) Force ICache flush when any remote TLBI is received.
-                                                                 0 = Do nothing.
-                                                                 1 = Flush the ICache. */
-        uint64_t tlbilocalicflush      : 1;  /**< [ 37: 37](R/W) Force ICache flush when any local TLBI is issued.
-                                                                 0 = Do nothing.
-                                                                 1 = Flush the ICache. */
-        uint64_t dprefbpmode           : 1;  /**< [ 36: 36](R/W) Data-stream hardware prefetcher backpressure mode select.
-                                                                 0 = Single counter mode (combined hit and miss latency counter).
-                                                                 1 = Dual counter mode (separate hit and miss latency counters). */
-        uint64_t dprefbpctl            : 4;  /**< [ 35: 32](R/W) Data-stream hardware prefetcher backpressure control mask for dual counter mode.
-                                                                 Internal:
-                                                                 Backpressure is applied if:
-                                                                 <pre>
-                                                                   (   ([DPREFBPCTL]<0> && !hit_ctr_bp && !miss_ctr_bp)
-                                                                    || ([DPREFBPCTL]<1> && !hit_ctr_bp &&  miss_ctr_bp)
-                                                                    || ([DPREFBPCTL]<2> &&  hit_ctr_bp && !miss_ctr_bp)
-                                                                    || ([DPREFBPCTL]<3> &&  hit_ctr_bp &&  miss_ctr_bp))
-                                                                 </pre>
-
-                                                                 Where hit_ctr_bp is the MSB of the 4-bit hit counter being set, and miss_ctr_bp
-                                                                 is the MSB of the 4-bit miss counter being set. */
-        uint64_t dprefbphitthresh      : 12; /**< [ 31: 20](R/W) Data-stream hardware prefetcher backpressure threshold for L2C hit latency. */
-        uint64_t dprefbpmissthresh     : 12; /**< [ 19:  8](R/W) Data-stream hardware prefetcher backpressure threshold for L2C miss latency. */
-        uint64_t spare                 : 1;  /**< [  7:  7](R/W) Reserved; spare. */
-        uint64_t switchtagena          : 1;  /**< [  6:  6](R/W) Reserved.
-                                                                 Internal:
-                                                                 83xx: Enable SSO switch-tag. */
-        uint64_t node1trapena          : 1;  /**< [  5:  5](R/W) Reserved.
-                                                                 Internal:
-                                                                 83xx: Trap any access to nonzero node id. */
-        uint64_t ioatomicena           : 1;  /**< [  4:  4](R/W) Reserved.
-                                                                 Internal:
-                                                                 Enable I/O SSO and PKO address region. */
-        uint64_t lmtstena              : 1;  /**< [  3:  3](R/W) Reserved.
-                                                                 Internal:
-                                                                 83xx: Enable/disable LMTST(a). */
-        uint64_t lodignoresh           : 1;  /**< [  2:  2](R/W) LocalOrderDomain DMB/DSB_NSH{ST} ignores shareability (applies to both nsh and ish pages). */
-        uint64_t lodishena             : 1;  /**< [  1:  1](R/W) LocalOrderDomain DMB/DSB_ISH{ST} enable. */
-        uint64_t lodnshena             : 1;  /**< [  0:  0](R/W) LocalOrderDomain DMB/DSB_NSH{ST} enable. */
-#else /* Word 0 - Little Endian */
-        uint64_t lodnshena             : 1;  /**< [  0:  0](R/W) LocalOrderDomain DMB/DSB_NSH{ST} enable. */
-        uint64_t lodishena             : 1;  /**< [  1:  1](R/W) LocalOrderDomain DMB/DSB_ISH{ST} enable. */
-        uint64_t lodignoresh           : 1;  /**< [  2:  2](R/W) LocalOrderDomain DMB/DSB_NSH{ST} ignores shareability (applies to both nsh and ish pages). */
-        uint64_t lmtstena              : 1;  /**< [  3:  3](R/W) Reserved.
-                                                                 Internal:
-                                                                 83xx: Enable/disable LMTST(a). */
-        uint64_t ioatomicena           : 1;  /**< [  4:  4](R/W) Reserved.
-                                                                 Internal:
-                                                                 Enable I/O SSO and PKO address region. */
-        uint64_t node1trapena          : 1;  /**< [  5:  5](R/W) Reserved.
-                                                                 Internal:
-                                                                 83xx: Trap any access to nonzero node id. */
-        uint64_t switchtagena          : 1;  /**< [  6:  6](R/W) Reserved.
-                                                                 Internal:
-                                                                 83xx: Enable SSO switch-tag. */
-        uint64_t spare                 : 1;  /**< [  7:  7](R/W) Reserved; spare. */
-        uint64_t dprefbpmissthresh     : 12; /**< [ 19:  8](R/W) Data-stream hardware prefetcher backpressure threshold for L2C miss latency. */
-        uint64_t dprefbphitthresh      : 12; /**< [ 31: 20](R/W) Data-stream hardware prefetcher backpressure threshold for L2C hit latency. */
-        uint64_t dprefbpctl            : 4;  /**< [ 35: 32](R/W) Data-stream hardware prefetcher backpressure control mask for dual counter mode.
-                                                                 Internal:
-                                                                 Backpressure is applied if:
-                                                                 <pre>
-                                                                   (   ([DPREFBPCTL]<0> && !hit_ctr_bp && !miss_ctr_bp)
-                                                                    || ([DPREFBPCTL]<1> && !hit_ctr_bp &&  miss_ctr_bp)
-                                                                    || ([DPREFBPCTL]<2> &&  hit_ctr_bp && !miss_ctr_bp)
-                                                                    || ([DPREFBPCTL]<3> &&  hit_ctr_bp &&  miss_ctr_bp))
-                                                                 </pre>
-
-                                                                 Where hit_ctr_bp is the MSB of the 4-bit hit counter being set, and miss_ctr_bp
-                                                                 is the MSB of the 4-bit miss counter being set. */
-        uint64_t dprefbpmode           : 1;  /**< [ 36: 36](R/W) Data-stream hardware prefetcher backpressure mode select.
-                                                                 0 = Single counter mode (combined hit and miss latency counter).
-                                                                 1 = Dual counter mode (separate hit and miss latency counters). */
-        uint64_t tlbilocalicflush      : 1;  /**< [ 37: 37](R/W) Force ICache flush when any local TLBI is issued.
-                                                                 0 = Do nothing.
-                                                                 1 = Flush the ICache. */
-        uint64_t tlbiremoteicflush     : 1;  /**< [ 38: 38](R/W) Force ICache flush when any remote TLBI is received.
-                                                                 0 = Do nothing.
-                                                                 1 = Flush the ICache. */
-        uint64_t reserved_39_63        : 25;
-#endif /* Word 0 - End */
-    } cn81xx;
+    /* struct bdk_ap_cvmmemctl1_el1_s cn81xx; */
     struct bdk_ap_cvmmemctl1_el1_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -6861,168 +6637,6 @@ static inline uint64_t BDK_AP_CVMMEMCTL1_EL1_FUNC(void)
 #define basename_BDK_AP_CVMMEMCTL1_EL1 "AP_CVMMEMCTL1_EL1"
 #define busnum_BDK_AP_CVMMEMCTL1_EL1 0
 #define arguments_BDK_AP_CVMMEMCTL1_EL1 -1,-1,-1,-1
-
-/**
- * Register (SYSREG) ap_cvmmemctl2_el1
- *
- * AP Cavium Memory Control 2 Register
- * This register controls additional memory-unit features.
- * Internal:
- * Back-end, non-debug.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_ap_cvmmemctl2_el1_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_25_63        : 39;
-        uint64_t tlbi_block_msk        : 9;  /**< [ 24: 16](R/W) Mask of block sizes that are precisely invalidated by TLBI instructions.
-                                                                 For each bit {a} in this field:
-                                                                 _ Mask<{a}>=0 = blocksize {a} is not precisely invalidated.
-                                                                 _ Mask<{a}>=1 = blocksize {a} is     precisely invalidated.
-
-                                                                 _ Mask<0> represents block size 2^12.
-                                                                 _ Mask<1> represents block size 2^14.
-                                                                 _ Mask<2> represents block size 2^16.
-                                                                 _ Mask<3> represents block size 2^21.
-                                                                 _ Mask<4> represents block size 2^25.
-                                                                 _ Mask<5> represents block size 2^29.
-                                                                 _ Mask<6> represents block size 2^30.
-                                                                 _ Mask<7> represents block size 2^34.
-                                                                 _ Mask<8> represents block size 2^42. */
-        uint64_t reserved_9_15         : 7;
-        uint64_t mtlb0_block_msk       : 9;  /**< [  8:  0](R/W) Mask of block sizes that are allocated in MTLB0.
-                                                                 For each bit {a} in this field:
-                                                                 _ Mask<{a}>=0 = blocksize {a} allocated in MTLB1.
-                                                                 _ Mask<{a}>=1 = blocksize {a} allocated in MTLB0.
-
-                                                                 _ Mask<0> represents block size 2^12.
-                                                                 _ Mask<1> represents block size 2^14.
-                                                                 _ Mask<2> represents block size 2^16.
-                                                                 _ Mask<3> represents block size 2^21.
-                                                                 _ Mask<4> represents block size 2^25.
-                                                                 _ Mask<5> represents block size 2^29.
-                                                                 _ Mask<6> represents block size 2^30.
-                                                                 _ Mask<7> represents block size 2^34.
-                                                                 _ Mask<8> represents block size 2^42. */
-#else /* Word 0 - Little Endian */
-        uint64_t mtlb0_block_msk       : 9;  /**< [  8:  0](R/W) Mask of block sizes that are allocated in MTLB0.
-                                                                 For each bit {a} in this field:
-                                                                 _ Mask<{a}>=0 = blocksize {a} allocated in MTLB1.
-                                                                 _ Mask<{a}>=1 = blocksize {a} allocated in MTLB0.
-
-                                                                 _ Mask<0> represents block size 2^12.
-                                                                 _ Mask<1> represents block size 2^14.
-                                                                 _ Mask<2> represents block size 2^16.
-                                                                 _ Mask<3> represents block size 2^21.
-                                                                 _ Mask<4> represents block size 2^25.
-                                                                 _ Mask<5> represents block size 2^29.
-                                                                 _ Mask<6> represents block size 2^30.
-                                                                 _ Mask<7> represents block size 2^34.
-                                                                 _ Mask<8> represents block size 2^42. */
-        uint64_t reserved_9_15         : 7;
-        uint64_t tlbi_block_msk        : 9;  /**< [ 24: 16](R/W) Mask of block sizes that are precisely invalidated by TLBI instructions.
-                                                                 For each bit {a} in this field:
-                                                                 _ Mask<{a}>=0 = blocksize {a} is not precisely invalidated.
-                                                                 _ Mask<{a}>=1 = blocksize {a} is     precisely invalidated.
-
-                                                                 _ Mask<0> represents block size 2^12.
-                                                                 _ Mask<1> represents block size 2^14.
-                                                                 _ Mask<2> represents block size 2^16.
-                                                                 _ Mask<3> represents block size 2^21.
-                                                                 _ Mask<4> represents block size 2^25.
-                                                                 _ Mask<5> represents block size 2^29.
-                                                                 _ Mask<6> represents block size 2^30.
-                                                                 _ Mask<7> represents block size 2^34.
-                                                                 _ Mask<8> represents block size 2^42. */
-        uint64_t reserved_25_63        : 39;
-#endif /* Word 0 - End */
-    } s;
-    struct bdk_ap_cvmmemctl2_el1_cn
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t reserved_25_31        : 7;
-        uint64_t tlbi_block_msk        : 9;  /**< [ 24: 16](R/W) Mask of block sizes that are precisely invalidated by TLBI instructions.
-                                                                 For each bit {a} in this field:
-                                                                 _ Mask<{a}>=0 = blocksize {a} is not precisely invalidated.
-                                                                 _ Mask<{a}>=1 = blocksize {a} is     precisely invalidated.
-
-                                                                 _ Mask<0> represents block size 2^12.
-                                                                 _ Mask<1> represents block size 2^14.
-                                                                 _ Mask<2> represents block size 2^16.
-                                                                 _ Mask<3> represents block size 2^21.
-                                                                 _ Mask<4> represents block size 2^25.
-                                                                 _ Mask<5> represents block size 2^29.
-                                                                 _ Mask<6> represents block size 2^30.
-                                                                 _ Mask<7> represents block size 2^34.
-                                                                 _ Mask<8> represents block size 2^42. */
-        uint64_t reserved_9_15         : 7;
-        uint64_t mtlb0_block_msk       : 9;  /**< [  8:  0](R/W) Mask of block sizes that are allocated in MTLB0.
-                                                                 For each bit {a} in this field:
-                                                                 _ Mask<{a}>=0 = blocksize {a} allocated in MTLB1.
-                                                                 _ Mask<{a}>=1 = blocksize {a} allocated in MTLB0.
-
-                                                                 _ Mask<0> represents block size 2^12.
-                                                                 _ Mask<1> represents block size 2^14.
-                                                                 _ Mask<2> represents block size 2^16.
-                                                                 _ Mask<3> represents block size 2^21.
-                                                                 _ Mask<4> represents block size 2^25.
-                                                                 _ Mask<5> represents block size 2^29.
-                                                                 _ Mask<6> represents block size 2^30.
-                                                                 _ Mask<7> represents block size 2^34.
-                                                                 _ Mask<8> represents block size 2^42. */
-#else /* Word 0 - Little Endian */
-        uint64_t mtlb0_block_msk       : 9;  /**< [  8:  0](R/W) Mask of block sizes that are allocated in MTLB0.
-                                                                 For each bit {a} in this field:
-                                                                 _ Mask<{a}>=0 = blocksize {a} allocated in MTLB1.
-                                                                 _ Mask<{a}>=1 = blocksize {a} allocated in MTLB0.
-
-                                                                 _ Mask<0> represents block size 2^12.
-                                                                 _ Mask<1> represents block size 2^14.
-                                                                 _ Mask<2> represents block size 2^16.
-                                                                 _ Mask<3> represents block size 2^21.
-                                                                 _ Mask<4> represents block size 2^25.
-                                                                 _ Mask<5> represents block size 2^29.
-                                                                 _ Mask<6> represents block size 2^30.
-                                                                 _ Mask<7> represents block size 2^34.
-                                                                 _ Mask<8> represents block size 2^42. */
-        uint64_t reserved_9_15         : 7;
-        uint64_t tlbi_block_msk        : 9;  /**< [ 24: 16](R/W) Mask of block sizes that are precisely invalidated by TLBI instructions.
-                                                                 For each bit {a} in this field:
-                                                                 _ Mask<{a}>=0 = blocksize {a} is not precisely invalidated.
-                                                                 _ Mask<{a}>=1 = blocksize {a} is     precisely invalidated.
-
-                                                                 _ Mask<0> represents block size 2^12.
-                                                                 _ Mask<1> represents block size 2^14.
-                                                                 _ Mask<2> represents block size 2^16.
-                                                                 _ Mask<3> represents block size 2^21.
-                                                                 _ Mask<4> represents block size 2^25.
-                                                                 _ Mask<5> represents block size 2^29.
-                                                                 _ Mask<6> represents block size 2^30.
-                                                                 _ Mask<7> represents block size 2^34.
-                                                                 _ Mask<8> represents block size 2^42. */
-        uint64_t reserved_25_31        : 7;
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } cn;
-} bdk_ap_cvmmemctl2_el1_t;
-
-#define BDK_AP_CVMMEMCTL2_EL1 BDK_AP_CVMMEMCTL2_EL1_FUNC()
-static inline uint64_t BDK_AP_CVMMEMCTL2_EL1_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_AP_CVMMEMCTL2_EL1_FUNC(void)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x3000b000600ll;
-    __bdk_csr_fatal("AP_CVMMEMCTL2_EL1", 0, 0, 0, 0, 0);
-}
-
-#define typedef_BDK_AP_CVMMEMCTL2_EL1 bdk_ap_cvmmemctl2_el1_t
-#define bustype_BDK_AP_CVMMEMCTL2_EL1 BDK_CSR_TYPE_SYSREG
-#define basename_BDK_AP_CVMMEMCTL2_EL1 "AP_CVMMEMCTL2_EL1"
-#define busnum_BDK_AP_CVMMEMCTL2_EL1 0
-#define arguments_BDK_AP_CVMMEMCTL2_EL1 -1,-1,-1,-1
 
 /**
  * Register (SYSREG) ap_dacr32_el2
@@ -7626,36 +7240,20 @@ typedef union
     struct bdk_ap_dbgdtrtx_el0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](WO) Target to host data. One word of data for transfer from the
+        uint32_t data                  : 32; /**< [ 31:  0](RO) Target to host data. One word of data for transfer from the
                                                                      debug target to the debug host.
                                                                  For the full behavior of the Debug Communications Channel, see
                                                                      section 9 (The Debug Communications Channel and Instruction
                                                                      Transfer Register) in document PRD03-PRDC-010486. */
 #else /* Word 0 - Little Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](WO) Target to host data. One word of data for transfer from the
+        uint32_t data                  : 32; /**< [ 31:  0](RO) Target to host data. One word of data for transfer from the
                                                                      debug target to the debug host.
                                                                  For the full behavior of the Debug Communications Channel, see
                                                                      section 9 (The Debug Communications Channel and Instruction
                                                                      Transfer Register) in document PRD03-PRDC-010486. */
 #endif /* Word 0 - End */
     } s;
-    struct bdk_ap_dbgdtrtx_el0_cn8
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](RO) Target to host data. One word of data for transfer from the
-                                                                     debug target to the debug host.
-                                                                 For the full behavior of the Debug Communications Channel, see
-                                                                     section 9 (The Debug Communications Channel and Instruction
-                                                                     Transfer Register) in document PRD03-PRDC-010486. */
-#else /* Word 0 - Little Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](RO) Target to host data. One word of data for transfer from the
-                                                                     debug target to the debug host.
-                                                                 For the full behavior of the Debug Communications Channel, see
-                                                                     section 9 (The Debug Communications Channel and Instruction
-                                                                     Transfer Register) in document PRD03-PRDC-010486. */
-#endif /* Word 0 - End */
-    } cn8;
-    /* struct bdk_ap_dbgdtrtx_el0_s cn9; */
+    /* struct bdk_ap_dbgdtrtx_el0_s cn; */
 } bdk_ap_dbgdtrtx_el0_t;
 
 #define BDK_AP_DBGDTRTX_EL0 BDK_AP_DBGDTRTX_EL0_FUNC()
@@ -7732,128 +7330,66 @@ typedef union
     struct bdk_ap_dbgvcr32_el2_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t nsf                   : 1;  /**< [ 31: 31](RAZ) FIQ vector catch enable in nonsecure state.
+        uint32_t nsf                   : 1;  /**< [ 31: 31](R/W) FIQ vector catch enable in nonsecure state.
                                                                  The exception vector offset is 0x1C. */
-        uint32_t nsi                   : 1;  /**< [ 30: 30](RAZ) IRQ vector catch enable in nonsecure state.
+        uint32_t nsi                   : 1;  /**< [ 30: 30](R/W) IRQ vector catch enable in nonsecure state.
                                                                  The exception vector offset is 0x18. */
         uint32_t reserved_29           : 1;
-        uint32_t nsd                   : 1;  /**< [ 28: 28](RAZ) Data Abort vector catch enable in nonsecure state.
+        uint32_t nsd                   : 1;  /**< [ 28: 28](R/W) Data Abort vector catch enable in nonsecure state.
                                                                  The exception vector offset is 0x10. */
-        uint32_t nsp                   : 1;  /**< [ 27: 27](RAZ) Prefetch Abort vector catch enable in nonsecure state.
+        uint32_t nsp                   : 1;  /**< [ 27: 27](R/W) Prefetch Abort vector catch enable in nonsecure state.
                                                                  The exception vector offset is 0x0C. */
-        uint32_t nss                   : 1;  /**< [ 26: 26](RAZ) Supervisor Call (SVC) vector catch enable in nonsecure state.
+        uint32_t nss                   : 1;  /**< [ 26: 26](R/W) Supervisor Call (SVC) vector catch enable in nonsecure state.
                                                                  The exception vector offset is 0x08. */
-        uint32_t nsu                   : 1;  /**< [ 25: 25](RAZ) Undefined Instruction vector catch enable in nonsecure state.
+        uint32_t nsu                   : 1;  /**< [ 25: 25](R/W) Undefined Instruction vector catch enable in nonsecure state.
                                                                  The exception vector offset is 0x04. */
         uint32_t reserved_8_24         : 17;
-        uint32_t sf                    : 1;  /**< [  7:  7](RAZ) FIQ vector catch enable in Secure state.
+        uint32_t sf                    : 1;  /**< [  7:  7](R/W) FIQ vector catch enable in Secure state.
                                                                  The exception vector offset is 0x1C. */
-        uint32_t si                    : 1;  /**< [  6:  6](RAZ) IRQ vector catch enable in Secure state.
+        uint32_t si                    : 1;  /**< [  6:  6](R/W) IRQ vector catch enable in Secure state.
                                                                  The exception vector offset is 0x18. */
         uint32_t reserved_5            : 1;
-        uint32_t sd                    : 1;  /**< [  4:  4](RAZ) Data Abort vector catch enable in Secure state.
+        uint32_t sd                    : 1;  /**< [  4:  4](R/W) Data Abort vector catch enable in Secure state.
                                                                  The exception vector offset is 0x10. */
-        uint32_t sp                    : 1;  /**< [  3:  3](RAZ) Prefetch Abort vector catch enable in Secure state.
+        uint32_t sp                    : 1;  /**< [  3:  3](R/W) Prefetch Abort vector catch enable in Secure state.
                                                                  The exception vector offset is 0x0C. */
-        uint32_t ss                    : 1;  /**< [  2:  2](RAZ) Supervisor Call (SVC) vector catch enable in Secure state.
+        uint32_t ss                    : 1;  /**< [  2:  2](R/W) Supervisor Call (SVC) vector catch enable in Secure state.
                                                                  The exception vector offset is 0x08. */
-        uint32_t su                    : 1;  /**< [  1:  1](RAZ) Undefined Instruction vector catch enable in Secure state.
+        uint32_t su                    : 1;  /**< [  1:  1](R/W) Undefined Instruction vector catch enable in Secure state.
                                                                  The exception vector offset is 0x04. */
         uint32_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0            : 1;
-        uint32_t su                    : 1;  /**< [  1:  1](RAZ) Undefined Instruction vector catch enable in Secure state.
+        uint32_t su                    : 1;  /**< [  1:  1](R/W) Undefined Instruction vector catch enable in Secure state.
                                                                  The exception vector offset is 0x04. */
-        uint32_t ss                    : 1;  /**< [  2:  2](RAZ) Supervisor Call (SVC) vector catch enable in Secure state.
+        uint32_t ss                    : 1;  /**< [  2:  2](R/W) Supervisor Call (SVC) vector catch enable in Secure state.
                                                                  The exception vector offset is 0x08. */
-        uint32_t sp                    : 1;  /**< [  3:  3](RAZ) Prefetch Abort vector catch enable in Secure state.
+        uint32_t sp                    : 1;  /**< [  3:  3](R/W) Prefetch Abort vector catch enable in Secure state.
                                                                  The exception vector offset is 0x0C. */
-        uint32_t sd                    : 1;  /**< [  4:  4](RAZ) Data Abort vector catch enable in Secure state.
+        uint32_t sd                    : 1;  /**< [  4:  4](R/W) Data Abort vector catch enable in Secure state.
                                                                  The exception vector offset is 0x10. */
         uint32_t reserved_5            : 1;
-        uint32_t si                    : 1;  /**< [  6:  6](RAZ) IRQ vector catch enable in Secure state.
+        uint32_t si                    : 1;  /**< [  6:  6](R/W) IRQ vector catch enable in Secure state.
                                                                  The exception vector offset is 0x18. */
-        uint32_t sf                    : 1;  /**< [  7:  7](RAZ) FIQ vector catch enable in Secure state.
+        uint32_t sf                    : 1;  /**< [  7:  7](R/W) FIQ vector catch enable in Secure state.
                                                                  The exception vector offset is 0x1C. */
         uint32_t reserved_8_24         : 17;
-        uint32_t nsu                   : 1;  /**< [ 25: 25](RAZ) Undefined Instruction vector catch enable in nonsecure state.
+        uint32_t nsu                   : 1;  /**< [ 25: 25](R/W) Undefined Instruction vector catch enable in nonsecure state.
                                                                  The exception vector offset is 0x04. */
-        uint32_t nss                   : 1;  /**< [ 26: 26](RAZ) Supervisor Call (SVC) vector catch enable in nonsecure state.
+        uint32_t nss                   : 1;  /**< [ 26: 26](R/W) Supervisor Call (SVC) vector catch enable in nonsecure state.
                                                                  The exception vector offset is 0x08. */
-        uint32_t nsp                   : 1;  /**< [ 27: 27](RAZ) Prefetch Abort vector catch enable in nonsecure state.
+        uint32_t nsp                   : 1;  /**< [ 27: 27](R/W) Prefetch Abort vector catch enable in nonsecure state.
                                                                  The exception vector offset is 0x0C. */
-        uint32_t nsd                   : 1;  /**< [ 28: 28](RAZ) Data Abort vector catch enable in nonsecure state.
+        uint32_t nsd                   : 1;  /**< [ 28: 28](R/W) Data Abort vector catch enable in nonsecure state.
                                                                  The exception vector offset is 0x10. */
         uint32_t reserved_29           : 1;
-        uint32_t nsi                   : 1;  /**< [ 30: 30](RAZ) IRQ vector catch enable in nonsecure state.
+        uint32_t nsi                   : 1;  /**< [ 30: 30](R/W) IRQ vector catch enable in nonsecure state.
                                                                  The exception vector offset is 0x18. */
-        uint32_t nsf                   : 1;  /**< [ 31: 31](RAZ) FIQ vector catch enable in nonsecure state.
+        uint32_t nsf                   : 1;  /**< [ 31: 31](R/W) FIQ vector catch enable in nonsecure state.
                                                                  The exception vector offset is 0x1C. */
 #endif /* Word 0 - End */
     } s;
-    struct bdk_ap_dbgvcr32_el2_cn8
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t nsf                   : 1;  /**< [ 31: 31](R/W) FIQ vector catch enable in nonsecure state.
-                                                                 The exception vector offset is 0x1C. */
-        uint32_t nsi                   : 1;  /**< [ 30: 30](R/W) IRQ vector catch enable in nonsecure state.
-                                                                 The exception vector offset is 0x18. */
-        uint32_t reserved_29           : 1;
-        uint32_t nsd                   : 1;  /**< [ 28: 28](R/W) Data Abort vector catch enable in nonsecure state.
-                                                                 The exception vector offset is 0x10. */
-        uint32_t nsp                   : 1;  /**< [ 27: 27](R/W) Prefetch Abort vector catch enable in nonsecure state.
-                                                                 The exception vector offset is 0x0C. */
-        uint32_t nss                   : 1;  /**< [ 26: 26](R/W) Supervisor Call (SVC) vector catch enable in nonsecure state.
-                                                                 The exception vector offset is 0x08. */
-        uint32_t nsu                   : 1;  /**< [ 25: 25](R/W) Undefined Instruction vector catch enable in nonsecure state.
-                                                                 The exception vector offset is 0x04. */
-        uint32_t reserved_8_24         : 17;
-        uint32_t sf                    : 1;  /**< [  7:  7](R/W) FIQ vector catch enable in Secure state.
-                                                                 The exception vector offset is 0x1C. */
-        uint32_t si                    : 1;  /**< [  6:  6](R/W) IRQ vector catch enable in Secure state.
-                                                                 The exception vector offset is 0x18. */
-        uint32_t reserved_5            : 1;
-        uint32_t sd                    : 1;  /**< [  4:  4](R/W) Data Abort vector catch enable in Secure state.
-                                                                 The exception vector offset is 0x10. */
-        uint32_t sp                    : 1;  /**< [  3:  3](R/W) Prefetch Abort vector catch enable in Secure state.
-                                                                 The exception vector offset is 0x0C. */
-        uint32_t ss                    : 1;  /**< [  2:  2](R/W) Supervisor Call (SVC) vector catch enable in Secure state.
-                                                                 The exception vector offset is 0x08. */
-        uint32_t su                    : 1;  /**< [  1:  1](R/W) Undefined Instruction vector catch enable in Secure state.
-                                                                 The exception vector offset is 0x04. */
-        uint32_t reserved_0            : 1;
-#else /* Word 0 - Little Endian */
-        uint32_t reserved_0            : 1;
-        uint32_t su                    : 1;  /**< [  1:  1](R/W) Undefined Instruction vector catch enable in Secure state.
-                                                                 The exception vector offset is 0x04. */
-        uint32_t ss                    : 1;  /**< [  2:  2](R/W) Supervisor Call (SVC) vector catch enable in Secure state.
-                                                                 The exception vector offset is 0x08. */
-        uint32_t sp                    : 1;  /**< [  3:  3](R/W) Prefetch Abort vector catch enable in Secure state.
-                                                                 The exception vector offset is 0x0C. */
-        uint32_t sd                    : 1;  /**< [  4:  4](R/W) Data Abort vector catch enable in Secure state.
-                                                                 The exception vector offset is 0x10. */
-        uint32_t reserved_5            : 1;
-        uint32_t si                    : 1;  /**< [  6:  6](R/W) IRQ vector catch enable in Secure state.
-                                                                 The exception vector offset is 0x18. */
-        uint32_t sf                    : 1;  /**< [  7:  7](R/W) FIQ vector catch enable in Secure state.
-                                                                 The exception vector offset is 0x1C. */
-        uint32_t reserved_8_24         : 17;
-        uint32_t nsu                   : 1;  /**< [ 25: 25](R/W) Undefined Instruction vector catch enable in nonsecure state.
-                                                                 The exception vector offset is 0x04. */
-        uint32_t nss                   : 1;  /**< [ 26: 26](R/W) Supervisor Call (SVC) vector catch enable in nonsecure state.
-                                                                 The exception vector offset is 0x08. */
-        uint32_t nsp                   : 1;  /**< [ 27: 27](R/W) Prefetch Abort vector catch enable in nonsecure state.
-                                                                 The exception vector offset is 0x0C. */
-        uint32_t nsd                   : 1;  /**< [ 28: 28](R/W) Data Abort vector catch enable in nonsecure state.
-                                                                 The exception vector offset is 0x10. */
-        uint32_t reserved_29           : 1;
-        uint32_t nsi                   : 1;  /**< [ 30: 30](R/W) IRQ vector catch enable in nonsecure state.
-                                                                 The exception vector offset is 0x18. */
-        uint32_t nsf                   : 1;  /**< [ 31: 31](R/W) FIQ vector catch enable in nonsecure state.
-                                                                 The exception vector offset is 0x1C. */
-#endif /* Word 0 - End */
-    } cn8;
-    /* struct bdk_ap_dbgvcr32_el2_s cn9; */
+    /* struct bdk_ap_dbgvcr32_el2_s cn; */
 } bdk_ap_dbgvcr32_el2_t;
 
 #define BDK_AP_DBGVCR32_EL2 BDK_AP_DBGVCR32_EL2_FUNC()
@@ -8176,9 +7712,7 @@ typedef union
                                                                      to CPSR[C] on exiting Debug state. */
         uint32_t v                     : 1;  /**< [ 28: 28](R/W) Set to the value of CPSR[V] on entering Debug state, and copied
                                                                      to CPSR[V] on exiting Debug state. */
-        uint32_t reserved_24_27        : 4;
-        uint32_t uao                   : 1;  /**< [ 23: 23](R/W) User access override. */
-        uint32_t reserved_22           : 1;
+        uint32_t reserved_22_27        : 6;
         uint32_t ss                    : 1;  /**< [ 21: 21](R/W) Software step. Indicates whether software step was enabled when
                                                                  Debug state was entered. */
         uint32_t il                    : 1;  /**< [ 20: 20](R/W) Illegal Execution State bit. Shows the value of PSTATE[IL]
@@ -8220,9 +7754,7 @@ typedef union
                                                                      immediately before Debug state was entered. */
         uint32_t ss                    : 1;  /**< [ 21: 21](R/W) Software step. Indicates whether software step was enabled when
                                                                  Debug state was entered. */
-        uint32_t reserved_22           : 1;
-        uint32_t uao                   : 1;  /**< [ 23: 23](R/W) User access override. */
-        uint32_t reserved_24_27        : 4;
+        uint32_t reserved_22_27        : 6;
         uint32_t v                     : 1;  /**< [ 28: 28](R/W) Set to the value of CPSR[V] on entering Debug state, and copied
                                                                      to CPSR[V] on exiting Debug state. */
         uint32_t cc                    : 1;  /**< [ 29: 29](R/W) Set to the value of CPSR[C] on entering Debug state, and copied
@@ -8233,71 +7765,7 @@ typedef union
                                                                      to CPSR[N] on exiting Debug state. */
 #endif /* Word 0 - End */
     } s;
-    struct bdk_ap_dspsr_el0_cn8
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t n                     : 1;  /**< [ 31: 31](R/W) Set to the value of CPSR[N] on entering Debug state, and copied
-                                                                     to CPSR[N] on exiting Debug state. */
-        uint32_t z                     : 1;  /**< [ 30: 30](R/W) Set to the value of CPSR[Z] on entering Debug state, and copied
-                                                                     to CPSR[Z] on exiting Debug state. */
-        uint32_t cc                    : 1;  /**< [ 29: 29](R/W) Set to the value of CPSR[C] on entering Debug state, and copied
-                                                                     to CPSR[C] on exiting Debug state. */
-        uint32_t v                     : 1;  /**< [ 28: 28](R/W) Set to the value of CPSR[V] on entering Debug state, and copied
-                                                                     to CPSR[V] on exiting Debug state. */
-        uint32_t reserved_22_27        : 6;
-        uint32_t ss                    : 1;  /**< [ 21: 21](R/W) Software step. Indicates whether software step was enabled when
-                                                                 Debug state was entered. */
-        uint32_t il                    : 1;  /**< [ 20: 20](R/W) Illegal Execution State bit. Shows the value of PSTATE[IL]
-                                                                     immediately before Debug state was entered. */
-        uint32_t reserved_10_19        : 10;
-        uint32_t dd                    : 1;  /**< [  9:  9](R/W) Interrupt masks - can also be accessed as PSTATE.[D,A,I,F] */
-        uint32_t aa                    : 1;  /**< [  8:  8](R/W) Asynchronous data abort mask bit.
-                                                                 0 = Exception not masked.
-                                                                 1 = Exception masked. */
-        uint32_t i                     : 1;  /**< [  7:  7](R/W) IRQ mask bit.
-                                                                 0 = Exception not masked.
-                                                                 1 = Exception masked. */
-        uint32_t f                     : 1;  /**< [  6:  6](R/W) FIQ mask bit.
-                                                                 0 = Exception not masked.
-                                                                 1 = Exception masked. */
-        uint32_t reserved_5            : 1;
-        uint32_t nrw                   : 1;  /**< [  4:  4](R/W) Current register width:  0 = AArch64, 1 = AArch32. */
-        uint32_t el                    : 2;  /**< [  3:  2](R/W) Current exception level: 0x0 = EL0, 0x1 = EL1, 0x2 = EL2, 0x3 = EL3. */
-        uint32_t reserved_1            : 1;
-        uint32_t sp                    : 1;  /**< [  0:  0](R/W) AArch64 only - Stack Pointer selection - 0 - SP0, 1 - SPx. */
-#else /* Word 0 - Little Endian */
-        uint32_t sp                    : 1;  /**< [  0:  0](R/W) AArch64 only - Stack Pointer selection - 0 - SP0, 1 - SPx. */
-        uint32_t reserved_1            : 1;
-        uint32_t el                    : 2;  /**< [  3:  2](R/W) Current exception level: 0x0 = EL0, 0x1 = EL1, 0x2 = EL2, 0x3 = EL3. */
-        uint32_t nrw                   : 1;  /**< [  4:  4](R/W) Current register width:  0 = AArch64, 1 = AArch32. */
-        uint32_t reserved_5            : 1;
-        uint32_t f                     : 1;  /**< [  6:  6](R/W) FIQ mask bit.
-                                                                 0 = Exception not masked.
-                                                                 1 = Exception masked. */
-        uint32_t i                     : 1;  /**< [  7:  7](R/W) IRQ mask bit.
-                                                                 0 = Exception not masked.
-                                                                 1 = Exception masked. */
-        uint32_t aa                    : 1;  /**< [  8:  8](R/W) Asynchronous data abort mask bit.
-                                                                 0 = Exception not masked.
-                                                                 1 = Exception masked. */
-        uint32_t dd                    : 1;  /**< [  9:  9](R/W) Interrupt masks - can also be accessed as PSTATE.[D,A,I,F] */
-        uint32_t reserved_10_19        : 10;
-        uint32_t il                    : 1;  /**< [ 20: 20](R/W) Illegal Execution State bit. Shows the value of PSTATE[IL]
-                                                                     immediately before Debug state was entered. */
-        uint32_t ss                    : 1;  /**< [ 21: 21](R/W) Software step. Indicates whether software step was enabled when
-                                                                 Debug state was entered. */
-        uint32_t reserved_22_27        : 6;
-        uint32_t v                     : 1;  /**< [ 28: 28](R/W) Set to the value of CPSR[V] on entering Debug state, and copied
-                                                                     to CPSR[V] on exiting Debug state. */
-        uint32_t cc                    : 1;  /**< [ 29: 29](R/W) Set to the value of CPSR[C] on entering Debug state, and copied
-                                                                     to CPSR[C] on exiting Debug state. */
-        uint32_t z                     : 1;  /**< [ 30: 30](R/W) Set to the value of CPSR[Z] on entering Debug state, and copied
-                                                                     to CPSR[Z] on exiting Debug state. */
-        uint32_t n                     : 1;  /**< [ 31: 31](R/W) Set to the value of CPSR[N] on entering Debug state, and copied
-                                                                     to CPSR[N] on exiting Debug state. */
-#endif /* Word 0 - End */
-    } cn8;
-    /* struct bdk_ap_dspsr_el0_s cn9; */
+    /* struct bdk_ap_dspsr_el0_s cn; */
 } bdk_ap_dspsr_el0_t;
 
 #define BDK_AP_DSPSR_EL0 BDK_AP_DSPSR_EL0_FUNC()
@@ -9226,14 +8694,7 @@ typedef union
     struct bdk_ap_hcr_el2_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_38_63        : 26;
-        uint64_t tea                   : 1;  /**< [ 37: 37](R/W) RAS: Route synchronous external aborts to EL2.
-                                                                   0 = Do not route synchronous external aborts from Non-secure EL0 and EL1 to EL2.
-                                                                   1 = Route synchronous external aborts from Non-secure EL0 and EL1 to EL2, if not routed
-                                                                 to EL3. */
-        uint64_t terr                  : 1;  /**< [ 36: 36](R/W) RAS: Trap Error record accesses.
-                                                                   0 = Do not trap accesses to error record registers from Non-secure EL1 to EL2.
-                                                                   1 = Accesses to the ER* registers from Non-secure EL1 generate a Trap exception to EL2. */
+        uint64_t reserved_36_63        : 28;
         uint64_t tlor                  : 1;  /**< [ 35: 35](R/W) v8.1: Trap access to the LOR Registers from nonsecure EL1 to EL2.
                                                                  0 = Nonsecure EL1 accesses to the LOR Registers are not trapped to EL2.
                                                                  1 = Nonsecure EL1 accesses to the LOR Registers are trapped to EL2. */
@@ -9903,693 +9364,10 @@ typedef union
         uint64_t tlor                  : 1;  /**< [ 35: 35](R/W) v8.1: Trap access to the LOR Registers from nonsecure EL1 to EL2.
                                                                  0 = Nonsecure EL1 accesses to the LOR Registers are not trapped to EL2.
                                                                  1 = Nonsecure EL1 accesses to the LOR Registers are trapped to EL2. */
-        uint64_t terr                  : 1;  /**< [ 36: 36](R/W) RAS: Trap Error record accesses.
-                                                                   0 = Do not trap accesses to error record registers from Non-secure EL1 to EL2.
-                                                                   1 = Accesses to the ER* registers from Non-secure EL1 generate a Trap exception to EL2. */
-        uint64_t tea                   : 1;  /**< [ 37: 37](R/W) RAS: Route synchronous external aborts to EL2.
-                                                                   0 = Do not route synchronous external aborts from Non-secure EL0 and EL1 to EL2.
-                                                                   1 = Route synchronous external aborts from Non-secure EL0 and EL1 to EL2, if not routed
-                                                                 to EL3. */
-        uint64_t reserved_38_63        : 26;
+        uint64_t reserved_36_63        : 28;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_ap_hcr_el2_cn8
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_36_63        : 28;
-        uint64_t tlor                  : 1;  /**< [ 35: 35](R/W) v8.1: Trap access to the LOR Registers from nonsecure EL1 to EL2.
-                                                                 0 = Nonsecure EL1 accesses to the LOR Registers are not trapped to EL2.
-                                                                 1 = Nonsecure EL1 accesses to the LOR Registers are trapped to EL2. */
-        uint64_t e2h                   : 1;  /**< [ 34: 34](R/W) V8.1: Enable EL2 host. */
-        uint64_t id                    : 1;  /**< [ 33: 33](R/W) Stage 2 Instruction cache disable. When AP_HCR_EL2[VM]==1, this
-                                                                     forces all stage 2 translations for instruction accesses to
-                                                                     Normal memory to be Non-cacheable for the EL1&0 translation
-                                                                     regime.
-                                                                 This bit has no effect on the EL2 or EL3 translation regimes.
-                                                                 0 = No effect on the stage 2 of the EL1&0 translation regime for
-                                                                     instruction accesses.
-                                                                 1 = Forces all stage 2 translations for instruction accesses to
-                                                                     Normal memory to be Non-cacheable for the EL1&0 translation
-                                                                     regime. */
-        uint64_t cd                    : 1;  /**< [ 32: 32](R/W) Stage 2 Data cache disable. When AP_HCR_EL2[VM]==1, this forces
-                                                                     all stage 2 translations for data accesses and translation
-                                                                     table walks to Normal memory to be Non-cacheable for the EL1&0
-                                                                     translation regime.
-                                                                 This bit has no effect on the EL2 or EL3 translation regimes.
-                                                                 0 = No effect on the stage 2 of the EL1&0 translation regime for
-                                                                     data accesses and translation table walks.
-                                                                 1 = Forces all stage 2 translations for data accesses and
-                                                                     translation table walks to Normal memory to be Non-cacheable
-                                                                     for the EL1&0 translation regime. */
-        uint64_t rsvd_31               : 1;  /**< [ 31: 31](RO) rw - Register Width control for lower exception levels:
-                                                                 When AP_SCR_EL3[NS]==0, this bit behaves as if it has the same
-                                                                     value as the AP_SCR_EL3[RW] bit except for the value read back.
-                                                                 The RW bit is permitted to be cached in a TLB.
-                                                                 0 = Lower levels are all AArch32.
-                                                                 1 = EL1 is AArch64. EL0 is determined by the Execution state
-                                                                     described in the current process state when executing at EL0. */
-        uint64_t trvm                  : 1;  /**< [ 30: 30](R/W) Trap Read of Virtual Memory controls. When this bit is set to
-                                                                     1, this causes Reads to the EL1 virtual memory control
-                                                                     registers from EL1 to be trapped to EL2. This covers the
-                                                                     following registers:
-
-                                                                 AArch32: SCTLR, TTBR0, TTBR1, TTBCR, DACR, DFSR, IFSR, DFAR,
-                                                                     IFAR, ADFSR, AIFSR, PRRR/ MAIR0, NMRR/ MAIR1, AMAIR0, AMAIR1,
-                                                                     CONTEXTIDR.
-
-                                                                 AArch64: AP_SCTLR_EL1, AP_TTBR0_EL1, AP_TTBR1_EL1, AP_TCR_EL1, ESR_EL1,
-                                                                     FAR_EL1, AFSR0_EL1, AFSR1_EL1, MAIR_EL1, AMAIR_EL1,
-                                                                     AP_CONTEXTIDR_EL1. */
-        uint64_t reserved_29           : 1;
-        uint64_t tdz                   : 1;  /**< [ 28: 28](R/W) Trap DC ZVA instruction:
-                                                                 This bit also has an effect on the value read from the
-                                                                     AP_DCZID_EL0 register. If this bit is 1, then reading
-                                                                     AP_DCZID_EL0[DZP] from nonsecure EL1 or EL0 will return 1 to
-                                                                     indicate that DC ZVA is prohibited.
-                                                                 0 = The instruction is not trapped.
-                                                                 1 = The instruction is trapped to EL2 when executed in nonsecure
-                                                                     EL1 or EL0. */
-        uint64_t tge                   : 1;  /**< [ 27: 27](R/W) Trap General Exceptions. If this bit is set to 1, and
-                                                                     AP_SCR_EL3[NS] is set to 1, then:
-
-                                                                  All exceptions that would be routed to EL1 are routed to EL2.
-
-                                                                  The AP_SCTLR_EL1[M] bit is treated as being 0 regardless of its
-                                                                     actual state (for EL1 using AArch32 or AArch64) other than for
-                                                                     the purpose of reading the bit.
-
-                                                                  The AP_HCR_EL2[FMO], IMO and AMO bits are treated as being 1
-                                                                     regardless of their actual state other than for the purpose of
-                                                                     reading the bits.
-
-                                                                  All virtual interrupts are disabled.
-
-                                                                  Any implementation defined mechanisms for signalling virtual
-                                                                     interrupts are disabled.
-
-                                                                  An exception return to EL1 is treated as an illegal exception
-                                                                     return.
-
-                                                                 Additionally, if AP_HCR_EL2[TGE] == 1, the
-                                                                     AP_MDCR_EL2.{TDRA,TDOSA,TDA} bits are ignored and the processor
-                                                                     behaves as if they are set to 1, other than for the value read
-                                                                     back from AP_MDCR_EL2. */
-        uint64_t tvm                   : 1;  /**< [ 26: 26](R/W) Trap Virtual Memory controls. When this bit is set to 1, this
-                                                                     causes Writes to the EL1 virtual memory control registers from
-                                                                     EL1 to be trapped to EL2. This covers the following registers:
-
-                                                                 AArch32: SCTLR, TTBR0, TTBR1, TTBCR, DACR, DFSR, IFSR, DFAR,
-                                                                     IFAR, ADFSR, AIFSR, PRRR/ MAIR0, NMRR/ MAIR1, AMAIR0, AMAIR1,
-                                                                     CONTEXTIDR.
-
-                                                                 AArch64: AP_SCTLR_EL1, AP_TTBR0_EL1, AP_TTBR1_EL1, AP_TCR_EL1, ESR_EL1,
-                                                                     FAR_EL1, AFSR0_EL1, AFSR1_EL1, MAIR_EL1, AMAIR_EL1,
-                                                                     AP_CONTEXTIDR_EL1 */
-        uint64_t ttlb                  : 1;  /**< [ 25: 25](R/W) Trap TLB maintenance instructions. When this bit is set to 1,
-                                                                     this causes TLB maintenance instructions executed from EL1
-                                                                     which are not UNdefined to be trapped to EL2. This covers the
-                                                                     following instructions:
-
-                                                                 AArch32: TLBIALLIS, TLBIMVAIS, TLBIASIDIS, TLBIMVAAIS,
-                                                                     TLBIALL, TLBIMVA, TLBIASID, DTLBIALL, DTLBIMVA, DTLBIASID,
-                                                                     ITLBIALL, ITLBIMVA, ITLBIASID, TLBIMVAA, TLBIMVALIS,
-                                                                     TLBIMVAALIS, TLBIMVAL, TLBIMVAAL
-
-                                                                 AArch64: TLBI VMALLE1, TLBI VAE1, TLBI ASIDE1, TLBI VAAE1,
-                                                                     TLBI VALE1, TLBI VAALE1, TLBI VMALLE1IS, TLBI VAE1IS, TLBI
-                                                                     ASIDE1IS, TLBI VAAE1IS, TLBI VALE1IS, TLBI VAALE1IS */
-        uint64_t tpu                   : 1;  /**< [ 24: 24](R/W) Trap Cache maintenance instructions to Point of Unification.
-                                                                     When this bit is set to 1, this causes Cache maintenance
-                                                                     instructions to the point of unification executed from EL1 or
-                                                                     EL0 which are not UNdefined to be trapped to EL2. This covers
-                                                                     the following instructions:
-
-                                                                 AArch32: ICIMVAU, ICIALLU, ICIALLUIS, DCCMVAU.
-
-                                                                 AArch64: IC IVAU, IC IALLU, IC IALLUIS, DC CVAU. */
-        uint64_t tpc                   : 1;  /**< [ 23: 23](R/W) Trap Data/Unified Cache maintenance operations to Point of
-                                                                     Coherency. When this bit is set to 1, this causes Data or
-                                                                     Unified Cache maintenance instructions by address to the point
-                                                                     of coherency executed from EL1 or EL0 which are not UNdefined
-                                                                     to be trapped to EL2. This covers the following instructions:
-
-                                                                 AArch32: DCIMVAC, DCCIMVAC, DCCMVAC.
-
-                                                                 AArch64: DC IVAC, DC CIVAC, DC CVAC. */
-        uint64_t tsw                   : 1;  /**< [ 22: 22](R/W) Trap Data/Unified Cache maintenance operations by Set/Way.
-                                                                     When this bit is set to 1, this causes Data or Unified Cache
-                                                                     maintenance instructions by set/way executed from EL1 which
-                                                                     are not UNdefined to be trapped to EL2. This covers the
-                                                                     following instructions:
-
-                                                                 AArch32: DCISW, DCCSW, DCCISW.
-
-                                                                 AArch64: DC ISW, DC CSW, DC CISW. */
-        uint64_t tacr                  : 1;  /**< [ 21: 21](R/W) Trap Auxiliary Control Register. When this bit is set to 1,
-                                                                     this causes accesses to the following registers executed from
-                                                                     EL1 to be trapped to EL2:
-
-                                                                 AArch32: ACTLR.
-
-                                                                 AArch64: ACTLR_EL1. */
-        uint64_t tidcp                 : 1;  /**< [ 20: 20](R/W) Trap Implementation Dependent functionality. When this bit is
-                                                                     set to 1, this causes accesses to the following instruction
-                                                                     set space executed from EL1 to be trapped to EL2.
-
-                                                                 AArch32: MCR and MRC instructions as follows:
-
-                                                                  All CP15, CRn==9,  Opcode1 = {0-7}, CRm == {c0-c2, c5-c8},
-                                                                     opcode2 == {0-7}.
-
-                                                                  All CP15, CRn==10, Opcode1 =={0-7}, CRm == {c0, c1, c4, c8},
-                                                                     opcode2 == {0-7}.
-
-                                                                  All CP15, CRn==11, Opcode1=={0-7}, CRm == {c0-c8, c15},
-                                                                     opcode2 == {0-7}.
-
-                                                                 AArch64: All encoding space reserved for implementation
-                                                                     defined system operations ( S1_<op1>_<Cn>_<Cm>_<op2>) and
-                                                                     system registers ( S3_<op1>_<Cn>_<Cm>_<op2>).
-
-                                                                 It is implementation defined whether any of this functionality
-                                                                     accessed from EL0 is trapped to EL2 when the AP_HCR_EL2[TIDCP] bit
-                                                                     is set. If it is not trapped to EL2, it results in an
-                                                                     Undefined exception taken to EL1. */
-        uint64_t tsc                   : 1;  /**< [ 19: 19](R/W) Trap SMC. When this bit is set to 1, this causes the following
-                                                                     instructions executed from EL1 to be trapped to EL2:
-
-                                                                 AArch32: SMC.
-
-                                                                 AArch64: SMC.
-
-                                                                 If EL3 is not implemented, this bit is RES0. */
-        uint64_t tid3                  : 1;  /**< [ 18: 18](R/W) Trap ID Group 3. When this bit is set to 1, this causes reads
-                                                                     to the following registers executed from EL1 to be trapped to
-                                                                     EL2:
-
-                                                                 AArch32: ID_PFR0, ID_PFR1, ID_DFR0, ID_AFR0, ID_MMFR0,
-                                                                     ID_MMFR1, ID_MMFR2, ID_MMFR3, ID_ISAR0, ID_ISAR1, ID_ISAR2,
-                                                                     ID_ISAR3, ID_ISAR4, ID_ISAR5, MVFR0, MVFR1, MVFR2. Also MRC to
-                                                                     any of the following encodings:
-
-                                                                  CP15, CRn == 0, Opc1 == 0, CRm == {3-7}, Opc2 == {0,1}.
-
-                                                                  CP15, CRn == 0, Opc1 == 0, CRm == 3, Opc2 == 2.
-
-                                                                  CP15, CRn == 0, Opc1 == 0, CRm == 5, Opc2 == {4,5}.
-
-                                                                 AArch64: AP_ID_PFR0_EL1, AP_ID_PFR1_EL1, AP_ID_DFR0_EL1, AP_ID_AFR0_EL1,
-                                                                     ID_MMFR0_EL1, ID_MMFR1_EL1, ID_MMFR2_EL1, ID_MMFR3_EL1,
-                                                                     ID_ISAR0_EL1, ID_ISAR1_EL1, ID_ISAR2_EL1, ID_ISAR3_EL1,
-                                                                     ID_ISAR4_EL1, ID_ISAR5_EL1, MVFR0_EL1, MVFR1_EL1, MVFR2_EL1,
-                                                                     AP_ID_AA64PFR0_EL1, AP_ID_AA64PFR1_EL1, AP_ID_AA64DFR0_EL1,
-                                                                     AP_ID_AA64DFR1_EL1, AP_ID_AA64ISAR0_EL1, AP_ID_AA64ISAR1_EL1,
-                                                                     AP_ID_AA64MMFR0_EL1, AP_ID_AA64MMFR1_EL1, AP_ID_AA64AFR0_EL1,
-                                                                     AP_ID_AA64AFR1_EL1. */
-        uint64_t tid2                  : 1;  /**< [ 17: 17](R/W) Trap ID Group 2. When this bit is set to 1, this causes reads
-                                                                     (or writes to CSSELR/ AP_CSSELR_EL1) to the following registers
-                                                                     executed from EL1 or EL0 if not UNdefined to be trapped to
-                                                                     EL2:
-
-                                                                 AArch32: CTR, CCSIDR, CLIDR, CSSELR.
-
-                                                                 AArch64: AP_CTR_EL0, AP_CCSIDR_EL1, AP_CLIDR_EL1, AP_CSSELR_EL1. */
-        uint64_t tid1                  : 1;  /**< [ 16: 16](R/W) Trap ID Group 1. When this bit is set to 1, this causes reads
-                                                                     to the following registers executed from EL1 to be trapped to
-                                                                     EL2:
-
-                                                                 AArch32: TCMTR, TLBTR, AIDR, REVIDR.
-
-                                                                 AArch64: AP_AIDR_EL1, AP_REVIDR_EL1. */
-        uint64_t tid0                  : 1;  /**< [ 15: 15](R/W) Trap ID Group 0. When this bit is set to 1, this causes reads
-                                                                     to the following registers executed from EL1 or EL0 if not
-                                                                     UNdefined to be trapped to EL2:
-
-                                                                 AArch32: FPSID, JIDR.
-
-                                                                 AArch64: None. */
-        uint64_t twe                   : 1;  /**< [ 14: 14](R/W) Trap WFE. When this bit is set to 1, this causes the following
-                                                                     instructions executed from EL1 or EL0 to be trapped to EL2 if
-                                                                     the instruction would otherwise cause suspension of execution
-                                                                     (i.e. if the event register is not set):
-
-                                                                 AArch32: WFE.
-
-                                                                 AArch64: WFE.
-
-                                                                 Conditional WFE instructions that fail their condition are not
-                                                                     trapped if this bit is set to 1. */
-        uint64_t twi                   : 1;  /**< [ 13: 13](R/W) Trap WFI. When this bit is set to 1, this causes the following
-                                                                     instructions executed from EL1 or EL0 to be trapped to EL2 if
-                                                                     the instruction would otherwise cause suspension of execution
-                                                                     (i.e. if there is not a pending WFI wakeup event):
-
-                                                                 AArch32: WFI.
-
-                                                                 AArch64: WFI.
-
-                                                                 Conditional WFI instructions that fail their condition are not
-                                                                     trapped if this bit is set to 1. */
-        uint64_t dc                    : 1;  /**< [ 12: 12](R/W) Default Cacheable. When this bit is set to 1, this causes:
-
-                                                                 * The AP_SCTLR_EL1[M] bit to behave as 0 when in the nonsecure
-                                                                     state for all purposes other than reading the value of the
-                                                                     bit.
-
-                                                                 * The AP_HCR_EL2[VM] bit to behave as 1 when in the nonsecure
-                                                                     state for all purposes other than reading the value of the
-                                                                     bit.
-
-                                                                 The memory type produced by the first stage of translation
-                                                                     used by EL1 and EL0 is Normal Non-Shareable, Inner WriteBack
-                                                                     Read-WriteAllocate, Outer WriteBack Read-WriteAllocate.
-
-                                                                 When this bit is 0 and the stage 1 MMU is disabled, the
-                                                                     default memory attribute for Data accesses is Device-nGnRnE.
-
-                                                                 This bit is permitted to be cached in a TLB. */
-        uint64_t bsu                   : 2;  /**< [ 11: 10](R/W) Barrier Shareability upgrade. The value in this field
-                                                                     determines the minimum shareability domain that is applied to
-                                                                     any barrier executed from EL1 or EL0.
-
-                                                                 This value is combined with the specified level of the barrier
-                                                                     held in its instruction, using the same principles as
-                                                                     combining the shareability attributes from two stages of
-                                                                     address translation.
-
-                                                                 0x0 = No effect.
-                                                                 0x1 = Inner Shareable.
-                                                                 0x2 = Outer Shareable.
-                                                                 0x3 = Full system. */
-        uint64_t fb                    : 1;  /**< [  9:  9](R/W) Force broadcast. When this bit is set to 1, this causes the
-                                                                     following instructions to be broadcast within the Inner
-                                                                     Shareable domain when executed from nonsecure EL1:
-
-                                                                 AArch32: BPIALL, TLBIALL, TLBIMVA, TLBIASID, DTLBIALL,
-                                                                     DTLBIMVA, DTLBIASID, ITLBIALL, ITLBIMVA, ITLBIASID, TLBIMVAA,
-                                                                     ICIALLU, TLBIMVAL, TLBIMVAAL.
-
-                                                                 AArch64: TLBI VMALLE1, TLBI VAE1, TLBI ASIDE1, TLBI VAAE1,
-                                                                     TLBI VALE1, TLBI VAALE1, IC IALLU. */
-        uint64_t vse                   : 1;  /**< [  8:  8](R/W) Virtual System Error/Asynchronous Abort.
-                                                                 The virtual System Error/Asynchronous Abort is only enabled
-                                                                     when the AP_HCR_EL2[AMO] bit is set.
-                                                                 0 = Virtual System Error/Asynchronous Abort is not pending by this
-                                                                     mechanism.
-                                                                 1 = Virtual System Error/Asynchronous Abort is pending by this
-                                                                     mechanism. */
-        uint64_t vi                    : 1;  /**< [  7:  7](R/W) Virtual IRQ Interrupt.
-                                                                 The virtual IRQ is only enabled when the AP_HCR_EL2[IMO] bit is
-                                                                     set.
-                                                                 0 = Virtual IRQ is not pending by this mechanism.
-                                                                 1 = Virtual IRQ is pending by this mechanism. */
-        uint64_t vf                    : 1;  /**< [  6:  6](R/W) Virtual FIQ Interrupt.
-                                                                 The virtual FIQ is only enabled when the AP_HCR_EL2[FMO] bit is
-                                                                     set.
-                                                                 0 = Virtual FIQ is not pending by this mechanism.
-                                                                 1 = Virtual FIQ is pending by this mechanism. */
-        uint64_t amo                   : 1;  /**< [  5:  5](R/W) Asynchronous abort and error interrupt routing.
-                                                                 0 = Asynchronous External Aborts and SError Interrupts while
-                                                                     executing at exception levels lower than EL2 are not taken in
-                                                                     EL2. Virtual System Error/Asynchronous Abort is disabled.
-                                                                 1 = Asynchronous External Aborts and SError Interrupts while
-                                                                     executing at EL2 or lower are taken in EL2 unless routed by
-                                                                     the AP_SCR_EL3[EA] bit to EL3. Virtual System Error/Asynchronous
-                                                                     Abort is enabled. */
-        uint64_t imo                   : 1;  /**< [  4:  4](R/W) Physical IRQ Routing.
-                                                                 0 = Physical IRQ while executing at exception levels lower than
-                                                                     EL2 are not taken in EL2. Virtual IRQ Interrupt is disabled.
-                                                                 1 = Physical IRQ while executing at EL2 or lower are taken in EL2
-                                                                     unless routed by the AP_SCR_EL3[IRQ] bit to EL3. Virtual IRQ
-                                                                     Interrupt is enabled. */
-        uint64_t fmo                   : 1;  /**< [  3:  3](R/W) Physical FIQ Routing.
-                                                                 0 = Physical FIQ while executing at exception levels lower than
-                                                                     EL2 are not taken in EL2. Virtual FIQ Interrupt is disabled.
-                                                                 1 = Physical FIQ while executing at EL2 or lower are taken in EL2
-                                                                     unless routed by the AP_SCR_EL3[FIQ] bit to EL3. Virtual FIQ
-                                                                     Interrupt is enabled. */
-        uint64_t ptw                   : 1;  /**< [  2:  2](R/W) Protected Table Walk. When this bit is set to 1, if the stage
-                                                                     2 translation of a translation table access made as part of a
-                                                                     stage 1 translation table walk at EL0 or EL1 maps that
-                                                                     translation table access to Strongly-ordered or Device memory,
-                                                                     the access is faulted as a stage 2 Permission fault.
-                                                                 This bit is permitted to be cached in a TLB. */
-        uint64_t swio                  : 1;  /**< [  1:  1](R/W) Set/Way Invalidation Override. When this bit is set to 1, this
-                                                                     causes EL1 execution of the data cache invalidate by set/way
-                                                                     instruction to be treated as data cache clean and invalidate
-                                                                     by set/way. That is:
-
-                                                                 AArch32: DCISW is executed as DCCISW.
-
-                                                                 AArch64: DC ISW is executed as DC CISW.
-
-                                                                 As a result of changes to the behavior of DCISW, this bit is
-                                                                     redundant in ARMv8. It is permissible that an implementation
-                                                                     makes this bit RES1. */
-        uint64_t vm                    : 1;  /**< [  0:  0](R/W) Virtualization MMU enable for EL1 and EL0 stage 2 address
-                                                                     translation.
-                                                                 This bit is permitted to be cached in a TLB.
-                                                                 0 = EL1 and EL0 stage 2 address translation disabled.
-                                                                 1 = EL1 and EL0 stage 2 address translation enabled. */
-#else /* Word 0 - Little Endian */
-        uint64_t vm                    : 1;  /**< [  0:  0](R/W) Virtualization MMU enable for EL1 and EL0 stage 2 address
-                                                                     translation.
-                                                                 This bit is permitted to be cached in a TLB.
-                                                                 0 = EL1 and EL0 stage 2 address translation disabled.
-                                                                 1 = EL1 and EL0 stage 2 address translation enabled. */
-        uint64_t swio                  : 1;  /**< [  1:  1](R/W) Set/Way Invalidation Override. When this bit is set to 1, this
-                                                                     causes EL1 execution of the data cache invalidate by set/way
-                                                                     instruction to be treated as data cache clean and invalidate
-                                                                     by set/way. That is:
-
-                                                                 AArch32: DCISW is executed as DCCISW.
-
-                                                                 AArch64: DC ISW is executed as DC CISW.
-
-                                                                 As a result of changes to the behavior of DCISW, this bit is
-                                                                     redundant in ARMv8. It is permissible that an implementation
-                                                                     makes this bit RES1. */
-        uint64_t ptw                   : 1;  /**< [  2:  2](R/W) Protected Table Walk. When this bit is set to 1, if the stage
-                                                                     2 translation of a translation table access made as part of a
-                                                                     stage 1 translation table walk at EL0 or EL1 maps that
-                                                                     translation table access to Strongly-ordered or Device memory,
-                                                                     the access is faulted as a stage 2 Permission fault.
-                                                                 This bit is permitted to be cached in a TLB. */
-        uint64_t fmo                   : 1;  /**< [  3:  3](R/W) Physical FIQ Routing.
-                                                                 0 = Physical FIQ while executing at exception levels lower than
-                                                                     EL2 are not taken in EL2. Virtual FIQ Interrupt is disabled.
-                                                                 1 = Physical FIQ while executing at EL2 or lower are taken in EL2
-                                                                     unless routed by the AP_SCR_EL3[FIQ] bit to EL3. Virtual FIQ
-                                                                     Interrupt is enabled. */
-        uint64_t imo                   : 1;  /**< [  4:  4](R/W) Physical IRQ Routing.
-                                                                 0 = Physical IRQ while executing at exception levels lower than
-                                                                     EL2 are not taken in EL2. Virtual IRQ Interrupt is disabled.
-                                                                 1 = Physical IRQ while executing at EL2 or lower are taken in EL2
-                                                                     unless routed by the AP_SCR_EL3[IRQ] bit to EL3. Virtual IRQ
-                                                                     Interrupt is enabled. */
-        uint64_t amo                   : 1;  /**< [  5:  5](R/W) Asynchronous abort and error interrupt routing.
-                                                                 0 = Asynchronous External Aborts and SError Interrupts while
-                                                                     executing at exception levels lower than EL2 are not taken in
-                                                                     EL2. Virtual System Error/Asynchronous Abort is disabled.
-                                                                 1 = Asynchronous External Aborts and SError Interrupts while
-                                                                     executing at EL2 or lower are taken in EL2 unless routed by
-                                                                     the AP_SCR_EL3[EA] bit to EL3. Virtual System Error/Asynchronous
-                                                                     Abort is enabled. */
-        uint64_t vf                    : 1;  /**< [  6:  6](R/W) Virtual FIQ Interrupt.
-                                                                 The virtual FIQ is only enabled when the AP_HCR_EL2[FMO] bit is
-                                                                     set.
-                                                                 0 = Virtual FIQ is not pending by this mechanism.
-                                                                 1 = Virtual FIQ is pending by this mechanism. */
-        uint64_t vi                    : 1;  /**< [  7:  7](R/W) Virtual IRQ Interrupt.
-                                                                 The virtual IRQ is only enabled when the AP_HCR_EL2[IMO] bit is
-                                                                     set.
-                                                                 0 = Virtual IRQ is not pending by this mechanism.
-                                                                 1 = Virtual IRQ is pending by this mechanism. */
-        uint64_t vse                   : 1;  /**< [  8:  8](R/W) Virtual System Error/Asynchronous Abort.
-                                                                 The virtual System Error/Asynchronous Abort is only enabled
-                                                                     when the AP_HCR_EL2[AMO] bit is set.
-                                                                 0 = Virtual System Error/Asynchronous Abort is not pending by this
-                                                                     mechanism.
-                                                                 1 = Virtual System Error/Asynchronous Abort is pending by this
-                                                                     mechanism. */
-        uint64_t fb                    : 1;  /**< [  9:  9](R/W) Force broadcast. When this bit is set to 1, this causes the
-                                                                     following instructions to be broadcast within the Inner
-                                                                     Shareable domain when executed from nonsecure EL1:
-
-                                                                 AArch32: BPIALL, TLBIALL, TLBIMVA, TLBIASID, DTLBIALL,
-                                                                     DTLBIMVA, DTLBIASID, ITLBIALL, ITLBIMVA, ITLBIASID, TLBIMVAA,
-                                                                     ICIALLU, TLBIMVAL, TLBIMVAAL.
-
-                                                                 AArch64: TLBI VMALLE1, TLBI VAE1, TLBI ASIDE1, TLBI VAAE1,
-                                                                     TLBI VALE1, TLBI VAALE1, IC IALLU. */
-        uint64_t bsu                   : 2;  /**< [ 11: 10](R/W) Barrier Shareability upgrade. The value in this field
-                                                                     determines the minimum shareability domain that is applied to
-                                                                     any barrier executed from EL1 or EL0.
-
-                                                                 This value is combined with the specified level of the barrier
-                                                                     held in its instruction, using the same principles as
-                                                                     combining the shareability attributes from two stages of
-                                                                     address translation.
-
-                                                                 0x0 = No effect.
-                                                                 0x1 = Inner Shareable.
-                                                                 0x2 = Outer Shareable.
-                                                                 0x3 = Full system. */
-        uint64_t dc                    : 1;  /**< [ 12: 12](R/W) Default Cacheable. When this bit is set to 1, this causes:
-
-                                                                 * The AP_SCTLR_EL1[M] bit to behave as 0 when in the nonsecure
-                                                                     state for all purposes other than reading the value of the
-                                                                     bit.
-
-                                                                 * The AP_HCR_EL2[VM] bit to behave as 1 when in the nonsecure
-                                                                     state for all purposes other than reading the value of the
-                                                                     bit.
-
-                                                                 The memory type produced by the first stage of translation
-                                                                     used by EL1 and EL0 is Normal Non-Shareable, Inner WriteBack
-                                                                     Read-WriteAllocate, Outer WriteBack Read-WriteAllocate.
-
-                                                                 When this bit is 0 and the stage 1 MMU is disabled, the
-                                                                     default memory attribute for Data accesses is Device-nGnRnE.
-
-                                                                 This bit is permitted to be cached in a TLB. */
-        uint64_t twi                   : 1;  /**< [ 13: 13](R/W) Trap WFI. When this bit is set to 1, this causes the following
-                                                                     instructions executed from EL1 or EL0 to be trapped to EL2 if
-                                                                     the instruction would otherwise cause suspension of execution
-                                                                     (i.e. if there is not a pending WFI wakeup event):
-
-                                                                 AArch32: WFI.
-
-                                                                 AArch64: WFI.
-
-                                                                 Conditional WFI instructions that fail their condition are not
-                                                                     trapped if this bit is set to 1. */
-        uint64_t twe                   : 1;  /**< [ 14: 14](R/W) Trap WFE. When this bit is set to 1, this causes the following
-                                                                     instructions executed from EL1 or EL0 to be trapped to EL2 if
-                                                                     the instruction would otherwise cause suspension of execution
-                                                                     (i.e. if the event register is not set):
-
-                                                                 AArch32: WFE.
-
-                                                                 AArch64: WFE.
-
-                                                                 Conditional WFE instructions that fail their condition are not
-                                                                     trapped if this bit is set to 1. */
-        uint64_t tid0                  : 1;  /**< [ 15: 15](R/W) Trap ID Group 0. When this bit is set to 1, this causes reads
-                                                                     to the following registers executed from EL1 or EL0 if not
-                                                                     UNdefined to be trapped to EL2:
-
-                                                                 AArch32: FPSID, JIDR.
-
-                                                                 AArch64: None. */
-        uint64_t tid1                  : 1;  /**< [ 16: 16](R/W) Trap ID Group 1. When this bit is set to 1, this causes reads
-                                                                     to the following registers executed from EL1 to be trapped to
-                                                                     EL2:
-
-                                                                 AArch32: TCMTR, TLBTR, AIDR, REVIDR.
-
-                                                                 AArch64: AP_AIDR_EL1, AP_REVIDR_EL1. */
-        uint64_t tid2                  : 1;  /**< [ 17: 17](R/W) Trap ID Group 2. When this bit is set to 1, this causes reads
-                                                                     (or writes to CSSELR/ AP_CSSELR_EL1) to the following registers
-                                                                     executed from EL1 or EL0 if not UNdefined to be trapped to
-                                                                     EL2:
-
-                                                                 AArch32: CTR, CCSIDR, CLIDR, CSSELR.
-
-                                                                 AArch64: AP_CTR_EL0, AP_CCSIDR_EL1, AP_CLIDR_EL1, AP_CSSELR_EL1. */
-        uint64_t tid3                  : 1;  /**< [ 18: 18](R/W) Trap ID Group 3. When this bit is set to 1, this causes reads
-                                                                     to the following registers executed from EL1 to be trapped to
-                                                                     EL2:
-
-                                                                 AArch32: ID_PFR0, ID_PFR1, ID_DFR0, ID_AFR0, ID_MMFR0,
-                                                                     ID_MMFR1, ID_MMFR2, ID_MMFR3, ID_ISAR0, ID_ISAR1, ID_ISAR2,
-                                                                     ID_ISAR3, ID_ISAR4, ID_ISAR5, MVFR0, MVFR1, MVFR2. Also MRC to
-                                                                     any of the following encodings:
-
-                                                                  CP15, CRn == 0, Opc1 == 0, CRm == {3-7}, Opc2 == {0,1}.
-
-                                                                  CP15, CRn == 0, Opc1 == 0, CRm == 3, Opc2 == 2.
-
-                                                                  CP15, CRn == 0, Opc1 == 0, CRm == 5, Opc2 == {4,5}.
-
-                                                                 AArch64: AP_ID_PFR0_EL1, AP_ID_PFR1_EL1, AP_ID_DFR0_EL1, AP_ID_AFR0_EL1,
-                                                                     ID_MMFR0_EL1, ID_MMFR1_EL1, ID_MMFR2_EL1, ID_MMFR3_EL1,
-                                                                     ID_ISAR0_EL1, ID_ISAR1_EL1, ID_ISAR2_EL1, ID_ISAR3_EL1,
-                                                                     ID_ISAR4_EL1, ID_ISAR5_EL1, MVFR0_EL1, MVFR1_EL1, MVFR2_EL1,
-                                                                     AP_ID_AA64PFR0_EL1, AP_ID_AA64PFR1_EL1, AP_ID_AA64DFR0_EL1,
-                                                                     AP_ID_AA64DFR1_EL1, AP_ID_AA64ISAR0_EL1, AP_ID_AA64ISAR1_EL1,
-                                                                     AP_ID_AA64MMFR0_EL1, AP_ID_AA64MMFR1_EL1, AP_ID_AA64AFR0_EL1,
-                                                                     AP_ID_AA64AFR1_EL1. */
-        uint64_t tsc                   : 1;  /**< [ 19: 19](R/W) Trap SMC. When this bit is set to 1, this causes the following
-                                                                     instructions executed from EL1 to be trapped to EL2:
-
-                                                                 AArch32: SMC.
-
-                                                                 AArch64: SMC.
-
-                                                                 If EL3 is not implemented, this bit is RES0. */
-        uint64_t tidcp                 : 1;  /**< [ 20: 20](R/W) Trap Implementation Dependent functionality. When this bit is
-                                                                     set to 1, this causes accesses to the following instruction
-                                                                     set space executed from EL1 to be trapped to EL2.
-
-                                                                 AArch32: MCR and MRC instructions as follows:
-
-                                                                  All CP15, CRn==9,  Opcode1 = {0-7}, CRm == {c0-c2, c5-c8},
-                                                                     opcode2 == {0-7}.
-
-                                                                  All CP15, CRn==10, Opcode1 =={0-7}, CRm == {c0, c1, c4, c8},
-                                                                     opcode2 == {0-7}.
-
-                                                                  All CP15, CRn==11, Opcode1=={0-7}, CRm == {c0-c8, c15},
-                                                                     opcode2 == {0-7}.
-
-                                                                 AArch64: All encoding space reserved for implementation
-                                                                     defined system operations ( S1_<op1>_<Cn>_<Cm>_<op2>) and
-                                                                     system registers ( S3_<op1>_<Cn>_<Cm>_<op2>).
-
-                                                                 It is implementation defined whether any of this functionality
-                                                                     accessed from EL0 is trapped to EL2 when the AP_HCR_EL2[TIDCP] bit
-                                                                     is set. If it is not trapped to EL2, it results in an
-                                                                     Undefined exception taken to EL1. */
-        uint64_t tacr                  : 1;  /**< [ 21: 21](R/W) Trap Auxiliary Control Register. When this bit is set to 1,
-                                                                     this causes accesses to the following registers executed from
-                                                                     EL1 to be trapped to EL2:
-
-                                                                 AArch32: ACTLR.
-
-                                                                 AArch64: ACTLR_EL1. */
-        uint64_t tsw                   : 1;  /**< [ 22: 22](R/W) Trap Data/Unified Cache maintenance operations by Set/Way.
-                                                                     When this bit is set to 1, this causes Data or Unified Cache
-                                                                     maintenance instructions by set/way executed from EL1 which
-                                                                     are not UNdefined to be trapped to EL2. This covers the
-                                                                     following instructions:
-
-                                                                 AArch32: DCISW, DCCSW, DCCISW.
-
-                                                                 AArch64: DC ISW, DC CSW, DC CISW. */
-        uint64_t tpc                   : 1;  /**< [ 23: 23](R/W) Trap Data/Unified Cache maintenance operations to Point of
-                                                                     Coherency. When this bit is set to 1, this causes Data or
-                                                                     Unified Cache maintenance instructions by address to the point
-                                                                     of coherency executed from EL1 or EL0 which are not UNdefined
-                                                                     to be trapped to EL2. This covers the following instructions:
-
-                                                                 AArch32: DCIMVAC, DCCIMVAC, DCCMVAC.
-
-                                                                 AArch64: DC IVAC, DC CIVAC, DC CVAC. */
-        uint64_t tpu                   : 1;  /**< [ 24: 24](R/W) Trap Cache maintenance instructions to Point of Unification.
-                                                                     When this bit is set to 1, this causes Cache maintenance
-                                                                     instructions to the point of unification executed from EL1 or
-                                                                     EL0 which are not UNdefined to be trapped to EL2. This covers
-                                                                     the following instructions:
-
-                                                                 AArch32: ICIMVAU, ICIALLU, ICIALLUIS, DCCMVAU.
-
-                                                                 AArch64: IC IVAU, IC IALLU, IC IALLUIS, DC CVAU. */
-        uint64_t ttlb                  : 1;  /**< [ 25: 25](R/W) Trap TLB maintenance instructions. When this bit is set to 1,
-                                                                     this causes TLB maintenance instructions executed from EL1
-                                                                     which are not UNdefined to be trapped to EL2. This covers the
-                                                                     following instructions:
-
-                                                                 AArch32: TLBIALLIS, TLBIMVAIS, TLBIASIDIS, TLBIMVAAIS,
-                                                                     TLBIALL, TLBIMVA, TLBIASID, DTLBIALL, DTLBIMVA, DTLBIASID,
-                                                                     ITLBIALL, ITLBIMVA, ITLBIASID, TLBIMVAA, TLBIMVALIS,
-                                                                     TLBIMVAALIS, TLBIMVAL, TLBIMVAAL
-
-                                                                 AArch64: TLBI VMALLE1, TLBI VAE1, TLBI ASIDE1, TLBI VAAE1,
-                                                                     TLBI VALE1, TLBI VAALE1, TLBI VMALLE1IS, TLBI VAE1IS, TLBI
-                                                                     ASIDE1IS, TLBI VAAE1IS, TLBI VALE1IS, TLBI VAALE1IS */
-        uint64_t tvm                   : 1;  /**< [ 26: 26](R/W) Trap Virtual Memory controls. When this bit is set to 1, this
-                                                                     causes Writes to the EL1 virtual memory control registers from
-                                                                     EL1 to be trapped to EL2. This covers the following registers:
-
-                                                                 AArch32: SCTLR, TTBR0, TTBR1, TTBCR, DACR, DFSR, IFSR, DFAR,
-                                                                     IFAR, ADFSR, AIFSR, PRRR/ MAIR0, NMRR/ MAIR1, AMAIR0, AMAIR1,
-                                                                     CONTEXTIDR.
-
-                                                                 AArch64: AP_SCTLR_EL1, AP_TTBR0_EL1, AP_TTBR1_EL1, AP_TCR_EL1, ESR_EL1,
-                                                                     FAR_EL1, AFSR0_EL1, AFSR1_EL1, MAIR_EL1, AMAIR_EL1,
-                                                                     AP_CONTEXTIDR_EL1 */
-        uint64_t tge                   : 1;  /**< [ 27: 27](R/W) Trap General Exceptions. If this bit is set to 1, and
-                                                                     AP_SCR_EL3[NS] is set to 1, then:
-
-                                                                  All exceptions that would be routed to EL1 are routed to EL2.
-
-                                                                  The AP_SCTLR_EL1[M] bit is treated as being 0 regardless of its
-                                                                     actual state (for EL1 using AArch32 or AArch64) other than for
-                                                                     the purpose of reading the bit.
-
-                                                                  The AP_HCR_EL2[FMO], IMO and AMO bits are treated as being 1
-                                                                     regardless of their actual state other than for the purpose of
-                                                                     reading the bits.
-
-                                                                  All virtual interrupts are disabled.
-
-                                                                  Any implementation defined mechanisms for signalling virtual
-                                                                     interrupts are disabled.
-
-                                                                  An exception return to EL1 is treated as an illegal exception
-                                                                     return.
-
-                                                                 Additionally, if AP_HCR_EL2[TGE] == 1, the
-                                                                     AP_MDCR_EL2.{TDRA,TDOSA,TDA} bits are ignored and the processor
-                                                                     behaves as if they are set to 1, other than for the value read
-                                                                     back from AP_MDCR_EL2. */
-        uint64_t tdz                   : 1;  /**< [ 28: 28](R/W) Trap DC ZVA instruction:
-                                                                 This bit also has an effect on the value read from the
-                                                                     AP_DCZID_EL0 register. If this bit is 1, then reading
-                                                                     AP_DCZID_EL0[DZP] from nonsecure EL1 or EL0 will return 1 to
-                                                                     indicate that DC ZVA is prohibited.
-                                                                 0 = The instruction is not trapped.
-                                                                 1 = The instruction is trapped to EL2 when executed in nonsecure
-                                                                     EL1 or EL0. */
-        uint64_t reserved_29           : 1;
-        uint64_t trvm                  : 1;  /**< [ 30: 30](R/W) Trap Read of Virtual Memory controls. When this bit is set to
-                                                                     1, this causes Reads to the EL1 virtual memory control
-                                                                     registers from EL1 to be trapped to EL2. This covers the
-                                                                     following registers:
-
-                                                                 AArch32: SCTLR, TTBR0, TTBR1, TTBCR, DACR, DFSR, IFSR, DFAR,
-                                                                     IFAR, ADFSR, AIFSR, PRRR/ MAIR0, NMRR/ MAIR1, AMAIR0, AMAIR1,
-                                                                     CONTEXTIDR.
-
-                                                                 AArch64: AP_SCTLR_EL1, AP_TTBR0_EL1, AP_TTBR1_EL1, AP_TCR_EL1, ESR_EL1,
-                                                                     FAR_EL1, AFSR0_EL1, AFSR1_EL1, MAIR_EL1, AMAIR_EL1,
-                                                                     AP_CONTEXTIDR_EL1. */
-        uint64_t rsvd_31               : 1;  /**< [ 31: 31](RO) rw - Register Width control for lower exception levels:
-                                                                 When AP_SCR_EL3[NS]==0, this bit behaves as if it has the same
-                                                                     value as the AP_SCR_EL3[RW] bit except for the value read back.
-                                                                 The RW bit is permitted to be cached in a TLB.
-                                                                 0 = Lower levels are all AArch32.
-                                                                 1 = EL1 is AArch64. EL0 is determined by the Execution state
-                                                                     described in the current process state when executing at EL0. */
-        uint64_t cd                    : 1;  /**< [ 32: 32](R/W) Stage 2 Data cache disable. When AP_HCR_EL2[VM]==1, this forces
-                                                                     all stage 2 translations for data accesses and translation
-                                                                     table walks to Normal memory to be Non-cacheable for the EL1&0
-                                                                     translation regime.
-                                                                 This bit has no effect on the EL2 or EL3 translation regimes.
-                                                                 0 = No effect on the stage 2 of the EL1&0 translation regime for
-                                                                     data accesses and translation table walks.
-                                                                 1 = Forces all stage 2 translations for data accesses and
-                                                                     translation table walks to Normal memory to be Non-cacheable
-                                                                     for the EL1&0 translation regime. */
-        uint64_t id                    : 1;  /**< [ 33: 33](R/W) Stage 2 Instruction cache disable. When AP_HCR_EL2[VM]==1, this
-                                                                     forces all stage 2 translations for instruction accesses to
-                                                                     Normal memory to be Non-cacheable for the EL1&0 translation
-                                                                     regime.
-                                                                 This bit has no effect on the EL2 or EL3 translation regimes.
-                                                                 0 = No effect on the stage 2 of the EL1&0 translation regime for
-                                                                     instruction accesses.
-                                                                 1 = Forces all stage 2 translations for instruction accesses to
-                                                                     Normal memory to be Non-cacheable for the EL1&0 translation
-                                                                     regime. */
-        uint64_t e2h                   : 1;  /**< [ 34: 34](R/W) V8.1: Enable EL2 host. */
-        uint64_t tlor                  : 1;  /**< [ 35: 35](R/W) v8.1: Trap access to the LOR Registers from nonsecure EL1 to EL2.
-                                                                 0 = Nonsecure EL1 accesses to the LOR Registers are not trapped to EL2.
-                                                                 1 = Nonsecure EL1 accesses to the LOR Registers are trapped to EL2. */
-        uint64_t reserved_36_63        : 28;
-#endif /* Word 0 - End */
-    } cn8;
-    /* struct bdk_ap_hcr_el2_s cn9; */
+    /* struct bdk_ap_hcr_el2_s cn; */
 } bdk_ap_hcr_el2_t;
 
 #define BDK_AP_HCR_EL2 BDK_AP_HCR_EL2_FUNC()
@@ -10684,7 +9462,7 @@ static inline uint64_t BDK_AP_HSTR_EL2_FUNC(void)
 /**
  * Register (SYSREG) ap_icc_ap0r#_el1
  *
- * AP Interrupt Controller Active Priorities Group 0 (1,3) Register
+ * AP Interrupt Controller Active Priorities (0,0) Register
  * Provides information about the active priorities for the
  *     current interrupt regime.
  */
@@ -10791,9 +9569,7 @@ typedef union
 static inline uint64_t BDK_AP_ICC_AP0RX_EL1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_ICC_AP0RX_EL1(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=3))
-        return 0x3000c080400ll + 0x100ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a>=1)&&(a<=3)))
+    if (a<=3)
         return 0x3000c080400ll + 0x100ll * ((a) & 0x3);
     __bdk_csr_fatal("AP_ICC_AP0RX_EL1", 1, a, 0, 0, 0);
 }
@@ -10805,131 +9581,9 @@ static inline uint64_t BDK_AP_ICC_AP0RX_EL1(unsigned long a)
 #define arguments_BDK_AP_ICC_AP0RX_EL1(a) (a),-1,-1,-1
 
 /**
- * Register (SYSREG) ap_icc_ap0r0_el1
- *
- * AP Interrupt Controller Active Priorities Group 0 (0,0) Register
- * Provides information about the active priorities for the
- *     current interrupt regime.
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_ap_icc_ap0r0_el1_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t prioritybits          : 32; /**< [ 31:  0](R/W) Provides information about priority M, according to the
-                                                                     following relationship:
-                                                                 Bit P<n> corresponds to priority (M divided by 22^(U))
-                                                                     minus 1, where U is the number of unimplemented bits of
-                                                                     priority and is equal to (7 -  AP_ICC_CTLR_EL1[PRI]bits).
-                                                                 For example, in a system with AP_ICC_CTLR_EL1[PRI]bits == 0b100:
-
-                                                                  There are 5 bits of implemented priority.
-
-                                                                  This means there are 3 bits of unimplemented priority, which
-                                                                     are always at the least significant end (bits [2:0] are RES0).
-
-                                                                  Valid priorities are 8, 16, 24, 32, and so on. Dividing these
-                                                                     by 22^(3) gives 1, 2, 3, 4, and so on.
-
-                                                                  Subtracting 1 from each gives bits 0, 1, 2, 3, and so on that
-                                                                     provide information about those priorities.
-
-                                                                 Accesses to these registers from an interrupt regime give a
-                                                                     view of the active priorities that is appropriate for that
-                                                                     interrupt regime, to allow save and restore of the appropriate
-                                                                     state.
-
-                                                                 Interrupt regime and the number of Security states supported
-                                                                     by the Distributor affect the view as follows. Unless
-                                                                     otherwise stated, when a bit is successfully set to one, this
-                                                                     clears any other active priorities corresponding to that bit.
-
-                                                                 Exception level     AP0Rn access
-
-                                                                 (Secure) EL3        Permitted. Accesses Group 0 Secure active priorities.
-
-                                                                 Secure EL1  Permitted. Accesses Group 0 Secure active priorities.
-
-                                                                 Nonsecure EL1 access for a Virtual interrupt       ICH_AP0Rn_EL2
-
-                                                                 Nonsecure EL1 or EL2 when GIC Distributor supports two Security states (GICD_CTLR[DS] is
-                                                                 0) Permitted. Accesses Group 0 Secure active priorities.
-
-                                                                 Nonsecure EL1 or EL2 when GIC Distributor supports one Security state (GICD_CTLR[DS] is
-                                                                 1)  Permitted. Accesses Group 0 active priorities.
-
-                                                                 A Virtual interrupt in this case means that the interrupt
-                                                                     group associated with the register has been virtualized. */
-#else /* Word 0 - Little Endian */
-        uint32_t prioritybits          : 32; /**< [ 31:  0](R/W) Provides information about priority M, according to the
-                                                                     following relationship:
-                                                                 Bit P<n> corresponds to priority (M divided by 22^(U))
-                                                                     minus 1, where U is the number of unimplemented bits of
-                                                                     priority and is equal to (7 -  AP_ICC_CTLR_EL1[PRI]bits).
-                                                                 For example, in a system with AP_ICC_CTLR_EL1[PRI]bits == 0b100:
-
-                                                                  There are 5 bits of implemented priority.
-
-                                                                  This means there are 3 bits of unimplemented priority, which
-                                                                     are always at the least significant end (bits [2:0] are RES0).
-
-                                                                  Valid priorities are 8, 16, 24, 32, and so on. Dividing these
-                                                                     by 22^(3) gives 1, 2, 3, 4, and so on.
-
-                                                                  Subtracting 1 from each gives bits 0, 1, 2, 3, and so on that
-                                                                     provide information about those priorities.
-
-                                                                 Accesses to these registers from an interrupt regime give a
-                                                                     view of the active priorities that is appropriate for that
-                                                                     interrupt regime, to allow save and restore of the appropriate
-                                                                     state.
-
-                                                                 Interrupt regime and the number of Security states supported
-                                                                     by the Distributor affect the view as follows. Unless
-                                                                     otherwise stated, when a bit is successfully set to one, this
-                                                                     clears any other active priorities corresponding to that bit.
-
-                                                                 Exception level     AP0Rn access
-
-                                                                 (Secure) EL3        Permitted. Accesses Group 0 Secure active priorities.
-
-                                                                 Secure EL1  Permitted. Accesses Group 0 Secure active priorities.
-
-                                                                 Nonsecure EL1 access for a Virtual interrupt       ICH_AP0Rn_EL2
-
-                                                                 Nonsecure EL1 or EL2 when GIC Distributor supports two Security states (GICD_CTLR[DS] is
-                                                                 0) Permitted. Accesses Group 0 Secure active priorities.
-
-                                                                 Nonsecure EL1 or EL2 when GIC Distributor supports one Security state (GICD_CTLR[DS] is
-                                                                 1)  Permitted. Accesses Group 0 active priorities.
-
-                                                                 A Virtual interrupt in this case means that the interrupt
-                                                                     group associated with the register has been virtualized. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_ap_icc_ap0r0_el1_s cn; */
-} bdk_ap_icc_ap0r0_el1_t;
-
-#define BDK_AP_ICC_AP0R0_EL1 BDK_AP_ICC_AP0R0_EL1_FUNC()
-static inline uint64_t BDK_AP_ICC_AP0R0_EL1_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_AP_ICC_AP0R0_EL1_FUNC(void)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x3000c080400ll;
-    __bdk_csr_fatal("AP_ICC_AP0R0_EL1", 0, 0, 0, 0, 0);
-}
-
-#define typedef_BDK_AP_ICC_AP0R0_EL1 bdk_ap_icc_ap0r0_el1_t
-#define bustype_BDK_AP_ICC_AP0R0_EL1 BDK_CSR_TYPE_SYSREG
-#define basename_BDK_AP_ICC_AP0R0_EL1 "AP_ICC_AP0R0_EL1"
-#define busnum_BDK_AP_ICC_AP0R0_EL1 0
-#define arguments_BDK_AP_ICC_AP0R0_EL1 -1,-1,-1,-1
-
-/**
  * Register (SYSREG) ap_icc_ap1r#_el1
  *
- * AP Interrupt Controller Active Priorities Group 1(1,3) Register
+ * AP Interrupt Controller Active Priorities (1,3) Register
  * Provides information about the active priorities for the
  *     current interrupt regime.
  */
@@ -11056,9 +9710,7 @@ typedef union
 static inline uint64_t BDK_AP_ICC_AP1RX_EL1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_ICC_AP1RX_EL1(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=3))
-        return 0x3000c090000ll + 0x100ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a>=1)&&(a<=3)))
+    if (a<=3)
         return 0x3000c090000ll + 0x100ll * ((a) & 0x3);
     __bdk_csr_fatal("AP_ICC_AP1RX_EL1", 1, a, 0, 0, 0);
 }
@@ -11068,148 +9720,6 @@ static inline uint64_t BDK_AP_ICC_AP1RX_EL1(unsigned long a)
 #define basename_BDK_AP_ICC_AP1RX_EL1(a) "AP_ICC_AP1RX_EL1"
 #define busnum_BDK_AP_ICC_AP1RX_EL1(a) (a)
 #define arguments_BDK_AP_ICC_AP1RX_EL1(a) (a),-1,-1,-1
-
-/**
- * Register (SYSREG) ap_icc_ap1r0_el1
- *
- * AP Interrupt Controller Active Priorities Group 1 (0,0) Register
- * Provides information about the active priorities for the
- *     current interrupt regime.
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_ap_icc_ap1r0_el1_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t prioritybits          : 32; /**< [ 31:  0](R/W) Provides information about priority M, according to the
-                                                                     following relationship:
-
-                                                                 Bit P<n> corresponds to priority (M divided by 22^(U))
-                                                                     minus 1, where U is the number of unimplemented bits of
-                                                                     priority and is equal to (7 -  AP_ICC_CTLR_EL1[PRI]bits).
-
-                                                                 For example, in a system with AP_ICC_CTLR_EL1[PRI]bits ==0b100
-
-                                                                  There are 5 bits of implemented priority.
-
-                                                                  This means there are 3 bits of unimplemented priority, which
-                                                                     are always at the least significant end (bits [2:0] are RES0).
-
-                                                                  Valid priorities are 8, 16, 24, 32, and so on. Dividing these
-                                                                     by 22^(3) gives 1, 2, 3, 4, and so on.
-
-                                                                  Subtracting 1 from each gives bits 0, 1, 2, 3, and so on that
-                                                                     provide information about those priorities.
-
-                                                                 Accesses to these registers from an interrupt regime give a
-                                                                     view of the active priorities that is appropriate for that
-                                                                     interrupt regime, to allow save and restore of the appropriate
-                                                                     state.
-
-                                                                 Interrupt regime and the number of Security states supported
-                                                                     by the Distributor affect the view as follows. Unless
-                                                                     otherwise stated, when a bit is successfully set to one, this
-                                                                     clears any other active priorities corresponding to that bit.
-
-                                                                 Current Exception level and Security state  AP1Rn access
-
-                                                                 (Secure) EL3        Permitted. When AP_SCR_EL3[NS] is 0, accesses Group 1 Secure active
-                                                                 priorities. When AP_SCR_EL3[NS] is 1, accesses Group 1 nonsecure active priorities
-                                                                 (unshifted). When a bit is written, the bit is only updated if the corresponding Group 0
-                                                                 and Group 1 Secure active priority is zero.
-
-                                                                 Secure EL1  Permitted. Accesses Group 1 Secure active priorities (unshifted). When a bit
-                                                                 is written, the bit is only updated if the corresponding Group 0 Secure active priority is
-                                                                 zero.
-
-                                                                 Nonsecure EL1 access for a Virtual interrupt       ICH_AP1Rn_EL2
-
-                                                                 Nonsecure EL1 or EL2 when GIC Distributor supports two Security states (GICD_CTLR[DS] is
-                                                                 0) Permitted. Accesses Group 1 Nonsecure active priorities (shifted). When a bit is
-                                                                 written, the bit is only updated if the corresponding Group 0 and Group 1 Secure active
-                                                                 priority is zero.
-
-                                                                 Nonsecure EL1 or EL2 when GIC Distributor supports one Security state (GICD_CTLR[DS] is
-                                                                 1)  Permitted. Accesses Group 1 Nonsecure active priorities (unshifted). When a bit is
-                                                                 written, the bit is only updated if the Group 0 active priority is zero.
-
-                                                                 A Virtual interrupt in this case means that the interrupt
-                                                                     group associated with the register has been virtualized. */
-#else /* Word 0 - Little Endian */
-        uint32_t prioritybits          : 32; /**< [ 31:  0](R/W) Provides information about priority M, according to the
-                                                                     following relationship:
-
-                                                                 Bit P<n> corresponds to priority (M divided by 22^(U))
-                                                                     minus 1, where U is the number of unimplemented bits of
-                                                                     priority and is equal to (7 -  AP_ICC_CTLR_EL1[PRI]bits).
-
-                                                                 For example, in a system with AP_ICC_CTLR_EL1[PRI]bits ==0b100
-
-                                                                  There are 5 bits of implemented priority.
-
-                                                                  This means there are 3 bits of unimplemented priority, which
-                                                                     are always at the least significant end (bits [2:0] are RES0).
-
-                                                                  Valid priorities are 8, 16, 24, 32, and so on. Dividing these
-                                                                     by 22^(3) gives 1, 2, 3, 4, and so on.
-
-                                                                  Subtracting 1 from each gives bits 0, 1, 2, 3, and so on that
-                                                                     provide information about those priorities.
-
-                                                                 Accesses to these registers from an interrupt regime give a
-                                                                     view of the active priorities that is appropriate for that
-                                                                     interrupt regime, to allow save and restore of the appropriate
-                                                                     state.
-
-                                                                 Interrupt regime and the number of Security states supported
-                                                                     by the Distributor affect the view as follows. Unless
-                                                                     otherwise stated, when a bit is successfully set to one, this
-                                                                     clears any other active priorities corresponding to that bit.
-
-                                                                 Current Exception level and Security state  AP1Rn access
-
-                                                                 (Secure) EL3        Permitted. When AP_SCR_EL3[NS] is 0, accesses Group 1 Secure active
-                                                                 priorities. When AP_SCR_EL3[NS] is 1, accesses Group 1 nonsecure active priorities
-                                                                 (unshifted). When a bit is written, the bit is only updated if the corresponding Group 0
-                                                                 and Group 1 Secure active priority is zero.
-
-                                                                 Secure EL1  Permitted. Accesses Group 1 Secure active priorities (unshifted). When a bit
-                                                                 is written, the bit is only updated if the corresponding Group 0 Secure active priority is
-                                                                 zero.
-
-                                                                 Nonsecure EL1 access for a Virtual interrupt       ICH_AP1Rn_EL2
-
-                                                                 Nonsecure EL1 or EL2 when GIC Distributor supports two Security states (GICD_CTLR[DS] is
-                                                                 0) Permitted. Accesses Group 1 Nonsecure active priorities (shifted). When a bit is
-                                                                 written, the bit is only updated if the corresponding Group 0 and Group 1 Secure active
-                                                                 priority is zero.
-
-                                                                 Nonsecure EL1 or EL2 when GIC Distributor supports one Security state (GICD_CTLR[DS] is
-                                                                 1)  Permitted. Accesses Group 1 Nonsecure active priorities (unshifted). When a bit is
-                                                                 written, the bit is only updated if the Group 0 active priority is zero.
-
-                                                                 A Virtual interrupt in this case means that the interrupt
-                                                                     group associated with the register has been virtualized. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_ap_icc_ap1r0_el1_s cn; */
-} bdk_ap_icc_ap1r0_el1_t;
-
-#define BDK_AP_ICC_AP1R0_EL1 BDK_AP_ICC_AP1R0_EL1_FUNC()
-static inline uint64_t BDK_AP_ICC_AP1R0_EL1_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_AP_ICC_AP1R0_EL1_FUNC(void)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x3000c090000ll;
-    __bdk_csr_fatal("AP_ICC_AP1R0_EL1", 0, 0, 0, 0, 0);
-}
-
-#define typedef_BDK_AP_ICC_AP1R0_EL1 bdk_ap_icc_ap1r0_el1_t
-#define bustype_BDK_AP_ICC_AP1R0_EL1 BDK_CSR_TYPE_SYSREG
-#define basename_BDK_AP_ICC_AP1R0_EL1 "AP_ICC_AP1R0_EL1"
-#define busnum_BDK_AP_ICC_AP1R0_EL1 0
-#define arguments_BDK_AP_ICC_AP1R0_EL1 -1,-1,-1,-1
 
 /**
  * Register (SYSREG) ap_icc_asgi1r_el1
@@ -11225,23 +9735,24 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_56_63        : 8;
-        uint64_t aff3                  : 8;  /**< [ 55: 48](WO) The affinity 3 value of the affinity path of the cluster for
+        uint64_t aff3                  : 8;  /**< [ 55: 48](R/W) The affinity 3 value of the affinity path of the cluster for
                                                                      which SGI interrupts will be generated. */
         uint64_t reserved_41_47        : 7;
-        uint64_t irm                   : 1;  /**< [ 40: 40](WO) Interrupt Routing Mode. Determines how the generated
-                                                                     interrupts should be distributed to processors.
+        uint64_t irm                   : 1;  /**< [ 40: 40](R/W) Interrupt Routing Mode. Determines how the generated
+                                                                     interrupts should be distributed to processors. Possible
+                                                                     values are:
                                                                  0 = Interrupts routed to the processors specified by a.b.c.{target
                                                                      list}. In this routing, a, b, and c are the values of fields
                                                                      Aff3, Aff2, and Aff1 respectively.
                                                                  1 = Interrupts routed to all processors in the system, excluding
-                                                                     self. */
-        uint64_t aff2                  : 8;  /**< [ 39: 32](WO) The affinity 2 value of the affinity path of the cluster for
+                                                                     "self". */
+        uint64_t aff2                  : 8;  /**< [ 39: 32](R/W) The affinity 2 value of the affinity path of the cluster for
                                                                      which SGI interrupts will be generated. */
         uint64_t reserved_28_31        : 4;
-        uint64_t sgiid                 : 4;  /**< [ 27: 24](WO) SGI Interrupt ID. */
-        uint64_t aff1                  : 8;  /**< [ 23: 16](WO) The affinity 1 value of the affinity path of the cluster for
+        uint64_t sgiid                 : 4;  /**< [ 27: 24](R/W) SGI Interrupt ID. */
+        uint64_t aff1                  : 8;  /**< [ 23: 16](R/W) The affinity 1 value of the affinity path of the cluster for
                                                                      which SGI interrupts will be generated. */
-        uint64_t targetlist            : 16; /**< [ 15:  0](WO) Target List. The set of processors for which SGI interrupts
+        uint64_t targetlist            : 16; /**< [ 15:  0](R/W) Target List. The set of processors for which SGI interrupts
                                                                      will be generated. Each bit corresponds to the processor
                                                                      within a cluster with an Affinity 0 value equal to the bit
                                                                      number.
@@ -11254,7 +9765,7 @@ typedef union
                                                                  This restricts distribution of SGIs to the first 16 processors
                                                                      of an affinity 1 cluster. */
 #else /* Word 0 - Little Endian */
-        uint64_t targetlist            : 16; /**< [ 15:  0](WO) Target List. The set of processors for which SGI interrupts
+        uint64_t targetlist            : 16; /**< [ 15:  0](R/W) Target List. The set of processors for which SGI interrupts
                                                                      will be generated. Each bit corresponds to the processor
                                                                      within a cluster with an Affinity 0 value equal to the bit
                                                                      number.
@@ -11266,92 +9777,27 @@ typedef union
 
                                                                  This restricts distribution of SGIs to the first 16 processors
                                                                      of an affinity 1 cluster. */
-        uint64_t aff1                  : 8;  /**< [ 23: 16](WO) The affinity 1 value of the affinity path of the cluster for
+        uint64_t aff1                  : 8;  /**< [ 23: 16](R/W) The affinity 1 value of the affinity path of the cluster for
                                                                      which SGI interrupts will be generated. */
-        uint64_t sgiid                 : 4;  /**< [ 27: 24](WO) SGI Interrupt ID. */
+        uint64_t sgiid                 : 4;  /**< [ 27: 24](R/W) SGI Interrupt ID. */
         uint64_t reserved_28_31        : 4;
-        uint64_t aff2                  : 8;  /**< [ 39: 32](WO) The affinity 2 value of the affinity path of the cluster for
+        uint64_t aff2                  : 8;  /**< [ 39: 32](R/W) The affinity 2 value of the affinity path of the cluster for
                                                                      which SGI interrupts will be generated. */
-        uint64_t irm                   : 1;  /**< [ 40: 40](WO) Interrupt Routing Mode. Determines how the generated
-                                                                     interrupts should be distributed to processors.
+        uint64_t irm                   : 1;  /**< [ 40: 40](R/W) Interrupt Routing Mode. Determines how the generated
+                                                                     interrupts should be distributed to processors. Possible
+                                                                     values are:
                                                                  0 = Interrupts routed to the processors specified by a.b.c.{target
                                                                      list}. In this routing, a, b, and c are the values of fields
                                                                      Aff3, Aff2, and Aff1 respectively.
                                                                  1 = Interrupts routed to all processors in the system, excluding
-                                                                     self. */
+                                                                     "self". */
         uint64_t reserved_41_47        : 7;
-        uint64_t aff3                  : 8;  /**< [ 55: 48](WO) The affinity 3 value of the affinity path of the cluster for
+        uint64_t aff3                  : 8;  /**< [ 55: 48](R/W) The affinity 3 value of the affinity path of the cluster for
                                                                      which SGI interrupts will be generated. */
         uint64_t reserved_56_63        : 8;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_ap_icc_asgi1r_el1_cn8
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_56_63        : 8;
-        uint64_t aff3                  : 8;  /**< [ 55: 48](R/W) The affinity 3 value of the affinity path of the cluster for
-                                                                     which SGI interrupts will be generated. */
-        uint64_t reserved_41_47        : 7;
-        uint64_t irm                   : 1;  /**< [ 40: 40](R/W) Interrupt Routing Mode. Determines how the generated
-                                                                     interrupts should be distributed to processors. Possible
-                                                                     values are:
-                                                                 0 = Interrupts routed to the processors specified by a.b.c.{target
-                                                                     list}. In this routing, a, b, and c are the values of fields
-                                                                     Aff3, Aff2, and Aff1 respectively.
-                                                                 1 = Interrupts routed to all processors in the system, excluding
-                                                                     "self". */
-        uint64_t aff2                  : 8;  /**< [ 39: 32](R/W) The affinity 2 value of the affinity path of the cluster for
-                                                                     which SGI interrupts will be generated. */
-        uint64_t reserved_28_31        : 4;
-        uint64_t sgiid                 : 4;  /**< [ 27: 24](R/W) SGI Interrupt ID. */
-        uint64_t aff1                  : 8;  /**< [ 23: 16](R/W) The affinity 1 value of the affinity path of the cluster for
-                                                                     which SGI interrupts will be generated. */
-        uint64_t targetlist            : 16; /**< [ 15:  0](R/W) Target List. The set of processors for which SGI interrupts
-                                                                     will be generated. Each bit corresponds to the processor
-                                                                     within a cluster with an Affinity 0 value equal to the bit
-                                                                     number.
-
-                                                                 If a bit is 1 and the bit does not correspond to a valid
-                                                                     target processor, the bit must be ignored by the Distributor.
-                                                                     In such cases, a Distributor may optionally generate an SError
-                                                                     interrupt.
-
-                                                                 This restricts distribution of SGIs to the first 16 processors
-                                                                     of an affinity 1 cluster. */
-#else /* Word 0 - Little Endian */
-        uint64_t targetlist            : 16; /**< [ 15:  0](R/W) Target List. The set of processors for which SGI interrupts
-                                                                     will be generated. Each bit corresponds to the processor
-                                                                     within a cluster with an Affinity 0 value equal to the bit
-                                                                     number.
-
-                                                                 If a bit is 1 and the bit does not correspond to a valid
-                                                                     target processor, the bit must be ignored by the Distributor.
-                                                                     In such cases, a Distributor may optionally generate an SError
-                                                                     interrupt.
-
-                                                                 This restricts distribution of SGIs to the first 16 processors
-                                                                     of an affinity 1 cluster. */
-        uint64_t aff1                  : 8;  /**< [ 23: 16](R/W) The affinity 1 value of the affinity path of the cluster for
-                                                                     which SGI interrupts will be generated. */
-        uint64_t sgiid                 : 4;  /**< [ 27: 24](R/W) SGI Interrupt ID. */
-        uint64_t reserved_28_31        : 4;
-        uint64_t aff2                  : 8;  /**< [ 39: 32](R/W) The affinity 2 value of the affinity path of the cluster for
-                                                                     which SGI interrupts will be generated. */
-        uint64_t irm                   : 1;  /**< [ 40: 40](R/W) Interrupt Routing Mode. Determines how the generated
-                                                                     interrupts should be distributed to processors. Possible
-                                                                     values are:
-                                                                 0 = Interrupts routed to the processors specified by a.b.c.{target
-                                                                     list}. In this routing, a, b, and c are the values of fields
-                                                                     Aff3, Aff2, and Aff1 respectively.
-                                                                 1 = Interrupts routed to all processors in the system, excluding
-                                                                     "self". */
-        uint64_t reserved_41_47        : 7;
-        uint64_t aff3                  : 8;  /**< [ 55: 48](R/W) The affinity 3 value of the affinity path of the cluster for
-                                                                     which SGI interrupts will be generated. */
-        uint64_t reserved_56_63        : 8;
-#endif /* Word 0 - End */
-    } cn8;
-    /* struct bdk_ap_icc_asgi1r_el1_s cn9; */
+    /* struct bdk_ap_icc_asgi1r_el1_s cn; */
 } bdk_ap_icc_asgi1r_el1_t;
 
 #define BDK_AP_ICC_ASGI1R_EL1 BDK_AP_ICC_ASGI1R_EL1_FUNC()
@@ -12365,9 +10811,7 @@ typedef union
 static inline uint64_t BDK_AP_ICC_SEIEN_EL1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_ICC_SEIEN_EL1_FUNC(void)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX))
-        return 0x3000c0d0000ll;
-    __bdk_csr_fatal("AP_ICC_SEIEN_EL1", 0, 0, 0, 0, 0);
+    return 0x3000c0d0000ll;
 }
 
 #define typedef_BDK_AP_ICC_SEIEN_EL1 bdk_ap_icc_seien_el1_t
@@ -12391,24 +10835,24 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_56_63        : 8;
-        uint64_t aff3                  : 8;  /**< [ 55: 48](WO) The affinity 3 value of the affinity path of the cluster for
+        uint64_t aff3                  : 8;  /**< [ 55: 48](R/W) The affinity 3 value of the affinity path of the cluster for
                                                                      which SGI interrupts will be generated. */
         uint64_t reserved_41_47        : 7;
-        uint64_t irm                   : 1;  /**< [ 40: 40](WO) Interrupt Routing Mode. Determines how the generated
+        uint64_t irm                   : 1;  /**< [ 40: 40](R/W) Interrupt Routing Mode. Determines how the generated
                                                                      interrupts should be distributed to processors. Possible
                                                                      values are:
                                                                  0 = Interrupts routed to the processors specified by a.b.c.{target
                                                                      list}. In this routing, a, b, and c are the values of fields
                                                                      Aff3, Aff2, and Aff1 respectively.
                                                                  1 = Interrupts routed to all processors in the system, excluding
-                                                                     self. */
-        uint64_t aff2                  : 8;  /**< [ 39: 32](WO) The affinity 2 value of the affinity path of the cluster for
+                                                                     "self". */
+        uint64_t aff2                  : 8;  /**< [ 39: 32](R/W) The affinity 2 value of the affinity path of the cluster for
                                                                      which SGI interrupts will be generated. */
         uint64_t reserved_28_31        : 4;
-        uint64_t sgiid                 : 4;  /**< [ 27: 24](WO) SGI Interrupt ID. */
-        uint64_t aff1                  : 8;  /**< [ 23: 16](WO) The affinity 1 value of the affinity path of the cluster for
+        uint64_t sgiid                 : 4;  /**< [ 27: 24](R/W) SGI Interrupt ID. */
+        uint64_t aff1                  : 8;  /**< [ 23: 16](R/W) The affinity 1 value of the affinity path of the cluster for
                                                                      which SGI interrupts will be generated. */
-        uint64_t targetlist            : 16; /**< [ 15:  0](WO) Target List. The set of processors for which SGI interrupts
+        uint64_t targetlist            : 16; /**< [ 15:  0](R/W) Target List. The set of processors for which SGI interrupts
                                                                      will be generated. Each bit corresponds to the processor
                                                                      within a cluster with an Affinity 0 value equal to the bit
                                                                      number.
@@ -12421,7 +10865,7 @@ typedef union
                                                                  This restricts distribution of SGIs to the first 16 processors
                                                                      of an affinity 1 cluster. */
 #else /* Word 0 - Little Endian */
-        uint64_t targetlist            : 16; /**< [ 15:  0](WO) Target List. The set of processors for which SGI interrupts
+        uint64_t targetlist            : 16; /**< [ 15:  0](R/W) Target List. The set of processors for which SGI interrupts
                                                                      will be generated. Each bit corresponds to the processor
                                                                      within a cluster with an Affinity 0 value equal to the bit
                                                                      number.
@@ -12433,93 +10877,27 @@ typedef union
 
                                                                  This restricts distribution of SGIs to the first 16 processors
                                                                      of an affinity 1 cluster. */
-        uint64_t aff1                  : 8;  /**< [ 23: 16](WO) The affinity 1 value of the affinity path of the cluster for
+        uint64_t aff1                  : 8;  /**< [ 23: 16](R/W) The affinity 1 value of the affinity path of the cluster for
                                                                      which SGI interrupts will be generated. */
-        uint64_t sgiid                 : 4;  /**< [ 27: 24](WO) SGI Interrupt ID. */
+        uint64_t sgiid                 : 4;  /**< [ 27: 24](R/W) SGI Interrupt ID. */
         uint64_t reserved_28_31        : 4;
-        uint64_t aff2                  : 8;  /**< [ 39: 32](WO) The affinity 2 value of the affinity path of the cluster for
+        uint64_t aff2                  : 8;  /**< [ 39: 32](R/W) The affinity 2 value of the affinity path of the cluster for
                                                                      which SGI interrupts will be generated. */
-        uint64_t irm                   : 1;  /**< [ 40: 40](WO) Interrupt Routing Mode. Determines how the generated
+        uint64_t irm                   : 1;  /**< [ 40: 40](R/W) Interrupt Routing Mode. Determines how the generated
                                                                      interrupts should be distributed to processors. Possible
                                                                      values are:
                                                                  0 = Interrupts routed to the processors specified by a.b.c.{target
                                                                      list}. In this routing, a, b, and c are the values of fields
                                                                      Aff3, Aff2, and Aff1 respectively.
                                                                  1 = Interrupts routed to all processors in the system, excluding
-                                                                     self. */
+                                                                     "self". */
         uint64_t reserved_41_47        : 7;
-        uint64_t aff3                  : 8;  /**< [ 55: 48](WO) The affinity 3 value of the affinity path of the cluster for
+        uint64_t aff3                  : 8;  /**< [ 55: 48](R/W) The affinity 3 value of the affinity path of the cluster for
                                                                      which SGI interrupts will be generated. */
         uint64_t reserved_56_63        : 8;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_ap_icc_sgi0r_el1_cn8
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_56_63        : 8;
-        uint64_t aff3                  : 8;  /**< [ 55: 48](R/W) The affinity 3 value of the affinity path of the cluster for
-                                                                     which SGI interrupts will be generated. */
-        uint64_t reserved_41_47        : 7;
-        uint64_t irm                   : 1;  /**< [ 40: 40](R/W) Interrupt Routing Mode. Determines how the generated
-                                                                     interrupts should be distributed to processors. Possible
-                                                                     values are:
-                                                                 0 = Interrupts routed to the processors specified by a.b.c.{target
-                                                                     list}. In this routing, a, b, and c are the values of fields
-                                                                     Aff3, Aff2, and Aff1 respectively.
-                                                                 1 = Interrupts routed to all processors in the system, excluding
-                                                                     "self". */
-        uint64_t aff2                  : 8;  /**< [ 39: 32](R/W) The affinity 2 value of the affinity path of the cluster for
-                                                                     which SGI interrupts will be generated. */
-        uint64_t reserved_28_31        : 4;
-        uint64_t sgiid                 : 4;  /**< [ 27: 24](R/W) SGI Interrupt ID. */
-        uint64_t aff1                  : 8;  /**< [ 23: 16](R/W) The affinity 1 value of the affinity path of the cluster for
-                                                                     which SGI interrupts will be generated. */
-        uint64_t targetlist            : 16; /**< [ 15:  0](R/W) Target List. The set of processors for which SGI interrupts
-                                                                     will be generated. Each bit corresponds to the processor
-                                                                     within a cluster with an Affinity 0 value equal to the bit
-                                                                     number.
-
-                                                                 If a bit is 1 and the bit does not correspond to a valid
-                                                                     target processor, the bit must be ignored by the Distributor.
-                                                                     In such cases, a Distributor may optionally generate an SError
-                                                                     interrupt.
-
-                                                                 This restricts distribution of SGIs to the first 16 processors
-                                                                     of an affinity 1 cluster. */
-#else /* Word 0 - Little Endian */
-        uint64_t targetlist            : 16; /**< [ 15:  0](R/W) Target List. The set of processors for which SGI interrupts
-                                                                     will be generated. Each bit corresponds to the processor
-                                                                     within a cluster with an Affinity 0 value equal to the bit
-                                                                     number.
-
-                                                                 If a bit is 1 and the bit does not correspond to a valid
-                                                                     target processor, the bit must be ignored by the Distributor.
-                                                                     In such cases, a Distributor may optionally generate an SError
-                                                                     interrupt.
-
-                                                                 This restricts distribution of SGIs to the first 16 processors
-                                                                     of an affinity 1 cluster. */
-        uint64_t aff1                  : 8;  /**< [ 23: 16](R/W) The affinity 1 value of the affinity path of the cluster for
-                                                                     which SGI interrupts will be generated. */
-        uint64_t sgiid                 : 4;  /**< [ 27: 24](R/W) SGI Interrupt ID. */
-        uint64_t reserved_28_31        : 4;
-        uint64_t aff2                  : 8;  /**< [ 39: 32](R/W) The affinity 2 value of the affinity path of the cluster for
-                                                                     which SGI interrupts will be generated. */
-        uint64_t irm                   : 1;  /**< [ 40: 40](R/W) Interrupt Routing Mode. Determines how the generated
-                                                                     interrupts should be distributed to processors. Possible
-                                                                     values are:
-                                                                 0 = Interrupts routed to the processors specified by a.b.c.{target
-                                                                     list}. In this routing, a, b, and c are the values of fields
-                                                                     Aff3, Aff2, and Aff1 respectively.
-                                                                 1 = Interrupts routed to all processors in the system, excluding
-                                                                     "self". */
-        uint64_t reserved_41_47        : 7;
-        uint64_t aff3                  : 8;  /**< [ 55: 48](R/W) The affinity 3 value of the affinity path of the cluster for
-                                                                     which SGI interrupts will be generated. */
-        uint64_t reserved_56_63        : 8;
-#endif /* Word 0 - End */
-    } cn8;
-    /* struct bdk_ap_icc_sgi0r_el1_s cn9; */
+    /* struct bdk_ap_icc_sgi0r_el1_s cn; */
 } bdk_ap_icc_sgi0r_el1_t;
 
 #define BDK_AP_ICC_SGI0R_EL1 BDK_AP_ICC_SGI0R_EL1_FUNC()
@@ -12549,23 +10927,24 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_56_63        : 8;
-        uint64_t aff3                  : 8;  /**< [ 55: 48](WO) The affinity 3 value of the affinity path of the cluster for
+        uint64_t aff3                  : 8;  /**< [ 55: 48](R/W) The affinity 3 value of the affinity path of the cluster for
                                                                      which SGI interrupts will be generated. */
         uint64_t reserved_41_47        : 7;
-        uint64_t irm                   : 1;  /**< [ 40: 40](WO) Interrupt Routing Mode. Determines how the generated
-                                                                     interrupts should be distributed to processors.
+        uint64_t irm                   : 1;  /**< [ 40: 40](R/W) Interrupt Routing Mode. Determines how the generated
+                                                                     interrupts should be distributed to processors. Possible
+                                                                     values are:
                                                                  0 = Interrupts routed to the processors specified by a.b.c.{target
                                                                      list}. In this routing, a, b, and c are the values of fields
                                                                      Aff3, Aff2, and Aff1 respectively.
                                                                  1 = Interrupts routed to all processors in the system, excluding
-                                                                     self. */
-        uint64_t aff2                  : 8;  /**< [ 39: 32](WO) The affinity 2 value of the affinity path of the cluster for
+                                                                     "self". */
+        uint64_t aff2                  : 8;  /**< [ 39: 32](R/W) The affinity 2 value of the affinity path of the cluster for
                                                                      which SGI interrupts will be generated. */
         uint64_t reserved_28_31        : 4;
-        uint64_t sgiid                 : 4;  /**< [ 27: 24](WO) SGI Interrupt ID. */
-        uint64_t aff1                  : 8;  /**< [ 23: 16](WO) The affinity 1 value of the affinity path of the cluster for
+        uint64_t sgiid                 : 4;  /**< [ 27: 24](R/W) SGI Interrupt ID. */
+        uint64_t aff1                  : 8;  /**< [ 23: 16](R/W) The affinity 1 value of the affinity path of the cluster for
                                                                      which SGI interrupts will be generated. */
-        uint64_t targetlist            : 16; /**< [ 15:  0](WO) Target List. The set of processors for which SGI interrupts
+        uint64_t targetlist            : 16; /**< [ 15:  0](R/W) Target List. The set of processors for which SGI interrupts
                                                                      will be generated. Each bit corresponds to the processor
                                                                      within a cluster with an Affinity 0 value equal to the bit
                                                                      number.
@@ -12576,7 +10955,7 @@ typedef union
                                                                  This restricts distribution of SGIs to the first 16 processors
                                                                      of an affinity 1 cluster. */
 #else /* Word 0 - Little Endian */
-        uint64_t targetlist            : 16; /**< [ 15:  0](WO) Target List. The set of processors for which SGI interrupts
+        uint64_t targetlist            : 16; /**< [ 15:  0](R/W) Target List. The set of processors for which SGI interrupts
                                                                      will be generated. Each bit corresponds to the processor
                                                                      within a cluster with an Affinity 0 value equal to the bit
                                                                      number.
@@ -12586,88 +10965,27 @@ typedef union
                                                                      interrupt.
                                                                  This restricts distribution of SGIs to the first 16 processors
                                                                      of an affinity 1 cluster. */
-        uint64_t aff1                  : 8;  /**< [ 23: 16](WO) The affinity 1 value of the affinity path of the cluster for
+        uint64_t aff1                  : 8;  /**< [ 23: 16](R/W) The affinity 1 value of the affinity path of the cluster for
                                                                      which SGI interrupts will be generated. */
-        uint64_t sgiid                 : 4;  /**< [ 27: 24](WO) SGI Interrupt ID. */
+        uint64_t sgiid                 : 4;  /**< [ 27: 24](R/W) SGI Interrupt ID. */
         uint64_t reserved_28_31        : 4;
-        uint64_t aff2                  : 8;  /**< [ 39: 32](WO) The affinity 2 value of the affinity path of the cluster for
+        uint64_t aff2                  : 8;  /**< [ 39: 32](R/W) The affinity 2 value of the affinity path of the cluster for
                                                                      which SGI interrupts will be generated. */
-        uint64_t irm                   : 1;  /**< [ 40: 40](WO) Interrupt Routing Mode. Determines how the generated
-                                                                     interrupts should be distributed to processors.
+        uint64_t irm                   : 1;  /**< [ 40: 40](R/W) Interrupt Routing Mode. Determines how the generated
+                                                                     interrupts should be distributed to processors. Possible
+                                                                     values are:
                                                                  0 = Interrupts routed to the processors specified by a.b.c.{target
                                                                      list}. In this routing, a, b, and c are the values of fields
                                                                      Aff3, Aff2, and Aff1 respectively.
                                                                  1 = Interrupts routed to all processors in the system, excluding
-                                                                     self. */
+                                                                     "self". */
         uint64_t reserved_41_47        : 7;
-        uint64_t aff3                  : 8;  /**< [ 55: 48](WO) The affinity 3 value of the affinity path of the cluster for
+        uint64_t aff3                  : 8;  /**< [ 55: 48](R/W) The affinity 3 value of the affinity path of the cluster for
                                                                      which SGI interrupts will be generated. */
         uint64_t reserved_56_63        : 8;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_ap_icc_sgi1r_el1_cn8
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_56_63        : 8;
-        uint64_t aff3                  : 8;  /**< [ 55: 48](R/W) The affinity 3 value of the affinity path of the cluster for
-                                                                     which SGI interrupts will be generated. */
-        uint64_t reserved_41_47        : 7;
-        uint64_t irm                   : 1;  /**< [ 40: 40](R/W) Interrupt Routing Mode. Determines how the generated
-                                                                     interrupts should be distributed to processors. Possible
-                                                                     values are:
-                                                                 0 = Interrupts routed to the processors specified by a.b.c.{target
-                                                                     list}. In this routing, a, b, and c are the values of fields
-                                                                     Aff3, Aff2, and Aff1 respectively.
-                                                                 1 = Interrupts routed to all processors in the system, excluding
-                                                                     "self". */
-        uint64_t aff2                  : 8;  /**< [ 39: 32](R/W) The affinity 2 value of the affinity path of the cluster for
-                                                                     which SGI interrupts will be generated. */
-        uint64_t reserved_28_31        : 4;
-        uint64_t sgiid                 : 4;  /**< [ 27: 24](R/W) SGI Interrupt ID. */
-        uint64_t aff1                  : 8;  /**< [ 23: 16](R/W) The affinity 1 value of the affinity path of the cluster for
-                                                                     which SGI interrupts will be generated. */
-        uint64_t targetlist            : 16; /**< [ 15:  0](R/W) Target List. The set of processors for which SGI interrupts
-                                                                     will be generated. Each bit corresponds to the processor
-                                                                     within a cluster with an Affinity 0 value equal to the bit
-                                                                     number.
-                                                                 If a bit is 1 and the bit does not correspond to a valid
-                                                                     target processor, the bit must be ignored by the Distributor.
-                                                                     In such cases, a Distributor may optionally generate an SError
-                                                                     interrupt.
-                                                                 This restricts distribution of SGIs to the first 16 processors
-                                                                     of an affinity 1 cluster. */
-#else /* Word 0 - Little Endian */
-        uint64_t targetlist            : 16; /**< [ 15:  0](R/W) Target List. The set of processors for which SGI interrupts
-                                                                     will be generated. Each bit corresponds to the processor
-                                                                     within a cluster with an Affinity 0 value equal to the bit
-                                                                     number.
-                                                                 If a bit is 1 and the bit does not correspond to a valid
-                                                                     target processor, the bit must be ignored by the Distributor.
-                                                                     In such cases, a Distributor may optionally generate an SError
-                                                                     interrupt.
-                                                                 This restricts distribution of SGIs to the first 16 processors
-                                                                     of an affinity 1 cluster. */
-        uint64_t aff1                  : 8;  /**< [ 23: 16](R/W) The affinity 1 value of the affinity path of the cluster for
-                                                                     which SGI interrupts will be generated. */
-        uint64_t sgiid                 : 4;  /**< [ 27: 24](R/W) SGI Interrupt ID. */
-        uint64_t reserved_28_31        : 4;
-        uint64_t aff2                  : 8;  /**< [ 39: 32](R/W) The affinity 2 value of the affinity path of the cluster for
-                                                                     which SGI interrupts will be generated. */
-        uint64_t irm                   : 1;  /**< [ 40: 40](R/W) Interrupt Routing Mode. Determines how the generated
-                                                                     interrupts should be distributed to processors. Possible
-                                                                     values are:
-                                                                 0 = Interrupts routed to the processors specified by a.b.c.{target
-                                                                     list}. In this routing, a, b, and c are the values of fields
-                                                                     Aff3, Aff2, and Aff1 respectively.
-                                                                 1 = Interrupts routed to all processors in the system, excluding
-                                                                     "self". */
-        uint64_t reserved_41_47        : 7;
-        uint64_t aff3                  : 8;  /**< [ 55: 48](R/W) The affinity 3 value of the affinity path of the cluster for
-                                                                     which SGI interrupts will be generated. */
-        uint64_t reserved_56_63        : 8;
-#endif /* Word 0 - End */
-    } cn8;
-    /* struct bdk_ap_icc_sgi1r_el1_s cn9; */
+    /* struct bdk_ap_icc_sgi1r_el1_s cn; */
 } bdk_ap_icc_sgi1r_el1_t;
 
 #define BDK_AP_ICC_SGI1R_EL1 BDK_AP_ICC_SGI1R_EL1_FUNC()
@@ -13400,63 +11718,6 @@ static inline uint64_t BDK_AP_ICH_EISR_EL2_FUNC(void)
 #define arguments_BDK_AP_ICH_EISR_EL2 -1,-1,-1,-1
 
 /**
- * Register (SYSREG) ap_ich_elrsr_el2
- *
- * AP Interrupt Controller Empty List Register Status Register
- * This register can be used to locate a usable List register
- *     when the hypervisor is delivering an interrupt to a Guest OS.
- *
- * Internal:
- * This register was renamed ICH_ELRSR_EL2 in OBAN of 2014-06-13 after release v20 of GIC v3.
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_ap_ich_elrsr_el2_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t status_bits           : 32; /**< [ 31:  0](RO) Status bit for List register <n>, ICH_LR<n>_EL2:
-                                                                 For any ICH_LR<n>_EL2, the corresponding status bit is set to
-                                                                     1 if ICH_LR<n>_EL2[State] is 0x0.
-                                                                 0 = List register ICH_LR<n>_EL2, if implemented, contains a valid
-                                                                    interrupt. Using this List register can result in overwriting
-                                                                     a valid interrupt.
-                                                                 1 = List register ICH_LR<n>_EL2 does not contain a valid
-                                                                     interrupt. The List register is empty and can be used without
-                                                                     overwriting a valid interrupt or losing an EOI maintenance
-                                                                     interrupt. */
-#else /* Word 0 - Little Endian */
-        uint32_t status_bits           : 32; /**< [ 31:  0](RO) Status bit for List register <n>, ICH_LR<n>_EL2:
-                                                                 For any ICH_LR<n>_EL2, the corresponding status bit is set to
-                                                                     1 if ICH_LR<n>_EL2[State] is 0x0.
-                                                                 0 = List register ICH_LR<n>_EL2, if implemented, contains a valid
-                                                                    interrupt. Using this List register can result in overwriting
-                                                                     a valid interrupt.
-                                                                 1 = List register ICH_LR<n>_EL2 does not contain a valid
-                                                                     interrupt. The List register is empty and can be used without
-                                                                     overwriting a valid interrupt or losing an EOI maintenance
-                                                                     interrupt. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_ap_ich_elrsr_el2_s cn; */
-} bdk_ap_ich_elrsr_el2_t;
-
-#define BDK_AP_ICH_ELRSR_EL2 BDK_AP_ICH_ELRSR_EL2_FUNC()
-static inline uint64_t BDK_AP_ICH_ELRSR_EL2_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_AP_ICH_ELRSR_EL2_FUNC(void)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x3040c0b0500ll;
-    __bdk_csr_fatal("AP_ICH_ELRSR_EL2", 0, 0, 0, 0, 0);
-}
-
-#define typedef_BDK_AP_ICH_ELRSR_EL2 bdk_ap_ich_elrsr_el2_t
-#define bustype_BDK_AP_ICH_ELRSR_EL2 BDK_CSR_TYPE_SYSREG
-#define basename_BDK_AP_ICH_ELRSR_EL2 "AP_ICH_ELRSR_EL2"
-#define busnum_BDK_AP_ICH_ELRSR_EL2 0
-#define arguments_BDK_AP_ICH_ELRSR_EL2 -1,-1,-1,-1
-
-/**
  * Register (SYSREG) ap_ich_elsr_el2
  *
  * AP Interrupt Controller Empty List Register Status Register
@@ -13499,9 +11760,7 @@ typedef union
 static inline uint64_t BDK_AP_ICH_ELSR_EL2_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_ICH_ELSR_EL2_FUNC(void)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX))
-        return 0x3040c0b0500ll;
-    __bdk_csr_fatal("AP_ICH_ELSR_EL2", 0, 0, 0, 0, 0);
+    return 0x3040c0b0500ll;
 }
 
 #define typedef_BDK_AP_ICH_ELSR_EL2 bdk_ap_ich_elsr_el2_t
@@ -13536,11 +11795,7 @@ typedef union
 
                                                                  The maintenance interrupt is asserted whenever this field is
                                                                      nonzero and the LRENPIE bit is set to 1. */
-        uint32_t reserved_15_26        : 12;
-        uint32_t tdir                  : 1;  /**< [ 14: 14](R/W) Trap nonsecure EL1 writes to ICC_DIR_EL1:
-                                                                   0 = Nonsecure EL1 writes of ICC_DIR_EL1 do not cause a trap to EL2, unless trapped by
-                                                                 other mechanisms.
-                                                                   1 = Nonsecure EL1 writes of ICC_DIR_EL1 are trapped to EL2. */
+        uint32_t reserved_14_26        : 13;
         uint32_t tsei                  : 1;  /**< [ 13: 13](RO) A locally generated SEI will trap to EL2 if this bit is set.  This bit is RES0 when
                                                                  AP_ICH_VTR_EL2[SEIS] is not set. */
         uint32_t tall1                 : 1;  /**< [ 12: 12](R/W) Trap all nonsecure EL1 accesses to ICC_* system registers for
@@ -13696,11 +11951,7 @@ typedef union
                                                                      interrupts trap to EL2. */
         uint32_t tsei                  : 1;  /**< [ 13: 13](RO) A locally generated SEI will trap to EL2 if this bit is set.  This bit is RES0 when
                                                                  AP_ICH_VTR_EL2[SEIS] is not set. */
-        uint32_t tdir                  : 1;  /**< [ 14: 14](R/W) Trap nonsecure EL1 writes to ICC_DIR_EL1:
-                                                                   0 = Nonsecure EL1 writes of ICC_DIR_EL1 do not cause a trap to EL2, unless trapped by
-                                                                 other mechanisms.
-                                                                   1 = Nonsecure EL1 writes of ICC_DIR_EL1 are trapped to EL2. */
-        uint32_t reserved_15_26        : 12;
+        uint32_t reserved_14_26        : 13;
         uint32_t eoicount              : 5;  /**< [ 31: 27](R/W) Counts the number of EOIs received that do not have a
                                                                      corresponding entry in the List registers. The virtual CPU
                                                                      interface increments this field automatically when a matching
@@ -13717,197 +11968,7 @@ typedef union
                                                                      nonzero and the LRENPIE bit is set to 1. */
 #endif /* Word 0 - End */
     } s;
-    struct bdk_ap_ich_hcr_el2_cn8
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t eoicount              : 5;  /**< [ 31: 27](R/W) Counts the number of EOIs received that do not have a
-                                                                     corresponding entry in the List registers. The virtual CPU
-                                                                     interface increments this field automatically when a matching
-                                                                     EOI is received.
-
-                                                                 EOIs that do not clear a bit in one of the Active Priorities
-                                                                     registers ICH_APmRn_EL2 do not cause an increment.
-
-                                                                 Although not possible under correct operation, if an EOI
-                                                                     occurs when the value of this field is 31, this field wraps to
-                                                                     0.
-
-                                                                 The maintenance interrupt is asserted whenever this field is
-                                                                     nonzero and the LRENPIE bit is set to 1. */
-        uint32_t reserved_14_26        : 13;
-        uint32_t tsei                  : 1;  /**< [ 13: 13](RO) A locally generated SEI will trap to EL2 if this bit is set.  This bit is RES0 when
-                                                                 AP_ICH_VTR_EL2[SEIS] is not set. */
-        uint32_t tall1                 : 1;  /**< [ 12: 12](R/W) Trap all nonsecure EL1 accesses to ICC_* system registers for
-                                                                     group 1 interrupts to EL2.
-                                                                 0 = Non-Secure EL1 accesses to ICC_* registers for group 1
-                                                                     interrupts proceed as normal.
-                                                                 1 = Any nonsecure EL1 accesses to ICC_* registers for group 1
-                                                                     interrupts trap to EL2. */
-        uint32_t tall0                 : 1;  /**< [ 11: 11](R/W) Trap all nonsecure EL1 accesses to ICC_* system registers for
-                                                                     group 0 interrupts to EL2.
-                                                                 0 = Non-Secure EL1 accesses to ICC_* registers for group 0
-                                                                     interrupts proceed as normal.
-                                                                 1 = Any nonsecure EL1 accesses to ICC_* registers for group 0
-                                                                     interrupts trap to EL2. */
-        uint32_t tc                    : 1;  /**< [ 10: 10](R/W) Trap all nonsecure El1 accesses to system registers that are
-                                                                     common to group 0 and group 1 to EL2.
-                                                                 This affects AP_ICC_DIR_EL1, AP_ICC_PMR_EL1, and AP_ICC_RPR_EL1.
-                                                                 0 = Nonsecure EL1 accesses to common registers proceed as normal.
-                                                                 1 = Any nonsecure EL1 accesses to common registers trap to EL2. */
-        uint32_t reserved_8_9          : 2;
-        uint32_t vgrp1die              : 1;  /**< [  7:  7](R/W) VM Disable Group 1 Interrupt Enable. Enables the signaling of
-                                                                     a maintenance interrupt while signaling of Group 1 interrupts
-                                                                     from the virtual CPU interface to the connected virtual
-                                                                     machine is disabled:
-                                                                 0 = Maintenance interrupt disabled.
-                                                                 1 = Maintenance interrupt signaled while GICV_CTLR[EnableGrp1] is
-                                                                     set to 0. */
-        uint32_t vgrp1eie              : 1;  /**< [  6:  6](R/W) VM Enable Group 1 Interrupt Enable. Enables the signaling of a
-                                                                     maintenance interrupt while signaling of Group 1 interrupts
-                                                                     from the virtual CPU interface to the connected virtual
-                                                                     machine is enabled:
-                                                                 0 = Maintenance interrupt disabled.
-                                                                 1 = Maintenance interrupt signaled while GICV_CTLR[EnableGrp1] is
-                                                                     set to 1. */
-        uint32_t vgrp0die              : 1;  /**< [  5:  5](R/W) VM Disable Group 0 Interrupt Enable. Enables the signaling of
-                                                                     a maintenance interrupt while signaling of Group 0 interrupts
-                                                                     from the virtual CPU interface to the connected virtual
-                                                                     machine is disabled:
-                                                                 0 = Maintenance interrupt disabled.
-                                                                 1 = Maintenance interrupt signaled while GICV_CTLR[EnableGrp0] is
-                                                                     set to 0. */
-        uint32_t vgrp0eie              : 1;  /**< [  4:  4](R/W) VM Enable Group 0 Interrupt Enable. Enables the signaling of a
-                                                                     maintenance interrupt while signaling of Group 0 interrupts
-                                                                     from the virtual CPU interface to the connected virtual
-                                                                     machine is enabled:
-                                                                 0 = Maintenance interrupt disabled.
-                                                                 1 = Maintenance interrupt signaled while GICV_CTLR[EnableGrp0] is
-                                                                     set to 1. */
-        uint32_t npie                  : 1;  /**< [  3:  3](R/W) No Pending Interrupt Enable. Enables the signaling of a
-                                                                     maintenance interrupt while no pending interrupts are present
-                                                                     in the List registers:
-                                                                 0 = Maintenance interrupt disabled.
-                                                                 1 = Maintenance interupt signaled while the List registers contain
-                                                                     no interrupts in the pending state. */
-        uint32_t lrenpie               : 1;  /**< [  2:  2](R/W) List Register Entry Not Present Interrupt Enable. Enables the
-                                                                     signaling of a maintenance interrupt while the virtual CPU
-                                                                     interface does not have a corresponding valid List register
-                                                                     entry for an EOI request:
-                                                                 0 = Maintenance interrupt disabled.
-                                                                 1 = A maintenance interrupt is asserted while the EOIcount field
-                                                                     is not 0. */
-        uint32_t uie                   : 1;  /**< [  1:  1](R/W) Underflow Interrupt Enable. Enables the signaling of a
-                                                                     maintenance interrupt when the List registers are empty, or
-                                                                     hold only one valid entry:
-                                                                 0 = Maintenance interrupt disabled.
-                                                                 1 = A maintenance interrupt is asserted if none, or only one, of
-                                                                     the List register entries is marked as a valid interrupt. */
-        uint32_t en                    : 1;  /**< [  0:  0](R/W) Enable. Global enable bit for the virtual CPU interface:
-                                                                 When this field is set to 0:
-                                                                  The virtual CPU interface does not signal any maintenance
-                                                                     interrupts.
-                                                                  The virtual CPU interface does not signal any virtual
-                                                                     interrupts.
-                                                                  A read of GICV_IAR or GICV_AIAR returns a spurious interrupt
-                                                                     ID.
-                                                                 0 = Virtual CPU interface operation disabled.
-                                                                 1 = Virtual CPU interface operation enabled. */
-#else /* Word 0 - Little Endian */
-        uint32_t en                    : 1;  /**< [  0:  0](R/W) Enable. Global enable bit for the virtual CPU interface:
-                                                                 When this field is set to 0:
-                                                                  The virtual CPU interface does not signal any maintenance
-                                                                     interrupts.
-                                                                  The virtual CPU interface does not signal any virtual
-                                                                     interrupts.
-                                                                  A read of GICV_IAR or GICV_AIAR returns a spurious interrupt
-                                                                     ID.
-                                                                 0 = Virtual CPU interface operation disabled.
-                                                                 1 = Virtual CPU interface operation enabled. */
-        uint32_t uie                   : 1;  /**< [  1:  1](R/W) Underflow Interrupt Enable. Enables the signaling of a
-                                                                     maintenance interrupt when the List registers are empty, or
-                                                                     hold only one valid entry:
-                                                                 0 = Maintenance interrupt disabled.
-                                                                 1 = A maintenance interrupt is asserted if none, or only one, of
-                                                                     the List register entries is marked as a valid interrupt. */
-        uint32_t lrenpie               : 1;  /**< [  2:  2](R/W) List Register Entry Not Present Interrupt Enable. Enables the
-                                                                     signaling of a maintenance interrupt while the virtual CPU
-                                                                     interface does not have a corresponding valid List register
-                                                                     entry for an EOI request:
-                                                                 0 = Maintenance interrupt disabled.
-                                                                 1 = A maintenance interrupt is asserted while the EOIcount field
-                                                                     is not 0. */
-        uint32_t npie                  : 1;  /**< [  3:  3](R/W) No Pending Interrupt Enable. Enables the signaling of a
-                                                                     maintenance interrupt while no pending interrupts are present
-                                                                     in the List registers:
-                                                                 0 = Maintenance interrupt disabled.
-                                                                 1 = Maintenance interupt signaled while the List registers contain
-                                                                     no interrupts in the pending state. */
-        uint32_t vgrp0eie              : 1;  /**< [  4:  4](R/W) VM Enable Group 0 Interrupt Enable. Enables the signaling of a
-                                                                     maintenance interrupt while signaling of Group 0 interrupts
-                                                                     from the virtual CPU interface to the connected virtual
-                                                                     machine is enabled:
-                                                                 0 = Maintenance interrupt disabled.
-                                                                 1 = Maintenance interrupt signaled while GICV_CTLR[EnableGrp0] is
-                                                                     set to 1. */
-        uint32_t vgrp0die              : 1;  /**< [  5:  5](R/W) VM Disable Group 0 Interrupt Enable. Enables the signaling of
-                                                                     a maintenance interrupt while signaling of Group 0 interrupts
-                                                                     from the virtual CPU interface to the connected virtual
-                                                                     machine is disabled:
-                                                                 0 = Maintenance interrupt disabled.
-                                                                 1 = Maintenance interrupt signaled while GICV_CTLR[EnableGrp0] is
-                                                                     set to 0. */
-        uint32_t vgrp1eie              : 1;  /**< [  6:  6](R/W) VM Enable Group 1 Interrupt Enable. Enables the signaling of a
-                                                                     maintenance interrupt while signaling of Group 1 interrupts
-                                                                     from the virtual CPU interface to the connected virtual
-                                                                     machine is enabled:
-                                                                 0 = Maintenance interrupt disabled.
-                                                                 1 = Maintenance interrupt signaled while GICV_CTLR[EnableGrp1] is
-                                                                     set to 1. */
-        uint32_t vgrp1die              : 1;  /**< [  7:  7](R/W) VM Disable Group 1 Interrupt Enable. Enables the signaling of
-                                                                     a maintenance interrupt while signaling of Group 1 interrupts
-                                                                     from the virtual CPU interface to the connected virtual
-                                                                     machine is disabled:
-                                                                 0 = Maintenance interrupt disabled.
-                                                                 1 = Maintenance interrupt signaled while GICV_CTLR[EnableGrp1] is
-                                                                     set to 0. */
-        uint32_t reserved_8_9          : 2;
-        uint32_t tc                    : 1;  /**< [ 10: 10](R/W) Trap all nonsecure El1 accesses to system registers that are
-                                                                     common to group 0 and group 1 to EL2.
-                                                                 This affects AP_ICC_DIR_EL1, AP_ICC_PMR_EL1, and AP_ICC_RPR_EL1.
-                                                                 0 = Nonsecure EL1 accesses to common registers proceed as normal.
-                                                                 1 = Any nonsecure EL1 accesses to common registers trap to EL2. */
-        uint32_t tall0                 : 1;  /**< [ 11: 11](R/W) Trap all nonsecure EL1 accesses to ICC_* system registers for
-                                                                     group 0 interrupts to EL2.
-                                                                 0 = Non-Secure EL1 accesses to ICC_* registers for group 0
-                                                                     interrupts proceed as normal.
-                                                                 1 = Any nonsecure EL1 accesses to ICC_* registers for group 0
-                                                                     interrupts trap to EL2. */
-        uint32_t tall1                 : 1;  /**< [ 12: 12](R/W) Trap all nonsecure EL1 accesses to ICC_* system registers for
-                                                                     group 1 interrupts to EL2.
-                                                                 0 = Non-Secure EL1 accesses to ICC_* registers for group 1
-                                                                     interrupts proceed as normal.
-                                                                 1 = Any nonsecure EL1 accesses to ICC_* registers for group 1
-                                                                     interrupts trap to EL2. */
-        uint32_t tsei                  : 1;  /**< [ 13: 13](RO) A locally generated SEI will trap to EL2 if this bit is set.  This bit is RES0 when
-                                                                 AP_ICH_VTR_EL2[SEIS] is not set. */
-        uint32_t reserved_14_26        : 13;
-        uint32_t eoicount              : 5;  /**< [ 31: 27](R/W) Counts the number of EOIs received that do not have a
-                                                                     corresponding entry in the List registers. The virtual CPU
-                                                                     interface increments this field automatically when a matching
-                                                                     EOI is received.
-
-                                                                 EOIs that do not clear a bit in one of the Active Priorities
-                                                                     registers ICH_APmRn_EL2 do not cause an increment.
-
-                                                                 Although not possible under correct operation, if an EOI
-                                                                     occurs when the value of this field is 31, this field wraps to
-                                                                     0.
-
-                                                                 The maintenance interrupt is asserted whenever this field is
-                                                                     nonzero and the LRENPIE bit is set to 1. */
-#endif /* Word 0 - End */
-    } cn8;
-    /* struct bdk_ap_ich_hcr_el2_s cn9; */
+    /* struct bdk_ap_ich_hcr_el2_s cn; */
 } bdk_ap_ich_hcr_el2_t;
 
 #define BDK_AP_ICH_HCR_EL2 BDK_AP_ICH_HCR_EL2_FUNC()
@@ -14221,9 +12282,7 @@ typedef union
 static inline uint64_t BDK_AP_ICH_VSEIR_EL2_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_ICH_VSEIR_EL2_FUNC(void)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX))
-        return 0x3040c090400ll;
-    __bdk_csr_fatal("AP_ICH_VSEIR_EL2", 0, 0, 0, 0, 0);
+    return 0x3040c090400ll;
 }
 
 #define typedef_BDK_AP_ICH_VSEIR_EL2 bdk_ap_ich_vseir_el2_t
@@ -14253,6 +12312,8 @@ typedef union
                                                                  0x1 = 24 bits. */
         uint32_t seis                  : 1;  /**< [ 22: 22](RO) SEI Support. Indicates whether the virtual CPU interface
                                                                      supports generation of SEIs:
+                                                                 Virtual system errors may still be generated by writing to
+                                                                     AP_ICH_VSEIR_EL2 regardless of the value of this field.
                                                                  0 = The virtual CPU interface logic does not support generation of
                                                                      SEIs.
                                                                  1 = The virtual CPU interface logic supports generation of SEIs. */
@@ -14261,19 +12322,11 @@ typedef union
                                                                      Affinity 3 in SGI generation system registers.
                                                                  1 = The virtual CPU interface logic supports nonzero values of
                                                                      Affinity 3 in SGI generation system registers. */
-        uint32_t reserved_20           : 1;
-        uint32_t tds                   : 1;  /**< [ 19: 19](RO) Separate trapping of nonsecure EL1 writes supported.
-                                                                 0 = Implementation does not support CIM()_ICH_HCR_EL2[TDIR].
-                                                                 1 = Implementation supports CIM()_ICH_HCR_EL2[TDIR]. */
-        uint32_t reserved_5_18         : 14;
+        uint32_t reserved_5_20         : 16;
         uint32_t listregs              : 5;  /**< [  4:  0](RO) The number of implemented List registers, minus one. */
 #else /* Word 0 - Little Endian */
         uint32_t listregs              : 5;  /**< [  4:  0](RO) The number of implemented List registers, minus one. */
-        uint32_t reserved_5_18         : 14;
-        uint32_t tds                   : 1;  /**< [ 19: 19](RO) Separate trapping of nonsecure EL1 writes supported.
-                                                                 0 = Implementation does not support CIM()_ICH_HCR_EL2[TDIR].
-                                                                 1 = Implementation supports CIM()_ICH_HCR_EL2[TDIR]. */
-        uint32_t reserved_20           : 1;
+        uint32_t reserved_5_20         : 16;
         uint32_t a3v                   : 1;  /**< [ 21: 21](RO) Affinity 3 Valid.
                                                                  0 = The virtual CPU interface logic only supports zero values of
                                                                      Affinity 3 in SGI generation system registers.
@@ -14281,6 +12334,8 @@ typedef union
                                                                      Affinity 3 in SGI generation system registers. */
         uint32_t seis                  : 1;  /**< [ 22: 22](RO) SEI Support. Indicates whether the virtual CPU interface
                                                                      supports generation of SEIs:
+                                                                 Virtual system errors may still be generated by writing to
+                                                                     AP_ICH_VSEIR_EL2 regardless of the value of this field.
                                                                  0 = The virtual CPU interface logic does not support generation of
                                                                      SEIs.
                                                                  1 = The virtual CPU interface logic supports generation of SEIs. */
@@ -14292,53 +12347,7 @@ typedef union
         uint32_t pribits               : 3;  /**< [ 31: 29](RO) The number of virtual priority bits implemented, minus one. */
 #endif /* Word 0 - End */
     } s;
-    struct bdk_ap_ich_vtr_el2_cn8
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t pribits               : 3;  /**< [ 31: 29](RO) The number of virtual priority bits implemented, minus one. */
-        uint32_t prebits               : 3;  /**< [ 28: 26](RO) The number of virtual preemption bits implemented, minus one. */
-        uint32_t idbits                : 3;  /**< [ 25: 23](RO) The number of virtual interrupt identifier bits supported:
-                                                                 All other values are reserved.
-                                                                 0x0 = 16 bits.
-                                                                 0x1 = 24 bits. */
-        uint32_t seis                  : 1;  /**< [ 22: 22](RO) SEI Support. Indicates whether the virtual CPU interface
-                                                                     supports generation of SEIs:
-                                                                 Virtual system errors may still be generated by writing to
-                                                                     AP_ICH_VSEIR_EL2 regardless of the value of this field.
-                                                                 0 = The virtual CPU interface logic does not support generation of
-                                                                     SEIs.
-                                                                 1 = The virtual CPU interface logic supports generation of SEIs. */
-        uint32_t a3v                   : 1;  /**< [ 21: 21](RO) Affinity 3 Valid.
-                                                                 0 = The virtual CPU interface logic only supports zero values of
-                                                                     Affinity 3 in SGI generation system registers.
-                                                                 1 = The virtual CPU interface logic supports nonzero values of
-                                                                     Affinity 3 in SGI generation system registers. */
-        uint32_t reserved_5_20         : 16;
-        uint32_t listregs              : 5;  /**< [  4:  0](RO) The number of implemented List registers, minus one. */
-#else /* Word 0 - Little Endian */
-        uint32_t listregs              : 5;  /**< [  4:  0](RO) The number of implemented List registers, minus one. */
-        uint32_t reserved_5_20         : 16;
-        uint32_t a3v                   : 1;  /**< [ 21: 21](RO) Affinity 3 Valid.
-                                                                 0 = The virtual CPU interface logic only supports zero values of
-                                                                     Affinity 3 in SGI generation system registers.
-                                                                 1 = The virtual CPU interface logic supports nonzero values of
-                                                                     Affinity 3 in SGI generation system registers. */
-        uint32_t seis                  : 1;  /**< [ 22: 22](RO) SEI Support. Indicates whether the virtual CPU interface
-                                                                     supports generation of SEIs:
-                                                                 Virtual system errors may still be generated by writing to
-                                                                     AP_ICH_VSEIR_EL2 regardless of the value of this field.
-                                                                 0 = The virtual CPU interface logic does not support generation of
-                                                                     SEIs.
-                                                                 1 = The virtual CPU interface logic supports generation of SEIs. */
-        uint32_t idbits                : 3;  /**< [ 25: 23](RO) The number of virtual interrupt identifier bits supported:
-                                                                 All other values are reserved.
-                                                                 0x0 = 16 bits.
-                                                                 0x1 = 24 bits. */
-        uint32_t prebits               : 3;  /**< [ 28: 26](RO) The number of virtual preemption bits implemented, minus one. */
-        uint32_t pribits               : 3;  /**< [ 31: 29](RO) The number of virtual priority bits implemented, minus one. */
-#endif /* Word 0 - End */
-    } cn8;
-    /* struct bdk_ap_ich_vtr_el2_s cn9; */
+    /* struct bdk_ap_ich_vtr_el2_s cn; */
 } bdk_ap_ich_vtr_el2_t;
 
 #define BDK_AP_ICH_VTR_EL2 BDK_AP_ICH_VTR_EL2_FUNC()
@@ -14509,13 +12518,7 @@ typedef union
     struct bdk_ap_id_aa64dfr0_el1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_36_63        : 28;
-        uint64_t pmsver                : 4;  /**< [ 35: 32](RO) Statistical profiling extension version.
-                                                                 0x0 = No statistical profiling extension.
-                                                                 0x1 = Version 1 of the statistical profiling extension present.
-
-                                                                 All other values are reserved. Reserved values might be defined in a future
-                                                                 version of the architecture. */
+        uint64_t reserved_32_63        : 32;
         uint64_t ctx_cmps              : 4;  /**< [ 31: 28](RO) Number of breakpoints that are context-aware, minus 1. These
                                                                      are the highest numbered breakpoints.
 
@@ -14554,10 +12557,7 @@ typedef union
                                                                  0x7 = ARMv8.1 debug architecture.
                                                                  0x8 = ARMv8.2 debug architecture.
 
-                                                                 For CNXXXX, if AP_CVMCTL_EL1[ENABLE_V81] is set 0x7, else 0x6.
-
-                                                                 Internal:
-                                                                 FIXME always 0x8 for CN98XX. */
+                                                                 For CNXXXX, if AP_CVMCTL_EL1[ENABLE_V81] is set 0x7, else 0x6. */
 #else /* Word 0 - Little Endian */
         uint64_t debugver              : 4;  /**< [  3:  0](RO) Debug architecture version. Indicates presence of ARMv8 debug
                                                                      architecture.
@@ -14566,10 +12566,7 @@ typedef union
                                                                  0x7 = ARMv8.1 debug architecture.
                                                                  0x8 = ARMv8.2 debug architecture.
 
-                                                                 For CNXXXX, if AP_CVMCTL_EL1[ENABLE_V81] is set 0x7, else 0x6.
-
-                                                                 Internal:
-                                                                 FIXME always 0x8 for CN98XX. */
+                                                                 For CNXXXX, if AP_CVMCTL_EL1[ENABLE_V81] is set 0x7, else 0x6. */
         uint64_t tracever              : 4;  /**< [  7:  4](RO) Trace extension. Indicates whether system register interface to the trace
                                                                  extension is implemented.
                                                                  All other values are reserved.
@@ -14601,102 +12598,10 @@ typedef union
                                                                      are the highest numbered breakpoints.
 
                                                                  In CNXXXX all breakpoints are context-aware. */
-        uint64_t pmsver                : 4;  /**< [ 35: 32](RO) Statistical profiling extension version.
-                                                                 0x0 = No statistical profiling extension.
-                                                                 0x1 = Version 1 of the statistical profiling extension present.
-
-                                                                 All other values are reserved. Reserved values might be defined in a future
-                                                                 version of the architecture. */
-        uint64_t reserved_36_63        : 28;
+        uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_ap_id_aa64dfr0_el1_cn8
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t ctx_cmps              : 4;  /**< [ 31: 28](RO) Number of breakpoints that are context-aware, minus 1. These
-                                                                     are the highest numbered breakpoints.
-
-                                                                 In CNXXXX all breakpoints are context-aware. */
-        uint64_t reserved_24_27        : 4;
-        uint64_t wrps                  : 4;  /**< [ 23: 20](RO) Number of watchpoints, minus 1. The value of 0b0000 is reserved.
-
-                                                                 In CNXXXX 4 watchpoints. */
-        uint64_t reserved_16_19        : 4;
-        uint64_t brps                  : 4;  /**< [ 15: 12](RO) Number of breakpoints, minus 1. The value of 0b0000 is reserved.
-
-                                                                 In CNXXXX 6 breakpoints. */
-        uint64_t pmuver                : 4;  /**< [ 11:  8](RO) Performance Monitors extension version. Indicates whether
-                                                                     system register interface to Performance Monitors extension is
-                                                                     implemented.
-                                                                 All other values are reserved.
-                                                                 0x0 = Performance Monitors extension system registers not
-                                                                     implemented.
-                                                                 0x1 = Performance Monitors extension system registers implemented,
-                                                                     PMUv3.
-                                                                 0x4 = v8.1: Performance Monitors extension system registers
-                                                                     implemented, PMUv3 with 16bit evtCount.
-                                                                 0xF =  implementation defined form of performance monitors
-                                                                     supported, PMUv3 not supported.
-
-                                                                 For CNXXXX, if AP_CVMCTL_EL1[ENABLE_V81] is set 0x4, else 0x1. */
-        uint64_t tracever              : 4;  /**< [  7:  4](RO) Trace extension. Indicates whether system register interface to the trace
-                                                                 extension is implemented.
-                                                                 All other values are reserved.
-                                                                 0x0 = Trace extension system registers not implemented.
-                                                                 0x1 = Trace extension system registers implemented. */
-        uint64_t debugver              : 4;  /**< [  3:  0](RO) Debug architecture version. Indicates presence of ARMv8 debug
-                                                                     architecture.
-                                                                 All other values are reserved.
-                                                                 0x6 = ARMv8 debug architecture.
-                                                                 0x7 = ARMv8.1 debug architecture.
-                                                                 0x8 = ARMv8.2 debug architecture.
-
-                                                                 For CNXXXX, if AP_CVMCTL_EL1[ENABLE_V81] is set 0x7, else 0x6. */
-#else /* Word 0 - Little Endian */
-        uint64_t debugver              : 4;  /**< [  3:  0](RO) Debug architecture version. Indicates presence of ARMv8 debug
-                                                                     architecture.
-                                                                 All other values are reserved.
-                                                                 0x6 = ARMv8 debug architecture.
-                                                                 0x7 = ARMv8.1 debug architecture.
-                                                                 0x8 = ARMv8.2 debug architecture.
-
-                                                                 For CNXXXX, if AP_CVMCTL_EL1[ENABLE_V81] is set 0x7, else 0x6. */
-        uint64_t tracever              : 4;  /**< [  7:  4](RO) Trace extension. Indicates whether system register interface to the trace
-                                                                 extension is implemented.
-                                                                 All other values are reserved.
-                                                                 0x0 = Trace extension system registers not implemented.
-                                                                 0x1 = Trace extension system registers implemented. */
-        uint64_t pmuver                : 4;  /**< [ 11:  8](RO) Performance Monitors extension version. Indicates whether
-                                                                     system register interface to Performance Monitors extension is
-                                                                     implemented.
-                                                                 All other values are reserved.
-                                                                 0x0 = Performance Monitors extension system registers not
-                                                                     implemented.
-                                                                 0x1 = Performance Monitors extension system registers implemented,
-                                                                     PMUv3.
-                                                                 0x4 = v8.1: Performance Monitors extension system registers
-                                                                     implemented, PMUv3 with 16bit evtCount.
-                                                                 0xF =  implementation defined form of performance monitors
-                                                                     supported, PMUv3 not supported.
-
-                                                                 For CNXXXX, if AP_CVMCTL_EL1[ENABLE_V81] is set 0x4, else 0x1. */
-        uint64_t brps                  : 4;  /**< [ 15: 12](RO) Number of breakpoints, minus 1. The value of 0b0000 is reserved.
-
-                                                                 In CNXXXX 6 breakpoints. */
-        uint64_t reserved_16_19        : 4;
-        uint64_t wrps                  : 4;  /**< [ 23: 20](RO) Number of watchpoints, minus 1. The value of 0b0000 is reserved.
-
-                                                                 In CNXXXX 4 watchpoints. */
-        uint64_t reserved_24_27        : 4;
-        uint64_t ctx_cmps              : 4;  /**< [ 31: 28](RO) Number of breakpoints that are context-aware, minus 1. These
-                                                                     are the highest numbered breakpoints.
-
-                                                                 In CNXXXX all breakpoints are context-aware. */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } cn8;
-    /* struct bdk_ap_id_aa64dfr0_el1_s cn9; */
+    /* struct bdk_ap_id_aa64dfr0_el1_s cn; */
 } bdk_ap_id_aa64dfr0_el1_t;
 
 #define BDK_AP_ID_AA64DFR0_EL1 BDK_AP_ID_AA64DFR0_EL1_FUNC()
@@ -14923,28 +12828,12 @@ typedef union
     struct bdk_ap_id_aa64isar1_el1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
-        uint64_t dpb                   : 4;  /**< [  3:  0](RO) 0x0 = DC CVAP not supported in AArch64.
-                                                                 0x1 = DC CVAP supported in AArch64.
-
-                                                                 All other values reserved. */
+        uint64_t reserved_0_63         : 64;
 #else /* Word 0 - Little Endian */
-        uint64_t dpb                   : 4;  /**< [  3:  0](RO) 0x0 = DC CVAP not supported in AArch64.
-                                                                 0x1 = DC CVAP supported in AArch64.
-
-                                                                 All other values reserved. */
-        uint64_t reserved_4_63         : 60;
+        uint64_t reserved_0_63         : 64;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_ap_id_aa64isar1_el1_cn8
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_0_63         : 64;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_63         : 64;
-#endif /* Word 0 - End */
-    } cn8;
-    /* struct bdk_ap_id_aa64isar1_el1_s cn9; */
+    /* struct bdk_ap_id_aa64isar1_el1_s cn; */
 } bdk_ap_id_aa64isar1_el1_t;
 
 #define BDK_AP_ID_AA64ISAR1_EL1 BDK_AP_ID_AA64ISAR1_EL1_FUNC()
@@ -14987,9 +12876,7 @@ typedef union
 static inline uint64_t BDK_AP_ID_AA64MMFRX_EL1_RES0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_ID_AA64MMFRX_EL1_RES0(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && ((a>=2)&&(a<=7)))
-        return 0x30000070000ll + 0x100ll * ((a) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a>=3)&&(a<=7)))
+    if ((a>=2)&&(a<=7))
         return 0x30000070000ll + 0x100ll * ((a) & 0x7);
     __bdk_csr_fatal("AP_ID_AA64MMFRX_EL1_RES0", 1, a, 0, 0, 0);
 }
@@ -15073,10 +12960,8 @@ typedef union
                                                                  0x3 = 42 bits, 4TB.
                                                                  0x4 = 44 bits, 16TB.
                                                                  0x5 = 48 bits, 256TB.
-                                                                 0x6 = 52 bits, 4PB.
 
-                                                                 In CN8XXX, 48 bits.
-                                                                 In CN9XXX, 52 bits. */
+                                                                 In CNXXXX, 48 bits. */
 #else /* Word 0 - Little Endian */
         uint64_t parange               : 4;  /**< [  3:  0](RO) Physical address range supported.
                                                                  All other values are reserved.
@@ -15086,10 +12971,8 @@ typedef union
                                                                  0x3 = 42 bits, 4TB.
                                                                  0x4 = 44 bits, 16TB.
                                                                  0x5 = 48 bits, 256TB.
-                                                                 0x6 = 52 bits, 4PB.
 
-                                                                 In CN8XXX, 48 bits.
-                                                                 In CN9XXX, 52 bits. */
+                                                                 In CNXXXX, 48 bits. */
         uint64_t asidbits              : 4;  /**< [  7:  4](RO) Number of ASID bits.
                                                                  All other values are reserved.
                                                                  0x0 = 8 bits.
@@ -15144,137 +13027,7 @@ typedef union
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_ap_id_aa64mmfr0_el1_cn8
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t tgran4                : 4;  /**< [ 31: 28](RO) Support for 4KB memory translation granule size.
-                                                                 All other values are reserved.
-                                                                 0x0 = 4KB granule supported.
-                                                                 0XF = 4KB granule not supported.
-
-                                                                 In CNXXXX, supported. */
-        uint64_t tgran64               : 4;  /**< [ 27: 24](RO) Support for 64KB memory translation granule size.
-                                                                 All other values are reserved.
-                                                                 0x0 = 64KB granule supported.
-                                                                 0xF = 64KB granule not supported.
-
-                                                                 In CNXXXX, supported. */
-        uint64_t tgran16               : 4;  /**< [ 23: 20](RO) Support for 16KB memory translation granule size.
-                                                                 All other values are reserved.
-                                                                 0x0 = 16KB granule not supported.
-                                                                 0x1 = 16KB granule supported.
-
-                                                                 In CNXXXX, supported. */
-        uint64_t bigendel0             : 4;  /**< [ 19: 16](RO) Mixed-endian support at EL0 only.
-                                                                 All other values are reserved.
-                                                                 This field is invalid and is RES0 if the BigEnd field, bits
-                                                                     [11:8], is not 0x0.
-                                                                 0x0 = No mixed-endian support at EL0. The AP_SCTLR_EL1[E0E] bit has a
-                                                                     fixed value.
-                                                                 0x1 = Mixed-endian support at EL0. The AP_SCTLR_EL1[E0E] bit can be
-                                                                     configured.
-
-                                                                 In CNXXXX, supported. */
-        uint64_t snsmem                : 4;  /**< [ 15: 12](RO) Secure versus nonsecure memory distinction.
-                                                                 All other values are reserved.
-                                                                 0x0 = Does not support a distinction between secure and nonsecure
-                                                                     memory.
-                                                                 0x1 = Does support a distinction between secure and nonsecure
-                                                                     memory.
-
-                                                                 In CNXXXX, supported. */
-        uint64_t bigend                : 4;  /**< [ 11:  8](RO) Mixed-endian configuration support.
-                                                                 All other values are reserved.
-                                                                 0x0 = No mixed-endian support. The AP_SCTLR_ELx[EE] bits have a fixed
-                                                                     value. See the BigEndEL0 field, bits[19:16], for whether EL0
-                                                                     supports mixed-endian.
-                                                                 0x1 = Mixed-endian support. The AP_SCTLR_ELx[EE] and AP_SCTLR_EL1[E0E] bits
-                                                                     can be configured.
-
-                                                                 In CNXXXX, supported. */
-        uint64_t asidbits              : 4;  /**< [  7:  4](RO) Number of ASID bits.
-                                                                 All other values are reserved.
-                                                                 0x0 = 8 bits.
-                                                                 0x2 = 16 bits.
-
-                                                                 In CNXXXX, 16 bits. */
-        uint64_t parange               : 4;  /**< [  3:  0](RO) Physical address range supported.
-                                                                 All other values are reserved.
-                                                                 0x0 = 32 bits, 4GB.
-                                                                 0x1 = 36 bits, 64GB.
-                                                                 0x2 = 40 bits, 1TB.
-                                                                 0x3 = 42 bits, 4TB.
-                                                                 0x4 = 44 bits, 16TB.
-                                                                 0x5 = 48 bits, 256TB.
-
-                                                                 In CNXXXX, 48 bits. */
-#else /* Word 0 - Little Endian */
-        uint64_t parange               : 4;  /**< [  3:  0](RO) Physical address range supported.
-                                                                 All other values are reserved.
-                                                                 0x0 = 32 bits, 4GB.
-                                                                 0x1 = 36 bits, 64GB.
-                                                                 0x2 = 40 bits, 1TB.
-                                                                 0x3 = 42 bits, 4TB.
-                                                                 0x4 = 44 bits, 16TB.
-                                                                 0x5 = 48 bits, 256TB.
-
-                                                                 In CNXXXX, 48 bits. */
-        uint64_t asidbits              : 4;  /**< [  7:  4](RO) Number of ASID bits.
-                                                                 All other values are reserved.
-                                                                 0x0 = 8 bits.
-                                                                 0x2 = 16 bits.
-
-                                                                 In CNXXXX, 16 bits. */
-        uint64_t bigend                : 4;  /**< [ 11:  8](RO) Mixed-endian configuration support.
-                                                                 All other values are reserved.
-                                                                 0x0 = No mixed-endian support. The AP_SCTLR_ELx[EE] bits have a fixed
-                                                                     value. See the BigEndEL0 field, bits[19:16], for whether EL0
-                                                                     supports mixed-endian.
-                                                                 0x1 = Mixed-endian support. The AP_SCTLR_ELx[EE] and AP_SCTLR_EL1[E0E] bits
-                                                                     can be configured.
-
-                                                                 In CNXXXX, supported. */
-        uint64_t snsmem                : 4;  /**< [ 15: 12](RO) Secure versus nonsecure memory distinction.
-                                                                 All other values are reserved.
-                                                                 0x0 = Does not support a distinction between secure and nonsecure
-                                                                     memory.
-                                                                 0x1 = Does support a distinction between secure and nonsecure
-                                                                     memory.
-
-                                                                 In CNXXXX, supported. */
-        uint64_t bigendel0             : 4;  /**< [ 19: 16](RO) Mixed-endian support at EL0 only.
-                                                                 All other values are reserved.
-                                                                 This field is invalid and is RES0 if the BigEnd field, bits
-                                                                     [11:8], is not 0x0.
-                                                                 0x0 = No mixed-endian support at EL0. The AP_SCTLR_EL1[E0E] bit has a
-                                                                     fixed value.
-                                                                 0x1 = Mixed-endian support at EL0. The AP_SCTLR_EL1[E0E] bit can be
-                                                                     configured.
-
-                                                                 In CNXXXX, supported. */
-        uint64_t tgran16               : 4;  /**< [ 23: 20](RO) Support for 16KB memory translation granule size.
-                                                                 All other values are reserved.
-                                                                 0x0 = 16KB granule not supported.
-                                                                 0x1 = 16KB granule supported.
-
-                                                                 In CNXXXX, supported. */
-        uint64_t tgran64               : 4;  /**< [ 27: 24](RO) Support for 64KB memory translation granule size.
-                                                                 All other values are reserved.
-                                                                 0x0 = 64KB granule supported.
-                                                                 0xF = 64KB granule not supported.
-
-                                                                 In CNXXXX, supported. */
-        uint64_t tgran4                : 4;  /**< [ 31: 28](RO) Support for 4KB memory translation granule size.
-                                                                 All other values are reserved.
-                                                                 0x0 = 4KB granule supported.
-                                                                 0XF = 4KB granule not supported.
-
-                                                                 In CNXXXX, supported. */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } cn8;
-    /* struct bdk_ap_id_aa64mmfr0_el1_s cn9; */
+    /* struct bdk_ap_id_aa64mmfr0_el1_s cn; */
 } bdk_ap_id_aa64mmfr0_el1_t;
 
 #define BDK_AP_ID_AA64MMFR0_EL1 BDK_AP_ID_AA64MMFR0_EL1_FUNC()
@@ -15303,17 +13056,10 @@ typedef union
     struct bdk_ap_id_aa64mmfr1_el1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t xnx                   : 4;  /**< [ 31: 28](RO) 0x0 = EL0/EL1 execute control distinction at stage2 bit not supported.
-                                                                 0x1 = EL0/EL1 execute control distinction at stage2 bit supported.
-
-                                                                 All other values reserved. */
-        uint64_t reserved_24_27        : 4;
+        uint64_t reserved_24_63        : 40;
         uint64_t pan                   : 4;  /**< [ 23: 20](RO) V8.1: Privileged Access Never.
                                                                  0x0 = AP_PAN not supported.
                                                                  0x1 = AP_PAN supported.
-                                                                 0x2 = PAN supported and new AT S1E1RP and AT S1E1WP instructions supported
-
                                                                  All other values reserved.
 
                                                                  For CNXXXX, if AP_CVMCTL_EL1[ENABLE_V81] is set 0x1, else 0x0. */
@@ -15323,11 +13069,10 @@ typedef union
                                                                  0x1 = LORRegions supported.
 
                                                                  For CNXXXX, if AP_CVMCTL_EL1[ENABLE_V81] is set 0x1, else 0x0. */
-        uint64_t hd                    : 4;  /**< [ 15: 12](RO) V8.1: Hierarchical Permission Disables.
+        uint64_t hd                    : 4;  /**< [ 15: 12](RO) V8.1: Hierarchical Attribute Disables.
                                                                  All other values reserved.
-                                                                 0x0 = Hierarchical Permission Disables not supported.
-                                                                 0x1 = Hierarchical Permission Disables supported.
-                                                                 0x2 = Hierarchical Permission Disables and hardware allocation of bits[62:59] supported.
+                                                                 0x0 = Hierarchical Attribute Disables not supported.
+                                                                 0x1 = Hierarchical Attribute Disables supported.
 
                                                                  For CNXXXX, if AP_CVMCTL_EL1[ENABLE_V81] is set 0x1, else 0x0. */
         uint64_t vh                    : 4;  /**< [ 11:  8](RO) V8.1:  Virtualization Host Extensions.
@@ -15371,11 +13116,10 @@ typedef union
                                                                  0x1 = Virtualization Host Extensions supported.
 
                                                                  For CNXXXX, if AP_CVMCTL_EL1[ENABLE_V81] is set 0x1, else 0x0. */
-        uint64_t hd                    : 4;  /**< [ 15: 12](RO) V8.1: Hierarchical Permission Disables.
+        uint64_t hd                    : 4;  /**< [ 15: 12](RO) V8.1: Hierarchical Attribute Disables.
                                                                  All other values reserved.
-                                                                 0x0 = Hierarchical Permission Disables not supported.
-                                                                 0x1 = Hierarchical Permission Disables supported.
-                                                                 0x2 = Hierarchical Permission Disables and hardware allocation of bits[62:59] supported.
+                                                                 0x0 = Hierarchical Attribute Disables not supported.
+                                                                 0x1 = Hierarchical Attribute Disables supported.
 
                                                                  For CNXXXX, if AP_CVMCTL_EL1[ENABLE_V81] is set 0x1, else 0x0. */
         uint64_t lo                    : 4;  /**< [ 19: 16](RO) V8.1: Limited order regions
@@ -15387,104 +13131,13 @@ typedef union
         uint64_t pan                   : 4;  /**< [ 23: 20](RO) V8.1: Privileged Access Never.
                                                                  0x0 = AP_PAN not supported.
                                                                  0x1 = AP_PAN supported.
-                                                                 0x2 = PAN supported and new AT S1E1RP and AT S1E1WP instructions supported
-
                                                                  All other values reserved.
 
                                                                  For CNXXXX, if AP_CVMCTL_EL1[ENABLE_V81] is set 0x1, else 0x0. */
-        uint64_t reserved_24_27        : 4;
-        uint64_t xnx                   : 4;  /**< [ 31: 28](RO) 0x0 = EL0/EL1 execute control distinction at stage2 bit not supported.
-                                                                 0x1 = EL0/EL1 execute control distinction at stage2 bit supported.
-
-                                                                 All other values reserved. */
-        uint64_t reserved_32_63        : 32;
+        uint64_t reserved_24_63        : 40;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_ap_id_aa64mmfr1_el1_cn8
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_24_63        : 40;
-        uint64_t pan                   : 4;  /**< [ 23: 20](RO) V8.1: Privileged Access Never.
-                                                                 0x0 = AP_PAN not supported.
-                                                                 0x1 = AP_PAN supported.
-                                                                 All other values reserved.
-
-                                                                 For CNXXXX, if AP_CVMCTL_EL1[ENABLE_V81] is set 0x1, else 0x0. */
-        uint64_t lo                    : 4;  /**< [ 19: 16](RO) V8.1: Limited order regions
-                                                                 All other values reserved.
-                                                                 0x0 = LORRegions not supported.
-                                                                 0x1 = LORRegions supported.
-
-                                                                 For CNXXXX, if AP_CVMCTL_EL1[ENABLE_V81] is set 0x1, else 0x0. */
-        uint64_t hd                    : 4;  /**< [ 15: 12](RO) V8.1: Hierarchical Attribute Disables.
-                                                                 All other values reserved.
-                                                                 0x0 = Hierarchical Attribute Disables not supported.
-                                                                 0x1 = Hierarchical Attribute Disables supported.
-
-                                                                 For CNXXXX, if AP_CVMCTL_EL1[ENABLE_V81] is set 0x1, else 0x0. */
-        uint64_t vh                    : 4;  /**< [ 11:  8](RO) V8.1:  Virtualization Host Extensions.
-                                                                 All other values reserved.
-                                                                 0x0 = Virtualization Host Extensions are not supported.
-                                                                 0x1 = Virtualization Host Extensions supported.
-
-                                                                 For CNXXXX, if AP_CVMCTL_EL1[ENABLE_V81] is set 0x1, else 0x0. */
-        uint64_t vmidbits              : 4;  /**< [  7:  4](RO) V8.1: Number of VMID bits.
-                                                                 Other values are reserved.
-                                                                 0x0 = 8 bits.
-                                                                 0x1 = Reserved.
-                                                                 0x2 = 16 bits.
-
-                                                                 In CNXXXX, 16 bits. */
-        uint64_t hardware_access_dirty : 4;  /**< [  3:  0](RO) V8.1: Hardware updates of the Access and Dirty bits
-                                                                 All other fields reserved.
-                                                                 0x0 = no hardware update of the access and dirty bits supported in hardware.
-                                                                 0x1 = hardware update of the access bit supported in hardware.
-                                                                 0x2 = hardware update of both the access and dirty bits supported in hardware.
-
-                                                                 In CNXXXX not supported. */
-#else /* Word 0 - Little Endian */
-        uint64_t hardware_access_dirty : 4;  /**< [  3:  0](RO) V8.1: Hardware updates of the Access and Dirty bits
-                                                                 All other fields reserved.
-                                                                 0x0 = no hardware update of the access and dirty bits supported in hardware.
-                                                                 0x1 = hardware update of the access bit supported in hardware.
-                                                                 0x2 = hardware update of both the access and dirty bits supported in hardware.
-
-                                                                 In CNXXXX not supported. */
-        uint64_t vmidbits              : 4;  /**< [  7:  4](RO) V8.1: Number of VMID bits.
-                                                                 Other values are reserved.
-                                                                 0x0 = 8 bits.
-                                                                 0x1 = Reserved.
-                                                                 0x2 = 16 bits.
-
-                                                                 In CNXXXX, 16 bits. */
-        uint64_t vh                    : 4;  /**< [ 11:  8](RO) V8.1:  Virtualization Host Extensions.
-                                                                 All other values reserved.
-                                                                 0x0 = Virtualization Host Extensions are not supported.
-                                                                 0x1 = Virtualization Host Extensions supported.
-
-                                                                 For CNXXXX, if AP_CVMCTL_EL1[ENABLE_V81] is set 0x1, else 0x0. */
-        uint64_t hd                    : 4;  /**< [ 15: 12](RO) V8.1: Hierarchical Attribute Disables.
-                                                                 All other values reserved.
-                                                                 0x0 = Hierarchical Attribute Disables not supported.
-                                                                 0x1 = Hierarchical Attribute Disables supported.
-
-                                                                 For CNXXXX, if AP_CVMCTL_EL1[ENABLE_V81] is set 0x1, else 0x0. */
-        uint64_t lo                    : 4;  /**< [ 19: 16](RO) V8.1: Limited order regions
-                                                                 All other values reserved.
-                                                                 0x0 = LORRegions not supported.
-                                                                 0x1 = LORRegions supported.
-
-                                                                 For CNXXXX, if AP_CVMCTL_EL1[ENABLE_V81] is set 0x1, else 0x0. */
-        uint64_t pan                   : 4;  /**< [ 23: 20](RO) V8.1: Privileged Access Never.
-                                                                 0x0 = AP_PAN not supported.
-                                                                 0x1 = AP_PAN supported.
-                                                                 All other values reserved.
-
-                                                                 For CNXXXX, if AP_CVMCTL_EL1[ENABLE_V81] is set 0x1, else 0x0. */
-        uint64_t reserved_24_63        : 40;
-#endif /* Word 0 - End */
-    } cn8;
-    /* struct bdk_ap_id_aa64mmfr1_el1_s cn9; */
+    /* struct bdk_ap_id_aa64mmfr1_el1_s cn; */
 } bdk_ap_id_aa64mmfr1_el1_t;
 
 #define BDK_AP_ID_AA64MMFR1_EL1 BDK_AP_ID_AA64MMFR1_EL1_FUNC()
@@ -15499,78 +13152,6 @@ static inline uint64_t BDK_AP_ID_AA64MMFR1_EL1_FUNC(void)
 #define basename_BDK_AP_ID_AA64MMFR1_EL1 "AP_ID_AA64MMFR1_EL1"
 #define busnum_BDK_AP_ID_AA64MMFR1_EL1 0
 #define arguments_BDK_AP_ID_AA64MMFR1_EL1 -1,-1,-1,-1
-
-/**
- * Register (SYSREG) ap_id_aa64mmfr2_el1
- *
- * AP AArch64 Memory Model Feature Register 2
- * This register contains additional information about the implemented memory model and
- * memory management support in AArch64.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_ap_id_aa64mmfr2_el1_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_20_63        : 44;
-        uint64_t varange               : 4;  /**< [ 19: 16](RO) 0x0 = 48 bits of VA for each translation table page register (for 64Kbyte
-                                                                 stage1 pages) are supported.
-                                                                 0x1 = 52 bits of VA for each translation table page register (for 64Kbyte
-                                                                 stage1 pages) are supported. */
-        uint64_t iesb                  : 4;  /**< [ 15: 12](RO) 0x0 = Not implemented.
-                                                                 0x1 = SCTLR_ELx.IESB implicit error synchronization barrier control implemented. */
-        uint64_t lsm                   : 4;  /**< [ 11:  8](RO) 0x0 = LSMAOE and nTLSMD bit not supported.
-                                                                 0x1 = LSMAOE and nTLSMD bit supported.
-
-                                                                 All other values reserved. */
-        uint64_t uao                   : 4;  /**< [  7:  4](RO) 0x0 = UAO not supported.
-                                                                 0x1 = UAO supported.
-
-                                                                 All other values reserved. */
-        uint64_t cnp                   : 4;  /**< [  3:  0](RO) 0x0 = CnP bit not supported.
-                                                                 0x1 = CnP bit supported.
-
-                                                                 All other values reserved. */
-#else /* Word 0 - Little Endian */
-        uint64_t cnp                   : 4;  /**< [  3:  0](RO) 0x0 = CnP bit not supported.
-                                                                 0x1 = CnP bit supported.
-
-                                                                 All other values reserved. */
-        uint64_t uao                   : 4;  /**< [  7:  4](RO) 0x0 = UAO not supported.
-                                                                 0x1 = UAO supported.
-
-                                                                 All other values reserved. */
-        uint64_t lsm                   : 4;  /**< [ 11:  8](RO) 0x0 = LSMAOE and nTLSMD bit not supported.
-                                                                 0x1 = LSMAOE and nTLSMD bit supported.
-
-                                                                 All other values reserved. */
-        uint64_t iesb                  : 4;  /**< [ 15: 12](RO) 0x0 = Not implemented.
-                                                                 0x1 = SCTLR_ELx.IESB implicit error synchronization barrier control implemented. */
-        uint64_t varange               : 4;  /**< [ 19: 16](RO) 0x0 = 48 bits of VA for each translation table page register (for 64Kbyte
-                                                                 stage1 pages) are supported.
-                                                                 0x1 = 52 bits of VA for each translation table page register (for 64Kbyte
-                                                                 stage1 pages) are supported. */
-        uint64_t reserved_20_63        : 44;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_ap_id_aa64mmfr2_el1_s cn; */
-} bdk_ap_id_aa64mmfr2_el1_t;
-
-#define BDK_AP_ID_AA64MMFR2_EL1 BDK_AP_ID_AA64MMFR2_EL1_FUNC()
-static inline uint64_t BDK_AP_ID_AA64MMFR2_EL1_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_AP_ID_AA64MMFR2_EL1_FUNC(void)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x30000070200ll;
-    __bdk_csr_fatal("AP_ID_AA64MMFR2_EL1", 0, 0, 0, 0, 0);
-}
-
-#define typedef_BDK_AP_ID_AA64MMFR2_EL1 bdk_ap_id_aa64mmfr2_el1_t
-#define bustype_BDK_AP_ID_AA64MMFR2_EL1 BDK_CSR_TYPE_SYSREG
-#define basename_BDK_AP_ID_AA64MMFR2_EL1 "AP_ID_AA64MMFR2_EL1"
-#define busnum_BDK_AP_ID_AA64MMFR2_EL1 0
-#define arguments_BDK_AP_ID_AA64MMFR2_EL1 -1,-1,-1,-1
 
 /**
  * Register (SYSREG) ap_id_aa64pfr#_el1_res0
@@ -16542,797 +14123,96 @@ typedef union
     struct bdk_ap_mair_elx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_0_63         : 64;
+        uint64_t attr_n                : 64; /**< [ 63:  0](R/W) The memory attribute encoding for an AttrIndx[2:0] entry in a
+                                                                     Long descriptor format translation table entry, where
+                                                                     AttrIndx[2:0] gives the value of <n> in Attr<n>.
+
+                                                                 Bits [7:4] are encoded as follows:
+
+                                                                 Attr<n>[7:4]        Meaning
+                                                                 0b0000      Device memory. See encoding of Attr<n>[3:0] for the type of Device memory.
+                                                                 0b00RW0b00  Normal Memory, Outer Write-through transient
+                                                                 0b0100      Normal Memory, Outer Non-Cacheable
+                                                                 0b01RW0b00  Normal Memory, Outer Write-back transient
+                                                                 0b10RW      Normal Memory, Outer Write-through non-transient
+                                                                 0b11RW      Normal Memory, Outer Write-back non-transient
+
+                                                                 R = Outer Read Allocate Policy, W = Outer Write Allocate
+                                                                     Policy.
+
+                                                                 The meaning of bits [3:0] depends on the value of bits [7:4]:
+
+                                                                 Attr<n>[3:0]        Meaning when Attr<n>[7:4] is 0000       Meaning when Attr<n>[7:4] is
+                                                                 not 0000
+                                                                 0b0000      Device-nGnRnE memory     UNPREDICTABLE
+                                                                 0b00RW0b00   UNPREDICTABLE  Normal Memory, Inner Write-through transient
+                                                                 0b0100      Device-nGnRE memory     Normal memory, Inner Non-Cacheable
+                                                                 0b01RW0b00   UNPREDICTABLE  Normal Memory, Inner Write-back transient
+                                                                 0b1000      Device-nGRE memory      Normal Memory, Inner Write-through non-transient
+                                                                 (RW=00)
+                                                                 0b10RW0b00   UNPREDICTABLE  Normal Memory, Inner Write-through non-transient
+                                                                 0b1100      Device-GRE memory       Normal Memory, Inner Write-back non-transient (RW=00)
+                                                                 0b11RW0b00   UNPREDICTABLE  Normal Memory, Inner Write-back non-transient
+
+                                                                 R = Inner Read Allocate Policy, W = Inner Write Allocate
+                                                                     Policy.
+
+                                                                 ARMv7's Strongly-ordered and Device memory types have been
+                                                                     renamed to Device-nGnRnE and Device-nGnRE in ARMv8.
+
+                                                                 The R and W bits in some Attr<n> fields have the following
+                                                                     meanings:
+
+                                                                 R or W      Meaning
+                                                                 0 = Do not allocate.
+                                                                 1 = Allocate. */
 #else /* Word 0 - Little Endian */
-        uint64_t reserved_0_63         : 64;
+        uint64_t attr_n                : 64; /**< [ 63:  0](R/W) The memory attribute encoding for an AttrIndx[2:0] entry in a
+                                                                     Long descriptor format translation table entry, where
+                                                                     AttrIndx[2:0] gives the value of <n> in Attr<n>.
+
+                                                                 Bits [7:4] are encoded as follows:
+
+                                                                 Attr<n>[7:4]        Meaning
+                                                                 0b0000      Device memory. See encoding of Attr<n>[3:0] for the type of Device memory.
+                                                                 0b00RW0b00  Normal Memory, Outer Write-through transient
+                                                                 0b0100      Normal Memory, Outer Non-Cacheable
+                                                                 0b01RW0b00  Normal Memory, Outer Write-back transient
+                                                                 0b10RW      Normal Memory, Outer Write-through non-transient
+                                                                 0b11RW      Normal Memory, Outer Write-back non-transient
+
+                                                                 R = Outer Read Allocate Policy, W = Outer Write Allocate
+                                                                     Policy.
+
+                                                                 The meaning of bits [3:0] depends on the value of bits [7:4]:
+
+                                                                 Attr<n>[3:0]        Meaning when Attr<n>[7:4] is 0000       Meaning when Attr<n>[7:4] is
+                                                                 not 0000
+                                                                 0b0000      Device-nGnRnE memory     UNPREDICTABLE
+                                                                 0b00RW0b00   UNPREDICTABLE  Normal Memory, Inner Write-through transient
+                                                                 0b0100      Device-nGnRE memory     Normal memory, Inner Non-Cacheable
+                                                                 0b01RW0b00   UNPREDICTABLE  Normal Memory, Inner Write-back transient
+                                                                 0b1000      Device-nGRE memory      Normal Memory, Inner Write-through non-transient
+                                                                 (RW=00)
+                                                                 0b10RW0b00   UNPREDICTABLE  Normal Memory, Inner Write-through non-transient
+                                                                 0b1100      Device-GRE memory       Normal Memory, Inner Write-back non-transient (RW=00)
+                                                                 0b11RW0b00   UNPREDICTABLE  Normal Memory, Inner Write-back non-transient
+
+                                                                 R = Inner Read Allocate Policy, W = Inner Write Allocate
+                                                                     Policy.
+
+                                                                 ARMv7's Strongly-ordered and Device memory types have been
+                                                                     renamed to Device-nGnRnE and Device-nGnRE in ARMv8.
+
+                                                                 The R and W bits in some Attr<n> fields have the following
+                                                                     meanings:
+
+                                                                 R or W      Meaning
+                                                                 0 = Do not allocate.
+                                                                 1 = Allocate. */
 #endif /* Word 0 - End */
     } s;
-    struct bdk_ap_mair_elx_cn8
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t attr_n                : 64; /**< [ 63:  0](R/W) The memory attribute encoding for an AttrIndx[2:0] entry in a
-                                                                     Long descriptor format translation table entry, where
-                                                                     AttrIndx[2:0] gives the value of <n> in Attr<n>.
-
-                                                                 Bits [7:4] are encoded as follows:
-
-                                                                 Attr<n>[7:4]        Meaning
-                                                                 0b0000      Device memory. See encoding of Attr<n>[3:0] for the type of Device memory.
-                                                                 0b00RW0b00  Normal Memory, Outer Write-through transient
-                                                                 0b0100      Normal Memory, Outer Non-Cacheable
-                                                                 0b01RW0b00  Normal Memory, Outer Write-back transient
-                                                                 0b10RW      Normal Memory, Outer Write-through non-transient
-                                                                 0b11RW      Normal Memory, Outer Write-back non-transient
-
-                                                                 R = Outer Read Allocate Policy, W = Outer Write Allocate
-                                                                     Policy.
-
-                                                                 The meaning of bits [3:0] depends on the value of bits [7:4]:
-
-                                                                 Attr<n>[3:0]        Meaning when Attr<n>[7:4] is 0000       Meaning when Attr<n>[7:4] is
-                                                                 not 0000
-                                                                 0b0000      Device-nGnRnE memory     UNPREDICTABLE
-                                                                 0b00RW0b00   UNPREDICTABLE  Normal Memory, Inner Write-through transient
-                                                                 0b0100      Device-nGnRE memory     Normal memory, Inner Non-Cacheable
-                                                                 0b01RW0b00   UNPREDICTABLE  Normal Memory, Inner Write-back transient
-                                                                 0b1000      Device-nGRE memory      Normal Memory, Inner Write-through non-transient
-                                                                 (RW=00)
-                                                                 0b10RW0b00   UNPREDICTABLE  Normal Memory, Inner Write-through non-transient
-                                                                 0b1100      Device-GRE memory       Normal Memory, Inner Write-back non-transient (RW=00)
-                                                                 0b11RW0b00   UNPREDICTABLE  Normal Memory, Inner Write-back non-transient
-
-                                                                 R = Inner Read Allocate Policy, W = Inner Write Allocate
-                                                                     Policy.
-
-                                                                 ARMv7's Strongly-ordered and Device memory types have been
-                                                                     renamed to Device-nGnRnE and Device-nGnRE in ARMv8.
-
-                                                                 The R and W bits in some Attr<n> fields have the following
-                                                                     meanings:
-
-                                                                 R or W      Meaning
-                                                                 0 = Do not allocate.
-                                                                 1 = Allocate. */
-#else /* Word 0 - Little Endian */
-        uint64_t attr_n                : 64; /**< [ 63:  0](R/W) The memory attribute encoding for an AttrIndx[2:0] entry in a
-                                                                     Long descriptor format translation table entry, where
-                                                                     AttrIndx[2:0] gives the value of <n> in Attr<n>.
-
-                                                                 Bits [7:4] are encoded as follows:
-
-                                                                 Attr<n>[7:4]        Meaning
-                                                                 0b0000      Device memory. See encoding of Attr<n>[3:0] for the type of Device memory.
-                                                                 0b00RW0b00  Normal Memory, Outer Write-through transient
-                                                                 0b0100      Normal Memory, Outer Non-Cacheable
-                                                                 0b01RW0b00  Normal Memory, Outer Write-back transient
-                                                                 0b10RW      Normal Memory, Outer Write-through non-transient
-                                                                 0b11RW      Normal Memory, Outer Write-back non-transient
-
-                                                                 R = Outer Read Allocate Policy, W = Outer Write Allocate
-                                                                     Policy.
-
-                                                                 The meaning of bits [3:0] depends on the value of bits [7:4]:
-
-                                                                 Attr<n>[3:0]        Meaning when Attr<n>[7:4] is 0000       Meaning when Attr<n>[7:4] is
-                                                                 not 0000
-                                                                 0b0000      Device-nGnRnE memory     UNPREDICTABLE
-                                                                 0b00RW0b00   UNPREDICTABLE  Normal Memory, Inner Write-through transient
-                                                                 0b0100      Device-nGnRE memory     Normal memory, Inner Non-Cacheable
-                                                                 0b01RW0b00   UNPREDICTABLE  Normal Memory, Inner Write-back transient
-                                                                 0b1000      Device-nGRE memory      Normal Memory, Inner Write-through non-transient
-                                                                 (RW=00)
-                                                                 0b10RW0b00   UNPREDICTABLE  Normal Memory, Inner Write-through non-transient
-                                                                 0b1100      Device-GRE memory       Normal Memory, Inner Write-back non-transient (RW=00)
-                                                                 0b11RW0b00   UNPREDICTABLE  Normal Memory, Inner Write-back non-transient
-
-                                                                 R = Inner Read Allocate Policy, W = Inner Write Allocate
-                                                                     Policy.
-
-                                                                 ARMv7's Strongly-ordered and Device memory types have been
-                                                                     renamed to Device-nGnRnE and Device-nGnRE in ARMv8.
-
-                                                                 The R and W bits in some Attr<n> fields have the following
-                                                                     meanings:
-
-                                                                 R or W      Meaning
-                                                                 0 = Do not allocate.
-                                                                 1 = Allocate. */
-#endif /* Word 0 - End */
-    } cn8;
-    struct bdk_ap_mair_elx_cn9
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t attr7                 : 8;  /**< [ 63: 56](R/W) The memory attribute encoding for an AttrIndx[2:0] entry in a
-                                                                     Long descriptor format translation table entry, where
-                                                                     AttrIndx[2:0] gives the value of <n> in Attr<n>.
-
-                                                                 Bits [7:4] are encoded as follows:
-
-                                                                 Attr<n>[7:4]        Meaning
-                                                                 0b0000      Device memory. See encoding of Attr<n>[3:0] for the type of Device memory.
-                                                                 0b00RW0b00  Normal Memory, Outer Write-through transient
-                                                                 0b0100      Normal Memory, Outer Non-Cacheable
-                                                                 0b01RW0b00  Normal Memory, Outer Write-back transient
-                                                                 0b10RW      Normal Memory, Outer Write-through non-transient
-                                                                 0b11RW      Normal Memory, Outer Write-back non-transient
-
-                                                                 R = Outer Read Allocate Policy, W = Outer Write Allocate
-                                                                     Policy.
-
-                                                                 The meaning of bits [3:0] depends on the value of bits [7:4]:
-
-                                                                 Attr<n>[3:0]        Meaning when Attr<n>[7:4] is 0000       Meaning when Attr<n>[7:4] is
-                                                                 not 0000
-                                                                 0b0000      Device-nGnRnE memory     UNPREDICTABLE
-                                                                 0b00RW0b00   UNPREDICTABLE  Normal Memory, Inner Write-through transient
-                                                                 0b0100      Device-nGnRE memory     Normal memory, Inner Non-Cacheable
-                                                                 0b01RW0b00   UNPREDICTABLE  Normal Memory, Inner Write-back transient
-                                                                 0b1000      Device-nGRE memory      Normal Memory, Inner Write-through non-transient
-                                                                 (RW=00)
-                                                                 0b10RW0b00   UNPREDICTABLE  Normal Memory, Inner Write-through non-transient
-                                                                 0b1100      Device-GRE memory       Normal Memory, Inner Write-back non-transient (RW=00)
-                                                                 0b11RW0b00   UNPREDICTABLE  Normal Memory, Inner Write-back non-transient
-
-                                                                 R = Inner Read Allocate Policy, W = Inner Write Allocate
-                                                                     Policy.
-
-                                                                 ARMv7's Strongly-ordered and Device memory types have been
-                                                                     renamed to Device-nGnRnE and Device-nGnRE in ARMv8.
-
-                                                                 The R and W bits in some Attr<n> fields have the following
-                                                                     meanings:
-
-                                                                 R or W      Meaning
-                                                                 0 = Do not allocate.
-                                                                 1 = Allocate. */
-        uint64_t attr6                 : 8;  /**< [ 55: 48](R/W) The memory attribute encoding for an AttrIndx[2:0] entry in a
-                                                                     Long descriptor format translation table entry, where
-                                                                     AttrIndx[2:0] gives the value of <n> in Attr<n>.
-
-                                                                 Bits [7:4] are encoded as follows:
-
-                                                                 Attr<n>[7:4]        Meaning
-                                                                 0b0000      Device memory. See encoding of Attr<n>[3:0] for the type of Device memory.
-                                                                 0b00RW0b00  Normal Memory, Outer Write-through transient
-                                                                 0b0100      Normal Memory, Outer Non-Cacheable
-                                                                 0b01RW0b00  Normal Memory, Outer Write-back transient
-                                                                 0b10RW      Normal Memory, Outer Write-through non-transient
-                                                                 0b11RW      Normal Memory, Outer Write-back non-transient
-
-                                                                 R = Outer Read Allocate Policy, W = Outer Write Allocate
-                                                                     Policy.
-
-                                                                 The meaning of bits [3:0] depends on the value of bits [7:4]:
-
-                                                                 Attr<n>[3:0]        Meaning when Attr<n>[7:4] is 0000       Meaning when Attr<n>[7:4] is
-                                                                 not 0000
-                                                                 0b0000      Device-nGnRnE memory     UNPREDICTABLE
-                                                                 0b00RW0b00   UNPREDICTABLE  Normal Memory, Inner Write-through transient
-                                                                 0b0100      Device-nGnRE memory     Normal memory, Inner Non-Cacheable
-                                                                 0b01RW0b00   UNPREDICTABLE  Normal Memory, Inner Write-back transient
-                                                                 0b1000      Device-nGRE memory      Normal Memory, Inner Write-through non-transient
-                                                                 (RW=00)
-                                                                 0b10RW0b00   UNPREDICTABLE  Normal Memory, Inner Write-through non-transient
-                                                                 0b1100      Device-GRE memory       Normal Memory, Inner Write-back non-transient (RW=00)
-                                                                 0b11RW0b00   UNPREDICTABLE  Normal Memory, Inner Write-back non-transient
-
-                                                                 R = Inner Read Allocate Policy, W = Inner Write Allocate
-                                                                     Policy.
-
-                                                                 ARMv7's Strongly-ordered and Device memory types have been
-                                                                     renamed to Device-nGnRnE and Device-nGnRE in ARMv8.
-
-                                                                 The R and W bits in some Attr<n> fields have the following
-                                                                     meanings:
-
-                                                                 R or W      Meaning
-                                                                 0 = Do not allocate.
-                                                                 1 = Allocate. */
-        uint64_t attr5                 : 8;  /**< [ 47: 40](R/W) The memory attribute encoding for an AttrIndx[2:0] entry in a
-                                                                     Long descriptor format translation table entry, where
-                                                                     AttrIndx[2:0] gives the value of <n> in Attr<n>.
-
-                                                                 Bits [7:4] are encoded as follows:
-
-                                                                 Attr<n>[7:4]        Meaning
-                                                                 0b0000      Device memory. See encoding of Attr<n>[3:0] for the type of Device memory.
-                                                                 0b00RW0b00  Normal Memory, Outer Write-through transient
-                                                                 0b0100      Normal Memory, Outer Non-Cacheable
-                                                                 0b01RW0b00  Normal Memory, Outer Write-back transient
-                                                                 0b10RW      Normal Memory, Outer Write-through non-transient
-                                                                 0b11RW      Normal Memory, Outer Write-back non-transient
-
-                                                                 R = Outer Read Allocate Policy, W = Outer Write Allocate
-                                                                     Policy.
-
-                                                                 The meaning of bits [3:0] depends on the value of bits [7:4]:
-
-                                                                 Attr<n>[3:0]        Meaning when Attr<n>[7:4] is 0000       Meaning when Attr<n>[7:4] is
-                                                                 not 0000
-                                                                 0b0000      Device-nGnRnE memory     UNPREDICTABLE
-                                                                 0b00RW0b00   UNPREDICTABLE  Normal Memory, Inner Write-through transient
-                                                                 0b0100      Device-nGnRE memory     Normal memory, Inner Non-Cacheable
-                                                                 0b01RW0b00   UNPREDICTABLE  Normal Memory, Inner Write-back transient
-                                                                 0b1000      Device-nGRE memory      Normal Memory, Inner Write-through non-transient
-                                                                 (RW=00)
-                                                                 0b10RW0b00   UNPREDICTABLE  Normal Memory, Inner Write-through non-transient
-                                                                 0b1100      Device-GRE memory       Normal Memory, Inner Write-back non-transient (RW=00)
-                                                                 0b11RW0b00   UNPREDICTABLE  Normal Memory, Inner Write-back non-transient
-
-                                                                 R = Inner Read Allocate Policy, W = Inner Write Allocate
-                                                                     Policy.
-
-                                                                 ARMv7's Strongly-ordered and Device memory types have been
-                                                                     renamed to Device-nGnRnE and Device-nGnRE in ARMv8.
-
-                                                                 The R and W bits in some Attr<n> fields have the following
-                                                                     meanings:
-
-                                                                 R or W      Meaning
-                                                                 0 = Do not allocate.
-                                                                 1 = Allocate. */
-        uint64_t attr4                 : 8;  /**< [ 39: 32](R/W) The memory attribute encoding for an AttrIndx[2:0] entry in a
-                                                                     Long descriptor format translation table entry, where
-                                                                     AttrIndx[2:0] gives the value of <n> in Attr<n>.
-
-                                                                 Bits [7:4] are encoded as follows:
-
-                                                                 Attr<n>[7:4]        Meaning
-                                                                 0b0000      Device memory. See encoding of Attr<n>[3:0] for the type of Device memory.
-                                                                 0b00RW0b00  Normal Memory, Outer Write-through transient
-                                                                 0b0100      Normal Memory, Outer Non-Cacheable
-                                                                 0b01RW0b00  Normal Memory, Outer Write-back transient
-                                                                 0b10RW      Normal Memory, Outer Write-through non-transient
-                                                                 0b11RW      Normal Memory, Outer Write-back non-transient
-
-                                                                 R = Outer Read Allocate Policy, W = Outer Write Allocate
-                                                                     Policy.
-
-                                                                 The meaning of bits [3:0] depends on the value of bits [7:4]:
-
-                                                                 Attr<n>[3:0]        Meaning when Attr<n>[7:4] is 0000       Meaning when Attr<n>[7:4] is
-                                                                 not 0000
-                                                                 0b0000      Device-nGnRnE memory     UNPREDICTABLE
-                                                                 0b00RW0b00   UNPREDICTABLE  Normal Memory, Inner Write-through transient
-                                                                 0b0100      Device-nGnRE memory     Normal memory, Inner Non-Cacheable
-                                                                 0b01RW0b00   UNPREDICTABLE  Normal Memory, Inner Write-back transient
-                                                                 0b1000      Device-nGRE memory      Normal Memory, Inner Write-through non-transient
-                                                                 (RW=00)
-                                                                 0b10RW0b00   UNPREDICTABLE  Normal Memory, Inner Write-through non-transient
-                                                                 0b1100      Device-GRE memory       Normal Memory, Inner Write-back non-transient (RW=00)
-                                                                 0b11RW0b00   UNPREDICTABLE  Normal Memory, Inner Write-back non-transient
-
-                                                                 R = Inner Read Allocate Policy, W = Inner Write Allocate
-                                                                     Policy.
-
-                                                                 ARMv7's Strongly-ordered and Device memory types have been
-                                                                     renamed to Device-nGnRnE and Device-nGnRE in ARMv8.
-
-                                                                 The R and W bits in some Attr<n> fields have the following
-                                                                     meanings:
-
-                                                                 R or W      Meaning
-                                                                 0 = Do not allocate.
-                                                                 1 = Allocate. */
-        uint64_t attr3                 : 8;  /**< [ 31: 24](R/W) The memory attribute encoding for an AttrIndx[2:0] entry in a
-                                                                     Long descriptor format translation table entry, where
-                                                                     AttrIndx[2:0] gives the value of <n> in Attr<n>.
-
-                                                                 Bits [7:4] are encoded as follows:
-
-                                                                 Attr<n>[7:4]        Meaning
-                                                                 0b0000      Device memory. See encoding of Attr<n>[3:0] for the type of Device memory.
-                                                                 0b00RW0b00  Normal Memory, Outer Write-through transient
-                                                                 0b0100      Normal Memory, Outer Non-Cacheable
-                                                                 0b01RW0b00  Normal Memory, Outer Write-back transient
-                                                                 0b10RW      Normal Memory, Outer Write-through non-transient
-                                                                 0b11RW      Normal Memory, Outer Write-back non-transient
-
-                                                                 R = Outer Read Allocate Policy, W = Outer Write Allocate
-                                                                     Policy.
-
-                                                                 The meaning of bits [3:0] depends on the value of bits [7:4]:
-
-                                                                 Attr<n>[3:0]        Meaning when Attr<n>[7:4] is 0000       Meaning when Attr<n>[7:4] is
-                                                                 not 0000
-                                                                 0b0000      Device-nGnRnE memory     UNPREDICTABLE
-                                                                 0b00RW0b00   UNPREDICTABLE  Normal Memory, Inner Write-through transient
-                                                                 0b0100      Device-nGnRE memory     Normal memory, Inner Non-Cacheable
-                                                                 0b01RW0b00   UNPREDICTABLE  Normal Memory, Inner Write-back transient
-                                                                 0b1000      Device-nGRE memory      Normal Memory, Inner Write-through non-transient
-                                                                 (RW=00)
-                                                                 0b10RW0b00   UNPREDICTABLE  Normal Memory, Inner Write-through non-transient
-                                                                 0b1100      Device-GRE memory       Normal Memory, Inner Write-back non-transient (RW=00)
-                                                                 0b11RW0b00   UNPREDICTABLE  Normal Memory, Inner Write-back non-transient
-
-                                                                 R = Inner Read Allocate Policy, W = Inner Write Allocate
-                                                                     Policy.
-
-                                                                 ARMv7's Strongly-ordered and Device memory types have been
-                                                                     renamed to Device-nGnRnE and Device-nGnRE in ARMv8.
-
-                                                                 The R and W bits in some Attr<n> fields have the following
-                                                                     meanings:
-
-                                                                 R or W      Meaning
-                                                                 0 = Do not allocate.
-                                                                 1 = Allocate. */
-        uint64_t attr2                 : 8;  /**< [ 23: 16](R/W) The memory attribute encoding for an AttrIndx[2:0] entry in a
-                                                                     Long descriptor format translation table entry, where
-                                                                     AttrIndx[2:0] gives the value of <n> in Attr<n>.
-
-                                                                 Bits [7:4] are encoded as follows:
-
-                                                                 Attr<n>[7:4]        Meaning
-                                                                 0b0000      Device memory. See encoding of Attr<n>[3:0] for the type of Device memory.
-                                                                 0b00RW0b00  Normal Memory, Outer Write-through transient
-                                                                 0b0100      Normal Memory, Outer Non-Cacheable
-                                                                 0b01RW0b00  Normal Memory, Outer Write-back transient
-                                                                 0b10RW      Normal Memory, Outer Write-through non-transient
-                                                                 0b11RW      Normal Memory, Outer Write-back non-transient
-
-                                                                 R = Outer Read Allocate Policy, W = Outer Write Allocate
-                                                                     Policy.
-
-                                                                 The meaning of bits [3:0] depends on the value of bits [7:4]:
-
-                                                                 Attr<n>[3:0]        Meaning when Attr<n>[7:4] is 0000       Meaning when Attr<n>[7:4] is
-                                                                 not 0000
-                                                                 0b0000      Device-nGnRnE memory     UNPREDICTABLE
-                                                                 0b00RW0b00   UNPREDICTABLE  Normal Memory, Inner Write-through transient
-                                                                 0b0100      Device-nGnRE memory     Normal memory, Inner Non-Cacheable
-                                                                 0b01RW0b00   UNPREDICTABLE  Normal Memory, Inner Write-back transient
-                                                                 0b1000      Device-nGRE memory      Normal Memory, Inner Write-through non-transient
-                                                                 (RW=00)
-                                                                 0b10RW0b00   UNPREDICTABLE  Normal Memory, Inner Write-through non-transient
-                                                                 0b1100      Device-GRE memory       Normal Memory, Inner Write-back non-transient (RW=00)
-                                                                 0b11RW0b00   UNPREDICTABLE  Normal Memory, Inner Write-back non-transient
-
-                                                                 R = Inner Read Allocate Policy, W = Inner Write Allocate
-                                                                     Policy.
-
-                                                                 ARMv7's Strongly-ordered and Device memory types have been
-                                                                     renamed to Device-nGnRnE and Device-nGnRE in ARMv8.
-
-                                                                 The R and W bits in some Attr<n> fields have the following
-                                                                     meanings:
-
-                                                                 R or W      Meaning
-                                                                 0 = Do not allocate.
-                                                                 1 = Allocate. */
-        uint64_t attr1                 : 8;  /**< [ 15:  8](R/W) The memory attribute encoding for an AttrIndx[2:0] entry in a
-                                                                     Long descriptor format translation table entry, where
-                                                                     AttrIndx[2:0] gives the value of <n> in Attr<n>.
-
-                                                                 Bits [7:4] are encoded as follows:
-
-                                                                 Attr<n>[7:4]        Meaning
-                                                                 0b0000      Device memory. See encoding of Attr<n>[3:0] for the type of Device memory.
-                                                                 0b00RW0b00  Normal Memory, Outer Write-through transient
-                                                                 0b0100      Normal Memory, Outer Non-Cacheable
-                                                                 0b01RW0b00  Normal Memory, Outer Write-back transient
-                                                                 0b10RW      Normal Memory, Outer Write-through non-transient
-                                                                 0b11RW      Normal Memory, Outer Write-back non-transient
-
-                                                                 R = Outer Read Allocate Policy, W = Outer Write Allocate
-                                                                     Policy.
-
-                                                                 The meaning of bits [3:0] depends on the value of bits [7:4]:
-
-                                                                 Attr<n>[3:0]        Meaning when Attr<n>[7:4] is 0000       Meaning when Attr<n>[7:4] is
-                                                                 not 0000
-                                                                 0b0000      Device-nGnRnE memory     UNPREDICTABLE
-                                                                 0b00RW0b00   UNPREDICTABLE  Normal Memory, Inner Write-through transient
-                                                                 0b0100      Device-nGnRE memory     Normal memory, Inner Non-Cacheable
-                                                                 0b01RW0b00   UNPREDICTABLE  Normal Memory, Inner Write-back transient
-                                                                 0b1000      Device-nGRE memory      Normal Memory, Inner Write-through non-transient
-                                                                 (RW=00)
-                                                                 0b10RW0b00   UNPREDICTABLE  Normal Memory, Inner Write-through non-transient
-                                                                 0b1100      Device-GRE memory       Normal Memory, Inner Write-back non-transient (RW=00)
-                                                                 0b11RW0b00   UNPREDICTABLE  Normal Memory, Inner Write-back non-transient
-
-                                                                 R = Inner Read Allocate Policy, W = Inner Write Allocate
-                                                                     Policy.
-
-                                                                 ARMv7's Strongly-ordered and Device memory types have been
-                                                                     renamed to Device-nGnRnE and Device-nGnRE in ARMv8.
-
-                                                                 The R and W bits in some Attr<n> fields have the following
-                                                                     meanings:
-
-                                                                 R or W      Meaning
-                                                                 0 = Do not allocate.
-                                                                 1 = Allocate. */
-        uint64_t attr0                 : 8;  /**< [  7:  0](R/W) The memory attribute encoding for an AttrIndx[2:0] entry in a
-                                                                     Long descriptor format translation table entry, where
-                                                                     AttrIndx[2:0] gives the value of <n> in Attr<n>.
-
-                                                                 Bits [7:4] are encoded as follows:
-
-                                                                 Attr<n>[7:4]        Meaning
-                                                                 0b0000      Device memory. See encoding of Attr<n>[3:0] for the type of Device memory.
-                                                                 0b00RW0b00  Normal Memory, Outer Write-through transient
-                                                                 0b0100      Normal Memory, Outer Non-Cacheable
-                                                                 0b01RW0b00  Normal Memory, Outer Write-back transient
-                                                                 0b10RW      Normal Memory, Outer Write-through non-transient
-                                                                 0b11RW      Normal Memory, Outer Write-back non-transient
-
-                                                                 R = Outer Read Allocate Policy, W = Outer Write Allocate
-                                                                     Policy.
-
-                                                                 The meaning of bits [3:0] depends on the value of bits [7:4]:
-
-                                                                 Attr<n>[3:0]        Meaning when Attr<n>[7:4] is 0000       Meaning when Attr<n>[7:4] is
-                                                                 not 0000
-                                                                 0b0000      Device-nGnRnE memory     UNPREDICTABLE
-                                                                 0b00RW0b00   UNPREDICTABLE  Normal Memory, Inner Write-through transient
-                                                                 0b0100      Device-nGnRE memory     Normal memory, Inner Non-Cacheable
-                                                                 0b01RW0b00   UNPREDICTABLE  Normal Memory, Inner Write-back transient
-                                                                 0b1000      Device-nGRE memory      Normal Memory, Inner Write-through non-transient
-                                                                 (RW=00)
-                                                                 0b10RW0b00   UNPREDICTABLE  Normal Memory, Inner Write-through non-transient
-                                                                 0b1100      Device-GRE memory       Normal Memory, Inner Write-back non-transient (RW=00)
-                                                                 0b11RW0b00   UNPREDICTABLE  Normal Memory, Inner Write-back non-transient
-
-                                                                 R = Inner Read Allocate Policy, W = Inner Write Allocate
-                                                                     Policy.
-
-                                                                 ARMv7's Strongly-ordered and Device memory types have been
-                                                                     renamed to Device-nGnRnE and Device-nGnRE in ARMv8.
-
-                                                                 The R and W bits in some Attr<n> fields have the following
-                                                                     meanings:
-
-                                                                 R or W      Meaning
-                                                                 0 = Do not allocate.
-                                                                 1 = Allocate. */
-#else /* Word 0 - Little Endian */
-        uint64_t attr0                 : 8;  /**< [  7:  0](R/W) The memory attribute encoding for an AttrIndx[2:0] entry in a
-                                                                     Long descriptor format translation table entry, where
-                                                                     AttrIndx[2:0] gives the value of <n> in Attr<n>.
-
-                                                                 Bits [7:4] are encoded as follows:
-
-                                                                 Attr<n>[7:4]        Meaning
-                                                                 0b0000      Device memory. See encoding of Attr<n>[3:0] for the type of Device memory.
-                                                                 0b00RW0b00  Normal Memory, Outer Write-through transient
-                                                                 0b0100      Normal Memory, Outer Non-Cacheable
-                                                                 0b01RW0b00  Normal Memory, Outer Write-back transient
-                                                                 0b10RW      Normal Memory, Outer Write-through non-transient
-                                                                 0b11RW      Normal Memory, Outer Write-back non-transient
-
-                                                                 R = Outer Read Allocate Policy, W = Outer Write Allocate
-                                                                     Policy.
-
-                                                                 The meaning of bits [3:0] depends on the value of bits [7:4]:
-
-                                                                 Attr<n>[3:0]        Meaning when Attr<n>[7:4] is 0000       Meaning when Attr<n>[7:4] is
-                                                                 not 0000
-                                                                 0b0000      Device-nGnRnE memory     UNPREDICTABLE
-                                                                 0b00RW0b00   UNPREDICTABLE  Normal Memory, Inner Write-through transient
-                                                                 0b0100      Device-nGnRE memory     Normal memory, Inner Non-Cacheable
-                                                                 0b01RW0b00   UNPREDICTABLE  Normal Memory, Inner Write-back transient
-                                                                 0b1000      Device-nGRE memory      Normal Memory, Inner Write-through non-transient
-                                                                 (RW=00)
-                                                                 0b10RW0b00   UNPREDICTABLE  Normal Memory, Inner Write-through non-transient
-                                                                 0b1100      Device-GRE memory       Normal Memory, Inner Write-back non-transient (RW=00)
-                                                                 0b11RW0b00   UNPREDICTABLE  Normal Memory, Inner Write-back non-transient
-
-                                                                 R = Inner Read Allocate Policy, W = Inner Write Allocate
-                                                                     Policy.
-
-                                                                 ARMv7's Strongly-ordered and Device memory types have been
-                                                                     renamed to Device-nGnRnE and Device-nGnRE in ARMv8.
-
-                                                                 The R and W bits in some Attr<n> fields have the following
-                                                                     meanings:
-
-                                                                 R or W      Meaning
-                                                                 0 = Do not allocate.
-                                                                 1 = Allocate. */
-        uint64_t attr1                 : 8;  /**< [ 15:  8](R/W) The memory attribute encoding for an AttrIndx[2:0] entry in a
-                                                                     Long descriptor format translation table entry, where
-                                                                     AttrIndx[2:0] gives the value of <n> in Attr<n>.
-
-                                                                 Bits [7:4] are encoded as follows:
-
-                                                                 Attr<n>[7:4]        Meaning
-                                                                 0b0000      Device memory. See encoding of Attr<n>[3:0] for the type of Device memory.
-                                                                 0b00RW0b00  Normal Memory, Outer Write-through transient
-                                                                 0b0100      Normal Memory, Outer Non-Cacheable
-                                                                 0b01RW0b00  Normal Memory, Outer Write-back transient
-                                                                 0b10RW      Normal Memory, Outer Write-through non-transient
-                                                                 0b11RW      Normal Memory, Outer Write-back non-transient
-
-                                                                 R = Outer Read Allocate Policy, W = Outer Write Allocate
-                                                                     Policy.
-
-                                                                 The meaning of bits [3:0] depends on the value of bits [7:4]:
-
-                                                                 Attr<n>[3:0]        Meaning when Attr<n>[7:4] is 0000       Meaning when Attr<n>[7:4] is
-                                                                 not 0000
-                                                                 0b0000      Device-nGnRnE memory     UNPREDICTABLE
-                                                                 0b00RW0b00   UNPREDICTABLE  Normal Memory, Inner Write-through transient
-                                                                 0b0100      Device-nGnRE memory     Normal memory, Inner Non-Cacheable
-                                                                 0b01RW0b00   UNPREDICTABLE  Normal Memory, Inner Write-back transient
-                                                                 0b1000      Device-nGRE memory      Normal Memory, Inner Write-through non-transient
-                                                                 (RW=00)
-                                                                 0b10RW0b00   UNPREDICTABLE  Normal Memory, Inner Write-through non-transient
-                                                                 0b1100      Device-GRE memory       Normal Memory, Inner Write-back non-transient (RW=00)
-                                                                 0b11RW0b00   UNPREDICTABLE  Normal Memory, Inner Write-back non-transient
-
-                                                                 R = Inner Read Allocate Policy, W = Inner Write Allocate
-                                                                     Policy.
-
-                                                                 ARMv7's Strongly-ordered and Device memory types have been
-                                                                     renamed to Device-nGnRnE and Device-nGnRE in ARMv8.
-
-                                                                 The R and W bits in some Attr<n> fields have the following
-                                                                     meanings:
-
-                                                                 R or W      Meaning
-                                                                 0 = Do not allocate.
-                                                                 1 = Allocate. */
-        uint64_t attr2                 : 8;  /**< [ 23: 16](R/W) The memory attribute encoding for an AttrIndx[2:0] entry in a
-                                                                     Long descriptor format translation table entry, where
-                                                                     AttrIndx[2:0] gives the value of <n> in Attr<n>.
-
-                                                                 Bits [7:4] are encoded as follows:
-
-                                                                 Attr<n>[7:4]        Meaning
-                                                                 0b0000      Device memory. See encoding of Attr<n>[3:0] for the type of Device memory.
-                                                                 0b00RW0b00  Normal Memory, Outer Write-through transient
-                                                                 0b0100      Normal Memory, Outer Non-Cacheable
-                                                                 0b01RW0b00  Normal Memory, Outer Write-back transient
-                                                                 0b10RW      Normal Memory, Outer Write-through non-transient
-                                                                 0b11RW      Normal Memory, Outer Write-back non-transient
-
-                                                                 R = Outer Read Allocate Policy, W = Outer Write Allocate
-                                                                     Policy.
-
-                                                                 The meaning of bits [3:0] depends on the value of bits [7:4]:
-
-                                                                 Attr<n>[3:0]        Meaning when Attr<n>[7:4] is 0000       Meaning when Attr<n>[7:4] is
-                                                                 not 0000
-                                                                 0b0000      Device-nGnRnE memory     UNPREDICTABLE
-                                                                 0b00RW0b00   UNPREDICTABLE  Normal Memory, Inner Write-through transient
-                                                                 0b0100      Device-nGnRE memory     Normal memory, Inner Non-Cacheable
-                                                                 0b01RW0b00   UNPREDICTABLE  Normal Memory, Inner Write-back transient
-                                                                 0b1000      Device-nGRE memory      Normal Memory, Inner Write-through non-transient
-                                                                 (RW=00)
-                                                                 0b10RW0b00   UNPREDICTABLE  Normal Memory, Inner Write-through non-transient
-                                                                 0b1100      Device-GRE memory       Normal Memory, Inner Write-back non-transient (RW=00)
-                                                                 0b11RW0b00   UNPREDICTABLE  Normal Memory, Inner Write-back non-transient
-
-                                                                 R = Inner Read Allocate Policy, W = Inner Write Allocate
-                                                                     Policy.
-
-                                                                 ARMv7's Strongly-ordered and Device memory types have been
-                                                                     renamed to Device-nGnRnE and Device-nGnRE in ARMv8.
-
-                                                                 The R and W bits in some Attr<n> fields have the following
-                                                                     meanings:
-
-                                                                 R or W      Meaning
-                                                                 0 = Do not allocate.
-                                                                 1 = Allocate. */
-        uint64_t attr3                 : 8;  /**< [ 31: 24](R/W) The memory attribute encoding for an AttrIndx[2:0] entry in a
-                                                                     Long descriptor format translation table entry, where
-                                                                     AttrIndx[2:0] gives the value of <n> in Attr<n>.
-
-                                                                 Bits [7:4] are encoded as follows:
-
-                                                                 Attr<n>[7:4]        Meaning
-                                                                 0b0000      Device memory. See encoding of Attr<n>[3:0] for the type of Device memory.
-                                                                 0b00RW0b00  Normal Memory, Outer Write-through transient
-                                                                 0b0100      Normal Memory, Outer Non-Cacheable
-                                                                 0b01RW0b00  Normal Memory, Outer Write-back transient
-                                                                 0b10RW      Normal Memory, Outer Write-through non-transient
-                                                                 0b11RW      Normal Memory, Outer Write-back non-transient
-
-                                                                 R = Outer Read Allocate Policy, W = Outer Write Allocate
-                                                                     Policy.
-
-                                                                 The meaning of bits [3:0] depends on the value of bits [7:4]:
-
-                                                                 Attr<n>[3:0]        Meaning when Attr<n>[7:4] is 0000       Meaning when Attr<n>[7:4] is
-                                                                 not 0000
-                                                                 0b0000      Device-nGnRnE memory     UNPREDICTABLE
-                                                                 0b00RW0b00   UNPREDICTABLE  Normal Memory, Inner Write-through transient
-                                                                 0b0100      Device-nGnRE memory     Normal memory, Inner Non-Cacheable
-                                                                 0b01RW0b00   UNPREDICTABLE  Normal Memory, Inner Write-back transient
-                                                                 0b1000      Device-nGRE memory      Normal Memory, Inner Write-through non-transient
-                                                                 (RW=00)
-                                                                 0b10RW0b00   UNPREDICTABLE  Normal Memory, Inner Write-through non-transient
-                                                                 0b1100      Device-GRE memory       Normal Memory, Inner Write-back non-transient (RW=00)
-                                                                 0b11RW0b00   UNPREDICTABLE  Normal Memory, Inner Write-back non-transient
-
-                                                                 R = Inner Read Allocate Policy, W = Inner Write Allocate
-                                                                     Policy.
-
-                                                                 ARMv7's Strongly-ordered and Device memory types have been
-                                                                     renamed to Device-nGnRnE and Device-nGnRE in ARMv8.
-
-                                                                 The R and W bits in some Attr<n> fields have the following
-                                                                     meanings:
-
-                                                                 R or W      Meaning
-                                                                 0 = Do not allocate.
-                                                                 1 = Allocate. */
-        uint64_t attr4                 : 8;  /**< [ 39: 32](R/W) The memory attribute encoding for an AttrIndx[2:0] entry in a
-                                                                     Long descriptor format translation table entry, where
-                                                                     AttrIndx[2:0] gives the value of <n> in Attr<n>.
-
-                                                                 Bits [7:4] are encoded as follows:
-
-                                                                 Attr<n>[7:4]        Meaning
-                                                                 0b0000      Device memory. See encoding of Attr<n>[3:0] for the type of Device memory.
-                                                                 0b00RW0b00  Normal Memory, Outer Write-through transient
-                                                                 0b0100      Normal Memory, Outer Non-Cacheable
-                                                                 0b01RW0b00  Normal Memory, Outer Write-back transient
-                                                                 0b10RW      Normal Memory, Outer Write-through non-transient
-                                                                 0b11RW      Normal Memory, Outer Write-back non-transient
-
-                                                                 R = Outer Read Allocate Policy, W = Outer Write Allocate
-                                                                     Policy.
-
-                                                                 The meaning of bits [3:0] depends on the value of bits [7:4]:
-
-                                                                 Attr<n>[3:0]        Meaning when Attr<n>[7:4] is 0000       Meaning when Attr<n>[7:4] is
-                                                                 not 0000
-                                                                 0b0000      Device-nGnRnE memory     UNPREDICTABLE
-                                                                 0b00RW0b00   UNPREDICTABLE  Normal Memory, Inner Write-through transient
-                                                                 0b0100      Device-nGnRE memory     Normal memory, Inner Non-Cacheable
-                                                                 0b01RW0b00   UNPREDICTABLE  Normal Memory, Inner Write-back transient
-                                                                 0b1000      Device-nGRE memory      Normal Memory, Inner Write-through non-transient
-                                                                 (RW=00)
-                                                                 0b10RW0b00   UNPREDICTABLE  Normal Memory, Inner Write-through non-transient
-                                                                 0b1100      Device-GRE memory       Normal Memory, Inner Write-back non-transient (RW=00)
-                                                                 0b11RW0b00   UNPREDICTABLE  Normal Memory, Inner Write-back non-transient
-
-                                                                 R = Inner Read Allocate Policy, W = Inner Write Allocate
-                                                                     Policy.
-
-                                                                 ARMv7's Strongly-ordered and Device memory types have been
-                                                                     renamed to Device-nGnRnE and Device-nGnRE in ARMv8.
-
-                                                                 The R and W bits in some Attr<n> fields have the following
-                                                                     meanings:
-
-                                                                 R or W      Meaning
-                                                                 0 = Do not allocate.
-                                                                 1 = Allocate. */
-        uint64_t attr5                 : 8;  /**< [ 47: 40](R/W) The memory attribute encoding for an AttrIndx[2:0] entry in a
-                                                                     Long descriptor format translation table entry, where
-                                                                     AttrIndx[2:0] gives the value of <n> in Attr<n>.
-
-                                                                 Bits [7:4] are encoded as follows:
-
-                                                                 Attr<n>[7:4]        Meaning
-                                                                 0b0000      Device memory. See encoding of Attr<n>[3:0] for the type of Device memory.
-                                                                 0b00RW0b00  Normal Memory, Outer Write-through transient
-                                                                 0b0100      Normal Memory, Outer Non-Cacheable
-                                                                 0b01RW0b00  Normal Memory, Outer Write-back transient
-                                                                 0b10RW      Normal Memory, Outer Write-through non-transient
-                                                                 0b11RW      Normal Memory, Outer Write-back non-transient
-
-                                                                 R = Outer Read Allocate Policy, W = Outer Write Allocate
-                                                                     Policy.
-
-                                                                 The meaning of bits [3:0] depends on the value of bits [7:4]:
-
-                                                                 Attr<n>[3:0]        Meaning when Attr<n>[7:4] is 0000       Meaning when Attr<n>[7:4] is
-                                                                 not 0000
-                                                                 0b0000      Device-nGnRnE memory     UNPREDICTABLE
-                                                                 0b00RW0b00   UNPREDICTABLE  Normal Memory, Inner Write-through transient
-                                                                 0b0100      Device-nGnRE memory     Normal memory, Inner Non-Cacheable
-                                                                 0b01RW0b00   UNPREDICTABLE  Normal Memory, Inner Write-back transient
-                                                                 0b1000      Device-nGRE memory      Normal Memory, Inner Write-through non-transient
-                                                                 (RW=00)
-                                                                 0b10RW0b00   UNPREDICTABLE  Normal Memory, Inner Write-through non-transient
-                                                                 0b1100      Device-GRE memory       Normal Memory, Inner Write-back non-transient (RW=00)
-                                                                 0b11RW0b00   UNPREDICTABLE  Normal Memory, Inner Write-back non-transient
-
-                                                                 R = Inner Read Allocate Policy, W = Inner Write Allocate
-                                                                     Policy.
-
-                                                                 ARMv7's Strongly-ordered and Device memory types have been
-                                                                     renamed to Device-nGnRnE and Device-nGnRE in ARMv8.
-
-                                                                 The R and W bits in some Attr<n> fields have the following
-                                                                     meanings:
-
-                                                                 R or W      Meaning
-                                                                 0 = Do not allocate.
-                                                                 1 = Allocate. */
-        uint64_t attr6                 : 8;  /**< [ 55: 48](R/W) The memory attribute encoding for an AttrIndx[2:0] entry in a
-                                                                     Long descriptor format translation table entry, where
-                                                                     AttrIndx[2:0] gives the value of <n> in Attr<n>.
-
-                                                                 Bits [7:4] are encoded as follows:
-
-                                                                 Attr<n>[7:4]        Meaning
-                                                                 0b0000      Device memory. See encoding of Attr<n>[3:0] for the type of Device memory.
-                                                                 0b00RW0b00  Normal Memory, Outer Write-through transient
-                                                                 0b0100      Normal Memory, Outer Non-Cacheable
-                                                                 0b01RW0b00  Normal Memory, Outer Write-back transient
-                                                                 0b10RW      Normal Memory, Outer Write-through non-transient
-                                                                 0b11RW      Normal Memory, Outer Write-back non-transient
-
-                                                                 R = Outer Read Allocate Policy, W = Outer Write Allocate
-                                                                     Policy.
-
-                                                                 The meaning of bits [3:0] depends on the value of bits [7:4]:
-
-                                                                 Attr<n>[3:0]        Meaning when Attr<n>[7:4] is 0000       Meaning when Attr<n>[7:4] is
-                                                                 not 0000
-                                                                 0b0000      Device-nGnRnE memory     UNPREDICTABLE
-                                                                 0b00RW0b00   UNPREDICTABLE  Normal Memory, Inner Write-through transient
-                                                                 0b0100      Device-nGnRE memory     Normal memory, Inner Non-Cacheable
-                                                                 0b01RW0b00   UNPREDICTABLE  Normal Memory, Inner Write-back transient
-                                                                 0b1000      Device-nGRE memory      Normal Memory, Inner Write-through non-transient
-                                                                 (RW=00)
-                                                                 0b10RW0b00   UNPREDICTABLE  Normal Memory, Inner Write-through non-transient
-                                                                 0b1100      Device-GRE memory       Normal Memory, Inner Write-back non-transient (RW=00)
-                                                                 0b11RW0b00   UNPREDICTABLE  Normal Memory, Inner Write-back non-transient
-
-                                                                 R = Inner Read Allocate Policy, W = Inner Write Allocate
-                                                                     Policy.
-
-                                                                 ARMv7's Strongly-ordered and Device memory types have been
-                                                                     renamed to Device-nGnRnE and Device-nGnRE in ARMv8.
-
-                                                                 The R and W bits in some Attr<n> fields have the following
-                                                                     meanings:
-
-                                                                 R or W      Meaning
-                                                                 0 = Do not allocate.
-                                                                 1 = Allocate. */
-        uint64_t attr7                 : 8;  /**< [ 63: 56](R/W) The memory attribute encoding for an AttrIndx[2:0] entry in a
-                                                                     Long descriptor format translation table entry, where
-                                                                     AttrIndx[2:0] gives the value of <n> in Attr<n>.
-
-                                                                 Bits [7:4] are encoded as follows:
-
-                                                                 Attr<n>[7:4]        Meaning
-                                                                 0b0000      Device memory. See encoding of Attr<n>[3:0] for the type of Device memory.
-                                                                 0b00RW0b00  Normal Memory, Outer Write-through transient
-                                                                 0b0100      Normal Memory, Outer Non-Cacheable
-                                                                 0b01RW0b00  Normal Memory, Outer Write-back transient
-                                                                 0b10RW      Normal Memory, Outer Write-through non-transient
-                                                                 0b11RW      Normal Memory, Outer Write-back non-transient
-
-                                                                 R = Outer Read Allocate Policy, W = Outer Write Allocate
-                                                                     Policy.
-
-                                                                 The meaning of bits [3:0] depends on the value of bits [7:4]:
-
-                                                                 Attr<n>[3:0]        Meaning when Attr<n>[7:4] is 0000       Meaning when Attr<n>[7:4] is
-                                                                 not 0000
-                                                                 0b0000      Device-nGnRnE memory     UNPREDICTABLE
-                                                                 0b00RW0b00   UNPREDICTABLE  Normal Memory, Inner Write-through transient
-                                                                 0b0100      Device-nGnRE memory     Normal memory, Inner Non-Cacheable
-                                                                 0b01RW0b00   UNPREDICTABLE  Normal Memory, Inner Write-back transient
-                                                                 0b1000      Device-nGRE memory      Normal Memory, Inner Write-through non-transient
-                                                                 (RW=00)
-                                                                 0b10RW0b00   UNPREDICTABLE  Normal Memory, Inner Write-through non-transient
-                                                                 0b1100      Device-GRE memory       Normal Memory, Inner Write-back non-transient (RW=00)
-                                                                 0b11RW0b00   UNPREDICTABLE  Normal Memory, Inner Write-back non-transient
-
-                                                                 R = Inner Read Allocate Policy, W = Inner Write Allocate
-                                                                     Policy.
-
-                                                                 ARMv7's Strongly-ordered and Device memory types have been
-                                                                     renamed to Device-nGnRnE and Device-nGnRE in ARMv8.
-
-                                                                 The R and W bits in some Attr<n> fields have the following
-                                                                     meanings:
-
-                                                                 R or W      Meaning
-                                                                 0 = Do not allocate.
-                                                                 1 = Allocate. */
-#endif /* Word 0 - End */
-    } cn9;
+    /* struct bdk_ap_mair_elx_s cn; */
 } bdk_ap_mair_elx_t;
 
 static inline uint64_t BDK_AP_MAIR_ELX(unsigned long a) __attribute__ ((pure, always_inline));
@@ -17546,20 +14426,7 @@ typedef union
                                                                  AP_PMCCNTR_EL0 are unaffected.
 
                                                                  On Warm reset, the field resets to 0. */
-        uint32_t reserved_15_16        : 2;
-        uint32_t tpms                  : 1;  /**< [ 14: 14](R/W) Trap Performance Monitor Sampling. Controls access to Statistical Profiling control
-                                                                 registers from Non-secure EL1 and EL0.
-                                                                   0 = Do not trap statistical profiling controls to EL2.
-                                                                   1 = Accesses to statistical profiling controls at nonsecure EL1 generate a Trap
-                                                                 exception to EL2. */
-        uint32_t e2pb                  : 2;  /**< [ 13: 12](R/W) EL2 Profiling Buffer. Controls the owning translation regime and access to Profiling
-                                                                 Buffer control registers from nonsecure EL1.
-                                                                   00 = Profiling Buffer uses the EL2 stage 1 translation regime. Accesses to Profiling
-                                                                 Buffer controls at nonsecure EL1 generate a Trap exception to EL2.
-                                                                   10 = Profiling Buffer uses the EL1&0 stage 1 translation regime. Accesses to Profiling
-                                                                 Buffer controls at nonsecure EL1 generate a Trap exception to EL2.
-                                                                   11 = Profiling Buffer uses the EL1&0 stage 1 translation regime. Accesses to Profiling
-                                                                 Buffer controls at nonsecure EL1 are not trapped to EL2. */
+        uint32_t reserved_12_16        : 5;
         uint32_t tdra                  : 1;  /**< [ 11: 11](R/W) Trap debug ROM address register access.
 
                                                                  When this bit is set to 1, any access to the following
@@ -17765,20 +14632,7 @@ typedef union
                                                                      EL1 and EL0.
                                                                  1 = Trap valid EL1 and EL0 access to debug ROM address registers
                                                                      to EL2. */
-        uint32_t e2pb                  : 2;  /**< [ 13: 12](R/W) EL2 Profiling Buffer. Controls the owning translation regime and access to Profiling
-                                                                 Buffer control registers from nonsecure EL1.
-                                                                   00 = Profiling Buffer uses the EL2 stage 1 translation regime. Accesses to Profiling
-                                                                 Buffer controls at nonsecure EL1 generate a Trap exception to EL2.
-                                                                   10 = Profiling Buffer uses the EL1&0 stage 1 translation regime. Accesses to Profiling
-                                                                 Buffer controls at nonsecure EL1 generate a Trap exception to EL2.
-                                                                   11 = Profiling Buffer uses the EL1&0 stage 1 translation regime. Accesses to Profiling
-                                                                 Buffer controls at nonsecure EL1 are not trapped to EL2. */
-        uint32_t tpms                  : 1;  /**< [ 14: 14](R/W) Trap Performance Monitor Sampling. Controls access to Statistical Profiling control
-                                                                 registers from Non-secure EL1 and EL0.
-                                                                   0 = Do not trap statistical profiling controls to EL2.
-                                                                   1 = Accesses to statistical profiling controls at nonsecure EL1 generate a Trap
-                                                                 exception to EL2. */
-        uint32_t reserved_15_16        : 2;
+        uint32_t reserved_12_16        : 5;
         uint32_t hpmd                  : 1;  /**< [ 17: 17](R/W) v8.1: Hyp performance monitors disable. This prohibits event counting
                                                                  at EL2.
                                                                  0 = Event counting allowed at EL2.
@@ -17797,251 +14651,7 @@ typedef union
         uint32_t reserved_18_31        : 14;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_ap_mdcr_el2_cn8
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_18_31        : 14;
-        uint32_t hpmd                  : 1;  /**< [ 17: 17](R/W) v8.1: Hyp performance monitors disable. This prohibits event counting
-                                                                 at EL2.
-                                                                 0 = Event counting allowed at EL2.
-                                                                 1 = Event counting prohibited at EL2, unless overridden by
-                                                                         the authentication interface.
-
-                                                                 Note: This behavior is independent of the value of the AP_HCR_EL2[E2H]
-                                                                 bit.
-                                                                 This control applies only to:
-                                                                 The counters in the range [0.[HPMN]).
-                                                                 If AP_PMCR_EL0[DP] is set to 1, AP_PMCCNTR_EL0.
-                                                                 The other event counters and, if AP_PMCR_EL0[DP] is set to 0,
-                                                                 AP_PMCCNTR_EL0 are unaffected.
-
-                                                                 On Warm reset, the field resets to 0. */
-        uint32_t reserved_12_16        : 5;
-        uint32_t tdra                  : 1;  /**< [ 11: 11](R/W) Trap debug ROM address register access.
-
-                                                                 When this bit is set to 1, any access to the following
-                                                                     registers from EL1 or EL0 is trapped to EL2:
-
-                                                                 AArch32: DBGDRAR, DBGDSAR.
-
-                                                                 AArch64: AP_MDRAR_EL1.
-
-                                                                 If AP_HCR_EL2[TGE] == 1 or AP_MDCR_EL2[TDE] == 1, then this bit is
-                                                                     ignored and treated as though it is 1 other than for the value
-                                                                     read back from AP_MDCR_EL2.
-
-                                                                 0 = Has no effect on accesses to debug ROM address registers from
-                                                                     EL1 and EL0.
-                                                                 1 = Trap valid EL1 and EL0 access to debug ROM address registers
-                                                                     to EL2. */
-        uint32_t tdosa                 : 1;  /**< [ 10: 10](R/W) Trap debug OS-related register access.
-                                                                 When this bit is set to 1, any access to the following
-                                                                     registers from EL1 or EL0 is trapped to EL2:
-
-                                                                 AArch32: DBGOSLAR, DBGOSLSR, DBGOSDLR, DBGPRCR.
-
-                                                                 AArch64: AP_OSLAR_EL1, AP_OSLSR_EL1, AP_OSDLR_EL1, AP_DBGPRCR_EL1.
-
-                                                                 If AP_HCR_EL2[TGE] == 1 or AP_MDCR_EL2[TDE] == 1, then this bit is
-                                                                     ignored and treated as though it is 1 other than for the value
-                                                                     read back from AP_MDCR_EL2.
-                                                                 0 = Has no effect on accesses to OS-related debug registers.
-                                                                 1 = Trap valid accesses to OS-related debug registers to EL2. */
-        uint32_t tda                   : 1;  /**< [  9:  9](R/W) Trap debug access.
-
-                                                                 When this bit is set to 1, any valid nonsecure access to the
-                                                                     debug registers from EL1 or EL0, other than the registers
-                                                                     trapped by the TDRA and TDOSA bits, is trapped to EL2.
-
-                                                                 If AP_HCR_EL2[TGE] == 1 or AP_MDCR_EL2[TDE] == 1, then this bit is
-                                                                     ignored and treated as though it is 1 other than for the value
-                                                                     read back from AP_MDCR_EL2.
-                                                                 0 = Has no effect on accesses to debug registers.
-                                                                 1 = Trap valid nonsecure accesses to debug registers to EL2. */
-        uint32_t tde                   : 1;  /**< [  8:  8](R/W) Route Software debug exceptions from nonsecure EL1 and EL0 to
-                                                                     EL2. Also enables traps on all debug register accesses to EL2.
-                                                                 If AP_HCR_EL2[TGE] == 1, then this bit is ignored and treated as
-                                                                     though it is 1 other than for the value read back from
-                                                                     AP_MDCR_EL2. */
-        uint32_t hpme                  : 1;  /**< [  7:  7](R/W) Hypervisor Performance Monitors Enable.
-                                                                 When this bit is set to 1, the Performance Monitors counters
-                                                                     that are reserved for use from EL2 or Secure state are
-                                                                     enabled. For more information see the description of the HPMN
-                                                                     field.
-                                                                 If the Performance Monitors extension is not implemented, this
-                                                                     field is RES0.
-                                                                 0 = EL2 Performance Monitors disabled.
-                                                                 1 = EL2 Performance Monitors enabled. */
-        uint32_t tpm                   : 1;  /**< [  6:  6](R/W) Trap Performance Monitors accesses.
-                                                                 If the Performance Monitors extension is not implemented, this
-                                                                     field is RES0.
-                                                                 0 = Has no effect on Performance Monitors accesses.
-                                                                 1 = Trap nonsecure EL0 and EL1 accesses to Performance Monitors
-                                                                     registers that are not unallocated to EL2. */
-        uint32_t tpmcr                 : 1;  /**< [  5:  5](R/W) Trap AP_PMCR_EL0 accesses.
-                                                                 If the Performance Monitors extension is not implemented, this
-                                                                     field is RES0.
-                                                                 0 = Has no effect on AP_PMCR_EL0 accesses.
-                                                                 1 = Trap nonsecure EL0 and EL1 accesses to AP_PMCR_EL0 to EL2. */
-        uint32_t hpmn                  : 5;  /**< [  4:  0](R/W) Defines the number of Performance Monitors counters that are
-                                                                     accessible from nonsecure EL0 and EL1 modes.
-
-                                                                 If the Performance Monitors extension is not implemented, this
-                                                                     field is RES0.
-
-                                                                 In nonsecure state, HPMN divides the Performance Monitors
-                                                                     counters as follows. For counter n in nonsecure state:
-
-                                                                  If n is in the range 0<=n<HPMN, the counter is accessible
-                                                                     from EL1 and EL2, and from EL0 if permitted by AP_PMUSERENR_EL0.
-                                                                     AP_PMCR_EL0[E] enables the operation of counters in this range.
-
-                                                                  If n is in the range HPMN<=n< AP_PMCR_EL0[N], the counter is
-                                                                     accessible only from EL2. AP_MDCR_EL2[HPME] enables the operation
-                                                                     of counters in this range.
-
-                                                                 If this field is set to 0, or to a value larger than
-                                                                     AP_PMCR_EL0[N], then the behavior in nonsecure EL0 and EL1 is
-                                                                     CONSTRAINED UNPREDICTABLE, and one of the following must
-                                                                     happen:
-
-                                                                  The number of counters accessible is an UNKNOWN nonzero
-                                                                     value less than AP_PMCR_EL0[N].
-
-                                                                  There is no access to any counters.
-
-                                                                 For reads of AP_MDCR_EL2[HPMN] by EL2 or higher, if this field is
-                                                                     set to 0 or to a value larger than AP_PMCR_EL0[N], the processor
-                                                                     must return a CONSTRAINED UNPREDICTABLE value being one of:
-                                                                   AP_PMCR_EL0[N].
-
-                                                                  The value that was written to AP_MDCR_EL2[HPMN].
-                                                                  (The value that was written to AP_MDCR_EL2[HPMN]) modulo
-                                                                     22^(h), where h is the smallest number of bits required
-                                                                     for a value in the range 0 to  AP_PMCR_EL0[N]. */
-#else /* Word 0 - Little Endian */
-        uint32_t hpmn                  : 5;  /**< [  4:  0](R/W) Defines the number of Performance Monitors counters that are
-                                                                     accessible from nonsecure EL0 and EL1 modes.
-
-                                                                 If the Performance Monitors extension is not implemented, this
-                                                                     field is RES0.
-
-                                                                 In nonsecure state, HPMN divides the Performance Monitors
-                                                                     counters as follows. For counter n in nonsecure state:
-
-                                                                  If n is in the range 0<=n<HPMN, the counter is accessible
-                                                                     from EL1 and EL2, and from EL0 if permitted by AP_PMUSERENR_EL0.
-                                                                     AP_PMCR_EL0[E] enables the operation of counters in this range.
-
-                                                                  If n is in the range HPMN<=n< AP_PMCR_EL0[N], the counter is
-                                                                     accessible only from EL2. AP_MDCR_EL2[HPME] enables the operation
-                                                                     of counters in this range.
-
-                                                                 If this field is set to 0, or to a value larger than
-                                                                     AP_PMCR_EL0[N], then the behavior in nonsecure EL0 and EL1 is
-                                                                     CONSTRAINED UNPREDICTABLE, and one of the following must
-                                                                     happen:
-
-                                                                  The number of counters accessible is an UNKNOWN nonzero
-                                                                     value less than AP_PMCR_EL0[N].
-
-                                                                  There is no access to any counters.
-
-                                                                 For reads of AP_MDCR_EL2[HPMN] by EL2 or higher, if this field is
-                                                                     set to 0 or to a value larger than AP_PMCR_EL0[N], the processor
-                                                                     must return a CONSTRAINED UNPREDICTABLE value being one of:
-                                                                   AP_PMCR_EL0[N].
-
-                                                                  The value that was written to AP_MDCR_EL2[HPMN].
-                                                                  (The value that was written to AP_MDCR_EL2[HPMN]) modulo
-                                                                     22^(h), where h is the smallest number of bits required
-                                                                     for a value in the range 0 to  AP_PMCR_EL0[N]. */
-        uint32_t tpmcr                 : 1;  /**< [  5:  5](R/W) Trap AP_PMCR_EL0 accesses.
-                                                                 If the Performance Monitors extension is not implemented, this
-                                                                     field is RES0.
-                                                                 0 = Has no effect on AP_PMCR_EL0 accesses.
-                                                                 1 = Trap nonsecure EL0 and EL1 accesses to AP_PMCR_EL0 to EL2. */
-        uint32_t tpm                   : 1;  /**< [  6:  6](R/W) Trap Performance Monitors accesses.
-                                                                 If the Performance Monitors extension is not implemented, this
-                                                                     field is RES0.
-                                                                 0 = Has no effect on Performance Monitors accesses.
-                                                                 1 = Trap nonsecure EL0 and EL1 accesses to Performance Monitors
-                                                                     registers that are not unallocated to EL2. */
-        uint32_t hpme                  : 1;  /**< [  7:  7](R/W) Hypervisor Performance Monitors Enable.
-                                                                 When this bit is set to 1, the Performance Monitors counters
-                                                                     that are reserved for use from EL2 or Secure state are
-                                                                     enabled. For more information see the description of the HPMN
-                                                                     field.
-                                                                 If the Performance Monitors extension is not implemented, this
-                                                                     field is RES0.
-                                                                 0 = EL2 Performance Monitors disabled.
-                                                                 1 = EL2 Performance Monitors enabled. */
-        uint32_t tde                   : 1;  /**< [  8:  8](R/W) Route Software debug exceptions from nonsecure EL1 and EL0 to
-                                                                     EL2. Also enables traps on all debug register accesses to EL2.
-                                                                 If AP_HCR_EL2[TGE] == 1, then this bit is ignored and treated as
-                                                                     though it is 1 other than for the value read back from
-                                                                     AP_MDCR_EL2. */
-        uint32_t tda                   : 1;  /**< [  9:  9](R/W) Trap debug access.
-
-                                                                 When this bit is set to 1, any valid nonsecure access to the
-                                                                     debug registers from EL1 or EL0, other than the registers
-                                                                     trapped by the TDRA and TDOSA bits, is trapped to EL2.
-
-                                                                 If AP_HCR_EL2[TGE] == 1 or AP_MDCR_EL2[TDE] == 1, then this bit is
-                                                                     ignored and treated as though it is 1 other than for the value
-                                                                     read back from AP_MDCR_EL2.
-                                                                 0 = Has no effect on accesses to debug registers.
-                                                                 1 = Trap valid nonsecure accesses to debug registers to EL2. */
-        uint32_t tdosa                 : 1;  /**< [ 10: 10](R/W) Trap debug OS-related register access.
-                                                                 When this bit is set to 1, any access to the following
-                                                                     registers from EL1 or EL0 is trapped to EL2:
-
-                                                                 AArch32: DBGOSLAR, DBGOSLSR, DBGOSDLR, DBGPRCR.
-
-                                                                 AArch64: AP_OSLAR_EL1, AP_OSLSR_EL1, AP_OSDLR_EL1, AP_DBGPRCR_EL1.
-
-                                                                 If AP_HCR_EL2[TGE] == 1 or AP_MDCR_EL2[TDE] == 1, then this bit is
-                                                                     ignored and treated as though it is 1 other than for the value
-                                                                     read back from AP_MDCR_EL2.
-                                                                 0 = Has no effect on accesses to OS-related debug registers.
-                                                                 1 = Trap valid accesses to OS-related debug registers to EL2. */
-        uint32_t tdra                  : 1;  /**< [ 11: 11](R/W) Trap debug ROM address register access.
-
-                                                                 When this bit is set to 1, any access to the following
-                                                                     registers from EL1 or EL0 is trapped to EL2:
-
-                                                                 AArch32: DBGDRAR, DBGDSAR.
-
-                                                                 AArch64: AP_MDRAR_EL1.
-
-                                                                 If AP_HCR_EL2[TGE] == 1 or AP_MDCR_EL2[TDE] == 1, then this bit is
-                                                                     ignored and treated as though it is 1 other than for the value
-                                                                     read back from AP_MDCR_EL2.
-
-                                                                 0 = Has no effect on accesses to debug ROM address registers from
-                                                                     EL1 and EL0.
-                                                                 1 = Trap valid EL1 and EL0 access to debug ROM address registers
-                                                                     to EL2. */
-        uint32_t reserved_12_16        : 5;
-        uint32_t hpmd                  : 1;  /**< [ 17: 17](R/W) v8.1: Hyp performance monitors disable. This prohibits event counting
-                                                                 at EL2.
-                                                                 0 = Event counting allowed at EL2.
-                                                                 1 = Event counting prohibited at EL2, unless overridden by
-                                                                         the authentication interface.
-
-                                                                 Note: This behavior is independent of the value of the AP_HCR_EL2[E2H]
-                                                                 bit.
-                                                                 This control applies only to:
-                                                                 The counters in the range [0.[HPMN]).
-                                                                 If AP_PMCR_EL0[DP] is set to 1, AP_PMCCNTR_EL0.
-                                                                 The other event counters and, if AP_PMCR_EL0[DP] is set to 0,
-                                                                 AP_PMCCNTR_EL0 are unaffected.
-
-                                                                 On Warm reset, the field resets to 0. */
-        uint32_t reserved_18_31        : 14;
-#endif /* Word 0 - End */
-    } cn8;
-    /* struct bdk_ap_mdcr_el2_s cn9; */
+    /* struct bdk_ap_mdcr_el2_s cn; */
 } bdk_ap_mdcr_el2_t;
 
 #define BDK_AP_MDCR_EL2 BDK_AP_MDCR_EL2_FUNC()
@@ -18105,30 +14715,7 @@ typedef union
                                                                  1 = Software debug events, other than software breakpoint
                                                                      instruction debug events, are disabled from all Exception
                                                                      levels in Secure state. */
-        uint32_t reserved_14_15        : 2;
-        uint32_t nspb                  : 2;  /**< [ 13: 12](R/W) Non-secure profiling buffer. Controls the owning translation regime and accesses to
-                                                                 Statistical
-                                                                 Profiling and profiling buffer control registers.
-                                                                   0x0 = Profiling buffer uses secure virtual addresses. Statistical profiling enabled in
-                                                                 Secure state and disabled in Non-secure state. Accesses to Statistical profiling and
-                                                                 Profiling Buffer controls at EL2 and EL1 in both security states generate Trap exceptions
-                                                                 to EL3.
-                                                                   0x1 = Profiling buffer uses secure virtual addresses. Statistical profiling enabled in
-                                                                 Secure state and disabled in Non-secure state. Accesses to Statistical profiling and
-                                                                 Profiling Buffer controls in Nonsecure state generate Trap exceptions to EL3.
-                                                                   0x2 = Profiling buffer uses nonsecure virtual addresses. Statistical profiling enabled
-                                                                 in Non-secure state and disabled in Secure state. Accesses to Statistical Profiling and
-                                                                 Profiling Buffer controls at EL2 and EL1 in both security states generate Trap exceptions
-                                                                 to EL3.
-                                                                   0x3 = Profiling buffer uses nonsecure virtual addresses. Statistical profiling enabled
-                                                                 in Non-secure state and disabled in secure state. Accesses to Statistical Profiling and
-                                                                 Profiling Buffer controls at Secure EL1 generate Trap exceptions to EL3.
-
-                                                                 If EL3 is not implemented and the PE executes in Non-secure state, the PE behaves as if
-                                                                 NSPB = 0x3.
-                                                                 If EL3 is not implemented and the PE executes in Secure state, the PE behaves as if NSPB
-                                                                 = 0x1. */
-        uint32_t reserved_11           : 1;
+        uint32_t reserved_11_15        : 5;
         uint32_t tdosa                 : 1;  /**< [ 10: 10](R/W) Trap debug OS-related register access.
                                                                  When this bit is set to 1, any access to the following
                                                                      registers from EL2 or below is trapped to EL3:
@@ -18180,30 +14767,7 @@ typedef union
 
                                                                  0 = Has no effect on accesses to OS-related debug registers.
                                                                  1 = Trap valid accesses to OS-related debug registers to EL3. */
-        uint32_t reserved_11           : 1;
-        uint32_t nspb                  : 2;  /**< [ 13: 12](R/W) Non-secure profiling buffer. Controls the owning translation regime and accesses to
-                                                                 Statistical
-                                                                 Profiling and profiling buffer control registers.
-                                                                   0x0 = Profiling buffer uses secure virtual addresses. Statistical profiling enabled in
-                                                                 Secure state and disabled in Non-secure state. Accesses to Statistical profiling and
-                                                                 Profiling Buffer controls at EL2 and EL1 in both security states generate Trap exceptions
-                                                                 to EL3.
-                                                                   0x1 = Profiling buffer uses secure virtual addresses. Statistical profiling enabled in
-                                                                 Secure state and disabled in Non-secure state. Accesses to Statistical profiling and
-                                                                 Profiling Buffer controls in Nonsecure state generate Trap exceptions to EL3.
-                                                                   0x2 = Profiling buffer uses nonsecure virtual addresses. Statistical profiling enabled
-                                                                 in Non-secure state and disabled in Secure state. Accesses to Statistical Profiling and
-                                                                 Profiling Buffer controls at EL2 and EL1 in both security states generate Trap exceptions
-                                                                 to EL3.
-                                                                   0x3 = Profiling buffer uses nonsecure virtual addresses. Statistical profiling enabled
-                                                                 in Non-secure state and disabled in secure state. Accesses to Statistical Profiling and
-                                                                 Profiling Buffer controls at Secure EL1 generate Trap exceptions to EL3.
-
-                                                                 If EL3 is not implemented and the PE executes in Non-secure state, the PE behaves as if
-                                                                 NSPB = 0x3.
-                                                                 If EL3 is not implemented and the PE executes in Secure state, the PE behaves as if NSPB
-                                                                 = 0x1. */
-        uint32_t reserved_14_15        : 2;
+        uint32_t reserved_11_15        : 5;
         uint32_t sdd                   : 1;  /**< [ 16: 16](R/W) AArch64 secure self-hosted invasive debug disable. Disables
                                                                      Software debug exceptions in Secure state, other than Software
                                                                      breakpoint instruction.
@@ -18241,7 +14805,7 @@ typedef union
         uint32_t reserved_22_31        : 10;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_ap_mdcr_el3_cn8
+    struct bdk_ap_mdcr_el3_cn
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_22_31        : 10;
@@ -18370,8 +14934,7 @@ typedef union
                                                                      interface. */
         uint32_t reserved_22_31        : 10;
 #endif /* Word 0 - End */
-    } cn8;
-    /* struct bdk_ap_mdcr_el3_s cn9; */
+    } cn;
 } bdk_ap_mdcr_el3_t;
 
 #define BDK_AP_MDCR_EL3 BDK_AP_MDCR_EL3_FUNC()
@@ -18839,7 +15402,6 @@ typedef union
         uint32_t reserved_31           : 1;
 #endif /* Word 0 - End */
     } cn88xxp1;
-    /* struct bdk_ap_mdscr_el1_s cn9; */
     /* struct bdk_ap_mdscr_el1_s cn81xx; */
     /* struct bdk_ap_mdscr_el1_s cn83xx; */
     /* struct bdk_ap_mdscr_el1_s cn88xxp2; */
@@ -19328,27 +15890,15 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_1_31         : 31;
-        uint32_t oslk                  : 1;  /**< [  0:  0](WO) On writes to AP_OSLAR_EL1, bit[0] is copied to the OS lock.
+        uint32_t oslk                  : 1;  /**< [  0:  0](RO) On writes to AP_OSLAR_EL1, bit[0] is copied to the OS lock.
                                                                  Use AP_OSLSR_EL1[OSLK] to check the current status of the lock. */
 #else /* Word 0 - Little Endian */
-        uint32_t oslk                  : 1;  /**< [  0:  0](WO) On writes to AP_OSLAR_EL1, bit[0] is copied to the OS lock.
+        uint32_t oslk                  : 1;  /**< [  0:  0](RO) On writes to AP_OSLAR_EL1, bit[0] is copied to the OS lock.
                                                                  Use AP_OSLSR_EL1[OSLK] to check the current status of the lock. */
         uint32_t reserved_1_31         : 31;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_ap_oslar_el1_cn8
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_1_31         : 31;
-        uint32_t oslk                  : 1;  /**< [  0:  0](RO) On writes to AP_OSLAR_EL1, bit[0] is copied to the OS lock.
-                                                                 Use AP_OSLSR_EL1[OSLK] to check the current status of the lock. */
-#else /* Word 0 - Little Endian */
-        uint32_t oslk                  : 1;  /**< [  0:  0](RO) On writes to AP_OSLAR_EL1, bit[0] is copied to the OS lock.
-                                                                 Use AP_OSLSR_EL1[OSLK] to check the current status of the lock. */
-        uint32_t reserved_1_31         : 31;
-#endif /* Word 0 - End */
-    } cn8;
-    /* struct bdk_ap_oslar_el1_s cn9; */
+    /* struct bdk_ap_oslar_el1_s cn; */
 } bdk_ap_oslar_el1_t;
 
 #define BDK_AP_OSLAR_EL1 BDK_AP_OSLAR_EL1_FUNC()
@@ -19553,342 +16103,6 @@ static inline uint64_t BDK_AP_PAR_EL1_FUNC(void)
 #define basename_BDK_AP_PAR_EL1 "AP_PAR_EL1"
 #define busnum_BDK_AP_PAR_EL1 0
 #define arguments_BDK_AP_PAR_EL1 -1,-1,-1,-1
-
-/**
- * Register (SYSREG) ap_pmbidr_el1
- *
- * AP Profiling Buffer ID Register
- * Provides information to software as to whether the buffer can be programmed at the current
- * Exception level.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_ap_pmbidr_el1_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_6_63         : 58;
-        uint64_t f                     : 1;  /**< [  5:  5](RO) Flag Updates. Defines whether the address translation performed by the profiling buffer
-                                                                 manages the access flag and dirty bit.
-                                                                   0 = Accesses to pages not marked with Access Flag and not with dirty bit set will
-                                                                 generate an Unsupported Access fault if hardware management of those flags is enabled.
-                                                                   1 = Profiling Buffer address translation manages the access flag and dirty bit in the
-                                                                 same way as the MMU on this PE. */
-        uint64_t p                     : 1;  /**< [  4:  4](RO) Prohibited. The profiling buffer is owned by the current or a lower exception level in the
-                                                                 current security state.
-                                                                   0 = Profiling buffer is owned by the current or a lower exception level in the current
-                                                                 security state. This does not mean an access will not be trapped to a higher exception
-                                                                 level.
-                                                                   1 = Profiling buffer is owned by a higher exception level or the other security state. */
-        uint64_t align                 : 4;  /**< [  3:  0](RO) Defines the minimum alignment constraint for PMBPTR_EL1. If this field is non-zero, then
-                                                                 the PE must pad every record up to a multiple of this size.
-                                                                   0x0 = Byte.
-                                                                   0x1 = Halfword. PMBPTR_EL1[0] is RES0.
-                                                                   0x2 = Word. PMBPTR_EL1[1:0] is RES0.
-                                                                   0x3 = Doubleword. PMBPTR_EL1[2:0] is RES0.
-                                                                   ... ...
-                                                                   0xB = 2KB. PMBPTR_EL1[10:0] is RES0.
-
-                                                                   All other values are reserved. Reserved values might be defined in a future version of
-                                                                 the architecture. */
-#else /* Word 0 - Little Endian */
-        uint64_t align                 : 4;  /**< [  3:  0](RO) Defines the minimum alignment constraint for PMBPTR_EL1. If this field is non-zero, then
-                                                                 the PE must pad every record up to a multiple of this size.
-                                                                   0x0 = Byte.
-                                                                   0x1 = Halfword. PMBPTR_EL1[0] is RES0.
-                                                                   0x2 = Word. PMBPTR_EL1[1:0] is RES0.
-                                                                   0x3 = Doubleword. PMBPTR_EL1[2:0] is RES0.
-                                                                   ... ...
-                                                                   0xB = 2KB. PMBPTR_EL1[10:0] is RES0.
-
-                                                                   All other values are reserved. Reserved values might be defined in a future version of
-                                                                 the architecture. */
-        uint64_t p                     : 1;  /**< [  4:  4](RO) Prohibited. The profiling buffer is owned by the current or a lower exception level in the
-                                                                 current security state.
-                                                                   0 = Profiling buffer is owned by the current or a lower exception level in the current
-                                                                 security state. This does not mean an access will not be trapped to a higher exception
-                                                                 level.
-                                                                   1 = Profiling buffer is owned by a higher exception level or the other security state. */
-        uint64_t f                     : 1;  /**< [  5:  5](RO) Flag Updates. Defines whether the address translation performed by the profiling buffer
-                                                                 manages the access flag and dirty bit.
-                                                                   0 = Accesses to pages not marked with Access Flag and not with dirty bit set will
-                                                                 generate an Unsupported Access fault if hardware management of those flags is enabled.
-                                                                   1 = Profiling Buffer address translation manages the access flag and dirty bit in the
-                                                                 same way as the MMU on this PE. */
-        uint64_t reserved_6_63         : 58;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_ap_pmbidr_el1_s cn; */
-} bdk_ap_pmbidr_el1_t;
-
-#define BDK_AP_PMBIDR_EL1 BDK_AP_PMBIDR_EL1_FUNC()
-static inline uint64_t BDK_AP_PMBIDR_EL1_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_AP_PMBIDR_EL1_FUNC(void)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x300090a0700ll;
-    __bdk_csr_fatal("AP_PMBIDR_EL1", 0, 0, 0, 0, 0);
-}
-
-#define typedef_BDK_AP_PMBIDR_EL1 bdk_ap_pmbidr_el1_t
-#define bustype_BDK_AP_PMBIDR_EL1 BDK_CSR_TYPE_SYSREG
-#define basename_BDK_AP_PMBIDR_EL1 "AP_PMBIDR_EL1"
-#define busnum_BDK_AP_PMBIDR_EL1 0
-#define arguments_BDK_AP_PMBIDR_EL1 -1,-1,-1,-1
-
-/**
- * Register (SYSREG) ap_pmblimitr_el1
- *
- * AP Profiling Buffer Limit Address Register
- * Defines the upper limit for the profiling buffer, and enables the profiling buffer.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_ap_pmblimitr_el1_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t limit                 : 52; /**< [ 63: 12](R/W) Limit address, plus one. Read/write. Defines the limit of the buffer. If the smallest
-                                                                 implemented translation granule is not 4KB, then bits [N-1:12] are RES0, where N is the
-                                                                 IMPLEMENTATION DEFINED value, Log2(smallest implemented translation granule). */
-        uint64_t reserved_3_11         : 9;
-        uint64_t fm                    : 2;  /**< [  2:  1](R/W) Fill mode.
-                                                                   0x0 = Stop collection and raise maintenance interrupt on buffer fill.
-
-                                                                 All other values are reserved. If this field is programmed with a reserved value, the PE
-                                                                 behaves as if this field has a defined value, other than for a direct read of the
-                                                                 register. Software must not rely on the behavior of reserved values, as they might change
-                                                                 in a future version of the architecture. */
-        uint64_t ee                    : 1;  /**< [  0:  0](R/W) Profiling buffer enable.
-                                                                   0 = All output is discarded.
-                                                                   1 = Enabled.
-
-                                                                 This bit resets to zero. */
-#else /* Word 0 - Little Endian */
-        uint64_t ee                    : 1;  /**< [  0:  0](R/W) Profiling buffer enable.
-                                                                   0 = All output is discarded.
-                                                                   1 = Enabled.
-
-                                                                 This bit resets to zero. */
-        uint64_t fm                    : 2;  /**< [  2:  1](R/W) Fill mode.
-                                                                   0x0 = Stop collection and raise maintenance interrupt on buffer fill.
-
-                                                                 All other values are reserved. If this field is programmed with a reserved value, the PE
-                                                                 behaves as if this field has a defined value, other than for a direct read of the
-                                                                 register. Software must not rely on the behavior of reserved values, as they might change
-                                                                 in a future version of the architecture. */
-        uint64_t reserved_3_11         : 9;
-        uint64_t limit                 : 52; /**< [ 63: 12](R/W) Limit address, plus one. Read/write. Defines the limit of the buffer. If the smallest
-                                                                 implemented translation granule is not 4KB, then bits [N-1:12] are RES0, where N is the
-                                                                 IMPLEMENTATION DEFINED value, Log2(smallest implemented translation granule). */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_ap_pmblimitr_el1_s cn; */
-} bdk_ap_pmblimitr_el1_t;
-
-#define BDK_AP_PMBLIMITR_EL1 BDK_AP_PMBLIMITR_EL1_FUNC()
-static inline uint64_t BDK_AP_PMBLIMITR_EL1_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_AP_PMBLIMITR_EL1_FUNC(void)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x300090a0000ll;
-    __bdk_csr_fatal("AP_PMBLIMITR_EL1", 0, 0, 0, 0, 0);
-}
-
-#define typedef_BDK_AP_PMBLIMITR_EL1 bdk_ap_pmblimitr_el1_t
-#define bustype_BDK_AP_PMBLIMITR_EL1 BDK_CSR_TYPE_SYSREG
-#define basename_BDK_AP_PMBLIMITR_EL1 "AP_PMBLIMITR_EL1"
-#define busnum_BDK_AP_PMBLIMITR_EL1 0
-#define arguments_BDK_AP_PMBLIMITR_EL1 -1,-1,-1,-1
-
-/**
- * Register (SYSREG) ap_pmbptr_el1
- *
- * AP Profiling Buffer Write Pointer Register
- * Defines the current write pointer for the profiling buffer.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_ap_pmbptr_el1_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t ptr                   : 64; /**< [ 63:  0](R/W) Current write address. Defines the virtual address of the next entry to be written to the
-                                                                 buffer.
-                                                                 Software must treat bits [M:0] of this register as RES0, where M is defined by
-                                                                 PMBIDR_EL1.Align. If
-                                                                 synchronous reporting of external aborts is not supported, then hardware also treats these
-                                                                 bits as
-                                                                 RES0. Otherwise, bits [M:0] might contain part of a fault address on a synchronous
-                                                                 external abort.
-                                                                 On a management interrupt, PMBPTR_EL1 is frozen. */
-#else /* Word 0 - Little Endian */
-        uint64_t ptr                   : 64; /**< [ 63:  0](R/W) Current write address. Defines the virtual address of the next entry to be written to the
-                                                                 buffer.
-                                                                 Software must treat bits [M:0] of this register as RES0, where M is defined by
-                                                                 PMBIDR_EL1.Align. If
-                                                                 synchronous reporting of external aborts is not supported, then hardware also treats these
-                                                                 bits as
-                                                                 RES0. Otherwise, bits [M:0] might contain part of a fault address on a synchronous
-                                                                 external abort.
-                                                                 On a management interrupt, PMBPTR_EL1 is frozen. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_ap_pmbptr_el1_s cn; */
-} bdk_ap_pmbptr_el1_t;
-
-#define BDK_AP_PMBPTR_EL1 BDK_AP_PMBPTR_EL1_FUNC()
-static inline uint64_t BDK_AP_PMBPTR_EL1_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_AP_PMBPTR_EL1_FUNC(void)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x300090a0100ll;
-    __bdk_csr_fatal("AP_PMBPTR_EL1", 0, 0, 0, 0, 0);
-}
-
-#define typedef_BDK_AP_PMBPTR_EL1 bdk_ap_pmbptr_el1_t
-#define bustype_BDK_AP_PMBPTR_EL1 BDK_CSR_TYPE_SYSREG
-#define basename_BDK_AP_PMBPTR_EL1 "AP_PMBPTR_EL1"
-#define busnum_BDK_AP_PMBPTR_EL1 0
-#define arguments_BDK_AP_PMBPTR_EL1 -1,-1,-1,-1
-
-/**
- * Register (SYSREG) ap_pmbsr_el1
- *
- * AP Profiling Buffer Status/syndrome Register
- * Provides syndrome information to software when the buffer is disabled because the management
- * interrupt has been raised.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_ap_pmbsr_el1_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t ec                    : 6;  /**< [ 31: 26](R/W) Exception class.
-                                                                   000000 = Buffer management event.
-                                                                   100100 = Data abort on write to buffer.
-                                                                   100101 = Stage 2 data abort on write to buffer.
-
-                                                                 All other values are reserved. Reserved values might be defined in a future version of the
-                                                                 architecture. */
-        uint64_t reserved_20_25        : 6;
-        uint64_t dl                    : 1;  /**< [ 19: 19](R/W) Partial record lost.
-                                                                   0 = PMBPTR_EL1 points to the first byte after the last complete record written to the
-                                                                 buffer.
-                                                                   1 = Part of a record was lost due to a service event or external abort. PMBPTR_EL1 might
-                                                                 not point to
-                                                                   the first byte after the last complete record written to the buffer, and so restarting
-                                                                 collection might
-                                                                   result in a data record stream that software cannot parse. All records prior to the last
-                                                                 record have
-                                                                   been written to the buffer. */
-        uint64_t ea                    : 1;  /**< [ 18: 18](R/W) External abort.
-                                                                   0 = An external abort has not been asserted.
-                                                                   1 = An external abort has been asserted. */
-        uint64_t s                     : 1;  /**< [ 17: 17](R/W) Service.
-                                                                   0 = PMBIRQ has not been asserted.
-                                                                   1 = PMBIRQ has been asserted. All profiling data has either been written to the buffer
-                                                                 or discarded. */
-        uint64_t coll                  : 1;  /**< [ 16: 16](R/W) Collision detected.
-                                                                   0 = No collision events detected.
-                                                                   1 = At least one collision event was recorded. */
-        uint64_t reserved_6_15         : 10;
-        uint64_t bsc_fsc               : 6;  /**< [  5:  0](R/W) BSC when EC == 0b000000.
-
-                                                                 BSC, bits [5:0], when EC == 0b000000.
-                                                                 Buffer status code.
-                                                                   0x0 = Buffer not filled.
-                                                                   0x1 = Buffer filled.
-
-                                                                 FSC when EC == 0b10010x.
-                                                                 Fault status code.
-                                                                   0000xx = Address Size fault, bits [1:0] encode the level.
-                                                                   0001xx = Translation fault, bits [1:0] encode the level.
-                                                                   0010xx = Access Flag fault, bits [1:0] encode the level.
-                                                                   0011xx = Permission fault, bits [1:0] encode the level.
-                                                                   010000 = Synchronous external abort on write.
-                                                                   0101xx = Synchronous external abort on page table walk, bits [1:0] encode the level.
-                                                                   010001 = Asynchronous external abort on write.
-                                                                   100001 = Alignment fault.
-                                                                   110000 = TLB Conflict fault.
-                                                                   110101 = Unsupported Access fault.
-
-                                                                 All other values are reserved. Reserved values might be defined in a future version of
-                                                                 the architecture. */
-#else /* Word 0 - Little Endian */
-        uint64_t bsc_fsc               : 6;  /**< [  5:  0](R/W) BSC when EC == 0b000000.
-
-                                                                 BSC, bits [5:0], when EC == 0b000000.
-                                                                 Buffer status code.
-                                                                   0x0 = Buffer not filled.
-                                                                   0x1 = Buffer filled.
-
-                                                                 FSC when EC == 0b10010x.
-                                                                 Fault status code.
-                                                                   0000xx = Address Size fault, bits [1:0] encode the level.
-                                                                   0001xx = Translation fault, bits [1:0] encode the level.
-                                                                   0010xx = Access Flag fault, bits [1:0] encode the level.
-                                                                   0011xx = Permission fault, bits [1:0] encode the level.
-                                                                   010000 = Synchronous external abort on write.
-                                                                   0101xx = Synchronous external abort on page table walk, bits [1:0] encode the level.
-                                                                   010001 = Asynchronous external abort on write.
-                                                                   100001 = Alignment fault.
-                                                                   110000 = TLB Conflict fault.
-                                                                   110101 = Unsupported Access fault.
-
-                                                                 All other values are reserved. Reserved values might be defined in a future version of
-                                                                 the architecture. */
-        uint64_t reserved_6_15         : 10;
-        uint64_t coll                  : 1;  /**< [ 16: 16](R/W) Collision detected.
-                                                                   0 = No collision events detected.
-                                                                   1 = At least one collision event was recorded. */
-        uint64_t s                     : 1;  /**< [ 17: 17](R/W) Service.
-                                                                   0 = PMBIRQ has not been asserted.
-                                                                   1 = PMBIRQ has been asserted. All profiling data has either been written to the buffer
-                                                                 or discarded. */
-        uint64_t ea                    : 1;  /**< [ 18: 18](R/W) External abort.
-                                                                   0 = An external abort has not been asserted.
-                                                                   1 = An external abort has been asserted. */
-        uint64_t dl                    : 1;  /**< [ 19: 19](R/W) Partial record lost.
-                                                                   0 = PMBPTR_EL1 points to the first byte after the last complete record written to the
-                                                                 buffer.
-                                                                   1 = Part of a record was lost due to a service event or external abort. PMBPTR_EL1 might
-                                                                 not point to
-                                                                   the first byte after the last complete record written to the buffer, and so restarting
-                                                                 collection might
-                                                                   result in a data record stream that software cannot parse. All records prior to the last
-                                                                 record have
-                                                                   been written to the buffer. */
-        uint64_t reserved_20_25        : 6;
-        uint64_t ec                    : 6;  /**< [ 31: 26](R/W) Exception class.
-                                                                   000000 = Buffer management event.
-                                                                   100100 = Data abort on write to buffer.
-                                                                   100101 = Stage 2 data abort on write to buffer.
-
-                                                                 All other values are reserved. Reserved values might be defined in a future version of the
-                                                                 architecture. */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_ap_pmbsr_el1_s cn; */
-} bdk_ap_pmbsr_el1_t;
-
-#define BDK_AP_PMBSR_EL1 BDK_AP_PMBSR_EL1_FUNC()
-static inline uint64_t BDK_AP_PMBSR_EL1_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_AP_PMBSR_EL1_FUNC(void)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x300090a0300ll;
-    __bdk_csr_fatal("AP_PMBSR_EL1", 0, 0, 0, 0, 0);
-}
-
-#define typedef_BDK_AP_PMBSR_EL1 bdk_ap_pmbsr_el1_t
-#define bustype_BDK_AP_PMBSR_EL1 BDK_CSR_TYPE_SYSREG
-#define basename_BDK_AP_PMBSR_EL1 "AP_PMBSR_EL1"
-#define busnum_BDK_AP_PMBSR_EL1 0
-#define arguments_BDK_AP_PMBSR_EL1 -1,-1,-1,-1
 
 /**
  * Register (SYSREG) ap_pmccfiltr_el0
@@ -20735,7 +16949,8 @@ typedef union
     struct bdk_ap_pmintenclr_el1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t cc                    : 1;  /**< [ 31: 31](R/W) AP_PMCCNTR_EL0 overflow interrupt request disable bit.
+        uint32_t cc                    : 1;  /**< [ 31: 31](R/W) AP_PMCCNTR_EL0 overflow interrupt request disable bit. Possible
+                                                                     values are:
                                                                  0 = When read, means the cycle counter overflow interrupt request
                                                                      is disabled. When written, has no effect.
                                                                  1 = When read, means the cycle counter overflow interrupt request
@@ -20764,7 +16979,8 @@ typedef union
                                                                  1 = When read, means that the PMEVCNTR<x>_EL0 event counter
                                                                      interrupt request is enabled. When written, disables the
                                                                      PMEVCNTR<x>_EL0 interrupt request. */
-        uint32_t cc                    : 1;  /**< [ 31: 31](R/W) AP_PMCCNTR_EL0 overflow interrupt request disable bit.
+        uint32_t cc                    : 1;  /**< [ 31: 31](R/W) AP_PMCCNTR_EL0 overflow interrupt request disable bit. Possible
+                                                                     values are:
                                                                  0 = When read, means the cycle counter overflow interrupt request
                                                                      is disabled. When written, has no effect.
                                                                  1 = When read, means the cycle counter overflow interrupt request
@@ -20772,49 +16988,7 @@ typedef union
                                                                      interrupt request. */
 #endif /* Word 0 - End */
     } s;
-    struct bdk_ap_pmintenclr_el1_cn8
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t cc                    : 1;  /**< [ 31: 31](R/W) AP_PMCCNTR_EL0 overflow interrupt request disable bit. Possible
-                                                                     values are:
-                                                                 0 = When read, means the cycle counter overflow interrupt request
-                                                                     is disabled. When written, has no effect.
-                                                                 1 = When read, means the cycle counter overflow interrupt request
-                                                                     is enabled. When written, disables the cycle count overflow
-                                                                     interrupt request. */
-        uint32_t p                     : 31; /**< [ 30:  0](R/W) Event counter overflow interrupt request disable bit for
-                                                                     PMEVCNTR<x>_EL0.
-                                                                 When EL2 is implemented, in nonsecure EL1 and EL0, N is the
-                                                                     value in AP_MDCR_EL2[HPMN]. Otherwise, N is the value in
-                                                                     AP_PMCR_EL0[N].
-                                                                 Bits [30:N] are RAZ/WI.
-                                                                 0 = When read, means that the PMEVCNTR<x>_EL0 event counter
-                                                                     interrupt request is disabled. When written, has no effect.
-                                                                 1 = When read, means that the PMEVCNTR<x>_EL0 event counter
-                                                                     interrupt request is enabled. When written, disables the
-                                                                     PMEVCNTR<x>_EL0 interrupt request. */
-#else /* Word 0 - Little Endian */
-        uint32_t p                     : 31; /**< [ 30:  0](R/W) Event counter overflow interrupt request disable bit for
-                                                                     PMEVCNTR<x>_EL0.
-                                                                 When EL2 is implemented, in nonsecure EL1 and EL0, N is the
-                                                                     value in AP_MDCR_EL2[HPMN]. Otherwise, N is the value in
-                                                                     AP_PMCR_EL0[N].
-                                                                 Bits [30:N] are RAZ/WI.
-                                                                 0 = When read, means that the PMEVCNTR<x>_EL0 event counter
-                                                                     interrupt request is disabled. When written, has no effect.
-                                                                 1 = When read, means that the PMEVCNTR<x>_EL0 event counter
-                                                                     interrupt request is enabled. When written, disables the
-                                                                     PMEVCNTR<x>_EL0 interrupt request. */
-        uint32_t cc                    : 1;  /**< [ 31: 31](R/W) AP_PMCCNTR_EL0 overflow interrupt request disable bit. Possible
-                                                                     values are:
-                                                                 0 = When read, means the cycle counter overflow interrupt request
-                                                                     is disabled. When written, has no effect.
-                                                                 1 = When read, means the cycle counter overflow interrupt request
-                                                                     is enabled. When written, disables the cycle count overflow
-                                                                     interrupt request. */
-#endif /* Word 0 - End */
-    } cn8;
-    /* struct bdk_ap_pmintenclr_el1_s cn9; */
+    /* struct bdk_ap_pmintenclr_el1_s cn; */
 } bdk_ap_pmintenclr_el1_t;
 
 #define BDK_AP_PMINTENCLR_EL1 BDK_AP_PMINTENCLR_EL1_FUNC()
@@ -20845,7 +17019,8 @@ typedef union
     struct bdk_ap_pmintenset_el1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t cc                    : 1;  /**< [ 31: 31](R/W) AP_PMCCNTR_EL0 overflow interrupt request enable bit.
+        uint32_t cc                    : 1;  /**< [ 31: 31](R/W) AP_PMCCNTR_EL0 overflow interrupt request enable bit. Possible
+                                                                     values are:
                                                                  0 = When read, means the cycle counter overflow interrupt request
                                                                      is disabled. When written, has no effect.
                                                                  1 = When read, means the cycle counter overflow interrupt request
@@ -20880,7 +17055,8 @@ typedef union
                                                                  1 = When read, means that the PMEVCNTR<x>_EL0 event counter
                                                                      interrupt request is enabled. When written, enables the
                                                                      PMEVCNTR<x>_EL0 interrupt request. */
-        uint32_t cc                    : 1;  /**< [ 31: 31](R/W) AP_PMCCNTR_EL0 overflow interrupt request enable bit.
+        uint32_t cc                    : 1;  /**< [ 31: 31](R/W) AP_PMCCNTR_EL0 overflow interrupt request enable bit. Possible
+                                                                     values are:
                                                                  0 = When read, means the cycle counter overflow interrupt request
                                                                      is disabled. When written, has no effect.
                                                                  1 = When read, means the cycle counter overflow interrupt request
@@ -20888,55 +17064,7 @@ typedef union
                                                                      interrupt request. */
 #endif /* Word 0 - End */
     } s;
-    struct bdk_ap_pmintenset_el1_cn8
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t cc                    : 1;  /**< [ 31: 31](R/W) AP_PMCCNTR_EL0 overflow interrupt request enable bit. Possible
-                                                                     values are:
-                                                                 0 = When read, means the cycle counter overflow interrupt request
-                                                                     is disabled. When written, has no effect.
-                                                                 1 = When read, means the cycle counter overflow interrupt request
-                                                                     is enabled. When written, enables the cycle count overflow
-                                                                     interrupt request. */
-        uint32_t p                     : 31; /**< [ 30:  0](R/W) Event counter overflow interrupt request enable bit for
-                                                                     PMEVCNTR<x>_EL0.
-
-                                                                 When EL2 is implemented, in nonsecure EL1 and EL0, N is the
-                                                                     value in AP_MDCR_EL2[HPMN]. Otherwise, N is the value in
-                                                                     AP_PMCR_EL0[N].
-
-                                                                 Bits [30:N] are RAZ/WI.
-
-                                                                 0 = When read, means that the PMEVCNTR<x>_EL0 event counter
-                                                                     interrupt request is disabled. When written, has no effect.
-                                                                 1 = When read, means that the PMEVCNTR<x>_EL0 event counter
-                                                                     interrupt request is enabled. When written, enables the
-                                                                     PMEVCNTR<x>_EL0 interrupt request. */
-#else /* Word 0 - Little Endian */
-        uint32_t p                     : 31; /**< [ 30:  0](R/W) Event counter overflow interrupt request enable bit for
-                                                                     PMEVCNTR<x>_EL0.
-
-                                                                 When EL2 is implemented, in nonsecure EL1 and EL0, N is the
-                                                                     value in AP_MDCR_EL2[HPMN]. Otherwise, N is the value in
-                                                                     AP_PMCR_EL0[N].
-
-                                                                 Bits [30:N] are RAZ/WI.
-
-                                                                 0 = When read, means that the PMEVCNTR<x>_EL0 event counter
-                                                                     interrupt request is disabled. When written, has no effect.
-                                                                 1 = When read, means that the PMEVCNTR<x>_EL0 event counter
-                                                                     interrupt request is enabled. When written, enables the
-                                                                     PMEVCNTR<x>_EL0 interrupt request. */
-        uint32_t cc                    : 1;  /**< [ 31: 31](R/W) AP_PMCCNTR_EL0 overflow interrupt request enable bit. Possible
-                                                                     values are:
-                                                                 0 = When read, means the cycle counter overflow interrupt request
-                                                                     is disabled. When written, has no effect.
-                                                                 1 = When read, means the cycle counter overflow interrupt request
-                                                                     is enabled. When written, enables the cycle count overflow
-                                                                     interrupt request. */
-#endif /* Word 0 - End */
-    } cn8;
-    /* struct bdk_ap_pmintenset_el1_s cn9; */
+    /* struct bdk_ap_pmintenset_el1_s cn; */
 } bdk_ap_pmintenset_el1_t;
 
 #define BDK_AP_PMINTENSET_EL1 BDK_AP_PMINTENSET_EL1_FUNC()
@@ -21082,257 +17210,6 @@ static inline uint64_t BDK_AP_PMOVSSET_EL0_FUNC(void)
 #define arguments_BDK_AP_PMOVSSET_EL0 -1,-1,-1,-1
 
 /**
- * Register (SYSREG) ap_pmscr_el1
- *
- * AP Statistical Profiling Control Register
- * Provides EL1 controls for Statistical Profiling..
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_ap_pmscr_el1_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_7_63         : 57;
-        uint64_t pct                   : 1;  /**< [  6:  6](R/W) Physical timestamp.
-                                                                   0 = Virtual counter, CNTVCT_EL0, is collected.
-                                                                   1 = Physical counter, CNTPCT_EL0, is collected.
-
-                                                                 Ignored when the TS bit is 0, at EL2, and in nonsecure state when HCR_EL2[TGE] = 1.
-                                                                 RES0 in nonsecure state when MDCR_EL2[E2DB] != 0x0 and PMSCR_EL2[PCT ]= 0. */
-        uint64_t ts                    : 1;  /**< [  5:  5](R/W) Timestamp enable.
-                                                                   0 = Timestamp sampling disabled.
-                                                                   1 = Timestamp sampling enabled.
-
-                                                                 Ignored at EL2 and in nonsecure state when HCR_EL2[TGE] = 1. */
-        uint64_t pa                    : 1;  /**< [  4:  4](R/W) Physical address sample enable.
-                                                                   0 = Physical addresses are not collected.
-                                                                   1 = Physical addresses are collected.
-
-                                                                 Ignored at EL2 and in nonsecure state when HCR_EL2[TGE] = 1.
-                                                                 RES0 in nonsecure state when MDCR_EL2[E2DB] = 0x0 and PMSCR_EL2[PA] = 0. */
-        uint64_t cx                    : 1;  /**< [  3:  3](R/W) CONTEXTIDR_EL1 sample enable.
-                                                                   0 = CONTEXTIDR_EL1 is not collected.
-                                                                   1 = CONTEXTIDR_EL1 is collected.
-
-                                                                 RES0 at EL2 and in nonsecure state when HCR_EL2.TGE = 1. */
-        uint64_t reserved_2            : 1;
-        uint64_t e1spe                 : 1;  /**< [  1:  1](R/W) EL1 statistical profiling enable.
-                                                                   0 = Sampling disabled at EL1.
-                                                                   1 = Sampling enabled at EL1.
-
-                                                                 Ignored in nonsecure state when HCR_EL2[TGE] = 1. */
-        uint64_t e0spe                 : 1;  /**< [  0:  0](R/W) EL0 statistical profiling enable.
-                                                                   0 = Sampling disabled at EL0 when HCR_EL2[TGE] = 0.
-                                                                   1 = Sampling enabled at EL0 when HCR_EL2[TGE] = 0.
-
-                                                                 Ignored in nonsecure state when HCR_EL2[TGE] = 1. */
-#else /* Word 0 - Little Endian */
-        uint64_t e0spe                 : 1;  /**< [  0:  0](R/W) EL0 statistical profiling enable.
-                                                                   0 = Sampling disabled at EL0 when HCR_EL2[TGE] = 0.
-                                                                   1 = Sampling enabled at EL0 when HCR_EL2[TGE] = 0.
-
-                                                                 Ignored in nonsecure state when HCR_EL2[TGE] = 1. */
-        uint64_t e1spe                 : 1;  /**< [  1:  1](R/W) EL1 statistical profiling enable.
-                                                                   0 = Sampling disabled at EL1.
-                                                                   1 = Sampling enabled at EL1.
-
-                                                                 Ignored in nonsecure state when HCR_EL2[TGE] = 1. */
-        uint64_t reserved_2            : 1;
-        uint64_t cx                    : 1;  /**< [  3:  3](R/W) CONTEXTIDR_EL1 sample enable.
-                                                                   0 = CONTEXTIDR_EL1 is not collected.
-                                                                   1 = CONTEXTIDR_EL1 is collected.
-
-                                                                 RES0 at EL2 and in nonsecure state when HCR_EL2.TGE = 1. */
-        uint64_t pa                    : 1;  /**< [  4:  4](R/W) Physical address sample enable.
-                                                                   0 = Physical addresses are not collected.
-                                                                   1 = Physical addresses are collected.
-
-                                                                 Ignored at EL2 and in nonsecure state when HCR_EL2[TGE] = 1.
-                                                                 RES0 in nonsecure state when MDCR_EL2[E2DB] = 0x0 and PMSCR_EL2[PA] = 0. */
-        uint64_t ts                    : 1;  /**< [  5:  5](R/W) Timestamp enable.
-                                                                   0 = Timestamp sampling disabled.
-                                                                   1 = Timestamp sampling enabled.
-
-                                                                 Ignored at EL2 and in nonsecure state when HCR_EL2[TGE] = 1. */
-        uint64_t pct                   : 1;  /**< [  6:  6](R/W) Physical timestamp.
-                                                                   0 = Virtual counter, CNTVCT_EL0, is collected.
-                                                                   1 = Physical counter, CNTPCT_EL0, is collected.
-
-                                                                 Ignored when the TS bit is 0, at EL2, and in nonsecure state when HCR_EL2[TGE] = 1.
-                                                                 RES0 in nonsecure state when MDCR_EL2[E2DB] != 0x0 and PMSCR_EL2[PCT ]= 0. */
-        uint64_t reserved_7_63         : 57;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_ap_pmscr_el1_s cn; */
-} bdk_ap_pmscr_el1_t;
-
-#define BDK_AP_PMSCR_EL1 BDK_AP_PMSCR_EL1_FUNC()
-static inline uint64_t BDK_AP_PMSCR_EL1_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_AP_PMSCR_EL1_FUNC(void)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x30009090000ll;
-    __bdk_csr_fatal("AP_PMSCR_EL1", 0, 0, 0, 0, 0);
-}
-
-#define typedef_BDK_AP_PMSCR_EL1 bdk_ap_pmscr_el1_t
-#define bustype_BDK_AP_PMSCR_EL1 BDK_CSR_TYPE_SYSREG
-#define basename_BDK_AP_PMSCR_EL1 "AP_PMSCR_EL1"
-#define busnum_BDK_AP_PMSCR_EL1 0
-#define arguments_BDK_AP_PMSCR_EL1 -1,-1,-1,-1
-
-/**
- * Register (SYSREG) ap_pmscr_el12
- *
- * AP Statistical Profiling Control Register
- * Alias of AP_PMSCR_EL1 when accessed at EL2 and AP_HCR_EL2[E2H] is set.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_ap_pmscr_el12_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_0_63         : 64;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_63         : 64;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_ap_pmscr_el12_s cn; */
-} bdk_ap_pmscr_el12_t;
-
-#define BDK_AP_PMSCR_EL12 BDK_AP_PMSCR_EL12_FUNC()
-static inline uint64_t BDK_AP_PMSCR_EL12_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_AP_PMSCR_EL12_FUNC(void)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x30509090000ll;
-    __bdk_csr_fatal("AP_PMSCR_EL12", 0, 0, 0, 0, 0);
-}
-
-#define typedef_BDK_AP_PMSCR_EL12 bdk_ap_pmscr_el12_t
-#define bustype_BDK_AP_PMSCR_EL12 BDK_CSR_TYPE_SYSREG
-#define basename_BDK_AP_PMSCR_EL12 "AP_PMSCR_EL12"
-#define busnum_BDK_AP_PMSCR_EL12 0
-#define arguments_BDK_AP_PMSCR_EL12 -1,-1,-1,-1
-
-/**
- * Register (SYSREG) ap_pmscr_el2
- *
- * AP Statistical Profiling Control Register
- * Provides EL2 controls for Statistical Profiling.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_ap_pmscr_el2_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_7_63         : 57;
-        uint64_t pct                   : 1;  /**< [  6:  6](R/W) Physical Timestamp.
-                                                                   0 = Virtual counter, CNTVCT_EL0, is collected.
-                                                                   1 = Physical counter, CNTPCT_EL0, is collected.
-
-                                                                 Ignored when the TS bit is 0 and in Secure state.
-                                                                 If MDCR_EL2.E2DB != 0b00, this bit is combined with PMSCR_EL1.PCT to determine which
-                                                                 counter is collected. See CollectTimeStamp.
-                                                                 If EL2 is not implemented, the PE behaves as if PCT == 1, other than for a direct read of
-                                                                 the register. */
-        uint64_t ts                    : 1;  /**< [  5:  5](R/W) Timestamp Enable.
-                                                                   0 = Timestamp sampling disabled.
-                                                                   1 = Timestamp sampling enabled.
-
-                                                                 Ignored in Secure state, and at EL1 and EL0 when HCR_EL2.TGE == 0.
-                                                                 See CollectTimeStamp. */
-        uint64_t pa                    : 1;  /**< [  4:  4](R/W) Physical Address Sample Enable.
-                                                                   0 = Physical addresses are not collected.
-                                                                   1 = Physical addresses are collected.
-
-                                                                 Ignored when the TS bit is 0 and in Secure state.
-                                                                 If MDCR_EL2.E2DB != 0b00, this bit is combined with PMSCR_EL1.PA to determine which
-                                                                 counter is collected. See CollectPhysicalAddress.
-                                                                 If EL2 is not implemented, the PE behaves as if PA == 1, other than for a direct read of
-                                                                 the register. */
-        uint64_t cx                    : 1;  /**< [  3:  3](R/W) CONTEXTIDR_EL2 Sample Enable.
-                                                                   0 = CONTEXTIDR_EL2 is not collected.
-                                                                   1 = CONTEXTIDR_EL2 is collected.
-
-                                                                 RES0 in secure state. */
-        uint64_t reserved_2            : 1;
-        uint64_t e2spe                 : 1;  /**< [  1:  1](R/W) EL2 statistical profiling enable.
-                                                                   0 = Sampling disabled at EL2.
-                                                                   1 = Sampling enabled at EL2.
-
-                                                                 RES0 if MDCR_EL2[E2PB] != 0x0. Ignored in Secure state. */
-        uint64_t e0hspe                : 1;  /**< [  0:  0](R/W) EL0 statistical profiling enable.
-                                                                   0 = Sampling disabled at EL0 when HCR_EL2.TGE == 1.
-                                                                   1 = Sampling enabled at EL0 when HCR_EL2.TGE == 1.
-
-                                                                 RES0 if MDCR_EL2.E2PB != 0x0. Ignored in Secure state and when HCR_EL2[TGE] = 0. */
-#else /* Word 0 - Little Endian */
-        uint64_t e0hspe                : 1;  /**< [  0:  0](R/W) EL0 statistical profiling enable.
-                                                                   0 = Sampling disabled at EL0 when HCR_EL2.TGE == 1.
-                                                                   1 = Sampling enabled at EL0 when HCR_EL2.TGE == 1.
-
-                                                                 RES0 if MDCR_EL2.E2PB != 0x0. Ignored in Secure state and when HCR_EL2[TGE] = 0. */
-        uint64_t e2spe                 : 1;  /**< [  1:  1](R/W) EL2 statistical profiling enable.
-                                                                   0 = Sampling disabled at EL2.
-                                                                   1 = Sampling enabled at EL2.
-
-                                                                 RES0 if MDCR_EL2[E2PB] != 0x0. Ignored in Secure state. */
-        uint64_t reserved_2            : 1;
-        uint64_t cx                    : 1;  /**< [  3:  3](R/W) CONTEXTIDR_EL2 Sample Enable.
-                                                                   0 = CONTEXTIDR_EL2 is not collected.
-                                                                   1 = CONTEXTIDR_EL2 is collected.
-
-                                                                 RES0 in secure state. */
-        uint64_t pa                    : 1;  /**< [  4:  4](R/W) Physical Address Sample Enable.
-                                                                   0 = Physical addresses are not collected.
-                                                                   1 = Physical addresses are collected.
-
-                                                                 Ignored when the TS bit is 0 and in Secure state.
-                                                                 If MDCR_EL2.E2DB != 0b00, this bit is combined with PMSCR_EL1.PA to determine which
-                                                                 counter is collected. See CollectPhysicalAddress.
-                                                                 If EL2 is not implemented, the PE behaves as if PA == 1, other than for a direct read of
-                                                                 the register. */
-        uint64_t ts                    : 1;  /**< [  5:  5](R/W) Timestamp Enable.
-                                                                   0 = Timestamp sampling disabled.
-                                                                   1 = Timestamp sampling enabled.
-
-                                                                 Ignored in Secure state, and at EL1 and EL0 when HCR_EL2.TGE == 0.
-                                                                 See CollectTimeStamp. */
-        uint64_t pct                   : 1;  /**< [  6:  6](R/W) Physical Timestamp.
-                                                                   0 = Virtual counter, CNTVCT_EL0, is collected.
-                                                                   1 = Physical counter, CNTPCT_EL0, is collected.
-
-                                                                 Ignored when the TS bit is 0 and in Secure state.
-                                                                 If MDCR_EL2.E2DB != 0b00, this bit is combined with PMSCR_EL1.PCT to determine which
-                                                                 counter is collected. See CollectTimeStamp.
-                                                                 If EL2 is not implemented, the PE behaves as if PCT == 1, other than for a direct read of
-                                                                 the register. */
-        uint64_t reserved_7_63         : 57;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_ap_pmscr_el2_s cn; */
-} bdk_ap_pmscr_el2_t;
-
-#define BDK_AP_PMSCR_EL2 BDK_AP_PMSCR_EL2_FUNC()
-static inline uint64_t BDK_AP_PMSCR_EL2_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_AP_PMSCR_EL2_FUNC(void)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x30409090000ll;
-    __bdk_csr_fatal("AP_PMSCR_EL2", 0, 0, 0, 0, 0);
-}
-
-#define typedef_BDK_AP_PMSCR_EL2 bdk_ap_pmscr_el2_t
-#define bustype_BDK_AP_PMSCR_EL2 BDK_CSR_TYPE_SYSREG
-#define basename_BDK_AP_PMSCR_EL2 "AP_PMSCR_EL2"
-#define busnum_BDK_AP_PMSCR_EL2 0
-#define arguments_BDK_AP_PMSCR_EL2 -1,-1,-1,-1
-
-/**
  * Register (SYSREG) ap_pmselr_el0
  *
  * AP Performance Monitors Event Counter Selection Register
@@ -21437,553 +17314,6 @@ static inline uint64_t BDK_AP_PMSELR_EL0_FUNC(void)
 #define arguments_BDK_AP_PMSELR_EL0 -1,-1,-1,-1
 
 /**
- * Register (SYSREG) ap_pmsevfr_el1
- *
- * AP Sampling Event Filter Register
- * Controls sample filtering by events. The overall filter is the logical AND of these filters.
- * For example, if
- * E[3] and E[5] are both set to 1, only samples that have both event 3 (Level 1 unified or data
- * cache
- * refill) and event 5 set (TLB walk) are recorded.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_ap_pmsevfr_el1_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t e_48_63               : 16; /**< [ 63: 48](R/W) E[<n>] is the event filter for event <n>. If event <n> is not implemented, or filtering on
-                                                                 event <n> is not supported, the corresponding bit is RES0.
-                                                                   0 = Event <n> is ignored.
-                                                                   1 = Record samples that have event <n> == 1.
-
-                                                                 Ignored if PMSCR_EL1[FE] = 0.
-
-                                                                 An implementation defined event might be recorded as a multi-bit field. In this case, if
-                                                                 the corresponding bits of PMSEVFR_EL1 define an implementation defined filter for the
-                                                                 event. */
-        uint64_t reserved_32_47        : 16;
-        uint64_t e_24_31               : 8;  /**< [ 31: 24](R/W) E[<n>] is the event filter for event <n>. If event <n> is not implemented, or filtering on
-                                                                 event <n> is not supported, the corresponding bit is RES0.
-                                                                   0 = Event <n> is ignored.
-                                                                   1 = Record samples that have event <n> == 1.
-
-                                                                 Ignored if PMSCR_EL1[FE] = 0.
-
-                                                                 An implementation defined event might be recorded as a multi-bit field. In this case, if
-                                                                 the corresponding bits of PMSEVFR_EL1 define an implementation defined filter for the
-                                                                 event. */
-        uint64_t reserved_16_23        : 8;
-        uint64_t e_12_15               : 4;  /**< [ 15: 12](R/W) E[<n>] is the event filter for event <n>. If event <n> is not implemented, or filtering on
-                                                                 event <n> is not supported, the corresponding bit is RES0.
-                                                                   0 = Event <n> is ignored.
-                                                                   1 = Record samples that have event <n> = 1.
-
-                                                                 Ignored if PMSCR_EL1[FE] = 0.
-
-                                                                 An implementation defined event might be recorded as a multi-bit field. In this case, if
-                                                                 the corresponding bits of PMSEVFR_EL1 define an implementation defined filter for the
-                                                                 event. */
-        uint64_t reserved_8_11         : 4;
-        uint64_t e_7                   : 1;  /**< [  7:  7](R/W) Mispredicted.
-                                                                   0 = Mispredicted event is ignored.
-                                                                   1 = Record samples that have event 7 (Mispredicted) == 1.
-
-                                                                 Ignored if PMSCR_EL1[FE] = 0. */
-        uint64_t reserved_6            : 1;
-        uint64_t e_5                   : 1;  /**< [  5:  5](R/W) TLB walk.
-                                                                   0 = TLB walk event is ignored.
-                                                                   1 = Record samples that have event 5 (TLB walk) = 1.
-
-                                                                 Ignored if PMSCR_EL1[FE] = 0. */
-        uint64_t reserved_4            : 1;
-        uint64_t e_3                   : 1;  /**< [  3:  3](R/W) Level 1 data or unified cache refill.
-                                                                   0 = Level 1 data or unified cache refill event is ignored.
-                                                                   1 = Record samples that have event 3 (Level 1 data or unified cache refill) == 1.
-
-                                                                 Ignored if PMSCR_EL1[FE] = 0. */
-        uint64_t reserved_2            : 1;
-        uint64_t e_1                   : 1;  /**< [  1:  1](R/W) Architecturally retired.
-                                                                   0 = Architecturally retired event is ignored.
-                                                                   1 = Record samples that have event 1 (Architecturally retired) == 1.
-
-                                                                 Ignored if PMSCR_EL1[FE] = 0.
-
-                                                                 If the PE does not support sampling of speculative instructions, E[1] is RES1. */
-        uint64_t reserved_0            : 1;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0            : 1;
-        uint64_t e_1                   : 1;  /**< [  1:  1](R/W) Architecturally retired.
-                                                                   0 = Architecturally retired event is ignored.
-                                                                   1 = Record samples that have event 1 (Architecturally retired) == 1.
-
-                                                                 Ignored if PMSCR_EL1[FE] = 0.
-
-                                                                 If the PE does not support sampling of speculative instructions, E[1] is RES1. */
-        uint64_t reserved_2            : 1;
-        uint64_t e_3                   : 1;  /**< [  3:  3](R/W) Level 1 data or unified cache refill.
-                                                                   0 = Level 1 data or unified cache refill event is ignored.
-                                                                   1 = Record samples that have event 3 (Level 1 data or unified cache refill) == 1.
-
-                                                                 Ignored if PMSCR_EL1[FE] = 0. */
-        uint64_t reserved_4            : 1;
-        uint64_t e_5                   : 1;  /**< [  5:  5](R/W) TLB walk.
-                                                                   0 = TLB walk event is ignored.
-                                                                   1 = Record samples that have event 5 (TLB walk) = 1.
-
-                                                                 Ignored if PMSCR_EL1[FE] = 0. */
-        uint64_t reserved_6            : 1;
-        uint64_t e_7                   : 1;  /**< [  7:  7](R/W) Mispredicted.
-                                                                   0 = Mispredicted event is ignored.
-                                                                   1 = Record samples that have event 7 (Mispredicted) == 1.
-
-                                                                 Ignored if PMSCR_EL1[FE] = 0. */
-        uint64_t reserved_8_11         : 4;
-        uint64_t e_12_15               : 4;  /**< [ 15: 12](R/W) E[<n>] is the event filter for event <n>. If event <n> is not implemented, or filtering on
-                                                                 event <n> is not supported, the corresponding bit is RES0.
-                                                                   0 = Event <n> is ignored.
-                                                                   1 = Record samples that have event <n> = 1.
-
-                                                                 Ignored if PMSCR_EL1[FE] = 0.
-
-                                                                 An implementation defined event might be recorded as a multi-bit field. In this case, if
-                                                                 the corresponding bits of PMSEVFR_EL1 define an implementation defined filter for the
-                                                                 event. */
-        uint64_t reserved_16_23        : 8;
-        uint64_t e_24_31               : 8;  /**< [ 31: 24](R/W) E[<n>] is the event filter for event <n>. If event <n> is not implemented, or filtering on
-                                                                 event <n> is not supported, the corresponding bit is RES0.
-                                                                   0 = Event <n> is ignored.
-                                                                   1 = Record samples that have event <n> == 1.
-
-                                                                 Ignored if PMSCR_EL1[FE] = 0.
-
-                                                                 An implementation defined event might be recorded as a multi-bit field. In this case, if
-                                                                 the corresponding bits of PMSEVFR_EL1 define an implementation defined filter for the
-                                                                 event. */
-        uint64_t reserved_32_47        : 16;
-        uint64_t e_48_63               : 16; /**< [ 63: 48](R/W) E[<n>] is the event filter for event <n>. If event <n> is not implemented, or filtering on
-                                                                 event <n> is not supported, the corresponding bit is RES0.
-                                                                   0 = Event <n> is ignored.
-                                                                   1 = Record samples that have event <n> == 1.
-
-                                                                 Ignored if PMSCR_EL1[FE] = 0.
-
-                                                                 An implementation defined event might be recorded as a multi-bit field. In this case, if
-                                                                 the corresponding bits of PMSEVFR_EL1 define an implementation defined filter for the
-                                                                 event. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_ap_pmsevfr_el1_s cn; */
-} bdk_ap_pmsevfr_el1_t;
-
-#define BDK_AP_PMSEVFR_EL1 BDK_AP_PMSEVFR_EL1_FUNC()
-static inline uint64_t BDK_AP_PMSEVFR_EL1_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_AP_PMSEVFR_EL1_FUNC(void)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x30009090500ll;
-    __bdk_csr_fatal("AP_PMSEVFR_EL1", 0, 0, 0, 0, 0);
-}
-
-#define typedef_BDK_AP_PMSEVFR_EL1 bdk_ap_pmsevfr_el1_t
-#define bustype_BDK_AP_PMSEVFR_EL1 BDK_CSR_TYPE_SYSREG
-#define basename_BDK_AP_PMSEVFR_EL1 "AP_PMSEVFR_EL1"
-#define busnum_BDK_AP_PMSEVFR_EL1 0
-#define arguments_BDK_AP_PMSEVFR_EL1 -1,-1,-1,-1
-
-/**
- * Register (SYSREG) ap_pmsfcr_el1
- *
- * AP Sampling Filter Control Register
- * Controls sample filtering. The filter is the logical AND of the FL, FT and FE bits. For
- * example, if FE == 1 and FT == 1 only samples including the selected instruction types and the
- * selected events will be recorded.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_ap_pmsfcr_el1_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_19_63        : 45;
-        uint64_t st                    : 1;  /**< [ 18: 18](R/W) Store filter enable.
-                                                                   0 = Do not record store instructions.
-                                                                   1 = Record all store instructions, including vector stores and all atomic operations.
-
-                                                                 Ignored if [FT] = 0. */
-        uint64_t ld                    : 1;  /**< [ 17: 17](R/W) Load filter enable.
-                                                                   0 = Do not record load instructions.
-                                                                   1 = Record all load instructions, including vector loads and atomic operations that
-                                                                 return data.
-
-                                                                 Ignored if [FT] = 0. */
-        uint64_t bb                    : 1;  /**< [ 16: 16](R/W) Branch filter enable.
-                                                                   0 = Do not record branch instructions.
-                                                                   1 = Record all branch instructions.
-
-                                                                 Ignored if [FT] = 0. */
-        uint64_t reserved_3_15         : 13;
-        uint64_t fl                    : 1;  /**< [  2:  2](R/W) Filter by latency.
-                                                                   0 = Latency filtering disabled.
-                                                                   1 = Latency filtering enabled. Samples with a total latency less than
-                                                                 PMSLATFR_EL1.MINLAT will not be recorded.
-                                                                 If this bit is set to 1 and PMSLATFR_EL1.MINLAT is zero, it is CONSTRAINED UNPREDICTABLE
-                                                                 whether no samples are recorded or the FL bit is ignored. */
-        uint64_t ft                    : 1;  /**< [  1:  1](R/W) Filter by type. The filter is the logical OR of the ST, LD and B bits. For example, if LD
-                                                                 and ST are both
-                                                                 set, both load and store instructions are recorded.
-                                                                   0 = Type filtering disabled.
-                                                                   1 = Type filtering enabled. Samples not one of the selected instruction types will not
-                                                                 be recorded.
-
-                                                                 If this bit is set to 1 and the ST, LD, and B bits are all zero, it is constrained
-                                                                 unpredictable whether no samples are recorded or the FT bit is ignored. */
-        uint64_t fe                    : 1;  /**< [  0:  0](R/W) Filter by event.
-                                                                   0 = Event filtering disabled.
-                                                                   1 = Event filtering enabled. Samples not including the events selected by PMSEVFR_EL1
-                                                                 will not be recorded.
-
-                                                                 If this bit is set to 1 and PMSEVFR_EL1 is zero, it is constrained unpredictable whether
-                                                                 no samples are recorded or the FE. */
-#else /* Word 0 - Little Endian */
-        uint64_t fe                    : 1;  /**< [  0:  0](R/W) Filter by event.
-                                                                   0 = Event filtering disabled.
-                                                                   1 = Event filtering enabled. Samples not including the events selected by PMSEVFR_EL1
-                                                                 will not be recorded.
-
-                                                                 If this bit is set to 1 and PMSEVFR_EL1 is zero, it is constrained unpredictable whether
-                                                                 no samples are recorded or the FE. */
-        uint64_t ft                    : 1;  /**< [  1:  1](R/W) Filter by type. The filter is the logical OR of the ST, LD and B bits. For example, if LD
-                                                                 and ST are both
-                                                                 set, both load and store instructions are recorded.
-                                                                   0 = Type filtering disabled.
-                                                                   1 = Type filtering enabled. Samples not one of the selected instruction types will not
-                                                                 be recorded.
-
-                                                                 If this bit is set to 1 and the ST, LD, and B bits are all zero, it is constrained
-                                                                 unpredictable whether no samples are recorded or the FT bit is ignored. */
-        uint64_t fl                    : 1;  /**< [  2:  2](R/W) Filter by latency.
-                                                                   0 = Latency filtering disabled.
-                                                                   1 = Latency filtering enabled. Samples with a total latency less than
-                                                                 PMSLATFR_EL1.MINLAT will not be recorded.
-                                                                 If this bit is set to 1 and PMSLATFR_EL1.MINLAT is zero, it is CONSTRAINED UNPREDICTABLE
-                                                                 whether no samples are recorded or the FL bit is ignored. */
-        uint64_t reserved_3_15         : 13;
-        uint64_t bb                    : 1;  /**< [ 16: 16](R/W) Branch filter enable.
-                                                                   0 = Do not record branch instructions.
-                                                                   1 = Record all branch instructions.
-
-                                                                 Ignored if [FT] = 0. */
-        uint64_t ld                    : 1;  /**< [ 17: 17](R/W) Load filter enable.
-                                                                   0 = Do not record load instructions.
-                                                                   1 = Record all load instructions, including vector loads and atomic operations that
-                                                                 return data.
-
-                                                                 Ignored if [FT] = 0. */
-        uint64_t st                    : 1;  /**< [ 18: 18](R/W) Store filter enable.
-                                                                   0 = Do not record store instructions.
-                                                                   1 = Record all store instructions, including vector stores and all atomic operations.
-
-                                                                 Ignored if [FT] = 0. */
-        uint64_t reserved_19_63        : 45;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_ap_pmsfcr_el1_s cn; */
-} bdk_ap_pmsfcr_el1_t;
-
-#define BDK_AP_PMSFCR_EL1 BDK_AP_PMSFCR_EL1_FUNC()
-static inline uint64_t BDK_AP_PMSFCR_EL1_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_AP_PMSFCR_EL1_FUNC(void)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x30009090400ll;
-    __bdk_csr_fatal("AP_PMSFCR_EL1", 0, 0, 0, 0, 0);
-}
-
-#define typedef_BDK_AP_PMSFCR_EL1 bdk_ap_pmsfcr_el1_t
-#define bustype_BDK_AP_PMSFCR_EL1 BDK_CSR_TYPE_SYSREG
-#define basename_BDK_AP_PMSFCR_EL1 "AP_PMSFCR_EL1"
-#define busnum_BDK_AP_PMSFCR_EL1 0
-#define arguments_BDK_AP_PMSFCR_EL1 -1,-1,-1,-1
-
-/**
- * Register (SYSREG) ap_pmsicr_el1
- *
- * AP Sampling Interval Control Register
- * Software must write zero to PMSICR_EL1 before enabling sample profiling for a sampling
- * session.
- * Software must then treat PMSICR_EL1 as an opaque, 64-bit, read/write register used for context
- * switches only.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_ap_pmsicr_el1_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_0_63         : 64;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_63         : 64;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_ap_pmsicr_el1_s cn; */
-} bdk_ap_pmsicr_el1_t;
-
-#define BDK_AP_PMSICR_EL1 BDK_AP_PMSICR_EL1_FUNC()
-static inline uint64_t BDK_AP_PMSICR_EL1_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_AP_PMSICR_EL1_FUNC(void)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x30009090200ll;
-    __bdk_csr_fatal("AP_PMSICR_EL1", 0, 0, 0, 0, 0);
-}
-
-#define typedef_BDK_AP_PMSICR_EL1 bdk_ap_pmsicr_el1_t
-#define bustype_BDK_AP_PMSICR_EL1 BDK_CSR_TYPE_SYSREG
-#define basename_BDK_AP_PMSICR_EL1 "AP_PMSICR_EL1"
-#define busnum_BDK_AP_PMSICR_EL1 0
-#define arguments_BDK_AP_PMSICR_EL1 -1,-1,-1,-1
-
-/**
- * Register (SYSREG) ap_pmsidr_el1
- *
- * AP Sampling Profiling ID Register
- * Describes the Statistical Profiling implementation to software.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_ap_pmsidr_el1_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_20_63        : 44;
-        uint64_t countsize             : 4;  /**< [ 19: 16](RO) Defines the size of the counters.
-                                                                   0x2 = 12-bit saturating counters.
-
-                                                                 All other values are reserved. Reserved values might be defined in a future version of the
-                                                                 architecture. */
-        uint64_t maxsize               : 4;  /**< [ 15: 12](RO) Defines the largest size for a single record, rounded up to a power-of-two. If this is the
-                                                                 same as the minimum alignment (PMBIDR_EL1.Align), then each record is exactly this size.
-                                                                   0x4 = 16 bytes.
-                                                                   0x5 = 32 bytes.
-                                                                   0x6 = 64 bytes.
-                                                                   0x7 = 128 bytes.
-                                                                   ... .
-                                                                   0xB = 2 KB.
-
-                                                                 All other values are reserved. Reserved values might be defined in a future version of the
-                                                                 architecture. */
-        uint64_t interval              : 4;  /**< [ 11:  8](RO) Recommended minimum sampling interval. This provides guidance from the implementer to the
-                                                                 smallest minimum sampling interval, N. It is encoded as floor((Log2(N)-8)*2).
-                                                                   0x0 = 256.
-                                                                   0x2 = 512.
-                                                                   0x3 = 724.
-                                                                   0x4 = 1024.
-                                                                   0x5 = 1448.
-                                                                   0x6 = 2048.
-                                                                   0x7 = 2896.
-                                                                   0x8 = 4096.
-
-                                                                 All other values are reserved. Reserved values might be defined in a future version of the
-                                                                 architecture. */
-        uint64_t llnw                  : 1;  /**< [  7:  7](RO) Last level cache write events. Defines whether Last Level Cache events in the Event packet
-                                                                 are valid on write operations.
-                                                                   0 = Last level cache events are valid for write operations.
-                                                                   1 = Last level cache events are not valid for write operations. */
-        uint64_t llnr                  : 1;  /**< [  6:  6](RO) Last level cache read events. Defines whether Last Level Cache events in the Event packet
-                                                                 are valid on read operations.
-                                                                   0 = Last level cache events are valid for read operations.
-                                                                   1 = Last level cache events are not valid for read operations. */
-        uint64_t ernd                  : 1;  /**< [  5:  5](RO) Defines how the random number generator is used in determining the interval between
-                                                                 samples, when enabled by PMSIRR_EL1[RND].
-                                                                   0 = The random number is added at the start of the interval, and the sample is taken and
-                                                                 a new interval started when the combined interval expires.
-                                                                   1 = The random number is added and the new interval started after the interval
-                                                                 programmed in PMSIRR_EL1[INTERVAL] expires, and the sample is taken when the random
-                                                                 interval expires. */
-        uint64_t lds                   : 1;  /**< [  4:  4](RO) Data source indicator for sampled load instructions.
-                                                                   0 = Loaded data source not implemented.
-                                                                   1 = Loaded data source implemented. */
-        uint64_t archinst              : 1;  /**< [  3:  3](RO) Architectural instruction profiling.
-                                                                   0 = Micro-op sampling implemented.
-                                                                   1 = Architecture instruction sampling implemented. */
-        uint64_t fl                    : 1;  /**< [  2:  2](RO) Filtering by latency. This bit reads as one. */
-        uint64_t ft                    : 1;  /**< [  1:  1](RO) Filtering by operation type. This bit reads as one. */
-        uint64_t fe                    : 1;  /**< [  0:  0](RO) Filtering by events. This bit reads as one. */
-#else /* Word 0 - Little Endian */
-        uint64_t fe                    : 1;  /**< [  0:  0](RO) Filtering by events. This bit reads as one. */
-        uint64_t ft                    : 1;  /**< [  1:  1](RO) Filtering by operation type. This bit reads as one. */
-        uint64_t fl                    : 1;  /**< [  2:  2](RO) Filtering by latency. This bit reads as one. */
-        uint64_t archinst              : 1;  /**< [  3:  3](RO) Architectural instruction profiling.
-                                                                   0 = Micro-op sampling implemented.
-                                                                   1 = Architecture instruction sampling implemented. */
-        uint64_t lds                   : 1;  /**< [  4:  4](RO) Data source indicator for sampled load instructions.
-                                                                   0 = Loaded data source not implemented.
-                                                                   1 = Loaded data source implemented. */
-        uint64_t ernd                  : 1;  /**< [  5:  5](RO) Defines how the random number generator is used in determining the interval between
-                                                                 samples, when enabled by PMSIRR_EL1[RND].
-                                                                   0 = The random number is added at the start of the interval, and the sample is taken and
-                                                                 a new interval started when the combined interval expires.
-                                                                   1 = The random number is added and the new interval started after the interval
-                                                                 programmed in PMSIRR_EL1[INTERVAL] expires, and the sample is taken when the random
-                                                                 interval expires. */
-        uint64_t llnr                  : 1;  /**< [  6:  6](RO) Last level cache read events. Defines whether Last Level Cache events in the Event packet
-                                                                 are valid on read operations.
-                                                                   0 = Last level cache events are valid for read operations.
-                                                                   1 = Last level cache events are not valid for read operations. */
-        uint64_t llnw                  : 1;  /**< [  7:  7](RO) Last level cache write events. Defines whether Last Level Cache events in the Event packet
-                                                                 are valid on write operations.
-                                                                   0 = Last level cache events are valid for write operations.
-                                                                   1 = Last level cache events are not valid for write operations. */
-        uint64_t interval              : 4;  /**< [ 11:  8](RO) Recommended minimum sampling interval. This provides guidance from the implementer to the
-                                                                 smallest minimum sampling interval, N. It is encoded as floor((Log2(N)-8)*2).
-                                                                   0x0 = 256.
-                                                                   0x2 = 512.
-                                                                   0x3 = 724.
-                                                                   0x4 = 1024.
-                                                                   0x5 = 1448.
-                                                                   0x6 = 2048.
-                                                                   0x7 = 2896.
-                                                                   0x8 = 4096.
-
-                                                                 All other values are reserved. Reserved values might be defined in a future version of the
-                                                                 architecture. */
-        uint64_t maxsize               : 4;  /**< [ 15: 12](RO) Defines the largest size for a single record, rounded up to a power-of-two. If this is the
-                                                                 same as the minimum alignment (PMBIDR_EL1.Align), then each record is exactly this size.
-                                                                   0x4 = 16 bytes.
-                                                                   0x5 = 32 bytes.
-                                                                   0x6 = 64 bytes.
-                                                                   0x7 = 128 bytes.
-                                                                   ... .
-                                                                   0xB = 2 KB.
-
-                                                                 All other values are reserved. Reserved values might be defined in a future version of the
-                                                                 architecture. */
-        uint64_t countsize             : 4;  /**< [ 19: 16](RO) Defines the size of the counters.
-                                                                   0x2 = 12-bit saturating counters.
-
-                                                                 All other values are reserved. Reserved values might be defined in a future version of the
-                                                                 architecture. */
-        uint64_t reserved_20_63        : 44;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_ap_pmsidr_el1_s cn; */
-} bdk_ap_pmsidr_el1_t;
-
-#define BDK_AP_PMSIDR_EL1 BDK_AP_PMSIDR_EL1_FUNC()
-static inline uint64_t BDK_AP_PMSIDR_EL1_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_AP_PMSIDR_EL1_FUNC(void)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x30009090700ll;
-    __bdk_csr_fatal("AP_PMSIDR_EL1", 0, 0, 0, 0, 0);
-}
-
-#define typedef_BDK_AP_PMSIDR_EL1 bdk_ap_pmsidr_el1_t
-#define bustype_BDK_AP_PMSIDR_EL1 BDK_CSR_TYPE_SYSREG
-#define basename_BDK_AP_PMSIDR_EL1 "AP_PMSIDR_EL1"
-#define busnum_BDK_AP_PMSIDR_EL1 0
-#define arguments_BDK_AP_PMSIDR_EL1 -1,-1,-1,-1
-
-/**
- * Register (SYSREG) ap_pmsirr_el1
- *
- * AP Sampling Interval Reload Register
- * Defines the interval between samples.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_ap_pmsirr_el1_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t interval              : 24; /**< [ 31:  8](R/W) Bits [31:8] of the PMSICR_EL1 interval counter reload value. Software must set this to a
-                                                                 non-zero
-                                                                 value. If software sets this to zero, an UNKNOWN sampling interval is used. Software
-                                                                 should set this to
-                                                                 a value greater than the minimum indicated by PMSIDR_EL1.Interval. */
-        uint64_t reserved_1_7          : 7;
-        uint64_t rnd                   : 1;  /**< [  0:  0](R/W) Controls randomization of the sampling interval.
-                                                                   0 = Disable randomization of sampling interval.
-                                                                   1 = Add (pseudo-)random jitter to sampling interval.
-
-                                                                 The random number generator is not architected. */
-#else /* Word 0 - Little Endian */
-        uint64_t rnd                   : 1;  /**< [  0:  0](R/W) Controls randomization of the sampling interval.
-                                                                   0 = Disable randomization of sampling interval.
-                                                                   1 = Add (pseudo-)random jitter to sampling interval.
-
-                                                                 The random number generator is not architected. */
-        uint64_t reserved_1_7          : 7;
-        uint64_t interval              : 24; /**< [ 31:  8](R/W) Bits [31:8] of the PMSICR_EL1 interval counter reload value. Software must set this to a
-                                                                 non-zero
-                                                                 value. If software sets this to zero, an UNKNOWN sampling interval is used. Software
-                                                                 should set this to
-                                                                 a value greater than the minimum indicated by PMSIDR_EL1.Interval. */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_ap_pmsirr_el1_s cn; */
-} bdk_ap_pmsirr_el1_t;
-
-#define BDK_AP_PMSIRR_EL1 BDK_AP_PMSIRR_EL1_FUNC()
-static inline uint64_t BDK_AP_PMSIRR_EL1_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_AP_PMSIRR_EL1_FUNC(void)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x30009090300ll;
-    __bdk_csr_fatal("AP_PMSIRR_EL1", 0, 0, 0, 0, 0);
-}
-
-#define typedef_BDK_AP_PMSIRR_EL1 bdk_ap_pmsirr_el1_t
-#define bustype_BDK_AP_PMSIRR_EL1 BDK_CSR_TYPE_SYSREG
-#define basename_BDK_AP_PMSIRR_EL1 "AP_PMSIRR_EL1"
-#define busnum_BDK_AP_PMSIRR_EL1 0
-#define arguments_BDK_AP_PMSIRR_EL1 -1,-1,-1,-1
-
-/**
- * Register (SYSREG) ap_pmslatfr_el1
- *
- * AP Sampling Latency Filter Register
- * Controls sample filtering by latency.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_ap_pmslatfr_el1_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_12_63        : 52;
-        uint64_t minlat                : 12; /**< [ 11:  0](R/W) Minimum latency. When PMSFCR_EL1.FL == 1, defines the minimum total latency for filtered
-                                                                 operations. Samples with a total latency less than MINLAT will not be recorded.
-                                                                 Ignored if PMSFCR_EL1.FL == 0. */
-#else /* Word 0 - Little Endian */
-        uint64_t minlat                : 12; /**< [ 11:  0](R/W) Minimum latency. When PMSFCR_EL1.FL == 1, defines the minimum total latency for filtered
-                                                                 operations. Samples with a total latency less than MINLAT will not be recorded.
-                                                                 Ignored if PMSFCR_EL1.FL == 0. */
-        uint64_t reserved_12_63        : 52;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_ap_pmslatfr_el1_s cn; */
-} bdk_ap_pmslatfr_el1_t;
-
-#define BDK_AP_PMSLATFR_EL1 BDK_AP_PMSLATFR_EL1_FUNC()
-static inline uint64_t BDK_AP_PMSLATFR_EL1_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_AP_PMSLATFR_EL1_FUNC(void)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x30009090600ll;
-    __bdk_csr_fatal("AP_PMSLATFR_EL1", 0, 0, 0, 0, 0);
-}
-
-#define typedef_BDK_AP_PMSLATFR_EL1 bdk_ap_pmslatfr_el1_t
-#define bustype_BDK_AP_PMSLATFR_EL1 BDK_CSR_TYPE_SYSREG
-#define basename_BDK_AP_PMSLATFR_EL1 "AP_PMSLATFR_EL1"
-#define busnum_BDK_AP_PMSLATFR_EL1 0
-#define arguments_BDK_AP_PMSLATFR_EL1 -1,-1,-1,-1
-
-/**
  * Register (SYSREG) ap_pmswinc_el0
  *
  * AP Performance Monitors Software Increment Register
@@ -21997,7 +17327,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_31           : 1;
-        uint32_t p                     : 31; /**< [ 30:  0](WO) Event counter software increment bit for PMEVCNTR<x>.
+        uint32_t p                     : 31; /**< [ 30:  0](RO) Event counter software increment bit for PMEVCNTR<x>.
                                                                  Bits [30:N] are RAZ/WI.
                                                                  When EL2 is implemented, in nonsecure EL1 and EL0, N is the
                                                                      value in AP_MDCR_EL2[HPMN]. Otherwise, N is the value in PMCR[N].
@@ -22008,7 +17338,7 @@ typedef union
                                                                      is disabled, or not configured to count the software increment
                                                                      event, the write to this bit is ignored. */
 #else /* Word 0 - Little Endian */
-        uint32_t p                     : 31; /**< [ 30:  0](WO) Event counter software increment bit for PMEVCNTR<x>.
+        uint32_t p                     : 31; /**< [ 30:  0](RO) Event counter software increment bit for PMEVCNTR<x>.
                                                                  Bits [30:N] are RAZ/WI.
                                                                  When EL2 is implemented, in nonsecure EL1 and EL0, N is the
                                                                      value in AP_MDCR_EL2[HPMN]. Otherwise, N is the value in PMCR[N].
@@ -22021,35 +17351,7 @@ typedef union
         uint32_t reserved_31           : 1;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_ap_pmswinc_el0_cn8
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_31           : 1;
-        uint32_t p                     : 31; /**< [ 30:  0](RO) Event counter software increment bit for PMEVCNTR<x>.
-                                                                 Bits [30:N] are RAZ/WI.
-                                                                 When EL2 is implemented, in nonsecure EL1 and EL0, N is the
-                                                                     value in AP_MDCR_EL2[HPMN]. Otherwise, N is the value in PMCR[N].
-                                                                 The effects of writing to this bit are:
-                                                                 0 = No action. The write to this bit is ignored.
-                                                                 1 = If PMEVCNTR<x> is enabled and configured to count the software
-                                                                     increment event, increments PMEVCNTR<x> by 1. If PMEVCNTR<x>
-                                                                     is disabled, or not configured to count the software increment
-                                                                     event, the write to this bit is ignored. */
-#else /* Word 0 - Little Endian */
-        uint32_t p                     : 31; /**< [ 30:  0](RO) Event counter software increment bit for PMEVCNTR<x>.
-                                                                 Bits [30:N] are RAZ/WI.
-                                                                 When EL2 is implemented, in nonsecure EL1 and EL0, N is the
-                                                                     value in AP_MDCR_EL2[HPMN]. Otherwise, N is the value in PMCR[N].
-                                                                 The effects of writing to this bit are:
-                                                                 0 = No action. The write to this bit is ignored.
-                                                                 1 = If PMEVCNTR<x> is enabled and configured to count the software
-                                                                     increment event, increments PMEVCNTR<x> by 1. If PMEVCNTR<x>
-                                                                     is disabled, or not configured to count the software increment
-                                                                     event, the write to this bit is ignored. */
-        uint32_t reserved_31           : 1;
-#endif /* Word 0 - End */
-    } cn8;
-    /* struct bdk_ap_pmswinc_el0_s cn9; */
+    /* struct bdk_ap_pmswinc_el0_s cn; */
 } bdk_ap_pmswinc_el0_t;
 
 #define BDK_AP_PMSWINC_EL0 BDK_AP_PMSWINC_EL0_FUNC()
@@ -22302,51 +17604,27 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_2_31         : 30;
-        uint32_t rr                    : 1;  /**< [  1:  1](RAZ) When set to 1 this bit requests a Warm reset. The bit is
+        uint32_t rr                    : 1;  /**< [  1:  1](R/W) When set to 1 this bit requests a Warm reset. The bit is
                                                                      strictly a request. */
-        uint32_t aa64                  : 1;  /**< [  0:  0](RAZ) Determines which Execution state the processor boots into
+        uint32_t aa64                  : 1;  /**< [  0:  0](R/W) Determines which Execution state the processor boots into
                                                                      after a Warm reset:
                                                                  The reset vector address on reset takes a choice between two
                                                                      IMP DEF values, depending on the value in the AA64 bit.
                                                                  0 = AArch32.
                                                                  1 = AArch64. */
 #else /* Word 0 - Little Endian */
-        uint32_t aa64                  : 1;  /**< [  0:  0](RAZ) Determines which Execution state the processor boots into
+        uint32_t aa64                  : 1;  /**< [  0:  0](R/W) Determines which Execution state the processor boots into
                                                                      after a Warm reset:
                                                                  The reset vector address on reset takes a choice between two
                                                                      IMP DEF values, depending on the value in the AA64 bit.
                                                                  0 = AArch32.
                                                                  1 = AArch64. */
-        uint32_t rr                    : 1;  /**< [  1:  1](RAZ) When set to 1 this bit requests a Warm reset. The bit is
+        uint32_t rr                    : 1;  /**< [  1:  1](R/W) When set to 1 this bit requests a Warm reset. The bit is
                                                                      strictly a request. */
         uint32_t reserved_2_31         : 30;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_ap_rmr_el3_cn8
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_2_31         : 30;
-        uint32_t rr                    : 1;  /**< [  1:  1](R/W) When set to 1 this bit requests a Warm reset. The bit is
-                                                                     strictly a request. */
-        uint32_t aa64                  : 1;  /**< [  0:  0](R/W) Determines which Execution state the processor boots into
-                                                                     after a Warm reset:
-                                                                 The reset vector address on reset takes a choice between two
-                                                                     IMP DEF values, depending on the value in the AA64 bit.
-                                                                 0 = AArch32.
-                                                                 1 = AArch64. */
-#else /* Word 0 - Little Endian */
-        uint32_t aa64                  : 1;  /**< [  0:  0](R/W) Determines which Execution state the processor boots into
-                                                                     after a Warm reset:
-                                                                 The reset vector address on reset takes a choice between two
-                                                                     IMP DEF values, depending on the value in the AA64 bit.
-                                                                 0 = AArch32.
-                                                                 1 = AArch64. */
-        uint32_t rr                    : 1;  /**< [  1:  1](R/W) When set to 1 this bit requests a Warm reset. The bit is
-                                                                     strictly a request. */
-        uint32_t reserved_2_31         : 30;
-#endif /* Word 0 - End */
-    } cn8;
-    /* struct bdk_ap_rmr_el3_s cn9; */
+    /* struct bdk_ap_rmr_el3_s cn; */
 } bdk_ap_rmr_el3_t;
 
 #define BDK_AP_RMR_EL3 BDK_AP_RMR_EL3_FUNC()
@@ -24613,43 +19891,23 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_2_31         : 30;
-        uint32_t suniden               : 1;  /**< [  1:  1](RAZ) Secure User Non-Invasive Debug Enable:
+        uint32_t suniden               : 1;  /**< [  1:  1](R/W) Secure User Non-Invasive Debug Enable:
                                                                  0 = Non-invasive debug not permitted in Secure EL0 mode.
                                                                  1 = Non-invasive debug permitted in Secure EL0 mode. */
-        uint32_t suiden                : 1;  /**< [  0:  0](RAZ) Secure User Invasive Debug Enable:
+        uint32_t suiden                : 1;  /**< [  0:  0](R/W) Secure User Invasive Debug Enable:
                                                                  0 = Invasive debug not permitted in Secure EL0 mode.
                                                                  1 = Invasive debug permitted in Secure EL0 mode. */
 #else /* Word 0 - Little Endian */
-        uint32_t suiden                : 1;  /**< [  0:  0](RAZ) Secure User Invasive Debug Enable:
+        uint32_t suiden                : 1;  /**< [  0:  0](R/W) Secure User Invasive Debug Enable:
                                                                  0 = Invasive debug not permitted in Secure EL0 mode.
                                                                  1 = Invasive debug permitted in Secure EL0 mode. */
-        uint32_t suniden               : 1;  /**< [  1:  1](RAZ) Secure User Non-Invasive Debug Enable:
+        uint32_t suniden               : 1;  /**< [  1:  1](R/W) Secure User Non-Invasive Debug Enable:
                                                                  0 = Non-invasive debug not permitted in Secure EL0 mode.
                                                                  1 = Non-invasive debug permitted in Secure EL0 mode. */
         uint32_t reserved_2_31         : 30;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_ap_sder32_el3_cn8
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_2_31         : 30;
-        uint32_t suniden               : 1;  /**< [  1:  1](R/W) Secure User Non-Invasive Debug Enable:
-                                                                 0 = Non-invasive debug not permitted in Secure EL0 mode.
-                                                                 1 = Non-invasive debug permitted in Secure EL0 mode. */
-        uint32_t suiden                : 1;  /**< [  0:  0](R/W) Secure User Invasive Debug Enable:
-                                                                 0 = Invasive debug not permitted in Secure EL0 mode.
-                                                                 1 = Invasive debug permitted in Secure EL0 mode. */
-#else /* Word 0 - Little Endian */
-        uint32_t suiden                : 1;  /**< [  0:  0](R/W) Secure User Invasive Debug Enable:
-                                                                 0 = Invasive debug not permitted in Secure EL0 mode.
-                                                                 1 = Invasive debug permitted in Secure EL0 mode. */
-        uint32_t suniden               : 1;  /**< [  1:  1](R/W) Secure User Non-Invasive Debug Enable:
-                                                                 0 = Non-invasive debug not permitted in Secure EL0 mode.
-                                                                 1 = Non-invasive debug permitted in Secure EL0 mode. */
-        uint32_t reserved_2_31         : 30;
-#endif /* Word 0 - End */
-    } cn8;
-    /* struct bdk_ap_sder32_el3_s cn9; */
+    /* struct bdk_ap_sder32_el3_s cn; */
 } bdk_ap_sder32_el3_t;
 
 #define BDK_AP_SDER32_EL3 BDK_AP_SDER32_EL3_FUNC()
@@ -24867,8 +20125,7 @@ typedef union
         uint32_t v                     : 1;  /**< [ 28: 28](R/W) Set to the value of CPSR[V] on taking an exception to Monitor
                                                                      mode, and copied to CPSR[V] on executing an exception return
                                                                      operation in Monitor mode. */
-        uint32_t reserved_24_27        : 4;
-        uint32_t uao                   : 1;  /**< [ 23: 23](R/W) User access override. SPSR_EL[23] only. */
+        uint32_t reserved_23_27        : 5;
         uint32_t pan                   : 1;  /**< [ 22: 22](R/W) 0 = Has no effect on the translation system.
                                                                  1 = Disables data read or data write access from EL1 (or EL2
                                                                     when AP_HCR_EL2[E2H] == 1 && AP_HCR_EL2[TGE] == 1) to a virtual
@@ -24964,8 +20221,7 @@ typedef union
                                                                     If access is disabled, then the access will give rise to
                                                                     a stage 1 permission fault, taken in the same way as all
                                                                     other stage 1 permission faults. */
-        uint32_t uao                   : 1;  /**< [ 23: 23](R/W) User access override. SPSR_EL[23] only. */
-        uint32_t reserved_24_27        : 4;
+        uint32_t reserved_23_27        : 5;
         uint32_t v                     : 1;  /**< [ 28: 28](R/W) Set to the value of CPSR[V] on taking an exception to Monitor
                                                                      mode, and copied to CPSR[V] on executing an exception return
                                                                      operation in Monitor mode. */
@@ -24980,133 +20236,7 @@ typedef union
                                                                      operation in Monitor mode. */
 #endif /* Word 0 - End */
     } s;
-    struct bdk_ap_spsr_elx_cn8
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t n                     : 1;  /**< [ 31: 31](R/W) Set to the value of CPSR[N] on taking an exception to Monitor
-                                                                     mode, and copied to CPSR[N] on executing an exception return
-                                                                     operation in Monitor mode. */
-        uint32_t z                     : 1;  /**< [ 30: 30](R/W) Set to the value of CPSR[Z] on taking an exception to Monitor
-                                                                     mode, and copied to CPSR[Z] on executing an exception return
-                                                                     operation in Monitor mode. */
-        uint32_t cc                    : 1;  /**< [ 29: 29](R/W) Set to the value of CPSR[C] on taking an exception to Monitor
-                                                                     mode, and copied to CPSR[C] on executing an exception return
-                                                                     operation in Monitor mode. */
-        uint32_t v                     : 1;  /**< [ 28: 28](R/W) Set to the value of CPSR[V] on taking an exception to Monitor
-                                                                     mode, and copied to CPSR[V] on executing an exception return
-                                                                     operation in Monitor mode. */
-        uint32_t reserved_23_27        : 5;
-        uint32_t pan                   : 1;  /**< [ 22: 22](R/W) 0 = Has no effect on the translation system.
-                                                                 1 = Disables data read or data write access from EL1 (or EL2
-                                                                    when AP_HCR_EL2[E2H] == 1 && AP_HCR_EL2[TGE] == 1) to a virtual
-                                                                    address where access to the virtual address at EL0 is
-                                                                    permitted at stage 1 by the combination of the AP[1] bit
-                                                                    and the APTable[0] bits (if appropriate).  That is, when
-                                                                    AP[1] == 1 && APTable[0] == 0 for all APTable bits
-                                                                    associated with that virtual address.
-
-                                                                    The AP_PAN bit has no effect on instruction accesses.
-
-                                                                    If access is disabled, then the access will give rise to
-                                                                    a stage 1 permission fault, taken in the same way as all
-                                                                    other stage 1 permission faults. */
-        uint32_t ss                    : 1;  /**< [ 21: 21](R/W) Software step. Indicates whether software step was
-                                                                 enabled when an exception was taken. */
-        uint32_t il                    : 1;  /**< [ 20: 20](R/W) The IL bit is added to process state to indicate that on
-                                                                 exception return or as a result of an explicit change of the
-                                                                 CPSR mode field in AArch32, an illegal state or mode was
-                                                                 indicated, as described in section 3.5.6.3. Its value is
-                                                                 reflected in the SPSR when it is set at a time when the
-                                                                 process state IL bit was set either:
-
-                                                                 - As a result of an UNdefined exception caused by the process
-                                                                     state IL bit being set, or
-
-                                                                 - Where execution was pre-empted between setting the process
-                                                                     state IL bit and an UNdefined exception being taken.
-
-                                                                 The IL bit is added as part of the ARMv8 architecture, but
-                                                                 applies to execution in both AArch32 and AArch64. It is
-                                                                 allocated into bit[20] of the SPSR. It is impossible for
-                                                                 software to observe the value 1 in the CPSR in AArch32, or
-                                                                 to observe the current Process State value in AArch64. */
-        uint32_t reserved_10_19        : 10;
-        uint32_t dd                    : 1;  /**< [  9:  9](R/W) Interrupt masks - can also be accessed as PSTATE[D,A,I,F]. */
-        uint32_t aa                    : 1;  /**< [  8:  8](R/W) Interrupt masks - can also be accessed as PSTATE[D,A,I,F]. */
-        uint32_t i                     : 1;  /**< [  7:  7](R/W) Interrupt masks - can also be accessed as PSTATE[D,A,I,F]. */
-        uint32_t f                     : 1;  /**< [  6:  6](R/W) Interrupt masks - can also be accessed as PSTATE[D,A,I,F]. */
-        uint32_t reserved_5            : 1;
-        uint32_t from32                : 1;  /**< [  4:  4](R/W) 0 = Exception came from 64bit
-                                                                 1 = Exception came from 32bit
-                                                                 If 32bit is not implemented, then this causes an illegal state
-                                                                 exception. */
-        uint32_t el                    : 2;  /**< [  3:  2](R/W) Current exception level 00 - EL0 01 -EL1, 10 - EL2, 11 - EL3. */
-        uint32_t reserved_1            : 1;
-        uint32_t sp                    : 1;  /**< [  0:  0](R/W) AArch64 only - Stack Pointer selection - 0 - SP0, 1 - SPx. */
-#else /* Word 0 - Little Endian */
-        uint32_t sp                    : 1;  /**< [  0:  0](R/W) AArch64 only - Stack Pointer selection - 0 - SP0, 1 - SPx. */
-        uint32_t reserved_1            : 1;
-        uint32_t el                    : 2;  /**< [  3:  2](R/W) Current exception level 00 - EL0 01 -EL1, 10 - EL2, 11 - EL3. */
-        uint32_t from32                : 1;  /**< [  4:  4](R/W) 0 = Exception came from 64bit
-                                                                 1 = Exception came from 32bit
-                                                                 If 32bit is not implemented, then this causes an illegal state
-                                                                 exception. */
-        uint32_t reserved_5            : 1;
-        uint32_t f                     : 1;  /**< [  6:  6](R/W) Interrupt masks - can also be accessed as PSTATE[D,A,I,F]. */
-        uint32_t i                     : 1;  /**< [  7:  7](R/W) Interrupt masks - can also be accessed as PSTATE[D,A,I,F]. */
-        uint32_t aa                    : 1;  /**< [  8:  8](R/W) Interrupt masks - can also be accessed as PSTATE[D,A,I,F]. */
-        uint32_t dd                    : 1;  /**< [  9:  9](R/W) Interrupt masks - can also be accessed as PSTATE[D,A,I,F]. */
-        uint32_t reserved_10_19        : 10;
-        uint32_t il                    : 1;  /**< [ 20: 20](R/W) The IL bit is added to process state to indicate that on
-                                                                 exception return or as a result of an explicit change of the
-                                                                 CPSR mode field in AArch32, an illegal state or mode was
-                                                                 indicated, as described in section 3.5.6.3. Its value is
-                                                                 reflected in the SPSR when it is set at a time when the
-                                                                 process state IL bit was set either:
-
-                                                                 - As a result of an UNdefined exception caused by the process
-                                                                     state IL bit being set, or
-
-                                                                 - Where execution was pre-empted between setting the process
-                                                                     state IL bit and an UNdefined exception being taken.
-
-                                                                 The IL bit is added as part of the ARMv8 architecture, but
-                                                                 applies to execution in both AArch32 and AArch64. It is
-                                                                 allocated into bit[20] of the SPSR. It is impossible for
-                                                                 software to observe the value 1 in the CPSR in AArch32, or
-                                                                 to observe the current Process State value in AArch64. */
-        uint32_t ss                    : 1;  /**< [ 21: 21](R/W) Software step. Indicates whether software step was
-                                                                 enabled when an exception was taken. */
-        uint32_t pan                   : 1;  /**< [ 22: 22](R/W) 0 = Has no effect on the translation system.
-                                                                 1 = Disables data read or data write access from EL1 (or EL2
-                                                                    when AP_HCR_EL2[E2H] == 1 && AP_HCR_EL2[TGE] == 1) to a virtual
-                                                                    address where access to the virtual address at EL0 is
-                                                                    permitted at stage 1 by the combination of the AP[1] bit
-                                                                    and the APTable[0] bits (if appropriate).  That is, when
-                                                                    AP[1] == 1 && APTable[0] == 0 for all APTable bits
-                                                                    associated with that virtual address.
-
-                                                                    The AP_PAN bit has no effect on instruction accesses.
-
-                                                                    If access is disabled, then the access will give rise to
-                                                                    a stage 1 permission fault, taken in the same way as all
-                                                                    other stage 1 permission faults. */
-        uint32_t reserved_23_27        : 5;
-        uint32_t v                     : 1;  /**< [ 28: 28](R/W) Set to the value of CPSR[V] on taking an exception to Monitor
-                                                                     mode, and copied to CPSR[V] on executing an exception return
-                                                                     operation in Monitor mode. */
-        uint32_t cc                    : 1;  /**< [ 29: 29](R/W) Set to the value of CPSR[C] on taking an exception to Monitor
-                                                                     mode, and copied to CPSR[C] on executing an exception return
-                                                                     operation in Monitor mode. */
-        uint32_t z                     : 1;  /**< [ 30: 30](R/W) Set to the value of CPSR[Z] on taking an exception to Monitor
-                                                                     mode, and copied to CPSR[Z] on executing an exception return
-                                                                     operation in Monitor mode. */
-        uint32_t n                     : 1;  /**< [ 31: 31](R/W) Set to the value of CPSR[N] on taking an exception to Monitor
-                                                                     mode, and copied to CPSR[N] on executing an exception return
-                                                                     operation in Monitor mode. */
-#endif /* Word 0 - End */
-    } cn8;
-    /* struct bdk_ap_spsr_elx_s cn9; */
+    /* struct bdk_ap_spsr_elx_s cn; */
 } bdk_ap_spsr_elx_t;
 
 static inline uint64_t BDK_AP_SPSR_ELX(unsigned long a) __attribute__ ((pure, always_inline));
@@ -27472,7 +22602,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_1_31         : 31;
-        uint32_t xed                   : 1;  /**< [  0:  0](RAZ) Execution Environment Disable bit. Control unprivileged access
+        uint32_t xed                   : 1;  /**< [  0:  0](R/W) Execution Environment Disable bit. Control unprivileged access
                                                                      to TEEHBR.
 
                                                                  The effects of a write to this register on T32EE configuration
@@ -27483,7 +22613,7 @@ typedef union
                                                                  0 = Unprivileged access permitted.
                                                                  1 = Unprivileged access disabled. */
 #else /* Word 0 - Little Endian */
-        uint32_t xed                   : 1;  /**< [  0:  0](RAZ) Execution Environment Disable bit. Control unprivileged access
+        uint32_t xed                   : 1;  /**< [  0:  0](R/W) Execution Environment Disable bit. Control unprivileged access
                                                                      to TEEHBR.
 
                                                                  The effects of a write to this register on T32EE configuration
@@ -27496,35 +22626,7 @@ typedef union
         uint32_t reserved_1_31         : 31;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_ap_teecr32_el1_cn8
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_1_31         : 31;
-        uint32_t xed                   : 1;  /**< [  0:  0](R/W) Execution Environment Disable bit. Control unprivileged access
-                                                                     to TEEHBR.
-
-                                                                 The effects of a write to this register on T32EE configuration
-                                                                     are only guaranteed to be visible to subsequent instructions
-                                                                     after the execution of a context synchronization operation.
-                                                                     However, a read of this register always returns the value most
-                                                                     recently written to the register.
-                                                                 0 = Unprivileged access permitted.
-                                                                 1 = Unprivileged access disabled. */
-#else /* Word 0 - Little Endian */
-        uint32_t xed                   : 1;  /**< [  0:  0](R/W) Execution Environment Disable bit. Control unprivileged access
-                                                                     to TEEHBR.
-
-                                                                 The effects of a write to this register on T32EE configuration
-                                                                     are only guaranteed to be visible to subsequent instructions
-                                                                     after the execution of a context synchronization operation.
-                                                                     However, a read of this register always returns the value most
-                                                                     recently written to the register.
-                                                                 0 = Unprivileged access permitted.
-                                                                 1 = Unprivileged access disabled. */
-        uint32_t reserved_1_31         : 31;
-#endif /* Word 0 - End */
-    } cn8;
-    /* struct bdk_ap_teecr32_el1_s cn9; */
+    /* struct bdk_ap_teecr32_el1_s cn; */
 } bdk_ap_teecr32_el1_t;
 
 #define BDK_AP_TEECR32_EL1 BDK_AP_TEECR32_EL1_FUNC()
@@ -27554,28 +22656,16 @@ typedef union
     struct bdk_ap_teehbr32_el1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t handlerbase           : 30; /**< [ 31:  2](RAZ) The address of the T32EE Handler_00 implementation. This is
+        uint32_t handlerbase           : 30; /**< [ 31:  2](R/W) The address of the T32EE Handler_00 implementation. This is
                                                                      the address of the first of the T32EE handlers. */
         uint32_t reserved_0_1          : 2;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_1          : 2;
-        uint32_t handlerbase           : 30; /**< [ 31:  2](RAZ) The address of the T32EE Handler_00 implementation. This is
+        uint32_t handlerbase           : 30; /**< [ 31:  2](R/W) The address of the T32EE Handler_00 implementation. This is
                                                                      the address of the first of the T32EE handlers. */
 #endif /* Word 0 - End */
     } s;
-    struct bdk_ap_teehbr32_el1_cn8
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t handlerbase           : 30; /**< [ 31:  2](R/W) The address of the T32EE Handler_00 implementation. This is
-                                                                     the address of the first of the T32EE handlers. */
-        uint32_t reserved_0_1          : 2;
-#else /* Word 0 - Little Endian */
-        uint32_t reserved_0_1          : 2;
-        uint32_t handlerbase           : 30; /**< [ 31:  2](R/W) The address of the T32EE Handler_00 implementation. This is
-                                                                     the address of the first of the T32EE handlers. */
-#endif /* Word 0 - End */
-    } cn8;
-    /* struct bdk_ap_teehbr32_el1_s cn9; */
+    /* struct bdk_ap_teehbr32_el1_s cn; */
 } bdk_ap_teehbr32_el1_t;
 
 #define BDK_AP_TEEHBR32_EL1 BDK_AP_TEEHBR32_EL1_FUNC()
@@ -29624,11 +24714,9 @@ typedef union
                                                                   The calculation of an address for a translation table walk
                                                                      using this register can be corrupted in those bits that are
                                                                      nonzero. */
-        uint64_t reserved_1_3          : 3;
-        uint64_t cnp                   : 1;  /**< [  0:  0](R/W) Common not private. */
+        uint64_t reserved_0_3          : 4;
 #else /* Word 0 - Little Endian */
-        uint64_t cnp                   : 1;  /**< [  0:  0](R/W) Common not private. */
-        uint64_t reserved_1_3          : 3;
+        uint64_t reserved_0_3          : 4;
         uint64_t baddr                 : 44; /**< [ 47:  4](R/W) Translation table base address, bits<47:x>. Bits <x-1:0> are
                                                                      RES0.
 
@@ -29657,67 +24745,7 @@ typedef union
                                                                      8 bits of this field are RES0. */
 #endif /* Word 0 - End */
     } s;
-    struct bdk_ap_ttbr0_el1_cn8
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t asid                  : 16; /**< [ 63: 48](R/W) An ASID for the translation table base address. The AP_TCR_EL1[A1]
-                                                                     field selects either AP_TTBR0_EL1[ASID] or AP_TTBR1_EL1[ASID].
-                                                                 If the implementation has only 8 bits of ASID, then the upper
-                                                                     8 bits of this field are RES0. */
-        uint64_t baddr                 : 44; /**< [ 47:  4](R/W) Translation table base address, bits<47:x>. Bits <x-1:0> are
-                                                                     RES0.
-
-                                                                 x is based on the value of AP_TCR_EL1[T0SZ], the stage of
-                                                                     translation, and the memory translation granule size.
-                                                                 The AArch64 Virtual Memory System Architecture chapter
-                                                                     describes how x is calculated.
-                                                                 The value of x determines the required alignment of the
-                                                                     translation table, which must be aligned to 22^(x)
-                                                                     bytes.
-
-                                                                 If bits [x-1:0] are not all zero, this is a misaligned
-                                                                     Translation Table Base Address. Its effects are CONSTRAINED
-                                                                     UNPREDICTABLE, and can be one of the following:
-
-                                                                  Bits [x-1:0] are treated as if all the bits are zero. The
-                                                                     value read back from those bits might be the value written or
-                                                                     might be zero.
-
-                                                                  The calculation of an address for a translation table walk
-                                                                     using this register can be corrupted in those bits that are
-                                                                     nonzero. */
-        uint64_t reserved_0_3          : 4;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_3          : 4;
-        uint64_t baddr                 : 44; /**< [ 47:  4](R/W) Translation table base address, bits<47:x>. Bits <x-1:0> are
-                                                                     RES0.
-
-                                                                 x is based on the value of AP_TCR_EL1[T0SZ], the stage of
-                                                                     translation, and the memory translation granule size.
-                                                                 The AArch64 Virtual Memory System Architecture chapter
-                                                                     describes how x is calculated.
-                                                                 The value of x determines the required alignment of the
-                                                                     translation table, which must be aligned to 22^(x)
-                                                                     bytes.
-
-                                                                 If bits [x-1:0] are not all zero, this is a misaligned
-                                                                     Translation Table Base Address. Its effects are CONSTRAINED
-                                                                     UNPREDICTABLE, and can be one of the following:
-
-                                                                  Bits [x-1:0] are treated as if all the bits are zero. The
-                                                                     value read back from those bits might be the value written or
-                                                                     might be zero.
-
-                                                                  The calculation of an address for a translation table walk
-                                                                     using this register can be corrupted in those bits that are
-                                                                     nonzero. */
-        uint64_t asid                  : 16; /**< [ 63: 48](R/W) An ASID for the translation table base address. The AP_TCR_EL1[A1]
-                                                                     field selects either AP_TTBR0_EL1[ASID] or AP_TTBR1_EL1[ASID].
-                                                                 If the implementation has only 8 bits of ASID, then the upper
-                                                                     8 bits of this field are RES0. */
-#endif /* Word 0 - End */
-    } cn8;
-    /* struct bdk_ap_ttbr0_el1_s cn9; */
+    /* struct bdk_ap_ttbr0_el1_s cn; */
 } bdk_ap_ttbr0_el1_t;
 
 #define BDK_AP_TTBR0_EL1 BDK_AP_TTBR0_EL1_FUNC()
@@ -29807,11 +24835,9 @@ typedef union
                                                                   The calculation of an address for a translation table walk
                                                                      using this register can be corrupted in those bits that are
                                                                      nonzero. */
-        uint64_t reserved_1_3          : 3;
-        uint64_t cnp                   : 1;  /**< [  0:  0](R/W) Common not private. */
+        uint64_t reserved_0_3          : 4;
 #else /* Word 0 - Little Endian */
-        uint64_t cnp                   : 1;  /**< [  0:  0](R/W) Common not private. */
-        uint64_t reserved_1_3          : 3;
+        uint64_t reserved_0_3          : 4;
         uint64_t baddr                 : 44; /**< [ 47:  4](R/W) Translation table base address, bits<47:x>. Bits <x-1:0> are
                                                                      RES0.
 
@@ -29840,67 +24866,7 @@ typedef union
                                                                      8 bits of this field are RES0. */
 #endif /* Word 0 - End */
     } s;
-    struct bdk_ap_ttbr0_el2_cn8
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t asid                  : 16; /**< [ 63: 48](R/W) An ASID for the translation table base address. The AP_TCR_EL1[A1]
-                                                                     field selects either AP_TTBR0_EL1[ASID] or AP_TTBR1_EL1[ASID].
-                                                                 If the implementation has only 8 bits of ASID, then the upper
-                                                                     8 bits of this field are RES0. */
-        uint64_t baddr                 : 44; /**< [ 47:  4](R/W) Translation table base address, bits<47:x>. Bits <x-1:0> are
-                                                                     RES0.
-
-                                                                 x is based on the value of AP_TCR_EL1[T0SZ], the stage of
-                                                                     translation, and the memory translation granule size.
-                                                                 The AArch64 Virtual Memory System Architecture chapter
-                                                                     describes how x is calculated.
-                                                                 The value of x determines the required alignment of the
-                                                                     translation table, which must be aligned to 22^(x)
-                                                                     bytes.
-
-                                                                 If bits <x-1:0> are not all zero, this is a misaligned
-                                                                     Translation Table Base Address. Its effects are CONSTRAINED
-                                                                     UNPREDICTABLE, and can be one of the following:
-
-                                                                  Bits <x-1:0> are treated as if all the bits are zero. The
-                                                                     value read back from those bits might be the value written or
-                                                                     might be zero.
-
-                                                                  The calculation of an address for a translation table walk
-                                                                     using this register can be corrupted in those bits that are
-                                                                     nonzero. */
-        uint64_t reserved_0_3          : 4;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_3          : 4;
-        uint64_t baddr                 : 44; /**< [ 47:  4](R/W) Translation table base address, bits<47:x>. Bits <x-1:0> are
-                                                                     RES0.
-
-                                                                 x is based on the value of AP_TCR_EL1[T0SZ], the stage of
-                                                                     translation, and the memory translation granule size.
-                                                                 The AArch64 Virtual Memory System Architecture chapter
-                                                                     describes how x is calculated.
-                                                                 The value of x determines the required alignment of the
-                                                                     translation table, which must be aligned to 22^(x)
-                                                                     bytes.
-
-                                                                 If bits <x-1:0> are not all zero, this is a misaligned
-                                                                     Translation Table Base Address. Its effects are CONSTRAINED
-                                                                     UNPREDICTABLE, and can be one of the following:
-
-                                                                  Bits <x-1:0> are treated as if all the bits are zero. The
-                                                                     value read back from those bits might be the value written or
-                                                                     might be zero.
-
-                                                                  The calculation of an address for a translation table walk
-                                                                     using this register can be corrupted in those bits that are
-                                                                     nonzero. */
-        uint64_t asid                  : 16; /**< [ 63: 48](R/W) An ASID for the translation table base address. The AP_TCR_EL1[A1]
-                                                                     field selects either AP_TTBR0_EL1[ASID] or AP_TTBR1_EL1[ASID].
-                                                                 If the implementation has only 8 bits of ASID, then the upper
-                                                                     8 bits of this field are RES0. */
-#endif /* Word 0 - End */
-    } cn8;
-    /* struct bdk_ap_ttbr0_el2_s cn9; */
+    /* struct bdk_ap_ttbr0_el2_s cn; */
 } bdk_ap_ttbr0_el2_t;
 
 #define BDK_AP_TTBR0_EL2 BDK_AP_TTBR0_EL2_FUNC()
@@ -29952,11 +24918,9 @@ typedef union
                                                                   The calculation of an address for a translation table walk
                                                                      using this register can be corrupted in those bits that are
                                                                      nonzero. */
-        uint64_t reserved_1_3          : 3;
-        uint64_t cnp                   : 1;  /**< [  0:  0](R/W) Common not private. */
+        uint64_t reserved_0_3          : 4;
 #else /* Word 0 - Little Endian */
-        uint64_t cnp                   : 1;  /**< [  0:  0](R/W) Common not private. */
-        uint64_t reserved_1_3          : 3;
+        uint64_t reserved_0_3          : 4;
         uint64_t baddr                 : 44; /**< [ 47:  4](R/W) Translation table base address, bits[47:x]. Bits [x-1:0] are
                                                                      RES0.
 
@@ -29982,61 +24946,7 @@ typedef union
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_ap_ttbr0_el3_cn8
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_48_63        : 16;
-        uint64_t baddr                 : 44; /**< [ 47:  4](R/W) Translation table base address, bits[47:x]. Bits [x-1:0] are
-                                                                     RES0.
-
-                                                                 x is based on the value of TCR_EL*[T0SZ], the stage of
-                                                                     translation, and the memory translation granule size.
-                                                                 The AArch64 Virtual Memory System Architecture chapter
-                                                                     describes how x is calculated.
-                                                                 The value of x determines the required alignment of the
-                                                                     translation table, which must be aligned to 22^(x)
-                                                                     bytes.
-
-                                                                 If bits [x-1:0] are not all zero, this is a misaligned
-                                                                     Translation Table Base Address. Its effects are CONSTRAINED
-                                                                     UNPREDICTABLE, and can be one of the following:
-
-                                                                  Bits [x-1:0] are treated as if all the bits are zero. The
-                                                                     value read back from those bits might be the value written or
-                                                                     might be zero.
-
-                                                                  The calculation of an address for a translation table walk
-                                                                     using this register can be corrupted in those bits that are
-                                                                     nonzero. */
-        uint64_t reserved_0_3          : 4;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_3          : 4;
-        uint64_t baddr                 : 44; /**< [ 47:  4](R/W) Translation table base address, bits[47:x]. Bits [x-1:0] are
-                                                                     RES0.
-
-                                                                 x is based on the value of TCR_EL*[T0SZ], the stage of
-                                                                     translation, and the memory translation granule size.
-                                                                 The AArch64 Virtual Memory System Architecture chapter
-                                                                     describes how x is calculated.
-                                                                 The value of x determines the required alignment of the
-                                                                     translation table, which must be aligned to 22^(x)
-                                                                     bytes.
-
-                                                                 If bits [x-1:0] are not all zero, this is a misaligned
-                                                                     Translation Table Base Address. Its effects are CONSTRAINED
-                                                                     UNPREDICTABLE, and can be one of the following:
-
-                                                                  Bits [x-1:0] are treated as if all the bits are zero. The
-                                                                     value read back from those bits might be the value written or
-                                                                     might be zero.
-
-                                                                  The calculation of an address for a translation table walk
-                                                                     using this register can be corrupted in those bits that are
-                                                                     nonzero. */
-        uint64_t reserved_48_63        : 16;
-#endif /* Word 0 - End */
-    } cn8;
-    /* struct bdk_ap_ttbr0_el3_s cn9; */
+    /* struct bdk_ap_ttbr0_el3_s cn; */
 } bdk_ap_ttbr0_el3_t;
 
 #define BDK_AP_TTBR0_EL3 BDK_AP_TTBR0_EL3_FUNC()
@@ -30093,11 +25003,9 @@ typedef union
                                                                   The calculation of an address for a translation table walk
                                                                      using this register can be corrupted in those bits that are
                                                                      nonzero. */
-        uint64_t reserved_1_3          : 3;
-        uint64_t cnp                   : 1;  /**< [  0:  0](R/W) Common not private. */
+        uint64_t reserved_0_3          : 4;
 #else /* Word 0 - Little Endian */
-        uint64_t cnp                   : 1;  /**< [  0:  0](R/W) Common not private. */
-        uint64_t reserved_1_3          : 3;
+        uint64_t reserved_0_3          : 4;
         uint64_t baddr                 : 44; /**< [ 47:  4](R/W) Translation table base address, bits<47:x>. Bits <x-1:0> are
                                                                      RES0.
 
@@ -30126,67 +25034,7 @@ typedef union
                                                                      8 bits of this field are RES0. */
 #endif /* Word 0 - End */
     } s;
-    struct bdk_ap_ttbr1_el1_cn8
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t asid                  : 16; /**< [ 63: 48](R/W) An ASID for the translation table base address. The AP_TCR_EL1[A1]
-                                                                     field selects either AP_TTBR0_EL1[ASID] or AP_TTBR1_EL1[ASID].
-                                                                 If the implementation has only 8 bits of ASID, then the upper
-                                                                     8 bits of this field are RES0. */
-        uint64_t baddr                 : 44; /**< [ 47:  4](R/W) Translation table base address, bits<47:x>. Bits <x-1:0> are
-                                                                     RES0.
-
-                                                                 x is based on the value of AP_TCR_EL1[T0SZ], the stage of
-                                                                     translation, and the memory translation granule size.
-                                                                 The AArch64 Virtual Memory System Architecture chapter
-                                                                     describes how x is calculated.
-                                                                 The value of x determines the required alignment of the
-                                                                     translation table, which must be aligned to 22^(x)
-                                                                     bytes.
-
-                                                                 If bits <x-1:0> are not all zero, this is a misaligned
-                                                                     Translation Table Base Address. Its effects are CONSTRAINED
-                                                                     UNPREDICTABLE, and can be one of the following:
-
-                                                                 Bits <x-1:0> are treated as if all the bits are zero. The
-                                                                     value read back from those bits might be the value written or
-                                                                     might be zero.
-
-                                                                  The calculation of an address for a translation table walk
-                                                                     using this register can be corrupted in those bits that are
-                                                                     nonzero. */
-        uint64_t reserved_0_3          : 4;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_3          : 4;
-        uint64_t baddr                 : 44; /**< [ 47:  4](R/W) Translation table base address, bits<47:x>. Bits <x-1:0> are
-                                                                     RES0.
-
-                                                                 x is based on the value of AP_TCR_EL1[T0SZ], the stage of
-                                                                     translation, and the memory translation granule size.
-                                                                 The AArch64 Virtual Memory System Architecture chapter
-                                                                     describes how x is calculated.
-                                                                 The value of x determines the required alignment of the
-                                                                     translation table, which must be aligned to 22^(x)
-                                                                     bytes.
-
-                                                                 If bits <x-1:0> are not all zero, this is a misaligned
-                                                                     Translation Table Base Address. Its effects are CONSTRAINED
-                                                                     UNPREDICTABLE, and can be one of the following:
-
-                                                                 Bits <x-1:0> are treated as if all the bits are zero. The
-                                                                     value read back from those bits might be the value written or
-                                                                     might be zero.
-
-                                                                  The calculation of an address for a translation table walk
-                                                                     using this register can be corrupted in those bits that are
-                                                                     nonzero. */
-        uint64_t asid                  : 16; /**< [ 63: 48](R/W) An ASID for the translation table base address. The AP_TCR_EL1[A1]
-                                                                     field selects either AP_TTBR0_EL1[ASID] or AP_TTBR1_EL1[ASID].
-                                                                 If the implementation has only 8 bits of ASID, then the upper
-                                                                     8 bits of this field are RES0. */
-#endif /* Word 0 - End */
-    } cn8;
-    /* struct bdk_ap_ttbr1_el1_s cn9; */
+    /* struct bdk_ap_ttbr1_el1_s cn; */
 } bdk_ap_ttbr1_el1_t;
 
 #define BDK_AP_TTBR1_EL1 BDK_AP_TTBR1_EL1_FUNC()
@@ -30275,11 +25123,9 @@ typedef union
                                                                   The calculation of an address for a translation table walk
                                                                      using this register can be corrupted in those bits that are
                                                                      nonzero. */
-        uint64_t reserved_1_3          : 3;
-        uint64_t cnp                   : 1;  /**< [  0:  0](R/W) Common not private. */
+        uint64_t reserved_0_3          : 4;
 #else /* Word 0 - Little Endian */
-        uint64_t cnp                   : 1;  /**< [  0:  0](R/W) Common not private. */
-        uint64_t reserved_1_3          : 3;
+        uint64_t reserved_0_3          : 4;
         uint64_t baddr                 : 44; /**< [ 47:  4](R/W) Translation table base address, bits<47:x>. Bits <x-1:0> are
                                                                      RES0.
 
@@ -30308,67 +25154,7 @@ typedef union
                                                                      8 bits of this field are RES0. */
 #endif /* Word 0 - End */
     } s;
-    struct bdk_ap_ttbr1_el2_cn8
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t asid                  : 16; /**< [ 63: 48](R/W) An ASID for the translation table base address. The AP_TCR_EL2[A1]
-                                                                     field selects either AP_TTBR0_EL2[ASID] or AP_TTBR1_EL2[ASID].
-                                                                 If the implementation has only 8 bits of ASID, then the upper
-                                                                     8 bits of this field are RES0. */
-        uint64_t baddr                 : 44; /**< [ 47:  4](R/W) Translation table base address, bits<47:x>. Bits <x-1:0> are
-                                                                     RES0.
-
-                                                                 x is based on the value of AP_TCR_EL2[T0SZ], the stage of
-                                                                     translation, and the memory translation granule size.
-                                                                 The AArch64 Virtual Memory System Architecture chapter
-                                                                     describes how x is calculated.
-                                                                 The value of x determines the required alignment of the
-                                                                     translation table, which must be aligned to 22^(x)
-                                                                     bytes.
-
-                                                                 If bits <x-1:0> are not all zero, this is a misaligned
-                                                                     Translation Table Base Address. Its effects are CONSTRAINED
-                                                                     UNPREDICTABLE, and can be one of the following:
-
-                                                                  Bits <x-1:0> are treated as if all the bits are zero. The
-                                                                     value read back from those bits might be the value written or
-                                                                     might be zero.
-
-                                                                  The calculation of an address for a translation table walk
-                                                                     using this register can be corrupted in those bits that are
-                                                                     nonzero. */
-        uint64_t reserved_0_3          : 4;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_3          : 4;
-        uint64_t baddr                 : 44; /**< [ 47:  4](R/W) Translation table base address, bits<47:x>. Bits <x-1:0> are
-                                                                     RES0.
-
-                                                                 x is based on the value of AP_TCR_EL2[T0SZ], the stage of
-                                                                     translation, and the memory translation granule size.
-                                                                 The AArch64 Virtual Memory System Architecture chapter
-                                                                     describes how x is calculated.
-                                                                 The value of x determines the required alignment of the
-                                                                     translation table, which must be aligned to 22^(x)
-                                                                     bytes.
-
-                                                                 If bits <x-1:0> are not all zero, this is a misaligned
-                                                                     Translation Table Base Address. Its effects are CONSTRAINED
-                                                                     UNPREDICTABLE, and can be one of the following:
-
-                                                                  Bits <x-1:0> are treated as if all the bits are zero. The
-                                                                     value read back from those bits might be the value written or
-                                                                     might be zero.
-
-                                                                  The calculation of an address for a translation table walk
-                                                                     using this register can be corrupted in those bits that are
-                                                                     nonzero. */
-        uint64_t asid                  : 16; /**< [ 63: 48](R/W) An ASID for the translation table base address. The AP_TCR_EL2[A1]
-                                                                     field selects either AP_TTBR0_EL2[ASID] or AP_TTBR1_EL2[ASID].
-                                                                 If the implementation has only 8 bits of ASID, then the upper
-                                                                     8 bits of this field are RES0. */
-#endif /* Word 0 - End */
-    } cn8;
-    /* struct bdk_ap_ttbr1_el2_s cn9; */
+    /* struct bdk_ap_ttbr1_el2_s cn; */
 } bdk_ap_ttbr1_el2_t;
 
 #define BDK_AP_TTBR1_EL2 BDK_AP_TTBR1_EL2_FUNC()
@@ -30383,64 +25169,6 @@ static inline uint64_t BDK_AP_TTBR1_EL2_FUNC(void)
 #define basename_BDK_AP_TTBR1_EL2 "AP_TTBR1_EL2"
 #define busnum_BDK_AP_TTBR1_EL2 0
 #define arguments_BDK_AP_TTBR1_EL2 -1,-1,-1,-1
-
-/**
- * Register (SYSREG) ap_uao
- *
- * AP User Access Override Register
- * v8.2: User Access Override bit.
- *
- * When 0, The behaviour of LDTR* /STTR* instructions is as defined in the base
- * ARMv8 architecture.
- * When 1, LDTR* /STTR* instructions when executed at EL1, or at EL2 with
- * HCR_EL2.E2H==1 && HCR_EL2.TGE==1, behave as the equivalent LDR* /STR*
- * instructions.
- *
- * UAO is held in SPSR_ELx[23] and DSPSR_EL0[23].
- * PSTATE.UAO is copied to SPSR_ELx.UAO and is then set to 0 on an exception taken from AArch64
- * to AArch64
- * PSTATE.UAO is set to 0 on an exception taken from AArch32 to AArch64.
- * SPSR_ELx.UAO is set to 0 on an exception taken from AArch32 to AArch64
- * SPSR_ELx.UAO is copied to PSTATE.UAO on an exception return to AArch64 from AArch64
- * PSTATE.UAO is set to zero by a DCPS instruction to AArch64 in Debug state.
- * SPSR_ELx.UAO is copied to PSTATE.UAO by DRPS to AArch64 from AArch64 in Debug state.
- * DSPSR_EL0.UAO is copied to PSTATE.UAO on exit from Debug state to AArch64.
- * PSTATE.UAO is copied to DSPSR_EL0.UAO on entry to Debug state from AArch64
- *
- * Note, PSTATE.UAO is unchanged on entry into Debug state
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_ap_uao_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_24_63        : 40;
-        uint64_t uao                   : 1;  /**< [ 23: 23](R/W) User access override bit. */
-        uint64_t reserved_0_22         : 23;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_22         : 23;
-        uint64_t uao                   : 1;  /**< [ 23: 23](R/W) User access override bit. */
-        uint64_t reserved_24_63        : 40;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_ap_uao_s cn; */
-} bdk_ap_uao_t;
-
-#define BDK_AP_UAO BDK_AP_UAO_FUNC()
-static inline uint64_t BDK_AP_UAO_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_AP_UAO_FUNC(void)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x30004020400ll;
-    __bdk_csr_fatal("AP_UAO", 0, 0, 0, 0, 0);
-}
-
-#define typedef_BDK_AP_UAO bdk_ap_uao_t
-#define bustype_BDK_AP_UAO BDK_CSR_TYPE_SYSREG
-#define basename_BDK_AP_UAO "AP_UAO"
-#define busnum_BDK_AP_UAO 0
-#define arguments_BDK_AP_UAO -1,-1,-1,-1
 
 /**
  * Register (SYSREG) ap_vbar_el#
@@ -31004,11 +25732,9 @@ typedef union
                                                                  The calculation of an address for a translation table walk
                                                                      using this register can be corrupted in those bits that are
                                                                      nonzero. */
-        uint64_t reserved_1_3          : 3;
-        uint64_t cnp                   : 1;  /**< [  0:  0](R/W) Common not private. */
+        uint64_t reserved_0_3          : 4;
 #else /* Word 0 - Little Endian */
-        uint64_t cnp                   : 1;  /**< [  0:  0](R/W) Common not private. */
-        uint64_t reserved_1_3          : 3;
+        uint64_t reserved_0_3          : 4;
         uint64_t baddr                 : 44; /**< [ 47:  4](R/W) Translation table base address, bits<47:x>. Bits <x-1:0> are
                                                                      RES0.
 
@@ -31035,63 +25761,7 @@ typedef union
                                                                  by the ARM Large System Extensions. */
 #endif /* Word 0 - End */
     } s;
-    struct bdk_ap_vttbr_el2_cn8
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t vmid                  : 16; /**< [ 63: 48](R/W) The VMID for the translation table. Expanded to 16 bits
-                                                                 by the ARM Large System Extensions. */
-        uint64_t baddr                 : 44; /**< [ 47:  4](R/W) Translation table base address, bits<47:x>. Bits <x-1:0> are
-                                                                     RES0.
-
-                                                                 x is based on the value of AP_VTCR_EL2[T0SZ], the stage of
-                                                                     translation, and the memory translation granule size.
-                                                                 The AArch64 Virtual Memory System Architecture chapter
-                                                                     describes how x is calculated.
-                                                                 The value of x determines the required alignment of the
-                                                                     translation table, which must be aligned to 22^(x)
-                                                                     bytes.
-
-                                                                 If bits <x-1:0> are not all zero, this is a misaligned
-                                                                     Translation Table Base Address. Its effects are CONSTRAINED
-                                                                     UNPREDICTABLE, and can be one of the following:
-
-                                                                 Bits <x-1:0> are treated as if all the bits are zero. The
-                                                                     value read back from those bits might be the value written or
-                                                                     might be zero.
-
-                                                                 The calculation of an address for a translation table walk
-                                                                     using this register can be corrupted in those bits that are
-                                                                     nonzero. */
-        uint64_t reserved_0_3          : 4;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_3          : 4;
-        uint64_t baddr                 : 44; /**< [ 47:  4](R/W) Translation table base address, bits<47:x>. Bits <x-1:0> are
-                                                                     RES0.
-
-                                                                 x is based on the value of AP_VTCR_EL2[T0SZ], the stage of
-                                                                     translation, and the memory translation granule size.
-                                                                 The AArch64 Virtual Memory System Architecture chapter
-                                                                     describes how x is calculated.
-                                                                 The value of x determines the required alignment of the
-                                                                     translation table, which must be aligned to 22^(x)
-                                                                     bytes.
-
-                                                                 If bits <x-1:0> are not all zero, this is a misaligned
-                                                                     Translation Table Base Address. Its effects are CONSTRAINED
-                                                                     UNPREDICTABLE, and can be one of the following:
-
-                                                                 Bits <x-1:0> are treated as if all the bits are zero. The
-                                                                     value read back from those bits might be the value written or
-                                                                     might be zero.
-
-                                                                 The calculation of an address for a translation table walk
-                                                                     using this register can be corrupted in those bits that are
-                                                                     nonzero. */
-        uint64_t vmid                  : 16; /**< [ 63: 48](R/W) The VMID for the translation table. Expanded to 16 bits
-                                                                 by the ARM Large System Extensions. */
-#endif /* Word 0 - End */
-    } cn8;
-    /* struct bdk_ap_vttbr_el2_s cn9; */
+    /* struct bdk_ap_vttbr_el2_s cn; */
 } bdk_ap_vttbr_el2_t;
 
 #define BDK_AP_VTTBR_EL2 BDK_AP_VTTBR_EL2_FUNC()

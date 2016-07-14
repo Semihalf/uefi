@@ -169,8 +169,6 @@ static inline uint64_t BDK_NCSI_BIST_STATUS_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x87e00b000b00ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x87e00b000b00ll;
     __bdk_csr_fatal("NCSI_BIST_STATUS", 0, 0, 0, 0, 0);
 }
 
@@ -205,7 +203,6 @@ typedef union
                                                                  When this register is written, NCSI_INT[BMC2CPU] is set. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ncsi_bmc2cpu_msg_s cn9; */
     struct bdk_ncsi_bmc2cpu_msg_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -238,8 +235,6 @@ static inline uint64_t BDK_NCSI_BMC2CPU_MSG_FUNC(void)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x87e00b000108ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
-        return 0x87e00b000108ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x87e00b000108ll;
     __bdk_csr_fatal("NCSI_BMC2CPU_MSG", 0, 0, 0, 0, 0);
 }
@@ -289,6 +284,7 @@ typedef union
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
+    /* struct bdk_ncsi_config_s cn83xx; */
     /* struct bdk_ncsi_config_s cn88xxp2; */
     struct bdk_ncsi_config_cn88xxp1
     {
@@ -316,37 +312,6 @@ typedef union
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } cn88xxp1;
-    struct bdk_ncsi_config_cn9
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_5_63         : 59;
-        uint64_t pkg_id                : 3;  /**< [  4:  2](R/W/H) Override the NCSI package id
-                                                                 which defaults to the global node ID.  MSB must be set to 0
-                                                                 for NCSI V1.0 compliance. */
-        uint64_t pkg_desel_tx_ch_dis   : 1;  /**< [  1:  1](R/W) This bit controls whether the NCSI will disable the TX_CH upon pkg deselect command.
-                                                                 0 = On pkg deselect command, keep TX channel enabled, enabling pass through traffic to
-                                                                 CGX.
-                                                                 1 = On pkg deselect command, disable TX channel preventing pass through traffic to CGX. */
-        uint64_t cam_accept            : 1;  /**< [  0:  0](R/W) Allow or deny SMAC address filter.  Applies to both SMAC filters in the CAM.
-                                                                 See NCSI_TX_FRM_SMAC()_CAM for additional details.
-                                                                 0 = Reject the packet on SMAC CAM address match.
-                                                                 1 = Accept the packet on SMAC CAM address match. */
-#else /* Word 0 - Little Endian */
-        uint64_t cam_accept            : 1;  /**< [  0:  0](R/W) Allow or deny SMAC address filter.  Applies to both SMAC filters in the CAM.
-                                                                 See NCSI_TX_FRM_SMAC()_CAM for additional details.
-                                                                 0 = Reject the packet on SMAC CAM address match.
-                                                                 1 = Accept the packet on SMAC CAM address match. */
-        uint64_t pkg_desel_tx_ch_dis   : 1;  /**< [  1:  1](R/W) This bit controls whether the NCSI will disable the TX_CH upon pkg deselect command.
-                                                                 0 = On pkg deselect command, keep TX channel enabled, enabling pass through traffic to
-                                                                 CGX.
-                                                                 1 = On pkg deselect command, disable TX channel preventing pass through traffic to CGX. */
-        uint64_t pkg_id                : 3;  /**< [  4:  2](R/W/H) Override the NCSI package id
-                                                                 which defaults to the global node ID.  MSB must be set to 0
-                                                                 for NCSI V1.0 compliance. */
-        uint64_t reserved_5_63         : 59;
-#endif /* Word 0 - End */
-    } cn9;
-    /* struct bdk_ncsi_config_s cn83xx; */
 } bdk_ncsi_config_t;
 
 #define BDK_NCSI_CONFIG BDK_NCSI_CONFIG_FUNC()
@@ -356,8 +321,6 @@ static inline uint64_t BDK_NCSI_CONFIG_FUNC(void)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x87e00b000110ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
-        return 0x87e00b000110ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x87e00b000110ll;
     __bdk_csr_fatal("NCSI_CONFIG", 0, 0, 0, 0, 0);
 }
@@ -399,8 +362,6 @@ static inline uint64_t BDK_NCSI_CPU2BMC_MSG_FUNC(void)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x87e00b000100ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
-        return 0x87e00b000100ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x87e00b000100ll;
     __bdk_csr_fatal("NCSI_CPU2BMC_MSG", 0, 0, 0, 0, 0);
 }
@@ -470,6 +431,7 @@ typedef union
         uint64_t reserved_17_63        : 47;
 #endif /* Word 0 - End */
     } s;
+    /* struct bdk_ncsi_int_s cn83xx; */
     struct bdk_ncsi_int_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -566,8 +528,6 @@ typedef union
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } cn88xxp1;
-    /* struct bdk_ncsi_int_s cn9; */
-    /* struct bdk_ncsi_int_s cn83xx; */
 } bdk_ncsi_int_t;
 
 #define BDK_NCSI_INT BDK_NCSI_INT_FUNC()
@@ -577,8 +537,6 @@ static inline uint64_t BDK_NCSI_INT_FUNC(void)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x87e00b000000ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
-        return 0x87e00b000000ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x87e00b000000ll;
     __bdk_csr_fatal("NCSI_INT", 0, 0, 0, 0, 0);
 }
@@ -641,7 +599,6 @@ typedef union
         uint64_t reserved_17_63        : 47;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ncsi_int_ena_w1c_s cn9; */
     struct bdk_ncsi_int_ena_w1c_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -692,8 +649,6 @@ static inline uint64_t BDK_NCSI_INT_ENA_W1C_FUNC(void)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x87e00b000018ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
-        return 0x87e00b000018ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x87e00b000018ll;
     __bdk_csr_fatal("NCSI_INT_ENA_W1C", 0, 0, 0, 0, 0);
 }
@@ -756,7 +711,6 @@ typedef union
         uint64_t reserved_17_63        : 47;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ncsi_int_ena_w1s_s cn9; */
     struct bdk_ncsi_int_ena_w1s_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -807,8 +761,6 @@ static inline uint64_t BDK_NCSI_INT_ENA_W1S_FUNC(void)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x87e00b000010ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
-        return 0x87e00b000010ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x87e00b000010ll;
     __bdk_csr_fatal("NCSI_INT_ENA_W1S", 0, 0, 0, 0, 0);
 }
@@ -871,7 +823,6 @@ typedef union
         uint64_t reserved_17_63        : 47;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ncsi_int_w1s_s cn9; */
     struct bdk_ncsi_int_w1s_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -923,8 +874,6 @@ static inline uint64_t BDK_NCSI_INT_W1S_FUNC(void)
         return 0x87e00b000008ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
         return 0x87e00b000008ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x87e00b000008ll;
     __bdk_csr_fatal("NCSI_INT_W1S", 0, 0, 0, 0, 0);
 }
 
@@ -974,8 +923,6 @@ static inline uint64_t BDK_NCSI_MEM_CTRL_FUNC(void)
         return 0x87e00b000118ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
         return 0x87e00b000118ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x87e00b000118ll;
     __bdk_csr_fatal("NCSI_MEM_CTRL", 0, 0, 0, 0, 0);
 }
 
@@ -1014,8 +961,6 @@ static inline uint64_t BDK_NCSI_MSIX_PBAX(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
         return 0x87e00bff0000ll + 8ll * ((a) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a==0))
-        return 0x87e00bff0000ll + 8ll * ((a) & 0x0);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a==0))
         return 0x87e00bff0000ll + 8ll * ((a) & 0x0);
     __bdk_csr_fatal("NCSI_MSIX_PBAX", 1, a, 0, 0, 0);
 }
@@ -1074,8 +1019,6 @@ static inline uint64_t BDK_NCSI_MSIX_VECX_ADDR(unsigned long a)
         return 0x87e00bf00000ll + 0x10ll * ((a) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a==0))
         return 0x87e00bf00000ll + 0x10ll * ((a) & 0x0);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a==0))
-        return 0x87e00bf00000ll + 0x10ll * ((a) & 0x0);
     __bdk_csr_fatal("NCSI_MSIX_VECX_ADDR", 1, a, 0, 0, 0);
 }
 
@@ -1119,8 +1062,6 @@ static inline uint64_t BDK_NCSI_MSIX_VECX_CTL(unsigned long a)
         return 0x87e00bf00008ll + 0x10ll * ((a) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a==0))
         return 0x87e00bf00008ll + 0x10ll * ((a) & 0x0);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a==0))
-        return 0x87e00bf00008ll + 0x10ll * ((a) & 0x0);
     __bdk_csr_fatal("NCSI_MSIX_VECX_CTL", 1, a, 0, 0, 0);
 }
 
@@ -1135,11 +1076,11 @@ static inline uint64_t BDK_NCSI_MSIX_VECX_CTL(unsigned long a)
  * Register (RSL) ncsi_rx_frm_ctl
  *
  * NCSI RX Frame Control Registers
- * This register should be set in coordination with CGX registers that control similar
+ * This register should be set in coordination with BGX registers that control similar
  * parameters.
  * If NCSI should is configured to prepend preamble and postpend FCS, then these should be
  * stripped
- * by CGX.  If NCSI is configured not to prepend preamble and postpend FCS, then CGX should not
+ * by BGX.  If NCSI is configured not to prepend preamble and postpend FCS, then BGX should not
  * be stripping these values.
  * Practically speaking, preamble and FCS should be set together.
  */
@@ -1172,8 +1113,6 @@ static inline uint64_t BDK_NCSI_RX_FRM_CTL_FUNC(void)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x87e00b000508ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
-        return 0x87e00b000508ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x87e00b000508ll;
     __bdk_csr_fatal("NCSI_RX_FRM_CTL", 0, 0, 0, 0, 0);
 }
@@ -1225,8 +1164,6 @@ static inline uint64_t BDK_NCSI_RX_IFG_FUNC(void)
         return 0x87e00b000518ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
         return 0x87e00b000518ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x87e00b000518ll;
     __bdk_csr_fatal("NCSI_RX_IFG", 0, 0, 0, 0, 0);
 }
 
@@ -1275,8 +1212,6 @@ static inline uint64_t BDK_NCSI_RX_MFG_FUNC(void)
         return 0x87e00b000520ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
         return 0x87e00b000520ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x87e00b000520ll;
     __bdk_csr_fatal("NCSI_RX_MFG", 0, 0, 0, 0, 0);
 }
 
@@ -1321,8 +1256,6 @@ static inline uint64_t BDK_NCSI_RX_MIN_PKT_FUNC(void)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x87e00b000510ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
-        return 0x87e00b000510ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x87e00b000510ll;
     __bdk_csr_fatal("NCSI_RX_MIN_PKT", 0, 0, 0, 0, 0);
 }
@@ -1370,8 +1303,6 @@ static inline uint64_t BDK_NCSI_RX_STAT0_FUNC(void)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x87e00b000600ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
-        return 0x87e00b000600ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x87e00b000600ll;
     __bdk_csr_fatal("NCSI_RX_STAT0", 0, 0, 0, 0, 0);
 }
@@ -1422,8 +1353,6 @@ static inline uint64_t BDK_NCSI_RX_STAT1_FUNC(void)
         return 0x87e00b000608ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
         return 0x87e00b000608ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x87e00b000608ll;
     __bdk_csr_fatal("NCSI_RX_STAT1", 0, 0, 0, 0, 0);
 }
 
@@ -1466,8 +1395,6 @@ static inline uint64_t BDK_NCSI_RX_THRESH_FUNC(void)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x87e00b000500ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
-        return 0x87e00b000500ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x87e00b000500ll;
     __bdk_csr_fatal("NCSI_RX_THRESH", 0, 0, 0, 0, 0);
 }
@@ -1519,8 +1446,6 @@ static inline uint64_t BDK_NCSI_SECURE_CONFIG_FUNC(void)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x87e00b000800ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
-        return 0x87e00b000800ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x87e00b000800ll;
     __bdk_csr_fatal("NCSI_SECURE_CONFIG", 0, 0, 0, 0, 0);
 }
@@ -1591,6 +1516,7 @@ typedef union
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
+    /* struct bdk_ncsi_tx_frm_ctl_s cn83xx; */
     /* struct bdk_ncsi_tx_frm_ctl_s cn88xxp2; */
     struct bdk_ncsi_tx_frm_ctl_cn88xxp1
     {
@@ -1638,8 +1564,6 @@ typedef union
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } cn88xxp1;
-    /* struct bdk_ncsi_tx_frm_ctl_s cn9; */
-    /* struct bdk_ncsi_tx_frm_ctl_s cn83xx; */
 } bdk_ncsi_tx_frm_ctl_t;
 
 #define BDK_NCSI_TX_FRM_CTL BDK_NCSI_TX_FRM_CTL_FUNC()
@@ -1649,8 +1573,6 @@ static inline uint64_t BDK_NCSI_TX_FRM_CTL_FUNC(void)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x87e00b000120ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
-        return 0x87e00b000120ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x87e00b000120ll;
     __bdk_csr_fatal("NCSI_TX_FRM_CTL", 0, 0, 0, 0, 0);
 }
@@ -1697,8 +1619,6 @@ static inline uint64_t BDK_NCSI_TX_FRM_SMACX_CAM(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e00b000200ll + 8ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
-        return 0x87e00b000200ll + 8ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=1))
         return 0x87e00b000200ll + 8ll * ((a) & 0x1);
     __bdk_csr_fatal("NCSI_TX_FRM_SMACX_CAM", 1, a, 0, 0, 0);
 }
@@ -1749,8 +1669,6 @@ static inline uint64_t BDK_NCSI_TX_IFG_FUNC(void)
         return 0x87e00b000130ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
         return 0x87e00b000130ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x87e00b000130ll;
     __bdk_csr_fatal("NCSI_TX_IFG", 0, 0, 0, 0, 0);
 }
 
@@ -1796,8 +1714,6 @@ static inline uint64_t BDK_NCSI_TX_JABBER_FUNC(void)
         return 0x87e00b000128ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
         return 0x87e00b000128ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x87e00b000128ll;
     __bdk_csr_fatal("NCSI_TX_JABBER", 0, 0, 0, 0, 0);
 }
 
@@ -1812,7 +1728,7 @@ static inline uint64_t BDK_NCSI_TX_JABBER_FUNC(void)
  * Register (RSL) ncsi_tx_mix
  *
  * NCSI TX MIX Configuration Register
- * This register specifies configuration parameters for the MIX interface of CGX.
+ * This register specifies configuration parameters for the MIX interface of BGX.
  */
 typedef union
 {
@@ -1827,17 +1743,7 @@ typedef union
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ncsi_tx_mix_s cn8; */
-    struct bdk_ncsi_tx_mix_cn9
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
-        uint64_t port                  : 4;  /**< [  3:  0](R/W) Port value inserted into MIX frames headed to the CGX where it is used as the channel number. */
-#else /* Word 0 - Little Endian */
-        uint64_t port                  : 4;  /**< [  3:  0](R/W) Port value inserted into MIX frames headed to the CGX where it is used as the channel number. */
-        uint64_t reserved_4_63         : 60;
-#endif /* Word 0 - End */
-    } cn9;
+    /* struct bdk_ncsi_tx_mix_s cn; */
 } bdk_ncsi_tx_mix_t;
 
 #define BDK_NCSI_TX_MIX BDK_NCSI_TX_MIX_FUNC()
@@ -1847,8 +1753,6 @@ static inline uint64_t BDK_NCSI_TX_MIX_FUNC(void)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x87e00b000138ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
-        return 0x87e00b000138ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x87e00b000138ll;
     __bdk_csr_fatal("NCSI_TX_MIX", 0, 0, 0, 0, 0);
 }
@@ -1891,8 +1795,6 @@ static inline uint64_t BDK_NCSI_TX_NCP_CH_ST_FUNC(void)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x87e00b000140ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
-        return 0x87e00b000140ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x87e00b000140ll;
     __bdk_csr_fatal("NCSI_TX_NCP_CH_ST", 0, 0, 0, 0, 0);
 }
@@ -1965,58 +1867,6 @@ typedef union
                                                                  Access to NCSI_CPU2BMC_MSG and NCSI_BMC2CPU_MSG are always allowed. */
 #endif /* Word 0 - End */
     } s;
-    struct bdk_ncsi_tx_ncp_permx_table_hi_cn9
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t addr                  : 64; /**< [ 63:  0](SR/W) Specifies the high physical address in formulating a permissions filter for OEM command
-                                                                 access.
-                                                                 Together with the respective NCSI_TX_NCP_PERM()_TABLE_LOW entry, specifies
-                                                                 a range, from NCSI_TX_NCP_PERM_TABLE()_LOW[n] to NCSI_TX_NCP_PERM()_TABLE_HI[n] of
-                                                                 physical addresses, contained in the OEM command, that have permissions to execute
-                                                                 read or writes to CNXXXX general registers through MRML.
-
-                                                                 Values per entry should be set such that LOW[n]<=HI[n]. To specify a single address the hi
-                                                                 and low are programmed with the same value.
-                                                                 If a range in one set of HI/LOW entries overlaps with another, the
-                                                                 overlap is harmlessly redundant.
-
-                                                                 Address bit <63> is used as the secure bit, and thus to allow secure and
-                                                                 nonsecure access to a given register, both the register's address with <63>=0,
-                                                                 and register's address with <63>=1 must be within the range(s).
-
-                                                                 Default values allow default access to:
-
-                                                                   * All NCSI addresses except secure registers.
-                                                                   * All CGX(0..3) addresses except secure registers.
-                                                                   * All SERDES addresses serving CGX(0...3).
-
-                                                                 Access to NCSI_CPU2BMC_MSG and NCSI_BMC2CPU_MSG are always allowed. */
-#else /* Word 0 - Little Endian */
-        uint64_t addr                  : 64; /**< [ 63:  0](SR/W) Specifies the high physical address in formulating a permissions filter for OEM command
-                                                                 access.
-                                                                 Together with the respective NCSI_TX_NCP_PERM()_TABLE_LOW entry, specifies
-                                                                 a range, from NCSI_TX_NCP_PERM_TABLE()_LOW[n] to NCSI_TX_NCP_PERM()_TABLE_HI[n] of
-                                                                 physical addresses, contained in the OEM command, that have permissions to execute
-                                                                 read or writes to CNXXXX general registers through MRML.
-
-                                                                 Values per entry should be set such that LOW[n]<=HI[n]. To specify a single address the hi
-                                                                 and low are programmed with the same value.
-                                                                 If a range in one set of HI/LOW entries overlaps with another, the
-                                                                 overlap is harmlessly redundant.
-
-                                                                 Address bit <63> is used as the secure bit, and thus to allow secure and
-                                                                 nonsecure access to a given register, both the register's address with <63>=0,
-                                                                 and register's address with <63>=1 must be within the range(s).
-
-                                                                 Default values allow default access to:
-
-                                                                   * All NCSI addresses except secure registers.
-                                                                   * All CGX(0..3) addresses except secure registers.
-                                                                   * All SERDES addresses serving CGX(0...3).
-
-                                                                 Access to NCSI_CPU2BMC_MSG and NCSI_BMC2CPU_MSG are always allowed. */
-#endif /* Word 0 - End */
-    } cn9;
     struct bdk_ncsi_tx_ncp_permx_table_hi_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -2079,8 +1929,6 @@ static inline uint64_t BDK_NCSI_TX_NCP_PERMX_TABLE_HI(unsigned long a)
         return 0x87e00b000900ll + 8ll * ((a) & 0xf);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=15))
         return 0x87e00b000900ll + 8ll * ((a) & 0xf);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=15))
-        return 0x87e00b000900ll + 8ll * ((a) & 0xf);
     __bdk_csr_fatal("NCSI_TX_NCP_PERMX_TABLE_HI", 1, a, 0, 0, 0);
 }
 
@@ -2119,8 +1967,6 @@ static inline uint64_t BDK_NCSI_TX_NCP_PERMX_TABLE_LOW(unsigned long a)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=15))
         return 0x87e00b000a00ll + 8ll * ((a) & 0xf);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=15))
-        return 0x87e00b000a00ll + 8ll * ((a) & 0xf);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=15))
         return 0x87e00b000a00ll + 8ll * ((a) & 0xf);
     __bdk_csr_fatal("NCSI_TX_NCP_PERMX_TABLE_LOW", 1, a, 0, 0, 0);
 }
@@ -2161,8 +2007,6 @@ static inline uint64_t BDK_NCSI_TX_NCP_PKG_ST_FUNC(void)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x87e00b000148ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
-        return 0x87e00b000148ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x87e00b000148ll;
     __bdk_csr_fatal("NCSI_TX_NCP_PKG_ST", 0, 0, 0, 0, 0);
 }
@@ -2209,8 +2053,6 @@ static inline uint64_t BDK_NCSI_TX_STAT0_FUNC(void)
         return 0x87e00b000300ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
         return 0x87e00b000300ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
-        return 0x87e00b000300ll;
     __bdk_csr_fatal("NCSI_TX_STAT0", 0, 0, 0, 0, 0);
 }
 
@@ -2255,8 +2097,6 @@ static inline uint64_t BDK_NCSI_TX_STAT1_FUNC(void)
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x87e00b000308ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
-        return 0x87e00b000308ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX))
         return 0x87e00b000308ll;
     __bdk_csr_fatal("NCSI_TX_STAT1", 0, 0, 0, 0, 0);
 }

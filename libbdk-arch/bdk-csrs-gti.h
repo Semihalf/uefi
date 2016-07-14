@@ -70,8 +70,7 @@
  * Enumerates the MSI-X interrupt vectors.
  */
 #define BDK_GTI_INT_VEC_E_CORE_WDOGX_DEL3T(a) (0xa + (a))
-#define BDK_GTI_INT_VEC_E_CORE_WDOGX_INT_CN8(a) (0x3a + (a))
-#define BDK_GTI_INT_VEC_E_CORE_WDOGX_INT_CN9(a) (0x40 + (a))
+#define BDK_GTI_INT_VEC_E_CORE_WDOGX_INT(a) (0x3a + (a))
 #define BDK_GTI_INT_VEC_E_ERROR (8)
 #define BDK_GTI_INT_VEC_E_MAILBOX_RX (7)
 #define BDK_GTI_INT_VEC_E_SECURE_WATCHDOG (4)
@@ -1007,7 +1006,6 @@ typedef union
                                                                  TX_TIMESTAMP interrupts. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_gti_cc_cntmb_s cn9; */
     struct bdk_gti_cc_cntmb_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -1257,7 +1255,6 @@ typedef union
                                                                  For CCPI-enabled chips only. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_gti_cc_cntmbts_s cn9; */
     struct bdk_gti_cc_cntmbts_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -2317,24 +2314,14 @@ typedef union
     struct bdk_gti_cwd_del3t_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_54_63        : 10;
-        uint64_t core                  : 54; /**< [ 53:  0](R/W1C/H) Per-core watchdog non-maskable interrupt. */
+        uint64_t reserved_48_63        : 16;
+        uint64_t core                  : 48; /**< [ 47:  0](R/W1C/H) Per-core watchdog non-maskable interrupt. */
 #else /* Word 0 - Little Endian */
-        uint64_t core                  : 54; /**< [ 53:  0](R/W1C/H) Per-core watchdog non-maskable interrupt. */
-        uint64_t reserved_54_63        : 10;
+        uint64_t core                  : 48; /**< [ 47:  0](R/W1C/H) Per-core watchdog non-maskable interrupt. */
+        uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_gti_cwd_del3t_cn8
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_48_63        : 16;
-        uint64_t core                  : 48; /**< [ 47:  0](R/W1C/H) Per-core watchdog non-maskable interrupt. */
-#else /* Word 0 - Little Endian */
-        uint64_t core                  : 48; /**< [ 47:  0](R/W1C/H) Per-core watchdog non-maskable interrupt. */
-        uint64_t reserved_48_63        : 16;
-#endif /* Word 0 - End */
-    } cn8;
-    /* struct bdk_gti_cwd_del3t_s cn9; */
+    /* struct bdk_gti_cwd_del3t_s cn; */
 } bdk_gti_cwd_del3t_t;
 
 #define BDK_GTI_CWD_DEL3T BDK_GTI_CWD_DEL3T_FUNC()
@@ -2363,24 +2350,14 @@ typedef union
     struct bdk_gti_cwd_del3t_ena_clr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_54_63        : 10;
-        uint64_t core                  : 54; /**< [ 53:  0](R/W1C/H) Reads or clears enable for GTI_CWD_DEL3T[CORE]. */
+        uint64_t reserved_48_63        : 16;
+        uint64_t core                  : 48; /**< [ 47:  0](R/W1C/H) Reads or clears enable for GTI_CWD_DEL3T[CORE]. */
 #else /* Word 0 - Little Endian */
-        uint64_t core                  : 54; /**< [ 53:  0](R/W1C/H) Reads or clears enable for GTI_CWD_DEL3T[CORE]. */
-        uint64_t reserved_54_63        : 10;
+        uint64_t core                  : 48; /**< [ 47:  0](R/W1C/H) Reads or clears enable for GTI_CWD_DEL3T[CORE]. */
+        uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_gti_cwd_del3t_ena_clr_cn8
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_48_63        : 16;
-        uint64_t core                  : 48; /**< [ 47:  0](R/W1C/H) Reads or clears enable for GTI_CWD_DEL3T[CORE]. */
-#else /* Word 0 - Little Endian */
-        uint64_t core                  : 48; /**< [ 47:  0](R/W1C/H) Reads or clears enable for GTI_CWD_DEL3T[CORE]. */
-        uint64_t reserved_48_63        : 16;
-#endif /* Word 0 - End */
-    } cn8;
-    /* struct bdk_gti_cwd_del3t_ena_clr_s cn9; */
+    /* struct bdk_gti_cwd_del3t_ena_clr_s cn; */
 } bdk_gti_cwd_del3t_ena_clr_t;
 
 #define BDK_GTI_CWD_DEL3T_ENA_CLR BDK_GTI_CWD_DEL3T_ENA_CLR_FUNC()
@@ -2409,24 +2386,14 @@ typedef union
     struct bdk_gti_cwd_del3t_ena_set_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_54_63        : 10;
-        uint64_t core                  : 54; /**< [ 53:  0](R/W1S/H) Reads or sets enable for GTI_CWD_DEL3T[CORE]. */
+        uint64_t reserved_48_63        : 16;
+        uint64_t core                  : 48; /**< [ 47:  0](R/W1S/H) Reads or sets enable for GTI_CWD_DEL3T[CORE]. */
 #else /* Word 0 - Little Endian */
-        uint64_t core                  : 54; /**< [ 53:  0](R/W1S/H) Reads or sets enable for GTI_CWD_DEL3T[CORE]. */
-        uint64_t reserved_54_63        : 10;
+        uint64_t core                  : 48; /**< [ 47:  0](R/W1S/H) Reads or sets enable for GTI_CWD_DEL3T[CORE]. */
+        uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_gti_cwd_del3t_ena_set_cn8
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_48_63        : 16;
-        uint64_t core                  : 48; /**< [ 47:  0](R/W1S/H) Reads or sets enable for GTI_CWD_DEL3T[CORE]. */
-#else /* Word 0 - Little Endian */
-        uint64_t core                  : 48; /**< [ 47:  0](R/W1S/H) Reads or sets enable for GTI_CWD_DEL3T[CORE]. */
-        uint64_t reserved_48_63        : 16;
-#endif /* Word 0 - End */
-    } cn8;
-    /* struct bdk_gti_cwd_del3t_ena_set_s cn9; */
+    /* struct bdk_gti_cwd_del3t_ena_set_s cn; */
 } bdk_gti_cwd_del3t_ena_set_t;
 
 #define BDK_GTI_CWD_DEL3T_ENA_SET BDK_GTI_CWD_DEL3T_ENA_SET_FUNC()
@@ -2455,24 +2422,14 @@ typedef union
     struct bdk_gti_cwd_del3t_set_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_54_63        : 10;
-        uint64_t core                  : 54; /**< [ 53:  0](R/W1S/H) Reads or sets GTI_CWD_DEL3T[CORE]. */
+        uint64_t reserved_48_63        : 16;
+        uint64_t core                  : 48; /**< [ 47:  0](R/W1S/H) Reads or sets GTI_CWD_DEL3T[CORE]. */
 #else /* Word 0 - Little Endian */
-        uint64_t core                  : 54; /**< [ 53:  0](R/W1S/H) Reads or sets GTI_CWD_DEL3T[CORE]. */
-        uint64_t reserved_54_63        : 10;
+        uint64_t core                  : 48; /**< [ 47:  0](R/W1S/H) Reads or sets GTI_CWD_DEL3T[CORE]. */
+        uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_gti_cwd_del3t_set_cn8
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_48_63        : 16;
-        uint64_t core                  : 48; /**< [ 47:  0](R/W1S/H) Reads or sets GTI_CWD_DEL3T[CORE]. */
-#else /* Word 0 - Little Endian */
-        uint64_t core                  : 48; /**< [ 47:  0](R/W1S/H) Reads or sets GTI_CWD_DEL3T[CORE]. */
-        uint64_t reserved_48_63        : 16;
-#endif /* Word 0 - End */
-    } cn8;
-    /* struct bdk_gti_cwd_del3t_set_s cn9; */
+    /* struct bdk_gti_cwd_del3t_set_s cn; */
 } bdk_gti_cwd_del3t_set_t;
 
 #define BDK_GTI_CWD_DEL3T_SET BDK_GTI_CWD_DEL3T_SET_FUNC()
@@ -2501,24 +2458,14 @@ typedef union
     struct bdk_gti_cwd_int_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_54_63        : 10;
-        uint64_t core                  : 54; /**< [ 53:  0](R/W1C/H) Per-core watchdog interrupt. */
+        uint64_t reserved_48_63        : 16;
+        uint64_t core                  : 48; /**< [ 47:  0](R/W1C/H) Per-core watchdog interrupt. */
 #else /* Word 0 - Little Endian */
-        uint64_t core                  : 54; /**< [ 53:  0](R/W1C/H) Per-core watchdog interrupt. */
-        uint64_t reserved_54_63        : 10;
+        uint64_t core                  : 48; /**< [ 47:  0](R/W1C/H) Per-core watchdog interrupt. */
+        uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_gti_cwd_int_cn8
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_48_63        : 16;
-        uint64_t core                  : 48; /**< [ 47:  0](R/W1C/H) Per-core watchdog interrupt. */
-#else /* Word 0 - Little Endian */
-        uint64_t core                  : 48; /**< [ 47:  0](R/W1C/H) Per-core watchdog interrupt. */
-        uint64_t reserved_48_63        : 16;
-#endif /* Word 0 - End */
-    } cn8;
-    /* struct bdk_gti_cwd_int_s cn9; */
+    /* struct bdk_gti_cwd_int_s cn; */
 } bdk_gti_cwd_int_t;
 
 #define BDK_GTI_CWD_INT BDK_GTI_CWD_INT_FUNC()
@@ -2547,24 +2494,14 @@ typedef union
     struct bdk_gti_cwd_int_ena_clr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_54_63        : 10;
-        uint64_t core                  : 54; /**< [ 53:  0](R/W1C/H) Reads or clears enable for GTI_CWD_INT[CORE]. */
+        uint64_t reserved_48_63        : 16;
+        uint64_t core                  : 48; /**< [ 47:  0](R/W1C/H) Reads or clears enable for GTI_CWD_INT[CORE]. */
 #else /* Word 0 - Little Endian */
-        uint64_t core                  : 54; /**< [ 53:  0](R/W1C/H) Reads or clears enable for GTI_CWD_INT[CORE]. */
-        uint64_t reserved_54_63        : 10;
+        uint64_t core                  : 48; /**< [ 47:  0](R/W1C/H) Reads or clears enable for GTI_CWD_INT[CORE]. */
+        uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_gti_cwd_int_ena_clr_cn8
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_48_63        : 16;
-        uint64_t core                  : 48; /**< [ 47:  0](R/W1C/H) Reads or clears enable for GTI_CWD_INT[CORE]. */
-#else /* Word 0 - Little Endian */
-        uint64_t core                  : 48; /**< [ 47:  0](R/W1C/H) Reads or clears enable for GTI_CWD_INT[CORE]. */
-        uint64_t reserved_48_63        : 16;
-#endif /* Word 0 - End */
-    } cn8;
-    /* struct bdk_gti_cwd_int_ena_clr_s cn9; */
+    /* struct bdk_gti_cwd_int_ena_clr_s cn; */
 } bdk_gti_cwd_int_ena_clr_t;
 
 #define BDK_GTI_CWD_INT_ENA_CLR BDK_GTI_CWD_INT_ENA_CLR_FUNC()
@@ -2593,24 +2530,14 @@ typedef union
     struct bdk_gti_cwd_int_ena_set_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_54_63        : 10;
-        uint64_t core                  : 54; /**< [ 53:  0](R/W1S/H) Reads or sets enable for GTI_CWD_INT[CORE]. */
+        uint64_t reserved_48_63        : 16;
+        uint64_t core                  : 48; /**< [ 47:  0](R/W1S/H) Reads or sets enable for GTI_CWD_INT[CORE]. */
 #else /* Word 0 - Little Endian */
-        uint64_t core                  : 54; /**< [ 53:  0](R/W1S/H) Reads or sets enable for GTI_CWD_INT[CORE]. */
-        uint64_t reserved_54_63        : 10;
+        uint64_t core                  : 48; /**< [ 47:  0](R/W1S/H) Reads or sets enable for GTI_CWD_INT[CORE]. */
+        uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_gti_cwd_int_ena_set_cn8
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_48_63        : 16;
-        uint64_t core                  : 48; /**< [ 47:  0](R/W1S/H) Reads or sets enable for GTI_CWD_INT[CORE]. */
-#else /* Word 0 - Little Endian */
-        uint64_t core                  : 48; /**< [ 47:  0](R/W1S/H) Reads or sets enable for GTI_CWD_INT[CORE]. */
-        uint64_t reserved_48_63        : 16;
-#endif /* Word 0 - End */
-    } cn8;
-    /* struct bdk_gti_cwd_int_ena_set_s cn9; */
+    /* struct bdk_gti_cwd_int_ena_set_s cn; */
 } bdk_gti_cwd_int_ena_set_t;
 
 #define BDK_GTI_CWD_INT_ENA_SET BDK_GTI_CWD_INT_ENA_SET_FUNC()
@@ -2639,24 +2566,14 @@ typedef union
     struct bdk_gti_cwd_int_set_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_54_63        : 10;
-        uint64_t core                  : 54; /**< [ 53:  0](R/W1S/H) Reads or sets GTI_CWD_INT[CORE]. */
+        uint64_t reserved_48_63        : 16;
+        uint64_t core                  : 48; /**< [ 47:  0](R/W1S/H) Reads or sets GTI_CWD_INT[CORE]. */
 #else /* Word 0 - Little Endian */
-        uint64_t core                  : 54; /**< [ 53:  0](R/W1S/H) Reads or sets GTI_CWD_INT[CORE]. */
-        uint64_t reserved_54_63        : 10;
+        uint64_t core                  : 48; /**< [ 47:  0](R/W1S/H) Reads or sets GTI_CWD_INT[CORE]. */
+        uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_gti_cwd_int_set_cn8
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_48_63        : 16;
-        uint64_t core                  : 48; /**< [ 47:  0](R/W1S/H) Reads or sets GTI_CWD_INT[CORE]. */
-#else /* Word 0 - Little Endian */
-        uint64_t core                  : 48; /**< [ 47:  0](R/W1S/H) Reads or sets GTI_CWD_INT[CORE]. */
-        uint64_t reserved_48_63        : 16;
-#endif /* Word 0 - End */
-    } cn8;
-    /* struct bdk_gti_cwd_int_set_s cn9; */
+    /* struct bdk_gti_cwd_int_set_s cn; */
 } bdk_gti_cwd_int_set_t;
 
 #define BDK_GTI_CWD_INT_SET BDK_GTI_CWD_INT_SET_FUNC()
@@ -2727,9 +2644,7 @@ typedef union
 static inline uint64_t BDK_GTI_CWD_POKEX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GTI_CWD_POKEX(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x844000050000ll + 8ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x844000050000ll + 8ll * ((a) & 0x3f);
     __bdk_csr_fatal("GTI_CWD_POKEX", 1, a, 0, 0, 0);
 }
@@ -2793,9 +2708,7 @@ typedef union
 static inline uint64_t BDK_GTI_CWD_WDOGX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GTI_CWD_WDOGX(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x844000040000ll + 8ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x844000040000ll + 8ll * ((a) & 0x3f);
     __bdk_csr_fatal("GTI_CWD_WDOGX", 1, a, 0, 0, 0);
 }
@@ -3155,9 +3068,7 @@ typedef union
 static inline uint64_t BDK_GTI_MSIX_VECX_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GTI_MSIX_VECX_ADDR(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=105))
-        return 0x84400f000000ll + 0x10ll * ((a) & 0x7f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=117))
+    if (a<=105)
         return 0x84400f000000ll + 0x10ll * ((a) & 0x7f);
     __bdk_csr_fatal("GTI_MSIX_VECX_ADDR", 1, a, 0, 0, 0);
 }
@@ -3198,9 +3109,7 @@ typedef union
 static inline uint64_t BDK_GTI_MSIX_VECX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GTI_MSIX_VECX_CTL(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=105))
-        return 0x84400f000008ll + 0x10ll * ((a) & 0x7f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=117))
+    if (a<=105)
         return 0x84400f000008ll + 0x10ll * ((a) & 0x7f);
     __bdk_csr_fatal("GTI_MSIX_VECX_CTL", 1, a, 0, 0, 0);
 }

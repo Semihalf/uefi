@@ -81,7 +81,7 @@ typedef union
         uint64_t reserved_0_63         : 64;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_rnm_bist_status_cn9
+    struct bdk_rnm_bist_status_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_2_63         : 62;
@@ -92,8 +92,7 @@ typedef union
         uint64_t nz                    : 1;  /**< [  1:  1](RO/H) Status of the no-zeros memory BIST. 0 = passed BIST, 1 = failed BIST. */
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
-    } cn9;
-    /* struct bdk_rnm_bist_status_cn9 cn81xx; */
+    } cn81xx;
     struct bdk_rnm_bist_status_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -106,7 +105,7 @@ typedef union
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
     } cn88xx;
-    /* struct bdk_rnm_bist_status_cn9 cn83xx; */
+    /* struct bdk_rnm_bist_status_cn81xx cn83xx; */
 } bdk_rnm_bist_status_t;
 
 #define BDK_RNM_BIST_STATUS BDK_RNM_BIST_STATUS_FUNC()

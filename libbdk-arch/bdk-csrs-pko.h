@@ -11734,9 +11734,11 @@ typedef union
         uint64_t cp_sendpkt_err_no_drp : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[CP_SENDPKT_ERR_NO_DRP]. */
         uint64_t reserved_4_8          : 5;
         uint64_t cp_sendpkt_err_drop   : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[CP_SENDPKT_ERR_DROP]. */
-        uint64_t reserved_0_2          : 3;
+        uint64_t reserved_1_2          : 2;
+        uint64_t buf_fc_st_err         : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[BUF_FC_ST_ERR]. */
 #else /* Word 0 - Little Endian */
-        uint64_t reserved_0_2          : 3;
+        uint64_t buf_fc_st_err         : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[BUF_FC_ST_ERR]. */
+        uint64_t reserved_1_2          : 2;
         uint64_t cp_sendpkt_err_drop   : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[CP_SENDPKT_ERR_DROP]. */
         uint64_t reserved_4_8          : 5;
         uint64_t cp_sendpkt_err_no_drp : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for PKO_PDM_STS_W1C[CP_SENDPKT_ERR_NO_DRP]. */
@@ -11806,9 +11808,11 @@ typedef union
         uint64_t cp_sendpkt_err_no_drp : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[CP_SENDPKT_ERR_NO_DRP]. */
         uint64_t reserved_4_8          : 5;
         uint64_t cp_sendpkt_err_drop   : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[CP_SENDPKT_ERR_DROP]. */
-        uint64_t reserved_0_2          : 3;
+        uint64_t reserved_1_2          : 2;
+        uint64_t buf_fc_st_err         : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[BUF_FC_ST_ERR]. */
 #else /* Word 0 - Little Endian */
-        uint64_t reserved_0_2          : 3;
+        uint64_t buf_fc_st_err         : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[BUF_FC_ST_ERR]. */
+        uint64_t reserved_1_2          : 2;
         uint64_t cp_sendpkt_err_drop   : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[CP_SENDPKT_ERR_DROP]. */
         uint64_t reserved_4_8          : 5;
         uint64_t cp_sendpkt_err_no_drp : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for PKO_PDM_STS_W1C[CP_SENDPKT_ERR_NO_DRP]. */
@@ -11884,9 +11888,15 @@ typedef union
         uint64_t reserved_4_8          : 5;
         uint64_t cp_sendpkt_err_drop   : 1;  /**< [  3:  3](R/W1C/H) Dropped a send-packet in PDM/CP due to a rule violation. The error code is captured in
                                                                  PKO_PDM_STS_INFO[CP_SENDPKT_ERR_DROP_CODE]. */
-        uint64_t reserved_0_2          : 3;
+        uint64_t reserved_1_2          : 2;
+        uint64_t buf_fc_st_err         : 1;  /**< [  0:  0](R/W1C/H) There was an error on a buffer count flow control store from PKO to
+                                                                 memory.  See PKO_VF()_DQ_FC_CONFIG and PKO_VF()_DQ()_FC_STATUS for
+                                                                 more information on buffer count stores. */
 #else /* Word 0 - Little Endian */
-        uint64_t reserved_0_2          : 3;
+        uint64_t buf_fc_st_err         : 1;  /**< [  0:  0](R/W1C/H) There was an error on a buffer count flow control store from PKO to
+                                                                 memory.  See PKO_VF()_DQ_FC_CONFIG and PKO_VF()_DQ()_FC_STATUS for
+                                                                 more information on buffer count stores. */
+        uint64_t reserved_1_2          : 2;
         uint64_t cp_sendpkt_err_drop   : 1;  /**< [  3:  3](R/W1C/H) Dropped a send-packet in PDM/CP due to a rule violation. The error code is captured in
                                                                  PKO_PDM_STS_INFO[CP_SENDPKT_ERR_DROP_CODE]. */
         uint64_t reserved_4_8          : 5;
@@ -11963,9 +11973,11 @@ typedef union
         uint64_t cp_sendpkt_err_no_drp : 1;  /**< [  9:  9](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[CP_SENDPKT_ERR_NO_DRP]. */
         uint64_t reserved_4_8          : 5;
         uint64_t cp_sendpkt_err_drop   : 1;  /**< [  3:  3](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[CP_SENDPKT_ERR_DROP]. */
-        uint64_t reserved_0_2          : 3;
+        uint64_t reserved_1_2          : 2;
+        uint64_t buf_fc_st_err         : 1;  /**< [  0:  0](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[BUF_FC_ST_ERR]. */
 #else /* Word 0 - Little Endian */
-        uint64_t reserved_0_2          : 3;
+        uint64_t buf_fc_st_err         : 1;  /**< [  0:  0](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[BUF_FC_ST_ERR]. */
+        uint64_t reserved_1_2          : 2;
         uint64_t cp_sendpkt_err_drop   : 1;  /**< [  3:  3](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[CP_SENDPKT_ERR_DROP]. */
         uint64_t reserved_4_8          : 5;
         uint64_t cp_sendpkt_err_no_drp : 1;  /**< [  9:  9](R/W1S/H) Reads or sets PKO_PDM_STS_W1C[CP_SENDPKT_ERR_NO_DRP]. */
@@ -14987,8 +14999,7 @@ typedef union
         uint64_t tp0_sram              : 1;  /**< [ 19: 19](RO) SQ[5:1] topology parent configuration. */
         uint64_t xo_sram               : 1;  /**< [ 18: 18](RO) XOFF SRAM. */
         uint64_t rt_sram               : 1;  /**< [ 17: 17](RO) Result table. */
-        uint64_t reserved_9_16         : 8;
-        uint64_t tw1_cmd_fifo          : 1;  /**< [  8:  8](RO) SQ[5:1] time wheel 1 command FIFO SRAM. */
+        uint64_t reserved_8_16         : 9;
         uint64_t std_sram              : 1;  /**< [  7:  7](RO) Dynamic shaping state. */
         uint64_t sts_sram              : 1;  /**< [  6:  6](RO) Static shaping configuration. */
         uint64_t tw0_cmd_fifo          : 1;  /**< [  5:  5](RO) SQ[5:1] time wheel 0 command FIFO SRAM. */
@@ -15006,8 +15017,7 @@ typedef union
         uint64_t tw0_cmd_fifo          : 1;  /**< [  5:  5](RO) SQ[5:1] time wheel 0 command FIFO SRAM. */
         uint64_t sts_sram              : 1;  /**< [  6:  6](RO) Static shaping configuration. */
         uint64_t std_sram              : 1;  /**< [  7:  7](RO) Dynamic shaping state. */
-        uint64_t tw1_cmd_fifo          : 1;  /**< [  8:  8](RO) SQ[5:1] time wheel 1 command FIFO SRAM. */
-        uint64_t reserved_9_16         : 8;
+        uint64_t reserved_8_16         : 9;
         uint64_t rt_sram               : 1;  /**< [ 17: 17](RO) Result table. */
         uint64_t xo_sram               : 1;  /**< [ 18: 18](RO) XOFF SRAM. */
         uint64_t tp0_sram              : 1;  /**< [ 19: 19](RO) SQ[5:1] topology parent configuration. */
@@ -15036,8 +15046,7 @@ typedef union
         uint64_t xo_sram               : 1;  /**< [ 18: 18](RO) XOFF SRAM. */
         uint64_t rt_sram               : 1;  /**< [ 17: 17](RO) Result table. */
         uint64_t reserved_15_16        : 2;
-        uint64_t reserved_9_14         : 6;
-        uint64_t tw1_cmd_fifo          : 1;  /**< [  8:  8](RO) SQ[5:1] time wheel 1 command FIFO SRAM. */
+        uint64_t reserved_8_14         : 7;
         uint64_t std_sram              : 1;  /**< [  7:  7](RO) Dynamic shaping state. */
         uint64_t sts_sram              : 1;  /**< [  6:  6](RO) Static shaping configuration. */
         uint64_t tw0_cmd_fifo          : 1;  /**< [  5:  5](RO) SQ[5:1] time wheel 0 command FIFO SRAM. */
@@ -15055,8 +15064,7 @@ typedef union
         uint64_t tw0_cmd_fifo          : 1;  /**< [  5:  5](RO) SQ[5:1] time wheel 0 command FIFO SRAM. */
         uint64_t sts_sram              : 1;  /**< [  6:  6](RO) Static shaping configuration. */
         uint64_t std_sram              : 1;  /**< [  7:  7](RO) Dynamic shaping state. */
-        uint64_t tw1_cmd_fifo          : 1;  /**< [  8:  8](RO) SQ[5:1] time wheel 1 command FIFO SRAM. */
-        uint64_t reserved_9_14         : 6;
+        uint64_t reserved_8_14         : 7;
         uint64_t reserved_15_16        : 2;
         uint64_t rt_sram               : 1;  /**< [ 17: 17](RO) Result table. */
         uint64_t xo_sram               : 1;  /**< [ 18: 18](RO) XOFF SRAM. */

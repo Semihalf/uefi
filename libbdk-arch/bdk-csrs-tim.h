@@ -2530,8 +2530,7 @@ typedef union
                                                                  ring expiration and decremented when a ring's bucket is serviced.
                                                                  When (TIM_VRING()_LATE[COUNT] >= TIM_RING()_CTL1[BSIZE+1]), or
                                                                  (TIM_VRING()_LATE[COUNT] 0xFFFFF, and to be incremented),
-                                                                 hardware will set TIM_VRING()_LATE[COUNT] = 1. Software may see the
-                                                                 greater-than condition for a brief period before the hardware update.
+                                                                 hardware will set TIM_VRING()_LATE[COUNT] = 1.
                                                                  Hardware will set TIM_VRING()_LATE[COUNT] = 0 when TIM_RING()_CTL1[ENA]
                                                                  transitions from 0 to 1 or from 1 to 0. */
 #else /* Word 0 - Little Endian */
@@ -2541,8 +2540,7 @@ typedef union
                                                                  ring expiration and decremented when a ring's bucket is serviced.
                                                                  When (TIM_VRING()_LATE[COUNT] >= TIM_RING()_CTL1[BSIZE+1]), or
                                                                  (TIM_VRING()_LATE[COUNT] 0xFFFFF, and to be incremented),
-                                                                 hardware will set TIM_VRING()_LATE[COUNT] = 1. Software may see the
-                                                                 greater-than condition for a brief period before the hardware update.
+                                                                 hardware will set TIM_VRING()_LATE[COUNT] = 1.
                                                                  Hardware will set TIM_VRING()_LATE[COUNT] = 0 when TIM_RING()_CTL1[ENA]
                                                                  transitions from 0 to 1 or from 1 to 0. */
         uint64_t reserved_20_63        : 44;

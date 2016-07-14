@@ -404,9 +404,7 @@ typedef union
 static inline uint64_t BDK_PMUX_PMAUTHSTATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PMUX_PMAUTHSTATUS(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008020fb8ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008020fb8ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("PMUX_PMAUTHSTATUS", 1, a, 0, 0, 0);
 }
@@ -505,9 +503,7 @@ typedef union
 static inline uint64_t BDK_PMUX_PMCCFILTR_EL0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PMUX_PMCCFILTR_EL0(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a00802047cll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a00802047cll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("PMUX_PMCCFILTR_EL0", 1, a, 0, 0, 0);
 }
@@ -549,9 +545,7 @@ typedef union
 static inline uint64_t BDK_PMUX_PMCCNTR_EL0_HI(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PMUX_PMCCNTR_EL0_HI(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a0080200fcll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a0080200fcll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("PMUX_PMCCNTR_EL0_HI", 1, a, 0, 0, 0);
 }
@@ -593,9 +587,7 @@ typedef union
 static inline uint64_t BDK_PMUX_PMCCNTR_EL0_LO(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PMUX_PMCCNTR_EL0_LO(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a0080200f8ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a0080200f8ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("PMUX_PMCCNTR_EL0_LO", 1, a, 0, 0, 0);
 }
@@ -696,9 +688,7 @@ typedef union
 static inline uint64_t BDK_PMUX_PMCEID0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PMUX_PMCEID0(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008020e20ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008020e20ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("PMUX_PMCEID0", 1, a, 0, 0, 0);
 }
@@ -765,9 +755,7 @@ typedef union
 static inline uint64_t BDK_PMUX_PMCEID1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PMUX_PMCEID1(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008020e24ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008020e24ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("PMUX_PMCEID1", 1, a, 0, 0, 0);
 }
@@ -804,9 +792,7 @@ typedef union
 static inline uint64_t BDK_PMUX_PMCEID2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PMUX_PMCEID2(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008020e28ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008020e28ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("PMUX_PMCEID2", 1, a, 0, 0, 0);
 }
@@ -843,9 +829,7 @@ typedef union
 static inline uint64_t BDK_PMUX_PMCEID3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PMUX_PMCEID3(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008020e2cll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008020e2cll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("PMUX_PMCEID3", 1, a, 0, 0, 0);
 }
@@ -931,9 +915,7 @@ typedef union
 static inline uint64_t BDK_PMUX_PMCFGR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PMUX_PMCFGR(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008020e00ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008020e00ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("PMUX_PMCFGR", 1, a, 0, 0, 0);
 }
@@ -970,9 +952,7 @@ typedef union
 static inline uint64_t BDK_PMUX_PMCIDR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PMUX_PMCIDR0(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008020ff0ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008020ff0ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("PMUX_PMCIDR0", 1, a, 0, 0, 0);
 }
@@ -1011,9 +991,7 @@ typedef union
 static inline uint64_t BDK_PMUX_PMCIDR1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PMUX_PMCIDR1(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008020ff4ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008020ff4ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("PMUX_PMCIDR1", 1, a, 0, 0, 0);
 }
@@ -1050,9 +1028,7 @@ typedef union
 static inline uint64_t BDK_PMUX_PMCIDR2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PMUX_PMCIDR2(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008020ff8ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008020ff8ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("PMUX_PMCIDR2", 1, a, 0, 0, 0);
 }
@@ -1089,9 +1065,7 @@ typedef union
 static inline uint64_t BDK_PMUX_PMCIDR3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PMUX_PMCIDR3(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008020ffcll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008020ffcll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("PMUX_PMCIDR3", 1, a, 0, 0, 0);
 }
@@ -1151,9 +1125,7 @@ typedef union
 static inline uint64_t BDK_PMUX_PMCNTENCLR_EL0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PMUX_PMCNTENCLR_EL0(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008020c20ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008020c20ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("PMUX_PMCNTENCLR_EL0", 1, a, 0, 0, 0);
 }
@@ -1213,9 +1185,7 @@ typedef union
 static inline uint64_t BDK_PMUX_PMCNTENSET_EL0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PMUX_PMCNTENSET_EL0(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008020c00ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008020c00ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("PMUX_PMCNTENSET_EL0", 1, a, 0, 0, 0);
 }
@@ -1484,9 +1454,7 @@ typedef union
 static inline uint64_t BDK_PMUX_PMCR_EL0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PMUX_PMCR_EL0(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008020e04ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008020e04ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("PMUX_PMCR_EL0", 1, a, 0, 0, 0);
 }
@@ -1529,9 +1497,7 @@ typedef union
 static inline uint64_t BDK_PMUX_PMDEVAFF0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PMUX_PMDEVAFF0(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008020fa8ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008020fa8ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("PMUX_PMDEVAFF0", 1, a, 0, 0, 0);
 }
@@ -1574,9 +1540,7 @@ typedef union
 static inline uint64_t BDK_PMUX_PMDEVAFF1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PMUX_PMDEVAFF1(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008020facll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008020facll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("PMUX_PMDEVAFF1", 1, a, 0, 0, 0);
 }
@@ -1647,9 +1611,7 @@ typedef union
 static inline uint64_t BDK_PMUX_PMDEVARCH(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PMUX_PMDEVARCH(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008020fbcll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008020fbcll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("PMUX_PMDEVARCH", 1, a, 0, 0, 0);
 }
@@ -1688,9 +1650,7 @@ typedef union
 static inline uint64_t BDK_PMUX_PMDEVTYPE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PMUX_PMDEVTYPE(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008020fccll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008020fccll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("PMUX_PMDEVTYPE", 1, a, 0, 0, 0);
 }
@@ -1726,9 +1686,7 @@ typedef union
 static inline uint64_t BDK_PMUX_PMEVCNTRX_EL0(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PMUX_PMEVCNTRX_EL0(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && ((a<=47) && (b<=5)))
-        return 0x87a008020000ll + 0x80000ll * ((a) & 0x3f) + 8ll * ((b) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=53) && (b<=5)))
+    if ((a<=47) && (b<=5))
         return 0x87a008020000ll + 0x80000ll * ((a) & 0x3f) + 8ll * ((b) & 0x7);
     __bdk_csr_fatal("PMUX_PMEVCNTRX_EL0", 2, a, b, 0, 0);
 }
@@ -1784,51 +1742,9 @@ typedef union
                                                                      secure EL3 are counted.
                                                                  Otherwise, events in secure EL3 are not counted. */
         uint32_t reserved_16_25        : 10;
-        uint32_t evtcount              : 16; /**< [ 15:  0](R/W) Event to count. The event number of the event that is counted
-                                                                     by event counter PMU()_PMEVCNTR()_EL0.
-                                                                 Enumerated by PMU_PERF_E.
-
-                                                                 Software must program this field with an event defined by the
-                                                                     processor or a common event defined by the architecture.
-                                                                 If evtCount is programmed to an event that is reserved or not
-                                                                     implemented, the behavior depends on the event type.
-                                                                 For common architectural and microarchitectural events:
-                                                                  no events are counted.
-                                                                  The value read back on evtCount is the value written.
-                                                                 For implementation defined events:
-                                                                  It is UNPREDICTABLE what event, if any, is counted.
-                                                                     UNPREDICTABLE in this case means the event must not expose
-                                                                     privileged information.
-                                                                  The value read back on evtCount is an UNKNOWN value with the
-                                                                     same effect.
-                                                                 ARM recommends that the behavior across a family of
-                                                                     implementations is defined such that if a given implementation
-                                                                     does not include an event from a set of common implementation
-                                                                     defined events, then no event is counted and the value read
-                                                                     back on evtCount is the value written. */
+        uint32_t evtcount              : 16; /**< [ 15:  0](R/W) Event to count. */
 #else /* Word 0 - Little Endian */
-        uint32_t evtcount              : 16; /**< [ 15:  0](R/W) Event to count. The event number of the event that is counted
-                                                                     by event counter PMU()_PMEVCNTR()_EL0.
-                                                                 Enumerated by PMU_PERF_E.
-
-                                                                 Software must program this field with an event defined by the
-                                                                     processor or a common event defined by the architecture.
-                                                                 If evtCount is programmed to an event that is reserved or not
-                                                                     implemented, the behavior depends on the event type.
-                                                                 For common architectural and microarchitectural events:
-                                                                  no events are counted.
-                                                                  The value read back on evtCount is the value written.
-                                                                 For implementation defined events:
-                                                                  It is UNPREDICTABLE what event, if any, is counted.
-                                                                     UNPREDICTABLE in this case means the event must not expose
-                                                                     privileged information.
-                                                                  The value read back on evtCount is an UNKNOWN value with the
-                                                                     same effect.
-                                                                 ARM recommends that the behavior across a family of
-                                                                     implementations is defined such that if a given implementation
-                                                                     does not include an event from a set of common implementation
-                                                                     defined events, then no event is counted and the value read
-                                                                     back on evtCount is the value written. */
+        uint32_t evtcount              : 16; /**< [ 15:  0](R/W) Event to count. */
         uint32_t reserved_16_25        : 10;
         uint32_t m                     : 1;  /**< [ 26: 26](R/W) Secure EL3 filtering bit. Most applications can ignore this
                                                                      bit and set the value to zero. If EL3 is not implemented, this
@@ -1938,18 +1854,130 @@ typedef union
                                                                  1 = Do not count events in EL1. */
 #endif /* Word 0 - End */
     } cn88xxp1;
-    /* struct bdk_pmux_pmevtyperx_el0_s cn9; */
-    /* struct bdk_pmux_pmevtyperx_el0_s cn81xx; */
-    /* struct bdk_pmux_pmevtyperx_el0_s cn83xx; */
-    /* struct bdk_pmux_pmevtyperx_el0_s cn88xxp2; */
+    struct bdk_pmux_pmevtyperx_el0_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t p                     : 1;  /**< [ 31: 31](R/W) EL1 modes filtering bit. Controls counting in EL1. If EL3 is
+                                                                     implemented, then counting in nonsecure EL1 is further
+                                                                     controlled by the NSK bit. The possible values of this bit
+                                                                     are:
+                                                                 0 = Count events in EL1.
+                                                                 1 = Do not count events in EL1. */
+        uint32_t u                     : 1;  /**< [ 30: 30](R/W) EL0 filtering bit. Controls counting in EL0. If EL3 is
+                                                                     implemented, then counting in nonsecure EL0 is further
+                                                                     controlled by the NSU bit. The possible values of this bit
+                                                                     are:
+                                                                 0 = Count events in EL0.
+                                                                 1 = Do not count events in EL0. */
+        uint32_t nsk                   : 1;  /**< [ 29: 29](R/W) Nonsecure kernel modes filtering bit. Controls counting in
+                                                                     nonsecure EL1. If EL3 is not implemented, this bit is RES0.
+                                                                 If the value of this bit is equal to the value of P, events in
+                                                                     nonsecure EL1 are counted.
+                                                                 Otherwise, events in nonsecure EL1 are not counted. */
+        uint32_t nsu                   : 1;  /**< [ 28: 28](R/W) Nonsecure user modes filtering bit. Controls counting in
+                                                                     nonsecure EL0. If EL3 is not implemented, this bit is RES0.
+                                                                 If the value of this bit is equal to the value of U, events in
+                                                                     nonsecure EL0 are counted.
+                                                                 Otherwise, events in nonsecure EL0 are not counted. */
+        uint32_t nsh                   : 1;  /**< [ 27: 27](R/W) Nonsecure hyp modes filtering bit. Controls counting in
+                                                                     nonsecure EL2. If EL2 is not implemented, this bit is RES0.
+                                                                 0 = Do not count events in EL2.
+                                                                 1 = Count events in EL2. */
+        uint32_t m                     : 1;  /**< [ 26: 26](R/W) Secure EL3 filtering bit. Most applications can ignore this
+                                                                     bit and set the value to zero. If EL3 is not implemented, this
+                                                                     bit is RES0.
+                                                                 If the value of this bit is equal to the value of P, events in
+                                                                     secure EL3 are counted.
+                                                                 Otherwise, events in secure EL3 are not counted. */
+        uint32_t reserved_16_25        : 10;
+        uint32_t evtcount              : 16; /**< [ 15:  0](R/W) Event to count. The event number of the event that is counted
+                                                                     by event counter PMU()_PMEVCNTR()_EL0.
+                                                                 Enumerated by PMU_PERF_E.
+
+                                                                 Software must program this field with an event defined by the
+                                                                     processor or a common event defined by the architecture.
+                                                                 If evtCount is programmed to an event that is reserved or not
+                                                                     implemented, the behavior depends on the event type.
+                                                                 For common architectural and microarchitectural events:
+                                                                  no events are counted.
+                                                                  The value read back on evtCount is the value written.
+                                                                 For implementation defined events:
+                                                                  It is UNPREDICTABLE what event, if any, is counted.
+                                                                     UNPREDICTABLE in this case means the event must not expose
+                                                                     privileged information.
+                                                                  The value read back on evtCount is an UNKNOWN value with the
+                                                                     same effect.
+                                                                 ARM recommends that the behavior across a family of
+                                                                     implementations is defined such that if a given implementation
+                                                                     does not include an event from a set of common implementation
+                                                                     defined events, then no event is counted and the value read
+                                                                     back on evtCount is the value written. */
+#else /* Word 0 - Little Endian */
+        uint32_t evtcount              : 16; /**< [ 15:  0](R/W) Event to count. The event number of the event that is counted
+                                                                     by event counter PMU()_PMEVCNTR()_EL0.
+                                                                 Enumerated by PMU_PERF_E.
+
+                                                                 Software must program this field with an event defined by the
+                                                                     processor or a common event defined by the architecture.
+                                                                 If evtCount is programmed to an event that is reserved or not
+                                                                     implemented, the behavior depends on the event type.
+                                                                 For common architectural and microarchitectural events:
+                                                                  no events are counted.
+                                                                  The value read back on evtCount is the value written.
+                                                                 For implementation defined events:
+                                                                  It is UNPREDICTABLE what event, if any, is counted.
+                                                                     UNPREDICTABLE in this case means the event must not expose
+                                                                     privileged information.
+                                                                  The value read back on evtCount is an UNKNOWN value with the
+                                                                     same effect.
+                                                                 ARM recommends that the behavior across a family of
+                                                                     implementations is defined such that if a given implementation
+                                                                     does not include an event from a set of common implementation
+                                                                     defined events, then no event is counted and the value read
+                                                                     back on evtCount is the value written. */
+        uint32_t reserved_16_25        : 10;
+        uint32_t m                     : 1;  /**< [ 26: 26](R/W) Secure EL3 filtering bit. Most applications can ignore this
+                                                                     bit and set the value to zero. If EL3 is not implemented, this
+                                                                     bit is RES0.
+                                                                 If the value of this bit is equal to the value of P, events in
+                                                                     secure EL3 are counted.
+                                                                 Otherwise, events in secure EL3 are not counted. */
+        uint32_t nsh                   : 1;  /**< [ 27: 27](R/W) Nonsecure hyp modes filtering bit. Controls counting in
+                                                                     nonsecure EL2. If EL2 is not implemented, this bit is RES0.
+                                                                 0 = Do not count events in EL2.
+                                                                 1 = Count events in EL2. */
+        uint32_t nsu                   : 1;  /**< [ 28: 28](R/W) Nonsecure user modes filtering bit. Controls counting in
+                                                                     nonsecure EL0. If EL3 is not implemented, this bit is RES0.
+                                                                 If the value of this bit is equal to the value of U, events in
+                                                                     nonsecure EL0 are counted.
+                                                                 Otherwise, events in nonsecure EL0 are not counted. */
+        uint32_t nsk                   : 1;  /**< [ 29: 29](R/W) Nonsecure kernel modes filtering bit. Controls counting in
+                                                                     nonsecure EL1. If EL3 is not implemented, this bit is RES0.
+                                                                 If the value of this bit is equal to the value of P, events in
+                                                                     nonsecure EL1 are counted.
+                                                                 Otherwise, events in nonsecure EL1 are not counted. */
+        uint32_t u                     : 1;  /**< [ 30: 30](R/W) EL0 filtering bit. Controls counting in EL0. If EL3 is
+                                                                     implemented, then counting in nonsecure EL0 is further
+                                                                     controlled by the NSU bit. The possible values of this bit
+                                                                     are:
+                                                                 0 = Count events in EL0.
+                                                                 1 = Do not count events in EL0. */
+        uint32_t p                     : 1;  /**< [ 31: 31](R/W) EL1 modes filtering bit. Controls counting in EL1. If EL3 is
+                                                                     implemented, then counting in nonsecure EL1 is further
+                                                                     controlled by the NSK bit. The possible values of this bit
+                                                                     are:
+                                                                 0 = Count events in EL1.
+                                                                 1 = Do not count events in EL1. */
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_pmux_pmevtyperx_el0_cn81xx cn83xx; */
+    /* struct bdk_pmux_pmevtyperx_el0_cn81xx cn88xxp2; */
 } bdk_pmux_pmevtyperx_el0_t;
 
 static inline uint64_t BDK_PMUX_PMEVTYPERX_EL0(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PMUX_PMEVTYPERX_EL0(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && ((a<=47) && (b<=5)))
-        return 0x87a008020400ll + 0x80000ll * ((a) & 0x3f) + 4ll * ((b) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && ((a<=53) && (b<=5)))
+    if ((a<=47) && (b<=5))
         return 0x87a008020400ll + 0x80000ll * ((a) & 0x3f) + 4ll * ((b) & 0x7);
     __bdk_csr_fatal("PMUX_PMEVTYPERX_EL0", 2, a, b, 0, 0);
 }
@@ -2016,9 +2044,7 @@ typedef union
 static inline uint64_t BDK_PMUX_PMINTENCLR_EL1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PMUX_PMINTENCLR_EL1(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008020c60ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008020c60ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("PMUX_PMINTENCLR_EL1", 1, a, 0, 0, 0);
 }
@@ -2085,9 +2111,7 @@ typedef union
 static inline uint64_t BDK_PMUX_PMINTENSET_EL1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PMUX_PMINTENSET_EL1(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008020c40ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008020c40ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("PMUX_PMINTENSET_EL1", 1, a, 0, 0, 0);
 }
@@ -2136,9 +2160,7 @@ typedef union
 static inline uint64_t BDK_PMUX_PMITCTRL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PMUX_PMITCTRL(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008020f00ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008020f00ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("PMUX_PMITCTRL", 1, a, 0, 0, 0);
 }
@@ -2177,9 +2199,7 @@ typedef union
 static inline uint64_t BDK_PMUX_PMLAR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PMUX_PMLAR(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008020fb0ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008020fb0ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("PMUX_PMLAR", 1, a, 0, 0, 0);
 }
@@ -2248,9 +2268,7 @@ typedef union
 static inline uint64_t BDK_PMUX_PMLSR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PMUX_PMLSR(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008020fb4ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008020fb4ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("PMUX_PMLSR", 1, a, 0, 0, 0);
 }
@@ -2313,9 +2331,7 @@ typedef union
 static inline uint64_t BDK_PMUX_PMOVSCLR_EL0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PMUX_PMOVSCLR_EL0(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008020c80ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008020c80ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("PMUX_PMOVSCLR_EL0", 1, a, 0, 0, 0);
 }
@@ -2373,9 +2389,7 @@ typedef union
 static inline uint64_t BDK_PMUX_PMOVSSET_EL0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PMUX_PMOVSSET_EL0(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008020cc0ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008020cc0ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("PMUX_PMOVSSET_EL0", 1, a, 0, 0, 0);
 }
@@ -2412,9 +2426,7 @@ typedef union
 static inline uint64_t BDK_PMUX_PMPIDR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PMUX_PMPIDR0(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008020fe0ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008020fe0ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("PMUX_PMPIDR0", 1, a, 0, 0, 0);
 }
@@ -2453,9 +2465,7 @@ typedef union
 static inline uint64_t BDK_PMUX_PMPIDR1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PMUX_PMPIDR1(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008020fe4ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008020fe4ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("PMUX_PMPIDR1", 1, a, 0, 0, 0);
 }
@@ -2496,9 +2506,7 @@ typedef union
 static inline uint64_t BDK_PMUX_PMPIDR2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PMUX_PMPIDR2(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008020fe8ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008020fe8ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("PMUX_PMPIDR2", 1, a, 0, 0, 0);
 }
@@ -2539,9 +2547,7 @@ typedef union
 static inline uint64_t BDK_PMUX_PMPIDR3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PMUX_PMPIDR3(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008020fecll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008020fecll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("PMUX_PMPIDR3", 1, a, 0, 0, 0);
 }
@@ -2584,9 +2590,7 @@ typedef union
 static inline uint64_t BDK_PMUX_PMPIDR4(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PMUX_PMPIDR4(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008020fd0ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008020fd0ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("PMUX_PMPIDR4", 1, a, 0, 0, 0);
 }
@@ -2619,9 +2623,7 @@ typedef union
 static inline uint64_t BDK_PMUX_PMPIDR5(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PMUX_PMPIDR5(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008020fd4ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008020fd4ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("PMUX_PMPIDR5", 1, a, 0, 0, 0);
 }
@@ -2654,9 +2656,7 @@ typedef union
 static inline uint64_t BDK_PMUX_PMPIDR6(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PMUX_PMPIDR6(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008020fd8ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008020fd8ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("PMUX_PMPIDR6", 1, a, 0, 0, 0);
 }
@@ -2689,9 +2689,7 @@ typedef union
 static inline uint64_t BDK_PMUX_PMPIDR7(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PMUX_PMPIDR7(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008020fdcll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008020fdcll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("PMUX_PMPIDR7", 1, a, 0, 0, 0);
 }
@@ -2740,9 +2738,7 @@ typedef union
 static inline uint64_t BDK_PMUX_PMSWINC_EL0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PMUX_PMSWINC_EL0(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN8XXX) && (a<=47))
-        return 0x87a008020ca0ll + 0x80000ll * ((a) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN9XXX) && (a<=53))
+    if (a<=47)
         return 0x87a008020ca0ll + 0x80000ll * ((a) & 0x3f);
     __bdk_csr_fatal("PMUX_PMSWINC_EL0", 1, a, 0, 0, 0);
 }
