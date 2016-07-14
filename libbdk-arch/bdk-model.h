@@ -37,13 +37,8 @@
 #define CAVIUM_CN81XX           (CAVIUM_CN81XX_PASS1_0 | __OM_IGNORE_REVISION)
 #define CAVIUM_CN81XX_PASS1_X   (CAVIUM_CN81XX_PASS1_0 | __OM_IGNORE_MINOR_REVISION)
 
-#define CAVIUM_CN98XX_PASS1_0   0x430f0b10
-#define CAVIUM_CN98XX           (CAVIUM_CN98XX_PASS1_0 | __OM_IGNORE_REVISION)
-#define CAVIUM_CN98XX_PASS1_X   (CAVIUM_CN98XX_PASS1_0 | __OM_IGNORE_MINOR_REVISION)
-
 /* These match entire families of chips */
 #define CAVIUM_CN8XXX           (CAVIUM_CN88XX_PASS1_0 | __OM_IGNORE_MODEL)
-#define CAVIUM_CN9XXX           (CAVIUM_CN98XX_PASS1_0 | __OM_IGNORE_MODEL)
 
 static inline uint64_t cavium_get_model() __attribute__ ((pure, always_inline));
 static inline uint64_t cavium_get_model()

@@ -111,8 +111,6 @@ int bdk_gpio_get_num(void)
         return 48;
     else if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 80;
-    else if (CAVIUM_IS_MODEL(CAVIUM_CN98XX))
-        return 80;
     else
     {
         bdk_error("bdk_gpio_get_num(): Unsupported chip");
