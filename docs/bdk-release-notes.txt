@@ -8,6 +8,60 @@
 This document gives a short overview of the major changes
 incorporated into each BDK release.
 
+== thunder-release-v1.24-rc1 ==
+* DRAM
+** Fix possible skip of ECC update in memory owned by the BDK
+** Enhance read-leveling bitmasks printing
+** Allow old TRP field calculation in TIMING_PARAMS0
+** Fix the calculated ECC byte validity check
+** Do not skip RODT rows for 1-rank 2-slot configurations
+** Initial 32-bit mode support for 81xx/80xx
+** Fix uses of RTT_WR
+** Keep all rows for RL if single rank DIMM
+** Use RTT_WR of 80 ohms for both 1-rank DIMM configurations
+** Handle RTT_WR usage for 88XX pass 1
+** Re-arrange read-leveling sampling order
+** Change RTT_PARK and RODT for 1-rank 2-slot configurations
+** Use 100MHz refclk with all RDIMM types when required
+
+* Networking
+** Properly detect link down status for XAUI
+** Marvell RXAUI PHY needs reset and updated param
+** Disabling filtering of mcast so we get backpressure counters
+** Fix bug causing corruption of BGXX_CMRX_RX_DMAC_CTL
+** Use BGX hw counters for tx packets and octets
+
+* CCPI
+** Toggle the lane bad bit when we don't get a lane up
+** Once training RX ready is set, never clear it or ask for updates
+** Use GTI timestamps to improve multi-node synchronization
+** 6.25G using RX equalization requires another delay in ready checks
+
+* PCIe
+** Set SLIX_M2S_MACX_CTL[waitl_com] for more strict ordering
+** Show friendly name for internal devices during ecam scan
+** Add discovery of virtual functions
+
+* SATA
+** Perform a HBA reset during init
+
+* SERDES
+** Remove code skipping QLM setup if we're already in the correct mode
+** Treat any refclk less than 1Mhz as zero
+
+* SNT
+** Add detection of Nitrox through checking fuse 231 (0xe7)
+
+* Misc
+** Correct display of binary data in the device tree
+** Report failure if fatfs-tool can't copy a file
+** Fix issue where "keys" in a menu says it was a invalid command
+** Add the chip serial number to the device tree during init
+** Update expected CPT fuses for CN81XX and CN80XX models
+** Fix UAA device entry
+** Fix issue where trace output could say a FDT was updated when it wasn't
+** Don't use compiler builtins for compare and swap
+
 == thunder-release-v1.23 ==
 * Operating system device tree changes
 ** Fix uart clock speed passed to next image. This fixes issues with Linux getting the incorrect baud rate.
