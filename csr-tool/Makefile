@@ -46,7 +46,7 @@ fetch: clean
 .PHONY: generate
 generate:
 	rm -rf html output
-	mkdir html output output/octeon output/thunder
+	mkdir html output output/octeon output/thunder output/thunder2
 	cp sorttable.js html/
 	cp csr.css html/
 	./csr-tool.py

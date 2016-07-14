@@ -264,6 +264,6 @@ def writeDB(arch, regs):
 # Create C database
 #
 def process(enums, structs, regs):
-    for arch in ["octeon", "thunder"]:
+    for arch in ["octeon", "thunder", "thunder2"]:
         writeDB(arch, regs)
 

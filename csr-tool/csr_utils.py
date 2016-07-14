@@ -28,11 +28,13 @@ def getReservedName(bits):
 
 #
 # Check if a chip applies to a specific architecture. The possible
-# architectures are "octeon" and "thunder".
+# architectures are "octeon", "thunder", and "thunder2".
 #
 def isChipArch(arch, chip):
-    assert arch in ["octeon", "thunder"], "Invalid architecture"
-    if chip.startswith("CN8") or chip.startswith("CN9"):
+    assert arch in ["octeon", "thunder", "thunder2"], "Invalid architecture"
+    if chip.startswith("CN9"):
+        return (arch == "thunder2")
+    elif chip.startswith("CN8"):
         return (arch == "thunder")
     else:
         return (arch == "octeon")

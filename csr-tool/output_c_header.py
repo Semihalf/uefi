@@ -601,7 +601,7 @@ def writeMain(arch, blocks):
 # Create all C headers
 #
 def process(enums, structs, regs):
-    for arch in ["octeon", "thunder"]:
+    for arch in ["octeon", "thunder", "thunder2"]:
         blocks = getBlockList(arch, enums, structs, regs)
         for block in blocks:
             writeBlock(arch, block, enums, structs, regs)
