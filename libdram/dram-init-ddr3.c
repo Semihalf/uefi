@@ -8202,6 +8202,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         ddr_print("%-45s : 0x%08lx\n", "LMC_INT",
                   BDK_CSR_READ(node, BDK_LMCX_INT(ddr_interface_num)));
 
+#if 0
 	// NOTE: this must be done for pass 2.x
 	// must enable ECC interrupts to get ECC error info in LMCX_INT
 	if (! CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X)) { // added 81xx and 83xx
@@ -8209,6 +8210,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 	    BDK_CSR_INIT(lmc_int_ena_w1s, node, BDK_LMCX_INT_ENA_W1S(ddr_interface_num));
 	    ddr_print("%-45s : 0x%08lx\n", "LMC_INT_ENA_W1S", lmc_int_ena_w1s.u);
 	}
+#endif
     }
 
     return(mem_size_mbytes);

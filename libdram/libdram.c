@@ -57,6 +57,46 @@ static void bdk_dram_clear_ecc(bdk_node_t node)
     }
 }
 
+static void bdk_dram_enable_ecc_reporting(bdk_node_t node)
+{
+    /* Enable LMC ECC error HW reporting */
+    int num_lmc = __bdk_dram_get_num_lmc(node);
+
+    BDK_TRACE(DRAM, "N%d: Enable LMC ECC error reporting\n", node);
+
+    for (int lmc = 0; lmc < num_lmc; lmc++) {
+
+        // NOTE: this must be done for pass 2.x
+        // enable ECC interrupts to allow ECC error info in LMCX_INT
+        if (! CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X)) { // added 81xx and 83xx
+            DRAM_CSR_WRITE(node, BDK_LMCX_INT_ENA_W1S(lmc), -1ULL);
+            BDK_CSR_INIT(lmc_int_ena_w1s, node, BDK_LMCX_INT_ENA_W1S(lmc));
+            ddr_print("N%d.LMC%d: %-36s : 0x%08lx\n",
+                      node, lmc, "LMC_INT_ENA_W1S", lmc_int_ena_w1s.u);
+        }
+    }
+}
+
+static void bdk_dram_disable_ecc_reporting(bdk_node_t node)
+{
+    /* Disable LMC ECC error HW reporting */
+    int num_lmc = __bdk_dram_get_num_lmc(node);
+
+    BDK_TRACE(DRAM, "N%d: Disable LMC ECC error reporting\n", node);
+
+    for (int lmc = 0; lmc < num_lmc; lmc++) {
+
+        // NOTE: this must be done for pass 2.x
+        // disable ECC interrupts to prevent ECC error info in LMCX_INT
+        if (! CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X)) { // added 81xx and 83xx
+            DRAM_CSR_WRITE(node, BDK_LMCX_INT_ENA_W1C(lmc), -1ULL);
+            BDK_CSR_INIT(lmc_int_ena_w1c, node, BDK_LMCX_INT_ENA_W1C(lmc));
+            ddr_print("N%d.LMC%d: %-36s : 0x%08lx\n",
+                      node, lmc, "LMC_INT_ENA_W1C", lmc_int_ena_w1c.u);
+        }
+    }
+}
+
 // this routine simply makes the calls to the tuning routines and returns any errors
 static int bdk_libdram_tune_node(int node)
 {
@@ -292,6 +332,9 @@ int libdram_config(int node, const dram_config_t *dram_config, int ddr_clock_ove
 
     // do not tune or mess with memory if there was an init problem...
     if (mbytes > 0) {
+
+        bdk_dram_disable_ecc_reporting(node);
+
         // call the tuning routines, with filtering...
         BDK_TRACE(DRAM, "N%d: Calling DRAM tuning\n", node);
         errs = bdk_libdram_maybe_tune_node(node);
@@ -301,6 +344,8 @@ int libdram_config(int node, const dram_config_t *dram_config, int ddr_clock_ove
         // finally, clear memory and any left-over ECC errors
         bdk_dram_clear_mem(node);
         bdk_dram_clear_ecc(node);
+
+        bdk_dram_enable_ecc_reporting(node);
     }
 
     /* Boards may need to mux the TWSI connection between THUNDERX and the BMC.
