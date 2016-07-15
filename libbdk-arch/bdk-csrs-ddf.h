@@ -1005,7 +1005,8 @@ union bdk_ddf_inst_match_s
  *
  * DDF always writes the first 16 bytes of this structure.  If DDF_INST_FIND_S[RR] is
  * set DDF will update an entire cache line, but only write valid data to the fields
- * specified depending on the required amount of [RDATA0]..[3] data.
+ * specified depending on the required amount of [RDATA0]..[3] data, other bytes in the
+ * line are undefined.
  *
  * This structure is stored in memory as little-endian unless DDF()_PF_Q()_CTL[INST_BE]
  * is set.

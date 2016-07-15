@@ -274,6 +274,9 @@
  *   indicates that if PKI_CL()_PCAM()_ACTION()[SETTY]!=NONE then PKI_WQE_S[LFTY] will
  *   be set to PKI_CL()_PCAM()_ACTION()[SETTY] and PKI_WQE_S[LFPTR] will be set to the
  *   current parse point.
+ * * The description indicates the meaning of each data bit programmed with
+ *   PKI_CL()_PCAM()_MATCH().  MATCH bits which are indicated as reserved must be
+ *   programmed to always match (don't cares) when programming PKI_CL()_PCAM()_MATCH().
  *
  * Internal:
  * Only used by parse engine and software; opaque to PKI HW.

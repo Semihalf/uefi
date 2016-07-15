@@ -2263,16 +2263,16 @@ typedef union
                                                                  reset a delay of 64K core-clock cycles between each core reset applies to satisfy power
                                                                  management.
 
-                                                                 The upper bits of this field remain accessable but will have no effect if the cores
-                                                                 are diabled.  The number of bits set in RST_PP_AVAILABLE indicate the number of cores. */
+                                                                 The upper bits of this field remain accessible but will have no effect if the cores
+                                                                 are disabled. The number of bits set in RST_PP_AVAILABLE indicate the number of cores. */
 #else /* Word 0 - Little Endian */
         uint64_t pend                  : 48; /**< [ 47:  0](RO/H) Set if corresponding core is waiting to change its reset state. Normally a reset change
                                                                  occurs immediately but if RST_PP_POWER[GATE] = 1 and the core is released from
                                                                  reset a delay of 64K core-clock cycles between each core reset applies to satisfy power
                                                                  management.
 
-                                                                 The upper bits of this field remain accessable but will have no effect if the cores
-                                                                 are diabled.  The number of bits set in RST_PP_AVAILABLE indicate the number of cores. */
+                                                                 The upper bits of this field remain accessible but will have no effect if the cores
+                                                                 are disabled. The number of bits set in RST_PP_AVAILABLE indicate the number of cores. */
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;
@@ -2285,16 +2285,16 @@ typedef union
                                                                  reset a delay of 64K core-clock cycles between each core reset applies to satisfy power
                                                                  management.
 
-                                                                 The upper bits of this field remain accessable but will have no effect if the cores
-                                                                 are diabled.  The number of bits set in RST_PP_AVAILABLE indicate the number of cores. */
+                                                                 The upper bits of this field remain accessible but will have no effect if the cores
+                                                                 are disabled. The number of bits set in RST_PP_AVAILABLE indicate the number of cores. */
 #else /* Word 0 - Little Endian */
         uint64_t pend                  : 4;  /**< [  3:  0](RO/H) Set if corresponding core is waiting to change its reset state. Normally a reset change
                                                                  occurs immediately but if RST_PP_POWER[GATE] = 1 and the core is released from
                                                                  reset a delay of 64K core-clock cycles between each core reset applies to satisfy power
                                                                  management.
 
-                                                                 The upper bits of this field remain accessable but will have no effect if the cores
-                                                                 are diabled.  The number of bits set in RST_PP_AVAILABLE indicate the number of cores. */
+                                                                 The upper bits of this field remain accessible but will have no effect if the cores
+                                                                 are disabled. The number of bits set in RST_PP_AVAILABLE indicate the number of cores. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } cn81xx;
@@ -2308,16 +2308,16 @@ typedef union
                                                                  reset a delay of 64K core-clock cycles between each core reset applies to satisfy power
                                                                  management.
 
-                                                                 The upper bits of this field remain accessable but will have no effect if the cores
-                                                                 are diabled.  The number of bits set in RST_PP_AVAILABLE indicate the number of cores. */
+                                                                 The upper bits of this field remain accessible but will have no effect if the cores
+                                                                 are disabled. The number of bits set in RST_PP_AVAILABLE indicate the number of cores. */
 #else /* Word 0 - Little Endian */
         uint64_t pend                  : 24; /**< [ 23:  0](RO/H) Set if corresponding core is waiting to change its reset state. Normally a reset change
                                                                  occurs immediately but if RST_PP_POWER[GATE] = 1 and the core is released from
                                                                  reset a delay of 64K core-clock cycles between each core reset applies to satisfy power
                                                                  management.
 
-                                                                 The upper bits of this field remain accessable but will have no effect if the cores
-                                                                 are diabled.  The number of bits set in RST_PP_AVAILABLE indicate the number of cores. */
+                                                                 The upper bits of this field remain accessible but will have no effect if the cores
+                                                                 are disabled. The number of bits set in RST_PP_AVAILABLE indicate the number of cores. */
         uint64_t reserved_24_63        : 40;
 #endif /* Word 0 - End */
     } cn83xx;
@@ -2454,23 +2454,23 @@ typedef union
         uint64_t reserved_48_63        : 16;
         uint64_t down                  : 48; /**< [ 47:  0](RO/H) Reserved.
                                                                  Internal:
-                                                                 Core Powerdown.  When set each bit indicates the core is currently powered down.
+                                                                 Core Powerdown. When set, each bit indicates the core is currently powered down.
                                                                  Typically this occurs when the corresponding RST_PP_RESET and RST_PP_POWER bits are set.
                                                                  If the core is powered down when RST_PP_PENDING and RST_PP_RESET are both clear then the
                                                                  core should be reset again by setting the RST_PP_RESET and then clearing it.
 
-                                                                 The upper bits of this field remain accessable but will have no effect if the cores
-                                                                 are diabled.  The number of bits set in RST_PP_AVAILABLE indicate the number of cores. */
+                                                                 The upper bits of this field remain accessible but will have no effect if the cores
+                                                                 are disabled. The number of bits set in RST_PP_AVAILABLE indicate the number of cores. */
 #else /* Word 0 - Little Endian */
         uint64_t down                  : 48; /**< [ 47:  0](RO/H) Reserved.
                                                                  Internal:
-                                                                 Core Powerdown.  When set each bit indicates the core is currently powered down.
+                                                                 Core Powerdown. When set, each bit indicates the core is currently powered down.
                                                                  Typically this occurs when the corresponding RST_PP_RESET and RST_PP_POWER bits are set.
                                                                  If the core is powered down when RST_PP_PENDING and RST_PP_RESET are both clear then the
                                                                  core should be reset again by setting the RST_PP_RESET and then clearing it.
 
-                                                                 The upper bits of this field remain accessable but will have no effect if the cores
-                                                                 are diabled.  The number of bits set in RST_PP_AVAILABLE indicate the number of cores. */
+                                                                 The upper bits of this field remain accessible but will have no effect if the cores
+                                                                 are disabled. The number of bits set in RST_PP_AVAILABLE indicate the number of cores. */
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;
@@ -2480,23 +2480,23 @@ typedef union
         uint64_t reserved_4_63         : 60;
         uint64_t down                  : 4;  /**< [  3:  0](RO/H) Reserved.
                                                                  Internal:
-                                                                 Core Powerdown.  When set each bit indicates the core is currently powered down.
+                                                                 Core Powerdown. When set, each bit indicates the core is currently powered down.
                                                                  Typically this occurs when the corresponding RST_PP_RESET and RST_PP_POWER bits are set.
                                                                  If the core is powered down when RST_PP_PENDING and RST_PP_RESET are both clear then the
                                                                  core should be reset again by setting the RST_PP_RESET and then clearing it.
 
-                                                                 The upper bits of this field remain accessable but will have no effect if the cores
-                                                                 are diabled.  The number of bits set in RST_PP_AVAILABLE indicate the number of cores. */
+                                                                 The upper bits of this field remain accessible but will have no effect if the cores
+                                                                 are disabled. The number of bits set in RST_PP_AVAILABLE indicate the number of cores. */
 #else /* Word 0 - Little Endian */
         uint64_t down                  : 4;  /**< [  3:  0](RO/H) Reserved.
                                                                  Internal:
-                                                                 Core Powerdown.  When set each bit indicates the core is currently powered down.
+                                                                 Core Powerdown. When set, each bit indicates the core is currently powered down.
                                                                  Typically this occurs when the corresponding RST_PP_RESET and RST_PP_POWER bits are set.
                                                                  If the core is powered down when RST_PP_PENDING and RST_PP_RESET are both clear then the
                                                                  core should be reset again by setting the RST_PP_RESET and then clearing it.
 
-                                                                 The upper bits of this field remain accessable but will have no effect if the cores
-                                                                 are diabled.  The number of bits set in RST_PP_AVAILABLE indicate the number of cores. */
+                                                                 The upper bits of this field remain accessible but will have no effect if the cores
+                                                                 are disabled. The number of bits set in RST_PP_AVAILABLE indicate the number of cores. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } cn81xx;
@@ -2507,23 +2507,23 @@ typedef union
         uint64_t reserved_24_63        : 40;
         uint64_t down                  : 24; /**< [ 23:  0](RO/H) Reserved.
                                                                  Internal:
-                                                                 Core Powerdown.  When set each bit indicates the core is currently powered down.
+                                                                 Core Powerdown. When set, each bit indicates the core is currently powered down.
                                                                  Typically this occurs when the corresponding RST_PP_RESET and RST_PP_POWER bits are set.
                                                                  If the core is powered down when RST_PP_PENDING and RST_PP_RESET are both clear then the
                                                                  core should be reset again by setting the RST_PP_RESET and then clearing it.
 
-                                                                 The upper bits of this field remain accessable but will have no effect if the cores
-                                                                 are diabled.  The number of bits set in RST_PP_AVAILABLE indicate the number of cores. */
+                                                                 The upper bits of this field remain accessible but will have no effect if the cores
+                                                                 are disabled. The number of bits set in RST_PP_AVAILABLE indicate the number of cores. */
 #else /* Word 0 - Little Endian */
         uint64_t down                  : 24; /**< [ 23:  0](RO/H) Reserved.
                                                                  Internal:
-                                                                 Core Powerdown.  When set each bit indicates the core is currently powered down.
+                                                                 Core Powerdown. When set, each bit indicates the core is currently powered down.
                                                                  Typically this occurs when the corresponding RST_PP_RESET and RST_PP_POWER bits are set.
                                                                  If the core is powered down when RST_PP_PENDING and RST_PP_RESET are both clear then the
                                                                  core should be reset again by setting the RST_PP_RESET and then clearing it.
 
-                                                                 The upper bits of this field remain accessable but will have no effect if the cores
-                                                                 are diabled.  The number of bits set in RST_PP_AVAILABLE indicate the number of cores. */
+                                                                 The upper bits of this field remain accessible but will have no effect if the cores
+                                                                 are disabled. The number of bits set in RST_PP_AVAILABLE indicate the number of cores. */
         uint64_t reserved_24_63        : 40;
 #endif /* Word 0 - End */
     } cn83xx;
@@ -2561,22 +2561,22 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_48_63        : 16;
         uint64_t rst                   : 47; /**< [ 47:  1](R/W/H) Core reset for cores 1 and above. Writing a 1 holds the corresponding core in reset,
-                                                                 writing a 0 releases from reset.  These bits may also be cleared by either DAP or CIC
+                                                                 writing a 0 releases from reset. These bits may also be cleared by either DAP or CIC
                                                                  activity.
 
-                                                                 The upper bits of this field remain accessable but will have no effect if the cores
-                                                                 are diabled.  The number of bits set in RST_PP_AVAILABLE indicate the number of cores. */
+                                                                 The upper bits of this field remain accessible but will have no effect if the cores
+                                                                 are disabled. The number of bits set in RST_PP_AVAILABLE indicate the number of cores. */
         uint64_t rst0                  : 1;  /**< [  0:  0](R/W/H) Core reset for core 0, depends on if GPIO_STRAP<2:0> = RST_BOOT_METHOD_E::REMOTE.
                                                                  This bit may also be cleared by either DAP or CIC activity. */
 #else /* Word 0 - Little Endian */
         uint64_t rst0                  : 1;  /**< [  0:  0](R/W/H) Core reset for core 0, depends on if GPIO_STRAP<2:0> = RST_BOOT_METHOD_E::REMOTE.
                                                                  This bit may also be cleared by either DAP or CIC activity. */
         uint64_t rst                   : 47; /**< [ 47:  1](R/W/H) Core reset for cores 1 and above. Writing a 1 holds the corresponding core in reset,
-                                                                 writing a 0 releases from reset.  These bits may also be cleared by either DAP or CIC
+                                                                 writing a 0 releases from reset. These bits may also be cleared by either DAP or CIC
                                                                  activity.
 
-                                                                 The upper bits of this field remain accessable but will have no effect if the cores
-                                                                 are diabled.  The number of bits set in RST_PP_AVAILABLE indicate the number of cores. */
+                                                                 The upper bits of this field remain accessible but will have no effect if the cores
+                                                                 are disabled. The number of bits set in RST_PP_AVAILABLE indicate the number of cores. */
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;
@@ -2585,22 +2585,22 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
         uint64_t rst                   : 3;  /**< [  3:  1](R/W/H) Core reset for cores 1 and above. Writing a 1 holds the corresponding core in reset,
-                                                                 writing a 0 releases from reset.  These bits may also be cleared by either DAP or CIC
+                                                                 writing a 0 releases from reset. These bits may also be cleared by either DAP or CIC
                                                                  activity.
 
-                                                                 The upper bits of this field remain accessable but will have no effect if the cores
-                                                                 are diabled.  The number of bits set in RST_PP_AVAILABLE indicate the number of cores. */
+                                                                 The upper bits of this field remain accessible but will have no effect if the cores
+                                                                 are disabled. The number of bits set in RST_PP_AVAILABLE indicate the number of cores. */
         uint64_t rst0                  : 1;  /**< [  0:  0](R/W/H) Core reset for core 0, depends on if GPIO_STRAP<2:0> = RST_BOOT_METHOD_E::REMOTE.
                                                                  This bit may also be cleared by either DAP or CIC activity. */
 #else /* Word 0 - Little Endian */
         uint64_t rst0                  : 1;  /**< [  0:  0](R/W/H) Core reset for core 0, depends on if GPIO_STRAP<2:0> = RST_BOOT_METHOD_E::REMOTE.
                                                                  This bit may also be cleared by either DAP or CIC activity. */
         uint64_t rst                   : 3;  /**< [  3:  1](R/W/H) Core reset for cores 1 and above. Writing a 1 holds the corresponding core in reset,
-                                                                 writing a 0 releases from reset.  These bits may also be cleared by either DAP or CIC
+                                                                 writing a 0 releases from reset. These bits may also be cleared by either DAP or CIC
                                                                  activity.
 
-                                                                 The upper bits of this field remain accessable but will have no effect if the cores
-                                                                 are diabled.  The number of bits set in RST_PP_AVAILABLE indicate the number of cores. */
+                                                                 The upper bits of this field remain accessible but will have no effect if the cores
+                                                                 are disabled. The number of bits set in RST_PP_AVAILABLE indicate the number of cores. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } cn81xx;
@@ -2610,22 +2610,22 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_24_63        : 40;
         uint64_t rst                   : 23; /**< [ 23:  1](R/W/H) Core reset for cores 1 and above. Writing a 1 holds the corresponding core in reset,
-                                                                 writing a 0 releases from reset.  These bits may also be cleared by either DAP or CIC
+                                                                 writing a 0 releases from reset. These bits may also be cleared by either DAP or CIC
                                                                  activity.
 
-                                                                 The upper bits of this field remain accessable but will have no effect if the cores
-                                                                 are diabled.  The number of bits set in RST_PP_AVAILABLE indicate the number of cores. */
+                                                                 The upper bits of this field remain accessible but will have no effect if the cores
+                                                                 are disabled. The number of bits set in RST_PP_AVAILABLE indicate the number of cores. */
         uint64_t rst0                  : 1;  /**< [  0:  0](R/W/H) Core reset for core 0, depends on if GPIO_STRAP<2:0> = RST_BOOT_METHOD_E::REMOTE.
                                                                  This bit may also be cleared by either DAP or CIC activity. */
 #else /* Word 0 - Little Endian */
         uint64_t rst0                  : 1;  /**< [  0:  0](R/W/H) Core reset for core 0, depends on if GPIO_STRAP<2:0> = RST_BOOT_METHOD_E::REMOTE.
                                                                  This bit may also be cleared by either DAP or CIC activity. */
         uint64_t rst                   : 23; /**< [ 23:  1](R/W/H) Core reset for cores 1 and above. Writing a 1 holds the corresponding core in reset,
-                                                                 writing a 0 releases from reset.  These bits may also be cleared by either DAP or CIC
+                                                                 writing a 0 releases from reset. These bits may also be cleared by either DAP or CIC
                                                                  activity.
 
-                                                                 The upper bits of this field remain accessable but will have no effect if the cores
-                                                                 are diabled.  The number of bits set in RST_PP_AVAILABLE indicate the number of cores. */
+                                                                 The upper bits of this field remain accessible but will have no effect if the cores
+                                                                 are disabled. The number of bits set in RST_PP_AVAILABLE indicate the number of cores. */
         uint64_t reserved_24_63        : 40;
 #endif /* Word 0 - End */
     } cn83xx;

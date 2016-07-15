@@ -3007,13 +3007,13 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_15_63        : 49;
-        uint64_t p_con                 : 1;  /**< [ 14: 14](RO/H) parent connect. Asserted when DQ is connected to its parent. */
+        uint64_t p_con                 : 1;  /**< [ 14: 14](RO/H) Parent connect. Asserted when DQ is connected to its parent. */
         uint64_t head                  : 7;  /**< [ 13:  7](RO/H) DQ FIFO head pointer. */
         uint64_t tail                  : 7;  /**< [  6:  0](RO/H) DQ FIFO tail pointer. */
 #else /* Word 0 - Little Endian */
         uint64_t tail                  : 7;  /**< [  6:  0](RO/H) DQ FIFO tail pointer. */
         uint64_t head                  : 7;  /**< [ 13:  7](RO/H) DQ FIFO head pointer. */
-        uint64_t p_con                 : 1;  /**< [ 14: 14](RO/H) parent connect. Asserted when DQ is connected to its parent. */
+        uint64_t p_con                 : 1;  /**< [ 14: 14](RO/H) Parent connect. Asserted when DQ is connected to its parent. */
         uint64_t reserved_15_63        : 49;
 #endif /* Word 0 - End */
     } s;

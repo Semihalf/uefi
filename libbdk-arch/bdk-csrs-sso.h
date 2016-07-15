@@ -3017,10 +3017,12 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
         uint64_t rnd                   : 16; /**< [ 15:  0](R/W/H) Current random value, with low 8 bits indicating first hardware-group to start
-                                                                 next get-work search at. Changes on each work search, even if unsuccessful or
-                                                                 retried. For diagnostic use only, must not be zero.
+                                                                 next get-work search at. Implementation defined as to when changes.
+                                                                 For diagnostic use only, must not be zero.
 
                                                                  Internal:
+                                                                 Changes on each work search, even if unsuccessful or retried.
+
                                                                  Uses 16, 15, 13, 4 tap LFSR (this choice is important to
                                                                  insure even hardware-group probabilities) with the formula:
                                                                  _ grp_to_start_arb_at = RND[7:0];
@@ -3035,10 +3037,12 @@ typedef union
                                                                  _ RND_next[0] = ^(RND[15:0] & 0x1ba1); */
 #else /* Word 0 - Little Endian */
         uint64_t rnd                   : 16; /**< [ 15:  0](R/W/H) Current random value, with low 8 bits indicating first hardware-group to start
-                                                                 next get-work search at. Changes on each work search, even if unsuccessful or
-                                                                 retried. For diagnostic use only, must not be zero.
+                                                                 next get-work search at. Implementation defined as to when changes.
+                                                                 For diagnostic use only, must not be zero.
 
                                                                  Internal:
+                                                                 Changes on each work search, even if unsuccessful or retried.
+
                                                                  Uses 16, 15, 13, 4 tap LFSR (this choice is important to
                                                                  insure even hardware-group probabilities) with the formula:
                                                                  _ grp_to_start_arb_at = RND[7:0];
