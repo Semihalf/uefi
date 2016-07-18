@@ -487,8 +487,10 @@ const char* bdk_model_get_sku(int node)
     BDK_CSR_INIT(mio_fus_dat3, node, BDK_MIO_FUS_DAT3);
     if (mio_fus_dat3.s.core_pll_mul)
     {
-        /* CORE_PLL_MUL covers bits 5:1, so we need to multiple by 2 */
-        rclk_limit = mio_fus_dat3.s.core_pll_mul * 2 * 50;
+        /* CORE_PLL_MUL covers bits 5:1, so we need to multiple by 2. The
+           documentation doen't mention this clearly: There is a 300Mhz
+           addition to the base multiplier */
+        rclk_limit = mio_fus_dat3.s.core_pll_mul * 2 * 50 + 300;
     }
 
     /* FIXME: Hardcode production as there is no way to tell */
