@@ -2356,8 +2356,8 @@ typedef union
                                                                  initialization and core resets are controlled through RST_PP_RESET. These bits can only be
                                                                  changed when the corresponding core is in reset.
 
-                                                                 The upper bits of this field remain accessable but will have no effect if the cores
-                                                                 are diabled.  The number of bits set in RST_PP_AVAILABLE indicate the number of cores. */
+                                                                 The upper bits of this field remain accessible but will have no effect if the cores
+                                                                 are disabled. The number of bits set in RST_PP_AVAILABLE indicate the number of cores. */
 #else /* Word 0 - Little Endian */
         uint64_t gate                  : 48; /**< [ 47:  0](R/W) Power down enable. When a bit in this field and the corresponding RST_PP_RESET bit are
                                                                  set,
@@ -2366,8 +2366,8 @@ typedef union
                                                                  initialization and core resets are controlled through RST_PP_RESET. These bits can only be
                                                                  changed when the corresponding core is in reset.
 
-                                                                 The upper bits of this field remain accessable but will have no effect if the cores
-                                                                 are diabled.  The number of bits set in RST_PP_AVAILABLE indicate the number of cores. */
+                                                                 The upper bits of this field remain accessible but will have no effect if the cores
+                                                                 are disabled. The number of bits set in RST_PP_AVAILABLE indicate the number of cores. */
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;
@@ -2382,8 +2382,8 @@ typedef union
                                                                  initialization and core resets are controlled through RST_PP_RESET. These bits can only be
                                                                  changed when the corresponding core is in reset.
 
-                                                                 The upper bits of this field remain accessable but will have no effect if the cores
-                                                                 are diabled.  The number of bits set in RST_PP_AVAILABLE indicate the number of cores. */
+                                                                 The upper bits of this field remain accessible but will have no effect if the cores
+                                                                 are disabled. The number of bits set in RST_PP_AVAILABLE indicate the number of cores. */
 #else /* Word 0 - Little Endian */
         uint64_t gate                  : 4;  /**< [  3:  0](R/W) Power down enable. When a bit in this field and the corresponding RST_PP_RESET bit are
                                                                  set,
@@ -2392,8 +2392,8 @@ typedef union
                                                                  initialization and core resets are controlled through RST_PP_RESET. These bits can only be
                                                                  changed when the corresponding core is in reset.
 
-                                                                 The upper bits of this field remain accessable but will have no effect if the cores
-                                                                 are diabled.  The number of bits set in RST_PP_AVAILABLE indicate the number of cores. */
+                                                                 The upper bits of this field remain accessible but will have no effect if the cores
+                                                                 are disabled. The number of bits set in RST_PP_AVAILABLE indicate the number of cores. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } cn81xx;
@@ -2409,8 +2409,8 @@ typedef union
                                                                  initialization and core resets are controlled through RST_PP_RESET. These bits can only be
                                                                  changed when the corresponding core is in reset.
 
-                                                                 The upper bits of this field remain accessable but will have no effect if the cores
-                                                                 are diabled.  The number of bits set in RST_PP_AVAILABLE indicate the number of cores. */
+                                                                 The upper bits of this field remain accessible but will have no effect if the cores
+                                                                 are disabled. The number of bits set in RST_PP_AVAILABLE indicate the number of cores. */
 #else /* Word 0 - Little Endian */
         uint64_t gate                  : 24; /**< [ 23:  0](R/W) Power down enable. When a bit in this field and the corresponding RST_PP_RESET bit are
                                                                  set,
@@ -2419,8 +2419,8 @@ typedef union
                                                                  initialization and core resets are controlled through RST_PP_RESET. These bits can only be
                                                                  changed when the corresponding core is in reset.
 
-                                                                 The upper bits of this field remain accessable but will have no effect if the cores
-                                                                 are diabled.  The number of bits set in RST_PP_AVAILABLE indicate the number of cores. */
+                                                                 The upper bits of this field remain accessible but will have no effect if the cores
+                                                                 are disabled. The number of bits set in RST_PP_AVAILABLE indicate the number of cores. */
         uint64_t reserved_24_63        : 40;
 #endif /* Word 0 - End */
     } cn83xx;

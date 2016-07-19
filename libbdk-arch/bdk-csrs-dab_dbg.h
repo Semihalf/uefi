@@ -1161,7 +1161,7 @@ static inline uint64_t BDK_DBGX_EDCIDR3(unsigned long a)
  * AArch64,
  * EDVIDSR is written with the value of CONTEXTIDR_EL2 associated with the most recent EDPCSR
  * sample.
- * Otherwiwse, EDVIDSR becomes UNKNOWN.
+ * Otherwise, EDVIDSR becomes UNKNOWN.
  */
 typedef union
 {
@@ -1960,12 +1960,12 @@ typedef union
         uint32_t key                   : 32; /**< [ 31:  0](WO) Lock access control. Writing the key value 0xC5ACCE55 unlocks the lock.
                                                                  Writing any other value to this register locks the lock, disabling write
                                                                  accesses to this component's registers through a memory mapped interface from internal
-                                                                 software.  From external access (via DAP), this reister is write ignored. */
+                                                                 software.  From external access (via DAP), this register is write-ignored. */
 #else /* Word 0 - Little Endian */
         uint32_t key                   : 32; /**< [ 31:  0](WO) Lock access control. Writing the key value 0xC5ACCE55 unlocks the lock.
                                                                  Writing any other value to this register locks the lock, disabling write
                                                                  accesses to this component's registers through a memory mapped interface from internal
-                                                                 software.  From external access (via DAP), this reister is write ignored. */
+                                                                 software.  From external access (via DAP), this register is write-ignored. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dbgx_edlar_s cn; */
@@ -1991,7 +1991,7 @@ static inline uint64_t BDK_DBGX_EDLAR(unsigned long a)
  * AP DBG External Debug Lock Status Register
  * Indicates the current status of the software lock for memory mapped external
  *     debug registers.  This register when accessed from an external debugger (via DAP)
- *     is 0x0.   However, when accessed from internal software indicates the value of hte
+ *     is 0x0.   However, when accessed from internal software indicates the value of the
  * software lock.
  *     The software lock is intended to prevent accidental corruption of the external debug
  *     registers.
@@ -2570,10 +2570,10 @@ typedef union
                                                                  <0> No action.
                                                                  <1> Request Warm reset. */
         uint32_t corenpdrq             : 1;  /**< [  0:  0](RO) Core no powerdown request. Requests emulation of powerdown.
-                                                                 CNXXXX does not implment core power down emulation. */
+                                                                 CNXXXX does not implement core power down emulation. */
 #else /* Word 0 - Little Endian */
         uint32_t corenpdrq             : 1;  /**< [  0:  0](RO) Core no powerdown request. Requests emulation of powerdown.
-                                                                 CNXXXX does not implment core power down emulation. */
+                                                                 CNXXXX does not implement core power down emulation. */
         uint32_t cwrr                  : 1;  /**< [  1:  1](WO) Warm reset request. Write only bit that reads as zero. The
                                                                     actions on writing to this bit are:
                                                                  The processor ignores writes to this bit if any of the

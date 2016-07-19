@@ -12273,12 +12273,12 @@ typedef union
 
                                                                  FC_OBJECT field is neither 0x0 for physical link, nor 0x2 for logical link. Those are the
                                                                  only two defined types in HiGig2 */
-        uint64_t bad_term              : 1;  /**< [  9:  9](R/W1C/H) Frame is terminated by control character other than /T/. (XAUI/RXAUI mode only) The error
+        uint64_t bad_term              : 1;  /**< [  9:  9](R/W1C/H) Frame is terminated by control character other than /T/. The error
                                                                  propagation control character /E/ will be included as part of the frame and does not cause
                                                                  a frame termination. */
-        uint64_t bad_seq               : 1;  /**< [  8:  8](R/W1C/H) Reserved sequence detected. (XAUI/RXAUI mode only) */
-        uint64_t rem_fault             : 1;  /**< [  7:  7](R/W1C/H) Remote-fault sequence detected. (XAUI/RXAUI mode only) */
-        uint64_t loc_fault             : 1;  /**< [  6:  6](R/W1C/H) Local-fault sequence detected. (XAUI/RXAUI mode only) */
+        uint64_t bad_seq               : 1;  /**< [  8:  8](R/W1C/H) Reserved sequence detected. */
+        uint64_t rem_fault             : 1;  /**< [  7:  7](R/W1C/H) Remote-fault sequence detected. */
+        uint64_t loc_fault             : 1;  /**< [  6:  6](R/W1C/H) Local-fault sequence detected. */
         uint64_t rsverr                : 1;  /**< [  5:  5](R/W1C/H) Reserved opcodes. */
         uint64_t pcterr                : 1;  /**< [  4:  4](R/W1C/H) Bad preamble/protocol. In XAUI/RXAUI mode, the column of data that was bad is logged in
                                                                  BGX()_SMU()_RX_BAD_COL_LO and BGX()_SMU()_RX_BAD_COL_HI.
@@ -12306,10 +12306,10 @@ typedef union
                                                                  PCTERR checks that the frame begins with a valid
                                                                  PREAMBLE sequence. Does not check the number of PREAMBLE cycles. */
         uint64_t rsverr                : 1;  /**< [  5:  5](R/W1C/H) Reserved opcodes. */
-        uint64_t loc_fault             : 1;  /**< [  6:  6](R/W1C/H) Local-fault sequence detected. (XAUI/RXAUI mode only) */
-        uint64_t rem_fault             : 1;  /**< [  7:  7](R/W1C/H) Remote-fault sequence detected. (XAUI/RXAUI mode only) */
-        uint64_t bad_seq               : 1;  /**< [  8:  8](R/W1C/H) Reserved sequence detected. (XAUI/RXAUI mode only) */
-        uint64_t bad_term              : 1;  /**< [  9:  9](R/W1C/H) Frame is terminated by control character other than /T/. (XAUI/RXAUI mode only) The error
+        uint64_t loc_fault             : 1;  /**< [  6:  6](R/W1C/H) Local-fault sequence detected. */
+        uint64_t rem_fault             : 1;  /**< [  7:  7](R/W1C/H) Remote-fault sequence detected. */
+        uint64_t bad_seq               : 1;  /**< [  8:  8](R/W1C/H) Reserved sequence detected. */
+        uint64_t bad_term              : 1;  /**< [  9:  9](R/W1C/H) Frame is terminated by control character other than /T/. The error
                                                                  propagation control character /E/ will be included as part of the frame and does not cause
                                                                  a frame termination. */
         uint64_t hg2fld                : 1;  /**< [ 10: 10](R/W1C/H) HiGig2 received message field error:

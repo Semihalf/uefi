@@ -4082,11 +4082,11 @@ typedef union
         uint32_t reserved_6_31         : 26;
         uint32_t procsel               : 6;  /**< [  5:  0](R/W) Only accepts writes when the trace unit is disabled. Before writing to this
                                                                    register, ensure that TRC()_TRCSTATR[IDLE] = 1 so that the trace unit can synchronize
-                                                                   with the chosed PE. */
+                                                                   with the chosen PE. */
 #else /* Word 0 - Little Endian */
         uint32_t procsel               : 6;  /**< [  5:  0](R/W) Only accepts writes when the trace unit is disabled. Before writing to this
                                                                    register, ensure that TRC()_TRCSTATR[IDLE] = 1 so that the trace unit can synchronize
-                                                                   with the chosed PE. */
+                                                                   with the chosen PE. */
         uint32_t reserved_6_31         : 26;
 #endif /* Word 0 - End */
     } s;
@@ -4594,9 +4594,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t rst                   : 8;  /**< [  7:  0](R/W) An event selector: when event occus, move sequencer state to state 0. */
+        uint32_t rst                   : 8;  /**< [  7:  0](R/W) An event selector: when event occurs, move sequencer state to state 0. */
 #else /* Word 0 - Little Endian */
-        uint32_t rst                   : 8;  /**< [  7:  0](R/W) An event selector: when event occus, move sequencer state to state 0. */
+        uint32_t rst                   : 8;  /**< [  7:  0](R/W) An event selector: when event occurs, move sequencer state to state 0. */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
@@ -5088,15 +5088,15 @@ typedef union
                                                                  0 = Exception and exception return data transfers are not traced.
                                                                  1 = Exception and exception return data transfers are traced. */
         uint32_t tbi                   : 1;  /**< [ 11: 11](R/W) Control which information a trace unit populates in bit[63:56] of the data address.
-                                                                 0 = The trace unit assgin bit[63:56] have the value of bit[55] of the data address,
+                                                                 0 = The trace unit assign bit[63:56] have the value of bit[55] of the data address,
                                                                      which is sign extension.
-                                                                 1 = The trace unit assgin bit[63:56] have the value of bit[63:56] of the data address. */
+                                                                 1 = The trace unit assign bit[63:56] have the value of bit[63:56] of the data address. */
         uint32_t pcrel                 : 1;  /**< [ 10: 10](R/W) Control whether a trace unit trace data for transfers that are
-                                                                   relative to PC(program counter).
+                                                                   relative to PC (program counter).
                                                                  0 = The trace unit does not affect tracing of PC relative transfers.
                                                                  1 = The trace unit does not trace the address or value portions of PC relative transfers. */
         uint32_t sprel                 : 2;  /**< [  9:  8](R/W) Control whether a trace unit trace data for transfers that are
-                                                                   relative to SP(stack pointer).
+                                                                   relative to SP (stack pointer).
                                                                  0x0 = The trace unit does not affect tracing of SP relative transfers.
                                                                  0x1 = Reserved
                                                                  0x2 = The trace unit does not trace the address portions of SP relative transfers.
@@ -5106,20 +5106,20 @@ typedef union
 #else /* Word 0 - Little Endian */
         uint32_t evnt                  : 8;  /**< [  7:  0](R/W) An event selector. */
         uint32_t sprel                 : 2;  /**< [  9:  8](R/W) Control whether a trace unit trace data for transfers that are
-                                                                   relative to SP(stack pointer).
+                                                                   relative to SP (stack pointer).
                                                                  0x0 = The trace unit does not affect tracing of SP relative transfers.
                                                                  0x1 = Reserved
                                                                  0x2 = The trace unit does not trace the address portions of SP relative transfers.
                                                                  0x3 = The trace unit does not trace the address or value portions of SP relative
                                                                  transfers. */
         uint32_t pcrel                 : 1;  /**< [ 10: 10](R/W) Control whether a trace unit trace data for transfers that are
-                                                                   relative to PC(program counter).
+                                                                   relative to PC (program counter).
                                                                  0 = The trace unit does not affect tracing of PC relative transfers.
                                                                  1 = The trace unit does not trace the address or value portions of PC relative transfers. */
         uint32_t tbi                   : 1;  /**< [ 11: 11](R/W) Control which information a trace unit populates in bit[63:56] of the data address.
-                                                                 0 = The trace unit assgin bit[63:56] have the value of bit[55] of the data address,
+                                                                 0 = The trace unit assign bit[63:56] have the value of bit[55] of the data address,
                                                                      which is sign extension.
-                                                                 1 = The trace unit assgin bit[63:56] have the value of bit[63:56] of the data address. */
+                                                                 1 = The trace unit assign bit[63:56] have the value of bit[63:56] of the data address. */
         uint32_t trcexdata             : 1;  /**< [ 12: 12](R/W) Control the tracing of data transfer for exception and exception return.
                                                                  0 = Exception and exception return data transfers are not traced.
                                                                  1 = Exception and exception return data transfers are traced. */
