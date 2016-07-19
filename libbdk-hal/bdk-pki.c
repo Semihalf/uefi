@@ -147,8 +147,9 @@ int bdk_pki_port_init(bdk_if_handle_t handle)
         /* Configure PKI style */
         BDK_CSR_MODIFY(c, handle->node, BDK_PKI_CLX_STYLEX_CFG(cluster, style),
             c.s.lenerr_en = 0; /* Don't check L2 length */
-            c.s.fcs_strip = 0; /* Don't strip FCS */
-            c.s.fcs_chk = (handle->flags & BDK_IF_FLAGS_HAS_FCS) ? 1 : 0;
+            /* FCS is already checked and stripped by BGX, LBK does not have it */
+            c.s.fcs_strip = 0; /* Don't strip FCS as there is none */
+            c.s.fcs_chk = 0 ; /* (handle->flags & BDK_IF_FLAGS_HAS_FCS) ? 1 : 0; */
             c.s.qpg_dis_padd = 1; /* Don't use QPG for port */
             c.s.qpg_dis_grp = 0; /* Use QPG for group */
             c.s.qpg_dis_aura = 0; /* Use QPG for aura */
