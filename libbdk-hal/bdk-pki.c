@@ -111,8 +111,8 @@ int bdk_pki_port_init(bdk_if_handle_t handle)
         return -1;
     }
 
-    /* We give one PKND for each interface. Use index 0 to detect a new interface */
-    if ((handle->index == 0) && (node_state->next_free_pknd >= pki_const.s.pknds))
+    /* We give one PKND for each port because pki uses dstat(pkind) */
+    if (node_state->next_free_pknd >= pki_const.s.pknds)
     {
         bdk_error("PKI ran out of PKNDs\n");
         return -1;
@@ -125,12 +125,10 @@ int bdk_pki_port_init(bdk_if_handle_t handle)
         return -1;
     handle->aura = aura;
 
-    /* Find the PKND for this port. This code only works since the
-        ports are enumerated in order */
-    if ((handle->index == 0) || (handle->iftype == BDK_IF_LBK))
-        handle->pknd = node_state->next_free_pknd++;
-    else
-        handle->pknd = node_state->next_free_pknd - 1;
+    /* Find the PKND for this port.
+     * It relies on single-channel-per-bgx_port schema.
+     */
+    handle->pknd = node_state->next_free_pknd++;
 
     /* Setup QPG table per channel */
     int qpg = node_state->next_free_qpg_table++;
@@ -144,11 +142,7 @@ int bdk_pki_port_init(bdk_if_handle_t handle)
     /* Setup all PKI clusters */
     for (int cluster = 0; cluster < pki_const1.s.cls; cluster++)
     {
-        /* The following calculation only works since intefaces are
-            enumerated in order */
-        int qpg_base = qpg - handle->index;
-        if (handle->iftype == BDK_IF_LBK)
-            qpg_base = qpg;
+        int qpg_base = qpg;
         int style = handle->pknd;
         /* Configure PKI style */
         BDK_CSR_MODIFY(c, handle->node, BDK_PKI_CLX_STYLEX_CFG(cluster, style),
