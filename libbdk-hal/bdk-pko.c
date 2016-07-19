@@ -112,7 +112,7 @@ static int __bdk_pko_allocate_fifo(bdk_node_t node, int lmac, int size)
     /* Check if didn't have space */
     if (fifo >= max_fifo)
     {
-        bdk_error("pko_allocate_fifo: Tried to allocate too many fifos\n");
+        bdk_error("pko_allocate_fifo: Tried to allocate too many fifos lmac %d size %d mask 0x%06x\n", lmac, size, (int) node_state->pko_free_fifo_mask);
         return -1;
     }
     /* Program the PKO fifo. Each PKO_PTGFX_CFG represents a cluster of four
@@ -308,9 +308,15 @@ int bdk_pko_port_init(bdk_if_handle_t handle)
             compressed_channel_id = BDK_PKI_CHAN_E_DPI_CHX(handle->index);
             break;
         case BDK_IF_LBK:
-            lmac = (handle->interface == 2) ? BDK_PKO_LMAC_E_LOOPBACK_1 : BDK_PKO_LMAC_E_LOOPBACK_0;
-            fifo_size = 4;
-            skid_max_cnt = 2;
+            if (handle->interface == 2) {
+                lmac = BDK_PKO_LMAC_E_LOOPBACK_1;
+                fifo_size = 4;
+                skid_max_cnt = 2;
+            } else {
+                lmac = BDK_PKO_LMAC_E_LOOPBACK_0;
+                fifo_size = 2; /* PKO-to-PKI can work with smaller fifo */
+                skid_max_cnt = 1;
+            }
             compressed_channel_id = BDK_PKI_CHAN_E_LBKX_CHX(handle->interface, handle->index);
             break;
         default:
@@ -331,8 +337,8 @@ int bdk_pko_port_init(bdk_if_handle_t handle)
         pko_macx_cfg.s.skid_max_cnt = skid_max_cnt;
         BDK_CSR_WRITE(handle->node, BDK_PKO_MACX_CFG(lmac), pko_macx_cfg.u);
     }
-    //printf("%s: PKO using lmac %d, fifo_size %d, fifo %d, compressed_chan %d, pq %d, l2 %d, l3 %d, l4 %d, l5 %d, dq %d\n",
-        //handle->name, lmac, fifo_size, pko_macx_cfg.s.fifo_num, compressed_channel_id, pq, sq_l2, sq_l3, sq_l4, sq_l5, dq);
+//    printf("%s: PKO using lmac %d, fifo_size %d, fifo %d, compressed_chan %d, pq %d, l2 %d, l3 %d, dq %d\n",
+//        handle->name, lmac, fifo_size, pko_macx_cfg.s.fifo_num, compressed_channel_id, pq, sq_l2, sq_l3, dq);
 
     /* Program L1 = port queue */
     BDK_CSR_MODIFY(c, handle->node, BDK_PKO_L1_SQX_TOPOLOGY(pq),
