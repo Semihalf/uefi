@@ -10,6 +10,10 @@
  * @{
  */
 
+
+#define BDK_BGX_PKI 0 /* When defined and non zero BGX will use PKI interface for receive */
+#define BDK_BGX_PKO 0  /* When defined and non zero BGX will use PKO interface for transmit */
+
 #define BDK_IF_MAX_GATHER 12 /* CN88XX RX supports 12 at most */
 
 /*  PHY address encoding:

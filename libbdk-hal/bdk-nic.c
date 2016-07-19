@@ -155,7 +155,6 @@ static int vnic_setup_rbdr(nic_t *nic)
             bdk_error("%s: Failed to allocate memory for RBDR\n", nic->handle->name);
             return -1;
         }
-
         /* Configure the receive buffer ring (RBDR) */
         BDK_CSR_WRITE(nic->node, BDK_NIC_QSX_RBDRX_BASE(nic->nic_vf, nic->rbdr),
             bdk_ptr_to_phys(rbdr_base));
@@ -533,14 +532,16 @@ static void if_receive(int unused, void *hand)
 int bdk_nic_port_init(bdk_if_handle_t handle, bdk_nic_type_t ntype, int lmac_credits)
 {
     int nic_chan_idx_e;     /* Flow channel for the CPI */
-    bool has_rx_nic = true;  /* true when nic tx channel exists ==  BDK_NIC_CHAN_IDX_E_BGXX_LMACX_CHX is valid for rx*/
-    bool has_tx_nic = true;  /* true when nic rx channel exists == BDK_NIC_CHAN_IDX_E_BGXX_LMACX_CHX is valid for tx*/
+    bool has_rx_nic = (-1 == handle->pki_channel);  /* true when nic rx channel exists - may be BGX or LBK-NIC*/
+    bool has_tx_nic = (-1 == handle->pko_queue);  /* true when nic tx channel exists - may be BGX or LBK-NIC*/
     int nic_intf_e = -1;         /* Interface enumeration */
     int nic_intf_block_e;   /* Interface Block ID Enumeration */
     int nic_lmac_e=-1;         /* LMAC enumeration */
 
     if (global_buffer_size == 0)
         global_buffer_size = bdk_config_get_int(BDK_CONFIG_PACKET_BUFFER_SIZE);
+
+    if (!has_rx_nic && !has_tx_nic) return 0;
 
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
     {
@@ -573,16 +574,14 @@ int bdk_nic_port_init(bdk_if_handle_t handle, bdk_nic_type_t ntype, int lmac_cre
                     nic_intf_e = BDK_NIC_INTF_E_LBKX_CN83XX(1);
                 } else if  (2 == handle->interface) {
                     nic_intf_e = BDK_NIC_INTF_E_LBKX_CN83XX(0);
-                } else
-                    has_rx_nic = false;
+                }
                 nic_intf_block_e = BDK_NIC_INTF_BLOCK_E_LBKX(handle->interface);
                 // tx interface
                 if (3 == handle->interface) {
                     nic_lmac_e = BDK_NIC_LMAC_E_LBKX_CN83XX(1);
                 } else if  (1 == handle->interface) {
                     nic_lmac_e = BDK_NIC_LMAC_E_LBKX_CN83XX(0);
-                } else
-                    has_tx_nic = false;
+                }
                 break;
             default:
                 bdk_error("%s: Unsupported NIC TYPE %d\n", handle->name, ntype);
@@ -673,16 +672,19 @@ int bdk_nic_port_init(bdk_if_handle_t handle, bdk_nic_type_t ntype, int lmac_cre
         FIXME: Same as without DRAM. There are not enough RBDR to have
             independent CQs without locking.
        */
-    void *sq_memory = memalign(BDK_CACHE_LINE_SIZE, 16 * SQ_ENTRIES);
-    if (!sq_memory)
-    {
-        bdk_error("%s: Unable to allocate queues\n", handle->name);
-        return -1;
+    void *sq_memory = NULL;
+    if (has_tx_nic) {
+        sq_memory = memalign(BDK_CACHE_LINE_SIZE, 16 * SQ_ENTRIES);
+        if (!sq_memory)
+        {
+            bdk_error("%s: Unable to allocate queues\n", handle->name);
+            return -1;
+        }
     }
     nic_t *nic = calloc(1, sizeof(nic_t));
     if (!nic)
     {
-        free(sq_memory);
+        if (sq_memory) free(sq_memory);
         bdk_error("%s: Unable to NIC state\n", handle->name);
         return -1;
     }
@@ -720,78 +722,86 @@ int bdk_nic_port_init(bdk_if_handle_t handle, bdk_nic_type_t ntype, int lmac_cre
                            (nic->ntype == BDK_NIC_TYPE_RGMII)) ? 0 : 1; /* 0=BGX, 1=LBK/TNS */
             c.s.bp_id = nic_intf_block_e);
     }
-    /* Configure the submit queue (SQ) */
-    nic->sq_base = sq_memory;
-    nic->sq_loc = 0;
-    nic->sq_available = SQ_ENTRIES;
-    BDK_CSR_WRITE(nic->node, BDK_NIC_QSX_SQX_BASE(nic->nic_vf, nic->sq),
-        bdk_ptr_to_phys(sq_memory));
-    BDK_CSR_MODIFY(c, nic->node, BDK_NIC_QSX_SQX_CFG(nic->nic_vf, nic->sq),
-        if (!CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
-            c.s.cq_limit = 1;
-        c.s.ena = 1;
-        c.s.ldwb = BDK_USE_DWB;
-        c.s.qsize = SQ_ENTRIES_QSIZE);
-
-    /* Configure the receive queue (RQ) */
-    BDK_CSR_MODIFY(c, nic->node, BDK_NIC_QSX_RQ_GEN_CFG(nic->nic_vf),
-        c.s.vlan_strip = 0;
-        c.s.len_l4 = 0;
-        c.s.len_l3 = 0;
-        c.s.csum_l4 = 0;
-        c.s.ip6_udp_opt = 0;
-        c.s.splt_hdr_ena = 0;
-        c.s.cq_hdr_copy = 0;
-        c.s.max_tcp_reass = 0;
-        c.s.cq_pkt_size = 0;
-        c.s.later_skip = 0;
-        c.s.first_skip = 0);
-    BDK_CSR_MODIFY(c, nic->node, BDK_NIC_QSX_RQX_CFG(nic->nic_vf, nic->rq),
-        c.s.ena = 1;
-        c.s.tcp_ena = 0);
-
-    int cpi = node_state->next_free_cpi++;  /* Allocate a new Channel Parse Index (CPI) */
-    int rssi = node_state->next_free_rssi++;/* Allocate a new Receive-Side Scaling Index (RSSI) */
-    /* NIC_CHAN_E hard mapped to "flow". Flow chooses the CPI */
+    if (has_tx_nic) {
+        /* Configure the submit queue (SQ) */
+        nic->sq_base = sq_memory;
+        nic->sq_loc = 0;
+        nic->sq_available = SQ_ENTRIES;
+        BDK_CSR_WRITE(nic->node, BDK_NIC_QSX_SQX_BASE(nic->nic_vf, nic->sq),
+                      bdk_ptr_to_phys(sq_memory));
+        BDK_CSR_MODIFY(c, nic->node, BDK_NIC_QSX_SQX_CFG(nic->nic_vf, nic->sq),
+                       if (!CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
+                           c.s.cq_limit = 1;
+                       c.s.ena = 1;
+                       c.s.ldwb = BDK_USE_DWB;
+                       c.s.qsize = SQ_ENTRIES_QSIZE);
+    }
+    int cpi=0;
+    int rssi=0;
     if (has_rx_nic) {
+        /* Configure the receive queue (RQ) */
+        BDK_CSR_MODIFY(c, nic->node, BDK_NIC_QSX_RQ_GEN_CFG(nic->nic_vf),
+                       c.s.vlan_strip = 0;
+                       c.s.len_l4 = 0;
+                       c.s.len_l3 = 0;
+                       c.s.csum_l4 = 0;
+                       c.s.ip6_udp_opt = 0;
+                       c.s.splt_hdr_ena = 0;
+                       c.s.cq_hdr_copy = 0;
+                       c.s.max_tcp_reass = 0;
+                       c.s.cq_pkt_size = 0;
+                       c.s.later_skip = 0;
+                       c.s.first_skip = 0);
+        BDK_CSR_MODIFY(c, nic->node, BDK_NIC_QSX_RQX_CFG(nic->nic_vf, nic->rq),
+                       c.s.ena = 1;
+                       c.s.tcp_ena = 0);
+
+        cpi = node_state->next_free_cpi++;  /* Allocate a new Channel Parse Index (CPI) */
+        rssi = node_state->next_free_rssi++;/* Allocate a new Receive-Side Scaling Index (RSSI) */
+        /* NIC_CHAN_E hard mapped to "flow". Flow chooses the CPI */
+
         BDK_CSR_MODIFY(c, nic->node, BDK_NIC_PF_CHANX_RX_CFG(nic_chan_idx_e),
-            c.s.cpi_alg = BDK_NIC_CPI_ALG_E_NONE;
-            c.s.cpi_base = cpi);
+                       c.s.cpi_alg = BDK_NIC_CPI_ALG_E_NONE;
+                       c.s.cpi_base = cpi);
         /* Setup backpressure */
         BDK_CSR_MODIFY(c, nic->node, BDK_NIC_PF_CHANX_RX_BP_CFG(nic_chan_idx_e),
-            c.s.ena = 1;
-            c.s.bpid = nic->bpid);
+                       c.s.ena = 1;
+                       c.s.bpid = nic->bpid);
     }
     if ( has_tx_nic) {
         BDK_CSR_MODIFY(c, nic->node, BDK_NIC_PF_CHANX_TX_CFG(nic_chan_idx_e),
             c.s.bp_ena = 1);
     }
 
-    /* CPI is the output of the above alogrithm, this is used to lookup the
-       VNIC for receive and RSSI */
-    BDK_CSR_MODIFY(c, nic->node, BDK_NIC_PF_CPIX_CFG(cpi),
-        c.cn88xxp1.vnic = nic->nic_vf; /* TX and RX use the same VNIC */
-        c.cn88xxp1.rss_size = 0; /* RSS hash is disabled */
-        c.s.padd = 0; /* Used if we have multiple channels per port */
-        c.cn88xxp1.rssi_base = rssi); /* Base RSSI */
-    if (!CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
-    {
-        /* CN88XX pass 2 moved some fields to a different CSR */
-        BDK_CSR_MODIFY(c, nic->node, BDK_NIC_PF_MPIX_CFG(cpi),
-            c.s.vnic = nic->nic_vf; /* TX and RX use the same VNIC */
-            c.s.rss_size = 0; /* RSS hash is disabled */
-            c.s.rssi_base = rssi); /* Base RSSI */
+    if (has_rx_nic)  {
+        /* CPI is the output of the above alogrithm, this is used to lookup the
+           VNIC for receive and RSSI */
+        BDK_CSR_MODIFY(c, nic->node, BDK_NIC_PF_CPIX_CFG(cpi),
+                       c.cn88xxp1.vnic = nic->nic_vf; /* TX and RX use the same VNIC */
+                       c.cn88xxp1.rss_size = 0; /* RSS hash is disabled */
+                       c.s.padd = 0; /* Used if we have multiple channels per port */
+                       c.cn88xxp1.rssi_base = rssi); /* Base RSSI */
+
+        if (!CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
+        {
+            /* CN88XX pass 2 moved some fields to a different CSR */
+            BDK_CSR_MODIFY(c, nic->node, BDK_NIC_PF_MPIX_CFG(cpi),
+                           c.s.vnic = nic->nic_vf; /* TX and RX use the same VNIC */
+                           c.s.rss_size = 0; /* RSS hash is disabled */
+                           c.s.rssi_base = rssi); /* Base RSSI */
+        }
+
+        /* The RSSI is used to determine which Receive Queue (RQ) we use */
+        BDK_CSR_MODIFY(c, nic->node, BDK_NIC_PF_RSSIX_RQ(rssi),
+                       c.s.rq_qs = nic->nic_vf;
+                       c.s.rq_idx = nic->rq);
+        /* Set the min and max packet size. PKND comes from BGX. It is always zero
+           for now */
+        BDK_CSR_MODIFY(c, nic->node, BDK_NIC_PF_PKINDX_CFG(handle->pknd),
+                       c.s.lenerr_en = 0;
+                       c.s.minlen = 0;
+                       c.s.maxlen = 65535);
     }
-    /* The RSSI is used to determine which Receive Queue (RQ) we use */
-    BDK_CSR_MODIFY(c, nic->node, BDK_NIC_PF_RSSIX_RQ(rssi),
-        c.s.rq_qs = nic->nic_vf;
-        c.s.rq_idx = nic->rq);
-    /* Set the min and max packet size. PKND comes from BGX. It is always zero
-       for now */
-    BDK_CSR_MODIFY(c, nic->node, BDK_NIC_PF_PKINDX_CFG(handle->pknd),
-        c.s.lenerr_en = 0;
-        c.s.minlen = 0;
-        c.s.maxlen = 65535);
 
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
     {
@@ -809,13 +819,18 @@ int bdk_nic_port_init(bdk_if_handle_t handle, bdk_nic_type_t ntype, int lmac_cre
 
     if (has_tx_nic && vnic_setup_tx_shaping(nic))
         return -1;
+
+    /* Completion queue may be used by both tx and rx.
+    ** Define it even if only one of rx/tx is in use
+    */
     if (vnic_setup_cq(nic))
         return -1;
-    if (vnic_setup_rbdr(nic))
+    /* RBDR is defined regardless of rx_nic to avoid possible backpressure */
+    if ( vnic_setup_rbdr(nic))
         return -1;
 
     /* Program LMAC credits */
-    if (-1 != nic_lmac_e) {
+    if ((has_tx_nic) && (-1 != nic_lmac_e)) {
         int credit;
         if ((BDK_NIC_TYPE_LBK == nic->ntype) && CAVIUM_IS_MODEL(CAVIUM_CN83XX) )
             credit = 512; /* HRM guidance */
@@ -825,16 +840,21 @@ int bdk_nic_port_init(bdk_if_handle_t handle, bdk_nic_type_t ntype, int lmac_cre
             c.s.cc_unit_cnt = credit;
             c.s.cc_packet_cnt = 0x1ff;
             c.s.cc_enable = 1);
-    }
-    /* Pad packets to 60 bytes, 15 32bit words (before FCS) */
-    if (nic->ntype != BDK_NIC_TYPE_LBK)
-        BDK_CSR_MODIFY(c, nic->node, BDK_NIC_PF_LMACX_CFG(nic_lmac_e),
-            c.s.min_pkt_size = 15);
 
+        /* Pad packets to 60 bytes, 15 32bit words (before FCS) */
+        if (nic->ntype != BDK_NIC_TYPE_LBK)
+            BDK_CSR_MODIFY(c, nic->node, BDK_NIC_PF_LMACX_CFG(nic_lmac_e),
+                           c.s.min_pkt_size = 15);
+    }
     /* Create a receive thread if this handle has its own CQ/RBDR */
     if (handle->index == 0)
     {
-        if (bdk_thread_create(nic->node, 0, if_receive, 0, nic, 0))
+        /* FIXME
+         * At this time thread monitors both CQ and RBDR and uses it only for receive
+         * Setting up RBDR for tx only nics is wasteful.
+         * When nic_tx in bdk starts using CQ, thread needs to change
+         */
+        if (has_rx_nic && bdk_thread_create(nic->node, 0, if_receive, 0, nic, 0))
         {
             bdk_error("%s: Failed to allocate receive thread\n", handle->name);
             return -1;

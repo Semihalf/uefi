@@ -469,6 +469,21 @@ static int if_probe(bdk_if_handle_t handle)
     handle->name[sizeof(handle->name)-1] = 0;
 
     handle->flags |= BDK_IF_FLAGS_HAS_FCS;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX)) {
+#if defined(BDK_BGX_PKO) && (BDK_BGX_PKO)
+	/* Connect bgx to pko */
+        BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_CMRX_CONFIG(handle->interface, priv->port),
+                       c.s.p2x_select = 1;);
+        handle->pko_queue = 1; /* Will be initialized later */
+#endif
+#if defined(BDK_BGX_PKI) && (BDK_BGX_PKI)
+	/* Connect bgx to pki */
+        BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_CMRX_CONFIG(handle->interface, priv->port),
+                       c.s.x2p_select = 1;);
+        handle->pki_channel = BDK_PKI_CHAN_E_BGXX_LMACX_CHX(handle->interface,priv->port,0);
+#endif
+    }
+
     return 0;
 }
 
@@ -1158,6 +1173,7 @@ static int if_init(bdk_if_handle_t handle)
             bdk_error("%s: Unsupported chip (NIC init)\n", handle->name);
             return -1;
         }
+
         int bytes_per_port;
         if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
         {
@@ -1174,7 +1190,8 @@ static int if_init(bdk_if_handle_t handle)
             BDK_CSR_INIT(bgxx_const, handle->node, BDK_BGXX_CONST(handle->interface));
             bytes_per_port = bgxx_const.s.tx_fifosz / priv->num_port;
         }
-        if (bdk_nic_port_init(handle, ntype, bytes_per_port))
+        if (  ( (-1 == handle->pko_queue) || (-1 ==  handle->pki_channel) ) &&
+              bdk_nic_port_init(handle, ntype, bytes_per_port))
             return -1;
     }
 
