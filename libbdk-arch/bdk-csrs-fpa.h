@@ -1776,7 +1776,7 @@ typedef union
                                                                  0x1 = LDT.
                                                                  0x2 = Load with DWB.
                                                                  0x3 = Reserved. */
-        uint64_t s_type                : 1;  /**< [  2:  2](R/W) Type of store to use when sending pages to L2:
+        uint64_t s_type                : 1;  /**< [  2:  2](R/W) Type of store to use when FPA sends stores to L2:
                                                                  0 = use STF.
                                                                  1 = use STT. */
         uint64_t nat_align             : 1;  /**< [  1:  1](R/W) Returning buffers should be rounded to the nearest natural alignment specified with
@@ -1792,7 +1792,7 @@ typedef union
                                                                  operate incorrectly. */
         uint64_t nat_align             : 1;  /**< [  1:  1](R/W) Returning buffers should be rounded to the nearest natural alignment specified with
                                                                  [BUF_SIZE]. */
-        uint64_t s_type                : 1;  /**< [  2:  2](R/W) Type of store to use when sending pages to L2:
+        uint64_t s_type                : 1;  /**< [  2:  2](R/W) Type of store to use when FPA sends stores to L2:
                                                                  0 = use STF.
                                                                  1 = use STT. */
         uint64_t l_type                : 2;  /**< [  4:  3](R/W) Type of load to send to L2.
@@ -2960,7 +2960,7 @@ static inline uint64_t BDK_FPA_VHAURAX_OP_FREEX(unsigned long a, unsigned long b
 /**
  * Register (NCB) fpa_vhpool#_available
  *
- * FPA Pool Free Page Available Registers
+ * FPA Pool Free Buffers Available Registers
  */
 typedef union
 {
@@ -2969,12 +2969,12 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_36_63        : 28;
-        uint64_t count                 : 36; /**< [ 35:  0](RO/H) The number of free pages available in this pool.
+        uint64_t count                 : 36; /**< [ 35:  0](RO/H) The number of free buffers available in this pool.
                                                                  Internal:
                                                                  Sized for 2^41 bit
                                                                  max physical memory - 7 bit cache line. */
 #else /* Word 0 - Little Endian */
-        uint64_t count                 : 36; /**< [ 35:  0](RO/H) The number of free pages available in this pool.
+        uint64_t count                 : 36; /**< [ 35:  0](RO/H) The number of free buffers available in this pool.
                                                                  Internal:
                                                                  Sized for 2^41 bit
                                                                  max physical memory - 7 bit cache line. */

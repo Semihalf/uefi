@@ -109,6 +109,8 @@ typedef union
                                                                      ExternalSecureNoninvasiveDebugEnabled() == FALSE.
                                                                  <11>        Implemented and enabled.
                                                                      ExternalSecureNoninvasiveDebugEnabled() == TRUE.
+
+                                                                 Internal:
                                                                  RTL: SNID[1]=1, SNID[0]=(SPIDEN || SPNIDEN) && (NIDEN || DBGEN). */
         uint32_t sid                   : 2;  /**< [  5:  4](RO/H) Secure invasive debug. Possible values of this field are:
                                                                  Other values are reserved.  For CNXXXX allowed values are 0x2 and 0x3.
@@ -118,6 +120,8 @@ typedef union
                                                                      == FALSE.
                                                                  <11>        Implemented and enabled. ExternalSecureInvasiveDebugEnabled()
                                                                      == TRUE.
+
+                                                                 Internal:
                                                                  RTL: SID[1]=1, SID[0]=(SPIDEN || DBGEN). */
         uint32_t nsnid                 : 2;  /**< [  3:  2](RO/H) Nonsecure non-invasive debug. Possible values of this field
                                                                      are:
@@ -128,6 +132,8 @@ typedef union
                                                                      FALSE.
                                                                  <11>        Implemented and enabled. ExternalNoninvasiveDebugEnabled() ==
                                                                      TRUE.
+
+                                                                 Internal:
                                                                  RTL: NSNID[1]=1, NSNID[0]=(NIDEN || DBGEN). */
         uint32_t nsid                  : 2;  /**< [  1:  0](RO/H) Nonsecure invasive debug. Possible values of this field are:
                                                                  Other values are reserved.  For CNXXXX allowed values are 0x2 and 0x3.
@@ -137,6 +143,8 @@ typedef union
                                                                      FALSE.
                                                                  <11>        Implemented and enabled. ExternalInvasiveDebugEnabled() ==
                                                                      TRUE.
+
+                                                                 Internal:
                                                                  RTL: NSID[1]=1, NSID[0]= DBGEN. */
 #else /* Word 0 - Little Endian */
         uint32_t nsid                  : 2;  /**< [  1:  0](RO/H) Nonsecure invasive debug. Possible values of this field are:
@@ -147,6 +155,8 @@ typedef union
                                                                      FALSE.
                                                                  <11>        Implemented and enabled. ExternalInvasiveDebugEnabled() ==
                                                                      TRUE.
+
+                                                                 Internal:
                                                                  RTL: NSID[1]=1, NSID[0]= DBGEN. */
         uint32_t nsnid                 : 2;  /**< [  3:  2](RO/H) Nonsecure non-invasive debug. Possible values of this field
                                                                      are:
@@ -157,6 +167,8 @@ typedef union
                                                                      FALSE.
                                                                  <11>        Implemented and enabled. ExternalNoninvasiveDebugEnabled() ==
                                                                      TRUE.
+
+                                                                 Internal:
                                                                  RTL: NSNID[1]=1, NSNID[0]=(NIDEN || DBGEN). */
         uint32_t sid                   : 2;  /**< [  5:  4](RO/H) Secure invasive debug. Possible values of this field are:
                                                                  Other values are reserved.  For CNXXXX allowed values are 0x2 and 0x3.
@@ -166,6 +178,8 @@ typedef union
                                                                      == FALSE.
                                                                  <11>        Implemented and enabled. ExternalSecureInvasiveDebugEnabled()
                                                                      == TRUE.
+
+                                                                 Internal:
                                                                  RTL: SID[1]=1, SID[0]=(SPIDEN || DBGEN). */
         uint32_t snid                  : 2;  /**< [  7:  6](RO/H) Secure non-invasive debug. Possible values of this field are:
                                                                  Other values are reserved.  For CNXXXX allowed values of 0x2 and 0x3.
@@ -175,6 +189,8 @@ typedef union
                                                                      ExternalSecureNoninvasiveDebugEnabled() == FALSE.
                                                                  <11>        Implemented and enabled.
                                                                      ExternalSecureNoninvasiveDebugEnabled() == TRUE.
+
+                                                                 Internal:
                                                                  RTL: SNID[1]=1, SNID[0]=(SPIDEN || SPNIDEN) && (NIDEN || DBGEN). */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
@@ -2623,8 +2639,10 @@ static inline uint64_t BDK_DBGX_EDPRCR(unsigned long a)
  * Register (DAB32b) dbg#_edprsr
  *
  * AP DBG External Debug Processor Status Register
- * Holds information about the reset and powerdown state of the
- *     processor.
+ * This register holds information about the reset and powerdown state of the
+ * processor.
+ *
+ * Internal:
  * RTL: Powerup status for ap core and only bit[1:0] used
  * If AP CORE power down, read to register will not generate OWB access.
  * If AP CORE power up, read to register will generate OWB access.

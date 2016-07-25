@@ -15076,19 +15076,13 @@ typedef union
                                                                  1 = 64/66 bit receiver for BASE-R has block lock.
 
                                                                  This is a latching-low version of BGX()_SPU()_BR_STATUS1[BLK_LOCK]; it stays clear
-                                                                 until the register is read by software.
-
-                                                                 Note that in order to avoid read side effects, this is implemented as a write-1-to-set
-                                                                 bit, rather than latching low read-only as specified in 802.3. */
+                                                                 until a write-1-to-set by software. */
         uint64_t latched_ber           : 1;  /**< [ 14: 14](R/W1C/H) Latched-high bit-error rate.
                                                                  0 = Not a high BER.
                                                                  1 = 64/66 bit receiver is detecting a high BER.
 
                                                                  This is a latching-high version of BGX()_SPU()_BR_STATUS1[HI_BER]; it stays set until
-                                                                 the register is read by software.
-
-                                                                 Note that in order to avoid read side effects, this is implemented as a write-1-to-clear
-                                                                 bit, rather than latching high read-only as specified in 802.3. */
+                                                                 a write-1-to-clear by software. */
         uint64_t reserved_0_13         : 14;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_13         : 14;
@@ -15097,19 +15091,13 @@ typedef union
                                                                  1 = 64/66 bit receiver is detecting a high BER.
 
                                                                  This is a latching-high version of BGX()_SPU()_BR_STATUS1[HI_BER]; it stays set until
-                                                                 the register is read by software.
-
-                                                                 Note that in order to avoid read side effects, this is implemented as a write-1-to-clear
-                                                                 bit, rather than latching high read-only as specified in 802.3. */
+                                                                 a write-1-to-clear by software. */
         uint64_t latched_lock          : 1;  /**< [ 15: 15](R/W1S/H) Latched-block lock.
                                                                  0 = No block.
                                                                  1 = 64/66 bit receiver for BASE-R has block lock.
 
                                                                  This is a latching-low version of BGX()_SPU()_BR_STATUS1[BLK_LOCK]; it stays clear
-                                                                 until the register is read by software.
-
-                                                                 Note that in order to avoid read side effects, this is implemented as a write-1-to-set
-                                                                 bit, rather than latching low read-only as specified in 802.3. */
+                                                                 until a write-1-to-set by software. */
         uint64_t ber_cnt               : 22; /**< [ 37: 16](RC/W/H) Bit-error-rate counter. This is the BASE-R BER counter as defined by the BER_COUNT
                                                                  variable in Std 802.3 sections 49.2.14.2 and 82.2.18.2.4. The counter is reset to all 0s
                                                                  after this register is read by software, and is held at all 1s in case of overflow.
@@ -16579,17 +16567,14 @@ typedef union
                                                                    0 = receive link down.
                                                                    1 = receive link up.
 
-                                                                 This is a latching-low bit; it stays clear until the register is read by software.
+                                                                 This is a latching-low bit; it stays clear until a write-1-to-set by software.
 
                                                                  For a BASE-X logical PCS type (in the associated BGX()_CMR()_CONFIG[LMAC_TYPE] =
                                                                  XAUI or RXAUI), this is a latching-low version of BGX()_SPU()_BX_STATUS[ALIGND].
 
                                                                  For a BASE-R logical PCS type (in the associated BGX()_CMR()_CONFIG[LMAC_TYPE] =
                                                                  10G_R or 40G_R), this is a latching-low version of
-                                                                 BGX()_SPU()_BR_STATUS1[RCV_LNK].
-
-                                                                 Note that in order to avoid read side effects, this is implemented as a write-1-to-set
-                                                                 bit, rather than latching low read-only as specified in 802.3. */
+                                                                 BGX()_SPU()_BR_STATUS1[RCV_LNK]. */
         uint64_t lpable                : 1;  /**< [  1:  1](RO) Low-power ability. Always returns 1 to indicate that the LPCS supports low-power mode. */
         uint64_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
@@ -16599,17 +16584,14 @@ typedef union
                                                                    0 = receive link down.
                                                                    1 = receive link up.
 
-                                                                 This is a latching-low bit; it stays clear until the register is read by software.
+                                                                 This is a latching-low bit; it stays clear until a write-1-to-set by software.
 
                                                                  For a BASE-X logical PCS type (in the associated BGX()_CMR()_CONFIG[LMAC_TYPE] =
                                                                  XAUI or RXAUI), this is a latching-low version of BGX()_SPU()_BX_STATUS[ALIGND].
 
                                                                  For a BASE-R logical PCS type (in the associated BGX()_CMR()_CONFIG[LMAC_TYPE] =
                                                                  10G_R or 40G_R), this is a latching-low version of
-                                                                 BGX()_SPU()_BR_STATUS1[RCV_LNK].
-
-                                                                 Note that in order to avoid read side effects, this is implemented as a write-1-to-set
-                                                                 bit, rather than latching low read-only as specified in 802.3. */
+                                                                 BGX()_SPU()_BR_STATUS1[RCV_LNK]. */
         uint64_t reserved_3_6          : 4;
         uint64_t flt                   : 1;  /**< [  7:  7](RO/H) Fault condition detected.
                                                                  This bit is a logical OR of BGX()_SPU()_STATUS2[XMTFLT, RCVFLT]. */
@@ -16654,10 +16636,7 @@ typedef union
         uint64_t reserved_12_13        : 2;
         uint64_t xmtflt                : 1;  /**< [ 11: 11](RO/H) Transmit fault. Always returns 0. */
         uint64_t rcvflt                : 1;  /**< [ 10: 10](R/W1C/H) Receive fault: 1 = receive fault, 0 = no receive fault. Latching high bit; stays set until
-                                                                 software writes a 1.
-
-                                                                 Note that in order to avoid read side effects, this is implemented as a write-1-to-clear
-                                                                 bit, rather than latching high read-only as specified in 802.3. */
+                                                                 a write-1-to-clear by software. */
         uint64_t reserved_6_9          : 4;
         uint64_t hundredgb_r           : 1;  /**< [  5:  5](RO) 100GBASE-R capable. Always 0. */
         uint64_t fortygb_r             : 1;  /**< [  4:  4](RO/H) 40GBASE-R capable. Always 1. */
@@ -16674,10 +16653,7 @@ typedef union
         uint64_t hundredgb_r           : 1;  /**< [  5:  5](RO) 100GBASE-R capable. Always 0. */
         uint64_t reserved_6_9          : 4;
         uint64_t rcvflt                : 1;  /**< [ 10: 10](R/W1C/H) Receive fault: 1 = receive fault, 0 = no receive fault. Latching high bit; stays set until
-                                                                 software writes a 1.
-
-                                                                 Note that in order to avoid read side effects, this is implemented as a write-1-to-clear
-                                                                 bit, rather than latching high read-only as specified in 802.3. */
+                                                                 a write-1-to-clear by software. */
         uint64_t xmtflt                : 1;  /**< [ 11: 11](RO/H) Transmit fault. Always returns 0. */
         uint64_t reserved_12_13        : 2;
         uint64_t dev                   : 2;  /**< [ 15: 14](RO/H) Device present. Always returns 0x2 to indicate a device is present at this address. */

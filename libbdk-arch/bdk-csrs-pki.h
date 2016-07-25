@@ -5645,10 +5645,12 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_40_63        : 24;
         uint64_t octs                  : 40; /**< [ 39:  0](R/W/H) Number of non-dropped octets received by PKI (good and bad).
-                                                                 The corresponding wide statistic is PKI_STAT()_STAT1. */
+                                                                 The corresponding wide statistic is PKI_STAT()_STAT1.
+                                                                 The octet count reflects PKI_WQE_S[LEN]. */
 #else /* Word 0 - Little Endian */
         uint64_t octs                  : 40; /**< [ 39:  0](R/W/H) Number of non-dropped octets received by PKI (good and bad).
-                                                                 The corresponding wide statistic is PKI_STAT()_STAT1. */
+                                                                 The corresponding wide statistic is PKI_STAT()_STAT1.
+                                                                 The octet count reflects PKI_WQE_S[LEN]. */
         uint64_t reserved_40_63        : 24;
 #endif /* Word 0 - End */
     } s;
