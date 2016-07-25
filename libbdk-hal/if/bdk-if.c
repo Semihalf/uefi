@@ -109,7 +109,11 @@ static int __bdk_if_init_node(bdk_node_t node)
 
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
     {
-        if (bdk_fpa_fill_pool(node, BDK_FPA_PACKET_POOL, 2048))
+        int num_buffers = 4096;
+        /* Use more buffers when dram is available */
+        if (__bdk_is_dram_enabled(node))
+            num_buffers = 32768;
+        if (bdk_fpa_fill_pool(node, BDK_FPA_PACKET_POOL, num_buffers))
             return -1;
         if (bdk_pki_global_init(node))
             return -1;

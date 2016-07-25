@@ -185,7 +185,7 @@ int bdk_fpa_init_aura(bdk_node_t node, int aura, bdk_fpa_pool_t pool, int num_bl
     __bdk_fpa_state_t *fpa_state = &__bdk_fpa_node_state[node];
     BDK_CSR_INIT(fpa_const, node, BDK_FPA_CONST);
 
-    int pool_num_blocks = (pool < BDK_FPA_NUM_POOLS) ? num_blocks : (int)BDK_CSR_READ(node, BDK_FPA_VHPOOLX_AVAILABLE(pool));
+    int pool_num_blocks = ((unsigned) aura == pool) ? num_blocks : (int)BDK_CSR_READ(node, BDK_FPA_VHPOOLX_AVAILABLE(pool));
 
     if (BDK_FPA_NUM_AURAS > fpa_const.s.auras)
         bdk_fatal("BDK_FPA_NUM_AURAS > FPA_CONST[AURAS], change bdk-fpa.h\n");
@@ -202,15 +202,19 @@ int bdk_fpa_init_aura(bdk_node_t node, int aura, bdk_fpa_pool_t pool, int num_bl
 
     /* Set auto tracking of counts and disable averaging */
     BDK_CSR_MODIFY(c, node, BDK_FPA_AURAX_CFG(aura),
-        c.s.ptr_dis = 0;
+        c.s.ptr_dis = 0; /* Aura counts buffers */
         c.s.avg_con = 0);
 
-    /* Figure out the optimal shift amount for sizes */
+    /* Figure out the optimal shift amount for sizes 
+    ** For higher quality keep shift amount small.
+    ** Level calculus is saturated at 0xff.
+    ** Example: if we compare 7/8th of pool size for bp, 7/8th need to fit 256 parts, not the pool size.
+    */
     int shift = 0;
-    while ((num_blocks>>shift) >= 256)
+    while ((num_blocks>>shift) > 256)
         shift++;
     int pool_shift = 0;
-    while ((pool_num_blocks>>pool_shift) >= 256)
+    while ((pool_num_blocks>>pool_shift) > 256)
         pool_shift++;
 
     /* Start count at zero */
@@ -226,9 +230,9 @@ int bdk_fpa_init_aura(bdk_node_t node, int aura, bdk_fpa_pool_t pool, int num_bl
         c.s.bp_ena = 1;                     /* Enable backpressure based on [BP] level */
         c.s.red_ena = 1;                    /* Enable RED */
         c.s.shift = shift;                  /* Right shift to apply to FPA_AURA()_CNT */
-        c.s.bp = (num_blocks/2)>>shift;     /* Backpressure when half empty */
+        c.s.bp = (num_blocks*7/8)>>shift;   /* Backpressure when 7/8th empty */
         c.s.drop = (num_blocks)>>shift;     /* Drop everything when empty (If DROP is enabled) */
-        c.s.pass = (num_blocks*3/4)>>shift);/* Start dropping when 3/4 empty (If RED is enabled) */
+        c.s.pass = (num_blocks*7/8)>>shift);/* Start dropping when 3/4 empty (If RED is enabled) */
     /* Set backpressure limits based on pool count. These affect all channels
        based on the underlying pool */
     BDK_CSR_MODIFY(c, node, BDK_FPA_AURAX_POOL_LEVELS(aura),
@@ -236,14 +240,14 @@ int bdk_fpa_init_aura(bdk_node_t node, int aura, bdk_fpa_pool_t pool, int num_bl
         c.s.bp_ena = 1;                     /* Enable backpressure based on [BP] level */
         c.s.red_ena = 1;                    /* Enable RED */
         c.s.shift = pool_shift;             /* Optimal shift calculated earlier */
-        c.s.bp = (pool_num_blocks/2)>>pool_shift; /* Start backpressure when pool is 1/2 empty */
+        c.s.bp = (pool_num_blocks*7/8)>>pool_shift; /* Start backpressure when pool is 3/4th empty */
         c.s.drop = 0;                       /* Drop everything when the pool is completely empty */
-        c.s.pass = (pool_num_blocks*1/4)>>pool_shift); /* Begin dropping when 3/4 of buffers are in use */
+        c.s.pass = (pool_num_blocks*1/8)>>pool_shift); /* Begin dropping when 7/8 of buffers are in use */
     /* Disable the threshold */
     BDK_CSR_WRITE(node, BDK_FPA_VHAURAX_CNT_THRESHOLD(aura), 0xffffffffffull);
     /* Remember the buffer size */
     fpa_state->buffer_size_aura[aura] = fpa_state->buffer_size_pool[pool];
-    BDK_TRACE(FPA, "N%d: FPA: Init aura %d for pool %d with %d blocks\n", node, aura, pool, num_blocks);
+    BDK_TRACE(FPA, "N%d: FPA: Init aura %d for pool %d with %d blocks %d pool_blocks\n", node, aura, pool, num_blocks, pool_num_blocks);
     return aura;
 }
 
