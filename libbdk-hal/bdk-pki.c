@@ -59,7 +59,9 @@ int bdk_pki_global_init(bdk_node_t node)
         c.s.hg_pen = 1);
     /* Put all clusters in same cluster group */
     BDK_CSR_MODIFY(c, node, BDK_PKI_ICGX_CFG(0),
-        c.s.clusters = (1<<pki_const1.s.cls)-1);
+        c.s.clusters = (1<<pki_const1.s.cls)-1;
+        c.s.delay = 800/pki_const1.s.cls; /* Per hrm formula, reset value is not suitable */
+        );
     int buffer_size = bdk_fpa_get_block_size(node, BDK_FPA_PACKET_POOL);
     /* Set how the styles buffer to memory */
     for (int style = 0; style < pki_const.s.fstyles; style++)
