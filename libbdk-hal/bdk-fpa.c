@@ -205,14 +205,11 @@ int bdk_fpa_init_aura(bdk_node_t node, int aura, bdk_fpa_pool_t pool, int num_bl
         c.s.ptr_dis = 0; /* Aura counts buffers */
         c.s.avg_con = 0);
 
-    /* Figure out the optimal shift amount for sizes 
-    ** For higher quality keep shift amount small.
-    ** Level calculus is saturated at 0xff.
-    ** Example: if we compare 7/8th of pool size for bp, 7/8th need to fit 256 parts, not the pool size.
-    */
+    /* Figure out the optimal shift amount for sizes */
     int shift = 0;
-    while ((num_blocks>>shift) > 256)
+    while ((num_blocks>>shift) >= 256)
         shift++;
+    /* For pools reduce shift amount to increase precision */
     int pool_shift = 0;
     while ((pool_num_blocks>>pool_shift) > 256)
         pool_shift++;
@@ -232,7 +229,7 @@ int bdk_fpa_init_aura(bdk_node_t node, int aura, bdk_fpa_pool_t pool, int num_bl
         c.s.shift = shift;                  /* Right shift to apply to FPA_AURA()_CNT */
         c.s.bp = (num_blocks*7/8)>>shift;   /* Backpressure when 7/8th empty */
         c.s.drop = (num_blocks)>>shift;     /* Drop everything when empty (If DROP is enabled) */
-        c.s.pass = (num_blocks*7/8)>>shift);/* Start dropping when 3/4 empty (If RED is enabled) */
+        c.s.pass = (num_blocks*7/8)>>shift);/* Start dropping when 7/8 empty (If RED is enabled) */
     /* Set backpressure limits based on pool count. These affect all channels
        based on the underlying pool */
     BDK_CSR_MODIFY(c, node, BDK_FPA_AURAX_POOL_LEVELS(aura),
@@ -240,7 +237,7 @@ int bdk_fpa_init_aura(bdk_node_t node, int aura, bdk_fpa_pool_t pool, int num_bl
         c.s.bp_ena = 1;                     /* Enable backpressure based on [BP] level */
         c.s.red_ena = 1;                    /* Enable RED */
         c.s.shift = pool_shift;             /* Optimal shift calculated earlier */
-        c.s.bp = (pool_num_blocks*7/8)>>pool_shift; /* Start backpressure when pool is 3/4th empty */
+        c.s.bp = (pool_num_blocks*7/8)>>pool_shift; /* Start backpressure when pool is 7/8th empty */
         c.s.drop = 0;                       /* Drop everything when the pool is completely empty */
         c.s.pass = (pool_num_blocks*1/8)>>pool_shift); /* Begin dropping when 7/8 of buffers are in use */
     /* Disable the threshold */
