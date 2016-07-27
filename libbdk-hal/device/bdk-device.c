@@ -378,6 +378,11 @@ static void populate_device(bdk_device_t *device)
                 /* Secondary PCI Express Extended Capability */
                 BDK_TRACE(DEVICE_SCAN, "%s:      Secondary PCI Express Extended\n", device->name);
             }
+            else if (cap_id == 0x15)
+            {
+                /* PCI Express Resizable BAR (RBAR) Capability */
+                BDK_TRACE(DEVICE_SCAN, "%s:      PCI Express Resizable BAR (RBAR)\n", device->name);
+            }
             else
             {
                 /* Unknown PCIe capability */
