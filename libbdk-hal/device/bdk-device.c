@@ -290,32 +290,43 @@ static void populate_device(bdk_device_t *device)
                 int vsec_id_len = vsec_id >> 20;
                 BDK_TRACE(DEVICE_SCAN, "%s:      Vendor ID: 0x%04x Rev: 0x%x Size 0x%03x\n",
                     device->name, vsec_id_id, vsec_id_rev, vsec_id_len);
-                /* Check for Cavium extension. Low bits change per model */
-                if ((vsec_id_id & 0xf0) == 0xa0)
+                switch (vsec_id_id)
                 {
-                    if (vsec_id_rev == 1)
-                    {
-                        int vsec_ctl = bdk_ecam_read32(device, cap_loc + 8);
-                        int vsec_ctl_inst_num = vsec_ctl & 0xff;
-                        int vsec_ctl_subnum = (vsec_ctl >> 8) & 0xff;
-                        BDK_TRACE(DEVICE_SCAN, "%s:        Instance: 0x%02x Static Bus: 0x%02x\n",
-                            device->name, vsec_ctl_inst_num, vsec_ctl_subnum);
-                        int vsec_sctl = bdk_ecam_read32(device, cap_loc + 12);
-                        int vsec_sctl_rid = (vsec_sctl >> 16) & 0xff;
-                        BDK_TRACE(DEVICE_SCAN, "%s:        Revision ID: 0x%02x\n",
-                            device->name, vsec_sctl_rid);
-                        /* Record the device instance */
-                        device->instance = vsec_ctl_inst_num;
-                    }
-                    else
-                    {
-                        bdk_warn("%s: ECAM device Unknown extension revision\n", device->name);
-                    }
-                }
-                else
-                {
-                    /* Unknown Vendor extension */
-                    bdk_warn("%s: ECAM device unknown vendor extension ID 0x%x\n", device->name, vsec_id_id);
+                    case 0x0001: /* RAS Data Path */
+                        BDK_TRACE(DEVICE_SCAN, "%s:      Vendor RAS Data Path\n", device->name);
+                        break;
+
+                    case 0x0002: /* RAS DES */
+                        BDK_TRACE(DEVICE_SCAN, "%s:      Vendor RAS DES\n", device->name);
+                        break;
+
+                    case 0x00a0: /* Cavium common */
+                    case 0x00a1: /* Cavium CN88XX */
+                    case 0x00a2: /* Cavium CN81XX */
+                    case 0x00a3: /* Cavium CN83XX */
+                        if (vsec_id_rev == 1)
+                        {
+                            int vsec_ctl = bdk_ecam_read32(device, cap_loc + 8);
+                            int vsec_ctl_inst_num = vsec_ctl & 0xff;
+                            int vsec_ctl_subnum = (vsec_ctl >> 8) & 0xff;
+                            BDK_TRACE(DEVICE_SCAN, "%s:        Cavium Instance: 0x%02x Static Bus: 0x%02x\n",
+                                device->name, vsec_ctl_inst_num, vsec_ctl_subnum);
+                            int vsec_sctl = bdk_ecam_read32(device, cap_loc + 12);
+                            int vsec_sctl_rid = (vsec_sctl >> 16) & 0xff;
+                            BDK_TRACE(DEVICE_SCAN, "%s:        Revision ID: 0x%02x\n",
+                                device->name, vsec_sctl_rid);
+                            /* Record the device instance */
+                            device->instance = vsec_ctl_inst_num;
+                        }
+                        else
+                        {
+                            bdk_warn("%s: ECAM device Unknown Cavium extension revision\n", device->name);
+                        }
+                        break;
+
+                    default: /* Unknown Vendor extension */
+                        bdk_warn("%s: ECAM device unknown vendor extension ID 0x%x\n", device->name, vsec_id_id);
+                        break;
                 }
             }
             else if (cap_id == 0x10)

@@ -745,7 +745,7 @@ local function create_device(root, bus, deviceid, func, vparent)
                     local vsec_id_len = bit64.bextract(vsec_id, 20, 31)
                     printf("%s        Vendor ID: %04x Rev: %x Size %03x\n", indent, vsec_id_id, vsec_id_rev, vsec_id_len);
                     -- Check for Cavium extension. Low bits change per model
-                    if bit64.band(vsec_id_id, 0xf0) == 0xa0 then
+                    if (vsec_id_id >= 0xa0) and (vsec_id_id <= 0xa3) then
                         if vsec_id_rev == 1 then
                             local vsec_ctl = self:read32(cap_loc+8)
                             local vsec_ctl_inst_num = bit64.bextract(vsec_ctl, 0, 7)
