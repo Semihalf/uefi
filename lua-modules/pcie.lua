@@ -143,6 +143,7 @@ local DEVICE_NAME = {
     [0xa055] = "USBDRD",
     [0xa056] = "XCV",
     [0xa057] = "DPI",
+    [0xa058] = "DPI_VF",
     [0xa100] = "CN88XX",
     [0xa200] = "CN81XX",
     [0xa300] = "CN83XX",
