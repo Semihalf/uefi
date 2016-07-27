@@ -42,6 +42,7 @@ void __bdk_require_depends(void)
     BDK_REQUIRE(DRIVER);
 
     BDK_REQUIRE(DRIVER_CCPI);
+    BDK_REQUIRE(DRIVER_PCIERC);
     BDK_REQUIRE(DRIVER_SMMU);
     BDK_REQUIRE(DRIVER_UAA);
 }

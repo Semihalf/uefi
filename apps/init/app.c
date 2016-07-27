@@ -42,6 +42,7 @@ void __bdk_require_depends(void)
     BDK_REQUIRE(SGPIO);
     BDK_REQUIRE(DRIVER);
 
+    BDK_REQUIRE(DRIVER_PCIERC);
     BDK_REQUIRE(DRIVER_SMMU);
 }
 

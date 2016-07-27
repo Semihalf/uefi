@@ -22,6 +22,7 @@ int __bdk_driver_register_all(void)
     DRIVER(smmu);
     DRIVER(sgpio);
     DRIVER(uaa);
+    DRIVER(pcierc);
 
     return 0;
 }
