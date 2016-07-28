@@ -42,7 +42,19 @@ SUPPORTED_BOARDS = {
     },
 }
 
+#
+# The normal boot stuff boots to the diagnostics menu. This "fake"
+# test adds an option to just do the boot without any further tests
+# for fast boot testing
+#
+def test_boot_diags(cnx, board_info):
+    return True
+
+#
+#
+#
 SUPPORTED_TESTS = {
+    "boot-diags":   test_boot_diags,
     "short-dram":   test_dram.dram_short,
     "full-dram":    test_dram.dram_all,
     "sata":         test_sata.sata_detect,
