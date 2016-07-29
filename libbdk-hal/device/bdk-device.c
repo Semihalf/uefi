@@ -89,6 +89,7 @@ static void populate_device(bdk_device_t *device)
     /* Loop through all the BARs */
     int max_bar = (isbridge) ? BDK_PCCPF_XXX_BAR0U : BDK_PCCPF_XXX_BAR4U;
     int bar = BDK_PCCPF_XXX_BAR0L;
+    unsigned guess_instance = 0;
     while (bar <= max_bar)
     {
         int bar_index = (bar - BDK_PCCPF_XXX_BAR0L) / 8;
@@ -243,6 +244,13 @@ static void populate_device(bdk_device_t *device)
                             BDK_TRACE(DEVICE_SCAN, "%s:        Updated BAR%d 0x%lx/%d flags=0x%x\n",
                                 device->name, bar_index, device->bar[bar_index].address,
                                 device->bar[bar_index].size2, device->bar[bar_index].flags);
+                            if (0 == ea_entry.s.bei) {
+                                /* PEMs eg PCIEEP and PCIERC do not have instance id
+                                ** We can calculate it for PCIERC based on BAR0 allocation.
+                                ** PCIEEP will be dropped by probe
+                                */
+                                guess_instance = (device->bar[bar_index].address >> 24) & 7;
+                            }
                             break;
                         }
                         case 9: /* SR-IOV BAR 0 */
@@ -411,6 +419,9 @@ static void populate_device(bdk_device_t *device)
     {
         bdk_error("%s: ECAM device didn't have a PCIe capability\n", device->name);
     }
+    if (BDK_NO_DEVICE_INSTANCE == device->instance) {
+        device->instance = guess_instance;
+    }
     BDK_TRACE(DEVICE_SCAN, "%s: Device populated\n", device->name);
 }
 
@@ -449,6 +460,7 @@ int bdk_device_add(bdk_node_t node, int ecam, int bus, int dev, int func)
     device->bus = bus;
     device->dev = dev;
     device->func = func;
+    device->instance = BDK_NO_DEVICE_INSTANCE;
     populate_device(device);
 
     const bdk_driver_t *drv = lookup_driver(device);

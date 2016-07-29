@@ -67,6 +67,7 @@ typedef struct
     uint32_t            id;         /* ECAM device ID */
     uint16_t            instance;   /* Cavium internal instance number */
 } bdk_device_t;
+#define BDK_NO_DEVICE_INSTANCE 0xffffu
 
 /**
  * Defines the main entry points for a device driver. Full
