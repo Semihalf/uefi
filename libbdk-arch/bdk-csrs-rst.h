@@ -201,7 +201,9 @@ typedef union
         uint64_t vrm_err               : 1;  /**< [ 57: 57](RO) Reserved. */
         uint64_t dis_huk               : 1;  /**< [ 56: 56](R/W1S) Disable HUK. Secure only and W1S set-only. When set FUSF_SSK(),
                                                                  FUSF_HUK(), FUSF_EK(), and FUSF_SW() cannot be read.
-                                                                 Resets to (!trusted_mode && FUSF_CTL[FJ_DIS_HUK]). */
+                                                                 Resets to (!trusted_mode && FUSF_CTL[FJ_DIS_HUK]).
+
+                                                                 Software must write a one to this bit when the chain of trust is broken. */
         uint64_t dis_scan              : 1;  /**< [ 55: 55](R/W1S) Disable scan. When written to 1, and FUSF_CTL[ROT_LCK] = 1, reads as 1 and scan is not
                                                                  allowed in the part.
                                                                  This state persists across soft and warm resets.
@@ -335,7 +337,9 @@ typedef union
                                                                  This state will persist across a simulation */
         uint64_t dis_huk               : 1;  /**< [ 56: 56](R/W1S) Disable HUK. Secure only and W1S set-only. When set FUSF_SSK(),
                                                                  FUSF_HUK(), FUSF_EK(), and FUSF_SW() cannot be read.
-                                                                 Resets to (!trusted_mode && FUSF_CTL[FJ_DIS_HUK]). */
+                                                                 Resets to (!trusted_mode && FUSF_CTL[FJ_DIS_HUK]).
+
+                                                                 Software must write a one to this bit when the chain of trust is broken. */
         uint64_t vrm_err               : 1;  /**< [ 57: 57](RO) Reserved. */
         uint64_t jt_tstmode            : 1;  /**< [ 58: 58](RO) JTAG test mode. */
         uint64_t ckill_ppdis           : 1;  /**< [ 59: 59](R/W) Chipkill core disable. When set to 1, cores other than core 0 will immediately
@@ -375,7 +379,9 @@ typedef union
         uint64_t vrm_err               : 1;  /**< [ 57: 57](RO) Reserved. */
         uint64_t dis_huk               : 1;  /**< [ 56: 56](R/W1S) Disable HUK. Secure only and W1S set-only. When set FUSF_SSK(),
                                                                  FUSF_HUK(), FUSF_EK(), and FUSF_SW() cannot be read.
-                                                                 Resets to (!trusted_mode && FUSF_CTL[FJ_DIS_HUK]). */
+                                                                 Resets to (!trusted_mode && FUSF_CTL[FJ_DIS_HUK]).
+
+                                                                 Software must write a one to this bit when the chain of trust is broken. */
         uint64_t dis_scan              : 1;  /**< [ 55: 55](R/W1S) Disable scan. When written to 1, and FUSF_CTL[ROT_LCK] = 1, reads as 1 and scan is not
                                                                  allowed in the part.
                                                                  This state persists across soft and warm resets.
@@ -489,7 +495,9 @@ typedef union
                                                                  This state will persist across a simulation */
         uint64_t dis_huk               : 1;  /**< [ 56: 56](R/W1S) Disable HUK. Secure only and W1S set-only. When set FUSF_SSK(),
                                                                  FUSF_HUK(), FUSF_EK(), and FUSF_SW() cannot be read.
-                                                                 Resets to (!trusted_mode && FUSF_CTL[FJ_DIS_HUK]). */
+                                                                 Resets to (!trusted_mode && FUSF_CTL[FJ_DIS_HUK]).
+
+                                                                 Software must write a one to this bit when the chain of trust is broken. */
         uint64_t vrm_err               : 1;  /**< [ 57: 57](RO) Reserved. */
         uint64_t jt_tstmode            : 1;  /**< [ 58: 58](RO) JTAG test mode. */
         uint64_t ckill_ppdis           : 1;  /**< [ 59: 59](R/W) Chipkill core disable. When set to 1, cores other than core 0 will immediately
@@ -530,7 +538,9 @@ typedef union
                                                                  asserted. PLLs were released automatically. */
         uint64_t dis_huk               : 1;  /**< [ 56: 56](R/W1S) Disable HUK. Secure only and W1S set-only. When set FUSF_SSK(),
                                                                  FUSF_HUK(), FUSF_EK(), and FUSF_SW() cannot be read.
-                                                                 Resets to (!trusted_mode && FUSF_CTL[FJ_DIS_HUK]). */
+                                                                 Resets to (!trusted_mode && FUSF_CTL[FJ_DIS_HUK]).
+
+                                                                 Software must write a one to this bit when the chain of trust is broken. */
         uint64_t dis_scan              : 1;  /**< [ 55: 55](R/W1S) Disable scan. When written to 1, and FUSF_CTL[ROT_LCK] = 1, reads as 1 and scan is not
                                                                  allowed in the part.
                                                                  This state persists across soft and warm resets.
@@ -650,7 +660,9 @@ typedef union
                                                                  This state will persist across a simulation */
         uint64_t dis_huk               : 1;  /**< [ 56: 56](R/W1S) Disable HUK. Secure only and W1S set-only. When set FUSF_SSK(),
                                                                  FUSF_HUK(), FUSF_EK(), and FUSF_SW() cannot be read.
-                                                                 Resets to (!trusted_mode && FUSF_CTL[FJ_DIS_HUK]). */
+                                                                 Resets to (!trusted_mode && FUSF_CTL[FJ_DIS_HUK]).
+
+                                                                 Software must write a one to this bit when the chain of trust is broken. */
         uint64_t vrm_err               : 1;  /**< [ 57: 57](RO) VRM error. VRM did not complete operations within 5.25ms of PLL_DC_OK being
                                                                  asserted. PLLs were released automatically. */
         uint64_t jt_tstmode            : 1;  /**< [ 58: 58](RO) JTAG test mode. */
@@ -692,7 +704,9 @@ typedef union
                                                                  asserted. PLLs were released automatically. */
         uint64_t dis_huk               : 1;  /**< [ 56: 56](R/W1S) Disable HUK. Secure only and W1S set-only. When set FUSF_SSK(),
                                                                  FUSF_HUK(), FUSF_EK(), and FUSF_SW() cannot be read.
-                                                                 Resets to (!trusted_mode && FUSF_CTL[FJ_DIS_HUK]). */
+                                                                 Resets to (!trusted_mode && FUSF_CTL[FJ_DIS_HUK]).
+
+                                                                 Software must write a one to this bit when the chain of trust is broken. */
         uint64_t dis_scan              : 1;  /**< [ 55: 55](R/W1S) Disable scan. When written to 1, and FUSF_CTL[ROT_LCK] = 1, reads as 1 and scan is not
                                                                  allowed in the part.
                                                                  This state persists across soft and warm resets.
@@ -814,7 +828,9 @@ typedef union
                                                                  This state will persist across a simulation */
         uint64_t dis_huk               : 1;  /**< [ 56: 56](R/W1S) Disable HUK. Secure only and W1S set-only. When set FUSF_SSK(),
                                                                  FUSF_HUK(), FUSF_EK(), and FUSF_SW() cannot be read.
-                                                                 Resets to (!trusted_mode && FUSF_CTL[FJ_DIS_HUK]). */
+                                                                 Resets to (!trusted_mode && FUSF_CTL[FJ_DIS_HUK]).
+
+                                                                 Software must write a one to this bit when the chain of trust is broken. */
         uint64_t vrm_err               : 1;  /**< [ 57: 57](RO) VRM error. VRM did not complete operations within 5.25ms of PLL_DC_OK being
                                                                  asserted. PLLs were released automatically. */
         uint64_t jt_tstmode            : 1;  /**< [ 58: 58](RO) JTAG test mode. */

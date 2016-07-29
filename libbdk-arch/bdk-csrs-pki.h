@@ -5634,7 +5634,7 @@ static inline uint64_t BDK_PKI_DSTATX_STAT0(unsigned long a)
 /**
  * Register (NCB) pki_dstat#_stat1
  *
- * PKI Octects Deep Statistic Registers
+ * PKI Octets Deep Statistic Registers
  * This register contains statistics indexed by PKI_QPG_TBLB()[DSTAT_ID].
  */
 typedef union

@@ -13553,19 +13553,19 @@ typedef union
         uint64_t reserved_3_5          : 3;
         uint64_t st_err                : 1;  /**< [  2:  2](R/W1C/H) There was a store error. Data is above in PKO_PEB_NCB_MEM_FAULT[ERR_DST] and
                                                                  PKO_PEB_NCB_MEM_FAULT[ERR_TAG]. This will set a bit in PKO_PEB_NCB_INT_W1C. This
-                                                                 is a fatal error for PKO. */
+                                                                 is not a fatal error for PKO, but it corrupts the packet. */
         uint64_t ld_err                : 1;  /**< [  1:  1](R/W1C/H) There was a load error. Data is above in PKO_PEB_NCB_MEM_FAULT[ERR_DST] and
                                                                  PKO_PEB_NCB_MEM_FAULT[ERR_TAG]. This will set a bit in PKO_PEB_NCB_INT_W1C. This
-                                                                 is a fatal error for PKO. */
+                                                                 is not a fatal error for PKO, but it corrupts the packet. */
         uint64_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0            : 1;
         uint64_t ld_err                : 1;  /**< [  1:  1](R/W1C/H) There was a load error. Data is above in PKO_PEB_NCB_MEM_FAULT[ERR_DST] and
                                                                  PKO_PEB_NCB_MEM_FAULT[ERR_TAG]. This will set a bit in PKO_PEB_NCB_INT_W1C. This
-                                                                 is a fatal error for PKO. */
+                                                                 is not a fatal error for PKO, but it corrupts the packet. */
         uint64_t st_err                : 1;  /**< [  2:  2](R/W1C/H) There was a store error. Data is above in PKO_PEB_NCB_MEM_FAULT[ERR_DST] and
                                                                  PKO_PEB_NCB_MEM_FAULT[ERR_TAG]. This will set a bit in PKO_PEB_NCB_INT_W1C. This
-                                                                 is a fatal error for PKO. */
+                                                                 is not a fatal error for PKO, but it corrupts the packet. */
         uint64_t reserved_3_5          : 3;
         uint64_t err_dst               : 8;  /**< [ 13:  6](R/W1C/H) NCB DST field of the error transaction. */
         uint64_t err_tag               : 4;  /**< [ 17: 14](R/W1C/H) NCB TAG field of the error transaction. */
