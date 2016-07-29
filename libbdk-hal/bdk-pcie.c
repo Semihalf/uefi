@@ -446,9 +446,11 @@ int bdk_pcie_rc_initialize(bdk_node_t node, int pcie_port)
         return -1;
     }
 
-    /* Make sure we aren't trying to setup a target mode interface in host mode */
-    //BDK_CSR_INIT(pemx_cfg, node, BDK_PEMX_CFG(pcie_port));
-    int host_mode = 1; //pemx_cfg.s.hostmd;
+    /* Make sure we aren't trying to setup a target mode interface in host
+       mode. Sadly this bit is RAZ for CN88XX and CN81XX because the hardware
+       team removed it. So much for backward compatibility */
+    BDK_CSR_INIT(pemx_cfg, node, BDK_PEMX_CFG(pcie_port));
+    int host_mode = CAVIUM_IS_MODEL(CAVIUM_CN83XX) ? pemx_cfg.s.hostmd : 1;
     if (!host_mode)
     {
         printf("N%d.PCIe%d: Port in endpoint mode.\n", node, pcie_port);
