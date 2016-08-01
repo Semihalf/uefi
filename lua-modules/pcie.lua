@@ -473,7 +473,6 @@ local function create_device(root, bus, deviceid, func, vparent)
         local deviceid
         local deviceid_str = ""
         if self.vparent then
-            assert(show_vfs)
             local sub_vendor = self:read16(PCICONFIG_SUBVENDOR_ID)
             local sub_deviceid = self:read16(PCICONFIG_SUBDEVICE_ID)
             vendor = self.vparent:read16(PCICONFIG_VENDOR_ID)
