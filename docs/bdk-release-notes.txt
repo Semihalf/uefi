@@ -8,7 +8,7 @@
 This document gives a short overview of the major changes
 incorporated into each BDK release.
 
-== thunder-release-v1.24-rc1 ==
+== thunder-release-v1.24 ==
 * DRAM
 ** Fix possible skip of ECC update in memory owned by the BDK
 ** Enhance read-leveling bitmasks printing
@@ -61,6 +61,8 @@ incorporated into each BDK release.
 ** Fix UAA device entry
 ** Fix issue where trace output could say a FDT was updated when it wasn't
 ** Don't use compiler builtins for compare and swap
+** Add required 300Mhz offset for decode of MIO_FUS_DAT3[core_pll_mul]
+** Add setup menu for choosing tracing levels
 
 == thunder-release-v1.23 ==
 * Operating system device tree changes
