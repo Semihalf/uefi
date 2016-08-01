@@ -75,7 +75,7 @@
  * Enumeration lmc_seq_sel_e
  *
  * LMC Sequence Select Enumeration
- * Enumerates the diferent values of LMC()_SEQ_CTL[SEQ_SEL].
+ * Enumerates the different values of LMC()_SEQ_CTL[SEQ_SEL].
  */
 #define BDK_LMC_SEQ_SEL_E_INIT (0)
 #define BDK_LMC_SEQ_SEL_E_MPR_RW (9)
@@ -101,6 +101,22 @@ typedef union
     struct bdk_lmcx_bank_conflict1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t cnt                   : 64; /**< [ 63:  0](RO/H) Bank conflict counter. A 64-bit counter that increments at every DCLK
+                                                                 cycles when LMC could not issue R/W operations to the DRAM due to
+                                                                 bank conflict. This increments when all 8 in-flight buffers are not
+                                                                 utilized. */
+#else /* Word 0 - Little Endian */
+        uint64_t cnt                   : 64; /**< [ 63:  0](RO/H) Bank conflict counter. A 64-bit counter that increments at every DCLK
+                                                                 cycles when LMC could not issue R/W operations to the DRAM due to
+                                                                 bank conflict. This increments when all 8 in-flight buffers are not
+                                                                 utilized. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_lmcx_bank_conflict1_s cn81xx; */
+    /* struct bdk_lmcx_bank_conflict1_s cn88xx; */
+    struct bdk_lmcx_bank_conflict1_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t cnt                   : 64; /**< [ 63:  0](RO/H) Bank conflict counter. A 64-bit counter that increments at every dclk
                                                                  cycles when LMC could not issue R/W operations to the DRAM due to
                                                                  bank conflict. This increments when all 8 in-flight buffers are not
@@ -111,8 +127,7 @@ typedef union
                                                                  bank conflict. This increments when all 8 in-flight buffers are not
                                                                  utilized. */
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_lmcx_bank_conflict1_s cn; */
+    } cn83xx;
 } bdk_lmcx_bank_conflict1_t;
 
 static inline uint64_t BDK_LMCX_BANK_CONFLICT1(unsigned long a) __attribute__ ((pure, always_inline));
@@ -145,12 +160,12 @@ typedef union
     struct bdk_lmcx_bank_conflict2_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t cnt                   : 64; /**< [ 63:  0](RO/H) Bank conflict counter. A 64-bit counter that increments at every dclk
+        uint64_t cnt                   : 64; /**< [ 63:  0](RO/H) Bank conflict counter. A 64-bit counter that increments at every DCLK
                                                                  cycles when LMC could not issue R/W operations to the DRAM due to
                                                                  bank conflict. This increments only when there are less than 4 in-flight
                                                                  buffers occupied. */
 #else /* Word 0 - Little Endian */
-        uint64_t cnt                   : 64; /**< [ 63:  0](RO/H) Bank conflict counter. A 64-bit counter that increments at every dclk
+        uint64_t cnt                   : 64; /**< [ 63:  0](RO/H) Bank conflict counter. A 64-bit counter that increments at every DCLK
                                                                  cycles when LMC could not issue R/W operations to the DRAM due to
                                                                  bank conflict. This increments only when there are less than 4 in-flight
                                                                  buffers occupied. */
@@ -666,7 +681,7 @@ typedef union
         uint64_t reserved_51_63        : 13;
         uint64_t rclk_char_mode        : 1;  /**< [ 50: 50](R/W) Reserved.
                                                                  Internal:
-                                                                 Select RCLK characterization mode. */
+                                                                 Select core clock characterization mode. */
         uint64_t ddr__ptune            : 5;  /**< [ 49: 45](RO/H) DDR PCTL from compensation circuit. The encoded value provides debug information for the
                                                                  compensation impedance on P-pullup. */
         uint64_t ddr__ntune            : 5;  /**< [ 44: 40](RO/H) DDR NCTL from compensation circuit. The encoded value provides debug information for the
@@ -884,7 +899,7 @@ typedef union
                                                                  compensation impedance on P-pullup. */
         uint64_t rclk_char_mode        : 1;  /**< [ 50: 50](R/W) Reserved.
                                                                  Internal:
-                                                                 Select RCLK characterization mode. */
+                                                                 Select core clock characterization mode. */
         uint64_t reserved_51_63        : 13;
 #endif /* Word 0 - End */
     } s;
@@ -2301,10 +2316,10 @@ typedef union
                                                                  reads with a default value of 4 cycles.
 
                                                                  While in DRAM MPR mode, reads from Page 0 may use tCCD_S or tCCD_L.
-                                                                 Reads from Pages 1, 2 or 3 however must use tCCD_L, thereby requring
+                                                                 Reads from Pages 1, 2 or 3 however must use tCCD_L, thereby requiring
                                                                  this bit to be set. */
         uint64_t rw_train              : 1;  /**< [ 54: 54](R/W) When set, the DBTRAIN sequence will perform a write to the DRAM
-                                                                 memory array using burst patern that are set in
+                                                                 memory array using burst pattern that are set in
                                                                  LMC()_GENERAL_PURPOSE0[DATA]<61:0>, LMC()_GENERAL_PURPOSE1[DATA]<61:0> and
                                                                  LMC()_GENERAL_PURPOSE2[DATA]<15:0>.
 
@@ -2367,7 +2382,7 @@ typedef union
                                                                  MPR register. This bits control the timing of when to sample the data
                                                                  buffer training result. */
         uint64_t rw_train              : 1;  /**< [ 54: 54](R/W) When set, the DBTRAIN sequence will perform a write to the DRAM
-                                                                 memory array using burst patern that are set in
+                                                                 memory array using burst pattern that are set in
                                                                  LMC()_GENERAL_PURPOSE0[DATA]<61:0>, LMC()_GENERAL_PURPOSE1[DATA]<61:0> and
                                                                  LMC()_GENERAL_PURPOSE2[DATA]<15:0>.
 
@@ -2381,7 +2396,7 @@ typedef union
                                                                  reads with a default value of 4 cycles.
 
                                                                  While in DRAM MPR mode, reads from Page 0 may use tCCD_S or tCCD_L.
-                                                                 Reads from Pages 1, 2 or 3 however must use tCCD_L, thereby requring
+                                                                 Reads from Pages 1, 2 or 3 however must use tCCD_L, thereby requiring
                                                                  this bit to be set. */
         uint64_t db_sel                : 1;  /**< [ 56: 56](R/W) Reserved.
                                                                  Internal:
@@ -2432,10 +2447,10 @@ typedef union
                                                                  reads with a default value of 4 cycles.
 
                                                                  While in DRAM MPR mode, reads from Page 0 may use tCCD_S or tCCD_L.
-                                                                 Reads from Pages 1, 2 or 3 however must use tCCD_L, thereby requring
+                                                                 Reads from Pages 1, 2 or 3 however must use tCCD_L, thereby requiring
                                                                  this bit to be set. */
         uint64_t rw_train              : 1;  /**< [ 54: 54](R/W) When set, the DBTRAIN sequence will perform a write to the DRAM
-                                                                 memory array using burst patern that are set in
+                                                                 memory array using burst pattern that are set in
                                                                  LMC()_GENERAL_PURPOSE0[DATA]<61:0>, LMC()_GENERAL_PURPOSE1[DATA]<61:0> and
                                                                  LMC()_GENERAL_PURPOSE2[DATA]<15:0>.
 
@@ -2498,7 +2513,7 @@ typedef union
                                                                  MPR register. This bits control the timing of when to sample the data
                                                                  buffer training result. */
         uint64_t rw_train              : 1;  /**< [ 54: 54](R/W) When set, the DBTRAIN sequence will perform a write to the DRAM
-                                                                 memory array using burst patern that are set in
+                                                                 memory array using burst pattern that are set in
                                                                  LMC()_GENERAL_PURPOSE0[DATA]<61:0>, LMC()_GENERAL_PURPOSE1[DATA]<61:0> and
                                                                  LMC()_GENERAL_PURPOSE2[DATA]<15:0>.
 
@@ -2512,7 +2527,7 @@ typedef union
                                                                  reads with a default value of 4 cycles.
 
                                                                  While in DRAM MPR mode, reads from Page 0 may use tCCD_S or tCCD_L.
-                                                                 Reads from Pages 1, 2 or 3 however must use tCCD_L, thereby requring
+                                                                 Reads from Pages 1, 2 or 3 however must use tCCD_L, thereby requiring
                                                                  this bit to be set. */
         uint64_t db_sel                : 1;  /**< [ 56: 56](R/W) Reserved.
                                                                  Internal:
@@ -2564,10 +2579,10 @@ typedef union
                                                                  reads with a default value of 4 cycles.
 
                                                                  While in DRAM MPR mode, reads from Page 0 may use tCCD_S or tCCD_L.
-                                                                 Reads from Pages 1, 2 or 3 however must use tCCD_L, thereby requring
+                                                                 Reads from Pages 1, 2 or 3 however must use tCCD_L, thereby requiring
                                                                  this bit to be set. */
         uint64_t rw_train              : 1;  /**< [ 54: 54](R/W) When set, the DBTRAIN sequence will perform a write to the DRAM
-                                                                 memory array using burst patern that are set in
+                                                                 memory array using burst pattern that are set in
                                                                  LMC()_GENERAL_PURPOSE0[DATA]<61:0>, LMC()_GENERAL_PURPOSE1[DATA]<61:0> and
                                                                  LMC()_GENERAL_PURPOSE2[DATA]<15:0>.
 
@@ -2630,7 +2645,7 @@ typedef union
                                                                  MPR register. This bits control the timing of when to sample the data
                                                                  buffer training result. */
         uint64_t rw_train              : 1;  /**< [ 54: 54](R/W) When set, the DBTRAIN sequence will perform a write to the DRAM
-                                                                 memory array using burst patern that are set in
+                                                                 memory array using burst pattern that are set in
                                                                  LMC()_GENERAL_PURPOSE0[DATA]<61:0>, LMC()_GENERAL_PURPOSE1[DATA]<61:0> and
                                                                  LMC()_GENERAL_PURPOSE2[DATA]<15:0>.
 
@@ -2644,7 +2659,7 @@ typedef union
                                                                  reads with a default value of 4 cycles.
 
                                                                  While in DRAM MPR mode, reads from Page 0 may use tCCD_S or tCCD_L.
-                                                                 Reads from Pages 1, 2 or 3 however must use tCCD_L, thereby requring
+                                                                 Reads from Pages 1, 2 or 3 however must use tCCD_L, thereby requiring
                                                                  this bit to be set. */
         uint64_t db_sel                : 1;  /**< [ 56: 56](R/W) Reserved.
                                                                  Internal:
@@ -2898,15 +2913,15 @@ static inline uint64_t BDK_LMCX_DDR4_DIMM_CTL(unsigned long a)
  *
  * 1. Write [CLKF], [DDR_PS_EN], DFM_PS_EN, DIFFAMP, CPS, CPB.
  *
- * 2. Wait 128 ref clock cycles (7680 rclk cycles).
+ * 2. Wait 128 ref clock cycles (7680 core-clock cycles).
  *
  * 3. Write 1 to RESET_N.
  *
- * 4. Wait 1152 ref clocks (1152*16 rclk cycles).
+ * 4. Wait 1152 ref clocks (1152*16 core-clock cycles).
  *
  * 5. Write 0 to DDR_DIV_RESET and DFM_DIV_RESET.
  *
- * 6. Wait 10 ref clock cycles (160 rclk cycles) before bringing up the DDR interface
+ * 6. Wait 10 ref clock cycles (160 core-clock cycles) before bringing up the DDR interface
  *
  * Internal:
  * If test mode is going to be activated:
@@ -2915,8 +2930,8 @@ static inline uint64_t BDK_LMCX_DDR4_DIMM_CTL(unsigned long a)
  * jtg__ddr_pll_tm_en3, jtg__ddr_pll_tm_en4, jtg__dfa_pll_tm_en1, jtg__dfa_pll_tm_en2,
  * jtg__dfa_pll_tm_en3, jtg__dfa_pll_tm_en4, JTAG_TEST_MODE.
  *
- * * Add final step, wait an additional 8191 ref clocks (8191*16 rclk+ cycles) to allow
- * PLL clock alignment.
+ * * Add final step, wait an additional 8191 ref clocks (8191*16+ core-clock cycles) to
+ * allow PLL clock alignment.
  */
 typedef union
 {
@@ -2927,7 +2942,7 @@ typedef union
         uint64_t reserved_45_63        : 19;
         uint64_t dclk_alt_refclk_sel   : 1;  /**< [ 44: 44](R/W) Select alternate reference clock for DCLK PLL. */
         uint64_t bwadj                 : 12; /**< [ 43: 32](R/W) Bandwidth control for DCLK PLLs. */
-        uint64_t dclk_invert           : 1;  /**< [ 31: 31](R/W) Invert dclk that feeds LMC/DDR at the south side of the chip. */
+        uint64_t dclk_invert           : 1;  /**< [ 31: 31](R/W) Invert DCLK that feeds LMC/DDR at the south side of the chip. */
         uint64_t phy_dcok              : 1;  /**< [ 30: 30](R/W) Set to power up PHY logic after setting LMC()_DDR_PLL_CTL[DDR4_MODE]. */
         uint64_t ddr4_mode             : 1;  /**< [ 29: 29](R/W) DDR4 mode select: 1 = DDR4, 0 = DDR3. */
         uint64_t pll_fbslip            : 1;  /**< [ 28: 28](RO/H) PLL FBSLIP indication. */
@@ -3013,7 +3028,7 @@ typedef union
         uint64_t pll_fbslip            : 1;  /**< [ 28: 28](RO/H) PLL FBSLIP indication. */
         uint64_t ddr4_mode             : 1;  /**< [ 29: 29](R/W) DDR4 mode select: 1 = DDR4, 0 = DDR3. */
         uint64_t phy_dcok              : 1;  /**< [ 30: 30](R/W) Set to power up PHY logic after setting LMC()_DDR_PLL_CTL[DDR4_MODE]. */
-        uint64_t dclk_invert           : 1;  /**< [ 31: 31](R/W) Invert dclk that feeds LMC/DDR at the south side of the chip. */
+        uint64_t dclk_invert           : 1;  /**< [ 31: 31](R/W) Invert DCLK that feeds LMC/DDR at the south side of the chip. */
         uint64_t bwadj                 : 12; /**< [ 43: 32](R/W) Bandwidth control for DCLK PLLs. */
         uint64_t dclk_alt_refclk_sel   : 1;  /**< [ 44: 44](R/W) Select alternate reference clock for DCLK PLL. */
         uint64_t reserved_45_63        : 19;
@@ -3997,7 +4012,7 @@ typedef union
                                                                  the DDR4 RCD. */
         uint64_t dimm_sel_invert_off   : 1;  /**< [ 55: 55](R/W) During coalesce_address_mode, the default logic would be to invert
                                                                  the pbank bit whenever NXM[MEM_MSB_D1_R0] > NXM[MEM_MSB_D0_R0].
-                                                                 When this bit is set to 1, it disables this default behaviour.
+                                                                 When this bit is set to 1, it disables this default behavior.
                                                                  This configuration has lower priority compared to
                                                                  [DIMM_SEL_FORCE_INVERT]. */
         uint64_t dimm_sel_force_invert : 1;  /**< [ 54: 54](R/W) Reserved.
@@ -4219,7 +4234,7 @@ typedef union
                                                                  than DIMM0. This bit has priority over [DIMM_SEL_INVERT_OFF]. */
         uint64_t dimm_sel_invert_off   : 1;  /**< [ 55: 55](R/W) During coalesce_address_mode, the default logic would be to invert
                                                                  the pbank bit whenever NXM[MEM_MSB_D1_R0] > NXM[MEM_MSB_D0_R0].
-                                                                 When this bit is set to 1, it disables this default behaviour.
+                                                                 When this bit is set to 1, it disables this default behavior.
                                                                  This configuration has lower priority compared to
                                                                  [DIMM_SEL_FORCE_INVERT]. */
         uint64_t mrs_bside_invert_disable : 1;/**< [ 56: 56](R/W) When set, the command decoder cancels the auto inversion of
@@ -4279,7 +4294,7 @@ typedef union
                                                                  the DDR4 RCD. */
         uint64_t dimm_sel_invert_off   : 1;  /**< [ 55: 55](R/W) During coalesce_address_mode, the default logic would be to invert
                                                                  the pbank bit whenever NXM[MEM_MSB_D1_R0] > NXM[MEM_MSB_D0_R0].
-                                                                 When this bit is set to 1, it disables this default behaviour.
+                                                                 When this bit is set to 1, it disables this default behavior.
                                                                  This configuration has lower priority compared to
                                                                  [DIMM_SEL_FORCE_INVERT]. */
         uint64_t dimm_sel_force_invert : 1;  /**< [ 54: 54](R/W) Reserved.
@@ -4501,7 +4516,7 @@ typedef union
                                                                  than DIMM0. This bit has priority over [DIMM_SEL_INVERT_OFF]. */
         uint64_t dimm_sel_invert_off   : 1;  /**< [ 55: 55](R/W) During coalesce_address_mode, the default logic would be to invert
                                                                  the pbank bit whenever NXM[MEM_MSB_D1_R0] > NXM[MEM_MSB_D0_R0].
-                                                                 When this bit is set to 1, it disables this default behaviour.
+                                                                 When this bit is set to 1, it disables this default behavior.
                                                                  This configuration has lower priority compared to
                                                                  [DIMM_SEL_FORCE_INVERT]. */
         uint64_t mrs_bside_invert_disable : 1;/**< [ 56: 56](R/W) When set, the command decoder cancels the auto inversion of
@@ -4561,7 +4576,7 @@ typedef union
                                                                  the DDR4 RCD. */
         uint64_t dimm_sel_invert_off   : 1;  /**< [ 55: 55](R/W) During coalesce_address_mode, the default logic would be to invert
                                                                  the pbank bit whenever NXM[MEM_MSB_D1_R0] > NXM[MEM_MSB_D0_R0].
-                                                                 When this bit is set to 1, it disables this default behaviour.
+                                                                 When this bit is set to 1, it disables this default behavior.
                                                                  This configuration has lower priority compared to
                                                                  [DIMM_SEL_FORCE_INVERT]. */
         uint64_t dimm_sel_force_invert : 1;  /**< [ 54: 54](R/W) When set to 1, this bit forces the pbank bit to be inverted
@@ -4777,7 +4792,7 @@ typedef union
                                                                  than DIMM0. This bit has priority over [DIMM_SEL_INVERT_OFF]. */
         uint64_t dimm_sel_invert_off   : 1;  /**< [ 55: 55](R/W) During coalesce_address_mode, the default logic would be to invert
                                                                  the pbank bit whenever NXM[MEM_MSB_D1_R0] > NXM[MEM_MSB_D0_R0].
-                                                                 When this bit is set to 1, it disables this default behaviour.
+                                                                 When this bit is set to 1, it disables this default behavior.
                                                                  This configuration has lower priority compared to
                                                                  [DIMM_SEL_FORCE_INVERT]. */
         uint64_t mrs_bside_invert_disable : 1;/**< [ 56: 56](R/W) When set, the command decoder cancels the auto inversion of
@@ -4837,7 +4852,7 @@ typedef union
                                                                  the DDR4 RCD. */
         uint64_t dimm_sel_invert_off   : 1;  /**< [ 55: 55](R/W) During coalesce_address_mode, the default logic would be to invert
                                                                  the pbank bit whenever NXM[MEM_MSB_D1_R0] > NXM[MEM_MSB_D0_R0].
-                                                                 When this bit is set to 1, it disables this default behaviour.
+                                                                 When this bit is set to 1, it disables this default behavior.
                                                                  This configuration has lower priority compared to
                                                                  [DIMM_SEL_FORCE_INVERT]. */
         uint64_t dimm_sel_force_invert : 1;  /**< [ 54: 54](R/W) When set to 1, this bit forces the pbank bit to be inverted
@@ -5055,7 +5070,7 @@ typedef union
                                                                  than DIMM0. This bit has priority over [DIMM_SEL_INVERT_OFF]. */
         uint64_t dimm_sel_invert_off   : 1;  /**< [ 55: 55](R/W) During coalesce_address_mode, the default logic would be to invert
                                                                  the pbank bit whenever NXM[MEM_MSB_D1_R0] > NXM[MEM_MSB_D0_R0].
-                                                                 When this bit is set to 1, it disables this default behaviour.
+                                                                 When this bit is set to 1, it disables this default behavior.
                                                                  This configuration has lower priority compared to
                                                                  [DIMM_SEL_FORCE_INVERT]. */
         uint64_t mrs_bside_invert_disable : 1;/**< [ 56: 56](R/W) When set, the command decoder cancels the auto inversion of
@@ -10866,7 +10881,7 @@ typedef union
         uint64_t reserved_27_63        : 37;
         uint64_t lrank_sel             : 3;  /**< [ 26: 24](RO) Reserved. */
         uint64_t skip_issue_security   : 1;  /**< [ 23: 23](R/W) Personality bit for the PPR sequence. When set, this field forces the sequence to skip
-                                                                 issuing four consecutive MR0 commands that suppliy the security key. */
+                                                                 issuing four consecutive MR0 commands that supply the security key. */
         uint64_t sppr                  : 1;  /**< [ 22: 22](R/W) Personality bit for the PPR sequence. When set, this field forces the sequence to run
                                                                  the soft PPR mode. */
         uint64_t tpgm                  : 10; /**< [ 21: 12](R/W) Indicates the programming time (tPGM) constraint used when running PPR sequence.
@@ -10921,7 +10936,7 @@ typedef union
         uint64_t sppr                  : 1;  /**< [ 22: 22](R/W) Personality bit for the PPR sequence. When set, this field forces the sequence to run
                                                                  the soft PPR mode. */
         uint64_t skip_issue_security   : 1;  /**< [ 23: 23](R/W) Personality bit for the PPR sequence. When set, this field forces the sequence to skip
-                                                                 issuing four consecutive MR0 commands that suppliy the security key. */
+                                                                 issuing four consecutive MR0 commands that supply the security key. */
         uint64_t lrank_sel             : 3;  /**< [ 26: 24](RO) Reserved. */
         uint64_t reserved_27_63        : 37;
 #endif /* Word 0 - End */
@@ -10933,7 +10948,7 @@ typedef union
         uint64_t lrank_sel             : 3;  /**< [ 26: 24](R/W) Selects which logical rank to perform the post package repair sequence.
                                                                  Package ranks are selected by LMC()_MR_MPR_CTL[MR_WR_RANK]. */
         uint64_t skip_issue_security   : 1;  /**< [ 23: 23](R/W) Personality bit for the PPR sequence. When set, this field forces the sequence to skip
-                                                                 issuing four consecutive MR0 commands that suppliy the security key. */
+                                                                 issuing four consecutive MR0 commands that supply the security key. */
         uint64_t sppr                  : 1;  /**< [ 22: 22](R/W) Personality bit for the PPR sequence. When set, this field forces the sequence to run
                                                                  the soft PPR mode. */
         uint64_t tpgm                  : 10; /**< [ 21: 12](R/W) Indicates the programming time (tPGM) constraint used when running PPR sequence.
@@ -10988,7 +11003,7 @@ typedef union
         uint64_t sppr                  : 1;  /**< [ 22: 22](R/W) Personality bit for the PPR sequence. When set, this field forces the sequence to run
                                                                  the soft PPR mode. */
         uint64_t skip_issue_security   : 1;  /**< [ 23: 23](R/W) Personality bit for the PPR sequence. When set, this field forces the sequence to skip
-                                                                 issuing four consecutive MR0 commands that suppliy the security key. */
+                                                                 issuing four consecutive MR0 commands that supply the security key. */
         uint64_t lrank_sel             : 3;  /**< [ 26: 24](R/W) Selects which logical rank to perform the post package repair sequence.
                                                                  Package ranks are selected by LMC()_MR_MPR_CTL[MR_WR_RANK]. */
         uint64_t reserved_27_63        : 37;
@@ -12139,7 +12154,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_50_63        : 14;
-        uint64_t w2r_l_init_ext        : 1;  /**< [ 49: 49](R/W/H) A 1-bit extenstion to the [W2R_L_INIT] register. */
+        uint64_t w2r_l_init_ext        : 1;  /**< [ 49: 49](R/W/H) A 1-bit extension to the [W2R_L_INIT] register. */
         uint64_t w2r_init_ext          : 1;  /**< [ 48: 48](R/W/H) A 1-bit extension to the [W2R_INIT] register. */
         uint64_t w2w_l_init            : 6;  /**< [ 47: 42](R/W/H) Write-to-write spacing control for back-to-back write followed by write cache block
                                                                  accesses to the same rank and DIMM, and same BG for DDR4. */
@@ -12175,7 +12190,7 @@ typedef union
         uint64_t w2w_l_init            : 6;  /**< [ 47: 42](R/W/H) Write-to-write spacing control for back-to-back write followed by write cache block
                                                                  accesses to the same rank and DIMM, and same BG for DDR4. */
         uint64_t w2r_init_ext          : 1;  /**< [ 48: 48](R/W/H) A 1-bit extension to the [W2R_INIT] register. */
-        uint64_t w2r_l_init_ext        : 1;  /**< [ 49: 49](R/W/H) A 1-bit extenstion to the [W2R_L_INIT] register. */
+        uint64_t w2r_l_init_ext        : 1;  /**< [ 49: 49](R/W/H) A 1-bit extension to the [W2R_L_INIT] register. */
         uint64_t reserved_50_63        : 14;
 #endif /* Word 0 - End */
     } s;

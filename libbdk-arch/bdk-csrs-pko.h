@@ -1349,7 +1349,7 @@ union bdk_pko_send_hdr_s
         uint64_t total                 : 16; /**< [ 15:  0] The number of bytes that PKO will fetch from memory and immediate subdescriptors
                                                                  to create the outgoing packet. Also the size in bytes of the outgoing packet that
                                                                  PKO creates, excluding zero pad (if any) and outside FCS bytes (if any). Must
-                                                                 be greater than 0 and not exceed 2^16 - 8 bytes (65528 bytes). PKO or an interface may
+                                                                 be greater than 0 and not exceed 2^16 - 16 bytes (65520 bytes). PKO or an interface may
                                                                  append outside FCS to a packet. PKO appends outside FCS to the packet when
                                                                  PKO_MAC()_CFG[FCS_ENA] is set, and zero pads (when necessary, to force the pre-outside-FCS
                                                                  packet to be at least PKO_PDM_CFG[PKO_PAD_MINLEN] bytes) when PKO_MAC()_CFG[MIN_PAD_ENA]
@@ -1368,7 +1368,7 @@ union bdk_pko_send_hdr_s
         uint64_t total                 : 16; /**< [ 15:  0] The number of bytes that PKO will fetch from memory and immediate subdescriptors
                                                                  to create the outgoing packet. Also the size in bytes of the outgoing packet that
                                                                  PKO creates, excluding zero pad (if any) and outside FCS bytes (if any). Must
-                                                                 be greater than 0 and not exceed 2^16 - 8 bytes (65528 bytes). PKO or an interface may
+                                                                 be greater than 0 and not exceed 2^16 - 16 bytes (65520 bytes). PKO or an interface may
                                                                  append outside FCS to a packet. PKO appends outside FCS to the packet when
                                                                  PKO_MAC()_CFG[FCS_ENA] is set, and zero pads (when necessary, to force the pre-outside-FCS
                                                                  packet to be at least PKO_PDM_CFG[PKO_PAD_MINLEN] bytes) when PKO_MAC()_CFG[MIN_PAD_ENA]

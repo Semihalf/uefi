@@ -1044,7 +1044,7 @@ union bdk_ddf_res_find_s
                                                                  Will be 0x00 for DDF_OP_E::FABS_SET. */
         uint64_t nest                  : 2;  /**< [ 23: 22] Hit nest number. Set to DDF_INST_FIND_S[NEST] for FABS_SET. Indicates selected nest number
                                                                  for FIND, FIND_SET, FIND_INS, FIND_DEL, FEMPTY_INS when [HITP] or [HITS] != 0x0, else
-                                                                 clear. Unpredictable unless [COMPCODE] is DDF_COMP_E::GOOD. */
+                                                                 clear. Unpredictable unless [COMPCODE] equals DDF_COMP_E::GOOD. */
         uint64_t reserved_17_21        : 5;
         uint64_t doneint               : 1;  /**< [ 16: 16] Done interrupt. This bit is copied from the corresponding instruction's
                                                                  DDF_INST_FIND_S[DONEINT]. */
@@ -1074,7 +1074,7 @@ union bdk_ddf_res_find_s
         uint64_t reserved_17_21        : 5;
         uint64_t nest                  : 2;  /**< [ 23: 22] Hit nest number. Set to DDF_INST_FIND_S[NEST] for FABS_SET. Indicates selected nest number
                                                                  for FIND, FIND_SET, FIND_INS, FIND_DEL, FEMPTY_INS when [HITP] or [HITS] != 0x0, else
-                                                                 clear. Unpredictable unless [COMPCODE] is DDF_COMP_E::GOOD. */
+                                                                 clear. Unpredictable unless [COMPCODE] equals DDF_COMP_E::GOOD. */
         uint64_t hitvict               : 8;  /**< [ 31: 24] Hit victim-ways. Bitmask of ways in which the item was found as a victim, else clear.
                                                                  For FIND_SET/FIND_INS/FIND_DEL/FEMPTY_INS a single bit in [HITP], [HITS] or [HITVIC] will
                                                                  be set indicating the set/inserted/deleted location.
