@@ -131,5 +131,6 @@ version:
 
 .PHONY: emu
 emu:
-	od -Ax -vtx1 -w1 target-bin/bdk.bin | cut -d " " -f 2 > thunder-emmc-ascii.img
+	od -Ax -vtx1 -w1 target-bin/bdk.bin | cut -d " " -f 2 -s > thunder-emmc-ascii.img
+	chmod g+rw thunder-emmc-ascii.img
 
