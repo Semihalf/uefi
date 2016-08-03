@@ -31,8 +31,20 @@ static int bdk_boot_ccpi_link(void)
             printf("CCPI: Link timeout\n");
             /* Reset on failure if we're using the watchdog */
             if (bdk_watchdog_is_running())
+            {
                 bdk_boot_status(BDK_BOOT_STATUS_REQUEST_POWER_CYCLE);
-            return -1;
+                return -1;
+            }
+            else
+            {
+                bdk_warn("\n");
+                bdk_warn("********************************************************\n");
+                bdk_warn("* CCPI initialization failed with two nodes required.\n");
+                bdk_warn("* Boot suspended. A full power cycle is recommended.\n");
+                bdk_warn("********************************************************\n");
+                bdk_warn("\n");
+                bdk_fatal("CCPI failed required initialization\n");
+            }
         }
         else /* fail case for 'auto' setting */
         {
