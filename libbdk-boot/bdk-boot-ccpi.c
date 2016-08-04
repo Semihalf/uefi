@@ -14,7 +14,10 @@ static int bdk_boot_ccpi_link(void)
 
     /* Skip CCPI link init in Asim */
     if (bdk_is_platform(BDK_PLATFORM_ASIM))
+    {
+        bdk_config_set_int(0, BDK_CONFIG_MULTI_NODE);
         return -1;
+    }
 
     BDK_TRACE(INIT, "Initializing CCPI links\n");
     int status = __bdk_init_ccpi_links(0);
