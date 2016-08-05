@@ -119,7 +119,7 @@ const char* bdk_config_get_help(bdk_config_t cfg_item)
             "      BDK-CONFIG-BOOT-NEXT-STAGE-INIT=/fatfs/cortina-app.bin",
     [BDK_CONFIG_TRACE] =
             "BDK trace level. This is a bitmask of the enumeration defined in\n"
-            "bdk-trace.h. Each bit turns on tracing of a specific BDK\n"
+            "bdk-warn.h. Each bit turns on tracing of a specific BDK\n"
             "component.",
     /* Chip feature items */
     [BDK_CONFIG_MULTI_NODE] =
