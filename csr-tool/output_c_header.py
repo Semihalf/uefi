@@ -251,10 +251,7 @@ def writeStruct(out, arch, struct, title="Structure"):
                 out.write(" *\n")
     out.write(" */\n")
     struct_name = (PREFIX + struct["name"]).replace("#", "X").lower()
-    if title.startswith("Reg"):
-        out.write("typedef union\n")
-    else:
-        out.write("union %s\n" % struct_name)
+    out.write("union %s\n" % struct_name)
     out.write("{\n")
     width = csr_utils.getSizeBits(struct, multipleOf=32)
     if width % 64 == 0:
@@ -299,10 +296,9 @@ def writeStruct(out, arch, struct, title="Structure"):
             out.write("    {\n")
             out.write(struct_chip)
             out.write("    } %s;\n" % chip.lower())
+    out.write("};\n")
     if title.startswith("Reg"):
-        out.write("} %s_t;\n" % struct_name)
-    else:
-        out.write("};\n")
+        out.write("typedef union %s %s_t;\n" % (struct_name, struct_name))
 
 #
 # Write a single Register out to a header
