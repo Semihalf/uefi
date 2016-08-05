@@ -1495,7 +1495,7 @@ int __bdk_init_ccpi_connection(int is_master, uint64_t gbaud, int ccpi_trace)
             if (tx_swing != -1)
                 lstate->init_main = tx_swing;
 
-            int tx_premptap = bdk_config_get_int(BDK_CONFIG_QLM_TUNING_TX_PREMPTAP, node + 1, qlm, lane);
+            int tx_premptap = bdk_config_get_int(BDK_CONFIG_QLM_TUNING_TX_PREMPTAP, node, qlm, lane);
             if (tx_premptap != -1)
             {
                 lstate->init_post = tx_premptap >> 4;
