@@ -85,7 +85,7 @@
  *
  * UART Component Identification Register 0
  */
-typedef union
+union bdk_uaax_cidr0
 {
     uint32_t u;
     struct bdk_uaax_cidr0_s
@@ -99,7 +99,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_uaax_cidr0_s cn; */
-} bdk_uaax_cidr0_t;
+};
+typedef union bdk_uaax_cidr0 bdk_uaax_cidr0_t;
 
 static inline uint64_t BDK_UAAX_CIDR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_UAAX_CIDR0(unsigned long a)
@@ -125,7 +126,7 @@ static inline uint64_t BDK_UAAX_CIDR0(unsigned long a)
  *
  * UART Component Identification Register 1
  */
-typedef union
+union bdk_uaax_cidr1
 {
     uint32_t u;
     struct bdk_uaax_cidr1_s
@@ -139,7 +140,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_uaax_cidr1_s cn; */
-} bdk_uaax_cidr1_t;
+};
+typedef union bdk_uaax_cidr1 bdk_uaax_cidr1_t;
 
 static inline uint64_t BDK_UAAX_CIDR1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_UAAX_CIDR1(unsigned long a)
@@ -165,7 +167,7 @@ static inline uint64_t BDK_UAAX_CIDR1(unsigned long a)
  *
  * UART Component Identification Register 2
  */
-typedef union
+union bdk_uaax_cidr2
 {
     uint32_t u;
     struct bdk_uaax_cidr2_s
@@ -179,7 +181,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_uaax_cidr2_s cn; */
-} bdk_uaax_cidr2_t;
+};
+typedef union bdk_uaax_cidr2 bdk_uaax_cidr2_t;
 
 static inline uint64_t BDK_UAAX_CIDR2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_UAAX_CIDR2(unsigned long a)
@@ -205,7 +208,7 @@ static inline uint64_t BDK_UAAX_CIDR2(unsigned long a)
  *
  * UART Component Identification Register 3
  */
-typedef union
+union bdk_uaax_cidr3
 {
     uint32_t u;
     struct bdk_uaax_cidr3_s
@@ -219,7 +222,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_uaax_cidr3_s cn; */
-} bdk_uaax_cidr3_t;
+};
+typedef union bdk_uaax_cidr3 bdk_uaax_cidr3_t;
 
 static inline uint64_t BDK_UAAX_CIDR3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_UAAX_CIDR3(unsigned long a)
@@ -245,7 +249,7 @@ static inline uint64_t BDK_UAAX_CIDR3(unsigned long a)
  *
  * UART Control Register
  */
-typedef union
+union bdk_uaax_cr
 {
     uint32_t u;
     struct bdk_uaax_cr_s
@@ -332,7 +336,8 @@ typedef union
         uint32_t reserved_16_31        : 16;
 #endif /* Word 0 - End */
     } cn;
-} bdk_uaax_cr_t;
+};
+typedef union bdk_uaax_cr bdk_uaax_cr_t;
 
 static inline uint64_t BDK_UAAX_CR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_UAAX_CR(unsigned long a)
@@ -360,7 +365,7 @@ static inline uint64_t BDK_UAAX_CR(unsigned long a)
  * Writing to this register pushes data to the FIFO for transmission. Reading it retrieves
  * received data from the receive FIFO.
  */
-typedef union
+union bdk_uaax_dr
 {
     uint32_t u;
     struct bdk_uaax_dr_s
@@ -384,7 +389,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_uaax_dr_s cn; */
-} bdk_uaax_dr_t;
+};
+typedef union bdk_uaax_dr bdk_uaax_dr_t;
 
 static inline uint64_t BDK_UAAX_DR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_UAAX_DR(unsigned long a)
@@ -410,7 +416,7 @@ static inline uint64_t BDK_UAAX_DR(unsigned long a)
  *
  * UART Fractional Baud Rate Register
  */
-typedef union
+union bdk_uaax_fbrd
 {
     uint32_t u;
     struct bdk_uaax_fbrd_s
@@ -463,7 +469,8 @@ typedef union
     } cn81xx;
     /* struct bdk_uaax_fbrd_s cn88xx; */
     /* struct bdk_uaax_fbrd_cn81xx cn83xx; */
-} bdk_uaax_fbrd_t;
+};
+typedef union bdk_uaax_fbrd bdk_uaax_fbrd_t;
 
 static inline uint64_t BDK_UAAX_FBRD(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_UAAX_FBRD(unsigned long a)
@@ -489,7 +496,7 @@ static inline uint64_t BDK_UAAX_FBRD(unsigned long a)
  *
  * UART Flag Register
  */
-typedef union
+union bdk_uaax_fr
 {
     uint32_t u;
     struct bdk_uaax_fr_s
@@ -519,7 +526,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_uaax_fr_s cn; */
-} bdk_uaax_fr_t;
+};
+typedef union bdk_uaax_fr bdk_uaax_fr_t;
 
 static inline uint64_t BDK_UAAX_FR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_UAAX_FR(unsigned long a)
@@ -545,7 +553,7 @@ static inline uint64_t BDK_UAAX_FR(unsigned long a)
  *
  * UART Integer Baud Rate Register
  */
-typedef union
+union bdk_uaax_ibrd
 {
     uint32_t u;
     struct bdk_uaax_ibrd_s
@@ -570,7 +578,8 @@ typedef union
     } cn81xx;
     /* struct bdk_uaax_ibrd_s cn88xx; */
     /* struct bdk_uaax_ibrd_cn81xx cn83xx; */
-} bdk_uaax_ibrd_t;
+};
+typedef union bdk_uaax_ibrd bdk_uaax_ibrd_t;
 
 static inline uint64_t BDK_UAAX_IBRD(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_UAAX_IBRD(unsigned long a)
@@ -597,7 +606,7 @@ static inline uint64_t BDK_UAAX_IBRD(unsigned long a)
  * UART Interrupt Clear Register
  * Read value is zero for this register, not the interrupt state.
  */
-typedef union
+union bdk_uaax_icr
 {
     uint32_t u;
     struct bdk_uaax_icr_s
@@ -631,7 +640,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_uaax_icr_s cn; */
-} bdk_uaax_icr_t;
+};
+typedef union bdk_uaax_icr bdk_uaax_icr_t;
 
 static inline uint64_t BDK_UAAX_ICR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_UAAX_ICR(unsigned long a)
@@ -657,7 +667,7 @@ static inline uint64_t BDK_UAAX_ICR(unsigned long a)
  *
  * UART Interrupt FIFO Level Select Register
  */
-typedef union
+union bdk_uaax_ifls
 {
     uint32_t u;
     struct bdk_uaax_ifls_s
@@ -697,7 +707,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_uaax_ifls_s cn; */
-} bdk_uaax_ifls_t;
+};
+typedef union bdk_uaax_ifls bdk_uaax_ifls_t;
 
 static inline uint64_t BDK_UAAX_IFLS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_UAAX_IFLS(unsigned long a)
@@ -723,7 +734,7 @@ static inline uint64_t BDK_UAAX_IFLS(unsigned long a)
  *
  * UART Interrupt Mask Set/Clear Register
  */
-typedef union
+union bdk_uaax_imsc
 {
     uint32_t u;
     struct bdk_uaax_imsc_s
@@ -757,7 +768,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_uaax_imsc_s cn; */
-} bdk_uaax_imsc_t;
+};
+typedef union bdk_uaax_imsc bdk_uaax_imsc_t;
 
 static inline uint64_t BDK_UAAX_IMSC(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_UAAX_IMSC(unsigned long a)
@@ -783,7 +795,7 @@ static inline uint64_t BDK_UAAX_IMSC(unsigned long a)
  *
  * UART Line Control Register
  */
-typedef union
+union bdk_uaax_lcr_h
 {
     uint32_t u;
     struct bdk_uaax_lcr_h_s
@@ -821,7 +833,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_uaax_lcr_h_s cn; */
-} bdk_uaax_lcr_h_t;
+};
+typedef union bdk_uaax_lcr_h bdk_uaax_lcr_h_t;
 
 static inline uint64_t BDK_UAAX_LCR_H(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_UAAX_LCR_H(unsigned long a)
@@ -851,7 +864,7 @@ static inline uint64_t BDK_UAAX_LCR_H(unsigned long a)
  * Note this register was not present in SBSA 2.3, but is referenced
  * by the Linux driver, so has been defined here.
  */
-typedef union
+union bdk_uaax_mis
 {
     uint32_t u;
     struct bdk_uaax_mis_s
@@ -885,7 +898,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_uaax_mis_s cn; */
-} bdk_uaax_mis_t;
+};
+typedef union bdk_uaax_mis bdk_uaax_mis_t;
 
 static inline uint64_t BDK_UAAX_MIS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_UAAX_MIS(unsigned long a)
@@ -912,7 +926,7 @@ static inline uint64_t BDK_UAAX_MIS(unsigned long a)
  * UART MSI-X Pending Bit Array Registers
  * This register is the MSI-X PBA table, the bit number is indexed by the UAA_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_uaax_msix_pbax
 {
     uint64_t u;
     struct bdk_uaax_msix_pbax_s
@@ -926,7 +940,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_uaax_msix_pbax_s cn; */
-} bdk_uaax_msix_pbax_t;
+};
+typedef union bdk_uaax_msix_pbax bdk_uaax_msix_pbax_t;
 
 static inline uint64_t BDK_UAAX_MSIX_PBAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_UAAX_MSIX_PBAX(unsigned long a, unsigned long b)
@@ -953,7 +968,7 @@ static inline uint64_t BDK_UAAX_MSIX_PBAX(unsigned long a, unsigned long b)
  * UART MSI-X Vector Table Address Registers
  * This register is the MSI-X vector table, indexed by the UAA_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_uaax_msix_vecx_addr
 {
     uint64_t u;
     struct bdk_uaax_msix_vecx_addr_s
@@ -1018,7 +1033,8 @@ typedef union
     } cn81xx;
     /* struct bdk_uaax_msix_vecx_addr_s cn88xx; */
     /* struct bdk_uaax_msix_vecx_addr_cn81xx cn83xx; */
-} bdk_uaax_msix_vecx_addr_t;
+};
+typedef union bdk_uaax_msix_vecx_addr bdk_uaax_msix_vecx_addr_t;
 
 static inline uint64_t BDK_UAAX_MSIX_VECX_ADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_UAAX_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
@@ -1045,7 +1061,7 @@ static inline uint64_t BDK_UAAX_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
  * UART MSI-X Vector Table Control and Data Registers
  * This register is the MSI-X vector table, indexed by the UAA_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_uaax_msix_vecx_ctl
 {
     uint64_t u;
     struct bdk_uaax_msix_vecx_ctl_s
@@ -1063,7 +1079,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_uaax_msix_vecx_ctl_s cn; */
-} bdk_uaax_msix_vecx_ctl_t;
+};
+typedef union bdk_uaax_msix_vecx_ctl bdk_uaax_msix_vecx_ctl_t;
 
 static inline uint64_t BDK_UAAX_MSIX_VECX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_UAAX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
@@ -1089,7 +1106,7 @@ static inline uint64_t BDK_UAAX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
  *
  * UART Component Identification Register 0
  */
-typedef union
+union bdk_uaax_pidr0
 {
     uint32_t u;
     struct bdk_uaax_pidr0_s
@@ -1103,7 +1120,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_uaax_pidr0_s cn; */
-} bdk_uaax_pidr0_t;
+};
+typedef union bdk_uaax_pidr0 bdk_uaax_pidr0_t;
 
 static inline uint64_t BDK_UAAX_PIDR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_UAAX_PIDR0(unsigned long a)
@@ -1129,7 +1147,7 @@ static inline uint64_t BDK_UAAX_PIDR0(unsigned long a)
  *
  * UART Peripheral Identification Register 1
  */
-typedef union
+union bdk_uaax_pidr1
 {
     uint32_t u;
     struct bdk_uaax_pidr1_s
@@ -1145,7 +1163,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_uaax_pidr1_s cn; */
-} bdk_uaax_pidr1_t;
+};
+typedef union bdk_uaax_pidr1 bdk_uaax_pidr1_t;
 
 static inline uint64_t BDK_UAAX_PIDR1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_UAAX_PIDR1(unsigned long a)
@@ -1171,7 +1190,7 @@ static inline uint64_t BDK_UAAX_PIDR1(unsigned long a)
  *
  * UART Peripheral Identification Register 2
  */
-typedef union
+union bdk_uaax_pidr2
 {
     uint32_t u;
     struct bdk_uaax_pidr2_s
@@ -1191,7 +1210,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_uaax_pidr2_s cn; */
-} bdk_uaax_pidr2_t;
+};
+typedef union bdk_uaax_pidr2 bdk_uaax_pidr2_t;
 
 static inline uint64_t BDK_UAAX_PIDR2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_UAAX_PIDR2(unsigned long a)
@@ -1217,7 +1237,7 @@ static inline uint64_t BDK_UAAX_PIDR2(unsigned long a)
  *
  * UART Peripheral Identification Register 3
  */
-typedef union
+union bdk_uaax_pidr3
 {
     uint32_t u;
     struct bdk_uaax_pidr3_s
@@ -1235,7 +1255,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_uaax_pidr3_s cn; */
-} bdk_uaax_pidr3_t;
+};
+typedef union bdk_uaax_pidr3 bdk_uaax_pidr3_t;
 
 static inline uint64_t BDK_UAAX_PIDR3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_UAAX_PIDR3(unsigned long a)
@@ -1261,7 +1282,7 @@ static inline uint64_t BDK_UAAX_PIDR3(unsigned long a)
  *
  * UART Peripheral Identification Register 4
  */
-typedef union
+union bdk_uaax_pidr4
 {
     uint32_t u;
     struct bdk_uaax_pidr4_s
@@ -1273,7 +1294,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_uaax_pidr4_s cn; */
-} bdk_uaax_pidr4_t;
+};
+typedef union bdk_uaax_pidr4 bdk_uaax_pidr4_t;
 
 static inline uint64_t BDK_UAAX_PIDR4(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_UAAX_PIDR4(unsigned long a)
@@ -1299,7 +1321,7 @@ static inline uint64_t BDK_UAAX_PIDR4(unsigned long a)
  *
  * UART Peripheral Identification Register 5
  */
-typedef union
+union bdk_uaax_pidr5
 {
     uint32_t u;
     struct bdk_uaax_pidr5_s
@@ -1311,7 +1333,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_uaax_pidr5_s cn; */
-} bdk_uaax_pidr5_t;
+};
+typedef union bdk_uaax_pidr5 bdk_uaax_pidr5_t;
 
 static inline uint64_t BDK_UAAX_PIDR5(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_UAAX_PIDR5(unsigned long a)
@@ -1337,7 +1360,7 @@ static inline uint64_t BDK_UAAX_PIDR5(unsigned long a)
  *
  * UART Peripheral Identification Register 6
  */
-typedef union
+union bdk_uaax_pidr6
 {
     uint32_t u;
     struct bdk_uaax_pidr6_s
@@ -1349,7 +1372,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_uaax_pidr6_s cn; */
-} bdk_uaax_pidr6_t;
+};
+typedef union bdk_uaax_pidr6 bdk_uaax_pidr6_t;
 
 static inline uint64_t BDK_UAAX_PIDR6(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_UAAX_PIDR6(unsigned long a)
@@ -1375,7 +1399,7 @@ static inline uint64_t BDK_UAAX_PIDR6(unsigned long a)
  *
  * UART Peripheral Identification Register 7
  */
-typedef union
+union bdk_uaax_pidr7
 {
     uint32_t u;
     struct bdk_uaax_pidr7_s
@@ -1387,7 +1411,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_uaax_pidr7_s cn; */
-} bdk_uaax_pidr7_t;
+};
+typedef union bdk_uaax_pidr7 bdk_uaax_pidr7_t;
 
 static inline uint64_t BDK_UAAX_PIDR7(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_UAAX_PIDR7(unsigned long a)
@@ -1414,7 +1439,7 @@ static inline uint64_t BDK_UAAX_PIDR7(unsigned long a)
  * UART Raw Interrupt Status Register
  * Indicates state of interrupts before masking.
  */
-typedef union
+union bdk_uaax_ris
 {
     uint32_t u;
     struct bdk_uaax_ris_s
@@ -1448,7 +1473,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_uaax_ris_s cn; */
-} bdk_uaax_ris_t;
+};
+typedef union bdk_uaax_ris bdk_uaax_ris_t;
 
 static inline uint64_t BDK_UAAX_RIS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_UAAX_RIS(unsigned long a)
@@ -1474,7 +1500,7 @@ static inline uint64_t BDK_UAAX_RIS(unsigned long a)
  *
  * UART Receive Status Register/Error Clear Register
  */
-typedef union
+union bdk_uaax_rsr_ecr
 {
     uint32_t u;
     struct bdk_uaax_rsr_ecr_s
@@ -1498,7 +1524,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_uaax_rsr_ecr_s cn; */
-} bdk_uaax_rsr_ecr_t;
+};
+typedef union bdk_uaax_rsr_ecr bdk_uaax_rsr_ecr_t;
 
 static inline uint64_t BDK_UAAX_RSR_ECR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_UAAX_RSR_ECR(unsigned long a)
@@ -1524,7 +1551,7 @@ static inline uint64_t BDK_UAAX_RSR_ECR(unsigned long a)
  *
  * UART UCTL Control Register
  */
-typedef union
+union bdk_uaax_uctl_ctl
 {
     uint64_t u;
     struct bdk_uaax_uctl_ctl_s
@@ -1634,7 +1661,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_uaax_uctl_ctl_s cn; */
-} bdk_uaax_uctl_ctl_t;
+};
+typedef union bdk_uaax_uctl_ctl bdk_uaax_uctl_ctl_t;
 
 static inline uint64_t BDK_UAAX_UCTL_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_UAAX_UCTL_CTL(unsigned long a)
@@ -1661,7 +1689,7 @@ static inline uint64_t BDK_UAAX_UCTL_CTL(unsigned long a)
  * UART UCTL Spare Register 0
  * This register is a spare register. This register can be reset by NCB reset.
  */
-typedef union
+union bdk_uaax_uctl_spare0
 {
     uint64_t u;
     struct bdk_uaax_uctl_spare0_s
@@ -1673,7 +1701,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_uaax_uctl_spare0_s cn; */
-} bdk_uaax_uctl_spare0_t;
+};
+typedef union bdk_uaax_uctl_spare0 bdk_uaax_uctl_spare0_t;
 
 static inline uint64_t BDK_UAAX_UCTL_SPARE0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_UAAX_UCTL_SPARE0(unsigned long a)
@@ -1700,7 +1729,7 @@ static inline uint64_t BDK_UAAX_UCTL_SPARE0(unsigned long a)
  * UART UCTL Spare Register 1
  * This register is a spare register. This register can be reset by NCB reset.
  */
-typedef union
+union bdk_uaax_uctl_spare1
 {
     uint64_t u;
     struct bdk_uaax_uctl_spare1_s
@@ -1712,7 +1741,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_uaax_uctl_spare1_s cn; */
-} bdk_uaax_uctl_spare1_t;
+};
+typedef union bdk_uaax_uctl_spare1 bdk_uaax_uctl_spare1_t;
 
 static inline uint64_t BDK_UAAX_UCTL_SPARE1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_UAAX_UCTL_SPARE1(unsigned long a)

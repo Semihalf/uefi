@@ -135,7 +135,7 @@
  * SATA MSI-X Pending Bit Array Registers
  * This register is the MSI-X PBA table, the bit number is indexed by the SATA_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_satax_msix_pbax
 {
     uint64_t u;
     struct bdk_satax_msix_pbax_s
@@ -149,7 +149,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_satax_msix_pbax_s cn; */
-} bdk_satax_msix_pbax_t;
+};
+typedef union bdk_satax_msix_pbax bdk_satax_msix_pbax_t;
 
 static inline uint64_t BDK_SATAX_MSIX_PBAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_MSIX_PBAX(unsigned long a, unsigned long b)
@@ -176,7 +177,7 @@ static inline uint64_t BDK_SATAX_MSIX_PBAX(unsigned long a, unsigned long b)
  * SATA MSI-X Vector Table Address Registers
  * This register is the MSI-X vector table, indexed by the SATA_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_satax_msix_vecx_addr
 {
     uint64_t u;
     struct bdk_satax_msix_vecx_addr_s
@@ -276,7 +277,8 @@ typedef union
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_satax_msix_vecx_addr_t;
+};
+typedef union bdk_satax_msix_vecx_addr bdk_satax_msix_vecx_addr_t;
 
 static inline uint64_t BDK_SATAX_MSIX_VECX_ADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
@@ -305,7 +307,7 @@ static inline uint64_t BDK_SATAX_MSIX_VECX_ADDR(unsigned long a, unsigned long b
  * SATA MSI-X Vector Table Control and Data Registers
  * This register is the MSI-X vector table, indexed by the SATA_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_satax_msix_vecx_ctl
 {
     uint64_t u;
     struct bdk_satax_msix_vecx_ctl_s
@@ -323,7 +325,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_satax_msix_vecx_ctl_s cn; */
-} bdk_satax_msix_vecx_ctl_t;
+};
+typedef union bdk_satax_msix_vecx_ctl bdk_satax_msix_vecx_ctl_t;
 
 static inline uint64_t BDK_SATAX_MSIX_VECX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
@@ -361,7 +364,7 @@ static inline uint64_t BDK_SATAX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
  * Internal:
  * See DWC_ahsata databook v4.20a.
  */
-typedef union
+union bdk_satax_uahc_gbl_bistafr
 {
     uint32_t u;
     struct bdk_satax_uahc_gbl_bistafr_s
@@ -401,7 +404,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_satax_uahc_gbl_bistafr_s cn; */
-} bdk_satax_uahc_gbl_bistafr_t;
+};
+typedef union bdk_satax_uahc_gbl_bistafr bdk_satax_uahc_gbl_bistafr_t;
 
 static inline uint64_t BDK_SATAX_UAHC_GBL_BISTAFR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_GBL_BISTAFR(unsigned long a)
@@ -433,7 +437,7 @@ static inline uint64_t BDK_SATAX_UAHC_GBL_BISTAFR(unsigned long a)
  * Internal:
  * See DWC_ahsata databook v4.20a.
  */
-typedef union
+union bdk_satax_uahc_gbl_bistcr
 {
     uint32_t u;
     struct bdk_satax_uahc_gbl_bistcr_s
@@ -489,7 +493,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_satax_uahc_gbl_bistcr_s cn; */
-} bdk_satax_uahc_gbl_bistcr_t;
+};
+typedef union bdk_satax_uahc_gbl_bistcr bdk_satax_uahc_gbl_bistcr_t;
 
 static inline uint64_t BDK_SATAX_UAHC_GBL_BISTCR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_GBL_BISTCR(unsigned long a)
@@ -521,7 +526,7 @@ static inline uint64_t BDK_SATAX_UAHC_GBL_BISTCR(unsigned long a)
  * Internal:
  * See DWC_ahsata databook v4.20a.
  */
-typedef union
+union bdk_satax_uahc_gbl_bistdecr
 {
     uint32_t u;
     struct bdk_satax_uahc_gbl_bistdecr_s
@@ -533,7 +538,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_satax_uahc_gbl_bistdecr_s cn; */
-} bdk_satax_uahc_gbl_bistdecr_t;
+};
+typedef union bdk_satax_uahc_gbl_bistdecr bdk_satax_uahc_gbl_bistdecr_t;
 
 static inline uint64_t BDK_SATAX_UAHC_GBL_BISTDECR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_GBL_BISTDECR(unsigned long a)
@@ -565,7 +571,7 @@ static inline uint64_t BDK_SATAX_UAHC_GBL_BISTDECR(unsigned long a)
  * Internal:
  * See DWC_ahsata databook v4.20a.
  */
-typedef union
+union bdk_satax_uahc_gbl_bistfctr
 {
     uint32_t u;
     struct bdk_satax_uahc_gbl_bistfctr_s
@@ -577,7 +583,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_satax_uahc_gbl_bistfctr_s cn; */
-} bdk_satax_uahc_gbl_bistfctr_t;
+};
+typedef union bdk_satax_uahc_gbl_bistfctr bdk_satax_uahc_gbl_bistfctr_t;
 
 static inline uint64_t BDK_SATAX_UAHC_GBL_BISTFCTR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_GBL_BISTFCTR(unsigned long a)
@@ -605,7 +612,7 @@ static inline uint64_t BDK_SATAX_UAHC_GBL_BISTFCTR(unsigned long a)
  * Internal:
  * See DWC_ahsata databook v4.20a.
  */
-typedef union
+union bdk_satax_uahc_gbl_bistsr
 {
     uint32_t u;
     struct bdk_satax_uahc_gbl_bistsr_s
@@ -621,7 +628,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_satax_uahc_gbl_bistsr_s cn; */
-} bdk_satax_uahc_gbl_bistsr_t;
+};
+typedef union bdk_satax_uahc_gbl_bistsr bdk_satax_uahc_gbl_bistsr_t;
 
 static inline uint64_t BDK_SATAX_UAHC_GBL_BISTSR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_GBL_BISTSR(unsigned long a)
@@ -648,7 +656,7 @@ static inline uint64_t BDK_SATAX_UAHC_GBL_BISTSR(unsigned long a)
  * SATA AHCI HBA Capabilities Register
  * See AHCI specification v1.3 section 3.1.
  */
-typedef union
+union bdk_satax_uahc_gbl_cap
 {
     uint32_t u;
     struct bdk_satax_uahc_gbl_cap_s
@@ -700,7 +708,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_satax_uahc_gbl_cap_s cn; */
-} bdk_satax_uahc_gbl_cap_t;
+};
+typedef union bdk_satax_uahc_gbl_cap bdk_satax_uahc_gbl_cap_t;
 
 static inline uint64_t BDK_SATAX_UAHC_GBL_CAP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_GBL_CAP(unsigned long a)
@@ -727,7 +736,7 @@ static inline uint64_t BDK_SATAX_UAHC_GBL_CAP(unsigned long a)
  * SATA AHCI HBA Capabilities Extended Register
  * See AHCI specification v1.3 section 3.1.
  */
-typedef union
+union bdk_satax_uahc_gbl_cap2
 {
     uint32_t u;
     struct bdk_satax_uahc_gbl_cap2_s
@@ -751,7 +760,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_satax_uahc_gbl_cap2_s cn; */
-} bdk_satax_uahc_gbl_cap2_t;
+};
+typedef union bdk_satax_uahc_gbl_cap2 bdk_satax_uahc_gbl_cap2_t;
 
 static inline uint64_t BDK_SATAX_UAHC_GBL_CAP2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_GBL_CAP2(unsigned long a)
@@ -778,7 +788,7 @@ static inline uint64_t BDK_SATAX_UAHC_GBL_CAP2(unsigned long a)
  * SATA AHCI CCC Control Register
  * See AHCI specification v1.3 section 3.1.
  */
-typedef union
+union bdk_satax_uahc_gbl_ccc_ctl
 {
     uint32_t u;
     struct bdk_satax_uahc_gbl_ccc_ctl_s
@@ -798,7 +808,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_satax_uahc_gbl_ccc_ctl_s cn; */
-} bdk_satax_uahc_gbl_ccc_ctl_t;
+};
+typedef union bdk_satax_uahc_gbl_ccc_ctl bdk_satax_uahc_gbl_ccc_ctl_t;
 
 static inline uint64_t BDK_SATAX_UAHC_GBL_CCC_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_GBL_CCC_CTL(unsigned long a)
@@ -825,7 +836,7 @@ static inline uint64_t BDK_SATAX_UAHC_GBL_CCC_CTL(unsigned long a)
  * SATA AHCI CCC Ports Register
  * See AHCI specification v1.3 section 3.1.
  */
-typedef union
+union bdk_satax_uahc_gbl_ccc_ports
 {
     uint32_t u;
     struct bdk_satax_uahc_gbl_ccc_ports_s
@@ -839,7 +850,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_satax_uahc_gbl_ccc_ports_s cn; */
-} bdk_satax_uahc_gbl_ccc_ports_t;
+};
+typedef union bdk_satax_uahc_gbl_ccc_ports bdk_satax_uahc_gbl_ccc_ports_t;
 
 static inline uint64_t BDK_SATAX_UAHC_GBL_CCC_PORTS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_GBL_CCC_PORTS(unsigned long a)
@@ -866,7 +878,7 @@ static inline uint64_t BDK_SATAX_UAHC_GBL_CCC_PORTS(unsigned long a)
  * SATA AHCI Global HBA Control Register
  * See AHCI specification v1.3 section 3.1.
  */
-typedef union
+union bdk_satax_uahc_gbl_ghc
 {
     uint32_t u;
     struct bdk_satax_uahc_gbl_ghc_s
@@ -884,7 +896,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_satax_uahc_gbl_ghc_s cn; */
-} bdk_satax_uahc_gbl_ghc_t;
+};
+typedef union bdk_satax_uahc_gbl_ghc bdk_satax_uahc_gbl_ghc_t;
 
 static inline uint64_t BDK_SATAX_UAHC_GBL_GHC(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_GBL_GHC(unsigned long a)
@@ -912,7 +925,7 @@ static inline uint64_t BDK_SATAX_UAHC_GBL_GHC(unsigned long a)
  * Internal:
  * See DWC_ahsata databook v4.20a.
  */
-typedef union
+union bdk_satax_uahc_gbl_gparam1r
 {
     uint32_t u;
     struct bdk_satax_uahc_gbl_gparam1r_s
@@ -950,7 +963,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_satax_uahc_gbl_gparam1r_s cn; */
-} bdk_satax_uahc_gbl_gparam1r_t;
+};
+typedef union bdk_satax_uahc_gbl_gparam1r bdk_satax_uahc_gbl_gparam1r_t;
 
 static inline uint64_t BDK_SATAX_UAHC_GBL_GPARAM1R(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_GBL_GPARAM1R(unsigned long a)
@@ -978,7 +992,7 @@ static inline uint64_t BDK_SATAX_UAHC_GBL_GPARAM1R(unsigned long a)
  * Internal:
  * See DWC_ahsata databook v4.20a.
  */
-typedef union
+union bdk_satax_uahc_gbl_gparam2r
 {
     uint32_t u;
     struct bdk_satax_uahc_gbl_gparam2r_s
@@ -1016,7 +1030,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_satax_uahc_gbl_gparam2r_s cn; */
-} bdk_satax_uahc_gbl_gparam2r_t;
+};
+typedef union bdk_satax_uahc_gbl_gparam2r bdk_satax_uahc_gbl_gparam2r_t;
 
 static inline uint64_t BDK_SATAX_UAHC_GBL_GPARAM2R(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_GBL_GPARAM2R(unsigned long a)
@@ -1044,7 +1059,7 @@ static inline uint64_t BDK_SATAX_UAHC_GBL_GPARAM2R(unsigned long a)
  * Internal:
  * See DWC_ahsata databook v4.20a.
  */
-typedef union
+union bdk_satax_uahc_gbl_idr
 {
     uint32_t u;
     struct bdk_satax_uahc_gbl_idr_s
@@ -1056,7 +1071,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_satax_uahc_gbl_idr_s cn; */
-} bdk_satax_uahc_gbl_idr_t;
+};
+typedef union bdk_satax_uahc_gbl_idr bdk_satax_uahc_gbl_idr_t;
 
 static inline uint64_t BDK_SATAX_UAHC_GBL_IDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_GBL_IDR(unsigned long a)
@@ -1083,7 +1099,7 @@ static inline uint64_t BDK_SATAX_UAHC_GBL_IDR(unsigned long a)
  * SATA AHCI Interrupt Status Register
  * See AHCI specification v1.3 section 3.1.
  */
-typedef union
+union bdk_satax_uahc_gbl_is
 {
     uint32_t u;
     struct bdk_satax_uahc_gbl_is_s
@@ -1097,7 +1113,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_satax_uahc_gbl_is_s cn; */
-} bdk_satax_uahc_gbl_is_t;
+};
+typedef union bdk_satax_uahc_gbl_is bdk_satax_uahc_gbl_is_t;
 
 static inline uint64_t BDK_SATAX_UAHC_GBL_IS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_GBL_IS(unsigned long a)
@@ -1129,7 +1146,7 @@ static inline uint64_t BDK_SATAX_UAHC_GBL_IS(unsigned long a)
  * Internal:
  * See DWC_ahsata databook v4.20a.
  */
-typedef union
+union bdk_satax_uahc_gbl_oobr
 {
     uint32_t u;
     struct bdk_satax_uahc_gbl_oobr_s
@@ -1149,7 +1166,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_satax_uahc_gbl_oobr_s cn; */
-} bdk_satax_uahc_gbl_oobr_t;
+};
+typedef union bdk_satax_uahc_gbl_oobr bdk_satax_uahc_gbl_oobr_t;
 
 static inline uint64_t BDK_SATAX_UAHC_GBL_OOBR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_GBL_OOBR(unsigned long a)
@@ -1176,7 +1194,7 @@ static inline uint64_t BDK_SATAX_UAHC_GBL_OOBR(unsigned long a)
  * SATA AHCI Ports Implemented Register
  * See AHCI specification v1.3 section 3.1.
  */
-typedef union
+union bdk_satax_uahc_gbl_pi
 {
     uint32_t u;
     struct bdk_satax_uahc_gbl_pi_s
@@ -1190,7 +1208,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_satax_uahc_gbl_pi_s cn; */
-} bdk_satax_uahc_gbl_pi_t;
+};
+typedef union bdk_satax_uahc_gbl_pi bdk_satax_uahc_gbl_pi_t;
 
 static inline uint64_t BDK_SATAX_UAHC_GBL_PI(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_GBL_PI(unsigned long a)
@@ -1219,7 +1238,7 @@ static inline uint64_t BDK_SATAX_UAHC_GBL_PI(unsigned long a)
  * Internal:
  * See DWC_ahsata databook v4.20a.
  */
-typedef union
+union bdk_satax_uahc_gbl_pparamr
 {
     uint32_t u;
     struct bdk_satax_uahc_gbl_pparamr_s
@@ -1243,7 +1262,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_satax_uahc_gbl_pparamr_s cn; */
-} bdk_satax_uahc_gbl_pparamr_t;
+};
+typedef union bdk_satax_uahc_gbl_pparamr bdk_satax_uahc_gbl_pparamr_t;
 
 static inline uint64_t BDK_SATAX_UAHC_GBL_PPARAMR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_GBL_PPARAMR(unsigned long a)
@@ -1271,7 +1291,7 @@ static inline uint64_t BDK_SATAX_UAHC_GBL_PPARAMR(unsigned long a)
  * Internal:
  * See DWC_ahsata databook v4.20a.
  */
-typedef union
+union bdk_satax_uahc_gbl_testr
 {
     uint32_t u;
     struct bdk_satax_uahc_gbl_testr_s
@@ -1289,7 +1309,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_satax_uahc_gbl_testr_s cn; */
-} bdk_satax_uahc_gbl_testr_t;
+};
+typedef union bdk_satax_uahc_gbl_testr bdk_satax_uahc_gbl_testr_t;
 
 static inline uint64_t BDK_SATAX_UAHC_GBL_TESTR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_GBL_TESTR(unsigned long a)
@@ -1317,7 +1338,7 @@ static inline uint64_t BDK_SATAX_UAHC_GBL_TESTR(unsigned long a)
  * Internal:
  * See DWC_ahsata databook v4.20a.
  */
-typedef union
+union bdk_satax_uahc_gbl_timer1ms
 {
     uint32_t u;
     struct bdk_satax_uahc_gbl_timer1ms_s
@@ -1331,7 +1352,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_satax_uahc_gbl_timer1ms_s cn; */
-} bdk_satax_uahc_gbl_timer1ms_t;
+};
+typedef union bdk_satax_uahc_gbl_timer1ms bdk_satax_uahc_gbl_timer1ms_t;
 
 static inline uint64_t BDK_SATAX_UAHC_GBL_TIMER1MS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_GBL_TIMER1MS(unsigned long a)
@@ -1359,7 +1381,7 @@ static inline uint64_t BDK_SATAX_UAHC_GBL_TIMER1MS(unsigned long a)
  * Internal:
  * See DWC_ahsata databook v4.20a.
  */
-typedef union
+union bdk_satax_uahc_gbl_versionr
 {
     uint32_t u;
     struct bdk_satax_uahc_gbl_versionr_s
@@ -1371,7 +1393,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_satax_uahc_gbl_versionr_s cn; */
-} bdk_satax_uahc_gbl_versionr_t;
+};
+typedef union bdk_satax_uahc_gbl_versionr bdk_satax_uahc_gbl_versionr_t;
 
 static inline uint64_t BDK_SATAX_UAHC_GBL_VERSIONR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_GBL_VERSIONR(unsigned long a)
@@ -1398,7 +1421,7 @@ static inline uint64_t BDK_SATAX_UAHC_GBL_VERSIONR(unsigned long a)
  * SATA AHCI Version Register
  * See AHCI specification v1.3 section 3.1.
  */
-typedef union
+union bdk_satax_uahc_gbl_vs
 {
     uint32_t u;
     struct bdk_satax_uahc_gbl_vs_s
@@ -1412,7 +1435,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_satax_uahc_gbl_vs_s cn; */
-} bdk_satax_uahc_gbl_vs_t;
+};
+typedef union bdk_satax_uahc_gbl_vs bdk_satax_uahc_gbl_vs_t;
 
 static inline uint64_t BDK_SATAX_UAHC_GBL_VS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_GBL_VS(unsigned long a)
@@ -1440,7 +1464,7 @@ static inline uint64_t BDK_SATAX_UAHC_GBL_VS(unsigned long a)
  * Internal:
  * See DWC_ahsata databook v4.20a.
  */
-typedef union
+union bdk_satax_uahc_p0_ci
 {
     uint32_t u;
     struct bdk_satax_uahc_p0_ci_s
@@ -1452,7 +1476,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_satax_uahc_p0_ci_s cn; */
-} bdk_satax_uahc_p0_ci_t;
+};
+typedef union bdk_satax_uahc_p0_ci bdk_satax_uahc_p0_ci_t;
 
 static inline uint64_t BDK_SATAX_UAHC_P0_CI(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_P0_CI(unsigned long a)
@@ -1480,7 +1505,7 @@ static inline uint64_t BDK_SATAX_UAHC_P0_CI(unsigned long a)
  * Internal:
  * See DWC_ahsata databook v4.20a.
  */
-typedef union
+union bdk_satax_uahc_p0_clb
 {
     uint64_t u;
     struct bdk_satax_uahc_p0_clb_s
@@ -1494,7 +1519,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_satax_uahc_p0_clb_s cn; */
-} bdk_satax_uahc_p0_clb_t;
+};
+typedef union bdk_satax_uahc_p0_clb bdk_satax_uahc_p0_clb_t;
 
 static inline uint64_t BDK_SATAX_UAHC_P0_CLB(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_P0_CLB(unsigned long a)
@@ -1522,7 +1548,7 @@ static inline uint64_t BDK_SATAX_UAHC_P0_CLB(unsigned long a)
  * Internal:
  * See DWC_ahsata databook v4.20a.
  */
-typedef union
+union bdk_satax_uahc_p0_cmd
 {
     uint32_t u;
     struct bdk_satax_uahc_p0_cmd_s
@@ -1580,7 +1606,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_satax_uahc_p0_cmd_s cn; */
-} bdk_satax_uahc_p0_cmd_t;
+};
+typedef union bdk_satax_uahc_p0_cmd bdk_satax_uahc_p0_cmd_t;
 
 static inline uint64_t BDK_SATAX_UAHC_P0_CMD(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_P0_CMD(unsigned long a)
@@ -1608,7 +1635,7 @@ static inline uint64_t BDK_SATAX_UAHC_P0_CMD(unsigned long a)
  * Internal:
  * See DWC_ahsata databook v4.20a.
  */
-typedef union
+union bdk_satax_uahc_p0_dmacr
 {
     uint32_t u;
     struct bdk_satax_uahc_p0_dmacr_s
@@ -1628,7 +1655,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_satax_uahc_p0_dmacr_s cn; */
-} bdk_satax_uahc_p0_dmacr_t;
+};
+typedef union bdk_satax_uahc_p0_dmacr bdk_satax_uahc_p0_dmacr_t;
 
 static inline uint64_t BDK_SATAX_UAHC_P0_DMACR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_P0_DMACR(unsigned long a)
@@ -1656,7 +1684,7 @@ static inline uint64_t BDK_SATAX_UAHC_P0_DMACR(unsigned long a)
  * Internal:
  * See DWC_ahsata databook v4.20a.
  */
-typedef union
+union bdk_satax_uahc_p0_fb
 {
     uint64_t u;
     struct bdk_satax_uahc_p0_fb_s
@@ -1670,7 +1698,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_satax_uahc_p0_fb_s cn; */
-} bdk_satax_uahc_p0_fb_t;
+};
+typedef union bdk_satax_uahc_p0_fb bdk_satax_uahc_p0_fb_t;
 
 static inline uint64_t BDK_SATAX_UAHC_P0_FB(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_P0_FB(unsigned long a)
@@ -1698,7 +1727,7 @@ static inline uint64_t BDK_SATAX_UAHC_P0_FB(unsigned long a)
  * Internal:
  * See DWC_ahsata databook v4.20a.
  */
-typedef union
+union bdk_satax_uahc_p0_fbs
 {
     uint32_t u;
     struct bdk_satax_uahc_p0_fbs_s
@@ -1724,7 +1753,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_satax_uahc_p0_fbs_s cn; */
-} bdk_satax_uahc_p0_fbs_t;
+};
+typedef union bdk_satax_uahc_p0_fbs bdk_satax_uahc_p0_fbs_t;
 
 static inline uint64_t BDK_SATAX_UAHC_P0_FBS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_P0_FBS(unsigned long a)
@@ -1752,7 +1782,7 @@ static inline uint64_t BDK_SATAX_UAHC_P0_FBS(unsigned long a)
  * Internal:
  * See DWC_ahsata databook v4.20a.
  */
-typedef union
+union bdk_satax_uahc_p0_ie
 {
     uint32_t u;
     struct bdk_satax_uahc_p0_ie_s
@@ -1800,7 +1830,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_satax_uahc_p0_ie_s cn; */
-} bdk_satax_uahc_p0_ie_t;
+};
+typedef union bdk_satax_uahc_p0_ie bdk_satax_uahc_p0_ie_t;
 
 static inline uint64_t BDK_SATAX_UAHC_P0_IE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_P0_IE(unsigned long a)
@@ -1828,7 +1859,7 @@ static inline uint64_t BDK_SATAX_UAHC_P0_IE(unsigned long a)
  * Internal:
  * See DWC_ahsata databook v4.20a.
  */
-typedef union
+union bdk_satax_uahc_p0_is
 {
     uint32_t u;
     struct bdk_satax_uahc_p0_is_s
@@ -1876,7 +1907,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_satax_uahc_p0_is_s cn; */
-} bdk_satax_uahc_p0_is_t;
+};
+typedef union bdk_satax_uahc_p0_is bdk_satax_uahc_p0_is_t;
 
 static inline uint64_t BDK_SATAX_UAHC_P0_IS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_P0_IS(unsigned long a)
@@ -1904,7 +1936,7 @@ static inline uint64_t BDK_SATAX_UAHC_P0_IS(unsigned long a)
  * Internal:
  * See DWC_ahsata databook v4.20a.
  */
-typedef union
+union bdk_satax_uahc_p0_phycr
 {
     uint32_t u;
     struct bdk_satax_uahc_p0_phycr_s
@@ -1916,7 +1948,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_satax_uahc_p0_phycr_s cn; */
-} bdk_satax_uahc_p0_phycr_t;
+};
+typedef union bdk_satax_uahc_p0_phycr bdk_satax_uahc_p0_phycr_t;
 
 static inline uint64_t BDK_SATAX_UAHC_P0_PHYCR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_P0_PHYCR(unsigned long a)
@@ -1944,7 +1977,7 @@ static inline uint64_t BDK_SATAX_UAHC_P0_PHYCR(unsigned long a)
  * Internal:
  * See DWC_ahsata databook v4.20a.
  */
-typedef union
+union bdk_satax_uahc_p0_physr
 {
     uint32_t u;
     struct bdk_satax_uahc_p0_physr_s
@@ -1956,7 +1989,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_satax_uahc_p0_physr_s cn; */
-} bdk_satax_uahc_p0_physr_t;
+};
+typedef union bdk_satax_uahc_p0_physr bdk_satax_uahc_p0_physr_t;
 
 static inline uint64_t BDK_SATAX_UAHC_P0_PHYSR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_P0_PHYSR(unsigned long a)
@@ -1984,7 +2018,7 @@ static inline uint64_t BDK_SATAX_UAHC_P0_PHYSR(unsigned long a)
  * Internal:
  * See DWC_ahsata databook v4.20a.
  */
-typedef union
+union bdk_satax_uahc_p0_sact
 {
     uint32_t u;
     struct bdk_satax_uahc_p0_sact_s
@@ -1996,7 +2030,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_satax_uahc_p0_sact_s cn; */
-} bdk_satax_uahc_p0_sact_t;
+};
+typedef union bdk_satax_uahc_p0_sact bdk_satax_uahc_p0_sact_t;
 
 static inline uint64_t BDK_SATAX_UAHC_P0_SACT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_P0_SACT(unsigned long a)
@@ -2024,7 +2059,7 @@ static inline uint64_t BDK_SATAX_UAHC_P0_SACT(unsigned long a)
  * Internal:
  * See DWC_ahsata databook v4.20a.
  */
-typedef union
+union bdk_satax_uahc_p0_sctl
 {
     uint32_t u;
     struct bdk_satax_uahc_p0_sctl_s
@@ -2046,7 +2081,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_satax_uahc_p0_sctl_s cn; */
-} bdk_satax_uahc_p0_sctl_t;
+};
+typedef union bdk_satax_uahc_p0_sctl bdk_satax_uahc_p0_sctl_t;
 
 static inline uint64_t BDK_SATAX_UAHC_P0_SCTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_P0_SCTL(unsigned long a)
@@ -2074,7 +2110,7 @@ static inline uint64_t BDK_SATAX_UAHC_P0_SCTL(unsigned long a)
  * Internal:
  * See DWC_ahsata databook v4.20a.
  */
-typedef union
+union bdk_satax_uahc_p0_serr
 {
     uint32_t u;
     struct bdk_satax_uahc_p0_serr_s
@@ -2124,7 +2160,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_satax_uahc_p0_serr_s cn; */
-} bdk_satax_uahc_p0_serr_t;
+};
+typedef union bdk_satax_uahc_p0_serr bdk_satax_uahc_p0_serr_t;
 
 static inline uint64_t BDK_SATAX_UAHC_P0_SERR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_P0_SERR(unsigned long a)
@@ -2152,7 +2189,7 @@ static inline uint64_t BDK_SATAX_UAHC_P0_SERR(unsigned long a)
  * Internal:
  * See DWC_ahsata databook v4.20a.
  */
-typedef union
+union bdk_satax_uahc_p0_sig
 {
     uint32_t u;
     struct bdk_satax_uahc_p0_sig_s
@@ -2164,7 +2201,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_satax_uahc_p0_sig_s cn; */
-} bdk_satax_uahc_p0_sig_t;
+};
+typedef union bdk_satax_uahc_p0_sig bdk_satax_uahc_p0_sig_t;
 
 static inline uint64_t BDK_SATAX_UAHC_P0_SIG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_P0_SIG(unsigned long a)
@@ -2192,7 +2230,7 @@ static inline uint64_t BDK_SATAX_UAHC_P0_SIG(unsigned long a)
  * Internal:
  * See DWC_ahsata databook v4.20a.
  */
-typedef union
+union bdk_satax_uahc_p0_sntf
 {
     uint32_t u;
     struct bdk_satax_uahc_p0_sntf_s
@@ -2206,7 +2244,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_satax_uahc_p0_sntf_s cn; */
-} bdk_satax_uahc_p0_sntf_t;
+};
+typedef union bdk_satax_uahc_p0_sntf bdk_satax_uahc_p0_sntf_t;
 
 static inline uint64_t BDK_SATAX_UAHC_P0_SNTF(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_P0_SNTF(unsigned long a)
@@ -2234,7 +2273,7 @@ static inline uint64_t BDK_SATAX_UAHC_P0_SNTF(unsigned long a)
  * Internal:
  * See DWC_ahsata databook v4.20a.
  */
-typedef union
+union bdk_satax_uahc_p0_ssts
 {
     uint32_t u;
     struct bdk_satax_uahc_p0_ssts_s
@@ -2252,7 +2291,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_satax_uahc_p0_ssts_s cn; */
-} bdk_satax_uahc_p0_ssts_t;
+};
+typedef union bdk_satax_uahc_p0_ssts bdk_satax_uahc_p0_ssts_t;
 
 static inline uint64_t BDK_SATAX_UAHC_P0_SSTS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_P0_SSTS(unsigned long a)
@@ -2280,7 +2320,7 @@ static inline uint64_t BDK_SATAX_UAHC_P0_SSTS(unsigned long a)
  * Internal:
  * See DWC_ahsata databook v4.20a.
  */
-typedef union
+union bdk_satax_uahc_p0_tfd
 {
     uint32_t u;
     struct bdk_satax_uahc_p0_tfd_s
@@ -2296,7 +2336,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_satax_uahc_p0_tfd_s cn; */
-} bdk_satax_uahc_p0_tfd_t;
+};
+typedef union bdk_satax_uahc_p0_tfd bdk_satax_uahc_p0_tfd_t;
 
 static inline uint64_t BDK_SATAX_UAHC_P0_TFD(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_P0_TFD(unsigned long a)
@@ -2328,7 +2369,7 @@ static inline uint64_t BDK_SATAX_UAHC_P0_TFD(unsigned long a)
  *
  * Reset by NCB reset.
  */
-typedef union
+union bdk_satax_uctl_bist_status
 {
     uint64_t u;
     struct bdk_satax_uctl_bist_status_s
@@ -2368,7 +2409,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_satax_uctl_bist_status_s cn; */
-} bdk_satax_uctl_bist_status_t;
+};
+typedef union bdk_satax_uctl_bist_status bdk_satax_uctl_bist_status_t;
 
 static inline uint64_t BDK_SATAX_UCTL_BIST_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UCTL_BIST_STATUS(unsigned long a)
@@ -2399,7 +2441,7 @@ static inline uint64_t BDK_SATAX_UCTL_BIST_STATUS(unsigned long a)
  *
  * Reset by NCB reset.
  */
-typedef union
+union bdk_satax_uctl_ctl
 {
     uint64_t u;
     struct bdk_satax_uctl_ctl_s
@@ -2543,7 +2585,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_satax_uctl_ctl_s cn; */
-} bdk_satax_uctl_ctl_t;
+};
+typedef union bdk_satax_uctl_ctl bdk_satax_uctl_ctl_t;
 
 static inline uint64_t BDK_SATAX_UCTL_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UCTL_CTL(unsigned long a)
@@ -2584,7 +2627,7 @@ static inline uint64_t BDK_SATAX_UCTL_CTL(unsigned long a)
  *
  * Reset by NCB reset or SATA()_UCTL_CTL[SATA_UCTL_RST].
  */
-typedef union
+union bdk_satax_uctl_ecc
 {
     uint64_t u;
     struct bdk_satax_uctl_ecc_s
@@ -2626,7 +2669,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_satax_uctl_ecc_s cn; */
-} bdk_satax_uctl_ecc_t;
+};
+typedef union bdk_satax_uctl_ecc bdk_satax_uctl_ecc_t;
 
 static inline uint64_t BDK_SATAX_UCTL_ECC(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UCTL_ECC(unsigned long a)
@@ -2653,7 +2697,7 @@ static inline uint64_t BDK_SATAX_UCTL_ECC(unsigned long a)
  * SATA UCTL Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_satax_uctl_intena_w1c
 {
     uint64_t u;
     struct bdk_satax_uctl_intena_w1c_s
@@ -2765,7 +2809,8 @@ typedef union
         uint64_t reserved_14_63        : 50;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_satax_uctl_intena_w1c_t;
+};
+typedef union bdk_satax_uctl_intena_w1c bdk_satax_uctl_intena_w1c_t;
 
 static inline uint64_t BDK_SATAX_UCTL_INTENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UCTL_INTENA_W1C(unsigned long a)
@@ -2792,7 +2837,7 @@ static inline uint64_t BDK_SATAX_UCTL_INTENA_W1C(unsigned long a)
  * SATA UCTL Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_satax_uctl_intena_w1s
 {
     uint64_t u;
     struct bdk_satax_uctl_intena_w1s_s
@@ -2904,7 +2949,8 @@ typedef union
         uint64_t reserved_14_63        : 50;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_satax_uctl_intena_w1s_t;
+};
+typedef union bdk_satax_uctl_intena_w1s bdk_satax_uctl_intena_w1s_t;
 
 static inline uint64_t BDK_SATAX_UCTL_INTENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UCTL_INTENA_W1S(unsigned long a)
@@ -2935,7 +2981,7 @@ static inline uint64_t BDK_SATAX_UCTL_INTENA_W1S(unsigned long a)
  *
  * Reset NCB reset.
  */
-typedef union
+union bdk_satax_uctl_intstat
 {
     uint64_t u;
     struct bdk_satax_uctl_intstat_s
@@ -2999,7 +3045,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_satax_uctl_intstat_s cn; */
-} bdk_satax_uctl_intstat_t;
+};
+typedef union bdk_satax_uctl_intstat bdk_satax_uctl_intstat_t;
 
 static inline uint64_t BDK_SATAX_UCTL_INTSTAT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UCTL_INTSTAT(unsigned long a)
@@ -3026,7 +3073,7 @@ static inline uint64_t BDK_SATAX_UCTL_INTSTAT(unsigned long a)
  * SATA UCTL Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_satax_uctl_intstat_w1s
 {
     uint64_t u;
     struct bdk_satax_uctl_intstat_w1s_s
@@ -3138,7 +3185,8 @@ typedef union
         uint64_t reserved_14_63        : 50;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_satax_uctl_intstat_w1s_t;
+};
+typedef union bdk_satax_uctl_intstat_w1s bdk_satax_uctl_intstat_w1s_t;
 
 static inline uint64_t BDK_SATAX_UCTL_INTSTAT_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UCTL_INTSTAT_W1S(unsigned long a)
@@ -3175,7 +3223,7 @@ static inline uint64_t BDK_SATAX_UCTL_INTSTAT_W1S(unsigned long a)
  *
  * Reset by NCB reset or SATA()_UCTL_CTL[SATA_UCTL_RST].
  */
-typedef union
+union bdk_satax_uctl_shim_cfg
 {
     uint64_t u;
     struct bdk_satax_uctl_shim_cfg_s
@@ -3223,7 +3271,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_satax_uctl_shim_cfg_s cn; */
-} bdk_satax_uctl_shim_cfg_t;
+};
+typedef union bdk_satax_uctl_shim_cfg bdk_satax_uctl_shim_cfg_t;
 
 static inline uint64_t BDK_SATAX_UCTL_SHIM_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UCTL_SHIM_CFG(unsigned long a)
@@ -3255,7 +3304,7 @@ static inline uint64_t BDK_SATAX_UCTL_SHIM_CFG(unsigned long a)
  *
  * Reset NCB reset.
  */
-typedef union
+union bdk_satax_uctl_spare0
 {
     uint64_t u;
     struct bdk_satax_uctl_spare0_s
@@ -3267,7 +3316,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_satax_uctl_spare0_s cn; */
-} bdk_satax_uctl_spare0_t;
+};
+typedef union bdk_satax_uctl_spare0 bdk_satax_uctl_spare0_t;
 
 static inline uint64_t BDK_SATAX_UCTL_SPARE0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UCTL_SPARE0(unsigned long a)
@@ -3299,7 +3349,7 @@ static inline uint64_t BDK_SATAX_UCTL_SPARE0(unsigned long a)
  *
  * Reset by NCB reset or SATA()_UCTL_CTL[SATA_UCTL_RST].
  */
-typedef union
+union bdk_satax_uctl_spare1
 {
     uint64_t u;
     struct bdk_satax_uctl_spare1_s
@@ -3311,7 +3361,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_satax_uctl_spare1_s cn; */
-} bdk_satax_uctl_spare1_t;
+};
+typedef union bdk_satax_uctl_spare1 bdk_satax_uctl_spare1_t;
 
 static inline uint64_t BDK_SATAX_UCTL_SPARE1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UCTL_SPARE1(unsigned long a)

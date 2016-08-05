@@ -173,7 +173,7 @@
  * The initial state of MIO_FUS_BNK_DAT(0..1) is as if bank6 were just read,
  * i.e. DAT* = fus[895:768].
  */
-typedef union
+union bdk_mio_fus_bnk_datx
 {
     uint64_t u;
     struct bdk_mio_fus_bnk_datx_s
@@ -187,7 +187,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_fus_bnk_datx_s cn; */
-} bdk_mio_fus_bnk_datx_t;
+};
+typedef union bdk_mio_fus_bnk_datx bdk_mio_fus_bnk_datx_t;
 
 static inline uint64_t BDK_MIO_FUS_BNK_DATX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_MIO_FUS_BNK_DATX(unsigned long a)
@@ -209,7 +210,7 @@ static inline uint64_t BDK_MIO_FUS_BNK_DATX(unsigned long a)
  *
  * MIO Fuse Data Register 0
  */
-typedef union
+union bdk_mio_fus_dat0
 {
     uint64_t u;
     struct bdk_mio_fus_dat0_s
@@ -223,7 +224,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_fus_dat0_s cn; */
-} bdk_mio_fus_dat0_t;
+};
+typedef union bdk_mio_fus_dat0 bdk_mio_fus_dat0_t;
 
 #define BDK_MIO_FUS_DAT0 BDK_MIO_FUS_DAT0_FUNC()
 static inline uint64_t BDK_MIO_FUS_DAT0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -244,7 +246,7 @@ static inline uint64_t BDK_MIO_FUS_DAT0_FUNC(void)
  *
  * MIO Fuse Data Register 1
  */
-typedef union
+union bdk_mio_fus_dat1
 {
     uint64_t u;
     struct bdk_mio_fus_dat1_s
@@ -258,7 +260,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_fus_dat1_s cn; */
-} bdk_mio_fus_dat1_t;
+};
+typedef union bdk_mio_fus_dat1 bdk_mio_fus_dat1_t;
 
 #define BDK_MIO_FUS_DAT1 BDK_MIO_FUS_DAT1_FUNC()
 static inline uint64_t BDK_MIO_FUS_DAT1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -279,7 +282,7 @@ static inline uint64_t BDK_MIO_FUS_DAT1_FUNC(void)
  *
  * MIO Fuse Data Register 2
  */
-typedef union
+union bdk_mio_fus_dat2
 {
     uint64_t u;
     struct bdk_mio_fus_dat2_s
@@ -1124,7 +1127,8 @@ typedef union
         uint64_t reserved_59_63        : 5;
 #endif /* Word 0 - End */
     } cn88xxp2;
-} bdk_mio_fus_dat2_t;
+};
+typedef union bdk_mio_fus_dat2 bdk_mio_fus_dat2_t;
 
 #define BDK_MIO_FUS_DAT2 BDK_MIO_FUS_DAT2_FUNC()
 static inline uint64_t BDK_MIO_FUS_DAT2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1145,7 +1149,7 @@ static inline uint64_t BDK_MIO_FUS_DAT2_FUNC(void)
  *
  * MIO Fuse Data3 Register
  */
-typedef union
+union bdk_mio_fus_dat3
 {
     uint64_t u;
     struct bdk_mio_fus_dat3_s
@@ -1524,7 +1528,8 @@ typedef union
                                                                  will XOR with this value. */
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_mio_fus_dat3_t;
+};
+typedef union bdk_mio_fus_dat3 bdk_mio_fus_dat3_t;
 
 #define BDK_MIO_FUS_DAT3 BDK_MIO_FUS_DAT3_FUNC()
 static inline uint64_t BDK_MIO_FUS_DAT3_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1545,7 +1550,7 @@ static inline uint64_t BDK_MIO_FUS_DAT3_FUNC(void)
  *
  * MIO Fuse Data4 Register
  */
-typedef union
+union bdk_mio_fus_dat4
 {
     uint64_t u;
     struct bdk_mio_fus_dat4_s
@@ -1575,7 +1580,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_fus_dat4_s cn; */
-} bdk_mio_fus_dat4_t;
+};
+typedef union bdk_mio_fus_dat4 bdk_mio_fus_dat4_t;
 
 #define BDK_MIO_FUS_DAT4 BDK_MIO_FUS_DAT4_FUNC()
 static inline uint64_t BDK_MIO_FUS_DAT4_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1596,7 +1602,7 @@ static inline uint64_t BDK_MIO_FUS_DAT4_FUNC(void)
  *
  * INTERNAL: MIO Fuse Repair Interrupt Register
  */
-typedef union
+union bdk_mio_fus_int
 {
     uint64_t u;
     struct bdk_mio_fus_int_s
@@ -1616,7 +1622,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_fus_int_s cn; */
-} bdk_mio_fus_int_t;
+};
+typedef union bdk_mio_fus_int bdk_mio_fus_int_t;
 
 #define BDK_MIO_FUS_INT BDK_MIO_FUS_INT_FUNC()
 static inline uint64_t BDK_MIO_FUS_INT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1637,7 +1644,7 @@ static inline uint64_t BDK_MIO_FUS_INT_FUNC(void)
  *
  * MIO Fuse Product Definition Field Register
  */
-typedef union
+union bdk_mio_fus_pdf
 {
     uint64_t u;
     struct bdk_mio_fus_pdf_s
@@ -1649,7 +1656,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_fus_pdf_s cn; */
-} bdk_mio_fus_pdf_t;
+};
+typedef union bdk_mio_fus_pdf bdk_mio_fus_pdf_t;
 
 #define BDK_MIO_FUS_PDF BDK_MIO_FUS_PDF_FUNC()
 static inline uint64_t BDK_MIO_FUS_PDF_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1673,7 +1681,7 @@ static inline uint64_t BDK_MIO_FUS_PDF_FUNC(void)
  * MSC_SYS_CLKOUT pins.  The fields are reset to zero on a cold reset.
  * the values are preserved on both a warm and soft reset starting with pass 3.
  */
-typedef union
+union bdk_mio_fus_pll
 {
     uint64_t u;
     struct bdk_mio_fus_pll_s
@@ -1735,7 +1743,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_fus_pll_s cn; */
-} bdk_mio_fus_pll_t;
+};
+typedef union bdk_mio_fus_pll bdk_mio_fus_pll_t;
 
 #define BDK_MIO_FUS_PLL BDK_MIO_FUS_PLL_FUNC()
 static inline uint64_t BDK_MIO_FUS_PLL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1791,7 +1800,7 @@ static inline uint64_t BDK_MIO_FUS_PLL_FUNC(void)
  * Internal:
  * Fuse[1535:1408]."
  */
-typedef union
+union bdk_mio_fus_pnamex
 {
     uint64_t u;
     struct bdk_mio_fus_pnamex_s
@@ -1803,7 +1812,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_fus_pnamex_s cn; */
-} bdk_mio_fus_pnamex_t;
+};
+typedef union bdk_mio_fus_pnamex bdk_mio_fus_pnamex_t;
 
 static inline uint64_t BDK_MIO_FUS_PNAMEX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_MIO_FUS_PNAMEX(unsigned long a)
@@ -1829,7 +1839,7 @@ static inline uint64_t BDK_MIO_FUS_PNAMEX(unsigned long a)
  *
  * INTERNAL: MIO Fuse Programming Register
  */
-typedef union
+union bdk_mio_fus_prog
 {
     uint64_t u;
     struct bdk_mio_fus_prog_s
@@ -1873,7 +1883,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_fus_prog_s cn; */
-} bdk_mio_fus_prog_t;
+};
+typedef union bdk_mio_fus_prog bdk_mio_fus_prog_t;
 
 #define BDK_MIO_FUS_PROG BDK_MIO_FUS_PROG_FUNC()
 static inline uint64_t BDK_MIO_FUS_PROG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1894,7 +1905,7 @@ static inline uint64_t BDK_MIO_FUS_PROG_FUNC(void)
  *
  * INTERNAL: MIO Fuse Program Times Register
  */
-typedef union
+union bdk_mio_fus_prog_times
 {
     uint64_t u;
     struct bdk_mio_fus_prog_times_s
@@ -1920,7 +1931,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_fus_prog_times_s cn; */
-} bdk_mio_fus_prog_times_t;
+};
+typedef union bdk_mio_fus_prog_times bdk_mio_fus_prog_times_t;
 
 #define BDK_MIO_FUS_PROG_TIMES BDK_MIO_FUS_PROG_TIMES_FUNC()
 static inline uint64_t BDK_MIO_FUS_PROG_TIMES_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1949,7 +1961,7 @@ static inline uint64_t BDK_MIO_FUS_PROG_TIMES_FUNC(void)
  * In addition, fuses 1023..960 are not accessible if
  * MIO_FUS_DAT2[DORM_CRYPTO] is enabled.
  */
-typedef union
+union bdk_mio_fus_rcmd
 {
     uint64_t u;
     struct bdk_mio_fus_rcmd_s
@@ -1993,7 +2005,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_fus_rcmd_s cn; */
-} bdk_mio_fus_rcmd_t;
+};
+typedef union bdk_mio_fus_rcmd bdk_mio_fus_rcmd_t;
 
 #define BDK_MIO_FUS_RCMD BDK_MIO_FUS_RCMD_FUNC()
 static inline uint64_t BDK_MIO_FUS_RCMD_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2021,7 +2034,7 @@ static inline uint64_t BDK_MIO_FUS_RCMD_FUNC(void)
  * be written with the timing parameters that will be read.
  * This register should not be written while MIO_FUS_RCMD[PEND] = 1.
  */
-typedef union
+union bdk_mio_fus_read_times
 {
     uint64_t u;
     struct bdk_mio_fus_read_times_s
@@ -2065,7 +2078,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_fus_read_times_s cn; */
-} bdk_mio_fus_read_times_t;
+};
+typedef union bdk_mio_fus_read_times bdk_mio_fus_read_times_t;
 
 #define BDK_MIO_FUS_READ_TIMES BDK_MIO_FUS_READ_TIMES_FUNC()
 static inline uint64_t BDK_MIO_FUS_READ_TIMES_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2086,7 +2100,7 @@ static inline uint64_t BDK_MIO_FUS_READ_TIMES_FUNC(void)
  *
  * INTERNAL: MIO Fuse Repair Memory Register
  */
-typedef union
+union bdk_mio_fus_rpr_datx
 {
     uint64_t u;
     struct bdk_mio_fus_rpr_datx_s
@@ -2102,7 +2116,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_fus_rpr_datx_s cn; */
-} bdk_mio_fus_rpr_datx_t;
+};
+typedef union bdk_mio_fus_rpr_datx bdk_mio_fus_rpr_datx_t;
 
 static inline uint64_t BDK_MIO_FUS_RPR_DATX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_MIO_FUS_RPR_DATX(unsigned long a)
@@ -2129,7 +2144,7 @@ static inline uint64_t BDK_MIO_FUS_RPR_DATX(unsigned long a)
  * loaded into the memories. Any new defects are loaded in afterwards, leaving END_PTR at the
  * last defect.
  */
-typedef union
+union bdk_mio_fus_soft_repair
 {
     uint64_t u;
     struct bdk_mio_fus_soft_repair_s
@@ -2210,7 +2225,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn88xx;
     /* struct bdk_mio_fus_soft_repair_s cn83xx; */
-} bdk_mio_fus_soft_repair_t;
+};
+typedef union bdk_mio_fus_soft_repair bdk_mio_fus_soft_repair_t;
 
 #define BDK_MIO_FUS_SOFT_REPAIR BDK_MIO_FUS_SOFT_REPAIR_FUNC()
 static inline uint64_t BDK_MIO_FUS_SOFT_REPAIR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2243,7 +2259,7 @@ static inline uint64_t BDK_MIO_FUS_SOFT_REPAIR_FUNC(void)
  * to read the TGG fuse values from the Authentik part by performing this conversion -> the reset
  * value of VAL should be zero in this converted case.
  */
-typedef union
+union bdk_mio_fus_tgg
 {
     uint64_t u;
     struct bdk_mio_fus_tgg_s
@@ -2263,7 +2279,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_fus_tgg_s cn; */
-} bdk_mio_fus_tgg_t;
+};
+typedef union bdk_mio_fus_tgg bdk_mio_fus_tgg_t;
 
 #define BDK_MIO_FUS_TGG BDK_MIO_FUS_TGG_FUNC()
 static inline uint64_t BDK_MIO_FUS_TGG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2284,7 +2301,7 @@ static inline uint64_t BDK_MIO_FUS_TGG_FUNC(void)
  *
  * MIO Fuse Write Address Register
  */
-typedef union
+union bdk_mio_fus_wadr
 {
     uint64_t u;
     struct bdk_mio_fus_wadr_s
@@ -2302,7 +2319,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_fus_wadr_s cn; */
-} bdk_mio_fus_wadr_t;
+};
+typedef union bdk_mio_fus_wadr bdk_mio_fus_wadr_t;
 
 #define BDK_MIO_FUS_WADR BDK_MIO_FUS_WADR_FUNC()
 static inline uint64_t BDK_MIO_FUS_WADR_FUNC(void) __attribute__ ((pure, always_inline));

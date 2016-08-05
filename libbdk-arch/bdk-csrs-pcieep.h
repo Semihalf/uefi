@@ -58,7 +58,7 @@
  * PCIe EP PF Vendor and Device Register
  * This register contains the first 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg000
 {
     uint32_t u;
     struct bdk_pcieepx_cfg000_s
@@ -86,7 +86,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg000_s cn; */
-} bdk_pcieepx_cfg000_t;
+};
+typedef union bdk_pcieepx_cfg000 bdk_pcieepx_cfg000_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG000(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG000(unsigned long a)
@@ -108,7 +109,7 @@ static inline uint64_t BDK_PCIEEPX_CFG000(unsigned long a)
  * PCIe EP PF Command/Status Register
  * This register contains the second 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg001
 {
     uint32_t u;
     struct bdk_pcieepx_cfg001_s
@@ -180,7 +181,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg001_s cn; */
-} bdk_pcieepx_cfg001_t;
+};
+typedef union bdk_pcieepx_cfg001 bdk_pcieepx_cfg001_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG001(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG001(unsigned long a)
@@ -202,7 +204,7 @@ static inline uint64_t BDK_PCIEEPX_CFG001(unsigned long a)
  * PCIe EP PF Class Code/Revision ID Register
  * This register contains the third 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg002
 {
     uint32_t u;
     struct bdk_pcieepx_cfg002_s
@@ -230,7 +232,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg002_s cn; */
-} bdk_pcieepx_cfg002_t;
+};
+typedef union bdk_pcieepx_cfg002 bdk_pcieepx_cfg002_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG002(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG002(unsigned long a)
@@ -252,7 +255,7 @@ static inline uint64_t BDK_PCIEEPX_CFG002(unsigned long a)
  * PCIe EP PF BIST, Header Type, Master Latency Timer, Cache Line Size Register
  * This register contains the fourth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg003
 {
     uint32_t u;
     struct bdk_pcieepx_cfg003_s
@@ -282,7 +285,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg003_s cn; */
-} bdk_pcieepx_cfg003_t;
+};
+typedef union bdk_pcieepx_cfg003 bdk_pcieepx_cfg003_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG003(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG003(unsigned long a)
@@ -304,7 +308,7 @@ static inline uint64_t BDK_PCIEEPX_CFG003(unsigned long a)
  * PCIe EP PF Base Address 0 Low Register
  * This register contains the fifth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg004
 {
     uint32_t u;
     struct bdk_pcieepx_cfg004_s
@@ -346,7 +350,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg004_s cn; */
-} bdk_pcieepx_cfg004_t;
+};
+typedef union bdk_pcieepx_cfg004 bdk_pcieepx_cfg004_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG004(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG004(unsigned long a)
@@ -369,7 +374,7 @@ static inline uint64_t BDK_PCIEEPX_CFG004(unsigned long a)
  * The BAR 0 mask register is invisible to host software and not readable from the application.
  * The BAR 0 mask register is only writable through PEM()_CFG_WR.
  */
-typedef union
+union bdk_pcieepx_cfg004_mask
 {
     uint32_t u;
     struct bdk_pcieepx_cfg004_mask_s
@@ -389,7 +394,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg004_mask_s cn; */
-} bdk_pcieepx_cfg004_mask_t;
+};
+typedef union bdk_pcieepx_cfg004_mask bdk_pcieepx_cfg004_mask_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG004_MASK(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG004_MASK(unsigned long a)
@@ -411,7 +417,7 @@ static inline uint64_t BDK_PCIEEPX_CFG004_MASK(unsigned long a)
  * PCIe EP PF Base Address 0 High Register
  * This register contains the sixth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg005
 {
     uint32_t u;
     struct bdk_pcieepx_cfg005_s
@@ -423,7 +429,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg005_s cn; */
-} bdk_pcieepx_cfg005_t;
+};
+typedef union bdk_pcieepx_cfg005 bdk_pcieepx_cfg005_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG005(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG005(unsigned long a)
@@ -446,7 +453,7 @@ static inline uint64_t BDK_PCIEEPX_CFG005(unsigned long a)
  * The BAR 0 mask register is invisible to host software and not readable from the application.
  * The BAR 0 mask register is only writable through PEM()_CFG_WR.
  */
-typedef union
+union bdk_pcieepx_cfg005_mask
 {
     uint32_t u;
     struct bdk_pcieepx_cfg005_mask_s
@@ -458,7 +465,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg005_mask_s cn; */
-} bdk_pcieepx_cfg005_mask_t;
+};
+typedef union bdk_pcieepx_cfg005_mask bdk_pcieepx_cfg005_mask_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG005_MASK(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG005_MASK(unsigned long a)
@@ -480,7 +488,7 @@ static inline uint64_t BDK_PCIEEPX_CFG005_MASK(unsigned long a)
  * PCIe EP PF Base Address 1 Low Register
  * This register contains the seventh 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg006
 {
     uint32_t u;
     struct bdk_pcieepx_cfg006_s
@@ -522,7 +530,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg006_s cn; */
-} bdk_pcieepx_cfg006_t;
+};
+typedef union bdk_pcieepx_cfg006 bdk_pcieepx_cfg006_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG006(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG006(unsigned long a)
@@ -545,7 +554,7 @@ static inline uint64_t BDK_PCIEEPX_CFG006(unsigned long a)
  * The BAR 1 mask register is invisible to host software and not readable from the application.
  * The BAR 1 mask register is only writable through PEM()_CFG_WR.
  */
-typedef union
+union bdk_pcieepx_cfg006_mask
 {
     uint32_t u;
     struct bdk_pcieepx_cfg006_mask_s
@@ -565,7 +574,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg006_mask_s cn; */
-} bdk_pcieepx_cfg006_mask_t;
+};
+typedef union bdk_pcieepx_cfg006_mask bdk_pcieepx_cfg006_mask_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG006_MASK(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG006_MASK(unsigned long a)
@@ -587,7 +597,7 @@ static inline uint64_t BDK_PCIEEPX_CFG006_MASK(unsigned long a)
  * PCIe EP PF Base Address 1 High Register
  * This register contains the eighth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg007
 {
     uint32_t u;
     struct bdk_pcieepx_cfg007_s
@@ -599,7 +609,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg007_s cn; */
-} bdk_pcieepx_cfg007_t;
+};
+typedef union bdk_pcieepx_cfg007 bdk_pcieepx_cfg007_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG007(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG007(unsigned long a)
@@ -622,7 +633,7 @@ static inline uint64_t BDK_PCIEEPX_CFG007(unsigned long a)
  * The BAR 1 mask register is invisible to host software and not readable from the application.
  * The BAR 1 mask register is only writable through PEM()_CFG_WR.
  */
-typedef union
+union bdk_pcieepx_cfg007_mask
 {
     uint32_t u;
     struct bdk_pcieepx_cfg007_mask_s
@@ -634,7 +645,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg007_mask_s cn; */
-} bdk_pcieepx_cfg007_mask_t;
+};
+typedef union bdk_pcieepx_cfg007_mask bdk_pcieepx_cfg007_mask_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG007_MASK(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG007_MASK(unsigned long a)
@@ -656,7 +668,7 @@ static inline uint64_t BDK_PCIEEPX_CFG007_MASK(unsigned long a)
  * PCIe EP PF Base Address 2 Low Register
  * This register contains the ninth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg008
 {
     uint32_t u;
     struct bdk_pcieepx_cfg008_s
@@ -698,7 +710,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg008_s cn; */
-} bdk_pcieepx_cfg008_t;
+};
+typedef union bdk_pcieepx_cfg008 bdk_pcieepx_cfg008_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG008(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG008(unsigned long a)
@@ -721,7 +734,7 @@ static inline uint64_t BDK_PCIEEPX_CFG008(unsigned long a)
  * The BAR 2 mask register is invisible to host software and not readable from the application.
  * The BAR 2 mask register is only writable through PEM()_CFG_WR.
  */
-typedef union
+union bdk_pcieepx_cfg008_mask
 {
     uint32_t u;
     struct bdk_pcieepx_cfg008_mask_s
@@ -741,7 +754,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg008_mask_s cn; */
-} bdk_pcieepx_cfg008_mask_t;
+};
+typedef union bdk_pcieepx_cfg008_mask bdk_pcieepx_cfg008_mask_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG008_MASK(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG008_MASK(unsigned long a)
@@ -763,7 +777,7 @@ static inline uint64_t BDK_PCIEEPX_CFG008_MASK(unsigned long a)
  * PCIe EP PF Base Address 2 High Register
  * This register contains the tenth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg009
 {
     uint32_t u;
     struct bdk_pcieepx_cfg009_s
@@ -775,7 +789,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg009_s cn; */
-} bdk_pcieepx_cfg009_t;
+};
+typedef union bdk_pcieepx_cfg009 bdk_pcieepx_cfg009_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG009(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG009(unsigned long a)
@@ -798,7 +813,7 @@ static inline uint64_t BDK_PCIEEPX_CFG009(unsigned long a)
  * The BAR 2 mask register is invisible to host software and not readable from the application.
  * The BAR 2 mask register is only writable through PEM()_CFG_WR.
  */
-typedef union
+union bdk_pcieepx_cfg009_mask
 {
     uint32_t u;
     struct bdk_pcieepx_cfg009_mask_s
@@ -810,7 +825,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg009_mask_s cn; */
-} bdk_pcieepx_cfg009_mask_t;
+};
+typedef union bdk_pcieepx_cfg009_mask bdk_pcieepx_cfg009_mask_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG009_MASK(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG009_MASK(unsigned long a)
@@ -832,7 +848,7 @@ static inline uint64_t BDK_PCIEEPX_CFG009_MASK(unsigned long a)
  * PCIe EP PF Card Bus CIS Pointer Register
  * This register contains the eleventh 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg010
 {
     uint32_t u;
     struct bdk_pcieepx_cfg010_s
@@ -844,7 +860,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg010_s cn; */
-} bdk_pcieepx_cfg010_t;
+};
+typedef union bdk_pcieepx_cfg010 bdk_pcieepx_cfg010_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG010(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG010(unsigned long a)
@@ -866,7 +883,7 @@ static inline uint64_t BDK_PCIEEPX_CFG010(unsigned long a)
  * PCIe EP PF SubSystem ID/Subsystem Vendor ID Register
  * This register contains the twelfth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg011
 {
     uint32_t u;
     struct bdk_pcieepx_cfg011_s
@@ -884,7 +901,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg011_s cn; */
-} bdk_pcieepx_cfg011_t;
+};
+typedef union bdk_pcieepx_cfg011 bdk_pcieepx_cfg011_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG011(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG011(unsigned long a)
@@ -906,7 +924,7 @@ static inline uint64_t BDK_PCIEEPX_CFG011(unsigned long a)
  * PCIe EP PF Expansion ROM Base Address Register
  * This register contains the thirteenth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg012
 {
     uint32_t u;
     struct bdk_pcieepx_cfg012_s
@@ -922,7 +940,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg012_s cn; */
-} bdk_pcieepx_cfg012_t;
+};
+typedef union bdk_pcieepx_cfg012 bdk_pcieepx_cfg012_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG012(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG012(unsigned long a)
@@ -945,7 +964,7 @@ static inline uint64_t BDK_PCIEEPX_CFG012(unsigned long a)
  * The ROM mask register is invisible to host software and not readable from the application. The
  * ROM mask register is only writable through PEM()_CFG_WR.
  */
-typedef union
+union bdk_pcieepx_cfg012_mask
 {
     uint32_t u;
     struct bdk_pcieepx_cfg012_mask_s
@@ -965,7 +984,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg012_mask_s cn; */
-} bdk_pcieepx_cfg012_mask_t;
+};
+typedef union bdk_pcieepx_cfg012_mask bdk_pcieepx_cfg012_mask_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG012_MASK(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG012_MASK(unsigned long a)
@@ -987,7 +1007,7 @@ static inline uint64_t BDK_PCIEEPX_CFG012_MASK(unsigned long a)
  * PCIe EP PF Capability Pointer Register
  * This register contains the fourteenth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg013
 {
     uint32_t u;
     struct bdk_pcieepx_cfg013_s
@@ -1003,7 +1023,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg013_s cn; */
-} bdk_pcieepx_cfg013_t;
+};
+typedef union bdk_pcieepx_cfg013 bdk_pcieepx_cfg013_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG013(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG013(unsigned long a)
@@ -1025,7 +1046,7 @@ static inline uint64_t BDK_PCIEEPX_CFG013(unsigned long a)
  * PCIe EP PF Interrupt Line/Interrupt Pin/Bridge Control Register
  * This register contains the sixteenth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg015
 {
     uint32_t u;
     struct bdk_pcieepx_cfg015_s
@@ -1043,7 +1064,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg015_s cn; */
-} bdk_pcieepx_cfg015_t;
+};
+typedef union bdk_pcieepx_cfg015 bdk_pcieepx_cfg015_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG015(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG015(unsigned long a)
@@ -1065,7 +1087,7 @@ static inline uint64_t BDK_PCIEEPX_CFG015(unsigned long a)
  * PCIe EP PF Power Management Capability ID Register
  * This register contains the seventeenth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg016
 {
     uint32_t u;
     struct bdk_pcieepx_cfg016_s
@@ -1129,7 +1151,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg016_s cn; */
-} bdk_pcieepx_cfg016_t;
+};
+typedef union bdk_pcieepx_cfg016 bdk_pcieepx_cfg016_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG016(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG016(unsigned long a)
@@ -1151,7 +1174,7 @@ static inline uint64_t BDK_PCIEEPX_CFG016(unsigned long a)
  * PCIe EP PF Power Management Control and Status Register
  * This register contains the eighteenth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg017
 {
     uint32_t u;
     struct bdk_pcieepx_cfg017_s
@@ -1197,7 +1220,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg017_s cn; */
-} bdk_pcieepx_cfg017_t;
+};
+typedef union bdk_pcieepx_cfg017 bdk_pcieepx_cfg017_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG017(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG017(unsigned long a)
@@ -1219,7 +1243,7 @@ static inline uint64_t BDK_PCIEEPX_CFG017(unsigned long a)
  * PCIe EP PF PCIe Capabilities/PCIe Capabilities List Register
  * This register contains the twenty-ninth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg028
 {
     uint32_t u;
     struct bdk_pcieepx_cfg028_s
@@ -1257,7 +1281,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg028_s cn; */
-} bdk_pcieepx_cfg028_t;
+};
+typedef union bdk_pcieepx_cfg028 bdk_pcieepx_cfg028_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG028(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG028(unsigned long a)
@@ -1279,7 +1304,7 @@ static inline uint64_t BDK_PCIEEPX_CFG028(unsigned long a)
  * PCIe EP PF Device Capabilities Register
  * This register contains the thirtieth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg029
 {
     uint32_t u;
     struct bdk_pcieepx_cfg029_s
@@ -1366,7 +1391,8 @@ typedef union
         uint32_t reserved_29_31        : 3;
 #endif /* Word 0 - End */
     } cn;
-} bdk_pcieepx_cfg029_t;
+};
+typedef union bdk_pcieepx_cfg029 bdk_pcieepx_cfg029_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG029(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG029(unsigned long a)
@@ -1388,7 +1414,7 @@ static inline uint64_t BDK_PCIEEPX_CFG029(unsigned long a)
  * PCIe EP PF Device Control/Device Status Register
  * This register contains the thirty-first 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg030
 {
     uint32_t u;
     struct bdk_pcieepx_cfg030_s
@@ -1506,7 +1532,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg030_s cn; */
-} bdk_pcieepx_cfg030_t;
+};
+typedef union bdk_pcieepx_cfg030 bdk_pcieepx_cfg030_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG030(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG030(unsigned long a)
@@ -1528,7 +1555,7 @@ static inline uint64_t BDK_PCIEEPX_CFG030(unsigned long a)
  * PCIe EP PF Link Capabilities Register
  * This register contains the thirty-second 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg031
 {
     uint32_t u;
     struct bdk_pcieepx_cfg031_s
@@ -1624,7 +1651,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg031_s cn; */
-} bdk_pcieepx_cfg031_t;
+};
+typedef union bdk_pcieepx_cfg031 bdk_pcieepx_cfg031_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG031(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG031(unsigned long a)
@@ -1646,7 +1674,7 @@ static inline uint64_t BDK_PCIEEPX_CFG031(unsigned long a)
  * PCIe EP PF Link Control/Link Status Register
  * This register contains the thirty-third 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg032
 {
     uint32_t u;
     struct bdk_pcieepx_cfg032_s
@@ -1718,7 +1746,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg032_s cn; */
-} bdk_pcieepx_cfg032_t;
+};
+typedef union bdk_pcieepx_cfg032 bdk_pcieepx_cfg032_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG032(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG032(unsigned long a)
@@ -1740,7 +1769,7 @@ static inline uint64_t BDK_PCIEEPX_CFG032(unsigned long a)
  * PCIe EP PF Device Capabilities 2 Register
  * This register contains the thirty-eighth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg037
 {
     uint32_t u;
     struct bdk_pcieepx_cfg037_s
@@ -1806,7 +1835,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg037_s cn; */
-} bdk_pcieepx_cfg037_t;
+};
+typedef union bdk_pcieepx_cfg037 bdk_pcieepx_cfg037_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG037(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG037(unsigned long a)
@@ -1828,7 +1858,7 @@ static inline uint64_t BDK_PCIEEPX_CFG037(unsigned long a)
  * PCIe EP PF Device Control 2 Register/Device Status 2 Register
  * This register contains the thirty-ninth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg038
 {
     uint32_t u;
     struct bdk_pcieepx_cfg038_s
@@ -1886,7 +1916,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg038_s cn; */
-} bdk_pcieepx_cfg038_t;
+};
+typedef union bdk_pcieepx_cfg038 bdk_pcieepx_cfg038_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG038(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG038(unsigned long a)
@@ -1908,7 +1939,7 @@ static inline uint64_t BDK_PCIEEPX_CFG038(unsigned long a)
  * PCIe EP PF Link Capabilities 2 Register
  * This register contains the fortieth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg039
 {
     uint32_t u;
     struct bdk_pcieepx_cfg039_s
@@ -1966,7 +1997,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg039_s cn; */
-} bdk_pcieepx_cfg039_t;
+};
+typedef union bdk_pcieepx_cfg039 bdk_pcieepx_cfg039_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG039(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG039(unsigned long a)
@@ -1988,7 +2020,7 @@ static inline uint64_t BDK_PCIEEPX_CFG039(unsigned long a)
  * PCIe EP PF Link Control 2 Register/Link Status 2 Register
  * This register contains the forty-first 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg040
 {
     uint32_t u;
     struct bdk_pcieepx_cfg040_s
@@ -2130,7 +2162,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg040_s cn; */
-} bdk_pcieepx_cfg040_t;
+};
+typedef union bdk_pcieepx_cfg040 bdk_pcieepx_cfg040_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG040(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG040(unsigned long a)
@@ -2152,7 +2185,7 @@ static inline uint64_t BDK_PCIEEPX_CFG040(unsigned long a)
  * PCIe EP PF MSI-X Capability ID/MSI-X Next Item Pointer/MSI-X Control Register
  * This register contains the forty-fifth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg044
 {
     uint32_t u;
     struct bdk_pcieepx_cfg044_s
@@ -2186,7 +2219,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg044_s cn; */
-} bdk_pcieepx_cfg044_t;
+};
+typedef union bdk_pcieepx_cfg044 bdk_pcieepx_cfg044_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG044(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG044(unsigned long a)
@@ -2208,7 +2242,7 @@ static inline uint64_t BDK_PCIEEPX_CFG044(unsigned long a)
  * PCIe EP PF MSI-X Table Offset and BIR Register
  * This register contains the forty-sixth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg045
 {
     uint32_t u;
     struct bdk_pcieepx_cfg045_s
@@ -2232,7 +2266,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg045_s cn; */
-} bdk_pcieepx_cfg045_t;
+};
+typedef union bdk_pcieepx_cfg045 bdk_pcieepx_cfg045_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG045(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG045(unsigned long a)
@@ -2254,7 +2289,7 @@ static inline uint64_t BDK_PCIEEPX_CFG045(unsigned long a)
  * PCIe EP PF MSI-X PBA Offset and BIR Register
  * This register contains the forty-seventh 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg046
 {
     uint32_t u;
     struct bdk_pcieepx_cfg046_s
@@ -2278,7 +2313,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg046_s cn; */
-} bdk_pcieepx_cfg046_t;
+};
+typedef union bdk_pcieepx_cfg046 bdk_pcieepx_cfg046_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG046(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG046(unsigned long a)
@@ -2300,7 +2336,7 @@ static inline uint64_t BDK_PCIEEPX_CFG046(unsigned long a)
  * PCIe EP Unused Capability Registers
  * This register contains 32-bits of PCIe type 1 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg047
 {
     uint32_t u;
     struct bdk_pcieepx_cfg047_s
@@ -2316,7 +2352,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg047_s cn; */
-} bdk_pcieepx_cfg047_t;
+};
+typedef union bdk_pcieepx_cfg047 bdk_pcieepx_cfg047_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG047(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG047(unsigned long a)
@@ -2338,7 +2375,7 @@ static inline uint64_t BDK_PCIEEPX_CFG047(unsigned long a)
  * PCIe EP Unused Capability Registers
  * This register contains 32-bits of PCIe type 1 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg048
 {
     uint32_t u;
     struct bdk_pcieepx_cfg048_s
@@ -2354,7 +2391,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg048_s cn; */
-} bdk_pcieepx_cfg048_t;
+};
+typedef union bdk_pcieepx_cfg048 bdk_pcieepx_cfg048_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG048(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG048(unsigned long a)
@@ -2376,7 +2414,7 @@ static inline uint64_t BDK_PCIEEPX_CFG048(unsigned long a)
  * PCIe EP Unused Capability Registers
  * This register contains 32-bits of PCIe type 1 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg049
 {
     uint32_t u;
     struct bdk_pcieepx_cfg049_s
@@ -2392,7 +2430,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg049_s cn; */
-} bdk_pcieepx_cfg049_t;
+};
+typedef union bdk_pcieepx_cfg049 bdk_pcieepx_cfg049_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG049(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG049(unsigned long a)
@@ -2414,7 +2453,7 @@ static inline uint64_t BDK_PCIEEPX_CFG049(unsigned long a)
  * PCIe EP Unused Capability Registers
  * This register contains 32-bits of PCIe type 1 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg050
 {
     uint32_t u;
     struct bdk_pcieepx_cfg050_s
@@ -2430,7 +2469,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg050_s cn; */
-} bdk_pcieepx_cfg050_t;
+};
+typedef union bdk_pcieepx_cfg050 bdk_pcieepx_cfg050_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG050(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG050(unsigned long a)
@@ -2452,7 +2492,7 @@ static inline uint64_t BDK_PCIEEPX_CFG050(unsigned long a)
  * PCIe EP Unused Capability Registers
  * This register contains 32-bits of PCIe type 1 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg051
 {
     uint32_t u;
     struct bdk_pcieepx_cfg051_s
@@ -2468,7 +2508,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg051_s cn; */
-} bdk_pcieepx_cfg051_t;
+};
+typedef union bdk_pcieepx_cfg051 bdk_pcieepx_cfg051_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG051(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG051(unsigned long a)
@@ -2490,7 +2531,7 @@ static inline uint64_t BDK_PCIEEPX_CFG051(unsigned long a)
  * PCIe EP Unused Capability Registers
  * This register contains 32-bits of PCIe type 1 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg052
 {
     uint32_t u;
     struct bdk_pcieepx_cfg052_s
@@ -2506,7 +2547,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg052_s cn; */
-} bdk_pcieepx_cfg052_t;
+};
+typedef union bdk_pcieepx_cfg052 bdk_pcieepx_cfg052_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG052(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG052(unsigned long a)
@@ -2528,7 +2570,7 @@ static inline uint64_t BDK_PCIEEPX_CFG052(unsigned long a)
  * PCIe EP Unused Capability Registers
  * This register contains 32-bits of PCIe type 1 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg053
 {
     uint32_t u;
     struct bdk_pcieepx_cfg053_s
@@ -2544,7 +2586,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg053_s cn; */
-} bdk_pcieepx_cfg053_t;
+};
+typedef union bdk_pcieepx_cfg053 bdk_pcieepx_cfg053_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG053(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG053(unsigned long a)
@@ -2566,7 +2609,7 @@ static inline uint64_t BDK_PCIEEPX_CFG053(unsigned long a)
  * PCIe EP Unused Capability Registers
  * This register contains 32-bits of PCIe type 1 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg054
 {
     uint32_t u;
     struct bdk_pcieepx_cfg054_s
@@ -2582,7 +2625,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg054_s cn; */
-} bdk_pcieepx_cfg054_t;
+};
+typedef union bdk_pcieepx_cfg054 bdk_pcieepx_cfg054_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG054(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG054(unsigned long a)
@@ -2604,7 +2648,7 @@ static inline uint64_t BDK_PCIEEPX_CFG054(unsigned long a)
  * PCIe EP Unused Capability Registers
  * This register contains 32-bits of PCIe type 1 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg055
 {
     uint32_t u;
     struct bdk_pcieepx_cfg055_s
@@ -2620,7 +2664,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg055_s cn; */
-} bdk_pcieepx_cfg055_t;
+};
+typedef union bdk_pcieepx_cfg055 bdk_pcieepx_cfg055_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG055(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG055(unsigned long a)
@@ -2642,7 +2687,7 @@ static inline uint64_t BDK_PCIEEPX_CFG055(unsigned long a)
  * PCIe EP Unused Capability Registers
  * This register contains 32-bits of PCIe type 1 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg056
 {
     uint32_t u;
     struct bdk_pcieepx_cfg056_s
@@ -2658,7 +2703,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg056_s cn; */
-} bdk_pcieepx_cfg056_t;
+};
+typedef union bdk_pcieepx_cfg056 bdk_pcieepx_cfg056_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG056(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG056(unsigned long a)
@@ -2680,7 +2726,7 @@ static inline uint64_t BDK_PCIEEPX_CFG056(unsigned long a)
  * PCIe EP Unused Capability Registers
  * This register contains 32-bits of PCIe type 1 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg057
 {
     uint32_t u;
     struct bdk_pcieepx_cfg057_s
@@ -2696,7 +2742,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg057_s cn; */
-} bdk_pcieepx_cfg057_t;
+};
+typedef union bdk_pcieepx_cfg057 bdk_pcieepx_cfg057_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG057(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG057(unsigned long a)
@@ -2718,7 +2765,7 @@ static inline uint64_t BDK_PCIEEPX_CFG057(unsigned long a)
  * PCIe EP Unused Capability Registers
  * This register contains 32-bits of PCIe type 1 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg058
 {
     uint32_t u;
     struct bdk_pcieepx_cfg058_s
@@ -2734,7 +2781,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg058_s cn; */
-} bdk_pcieepx_cfg058_t;
+};
+typedef union bdk_pcieepx_cfg058 bdk_pcieepx_cfg058_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG058(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG058(unsigned long a)
@@ -2756,7 +2804,7 @@ static inline uint64_t BDK_PCIEEPX_CFG058(unsigned long a)
  * PCIe EP Unused Capability Registers
  * This register contains 32-bits of PCIe type 1 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg059
 {
     uint32_t u;
     struct bdk_pcieepx_cfg059_s
@@ -2772,7 +2820,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg059_s cn; */
-} bdk_pcieepx_cfg059_t;
+};
+typedef union bdk_pcieepx_cfg059 bdk_pcieepx_cfg059_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG059(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG059(unsigned long a)
@@ -2794,7 +2843,7 @@ static inline uint64_t BDK_PCIEEPX_CFG059(unsigned long a)
  * PCIe EP Unused Capability Registers
  * This register contains 32-bits of PCIe type 1 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg060
 {
     uint32_t u;
     struct bdk_pcieepx_cfg060_s
@@ -2810,7 +2859,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg060_s cn; */
-} bdk_pcieepx_cfg060_t;
+};
+typedef union bdk_pcieepx_cfg060 bdk_pcieepx_cfg060_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG060(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG060(unsigned long a)
@@ -2832,7 +2882,7 @@ static inline uint64_t BDK_PCIEEPX_CFG060(unsigned long a)
  * PCIe EP Unused Capability Registers
  * This register contains 32-bits of PCIe type 1 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg061
 {
     uint32_t u;
     struct bdk_pcieepx_cfg061_s
@@ -2848,7 +2898,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg061_s cn; */
-} bdk_pcieepx_cfg061_t;
+};
+typedef union bdk_pcieepx_cfg061 bdk_pcieepx_cfg061_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG061(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG061(unsigned long a)
@@ -2870,7 +2921,7 @@ static inline uint64_t BDK_PCIEEPX_CFG061(unsigned long a)
  * PCIe EP Unused Capability Registers
  * This register contains 32-bits of PCIe type 1 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg062
 {
     uint32_t u;
     struct bdk_pcieepx_cfg062_s
@@ -2886,7 +2937,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg062_s cn; */
-} bdk_pcieepx_cfg062_t;
+};
+typedef union bdk_pcieepx_cfg062 bdk_pcieepx_cfg062_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG062(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG062(unsigned long a)
@@ -2908,7 +2960,7 @@ static inline uint64_t BDK_PCIEEPX_CFG062(unsigned long a)
  * PCIe EP Unused Capability Registers
  * This register contains 32-bits of PCIe type 1 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg063
 {
     uint32_t u;
     struct bdk_pcieepx_cfg063_s
@@ -2924,7 +2976,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg063_s cn; */
-} bdk_pcieepx_cfg063_t;
+};
+typedef union bdk_pcieepx_cfg063 bdk_pcieepx_cfg063_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG063(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG063(unsigned long a)
@@ -2946,7 +2999,7 @@ static inline uint64_t BDK_PCIEEPX_CFG063(unsigned long a)
  * PCIe EP PF Extended Capability Header Register
  * This register contains the sixty-fifth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg064
 {
     uint32_t u;
     struct bdk_pcieepx_cfg064_s
@@ -2962,7 +3015,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg064_s cn; */
-} bdk_pcieepx_cfg064_t;
+};
+typedef union bdk_pcieepx_cfg064 bdk_pcieepx_cfg064_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG064(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG064(unsigned long a)
@@ -2984,7 +3038,7 @@ static inline uint64_t BDK_PCIEEPX_CFG064(unsigned long a)
  * PCIe EP PF Uncorrectable Error Status Register
  * This register contains the sixty-sixth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg065
 {
     uint32_t u;
     struct bdk_pcieepx_cfg065_s
@@ -3077,7 +3131,8 @@ typedef union
         uint32_t reserved_26_31        : 6;
 #endif /* Word 0 - End */
     } cn;
-} bdk_pcieepx_cfg065_t;
+};
+typedef union bdk_pcieepx_cfg065 bdk_pcieepx_cfg065_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG065(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG065(unsigned long a)
@@ -3099,7 +3154,7 @@ static inline uint64_t BDK_PCIEEPX_CFG065(unsigned long a)
  * PCIe EP PF Uncorrectable Error Mask Register
  * This register contains the sixty-seventh 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg066
 {
     uint32_t u;
     struct bdk_pcieepx_cfg066_s
@@ -3192,7 +3247,8 @@ typedef union
         uint32_t reserved_26_31        : 6;
 #endif /* Word 0 - End */
     } cn;
-} bdk_pcieepx_cfg066_t;
+};
+typedef union bdk_pcieepx_cfg066 bdk_pcieepx_cfg066_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG066(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG066(unsigned long a)
@@ -3214,7 +3270,7 @@ static inline uint64_t BDK_PCIEEPX_CFG066(unsigned long a)
  * PCIe EP PF Uncorrectable Error Severity Register
  * This register contains the sixty-eighth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg067
 {
     uint32_t u;
     struct bdk_pcieepx_cfg067_s
@@ -3307,7 +3363,8 @@ typedef union
         uint32_t reserved_26_31        : 6;
 #endif /* Word 0 - End */
     } cn;
-} bdk_pcieepx_cfg067_t;
+};
+typedef union bdk_pcieepx_cfg067 bdk_pcieepx_cfg067_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG067(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG067(unsigned long a)
@@ -3329,7 +3386,7 @@ static inline uint64_t BDK_PCIEEPX_CFG067(unsigned long a)
  * PCIe EP PF Correctable Error Status Register
  * This register contains the sixty-ninth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg068
 {
     uint32_t u;
     struct bdk_pcieepx_cfg068_s
@@ -3361,7 +3418,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg068_s cn; */
-} bdk_pcieepx_cfg068_t;
+};
+typedef union bdk_pcieepx_cfg068 bdk_pcieepx_cfg068_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG068(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG068(unsigned long a)
@@ -3383,7 +3441,7 @@ static inline uint64_t BDK_PCIEEPX_CFG068(unsigned long a)
  * PCIe EP PF Correctable Error Mask Register
  * This register contains the seventieth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg069
 {
     uint32_t u;
     struct bdk_pcieepx_cfg069_s
@@ -3415,7 +3473,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg069_s cn; */
-} bdk_pcieepx_cfg069_t;
+};
+typedef union bdk_pcieepx_cfg069 bdk_pcieepx_cfg069_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG069(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG069(unsigned long a)
@@ -3437,7 +3496,7 @@ static inline uint64_t BDK_PCIEEPX_CFG069(unsigned long a)
  * PCIe EP PF Advanced Error Capabilities and Control Register
  * This register contains the seventy-first 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg070
 {
     uint32_t u;
     struct bdk_pcieepx_cfg070_s
@@ -3465,7 +3524,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg070_s cn; */
-} bdk_pcieepx_cfg070_t;
+};
+typedef union bdk_pcieepx_cfg070 bdk_pcieepx_cfg070_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG070(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG070(unsigned long a)
@@ -3487,7 +3547,7 @@ static inline uint64_t BDK_PCIEEPX_CFG070(unsigned long a)
  * PCIe EP PF Header Log Register 1
  * This register contains the seventy-second 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg071
 {
     uint32_t u;
     struct bdk_pcieepx_cfg071_s
@@ -3499,7 +3559,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg071_s cn; */
-} bdk_pcieepx_cfg071_t;
+};
+typedef union bdk_pcieepx_cfg071 bdk_pcieepx_cfg071_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG071(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG071(unsigned long a)
@@ -3521,7 +3582,7 @@ static inline uint64_t BDK_PCIEEPX_CFG071(unsigned long a)
  * PCIe EP PF Header Log Register 2
  * This register contains the seventy-third 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg072
 {
     uint32_t u;
     struct bdk_pcieepx_cfg072_s
@@ -3533,7 +3594,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg072_s cn; */
-} bdk_pcieepx_cfg072_t;
+};
+typedef union bdk_pcieepx_cfg072 bdk_pcieepx_cfg072_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG072(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG072(unsigned long a)
@@ -3555,7 +3617,7 @@ static inline uint64_t BDK_PCIEEPX_CFG072(unsigned long a)
  * PCIe EP PF Header Log Register 3
  * This register contains the seventy-fourth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg073
 {
     uint32_t u;
     struct bdk_pcieepx_cfg073_s
@@ -3567,7 +3629,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg073_s cn; */
-} bdk_pcieepx_cfg073_t;
+};
+typedef union bdk_pcieepx_cfg073 bdk_pcieepx_cfg073_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG073(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG073(unsigned long a)
@@ -3589,7 +3652,7 @@ static inline uint64_t BDK_PCIEEPX_CFG073(unsigned long a)
  * PCIe EP PF Header Log Register 4
  * This register contains the seventy-fifth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg074
 {
     uint32_t u;
     struct bdk_pcieepx_cfg074_s
@@ -3601,7 +3664,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg074_s cn; */
-} bdk_pcieepx_cfg074_t;
+};
+typedef union bdk_pcieepx_cfg074 bdk_pcieepx_cfg074_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG074(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG074(unsigned long a)
@@ -3623,7 +3687,7 @@ static inline uint64_t BDK_PCIEEPX_CFG074(unsigned long a)
  * PCIe EP PF TLP Prefix Log Register 4
  * This register contains the seventy-ninth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg078
 {
     uint32_t u;
     struct bdk_pcieepx_cfg078_s
@@ -3635,7 +3699,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg078_s cn; */
-} bdk_pcieepx_cfg078_t;
+};
+typedef union bdk_pcieepx_cfg078 bdk_pcieepx_cfg078_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG078(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG078(unsigned long a)
@@ -3657,7 +3722,7 @@ static inline uint64_t BDK_PCIEEPX_CFG078(unsigned long a)
  * PCIe EP PF ARI Capability Header Register
  * This register contains the eighty-third 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg082
 {
     uint32_t u;
     struct bdk_pcieepx_cfg082_s
@@ -3673,7 +3738,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg082_s cn; */
-} bdk_pcieepx_cfg082_t;
+};
+typedef union bdk_pcieepx_cfg082 bdk_pcieepx_cfg082_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG082(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG082(unsigned long a)
@@ -3695,7 +3761,7 @@ static inline uint64_t BDK_PCIEEPX_CFG082(unsigned long a)
  * PCIe EP PF ARI Capability Register/PCI Express ARI Control Register
  * This register contains the eighty-fourth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg083
 {
     uint32_t u;
     struct bdk_pcieepx_cfg083_s
@@ -3723,7 +3789,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg083_s cn; */
-} bdk_pcieepx_cfg083_t;
+};
+typedef union bdk_pcieepx_cfg083 bdk_pcieepx_cfg083_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG083(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG083(unsigned long a)
@@ -3745,7 +3812,7 @@ static inline uint64_t BDK_PCIEEPX_CFG083(unsigned long a)
  * PCIe EP PF Secondary Capability (Gen3) Header Register
  * This register contains the eighty-seventh 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg086
 {
     uint32_t u;
     struct bdk_pcieepx_cfg086_s
@@ -3767,7 +3834,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg086_s cn; */
-} bdk_pcieepx_cfg086_t;
+};
+typedef union bdk_pcieepx_cfg086 bdk_pcieepx_cfg086_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG086(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG086(unsigned long a)
@@ -3789,7 +3857,7 @@ static inline uint64_t BDK_PCIEEPX_CFG086(unsigned long a)
  * PCIe EP PF Link Control 3 Register
  * This register contains the eighty-eighth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg087
 {
     uint32_t u;
     struct bdk_pcieepx_cfg087_s
@@ -3801,7 +3869,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg087_s cn; */
-} bdk_pcieepx_cfg087_t;
+};
+typedef union bdk_pcieepx_cfg087 bdk_pcieepx_cfg087_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG087(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG087(unsigned long a)
@@ -3823,7 +3892,7 @@ static inline uint64_t BDK_PCIEEPX_CFG087(unsigned long a)
  * PCIe EP PF Lane Error Status Register
  * This register contains the eighty-ninth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg088
 {
     uint32_t u;
     struct bdk_pcieepx_cfg088_s
@@ -3837,7 +3906,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg088_s cn; */
-} bdk_pcieepx_cfg088_t;
+};
+typedef union bdk_pcieepx_cfg088 bdk_pcieepx_cfg088_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG088(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG088(unsigned long a)
@@ -3859,7 +3929,7 @@ static inline uint64_t BDK_PCIEEPX_CFG088(unsigned long a)
  * PCIe EP PF Equalization Control Lane 0/1 Register
  * This register contains the ninetieth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg089
 {
     uint32_t u;
     struct bdk_pcieepx_cfg089_s
@@ -3901,7 +3971,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg089_s cn; */
-} bdk_pcieepx_cfg089_t;
+};
+typedef union bdk_pcieepx_cfg089 bdk_pcieepx_cfg089_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG089(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG089(unsigned long a)
@@ -3923,7 +3994,7 @@ static inline uint64_t BDK_PCIEEPX_CFG089(unsigned long a)
  * PCIe EP PF Equalization Control Lane 2/3 Register
  * This register contains the ninety-first 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg090
 {
     uint32_t u;
     struct bdk_pcieepx_cfg090_s
@@ -3965,7 +4036,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg090_s cn; */
-} bdk_pcieepx_cfg090_t;
+};
+typedef union bdk_pcieepx_cfg090 bdk_pcieepx_cfg090_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG090(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG090(unsigned long a)
@@ -3987,7 +4059,7 @@ static inline uint64_t BDK_PCIEEPX_CFG090(unsigned long a)
  * PCIe EP PF Equalization Control Lane 4/5 Register
  * This register contains the ninety-second 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg091
 {
     uint32_t u;
     struct bdk_pcieepx_cfg091_s
@@ -4029,7 +4101,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg091_s cn; */
-} bdk_pcieepx_cfg091_t;
+};
+typedef union bdk_pcieepx_cfg091 bdk_pcieepx_cfg091_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG091(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG091(unsigned long a)
@@ -4051,7 +4124,7 @@ static inline uint64_t BDK_PCIEEPX_CFG091(unsigned long a)
  * PCIe EP PF Equalization Control Lane 6/7 Register
  * This register contains the ninety-fourth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg092
 {
     uint32_t u;
     struct bdk_pcieepx_cfg092_s
@@ -4093,7 +4166,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg092_s cn; */
-} bdk_pcieepx_cfg092_t;
+};
+typedef union bdk_pcieepx_cfg092 bdk_pcieepx_cfg092_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG092(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG092(unsigned long a)
@@ -4115,7 +4189,7 @@ static inline uint64_t BDK_PCIEEPX_CFG092(unsigned long a)
  * PCIe EP PF SR-IOV Capability Header Register
  * This register contains the ninety-fifth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg094
 {
     uint32_t u;
     struct bdk_pcieepx_cfg094_s
@@ -4131,7 +4205,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg094_s cn; */
-} bdk_pcieepx_cfg094_t;
+};
+typedef union bdk_pcieepx_cfg094 bdk_pcieepx_cfg094_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG094(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG094(unsigned long a)
@@ -4153,7 +4228,7 @@ static inline uint64_t BDK_PCIEEPX_CFG094(unsigned long a)
  * PCIe EP PF SR-IOV Capability Register
  * This register contains the ninety-sixth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg095
 {
     uint32_t u;
     struct bdk_pcieepx_cfg095_s
@@ -4173,7 +4248,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg095_s cn; */
-} bdk_pcieepx_cfg095_t;
+};
+typedef union bdk_pcieepx_cfg095 bdk_pcieepx_cfg095_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG095(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG095(unsigned long a)
@@ -4195,7 +4271,7 @@ static inline uint64_t BDK_PCIEEPX_CFG095(unsigned long a)
  * PCIe EP PF SR-IOV Control/Status Register
  * This register contains the ninety-seventh 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg096
 {
     uint32_t u;
     struct bdk_pcieepx_cfg096_s
@@ -4229,7 +4305,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg096_s cn; */
-} bdk_pcieepx_cfg096_t;
+};
+typedef union bdk_pcieepx_cfg096 bdk_pcieepx_cfg096_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG096(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG096(unsigned long a)
@@ -4251,7 +4328,7 @@ static inline uint64_t BDK_PCIEEPX_CFG096(unsigned long a)
  * PCIe EP PF SR-IOV Initial VFs/Total VFs Register
  * This register contains the ninety-eighth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg097
 {
     uint32_t u;
     struct bdk_pcieepx_cfg097_s
@@ -4291,7 +4368,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg097_s cn; */
-} bdk_pcieepx_cfg097_t;
+};
+typedef union bdk_pcieepx_cfg097 bdk_pcieepx_cfg097_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG097(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG097(unsigned long a)
@@ -4313,7 +4391,7 @@ static inline uint64_t BDK_PCIEEPX_CFG097(unsigned long a)
  * PCIe EP PF SR-IOV Number of VFs Register/SR-IOV Function Dependency Link Register
  * This register contains the ninety-ninth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg098
 {
     uint32_t u;
     struct bdk_pcieepx_cfg098_s
@@ -4329,7 +4407,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg098_s cn; */
-} bdk_pcieepx_cfg098_t;
+};
+typedef union bdk_pcieepx_cfg098 bdk_pcieepx_cfg098_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG098(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG098(unsigned long a)
@@ -4351,7 +4430,7 @@ static inline uint64_t BDK_PCIEEPX_CFG098(unsigned long a)
  * PCIe EP PF SR-IOV Initial VFs/Total VFs Register
  * This register contains the one hundredth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg099
 {
     uint32_t u;
     struct bdk_pcieepx_cfg099_s
@@ -4417,7 +4496,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg099_s cn; */
-} bdk_pcieepx_cfg099_t;
+};
+typedef union bdk_pcieepx_cfg099 bdk_pcieepx_cfg099_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG099(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG099(unsigned long a)
@@ -4439,7 +4519,7 @@ static inline uint64_t BDK_PCIEEPX_CFG099(unsigned long a)
  * PCIe EP PF SR-IOV Number of VFs/Function Dependency Link Register
  * This register contains the one hundred first 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg100
 {
     uint32_t u;
     struct bdk_pcieepx_cfg100_s
@@ -4457,7 +4537,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg100_s cn; */
-} bdk_pcieepx_cfg100_t;
+};
+typedef union bdk_pcieepx_cfg100 bdk_pcieepx_cfg100_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG100(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG100(unsigned long a)
@@ -4479,7 +4560,7 @@ static inline uint64_t BDK_PCIEEPX_CFG100(unsigned long a)
  * PCIe EP PF SR-IOV Supported Page Sizes Register
  * This register contains the one hundred second 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg101
 {
     uint32_t u;
     struct bdk_pcieepx_cfg101_s
@@ -4491,7 +4572,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg101_s cn; */
-} bdk_pcieepx_cfg101_t;
+};
+typedef union bdk_pcieepx_cfg101 bdk_pcieepx_cfg101_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG101(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG101(unsigned long a)
@@ -4513,7 +4595,7 @@ static inline uint64_t BDK_PCIEEPX_CFG101(unsigned long a)
  * PCIe EP PF SR-IOV System Page Sizes Register
  * This register contains the one hundred third 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg102
 {
     uint32_t u;
     struct bdk_pcieepx_cfg102_s
@@ -4525,7 +4607,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg102_s cn; */
-} bdk_pcieepx_cfg102_t;
+};
+typedef union bdk_pcieepx_cfg102 bdk_pcieepx_cfg102_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG102(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG102(unsigned long a)
@@ -4547,7 +4630,7 @@ static inline uint64_t BDK_PCIEEPX_CFG102(unsigned long a)
  * PCIe EP PF SR-IOV BAR 0 Register
  * This register contains the one hundred fourth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg103
 {
     uint32_t u;
     struct bdk_pcieepx_cfg103_s
@@ -4575,7 +4658,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg103_s cn; */
-} bdk_pcieepx_cfg103_t;
+};
+typedef union bdk_pcieepx_cfg103 bdk_pcieepx_cfg103_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG103(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG103(unsigned long a)
@@ -4597,7 +4681,7 @@ static inline uint64_t BDK_PCIEEPX_CFG103(unsigned long a)
  * PCIe EP PF SR-IOV BAR 1 Register
  * This register contains the one hundred seventh 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg104
 {
     uint32_t u;
     struct bdk_pcieepx_cfg104_s
@@ -4609,7 +4693,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg104_s cn; */
-} bdk_pcieepx_cfg104_t;
+};
+typedef union bdk_pcieepx_cfg104 bdk_pcieepx_cfg104_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG104(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG104(unsigned long a)
@@ -4631,7 +4716,7 @@ static inline uint64_t BDK_PCIEEPX_CFG104(unsigned long a)
  * PCIe EP PF SR-IOV BAR 2 Register
  * This register contains the one hundred sixth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg105
 {
     uint32_t u;
     struct bdk_pcieepx_cfg105_s
@@ -4643,7 +4728,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg105_s cn; */
-} bdk_pcieepx_cfg105_t;
+};
+typedef union bdk_pcieepx_cfg105 bdk_pcieepx_cfg105_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG105(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG105(unsigned long a)
@@ -4665,7 +4751,7 @@ static inline uint64_t BDK_PCIEEPX_CFG105(unsigned long a)
  * PCIe EP PF SR-IOV BAR 3 Register
  * This register contains the one hundred seventh 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg106
 {
     uint32_t u;
     struct bdk_pcieepx_cfg106_s
@@ -4677,7 +4763,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg106_s cn; */
-} bdk_pcieepx_cfg106_t;
+};
+typedef union bdk_pcieepx_cfg106 bdk_pcieepx_cfg106_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG106(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG106(unsigned long a)
@@ -4699,7 +4786,7 @@ static inline uint64_t BDK_PCIEEPX_CFG106(unsigned long a)
  * PCIe EP PF SR-IOV BAR 4 Register
  * This register contains the one hundred eighth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg107
 {
     uint32_t u;
     struct bdk_pcieepx_cfg107_s
@@ -4711,7 +4798,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg107_s cn; */
-} bdk_pcieepx_cfg107_t;
+};
+typedef union bdk_pcieepx_cfg107 bdk_pcieepx_cfg107_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG107(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG107(unsigned long a)
@@ -4733,7 +4821,7 @@ static inline uint64_t BDK_PCIEEPX_CFG107(unsigned long a)
  * PCIe EP PF SR-IOV BAR 5 Register
  * This register contains the one hundred ninth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg108
 {
     uint32_t u;
     struct bdk_pcieepx_cfg108_s
@@ -4745,7 +4833,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg108_s cn; */
-} bdk_pcieepx_cfg108_t;
+};
+typedef union bdk_pcieepx_cfg108 bdk_pcieepx_cfg108_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG108(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG108(unsigned long a)
@@ -4767,7 +4856,7 @@ static inline uint64_t BDK_PCIEEPX_CFG108(unsigned long a)
  * PCIe EP PF SR-IOV Migration State Array Offset Register
  * This register contains the one hundred tenth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg109
 {
     uint32_t u;
     struct bdk_pcieepx_cfg109_s
@@ -4781,7 +4870,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg109_s cn; */
-} bdk_pcieepx_cfg109_t;
+};
+typedef union bdk_pcieepx_cfg109 bdk_pcieepx_cfg109_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG109(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG109(unsigned long a)
@@ -4803,7 +4893,7 @@ static inline uint64_t BDK_PCIEEPX_CFG109(unsigned long a)
  * PCI Express Vendor Specific RAS DES Capability Header Register
  * This register contains the one hundred eleventh 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg110
 {
     uint32_t u;
     struct bdk_pcieepx_cfg110_s
@@ -4827,7 +4917,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg110_s cn; */
-} bdk_pcieepx_cfg110_t;
+};
+typedef union bdk_pcieepx_cfg110 bdk_pcieepx_cfg110_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG110(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG110(unsigned long a)
@@ -4849,7 +4940,7 @@ static inline uint64_t BDK_PCIEEPX_CFG110(unsigned long a)
  * PCI Express Vendor RAS DES Header Register
  * This register contains the one hundred twelfth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg111
 {
     uint32_t u;
     struct bdk_pcieepx_cfg111_s
@@ -4865,7 +4956,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg111_s cn; */
-} bdk_pcieepx_cfg111_t;
+};
+typedef union bdk_pcieepx_cfg111 bdk_pcieepx_cfg111_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG111(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG111(unsigned long a)
@@ -4887,7 +4979,7 @@ static inline uint64_t BDK_PCIEEPX_CFG111(unsigned long a)
  * PCI Express Vendor RAS DES Event Counter Control Register
  * This register contains the one hundred thirteenth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg112
 {
     uint32_t u;
     struct bdk_pcieepx_cfg112_s
@@ -4969,7 +5061,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg112_s cn; */
-} bdk_pcieepx_cfg112_t;
+};
+typedef union bdk_pcieepx_cfg112 bdk_pcieepx_cfg112_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG112(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG112(unsigned long a)
@@ -4991,7 +5084,7 @@ static inline uint64_t BDK_PCIEEPX_CFG112(unsigned long a)
  * PCI Express Vendor RAS DES Data Register
  * This register contains the one hundred fourteenth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg113
 {
     uint32_t u;
     struct bdk_pcieepx_cfg113_s
@@ -5005,7 +5098,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg113_s cn; */
-} bdk_pcieepx_cfg113_t;
+};
+typedef union bdk_pcieepx_cfg113 bdk_pcieepx_cfg113_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG113(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG113(unsigned long a)
@@ -5027,7 +5121,7 @@ static inline uint64_t BDK_PCIEEPX_CFG113(unsigned long a)
  * PCI Express Vendor RAS DES Time Based Analysis Control Register
  * This register contains the one hundred fifteenth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg114
 {
     uint32_t u;
     struct bdk_pcieepx_cfg114_s
@@ -5117,7 +5211,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg114_s cn; */
-} bdk_pcieepx_cfg114_t;
+};
+typedef union bdk_pcieepx_cfg114 bdk_pcieepx_cfg114_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG114(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG114(unsigned long a)
@@ -5139,7 +5234,7 @@ static inline uint64_t BDK_PCIEEPX_CFG114(unsigned long a)
  * PCI Express Vendor RAS DES Time Based Analysis Data Register
  * This register contains the one hundred sixteenth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg115
 {
     uint32_t u;
     struct bdk_pcieepx_cfg115_s
@@ -5155,7 +5250,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg115_s cn; */
-} bdk_pcieepx_cfg115_t;
+};
+typedef union bdk_pcieepx_cfg115 bdk_pcieepx_cfg115_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG115(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG115(unsigned long a)
@@ -5177,7 +5273,7 @@ static inline uint64_t BDK_PCIEEPX_CFG115(unsigned long a)
  * PCI Express Vendor RAS DES Error Injection Enable Register
  * This register contains the one hundred twenty-first 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg121
 {
     uint32_t u;
     struct bdk_pcieepx_cfg121_s
@@ -5219,7 +5315,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg121_s cn; */
-} bdk_pcieepx_cfg121_t;
+};
+typedef union bdk_pcieepx_cfg121 bdk_pcieepx_cfg121_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG121(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG121(unsigned long a)
@@ -5241,7 +5338,7 @@ static inline uint64_t BDK_PCIEEPX_CFG121(unsigned long a)
  * PCI Express Vendor RAS DES Error Injection Control 0 (CRC) Register
  * This register contains the one hundred twenty-third 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg122
 {
     uint32_t u;
     struct bdk_pcieepx_cfg122_s
@@ -5301,7 +5398,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg122_s cn; */
-} bdk_pcieepx_cfg122_t;
+};
+typedef union bdk_pcieepx_cfg122 bdk_pcieepx_cfg122_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG122(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG122(unsigned long a)
@@ -5323,7 +5421,7 @@ static inline uint64_t BDK_PCIEEPX_CFG122(unsigned long a)
  * PCI Express Vendor RAS DES Error Injection Control 1 (SEQNUM) Register
  * This register contains the one hundred twenty-fourth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg123
 {
     uint32_t u;
     struct bdk_pcieepx_cfg123_s
@@ -5387,7 +5485,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg123_s cn; */
-} bdk_pcieepx_cfg123_t;
+};
+typedef union bdk_pcieepx_cfg123 bdk_pcieepx_cfg123_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG123(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG123(unsigned long a)
@@ -5409,7 +5508,7 @@ static inline uint64_t BDK_PCIEEPX_CFG123(unsigned long a)
  * PCI Express Vendor RAS DES Error Injection Control 2 (DLLP) Register
  * This register contains the one hundred twenty-fifth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg124
 {
     uint32_t u;
     struct bdk_pcieepx_cfg124_s
@@ -5449,7 +5548,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg124_s cn; */
-} bdk_pcieepx_cfg124_t;
+};
+typedef union bdk_pcieepx_cfg124 bdk_pcieepx_cfg124_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG124(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG124(unsigned long a)
@@ -5471,7 +5571,7 @@ static inline uint64_t BDK_PCIEEPX_CFG124(unsigned long a)
  * PCI Express Vendor RAS DES Error Injection Control 3 (Symbol) Register
  * This register contains the one hundred twenty-sixth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg125
 {
     uint32_t u;
     struct bdk_pcieepx_cfg125_s
@@ -5519,7 +5619,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg125_s cn; */
-} bdk_pcieepx_cfg125_t;
+};
+typedef union bdk_pcieepx_cfg125 bdk_pcieepx_cfg125_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG125(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG125(unsigned long a)
@@ -5541,7 +5642,7 @@ static inline uint64_t BDK_PCIEEPX_CFG125(unsigned long a)
  * PCI Express Vendor RAS DES Error Injection Control 4 (FC Credit) Register
  * This register contains the one hundred twenty-seventh 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg126
 {
     uint32_t u;
     struct bdk_pcieepx_cfg126_s
@@ -5621,7 +5722,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg126_s cn; */
-} bdk_pcieepx_cfg126_t;
+};
+typedef union bdk_pcieepx_cfg126 bdk_pcieepx_cfg126_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG126(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG126(unsigned long a)
@@ -5643,7 +5745,7 @@ static inline uint64_t BDK_PCIEEPX_CFG126(unsigned long a)
  * PCI Express Vendor RAS DES Error Injection Control 5 (Specific TLP) Register
  * This register contains the one hundred twenty-eighth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg127
 {
     uint32_t u;
     struct bdk_pcieepx_cfg127_s
@@ -5679,7 +5781,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg127_s cn; */
-} bdk_pcieepx_cfg127_t;
+};
+typedef union bdk_pcieepx_cfg127 bdk_pcieepx_cfg127_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG127(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG127(unsigned long a)
@@ -5701,7 +5804,7 @@ static inline uint64_t BDK_PCIEEPX_CFG127(unsigned long a)
  * PCI Express Vendor RAS DES Error Injection Control 6 (Compare Point H0) Register
  * This register contains the one hundred twenty-ninth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg128
 {
     uint32_t u;
     struct bdk_pcieepx_cfg128_s
@@ -5721,7 +5824,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg128_s cn; */
-} bdk_pcieepx_cfg128_t;
+};
+typedef union bdk_pcieepx_cfg128 bdk_pcieepx_cfg128_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG128(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG128(unsigned long a)
@@ -5743,7 +5847,7 @@ static inline uint64_t BDK_PCIEEPX_CFG128(unsigned long a)
  * PCI Express Vendor RAS DES Error Injection Control 6 (Compare Point H1) Register
  * This register contains the one hundred thirtyith 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg129
 {
     uint32_t u;
     struct bdk_pcieepx_cfg129_s
@@ -5763,7 +5867,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg129_s cn; */
-} bdk_pcieepx_cfg129_t;
+};
+typedef union bdk_pcieepx_cfg129 bdk_pcieepx_cfg129_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG129(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG129(unsigned long a)
@@ -5785,7 +5890,7 @@ static inline uint64_t BDK_PCIEEPX_CFG129(unsigned long a)
  * PCI Express Vendor RAS DES Error Injection Control 6 (Compare Point H2) Register
  * This register contains the one hundred thirty-first 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg130
 {
     uint32_t u;
     struct bdk_pcieepx_cfg130_s
@@ -5805,7 +5910,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg130_s cn; */
-} bdk_pcieepx_cfg130_t;
+};
+typedef union bdk_pcieepx_cfg130 bdk_pcieepx_cfg130_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG130(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG130(unsigned long a)
@@ -5827,7 +5933,7 @@ static inline uint64_t BDK_PCIEEPX_CFG130(unsigned long a)
  * PCI Express Vendor RAS DES Error Injection Control 6 (Compare Point H3) Register
  * This register contains the one hundred thirty-second 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg131
 {
     uint32_t u;
     struct bdk_pcieepx_cfg131_s
@@ -5847,7 +5953,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg131_s cn; */
-} bdk_pcieepx_cfg131_t;
+};
+typedef union bdk_pcieepx_cfg131 bdk_pcieepx_cfg131_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG131(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG131(unsigned long a)
@@ -5869,7 +5976,7 @@ static inline uint64_t BDK_PCIEEPX_CFG131(unsigned long a)
  * PCI Express Vendor RAS DES Error Injection Control 6 (Compare Value H0) Register
  * This register contains the one hundred thirty-third 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg132
 {
     uint32_t u;
     struct bdk_pcieepx_cfg132_s
@@ -5885,7 +5992,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg132_s cn; */
-} bdk_pcieepx_cfg132_t;
+};
+typedef union bdk_pcieepx_cfg132 bdk_pcieepx_cfg132_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG132(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG132(unsigned long a)
@@ -5907,7 +6015,7 @@ static inline uint64_t BDK_PCIEEPX_CFG132(unsigned long a)
  * PCI Express Vendor RAS DES Error Injection Control 6 (Compare Value H1) Register
  * This register contains the one hundred thirty-forth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg133
 {
     uint32_t u;
     struct bdk_pcieepx_cfg133_s
@@ -5923,7 +6031,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg133_s cn; */
-} bdk_pcieepx_cfg133_t;
+};
+typedef union bdk_pcieepx_cfg133 bdk_pcieepx_cfg133_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG133(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG133(unsigned long a)
@@ -5945,7 +6054,7 @@ static inline uint64_t BDK_PCIEEPX_CFG133(unsigned long a)
  * PCI Express Vendor RAS DES Error Injection Control 6 (Compare Value H2) Register
  * This register contains the one hundred thirty-fifth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg134
 {
     uint32_t u;
     struct bdk_pcieepx_cfg134_s
@@ -5961,7 +6070,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg134_s cn; */
-} bdk_pcieepx_cfg134_t;
+};
+typedef union bdk_pcieepx_cfg134 bdk_pcieepx_cfg134_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG134(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG134(unsigned long a)
@@ -5983,7 +6093,7 @@ static inline uint64_t BDK_PCIEEPX_CFG134(unsigned long a)
  * PCI Express Vendor RAS DES Error Injection Control 6 (Compare Value H3) Register
  * This register contains the one hundred thirty-ssixth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg135
 {
     uint32_t u;
     struct bdk_pcieepx_cfg135_s
@@ -5999,7 +6109,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg135_s cn; */
-} bdk_pcieepx_cfg135_t;
+};
+typedef union bdk_pcieepx_cfg135 bdk_pcieepx_cfg135_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG135(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG135(unsigned long a)
@@ -6021,7 +6132,7 @@ static inline uint64_t BDK_PCIEEPX_CFG135(unsigned long a)
  * PCI Express Vendor RAS DES Error Injection Control 6 (Change Point H0) Register
  * This register contains the one hundred thirty-seventh 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg136
 {
     uint32_t u;
     struct bdk_pcieepx_cfg136_s
@@ -6037,7 +6148,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg136_s cn; */
-} bdk_pcieepx_cfg136_t;
+};
+typedef union bdk_pcieepx_cfg136 bdk_pcieepx_cfg136_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG136(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG136(unsigned long a)
@@ -6059,7 +6171,7 @@ static inline uint64_t BDK_PCIEEPX_CFG136(unsigned long a)
  * PCI Express Vendor RAS DES Error Injection Control 6 (Change Point H1) Register
  * This register contains the one hundred thirty-eighth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg137
 {
     uint32_t u;
     struct bdk_pcieepx_cfg137_s
@@ -6075,7 +6187,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg137_s cn; */
-} bdk_pcieepx_cfg137_t;
+};
+typedef union bdk_pcieepx_cfg137 bdk_pcieepx_cfg137_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG137(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG137(unsigned long a)
@@ -6097,7 +6210,7 @@ static inline uint64_t BDK_PCIEEPX_CFG137(unsigned long a)
  * PCI Express Vendor RAS DES Error Injection Control 6 (Change Point H2) Register
  * This register contains the one hundred thirty-ninth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg138
 {
     uint32_t u;
     struct bdk_pcieepx_cfg138_s
@@ -6113,7 +6226,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg138_s cn; */
-} bdk_pcieepx_cfg138_t;
+};
+typedef union bdk_pcieepx_cfg138 bdk_pcieepx_cfg138_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG138(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG138(unsigned long a)
@@ -6135,7 +6249,7 @@ static inline uint64_t BDK_PCIEEPX_CFG138(unsigned long a)
  * PCI Express Vendor RAS DES Error Injection Control 6 (Change Point H3) Register
  * This register contains the one hundred fortieth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg139
 {
     uint32_t u;
     struct bdk_pcieepx_cfg139_s
@@ -6151,7 +6265,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg139_s cn; */
-} bdk_pcieepx_cfg139_t;
+};
+typedef union bdk_pcieepx_cfg139 bdk_pcieepx_cfg139_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG139(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG139(unsigned long a)
@@ -6173,7 +6288,7 @@ static inline uint64_t BDK_PCIEEPX_CFG139(unsigned long a)
  * PCI Express Vendor RAS DES Error Injection Control 6 (Change Value H0) Register
  * This register contains the one hundred forty-first 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg140
 {
     uint32_t u;
     struct bdk_pcieepx_cfg140_s
@@ -6191,7 +6306,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg140_s cn; */
-} bdk_pcieepx_cfg140_t;
+};
+typedef union bdk_pcieepx_cfg140 bdk_pcieepx_cfg140_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG140(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG140(unsigned long a)
@@ -6213,7 +6329,7 @@ static inline uint64_t BDK_PCIEEPX_CFG140(unsigned long a)
  * PCI Express Vendor RAS DES Error Injection Control 6 (Change Value H1) Register
  * This register contains the one hundred forty-second 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg141
 {
     uint32_t u;
     struct bdk_pcieepx_cfg141_s
@@ -6231,7 +6347,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg141_s cn; */
-} bdk_pcieepx_cfg141_t;
+};
+typedef union bdk_pcieepx_cfg141 bdk_pcieepx_cfg141_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG141(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG141(unsigned long a)
@@ -6253,7 +6370,7 @@ static inline uint64_t BDK_PCIEEPX_CFG141(unsigned long a)
  * PCI Express Vendor RAS DES Error Injection Control 6 (Change Value H2) Register
  * This register contains the one hundred forty-third 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg142
 {
     uint32_t u;
     struct bdk_pcieepx_cfg142_s
@@ -6271,7 +6388,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg142_s cn; */
-} bdk_pcieepx_cfg142_t;
+};
+typedef union bdk_pcieepx_cfg142 bdk_pcieepx_cfg142_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG142(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG142(unsigned long a)
@@ -6293,7 +6411,7 @@ static inline uint64_t BDK_PCIEEPX_CFG142(unsigned long a)
  * PCI Express Vendor RAS DES Error Injection Control 6 (Change Value H3) Register
  * This register contains the one hundred forty-forth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg143
 {
     uint32_t u;
     struct bdk_pcieepx_cfg143_s
@@ -6311,7 +6429,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg143_s cn; */
-} bdk_pcieepx_cfg143_t;
+};
+typedef union bdk_pcieepx_cfg143 bdk_pcieepx_cfg143_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG143(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG143(unsigned long a)
@@ -6333,7 +6452,7 @@ static inline uint64_t BDK_PCIEEPX_CFG143(unsigned long a)
  * PCI Express Vendor RAS DES Error Injection Control 6 (Packet Error) Register
  * This register contains the one hundred forty-fifth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg144
 {
     uint32_t u;
     struct bdk_pcieepx_cfg144_s
@@ -6385,7 +6504,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg144_s cn; */
-} bdk_pcieepx_cfg144_t;
+};
+typedef union bdk_pcieepx_cfg144 bdk_pcieepx_cfg144_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG144(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG144(unsigned long a)
@@ -6407,7 +6527,7 @@ static inline uint64_t BDK_PCIEEPX_CFG144(unsigned long a)
  * PCI Express Vendor RAS DES Silicon Debug Control 1 Register
  * This register contains the one hundred fiftyith 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg149
 {
     uint32_t u;
     struct bdk_pcieepx_cfg149_s
@@ -6501,7 +6621,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg149_s cn; */
-} bdk_pcieepx_cfg149_t;
+};
+typedef union bdk_pcieepx_cfg149 bdk_pcieepx_cfg149_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG149(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG149(unsigned long a)
@@ -6523,7 +6644,7 @@ static inline uint64_t BDK_PCIEEPX_CFG149(unsigned long a)
  * PCI Express Vendor RAS DES Silicon Debug Control 2 Register
  * This register contains the one hundred fifty-first 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg150
 {
     uint32_t u;
     struct bdk_pcieepx_cfg150_s
@@ -6585,7 +6706,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg150_s cn; */
-} bdk_pcieepx_cfg150_t;
+};
+typedef union bdk_pcieepx_cfg150 bdk_pcieepx_cfg150_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG150(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG150(unsigned long a)
@@ -6607,7 +6729,7 @@ static inline uint64_t BDK_PCIEEPX_CFG150(unsigned long a)
  * PCI Express Vendor RAS DES Silicon Debug Status L1Lane Register
  * This register contains the one hundred fifty-forth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg153
 {
     uint32_t u;
     struct bdk_pcieepx_cfg153_s
@@ -6675,7 +6797,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg153_s cn; */
-} bdk_pcieepx_cfg153_t;
+};
+typedef union bdk_pcieepx_cfg153 bdk_pcieepx_cfg153_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG153(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG153(unsigned long a)
@@ -6697,7 +6820,7 @@ static inline uint64_t BDK_PCIEEPX_CFG153(unsigned long a)
  * PCI Express Vendor RAS DES Silicon Debug Status L1LTSSM Register
  * This register contains the one hundred fifty-fifth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg154
 {
     uint32_t u;
     struct bdk_pcieepx_cfg154_s
@@ -6839,7 +6962,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg154_s cn; */
-} bdk_pcieepx_cfg154_t;
+};
+typedef union bdk_pcieepx_cfg154 bdk_pcieepx_cfg154_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG154(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG154(unsigned long a)
@@ -6861,7 +6985,7 @@ static inline uint64_t BDK_PCIEEPX_CFG154(unsigned long a)
  * PCI Express Vendor RAS DES Silicon Debug Status PM Register
  * This register contains the one hundred fifty-sixth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg155
 {
     uint32_t u;
     struct bdk_pcieepx_cfg155_s
@@ -7001,7 +7125,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg155_s cn; */
-} bdk_pcieepx_cfg155_t;
+};
+typedef union bdk_pcieepx_cfg155 bdk_pcieepx_cfg155_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG155(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG155(unsigned long a)
@@ -7023,7 +7148,7 @@ static inline uint64_t BDK_PCIEEPX_CFG155(unsigned long a)
  * PCI Express Vendor RAS DES Silicon Debug Status L2 Register
  * This register contains the one hundred fifty-seventh 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg156
 {
     uint32_t u;
     struct bdk_pcieepx_cfg156_s
@@ -7061,7 +7186,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg156_s cn; */
-} bdk_pcieepx_cfg156_t;
+};
+typedef union bdk_pcieepx_cfg156 bdk_pcieepx_cfg156_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG156(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG156(unsigned long a)
@@ -7083,7 +7209,7 @@ static inline uint64_t BDK_PCIEEPX_CFG156(unsigned long a)
  * PCI Express Vendor RAS DES Silicon Debug Status L2 Register
  * This register contains the one hundred fifty-ninth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg157
 {
     uint32_t u;
     struct bdk_pcieepx_cfg157_s
@@ -7189,7 +7315,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg157_s cn; */
-} bdk_pcieepx_cfg157_t;
+};
+typedef union bdk_pcieepx_cfg157 bdk_pcieepx_cfg157_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG157(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG157(unsigned long a)
@@ -7211,7 +7338,7 @@ static inline uint64_t BDK_PCIEEPX_CFG157(unsigned long a)
  * PCI Express Vendor RAS DES Silicon Debug Status L3 Register
  * This register contains the one hundred fifty-ninth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg158
 {
     uint32_t u;
     struct bdk_pcieepx_cfg158_s
@@ -7267,7 +7394,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg158_s cn; */
-} bdk_pcieepx_cfg158_t;
+};
+typedef union bdk_pcieepx_cfg158 bdk_pcieepx_cfg158_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG158(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG158(unsigned long a)
@@ -7289,7 +7417,7 @@ static inline uint64_t BDK_PCIEEPX_CFG158(unsigned long a)
  * PCI Express Vendor RAS DES Silicon Debug EQ Control 1 Register
  * This register contains the one hundred sixty-second 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg161
 {
     uint32_t u;
     struct bdk_pcieepx_cfg161_s
@@ -7405,7 +7533,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg161_s cn; */
-} bdk_pcieepx_cfg161_t;
+};
+typedef union bdk_pcieepx_cfg161 bdk_pcieepx_cfg161_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG161(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG161(unsigned long a)
@@ -7427,7 +7556,7 @@ static inline uint64_t BDK_PCIEEPX_CFG161(unsigned long a)
  * PCI Express Vendor RAS DES Silicon Debug EQ Control 2 Register
  * This register contains the one hundred sixty-third 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg162
 {
     uint32_t u;
     struct bdk_pcieepx_cfg162_s
@@ -7495,7 +7624,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg162_s cn; */
-} bdk_pcieepx_cfg162_t;
+};
+typedef union bdk_pcieepx_cfg162 bdk_pcieepx_cfg162_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG162(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG162(unsigned long a)
@@ -7517,7 +7647,7 @@ static inline uint64_t BDK_PCIEEPX_CFG162(unsigned long a)
  * PCI Express Vendor RAS DES Silicon Debug EQ Control 3 Register
  * This register contains the one hundred sixty-forth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg163
 {
     uint32_t u;
     struct bdk_pcieepx_cfg163_s
@@ -7573,7 +7703,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg163_s cn; */
-} bdk_pcieepx_cfg163_t;
+};
+typedef union bdk_pcieepx_cfg163 bdk_pcieepx_cfg163_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG163(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG163(unsigned long a)
@@ -7595,7 +7726,7 @@ static inline uint64_t BDK_PCIEEPX_CFG163(unsigned long a)
  * PCI Express Vendor RAS DES Silicon Debug EQ Status 1 Register
  * This register contains the one hundred sixty-sixth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg165
 {
     uint32_t u;
     struct bdk_pcieepx_cfg165_s
@@ -7677,7 +7808,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg165_s cn; */
-} bdk_pcieepx_cfg165_t;
+};
+typedef union bdk_pcieepx_cfg165 bdk_pcieepx_cfg165_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG165(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG165(unsigned long a)
@@ -7699,7 +7831,7 @@ static inline uint64_t BDK_PCIEEPX_CFG165(unsigned long a)
  * PCI Express Vendor RAS DES Silicon Debug EQ Status 2 Register
  * This register contains the one hundred sixty-seventh 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg166
 {
     uint32_t u;
     struct bdk_pcieepx_cfg166_s
@@ -7731,7 +7863,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg166_s cn; */
-} bdk_pcieepx_cfg166_t;
+};
+typedef union bdk_pcieepx_cfg166 bdk_pcieepx_cfg166_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG166(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG166(unsigned long a)
@@ -7753,7 +7886,7 @@ static inline uint64_t BDK_PCIEEPX_CFG166(unsigned long a)
  * PCI Express Vendor RAS DES Silicon Debug EQ Status 3 Register
  * This register contains the one hundred sixty-eighth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg167
 {
     uint32_t u;
     struct bdk_pcieepx_cfg167_s
@@ -7785,7 +7918,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg167_s cn; */
-} bdk_pcieepx_cfg167_t;
+};
+typedef union bdk_pcieepx_cfg167 bdk_pcieepx_cfg167_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG167(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG167(unsigned long a)
@@ -7807,7 +7941,7 @@ static inline uint64_t BDK_PCIEEPX_CFG167(unsigned long a)
  * PCI Express Vendor RAS Data Path Protection Header Register
  * This register contains the one hundred seventy-fifth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg174
 {
     uint32_t u;
     struct bdk_pcieepx_cfg174_s
@@ -7829,7 +7963,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg174_s cn; */
-} bdk_pcieepx_cfg174_t;
+};
+typedef union bdk_pcieepx_cfg174 bdk_pcieepx_cfg174_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG174(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG174(unsigned long a)
@@ -7851,7 +7986,7 @@ static inline uint64_t BDK_PCIEEPX_CFG174(unsigned long a)
  * PCI Express RAS Data Path Extended Capability Register
  * This register contains the one hundred seventy-sixth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg175
 {
     uint32_t u;
     struct bdk_pcieepx_cfg175_s
@@ -7867,7 +8002,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg175_s cn; */
-} bdk_pcieepx_cfg175_t;
+};
+typedef union bdk_pcieepx_cfg175 bdk_pcieepx_cfg175_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG175(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG175(unsigned long a)
@@ -7889,7 +8025,7 @@ static inline uint64_t BDK_PCIEEPX_CFG175(unsigned long a)
  * PCI Express RAS Data Path Error Protection Control Register
  * This register contains the one hundred seventy-seventh 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg176
 {
     uint32_t u;
     struct bdk_pcieepx_cfg176_s
@@ -7931,7 +8067,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg176_s cn; */
-} bdk_pcieepx_cfg176_t;
+};
+typedef union bdk_pcieepx_cfg176 bdk_pcieepx_cfg176_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG176(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG176(unsigned long a)
@@ -7953,7 +8090,7 @@ static inline uint64_t BDK_PCIEEPX_CFG176(unsigned long a)
  * PCI Express RAS Data Path Correctable Error Control Register
  * This register contains the one hundred seventy-eighth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg177
 {
     uint32_t u;
     struct bdk_pcieepx_cfg177_s
@@ -8007,7 +8144,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg177_s cn; */
-} bdk_pcieepx_cfg177_t;
+};
+typedef union bdk_pcieepx_cfg177 bdk_pcieepx_cfg177_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG177(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG177(unsigned long a)
@@ -8029,7 +8167,7 @@ static inline uint64_t BDK_PCIEEPX_CFG177(unsigned long a)
  * PCI Express RAS Data Path Correctable Error Report Register
  * This register contains the one hundred seventy-ninth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg178
 {
     uint32_t u;
     struct bdk_pcieepx_cfg178_s
@@ -8073,7 +8211,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg178_s cn; */
-} bdk_pcieepx_cfg178_t;
+};
+typedef union bdk_pcieepx_cfg178 bdk_pcieepx_cfg178_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG178(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG178(unsigned long a)
@@ -8095,7 +8234,7 @@ static inline uint64_t BDK_PCIEEPX_CFG178(unsigned long a)
  * PCI Express RAS Data Path Uncorrectable Error Control Register
  * This register contains the one hundred eighty 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg179
 {
     uint32_t u;
     struct bdk_pcieepx_cfg179_s
@@ -8149,7 +8288,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg179_s cn; */
-} bdk_pcieepx_cfg179_t;
+};
+typedef union bdk_pcieepx_cfg179 bdk_pcieepx_cfg179_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG179(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG179(unsigned long a)
@@ -8171,7 +8311,7 @@ static inline uint64_t BDK_PCIEEPX_CFG179(unsigned long a)
  * PCI Express RAS Data Path Uncorrectable Error Report Register
  * This register contains the one hundred eighty-first 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg180
 {
     uint32_t u;
     struct bdk_pcieepx_cfg180_s
@@ -8215,7 +8355,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg180_s cn; */
-} bdk_pcieepx_cfg180_t;
+};
+typedef union bdk_pcieepx_cfg180 bdk_pcieepx_cfg180_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG180(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG180(unsigned long a)
@@ -8237,7 +8378,7 @@ static inline uint64_t BDK_PCIEEPX_CFG180(unsigned long a)
  * PCI Express RAS Data Correctable Error Injection Control Register
  * This register contains the one hundred eighty-second 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg181
 {
     uint32_t u;
     struct bdk_pcieepx_cfg181_s
@@ -8277,7 +8418,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg181_s cn; */
-} bdk_pcieepx_cfg181_t;
+};
+typedef union bdk_pcieepx_cfg181 bdk_pcieepx_cfg181_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG181(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG181(unsigned long a)
@@ -8299,7 +8441,7 @@ static inline uint64_t BDK_PCIEEPX_CFG181(unsigned long a)
  * PCI Express RAS Data Correctable Error Location Register
  * This register contains the one hundred eighty-third 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg182
 {
     uint32_t u;
     struct bdk_pcieepx_cfg182_s
@@ -8377,7 +8519,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg182_s cn; */
-} bdk_pcieepx_cfg182_t;
+};
+typedef union bdk_pcieepx_cfg182 bdk_pcieepx_cfg182_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG182(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG182(unsigned long a)
@@ -8399,7 +8542,7 @@ static inline uint64_t BDK_PCIEEPX_CFG182(unsigned long a)
  * PCI Express RAS Data Uncorrectable Error Location Register
  * This register contains the one hundred eighty-fourth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg183
 {
     uint32_t u;
     struct bdk_pcieepx_cfg183_s
@@ -8477,7 +8620,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg183_s cn; */
-} bdk_pcieepx_cfg183_t;
+};
+typedef union bdk_pcieepx_cfg183 bdk_pcieepx_cfg183_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG183(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG183(unsigned long a)
@@ -8499,7 +8643,7 @@ static inline uint64_t BDK_PCIEEPX_CFG183(unsigned long a)
  * PCI Express RAS Data Error Mode Enable Register
  * This register contains the one hundred eighty-fifth  32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg184
 {
     uint32_t u;
     struct bdk_pcieepx_cfg184_s
@@ -8517,7 +8661,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg184_s cn; */
-} bdk_pcieepx_cfg184_t;
+};
+typedef union bdk_pcieepx_cfg184 bdk_pcieepx_cfg184_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG184(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG184(unsigned long a)
@@ -8539,7 +8684,7 @@ static inline uint64_t BDK_PCIEEPX_CFG184(unsigned long a)
  * PCI Express RAS Data Error Mode Clear Register
  * This register contains the one hundred eighty-sixth  32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg185
 {
     uint32_t u;
     struct bdk_pcieepx_cfg185_s
@@ -8557,7 +8702,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg185_s cn; */
-} bdk_pcieepx_cfg185_t;
+};
+typedef union bdk_pcieepx_cfg185 bdk_pcieepx_cfg185_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG185(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG185(unsigned long a)
@@ -8579,7 +8725,7 @@ static inline uint64_t BDK_PCIEEPX_CFG185(unsigned long a)
  * PCI Express RAS RAM Address Corrected Error Register
  * This register contains the one hundred eigth-seventh  32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg186
 {
     uint32_t u;
     struct bdk_pcieepx_cfg186_s
@@ -8595,7 +8741,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg186_s cn; */
-} bdk_pcieepx_cfg186_t;
+};
+typedef union bdk_pcieepx_cfg186 bdk_pcieepx_cfg186_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG186(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG186(unsigned long a)
@@ -8617,7 +8764,7 @@ static inline uint64_t BDK_PCIEEPX_CFG186(unsigned long a)
  * PCI Express RAS RAM Address Uncorrected Error Register
  * This register contains the one hundred eighty-eighth  32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg187
 {
     uint32_t u;
     struct bdk_pcieepx_cfg187_s
@@ -8633,7 +8780,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg187_s cn; */
-} bdk_pcieepx_cfg187_t;
+};
+typedef union bdk_pcieepx_cfg187 bdk_pcieepx_cfg187_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG187(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG187(unsigned long a)
@@ -8655,7 +8803,7 @@ static inline uint64_t BDK_PCIEEPX_CFG187(unsigned long a)
  * PCI Express Resizable BAR (RBAR) Capability Header Register
  * This register contains the one hundred eighty-ninth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg188
 {
     uint32_t u;
     struct bdk_pcieepx_cfg188_s
@@ -8677,7 +8825,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg188_s cn; */
-} bdk_pcieepx_cfg188_t;
+};
+typedef union bdk_pcieepx_cfg188 bdk_pcieepx_cfg188_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG188(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG188(unsigned long a)
@@ -8699,7 +8848,7 @@ static inline uint64_t BDK_PCIEEPX_CFG188(unsigned long a)
  * PCI Express Resizable BAR (RBAR) Capability Register
  * This register contains the one hundred ninety 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg189
 {
     uint32_t u;
     struct bdk_pcieepx_cfg189_s
@@ -8723,7 +8872,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg189_s cn; */
-} bdk_pcieepx_cfg189_t;
+};
+typedef union bdk_pcieepx_cfg189 bdk_pcieepx_cfg189_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG189(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG189(unsigned long a)
@@ -8745,7 +8895,7 @@ static inline uint64_t BDK_PCIEEPX_CFG189(unsigned long a)
  * PCI Express Resizable BAR (RBAR) Control Register
  * This register contains the one hundred ninety-first 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg190
 {
     uint32_t u;
     struct bdk_pcieepx_cfg190_s
@@ -8775,7 +8925,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg190_s cn; */
-} bdk_pcieepx_cfg190_t;
+};
+typedef union bdk_pcieepx_cfg190 bdk_pcieepx_cfg190_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG190(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG190(unsigned long a)
@@ -8797,7 +8948,7 @@ static inline uint64_t BDK_PCIEEPX_CFG190(unsigned long a)
  * PCIe EP PF Ack Latency Timer/Replay Timer Register
  * This register contains the four hundred forty-ninth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg448
 {
     uint32_t u;
     struct bdk_pcieepx_cfg448_s
@@ -8825,7 +8976,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg448_s cn; */
-} bdk_pcieepx_cfg448_t;
+};
+typedef union bdk_pcieepx_cfg448 bdk_pcieepx_cfg448_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG448(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG448(unsigned long a)
@@ -8847,7 +8999,7 @@ static inline uint64_t BDK_PCIEEPX_CFG448(unsigned long a)
  * PCIe EP PF Other Message Register
  * This register contains the four hundred fiftieth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg449
 {
     uint32_t u;
     struct bdk_pcieepx_cfg449_s
@@ -8877,7 +9029,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg449_s cn; */
-} bdk_pcieepx_cfg449_t;
+};
+typedef union bdk_pcieepx_cfg449 bdk_pcieepx_cfg449_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG449(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG449(unsigned long a)
@@ -8899,7 +9052,7 @@ static inline uint64_t BDK_PCIEEPX_CFG449(unsigned long a)
  * PCIe EP PF Port Force Link Register
  * This register contains the four hundred fifty-first 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg450
 {
     uint32_t u;
     struct bdk_pcieepx_cfg450_s
@@ -8993,7 +9146,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg450_s cn; */
-} bdk_pcieepx_cfg450_t;
+};
+typedef union bdk_pcieepx_cfg450 bdk_pcieepx_cfg450_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG450(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG450(unsigned long a)
@@ -9015,7 +9169,7 @@ static inline uint64_t BDK_PCIEEPX_CFG450(unsigned long a)
  * PCIe EP PF Ack Frequency Register
  * This register contains the four hundred fifty-second 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg451
 {
     uint32_t u;
     struct bdk_pcieepx_cfg451_s
@@ -9089,7 +9243,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg451_s cn; */
-} bdk_pcieepx_cfg451_t;
+};
+typedef union bdk_pcieepx_cfg451 bdk_pcieepx_cfg451_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG451(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG451(unsigned long a)
@@ -9111,7 +9266,7 @@ static inline uint64_t BDK_PCIEEPX_CFG451(unsigned long a)
  * PCIe EP PF Port Link Control Register
  * This register contains the four hundred fifty-third 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg452
 {
     uint32_t u;
     struct bdk_pcieepx_cfg452_s
@@ -9207,7 +9362,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg452_s cn; */
-} bdk_pcieepx_cfg452_t;
+};
+typedef union bdk_pcieepx_cfg452 bdk_pcieepx_cfg452_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG452(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG452(unsigned long a)
@@ -9229,7 +9385,7 @@ static inline uint64_t BDK_PCIEEPX_CFG452(unsigned long a)
  * PCIe EP PF Lane Skew Register
  * This register contains the four hundred fifty-fourth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg453
 {
     uint32_t u;
     struct bdk_pcieepx_cfg453_s
@@ -9255,7 +9411,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg453_s cn; */
-} bdk_pcieepx_cfg453_t;
+};
+typedef union bdk_pcieepx_cfg453 bdk_pcieepx_cfg453_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG453(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG453(unsigned long a)
@@ -9277,7 +9434,7 @@ static inline uint64_t BDK_PCIEEPX_CFG453(unsigned long a)
  * PCIe EP PF Timer Control and Max Function Number Register
  * This register contains the four hundred fifty-fifth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg454
 {
     uint32_t u;
     struct bdk_pcieepx_cfg454_s
@@ -9315,7 +9472,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg454_s cn; */
-} bdk_pcieepx_cfg454_t;
+};
+typedef union bdk_pcieepx_cfg454 bdk_pcieepx_cfg454_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG454(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG454(unsigned long a)
@@ -9337,7 +9495,7 @@ static inline uint64_t BDK_PCIEEPX_CFG454(unsigned long a)
  * PCIe EP PF Symbol Timer/Filter Mask Register 1
  * This register contains the four hundred fifty-sixth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg455
 {
     uint32_t u;
     struct bdk_pcieepx_cfg455_s
@@ -9397,7 +9555,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg455_s cn; */
-} bdk_pcieepx_cfg455_t;
+};
+typedef union bdk_pcieepx_cfg455 bdk_pcieepx_cfg455_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG455(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG455(unsigned long a)
@@ -9419,7 +9578,7 @@ static inline uint64_t BDK_PCIEEPX_CFG455(unsigned long a)
  * PCIe EP PF Filter Mask Register 2
  * This register contains the four hundred fifty-seventh 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg456
 {
     uint32_t u;
     struct bdk_pcieepx_cfg456_s
@@ -9447,7 +9606,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg456_s cn; */
-} bdk_pcieepx_cfg456_t;
+};
+typedef union bdk_pcieepx_cfg456 bdk_pcieepx_cfg456_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG456(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG456(unsigned long a)
@@ -9469,7 +9629,7 @@ static inline uint64_t BDK_PCIEEPX_CFG456(unsigned long a)
  * PCIe EP PF Debug Register 0
  * This register contains the four hundred fifty-ninth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg458
 {
     uint32_t u;
     struct bdk_pcieepx_cfg458_s
@@ -9481,7 +9641,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg458_s cn; */
-} bdk_pcieepx_cfg458_t;
+};
+typedef union bdk_pcieepx_cfg458 bdk_pcieepx_cfg458_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG458(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG458(unsigned long a)
@@ -9503,7 +9664,7 @@ static inline uint64_t BDK_PCIEEPX_CFG458(unsigned long a)
  * PCIe EP PF Debug Register 1
  * This register contains the four hundred sixtieth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg459
 {
     uint32_t u;
     struct bdk_pcieepx_cfg459_s
@@ -9515,7 +9676,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg459_s cn; */
-} bdk_pcieepx_cfg459_t;
+};
+typedef union bdk_pcieepx_cfg459 bdk_pcieepx_cfg459_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG459(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG459(unsigned long a)
@@ -9537,7 +9699,7 @@ static inline uint64_t BDK_PCIEEPX_CFG459(unsigned long a)
  * PCIe EP PF Transmit Posted FC Credit Status Register
  * This register contains the four hundred sixty-first 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg460
 {
     uint32_t u;
     struct bdk_pcieepx_cfg460_s
@@ -9557,7 +9719,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg460_s cn; */
-} bdk_pcieepx_cfg460_t;
+};
+typedef union bdk_pcieepx_cfg460 bdk_pcieepx_cfg460_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG460(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG460(unsigned long a)
@@ -9579,7 +9742,7 @@ static inline uint64_t BDK_PCIEEPX_CFG460(unsigned long a)
  * PCIe EP PF Transmit Nonposted FC Credit Status Register
  * This register contains the four hundred sixty-second 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg461
 {
     uint32_t u;
     struct bdk_pcieepx_cfg461_s
@@ -9599,7 +9762,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg461_s cn; */
-} bdk_pcieepx_cfg461_t;
+};
+typedef union bdk_pcieepx_cfg461 bdk_pcieepx_cfg461_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG461(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG461(unsigned long a)
@@ -9621,7 +9785,7 @@ static inline uint64_t BDK_PCIEEPX_CFG461(unsigned long a)
  * PCIe EP PF Transmit Completion FC Credit Status Register
  * This register contains the four hundred sixty-third 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg462
 {
     uint32_t u;
     struct bdk_pcieepx_cfg462_s
@@ -9641,7 +9805,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg462_s cn; */
-} bdk_pcieepx_cfg462_t;
+};
+typedef union bdk_pcieepx_cfg462 bdk_pcieepx_cfg462_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG462(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG462(unsigned long a)
@@ -9663,7 +9828,7 @@ static inline uint64_t BDK_PCIEEPX_CFG462(unsigned long a)
  * PCIe EP PF Queue Status Register
  * This register contains the four hundred sixty-fourth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg463
 {
     uint32_t u;
     struct bdk_pcieepx_cfg463_s
@@ -9699,7 +9864,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg463_s cn; */
-} bdk_pcieepx_cfg463_t;
+};
+typedef union bdk_pcieepx_cfg463 bdk_pcieepx_cfg463_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG463(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG463(unsigned long a)
@@ -9721,7 +9887,7 @@ static inline uint64_t BDK_PCIEEPX_CFG463(unsigned long a)
  * PCIe EP PF VC Transmit Arbitration Register 1
  * This register contains the four hundred sixty-fifth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg464
 {
     uint32_t u;
     struct bdk_pcieepx_cfg464_s
@@ -9739,7 +9905,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg464_s cn; */
-} bdk_pcieepx_cfg464_t;
+};
+typedef union bdk_pcieepx_cfg464 bdk_pcieepx_cfg464_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG464(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG464(unsigned long a)
@@ -9761,7 +9928,7 @@ static inline uint64_t BDK_PCIEEPX_CFG464(unsigned long a)
  * PCIe EP PF VC Transmit Arbitration Register 2
  * This register contains the four hundred sixty-sixth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg465
 {
     uint32_t u;
     struct bdk_pcieepx_cfg465_s
@@ -9779,7 +9946,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg465_s cn; */
-} bdk_pcieepx_cfg465_t;
+};
+typedef union bdk_pcieepx_cfg465 bdk_pcieepx_cfg465_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG465(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG465(unsigned long a)
@@ -9801,7 +9969,7 @@ static inline uint64_t BDK_PCIEEPX_CFG465(unsigned long a)
  * PCIe EP PF VC0 Posted Receive Queue Control Register
  * This register contains the four hundred sixty-seventh 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg466
 {
     uint32_t u;
     struct bdk_pcieepx_cfg466_s
@@ -9875,7 +10043,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg466_s cn; */
-} bdk_pcieepx_cfg466_t;
+};
+typedef union bdk_pcieepx_cfg466 bdk_pcieepx_cfg466_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG466(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG466(unsigned long a)
@@ -9897,7 +10066,7 @@ static inline uint64_t BDK_PCIEEPX_CFG466(unsigned long a)
  * PCIe EP PF VC0 Nonposted Receive Queue Control Register
  * This register contains the four hundred sixty-eighth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg467
 {
     uint32_t u;
     struct bdk_pcieepx_cfg467_s
@@ -9947,7 +10116,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg467_s cn; */
-} bdk_pcieepx_cfg467_t;
+};
+typedef union bdk_pcieepx_cfg467 bdk_pcieepx_cfg467_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG467(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG467(unsigned long a)
@@ -9969,7 +10139,7 @@ static inline uint64_t BDK_PCIEEPX_CFG467(unsigned long a)
  * PCIe EP PF VC0 Completion Receive Queue Control Register
  * This register contains the four hundred sixty-ninth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg468
 {
     uint32_t u;
     struct bdk_pcieepx_cfg468_s
@@ -10019,7 +10189,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg468_s cn; */
-} bdk_pcieepx_cfg468_t;
+};
+typedef union bdk_pcieepx_cfg468 bdk_pcieepx_cfg468_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG468(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG468(unsigned long a)
@@ -10041,7 +10212,7 @@ static inline uint64_t BDK_PCIEEPX_CFG468(unsigned long a)
  * PCIe EP PF Gen2 Port Logic Register
  * This register contains the five hundred sixteenth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg515
 {
     uint32_t u;
     struct bdk_pcieepx_cfg515_s
@@ -10214,7 +10385,8 @@ typedef union
         uint32_t reserved_22_31        : 10;
 #endif /* Word 0 - End */
     } cn;
-} bdk_pcieepx_cfg515_t;
+};
+typedef union bdk_pcieepx_cfg515 bdk_pcieepx_cfg515_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG515(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG515(unsigned long a)
@@ -10236,7 +10408,7 @@ static inline uint64_t BDK_PCIEEPX_CFG515(unsigned long a)
  * PCIe EP PF PHY Status Register
  * This register contains the five hundred seventeenth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg516
 {
     uint32_t u;
     struct bdk_pcieepx_cfg516_s
@@ -10248,7 +10420,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg516_s cn; */
-} bdk_pcieepx_cfg516_t;
+};
+typedef union bdk_pcieepx_cfg516 bdk_pcieepx_cfg516_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG516(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG516(unsigned long a)
@@ -10270,7 +10443,7 @@ static inline uint64_t BDK_PCIEEPX_CFG516(unsigned long a)
  * PCIe EP PF PHY Control Register
  * This register contains the five hundred eighteenth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg517
 {
     uint32_t u;
     struct bdk_pcieepx_cfg517_s
@@ -10282,7 +10455,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg517_s cn; */
-} bdk_pcieepx_cfg517_t;
+};
+typedef union bdk_pcieepx_cfg517 bdk_pcieepx_cfg517_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG517(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG517(unsigned long a)
@@ -10304,7 +10478,7 @@ static inline uint64_t BDK_PCIEEPX_CFG517(unsigned long a)
  * PCIe EP PF Gen3 Control Register
  * This register contains the five hundred forty-ninth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg548
 {
     uint32_t u;
     struct bdk_pcieepx_cfg548_s
@@ -10360,7 +10534,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg548_s cn; */
-} bdk_pcieepx_cfg548_t;
+};
+typedef union bdk_pcieepx_cfg548 bdk_pcieepx_cfg548_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG548(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG548(unsigned long a)
@@ -10382,7 +10557,7 @@ static inline uint64_t BDK_PCIEEPX_CFG548(unsigned long a)
  * PCIe EP PF Gen3 EQ Control Register
  * This register contains the five hundred fifty-fifth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg554
 {
     uint32_t u;
     struct bdk_pcieepx_cfg554_s
@@ -10516,7 +10691,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg554_s cn; */
-} bdk_pcieepx_cfg554_t;
+};
+typedef union bdk_pcieepx_cfg554 bdk_pcieepx_cfg554_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG554(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG554(unsigned long a)
@@ -10538,7 +10714,7 @@ static inline uint64_t BDK_PCIEEPX_CFG554(unsigned long a)
  * PCIe EP PF Gen3 PIPE Loopback Register
  * This register contains the five hundred fifty-ninth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg558
 {
     uint32_t u;
     struct bdk_pcieepx_cfg558_s
@@ -10554,7 +10730,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg558_s cn; */
-} bdk_pcieepx_cfg558_t;
+};
+typedef union bdk_pcieepx_cfg558 bdk_pcieepx_cfg558_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG558(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG558(unsigned long a)
@@ -10576,7 +10753,7 @@ static inline uint64_t BDK_PCIEEPX_CFG558(unsigned long a)
  * PCIe EP Miscellaneous Control 1 Register
  * This register contains the five hundred sixtieth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg559
 {
     uint32_t u;
     struct bdk_pcieepx_cfg559_s
@@ -10618,7 +10795,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg559_s cn; */
-} bdk_pcieepx_cfg559_t;
+};
+typedef union bdk_pcieepx_cfg559 bdk_pcieepx_cfg559_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG559(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG559(unsigned long a)
@@ -10640,7 +10818,7 @@ static inline uint64_t BDK_PCIEEPX_CFG559(unsigned long a)
  * PCIe EP UpConfigure Multi-lane Control Register
  * This register contains the five hundred sixty-first 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepx_cfg560
 {
     uint32_t u;
     struct bdk_pcieepx_cfg560_s
@@ -10706,7 +10884,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg560_s cn; */
-} bdk_pcieepx_cfg560_t;
+};
+typedef union bdk_pcieepx_cfg560 bdk_pcieepx_cfg560_t;
 
 static inline uint64_t BDK_PCIEEPX_CFG560(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG560(unsigned long a)

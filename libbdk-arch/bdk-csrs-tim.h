@@ -235,7 +235,7 @@ union bdk_tim_mem_entry_s
  * This register provides access to the internal timer BIST results. Each bit is the BIST result
  * of an individual memory (per bit, 0 = pass and 1 = fail).
  */
-typedef union
+union bdk_tim_bist_result
 {
     uint64_t u;
     struct bdk_tim_bist_result_s
@@ -267,7 +267,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tim_bist_result_s cn; */
-} bdk_tim_bist_result_t;
+};
+typedef union bdk_tim_bist_result bdk_tim_bist_result_t;
 
 #define BDK_TIM_BIST_RESULT BDK_TIM_BIST_RESULT_FUNC()
 static inline uint64_t BDK_TIM_BIST_RESULT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -291,7 +292,7 @@ static inline uint64_t BDK_TIM_BIST_RESULT_FUNC(void)
  * TIM Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_tim_bkt_skip_ena_w1c
 {
     uint64_t u;
     struct bdk_tim_bkt_skip_ena_w1c_s
@@ -303,7 +304,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tim_bkt_skip_ena_w1c_s cn; */
-} bdk_tim_bkt_skip_ena_w1c_t;
+};
+typedef union bdk_tim_bkt_skip_ena_w1c bdk_tim_bkt_skip_ena_w1c_t;
 
 #define BDK_TIM_BKT_SKIP_ENA_W1C BDK_TIM_BKT_SKIP_ENA_W1C_FUNC()
 static inline uint64_t BDK_TIM_BKT_SKIP_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -327,7 +329,7 @@ static inline uint64_t BDK_TIM_BKT_SKIP_ENA_W1C_FUNC(void)
  * TIM Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_tim_bkt_skip_ena_w1s
 {
     uint64_t u;
     struct bdk_tim_bkt_skip_ena_w1s_s
@@ -339,7 +341,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tim_bkt_skip_ena_w1s_s cn; */
-} bdk_tim_bkt_skip_ena_w1s_t;
+};
+typedef union bdk_tim_bkt_skip_ena_w1s bdk_tim_bkt_skip_ena_w1s_t;
 
 #define BDK_TIM_BKT_SKIP_ENA_W1S BDK_TIM_BKT_SKIP_ENA_W1S_FUNC()
 static inline uint64_t BDK_TIM_BKT_SKIP_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -362,7 +365,7 @@ static inline uint64_t BDK_TIM_BKT_SKIP_ENA_W1S_FUNC(void)
  *
  * TIM BKT_SKIP_INT Interrupt Register
  */
-typedef union
+union bdk_tim_bkt_skip_int
 {
     uint64_t u;
     struct bdk_tim_bkt_skip_int_s
@@ -380,7 +383,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tim_bkt_skip_int_s cn; */
-} bdk_tim_bkt_skip_int_t;
+};
+typedef union bdk_tim_bkt_skip_int bdk_tim_bkt_skip_int_t;
 
 #define BDK_TIM_BKT_SKIP_INT BDK_TIM_BKT_SKIP_INT_FUNC()
 static inline uint64_t BDK_TIM_BKT_SKIP_INT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -403,7 +407,7 @@ static inline uint64_t BDK_TIM_BKT_SKIP_INT_FUNC(void)
  *
  * TIM BKT_SKIP_INT Ring Status Register
  */
-typedef union
+union bdk_tim_bkt_skip_int_statusx
 {
     uint64_t u;
     struct bdk_tim_bkt_skip_int_statusx_s
@@ -419,7 +423,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tim_bkt_skip_int_statusx_s cn; */
-} bdk_tim_bkt_skip_int_statusx_t;
+};
+typedef union bdk_tim_bkt_skip_int_statusx bdk_tim_bkt_skip_int_statusx_t;
 
 static inline uint64_t BDK_TIM_BKT_SKIP_INT_STATUSX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TIM_BKT_SKIP_INT_STATUSX(unsigned long a)
@@ -442,7 +447,7 @@ static inline uint64_t BDK_TIM_BKT_SKIP_INT_STATUSX(unsigned long a)
  * TIM Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_tim_bkt_skip_int_w1s
 {
     uint64_t u;
     struct bdk_tim_bkt_skip_int_w1s_s
@@ -454,7 +459,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tim_bkt_skip_int_w1s_s cn; */
-} bdk_tim_bkt_skip_int_w1s_t;
+};
+typedef union bdk_tim_bkt_skip_int_w1s bdk_tim_bkt_skip_int_w1s_t;
 
 #define BDK_TIM_BKT_SKIP_INT_W1S BDK_TIM_BKT_SKIP_INT_W1S_FUNC()
 static inline uint64_t BDK_TIM_BKT_SKIP_INT_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -477,7 +483,7 @@ static inline uint64_t BDK_TIM_BKT_SKIP_INT_W1S_FUNC(void)
  *
  * INTERNAL: TIM Backpressure Test Register
  */
-typedef union
+union bdk_tim_bp_test
 {
     uint64_t u;
     struct bdk_tim_bp_test_s
@@ -593,7 +599,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tim_bp_test_s cn; */
-} bdk_tim_bp_test_t;
+};
+typedef union bdk_tim_bp_test bdk_tim_bp_test_t;
 
 #define BDK_TIM_BP_TEST BDK_TIM_BP_TEST_FUNC()
 static inline uint64_t BDK_TIM_BP_TEST_FUNC(void) __attribute__ ((pure, always_inline));
@@ -616,7 +623,7 @@ static inline uint64_t BDK_TIM_BP_TEST_FUNC(void)
  *
  * TIM Debug 2 Register
  */
-typedef union
+union bdk_tim_dbg2
 {
     uint64_t u;
     struct bdk_tim_dbg2_s
@@ -654,7 +661,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tim_dbg2_s cn; */
-} bdk_tim_dbg2_t;
+};
+typedef union bdk_tim_dbg2 bdk_tim_dbg2_t;
 
 #define BDK_TIM_DBG2 BDK_TIM_DBG2_FUNC()
 static inline uint64_t BDK_TIM_DBG2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -677,7 +685,7 @@ static inline uint64_t BDK_TIM_DBG2_FUNC(void)
  *
  * TIM Debug 3 Register
  */
-typedef union
+union bdk_tim_dbg3
 {
     uint64_t u;
     struct bdk_tim_dbg3_s
@@ -691,7 +699,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tim_dbg3_s cn; */
-} bdk_tim_dbg3_t;
+};
+typedef union bdk_tim_dbg3 bdk_tim_dbg3_t;
 
 #define BDK_TIM_DBG3 BDK_TIM_DBG3_FUNC()
 static inline uint64_t BDK_TIM_DBG3_FUNC(void) __attribute__ ((pure, always_inline));
@@ -714,7 +723,7 @@ static inline uint64_t BDK_TIM_DBG3_FUNC(void)
  *
  * TIM ECC Configuration Register
  */
-typedef union
+union bdk_tim_ecc_cfg
 {
     uint64_t u;
     struct bdk_tim_ecc_cfg_s
@@ -746,7 +755,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tim_ecc_cfg_s cn; */
-} bdk_tim_ecc_cfg_t;
+};
+typedef union bdk_tim_ecc_cfg bdk_tim_ecc_cfg_t;
 
 #define BDK_TIM_ECC_CFG BDK_TIM_ECC_CFG_FUNC()
 static inline uint64_t BDK_TIM_ECC_CFG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -770,7 +780,7 @@ static inline uint64_t BDK_TIM_ECC_CFG_FUNC(void)
  * TIM ECC Error Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_tim_eccerr_ena_w1c
 {
     uint64_t u;
     struct bdk_tim_eccerr_ena_w1c_s
@@ -806,7 +816,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tim_eccerr_ena_w1c_s cn; */
-} bdk_tim_eccerr_ena_w1c_t;
+};
+typedef union bdk_tim_eccerr_ena_w1c bdk_tim_eccerr_ena_w1c_t;
 
 #define BDK_TIM_ECCERR_ENA_W1C BDK_TIM_ECCERR_ENA_W1C_FUNC()
 static inline uint64_t BDK_TIM_ECCERR_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -830,7 +841,7 @@ static inline uint64_t BDK_TIM_ECCERR_ENA_W1C_FUNC(void)
  * TIM ECC Error Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_tim_eccerr_ena_w1s
 {
     uint64_t u;
     struct bdk_tim_eccerr_ena_w1s_s
@@ -866,7 +877,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tim_eccerr_ena_w1s_s cn; */
-} bdk_tim_eccerr_ena_w1s_t;
+};
+typedef union bdk_tim_eccerr_ena_w1s bdk_tim_eccerr_ena_w1s_t;
 
 #define BDK_TIM_ECCERR_ENA_W1S BDK_TIM_ECCERR_ENA_W1S_FUNC()
 static inline uint64_t BDK_TIM_ECCERR_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -889,7 +901,7 @@ static inline uint64_t BDK_TIM_ECCERR_ENA_W1S_FUNC(void)
  *
  * TIM ECC Error Interrupt Register
  */
-typedef union
+union bdk_tim_eccerr_int
 {
     uint64_t u;
     struct bdk_tim_eccerr_int_s
@@ -925,7 +937,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tim_eccerr_int_s cn; */
-} bdk_tim_eccerr_int_t;
+};
+typedef union bdk_tim_eccerr_int bdk_tim_eccerr_int_t;
 
 #define BDK_TIM_ECCERR_INT BDK_TIM_ECCERR_INT_FUNC()
 static inline uint64_t BDK_TIM_ECCERR_INT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -949,7 +962,7 @@ static inline uint64_t BDK_TIM_ECCERR_INT_FUNC(void)
  * TIM ECC Error Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_tim_eccerr_int_w1s
 {
     uint64_t u;
     struct bdk_tim_eccerr_int_w1s_s
@@ -985,7 +998,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tim_eccerr_int_w1s_s cn; */
-} bdk_tim_eccerr_int_w1s_t;
+};
+typedef union bdk_tim_eccerr_int_w1s bdk_tim_eccerr_int_w1s_t;
 
 #define BDK_TIM_ECCERR_INT_W1S BDK_TIM_ECCERR_INT_W1S_FUNC()
 static inline uint64_t BDK_TIM_ECCERR_INT_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1008,7 +1022,7 @@ static inline uint64_t BDK_TIM_ECCERR_INT_W1S_FUNC(void)
  *
  * INTERNAL: TIM ECO Register
  */
-typedef union
+union bdk_tim_eco
 {
     uint64_t u;
     struct bdk_tim_eco_s
@@ -1024,7 +1038,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tim_eco_s cn; */
-} bdk_tim_eco_t;
+};
+typedef union bdk_tim_eco bdk_tim_eco_t;
 
 #define BDK_TIM_ECO BDK_TIM_ECO_FUNC()
 static inline uint64_t BDK_TIM_ECO_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1047,7 +1062,7 @@ static inline uint64_t BDK_TIM_ECO_FUNC(void)
  *
  * TIM Engine Active Registers
  */
-typedef union
+union bdk_tim_engx_active
 {
     uint64_t u;
     struct bdk_tim_engx_active_s
@@ -1065,7 +1080,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tim_engx_active_s cn; */
-} bdk_tim_engx_active_t;
+};
+typedef union bdk_tim_engx_active bdk_tim_engx_active_t;
 
 static inline uint64_t BDK_TIM_ENGX_ACTIVE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TIM_ENGX_ACTIVE(unsigned long a)
@@ -1087,7 +1103,7 @@ static inline uint64_t BDK_TIM_ENGX_ACTIVE(unsigned long a)
  *
  * TIM Free Running Cycle Count Register
  */
-typedef union
+union bdk_tim_fr_rn_cycles
 {
     uint64_t u;
     struct bdk_tim_fr_rn_cycles_s
@@ -1101,7 +1117,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tim_fr_rn_cycles_s cn; */
-} bdk_tim_fr_rn_cycles_t;
+};
+typedef union bdk_tim_fr_rn_cycles bdk_tim_fr_rn_cycles_t;
 
 #define BDK_TIM_FR_RN_CYCLES BDK_TIM_FR_RN_CYCLES_FUNC()
 static inline uint64_t BDK_TIM_FR_RN_CYCLES_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1124,7 +1141,7 @@ static inline uint64_t BDK_TIM_FR_RN_CYCLES_FUNC(void)
  *
  * TIM Free Running GPIO Count Register
  */
-typedef union
+union bdk_tim_fr_rn_gpios
 {
     uint64_t u;
     struct bdk_tim_fr_rn_gpios_s
@@ -1136,7 +1153,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tim_fr_rn_gpios_s cn; */
-} bdk_tim_fr_rn_gpios_t;
+};
+typedef union bdk_tim_fr_rn_gpios bdk_tim_fr_rn_gpios_t;
 
 #define BDK_TIM_FR_RN_GPIOS BDK_TIM_FR_RN_GPIOS_FUNC()
 static inline uint64_t BDK_TIM_FR_RN_GPIOS_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1159,7 +1177,7 @@ static inline uint64_t BDK_TIM_FR_RN_GPIOS_FUNC(void)
  *
  * TIM Free Running System Clock Count Register
  */
-typedef union
+union bdk_tim_fr_rn_gti
 {
     uint64_t u;
     struct bdk_tim_fr_rn_gti_s
@@ -1171,7 +1189,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tim_fr_rn_gti_s cn; */
-} bdk_tim_fr_rn_gti_t;
+};
+typedef union bdk_tim_fr_rn_gti bdk_tim_fr_rn_gti_t;
 
 #define BDK_TIM_FR_RN_GTI BDK_TIM_FR_RN_GTI_FUNC()
 static inline uint64_t BDK_TIM_FR_RN_GTI_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1194,7 +1213,7 @@ static inline uint64_t BDK_TIM_FR_RN_GTI_FUNC(void)
  *
  * TIM Free Running PTP Count Register
  */
-typedef union
+union bdk_tim_fr_rn_ptp
 {
     uint64_t u;
     struct bdk_tim_fr_rn_ptp_s
@@ -1206,7 +1225,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tim_fr_rn_ptp_s cn; */
-} bdk_tim_fr_rn_ptp_t;
+};
+typedef union bdk_tim_fr_rn_ptp bdk_tim_fr_rn_ptp_t;
 
 #define BDK_TIM_FR_RN_PTP BDK_TIM_FR_RN_PTP_FUNC()
 static inline uint64_t BDK_TIM_FR_RN_PTP_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1229,7 +1249,7 @@ static inline uint64_t BDK_TIM_FR_RN_PTP_FUNC(void)
  *
  * INTERNAL: TIM Next Minimum Cycles Expiration Time Register
  */
-typedef union
+union bdk_tim_nxt_min_cycles_expire
 {
     uint64_t u;
     struct bdk_tim_nxt_min_cycles_expire_s
@@ -1245,7 +1265,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tim_nxt_min_cycles_expire_s cn; */
-} bdk_tim_nxt_min_cycles_expire_t;
+};
+typedef union bdk_tim_nxt_min_cycles_expire bdk_tim_nxt_min_cycles_expire_t;
 
 #define BDK_TIM_NXT_MIN_CYCLES_EXPIRE BDK_TIM_NXT_MIN_CYCLES_EXPIRE_FUNC()
 static inline uint64_t BDK_TIM_NXT_MIN_CYCLES_EXPIRE_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1268,7 +1289,7 @@ static inline uint64_t BDK_TIM_NXT_MIN_CYCLES_EXPIRE_FUNC(void)
  *
  * INTERNAL: TIM Next Minimum GPIOS Expiration Time Registers
  */
-typedef union
+union bdk_tim_nxt_min_gpios_expire
 {
     uint64_t u;
     struct bdk_tim_nxt_min_gpios_expire_s
@@ -1284,7 +1305,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tim_nxt_min_gpios_expire_s cn; */
-} bdk_tim_nxt_min_gpios_expire_t;
+};
+typedef union bdk_tim_nxt_min_gpios_expire bdk_tim_nxt_min_gpios_expire_t;
 
 #define BDK_TIM_NXT_MIN_GPIOS_EXPIRE BDK_TIM_NXT_MIN_GPIOS_EXPIRE_FUNC()
 static inline uint64_t BDK_TIM_NXT_MIN_GPIOS_EXPIRE_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1307,7 +1329,7 @@ static inline uint64_t BDK_TIM_NXT_MIN_GPIOS_EXPIRE_FUNC(void)
  *
  * INTERNAL: TIM Next Minimum GTI Expire Time Registers
  */
-typedef union
+union bdk_tim_nxt_min_gti_expire
 {
     uint64_t u;
     struct bdk_tim_nxt_min_gti_expire_s
@@ -1325,7 +1347,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tim_nxt_min_gti_expire_s cn; */
-} bdk_tim_nxt_min_gti_expire_t;
+};
+typedef union bdk_tim_nxt_min_gti_expire bdk_tim_nxt_min_gti_expire_t;
 
 #define BDK_TIM_NXT_MIN_GTI_EXPIRE BDK_TIM_NXT_MIN_GTI_EXPIRE_FUNC()
 static inline uint64_t BDK_TIM_NXT_MIN_GTI_EXPIRE_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1348,7 +1371,7 @@ static inline uint64_t BDK_TIM_NXT_MIN_GTI_EXPIRE_FUNC(void)
  *
  * INTERNAL: TIM Next Minimum PTP Expire Time Registers
  */
-typedef union
+union bdk_tim_nxt_min_ptp_expire
 {
     uint64_t u;
     struct bdk_tim_nxt_min_ptp_expire_s
@@ -1366,7 +1389,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tim_nxt_min_ptp_expire_s cn; */
-} bdk_tim_nxt_min_ptp_expire_t;
+};
+typedef union bdk_tim_nxt_min_ptp_expire bdk_tim_nxt_min_ptp_expire_t;
 
 #define BDK_TIM_NXT_MIN_PTP_EXPIRE BDK_TIM_NXT_MIN_PTP_EXPIRE_FUNC()
 static inline uint64_t BDK_TIM_NXT_MIN_PTP_EXPIRE_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1391,7 +1415,7 @@ static inline uint64_t BDK_TIM_NXT_MIN_PTP_EXPIRE_FUNC(void)
  * This register is the MSI-X PBA table; the bit number is indexed by the TIM_PF_INT_VEC_E
  * enumeration.
  */
-typedef union
+union bdk_tim_pf_msix_pbax
 {
     uint64_t u;
     struct bdk_tim_pf_msix_pbax_s
@@ -1405,7 +1429,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tim_pf_msix_pbax_s cn; */
-} bdk_tim_pf_msix_pbax_t;
+};
+typedef union bdk_tim_pf_msix_pbax bdk_tim_pf_msix_pbax_t;
 
 static inline uint64_t BDK_TIM_PF_MSIX_PBAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TIM_PF_MSIX_PBAX(unsigned long a)
@@ -1428,7 +1453,7 @@ static inline uint64_t BDK_TIM_PF_MSIX_PBAX(unsigned long a)
  * TIM PF MSI-X Vector-Table Address Register
  * This register is the MSI-X vector table, indexed by the TIM_PF_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_tim_pf_msix_vecx_addr
 {
     uint64_t u;
     struct bdk_tim_pf_msix_vecx_addr_s
@@ -1462,7 +1487,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tim_pf_msix_vecx_addr_s cn; */
-} bdk_tim_pf_msix_vecx_addr_t;
+};
+typedef union bdk_tim_pf_msix_vecx_addr bdk_tim_pf_msix_vecx_addr_t;
 
 static inline uint64_t BDK_TIM_PF_MSIX_VECX_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TIM_PF_MSIX_VECX_ADDR(unsigned long a)
@@ -1485,7 +1511,7 @@ static inline uint64_t BDK_TIM_PF_MSIX_VECX_ADDR(unsigned long a)
  * TIM PF MSI-X Vector-Table Control and Data Register
  * This register is the MSI-X vector table, indexed by the TIM_PF_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_tim_pf_msix_vecx_ctl
 {
     uint64_t u;
     struct bdk_tim_pf_msix_vecx_ctl_s
@@ -1503,7 +1529,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tim_pf_msix_vecx_ctl_s cn; */
-} bdk_tim_pf_msix_vecx_ctl_t;
+};
+typedef union bdk_tim_pf_msix_vecx_ctl bdk_tim_pf_msix_vecx_ctl_t;
 
 static inline uint64_t BDK_TIM_PF_MSIX_VECX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TIM_PF_MSIX_VECX_CTL(unsigned long a)
@@ -1526,7 +1553,7 @@ static inline uint64_t BDK_TIM_PF_MSIX_VECX_CTL(unsigned long a)
  * TIM Flags Register
  * This register provides flags for TIM.
  */
-typedef union
+union bdk_tim_reg_flags
 {
     uint64_t u;
     struct bdk_tim_reg_flags_s
@@ -1582,7 +1609,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tim_reg_flags_s cn; */
-} bdk_tim_reg_flags_t;
+};
+typedef union bdk_tim_reg_flags bdk_tim_reg_flags_t;
 
 #define BDK_TIM_REG_FLAGS BDK_TIM_REG_FLAGS_FUNC()
 static inline uint64_t BDK_TIM_REG_FLAGS_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1605,7 +1633,7 @@ static inline uint64_t BDK_TIM_REG_FLAGS_FUNC(void)
  *
  * TIM Ring Control 0 Registers
  */
-typedef union
+union bdk_tim_ringx_ctl0
 {
     uint64_t u;
     struct bdk_tim_ringx_ctl0_s
@@ -1661,7 +1689,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tim_ringx_ctl0_s cn; */
-} bdk_tim_ringx_ctl0_t;
+};
+typedef union bdk_tim_ringx_ctl0 bdk_tim_ringx_ctl0_t;
 
 static inline uint64_t BDK_TIM_RINGX_CTL0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TIM_RINGX_CTL0(unsigned long a)
@@ -1683,7 +1712,7 @@ static inline uint64_t BDK_TIM_RINGX_CTL0(unsigned long a)
  *
  * TIM Ring Control 1 Registers
  */
-typedef union
+union bdk_tim_ringx_ctl1
 {
     uint64_t u;
     struct bdk_tim_ringx_ctl1_s
@@ -1763,7 +1792,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tim_ringx_ctl1_s cn; */
-} bdk_tim_ringx_ctl1_t;
+};
+typedef union bdk_tim_ringx_ctl1 bdk_tim_ringx_ctl1_t;
 
 static inline uint64_t BDK_TIM_RINGX_CTL1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TIM_RINGX_CTL1(unsigned long a)
@@ -1785,7 +1815,7 @@ static inline uint64_t BDK_TIM_RINGX_CTL1(unsigned long a)
  *
  * TIM Ring Control 2 Registers
  */
-typedef union
+union bdk_tim_ringx_ctl2
 {
     uint64_t u;
     struct bdk_tim_ringx_ctl2_s
@@ -1801,7 +1831,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tim_ringx_ctl2_s cn; */
-} bdk_tim_ringx_ctl2_t;
+};
+typedef union bdk_tim_ringx_ctl2 bdk_tim_ringx_ctl2_t;
 
 static inline uint64_t BDK_TIM_RINGX_CTL2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TIM_RINGX_CTL2(unsigned long a)
@@ -1823,7 +1854,7 @@ static inline uint64_t BDK_TIM_RINGX_CTL2(unsigned long a)
  *
  * TIM Ring Guest Machine Control Register
  */
-typedef union
+union bdk_tim_ringx_gmctl
 {
     uint64_t u;
     struct bdk_tim_ringx_gmctl_s
@@ -1851,7 +1882,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tim_ringx_gmctl_s cn; */
-} bdk_tim_ringx_gmctl_t;
+};
+typedef union bdk_tim_ringx_gmctl bdk_tim_ringx_gmctl_t;
 
 static inline uint64_t BDK_TIM_RINGX_GMCTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TIM_RINGX_GMCTL(unsigned long a)
@@ -1875,7 +1907,7 @@ static inline uint64_t BDK_TIM_RINGX_GMCTL(unsigned long a)
  * This register is the MSI-X PBA table; the bit number is indexed by the TIM_VF_INT_VEC_E
  * enumeration.
  */
-typedef union
+union bdk_tim_vfx_msix_pbax
 {
     uint64_t u;
     struct bdk_tim_vfx_msix_pbax_s
@@ -1889,7 +1921,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tim_vfx_msix_pbax_s cn; */
-} bdk_tim_vfx_msix_pbax_t;
+};
+typedef union bdk_tim_vfx_msix_pbax bdk_tim_vfx_msix_pbax_t;
 
 static inline uint64_t BDK_TIM_VFX_MSIX_PBAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TIM_VFX_MSIX_PBAX(unsigned long a, unsigned long b)
@@ -1912,7 +1945,7 @@ static inline uint64_t BDK_TIM_VFX_MSIX_PBAX(unsigned long a, unsigned long b)
  * TIM VF MSI-X Vector-Table Address Register
  * This register is the MSI-X vector table, indexed by the TIM_PF_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_tim_vfx_msix_vecx_addr
 {
     uint64_t u;
     struct bdk_tim_vfx_msix_vecx_addr_s
@@ -1934,7 +1967,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tim_vfx_msix_vecx_addr_s cn; */
-} bdk_tim_vfx_msix_vecx_addr_t;
+};
+typedef union bdk_tim_vfx_msix_vecx_addr bdk_tim_vfx_msix_vecx_addr_t;
 
 static inline uint64_t BDK_TIM_VFX_MSIX_VECX_ADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TIM_VFX_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
@@ -1957,7 +1991,7 @@ static inline uint64_t BDK_TIM_VFX_MSIX_VECX_ADDR(unsigned long a, unsigned long
  * TIM VF MSI-X Vector-Table Control and Data Register
  * This register is the MSI-X vector table, indexed by the TIM_VF_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_tim_vfx_msix_vecx_ctl
 {
     uint64_t u;
     struct bdk_tim_vfx_msix_vecx_ctl_s
@@ -1975,7 +2009,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tim_vfx_msix_vecx_ctl_s cn; */
-} bdk_tim_vfx_msix_vecx_ctl_t;
+};
+typedef union bdk_tim_vfx_msix_vecx_ctl bdk_tim_vfx_msix_vecx_ctl_t;
 
 static inline uint64_t BDK_TIM_VFX_MSIX_VECX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TIM_VFX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
@@ -1998,7 +2033,7 @@ static inline uint64_t BDK_TIM_VFX_MSIX_VECX_CTL(unsigned long a, unsigned long 
  * TIM NCB Response Error Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_tim_vfx_nrsperr_ena_w1c
 {
     uint64_t u;
     struct bdk_tim_vfx_nrsperr_ena_w1c_s
@@ -2016,7 +2051,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tim_vfx_nrsperr_ena_w1c_s cn; */
-} bdk_tim_vfx_nrsperr_ena_w1c_t;
+};
+typedef union bdk_tim_vfx_nrsperr_ena_w1c bdk_tim_vfx_nrsperr_ena_w1c_t;
 
 static inline uint64_t BDK_TIM_VFX_NRSPERR_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TIM_VFX_NRSPERR_ENA_W1C(unsigned long a)
@@ -2039,7 +2075,7 @@ static inline uint64_t BDK_TIM_VFX_NRSPERR_ENA_W1C(unsigned long a)
  * TIM NCB Response Error Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_tim_vfx_nrsperr_ena_w1s
 {
     uint64_t u;
     struct bdk_tim_vfx_nrsperr_ena_w1s_s
@@ -2057,7 +2093,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tim_vfx_nrsperr_ena_w1s_s cn; */
-} bdk_tim_vfx_nrsperr_ena_w1s_t;
+};
+typedef union bdk_tim_vfx_nrsperr_ena_w1s bdk_tim_vfx_nrsperr_ena_w1s_t;
 
 static inline uint64_t BDK_TIM_VFX_NRSPERR_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TIM_VFX_NRSPERR_ENA_W1S(unsigned long a)
@@ -2079,7 +2116,7 @@ static inline uint64_t BDK_TIM_VFX_NRSPERR_ENA_W1S(unsigned long a)
  *
  * TIM NCB Response Error Interrupt Register
  */
-typedef union
+union bdk_tim_vfx_nrsperr_int
 {
     uint64_t u;
     struct bdk_tim_vfx_nrsperr_int_s
@@ -2105,7 +2142,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tim_vfx_nrsperr_int_s cn; */
-} bdk_tim_vfx_nrsperr_int_t;
+};
+typedef union bdk_tim_vfx_nrsperr_int bdk_tim_vfx_nrsperr_int_t;
 
 static inline uint64_t BDK_TIM_VFX_NRSPERR_INT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TIM_VFX_NRSPERR_INT(unsigned long a)
@@ -2128,7 +2166,7 @@ static inline uint64_t BDK_TIM_VFX_NRSPERR_INT(unsigned long a)
  * TIM NCB Response Error Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_tim_vfx_nrsperr_int_w1s
 {
     uint64_t u;
     struct bdk_tim_vfx_nrsperr_int_w1s_s
@@ -2146,7 +2184,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tim_vfx_nrsperr_int_w1s_s cn; */
-} bdk_tim_vfx_nrsperr_int_w1s_t;
+};
+typedef union bdk_tim_vfx_nrsperr_int_w1s bdk_tim_vfx_nrsperr_int_w1s_t;
 
 static inline uint64_t BDK_TIM_VFX_NRSPERR_INT_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TIM_VFX_NRSPERR_INT_W1S(unsigned long a)
@@ -2168,7 +2207,7 @@ static inline uint64_t BDK_TIM_VFX_NRSPERR_INT_W1S(unsigned long a)
  *
  * TIM Ring Aura Registers
  */
-typedef union
+union bdk_tim_vringx_aura
 {
     uint64_t u;
     struct bdk_tim_vringx_aura_s
@@ -2186,7 +2225,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tim_vringx_aura_s cn; */
-} bdk_tim_vringx_aura_t;
+};
+typedef union bdk_tim_vringx_aura bdk_tim_vringx_aura_t;
 
 static inline uint64_t BDK_TIM_VRINGX_AURA(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TIM_VRINGX_AURA(unsigned long a)
@@ -2208,7 +2248,7 @@ static inline uint64_t BDK_TIM_VRINGX_AURA(unsigned long a)
  *
  * TIM Ring Base Registers
  */
-typedef union
+union bdk_tim_vringx_base
 {
     uint64_t u;
     struct bdk_tim_vringx_base_s
@@ -2224,7 +2264,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tim_vringx_base_s cn; */
-} bdk_tim_vringx_base_t;
+};
+typedef union bdk_tim_vringx_base bdk_tim_vringx_base_t;
 
 static inline uint64_t BDK_TIM_VRINGX_BASE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TIM_VRINGX_BASE(unsigned long a)
@@ -2247,7 +2288,7 @@ static inline uint64_t BDK_TIM_VRINGX_BASE(unsigned long a)
  * TIM Ring Control 0 Registers
  * This register is a read-only copy of TIM_RING()_CTL0.
  */
-typedef union
+union bdk_tim_vringx_ctl0
 {
     uint64_t u;
     struct bdk_tim_vringx_ctl0_s
@@ -2261,7 +2302,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tim_vringx_ctl0_s cn; */
-} bdk_tim_vringx_ctl0_t;
+};
+typedef union bdk_tim_vringx_ctl0 bdk_tim_vringx_ctl0_t;
 
 static inline uint64_t BDK_TIM_VRINGX_CTL0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TIM_VRINGX_CTL0(unsigned long a)
@@ -2284,7 +2326,7 @@ static inline uint64_t BDK_TIM_VRINGX_CTL0(unsigned long a)
  * TIM Ring Control 1 Registers
  * This register is a read-only copy of TIM_RING()_CTL1.
  */
-typedef union
+union bdk_tim_vringx_ctl1
 {
     uint64_t u;
     struct bdk_tim_vringx_ctl1_s
@@ -2322,7 +2364,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tim_vringx_ctl1_s cn; */
-} bdk_tim_vringx_ctl1_t;
+};
+typedef union bdk_tim_vringx_ctl1 bdk_tim_vringx_ctl1_t;
 
 static inline uint64_t BDK_TIM_VRINGX_CTL1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TIM_VRINGX_CTL1(unsigned long a)
@@ -2345,7 +2388,7 @@ static inline uint64_t BDK_TIM_VRINGX_CTL1(unsigned long a)
  * TIM Ring Control 2 Registers
  * This register is a read-only copy of TIM_RING()_CTL2.
  */
-typedef union
+union bdk_tim_vringx_ctl2
 {
     uint64_t u;
     struct bdk_tim_vringx_ctl2_s
@@ -2361,7 +2404,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tim_vringx_ctl2_s cn; */
-} bdk_tim_vringx_ctl2_t;
+};
+typedef union bdk_tim_vringx_ctl2 bdk_tim_vringx_ctl2_t;
 
 static inline uint64_t BDK_TIM_VRINGX_CTL2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TIM_VRINGX_CTL2(unsigned long a)
@@ -2384,7 +2428,7 @@ static inline uint64_t BDK_TIM_VRINGX_CTL2(unsigned long a)
  * TIM Ring Free Running Cycle Count Register
  * This register is a read-only copy of TIM_FR_RN_CYCLES.
  */
-typedef union
+union bdk_tim_vringx_fr_rn_cycles
 {
     uint64_t u;
     struct bdk_tim_vringx_fr_rn_cycles_s
@@ -2396,7 +2440,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tim_vringx_fr_rn_cycles_s cn; */
-} bdk_tim_vringx_fr_rn_cycles_t;
+};
+typedef union bdk_tim_vringx_fr_rn_cycles bdk_tim_vringx_fr_rn_cycles_t;
 
 static inline uint64_t BDK_TIM_VRINGX_FR_RN_CYCLES(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TIM_VRINGX_FR_RN_CYCLES(unsigned long a)
@@ -2419,7 +2464,7 @@ static inline uint64_t BDK_TIM_VRINGX_FR_RN_CYCLES(unsigned long a)
  * TIM Ring Free Running GPIO Count Register
  * This register is a read-only copy of TIM_FR_RN_GPIOS.
  */
-typedef union
+union bdk_tim_vringx_fr_rn_gpios
 {
     uint64_t u;
     struct bdk_tim_vringx_fr_rn_gpios_s
@@ -2431,7 +2476,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tim_vringx_fr_rn_gpios_s cn; */
-} bdk_tim_vringx_fr_rn_gpios_t;
+};
+typedef union bdk_tim_vringx_fr_rn_gpios bdk_tim_vringx_fr_rn_gpios_t;
 
 static inline uint64_t BDK_TIM_VRINGX_FR_RN_GPIOS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TIM_VRINGX_FR_RN_GPIOS(unsigned long a)
@@ -2454,7 +2500,7 @@ static inline uint64_t BDK_TIM_VRINGX_FR_RN_GPIOS(unsigned long a)
  * TIM Ring Free Running System Clock Count Register
  * This register is a read-only copy of TIM_FR_RN_GTI.
  */
-typedef union
+union bdk_tim_vringx_fr_rn_gti
 {
     uint64_t u;
     struct bdk_tim_vringx_fr_rn_gti_s
@@ -2466,7 +2512,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tim_vringx_fr_rn_gti_s cn; */
-} bdk_tim_vringx_fr_rn_gti_t;
+};
+typedef union bdk_tim_vringx_fr_rn_gti bdk_tim_vringx_fr_rn_gti_t;
 
 static inline uint64_t BDK_TIM_VRINGX_FR_RN_GTI(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TIM_VRINGX_FR_RN_GTI(unsigned long a)
@@ -2489,7 +2536,7 @@ static inline uint64_t BDK_TIM_VRINGX_FR_RN_GTI(unsigned long a)
  * TIM Ring Free Running PTP Count Register
  * This register is a read-only copy of TIM_FR_RN_PTP.
  */
-typedef union
+union bdk_tim_vringx_fr_rn_ptp
 {
     uint64_t u;
     struct bdk_tim_vringx_fr_rn_ptp_s
@@ -2501,7 +2548,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tim_vringx_fr_rn_ptp_s cn; */
-} bdk_tim_vringx_fr_rn_ptp_t;
+};
+typedef union bdk_tim_vringx_fr_rn_ptp bdk_tim_vringx_fr_rn_ptp_t;
 
 static inline uint64_t BDK_TIM_VRINGX_FR_RN_PTP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TIM_VRINGX_FR_RN_PTP(unsigned long a)
@@ -2523,7 +2571,7 @@ static inline uint64_t BDK_TIM_VRINGX_FR_RN_PTP(unsigned long a)
  *
  * TIM Ring Late Register
  */
-typedef union
+union bdk_tim_vringx_late
 {
     uint64_t u;
     struct bdk_tim_vringx_late_s
@@ -2553,7 +2601,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tim_vringx_late_s cn; */
-} bdk_tim_vringx_late_t;
+};
+typedef union bdk_tim_vringx_late bdk_tim_vringx_late_t;
 
 static inline uint64_t BDK_TIM_VRINGX_LATE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TIM_VRINGX_LATE(unsigned long a)
@@ -2580,7 +2629,7 @@ static inline uint64_t BDK_TIM_VRINGX_LATE(unsigned long a)
  * Internal:
  * For VM-safety this register contains only read-only fields.
  */
-typedef union
+union bdk_tim_vringx_rel
 {
     uint64_t u;
     struct bdk_tim_vringx_rel_s
@@ -2630,7 +2679,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tim_vringx_rel_s cn; */
-} bdk_tim_vringx_rel_t;
+};
+typedef union bdk_tim_vringx_rel bdk_tim_vringx_rel_t;
 
 static inline uint64_t BDK_TIM_VRINGX_REL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TIM_VRINGX_REL(unsigned long a)

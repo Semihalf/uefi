@@ -63,7 +63,7 @@
  * when an interrupt is acknowledged. Priority, and the least significant set bit is cleared
  * on EOI.
  */
-typedef union
+union bdk_cimx_icc_ap0r0_el1
 {
     uint64_t u;
     struct bdk_cimx_icc_ap0r0_el1_s
@@ -123,7 +123,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cimx_icc_ap0r0_el1_s cn; */
-} bdk_cimx_icc_ap0r0_el1_t;
+};
+typedef union bdk_cimx_icc_ap0r0_el1 bdk_cimx_icc_ap0r0_el1_t;
 
 static inline uint64_t BDK_CIMX_ICC_AP0R0_EL1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CIMX_ICC_AP0R0_EL1(unsigned long a)
@@ -154,7 +155,7 @@ static inline uint64_t BDK_CIMX_ICC_AP0R0_EL1(unsigned long a)
  * when an interrupt is acknowledged. Priority, and the least significant set bit is cleared
  * on EOI.
  */
-typedef union
+union bdk_cimx_icc_ap1r0_el1_ns
 {
     uint64_t u;
     struct bdk_cimx_icc_ap1r0_el1_ns_s
@@ -236,7 +237,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cimx_icc_ap1r0_el1_ns_s cn; */
-} bdk_cimx_icc_ap1r0_el1_ns_t;
+};
+typedef union bdk_cimx_icc_ap1r0_el1_ns bdk_cimx_icc_ap1r0_el1_ns_t;
 
 static inline uint64_t BDK_CIMX_ICC_AP1R0_EL1_NS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CIMX_ICC_AP1R0_EL1_NS(unsigned long a)
@@ -267,7 +269,7 @@ static inline uint64_t BDK_CIMX_ICC_AP1R0_EL1_NS(unsigned long a)
  * when an interrupt is acknowledged. Priority, and the least significant set bit is cleared
  * on EOI.
  */
-typedef union
+union bdk_cimx_icc_ap1r0_el1_s
 {
     uint64_t u;
     struct bdk_cimx_icc_ap1r0_el1_s_s
@@ -347,7 +349,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cimx_icc_ap1r0_el1_s_s cn; */
-} bdk_cimx_icc_ap1r0_el1_s_t;
+};
+typedef union bdk_cimx_icc_ap1r0_el1_s bdk_cimx_icc_ap1r0_el1_s_t;
 
 static inline uint64_t BDK_CIMX_ICC_AP1R0_EL1_S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CIMX_ICC_AP1R0_EL1_S(unsigned long a)
@@ -390,7 +393,7 @@ static inline uint64_t BDK_CIMX_ICC_AP1R0_EL1_S(unsigned long a)
  * state. That is, nonsecure EL1 / EL2 accesses may generate secure group 1 interrupts and
  * secure EL1 / EL3 may generate nonsecure group 1 interrupts.
  */
-typedef union
+union bdk_cimx_icc_asgi1r_el1
 {
     uint64_t u;
     struct bdk_cimx_icc_asgi1r_el1_s
@@ -448,7 +451,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cimx_icc_asgi1r_el1_s cn; */
-} bdk_cimx_icc_asgi1r_el1_t;
+};
+typedef union bdk_cimx_icc_asgi1r_el1 bdk_cimx_icc_asgi1r_el1_t;
 
 static inline uint64_t BDK_CIMX_ICC_ASGI1R_EL1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CIMX_ICC_ASGI1R_EL1(unsigned long a)
@@ -476,7 +480,7 @@ static inline uint64_t BDK_CIMX_ICC_ASGI1R_EL1(unsigned long a)
  * parts, the group priority field and the subpriority field. The group priority field
  * is used to determine interrupt preemption.
  */
-typedef union
+union bdk_cimx_icc_bpr0_el1
 {
     uint64_t u;
     struct bdk_cimx_icc_bpr0_el1_s
@@ -624,7 +628,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cimx_icc_bpr0_el1_s cn; */
-} bdk_cimx_icc_bpr0_el1_t;
+};
+typedef union bdk_cimx_icc_bpr0_el1 bdk_cimx_icc_bpr0_el1_t;
 
 static inline uint64_t BDK_CIMX_ICC_BPR0_EL1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CIMX_ICC_BPR0_EL1(unsigned long a)
@@ -649,7 +654,7 @@ static inline uint64_t BDK_CIMX_ICC_BPR0_EL1(unsigned long a)
  *
  * CIM Physical Nonsecure Binary Point Group 1 EL1 Register
  */
-typedef union
+union bdk_cimx_icc_bpr1_el1_ns
 {
     uint64_t u;
     struct bdk_cimx_icc_bpr1_el1_ns_s
@@ -773,7 +778,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cimx_icc_bpr1_el1_ns_s cn; */
-} bdk_cimx_icc_bpr1_el1_ns_t;
+};
+typedef union bdk_cimx_icc_bpr1_el1_ns bdk_cimx_icc_bpr1_el1_ns_t;
 
 static inline uint64_t BDK_CIMX_ICC_BPR1_EL1_NS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CIMX_ICC_BPR1_EL1_NS(unsigned long a)
@@ -798,7 +804,7 @@ static inline uint64_t BDK_CIMX_ICC_BPR1_EL1_NS(unsigned long a)
  *
  * CIM Physical Secure Binary Point Group 1 EL1 Register
  */
-typedef union
+union bdk_cimx_icc_bpr1_el1_s
 {
     uint64_t u;
     struct bdk_cimx_icc_bpr1_el1_s_s
@@ -918,7 +924,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cimx_icc_bpr1_el1_s_s cn; */
-} bdk_cimx_icc_bpr1_el1_s_t;
+};
+typedef union bdk_cimx_icc_bpr1_el1_s bdk_cimx_icc_bpr1_el1_s_t;
 
 static inline uint64_t BDK_CIMX_ICC_BPR1_EL1_S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CIMX_ICC_BPR1_EL1_S(unsigned long a)
@@ -946,7 +953,7 @@ static inline uint64_t BDK_CIMX_ICC_BPR1_EL1_S(unsigned long a)
  * provides information about the features implemented for.
  * It is accessed in EL1 nonsecure mode.
  */
-typedef union
+union bdk_cimx_icc_ctlr_el1_ns
 {
     uint64_t u;
     struct bdk_cimx_icc_ctlr_el1_ns_s
@@ -1010,7 +1017,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cimx_icc_ctlr_el1_ns_s cn; */
-} bdk_cimx_icc_ctlr_el1_ns_t;
+};
+typedef union bdk_cimx_icc_ctlr_el1_ns bdk_cimx_icc_ctlr_el1_ns_t;
 
 static inline uint64_t BDK_CIMX_ICC_CTLR_EL1_NS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CIMX_ICC_CTLR_EL1_NS(unsigned long a)
@@ -1038,7 +1046,7 @@ static inline uint64_t BDK_CIMX_ICC_CTLR_EL1_NS(unsigned long a)
  * information about the features implemented.
  * It is accessed in EL1 Secure mode
  */
-typedef union
+union bdk_cimx_icc_ctlr_el1_s
 {
     uint64_t u;
     struct bdk_cimx_icc_ctlr_el1_s_s
@@ -1102,7 +1110,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cimx_icc_ctlr_el1_s_s cn; */
-} bdk_cimx_icc_ctlr_el1_s_t;
+};
+typedef union bdk_cimx_icc_ctlr_el1_s bdk_cimx_icc_ctlr_el1_s_t;
 
 static inline uint64_t BDK_CIMX_ICC_CTLR_EL1_S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CIMX_ICC_CTLR_EL1_S(unsigned long a)
@@ -1130,7 +1139,7 @@ static inline uint64_t BDK_CIMX_ICC_CTLR_EL1_S(unsigned long a)
  * information about the features implemented.
  * It is accessed in EL3 mode.
  */
-typedef union
+union bdk_cimx_icc_ctlr_el3
 {
     uint64_t u;
     struct bdk_cimx_icc_ctlr_el3_s
@@ -1290,7 +1299,8 @@ typedef union
     } cn81xx;
     /* struct bdk_cimx_icc_ctlr_el3_cn81xx cn83xx; */
     /* struct bdk_cimx_icc_ctlr_el3_cn81xx cn88xxp2; */
-} bdk_cimx_icc_ctlr_el3_t;
+};
+typedef union bdk_cimx_icc_ctlr_el3 bdk_cimx_icc_ctlr_el3_t;
 
 static inline uint64_t BDK_CIMX_ICC_CTLR_EL3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CIMX_ICC_CTLR_EL3(unsigned long a)
@@ -1325,7 +1335,7 @@ static inline uint64_t BDK_CIMX_ICC_CTLR_EL3(unsigned long a)
  * 2. For nonsecure accesses to the register, CIM()_ICC_CTLR_EL3[EOIMODE_EL1NS] is set to
  * 1.
  */
-typedef union
+union bdk_cimx_icc_dir_el1
 {
     uint64_t u;
     struct bdk_cimx_icc_dir_el1_s
@@ -1446,7 +1456,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn88xx;
     /* struct bdk_cimx_icc_dir_el1_s cn83xx; */
-} bdk_cimx_icc_dir_el1_t;
+};
+typedef union bdk_cimx_icc_dir_el1 bdk_cimx_icc_dir_el1_t;
 
 static inline uint64_t BDK_CIMX_ICC_DIR_EL1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CIMX_ICC_DIR_EL1(unsigned long a)
@@ -1480,7 +1491,7 @@ static inline uint64_t BDK_CIMX_ICC_DIR_EL1(unsigned long a)
  * priority drop for the specified group 0 interrupt by clearing a bit in
  * CIM()_ICC_AP0Rn_EL1.
  */
-typedef union
+union bdk_cimx_icc_eoir0_el1
 {
     uint64_t u;
     struct bdk_cimx_icc_eoir0_el1_s
@@ -1625,7 +1636,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn88xx;
     /* struct bdk_cimx_icc_eoir0_el1_s cn83xx; */
-} bdk_cimx_icc_eoir0_el1_t;
+};
+typedef union bdk_cimx_icc_eoir0_el1 bdk_cimx_icc_eoir0_el1_t;
 
 static inline uint64_t BDK_CIMX_ICC_EOIR0_EL1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CIMX_ICC_EOIR0_EL1(unsigned long a)
@@ -1659,7 +1671,7 @@ static inline uint64_t BDK_CIMX_ICC_EOIR0_EL1(unsigned long a)
  * priority drop for the specified group 1 interrupt by clearing a bit in
  * CIM()_ICC_AP1Rn_EL1.
  */
-typedef union
+union bdk_cimx_icc_eoir1_el1
 {
     uint64_t u;
     struct bdk_cimx_icc_eoir1_el1_s
@@ -1816,7 +1828,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn88xx;
     /* struct bdk_cimx_icc_eoir1_el1_s cn83xx; */
-} bdk_cimx_icc_eoir1_el1_t;
+};
+typedef union bdk_cimx_icc_eoir1_el1 bdk_cimx_icc_eoir1_el1_t;
 
 static inline uint64_t BDK_CIMX_ICC_EOIR1_EL1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CIMX_ICC_EOIR1_EL1(unsigned long a)
@@ -1844,7 +1857,7 @@ static inline uint64_t BDK_CIMX_ICC_EOIR1_EL1(unsigned long a)
  * pending
  * Group 0 interrupt on the CPU interface.
  */
-typedef union
+union bdk_cimx_icc_hppir0_el1
 {
     uint64_t u;
     struct bdk_cimx_icc_hppir0_el1_s
@@ -1933,7 +1946,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn88xx;
     /* struct bdk_cimx_icc_hppir0_el1_s cn83xx; */
-} bdk_cimx_icc_hppir0_el1_t;
+};
+typedef union bdk_cimx_icc_hppir0_el1 bdk_cimx_icc_hppir0_el1_t;
 
 static inline uint64_t BDK_CIMX_ICC_HPPIR0_EL1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CIMX_ICC_HPPIR0_EL1(unsigned long a)
@@ -1961,7 +1975,7 @@ static inline uint64_t BDK_CIMX_ICC_HPPIR0_EL1(unsigned long a)
  * pending
  * group 1 interrupt on the CPU interface.
  */
-typedef union
+union bdk_cimx_icc_hppir1_el1
 {
     uint64_t u;
     struct bdk_cimx_icc_hppir1_el1_s
@@ -2050,7 +2064,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn88xx;
     /* struct bdk_cimx_icc_hppir1_el1_s cn83xx; */
-} bdk_cimx_icc_hppir1_el1_t;
+};
+typedef union bdk_cimx_icc_hppir1_el1 bdk_cimx_icc_hppir1_el1_t;
 
 static inline uint64_t BDK_CIMX_ICC_HPPIR1_EL1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CIMX_ICC_HPPIR1_EL1(unsigned long a)
@@ -2078,7 +2093,7 @@ static inline uint64_t BDK_CIMX_ICC_HPPIR1_EL1(unsigned long a)
  * to obtain the interrupt ID of the signaled group 0 interrupt. This
  * read acts as an acknowledge for the interrupt and activates pseudocode ReadICC_IAR1_EL1.
  */
-typedef union
+union bdk_cimx_icc_iar0_el1
 {
     uint64_t u;
     struct bdk_cimx_icc_iar0_el1_s
@@ -2143,7 +2158,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn88xx;
     /* struct bdk_cimx_icc_iar0_el1_s cn83xx; */
-} bdk_cimx_icc_iar0_el1_t;
+};
+typedef union bdk_cimx_icc_iar0_el1 bdk_cimx_icc_iar0_el1_t;
 
 static inline uint64_t BDK_CIMX_ICC_IAR0_EL1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CIMX_ICC_IAR0_EL1(unsigned long a)
@@ -2171,7 +2187,7 @@ static inline uint64_t BDK_CIMX_ICC_IAR0_EL1(unsigned long a)
  * to obtain the interrupt ID of the signaled group 1 interrupt. This
  * read acts as an acknowledge for the interrupt and activates pseudocode ReadICC_IAR1_EL1.
  */
-typedef union
+union bdk_cimx_icc_iar1_el1
 {
     uint64_t u;
     struct bdk_cimx_icc_iar1_el1_s
@@ -2232,7 +2248,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn88xx;
     /* struct bdk_cimx_icc_iar1_el1_s cn83xx; */
-} bdk_cimx_icc_iar1_el1_t;
+};
+typedef union bdk_cimx_icc_iar1_el1 bdk_cimx_icc_iar1_el1_t;
 
 static inline uint64_t BDK_CIMX_ICC_IAR1_EL1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CIMX_ICC_IAR1_EL1(unsigned long a)
@@ -2257,7 +2274,7 @@ static inline uint64_t BDK_CIMX_ICC_IAR1_EL1(unsigned long a)
  *
  * CIM Physical Group 0 Enabled EL1 Register
  */
-typedef union
+union bdk_cimx_icc_igrpen0_el1
 {
     uint64_t u;
     struct bdk_cimx_icc_igrpen0_el1_s
@@ -2289,7 +2306,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cimx_icc_igrpen0_el1_s cn; */
-} bdk_cimx_icc_igrpen0_el1_t;
+};
+typedef union bdk_cimx_icc_igrpen0_el1 bdk_cimx_icc_igrpen0_el1_t;
 
 static inline uint64_t BDK_CIMX_ICC_IGRPEN0_EL1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CIMX_ICC_IGRPEN0_EL1(unsigned long a)
@@ -2314,7 +2332,7 @@ static inline uint64_t BDK_CIMX_ICC_IGRPEN0_EL1(unsigned long a)
  *
  * CIM Physical Nonsecure Group 1 Enabled EN EL1 Register
  */
-typedef union
+union bdk_cimx_icc_igrpen1_el1_ns
 {
     uint64_t u;
     struct bdk_cimx_icc_igrpen1_el1_ns_s
@@ -2348,7 +2366,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cimx_icc_igrpen1_el1_ns_s cn; */
-} bdk_cimx_icc_igrpen1_el1_ns_t;
+};
+typedef union bdk_cimx_icc_igrpen1_el1_ns bdk_cimx_icc_igrpen1_el1_ns_t;
 
 static inline uint64_t BDK_CIMX_ICC_IGRPEN1_EL1_NS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CIMX_ICC_IGRPEN1_EL1_NS(unsigned long a)
@@ -2373,7 +2392,7 @@ static inline uint64_t BDK_CIMX_ICC_IGRPEN1_EL1_NS(unsigned long a)
  *
  * CIM Physical Group 1 Enabled EN EL1 Register
  */
-typedef union
+union bdk_cimx_icc_igrpen1_el1_s
 {
     uint64_t u;
     struct bdk_cimx_icc_igrpen1_el1_s_s
@@ -2407,7 +2426,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cimx_icc_igrpen1_el1_s_s cn; */
-} bdk_cimx_icc_igrpen1_el1_s_t;
+};
+typedef union bdk_cimx_icc_igrpen1_el1_s bdk_cimx_icc_igrpen1_el1_s_t;
 
 static inline uint64_t BDK_CIMX_ICC_IGRPEN1_EL1_S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CIMX_ICC_IGRPEN1_EL1_S(unsigned long a)
@@ -2433,7 +2453,7 @@ static inline uint64_t BDK_CIMX_ICC_IGRPEN1_EL1_S(unsigned long a)
  * CIM Physical Group 1 Enabled Both Security States EL3 Register
  * Physical secure group 1 enabled for both security states.
  */
-typedef union
+union bdk_cimx_icc_igrpen1_el3
 {
     uint64_t u;
     struct bdk_cimx_icc_igrpen1_el3_s
@@ -2461,7 +2481,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cimx_icc_igrpen1_el3_s cn; */
-} bdk_cimx_icc_igrpen1_el3_t;
+};
+typedef union bdk_cimx_icc_igrpen1_el3 bdk_cimx_icc_igrpen1_el3_t;
 
 static inline uint64_t BDK_CIMX_ICC_IGRPEN1_EL3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CIMX_ICC_IGRPEN1_EL3(unsigned long a)
@@ -2488,7 +2509,7 @@ static inline uint64_t BDK_CIMX_ICC_IGRPEN1_EL3(unsigned long a)
  *
  * Register used by CIM internally for storage. Inaccessible to cores.
  */
-typedef union
+union bdk_cimx_icc_imp0
 {
     uint64_t u;
     struct bdk_cimx_icc_imp0_s
@@ -2512,7 +2533,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cimx_icc_imp0_s cn; */
-} bdk_cimx_icc_imp0_t;
+};
+typedef union bdk_cimx_icc_imp0 bdk_cimx_icc_imp0_t;
 
 static inline uint64_t BDK_CIMX_ICC_IMP0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CIMX_ICC_IMP0(unsigned long a)
@@ -2544,7 +2566,7 @@ static inline uint64_t BDK_CIMX_ICC_IMP0(unsigned long a)
  * Provides an interrupt priority filter. Only interrupts with higher priority than the value in
  * this register are signaled to the processor.
  */
-typedef union
+union bdk_cimx_icc_pmr_el1
 {
     uint64_t u;
     struct bdk_cimx_icc_pmr_el1_s
@@ -2624,7 +2646,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cimx_icc_pmr_el1_s cn; */
-} bdk_cimx_icc_pmr_el1_t;
+};
+typedef union bdk_cimx_icc_pmr_el1 bdk_cimx_icc_pmr_el1_t;
 
 static inline uint64_t BDK_CIMX_ICC_PMR_EL1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CIMX_ICC_PMR_EL1(unsigned long a)
@@ -2650,7 +2673,7 @@ static inline uint64_t BDK_CIMX_ICC_PMR_EL1(unsigned long a)
  * CIM Physical Running Priority EL1 Register
  * Result of pseudocode ReadICC_RPR_EL1. Indicates the running priority of the CPU interface.
  */
-typedef union
+union bdk_cimx_icc_rpr_el1
 {
     uint64_t u;
     struct bdk_cimx_icc_rpr_el1_s
@@ -2692,7 +2715,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cimx_icc_rpr_el1_s cn; */
-} bdk_cimx_icc_rpr_el1_t;
+};
+typedef union bdk_cimx_icc_rpr_el1 bdk_cimx_icc_rpr_el1_t;
 
 static inline uint64_t BDK_CIMX_ICC_RPR_EL1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CIMX_ICC_RPR_EL1(unsigned long a)
@@ -2734,7 +2758,7 @@ static inline uint64_t BDK_CIMX_ICC_RPR_EL1(unsigned long a)
  * This register provides software the ability to generate secure group 0 SGIs, including from
  * the nonsecure state, when permitted by GICR_NSACR.
  */
-typedef union
+union bdk_cimx_icc_sgi0r_el1
 {
     uint64_t u;
     struct bdk_cimx_icc_sgi0r_el1_s
@@ -2794,7 +2818,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cimx_icc_sgi0r_el1_s cn; */
-} bdk_cimx_icc_sgi0r_el1_t;
+};
+typedef union bdk_cimx_icc_sgi0r_el1 bdk_cimx_icc_sgi0r_el1_t;
 
 static inline uint64_t BDK_CIMX_ICC_SGI0R_EL1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CIMX_ICC_SGI0R_EL1(unsigned long a)
@@ -2837,7 +2862,7 @@ static inline uint64_t BDK_CIMX_ICC_SGI0R_EL1(unsigned long a)
  * state. That is, nonsecure EL1 / EL2 accesses may generate nonsecure group 1 interrupts and
  * secure EL1 / EL3 may generate secure group 1 interrupts.
  */
-typedef union
+union bdk_cimx_icc_sgi1r_el1
 {
     uint64_t u;
     struct bdk_cimx_icc_sgi1r_el1_s
@@ -2897,7 +2922,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cimx_icc_sgi1r_el1_s cn; */
-} bdk_cimx_icc_sgi1r_el1_t;
+};
+typedef union bdk_cimx_icc_sgi1r_el1 bdk_cimx_icc_sgi1r_el1_t;
 
 static inline uint64_t BDK_CIMX_ICC_SGI1R_EL1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CIMX_ICC_SGI1R_EL1(unsigned long a)
@@ -2924,7 +2950,7 @@ static inline uint64_t BDK_CIMX_ICC_SGI1R_EL1(unsigned long a)
  * This nonsecure register governs whether the system register interface or the memory mapped
  * interface to the GIC CPU interface is to be used for EL0/1.
  */
-typedef union
+union bdk_cimx_icc_sre_el1_ns
 {
     uint64_t u;
     struct bdk_cimx_icc_sre_el1_ns_s
@@ -2948,7 +2974,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cimx_icc_sre_el1_ns_s cn; */
-} bdk_cimx_icc_sre_el1_ns_t;
+};
+typedef union bdk_cimx_icc_sre_el1_ns bdk_cimx_icc_sre_el1_ns_t;
 
 static inline uint64_t BDK_CIMX_ICC_SRE_EL1_NS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CIMX_ICC_SRE_EL1_NS(unsigned long a)
@@ -2975,7 +3002,7 @@ static inline uint64_t BDK_CIMX_ICC_SRE_EL1_NS(unsigned long a)
  * This secure register governs whether the system register interface or the memory mapped
  * interface to the GIC CPU interface is to be used for EL0/1.
  */
-typedef union
+union bdk_cimx_icc_sre_el1_s
 {
     uint64_t u;
     struct bdk_cimx_icc_sre_el1_s_s
@@ -2999,7 +3026,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cimx_icc_sre_el1_s_s cn; */
-} bdk_cimx_icc_sre_el1_s_t;
+};
+typedef union bdk_cimx_icc_sre_el1_s bdk_cimx_icc_sre_el1_s_t;
 
 static inline uint64_t BDK_CIMX_ICC_SRE_EL1_S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CIMX_ICC_SRE_EL1_S(unsigned long a)
@@ -3026,7 +3054,7 @@ static inline uint64_t BDK_CIMX_ICC_SRE_EL1_S(unsigned long a)
  * This secure register governs whether the system register interface or the memory mapped
  * interface to the GIC CPU interface is to be used for EL2.
  */
-typedef union
+union bdk_cimx_icc_sre_el2
 {
     uint64_t u;
     struct bdk_cimx_icc_sre_el2_s
@@ -3060,7 +3088,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cimx_icc_sre_el2_s cn; */
-} bdk_cimx_icc_sre_el2_t;
+};
+typedef union bdk_cimx_icc_sre_el2 bdk_cimx_icc_sre_el2_t;
 
 static inline uint64_t BDK_CIMX_ICC_SRE_EL2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CIMX_ICC_SRE_EL2(unsigned long a)
@@ -3087,7 +3116,7 @@ static inline uint64_t BDK_CIMX_ICC_SRE_EL2(unsigned long a)
  * This secure register governs whether the system register interface or the memory mapped
  * interface to the GIC CPU interface is to be used for EL3.
  */
-typedef union
+union bdk_cimx_icc_sre_el3
 {
     uint64_t u;
     struct bdk_cimx_icc_sre_el3_s
@@ -3117,7 +3146,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cimx_icc_sre_el3_s cn; */
-} bdk_cimx_icc_sre_el3_t;
+};
+typedef union bdk_cimx_icc_sre_el3 bdk_cimx_icc_sre_el3_t;
 
 static inline uint64_t BDK_CIMX_ICC_SRE_EL3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CIMX_ICC_SRE_EL3(unsigned long a)
@@ -3167,7 +3197,7 @@ static inline uint64_t BDK_CIMX_ICC_SRE_EL3(unsigned long a)
  * and bit [0] is never used for preemption. The description of this register and fields
  * also applies to CIM()_ICH_AP0R1_EL2 .. CIM()_ICH_AP0R3_EL3.
  */
-typedef union
+union bdk_cimx_ich_ap0r0_el2
 {
     uint64_t u;
     struct bdk_cimx_ich_ap0r0_el2_s
@@ -3187,7 +3217,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cimx_ich_ap0r0_el2_s cn; */
-} bdk_cimx_ich_ap0r0_el2_t;
+};
+typedef union bdk_cimx_ich_ap0r0_el2 bdk_cimx_ich_ap0r0_el2_t;
 
 static inline uint64_t BDK_CIMX_ICH_AP0R0_EL2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CIMX_ICH_AP0R0_EL2(unsigned long a)
@@ -3225,7 +3256,7 @@ static inline uint64_t BDK_CIMX_ICH_AP0R0_EL2(unsigned long a)
  * The description of this register and fields also applies to CIM()_ICH_AP1R1_EL2 ..
  * CIM()_ICH_AP1R3_EL3.
  */
-typedef union
+union bdk_cimx_ich_ap1r0_el2
 {
     uint64_t u;
     struct bdk_cimx_ich_ap1r0_el2_s
@@ -3245,7 +3276,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cimx_ich_ap1r0_el2_s cn; */
-} bdk_cimx_ich_ap1r0_el2_t;
+};
+typedef union bdk_cimx_ich_ap1r0_el2 bdk_cimx_ich_ap1r0_el2_t;
 
 static inline uint64_t BDK_CIMX_ICH_AP1R0_EL2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CIMX_ICH_AP1R0_EL2(unsigned long a)
@@ -3272,7 +3304,7 @@ static inline uint64_t BDK_CIMX_ICH_AP1R0_EL2(unsigned long a)
  * When a maintenance interrupt is received, these registers help determine which list
  * registers have outstanding EOI interrupts that require servicing.
  */
-typedef union
+union bdk_cimx_ich_eisr_el2
 {
     uint64_t u;
     struct bdk_cimx_ich_eisr_el2_s
@@ -3298,7 +3330,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cimx_ich_eisr_el2_s cn; */
-} bdk_cimx_ich_eisr_el2_t;
+};
+typedef union bdk_cimx_ich_eisr_el2 bdk_cimx_ich_eisr_el2_t;
 
 static inline uint64_t BDK_CIMX_ICH_EISR_EL2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CIMX_ICH_EISR_EL2(unsigned long a)
@@ -3329,7 +3362,7 @@ static inline uint64_t BDK_CIMX_ICH_EISR_EL2(unsigned long a)
  * This register was renamed ICH_ELRSR_EL2 in OBAN of 2014-06-13 after
  * release v20 of GIC v3.
  */
-typedef union
+union bdk_cimx_ich_elsr_el2
 {
     uint64_t u;
     struct bdk_cimx_ich_elsr_el2_s
@@ -3367,7 +3400,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cimx_ich_elsr_el2_s cn; */
-} bdk_cimx_ich_elsr_el2_t;
+};
+typedef union bdk_cimx_ich_elsr_el2 bdk_cimx_ich_elsr_el2_t;
 
 static inline uint64_t BDK_CIMX_ICH_ELSR_EL2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CIMX_ICH_ELSR_EL2(unsigned long a)
@@ -3393,7 +3427,7 @@ static inline uint64_t BDK_CIMX_ICH_ELSR_EL2(unsigned long a)
  * CIM Hypervisor Control EL2 Register
  * This register controls the environment for guest operating systems.
  */
-typedef union
+union bdk_cimx_ich_hcr_el2
 {
     uint64_t u;
     struct bdk_cimx_ich_hcr_el2_s
@@ -3821,7 +3855,8 @@ typedef union
     } cn81xx;
     /* struct bdk_cimx_ich_hcr_el2_cn81xx cn83xx; */
     /* struct bdk_cimx_ich_hcr_el2_cn81xx cn88xxp2; */
-} bdk_cimx_ich_hcr_el2_t;
+};
+typedef union bdk_cimx_ich_hcr_el2 bdk_cimx_ich_hcr_el2_t;
 
 static inline uint64_t BDK_CIMX_ICH_HCR_EL2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CIMX_ICH_HCR_EL2(unsigned long a)
@@ -3848,7 +3883,7 @@ static inline uint64_t BDK_CIMX_ICH_HCR_EL2(unsigned long a)
  * Provides interrupt context information for the virtual CPU interface.
  * The number of list registers provided is specified by CIM()_ICH_VTR_EL2[LISTREGS].
  */
-typedef union
+union bdk_cimx_ich_lrx_el2
 {
     uint64_t u;
     struct bdk_cimx_ich_lrx_el2_s
@@ -4048,7 +4083,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cimx_ich_lrx_el2_s cn; */
-} bdk_cimx_ich_lrx_el2_t;
+};
+typedef union bdk_cimx_ich_lrx_el2 bdk_cimx_ich_lrx_el2_t;
 
 static inline uint64_t BDK_CIMX_ICH_LRX_EL2(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CIMX_ICH_LRX_EL2(unsigned long a, unsigned long b)
@@ -4074,7 +4110,7 @@ static inline uint64_t BDK_CIMX_ICH_LRX_EL2(unsigned long a, unsigned long b)
  * CIM Hypervisor Maintenance Interrupt Status EL2 Register
  * This register is used to determine the status of maintenance interrupts.
  */
-typedef union
+union bdk_cimx_ich_misr_el2
 {
     uint64_t u;
     struct bdk_cimx_ich_misr_el2_s
@@ -4124,7 +4160,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cimx_ich_misr_el2_s cn; */
-} bdk_cimx_ich_misr_el2_t;
+};
+typedef union bdk_cimx_ich_misr_el2 bdk_cimx_ich_misr_el2_t;
 
 static inline uint64_t BDK_CIMX_ICH_MISR_EL2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CIMX_ICH_MISR_EL2(unsigned long a)
@@ -4150,7 +4187,7 @@ static inline uint64_t BDK_CIMX_ICH_MISR_EL2(unsigned long a)
  * CIM Hypervisor Virtual Machine Control EL2 Register
  * This register allows the hypervisor to save and restore the virtual machine view of the GIC state.
  */
-typedef union
+union bdk_cimx_ich_vmcr_el2
 {
     uint64_t u;
     struct bdk_cimx_ich_vmcr_el2_s
@@ -4306,7 +4343,8 @@ typedef union
     } cn81xx;
     /* struct bdk_cimx_ich_vmcr_el2_cn81xx cn83xx; */
     /* struct bdk_cimx_ich_vmcr_el2_cn81xx cn88xxp2; */
-} bdk_cimx_ich_vmcr_el2_t;
+};
+typedef union bdk_cimx_ich_vmcr_el2 bdk_cimx_ich_vmcr_el2_t;
 
 static inline uint64_t BDK_CIMX_ICH_VMCR_EL2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CIMX_ICH_VMCR_EL2(unsigned long a)
@@ -4332,7 +4370,7 @@ static inline uint64_t BDK_CIMX_ICH_VMCR_EL2(unsigned long a)
  * CIM Hypervisor VGIC Type EL2 Register
  * This register describes the number of implemented virtual priority bits and list registers.
  */
-typedef union
+union bdk_cimx_ich_vtr_el2
 {
     uint64_t u;
     struct bdk_cimx_ich_vtr_el2_s
@@ -4502,7 +4540,8 @@ typedef union
     } cn81xx;
     /* struct bdk_cimx_ich_vtr_el2_cn81xx cn83xx; */
     /* struct bdk_cimx_ich_vtr_el2_cn81xx cn88xxp2; */
-} bdk_cimx_ich_vtr_el2_t;
+};
+typedef union bdk_cimx_ich_vtr_el2 bdk_cimx_ich_vtr_el2_t;
 
 static inline uint64_t BDK_CIMX_ICH_VTR_EL2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CIMX_ICH_VTR_EL2(unsigned long a)

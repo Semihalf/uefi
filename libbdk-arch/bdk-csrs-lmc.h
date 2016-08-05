@@ -95,7 +95,7 @@
  *
  * LMC Bank Conflict1 Counter Register
  */
-typedef union
+union bdk_lmcx_bank_conflict1
 {
     uint64_t u;
     struct bdk_lmcx_bank_conflict1_s
@@ -128,7 +128,8 @@ typedef union
                                                                  utilized. */
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_lmcx_bank_conflict1_t;
+};
+typedef union bdk_lmcx_bank_conflict1 bdk_lmcx_bank_conflict1_t;
 
 static inline uint64_t BDK_LMCX_BANK_CONFLICT1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_BANK_CONFLICT1(unsigned long a)
@@ -154,7 +155,7 @@ static inline uint64_t BDK_LMCX_BANK_CONFLICT1(unsigned long a)
  *
  * LMC Bank Conflict2 Counter Register
  */
-typedef union
+union bdk_lmcx_bank_conflict2
 {
     uint64_t u;
     struct bdk_lmcx_bank_conflict2_s
@@ -172,7 +173,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_lmcx_bank_conflict2_s cn; */
-} bdk_lmcx_bank_conflict2_t;
+};
+typedef union bdk_lmcx_bank_conflict2 bdk_lmcx_bank_conflict2_t;
 
 static inline uint64_t BDK_LMCX_BANK_CONFLICT2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_BANK_CONFLICT2(unsigned long a)
@@ -199,7 +201,7 @@ static inline uint64_t BDK_LMCX_BANK_CONFLICT2(unsigned long a)
  * LMC BIST Control Registers
  * This register has fields to control BIST operation.
  */
-typedef union
+union bdk_lmcx_bist_ctl
 {
     uint64_t u;
     struct bdk_lmcx_bist_ctl_s
@@ -225,7 +227,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_lmcx_bist_ctl_s cn; */
-} bdk_lmcx_bist_ctl_t;
+};
+typedef union bdk_lmcx_bist_ctl bdk_lmcx_bist_ctl_t;
 
 static inline uint64_t BDK_LMCX_BIST_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_BIST_CTL(unsigned long a)
@@ -254,7 +257,7 @@ static inline uint64_t BDK_LMCX_BIST_CTL(unsigned long a)
  * This register provides an assortment of various control fields needed to characterize the DDR3
  * interface.
  */
-typedef union
+union bdk_lmcx_char_ctl
 {
     uint64_t u;
     struct bdk_lmcx_char_ctl_s
@@ -334,7 +337,8 @@ typedef union
     /* struct bdk_lmcx_char_ctl_s cn81xx; */
     /* struct bdk_lmcx_char_ctl_s cn83xx; */
     /* struct bdk_lmcx_char_ctl_s cn88xxp2; */
-} bdk_lmcx_char_ctl_t;
+};
+typedef union bdk_lmcx_char_ctl bdk_lmcx_char_ctl_t;
 
 static inline uint64_t BDK_LMCX_CHAR_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_CHAR_CTL(unsigned long a)
@@ -362,7 +366,7 @@ static inline uint64_t BDK_LMCX_CHAR_CTL(unsigned long a)
  *
  * This register is used to initiate the various control sequences in the LMC.
  */
-typedef union
+union bdk_lmcx_char_dq_err_count
 {
     uint64_t u;
     struct bdk_lmcx_char_dq_err_count_s
@@ -376,7 +380,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_lmcx_char_dq_err_count_s cn; */
-} bdk_lmcx_char_dq_err_count_t;
+};
+typedef union bdk_lmcx_char_dq_err_count bdk_lmcx_char_dq_err_count_t;
 
 static inline uint64_t BDK_LMCX_CHAR_DQ_ERR_COUNT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_CHAR_DQ_ERR_COUNT(unsigned long a)
@@ -405,7 +410,7 @@ static inline uint64_t BDK_LMCX_CHAR_DQ_ERR_COUNT(unsigned long a)
  * DDR3/DDR4 interface.
  * It is also used to corrupt the write data bits when ECC Corrupt logic generator is enabled.
  */
-typedef union
+union bdk_lmcx_char_mask0
 {
     uint64_t u;
     struct bdk_lmcx_char_mask0_s
@@ -423,7 +428,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_lmcx_char_mask0_s cn; */
-} bdk_lmcx_char_mask0_t;
+};
+typedef union bdk_lmcx_char_mask0 bdk_lmcx_char_mask0_t;
 
 static inline uint64_t BDK_LMCX_CHAR_MASK0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_CHAR_MASK0(unsigned long a)
@@ -452,7 +458,7 @@ static inline uint64_t BDK_LMCX_CHAR_MASK0(unsigned long a)
  * This register provides an assortment of various control fields needed to characterize the DDR3
  * interface.
  */
-typedef union
+union bdk_lmcx_char_mask1
 {
     uint64_t u;
     struct bdk_lmcx_char_mask1_s
@@ -466,7 +472,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_lmcx_char_mask1_s cn; */
-} bdk_lmcx_char_mask1_t;
+};
+typedef union bdk_lmcx_char_mask1 bdk_lmcx_char_mask1_t;
 
 static inline uint64_t BDK_LMCX_CHAR_MASK1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_CHAR_MASK1(unsigned long a)
@@ -495,7 +502,7 @@ static inline uint64_t BDK_LMCX_CHAR_MASK1(unsigned long a)
  * DDR3/DDR4 interface.
  * It is also used to corrupt the write data bits when ECC Corrupt logic generator is enabled.
  */
-typedef union
+union bdk_lmcx_char_mask2
 {
     uint64_t u;
     struct bdk_lmcx_char_mask2_s
@@ -513,7 +520,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_lmcx_char_mask2_s cn; */
-} bdk_lmcx_char_mask2_t;
+};
+typedef union bdk_lmcx_char_mask2 bdk_lmcx_char_mask2_t;
 
 static inline uint64_t BDK_LMCX_CHAR_MASK2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_CHAR_MASK2(unsigned long a)
@@ -542,7 +550,7 @@ static inline uint64_t BDK_LMCX_CHAR_MASK2(unsigned long a)
  * This register provides an assortment of various control fields needed to characterize the DDR3
  * interface.
  */
-typedef union
+union bdk_lmcx_char_mask3
 {
     uint64_t u;
     struct bdk_lmcx_char_mask3_s
@@ -556,7 +564,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_lmcx_char_mask3_s cn; */
-} bdk_lmcx_char_mask3_t;
+};
+typedef union bdk_lmcx_char_mask3 bdk_lmcx_char_mask3_t;
 
 static inline uint64_t BDK_LMCX_CHAR_MASK3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_CHAR_MASK3(unsigned long a)
@@ -584,7 +593,7 @@ static inline uint64_t BDK_LMCX_CHAR_MASK3(unsigned long a)
  *
  * This register is an assortment of various control fields needed to characterize the DDR3 interface.
  */
-typedef union
+union bdk_lmcx_char_mask4
 {
     uint64_t u;
     struct bdk_lmcx_char_mask4_s
@@ -646,7 +655,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_lmcx_char_mask4_s cn; */
-} bdk_lmcx_char_mask4_t;
+};
+typedef union bdk_lmcx_char_mask4 bdk_lmcx_char_mask4_t;
 
 static inline uint64_t BDK_LMCX_CHAR_MASK4(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_CHAR_MASK4(unsigned long a)
@@ -672,7 +682,7 @@ static inline uint64_t BDK_LMCX_CHAR_MASK4(unsigned long a)
  *
  * LMC Compensation Control Register
  */
-typedef union
+union bdk_lmcx_comp_ctl2
 {
     uint64_t u;
     struct bdk_lmcx_comp_ctl2_s
@@ -904,7 +914,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_lmcx_comp_ctl2_s cn; */
-} bdk_lmcx_comp_ctl2_t;
+};
+typedef union bdk_lmcx_comp_ctl2 bdk_lmcx_comp_ctl2_t;
 
 static inline uint64_t BDK_LMCX_COMP_CTL2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_COMP_CTL2(unsigned long a)
@@ -940,7 +951,7 @@ static inline uint64_t BDK_LMCX_COMP_CTL2(unsigned long a)
  *
  * See LMC Initialization Sequence for the LMC bring-up sequence.
  */
-typedef union
+union bdk_lmcx_config
 {
     uint64_t u;
     struct bdk_lmcx_config_s
@@ -1797,7 +1808,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn88xx;
     /* struct bdk_lmcx_config_cn88xx cn83xx; */
-} bdk_lmcx_config_t;
+};
+typedef union bdk_lmcx_config bdk_lmcx_config_t;
 
 static inline uint64_t BDK_LMCX_CONFIG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_CONFIG(unsigned long a)
@@ -1823,7 +1835,7 @@ static inline uint64_t BDK_LMCX_CONFIG(unsigned long a)
  *
  * LMC Control Register
  */
-typedef union
+union bdk_lmcx_control
 {
     uint64_t u;
     struct bdk_lmcx_control_s
@@ -2256,7 +2268,8 @@ typedef union
         uint64_t scramble_ena          : 1;  /**< [ 63: 63](R/W) When set, will enable the scramble/descramble logic. */
 #endif /* Word 0 - End */
     } cn88xxp2;
-} bdk_lmcx_control_t;
+};
+typedef union bdk_lmcx_control bdk_lmcx_control_t;
 
 static inline uint64_t BDK_LMCX_CONTROL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_CONTROL(unsigned long a)
@@ -2288,7 +2301,7 @@ static inline uint64_t BDK_LMCX_CONTROL(unsigned long a)
  * sequence is initiated, it uses the contents of this register to control
  * its operation.
  */
-typedef union
+union bdk_lmcx_dbtrain_ctl
 {
     uint64_t u;
     struct bdk_lmcx_dbtrain_ctl_s
@@ -2681,7 +2694,8 @@ typedef union
         uint64_t reserved_63           : 1;
 #endif /* Word 0 - End */
     } cn88xxp2;
-} bdk_lmcx_dbtrain_ctl_t;
+};
+typedef union bdk_lmcx_dbtrain_ctl bdk_lmcx_dbtrain_ctl_t;
 
 static inline uint64_t BDK_LMCX_DBTRAIN_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_DBTRAIN_CTL(unsigned long a)
@@ -2707,7 +2721,7 @@ static inline uint64_t BDK_LMCX_DBTRAIN_CTL(unsigned long a)
  *
  * LMC System-Memory-Clock Counter Register
  */
-typedef union
+union bdk_lmcx_dclk_cnt
 {
     uint64_t u;
     struct bdk_lmcx_dclk_cnt_s
@@ -2719,7 +2733,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_lmcx_dclk_cnt_s cn; */
-} bdk_lmcx_dclk_cnt_t;
+};
+typedef union bdk_lmcx_dclk_cnt bdk_lmcx_dclk_cnt_t;
 
 static inline uint64_t BDK_LMCX_DCLK_CNT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_DCLK_CNT(unsigned long a)
@@ -2757,7 +2772,7 @@ static inline uint64_t BDK_LMCX_DCLK_CNT(unsigned long a)
  * During PBA mode of an MRW sequence, bits 22-27 controls the Buffer Configuration
  * Control Word F0BC1x settings during the BCW write.
  */
-typedef union
+union bdk_lmcx_ddr4_dimm_ctl
 {
     uint64_t u;
     struct bdk_lmcx_ddr4_dimm_ctl_s
@@ -2882,7 +2897,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn88xx;
     /* struct bdk_lmcx_ddr4_dimm_ctl_cn88xx cn83xx; */
-} bdk_lmcx_ddr4_dimm_ctl_t;
+};
+typedef union bdk_lmcx_ddr4_dimm_ctl bdk_lmcx_ddr4_dimm_ctl_t;
 
 static inline uint64_t BDK_LMCX_DDR4_DIMM_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_DDR4_DIMM_CTL(unsigned long a)
@@ -2933,7 +2949,7 @@ static inline uint64_t BDK_LMCX_DDR4_DIMM_CTL(unsigned long a)
  * * Add final step, wait an additional 8191 ref clocks (8191*16+ core-clock cycles) to
  * allow PLL clock alignment.
  */
-typedef union
+union bdk_lmcx_ddr_pll_ctl
 {
     uint64_t u;
     struct bdk_lmcx_ddr_pll_ctl_s
@@ -3035,7 +3051,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_lmcx_ddr_pll_ctl_s cn; */
-} bdk_lmcx_ddr_pll_ctl_t;
+};
+typedef union bdk_lmcx_ddr_pll_ctl bdk_lmcx_ddr_pll_ctl_t;
 
 static inline uint64_t BDK_LMCX_DDR_PLL_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_DDR_PLL_CTL(unsigned long a)
@@ -3063,7 +3080,7 @@ static inline uint64_t BDK_LMCX_DDR_PLL_CTL(unsigned long a)
  * This register contains values to be programmed into the extra DDR4 control words in the
  * corresponding (registered) DIMM. These are control words RC1x through RC8x.
  */
-typedef union
+union bdk_lmcx_dimmx_ddr4_params0
 {
     uint64_t u;
     struct bdk_lmcx_dimmx_ddr4_params0_s
@@ -3089,7 +3106,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_lmcx_dimmx_ddr4_params0_s cn; */
-} bdk_lmcx_dimmx_ddr4_params0_t;
+};
+typedef union bdk_lmcx_dimmx_ddr4_params0 bdk_lmcx_dimmx_ddr4_params0_t;
 
 static inline uint64_t BDK_LMCX_DIMMX_DDR4_PARAMS0(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_DIMMX_DDR4_PARAMS0(unsigned long a, unsigned long b)
@@ -3117,7 +3135,7 @@ static inline uint64_t BDK_LMCX_DIMMX_DDR4_PARAMS0(unsigned long a, unsigned lon
  * This register contains values to be programmed into the extra DDR4 control words in the
  * corresponding (registered) DIMM. These are control words RC9x through RCBx.
  */
-typedef union
+union bdk_lmcx_dimmx_ddr4_params1
 {
     uint64_t u;
     struct bdk_lmcx_dimmx_ddr4_params1_s
@@ -3135,7 +3153,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_lmcx_dimmx_ddr4_params1_s cn; */
-} bdk_lmcx_dimmx_ddr4_params1_t;
+};
+typedef union bdk_lmcx_dimmx_ddr4_params1 bdk_lmcx_dimmx_ddr4_params1_t;
 
 static inline uint64_t BDK_LMCX_DIMMX_DDR4_PARAMS1(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_DIMMX_DDR4_PARAMS1(unsigned long a, unsigned long b)
@@ -3168,7 +3187,7 @@ static inline uint64_t BDK_LMCX_DIMMX_DDR4_PARAMS1(unsigned long a, unsigned lon
  * corresponding
  * LMC()_DIMM_CTL[DIMM*_WMASK] bits are set.
  */
-typedef union
+union bdk_lmcx_dimmx_params
 {
     uint64_t u;
     struct bdk_lmcx_dimmx_params_s
@@ -3210,7 +3229,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_lmcx_dimmx_params_s cn; */
-} bdk_lmcx_dimmx_params_t;
+};
+typedef union bdk_lmcx_dimmx_params bdk_lmcx_dimmx_params_t;
 
 static inline uint64_t BDK_LMCX_DIMMX_PARAMS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_DIMMX_PARAMS(unsigned long a, unsigned long b)
@@ -3239,7 +3259,7 @@ static inline uint64_t BDK_LMCX_DIMMX_PARAMS(unsigned long a, unsigned long b)
  * sequence, this CSR controls LMC's write operations to the control words in the JEDEC standard
  * DDR3 SSTE32882 registering clock driver or DDR4 Register DDR4RCD01 on an RDIMM.
  */
-typedef union
+union bdk_lmcx_dimm_ctl
 {
     uint64_t u;
     struct bdk_lmcx_dimm_ctl_s
@@ -3320,7 +3340,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn88xx;
     /* struct bdk_lmcx_dimm_ctl_cn88xx cn83xx; */
-} bdk_lmcx_dimm_ctl_t;
+};
+typedef union bdk_lmcx_dimm_ctl bdk_lmcx_dimm_ctl_t;
 
 static inline uint64_t BDK_LMCX_DIMM_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_DIMM_CTL(unsigned long a)
@@ -3374,7 +3395,7 @@ static inline uint64_t BDK_LMCX_DIMM_CTL(unsigned long a)
  * 8. Write 0 to LMC()_DLL_CTL2[DRESET]. LMC()_DLL_CTL2[DRESET] must not change after this point
  * without restarting the LMC and/or DRESET initialization sequence.
  */
-typedef union
+union bdk_lmcx_dll_ctl2
 {
     uint64_t u;
     struct bdk_lmcx_dll_ctl2_s
@@ -3434,7 +3455,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_lmcx_dll_ctl2_s cn; */
-} bdk_lmcx_dll_ctl2_t;
+};
+typedef union bdk_lmcx_dll_ctl2 bdk_lmcx_dll_ctl2_t;
 
 static inline uint64_t BDK_LMCX_DLL_CTL2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_DLL_CTL2(unsigned long a)
@@ -3460,7 +3482,7 @@ static inline uint64_t BDK_LMCX_DLL_CTL2(unsigned long a)
  *
  * LMC DLL Control/System-Memory-Clock Reset Register
  */
-typedef union
+union bdk_lmcx_dll_ctl3
 {
     uint64_t u;
     struct bdk_lmcx_dll_ctl3_s
@@ -3734,7 +3756,8 @@ typedef union
     /* struct bdk_lmcx_dll_ctl3_s cn81xx; */
     /* struct bdk_lmcx_dll_ctl3_s cn83xx; */
     /* struct bdk_lmcx_dll_ctl3_s cn88xxp2; */
-} bdk_lmcx_dll_ctl3_t;
+};
+typedef union bdk_lmcx_dll_ctl3 bdk_lmcx_dll_ctl3_t;
 
 static inline uint64_t BDK_LMCX_DLL_CTL3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_DLL_CTL3(unsigned long a)
@@ -3772,7 +3795,7 @@ static inline uint64_t BDK_LMCX_DLL_CTL3(unsigned long a)
  * * config1 refers to the dual (or second) memory configuration that is defined by this
  * register.
  */
-typedef union
+union bdk_lmcx_dual_memcfg
 {
     uint64_t u;
     struct bdk_lmcx_dual_memcfg_s
@@ -3802,7 +3825,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_lmcx_dual_memcfg_s cn; */
-} bdk_lmcx_dual_memcfg_t;
+};
+typedef union bdk_lmcx_dual_memcfg bdk_lmcx_dual_memcfg_t;
 
 static inline uint64_t BDK_LMCX_DUAL_MEMCFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_DUAL_MEMCFG(unsigned long a)
@@ -3837,7 +3861,7 @@ static inline uint64_t BDK_LMCX_DUAL_MEMCFG(unsigned long a)
  * Command Address parity error is generated by enabling [CA_PARITY_CORRUPT_ENA] and
  * selecting the DDR command that the parity is to be corrupted with through [CA_PARITY_SEL].
  */
-typedef union
+union bdk_lmcx_ecc_parity_test
 {
     uint64_t u;
     struct bdk_lmcx_ecc_parity_test_s
@@ -3901,7 +3925,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_lmcx_ecc_parity_test_s cn; */
-} bdk_lmcx_ecc_parity_test_t;
+};
+typedef union bdk_lmcx_ecc_parity_test bdk_lmcx_ecc_parity_test_t;
 
 static inline uint64_t BDK_LMCX_ECC_PARITY_TEST(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_ECC_PARITY_TEST(unsigned long a)
@@ -3927,7 +3952,7 @@ static inline uint64_t BDK_LMCX_ECC_PARITY_TEST(unsigned long a)
  *
  * LMC MRD ECC Syndromes Register
  */
-typedef union
+union bdk_lmcx_ecc_synd
 {
     uint64_t u;
     struct bdk_lmcx_ecc_synd_s
@@ -3955,7 +3980,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_lmcx_ecc_synd_s cn; */
-} bdk_lmcx_ecc_synd_t;
+};
+typedef union bdk_lmcx_ecc_synd bdk_lmcx_ecc_synd_t;
 
 static inline uint64_t BDK_LMCX_ECC_SYND(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_ECC_SYND(unsigned long a)
@@ -3982,7 +4008,7 @@ static inline uint64_t BDK_LMCX_ECC_SYND(unsigned long a)
  * LMC Extended Configuration Register
  * This register has additional configuration and control bits for the LMC.
  */
-typedef union
+union bdk_lmcx_ext_config
 {
     uint64_t u;
     struct bdk_lmcx_ext_config_s
@@ -5103,7 +5129,8 @@ typedef union
         uint64_t reserved_61_63        : 3;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_lmcx_ext_config_t;
+};
+typedef union bdk_lmcx_ext_config bdk_lmcx_ext_config_t;
 
 static inline uint64_t BDK_LMCX_EXT_CONFIG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_EXT_CONFIG(unsigned long a)
@@ -5130,7 +5157,7 @@ static inline uint64_t BDK_LMCX_EXT_CONFIG(unsigned long a)
  * LMC Extended Configuration Register
  * This register has additional configuration and control bits for the LMC.
  */
-typedef union
+union bdk_lmcx_ext_config2
 {
     uint64_t u;
     struct bdk_lmcx_ext_config2_s
@@ -5535,7 +5562,8 @@ typedef union
         uint64_t reserved_27_63        : 37;
 #endif /* Word 0 - End */
     } cn88xxp2;
-} bdk_lmcx_ext_config2_t;
+};
+typedef union bdk_lmcx_ext_config2 bdk_lmcx_ext_config2_t;
 
 static inline uint64_t BDK_LMCX_EXT_CONFIG2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_EXT_CONFIG2(unsigned long a)
@@ -5573,7 +5601,7 @@ static inline uint64_t BDK_LMCX_EXT_CONFIG2(unsigned long a)
  * If scrambling is off, the pre-scramble and post-scramble addresses are the same; and so the
  * contents of LMC()_SCRAMBLED_FADR match the contents of LMC()_FADR.
  */
-typedef union
+union bdk_lmcx_fadr
 {
     uint64_t u;
     struct bdk_lmcx_fadr_s
@@ -5648,7 +5676,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn88xx;
     /* struct bdk_lmcx_fadr_cn88xx cn83xx; */
-} bdk_lmcx_fadr_t;
+};
+typedef union bdk_lmcx_fadr bdk_lmcx_fadr_t;
 
 static inline uint64_t BDK_LMCX_FADR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_FADR(unsigned long a)
@@ -5674,7 +5703,7 @@ static inline uint64_t BDK_LMCX_FADR(unsigned long a)
  *
  * LMC General Purpose Register
  */
-typedef union
+union bdk_lmcx_general_purpose0
 {
     uint64_t u;
     struct bdk_lmcx_general_purpose0_s
@@ -5686,7 +5715,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_lmcx_general_purpose0_s cn; */
-} bdk_lmcx_general_purpose0_t;
+};
+typedef union bdk_lmcx_general_purpose0 bdk_lmcx_general_purpose0_t;
 
 static inline uint64_t BDK_LMCX_GENERAL_PURPOSE0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_GENERAL_PURPOSE0(unsigned long a)
@@ -5712,7 +5742,7 @@ static inline uint64_t BDK_LMCX_GENERAL_PURPOSE0(unsigned long a)
  *
  * LMC General Purpose 1 Register
  */
-typedef union
+union bdk_lmcx_general_purpose1
 {
     uint64_t u;
     struct bdk_lmcx_general_purpose1_s
@@ -5724,7 +5754,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_lmcx_general_purpose1_s cn; */
-} bdk_lmcx_general_purpose1_t;
+};
+typedef union bdk_lmcx_general_purpose1 bdk_lmcx_general_purpose1_t;
 
 static inline uint64_t BDK_LMCX_GENERAL_PURPOSE1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_GENERAL_PURPOSE1(unsigned long a)
@@ -5750,7 +5781,7 @@ static inline uint64_t BDK_LMCX_GENERAL_PURPOSE1(unsigned long a)
  *
  * LMC General Purpose 2 Register
  */
-typedef union
+union bdk_lmcx_general_purpose2
 {
     uint64_t u;
     struct bdk_lmcx_general_purpose2_s
@@ -5764,7 +5795,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_lmcx_general_purpose2_s cn; */
-} bdk_lmcx_general_purpose2_t;
+};
+typedef union bdk_lmcx_general_purpose2 bdk_lmcx_general_purpose2_t;
 
 static inline uint64_t BDK_LMCX_GENERAL_PURPOSE2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_GENERAL_PURPOSE2(unsigned long a)
@@ -5790,7 +5822,7 @@ static inline uint64_t BDK_LMCX_GENERAL_PURPOSE2(unsigned long a)
  *
  * LMC IFB Performance Counter Register
  */
-typedef union
+union bdk_lmcx_ifb_cnt
 {
     uint64_t u;
     struct bdk_lmcx_ifb_cnt_s
@@ -5804,7 +5836,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_lmcx_ifb_cnt_s cn; */
-} bdk_lmcx_ifb_cnt_t;
+};
+typedef union bdk_lmcx_ifb_cnt bdk_lmcx_ifb_cnt_t;
 
 static inline uint64_t BDK_LMCX_IFB_CNT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_IFB_CNT(unsigned long a)
@@ -5831,7 +5864,7 @@ static inline uint64_t BDK_LMCX_IFB_CNT(unsigned long a)
  * LMC Interrupt Register
  * This register contains the different interrupt-summary bits of the LMC.
  */
-typedef union
+union bdk_lmcx_int
 {
     uint64_t u;
     struct bdk_lmcx_int_s
@@ -5907,7 +5940,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_lmcx_int_s cn; */
-} bdk_lmcx_int_t;
+};
+typedef union bdk_lmcx_int bdk_lmcx_int_t;
 
 static inline uint64_t BDK_LMCX_INT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_INT(unsigned long a)
@@ -5936,7 +5970,7 @@ static inline uint64_t BDK_LMCX_INT(unsigned long a)
  * Internal:
  * Deprecated and unused CSR.
  */
-typedef union
+union bdk_lmcx_int_en
 {
     uint64_t u;
     struct bdk_lmcx_int_en_s
@@ -5966,7 +6000,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_lmcx_int_en_s cn; */
-} bdk_lmcx_int_en_t;
+};
+typedef union bdk_lmcx_int_en bdk_lmcx_int_en_t;
 
 static inline uint64_t BDK_LMCX_INT_EN(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_INT_EN(unsigned long a)
@@ -5989,7 +6024,7 @@ static inline uint64_t BDK_LMCX_INT_EN(unsigned long a)
  * LMC Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_lmcx_int_ena_w1c
 {
     uint64_t u;
     struct bdk_lmcx_int_ena_w1c_s
@@ -6065,7 +6100,8 @@ typedef union
         uint64_t reserved_14_63        : 50;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_lmcx_int_ena_w1c_t;
+};
+typedef union bdk_lmcx_int_ena_w1c bdk_lmcx_int_ena_w1c_t;
 
 static inline uint64_t BDK_LMCX_INT_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_INT_ENA_W1C(unsigned long a)
@@ -6092,7 +6128,7 @@ static inline uint64_t BDK_LMCX_INT_ENA_W1C(unsigned long a)
  * LMC Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_lmcx_int_ena_w1s
 {
     uint64_t u;
     struct bdk_lmcx_int_ena_w1s_s
@@ -6168,7 +6204,8 @@ typedef union
         uint64_t reserved_14_63        : 50;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_lmcx_int_ena_w1s_t;
+};
+typedef union bdk_lmcx_int_ena_w1s bdk_lmcx_int_ena_w1s_t;
 
 static inline uint64_t BDK_LMCX_INT_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_INT_ENA_W1S(unsigned long a)
@@ -6195,7 +6232,7 @@ static inline uint64_t BDK_LMCX_INT_ENA_W1S(unsigned long a)
  * LMC Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_lmcx_int_w1s
 {
     uint64_t u;
     struct bdk_lmcx_int_w1s_s
@@ -6271,7 +6308,8 @@ typedef union
         uint64_t reserved_14_63        : 50;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_lmcx_int_w1s_t;
+};
+typedef union bdk_lmcx_int_w1s bdk_lmcx_int_w1s_t;
 
 static inline uint64_t BDK_LMCX_INT_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_INT_W1S(unsigned long a)
@@ -6298,7 +6336,7 @@ static inline uint64_t BDK_LMCX_INT_W1S(unsigned long a)
  * LMC MR Write Control Register
  * This register contains the CRC bit swizzle for even and odd ranks.
  */
-typedef union
+union bdk_lmcx_lanex_crc_swiz
 {
     uint64_t u;
     struct bdk_lmcx_lanex_crc_swiz_s
@@ -6344,7 +6382,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_lmcx_lanex_crc_swiz_s cn; */
-} bdk_lmcx_lanex_crc_swiz_t;
+};
+typedef union bdk_lmcx_lanex_crc_swiz bdk_lmcx_lanex_crc_swiz_t;
 
 static inline uint64_t BDK_LMCX_LANEX_CRC_SWIZ(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_LANEX_CRC_SWIZ(unsigned long a, unsigned long b)
@@ -6371,7 +6410,7 @@ static inline uint64_t BDK_LMCX_LANEX_CRC_SWIZ(unsigned long a, unsigned long b)
  * LMC Mode Register Parameters 0 Register
  * These parameters are written into the DDR3/DDR4 MR0, MR1, MR2 and MR3 registers.
  */
-typedef union
+union bdk_lmcx_modereg_params0
 {
     uint64_t u;
     struct bdk_lmcx_modereg_params0_s
@@ -7185,7 +7224,8 @@ typedef union
     /* struct bdk_lmcx_modereg_params0_s cn81xx; */
     /* struct bdk_lmcx_modereg_params0_s cn83xx; */
     /* struct bdk_lmcx_modereg_params0_s cn88xxp2; */
-} bdk_lmcx_modereg_params0_t;
+};
+typedef union bdk_lmcx_modereg_params0 bdk_lmcx_modereg_params0_t;
 
 static inline uint64_t BDK_LMCX_MODEREG_PARAMS0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_MODEREG_PARAMS0(unsigned long a)
@@ -7212,7 +7252,7 @@ static inline uint64_t BDK_LMCX_MODEREG_PARAMS0(unsigned long a)
  * LMC Mode Register Parameters 1 Register
  * These parameters are written into the DDR3 MR0, MR1, MR2 and MR3 registers.
  */
-typedef union
+union bdk_lmcx_modereg_params1
 {
     uint64_t u;
     struct bdk_lmcx_modereg_params1_s
@@ -8167,7 +8207,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn83xx;
     /* struct bdk_lmcx_modereg_params1_cn83xx cn88xxp2; */
-} bdk_lmcx_modereg_params1_t;
+};
+typedef union bdk_lmcx_modereg_params1 bdk_lmcx_modereg_params1_t;
 
 static inline uint64_t BDK_LMCX_MODEREG_PARAMS1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_MODEREG_PARAMS1(unsigned long a)
@@ -8194,7 +8235,7 @@ static inline uint64_t BDK_LMCX_MODEREG_PARAMS1(unsigned long a)
  * LMC Mode Register Parameters Register 2
  * These parameters are written into the DDR4 mode registers.
  */
-typedef union
+union bdk_lmcx_modereg_params2
 {
     uint64_t u;
     struct bdk_lmcx_modereg_params2_s
@@ -8232,7 +8273,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_lmcx_modereg_params2_s cn; */
-} bdk_lmcx_modereg_params2_t;
+};
+typedef union bdk_lmcx_modereg_params2 bdk_lmcx_modereg_params2_t;
 
 static inline uint64_t BDK_LMCX_MODEREG_PARAMS2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_MODEREG_PARAMS2(unsigned long a)
@@ -8259,7 +8301,7 @@ static inline uint64_t BDK_LMCX_MODEREG_PARAMS2(unsigned long a)
  * LMC Mode Register Parameters Register 3
  * These parameters are written into the DDR4 mode registers.
  */
-typedef union
+union bdk_lmcx_modereg_params3
 {
     uint64_t u;
     struct bdk_lmcx_modereg_params3_s
@@ -8343,7 +8385,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_lmcx_modereg_params3_s cn; */
-} bdk_lmcx_modereg_params3_t;
+};
+typedef union bdk_lmcx_modereg_params3 bdk_lmcx_modereg_params3_t;
 
 static inline uint64_t BDK_LMCX_MODEREG_PARAMS3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_MODEREG_PARAMS3(unsigned long a)
@@ -8370,7 +8413,7 @@ static inline uint64_t BDK_LMCX_MODEREG_PARAMS3(unsigned long a)
  * LMC MR Data Register 0
  * This register provides bits <63:0> of MPR data register.
  */
-typedef union
+union bdk_lmcx_mpr_data0
 {
     uint64_t u;
     struct bdk_lmcx_mpr_data0_s
@@ -8400,7 +8443,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_lmcx_mpr_data0_s cn; */
-} bdk_lmcx_mpr_data0_t;
+};
+typedef union bdk_lmcx_mpr_data0 bdk_lmcx_mpr_data0_t;
 
 static inline uint64_t BDK_LMCX_MPR_DATA0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_MPR_DATA0(unsigned long a)
@@ -8427,7 +8471,7 @@ static inline uint64_t BDK_LMCX_MPR_DATA0(unsigned long a)
  * LMC MR Data Register 1
  * This register provides bits <127:64> of MPR data register.
  */
-typedef union
+union bdk_lmcx_mpr_data1
 {
     uint64_t u;
     struct bdk_lmcx_mpr_data1_s
@@ -8459,7 +8503,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_lmcx_mpr_data1_s cn; */
-} bdk_lmcx_mpr_data1_t;
+};
+typedef union bdk_lmcx_mpr_data1 bdk_lmcx_mpr_data1_t;
 
 static inline uint64_t BDK_LMCX_MPR_DATA1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_MPR_DATA1(unsigned long a)
@@ -8486,7 +8531,7 @@ static inline uint64_t BDK_LMCX_MPR_DATA1(unsigned long a)
  * LMC MR Data Register 2
  * This register provides bits <143:128> of MPR data register.
  */
-typedef union
+union bdk_lmcx_mpr_data2
 {
     uint64_t u;
     struct bdk_lmcx_mpr_data2_s
@@ -8516,7 +8561,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_lmcx_mpr_data2_s cn; */
-} bdk_lmcx_mpr_data2_t;
+};
+typedef union bdk_lmcx_mpr_data2 bdk_lmcx_mpr_data2_t;
 
 static inline uint64_t BDK_LMCX_MPR_DATA2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_MPR_DATA2(unsigned long a)
@@ -8543,7 +8589,7 @@ static inline uint64_t BDK_LMCX_MPR_DATA2(unsigned long a)
  * LMC MR Write and MPR Control Register
  * This register provides the control functions when programming the MPR of DDR4 DRAMs.
  */
-typedef union
+union bdk_lmcx_mr_mpr_ctl
 {
     uint64_t u;
     struct bdk_lmcx_mr_mpr_ctl_s
@@ -8653,7 +8699,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_lmcx_mr_mpr_ctl_s cn; */
-} bdk_lmcx_mr_mpr_ctl_t;
+};
+typedef union bdk_lmcx_mr_mpr_ctl bdk_lmcx_mr_mpr_ctl_t;
 
 static inline uint64_t BDK_LMCX_MR_MPR_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_MR_MPR_CTL(unsigned long a)
@@ -8680,7 +8727,7 @@ static inline uint64_t BDK_LMCX_MR_MPR_CTL(unsigned long a)
  * LMC MSI-X Pending Bit Array Registers
  * This register is the LMC-X PBA table; the bit number is indexed by the LMC_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_lmcx_msix_pbax
 {
     uint64_t u;
     struct bdk_lmcx_msix_pbax_s
@@ -8694,7 +8741,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_lmcx_msix_pbax_s cn; */
-} bdk_lmcx_msix_pbax_t;
+};
+typedef union bdk_lmcx_msix_pbax bdk_lmcx_msix_pbax_t;
 
 static inline uint64_t BDK_LMCX_MSIX_PBAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_MSIX_PBAX(unsigned long a, unsigned long b)
@@ -8721,7 +8769,7 @@ static inline uint64_t BDK_LMCX_MSIX_PBAX(unsigned long a, unsigned long b)
  * LMC MSI-X Vector-Table Address Register
  * This register is the MSI-X vector table, indexed by the LMC_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_lmcx_msix_vecx_addr
 {
     uint64_t u;
     struct bdk_lmcx_msix_vecx_addr_s
@@ -8747,7 +8795,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_lmcx_msix_vecx_addr_s cn; */
-} bdk_lmcx_msix_vecx_addr_t;
+};
+typedef union bdk_lmcx_msix_vecx_addr bdk_lmcx_msix_vecx_addr_t;
 
 static inline uint64_t BDK_LMCX_MSIX_VECX_ADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
@@ -8774,7 +8823,7 @@ static inline uint64_t BDK_LMCX_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
  * LMC MSI-X Vector-Table Control and Data Register
  * This register is the MSI-X vector table, indexed by the LMC_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_lmcx_msix_vecx_ctl
 {
     uint64_t u;
     struct bdk_lmcx_msix_vecx_ctl_s
@@ -8792,7 +8841,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_lmcx_msix_vecx_ctl_s cn; */
-} bdk_lmcx_msix_vecx_ctl_t;
+};
+typedef union bdk_lmcx_msix_vecx_ctl bdk_lmcx_msix_vecx_ctl_t;
 
 static inline uint64_t BDK_LMCX_MSIX_VECX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
@@ -8819,7 +8869,7 @@ static inline uint64_t BDK_LMCX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
  * LMC Non Secure Control Register
  * This register contains control parameters for handling nonsecure accesses.
  */
-typedef union
+union bdk_lmcx_ns_ctl
 {
     uint64_t u;
     struct bdk_lmcx_ns_ctl_s
@@ -8887,7 +8937,8 @@ typedef union
     } cn81xx;
     /* struct bdk_lmcx_ns_ctl_cn81xx cn83xx; */
     /* struct bdk_lmcx_ns_ctl_cn81xx cn88xxp2; */
-} bdk_lmcx_ns_ctl_t;
+};
+typedef union bdk_lmcx_ns_ctl bdk_lmcx_ns_ctl_t;
 
 static inline uint64_t BDK_LMCX_NS_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_NS_CTL(unsigned long a)
@@ -8934,7 +8985,7 @@ static inline uint64_t BDK_LMCX_NS_CTL(unsigned long a)
  * Note also that addresses greater than the max defined space (pbank_msb) are also treated as
  * NXM accesses.
  */
-typedef union
+union bdk_lmcx_nxm
 {
     uint64_t u;
     struct bdk_lmcx_nxm_s
@@ -9049,7 +9100,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn88xx;
     /* struct bdk_lmcx_nxm_cn88xx cn83xx; */
-} bdk_lmcx_nxm_t;
+};
+typedef union bdk_lmcx_nxm bdk_lmcx_nxm_t;
 
 static inline uint64_t BDK_LMCX_NXM(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_NXM(unsigned long a)
@@ -9080,7 +9132,7 @@ static inline uint64_t BDK_LMCX_NXM(unsigned long a)
  * the NXM error. A read or write NXM error is captured only if enabled using the NXM event
  * enables.
  */
-typedef union
+union bdk_lmcx_nxm_fadr
 {
     uint64_t u;
     struct bdk_lmcx_nxm_fadr_s
@@ -9108,7 +9160,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_lmcx_nxm_fadr_s cn; */
-} bdk_lmcx_nxm_fadr_t;
+};
+typedef union bdk_lmcx_nxm_fadr bdk_lmcx_nxm_fadr_t;
 
 static inline uint64_t BDK_LMCX_NXM_FADR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_NXM_FADR(unsigned long a)
@@ -9134,7 +9187,7 @@ static inline uint64_t BDK_LMCX_NXM_FADR(unsigned long a)
  *
  * LMC OPS Performance Counter Register
  */
-typedef union
+union bdk_lmcx_ops_cnt
 {
     uint64_t u;
     struct bdk_lmcx_ops_cnt_s
@@ -9150,7 +9203,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_lmcx_ops_cnt_s cn; */
-} bdk_lmcx_ops_cnt_t;
+};
+typedef union bdk_lmcx_ops_cnt bdk_lmcx_ops_cnt_t;
 
 static inline uint64_t BDK_LMCX_OPS_CNT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_OPS_CNT(unsigned long a)
@@ -9176,7 +9230,7 @@ static inline uint64_t BDK_LMCX_OPS_CNT(unsigned long a)
  *
  * LMC PHY Control Register
  */
-typedef union
+union bdk_lmcx_phy_ctl
 {
     uint64_t u;
     struct bdk_lmcx_phy_ctl_s
@@ -10775,7 +10829,8 @@ typedef union
         uint64_t reserved_62_63        : 2;
 #endif /* Word 0 - End */
     } cn88xxp2;
-} bdk_lmcx_phy_ctl_t;
+};
+typedef union bdk_lmcx_phy_ctl bdk_lmcx_phy_ctl_t;
 
 static inline uint64_t BDK_LMCX_PHY_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_PHY_CTL(unsigned long a)
@@ -10801,7 +10856,7 @@ static inline uint64_t BDK_LMCX_PHY_CTL(unsigned long a)
  *
  * LMC PHY Control Register
  */
-typedef union
+union bdk_lmcx_phy_ctl2
 {
     uint64_t u;
     struct bdk_lmcx_phy_ctl2_s
@@ -10831,7 +10886,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_lmcx_phy_ctl2_s cn; */
-} bdk_lmcx_phy_ctl2_t;
+};
+typedef union bdk_lmcx_phy_ctl2 bdk_lmcx_phy_ctl2_t;
 
 static inline uint64_t BDK_LMCX_PHY_CTL2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_PHY_CTL2(unsigned long a)
@@ -10872,7 +10928,7 @@ static inline uint64_t BDK_LMCX_PHY_CTL2(unsigned long a)
  * _ Security key 2 = LMC()_GENERAL_PURPOSE1[DATA]<17:0>.
  * _ Security key 3 = LMC()_GENERAL_PURPOSE1[DATA]<35:18>.
  */
-typedef union
+union bdk_lmcx_ppr_ctl
 {
     uint64_t u;
     struct bdk_lmcx_ppr_ctl_s
@@ -11011,7 +11067,8 @@ typedef union
     } cn81xx;
     /* struct bdk_lmcx_ppr_ctl_s cn88xx; */
     /* struct bdk_lmcx_ppr_ctl_cn81xx cn83xx; */
-} bdk_lmcx_ppr_ctl_t;
+};
+typedef union bdk_lmcx_ppr_ctl bdk_lmcx_ppr_ctl_t;
 
 static inline uint64_t BDK_LMCX_PPR_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_PPR_CTL(unsigned long a)
@@ -11038,7 +11095,7 @@ static inline uint64_t BDK_LMCX_PPR_CTL(unsigned long a)
  * LMC Refresh Pending Status Register
  * This register contains the status of the refresh pending counter.
  */
-typedef union
+union bdk_lmcx_ref_status
 {
     uint64_t u;
     struct bdk_lmcx_ref_status_s
@@ -11056,7 +11113,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_lmcx_ref_status_s cn; */
-} bdk_lmcx_ref_status_t;
+};
+typedef union bdk_lmcx_ref_status bdk_lmcx_ref_status_t;
 
 static inline uint64_t BDK_LMCX_REF_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_REF_STATUS(unsigned long a)
@@ -11108,7 +11166,7 @@ static inline uint64_t BDK_LMCX_REF_STATUS(unsigned long a)
  * the DDR3 DRAM into self-refresh during the reset sequence. Can also be written by software (to
  * any value)."
  */
-typedef union
+union bdk_lmcx_reset_ctl
 {
     uint64_t u;
     struct bdk_lmcx_reset_ctl_s
@@ -11210,7 +11268,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_lmcx_reset_ctl_s cn; */
-} bdk_lmcx_reset_ctl_t;
+};
+typedef union bdk_lmcx_reset_ctl bdk_lmcx_reset_ctl_t;
 
 static inline uint64_t BDK_LMCX_RESET_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_RESET_CTL(unsigned long a)
@@ -11237,7 +11296,7 @@ static inline uint64_t BDK_LMCX_RESET_CTL(unsigned long a)
  * LMC Automatic Retry Configuration Registers
  * This register configures automatic retry operation.
  */
-typedef union
+union bdk_lmcx_retry_config
 {
     uint64_t u;
     struct bdk_lmcx_retry_config_s
@@ -11281,7 +11340,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_lmcx_retry_config_s cn; */
-} bdk_lmcx_retry_config_t;
+};
+typedef union bdk_lmcx_retry_config bdk_lmcx_retry_config_t;
 
 static inline uint64_t BDK_LMCX_RETRY_CONFIG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_RETRY_CONFIG(unsigned long a)
@@ -11308,7 +11368,7 @@ static inline uint64_t BDK_LMCX_RETRY_CONFIG(unsigned long a)
  * LMC Automatic Retry Status Registers
  * This register provides status on automatic retry operation.
  */
-typedef union
+union bdk_lmcx_retry_status
 {
     uint64_t u;
     struct bdk_lmcx_retry_status_s
@@ -11362,7 +11422,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_lmcx_retry_status_s cn; */
-} bdk_lmcx_retry_status_t;
+};
+typedef union bdk_lmcx_retry_status bdk_lmcx_retry_status_t;
 
 static inline uint64_t BDK_LMCX_RETRY_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_RETRY_STATUS(unsigned long a)
@@ -11388,7 +11449,7 @@ static inline uint64_t BDK_LMCX_RETRY_STATUS(unsigned long a)
  *
  * LMC Read Level Control Register
  */
-typedef union
+union bdk_lmcx_rlevel_ctl
 {
     uint64_t u;
     struct bdk_lmcx_rlevel_ctl_s
@@ -11546,7 +11607,8 @@ typedef union
     } cn81xx;
     /* struct bdk_lmcx_rlevel_ctl_cn81xx cn83xx; */
     /* struct bdk_lmcx_rlevel_ctl_cn81xx cn88xxp2; */
-} bdk_lmcx_rlevel_ctl_t;
+};
+typedef union bdk_lmcx_rlevel_ctl bdk_lmcx_rlevel_ctl_t;
 
 static inline uint64_t BDK_LMCX_RLEVEL_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_RLEVEL_CTL(unsigned long a)
@@ -11579,7 +11641,7 @@ static inline uint64_t BDK_LMCX_RLEVEL_CTL(unsigned long a)
  * every byte of every rank if you run read-leveling separately for each rank, probing
  * LMC()_RLEVEL_DBG between each read- leveling.
  */
-typedef union
+union bdk_lmcx_rlevel_dbg
 {
     uint64_t u;
     struct bdk_lmcx_rlevel_dbg_s
@@ -11593,7 +11655,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_lmcx_rlevel_dbg_s cn; */
-} bdk_lmcx_rlevel_dbg_t;
+};
+typedef union bdk_lmcx_rlevel_dbg bdk_lmcx_rlevel_dbg_t;
 
 static inline uint64_t BDK_LMCX_RLEVEL_DBG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_RLEVEL_DBG(unsigned long a)
@@ -11637,7 +11700,7 @@ static inline uint64_t BDK_LMCX_RLEVEL_DBG(unsigned long a)
  * easiest way to do this is to set LMC()_RLEVEL_RANKi = LMC()_RLEVEL_RANKj, where j is
  * some rank with attached DRAM whose LMC()_RLEVEL_RANKj is already fully initialized.
  */
-typedef union
+union bdk_lmcx_rlevel_rankx
 {
     uint64_t u;
     struct bdk_lmcx_rlevel_rankx_s
@@ -11689,7 +11752,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_lmcx_rlevel_rankx_s cn; */
-} bdk_lmcx_rlevel_rankx_t;
+};
+typedef union bdk_lmcx_rlevel_rankx bdk_lmcx_rlevel_rankx_t;
 
 static inline uint64_t BDK_LMCX_RLEVEL_RANKX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_RLEVEL_RANKX(unsigned long a, unsigned long b)
@@ -11732,7 +11796,7 @@ static inline uint64_t BDK_LMCX_RLEVEL_RANKX(unsigned long a, unsigned long b)
  * When a given RANK is selected, the RODT mask for that rank is used. The resulting RODT mask is
  * driven to the DIMMs in the following manner:
  */
-typedef union
+union bdk_lmcx_rodt_mask
 {
     uint64_t u;
     struct bdk_lmcx_rodt_mask_s
@@ -11805,7 +11869,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn88xx;
     /* struct bdk_lmcx_rodt_mask_cn88xx cn83xx; */
-} bdk_lmcx_rodt_mask_t;
+};
+typedef union bdk_lmcx_rodt_mask bdk_lmcx_rodt_mask_t;
 
 static inline uint64_t BDK_LMCX_RODT_MASK(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_RODT_MASK(unsigned long a)
@@ -11831,7 +11896,7 @@ static inline uint64_t BDK_LMCX_RODT_MASK(unsigned long a)
  *
  * LMC Scramble Configuration 0 Register
  */
-typedef union
+union bdk_lmcx_scramble_cfg0
 {
     uint64_t u;
     struct bdk_lmcx_scramble_cfg0_s
@@ -11845,7 +11910,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_lmcx_scramble_cfg0_s cn; */
-} bdk_lmcx_scramble_cfg0_t;
+};
+typedef union bdk_lmcx_scramble_cfg0 bdk_lmcx_scramble_cfg0_t;
 
 static inline uint64_t BDK_LMCX_SCRAMBLE_CFG0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_SCRAMBLE_CFG0(unsigned long a)
@@ -11872,7 +11938,7 @@ static inline uint64_t BDK_LMCX_SCRAMBLE_CFG0(unsigned long a)
  * LMC Scramble Configuration 1 Register
  * These registers set the aliasing that uses the lowest, legal chip select(s).
  */
-typedef union
+union bdk_lmcx_scramble_cfg1
 {
     uint64_t u;
     struct bdk_lmcx_scramble_cfg1_s
@@ -11886,7 +11952,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_lmcx_scramble_cfg1_s cn; */
-} bdk_lmcx_scramble_cfg1_t;
+};
+typedef union bdk_lmcx_scramble_cfg1 bdk_lmcx_scramble_cfg1_t;
 
 static inline uint64_t BDK_LMCX_SCRAMBLE_CFG1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_SCRAMBLE_CFG1(unsigned long a)
@@ -11912,7 +11979,7 @@ static inline uint64_t BDK_LMCX_SCRAMBLE_CFG1(unsigned long a)
  *
  * INTERNAL: LMC Scramble Configuration 2 Register
  */
-typedef union
+union bdk_lmcx_scramble_cfg2
 {
     uint64_t u;
     struct bdk_lmcx_scramble_cfg2_s
@@ -11924,7 +11991,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_lmcx_scramble_cfg2_s cn; */
-} bdk_lmcx_scramble_cfg2_t;
+};
+typedef union bdk_lmcx_scramble_cfg2 bdk_lmcx_scramble_cfg2_t;
 
 static inline uint64_t BDK_LMCX_SCRAMBLE_CFG2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_SCRAMBLE_CFG2(unsigned long a)
@@ -11965,7 +12033,7 @@ static inline uint64_t BDK_LMCX_SCRAMBLE_CFG2(unsigned long a)
  * LMC()_CONFIG -> SEC_ERR/DED_ERR, it clears the error bits and captures the next failing
  * address. If [FDIMM] is 1, that means the error is in the higher DIMM.
  */
-typedef union
+union bdk_lmcx_scrambled_fadr
 {
     uint64_t u;
     struct bdk_lmcx_scrambled_fadr_s
@@ -12036,7 +12104,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn88xx;
     /* struct bdk_lmcx_scrambled_fadr_cn88xx cn83xx; */
-} bdk_lmcx_scrambled_fadr_t;
+};
+typedef union bdk_lmcx_scrambled_fadr bdk_lmcx_scrambled_fadr_t;
 
 static inline uint64_t BDK_LMCX_SCRAMBLED_FADR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_SCRAMBLED_FADR(unsigned long a)
@@ -12063,7 +12132,7 @@ static inline uint64_t BDK_LMCX_SCRAMBLED_FADR(unsigned long a)
  * LMC Sequence Control Register
  * This register is used to initiate the various control sequences in the LMC.
  */
-typedef union
+union bdk_lmcx_seq_ctl
 {
     uint64_t u;
     struct bdk_lmcx_seq_ctl_s
@@ -12103,7 +12172,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_lmcx_seq_ctl_s cn; */
-} bdk_lmcx_seq_ctl_t;
+};
+typedef union bdk_lmcx_seq_ctl bdk_lmcx_seq_ctl_t;
 
 static inline uint64_t BDK_LMCX_SEQ_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_SEQ_CTL(unsigned long a)
@@ -12147,7 +12217,7 @@ static inline uint64_t BDK_LMCX_SEQ_CTL(unsigned long a)
  * The hardware-calculated minimums for these fields are shown in LMC()_SLOT_CTL0 Hardware-
  * Calculated Minimums.
  */
-typedef union
+union bdk_lmcx_slot_ctl0
 {
     uint64_t u;
     struct bdk_lmcx_slot_ctl0_s
@@ -12284,7 +12354,8 @@ typedef union
         uint64_t reserved_50_63        : 14;
 #endif /* Word 0 - End */
     } cn88xxp2;
-} bdk_lmcx_slot_ctl0_t;
+};
+typedef union bdk_lmcx_slot_ctl0 bdk_lmcx_slot_ctl0_t;
 
 static inline uint64_t BDK_LMCX_SLOT_CTL0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_SLOT_CTL0(unsigned long a)
@@ -12328,7 +12399,7 @@ static inline uint64_t BDK_LMCX_SLOT_CTL0(unsigned long a)
  * The hardware-calculated minimums for these fields are shown in LMC()_SLOT_CTL1 Hardware-
  * Calculated Minimums.
  */
-typedef union
+union bdk_lmcx_slot_ctl1
 {
     uint64_t u;
     struct bdk_lmcx_slot_ctl1_s
@@ -12356,7 +12427,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_lmcx_slot_ctl1_s cn; */
-} bdk_lmcx_slot_ctl1_t;
+};
+typedef union bdk_lmcx_slot_ctl1 bdk_lmcx_slot_ctl1_t;
 
 static inline uint64_t BDK_LMCX_SLOT_CTL1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_SLOT_CTL1(unsigned long a)
@@ -12399,7 +12471,7 @@ static inline uint64_t BDK_LMCX_SLOT_CTL1(unsigned long a)
  *
  * The hardware-calculated minimums for these fields are shown in LMC Registers.
  */
-typedef union
+union bdk_lmcx_slot_ctl2
 {
     uint64_t u;
     struct bdk_lmcx_slot_ctl2_s
@@ -12427,7 +12499,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_lmcx_slot_ctl2_s cn; */
-} bdk_lmcx_slot_ctl2_t;
+};
+typedef union bdk_lmcx_slot_ctl2 bdk_lmcx_slot_ctl2_t;
 
 static inline uint64_t BDK_LMCX_SLOT_CTL2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_SLOT_CTL2(unsigned long a)
@@ -12470,7 +12543,7 @@ static inline uint64_t BDK_LMCX_SLOT_CTL2(unsigned long a)
  *
  * The hardware-calculated minimums for these fields are shown in LMC Registers.
  */
-typedef union
+union bdk_lmcx_slot_ctl3
 {
     uint64_t u;
     struct bdk_lmcx_slot_ctl3_s
@@ -12607,7 +12680,8 @@ typedef union
         uint64_t reserved_50_63        : 14;
 #endif /* Word 0 - End */
     } cn88xxp2;
-} bdk_lmcx_slot_ctl3_t;
+};
+typedef union bdk_lmcx_slot_ctl3 bdk_lmcx_slot_ctl3_t;
 
 static inline uint64_t BDK_LMCX_SLOT_CTL3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_SLOT_CTL3(unsigned long a)
@@ -12633,7 +12707,7 @@ static inline uint64_t BDK_LMCX_SLOT_CTL3(unsigned long a)
  *
  * LMC Timing Parameters Register 0
  */
-typedef union
+union bdk_lmcx_timing_params0
 {
     uint64_t u;
     struct bdk_lmcx_timing_params0_s
@@ -13007,7 +13081,8 @@ typedef union
     /* struct bdk_lmcx_timing_params0_s cn81xx; */
     /* struct bdk_lmcx_timing_params0_s cn83xx; */
     /* struct bdk_lmcx_timing_params0_s cn88xxp2; */
-} bdk_lmcx_timing_params0_t;
+};
+typedef union bdk_lmcx_timing_params0 bdk_lmcx_timing_params0_t;
 
 static inline uint64_t BDK_LMCX_TIMING_PARAMS0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_TIMING_PARAMS0(unsigned long a)
@@ -13033,7 +13108,7 @@ static inline uint64_t BDK_LMCX_TIMING_PARAMS0(unsigned long a)
  *
  * LMC Timing Parameters Register 1
  */
-typedef union
+union bdk_lmcx_timing_params1
 {
     uint64_t u;
     struct bdk_lmcx_timing_params1_s
@@ -13693,7 +13768,8 @@ typedef union
     /* struct bdk_lmcx_timing_params1_s cn81xx; */
     /* struct bdk_lmcx_timing_params1_s cn83xx; */
     /* struct bdk_lmcx_timing_params1_s cn88xxp2; */
-} bdk_lmcx_timing_params1_t;
+};
+typedef union bdk_lmcx_timing_params1 bdk_lmcx_timing_params1_t;
 
 static inline uint64_t BDK_LMCX_TIMING_PARAMS1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_TIMING_PARAMS1(unsigned long a)
@@ -13720,7 +13796,7 @@ static inline uint64_t BDK_LMCX_TIMING_PARAMS1(unsigned long a)
  * LMC Timing Parameters Register 2
  * This register sets timing parameters for DDR4.
  */
-typedef union
+union bdk_lmcx_timing_params2
 {
     uint64_t u;
     struct bdk_lmcx_timing_params2_s
@@ -13816,7 +13892,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_lmcx_timing_params2_s cn; */
-} bdk_lmcx_timing_params2_t;
+};
+typedef union bdk_lmcx_timing_params2 bdk_lmcx_timing_params2_t;
 
 static inline uint64_t BDK_LMCX_TIMING_PARAMS2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_TIMING_PARAMS2(unsigned long a)
@@ -13842,7 +13919,7 @@ static inline uint64_t BDK_LMCX_TIMING_PARAMS2(unsigned long a)
  *
  * LMC Write Level Control Register
  */
-typedef union
+union bdk_lmcx_wlevel_ctl
 {
     uint64_t u;
     struct bdk_lmcx_wlevel_ctl_s
@@ -13916,7 +13993,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_lmcx_wlevel_ctl_s cn; */
-} bdk_lmcx_wlevel_ctl_t;
+};
+typedef union bdk_lmcx_wlevel_ctl bdk_lmcx_wlevel_ctl_t;
 
 static inline uint64_t BDK_LMCX_WLEVEL_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_WLEVEL_CTL(unsigned long a)
@@ -13949,7 +14027,7 @@ static inline uint64_t BDK_LMCX_WLEVEL_CTL(unsigned long a)
  * write-leveling separately for each rank, probing LMC()_WLEVEL_DBG between each write-
  * leveling.
  */
-typedef union
+union bdk_lmcx_wlevel_dbg
 {
     uint64_t u;
     struct bdk_lmcx_wlevel_dbg_s
@@ -13983,7 +14061,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_lmcx_wlevel_dbg_s cn; */
-} bdk_lmcx_wlevel_dbg_t;
+};
+typedef union bdk_lmcx_wlevel_dbg bdk_lmcx_wlevel_dbg_t;
 
 static inline uint64_t BDK_LMCX_WLEVEL_DBG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_WLEVEL_DBG(unsigned long a)
@@ -14036,7 +14115,7 @@ static inline uint64_t BDK_LMCX_WLEVEL_DBG(unsigned long a)
  * set LMC()_WLEVEL_RANKi = LMC()_WLEVEL_RANKj, where j is some rank with attached DRAM whose
  * LMC()_WLEVEL_RANKj is already fully initialized.
  */
-typedef union
+union bdk_lmcx_wlevel_rankx
 {
     uint64_t u;
     struct bdk_lmcx_wlevel_rankx_s
@@ -14090,7 +14169,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_lmcx_wlevel_rankx_s cn; */
-} bdk_lmcx_wlevel_rankx_t;
+};
+typedef union bdk_lmcx_wlevel_rankx bdk_lmcx_wlevel_rankx_t;
 
 static inline uint64_t BDK_LMCX_WLEVEL_RANKX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_WLEVEL_RANKX(unsigned long a, unsigned long b)
@@ -14130,7 +14210,7 @@ static inline uint64_t BDK_LMCX_WLEVEL_RANKX(unsigned long a, unsigned long b)
  * required, write 0x0 in this register. When a given RANK is selected, the WODT mask for that
  * RANK is used. The resulting WODT mask is driven to the DIMMs in the following manner:
  */
-typedef union
+union bdk_lmcx_wodt_mask
 {
     uint64_t u;
     struct bdk_lmcx_wodt_mask_s
@@ -14199,7 +14279,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn88xx;
     /* struct bdk_lmcx_wodt_mask_cn88xx cn83xx; */
-} bdk_lmcx_wodt_mask_t;
+};
+typedef union bdk_lmcx_wodt_mask bdk_lmcx_wodt_mask_t;
 
 static inline uint64_t BDK_LMCX_WODT_MASK(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_WODT_MASK(unsigned long a)

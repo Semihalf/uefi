@@ -1372,7 +1372,7 @@ union bdk_ddf_res_match_s
  *
  * INTERNAL: DDF CQM Core Observability Debug Register
  */
-typedef union
+union bdk_ddfx_cqm_core_obs0
 {
     uint64_t u;
     struct bdk_ddfx_cqm_core_obs0_s
@@ -1398,7 +1398,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ddfx_cqm_core_obs0_s cn; */
-} bdk_ddfx_cqm_core_obs0_t;
+};
+typedef union bdk_ddfx_cqm_core_obs0 bdk_ddfx_cqm_core_obs0_t;
 
 static inline uint64_t BDK_DDFX_CQM_CORE_OBS0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_CQM_CORE_OBS0(unsigned long a)
@@ -1420,7 +1421,7 @@ static inline uint64_t BDK_DDFX_CQM_CORE_OBS0(unsigned long a)
  *
  * INTERNAL: DDF CQM Core Observability Debug Register
  */
-typedef union
+union bdk_ddfx_cqm_core_obs1
 {
     uint64_t u;
     struct bdk_ddfx_cqm_core_obs1_s
@@ -1458,7 +1459,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ddfx_cqm_core_obs1_s cn; */
-} bdk_ddfx_cqm_core_obs1_t;
+};
+typedef union bdk_ddfx_cqm_core_obs1 bdk_ddfx_cqm_core_obs1_t;
 
 static inline uint64_t BDK_DDFX_CQM_CORE_OBS1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_CQM_CORE_OBS1(unsigned long a)
@@ -1480,7 +1482,7 @@ static inline uint64_t BDK_DDFX_CQM_CORE_OBS1(unsigned long a)
  *
  * INTERNAL: DDF NCBI Observability Debug Register
  */
-typedef union
+union bdk_ddfx_ncbi_obs
 {
     uint64_t u;
     struct bdk_ddfx_ncbi_obs_s
@@ -1512,7 +1514,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ddfx_ncbi_obs_s cn; */
-} bdk_ddfx_ncbi_obs_t;
+};
+typedef union bdk_ddfx_ncbi_obs bdk_ddfx_ncbi_obs_t;
 
 static inline uint64_t BDK_DDFX_NCBI_OBS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_NCBI_OBS(unsigned long a)
@@ -1534,7 +1537,7 @@ static inline uint64_t BDK_DDFX_NCBI_OBS(unsigned long a)
  *
  * DDF PF Active Cycles Register
  */
-typedef union
+union bdk_ddfx_pf_active_cycles_pc
 {
     uint64_t u;
     struct bdk_ddfx_pf_active_cycles_pc_s
@@ -1550,7 +1553,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ddfx_pf_active_cycles_pc_s cn; */
-} bdk_ddfx_pf_active_cycles_pc_t;
+};
+typedef union bdk_ddfx_pf_active_cycles_pc bdk_ddfx_pf_active_cycles_pc_t;
 
 static inline uint64_t BDK_DDFX_PF_ACTIVE_CYCLES_PC(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_PF_ACTIVE_CYCLES_PC(unsigned long a)
@@ -1574,7 +1578,7 @@ static inline uint64_t BDK_DDFX_PF_ACTIVE_CYCLES_PC(unsigned long a)
  * This register has the BIST status of memories. Each bit is the BIST result of an
  * individual memory (per bit, 0 = pass and 1 = fail).
  */
-typedef union
+union bdk_ddfx_pf_bist_status
 {
     uint64_t u;
     struct bdk_ddfx_pf_bist_status_s
@@ -1588,7 +1592,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ddfx_pf_bist_status_s cn; */
-} bdk_ddfx_pf_bist_status_t;
+};
+typedef union bdk_ddfx_pf_bist_status bdk_ddfx_pf_bist_status_t;
 
 static inline uint64_t BDK_DDFX_PF_BIST_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_PF_BIST_STATUS(unsigned long a)
@@ -1610,7 +1615,7 @@ static inline uint64_t BDK_DDFX_PF_BIST_STATUS(unsigned long a)
  *
  * INTERNAL: DDF PF Backpressure Test Register
  */
-typedef union
+union bdk_ddfx_pf_bp_test
 {
     uint64_t u;
     struct bdk_ddfx_pf_bp_test_s
@@ -1660,7 +1665,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ddfx_pf_bp_test_s cn; */
-} bdk_ddfx_pf_bp_test_t;
+};
+typedef union bdk_ddfx_pf_bp_test bdk_ddfx_pf_bp_test_t;
 
 static inline uint64_t BDK_DDFX_PF_BP_TEST(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_PF_BP_TEST(unsigned long a)
@@ -1682,7 +1688,7 @@ static inline uint64_t BDK_DDFX_PF_BP_TEST(unsigned long a)
  *
  * INTERNAL: DDF Backpressure Test Register 0
  */
-typedef union
+union bdk_ddfx_pf_bp_test0
 {
     uint64_t u;
     struct bdk_ddfx_pf_bp_test0_s
@@ -1736,7 +1742,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ddfx_pf_bp_test0_s cn; */
-} bdk_ddfx_pf_bp_test0_t;
+};
+typedef union bdk_ddfx_pf_bp_test0 bdk_ddfx_pf_bp_test0_t;
 
 static inline uint64_t BDK_DDFX_PF_BP_TEST0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_PF_BP_TEST0(unsigned long a)
@@ -1759,7 +1766,7 @@ static inline uint64_t BDK_DDFX_PF_BP_TEST0(unsigned long a)
  * DDF PF Cache Miss Performance Counter Register
  * This register controls diagnostic features.
  */
-typedef union
+union bdk_ddfx_pf_cac_miss_pc
 {
     uint64_t u;
     struct bdk_ddfx_pf_cac_miss_pc_s
@@ -1771,7 +1778,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ddfx_pf_cac_miss_pc_s cn; */
-} bdk_ddfx_pf_cac_miss_pc_t;
+};
+typedef union bdk_ddfx_pf_cac_miss_pc bdk_ddfx_pf_cac_miss_pc_t;
 
 static inline uint64_t BDK_DDFX_PF_CAC_MISS_PC(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_PF_CAC_MISS_PC(unsigned long a)
@@ -1794,7 +1802,7 @@ static inline uint64_t BDK_DDFX_PF_CAC_MISS_PC(unsigned long a)
  * DDF PF Constants Register
  * This register contains implementation-related parameters of DDF in CNXXXX.
  */
-typedef union
+union bdk_ddfx_pf_constants
 {
     uint64_t u;
     struct bdk_ddfx_pf_constants_s
@@ -1808,7 +1816,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ddfx_pf_constants_s cn; */
-} bdk_ddfx_pf_constants_t;
+};
+typedef union bdk_ddfx_pf_constants bdk_ddfx_pf_constants_t;
 
 static inline uint64_t BDK_DDFX_PF_CONSTANTS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_PF_CONSTANTS(unsigned long a)
@@ -1832,7 +1841,7 @@ static inline uint64_t BDK_DDFX_PF_CONSTANTS(unsigned long a)
  * This register controls diagnostic features. This register should be changed only when
  * quiescent (see DDF()_VQ()_INPROG[INFLIGHT]).
  */
-typedef union
+union bdk_ddfx_pf_ctl
 {
     uint64_t u;
     struct bdk_ddfx_pf_ctl_s
@@ -1876,7 +1885,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ddfx_pf_ctl_s cn; */
-} bdk_ddfx_pf_ctl_t;
+};
+typedef union bdk_ddfx_pf_ctl bdk_ddfx_pf_ctl_t;
 
 static inline uint64_t BDK_DDFX_PF_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_PF_CTL(unsigned long a)
@@ -1899,7 +1909,7 @@ static inline uint64_t BDK_DDFX_PF_CTL(unsigned long a)
  * DDF PF Control Register 2
  * This register controls diagnostic features.
  */
-typedef union
+union bdk_ddfx_pf_ctl2
 {
     uint64_t u;
     struct bdk_ddfx_pf_ctl2_s
@@ -1923,7 +1933,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ddfx_pf_ctl2_s cn; */
-} bdk_ddfx_pf_ctl2_t;
+};
+typedef union bdk_ddfx_pf_ctl2 bdk_ddfx_pf_ctl2_t;
 
 static inline uint64_t BDK_DDFX_PF_CTL2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_PF_CTL2(unsigned long a)
@@ -1946,7 +1957,7 @@ static inline uint64_t BDK_DDFX_PF_CTL2(unsigned long a)
  * DDF PF Diagnostic Control Register
  * This register controls diagnostic features.
  */
-typedef union
+union bdk_ddfx_pf_diag
 {
     uint64_t u;
     struct bdk_ddfx_pf_diag_s
@@ -1966,7 +1977,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ddfx_pf_diag_s cn; */
-} bdk_ddfx_pf_diag_t;
+};
+typedef union bdk_ddfx_pf_diag bdk_ddfx_pf_diag_t;
 
 static inline uint64_t BDK_DDFX_PF_DIAG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_PF_DIAG(unsigned long a)
@@ -1989,7 +2001,7 @@ static inline uint64_t BDK_DDFX_PF_DIAG(unsigned long a)
  * DDF PF Diagnostic Control Register 2
  * This register controls diagnostic features.
  */
-typedef union
+union bdk_ddfx_pf_diag2
 {
     uint64_t u;
     struct bdk_ddfx_pf_diag2_s
@@ -2009,7 +2021,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ddfx_pf_diag2_s cn; */
-} bdk_ddfx_pf_diag2_t;
+};
+typedef union bdk_ddfx_pf_diag2 bdk_ddfx_pf_diag2_t;
 
 static inline uint64_t BDK_DDFX_PF_DIAG2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_PF_DIAG2(unsigned long a)
@@ -2032,7 +2045,7 @@ static inline uint64_t BDK_DDFX_PF_DIAG2(unsigned long a)
  * DDF PF Diagnostic CAM Access Register
  * This register provides diagnostic read access to the CAM.
  */
-typedef union
+union bdk_ddfx_pf_diag_camx
 {
     uint64_t u;
     struct bdk_ddfx_pf_diag_camx_s
@@ -2044,7 +2057,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ddfx_pf_diag_camx_s cn; */
-} bdk_ddfx_pf_diag_camx_t;
+};
+typedef union bdk_ddfx_pf_diag_camx bdk_ddfx_pf_diag_camx_t;
 
 static inline uint64_t BDK_DDFX_PF_DIAG_CAMX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_PF_DIAG_CAMX(unsigned long a, unsigned long b)
@@ -2067,7 +2081,7 @@ static inline uint64_t BDK_DDFX_PF_DIAG_CAMX(unsigned long a, unsigned long b)
  * DDF PF Diagnostic DMEM Access Register
  * This register provides diagnostic read access to the DMEM.
  */
-typedef union
+union bdk_ddfx_pf_diag_dmemx
 {
     uint64_t u;
     struct bdk_ddfx_pf_diag_dmemx_s
@@ -2079,7 +2093,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ddfx_pf_diag_dmemx_s cn; */
-} bdk_ddfx_pf_diag_dmemx_t;
+};
+typedef union bdk_ddfx_pf_diag_dmemx bdk_ddfx_pf_diag_dmemx_t;
 
 static inline uint64_t BDK_DDFX_PF_DIAG_DMEMX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_PF_DIAG_DMEMX(unsigned long a, unsigned long b)
@@ -2103,7 +2118,7 @@ static inline uint64_t BDK_DDFX_PF_DIAG_DMEMX(unsigned long a, unsigned long b)
  * This register enables ECC for each individual internal memory that requires ECC. For debug
  * purposes, it can also flip one or two bits in the ECC data.
  */
-typedef union
+union bdk_ddfx_pf_ecc0_ctl
 {
     uint64_t u;
     struct bdk_ddfx_pf_ecc0_ctl_s
@@ -2117,7 +2132,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ddfx_pf_ecc0_ctl_s cn; */
-} bdk_ddfx_pf_ecc0_ctl_t;
+};
+typedef union bdk_ddfx_pf_ecc0_ctl bdk_ddfx_pf_ecc0_ctl_t;
 
 static inline uint64_t BDK_DDFX_PF_ECC0_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_PF_ECC0_CTL(unsigned long a)
@@ -2140,7 +2156,7 @@ static inline uint64_t BDK_DDFX_PF_ECC0_CTL(unsigned long a)
  * DDF ECC Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_ddfx_pf_ecc0_ena_w1c
 {
     uint64_t u;
     struct bdk_ddfx_pf_ecc0_ena_w1c_s
@@ -2154,7 +2170,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ddfx_pf_ecc0_ena_w1c_s cn; */
-} bdk_ddfx_pf_ecc0_ena_w1c_t;
+};
+typedef union bdk_ddfx_pf_ecc0_ena_w1c bdk_ddfx_pf_ecc0_ena_w1c_t;
 
 static inline uint64_t BDK_DDFX_PF_ECC0_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_PF_ECC0_ENA_W1C(unsigned long a)
@@ -2177,7 +2194,7 @@ static inline uint64_t BDK_DDFX_PF_ECC0_ENA_W1C(unsigned long a)
  * DDF ECC Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_ddfx_pf_ecc0_ena_w1s
 {
     uint64_t u;
     struct bdk_ddfx_pf_ecc0_ena_w1s_s
@@ -2191,7 +2208,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ddfx_pf_ecc0_ena_w1s_s cn; */
-} bdk_ddfx_pf_ecc0_ena_w1s_t;
+};
+typedef union bdk_ddfx_pf_ecc0_ena_w1s bdk_ddfx_pf_ecc0_ena_w1s_t;
 
 static inline uint64_t BDK_DDFX_PF_ECC0_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_PF_ECC0_ENA_W1S(unsigned long a)
@@ -2215,7 +2233,7 @@ static inline uint64_t BDK_DDFX_PF_ECC0_ENA_W1S(unsigned long a)
  * This register enables ECC for each individual internal memory that requires ECC. For debug
  * purposes, it can also flip one or two bits in the ECC data.
  */
-typedef union
+union bdk_ddfx_pf_ecc0_flip
 {
     uint64_t u;
     struct bdk_ddfx_pf_ecc0_flip_s
@@ -2229,7 +2247,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ddfx_pf_ecc0_flip_s cn; */
-} bdk_ddfx_pf_ecc0_flip_t;
+};
+typedef union bdk_ddfx_pf_ecc0_flip bdk_ddfx_pf_ecc0_flip_t;
 
 static inline uint64_t BDK_DDFX_PF_ECC0_FLIP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_PF_ECC0_FLIP(unsigned long a)
@@ -2252,7 +2271,7 @@ static inline uint64_t BDK_DDFX_PF_ECC0_FLIP(unsigned long a)
  * DDF ECC Interrupt Status Register
  * This register contains the status of the ECC interrupt sources.
  */
-typedef union
+union bdk_ddfx_pf_ecc0_int
 {
     uint64_t u;
     struct bdk_ddfx_pf_ecc0_int_s
@@ -2270,7 +2289,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ddfx_pf_ecc0_int_s cn; */
-} bdk_ddfx_pf_ecc0_int_t;
+};
+typedef union bdk_ddfx_pf_ecc0_int bdk_ddfx_pf_ecc0_int_t;
 
 static inline uint64_t BDK_DDFX_PF_ECC0_INT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_PF_ECC0_INT(unsigned long a)
@@ -2293,7 +2313,7 @@ static inline uint64_t BDK_DDFX_PF_ECC0_INT(unsigned long a)
  * DDF ECC Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_ddfx_pf_ecc0_int_w1s
 {
     uint64_t u;
     struct bdk_ddfx_pf_ecc0_int_w1s_s
@@ -2307,7 +2327,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ddfx_pf_ecc0_int_w1s_s cn; */
-} bdk_ddfx_pf_ecc0_int_w1s_t;
+};
+typedef union bdk_ddfx_pf_ecc0_int_w1s bdk_ddfx_pf_ecc0_int_w1s_t;
 
 static inline uint64_t BDK_DDFX_PF_ECC0_INT_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_PF_ECC0_INT_W1S(unsigned long a)
@@ -2329,7 +2350,7 @@ static inline uint64_t BDK_DDFX_PF_ECC0_INT_W1S(unsigned long a)
  *
  * INTERNAL: DDF PF ECO Register
  */
-typedef union
+union bdk_ddfx_pf_eco
 {
     uint64_t u;
     struct bdk_ddfx_pf_eco_s
@@ -2345,7 +2366,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ddfx_pf_eco_s cn; */
-} bdk_ddfx_pf_eco_t;
+};
+typedef union bdk_ddfx_pf_eco bdk_ddfx_pf_eco_t;
 
 static inline uint64_t BDK_DDFX_PF_ECO(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_PF_ECO(unsigned long a)
@@ -2367,7 +2389,7 @@ static inline uint64_t BDK_DDFX_PF_ECO(unsigned long a)
  *
  * DDF PF Instruction Latency Counter Register
  */
-typedef union
+union bdk_ddfx_pf_inst_latency_pc
 {
     uint64_t u;
     struct bdk_ddfx_pf_inst_latency_pc_s
@@ -2385,7 +2407,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ddfx_pf_inst_latency_pc_s cn; */
-} bdk_ddfx_pf_inst_latency_pc_t;
+};
+typedef union bdk_ddfx_pf_inst_latency_pc bdk_ddfx_pf_inst_latency_pc_t;
 
 static inline uint64_t BDK_DDFX_PF_INST_LATENCY_PC(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_PF_INST_LATENCY_PC(unsigned long a)
@@ -2407,7 +2430,7 @@ static inline uint64_t BDK_DDFX_PF_INST_LATENCY_PC(unsigned long a)
  *
  * DDF PF Instruction Request Performance Counter Register
  */
-typedef union
+union bdk_ddfx_pf_inst_req_pc
 {
     uint64_t u;
     struct bdk_ddfx_pf_inst_req_pc_s
@@ -2419,7 +2442,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ddfx_pf_inst_req_pc_s cn; */
-} bdk_ddfx_pf_inst_req_pc_t;
+};
+typedef union bdk_ddfx_pf_inst_req_pc bdk_ddfx_pf_inst_req_pc_t;
 
 static inline uint64_t BDK_DDFX_PF_INST_REQ_PC(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_PF_INST_REQ_PC(unsigned long a)
@@ -2442,7 +2466,7 @@ static inline uint64_t BDK_DDFX_PF_INST_REQ_PC(unsigned long a)
  * DDF PF Mailbox Enable Clear Registers
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_ddfx_pf_mbox_ena_w1cx
 {
     uint64_t u;
     struct bdk_ddfx_pf_mbox_ena_w1cx_s
@@ -2454,7 +2478,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ddfx_pf_mbox_ena_w1cx_s cn; */
-} bdk_ddfx_pf_mbox_ena_w1cx_t;
+};
+typedef union bdk_ddfx_pf_mbox_ena_w1cx bdk_ddfx_pf_mbox_ena_w1cx_t;
 
 static inline uint64_t BDK_DDFX_PF_MBOX_ENA_W1CX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_PF_MBOX_ENA_W1CX(unsigned long a, unsigned long b)
@@ -2477,7 +2502,7 @@ static inline uint64_t BDK_DDFX_PF_MBOX_ENA_W1CX(unsigned long a, unsigned long 
  * DDF PF Mailbox Enable Set Registers
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_ddfx_pf_mbox_ena_w1sx
 {
     uint64_t u;
     struct bdk_ddfx_pf_mbox_ena_w1sx_s
@@ -2489,7 +2514,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ddfx_pf_mbox_ena_w1sx_s cn; */
-} bdk_ddfx_pf_mbox_ena_w1sx_t;
+};
+typedef union bdk_ddfx_pf_mbox_ena_w1sx bdk_ddfx_pf_mbox_ena_w1sx_t;
 
 static inline uint64_t BDK_DDFX_PF_MBOX_ENA_W1SX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_PF_MBOX_ENA_W1SX(unsigned long a, unsigned long b)
@@ -2511,7 +2537,7 @@ static inline uint64_t BDK_DDFX_PF_MBOX_ENA_W1SX(unsigned long a, unsigned long 
  *
  * DDF PF Mailbox Interrupt Registers
  */
-typedef union
+union bdk_ddfx_pf_mbox_intx
 {
     uint64_t u;
     struct bdk_ddfx_pf_mbox_intx_s
@@ -2525,7 +2551,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ddfx_pf_mbox_intx_s cn; */
-} bdk_ddfx_pf_mbox_intx_t;
+};
+typedef union bdk_ddfx_pf_mbox_intx bdk_ddfx_pf_mbox_intx_t;
 
 static inline uint64_t BDK_DDFX_PF_MBOX_INTX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_PF_MBOX_INTX(unsigned long a, unsigned long b)
@@ -2548,7 +2575,7 @@ static inline uint64_t BDK_DDFX_PF_MBOX_INTX(unsigned long a, unsigned long b)
  * DDF PF Mailbox Interrupt Set Registers
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_ddfx_pf_mbox_int_w1sx
 {
     uint64_t u;
     struct bdk_ddfx_pf_mbox_int_w1sx_s
@@ -2560,7 +2587,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ddfx_pf_mbox_int_w1sx_s cn; */
-} bdk_ddfx_pf_mbox_int_w1sx_t;
+};
+typedef union bdk_ddfx_pf_mbox_int_w1sx bdk_ddfx_pf_mbox_int_w1sx_t;
 
 static inline uint64_t BDK_DDFX_PF_MBOX_INT_W1SX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_PF_MBOX_INT_W1SX(unsigned long a, unsigned long b)
@@ -2584,7 +2612,7 @@ static inline uint64_t BDK_DDFX_PF_MBOX_INT_W1SX(unsigned long a, unsigned long 
  * This register is the MSI-X PBA table, the bit number is indexed by the
  * DDF_PF_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_ddfx_pf_msix_pbax
 {
     uint64_t u;
     struct bdk_ddfx_pf_msix_pbax_s
@@ -2598,7 +2626,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ddfx_pf_msix_pbax_s cn; */
-} bdk_ddfx_pf_msix_pbax_t;
+};
+typedef union bdk_ddfx_pf_msix_pbax bdk_ddfx_pf_msix_pbax_t;
 
 static inline uint64_t BDK_DDFX_PF_MSIX_PBAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_PF_MSIX_PBAX(unsigned long a, unsigned long b)
@@ -2621,7 +2650,7 @@ static inline uint64_t BDK_DDFX_PF_MSIX_PBAX(unsigned long a, unsigned long b)
  * DDF PF MSI-X Vector-Table Address Registers
  * This register is the MSI-X vector table, indexed by the DDF_PF_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_ddfx_pf_msix_vecx_addr
 {
     uint64_t u;
     struct bdk_ddfx_pf_msix_vecx_addr_s
@@ -2653,7 +2682,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ddfx_pf_msix_vecx_addr_s cn; */
-} bdk_ddfx_pf_msix_vecx_addr_t;
+};
+typedef union bdk_ddfx_pf_msix_vecx_addr bdk_ddfx_pf_msix_vecx_addr_t;
 
 static inline uint64_t BDK_DDFX_PF_MSIX_VECX_ADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_PF_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
@@ -2676,7 +2706,7 @@ static inline uint64_t BDK_DDFX_PF_MSIX_VECX_ADDR(unsigned long a, unsigned long
  * DDF PF MSI-X Vector-Table Control and Data Registers
  * This register is the MSI-X vector table, indexed by the DDF_PF_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_ddfx_pf_msix_vecx_ctl
 {
     uint64_t u;
     struct bdk_ddfx_pf_msix_vecx_ctl_s
@@ -2694,7 +2724,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ddfx_pf_msix_vecx_ctl_s cn; */
-} bdk_ddfx_pf_msix_vecx_ctl_t;
+};
+typedef union bdk_ddfx_pf_msix_vecx_ctl bdk_ddfx_pf_msix_vecx_ctl_t;
 
 static inline uint64_t BDK_DDFX_PF_MSIX_VECX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_PF_MSIX_VECX_CTL(unsigned long a, unsigned long b)
@@ -2718,7 +2749,7 @@ static inline uint64_t BDK_DDFX_PF_MSIX_VECX_CTL(unsigned long a, unsigned long 
  *
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_ddfx_pf_noint0_ena_w1c
 {
     uint64_t u;
     struct bdk_ddfx_pf_noint0_ena_w1c_s
@@ -2730,7 +2761,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ddfx_pf_noint0_ena_w1c_s cn; */
-} bdk_ddfx_pf_noint0_ena_w1c_t;
+};
+typedef union bdk_ddfx_pf_noint0_ena_w1c bdk_ddfx_pf_noint0_ena_w1c_t;
 
 static inline uint64_t BDK_DDFX_PF_NOINT0_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_PF_NOINT0_ENA_W1C(unsigned long a)
@@ -2754,7 +2786,7 @@ static inline uint64_t BDK_DDFX_PF_NOINT0_ENA_W1C(unsigned long a)
  *
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_ddfx_pf_noint0_ena_w1s
 {
     uint64_t u;
     struct bdk_ddfx_pf_noint0_ena_w1s_s
@@ -2766,7 +2798,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ddfx_pf_noint0_ena_w1s_s cn; */
-} bdk_ddfx_pf_noint0_ena_w1s_t;
+};
+typedef union bdk_ddfx_pf_noint0_ena_w1s bdk_ddfx_pf_noint0_ena_w1s_t;
 
 static inline uint64_t BDK_DDFX_PF_NOINT0_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_PF_NOINT0_ENA_W1S(unsigned long a)
@@ -2791,7 +2824,7 @@ static inline uint64_t BDK_DDFX_PF_NOINT0_ENA_W1S(unsigned long a)
  * Internal:
  * This register exists only to aid alignment with CDE interrupts.
  */
-typedef union
+union bdk_ddfx_pf_noint0_int
 {
     uint64_t u;
     struct bdk_ddfx_pf_noint0_int_s
@@ -2803,7 +2836,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ddfx_pf_noint0_int_s cn; */
-} bdk_ddfx_pf_noint0_int_t;
+};
+typedef union bdk_ddfx_pf_noint0_int bdk_ddfx_pf_noint0_int_t;
 
 static inline uint64_t BDK_DDFX_PF_NOINT0_INT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_PF_NOINT0_INT(unsigned long a)
@@ -2827,7 +2861,7 @@ static inline uint64_t BDK_DDFX_PF_NOINT0_INT(unsigned long a)
  *
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_ddfx_pf_noint0_int_w1s
 {
     uint64_t u;
     struct bdk_ddfx_pf_noint0_int_w1s_s
@@ -2839,7 +2873,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ddfx_pf_noint0_int_w1s_s cn; */
-} bdk_ddfx_pf_noint0_int_w1s_t;
+};
+typedef union bdk_ddfx_pf_noint0_int_w1s bdk_ddfx_pf_noint0_int_w1s_t;
 
 static inline uint64_t BDK_DDFX_PF_NOINT0_INT_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_PF_NOINT0_INT_W1S(unsigned long a)
@@ -2863,7 +2898,7 @@ static inline uint64_t BDK_DDFX_PF_NOINT0_INT_W1S(unsigned long a)
  *
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_ddfx_pf_noint1_ena_w1c
 {
     uint64_t u;
     struct bdk_ddfx_pf_noint1_ena_w1c_s
@@ -2875,7 +2910,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ddfx_pf_noint1_ena_w1c_s cn; */
-} bdk_ddfx_pf_noint1_ena_w1c_t;
+};
+typedef union bdk_ddfx_pf_noint1_ena_w1c bdk_ddfx_pf_noint1_ena_w1c_t;
 
 static inline uint64_t BDK_DDFX_PF_NOINT1_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_PF_NOINT1_ENA_W1C(unsigned long a)
@@ -2899,7 +2935,7 @@ static inline uint64_t BDK_DDFX_PF_NOINT1_ENA_W1C(unsigned long a)
  *
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_ddfx_pf_noint1_ena_w1s
 {
     uint64_t u;
     struct bdk_ddfx_pf_noint1_ena_w1s_s
@@ -2911,7 +2947,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ddfx_pf_noint1_ena_w1s_s cn; */
-} bdk_ddfx_pf_noint1_ena_w1s_t;
+};
+typedef union bdk_ddfx_pf_noint1_ena_w1s bdk_ddfx_pf_noint1_ena_w1s_t;
 
 static inline uint64_t BDK_DDFX_PF_NOINT1_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_PF_NOINT1_ENA_W1S(unsigned long a)
@@ -2936,7 +2973,7 @@ static inline uint64_t BDK_DDFX_PF_NOINT1_ENA_W1S(unsigned long a)
  * Internal:
  * This register exists only to aid alignment with CDE interrupts.
  */
-typedef union
+union bdk_ddfx_pf_noint1_int
 {
     uint64_t u;
     struct bdk_ddfx_pf_noint1_int_s
@@ -2948,7 +2985,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ddfx_pf_noint1_int_s cn; */
-} bdk_ddfx_pf_noint1_int_t;
+};
+typedef union bdk_ddfx_pf_noint1_int bdk_ddfx_pf_noint1_int_t;
 
 static inline uint64_t BDK_DDFX_PF_NOINT1_INT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_PF_NOINT1_INT(unsigned long a)
@@ -2972,7 +3010,7 @@ static inline uint64_t BDK_DDFX_PF_NOINT1_INT(unsigned long a)
  *
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_ddfx_pf_noint1_int_w1s
 {
     uint64_t u;
     struct bdk_ddfx_pf_noint1_int_w1s_s
@@ -2984,7 +3022,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ddfx_pf_noint1_int_w1s_s cn; */
-} bdk_ddfx_pf_noint1_int_w1s_t;
+};
+typedef union bdk_ddfx_pf_noint1_int_w1s bdk_ddfx_pf_noint1_int_w1s_t;
 
 static inline uint64_t BDK_DDFX_PF_NOINT1_INT_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_PF_NOINT1_INT_W1S(unsigned long a)
@@ -3008,7 +3047,7 @@ static inline uint64_t BDK_DDFX_PF_NOINT1_INT_W1S(unsigned long a)
  * This register configures queues. This register should be changed only when quiescent
  * (see DDF()_VQ()_INPROG[INFLIGHT]).
  */
-typedef union
+union bdk_ddfx_pf_qx_ctl
 {
     uint64_t u;
     struct bdk_ddfx_pf_qx_ctl_s
@@ -3100,7 +3139,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ddfx_pf_qx_ctl_s cn; */
-} bdk_ddfx_pf_qx_ctl_t;
+};
+typedef union bdk_ddfx_pf_qx_ctl bdk_ddfx_pf_qx_ctl_t;
 
 static inline uint64_t BDK_DDFX_PF_QX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_PF_QX_CTL(unsigned long a, unsigned long b)
@@ -3124,7 +3164,7 @@ static inline uint64_t BDK_DDFX_PF_QX_CTL(unsigned long a, unsigned long b)
  * This register configures queues. This register should be changed only when quiescent
  * (see DDF()_VQ()_INPROG[INFLIGHT]).
  */
-typedef union
+union bdk_ddfx_pf_qx_ctl2
 {
     uint64_t u;
     struct bdk_ddfx_pf_qx_ctl2_s
@@ -3166,7 +3206,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ddfx_pf_qx_ctl2_s cn; */
-} bdk_ddfx_pf_qx_ctl2_t;
+};
+typedef union bdk_ddfx_pf_qx_ctl2 bdk_ddfx_pf_qx_ctl2_t;
 
 static inline uint64_t BDK_DDFX_PF_QX_CTL2(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_PF_QX_CTL2(unsigned long a, unsigned long b)
@@ -3190,7 +3231,7 @@ static inline uint64_t BDK_DDFX_PF_QX_CTL2(unsigned long a, unsigned long b)
  * This register configures queues. This register should be changed only when quiescent
  * (see DDF()_VQ()_INPROG[INFLIGHT]).
  */
-typedef union
+union bdk_ddfx_pf_qx_gmctl
 {
     uint64_t u;
     struct bdk_ddfx_pf_qx_gmctl_s
@@ -3226,7 +3267,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ddfx_pf_qx_gmctl_s cn; */
-} bdk_ddfx_pf_qx_gmctl_t;
+};
+typedef union bdk_ddfx_pf_qx_gmctl bdk_ddfx_pf_qx_gmctl_t;
 
 static inline uint64_t BDK_DDFX_PF_QX_GMCTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_PF_QX_GMCTL(unsigned long a, unsigned long b)
@@ -3248,7 +3290,7 @@ static inline uint64_t BDK_DDFX_PF_QX_GMCTL(unsigned long a, unsigned long b)
  *
  * DDF PF Read Latency Counter Register
  */
-typedef union
+union bdk_ddfx_pf_rd_latency_pc
 {
     uint64_t u;
     struct bdk_ddfx_pf_rd_latency_pc_s
@@ -3264,7 +3306,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ddfx_pf_rd_latency_pc_s cn; */
-} bdk_ddfx_pf_rd_latency_pc_t;
+};
+typedef union bdk_ddfx_pf_rd_latency_pc bdk_ddfx_pf_rd_latency_pc_t;
 
 static inline uint64_t BDK_DDFX_PF_RD_LATENCY_PC(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_PF_RD_LATENCY_PC(unsigned long a)
@@ -3286,7 +3329,7 @@ static inline uint64_t BDK_DDFX_PF_RD_LATENCY_PC(unsigned long a)
  *
  * DDF PF Read Request Performance Counter Register
  */
-typedef union
+union bdk_ddfx_pf_rd_req_pc
 {
     uint64_t u;
     struct bdk_ddfx_pf_rd_req_pc_s
@@ -3298,7 +3341,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ddfx_pf_rd_req_pc_s cn; */
-} bdk_ddfx_pf_rd_req_pc_t;
+};
+typedef union bdk_ddfx_pf_rd_req_pc bdk_ddfx_pf_rd_req_pc_t;
 
 static inline uint64_t BDK_DDFX_PF_RD_REQ_PC(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_PF_RD_REQ_PC(unsigned long a)
@@ -3321,7 +3365,7 @@ static inline uint64_t BDK_DDFX_PF_RD_REQ_PC(unsigned long a)
  * DDF PF Reset Register
  * This register controls clock and reset.
  */
-typedef union
+union bdk_ddfx_pf_reset
 {
     uint64_t u;
     struct bdk_ddfx_pf_reset_s
@@ -3335,7 +3379,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ddfx_pf_reset_s cn; */
-} bdk_ddfx_pf_reset_t;
+};
+typedef union bdk_ddfx_pf_reset bdk_ddfx_pf_reset_t;
 
 static inline uint64_t BDK_DDFX_PF_RESET(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_PF_RESET(unsigned long a)
@@ -3357,7 +3402,7 @@ static inline uint64_t BDK_DDFX_PF_RESET(unsigned long a)
  *
  * DDF PF/VF Mailbox Registers
  */
-typedef union
+union bdk_ddfx_pf_vfx_mboxx
 {
     uint64_t u;
     struct bdk_ddfx_pf_vfx_mboxx_s
@@ -3381,7 +3426,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ddfx_pf_vfx_mboxx_s cn; */
-} bdk_ddfx_pf_vfx_mboxx_t;
+};
+typedef union bdk_ddfx_pf_vfx_mboxx bdk_ddfx_pf_vfx_mboxx_t;
 
 static inline uint64_t BDK_DDFX_PF_VFX_MBOXX(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_PF_VFX_MBOXX(unsigned long a, unsigned long b, unsigned long c)
@@ -3405,7 +3451,7 @@ static inline uint64_t BDK_DDFX_PF_VFX_MBOXX(unsigned long a, unsigned long b, u
  * This register is the MSI-X PBA table, the bit number is indexed by the DDF_VF_INT_VEC_E
  * enumeration.
  */
-typedef union
+union bdk_ddfx_vfx_msix_pbax
 {
     uint64_t u;
     struct bdk_ddfx_vfx_msix_pbax_s
@@ -3419,7 +3465,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ddfx_vfx_msix_pbax_s cn; */
-} bdk_ddfx_vfx_msix_pbax_t;
+};
+typedef union bdk_ddfx_vfx_msix_pbax bdk_ddfx_vfx_msix_pbax_t;
 
 static inline uint64_t BDK_DDFX_VFX_MSIX_PBAX(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_VFX_MSIX_PBAX(unsigned long a, unsigned long b, unsigned long c)
@@ -3442,7 +3489,7 @@ static inline uint64_t BDK_DDFX_VFX_MSIX_PBAX(unsigned long a, unsigned long b, 
  * DDF VF MSI-X Vector-Table Address Registers
  * This register is the MSI-X vector table, indexed by the DDF_VF_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_ddfx_vfx_msix_vecx_addr
 {
     uint64_t u;
     struct bdk_ddfx_vfx_msix_vecx_addr_s
@@ -3464,7 +3511,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ddfx_vfx_msix_vecx_addr_s cn; */
-} bdk_ddfx_vfx_msix_vecx_addr_t;
+};
+typedef union bdk_ddfx_vfx_msix_vecx_addr bdk_ddfx_vfx_msix_vecx_addr_t;
 
 static inline uint64_t BDK_DDFX_VFX_MSIX_VECX_ADDR(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_VFX_MSIX_VECX_ADDR(unsigned long a, unsigned long b, unsigned long c)
@@ -3487,7 +3535,7 @@ static inline uint64_t BDK_DDFX_VFX_MSIX_VECX_ADDR(unsigned long a, unsigned lon
  * DDF VF MSI-X Vector-Table Control and Data Registers
  * This register is the MSI-X vector table, indexed by the DDF_VF_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_ddfx_vfx_msix_vecx_ctl
 {
     uint64_t u;
     struct bdk_ddfx_vfx_msix_vecx_ctl_s
@@ -3505,7 +3553,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ddfx_vfx_msix_vecx_ctl_s cn; */
-} bdk_ddfx_vfx_msix_vecx_ctl_t;
+};
+typedef union bdk_ddfx_vfx_msix_vecx_ctl bdk_ddfx_vfx_msix_vecx_ctl_t;
 
 static inline uint64_t BDK_DDFX_VFX_MSIX_VECX_CTL(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_VFX_MSIX_VECX_CTL(unsigned long a, unsigned long b, unsigned long c)
@@ -3527,7 +3576,7 @@ static inline uint64_t BDK_DDFX_VFX_MSIX_VECX_CTL(unsigned long a, unsigned long
  *
  * DDF VF/PF Mailbox Registers
  */
-typedef union
+union bdk_ddfx_vfx_pf_mboxx
 {
     uint64_t u;
     struct bdk_ddfx_vfx_pf_mboxx_s
@@ -3549,7 +3598,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ddfx_vfx_pf_mboxx_s cn; */
-} bdk_ddfx_vfx_pf_mboxx_t;
+};
+typedef union bdk_ddfx_vfx_pf_mboxx bdk_ddfx_vfx_pf_mboxx_t;
 
 static inline uint64_t BDK_DDFX_VFX_PF_MBOXX(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_VFX_PF_MBOXX(unsigned long a, unsigned long b, unsigned long c)
@@ -3573,7 +3623,7 @@ static inline uint64_t BDK_DDFX_VFX_PF_MBOXX(unsigned long a, unsigned long b, u
  * This register configures queues. This register should be changed (other than
  * clearing [ENA]) only when quiescent (see DDF()_VQ()_INPROG[INFLIGHT]).
  */
-typedef union
+union bdk_ddfx_vqx_ctl
 {
     uint64_t u;
     struct bdk_ddfx_vqx_ctl_s
@@ -3593,7 +3643,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ddfx_vqx_ctl_s cn; */
-} bdk_ddfx_vqx_ctl_t;
+};
+typedef union bdk_ddfx_vqx_ctl bdk_ddfx_vqx_ctl_t;
 
 static inline uint64_t BDK_DDFX_VQX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_VQX_CTL(unsigned long a, unsigned long b)
@@ -3616,7 +3667,7 @@ static inline uint64_t BDK_DDFX_VQX_CTL(unsigned long a, unsigned long b)
  * DDF Queue Done Count Registers
  * These registers contain the per-queue instruction done count.
  */
-typedef union
+union bdk_ddfx_vqx_done
 {
     uint64_t u;
     struct bdk_ddfx_vqx_done_s
@@ -3698,7 +3749,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ddfx_vqx_done_s cn; */
-} bdk_ddfx_vqx_done_t;
+};
+typedef union bdk_ddfx_vqx_done bdk_ddfx_vqx_done_t;
 
 static inline uint64_t BDK_DDFX_VQX_DONE(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_VQX_DONE(unsigned long a, unsigned long b)
@@ -3721,7 +3773,7 @@ static inline uint64_t BDK_DDFX_VQX_DONE(unsigned long a, unsigned long b)
  * DDF Queue Done Count Ack Registers
  * This register is written by software to acknowledge interrupts.
  */
-typedef union
+union bdk_ddfx_vqx_done_ack
 {
     uint64_t u;
     struct bdk_ddfx_vqx_done_ack_s
@@ -3743,7 +3795,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ddfx_vqx_done_ack_s cn; */
-} bdk_ddfx_vqx_done_ack_t;
+};
+typedef union bdk_ddfx_vqx_done_ack bdk_ddfx_vqx_done_ack_t;
 
 static inline uint64_t BDK_DDFX_VQX_DONE_ACK(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_VQX_DONE_ACK(unsigned long a, unsigned long b)
@@ -3765,7 +3818,7 @@ static inline uint64_t BDK_DDFX_VQX_DONE_ACK(unsigned long a, unsigned long b)
  *
  * DDF Queue Done Interrupt Enable Clear Registers
  */
-typedef union
+union bdk_ddfx_vqx_done_ena_w1c
 {
     uint64_t u;
     struct bdk_ddfx_vqx_done_ena_w1c_s
@@ -3779,7 +3832,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ddfx_vqx_done_ena_w1c_s cn; */
-} bdk_ddfx_vqx_done_ena_w1c_t;
+};
+typedef union bdk_ddfx_vqx_done_ena_w1c bdk_ddfx_vqx_done_ena_w1c_t;
 
 static inline uint64_t BDK_DDFX_VQX_DONE_ENA_W1C(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_VQX_DONE_ENA_W1C(unsigned long a, unsigned long b)
@@ -3802,7 +3856,7 @@ static inline uint64_t BDK_DDFX_VQX_DONE_ENA_W1C(unsigned long a, unsigned long 
  * DDF Queue Done Interrupt Enable Set Registers
  * Write 1 to these registers will enable the DONEINT interrupt for the queue.
  */
-typedef union
+union bdk_ddfx_vqx_done_ena_w1s
 {
     uint64_t u;
     struct bdk_ddfx_vqx_done_ena_w1s_s
@@ -3818,7 +3872,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ddfx_vqx_done_ena_w1s_s cn; */
-} bdk_ddfx_vqx_done_ena_w1s_t;
+};
+typedef union bdk_ddfx_vqx_done_ena_w1s bdk_ddfx_vqx_done_ena_w1s_t;
 
 static inline uint64_t BDK_DDFX_VQX_DONE_ENA_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_VQX_DONE_ENA_W1S(unsigned long a, unsigned long b)
@@ -3840,7 +3895,7 @@ static inline uint64_t BDK_DDFX_VQX_DONE_ENA_W1S(unsigned long a, unsigned long 
  *
  * DDF Queue Done Interrupt Clear Registers
  */
-typedef union
+union bdk_ddfx_vqx_done_int_w1c
 {
     uint64_t u;
     struct bdk_ddfx_vqx_done_int_w1c_s
@@ -3858,7 +3913,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ddfx_vqx_done_int_w1c_s cn; */
-} bdk_ddfx_vqx_done_int_w1c_t;
+};
+typedef union bdk_ddfx_vqx_done_int_w1c bdk_ddfx_vqx_done_int_w1c_t;
 
 static inline uint64_t BDK_DDFX_VQX_DONE_INT_W1C(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_VQX_DONE_INT_W1C(unsigned long a, unsigned long b)
@@ -3880,7 +3936,7 @@ static inline uint64_t BDK_DDFX_VQX_DONE_INT_W1C(unsigned long a, unsigned long 
  *
  * DDF Queue Done Interrupt Set Registers
  */
-typedef union
+union bdk_ddfx_vqx_done_int_w1s
 {
     uint64_t u;
     struct bdk_ddfx_vqx_done_int_w1s_s
@@ -3898,7 +3954,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ddfx_vqx_done_int_w1s_s cn; */
-} bdk_ddfx_vqx_done_int_w1s_t;
+};
+typedef union bdk_ddfx_vqx_done_int_w1s bdk_ddfx_vqx_done_int_w1s_t;
 
 static inline uint64_t BDK_DDFX_VQX_DONE_INT_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_VQX_DONE_INT_W1S(unsigned long a, unsigned long b)
@@ -3921,7 +3978,7 @@ static inline uint64_t BDK_DDFX_VQX_DONE_INT_W1S(unsigned long a, unsigned long 
  * DDF Queue Done Interrupt Coalescing Wait Registers
  * Specifies the per queue interrupt coalescing settings.
  */
-typedef union
+union bdk_ddfx_vqx_done_wait
 {
     uint64_t u;
     struct bdk_ddfx_vqx_done_wait_s
@@ -3947,7 +4004,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ddfx_vqx_done_wait_s cn; */
-} bdk_ddfx_vqx_done_wait_t;
+};
+typedef union bdk_ddfx_vqx_done_wait bdk_ddfx_vqx_done_wait_t;
 
 static inline uint64_t BDK_DDFX_VQX_DONE_WAIT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_VQX_DONE_WAIT(unsigned long a, unsigned long b)
@@ -3970,7 +4028,7 @@ static inline uint64_t BDK_DDFX_VQX_DONE_WAIT(unsigned long a, unsigned long b)
  * DDF Queue Doorbell Registers
  * Doorbells for the DDF instruction queues.
  */
-typedef union
+union bdk_ddfx_vqx_doorbell
 {
     uint64_t u;
     struct bdk_ddfx_vqx_doorbell_s
@@ -4010,7 +4068,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ddfx_vqx_doorbell_s cn; */
-} bdk_ddfx_vqx_doorbell_t;
+};
+typedef union bdk_ddfx_vqx_doorbell bdk_ddfx_vqx_doorbell_t;
 
 static inline uint64_t BDK_DDFX_VQX_DOORBELL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_VQX_DOORBELL(unsigned long a, unsigned long b)
@@ -4033,7 +4092,7 @@ static inline uint64_t BDK_DDFX_VQX_DOORBELL(unsigned long a, unsigned long b)
  * DDF Queue In Progress Count Registers
  * These registers contain the per-queue instruction in flight registers.
  */
-typedef union
+union bdk_ddfx_vqx_inprog
 {
     uint64_t u;
     struct bdk_ddfx_vqx_inprog_s
@@ -4061,7 +4120,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ddfx_vqx_inprog_s cn; */
-} bdk_ddfx_vqx_inprog_t;
+};
+typedef union bdk_ddfx_vqx_inprog bdk_ddfx_vqx_inprog_t;
 
 static inline uint64_t BDK_DDFX_VQX_INPROG(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_VQX_INPROG(unsigned long a, unsigned long b)
@@ -4084,7 +4144,7 @@ static inline uint64_t BDK_DDFX_VQX_INPROG(unsigned long a, unsigned long b)
  * DDF Queue Misc Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_ddfx_vqx_misc_ena_w1c
 {
     uint64_t u;
     struct bdk_ddfx_vqx_misc_ena_w1c_s
@@ -4110,7 +4170,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ddfx_vqx_misc_ena_w1c_s cn; */
-} bdk_ddfx_vqx_misc_ena_w1c_t;
+};
+typedef union bdk_ddfx_vqx_misc_ena_w1c bdk_ddfx_vqx_misc_ena_w1c_t;
 
 static inline uint64_t BDK_DDFX_VQX_MISC_ENA_W1C(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_VQX_MISC_ENA_W1C(unsigned long a, unsigned long b)
@@ -4133,7 +4194,7 @@ static inline uint64_t BDK_DDFX_VQX_MISC_ENA_W1C(unsigned long a, unsigned long 
  * DDF Queue Misc Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_ddfx_vqx_misc_ena_w1s
 {
     uint64_t u;
     struct bdk_ddfx_vqx_misc_ena_w1s_s
@@ -4159,7 +4220,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ddfx_vqx_misc_ena_w1s_s cn; */
-} bdk_ddfx_vqx_misc_ena_w1s_t;
+};
+typedef union bdk_ddfx_vqx_misc_ena_w1s bdk_ddfx_vqx_misc_ena_w1s_t;
 
 static inline uint64_t BDK_DDFX_VQX_MISC_ENA_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_VQX_MISC_ENA_W1S(unsigned long a, unsigned long b)
@@ -4182,7 +4244,7 @@ static inline uint64_t BDK_DDFX_VQX_MISC_ENA_W1S(unsigned long a, unsigned long 
  * DDF Queue Misc Interrupt Register
  * These registers contain the per-queue miscellaneous interrupts.
  */
-typedef union
+union bdk_ddfx_vqx_misc_int
 {
     uint64_t u;
     struct bdk_ddfx_vqx_misc_int_s
@@ -4210,7 +4272,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ddfx_vqx_misc_int_s cn; */
-} bdk_ddfx_vqx_misc_int_t;
+};
+typedef union bdk_ddfx_vqx_misc_int bdk_ddfx_vqx_misc_int_t;
 
 static inline uint64_t BDK_DDFX_VQX_MISC_INT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_VQX_MISC_INT(unsigned long a, unsigned long b)
@@ -4233,7 +4296,7 @@ static inline uint64_t BDK_DDFX_VQX_MISC_INT(unsigned long a, unsigned long b)
  * DDF Queue Misc Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_ddfx_vqx_misc_int_w1s
 {
     uint64_t u;
     struct bdk_ddfx_vqx_misc_int_w1s_s
@@ -4259,7 +4322,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ddfx_vqx_misc_int_w1s_s cn; */
-} bdk_ddfx_vqx_misc_int_w1s_t;
+};
+typedef union bdk_ddfx_vqx_misc_int_w1s bdk_ddfx_vqx_misc_int_w1s_t;
 
 static inline uint64_t BDK_DDFX_VQX_MISC_INT_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_VQX_MISC_INT_W1S(unsigned long a, unsigned long b)
@@ -4282,7 +4346,7 @@ static inline uint64_t BDK_DDFX_VQX_MISC_INT_W1S(unsigned long a, unsigned long 
  * DDF Queue Starting Buffer Address Registers
  * These registers set the instruction buffer starting address.
  */
-typedef union
+union bdk_ddfx_vqx_saddr
 {
     uint64_t u;
     struct bdk_ddfx_vqx_saddr_s
@@ -4310,7 +4374,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ddfx_vqx_saddr_s cn; */
-} bdk_ddfx_vqx_saddr_t;
+};
+typedef union bdk_ddfx_vqx_saddr bdk_ddfx_vqx_saddr_t;
 
 static inline uint64_t BDK_DDFX_VQX_SADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_VQX_SADDR(unsigned long a, unsigned long b)

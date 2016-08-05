@@ -76,7 +76,7 @@
  *
  * XCV Batch Credit Return Register
  */
-typedef union
+union bdk_xcvx_batch_crd_ret
 {
     uint64_t u;
     struct bdk_xcvx_batch_crd_ret_s
@@ -94,7 +94,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_xcvx_batch_crd_ret_s cn; */
-} bdk_xcvx_batch_crd_ret_t;
+};
+typedef union bdk_xcvx_batch_crd_ret bdk_xcvx_batch_crd_ret_t;
 
 static inline uint64_t BDK_XCVX_BATCH_CRD_RET(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_XCVX_BATCH_CRD_RET(unsigned long a)
@@ -117,7 +118,7 @@ static inline uint64_t BDK_XCVX_BATCH_CRD_RET(unsigned long a)
  * XCV Compensation Controller Register
  * This register controls programmable compensation.
  */
-typedef union
+union bdk_xcvx_comp_ctl
 {
     uint64_t u;
     struct bdk_xcvx_comp_ctl_s
@@ -165,7 +166,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_xcvx_comp_ctl_s cn; */
-} bdk_xcvx_comp_ctl_t;
+};
+typedef union bdk_xcvx_comp_ctl bdk_xcvx_comp_ctl_t;
 
 static inline uint64_t BDK_XCVX_COMP_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_XCVX_COMP_CTL(unsigned long a)
@@ -188,7 +190,7 @@ static inline uint64_t BDK_XCVX_COMP_CTL(unsigned long a)
  * XCV Control Register
  * This register contains the status control bits.
  */
-typedef union
+union bdk_xcvx_ctl
 {
     uint64_t u;
     struct bdk_xcvx_ctl_s
@@ -230,7 +232,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_xcvx_ctl_s cn; */
-} bdk_xcvx_ctl_t;
+};
+typedef union bdk_xcvx_ctl bdk_xcvx_ctl_t;
 
 static inline uint64_t BDK_XCVX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_XCVX_CTL(unsigned long a)
@@ -288,7 +291,7 @@ static inline uint64_t BDK_XCVX_CTL(unsigned long a)
  * This mode is appropriate if neither the remote receiver
  * nor the PC board delays the clock.
  */
-typedef union
+union bdk_xcvx_dll_ctl
 {
     uint64_t u;
     struct bdk_xcvx_dll_ctl_s
@@ -360,7 +363,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_xcvx_dll_ctl_s cn; */
-} bdk_xcvx_dll_ctl_t;
+};
+typedef union bdk_xcvx_dll_ctl bdk_xcvx_dll_ctl_t;
 
 static inline uint64_t BDK_XCVX_DLL_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_XCVX_DLL_CTL(unsigned long a)
@@ -382,7 +386,7 @@ static inline uint64_t BDK_XCVX_DLL_CTL(unsigned long a)
  *
  * INTERNAL: XCV ECO Register
  */
-typedef union
+union bdk_xcvx_eco
 {
     uint64_t u;
     struct bdk_xcvx_eco_s
@@ -398,7 +402,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_xcvx_eco_s cn; */
-} bdk_xcvx_eco_t;
+};
+typedef union bdk_xcvx_eco bdk_xcvx_eco_t;
 
 static inline uint64_t BDK_XCVX_ECO(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_XCVX_ECO(unsigned long a)
@@ -421,7 +426,7 @@ static inline uint64_t BDK_XCVX_ECO(unsigned long a)
  * XCV Inband Status Register
  * This register contains RGMII inband status.
  */
-typedef union
+union bdk_xcvx_inbnd_status
 {
     uint64_t u;
     struct bdk_xcvx_inbnd_status_s
@@ -455,7 +460,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_xcvx_inbnd_status_s cn; */
-} bdk_xcvx_inbnd_status_t;
+};
+typedef union bdk_xcvx_inbnd_status bdk_xcvx_inbnd_status_t;
 
 static inline uint64_t BDK_XCVX_INBND_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_XCVX_INBND_STATUS(unsigned long a)
@@ -480,7 +486,7 @@ static inline uint64_t BDK_XCVX_INBND_STATUS(unsigned long a)
  * 10/100 Mode.
  * It also flags status change for link duplex, link speed and link up/down.
  */
-typedef union
+union bdk_xcvx_int
 {
     uint64_t u;
     struct bdk_xcvx_int_s
@@ -506,7 +512,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_xcvx_int_s cn; */
-} bdk_xcvx_int_t;
+};
+typedef union bdk_xcvx_int bdk_xcvx_int_t;
 
 static inline uint64_t BDK_XCVX_INT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_XCVX_INT(unsigned long a)
@@ -529,7 +536,7 @@ static inline uint64_t BDK_XCVX_INT(unsigned long a)
  * Loopback Error Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_xcvx_int_ena_w1c
 {
     uint64_t u;
     struct bdk_xcvx_int_ena_w1c_s
@@ -555,7 +562,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_xcvx_int_ena_w1c_s cn; */
-} bdk_xcvx_int_ena_w1c_t;
+};
+typedef union bdk_xcvx_int_ena_w1c bdk_xcvx_int_ena_w1c_t;
 
 static inline uint64_t BDK_XCVX_INT_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_XCVX_INT_ENA_W1C(unsigned long a)
@@ -578,7 +586,7 @@ static inline uint64_t BDK_XCVX_INT_ENA_W1C(unsigned long a)
  * Loopback Error Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_xcvx_int_ena_w1s
 {
     uint64_t u;
     struct bdk_xcvx_int_ena_w1s_s
@@ -604,7 +612,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_xcvx_int_ena_w1s_s cn; */
-} bdk_xcvx_int_ena_w1s_t;
+};
+typedef union bdk_xcvx_int_ena_w1s bdk_xcvx_int_ena_w1s_t;
 
 static inline uint64_t BDK_XCVX_INT_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_XCVX_INT_ENA_W1S(unsigned long a)
@@ -627,7 +636,7 @@ static inline uint64_t BDK_XCVX_INT_ENA_W1S(unsigned long a)
  * Loopback Error Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_xcvx_int_w1s
 {
     uint64_t u;
     struct bdk_xcvx_int_w1s_s
@@ -653,7 +662,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_xcvx_int_w1s_s cn; */
-} bdk_xcvx_int_w1s_t;
+};
+typedef union bdk_xcvx_int_w1s bdk_xcvx_int_w1s_t;
 
 static inline uint64_t BDK_XCVX_INT_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_XCVX_INT_W1S(unsigned long a)
@@ -676,7 +686,7 @@ static inline uint64_t BDK_XCVX_INT_W1S(unsigned long a)
  * XCV MSI-X Pending Bit Array Registers
  * This register is the MSI-X PBA table; the bit number is indexed by the XCV_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_xcvx_msix_pbax
 {
     uint64_t u;
     struct bdk_xcvx_msix_pbax_s
@@ -690,7 +700,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_xcvx_msix_pbax_s cn; */
-} bdk_xcvx_msix_pbax_t;
+};
+typedef union bdk_xcvx_msix_pbax bdk_xcvx_msix_pbax_t;
 
 static inline uint64_t BDK_XCVX_MSIX_PBAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_XCVX_MSIX_PBAX(unsigned long a, unsigned long b)
@@ -713,7 +724,7 @@ static inline uint64_t BDK_XCVX_MSIX_PBAX(unsigned long a, unsigned long b)
  * XCV MSI-X Vector-Table Address Register
  * This register is the MSI-X vector table, indexed by the XCV_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_xcvx_msix_vecx_addr
 {
     uint64_t u;
     struct bdk_xcvx_msix_vecx_addr_s
@@ -747,7 +758,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_xcvx_msix_vecx_addr_s cn; */
-} bdk_xcvx_msix_vecx_addr_t;
+};
+typedef union bdk_xcvx_msix_vecx_addr bdk_xcvx_msix_vecx_addr_t;
 
 static inline uint64_t BDK_XCVX_MSIX_VECX_ADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_XCVX_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
@@ -770,7 +782,7 @@ static inline uint64_t BDK_XCVX_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
  * XCV MSI-X Vector-Table Control and Data Register
  * This register is the MSI-X vector table, indexed by the XCV_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_xcvx_msix_vecx_ctl
 {
     uint64_t u;
     struct bdk_xcvx_msix_vecx_ctl_s
@@ -788,7 +800,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_xcvx_msix_vecx_ctl_s cn; */
-} bdk_xcvx_msix_vecx_ctl_t;
+};
+typedef union bdk_xcvx_msix_vecx_ctl bdk_xcvx_msix_vecx_ctl_t;
 
 static inline uint64_t BDK_XCVX_MSIX_VECX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_XCVX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
@@ -811,7 +824,7 @@ static inline uint64_t BDK_XCVX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
  * XCV Reset Registers
  * This register controls reset.
  */
-typedef union
+union bdk_xcvx_reset
 {
     uint64_t u;
     struct bdk_xcvx_reset_s
@@ -847,7 +860,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_xcvx_reset_s cn; */
-} bdk_xcvx_reset_t;
+};
+typedef union bdk_xcvx_reset bdk_xcvx_reset_t;
 
 static inline uint64_t BDK_XCVX_RESET(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_XCVX_RESET(unsigned long a)

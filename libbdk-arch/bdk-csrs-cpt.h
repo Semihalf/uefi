@@ -430,7 +430,7 @@ union bdk_cpt_res_s
  *
  * INTERNAL: CPT PF Backpressure Test Register
  */
-typedef union
+union bdk_cptx_bridge_bp_test
 {
     uint64_t u;
     struct bdk_cptx_bridge_bp_test_s
@@ -484,7 +484,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cptx_bridge_bp_test_s cn; */
-} bdk_cptx_bridge_bp_test_t;
+};
+typedef union bdk_cptx_bridge_bp_test bdk_cptx_bridge_bp_test_t;
 
 static inline uint64_t BDK_CPTX_BRIDGE_BP_TEST(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_BRIDGE_BP_TEST(unsigned long a)
@@ -508,7 +509,7 @@ static inline uint64_t BDK_CPTX_BRIDGE_BP_TEST(unsigned long a)
  *
  * INTERNAL: CPT CQM Core Observability Debug Register
  */
-typedef union
+union bdk_cptx_cqm_core_obs0
 {
     uint64_t u;
     struct bdk_cptx_cqm_core_obs0_s
@@ -534,7 +535,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cptx_cqm_core_obs0_s cn; */
-} bdk_cptx_cqm_core_obs0_t;
+};
+typedef union bdk_cptx_cqm_core_obs0 bdk_cptx_cqm_core_obs0_t;
 
 static inline uint64_t BDK_CPTX_CQM_CORE_OBS0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_CQM_CORE_OBS0(unsigned long a)
@@ -558,7 +560,7 @@ static inline uint64_t BDK_CPTX_CQM_CORE_OBS0(unsigned long a)
  *
  * INTERNAL: CPT CQM Core Observability Debug Register
  */
-typedef union
+union bdk_cptx_cqm_core_obs1
 {
     uint64_t u;
     struct bdk_cptx_cqm_core_obs1_s
@@ -596,7 +598,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cptx_cqm_core_obs1_s cn; */
-} bdk_cptx_cqm_core_obs1_t;
+};
+typedef union bdk_cptx_cqm_core_obs1 bdk_cptx_cqm_core_obs1_t;
 
 static inline uint64_t BDK_CPTX_CQM_CORE_OBS1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_CQM_CORE_OBS1(unsigned long a)
@@ -620,7 +623,7 @@ static inline uint64_t BDK_CPTX_CQM_CORE_OBS1(unsigned long a)
  *
  * INTERNAL: CPT NCBI Observability Debug Register
  */
-typedef union
+union bdk_cptx_ncbi_obs
 {
     uint64_t u;
     struct bdk_cptx_ncbi_obs_s
@@ -652,7 +655,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cptx_ncbi_obs_s cn; */
-} bdk_cptx_ncbi_obs_t;
+};
+typedef union bdk_cptx_ncbi_obs bdk_cptx_ncbi_obs_t;
 
 static inline uint64_t BDK_CPTX_NCBI_OBS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_NCBI_OBS(unsigned long a)
@@ -676,7 +680,7 @@ static inline uint64_t BDK_CPTX_NCBI_OBS(unsigned long a)
  *
  * CPT PF Active Cycles Register
  */
-typedef union
+union bdk_cptx_pf_active_cycles_pc
 {
     uint64_t u;
     struct bdk_cptx_pf_active_cycles_pc_s
@@ -692,7 +696,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cptx_pf_active_cycles_pc_s cn; */
-} bdk_cptx_pf_active_cycles_pc_t;
+};
+typedef union bdk_cptx_pf_active_cycles_pc bdk_cptx_pf_active_cycles_pc_t;
 
 static inline uint64_t BDK_CPTX_PF_ACTIVE_CYCLES_PC(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_ACTIVE_CYCLES_PC(unsigned long a)
@@ -720,7 +725,7 @@ static inline uint64_t BDK_CPTX_PF_ACTIVE_CYCLES_PC(unsigned long a)
  * action is required for the VF. This register should be cleared by software
  * before re-enabling an engine.
  */
-typedef union
+union bdk_cptx_pf_active_vfx
 {
     uint64_t u;
     struct bdk_cptx_pf_active_vfx_s
@@ -734,7 +739,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cptx_pf_active_vfx_s cn; */
-} bdk_cptx_pf_active_vfx_t;
+};
+typedef union bdk_cptx_pf_active_vfx bdk_cptx_pf_active_vfx_t;
 
 static inline uint64_t BDK_CPTX_PF_ACTIVE_VFX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_ACTIVE_VFX(unsigned long a, unsigned long b)
@@ -758,7 +764,7 @@ static inline uint64_t BDK_CPTX_PF_ACTIVE_VFX(unsigned long a, unsigned long b)
  * This register has the BIST status of memories. Each bit is the BIST result of an
  * individual memory (per bit, 0 = pass and 1 = fail).
  */
-typedef union
+union bdk_cptx_pf_bist_status
 {
     uint64_t u;
     struct bdk_cptx_pf_bist_status_s
@@ -772,7 +778,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cptx_pf_bist_status_s cn; */
-} bdk_cptx_pf_bist_status_t;
+};
+typedef union bdk_cptx_pf_bist_status bdk_cptx_pf_bist_status_t;
 
 static inline uint64_t BDK_CPTX_PF_BIST_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_BIST_STATUS(unsigned long a)
@@ -796,7 +803,7 @@ static inline uint64_t BDK_CPTX_PF_BIST_STATUS(unsigned long a)
  *
  * INTERNAL: CPT PF Backpressure Test Register
  */
-typedef union
+union bdk_cptx_pf_bp_test
 {
     uint64_t u;
     struct bdk_cptx_pf_bp_test_s
@@ -846,7 +853,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cptx_pf_bp_test_s cn; */
-} bdk_cptx_pf_bp_test_t;
+};
+typedef union bdk_cptx_pf_bp_test bdk_cptx_pf_bp_test_t;
 
 static inline uint64_t BDK_CPTX_PF_BP_TEST(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_BP_TEST(unsigned long a)
@@ -871,7 +879,7 @@ static inline uint64_t BDK_CPTX_PF_BP_TEST(unsigned long a)
  * CPT PF Constants Register
  * This register contains implementation-related parameters of CPT in CNXXXX.
  */
-typedef union
+union bdk_cptx_pf_constants
 {
     uint64_t u;
     struct bdk_cptx_pf_constants_s
@@ -931,7 +939,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_cptx_pf_constants_s cn83xx; */
-} bdk_cptx_pf_constants_t;
+};
+typedef union bdk_cptx_pf_constants bdk_cptx_pf_constants_t;
 
 static inline uint64_t BDK_CPTX_PF_CONSTANTS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_CONSTANTS(unsigned long a)
@@ -956,7 +965,7 @@ static inline uint64_t BDK_CPTX_PF_CONSTANTS(unsigned long a)
  * CPT PF Diagnostic Control Register
  * This register controls diagnostic features.
  */
-typedef union
+union bdk_cptx_pf_diag
 {
     uint64_t u;
     struct bdk_cptx_pf_diag_s
@@ -976,7 +985,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cptx_pf_diag_s cn; */
-} bdk_cptx_pf_diag_t;
+};
+typedef union bdk_cptx_pf_diag bdk_cptx_pf_diag_t;
 
 static inline uint64_t BDK_CPTX_PF_DIAG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_DIAG(unsigned long a)
@@ -1002,7 +1012,7 @@ static inline uint64_t BDK_CPTX_PF_DIAG(unsigned long a)
  * This register enables ECC for each individual internal memory that requires ECC. For debug
  * purposes, it can also flip one or two bits in the ECC data.
  */
-typedef union
+union bdk_cptx_pf_ecc0_ctl
 {
     uint64_t u;
     struct bdk_cptx_pf_ecc0_ctl_s
@@ -1016,7 +1026,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cptx_pf_ecc0_ctl_s cn; */
-} bdk_cptx_pf_ecc0_ctl_t;
+};
+typedef union bdk_cptx_pf_ecc0_ctl bdk_cptx_pf_ecc0_ctl_t;
 
 static inline uint64_t BDK_CPTX_PF_ECC0_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_ECC0_CTL(unsigned long a)
@@ -1041,7 +1052,7 @@ static inline uint64_t BDK_CPTX_PF_ECC0_CTL(unsigned long a)
  * CPT ECC Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_cptx_pf_ecc0_ena_w1c
 {
     uint64_t u;
     struct bdk_cptx_pf_ecc0_ena_w1c_s
@@ -1065,7 +1076,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_cptx_pf_ecc0_ena_w1c_s cn83xx; */
-} bdk_cptx_pf_ecc0_ena_w1c_t;
+};
+typedef union bdk_cptx_pf_ecc0_ena_w1c bdk_cptx_pf_ecc0_ena_w1c_t;
 
 static inline uint64_t BDK_CPTX_PF_ECC0_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_ECC0_ENA_W1C(unsigned long a)
@@ -1090,7 +1102,7 @@ static inline uint64_t BDK_CPTX_PF_ECC0_ENA_W1C(unsigned long a)
  * CPT ECC Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_cptx_pf_ecc0_ena_w1s
 {
     uint64_t u;
     struct bdk_cptx_pf_ecc0_ena_w1s_s
@@ -1114,7 +1126,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_cptx_pf_ecc0_ena_w1s_s cn83xx; */
-} bdk_cptx_pf_ecc0_ena_w1s_t;
+};
+typedef union bdk_cptx_pf_ecc0_ena_w1s bdk_cptx_pf_ecc0_ena_w1s_t;
 
 static inline uint64_t BDK_CPTX_PF_ECC0_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_ECC0_ENA_W1S(unsigned long a)
@@ -1140,7 +1153,7 @@ static inline uint64_t BDK_CPTX_PF_ECC0_ENA_W1S(unsigned long a)
  * This register enables ECC for each individual internal memory that requires ECC. For debug
  * purposes, it can also flip one or two bits in the ECC data.
  */
-typedef union
+union bdk_cptx_pf_ecc0_flip
 {
     uint64_t u;
     struct bdk_cptx_pf_ecc0_flip_s
@@ -1154,7 +1167,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cptx_pf_ecc0_flip_s cn; */
-} bdk_cptx_pf_ecc0_flip_t;
+};
+typedef union bdk_cptx_pf_ecc0_flip bdk_cptx_pf_ecc0_flip_t;
 
 static inline uint64_t BDK_CPTX_PF_ECC0_FLIP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_ECC0_FLIP(unsigned long a)
@@ -1179,7 +1193,7 @@ static inline uint64_t BDK_CPTX_PF_ECC0_FLIP(unsigned long a)
  * CPT ECC Interrupt Status Register
  * This register contains the status of the ECC interrupt sources.
  */
-typedef union
+union bdk_cptx_pf_ecc0_int
 {
     uint64_t u;
     struct bdk_cptx_pf_ecc0_int_s
@@ -1197,7 +1211,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cptx_pf_ecc0_int_s cn; */
-} bdk_cptx_pf_ecc0_int_t;
+};
+typedef union bdk_cptx_pf_ecc0_int bdk_cptx_pf_ecc0_int_t;
 
 static inline uint64_t BDK_CPTX_PF_ECC0_INT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_ECC0_INT(unsigned long a)
@@ -1222,7 +1237,7 @@ static inline uint64_t BDK_CPTX_PF_ECC0_INT(unsigned long a)
  * CPT ECC Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_cptx_pf_ecc0_int_w1s
 {
     uint64_t u;
     struct bdk_cptx_pf_ecc0_int_w1s_s
@@ -1246,7 +1261,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_cptx_pf_ecc0_int_w1s_s cn83xx; */
-} bdk_cptx_pf_ecc0_int_w1s_t;
+};
+typedef union bdk_cptx_pf_ecc0_int_w1s bdk_cptx_pf_ecc0_int_w1s_t;
 
 static inline uint64_t BDK_CPTX_PF_ECC0_INT_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_ECC0_INT_W1S(unsigned long a)
@@ -1270,7 +1286,7 @@ static inline uint64_t BDK_CPTX_PF_ECC0_INT_W1S(unsigned long a)
  *
  * INTERNAL: CPT PF ECO Register
  */
-typedef union
+union bdk_cptx_pf_eco
 {
     uint64_t u;
     struct bdk_cptx_pf_eco_s
@@ -1286,7 +1302,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cptx_pf_eco_s cn; */
-} bdk_cptx_pf_eco_t;
+};
+typedef union bdk_cptx_pf_eco bdk_cptx_pf_eco_t;
 
 static inline uint64_t BDK_CPTX_PF_ECO(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_ECO(unsigned long a)
@@ -1314,7 +1331,7 @@ static inline uint64_t BDK_CPTX_PF_ECO(unsigned long a)
  * Only indicies 0x0 to (CPT(0)_PF_CONSTANTS[AE] + CPT(0)_PF_CONSTANTS[SE] - 1) are
  * supported.
  */
-typedef union
+union bdk_cptx_pf_engx_ucode_base
 {
     uint64_t u;
     struct bdk_cptx_pf_engx_ucode_base_s
@@ -1330,7 +1347,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cptx_pf_engx_ucode_base_s cn; */
-} bdk_cptx_pf_engx_ucode_base_t;
+};
+typedef union bdk_cptx_pf_engx_ucode_base bdk_cptx_pf_engx_ucode_base_t;
 
 static inline uint64_t BDK_CPTX_PF_ENGX_UCODE_BASE(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_ENGX_UCODE_BASE(unsigned long a, unsigned long b)
@@ -1356,7 +1374,7 @@ static inline uint64_t BDK_CPTX_PF_ENGX_UCODE_BASE(unsigned long a, unsigned lon
  * This register has the BIST status of each engine.  Each bit is the BIST result of an
  * individual engine (per bit, 0 = pass and 1 = fail).
  */
-typedef union
+union bdk_cptx_pf_exe_bist_status
 {
     uint64_t u;
     struct bdk_cptx_pf_exe_bist_status_s
@@ -1380,7 +1398,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_cptx_pf_exe_bist_status_s cn83xx; */
-} bdk_cptx_pf_exe_bist_status_t;
+};
+typedef union bdk_cptx_pf_exe_bist_status bdk_cptx_pf_exe_bist_status_t;
 
 static inline uint64_t BDK_CPTX_PF_EXE_BIST_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_EXE_BIST_STATUS(unsigned long a)
@@ -1405,7 +1424,7 @@ static inline uint64_t BDK_CPTX_PF_EXE_BIST_STATUS(unsigned long a)
  * CPT PF Engine Clock Register
  * This register forces engine clocks on.
  */
-typedef union
+union bdk_cptx_pf_exe_clk
 {
     uint64_t u;
     struct bdk_cptx_pf_exe_clk_s
@@ -1419,7 +1438,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cptx_pf_exe_clk_s cn; */
-} bdk_cptx_pf_exe_clk_t;
+};
+typedef union bdk_cptx_pf_exe_clk bdk_cptx_pf_exe_clk_t;
 
 static inline uint64_t BDK_CPTX_PF_EXE_CLK(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_EXE_CLK(unsigned long a)
@@ -1444,7 +1464,7 @@ static inline uint64_t BDK_CPTX_PF_EXE_CLK(unsigned long a)
  * CPT PF Engine Control Register
  * This register enables the engines.
  */
-typedef union
+union bdk_cptx_pf_exe_ctl
 {
     uint64_t u;
     struct bdk_cptx_pf_exe_ctl_s
@@ -1456,7 +1476,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cptx_pf_exe_ctl_s cn; */
-} bdk_cptx_pf_exe_ctl_t;
+};
+typedef union bdk_cptx_pf_exe_ctl bdk_cptx_pf_exe_ctl_t;
 
 static inline uint64_t BDK_CPTX_PF_EXE_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_EXE_CTL(unsigned long a)
@@ -1480,7 +1501,7 @@ static inline uint64_t BDK_CPTX_PF_EXE_CTL(unsigned long a)
  *
  * Debug Bus Counter Register
  */
-typedef union
+union bdk_cptx_pf_exe_dbg_cntx
 {
     uint64_t u;
     struct bdk_cptx_pf_exe_dbg_cntx_s
@@ -1494,7 +1515,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cptx_pf_exe_dbg_cntx_s cn; */
-} bdk_cptx_pf_exe_dbg_cntx_t;
+};
+typedef union bdk_cptx_pf_exe_dbg_cntx bdk_cptx_pf_exe_dbg_cntx_t;
 
 static inline uint64_t BDK_CPTX_PF_EXE_DBG_CNTX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_EXE_DBG_CNTX(unsigned long a, unsigned long b)
@@ -1519,7 +1541,7 @@ static inline uint64_t BDK_CPTX_PF_EXE_DBG_CNTX(unsigned long a, unsigned long b
  * CPT PF Engine Debug Control Register
  * This register controls engine diagnostic features.
  */
-typedef union
+union bdk_cptx_pf_exe_dbg_ctl
 {
     uint64_t u;
     struct bdk_cptx_pf_exe_dbg_ctl_s
@@ -1537,7 +1559,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cptx_pf_exe_dbg_ctl_s cn; */
-} bdk_cptx_pf_exe_dbg_ctl_t;
+};
+typedef union bdk_cptx_pf_exe_dbg_ctl bdk_cptx_pf_exe_dbg_ctl_t;
 
 static inline uint64_t BDK_CPTX_PF_EXE_DBG_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_EXE_DBG_CTL(unsigned long a)
@@ -1562,7 +1585,7 @@ static inline uint64_t BDK_CPTX_PF_EXE_DBG_CTL(unsigned long a)
  * Engine Debug Data Register
  * This register returns engine debug data as selected by CPT()_PF_EXE_DBG_CTL.
  */
-typedef union
+union bdk_cptx_pf_exe_dbg_data
 {
     uint64_t u;
     struct bdk_cptx_pf_exe_dbg_data_s
@@ -1576,7 +1599,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cptx_pf_exe_dbg_data_s cn; */
-} bdk_cptx_pf_exe_dbg_data_t;
+};
+typedef union bdk_cptx_pf_exe_dbg_data bdk_cptx_pf_exe_dbg_data_t;
 
 static inline uint64_t BDK_CPTX_PF_EXE_DBG_DATA(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_EXE_DBG_DATA(unsigned long a)
@@ -1600,7 +1624,7 @@ static inline uint64_t BDK_CPTX_PF_EXE_DBG_DATA(unsigned long a)
  *
  * EPCI Inbound Counter Register
  */
-typedef union
+union bdk_cptx_pf_exe_epci_inbx_cnt
 {
     uint64_t u;
     struct bdk_cptx_pf_exe_epci_inbx_cnt_s
@@ -1614,7 +1638,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cptx_pf_exe_epci_inbx_cnt_s cn; */
-} bdk_cptx_pf_exe_epci_inbx_cnt_t;
+};
+typedef union bdk_cptx_pf_exe_epci_inbx_cnt bdk_cptx_pf_exe_epci_inbx_cnt_t;
 
 static inline uint64_t BDK_CPTX_PF_EXE_EPCI_INBX_CNT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_EXE_EPCI_INBX_CNT(unsigned long a, unsigned long b)
@@ -1638,7 +1663,7 @@ static inline uint64_t BDK_CPTX_PF_EXE_EPCI_INBX_CNT(unsigned long a, unsigned l
  *
  * EPCI Outbound Counter Register
  */
-typedef union
+union bdk_cptx_pf_exe_epci_outbx_cnt
 {
     uint64_t u;
     struct bdk_cptx_pf_exe_epci_outbx_cnt_s
@@ -1652,7 +1677,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cptx_pf_exe_epci_outbx_cnt_s cn; */
-} bdk_cptx_pf_exe_epci_outbx_cnt_t;
+};
+typedef union bdk_cptx_pf_exe_epci_outbx_cnt bdk_cptx_pf_exe_epci_outbx_cnt_t;
 
 static inline uint64_t BDK_CPTX_PF_EXE_EPCI_OUTBX_CNT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_EXE_EPCI_OUTBX_CNT(unsigned long a, unsigned long b)
@@ -1679,7 +1705,7 @@ static inline uint64_t BDK_CPTX_PF_EXE_EPCI_OUTBX_CNT(unsigned long a, unsigned 
  * For debug
  * purposes, it can also flip one or two bits in the ECC data.
  */
-typedef union
+union bdk_cptx_pf_exe_mem_ctl
 {
     uint64_t u;
     struct bdk_cptx_pf_exe_mem_ctl_s
@@ -1703,7 +1729,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cptx_pf_exe_mem_ctl_s cn; */
-} bdk_cptx_pf_exe_mem_ctl_t;
+};
+typedef union bdk_cptx_pf_exe_mem_ctl bdk_cptx_pf_exe_mem_ctl_t;
 
 static inline uint64_t BDK_CPTX_PF_EXE_MEM_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_EXE_MEM_CTL(unsigned long a)
@@ -1728,7 +1755,7 @@ static inline uint64_t BDK_CPTX_PF_EXE_MEM_CTL(unsigned long a)
  * CPT PF Engine Performance Control Register
  * This register controls engine performance counters.
  */
-typedef union
+union bdk_cptx_pf_exe_perf_ctl
 {
     uint64_t u;
     struct bdk_cptx_pf_exe_perf_ctl_s
@@ -1748,7 +1775,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cptx_pf_exe_perf_ctl_s cn; */
-} bdk_cptx_pf_exe_perf_ctl_t;
+};
+typedef union bdk_cptx_pf_exe_perf_ctl bdk_cptx_pf_exe_perf_ctl_t;
 
 static inline uint64_t BDK_CPTX_PF_EXE_PERF_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_EXE_PERF_CTL(unsigned long a)
@@ -1772,7 +1800,7 @@ static inline uint64_t BDK_CPTX_PF_EXE_PERF_CTL(unsigned long a)
  *
  * Symmetric and Asymmetric Engine Performance Event Counter Register
  */
-typedef union
+union bdk_cptx_pf_exe_perf_event_cnt
 {
     uint64_t u;
     struct bdk_cptx_pf_exe_perf_event_cnt_s
@@ -1800,7 +1828,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cptx_pf_exe_perf_event_cnt_s cn; */
-} bdk_cptx_pf_exe_perf_event_cnt_t;
+};
+typedef union bdk_cptx_pf_exe_perf_event_cnt bdk_cptx_pf_exe_perf_event_cnt_t;
 
 static inline uint64_t BDK_CPTX_PF_EXE_PERF_EVENT_CNT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_EXE_PERF_EVENT_CNT(unsigned long a)
@@ -1824,7 +1853,7 @@ static inline uint64_t BDK_CPTX_PF_EXE_PERF_EVENT_CNT(unsigned long a)
  *
  * CPT PF Engine Arbiter Control Register
  */
-typedef union
+union bdk_cptx_pf_exe_req_timer
 {
     uint64_t u;
     struct bdk_cptx_pf_exe_req_timer_s
@@ -1852,7 +1881,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cptx_pf_exe_req_timer_s cn; */
-} bdk_cptx_pf_exe_req_timer_t;
+};
+typedef union bdk_cptx_pf_exe_req_timer bdk_cptx_pf_exe_req_timer_t;
 
 static inline uint64_t BDK_CPTX_PF_EXE_REQ_TIMER(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_EXE_REQ_TIMER(unsigned long a)
@@ -1877,7 +1907,7 @@ static inline uint64_t BDK_CPTX_PF_EXE_REQ_TIMER(unsigned long a)
  * CPT PF Engine Control Register
  * This register indicates whether the engine can be shutdown.
  */
-typedef union
+union bdk_cptx_pf_exe_status
 {
     uint64_t u;
     struct bdk_cptx_pf_exe_status_s
@@ -1889,7 +1919,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cptx_pf_exe_status_s cn; */
-} bdk_cptx_pf_exe_status_t;
+};
+typedef union bdk_cptx_pf_exe_status bdk_cptx_pf_exe_status_t;
 
 static inline uint64_t BDK_CPTX_PF_EXE_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_EXE_STATUS(unsigned long a)
@@ -1914,7 +1945,7 @@ static inline uint64_t BDK_CPTX_PF_EXE_STATUS(unsigned long a)
  * CPT Engine Info Register
  * This contains the busy status of the execs.
  */
-typedef union
+union bdk_cptx_pf_exec_busy
 {
     uint64_t u;
     struct bdk_cptx_pf_exec_busy_s
@@ -1930,7 +1961,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cptx_pf_exec_busy_s cn; */
-} bdk_cptx_pf_exec_busy_t;
+};
+typedef union bdk_cptx_pf_exec_busy bdk_cptx_pf_exec_busy_t;
 
 static inline uint64_t BDK_CPTX_PF_EXEC_BUSY(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_EXEC_BUSY(unsigned long a)
@@ -1955,7 +1987,7 @@ static inline uint64_t BDK_CPTX_PF_EXEC_BUSY(unsigned long a)
  * CPT PF Exec Unit Interrupt Enable Clear Registers
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_cptx_pf_exec_ena_w1c
 {
     uint64_t u;
     struct bdk_cptx_pf_exec_ena_w1c_s
@@ -1975,7 +2007,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_cptx_pf_exec_ena_w1c_s cn83xx; */
-} bdk_cptx_pf_exec_ena_w1c_t;
+};
+typedef union bdk_cptx_pf_exec_ena_w1c bdk_cptx_pf_exec_ena_w1c_t;
 
 static inline uint64_t BDK_CPTX_PF_EXEC_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_EXEC_ENA_W1C(unsigned long a)
@@ -2000,7 +2033,7 @@ static inline uint64_t BDK_CPTX_PF_EXEC_ENA_W1C(unsigned long a)
  * CPT PF Exec Unit Interrupt Enable Set Registers
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_cptx_pf_exec_ena_w1s
 {
     uint64_t u;
     struct bdk_cptx_pf_exec_ena_w1s_s
@@ -2020,7 +2053,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_cptx_pf_exec_ena_w1s_s cn83xx; */
-} bdk_cptx_pf_exec_ena_w1s_t;
+};
+typedef union bdk_cptx_pf_exec_ena_w1s bdk_cptx_pf_exec_ena_w1s_t;
 
 static inline uint64_t BDK_CPTX_PF_EXEC_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_EXEC_ENA_W1S(unsigned long a)
@@ -2045,7 +2079,7 @@ static inline uint64_t BDK_CPTX_PF_EXEC_ENA_W1S(unsigned long a)
  * CPT Engine Info Register
  * This contains the error code and PC for the most recent ERR_REQUEST.
  */
-typedef union
+union bdk_cptx_pf_exec_info
 {
     uint64_t u;
     struct bdk_cptx_pf_exec_info_s
@@ -2067,7 +2101,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cptx_pf_exec_info_s cn; */
-} bdk_cptx_pf_exec_info_t;
+};
+typedef union bdk_cptx_pf_exec_info bdk_cptx_pf_exec_info_t;
 
 static inline uint64_t BDK_CPTX_PF_EXEC_INFO(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_EXEC_INFO(unsigned long a)
@@ -2092,7 +2127,7 @@ static inline uint64_t BDK_CPTX_PF_EXEC_INFO(unsigned long a)
  * CPT RF_SBE Register
  * This register is for diagnostic purposes.
  */
-typedef union
+union bdk_cptx_pf_exec_info0
 {
     uint64_t u;
     struct bdk_cptx_pf_exec_info0_s
@@ -2116,7 +2151,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_cptx_pf_exec_info0_s cn83xx; */
-} bdk_cptx_pf_exec_info0_t;
+};
+typedef union bdk_cptx_pf_exec_info0 bdk_cptx_pf_exec_info0_t;
 
 static inline uint64_t BDK_CPTX_PF_EXEC_INFO0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_EXEC_INFO0(unsigned long a)
@@ -2141,7 +2177,7 @@ static inline uint64_t BDK_CPTX_PF_EXEC_INFO0(unsigned long a)
  * CPT UC_ERR Register
  * This register is for diagnostic purposes.
  */
-typedef union
+union bdk_cptx_pf_exec_info1
 {
     uint64_t u;
     struct bdk_cptx_pf_exec_info1_s
@@ -2165,7 +2201,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_cptx_pf_exec_info1_s cn83xx; */
-} bdk_cptx_pf_exec_info1_t;
+};
+typedef union bdk_cptx_pf_exec_info1 bdk_cptx_pf_exec_info1_t;
 
 static inline uint64_t BDK_CPTX_PF_EXEC_INFO1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_EXEC_INFO1(unsigned long a)
@@ -2189,7 +2226,7 @@ static inline uint64_t BDK_CPTX_PF_EXEC_INFO1(unsigned long a)
  *
  * CPT Exec Unit Interrupt Registers
  */
-typedef union
+union bdk_cptx_pf_exec_int
 {
     uint64_t u;
     struct bdk_cptx_pf_exec_int_s
@@ -2223,7 +2260,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_cptx_pf_exec_int_s cn83xx; */
-} bdk_cptx_pf_exec_int_t;
+};
+typedef union bdk_cptx_pf_exec_int bdk_cptx_pf_exec_int_t;
 
 static inline uint64_t BDK_CPTX_PF_EXEC_INT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_EXEC_INT(unsigned long a)
@@ -2248,7 +2286,7 @@ static inline uint64_t BDK_CPTX_PF_EXEC_INT(unsigned long a)
  * CPT PF Exec Unit Interrupt Set Registers
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_cptx_pf_exec_int_w1s
 {
     uint64_t u;
     struct bdk_cptx_pf_exec_int_w1s_s
@@ -2268,7 +2306,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_cptx_pf_exec_int_w1s_s cn83xx; */
-} bdk_cptx_pf_exec_int_w1s_t;
+};
+typedef union bdk_cptx_pf_exec_int_w1s bdk_cptx_pf_exec_int_w1s_t;
 
 static inline uint64_t BDK_CPTX_PF_EXEC_INT_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_EXEC_INT_W1S(unsigned long a)
@@ -2293,7 +2332,7 @@ static inline uint64_t BDK_CPTX_PF_EXEC_INT_W1S(unsigned long a)
  * CPT PF Group Control Register
  * This register configures engine groups.
  */
-typedef union
+union bdk_cptx_pf_gx_en
 {
     uint64_t u;
     struct bdk_cptx_pf_gx_en_s
@@ -2327,7 +2366,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cptx_pf_gx_en_s cn; */
-} bdk_cptx_pf_gx_en_t;
+};
+typedef union bdk_cptx_pf_gx_en bdk_cptx_pf_gx_en_t;
 
 static inline uint64_t BDK_CPTX_PF_GX_EN(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_GX_EN(unsigned long a, unsigned long b)
@@ -2351,7 +2391,7 @@ static inline uint64_t BDK_CPTX_PF_GX_EN(unsigned long a, unsigned long b)
  *
  * CPT PF Instruction Latency Counter Register
  */
-typedef union
+union bdk_cptx_pf_inst_latency_pc
 {
     uint64_t u;
     struct bdk_cptx_pf_inst_latency_pc_s
@@ -2369,7 +2409,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cptx_pf_inst_latency_pc_s cn; */
-} bdk_cptx_pf_inst_latency_pc_t;
+};
+typedef union bdk_cptx_pf_inst_latency_pc bdk_cptx_pf_inst_latency_pc_t;
 
 static inline uint64_t BDK_CPTX_PF_INST_LATENCY_PC(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_INST_LATENCY_PC(unsigned long a)
@@ -2393,7 +2434,7 @@ static inline uint64_t BDK_CPTX_PF_INST_LATENCY_PC(unsigned long a)
  *
  * CPT PF Instruction Request Performance Counter Register
  */
-typedef union
+union bdk_cptx_pf_inst_req_pc
 {
     uint64_t u;
     struct bdk_cptx_pf_inst_req_pc_s
@@ -2405,7 +2446,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cptx_pf_inst_req_pc_s cn; */
-} bdk_cptx_pf_inst_req_pc_t;
+};
+typedef union bdk_cptx_pf_inst_req_pc bdk_cptx_pf_inst_req_pc_t;
 
 static inline uint64_t BDK_CPTX_PF_INST_REQ_PC(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_INST_REQ_PC(unsigned long a)
@@ -2430,7 +2472,7 @@ static inline uint64_t BDK_CPTX_PF_INST_REQ_PC(unsigned long a)
  * CPT PF Mailbox Enable Clear Registers
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_cptx_pf_mbox_ena_w1cx
 {
     uint64_t u;
     struct bdk_cptx_pf_mbox_ena_w1cx_s
@@ -2450,7 +2492,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_cptx_pf_mbox_ena_w1cx_s cn83xx; */
-} bdk_cptx_pf_mbox_ena_w1cx_t;
+};
+typedef union bdk_cptx_pf_mbox_ena_w1cx bdk_cptx_pf_mbox_ena_w1cx_t;
 
 static inline uint64_t BDK_CPTX_PF_MBOX_ENA_W1CX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_MBOX_ENA_W1CX(unsigned long a, unsigned long b)
@@ -2475,7 +2518,7 @@ static inline uint64_t BDK_CPTX_PF_MBOX_ENA_W1CX(unsigned long a, unsigned long 
  * CPT PF Mailbox Enable Set Registers
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_cptx_pf_mbox_ena_w1sx
 {
     uint64_t u;
     struct bdk_cptx_pf_mbox_ena_w1sx_s
@@ -2495,7 +2538,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_cptx_pf_mbox_ena_w1sx_s cn83xx; */
-} bdk_cptx_pf_mbox_ena_w1sx_t;
+};
+typedef union bdk_cptx_pf_mbox_ena_w1sx bdk_cptx_pf_mbox_ena_w1sx_t;
 
 static inline uint64_t BDK_CPTX_PF_MBOX_ENA_W1SX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_MBOX_ENA_W1SX(unsigned long a, unsigned long b)
@@ -2519,7 +2563,7 @@ static inline uint64_t BDK_CPTX_PF_MBOX_ENA_W1SX(unsigned long a, unsigned long 
  *
  * CPT PF Mailbox Interrupt Registers
  */
-typedef union
+union bdk_cptx_pf_mbox_intx
 {
     uint64_t u;
     struct bdk_cptx_pf_mbox_intx_s
@@ -2533,7 +2577,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cptx_pf_mbox_intx_s cn; */
-} bdk_cptx_pf_mbox_intx_t;
+};
+typedef union bdk_cptx_pf_mbox_intx bdk_cptx_pf_mbox_intx_t;
 
 static inline uint64_t BDK_CPTX_PF_MBOX_INTX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_MBOX_INTX(unsigned long a, unsigned long b)
@@ -2558,7 +2603,7 @@ static inline uint64_t BDK_CPTX_PF_MBOX_INTX(unsigned long a, unsigned long b)
  * CPT PF Mailbox Interrupt Set Registers
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_cptx_pf_mbox_int_w1sx
 {
     uint64_t u;
     struct bdk_cptx_pf_mbox_int_w1sx_s
@@ -2578,7 +2623,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_cptx_pf_mbox_int_w1sx_s cn83xx; */
-} bdk_cptx_pf_mbox_int_w1sx_t;
+};
+typedef union bdk_cptx_pf_mbox_int_w1sx bdk_cptx_pf_mbox_int_w1sx_t;
 
 static inline uint64_t BDK_CPTX_PF_MBOX_INT_W1SX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_MBOX_INT_W1SX(unsigned long a, unsigned long b)
@@ -2604,7 +2650,7 @@ static inline uint64_t BDK_CPTX_PF_MBOX_INT_W1SX(unsigned long a, unsigned long 
  * This register is the MSI-X PBA table, the bit number is indexed by the
  * CPT_PF_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_cptx_pf_msix_pbax
 {
     uint64_t u;
     struct bdk_cptx_pf_msix_pbax_s
@@ -2618,7 +2664,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cptx_pf_msix_pbax_s cn; */
-} bdk_cptx_pf_msix_pbax_t;
+};
+typedef union bdk_cptx_pf_msix_pbax bdk_cptx_pf_msix_pbax_t;
 
 static inline uint64_t BDK_CPTX_PF_MSIX_PBAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_MSIX_PBAX(unsigned long a, unsigned long b)
@@ -2643,7 +2690,7 @@ static inline uint64_t BDK_CPTX_PF_MSIX_PBAX(unsigned long a, unsigned long b)
  * CPT PF MSI-X Vector-Table Address Registers
  * This register is the MSI-X vector table, indexed by the CPT_PF_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_cptx_pf_msix_vecx_addr
 {
     uint64_t u;
     struct bdk_cptx_pf_msix_vecx_addr_s
@@ -2675,7 +2722,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cptx_pf_msix_vecx_addr_s cn; */
-} bdk_cptx_pf_msix_vecx_addr_t;
+};
+typedef union bdk_cptx_pf_msix_vecx_addr bdk_cptx_pf_msix_vecx_addr_t;
 
 static inline uint64_t BDK_CPTX_PF_MSIX_VECX_ADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
@@ -2700,7 +2748,7 @@ static inline uint64_t BDK_CPTX_PF_MSIX_VECX_ADDR(unsigned long a, unsigned long
  * CPT PF MSI-X Vector-Table Control and Data Registers
  * This register is the MSI-X vector table, indexed by the CPT_PF_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_cptx_pf_msix_vecx_ctl
 {
     uint64_t u;
     struct bdk_cptx_pf_msix_vecx_ctl_s
@@ -2718,7 +2766,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cptx_pf_msix_vecx_ctl_s cn; */
-} bdk_cptx_pf_msix_vecx_ctl_t;
+};
+typedef union bdk_cptx_pf_msix_vecx_ctl bdk_cptx_pf_msix_vecx_ctl_t;
 
 static inline uint64_t BDK_CPTX_PF_MSIX_VECX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_MSIX_VECX_CTL(unsigned long a, unsigned long b)
@@ -2744,7 +2793,7 @@ static inline uint64_t BDK_CPTX_PF_MSIX_VECX_CTL(unsigned long a, unsigned long 
  * This register configures queues. This register should be changed only when quiescent
  * (see CPT()_VQ()_INPROG[INFLIGHT]).
  */
-typedef union
+union bdk_cptx_pf_qx_ctl
 {
     uint64_t u;
     struct bdk_cptx_pf_qx_ctl_s
@@ -2924,7 +2973,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_cptx_pf_qx_ctl_s cn83xx; */
-} bdk_cptx_pf_qx_ctl_t;
+};
+typedef union bdk_cptx_pf_qx_ctl bdk_cptx_pf_qx_ctl_t;
 
 static inline uint64_t BDK_CPTX_PF_QX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_QX_CTL(unsigned long a, unsigned long b)
@@ -2950,7 +3000,7 @@ static inline uint64_t BDK_CPTX_PF_QX_CTL(unsigned long a, unsigned long b)
  * This register configures queues. This register should be changed only when quiescent
  * (see CPT()_VQ()_INPROG[INFLIGHT]).
  */
-typedef union
+union bdk_cptx_pf_qx_ctl2
 {
     uint64_t u;
     struct bdk_cptx_pf_qx_ctl2_s
@@ -2988,7 +3038,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cptx_pf_qx_ctl2_s cn; */
-} bdk_cptx_pf_qx_ctl2_t;
+};
+typedef union bdk_cptx_pf_qx_ctl2 bdk_cptx_pf_qx_ctl2_t;
 
 static inline uint64_t BDK_CPTX_PF_QX_CTL2(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_QX_CTL2(unsigned long a, unsigned long b)
@@ -3014,7 +3065,7 @@ static inline uint64_t BDK_CPTX_PF_QX_CTL2(unsigned long a, unsigned long b)
  * This register configures queues. This register should be changed only when quiescent
  * (see CPT()_VQ()_INPROG[INFLIGHT]).
  */
-typedef union
+union bdk_cptx_pf_qx_gmctl
 {
     uint64_t u;
     struct bdk_cptx_pf_qx_gmctl_s
@@ -3078,7 +3129,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_cptx_pf_qx_gmctl_s cn83xx; */
-} bdk_cptx_pf_qx_gmctl_t;
+};
+typedef union bdk_cptx_pf_qx_gmctl bdk_cptx_pf_qx_gmctl_t;
 
 static inline uint64_t BDK_CPTX_PF_QX_GMCTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_QX_GMCTL(unsigned long a, unsigned long b)
@@ -3102,7 +3154,7 @@ static inline uint64_t BDK_CPTX_PF_QX_GMCTL(unsigned long a, unsigned long b)
  *
  * CPT PF Read Latency Counter Register
  */
-typedef union
+union bdk_cptx_pf_rd_latency_pc
 {
     uint64_t u;
     struct bdk_cptx_pf_rd_latency_pc_s
@@ -3118,7 +3170,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cptx_pf_rd_latency_pc_s cn; */
-} bdk_cptx_pf_rd_latency_pc_t;
+};
+typedef union bdk_cptx_pf_rd_latency_pc bdk_cptx_pf_rd_latency_pc_t;
 
 static inline uint64_t BDK_CPTX_PF_RD_LATENCY_PC(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_RD_LATENCY_PC(unsigned long a)
@@ -3142,7 +3195,7 @@ static inline uint64_t BDK_CPTX_PF_RD_LATENCY_PC(unsigned long a)
  *
  * CPT PF Read Request Performance Counter Register
  */
-typedef union
+union bdk_cptx_pf_rd_req_pc
 {
     uint64_t u;
     struct bdk_cptx_pf_rd_req_pc_s
@@ -3154,7 +3207,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cptx_pf_rd_req_pc_s cn; */
-} bdk_cptx_pf_rd_req_pc_t;
+};
+typedef union bdk_cptx_pf_rd_req_pc bdk_cptx_pf_rd_req_pc_t;
 
 static inline uint64_t BDK_CPTX_PF_RD_REQ_PC(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_RD_REQ_PC(unsigned long a)
@@ -3178,7 +3232,7 @@ static inline uint64_t BDK_CPTX_PF_RD_REQ_PC(unsigned long a)
  *
  * CPT PF Read Microcode Performance Counter Register
  */
-typedef union
+union bdk_cptx_pf_rd_uc_pc
 {
     uint64_t u;
     struct bdk_cptx_pf_rd_uc_pc_s
@@ -3192,7 +3246,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cptx_pf_rd_uc_pc_s cn; */
-} bdk_cptx_pf_rd_uc_pc_t;
+};
+typedef union bdk_cptx_pf_rd_uc_pc bdk_cptx_pf_rd_uc_pc_t;
 
 static inline uint64_t BDK_CPTX_PF_RD_UC_PC(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_RD_UC_PC(unsigned long a)
@@ -3217,7 +3272,7 @@ static inline uint64_t BDK_CPTX_PF_RD_UC_PC(unsigned long a)
  * CPT PF Reset Register
  * This register controls clock and reset.
  */
-typedef union
+union bdk_cptx_pf_reset
 {
     uint64_t u;
     struct bdk_cptx_pf_reset_s
@@ -3231,7 +3286,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cptx_pf_reset_s cn; */
-} bdk_cptx_pf_reset_t;
+};
+typedef union bdk_cptx_pf_reset bdk_cptx_pf_reset_t;
 
 static inline uint64_t BDK_CPTX_PF_RESET(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_RESET(unsigned long a)
@@ -3256,7 +3312,7 @@ static inline uint64_t BDK_CPTX_PF_RESET(unsigned long a)
  * CPT PF UC Error Interrupt Enable Clear Registers
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_cptx_pf_ucerr_ena_w1c
 {
     uint64_t u;
     struct bdk_cptx_pf_ucerr_ena_w1c_s
@@ -3268,7 +3324,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cptx_pf_ucerr_ena_w1c_s cn; */
-} bdk_cptx_pf_ucerr_ena_w1c_t;
+};
+typedef union bdk_cptx_pf_ucerr_ena_w1c bdk_cptx_pf_ucerr_ena_w1c_t;
 
 static inline uint64_t BDK_CPTX_PF_UCERR_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_UCERR_ENA_W1C(unsigned long a)
@@ -3291,7 +3348,7 @@ static inline uint64_t BDK_CPTX_PF_UCERR_ENA_W1C(unsigned long a)
  * CPT PF UC Error Interrupt Enable Set Registers
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_cptx_pf_ucerr_ena_w1s
 {
     uint64_t u;
     struct bdk_cptx_pf_ucerr_ena_w1s_s
@@ -3303,7 +3360,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cptx_pf_ucerr_ena_w1s_s cn; */
-} bdk_cptx_pf_ucerr_ena_w1s_t;
+};
+typedef union bdk_cptx_pf_ucerr_ena_w1s bdk_cptx_pf_ucerr_ena_w1s_t;
 
 static inline uint64_t BDK_CPTX_PF_UCERR_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_UCERR_ENA_W1S(unsigned long a)
@@ -3325,7 +3383,7 @@ static inline uint64_t BDK_CPTX_PF_UCERR_ENA_W1S(unsigned long a)
  *
  * CPT PF UC Error Interrupt Registers
  */
-typedef union
+union bdk_cptx_pf_ucerr_int
 {
     uint64_t u;
     struct bdk_cptx_pf_ucerr_int_s
@@ -3347,7 +3405,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cptx_pf_ucerr_int_s cn; */
-} bdk_cptx_pf_ucerr_int_t;
+};
+typedef union bdk_cptx_pf_ucerr_int bdk_cptx_pf_ucerr_int_t;
 
 static inline uint64_t BDK_CPTX_PF_UCERR_INT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_UCERR_INT(unsigned long a)
@@ -3370,7 +3429,7 @@ static inline uint64_t BDK_CPTX_PF_UCERR_INT(unsigned long a)
  * CPT PF UC Error Interrupt Set Registers
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_cptx_pf_ucerr_int_w1s
 {
     uint64_t u;
     struct bdk_cptx_pf_ucerr_int_w1s_s
@@ -3382,7 +3441,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cptx_pf_ucerr_int_w1s_s cn; */
-} bdk_cptx_pf_ucerr_int_w1s_t;
+};
+typedef union bdk_cptx_pf_ucerr_int_w1s bdk_cptx_pf_ucerr_int_w1s_t;
 
 static inline uint64_t BDK_CPTX_PF_UCERR_INT_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_UCERR_INT_W1S(unsigned long a)
@@ -3404,7 +3464,7 @@ static inline uint64_t BDK_CPTX_PF_UCERR_INT_W1S(unsigned long a)
  *
  * CPT PF/VF Mailbox Registers
  */
-typedef union
+union bdk_cptx_pf_vfx_mboxx
 {
     uint64_t u;
     struct bdk_cptx_pf_vfx_mboxx_s
@@ -3428,7 +3488,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cptx_pf_vfx_mboxx_s cn; */
-} bdk_cptx_pf_vfx_mboxx_t;
+};
+typedef union bdk_cptx_pf_vfx_mboxx bdk_cptx_pf_vfx_mboxx_t;
 
 static inline uint64_t BDK_CPTX_PF_VFX_MBOXX(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_VFX_MBOXX(unsigned long a, unsigned long b, unsigned long c)
@@ -3454,7 +3515,7 @@ static inline uint64_t BDK_CPTX_PF_VFX_MBOXX(unsigned long a, unsigned long b, u
  * This register is the MSI-X PBA table, the bit number is indexed by the CPT_VF_INT_VEC_E
  * enumeration.
  */
-typedef union
+union bdk_cptx_vfx_msix_pbax
 {
     uint64_t u;
     struct bdk_cptx_vfx_msix_pbax_s
@@ -3468,7 +3529,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cptx_vfx_msix_pbax_s cn; */
-} bdk_cptx_vfx_msix_pbax_t;
+};
+typedef union bdk_cptx_vfx_msix_pbax bdk_cptx_vfx_msix_pbax_t;
 
 static inline uint64_t BDK_CPTX_VFX_MSIX_PBAX(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_VFX_MSIX_PBAX(unsigned long a, unsigned long b, unsigned long c)
@@ -3493,7 +3555,7 @@ static inline uint64_t BDK_CPTX_VFX_MSIX_PBAX(unsigned long a, unsigned long b, 
  * CPT VF MSI-X Vector-Table Address Registers
  * This register is the MSI-X vector table, indexed by the CPT_VF_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_cptx_vfx_msix_vecx_addr
 {
     uint64_t u;
     struct bdk_cptx_vfx_msix_vecx_addr_s
@@ -3515,7 +3577,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cptx_vfx_msix_vecx_addr_s cn; */
-} bdk_cptx_vfx_msix_vecx_addr_t;
+};
+typedef union bdk_cptx_vfx_msix_vecx_addr bdk_cptx_vfx_msix_vecx_addr_t;
 
 static inline uint64_t BDK_CPTX_VFX_MSIX_VECX_ADDR(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_VFX_MSIX_VECX_ADDR(unsigned long a, unsigned long b, unsigned long c)
@@ -3540,7 +3603,7 @@ static inline uint64_t BDK_CPTX_VFX_MSIX_VECX_ADDR(unsigned long a, unsigned lon
  * CPT VF MSI-X Vector-Table Control and Data Registers
  * This register is the MSI-X vector table, indexed by the CPT_VF_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_cptx_vfx_msix_vecx_ctl
 {
     uint64_t u;
     struct bdk_cptx_vfx_msix_vecx_ctl_s
@@ -3558,7 +3621,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cptx_vfx_msix_vecx_ctl_s cn; */
-} bdk_cptx_vfx_msix_vecx_ctl_t;
+};
+typedef union bdk_cptx_vfx_msix_vecx_ctl bdk_cptx_vfx_msix_vecx_ctl_t;
 
 static inline uint64_t BDK_CPTX_VFX_MSIX_VECX_CTL(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_VFX_MSIX_VECX_CTL(unsigned long a, unsigned long b, unsigned long c)
@@ -3582,7 +3646,7 @@ static inline uint64_t BDK_CPTX_VFX_MSIX_VECX_CTL(unsigned long a, unsigned long
  *
  * CPT VF/PF Mailbox Registers
  */
-typedef union
+union bdk_cptx_vfx_pf_mboxx
 {
     uint64_t u;
     struct bdk_cptx_vfx_pf_mboxx_s
@@ -3604,7 +3668,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cptx_vfx_pf_mboxx_s cn; */
-} bdk_cptx_vfx_pf_mboxx_t;
+};
+typedef union bdk_cptx_vfx_pf_mboxx bdk_cptx_vfx_pf_mboxx_t;
 
 static inline uint64_t BDK_CPTX_VFX_PF_MBOXX(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_VFX_PF_MBOXX(unsigned long a, unsigned long b, unsigned long c)
@@ -3630,7 +3695,7 @@ static inline uint64_t BDK_CPTX_VFX_PF_MBOXX(unsigned long a, unsigned long b, u
  * This register configures queues. This register should be changed (other than
  * clearing [ENA]) only when quiescent (see CPT()_VQ()_INPROG[INFLIGHT]).
  */
-typedef union
+union bdk_cptx_vqx_ctl
 {
     uint64_t u;
     struct bdk_cptx_vqx_ctl_s
@@ -3650,7 +3715,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cptx_vqx_ctl_s cn; */
-} bdk_cptx_vqx_ctl_t;
+};
+typedef union bdk_cptx_vqx_ctl bdk_cptx_vqx_ctl_t;
 
 static inline uint64_t BDK_CPTX_VQX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_VQX_CTL(unsigned long a, unsigned long b)
@@ -3675,7 +3741,7 @@ static inline uint64_t BDK_CPTX_VQX_CTL(unsigned long a, unsigned long b)
  * CPT Queue Done Count Registers
  * These registers contain the per-queue instruction done count.
  */
-typedef union
+union bdk_cptx_vqx_done
 {
     uint64_t u;
     struct bdk_cptx_vqx_done_s
@@ -3757,7 +3823,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cptx_vqx_done_s cn; */
-} bdk_cptx_vqx_done_t;
+};
+typedef union bdk_cptx_vqx_done bdk_cptx_vqx_done_t;
 
 static inline uint64_t BDK_CPTX_VQX_DONE(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_VQX_DONE(unsigned long a, unsigned long b)
@@ -3782,7 +3849,7 @@ static inline uint64_t BDK_CPTX_VQX_DONE(unsigned long a, unsigned long b)
  * CPT Queue Done Count Ack Registers
  * This register is written by software to acknowledge interrupts.
  */
-typedef union
+union bdk_cptx_vqx_done_ack
 {
     uint64_t u;
     struct bdk_cptx_vqx_done_ack_s
@@ -3804,7 +3871,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cptx_vqx_done_ack_s cn; */
-} bdk_cptx_vqx_done_ack_t;
+};
+typedef union bdk_cptx_vqx_done_ack bdk_cptx_vqx_done_ack_t;
 
 static inline uint64_t BDK_CPTX_VQX_DONE_ACK(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_VQX_DONE_ACK(unsigned long a, unsigned long b)
@@ -3828,7 +3896,7 @@ static inline uint64_t BDK_CPTX_VQX_DONE_ACK(unsigned long a, unsigned long b)
  *
  * CPT Queue Done Interrupt Enable Clear Registers
  */
-typedef union
+union bdk_cptx_vqx_done_ena_w1c
 {
     uint64_t u;
     struct bdk_cptx_vqx_done_ena_w1c_s
@@ -3842,7 +3910,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cptx_vqx_done_ena_w1c_s cn; */
-} bdk_cptx_vqx_done_ena_w1c_t;
+};
+typedef union bdk_cptx_vqx_done_ena_w1c bdk_cptx_vqx_done_ena_w1c_t;
 
 static inline uint64_t BDK_CPTX_VQX_DONE_ENA_W1C(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_VQX_DONE_ENA_W1C(unsigned long a, unsigned long b)
@@ -3867,7 +3936,7 @@ static inline uint64_t BDK_CPTX_VQX_DONE_ENA_W1C(unsigned long a, unsigned long 
  * CPT Queue Done Interrupt Enable Set Registers
  * Write 1 to these registers will enable the DONEINT interrupt for the queue.
  */
-typedef union
+union bdk_cptx_vqx_done_ena_w1s
 {
     uint64_t u;
     struct bdk_cptx_vqx_done_ena_w1s_s
@@ -3883,7 +3952,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cptx_vqx_done_ena_w1s_s cn; */
-} bdk_cptx_vqx_done_ena_w1s_t;
+};
+typedef union bdk_cptx_vqx_done_ena_w1s bdk_cptx_vqx_done_ena_w1s_t;
 
 static inline uint64_t BDK_CPTX_VQX_DONE_ENA_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_VQX_DONE_ENA_W1S(unsigned long a, unsigned long b)
@@ -3907,7 +3977,7 @@ static inline uint64_t BDK_CPTX_VQX_DONE_ENA_W1S(unsigned long a, unsigned long 
  *
  * CPT Queue Done Interrupt Clear Registers
  */
-typedef union
+union bdk_cptx_vqx_done_int_w1c
 {
     uint64_t u;
     struct bdk_cptx_vqx_done_int_w1c_s
@@ -3925,7 +3995,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cptx_vqx_done_int_w1c_s cn; */
-} bdk_cptx_vqx_done_int_w1c_t;
+};
+typedef union bdk_cptx_vqx_done_int_w1c bdk_cptx_vqx_done_int_w1c_t;
 
 static inline uint64_t BDK_CPTX_VQX_DONE_INT_W1C(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_VQX_DONE_INT_W1C(unsigned long a, unsigned long b)
@@ -3949,7 +4020,7 @@ static inline uint64_t BDK_CPTX_VQX_DONE_INT_W1C(unsigned long a, unsigned long 
  *
  * CPT Queue Done Interrupt Set Registers
  */
-typedef union
+union bdk_cptx_vqx_done_int_w1s
 {
     uint64_t u;
     struct bdk_cptx_vqx_done_int_w1s_s
@@ -3967,7 +4038,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cptx_vqx_done_int_w1s_s cn; */
-} bdk_cptx_vqx_done_int_w1s_t;
+};
+typedef union bdk_cptx_vqx_done_int_w1s bdk_cptx_vqx_done_int_w1s_t;
 
 static inline uint64_t BDK_CPTX_VQX_DONE_INT_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_VQX_DONE_INT_W1S(unsigned long a, unsigned long b)
@@ -3992,7 +4064,7 @@ static inline uint64_t BDK_CPTX_VQX_DONE_INT_W1S(unsigned long a, unsigned long 
  * CPT Queue Done Interrupt Coalescing Wait Registers
  * Specifies the per queue interrupt coalescing settings.
  */
-typedef union
+union bdk_cptx_vqx_done_wait
 {
     uint64_t u;
     struct bdk_cptx_vqx_done_wait_s
@@ -4018,7 +4090,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cptx_vqx_done_wait_s cn; */
-} bdk_cptx_vqx_done_wait_t;
+};
+typedef union bdk_cptx_vqx_done_wait bdk_cptx_vqx_done_wait_t;
 
 static inline uint64_t BDK_CPTX_VQX_DONE_WAIT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_VQX_DONE_WAIT(unsigned long a, unsigned long b)
@@ -4043,7 +4116,7 @@ static inline uint64_t BDK_CPTX_VQX_DONE_WAIT(unsigned long a, unsigned long b)
  * CPT Queue Doorbell Registers
  * Doorbells for the CPT instruction queues.
  */
-typedef union
+union bdk_cptx_vqx_doorbell
 {
     uint64_t u;
     struct bdk_cptx_vqx_doorbell_s
@@ -4079,7 +4152,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cptx_vqx_doorbell_s cn; */
-} bdk_cptx_vqx_doorbell_t;
+};
+typedef union bdk_cptx_vqx_doorbell bdk_cptx_vqx_doorbell_t;
 
 static inline uint64_t BDK_CPTX_VQX_DOORBELL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_VQX_DOORBELL(unsigned long a, unsigned long b)
@@ -4104,7 +4178,7 @@ static inline uint64_t BDK_CPTX_VQX_DOORBELL(unsigned long a, unsigned long b)
  * CPT Queue In Progress Count Registers
  * These registers contain the per-queue instruction in flight registers.
  */
-typedef union
+union bdk_cptx_vqx_inprog
 {
     uint64_t u;
     struct bdk_cptx_vqx_inprog_s
@@ -4132,7 +4206,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cptx_vqx_inprog_s cn; */
-} bdk_cptx_vqx_inprog_t;
+};
+typedef union bdk_cptx_vqx_inprog bdk_cptx_vqx_inprog_t;
 
 static inline uint64_t BDK_CPTX_VQX_INPROG(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_VQX_INPROG(unsigned long a, unsigned long b)
@@ -4157,7 +4232,7 @@ static inline uint64_t BDK_CPTX_VQX_INPROG(unsigned long a, unsigned long b)
  * CPT Queue Misc Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_cptx_vqx_misc_ena_w1c
 {
     uint64_t u;
     struct bdk_cptx_vqx_misc_ena_w1c_s
@@ -4201,7 +4276,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_cptx_vqx_misc_ena_w1c_s cn83xx; */
-} bdk_cptx_vqx_misc_ena_w1c_t;
+};
+typedef union bdk_cptx_vqx_misc_ena_w1c bdk_cptx_vqx_misc_ena_w1c_t;
 
 static inline uint64_t BDK_CPTX_VQX_MISC_ENA_W1C(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_VQX_MISC_ENA_W1C(unsigned long a, unsigned long b)
@@ -4226,7 +4302,7 @@ static inline uint64_t BDK_CPTX_VQX_MISC_ENA_W1C(unsigned long a, unsigned long 
  * CPT Queue Misc Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_cptx_vqx_misc_ena_w1s
 {
     uint64_t u;
     struct bdk_cptx_vqx_misc_ena_w1s_s
@@ -4270,7 +4346,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_cptx_vqx_misc_ena_w1s_s cn83xx; */
-} bdk_cptx_vqx_misc_ena_w1s_t;
+};
+typedef union bdk_cptx_vqx_misc_ena_w1s bdk_cptx_vqx_misc_ena_w1s_t;
 
 static inline uint64_t BDK_CPTX_VQX_MISC_ENA_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_VQX_MISC_ENA_W1S(unsigned long a, unsigned long b)
@@ -4295,7 +4372,7 @@ static inline uint64_t BDK_CPTX_VQX_MISC_ENA_W1S(unsigned long a, unsigned long 
  * CPT Queue Misc Interrupt Register
  * These registers contain the per-queue miscellaneous interrupts.
  */
-typedef union
+union bdk_cptx_vqx_misc_int
 {
     uint64_t u;
     struct bdk_cptx_vqx_misc_int_s
@@ -4343,7 +4420,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_cptx_vqx_misc_int_s cn83xx; */
-} bdk_cptx_vqx_misc_int_t;
+};
+typedef union bdk_cptx_vqx_misc_int bdk_cptx_vqx_misc_int_t;
 
 static inline uint64_t BDK_CPTX_VQX_MISC_INT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_VQX_MISC_INT(unsigned long a, unsigned long b)
@@ -4368,7 +4446,7 @@ static inline uint64_t BDK_CPTX_VQX_MISC_INT(unsigned long a, unsigned long b)
  * CPT Queue Misc Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_cptx_vqx_misc_int_w1s
 {
     uint64_t u;
     struct bdk_cptx_vqx_misc_int_w1s_s
@@ -4412,7 +4490,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_cptx_vqx_misc_int_w1s_s cn83xx; */
-} bdk_cptx_vqx_misc_int_w1s_t;
+};
+typedef union bdk_cptx_vqx_misc_int_w1s bdk_cptx_vqx_misc_int_w1s_t;
 
 static inline uint64_t BDK_CPTX_VQX_MISC_INT_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_VQX_MISC_INT_W1S(unsigned long a, unsigned long b)
@@ -4437,7 +4516,7 @@ static inline uint64_t BDK_CPTX_VQX_MISC_INT_W1S(unsigned long a, unsigned long 
  * CPT Queue Starting Buffer Address Registers
  * These registers set the instruction buffer starting address.
  */
-typedef union
+union bdk_cptx_vqx_saddr
 {
     uint64_t u;
     struct bdk_cptx_vqx_saddr_s
@@ -4461,7 +4540,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cptx_vqx_saddr_s cn; */
-} bdk_cptx_vqx_saddr_t;
+};
+typedef union bdk_cptx_vqx_saddr bdk_cptx_vqx_saddr_t;
 
 static inline uint64_t BDK_CPTX_VQX_SADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_VQX_SADDR(unsigned long a, unsigned long b)

@@ -106,7 +106,7 @@
  *   ---------------------------------------------------------------------------
  * </pre>
  */
-typedef union
+union bdk_rgxx_cmrx_config
 {
     uint64_t u;
     struct bdk_rgxx_cmrx_config_s
@@ -224,7 +224,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_cmrx_config_s cn; */
-} bdk_rgxx_cmrx_config_t;
+};
+typedef union bdk_rgxx_cmrx_config bdk_rgxx_cmrx_config_t;
 
 static inline uint64_t BDK_RGXX_CMRX_CONFIG(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_CMRX_CONFIG(unsigned long a, unsigned long b)
@@ -246,7 +247,7 @@ static inline uint64_t BDK_RGXX_CMRX_CONFIG(unsigned long a, unsigned long b)
  *
  * RGX CMR Interrupt Register
  */
-typedef union
+union bdk_rgxx_cmrx_int
 {
     uint64_t u;
     struct bdk_rgxx_cmrx_int_s
@@ -266,7 +267,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_cmrx_int_s cn; */
-} bdk_rgxx_cmrx_int_t;
+};
+typedef union bdk_rgxx_cmrx_int bdk_rgxx_cmrx_int_t;
 
 static inline uint64_t BDK_RGXX_CMRX_INT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_CMRX_INT(unsigned long a, unsigned long b)
@@ -289,7 +291,7 @@ static inline uint64_t BDK_RGXX_CMRX_INT(unsigned long a, unsigned long b)
  * RGX CMR Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_rgxx_cmrx_int_ena_w1c
 {
     uint64_t u;
     struct bdk_rgxx_cmrx_int_ena_w1c_s
@@ -309,7 +311,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_cmrx_int_ena_w1c_s cn; */
-} bdk_rgxx_cmrx_int_ena_w1c_t;
+};
+typedef union bdk_rgxx_cmrx_int_ena_w1c bdk_rgxx_cmrx_int_ena_w1c_t;
 
 static inline uint64_t BDK_RGXX_CMRX_INT_ENA_W1C(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_CMRX_INT_ENA_W1C(unsigned long a, unsigned long b)
@@ -332,7 +335,7 @@ static inline uint64_t BDK_RGXX_CMRX_INT_ENA_W1C(unsigned long a, unsigned long 
  * RGX CMR Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_rgxx_cmrx_int_ena_w1s
 {
     uint64_t u;
     struct bdk_rgxx_cmrx_int_ena_w1s_s
@@ -352,7 +355,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_cmrx_int_ena_w1s_s cn; */
-} bdk_rgxx_cmrx_int_ena_w1s_t;
+};
+typedef union bdk_rgxx_cmrx_int_ena_w1s bdk_rgxx_cmrx_int_ena_w1s_t;
 
 static inline uint64_t BDK_RGXX_CMRX_INT_ENA_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_CMRX_INT_ENA_W1S(unsigned long a, unsigned long b)
@@ -375,7 +379,7 @@ static inline uint64_t BDK_RGXX_CMRX_INT_ENA_W1S(unsigned long a, unsigned long 
  * RGX CMR Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_rgxx_cmrx_int_w1s
 {
     uint64_t u;
     struct bdk_rgxx_cmrx_int_w1s_s
@@ -395,7 +399,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_cmrx_int_w1s_s cn; */
-} bdk_rgxx_cmrx_int_w1s_t;
+};
+typedef union bdk_rgxx_cmrx_int_w1s bdk_rgxx_cmrx_int_w1s_t;
 
 static inline uint64_t BDK_RGXX_CMRX_INT_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_CMRX_INT_W1S(unsigned long a, unsigned long b)
@@ -418,7 +423,7 @@ static inline uint64_t BDK_RGXX_CMRX_INT_W1S(unsigned long a, unsigned long b)
  * RGX CMR LMAC CBFC Control Registers
  * See XOFF definition listed under RGX()_SMU()_CBFC_CTL.
  */
-typedef union
+union bdk_rgxx_cmrx_prt_cbfc_ctl
 {
     uint64_t u;
     struct bdk_rgxx_cmrx_prt_cbfc_ctl_s
@@ -440,7 +445,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_cmrx_prt_cbfc_ctl_s cn; */
-} bdk_rgxx_cmrx_prt_cbfc_ctl_t;
+};
+typedef union bdk_rgxx_cmrx_prt_cbfc_ctl bdk_rgxx_cmrx_prt_cbfc_ctl_t;
 
 static inline uint64_t BDK_RGXX_CMRX_PRT_CBFC_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_CMRX_PRT_CBFC_CTL(unsigned long a, unsigned long b)
@@ -462,7 +468,7 @@ static inline uint64_t BDK_RGXX_CMRX_PRT_CBFC_CTL(unsigned long a, unsigned long
  *
  * RGX Receive Backpressure Drop Register
  */
-typedef union
+union bdk_rgxx_cmrx_rx_bp_drop
 {
     uint64_t u;
     struct bdk_rgxx_cmrx_rx_bp_drop_s
@@ -484,7 +490,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_cmrx_rx_bp_drop_s cn; */
-} bdk_rgxx_cmrx_rx_bp_drop_t;
+};
+typedef union bdk_rgxx_cmrx_rx_bp_drop bdk_rgxx_cmrx_rx_bp_drop_t;
 
 static inline uint64_t BDK_RGXX_CMRX_RX_BP_DROP(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_CMRX_RX_BP_DROP(unsigned long a, unsigned long b)
@@ -506,7 +513,7 @@ static inline uint64_t BDK_RGXX_CMRX_RX_BP_DROP(unsigned long a, unsigned long b
  *
  * RGX Receive Backpressure Off Register
  */
-typedef union
+union bdk_rgxx_cmrx_rx_bp_off
 {
     uint64_t u;
     struct bdk_rgxx_cmrx_rx_bp_off_s
@@ -522,7 +529,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_cmrx_rx_bp_off_s cn; */
-} bdk_rgxx_cmrx_rx_bp_off_t;
+};
+typedef union bdk_rgxx_cmrx_rx_bp_off bdk_rgxx_cmrx_rx_bp_off_t;
 
 static inline uint64_t BDK_RGXX_CMRX_RX_BP_OFF(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_CMRX_RX_BP_OFF(unsigned long a, unsigned long b)
@@ -544,7 +552,7 @@ static inline uint64_t BDK_RGXX_CMRX_RX_BP_OFF(unsigned long a, unsigned long b)
  *
  * RGX Receive Backpressure On Register
  */
-typedef union
+union bdk_rgxx_cmrx_rx_bp_on
 {
     uint64_t u;
     struct bdk_rgxx_cmrx_rx_bp_on_s
@@ -580,7 +588,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_cmrx_rx_bp_on_s cn; */
-} bdk_rgxx_cmrx_rx_bp_on_t;
+};
+typedef union bdk_rgxx_cmrx_rx_bp_on bdk_rgxx_cmrx_rx_bp_on_t;
 
 static inline uint64_t BDK_RGXX_CMRX_RX_BP_ON(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_CMRX_RX_BP_ON(unsigned long a, unsigned long b)
@@ -602,7 +611,7 @@ static inline uint64_t BDK_RGXX_CMRX_RX_BP_ON(unsigned long a, unsigned long b)
  *
  * RGX CMR Receive Backpressure Status Registers
  */
-typedef union
+union bdk_rgxx_cmrx_rx_bp_status
 {
     uint64_t u;
     struct bdk_rgxx_cmrx_rx_bp_status_s
@@ -620,7 +629,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_cmrx_rx_bp_status_s cn; */
-} bdk_rgxx_cmrx_rx_bp_status_t;
+};
+typedef union bdk_rgxx_cmrx_rx_bp_status bdk_rgxx_cmrx_rx_bp_status_t;
 
 static inline uint64_t BDK_RGXX_CMRX_RX_BP_STATUS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_CMRX_RX_BP_STATUS(unsigned long a, unsigned long b)
@@ -668,7 +678,7 @@ static inline uint64_t BDK_RGXX_CMRX_RX_BP_STATUS(unsigned long a, unsigned long
  *   }
  * }"
  */
-typedef union
+union bdk_rgxx_cmrx_rx_dmac_ctl
 {
     uint64_t u;
     struct bdk_rgxx_cmrx_rx_dmac_ctl_s
@@ -702,7 +712,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_cmrx_rx_dmac_ctl_s cn; */
-} bdk_rgxx_cmrx_rx_dmac_ctl_t;
+};
+typedef union bdk_rgxx_cmrx_rx_dmac_ctl bdk_rgxx_cmrx_rx_dmac_ctl_t;
 
 static inline uint64_t BDK_RGXX_CMRX_RX_DMAC_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_CMRX_RX_DMAC_CTL(unsigned long a, unsigned long b)
@@ -724,7 +735,7 @@ static inline uint64_t BDK_RGXX_CMRX_RX_DMAC_CTL(unsigned long a, unsigned long 
  *
  * RGX CMR Receive FIFO Length Registers
  */
-typedef union
+union bdk_rgxx_cmrx_rx_fifo_len
 {
     uint64_t u;
     struct bdk_rgxx_cmrx_rx_fifo_len_s
@@ -744,7 +755,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_cmrx_rx_fifo_len_s cn; */
-} bdk_rgxx_cmrx_rx_fifo_len_t;
+};
+typedef union bdk_rgxx_cmrx_rx_fifo_len bdk_rgxx_cmrx_rx_fifo_len_t;
 
 static inline uint64_t BDK_RGXX_CMRX_RX_FIFO_LEN(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_CMRX_RX_FIFO_LEN(unsigned long a, unsigned long b)
@@ -767,7 +779,7 @@ static inline uint64_t BDK_RGXX_CMRX_RX_FIFO_LEN(unsigned long a, unsigned long 
  * RGX CMR Receive ID Map Register
  * These registers set the RX LMAC ID mapping for X2P/NIC.
  */
-typedef union
+union bdk_rgxx_cmrx_rx_id_map
 {
     uint64_t u;
     struct bdk_rgxx_cmrx_rx_id_map_s
@@ -809,7 +821,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_cmrx_rx_id_map_s cn; */
-} bdk_rgxx_cmrx_rx_id_map_t;
+};
+typedef union bdk_rgxx_cmrx_rx_id_map bdk_rgxx_cmrx_rx_id_map_t;
 
 static inline uint64_t BDK_RGXX_CMRX_RX_ID_MAP(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_CMRX_RX_ID_MAP(unsigned long a, unsigned long b)
@@ -831,7 +844,7 @@ static inline uint64_t BDK_RGXX_CMRX_RX_ID_MAP(unsigned long a, unsigned long b)
  *
  * RGX CMR Receive Logical XOFF Registers
  */
-typedef union
+union bdk_rgxx_cmrx_rx_logl_xoff
 {
     uint64_t u;
     struct bdk_rgxx_cmrx_rx_logl_xoff_s
@@ -851,7 +864,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_cmrx_rx_logl_xoff_s cn; */
-} bdk_rgxx_cmrx_rx_logl_xoff_t;
+};
+typedef union bdk_rgxx_cmrx_rx_logl_xoff bdk_rgxx_cmrx_rx_logl_xoff_t;
 
 static inline uint64_t BDK_RGXX_CMRX_RX_LOGL_XOFF(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_CMRX_RX_LOGL_XOFF(unsigned long a, unsigned long b)
@@ -873,7 +887,7 @@ static inline uint64_t BDK_RGXX_CMRX_RX_LOGL_XOFF(unsigned long a, unsigned long
  *
  * RGX CMR Receive Logical XON Registers
  */
-typedef union
+union bdk_rgxx_cmrx_rx_logl_xon
 {
     uint64_t u;
     struct bdk_rgxx_cmrx_rx_logl_xon_s
@@ -893,7 +907,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_cmrx_rx_logl_xon_s cn; */
-} bdk_rgxx_cmrx_rx_logl_xon_t;
+};
+typedef union bdk_rgxx_cmrx_rx_logl_xon bdk_rgxx_cmrx_rx_logl_xon_t;
 
 static inline uint64_t BDK_RGXX_CMRX_RX_LOGL_XON(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_CMRX_RX_LOGL_XON(unsigned long a, unsigned long b)
@@ -915,7 +930,7 @@ static inline uint64_t BDK_RGXX_CMRX_RX_LOGL_XON(unsigned long a, unsigned long 
  *
  * RGX CMR Receive Pause Drop-Time Register
  */
-typedef union
+union bdk_rgxx_cmrx_rx_pause_drop_time
 {
     uint64_t u;
     struct bdk_rgxx_cmrx_rx_pause_drop_time_s
@@ -929,7 +944,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_cmrx_rx_pause_drop_time_s cn; */
-} bdk_rgxx_cmrx_rx_pause_drop_time_t;
+};
+typedef union bdk_rgxx_cmrx_rx_pause_drop_time bdk_rgxx_cmrx_rx_pause_drop_time_t;
 
 static inline uint64_t BDK_RGXX_CMRX_RX_PAUSE_DROP_TIME(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_CMRX_RX_PAUSE_DROP_TIME(unsigned long a, unsigned long b)
@@ -956,7 +972,7 @@ static inline uint64_t BDK_RGXX_CMRX_RX_PAUSE_DROP_TIME(unsigned long a, unsigne
  * * are not dropped due FIFO full status.
  * * do not have any other OPCODE (FCS, Length, etc).
  */
-typedef union
+union bdk_rgxx_cmrx_rx_stat0
 {
     uint64_t u;
     struct bdk_rgxx_cmrx_rx_stat0_s
@@ -972,7 +988,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_cmrx_rx_stat0_s cn; */
-} bdk_rgxx_cmrx_rx_stat0_t;
+};
+typedef union bdk_rgxx_cmrx_rx_stat0 bdk_rgxx_cmrx_rx_stat0_t;
 
 static inline uint64_t BDK_RGXX_CMRX_RX_STAT0(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_CMRX_RX_STAT0(unsigned long a, unsigned long b)
@@ -995,7 +1012,7 @@ static inline uint64_t BDK_RGXX_CMRX_RX_STAT0(unsigned long a, unsigned long b)
  * RGX Receive Status Register 1
  * These registers provide a count of octets of received packets.
  */
-typedef union
+union bdk_rgxx_cmrx_rx_stat1
 {
     uint64_t u;
     struct bdk_rgxx_cmrx_rx_stat1_s
@@ -1011,7 +1028,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_cmrx_rx_stat1_s cn; */
-} bdk_rgxx_cmrx_rx_stat1_t;
+};
+typedef union bdk_rgxx_cmrx_rx_stat1 bdk_rgxx_cmrx_rx_stat1_t;
 
 static inline uint64_t BDK_RGXX_CMRX_RX_STAT1(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_CMRX_RX_STAT1(unsigned long a, unsigned long b)
@@ -1039,7 +1057,7 @@ static inline uint64_t BDK_RGXX_CMRX_RX_STAT1(unsigned long a, unsigned long b)
  * regardless of whether the packet is dropped. PAUSE packets are never counted in
  * RGX()_CMR()_RX_STAT0.
  */
-typedef union
+union bdk_rgxx_cmrx_rx_stat2
 {
     uint64_t u;
     struct bdk_rgxx_cmrx_rx_stat2_s
@@ -1055,7 +1073,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_cmrx_rx_stat2_s cn; */
-} bdk_rgxx_cmrx_rx_stat2_t;
+};
+typedef union bdk_rgxx_cmrx_rx_stat2 bdk_rgxx_cmrx_rx_stat2_t;
 
 static inline uint64_t BDK_RGXX_CMRX_RX_STAT2(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_CMRX_RX_STAT2(unsigned long a, unsigned long b)
@@ -1078,7 +1097,7 @@ static inline uint64_t BDK_RGXX_CMRX_RX_STAT2(unsigned long a, unsigned long b)
  * RGX Receive Status Register 3
  * These registers provide a count of octets of received PAUSE and control packets.
  */
-typedef union
+union bdk_rgxx_cmrx_rx_stat3
 {
     uint64_t u;
     struct bdk_rgxx_cmrx_rx_stat3_s
@@ -1094,7 +1113,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_cmrx_rx_stat3_s cn; */
-} bdk_rgxx_cmrx_rx_stat3_t;
+};
+typedef union bdk_rgxx_cmrx_rx_stat3 bdk_rgxx_cmrx_rx_stat3_t;
 
 static inline uint64_t BDK_RGXX_CMRX_RX_STAT3(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_CMRX_RX_STAT3(unsigned long a, unsigned long b)
@@ -1121,7 +1141,7 @@ static inline uint64_t BDK_RGXX_CMRX_RX_STAT3(unsigned long a, unsigned long b)
  * are never counted in RGX()_CMR()_RX_STAT0. Eight-byte packets as the result of
  * truncation or other means are not dropped by CNXXXX and will never appear in this count.
  */
-typedef union
+union bdk_rgxx_cmrx_rx_stat4
 {
     uint64_t u;
     struct bdk_rgxx_cmrx_rx_stat4_s
@@ -1137,7 +1157,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_cmrx_rx_stat4_s cn; */
-} bdk_rgxx_cmrx_rx_stat4_t;
+};
+typedef union bdk_rgxx_cmrx_rx_stat4 bdk_rgxx_cmrx_rx_stat4_t;
 
 static inline uint64_t BDK_RGXX_CMRX_RX_STAT4(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_CMRX_RX_STAT4(unsigned long a, unsigned long b)
@@ -1160,7 +1181,7 @@ static inline uint64_t BDK_RGXX_CMRX_RX_STAT4(unsigned long a, unsigned long b)
  * RGX Receive Status Register 5
  * These registers provide a count of octets of filtered DMAC packets.
  */
-typedef union
+union bdk_rgxx_cmrx_rx_stat5
 {
     uint64_t u;
     struct bdk_rgxx_cmrx_rx_stat5_s
@@ -1176,7 +1197,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_cmrx_rx_stat5_s cn; */
-} bdk_rgxx_cmrx_rx_stat5_t;
+};
+typedef union bdk_rgxx_cmrx_rx_stat5 bdk_rgxx_cmrx_rx_stat5_t;
 
 static inline uint64_t BDK_RGXX_CMRX_RX_STAT5(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_CMRX_RX_STAT5(unsigned long a, unsigned long b)
@@ -1202,7 +1224,7 @@ static inline uint64_t BDK_RGXX_CMRX_RX_STAT5(unsigned long a, unsigned long b)
  * on to the NIC. These registers count all entire packets dropped by the FIFO for a given LMAC
  * regardless of DMAC or PAUSE type.
  */
-typedef union
+union bdk_rgxx_cmrx_rx_stat6
 {
     uint64_t u;
     struct bdk_rgxx_cmrx_rx_stat6_s
@@ -1218,7 +1240,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_cmrx_rx_stat6_s cn; */
-} bdk_rgxx_cmrx_rx_stat6_t;
+};
+typedef union bdk_rgxx_cmrx_rx_stat6 bdk_rgxx_cmrx_rx_stat6_t;
 
 static inline uint64_t BDK_RGXX_CMRX_RX_STAT6(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_CMRX_RX_STAT6(unsigned long a, unsigned long b)
@@ -1242,7 +1265,7 @@ static inline uint64_t BDK_RGXX_CMRX_RX_STAT6(unsigned long a, unsigned long b)
  * These registers provide a count of octets of received packets that were dropped due to a full
  * receive FIFO.
  */
-typedef union
+union bdk_rgxx_cmrx_rx_stat7
 {
     uint64_t u;
     struct bdk_rgxx_cmrx_rx_stat7_s
@@ -1258,7 +1281,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_cmrx_rx_stat7_s cn; */
-} bdk_rgxx_cmrx_rx_stat7_t;
+};
+typedef union bdk_rgxx_cmrx_rx_stat7 bdk_rgxx_cmrx_rx_stat7_t;
 
 static inline uint64_t BDK_RGXX_CMRX_RX_STAT7(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_CMRX_RX_STAT7(unsigned long a, unsigned long b)
@@ -1299,7 +1323,7 @@ static inline uint64_t BDK_RGXX_CMRX_RX_STAT7(unsigned long a, unsigned long b)
  * }
  * </pre>
  */
-typedef union
+union bdk_rgxx_cmrx_rx_stat8
 {
     uint64_t u;
     struct bdk_rgxx_cmrx_rx_stat8_s
@@ -1315,7 +1339,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_cmrx_rx_stat8_s cn; */
-} bdk_rgxx_cmrx_rx_stat8_t;
+};
+typedef union bdk_rgxx_cmrx_rx_stat8 bdk_rgxx_cmrx_rx_stat8_t;
 
 static inline uint64_t BDK_RGXX_CMRX_RX_STAT8(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_CMRX_RX_STAT8(unsigned long a, unsigned long b)
@@ -1337,7 +1362,7 @@ static inline uint64_t BDK_RGXX_CMRX_RX_STAT8(unsigned long a, unsigned long b)
  *
  * RGX CMR Receive-Weight Register
  */
-typedef union
+union bdk_rgxx_cmrx_rx_weight
 {
     uint64_t u;
     struct bdk_rgxx_cmrx_rx_weight_s
@@ -1355,7 +1380,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_cmrx_rx_weight_s cn; */
-} bdk_rgxx_cmrx_rx_weight_t;
+};
+typedef union bdk_rgxx_cmrx_rx_weight bdk_rgxx_cmrx_rx_weight_t;
 
 static inline uint64_t BDK_RGXX_CMRX_RX_WEIGHT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_CMRX_RX_WEIGHT(unsigned long a, unsigned long b)
@@ -1377,7 +1403,7 @@ static inline uint64_t BDK_RGXX_CMRX_RX_WEIGHT(unsigned long a, unsigned long b)
  *
  * RGX CMR Transmit-Channels Registers
  */
-typedef union
+union bdk_rgxx_cmrx_tx_channel
 {
     uint64_t u;
     struct bdk_rgxx_cmrx_tx_channel_s
@@ -1403,7 +1429,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_cmrx_tx_channel_s cn; */
-} bdk_rgxx_cmrx_tx_channel_t;
+};
+typedef union bdk_rgxx_cmrx_tx_channel bdk_rgxx_cmrx_tx_channel_t;
 
 static inline uint64_t BDK_RGXX_CMRX_TX_CHANNEL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_CMRX_TX_CHANNEL(unsigned long a, unsigned long b)
@@ -1425,7 +1452,7 @@ static inline uint64_t BDK_RGXX_CMRX_TX_CHANNEL(unsigned long a, unsigned long b
  *
  * RGX CMR Transmit FIFO Length Registers
  */
-typedef union
+union bdk_rgxx_cmrx_tx_fifo_len
 {
     uint64_t u;
     struct bdk_rgxx_cmrx_tx_fifo_len_s
@@ -1447,7 +1474,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_cmrx_tx_fifo_len_s cn; */
-} bdk_rgxx_cmrx_tx_fifo_len_t;
+};
+typedef union bdk_rgxx_cmrx_tx_fifo_len bdk_rgxx_cmrx_tx_fifo_len_t;
 
 static inline uint64_t BDK_RGXX_CMRX_TX_FIFO_LEN(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_CMRX_TX_FIFO_LEN(unsigned long a, unsigned long b)
@@ -1469,7 +1497,7 @@ static inline uint64_t BDK_RGXX_CMRX_TX_FIFO_LEN(unsigned long a, unsigned long 
  *
  * RGX CMR Transmit HiGig2 Status Registers
  */
-typedef union
+union bdk_rgxx_cmrx_tx_hg2_status
 {
     uint64_t u;
     struct bdk_rgxx_cmrx_tx_hg2_status_s
@@ -1491,7 +1519,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_cmrx_tx_hg2_status_s cn; */
-} bdk_rgxx_cmrx_tx_hg2_status_t;
+};
+typedef union bdk_rgxx_cmrx_tx_hg2_status bdk_rgxx_cmrx_tx_hg2_status_t;
 
 static inline uint64_t BDK_RGXX_CMRX_TX_HG2_STATUS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_CMRX_TX_HG2_STATUS(unsigned long a, unsigned long b)
@@ -1513,7 +1542,7 @@ static inline uint64_t BDK_RGXX_CMRX_TX_HG2_STATUS(unsigned long a, unsigned lon
  *
  * RGX CMR Transmit-Channels Backpressure Override Registers
  */
-typedef union
+union bdk_rgxx_cmrx_tx_ovr_bp
 {
     uint64_t u;
     struct bdk_rgxx_cmrx_tx_ovr_bp_s
@@ -1533,7 +1562,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_cmrx_tx_ovr_bp_s cn; */
-} bdk_rgxx_cmrx_tx_ovr_bp_t;
+};
+typedef union bdk_rgxx_cmrx_tx_ovr_bp bdk_rgxx_cmrx_tx_ovr_bp_t;
 
 static inline uint64_t BDK_RGXX_CMRX_TX_OVR_BP(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_CMRX_TX_OVR_BP(unsigned long a, unsigned long b)
@@ -1555,7 +1585,7 @@ static inline uint64_t BDK_RGXX_CMRX_TX_OVR_BP(unsigned long a, unsigned long b)
  *
  * RGX CMR Transmit Statistics Registers 0
  */
-typedef union
+union bdk_rgxx_cmrx_tx_stat0
 {
     uint64_t u;
     struct bdk_rgxx_cmrx_tx_stat0_s
@@ -1579,7 +1609,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_cmrx_tx_stat0_s cn; */
-} bdk_rgxx_cmrx_tx_stat0_t;
+};
+typedef union bdk_rgxx_cmrx_tx_stat0 bdk_rgxx_cmrx_tx_stat0_t;
 
 static inline uint64_t BDK_RGXX_CMRX_TX_STAT0(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_CMRX_TX_STAT0(unsigned long a, unsigned long b)
@@ -1601,7 +1632,7 @@ static inline uint64_t BDK_RGXX_CMRX_TX_STAT0(unsigned long a, unsigned long b)
  *
  * RGX CMR Transmit Statistics Registers 1
  */
-typedef union
+union bdk_rgxx_cmrx_tx_stat1
 {
     uint64_t u;
     struct bdk_rgxx_cmrx_tx_stat1_s
@@ -1625,7 +1656,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_cmrx_tx_stat1_s cn; */
-} bdk_rgxx_cmrx_tx_stat1_t;
+};
+typedef union bdk_rgxx_cmrx_tx_stat1 bdk_rgxx_cmrx_tx_stat1_t;
 
 static inline uint64_t BDK_RGXX_CMRX_TX_STAT1(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_CMRX_TX_STAT1(unsigned long a, unsigned long b)
@@ -1647,7 +1679,7 @@ static inline uint64_t BDK_RGXX_CMRX_TX_STAT1(unsigned long a, unsigned long b)
  *
  * RGX CMR Transmit Statistics Registers 10
  */
-typedef union
+union bdk_rgxx_cmrx_tx_stat10
 {
     uint64_t u;
     struct bdk_rgxx_cmrx_tx_stat10_s
@@ -1671,7 +1703,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_cmrx_tx_stat10_s cn; */
-} bdk_rgxx_cmrx_tx_stat10_t;
+};
+typedef union bdk_rgxx_cmrx_tx_stat10 bdk_rgxx_cmrx_tx_stat10_t;
 
 static inline uint64_t BDK_RGXX_CMRX_TX_STAT10(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_CMRX_TX_STAT10(unsigned long a, unsigned long b)
@@ -1693,7 +1726,7 @@ static inline uint64_t BDK_RGXX_CMRX_TX_STAT10(unsigned long a, unsigned long b)
  *
  * RGX CMR Transmit Statistics Registers 11
  */
-typedef union
+union bdk_rgxx_cmrx_tx_stat11
 {
     uint64_t u;
     struct bdk_rgxx_cmrx_tx_stat11_s
@@ -1717,7 +1750,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_cmrx_tx_stat11_s cn; */
-} bdk_rgxx_cmrx_tx_stat11_t;
+};
+typedef union bdk_rgxx_cmrx_tx_stat11 bdk_rgxx_cmrx_tx_stat11_t;
 
 static inline uint64_t BDK_RGXX_CMRX_TX_STAT11(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_CMRX_TX_STAT11(unsigned long a, unsigned long b)
@@ -1739,7 +1773,7 @@ static inline uint64_t BDK_RGXX_CMRX_TX_STAT11(unsigned long a, unsigned long b)
  *
  * RGX CMR Transmit Statistics Registers 12
  */
-typedef union
+union bdk_rgxx_cmrx_tx_stat12
 {
     uint64_t u;
     struct bdk_rgxx_cmrx_tx_stat12_s
@@ -1763,7 +1797,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_cmrx_tx_stat12_s cn; */
-} bdk_rgxx_cmrx_tx_stat12_t;
+};
+typedef union bdk_rgxx_cmrx_tx_stat12 bdk_rgxx_cmrx_tx_stat12_t;
 
 static inline uint64_t BDK_RGXX_CMRX_TX_STAT12(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_CMRX_TX_STAT12(unsigned long a, unsigned long b)
@@ -1785,7 +1820,7 @@ static inline uint64_t BDK_RGXX_CMRX_TX_STAT12(unsigned long a, unsigned long b)
  *
  * RGX CMR Transmit Statistics Registers 13
  */
-typedef union
+union bdk_rgxx_cmrx_tx_stat13
 {
     uint64_t u;
     struct bdk_rgxx_cmrx_tx_stat13_s
@@ -1809,7 +1844,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_cmrx_tx_stat13_s cn; */
-} bdk_rgxx_cmrx_tx_stat13_t;
+};
+typedef union bdk_rgxx_cmrx_tx_stat13 bdk_rgxx_cmrx_tx_stat13_t;
 
 static inline uint64_t BDK_RGXX_CMRX_TX_STAT13(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_CMRX_TX_STAT13(unsigned long a, unsigned long b)
@@ -1831,7 +1867,7 @@ static inline uint64_t BDK_RGXX_CMRX_TX_STAT13(unsigned long a, unsigned long b)
  *
  * RGX CMR Transmit Statistics Registers 14
  */
-typedef union
+union bdk_rgxx_cmrx_tx_stat14
 {
     uint64_t u;
     struct bdk_rgxx_cmrx_tx_stat14_s
@@ -1863,7 +1899,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_cmrx_tx_stat14_s cn; */
-} bdk_rgxx_cmrx_tx_stat14_t;
+};
+typedef union bdk_rgxx_cmrx_tx_stat14 bdk_rgxx_cmrx_tx_stat14_t;
 
 static inline uint64_t BDK_RGXX_CMRX_TX_STAT14(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_CMRX_TX_STAT14(unsigned long a, unsigned long b)
@@ -1885,7 +1922,7 @@ static inline uint64_t BDK_RGXX_CMRX_TX_STAT14(unsigned long a, unsigned long b)
  *
  * RGX CMR Transmit Statistics Registers 15
  */
-typedef union
+union bdk_rgxx_cmrx_tx_stat15
 {
     uint64_t u;
     struct bdk_rgxx_cmrx_tx_stat15_s
@@ -1917,7 +1954,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_cmrx_tx_stat15_s cn; */
-} bdk_rgxx_cmrx_tx_stat15_t;
+};
+typedef union bdk_rgxx_cmrx_tx_stat15 bdk_rgxx_cmrx_tx_stat15_t;
 
 static inline uint64_t BDK_RGXX_CMRX_TX_STAT15(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_CMRX_TX_STAT15(unsigned long a, unsigned long b)
@@ -1939,7 +1977,7 @@ static inline uint64_t BDK_RGXX_CMRX_TX_STAT15(unsigned long a, unsigned long b)
  *
  * RGX CMR Transmit Statistics Registers 16
  */
-typedef union
+union bdk_rgxx_cmrx_tx_stat16
 {
     uint64_t u;
     struct bdk_rgxx_cmrx_tx_stat16_s
@@ -1959,7 +1997,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_cmrx_tx_stat16_s cn; */
-} bdk_rgxx_cmrx_tx_stat16_t;
+};
+typedef union bdk_rgxx_cmrx_tx_stat16 bdk_rgxx_cmrx_tx_stat16_t;
 
 static inline uint64_t BDK_RGXX_CMRX_TX_STAT16(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_CMRX_TX_STAT16(unsigned long a, unsigned long b)
@@ -1981,7 +2020,7 @@ static inline uint64_t BDK_RGXX_CMRX_TX_STAT16(unsigned long a, unsigned long b)
  *
  * RGX CMR Transmit Statistics Registers 17
  */
-typedef union
+union bdk_rgxx_cmrx_tx_stat17
 {
     uint64_t u;
     struct bdk_rgxx_cmrx_tx_stat17_s
@@ -2005,7 +2044,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_cmrx_tx_stat17_s cn; */
-} bdk_rgxx_cmrx_tx_stat17_t;
+};
+typedef union bdk_rgxx_cmrx_tx_stat17 bdk_rgxx_cmrx_tx_stat17_t;
 
 static inline uint64_t BDK_RGXX_CMRX_TX_STAT17(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_CMRX_TX_STAT17(unsigned long a, unsigned long b)
@@ -2027,7 +2067,7 @@ static inline uint64_t BDK_RGXX_CMRX_TX_STAT17(unsigned long a, unsigned long b)
  *
  * RGX CMR Transmit Statistics Registers 2
  */
-typedef union
+union bdk_rgxx_cmrx_tx_stat2
 {
     uint64_t u;
     struct bdk_rgxx_cmrx_tx_stat2_s
@@ -2051,7 +2091,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_cmrx_tx_stat2_s cn; */
-} bdk_rgxx_cmrx_tx_stat2_t;
+};
+typedef union bdk_rgxx_cmrx_tx_stat2 bdk_rgxx_cmrx_tx_stat2_t;
 
 static inline uint64_t BDK_RGXX_CMRX_TX_STAT2(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_CMRX_TX_STAT2(unsigned long a, unsigned long b)
@@ -2073,7 +2114,7 @@ static inline uint64_t BDK_RGXX_CMRX_TX_STAT2(unsigned long a, unsigned long b)
  *
  * RGX CMR Transmit Statistics Registers 3
  */
-typedef union
+union bdk_rgxx_cmrx_tx_stat3
 {
     uint64_t u;
     struct bdk_rgxx_cmrx_tx_stat3_s
@@ -2095,7 +2136,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_cmrx_tx_stat3_s cn; */
-} bdk_rgxx_cmrx_tx_stat3_t;
+};
+typedef union bdk_rgxx_cmrx_tx_stat3 bdk_rgxx_cmrx_tx_stat3_t;
 
 static inline uint64_t BDK_RGXX_CMRX_TX_STAT3(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_CMRX_TX_STAT3(unsigned long a, unsigned long b)
@@ -2117,7 +2159,7 @@ static inline uint64_t BDK_RGXX_CMRX_TX_STAT3(unsigned long a, unsigned long b)
  *
  * RGX CMR Transmit Statistics Registers 4
  */
-typedef union
+union bdk_rgxx_cmrx_tx_stat4
 {
     uint64_t u;
     struct bdk_rgxx_cmrx_tx_stat4_s
@@ -2147,7 +2189,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_cmrx_tx_stat4_s cn; */
-} bdk_rgxx_cmrx_tx_stat4_t;
+};
+typedef union bdk_rgxx_cmrx_tx_stat4 bdk_rgxx_cmrx_tx_stat4_t;
 
 static inline uint64_t BDK_RGXX_CMRX_TX_STAT4(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_CMRX_TX_STAT4(unsigned long a, unsigned long b)
@@ -2169,7 +2212,7 @@ static inline uint64_t BDK_RGXX_CMRX_TX_STAT4(unsigned long a, unsigned long b)
  *
  * RGX CMR Transmit Statistics Registers 5
  */
-typedef union
+union bdk_rgxx_cmrx_tx_stat5
 {
     uint64_t u;
     struct bdk_rgxx_cmrx_tx_stat5_s
@@ -2193,7 +2236,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_cmrx_tx_stat5_s cn; */
-} bdk_rgxx_cmrx_tx_stat5_t;
+};
+typedef union bdk_rgxx_cmrx_tx_stat5 bdk_rgxx_cmrx_tx_stat5_t;
 
 static inline uint64_t BDK_RGXX_CMRX_TX_STAT5(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_CMRX_TX_STAT5(unsigned long a, unsigned long b)
@@ -2215,7 +2259,7 @@ static inline uint64_t BDK_RGXX_CMRX_TX_STAT5(unsigned long a, unsigned long b)
  *
  * RGX CMR Transmit Statistics Registers 6
  */
-typedef union
+union bdk_rgxx_cmrx_tx_stat6
 {
     uint64_t u;
     struct bdk_rgxx_cmrx_tx_stat6_s
@@ -2241,7 +2285,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_cmrx_tx_stat6_s cn; */
-} bdk_rgxx_cmrx_tx_stat6_t;
+};
+typedef union bdk_rgxx_cmrx_tx_stat6 bdk_rgxx_cmrx_tx_stat6_t;
 
 static inline uint64_t BDK_RGXX_CMRX_TX_STAT6(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_CMRX_TX_STAT6(unsigned long a, unsigned long b)
@@ -2263,7 +2308,7 @@ static inline uint64_t BDK_RGXX_CMRX_TX_STAT6(unsigned long a, unsigned long b)
  *
  * RGX CMR Transmit Statistics Registers 7
  */
-typedef union
+union bdk_rgxx_cmrx_tx_stat7
 {
     uint64_t u;
     struct bdk_rgxx_cmrx_tx_stat7_s
@@ -2289,7 +2334,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_cmrx_tx_stat7_s cn; */
-} bdk_rgxx_cmrx_tx_stat7_t;
+};
+typedef union bdk_rgxx_cmrx_tx_stat7 bdk_rgxx_cmrx_tx_stat7_t;
 
 static inline uint64_t BDK_RGXX_CMRX_TX_STAT7(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_CMRX_TX_STAT7(unsigned long a, unsigned long b)
@@ -2311,7 +2357,7 @@ static inline uint64_t BDK_RGXX_CMRX_TX_STAT7(unsigned long a, unsigned long b)
  *
  * RGX CMR Transmit Statistics Registers 8
  */
-typedef union
+union bdk_rgxx_cmrx_tx_stat8
 {
     uint64_t u;
     struct bdk_rgxx_cmrx_tx_stat8_s
@@ -2335,7 +2381,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_cmrx_tx_stat8_s cn; */
-} bdk_rgxx_cmrx_tx_stat8_t;
+};
+typedef union bdk_rgxx_cmrx_tx_stat8 bdk_rgxx_cmrx_tx_stat8_t;
 
 static inline uint64_t BDK_RGXX_CMRX_TX_STAT8(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_CMRX_TX_STAT8(unsigned long a, unsigned long b)
@@ -2357,7 +2404,7 @@ static inline uint64_t BDK_RGXX_CMRX_TX_STAT8(unsigned long a, unsigned long b)
  *
  * RGX CMR Transmit Statistics Registers 9
  */
-typedef union
+union bdk_rgxx_cmrx_tx_stat9
 {
     uint64_t u;
     struct bdk_rgxx_cmrx_tx_stat9_s
@@ -2381,7 +2428,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_cmrx_tx_stat9_s cn; */
-} bdk_rgxx_cmrx_tx_stat9_t;
+};
+typedef union bdk_rgxx_cmrx_tx_stat9 bdk_rgxx_cmrx_tx_stat9_t;
 
 static inline uint64_t BDK_RGXX_CMRX_TX_STAT9(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_CMRX_TX_STAT9(unsigned long a, unsigned long b)
@@ -2403,7 +2451,7 @@ static inline uint64_t BDK_RGXX_CMRX_TX_STAT9(unsigned long a, unsigned long b)
  *
  * RGX CMR Bad Registers
  */
-typedef union
+union bdk_rgxx_cmr_bad
 {
     uint64_t u;
     struct bdk_rgxx_cmr_bad_s
@@ -2417,7 +2465,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_cmr_bad_s cn; */
-} bdk_rgxx_cmr_bad_t;
+};
+typedef union bdk_rgxx_cmr_bad bdk_rgxx_cmr_bad_t;
 
 static inline uint64_t BDK_RGXX_CMR_BAD(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_CMR_BAD(unsigned long a)
@@ -2439,7 +2488,7 @@ static inline uint64_t BDK_RGXX_CMR_BAD(unsigned long a)
  *
  * RGX Built-in Self-Test Registers
  */
-typedef union
+union bdk_rgxx_cmr_bist_status
 {
     uint64_t u;
     struct bdk_rgxx_cmr_bist_status_s
@@ -2509,7 +2558,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_cmr_bist_status_s cn; */
-} bdk_rgxx_cmr_bist_status_t;
+};
+typedef union bdk_rgxx_cmr_bist_status bdk_rgxx_cmr_bist_status_t;
 
 static inline uint64_t BDK_RGXX_CMR_BIST_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_CMR_BIST_STATUS(unsigned long a)
@@ -2531,7 +2581,7 @@ static inline uint64_t BDK_RGXX_CMR_BIST_STATUS(unsigned long a)
  *
  * RGX CMR Backpressure Channel Mask AND Registers
  */
-typedef union
+union bdk_rgxx_cmr_chan_msk_and
 {
     uint64_t u;
     struct bdk_rgxx_cmr_chan_msk_and_s
@@ -2561,7 +2611,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_cmr_chan_msk_and_s cn; */
-} bdk_rgxx_cmr_chan_msk_and_t;
+};
+typedef union bdk_rgxx_cmr_chan_msk_and bdk_rgxx_cmr_chan_msk_and_t;
 
 static inline uint64_t BDK_RGXX_CMR_CHAN_MSK_AND(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_CMR_CHAN_MSK_AND(unsigned long a)
@@ -2583,7 +2634,7 @@ static inline uint64_t BDK_RGXX_CMR_CHAN_MSK_AND(unsigned long a)
  *
  * RGX Backpressure Channel Mask OR Registers
  */
-typedef union
+union bdk_rgxx_cmr_chan_msk_or
 {
     uint64_t u;
     struct bdk_rgxx_cmr_chan_msk_or_s
@@ -2613,7 +2664,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_cmr_chan_msk_or_s cn; */
-} bdk_rgxx_cmr_chan_msk_or_t;
+};
+typedef union bdk_rgxx_cmr_chan_msk_or bdk_rgxx_cmr_chan_msk_or_t;
 
 static inline uint64_t BDK_RGXX_CMR_CHAN_MSK_OR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_CMR_CHAN_MSK_OR(unsigned long a)
@@ -2635,7 +2687,7 @@ static inline uint64_t BDK_RGXX_CMR_CHAN_MSK_OR(unsigned long a)
  *
  * INTERNAL: RGX ECO Registers
  */
-typedef union
+union bdk_rgxx_cmr_eco
 {
     uint64_t u;
     struct bdk_rgxx_cmr_eco_s
@@ -2653,7 +2705,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_cmr_eco_s cn; */
-} bdk_rgxx_cmr_eco_t;
+};
+typedef union bdk_rgxx_cmr_eco bdk_rgxx_cmr_eco_t;
 
 static inline uint64_t BDK_RGXX_CMR_ECO(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_CMR_ECO(unsigned long a)
@@ -2676,7 +2729,7 @@ static inline uint64_t BDK_RGXX_CMR_ECO(unsigned long a)
  * RGX CMR Global Configuration Register
  * These registers configure the global CMR and MAC.
  */
-typedef union
+union bdk_rgxx_cmr_global_config
 {
     uint64_t u;
     struct bdk_rgxx_cmr_global_config_s
@@ -2734,7 +2787,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_cmr_global_config_s cn; */
-} bdk_rgxx_cmr_global_config_t;
+};
+typedef union bdk_rgxx_cmr_global_config bdk_rgxx_cmr_global_config_t;
 
 static inline uint64_t BDK_RGXX_CMR_GLOBAL_CONFIG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_CMR_GLOBAL_CONFIG(unsigned long a)
@@ -2756,7 +2810,7 @@ static inline uint64_t BDK_RGXX_CMR_GLOBAL_CONFIG(unsigned long a)
  *
  * RGX CMR Memory Control Register
  */
-typedef union
+union bdk_rgxx_cmr_mem_ctrl
 {
     uint64_t u;
     struct bdk_rgxx_cmr_mem_ctrl_s
@@ -2816,7 +2870,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_cmr_mem_ctrl_s cn; */
-} bdk_rgxx_cmr_mem_ctrl_t;
+};
+typedef union bdk_rgxx_cmr_mem_ctrl bdk_rgxx_cmr_mem_ctrl_t;
 
 static inline uint64_t BDK_RGXX_CMR_MEM_CTRL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_CMR_MEM_CTRL(unsigned long a)
@@ -2838,7 +2893,7 @@ static inline uint64_t BDK_RGXX_CMR_MEM_CTRL(unsigned long a)
  *
  * RGX CMR Memory Interrupt Register
  */
-typedef union
+union bdk_rgxx_cmr_mem_int
 {
     uint64_t u;
     struct bdk_rgxx_cmr_mem_int_s
@@ -2922,7 +2977,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_cmr_mem_int_s cn; */
-} bdk_rgxx_cmr_mem_int_t;
+};
+typedef union bdk_rgxx_cmr_mem_int bdk_rgxx_cmr_mem_int_t;
 
 static inline uint64_t BDK_RGXX_CMR_MEM_INT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_CMR_MEM_INT(unsigned long a)
@@ -2945,7 +3001,7 @@ static inline uint64_t BDK_RGXX_CMR_MEM_INT(unsigned long a)
  * RGX CMR Memory Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_rgxx_cmr_mem_int_ena_w1c
 {
     uint64_t u;
     struct bdk_rgxx_cmr_mem_int_ena_w1c_s
@@ -3029,7 +3085,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_cmr_mem_int_ena_w1c_s cn; */
-} bdk_rgxx_cmr_mem_int_ena_w1c_t;
+};
+typedef union bdk_rgxx_cmr_mem_int_ena_w1c bdk_rgxx_cmr_mem_int_ena_w1c_t;
 
 static inline uint64_t BDK_RGXX_CMR_MEM_INT_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_CMR_MEM_INT_ENA_W1C(unsigned long a)
@@ -3052,7 +3109,7 @@ static inline uint64_t BDK_RGXX_CMR_MEM_INT_ENA_W1C(unsigned long a)
  * RGX CMR Memory Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_rgxx_cmr_mem_int_ena_w1s
 {
     uint64_t u;
     struct bdk_rgxx_cmr_mem_int_ena_w1s_s
@@ -3136,7 +3193,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_cmr_mem_int_ena_w1s_s cn; */
-} bdk_rgxx_cmr_mem_int_ena_w1s_t;
+};
+typedef union bdk_rgxx_cmr_mem_int_ena_w1s bdk_rgxx_cmr_mem_int_ena_w1s_t;
 
 static inline uint64_t BDK_RGXX_CMR_MEM_INT_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_CMR_MEM_INT_ENA_W1S(unsigned long a)
@@ -3159,7 +3217,7 @@ static inline uint64_t BDK_RGXX_CMR_MEM_INT_ENA_W1S(unsigned long a)
  * RGX CMR Memory Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_rgxx_cmr_mem_int_w1s
 {
     uint64_t u;
     struct bdk_rgxx_cmr_mem_int_w1s_s
@@ -3243,7 +3301,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_cmr_mem_int_w1s_s cn; */
-} bdk_rgxx_cmr_mem_int_w1s_t;
+};
+typedef union bdk_rgxx_cmr_mem_int_w1s bdk_rgxx_cmr_mem_int_w1s_t;
 
 static inline uint64_t BDK_RGXX_CMR_MEM_INT_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_CMR_MEM_INT_W1S(unsigned long a)
@@ -3265,7 +3324,7 @@ static inline uint64_t BDK_RGXX_CMR_MEM_INT_W1S(unsigned long a)
  *
  * RGX CMR NIC NXC Exception Registers
  */
-typedef union
+union bdk_rgxx_cmr_nic_nxc_adr
 {
     uint64_t u;
     struct bdk_rgxx_cmr_nic_nxc_adr_s
@@ -3281,7 +3340,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_cmr_nic_nxc_adr_s cn; */
-} bdk_rgxx_cmr_nic_nxc_adr_t;
+};
+typedef union bdk_rgxx_cmr_nic_nxc_adr bdk_rgxx_cmr_nic_nxc_adr_t;
 
 static inline uint64_t BDK_RGXX_CMR_NIC_NXC_ADR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_CMR_NIC_NXC_ADR(unsigned long a)
@@ -3303,7 +3363,7 @@ static inline uint64_t BDK_RGXX_CMR_NIC_NXC_ADR(unsigned long a)
  *
  * INTERNAL: RGX CMR PKO NXC Exception Registers
  */
-typedef union
+union bdk_rgxx_cmr_pko_nxc_adr
 {
     uint64_t u;
     struct bdk_rgxx_cmr_pko_nxc_adr_s
@@ -3319,7 +3379,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_cmr_pko_nxc_adr_s cn; */
-} bdk_rgxx_cmr_pko_nxc_adr_t;
+};
+typedef union bdk_rgxx_cmr_pko_nxc_adr bdk_rgxx_cmr_pko_nxc_adr_t;
 
 static inline uint64_t BDK_RGXX_CMR_PKO_NXC_ADR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_CMR_PKO_NXC_ADR(unsigned long a)
@@ -3342,7 +3403,7 @@ static inline uint64_t BDK_RGXX_CMR_PKO_NXC_ADR(unsigned long a)
  * RGX CMR Receive CAM Registers
  * These registers provide access to the 32 DMAC CAM entries in RGX.
  */
-typedef union
+union bdk_rgxx_cmr_rx_dmacx_cam
 {
     uint64_t u;
     struct bdk_rgxx_cmr_rx_dmacx_cam_s
@@ -3368,7 +3429,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_cmr_rx_dmacx_cam_s cn; */
-} bdk_rgxx_cmr_rx_dmacx_cam_t;
+};
+typedef union bdk_rgxx_cmr_rx_dmacx_cam bdk_rgxx_cmr_rx_dmacx_cam_t;
 
 static inline uint64_t BDK_RGXX_CMR_RX_DMACX_CAM(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_CMR_RX_DMACX_CAM(unsigned long a, unsigned long b)
@@ -3390,7 +3452,7 @@ static inline uint64_t BDK_RGXX_CMR_RX_DMACX_CAM(unsigned long a, unsigned long 
  *
  * RGX CMR Receive Logical MACs Registers
  */
-typedef union
+union bdk_rgxx_cmr_rx_lmacs
 {
     uint64_t u;
     struct bdk_rgxx_cmr_rx_lmacs_s
@@ -3424,7 +3486,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_cmr_rx_lmacs_s cn; */
-} bdk_rgxx_cmr_rx_lmacs_t;
+};
+typedef union bdk_rgxx_cmr_rx_lmacs bdk_rgxx_cmr_rx_lmacs_t;
 
 static inline uint64_t BDK_RGXX_CMR_RX_LMACS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_CMR_RX_LMACS(unsigned long a)
@@ -3447,7 +3510,7 @@ static inline uint64_t BDK_RGXX_CMR_RX_LMACS(unsigned long a)
  * RGX CMR Receive-Ports Backpressure Override Registers
  * Per-LMAC backpressure override register.
  */
-typedef union
+union bdk_rgxx_cmr_rx_ovr_bp
 {
     uint64_t u;
     struct bdk_rgxx_cmr_rx_ovr_bp_s
@@ -3485,7 +3548,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_cmr_rx_ovr_bp_s cn; */
-} bdk_rgxx_cmr_rx_ovr_bp_t;
+};
+typedef union bdk_rgxx_cmr_rx_ovr_bp bdk_rgxx_cmr_rx_ovr_bp_t;
 
 static inline uint64_t BDK_RGXX_CMR_RX_OVR_BP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_CMR_RX_OVR_BP(unsigned long a)
@@ -3511,7 +3575,7 @@ static inline uint64_t BDK_RGXX_CMR_RX_OVR_BP(unsigned long a)
  *
  * This register provide a count of octets of dropped at the NCSI interface.
  */
-typedef union
+union bdk_rgxx_cmr_rx_stat10
 {
     uint64_t u;
     struct bdk_rgxx_cmr_rx_stat10_s
@@ -3527,7 +3591,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_cmr_rx_stat10_s cn; */
-} bdk_rgxx_cmr_rx_stat10_t;
+};
+typedef union bdk_rgxx_cmr_rx_stat10 bdk_rgxx_cmr_rx_stat10_t;
 
 static inline uint64_t BDK_RGXX_CMR_RX_STAT10(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_CMR_RX_STAT10(unsigned long a)
@@ -3555,7 +3620,7 @@ static inline uint64_t BDK_RGXX_CMR_RX_STAT10(unsigned long a)
  * The count of dropped NCSI packets is not accounted for in any other stats
  * registers.
  */
-typedef union
+union bdk_rgxx_cmr_rx_stat9
 {
     uint64_t u;
     struct bdk_rgxx_cmr_rx_stat9_s
@@ -3571,7 +3636,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_cmr_rx_stat9_s cn; */
-} bdk_rgxx_cmr_rx_stat9_t;
+};
+typedef union bdk_rgxx_cmr_rx_stat9 bdk_rgxx_cmr_rx_stat9_t;
 
 static inline uint64_t BDK_RGXX_CMR_RX_STAT9(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_CMR_RX_STAT9(unsigned long a)
@@ -3625,7 +3691,7 @@ static inline uint64_t BDK_RGXX_CMR_RX_STAT9(unsigned long a)
  *    return RGX()_CMR_RX_STEERING_DEFAULT[DEST]; // No match
  * }"
  */
-typedef union
+union bdk_rgxx_cmr_rx_steeringx
 {
     uint64_t u;
     struct bdk_rgxx_cmr_rx_steeringx_s
@@ -3663,7 +3729,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_cmr_rx_steeringx_s cn; */
-} bdk_rgxx_cmr_rx_steeringx_t;
+};
+typedef union bdk_rgxx_cmr_rx_steeringx bdk_rgxx_cmr_rx_steeringx_t;
 
 static inline uint64_t BDK_RGXX_CMR_RX_STEERINGX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_CMR_RX_STEERINGX(unsigned long a, unsigned long b)
@@ -3687,7 +3754,7 @@ static inline uint64_t BDK_RGXX_CMR_RX_STEERINGX(unsigned long a, unsigned long 
  *
  * Not applicable to RGX.
  */
-typedef union
+union bdk_rgxx_cmr_rx_steering_default
 {
     uint64_t u;
     struct bdk_rgxx_cmr_rx_steering_default_s
@@ -3711,7 +3778,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_cmr_rx_steering_default_s cn; */
-} bdk_rgxx_cmr_rx_steering_default_t;
+};
+typedef union bdk_rgxx_cmr_rx_steering_default bdk_rgxx_cmr_rx_steering_default_t;
 
 static inline uint64_t BDK_RGXX_CMR_RX_STEERING_DEFAULT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_CMR_RX_STEERING_DEFAULT(unsigned long a)
@@ -3738,7 +3806,7 @@ static inline uint64_t BDK_RGXX_CMR_RX_STEERING_DEFAULT(unsigned long a)
  * These registers, along with RGX()_CMR_RX_STEERING(), provide eight filters for identifying and
  * steering NCSI receive traffic.
  */
-typedef union
+union bdk_rgxx_cmr_rx_steering_vetypex
 {
     uint64_t u;
     struct bdk_rgxx_cmr_rx_steering_vetypex_s
@@ -3772,7 +3840,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_cmr_rx_steering_vetypex_s cn; */
-} bdk_rgxx_cmr_rx_steering_vetypex_t;
+};
+typedef union bdk_rgxx_cmr_rx_steering_vetypex bdk_rgxx_cmr_rx_steering_vetypex_t;
 
 static inline uint64_t BDK_RGXX_CMR_RX_STEERING_VETYPEX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_CMR_RX_STEERING_VETYPEX(unsigned long a, unsigned long b)
@@ -3796,7 +3865,7 @@ static inline uint64_t BDK_RGXX_CMR_RX_STEERING_VETYPEX(unsigned long a, unsigne
  * This register sets the number of LMACs allowed on the TX interface. The value is important for
  * defining the partitioning of the transmit FIFO.
  */
-typedef union
+union bdk_rgxx_cmr_tx_lmacs
 {
     uint64_t u;
     struct bdk_rgxx_cmr_tx_lmacs_s
@@ -3830,7 +3899,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_cmr_tx_lmacs_s cn; */
-} bdk_rgxx_cmr_tx_lmacs_t;
+};
+typedef union bdk_rgxx_cmr_tx_lmacs bdk_rgxx_cmr_tx_lmacs_t;
 
 static inline uint64_t BDK_RGXX_CMR_TX_LMACS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_CMR_TX_LMACS(unsigned long a)
@@ -3853,7 +3923,7 @@ static inline uint64_t BDK_RGXX_CMR_TX_LMACS(unsigned long a)
  * RGX CONST Registers
  * This register contains constants for software discovery.
  */
-typedef union
+union bdk_rgxx_const
 {
     uint64_t u;
     struct bdk_rgxx_const_s
@@ -3873,7 +3943,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_const_s cn; */
-} bdk_rgxx_const_t;
+};
+typedef union bdk_rgxx_const bdk_rgxx_const_t;
 
 static inline uint64_t BDK_RGXX_CONST(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_CONST(unsigned long a)
@@ -3896,7 +3967,7 @@ static inline uint64_t BDK_RGXX_CONST(unsigned long a)
  * RGX CONST1 Registers
  * This register contains constants for software discovery.
  */
-typedef union
+union bdk_rgxx_const1
 {
     uint64_t u;
     struct bdk_rgxx_const1_s
@@ -3918,7 +3989,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_const1_s cn; */
-} bdk_rgxx_const1_t;
+};
+typedef union bdk_rgxx_const1 bdk_rgxx_const1_t;
 
 static inline uint64_t BDK_RGXX_CONST1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_CONST1(unsigned long a)
@@ -3941,7 +4013,7 @@ static inline uint64_t BDK_RGXX_CONST1(unsigned long a)
  * RGX GMP GMI LMAC Configuration Registers
  * This register controls the configuration of the LMAC.
  */
-typedef union
+union bdk_rgxx_gmp_gmi_prtx_cfg
 {
     uint64_t u;
     struct bdk_rgxx_gmp_gmi_prtx_cfg_s
@@ -3991,7 +4063,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_gmp_gmi_prtx_cfg_s cn; */
-} bdk_rgxx_gmp_gmi_prtx_cfg_t;
+};
+typedef union bdk_rgxx_gmp_gmi_prtx_cfg bdk_rgxx_gmp_gmi_prtx_cfg_t;
 
 static inline uint64_t BDK_RGXX_GMP_GMI_PRTX_CFG(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_GMP_GMI_PRTX_CFG(unsigned long a, unsigned long b)
@@ -4039,7 +4112,7 @@ static inline uint64_t BDK_RGXX_GMP_GMI_PRTX_CFG(unsigned long a, unsigned long 
  * where L2_size = MAX(0, total_packet_size - RGX()_GMP_GMI_RX()_UDD_SKP[LEN] -
  *                        ((RGX()_GMP_GMI_RX()_FRM_CTL[PRE_CHK]==1)*8))
  */
-typedef union
+union bdk_rgxx_gmp_gmi_rxx_decision
 {
     uint64_t u;
     struct bdk_rgxx_gmp_gmi_rxx_decision_s
@@ -4053,7 +4126,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_gmp_gmi_rxx_decision_s cn; */
-} bdk_rgxx_gmp_gmi_rxx_decision_t;
+};
+typedef union bdk_rgxx_gmp_gmi_rxx_decision bdk_rgxx_gmp_gmi_rxx_decision_t;
 
 static inline uint64_t BDK_RGXX_GMP_GMI_RXX_DECISION(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_GMP_GMI_RXX_DECISION(unsigned long a, unsigned long b)
@@ -4075,7 +4149,7 @@ static inline uint64_t BDK_RGXX_GMP_GMI_RXX_DECISION(unsigned long a, unsigned l
  *
  * RGX GMP Frame Check Registers
  */
-typedef union
+union bdk_rgxx_gmp_gmi_rxx_frm_chk
 {
     uint64_t u;
     struct bdk_rgxx_gmp_gmi_rxx_frm_chk_s
@@ -4103,7 +4177,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_gmp_gmi_rxx_frm_chk_s cn; */
-} bdk_rgxx_gmp_gmi_rxx_frm_chk_t;
+};
+typedef union bdk_rgxx_gmp_gmi_rxx_frm_chk bdk_rgxx_gmp_gmi_rxx_frm_chk_t;
 
 static inline uint64_t BDK_RGXX_GMP_GMI_RXX_FRM_CHK(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_GMP_GMI_RXX_FRM_CHK(unsigned long a, unsigned long b)
@@ -4148,7 +4223,7 @@ static inline uint64_t BDK_RGXX_GMP_GMI_RXX_FRM_CHK(unsigned long a, unsigned lo
  * are skipped when locating the start of the L2 header for DMAC and Control
  * frame recognition.
  */
-typedef union
+union bdk_rgxx_gmp_gmi_rxx_frm_ctl
 {
     uint64_t u;
     struct bdk_rgxx_gmp_gmi_rxx_frm_ctl_s
@@ -4341,7 +4416,8 @@ typedef union
         uint64_t reserved_14_63        : 50;
 #endif /* Word 0 - End */
     } cn;
-} bdk_rgxx_gmp_gmi_rxx_frm_ctl_t;
+};
+typedef union bdk_rgxx_gmp_gmi_rxx_frm_ctl bdk_rgxx_gmp_gmi_rxx_frm_ctl_t;
 
 static inline uint64_t BDK_RGXX_GMP_GMI_RXX_FRM_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_GMP_GMI_RXX_FRM_CTL(unsigned long a, unsigned long b)
@@ -4364,7 +4440,7 @@ static inline uint64_t BDK_RGXX_GMP_GMI_RXX_FRM_CTL(unsigned long a, unsigned lo
  * RGX GMI Minimum Interframe-Gap Cycles Registers
  * This register specifies the minimum number of interframe-gap (IFG) cycles between packets.
  */
-typedef union
+union bdk_rgxx_gmp_gmi_rxx_ifg
 {
     uint64_t u;
     struct bdk_rgxx_gmp_gmi_rxx_ifg_s
@@ -4390,7 +4466,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_gmp_gmi_rxx_ifg_s cn; */
-} bdk_rgxx_gmp_gmi_rxx_ifg_t;
+};
+typedef union bdk_rgxx_gmp_gmi_rxx_ifg bdk_rgxx_gmp_gmi_rxx_ifg_t;
 
 static inline uint64_t BDK_RGXX_GMP_GMI_RXX_IFG(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_GMP_GMI_RXX_IFG(unsigned long a, unsigned long b)
@@ -4472,7 +4549,7 @@ static inline uint64_t BDK_RGXX_GMP_GMI_RXX_IFG(unsigned long a, unsigned long b
  * consume the tick before another is produced.  If that doesn't
  * happen that's when OVRERR will assert."
  */
-typedef union
+union bdk_rgxx_gmp_gmi_rxx_int
 {
     uint64_t u;
     struct bdk_rgxx_gmp_gmi_rxx_int_s
@@ -4534,7 +4611,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_gmp_gmi_rxx_int_s cn; */
-} bdk_rgxx_gmp_gmi_rxx_int_t;
+};
+typedef union bdk_rgxx_gmp_gmi_rxx_int bdk_rgxx_gmp_gmi_rxx_int_t;
 
 static inline uint64_t BDK_RGXX_GMP_GMI_RXX_INT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_GMP_GMI_RXX_INT(unsigned long a, unsigned long b)
@@ -4557,7 +4635,7 @@ static inline uint64_t BDK_RGXX_GMP_GMI_RXX_INT(unsigned long a, unsigned long b
  * RGX GMP GMI RX Interrupt Enable Clear Registers
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_rgxx_gmp_gmi_rxx_int_ena_w1c
 {
     uint64_t u;
     struct bdk_rgxx_gmp_gmi_rxx_int_ena_w1c_s
@@ -4593,7 +4671,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_gmp_gmi_rxx_int_ena_w1c_s cn; */
-} bdk_rgxx_gmp_gmi_rxx_int_ena_w1c_t;
+};
+typedef union bdk_rgxx_gmp_gmi_rxx_int_ena_w1c bdk_rgxx_gmp_gmi_rxx_int_ena_w1c_t;
 
 static inline uint64_t BDK_RGXX_GMP_GMI_RXX_INT_ENA_W1C(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_GMP_GMI_RXX_INT_ENA_W1C(unsigned long a, unsigned long b)
@@ -4616,7 +4695,7 @@ static inline uint64_t BDK_RGXX_GMP_GMI_RXX_INT_ENA_W1C(unsigned long a, unsigne
  * RGX GMP GMI RX Interrupt Enable Set Registers
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_rgxx_gmp_gmi_rxx_int_ena_w1s
 {
     uint64_t u;
     struct bdk_rgxx_gmp_gmi_rxx_int_ena_w1s_s
@@ -4652,7 +4731,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_gmp_gmi_rxx_int_ena_w1s_s cn; */
-} bdk_rgxx_gmp_gmi_rxx_int_ena_w1s_t;
+};
+typedef union bdk_rgxx_gmp_gmi_rxx_int_ena_w1s bdk_rgxx_gmp_gmi_rxx_int_ena_w1s_t;
 
 static inline uint64_t BDK_RGXX_GMP_GMI_RXX_INT_ENA_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_GMP_GMI_RXX_INT_ENA_W1S(unsigned long a, unsigned long b)
@@ -4675,7 +4755,7 @@ static inline uint64_t BDK_RGXX_GMP_GMI_RXX_INT_ENA_W1S(unsigned long a, unsigne
  * RGX GMP GMI RX Interrupt Set Registers
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_rgxx_gmp_gmi_rxx_int_w1s
 {
     uint64_t u;
     struct bdk_rgxx_gmp_gmi_rxx_int_w1s_s
@@ -4711,7 +4791,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_gmp_gmi_rxx_int_w1s_s cn; */
-} bdk_rgxx_gmp_gmi_rxx_int_w1s_t;
+};
+typedef union bdk_rgxx_gmp_gmi_rxx_int_w1s bdk_rgxx_gmp_gmi_rxx_int_w1s_t;
 
 static inline uint64_t BDK_RGXX_GMP_GMI_RXX_INT_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_GMP_GMI_RXX_INT_W1S(unsigned long a, unsigned long b)
@@ -4734,7 +4815,7 @@ static inline uint64_t BDK_RGXX_GMP_GMI_RXX_INT_W1S(unsigned long a, unsigned lo
  * RGX GMP Maximum Packet-Size Registers
  * This register specifies the maximum size for packets, beyond which the GMI truncates.
  */
-typedef union
+union bdk_rgxx_gmp_gmi_rxx_jabber
 {
     uint64_t u;
     struct bdk_rgxx_gmp_gmi_rxx_jabber_s
@@ -4752,7 +4833,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_gmp_gmi_rxx_jabber_s cn; */
-} bdk_rgxx_gmp_gmi_rxx_jabber_t;
+};
+typedef union bdk_rgxx_gmp_gmi_rxx_jabber bdk_rgxx_gmp_gmi_rxx_jabber_t;
 
 static inline uint64_t BDK_RGXX_GMP_GMI_RXX_JABBER(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_GMP_GMI_RXX_JABBER(unsigned long a, unsigned long b)
@@ -4800,7 +4882,7 @@ static inline uint64_t BDK_RGXX_GMP_GMI_RXX_JABBER(unsigned long a, unsigned lon
  * part of the packet.  The UDD bytes are never stripped from the actual
  * packet.
  */
-typedef union
+union bdk_rgxx_gmp_gmi_rxx_udd_skp
 {
     uint64_t u;
     struct bdk_rgxx_gmp_gmi_rxx_udd_skp_s
@@ -4840,7 +4922,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_gmp_gmi_rxx_udd_skp_s cn; */
-} bdk_rgxx_gmp_gmi_rxx_udd_skp_t;
+};
+typedef union bdk_rgxx_gmp_gmi_rxx_udd_skp bdk_rgxx_gmp_gmi_rxx_udd_skp_t;
 
 static inline uint64_t BDK_RGXX_GMP_GMI_RXX_UDD_SKP(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_GMP_GMI_RXX_UDD_SKP(unsigned long a, unsigned long b)
@@ -4862,7 +4945,7 @@ static inline uint64_t BDK_RGXX_GMP_GMI_RXX_UDD_SKP(unsigned long a, unsigned lo
  *
  * RGX GMI SMAC Registers
  */
-typedef union
+union bdk_rgxx_gmp_gmi_smacx
 {
     uint64_t u;
     struct bdk_rgxx_gmp_gmi_smacx_s
@@ -4876,7 +4959,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_gmp_gmi_smacx_s cn; */
-} bdk_rgxx_gmp_gmi_smacx_t;
+};
+typedef union bdk_rgxx_gmp_gmi_smacx bdk_rgxx_gmp_gmi_smacx_t;
 
 static inline uint64_t BDK_RGXX_GMP_GMI_SMACX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_GMP_GMI_SMACX(unsigned long a, unsigned long b)
@@ -4898,7 +4982,7 @@ static inline uint64_t BDK_RGXX_GMP_GMI_SMACX(unsigned long a, unsigned long b)
  *
  * RGX GMI TX Append Control Registers
  */
-typedef union
+union bdk_rgxx_gmp_gmi_txx_append
 {
     uint64_t u;
     struct bdk_rgxx_gmp_gmi_txx_append_s
@@ -4918,7 +5002,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_gmp_gmi_txx_append_s cn; */
-} bdk_rgxx_gmp_gmi_txx_append_t;
+};
+typedef union bdk_rgxx_gmp_gmi_txx_append bdk_rgxx_gmp_gmi_txx_append_t;
 
 static inline uint64_t BDK_RGXX_GMP_GMI_TXX_APPEND(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_GMP_GMI_TXX_APPEND(unsigned long a, unsigned long b)
@@ -4940,7 +5025,7 @@ static inline uint64_t BDK_RGXX_GMP_GMI_TXX_APPEND(unsigned long a, unsigned lon
  *
  * RGX GMI TX Burst-Counter Registers
  */
-typedef union
+union bdk_rgxx_gmp_gmi_txx_burst
 {
     uint64_t u;
     struct bdk_rgxx_gmp_gmi_txx_burst_s
@@ -4962,7 +5047,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_gmp_gmi_txx_burst_s cn; */
-} bdk_rgxx_gmp_gmi_txx_burst_t;
+};
+typedef union bdk_rgxx_gmp_gmi_txx_burst bdk_rgxx_gmp_gmi_txx_burst_t;
 
 static inline uint64_t BDK_RGXX_GMP_GMI_TXX_BURST(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_GMP_GMI_TXX_BURST(unsigned long a, unsigned long b)
@@ -4984,7 +5070,7 @@ static inline uint64_t BDK_RGXX_GMP_GMI_TXX_BURST(unsigned long a, unsigned long
  *
  * RGX GMI Transmit Control Registers
  */
-typedef union
+union bdk_rgxx_gmp_gmi_txx_ctl
 {
     uint64_t u;
     struct bdk_rgxx_gmp_gmi_txx_ctl_s
@@ -5010,7 +5096,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_gmp_gmi_txx_ctl_s cn; */
-} bdk_rgxx_gmp_gmi_txx_ctl_t;
+};
+typedef union bdk_rgxx_gmp_gmi_txx_ctl bdk_rgxx_gmp_gmi_txx_ctl_t;
 
 static inline uint64_t BDK_RGXX_GMP_GMI_TXX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_GMP_GMI_TXX_CTL(unsigned long a, unsigned long b)
@@ -5032,7 +5119,7 @@ static inline uint64_t BDK_RGXX_GMP_GMI_TXX_CTL(unsigned long a, unsigned long b
  *
  * RGX GMI TX Interrupt Registers
  */
-typedef union
+union bdk_rgxx_gmp_gmi_txx_int
 {
     uint64_t u;
     struct bdk_rgxx_gmp_gmi_txx_int_s
@@ -5054,7 +5141,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_gmp_gmi_txx_int_s cn; */
-} bdk_rgxx_gmp_gmi_txx_int_t;
+};
+typedef union bdk_rgxx_gmp_gmi_txx_int bdk_rgxx_gmp_gmi_txx_int_t;
 
 static inline uint64_t BDK_RGXX_GMP_GMI_TXX_INT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_GMP_GMI_TXX_INT(unsigned long a, unsigned long b)
@@ -5077,7 +5165,7 @@ static inline uint64_t BDK_RGXX_GMP_GMI_TXX_INT(unsigned long a, unsigned long b
  * RGX GMI TX Interrupt Enable Clear Registers
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_rgxx_gmp_gmi_txx_int_ena_w1c
 {
     uint64_t u;
     struct bdk_rgxx_gmp_gmi_txx_int_ena_w1c_s
@@ -5099,7 +5187,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_gmp_gmi_txx_int_ena_w1c_s cn; */
-} bdk_rgxx_gmp_gmi_txx_int_ena_w1c_t;
+};
+typedef union bdk_rgxx_gmp_gmi_txx_int_ena_w1c bdk_rgxx_gmp_gmi_txx_int_ena_w1c_t;
 
 static inline uint64_t BDK_RGXX_GMP_GMI_TXX_INT_ENA_W1C(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_GMP_GMI_TXX_INT_ENA_W1C(unsigned long a, unsigned long b)
@@ -5122,7 +5211,7 @@ static inline uint64_t BDK_RGXX_GMP_GMI_TXX_INT_ENA_W1C(unsigned long a, unsigne
  * RGX GMI TX Interrupt Enable Set Registers
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_rgxx_gmp_gmi_txx_int_ena_w1s
 {
     uint64_t u;
     struct bdk_rgxx_gmp_gmi_txx_int_ena_w1s_s
@@ -5144,7 +5233,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_gmp_gmi_txx_int_ena_w1s_s cn; */
-} bdk_rgxx_gmp_gmi_txx_int_ena_w1s_t;
+};
+typedef union bdk_rgxx_gmp_gmi_txx_int_ena_w1s bdk_rgxx_gmp_gmi_txx_int_ena_w1s_t;
 
 static inline uint64_t BDK_RGXX_GMP_GMI_TXX_INT_ENA_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_GMP_GMI_TXX_INT_ENA_W1S(unsigned long a, unsigned long b)
@@ -5167,7 +5257,7 @@ static inline uint64_t BDK_RGXX_GMP_GMI_TXX_INT_ENA_W1S(unsigned long a, unsigne
  * RGX GMI TX Interrupt Set Registers
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_rgxx_gmp_gmi_txx_int_w1s
 {
     uint64_t u;
     struct bdk_rgxx_gmp_gmi_txx_int_w1s_s
@@ -5189,7 +5279,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_gmp_gmi_txx_int_w1s_s cn; */
-} bdk_rgxx_gmp_gmi_txx_int_w1s_t;
+};
+typedef union bdk_rgxx_gmp_gmi_txx_int_w1s bdk_rgxx_gmp_gmi_txx_int_w1s_t;
 
 static inline uint64_t BDK_RGXX_GMP_GMI_TXX_INT_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_GMP_GMI_TXX_INT_W1S(unsigned long a, unsigned long b)
@@ -5211,7 +5302,7 @@ static inline uint64_t BDK_RGXX_GMP_GMI_TXX_INT_W1S(unsigned long a, unsigned lo
  *
  * RGX GMI TX Minimum-Size-Packet Registers
  */
-typedef union
+union bdk_rgxx_gmp_gmi_txx_min_pkt
 {
     uint64_t u;
     struct bdk_rgxx_gmp_gmi_txx_min_pkt_s
@@ -5233,7 +5324,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_gmp_gmi_txx_min_pkt_s cn; */
-} bdk_rgxx_gmp_gmi_txx_min_pkt_t;
+};
+typedef union bdk_rgxx_gmp_gmi_txx_min_pkt bdk_rgxx_gmp_gmi_txx_min_pkt_t;
 
 static inline uint64_t BDK_RGXX_GMP_GMI_TXX_MIN_PKT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_GMP_GMI_TXX_MIN_PKT(unsigned long a, unsigned long b)
@@ -5275,7 +5367,7 @@ static inline uint64_t BDK_RGXX_GMP_GMI_TXX_MIN_PKT(unsigned long a, unsigned lo
  * (normally 1518B), IFG is the interframe gap and pause_pkt_size is the size
  * of the PAUSE packet (normally 64B).
  */
-typedef union
+union bdk_rgxx_gmp_gmi_txx_pause_pkt_interval
 {
     uint64_t u;
     struct bdk_rgxx_gmp_gmi_txx_pause_pkt_interval_s
@@ -5299,7 +5391,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_gmp_gmi_txx_pause_pkt_interval_s cn; */
-} bdk_rgxx_gmp_gmi_txx_pause_pkt_interval_t;
+};
+typedef union bdk_rgxx_gmp_gmi_txx_pause_pkt_interval bdk_rgxx_gmp_gmi_txx_pause_pkt_interval_t;
 
 static inline uint64_t BDK_RGXX_GMP_GMI_TXX_PAUSE_PKT_INTERVAL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_GMP_GMI_TXX_PAUSE_PKT_INTERVAL(unsigned long a, unsigned long b)
@@ -5321,7 +5414,7 @@ static inline uint64_t BDK_RGXX_GMP_GMI_TXX_PAUSE_PKT_INTERVAL(unsigned long a, 
  *
  * RGX GMI TX PAUSE Packet PAUSE-Time Registers
  */
-typedef union
+union bdk_rgxx_gmp_gmi_txx_pause_pkt_time
 {
     uint64_t u;
     struct bdk_rgxx_gmp_gmi_txx_pause_pkt_time_s
@@ -5343,7 +5436,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_gmp_gmi_txx_pause_pkt_time_s cn; */
-} bdk_rgxx_gmp_gmi_txx_pause_pkt_time_t;
+};
+typedef union bdk_rgxx_gmp_gmi_txx_pause_pkt_time bdk_rgxx_gmp_gmi_txx_pause_pkt_time_t;
 
 static inline uint64_t BDK_RGXX_GMP_GMI_TXX_PAUSE_PKT_TIME(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_GMP_GMI_TXX_PAUSE_PKT_TIME(unsigned long a, unsigned long b)
@@ -5365,7 +5459,7 @@ static inline uint64_t BDK_RGXX_GMP_GMI_TXX_PAUSE_PKT_TIME(unsigned long a, unsi
  *
  * RGX GMI TX Time-to-Backpressure Registers
  */
-typedef union
+union bdk_rgxx_gmp_gmi_txx_pause_togo
 {
     uint64_t u;
     struct bdk_rgxx_gmp_gmi_txx_pause_togo_s
@@ -5379,7 +5473,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_gmp_gmi_txx_pause_togo_s cn; */
-} bdk_rgxx_gmp_gmi_txx_pause_togo_t;
+};
+typedef union bdk_rgxx_gmp_gmi_txx_pause_togo bdk_rgxx_gmp_gmi_txx_pause_togo_t;
 
 static inline uint64_t BDK_RGXX_GMP_GMI_TXX_PAUSE_TOGO(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_GMP_GMI_TXX_PAUSE_TOGO(unsigned long a, unsigned long b)
@@ -5401,7 +5496,7 @@ static inline uint64_t BDK_RGXX_GMP_GMI_TXX_PAUSE_TOGO(unsigned long a, unsigned
  *
  * RGX GMI TX PAUSE-Zero-Enable Registers
  */
-typedef union
+union bdk_rgxx_gmp_gmi_txx_pause_zero
 {
     uint64_t u;
     struct bdk_rgxx_gmp_gmi_txx_pause_zero_s
@@ -5419,7 +5514,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_gmp_gmi_txx_pause_zero_s cn; */
-} bdk_rgxx_gmp_gmi_txx_pause_zero_t;
+};
+typedef union bdk_rgxx_gmp_gmi_txx_pause_zero bdk_rgxx_gmp_gmi_txx_pause_zero_t;
 
 static inline uint64_t BDK_RGXX_GMP_GMI_TXX_PAUSE_ZERO(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_GMP_GMI_TXX_PAUSE_ZERO(unsigned long a, unsigned long b)
@@ -5441,7 +5537,7 @@ static inline uint64_t BDK_RGXX_GMP_GMI_TXX_PAUSE_ZERO(unsigned long a, unsigned
  *
  * RGX SGMII Control Registers
  */
-typedef union
+union bdk_rgxx_gmp_gmi_txx_sgmii_ctl
 {
     uint64_t u;
     struct bdk_rgxx_gmp_gmi_txx_sgmii_ctl_s
@@ -5479,7 +5575,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_gmp_gmi_txx_sgmii_ctl_s cn; */
-} bdk_rgxx_gmp_gmi_txx_sgmii_ctl_t;
+};
+typedef union bdk_rgxx_gmp_gmi_txx_sgmii_ctl bdk_rgxx_gmp_gmi_txx_sgmii_ctl_t;
 
 static inline uint64_t BDK_RGXX_GMP_GMI_TXX_SGMII_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_GMP_GMI_TXX_SGMII_CTL(unsigned long a, unsigned long b)
@@ -5501,7 +5598,7 @@ static inline uint64_t BDK_RGXX_GMP_GMI_TXX_SGMII_CTL(unsigned long a, unsigned 
  *
  * RGX GMI TX Slottime Counter Registers
  */
-typedef union
+union bdk_rgxx_gmp_gmi_txx_slot
 {
     uint64_t u;
     struct bdk_rgxx_gmp_gmi_txx_slot_s
@@ -5523,7 +5620,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_gmp_gmi_txx_slot_s cn; */
-} bdk_rgxx_gmp_gmi_txx_slot_t;
+};
+typedef union bdk_rgxx_gmp_gmi_txx_slot bdk_rgxx_gmp_gmi_txx_slot_t;
 
 static inline uint64_t BDK_RGXX_GMP_GMI_TXX_SLOT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_GMP_GMI_TXX_SLOT(unsigned long a, unsigned long b)
@@ -5545,7 +5643,7 @@ static inline uint64_t BDK_RGXX_GMP_GMI_TXX_SLOT(unsigned long a, unsigned long 
  *
  * RGX GMI TX Software PAUSE Registers
  */
-typedef union
+union bdk_rgxx_gmp_gmi_txx_soft_pause
 {
     uint64_t u;
     struct bdk_rgxx_gmp_gmi_txx_soft_pause_s
@@ -5559,7 +5657,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_gmp_gmi_txx_soft_pause_s cn; */
-} bdk_rgxx_gmp_gmi_txx_soft_pause_t;
+};
+typedef union bdk_rgxx_gmp_gmi_txx_soft_pause bdk_rgxx_gmp_gmi_txx_soft_pause_t;
 
 static inline uint64_t BDK_RGXX_GMP_GMI_TXX_SOFT_PAUSE(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_GMP_GMI_TXX_SOFT_PAUSE(unsigned long a, unsigned long b)
@@ -5581,7 +5680,7 @@ static inline uint64_t BDK_RGXX_GMP_GMI_TXX_SOFT_PAUSE(unsigned long a, unsigned
  *
  * RGX GMI TX Threshold Registers
  */
-typedef union
+union bdk_rgxx_gmp_gmi_txx_thresh
 {
     uint64_t u;
     struct bdk_rgxx_gmp_gmi_txx_thresh_s
@@ -5605,7 +5704,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_gmp_gmi_txx_thresh_s cn; */
-} bdk_rgxx_gmp_gmi_txx_thresh_t;
+};
+typedef union bdk_rgxx_gmp_gmi_txx_thresh bdk_rgxx_gmp_gmi_txx_thresh_t;
 
 static inline uint64_t BDK_RGXX_GMP_GMI_TXX_THRESH(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_GMP_GMI_TXX_THRESH(unsigned long a, unsigned long b)
@@ -5627,7 +5727,7 @@ static inline uint64_t BDK_RGXX_GMP_GMI_TXX_THRESH(unsigned long a, unsigned lon
  *
  * RGX TX Collision Attempts Before Dropping Frame Registers
  */
-typedef union
+union bdk_rgxx_gmp_gmi_tx_col_attempt
 {
     uint64_t u;
     struct bdk_rgxx_gmp_gmi_tx_col_attempt_s
@@ -5641,7 +5741,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_gmp_gmi_tx_col_attempt_s cn; */
-} bdk_rgxx_gmp_gmi_tx_col_attempt_t;
+};
+typedef union bdk_rgxx_gmp_gmi_tx_col_attempt bdk_rgxx_gmp_gmi_tx_col_attempt_t;
 
 static inline uint64_t BDK_RGXX_GMP_GMI_TX_COL_ATTEMPT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_GMP_GMI_TX_COL_ATTEMPT(unsigned long a)
@@ -5670,7 +5771,7 @@ static inline uint64_t BDK_RGXX_GMP_GMI_TX_COL_ATTEMPT(unsigned long a)
  * For all other systems, IFG1 and IFG2 can be any value in the range of 1-15, allowing for a
  * total possible IFG sum of 2-30.
  */
-typedef union
+union bdk_rgxx_gmp_gmi_tx_ifg
 {
     uint64_t u;
     struct bdk_rgxx_gmp_gmi_tx_ifg_s
@@ -5694,7 +5795,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_gmp_gmi_tx_ifg_s cn; */
-} bdk_rgxx_gmp_gmi_tx_ifg_t;
+};
+typedef union bdk_rgxx_gmp_gmi_tx_ifg bdk_rgxx_gmp_gmi_tx_ifg_t;
 
 static inline uint64_t BDK_RGXX_GMP_GMI_TX_IFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_GMP_GMI_TX_IFG(unsigned long a)
@@ -5717,7 +5819,7 @@ static inline uint64_t BDK_RGXX_GMP_GMI_TX_IFG(unsigned long a)
  * RGX GMI TX JAM Pattern Registers
  * This register provides the pattern used in JAM bytes.
  */
-typedef union
+union bdk_rgxx_gmp_gmi_tx_jam
 {
     uint64_t u;
     struct bdk_rgxx_gmp_gmi_tx_jam_s
@@ -5731,7 +5833,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_gmp_gmi_tx_jam_s cn; */
-} bdk_rgxx_gmp_gmi_tx_jam_t;
+};
+typedef union bdk_rgxx_gmp_gmi_tx_jam bdk_rgxx_gmp_gmi_tx_jam_t;
 
 static inline uint64_t BDK_RGXX_GMP_GMI_TX_JAM(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_GMP_GMI_TX_JAM(unsigned long a)
@@ -5755,7 +5858,7 @@ static inline uint64_t BDK_RGXX_GMP_GMI_TX_JAM(unsigned long a)
  * This register shows the contents of the linear feedback shift register (LFSR), which is used
  * to implement truncated binary exponential backoff.
  */
-typedef union
+union bdk_rgxx_gmp_gmi_tx_lfsr
 {
     uint64_t u;
     struct bdk_rgxx_gmp_gmi_tx_lfsr_s
@@ -5771,7 +5874,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_gmp_gmi_tx_lfsr_s cn; */
-} bdk_rgxx_gmp_gmi_tx_lfsr_t;
+};
+typedef union bdk_rgxx_gmp_gmi_tx_lfsr bdk_rgxx_gmp_gmi_tx_lfsr_t;
 
 static inline uint64_t BDK_RGXX_GMP_GMI_TX_LFSR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_GMP_GMI_TX_LFSR(unsigned long a)
@@ -5793,7 +5897,7 @@ static inline uint64_t BDK_RGXX_GMP_GMI_TX_LFSR(unsigned long a)
  *
  * RGX TX PAUSE-Packet DMAC-Field Registers
  */
-typedef union
+union bdk_rgxx_gmp_gmi_tx_pause_pkt_dmac
 {
     uint64_t u;
     struct bdk_rgxx_gmp_gmi_tx_pause_pkt_dmac_s
@@ -5807,7 +5911,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_gmp_gmi_tx_pause_pkt_dmac_s cn; */
-} bdk_rgxx_gmp_gmi_tx_pause_pkt_dmac_t;
+};
+typedef union bdk_rgxx_gmp_gmi_tx_pause_pkt_dmac bdk_rgxx_gmp_gmi_tx_pause_pkt_dmac_t;
 
 static inline uint64_t BDK_RGXX_GMP_GMI_TX_PAUSE_PKT_DMAC(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_GMP_GMI_TX_PAUSE_PKT_DMAC(unsigned long a)
@@ -5830,7 +5935,7 @@ static inline uint64_t BDK_RGXX_GMP_GMI_TX_PAUSE_PKT_DMAC(unsigned long a)
  * RGX GMI TX PAUSE-Packet-PTYPE Field Registers
  * This register provides the PTYPE field that is placed in outbound PAUSE packets.
  */
-typedef union
+union bdk_rgxx_gmp_gmi_tx_pause_pkt_type
 {
     uint64_t u;
     struct bdk_rgxx_gmp_gmi_tx_pause_pkt_type_s
@@ -5844,7 +5949,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_gmp_gmi_tx_pause_pkt_type_s cn; */
-} bdk_rgxx_gmp_gmi_tx_pause_pkt_type_t;
+};
+typedef union bdk_rgxx_gmp_gmi_tx_pause_pkt_type bdk_rgxx_gmp_gmi_tx_pause_pkt_type_t;
 
 static inline uint64_t BDK_RGXX_GMP_GMI_TX_PAUSE_PKT_TYPE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_GMP_GMI_TX_PAUSE_PKT_TYPE(unsigned long a)
@@ -5866,7 +5972,7 @@ static inline uint64_t BDK_RGXX_GMP_GMI_TX_PAUSE_PKT_TYPE(unsigned long a)
  *
  * INTERNAL: RGX GMP PCS Autonegotiation Advertisement Registers
  */
-typedef union
+union bdk_rgxx_gmp_pcs_anx_adv
 {
     uint64_t u;
     struct bdk_rgxx_gmp_pcs_anx_adv_s
@@ -5912,7 +6018,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_gmp_pcs_anx_adv_s cn; */
-} bdk_rgxx_gmp_pcs_anx_adv_t;
+};
+typedef union bdk_rgxx_gmp_pcs_anx_adv bdk_rgxx_gmp_pcs_anx_adv_t;
 
 static inline uint64_t BDK_RGXX_GMP_PCS_ANX_ADV(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_GMP_PCS_ANX_ADV(unsigned long a, unsigned long b)
@@ -5934,7 +6041,7 @@ static inline uint64_t BDK_RGXX_GMP_PCS_ANX_ADV(unsigned long a, unsigned long b
  *
  * INTERNAL: RGX GMO PCS Autonegotiation Extended Status Registers
  */
-typedef union
+union bdk_rgxx_gmp_pcs_anx_ext_st
 {
     uint64_t u;
     struct bdk_rgxx_gmp_pcs_anx_ext_st_s
@@ -5956,7 +6063,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_gmp_pcs_anx_ext_st_s cn; */
-} bdk_rgxx_gmp_pcs_anx_ext_st_t;
+};
+typedef union bdk_rgxx_gmp_pcs_anx_ext_st bdk_rgxx_gmp_pcs_anx_ext_st_t;
 
 static inline uint64_t BDK_RGXX_GMP_PCS_ANX_EXT_ST(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_GMP_PCS_ANX_EXT_ST(unsigned long a, unsigned long b)
@@ -5980,7 +6088,7 @@ static inline uint64_t BDK_RGXX_GMP_PCS_ANX_EXT_ST(unsigned long a, unsigned lon
  *
  * This is the autonegotiation Link partner ability register 5 as per IEEE 802.3, Clause 37.
  */
-typedef union
+union bdk_rgxx_gmp_pcs_anx_lp_abil
 {
     uint64_t u;
     struct bdk_rgxx_gmp_pcs_anx_lp_abil_s
@@ -6028,7 +6136,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_gmp_pcs_anx_lp_abil_s cn; */
-} bdk_rgxx_gmp_pcs_anx_lp_abil_t;
+};
+typedef union bdk_rgxx_gmp_pcs_anx_lp_abil bdk_rgxx_gmp_pcs_anx_lp_abil_t;
 
 static inline uint64_t BDK_RGXX_GMP_PCS_ANX_LP_ABIL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_GMP_PCS_ANX_LP_ABIL(unsigned long a, unsigned long b)
@@ -6054,7 +6163,7 @@ static inline uint64_t BDK_RGXX_GMP_PCS_ANX_LP_ABIL(unsigned long a, unsigned lo
  * RGX()_GMP_PCS_MISC()_CTL[AN_OVRD] is set to 0 and
  * RGX()_GMP_PCS_AN()_RESULTS[AN_CPT] is set to 1, this register is valid.
  */
-typedef union
+union bdk_rgxx_gmp_pcs_anx_results
 {
     uint64_t u;
     struct bdk_rgxx_gmp_pcs_anx_results_s
@@ -6096,7 +6205,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_gmp_pcs_anx_results_s cn; */
-} bdk_rgxx_gmp_pcs_anx_results_t;
+};
+typedef union bdk_rgxx_gmp_pcs_anx_results bdk_rgxx_gmp_pcs_anx_results_t;
 
 static inline uint64_t BDK_RGXX_GMP_PCS_ANX_RESULTS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_GMP_PCS_ANX_RESULTS(unsigned long a, unsigned long b)
@@ -6118,7 +6228,7 @@ static inline uint64_t BDK_RGXX_GMP_PCS_ANX_RESULTS(unsigned long a, unsigned lo
  *
  * INTERNAL: RGX GMP PCS Interrupt Registers
  */
-typedef union
+union bdk_rgxx_gmp_pcs_intx
 {
     uint64_t u;
     struct bdk_rgxx_gmp_pcs_intx_s
@@ -6178,7 +6288,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_gmp_pcs_intx_s cn; */
-} bdk_rgxx_gmp_pcs_intx_t;
+};
+typedef union bdk_rgxx_gmp_pcs_intx bdk_rgxx_gmp_pcs_intx_t;
 
 static inline uint64_t BDK_RGXX_GMP_PCS_INTX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_GMP_PCS_INTX(unsigned long a, unsigned long b)
@@ -6202,7 +6313,7 @@ static inline uint64_t BDK_RGXX_GMP_PCS_INTX(unsigned long a, unsigned long b)
  *
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_rgxx_gmp_pcs_intx_ena_w1c
 {
     uint64_t u;
     struct bdk_rgxx_gmp_pcs_intx_ena_w1c_s
@@ -6240,7 +6351,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_gmp_pcs_intx_ena_w1c_s cn; */
-} bdk_rgxx_gmp_pcs_intx_ena_w1c_t;
+};
+typedef union bdk_rgxx_gmp_pcs_intx_ena_w1c bdk_rgxx_gmp_pcs_intx_ena_w1c_t;
 
 static inline uint64_t BDK_RGXX_GMP_PCS_INTX_ENA_W1C(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_GMP_PCS_INTX_ENA_W1C(unsigned long a, unsigned long b)
@@ -6264,7 +6376,7 @@ static inline uint64_t BDK_RGXX_GMP_PCS_INTX_ENA_W1C(unsigned long a, unsigned l
  *
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_rgxx_gmp_pcs_intx_ena_w1s
 {
     uint64_t u;
     struct bdk_rgxx_gmp_pcs_intx_ena_w1s_s
@@ -6302,7 +6414,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_gmp_pcs_intx_ena_w1s_s cn; */
-} bdk_rgxx_gmp_pcs_intx_ena_w1s_t;
+};
+typedef union bdk_rgxx_gmp_pcs_intx_ena_w1s bdk_rgxx_gmp_pcs_intx_ena_w1s_t;
 
 static inline uint64_t BDK_RGXX_GMP_PCS_INTX_ENA_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_GMP_PCS_INTX_ENA_W1S(unsigned long a, unsigned long b)
@@ -6326,7 +6439,7 @@ static inline uint64_t BDK_RGXX_GMP_PCS_INTX_ENA_W1S(unsigned long a, unsigned l
  *
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_rgxx_gmp_pcs_intx_w1s
 {
     uint64_t u;
     struct bdk_rgxx_gmp_pcs_intx_w1s_s
@@ -6364,7 +6477,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_gmp_pcs_intx_w1s_s cn; */
-} bdk_rgxx_gmp_pcs_intx_w1s_t;
+};
+typedef union bdk_rgxx_gmp_pcs_intx_w1s bdk_rgxx_gmp_pcs_intx_w1s_t;
 
 static inline uint64_t BDK_RGXX_GMP_PCS_INTX_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_GMP_PCS_INTX_W1S(unsigned long a, unsigned long b)
@@ -6388,7 +6502,7 @@ static inline uint64_t BDK_RGXX_GMP_PCS_INTX_W1S(unsigned long a, unsigned long 
  *
  * This is the 1.6 ms nominal link timer register.
  */
-typedef union
+union bdk_rgxx_gmp_pcs_linkx_timer
 {
     uint64_t u;
     struct bdk_rgxx_gmp_pcs_linkx_timer_s
@@ -6408,7 +6522,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_gmp_pcs_linkx_timer_s cn; */
-} bdk_rgxx_gmp_pcs_linkx_timer_t;
+};
+typedef union bdk_rgxx_gmp_pcs_linkx_timer bdk_rgxx_gmp_pcs_linkx_timer_t;
 
 static inline uint64_t BDK_RGXX_GMP_PCS_LINKX_TIMER(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_GMP_PCS_LINKX_TIMER(unsigned long a, unsigned long b)
@@ -6439,7 +6554,7 @@ static inline uint64_t BDK_RGXX_GMP_PCS_LINKX_TIMER(unsigned long a, unsigned lo
  * tx_Config_Reg<14> becomes ACK bit and tx_Config_Reg<0> is always 1.
  * All other bits in tx_Config_Reg sent will be 0. The PHY dictates the Auto Negotiation results.
  */
-typedef union
+union bdk_rgxx_gmp_pcs_miscx_ctl
 {
     uint64_t u;
     struct bdk_rgxx_gmp_pcs_miscx_ctl_s
@@ -6541,7 +6656,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_gmp_pcs_miscx_ctl_s cn; */
-} bdk_rgxx_gmp_pcs_miscx_ctl_t;
+};
+typedef union bdk_rgxx_gmp_pcs_miscx_ctl bdk_rgxx_gmp_pcs_miscx_ctl_t;
 
 static inline uint64_t BDK_RGXX_GMP_PCS_MISCX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_GMP_PCS_MISCX_CTL(unsigned long a, unsigned long b)
@@ -6563,7 +6679,7 @@ static inline uint64_t BDK_RGXX_GMP_PCS_MISCX_CTL(unsigned long a, unsigned long
  *
  * INTERNAL: RGX GMP PCS Control Registers
  */
-typedef union
+union bdk_rgxx_gmp_pcs_mrx_control
 {
     uint64_t u;
     struct bdk_rgxx_gmp_pcs_mrx_control_s
@@ -6673,7 +6789,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_gmp_pcs_mrx_control_s cn; */
-} bdk_rgxx_gmp_pcs_mrx_control_t;
+};
+typedef union bdk_rgxx_gmp_pcs_mrx_control bdk_rgxx_gmp_pcs_mrx_control_t;
 
 static inline uint64_t BDK_RGXX_GMP_PCS_MRX_CONTROL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_GMP_PCS_MRX_CONTROL(unsigned long a, unsigned long b)
@@ -6700,7 +6817,7 @@ static inline uint64_t BDK_RGXX_GMP_PCS_MRX_CONTROL(unsigned long a, unsigned lo
  * 0, indicating that the chip cannot operate in the corresponding modes. The field [RM_FLT] is a
  * 'don't care' when the selected mode is SGMII/QSGMII.
  */
-typedef union
+union bdk_rgxx_gmp_pcs_mrx_status
 {
     uint64_t u;
     struct bdk_rgxx_gmp_pcs_mrx_status_s
@@ -6768,7 +6885,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_gmp_pcs_mrx_status_s cn; */
-} bdk_rgxx_gmp_pcs_mrx_status_t;
+};
+typedef union bdk_rgxx_gmp_pcs_mrx_status bdk_rgxx_gmp_pcs_mrx_status_t;
 
 static inline uint64_t BDK_RGXX_GMP_PCS_MRX_STATUS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_GMP_PCS_MRX_STATUS(unsigned long a, unsigned long b)
@@ -6790,7 +6908,7 @@ static inline uint64_t BDK_RGXX_GMP_PCS_MRX_STATUS(unsigned long a, unsigned lon
  *
  * INTERNAL: RGX GMP PCS RX State-Machines States Registers
  */
-typedef union
+union bdk_rgxx_gmp_pcs_rxx_states
 {
     uint64_t u;
     struct bdk_rgxx_gmp_pcs_rxx_states_s
@@ -6814,7 +6932,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_gmp_pcs_rxx_states_s cn; */
-} bdk_rgxx_gmp_pcs_rxx_states_t;
+};
+typedef union bdk_rgxx_gmp_pcs_rxx_states bdk_rgxx_gmp_pcs_rxx_states_t;
 
 static inline uint64_t BDK_RGXX_GMP_PCS_RXX_STATES(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_GMP_PCS_RXX_STATES(unsigned long a, unsigned long b)
@@ -6836,7 +6955,7 @@ static inline uint64_t BDK_RGXX_GMP_PCS_RXX_STATES(unsigned long a, unsigned lon
  *
  * INTERNAL: RGX GMP PCS Code Group Synchronization Registers
  */
-typedef union
+union bdk_rgxx_gmp_pcs_rxx_sync
 {
     uint64_t u;
     struct bdk_rgxx_gmp_pcs_rxx_sync_s
@@ -6852,7 +6971,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_gmp_pcs_rxx_sync_s cn; */
-} bdk_rgxx_gmp_pcs_rxx_sync_t;
+};
+typedef union bdk_rgxx_gmp_pcs_rxx_sync bdk_rgxx_gmp_pcs_rxx_sync_t;
 
 static inline uint64_t BDK_RGXX_GMP_PCS_RXX_SYNC(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_GMP_PCS_RXX_SYNC(unsigned long a, unsigned long b)
@@ -6880,7 +7000,7 @@ static inline uint64_t BDK_RGXX_GMP_PCS_RXX_SYNC(unsigned long a, unsigned long 
  * MAC mode), then tx_Config_Reg<14> becomes ACK bit and tx_Config_Reg<0> is always 1. All other
  * bits in tx_Config_Reg sent will be 0. The PHY dictates the autonegotiation results.
  */
-typedef union
+union bdk_rgxx_gmp_pcs_sgmx_an_adv
 {
     uint64_t u;
     struct bdk_rgxx_gmp_pcs_sgmx_an_adv_s
@@ -6914,7 +7034,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_gmp_pcs_sgmx_an_adv_s cn; */
-} bdk_rgxx_gmp_pcs_sgmx_an_adv_t;
+};
+typedef union bdk_rgxx_gmp_pcs_sgmx_an_adv bdk_rgxx_gmp_pcs_sgmx_an_adv_t;
 
 static inline uint64_t BDK_RGXX_GMP_PCS_SGMX_AN_ADV(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_GMP_PCS_SGMX_AN_ADV(unsigned long a, unsigned long b)
@@ -6939,7 +7060,7 @@ static inline uint64_t BDK_RGXX_GMP_PCS_SGMX_AN_ADV(unsigned long a, unsigned lo
  * This is the SGMII link partner advertisement register (received as rx_Config_Reg<15:0> as
  * defined in IEEE 802.3 clause 37).
  */
-typedef union
+union bdk_rgxx_gmp_pcs_sgmx_lp_adv
 {
     uint64_t u;
     struct bdk_rgxx_gmp_pcs_sgmx_lp_adv_s
@@ -7000,7 +7121,8 @@ typedef union
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } cn;
-} bdk_rgxx_gmp_pcs_sgmx_lp_adv_t;
+};
+typedef union bdk_rgxx_gmp_pcs_sgmx_lp_adv bdk_rgxx_gmp_pcs_sgmx_lp_adv_t;
 
 static inline uint64_t BDK_RGXX_GMP_PCS_SGMX_LP_ADV(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_GMP_PCS_SGMX_LP_ADV(unsigned long a, unsigned long b)
@@ -7022,7 +7144,7 @@ static inline uint64_t BDK_RGXX_GMP_PCS_SGMX_LP_ADV(unsigned long a, unsigned lo
  *
  * INTERNAL: RGX GMP PCS TX State-Machines States Registers
  */
-typedef union
+union bdk_rgxx_gmp_pcs_txx_states
 {
     uint64_t u;
     struct bdk_rgxx_gmp_pcs_txx_states_s
@@ -7046,7 +7168,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_gmp_pcs_txx_states_s cn; */
-} bdk_rgxx_gmp_pcs_txx_states_t;
+};
+typedef union bdk_rgxx_gmp_pcs_txx_states bdk_rgxx_gmp_pcs_txx_states_t;
 
 static inline uint64_t BDK_RGXX_GMP_PCS_TXX_STATES(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_GMP_PCS_TXX_STATES(unsigned long a, unsigned long b)
@@ -7071,7 +7194,7 @@ static inline uint64_t BDK_RGXX_GMP_PCS_TXX_STATES(unsigned long a, unsigned lon
  * RGX()_GMP_PCS_TX_RX()_POLARITY[AUTORXPL] shows correct polarity needed on the link
  * receive path after code group synchronization is achieved.
  */
-typedef union
+union bdk_rgxx_gmp_pcs_tx_rxx_polarity
 {
     uint64_t u;
     struct bdk_rgxx_gmp_pcs_tx_rxx_polarity_s
@@ -7105,7 +7228,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_gmp_pcs_tx_rxx_polarity_s cn; */
-} bdk_rgxx_gmp_pcs_tx_rxx_polarity_t;
+};
+typedef union bdk_rgxx_gmp_pcs_tx_rxx_polarity bdk_rgxx_gmp_pcs_tx_rxx_polarity_t;
 
 static inline uint64_t BDK_RGXX_GMP_PCS_TX_RXX_POLARITY(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_GMP_PCS_TX_RXX_POLARITY(unsigned long a, unsigned long b)
@@ -7129,7 +7253,7 @@ static inline uint64_t BDK_RGXX_GMP_PCS_TX_RXX_POLARITY(unsigned long a, unsigne
  * This register is the MSI-X PBA table, the bit number is indexed by the RGX_INT_VEC_E
  * enumeration.
  */
-typedef union
+union bdk_rgxx_msix_pbax
 {
     uint64_t u;
     struct bdk_rgxx_msix_pbax_s
@@ -7143,7 +7267,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_msix_pbax_s cn; */
-} bdk_rgxx_msix_pbax_t;
+};
+typedef union bdk_rgxx_msix_pbax bdk_rgxx_msix_pbax_t;
 
 static inline uint64_t BDK_RGXX_MSIX_PBAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_MSIX_PBAX(unsigned long a, unsigned long b)
@@ -7166,7 +7291,7 @@ static inline uint64_t BDK_RGXX_MSIX_PBAX(unsigned long a, unsigned long b)
  * RGX MSI-X Vector Table Address Registers
  * This register is the MSI-X vector table, indexed by the RGX_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_rgxx_msix_vecx_addr
 {
     uint64_t u;
     struct bdk_rgxx_msix_vecx_addr_s
@@ -7198,7 +7323,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_msix_vecx_addr_s cn; */
-} bdk_rgxx_msix_vecx_addr_t;
+};
+typedef union bdk_rgxx_msix_vecx_addr bdk_rgxx_msix_vecx_addr_t;
 
 static inline uint64_t BDK_RGXX_MSIX_VECX_ADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
@@ -7221,7 +7347,7 @@ static inline uint64_t BDK_RGXX_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
  * RGX MSI-X Vector Table Control and Data Registers
  * This register is the MSI-X vector table, indexed by the RGX_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_rgxx_msix_vecx_ctl
 {
     uint64_t u;
     struct bdk_rgxx_msix_vecx_ctl_s
@@ -7239,7 +7365,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_msix_vecx_ctl_s cn; */
-} bdk_rgxx_msix_vecx_ctl_t;
+};
+typedef union bdk_rgxx_msix_vecx_ctl bdk_rgxx_msix_vecx_ctl_t;
 
 static inline uint64_t BDK_RGXX_MSIX_VECX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RGXX_MSIX_VECX_CTL(unsigned long a, unsigned long b)

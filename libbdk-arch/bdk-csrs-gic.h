@@ -624,7 +624,7 @@ union bdk_gits_cmd_sync_s
  * GIC Implementation BIST Status Register
  * This register contains the BIST status for the GIC memories (including ITS and RDB).
  */
-typedef union
+union bdk_gic_bist_statusr
 {
     uint64_t u;
     struct bdk_gic_bist_statusr_s
@@ -650,7 +650,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gic_bist_statusr_s cn; */
-} bdk_gic_bist_statusr_t;
+};
+typedef union bdk_gic_bist_statusr bdk_gic_bist_statusr_t;
 
 #define BDK_GIC_BIST_STATUSR BDK_GIC_BIST_STATUSR_FUNC()
 static inline uint64_t BDK_GIC_BIST_STATUSR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -672,7 +673,7 @@ static inline uint64_t BDK_GIC_BIST_STATUSR_FUNC(void)
  * GIC Implementation Secure Configuration Control Register
  * This register configures GIC features.
  */
-typedef union
+union bdk_gic_cfg_ctlr
 {
     uint64_t u;
     struct bdk_gic_cfg_ctlr_s
@@ -775,7 +776,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn88xx;
     /* struct bdk_gic_cfg_ctlr_s cn83xx; */
-} bdk_gic_cfg_ctlr_t;
+};
+typedef union bdk_gic_cfg_ctlr bdk_gic_cfg_ctlr_t;
 
 #define BDK_GIC_CFG_CTLR BDK_GIC_CFG_CTLR_FUNC()
 static inline uint64_t BDK_GIC_CFG_CTLR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -797,7 +799,7 @@ static inline uint64_t BDK_GIC_CFG_CTLR_FUNC(void)
  * GIC Debug EL3 Trap Secure Control Register
  * This register allows disabling the signaling of some DEL3T errors.
  */
-typedef union
+union bdk_gic_del3t_ctlr
 {
     uint64_t u;
     struct bdk_gic_del3t_ctlr_s
@@ -825,7 +827,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gic_del3t_ctlr_s cn; */
-} bdk_gic_del3t_ctlr_t;
+};
+typedef union bdk_gic_del3t_ctlr bdk_gic_del3t_ctlr_t;
 
 #define BDK_GIC_DEL3T_CTLR BDK_GIC_DEL3T_CTLR_FUNC()
 static inline uint64_t BDK_GIC_DEL3T_CTLR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -853,7 +856,7 @@ static inline uint64_t BDK_GIC_DEL3T_CTLR_FUNC(void)
  * GIC Implementation Secure ECC Control Register
  * This register allows inserting ECC errors for testing.
  */
-typedef union
+union bdk_gic_ecc_ctlr
 {
     uint64_t u;
     struct bdk_gic_ecc_ctlr_s
@@ -918,7 +921,8 @@ typedef union
         uint64_t reserved_60_63        : 4;
 #endif /* Word 0 - End */
     } cn;
-} bdk_gic_ecc_ctlr_t;
+};
+typedef union bdk_gic_ecc_ctlr bdk_gic_ecc_ctlr_t;
 
 #define BDK_GIC_ECC_CTLR BDK_GIC_ECC_CTLR_FUNC()
 static inline uint64_t BDK_GIC_ECC_CTLR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -940,7 +944,7 @@ static inline uint64_t BDK_GIC_ECC_CTLR_FUNC(void)
  * GIC Implementation ECC Error Interrupt Status Register
  * This register contains the ECC error status for the GIC memories (including ITS and RDB).
  */
-typedef union
+union bdk_gic_ecc_int_statusr
 {
     uint64_t u;
     struct bdk_gic_ecc_int_statusr_s
@@ -970,7 +974,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gic_ecc_int_statusr_s cn; */
-} bdk_gic_ecc_int_statusr_t;
+};
+typedef union bdk_gic_ecc_int_statusr bdk_gic_ecc_int_statusr_t;
 
 #define BDK_GIC_ECC_INT_STATUSR BDK_GIC_ECC_INT_STATUSR_FUNC()
 static inline uint64_t BDK_GIC_ECC_INT_STATUSR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -992,7 +997,7 @@ static inline uint64_t BDK_GIC_ECC_INT_STATUSR_FUNC(void)
  * GIC Redistributor Network ITS Interface Error Status Register
  * This register holds the status of errors detected on the redistributor network interface to ITS.
  */
-typedef union
+union bdk_gic_rdb_its_if_err_statusr
 {
     uint64_t u;
     struct bdk_gic_rdb_its_if_err_statusr_s
@@ -1052,7 +1057,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gic_rdb_its_if_err_statusr_s cn; */
-} bdk_gic_rdb_its_if_err_statusr_t;
+};
+typedef union bdk_gic_rdb_its_if_err_statusr bdk_gic_rdb_its_if_err_statusr_t;
 
 #define BDK_GIC_RDB_ITS_IF_ERR_STATUSR BDK_GIC_RDB_ITS_IF_ERR_STATUSR_FUNC()
 static inline uint64_t BDK_GIC_RDB_ITS_IF_ERR_STATUSR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1078,7 +1084,7 @@ static inline uint64_t BDK_GIC_RDB_ITS_IF_ERR_STATUSR_FUNC(void)
  * GIC Implementation RIB Error Address Register
  * This register holds the address of the first RIB error message.
  */
-typedef union
+union bdk_gic_rib_err_adrr
 {
     uint64_t u;
     struct bdk_gic_rib_err_adrr_s
@@ -1094,7 +1100,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gic_rib_err_adrr_s cn; */
-} bdk_gic_rib_err_adrr_t;
+};
+typedef union bdk_gic_rib_err_adrr bdk_gic_rib_err_adrr_t;
 
 #define BDK_GIC_RIB_ERR_ADRR BDK_GIC_RIB_ERR_ADRR_FUNC()
 static inline uint64_t BDK_GIC_RIB_ERR_ADRR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1116,7 +1123,7 @@ static inline uint64_t BDK_GIC_RIB_ERR_ADRR_FUNC(void)
  * GIC Implementation RIB Error Status Register
  * This register holds the status of the first RIB error message.
  */
-typedef union
+union bdk_gic_rib_err_statusr
 {
     uint64_t u;
     struct bdk_gic_rib_err_statusr_s
@@ -1144,7 +1151,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gic_rib_err_statusr_s cn; */
-} bdk_gic_rib_err_statusr_t;
+};
+typedef union bdk_gic_rib_err_statusr bdk_gic_rib_err_statusr_t;
 
 #define BDK_GIC_RIB_ERR_STATUSR BDK_GIC_RIB_ERR_STATUSR_FUNC()
 static inline uint64_t BDK_GIC_RIB_ERR_STATUSR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1166,7 +1174,7 @@ static inline uint64_t BDK_GIC_RIB_ERR_STATUSR_FUNC(void)
  * GIC Scratch Register
  * This is a scratch register.
  */
-typedef union
+union bdk_gic_scratch
 {
     uint64_t u;
     struct bdk_gic_scratch_s
@@ -1178,7 +1186,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gic_scratch_s cn; */
-} bdk_gic_scratch_t;
+};
+typedef union bdk_gic_scratch bdk_gic_scratch_t;
 
 #define BDK_GIC_SCRATCH BDK_GIC_SCRATCH_FUNC()
 static inline uint64_t BDK_GIC_SCRATCH_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1200,7 +1209,7 @@ static inline uint64_t BDK_GIC_SCRATCH_FUNC(void)
  * GIC SYNC Configuration Register
  * This register configures the behavior of ITS SYNC command.
  */
-typedef union
+union bdk_gic_sync_cfg
 {
     uint64_t u;
     struct bdk_gic_sync_cfg_s
@@ -1228,7 +1237,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gic_sync_cfg_s cn; */
-} bdk_gic_sync_cfg_t;
+};
+typedef union bdk_gic_sync_cfg bdk_gic_sync_cfg_t;
 
 #define BDK_GIC_SYNC_CFG BDK_GIC_SYNC_CFG_FUNC()
 static inline uint64_t BDK_GIC_SYNC_CFG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1255,7 +1265,7 @@ static inline uint64_t BDK_GIC_SYNC_CFG_FUNC(void)
  *
  * GIC Distributor Component Identification Register 0
  */
-typedef union
+union bdk_gicd_cidr0
 {
     uint32_t u;
     struct bdk_gicd_cidr0_s
@@ -1269,7 +1279,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gicd_cidr0_s cn; */
-} bdk_gicd_cidr0_t;
+};
+typedef union bdk_gicd_cidr0 bdk_gicd_cidr0_t;
 
 #define BDK_GICD_CIDR0 BDK_GICD_CIDR0_FUNC()
 static inline uint64_t BDK_GICD_CIDR0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1290,7 +1301,7 @@ static inline uint64_t BDK_GICD_CIDR0_FUNC(void)
  *
  * GIC Distributor Component Identification Register 1
  */
-typedef union
+union bdk_gicd_cidr1
 {
     uint32_t u;
     struct bdk_gicd_cidr1_s
@@ -1304,7 +1315,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gicd_cidr1_s cn; */
-} bdk_gicd_cidr1_t;
+};
+typedef union bdk_gicd_cidr1 bdk_gicd_cidr1_t;
 
 #define BDK_GICD_CIDR1 BDK_GICD_CIDR1_FUNC()
 static inline uint64_t BDK_GICD_CIDR1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1325,7 +1337,7 @@ static inline uint64_t BDK_GICD_CIDR1_FUNC(void)
  *
  * GIC Distributor Component Identification Register 2
  */
-typedef union
+union bdk_gicd_cidr2
 {
     uint32_t u;
     struct bdk_gicd_cidr2_s
@@ -1339,7 +1351,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gicd_cidr2_s cn; */
-} bdk_gicd_cidr2_t;
+};
+typedef union bdk_gicd_cidr2 bdk_gicd_cidr2_t;
 
 #define BDK_GICD_CIDR2 BDK_GICD_CIDR2_FUNC()
 static inline uint64_t BDK_GICD_CIDR2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1360,7 +1373,7 @@ static inline uint64_t BDK_GICD_CIDR2_FUNC(void)
  *
  * GIC Distributor Component Identification Register 3
  */
-typedef union
+union bdk_gicd_cidr3
 {
     uint32_t u;
     struct bdk_gicd_cidr3_s
@@ -1374,7 +1387,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gicd_cidr3_s cn; */
-} bdk_gicd_cidr3_t;
+};
+typedef union bdk_gicd_cidr3 bdk_gicd_cidr3_t;
 
 #define BDK_GICD_CIDR3 BDK_GICD_CIDR3_FUNC()
 static inline uint64_t BDK_GICD_CIDR3_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1395,7 +1409,7 @@ static inline uint64_t BDK_GICD_CIDR3_FUNC(void)
  *
  * GIC Distributor Clear SPI Pending Register
  */
-typedef union
+union bdk_gicd_clrspi_nsr
 {
     uint32_t u;
     struct bdk_gicd_clrspi_nsr_s
@@ -1423,7 +1437,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gicd_clrspi_nsr_s cn; */
-} bdk_gicd_clrspi_nsr_t;
+};
+typedef union bdk_gicd_clrspi_nsr bdk_gicd_clrspi_nsr_t;
 
 #define BDK_GICD_CLRSPI_NSR BDK_GICD_CLRSPI_NSR_FUNC()
 static inline uint64_t BDK_GICD_CLRSPI_NSR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1444,7 +1459,7 @@ static inline uint64_t BDK_GICD_CLRSPI_NSR_FUNC(void)
  *
  * GIC Distributor Clear Secure SPI Pending Register
  */
-typedef union
+union bdk_gicd_clrspi_sr
 {
     uint32_t u;
     struct bdk_gicd_clrspi_sr_s
@@ -1468,7 +1483,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gicd_clrspi_sr_s cn; */
-} bdk_gicd_clrspi_sr_t;
+};
+typedef union bdk_gicd_clrspi_sr bdk_gicd_clrspi_sr_t;
 
 #define BDK_GICD_CLRSPI_SR BDK_GICD_CLRSPI_SR_FUNC()
 static inline uint64_t BDK_GICD_CLRSPI_SR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1491,7 +1507,7 @@ static inline uint64_t BDK_GICD_CLRSPI_SR_FUNC(void)
  * Each bit in this register provides a clear-active bit for each SPI supported by the GIC.
  * Writing 1 to a clear-active bit clears the active status of the corresponding SPI.
  */
-typedef union
+union bdk_gicd_icactiverx
 {
     uint32_t u;
     struct bdk_gicd_icactiverx_s
@@ -1540,7 +1556,8 @@ typedef union
     } cn81xx;
     /* struct bdk_gicd_icactiverx_s cn88xx; */
     /* struct bdk_gicd_icactiverx_cn81xx cn83xx; */
-} bdk_gicd_icactiverx_t;
+};
+typedef union bdk_gicd_icactiverx bdk_gicd_icactiverx_t;
 
 static inline uint64_t BDK_GICD_ICACTIVERX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICD_ICACTIVERX(unsigned long a)
@@ -1565,7 +1582,7 @@ static inline uint64_t BDK_GICD_ICACTIVERX(unsigned long a)
  * Writing 1 to a clear-enable bit disables forwarding of the corresponding SPI from the
  * distributor to the CPU interfaces. Reading a bit identifies whether the SPI is enabled.
  */
-typedef union
+union bdk_gicd_icenablerx
 {
     uint32_t u;
     struct bdk_gicd_icenablerx_s
@@ -1595,7 +1612,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gicd_icenablerx_s cn; */
-} bdk_gicd_icenablerx_t;
+};
+typedef union bdk_gicd_icenablerx bdk_gicd_icenablerx_t;
 
 static inline uint64_t BDK_GICD_ICENABLERX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICD_ICENABLERX(unsigned long a)
@@ -1617,7 +1635,7 @@ static inline uint64_t BDK_GICD_ICENABLERX(unsigned long a)
  *
  * GIC Distributor SPI Configuration Registers
  */
-typedef union
+union bdk_gicd_icfgrx
 {
     uint32_t u;
     struct bdk_gicd_icfgrx_s
@@ -1641,7 +1659,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gicd_icfgrx_s cn; */
-} bdk_gicd_icfgrx_t;
+};
+typedef union bdk_gicd_icfgrx bdk_gicd_icfgrx_t;
 
 static inline uint64_t BDK_GICD_ICFGRX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICD_ICFGRX(unsigned long a)
@@ -1665,7 +1684,7 @@ static inline uint64_t BDK_GICD_ICFGRX(unsigned long a)
  * Each bit in GICD_ICPENDR() provides a clear-pending bit for each SPI supported by the GIC.
  * Writing 1 to a clear-pending bit clears the pending status of the corresponding SPI.
  */
-typedef union
+union bdk_gicd_icpendrx
 {
     uint32_t u;
     struct bdk_gicd_icpendrx_s
@@ -1714,7 +1733,8 @@ typedef union
     } cn81xx;
     /* struct bdk_gicd_icpendrx_s cn88xx; */
     /* struct bdk_gicd_icpendrx_cn81xx cn83xx; */
-} bdk_gicd_icpendrx_t;
+};
+typedef union bdk_gicd_icpendrx bdk_gicd_icpendrx_t;
 
 static inline uint64_t BDK_GICD_ICPENDRX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICD_ICPENDRX(unsigned long a)
@@ -1739,7 +1759,7 @@ static inline uint64_t BDK_GICD_ICPENDRX(unsigned long a)
  * that SPI in GICD_IGRPMODR() to form a 2-bit field that defines the interrupt group (G0S, G1S,
  * G1NS) for that SPI.
  */
-typedef union
+union bdk_gicd_igrouprx
 {
     uint32_t u;
     struct bdk_gicd_igrouprx_s
@@ -1753,7 +1773,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gicd_igrouprx_s cn; */
-} bdk_gicd_igrouprx_t;
+};
+typedef union bdk_gicd_igrouprx bdk_gicd_igrouprx_t;
 
 static inline uint64_t BDK_GICD_IGROUPRX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICD_IGROUPRX(unsigned long a)
@@ -1778,7 +1799,7 @@ static inline uint64_t BDK_GICD_IGROUPRX(unsigned long a)
  * corresponding bit for that SPI in GICD_IGROUPR() to form a 2-bit field that defines
  * the interrupt group (G0S, G1S, G1NS) for that SPI.
  */
-typedef union
+union bdk_gicd_igrpmodrx
 {
     uint32_t u;
     struct bdk_gicd_igrpmodrx_s
@@ -1792,7 +1813,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gicd_igrpmodrx_s cn; */
-} bdk_gicd_igrpmodrx_t;
+};
+typedef union bdk_gicd_igrpmodrx bdk_gicd_igrpmodrx_t;
 
 static inline uint64_t BDK_GICD_IGRPMODRX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICD_IGRPMODRX(unsigned long a)
@@ -1816,7 +1838,7 @@ static inline uint64_t BDK_GICD_IGRPMODRX(unsigned long a)
  * This 32-bit register is read-only and specifies the version and features supported by the
  * distributor.
  */
-typedef union
+union bdk_gicd_iidr
 {
     uint32_t u;
     struct bdk_gicd_iidr_s
@@ -1844,7 +1866,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gicd_iidr_s cn; */
-} bdk_gicd_iidr_t;
+};
+typedef union bdk_gicd_iidr bdk_gicd_iidr_t;
 
 #define BDK_GICD_IIDR BDK_GICD_IIDR_FUNC()
 static inline uint64_t BDK_GICD_IIDR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1866,7 +1889,7 @@ static inline uint64_t BDK_GICD_IIDR_FUNC(void)
  * GIC Distributor Interrupt Priority Registers
  * Each byte in this register provides a priority field for each SPI supported by the GIC.
  */
-typedef union
+union bdk_gicd_ipriorityrx
 {
     uint32_t u;
     struct bdk_gicd_ipriorityrx_s
@@ -1892,7 +1915,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gicd_ipriorityrx_s cn; */
-} bdk_gicd_ipriorityrx_t;
+};
+typedef union bdk_gicd_ipriorityrx bdk_gicd_ipriorityrx_t;
 
 static inline uint64_t BDK_GICD_IPRIORITYRX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICD_IPRIORITYRX(unsigned long a)
@@ -1916,7 +1940,7 @@ static inline uint64_t BDK_GICD_IPRIORITYRX(unsigned long a)
  * These registers provide the routing information for the security state of the associated SPIs.
  * Up to 64 bits of state to control the routing.
  */
-typedef union
+union bdk_gicd_irouterx
 {
     uint64_t u;
     struct bdk_gicd_irouterx_s
@@ -1944,7 +1968,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gicd_irouterx_s cn; */
-} bdk_gicd_irouterx_t;
+};
+typedef union bdk_gicd_irouterx bdk_gicd_irouterx_t;
 
 static inline uint64_t BDK_GICD_IROUTERX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICD_IROUTERX(unsigned long a)
@@ -1968,7 +1993,7 @@ static inline uint64_t BDK_GICD_IROUTERX(unsigned long a)
  * Each bit in this register provides a set-active bit for each SPI supported by the GIC.
  * Writing 1 to a set-active bit sets the status of the corresponding SPI to active.
  */
-typedef union
+union bdk_gicd_isactiverx
 {
     uint32_t u;
     struct bdk_gicd_isactiverx_s
@@ -2017,7 +2042,8 @@ typedef union
     } cn81xx;
     /* struct bdk_gicd_isactiverx_s cn88xx; */
     /* struct bdk_gicd_isactiverx_cn81xx cn83xx; */
-} bdk_gicd_isactiverx_t;
+};
+typedef union bdk_gicd_isactiverx bdk_gicd_isactiverx_t;
 
 static inline uint64_t BDK_GICD_ISACTIVERX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICD_ISACTIVERX(unsigned long a)
@@ -2042,7 +2068,7 @@ static inline uint64_t BDK_GICD_ISACTIVERX(unsigned long a)
  * Writing 1 to a set-enable bit enables forwarding of the corresponding SPI from the distributor
  * to the CPU interfaces.
  */
-typedef union
+union bdk_gicd_isenablerx
 {
     uint32_t u;
     struct bdk_gicd_isenablerx_s
@@ -2060,7 +2086,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gicd_isenablerx_s cn; */
-} bdk_gicd_isenablerx_t;
+};
+typedef union bdk_gicd_isenablerx bdk_gicd_isenablerx_t;
 
 static inline uint64_t BDK_GICD_ISENABLERX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICD_ISENABLERX(unsigned long a)
@@ -2084,7 +2111,7 @@ static inline uint64_t BDK_GICD_ISENABLERX(unsigned long a)
  * Each bit in GICD_ISPENDR() provides a set-pending bit for each SPI supported by the GIC.
  * Writing 1 to a set-pending bit sets the status of the corresponding SPI to pending.
  */
-typedef union
+union bdk_gicd_ispendrx
 {
     uint32_t u;
     struct bdk_gicd_ispendrx_s
@@ -2133,7 +2160,8 @@ typedef union
     } cn81xx;
     /* struct bdk_gicd_ispendrx_s cn88xx; */
     /* struct bdk_gicd_ispendrx_cn81xx cn83xx; */
-} bdk_gicd_ispendrx_t;
+};
+typedef union bdk_gicd_ispendrx bdk_gicd_ispendrx_t;
 
 static inline uint64_t BDK_GICD_ISPENDRX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICD_ISPENDRX(unsigned long a)
@@ -2155,7 +2183,7 @@ static inline uint64_t BDK_GICD_ISPENDRX(unsigned long a)
  *
  * GIC Distributor Nonsecure Access Control Secure Registers
  */
-typedef union
+union bdk_gicd_nsacrx
 {
     uint32_t u;
     struct bdk_gicd_nsacrx_s
@@ -2197,7 +2225,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gicd_nsacrx_s cn; */
-} bdk_gicd_nsacrx_t;
+};
+typedef union bdk_gicd_nsacrx bdk_gicd_nsacrx_t;
 
 static inline uint64_t BDK_GICD_NSACRX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICD_NSACRX(unsigned long a)
@@ -2219,7 +2248,7 @@ static inline uint64_t BDK_GICD_NSACRX(unsigned long a)
  *
  * GIC Distributor Peripheral Identification Register 0
  */
-typedef union
+union bdk_gicd_pidr0
 {
     uint32_t u;
     struct bdk_gicd_pidr0_s
@@ -2233,7 +2262,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gicd_pidr0_s cn; */
-} bdk_gicd_pidr0_t;
+};
+typedef union bdk_gicd_pidr0 bdk_gicd_pidr0_t;
 
 #define BDK_GICD_PIDR0 BDK_GICD_PIDR0_FUNC()
 static inline uint64_t BDK_GICD_PIDR0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2254,7 +2284,7 @@ static inline uint64_t BDK_GICD_PIDR0_FUNC(void)
  *
  * GIC Distributor Peripheral Identification Register 1
  */
-typedef union
+union bdk_gicd_pidr1
 {
     uint32_t u;
     struct bdk_gicd_pidr1_s
@@ -2270,7 +2300,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gicd_pidr1_s cn; */
-} bdk_gicd_pidr1_t;
+};
+typedef union bdk_gicd_pidr1 bdk_gicd_pidr1_t;
 
 #define BDK_GICD_PIDR1 BDK_GICD_PIDR1_FUNC()
 static inline uint64_t BDK_GICD_PIDR1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2291,7 +2322,7 @@ static inline uint64_t BDK_GICD_PIDR1_FUNC(void)
  *
  * GIC Distributor Peripheral Identification Register 2
  */
-typedef union
+union bdk_gicd_pidr2
 {
     uint32_t u;
     struct bdk_gicd_pidr2_s
@@ -2319,7 +2350,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gicd_pidr2_s cn; */
-} bdk_gicd_pidr2_t;
+};
+typedef union bdk_gicd_pidr2 bdk_gicd_pidr2_t;
 
 #define BDK_GICD_PIDR2 BDK_GICD_PIDR2_FUNC()
 static inline uint64_t BDK_GICD_PIDR2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2340,7 +2372,7 @@ static inline uint64_t BDK_GICD_PIDR2_FUNC(void)
  *
  * GIC Distributor Peripheral Identification Register 3
  */
-typedef union
+union bdk_gicd_pidr3
 {
     uint32_t u;
     struct bdk_gicd_pidr3_s
@@ -2358,7 +2390,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gicd_pidr3_s cn; */
-} bdk_gicd_pidr3_t;
+};
+typedef union bdk_gicd_pidr3 bdk_gicd_pidr3_t;
 
 #define BDK_GICD_PIDR3 BDK_GICD_PIDR3_FUNC()
 static inline uint64_t BDK_GICD_PIDR3_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2379,7 +2412,7 @@ static inline uint64_t BDK_GICD_PIDR3_FUNC(void)
  *
  * GIC Distributor Peripheral Identification Register 4
  */
-typedef union
+union bdk_gicd_pidr4
 {
     uint32_t u;
     struct bdk_gicd_pidr4_s
@@ -2395,7 +2428,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gicd_pidr4_s cn; */
-} bdk_gicd_pidr4_t;
+};
+typedef union bdk_gicd_pidr4 bdk_gicd_pidr4_t;
 
 #define BDK_GICD_PIDR4 BDK_GICD_PIDR4_FUNC()
 static inline uint64_t BDK_GICD_PIDR4_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2416,7 +2450,7 @@ static inline uint64_t BDK_GICD_PIDR4_FUNC(void)
  *
  * GIC Distributor Peripheral Identification Register 5
  */
-typedef union
+union bdk_gicd_pidr5
 {
     uint32_t u;
     struct bdk_gicd_pidr5_s
@@ -2428,7 +2462,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gicd_pidr5_s cn; */
-} bdk_gicd_pidr5_t;
+};
+typedef union bdk_gicd_pidr5 bdk_gicd_pidr5_t;
 
 #define BDK_GICD_PIDR5 BDK_GICD_PIDR5_FUNC()
 static inline uint64_t BDK_GICD_PIDR5_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2449,7 +2484,7 @@ static inline uint64_t BDK_GICD_PIDR5_FUNC(void)
  *
  * GIC Distributor Peripheral Identification Register 6
  */
-typedef union
+union bdk_gicd_pidr6
 {
     uint32_t u;
     struct bdk_gicd_pidr6_s
@@ -2461,7 +2496,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gicd_pidr6_s cn; */
-} bdk_gicd_pidr6_t;
+};
+typedef union bdk_gicd_pidr6 bdk_gicd_pidr6_t;
 
 #define BDK_GICD_PIDR6 BDK_GICD_PIDR6_FUNC()
 static inline uint64_t BDK_GICD_PIDR6_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2482,7 +2518,7 @@ static inline uint64_t BDK_GICD_PIDR6_FUNC(void)
  *
  * GIC Distributor Peripheral Identification Register 7
  */
-typedef union
+union bdk_gicd_pidr7
 {
     uint32_t u;
     struct bdk_gicd_pidr7_s
@@ -2494,7 +2530,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gicd_pidr7_s cn; */
-} bdk_gicd_pidr7_t;
+};
+typedef union bdk_gicd_pidr7 bdk_gicd_pidr7_t;
 
 #define BDK_GICD_PIDR7 BDK_GICD_PIDR7_FUNC()
 static inline uint64_t BDK_GICD_PIDR7_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2516,7 +2553,7 @@ static inline uint64_t BDK_GICD_PIDR7_FUNC(void)
  * GIC Distributor (Secure) Control Register
  * Controls the behavior of the distributor.
  */
-typedef union
+union bdk_gicd_sctlr
 {
     uint32_t u;
     struct bdk_gicd_sctlr_s
@@ -2616,7 +2653,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gicd_sctlr_s cn; */
-} bdk_gicd_sctlr_t;
+};
+typedef union bdk_gicd_sctlr bdk_gicd_sctlr_t;
 
 #define BDK_GICD_SCTLR BDK_GICD_SCTLR_FUNC()
 static inline uint64_t BDK_GICD_SCTLR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2637,7 +2675,7 @@ static inline uint64_t BDK_GICD_SCTLR_FUNC(void)
  *
  * GIC Distributor Set SPI Pending Register
  */
-typedef union
+union bdk_gicd_setspi_nsr
 {
     uint32_t u;
     struct bdk_gicd_setspi_nsr_s
@@ -2665,7 +2703,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gicd_setspi_nsr_s cn; */
-} bdk_gicd_setspi_nsr_t;
+};
+typedef union bdk_gicd_setspi_nsr bdk_gicd_setspi_nsr_t;
 
 #define BDK_GICD_SETSPI_NSR BDK_GICD_SETSPI_NSR_FUNC()
 static inline uint64_t BDK_GICD_SETSPI_NSR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2686,7 +2725,7 @@ static inline uint64_t BDK_GICD_SETSPI_NSR_FUNC(void)
  *
  * GIC Distributor Set Secure SPI Pending Register
  */
-typedef union
+union bdk_gicd_setspi_sr
 {
     uint32_t u;
     struct bdk_gicd_setspi_sr_s
@@ -2710,7 +2749,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gicd_setspi_sr_s cn; */
-} bdk_gicd_setspi_sr_t;
+};
+typedef union bdk_gicd_setspi_sr bdk_gicd_setspi_sr_t;
 
 #define BDK_GICD_SETSPI_SR BDK_GICD_SETSPI_SR_FUNC()
 static inline uint64_t BDK_GICD_SETSPI_SR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2731,7 +2771,7 @@ static inline uint64_t BDK_GICD_SETSPI_SR_FUNC(void)
  *
  * GIC Distributor (Secure) Status Register
  */
-typedef union
+union bdk_gicd_sstatusr
 {
     uint32_t u;
     struct bdk_gicd_sstatusr_s
@@ -2784,7 +2824,8 @@ typedef union
     } cn81xx;
     /* struct bdk_gicd_sstatusr_s cn88xx; */
     /* struct bdk_gicd_sstatusr_cn81xx cn83xx; */
-} bdk_gicd_sstatusr_t;
+};
+typedef union bdk_gicd_sstatusr bdk_gicd_sstatusr_t;
 
 #define BDK_GICD_SSTATUSR BDK_GICD_SSTATUSR_FUNC()
 static inline uint64_t BDK_GICD_SSTATUSR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2806,7 +2847,7 @@ static inline uint64_t BDK_GICD_SSTATUSR_FUNC(void)
  * GIC Distributor Type Register
  * Describes features supported by the distributor.
  */
-typedef union
+union bdk_gicd_typer
 {
     uint32_t u;
     struct bdk_gicd_typer_s
@@ -2840,7 +2881,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gicd_typer_s cn; */
-} bdk_gicd_typer_t;
+};
+typedef union bdk_gicd_typer bdk_gicd_typer_t;
 
 #define BDK_GICD_TYPER BDK_GICD_TYPER_FUNC()
 static inline uint64_t BDK_GICD_TYPER_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2861,7 +2903,7 @@ static inline uint64_t BDK_GICD_TYPER_FUNC(void)
  *
  * GIC Redistributor Component Identification Register 0
  */
-typedef union
+union bdk_gicrx_cidr0
 {
     uint32_t u;
     struct bdk_gicrx_cidr0_s
@@ -2875,7 +2917,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gicrx_cidr0_s cn; */
-} bdk_gicrx_cidr0_t;
+};
+typedef union bdk_gicrx_cidr0 bdk_gicrx_cidr0_t;
 
 static inline uint64_t BDK_GICRX_CIDR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICRX_CIDR0(unsigned long a)
@@ -2901,7 +2944,7 @@ static inline uint64_t BDK_GICRX_CIDR0(unsigned long a)
  *
  * GIC Redistributor Component Identification Register 1
  */
-typedef union
+union bdk_gicrx_cidr1
 {
     uint32_t u;
     struct bdk_gicrx_cidr1_s
@@ -2915,7 +2958,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gicrx_cidr1_s cn; */
-} bdk_gicrx_cidr1_t;
+};
+typedef union bdk_gicrx_cidr1 bdk_gicrx_cidr1_t;
 
 static inline uint64_t BDK_GICRX_CIDR1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICRX_CIDR1(unsigned long a)
@@ -2941,7 +2985,7 @@ static inline uint64_t BDK_GICRX_CIDR1(unsigned long a)
  *
  * GIC Redistributor Component Identification Register 2
  */
-typedef union
+union bdk_gicrx_cidr2
 {
     uint32_t u;
     struct bdk_gicrx_cidr2_s
@@ -2955,7 +2999,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gicrx_cidr2_s cn; */
-} bdk_gicrx_cidr2_t;
+};
+typedef union bdk_gicrx_cidr2 bdk_gicrx_cidr2_t;
 
 static inline uint64_t BDK_GICRX_CIDR2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICRX_CIDR2(unsigned long a)
@@ -2981,7 +3026,7 @@ static inline uint64_t BDK_GICRX_CIDR2(unsigned long a)
  *
  * GIC Redistributor Component Identification Register 3
  */
-typedef union
+union bdk_gicrx_cidr3
 {
     uint32_t u;
     struct bdk_gicrx_cidr3_s
@@ -2995,7 +3040,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gicrx_cidr3_s cn; */
-} bdk_gicrx_cidr3_t;
+};
+typedef union bdk_gicrx_cidr3 bdk_gicrx_cidr3_t;
 
 static inline uint64_t BDK_GICRX_CIDR3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICRX_CIDR3(unsigned long a)
@@ -3021,7 +3067,7 @@ static inline uint64_t BDK_GICRX_CIDR3(unsigned long a)
  *
  * GIC Redistributor Clear LPI Register
  */
-typedef union
+union bdk_gicrx_clrlpir
 {
     uint64_t u;
     struct bdk_gicrx_clrlpir_s
@@ -3041,7 +3087,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gicrx_clrlpir_s cn; */
-} bdk_gicrx_clrlpir_t;
+};
+typedef union bdk_gicrx_clrlpir bdk_gicrx_clrlpir_t;
 
 static inline uint64_t BDK_GICRX_CLRLPIR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICRX_CLRLPIR(unsigned long a)
@@ -3069,7 +3116,7 @@ static inline uint64_t BDK_GICRX_CLRLPIR(unsigned long a)
  * Each bit in GICR()_ICACTIVER0 provides a clear-active bit for an SGI or a PPI. Writing 1 to a
  * clear-active bit clears the active status of the corresponding interrupt.
  */
-typedef union
+union bdk_gicrx_icactiver0
 {
     uint32_t u;
     struct bdk_gicrx_icactiver0_s
@@ -3114,7 +3161,8 @@ typedef union
     } cn81xx;
     /* struct bdk_gicrx_icactiver0_s cn88xx; */
     /* struct bdk_gicrx_icactiver0_cn81xx cn83xx; */
-} bdk_gicrx_icactiver0_t;
+};
+typedef union bdk_gicrx_icactiver0 bdk_gicrx_icactiver0_t;
 
 static inline uint64_t BDK_GICRX_ICACTIVER0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICRX_ICACTIVER0(unsigned long a)
@@ -3143,7 +3191,7 @@ static inline uint64_t BDK_GICRX_ICACTIVER0(unsigned long a)
  * clear-enable bit disables forwarding of the corresponding SGI or PPI from the redistributor
  * to the CPU interfaces. Reading a bit identifies whether the interrupt is enabled.
  */
-typedef union
+union bdk_gicrx_icenabler0
 {
     uint32_t u;
     struct bdk_gicrx_icenabler0_s
@@ -3175,7 +3223,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gicrx_icenabler0_s cn; */
-} bdk_gicrx_icenabler0_t;
+};
+typedef union bdk_gicrx_icenabler0 bdk_gicrx_icenabler0_t;
 
 static inline uint64_t BDK_GICRX_ICENABLER0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICRX_ICENABLER0(unsigned long a)
@@ -3201,7 +3250,7 @@ static inline uint64_t BDK_GICRX_ICENABLER0(unsigned long a)
  *
  * GIC Redistributor Interrupt Configuration Register 0
  */
-typedef union
+union bdk_gicrx_icfgr0
 {
     uint32_t u;
     struct bdk_gicrx_icfgr0_s
@@ -3231,7 +3280,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gicrx_icfgr0_s cn; */
-} bdk_gicrx_icfgr0_t;
+};
+typedef union bdk_gicrx_icfgr0 bdk_gicrx_icfgr0_t;
 
 static inline uint64_t BDK_GICRX_ICFGR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICRX_ICFGR0(unsigned long a)
@@ -3258,7 +3308,7 @@ static inline uint64_t BDK_GICRX_ICFGR0(unsigned long a)
  * GIC Redistributor Interrupt Configuration Register 1
  * Redistributor interrupt configuration register 1.
  */
-typedef union
+union bdk_gicrx_icfgr1
 {
     uint32_t u;
     struct bdk_gicrx_icfgr1_s
@@ -3286,7 +3336,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gicrx_icfgr1_s cn; */
-} bdk_gicrx_icfgr1_t;
+};
+typedef union bdk_gicrx_icfgr1 bdk_gicrx_icfgr1_t;
 
 static inline uint64_t BDK_GICRX_ICFGR1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICRX_ICFGR1(unsigned long a)
@@ -3314,7 +3365,7 @@ static inline uint64_t BDK_GICRX_ICFGR1(unsigned long a)
  * Each bit in GICR()_ICPENDR0 provides a clear-pending bit for an SGI or a PPI. Writing 1 to a
  * clear-pending bit clears the pending status of the corresponding interrupt.
  */
-typedef union
+union bdk_gicrx_icpendr0
 {
     uint32_t u;
     struct bdk_gicrx_icpendr0_s
@@ -3359,7 +3410,8 @@ typedef union
     } cn81xx;
     /* struct bdk_gicrx_icpendr0_s cn88xx; */
     /* struct bdk_gicrx_icpendr0_cn81xx cn83xx; */
-} bdk_gicrx_icpendr0_t;
+};
+typedef union bdk_gicrx_icpendr0 bdk_gicrx_icpendr0_t;
 
 static inline uint64_t BDK_GICRX_ICPENDR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICRX_ICPENDR0(unsigned long a)
@@ -3385,7 +3437,7 @@ static inline uint64_t BDK_GICRX_ICPENDR0(unsigned long a)
  *
  * GIC Redistributor Interrupt Group Secure Register
  */
-typedef union
+union bdk_gicrx_igroupr0
 {
     uint32_t u;
     struct bdk_gicrx_igroupr0_s
@@ -3407,7 +3459,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gicrx_igroupr0_s cn; */
-} bdk_gicrx_igroupr0_t;
+};
+typedef union bdk_gicrx_igroupr0 bdk_gicrx_igroupr0_t;
 
 static inline uint64_t BDK_GICRX_IGROUPR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICRX_IGROUPR0(unsigned long a)
@@ -3434,7 +3487,7 @@ static inline uint64_t BDK_GICRX_IGROUPR0(unsigned long a)
  * GIC Redistributor Interrupt Group Secure Register
  * Control the group modifier for PPIs and SGIs, similar to GICD_IGRPMODR() for SPIs.
  */
-typedef union
+union bdk_gicrx_igrpmodr0
 {
     uint32_t u;
     struct bdk_gicrx_igrpmodr0_s
@@ -3456,7 +3509,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gicrx_igrpmodr0_s cn; */
-} bdk_gicrx_igrpmodr0_t;
+};
+typedef union bdk_gicrx_igrpmodr0 bdk_gicrx_igrpmodr0_t;
 
 static inline uint64_t BDK_GICRX_IGRPMODR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICRX_IGRPMODR0(unsigned long a)
@@ -3484,7 +3538,7 @@ static inline uint64_t BDK_GICRX_IGRPMODR0(unsigned long a)
  * This 32-bit register is read-only and specifies the version and features supported by the
  * redistributor.
  */
-typedef union
+union bdk_gicrx_iidr
 {
     uint32_t u;
     struct bdk_gicrx_iidr_s
@@ -3512,7 +3566,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gicrx_iidr_s cn; */
-} bdk_gicrx_iidr_t;
+};
+typedef union bdk_gicrx_iidr bdk_gicrx_iidr_t;
 
 static inline uint64_t BDK_GICRX_IIDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICRX_IIDR(unsigned long a)
@@ -3540,7 +3595,7 @@ static inline uint64_t BDK_GICRX_IIDR(unsigned long a)
  * This register is write-only and causes the LPI configuration to be reloaded from the table in
  * memory.
  */
-typedef union
+union bdk_gicrx_invallr
 {
     uint64_t u;
     struct bdk_gicrx_invallr_s
@@ -3552,7 +3607,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gicrx_invallr_s cn; */
-} bdk_gicrx_invallr_t;
+};
+typedef union bdk_gicrx_invallr bdk_gicrx_invallr_t;
 
 static inline uint64_t BDK_GICRX_INVALLR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICRX_INVALLR(unsigned long a)
@@ -3578,7 +3634,7 @@ static inline uint64_t BDK_GICRX_INVALLR(unsigned long a)
  *
  * GIC Redistributor Invalidate LPI Register
  */
-typedef union
+union bdk_gicrx_invlpir
 {
     uint64_t u;
     struct bdk_gicrx_invlpir_s
@@ -3598,7 +3654,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gicrx_invlpir_s cn; */
-} bdk_gicrx_invlpir_t;
+};
+typedef union bdk_gicrx_invlpir bdk_gicrx_invlpir_t;
 
 static inline uint64_t BDK_GICRX_INVLPIR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICRX_INVLPIR(unsigned long a)
@@ -3626,7 +3683,7 @@ static inline uint64_t BDK_GICRX_INVLPIR(unsigned long a)
  * Each byte in GICR_IPRIORITYR0 provides a priority field for each SGI or PPI supported by the
  * GIC.
  */
-typedef union
+union bdk_gicrx_ipriorityrx
 {
     uint32_t u;
     struct bdk_gicrx_ipriorityrx_s
@@ -3652,7 +3709,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gicrx_ipriorityrx_s cn; */
-} bdk_gicrx_ipriorityrx_t;
+};
+typedef union bdk_gicrx_ipriorityrx bdk_gicrx_ipriorityrx_t;
 
 static inline uint64_t BDK_GICRX_IPRIORITYRX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICRX_IPRIORITYRX(unsigned long a, unsigned long b)
@@ -3680,7 +3738,7 @@ static inline uint64_t BDK_GICRX_IPRIORITYRX(unsigned long a, unsigned long b)
  * Each bit in GICR()_ISACTIVER0 provides a set-active bit for an SGI or a PPI. Writing 1 to a
  * set-active bit sets the status of the corresponding interrupt to active.
  */
-typedef union
+union bdk_gicrx_isactiver0
 {
     uint32_t u;
     struct bdk_gicrx_isactiver0_s
@@ -3725,7 +3783,8 @@ typedef union
     } cn81xx;
     /* struct bdk_gicrx_isactiver0_s cn88xx; */
     /* struct bdk_gicrx_isactiver0_cn81xx cn83xx; */
-} bdk_gicrx_isactiver0_t;
+};
+typedef union bdk_gicrx_isactiver0 bdk_gicrx_isactiver0_t;
 
 static inline uint64_t BDK_GICRX_ISACTIVER0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICRX_ISACTIVER0(unsigned long a)
@@ -3754,7 +3813,7 @@ static inline uint64_t BDK_GICRX_ISACTIVER0(unsigned long a)
  * to a set-enable bit enables forwarding of the corresponding SGI or PPI from the
  * redistributor to the CPU interfaces.
  */
-typedef union
+union bdk_gicrx_isenabler0
 {
     uint32_t u;
     struct bdk_gicrx_isenabler0_s
@@ -3772,7 +3831,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gicrx_isenabler0_s cn; */
-} bdk_gicrx_isenabler0_t;
+};
+typedef union bdk_gicrx_isenabler0 bdk_gicrx_isenabler0_t;
 
 static inline uint64_t BDK_GICRX_ISENABLER0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICRX_ISENABLER0(unsigned long a)
@@ -3800,7 +3860,7 @@ static inline uint64_t BDK_GICRX_ISENABLER0(unsigned long a)
  * Each bit in GICR()_ISPENDR0 provides a set-pending bit for an SGI or a PPI. Writing 1
  * to a set-pending bit sets the status of the corresponding interrupt to pending.
  */
-typedef union
+union bdk_gicrx_ispendr0
 {
     uint32_t u;
     struct bdk_gicrx_ispendr0_s
@@ -3845,7 +3905,8 @@ typedef union
     } cn81xx;
     /* struct bdk_gicrx_ispendr0_s cn88xx; */
     /* struct bdk_gicrx_ispendr0_cn81xx cn83xx; */
-} bdk_gicrx_ispendr0_t;
+};
+typedef union bdk_gicrx_ispendr0 bdk_gicrx_ispendr0_t;
 
 static inline uint64_t BDK_GICRX_ISPENDR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICRX_ISPENDR0(unsigned long a)
@@ -3873,7 +3934,7 @@ static inline uint64_t BDK_GICRX_ISPENDR0(unsigned long a)
  * This register is write-only and causes the LPI configuration to be reloaded from the table in
  * memory.
  */
-typedef union
+union bdk_gicrx_movallr
 {
     uint64_t u;
     struct bdk_gicrx_movallr_s
@@ -3891,7 +3952,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gicrx_movallr_s cn; */
-} bdk_gicrx_movallr_t;
+};
+typedef union bdk_gicrx_movallr bdk_gicrx_movallr_t;
 
 static inline uint64_t BDK_GICRX_MOVALLR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICRX_MOVALLR(unsigned long a)
@@ -3917,7 +3979,7 @@ static inline uint64_t BDK_GICRX_MOVALLR(unsigned long a)
  *
  * GIC Redistributor Move LPI Register
  */
-typedef union
+union bdk_gicrx_movlpir
 {
     uint64_t u;
     struct bdk_gicrx_movlpir_s
@@ -3937,7 +3999,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gicrx_movlpir_s cn; */
-} bdk_gicrx_movlpir_t;
+};
+typedef union bdk_gicrx_movlpir bdk_gicrx_movlpir_t;
 
 static inline uint64_t BDK_GICRX_MOVLPIR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICRX_MOVLPIR(unsigned long a)
@@ -3963,7 +4026,7 @@ static inline uint64_t BDK_GICRX_MOVLPIR(unsigned long a)
  *
  * GIC Redistributor Non-Secure Access Control Secure Registers
  */
-typedef union
+union bdk_gicrx_nsacr
 {
     uint32_t u;
     struct bdk_gicrx_nsacr_s
@@ -3995,7 +4058,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gicrx_nsacr_s cn; */
-} bdk_gicrx_nsacr_t;
+};
+typedef union bdk_gicrx_nsacr bdk_gicrx_nsacr_t;
 
 static inline uint64_t BDK_GICRX_NSACR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICRX_NSACR(unsigned long a)
@@ -4021,7 +4085,7 @@ static inline uint64_t BDK_GICRX_NSACR(unsigned long a)
  *
  * GIC Redistributor LPI Pending Table Address Register
  */
-typedef union
+union bdk_gicrx_pendbaser
 {
     uint64_t u;
     struct bdk_gicrx_pendbaser_s
@@ -4077,7 +4141,8 @@ typedef union
     /* struct bdk_gicrx_pendbaser_s cn81xx; */
     /* struct bdk_gicrx_pendbaser_s cn83xx; */
     /* struct bdk_gicrx_pendbaser_s cn88xxp2; */
-} bdk_gicrx_pendbaser_t;
+};
+typedef union bdk_gicrx_pendbaser bdk_gicrx_pendbaser_t;
 
 static inline uint64_t BDK_GICRX_PENDBASER(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICRX_PENDBASER(unsigned long a)
@@ -4103,7 +4168,7 @@ static inline uint64_t BDK_GICRX_PENDBASER(unsigned long a)
  *
  * GIC Redistributor Peripheral Identification Register 0
  */
-typedef union
+union bdk_gicrx_pidr0
 {
     uint32_t u;
     struct bdk_gicrx_pidr0_s
@@ -4117,7 +4182,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gicrx_pidr0_s cn; */
-} bdk_gicrx_pidr0_t;
+};
+typedef union bdk_gicrx_pidr0 bdk_gicrx_pidr0_t;
 
 static inline uint64_t BDK_GICRX_PIDR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICRX_PIDR0(unsigned long a)
@@ -4143,7 +4209,7 @@ static inline uint64_t BDK_GICRX_PIDR0(unsigned long a)
  *
  * GIC Redistributor Peripheral Identification Register 1
  */
-typedef union
+union bdk_gicrx_pidr1
 {
     uint32_t u;
     struct bdk_gicrx_pidr1_s
@@ -4159,7 +4225,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gicrx_pidr1_s cn; */
-} bdk_gicrx_pidr1_t;
+};
+typedef union bdk_gicrx_pidr1 bdk_gicrx_pidr1_t;
 
 static inline uint64_t BDK_GICRX_PIDR1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICRX_PIDR1(unsigned long a)
@@ -4185,7 +4252,7 @@ static inline uint64_t BDK_GICRX_PIDR1(unsigned long a)
  *
  * GIC Redistributor Peripheral Identification Register 2
  */
-typedef union
+union bdk_gicrx_pidr2
 {
     uint32_t u;
     struct bdk_gicrx_pidr2_s
@@ -4213,7 +4280,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gicrx_pidr2_s cn; */
-} bdk_gicrx_pidr2_t;
+};
+typedef union bdk_gicrx_pidr2 bdk_gicrx_pidr2_t;
 
 static inline uint64_t BDK_GICRX_PIDR2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICRX_PIDR2(unsigned long a)
@@ -4239,7 +4307,7 @@ static inline uint64_t BDK_GICRX_PIDR2(unsigned long a)
  *
  * GIC Redistributor Peripheral Identification Register 3
  */
-typedef union
+union bdk_gicrx_pidr3
 {
     uint32_t u;
     struct bdk_gicrx_pidr3_s
@@ -4257,7 +4325,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gicrx_pidr3_s cn; */
-} bdk_gicrx_pidr3_t;
+};
+typedef union bdk_gicrx_pidr3 bdk_gicrx_pidr3_t;
 
 static inline uint64_t BDK_GICRX_PIDR3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICRX_PIDR3(unsigned long a)
@@ -4283,7 +4352,7 @@ static inline uint64_t BDK_GICRX_PIDR3(unsigned long a)
  *
  * GIC Redistributor Peripheral Identification Register 4
  */
-typedef union
+union bdk_gicrx_pidr4
 {
     uint32_t u;
     struct bdk_gicrx_pidr4_s
@@ -4299,7 +4368,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gicrx_pidr4_s cn; */
-} bdk_gicrx_pidr4_t;
+};
+typedef union bdk_gicrx_pidr4 bdk_gicrx_pidr4_t;
 
 static inline uint64_t BDK_GICRX_PIDR4(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICRX_PIDR4(unsigned long a)
@@ -4325,7 +4395,7 @@ static inline uint64_t BDK_GICRX_PIDR4(unsigned long a)
  *
  * GIC Redistributor Peripheral Identification Register 5
  */
-typedef union
+union bdk_gicrx_pidr5
 {
     uint32_t u;
     struct bdk_gicrx_pidr5_s
@@ -4337,7 +4407,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gicrx_pidr5_s cn; */
-} bdk_gicrx_pidr5_t;
+};
+typedef union bdk_gicrx_pidr5 bdk_gicrx_pidr5_t;
 
 static inline uint64_t BDK_GICRX_PIDR5(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICRX_PIDR5(unsigned long a)
@@ -4363,7 +4434,7 @@ static inline uint64_t BDK_GICRX_PIDR5(unsigned long a)
  *
  * GIC Redistributor Peripheral Identification Register 6
  */
-typedef union
+union bdk_gicrx_pidr6
 {
     uint32_t u;
     struct bdk_gicrx_pidr6_s
@@ -4375,7 +4446,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gicrx_pidr6_s cn; */
-} bdk_gicrx_pidr6_t;
+};
+typedef union bdk_gicrx_pidr6 bdk_gicrx_pidr6_t;
 
 static inline uint64_t BDK_GICRX_PIDR6(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICRX_PIDR6(unsigned long a)
@@ -4401,7 +4473,7 @@ static inline uint64_t BDK_GICRX_PIDR6(unsigned long a)
  *
  * GIC Redistributor Peripheral Identification Register 7
  */
-typedef union
+union bdk_gicrx_pidr7
 {
     uint32_t u;
     struct bdk_gicrx_pidr7_s
@@ -4413,7 +4485,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gicrx_pidr7_s cn; */
-} bdk_gicrx_pidr7_t;
+};
+typedef union bdk_gicrx_pidr7 bdk_gicrx_pidr7_t;
 
 static inline uint64_t BDK_GICRX_PIDR7(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICRX_PIDR7(unsigned long a)
@@ -4439,7 +4512,7 @@ static inline uint64_t BDK_GICRX_PIDR7(unsigned long a)
  *
  * GIC Redistributor LPI Configuration Table Address Register
  */
-typedef union
+union bdk_gicrx_propbaser
 {
     uint64_t u;
     struct bdk_gicrx_propbaser_s
@@ -4489,7 +4562,8 @@ typedef union
     /* struct bdk_gicrx_propbaser_s cn81xx; */
     /* struct bdk_gicrx_propbaser_s cn83xx; */
     /* struct bdk_gicrx_propbaser_s cn88xxp2; */
-} bdk_gicrx_propbaser_t;
+};
+typedef union bdk_gicrx_propbaser bdk_gicrx_propbaser_t;
 
 static inline uint64_t BDK_GICRX_PROPBASER(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICRX_PROPBASER(unsigned long a)
@@ -4516,7 +4590,7 @@ static inline uint64_t BDK_GICRX_PROPBASER(unsigned long a)
  * GIC Redistributor (Secure) Control Register
  * This register controls the behavior of the nonsecure redistributor.
  */
-typedef union
+union bdk_gicrx_sctlr
 {
     uint32_t u;
     struct bdk_gicrx_sctlr_s
@@ -4566,7 +4640,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gicrx_sctlr_s cn; */
-} bdk_gicrx_sctlr_t;
+};
+typedef union bdk_gicrx_sctlr bdk_gicrx_sctlr_t;
 
 static inline uint64_t BDK_GICRX_SCTLR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICRX_SCTLR(unsigned long a)
@@ -4592,7 +4667,7 @@ static inline uint64_t BDK_GICRX_SCTLR(unsigned long a)
  *
  * GIC Redistributor Generate SEI Register
  */
-typedef union
+union bdk_gicrx_seir
 {
     uint32_t u;
     struct bdk_gicrx_seir_s
@@ -4612,7 +4687,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gicrx_seir_s cn; */
-} bdk_gicrx_seir_t;
+};
+typedef union bdk_gicrx_seir bdk_gicrx_seir_t;
 
 static inline uint64_t BDK_GICRX_SEIR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICRX_SEIR(unsigned long a)
@@ -4638,7 +4714,7 @@ static inline uint64_t BDK_GICRX_SEIR(unsigned long a)
  *
  * GIC Redistributor Set Non-Maskable Interrupt Secure Registers
  */
-typedef union
+union bdk_gicrx_setdel3tr_el1s
 {
     uint32_t u;
     struct bdk_gicrx_setdel3tr_el1s_s
@@ -4660,7 +4736,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gicrx_setdel3tr_el1s_s cn; */
-} bdk_gicrx_setdel3tr_el1s_t;
+};
+typedef union bdk_gicrx_setdel3tr_el1s bdk_gicrx_setdel3tr_el1s_t;
 
 static inline uint64_t BDK_GICRX_SETDEL3TR_EL1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICRX_SETDEL3TR_EL1S(unsigned long a)
@@ -4686,7 +4763,7 @@ static inline uint64_t BDK_GICRX_SETDEL3TR_EL1S(unsigned long a)
  *
  * GIC Redistributor Set LPI Register
  */
-typedef union
+union bdk_gicrx_setlpir
 {
     uint64_t u;
     struct bdk_gicrx_setlpir_s
@@ -4706,7 +4783,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gicrx_setlpir_s cn; */
-} bdk_gicrx_setlpir_t;
+};
+typedef union bdk_gicrx_setlpir bdk_gicrx_setlpir_t;
 
 static inline uint64_t BDK_GICRX_SETLPIR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICRX_SETLPIR(unsigned long a)
@@ -4732,7 +4810,7 @@ static inline uint64_t BDK_GICRX_SETLPIR(unsigned long a)
  *
  * GIC Redistributor (Secure) Status Register
  */
-typedef union
+union bdk_gicrx_sstatusr
 {
     uint32_t u;
     struct bdk_gicrx_sstatusr_s
@@ -4760,7 +4838,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gicrx_sstatusr_s cn; */
-} bdk_gicrx_sstatusr_t;
+};
+typedef union bdk_gicrx_sstatusr bdk_gicrx_sstatusr_t;
 
 static inline uint64_t BDK_GICRX_SSTATUSR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICRX_SSTATUSR(unsigned long a)
@@ -4786,7 +4865,7 @@ static inline uint64_t BDK_GICRX_SSTATUSR(unsigned long a)
  *
  * GIC Redistributor Sync Register
  */
-typedef union
+union bdk_gicrx_syncr
 {
     uint32_t u;
     struct bdk_gicrx_syncr_s
@@ -4818,7 +4897,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gicrx_syncr_s cn; */
-} bdk_gicrx_syncr_t;
+};
+typedef union bdk_gicrx_syncr bdk_gicrx_syncr_t;
 
 static inline uint64_t BDK_GICRX_SYNCR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICRX_SYNCR(unsigned long a)
@@ -4846,7 +4926,7 @@ static inline uint64_t BDK_GICRX_SYNCR(unsigned long a)
  * This 64-bit read-only register is used to discover the properties of the redistributor and is
  * always accessible regardless of the ARE setting for a security state.
  */
-typedef union
+union bdk_gicrx_typer
 {
     uint64_t u;
     struct bdk_gicrx_typer_s
@@ -4894,7 +4974,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gicrx_typer_s cn; */
-} bdk_gicrx_typer_t;
+};
+typedef union bdk_gicrx_typer bdk_gicrx_typer_t;
 
 static inline uint64_t BDK_GICRX_TYPER(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICRX_TYPER(unsigned long a)
@@ -4920,7 +5001,7 @@ static inline uint64_t BDK_GICRX_TYPER(unsigned long a)
  *
  * GIC Redistributor Wake Request Control Secure Register
  */
-typedef union
+union bdk_gicrx_waker
 {
     uint32_t u;
     struct bdk_gicrx_waker_s
@@ -4985,7 +5066,8 @@ typedef union
     } cn81xx;
     /* struct bdk_gicrx_waker_s cn88xx; */
     /* struct bdk_gicrx_waker_cn81xx cn83xx; */
-} bdk_gicrx_waker_t;
+};
+typedef union bdk_gicrx_waker bdk_gicrx_waker_t;
 
 static inline uint64_t BDK_GICRX_WAKER(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICRX_WAKER(unsigned long a)
@@ -5016,7 +5098,7 @@ static inline uint64_t BDK_GICRX_WAKER(unsigned long a)
  * Where a register is not implemented, it is RES0.
  * Bits [63:32] and bits [31:0] may be accessed independently.
  */
-typedef union
+union bdk_gits_baserx
 {
     uint64_t u;
     struct bdk_gits_baserx_s
@@ -5575,7 +5657,8 @@ typedef union
     } cn81xx;
     /* struct bdk_gits_baserx_cn81xx cn83xx; */
     /* struct bdk_gits_baserx_cn81xx cn88xxp2; */
-} bdk_gits_baserx_t;
+};
+typedef union bdk_gits_baserx bdk_gits_baserx_t;
 
 static inline uint64_t BDK_GITS_BASERX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GITS_BASERX(unsigned long a)
@@ -5601,7 +5684,7 @@ static inline uint64_t BDK_GITS_BASERX(unsigned long a)
  * An implementation can provide up to eight such registers.
  * Where a register is not implemented, it is RES0.
  */
-typedef union
+union bdk_gits_baserx_rowi
 {
     uint64_t u;
     struct bdk_gits_baserx_rowi_s
@@ -5613,7 +5696,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gits_baserx_rowi_s cn; */
-} bdk_gits_baserx_rowi_t;
+};
+typedef union bdk_gits_baserx_rowi bdk_gits_baserx_rowi_t;
 
 static inline uint64_t BDK_GITS_BASERX_ROWI(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GITS_BASERX_ROWI(unsigned long a)
@@ -5642,7 +5726,7 @@ static inline uint64_t BDK_GITS_BASERX_ROWI(unsigned long a)
  * independently. When GITS_CTLR[ENABLE] is one or GITS_CTLR[QUIESCENT] is zero, this register is
  * read-only.
  */
-typedef union
+union bdk_gits_cbaser
 {
     uint64_t u;
     struct bdk_gits_cbaser_s
@@ -5913,7 +5997,8 @@ typedef union
     } cn81xx;
     /* struct bdk_gits_cbaser_cn81xx cn83xx; */
     /* struct bdk_gits_cbaser_cn81xx cn88xxp2; */
-} bdk_gits_cbaser_t;
+};
+typedef union bdk_gits_cbaser bdk_gits_cbaser_t;
 
 #define BDK_GITS_CBASER BDK_GITS_CBASER_FUNC()
 static inline uint64_t BDK_GITS_CBASER_FUNC(void) __attribute__ ((pure, always_inline));
@@ -5934,7 +6019,7 @@ static inline uint64_t BDK_GITS_CBASER_FUNC(void)
  *
  * GIC ITS Component Identification Register 0
  */
-typedef union
+union bdk_gits_cidr0
 {
     uint32_t u;
     struct bdk_gits_cidr0_s
@@ -5948,7 +6033,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gits_cidr0_s cn; */
-} bdk_gits_cidr0_t;
+};
+typedef union bdk_gits_cidr0 bdk_gits_cidr0_t;
 
 #define BDK_GITS_CIDR0 BDK_GITS_CIDR0_FUNC()
 static inline uint64_t BDK_GITS_CIDR0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -5969,7 +6055,7 @@ static inline uint64_t BDK_GITS_CIDR0_FUNC(void)
  *
  * GIC ITS Component Identification Register 1
  */
-typedef union
+union bdk_gits_cidr1
 {
     uint32_t u;
     struct bdk_gits_cidr1_s
@@ -5983,7 +6069,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gits_cidr1_s cn; */
-} bdk_gits_cidr1_t;
+};
+typedef union bdk_gits_cidr1 bdk_gits_cidr1_t;
 
 #define BDK_GITS_CIDR1 BDK_GITS_CIDR1_FUNC()
 static inline uint64_t BDK_GITS_CIDR1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -6004,7 +6091,7 @@ static inline uint64_t BDK_GITS_CIDR1_FUNC(void)
  *
  * GIC ITS Component Identification Register 2
  */
-typedef union
+union bdk_gits_cidr2
 {
     uint32_t u;
     struct bdk_gits_cidr2_s
@@ -6018,7 +6105,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gits_cidr2_s cn; */
-} bdk_gits_cidr2_t;
+};
+typedef union bdk_gits_cidr2 bdk_gits_cidr2_t;
 
 #define BDK_GITS_CIDR2 BDK_GITS_CIDR2_FUNC()
 static inline uint64_t BDK_GITS_CIDR2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -6039,7 +6127,7 @@ static inline uint64_t BDK_GITS_CIDR2_FUNC(void)
  *
  * GIC ITS Component Identification Register 3
  */
-typedef union
+union bdk_gits_cidr3
 {
     uint32_t u;
     struct bdk_gits_cidr3_s
@@ -6053,7 +6141,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gits_cidr3_s cn; */
-} bdk_gits_cidr3_t;
+};
+typedef union bdk_gits_cidr3 bdk_gits_cidr3_t;
 
 #define BDK_GITS_CIDR3 BDK_GITS_CIDR3_FUNC()
 static inline uint64_t BDK_GITS_CIDR3_FUNC(void) __attribute__ ((pure, always_inline));
@@ -6083,7 +6172,7 @@ static inline uint64_t BDK_GITS_CIDR3_FUNC(void)
  *
  * Note: when GITS_CBASER is written, the value of GITS_CREADR is set to zero.
  */
-typedef union
+union bdk_gits_creadr
 {
     uint64_t u;
     struct bdk_gits_creadr_s
@@ -6101,7 +6190,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gits_creadr_s cn; */
-} bdk_gits_creadr_t;
+};
+typedef union bdk_gits_creadr bdk_gits_creadr_t;
 
 #define BDK_GITS_CREADR BDK_GITS_CREADR_FUNC()
 static inline uint64_t BDK_GITS_CREADR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -6123,7 +6213,7 @@ static inline uint64_t BDK_GITS_CREADR_FUNC(void)
  * GIC ITS Control Register
  * This register controls the behavior of the interrupt translation service.
  */
-typedef union
+union bdk_gits_ctlr
 {
     uint32_t u;
     struct bdk_gits_ctlr_s
@@ -6171,7 +6261,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gits_ctlr_s cn; */
-} bdk_gits_ctlr_t;
+};
+typedef union bdk_gits_ctlr bdk_gits_ctlr_t;
 
 #define BDK_GITS_CTLR BDK_GITS_CTLR_FUNC()
 static inline uint64_t BDK_GITS_CTLR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -6202,7 +6293,7 @@ static inline uint64_t BDK_GITS_CTLR_FUNC(void)
  * Each command in the queue comprises 32 bytes. See section 5.13 for details of the commands
  * supported and the format of each command.
  */
-typedef union
+union bdk_gits_cwriter
 {
     uint64_t u;
     struct bdk_gits_cwriter_s
@@ -6220,7 +6311,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gits_cwriter_s cn; */
-} bdk_gits_cwriter_t;
+};
+typedef union bdk_gits_cwriter bdk_gits_cwriter_t;
 
 #define BDK_GITS_CWRITER BDK_GITS_CWRITER_FUNC()
 static inline uint64_t BDK_GITS_CWRITER_FUNC(void) __attribute__ ((pure, always_inline));
@@ -6242,7 +6334,7 @@ static inline uint64_t BDK_GITS_CWRITER_FUNC(void)
  * GIC ITS Implementation Identification Register
  * This 32-bit register is read-only and specifies the version and features supported by the ITS.
  */
-typedef union
+union bdk_gits_iidr
 {
     uint32_t u;
     struct bdk_gits_iidr_s
@@ -6270,7 +6362,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gits_iidr_s cn; */
-} bdk_gits_iidr_t;
+};
+typedef union bdk_gits_iidr bdk_gits_iidr_t;
 
 #define BDK_GITS_IIDR BDK_GITS_IIDR_FUNC()
 static inline uint64_t BDK_GITS_IIDR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -6292,7 +6385,7 @@ static inline uint64_t BDK_GITS_IIDR_FUNC(void)
  * GIC ITS Implementation Defined Command SEI Register
  * This register holds the SEI status of the ITS command error.
  */
-typedef union
+union bdk_gits_imp_cseir
 {
     uint64_t u;
     struct bdk_gits_imp_cseir_s
@@ -6324,7 +6417,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gits_imp_cseir_s cn; */
-} bdk_gits_imp_cseir_t;
+};
+typedef union bdk_gits_imp_cseir bdk_gits_imp_cseir_t;
 
 #define BDK_GITS_IMP_CSEIR BDK_GITS_IMP_CSEIR_FUNC()
 static inline uint64_t BDK_GITS_IMP_CSEIR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -6346,7 +6440,7 @@ static inline uint64_t BDK_GITS_IMP_CSEIR_FUNC(void)
  * GIC ITS Implementation Defined Translator SEI Register
  * This register holds the SEI status of the ITS translator error.
  */
-typedef union
+union bdk_gits_imp_tseir
 {
     uint64_t u;
     struct bdk_gits_imp_tseir_s
@@ -6376,7 +6470,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gits_imp_tseir_s cn; */
-} bdk_gits_imp_tseir_t;
+};
+typedef union bdk_gits_imp_tseir bdk_gits_imp_tseir_t;
 
 #define BDK_GITS_IMP_TSEIR BDK_GITS_IMP_TSEIR_FUNC()
 static inline uint64_t BDK_GITS_IMP_TSEIR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -6397,7 +6492,7 @@ static inline uint64_t BDK_GITS_IMP_TSEIR_FUNC(void)
  *
  * GIC ITS Peripheral Identification Register 0
  */
-typedef union
+union bdk_gits_pidr0
 {
     uint32_t u;
     struct bdk_gits_pidr0_s
@@ -6411,7 +6506,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gits_pidr0_s cn; */
-} bdk_gits_pidr0_t;
+};
+typedef union bdk_gits_pidr0 bdk_gits_pidr0_t;
 
 #define BDK_GITS_PIDR0 BDK_GITS_PIDR0_FUNC()
 static inline uint64_t BDK_GITS_PIDR0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -6432,7 +6528,7 @@ static inline uint64_t BDK_GITS_PIDR0_FUNC(void)
  *
  * GIC ITS Peripheral Identification Register 1
  */
-typedef union
+union bdk_gits_pidr1
 {
     uint32_t u;
     struct bdk_gits_pidr1_s
@@ -6448,7 +6544,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gits_pidr1_s cn; */
-} bdk_gits_pidr1_t;
+};
+typedef union bdk_gits_pidr1 bdk_gits_pidr1_t;
 
 #define BDK_GITS_PIDR1 BDK_GITS_PIDR1_FUNC()
 static inline uint64_t BDK_GITS_PIDR1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -6469,7 +6566,7 @@ static inline uint64_t BDK_GITS_PIDR1_FUNC(void)
  *
  * GIC ITS Peripheral Identification Register 2
  */
-typedef union
+union bdk_gits_pidr2
 {
     uint32_t u;
     struct bdk_gits_pidr2_s
@@ -6497,7 +6594,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gits_pidr2_s cn; */
-} bdk_gits_pidr2_t;
+};
+typedef union bdk_gits_pidr2 bdk_gits_pidr2_t;
 
 #define BDK_GITS_PIDR2 BDK_GITS_PIDR2_FUNC()
 static inline uint64_t BDK_GITS_PIDR2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -6518,7 +6616,7 @@ static inline uint64_t BDK_GITS_PIDR2_FUNC(void)
  *
  * GIC ITS Peripheral Identification Register 3
  */
-typedef union
+union bdk_gits_pidr3
 {
     uint32_t u;
     struct bdk_gits_pidr3_s
@@ -6536,7 +6634,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gits_pidr3_s cn; */
-} bdk_gits_pidr3_t;
+};
+typedef union bdk_gits_pidr3 bdk_gits_pidr3_t;
 
 #define BDK_GITS_PIDR3 BDK_GITS_PIDR3_FUNC()
 static inline uint64_t BDK_GITS_PIDR3_FUNC(void) __attribute__ ((pure, always_inline));
@@ -6557,7 +6656,7 @@ static inline uint64_t BDK_GITS_PIDR3_FUNC(void)
  *
  * GIC ITS Peripheral Identification Register 1
  */
-typedef union
+union bdk_gits_pidr4
 {
     uint32_t u;
     struct bdk_gits_pidr4_s
@@ -6573,7 +6672,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gits_pidr4_s cn; */
-} bdk_gits_pidr4_t;
+};
+typedef union bdk_gits_pidr4 bdk_gits_pidr4_t;
 
 #define BDK_GITS_PIDR4 BDK_GITS_PIDR4_FUNC()
 static inline uint64_t BDK_GITS_PIDR4_FUNC(void) __attribute__ ((pure, always_inline));
@@ -6594,7 +6694,7 @@ static inline uint64_t BDK_GITS_PIDR4_FUNC(void)
  *
  * GIC ITS Peripheral Identification Register 5
  */
-typedef union
+union bdk_gits_pidr5
 {
     uint32_t u;
     struct bdk_gits_pidr5_s
@@ -6606,7 +6706,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gits_pidr5_s cn; */
-} bdk_gits_pidr5_t;
+};
+typedef union bdk_gits_pidr5 bdk_gits_pidr5_t;
 
 #define BDK_GITS_PIDR5 BDK_GITS_PIDR5_FUNC()
 static inline uint64_t BDK_GITS_PIDR5_FUNC(void) __attribute__ ((pure, always_inline));
@@ -6627,7 +6728,7 @@ static inline uint64_t BDK_GITS_PIDR5_FUNC(void)
  *
  * GIC ITS Peripheral Identification Register 6
  */
-typedef union
+union bdk_gits_pidr6
 {
     uint32_t u;
     struct bdk_gits_pidr6_s
@@ -6639,7 +6740,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gits_pidr6_s cn; */
-} bdk_gits_pidr6_t;
+};
+typedef union bdk_gits_pidr6 bdk_gits_pidr6_t;
 
 #define BDK_GITS_PIDR6 BDK_GITS_PIDR6_FUNC()
 static inline uint64_t BDK_GITS_PIDR6_FUNC(void) __attribute__ ((pure, always_inline));
@@ -6660,7 +6762,7 @@ static inline uint64_t BDK_GITS_PIDR6_FUNC(void)
  *
  * GIC ITS Peripheral Identification Register 7
  */
-typedef union
+union bdk_gits_pidr7
 {
     uint32_t u;
     struct bdk_gits_pidr7_s
@@ -6672,7 +6774,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gits_pidr7_s cn; */
-} bdk_gits_pidr7_t;
+};
+typedef union bdk_gits_pidr7 bdk_gits_pidr7_t;
 
 #define BDK_GITS_PIDR7 BDK_GITS_PIDR7_FUNC()
 static inline uint64_t BDK_GITS_PIDR7_FUNC(void) __attribute__ ((pure, always_inline));
@@ -6713,7 +6816,7 @@ static inline uint64_t BDK_GITS_PIDR7_FUNC(void)
  * that directly program devices simply by ensuring the address programmed by the guest can be
  * translated by an SMMU to target GITS_TRANSLATER.
  */
-typedef union
+union bdk_gits_translater
 {
     uint32_t u;
     struct bdk_gits_translater_s
@@ -6739,7 +6842,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gits_translater_s cn; */
-} bdk_gits_translater_t;
+};
+typedef union bdk_gits_translater bdk_gits_translater_t;
 
 #define BDK_GITS_TRANSLATER BDK_GITS_TRANSLATER_FUNC()
 static inline uint64_t BDK_GITS_TRANSLATER_FUNC(void) __attribute__ ((pure, always_inline));
@@ -6761,7 +6865,7 @@ static inline uint64_t BDK_GITS_TRANSLATER_FUNC(void)
  * GIC ITS Type Register
  * This register describes features supported by the ITS.
  */
-typedef union
+union bdk_gits_typer
 {
     uint64_t u;
     struct bdk_gits_typer_s
@@ -7023,7 +7127,8 @@ typedef union
         uint64_t reserved_37_63        : 27;
 #endif /* Word 0 - End */
     } cn88xxp2;
-} bdk_gits_typer_t;
+};
+typedef union bdk_gits_typer bdk_gits_typer_t;
 
 #define BDK_GITS_TYPER BDK_GITS_TYPER_FUNC()
 static inline uint64_t BDK_GITS_TYPER_FUNC(void) __attribute__ ((pure, always_inline));

@@ -77,7 +77,7 @@
  * Level 2 Cache MCI Interrupt Enable Clear Registers
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_l2c_mcix_int_ena_w1c
 {
     uint64_t u;
     struct bdk_l2c_mcix_int_ena_w1c_s
@@ -117,7 +117,8 @@ typedef union
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_l2c_mcix_int_ena_w1c_t;
+};
+typedef union bdk_l2c_mcix_int_ena_w1c bdk_l2c_mcix_int_ena_w1c_t;
 
 static inline uint64_t BDK_L2C_MCIX_INT_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_MCIX_INT_ENA_W1C(unsigned long a)
@@ -144,7 +145,7 @@ static inline uint64_t BDK_L2C_MCIX_INT_ENA_W1C(unsigned long a)
  * Level 2 Cache MCI Interrupt Enable Set Registers
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_l2c_mcix_int_ena_w1s
 {
     uint64_t u;
     struct bdk_l2c_mcix_int_ena_w1s_s
@@ -184,7 +185,8 @@ typedef union
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_l2c_mcix_int_ena_w1s_t;
+};
+typedef union bdk_l2c_mcix_int_ena_w1s bdk_l2c_mcix_int_ena_w1s_t;
 
 static inline uint64_t BDK_L2C_MCIX_INT_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_MCIX_INT_ENA_W1S(unsigned long a)
@@ -211,7 +213,7 @@ static inline uint64_t BDK_L2C_MCIX_INT_ENA_W1S(unsigned long a)
  * Level 2 Cache MCI Interrupt Registers
  * This register is for MCI-based interrupts.
  */
-typedef union
+union bdk_l2c_mcix_int_w1c
 {
     uint64_t u;
     struct bdk_l2c_mcix_int_w1c_s
@@ -227,7 +229,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_l2c_mcix_int_w1c_s cn; */
-} bdk_l2c_mcix_int_w1c_t;
+};
+typedef union bdk_l2c_mcix_int_w1c bdk_l2c_mcix_int_w1c_t;
 
 static inline uint64_t BDK_L2C_MCIX_INT_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_MCIX_INT_W1C(unsigned long a)
@@ -254,7 +257,7 @@ static inline uint64_t BDK_L2C_MCIX_INT_W1C(unsigned long a)
  * Level 2 Cache MCI Interrupt Set Registers
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_l2c_mcix_int_w1s
 {
     uint64_t u;
     struct bdk_l2c_mcix_int_w1s_s
@@ -294,7 +297,8 @@ typedef union
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_l2c_mcix_int_w1s_t;
+};
+typedef union bdk_l2c_mcix_int_w1s bdk_l2c_mcix_int_w1s_t;
 
 static inline uint64_t BDK_L2C_MCIX_INT_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_MCIX_INT_W1S(unsigned long a)
@@ -322,7 +326,7 @@ static inline uint64_t BDK_L2C_MCIX_INT_W1S(unsigned long a)
  * This register is the MSI-X PBA table; the bit number is indexed by the L2C_MCI_INT_VEC_E
  * enumeration.
  */
-typedef union
+union bdk_l2c_mcix_msix_pbax
 {
     uint64_t u;
     struct bdk_l2c_mcix_msix_pbax_s
@@ -336,7 +340,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_l2c_mcix_msix_pbax_s cn; */
-} bdk_l2c_mcix_msix_pbax_t;
+};
+typedef union bdk_l2c_mcix_msix_pbax bdk_l2c_mcix_msix_pbax_t;
 
 static inline uint64_t BDK_L2C_MCIX_MSIX_PBAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_MCIX_MSIX_PBAX(unsigned long a, unsigned long b)
@@ -363,7 +368,7 @@ static inline uint64_t BDK_L2C_MCIX_MSIX_PBAX(unsigned long a, unsigned long b)
  * L2C_MCI MSI-X Vector-Table Address Register
  * This register is the MSI-X vector table, indexed by the L2C_MCI_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_l2c_mcix_msix_vecx_addr
 {
     uint64_t u;
     struct bdk_l2c_mcix_msix_vecx_addr_s
@@ -397,7 +402,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_l2c_mcix_msix_vecx_addr_s cn; */
-} bdk_l2c_mcix_msix_vecx_addr_t;
+};
+typedef union bdk_l2c_mcix_msix_vecx_addr bdk_l2c_mcix_msix_vecx_addr_t;
 
 static inline uint64_t BDK_L2C_MCIX_MSIX_VECX_ADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_MCIX_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
@@ -424,7 +430,7 @@ static inline uint64_t BDK_L2C_MCIX_MSIX_VECX_ADDR(unsigned long a, unsigned lon
  * L2C_MCI MSI-X Vector-Table Control and Data Register
  * This register is the MSI-X vector table, indexed by the L2C_MCI_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_l2c_mcix_msix_vecx_ctl
 {
     uint64_t u;
     struct bdk_l2c_mcix_msix_vecx_ctl_s
@@ -442,7 +448,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_l2c_mcix_msix_vecx_ctl_s cn; */
-} bdk_l2c_mcix_msix_vecx_ctl_t;
+};
+typedef union bdk_l2c_mcix_msix_vecx_ctl bdk_l2c_mcix_msix_vecx_ctl_t;
 
 static inline uint64_t BDK_L2C_MCIX_MSIX_VECX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_MCIX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
@@ -471,7 +478,7 @@ static inline uint64_t BDK_L2C_MCIX_MSIX_VECX_CTL(unsigned long a, unsigned long
  * These registers are only reset by hardware during chip cold reset. The values of the CSR
  * fields in these registers do not change during chip warm or soft resets.
  */
-typedef union
+union bdk_l2c_mcix_scratch
 {
     uint64_t u;
     struct bdk_l2c_mcix_scratch_s
@@ -485,7 +492,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_l2c_mcix_scratch_s cn; */
-} bdk_l2c_mcix_scratch_t;
+};
+typedef union bdk_l2c_mcix_scratch bdk_l2c_mcix_scratch_t;
 
 static inline uint64_t BDK_L2C_MCIX_SCRATCH(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_MCIX_SCRATCH(unsigned long a)

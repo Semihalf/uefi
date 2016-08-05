@@ -196,7 +196,7 @@
  * GPIO Bit Configuration Registers
  * Each register provides configuration information for the corresponding GPIO pin.
  */
-typedef union
+union bdk_gpio_bit_cfgx
 {
     uint64_t u;
     struct bdk_gpio_bit_cfgx_s
@@ -357,7 +357,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn88xx;
     /* struct bdk_gpio_bit_cfgx_s cn83xx; */
-} bdk_gpio_bit_cfgx_t;
+};
+typedef union bdk_gpio_bit_cfgx bdk_gpio_bit_cfgx_t;
 
 static inline uint64_t BDK_GPIO_BIT_CFGX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GPIO_BIT_CFGX(unsigned long a)
@@ -383,7 +384,7 @@ static inline uint64_t BDK_GPIO_BIT_CFGX(unsigned long a)
  *
  * GPIO Clock Generator Registers
  */
-typedef union
+union bdk_gpio_clk_genx
 {
     uint64_t u;
     struct bdk_gpio_clk_genx_s
@@ -405,7 +406,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gpio_clk_genx_s cn; */
-} bdk_gpio_clk_genx_t;
+};
+typedef union bdk_gpio_clk_genx bdk_gpio_clk_genx_t;
 
 static inline uint64_t BDK_GPIO_CLK_GENX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GPIO_CLK_GENX(unsigned long a)
@@ -431,7 +433,7 @@ static inline uint64_t BDK_GPIO_CLK_GENX(unsigned long a)
  * GPIO_PIN_SEL_E::GPIO_CLK_SYNCE(0..1). The clock can be divided by 20, 40, 80 or 160
  * of the selected GSER SerDes clock.
  */
-typedef union
+union bdk_gpio_clk_syncex
 {
     uint64_t u;
     struct bdk_gpio_clk_syncex_s
@@ -521,7 +523,8 @@ typedef union
         uint64_t reserved_12_63        : 52;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_gpio_clk_syncex_t;
+};
+typedef union bdk_gpio_clk_syncex bdk_gpio_clk_syncex_t;
 
 static inline uint64_t BDK_GPIO_CLK_SYNCEX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GPIO_CLK_SYNCEX(unsigned long a)
@@ -543,7 +546,7 @@ static inline uint64_t BDK_GPIO_CLK_SYNCEX(unsigned long a)
  *
  * GPIO Compensation Register
  */
-typedef union
+union bdk_gpio_comp
 {
     uint64_t u;
     struct bdk_gpio_comp_s
@@ -573,7 +576,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gpio_comp_s cn; */
-} bdk_gpio_comp_t;
+};
+typedef union bdk_gpio_comp bdk_gpio_comp_t;
 
 #define BDK_GPIO_COMP BDK_GPIO_COMP_FUNC()
 static inline uint64_t BDK_GPIO_COMP_FUNC(void) __attribute__ ((pure, always_inline));
@@ -595,7 +599,7 @@ static inline uint64_t BDK_GPIO_COMP_FUNC(void)
  * GPIO Constants Register
  * This register contains constants for software discovery.
  */
-typedef union
+union bdk_gpio_const
 {
     uint64_t u;
     struct bdk_gpio_const_s
@@ -611,7 +615,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gpio_const_s cn; */
-} bdk_gpio_const_t;
+};
+typedef union bdk_gpio_const bdk_gpio_const_t;
 
 #define BDK_GPIO_CONST BDK_GPIO_CONST_FUNC()
 static inline uint64_t BDK_GPIO_CONST_FUNC(void) __attribute__ ((pure, always_inline));
@@ -638,7 +643,7 @@ static inline uint64_t BDK_GPIO_CONST_FUNC(void)
  * Each register provides interrupt information for the corresponding GPIO pin.
  * GPIO_INTR interrupts can be level or edge interrupts depending on GPIO_BIT_CFG()[INT_TYPE].
  */
-typedef union
+union bdk_gpio_intrx
 {
     uint64_t u;
     struct bdk_gpio_intrx_s
@@ -672,7 +677,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gpio_intrx_s cn; */
-} bdk_gpio_intrx_t;
+};
+typedef union bdk_gpio_intrx bdk_gpio_intrx_t;
 
 static inline uint64_t BDK_GPIO_INTRX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GPIO_INTRX(unsigned long a)
@@ -700,7 +706,7 @@ static inline uint64_t BDK_GPIO_INTRX(unsigned long a)
  * Each register provides interrupt multicasting for GPIO(4..7),
  * and all GPIO_MC_INTR interrupts are edge interrupts.
  */
-typedef union
+union bdk_gpio_mc_intrx
 {
     uint64_t u;
     struct bdk_gpio_mc_intrx_s
@@ -720,7 +726,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gpio_mc_intrx_s cn; */
-} bdk_gpio_mc_intrx_t;
+};
+typedef union bdk_gpio_mc_intrx bdk_gpio_mc_intrx_t;
 
 static inline uint64_t BDK_GPIO_MC_INTRX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GPIO_MC_INTRX(unsigned long a)
@@ -743,7 +750,7 @@ static inline uint64_t BDK_GPIO_MC_INTRX(unsigned long a)
  * GPIO Bit Multicast Interrupt Registers
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_gpio_mc_intrx_ena_w1c
 {
     uint64_t u;
     struct bdk_gpio_mc_intrx_ena_w1c_s
@@ -757,7 +764,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gpio_mc_intrx_ena_w1c_s cn; */
-} bdk_gpio_mc_intrx_ena_w1c_t;
+};
+typedef union bdk_gpio_mc_intrx_ena_w1c bdk_gpio_mc_intrx_ena_w1c_t;
 
 static inline uint64_t BDK_GPIO_MC_INTRX_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GPIO_MC_INTRX_ENA_W1C(unsigned long a)
@@ -780,7 +788,7 @@ static inline uint64_t BDK_GPIO_MC_INTRX_ENA_W1C(unsigned long a)
  * GPIO Bit Multicast Interrupt Registers
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_gpio_mc_intrx_ena_w1s
 {
     uint64_t u;
     struct bdk_gpio_mc_intrx_ena_w1s_s
@@ -794,7 +802,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gpio_mc_intrx_ena_w1s_s cn; */
-} bdk_gpio_mc_intrx_ena_w1s_t;
+};
+typedef union bdk_gpio_mc_intrx_ena_w1s bdk_gpio_mc_intrx_ena_w1s_t;
 
 static inline uint64_t BDK_GPIO_MC_INTRX_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GPIO_MC_INTRX_ENA_W1S(unsigned long a)
@@ -817,7 +826,7 @@ static inline uint64_t BDK_GPIO_MC_INTRX_ENA_W1S(unsigned long a)
  * GPIO Bit Multicast Interrupt Registers
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_gpio_mc_intrx_w1s
 {
     uint64_t u;
     struct bdk_gpio_mc_intrx_w1s_s
@@ -831,7 +840,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gpio_mc_intrx_w1s_s cn; */
-} bdk_gpio_mc_intrx_w1s_t;
+};
+typedef union bdk_gpio_mc_intrx_w1s bdk_gpio_mc_intrx_w1s_t;
 
 static inline uint64_t BDK_GPIO_MC_INTRX_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GPIO_MC_INTRX_W1S(unsigned long a)
@@ -854,7 +864,7 @@ static inline uint64_t BDK_GPIO_MC_INTRX_W1S(unsigned long a)
  * GPIO MSI-X Pending Bit Array Registers
  * This register is the MSI-X PBA table; the bit number is indexed by the GPIO_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_gpio_msix_pbax
 {
     uint64_t u;
     struct bdk_gpio_msix_pbax_s
@@ -870,7 +880,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gpio_msix_pbax_s cn; */
-} bdk_gpio_msix_pbax_t;
+};
+typedef union bdk_gpio_msix_pbax bdk_gpio_msix_pbax_t;
 
 static inline uint64_t BDK_GPIO_MSIX_PBAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GPIO_MSIX_PBAX(unsigned long a)
@@ -897,7 +908,7 @@ static inline uint64_t BDK_GPIO_MSIX_PBAX(unsigned long a)
  * GPIO MSI-X Vector-Table Address Register
  * This register is the MSI-X vector table, indexed by the GPIO_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_gpio_msix_vecx_addr
 {
     uint64_t u;
     struct bdk_gpio_msix_vecx_addr_s
@@ -929,7 +940,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gpio_msix_vecx_addr_s cn; */
-} bdk_gpio_msix_vecx_addr_t;
+};
+typedef union bdk_gpio_msix_vecx_addr bdk_gpio_msix_vecx_addr_t;
 
 static inline uint64_t BDK_GPIO_MSIX_VECX_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GPIO_MSIX_VECX_ADDR(unsigned long a)
@@ -956,7 +968,7 @@ static inline uint64_t BDK_GPIO_MSIX_VECX_ADDR(unsigned long a)
  * GPIO MSI-X Vector-Table Control and Data Register
  * This register is the MSI-X vector table, indexed by the GPIO_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_gpio_msix_vecx_ctl
 {
     uint64_t u;
     struct bdk_gpio_msix_vecx_ctl_s
@@ -974,7 +986,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gpio_msix_vecx_ctl_s cn; */
-} bdk_gpio_msix_vecx_ctl_t;
+};
+typedef union bdk_gpio_msix_vecx_ctl bdk_gpio_msix_vecx_ctl_t;
 
 static inline uint64_t BDK_GPIO_MSIX_VECX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GPIO_MSIX_VECX_CTL(unsigned long a)
@@ -1001,7 +1014,7 @@ static inline uint64_t BDK_GPIO_MSIX_VECX_CTL(unsigned long a)
  * GPIO Multicast Register
  * This register enables multicast GPIO interrupts.
  */
-typedef union
+union bdk_gpio_multi_cast
 {
     uint64_t u;
     struct bdk_gpio_multi_cast_s
@@ -1019,7 +1032,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gpio_multi_cast_s cn; */
-} bdk_gpio_multi_cast_t;
+};
+typedef union bdk_gpio_multi_cast bdk_gpio_multi_cast_t;
 
 #define BDK_GPIO_MULTI_CAST BDK_GPIO_MULTI_CAST_FUNC()
 static inline uint64_t BDK_GPIO_MULTI_CAST_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1040,7 +1054,7 @@ static inline uint64_t BDK_GPIO_MULTI_CAST_FUNC(void)
  *
  * GPIO OCLA External Trigger Register
  */
-typedef union
+union bdk_gpio_ocla_exten_trig
 {
     uint64_t u;
     struct bdk_gpio_ocla_exten_trig_s
@@ -1058,7 +1072,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gpio_ocla_exten_trig_s cn; */
-} bdk_gpio_ocla_exten_trig_t;
+};
+typedef union bdk_gpio_ocla_exten_trig bdk_gpio_ocla_exten_trig_t;
 
 #define BDK_GPIO_OCLA_EXTEN_TRIG BDK_GPIO_OCLA_EXTEN_TRIG_FUNC()
 static inline uint64_t BDK_GPIO_OCLA_EXTEN_TRIG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1082,7 +1097,7 @@ static inline uint64_t BDK_GPIO_OCLA_EXTEN_TRIG_FUNC(void)
  * inverter (GPIO_BIT_CFG()[PIN_XOR]). GPIO inputs always report to GPIO_RX1_DAT despite of
  * the value of GPIO_BIT_CFG()[PIN_SEL].
  */
-typedef union
+union bdk_gpio_rx1_dat
 {
     uint64_t u;
     struct bdk_gpio_rx1_dat_s
@@ -1106,7 +1121,8 @@ typedef union
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_gpio_rx1_dat_t;
+};
+typedef union bdk_gpio_rx1_dat bdk_gpio_rx1_dat_t;
 
 #define BDK_GPIO_RX1_DAT BDK_GPIO_RX1_DAT_FUNC()
 static inline uint64_t BDK_GPIO_RX1_DAT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1134,7 +1150,7 @@ static inline uint64_t BDK_GPIO_RX1_DAT_FUNC(void)
  * inverter (GPIO_BIT_CFG()[PIN_XOR]). GPIO inputs always report to GPIO_RX_DAT despite of
  * the value of GPIO_BIT_CFG()[PIN_SEL].
  */
-typedef union
+union bdk_gpio_rx_dat
 {
     uint64_t u;
     struct bdk_gpio_rx_dat_s
@@ -1166,7 +1182,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn88xx;
     /* struct bdk_gpio_rx_dat_s cn83xx; */
-} bdk_gpio_rx_dat_t;
+};
+typedef union bdk_gpio_rx_dat bdk_gpio_rx_dat_t;
 
 #define BDK_GPIO_RX_DAT BDK_GPIO_RX_DAT_FUNC()
 static inline uint64_t BDK_GPIO_RX_DAT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1188,7 +1205,7 @@ static inline uint64_t BDK_GPIO_RX_DAT_FUNC(void)
  * GPIO Strap Value Register
  * This register contains GPIO strap data captured at the rising edge of DC_OK.
  */
-typedef union
+union bdk_gpio_strap
 {
     uint64_t u;
     struct bdk_gpio_strap_s
@@ -1227,7 +1244,8 @@ typedef union
         uint64_t strap                 : 64; /**< [ 63:  0](RO/H) GPIO strap data of GPIO pins less than 64. Unimplemented pins bits read as 0. */
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_gpio_strap_t;
+};
+typedef union bdk_gpio_strap bdk_gpio_strap_t;
 
 #define BDK_GPIO_STRAP BDK_GPIO_STRAP_FUNC()
 static inline uint64_t BDK_GPIO_STRAP_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1249,7 +1267,7 @@ static inline uint64_t BDK_GPIO_STRAP_FUNC(void)
  * GPIO Strap Value Register
  * This register contains GPIO strap data captured at the rising edge of DC_OK.
  */
-typedef union
+union bdk_gpio_strap1
 {
     uint64_t u;
     struct bdk_gpio_strap1_s
@@ -1282,7 +1300,8 @@ typedef union
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_gpio_strap1_t;
+};
+typedef union bdk_gpio_strap1 bdk_gpio_strap1_t;
 
 #define BDK_GPIO_STRAP1 BDK_GPIO_STRAP1_FUNC()
 static inline uint64_t BDK_GPIO_STRAP1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1307,7 +1326,7 @@ static inline uint64_t BDK_GPIO_STRAP1_FUNC(void)
  *
  * GPIO Transmit Clear Mask Register
  */
-typedef union
+union bdk_gpio_tx1_clr
 {
     uint64_t u;
     struct bdk_gpio_tx1_clr_s
@@ -1335,7 +1354,8 @@ typedef union
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_gpio_tx1_clr_t;
+};
+typedef union bdk_gpio_tx1_clr bdk_gpio_tx1_clr_t;
 
 #define BDK_GPIO_TX1_CLR BDK_GPIO_TX1_CLR_FUNC()
 static inline uint64_t BDK_GPIO_TX1_CLR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1360,7 +1380,7 @@ static inline uint64_t BDK_GPIO_TX1_CLR_FUNC(void)
  *
  * GPIO Transmit Set Mask Register
  */
-typedef union
+union bdk_gpio_tx1_set
 {
     uint64_t u;
     struct bdk_gpio_tx1_set_s
@@ -1388,7 +1408,8 @@ typedef union
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_gpio_tx1_set_t;
+};
+typedef union bdk_gpio_tx1_set bdk_gpio_tx1_set_t;
 
 #define BDK_GPIO_TX1_SET BDK_GPIO_TX1_SET_FUNC()
 static inline uint64_t BDK_GPIO_TX1_SET_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1413,7 +1434,7 @@ static inline uint64_t BDK_GPIO_TX1_SET_FUNC(void)
  *
  * GPIO Transmit Clear Mask Register
  */
-typedef union
+union bdk_gpio_tx_clr
 {
     uint64_t u;
     struct bdk_gpio_tx_clr_s
@@ -1451,7 +1472,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn88xx;
     /* struct bdk_gpio_tx_clr_s cn83xx; */
-} bdk_gpio_tx_clr_t;
+};
+typedef union bdk_gpio_tx_clr bdk_gpio_tx_clr_t;
 
 #define BDK_GPIO_TX_CLR BDK_GPIO_TX_CLR_FUNC()
 static inline uint64_t BDK_GPIO_TX_CLR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1472,7 +1494,7 @@ static inline uint64_t BDK_GPIO_TX_CLR_FUNC(void)
  *
  * GPIO Transmit Set Mask Register
  */
-typedef union
+union bdk_gpio_tx_set
 {
     uint64_t u;
     struct bdk_gpio_tx_set_s
@@ -1510,7 +1532,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn88xx;
     /* struct bdk_gpio_tx_set_s cn83xx; */
-} bdk_gpio_tx_set_t;
+};
+typedef union bdk_gpio_tx_set bdk_gpio_tx_set_t;
 
 #define BDK_GPIO_TX_SET BDK_GPIO_TX_SET_FUNC()
 static inline uint64_t BDK_GPIO_TX_SET_FUNC(void) __attribute__ ((pure, always_inline));

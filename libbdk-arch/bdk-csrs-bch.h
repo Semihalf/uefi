@@ -249,7 +249,7 @@ union bdk_bch_rword_s
  * This register provides access to internal BIST results. Each bit is the BIST result of an
  * individual memory (per bit, 0 = pass, 1 = fail).
  */
-typedef union
+union bdk_bch_bist_result
 {
     uint64_t u;
     struct bdk_bch_bist_result_s
@@ -279,7 +279,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_bch_bist_result_s cn; */
-} bdk_bch_bist_result_t;
+};
+typedef union bdk_bch_bist_result bdk_bch_bist_result_t;
 
 #define BDK_BCH_BIST_RESULT BDK_BCH_BIST_RESULT_FUNC()
 static inline uint64_t BDK_BCH_BIST_RESULT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -304,7 +305,7 @@ static inline uint64_t BDK_BCH_BIST_RESULT_FUNC(void)
  *
  * INTERNAL: BCH Backpressure Test Register
  */
-typedef union
+union bdk_bch_bp_test
 {
     uint64_t u;
     struct bdk_bch_bp_test_s
@@ -356,7 +357,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_bch_bp_test_s cn; */
-} bdk_bch_bp_test_t;
+};
+typedef union bdk_bch_bp_test bdk_bch_bp_test_t;
 
 #define BDK_BCH_BP_TEST BDK_BCH_BP_TEST_FUNC()
 static inline uint64_t BDK_BCH_BP_TEST_FUNC(void) __attribute__ ((pure, always_inline));
@@ -381,7 +383,7 @@ static inline uint64_t BDK_BCH_BP_TEST_FUNC(void)
  *
  * BCH PF Control Register
  */
-typedef union
+union bdk_bch_ctl
 {
     uint64_t u;
     struct bdk_bch_ctl_s
@@ -395,7 +397,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_bch_ctl_s cn; */
-} bdk_bch_ctl_t;
+};
+typedef union bdk_bch_ctl bdk_bch_ctl_t;
 
 #define BDK_BCH_CTL BDK_BCH_CTL_FUNC()
 static inline uint64_t BDK_BCH_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -420,7 +423,7 @@ static inline uint64_t BDK_BCH_CTL_FUNC(void)
  *
  * INTERNAL: BCH PF ECO Register
  */
-typedef union
+union bdk_bch_eco
 {
     uint64_t u;
     struct bdk_bch_eco_s
@@ -436,7 +439,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_bch_eco_s cn; */
-} bdk_bch_eco_t;
+};
+typedef union bdk_bch_eco bdk_bch_eco_t;
 
 #define BDK_BCH_ECO BDK_BCH_ECO_FUNC()
 static inline uint64_t BDK_BCH_ECO_FUNC(void) __attribute__ ((pure, always_inline));
@@ -461,7 +465,7 @@ static inline uint64_t BDK_BCH_ECO_FUNC(void)
  *
  * BCH PF Error Configuration Register
  */
-typedef union
+union bdk_bch_err_cfg
 {
     uint64_t u;
     struct bdk_bch_err_cfg_s
@@ -481,7 +485,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_bch_err_cfg_s cn; */
-} bdk_bch_err_cfg_t;
+};
+typedef union bdk_bch_err_cfg bdk_bch_err_cfg_t;
 
 #define BDK_BCH_ERR_CFG BDK_BCH_ERR_CFG_FUNC()
 static inline uint64_t BDK_BCH_ERR_CFG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -506,7 +511,7 @@ static inline uint64_t BDK_BCH_ERR_CFG_FUNC(void)
  *
  * BCH PF Interrupt Register
  */
-typedef union
+union bdk_bch_err_int
 {
     uint64_t u;
     struct bdk_bch_err_int_s
@@ -532,7 +537,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_bch_err_int_s cn; */
-} bdk_bch_err_int_t;
+};
+typedef union bdk_bch_err_int bdk_bch_err_int_t;
 
 #define BDK_BCH_ERR_INT BDK_BCH_ERR_INT_FUNC()
 static inline uint64_t BDK_BCH_ERR_INT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -558,7 +564,7 @@ static inline uint64_t BDK_BCH_ERR_INT_FUNC(void)
  * BCH PF Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_bch_err_int_ena_w1c
 {
     uint64_t u;
     struct bdk_bch_err_int_ena_w1c_s
@@ -584,7 +590,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_bch_err_int_ena_w1c_s cn; */
-} bdk_bch_err_int_ena_w1c_t;
+};
+typedef union bdk_bch_err_int_ena_w1c bdk_bch_err_int_ena_w1c_t;
 
 #define BDK_BCH_ERR_INT_ENA_W1C BDK_BCH_ERR_INT_ENA_W1C_FUNC()
 static inline uint64_t BDK_BCH_ERR_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -610,7 +617,7 @@ static inline uint64_t BDK_BCH_ERR_INT_ENA_W1C_FUNC(void)
  * BCH PF Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_bch_err_int_ena_w1s
 {
     uint64_t u;
     struct bdk_bch_err_int_ena_w1s_s
@@ -636,7 +643,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_bch_err_int_ena_w1s_s cn; */
-} bdk_bch_err_int_ena_w1s_t;
+};
+typedef union bdk_bch_err_int_ena_w1s bdk_bch_err_int_ena_w1s_t;
 
 #define BDK_BCH_ERR_INT_ENA_W1S BDK_BCH_ERR_INT_ENA_W1S_FUNC()
 static inline uint64_t BDK_BCH_ERR_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -662,7 +670,7 @@ static inline uint64_t BDK_BCH_ERR_INT_ENA_W1S_FUNC(void)
  * BCH PF Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_bch_err_int_w1s
 {
     uint64_t u;
     struct bdk_bch_err_int_w1s_s
@@ -688,7 +696,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_bch_err_int_w1s_s cn; */
-} bdk_bch_err_int_w1s_t;
+};
+typedef union bdk_bch_err_int_w1s bdk_bch_err_int_w1s_t;
 
 #define BDK_BCH_ERR_INT_W1S BDK_BCH_ERR_INT_W1S_FUNC()
 static inline uint64_t BDK_BCH_ERR_INT_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -714,7 +723,7 @@ static inline uint64_t BDK_BCH_ERR_INT_W1S_FUNC(void)
  * BCH PF MSI-X Pending Bit Array Registers
  * This register is the MSI-X PBA table; the bit number is indexed by the BCH_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_bch_pf_msix_pbax
 {
     uint64_t u;
     struct bdk_bch_pf_msix_pbax_s
@@ -728,7 +737,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_bch_pf_msix_pbax_s cn; */
-} bdk_bch_pf_msix_pbax_t;
+};
+typedef union bdk_bch_pf_msix_pbax bdk_bch_pf_msix_pbax_t;
 
 static inline uint64_t BDK_BCH_PF_MSIX_PBAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BCH_PF_MSIX_PBAX(unsigned long a)
@@ -753,7 +763,7 @@ static inline uint64_t BDK_BCH_PF_MSIX_PBAX(unsigned long a)
  * BCH PF MSI-X Vector-Table Address Register
  * This register is the MSI-X vector table, indexed by the BCH_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_bch_pf_msix_vecx_addr
 {
     uint64_t u;
     struct bdk_bch_pf_msix_vecx_addr_s
@@ -787,7 +797,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_bch_pf_msix_vecx_addr_s cn; */
-} bdk_bch_pf_msix_vecx_addr_t;
+};
+typedef union bdk_bch_pf_msix_vecx_addr bdk_bch_pf_msix_vecx_addr_t;
 
 static inline uint64_t BDK_BCH_PF_MSIX_VECX_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BCH_PF_MSIX_VECX_ADDR(unsigned long a)
@@ -812,7 +823,7 @@ static inline uint64_t BDK_BCH_PF_MSIX_VECX_ADDR(unsigned long a)
  * BCH PF MSI-X Vector-Table Control and Data Register
  * This register is the MSI-X vector table, indexed by the BCH_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_bch_pf_msix_vecx_ctl
 {
     uint64_t u;
     struct bdk_bch_pf_msix_vecx_ctl_s
@@ -830,7 +841,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_bch_pf_msix_vecx_ctl_s cn; */
-} bdk_bch_pf_msix_vecx_ctl_t;
+};
+typedef union bdk_bch_pf_msix_vecx_ctl bdk_bch_pf_msix_vecx_ctl_t;
 
 static inline uint64_t BDK_BCH_PF_MSIX_VECX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BCH_PF_MSIX_VECX_CTL(unsigned long a)
@@ -856,7 +868,7 @@ static inline uint64_t BDK_BCH_PF_MSIX_VECX_CTL(unsigned long a)
  * Internal:
  * Make register internal in CN81xx, visible in CN83xx.
  */
-typedef union
+union bdk_bch_pf_qx_gmctl
 {
     uint64_t u;
     struct bdk_bch_pf_qx_gmctl_s
@@ -878,7 +890,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_bch_pf_qx_gmctl_s cn; */
-} bdk_bch_pf_qx_gmctl_t;
+};
+typedef union bdk_bch_pf_qx_gmctl bdk_bch_pf_qx_gmctl_t;
 
 static inline uint64_t BDK_BCH_PF_QX_GMCTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BCH_PF_QX_GMCTL(unsigned long a)
@@ -903,7 +916,7 @@ static inline uint64_t BDK_BCH_PF_QX_GMCTL(unsigned long a)
  * BCH Queue Command Buffer Register
  * This register sets the command-buffer parameters.
  */
-typedef union
+union bdk_bch_vqx_cmd_buf
 {
     uint64_t u;
     struct bdk_bch_vqx_cmd_buf_s
@@ -963,7 +976,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_bch_vqx_cmd_buf_s cn83xx; */
-} bdk_bch_vqx_cmd_buf_t;
+};
+typedef union bdk_bch_vqx_cmd_buf bdk_bch_vqx_cmd_buf_t;
 
 static inline uint64_t BDK_BCH_VQX_CMD_BUF(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BCH_VQX_CMD_BUF(unsigned long a)
@@ -988,7 +1002,7 @@ static inline uint64_t BDK_BCH_VQX_CMD_BUF(unsigned long a)
  * BCH Queue Command Buffer Pointer Register
  * This register sets the command-buffer parameters.
  */
-typedef union
+union bdk_bch_vqx_cmd_ptr
 {
     uint64_t u;
     struct bdk_bch_vqx_cmd_ptr_s
@@ -1006,7 +1020,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_bch_vqx_cmd_ptr_s cn; */
-} bdk_bch_vqx_cmd_ptr_t;
+};
+typedef union bdk_bch_vqx_cmd_ptr bdk_bch_vqx_cmd_ptr_t;
 
 static inline uint64_t BDK_BCH_VQX_CMD_PTR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BCH_VQX_CMD_PTR(unsigned long a)
@@ -1030,7 +1045,7 @@ static inline uint64_t BDK_BCH_VQX_CMD_PTR(unsigned long a)
  *
  * BCH Queue Control Register
  */
-typedef union
+union bdk_bch_vqx_ctl
 {
     uint64_t u;
     struct bdk_bch_vqx_ctl_s
@@ -1070,7 +1085,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_bch_vqx_ctl_s cn; */
-} bdk_bch_vqx_ctl_t;
+};
+typedef union bdk_bch_vqx_ctl bdk_bch_vqx_ctl_t;
 
 static inline uint64_t BDK_BCH_VQX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BCH_VQX_CTL(unsigned long a)
@@ -1094,7 +1110,7 @@ static inline uint64_t BDK_BCH_VQX_CTL(unsigned long a)
  *
  * BCH Queue Doorbell Register
  */
-typedef union
+union bdk_bch_vqx_doorbell
 {
     uint64_t u;
     struct bdk_bch_vqx_doorbell_s
@@ -1110,7 +1126,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_bch_vqx_doorbell_s cn; */
-} bdk_bch_vqx_doorbell_t;
+};
+typedef union bdk_bch_vqx_doorbell bdk_bch_vqx_doorbell_t;
 
 static inline uint64_t BDK_BCH_VQX_DOORBELL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BCH_VQX_DOORBELL(unsigned long a)

@@ -379,7 +379,7 @@
  * Provides information about the state of the implementation
  * defined authentication interface for performance monitors.
  */
-typedef union
+union bdk_pmux_pmauthstatus
 {
     uint32_t u;
     struct bdk_pmux_pmauthstatus_s
@@ -399,7 +399,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pmux_pmauthstatus_s cn; */
-} bdk_pmux_pmauthstatus_t;
+};
+typedef union bdk_pmux_pmauthstatus bdk_pmux_pmauthstatus_t;
 
 static inline uint64_t BDK_PMUX_PMAUTHSTATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PMUX_PMAUTHSTATUS(unsigned long a)
@@ -422,7 +423,7 @@ static inline uint64_t BDK_PMUX_PMAUTHSTATUS(unsigned long a)
  * Determines the modes in which the cycle counter, PMU()_PMCCNTR_EL0,
  *     increments.
  */
-typedef union
+union bdk_pmux_pmccfiltr_el0
 {
     uint32_t u;
     struct bdk_pmux_pmccfiltr_el0_s
@@ -498,7 +499,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pmux_pmccfiltr_el0_s cn; */
-} bdk_pmux_pmccfiltr_el0_t;
+};
+typedef union bdk_pmux_pmccfiltr_el0 bdk_pmux_pmccfiltr_el0_t;
 
 static inline uint64_t BDK_PMUX_PMCCFILTR_EL0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PMUX_PMCCFILTR_EL0(unsigned long a)
@@ -520,7 +522,7 @@ static inline uint64_t BDK_PMUX_PMCCFILTR_EL0(unsigned long a)
  * Performance Monitors Cycle Counter High Register
  * Holds the value of the processor cycle counter, CCNT, that counts processor clock cycles.
  */
-typedef union
+union bdk_pmux_pmccntr_el0_hi
 {
     uint32_t u;
     struct bdk_pmux_pmccntr_el0_hi_s
@@ -540,7 +542,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pmux_pmccntr_el0_hi_s cn; */
-} bdk_pmux_pmccntr_el0_hi_t;
+};
+typedef union bdk_pmux_pmccntr_el0_hi bdk_pmux_pmccntr_el0_hi_t;
 
 static inline uint64_t BDK_PMUX_PMCCNTR_EL0_HI(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PMUX_PMCCNTR_EL0_HI(unsigned long a)
@@ -562,7 +565,7 @@ static inline uint64_t BDK_PMUX_PMCCNTR_EL0_HI(unsigned long a)
  * Performance Monitors Cycle Counter Low Register
  * Holds the value of the processor cycle counter, CCNT, that counts processor clock cycles.
  */
-typedef union
+union bdk_pmux_pmccntr_el0_lo
 {
     uint32_t u;
     struct bdk_pmux_pmccntr_el0_lo_s
@@ -582,7 +585,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pmux_pmccntr_el0_lo_s cn; */
-} bdk_pmux_pmccntr_el0_lo_t;
+};
+typedef union bdk_pmux_pmccntr_el0_lo bdk_pmux_pmccntr_el0_lo_t;
 
 static inline uint64_t BDK_PMUX_PMCCNTR_EL0_LO(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PMUX_PMCCNTR_EL0_LO(unsigned long a)
@@ -607,7 +611,7 @@ static inline uint64_t BDK_PMUX_PMCCNTR_EL0_LO(unsigned long a)
  *     particular bit is set to 1, then the event for that bit is
  *     implemented. Alias for PMU()_PMCEID1_EL0[31:0].
  */
-typedef union
+union bdk_pmux_pmceid0
 {
     uint32_t u;
     struct bdk_pmux_pmceid0_s
@@ -683,7 +687,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pmux_pmceid0_s cn; */
-} bdk_pmux_pmceid0_t;
+};
+typedef union bdk_pmux_pmceid0 bdk_pmux_pmceid0_t;
 
 static inline uint64_t BDK_PMUX_PMCEID0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PMUX_PMCEID0(unsigned long a)
@@ -708,7 +713,7 @@ static inline uint64_t BDK_PMUX_PMCEID0(unsigned long a)
  *     These events are in the range 0x20-0x3f.
  *     Alias for PMU()_PMCEID1_EL0[31:0].
  */
-typedef union
+union bdk_pmux_pmceid1
 {
     uint32_t u;
     struct bdk_pmux_pmceid1_s
@@ -750,7 +755,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pmux_pmceid1_s cn; */
-} bdk_pmux_pmceid1_t;
+};
+typedef union bdk_pmux_pmceid1 bdk_pmux_pmceid1_t;
 
 static inline uint64_t BDK_PMUX_PMCEID1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PMUX_PMCEID1(unsigned long a)
@@ -775,7 +781,7 @@ static inline uint64_t BDK_PMUX_PMCEID1(unsigned long a)
  *     These events are in the range 0x4000-0x401f
  *     Alias for PMU()_PMCEID0_EL0[63:32]
  */
-typedef union
+union bdk_pmux_pmceid2
 {
     uint32_t u;
     struct bdk_pmux_pmceid2_s
@@ -787,7 +793,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pmux_pmceid2_s cn; */
-} bdk_pmux_pmceid2_t;
+};
+typedef union bdk_pmux_pmceid2 bdk_pmux_pmceid2_t;
 
 static inline uint64_t BDK_PMUX_PMCEID2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PMUX_PMCEID2(unsigned long a)
@@ -812,7 +819,7 @@ static inline uint64_t BDK_PMUX_PMCEID2(unsigned long a)
  *     These events are in the range 0x4020-0x403f
  *     Alias for PMU()_PMCEID1_EL0[63:32]
  */
-typedef union
+union bdk_pmux_pmceid3
 {
     uint32_t u;
     struct bdk_pmux_pmceid3_s
@@ -824,7 +831,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pmux_pmceid3_s cn; */
-} bdk_pmux_pmceid3_t;
+};
+typedef union bdk_pmux_pmceid3 bdk_pmux_pmceid3_t;
 
 static inline uint64_t BDK_PMUX_PMCEID3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PMUX_PMCEID3(unsigned long a)
@@ -846,7 +854,7 @@ static inline uint64_t BDK_PMUX_PMCEID3(unsigned long a)
  * Performance Monitors Configuration Register
  * Contains PMU-specific configuration data.
  */
-typedef union
+union bdk_pmux_pmcfgr
 {
     uint32_t u;
     struct bdk_pmux_pmcfgr_s
@@ -910,7 +918,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pmux_pmcfgr_s cn; */
-} bdk_pmux_pmcfgr_t;
+};
+typedef union bdk_pmux_pmcfgr bdk_pmux_pmcfgr_t;
 
 static inline uint64_t BDK_PMUX_PMCFGR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PMUX_PMCFGR(unsigned long a)
@@ -933,7 +942,7 @@ static inline uint64_t BDK_PMUX_PMCFGR(unsigned long a)
  * Provides information to identify a performance monitor
  *     component.
  */
-typedef union
+union bdk_pmux_pmcidr0
 {
     uint32_t u;
     struct bdk_pmux_pmcidr0_s
@@ -947,7 +956,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pmux_pmcidr0_s cn; */
-} bdk_pmux_pmcidr0_t;
+};
+typedef union bdk_pmux_pmcidr0 bdk_pmux_pmcidr0_t;
 
 static inline uint64_t BDK_PMUX_PMCIDR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PMUX_PMCIDR0(unsigned long a)
@@ -970,7 +980,7 @@ static inline uint64_t BDK_PMUX_PMCIDR0(unsigned long a)
  * Provides information to identify a performance monitor
  *     component.
  */
-typedef union
+union bdk_pmux_pmcidr1
 {
     uint32_t u;
     struct bdk_pmux_pmcidr1_s
@@ -986,7 +996,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pmux_pmcidr1_s cn; */
-} bdk_pmux_pmcidr1_t;
+};
+typedef union bdk_pmux_pmcidr1 bdk_pmux_pmcidr1_t;
 
 static inline uint64_t BDK_PMUX_PMCIDR1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PMUX_PMCIDR1(unsigned long a)
@@ -1009,7 +1020,7 @@ static inline uint64_t BDK_PMUX_PMCIDR1(unsigned long a)
  * Provides information to identify a performance monitor
  *     component.
  */
-typedef union
+union bdk_pmux_pmcidr2
 {
     uint32_t u;
     struct bdk_pmux_pmcidr2_s
@@ -1023,7 +1034,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pmux_pmcidr2_s cn; */
-} bdk_pmux_pmcidr2_t;
+};
+typedef union bdk_pmux_pmcidr2 bdk_pmux_pmcidr2_t;
 
 static inline uint64_t BDK_PMUX_PMCIDR2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PMUX_PMCIDR2(unsigned long a)
@@ -1046,7 +1058,7 @@ static inline uint64_t BDK_PMUX_PMCIDR2(unsigned long a)
  * Provides information to identify a performance monitor
  *     component.
  */
-typedef union
+union bdk_pmux_pmcidr3
 {
     uint32_t u;
     struct bdk_pmux_pmcidr3_s
@@ -1060,7 +1072,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pmux_pmcidr3_s cn; */
-} bdk_pmux_pmcidr3_t;
+};
+typedef union bdk_pmux_pmcidr3 bdk_pmux_pmcidr3_t;
 
 static inline uint64_t BDK_PMUX_PMCIDR3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PMUX_PMCIDR3(unsigned long a)
@@ -1084,7 +1097,7 @@ static inline uint64_t BDK_PMUX_PMCIDR3(unsigned long a)
  *     implemented event counters PMEVCNTR<x>. Reading this register
  *     shows which counters are enabled.
  */
-typedef union
+union bdk_pmux_pmcntenclr_el0
 {
     uint32_t u;
     struct bdk_pmux_pmcntenclr_el0_s
@@ -1120,7 +1133,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pmux_pmcntenclr_el0_s cn; */
-} bdk_pmux_pmcntenclr_el0_t;
+};
+typedef union bdk_pmux_pmcntenclr_el0 bdk_pmux_pmcntenclr_el0_t;
 
 static inline uint64_t BDK_PMUX_PMCNTENCLR_EL0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PMUX_PMCNTENCLR_EL0(unsigned long a)
@@ -1144,7 +1158,7 @@ static inline uint64_t BDK_PMUX_PMCNTENCLR_EL0(unsigned long a)
  *     implemented event counters PMEVCNTR<x>. Reading this register
  *     shows which counters are enabled.
  */
-typedef union
+union bdk_pmux_pmcntenset_el0
 {
     uint32_t u;
     struct bdk_pmux_pmcntenset_el0_s
@@ -1180,7 +1194,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pmux_pmcntenset_el0_s cn; */
-} bdk_pmux_pmcntenset_el0_t;
+};
+typedef union bdk_pmux_pmcntenset_el0 bdk_pmux_pmcntenset_el0_t;
 
 static inline uint64_t BDK_PMUX_PMCNTENSET_EL0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PMUX_PMCNTENSET_EL0(unsigned long a)
@@ -1204,7 +1219,7 @@ static inline uint64_t BDK_PMUX_PMCNTENSET_EL0(unsigned long a)
  *     including the number of counters implemented, and configures
  *     and controls the counters.
  */
-typedef union
+union bdk_pmux_pmcr_el0
 {
     uint32_t u;
     struct bdk_pmux_pmcr_el0_s
@@ -1449,7 +1464,8 @@ typedef union
         uint32_t reserved_11_31        : 21;
 #endif /* Word 0 - End */
     } cn;
-} bdk_pmux_pmcr_el0_t;
+};
+typedef union bdk_pmux_pmcr_el0 bdk_pmux_pmcr_el0_t;
 
 static inline uint64_t BDK_PMUX_PMCR_EL0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PMUX_PMCR_EL0(unsigned long a)
@@ -1474,7 +1490,7 @@ static inline uint64_t BDK_PMUX_PMCR_EL0(unsigned long a)
  *     multiprocessor system the performance monitor component
  *     relates to.
  */
-typedef union
+union bdk_pmux_pmdevaff0
 {
     uint32_t u;
     struct bdk_pmux_pmdevaff0_s
@@ -1492,7 +1508,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pmux_pmdevaff0_s cn; */
-} bdk_pmux_pmdevaff0_t;
+};
+typedef union bdk_pmux_pmdevaff0 bdk_pmux_pmdevaff0_t;
 
 static inline uint64_t BDK_PMUX_PMDEVAFF0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PMUX_PMDEVAFF0(unsigned long a)
@@ -1517,7 +1534,7 @@ static inline uint64_t BDK_PMUX_PMDEVAFF0(unsigned long a)
  *     multiprocessor system the performance monitor component
  *     relates to.
  */
-typedef union
+union bdk_pmux_pmdevaff1
 {
     uint32_t u;
     struct bdk_pmux_pmdevaff1_s
@@ -1535,7 +1552,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pmux_pmdevaff1_s cn; */
-} bdk_pmux_pmdevaff1_t;
+};
+typedef union bdk_pmux_pmdevaff1 bdk_pmux_pmdevaff1_t;
 
 static inline uint64_t BDK_PMUX_PMDEVAFF1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PMUX_PMDEVAFF1(unsigned long a)
@@ -1556,7 +1574,7 @@ static inline uint64_t BDK_PMUX_PMDEVAFF1(unsigned long a)
  *
  * Performance Monitors Device Architecture Register
  */
-typedef union
+union bdk_pmux_pmdevarch
 {
     uint32_t u;
     struct bdk_pmux_pmdevarch_s
@@ -1606,7 +1624,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pmux_pmdevarch_s cn; */
-} bdk_pmux_pmdevarch_t;
+};
+typedef union bdk_pmux_pmdevarch bdk_pmux_pmdevarch_t;
 
 static inline uint64_t BDK_PMUX_PMDEVARCH(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PMUX_PMDEVARCH(unsigned long a)
@@ -1629,7 +1648,7 @@ static inline uint64_t BDK_PMUX_PMDEVARCH(unsigned long a)
  * Indicates to a debugger that this component is part of a
  *     processor's performance monitor interface.
  */
-typedef union
+union bdk_pmux_pmdevtype
 {
     uint32_t u;
     struct bdk_pmux_pmdevtype_s
@@ -1645,7 +1664,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pmux_pmdevtype_s cn; */
-} bdk_pmux_pmdevtype_t;
+};
+typedef union bdk_pmux_pmdevtype bdk_pmux_pmdevtype_t;
 
 static inline uint64_t BDK_PMUX_PMDEVTYPE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PMUX_PMDEVTYPE(unsigned long a)
@@ -1667,7 +1687,7 @@ static inline uint64_t BDK_PMUX_PMDEVTYPE(unsigned long a)
  * Performance Monitors Event Count Registers
  * This register contains the event counters.
  */
-typedef union
+union bdk_pmux_pmevcntrx_el0
 {
     uint64_t u;
     struct bdk_pmux_pmevcntrx_el0_s
@@ -1681,7 +1701,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pmux_pmevcntrx_el0_s cn; */
-} bdk_pmux_pmevcntrx_el0_t;
+};
+typedef union bdk_pmux_pmevcntrx_el0 bdk_pmux_pmevcntrx_el0_t;
 
 static inline uint64_t BDK_PMUX_PMEVCNTRX_EL0(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PMUX_PMEVCNTRX_EL0(unsigned long a, unsigned long b)
@@ -1703,7 +1724,7 @@ static inline uint64_t BDK_PMUX_PMEVCNTRX_EL0(unsigned long a, unsigned long b)
  * Performance Monitors Event Type Registers
  * This register contains the event counters.
  */
-typedef union
+union bdk_pmux_pmevtyperx_el0
 {
     uint32_t u;
     struct bdk_pmux_pmevtyperx_el0_s
@@ -1972,7 +1993,8 @@ typedef union
     } cn81xx;
     /* struct bdk_pmux_pmevtyperx_el0_cn81xx cn83xx; */
     /* struct bdk_pmux_pmevtyperx_el0_cn81xx cn88xxp2; */
-} bdk_pmux_pmevtyperx_el0_t;
+};
+typedef union bdk_pmux_pmevtyperx_el0 bdk_pmux_pmevtyperx_el0_t;
 
 static inline uint64_t BDK_PMUX_PMEVTYPERX_EL0(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PMUX_PMEVTYPERX_EL0(unsigned long a, unsigned long b)
@@ -1997,7 +2019,7 @@ static inline uint64_t BDK_PMUX_PMEVTYPERX_EL0(unsigned long a, unsigned long b)
  *     counters PMEVCNTR<n>_EL0. Reading the register shows which
  *     overflow interrupt requests are enabled.
  */
-typedef union
+union bdk_pmux_pmintenclr_el1
 {
     uint32_t u;
     struct bdk_pmux_pmintenclr_el1_s
@@ -2039,7 +2061,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pmux_pmintenclr_el1_s cn; */
-} bdk_pmux_pmintenclr_el1_t;
+};
+typedef union bdk_pmux_pmintenclr_el1 bdk_pmux_pmintenclr_el1_t;
 
 static inline uint64_t BDK_PMUX_PMINTENCLR_EL1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PMUX_PMINTENCLR_EL1(unsigned long a)
@@ -2064,7 +2087,7 @@ static inline uint64_t BDK_PMUX_PMINTENCLR_EL1(unsigned long a)
  *     PMEVCNTR<n>_EL0. Reading the register shows which overflow
  *     interrupt requests are enabled.
  */
-typedef union
+union bdk_pmux_pmintenset_el1
 {
     uint32_t u;
     struct bdk_pmux_pmintenset_el1_s
@@ -2106,7 +2129,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pmux_pmintenset_el1_s cn; */
-} bdk_pmux_pmintenset_el1_t;
+};
+typedef union bdk_pmux_pmintenset_el1 bdk_pmux_pmintenset_el1_t;
 
 static inline uint64_t BDK_PMUX_PMINTENSET_EL1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PMUX_PMINTENSET_EL1(unsigned long a)
@@ -2131,7 +2155,7 @@ static inline uint64_t BDK_PMUX_PMINTENSET_EL1(unsigned long a)
  *     directly the inputs and outputs of the processor, for
  *     integration testing or topology detection.
  */
-typedef union
+union bdk_pmux_pmitctrl
 {
     uint32_t u;
     struct bdk_pmux_pmitctrl_s
@@ -2155,7 +2179,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pmux_pmitctrl_s cn; */
-} bdk_pmux_pmitctrl_t;
+};
+typedef union bdk_pmux_pmitctrl bdk_pmux_pmitctrl_t;
 
 static inline uint64_t BDK_PMUX_PMITCTRL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PMUX_PMITCTRL(unsigned long a)
@@ -2178,7 +2203,7 @@ static inline uint64_t BDK_PMUX_PMITCTRL(unsigned long a)
  * Allows or disallows access to the performance monitors
  *     registers through a memory-mapped interface.
  */
-typedef union
+union bdk_pmux_pmlar
 {
     uint32_t u;
     struct bdk_pmux_pmlar_s
@@ -2194,7 +2219,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pmux_pmlar_s cn; */
-} bdk_pmux_pmlar_t;
+};
+typedef union bdk_pmux_pmlar bdk_pmux_pmlar_t;
 
 static inline uint64_t BDK_PMUX_PMLAR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PMUX_PMLAR(unsigned long a)
@@ -2217,7 +2243,7 @@ static inline uint64_t BDK_PMUX_PMLAR(unsigned long a)
  * Indicates the current status of the software lock for
  *     performance monitors registers.
  */
-typedef union
+union bdk_pmux_pmlsr
 {
     uint32_t u;
     struct bdk_pmux_pmlsr_s
@@ -2263,7 +2289,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pmux_pmlsr_s cn; */
-} bdk_pmux_pmlsr_t;
+};
+typedef union bdk_pmux_pmlsr bdk_pmux_pmlsr_t;
 
 static inline uint64_t BDK_PMUX_PMLSR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PMUX_PMLSR(unsigned long a)
@@ -2288,7 +2315,7 @@ static inline uint64_t BDK_PMUX_PMLSR(unsigned long a)
  *     counters PMEVCNTR<x>. Writing to this register clears these
  *     bits.
  */
-typedef union
+union bdk_pmux_pmovsclr_el0
 {
     uint32_t u;
     struct bdk_pmux_pmovsclr_el0_s
@@ -2326,7 +2353,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pmux_pmovsclr_el0_s cn; */
-} bdk_pmux_pmovsclr_el0_t;
+};
+typedef union bdk_pmux_pmovsclr_el0 bdk_pmux_pmovsclr_el0_t;
 
 static inline uint64_t BDK_PMUX_PMOVSCLR_EL0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PMUX_PMOVSCLR_EL0(unsigned long a)
@@ -2350,7 +2378,7 @@ static inline uint64_t BDK_PMUX_PMOVSCLR_EL0(unsigned long a)
  *     register, PMU()_PMCCNTR_EL0, and each of the implemented event
  *     counters PMEVCNTR<x>.
  */
-typedef union
+union bdk_pmux_pmovsset_el0
 {
     uint32_t u;
     struct bdk_pmux_pmovsset_el0_s
@@ -2384,7 +2412,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pmux_pmovsset_el0_s cn; */
-} bdk_pmux_pmovsset_el0_t;
+};
+typedef union bdk_pmux_pmovsset_el0 bdk_pmux_pmovsset_el0_t;
 
 static inline uint64_t BDK_PMUX_PMOVSSET_EL0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PMUX_PMOVSSET_EL0(unsigned long a)
@@ -2407,7 +2436,7 @@ static inline uint64_t BDK_PMUX_PMOVSSET_EL0(unsigned long a)
  * Provides information to identify a performance monitor
  *     component.
  */
-typedef union
+union bdk_pmux_pmpidr0
 {
     uint32_t u;
     struct bdk_pmux_pmpidr0_s
@@ -2421,7 +2450,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pmux_pmpidr0_s cn; */
-} bdk_pmux_pmpidr0_t;
+};
+typedef union bdk_pmux_pmpidr0 bdk_pmux_pmpidr0_t;
 
 static inline uint64_t BDK_PMUX_PMPIDR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PMUX_PMPIDR0(unsigned long a)
@@ -2444,7 +2474,7 @@ static inline uint64_t BDK_PMUX_PMPIDR0(unsigned long a)
  * Provides information to identify a performance monitor
  *     component.
  */
-typedef union
+union bdk_pmux_pmpidr1
 {
     uint32_t u;
     struct bdk_pmux_pmpidr1_s
@@ -2460,7 +2490,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pmux_pmpidr1_s cn; */
-} bdk_pmux_pmpidr1_t;
+};
+typedef union bdk_pmux_pmpidr1 bdk_pmux_pmpidr1_t;
 
 static inline uint64_t BDK_PMUX_PMPIDR1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PMUX_PMPIDR1(unsigned long a)
@@ -2483,7 +2514,7 @@ static inline uint64_t BDK_PMUX_PMPIDR1(unsigned long a)
  * Provides information to identify a performance monitor
  *     component.
  */
-typedef union
+union bdk_pmux_pmpidr2
 {
     uint32_t u;
     struct bdk_pmux_pmpidr2_s
@@ -2501,7 +2532,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pmux_pmpidr2_s cn; */
-} bdk_pmux_pmpidr2_t;
+};
+typedef union bdk_pmux_pmpidr2 bdk_pmux_pmpidr2_t;
 
 static inline uint64_t BDK_PMUX_PMPIDR2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PMUX_PMPIDR2(unsigned long a)
@@ -2524,7 +2556,7 @@ static inline uint64_t BDK_PMUX_PMPIDR2(unsigned long a)
  * Provides information to identify a performance monitor
  *     component.
  */
-typedef union
+union bdk_pmux_pmpidr3
 {
     uint32_t u;
     struct bdk_pmux_pmpidr3_s
@@ -2542,7 +2574,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pmux_pmpidr3_s cn; */
-} bdk_pmux_pmpidr3_t;
+};
+typedef union bdk_pmux_pmpidr3 bdk_pmux_pmpidr3_t;
 
 static inline uint64_t BDK_PMUX_PMPIDR3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PMUX_PMPIDR3(unsigned long a)
@@ -2565,7 +2598,7 @@ static inline uint64_t BDK_PMUX_PMPIDR3(unsigned long a)
  * Provides information to identify a performance monitor
  *     component.
  */
-typedef union
+union bdk_pmux_pmpidr4
 {
     uint32_t u;
     struct bdk_pmux_pmpidr4_s
@@ -2585,7 +2618,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pmux_pmpidr4_s cn; */
-} bdk_pmux_pmpidr4_t;
+};
+typedef union bdk_pmux_pmpidr4 bdk_pmux_pmpidr4_t;
 
 static inline uint64_t BDK_PMUX_PMPIDR4(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PMUX_PMPIDR4(unsigned long a)
@@ -2606,7 +2640,7 @@ static inline uint64_t BDK_PMUX_PMPIDR4(unsigned long a)
  *
  * Performance Monitors Peripheral Identification Register 5
  */
-typedef union
+union bdk_pmux_pmpidr5
 {
     uint32_t u;
     struct bdk_pmux_pmpidr5_s
@@ -2618,7 +2652,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pmux_pmpidr5_s cn; */
-} bdk_pmux_pmpidr5_t;
+};
+typedef union bdk_pmux_pmpidr5 bdk_pmux_pmpidr5_t;
 
 static inline uint64_t BDK_PMUX_PMPIDR5(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PMUX_PMPIDR5(unsigned long a)
@@ -2639,7 +2674,7 @@ static inline uint64_t BDK_PMUX_PMPIDR5(unsigned long a)
  *
  * Performance Monitors Peripheral Identification Register 6
  */
-typedef union
+union bdk_pmux_pmpidr6
 {
     uint32_t u;
     struct bdk_pmux_pmpidr6_s
@@ -2651,7 +2686,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pmux_pmpidr6_s cn; */
-} bdk_pmux_pmpidr6_t;
+};
+typedef union bdk_pmux_pmpidr6 bdk_pmux_pmpidr6_t;
 
 static inline uint64_t BDK_PMUX_PMPIDR6(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PMUX_PMPIDR6(unsigned long a)
@@ -2672,7 +2708,7 @@ static inline uint64_t BDK_PMUX_PMPIDR6(unsigned long a)
  *
  * Performance Monitors Peripheral Identification Register 7
  */
-typedef union
+union bdk_pmux_pmpidr7
 {
     uint32_t u;
     struct bdk_pmux_pmpidr7_s
@@ -2684,7 +2720,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pmux_pmpidr7_s cn; */
-} bdk_pmux_pmpidr7_t;
+};
+typedef union bdk_pmux_pmpidr7 bdk_pmux_pmpidr7_t;
 
 static inline uint64_t BDK_PMUX_PMPIDR7(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PMUX_PMPIDR7(unsigned long a)
@@ -2707,7 +2744,7 @@ static inline uint64_t BDK_PMUX_PMPIDR7(unsigned long a)
  * Increments a counter that is configured to count the software
  *     increment event, event0x00.
  */
-typedef union
+union bdk_pmux_pmswinc_el0
 {
     uint32_t u;
     struct bdk_pmux_pmswinc_el0_s
@@ -2733,7 +2770,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pmux_pmswinc_el0_s cn; */
-} bdk_pmux_pmswinc_el0_t;
+};
+typedef union bdk_pmux_pmswinc_el0 bdk_pmux_pmswinc_el0_t;
 
 static inline uint64_t BDK_PMUX_PMSWINC_EL0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PMUX_PMSWINC_EL0(unsigned long a)

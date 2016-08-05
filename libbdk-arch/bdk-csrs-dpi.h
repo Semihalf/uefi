@@ -1164,7 +1164,7 @@ union bdk_dpi_dma_local_ptr_s
  * This is the built-in self-test (BIST) status register. Each bit is the BIST result of an
  * individual memory (per bit, 0 = pass and 1 = fail).
  */
-typedef union
+union bdk_dpix_bist_status
 {
     uint64_t u;
     struct bdk_dpix_bist_status_s
@@ -1194,7 +1194,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dpix_bist_status_s cn; */
-} bdk_dpix_bist_status_t;
+};
+typedef union bdk_dpix_bist_status bdk_dpix_bist_status_t;
 
 static inline uint64_t BDK_DPIX_BIST_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DPIX_BIST_STATUS(unsigned long a)
@@ -1217,7 +1218,7 @@ static inline uint64_t BDK_DPIX_BIST_STATUS(unsigned long a)
  * DPI Control Register
  * This register provides the enable bit for the DMA and packet state machines.
  */
-typedef union
+union bdk_dpix_ctl
 {
     uint64_t u;
     struct bdk_dpix_ctl_s
@@ -1231,7 +1232,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dpix_ctl_s cn; */
-} bdk_dpix_ctl_t;
+};
+typedef union bdk_dpix_ctl bdk_dpix_ctl_t;
 
 static inline uint64_t BDK_DPIX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DPIX_CTL(unsigned long a)
@@ -1254,7 +1256,7 @@ static inline uint64_t BDK_DPIX_CTL(unsigned long a)
  * DPI ECC SBE Interrupt Register
  * This register contains ECC Double Bit error interrupt summary bits.
  */
-typedef union
+union bdk_dpix_dbe_int
 {
     uint64_t u;
     struct bdk_dpix_dbe_int_s
@@ -1268,7 +1270,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dpix_dbe_int_s cn; */
-} bdk_dpix_dbe_int_t;
+};
+typedef union bdk_dpix_dbe_int bdk_dpix_dbe_int_t;
 
 static inline uint64_t BDK_DPIX_DBE_INT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DPIX_DBE_INT(unsigned long a)
@@ -1291,7 +1294,7 @@ static inline uint64_t BDK_DPIX_DBE_INT(unsigned long a)
  * DPI DBE Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_dpix_dbe_int_ena_w1c
 {
     uint64_t u;
     struct bdk_dpix_dbe_int_ena_w1c_s
@@ -1305,7 +1308,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dpix_dbe_int_ena_w1c_s cn; */
-} bdk_dpix_dbe_int_ena_w1c_t;
+};
+typedef union bdk_dpix_dbe_int_ena_w1c bdk_dpix_dbe_int_ena_w1c_t;
 
 static inline uint64_t BDK_DPIX_DBE_INT_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DPIX_DBE_INT_ENA_W1C(unsigned long a)
@@ -1328,7 +1332,7 @@ static inline uint64_t BDK_DPIX_DBE_INT_ENA_W1C(unsigned long a)
  * DPI DBE Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_dpix_dbe_int_ena_w1s
 {
     uint64_t u;
     struct bdk_dpix_dbe_int_ena_w1s_s
@@ -1342,7 +1346,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dpix_dbe_int_ena_w1s_s cn; */
-} bdk_dpix_dbe_int_ena_w1s_t;
+};
+typedef union bdk_dpix_dbe_int_ena_w1s bdk_dpix_dbe_int_ena_w1s_t;
 
 static inline uint64_t BDK_DPIX_DBE_INT_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DPIX_DBE_INT_ENA_W1S(unsigned long a)
@@ -1365,7 +1370,7 @@ static inline uint64_t BDK_DPIX_DBE_INT_ENA_W1S(unsigned long a)
  * DPI DBE Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_dpix_dbe_int_w1s
 {
     uint64_t u;
     struct bdk_dpix_dbe_int_w1s_s
@@ -1379,7 +1384,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dpix_dbe_int_w1s_s cn; */
-} bdk_dpix_dbe_int_w1s_t;
+};
+typedef union bdk_dpix_dbe_int_w1s bdk_dpix_dbe_int_w1s_t;
 
 static inline uint64_t BDK_DPIX_DBE_INT_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DPIX_DBE_INT_W1S(unsigned long a)
@@ -1401,7 +1407,7 @@ static inline uint64_t BDK_DPIX_DBE_INT_W1S(unsigned long a)
  *
  * DPI DMA Error Response Status Register
  */
-typedef union
+union bdk_dpix_dmax_err_rsp_status
 {
     uint64_t u;
     struct bdk_dpix_dmax_err_rsp_status_s
@@ -1423,7 +1429,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dpix_dmax_err_rsp_status_s cn; */
-} bdk_dpix_dmax_err_rsp_status_t;
+};
+typedef union bdk_dpix_dmax_err_rsp_status bdk_dpix_dmax_err_rsp_status_t;
 
 static inline uint64_t BDK_DPIX_DMAX_ERR_RSP_STATUS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DPIX_DMAX_ERR_RSP_STATUS(unsigned long a, unsigned long b)
@@ -1448,7 +1455,7 @@ static inline uint64_t BDK_DPIX_DMAX_ERR_RSP_STATUS(unsigned long a, unsigned lo
  * instruction queues. These register should only be written to when the specified queue is
  * disabled (DPI()_VDMA()_EN[QEN]).
  */
-typedef union
+union bdk_dpix_dmax_ibuff_csize
 {
     uint64_t u;
     struct bdk_dpix_dmax_ibuff_csize_s
@@ -1464,7 +1471,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dpix_dmax_ibuff_csize_s cn; */
-} bdk_dpix_dmax_ibuff_csize_t;
+};
+typedef union bdk_dpix_dmax_ibuff_csize bdk_dpix_dmax_ibuff_csize_t;
 
 static inline uint64_t BDK_DPIX_DMAX_IBUFF_CSIZE(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DPIX_DMAX_IBUFF_CSIZE(unsigned long a, unsigned long b)
@@ -1487,7 +1495,7 @@ static inline uint64_t BDK_DPIX_DMAX_IBUFF_CSIZE(unsigned long a, unsigned long 
  * DPI DMA Request ID Registers
  * These registers configure the streamID, GMID and AURA values for each request queue.
  */
-typedef union
+union bdk_dpix_dmax_ids
 {
     uint64_t u;
     struct bdk_dpix_dmax_ids_s
@@ -1531,7 +1539,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dpix_dmax_ids_s cn; */
-} bdk_dpix_dmax_ids_t;
+};
+typedef union bdk_dpix_dmax_ids bdk_dpix_dmax_ids_t;
 
 static inline uint64_t BDK_DPIX_DMAX_IDS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DPIX_DMAX_IDS(unsigned long a, unsigned long b)
@@ -1553,7 +1562,7 @@ static inline uint64_t BDK_DPIX_DMAX_IDS(unsigned long a, unsigned long b)
  *
  * DPI DMA In-Flight Register
  */
-typedef union
+union bdk_dpix_dmax_iflight
 {
     uint64_t u;
     struct bdk_dpix_dmax_iflight_s
@@ -1569,7 +1578,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dpix_dmax_iflight_s cn; */
-} bdk_dpix_dmax_iflight_t;
+};
+typedef union bdk_dpix_dmax_iflight bdk_dpix_dmax_iflight_t;
 
 static inline uint64_t BDK_DPIX_DMAX_IFLIGHT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DPIX_DMAX_IFLIGHT(unsigned long a, unsigned long b)
@@ -1591,7 +1601,7 @@ static inline uint64_t BDK_DPIX_DMAX_IFLIGHT(unsigned long a, unsigned long b)
  *
  * DPI DMA Instruction Queue Reset Register
  */
-typedef union
+union bdk_dpix_dmax_qrst
 {
     uint64_t u;
     struct bdk_dpix_dmax_qrst_s
@@ -1609,7 +1619,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dpix_dmax_qrst_s cn; */
-} bdk_dpix_dmax_qrst_t;
+};
+typedef union bdk_dpix_dmax_qrst bdk_dpix_dmax_qrst_t;
 
 static inline uint64_t BDK_DPIX_DMAX_QRST(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DPIX_DMAX_QRST(unsigned long a, unsigned long b)
@@ -1632,7 +1643,7 @@ static inline uint64_t BDK_DPIX_DMAX_QRST(unsigned long a, unsigned long b)
  * DPI DMA Request State Bank 0 Registers
  * These registers provide the current contents of the request state machine, bank 0.
  */
-typedef union
+union bdk_dpix_dmax_reqbnk0
 {
     uint64_t u;
     struct bdk_dpix_dmax_reqbnk0_s
@@ -1644,7 +1655,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dpix_dmax_reqbnk0_s cn; */
-} bdk_dpix_dmax_reqbnk0_t;
+};
+typedef union bdk_dpix_dmax_reqbnk0 bdk_dpix_dmax_reqbnk0_t;
 
 static inline uint64_t BDK_DPIX_DMAX_REQBNK0(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DPIX_DMAX_REQBNK0(unsigned long a, unsigned long b)
@@ -1667,7 +1679,7 @@ static inline uint64_t BDK_DPIX_DMAX_REQBNK0(unsigned long a, unsigned long b)
  * DPI DMA Request State Bank 1 Registers
  * These registers provide the current contents of the request state machine, bank 1.
  */
-typedef union
+union bdk_dpix_dmax_reqbnk1
 {
     uint64_t u;
     struct bdk_dpix_dmax_reqbnk1_s
@@ -1679,7 +1691,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dpix_dmax_reqbnk1_s cn; */
-} bdk_dpix_dmax_reqbnk1_t;
+};
+typedef union bdk_dpix_dmax_reqbnk1 bdk_dpix_dmax_reqbnk1_t;
 
 static inline uint64_t BDK_DPIX_DMAX_REQBNK1(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DPIX_DMAX_REQBNK1(unsigned long a, unsigned long b)
@@ -1702,7 +1715,7 @@ static inline uint64_t BDK_DPIX_DMAX_REQBNK1(unsigned long a, unsigned long b)
  * DPI DMA Per-Process Instruction Completion Counter Register
  * These registers provide a per-process instruction completion counter.
  */
-typedef union
+union bdk_dpix_dma_ccx_cnt
 {
     uint64_t u;
     struct bdk_dpix_dma_ccx_cnt_s
@@ -1728,7 +1741,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dpix_dma_ccx_cnt_s cn; */
-} bdk_dpix_dma_ccx_cnt_t;
+};
+typedef union bdk_dpix_dma_ccx_cnt bdk_dpix_dma_ccx_cnt_t;
 
 static inline uint64_t BDK_DPIX_DMA_CCX_CNT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DPIX_DMA_CCX_CNT(unsigned long a, unsigned long b)
@@ -1751,7 +1765,7 @@ static inline uint64_t BDK_DPIX_DMA_CCX_CNT(unsigned long a, unsigned long b)
  * DPI DMA Per-Process Instruction Completion Interrupt Register
  * This register contains per-process completion interrupt bits.
  */
-typedef union
+union bdk_dpix_dma_ccx_int
 {
     uint64_t u;
     struct bdk_dpix_dma_ccx_int_s
@@ -1769,7 +1783,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dpix_dma_ccx_int_s cn; */
-} bdk_dpix_dma_ccx_int_t;
+};
+typedef union bdk_dpix_dma_ccx_int bdk_dpix_dma_ccx_int_t;
 
 static inline uint64_t BDK_DPIX_DMA_CCX_INT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DPIX_DMA_CCX_INT(unsigned long a, unsigned long b)
@@ -1792,7 +1807,7 @@ static inline uint64_t BDK_DPIX_DMA_CCX_INT(unsigned long a, unsigned long b)
  * DPI DMA Per-Process Instruction Completion Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_dpix_dma_ccx_int_ena_w1c
 {
     uint64_t u;
     struct bdk_dpix_dma_ccx_int_ena_w1c_s
@@ -1806,7 +1821,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dpix_dma_ccx_int_ena_w1c_s cn; */
-} bdk_dpix_dma_ccx_int_ena_w1c_t;
+};
+typedef union bdk_dpix_dma_ccx_int_ena_w1c bdk_dpix_dma_ccx_int_ena_w1c_t;
 
 static inline uint64_t BDK_DPIX_DMA_CCX_INT_ENA_W1C(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DPIX_DMA_CCX_INT_ENA_W1C(unsigned long a, unsigned long b)
@@ -1829,7 +1845,7 @@ static inline uint64_t BDK_DPIX_DMA_CCX_INT_ENA_W1C(unsigned long a, unsigned lo
  * DPI DMA Per-Process Instruction Completion Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_dpix_dma_ccx_int_ena_w1s
 {
     uint64_t u;
     struct bdk_dpix_dma_ccx_int_ena_w1s_s
@@ -1843,7 +1859,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dpix_dma_ccx_int_ena_w1s_s cn; */
-} bdk_dpix_dma_ccx_int_ena_w1s_t;
+};
+typedef union bdk_dpix_dma_ccx_int_ena_w1s bdk_dpix_dma_ccx_int_ena_w1s_t;
 
 static inline uint64_t BDK_DPIX_DMA_CCX_INT_ENA_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DPIX_DMA_CCX_INT_ENA_W1S(unsigned long a, unsigned long b)
@@ -1866,7 +1883,7 @@ static inline uint64_t BDK_DPIX_DMA_CCX_INT_ENA_W1S(unsigned long a, unsigned lo
  * DPI DMA Per-Process Instruction Completion Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_dpix_dma_ccx_int_w1s
 {
     uint64_t u;
     struct bdk_dpix_dma_ccx_int_w1s_s
@@ -1880,7 +1897,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dpix_dma_ccx_int_w1s_s cn; */
-} bdk_dpix_dma_ccx_int_w1s_t;
+};
+typedef union bdk_dpix_dma_ccx_int_w1s bdk_dpix_dma_ccx_int_w1s_t;
 
 static inline uint64_t BDK_DPIX_DMA_CCX_INT_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DPIX_DMA_CCX_INT_W1S(unsigned long a, unsigned long b)
@@ -1903,7 +1921,7 @@ static inline uint64_t BDK_DPIX_DMA_CCX_INT_W1S(unsigned long a, unsigned long b
  * DPI DMA Control Register
  * This register controls the operation of DMA input and output.
  */
-typedef union
+union bdk_dpix_dma_control
 {
     uint64_t u;
     struct bdk_dpix_dma_control_s
@@ -2071,7 +2089,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dpix_dma_control_s cn; */
-} bdk_dpix_dma_control_t;
+};
+typedef union bdk_dpix_dma_control bdk_dpix_dma_control_t;
 
 static inline uint64_t BDK_DPIX_DMA_CONTROL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DPIX_DMA_CONTROL(unsigned long a)
@@ -2094,7 +2113,7 @@ static inline uint64_t BDK_DPIX_DMA_CONTROL(unsigned long a)
  * DPI DMA-Engine Queue Enable Registers
  * These registers provide control for the DMA engines.
  */
-typedef union
+union bdk_dpix_dma_engx_en
 {
     uint64_t u;
     struct bdk_dpix_dma_engx_en_s
@@ -2126,7 +2145,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dpix_dma_engx_en_s cn; */
-} bdk_dpix_dma_engx_en_t;
+};
+typedef union bdk_dpix_dma_engx_en bdk_dpix_dma_engx_en_t;
 
 static inline uint64_t BDK_DPIX_DMA_ENGX_EN(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DPIX_DMA_ENGX_EN(unsigned long a, unsigned long b)
@@ -2149,7 +2169,7 @@ static inline uint64_t BDK_DPIX_DMA_ENGX_EN(unsigned long a, unsigned long b)
  * DPI ECC Control Register
  * This register allows inserting ECC errors for testing.
  */
-typedef union
+union bdk_dpix_ecc_ctl
 {
     uint64_t u;
     struct bdk_dpix_ecc_ctl_s
@@ -2175,7 +2195,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dpix_ecc_ctl_s cn; */
-} bdk_dpix_ecc_ctl_t;
+};
+typedef union bdk_dpix_ecc_ctl bdk_dpix_ecc_ctl_t;
 
 static inline uint64_t BDK_DPIX_ECC_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DPIX_ECC_CTL(unsigned long a)
@@ -2197,7 +2218,7 @@ static inline uint64_t BDK_DPIX_ECC_CTL(unsigned long a)
  *
  * DPI DMA Engine Buffer Registers
  */
-typedef union
+union bdk_dpix_engx_buf
 {
     uint64_t u;
     struct bdk_dpix_engx_buf_s
@@ -2259,7 +2280,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dpix_engx_buf_s cn; */
-} bdk_dpix_engx_buf_t;
+};
+typedef union bdk_dpix_engx_buf bdk_dpix_engx_buf_t;
 
 static inline uint64_t BDK_DPIX_ENGX_BUF(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DPIX_ENGX_BUF(unsigned long a, unsigned long b)
@@ -2281,7 +2303,7 @@ static inline uint64_t BDK_DPIX_ENGX_BUF(unsigned long a, unsigned long b)
  *
  * DPI Information Register
  */
-typedef union
+union bdk_dpix_info_reg
 {
     uint64_t u;
     struct bdk_dpix_info_reg_s
@@ -2305,7 +2327,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dpix_info_reg_s cn; */
-} bdk_dpix_info_reg_t;
+};
+typedef union bdk_dpix_info_reg bdk_dpix_info_reg_t;
 
 static inline uint64_t BDK_DPIX_INFO_REG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DPIX_INFO_REG(unsigned long a)
@@ -2328,7 +2351,7 @@ static inline uint64_t BDK_DPIX_INFO_REG(unsigned long a)
  * DPI Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_dpix_int_ena_w1c
 {
     uint64_t u;
     struct bdk_dpix_int_ena_w1c_s
@@ -2344,7 +2367,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dpix_int_ena_w1c_s cn; */
-} bdk_dpix_int_ena_w1c_t;
+};
+typedef union bdk_dpix_int_ena_w1c bdk_dpix_int_ena_w1c_t;
 
 static inline uint64_t BDK_DPIX_INT_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DPIX_INT_ENA_W1C(unsigned long a)
@@ -2367,7 +2391,7 @@ static inline uint64_t BDK_DPIX_INT_ENA_W1C(unsigned long a)
  * DPI Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_dpix_int_ena_w1s
 {
     uint64_t u;
     struct bdk_dpix_int_ena_w1s_s
@@ -2383,7 +2407,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dpix_int_ena_w1s_s cn; */
-} bdk_dpix_int_ena_w1s_t;
+};
+typedef union bdk_dpix_int_ena_w1s bdk_dpix_int_ena_w1s_t;
 
 static inline uint64_t BDK_DPIX_INT_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DPIX_INT_ENA_W1S(unsigned long a)
@@ -2406,7 +2431,7 @@ static inline uint64_t BDK_DPIX_INT_ENA_W1S(unsigned long a)
  * DPI Interrupt Summary Register
  * This register contains error flags for DPI.
  */
-typedef union
+union bdk_dpix_int_reg
 {
     uint64_t u;
     struct bdk_dpix_int_reg_s
@@ -2426,7 +2451,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dpix_int_reg_s cn; */
-} bdk_dpix_int_reg_t;
+};
+typedef union bdk_dpix_int_reg bdk_dpix_int_reg_t;
 
 static inline uint64_t BDK_DPIX_INT_REG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DPIX_INT_REG(unsigned long a)
@@ -2449,7 +2475,7 @@ static inline uint64_t BDK_DPIX_INT_REG(unsigned long a)
  * DPI Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_dpix_int_reg_w1s
 {
     uint64_t u;
     struct bdk_dpix_int_reg_w1s_s
@@ -2465,7 +2491,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dpix_int_reg_w1s_s cn; */
-} bdk_dpix_int_reg_w1s_t;
+};
+typedef union bdk_dpix_int_reg_w1s bdk_dpix_int_reg_w1s_t;
 
 static inline uint64_t BDK_DPIX_INT_REG_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DPIX_INT_REG_W1S(unsigned long a)
@@ -2487,7 +2514,7 @@ static inline uint64_t BDK_DPIX_INT_REG_W1S(unsigned long a)
  *
  * DPI IOI Configuration Register
  */
-typedef union
+union bdk_dpix_ncbx_cfg
 {
     uint64_t u;
     struct bdk_dpix_ncbx_cfg_s
@@ -2515,7 +2542,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dpix_ncbx_cfg_s cn; */
-} bdk_dpix_ncbx_cfg_t;
+};
+typedef union bdk_dpix_ncbx_cfg bdk_dpix_ncbx_cfg_t;
 
 static inline uint64_t BDK_DPIX_NCBX_CFG(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DPIX_NCBX_CFG(unsigned long a, unsigned long b)
@@ -2539,7 +2567,7 @@ static inline uint64_t BDK_DPIX_NCBX_CFG(unsigned long a, unsigned long b)
  * This register is the MSI-X PBA table; the bit number is indexed by the DPI_PF_INT_VEC_E
  * enumeration.
  */
-typedef union
+union bdk_dpix_pf_msix_pbax
 {
     uint64_t u;
     struct bdk_dpix_pf_msix_pbax_s
@@ -2553,7 +2581,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dpix_pf_msix_pbax_s cn; */
-} bdk_dpix_pf_msix_pbax_t;
+};
+typedef union bdk_dpix_pf_msix_pbax bdk_dpix_pf_msix_pbax_t;
 
 static inline uint64_t BDK_DPIX_PF_MSIX_PBAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DPIX_PF_MSIX_PBAX(unsigned long a, unsigned long b)
@@ -2576,7 +2605,7 @@ static inline uint64_t BDK_DPIX_PF_MSIX_PBAX(unsigned long a, unsigned long b)
  * DPI MSI-X Vector-Table Address Register
  * This register is the MSI-X vector table, indexed by the DPI_PF_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_dpix_pf_msix_vecx_addr
 {
     uint64_t u;
     struct bdk_dpix_pf_msix_vecx_addr_s
@@ -2610,7 +2639,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dpix_pf_msix_vecx_addr_s cn; */
-} bdk_dpix_pf_msix_vecx_addr_t;
+};
+typedef union bdk_dpix_pf_msix_vecx_addr bdk_dpix_pf_msix_vecx_addr_t;
 
 static inline uint64_t BDK_DPIX_PF_MSIX_VECX_ADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DPIX_PF_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
@@ -2633,7 +2663,7 @@ static inline uint64_t BDK_DPIX_PF_MSIX_VECX_ADDR(unsigned long a, unsigned long
  * DPI MSI-X Vector-Table Control and Data Register
  * This register is the MSI-X vector table, indexed by the DPI_PF_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_dpix_pf_msix_vecx_ctl
 {
     uint64_t u;
     struct bdk_dpix_pf_msix_vecx_ctl_s
@@ -2651,7 +2681,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dpix_pf_msix_vecx_ctl_s cn; */
-} bdk_dpix_pf_msix_vecx_ctl_t;
+};
+typedef union bdk_dpix_pf_msix_vecx_ctl bdk_dpix_pf_msix_vecx_ctl_t;
 
 static inline uint64_t BDK_DPIX_PF_MSIX_VECX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DPIX_PF_MSIX_VECX_CTL(unsigned long a, unsigned long b)
@@ -2673,7 +2704,7 @@ static inline uint64_t BDK_DPIX_PF_MSIX_VECX_CTL(unsigned long a, unsigned long 
  *
  * DPI Packet Error Response Register
  */
-typedef union
+union bdk_dpix_pkt_err_rsp
 {
     uint64_t u;
     struct bdk_dpix_pkt_err_rsp_s
@@ -2687,7 +2718,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dpix_pkt_err_rsp_s cn; */
-} bdk_dpix_pkt_err_rsp_t;
+};
+typedef union bdk_dpix_pkt_err_rsp bdk_dpix_pkt_err_rsp_t;
 
 static inline uint64_t BDK_DPIX_PKT_ERR_RSP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DPIX_PKT_ERR_RSP(unsigned long a)
@@ -2709,7 +2741,7 @@ static inline uint64_t BDK_DPIX_PKT_ERR_RSP(unsigned long a)
  *
  * DPI Instruction Queue Error Response Register
  */
-typedef union
+union bdk_dpix_req_err_rsp
 {
     uint64_t u;
     struct bdk_dpix_req_err_rsp_s
@@ -2727,7 +2759,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dpix_req_err_rsp_s cn; */
-} bdk_dpix_req_err_rsp_t;
+};
+typedef union bdk_dpix_req_err_rsp bdk_dpix_req_err_rsp_t;
 
 static inline uint64_t BDK_DPIX_REQ_ERR_RSP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DPIX_REQ_ERR_RSP(unsigned long a)
@@ -2749,7 +2782,7 @@ static inline uint64_t BDK_DPIX_REQ_ERR_RSP(unsigned long a)
  *
  * DPI Instruction Queue ErrorResponse Enable Register
  */
-typedef union
+union bdk_dpix_req_err_rsp_en
 {
     uint64_t u;
     struct bdk_dpix_req_err_rsp_en_s
@@ -2765,7 +2798,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dpix_req_err_rsp_en_s cn; */
-} bdk_dpix_req_err_rsp_en_t;
+};
+typedef union bdk_dpix_req_err_rsp_en bdk_dpix_req_err_rsp_en_t;
 
 static inline uint64_t BDK_DPIX_REQ_ERR_RSP_EN(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DPIX_REQ_ERR_RSP_EN(unsigned long a)
@@ -2788,7 +2822,7 @@ static inline uint64_t BDK_DPIX_REQ_ERR_RSP_EN(unsigned long a)
  * DPI DMA Per Instruction Queue Interrupt Register
  * This register contains per-request queue error interrupts.
  */
-typedef union
+union bdk_dpix_reqqx_int
 {
     uint64_t u;
     struct bdk_dpix_reqqx_int_s
@@ -2838,7 +2872,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dpix_reqqx_int_s cn; */
-} bdk_dpix_reqqx_int_t;
+};
+typedef union bdk_dpix_reqqx_int bdk_dpix_reqqx_int_t;
 
 static inline uint64_t BDK_DPIX_REQQX_INT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DPIX_REQQX_INT(unsigned long a, unsigned long b)
@@ -2861,7 +2896,7 @@ static inline uint64_t BDK_DPIX_REQQX_INT(unsigned long a, unsigned long b)
  * DPI DMA Per Instruction Queue Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_dpix_reqqx_int_ena_w1c
 {
     uint64_t u;
     struct bdk_dpix_reqqx_int_ena_w1c_s
@@ -2887,7 +2922,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dpix_reqqx_int_ena_w1c_s cn; */
-} bdk_dpix_reqqx_int_ena_w1c_t;
+};
+typedef union bdk_dpix_reqqx_int_ena_w1c bdk_dpix_reqqx_int_ena_w1c_t;
 
 static inline uint64_t BDK_DPIX_REQQX_INT_ENA_W1C(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DPIX_REQQX_INT_ENA_W1C(unsigned long a, unsigned long b)
@@ -2910,7 +2946,7 @@ static inline uint64_t BDK_DPIX_REQQX_INT_ENA_W1C(unsigned long a, unsigned long
  * DPI DMA Per Instruction Queue Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_dpix_reqqx_int_ena_w1s
 {
     uint64_t u;
     struct bdk_dpix_reqqx_int_ena_w1s_s
@@ -2936,7 +2972,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dpix_reqqx_int_ena_w1s_s cn; */
-} bdk_dpix_reqqx_int_ena_w1s_t;
+};
+typedef union bdk_dpix_reqqx_int_ena_w1s bdk_dpix_reqqx_int_ena_w1s_t;
 
 static inline uint64_t BDK_DPIX_REQQX_INT_ENA_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DPIX_REQQX_INT_ENA_W1S(unsigned long a, unsigned long b)
@@ -2959,7 +2996,7 @@ static inline uint64_t BDK_DPIX_REQQX_INT_ENA_W1S(unsigned long a, unsigned long
  * DPI DMA Per Instruction Queue Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_dpix_reqqx_int_w1s
 {
     uint64_t u;
     struct bdk_dpix_reqqx_int_w1s_s
@@ -2985,7 +3022,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dpix_reqqx_int_w1s_s cn; */
-} bdk_dpix_reqqx_int_w1s_t;
+};
+typedef union bdk_dpix_reqqx_int_w1s bdk_dpix_reqqx_int_w1s_t;
 
 static inline uint64_t BDK_DPIX_REQQX_INT_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DPIX_REQQX_INT_W1S(unsigned long a, unsigned long b)
@@ -3008,7 +3046,7 @@ static inline uint64_t BDK_DPIX_REQQX_INT_W1S(unsigned long a, unsigned long b)
  * DPI ECC SBE Interrupt Register
  * This register contains ECC Single Bit error interrupt summary bits.
  */
-typedef union
+union bdk_dpix_sbe_int
 {
     uint64_t u;
     struct bdk_dpix_sbe_int_s
@@ -3022,7 +3060,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dpix_sbe_int_s cn; */
-} bdk_dpix_sbe_int_t;
+};
+typedef union bdk_dpix_sbe_int bdk_dpix_sbe_int_t;
 
 static inline uint64_t BDK_DPIX_SBE_INT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DPIX_SBE_INT(unsigned long a)
@@ -3045,7 +3084,7 @@ static inline uint64_t BDK_DPIX_SBE_INT(unsigned long a)
  * DPI SBE Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_dpix_sbe_int_ena_w1c
 {
     uint64_t u;
     struct bdk_dpix_sbe_int_ena_w1c_s
@@ -3059,7 +3098,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dpix_sbe_int_ena_w1c_s cn; */
-} bdk_dpix_sbe_int_ena_w1c_t;
+};
+typedef union bdk_dpix_sbe_int_ena_w1c bdk_dpix_sbe_int_ena_w1c_t;
 
 static inline uint64_t BDK_DPIX_SBE_INT_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DPIX_SBE_INT_ENA_W1C(unsigned long a)
@@ -3082,7 +3122,7 @@ static inline uint64_t BDK_DPIX_SBE_INT_ENA_W1C(unsigned long a)
  * DPI SBE Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_dpix_sbe_int_ena_w1s
 {
     uint64_t u;
     struct bdk_dpix_sbe_int_ena_w1s_s
@@ -3096,7 +3136,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dpix_sbe_int_ena_w1s_s cn; */
-} bdk_dpix_sbe_int_ena_w1s_t;
+};
+typedef union bdk_dpix_sbe_int_ena_w1s bdk_dpix_sbe_int_ena_w1s_t;
 
 static inline uint64_t BDK_DPIX_SBE_INT_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DPIX_SBE_INT_ENA_W1S(unsigned long a)
@@ -3119,7 +3160,7 @@ static inline uint64_t BDK_DPIX_SBE_INT_ENA_W1S(unsigned long a)
  * DPI SBE Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_dpix_sbe_int_w1s
 {
     uint64_t u;
     struct bdk_dpix_sbe_int_w1s_s
@@ -3133,7 +3174,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dpix_sbe_int_w1s_s cn; */
-} bdk_dpix_sbe_int_w1s_t;
+};
+typedef union bdk_dpix_sbe_int_w1s bdk_dpix_sbe_int_w1s_t;
 
 static inline uint64_t BDK_DPIX_SBE_INT_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DPIX_SBE_INT_W1S(unsigned long a)
@@ -3157,7 +3199,7 @@ static inline uint64_t BDK_DPIX_SBE_INT_W1S(unsigned long a)
  * This register configures the max read request size, max payload size, and max number of SLI
  * tags in use.
  */
-typedef union
+union bdk_dpix_sli_prtx_cfg
 {
     uint64_t u;
     struct bdk_dpix_sli_prtx_cfg_s
@@ -3261,7 +3303,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dpix_sli_prtx_cfg_s cn; */
-} bdk_dpix_sli_prtx_cfg_t;
+};
+typedef union bdk_dpix_sli_prtx_cfg bdk_dpix_sli_prtx_cfg_t;
 
 static inline uint64_t BDK_DPIX_SLI_PRTX_CFG(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DPIX_SLI_PRTX_CFG(unsigned long a, unsigned long b)
@@ -3284,7 +3327,7 @@ static inline uint64_t BDK_DPIX_SLI_PRTX_CFG(unsigned long a, unsigned long b)
  * DPI SLI Port Error Address Registers
  * This register logs the address associated with the reported SLI error response.
  */
-typedef union
+union bdk_dpix_sli_prtx_err
 {
     uint64_t u;
     struct bdk_dpix_sli_prtx_err_s
@@ -3302,7 +3345,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dpix_sli_prtx_err_s cn; */
-} bdk_dpix_sli_prtx_err_t;
+};
+typedef union bdk_dpix_sli_prtx_err bdk_dpix_sli_prtx_err_t;
 
 static inline uint64_t BDK_DPIX_SLI_PRTX_ERR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DPIX_SLI_PRTX_ERR(unsigned long a, unsigned long b)
@@ -3325,7 +3369,7 @@ static inline uint64_t BDK_DPIX_SLI_PRTX_ERR(unsigned long a, unsigned long b)
  * DPI SLI MAC Port Error Info Registers
  * This register logs information associated with the reported SLI error response.
  */
-typedef union
+union bdk_dpix_sli_prtx_err_info
 {
     uint64_t u;
     struct bdk_dpix_sli_prtx_err_info_s
@@ -3377,7 +3421,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dpix_sli_prtx_err_info_s cn; */
-} bdk_dpix_sli_prtx_err_info_t;
+};
+typedef union bdk_dpix_sli_prtx_err_info bdk_dpix_sli_prtx_err_info_t;
 
 static inline uint64_t BDK_DPIX_SLI_PRTX_ERR_INFO(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DPIX_SLI_PRTX_ERR_INFO(unsigned long a, unsigned long b)
@@ -3400,7 +3445,7 @@ static inline uint64_t BDK_DPIX_SLI_PRTX_ERR_INFO(unsigned long a, unsigned long
  * DPI DMA  Per-Request Queue Instruction Completion Counter Register
  * These registers provide a per-request queue instruction completion counter.
  */
-typedef union
+union bdk_dpix_vdmax_cnt
 {
     uint64_t u;
     struct bdk_dpix_vdmax_cnt_s
@@ -3426,7 +3471,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dpix_vdmax_cnt_s cn; */
-} bdk_dpix_vdmax_cnt_t;
+};
+typedef union bdk_dpix_vdmax_cnt bdk_dpix_vdmax_cnt_t;
 
 static inline uint64_t BDK_DPIX_VDMAX_CNT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DPIX_VDMAX_CNT(unsigned long a, unsigned long b)
@@ -3450,7 +3496,7 @@ static inline uint64_t BDK_DPIX_VDMAX_CNT(unsigned long a, unsigned long b)
  * These registers provide values for determining the number of instructions in the local
  * instruction FIFO.
  */
-typedef union
+union bdk_dpix_vdmax_counts
 {
     uint64_t u;
     struct bdk_dpix_vdmax_counts_s
@@ -3466,7 +3512,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dpix_vdmax_counts_s cn; */
-} bdk_dpix_vdmax_counts_t;
+};
+typedef union bdk_dpix_vdmax_counts bdk_dpix_vdmax_counts_t;
 
 static inline uint64_t BDK_DPIX_VDMAX_COUNTS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DPIX_VDMAX_COUNTS(unsigned long a, unsigned long b)
@@ -3489,7 +3536,7 @@ static inline uint64_t BDK_DPIX_VDMAX_COUNTS(unsigned long a, unsigned long b)
  * DPI DMA Doorbell Registers
  * This is the door bell register for the eight DMA instruction queues.
  */
-typedef union
+union bdk_dpix_vdmax_dbell
 {
     uint64_t u;
     struct bdk_dpix_vdmax_dbell_s
@@ -3505,7 +3552,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dpix_vdmax_dbell_s cn; */
-} bdk_dpix_vdmax_dbell_t;
+};
+typedef union bdk_dpix_vdmax_dbell bdk_dpix_vdmax_dbell_t;
 
 static inline uint64_t BDK_DPIX_VDMAX_DBELL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DPIX_VDMAX_DBELL(unsigned long a, unsigned long b)
@@ -3527,7 +3575,7 @@ static inline uint64_t BDK_DPIX_VDMAX_DBELL(unsigned long a, unsigned long b)
  *
  * DPI Request Global Enable Register
  */
-typedef union
+union bdk_dpix_vdmax_en
 {
     uint64_t u;
     struct bdk_dpix_vdmax_en_s
@@ -3541,7 +3589,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dpix_vdmax_en_s cn; */
-} bdk_dpix_vdmax_en_t;
+};
+typedef union bdk_dpix_vdmax_en bdk_dpix_vdmax_en_t;
 
 static inline uint64_t BDK_DPIX_VDMAX_EN(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DPIX_VDMAX_EN(unsigned long a, unsigned long b)
@@ -3563,7 +3612,7 @@ static inline uint64_t BDK_DPIX_VDMAX_EN(unsigned long a, unsigned long b)
  *
  * DPI DMA Instruction Word Busy Register
  */
-typedef union
+union bdk_dpix_vdmax_iwbusy
 {
     uint64_t u;
     struct bdk_dpix_vdmax_iwbusy_s
@@ -3581,7 +3630,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dpix_vdmax_iwbusy_s cn; */
-} bdk_dpix_vdmax_iwbusy_t;
+};
+typedef union bdk_dpix_vdmax_iwbusy bdk_dpix_vdmax_iwbusy_t;
 
 static inline uint64_t BDK_DPIX_VDMAX_IWBUSY(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DPIX_VDMAX_IWBUSY(unsigned long a, unsigned long b)
@@ -3604,7 +3654,7 @@ static inline uint64_t BDK_DPIX_VDMAX_IWBUSY(unsigned long a, unsigned long b)
  * DPI DMA Next Ichunk Address Registers
  * These registers provide the L2C addresses to read the next Ichunk data.
  */
-typedef union
+union bdk_dpix_vdmax_naddr
 {
     uint64_t u;
     struct bdk_dpix_vdmax_naddr_s
@@ -3618,7 +3668,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dpix_vdmax_naddr_s cn; */
-} bdk_dpix_vdmax_naddr_t;
+};
+typedef union bdk_dpix_vdmax_naddr bdk_dpix_vdmax_naddr_t;
 
 static inline uint64_t BDK_DPIX_VDMAX_NADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DPIX_VDMAX_NADDR(unsigned long a, unsigned long b)
@@ -3641,7 +3692,7 @@ static inline uint64_t BDK_DPIX_VDMAX_NADDR(unsigned long a, unsigned long b)
  * DPI DMA Request Queue Control Register
  * This register contains the control bits for transactions on the eight request queues.
  */
-typedef union
+union bdk_dpix_vdmax_reqq_ctl
 {
     uint64_t u;
     struct bdk_dpix_vdmax_reqq_ctl_s
@@ -3681,7 +3732,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dpix_vdmax_reqq_ctl_s cn; */
-} bdk_dpix_vdmax_reqq_ctl_t;
+};
+typedef union bdk_dpix_vdmax_reqq_ctl bdk_dpix_vdmax_reqq_ctl_t;
 
 static inline uint64_t BDK_DPIX_VDMAX_REQQ_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DPIX_VDMAX_REQQ_CTL(unsigned long a, unsigned long b)
@@ -3706,7 +3758,7 @@ static inline uint64_t BDK_DPIX_VDMAX_REQQ_CTL(unsigned long a, unsigned long b)
  * instruction queues. These register should only be written to when the specified queue is
  * disabled (DPI()_VDMA()_EN[QEN]).
  */
-typedef union
+union bdk_dpix_vdmax_saddr
 {
     uint64_t u;
     struct bdk_dpix_vdmax_saddr_s
@@ -3732,7 +3784,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dpix_vdmax_saddr_s cn; */
-} bdk_dpix_vdmax_saddr_t;
+};
+typedef union bdk_dpix_vdmax_saddr bdk_dpix_vdmax_saddr_t;
 
 static inline uint64_t BDK_DPIX_VDMAX_SADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DPIX_VDMAX_SADDR(unsigned long a, unsigned long b)
@@ -3755,7 +3808,7 @@ static inline uint64_t BDK_DPIX_VDMAX_SADDR(unsigned long a, unsigned long b)
  * DPI DMA Per-Request Queue Instruction Completion Interrupt Register
  * This register contains per-request queue completion interrupt bits.
  */
-typedef union
+union bdk_dpix_vfx_int
 {
     uint64_t u;
     struct bdk_dpix_vfx_int_s
@@ -3773,7 +3826,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dpix_vfx_int_s cn; */
-} bdk_dpix_vfx_int_t;
+};
+typedef union bdk_dpix_vfx_int bdk_dpix_vfx_int_t;
 
 static inline uint64_t BDK_DPIX_VFX_INT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DPIX_VFX_INT(unsigned long a, unsigned long b)
@@ -3796,7 +3850,7 @@ static inline uint64_t BDK_DPIX_VFX_INT(unsigned long a, unsigned long b)
  * DPI DMA Per-Request Queue Instruction Completion Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_dpix_vfx_int_ena_w1c
 {
     uint64_t u;
     struct bdk_dpix_vfx_int_ena_w1c_s
@@ -3810,7 +3864,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dpix_vfx_int_ena_w1c_s cn; */
-} bdk_dpix_vfx_int_ena_w1c_t;
+};
+typedef union bdk_dpix_vfx_int_ena_w1c bdk_dpix_vfx_int_ena_w1c_t;
 
 static inline uint64_t BDK_DPIX_VFX_INT_ENA_W1C(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DPIX_VFX_INT_ENA_W1C(unsigned long a, unsigned long b)
@@ -3833,7 +3888,7 @@ static inline uint64_t BDK_DPIX_VFX_INT_ENA_W1C(unsigned long a, unsigned long b
  * DPI DMA Per-Request Queue Instruction Completion Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_dpix_vfx_int_ena_w1s
 {
     uint64_t u;
     struct bdk_dpix_vfx_int_ena_w1s_s
@@ -3847,7 +3902,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dpix_vfx_int_ena_w1s_s cn; */
-} bdk_dpix_vfx_int_ena_w1s_t;
+};
+typedef union bdk_dpix_vfx_int_ena_w1s bdk_dpix_vfx_int_ena_w1s_t;
 
 static inline uint64_t BDK_DPIX_VFX_INT_ENA_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DPIX_VFX_INT_ENA_W1S(unsigned long a, unsigned long b)
@@ -3870,7 +3926,7 @@ static inline uint64_t BDK_DPIX_VFX_INT_ENA_W1S(unsigned long a, unsigned long b
  * DPI DMA Per-Request Queue Instruction Completion Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_dpix_vfx_int_w1s
 {
     uint64_t u;
     struct bdk_dpix_vfx_int_w1s_s
@@ -3884,7 +3940,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dpix_vfx_int_w1s_s cn; */
-} bdk_dpix_vfx_int_w1s_t;
+};
+typedef union bdk_dpix_vfx_int_w1s bdk_dpix_vfx_int_w1s_t;
 
 static inline uint64_t BDK_DPIX_VFX_INT_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DPIX_VFX_INT_W1S(unsigned long a, unsigned long b)
@@ -3908,7 +3965,7 @@ static inline uint64_t BDK_DPIX_VFX_INT_W1S(unsigned long a, unsigned long b)
  * This register is the MSI-X PBA table; the bit number is indexed by the DPI_VF()_INT_VEC_E
  * enumeration.
  */
-typedef union
+union bdk_dpix_vfx_msix_pbax
 {
     uint64_t u;
     struct bdk_dpix_vfx_msix_pbax_s
@@ -3922,7 +3979,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dpix_vfx_msix_pbax_s cn; */
-} bdk_dpix_vfx_msix_pbax_t;
+};
+typedef union bdk_dpix_vfx_msix_pbax bdk_dpix_vfx_msix_pbax_t;
 
 static inline uint64_t BDK_DPIX_VFX_MSIX_PBAX(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DPIX_VFX_MSIX_PBAX(unsigned long a, unsigned long b, unsigned long c)
@@ -3945,7 +4003,7 @@ static inline uint64_t BDK_DPIX_VFX_MSIX_PBAX(unsigned long a, unsigned long b, 
  * DPI VF MSI-X Vector-Table Address Register
  * This register is the MSI-X vector table, indexed by the DPI_VF_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_dpix_vfx_msix_vecx_addr
 {
     uint64_t u;
     struct bdk_dpix_vfx_msix_vecx_addr_s
@@ -3967,7 +4025,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dpix_vfx_msix_vecx_addr_s cn; */
-} bdk_dpix_vfx_msix_vecx_addr_t;
+};
+typedef union bdk_dpix_vfx_msix_vecx_addr bdk_dpix_vfx_msix_vecx_addr_t;
 
 static inline uint64_t BDK_DPIX_VFX_MSIX_VECX_ADDR(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DPIX_VFX_MSIX_VECX_ADDR(unsigned long a, unsigned long b, unsigned long c)
@@ -3990,7 +4049,7 @@ static inline uint64_t BDK_DPIX_VFX_MSIX_VECX_ADDR(unsigned long a, unsigned lon
  * DPI MSI-X Vector-Table Control and Data Register
  * This register is the MSI-X vector table, indexed by the DPI_VF_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_dpix_vfx_msix_vecx_ctl
 {
     uint64_t u;
     struct bdk_dpix_vfx_msix_vecx_ctl_s
@@ -4008,7 +4067,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dpix_vfx_msix_vecx_ctl_s cn; */
-} bdk_dpix_vfx_msix_vecx_ctl_t;
+};
+typedef union bdk_dpix_vfx_msix_vecx_ctl bdk_dpix_vfx_msix_vecx_ctl_t;
 
 static inline uint64_t BDK_DPIX_VFX_MSIX_VECX_CTL(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DPIX_VFX_MSIX_VECX_CTL(unsigned long a, unsigned long b, unsigned long c)

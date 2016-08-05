@@ -58,7 +58,7 @@
  * PCC VF ARI Capability Header Register
  * This register is the header of the 8-byte PCI ARI capability structure.
  */
-typedef union
+union bdk_pccvf_xxx_ari_cap_hdr
 {
     uint32_t u;
     struct bdk_pccvf_xxx_ari_cap_hdr_s
@@ -74,7 +74,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pccvf_xxx_ari_cap_hdr_s cn; */
-} bdk_pccvf_xxx_ari_cap_hdr_t;
+};
+typedef union bdk_pccvf_xxx_ari_cap_hdr bdk_pccvf_xxx_ari_cap_hdr_t;
 
 #define BDK_PCCVF_XXX_ARI_CAP_HDR BDK_PCCVF_XXX_ARI_CAP_HDR_FUNC()
 static inline uint64_t BDK_PCCVF_XXX_ARI_CAP_HDR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -94,7 +95,7 @@ static inline uint64_t BDK_PCCVF_XXX_ARI_CAP_HDR_FUNC(void)
  *
  * PCC VF Capability Pointer Register
  */
-typedef union
+union bdk_pccvf_xxx_cap_ptr
 {
     uint32_t u;
     struct bdk_pccvf_xxx_cap_ptr_s
@@ -108,7 +109,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pccvf_xxx_cap_ptr_s cn; */
-} bdk_pccvf_xxx_cap_ptr_t;
+};
+typedef union bdk_pccvf_xxx_cap_ptr bdk_pccvf_xxx_cap_ptr_t;
 
 #define BDK_PCCVF_XXX_CAP_PTR BDK_PCCVF_XXX_CAP_PTR_FUNC()
 static inline uint64_t BDK_PCCVF_XXX_CAP_PTR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -128,7 +130,7 @@ static inline uint64_t BDK_PCCVF_XXX_CAP_PTR_FUNC(void)
  *
  * PCC VF Command/Status Register
  */
-typedef union
+union bdk_pccvf_xxx_cmd
 {
     uint32_t u;
     struct bdk_pccvf_xxx_cmd_s
@@ -154,7 +156,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pccvf_xxx_cmd_s cn; */
-} bdk_pccvf_xxx_cmd_t;
+};
+typedef union bdk_pccvf_xxx_cmd bdk_pccvf_xxx_cmd_t;
 
 #define BDK_PCCVF_XXX_CMD BDK_PCCVF_XXX_CMD_FUNC()
 static inline uint64_t BDK_PCCVF_XXX_CMD_FUNC(void) __attribute__ ((pure, always_inline));
@@ -175,7 +178,7 @@ static inline uint64_t BDK_PCCVF_XXX_CMD_FUNC(void)
  * PCC VF PCI Express Capabilities Register
  * This register is the header of the 64-byte PCIe capability header.
  */
-typedef union
+union bdk_pccvf_xxx_e_cap_hdr
 {
     uint32_t u;
     struct bdk_pccvf_xxx_e_cap_hdr_s
@@ -195,7 +198,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pccvf_xxx_e_cap_hdr_s cn; */
-} bdk_pccvf_xxx_e_cap_hdr_t;
+};
+typedef union bdk_pccvf_xxx_e_cap_hdr bdk_pccvf_xxx_e_cap_hdr_t;
 
 #define BDK_PCCVF_XXX_E_CAP_HDR BDK_PCCVF_XXX_E_CAP_HDR_FUNC()
 static inline uint64_t BDK_PCCVF_XXX_E_CAP_HDR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -215,7 +219,7 @@ static inline uint64_t BDK_PCCVF_XXX_E_CAP_HDR_FUNC(void)
  *
  * PCC VF PCI Express Device Capabilities Register
  */
-typedef union
+union bdk_pccvf_xxx_e_dev_cap
 {
     uint32_t u;
     struct bdk_pccvf_xxx_e_dev_cap_s
@@ -231,7 +235,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pccvf_xxx_e_dev_cap_s cn; */
-} bdk_pccvf_xxx_e_dev_cap_t;
+};
+typedef union bdk_pccvf_xxx_e_dev_cap bdk_pccvf_xxx_e_dev_cap_t;
 
 #define BDK_PCCVF_XXX_E_DEV_CAP BDK_PCCVF_XXX_E_DEV_CAP_FUNC()
 static inline uint64_t BDK_PCCVF_XXX_E_DEV_CAP_FUNC(void) __attribute__ ((pure, always_inline));
@@ -256,7 +261,7 @@ static inline uint64_t BDK_PCCVF_XXX_E_DEV_CAP_FUNC(void)
  * PCC VF Vendor and Device Register
  * This register is the header of the 64-byte PCI type 0 configuration structure.
  */
-typedef union
+union bdk_pccvf_xxx_id
 {
     uint32_t u;
     struct bdk_pccvf_xxx_id_s
@@ -270,7 +275,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pccvf_xxx_id_s cn; */
-} bdk_pccvf_xxx_id_t;
+};
+typedef union bdk_pccvf_xxx_id bdk_pccvf_xxx_id_t;
 
 #define BDK_PCCVF_XXX_ID BDK_PCCVF_XXX_ID_FUNC()
 static inline uint64_t BDK_PCCVF_XXX_ID_FUNC(void) __attribute__ ((pure, always_inline));
@@ -291,7 +297,7 @@ static inline uint64_t BDK_PCCVF_XXX_ID_FUNC(void)
  * PCC VF MSI-X Capability Register
  * This register is the header of the 24-byte PCI MSI-X capability structure.
  */
-typedef union
+union bdk_pccvf_xxx_msix_cap_hdr
 {
     uint32_t u;
     struct bdk_pccvf_xxx_msix_cap_hdr_s
@@ -323,7 +329,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pccvf_xxx_msix_cap_hdr_s cn; */
-} bdk_pccvf_xxx_msix_cap_hdr_t;
+};
+typedef union bdk_pccvf_xxx_msix_cap_hdr bdk_pccvf_xxx_msix_cap_hdr_t;
 
 #define BDK_PCCVF_XXX_MSIX_CAP_HDR BDK_PCCVF_XXX_MSIX_CAP_HDR_FUNC()
 static inline uint64_t BDK_PCCVF_XXX_MSIX_CAP_HDR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -343,7 +350,7 @@ static inline uint64_t BDK_PCCVF_XXX_MSIX_CAP_HDR_FUNC(void)
  *
  * PCC VF MSI-X PBA Offset and BIR Register
  */
-typedef union
+union bdk_pccvf_xxx_msix_pba
 {
     uint32_t u;
     struct bdk_pccvf_xxx_msix_pba_s
@@ -361,7 +368,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pccvf_xxx_msix_pba_s cn; */
-} bdk_pccvf_xxx_msix_pba_t;
+};
+typedef union bdk_pccvf_xxx_msix_pba bdk_pccvf_xxx_msix_pba_t;
 
 #define BDK_PCCVF_XXX_MSIX_PBA BDK_PCCVF_XXX_MSIX_PBA_FUNC()
 static inline uint64_t BDK_PCCVF_XXX_MSIX_PBA_FUNC(void) __attribute__ ((pure, always_inline));
@@ -381,7 +389,7 @@ static inline uint64_t BDK_PCCVF_XXX_MSIX_PBA_FUNC(void)
  *
  * PCC VF MSI-X Table Offset and BIR Register
  */
-typedef union
+union bdk_pccvf_xxx_msix_table
 {
     uint32_t u;
     struct bdk_pccvf_xxx_msix_table_s
@@ -399,7 +407,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pccvf_xxx_msix_table_s cn; */
-} bdk_pccvf_xxx_msix_table_t;
+};
+typedef union bdk_pccvf_xxx_msix_table bdk_pccvf_xxx_msix_table_t;
 
 #define BDK_PCCVF_XXX_MSIX_TABLE BDK_PCCVF_XXX_MSIX_TABLE_FUNC()
 static inline uint64_t BDK_PCCVF_XXX_MSIX_TABLE_FUNC(void) __attribute__ ((pure, always_inline));
@@ -419,7 +428,7 @@ static inline uint64_t BDK_PCCVF_XXX_MSIX_TABLE_FUNC(void)
  *
  * PCC VF Class Code/Revision ID Register
  */
-typedef union
+union bdk_pccvf_xxx_rev
 {
     uint32_t u;
     struct bdk_pccvf_xxx_rev_s
@@ -449,7 +458,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pccvf_xxx_rev_s cn; */
-} bdk_pccvf_xxx_rev_t;
+};
+typedef union bdk_pccvf_xxx_rev bdk_pccvf_xxx_rev_t;
 
 #define BDK_PCCVF_XXX_REV BDK_PCCVF_XXX_REV_FUNC()
 static inline uint64_t BDK_PCCVF_XXX_REV_FUNC(void) __attribute__ ((pure, always_inline));
@@ -469,7 +479,7 @@ static inline uint64_t BDK_PCCVF_XXX_REV_FUNC(void)
  *
  * PCC VF Subsystem ID/Subsystem Vendor ID Register
  */
-typedef union
+union bdk_pccvf_xxx_subid
 {
     uint32_t u;
     struct bdk_pccvf_xxx_subid_s
@@ -491,7 +501,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pccvf_xxx_subid_s cn; */
-} bdk_pccvf_xxx_subid_t;
+};
+typedef union bdk_pccvf_xxx_subid bdk_pccvf_xxx_subid_t;
 
 #define BDK_PCCVF_XXX_SUBID BDK_PCCVF_XXX_SUBID_FUNC()
 static inline uint64_t BDK_PCCVF_XXX_SUBID_FUNC(void) __attribute__ ((pure, always_inline));

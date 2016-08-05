@@ -77,7 +77,7 @@
  * MRML Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_mrml_int_ena_w1c
 {
     uint64_t u;
     struct bdk_mrml_int_ena_w1c_s
@@ -93,7 +93,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mrml_int_ena_w1c_s cn; */
-} bdk_mrml_int_ena_w1c_t;
+};
+typedef union bdk_mrml_int_ena_w1c bdk_mrml_int_ena_w1c_t;
 
 #define BDK_MRML_INT_ENA_W1C BDK_MRML_INT_ENA_W1C_FUNC()
 static inline uint64_t BDK_MRML_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -115,7 +116,7 @@ static inline uint64_t BDK_MRML_INT_ENA_W1C_FUNC(void)
  * MRML Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_mrml_int_ena_w1s
 {
     uint64_t u;
     struct bdk_mrml_int_ena_w1s_s
@@ -131,7 +132,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mrml_int_ena_w1s_s cn; */
-} bdk_mrml_int_ena_w1s_t;
+};
+typedef union bdk_mrml_int_ena_w1s bdk_mrml_int_ena_w1s_t;
 
 #define BDK_MRML_INT_ENA_W1S BDK_MRML_INT_ENA_W1S_FUNC()
 static inline uint64_t BDK_MRML_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -153,7 +155,7 @@ static inline uint64_t BDK_MRML_INT_ENA_W1S_FUNC(void)
  * MRML Local-Node Timeout Register
  * Configures local-node timeouts.
  */
-typedef union
+union bdk_mrml_int_local_to
 {
     uint64_t u;
     struct bdk_mrml_int_local_to_s
@@ -167,7 +169,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mrml_int_local_to_s cn; */
-} bdk_mrml_int_local_to_t;
+};
+typedef union bdk_mrml_int_local_to bdk_mrml_int_local_to_t;
 
 #define BDK_MRML_INT_LOCAL_TO BDK_MRML_INT_LOCAL_TO_FUNC()
 static inline uint64_t BDK_MRML_INT_LOCAL_TO_FUNC(void) __attribute__ ((pure, always_inline));
@@ -189,7 +192,7 @@ static inline uint64_t BDK_MRML_INT_LOCAL_TO_FUNC(void)
  * MRML OCX Timeout Register
  * Configures remote-node timeouts.
  */
-typedef union
+union bdk_mrml_int_ocx_to
 {
     uint64_t u;
     struct bdk_mrml_int_ocx_to_s
@@ -203,7 +206,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mrml_int_ocx_to_s cn; */
-} bdk_mrml_int_ocx_to_t;
+};
+typedef union bdk_mrml_int_ocx_to bdk_mrml_int_ocx_to_t;
 
 #define BDK_MRML_INT_OCX_TO BDK_MRML_INT_OCX_TO_FUNC()
 static inline uint64_t BDK_MRML_INT_OCX_TO_FUNC(void) __attribute__ ((pure, always_inline));
@@ -225,7 +229,7 @@ static inline uint64_t BDK_MRML_INT_OCX_TO_FUNC(void)
  * MRML Interrupt Summary Register
  * This register contains the different interrupt-summary bits of the MRML.
  */
-typedef union
+union bdk_mrml_int_sum
 {
     uint64_t u;
     struct bdk_mrml_int_sum_s
@@ -241,7 +245,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mrml_int_sum_s cn; */
-} bdk_mrml_int_sum_t;
+};
+typedef union bdk_mrml_int_sum bdk_mrml_int_sum_t;
 
 #define BDK_MRML_INT_SUM BDK_MRML_INT_SUM_FUNC()
 static inline uint64_t BDK_MRML_INT_SUM_FUNC(void) __attribute__ ((pure, always_inline));
@@ -263,7 +268,7 @@ static inline uint64_t BDK_MRML_INT_SUM_FUNC(void)
  * MRML Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_mrml_int_sum_w1s
 {
     uint64_t u;
     struct bdk_mrml_int_sum_w1s_s
@@ -279,7 +284,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mrml_int_sum_w1s_s cn; */
-} bdk_mrml_int_sum_w1s_t;
+};
+typedef union bdk_mrml_int_sum_w1s bdk_mrml_int_sum_w1s_t;
 
 #define BDK_MRML_INT_SUM_W1S BDK_MRML_INT_SUM_W1S_FUNC()
 static inline uint64_t BDK_MRML_INT_SUM_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -301,7 +307,7 @@ static inline uint64_t BDK_MRML_INT_SUM_W1S_FUNC(void)
  * MRML MSI-X Pending Bit Array Registers
  * This register is the MSI-X PBA table; the bit number is indexed by the MRML_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_mrml_msix_pbax
 {
     uint64_t u;
     struct bdk_mrml_msix_pbax_s
@@ -315,7 +321,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mrml_msix_pbax_s cn; */
-} bdk_mrml_msix_pbax_t;
+};
+typedef union bdk_mrml_msix_pbax bdk_mrml_msix_pbax_t;
 
 static inline uint64_t BDK_MRML_MSIX_PBAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_MRML_MSIX_PBAX(unsigned long a)
@@ -338,7 +345,7 @@ static inline uint64_t BDK_MRML_MSIX_PBAX(unsigned long a)
  * MRML MSI-X Vector-Table Address Register
  * This register is the MSI-X vector table, indexed by the MRML_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_mrml_msix_vecx_addr
 {
     uint64_t u;
     struct bdk_mrml_msix_vecx_addr_s
@@ -370,7 +377,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mrml_msix_vecx_addr_s cn; */
-} bdk_mrml_msix_vecx_addr_t;
+};
+typedef union bdk_mrml_msix_vecx_addr bdk_mrml_msix_vecx_addr_t;
 
 static inline uint64_t BDK_MRML_MSIX_VECX_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_MRML_MSIX_VECX_ADDR(unsigned long a)
@@ -393,7 +401,7 @@ static inline uint64_t BDK_MRML_MSIX_VECX_ADDR(unsigned long a)
  * MRML MSI-X Vector-Table Control and Data Register
  * This register is the MSI-X vector table, indexed by the MRML_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_mrml_msix_vecx_ctl
 {
     uint64_t u;
     struct bdk_mrml_msix_vecx_ctl_s
@@ -411,7 +419,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mrml_msix_vecx_ctl_s cn; */
-} bdk_mrml_msix_vecx_ctl_t;
+};
+typedef union bdk_mrml_msix_vecx_ctl bdk_mrml_msix_vecx_ctl_t;
 
 static inline uint64_t BDK_MRML_MSIX_VECX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_MRML_MSIX_VECX_CTL(unsigned long a)
@@ -433,7 +442,7 @@ static inline uint64_t BDK_MRML_MSIX_VECX_CTL(unsigned long a)
  *
  * MRML NCB Secure Device Registers
  */
-typedef union
+union bdk_mrml_ncbx_sdev
 {
     uint64_t u;
     struct bdk_mrml_ncbx_sdev_s
@@ -445,7 +454,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mrml_ncbx_sdev_s cn; */
-} bdk_mrml_ncbx_sdev_t;
+};
+typedef union bdk_mrml_ncbx_sdev bdk_mrml_ncbx_sdev_t;
 
 static inline uint64_t BDK_MRML_NCBX_SDEV(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_MRML_NCBX_SDEV(unsigned long a)
@@ -467,7 +477,7 @@ static inline uint64_t BDK_MRML_NCBX_SDEV(unsigned long a)
  *
  * MRML RSL Secure Kill-Device Registers
  */
-typedef union
+union bdk_mrml_ncbx_skill
 {
     uint64_t u;
     struct bdk_mrml_ncbx_skill_s
@@ -479,7 +489,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mrml_ncbx_skill_s cn; */
-} bdk_mrml_ncbx_skill_t;
+};
+typedef union bdk_mrml_ncbx_skill bdk_mrml_ncbx_skill_t;
 
 static inline uint64_t BDK_MRML_NCBX_SKILL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_MRML_NCBX_SKILL(unsigned long a)
@@ -505,7 +516,7 @@ static inline uint64_t BDK_MRML_NCBX_SKILL(unsigned long a)
  *
  * MRML RSL Secure Device Registers
  */
-typedef union
+union bdk_mrml_rslx_sdev
 {
     uint64_t u;
     struct bdk_mrml_rslx_sdev_s
@@ -537,7 +548,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mrml_rslx_sdev_s cn; */
-} bdk_mrml_rslx_sdev_t;
+};
+typedef union bdk_mrml_rslx_sdev bdk_mrml_rslx_sdev_t;
 
 static inline uint64_t BDK_MRML_RSLX_SDEV(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_MRML_RSLX_SDEV(unsigned long a)
@@ -559,7 +571,7 @@ static inline uint64_t BDK_MRML_RSLX_SDEV(unsigned long a)
  *
  * MRML RSL Secure Kill-Device Registers
  */
-typedef union
+union bdk_mrml_rslx_skill
 {
     uint64_t u;
     struct bdk_mrml_rslx_skill_s
@@ -579,7 +591,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mrml_rslx_skill_s cn; */
-} bdk_mrml_rslx_skill_t;
+};
+typedef union bdk_mrml_rslx_skill bdk_mrml_rslx_skill_t;
 
 static inline uint64_t BDK_MRML_RSLX_SKILL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_MRML_RSLX_SKILL(unsigned long a)
@@ -605,7 +618,7 @@ static inline uint64_t BDK_MRML_RSLX_SKILL(unsigned long a)
  *
  * MRML RSL Secure Configuration Register
  */
-typedef union
+union bdk_mrml_scfg
 {
     uint64_t u;
     struct bdk_mrml_scfg_s
@@ -617,7 +630,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mrml_scfg_s cn; */
-} bdk_mrml_scfg_t;
+};
+typedef union bdk_mrml_scfg bdk_mrml_scfg_t;
 
 #define BDK_MRML_SCFG BDK_MRML_SCFG_FUNC()
 static inline uint64_t BDK_MRML_SCFG_FUNC(void) __attribute__ ((pure, always_inline));

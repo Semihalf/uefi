@@ -66,7 +66,7 @@
  *
  * MIO Boot AP Jump Address Register
  */
-typedef union
+union bdk_mio_boot_ap_jump
 {
     uint64_t u;
     struct bdk_mio_boot_ap_jump_s
@@ -80,7 +80,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_boot_ap_jump_s cn; */
-} bdk_mio_boot_ap_jump_t;
+};
+typedef union bdk_mio_boot_ap_jump bdk_mio_boot_ap_jump_t;
 
 #define BDK_MIO_BOOT_AP_JUMP BDK_MIO_BOOT_AP_JUMP_FUNC()
 static inline uint64_t BDK_MIO_BOOT_AP_JUMP_FUNC(void) __attribute__ ((pure, always_inline));
@@ -103,7 +104,7 @@ static inline uint64_t BDK_MIO_BOOT_AP_JUMP_FUNC(void)
  * The boot BIST status register contains the BIST status for the MIO boot memories: 0 = pass, 1
  * = fail.
  */
-typedef union
+union bdk_mio_boot_bist_stat
 {
     uint64_t u;
     struct bdk_mio_boot_bist_stat_s
@@ -219,7 +220,8 @@ typedef union
         uint64_t reserved_13_63        : 51;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_mio_boot_bist_stat_t;
+};
+typedef union bdk_mio_boot_bist_stat bdk_mio_boot_bist_stat_t;
 
 #define BDK_MIO_BOOT_BIST_STAT BDK_MIO_BOOT_BIST_STAT_FUNC()
 static inline uint64_t BDK_MIO_BOOT_BIST_STAT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -243,7 +245,7 @@ static inline uint64_t BDK_MIO_BOOT_BIST_STAT_FUNC(void)
  * at the rising edge of PLL_DCOK.  The GPIO pins sampled at
  * the same time are available in the GPIO_STRAP csr.
  */
-typedef union
+union bdk_mio_boot_pin_defs
 {
     uint64_t u;
     struct bdk_mio_boot_pin_defs_s
@@ -414,7 +416,8 @@ typedef union
         uint64_t reserved_18_63        : 46;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_mio_boot_pin_defs_t;
+};
+typedef union bdk_mio_boot_pin_defs bdk_mio_boot_pin_defs_t;
 
 #define BDK_MIO_BOOT_PIN_DEFS BDK_MIO_BOOT_PIN_DEFS_FUNC()
 static inline uint64_t BDK_MIO_BOOT_PIN_DEFS_FUNC(void) __attribute__ ((pure, always_inline));
@@ -436,7 +439,7 @@ static inline uint64_t BDK_MIO_BOOT_PIN_DEFS_FUNC(void)
  * MIO Boot ROM Limit Register
  * This register contains the largest valid address in the internal bootrom.
  */
-typedef union
+union bdk_mio_boot_rom_limit
 {
     uint64_t u;
     struct bdk_mio_boot_rom_limit_s
@@ -468,7 +471,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_boot_rom_limit_s cn; */
-} bdk_mio_boot_rom_limit_t;
+};
+typedef union bdk_mio_boot_rom_limit bdk_mio_boot_rom_limit_t;
 
 #define BDK_MIO_BOOT_ROM_LIMIT BDK_MIO_BOOT_ROM_LIMIT_FUNC()
 static inline uint64_t BDK_MIO_BOOT_ROM_LIMIT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -490,7 +494,7 @@ static inline uint64_t BDK_MIO_BOOT_ROM_LIMIT_FUNC(void)
  * MIO Boot Threshold Register
  * The boot-threshold register contains MIO boot-threshold values.
  */
-typedef union
+union bdk_mio_boot_thr
 {
     uint64_t u;
     struct bdk_mio_boot_thr_s
@@ -523,7 +527,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn88xx;
     /* struct bdk_mio_boot_thr_s cn83xx; */
-} bdk_mio_boot_thr_t;
+};
+typedef union bdk_mio_boot_thr bdk_mio_boot_thr_t;
 
 #define BDK_MIO_BOOT_THR BDK_MIO_BOOT_THR_FUNC()
 static inline uint64_t BDK_MIO_BOOT_THR_FUNC(void) __attribute__ ((pure, always_inline));

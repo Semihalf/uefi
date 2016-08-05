@@ -57,7 +57,7 @@
  *
  * DTX BCH Control Register
  */
-typedef union
+union bdk_dtx_bch_bcst_rsp
 {
     uint64_t u;
     struct bdk_dtx_bch_bcst_rsp_s
@@ -71,7 +71,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_bch_bcst_rsp_s cn; */
-} bdk_dtx_bch_bcst_rsp_t;
+};
+typedef union bdk_dtx_bch_bcst_rsp bdk_dtx_bch_bcst_rsp_t;
 
 #define BDK_DTX_BCH_BCST_RSP BDK_DTX_BCH_BCST_RSP_FUNC()
 static inline uint64_t BDK_DTX_BCH_BCST_RSP_FUNC(void) __attribute__ ((pure, always_inline));
@@ -95,7 +96,7 @@ static inline uint64_t BDK_DTX_BCH_BCST_RSP_FUNC(void)
  *
  * DTX BCH Control Register
  */
-typedef union
+union bdk_dtx_bch_ctl
 {
     uint64_t u;
     struct bdk_dtx_bch_ctl_s
@@ -119,7 +120,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_bch_ctl_s cn; */
-} bdk_dtx_bch_ctl_t;
+};
+typedef union bdk_dtx_bch_ctl bdk_dtx_bch_ctl_t;
 
 #define BDK_DTX_BCH_CTL BDK_DTX_BCH_CTL_FUNC()
 static inline uint64_t BDK_DTX_BCH_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -143,7 +145,7 @@ static inline uint64_t BDK_DTX_BCH_CTL_FUNC(void)
  *
  * DTX BCH Raw Data Register
  */
-typedef union
+union bdk_dtx_bch_datx
 {
     uint64_t u;
     struct bdk_dtx_bch_datx_s
@@ -159,7 +161,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_bch_datx_s cn; */
-} bdk_dtx_bch_datx_t;
+};
+typedef union bdk_dtx_bch_datx bdk_dtx_bch_datx_t;
 
 static inline uint64_t BDK_DTX_BCH_DATX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_BCH_DATX(unsigned long a)
@@ -182,7 +185,7 @@ static inline uint64_t BDK_DTX_BCH_DATX(unsigned long a)
  *
  * DTX BCH Data Enable Register
  */
-typedef union
+union bdk_dtx_bch_enax
 {
     uint64_t u;
     struct bdk_dtx_bch_enax_s
@@ -198,7 +201,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_bch_enax_s cn; */
-} bdk_dtx_bch_enax_t;
+};
+typedef union bdk_dtx_bch_enax bdk_dtx_bch_enax_t;
 
 static inline uint64_t BDK_DTX_BCH_ENAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_BCH_ENAX(unsigned long a)
@@ -221,7 +225,7 @@ static inline uint64_t BDK_DTX_BCH_ENAX(unsigned long a)
  *
  * DTX BCH Select Register
  */
-typedef union
+union bdk_dtx_bch_selx
 {
     uint64_t u;
     struct bdk_dtx_bch_selx_s
@@ -235,7 +239,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_bch_selx_s cn; */
-} bdk_dtx_bch_selx_t;
+};
+typedef union bdk_dtx_bch_selx bdk_dtx_bch_selx_t;
 
 static inline uint64_t BDK_DTX_BCH_SELX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_BCH_SELX(unsigned long a)
@@ -258,7 +263,7 @@ static inline uint64_t BDK_DTX_BCH_SELX(unsigned long a)
  *
  * DTX BGX Control Register
  */
-typedef union
+union bdk_dtx_bgxx_bcst_rsp
 {
     uint64_t u;
     struct bdk_dtx_bgxx_bcst_rsp_s
@@ -272,7 +277,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_bgxx_bcst_rsp_s cn; */
-} bdk_dtx_bgxx_bcst_rsp_t;
+};
+typedef union bdk_dtx_bgxx_bcst_rsp bdk_dtx_bgxx_bcst_rsp_t;
 
 static inline uint64_t BDK_DTX_BGXX_BCST_RSP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_BGXX_BCST_RSP(unsigned long a)
@@ -297,7 +303,7 @@ static inline uint64_t BDK_DTX_BGXX_BCST_RSP(unsigned long a)
  *
  * DTX BGX Control Register
  */
-typedef union
+union bdk_dtx_bgxx_ctl
 {
     uint64_t u;
     struct bdk_dtx_bgxx_ctl_s
@@ -321,7 +327,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_bgxx_ctl_s cn; */
-} bdk_dtx_bgxx_ctl_t;
+};
+typedef union bdk_dtx_bgxx_ctl bdk_dtx_bgxx_ctl_t;
 
 static inline uint64_t BDK_DTX_BGXX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_BGXX_CTL(unsigned long a)
@@ -346,7 +353,7 @@ static inline uint64_t BDK_DTX_BGXX_CTL(unsigned long a)
  *
  * DTX BGX Raw Data Register
  */
-typedef union
+union bdk_dtx_bgxx_datx
 {
     uint64_t u;
     struct bdk_dtx_bgxx_datx_s
@@ -362,7 +369,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_bgxx_datx_s cn; */
-} bdk_dtx_bgxx_datx_t;
+};
+typedef union bdk_dtx_bgxx_datx bdk_dtx_bgxx_datx_t;
 
 static inline uint64_t BDK_DTX_BGXX_DATX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_BGXX_DATX(unsigned long a, unsigned long b)
@@ -387,7 +395,7 @@ static inline uint64_t BDK_DTX_BGXX_DATX(unsigned long a, unsigned long b)
  *
  * DTX BGX Data Enable Register
  */
-typedef union
+union bdk_dtx_bgxx_enax
 {
     uint64_t u;
     struct bdk_dtx_bgxx_enax_s
@@ -403,7 +411,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_bgxx_enax_s cn; */
-} bdk_dtx_bgxx_enax_t;
+};
+typedef union bdk_dtx_bgxx_enax bdk_dtx_bgxx_enax_t;
 
 static inline uint64_t BDK_DTX_BGXX_ENAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_BGXX_ENAX(unsigned long a, unsigned long b)
@@ -428,7 +437,7 @@ static inline uint64_t BDK_DTX_BGXX_ENAX(unsigned long a, unsigned long b)
  *
  * DTX BGX Select Register
  */
-typedef union
+union bdk_dtx_bgxx_selx
 {
     uint64_t u;
     struct bdk_dtx_bgxx_selx_s
@@ -442,7 +451,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_bgxx_selx_s cn; */
-} bdk_dtx_bgxx_selx_t;
+};
+typedef union bdk_dtx_bgxx_selx bdk_dtx_bgxx_selx_t;
 
 static inline uint64_t BDK_DTX_BGXX_SELX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_BGXX_SELX(unsigned long a, unsigned long b)
@@ -467,7 +477,7 @@ static inline uint64_t BDK_DTX_BGXX_SELX(unsigned long a, unsigned long b)
  *
  * DTX BROADCAST Control Register
  */
-typedef union
+union bdk_dtx_broadcast_ctl
 {
     uint64_t u;
     struct bdk_dtx_broadcast_ctl_s
@@ -491,7 +501,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_broadcast_ctl_s cn; */
-} bdk_dtx_broadcast_ctl_t;
+};
+typedef union bdk_dtx_broadcast_ctl bdk_dtx_broadcast_ctl_t;
 
 #define BDK_DTX_BROADCAST_CTL BDK_DTX_BROADCAST_CTL_FUNC()
 static inline uint64_t BDK_DTX_BROADCAST_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -511,7 +522,7 @@ static inline uint64_t BDK_DTX_BROADCAST_CTL_FUNC(void)
  *
  * DTX BROADCAST Data Enable Register
  */
-typedef union
+union bdk_dtx_broadcast_enax
 {
     uint64_t u;
     struct bdk_dtx_broadcast_enax_s
@@ -527,7 +538,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_broadcast_enax_s cn; */
-} bdk_dtx_broadcast_enax_t;
+};
+typedef union bdk_dtx_broadcast_enax bdk_dtx_broadcast_enax_t;
 
 static inline uint64_t BDK_DTX_BROADCAST_ENAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_BROADCAST_ENAX(unsigned long a)
@@ -548,7 +560,7 @@ static inline uint64_t BDK_DTX_BROADCAST_ENAX(unsigned long a)
  *
  * DTX BROADCAST Select Register
  */
-typedef union
+union bdk_dtx_broadcast_selx
 {
     uint64_t u;
     struct bdk_dtx_broadcast_selx_s
@@ -562,7 +574,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_broadcast_selx_s cn; */
-} bdk_dtx_broadcast_selx_t;
+};
+typedef union bdk_dtx_broadcast_selx bdk_dtx_broadcast_selx_t;
 
 static inline uint64_t BDK_DTX_BROADCAST_SELX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_BROADCAST_SELX(unsigned long a)
@@ -583,7 +596,7 @@ static inline uint64_t BDK_DTX_BROADCAST_SELX(unsigned long a)
  *
  * INTERNAL: DTX CDE Control Register
  */
-typedef union
+union bdk_dtx_cde_bcst_rsp
 {
     uint64_t u;
     struct bdk_dtx_cde_bcst_rsp_s
@@ -597,7 +610,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_cde_bcst_rsp_s cn; */
-} bdk_dtx_cde_bcst_rsp_t;
+};
+typedef union bdk_dtx_cde_bcst_rsp bdk_dtx_cde_bcst_rsp_t;
 
 #define BDK_DTX_CDE_BCST_RSP BDK_DTX_CDE_BCST_RSP_FUNC()
 static inline uint64_t BDK_DTX_CDE_BCST_RSP_FUNC(void) __attribute__ ((pure, always_inline));
@@ -621,7 +635,7 @@ static inline uint64_t BDK_DTX_CDE_BCST_RSP_FUNC(void)
  *
  * INTERNAL: DTX CDE Control Register
  */
-typedef union
+union bdk_dtx_cde_ctl
 {
     uint64_t u;
     struct bdk_dtx_cde_ctl_s
@@ -645,7 +659,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_cde_ctl_s cn; */
-} bdk_dtx_cde_ctl_t;
+};
+typedef union bdk_dtx_cde_ctl bdk_dtx_cde_ctl_t;
 
 #define BDK_DTX_CDE_CTL BDK_DTX_CDE_CTL_FUNC()
 static inline uint64_t BDK_DTX_CDE_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -669,7 +684,7 @@ static inline uint64_t BDK_DTX_CDE_CTL_FUNC(void)
  *
  * INTERNAL: DTX CDE Raw Data Register
  */
-typedef union
+union bdk_dtx_cde_datx
 {
     uint64_t u;
     struct bdk_dtx_cde_datx_s
@@ -685,7 +700,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_cde_datx_s cn; */
-} bdk_dtx_cde_datx_t;
+};
+typedef union bdk_dtx_cde_datx bdk_dtx_cde_datx_t;
 
 static inline uint64_t BDK_DTX_CDE_DATX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_CDE_DATX(unsigned long a)
@@ -708,7 +724,7 @@ static inline uint64_t BDK_DTX_CDE_DATX(unsigned long a)
  *
  * INTERNAL: DTX CDE Data Enable Register
  */
-typedef union
+union bdk_dtx_cde_enax
 {
     uint64_t u;
     struct bdk_dtx_cde_enax_s
@@ -724,7 +740,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_cde_enax_s cn; */
-} bdk_dtx_cde_enax_t;
+};
+typedef union bdk_dtx_cde_enax bdk_dtx_cde_enax_t;
 
 static inline uint64_t BDK_DTX_CDE_ENAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_CDE_ENAX(unsigned long a)
@@ -747,7 +764,7 @@ static inline uint64_t BDK_DTX_CDE_ENAX(unsigned long a)
  *
  * INTERNAL: DTX CDE Select Register
  */
-typedef union
+union bdk_dtx_cde_selx
 {
     uint64_t u;
     struct bdk_dtx_cde_selx_s
@@ -761,7 +778,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_cde_selx_s cn; */
-} bdk_dtx_cde_selx_t;
+};
+typedef union bdk_dtx_cde_selx bdk_dtx_cde_selx_t;
 
 static inline uint64_t BDK_DTX_CDE_SELX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_CDE_SELX(unsigned long a)
@@ -784,7 +802,7 @@ static inline uint64_t BDK_DTX_CDE_SELX(unsigned long a)
  *
  * DTX CPT Control Register
  */
-typedef union
+union bdk_dtx_cptx_bcst_rsp
 {
     uint64_t u;
     struct bdk_dtx_cptx_bcst_rsp_s
@@ -798,7 +816,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_cptx_bcst_rsp_s cn; */
-} bdk_dtx_cptx_bcst_rsp_t;
+};
+typedef union bdk_dtx_cptx_bcst_rsp bdk_dtx_cptx_bcst_rsp_t;
 
 static inline uint64_t BDK_DTX_CPTX_BCST_RSP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_CPTX_BCST_RSP(unsigned long a)
@@ -819,7 +838,7 @@ static inline uint64_t BDK_DTX_CPTX_BCST_RSP(unsigned long a)
  *
  * DTX CPT Control Register
  */
-typedef union
+union bdk_dtx_cptx_ctl
 {
     uint64_t u;
     struct bdk_dtx_cptx_ctl_s
@@ -843,7 +862,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_cptx_ctl_s cn; */
-} bdk_dtx_cptx_ctl_t;
+};
+typedef union bdk_dtx_cptx_ctl bdk_dtx_cptx_ctl_t;
 
 static inline uint64_t BDK_DTX_CPTX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_CPTX_CTL(unsigned long a)
@@ -864,7 +884,7 @@ static inline uint64_t BDK_DTX_CPTX_CTL(unsigned long a)
  *
  * DTX CPT Raw Data Register
  */
-typedef union
+union bdk_dtx_cptx_datx
 {
     uint64_t u;
     struct bdk_dtx_cptx_datx_s
@@ -880,7 +900,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_cptx_datx_s cn; */
-} bdk_dtx_cptx_datx_t;
+};
+typedef union bdk_dtx_cptx_datx bdk_dtx_cptx_datx_t;
 
 static inline uint64_t BDK_DTX_CPTX_DATX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_CPTX_DATX(unsigned long a, unsigned long b)
@@ -901,7 +922,7 @@ static inline uint64_t BDK_DTX_CPTX_DATX(unsigned long a, unsigned long b)
  *
  * DTX CPT Data Enable Register
  */
-typedef union
+union bdk_dtx_cptx_enax
 {
     uint64_t u;
     struct bdk_dtx_cptx_enax_s
@@ -917,7 +938,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_cptx_enax_s cn; */
-} bdk_dtx_cptx_enax_t;
+};
+typedef union bdk_dtx_cptx_enax bdk_dtx_cptx_enax_t;
 
 static inline uint64_t BDK_DTX_CPTX_ENAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_CPTX_ENAX(unsigned long a, unsigned long b)
@@ -938,7 +960,7 @@ static inline uint64_t BDK_DTX_CPTX_ENAX(unsigned long a, unsigned long b)
  *
  * DTX CPT Select Register
  */
-typedef union
+union bdk_dtx_cptx_selx
 {
     uint64_t u;
     struct bdk_dtx_cptx_selx_s
@@ -952,7 +974,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_cptx_selx_s cn; */
-} bdk_dtx_cptx_selx_t;
+};
+typedef union bdk_dtx_cptx_selx bdk_dtx_cptx_selx_t;
 
 static inline uint64_t BDK_DTX_CPTX_SELX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_CPTX_SELX(unsigned long a, unsigned long b)
@@ -973,7 +996,7 @@ static inline uint64_t BDK_DTX_CPTX_SELX(unsigned long a, unsigned long b)
  *
  * DTX CPT0 Control Register
  */
-typedef union
+union bdk_dtx_cpt0_bcst_rsp
 {
     uint64_t u;
     struct bdk_dtx_cpt0_bcst_rsp_s
@@ -987,7 +1010,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_cpt0_bcst_rsp_s cn; */
-} bdk_dtx_cpt0_bcst_rsp_t;
+};
+typedef union bdk_dtx_cpt0_bcst_rsp bdk_dtx_cpt0_bcst_rsp_t;
 
 #define BDK_DTX_CPT0_BCST_RSP BDK_DTX_CPT0_BCST_RSP_FUNC()
 static inline uint64_t BDK_DTX_CPT0_BCST_RSP_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1009,7 +1033,7 @@ static inline uint64_t BDK_DTX_CPT0_BCST_RSP_FUNC(void)
  *
  * DTX CPT0 Control Register
  */
-typedef union
+union bdk_dtx_cpt0_ctl
 {
     uint64_t u;
     struct bdk_dtx_cpt0_ctl_s
@@ -1033,7 +1057,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_cpt0_ctl_s cn; */
-} bdk_dtx_cpt0_ctl_t;
+};
+typedef union bdk_dtx_cpt0_ctl bdk_dtx_cpt0_ctl_t;
 
 #define BDK_DTX_CPT0_CTL BDK_DTX_CPT0_CTL_FUNC()
 static inline uint64_t BDK_DTX_CPT0_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1055,7 +1080,7 @@ static inline uint64_t BDK_DTX_CPT0_CTL_FUNC(void)
  *
  * DTX CPT0 Raw Data Register
  */
-typedef union
+union bdk_dtx_cpt0_datx
 {
     uint64_t u;
     struct bdk_dtx_cpt0_datx_s
@@ -1071,7 +1096,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_cpt0_datx_s cn; */
-} bdk_dtx_cpt0_datx_t;
+};
+typedef union bdk_dtx_cpt0_datx bdk_dtx_cpt0_datx_t;
 
 static inline uint64_t BDK_DTX_CPT0_DATX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_CPT0_DATX(unsigned long a)
@@ -1092,7 +1118,7 @@ static inline uint64_t BDK_DTX_CPT0_DATX(unsigned long a)
  *
  * DTX CPT0 Data Enable Register
  */
-typedef union
+union bdk_dtx_cpt0_enax
 {
     uint64_t u;
     struct bdk_dtx_cpt0_enax_s
@@ -1108,7 +1134,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_cpt0_enax_s cn; */
-} bdk_dtx_cpt0_enax_t;
+};
+typedef union bdk_dtx_cpt0_enax bdk_dtx_cpt0_enax_t;
 
 static inline uint64_t BDK_DTX_CPT0_ENAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_CPT0_ENAX(unsigned long a)
@@ -1129,7 +1156,7 @@ static inline uint64_t BDK_DTX_CPT0_ENAX(unsigned long a)
  *
  * DTX CPT0 Select Register
  */
-typedef union
+union bdk_dtx_cpt0_selx
 {
     uint64_t u;
     struct bdk_dtx_cpt0_selx_s
@@ -1143,7 +1170,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_cpt0_selx_s cn; */
-} bdk_dtx_cpt0_selx_t;
+};
+typedef union bdk_dtx_cpt0_selx bdk_dtx_cpt0_selx_t;
 
 static inline uint64_t BDK_DTX_CPT0_SELX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_CPT0_SELX(unsigned long a)
@@ -1164,7 +1192,7 @@ static inline uint64_t BDK_DTX_CPT0_SELX(unsigned long a)
  *
  * DTX DAP Control Register
  */
-typedef union
+union bdk_dtx_dap_bcst_rsp
 {
     uint64_t u;
     struct bdk_dtx_dap_bcst_rsp_s
@@ -1178,7 +1206,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_dap_bcst_rsp_s cn; */
-} bdk_dtx_dap_bcst_rsp_t;
+};
+typedef union bdk_dtx_dap_bcst_rsp bdk_dtx_dap_bcst_rsp_t;
 
 #define BDK_DTX_DAP_BCST_RSP BDK_DTX_DAP_BCST_RSP_FUNC()
 static inline uint64_t BDK_DTX_DAP_BCST_RSP_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1198,7 +1227,7 @@ static inline uint64_t BDK_DTX_DAP_BCST_RSP_FUNC(void)
  *
  * DTX DAP Control Register
  */
-typedef union
+union bdk_dtx_dap_ctl
 {
     uint64_t u;
     struct bdk_dtx_dap_ctl_s
@@ -1222,7 +1251,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_dap_ctl_s cn; */
-} bdk_dtx_dap_ctl_t;
+};
+typedef union bdk_dtx_dap_ctl bdk_dtx_dap_ctl_t;
 
 #define BDK_DTX_DAP_CTL BDK_DTX_DAP_CTL_FUNC()
 static inline uint64_t BDK_DTX_DAP_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1242,7 +1272,7 @@ static inline uint64_t BDK_DTX_DAP_CTL_FUNC(void)
  *
  * DTX DAP Raw Data Register
  */
-typedef union
+union bdk_dtx_dap_datx
 {
     uint64_t u;
     struct bdk_dtx_dap_datx_s
@@ -1258,7 +1288,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_dap_datx_s cn; */
-} bdk_dtx_dap_datx_t;
+};
+typedef union bdk_dtx_dap_datx bdk_dtx_dap_datx_t;
 
 static inline uint64_t BDK_DTX_DAP_DATX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_DAP_DATX(unsigned long a)
@@ -1279,7 +1310,7 @@ static inline uint64_t BDK_DTX_DAP_DATX(unsigned long a)
  *
  * DTX DAP Data Enable Register
  */
-typedef union
+union bdk_dtx_dap_enax
 {
     uint64_t u;
     struct bdk_dtx_dap_enax_s
@@ -1295,7 +1326,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_dap_enax_s cn; */
-} bdk_dtx_dap_enax_t;
+};
+typedef union bdk_dtx_dap_enax bdk_dtx_dap_enax_t;
 
 static inline uint64_t BDK_DTX_DAP_ENAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_DAP_ENAX(unsigned long a)
@@ -1316,7 +1348,7 @@ static inline uint64_t BDK_DTX_DAP_ENAX(unsigned long a)
  *
  * DTX DAP Select Register
  */
-typedef union
+union bdk_dtx_dap_selx
 {
     uint64_t u;
     struct bdk_dtx_dap_selx_s
@@ -1330,7 +1362,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_dap_selx_s cn; */
-} bdk_dtx_dap_selx_t;
+};
+typedef union bdk_dtx_dap_selx bdk_dtx_dap_selx_t;
 
 static inline uint64_t BDK_DTX_DAP_SELX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_DAP_SELX(unsigned long a)
@@ -1351,7 +1384,7 @@ static inline uint64_t BDK_DTX_DAP_SELX(unsigned long a)
  *
  * DTX DDF Control Register
  */
-typedef union
+union bdk_dtx_ddf_bcst_rsp
 {
     uint64_t u;
     struct bdk_dtx_ddf_bcst_rsp_s
@@ -1365,7 +1398,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_ddf_bcst_rsp_s cn; */
-} bdk_dtx_ddf_bcst_rsp_t;
+};
+typedef union bdk_dtx_ddf_bcst_rsp bdk_dtx_ddf_bcst_rsp_t;
 
 #define BDK_DTX_DDF_BCST_RSP BDK_DTX_DDF_BCST_RSP_FUNC()
 static inline uint64_t BDK_DTX_DDF_BCST_RSP_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1387,7 +1421,7 @@ static inline uint64_t BDK_DTX_DDF_BCST_RSP_FUNC(void)
  *
  * DTX DDF Control Register
  */
-typedef union
+union bdk_dtx_ddf_ctl
 {
     uint64_t u;
     struct bdk_dtx_ddf_ctl_s
@@ -1411,7 +1445,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_ddf_ctl_s cn; */
-} bdk_dtx_ddf_ctl_t;
+};
+typedef union bdk_dtx_ddf_ctl bdk_dtx_ddf_ctl_t;
 
 #define BDK_DTX_DDF_CTL BDK_DTX_DDF_CTL_FUNC()
 static inline uint64_t BDK_DTX_DDF_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1433,7 +1468,7 @@ static inline uint64_t BDK_DTX_DDF_CTL_FUNC(void)
  *
  * DTX DDF Raw Data Register
  */
-typedef union
+union bdk_dtx_ddf_datx
 {
     uint64_t u;
     struct bdk_dtx_ddf_datx_s
@@ -1449,7 +1484,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_ddf_datx_s cn; */
-} bdk_dtx_ddf_datx_t;
+};
+typedef union bdk_dtx_ddf_datx bdk_dtx_ddf_datx_t;
 
 static inline uint64_t BDK_DTX_DDF_DATX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_DDF_DATX(unsigned long a)
@@ -1470,7 +1506,7 @@ static inline uint64_t BDK_DTX_DDF_DATX(unsigned long a)
  *
  * DTX DDF Data Enable Register
  */
-typedef union
+union bdk_dtx_ddf_enax
 {
     uint64_t u;
     struct bdk_dtx_ddf_enax_s
@@ -1486,7 +1522,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_ddf_enax_s cn; */
-} bdk_dtx_ddf_enax_t;
+};
+typedef union bdk_dtx_ddf_enax bdk_dtx_ddf_enax_t;
 
 static inline uint64_t BDK_DTX_DDF_ENAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_DDF_ENAX(unsigned long a)
@@ -1507,7 +1544,7 @@ static inline uint64_t BDK_DTX_DDF_ENAX(unsigned long a)
  *
  * DTX DDF Select Register
  */
-typedef union
+union bdk_dtx_ddf_selx
 {
     uint64_t u;
     struct bdk_dtx_ddf_selx_s
@@ -1521,7 +1558,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_ddf_selx_s cn; */
-} bdk_dtx_ddf_selx_t;
+};
+typedef union bdk_dtx_ddf_selx bdk_dtx_ddf_selx_t;
 
 static inline uint64_t BDK_DTX_DDF_SELX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_DDF_SELX(unsigned long a)
@@ -1542,7 +1580,7 @@ static inline uint64_t BDK_DTX_DDF_SELX(unsigned long a)
  *
  * DTX DFA Control Register
  */
-typedef union
+union bdk_dtx_dfa_bcst_rsp
 {
     uint64_t u;
     struct bdk_dtx_dfa_bcst_rsp_s
@@ -1556,7 +1594,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_dfa_bcst_rsp_s cn; */
-} bdk_dtx_dfa_bcst_rsp_t;
+};
+typedef union bdk_dtx_dfa_bcst_rsp bdk_dtx_dfa_bcst_rsp_t;
 
 #define BDK_DTX_DFA_BCST_RSP BDK_DTX_DFA_BCST_RSP_FUNC()
 static inline uint64_t BDK_DTX_DFA_BCST_RSP_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1578,7 +1617,7 @@ static inline uint64_t BDK_DTX_DFA_BCST_RSP_FUNC(void)
  *
  * DTX DFA Control Register
  */
-typedef union
+union bdk_dtx_dfa_ctl
 {
     uint64_t u;
     struct bdk_dtx_dfa_ctl_s
@@ -1602,7 +1641,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_dfa_ctl_s cn; */
-} bdk_dtx_dfa_ctl_t;
+};
+typedef union bdk_dtx_dfa_ctl bdk_dtx_dfa_ctl_t;
 
 #define BDK_DTX_DFA_CTL BDK_DTX_DFA_CTL_FUNC()
 static inline uint64_t BDK_DTX_DFA_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1624,7 +1664,7 @@ static inline uint64_t BDK_DTX_DFA_CTL_FUNC(void)
  *
  * DTX DFA Raw Data Register
  */
-typedef union
+union bdk_dtx_dfa_datx
 {
     uint64_t u;
     struct bdk_dtx_dfa_datx_s
@@ -1640,7 +1680,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_dfa_datx_s cn; */
-} bdk_dtx_dfa_datx_t;
+};
+typedef union bdk_dtx_dfa_datx bdk_dtx_dfa_datx_t;
 
 static inline uint64_t BDK_DTX_DFA_DATX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_DFA_DATX(unsigned long a)
@@ -1661,7 +1702,7 @@ static inline uint64_t BDK_DTX_DFA_DATX(unsigned long a)
  *
  * DTX DFA Data Enable Register
  */
-typedef union
+union bdk_dtx_dfa_enax
 {
     uint64_t u;
     struct bdk_dtx_dfa_enax_s
@@ -1677,7 +1718,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_dfa_enax_s cn; */
-} bdk_dtx_dfa_enax_t;
+};
+typedef union bdk_dtx_dfa_enax bdk_dtx_dfa_enax_t;
 
 static inline uint64_t BDK_DTX_DFA_ENAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_DFA_ENAX(unsigned long a)
@@ -1698,7 +1740,7 @@ static inline uint64_t BDK_DTX_DFA_ENAX(unsigned long a)
  *
  * DTX DFA Select Register
  */
-typedef union
+union bdk_dtx_dfa_selx
 {
     uint64_t u;
     struct bdk_dtx_dfa_selx_s
@@ -1712,7 +1754,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_dfa_selx_s cn; */
-} bdk_dtx_dfa_selx_t;
+};
+typedef union bdk_dtx_dfa_selx bdk_dtx_dfa_selx_t;
 
 static inline uint64_t BDK_DTX_DFA_SELX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_DFA_SELX(unsigned long a)
@@ -1733,7 +1776,7 @@ static inline uint64_t BDK_DTX_DFA_SELX(unsigned long a)
  *
  * DTX DPI Control Register
  */
-typedef union
+union bdk_dtx_dpi_bcst_rsp
 {
     uint64_t u;
     struct bdk_dtx_dpi_bcst_rsp_s
@@ -1747,7 +1790,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_dpi_bcst_rsp_s cn; */
-} bdk_dtx_dpi_bcst_rsp_t;
+};
+typedef union bdk_dtx_dpi_bcst_rsp bdk_dtx_dpi_bcst_rsp_t;
 
 #define BDK_DTX_DPI_BCST_RSP BDK_DTX_DPI_BCST_RSP_FUNC()
 static inline uint64_t BDK_DTX_DPI_BCST_RSP_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1769,7 +1813,7 @@ static inline uint64_t BDK_DTX_DPI_BCST_RSP_FUNC(void)
  *
  * DTX DPI Control Register
  */
-typedef union
+union bdk_dtx_dpi_ctl
 {
     uint64_t u;
     struct bdk_dtx_dpi_ctl_s
@@ -1793,7 +1837,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_dpi_ctl_s cn; */
-} bdk_dtx_dpi_ctl_t;
+};
+typedef union bdk_dtx_dpi_ctl bdk_dtx_dpi_ctl_t;
 
 #define BDK_DTX_DPI_CTL BDK_DTX_DPI_CTL_FUNC()
 static inline uint64_t BDK_DTX_DPI_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1815,7 +1860,7 @@ static inline uint64_t BDK_DTX_DPI_CTL_FUNC(void)
  *
  * DTX DPI Raw Data Register
  */
-typedef union
+union bdk_dtx_dpi_datx
 {
     uint64_t u;
     struct bdk_dtx_dpi_datx_s
@@ -1831,7 +1876,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_dpi_datx_s cn; */
-} bdk_dtx_dpi_datx_t;
+};
+typedef union bdk_dtx_dpi_datx bdk_dtx_dpi_datx_t;
 
 static inline uint64_t BDK_DTX_DPI_DATX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_DPI_DATX(unsigned long a)
@@ -1852,7 +1898,7 @@ static inline uint64_t BDK_DTX_DPI_DATX(unsigned long a)
  *
  * DTX DPI Data Enable Register
  */
-typedef union
+union bdk_dtx_dpi_enax
 {
     uint64_t u;
     struct bdk_dtx_dpi_enax_s
@@ -1868,7 +1914,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_dpi_enax_s cn; */
-} bdk_dtx_dpi_enax_t;
+};
+typedef union bdk_dtx_dpi_enax bdk_dtx_dpi_enax_t;
 
 static inline uint64_t BDK_DTX_DPI_ENAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_DPI_ENAX(unsigned long a)
@@ -1889,7 +1936,7 @@ static inline uint64_t BDK_DTX_DPI_ENAX(unsigned long a)
  *
  * DTX DPI Select Register
  */
-typedef union
+union bdk_dtx_dpi_selx
 {
     uint64_t u;
     struct bdk_dtx_dpi_selx_s
@@ -1903,7 +1950,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_dpi_selx_s cn; */
-} bdk_dtx_dpi_selx_t;
+};
+typedef union bdk_dtx_dpi_selx bdk_dtx_dpi_selx_t;
 
 static inline uint64_t BDK_DTX_DPI_SELX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_DPI_SELX(unsigned long a)
@@ -1924,7 +1972,7 @@ static inline uint64_t BDK_DTX_DPI_SELX(unsigned long a)
  *
  * DTX FPA Control Register
  */
-typedef union
+union bdk_dtx_fpa_bcst_rsp
 {
     uint64_t u;
     struct bdk_dtx_fpa_bcst_rsp_s
@@ -1938,7 +1986,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_fpa_bcst_rsp_s cn; */
-} bdk_dtx_fpa_bcst_rsp_t;
+};
+typedef union bdk_dtx_fpa_bcst_rsp bdk_dtx_fpa_bcst_rsp_t;
 
 #define BDK_DTX_FPA_BCST_RSP BDK_DTX_FPA_BCST_RSP_FUNC()
 static inline uint64_t BDK_DTX_FPA_BCST_RSP_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1960,7 +2009,7 @@ static inline uint64_t BDK_DTX_FPA_BCST_RSP_FUNC(void)
  *
  * DTX FPA Control Register
  */
-typedef union
+union bdk_dtx_fpa_ctl
 {
     uint64_t u;
     struct bdk_dtx_fpa_ctl_s
@@ -1984,7 +2033,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_fpa_ctl_s cn; */
-} bdk_dtx_fpa_ctl_t;
+};
+typedef union bdk_dtx_fpa_ctl bdk_dtx_fpa_ctl_t;
 
 #define BDK_DTX_FPA_CTL BDK_DTX_FPA_CTL_FUNC()
 static inline uint64_t BDK_DTX_FPA_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2006,7 +2056,7 @@ static inline uint64_t BDK_DTX_FPA_CTL_FUNC(void)
  *
  * DTX FPA Raw Data Register
  */
-typedef union
+union bdk_dtx_fpa_datx
 {
     uint64_t u;
     struct bdk_dtx_fpa_datx_s
@@ -2022,7 +2072,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_fpa_datx_s cn; */
-} bdk_dtx_fpa_datx_t;
+};
+typedef union bdk_dtx_fpa_datx bdk_dtx_fpa_datx_t;
 
 static inline uint64_t BDK_DTX_FPA_DATX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_FPA_DATX(unsigned long a)
@@ -2043,7 +2094,7 @@ static inline uint64_t BDK_DTX_FPA_DATX(unsigned long a)
  *
  * DTX FPA Data Enable Register
  */
-typedef union
+union bdk_dtx_fpa_enax
 {
     uint64_t u;
     struct bdk_dtx_fpa_enax_s
@@ -2059,7 +2110,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_fpa_enax_s cn; */
-} bdk_dtx_fpa_enax_t;
+};
+typedef union bdk_dtx_fpa_enax bdk_dtx_fpa_enax_t;
 
 static inline uint64_t BDK_DTX_FPA_ENAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_FPA_ENAX(unsigned long a)
@@ -2080,7 +2132,7 @@ static inline uint64_t BDK_DTX_FPA_ENAX(unsigned long a)
  *
  * DTX FPA Select Register
  */
-typedef union
+union bdk_dtx_fpa_selx
 {
     uint64_t u;
     struct bdk_dtx_fpa_selx_s
@@ -2094,7 +2146,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_fpa_selx_s cn; */
-} bdk_dtx_fpa_selx_t;
+};
+typedef union bdk_dtx_fpa_selx bdk_dtx_fpa_selx_t;
 
 static inline uint64_t BDK_DTX_FPA_SELX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_FPA_SELX(unsigned long a)
@@ -2115,7 +2168,7 @@ static inline uint64_t BDK_DTX_FPA_SELX(unsigned long a)
  *
  * DTX GIC Control Register
  */
-typedef union
+union bdk_dtx_gic_bcst_rsp
 {
     uint64_t u;
     struct bdk_dtx_gic_bcst_rsp_s
@@ -2129,7 +2182,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_gic_bcst_rsp_s cn; */
-} bdk_dtx_gic_bcst_rsp_t;
+};
+typedef union bdk_dtx_gic_bcst_rsp bdk_dtx_gic_bcst_rsp_t;
 
 #define BDK_DTX_GIC_BCST_RSP BDK_DTX_GIC_BCST_RSP_FUNC()
 static inline uint64_t BDK_DTX_GIC_BCST_RSP_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2149,7 +2203,7 @@ static inline uint64_t BDK_DTX_GIC_BCST_RSP_FUNC(void)
  *
  * DTX GIC Control Register
  */
-typedef union
+union bdk_dtx_gic_ctl
 {
     uint64_t u;
     struct bdk_dtx_gic_ctl_s
@@ -2173,7 +2227,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_gic_ctl_s cn; */
-} bdk_dtx_gic_ctl_t;
+};
+typedef union bdk_dtx_gic_ctl bdk_dtx_gic_ctl_t;
 
 #define BDK_DTX_GIC_CTL BDK_DTX_GIC_CTL_FUNC()
 static inline uint64_t BDK_DTX_GIC_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2193,7 +2248,7 @@ static inline uint64_t BDK_DTX_GIC_CTL_FUNC(void)
  *
  * DTX GIC Raw Data Register
  */
-typedef union
+union bdk_dtx_gic_datx
 {
     uint64_t u;
     struct bdk_dtx_gic_datx_s
@@ -2209,7 +2264,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_gic_datx_s cn; */
-} bdk_dtx_gic_datx_t;
+};
+typedef union bdk_dtx_gic_datx bdk_dtx_gic_datx_t;
 
 static inline uint64_t BDK_DTX_GIC_DATX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_GIC_DATX(unsigned long a)
@@ -2230,7 +2286,7 @@ static inline uint64_t BDK_DTX_GIC_DATX(unsigned long a)
  *
  * DTX GIC Data Enable Register
  */
-typedef union
+union bdk_dtx_gic_enax
 {
     uint64_t u;
     struct bdk_dtx_gic_enax_s
@@ -2246,7 +2302,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_gic_enax_s cn; */
-} bdk_dtx_gic_enax_t;
+};
+typedef union bdk_dtx_gic_enax bdk_dtx_gic_enax_t;
 
 static inline uint64_t BDK_DTX_GIC_ENAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_GIC_ENAX(unsigned long a)
@@ -2267,7 +2324,7 @@ static inline uint64_t BDK_DTX_GIC_ENAX(unsigned long a)
  *
  * DTX GIC Select Register
  */
-typedef union
+union bdk_dtx_gic_selx
 {
     uint64_t u;
     struct bdk_dtx_gic_selx_s
@@ -2281,7 +2338,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_gic_selx_s cn; */
-} bdk_dtx_gic_selx_t;
+};
+typedef union bdk_dtx_gic_selx bdk_dtx_gic_selx_t;
 
 static inline uint64_t BDK_DTX_GIC_SELX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_GIC_SELX(unsigned long a)
@@ -2302,7 +2360,7 @@ static inline uint64_t BDK_DTX_GIC_SELX(unsigned long a)
  *
  * DTX GSER Control Register
  */
-typedef union
+union bdk_dtx_gserx_bcst_rsp
 {
     uint64_t u;
     struct bdk_dtx_gserx_bcst_rsp_s
@@ -2316,7 +2374,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_gserx_bcst_rsp_s cn; */
-} bdk_dtx_gserx_bcst_rsp_t;
+};
+typedef union bdk_dtx_gserx_bcst_rsp bdk_dtx_gserx_bcst_rsp_t;
 
 static inline uint64_t BDK_DTX_GSERX_BCST_RSP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_GSERX_BCST_RSP(unsigned long a)
@@ -2341,7 +2400,7 @@ static inline uint64_t BDK_DTX_GSERX_BCST_RSP(unsigned long a)
  *
  * DTX GSER Control Register
  */
-typedef union
+union bdk_dtx_gserx_ctl
 {
     uint64_t u;
     struct bdk_dtx_gserx_ctl_s
@@ -2365,7 +2424,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_gserx_ctl_s cn; */
-} bdk_dtx_gserx_ctl_t;
+};
+typedef union bdk_dtx_gserx_ctl bdk_dtx_gserx_ctl_t;
 
 static inline uint64_t BDK_DTX_GSERX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_GSERX_CTL(unsigned long a)
@@ -2390,7 +2450,7 @@ static inline uint64_t BDK_DTX_GSERX_CTL(unsigned long a)
  *
  * DTX GSER Raw Data Register
  */
-typedef union
+union bdk_dtx_gserx_datx
 {
     uint64_t u;
     struct bdk_dtx_gserx_datx_s
@@ -2406,7 +2466,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_gserx_datx_s cn; */
-} bdk_dtx_gserx_datx_t;
+};
+typedef union bdk_dtx_gserx_datx bdk_dtx_gserx_datx_t;
 
 static inline uint64_t BDK_DTX_GSERX_DATX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_GSERX_DATX(unsigned long a, unsigned long b)
@@ -2431,7 +2492,7 @@ static inline uint64_t BDK_DTX_GSERX_DATX(unsigned long a, unsigned long b)
  *
  * DTX GSER Data Enable Register
  */
-typedef union
+union bdk_dtx_gserx_enax
 {
     uint64_t u;
     struct bdk_dtx_gserx_enax_s
@@ -2447,7 +2508,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_gserx_enax_s cn; */
-} bdk_dtx_gserx_enax_t;
+};
+typedef union bdk_dtx_gserx_enax bdk_dtx_gserx_enax_t;
 
 static inline uint64_t BDK_DTX_GSERX_ENAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_GSERX_ENAX(unsigned long a, unsigned long b)
@@ -2472,7 +2534,7 @@ static inline uint64_t BDK_DTX_GSERX_ENAX(unsigned long a, unsigned long b)
  *
  * DTX GSER Select Register
  */
-typedef union
+union bdk_dtx_gserx_selx
 {
     uint64_t u;
     struct bdk_dtx_gserx_selx_s
@@ -2486,7 +2548,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_gserx_selx_s cn; */
-} bdk_dtx_gserx_selx_t;
+};
+typedef union bdk_dtx_gserx_selx bdk_dtx_gserx_selx_t;
 
 static inline uint64_t BDK_DTX_GSERX_SELX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_GSERX_SELX(unsigned long a, unsigned long b)
@@ -2511,7 +2574,7 @@ static inline uint64_t BDK_DTX_GSERX_SELX(unsigned long a, unsigned long b)
  *
  * DTX IOBN Control Register
  */
-typedef union
+union bdk_dtx_iobnx_bcst_rsp
 {
     uint64_t u;
     struct bdk_dtx_iobnx_bcst_rsp_s
@@ -2525,7 +2588,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_iobnx_bcst_rsp_s cn; */
-} bdk_dtx_iobnx_bcst_rsp_t;
+};
+typedef union bdk_dtx_iobnx_bcst_rsp bdk_dtx_iobnx_bcst_rsp_t;
 
 static inline uint64_t BDK_DTX_IOBNX_BCST_RSP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_IOBNX_BCST_RSP(unsigned long a)
@@ -2550,7 +2614,7 @@ static inline uint64_t BDK_DTX_IOBNX_BCST_RSP(unsigned long a)
  *
  * DTX IOBN Control Register
  */
-typedef union
+union bdk_dtx_iobnx_ctl
 {
     uint64_t u;
     struct bdk_dtx_iobnx_ctl_s
@@ -2574,7 +2638,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_iobnx_ctl_s cn; */
-} bdk_dtx_iobnx_ctl_t;
+};
+typedef union bdk_dtx_iobnx_ctl bdk_dtx_iobnx_ctl_t;
 
 static inline uint64_t BDK_DTX_IOBNX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_IOBNX_CTL(unsigned long a)
@@ -2599,7 +2664,7 @@ static inline uint64_t BDK_DTX_IOBNX_CTL(unsigned long a)
  *
  * DTX IOBN Raw Data Register
  */
-typedef union
+union bdk_dtx_iobnx_datx
 {
     uint64_t u;
     struct bdk_dtx_iobnx_datx_s
@@ -2615,7 +2680,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_iobnx_datx_s cn; */
-} bdk_dtx_iobnx_datx_t;
+};
+typedef union bdk_dtx_iobnx_datx bdk_dtx_iobnx_datx_t;
 
 static inline uint64_t BDK_DTX_IOBNX_DATX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_IOBNX_DATX(unsigned long a, unsigned long b)
@@ -2640,7 +2706,7 @@ static inline uint64_t BDK_DTX_IOBNX_DATX(unsigned long a, unsigned long b)
  *
  * DTX IOBN Data Enable Register
  */
-typedef union
+union bdk_dtx_iobnx_enax
 {
     uint64_t u;
     struct bdk_dtx_iobnx_enax_s
@@ -2656,7 +2722,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_iobnx_enax_s cn; */
-} bdk_dtx_iobnx_enax_t;
+};
+typedef union bdk_dtx_iobnx_enax bdk_dtx_iobnx_enax_t;
 
 static inline uint64_t BDK_DTX_IOBNX_ENAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_IOBNX_ENAX(unsigned long a, unsigned long b)
@@ -2681,7 +2748,7 @@ static inline uint64_t BDK_DTX_IOBNX_ENAX(unsigned long a, unsigned long b)
  *
  * DTX IOBN Select Register
  */
-typedef union
+union bdk_dtx_iobnx_selx
 {
     uint64_t u;
     struct bdk_dtx_iobnx_selx_s
@@ -2695,7 +2762,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_iobnx_selx_s cn; */
-} bdk_dtx_iobnx_selx_t;
+};
+typedef union bdk_dtx_iobnx_selx bdk_dtx_iobnx_selx_t;
 
 static inline uint64_t BDK_DTX_IOBNX_SELX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_IOBNX_SELX(unsigned long a, unsigned long b)
@@ -2720,7 +2788,7 @@ static inline uint64_t BDK_DTX_IOBNX_SELX(unsigned long a, unsigned long b)
  *
  * DTX KEY Control Register
  */
-typedef union
+union bdk_dtx_key_bcst_rsp
 {
     uint64_t u;
     struct bdk_dtx_key_bcst_rsp_s
@@ -2734,7 +2802,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_key_bcst_rsp_s cn; */
-} bdk_dtx_key_bcst_rsp_t;
+};
+typedef union bdk_dtx_key_bcst_rsp bdk_dtx_key_bcst_rsp_t;
 
 #define BDK_DTX_KEY_BCST_RSP BDK_DTX_KEY_BCST_RSP_FUNC()
 static inline uint64_t BDK_DTX_KEY_BCST_RSP_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2754,7 +2823,7 @@ static inline uint64_t BDK_DTX_KEY_BCST_RSP_FUNC(void)
  *
  * DTX KEY Control Register
  */
-typedef union
+union bdk_dtx_key_ctl
 {
     uint64_t u;
     struct bdk_dtx_key_ctl_s
@@ -2778,7 +2847,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_key_ctl_s cn; */
-} bdk_dtx_key_ctl_t;
+};
+typedef union bdk_dtx_key_ctl bdk_dtx_key_ctl_t;
 
 #define BDK_DTX_KEY_CTL BDK_DTX_KEY_CTL_FUNC()
 static inline uint64_t BDK_DTX_KEY_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2798,7 +2868,7 @@ static inline uint64_t BDK_DTX_KEY_CTL_FUNC(void)
  *
  * DTX KEY Raw Data Register
  */
-typedef union
+union bdk_dtx_key_datx
 {
     uint64_t u;
     struct bdk_dtx_key_datx_s
@@ -2814,7 +2884,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_key_datx_s cn; */
-} bdk_dtx_key_datx_t;
+};
+typedef union bdk_dtx_key_datx bdk_dtx_key_datx_t;
 
 static inline uint64_t BDK_DTX_KEY_DATX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_KEY_DATX(unsigned long a)
@@ -2835,7 +2906,7 @@ static inline uint64_t BDK_DTX_KEY_DATX(unsigned long a)
  *
  * DTX KEY Data Enable Register
  */
-typedef union
+union bdk_dtx_key_enax
 {
     uint64_t u;
     struct bdk_dtx_key_enax_s
@@ -2851,7 +2922,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_key_enax_s cn; */
-} bdk_dtx_key_enax_t;
+};
+typedef union bdk_dtx_key_enax bdk_dtx_key_enax_t;
 
 static inline uint64_t BDK_DTX_KEY_ENAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_KEY_ENAX(unsigned long a)
@@ -2872,7 +2944,7 @@ static inline uint64_t BDK_DTX_KEY_ENAX(unsigned long a)
  *
  * DTX KEY Select Register
  */
-typedef union
+union bdk_dtx_key_selx
 {
     uint64_t u;
     struct bdk_dtx_key_selx_s
@@ -2886,7 +2958,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_key_selx_s cn; */
-} bdk_dtx_key_selx_t;
+};
+typedef union bdk_dtx_key_selx bdk_dtx_key_selx_t;
 
 static inline uint64_t BDK_DTX_KEY_SELX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_KEY_SELX(unsigned long a)
@@ -2907,7 +2980,7 @@ static inline uint64_t BDK_DTX_KEY_SELX(unsigned long a)
  *
  * DTX L2C_CBC Control Register
  */
-typedef union
+union bdk_dtx_l2c_cbcx_bcst_rsp
 {
     uint64_t u;
     struct bdk_dtx_l2c_cbcx_bcst_rsp_s
@@ -2921,7 +2994,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_l2c_cbcx_bcst_rsp_s cn; */
-} bdk_dtx_l2c_cbcx_bcst_rsp_t;
+};
+typedef union bdk_dtx_l2c_cbcx_bcst_rsp bdk_dtx_l2c_cbcx_bcst_rsp_t;
 
 static inline uint64_t BDK_DTX_L2C_CBCX_BCST_RSP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_L2C_CBCX_BCST_RSP(unsigned long a)
@@ -2946,7 +3020,7 @@ static inline uint64_t BDK_DTX_L2C_CBCX_BCST_RSP(unsigned long a)
  *
  * DTX L2C_CBC Control Register
  */
-typedef union
+union bdk_dtx_l2c_cbcx_ctl
 {
     uint64_t u;
     struct bdk_dtx_l2c_cbcx_ctl_s
@@ -2970,7 +3044,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_l2c_cbcx_ctl_s cn; */
-} bdk_dtx_l2c_cbcx_ctl_t;
+};
+typedef union bdk_dtx_l2c_cbcx_ctl bdk_dtx_l2c_cbcx_ctl_t;
 
 static inline uint64_t BDK_DTX_L2C_CBCX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_L2C_CBCX_CTL(unsigned long a)
@@ -2995,7 +3070,7 @@ static inline uint64_t BDK_DTX_L2C_CBCX_CTL(unsigned long a)
  *
  * DTX L2C_CBC Raw Data Register
  */
-typedef union
+union bdk_dtx_l2c_cbcx_datx
 {
     uint64_t u;
     struct bdk_dtx_l2c_cbcx_datx_s
@@ -3011,7 +3086,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_l2c_cbcx_datx_s cn; */
-} bdk_dtx_l2c_cbcx_datx_t;
+};
+typedef union bdk_dtx_l2c_cbcx_datx bdk_dtx_l2c_cbcx_datx_t;
 
 static inline uint64_t BDK_DTX_L2C_CBCX_DATX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_L2C_CBCX_DATX(unsigned long a, unsigned long b)
@@ -3036,7 +3112,7 @@ static inline uint64_t BDK_DTX_L2C_CBCX_DATX(unsigned long a, unsigned long b)
  *
  * DTX L2C_CBC Data Enable Register
  */
-typedef union
+union bdk_dtx_l2c_cbcx_enax
 {
     uint64_t u;
     struct bdk_dtx_l2c_cbcx_enax_s
@@ -3052,7 +3128,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_l2c_cbcx_enax_s cn; */
-} bdk_dtx_l2c_cbcx_enax_t;
+};
+typedef union bdk_dtx_l2c_cbcx_enax bdk_dtx_l2c_cbcx_enax_t;
 
 static inline uint64_t BDK_DTX_L2C_CBCX_ENAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_L2C_CBCX_ENAX(unsigned long a, unsigned long b)
@@ -3077,7 +3154,7 @@ static inline uint64_t BDK_DTX_L2C_CBCX_ENAX(unsigned long a, unsigned long b)
  *
  * DTX L2C_CBC Select Register
  */
-typedef union
+union bdk_dtx_l2c_cbcx_selx
 {
     uint64_t u;
     struct bdk_dtx_l2c_cbcx_selx_s
@@ -3091,7 +3168,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_l2c_cbcx_selx_s cn; */
-} bdk_dtx_l2c_cbcx_selx_t;
+};
+typedef union bdk_dtx_l2c_cbcx_selx bdk_dtx_l2c_cbcx_selx_t;
 
 static inline uint64_t BDK_DTX_L2C_CBCX_SELX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_L2C_CBCX_SELX(unsigned long a, unsigned long b)
@@ -3116,7 +3194,7 @@ static inline uint64_t BDK_DTX_L2C_CBCX_SELX(unsigned long a, unsigned long b)
  *
  * DTX L2C_MCI Control Register
  */
-typedef union
+union bdk_dtx_l2c_mcix_bcst_rsp
 {
     uint64_t u;
     struct bdk_dtx_l2c_mcix_bcst_rsp_s
@@ -3130,7 +3208,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_l2c_mcix_bcst_rsp_s cn; */
-} bdk_dtx_l2c_mcix_bcst_rsp_t;
+};
+typedef union bdk_dtx_l2c_mcix_bcst_rsp bdk_dtx_l2c_mcix_bcst_rsp_t;
 
 static inline uint64_t BDK_DTX_L2C_MCIX_BCST_RSP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_L2C_MCIX_BCST_RSP(unsigned long a)
@@ -3155,7 +3234,7 @@ static inline uint64_t BDK_DTX_L2C_MCIX_BCST_RSP(unsigned long a)
  *
  * DTX L2C_MCI Control Register
  */
-typedef union
+union bdk_dtx_l2c_mcix_ctl
 {
     uint64_t u;
     struct bdk_dtx_l2c_mcix_ctl_s
@@ -3179,7 +3258,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_l2c_mcix_ctl_s cn; */
-} bdk_dtx_l2c_mcix_ctl_t;
+};
+typedef union bdk_dtx_l2c_mcix_ctl bdk_dtx_l2c_mcix_ctl_t;
 
 static inline uint64_t BDK_DTX_L2C_MCIX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_L2C_MCIX_CTL(unsigned long a)
@@ -3204,7 +3284,7 @@ static inline uint64_t BDK_DTX_L2C_MCIX_CTL(unsigned long a)
  *
  * DTX L2C_MCI Raw Data Register
  */
-typedef union
+union bdk_dtx_l2c_mcix_datx
 {
     uint64_t u;
     struct bdk_dtx_l2c_mcix_datx_s
@@ -3220,7 +3300,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_l2c_mcix_datx_s cn; */
-} bdk_dtx_l2c_mcix_datx_t;
+};
+typedef union bdk_dtx_l2c_mcix_datx bdk_dtx_l2c_mcix_datx_t;
 
 static inline uint64_t BDK_DTX_L2C_MCIX_DATX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_L2C_MCIX_DATX(unsigned long a, unsigned long b)
@@ -3245,7 +3326,7 @@ static inline uint64_t BDK_DTX_L2C_MCIX_DATX(unsigned long a, unsigned long b)
  *
  * DTX L2C_MCI Data Enable Register
  */
-typedef union
+union bdk_dtx_l2c_mcix_enax
 {
     uint64_t u;
     struct bdk_dtx_l2c_mcix_enax_s
@@ -3261,7 +3342,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_l2c_mcix_enax_s cn; */
-} bdk_dtx_l2c_mcix_enax_t;
+};
+typedef union bdk_dtx_l2c_mcix_enax bdk_dtx_l2c_mcix_enax_t;
 
 static inline uint64_t BDK_DTX_L2C_MCIX_ENAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_L2C_MCIX_ENAX(unsigned long a, unsigned long b)
@@ -3286,7 +3368,7 @@ static inline uint64_t BDK_DTX_L2C_MCIX_ENAX(unsigned long a, unsigned long b)
  *
  * DTX L2C_MCI Select Register
  */
-typedef union
+union bdk_dtx_l2c_mcix_selx
 {
     uint64_t u;
     struct bdk_dtx_l2c_mcix_selx_s
@@ -3300,7 +3382,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_l2c_mcix_selx_s cn; */
-} bdk_dtx_l2c_mcix_selx_t;
+};
+typedef union bdk_dtx_l2c_mcix_selx bdk_dtx_l2c_mcix_selx_t;
 
 static inline uint64_t BDK_DTX_L2C_MCIX_SELX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_L2C_MCIX_SELX(unsigned long a, unsigned long b)
@@ -3325,7 +3408,7 @@ static inline uint64_t BDK_DTX_L2C_MCIX_SELX(unsigned long a, unsigned long b)
  *
  * DTX L2C_TAD Control Register
  */
-typedef union
+union bdk_dtx_l2c_tadx_bcst_rsp
 {
     uint64_t u;
     struct bdk_dtx_l2c_tadx_bcst_rsp_s
@@ -3339,7 +3422,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_l2c_tadx_bcst_rsp_s cn; */
-} bdk_dtx_l2c_tadx_bcst_rsp_t;
+};
+typedef union bdk_dtx_l2c_tadx_bcst_rsp bdk_dtx_l2c_tadx_bcst_rsp_t;
 
 static inline uint64_t BDK_DTX_L2C_TADX_BCST_RSP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_L2C_TADX_BCST_RSP(unsigned long a)
@@ -3364,7 +3448,7 @@ static inline uint64_t BDK_DTX_L2C_TADX_BCST_RSP(unsigned long a)
  *
  * DTX L2C_TAD Control Register
  */
-typedef union
+union bdk_dtx_l2c_tadx_ctl
 {
     uint64_t u;
     struct bdk_dtx_l2c_tadx_ctl_s
@@ -3388,7 +3472,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_l2c_tadx_ctl_s cn; */
-} bdk_dtx_l2c_tadx_ctl_t;
+};
+typedef union bdk_dtx_l2c_tadx_ctl bdk_dtx_l2c_tadx_ctl_t;
 
 static inline uint64_t BDK_DTX_L2C_TADX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_L2C_TADX_CTL(unsigned long a)
@@ -3413,7 +3498,7 @@ static inline uint64_t BDK_DTX_L2C_TADX_CTL(unsigned long a)
  *
  * DTX L2C_TAD Raw Data Register
  */
-typedef union
+union bdk_dtx_l2c_tadx_datx
 {
     uint64_t u;
     struct bdk_dtx_l2c_tadx_datx_s
@@ -3429,7 +3514,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_l2c_tadx_datx_s cn; */
-} bdk_dtx_l2c_tadx_datx_t;
+};
+typedef union bdk_dtx_l2c_tadx_datx bdk_dtx_l2c_tadx_datx_t;
 
 static inline uint64_t BDK_DTX_L2C_TADX_DATX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_L2C_TADX_DATX(unsigned long a, unsigned long b)
@@ -3454,7 +3540,7 @@ static inline uint64_t BDK_DTX_L2C_TADX_DATX(unsigned long a, unsigned long b)
  *
  * DTX L2C_TAD Data Enable Register
  */
-typedef union
+union bdk_dtx_l2c_tadx_enax
 {
     uint64_t u;
     struct bdk_dtx_l2c_tadx_enax_s
@@ -3470,7 +3556,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_l2c_tadx_enax_s cn; */
-} bdk_dtx_l2c_tadx_enax_t;
+};
+typedef union bdk_dtx_l2c_tadx_enax bdk_dtx_l2c_tadx_enax_t;
 
 static inline uint64_t BDK_DTX_L2C_TADX_ENAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_L2C_TADX_ENAX(unsigned long a, unsigned long b)
@@ -3495,7 +3582,7 @@ static inline uint64_t BDK_DTX_L2C_TADX_ENAX(unsigned long a, unsigned long b)
  *
  * DTX L2C_TAD Select Register
  */
-typedef union
+union bdk_dtx_l2c_tadx_selx
 {
     uint64_t u;
     struct bdk_dtx_l2c_tadx_selx_s
@@ -3509,7 +3596,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_l2c_tadx_selx_s cn; */
-} bdk_dtx_l2c_tadx_selx_t;
+};
+typedef union bdk_dtx_l2c_tadx_selx bdk_dtx_l2c_tadx_selx_t;
 
 static inline uint64_t BDK_DTX_L2C_TADX_SELX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_L2C_TADX_SELX(unsigned long a, unsigned long b)
@@ -3534,7 +3622,7 @@ static inline uint64_t BDK_DTX_L2C_TADX_SELX(unsigned long a, unsigned long b)
  *
  * DTX LBK Control Register
  */
-typedef union
+union bdk_dtx_lbk_bcst_rsp
 {
     uint64_t u;
     struct bdk_dtx_lbk_bcst_rsp_s
@@ -3548,7 +3636,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_lbk_bcst_rsp_s cn; */
-} bdk_dtx_lbk_bcst_rsp_t;
+};
+typedef union bdk_dtx_lbk_bcst_rsp bdk_dtx_lbk_bcst_rsp_t;
 
 #define BDK_DTX_LBK_BCST_RSP BDK_DTX_LBK_BCST_RSP_FUNC()
 static inline uint64_t BDK_DTX_LBK_BCST_RSP_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3572,7 +3661,7 @@ static inline uint64_t BDK_DTX_LBK_BCST_RSP_FUNC(void)
  *
  * DTX LBK Control Register
  */
-typedef union
+union bdk_dtx_lbk_ctl
 {
     uint64_t u;
     struct bdk_dtx_lbk_ctl_s
@@ -3596,7 +3685,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_lbk_ctl_s cn; */
-} bdk_dtx_lbk_ctl_t;
+};
+typedef union bdk_dtx_lbk_ctl bdk_dtx_lbk_ctl_t;
 
 #define BDK_DTX_LBK_CTL BDK_DTX_LBK_CTL_FUNC()
 static inline uint64_t BDK_DTX_LBK_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3620,7 +3710,7 @@ static inline uint64_t BDK_DTX_LBK_CTL_FUNC(void)
  *
  * DTX LBK Raw Data Register
  */
-typedef union
+union bdk_dtx_lbk_datx
 {
     uint64_t u;
     struct bdk_dtx_lbk_datx_s
@@ -3636,7 +3726,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_lbk_datx_s cn; */
-} bdk_dtx_lbk_datx_t;
+};
+typedef union bdk_dtx_lbk_datx bdk_dtx_lbk_datx_t;
 
 static inline uint64_t BDK_DTX_LBK_DATX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_LBK_DATX(unsigned long a)
@@ -3659,7 +3750,7 @@ static inline uint64_t BDK_DTX_LBK_DATX(unsigned long a)
  *
  * DTX LBK Data Enable Register
  */
-typedef union
+union bdk_dtx_lbk_enax
 {
     uint64_t u;
     struct bdk_dtx_lbk_enax_s
@@ -3675,7 +3766,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_lbk_enax_s cn; */
-} bdk_dtx_lbk_enax_t;
+};
+typedef union bdk_dtx_lbk_enax bdk_dtx_lbk_enax_t;
 
 static inline uint64_t BDK_DTX_LBK_ENAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_LBK_ENAX(unsigned long a)
@@ -3698,7 +3790,7 @@ static inline uint64_t BDK_DTX_LBK_ENAX(unsigned long a)
  *
  * DTX LBK Select Register
  */
-typedef union
+union bdk_dtx_lbk_selx
 {
     uint64_t u;
     struct bdk_dtx_lbk_selx_s
@@ -3712,7 +3804,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_lbk_selx_s cn; */
-} bdk_dtx_lbk_selx_t;
+};
+typedef union bdk_dtx_lbk_selx bdk_dtx_lbk_selx_t;
 
 static inline uint64_t BDK_DTX_LBK_SELX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_LBK_SELX(unsigned long a)
@@ -3735,7 +3828,7 @@ static inline uint64_t BDK_DTX_LBK_SELX(unsigned long a)
  *
  * DTX LMC Control Register
  */
-typedef union
+union bdk_dtx_lmcx_bcst_rsp
 {
     uint64_t u;
     struct bdk_dtx_lmcx_bcst_rsp_s
@@ -3749,7 +3842,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_lmcx_bcst_rsp_s cn; */
-} bdk_dtx_lmcx_bcst_rsp_t;
+};
+typedef union bdk_dtx_lmcx_bcst_rsp bdk_dtx_lmcx_bcst_rsp_t;
 
 static inline uint64_t BDK_DTX_LMCX_BCST_RSP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_LMCX_BCST_RSP(unsigned long a)
@@ -3774,7 +3868,7 @@ static inline uint64_t BDK_DTX_LMCX_BCST_RSP(unsigned long a)
  *
  * DTX LMC Control Register
  */
-typedef union
+union bdk_dtx_lmcx_ctl
 {
     uint64_t u;
     struct bdk_dtx_lmcx_ctl_s
@@ -3798,7 +3892,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_lmcx_ctl_s cn; */
-} bdk_dtx_lmcx_ctl_t;
+};
+typedef union bdk_dtx_lmcx_ctl bdk_dtx_lmcx_ctl_t;
 
 static inline uint64_t BDK_DTX_LMCX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_LMCX_CTL(unsigned long a)
@@ -3823,7 +3918,7 @@ static inline uint64_t BDK_DTX_LMCX_CTL(unsigned long a)
  *
  * DTX LMC Raw Data Register
  */
-typedef union
+union bdk_dtx_lmcx_datx
 {
     uint64_t u;
     struct bdk_dtx_lmcx_datx_s
@@ -3839,7 +3934,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_lmcx_datx_s cn; */
-} bdk_dtx_lmcx_datx_t;
+};
+typedef union bdk_dtx_lmcx_datx bdk_dtx_lmcx_datx_t;
 
 static inline uint64_t BDK_DTX_LMCX_DATX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_LMCX_DATX(unsigned long a, unsigned long b)
@@ -3864,7 +3960,7 @@ static inline uint64_t BDK_DTX_LMCX_DATX(unsigned long a, unsigned long b)
  *
  * DTX LMC Data Enable Register
  */
-typedef union
+union bdk_dtx_lmcx_enax
 {
     uint64_t u;
     struct bdk_dtx_lmcx_enax_s
@@ -3880,7 +3976,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_lmcx_enax_s cn; */
-} bdk_dtx_lmcx_enax_t;
+};
+typedef union bdk_dtx_lmcx_enax bdk_dtx_lmcx_enax_t;
 
 static inline uint64_t BDK_DTX_LMCX_ENAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_LMCX_ENAX(unsigned long a, unsigned long b)
@@ -3905,7 +4002,7 @@ static inline uint64_t BDK_DTX_LMCX_ENAX(unsigned long a, unsigned long b)
  *
  * DTX LMC Select Register
  */
-typedef union
+union bdk_dtx_lmcx_selx
 {
     uint64_t u;
     struct bdk_dtx_lmcx_selx_s
@@ -3919,7 +4016,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_lmcx_selx_s cn; */
-} bdk_dtx_lmcx_selx_t;
+};
+typedef union bdk_dtx_lmcx_selx bdk_dtx_lmcx_selx_t;
 
 static inline uint64_t BDK_DTX_LMCX_SELX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_LMCX_SELX(unsigned long a, unsigned long b)
@@ -3944,7 +4042,7 @@ static inline uint64_t BDK_DTX_LMCX_SELX(unsigned long a, unsigned long b)
  *
  * DTX MIO Control Register
  */
-typedef union
+union bdk_dtx_mio_bcst_rsp
 {
     uint64_t u;
     struct bdk_dtx_mio_bcst_rsp_s
@@ -3958,7 +4056,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_mio_bcst_rsp_s cn; */
-} bdk_dtx_mio_bcst_rsp_t;
+};
+typedef union bdk_dtx_mio_bcst_rsp bdk_dtx_mio_bcst_rsp_t;
 
 #define BDK_DTX_MIO_BCST_RSP BDK_DTX_MIO_BCST_RSP_FUNC()
 static inline uint64_t BDK_DTX_MIO_BCST_RSP_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3978,7 +4077,7 @@ static inline uint64_t BDK_DTX_MIO_BCST_RSP_FUNC(void)
  *
  * DTX MIO Control Register
  */
-typedef union
+union bdk_dtx_mio_ctl
 {
     uint64_t u;
     struct bdk_dtx_mio_ctl_s
@@ -4002,7 +4101,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_mio_ctl_s cn; */
-} bdk_dtx_mio_ctl_t;
+};
+typedef union bdk_dtx_mio_ctl bdk_dtx_mio_ctl_t;
 
 #define BDK_DTX_MIO_CTL BDK_DTX_MIO_CTL_FUNC()
 static inline uint64_t BDK_DTX_MIO_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -4022,7 +4122,7 @@ static inline uint64_t BDK_DTX_MIO_CTL_FUNC(void)
  *
  * DTX MIO Raw Data Register
  */
-typedef union
+union bdk_dtx_mio_datx
 {
     uint64_t u;
     struct bdk_dtx_mio_datx_s
@@ -4038,7 +4138,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_mio_datx_s cn; */
-} bdk_dtx_mio_datx_t;
+};
+typedef union bdk_dtx_mio_datx bdk_dtx_mio_datx_t;
 
 static inline uint64_t BDK_DTX_MIO_DATX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_MIO_DATX(unsigned long a)
@@ -4059,7 +4160,7 @@ static inline uint64_t BDK_DTX_MIO_DATX(unsigned long a)
  *
  * DTX MIO Data Enable Register
  */
-typedef union
+union bdk_dtx_mio_enax
 {
     uint64_t u;
     struct bdk_dtx_mio_enax_s
@@ -4075,7 +4176,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_mio_enax_s cn; */
-} bdk_dtx_mio_enax_t;
+};
+typedef union bdk_dtx_mio_enax bdk_dtx_mio_enax_t;
 
 static inline uint64_t BDK_DTX_MIO_ENAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_MIO_ENAX(unsigned long a)
@@ -4096,7 +4198,7 @@ static inline uint64_t BDK_DTX_MIO_ENAX(unsigned long a)
  *
  * DTX MIO Select Register
  */
-typedef union
+union bdk_dtx_mio_selx
 {
     uint64_t u;
     struct bdk_dtx_mio_selx_s
@@ -4110,7 +4212,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_mio_selx_s cn; */
-} bdk_dtx_mio_selx_t;
+};
+typedef union bdk_dtx_mio_selx bdk_dtx_mio_selx_t;
 
 static inline uint64_t BDK_DTX_MIO_SELX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_MIO_SELX(unsigned long a)
@@ -4131,7 +4234,7 @@ static inline uint64_t BDK_DTX_MIO_SELX(unsigned long a)
  *
  * DTX MRML Control Register
  */
-typedef union
+union bdk_dtx_mrml_bcst_rsp
 {
     uint64_t u;
     struct bdk_dtx_mrml_bcst_rsp_s
@@ -4145,7 +4248,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_mrml_bcst_rsp_s cn; */
-} bdk_dtx_mrml_bcst_rsp_t;
+};
+typedef union bdk_dtx_mrml_bcst_rsp bdk_dtx_mrml_bcst_rsp_t;
 
 #define BDK_DTX_MRML_BCST_RSP BDK_DTX_MRML_BCST_RSP_FUNC()
 static inline uint64_t BDK_DTX_MRML_BCST_RSP_FUNC(void) __attribute__ ((pure, always_inline));
@@ -4165,7 +4269,7 @@ static inline uint64_t BDK_DTX_MRML_BCST_RSP_FUNC(void)
  *
  * DTX MRML Control Register
  */
-typedef union
+union bdk_dtx_mrml_ctl
 {
     uint64_t u;
     struct bdk_dtx_mrml_ctl_s
@@ -4189,7 +4293,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_mrml_ctl_s cn; */
-} bdk_dtx_mrml_ctl_t;
+};
+typedef union bdk_dtx_mrml_ctl bdk_dtx_mrml_ctl_t;
 
 #define BDK_DTX_MRML_CTL BDK_DTX_MRML_CTL_FUNC()
 static inline uint64_t BDK_DTX_MRML_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -4209,7 +4314,7 @@ static inline uint64_t BDK_DTX_MRML_CTL_FUNC(void)
  *
  * DTX MRML Raw Data Register
  */
-typedef union
+union bdk_dtx_mrml_datx
 {
     uint64_t u;
     struct bdk_dtx_mrml_datx_s
@@ -4225,7 +4330,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_mrml_datx_s cn; */
-} bdk_dtx_mrml_datx_t;
+};
+typedef union bdk_dtx_mrml_datx bdk_dtx_mrml_datx_t;
 
 static inline uint64_t BDK_DTX_MRML_DATX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_MRML_DATX(unsigned long a)
@@ -4246,7 +4352,7 @@ static inline uint64_t BDK_DTX_MRML_DATX(unsigned long a)
  *
  * DTX MRML Data Enable Register
  */
-typedef union
+union bdk_dtx_mrml_enax
 {
     uint64_t u;
     struct bdk_dtx_mrml_enax_s
@@ -4262,7 +4368,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_mrml_enax_s cn; */
-} bdk_dtx_mrml_enax_t;
+};
+typedef union bdk_dtx_mrml_enax bdk_dtx_mrml_enax_t;
 
 static inline uint64_t BDK_DTX_MRML_ENAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_MRML_ENAX(unsigned long a)
@@ -4283,7 +4390,7 @@ static inline uint64_t BDK_DTX_MRML_ENAX(unsigned long a)
  *
  * DTX MRML Select Register
  */
-typedef union
+union bdk_dtx_mrml_selx
 {
     uint64_t u;
     struct bdk_dtx_mrml_selx_s
@@ -4297,7 +4404,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_mrml_selx_s cn; */
-} bdk_dtx_mrml_selx_t;
+};
+typedef union bdk_dtx_mrml_selx bdk_dtx_mrml_selx_t;
 
 static inline uint64_t BDK_DTX_MRML_SELX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_MRML_SELX(unsigned long a)
@@ -4318,7 +4426,7 @@ static inline uint64_t BDK_DTX_MRML_SELX(unsigned long a)
  *
  * DTX NCSI Control Register
  */
-typedef union
+union bdk_dtx_ncsi_bcst_rsp
 {
     uint64_t u;
     struct bdk_dtx_ncsi_bcst_rsp_s
@@ -4332,7 +4440,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_ncsi_bcst_rsp_s cn; */
-} bdk_dtx_ncsi_bcst_rsp_t;
+};
+typedef union bdk_dtx_ncsi_bcst_rsp bdk_dtx_ncsi_bcst_rsp_t;
 
 #define BDK_DTX_NCSI_BCST_RSP BDK_DTX_NCSI_BCST_RSP_FUNC()
 static inline uint64_t BDK_DTX_NCSI_BCST_RSP_FUNC(void) __attribute__ ((pure, always_inline));
@@ -4356,7 +4465,7 @@ static inline uint64_t BDK_DTX_NCSI_BCST_RSP_FUNC(void)
  *
  * DTX NCSI Control Register
  */
-typedef union
+union bdk_dtx_ncsi_ctl
 {
     uint64_t u;
     struct bdk_dtx_ncsi_ctl_s
@@ -4380,7 +4489,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_ncsi_ctl_s cn; */
-} bdk_dtx_ncsi_ctl_t;
+};
+typedef union bdk_dtx_ncsi_ctl bdk_dtx_ncsi_ctl_t;
 
 #define BDK_DTX_NCSI_CTL BDK_DTX_NCSI_CTL_FUNC()
 static inline uint64_t BDK_DTX_NCSI_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -4404,7 +4514,7 @@ static inline uint64_t BDK_DTX_NCSI_CTL_FUNC(void)
  *
  * DTX NCSI Raw Data Register
  */
-typedef union
+union bdk_dtx_ncsi_datx
 {
     uint64_t u;
     struct bdk_dtx_ncsi_datx_s
@@ -4420,7 +4530,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_ncsi_datx_s cn; */
-} bdk_dtx_ncsi_datx_t;
+};
+typedef union bdk_dtx_ncsi_datx bdk_dtx_ncsi_datx_t;
 
 static inline uint64_t BDK_DTX_NCSI_DATX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_NCSI_DATX(unsigned long a)
@@ -4443,7 +4554,7 @@ static inline uint64_t BDK_DTX_NCSI_DATX(unsigned long a)
  *
  * DTX NCSI Data Enable Register
  */
-typedef union
+union bdk_dtx_ncsi_enax
 {
     uint64_t u;
     struct bdk_dtx_ncsi_enax_s
@@ -4459,7 +4570,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_ncsi_enax_s cn; */
-} bdk_dtx_ncsi_enax_t;
+};
+typedef union bdk_dtx_ncsi_enax bdk_dtx_ncsi_enax_t;
 
 static inline uint64_t BDK_DTX_NCSI_ENAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_NCSI_ENAX(unsigned long a)
@@ -4482,7 +4594,7 @@ static inline uint64_t BDK_DTX_NCSI_ENAX(unsigned long a)
  *
  * DTX NCSI Select Register
  */
-typedef union
+union bdk_dtx_ncsi_selx
 {
     uint64_t u;
     struct bdk_dtx_ncsi_selx_s
@@ -4496,7 +4608,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_ncsi_selx_s cn; */
-} bdk_dtx_ncsi_selx_t;
+};
+typedef union bdk_dtx_ncsi_selx bdk_dtx_ncsi_selx_t;
 
 static inline uint64_t BDK_DTX_NCSI_SELX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_NCSI_SELX(unsigned long a)
@@ -4519,7 +4632,7 @@ static inline uint64_t BDK_DTX_NCSI_SELX(unsigned long a)
  *
  * DTX NIC Control Register
  */
-typedef union
+union bdk_dtx_nic_bcst_rsp
 {
     uint64_t u;
     struct bdk_dtx_nic_bcst_rsp_s
@@ -4533,7 +4646,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_nic_bcst_rsp_s cn; */
-} bdk_dtx_nic_bcst_rsp_t;
+};
+typedef union bdk_dtx_nic_bcst_rsp bdk_dtx_nic_bcst_rsp_t;
 
 #define BDK_DTX_NIC_BCST_RSP BDK_DTX_NIC_BCST_RSP_FUNC()
 static inline uint64_t BDK_DTX_NIC_BCST_RSP_FUNC(void) __attribute__ ((pure, always_inline));
@@ -4553,7 +4667,7 @@ static inline uint64_t BDK_DTX_NIC_BCST_RSP_FUNC(void)
  *
  * DTX NIC Control Register
  */
-typedef union
+union bdk_dtx_nic_ctl
 {
     uint64_t u;
     struct bdk_dtx_nic_ctl_s
@@ -4577,7 +4691,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_nic_ctl_s cn; */
-} bdk_dtx_nic_ctl_t;
+};
+typedef union bdk_dtx_nic_ctl bdk_dtx_nic_ctl_t;
 
 #define BDK_DTX_NIC_CTL BDK_DTX_NIC_CTL_FUNC()
 static inline uint64_t BDK_DTX_NIC_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -4597,7 +4712,7 @@ static inline uint64_t BDK_DTX_NIC_CTL_FUNC(void)
  *
  * DTX NIC Raw Data Register
  */
-typedef union
+union bdk_dtx_nic_datx
 {
     uint64_t u;
     struct bdk_dtx_nic_datx_s
@@ -4613,7 +4728,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_nic_datx_s cn; */
-} bdk_dtx_nic_datx_t;
+};
+typedef union bdk_dtx_nic_datx bdk_dtx_nic_datx_t;
 
 static inline uint64_t BDK_DTX_NIC_DATX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_NIC_DATX(unsigned long a)
@@ -4634,7 +4750,7 @@ static inline uint64_t BDK_DTX_NIC_DATX(unsigned long a)
  *
  * DTX NIC Data Enable Register
  */
-typedef union
+union bdk_dtx_nic_enax
 {
     uint64_t u;
     struct bdk_dtx_nic_enax_s
@@ -4650,7 +4766,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_nic_enax_s cn; */
-} bdk_dtx_nic_enax_t;
+};
+typedef union bdk_dtx_nic_enax bdk_dtx_nic_enax_t;
 
 static inline uint64_t BDK_DTX_NIC_ENAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_NIC_ENAX(unsigned long a)
@@ -4671,7 +4788,7 @@ static inline uint64_t BDK_DTX_NIC_ENAX(unsigned long a)
  *
  * DTX NIC Select Register
  */
-typedef union
+union bdk_dtx_nic_selx
 {
     uint64_t u;
     struct bdk_dtx_nic_selx_s
@@ -4685,7 +4802,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_nic_selx_s cn; */
-} bdk_dtx_nic_selx_t;
+};
+typedef union bdk_dtx_nic_selx bdk_dtx_nic_selx_t;
 
 static inline uint64_t BDK_DTX_NIC_SELX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_NIC_SELX(unsigned long a)
@@ -4706,7 +4824,7 @@ static inline uint64_t BDK_DTX_NIC_SELX(unsigned long a)
  *
  * INTERNAL: DTX OCX_BOT Control Register
  */
-typedef union
+union bdk_dtx_ocx_bot_bcst_rsp
 {
     uint64_t u;
     struct bdk_dtx_ocx_bot_bcst_rsp_s
@@ -4720,7 +4838,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_ocx_bot_bcst_rsp_s cn; */
-} bdk_dtx_ocx_bot_bcst_rsp_t;
+};
+typedef union bdk_dtx_ocx_bot_bcst_rsp bdk_dtx_ocx_bot_bcst_rsp_t;
 
 #define BDK_DTX_OCX_BOT_BCST_RSP BDK_DTX_OCX_BOT_BCST_RSP_FUNC()
 static inline uint64_t BDK_DTX_OCX_BOT_BCST_RSP_FUNC(void) __attribute__ ((pure, always_inline));
@@ -4742,7 +4861,7 @@ static inline uint64_t BDK_DTX_OCX_BOT_BCST_RSP_FUNC(void)
  *
  * INTERNAL: DTX OCX_BOT Control Register
  */
-typedef union
+union bdk_dtx_ocx_bot_ctl
 {
     uint64_t u;
     struct bdk_dtx_ocx_bot_ctl_s
@@ -4766,7 +4885,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_ocx_bot_ctl_s cn; */
-} bdk_dtx_ocx_bot_ctl_t;
+};
+typedef union bdk_dtx_ocx_bot_ctl bdk_dtx_ocx_bot_ctl_t;
 
 #define BDK_DTX_OCX_BOT_CTL BDK_DTX_OCX_BOT_CTL_FUNC()
 static inline uint64_t BDK_DTX_OCX_BOT_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -4788,7 +4908,7 @@ static inline uint64_t BDK_DTX_OCX_BOT_CTL_FUNC(void)
  *
  * INTERNAL: DTX OCX_BOT Raw Data Register
  */
-typedef union
+union bdk_dtx_ocx_bot_datx
 {
     uint64_t u;
     struct bdk_dtx_ocx_bot_datx_s
@@ -4804,7 +4924,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_ocx_bot_datx_s cn; */
-} bdk_dtx_ocx_bot_datx_t;
+};
+typedef union bdk_dtx_ocx_bot_datx bdk_dtx_ocx_bot_datx_t;
 
 static inline uint64_t BDK_DTX_OCX_BOT_DATX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_OCX_BOT_DATX(unsigned long a)
@@ -4825,7 +4946,7 @@ static inline uint64_t BDK_DTX_OCX_BOT_DATX(unsigned long a)
  *
  * INTERNAL: DTX OCX_BOT Data Enable Register
  */
-typedef union
+union bdk_dtx_ocx_bot_enax
 {
     uint64_t u;
     struct bdk_dtx_ocx_bot_enax_s
@@ -4841,7 +4962,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_ocx_bot_enax_s cn; */
-} bdk_dtx_ocx_bot_enax_t;
+};
+typedef union bdk_dtx_ocx_bot_enax bdk_dtx_ocx_bot_enax_t;
 
 static inline uint64_t BDK_DTX_OCX_BOT_ENAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_OCX_BOT_ENAX(unsigned long a)
@@ -4862,7 +4984,7 @@ static inline uint64_t BDK_DTX_OCX_BOT_ENAX(unsigned long a)
  *
  * INTERNAL: DTX OCX_BOT Select Register
  */
-typedef union
+union bdk_dtx_ocx_bot_selx
 {
     uint64_t u;
     struct bdk_dtx_ocx_bot_selx_s
@@ -4876,7 +4998,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_ocx_bot_selx_s cn; */
-} bdk_dtx_ocx_bot_selx_t;
+};
+typedef union bdk_dtx_ocx_bot_selx bdk_dtx_ocx_bot_selx_t;
 
 static inline uint64_t BDK_DTX_OCX_BOT_SELX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_OCX_BOT_SELX(unsigned long a)
@@ -4897,7 +5020,7 @@ static inline uint64_t BDK_DTX_OCX_BOT_SELX(unsigned long a)
  *
  * DTX OCX_LNK Control Register
  */
-typedef union
+union bdk_dtx_ocx_lnkx_bcst_rsp
 {
     uint64_t u;
     struct bdk_dtx_ocx_lnkx_bcst_rsp_s
@@ -4911,7 +5034,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_ocx_lnkx_bcst_rsp_s cn; */
-} bdk_dtx_ocx_lnkx_bcst_rsp_t;
+};
+typedef union bdk_dtx_ocx_lnkx_bcst_rsp bdk_dtx_ocx_lnkx_bcst_rsp_t;
 
 static inline uint64_t BDK_DTX_OCX_LNKX_BCST_RSP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_OCX_LNKX_BCST_RSP(unsigned long a)
@@ -4932,7 +5056,7 @@ static inline uint64_t BDK_DTX_OCX_LNKX_BCST_RSP(unsigned long a)
  *
  * DTX OCX_LNK Control Register
  */
-typedef union
+union bdk_dtx_ocx_lnkx_ctl
 {
     uint64_t u;
     struct bdk_dtx_ocx_lnkx_ctl_s
@@ -4956,7 +5080,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_ocx_lnkx_ctl_s cn; */
-} bdk_dtx_ocx_lnkx_ctl_t;
+};
+typedef union bdk_dtx_ocx_lnkx_ctl bdk_dtx_ocx_lnkx_ctl_t;
 
 static inline uint64_t BDK_DTX_OCX_LNKX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_OCX_LNKX_CTL(unsigned long a)
@@ -4977,7 +5102,7 @@ static inline uint64_t BDK_DTX_OCX_LNKX_CTL(unsigned long a)
  *
  * DTX OCX_LNK Raw Data Register
  */
-typedef union
+union bdk_dtx_ocx_lnkx_datx
 {
     uint64_t u;
     struct bdk_dtx_ocx_lnkx_datx_s
@@ -4993,7 +5118,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_ocx_lnkx_datx_s cn; */
-} bdk_dtx_ocx_lnkx_datx_t;
+};
+typedef union bdk_dtx_ocx_lnkx_datx bdk_dtx_ocx_lnkx_datx_t;
 
 static inline uint64_t BDK_DTX_OCX_LNKX_DATX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_OCX_LNKX_DATX(unsigned long a, unsigned long b)
@@ -5014,7 +5140,7 @@ static inline uint64_t BDK_DTX_OCX_LNKX_DATX(unsigned long a, unsigned long b)
  *
  * DTX OCX_LNK Data Enable Register
  */
-typedef union
+union bdk_dtx_ocx_lnkx_enax
 {
     uint64_t u;
     struct bdk_dtx_ocx_lnkx_enax_s
@@ -5030,7 +5156,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_ocx_lnkx_enax_s cn; */
-} bdk_dtx_ocx_lnkx_enax_t;
+};
+typedef union bdk_dtx_ocx_lnkx_enax bdk_dtx_ocx_lnkx_enax_t;
 
 static inline uint64_t BDK_DTX_OCX_LNKX_ENAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_OCX_LNKX_ENAX(unsigned long a, unsigned long b)
@@ -5051,7 +5178,7 @@ static inline uint64_t BDK_DTX_OCX_LNKX_ENAX(unsigned long a, unsigned long b)
  *
  * DTX OCX_LNK Select Register
  */
-typedef union
+union bdk_dtx_ocx_lnkx_selx
 {
     uint64_t u;
     struct bdk_dtx_ocx_lnkx_selx_s
@@ -5065,7 +5192,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_ocx_lnkx_selx_s cn; */
-} bdk_dtx_ocx_lnkx_selx_t;
+};
+typedef union bdk_dtx_ocx_lnkx_selx bdk_dtx_ocx_lnkx_selx_t;
 
 static inline uint64_t BDK_DTX_OCX_LNKX_SELX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_OCX_LNKX_SELX(unsigned long a, unsigned long b)
@@ -5086,7 +5214,7 @@ static inline uint64_t BDK_DTX_OCX_LNKX_SELX(unsigned long a, unsigned long b)
  *
  * DTX OCX_OLE Control Register
  */
-typedef union
+union bdk_dtx_ocx_olex_bcst_rsp
 {
     uint64_t u;
     struct bdk_dtx_ocx_olex_bcst_rsp_s
@@ -5100,7 +5228,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_ocx_olex_bcst_rsp_s cn; */
-} bdk_dtx_ocx_olex_bcst_rsp_t;
+};
+typedef union bdk_dtx_ocx_olex_bcst_rsp bdk_dtx_ocx_olex_bcst_rsp_t;
 
 static inline uint64_t BDK_DTX_OCX_OLEX_BCST_RSP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_OCX_OLEX_BCST_RSP(unsigned long a)
@@ -5121,7 +5250,7 @@ static inline uint64_t BDK_DTX_OCX_OLEX_BCST_RSP(unsigned long a)
  *
  * DTX OCX_OLE Control Register
  */
-typedef union
+union bdk_dtx_ocx_olex_ctl
 {
     uint64_t u;
     struct bdk_dtx_ocx_olex_ctl_s
@@ -5145,7 +5274,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_ocx_olex_ctl_s cn; */
-} bdk_dtx_ocx_olex_ctl_t;
+};
+typedef union bdk_dtx_ocx_olex_ctl bdk_dtx_ocx_olex_ctl_t;
 
 static inline uint64_t BDK_DTX_OCX_OLEX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_OCX_OLEX_CTL(unsigned long a)
@@ -5166,7 +5296,7 @@ static inline uint64_t BDK_DTX_OCX_OLEX_CTL(unsigned long a)
  *
  * DTX OCX_OLE Raw Data Register
  */
-typedef union
+union bdk_dtx_ocx_olex_datx
 {
     uint64_t u;
     struct bdk_dtx_ocx_olex_datx_s
@@ -5182,7 +5312,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_ocx_olex_datx_s cn; */
-} bdk_dtx_ocx_olex_datx_t;
+};
+typedef union bdk_dtx_ocx_olex_datx bdk_dtx_ocx_olex_datx_t;
 
 static inline uint64_t BDK_DTX_OCX_OLEX_DATX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_OCX_OLEX_DATX(unsigned long a, unsigned long b)
@@ -5203,7 +5334,7 @@ static inline uint64_t BDK_DTX_OCX_OLEX_DATX(unsigned long a, unsigned long b)
  *
  * DTX OCX_OLE Data Enable Register
  */
-typedef union
+union bdk_dtx_ocx_olex_enax
 {
     uint64_t u;
     struct bdk_dtx_ocx_olex_enax_s
@@ -5219,7 +5350,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_ocx_olex_enax_s cn; */
-} bdk_dtx_ocx_olex_enax_t;
+};
+typedef union bdk_dtx_ocx_olex_enax bdk_dtx_ocx_olex_enax_t;
 
 static inline uint64_t BDK_DTX_OCX_OLEX_ENAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_OCX_OLEX_ENAX(unsigned long a, unsigned long b)
@@ -5240,7 +5372,7 @@ static inline uint64_t BDK_DTX_OCX_OLEX_ENAX(unsigned long a, unsigned long b)
  *
  * DTX OCX_OLE Select Register
  */
-typedef union
+union bdk_dtx_ocx_olex_selx
 {
     uint64_t u;
     struct bdk_dtx_ocx_olex_selx_s
@@ -5254,7 +5386,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_ocx_olex_selx_s cn; */
-} bdk_dtx_ocx_olex_selx_t;
+};
+typedef union bdk_dtx_ocx_olex_selx bdk_dtx_ocx_olex_selx_t;
 
 static inline uint64_t BDK_DTX_OCX_OLEX_SELX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_OCX_OLEX_SELX(unsigned long a, unsigned long b)
@@ -5275,7 +5408,7 @@ static inline uint64_t BDK_DTX_OCX_OLEX_SELX(unsigned long a, unsigned long b)
  *
  * DTX OCX_TOP Control Register
  */
-typedef union
+union bdk_dtx_ocx_top_bcst_rsp
 {
     uint64_t u;
     struct bdk_dtx_ocx_top_bcst_rsp_s
@@ -5289,7 +5422,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_ocx_top_bcst_rsp_s cn; */
-} bdk_dtx_ocx_top_bcst_rsp_t;
+};
+typedef union bdk_dtx_ocx_top_bcst_rsp bdk_dtx_ocx_top_bcst_rsp_t;
 
 #define BDK_DTX_OCX_TOP_BCST_RSP BDK_DTX_OCX_TOP_BCST_RSP_FUNC()
 static inline uint64_t BDK_DTX_OCX_TOP_BCST_RSP_FUNC(void) __attribute__ ((pure, always_inline));
@@ -5311,7 +5445,7 @@ static inline uint64_t BDK_DTX_OCX_TOP_BCST_RSP_FUNC(void)
  *
  * DTX OCX_TOP Control Register
  */
-typedef union
+union bdk_dtx_ocx_top_ctl
 {
     uint64_t u;
     struct bdk_dtx_ocx_top_ctl_s
@@ -5335,7 +5469,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_ocx_top_ctl_s cn; */
-} bdk_dtx_ocx_top_ctl_t;
+};
+typedef union bdk_dtx_ocx_top_ctl bdk_dtx_ocx_top_ctl_t;
 
 #define BDK_DTX_OCX_TOP_CTL BDK_DTX_OCX_TOP_CTL_FUNC()
 static inline uint64_t BDK_DTX_OCX_TOP_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -5357,7 +5492,7 @@ static inline uint64_t BDK_DTX_OCX_TOP_CTL_FUNC(void)
  *
  * DTX OCX_TOP Raw Data Register
  */
-typedef union
+union bdk_dtx_ocx_top_datx
 {
     uint64_t u;
     struct bdk_dtx_ocx_top_datx_s
@@ -5373,7 +5508,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_ocx_top_datx_s cn; */
-} bdk_dtx_ocx_top_datx_t;
+};
+typedef union bdk_dtx_ocx_top_datx bdk_dtx_ocx_top_datx_t;
 
 static inline uint64_t BDK_DTX_OCX_TOP_DATX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_OCX_TOP_DATX(unsigned long a)
@@ -5394,7 +5530,7 @@ static inline uint64_t BDK_DTX_OCX_TOP_DATX(unsigned long a)
  *
  * DTX OCX_TOP Data Enable Register
  */
-typedef union
+union bdk_dtx_ocx_top_enax
 {
     uint64_t u;
     struct bdk_dtx_ocx_top_enax_s
@@ -5410,7 +5546,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_ocx_top_enax_s cn; */
-} bdk_dtx_ocx_top_enax_t;
+};
+typedef union bdk_dtx_ocx_top_enax bdk_dtx_ocx_top_enax_t;
 
 static inline uint64_t BDK_DTX_OCX_TOP_ENAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_OCX_TOP_ENAX(unsigned long a)
@@ -5431,7 +5568,7 @@ static inline uint64_t BDK_DTX_OCX_TOP_ENAX(unsigned long a)
  *
  * DTX OCX_TOP Select Register
  */
-typedef union
+union bdk_dtx_ocx_top_selx
 {
     uint64_t u;
     struct bdk_dtx_ocx_top_selx_s
@@ -5445,7 +5582,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_ocx_top_selx_s cn; */
-} bdk_dtx_ocx_top_selx_t;
+};
+typedef union bdk_dtx_ocx_top_selx bdk_dtx_ocx_top_selx_t;
 
 static inline uint64_t BDK_DTX_OCX_TOP_SELX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_OCX_TOP_SELX(unsigned long a)
@@ -5466,7 +5604,7 @@ static inline uint64_t BDK_DTX_OCX_TOP_SELX(unsigned long a)
  *
  * DTX PEM Control Register
  */
-typedef union
+union bdk_dtx_pemx_bcst_rsp
 {
     uint64_t u;
     struct bdk_dtx_pemx_bcst_rsp_s
@@ -5480,7 +5618,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_pemx_bcst_rsp_s cn; */
-} bdk_dtx_pemx_bcst_rsp_t;
+};
+typedef union bdk_dtx_pemx_bcst_rsp bdk_dtx_pemx_bcst_rsp_t;
 
 static inline uint64_t BDK_DTX_PEMX_BCST_RSP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_PEMX_BCST_RSP(unsigned long a)
@@ -5505,7 +5644,7 @@ static inline uint64_t BDK_DTX_PEMX_BCST_RSP(unsigned long a)
  *
  * DTX PEM Control Register
  */
-typedef union
+union bdk_dtx_pemx_ctl
 {
     uint64_t u;
     struct bdk_dtx_pemx_ctl_s
@@ -5529,7 +5668,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_pemx_ctl_s cn; */
-} bdk_dtx_pemx_ctl_t;
+};
+typedef union bdk_dtx_pemx_ctl bdk_dtx_pemx_ctl_t;
 
 static inline uint64_t BDK_DTX_PEMX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_PEMX_CTL(unsigned long a)
@@ -5554,7 +5694,7 @@ static inline uint64_t BDK_DTX_PEMX_CTL(unsigned long a)
  *
  * DTX PEM Raw Data Register
  */
-typedef union
+union bdk_dtx_pemx_datx
 {
     uint64_t u;
     struct bdk_dtx_pemx_datx_s
@@ -5570,7 +5710,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_pemx_datx_s cn; */
-} bdk_dtx_pemx_datx_t;
+};
+typedef union bdk_dtx_pemx_datx bdk_dtx_pemx_datx_t;
 
 static inline uint64_t BDK_DTX_PEMX_DATX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_PEMX_DATX(unsigned long a, unsigned long b)
@@ -5595,7 +5736,7 @@ static inline uint64_t BDK_DTX_PEMX_DATX(unsigned long a, unsigned long b)
  *
  * DTX PEM Data Enable Register
  */
-typedef union
+union bdk_dtx_pemx_enax
 {
     uint64_t u;
     struct bdk_dtx_pemx_enax_s
@@ -5611,7 +5752,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_pemx_enax_s cn; */
-} bdk_dtx_pemx_enax_t;
+};
+typedef union bdk_dtx_pemx_enax bdk_dtx_pemx_enax_t;
 
 static inline uint64_t BDK_DTX_PEMX_ENAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_PEMX_ENAX(unsigned long a, unsigned long b)
@@ -5636,7 +5778,7 @@ static inline uint64_t BDK_DTX_PEMX_ENAX(unsigned long a, unsigned long b)
  *
  * DTX PEM Select Register
  */
-typedef union
+union bdk_dtx_pemx_selx
 {
     uint64_t u;
     struct bdk_dtx_pemx_selx_s
@@ -5650,7 +5792,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_pemx_selx_s cn; */
-} bdk_dtx_pemx_selx_t;
+};
+typedef union bdk_dtx_pemx_selx bdk_dtx_pemx_selx_t;
 
 static inline uint64_t BDK_DTX_PEMX_SELX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_PEMX_SELX(unsigned long a, unsigned long b)
@@ -5675,7 +5818,7 @@ static inline uint64_t BDK_DTX_PEMX_SELX(unsigned long a, unsigned long b)
  *
  * DTX PKI Control Register
  */
-typedef union
+union bdk_dtx_pki_bcst_rsp
 {
     uint64_t u;
     struct bdk_dtx_pki_bcst_rsp_s
@@ -5689,7 +5832,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_pki_bcst_rsp_s cn; */
-} bdk_dtx_pki_bcst_rsp_t;
+};
+typedef union bdk_dtx_pki_bcst_rsp bdk_dtx_pki_bcst_rsp_t;
 
 #define BDK_DTX_PKI_BCST_RSP BDK_DTX_PKI_BCST_RSP_FUNC()
 static inline uint64_t BDK_DTX_PKI_BCST_RSP_FUNC(void) __attribute__ ((pure, always_inline));
@@ -5711,7 +5855,7 @@ static inline uint64_t BDK_DTX_PKI_BCST_RSP_FUNC(void)
  *
  * DTX PKI Control Register
  */
-typedef union
+union bdk_dtx_pki_ctl
 {
     uint64_t u;
     struct bdk_dtx_pki_ctl_s
@@ -5735,7 +5879,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_pki_ctl_s cn; */
-} bdk_dtx_pki_ctl_t;
+};
+typedef union bdk_dtx_pki_ctl bdk_dtx_pki_ctl_t;
 
 #define BDK_DTX_PKI_CTL BDK_DTX_PKI_CTL_FUNC()
 static inline uint64_t BDK_DTX_PKI_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -5757,7 +5902,7 @@ static inline uint64_t BDK_DTX_PKI_CTL_FUNC(void)
  *
  * DTX PKI Raw Data Register
  */
-typedef union
+union bdk_dtx_pki_datx
 {
     uint64_t u;
     struct bdk_dtx_pki_datx_s
@@ -5773,7 +5918,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_pki_datx_s cn; */
-} bdk_dtx_pki_datx_t;
+};
+typedef union bdk_dtx_pki_datx bdk_dtx_pki_datx_t;
 
 static inline uint64_t BDK_DTX_PKI_DATX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_PKI_DATX(unsigned long a)
@@ -5794,7 +5940,7 @@ static inline uint64_t BDK_DTX_PKI_DATX(unsigned long a)
  *
  * DTX PKI Data Enable Register
  */
-typedef union
+union bdk_dtx_pki_enax
 {
     uint64_t u;
     struct bdk_dtx_pki_enax_s
@@ -5810,7 +5956,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_pki_enax_s cn; */
-} bdk_dtx_pki_enax_t;
+};
+typedef union bdk_dtx_pki_enax bdk_dtx_pki_enax_t;
 
 static inline uint64_t BDK_DTX_PKI_ENAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_PKI_ENAX(unsigned long a)
@@ -5831,7 +5978,7 @@ static inline uint64_t BDK_DTX_PKI_ENAX(unsigned long a)
  *
  * DTX PKI Select Register
  */
-typedef union
+union bdk_dtx_pki_selx
 {
     uint64_t u;
     struct bdk_dtx_pki_selx_s
@@ -5845,7 +5992,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_pki_selx_s cn; */
-} bdk_dtx_pki_selx_t;
+};
+typedef union bdk_dtx_pki_selx bdk_dtx_pki_selx_t;
 
 static inline uint64_t BDK_DTX_PKI_SELX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_PKI_SELX(unsigned long a)
@@ -5866,7 +6014,7 @@ static inline uint64_t BDK_DTX_PKI_SELX(unsigned long a)
  *
  * DTX PKO Control Register
  */
-typedef union
+union bdk_dtx_pko_bcst_rsp
 {
     uint64_t u;
     struct bdk_dtx_pko_bcst_rsp_s
@@ -5880,7 +6028,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_pko_bcst_rsp_s cn; */
-} bdk_dtx_pko_bcst_rsp_t;
+};
+typedef union bdk_dtx_pko_bcst_rsp bdk_dtx_pko_bcst_rsp_t;
 
 #define BDK_DTX_PKO_BCST_RSP BDK_DTX_PKO_BCST_RSP_FUNC()
 static inline uint64_t BDK_DTX_PKO_BCST_RSP_FUNC(void) __attribute__ ((pure, always_inline));
@@ -5902,7 +6051,7 @@ static inline uint64_t BDK_DTX_PKO_BCST_RSP_FUNC(void)
  *
  * DTX PKO Control Register
  */
-typedef union
+union bdk_dtx_pko_ctl
 {
     uint64_t u;
     struct bdk_dtx_pko_ctl_s
@@ -5926,7 +6075,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_pko_ctl_s cn; */
-} bdk_dtx_pko_ctl_t;
+};
+typedef union bdk_dtx_pko_ctl bdk_dtx_pko_ctl_t;
 
 #define BDK_DTX_PKO_CTL BDK_DTX_PKO_CTL_FUNC()
 static inline uint64_t BDK_DTX_PKO_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -5948,7 +6098,7 @@ static inline uint64_t BDK_DTX_PKO_CTL_FUNC(void)
  *
  * DTX PKO Raw Data Register
  */
-typedef union
+union bdk_dtx_pko_datx
 {
     uint64_t u;
     struct bdk_dtx_pko_datx_s
@@ -5964,7 +6114,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_pko_datx_s cn; */
-} bdk_dtx_pko_datx_t;
+};
+typedef union bdk_dtx_pko_datx bdk_dtx_pko_datx_t;
 
 static inline uint64_t BDK_DTX_PKO_DATX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_PKO_DATX(unsigned long a)
@@ -5985,7 +6136,7 @@ static inline uint64_t BDK_DTX_PKO_DATX(unsigned long a)
  *
  * DTX PKO Data Enable Register
  */
-typedef union
+union bdk_dtx_pko_enax
 {
     uint64_t u;
     struct bdk_dtx_pko_enax_s
@@ -6001,7 +6152,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_pko_enax_s cn; */
-} bdk_dtx_pko_enax_t;
+};
+typedef union bdk_dtx_pko_enax bdk_dtx_pko_enax_t;
 
 static inline uint64_t BDK_DTX_PKO_ENAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_PKO_ENAX(unsigned long a)
@@ -6022,7 +6174,7 @@ static inline uint64_t BDK_DTX_PKO_ENAX(unsigned long a)
  *
  * DTX PKO Select Register
  */
-typedef union
+union bdk_dtx_pko_selx
 {
     uint64_t u;
     struct bdk_dtx_pko_selx_s
@@ -6036,7 +6188,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_pko_selx_s cn; */
-} bdk_dtx_pko_selx_t;
+};
+typedef union bdk_dtx_pko_selx bdk_dtx_pko_selx_t;
 
 static inline uint64_t BDK_DTX_PKO_SELX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_PKO_SELX(unsigned long a)
@@ -6057,7 +6210,7 @@ static inline uint64_t BDK_DTX_PKO_SELX(unsigned long a)
  *
  * DTX RAD Control Register
  */
-typedef union
+union bdk_dtx_rad_bcst_rsp
 {
     uint64_t u;
     struct bdk_dtx_rad_bcst_rsp_s
@@ -6071,7 +6224,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_rad_bcst_rsp_s cn; */
-} bdk_dtx_rad_bcst_rsp_t;
+};
+typedef union bdk_dtx_rad_bcst_rsp bdk_dtx_rad_bcst_rsp_t;
 
 #define BDK_DTX_RAD_BCST_RSP BDK_DTX_RAD_BCST_RSP_FUNC()
 static inline uint64_t BDK_DTX_RAD_BCST_RSP_FUNC(void) __attribute__ ((pure, always_inline));
@@ -6095,7 +6249,7 @@ static inline uint64_t BDK_DTX_RAD_BCST_RSP_FUNC(void)
  *
  * DTX RAD Control Register
  */
-typedef union
+union bdk_dtx_rad_ctl
 {
     uint64_t u;
     struct bdk_dtx_rad_ctl_s
@@ -6119,7 +6273,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_rad_ctl_s cn; */
-} bdk_dtx_rad_ctl_t;
+};
+typedef union bdk_dtx_rad_ctl bdk_dtx_rad_ctl_t;
 
 #define BDK_DTX_RAD_CTL BDK_DTX_RAD_CTL_FUNC()
 static inline uint64_t BDK_DTX_RAD_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -6143,7 +6298,7 @@ static inline uint64_t BDK_DTX_RAD_CTL_FUNC(void)
  *
  * DTX RAD Raw Data Register
  */
-typedef union
+union bdk_dtx_rad_datx
 {
     uint64_t u;
     struct bdk_dtx_rad_datx_s
@@ -6159,7 +6314,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_rad_datx_s cn; */
-} bdk_dtx_rad_datx_t;
+};
+typedef union bdk_dtx_rad_datx bdk_dtx_rad_datx_t;
 
 static inline uint64_t BDK_DTX_RAD_DATX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_RAD_DATX(unsigned long a)
@@ -6182,7 +6338,7 @@ static inline uint64_t BDK_DTX_RAD_DATX(unsigned long a)
  *
  * DTX RAD Data Enable Register
  */
-typedef union
+union bdk_dtx_rad_enax
 {
     uint64_t u;
     struct bdk_dtx_rad_enax_s
@@ -6198,7 +6354,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_rad_enax_s cn; */
-} bdk_dtx_rad_enax_t;
+};
+typedef union bdk_dtx_rad_enax bdk_dtx_rad_enax_t;
 
 static inline uint64_t BDK_DTX_RAD_ENAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_RAD_ENAX(unsigned long a)
@@ -6221,7 +6378,7 @@ static inline uint64_t BDK_DTX_RAD_ENAX(unsigned long a)
  *
  * DTX RAD Select Register
  */
-typedef union
+union bdk_dtx_rad_selx
 {
     uint64_t u;
     struct bdk_dtx_rad_selx_s
@@ -6235,7 +6392,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_rad_selx_s cn; */
-} bdk_dtx_rad_selx_t;
+};
+typedef union bdk_dtx_rad_selx bdk_dtx_rad_selx_t;
 
 static inline uint64_t BDK_DTX_RAD_SELX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_RAD_SELX(unsigned long a)
@@ -6258,7 +6416,7 @@ static inline uint64_t BDK_DTX_RAD_SELX(unsigned long a)
  *
  * DTX RGX Control Register
  */
-typedef union
+union bdk_dtx_rgxx_bcst_rsp
 {
     uint64_t u;
     struct bdk_dtx_rgxx_bcst_rsp_s
@@ -6272,7 +6430,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_rgxx_bcst_rsp_s cn; */
-} bdk_dtx_rgxx_bcst_rsp_t;
+};
+typedef union bdk_dtx_rgxx_bcst_rsp bdk_dtx_rgxx_bcst_rsp_t;
 
 static inline uint64_t BDK_DTX_RGXX_BCST_RSP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_RGXX_BCST_RSP(unsigned long a)
@@ -6293,7 +6452,7 @@ static inline uint64_t BDK_DTX_RGXX_BCST_RSP(unsigned long a)
  *
  * DTX RGX Control Register
  */
-typedef union
+union bdk_dtx_rgxx_ctl
 {
     uint64_t u;
     struct bdk_dtx_rgxx_ctl_s
@@ -6317,7 +6476,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_rgxx_ctl_s cn; */
-} bdk_dtx_rgxx_ctl_t;
+};
+typedef union bdk_dtx_rgxx_ctl bdk_dtx_rgxx_ctl_t;
 
 static inline uint64_t BDK_DTX_RGXX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_RGXX_CTL(unsigned long a)
@@ -6338,7 +6498,7 @@ static inline uint64_t BDK_DTX_RGXX_CTL(unsigned long a)
  *
  * DTX RGX Raw Data Register
  */
-typedef union
+union bdk_dtx_rgxx_datx
 {
     uint64_t u;
     struct bdk_dtx_rgxx_datx_s
@@ -6354,7 +6514,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_rgxx_datx_s cn; */
-} bdk_dtx_rgxx_datx_t;
+};
+typedef union bdk_dtx_rgxx_datx bdk_dtx_rgxx_datx_t;
 
 static inline uint64_t BDK_DTX_RGXX_DATX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_RGXX_DATX(unsigned long a, unsigned long b)
@@ -6375,7 +6536,7 @@ static inline uint64_t BDK_DTX_RGXX_DATX(unsigned long a, unsigned long b)
  *
  * DTX RGX Data Enable Register
  */
-typedef union
+union bdk_dtx_rgxx_enax
 {
     uint64_t u;
     struct bdk_dtx_rgxx_enax_s
@@ -6391,7 +6552,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_rgxx_enax_s cn; */
-} bdk_dtx_rgxx_enax_t;
+};
+typedef union bdk_dtx_rgxx_enax bdk_dtx_rgxx_enax_t;
 
 static inline uint64_t BDK_DTX_RGXX_ENAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_RGXX_ENAX(unsigned long a, unsigned long b)
@@ -6412,7 +6574,7 @@ static inline uint64_t BDK_DTX_RGXX_ENAX(unsigned long a, unsigned long b)
  *
  * DTX RGX Select Register
  */
-typedef union
+union bdk_dtx_rgxx_selx
 {
     uint64_t u;
     struct bdk_dtx_rgxx_selx_s
@@ -6426,7 +6588,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_rgxx_selx_s cn; */
-} bdk_dtx_rgxx_selx_t;
+};
+typedef union bdk_dtx_rgxx_selx bdk_dtx_rgxx_selx_t;
 
 static inline uint64_t BDK_DTX_RGXX_SELX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_RGXX_SELX(unsigned long a, unsigned long b)
@@ -6447,7 +6610,7 @@ static inline uint64_t BDK_DTX_RGXX_SELX(unsigned long a, unsigned long b)
  *
  * DTX RNM Control Register
  */
-typedef union
+union bdk_dtx_rnm_bcst_rsp
 {
     uint64_t u;
     struct bdk_dtx_rnm_bcst_rsp_s
@@ -6461,7 +6624,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_rnm_bcst_rsp_s cn; */
-} bdk_dtx_rnm_bcst_rsp_t;
+};
+typedef union bdk_dtx_rnm_bcst_rsp bdk_dtx_rnm_bcst_rsp_t;
 
 #define BDK_DTX_RNM_BCST_RSP BDK_DTX_RNM_BCST_RSP_FUNC()
 static inline uint64_t BDK_DTX_RNM_BCST_RSP_FUNC(void) __attribute__ ((pure, always_inline));
@@ -6481,7 +6645,7 @@ static inline uint64_t BDK_DTX_RNM_BCST_RSP_FUNC(void)
  *
  * DTX RNM Control Register
  */
-typedef union
+union bdk_dtx_rnm_ctl
 {
     uint64_t u;
     struct bdk_dtx_rnm_ctl_s
@@ -6505,7 +6669,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_rnm_ctl_s cn; */
-} bdk_dtx_rnm_ctl_t;
+};
+typedef union bdk_dtx_rnm_ctl bdk_dtx_rnm_ctl_t;
 
 #define BDK_DTX_RNM_CTL BDK_DTX_RNM_CTL_FUNC()
 static inline uint64_t BDK_DTX_RNM_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -6525,7 +6690,7 @@ static inline uint64_t BDK_DTX_RNM_CTL_FUNC(void)
  *
  * DTX RNM Raw Data Register
  */
-typedef union
+union bdk_dtx_rnm_datx
 {
     uint64_t u;
     struct bdk_dtx_rnm_datx_s
@@ -6541,7 +6706,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_rnm_datx_s cn; */
-} bdk_dtx_rnm_datx_t;
+};
+typedef union bdk_dtx_rnm_datx bdk_dtx_rnm_datx_t;
 
 static inline uint64_t BDK_DTX_RNM_DATX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_RNM_DATX(unsigned long a)
@@ -6562,7 +6728,7 @@ static inline uint64_t BDK_DTX_RNM_DATX(unsigned long a)
  *
  * DTX RNM Data Enable Register
  */
-typedef union
+union bdk_dtx_rnm_enax
 {
     uint64_t u;
     struct bdk_dtx_rnm_enax_s
@@ -6578,7 +6744,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_rnm_enax_s cn; */
-} bdk_dtx_rnm_enax_t;
+};
+typedef union bdk_dtx_rnm_enax bdk_dtx_rnm_enax_t;
 
 static inline uint64_t BDK_DTX_RNM_ENAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_RNM_ENAX(unsigned long a)
@@ -6599,7 +6766,7 @@ static inline uint64_t BDK_DTX_RNM_ENAX(unsigned long a)
  *
  * DTX RNM Select Register
  */
-typedef union
+union bdk_dtx_rnm_selx
 {
     uint64_t u;
     struct bdk_dtx_rnm_selx_s
@@ -6613,7 +6780,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_rnm_selx_s cn; */
-} bdk_dtx_rnm_selx_t;
+};
+typedef union bdk_dtx_rnm_selx bdk_dtx_rnm_selx_t;
 
 static inline uint64_t BDK_DTX_RNM_SELX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_RNM_SELX(unsigned long a)
@@ -6634,7 +6802,7 @@ static inline uint64_t BDK_DTX_RNM_SELX(unsigned long a)
  *
  * DTX RST Control Register
  */
-typedef union
+union bdk_dtx_rst_bcst_rsp
 {
     uint64_t u;
     struct bdk_dtx_rst_bcst_rsp_s
@@ -6648,7 +6816,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_rst_bcst_rsp_s cn; */
-} bdk_dtx_rst_bcst_rsp_t;
+};
+typedef union bdk_dtx_rst_bcst_rsp bdk_dtx_rst_bcst_rsp_t;
 
 #define BDK_DTX_RST_BCST_RSP BDK_DTX_RST_BCST_RSP_FUNC()
 static inline uint64_t BDK_DTX_RST_BCST_RSP_FUNC(void) __attribute__ ((pure, always_inline));
@@ -6668,7 +6837,7 @@ static inline uint64_t BDK_DTX_RST_BCST_RSP_FUNC(void)
  *
  * DTX RST Control Register
  */
-typedef union
+union bdk_dtx_rst_ctl
 {
     uint64_t u;
     struct bdk_dtx_rst_ctl_s
@@ -6692,7 +6861,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_rst_ctl_s cn; */
-} bdk_dtx_rst_ctl_t;
+};
+typedef union bdk_dtx_rst_ctl bdk_dtx_rst_ctl_t;
 
 #define BDK_DTX_RST_CTL BDK_DTX_RST_CTL_FUNC()
 static inline uint64_t BDK_DTX_RST_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -6712,7 +6882,7 @@ static inline uint64_t BDK_DTX_RST_CTL_FUNC(void)
  *
  * DTX RST Raw Data Register
  */
-typedef union
+union bdk_dtx_rst_datx
 {
     uint64_t u;
     struct bdk_dtx_rst_datx_s
@@ -6728,7 +6898,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_rst_datx_s cn; */
-} bdk_dtx_rst_datx_t;
+};
+typedef union bdk_dtx_rst_datx bdk_dtx_rst_datx_t;
 
 static inline uint64_t BDK_DTX_RST_DATX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_RST_DATX(unsigned long a)
@@ -6749,7 +6920,7 @@ static inline uint64_t BDK_DTX_RST_DATX(unsigned long a)
  *
  * DTX RST Data Enable Register
  */
-typedef union
+union bdk_dtx_rst_enax
 {
     uint64_t u;
     struct bdk_dtx_rst_enax_s
@@ -6765,7 +6936,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_rst_enax_s cn; */
-} bdk_dtx_rst_enax_t;
+};
+typedef union bdk_dtx_rst_enax bdk_dtx_rst_enax_t;
 
 static inline uint64_t BDK_DTX_RST_ENAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_RST_ENAX(unsigned long a)
@@ -6786,7 +6958,7 @@ static inline uint64_t BDK_DTX_RST_ENAX(unsigned long a)
  *
  * DTX RST Select Register
  */
-typedef union
+union bdk_dtx_rst_selx
 {
     uint64_t u;
     struct bdk_dtx_rst_selx_s
@@ -6800,7 +6972,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_rst_selx_s cn; */
-} bdk_dtx_rst_selx_t;
+};
+typedef union bdk_dtx_rst_selx bdk_dtx_rst_selx_t;
 
 static inline uint64_t BDK_DTX_RST_SELX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_RST_SELX(unsigned long a)
@@ -6821,7 +6994,7 @@ static inline uint64_t BDK_DTX_RST_SELX(unsigned long a)
  *
  * DTX SATA Control Register
  */
-typedef union
+union bdk_dtx_satax_bcst_rsp
 {
     uint64_t u;
     struct bdk_dtx_satax_bcst_rsp_s
@@ -6835,7 +7008,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_satax_bcst_rsp_s cn; */
-} bdk_dtx_satax_bcst_rsp_t;
+};
+typedef union bdk_dtx_satax_bcst_rsp bdk_dtx_satax_bcst_rsp_t;
 
 static inline uint64_t BDK_DTX_SATAX_BCST_RSP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_SATAX_BCST_RSP(unsigned long a)
@@ -6860,7 +7034,7 @@ static inline uint64_t BDK_DTX_SATAX_BCST_RSP(unsigned long a)
  *
  * DTX SATA Control Register
  */
-typedef union
+union bdk_dtx_satax_ctl
 {
     uint64_t u;
     struct bdk_dtx_satax_ctl_s
@@ -6884,7 +7058,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_satax_ctl_s cn; */
-} bdk_dtx_satax_ctl_t;
+};
+typedef union bdk_dtx_satax_ctl bdk_dtx_satax_ctl_t;
 
 static inline uint64_t BDK_DTX_SATAX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_SATAX_CTL(unsigned long a)
@@ -6909,7 +7084,7 @@ static inline uint64_t BDK_DTX_SATAX_CTL(unsigned long a)
  *
  * DTX SATA Raw Data Register
  */
-typedef union
+union bdk_dtx_satax_datx
 {
     uint64_t u;
     struct bdk_dtx_satax_datx_s
@@ -6925,7 +7100,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_satax_datx_s cn; */
-} bdk_dtx_satax_datx_t;
+};
+typedef union bdk_dtx_satax_datx bdk_dtx_satax_datx_t;
 
 static inline uint64_t BDK_DTX_SATAX_DATX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_SATAX_DATX(unsigned long a, unsigned long b)
@@ -6950,7 +7126,7 @@ static inline uint64_t BDK_DTX_SATAX_DATX(unsigned long a, unsigned long b)
  *
  * DTX SATA Data Enable Register
  */
-typedef union
+union bdk_dtx_satax_enax
 {
     uint64_t u;
     struct bdk_dtx_satax_enax_s
@@ -6966,7 +7142,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_satax_enax_s cn; */
-} bdk_dtx_satax_enax_t;
+};
+typedef union bdk_dtx_satax_enax bdk_dtx_satax_enax_t;
 
 static inline uint64_t BDK_DTX_SATAX_ENAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_SATAX_ENAX(unsigned long a, unsigned long b)
@@ -6991,7 +7168,7 @@ static inline uint64_t BDK_DTX_SATAX_ENAX(unsigned long a, unsigned long b)
  *
  * DTX SATA Select Register
  */
-typedef union
+union bdk_dtx_satax_selx
 {
     uint64_t u;
     struct bdk_dtx_satax_selx_s
@@ -7005,7 +7182,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_satax_selx_s cn; */
-} bdk_dtx_satax_selx_t;
+};
+typedef union bdk_dtx_satax_selx bdk_dtx_satax_selx_t;
 
 static inline uint64_t BDK_DTX_SATAX_SELX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_SATAX_SELX(unsigned long a, unsigned long b)
@@ -7030,7 +7208,7 @@ static inline uint64_t BDK_DTX_SATAX_SELX(unsigned long a, unsigned long b)
  *
  * DTX SLI Control Register
  */
-typedef union
+union bdk_dtx_slix_bcst_rsp
 {
     uint64_t u;
     struct bdk_dtx_slix_bcst_rsp_s
@@ -7044,7 +7222,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_slix_bcst_rsp_s cn; */
-} bdk_dtx_slix_bcst_rsp_t;
+};
+typedef union bdk_dtx_slix_bcst_rsp bdk_dtx_slix_bcst_rsp_t;
 
 static inline uint64_t BDK_DTX_SLIX_BCST_RSP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_SLIX_BCST_RSP(unsigned long a)
@@ -7069,7 +7248,7 @@ static inline uint64_t BDK_DTX_SLIX_BCST_RSP(unsigned long a)
  *
  * DTX SLI Control Register
  */
-typedef union
+union bdk_dtx_slix_ctl
 {
     uint64_t u;
     struct bdk_dtx_slix_ctl_s
@@ -7093,7 +7272,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_slix_ctl_s cn; */
-} bdk_dtx_slix_ctl_t;
+};
+typedef union bdk_dtx_slix_ctl bdk_dtx_slix_ctl_t;
 
 static inline uint64_t BDK_DTX_SLIX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_SLIX_CTL(unsigned long a)
@@ -7118,7 +7298,7 @@ static inline uint64_t BDK_DTX_SLIX_CTL(unsigned long a)
  *
  * DTX SLI Raw Data Register
  */
-typedef union
+union bdk_dtx_slix_datx
 {
     uint64_t u;
     struct bdk_dtx_slix_datx_s
@@ -7134,7 +7314,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_slix_datx_s cn; */
-} bdk_dtx_slix_datx_t;
+};
+typedef union bdk_dtx_slix_datx bdk_dtx_slix_datx_t;
 
 static inline uint64_t BDK_DTX_SLIX_DATX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_SLIX_DATX(unsigned long a, unsigned long b)
@@ -7159,7 +7340,7 @@ static inline uint64_t BDK_DTX_SLIX_DATX(unsigned long a, unsigned long b)
  *
  * DTX SLI Data Enable Register
  */
-typedef union
+union bdk_dtx_slix_enax
 {
     uint64_t u;
     struct bdk_dtx_slix_enax_s
@@ -7175,7 +7356,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_slix_enax_s cn; */
-} bdk_dtx_slix_enax_t;
+};
+typedef union bdk_dtx_slix_enax bdk_dtx_slix_enax_t;
 
 static inline uint64_t BDK_DTX_SLIX_ENAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_SLIX_ENAX(unsigned long a, unsigned long b)
@@ -7200,7 +7382,7 @@ static inline uint64_t BDK_DTX_SLIX_ENAX(unsigned long a, unsigned long b)
  *
  * DTX SLI Select Register
  */
-typedef union
+union bdk_dtx_slix_selx
 {
     uint64_t u;
     struct bdk_dtx_slix_selx_s
@@ -7214,7 +7396,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_slix_selx_s cn; */
-} bdk_dtx_slix_selx_t;
+};
+typedef union bdk_dtx_slix_selx bdk_dtx_slix_selx_t;
 
 static inline uint64_t BDK_DTX_SLIX_SELX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_SLIX_SELX(unsigned long a, unsigned long b)
@@ -7239,7 +7422,7 @@ static inline uint64_t BDK_DTX_SLIX_SELX(unsigned long a, unsigned long b)
  *
  * DTX SSO Control Register
  */
-typedef union
+union bdk_dtx_sso_bcst_rsp
 {
     uint64_t u;
     struct bdk_dtx_sso_bcst_rsp_s
@@ -7253,7 +7436,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_sso_bcst_rsp_s cn; */
-} bdk_dtx_sso_bcst_rsp_t;
+};
+typedef union bdk_dtx_sso_bcst_rsp bdk_dtx_sso_bcst_rsp_t;
 
 #define BDK_DTX_SSO_BCST_RSP BDK_DTX_SSO_BCST_RSP_FUNC()
 static inline uint64_t BDK_DTX_SSO_BCST_RSP_FUNC(void) __attribute__ ((pure, always_inline));
@@ -7275,7 +7459,7 @@ static inline uint64_t BDK_DTX_SSO_BCST_RSP_FUNC(void)
  *
  * DTX SSO Control Register
  */
-typedef union
+union bdk_dtx_sso_ctl
 {
     uint64_t u;
     struct bdk_dtx_sso_ctl_s
@@ -7299,7 +7483,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_sso_ctl_s cn; */
-} bdk_dtx_sso_ctl_t;
+};
+typedef union bdk_dtx_sso_ctl bdk_dtx_sso_ctl_t;
 
 #define BDK_DTX_SSO_CTL BDK_DTX_SSO_CTL_FUNC()
 static inline uint64_t BDK_DTX_SSO_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -7321,7 +7506,7 @@ static inline uint64_t BDK_DTX_SSO_CTL_FUNC(void)
  *
  * DTX SSO Raw Data Register
  */
-typedef union
+union bdk_dtx_sso_datx
 {
     uint64_t u;
     struct bdk_dtx_sso_datx_s
@@ -7337,7 +7522,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_sso_datx_s cn; */
-} bdk_dtx_sso_datx_t;
+};
+typedef union bdk_dtx_sso_datx bdk_dtx_sso_datx_t;
 
 static inline uint64_t BDK_DTX_SSO_DATX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_SSO_DATX(unsigned long a)
@@ -7358,7 +7544,7 @@ static inline uint64_t BDK_DTX_SSO_DATX(unsigned long a)
  *
  * DTX SSO Data Enable Register
  */
-typedef union
+union bdk_dtx_sso_enax
 {
     uint64_t u;
     struct bdk_dtx_sso_enax_s
@@ -7374,7 +7560,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_sso_enax_s cn; */
-} bdk_dtx_sso_enax_t;
+};
+typedef union bdk_dtx_sso_enax bdk_dtx_sso_enax_t;
 
 static inline uint64_t BDK_DTX_SSO_ENAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_SSO_ENAX(unsigned long a)
@@ -7395,7 +7582,7 @@ static inline uint64_t BDK_DTX_SSO_ENAX(unsigned long a)
  *
  * DTX SSO Select Register
  */
-typedef union
+union bdk_dtx_sso_selx
 {
     uint64_t u;
     struct bdk_dtx_sso_selx_s
@@ -7409,7 +7596,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_sso_selx_s cn; */
-} bdk_dtx_sso_selx_t;
+};
+typedef union bdk_dtx_sso_selx bdk_dtx_sso_selx_t;
 
 static inline uint64_t BDK_DTX_SSO_SELX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_SSO_SELX(unsigned long a)
@@ -7430,7 +7618,7 @@ static inline uint64_t BDK_DTX_SSO_SELX(unsigned long a)
  *
  * DTX TIM Control Register
  */
-typedef union
+union bdk_dtx_tim_bcst_rsp
 {
     uint64_t u;
     struct bdk_dtx_tim_bcst_rsp_s
@@ -7444,7 +7632,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_tim_bcst_rsp_s cn; */
-} bdk_dtx_tim_bcst_rsp_t;
+};
+typedef union bdk_dtx_tim_bcst_rsp bdk_dtx_tim_bcst_rsp_t;
 
 #define BDK_DTX_TIM_BCST_RSP BDK_DTX_TIM_BCST_RSP_FUNC()
 static inline uint64_t BDK_DTX_TIM_BCST_RSP_FUNC(void) __attribute__ ((pure, always_inline));
@@ -7466,7 +7655,7 @@ static inline uint64_t BDK_DTX_TIM_BCST_RSP_FUNC(void)
  *
  * DTX TIM Control Register
  */
-typedef union
+union bdk_dtx_tim_ctl
 {
     uint64_t u;
     struct bdk_dtx_tim_ctl_s
@@ -7490,7 +7679,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_tim_ctl_s cn; */
-} bdk_dtx_tim_ctl_t;
+};
+typedef union bdk_dtx_tim_ctl bdk_dtx_tim_ctl_t;
 
 #define BDK_DTX_TIM_CTL BDK_DTX_TIM_CTL_FUNC()
 static inline uint64_t BDK_DTX_TIM_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -7512,7 +7702,7 @@ static inline uint64_t BDK_DTX_TIM_CTL_FUNC(void)
  *
  * DTX TIM Raw Data Register
  */
-typedef union
+union bdk_dtx_tim_datx
 {
     uint64_t u;
     struct bdk_dtx_tim_datx_s
@@ -7528,7 +7718,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_tim_datx_s cn; */
-} bdk_dtx_tim_datx_t;
+};
+typedef union bdk_dtx_tim_datx bdk_dtx_tim_datx_t;
 
 static inline uint64_t BDK_DTX_TIM_DATX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_TIM_DATX(unsigned long a)
@@ -7549,7 +7740,7 @@ static inline uint64_t BDK_DTX_TIM_DATX(unsigned long a)
  *
  * DTX TIM Data Enable Register
  */
-typedef union
+union bdk_dtx_tim_enax
 {
     uint64_t u;
     struct bdk_dtx_tim_enax_s
@@ -7565,7 +7756,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_tim_enax_s cn; */
-} bdk_dtx_tim_enax_t;
+};
+typedef union bdk_dtx_tim_enax bdk_dtx_tim_enax_t;
 
 static inline uint64_t BDK_DTX_TIM_ENAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_TIM_ENAX(unsigned long a)
@@ -7586,7 +7778,7 @@ static inline uint64_t BDK_DTX_TIM_ENAX(unsigned long a)
  *
  * DTX TIM Select Register
  */
-typedef union
+union bdk_dtx_tim_selx
 {
     uint64_t u;
     struct bdk_dtx_tim_selx_s
@@ -7600,7 +7792,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_tim_selx_s cn; */
-} bdk_dtx_tim_selx_t;
+};
+typedef union bdk_dtx_tim_selx bdk_dtx_tim_selx_t;
 
 static inline uint64_t BDK_DTX_TIM_SELX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_TIM_SELX(unsigned long a)
@@ -7621,7 +7814,7 @@ static inline uint64_t BDK_DTX_TIM_SELX(unsigned long a)
  *
  * DTX TNS Control Register
  */
-typedef union
+union bdk_dtx_tns_bcst_rsp
 {
     uint64_t u;
     struct bdk_dtx_tns_bcst_rsp_s
@@ -7635,7 +7828,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_tns_bcst_rsp_s cn; */
-} bdk_dtx_tns_bcst_rsp_t;
+};
+typedef union bdk_dtx_tns_bcst_rsp bdk_dtx_tns_bcst_rsp_t;
 
 #define BDK_DTX_TNS_BCST_RSP BDK_DTX_TNS_BCST_RSP_FUNC()
 static inline uint64_t BDK_DTX_TNS_BCST_RSP_FUNC(void) __attribute__ ((pure, always_inline));
@@ -7657,7 +7851,7 @@ static inline uint64_t BDK_DTX_TNS_BCST_RSP_FUNC(void)
  *
  * DTX TNS Control Register
  */
-typedef union
+union bdk_dtx_tns_ctl
 {
     uint64_t u;
     struct bdk_dtx_tns_ctl_s
@@ -7681,7 +7875,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_tns_ctl_s cn; */
-} bdk_dtx_tns_ctl_t;
+};
+typedef union bdk_dtx_tns_ctl bdk_dtx_tns_ctl_t;
 
 #define BDK_DTX_TNS_CTL BDK_DTX_TNS_CTL_FUNC()
 static inline uint64_t BDK_DTX_TNS_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -7703,7 +7898,7 @@ static inline uint64_t BDK_DTX_TNS_CTL_FUNC(void)
  *
  * DTX TNS Raw Data Register
  */
-typedef union
+union bdk_dtx_tns_datx
 {
     uint64_t u;
     struct bdk_dtx_tns_datx_s
@@ -7719,7 +7914,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_tns_datx_s cn; */
-} bdk_dtx_tns_datx_t;
+};
+typedef union bdk_dtx_tns_datx bdk_dtx_tns_datx_t;
 
 static inline uint64_t BDK_DTX_TNS_DATX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_TNS_DATX(unsigned long a)
@@ -7740,7 +7936,7 @@ static inline uint64_t BDK_DTX_TNS_DATX(unsigned long a)
  *
  * DTX TNS Data Enable Register
  */
-typedef union
+union bdk_dtx_tns_enax
 {
     uint64_t u;
     struct bdk_dtx_tns_enax_s
@@ -7756,7 +7952,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_tns_enax_s cn; */
-} bdk_dtx_tns_enax_t;
+};
+typedef union bdk_dtx_tns_enax bdk_dtx_tns_enax_t;
 
 static inline uint64_t BDK_DTX_TNS_ENAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_TNS_ENAX(unsigned long a)
@@ -7777,7 +7974,7 @@ static inline uint64_t BDK_DTX_TNS_ENAX(unsigned long a)
  *
  * DTX TNS Select Register
  */
-typedef union
+union bdk_dtx_tns_selx
 {
     uint64_t u;
     struct bdk_dtx_tns_selx_s
@@ -7791,7 +7988,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_tns_selx_s cn; */
-} bdk_dtx_tns_selx_t;
+};
+typedef union bdk_dtx_tns_selx bdk_dtx_tns_selx_t;
 
 static inline uint64_t BDK_DTX_TNS_SELX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_TNS_SELX(unsigned long a)
@@ -7812,7 +8010,7 @@ static inline uint64_t BDK_DTX_TNS_SELX(unsigned long a)
  *
  * DTX UAA Control Register
  */
-typedef union
+union bdk_dtx_uaax_bcst_rsp
 {
     uint64_t u;
     struct bdk_dtx_uaax_bcst_rsp_s
@@ -7826,7 +8024,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_uaax_bcst_rsp_s cn; */
-} bdk_dtx_uaax_bcst_rsp_t;
+};
+typedef union bdk_dtx_uaax_bcst_rsp bdk_dtx_uaax_bcst_rsp_t;
 
 static inline uint64_t BDK_DTX_UAAX_BCST_RSP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_UAAX_BCST_RSP(unsigned long a)
@@ -7851,7 +8050,7 @@ static inline uint64_t BDK_DTX_UAAX_BCST_RSP(unsigned long a)
  *
  * DTX UAA Control Register
  */
-typedef union
+union bdk_dtx_uaax_ctl
 {
     uint64_t u;
     struct bdk_dtx_uaax_ctl_s
@@ -7875,7 +8074,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_uaax_ctl_s cn; */
-} bdk_dtx_uaax_ctl_t;
+};
+typedef union bdk_dtx_uaax_ctl bdk_dtx_uaax_ctl_t;
 
 static inline uint64_t BDK_DTX_UAAX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_UAAX_CTL(unsigned long a)
@@ -7900,7 +8100,7 @@ static inline uint64_t BDK_DTX_UAAX_CTL(unsigned long a)
  *
  * DTX UAA Raw Data Register
  */
-typedef union
+union bdk_dtx_uaax_datx
 {
     uint64_t u;
     struct bdk_dtx_uaax_datx_s
@@ -7916,7 +8116,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_uaax_datx_s cn; */
-} bdk_dtx_uaax_datx_t;
+};
+typedef union bdk_dtx_uaax_datx bdk_dtx_uaax_datx_t;
 
 static inline uint64_t BDK_DTX_UAAX_DATX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_UAAX_DATX(unsigned long a, unsigned long b)
@@ -7941,7 +8142,7 @@ static inline uint64_t BDK_DTX_UAAX_DATX(unsigned long a, unsigned long b)
  *
  * DTX UAA Data Enable Register
  */
-typedef union
+union bdk_dtx_uaax_enax
 {
     uint64_t u;
     struct bdk_dtx_uaax_enax_s
@@ -7957,7 +8158,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_uaax_enax_s cn; */
-} bdk_dtx_uaax_enax_t;
+};
+typedef union bdk_dtx_uaax_enax bdk_dtx_uaax_enax_t;
 
 static inline uint64_t BDK_DTX_UAAX_ENAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_UAAX_ENAX(unsigned long a, unsigned long b)
@@ -7982,7 +8184,7 @@ static inline uint64_t BDK_DTX_UAAX_ENAX(unsigned long a, unsigned long b)
  *
  * DTX UAA Select Register
  */
-typedef union
+union bdk_dtx_uaax_selx
 {
     uint64_t u;
     struct bdk_dtx_uaax_selx_s
@@ -7996,7 +8198,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_uaax_selx_s cn; */
-} bdk_dtx_uaax_selx_t;
+};
+typedef union bdk_dtx_uaax_selx bdk_dtx_uaax_selx_t;
 
 static inline uint64_t BDK_DTX_UAAX_SELX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_UAAX_SELX(unsigned long a, unsigned long b)
@@ -8021,7 +8224,7 @@ static inline uint64_t BDK_DTX_UAAX_SELX(unsigned long a, unsigned long b)
  *
  * DTX USBDRD Control Register
  */
-typedef union
+union bdk_dtx_usbdrdx_bcst_rsp
 {
     uint64_t u;
     struct bdk_dtx_usbdrdx_bcst_rsp_s
@@ -8035,7 +8238,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_usbdrdx_bcst_rsp_s cn; */
-} bdk_dtx_usbdrdx_bcst_rsp_t;
+};
+typedef union bdk_dtx_usbdrdx_bcst_rsp bdk_dtx_usbdrdx_bcst_rsp_t;
 
 static inline uint64_t BDK_DTX_USBDRDX_BCST_RSP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_USBDRDX_BCST_RSP(unsigned long a)
@@ -8058,7 +8262,7 @@ static inline uint64_t BDK_DTX_USBDRDX_BCST_RSP(unsigned long a)
  *
  * DTX USBDRD Control Register
  */
-typedef union
+union bdk_dtx_usbdrdx_ctl
 {
     uint64_t u;
     struct bdk_dtx_usbdrdx_ctl_s
@@ -8082,7 +8286,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_usbdrdx_ctl_s cn; */
-} bdk_dtx_usbdrdx_ctl_t;
+};
+typedef union bdk_dtx_usbdrdx_ctl bdk_dtx_usbdrdx_ctl_t;
 
 static inline uint64_t BDK_DTX_USBDRDX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_USBDRDX_CTL(unsigned long a)
@@ -8105,7 +8310,7 @@ static inline uint64_t BDK_DTX_USBDRDX_CTL(unsigned long a)
  *
  * DTX USBDRD Raw Data Register
  */
-typedef union
+union bdk_dtx_usbdrdx_datx
 {
     uint64_t u;
     struct bdk_dtx_usbdrdx_datx_s
@@ -8121,7 +8326,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_usbdrdx_datx_s cn; */
-} bdk_dtx_usbdrdx_datx_t;
+};
+typedef union bdk_dtx_usbdrdx_datx bdk_dtx_usbdrdx_datx_t;
 
 static inline uint64_t BDK_DTX_USBDRDX_DATX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_USBDRDX_DATX(unsigned long a, unsigned long b)
@@ -8144,7 +8350,7 @@ static inline uint64_t BDK_DTX_USBDRDX_DATX(unsigned long a, unsigned long b)
  *
  * DTX USBDRD Data Enable Register
  */
-typedef union
+union bdk_dtx_usbdrdx_enax
 {
     uint64_t u;
     struct bdk_dtx_usbdrdx_enax_s
@@ -8160,7 +8366,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_usbdrdx_enax_s cn; */
-} bdk_dtx_usbdrdx_enax_t;
+};
+typedef union bdk_dtx_usbdrdx_enax bdk_dtx_usbdrdx_enax_t;
 
 static inline uint64_t BDK_DTX_USBDRDX_ENAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_USBDRDX_ENAX(unsigned long a, unsigned long b)
@@ -8183,7 +8390,7 @@ static inline uint64_t BDK_DTX_USBDRDX_ENAX(unsigned long a, unsigned long b)
  *
  * DTX USBDRD Select Register
  */
-typedef union
+union bdk_dtx_usbdrdx_selx
 {
     uint64_t u;
     struct bdk_dtx_usbdrdx_selx_s
@@ -8197,7 +8404,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_usbdrdx_selx_s cn; */
-} bdk_dtx_usbdrdx_selx_t;
+};
+typedef union bdk_dtx_usbdrdx_selx bdk_dtx_usbdrdx_selx_t;
 
 static inline uint64_t BDK_DTX_USBDRDX_SELX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_USBDRDX_SELX(unsigned long a, unsigned long b)
@@ -8220,7 +8428,7 @@ static inline uint64_t BDK_DTX_USBDRDX_SELX(unsigned long a, unsigned long b)
  *
  * DTX USBH Control Register
  */
-typedef union
+union bdk_dtx_usbhx_bcst_rsp
 {
     uint64_t u;
     struct bdk_dtx_usbhx_bcst_rsp_s
@@ -8234,7 +8442,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_usbhx_bcst_rsp_s cn; */
-} bdk_dtx_usbhx_bcst_rsp_t;
+};
+typedef union bdk_dtx_usbhx_bcst_rsp bdk_dtx_usbhx_bcst_rsp_t;
 
 static inline uint64_t BDK_DTX_USBHX_BCST_RSP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_USBHX_BCST_RSP(unsigned long a)
@@ -8255,7 +8464,7 @@ static inline uint64_t BDK_DTX_USBHX_BCST_RSP(unsigned long a)
  *
  * DTX USBH Control Register
  */
-typedef union
+union bdk_dtx_usbhx_ctl
 {
     uint64_t u;
     struct bdk_dtx_usbhx_ctl_s
@@ -8279,7 +8488,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_usbhx_ctl_s cn; */
-} bdk_dtx_usbhx_ctl_t;
+};
+typedef union bdk_dtx_usbhx_ctl bdk_dtx_usbhx_ctl_t;
 
 static inline uint64_t BDK_DTX_USBHX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_USBHX_CTL(unsigned long a)
@@ -8300,7 +8510,7 @@ static inline uint64_t BDK_DTX_USBHX_CTL(unsigned long a)
  *
  * DTX USBH Raw Data Register
  */
-typedef union
+union bdk_dtx_usbhx_datx
 {
     uint64_t u;
     struct bdk_dtx_usbhx_datx_s
@@ -8316,7 +8526,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_usbhx_datx_s cn; */
-} bdk_dtx_usbhx_datx_t;
+};
+typedef union bdk_dtx_usbhx_datx bdk_dtx_usbhx_datx_t;
 
 static inline uint64_t BDK_DTX_USBHX_DATX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_USBHX_DATX(unsigned long a, unsigned long b)
@@ -8337,7 +8548,7 @@ static inline uint64_t BDK_DTX_USBHX_DATX(unsigned long a, unsigned long b)
  *
  * DTX USBH Data Enable Register
  */
-typedef union
+union bdk_dtx_usbhx_enax
 {
     uint64_t u;
     struct bdk_dtx_usbhx_enax_s
@@ -8353,7 +8564,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_usbhx_enax_s cn; */
-} bdk_dtx_usbhx_enax_t;
+};
+typedef union bdk_dtx_usbhx_enax bdk_dtx_usbhx_enax_t;
 
 static inline uint64_t BDK_DTX_USBHX_ENAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_USBHX_ENAX(unsigned long a, unsigned long b)
@@ -8374,7 +8586,7 @@ static inline uint64_t BDK_DTX_USBHX_ENAX(unsigned long a, unsigned long b)
  *
  * DTX USBH Select Register
  */
-typedef union
+union bdk_dtx_usbhx_selx
 {
     uint64_t u;
     struct bdk_dtx_usbhx_selx_s
@@ -8388,7 +8600,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_usbhx_selx_s cn; */
-} bdk_dtx_usbhx_selx_t;
+};
+typedef union bdk_dtx_usbhx_selx bdk_dtx_usbhx_selx_t;
 
 static inline uint64_t BDK_DTX_USBHX_SELX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_USBHX_SELX(unsigned long a, unsigned long b)
@@ -8409,7 +8622,7 @@ static inline uint64_t BDK_DTX_USBHX_SELX(unsigned long a, unsigned long b)
  *
  * DTX XCV Control Register
  */
-typedef union
+union bdk_dtx_xcv_bcst_rsp
 {
     uint64_t u;
     struct bdk_dtx_xcv_bcst_rsp_s
@@ -8423,7 +8636,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_xcv_bcst_rsp_s cn; */
-} bdk_dtx_xcv_bcst_rsp_t;
+};
+typedef union bdk_dtx_xcv_bcst_rsp bdk_dtx_xcv_bcst_rsp_t;
 
 #define BDK_DTX_XCV_BCST_RSP BDK_DTX_XCV_BCST_RSP_FUNC()
 static inline uint64_t BDK_DTX_XCV_BCST_RSP_FUNC(void) __attribute__ ((pure, always_inline));
@@ -8445,7 +8659,7 @@ static inline uint64_t BDK_DTX_XCV_BCST_RSP_FUNC(void)
  *
  * DTX XCV Control Register
  */
-typedef union
+union bdk_dtx_xcv_ctl
 {
     uint64_t u;
     struct bdk_dtx_xcv_ctl_s
@@ -8469,7 +8683,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_xcv_ctl_s cn; */
-} bdk_dtx_xcv_ctl_t;
+};
+typedef union bdk_dtx_xcv_ctl bdk_dtx_xcv_ctl_t;
 
 #define BDK_DTX_XCV_CTL BDK_DTX_XCV_CTL_FUNC()
 static inline uint64_t BDK_DTX_XCV_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -8491,7 +8706,7 @@ static inline uint64_t BDK_DTX_XCV_CTL_FUNC(void)
  *
  * DTX XCV Raw Data Register
  */
-typedef union
+union bdk_dtx_xcv_datx
 {
     uint64_t u;
     struct bdk_dtx_xcv_datx_s
@@ -8507,7 +8722,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_xcv_datx_s cn; */
-} bdk_dtx_xcv_datx_t;
+};
+typedef union bdk_dtx_xcv_datx bdk_dtx_xcv_datx_t;
 
 static inline uint64_t BDK_DTX_XCV_DATX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_XCV_DATX(unsigned long a)
@@ -8528,7 +8744,7 @@ static inline uint64_t BDK_DTX_XCV_DATX(unsigned long a)
  *
  * DTX XCV Data Enable Register
  */
-typedef union
+union bdk_dtx_xcv_enax
 {
     uint64_t u;
     struct bdk_dtx_xcv_enax_s
@@ -8544,7 +8760,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_xcv_enax_s cn; */
-} bdk_dtx_xcv_enax_t;
+};
+typedef union bdk_dtx_xcv_enax bdk_dtx_xcv_enax_t;
 
 static inline uint64_t BDK_DTX_XCV_ENAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_XCV_ENAX(unsigned long a)
@@ -8565,7 +8782,7 @@ static inline uint64_t BDK_DTX_XCV_ENAX(unsigned long a)
  *
  * DTX XCV Select Register
  */
-typedef union
+union bdk_dtx_xcv_selx
 {
     uint64_t u;
     struct bdk_dtx_xcv_selx_s
@@ -8579,7 +8796,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_xcv_selx_s cn; */
-} bdk_dtx_xcv_selx_t;
+};
+typedef union bdk_dtx_xcv_selx bdk_dtx_xcv_selx_t;
 
 static inline uint64_t BDK_DTX_XCV_SELX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_XCV_SELX(unsigned long a)
@@ -8600,7 +8818,7 @@ static inline uint64_t BDK_DTX_XCV_SELX(unsigned long a)
  *
  * DTX ZIP Control Register
  */
-typedef union
+union bdk_dtx_zip_bcst_rsp
 {
     uint64_t u;
     struct bdk_dtx_zip_bcst_rsp_s
@@ -8614,7 +8832,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_zip_bcst_rsp_s cn; */
-} bdk_dtx_zip_bcst_rsp_t;
+};
+typedef union bdk_dtx_zip_bcst_rsp bdk_dtx_zip_bcst_rsp_t;
 
 #define BDK_DTX_ZIP_BCST_RSP BDK_DTX_ZIP_BCST_RSP_FUNC()
 static inline uint64_t BDK_DTX_ZIP_BCST_RSP_FUNC(void) __attribute__ ((pure, always_inline));
@@ -8638,7 +8857,7 @@ static inline uint64_t BDK_DTX_ZIP_BCST_RSP_FUNC(void)
  *
  * DTX ZIP Control Register
  */
-typedef union
+union bdk_dtx_zip_ctl
 {
     uint64_t u;
     struct bdk_dtx_zip_ctl_s
@@ -8662,7 +8881,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_zip_ctl_s cn; */
-} bdk_dtx_zip_ctl_t;
+};
+typedef union bdk_dtx_zip_ctl bdk_dtx_zip_ctl_t;
 
 #define BDK_DTX_ZIP_CTL BDK_DTX_ZIP_CTL_FUNC()
 static inline uint64_t BDK_DTX_ZIP_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -8686,7 +8906,7 @@ static inline uint64_t BDK_DTX_ZIP_CTL_FUNC(void)
  *
  * DTX ZIP Raw Data Register
  */
-typedef union
+union bdk_dtx_zip_datx
 {
     uint64_t u;
     struct bdk_dtx_zip_datx_s
@@ -8702,7 +8922,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_zip_datx_s cn; */
-} bdk_dtx_zip_datx_t;
+};
+typedef union bdk_dtx_zip_datx bdk_dtx_zip_datx_t;
 
 static inline uint64_t BDK_DTX_ZIP_DATX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_ZIP_DATX(unsigned long a)
@@ -8725,7 +8946,7 @@ static inline uint64_t BDK_DTX_ZIP_DATX(unsigned long a)
  *
  * DTX ZIP Data Enable Register
  */
-typedef union
+union bdk_dtx_zip_enax
 {
     uint64_t u;
     struct bdk_dtx_zip_enax_s
@@ -8741,7 +8962,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_zip_enax_s cn; */
-} bdk_dtx_zip_enax_t;
+};
+typedef union bdk_dtx_zip_enax bdk_dtx_zip_enax_t;
 
 static inline uint64_t BDK_DTX_ZIP_ENAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_ZIP_ENAX(unsigned long a)
@@ -8764,7 +8986,7 @@ static inline uint64_t BDK_DTX_ZIP_ENAX(unsigned long a)
  *
  * DTX ZIP Select Register
  */
-typedef union
+union bdk_dtx_zip_selx
 {
     uint64_t u;
     struct bdk_dtx_zip_selx_s
@@ -8778,7 +9000,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dtx_zip_selx_s cn; */
-} bdk_dtx_zip_selx_t;
+};
+typedef union bdk_dtx_zip_selx bdk_dtx_zip_selx_t;
 
 static inline uint64_t BDK_DTX_ZIP_SELX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_ZIP_SELX(unsigned long a)

@@ -77,7 +77,7 @@
  * TWSI Interrupt Register
  * This register contains the TWSI interrupt-enable mask and the interrupt-source bits.
  */
-typedef union
+union bdk_mio_twsx_int
 {
     uint64_t u;
     struct bdk_mio_twsx_int_s
@@ -113,7 +113,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_twsx_int_s cn; */
-} bdk_mio_twsx_int_t;
+};
+typedef union bdk_mio_twsx_int bdk_mio_twsx_int_t;
 
 static inline uint64_t BDK_MIO_TWSX_INT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_MIO_TWSX_INT(unsigned long a)
@@ -139,7 +140,7 @@ static inline uint64_t BDK_MIO_TWSX_INT(unsigned long a)
  *
  * TWSI Interrupt Enable Clear Register
  */
-typedef union
+union bdk_mio_twsx_int_ena_w1c
 {
     uint64_t u;
     struct bdk_mio_twsx_int_ena_w1c_s
@@ -157,7 +158,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_twsx_int_ena_w1c_s cn; */
-} bdk_mio_twsx_int_ena_w1c_t;
+};
+typedef union bdk_mio_twsx_int_ena_w1c bdk_mio_twsx_int_ena_w1c_t;
 
 static inline uint64_t BDK_MIO_TWSX_INT_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_MIO_TWSX_INT_ENA_W1C(unsigned long a)
@@ -183,7 +185,7 @@ static inline uint64_t BDK_MIO_TWSX_INT_ENA_W1C(unsigned long a)
  *
  * TWSI Interrupt Enable Set Register
  */
-typedef union
+union bdk_mio_twsx_int_ena_w1s
 {
     uint64_t u;
     struct bdk_mio_twsx_int_ena_w1s_s
@@ -201,7 +203,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_twsx_int_ena_w1s_s cn; */
-} bdk_mio_twsx_int_ena_w1s_t;
+};
+typedef union bdk_mio_twsx_int_ena_w1s bdk_mio_twsx_int_ena_w1s_t;
 
 static inline uint64_t BDK_MIO_TWSX_INT_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_MIO_TWSX_INT_ENA_W1S(unsigned long a)
@@ -227,7 +230,7 @@ static inline uint64_t BDK_MIO_TWSX_INT_ENA_W1S(unsigned long a)
  *
  * TWSI Interrupt Set Register
  */
-typedef union
+union bdk_mio_twsx_int_w1s
 {
     uint64_t u;
     struct bdk_mio_twsx_int_w1s_s
@@ -245,7 +248,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_twsx_int_w1s_s cn; */
-} bdk_mio_twsx_int_w1s_t;
+};
+typedef union bdk_mio_twsx_int_w1s bdk_mio_twsx_int_w1s_t;
 
 static inline uint64_t BDK_MIO_TWSX_INT_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_MIO_TWSX_INT_W1S(unsigned long a)
@@ -271,7 +275,7 @@ static inline uint64_t BDK_MIO_TWSX_INT_W1S(unsigned long a)
  *
  * TWSI Mode Register
  */
-typedef union
+union bdk_mio_twsx_mode
 {
     uint64_t u;
     struct bdk_mio_twsx_mode_s
@@ -311,7 +315,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_twsx_mode_s cn; */
-} bdk_mio_twsx_mode_t;
+};
+typedef union bdk_mio_twsx_mode bdk_mio_twsx_mode_t;
 
 static inline uint64_t BDK_MIO_TWSX_MODE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_MIO_TWSX_MODE(unsigned long a)
@@ -339,7 +344,7 @@ static inline uint64_t BDK_MIO_TWSX_MODE(unsigned long a)
  * This register is the MSI-X PBA table, the bit number is indexed by the MIO_TWS_INT_VEC_E
  * enumeration.
  */
-typedef union
+union bdk_mio_twsx_msix_pbax
 {
     uint64_t u;
     struct bdk_mio_twsx_msix_pbax_s
@@ -353,7 +358,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_twsx_msix_pbax_s cn; */
-} bdk_mio_twsx_msix_pbax_t;
+};
+typedef union bdk_mio_twsx_msix_pbax bdk_mio_twsx_msix_pbax_t;
 
 static inline uint64_t BDK_MIO_TWSX_MSIX_PBAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_MIO_TWSX_MSIX_PBAX(unsigned long a, unsigned long b)
@@ -380,7 +386,7 @@ static inline uint64_t BDK_MIO_TWSX_MSIX_PBAX(unsigned long a, unsigned long b)
  * TWSI MSI-X Vector Table Address Registers
  * This register is the MSI-X vector table, indexed by the MIO_TWS_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_mio_twsx_msix_vecx_addr
 {
     uint64_t u;
     struct bdk_mio_twsx_msix_vecx_addr_s
@@ -414,7 +420,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_twsx_msix_vecx_addr_s cn; */
-} bdk_mio_twsx_msix_vecx_addr_t;
+};
+typedef union bdk_mio_twsx_msix_vecx_addr bdk_mio_twsx_msix_vecx_addr_t;
 
 static inline uint64_t BDK_MIO_TWSX_MSIX_VECX_ADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_MIO_TWSX_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
@@ -441,7 +448,7 @@ static inline uint64_t BDK_MIO_TWSX_MSIX_VECX_ADDR(unsigned long a, unsigned lon
  * TWSI MSI-X Vector Table Control and Data Registers
  * This register is the MSI-X vector table, indexed by the MIO_TWS_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_mio_twsx_msix_vecx_ctl
 {
     uint64_t u;
     struct bdk_mio_twsx_msix_vecx_ctl_s
@@ -459,7 +466,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_twsx_msix_vecx_ctl_s cn; */
-} bdk_mio_twsx_msix_vecx_ctl_t;
+};
+typedef union bdk_mio_twsx_msix_vecx_ctl bdk_mio_twsx_msix_vecx_ctl_t;
 
 static inline uint64_t BDK_MIO_TWSX_MSIX_VECX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_MIO_TWSX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
@@ -496,7 +504,7 @@ static inline uint64_t BDK_MIO_TWSX_MSIX_VECX_CTL(unsigned long a, unsigned long
  * device can use either two-byte or five-byte read operations to reference this register.
  * The TWSI device considers this register valid when [V] = 1 and [SLONLY] = 1.
  */
-typedef union
+union bdk_mio_twsx_sw_twsi
 {
     uint64_t u;
     struct bdk_mio_twsx_sw_twsi_s
@@ -638,7 +646,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_twsx_sw_twsi_s cn; */
-} bdk_mio_twsx_sw_twsi_t;
+};
+typedef union bdk_mio_twsx_sw_twsi bdk_mio_twsx_sw_twsi_t;
 
 static inline uint64_t BDK_MIO_TWSX_SW_TWSI(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_MIO_TWSX_SW_TWSI(unsigned long a)
@@ -671,7 +680,7 @@ static inline uint64_t BDK_MIO_TWSX_SW_TWSI(unsigned long a)
  * extends the data field of MIO_TWS()_SW_TWSI for a total of 8 bytes (SOVR must be set to
  * perform operations greater than 4 bytes).
  */
-typedef union
+union bdk_mio_twsx_sw_twsi_ext
 {
     uint64_t u;
     struct bdk_mio_twsx_sw_twsi_ext_s
@@ -693,7 +702,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_twsx_sw_twsi_ext_s cn; */
-} bdk_mio_twsx_sw_twsi_ext_t;
+};
+typedef union bdk_mio_twsx_sw_twsi_ext bdk_mio_twsx_sw_twsi_ext_t;
 
 static inline uint64_t BDK_MIO_TWSX_SW_TWSI_EXT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_MIO_TWSX_SW_TWSI_EXT(unsigned long a)
@@ -725,7 +735,7 @@ static inline uint64_t BDK_MIO_TWSX_SW_TWSI_EXT(unsigned long a)
  * device can use one-byte or four-byte payload write operations, and two-byte payload read
  * operations. The TWSI device considers this register valid when V = 1.
  */
-typedef union
+union bdk_mio_twsx_twsi_sw
 {
     uint64_t u;
     struct bdk_mio_twsx_twsi_sw_s
@@ -743,7 +753,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_twsx_twsi_sw_s cn; */
-} bdk_mio_twsx_twsi_sw_t;
+};
+typedef union bdk_mio_twsx_twsi_sw bdk_mio_twsx_twsi_sw_t;
 
 static inline uint64_t BDK_MIO_TWSX_TWSI_SW(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_MIO_TWSX_TWSI_SW(unsigned long a)

@@ -90,7 +90,7 @@
  * This register contains the PTP CKOUT threshold increment on pre-inverted PTP_CKOUT rising
  * edge. See MIO_PTP_CKOUT_THRESH_HI for details.
  */
-typedef union
+union bdk_mio_ptp_ckout_hi_incr
 {
     uint64_t u;
     struct bdk_mio_ptp_ckout_hi_incr_s
@@ -104,7 +104,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_ptp_ckout_hi_incr_s cn; */
-} bdk_mio_ptp_ckout_hi_incr_t;
+};
+typedef union bdk_mio_ptp_ckout_hi_incr bdk_mio_ptp_ckout_hi_incr_t;
 
 #define BDK_MIO_PTP_CKOUT_HI_INCR BDK_MIO_PTP_CKOUT_HI_INCR_FUNC()
 static inline uint64_t BDK_MIO_PTP_CKOUT_HI_INCR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -127,7 +128,7 @@ static inline uint64_t BDK_MIO_PTP_CKOUT_HI_INCR_FUNC(void)
  * This register contains the PTP CKOUT threshold increment on pre-inverted PTP_CKOUT falling
  * edge. See MIO_PTP_CKOUT_THRESH_HI for details.
  */
-typedef union
+union bdk_mio_ptp_ckout_lo_incr
 {
     uint64_t u;
     struct bdk_mio_ptp_ckout_lo_incr_s
@@ -141,7 +142,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_ptp_ckout_lo_incr_s cn; */
-} bdk_mio_ptp_ckout_lo_incr_t;
+};
+typedef union bdk_mio_ptp_ckout_lo_incr bdk_mio_ptp_ckout_lo_incr_t;
 
 #define BDK_MIO_PTP_CKOUT_LO_INCR BDK_MIO_PTP_CKOUT_LO_INCR_FUNC()
 static inline uint64_t BDK_MIO_PTP_CKOUT_LO_INCR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -173,7 +175,7 @@ static inline uint64_t BDK_MIO_PTP_CKOUT_LO_INCR_FUNC(void)
  *   and {MIO_PTP_CLOCK_HI/LO} >= {MIO_PTP_CKOUT_THRESH_HI/LO}, the pre-inverted PTP_CKOUT will
  *   update to zero, and {MIO_PTP_CKOUT_THRESH_HI/LO} will increment by MIO_PTP_CKOUT_LO_INCR.
  */
-typedef union
+union bdk_mio_ptp_ckout_thresh_hi
 {
     uint64_t u;
     struct bdk_mio_ptp_ckout_thresh_hi_s
@@ -185,7 +187,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_ptp_ckout_thresh_hi_s cn; */
-} bdk_mio_ptp_ckout_thresh_hi_t;
+};
+typedef union bdk_mio_ptp_ckout_thresh_hi bdk_mio_ptp_ckout_thresh_hi_t;
 
 #define BDK_MIO_PTP_CKOUT_THRESH_HI BDK_MIO_PTP_CKOUT_THRESH_HI_FUNC()
 static inline uint64_t BDK_MIO_PTP_CKOUT_THRESH_HI_FUNC(void) __attribute__ ((pure, always_inline));
@@ -208,7 +211,7 @@ static inline uint64_t BDK_MIO_PTP_CKOUT_THRESH_HI_FUNC(void)
  * This register contains the low bytes of the PTP CKOUT threshold,
  * See MIO_PTP_CKOUT_THRESH_HI for details.
  */
-typedef union
+union bdk_mio_ptp_ckout_thresh_lo
 {
     uint64_t u;
     struct bdk_mio_ptp_ckout_thresh_lo_s
@@ -222,7 +225,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_ptp_ckout_thresh_lo_s cn; */
-} bdk_mio_ptp_ckout_thresh_lo_t;
+};
+typedef union bdk_mio_ptp_ckout_thresh_lo bdk_mio_ptp_ckout_thresh_lo_t;
 
 #define BDK_MIO_PTP_CKOUT_THRESH_LO BDK_MIO_PTP_CKOUT_THRESH_LO_FUNC()
 static inline uint64_t BDK_MIO_PTP_CKOUT_THRESH_LO_FUNC(void) __attribute__ ((pure, always_inline));
@@ -244,7 +248,7 @@ static inline uint64_t BDK_MIO_PTP_CKOUT_THRESH_LO_FUNC(void)
  * PTP Clock Configuration Register
  * This register configures the timestamp architecture.
  */
-typedef union
+union bdk_mio_ptp_clock_cfg
 {
     uint64_t u;
     struct bdk_mio_ptp_clock_cfg_s
@@ -314,7 +318,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_ptp_clock_cfg_s cn; */
-} bdk_mio_ptp_clock_cfg_t;
+};
+typedef union bdk_mio_ptp_clock_cfg bdk_mio_ptp_clock_cfg_t;
 
 #define BDK_MIO_PTP_CLOCK_CFG BDK_MIO_PTP_CLOCK_CFG_FUNC()
 static inline uint64_t BDK_MIO_PTP_CLOCK_CFG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -339,7 +344,7 @@ static inline uint64_t BDK_MIO_PTP_CLOCK_CFG_FUNC(void)
  * on PTP events defined by MIO_PTP_CLOCK_CFG[EXT_CLK_EN/EXT_CLK_IN/EXT_CLK_EDGE].
  * MIO_PTP_CLOCK_CFG[PTP_EN] needs to be enabled before writing this register.
  */
-typedef union
+union bdk_mio_ptp_clock_comp
 {
     uint64_t u;
     struct bdk_mio_ptp_clock_comp_s
@@ -353,7 +358,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_ptp_clock_comp_s cn; */
-} bdk_mio_ptp_clock_comp_t;
+};
+typedef union bdk_mio_ptp_clock_comp bdk_mio_ptp_clock_comp_t;
 
 #define BDK_MIO_PTP_CLOCK_COMP BDK_MIO_PTP_CLOCK_COMP_FUNC()
 static inline uint64_t BDK_MIO_PTP_CLOCK_COMP_FUNC(void) __attribute__ ((pure, always_inline));
@@ -377,7 +383,7 @@ static inline uint64_t BDK_MIO_PTP_CLOCK_COMP_FUNC(void)
  * MIO_PTP_CLOCK_LO. To update all 96 bits, write MIO_PTP_CLOCK_HI followed by MIO_PTP_CLOCK_LO.
  * MIO_PTP_CLOCK_CFG[PTP_EN] needs to be enabled before writing this register.
  */
-typedef union
+union bdk_mio_ptp_clock_hi
 {
     uint64_t u;
     struct bdk_mio_ptp_clock_hi_s
@@ -389,7 +395,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_ptp_clock_hi_s cn; */
-} bdk_mio_ptp_clock_hi_t;
+};
+typedef union bdk_mio_ptp_clock_hi bdk_mio_ptp_clock_hi_t;
 
 #define BDK_MIO_PTP_CLOCK_HI BDK_MIO_PTP_CLOCK_HI_FUNC()
 static inline uint64_t BDK_MIO_PTP_CLOCK_HI_FUNC(void) __attribute__ ((pure, always_inline));
@@ -412,7 +419,7 @@ static inline uint64_t BDK_MIO_PTP_CLOCK_HI_FUNC(void)
  * This register provides bits <31:0> of the PTP clock.  MIO_PTP_CLOCK_CFG[PTP_EN] needs to be
  * enabled before writing this register.
  */
-typedef union
+union bdk_mio_ptp_clock_lo
 {
     uint64_t u;
     struct bdk_mio_ptp_clock_lo_s
@@ -426,7 +433,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_ptp_clock_lo_s cn; */
-} bdk_mio_ptp_clock_lo_t;
+};
+typedef union bdk_mio_ptp_clock_lo bdk_mio_ptp_clock_lo_t;
 
 #define BDK_MIO_PTP_CLOCK_LO BDK_MIO_PTP_CLOCK_LO_FUNC()
 static inline uint64_t BDK_MIO_PTP_CLOCK_LO_FUNC(void) __attribute__ ((pure, always_inline));
@@ -448,7 +456,7 @@ static inline uint64_t BDK_MIO_PTP_CLOCK_LO_FUNC(void)
  * PTP Digital PLL Error Interrupt Register
  * This register contains the digital PLL error event.
  */
-typedef union
+union bdk_mio_ptp_dpll_err_int
 {
     uint64_t u;
     struct bdk_mio_ptp_dpll_err_int_s
@@ -464,7 +472,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_ptp_dpll_err_int_s cn; */
-} bdk_mio_ptp_dpll_err_int_t;
+};
+typedef union bdk_mio_ptp_dpll_err_int bdk_mio_ptp_dpll_err_int_t;
 
 #define BDK_MIO_PTP_DPLL_ERR_INT BDK_MIO_PTP_DPLL_ERR_INT_FUNC()
 static inline uint64_t BDK_MIO_PTP_DPLL_ERR_INT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -486,7 +495,7 @@ static inline uint64_t BDK_MIO_PTP_DPLL_ERR_INT_FUNC(void)
  * PTP Digital PLL Error Threshold Register
  * This register configures the digital PLL error interrupt.
  */
-typedef union
+union bdk_mio_ptp_dpll_err_thresh
 {
     uint64_t u;
     struct bdk_mio_ptp_dpll_err_thresh_s
@@ -504,7 +513,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_ptp_dpll_err_thresh_s cn; */
-} bdk_mio_ptp_dpll_err_thresh_t;
+};
+typedef union bdk_mio_ptp_dpll_err_thresh bdk_mio_ptp_dpll_err_thresh_t;
 
 #define BDK_MIO_PTP_DPLL_ERR_THRESH BDK_MIO_PTP_DPLL_ERR_THRESH_FUNC()
 static inline uint64_t BDK_MIO_PTP_DPLL_ERR_THRESH_FUNC(void) __attribute__ ((pure, always_inline));
@@ -527,7 +537,7 @@ static inline uint64_t BDK_MIO_PTP_DPLL_ERR_THRESH_FUNC(void)
  * This register contains the digital PLL increment on each coprocessor clock rising edge.
  * Zero disables the digital PLL.
  */
-typedef union
+union bdk_mio_ptp_dpll_incr
 {
     uint64_t u;
     struct bdk_mio_ptp_dpll_incr_s
@@ -541,7 +551,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_ptp_dpll_incr_s cn; */
-} bdk_mio_ptp_dpll_incr_t;
+};
+typedef union bdk_mio_ptp_dpll_incr bdk_mio_ptp_dpll_incr_t;
 
 #define BDK_MIO_PTP_DPLL_INCR BDK_MIO_PTP_DPLL_INCR_FUNC()
 static inline uint64_t BDK_MIO_PTP_DPLL_INCR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -563,7 +574,7 @@ static inline uint64_t BDK_MIO_PTP_DPLL_INCR_FUNC(void)
  * PTP Event Counter Register
  * This register contains the PTP event counter.
  */
-typedef union
+union bdk_mio_ptp_evt_cnt
 {
     uint64_t u;
     struct bdk_mio_ptp_evt_cnt_s
@@ -583,7 +594,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_ptp_evt_cnt_s cn; */
-} bdk_mio_ptp_evt_cnt_t;
+};
+typedef union bdk_mio_ptp_evt_cnt bdk_mio_ptp_evt_cnt_t;
 
 #define BDK_MIO_PTP_EVT_CNT BDK_MIO_PTP_EVT_CNT_FUNC()
 static inline uint64_t BDK_MIO_PTP_EVT_CNT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -605,7 +617,7 @@ static inline uint64_t BDK_MIO_PTP_EVT_CNT_FUNC(void)
  * PTP Interrupt Register
  * This register contains the PTP interrupts.
  */
-typedef union
+union bdk_mio_ptp_int
 {
     uint64_t u;
     struct bdk_mio_ptp_int_s
@@ -621,7 +633,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_ptp_int_s cn; */
-} bdk_mio_ptp_int_t;
+};
+typedef union bdk_mio_ptp_int bdk_mio_ptp_int_t;
 
 #define BDK_MIO_PTP_INT BDK_MIO_PTP_INT_FUNC()
 static inline uint64_t BDK_MIO_PTP_INT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -643,7 +656,7 @@ static inline uint64_t BDK_MIO_PTP_INT_FUNC(void)
  * PTP Interrupt Enable Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_mio_ptp_int_ena_w1c
 {
     uint64_t u;
     struct bdk_mio_ptp_int_ena_w1c_s
@@ -659,7 +672,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_ptp_int_ena_w1c_s cn; */
-} bdk_mio_ptp_int_ena_w1c_t;
+};
+typedef union bdk_mio_ptp_int_ena_w1c bdk_mio_ptp_int_ena_w1c_t;
 
 #define BDK_MIO_PTP_INT_ENA_W1C BDK_MIO_PTP_INT_ENA_W1C_FUNC()
 static inline uint64_t BDK_MIO_PTP_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -681,7 +695,7 @@ static inline uint64_t BDK_MIO_PTP_INT_ENA_W1C_FUNC(void)
  * PTP Interrupt Enable W1S Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_mio_ptp_int_ena_w1s
 {
     uint64_t u;
     struct bdk_mio_ptp_int_ena_w1s_s
@@ -697,7 +711,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_ptp_int_ena_w1s_s cn; */
-} bdk_mio_ptp_int_ena_w1s_t;
+};
+typedef union bdk_mio_ptp_int_ena_w1s bdk_mio_ptp_int_ena_w1s_t;
 
 #define BDK_MIO_PTP_INT_ENA_W1S BDK_MIO_PTP_INT_ENA_W1S_FUNC()
 static inline uint64_t BDK_MIO_PTP_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -719,7 +734,7 @@ static inline uint64_t BDK_MIO_PTP_INT_ENA_W1S_FUNC(void)
  * PTP Interrupt W1S Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_mio_ptp_int_w1s
 {
     uint64_t u;
     struct bdk_mio_ptp_int_w1s_s
@@ -735,7 +750,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_ptp_int_w1s_s cn; */
-} bdk_mio_ptp_int_w1s_t;
+};
+typedef union bdk_mio_ptp_int_w1s bdk_mio_ptp_int_w1s_t;
 
 #define BDK_MIO_PTP_INT_W1S BDK_MIO_PTP_INT_W1S_FUNC()
 static inline uint64_t BDK_MIO_PTP_INT_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -758,7 +774,7 @@ static inline uint64_t BDK_MIO_PTP_INT_W1S_FUNC(void)
  * This register is the MSI-X PBA table; the bit number is indexed by the MIO_PTP_INT_VEC_E
  * enumeration.
  */
-typedef union
+union bdk_mio_ptp_msix_pbax
 {
     uint64_t u;
     struct bdk_mio_ptp_msix_pbax_s
@@ -774,7 +790,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_ptp_msix_pbax_s cn; */
-} bdk_mio_ptp_msix_pbax_t;
+};
+typedef union bdk_mio_ptp_msix_pbax bdk_mio_ptp_msix_pbax_t;
 
 static inline uint64_t BDK_MIO_PTP_MSIX_PBAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_MIO_PTP_MSIX_PBAX(unsigned long a)
@@ -797,7 +814,7 @@ static inline uint64_t BDK_MIO_PTP_MSIX_PBAX(unsigned long a)
  * PTP MSI-X Vector-Table Address Register
  * This register is the MSI-X vector table, indexed by the MIO_PTP_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_mio_ptp_msix_vecx_addr
 {
     uint64_t u;
     struct bdk_mio_ptp_msix_vecx_addr_s
@@ -831,7 +848,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_ptp_msix_vecx_addr_s cn; */
-} bdk_mio_ptp_msix_vecx_addr_t;
+};
+typedef union bdk_mio_ptp_msix_vecx_addr bdk_mio_ptp_msix_vecx_addr_t;
 
 static inline uint64_t BDK_MIO_PTP_MSIX_VECX_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_MIO_PTP_MSIX_VECX_ADDR(unsigned long a)
@@ -854,7 +872,7 @@ static inline uint64_t BDK_MIO_PTP_MSIX_VECX_ADDR(unsigned long a)
  * PTP MSI-X Vector-Table Control and Data Register
  * This register is the MSI-X vector table, indexed by the MIO_PTP_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_mio_ptp_msix_vecx_ctl
 {
     uint64_t u;
     struct bdk_mio_ptp_msix_vecx_ctl_s
@@ -872,7 +890,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_ptp_msix_vecx_ctl_s cn; */
-} bdk_mio_ptp_msix_vecx_ctl_t;
+};
+typedef union bdk_mio_ptp_msix_vecx_ctl bdk_mio_ptp_msix_vecx_ctl_t;
 
 static inline uint64_t BDK_MIO_PTP_MSIX_VECX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_MIO_PTP_MSIX_VECX_CTL(unsigned long a)
@@ -896,7 +915,7 @@ static inline uint64_t BDK_MIO_PTP_MSIX_VECX_CTL(unsigned long a)
  * This register contains the PTP PPS threshold increment on pre-inverted PTP_PPS rising edge.
  * See MIO_PTP_PPS_THRESH_HI for details.
  */
-typedef union
+union bdk_mio_ptp_pps_hi_incr
 {
     uint64_t u;
     struct bdk_mio_ptp_pps_hi_incr_s
@@ -910,7 +929,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_ptp_pps_hi_incr_s cn; */
-} bdk_mio_ptp_pps_hi_incr_t;
+};
+typedef union bdk_mio_ptp_pps_hi_incr bdk_mio_ptp_pps_hi_incr_t;
 
 #define BDK_MIO_PTP_PPS_HI_INCR BDK_MIO_PTP_PPS_HI_INCR_FUNC()
 static inline uint64_t BDK_MIO_PTP_PPS_HI_INCR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -933,7 +953,7 @@ static inline uint64_t BDK_MIO_PTP_PPS_HI_INCR_FUNC(void)
  * This register contains the PTP PPS threshold increment on pre-inverted PTP_PPS falling edge.
  * See MIO_PTP_PPS_THRESH_HI for details.
  */
-typedef union
+union bdk_mio_ptp_pps_lo_incr
 {
     uint64_t u;
     struct bdk_mio_ptp_pps_lo_incr_s
@@ -947,7 +967,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_ptp_pps_lo_incr_s cn; */
-} bdk_mio_ptp_pps_lo_incr_t;
+};
+typedef union bdk_mio_ptp_pps_lo_incr bdk_mio_ptp_pps_lo_incr_t;
 
 #define BDK_MIO_PTP_PPS_LO_INCR BDK_MIO_PTP_PPS_LO_INCR_FUNC()
 static inline uint64_t BDK_MIO_PTP_PPS_LO_INCR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -979,7 +1000,7 @@ static inline uint64_t BDK_MIO_PTP_PPS_LO_INCR_FUNC(void)
  *   and {MIO_PTP_CLOCK_HI/LO} >=  {MIO_PTP_PPS_THRESH_HI/LO}, the pre-inverted PTP_PPS will
  *   update to zero, and {MIO_PTP_PPS_THRESH_HI/LO} will increment by MIO_PTP_PPS_LO_INCR.
  */
-typedef union
+union bdk_mio_ptp_pps_thresh_hi
 {
     uint64_t u;
     struct bdk_mio_ptp_pps_thresh_hi_s
@@ -991,7 +1012,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_ptp_pps_thresh_hi_s cn; */
-} bdk_mio_ptp_pps_thresh_hi_t;
+};
+typedef union bdk_mio_ptp_pps_thresh_hi bdk_mio_ptp_pps_thresh_hi_t;
 
 #define BDK_MIO_PTP_PPS_THRESH_HI BDK_MIO_PTP_PPS_THRESH_HI_FUNC()
 static inline uint64_t BDK_MIO_PTP_PPS_THRESH_HI_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1014,7 +1036,7 @@ static inline uint64_t BDK_MIO_PTP_PPS_THRESH_HI_FUNC(void)
  * This register contains the low bytes of the PTP PPS threshold.
  * See MIO_PTP_PPS_THRESH_HI for details.
  */
-typedef union
+union bdk_mio_ptp_pps_thresh_lo
 {
     uint64_t u;
     struct bdk_mio_ptp_pps_thresh_lo_s
@@ -1028,7 +1050,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_ptp_pps_thresh_lo_s cn; */
-} bdk_mio_ptp_pps_thresh_lo_t;
+};
+typedef union bdk_mio_ptp_pps_thresh_lo bdk_mio_ptp_pps_thresh_lo_t;
 
 #define BDK_MIO_PTP_PPS_THRESH_LO BDK_MIO_PTP_PPS_THRESH_LO_FUNC()
 static inline uint64_t BDK_MIO_PTP_PPS_THRESH_LO_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1051,7 +1074,7 @@ static inline uint64_t BDK_MIO_PTP_PPS_THRESH_LO_FUNC(void)
  * This register contains the timestamp latched on MIO_PTP_CLOCK_CFG[TSTMP_EDGE] edge of
  * MIO_PTP_CLOCK_CFG[TSTMP_IN].
  */
-typedef union
+union bdk_mio_ptp_timestamp
 {
     uint64_t u;
     struct bdk_mio_ptp_timestamp_s
@@ -1063,7 +1086,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_ptp_timestamp_s cn; */
-} bdk_mio_ptp_timestamp_t;
+};
+typedef union bdk_mio_ptp_timestamp bdk_mio_ptp_timestamp_t;
 
 #define BDK_MIO_PTP_TIMESTAMP BDK_MIO_PTP_TIMESTAMP_FUNC()
 static inline uint64_t BDK_MIO_PTP_TIMESTAMP_FUNC(void) __attribute__ ((pure, always_inline));

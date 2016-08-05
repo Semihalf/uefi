@@ -76,7 +76,7 @@
  *
  * PCM Clock Configuration Register
  */
-typedef union
+union bdk_pcm_clkx_cfg
 {
     uint64_t u;
     struct bdk_pcm_clkx_cfg_s
@@ -190,7 +190,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcm_clkx_cfg_s cn; */
-} bdk_pcm_clkx_cfg_t;
+};
+typedef union bdk_pcm_clkx_cfg bdk_pcm_clkx_cfg_t;
 
 static inline uint64_t BDK_PCM_CLKX_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCM_CLKX_CFG(unsigned long a)
@@ -212,7 +213,7 @@ static inline uint64_t BDK_PCM_CLKX_CFG(unsigned long a)
  *
  * INTERNAL: PCM Clock Debug Information Register
  */
-typedef union
+union bdk_pcm_clkx_dbg
 {
     uint64_t u;
     struct bdk_pcm_clkx_dbg_s
@@ -224,7 +225,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcm_clkx_dbg_s cn; */
-} bdk_pcm_clkx_dbg_t;
+};
+typedef union bdk_pcm_clkx_dbg bdk_pcm_clkx_dbg_t;
 
 static inline uint64_t BDK_PCM_CLKX_DBG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCM_CLKX_DBG(unsigned long a)
@@ -246,7 +248,7 @@ static inline uint64_t BDK_PCM_CLKX_DBG(unsigned long a)
  *
  * PCM Clock Generation Register
  */
-typedef union
+union bdk_pcm_clkx_gen
 {
     uint64_t u;
     struct bdk_pcm_clkx_gen_s
@@ -286,7 +288,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcm_clkx_gen_s cn; */
-} bdk_pcm_clkx_gen_t;
+};
+typedef union bdk_pcm_clkx_gen bdk_pcm_clkx_gen_t;
 
 static inline uint64_t BDK_PCM_CLKX_GEN(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCM_CLKX_GEN(unsigned long a)
@@ -309,7 +312,7 @@ static inline uint64_t BDK_PCM_CLKX_GEN(unsigned long a)
  * PCM MSI-X Pending Bit Array Registers
  * This register is the MSI-X PBA table, the bit number is indexed by the PCM_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_pcm_msix_pbax
 {
     uint64_t u;
     struct bdk_pcm_msix_pbax_s
@@ -323,7 +326,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcm_msix_pbax_s cn; */
-} bdk_pcm_msix_pbax_t;
+};
+typedef union bdk_pcm_msix_pbax bdk_pcm_msix_pbax_t;
 
 static inline uint64_t BDK_PCM_MSIX_PBAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCM_MSIX_PBAX(unsigned long a)
@@ -346,7 +350,7 @@ static inline uint64_t BDK_PCM_MSIX_PBAX(unsigned long a)
  * PCM MSI-X Vector Table Address Registers
  * This register is the MSI-X vector table, indexed by the PCM_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_pcm_msix_vecx_addr
 {
     uint64_t u;
     struct bdk_pcm_msix_vecx_addr_s
@@ -378,7 +382,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcm_msix_vecx_addr_s cn; */
-} bdk_pcm_msix_vecx_addr_t;
+};
+typedef union bdk_pcm_msix_vecx_addr bdk_pcm_msix_vecx_addr_t;
 
 static inline uint64_t BDK_PCM_MSIX_VECX_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCM_MSIX_VECX_ADDR(unsigned long a)
@@ -401,7 +406,7 @@ static inline uint64_t BDK_PCM_MSIX_VECX_ADDR(unsigned long a)
  * PCM MSI-X Vector Table Control and Data Registers
  * This register is the MSI-X vector table, indexed by the PCM_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_pcm_msix_vecx_ctl
 {
     uint64_t u;
     struct bdk_pcm_msix_vecx_ctl_s
@@ -419,7 +424,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcm_msix_vecx_ctl_s cn; */
-} bdk_pcm_msix_vecx_ctl_t;
+};
+typedef union bdk_pcm_msix_vecx_ctl bdk_pcm_msix_vecx_ctl_t;
 
 static inline uint64_t BDK_PCM_MSIX_VECX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCM_MSIX_VECX_CTL(unsigned long a)
@@ -441,7 +447,7 @@ static inline uint64_t BDK_PCM_MSIX_VECX_CTL(unsigned long a)
  *
  * PCM DMA Configuration Register
  */
-typedef union
+union bdk_pcm_tex_dma_cfg
 {
     uint64_t u;
     struct bdk_pcm_tex_dma_cfg_s
@@ -517,7 +523,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcm_tex_dma_cfg_s cn; */
-} bdk_pcm_tex_dma_cfg_t;
+};
+typedef union bdk_pcm_tex_dma_cfg bdk_pcm_tex_dma_cfg_t;
 
 static inline uint64_t BDK_PCM_TEX_DMA_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCM_TEX_DMA_CFG(unsigned long a)
@@ -540,7 +547,7 @@ static inline uint64_t BDK_PCM_TEX_DMA_CFG(unsigned long a)
  * PCM Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_pcm_tex_int_ena_w1c
 {
     uint64_t u;
     struct bdk_pcm_tex_int_ena_w1c_s
@@ -568,7 +575,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcm_tex_int_ena_w1c_s cn; */
-} bdk_pcm_tex_int_ena_w1c_t;
+};
+typedef union bdk_pcm_tex_int_ena_w1c bdk_pcm_tex_int_ena_w1c_t;
 
 static inline uint64_t BDK_PCM_TEX_INT_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCM_TEX_INT_ENA_W1C(unsigned long a)
@@ -591,7 +599,7 @@ static inline uint64_t BDK_PCM_TEX_INT_ENA_W1C(unsigned long a)
  * PCM Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_pcm_tex_int_ena_w1s
 {
     uint64_t u;
     struct bdk_pcm_tex_int_ena_w1s_s
@@ -619,7 +627,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcm_tex_int_ena_w1s_s cn; */
-} bdk_pcm_tex_int_ena_w1s_t;
+};
+typedef union bdk_pcm_tex_int_ena_w1s bdk_pcm_tex_int_ena_w1s_t;
 
 static inline uint64_t BDK_PCM_TEX_INT_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCM_TEX_INT_ENA_W1S(unsigned long a)
@@ -641,7 +650,7 @@ static inline uint64_t BDK_PCM_TEX_INT_ENA_W1S(unsigned long a)
  *
  * PCM Interrupt Summary Register
  */
-typedef union
+union bdk_pcm_tex_int_sum
 {
     uint64_t u;
     struct bdk_pcm_tex_int_sum_s
@@ -669,7 +678,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcm_tex_int_sum_s cn; */
-} bdk_pcm_tex_int_sum_t;
+};
+typedef union bdk_pcm_tex_int_sum bdk_pcm_tex_int_sum_t;
 
 static inline uint64_t BDK_PCM_TEX_INT_SUM(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCM_TEX_INT_SUM(unsigned long a)
@@ -692,7 +702,7 @@ static inline uint64_t BDK_PCM_TEX_INT_SUM(unsigned long a)
  * PCM Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_pcm_tex_int_sum_w1s
 {
     uint64_t u;
     struct bdk_pcm_tex_int_sum_w1s_s
@@ -720,7 +730,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcm_tex_int_sum_w1s_s cn; */
-} bdk_pcm_tex_int_sum_w1s_t;
+};
+typedef union bdk_pcm_tex_int_sum_w1s bdk_pcm_tex_int_sum_w1s_t;
 
 static inline uint64_t BDK_PCM_TEX_INT_SUM_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCM_TEX_INT_SUM_W1S(unsigned long a)
@@ -742,7 +753,7 @@ static inline uint64_t BDK_PCM_TEX_INT_SUM_W1S(unsigned long a)
  *
  * PCM Receive Address Register
  */
-typedef union
+union bdk_pcm_tex_rxaddr
 {
     uint64_t u;
     struct bdk_pcm_tex_rxaddr_s
@@ -756,7 +767,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcm_tex_rxaddr_s cn; */
-} bdk_pcm_tex_rxaddr_t;
+};
+typedef union bdk_pcm_tex_rxaddr bdk_pcm_tex_rxaddr_t;
 
 static inline uint64_t BDK_PCM_TEX_RXADDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCM_TEX_RXADDR(unsigned long a)
@@ -778,7 +790,7 @@ static inline uint64_t BDK_PCM_TEX_RXADDR(unsigned long a)
  *
  * PCM Receive Superframe Count Register
  */
-typedef union
+union bdk_pcm_tex_rxcnt
 {
     uint64_t u;
     struct bdk_pcm_tex_rxcnt_s
@@ -792,7 +804,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcm_tex_rxcnt_s cn; */
-} bdk_pcm_tex_rxcnt_t;
+};
+typedef union bdk_pcm_tex_rxcnt bdk_pcm_tex_rxcnt_t;
 
 static inline uint64_t BDK_PCM_TEX_RXCNT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCM_TEX_RXCNT(unsigned long a)
@@ -814,7 +827,7 @@ static inline uint64_t BDK_PCM_TEX_RXCNT(unsigned long a)
  *
  * PCM Recieve Bit Masks Register
  */
-typedef union
+union bdk_pcm_tex_rxmskx
 {
     uint64_t u;
     struct bdk_pcm_tex_rxmskx_s
@@ -844,7 +857,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcm_tex_rxmskx_s cn; */
-} bdk_pcm_tex_rxmskx_t;
+};
+typedef union bdk_pcm_tex_rxmskx bdk_pcm_tex_rxmskx_t;
 
 static inline uint64_t BDK_PCM_TEX_RXMSKX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCM_TEX_RXMSKX(unsigned long a, unsigned long b)
@@ -866,7 +880,7 @@ static inline uint64_t BDK_PCM_TEX_RXMSKX(unsigned long a, unsigned long b)
  *
  * PCM Receive Start Address Register
  */
-typedef union
+union bdk_pcm_tex_rxstart
 {
     uint64_t u;
     struct bdk_pcm_tex_rxstart_s
@@ -882,7 +896,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcm_tex_rxstart_s cn; */
-} bdk_pcm_tex_rxstart_t;
+};
+typedef union bdk_pcm_tex_rxstart bdk_pcm_tex_rxstart_t;
 
 static inline uint64_t BDK_PCM_TEX_RXSTART(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCM_TEX_RXSTART(unsigned long a)
@@ -904,7 +919,7 @@ static inline uint64_t BDK_PCM_TEX_RXSTART(unsigned long a)
  *
  * PCM TDM Configuration Register
  */
-typedef union
+union bdk_pcm_tex_tdm_cfg
 {
     uint64_t u;
     struct bdk_pcm_tex_tdm_cfg_s
@@ -944,7 +959,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcm_tex_tdm_cfg_s cn; */
-} bdk_pcm_tex_tdm_cfg_t;
+};
+typedef union bdk_pcm_tex_tdm_cfg bdk_pcm_tex_tdm_cfg_t;
 
 static inline uint64_t BDK_PCM_TEX_TDM_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCM_TEX_TDM_CFG(unsigned long a)
@@ -966,7 +982,7 @@ static inline uint64_t BDK_PCM_TEX_TDM_CFG(unsigned long a)
  *
  * INTERNAL: PCM TDM Debug Information Register
  */
-typedef union
+union bdk_pcm_tex_tdm_dbg
 {
     uint64_t u;
     struct bdk_pcm_tex_tdm_dbg_s
@@ -978,7 +994,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcm_tex_tdm_dbg_s cn; */
-} bdk_pcm_tex_tdm_dbg_t;
+};
+typedef union bdk_pcm_tex_tdm_dbg bdk_pcm_tex_tdm_dbg_t;
 
 static inline uint64_t BDK_PCM_TEX_TDM_DBG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCM_TEX_TDM_DBG(unsigned long a)
@@ -1000,7 +1017,7 @@ static inline uint64_t BDK_PCM_TEX_TDM_DBG(unsigned long a)
  *
  * PCM Transmit Address Register
  */
-typedef union
+union bdk_pcm_tex_txaddr
 {
     uint64_t u;
     struct bdk_pcm_tex_txaddr_s
@@ -1018,7 +1035,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcm_tex_txaddr_s cn; */
-} bdk_pcm_tex_txaddr_t;
+};
+typedef union bdk_pcm_tex_txaddr bdk_pcm_tex_txaddr_t;
 
 static inline uint64_t BDK_PCM_TEX_TXADDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCM_TEX_TXADDR(unsigned long a)
@@ -1040,7 +1058,7 @@ static inline uint64_t BDK_PCM_TEX_TXADDR(unsigned long a)
  *
  * PCM Superframe Transmit Count Register
  */
-typedef union
+union bdk_pcm_tex_txcnt
 {
     uint64_t u;
     struct bdk_pcm_tex_txcnt_s
@@ -1054,7 +1072,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcm_tex_txcnt_s cn; */
-} bdk_pcm_tex_txcnt_t;
+};
+typedef union bdk_pcm_tex_txcnt bdk_pcm_tex_txcnt_t;
 
 static inline uint64_t BDK_PCM_TEX_TXCNT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCM_TEX_TXCNT(unsigned long a)
@@ -1076,7 +1095,7 @@ static inline uint64_t BDK_PCM_TEX_TXCNT(unsigned long a)
  *
  * PCM Transmit Bit Masks Register
  */
-typedef union
+union bdk_pcm_tex_txmskx
 {
     uint64_t u;
     struct bdk_pcm_tex_txmskx_s
@@ -1106,7 +1125,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcm_tex_txmskx_s cn; */
-} bdk_pcm_tex_txmskx_t;
+};
+typedef union bdk_pcm_tex_txmskx bdk_pcm_tex_txmskx_t;
 
 static inline uint64_t BDK_PCM_TEX_TXMSKX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCM_TEX_TXMSKX(unsigned long a, unsigned long b)
@@ -1128,7 +1148,7 @@ static inline uint64_t BDK_PCM_TEX_TXMSKX(unsigned long a, unsigned long b)
  *
  * PCM Transmit Start Address Register
  */
-typedef union
+union bdk_pcm_tex_txstart
 {
     uint64_t u;
     struct bdk_pcm_tex_txstart_s
@@ -1144,7 +1164,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcm_tex_txstart_s cn; */
-} bdk_pcm_tex_txstart_t;
+};
+typedef union bdk_pcm_tex_txstart bdk_pcm_tex_txstart_t;
 
 static inline uint64_t BDK_PCM_TEX_TXSTART(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCM_TEX_TXSTART(unsigned long a)

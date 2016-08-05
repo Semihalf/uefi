@@ -2628,7 +2628,7 @@ union bdk_zip_zres_s
  * ZIP Clock/Reset Control Register
  * This register controls clock and reset.
  */
-typedef union
+union bdk_zip_cmd_ctl
 {
     uint64_t u;
     struct bdk_zip_cmd_ctl_s
@@ -2644,7 +2644,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_zip_cmd_ctl_s cn; */
-} bdk_zip_cmd_ctl_t;
+};
+typedef union bdk_zip_cmd_ctl bdk_zip_cmd_ctl_t;
 
 #define BDK_ZIP_CMD_CTL BDK_ZIP_CMD_CTL_FUNC()
 static inline uint64_t BDK_ZIP_CMD_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2671,7 +2672,7 @@ static inline uint64_t BDK_ZIP_CMD_CTL_FUNC(void)
  * This register contains implementation-related parameters of the ZIP core in this
  * chip.
  */
-typedef union
+union bdk_zip_constants
 {
     uint64_t u;
     struct bdk_zip_constants_s
@@ -2748,7 +2749,8 @@ typedef union
                                                                  field is 0x0. */
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_zip_constants_t;
+};
+typedef union bdk_zip_constants bdk_zip_constants_t;
 
 #define BDK_ZIP_CONSTANTS BDK_ZIP_CONSTANTS_FUNC()
 static inline uint64_t BDK_ZIP_CONSTANTS_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2775,7 +2777,7 @@ static inline uint64_t BDK_ZIP_CONSTANTS_FUNC(void)
  * This register contains additional implementation-related parameters of the ZIP core
  * in this chip.
  */
-typedef union
+union bdk_zip_constants2
 {
     uint64_t u;
     struct bdk_zip_constants2_s
@@ -2791,7 +2793,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_zip_constants2_s cn; */
-} bdk_zip_constants2_t;
+};
+typedef union bdk_zip_constants2 bdk_zip_constants2_t;
 
 #define BDK_ZIP_CONSTANTS2 BDK_ZIP_CONSTANTS2_FUNC()
 static inline uint64_t BDK_ZIP_CONSTANTS2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2816,7 +2819,7 @@ static inline uint64_t BDK_ZIP_CONSTANTS2_FUNC(void)
  * These register have the BIST status of memories in ZIP cores. Each bit is the BIST result of
  * an individual memory (per bit, 0 = pass and 1 = fail).
  */
-typedef union
+union bdk_zip_corex_bist_status
 {
     uint64_t u;
     struct bdk_zip_corex_bist_status_s
@@ -2906,7 +2909,8 @@ typedef union
         uint64_t reserved_26_63        : 38;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_zip_corex_bist_status_t;
+};
+typedef union bdk_zip_corex_bist_status bdk_zip_corex_bist_status_t;
 
 static inline uint64_t BDK_ZIP_COREX_BIST_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ZIP_COREX_BIST_STATUS(unsigned long a)
@@ -2931,7 +2935,7 @@ static inline uint64_t BDK_ZIP_COREX_BIST_STATUS(unsigned long a)
  * ZIP Core Status Registers
  * These registers reflect the timeout status of ZIP cores.
  */
-typedef union
+union bdk_zip_corex_to_sta
 {
     uint64_t u;
     struct bdk_zip_corex_to_sta_s
@@ -2949,7 +2953,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_zip_corex_to_sta_s cn; */
-} bdk_zip_corex_to_sta_t;
+};
+typedef union bdk_zip_corex_to_sta bdk_zip_corex_to_sta_t;
 
 static inline uint64_t BDK_ZIP_COREX_TO_STA(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ZIP_COREX_TO_STA(unsigned long a)
@@ -2974,7 +2979,7 @@ static inline uint64_t BDK_ZIP_COREX_TO_STA(unsigned long a)
  * ZIP Core Reset Register
  * This register resets the ZIP cores. For diagnostic use only.
  */
-typedef union
+union bdk_zip_core_reset
 {
     uint64_t u;
     struct bdk_zip_core_reset_s
@@ -3022,7 +3027,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn88xx;
     /* struct bdk_zip_core_reset_s cn83xx; */
-} bdk_zip_core_reset_t;
+};
+typedef union bdk_zip_core_reset bdk_zip_core_reset_t;
 
 #define BDK_ZIP_CORE_RESET BDK_ZIP_CORE_RESET_FUNC()
 static inline uint64_t BDK_ZIP_CORE_RESET_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3048,7 +3054,7 @@ static inline uint64_t BDK_ZIP_CORE_RESET_FUNC(void)
  * ZIP Engine Timeout Configure Register
  * Configure the core timeout value in term of clock cycles.
  */
-typedef union
+union bdk_zip_core_to_cfg
 {
     uint64_t u;
     struct bdk_zip_core_to_cfg_s
@@ -3164,7 +3170,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn88xx;
     /* struct bdk_zip_core_to_cfg_s cn83xx; */
-} bdk_zip_core_to_cfg_t;
+};
+typedef union bdk_zip_core_to_cfg bdk_zip_core_to_cfg_t;
 
 #define BDK_ZIP_CORE_TO_CFG BDK_ZIP_CORE_TO_CFG_FUNC()
 static inline uint64_t BDK_ZIP_CORE_TO_CFG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3192,7 +3199,7 @@ static inline uint64_t BDK_ZIP_CORE_TO_CFG_FUNC(void)
  * FIFO, input data buffer, output data buffers). Each bit is the BIST result of an individual
  * memory (per bit, 0 = pass and 1 = fail).
  */
-typedef union
+union bdk_zip_ctl_bist_status
 {
     uint64_t u;
     struct bdk_zip_ctl_bist_status_s
@@ -3255,7 +3262,8 @@ typedef union
         uint64_t reserved_23_63        : 41;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_zip_ctl_bist_status_t;
+};
+typedef union bdk_zip_ctl_bist_status bdk_zip_ctl_bist_status_t;
 
 #define BDK_ZIP_CTL_BIST_STATUS BDK_ZIP_CTL_BIST_STATUS_FUNC()
 static inline uint64_t BDK_ZIP_CTL_BIST_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3282,7 +3290,7 @@ static inline uint64_t BDK_ZIP_CTL_BIST_STATUS_FUNC(void)
  * This register controls the behavior of the ZIP DMA engines. It is recommended to keep default
  * values for normal operation. Changing the values of the fields may be useful for diagnostics.
  */
-typedef union
+union bdk_zip_ctl_cfg
 {
     uint64_t u;
     struct bdk_zip_ctl_cfg_s
@@ -3352,7 +3360,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn88xx;
     /* struct bdk_zip_ctl_cfg_s cn83xx; */
-} bdk_zip_ctl_cfg_t;
+};
+typedef union bdk_zip_ctl_cfg bdk_zip_ctl_cfg_t;
 
 #define BDK_ZIP_CTL_CFG BDK_ZIP_CTL_CFG_FUNC()
 static inline uint64_t BDK_ZIP_CTL_CFG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3379,7 +3388,7 @@ static inline uint64_t BDK_ZIP_CTL_CFG_FUNC(void)
  * These registers reflect the status of the current instruction that the ZIP core is executing
  * or has executed. These registers are only for debug use.
  */
-typedef union
+union bdk_zip_dbg_corex_inst
 {
     uint64_t u;
     struct bdk_zip_dbg_corex_inst_s
@@ -3449,7 +3458,8 @@ typedef union
         uint64_t busy                  : 1;  /**< [ 63: 63](RO/H) Core state. 0 = core is idle; 1 = core is busy. */
 #endif /* Word 0 - End */
     } cn88xxp1;
-} bdk_zip_dbg_corex_inst_t;
+};
+typedef union bdk_zip_dbg_corex_inst bdk_zip_dbg_corex_inst_t;
 
 static inline uint64_t BDK_ZIP_DBG_COREX_INST(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ZIP_DBG_COREX_INST(unsigned long a)
@@ -3474,7 +3484,7 @@ static inline uint64_t BDK_ZIP_DBG_COREX_INST(unsigned long a)
  * ZIP Core Status Registers
  * These registers reflect the status of the ZIP cores and are for debug use only.
  */
-typedef union
+union bdk_zip_dbg_corex_sta
 {
     uint64_t u;
     struct bdk_zip_dbg_corex_sta_s
@@ -3506,7 +3516,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn88xx;
     /* struct bdk_zip_dbg_corex_sta_s cn83xx; */
-} bdk_zip_dbg_corex_sta_t;
+};
+typedef union bdk_zip_dbg_corex_sta bdk_zip_dbg_corex_sta_t;
 
 static inline uint64_t BDK_ZIP_DBG_COREX_STA(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ZIP_DBG_COREX_STA(unsigned long a)
@@ -3531,7 +3542,7 @@ static inline uint64_t BDK_ZIP_DBG_COREX_STA(unsigned long a)
  * ZIP Queue Status Registers
  * These registers reflect status of the ZIP instruction queues and are for debug use only.
  */
-typedef union
+union bdk_zip_dbg_quex_sta
 {
     uint64_t u;
     struct bdk_zip_dbg_quex_sta_s
@@ -3614,7 +3625,8 @@ typedef union
         uint64_t busy                  : 1;  /**< [ 63: 63](RO/H) Queue state. 0 = queue is idle; 1 = queue is busy. */
 #endif /* Word 0 - End */
     } cn88xxp1;
-} bdk_zip_dbg_quex_sta_t;
+};
+typedef union bdk_zip_dbg_quex_sta bdk_zip_dbg_quex_sta_t;
 
 static inline uint64_t BDK_ZIP_DBG_QUEX_STA(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ZIP_DBG_QUEX_STA(unsigned long a)
@@ -3640,7 +3652,7 @@ static inline uint64_t BDK_ZIP_DBG_QUEX_STA(unsigned long a)
  * This register enables ECC for each individual internal memory that requires ECC. For debug
  * purpose, it can also flip one or two bits in the ECC data.
  */
-typedef union
+union bdk_zip_ecc_ctl
 {
     uint64_t u;
     struct bdk_zip_ecc_ctl_s
@@ -3817,7 +3829,8 @@ typedef union
         uint64_t reserved_43_63        : 21;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_zip_ecc_ctl_t;
+};
+typedef union bdk_zip_ecc_ctl bdk_zip_ecc_ctl_t;
 
 #define BDK_ZIP_ECC_CTL BDK_ZIP_ECC_CTL_FUNC()
 static inline uint64_t BDK_ZIP_ECC_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3843,7 +3856,7 @@ static inline uint64_t BDK_ZIP_ECC_CTL_FUNC(void)
  * ZIP ECC Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_zip_ecce_ena_w1c
 {
     uint64_t u;
     struct bdk_zip_ecce_ena_w1c_s
@@ -3915,7 +3928,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn88xx;
     /* struct bdk_zip_ecce_ena_w1c_s cn83xx; */
-} bdk_zip_ecce_ena_w1c_t;
+};
+typedef union bdk_zip_ecce_ena_w1c bdk_zip_ecce_ena_w1c_t;
 
 #define BDK_ZIP_ECCE_ENA_W1C BDK_ZIP_ECCE_ENA_W1C_FUNC()
 static inline uint64_t BDK_ZIP_ECCE_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3941,7 +3955,7 @@ static inline uint64_t BDK_ZIP_ECCE_ENA_W1C_FUNC(void)
  * ZIP ECC Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_zip_ecce_ena_w1s
 {
     uint64_t u;
     struct bdk_zip_ecce_ena_w1s_s
@@ -4013,7 +4027,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn88xx;
     /* struct bdk_zip_ecce_ena_w1s_s cn83xx; */
-} bdk_zip_ecce_ena_w1s_t;
+};
+typedef union bdk_zip_ecce_ena_w1s bdk_zip_ecce_ena_w1s_t;
 
 #define BDK_ZIP_ECCE_ENA_W1S BDK_ZIP_ECCE_ENA_W1S_FUNC()
 static inline uint64_t BDK_ZIP_ECCE_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -4039,7 +4054,7 @@ static inline uint64_t BDK_ZIP_ECCE_ENA_W1S_FUNC(void)
  * ZIP ECC Interrupt Status Register
  * This register contains the status of the ECC interrupt sources.
  */
-typedef union
+union bdk_zip_ecce_int
 {
     uint64_t u;
     struct bdk_zip_ecce_int_s
@@ -4111,7 +4126,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn88xx;
     /* struct bdk_zip_ecce_int_s cn83xx; */
-} bdk_zip_ecce_int_t;
+};
+typedef union bdk_zip_ecce_int bdk_zip_ecce_int_t;
 
 #define BDK_ZIP_ECCE_INT BDK_ZIP_ECCE_INT_FUNC()
 static inline uint64_t BDK_ZIP_ECCE_INT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -4137,7 +4153,7 @@ static inline uint64_t BDK_ZIP_ECCE_INT_FUNC(void)
  * ZIP ECC Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_zip_ecce_int_w1s
 {
     uint64_t u;
     struct bdk_zip_ecce_int_w1s_s
@@ -4209,7 +4225,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn88xx;
     /* struct bdk_zip_ecce_int_w1s_s cn83xx; */
-} bdk_zip_ecce_int_w1s_t;
+};
+typedef union bdk_zip_ecce_int_w1s bdk_zip_ecce_int_w1s_t;
 
 #define BDK_ZIP_ECCE_INT_W1S BDK_ZIP_ECCE_INT_W1S_FUNC()
 static inline uint64_t BDK_ZIP_ECCE_INT_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -4234,7 +4251,7 @@ static inline uint64_t BDK_ZIP_ECCE_INT_W1S_FUNC(void)
  *
  * INTERNAL: ZIP ECO Register
  */
-typedef union
+union bdk_zip_eco
 {
     uint64_t u;
     struct bdk_zip_eco_s
@@ -4250,7 +4267,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_zip_eco_s cn; */
-} bdk_zip_eco_t;
+};
+typedef union bdk_zip_eco bdk_zip_eco_t;
 
 #define BDK_ZIP_ECO BDK_ZIP_ECO_FUNC()
 static inline uint64_t BDK_ZIP_ECO_FUNC(void) __attribute__ ((pure, always_inline));
@@ -4276,7 +4294,7 @@ static inline uint64_t BDK_ZIP_ECO_FUNC(void)
  * ZIP Error Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_zip_fife_ena_w1c
 {
     uint64_t u;
     struct bdk_zip_fife_ena_w1c_s
@@ -4290,7 +4308,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_zip_fife_ena_w1c_s cn; */
-} bdk_zip_fife_ena_w1c_t;
+};
+typedef union bdk_zip_fife_ena_w1c bdk_zip_fife_ena_w1c_t;
 
 #define BDK_ZIP_FIFE_ENA_W1C BDK_ZIP_FIFE_ENA_W1C_FUNC()
 static inline uint64_t BDK_ZIP_FIFE_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -4316,7 +4335,7 @@ static inline uint64_t BDK_ZIP_FIFE_ENA_W1C_FUNC(void)
  * ZIP Error Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_zip_fife_ena_w1s
 {
     uint64_t u;
     struct bdk_zip_fife_ena_w1s_s
@@ -4330,7 +4349,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_zip_fife_ena_w1s_s cn; */
-} bdk_zip_fife_ena_w1s_t;
+};
+typedef union bdk_zip_fife_ena_w1s bdk_zip_fife_ena_w1s_t;
 
 #define BDK_ZIP_FIFE_ENA_W1S BDK_ZIP_FIFE_ENA_W1S_FUNC()
 static inline uint64_t BDK_ZIP_FIFE_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -4355,7 +4375,7 @@ static inline uint64_t BDK_ZIP_FIFE_ENA_W1S_FUNC(void)
  *
  * ZIP Error Interrupt Register
  */
-typedef union
+union bdk_zip_fife_int
 {
     uint64_t u;
     struct bdk_zip_fife_int_s
@@ -4369,7 +4389,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_zip_fife_int_s cn; */
-} bdk_zip_fife_int_t;
+};
+typedef union bdk_zip_fife_int bdk_zip_fife_int_t;
 
 #define BDK_ZIP_FIFE_INT BDK_ZIP_FIFE_INT_FUNC()
 static inline uint64_t BDK_ZIP_FIFE_INT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -4395,7 +4416,7 @@ static inline uint64_t BDK_ZIP_FIFE_INT_FUNC(void)
  * ZIP Error Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_zip_fife_int_w1s
 {
     uint64_t u;
     struct bdk_zip_fife_int_w1s_s
@@ -4409,7 +4430,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_zip_fife_int_w1s_s cn; */
-} bdk_zip_fife_int_w1s_t;
+};
+typedef union bdk_zip_fife_int_w1s bdk_zip_fife_int_w1s_t;
 
 #define BDK_ZIP_FIFE_INT_W1S BDK_ZIP_FIFE_INT_W1S_FUNC()
 static inline uint64_t BDK_ZIP_FIFE_INT_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -4435,7 +4457,7 @@ static inline uint64_t BDK_ZIP_FIFE_INT_W1S_FUNC(void)
  * ZIP MSI-X Pending Bit Array Registers
  * This register is the MSI-X PBA table; the bit number is indexed by the ZIP_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_zip_msix_pbax
 {
     uint64_t u;
     struct bdk_zip_msix_pbax_s
@@ -4449,7 +4471,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_zip_msix_pbax_s cn; */
-} bdk_zip_msix_pbax_t;
+};
+typedef union bdk_zip_msix_pbax bdk_zip_msix_pbax_t;
 
 static inline uint64_t BDK_ZIP_MSIX_PBAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ZIP_MSIX_PBAX(unsigned long a)
@@ -4472,7 +4495,7 @@ static inline uint64_t BDK_ZIP_MSIX_PBAX(unsigned long a)
  * ZIP MSI-X Vector-Table Address Register
  * This register is the MSI-X vector table, indexed by the ZIP_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_zip_msix_vecx_addr
 {
     uint64_t u;
     struct bdk_zip_msix_vecx_addr_s
@@ -4504,7 +4527,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_zip_msix_vecx_addr_s cn; */
-} bdk_zip_msix_vecx_addr_t;
+};
+typedef union bdk_zip_msix_vecx_addr bdk_zip_msix_vecx_addr_t;
 
 static inline uint64_t BDK_ZIP_MSIX_VECX_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ZIP_MSIX_VECX_ADDR(unsigned long a)
@@ -4527,7 +4551,7 @@ static inline uint64_t BDK_ZIP_MSIX_VECX_ADDR(unsigned long a)
  * ZIP MSI-X Vector-Table Control and Data Register
  * This register is the MSI-X vector table, indexed by the ZIP_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_zip_msix_vecx_ctl
 {
     uint64_t u;
     struct bdk_zip_msix_vecx_ctl_s
@@ -4545,7 +4569,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_zip_msix_vecx_ctl_s cn; */
-} bdk_zip_msix_vecx_ctl_t;
+};
+typedef union bdk_zip_msix_vecx_ctl bdk_zip_msix_vecx_ctl_t;
 
 static inline uint64_t BDK_ZIP_MSIX_VECX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ZIP_MSIX_VECX_CTL(unsigned long a)
@@ -4567,7 +4592,7 @@ static inline uint64_t BDK_ZIP_MSIX_VECX_CTL(unsigned long a)
  *
  * ZIP PF Instruction Latency Counter Register
  */
-typedef union
+union bdk_zip_pf_inst_latency_pc
 {
     uint64_t u;
     struct bdk_zip_pf_inst_latency_pc_s
@@ -4585,7 +4610,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_zip_pf_inst_latency_pc_s cn; */
-} bdk_zip_pf_inst_latency_pc_t;
+};
+typedef union bdk_zip_pf_inst_latency_pc bdk_zip_pf_inst_latency_pc_t;
 
 #define BDK_ZIP_PF_INST_LATENCY_PC BDK_ZIP_PF_INST_LATENCY_PC_FUNC()
 static inline uint64_t BDK_ZIP_PF_INST_LATENCY_PC_FUNC(void) __attribute__ ((pure, always_inline));
@@ -4608,7 +4634,7 @@ static inline uint64_t BDK_ZIP_PF_INST_LATENCY_PC_FUNC(void)
  *
  * ZIP PF Instruction Request Performance Counter Register
  */
-typedef union
+union bdk_zip_pf_inst_req_pc
 {
     uint64_t u;
     struct bdk_zip_pf_inst_req_pc_s
@@ -4620,7 +4646,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_zip_pf_inst_req_pc_s cn; */
-} bdk_zip_pf_inst_req_pc_t;
+};
+typedef union bdk_zip_pf_inst_req_pc bdk_zip_pf_inst_req_pc_t;
 
 #define BDK_ZIP_PF_INST_REQ_PC BDK_ZIP_PF_INST_REQ_PC_FUNC()
 static inline uint64_t BDK_ZIP_PF_INST_REQ_PC_FUNC(void) __attribute__ ((pure, always_inline));
@@ -4644,7 +4671,7 @@ static inline uint64_t BDK_ZIP_PF_INST_REQ_PC_FUNC(void)
  * ZIP PF Mailbox Enable Clear Registers
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_zip_pf_mbox_ena_w1cx
 {
     uint64_t u;
     struct bdk_zip_pf_mbox_ena_w1cx_s
@@ -4656,7 +4683,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_zip_pf_mbox_ena_w1cx_s cn; */
-} bdk_zip_pf_mbox_ena_w1cx_t;
+};
+typedef union bdk_zip_pf_mbox_ena_w1cx bdk_zip_pf_mbox_ena_w1cx_t;
 
 static inline uint64_t BDK_ZIP_PF_MBOX_ENA_W1CX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ZIP_PF_MBOX_ENA_W1CX(unsigned long a)
@@ -4679,7 +4707,7 @@ static inline uint64_t BDK_ZIP_PF_MBOX_ENA_W1CX(unsigned long a)
  * ZIP PF Mailbox Enable Set Registers
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_zip_pf_mbox_ena_w1sx
 {
     uint64_t u;
     struct bdk_zip_pf_mbox_ena_w1sx_s
@@ -4691,7 +4719,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_zip_pf_mbox_ena_w1sx_s cn; */
-} bdk_zip_pf_mbox_ena_w1sx_t;
+};
+typedef union bdk_zip_pf_mbox_ena_w1sx bdk_zip_pf_mbox_ena_w1sx_t;
 
 static inline uint64_t BDK_ZIP_PF_MBOX_ENA_W1SX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ZIP_PF_MBOX_ENA_W1SX(unsigned long a)
@@ -4713,7 +4742,7 @@ static inline uint64_t BDK_ZIP_PF_MBOX_ENA_W1SX(unsigned long a)
  *
  * ZIP PF Mailbox Interrupt Registers
  */
-typedef union
+union bdk_zip_pf_mbox_intx
 {
     uint64_t u;
     struct bdk_zip_pf_mbox_intx_s
@@ -4729,7 +4758,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_zip_pf_mbox_intx_s cn; */
-} bdk_zip_pf_mbox_intx_t;
+};
+typedef union bdk_zip_pf_mbox_intx bdk_zip_pf_mbox_intx_t;
 
 static inline uint64_t BDK_ZIP_PF_MBOX_INTX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ZIP_PF_MBOX_INTX(unsigned long a)
@@ -4752,7 +4782,7 @@ static inline uint64_t BDK_ZIP_PF_MBOX_INTX(unsigned long a)
  * ZIP PF Mailbox Interrupt Set Registers
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_zip_pf_mbox_int_w1sx
 {
     uint64_t u;
     struct bdk_zip_pf_mbox_int_w1sx_s
@@ -4764,7 +4794,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_zip_pf_mbox_int_w1sx_s cn; */
-} bdk_zip_pf_mbox_int_w1sx_t;
+};
+typedef union bdk_zip_pf_mbox_int_w1sx bdk_zip_pf_mbox_int_w1sx_t;
 
 static inline uint64_t BDK_ZIP_PF_MBOX_INT_W1SX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ZIP_PF_MBOX_INT_W1SX(unsigned long a)
@@ -4787,7 +4818,7 @@ static inline uint64_t BDK_ZIP_PF_MBOX_INT_W1SX(unsigned long a)
  * ZIP MSI-X Pending Bit Array Registers
  * This register is the MSI-X PBA table; the bit number is indexed by the ZIP_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_zip_pf_msix_pbax
 {
     uint64_t u;
     struct bdk_zip_pf_msix_pbax_s
@@ -4801,7 +4832,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_zip_pf_msix_pbax_s cn; */
-} bdk_zip_pf_msix_pbax_t;
+};
+typedef union bdk_zip_pf_msix_pbax bdk_zip_pf_msix_pbax_t;
 
 static inline uint64_t BDK_ZIP_PF_MSIX_PBAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ZIP_PF_MSIX_PBAX(unsigned long a)
@@ -4824,7 +4856,7 @@ static inline uint64_t BDK_ZIP_PF_MSIX_PBAX(unsigned long a)
  * ZIP MSI-X Vector-Table Address Register
  * This register is the MSI-X vector table, indexed by the ZIP_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_zip_pf_msix_vecx_addr
 {
     uint64_t u;
     struct bdk_zip_pf_msix_vecx_addr_s
@@ -4856,7 +4888,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_zip_pf_msix_vecx_addr_s cn; */
-} bdk_zip_pf_msix_vecx_addr_t;
+};
+typedef union bdk_zip_pf_msix_vecx_addr bdk_zip_pf_msix_vecx_addr_t;
 
 static inline uint64_t BDK_ZIP_PF_MSIX_VECX_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ZIP_PF_MSIX_VECX_ADDR(unsigned long a)
@@ -4879,7 +4912,7 @@ static inline uint64_t BDK_ZIP_PF_MSIX_VECX_ADDR(unsigned long a)
  * ZIP MSI-X Vector-Table Control and Data Register
  * This register is the MSI-X vector table, indexed by the ZIP_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_zip_pf_msix_vecx_ctl
 {
     uint64_t u;
     struct bdk_zip_pf_msix_vecx_ctl_s
@@ -4897,7 +4930,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_zip_pf_msix_vecx_ctl_s cn; */
-} bdk_zip_pf_msix_vecx_ctl_t;
+};
+typedef union bdk_zip_pf_msix_vecx_ctl bdk_zip_pf_msix_vecx_ctl_t;
 
 static inline uint64_t BDK_ZIP_PF_MSIX_VECX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ZIP_PF_MSIX_VECX_CTL(unsigned long a)
@@ -4920,7 +4954,7 @@ static inline uint64_t BDK_ZIP_PF_MSIX_VECX_CTL(unsigned long a)
  * ZIP Queue Guest Machine Control Register
  * This register configures queues.
  */
-typedef union
+union bdk_zip_pf_quex_gmctl
 {
     uint64_t u;
     struct bdk_zip_pf_quex_gmctl_s
@@ -4942,7 +4976,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_zip_pf_quex_gmctl_s cn; */
-} bdk_zip_pf_quex_gmctl_t;
+};
+typedef union bdk_zip_pf_quex_gmctl bdk_zip_pf_quex_gmctl_t;
 
 static inline uint64_t BDK_ZIP_PF_QUEX_GMCTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ZIP_PF_QUEX_GMCTL(unsigned long a)
@@ -4964,7 +4999,7 @@ static inline uint64_t BDK_ZIP_PF_QUEX_GMCTL(unsigned long a)
  *
  * ZIP PF Read Latency Counter Register
  */
-typedef union
+union bdk_zip_pf_rd_latency_pc
 {
     uint64_t u;
     struct bdk_zip_pf_rd_latency_pc_s
@@ -4980,7 +5015,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_zip_pf_rd_latency_pc_s cn; */
-} bdk_zip_pf_rd_latency_pc_t;
+};
+typedef union bdk_zip_pf_rd_latency_pc bdk_zip_pf_rd_latency_pc_t;
 
 #define BDK_ZIP_PF_RD_LATENCY_PC BDK_ZIP_PF_RD_LATENCY_PC_FUNC()
 static inline uint64_t BDK_ZIP_PF_RD_LATENCY_PC_FUNC(void) __attribute__ ((pure, always_inline));
@@ -5003,7 +5039,7 @@ static inline uint64_t BDK_ZIP_PF_RD_LATENCY_PC_FUNC(void)
  *
  * ZIP PF Read Request Performance Counter Register
  */
-typedef union
+union bdk_zip_pf_rd_req_pc
 {
     uint64_t u;
     struct bdk_zip_pf_rd_req_pc_s
@@ -5015,7 +5051,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_zip_pf_rd_req_pc_s cn; */
-} bdk_zip_pf_rd_req_pc_t;
+};
+typedef union bdk_zip_pf_rd_req_pc bdk_zip_pf_rd_req_pc_t;
 
 #define BDK_ZIP_PF_RD_REQ_PC BDK_ZIP_PF_RD_REQ_PC_FUNC()
 static inline uint64_t BDK_ZIP_PF_RD_REQ_PC_FUNC(void) __attribute__ ((pure, always_inline));
@@ -5038,7 +5075,7 @@ static inline uint64_t BDK_ZIP_PF_RD_REQ_PC_FUNC(void)
  *
  * ZIP PF/VF Mailbox Registers
  */
-typedef union
+union bdk_zip_pf_vfx_mboxx
 {
     uint64_t u;
     struct bdk_zip_pf_vfx_mboxx_s
@@ -5062,7 +5099,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_zip_pf_vfx_mboxx_s cn; */
-} bdk_zip_pf_vfx_mboxx_t;
+};
+typedef union bdk_zip_pf_vfx_mboxx bdk_zip_pf_vfx_mboxx_t;
 
 static inline uint64_t BDK_ZIP_PF_VFX_MBOXX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ZIP_PF_VFX_MBOXX(unsigned long a, unsigned long b)
@@ -5085,7 +5123,7 @@ static inline uint64_t BDK_ZIP_PF_VFX_MBOXX(unsigned long a, unsigned long b)
  * ZIP Queue Done Count Registers
  * These registers contain the per-queue instruction done count.
  */
-typedef union
+union bdk_zip_quex_done
 {
     uint64_t u;
     struct bdk_zip_quex_done_s
@@ -5167,7 +5205,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_zip_quex_done_s cn; */
-} bdk_zip_quex_done_t;
+};
+typedef union bdk_zip_quex_done bdk_zip_quex_done_t;
 
 static inline uint64_t BDK_ZIP_QUEX_DONE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ZIP_QUEX_DONE(unsigned long a)
@@ -5190,7 +5229,7 @@ static inline uint64_t BDK_ZIP_QUEX_DONE(unsigned long a)
  * ZIP Queue Done Count Ack Registers
  * This register is written by software to acknowledge interrupts.
  */
-typedef union
+union bdk_zip_quex_done_ack
 {
     uint64_t u;
     struct bdk_zip_quex_done_ack_s
@@ -5212,7 +5251,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_zip_quex_done_ack_s cn; */
-} bdk_zip_quex_done_ack_t;
+};
+typedef union bdk_zip_quex_done_ack bdk_zip_quex_done_ack_t;
 
 static inline uint64_t BDK_ZIP_QUEX_DONE_ACK(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ZIP_QUEX_DONE_ACK(unsigned long a)
@@ -5235,7 +5275,7 @@ static inline uint64_t BDK_ZIP_QUEX_DONE_ACK(unsigned long a)
  * ZIP Queue Done Interrupt Enable Clear Registers
  * Write 1 to these registers will disable the DONEINT interrupt for the queue.
  */
-typedef union
+union bdk_zip_quex_done_ena_w1c
 {
     uint64_t u;
     struct bdk_zip_quex_done_ena_w1c_s
@@ -5251,7 +5291,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_zip_quex_done_ena_w1c_s cn; */
-} bdk_zip_quex_done_ena_w1c_t;
+};
+typedef union bdk_zip_quex_done_ena_w1c bdk_zip_quex_done_ena_w1c_t;
 
 static inline uint64_t BDK_ZIP_QUEX_DONE_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ZIP_QUEX_DONE_ENA_W1C(unsigned long a)
@@ -5274,7 +5315,7 @@ static inline uint64_t BDK_ZIP_QUEX_DONE_ENA_W1C(unsigned long a)
  * ZIP Queue Done Interrupt Enable Set Registers
  * Write 1 to these registers will enable the DONEINT interrupt for the queue.
  */
-typedef union
+union bdk_zip_quex_done_ena_w1s
 {
     uint64_t u;
     struct bdk_zip_quex_done_ena_w1s_s
@@ -5290,7 +5331,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_zip_quex_done_ena_w1s_s cn; */
-} bdk_zip_quex_done_ena_w1s_t;
+};
+typedef union bdk_zip_quex_done_ena_w1s bdk_zip_quex_done_ena_w1s_t;
 
 static inline uint64_t BDK_ZIP_QUEX_DONE_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ZIP_QUEX_DONE_ENA_W1S(unsigned long a)
@@ -5313,7 +5355,7 @@ static inline uint64_t BDK_ZIP_QUEX_DONE_ENA_W1S(unsigned long a)
  * ZIP Queue Done Interrupt Coalescing Wait Registers
  * Specifies the per queue interrupt coalescing settings.
  */
-typedef union
+union bdk_zip_quex_done_wait
 {
     uint64_t u;
     struct bdk_zip_quex_done_wait_s
@@ -5343,7 +5385,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_zip_quex_done_wait_s cn; */
-} bdk_zip_quex_done_wait_t;
+};
+typedef union bdk_zip_quex_done_wait bdk_zip_quex_done_wait_t;
 
 static inline uint64_t BDK_ZIP_QUEX_DONE_WAIT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ZIP_QUEX_DONE_WAIT(unsigned long a)
@@ -5366,7 +5409,7 @@ static inline uint64_t BDK_ZIP_QUEX_DONE_WAIT(unsigned long a)
  * ZIP Queue Doorbell Registers
  * Doorbells for the ZIP instruction queues.
  */
-typedef union
+union bdk_zip_quex_doorbell
 {
     uint64_t u;
     struct bdk_zip_quex_doorbell_s
@@ -5380,7 +5423,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_zip_quex_doorbell_s cn; */
-} bdk_zip_quex_doorbell_t;
+};
+typedef union bdk_zip_quex_doorbell bdk_zip_quex_doorbell_t;
 
 static inline uint64_t BDK_ZIP_QUEX_DOORBELL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ZIP_QUEX_DOORBELL(unsigned long a)
@@ -5403,7 +5447,7 @@ static inline uint64_t BDK_ZIP_QUEX_DOORBELL(unsigned long a)
  * ZIP Queue Error Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_zip_quex_err_ena_w1c
 {
     uint64_t u;
     struct bdk_zip_quex_err_ena_w1c_s
@@ -5451,7 +5495,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn88xxp1;
     /* struct bdk_zip_quex_err_ena_w1c_s cn88xxp2; */
-} bdk_zip_quex_err_ena_w1c_t;
+};
+typedef union bdk_zip_quex_err_ena_w1c bdk_zip_quex_err_ena_w1c_t;
 
 static inline uint64_t BDK_ZIP_QUEX_ERR_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ZIP_QUEX_ERR_ENA_W1C(unsigned long a)
@@ -5474,7 +5519,7 @@ static inline uint64_t BDK_ZIP_QUEX_ERR_ENA_W1C(unsigned long a)
  * ZIP Queue Error Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_zip_quex_err_ena_w1s
 {
     uint64_t u;
     struct bdk_zip_quex_err_ena_w1s_s
@@ -5522,7 +5567,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn88xxp1;
     /* struct bdk_zip_quex_err_ena_w1s_s cn88xxp2; */
-} bdk_zip_quex_err_ena_w1s_t;
+};
+typedef union bdk_zip_quex_err_ena_w1s bdk_zip_quex_err_ena_w1s_t;
 
 static inline uint64_t BDK_ZIP_QUEX_ERR_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ZIP_QUEX_ERR_ENA_W1S(unsigned long a)
@@ -5545,7 +5591,7 @@ static inline uint64_t BDK_ZIP_QUEX_ERR_ENA_W1S(unsigned long a)
  * ZIP Queue Error Interrupt Register
  * These registers contain the per-queue error interrupts.
  */
-typedef union
+union bdk_zip_quex_err_int
 {
     uint64_t u;
     struct bdk_zip_quex_err_int_s
@@ -5593,7 +5639,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn88xxp1;
     /* struct bdk_zip_quex_err_int_s cn88xxp2; */
-} bdk_zip_quex_err_int_t;
+};
+typedef union bdk_zip_quex_err_int bdk_zip_quex_err_int_t;
 
 static inline uint64_t BDK_ZIP_QUEX_ERR_INT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ZIP_QUEX_ERR_INT(unsigned long a)
@@ -5616,7 +5663,7 @@ static inline uint64_t BDK_ZIP_QUEX_ERR_INT(unsigned long a)
  * ZIP Queue Error Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_zip_quex_err_int_w1s
 {
     uint64_t u;
     struct bdk_zip_quex_err_int_w1s_s
@@ -5664,7 +5711,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn88xxp1;
     /* struct bdk_zip_quex_err_int_w1s_s cn88xxp2; */
-} bdk_zip_quex_err_int_w1s_t;
+};
+typedef union bdk_zip_quex_err_int_w1s bdk_zip_quex_err_int_w1s_t;
 
 static inline uint64_t BDK_ZIP_QUEX_ERR_INT_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ZIP_QUEX_ERR_INT_W1S(unsigned long a)
@@ -5687,7 +5735,7 @@ static inline uint64_t BDK_ZIP_QUEX_ERR_INT_W1S(unsigned long a)
  * ZIP Queue Generation Configuration Registers
  * These registers reflect status of the ZIP instruction queues and are for debug use only.
  */
-typedef union
+union bdk_zip_quex_gcfg
 {
     uint64_t u;
     struct bdk_zip_quex_gcfg_s
@@ -5735,7 +5783,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_zip_quex_gcfg_s cn; */
-} bdk_zip_quex_gcfg_t;
+};
+typedef union bdk_zip_quex_gcfg bdk_zip_quex_gcfg_t;
 
 static inline uint64_t BDK_ZIP_QUEX_GCFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ZIP_QUEX_GCFG(unsigned long a)
@@ -5760,7 +5809,7 @@ static inline uint64_t BDK_ZIP_QUEX_GCFG(unsigned long a)
  * ZIP Queue Mapping Registers
  * These registers control how each instruction queue maps to ZIP cores.
  */
-typedef union
+union bdk_zip_quex_map
 {
     uint64_t u;
     struct bdk_zip_quex_map_s
@@ -5827,7 +5876,8 @@ typedef union
         uint64_t reserved_6_63         : 58;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_zip_quex_map_t;
+};
+typedef union bdk_zip_quex_map bdk_zip_quex_map_t;
 
 static inline uint64_t BDK_ZIP_QUEX_MAP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ZIP_QUEX_MAP(unsigned long a)
@@ -5855,7 +5905,7 @@ static inline uint64_t BDK_ZIP_QUEX_MAP(unsigned long a)
  * command buffer state machine. These registers must be programmed after software programms the
  * corresponding ZIP_QUE(0..7)_SBUF_CTL.
  */
-typedef union
+union bdk_zip_quex_sbuf_addr
 {
     uint64_t u;
     struct bdk_zip_quex_sbuf_addr_s
@@ -5883,7 +5933,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_zip_quex_sbuf_addr_s cn; */
-} bdk_zip_quex_sbuf_addr_t;
+};
+typedef union bdk_zip_quex_sbuf_addr bdk_zip_quex_sbuf_addr_t;
 
 static inline uint64_t BDK_ZIP_QUEX_SBUF_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ZIP_QUEX_SBUF_ADDR(unsigned long a)
@@ -5909,7 +5960,7 @@ static inline uint64_t BDK_ZIP_QUEX_SBUF_ADDR(unsigned long a)
  * command buffer state machine. These registers must be programmed before software programms the
  * corresponding ZIP_QUE(0..7)_SBUF_ADDR.
  */
-typedef union
+union bdk_zip_quex_sbuf_ctl
 {
     uint64_t u;
     struct bdk_zip_quex_sbuf_ctl_s
@@ -5967,7 +6018,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn88xx;
     /* struct bdk_zip_quex_sbuf_ctl_s cn83xx; */
-} bdk_zip_quex_sbuf_ctl_t;
+};
+typedef union bdk_zip_quex_sbuf_ctl bdk_zip_quex_sbuf_ctl_t;
 
 static inline uint64_t BDK_ZIP_QUEX_SBUF_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ZIP_QUEX_SBUF_CTL(unsigned long a)
@@ -5992,7 +6044,7 @@ static inline uint64_t BDK_ZIP_QUEX_SBUF_CTL(unsigned long a)
  * ZIP Queue Enable Register
  * If a queue is disabled, ZIP CTL stops fetching instructions from the queue.
  */
-typedef union
+union bdk_zip_que_ena
 {
     uint64_t u;
     struct bdk_zip_que_ena_s
@@ -6010,7 +6062,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_zip_que_ena_s cn; */
-} bdk_zip_que_ena_t;
+};
+typedef union bdk_zip_que_ena bdk_zip_que_ena_t;
 
 #define BDK_ZIP_QUE_ENA BDK_ZIP_QUE_ENA_FUNC()
 static inline uint64_t BDK_ZIP_QUE_ENA_FUNC(void) __attribute__ ((pure, always_inline));
@@ -6034,7 +6087,7 @@ static inline uint64_t BDK_ZIP_QUE_ENA_FUNC(void)
  * ZIP Queue Priority Register
  * This registers defines the priority between instruction queues.
  */
-typedef union
+union bdk_zip_que_pri
 {
     uint64_t u;
     struct bdk_zip_que_pri_s
@@ -6052,7 +6105,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_zip_que_pri_s cn; */
-} bdk_zip_que_pri_t;
+};
+typedef union bdk_zip_que_pri bdk_zip_que_pri_t;
 
 #define BDK_ZIP_QUE_PRI BDK_ZIP_QUE_PRI_FUNC()
 static inline uint64_t BDK_ZIP_QUE_PRI_FUNC(void) __attribute__ ((pure, always_inline));
@@ -6079,7 +6133,7 @@ static inline uint64_t BDK_ZIP_QUE_PRI_FUNC(void)
  *
  * This register resets the ZIP instruction queues.
  */
-typedef union
+union bdk_zip_que_reset
 {
     uint64_t u;
     struct bdk_zip_que_reset_s
@@ -6107,7 +6161,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn88xx;
     /* struct bdk_zip_que_reset_s cn83xx; */
-} bdk_zip_que_reset_t;
+};
+typedef union bdk_zip_que_reset bdk_zip_que_reset_t;
 
 #define BDK_ZIP_QUE_RESET BDK_ZIP_QUE_RESET_FUNC()
 static inline uint64_t BDK_ZIP_QUE_RESET_FUNC(void) __attribute__ ((pure, always_inline));
@@ -6135,7 +6190,7 @@ static inline uint64_t BDK_ZIP_QUE_RESET_FUNC(void)
  * to this register causes the ZIP module to temporarily suspend NCB accesses; it is not
  * recommended for normal operation, but may be useful for diagnostics.
  */
-typedef union
+union bdk_zip_throttle
 {
     uint64_t u;
     struct bdk_zip_throttle_s
@@ -6163,7 +6218,8 @@ typedef union
         uint64_t reserved_6_63         : 58;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_zip_throttle_t;
+};
+typedef union bdk_zip_throttle bdk_zip_throttle_t;
 
 #define BDK_ZIP_THROTTLE BDK_ZIP_THROTTLE_FUNC()
 static inline uint64_t BDK_ZIP_THROTTLE_FUNC(void) __attribute__ ((pure, always_inline));
@@ -6189,7 +6245,7 @@ static inline uint64_t BDK_ZIP_THROTTLE_FUNC(void)
  * ZIP VF Queue Misc Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_zip_vfx_misc_ena_w1c
 {
     uint64_t u;
     struct bdk_zip_vfx_misc_ena_w1c_s
@@ -6215,7 +6271,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_zip_vfx_misc_ena_w1c_s cn; */
-} bdk_zip_vfx_misc_ena_w1c_t;
+};
+typedef union bdk_zip_vfx_misc_ena_w1c bdk_zip_vfx_misc_ena_w1c_t;
 
 static inline uint64_t BDK_ZIP_VFX_MISC_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ZIP_VFX_MISC_ENA_W1C(unsigned long a)
@@ -6238,7 +6295,7 @@ static inline uint64_t BDK_ZIP_VFX_MISC_ENA_W1C(unsigned long a)
  * ZIP VF Queue Misc Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_zip_vfx_misc_ena_w1s
 {
     uint64_t u;
     struct bdk_zip_vfx_misc_ena_w1s_s
@@ -6264,7 +6321,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_zip_vfx_misc_ena_w1s_s cn; */
-} bdk_zip_vfx_misc_ena_w1s_t;
+};
+typedef union bdk_zip_vfx_misc_ena_w1s bdk_zip_vfx_misc_ena_w1s_t;
 
 static inline uint64_t BDK_ZIP_VFX_MISC_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ZIP_VFX_MISC_ENA_W1S(unsigned long a)
@@ -6287,7 +6345,7 @@ static inline uint64_t BDK_ZIP_VFX_MISC_ENA_W1S(unsigned long a)
  * ZIP Queue Error Interrupt Register
  * These registers contain the per-queue error interrupts.
  */
-typedef union
+union bdk_zip_vfx_misc_int
 {
     uint64_t u;
     struct bdk_zip_vfx_misc_int_s
@@ -6313,7 +6371,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_zip_vfx_misc_int_s cn; */
-} bdk_zip_vfx_misc_int_t;
+};
+typedef union bdk_zip_vfx_misc_int bdk_zip_vfx_misc_int_t;
 
 static inline uint64_t BDK_ZIP_VFX_MISC_INT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ZIP_VFX_MISC_INT(unsigned long a)
@@ -6336,7 +6395,7 @@ static inline uint64_t BDK_ZIP_VFX_MISC_INT(unsigned long a)
  * ZIP VF Queue Misc Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_zip_vfx_misc_int_w1s
 {
     uint64_t u;
     struct bdk_zip_vfx_misc_int_w1s_s
@@ -6362,7 +6421,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_zip_vfx_misc_int_w1s_s cn; */
-} bdk_zip_vfx_misc_int_w1s_t;
+};
+typedef union bdk_zip_vfx_misc_int_w1s bdk_zip_vfx_misc_int_w1s_t;
 
 static inline uint64_t BDK_ZIP_VFX_MISC_INT_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ZIP_VFX_MISC_INT_W1S(unsigned long a)
@@ -6386,7 +6446,7 @@ static inline uint64_t BDK_ZIP_VFX_MISC_INT_W1S(unsigned long a)
  * This register is the MSI-X PBA table, the bit number is indexed by the ZIP_VF_INT_VEC_E
  * enumeration.
  */
-typedef union
+union bdk_zip_vfx_msix_pbax
 {
     uint64_t u;
     struct bdk_zip_vfx_msix_pbax_s
@@ -6400,7 +6460,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_zip_vfx_msix_pbax_s cn; */
-} bdk_zip_vfx_msix_pbax_t;
+};
+typedef union bdk_zip_vfx_msix_pbax bdk_zip_vfx_msix_pbax_t;
 
 static inline uint64_t BDK_ZIP_VFX_MSIX_PBAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ZIP_VFX_MSIX_PBAX(unsigned long a, unsigned long b)
@@ -6423,7 +6484,7 @@ static inline uint64_t BDK_ZIP_VFX_MSIX_PBAX(unsigned long a, unsigned long b)
  * ZIP VF MSI-X Vector-Table Address Registers
  * This register is the MSI-X vector table, indexed by the ZIP_VF_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_zip_vfx_msix_vecx_addr
 {
     uint64_t u;
     struct bdk_zip_vfx_msix_vecx_addr_s
@@ -6445,7 +6506,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_zip_vfx_msix_vecx_addr_s cn; */
-} bdk_zip_vfx_msix_vecx_addr_t;
+};
+typedef union bdk_zip_vfx_msix_vecx_addr bdk_zip_vfx_msix_vecx_addr_t;
 
 static inline uint64_t BDK_ZIP_VFX_MSIX_VECX_ADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ZIP_VFX_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
@@ -6468,7 +6530,7 @@ static inline uint64_t BDK_ZIP_VFX_MSIX_VECX_ADDR(unsigned long a, unsigned long
  * ZIP VF MSI-X Vector-Table Control and Data Registers
  * This register is the MSI-X vector table, indexed by the ZIP_VF_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_zip_vfx_msix_vecx_ctl
 {
     uint64_t u;
     struct bdk_zip_vfx_msix_vecx_ctl_s
@@ -6486,7 +6548,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_zip_vfx_msix_vecx_ctl_s cn; */
-} bdk_zip_vfx_msix_vecx_ctl_t;
+};
+typedef union bdk_zip_vfx_msix_vecx_ctl bdk_zip_vfx_msix_vecx_ctl_t;
 
 static inline uint64_t BDK_ZIP_VFX_MSIX_VECX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ZIP_VFX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
@@ -6508,7 +6571,7 @@ static inline uint64_t BDK_ZIP_VFX_MSIX_VECX_CTL(unsigned long a, unsigned long 
  *
  * ZIP VF/PF Mailbox Registers
  */
-typedef union
+union bdk_zip_vfx_pf_mboxx
 {
     uint64_t u;
     struct bdk_zip_vfx_pf_mboxx_s
@@ -6530,7 +6593,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_zip_vfx_pf_mboxx_s cn; */
-} bdk_zip_vfx_pf_mboxx_t;
+};
+typedef union bdk_zip_vfx_pf_mboxx bdk_zip_vfx_pf_mboxx_t;
 
 static inline uint64_t BDK_ZIP_VFX_PF_MBOXX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ZIP_VFX_PF_MBOXX(unsigned long a, unsigned long b)
@@ -6553,7 +6617,7 @@ static inline uint64_t BDK_ZIP_VFX_PF_MBOXX(unsigned long a, unsigned long b)
  * ZIP VF Queue Done Count Registers
  * These registers contain the per-queue instruction done count.
  */
-typedef union
+union bdk_zip_vqx_done
 {
     uint64_t u;
     struct bdk_zip_vqx_done_s
@@ -6635,7 +6699,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_zip_vqx_done_s cn; */
-} bdk_zip_vqx_done_t;
+};
+typedef union bdk_zip_vqx_done bdk_zip_vqx_done_t;
 
 static inline uint64_t BDK_ZIP_VQX_DONE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ZIP_VQX_DONE(unsigned long a)
@@ -6658,7 +6723,7 @@ static inline uint64_t BDK_ZIP_VQX_DONE(unsigned long a)
  * ZIP VF Queue Done Count Ack Registers
  * This register is written by software to acknowledge interrupts.
  */
-typedef union
+union bdk_zip_vqx_done_ack
 {
     uint64_t u;
     struct bdk_zip_vqx_done_ack_s
@@ -6680,7 +6745,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_zip_vqx_done_ack_s cn; */
-} bdk_zip_vqx_done_ack_t;
+};
+typedef union bdk_zip_vqx_done_ack bdk_zip_vqx_done_ack_t;
 
 static inline uint64_t BDK_ZIP_VQX_DONE_ACK(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ZIP_VQX_DONE_ACK(unsigned long a)
@@ -6703,7 +6769,7 @@ static inline uint64_t BDK_ZIP_VQX_DONE_ACK(unsigned long a)
  * ZIP VF Queue Done Interrupt Enable Clear Registers
  * Write 1 to these registers will disable the DONEINT interrupt for the queue.
  */
-typedef union
+union bdk_zip_vqx_done_ena_w1c
 {
     uint64_t u;
     struct bdk_zip_vqx_done_ena_w1c_s
@@ -6719,7 +6785,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_zip_vqx_done_ena_w1c_s cn; */
-} bdk_zip_vqx_done_ena_w1c_t;
+};
+typedef union bdk_zip_vqx_done_ena_w1c bdk_zip_vqx_done_ena_w1c_t;
 
 static inline uint64_t BDK_ZIP_VQX_DONE_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ZIP_VQX_DONE_ENA_W1C(unsigned long a)
@@ -6742,7 +6809,7 @@ static inline uint64_t BDK_ZIP_VQX_DONE_ENA_W1C(unsigned long a)
  * ZIP VF Queue Done Interrupt Enable Set Registers
  * Write 1 to these registers will enable the DONEINT interrupt for the queue.
  */
-typedef union
+union bdk_zip_vqx_done_ena_w1s
 {
     uint64_t u;
     struct bdk_zip_vqx_done_ena_w1s_s
@@ -6758,7 +6825,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_zip_vqx_done_ena_w1s_s cn; */
-} bdk_zip_vqx_done_ena_w1s_t;
+};
+typedef union bdk_zip_vqx_done_ena_w1s bdk_zip_vqx_done_ena_w1s_t;
 
 static inline uint64_t BDK_ZIP_VQX_DONE_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ZIP_VQX_DONE_ENA_W1S(unsigned long a)
@@ -6781,7 +6849,7 @@ static inline uint64_t BDK_ZIP_VQX_DONE_ENA_W1S(unsigned long a)
  * ZIP VF Queue Done Interrupt Coalescing Wait Registers
  * Specifies the per queue interrupt coalescing settings.
  */
-typedef union
+union bdk_zip_vqx_done_wait
 {
     uint64_t u;
     struct bdk_zip_vqx_done_wait_s
@@ -6811,7 +6879,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_zip_vqx_done_wait_s cn; */
-} bdk_zip_vqx_done_wait_t;
+};
+typedef union bdk_zip_vqx_done_wait bdk_zip_vqx_done_wait_t;
 
 static inline uint64_t BDK_ZIP_VQX_DONE_WAIT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ZIP_VQX_DONE_WAIT(unsigned long a)
@@ -6834,7 +6903,7 @@ static inline uint64_t BDK_ZIP_VQX_DONE_WAIT(unsigned long a)
  * ZIP VF Queue Doorbell Registers
  * Doorbells for the ZIP instruction queues.
  */
-typedef union
+union bdk_zip_vqx_doorbell
 {
     uint64_t u;
     struct bdk_zip_vqx_doorbell_s
@@ -6848,7 +6917,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_zip_vqx_doorbell_s cn; */
-} bdk_zip_vqx_doorbell_t;
+};
+typedef union bdk_zip_vqx_doorbell bdk_zip_vqx_doorbell_t;
 
 static inline uint64_t BDK_ZIP_VQX_DOORBELL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ZIP_VQX_DOORBELL(unsigned long a)
@@ -6871,7 +6941,7 @@ static inline uint64_t BDK_ZIP_VQX_DOORBELL(unsigned long a)
  * ZIP VF Queue Enable Register
  * If a queue is disabled, ZIP CTL stops fetching instructions from the queue.
  */
-typedef union
+union bdk_zip_vqx_ena
 {
     uint64_t u;
     struct bdk_zip_vqx_ena_s
@@ -6885,7 +6955,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_zip_vqx_ena_s cn; */
-} bdk_zip_vqx_ena_t;
+};
+typedef union bdk_zip_vqx_ena bdk_zip_vqx_ena_t;
 
 static inline uint64_t BDK_ZIP_VQX_ENA(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ZIP_VQX_ENA(unsigned long a)
@@ -6911,7 +6982,7 @@ static inline uint64_t BDK_ZIP_VQX_ENA(unsigned long a)
  * command buffer state machine. These registers must be programmed after software programms the
  * corresponding ZIP_QUE()_SBUF_CTL.
  */
-typedef union
+union bdk_zip_vqx_sbuf_addr
 {
     uint64_t u;
     struct bdk_zip_vqx_sbuf_addr_s
@@ -6939,7 +7010,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_zip_vqx_sbuf_addr_s cn; */
-} bdk_zip_vqx_sbuf_addr_t;
+};
+typedef union bdk_zip_vqx_sbuf_addr bdk_zip_vqx_sbuf_addr_t;
 
 static inline uint64_t BDK_ZIP_VQX_SBUF_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ZIP_VQX_SBUF_ADDR(unsigned long a)

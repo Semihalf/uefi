@@ -79,7 +79,7 @@
  * KEY BIST Status Register
  * This register provides the BIST run status for KEY's memories (0 = pass, 1 = fail).
  */
-typedef union
+union bdk_key_bist_reg
 {
     uint64_t u;
     struct bdk_key_bist_reg_s
@@ -95,7 +95,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_key_bist_reg_s cn; */
-} bdk_key_bist_reg_t;
+};
+typedef union bdk_key_bist_reg bdk_key_bist_reg_t;
 
 #define BDK_KEY_BIST_REG BDK_KEY_BIST_REG_FUNC()
 static inline uint64_t BDK_KEY_BIST_REG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -117,7 +118,7 @@ static inline uint64_t BDK_KEY_BIST_REG_FUNC(void)
  * KEY Control and Status Register
  * This register provides control and status information for KEY memory.
  */
-typedef union
+union bdk_key_ctl_status
 {
     uint64_t u;
     struct bdk_key_ctl_status_s
@@ -133,7 +134,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_key_ctl_status_s cn; */
-} bdk_key_ctl_status_t;
+};
+typedef union bdk_key_ctl_status bdk_key_ctl_status_t;
 
 #define BDK_KEY_CTL_STATUS BDK_KEY_CTL_STATUS_FUNC()
 static inline uint64_t BDK_KEY_CTL_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
@@ -155,7 +157,7 @@ static inline uint64_t BDK_KEY_CTL_STATUS_FUNC(void)
  * KEY Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_key_int_ena_w1c
 {
     uint64_t u;
     struct bdk_key_int_ena_w1c_s
@@ -171,7 +173,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_key_int_ena_w1c_s cn; */
-} bdk_key_int_ena_w1c_t;
+};
+typedef union bdk_key_int_ena_w1c bdk_key_int_ena_w1c_t;
 
 #define BDK_KEY_INT_ENA_W1C BDK_KEY_INT_ENA_W1C_FUNC()
 static inline uint64_t BDK_KEY_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -193,7 +196,7 @@ static inline uint64_t BDK_KEY_INT_ENA_W1C_FUNC(void)
  * KEY Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_key_int_ena_w1s
 {
     uint64_t u;
     struct bdk_key_int_ena_w1s_s
@@ -209,7 +212,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_key_int_ena_w1s_s cn; */
-} bdk_key_int_ena_w1s_t;
+};
+typedef union bdk_key_int_ena_w1s bdk_key_int_ena_w1s_t;
 
 #define BDK_KEY_INT_ENA_W1S BDK_KEY_INT_ENA_W1S_FUNC()
 static inline uint64_t BDK_KEY_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -231,7 +235,7 @@ static inline uint64_t BDK_KEY_INT_ENA_W1S_FUNC(void)
  * KEY Interrupt Summary Register
  * This register contains the different interrupt-summary bits of the KEY.
  */
-typedef union
+union bdk_key_int_sum
 {
     uint64_t u;
     struct bdk_key_int_sum_s
@@ -247,7 +251,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_key_int_sum_s cn; */
-} bdk_key_int_sum_t;
+};
+typedef union bdk_key_int_sum bdk_key_int_sum_t;
 
 #define BDK_KEY_INT_SUM BDK_KEY_INT_SUM_FUNC()
 static inline uint64_t BDK_KEY_INT_SUM_FUNC(void) __attribute__ ((pure, always_inline));
@@ -269,7 +274,7 @@ static inline uint64_t BDK_KEY_INT_SUM_FUNC(void)
  * KEY Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_key_int_sum_w1s
 {
     uint64_t u;
     struct bdk_key_int_sum_w1s_s
@@ -285,7 +290,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_key_int_sum_w1s_s cn; */
-} bdk_key_int_sum_w1s_t;
+};
+typedef union bdk_key_int_sum_w1s bdk_key_int_sum_w1s_t;
 
 #define BDK_KEY_INT_SUM_W1S BDK_KEY_INT_SUM_W1S_FUNC()
 static inline uint64_t BDK_KEY_INT_SUM_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -306,7 +312,7 @@ static inline uint64_t BDK_KEY_INT_SUM_W1S_FUNC(void)
  *
  * KEY Memory Registers
  */
-typedef union
+union bdk_key_memx
 {
     uint64_t u;
     struct bdk_key_memx_s
@@ -331,7 +337,8 @@ typedef union
     } cn81xx;
     /* struct bdk_key_memx_s cn88xx; */
     /* struct bdk_key_memx_cn81xx cn83xx; */
-} bdk_key_memx_t;
+};
+typedef union bdk_key_memx bdk_key_memx_t;
 
 static inline uint64_t BDK_KEY_MEMX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_KEY_MEMX(unsigned long a)
@@ -354,7 +361,7 @@ static inline uint64_t BDK_KEY_MEMX(unsigned long a)
  * KEY BIST Status Register
  * This register contains the controls to allow local and remote RSL access to KEY MEM.
  */
-typedef union
+union bdk_key_mem_access
 {
     uint64_t u;
     struct bdk_key_mem_access_s
@@ -376,7 +383,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_key_mem_access_s cn; */
-} bdk_key_mem_access_t;
+};
+typedef union bdk_key_mem_access bdk_key_mem_access_t;
 
 #define BDK_KEY_MEM_ACCESS BDK_KEY_MEM_ACCESS_FUNC()
 static inline uint64_t BDK_KEY_MEM_ACCESS_FUNC(void) __attribute__ ((pure, always_inline));
@@ -404,7 +412,7 @@ static inline uint64_t BDK_KEY_MEM_ACCESS_FUNC(void)
  * KEY MSI-X Pending Bit Array Registers
  * This register is the MSI-X PBA table; the bit number is indexed by the KEY_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_key_msix_pbax
 {
     uint64_t u;
     struct bdk_key_msix_pbax_s
@@ -429,7 +437,8 @@ typedef union
     } cn81xx;
     /* struct bdk_key_msix_pbax_s cn88xx; */
     /* struct bdk_key_msix_pbax_cn81xx cn83xx; */
-} bdk_key_msix_pbax_t;
+};
+typedef union bdk_key_msix_pbax bdk_key_msix_pbax_t;
 
 static inline uint64_t BDK_KEY_MSIX_PBAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_KEY_MSIX_PBAX(unsigned long a)
@@ -452,7 +461,7 @@ static inline uint64_t BDK_KEY_MSIX_PBAX(unsigned long a)
  * KEY MSI-X Vector-Table Address Register
  * This register is the MSI-X vector table, indexed by the KEY_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_key_msix_vecx_addr
 {
     uint64_t u;
     struct bdk_key_msix_vecx_addr_s
@@ -513,7 +522,8 @@ typedef union
     } cn81xx;
     /* struct bdk_key_msix_vecx_addr_s cn88xx; */
     /* struct bdk_key_msix_vecx_addr_cn81xx cn83xx; */
-} bdk_key_msix_vecx_addr_t;
+};
+typedef union bdk_key_msix_vecx_addr bdk_key_msix_vecx_addr_t;
 
 static inline uint64_t BDK_KEY_MSIX_VECX_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_KEY_MSIX_VECX_ADDR(unsigned long a)
@@ -536,7 +546,7 @@ static inline uint64_t BDK_KEY_MSIX_VECX_ADDR(unsigned long a)
  * KEY MSI-X Vector-Table Control and Data Register
  * This register is the MSI-X vector table, indexed by the KEY_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_key_msix_vecx_ctl
 {
     uint64_t u;
     struct bdk_key_msix_vecx_ctl_s
@@ -569,7 +579,8 @@ typedef union
     } cn81xx;
     /* struct bdk_key_msix_vecx_ctl_s cn88xx; */
     /* struct bdk_key_msix_vecx_ctl_cn81xx cn83xx; */
-} bdk_key_msix_vecx_ctl_t;
+};
+typedef union bdk_key_msix_vecx_ctl bdk_key_msix_vecx_ctl_t;
 
 static inline uint64_t BDK_KEY_MSIX_VECX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_KEY_MSIX_VECX_CTL(unsigned long a)

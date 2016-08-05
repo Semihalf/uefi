@@ -87,7 +87,7 @@
  *
  * GTI Base Component Identification Register 0
  */
-typedef union
+union bdk_gti_bz_cidr0
 {
     uint32_t u;
     struct bdk_gti_bz_cidr0_s
@@ -101,7 +101,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_bz_cidr0_s cn; */
-} bdk_gti_bz_cidr0_t;
+};
+typedef union bdk_gti_bz_cidr0 bdk_gti_bz_cidr0_t;
 
 #define BDK_GTI_BZ_CIDR0 BDK_GTI_BZ_CIDR0_FUNC()
 static inline uint64_t BDK_GTI_BZ_CIDR0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -122,7 +123,7 @@ static inline uint64_t BDK_GTI_BZ_CIDR0_FUNC(void)
  *
  * GTI Base Component Identification Register 1
  */
-typedef union
+union bdk_gti_bz_cidr1
 {
     uint32_t u;
     struct bdk_gti_bz_cidr1_s
@@ -138,7 +139,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_bz_cidr1_s cn; */
-} bdk_gti_bz_cidr1_t;
+};
+typedef union bdk_gti_bz_cidr1 bdk_gti_bz_cidr1_t;
 
 #define BDK_GTI_BZ_CIDR1 BDK_GTI_BZ_CIDR1_FUNC()
 static inline uint64_t BDK_GTI_BZ_CIDR1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -159,7 +161,7 @@ static inline uint64_t BDK_GTI_BZ_CIDR1_FUNC(void)
  *
  * GTI Base Component Identification Register 2
  */
-typedef union
+union bdk_gti_bz_cidr2
 {
     uint32_t u;
     struct bdk_gti_bz_cidr2_s
@@ -173,7 +175,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_bz_cidr2_s cn; */
-} bdk_gti_bz_cidr2_t;
+};
+typedef union bdk_gti_bz_cidr2 bdk_gti_bz_cidr2_t;
 
 #define BDK_GTI_BZ_CIDR2 BDK_GTI_BZ_CIDR2_FUNC()
 static inline uint64_t BDK_GTI_BZ_CIDR2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -194,7 +197,7 @@ static inline uint64_t BDK_GTI_BZ_CIDR2_FUNC(void)
  *
  * GTI Base Component Identification Register 3
  */
-typedef union
+union bdk_gti_bz_cidr3
 {
     uint32_t u;
     struct bdk_gti_bz_cidr3_s
@@ -208,7 +211,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_bz_cidr3_s cn; */
-} bdk_gti_bz_cidr3_t;
+};
+typedef union bdk_gti_bz_cidr3 bdk_gti_bz_cidr3_t;
 
 #define BDK_GTI_BZ_CIDR3 BDK_GTI_BZ_CIDR3_FUNC()
 static inline uint64_t BDK_GTI_BZ_CIDR3_FUNC(void) __attribute__ ((pure, always_inline));
@@ -229,7 +233,7 @@ static inline uint64_t BDK_GTI_BZ_CIDR3_FUNC(void)
  *
  * GTI Base Physical Timer Control Register
  */
-typedef union
+union bdk_gti_bz_cntp_ctl
 {
     uint32_t u;
     struct bdk_gti_bz_cntp_ctl_s
@@ -247,7 +251,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_bz_cntp_ctl_s cn; */
-} bdk_gti_bz_cntp_ctl_t;
+};
+typedef union bdk_gti_bz_cntp_ctl bdk_gti_bz_cntp_ctl_t;
 
 #define BDK_GTI_BZ_CNTP_CTL BDK_GTI_BZ_CNTP_CTL_FUNC()
 static inline uint64_t BDK_GTI_BZ_CNTP_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -268,7 +273,7 @@ static inline uint64_t BDK_GTI_BZ_CNTP_CTL_FUNC(void)
  *
  * GTI Base Physical Timer Compare Value Register
  */
-typedef union
+union bdk_gti_bz_cntp_cval
 {
     uint64_t u;
     struct bdk_gti_bz_cntp_cval_s
@@ -280,7 +285,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_bz_cntp_cval_s cn; */
-} bdk_gti_bz_cntp_cval_t;
+};
+typedef union bdk_gti_bz_cntp_cval bdk_gti_bz_cntp_cval_t;
 
 #define BDK_GTI_BZ_CNTP_CVAL BDK_GTI_BZ_CNTP_CVAL_FUNC()
 static inline uint64_t BDK_GTI_BZ_CNTP_CVAL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -301,7 +307,7 @@ static inline uint64_t BDK_GTI_BZ_CNTP_CVAL_FUNC(void)
  *
  * GTI Base Physical Timer Timer Value Register
  */
-typedef union
+union bdk_gti_bz_cntp_tval
 {
     uint32_t u;
     struct bdk_gti_bz_cntp_tval_s
@@ -313,7 +319,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_bz_cntp_tval_s cn; */
-} bdk_gti_bz_cntp_tval_t;
+};
+typedef union bdk_gti_bz_cntp_tval bdk_gti_bz_cntp_tval_t;
 
 #define BDK_GTI_BZ_CNTP_TVAL BDK_GTI_BZ_CNTP_TVAL_FUNC()
 static inline uint64_t BDK_GTI_BZ_CNTP_TVAL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -334,7 +341,7 @@ static inline uint64_t BDK_GTI_BZ_CNTP_TVAL_FUNC(void)
  *
  * GTI Base Peripheral Identification Register 0
  */
-typedef union
+union bdk_gti_bz_pidr0
 {
     uint32_t u;
     struct bdk_gti_bz_pidr0_s
@@ -348,7 +355,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_bz_pidr0_s cn; */
-} bdk_gti_bz_pidr0_t;
+};
+typedef union bdk_gti_bz_pidr0 bdk_gti_bz_pidr0_t;
 
 #define BDK_GTI_BZ_PIDR0 BDK_GTI_BZ_PIDR0_FUNC()
 static inline uint64_t BDK_GTI_BZ_PIDR0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -369,7 +377,7 @@ static inline uint64_t BDK_GTI_BZ_PIDR0_FUNC(void)
  *
  * GTI Base Peripheral Identification Register 1
  */
-typedef union
+union bdk_gti_bz_pidr1
 {
     uint32_t u;
     struct bdk_gti_bz_pidr1_s
@@ -385,7 +393,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_bz_pidr1_s cn; */
-} bdk_gti_bz_pidr1_t;
+};
+typedef union bdk_gti_bz_pidr1 bdk_gti_bz_pidr1_t;
 
 #define BDK_GTI_BZ_PIDR1 BDK_GTI_BZ_PIDR1_FUNC()
 static inline uint64_t BDK_GTI_BZ_PIDR1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -406,7 +415,7 @@ static inline uint64_t BDK_GTI_BZ_PIDR1_FUNC(void)
  *
  * GTI Base Peripheral Identification Register 2
  */
-typedef union
+union bdk_gti_bz_pidr2
 {
     uint32_t u;
     struct bdk_gti_bz_pidr2_s
@@ -424,7 +433,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_bz_pidr2_s cn; */
-} bdk_gti_bz_pidr2_t;
+};
+typedef union bdk_gti_bz_pidr2 bdk_gti_bz_pidr2_t;
 
 #define BDK_GTI_BZ_PIDR2 BDK_GTI_BZ_PIDR2_FUNC()
 static inline uint64_t BDK_GTI_BZ_PIDR2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -445,7 +455,7 @@ static inline uint64_t BDK_GTI_BZ_PIDR2_FUNC(void)
  *
  * GTI Base Peripheral Identification Register 3
  */
-typedef union
+union bdk_gti_bz_pidr3
 {
     uint32_t u;
     struct bdk_gti_bz_pidr3_s
@@ -463,7 +473,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_bz_pidr3_s cn; */
-} bdk_gti_bz_pidr3_t;
+};
+typedef union bdk_gti_bz_pidr3 bdk_gti_bz_pidr3_t;
 
 #define BDK_GTI_BZ_PIDR3 BDK_GTI_BZ_PIDR3_FUNC()
 static inline uint64_t BDK_GTI_BZ_PIDR3_FUNC(void) __attribute__ ((pure, always_inline));
@@ -484,7 +495,7 @@ static inline uint64_t BDK_GTI_BZ_PIDR3_FUNC(void)
  *
  * GTI Base Peripheral Identification Register 4
  */
-typedef union
+union bdk_gti_bz_pidr4
 {
     uint32_t u;
     struct bdk_gti_bz_pidr4_s
@@ -500,7 +511,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_bz_pidr4_s cn; */
-} bdk_gti_bz_pidr4_t;
+};
+typedef union bdk_gti_bz_pidr4 bdk_gti_bz_pidr4_t;
 
 #define BDK_GTI_BZ_PIDR4 BDK_GTI_BZ_PIDR4_FUNC()
 static inline uint64_t BDK_GTI_BZ_PIDR4_FUNC(void) __attribute__ ((pure, always_inline));
@@ -521,7 +533,7 @@ static inline uint64_t BDK_GTI_BZ_PIDR4_FUNC(void)
  *
  * GTI Base Peripheral Identification Register 5
  */
-typedef union
+union bdk_gti_bz_pidr5
 {
     uint32_t u;
     struct bdk_gti_bz_pidr5_s
@@ -533,7 +545,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_bz_pidr5_s cn; */
-} bdk_gti_bz_pidr5_t;
+};
+typedef union bdk_gti_bz_pidr5 bdk_gti_bz_pidr5_t;
 
 #define BDK_GTI_BZ_PIDR5 BDK_GTI_BZ_PIDR5_FUNC()
 static inline uint64_t BDK_GTI_BZ_PIDR5_FUNC(void) __attribute__ ((pure, always_inline));
@@ -554,7 +567,7 @@ static inline uint64_t BDK_GTI_BZ_PIDR5_FUNC(void)
  *
  * GTI Base Peripheral Identification Register 6
  */
-typedef union
+union bdk_gti_bz_pidr6
 {
     uint32_t u;
     struct bdk_gti_bz_pidr6_s
@@ -566,7 +579,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_bz_pidr6_s cn; */
-} bdk_gti_bz_pidr6_t;
+};
+typedef union bdk_gti_bz_pidr6 bdk_gti_bz_pidr6_t;
 
 #define BDK_GTI_BZ_PIDR6 BDK_GTI_BZ_PIDR6_FUNC()
 static inline uint64_t BDK_GTI_BZ_PIDR6_FUNC(void) __attribute__ ((pure, always_inline));
@@ -587,7 +601,7 @@ static inline uint64_t BDK_GTI_BZ_PIDR6_FUNC(void)
  *
  * GTI Base Peripheral Identification Register 7
  */
-typedef union
+union bdk_gti_bz_pidr7
 {
     uint32_t u;
     struct bdk_gti_bz_pidr7_s
@@ -599,7 +613,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_bz_pidr7_s cn; */
-} bdk_gti_bz_pidr7_t;
+};
+typedef union bdk_gti_bz_pidr7 bdk_gti_bz_pidr7_t;
 
 #define BDK_GTI_BZ_PIDR7 BDK_GTI_BZ_PIDR7_FUNC()
 static inline uint64_t BDK_GTI_BZ_PIDR7_FUNC(void) __attribute__ ((pure, always_inline));
@@ -620,7 +635,7 @@ static inline uint64_t BDK_GTI_BZ_PIDR7_FUNC(void)
  *
  * GTI Counter Control Component Identification Secure Register 0
  */
-typedef union
+union bdk_gti_cc_cidr0
 {
     uint32_t u;
     struct bdk_gti_cc_cidr0_s
@@ -634,7 +649,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_cc_cidr0_s cn; */
-} bdk_gti_cc_cidr0_t;
+};
+typedef union bdk_gti_cc_cidr0 bdk_gti_cc_cidr0_t;
 
 #define BDK_GTI_CC_CIDR0 BDK_GTI_CC_CIDR0_FUNC()
 static inline uint64_t BDK_GTI_CC_CIDR0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -655,7 +671,7 @@ static inline uint64_t BDK_GTI_CC_CIDR0_FUNC(void)
  *
  * GTI Counter Control Component Identification Secure Register 1
  */
-typedef union
+union bdk_gti_cc_cidr1
 {
     uint32_t u;
     struct bdk_gti_cc_cidr1_s
@@ -671,7 +687,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_cc_cidr1_s cn; */
-} bdk_gti_cc_cidr1_t;
+};
+typedef union bdk_gti_cc_cidr1 bdk_gti_cc_cidr1_t;
 
 #define BDK_GTI_CC_CIDR1 BDK_GTI_CC_CIDR1_FUNC()
 static inline uint64_t BDK_GTI_CC_CIDR1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -692,7 +709,7 @@ static inline uint64_t BDK_GTI_CC_CIDR1_FUNC(void)
  *
  * GTI Counter Control Component Identification Secure Register 2
  */
-typedef union
+union bdk_gti_cc_cidr2
 {
     uint32_t u;
     struct bdk_gti_cc_cidr2_s
@@ -706,7 +723,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_cc_cidr2_s cn; */
-} bdk_gti_cc_cidr2_t;
+};
+typedef union bdk_gti_cc_cidr2 bdk_gti_cc_cidr2_t;
 
 #define BDK_GTI_CC_CIDR2 BDK_GTI_CC_CIDR2_FUNC()
 static inline uint64_t BDK_GTI_CC_CIDR2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -727,7 +745,7 @@ static inline uint64_t BDK_GTI_CC_CIDR2_FUNC(void)
  *
  * GTI Counter Control Component Identification Secure Register 3
  */
-typedef union
+union bdk_gti_cc_cidr3
 {
     uint32_t u;
     struct bdk_gti_cc_cidr3_s
@@ -741,7 +759,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_cc_cidr3_s cn; */
-} bdk_gti_cc_cidr3_t;
+};
+typedef union bdk_gti_cc_cidr3 bdk_gti_cc_cidr3_t;
 
 #define BDK_GTI_CC_CIDR3 BDK_GTI_CC_CIDR3_FUNC()
 static inline uint64_t BDK_GTI_CC_CIDR3_FUNC(void) __attribute__ ((pure, always_inline));
@@ -763,7 +782,7 @@ static inline uint64_t BDK_GTI_CC_CIDR3_FUNC(void)
  * GTI Counter Control Atomic Add Secure Register
  * Implementation defined register.
  */
-typedef union
+union bdk_gti_cc_cntadd
 {
     uint64_t u;
     struct bdk_gti_cc_cntadd_s
@@ -775,7 +794,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_cc_cntadd_s cn; */
-} bdk_gti_cc_cntadd_t;
+};
+typedef union bdk_gti_cc_cntadd bdk_gti_cc_cntadd_t;
 
 #define BDK_GTI_CC_CNTADD BDK_GTI_CC_CNTADD_FUNC()
 static inline uint64_t BDK_GTI_CC_CNTADD_FUNC(void) __attribute__ ((pure, always_inline));
@@ -796,7 +816,7 @@ static inline uint64_t BDK_GTI_CC_CNTADD_FUNC(void)
  *
  * GTI Counter Control Secure Register
  */
-typedef union
+union bdk_gti_cc_cntcr
 {
     uint32_t u;
     struct bdk_gti_cc_cntcr_s
@@ -828,7 +848,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_cc_cntcr_s cn; */
-} bdk_gti_cc_cntcr_t;
+};
+typedef union bdk_gti_cc_cntcr bdk_gti_cc_cntcr_t;
 
 #define BDK_GTI_CC_CNTCR BDK_GTI_CC_CNTCR_FUNC()
 static inline uint64_t BDK_GTI_CC_CNTCR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -849,7 +870,7 @@ static inline uint64_t BDK_GTI_CC_CNTCR_FUNC(void)
  *
  * GTI Counter Control Count Value Secure Register
  */
-typedef union
+union bdk_gti_cc_cntcv
 {
     uint64_t u;
     struct bdk_gti_cc_cntcv_s
@@ -863,7 +884,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_cc_cntcv_s cn; */
-} bdk_gti_cc_cntcv_t;
+};
+typedef union bdk_gti_cc_cntcv bdk_gti_cc_cntcv_t;
 
 #define BDK_GTI_CC_CNTCV BDK_GTI_CC_CNTCV_FUNC()
 static inline uint64_t BDK_GTI_CC_CNTCV_FUNC(void) __attribute__ ((pure, always_inline));
@@ -884,7 +906,7 @@ static inline uint64_t BDK_GTI_CC_CNTCV_FUNC(void)
  *
  * GTI Counter Control Frequency Mode Table Secure Register 0
  */
-typedef union
+union bdk_gti_cc_cntfid0
 {
     uint32_t u;
     struct bdk_gti_cc_cntfid0_s
@@ -900,7 +922,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_cc_cntfid0_s cn; */
-} bdk_gti_cc_cntfid0_t;
+};
+typedef union bdk_gti_cc_cntfid0 bdk_gti_cc_cntfid0_t;
 
 #define BDK_GTI_CC_CNTFID0 BDK_GTI_CC_CNTFID0_FUNC()
 static inline uint64_t BDK_GTI_CC_CNTFID0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -921,7 +944,7 @@ static inline uint64_t BDK_GTI_CC_CNTFID0_FUNC(void)
  *
  * GTI Counter Control Frequency Mode Table Secure Register 1
  */
-typedef union
+union bdk_gti_cc_cntfid1
 {
     uint32_t u;
     struct bdk_gti_cc_cntfid1_s
@@ -933,7 +956,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_cc_cntfid1_s cn; */
-} bdk_gti_cc_cntfid1_t;
+};
+typedef union bdk_gti_cc_cntfid1 bdk_gti_cc_cntfid1_t;
 
 #define BDK_GTI_CC_CNTFID1 BDK_GTI_CC_CNTFID1_FUNC()
 static inline uint64_t BDK_GTI_CC_CNTFID1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -955,7 +979,7 @@ static inline uint64_t BDK_GTI_CC_CNTFID1_FUNC(void)
  * GTI Counter Control Mailbox Secure Register
  * Implementation defined register.
  */
-typedef union
+union bdk_gti_cc_cntmb
 {
     uint64_t u;
     struct bdk_gti_cc_cntmb_s
@@ -1060,7 +1084,8 @@ typedef union
     } cn81xx;
     /* struct bdk_gti_cc_cntmb_s cn88xx; */
     /* struct bdk_gti_cc_cntmb_cn81xx cn83xx; */
-} bdk_gti_cc_cntmb_t;
+};
+typedef union bdk_gti_cc_cntmb bdk_gti_cc_cntmb_t;
 
 #define BDK_GTI_CC_CNTMB BDK_GTI_CC_CNTMB_FUNC()
 static inline uint64_t BDK_GTI_CC_CNTMB_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1082,7 +1107,7 @@ static inline uint64_t BDK_GTI_CC_CNTMB_FUNC(void)
  * GTI Counter Control Mailbox Interrupt Register
  * Implementation defined register.
  */
-typedef union
+union bdk_gti_cc_cntmb_int
 {
     uint64_t u;
     struct bdk_gti_cc_cntmb_int_s
@@ -1102,7 +1127,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_cc_cntmb_int_s cn; */
-} bdk_gti_cc_cntmb_int_t;
+};
+typedef union bdk_gti_cc_cntmb_int bdk_gti_cc_cntmb_int_t;
 
 #define BDK_GTI_CC_CNTMB_INT BDK_GTI_CC_CNTMB_INT_FUNC()
 static inline uint64_t BDK_GTI_CC_CNTMB_INT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1124,7 +1150,7 @@ static inline uint64_t BDK_GTI_CC_CNTMB_INT_FUNC(void)
  * GTI Counter Control Mailbox Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_gti_cc_cntmb_int_ena_clr
 {
     uint64_t u;
     struct bdk_gti_cc_cntmb_int_ena_clr_s
@@ -1140,7 +1166,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_cc_cntmb_int_ena_clr_s cn; */
-} bdk_gti_cc_cntmb_int_ena_clr_t;
+};
+typedef union bdk_gti_cc_cntmb_int_ena_clr bdk_gti_cc_cntmb_int_ena_clr_t;
 
 #define BDK_GTI_CC_CNTMB_INT_ENA_CLR BDK_GTI_CC_CNTMB_INT_ENA_CLR_FUNC()
 static inline uint64_t BDK_GTI_CC_CNTMB_INT_ENA_CLR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1162,7 +1189,7 @@ static inline uint64_t BDK_GTI_CC_CNTMB_INT_ENA_CLR_FUNC(void)
  * GTI Counter Control Mailbox Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_gti_cc_cntmb_int_ena_set
 {
     uint64_t u;
     struct bdk_gti_cc_cntmb_int_ena_set_s
@@ -1178,7 +1205,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_cc_cntmb_int_ena_set_s cn; */
-} bdk_gti_cc_cntmb_int_ena_set_t;
+};
+typedef union bdk_gti_cc_cntmb_int_ena_set bdk_gti_cc_cntmb_int_ena_set_t;
 
 #define BDK_GTI_CC_CNTMB_INT_ENA_SET BDK_GTI_CC_CNTMB_INT_ENA_SET_FUNC()
 static inline uint64_t BDK_GTI_CC_CNTMB_INT_ENA_SET_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1200,7 +1228,7 @@ static inline uint64_t BDK_GTI_CC_CNTMB_INT_ENA_SET_FUNC(void)
  * GTI Counter Control Mailbox Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_gti_cc_cntmb_int_set
 {
     uint64_t u;
     struct bdk_gti_cc_cntmb_int_set_s
@@ -1216,7 +1244,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_cc_cntmb_int_set_s cn; */
-} bdk_gti_cc_cntmb_int_set_t;
+};
+typedef union bdk_gti_cc_cntmb_int_set bdk_gti_cc_cntmb_int_set_t;
 
 #define BDK_GTI_CC_CNTMB_INT_SET BDK_GTI_CC_CNTMB_INT_SET_FUNC()
 static inline uint64_t BDK_GTI_CC_CNTMB_INT_SET_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1238,7 +1267,7 @@ static inline uint64_t BDK_GTI_CC_CNTMB_INT_SET_FUNC(void)
  * GTI Counter Control Mailbox Time Stamp Secure Register
  * Implementation defined register.
  */
-typedef union
+union bdk_gti_cc_cntmbts
 {
     uint64_t u;
     struct bdk_gti_cc_cntmbts_s
@@ -1275,7 +1304,8 @@ typedef union
     } cn81xx;
     /* struct bdk_gti_cc_cntmbts_s cn88xx; */
     /* struct bdk_gti_cc_cntmbts_cn81xx cn83xx; */
-} bdk_gti_cc_cntmbts_t;
+};
+typedef union bdk_gti_cc_cntmbts bdk_gti_cc_cntmbts_t;
 
 #define BDK_GTI_CC_CNTMBTS BDK_GTI_CC_CNTMBTS_FUNC()
 static inline uint64_t BDK_GTI_CC_CNTMBTS_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1297,7 +1327,7 @@ static inline uint64_t BDK_GTI_CC_CNTMBTS_FUNC(void)
  * GTI Counter Control Count Rate Accumulator Secure Register
  * Implementation defined register.
  */
-typedef union
+union bdk_gti_cc_cntracc
 {
     uint32_t u;
     struct bdk_gti_cc_cntracc_s
@@ -1309,7 +1339,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_cc_cntracc_s cn; */
-} bdk_gti_cc_cntracc_t;
+};
+typedef union bdk_gti_cc_cntracc bdk_gti_cc_cntracc_t;
 
 #define BDK_GTI_CC_CNTRACC BDK_GTI_CC_CNTRACC_FUNC()
 static inline uint64_t BDK_GTI_CC_CNTRACC_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1331,7 +1362,7 @@ static inline uint64_t BDK_GTI_CC_CNTRACC_FUNC(void)
  * GTI Counter Control Count Rate Secure Register
  * Implementation defined register.
  */
-typedef union
+union bdk_gti_cc_cntrate
 {
     uint32_t u;
     struct bdk_gti_cc_cntrate_s
@@ -1347,7 +1378,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_cc_cntrate_s cn; */
-} bdk_gti_cc_cntrate_t;
+};
+typedef union bdk_gti_cc_cntrate bdk_gti_cc_cntrate_t;
 
 #define BDK_GTI_CC_CNTRATE BDK_GTI_CC_CNTRATE_FUNC()
 static inline uint64_t BDK_GTI_CC_CNTRATE_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1368,7 +1400,7 @@ static inline uint64_t BDK_GTI_CC_CNTRATE_FUNC(void)
  *
  * GTI Counter Control Status Secure Register
  */
-typedef union
+union bdk_gti_cc_cntsr
 {
     uint32_t u;
     struct bdk_gti_cc_cntsr_s
@@ -1398,7 +1430,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_cc_cntsr_s cn; */
-} bdk_gti_cc_cntsr_t;
+};
+typedef union bdk_gti_cc_cntsr bdk_gti_cc_cntsr_t;
 
 #define BDK_GTI_CC_CNTSR BDK_GTI_CC_CNTSR_FUNC()
 static inline uint64_t BDK_GTI_CC_CNTSR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1420,7 +1453,7 @@ static inline uint64_t BDK_GTI_CC_CNTSR_FUNC(void)
  * GTI Counter Control Implementation Control Register
  * Implementation defined register.
  */
-typedef union
+union bdk_gti_cc_imp_ctl
 {
     uint64_t u;
     struct bdk_gti_cc_imp_ctl_s
@@ -1438,7 +1471,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_cc_imp_ctl_s cn; */
-} bdk_gti_cc_imp_ctl_t;
+};
+typedef union bdk_gti_cc_imp_ctl bdk_gti_cc_imp_ctl_t;
 
 #define BDK_GTI_CC_IMP_CTL BDK_GTI_CC_IMP_CTL_FUNC()
 static inline uint64_t BDK_GTI_CC_IMP_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1459,7 +1493,7 @@ static inline uint64_t BDK_GTI_CC_IMP_CTL_FUNC(void)
  *
  * GTI Counter Control Peripheral Identification Secure Register 0
  */
-typedef union
+union bdk_gti_cc_pidr0
 {
     uint32_t u;
     struct bdk_gti_cc_pidr0_s
@@ -1473,7 +1507,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_cc_pidr0_s cn; */
-} bdk_gti_cc_pidr0_t;
+};
+typedef union bdk_gti_cc_pidr0 bdk_gti_cc_pidr0_t;
 
 #define BDK_GTI_CC_PIDR0 BDK_GTI_CC_PIDR0_FUNC()
 static inline uint64_t BDK_GTI_CC_PIDR0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1494,7 +1529,7 @@ static inline uint64_t BDK_GTI_CC_PIDR0_FUNC(void)
  *
  * GTI Counter Control Peripheral Identification Secure Register 1
  */
-typedef union
+union bdk_gti_cc_pidr1
 {
     uint32_t u;
     struct bdk_gti_cc_pidr1_s
@@ -1510,7 +1545,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_cc_pidr1_s cn; */
-} bdk_gti_cc_pidr1_t;
+};
+typedef union bdk_gti_cc_pidr1 bdk_gti_cc_pidr1_t;
 
 #define BDK_GTI_CC_PIDR1 BDK_GTI_CC_PIDR1_FUNC()
 static inline uint64_t BDK_GTI_CC_PIDR1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1531,7 +1567,7 @@ static inline uint64_t BDK_GTI_CC_PIDR1_FUNC(void)
  *
  * GTI Counter Control Peripheral Identification Secure Register 2
  */
-typedef union
+union bdk_gti_cc_pidr2
 {
     uint32_t u;
     struct bdk_gti_cc_pidr2_s
@@ -1549,7 +1585,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_cc_pidr2_s cn; */
-} bdk_gti_cc_pidr2_t;
+};
+typedef union bdk_gti_cc_pidr2 bdk_gti_cc_pidr2_t;
 
 #define BDK_GTI_CC_PIDR2 BDK_GTI_CC_PIDR2_FUNC()
 static inline uint64_t BDK_GTI_CC_PIDR2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1570,7 +1607,7 @@ static inline uint64_t BDK_GTI_CC_PIDR2_FUNC(void)
  *
  * GTI Counter Control Peripheral Identification Secure Register 3
  */
-typedef union
+union bdk_gti_cc_pidr3
 {
     uint32_t u;
     struct bdk_gti_cc_pidr3_s
@@ -1588,7 +1625,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_cc_pidr3_s cn; */
-} bdk_gti_cc_pidr3_t;
+};
+typedef union bdk_gti_cc_pidr3 bdk_gti_cc_pidr3_t;
 
 #define BDK_GTI_CC_PIDR3 BDK_GTI_CC_PIDR3_FUNC()
 static inline uint64_t BDK_GTI_CC_PIDR3_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1609,7 +1647,7 @@ static inline uint64_t BDK_GTI_CC_PIDR3_FUNC(void)
  *
  * GTI Counter Control Peripheral Identification Secure Register 4
  */
-typedef union
+union bdk_gti_cc_pidr4
 {
     uint32_t u;
     struct bdk_gti_cc_pidr4_s
@@ -1625,7 +1663,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_cc_pidr4_s cn; */
-} bdk_gti_cc_pidr4_t;
+};
+typedef union bdk_gti_cc_pidr4 bdk_gti_cc_pidr4_t;
 
 #define BDK_GTI_CC_PIDR4 BDK_GTI_CC_PIDR4_FUNC()
 static inline uint64_t BDK_GTI_CC_PIDR4_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1646,7 +1685,7 @@ static inline uint64_t BDK_GTI_CC_PIDR4_FUNC(void)
  *
  * GTI Counter Control Peripheral Identification Secure Register 5
  */
-typedef union
+union bdk_gti_cc_pidr5
 {
     uint32_t u;
     struct bdk_gti_cc_pidr5_s
@@ -1658,7 +1697,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_cc_pidr5_s cn; */
-} bdk_gti_cc_pidr5_t;
+};
+typedef union bdk_gti_cc_pidr5 bdk_gti_cc_pidr5_t;
 
 #define BDK_GTI_CC_PIDR5 BDK_GTI_CC_PIDR5_FUNC()
 static inline uint64_t BDK_GTI_CC_PIDR5_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1679,7 +1719,7 @@ static inline uint64_t BDK_GTI_CC_PIDR5_FUNC(void)
  *
  * GTI Counter Control Peripheral Identification Secure Register 6
  */
-typedef union
+union bdk_gti_cc_pidr6
 {
     uint32_t u;
     struct bdk_gti_cc_pidr6_s
@@ -1691,7 +1731,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_cc_pidr6_s cn; */
-} bdk_gti_cc_pidr6_t;
+};
+typedef union bdk_gti_cc_pidr6 bdk_gti_cc_pidr6_t;
 
 #define BDK_GTI_CC_PIDR6 BDK_GTI_CC_PIDR6_FUNC()
 static inline uint64_t BDK_GTI_CC_PIDR6_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1712,7 +1753,7 @@ static inline uint64_t BDK_GTI_CC_PIDR6_FUNC(void)
  *
  * GTI Counter Control Peripheral Identification Secure Register 7
  */
-typedef union
+union bdk_gti_cc_pidr7
 {
     uint32_t u;
     struct bdk_gti_cc_pidr7_s
@@ -1724,7 +1765,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_cc_pidr7_s cn; */
-} bdk_gti_cc_pidr7_t;
+};
+typedef union bdk_gti_cc_pidr7 bdk_gti_cc_pidr7_t;
 
 #define BDK_GTI_CC_PIDR7 BDK_GTI_CC_PIDR7_FUNC()
 static inline uint64_t BDK_GTI_CC_PIDR7_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1745,7 +1787,7 @@ static inline uint64_t BDK_GTI_CC_PIDR7_FUNC(void)
  *
  * GTI Control Component Identification Register 0
  */
-typedef union
+union bdk_gti_ctl_cidr0
 {
     uint32_t u;
     struct bdk_gti_ctl_cidr0_s
@@ -1759,7 +1801,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_ctl_cidr0_s cn; */
-} bdk_gti_ctl_cidr0_t;
+};
+typedef union bdk_gti_ctl_cidr0 bdk_gti_ctl_cidr0_t;
 
 #define BDK_GTI_CTL_CIDR0 BDK_GTI_CTL_CIDR0_FUNC()
 static inline uint64_t BDK_GTI_CTL_CIDR0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1780,7 +1823,7 @@ static inline uint64_t BDK_GTI_CTL_CIDR0_FUNC(void)
  *
  * GTI Control Component Identification Register 1
  */
-typedef union
+union bdk_gti_ctl_cidr1
 {
     uint32_t u;
     struct bdk_gti_ctl_cidr1_s
@@ -1796,7 +1839,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_ctl_cidr1_s cn; */
-} bdk_gti_ctl_cidr1_t;
+};
+typedef union bdk_gti_ctl_cidr1 bdk_gti_ctl_cidr1_t;
 
 #define BDK_GTI_CTL_CIDR1 BDK_GTI_CTL_CIDR1_FUNC()
 static inline uint64_t BDK_GTI_CTL_CIDR1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1817,7 +1861,7 @@ static inline uint64_t BDK_GTI_CTL_CIDR1_FUNC(void)
  *
  * GTI Control Component Identification Register 2
  */
-typedef union
+union bdk_gti_ctl_cidr2
 {
     uint32_t u;
     struct bdk_gti_ctl_cidr2_s
@@ -1831,7 +1875,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_ctl_cidr2_s cn; */
-} bdk_gti_ctl_cidr2_t;
+};
+typedef union bdk_gti_ctl_cidr2 bdk_gti_ctl_cidr2_t;
 
 #define BDK_GTI_CTL_CIDR2 BDK_GTI_CTL_CIDR2_FUNC()
 static inline uint64_t BDK_GTI_CTL_CIDR2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1852,7 +1897,7 @@ static inline uint64_t BDK_GTI_CTL_CIDR2_FUNC(void)
  *
  * GTI Control Component Identification Register 3
  */
-typedef union
+union bdk_gti_ctl_cidr3
 {
     uint32_t u;
     struct bdk_gti_ctl_cidr3_s
@@ -1866,7 +1911,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_ctl_cidr3_s cn; */
-} bdk_gti_ctl_cidr3_t;
+};
+typedef union bdk_gti_ctl_cidr3 bdk_gti_ctl_cidr3_t;
 
 #define BDK_GTI_CTL_CIDR3 BDK_GTI_CTL_CIDR3_FUNC()
 static inline uint64_t BDK_GTI_CTL_CIDR3_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1887,7 +1933,7 @@ static inline uint64_t BDK_GTI_CTL_CIDR3_FUNC(void)
  *
  * GTI Control Access Control 0 Register
  */
-typedef union
+union bdk_gti_ctl_cntacr0
 {
     uint32_t u;
     struct bdk_gti_ctl_cntacr0_s
@@ -1899,7 +1945,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_ctl_cntacr0_s cn; */
-} bdk_gti_ctl_cntacr0_t;
+};
+typedef union bdk_gti_ctl_cntacr0 bdk_gti_ctl_cntacr0_t;
 
 #define BDK_GTI_CTL_CNTACR0 BDK_GTI_CTL_CNTACR0_FUNC()
 static inline uint64_t BDK_GTI_CTL_CNTACR0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1920,7 +1967,7 @@ static inline uint64_t BDK_GTI_CTL_CNTACR0_FUNC(void)
  *
  * GTI Control Counter Frequency Secure Register
  */
-typedef union
+union bdk_gti_ctl_cntfrq
 {
     uint32_t u;
     struct bdk_gti_ctl_cntfrq_s
@@ -1934,7 +1981,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_ctl_cntfrq_s cn; */
-} bdk_gti_ctl_cntfrq_t;
+};
+typedef union bdk_gti_ctl_cntfrq bdk_gti_ctl_cntfrq_t;
 
 #define BDK_GTI_CTL_CNTFRQ BDK_GTI_CTL_CNTFRQ_FUNC()
 static inline uint64_t BDK_GTI_CTL_CNTFRQ_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1955,7 +2003,7 @@ static inline uint64_t BDK_GTI_CTL_CNTFRQ_FUNC(void)
  *
  * GTI Control Counter Nonsecure Access Secure Register
  */
-typedef union
+union bdk_gti_ctl_cntnsar
 {
     uint32_t u;
     struct bdk_gti_ctl_cntnsar_s
@@ -1967,7 +2015,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_ctl_cntnsar_s cn; */
-} bdk_gti_ctl_cntnsar_t;
+};
+typedef union bdk_gti_ctl_cntnsar bdk_gti_ctl_cntnsar_t;
 
 #define BDK_GTI_CTL_CNTNSAR BDK_GTI_CTL_CNTNSAR_FUNC()
 static inline uint64_t BDK_GTI_CTL_CNTNSAR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1988,7 +2037,7 @@ static inline uint64_t BDK_GTI_CTL_CNTNSAR_FUNC(void)
  *
  * GTI Control Counter Timer ID Register
  */
-typedef union
+union bdk_gti_ctl_cnttidr
 {
     uint32_t u;
     struct bdk_gti_ctl_cnttidr_s
@@ -2000,7 +2049,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_ctl_cnttidr_s cn; */
-} bdk_gti_ctl_cnttidr_t;
+};
+typedef union bdk_gti_ctl_cnttidr bdk_gti_ctl_cnttidr_t;
 
 #define BDK_GTI_CTL_CNTTIDR BDK_GTI_CTL_CNTTIDR_FUNC()
 static inline uint64_t BDK_GTI_CTL_CNTTIDR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2021,7 +2071,7 @@ static inline uint64_t BDK_GTI_CTL_CNTTIDR_FUNC(void)
  *
  * GTI Control Peripheral Identification Register 0
  */
-typedef union
+union bdk_gti_ctl_pidr0
 {
     uint32_t u;
     struct bdk_gti_ctl_pidr0_s
@@ -2035,7 +2085,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_ctl_pidr0_s cn; */
-} bdk_gti_ctl_pidr0_t;
+};
+typedef union bdk_gti_ctl_pidr0 bdk_gti_ctl_pidr0_t;
 
 #define BDK_GTI_CTL_PIDR0 BDK_GTI_CTL_PIDR0_FUNC()
 static inline uint64_t BDK_GTI_CTL_PIDR0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2056,7 +2107,7 @@ static inline uint64_t BDK_GTI_CTL_PIDR0_FUNC(void)
  *
  * GTI Control Peripheral Identification Register 1
  */
-typedef union
+union bdk_gti_ctl_pidr1
 {
     uint32_t u;
     struct bdk_gti_ctl_pidr1_s
@@ -2072,7 +2123,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_ctl_pidr1_s cn; */
-} bdk_gti_ctl_pidr1_t;
+};
+typedef union bdk_gti_ctl_pidr1 bdk_gti_ctl_pidr1_t;
 
 #define BDK_GTI_CTL_PIDR1 BDK_GTI_CTL_PIDR1_FUNC()
 static inline uint64_t BDK_GTI_CTL_PIDR1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2093,7 +2145,7 @@ static inline uint64_t BDK_GTI_CTL_PIDR1_FUNC(void)
  *
  * GTI Control Peripheral Identification Register 2
  */
-typedef union
+union bdk_gti_ctl_pidr2
 {
     uint32_t u;
     struct bdk_gti_ctl_pidr2_s
@@ -2111,7 +2163,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_ctl_pidr2_s cn; */
-} bdk_gti_ctl_pidr2_t;
+};
+typedef union bdk_gti_ctl_pidr2 bdk_gti_ctl_pidr2_t;
 
 #define BDK_GTI_CTL_PIDR2 BDK_GTI_CTL_PIDR2_FUNC()
 static inline uint64_t BDK_GTI_CTL_PIDR2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2132,7 +2185,7 @@ static inline uint64_t BDK_GTI_CTL_PIDR2_FUNC(void)
  *
  * GTI Control Peripheral Identification Register 3
  */
-typedef union
+union bdk_gti_ctl_pidr3
 {
     uint32_t u;
     struct bdk_gti_ctl_pidr3_s
@@ -2150,7 +2203,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_ctl_pidr3_s cn; */
-} bdk_gti_ctl_pidr3_t;
+};
+typedef union bdk_gti_ctl_pidr3 bdk_gti_ctl_pidr3_t;
 
 #define BDK_GTI_CTL_PIDR3 BDK_GTI_CTL_PIDR3_FUNC()
 static inline uint64_t BDK_GTI_CTL_PIDR3_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2171,7 +2225,7 @@ static inline uint64_t BDK_GTI_CTL_PIDR3_FUNC(void)
  *
  * GTI Control Peripheral Identification Register 4
  */
-typedef union
+union bdk_gti_ctl_pidr4
 {
     uint32_t u;
     struct bdk_gti_ctl_pidr4_s
@@ -2187,7 +2241,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_ctl_pidr4_s cn; */
-} bdk_gti_ctl_pidr4_t;
+};
+typedef union bdk_gti_ctl_pidr4 bdk_gti_ctl_pidr4_t;
 
 #define BDK_GTI_CTL_PIDR4 BDK_GTI_CTL_PIDR4_FUNC()
 static inline uint64_t BDK_GTI_CTL_PIDR4_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2208,7 +2263,7 @@ static inline uint64_t BDK_GTI_CTL_PIDR4_FUNC(void)
  *
  * GTI Control Peripheral Identification Register 5
  */
-typedef union
+union bdk_gti_ctl_pidr5
 {
     uint32_t u;
     struct bdk_gti_ctl_pidr5_s
@@ -2220,7 +2275,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_ctl_pidr5_s cn; */
-} bdk_gti_ctl_pidr5_t;
+};
+typedef union bdk_gti_ctl_pidr5 bdk_gti_ctl_pidr5_t;
 
 #define BDK_GTI_CTL_PIDR5 BDK_GTI_CTL_PIDR5_FUNC()
 static inline uint64_t BDK_GTI_CTL_PIDR5_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2241,7 +2297,7 @@ static inline uint64_t BDK_GTI_CTL_PIDR5_FUNC(void)
  *
  * GTI Control Peripheral Identification Register 6
  */
-typedef union
+union bdk_gti_ctl_pidr6
 {
     uint32_t u;
     struct bdk_gti_ctl_pidr6_s
@@ -2253,7 +2309,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_ctl_pidr6_s cn; */
-} bdk_gti_ctl_pidr6_t;
+};
+typedef union bdk_gti_ctl_pidr6 bdk_gti_ctl_pidr6_t;
 
 #define BDK_GTI_CTL_PIDR6 BDK_GTI_CTL_PIDR6_FUNC()
 static inline uint64_t BDK_GTI_CTL_PIDR6_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2274,7 +2331,7 @@ static inline uint64_t BDK_GTI_CTL_PIDR6_FUNC(void)
  *
  * GTI Control Peripheral Identification Register 7
  */
-typedef union
+union bdk_gti_ctl_pidr7
 {
     uint32_t u;
     struct bdk_gti_ctl_pidr7_s
@@ -2286,7 +2343,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_ctl_pidr7_s cn; */
-} bdk_gti_ctl_pidr7_t;
+};
+typedef union bdk_gti_ctl_pidr7 bdk_gti_ctl_pidr7_t;
 
 #define BDK_GTI_CTL_PIDR7 BDK_GTI_CTL_PIDR7_FUNC()
 static inline uint64_t BDK_GTI_CTL_PIDR7_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2308,7 +2366,7 @@ static inline uint64_t BDK_GTI_CTL_PIDR7_FUNC(void)
  * GTI Per-core Watchdog Non-Maskable Interrupt Register
  * Generic timer per-core watchdog non-maskable interrupts.
  */
-typedef union
+union bdk_gti_cwd_del3t
 {
     uint64_t u;
     struct bdk_gti_cwd_del3t_s
@@ -2322,7 +2380,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_cwd_del3t_s cn; */
-} bdk_gti_cwd_del3t_t;
+};
+typedef union bdk_gti_cwd_del3t bdk_gti_cwd_del3t_t;
 
 #define BDK_GTI_CWD_DEL3T BDK_GTI_CWD_DEL3T_FUNC()
 static inline uint64_t BDK_GTI_CWD_DEL3T_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2344,7 +2403,7 @@ static inline uint64_t BDK_GTI_CWD_DEL3T_FUNC(void)
  * GTI Per-core Watchdog Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_gti_cwd_del3t_ena_clr
 {
     uint64_t u;
     struct bdk_gti_cwd_del3t_ena_clr_s
@@ -2358,7 +2417,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_cwd_del3t_ena_clr_s cn; */
-} bdk_gti_cwd_del3t_ena_clr_t;
+};
+typedef union bdk_gti_cwd_del3t_ena_clr bdk_gti_cwd_del3t_ena_clr_t;
 
 #define BDK_GTI_CWD_DEL3T_ENA_CLR BDK_GTI_CWD_DEL3T_ENA_CLR_FUNC()
 static inline uint64_t BDK_GTI_CWD_DEL3T_ENA_CLR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2380,7 +2440,7 @@ static inline uint64_t BDK_GTI_CWD_DEL3T_ENA_CLR_FUNC(void)
  * GTI Per-core Watchdog Non-Maskable Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_gti_cwd_del3t_ena_set
 {
     uint64_t u;
     struct bdk_gti_cwd_del3t_ena_set_s
@@ -2394,7 +2454,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_cwd_del3t_ena_set_s cn; */
-} bdk_gti_cwd_del3t_ena_set_t;
+};
+typedef union bdk_gti_cwd_del3t_ena_set bdk_gti_cwd_del3t_ena_set_t;
 
 #define BDK_GTI_CWD_DEL3T_ENA_SET BDK_GTI_CWD_DEL3T_ENA_SET_FUNC()
 static inline uint64_t BDK_GTI_CWD_DEL3T_ENA_SET_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2416,7 +2477,7 @@ static inline uint64_t BDK_GTI_CWD_DEL3T_ENA_SET_FUNC(void)
  * GTI Per-core Watchdog Non-Maskable Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_gti_cwd_del3t_set
 {
     uint64_t u;
     struct bdk_gti_cwd_del3t_set_s
@@ -2430,7 +2491,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_cwd_del3t_set_s cn; */
-} bdk_gti_cwd_del3t_set_t;
+};
+typedef union bdk_gti_cwd_del3t_set bdk_gti_cwd_del3t_set_t;
 
 #define BDK_GTI_CWD_DEL3T_SET BDK_GTI_CWD_DEL3T_SET_FUNC()
 static inline uint64_t BDK_GTI_CWD_DEL3T_SET_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2452,7 +2514,7 @@ static inline uint64_t BDK_GTI_CWD_DEL3T_SET_FUNC(void)
  * GTI Per-core Watchdog Interrupt Register
  * Generic timer per-core watchdog interrupts.
  */
-typedef union
+union bdk_gti_cwd_int
 {
     uint64_t u;
     struct bdk_gti_cwd_int_s
@@ -2466,7 +2528,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_cwd_int_s cn; */
-} bdk_gti_cwd_int_t;
+};
+typedef union bdk_gti_cwd_int bdk_gti_cwd_int_t;
 
 #define BDK_GTI_CWD_INT BDK_GTI_CWD_INT_FUNC()
 static inline uint64_t BDK_GTI_CWD_INT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2488,7 +2551,7 @@ static inline uint64_t BDK_GTI_CWD_INT_FUNC(void)
  * GTI Per-core Watchdog Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_gti_cwd_int_ena_clr
 {
     uint64_t u;
     struct bdk_gti_cwd_int_ena_clr_s
@@ -2502,7 +2565,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_cwd_int_ena_clr_s cn; */
-} bdk_gti_cwd_int_ena_clr_t;
+};
+typedef union bdk_gti_cwd_int_ena_clr bdk_gti_cwd_int_ena_clr_t;
 
 #define BDK_GTI_CWD_INT_ENA_CLR BDK_GTI_CWD_INT_ENA_CLR_FUNC()
 static inline uint64_t BDK_GTI_CWD_INT_ENA_CLR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2524,7 +2588,7 @@ static inline uint64_t BDK_GTI_CWD_INT_ENA_CLR_FUNC(void)
  * GTI Per-core Watchdog Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_gti_cwd_int_ena_set
 {
     uint64_t u;
     struct bdk_gti_cwd_int_ena_set_s
@@ -2538,7 +2602,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_cwd_int_ena_set_s cn; */
-} bdk_gti_cwd_int_ena_set_t;
+};
+typedef union bdk_gti_cwd_int_ena_set bdk_gti_cwd_int_ena_set_t;
 
 #define BDK_GTI_CWD_INT_ENA_SET BDK_GTI_CWD_INT_ENA_SET_FUNC()
 static inline uint64_t BDK_GTI_CWD_INT_ENA_SET_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2560,7 +2625,7 @@ static inline uint64_t BDK_GTI_CWD_INT_ENA_SET_FUNC(void)
  * GTI Per-core Watchdog Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_gti_cwd_int_set
 {
     uint64_t u;
     struct bdk_gti_cwd_int_set_s
@@ -2574,7 +2639,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_cwd_int_set_s cn; */
-} bdk_gti_cwd_int_set_t;
+};
+typedef union bdk_gti_cwd_int_set bdk_gti_cwd_int_set_t;
 
 #define BDK_GTI_CWD_INT_SET BDK_GTI_CWD_INT_SET_FUNC()
 static inline uint64_t BDK_GTI_CWD_INT_SET_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2601,7 +2667,7 @@ static inline uint64_t BDK_GTI_CWD_INT_SET_FUNC(void)
  *
  * Reading this register returns the associated GTI_CWD_WDOG() register.
  */
-typedef union
+union bdk_gti_cwd_pokex
 {
     uint64_t u;
     struct bdk_gti_cwd_pokex_s
@@ -2639,7 +2705,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_cwd_pokex_s cn; */
-} bdk_gti_cwd_pokex_t;
+};
+typedef union bdk_gti_cwd_pokex bdk_gti_cwd_pokex_t;
 
 static inline uint64_t BDK_GTI_CWD_POKEX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GTI_CWD_POKEX(unsigned long a)
@@ -2661,7 +2728,7 @@ static inline uint64_t BDK_GTI_CWD_POKEX(unsigned long a)
  *
  * GTI Per-core Watchdog Registers
  */
-typedef union
+union bdk_gti_cwd_wdogx
 {
     uint64_t u;
     struct bdk_gti_cwd_wdogx_s
@@ -2703,7 +2770,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_cwd_wdogx_s cn; */
-} bdk_gti_cwd_wdogx_t;
+};
+typedef union bdk_gti_cwd_wdogx bdk_gti_cwd_wdogx_t;
 
 static inline uint64_t BDK_GTI_CWD_WDOGX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GTI_CWD_WDOGX(unsigned long a)
@@ -2725,7 +2793,7 @@ static inline uint64_t BDK_GTI_CWD_WDOGX(unsigned long a)
  *
  * GTI BIST Status Register
  */
-typedef union
+union bdk_gti_err_bist_status
 {
     uint64_t u;
     struct bdk_gti_err_bist_status_s
@@ -2739,7 +2807,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_err_bist_status_s cn; */
-} bdk_gti_err_bist_status_t;
+};
+typedef union bdk_gti_err_bist_status bdk_gti_err_bist_status_t;
 
 #define BDK_GTI_ERR_BIST_STATUS BDK_GTI_ERR_BIST_STATUS_FUNC()
 static inline uint64_t BDK_GTI_ERR_BIST_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2760,7 +2829,7 @@ static inline uint64_t BDK_GTI_ERR_BIST_STATUS_FUNC(void)
  *
  * GTI ECC Disable Register
  */
-typedef union
+union bdk_gti_err_ecc_disable
 {
     uint64_t u;
     struct bdk_gti_err_ecc_disable_s
@@ -2774,7 +2843,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_err_ecc_disable_s cn; */
-} bdk_gti_err_ecc_disable_t;
+};
+typedef union bdk_gti_err_ecc_disable bdk_gti_err_ecc_disable_t;
 
 #define BDK_GTI_ERR_ECC_DISABLE BDK_GTI_ERR_ECC_DISABLE_FUNC()
 static inline uint64_t BDK_GTI_ERR_ECC_DISABLE_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2795,7 +2865,7 @@ static inline uint64_t BDK_GTI_ERR_ECC_DISABLE_FUNC(void)
  *
  * GTI ECC Flip Register
  */
-typedef union
+union bdk_gti_err_ecc_flip
 {
     uint64_t u;
     struct bdk_gti_err_ecc_flip_s
@@ -2813,7 +2883,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_err_ecc_flip_s cn; */
-} bdk_gti_err_ecc_flip_t;
+};
+typedef union bdk_gti_err_ecc_flip bdk_gti_err_ecc_flip_t;
 
 #define BDK_GTI_ERR_ECC_FLIP BDK_GTI_ERR_ECC_FLIP_FUNC()
 static inline uint64_t BDK_GTI_ERR_ECC_FLIP_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2834,7 +2905,7 @@ static inline uint64_t BDK_GTI_ERR_ECC_FLIP_FUNC(void)
  *
  * GTI Error Interrupt Register
  */
-typedef union
+union bdk_gti_err_int
 {
     uint64_t u;
     struct bdk_gti_err_int_s
@@ -2852,7 +2923,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_err_int_s cn; */
-} bdk_gti_err_int_t;
+};
+typedef union bdk_gti_err_int bdk_gti_err_int_t;
 
 #define BDK_GTI_ERR_INT BDK_GTI_ERR_INT_FUNC()
 static inline uint64_t BDK_GTI_ERR_INT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2874,7 +2946,7 @@ static inline uint64_t BDK_GTI_ERR_INT_FUNC(void)
  * GTI Error Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_gti_err_int_ena_clr
 {
     uint64_t u;
     struct bdk_gti_err_int_ena_clr_s
@@ -2892,7 +2964,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_err_int_ena_clr_s cn; */
-} bdk_gti_err_int_ena_clr_t;
+};
+typedef union bdk_gti_err_int_ena_clr bdk_gti_err_int_ena_clr_t;
 
 #define BDK_GTI_ERR_INT_ENA_CLR BDK_GTI_ERR_INT_ENA_CLR_FUNC()
 static inline uint64_t BDK_GTI_ERR_INT_ENA_CLR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2914,7 +2987,7 @@ static inline uint64_t BDK_GTI_ERR_INT_ENA_CLR_FUNC(void)
  * GTI Error Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_gti_err_int_ena_set
 {
     uint64_t u;
     struct bdk_gti_err_int_ena_set_s
@@ -2932,7 +3005,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_err_int_ena_set_s cn; */
-} bdk_gti_err_int_ena_set_t;
+};
+typedef union bdk_gti_err_int_ena_set bdk_gti_err_int_ena_set_t;
 
 #define BDK_GTI_ERR_INT_ENA_SET BDK_GTI_ERR_INT_ENA_SET_FUNC()
 static inline uint64_t BDK_GTI_ERR_INT_ENA_SET_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2954,7 +3028,7 @@ static inline uint64_t BDK_GTI_ERR_INT_ENA_SET_FUNC(void)
  * GTI Error Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_gti_err_int_set
 {
     uint64_t u;
     struct bdk_gti_err_int_set_s
@@ -2972,7 +3046,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_err_int_set_s cn; */
-} bdk_gti_err_int_set_t;
+};
+typedef union bdk_gti_err_int_set bdk_gti_err_int_set_t;
 
 #define BDK_GTI_ERR_INT_SET BDK_GTI_ERR_INT_SET_FUNC()
 static inline uint64_t BDK_GTI_ERR_INT_SET_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2994,7 +3069,7 @@ static inline uint64_t BDK_GTI_ERR_INT_SET_FUNC(void)
  * GTI MSI-X Pending Bit Array Registers
  * This register is the MSI-X PBA table, the bit number is indexed by the GTI_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_gti_msix_pbax
 {
     uint64_t u;
     struct bdk_gti_msix_pbax_s
@@ -3008,7 +3083,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_msix_pbax_s cn; */
-} bdk_gti_msix_pbax_t;
+};
+typedef union bdk_gti_msix_pbax bdk_gti_msix_pbax_t;
 
 static inline uint64_t BDK_GTI_MSIX_PBAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GTI_MSIX_PBAX(unsigned long a)
@@ -3031,7 +3107,7 @@ static inline uint64_t BDK_GTI_MSIX_PBAX(unsigned long a)
  * GTI MSI-X Vector Table Address Registers
  * This register is the MSI-X vector table, indexed by the GTI_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_gti_msix_vecx_addr
 {
     uint64_t u;
     struct bdk_gti_msix_vecx_addr_s
@@ -3063,7 +3139,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_msix_vecx_addr_s cn; */
-} bdk_gti_msix_vecx_addr_t;
+};
+typedef union bdk_gti_msix_vecx_addr bdk_gti_msix_vecx_addr_t;
 
 static inline uint64_t BDK_GTI_MSIX_VECX_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GTI_MSIX_VECX_ADDR(unsigned long a)
@@ -3086,7 +3163,7 @@ static inline uint64_t BDK_GTI_MSIX_VECX_ADDR(unsigned long a)
  * GTI MSI-X Vector Table Control and Data Registers
  * This register is the MSI-X vector table, indexed by the GTI_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_gti_msix_vecx_ctl
 {
     uint64_t u;
     struct bdk_gti_msix_vecx_ctl_s
@@ -3104,7 +3181,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_msix_vecx_ctl_s cn; */
-} bdk_gti_msix_vecx_ctl_t;
+};
+typedef union bdk_gti_msix_vecx_ctl bdk_gti_msix_vecx_ctl_t;
 
 static inline uint64_t BDK_GTI_MSIX_VECX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GTI_MSIX_VECX_CTL(unsigned long a)
@@ -3126,7 +3204,7 @@ static inline uint64_t BDK_GTI_MSIX_VECX_CTL(unsigned long a)
  *
  * GTI Counter Read Component Identification Register 0
  */
-typedef union
+union bdk_gti_rd_cidr0
 {
     uint32_t u;
     struct bdk_gti_rd_cidr0_s
@@ -3140,7 +3218,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_rd_cidr0_s cn; */
-} bdk_gti_rd_cidr0_t;
+};
+typedef union bdk_gti_rd_cidr0 bdk_gti_rd_cidr0_t;
 
 #define BDK_GTI_RD_CIDR0 BDK_GTI_RD_CIDR0_FUNC()
 static inline uint64_t BDK_GTI_RD_CIDR0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3161,7 +3240,7 @@ static inline uint64_t BDK_GTI_RD_CIDR0_FUNC(void)
  *
  * GTI Counter Read Component Identification Register 1
  */
-typedef union
+union bdk_gti_rd_cidr1
 {
     uint32_t u;
     struct bdk_gti_rd_cidr1_s
@@ -3177,7 +3256,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_rd_cidr1_s cn; */
-} bdk_gti_rd_cidr1_t;
+};
+typedef union bdk_gti_rd_cidr1 bdk_gti_rd_cidr1_t;
 
 #define BDK_GTI_RD_CIDR1 BDK_GTI_RD_CIDR1_FUNC()
 static inline uint64_t BDK_GTI_RD_CIDR1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3198,7 +3278,7 @@ static inline uint64_t BDK_GTI_RD_CIDR1_FUNC(void)
  *
  * GTI Counter Read Component Identification Register 2
  */
-typedef union
+union bdk_gti_rd_cidr2
 {
     uint32_t u;
     struct bdk_gti_rd_cidr2_s
@@ -3212,7 +3292,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_rd_cidr2_s cn; */
-} bdk_gti_rd_cidr2_t;
+};
+typedef union bdk_gti_rd_cidr2 bdk_gti_rd_cidr2_t;
 
 #define BDK_GTI_RD_CIDR2 BDK_GTI_RD_CIDR2_FUNC()
 static inline uint64_t BDK_GTI_RD_CIDR2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3233,7 +3314,7 @@ static inline uint64_t BDK_GTI_RD_CIDR2_FUNC(void)
  *
  * GTI Counter Read Component Identification Register 3
  */
-typedef union
+union bdk_gti_rd_cidr3
 {
     uint32_t u;
     struct bdk_gti_rd_cidr3_s
@@ -3247,7 +3328,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_rd_cidr3_s cn; */
-} bdk_gti_rd_cidr3_t;
+};
+typedef union bdk_gti_rd_cidr3 bdk_gti_rd_cidr3_t;
 
 #define BDK_GTI_RD_CIDR3 BDK_GTI_RD_CIDR3_FUNC()
 static inline uint64_t BDK_GTI_RD_CIDR3_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3268,7 +3350,7 @@ static inline uint64_t BDK_GTI_RD_CIDR3_FUNC(void)
  *
  * GTI Counter Read Value Register
  */
-typedef union
+union bdk_gti_rd_cntcv
 {
     uint64_t u;
     struct bdk_gti_rd_cntcv_s
@@ -3280,7 +3362,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_rd_cntcv_s cn; */
-} bdk_gti_rd_cntcv_t;
+};
+typedef union bdk_gti_rd_cntcv bdk_gti_rd_cntcv_t;
 
 #define BDK_GTI_RD_CNTCV BDK_GTI_RD_CNTCV_FUNC()
 static inline uint64_t BDK_GTI_RD_CNTCV_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3301,7 +3384,7 @@ static inline uint64_t BDK_GTI_RD_CNTCV_FUNC(void)
  *
  * GTI Counter Read Peripheral Identification Register 0
  */
-typedef union
+union bdk_gti_rd_pidr0
 {
     uint32_t u;
     struct bdk_gti_rd_pidr0_s
@@ -3315,7 +3398,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_rd_pidr0_s cn; */
-} bdk_gti_rd_pidr0_t;
+};
+typedef union bdk_gti_rd_pidr0 bdk_gti_rd_pidr0_t;
 
 #define BDK_GTI_RD_PIDR0 BDK_GTI_RD_PIDR0_FUNC()
 static inline uint64_t BDK_GTI_RD_PIDR0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3336,7 +3420,7 @@ static inline uint64_t BDK_GTI_RD_PIDR0_FUNC(void)
  *
  * GTI Counter Read Peripheral Identification Register 1
  */
-typedef union
+union bdk_gti_rd_pidr1
 {
     uint32_t u;
     struct bdk_gti_rd_pidr1_s
@@ -3352,7 +3436,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_rd_pidr1_s cn; */
-} bdk_gti_rd_pidr1_t;
+};
+typedef union bdk_gti_rd_pidr1 bdk_gti_rd_pidr1_t;
 
 #define BDK_GTI_RD_PIDR1 BDK_GTI_RD_PIDR1_FUNC()
 static inline uint64_t BDK_GTI_RD_PIDR1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3373,7 +3458,7 @@ static inline uint64_t BDK_GTI_RD_PIDR1_FUNC(void)
  *
  * GTI Counter Read Peripheral Identification Register 2
  */
-typedef union
+union bdk_gti_rd_pidr2
 {
     uint32_t u;
     struct bdk_gti_rd_pidr2_s
@@ -3391,7 +3476,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_rd_pidr2_s cn; */
-} bdk_gti_rd_pidr2_t;
+};
+typedef union bdk_gti_rd_pidr2 bdk_gti_rd_pidr2_t;
 
 #define BDK_GTI_RD_PIDR2 BDK_GTI_RD_PIDR2_FUNC()
 static inline uint64_t BDK_GTI_RD_PIDR2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3412,7 +3498,7 @@ static inline uint64_t BDK_GTI_RD_PIDR2_FUNC(void)
  *
  * GTI Counter Read Peripheral Identification Register 3
  */
-typedef union
+union bdk_gti_rd_pidr3
 {
     uint32_t u;
     struct bdk_gti_rd_pidr3_s
@@ -3430,7 +3516,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_rd_pidr3_s cn; */
-} bdk_gti_rd_pidr3_t;
+};
+typedef union bdk_gti_rd_pidr3 bdk_gti_rd_pidr3_t;
 
 #define BDK_GTI_RD_PIDR3 BDK_GTI_RD_PIDR3_FUNC()
 static inline uint64_t BDK_GTI_RD_PIDR3_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3451,7 +3538,7 @@ static inline uint64_t BDK_GTI_RD_PIDR3_FUNC(void)
  *
  * GTI Counter Read Peripheral Identification Register 4
  */
-typedef union
+union bdk_gti_rd_pidr4
 {
     uint32_t u;
     struct bdk_gti_rd_pidr4_s
@@ -3467,7 +3554,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_rd_pidr4_s cn; */
-} bdk_gti_rd_pidr4_t;
+};
+typedef union bdk_gti_rd_pidr4 bdk_gti_rd_pidr4_t;
 
 #define BDK_GTI_RD_PIDR4 BDK_GTI_RD_PIDR4_FUNC()
 static inline uint64_t BDK_GTI_RD_PIDR4_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3488,7 +3576,7 @@ static inline uint64_t BDK_GTI_RD_PIDR4_FUNC(void)
  *
  * GTI Counter Read Peripheral Identification Register 5
  */
-typedef union
+union bdk_gti_rd_pidr5
 {
     uint32_t u;
     struct bdk_gti_rd_pidr5_s
@@ -3500,7 +3588,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_rd_pidr5_s cn; */
-} bdk_gti_rd_pidr5_t;
+};
+typedef union bdk_gti_rd_pidr5 bdk_gti_rd_pidr5_t;
 
 #define BDK_GTI_RD_PIDR5 BDK_GTI_RD_PIDR5_FUNC()
 static inline uint64_t BDK_GTI_RD_PIDR5_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3521,7 +3610,7 @@ static inline uint64_t BDK_GTI_RD_PIDR5_FUNC(void)
  *
  * GTI Counter Read Peripheral Identification Register 6
  */
-typedef union
+union bdk_gti_rd_pidr6
 {
     uint32_t u;
     struct bdk_gti_rd_pidr6_s
@@ -3533,7 +3622,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_rd_pidr6_s cn; */
-} bdk_gti_rd_pidr6_t;
+};
+typedef union bdk_gti_rd_pidr6 bdk_gti_rd_pidr6_t;
 
 #define BDK_GTI_RD_PIDR6 BDK_GTI_RD_PIDR6_FUNC()
 static inline uint64_t BDK_GTI_RD_PIDR6_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3554,7 +3644,7 @@ static inline uint64_t BDK_GTI_RD_PIDR6_FUNC(void)
  *
  * GTI Counter Read Peripheral Identification Register 7
  */
-typedef union
+union bdk_gti_rd_pidr7
 {
     uint32_t u;
     struct bdk_gti_rd_pidr7_s
@@ -3566,7 +3656,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_rd_pidr7_s cn; */
-} bdk_gti_rd_pidr7_t;
+};
+typedef union bdk_gti_rd_pidr7 bdk_gti_rd_pidr7_t;
 
 #define BDK_GTI_RD_PIDR7 BDK_GTI_RD_PIDR7_FUNC()
 static inline uint64_t BDK_GTI_RD_PIDR7_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3587,7 +3678,7 @@ static inline uint64_t BDK_GTI_RD_PIDR7_FUNC(void)
  *
  * GTI Watchdog Control Component Identification Register 0
  */
-typedef union
+union bdk_gti_wcx_cidr0
 {
     uint32_t u;
     struct bdk_gti_wcx_cidr0_s
@@ -3601,7 +3692,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_wcx_cidr0_s cn; */
-} bdk_gti_wcx_cidr0_t;
+};
+typedef union bdk_gti_wcx_cidr0 bdk_gti_wcx_cidr0_t;
 
 static inline uint64_t BDK_GTI_WCX_CIDR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GTI_WCX_CIDR0(unsigned long a)
@@ -3623,7 +3715,7 @@ static inline uint64_t BDK_GTI_WCX_CIDR0(unsigned long a)
  *
  * GTI Watchdog Control Component Identification Register 1
  */
-typedef union
+union bdk_gti_wcx_cidr1
 {
     uint32_t u;
     struct bdk_gti_wcx_cidr1_s
@@ -3639,7 +3731,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_wcx_cidr1_s cn; */
-} bdk_gti_wcx_cidr1_t;
+};
+typedef union bdk_gti_wcx_cidr1 bdk_gti_wcx_cidr1_t;
 
 static inline uint64_t BDK_GTI_WCX_CIDR1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GTI_WCX_CIDR1(unsigned long a)
@@ -3661,7 +3754,7 @@ static inline uint64_t BDK_GTI_WCX_CIDR1(unsigned long a)
  *
  * GTI Watchdog Control Component Identification Register 2
  */
-typedef union
+union bdk_gti_wcx_cidr2
 {
     uint32_t u;
     struct bdk_gti_wcx_cidr2_s
@@ -3675,7 +3768,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_wcx_cidr2_s cn; */
-} bdk_gti_wcx_cidr2_t;
+};
+typedef union bdk_gti_wcx_cidr2 bdk_gti_wcx_cidr2_t;
 
 static inline uint64_t BDK_GTI_WCX_CIDR2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GTI_WCX_CIDR2(unsigned long a)
@@ -3697,7 +3791,7 @@ static inline uint64_t BDK_GTI_WCX_CIDR2(unsigned long a)
  *
  * GTI Watchdog Control Component Identification Register 3
  */
-typedef union
+union bdk_gti_wcx_cidr3
 {
     uint32_t u;
     struct bdk_gti_wcx_cidr3_s
@@ -3711,7 +3805,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_wcx_cidr3_s cn; */
-} bdk_gti_wcx_cidr3_t;
+};
+typedef union bdk_gti_wcx_cidr3 bdk_gti_wcx_cidr3_t;
 
 static inline uint64_t BDK_GTI_WCX_CIDR3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GTI_WCX_CIDR3(unsigned long a)
@@ -3735,7 +3830,7 @@ static inline uint64_t BDK_GTI_WCX_CIDR3(unsigned long a)
  * GTI_WC(0) accesses the secure watchdog and is accessible only by the
  * secure-world. GTI_WC(1) accesses the nonsecure watchdog.
  */
-typedef union
+union bdk_gti_wcx_pidr0
 {
     uint32_t u;
     struct bdk_gti_wcx_pidr0_s
@@ -3749,7 +3844,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_wcx_pidr0_s cn; */
-} bdk_gti_wcx_pidr0_t;
+};
+typedef union bdk_gti_wcx_pidr0 bdk_gti_wcx_pidr0_t;
 
 static inline uint64_t BDK_GTI_WCX_PIDR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GTI_WCX_PIDR0(unsigned long a)
@@ -3773,7 +3869,7 @@ static inline uint64_t BDK_GTI_WCX_PIDR0(unsigned long a)
  * GTI_WC(0) accesses the secure watchdog and is accessible only by the
  * secure-world. GTI_WC(1) accesses the nonsecure watchdog.
  */
-typedef union
+union bdk_gti_wcx_pidr1
 {
     uint32_t u;
     struct bdk_gti_wcx_pidr1_s
@@ -3789,7 +3885,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_wcx_pidr1_s cn; */
-} bdk_gti_wcx_pidr1_t;
+};
+typedef union bdk_gti_wcx_pidr1 bdk_gti_wcx_pidr1_t;
 
 static inline uint64_t BDK_GTI_WCX_PIDR1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GTI_WCX_PIDR1(unsigned long a)
@@ -3813,7 +3910,7 @@ static inline uint64_t BDK_GTI_WCX_PIDR1(unsigned long a)
  * GTI_WC(0) accesses the secure watchdog and is accessible only by the
  * secure-world. GTI_WC(1) accesses the nonsecure watchdog.
  */
-typedef union
+union bdk_gti_wcx_pidr2
 {
     uint32_t u;
     struct bdk_gti_wcx_pidr2_s
@@ -3831,7 +3928,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_wcx_pidr2_s cn; */
-} bdk_gti_wcx_pidr2_t;
+};
+typedef union bdk_gti_wcx_pidr2 bdk_gti_wcx_pidr2_t;
 
 static inline uint64_t BDK_GTI_WCX_PIDR2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GTI_WCX_PIDR2(unsigned long a)
@@ -3855,7 +3953,7 @@ static inline uint64_t BDK_GTI_WCX_PIDR2(unsigned long a)
  * GTI_WC(0) accesses the secure watchdog and is accessible only by the
  * secure-world. GTI_WC(1) accesses the nonsecure watchdog.
  */
-typedef union
+union bdk_gti_wcx_pidr3
 {
     uint32_t u;
     struct bdk_gti_wcx_pidr3_s
@@ -3873,7 +3971,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_wcx_pidr3_s cn; */
-} bdk_gti_wcx_pidr3_t;
+};
+typedef union bdk_gti_wcx_pidr3 bdk_gti_wcx_pidr3_t;
 
 static inline uint64_t BDK_GTI_WCX_PIDR3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GTI_WCX_PIDR3(unsigned long a)
@@ -3897,7 +3996,7 @@ static inline uint64_t BDK_GTI_WCX_PIDR3(unsigned long a)
  * GTI_WC(0) accesses the secure watchdog and is accessible only by the
  * secure-world. GTI_WC(1) accesses the nonsecure watchdog.
  */
-typedef union
+union bdk_gti_wcx_pidr4
 {
     uint32_t u;
     struct bdk_gti_wcx_pidr4_s
@@ -3913,7 +4012,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_wcx_pidr4_s cn; */
-} bdk_gti_wcx_pidr4_t;
+};
+typedef union bdk_gti_wcx_pidr4 bdk_gti_wcx_pidr4_t;
 
 static inline uint64_t BDK_GTI_WCX_PIDR4(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GTI_WCX_PIDR4(unsigned long a)
@@ -3935,7 +4035,7 @@ static inline uint64_t BDK_GTI_WCX_PIDR4(unsigned long a)
  *
  * GTI Watchdog Control Peripheral Identification Register 5
  */
-typedef union
+union bdk_gti_wcx_pidr5
 {
     uint32_t u;
     struct bdk_gti_wcx_pidr5_s
@@ -3947,7 +4047,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_wcx_pidr5_s cn; */
-} bdk_gti_wcx_pidr5_t;
+};
+typedef union bdk_gti_wcx_pidr5 bdk_gti_wcx_pidr5_t;
 
 static inline uint64_t BDK_GTI_WCX_PIDR5(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GTI_WCX_PIDR5(unsigned long a)
@@ -3969,7 +4070,7 @@ static inline uint64_t BDK_GTI_WCX_PIDR5(unsigned long a)
  *
  * GTI Watchdog Control Peripheral Identification Register 6
  */
-typedef union
+union bdk_gti_wcx_pidr6
 {
     uint32_t u;
     struct bdk_gti_wcx_pidr6_s
@@ -3981,7 +4082,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_wcx_pidr6_s cn; */
-} bdk_gti_wcx_pidr6_t;
+};
+typedef union bdk_gti_wcx_pidr6 bdk_gti_wcx_pidr6_t;
 
 static inline uint64_t BDK_GTI_WCX_PIDR6(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GTI_WCX_PIDR6(unsigned long a)
@@ -4003,7 +4105,7 @@ static inline uint64_t BDK_GTI_WCX_PIDR6(unsigned long a)
  *
  * GTI Watchdog Control Peripheral Identification Register 7
  */
-typedef union
+union bdk_gti_wcx_pidr7
 {
     uint32_t u;
     struct bdk_gti_wcx_pidr7_s
@@ -4015,7 +4117,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_wcx_pidr7_s cn; */
-} bdk_gti_wcx_pidr7_t;
+};
+typedef union bdk_gti_wcx_pidr7 bdk_gti_wcx_pidr7_t;
 
 static inline uint64_t BDK_GTI_WCX_PIDR7(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GTI_WCX_PIDR7(unsigned long a)
@@ -4039,7 +4142,7 @@ static inline uint64_t BDK_GTI_WCX_PIDR7(unsigned long a)
  * GTI_WC(0) accesses the secure watchdog and is accessible only by the
  * secure-world. GTI_WC(1) accesses the nonsecure watchdog.
  */
-typedef union
+union bdk_gti_wcx_w_iidr
 {
     uint32_t u;
     struct bdk_gti_wcx_w_iidr_s
@@ -4067,7 +4170,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_wcx_w_iidr_s cn; */
-} bdk_gti_wcx_w_iidr_t;
+};
+typedef union bdk_gti_wcx_w_iidr bdk_gti_wcx_w_iidr_t;
 
 static inline uint64_t BDK_GTI_WCX_W_IIDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GTI_WCX_W_IIDR(unsigned long a)
@@ -4091,7 +4195,7 @@ static inline uint64_t BDK_GTI_WCX_W_IIDR(unsigned long a)
  * GTI_WC(0) accesses the secure watchdog and is accessible only by the
  * secure-world. GTI_WC(1) accesses the nonsecure watchdog.
  */
-typedef union
+union bdk_gti_wcx_wcs
 {
     uint32_t u;
     struct bdk_gti_wcx_wcs_s
@@ -4109,7 +4213,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_wcx_wcs_s cn; */
-} bdk_gti_wcx_wcs_t;
+};
+typedef union bdk_gti_wcx_wcs bdk_gti_wcx_wcs_t;
 
 static inline uint64_t BDK_GTI_WCX_WCS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GTI_WCX_WCS(unsigned long a)
@@ -4133,7 +4238,7 @@ static inline uint64_t BDK_GTI_WCX_WCS(unsigned long a)
  * GTI_WC(0) accesses the secure watchdog and is accessible only by the
  * secure-world. GTI_WC(1) accesses the nonsecure watchdog.
  */
-typedef union
+union bdk_gti_wcx_wcv
 {
     uint64_t u;
     struct bdk_gti_wcx_wcv_s
@@ -4145,7 +4250,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_wcx_wcv_s cn; */
-} bdk_gti_wcx_wcv_t;
+};
+typedef union bdk_gti_wcx_wcv bdk_gti_wcx_wcv_t;
 
 static inline uint64_t BDK_GTI_WCX_WCV(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GTI_WCX_WCV(unsigned long a)
@@ -4169,7 +4275,7 @@ static inline uint64_t BDK_GTI_WCX_WCV(unsigned long a)
  * GTI_WC(0) accesses the secure watchdog and is accessible only by the
  * secure-world. GTI_WC(1) accesses the nonsecure watchdog.
  */
-typedef union
+union bdk_gti_wcx_wor
 {
     uint32_t u;
     struct bdk_gti_wcx_wor_s
@@ -4181,7 +4287,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_wcx_wor_s cn; */
-} bdk_gti_wcx_wor_t;
+};
+typedef union bdk_gti_wcx_wor bdk_gti_wcx_wor_t;
 
 static inline uint64_t BDK_GTI_WCX_WOR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GTI_WCX_WOR(unsigned long a)
@@ -4203,7 +4310,7 @@ static inline uint64_t BDK_GTI_WCX_WOR(unsigned long a)
  *
  * GTI Watchdog Refresh Component Identification Register 0
  */
-typedef union
+union bdk_gti_wrx_cidr0
 {
     uint32_t u;
     struct bdk_gti_wrx_cidr0_s
@@ -4217,7 +4324,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_wrx_cidr0_s cn; */
-} bdk_gti_wrx_cidr0_t;
+};
+typedef union bdk_gti_wrx_cidr0 bdk_gti_wrx_cidr0_t;
 
 static inline uint64_t BDK_GTI_WRX_CIDR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GTI_WRX_CIDR0(unsigned long a)
@@ -4239,7 +4347,7 @@ static inline uint64_t BDK_GTI_WRX_CIDR0(unsigned long a)
  *
  * GTI Watchdog Refresh Component Identification Register 1
  */
-typedef union
+union bdk_gti_wrx_cidr1
 {
     uint32_t u;
     struct bdk_gti_wrx_cidr1_s
@@ -4255,7 +4363,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_wrx_cidr1_s cn; */
-} bdk_gti_wrx_cidr1_t;
+};
+typedef union bdk_gti_wrx_cidr1 bdk_gti_wrx_cidr1_t;
 
 static inline uint64_t BDK_GTI_WRX_CIDR1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GTI_WRX_CIDR1(unsigned long a)
@@ -4277,7 +4386,7 @@ static inline uint64_t BDK_GTI_WRX_CIDR1(unsigned long a)
  *
  * GTI Watchdog Refresh Component Identification Register 2
  */
-typedef union
+union bdk_gti_wrx_cidr2
 {
     uint32_t u;
     struct bdk_gti_wrx_cidr2_s
@@ -4291,7 +4400,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_wrx_cidr2_s cn; */
-} bdk_gti_wrx_cidr2_t;
+};
+typedef union bdk_gti_wrx_cidr2 bdk_gti_wrx_cidr2_t;
 
 static inline uint64_t BDK_GTI_WRX_CIDR2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GTI_WRX_CIDR2(unsigned long a)
@@ -4313,7 +4423,7 @@ static inline uint64_t BDK_GTI_WRX_CIDR2(unsigned long a)
  *
  * GTI Watchdog Refresh Component Identification Register 3
  */
-typedef union
+union bdk_gti_wrx_cidr3
 {
     uint32_t u;
     struct bdk_gti_wrx_cidr3_s
@@ -4327,7 +4437,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_wrx_cidr3_s cn; */
-} bdk_gti_wrx_cidr3_t;
+};
+typedef union bdk_gti_wrx_cidr3 bdk_gti_wrx_cidr3_t;
 
 static inline uint64_t BDK_GTI_WRX_CIDR3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GTI_WRX_CIDR3(unsigned long a)
@@ -4349,7 +4460,7 @@ static inline uint64_t BDK_GTI_WRX_CIDR3(unsigned long a)
  *
  * GTI Watchdog Refresh Peripheral Identification Register 0
  */
-typedef union
+union bdk_gti_wrx_pidr0
 {
     uint32_t u;
     struct bdk_gti_wrx_pidr0_s
@@ -4363,7 +4474,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_wrx_pidr0_s cn; */
-} bdk_gti_wrx_pidr0_t;
+};
+typedef union bdk_gti_wrx_pidr0 bdk_gti_wrx_pidr0_t;
 
 static inline uint64_t BDK_GTI_WRX_PIDR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GTI_WRX_PIDR0(unsigned long a)
@@ -4385,7 +4497,7 @@ static inline uint64_t BDK_GTI_WRX_PIDR0(unsigned long a)
  *
  * GTI Watchdog Refresh Peripheral Identification Register 1
  */
-typedef union
+union bdk_gti_wrx_pidr1
 {
     uint32_t u;
     struct bdk_gti_wrx_pidr1_s
@@ -4401,7 +4513,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_wrx_pidr1_s cn; */
-} bdk_gti_wrx_pidr1_t;
+};
+typedef union bdk_gti_wrx_pidr1 bdk_gti_wrx_pidr1_t;
 
 static inline uint64_t BDK_GTI_WRX_PIDR1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GTI_WRX_PIDR1(unsigned long a)
@@ -4423,7 +4536,7 @@ static inline uint64_t BDK_GTI_WRX_PIDR1(unsigned long a)
  *
  * GTI Watchdog Refresh Peripheral Identification Register 2
  */
-typedef union
+union bdk_gti_wrx_pidr2
 {
     uint32_t u;
     struct bdk_gti_wrx_pidr2_s
@@ -4441,7 +4554,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_wrx_pidr2_s cn; */
-} bdk_gti_wrx_pidr2_t;
+};
+typedef union bdk_gti_wrx_pidr2 bdk_gti_wrx_pidr2_t;
 
 static inline uint64_t BDK_GTI_WRX_PIDR2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GTI_WRX_PIDR2(unsigned long a)
@@ -4463,7 +4577,7 @@ static inline uint64_t BDK_GTI_WRX_PIDR2(unsigned long a)
  *
  * GTI Watchdog Refresh Peripheral Identification Register 3
  */
-typedef union
+union bdk_gti_wrx_pidr3
 {
     uint32_t u;
     struct bdk_gti_wrx_pidr3_s
@@ -4481,7 +4595,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_wrx_pidr3_s cn; */
-} bdk_gti_wrx_pidr3_t;
+};
+typedef union bdk_gti_wrx_pidr3 bdk_gti_wrx_pidr3_t;
 
 static inline uint64_t BDK_GTI_WRX_PIDR3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GTI_WRX_PIDR3(unsigned long a)
@@ -4503,7 +4618,7 @@ static inline uint64_t BDK_GTI_WRX_PIDR3(unsigned long a)
  *
  * GTI Watchdog Refresh Peripheral Identification Register 4
  */
-typedef union
+union bdk_gti_wrx_pidr4
 {
     uint32_t u;
     struct bdk_gti_wrx_pidr4_s
@@ -4519,7 +4634,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_wrx_pidr4_s cn; */
-} bdk_gti_wrx_pidr4_t;
+};
+typedef union bdk_gti_wrx_pidr4 bdk_gti_wrx_pidr4_t;
 
 static inline uint64_t BDK_GTI_WRX_PIDR4(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GTI_WRX_PIDR4(unsigned long a)
@@ -4541,7 +4657,7 @@ static inline uint64_t BDK_GTI_WRX_PIDR4(unsigned long a)
  *
  * GTI Watchdog Refresh Peripheral Identification Register 5
  */
-typedef union
+union bdk_gti_wrx_pidr5
 {
     uint32_t u;
     struct bdk_gti_wrx_pidr5_s
@@ -4553,7 +4669,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_wrx_pidr5_s cn; */
-} bdk_gti_wrx_pidr5_t;
+};
+typedef union bdk_gti_wrx_pidr5 bdk_gti_wrx_pidr5_t;
 
 static inline uint64_t BDK_GTI_WRX_PIDR5(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GTI_WRX_PIDR5(unsigned long a)
@@ -4575,7 +4692,7 @@ static inline uint64_t BDK_GTI_WRX_PIDR5(unsigned long a)
  *
  * GTI Watchdog Refresh Peripheral Identification Register 6
  */
-typedef union
+union bdk_gti_wrx_pidr6
 {
     uint32_t u;
     struct bdk_gti_wrx_pidr6_s
@@ -4587,7 +4704,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_wrx_pidr6_s cn; */
-} bdk_gti_wrx_pidr6_t;
+};
+typedef union bdk_gti_wrx_pidr6 bdk_gti_wrx_pidr6_t;
 
 static inline uint64_t BDK_GTI_WRX_PIDR6(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GTI_WRX_PIDR6(unsigned long a)
@@ -4609,7 +4727,7 @@ static inline uint64_t BDK_GTI_WRX_PIDR6(unsigned long a)
  *
  * GTI Watchdog Refresh Peripheral Identification Register 7
  */
-typedef union
+union bdk_gti_wrx_pidr7
 {
     uint32_t u;
     struct bdk_gti_wrx_pidr7_s
@@ -4621,7 +4739,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_wrx_pidr7_s cn; */
-} bdk_gti_wrx_pidr7_t;
+};
+typedef union bdk_gti_wrx_pidr7 bdk_gti_wrx_pidr7_t;
 
 static inline uint64_t BDK_GTI_WRX_PIDR7(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GTI_WRX_PIDR7(unsigned long a)
@@ -4645,7 +4764,7 @@ static inline uint64_t BDK_GTI_WRX_PIDR7(unsigned long a)
  * GTI_WR(0) accesses the secure watchdog and is accessible only by the
  * secure-world. GTI_WR(1) accesses the nonsecure watchdog.
  */
-typedef union
+union bdk_gti_wrx_w_iidr
 {
     uint32_t u;
     struct bdk_gti_wrx_w_iidr_s
@@ -4673,7 +4792,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_wrx_w_iidr_s cn; */
-} bdk_gti_wrx_w_iidr_t;
+};
+typedef union bdk_gti_wrx_w_iidr bdk_gti_wrx_w_iidr_t;
 
 static inline uint64_t BDK_GTI_WRX_W_IIDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GTI_WRX_W_IIDR(unsigned long a)
@@ -4697,7 +4817,7 @@ static inline uint64_t BDK_GTI_WRX_W_IIDR(unsigned long a)
  * GTI_WR(0) accesses the secure watchdog and is accessible only by the
  * secure-world. GTI_WR(1) accesses the nonsecure watchdog.
  */
-typedef union
+union bdk_gti_wrx_wrr
 {
     uint32_t u;
     struct bdk_gti_wrx_wrr_s
@@ -4709,7 +4829,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gti_wrx_wrr_s cn; */
-} bdk_gti_wrx_wrr_t;
+};
+typedef union bdk_gti_wrx_wrr bdk_gti_wrx_wrr_t;
 
 static inline uint64_t BDK_GTI_WRX_WRR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GTI_WRX_WRR(unsigned long a)

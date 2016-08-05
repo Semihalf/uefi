@@ -110,7 +110,7 @@ union bdk_vrm_tws_twsi_sw_s
  *
  * VRM Alternative Fuse Register
  */
-typedef union
+union bdk_vrmx_alt_fuse
 {
     uint64_t u;
     struct bdk_vrmx_alt_fuse_s
@@ -132,7 +132,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_vrmx_alt_fuse_s cn; */
-} bdk_vrmx_alt_fuse_t;
+};
+typedef union bdk_vrmx_alt_fuse bdk_vrmx_alt_fuse_t;
 
 static inline uint64_t BDK_VRMX_ALT_FUSE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_VRMX_ALT_FUSE(unsigned long a)
@@ -158,7 +159,7 @@ static inline uint64_t BDK_VRMX_ALT_FUSE(unsigned long a)
  *
  * VRM Device Status Register
  */
-typedef union
+union bdk_vrmx_device_status
 {
     uint64_t u;
     struct bdk_vrmx_device_status_s
@@ -184,7 +185,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_vrmx_device_status_s cn; */
-} bdk_vrmx_device_status_t;
+};
+typedef union bdk_vrmx_device_status bdk_vrmx_device_status_t;
 
 static inline uint64_t BDK_VRMX_DEVICE_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_VRMX_DEVICE_STATUS(unsigned long a)
@@ -210,7 +212,7 @@ static inline uint64_t BDK_VRMX_DEVICE_STATUS(unsigned long a)
  *
  * INTERNAL: VRM ECO Register
  */
-typedef union
+union bdk_vrmx_eco
 {
     uint64_t u;
     struct bdk_vrmx_eco_s
@@ -226,7 +228,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_vrmx_eco_s cn; */
-} bdk_vrmx_eco_t;
+};
+typedef union bdk_vrmx_eco bdk_vrmx_eco_t;
 
 static inline uint64_t BDK_VRMX_ECO(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_VRMX_ECO(unsigned long a)
@@ -252,7 +255,7 @@ static inline uint64_t BDK_VRMX_ECO(unsigned long a)
  *
  * VRM Fuse Bypass Register
  */
-typedef union
+union bdk_vrmx_fuse_bypass
 {
     uint64_t u;
     struct bdk_vrmx_fuse_bypass_s
@@ -272,7 +275,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_vrmx_fuse_bypass_s cn; */
-} bdk_vrmx_fuse_bypass_t;
+};
+typedef union bdk_vrmx_fuse_bypass bdk_vrmx_fuse_bypass_t;
 
 static inline uint64_t BDK_VRMX_FUSE_BYPASS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_VRMX_FUSE_BYPASS(unsigned long a)
@@ -298,7 +302,7 @@ static inline uint64_t BDK_VRMX_FUSE_BYPASS(unsigned long a)
  *
  * VRM Miscellaneous Register
  */
-typedef union
+union bdk_vrmx_misc_info
 {
     uint64_t u;
     struct bdk_vrmx_misc_info_s
@@ -328,7 +332,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_vrmx_misc_info_s cn; */
-} bdk_vrmx_misc_info_t;
+};
+typedef union bdk_vrmx_misc_info bdk_vrmx_misc_info_t;
 
 static inline uint64_t BDK_VRMX_MISC_INFO(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_VRMX_MISC_INFO(unsigned long a)
@@ -354,7 +359,7 @@ static inline uint64_t BDK_VRMX_MISC_INFO(unsigned long a)
  *
  * VRM Telemetry Command Register
  */
-typedef union
+union bdk_vrmx_telemetry_cmnd
 {
     uint64_t u;
     struct bdk_vrmx_telemetry_cmnd_s
@@ -382,7 +387,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_vrmx_telemetry_cmnd_s cn; */
-} bdk_vrmx_telemetry_cmnd_t;
+};
+typedef union bdk_vrmx_telemetry_cmnd bdk_vrmx_telemetry_cmnd_t;
 
 static inline uint64_t BDK_VRMX_TELEMETRY_CMND(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_VRMX_TELEMETRY_CMND(unsigned long a)
@@ -408,7 +414,7 @@ static inline uint64_t BDK_VRMX_TELEMETRY_CMND(unsigned long a)
  *
  * VRM Telemetry Read Register
  */
-typedef union
+union bdk_vrmx_telemetry_read
 {
     uint64_t u;
     struct bdk_vrmx_telemetry_read_s
@@ -424,7 +430,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_vrmx_telemetry_read_s cn; */
-} bdk_vrmx_telemetry_read_t;
+};
+typedef union bdk_vrmx_telemetry_read bdk_vrmx_telemetry_read_t;
 
 static inline uint64_t BDK_VRMX_TELEMETRY_READ(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_VRMX_TELEMETRY_READ(unsigned long a)
@@ -450,7 +457,7 @@ static inline uint64_t BDK_VRMX_TELEMETRY_READ(unsigned long a)
  *
  * VRM Thermal Trip Register
  */
-typedef union
+union bdk_vrmx_trip
 {
     uint64_t u;
     struct bdk_vrmx_trip_s
@@ -466,7 +473,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_vrmx_trip_s cn; */
-} bdk_vrmx_trip_t;
+};
+typedef union bdk_vrmx_trip bdk_vrmx_trip_t;
 
 static inline uint64_t BDK_VRMX_TRIP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_VRMX_TRIP(unsigned long a)
@@ -492,7 +500,7 @@ static inline uint64_t BDK_VRMX_TRIP(unsigned long a)
  *
  * VRM Temp Sensor Conversion Coefficient and FSM Register
  */
-typedef union
+union bdk_vrmx_ts_temp_conv_coeff_fsm
 {
     uint64_t u;
     struct bdk_vrmx_ts_temp_conv_coeff_fsm_s
@@ -530,7 +538,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_vrmx_ts_temp_conv_coeff_fsm_s cn; */
-} bdk_vrmx_ts_temp_conv_coeff_fsm_t;
+};
+typedef union bdk_vrmx_ts_temp_conv_coeff_fsm bdk_vrmx_ts_temp_conv_coeff_fsm_t;
 
 static inline uint64_t BDK_VRMX_TS_TEMP_CONV_COEFF_FSM(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_VRMX_TS_TEMP_CONV_COEFF_FSM(unsigned long a)
@@ -556,7 +565,7 @@ static inline uint64_t BDK_VRMX_TS_TEMP_CONV_COEFF_FSM(unsigned long a)
  *
  * VRM Temp Sensor Analog Alternate Conversion Register
  */
-typedef union
+union bdk_vrmx_ts_temp_conv_ctl
 {
     uint64_t u;
     struct bdk_vrmx_ts_temp_conv_ctl_s
@@ -580,7 +589,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_vrmx_ts_temp_conv_ctl_s cn; */
-} bdk_vrmx_ts_temp_conv_ctl_t;
+};
+typedef union bdk_vrmx_ts_temp_conv_ctl bdk_vrmx_ts_temp_conv_ctl_t;
 
 static inline uint64_t BDK_VRMX_TS_TEMP_CONV_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_VRMX_TS_TEMP_CONV_CTL(unsigned long a)
@@ -606,7 +616,7 @@ static inline uint64_t BDK_VRMX_TS_TEMP_CONV_CTL(unsigned long a)
  *
  * VRM Temp Sensor Result Register
  */
-typedef union
+union bdk_vrmx_ts_temp_conv_result
 {
     uint64_t u;
     struct bdk_vrmx_ts_temp_conv_result_s
@@ -634,7 +644,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_vrmx_ts_temp_conv_result_s cn; */
-} bdk_vrmx_ts_temp_conv_result_t;
+};
+typedef union bdk_vrmx_ts_temp_conv_result bdk_vrmx_ts_temp_conv_result_t;
 
 static inline uint64_t BDK_VRMX_TS_TEMP_CONV_RESULT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_VRMX_TS_TEMP_CONV_RESULT(unsigned long a)
@@ -660,7 +671,7 @@ static inline uint64_t BDK_VRMX_TS_TEMP_CONV_RESULT(unsigned long a)
  *
  * VRM Temp Sensor Noff Coefficient Register
  */
-typedef union
+union bdk_vrmx_ts_temp_noff_mc
 {
     uint64_t u;
     struct bdk_vrmx_ts_temp_noff_mc_s
@@ -680,7 +691,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_vrmx_ts_temp_noff_mc_s cn; */
-} bdk_vrmx_ts_temp_noff_mc_t;
+};
+typedef union bdk_vrmx_ts_temp_noff_mc bdk_vrmx_ts_temp_noff_mc_t;
 
 static inline uint64_t BDK_VRMX_TS_TEMP_NOFF_MC(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_VRMX_TS_TEMP_NOFF_MC(unsigned long a)
@@ -708,7 +720,7 @@ static inline uint64_t BDK_VRMX_TS_TEMP_NOFF_MC(unsigned long a)
  * This register allows software to write data into I2C controller directly.
  * This register is for diagnostic use only.
  */
-typedef union
+union bdk_vrmx_tws_twsi_sw
 {
     uint64_t u;
     struct bdk_vrmx_tws_twsi_sw_s
@@ -782,7 +794,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_vrmx_tws_twsi_sw_s cn; */
-} bdk_vrmx_tws_twsi_sw_t;
+};
+typedef union bdk_vrmx_tws_twsi_sw bdk_vrmx_tws_twsi_sw_t;
 
 static inline uint64_t BDK_VRMX_TWS_TWSI_SW(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_VRMX_TWS_TWSI_SW(unsigned long a)

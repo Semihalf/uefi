@@ -70,7 +70,7 @@
  * must delay the SMI_()_CLK CSR write by at least 512 coprocessor-clocks after the
  * previous SMI operation is finished.
  */
-typedef union
+union bdk_smi_x_clk
 {
     uint64_t u;
     struct bdk_smi_x_clk_s
@@ -132,7 +132,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smi_x_clk_s cn; */
-} bdk_smi_x_clk_t;
+};
+typedef union bdk_smi_x_clk bdk_smi_x_clk_t;
 
 static inline uint64_t BDK_SMI_X_CLK(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMI_X_CLK(unsigned long a)
@@ -156,7 +157,7 @@ static inline uint64_t BDK_SMI_X_CLK(unsigned long a)
  * This register forces a read or write command to the PHY. Write operations to this register
  * create SMI transactions. Software will poll (depending on the transaction type).
  */
-typedef union
+union bdk_smi_x_cmd
 {
     uint64_t u;
     struct bdk_smi_x_cmd_s
@@ -196,7 +197,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smi_x_cmd_s cn; */
-} bdk_smi_x_cmd_t;
+};
+typedef union bdk_smi_x_cmd bdk_smi_x_cmd_t;
 
 static inline uint64_t BDK_SMI_X_CMD(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMI_X_CMD(unsigned long a)
@@ -219,7 +221,7 @@ static inline uint64_t BDK_SMI_X_CMD(unsigned long a)
  * SMI Enable Register
  * Enables the SMI interface.
  */
-typedef union
+union bdk_smi_x_en
 {
     uint64_t u;
     struct bdk_smi_x_en_s
@@ -237,7 +239,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smi_x_en_s cn; */
-} bdk_smi_x_en_t;
+};
+typedef union bdk_smi_x_en bdk_smi_x_en_t;
 
 static inline uint64_t BDK_SMI_X_EN(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMI_X_EN(unsigned long a)
@@ -260,7 +263,7 @@ static inline uint64_t BDK_SMI_X_EN(unsigned long a)
  * SMI Read Data Register
  * This register contains the data in a read operation.
  */
-typedef union
+union bdk_smi_x_rd_dat
 {
     uint64_t u;
     struct bdk_smi_x_rd_dat_s
@@ -278,7 +281,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smi_x_rd_dat_s cn; */
-} bdk_smi_x_rd_dat_t;
+};
+typedef union bdk_smi_x_rd_dat bdk_smi_x_rd_dat_t;
 
 static inline uint64_t BDK_SMI_X_RD_DAT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMI_X_RD_DAT(unsigned long a)
@@ -301,7 +305,7 @@ static inline uint64_t BDK_SMI_X_RD_DAT(unsigned long a)
  * SMI Write Data Register
  * This register provides the data for a write operation.
  */
-typedef union
+union bdk_smi_x_wr_dat
 {
     uint64_t u;
     struct bdk_smi_x_wr_dat_s
@@ -321,7 +325,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smi_x_wr_dat_s cn; */
-} bdk_smi_x_wr_dat_t;
+};
+typedef union bdk_smi_x_wr_dat bdk_smi_x_wr_dat_t;
 
 static inline uint64_t BDK_SMI_X_WR_DAT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMI_X_WR_DAT(unsigned long a)
@@ -344,7 +349,7 @@ static inline uint64_t BDK_SMI_X_WR_DAT(unsigned long a)
  * SMI Drive Strength Control Register
  * Enables the SMI interface.
  */
-typedef union
+union bdk_smi_drv_ctl
 {
     uint64_t u;
     struct bdk_smi_drv_ctl_s
@@ -374,7 +379,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smi_drv_ctl_s cn; */
-} bdk_smi_drv_ctl_t;
+};
+typedef union bdk_smi_drv_ctl bdk_smi_drv_ctl_t;
 
 #define BDK_SMI_DRV_CTL BDK_SMI_DRV_CTL_FUNC()
 static inline uint64_t BDK_SMI_DRV_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -397,7 +403,7 @@ static inline uint64_t BDK_SMI_DRV_CTL_FUNC(void)
  *
  * Enables the SMI1 interface.
  */
-typedef union
+union bdk_smi_drv_rsvd
 {
     uint64_t u;
     struct bdk_smi_drv_rsvd_s
@@ -415,7 +421,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smi_drv_rsvd_s cn; */
-} bdk_smi_drv_rsvd_t;
+};
+typedef union bdk_smi_drv_rsvd bdk_smi_drv_rsvd_t;
 
 #define BDK_SMI_DRV_RSVD BDK_SMI_DRV_RSVD_FUNC()
 static inline uint64_t BDK_SMI_DRV_RSVD_FUNC(void) __attribute__ ((pure, always_inline));

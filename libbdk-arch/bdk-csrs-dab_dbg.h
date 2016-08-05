@@ -58,7 +58,7 @@
  * ROM table for DAP Register
  * The ROM table is for Coresight ROM.
  */
-typedef union
+union bdk_dab_rom_tablex
 {
     uint32_t u;
     struct bdk_dab_rom_tablex_s
@@ -70,7 +70,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dab_rom_tablex_s cn; */
-} bdk_dab_rom_tablex_t;
+};
+typedef union bdk_dab_rom_tablex bdk_dab_rom_tablex_t;
 
 static inline uint64_t BDK_DAB_ROM_TABLEX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DAB_ROM_TABLEX(unsigned long a)
@@ -94,7 +95,7 @@ static inline uint64_t BDK_DAB_ROM_TABLEX(unsigned long a)
  * Read only register, Read to this register will be provided by DAP and
  * DAP will not generate OWB access.
  */
-typedef union
+union bdk_dbgx_dbgauthstatus_el1
 {
     uint32_t u;
     struct bdk_dbgx_dbgauthstatus_el1_s
@@ -196,7 +197,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dbgx_dbgauthstatus_el1_s cn; */
-} bdk_dbgx_dbgauthstatus_el1_t;
+};
+typedef union bdk_dbgx_dbgauthstatus_el1 bdk_dbgx_dbgauthstatus_el1_t;
 
 static inline uint64_t BDK_DBGX_DBGAUTHSTATUS_EL1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_DBGAUTHSTATUS_EL1(unsigned long a)
@@ -220,7 +222,7 @@ static inline uint64_t BDK_DBGX_DBGAUTHSTATUS_EL1(unsigned long a)
  *     together with value register DBGBVR<n>_EL1, where n is 0 to
  *     5.
  */
-typedef union
+union bdk_dbgx_dbgbcrx_el1
 {
     uint32_t u;
     struct bdk_dbgx_dbgbcrx_el1_s
@@ -469,7 +471,8 @@ typedef union
     } cn81xx;
     /* struct bdk_dbgx_dbgbcrx_el1_s cn88xx; */
     /* struct bdk_dbgx_dbgbcrx_el1_cn81xx cn83xx; */
-} bdk_dbgx_dbgbcrx_el1_t;
+};
+typedef union bdk_dbgx_dbgbcrx_el1 bdk_dbgx_dbgbcrx_el1_t;
 
 static inline uint64_t BDK_DBGX_DBGBCRX_EL1(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_DBGBCRX_EL1(unsigned long a, unsigned long b)
@@ -491,7 +494,7 @@ static inline uint64_t BDK_DBGX_DBGBCRX_EL1(unsigned long a, unsigned long b)
  * AP DBG Debug Breakpoint Value High Registers
  * Accesses the high bits of the breakpoint value.
  */
-typedef union
+union bdk_dbgx_dbgbvrx_el1_hi
 {
     uint32_t u;
     struct bdk_dbgx_dbgbvrx_el1_hi_s
@@ -503,7 +506,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dbgx_dbgbvrx_el1_hi_s cn; */
-} bdk_dbgx_dbgbvrx_el1_hi_t;
+};
+typedef union bdk_dbgx_dbgbvrx_el1_hi bdk_dbgx_dbgbvrx_el1_hi_t;
 
 static inline uint64_t BDK_DBGX_DBGBVRX_EL1_HI(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_DBGBVRX_EL1_HI(unsigned long a, unsigned long b)
@@ -525,7 +529,7 @@ static inline uint64_t BDK_DBGX_DBGBVRX_EL1_HI(unsigned long a, unsigned long b)
  * AP DBG Debug Breakpoint Value Low Registers
  * Accesses the low bits of the breakpoint value.
  */
-typedef union
+union bdk_dbgx_dbgbvrx_el1_lo
 {
     uint32_t u;
     struct bdk_dbgx_dbgbvrx_el1_lo_s
@@ -537,7 +541,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dbgx_dbgbvrx_el1_lo_s cn; */
-} bdk_dbgx_dbgbvrx_el1_lo_t;
+};
+typedef union bdk_dbgx_dbgbvrx_el1_lo bdk_dbgx_dbgbvrx_el1_lo_t;
 
 static inline uint64_t BDK_DBGX_DBGBVRX_EL1_LO(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_DBGBVRX_EL1_LO(unsigned long a, unsigned long b)
@@ -560,7 +565,7 @@ static inline uint64_t BDK_DBGX_DBGBVRX_EL1_LO(unsigned long a, unsigned long b)
  * Used by software to read the values of the [CLAIM] bits, and to
  *     clear these bits to 0.
  */
-typedef union
+union bdk_dbgx_dbgclaimclr_el1
 {
     uint32_t u;
     struct bdk_dbgx_dbgclaimclr_el1_s
@@ -584,7 +589,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dbgx_dbgclaimclr_el1_s cn; */
-} bdk_dbgx_dbgclaimclr_el1_t;
+};
+typedef union bdk_dbgx_dbgclaimclr_el1 bdk_dbgx_dbgclaimclr_el1_t;
 
 static inline uint64_t BDK_DBGX_DBGCLAIMCLR_EL1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_DBGCLAIMCLR_EL1(unsigned long a)
@@ -606,7 +612,7 @@ static inline uint64_t BDK_DBGX_DBGCLAIMCLR_EL1(unsigned long a)
  * AP DBG Debug Claim Tag Set Register
  * Used by software to set [CLAIM] bits to 1.
  */
-typedef union
+union bdk_dbgx_dbgclaimset_el1
 {
     uint32_t u;
     struct bdk_dbgx_dbgclaimset_el1_s
@@ -628,7 +634,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dbgx_dbgclaimset_el1_s cn; */
-} bdk_dbgx_dbgclaimset_el1_t;
+};
+typedef union bdk_dbgx_dbgclaimset_el1 bdk_dbgx_dbgclaimset_el1_t;
 
 static inline uint64_t BDK_DBGX_DBGCLAIMSET_EL1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_DBGCLAIMSET_EL1(unsigned long a)
@@ -651,7 +658,7 @@ static inline uint64_t BDK_DBGX_DBGCLAIMSET_EL1(unsigned long a)
  * This register transfers 32 bits of data from an external host to the
  *     processor.
  */
-typedef union
+union bdk_dbgx_dbgdtrrx_el0
 {
     uint32_t u;
     struct bdk_dbgx_dbgdtrrx_el0_s
@@ -669,7 +676,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dbgx_dbgdtrrx_el0_s cn; */
-} bdk_dbgx_dbgdtrrx_el0_t;
+};
+typedef union bdk_dbgx_dbgdtrrx_el0 bdk_dbgx_dbgdtrrx_el0_t;
 
 static inline uint64_t BDK_DBGX_DBGDTRRX_EL0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_DBGDTRRX_EL0(unsigned long a)
@@ -692,7 +700,7 @@ static inline uint64_t BDK_DBGX_DBGDTRRX_EL0(unsigned long a)
  * This register transfers 32 bits of data from the processor to an external
  *     host.
  */
-typedef union
+union bdk_dbgx_dbgdtrtx_el0
 {
     uint32_t u;
     struct bdk_dbgx_dbgdtrtx_el0_s
@@ -714,7 +722,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dbgx_dbgdtrtx_el0_s cn; */
-} bdk_dbgx_dbgdtrtx_el0_t;
+};
+typedef union bdk_dbgx_dbgdtrtx_el0 bdk_dbgx_dbgdtrtx_el0_t;
 
 static inline uint64_t BDK_DBGX_DBGDTRTX_EL0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_DBGDTRTX_EL0(unsigned long a)
@@ -736,7 +745,7 @@ static inline uint64_t BDK_DBGX_DBGDTRTX_EL0(unsigned long a)
  * AP DBG Debug Watchpoint Control Registers
  * Watchpoint control register.
  */
-typedef union
+union bdk_dbgx_dbgwcrx_el1
 {
     uint32_t u;
     struct bdk_dbgx_dbgwcrx_el1_s
@@ -937,7 +946,8 @@ typedef union
     } cn81xx;
     /* struct bdk_dbgx_dbgwcrx_el1_s cn88xx; */
     /* struct bdk_dbgx_dbgwcrx_el1_cn81xx cn83xx; */
-} bdk_dbgx_dbgwcrx_el1_t;
+};
+typedef union bdk_dbgx_dbgwcrx_el1 bdk_dbgx_dbgwcrx_el1_t;
 
 static inline uint64_t BDK_DBGX_DBGWCRX_EL1(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_DBGWCRX_EL1(unsigned long a, unsigned long b)
@@ -959,7 +969,7 @@ static inline uint64_t BDK_DBGX_DBGWCRX_EL1(unsigned long a, unsigned long b)
  * AP DBG Debug Watchpoint Value High Registers
  * Watchpoint value register (high order 32 bits).
  */
-typedef union
+union bdk_dbgx_dbgwvrx_el1_hi
 {
     uint32_t u;
     struct bdk_dbgx_dbgwvrx_el1_hi_s
@@ -971,7 +981,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dbgx_dbgwvrx_el1_hi_s cn; */
-} bdk_dbgx_dbgwvrx_el1_hi_t;
+};
+typedef union bdk_dbgx_dbgwvrx_el1_hi bdk_dbgx_dbgwvrx_el1_hi_t;
 
 static inline uint64_t BDK_DBGX_DBGWVRX_EL1_HI(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_DBGWVRX_EL1_HI(unsigned long a, unsigned long b)
@@ -993,7 +1004,7 @@ static inline uint64_t BDK_DBGX_DBGWVRX_EL1_HI(unsigned long a, unsigned long b)
  * AP DBG Debug Watchpoint Value Low Registers
  * Watchpoint value register (low order 32 bits).
  */
-typedef union
+union bdk_dbgx_dbgwvrx_el1_lo
 {
     uint32_t u;
     struct bdk_dbgx_dbgwvrx_el1_lo_s
@@ -1005,7 +1016,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dbgx_dbgwvrx_el1_lo_s cn; */
-} bdk_dbgx_dbgwvrx_el1_lo_t;
+};
+typedef union bdk_dbgx_dbgwvrx_el1_lo bdk_dbgx_dbgwvrx_el1_lo_t;
 
 static inline uint64_t BDK_DBGX_DBGWVRX_EL1_LO(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_DBGWVRX_EL1_LO(unsigned long a, unsigned long b)
@@ -1027,7 +1039,7 @@ static inline uint64_t BDK_DBGX_DBGWVRX_EL1_LO(unsigned long a, unsigned long b)
  * AP DBG External Debug Component Identification Register 0
  * Provides information to identify an external debug component.
  */
-typedef union
+union bdk_dbgx_edcidr0
 {
     uint32_t u;
     struct bdk_dbgx_edcidr0_s
@@ -1041,7 +1053,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dbgx_edcidr0_s cn; */
-} bdk_dbgx_edcidr0_t;
+};
+typedef union bdk_dbgx_edcidr0 bdk_dbgx_edcidr0_t;
 
 static inline uint64_t BDK_DBGX_EDCIDR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDCIDR0(unsigned long a)
@@ -1063,7 +1076,7 @@ static inline uint64_t BDK_DBGX_EDCIDR0(unsigned long a)
  * AP DBG External Debug Component Identification Register 1
  * Provides information to identify an external debug component.
  */
-typedef union
+union bdk_dbgx_edcidr1
 {
     uint32_t u;
     struct bdk_dbgx_edcidr1_s
@@ -1079,7 +1092,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dbgx_edcidr1_s cn; */
-} bdk_dbgx_edcidr1_t;
+};
+typedef union bdk_dbgx_edcidr1 bdk_dbgx_edcidr1_t;
 
 static inline uint64_t BDK_DBGX_EDCIDR1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDCIDR1(unsigned long a)
@@ -1101,7 +1115,7 @@ static inline uint64_t BDK_DBGX_EDCIDR1(unsigned long a)
  * AP DBG External Debug Component Identification Register 2
  * Provides information to identify an external debug component.
  */
-typedef union
+union bdk_dbgx_edcidr2
 {
     uint32_t u;
     struct bdk_dbgx_edcidr2_s
@@ -1115,7 +1129,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dbgx_edcidr2_s cn; */
-} bdk_dbgx_edcidr2_t;
+};
+typedef union bdk_dbgx_edcidr2 bdk_dbgx_edcidr2_t;
 
 static inline uint64_t BDK_DBGX_EDCIDR2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDCIDR2(unsigned long a)
@@ -1137,7 +1152,7 @@ static inline uint64_t BDK_DBGX_EDCIDR2(unsigned long a)
  * AP DBG External Debug Component Identification Register 3
  * Provides information to identify an external debug component.
  */
-typedef union
+union bdk_dbgx_edcidr3
 {
     uint32_t u;
     struct bdk_dbgx_edcidr3_s
@@ -1151,7 +1166,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dbgx_edcidr3_s cn; */
-} bdk_dbgx_edcidr3_t;
+};
+typedef union bdk_dbgx_edcidr3 bdk_dbgx_edcidr3_t;
 
 static inline uint64_t BDK_DBGX_EDCIDR3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDCIDR3(unsigned long a)
@@ -1179,7 +1195,7 @@ static inline uint64_t BDK_DBGX_EDCIDR3(unsigned long a)
  * sample.
  * Otherwise, EDVIDSR becomes UNKNOWN.
  */
-typedef union
+union bdk_dbgx_edcidsr
 {
     uint32_t u;
     struct bdk_dbgx_edcidsr_s
@@ -1199,7 +1215,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dbgx_edcidsr_s cn; */
-} bdk_dbgx_edcidsr_t;
+};
+typedef union bdk_dbgx_edcidsr bdk_dbgx_edcidsr_t;
 
 static inline uint64_t BDK_DBGX_EDCIDSR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDCIDSR(unsigned long a)
@@ -1221,7 +1238,7 @@ static inline uint64_t BDK_DBGX_EDCIDSR(unsigned long a)
  * AP DBG External Debug Device Affinity register 0 DAP EDDEVAFF0 Register
  * copy of the MPIDR_EL1[31:0] register in the process core.
  */
-typedef union
+union bdk_dbgx_eddevaff0
 {
     uint32_t u;
     struct bdk_dbgx_eddevaff0_s
@@ -1243,7 +1260,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dbgx_eddevaff0_s cn; */
-} bdk_dbgx_eddevaff0_t;
+};
+typedef union bdk_dbgx_eddevaff0 bdk_dbgx_eddevaff0_t;
 
 static inline uint64_t BDK_DBGX_EDDEVAFF0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDDEVAFF0(unsigned long a)
@@ -1267,7 +1285,7 @@ static inline uint64_t BDK_DBGX_EDDEVAFF0(unsigned long a)
  * Read only register, Read to this register will be provided by DAP and
  * DAP will not generate OWB access.
  */
-typedef union
+union bdk_dbgx_eddevaff1
 {
     uint32_t u;
     struct bdk_dbgx_eddevaff1_s
@@ -1279,7 +1297,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dbgx_eddevaff1_s cn; */
-} bdk_dbgx_eddevaff1_t;
+};
+typedef union bdk_dbgx_eddevaff1 bdk_dbgx_eddevaff1_t;
 
 static inline uint64_t BDK_DBGX_EDDEVAFF1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDDEVAFF1(unsigned long a)
@@ -1302,7 +1321,7 @@ static inline uint64_t BDK_DBGX_EDDEVAFF1(unsigned long a)
  * Identifies the programmers' model architecture of the external
  *     debug component.
  */
-typedef union
+union bdk_dbgx_eddevarch
 {
     uint32_t u;
     struct bdk_dbgx_eddevarch_s
@@ -1383,7 +1402,8 @@ typedef union
     } cn81xx;
     /* struct bdk_dbgx_eddevarch_s cn88xx; */
     /* struct bdk_dbgx_eddevarch_cn81xx cn83xx; */
-} bdk_dbgx_eddevarch_t;
+};
+typedef union bdk_dbgx_eddevarch bdk_dbgx_eddevarch_t;
 
 static inline uint64_t BDK_DBGX_EDDEVARCH(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDDEVARCH(unsigned long a)
@@ -1407,7 +1427,7 @@ static inline uint64_t BDK_DBGX_EDDEVARCH(unsigned long a)
  * Read only register, Read to this register will be provided by DAP and
  * DAP will not generate OWB access.
  */
-typedef union
+union bdk_dbgx_eddevid
 {
     uint32_t u;
     struct bdk_dbgx_eddevid_s
@@ -1451,7 +1471,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dbgx_eddevid_s cn; */
-} bdk_dbgx_eddevid_t;
+};
+typedef union bdk_dbgx_eddevid bdk_dbgx_eddevid_t;
 
 static inline uint64_t BDK_DBGX_EDDEVID(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDDEVID(unsigned long a)
@@ -1477,7 +1498,7 @@ static inline uint64_t BDK_DBGX_EDDEVID(unsigned long a)
  * Read only register, Read to this register will be provided by DAP and
  * DAP will not generate OWB access.
  */
-typedef union
+union bdk_dbgx_eddevid1
 {
     uint32_t u;
     struct bdk_dbgx_eddevid1_s
@@ -1507,7 +1528,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dbgx_eddevid1_s cn; */
-} bdk_dbgx_eddevid1_t;
+};
+typedef union bdk_dbgx_eddevid1 bdk_dbgx_eddevid1_t;
 
 static inline uint64_t BDK_DBGX_EDDEVID1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDDEVID1(unsigned long a)
@@ -1533,7 +1555,7 @@ static inline uint64_t BDK_DBGX_EDDEVID1(unsigned long a)
  * Read only register, Read to this register will be provided by DAP and
  * DAP will not generate OWB access.
  */
-typedef union
+union bdk_dbgx_eddevid2
 {
     uint32_t u;
     struct bdk_dbgx_eddevid2_s
@@ -1545,7 +1567,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dbgx_eddevid2_s cn; */
-} bdk_dbgx_eddevid2_t;
+};
+typedef union bdk_dbgx_eddevid2 bdk_dbgx_eddevid2_t;
 
 static inline uint64_t BDK_DBGX_EDDEVID2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDDEVID2(unsigned long a)
@@ -1568,7 +1591,7 @@ static inline uint64_t BDK_DBGX_EDDEVID2(unsigned long a)
  * Indicates to a debugger that this component is part of a
  *     processor's debug logic.
  */
-typedef union
+union bdk_dbgx_eddevtype
 {
     uint32_t u;
     struct bdk_dbgx_eddevtype_s
@@ -1584,7 +1607,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dbgx_eddevtype_s cn; */
-} bdk_dbgx_eddevtype_t;
+};
+typedef union bdk_dbgx_eddevtype bdk_dbgx_eddevtype_t;
 
 static inline uint64_t BDK_DBGX_EDDEVTYPE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDDEVTYPE(unsigned long a)
@@ -1607,7 +1631,7 @@ static inline uint64_t BDK_DBGX_EDDEVTYPE(unsigned long a)
  * Provide information for external debuggers. [CTX_CMDS], [WRPS], [BRPS], [PMUVER],
  * and [TRACEVER] have the same value in the corresponding fields of ID_AA64DFR0_EL1.
  */
-typedef union
+union bdk_dbgx_eddfr
 {
     uint64_t u;
     struct bdk_dbgx_eddfr_s
@@ -1663,7 +1687,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dbgx_eddfr_s cn; */
-} bdk_dbgx_eddfr_t;
+};
+typedef union bdk_dbgx_eddfr bdk_dbgx_eddfr_t;
 
 static inline uint64_t BDK_DBGX_EDDFR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDDFR(unsigned long a)
@@ -1685,7 +1710,7 @@ static inline uint64_t BDK_DBGX_EDDFR(unsigned long a)
  * AP DBG External Debug Exception Catch Control Register
  * Controls exception catch debug events.
  */
-typedef union
+union bdk_dbgx_edeccr
 {
     uint32_t u;
     struct bdk_dbgx_edeccr_s
@@ -1733,7 +1758,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dbgx_edeccr_s cn; */
-} bdk_dbgx_edeccr_t;
+};
+typedef union bdk_dbgx_edeccr bdk_dbgx_edeccr_t;
 
 static inline uint64_t BDK_DBGX_EDECCR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDECCR(unsigned long a)
@@ -1755,7 +1781,7 @@ static inline uint64_t BDK_DBGX_EDECCR(unsigned long a)
  * AP DBG External Debug Execution Control Register
  * This register controls halting debug events.
  */
-typedef union
+union bdk_dbgx_edecr
 {
     uint32_t u;
     struct bdk_dbgx_edecr_s
@@ -1789,7 +1815,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dbgx_edecr_s cn; */
-} bdk_dbgx_edecr_t;
+};
+typedef union bdk_dbgx_edecr bdk_dbgx_edecr_t;
 
 static inline uint64_t BDK_DBGX_EDECR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDECR(unsigned long a)
@@ -1812,7 +1839,7 @@ static inline uint64_t BDK_DBGX_EDECR(unsigned long a)
  * This register indicates the status of internally pending halting debug
  *     events.
  */
-typedef union
+union bdk_dbgx_edesr
 {
     uint32_t u;
     struct bdk_dbgx_edesr_s
@@ -1856,7 +1883,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dbgx_edesr_s cn; */
-} bdk_dbgx_edesr_t;
+};
+typedef union bdk_dbgx_edesr bdk_dbgx_edesr_t;
 
 static inline uint64_t BDK_DBGX_EDESR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDESR(unsigned long a)
@@ -1881,7 +1909,7 @@ static inline uint64_t BDK_DBGX_EDESR(unsigned long a)
  *     directly the inputs and outputs of the processor, for
  *     integration testing or topology detection.
  */
-typedef union
+union bdk_dbgx_editctrl
 {
     uint32_t u;
     struct bdk_dbgx_editctrl_s
@@ -1903,7 +1931,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dbgx_editctrl_s cn; */
-} bdk_dbgx_editctrl_t;
+};
+typedef union bdk_dbgx_editctrl bdk_dbgx_editctrl_t;
 
 static inline uint64_t BDK_DBGX_EDITCTRL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDITCTRL(unsigned long a)
@@ -1926,7 +1955,7 @@ static inline uint64_t BDK_DBGX_EDITCTRL(unsigned long a)
  * This register is used in debug state for passing instructions to the processor
  *     for execution.
  */
-typedef union
+union bdk_dbgx_editr
 {
     uint32_t u;
     struct bdk_dbgx_editr_s
@@ -1944,7 +1973,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dbgx_editr_s cn; */
-} bdk_dbgx_editr_t;
+};
+typedef union bdk_dbgx_editr bdk_dbgx_editr_t;
 
 static inline uint64_t BDK_DBGX_EDITR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDITR(unsigned long a)
@@ -1967,7 +1997,7 @@ static inline uint64_t BDK_DBGX_EDITR(unsigned long a)
  * Allows or disallows access to the external debug registers
  *     through a memory-mapped interface.
  */
-typedef union
+union bdk_dbgx_edlar
 {
     uint32_t u;
     struct bdk_dbgx_edlar_s
@@ -1985,7 +2015,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dbgx_edlar_s cn; */
-} bdk_dbgx_edlar_t;
+};
+typedef union bdk_dbgx_edlar bdk_dbgx_edlar_t;
 
 static inline uint64_t BDK_DBGX_EDLAR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDLAR(unsigned long a)
@@ -2012,7 +2043,7 @@ static inline uint64_t BDK_DBGX_EDLAR(unsigned long a)
  *     The software lock is intended to prevent accidental corruption of the external debug
  *     registers.
  */
-typedef union
+union bdk_dbgx_edlsr
 {
     uint32_t u;
     struct bdk_dbgx_edlsr_s
@@ -2056,7 +2087,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dbgx_edlsr_s cn; */
-} bdk_dbgx_edlsr_t;
+};
+typedef union bdk_dbgx_edlsr bdk_dbgx_edlsr_t;
 
 static inline uint64_t BDK_DBGX_EDLSR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDLSR(unsigned long a)
@@ -2080,7 +2112,7 @@ static inline uint64_t BDK_DBGX_EDLSR(unsigned long a)
  * When DBG()_EDSCR[SC2] is set, EDPCSR_HI[23:0] is set to bits [55:32] of the sampled PC, and
  * EDPCSR_HI[31:29] record the NS-state [31] and Exception level [30:29].
  */
-typedef union
+union bdk_dbgx_edpcsr_hi
 {
     uint32_t u;
     struct bdk_dbgx_edpcsr_hi_s
@@ -2092,7 +2124,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dbgx_edpcsr_hi_s cn; */
-} bdk_dbgx_edpcsr_hi_t;
+};
+typedef union bdk_dbgx_edpcsr_hi bdk_dbgx_edpcsr_hi_t;
 
 static inline uint64_t BDK_DBGX_EDPCSR_HI(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDPCSR_HI(unsigned long a)
@@ -2117,7 +2150,7 @@ static inline uint64_t BDK_DBGX_EDPCSR_HI(unsigned long a)
  * When read, causes the capture of the low PC bits, EDCIDSR (Context), EDVIDSR (VMID) and
  * EDPCSR_HI.
  */
-typedef union
+union bdk_dbgx_edpcsr_lo
 {
     uint32_t u;
     struct bdk_dbgx_edpcsr_lo_s
@@ -2129,7 +2162,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dbgx_edpcsr_lo_s cn; */
-} bdk_dbgx_edpcsr_lo_t;
+};
+typedef union bdk_dbgx_edpcsr_lo bdk_dbgx_edpcsr_lo_t;
 
 static inline uint64_t BDK_DBGX_EDPCSR_LO(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDPCSR_LO(unsigned long a)
@@ -2152,7 +2186,7 @@ static inline uint64_t BDK_DBGX_EDPCSR_LO(unsigned long a)
  * Provide information for external debuggers. GIC, ADVSIMD, FP, EL3, EL2, EL1, EL0 has same
  * value in the corresponding fields of ID_AA64PFR0_EL1.
  */
-typedef union
+union bdk_dbgx_edpfr
 {
     uint64_t u;
     struct bdk_dbgx_edpfr_s
@@ -2228,7 +2262,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dbgx_edpfr_s cn; */
-} bdk_dbgx_edpfr_t;
+};
+typedef union bdk_dbgx_edpfr bdk_dbgx_edpfr_t;
 
 static inline uint64_t BDK_DBGX_EDPFR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDPFR(unsigned long a)
@@ -2250,7 +2285,7 @@ static inline uint64_t BDK_DBGX_EDPFR(unsigned long a)
  * AP DBG External Debug Peripheral Identification Register 0
  * Provides information to identify an external debug component.
  */
-typedef union
+union bdk_dbgx_edpidr0
 {
     uint32_t u;
     struct bdk_dbgx_edpidr0_s
@@ -2264,7 +2299,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dbgx_edpidr0_s cn; */
-} bdk_dbgx_edpidr0_t;
+};
+typedef union bdk_dbgx_edpidr0 bdk_dbgx_edpidr0_t;
 
 static inline uint64_t BDK_DBGX_EDPIDR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDPIDR0(unsigned long a)
@@ -2286,7 +2322,7 @@ static inline uint64_t BDK_DBGX_EDPIDR0(unsigned long a)
  * AP DBG External Debug Peripheral Identification Register 1
  * Provides information to identify an external debug component.
  */
-typedef union
+union bdk_dbgx_edpidr1
 {
     uint32_t u;
     struct bdk_dbgx_edpidr1_s
@@ -2302,7 +2338,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dbgx_edpidr1_s cn; */
-} bdk_dbgx_edpidr1_t;
+};
+typedef union bdk_dbgx_edpidr1 bdk_dbgx_edpidr1_t;
 
 static inline uint64_t BDK_DBGX_EDPIDR1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDPIDR1(unsigned long a)
@@ -2324,7 +2361,7 @@ static inline uint64_t BDK_DBGX_EDPIDR1(unsigned long a)
  * AP DBG External Debug Peripheral Identification Register 2
  * Provides information to identify an external debug component.
  */
-typedef union
+union bdk_dbgx_edpidr2
 {
     uint32_t u;
     struct bdk_dbgx_edpidr2_s
@@ -2342,7 +2379,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dbgx_edpidr2_s cn; */
-} bdk_dbgx_edpidr2_t;
+};
+typedef union bdk_dbgx_edpidr2 bdk_dbgx_edpidr2_t;
 
 static inline uint64_t BDK_DBGX_EDPIDR2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDPIDR2(unsigned long a)
@@ -2364,7 +2402,7 @@ static inline uint64_t BDK_DBGX_EDPIDR2(unsigned long a)
  * AP DBG External Debug Peripheral Identification Register 3
  * Provides information to identify an external debug component.
  */
-typedef union
+union bdk_dbgx_edpidr3
 {
     uint32_t u;
     struct bdk_dbgx_edpidr3_s
@@ -2382,7 +2420,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dbgx_edpidr3_s cn; */
-} bdk_dbgx_edpidr3_t;
+};
+typedef union bdk_dbgx_edpidr3 bdk_dbgx_edpidr3_t;
 
 static inline uint64_t BDK_DBGX_EDPIDR3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDPIDR3(unsigned long a)
@@ -2404,7 +2443,7 @@ static inline uint64_t BDK_DBGX_EDPIDR3(unsigned long a)
  * AP DBG External Debug Peripheral Identification Register 4
  * Provides information to identify an external debug component.
  */
-typedef union
+union bdk_dbgx_edpidr4
 {
     uint32_t u;
     struct bdk_dbgx_edpidr4_s
@@ -2424,7 +2463,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dbgx_edpidr4_s cn; */
-} bdk_dbgx_edpidr4_t;
+};
+typedef union bdk_dbgx_edpidr4 bdk_dbgx_edpidr4_t;
 
 static inline uint64_t BDK_DBGX_EDPIDR4(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDPIDR4(unsigned long a)
@@ -2446,7 +2486,7 @@ static inline uint64_t BDK_DBGX_EDPIDR4(unsigned long a)
  * AP DBG External Debug Peripheral Identification Register 5
  * Provides information to identify an external debug component.
  */
-typedef union
+union bdk_dbgx_edpidr5
 {
     uint32_t u;
     struct bdk_dbgx_edpidr5_s
@@ -2458,7 +2498,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dbgx_edpidr5_s cn; */
-} bdk_dbgx_edpidr5_t;
+};
+typedef union bdk_dbgx_edpidr5 bdk_dbgx_edpidr5_t;
 
 static inline uint64_t BDK_DBGX_EDPIDR5(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDPIDR5(unsigned long a)
@@ -2480,7 +2521,7 @@ static inline uint64_t BDK_DBGX_EDPIDR5(unsigned long a)
  * AP DBG External Debug Peripheral Identification Register 6
  * Provides information to identify an external debug component.
  */
-typedef union
+union bdk_dbgx_edpidr6
 {
     uint32_t u;
     struct bdk_dbgx_edpidr6_s
@@ -2492,7 +2533,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dbgx_edpidr6_s cn; */
-} bdk_dbgx_edpidr6_t;
+};
+typedef union bdk_dbgx_edpidr6 bdk_dbgx_edpidr6_t;
 
 static inline uint64_t BDK_DBGX_EDPIDR6(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDPIDR6(unsigned long a)
@@ -2514,7 +2556,7 @@ static inline uint64_t BDK_DBGX_EDPIDR6(unsigned long a)
  * AP DBG External Debug Peripheral Identification Register 7
  * Provides information to identify an external debug component.
  */
-typedef union
+union bdk_dbgx_edpidr7
 {
     uint32_t u;
     struct bdk_dbgx_edpidr7_s
@@ -2526,7 +2568,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dbgx_edpidr7_s cn; */
-} bdk_dbgx_edpidr7_t;
+};
+typedef union bdk_dbgx_edpidr7 bdk_dbgx_edpidr7_t;
 
 static inline uint64_t BDK_DBGX_EDPIDR7(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDPIDR7(unsigned long a)
@@ -2553,7 +2596,7 @@ static inline uint64_t BDK_DBGX_EDPIDR7(unsigned long a)
  * RTL: Powerup request for ap core. This is write only register.
  * write 1 to bit[3] to request powerup.
  */
-typedef union
+union bdk_dbgx_edprcr
 {
     uint32_t u;
     struct bdk_dbgx_edprcr_s
@@ -2619,7 +2662,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dbgx_edprcr_s cn; */
-} bdk_dbgx_edprcr_t;
+};
+typedef union bdk_dbgx_edprcr bdk_dbgx_edprcr_t;
 
 static inline uint64_t BDK_DBGX_EDPRCR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDPRCR(unsigned long a)
@@ -2647,7 +2691,7 @@ static inline uint64_t BDK_DBGX_EDPRCR(unsigned long a)
  * If AP CORE power down, read to register will not generate OWB access.
  * If AP CORE power up, read to register will generate OWB access.
  */
-typedef union
+union bdk_dbgx_edprsr
 {
     uint32_t u;
     struct bdk_dbgx_edprsr_s
@@ -3043,7 +3087,8 @@ typedef union
     } cn81xx;
     /* struct bdk_dbgx_edprsr_cn81xx cn83xx; */
     /* struct bdk_dbgx_edprsr_cn81xx cn88xxp2; */
-} bdk_dbgx_edprsr_t;
+};
+typedef union bdk_dbgx_edprsr bdk_dbgx_edprsr_t;
 
 static inline uint64_t BDK_DBGX_EDPRSR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDPRSR(unsigned long a)
@@ -3066,7 +3111,7 @@ static inline uint64_t BDK_DBGX_EDPRSR(unsigned long a)
  * This register is used to allow imprecise entry to debug state
  *     and clear sticky bits in EDSCR.
  */
-typedef union
+union bdk_dbgx_edrcr
 {
     uint32_t u;
     struct bdk_dbgx_edrcr_s
@@ -3102,7 +3147,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dbgx_edrcr_s cn; */
-} bdk_dbgx_edrcr_t;
+};
+typedef union bdk_dbgx_edrcr bdk_dbgx_edrcr_t;
 
 static inline uint64_t BDK_DBGX_EDRCR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDRCR(unsigned long a)
@@ -3124,7 +3170,7 @@ static inline uint64_t BDK_DBGX_EDRCR(unsigned long a)
  * AP DBG External Debug Status and Control Register
  * This is the main control register for the debug implementation.
  */
-typedef union
+union bdk_dbgx_edscr
 {
     uint32_t u;
     struct bdk_dbgx_edscr_s
@@ -3716,7 +3762,8 @@ typedef union
     /* struct bdk_dbgx_edscr_s cn81xx; */
     /* struct bdk_dbgx_edscr_s cn83xx; */
     /* struct bdk_dbgx_edscr_s cn88xxp2; */
-} bdk_dbgx_edscr_t;
+};
+typedef union bdk_dbgx_edscr bdk_dbgx_edscr_t;
 
 static inline uint64_t BDK_DBGX_EDSCR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDSCR(unsigned long a)
@@ -3738,7 +3785,7 @@ static inline uint64_t BDK_DBGX_EDSCR(unsigned long a)
  * AP DBG External Debug Virtual Context Sample Register
  * Contains sampled values captured on reading EDPCSR.
  */
-typedef union
+union bdk_dbgx_edvidsr
 {
     uint32_t u;
     struct bdk_dbgx_edvidsr_s
@@ -3861,7 +3908,8 @@ typedef union
     } cn81xx;
     /* struct bdk_dbgx_edvidsr_cn81xx cn83xx; */
     /* struct bdk_dbgx_edvidsr_cn81xx cn88xxp2; */
-} bdk_dbgx_edvidsr_t;
+};
+typedef union bdk_dbgx_edvidsr bdk_dbgx_edvidsr_t;
 
 static inline uint64_t BDK_DBGX_EDVIDSR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDVIDSR(unsigned long a)
@@ -3883,7 +3931,7 @@ static inline uint64_t BDK_DBGX_EDVIDSR(unsigned long a)
  * AP DBG External Debug Watchpoint Address High Register
  * Watchpoint register high half.
  */
-typedef union
+union bdk_dbgx_edwar_hi
 {
     uint32_t u;
     struct bdk_dbgx_edwar_hi_s
@@ -3897,7 +3945,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dbgx_edwar_hi_s cn; */
-} bdk_dbgx_edwar_hi_t;
+};
+typedef union bdk_dbgx_edwar_hi bdk_dbgx_edwar_hi_t;
 
 static inline uint64_t BDK_DBGX_EDWAR_HI(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDWAR_HI(unsigned long a)
@@ -3919,7 +3968,7 @@ static inline uint64_t BDK_DBGX_EDWAR_HI(unsigned long a)
  * AP DBG External Debug Watchpoint Address Low Register
  * Watchpoint register low half.
  */
-typedef union
+union bdk_dbgx_edwar_lo
 {
     uint32_t u;
     struct bdk_dbgx_edwar_lo_s
@@ -3935,7 +3984,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dbgx_edwar_lo_s cn; */
-} bdk_dbgx_edwar_lo_t;
+};
+typedef union bdk_dbgx_edwar_lo bdk_dbgx_edwar_lo_t;
 
 static inline uint64_t BDK_DBGX_EDWAR_LO(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDWAR_LO(unsigned long a)
@@ -3962,7 +4012,7 @@ static inline uint64_t BDK_DBGX_EDWAR_LO(unsigned long a)
  * RTL: Read to this register will be provided by DAP and
  * DAP will not generate OWB access.
  */
-typedef union
+union bdk_dbgx_midr_el1
 {
     uint32_t u;
     struct bdk_dbgx_midr_el1_s
@@ -4046,7 +4096,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dbgx_midr_el1_s cn; */
-} bdk_dbgx_midr_el1_t;
+};
+typedef union bdk_dbgx_midr_el1 bdk_dbgx_midr_el1_t;
 
 static inline uint64_t BDK_DBGX_MIDR_EL1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_MIDR_EL1(unsigned long a)
@@ -4068,7 +4119,7 @@ static inline uint64_t BDK_DBGX_MIDR_EL1(unsigned long a)
  * AP DBG OS Lock Access Register
  * Used to lock or unlock the OS lock.
  */
-typedef union
+union bdk_dbgx_oslar_el1
 {
     uint32_t u;
     struct bdk_dbgx_oslar_el1_s
@@ -4084,7 +4135,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dbgx_oslar_el1_s cn; */
-} bdk_dbgx_oslar_el1_t;
+};
+typedef union bdk_dbgx_oslar_el1 bdk_dbgx_oslar_el1_t;
 
 static inline uint64_t BDK_DBGX_OSLAR_EL1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_OSLAR_EL1(unsigned long a)

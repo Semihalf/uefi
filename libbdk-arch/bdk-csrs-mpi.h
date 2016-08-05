@@ -77,7 +77,7 @@
  * MPI/SPI Configuration Register
  * This register provides configuration for the MPI/SPI interface.
  */
-typedef union
+union bdk_mpi_cfg
 {
     uint64_t u;
     struct bdk_mpi_cfg_s
@@ -153,7 +153,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mpi_cfg_s cn; */
-} bdk_mpi_cfg_t;
+};
+typedef union bdk_mpi_cfg bdk_mpi_cfg_t;
 
 #define BDK_MPI_CFG BDK_MPI_CFG_FUNC()
 static inline uint64_t BDK_MPI_CFG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -174,7 +175,7 @@ static inline uint64_t BDK_MPI_CFG_FUNC(void)
  *
  * MPI/SPI Data Registers
  */
-typedef union
+union bdk_mpi_datx
 {
     uint64_t u;
     struct bdk_mpi_datx_s
@@ -188,7 +189,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mpi_datx_s cn; */
-} bdk_mpi_datx_t;
+};
+typedef union bdk_mpi_datx bdk_mpi_datx_t;
 
 static inline uint64_t BDK_MPI_DATX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_MPI_DATX(unsigned long a)
@@ -211,7 +213,7 @@ static inline uint64_t BDK_MPI_DATX(unsigned long a)
  * MPI Interrupt Enable Clear Register
  * This register clears interrupt enables.
  */
-typedef union
+union bdk_mpi_int_ena_w1c
 {
     uint64_t u;
     struct bdk_mpi_int_ena_w1c_s
@@ -227,7 +229,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mpi_int_ena_w1c_s cn; */
-} bdk_mpi_int_ena_w1c_t;
+};
+typedef union bdk_mpi_int_ena_w1c bdk_mpi_int_ena_w1c_t;
 
 #define BDK_MPI_INT_ENA_W1C BDK_MPI_INT_ENA_W1C_FUNC()
 static inline uint64_t BDK_MPI_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -249,7 +252,7 @@ static inline uint64_t BDK_MPI_INT_ENA_W1C_FUNC(void)
  * MPI Interrupt Enable Set Register
  * This register sets interrupt enables.
  */
-typedef union
+union bdk_mpi_int_ena_w1s
 {
     uint64_t u;
     struct bdk_mpi_int_ena_w1s_s
@@ -265,7 +268,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mpi_int_ena_w1s_s cn; */
-} bdk_mpi_int_ena_w1s_t;
+};
+typedef union bdk_mpi_int_ena_w1s bdk_mpi_int_ena_w1s_t;
 
 #define BDK_MPI_INT_ENA_W1S BDK_MPI_INT_ENA_W1S_FUNC()
 static inline uint64_t BDK_MPI_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -287,7 +291,7 @@ static inline uint64_t BDK_MPI_INT_ENA_W1S_FUNC(void)
  * MPI MSI-X Pending Bit Array Registers
  * This register is the MSI-X PBA table, the bit number is indexed by the MPI_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_mpi_msix_pbax
 {
     uint64_t u;
     struct bdk_mpi_msix_pbax_s
@@ -301,7 +305,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mpi_msix_pbax_s cn; */
-} bdk_mpi_msix_pbax_t;
+};
+typedef union bdk_mpi_msix_pbax bdk_mpi_msix_pbax_t;
 
 static inline uint64_t BDK_MPI_MSIX_PBAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_MPI_MSIX_PBAX(unsigned long a)
@@ -324,7 +329,7 @@ static inline uint64_t BDK_MPI_MSIX_PBAX(unsigned long a)
  * MPI MSI-X Vector Table Address Registers
  * This register is the MSI-X vector table, indexed by the MPI_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_mpi_msix_vecx_addr
 {
     uint64_t u;
     struct bdk_mpi_msix_vecx_addr_s
@@ -356,7 +361,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mpi_msix_vecx_addr_s cn; */
-} bdk_mpi_msix_vecx_addr_t;
+};
+typedef union bdk_mpi_msix_vecx_addr bdk_mpi_msix_vecx_addr_t;
 
 static inline uint64_t BDK_MPI_MSIX_VECX_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_MPI_MSIX_VECX_ADDR(unsigned long a)
@@ -379,7 +385,7 @@ static inline uint64_t BDK_MPI_MSIX_VECX_ADDR(unsigned long a)
  * MPI MSI-X Vector Table Control and Data Registers
  * This register is the MSI-X vector table, indexed by the MPI_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_mpi_msix_vecx_ctl
 {
     uint64_t u;
     struct bdk_mpi_msix_vecx_ctl_s
@@ -397,7 +403,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mpi_msix_vecx_ctl_s cn; */
-} bdk_mpi_msix_vecx_ctl_t;
+};
+typedef union bdk_mpi_msix_vecx_ctl bdk_mpi_msix_vecx_ctl_t;
 
 static inline uint64_t BDK_MPI_MSIX_VECX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_MPI_MSIX_VECX_CTL(unsigned long a)
@@ -419,7 +426,7 @@ static inline uint64_t BDK_MPI_MSIX_VECX_CTL(unsigned long a)
  *
  * MPI/SPI STS Register
  */
-typedef union
+union bdk_mpi_sts
 {
     uint64_t u;
     struct bdk_mpi_sts_s
@@ -445,7 +452,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mpi_sts_s cn; */
-} bdk_mpi_sts_t;
+};
+typedef union bdk_mpi_sts bdk_mpi_sts_t;
 
 #define BDK_MPI_STS BDK_MPI_STS_FUNC()
 static inline uint64_t BDK_MPI_STS_FUNC(void) __attribute__ ((pure, always_inline));
@@ -467,7 +475,7 @@ static inline uint64_t BDK_MPI_STS_FUNC(void)
  * MPI Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_mpi_sts_w1s
 {
     uint64_t u;
     struct bdk_mpi_sts_w1s_s
@@ -483,7 +491,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mpi_sts_w1s_s cn; */
-} bdk_mpi_sts_w1s_t;
+};
+typedef union bdk_mpi_sts_w1s bdk_mpi_sts_w1s_t;
 
 #define BDK_MPI_STS_W1S BDK_MPI_STS_W1S_FUNC()
 static inline uint64_t BDK_MPI_STS_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -504,7 +513,7 @@ static inline uint64_t BDK_MPI_STS_W1S_FUNC(void)
  *
  * MPI/SPI Transmit Register
  */
-typedef union
+union bdk_mpi_tx
 {
     uint64_t u;
     struct bdk_mpi_tx_s
@@ -534,7 +543,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mpi_tx_s cn; */
-} bdk_mpi_tx_t;
+};
+typedef union bdk_mpi_tx bdk_mpi_tx_t;
 
 #define BDK_MPI_TX BDK_MPI_TX_FUNC()
 static inline uint64_t BDK_MPI_TX_FUNC(void) __attribute__ ((pure, always_inline));
@@ -555,7 +565,7 @@ static inline uint64_t BDK_MPI_TX_FUNC(void)
  *
  * MPI/SPI Wide Data Register
  */
-typedef union
+union bdk_mpi_wide_dat
 {
     uint64_t u;
     struct bdk_mpi_wide_dat_s
@@ -567,7 +577,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mpi_wide_dat_s cn; */
-} bdk_mpi_wide_dat_t;
+};
+typedef union bdk_mpi_wide_dat bdk_mpi_wide_dat_t;
 
 #define BDK_MPI_WIDE_DAT BDK_MPI_WIDE_DAT_FUNC()
 static inline uint64_t BDK_MPI_WIDE_DAT_FUNC(void) __attribute__ ((pure, always_inline));

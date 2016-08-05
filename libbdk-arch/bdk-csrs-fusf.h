@@ -98,7 +98,7 @@
  * The initial state of FUSF_BNK_DAT() is as if bank15 were just read,
  * i.e. DAT* = fus[2047:1920].
  */
-typedef union
+union bdk_fusf_bnk_datx
 {
     uint64_t u;
     struct bdk_fusf_bnk_datx_s
@@ -112,7 +112,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fusf_bnk_datx_s cn; */
-} bdk_fusf_bnk_datx_t;
+};
+typedef union bdk_fusf_bnk_datx bdk_fusf_bnk_datx_t;
 
 static inline uint64_t BDK_FUSF_BNK_DATX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_FUSF_BNK_DATX(unsigned long a)
@@ -134,7 +135,7 @@ static inline uint64_t BDK_FUSF_BNK_DATX(unsigned long a)
  *
  * Field Fuse Control Register
  */
-typedef union
+union bdk_fusf_ctl
 {
     uint64_t u;
     struct bdk_fusf_ctl_s
@@ -248,7 +249,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fusf_ctl_s cn; */
-} bdk_fusf_ctl_t;
+};
+typedef union bdk_fusf_ctl bdk_fusf_ctl_t;
 
 #define BDK_FUSF_CTL BDK_FUSF_CTL_FUNC()
 static inline uint64_t BDK_FUSF_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -269,7 +271,7 @@ static inline uint64_t BDK_FUSF_CTL_FUNC(void)
  *
  * Field Fuse ECC Private Endorsement Key Registers
  */
-typedef union
+union bdk_fusf_ekx
 {
     uint64_t u;
     struct bdk_fusf_ekx_s
@@ -305,7 +307,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fusf_ekx_s cn; */
-} bdk_fusf_ekx_t;
+};
+typedef union bdk_fusf_ekx bdk_fusf_ekx_t;
 
 static inline uint64_t BDK_FUSF_EKX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_FUSF_EKX(unsigned long a)
@@ -327,7 +330,7 @@ static inline uint64_t BDK_FUSF_EKX(unsigned long a)
  *
  * Field Fuse Hardware Unique Key Registers
  */
-typedef union
+union bdk_fusf_hukx
 {
     uint64_t u;
     struct bdk_fusf_hukx_s
@@ -367,7 +370,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fusf_hukx_s cn; */
-} bdk_fusf_hukx_t;
+};
+typedef union bdk_fusf_hukx bdk_fusf_hukx_t;
 
 static inline uint64_t BDK_FUSF_HUKX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_FUSF_HUKX(unsigned long a)
@@ -389,7 +393,7 @@ static inline uint64_t BDK_FUSF_HUKX(unsigned long a)
  *
  * Field Fuse Programming Register
  */
-typedef union
+union bdk_fusf_prog
 {
     uint64_t u;
     struct bdk_fusf_prog_s
@@ -483,7 +487,8 @@ typedef union
     } cn81xx;
     /* struct bdk_fusf_prog_cn81xx cn83xx; */
     /* struct bdk_fusf_prog_cn81xx cn88xxp2; */
-} bdk_fusf_prog_t;
+};
+typedef union bdk_fusf_prog bdk_fusf_prog_t;
 
 #define BDK_FUSF_PROG BDK_FUSF_PROG_FUNC()
 static inline uint64_t BDK_FUSF_PROG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -509,7 +514,7 @@ static inline uint64_t BDK_FUSF_PROG_FUNC(void)
  * went to the efuse banks (e.g. EFUSE was set on the read), software can read FUSF_BNK_DATx
  * which contains all 128 fuses in the bank associated in ADDR.
  */
-typedef union
+union bdk_fusf_rcmd
 {
     uint64_t u;
     struct bdk_fusf_rcmd_s
@@ -576,7 +581,8 @@ typedef union
         uint64_t reserved_24_63        : 40;
 #endif /* Word 0 - End */
     } cn;
-} bdk_fusf_rcmd_t;
+};
+typedef union bdk_fusf_rcmd bdk_fusf_rcmd_t;
 
 #define BDK_FUSF_RCMD BDK_FUSF_RCMD_FUNC()
 static inline uint64_t BDK_FUSF_RCMD_FUNC(void) __attribute__ ((pure, always_inline));
@@ -597,7 +603,7 @@ static inline uint64_t BDK_FUSF_RCMD_FUNC(void)
  *
  * Field Fuse Root-of-Trust Public Key Registers
  */
-typedef union
+union bdk_fusf_rotpkx
 {
     uint64_t u;
     struct bdk_fusf_rotpkx_s
@@ -635,7 +641,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fusf_rotpkx_s cn; */
-} bdk_fusf_rotpkx_t;
+};
+typedef union bdk_fusf_rotpkx bdk_fusf_rotpkx_t;
 
 static inline uint64_t BDK_FUSF_ROTPKX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_FUSF_ROTPKX(unsigned long a)
@@ -657,7 +664,7 @@ static inline uint64_t BDK_FUSF_ROTPKX(unsigned long a)
  *
  * Field Fuse Secret Symmetric Key Registers
  */
-typedef union
+union bdk_fusf_sskx
 {
     uint64_t u;
     struct bdk_fusf_sskx_s
@@ -687,7 +694,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fusf_sskx_s cn; */
-} bdk_fusf_sskx_t;
+};
+typedef union bdk_fusf_sskx bdk_fusf_sskx_t;
 
 static inline uint64_t BDK_FUSF_SSKX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_FUSF_SSKX(unsigned long a)
@@ -709,7 +717,7 @@ static inline uint64_t BDK_FUSF_SSKX(unsigned long a)
  *
  * Field Fuse Software Fuses Registers
  */
-typedef union
+union bdk_fusf_swx
 {
     uint64_t u;
     struct bdk_fusf_swx_s
@@ -743,7 +751,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fusf_swx_s cn; */
-} bdk_fusf_swx_t;
+};
+typedef union bdk_fusf_swx bdk_fusf_swx_t;
 
 static inline uint64_t BDK_FUSF_SWX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_FUSF_SWX(unsigned long a)
@@ -765,7 +774,7 @@ static inline uint64_t BDK_FUSF_SWX(unsigned long a)
  *
  * Field Fuse Write Address Register
  */
-typedef union
+union bdk_fusf_wadr
 {
     uint64_t u;
     struct bdk_fusf_wadr_s
@@ -779,7 +788,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fusf_wadr_s cn; */
-} bdk_fusf_wadr_t;
+};
+typedef union bdk_fusf_wadr bdk_fusf_wadr_t;
 
 #define BDK_FUSF_WADR BDK_FUSF_WADR_FUNC()
 static inline uint64_t BDK_FUSF_WADR_FUNC(void) __attribute__ ((pure, always_inline));

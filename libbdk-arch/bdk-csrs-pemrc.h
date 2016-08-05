@@ -76,7 +76,7 @@
  * PEM RC MSI-X Pending Bit Array Registers
  * This register is the MSI-X PBA table, the bit number is indexed by the PEMRC_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_pemrcx_msix_pbax
 {
     uint64_t u;
     struct bdk_pemrcx_msix_pbax_s
@@ -90,7 +90,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pemrcx_msix_pbax_s cn; */
-} bdk_pemrcx_msix_pbax_t;
+};
+typedef union bdk_pemrcx_msix_pbax bdk_pemrcx_msix_pbax_t;
 
 static inline uint64_t BDK_PEMRCX_MSIX_PBAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMRCX_MSIX_PBAX(unsigned long a, unsigned long b)
@@ -115,7 +116,7 @@ static inline uint64_t BDK_PEMRCX_MSIX_PBAX(unsigned long a, unsigned long b)
  * PEM RC MSI-X Vector Table Address Registers
  * This register is the MSI-X vector table, indexed by the PEMRC_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_pemrcx_msix_vecx_addr
 {
     uint64_t u;
     struct bdk_pemrcx_msix_vecx_addr_s
@@ -179,7 +180,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_pemrcx_msix_vecx_addr_s cn83xx; */
-} bdk_pemrcx_msix_vecx_addr_t;
+};
+typedef union bdk_pemrcx_msix_vecx_addr bdk_pemrcx_msix_vecx_addr_t;
 
 static inline uint64_t BDK_PEMRCX_MSIX_VECX_ADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMRCX_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
@@ -204,7 +206,7 @@ static inline uint64_t BDK_PEMRCX_MSIX_VECX_ADDR(unsigned long a, unsigned long 
  * PEM RC MSI-X Vector Table Control and Data Registers
  * This register is the MSI-X vector table, indexed by the PEMRC_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_pemrcx_msix_vecx_ctl
 {
     uint64_t u;
     struct bdk_pemrcx_msix_vecx_ctl_s
@@ -222,7 +224,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pemrcx_msix_vecx_ctl_s cn; */
-} bdk_pemrcx_msix_vecx_ctl_t;
+};
+typedef union bdk_pemrcx_msix_vecx_ctl bdk_pemrcx_msix_vecx_ctl_t;
 
 static inline uint64_t BDK_PEMRCX_MSIX_VECX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMRCX_MSIX_VECX_CTL(unsigned long a, unsigned long b)

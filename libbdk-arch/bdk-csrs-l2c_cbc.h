@@ -77,7 +77,7 @@
  * Level 2 Cache CBC Interrupt Enable Clear Registers
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_l2c_cbcx_int_ena_w1c
 {
     uint64_t u;
     struct bdk_l2c_cbcx_int_ena_w1c_s
@@ -216,7 +216,8 @@ typedef union
         uint64_t reserved_9_63         : 55;
 #endif /* Word 0 - End */
     } cn88xxp2;
-} bdk_l2c_cbcx_int_ena_w1c_t;
+};
+typedef union bdk_l2c_cbcx_int_ena_w1c bdk_l2c_cbcx_int_ena_w1c_t;
 
 static inline uint64_t BDK_L2C_CBCX_INT_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_CBCX_INT_ENA_W1C(unsigned long a)
@@ -243,7 +244,7 @@ static inline uint64_t BDK_L2C_CBCX_INT_ENA_W1C(unsigned long a)
  * Level 2 Cache CBC Interrupt Enable Set Registers
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_l2c_cbcx_int_ena_w1s
 {
     uint64_t u;
     struct bdk_l2c_cbcx_int_ena_w1s_s
@@ -382,7 +383,8 @@ typedef union
         uint64_t reserved_9_63         : 55;
 #endif /* Word 0 - End */
     } cn88xxp2;
-} bdk_l2c_cbcx_int_ena_w1s_t;
+};
+typedef union bdk_l2c_cbcx_int_ena_w1s bdk_l2c_cbcx_int_ena_w1s_t;
 
 static inline uint64_t BDK_L2C_CBCX_INT_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_CBCX_INT_ENA_W1S(unsigned long a)
@@ -409,7 +411,7 @@ static inline uint64_t BDK_L2C_CBCX_INT_ENA_W1S(unsigned long a)
  * Level 2 Cache CBC Interrupt Registers
  * This register is for CBC-based interrupts.
  */
-typedef union
+union bdk_l2c_cbcx_int_w1c
 {
     uint64_t u;
     struct bdk_l2c_cbcx_int_w1c_s
@@ -487,7 +489,8 @@ typedef union
     /* struct bdk_l2c_cbcx_int_w1c_s cn81xx; */
     /* struct bdk_l2c_cbcx_int_w1c_s cn83xx; */
     /* struct bdk_l2c_cbcx_int_w1c_s cn88xxp2; */
-} bdk_l2c_cbcx_int_w1c_t;
+};
+typedef union bdk_l2c_cbcx_int_w1c bdk_l2c_cbcx_int_w1c_t;
 
 static inline uint64_t BDK_L2C_CBCX_INT_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_CBCX_INT_W1C(unsigned long a)
@@ -514,7 +517,7 @@ static inline uint64_t BDK_L2C_CBCX_INT_W1C(unsigned long a)
  * Level 2 Cache CBC Interrupt Set Registers
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_l2c_cbcx_int_w1s
 {
     uint64_t u;
     struct bdk_l2c_cbcx_int_w1s_s
@@ -653,7 +656,8 @@ typedef union
         uint64_t reserved_9_63         : 55;
 #endif /* Word 0 - End */
     } cn88xxp2;
-} bdk_l2c_cbcx_int_w1s_t;
+};
+typedef union bdk_l2c_cbcx_int_w1s bdk_l2c_cbcx_int_w1s_t;
 
 static inline uint64_t BDK_L2C_CBCX_INT_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_CBCX_INT_W1S(unsigned long a)
@@ -679,7 +683,7 @@ static inline uint64_t BDK_L2C_CBCX_INT_W1S(unsigned long a)
  *
  * Level 2 Cache IOC Performance Counter Registers
  */
-typedef union
+union bdk_l2c_cbcx_invx_pfc
 {
     uint64_t u;
     struct bdk_l2c_cbcx_invx_pfc_s
@@ -691,7 +695,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_l2c_cbcx_invx_pfc_s cn; */
-} bdk_l2c_cbcx_invx_pfc_t;
+};
+typedef union bdk_l2c_cbcx_invx_pfc bdk_l2c_cbcx_invx_pfc_t;
 
 static inline uint64_t BDK_L2C_CBCX_INVX_PFC(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_CBCX_INVX_PFC(unsigned long a, unsigned long b)
@@ -717,7 +722,7 @@ static inline uint64_t BDK_L2C_CBCX_INVX_PFC(unsigned long a, unsigned long b)
  *
  * Level 2 Cache IOC Performance Counter Register
  */
-typedef union
+union bdk_l2c_cbcx_iocx_pfc
 {
     uint64_t u;
     struct bdk_l2c_cbcx_iocx_pfc_s
@@ -729,7 +734,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_l2c_cbcx_iocx_pfc_s cn; */
-} bdk_l2c_cbcx_iocx_pfc_t;
+};
+typedef union bdk_l2c_cbcx_iocx_pfc bdk_l2c_cbcx_iocx_pfc_t;
 
 static inline uint64_t BDK_L2C_CBCX_IOCX_PFC(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_CBCX_IOCX_PFC(unsigned long a, unsigned long b)
@@ -755,7 +761,7 @@ static inline uint64_t BDK_L2C_CBCX_IOCX_PFC(unsigned long a, unsigned long b)
  *
  * Level 2 Cache IOR Performance Counter Register
  */
-typedef union
+union bdk_l2c_cbcx_iorx_pfc
 {
     uint64_t u;
     struct bdk_l2c_cbcx_iorx_pfc_s
@@ -767,7 +773,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_l2c_cbcx_iorx_pfc_s cn; */
-} bdk_l2c_cbcx_iorx_pfc_t;
+};
+typedef union bdk_l2c_cbcx_iorx_pfc bdk_l2c_cbcx_iorx_pfc_t;
 
 static inline uint64_t BDK_L2C_CBCX_IORX_PFC(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_CBCX_IORX_PFC(unsigned long a, unsigned long b)
@@ -795,7 +802,7 @@ static inline uint64_t BDK_L2C_CBCX_IORX_PFC(unsigned long a, unsigned long b)
  * This register is the MSI-X PBA table; the bit number is indexed by the L2C_CBC_INT_VEC_E
  * enumeration.
  */
-typedef union
+union bdk_l2c_cbcx_msix_pbax
 {
     uint64_t u;
     struct bdk_l2c_cbcx_msix_pbax_s
@@ -811,7 +818,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_l2c_cbcx_msix_pbax_s cn; */
-} bdk_l2c_cbcx_msix_pbax_t;
+};
+typedef union bdk_l2c_cbcx_msix_pbax bdk_l2c_cbcx_msix_pbax_t;
 
 static inline uint64_t BDK_L2C_CBCX_MSIX_PBAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_CBCX_MSIX_PBAX(unsigned long a, unsigned long b)
@@ -838,7 +846,7 @@ static inline uint64_t BDK_L2C_CBCX_MSIX_PBAX(unsigned long a, unsigned long b)
  * L2C_CBC MSI-X Vector-Table Address Register
  * This register is the MSI-X vector table, indexed by the L2C_CBC_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_l2c_cbcx_msix_vecx_addr
 {
     uint64_t u;
     struct bdk_l2c_cbcx_msix_vecx_addr_s
@@ -872,7 +880,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_l2c_cbcx_msix_vecx_addr_s cn; */
-} bdk_l2c_cbcx_msix_vecx_addr_t;
+};
+typedef union bdk_l2c_cbcx_msix_vecx_addr bdk_l2c_cbcx_msix_vecx_addr_t;
 
 static inline uint64_t BDK_L2C_CBCX_MSIX_VECX_ADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_CBCX_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
@@ -899,7 +908,7 @@ static inline uint64_t BDK_L2C_CBCX_MSIX_VECX_ADDR(unsigned long a, unsigned lon
  * L2C_CBC MSI-X Vector-Table Control and Data Register
  * This register is the MSI-X vector table, indexed by the L2C_CBC_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_l2c_cbcx_msix_vecx_ctl
 {
     uint64_t u;
     struct bdk_l2c_cbcx_msix_vecx_ctl_s
@@ -917,7 +926,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_l2c_cbcx_msix_vecx_ctl_s cn; */
-} bdk_l2c_cbcx_msix_vecx_ctl_t;
+};
+typedef union bdk_l2c_cbcx_msix_vecx_ctl bdk_l2c_cbcx_msix_vecx_ctl_t;
 
 static inline uint64_t BDK_L2C_CBCX_MSIX_VECX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_CBCX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
@@ -943,7 +953,7 @@ static inline uint64_t BDK_L2C_CBCX_MSIX_VECX_CTL(unsigned long a, unsigned long
  *
  * Level 2 Cache COMMIT Bus Performance Counter Registers
  */
-typedef union
+union bdk_l2c_cbcx_rscx_pfc
 {
     uint64_t u;
     struct bdk_l2c_cbcx_rscx_pfc_s
@@ -955,7 +965,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_l2c_cbcx_rscx_pfc_s cn; */
-} bdk_l2c_cbcx_rscx_pfc_t;
+};
+typedef union bdk_l2c_cbcx_rscx_pfc bdk_l2c_cbcx_rscx_pfc_t;
 
 static inline uint64_t BDK_L2C_CBCX_RSCX_PFC(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_CBCX_RSCX_PFC(unsigned long a, unsigned long b)
@@ -981,7 +992,7 @@ static inline uint64_t BDK_L2C_CBCX_RSCX_PFC(unsigned long a, unsigned long b)
  *
  * Level 2 Cache FILL Bus Performance Counter Registers
  */
-typedef union
+union bdk_l2c_cbcx_rsdx_pfc
 {
     uint64_t u;
     struct bdk_l2c_cbcx_rsdx_pfc_s
@@ -993,7 +1004,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_l2c_cbcx_rsdx_pfc_s cn; */
-} bdk_l2c_cbcx_rsdx_pfc_t;
+};
+typedef union bdk_l2c_cbcx_rsdx_pfc bdk_l2c_cbcx_rsdx_pfc_t;
 
 static inline uint64_t BDK_L2C_CBCX_RSDX_PFC(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_CBCX_RSDX_PFC(unsigned long a, unsigned long b)
@@ -1022,7 +1034,7 @@ static inline uint64_t BDK_L2C_CBCX_RSDX_PFC(unsigned long a, unsigned long b)
  * These registers are only reset by hardware during chip cold reset. The values of the CSR
  * fields in these registers do not change during chip warm or soft resets.
  */
-typedef union
+union bdk_l2c_cbcx_scratch
 {
     uint64_t u;
     struct bdk_l2c_cbcx_scratch_s
@@ -1038,7 +1050,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_l2c_cbcx_scratch_s cn; */
-} bdk_l2c_cbcx_scratch_t;
+};
+typedef union bdk_l2c_cbcx_scratch bdk_l2c_cbcx_scratch_t;
 
 static inline uint64_t BDK_L2C_CBCX_SCRATCH(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_CBCX_SCRATCH(unsigned long a)
@@ -1064,7 +1077,7 @@ static inline uint64_t BDK_L2C_CBCX_SCRATCH(unsigned long a)
  *
  * Level 2 Cache ADD bus Performance Counter Registers
  */
-typedef union
+union bdk_l2c_cbcx_xmcx_pfc
 {
     uint64_t u;
     struct bdk_l2c_cbcx_xmcx_pfc_s
@@ -1076,7 +1089,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_l2c_cbcx_xmcx_pfc_s cn; */
-} bdk_l2c_cbcx_xmcx_pfc_t;
+};
+typedef union bdk_l2c_cbcx_xmcx_pfc bdk_l2c_cbcx_xmcx_pfc_t;
 
 static inline uint64_t BDK_L2C_CBCX_XMCX_PFC(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_CBCX_XMCX_PFC(unsigned long a, unsigned long b)
@@ -1126,7 +1140,7 @@ static inline uint64_t BDK_L2C_CBCX_XMCX_PFC(unsigned long a, unsigned long b)
  * aliasing (if enabled) on the written address and uses that for the command. This
  * index-aliased address is what is returned on a read of L2C_XMC_CMD.
  */
-typedef union
+union bdk_l2c_cbcx_xmc_cmd
 {
     uint64_t u;
     struct bdk_l2c_cbcx_xmc_cmd_s
@@ -1164,7 +1178,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_l2c_cbcx_xmc_cmd_s cn; */
-} bdk_l2c_cbcx_xmc_cmd_t;
+};
+typedef union bdk_l2c_cbcx_xmc_cmd bdk_l2c_cbcx_xmc_cmd_t;
 
 static inline uint64_t BDK_L2C_CBCX_XMC_CMD(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_CBCX_XMC_CMD(unsigned long a)
@@ -1190,7 +1205,7 @@ static inline uint64_t BDK_L2C_CBCX_XMC_CMD(unsigned long a)
  *
  * Level 2 Cache STORE bus Performance Counter Registers
  */
-typedef union
+union bdk_l2c_cbcx_xmdx_pfc
 {
     uint64_t u;
     struct bdk_l2c_cbcx_xmdx_pfc_s
@@ -1202,7 +1217,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_l2c_cbcx_xmdx_pfc_s cn; */
-} bdk_l2c_cbcx_xmdx_pfc_t;
+};
+typedef union bdk_l2c_cbcx_xmdx_pfc bdk_l2c_cbcx_xmdx_pfc_t;
 
 static inline uint64_t BDK_L2C_CBCX_XMDX_PFC(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_CBCX_XMDX_PFC(unsigned long a, unsigned long b)

@@ -86,7 +86,7 @@
  *
  * Sixty-four-bit operations must be used to access this register.
  */
-typedef union
+union bdk_ndf_bt_pg_info
 {
     uint64_t u;
     struct bdk_ndf_bt_pg_info_s
@@ -122,7 +122,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ndf_bt_pg_info_s cn; */
-} bdk_ndf_bt_pg_info_t;
+};
+typedef union bdk_ndf_bt_pg_info bdk_ndf_bt_pg_info_t;
 
 #define BDK_NDF_BT_PG_INFO BDK_NDF_BT_PG_INFO_FUNC()
 static inline uint64_t BDK_NDF_BT_PG_INFO_FUNC(void) __attribute__ ((pure, always_inline));
@@ -155,7 +156,7 @@ static inline uint64_t BDK_NDF_BT_PG_INFO_FUNC(void)
  *
  * Sixty-four-bit operations must be used to access this register.
  */
-typedef union
+union bdk_ndf_cmd
 {
     uint64_t u;
     struct bdk_ndf_cmd_s
@@ -167,7 +168,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ndf_cmd_s cn; */
-} bdk_ndf_cmd_t;
+};
+typedef union bdk_ndf_cmd bdk_ndf_cmd_t;
 
 #define BDK_NDF_CMD BDK_NDF_CMD_FUNC()
 static inline uint64_t BDK_NDF_CMD_FUNC(void) __attribute__ ((pure, always_inline));
@@ -193,7 +195,7 @@ static inline uint64_t BDK_NDF_CMD_FUNC(void)
  * NAND Flash DMA Address Register
  * Sixty-four-bit operations must be used to access this register.
  */
-typedef union
+union bdk_ndf_dma_adr
 {
     uint64_t u;
     struct bdk_ndf_dma_adr_s
@@ -209,7 +211,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ndf_dma_adr_s cn; */
-} bdk_ndf_dma_adr_t;
+};
+typedef union bdk_ndf_dma_adr bdk_ndf_dma_adr_t;
 
 #define BDK_NDF_DMA_ADR BDK_NDF_DMA_ADR_FUNC()
 static inline uint64_t BDK_NDF_DMA_ADR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -235,7 +238,7 @@ static inline uint64_t BDK_NDF_DMA_ADR_FUNC(void)
  * NAND Flash DMA Configuration Register
  * Sixty-four-bit operations must be used to access this register.
  */
-typedef union
+union bdk_ndf_dma_cfg
 {
     uint64_t u;
     struct bdk_ndf_dma_cfg_s
@@ -293,7 +296,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ndf_dma_cfg_s cn; */
-} bdk_ndf_dma_cfg_t;
+};
+typedef union bdk_ndf_dma_cfg bdk_ndf_dma_cfg_t;
 
 #define BDK_NDF_DMA_CFG BDK_NDF_DMA_CFG_FUNC()
 static inline uint64_t BDK_NDF_DMA_CFG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -343,7 +347,7 @@ static inline uint64_t BDK_NDF_DMA_CFG_FUNC(void)
  *
  * Sixty-four-bit operations must be used to access this register.
  */
-typedef union
+union bdk_ndf_drbell
 {
     uint64_t u;
     struct bdk_ndf_drbell_s
@@ -357,7 +361,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ndf_drbell_s cn; */
-} bdk_ndf_drbell_t;
+};
+typedef union bdk_ndf_drbell bdk_ndf_drbell_t;
 
 #define BDK_NDF_DRBELL BDK_NDF_DRBELL_FUNC()
 static inline uint64_t BDK_NDF_DRBELL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -383,7 +388,7 @@ static inline uint64_t BDK_NDF_DRBELL_FUNC(void)
  * NAND Flash ECC Count Register
  * Sixty-four-bit operations must be used to access this register.
  */
-typedef union
+union bdk_ndf_ecc_cnt
 {
     uint64_t u;
     struct bdk_ndf_ecc_cnt_s
@@ -419,7 +424,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ndf_ecc_cnt_s cn; */
-} bdk_ndf_ecc_cnt_t;
+};
+typedef union bdk_ndf_ecc_cnt bdk_ndf_ecc_cnt_t;
 
 #define BDK_NDF_ECC_CNT BDK_NDF_ECC_CNT_FUNC()
 static inline uint64_t BDK_NDF_ECC_CNT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -444,7 +450,7 @@ static inline uint64_t BDK_NDF_ECC_CNT_FUNC(void)
  *
  * INTERNAL: NAND Flash ECO Register
  */
-typedef union
+union bdk_ndf_eco
 {
     uint64_t u;
     struct bdk_ndf_eco_s
@@ -458,7 +464,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ndf_eco_s cn; */
-} bdk_ndf_eco_t;
+};
+typedef union bdk_ndf_eco bdk_ndf_eco_t;
 
 #define BDK_NDF_ECO BDK_NDF_ECO_FUNC()
 static inline uint64_t BDK_NDF_ECO_FUNC(void) __attribute__ ((pure, always_inline));
@@ -485,7 +492,7 @@ static inline uint64_t BDK_NDF_ECO_FUNC(void)
  * This register contains the bits that can trigger an error interrupt. Sixty-four-bit operations
  * must be used to access this register.
  */
-typedef union
+union bdk_ndf_int
 {
     uint64_t u;
     struct bdk_ndf_int_s
@@ -517,7 +524,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ndf_int_s cn; */
-} bdk_ndf_int_t;
+};
+typedef union bdk_ndf_int bdk_ndf_int_t;
 
 #define BDK_NDF_INT BDK_NDF_INT_FUNC()
 static inline uint64_t BDK_NDF_INT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -543,7 +551,7 @@ static inline uint64_t BDK_NDF_INT_FUNC(void)
  * NAND Flash Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_ndf_int_ena_w1c
 {
     uint64_t u;
     struct bdk_ndf_int_ena_w1c_s
@@ -571,7 +579,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ndf_int_ena_w1c_s cn; */
-} bdk_ndf_int_ena_w1c_t;
+};
+typedef union bdk_ndf_int_ena_w1c bdk_ndf_int_ena_w1c_t;
 
 #define BDK_NDF_INT_ENA_W1C BDK_NDF_INT_ENA_W1C_FUNC()
 static inline uint64_t BDK_NDF_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -597,7 +606,7 @@ static inline uint64_t BDK_NDF_INT_ENA_W1C_FUNC(void)
  * NAND Flash Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_ndf_int_ena_w1s
 {
     uint64_t u;
     struct bdk_ndf_int_ena_w1s_s
@@ -625,7 +634,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ndf_int_ena_w1s_s cn; */
-} bdk_ndf_int_ena_w1s_t;
+};
+typedef union bdk_ndf_int_ena_w1s bdk_ndf_int_ena_w1s_t;
 
 #define BDK_NDF_INT_ENA_W1S BDK_NDF_INT_ENA_W1S_FUNC()
 static inline uint64_t BDK_NDF_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -651,7 +661,7 @@ static inline uint64_t BDK_NDF_INT_ENA_W1S_FUNC(void)
  * NAND Flash Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_ndf_int_w1s
 {
     uint64_t u;
     struct bdk_ndf_int_w1s_s
@@ -679,7 +689,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ndf_int_w1s_s cn; */
-} bdk_ndf_int_w1s_t;
+};
+typedef union bdk_ndf_int_w1s bdk_ndf_int_w1s_t;
 
 #define BDK_NDF_INT_W1S BDK_NDF_INT_W1S_FUNC()
 static inline uint64_t BDK_NDF_INT_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -705,7 +716,7 @@ static inline uint64_t BDK_NDF_INT_W1S_FUNC(void)
  * NAND Flash Miscellaneous Register
  * Sixty-four-bit operations must be used to access this register.
  */
-typedef union
+union bdk_ndf_misc
 {
     uint64_t u;
     struct bdk_ndf_misc_s
@@ -817,7 +828,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ndf_misc_s cn; */
-} bdk_ndf_misc_t;
+};
+typedef union bdk_ndf_misc bdk_ndf_misc_t;
 
 #define BDK_NDF_MISC BDK_NDF_MISC_FUNC()
 static inline uint64_t BDK_NDF_MISC_FUNC(void) __attribute__ ((pure, always_inline));
@@ -843,7 +855,7 @@ static inline uint64_t BDK_NDF_MISC_FUNC(void)
  * NAND Flash MSI-X Pending Bit Array Registers
  * This register is the MSI-X PBA table; the bit number is indexed by the NDF_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_ndf_msix_pbax
 {
     uint64_t u;
     struct bdk_ndf_msix_pbax_s
@@ -857,7 +869,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ndf_msix_pbax_s cn; */
-} bdk_ndf_msix_pbax_t;
+};
+typedef union bdk_ndf_msix_pbax bdk_ndf_msix_pbax_t;
 
 static inline uint64_t BDK_NDF_MSIX_PBAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NDF_MSIX_PBAX(unsigned long a)
@@ -882,7 +895,7 @@ static inline uint64_t BDK_NDF_MSIX_PBAX(unsigned long a)
  * NAND Flash MSI-X Vector-Table Address Register
  * This register is the MSI-X vector table, indexed by the NDF_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_ndf_msix_vecx_addr
 {
     uint64_t u;
     struct bdk_ndf_msix_vecx_addr_s
@@ -916,7 +929,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ndf_msix_vecx_addr_s cn; */
-} bdk_ndf_msix_vecx_addr_t;
+};
+typedef union bdk_ndf_msix_vecx_addr bdk_ndf_msix_vecx_addr_t;
 
 static inline uint64_t BDK_NDF_MSIX_VECX_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NDF_MSIX_VECX_ADDR(unsigned long a)
@@ -941,7 +955,7 @@ static inline uint64_t BDK_NDF_MSIX_VECX_ADDR(unsigned long a)
  * NAND Flash MSI-X Vector-Table Control and Data Register
  * This register is the MSI-X vector table, indexed by the NDF_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_ndf_msix_vecx_ctl
 {
     uint64_t u;
     struct bdk_ndf_msix_vecx_ctl_s
@@ -959,7 +973,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ndf_msix_vecx_ctl_s cn; */
-} bdk_ndf_msix_vecx_ctl_t;
+};
+typedef union bdk_ndf_msix_vecx_ctl bdk_ndf_msix_vecx_ctl_t;
 
 static inline uint64_t BDK_NDF_MSIX_VECX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NDF_MSIX_VECX_CTL(unsigned long a)
@@ -984,7 +999,7 @@ static inline uint64_t BDK_NDF_MSIX_VECX_CTL(unsigned long a)
  * NAND Flash State Machine Register
  * This register aggregates all state machines used in NAND flash controller for debug purposes.
  */
-typedef union
+union bdk_ndf_st_reg
 {
     uint64_t u;
     struct bdk_ndf_st_reg_s
@@ -1014,7 +1029,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ndf_st_reg_s cn; */
-} bdk_ndf_st_reg_t;
+};
+typedef union bdk_ndf_st_reg bdk_ndf_st_reg_t;
 
 #define BDK_NDF_ST_REG BDK_NDF_ST_REG_FUNC()
 static inline uint64_t BDK_NDF_ST_REG_FUNC(void) __attribute__ ((pure, always_inline));

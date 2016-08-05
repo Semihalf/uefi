@@ -58,7 +58,7 @@
  * ETMv4 Address Comparator Access Type Register 0
  * Causes event pulses to be generated on ECT channels.
  */
-typedef union
+union bdk_trcx_trcacatr0
 {
     uint32_t u;
     struct bdk_trcx_trcacatr0_s
@@ -70,7 +70,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trcacatr0_s cn; */
-} bdk_trcx_trcacatr0_t;
+};
+typedef union bdk_trcx_trcacatr0 bdk_trcx_trcacatr0_t;
 
 static inline uint64_t BDK_TRCX_TRCACATR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCACATR0(unsigned long a)
@@ -92,7 +93,7 @@ static inline uint64_t BDK_TRCX_TRCACATR0(unsigned long a)
  * ETMv4 Address Comparator Access Type Register 1
  * Causes event pulses to be generated on ECT channels.
  */
-typedef union
+union bdk_trcx_trcacatr1
 {
     uint32_t u;
     struct bdk_trcx_trcacatr1_s
@@ -104,7 +105,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trcacatr1_s cn; */
-} bdk_trcx_trcacatr1_t;
+};
+typedef union bdk_trcx_trcacatr1 bdk_trcx_trcacatr1_t;
 
 static inline uint64_t BDK_TRCX_TRCACATR1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCACATR1(unsigned long a)
@@ -126,7 +128,7 @@ static inline uint64_t BDK_TRCX_TRCACATR1(unsigned long a)
  * ETMv4 Address Comparator Access Type Register 2
  * Causes event pulses to be generated on ECT channels.
  */
-typedef union
+union bdk_trcx_trcacatr2
 {
     uint32_t u;
     struct bdk_trcx_trcacatr2_s
@@ -138,7 +140,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trcacatr2_s cn; */
-} bdk_trcx_trcacatr2_t;
+};
+typedef union bdk_trcx_trcacatr2 bdk_trcx_trcacatr2_t;
 
 static inline uint64_t BDK_TRCX_TRCACATR2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCACATR2(unsigned long a)
@@ -160,7 +163,7 @@ static inline uint64_t BDK_TRCX_TRCACATR2(unsigned long a)
  * ETMv4 Address Comparator Access Type Register 3
  * Causes event pulses to be generated on ECT channels.
  */
-typedef union
+union bdk_trcx_trcacatr3
 {
     uint32_t u;
     struct bdk_trcx_trcacatr3_s
@@ -172,7 +175,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trcacatr3_s cn; */
-} bdk_trcx_trcacatr3_t;
+};
+typedef union bdk_trcx_trcacatr3 bdk_trcx_trcacatr3_t;
 
 static inline uint64_t BDK_TRCX_TRCACATR3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCACATR3(unsigned long a)
@@ -194,7 +198,7 @@ static inline uint64_t BDK_TRCX_TRCACATR3(unsigned long a)
  * ETMv4 Address Comparator Value Register 0
  * Causes event pulses to be generated on ECT channels.
  */
-typedef union
+union bdk_trcx_trcacvr0
 {
     uint32_t u;
     struct bdk_trcx_trcacvr0_s
@@ -206,7 +210,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trcacvr0_s cn; */
-} bdk_trcx_trcacvr0_t;
+};
+typedef union bdk_trcx_trcacvr0 bdk_trcx_trcacvr0_t;
 
 static inline uint64_t BDK_TRCX_TRCACVR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCACVR0(unsigned long a)
@@ -228,7 +233,7 @@ static inline uint64_t BDK_TRCX_TRCACVR0(unsigned long a)
  * ETMv4 Address Comparator Value Register 1
  * Causes event pulses to be generated on ECT channels.
  */
-typedef union
+union bdk_trcx_trcacvr1
 {
     uint32_t u;
     struct bdk_trcx_trcacvr1_s
@@ -240,7 +245,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trcacvr1_s cn; */
-} bdk_trcx_trcacvr1_t;
+};
+typedef union bdk_trcx_trcacvr1 bdk_trcx_trcacvr1_t;
 
 static inline uint64_t BDK_TRCX_TRCACVR1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCACVR1(unsigned long a)
@@ -262,7 +268,7 @@ static inline uint64_t BDK_TRCX_TRCACVR1(unsigned long a)
  * ETMv4 Address Comparator Value Register 2
  * Causes event pulses to be generated on ECT channels.
  */
-typedef union
+union bdk_trcx_trcacvr2
 {
     uint32_t u;
     struct bdk_trcx_trcacvr2_s
@@ -274,7 +280,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trcacvr2_s cn; */
-} bdk_trcx_trcacvr2_t;
+};
+typedef union bdk_trcx_trcacvr2 bdk_trcx_trcacvr2_t;
 
 static inline uint64_t BDK_TRCX_TRCACVR2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCACVR2(unsigned long a)
@@ -296,7 +303,7 @@ static inline uint64_t BDK_TRCX_TRCACVR2(unsigned long a)
  * ETMv4 Address Comparator Value Register 3
  * Causes event pulses to be generated on ECT channels.
  */
-typedef union
+union bdk_trcx_trcacvr3
 {
     uint32_t u;
     struct bdk_trcx_trcacvr3_s
@@ -308,7 +315,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trcacvr3_s cn; */
-} bdk_trcx_trcacvr3_t;
+};
+typedef union bdk_trcx_trcacvr3 bdk_trcx_trcacvr3_t;
 
 static inline uint64_t BDK_TRCX_TRCACVR3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCACVR3(unsigned long a)
@@ -331,7 +339,7 @@ static inline uint64_t BDK_TRCX_TRCACVR3(unsigned long a)
  * Provides information about the state of the implementation defined authentication
  * interface.
  */
-typedef union
+union bdk_trcx_trcauthstatus
 {
     uint32_t u;
     struct bdk_trcx_trcauthstatus_s
@@ -355,7 +363,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trcauthstatus_s cn; */
-} bdk_trcx_trcauthstatus_t;
+};
+typedef union bdk_trcx_trcauthstatus bdk_trcx_trcauthstatus_t;
 
 static inline uint64_t BDK_TRCX_TRCAUTHSTATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCAUTHSTATUS(unsigned long a)
@@ -377,7 +386,7 @@ static inline uint64_t BDK_TRCX_TRCAUTHSTATUS(unsigned long a)
  * ETMv4 Auxiliary Control Register
  * implementation defines
  */
-typedef union
+union bdk_trcx_trcauxctlr
 {
     uint32_t u;
     struct bdk_trcx_trcauxctlr_s
@@ -389,7 +398,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trcauxctlr_s cn; */
-} bdk_trcx_trcauxctlr_t;
+};
+typedef union bdk_trcx_trcauxctlr bdk_trcx_trcauxctlr_t;
 
 static inline uint64_t BDK_TRCX_TRCAUXCTLR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCAUXCTLR(unsigned long a)
@@ -411,7 +421,7 @@ static inline uint64_t BDK_TRCX_TRCAUXCTLR(unsigned long a)
  * ETMv4 Branch Broadcast Control Register
  * Controls which region in the memory map is enabled to use branch broadcasting.
  */
-typedef union
+union bdk_trcx_trcbbctlr
 {
     uint32_t u;
     struct bdk_trcx_trcbbctlr_s
@@ -441,7 +451,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trcbbctlr_s cn; */
-} bdk_trcx_trcbbctlr_t;
+};
+typedef union bdk_trcx_trcbbctlr bdk_trcx_trcbbctlr_t;
 
 static inline uint64_t BDK_TRCX_TRCBBCTLR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCBBCTLR(unsigned long a)
@@ -463,7 +474,7 @@ static inline uint64_t BDK_TRCX_TRCBBCTLR(unsigned long a)
  * ETMv4 Cycle Count Control Register
  * Set the threshold value for cycle counting.
  */
-typedef union
+union bdk_trcx_trcccctlr
 {
     uint32_t u;
     struct bdk_trcx_trcccctlr_s
@@ -477,7 +488,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trcccctlr_s cn; */
-} bdk_trcx_trcccctlr_t;
+};
+typedef union bdk_trcx_trcccctlr bdk_trcx_trcccctlr_t;
 
 static inline uint64_t BDK_TRCX_TRCCCCTLR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCCCCTLR(unsigned long a)
@@ -499,7 +511,7 @@ static inline uint64_t BDK_TRCX_TRCCCCTLR(unsigned long a)
  * ETMv4 Context ID Comparator Control Register 0
  * Causes event pulses to be generated on ECT channels.
  */
-typedef union
+union bdk_trcx_trccidcctlr0
 {
     uint32_t u;
     struct bdk_trcx_trccidcctlr0_s
@@ -511,7 +523,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trccidcctlr0_s cn; */
-} bdk_trcx_trccidcctlr0_t;
+};
+typedef union bdk_trcx_trccidcctlr0 bdk_trcx_trccidcctlr0_t;
 
 static inline uint64_t BDK_TRCX_TRCCIDCCTLR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCCIDCCTLR0(unsigned long a)
@@ -533,7 +546,7 @@ static inline uint64_t BDK_TRCX_TRCCIDCCTLR0(unsigned long a)
  * ETMv4 Context ID Comparator Control Register 1
  * Causes event pulses to be generated on ECT channels.
  */
-typedef union
+union bdk_trcx_trccidcctlr1
 {
     uint32_t u;
     struct bdk_trcx_trccidcctlr1_s
@@ -545,7 +558,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trccidcctlr1_s cn; */
-} bdk_trcx_trccidcctlr1_t;
+};
+typedef union bdk_trcx_trccidcctlr1 bdk_trcx_trccidcctlr1_t;
 
 static inline uint64_t BDK_TRCX_TRCCIDCCTLR1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCCIDCCTLR1(unsigned long a)
@@ -567,7 +581,7 @@ static inline uint64_t BDK_TRCX_TRCCIDCCTLR1(unsigned long a)
  * ETMv4 Context ID Comparator Value Register
  * Causes event pulses to be generated on ECT channels.
  */
-typedef union
+union bdk_trcx_trccidcvr0
 {
     uint32_t u;
     struct bdk_trcx_trccidcvr0_s
@@ -579,7 +593,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trccidcvr0_s cn; */
-} bdk_trcx_trccidcvr0_t;
+};
+typedef union bdk_trcx_trccidcvr0 bdk_trcx_trccidcvr0_t;
 
 static inline uint64_t BDK_TRCX_TRCCIDCVR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCCIDCVR0(unsigned long a)
@@ -601,7 +616,7 @@ static inline uint64_t BDK_TRCX_TRCCIDCVR0(unsigned long a)
  * TRC Component Identification Register 0
  * Provides information to identify a component.
  */
-typedef union
+union bdk_trcx_trccidr0
 {
     uint32_t u;
     struct bdk_trcx_trccidr0_s
@@ -615,7 +630,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trccidr0_s cn; */
-} bdk_trcx_trccidr0_t;
+};
+typedef union bdk_trcx_trccidr0 bdk_trcx_trccidr0_t;
 
 static inline uint64_t BDK_TRCX_TRCCIDR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCCIDR0(unsigned long a)
@@ -637,7 +653,7 @@ static inline uint64_t BDK_TRCX_TRCCIDR0(unsigned long a)
  * TRC Component Identification Register 1
  * Provides information to identify a component.
  */
-typedef union
+union bdk_trcx_trccidr1
 {
     uint32_t u;
     struct bdk_trcx_trccidr1_s
@@ -653,7 +669,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trccidr1_s cn; */
-} bdk_trcx_trccidr1_t;
+};
+typedef union bdk_trcx_trccidr1 bdk_trcx_trccidr1_t;
 
 static inline uint64_t BDK_TRCX_TRCCIDR1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCCIDR1(unsigned long a)
@@ -675,7 +692,7 @@ static inline uint64_t BDK_TRCX_TRCCIDR1(unsigned long a)
  * TRC Component Identification Register 2
  * Provides information to identify a component.
  */
-typedef union
+union bdk_trcx_trccidr2
 {
     uint32_t u;
     struct bdk_trcx_trccidr2_s
@@ -689,7 +706,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trccidr2_s cn; */
-} bdk_trcx_trccidr2_t;
+};
+typedef union bdk_trcx_trccidr2 bdk_trcx_trccidr2_t;
 
 static inline uint64_t BDK_TRCX_TRCCIDR2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCCIDR2(unsigned long a)
@@ -711,7 +729,7 @@ static inline uint64_t BDK_TRCX_TRCCIDR2(unsigned long a)
  * TRC Component Identification Register 3
  * Provides information to identify a component.
  */
-typedef union
+union bdk_trcx_trccidr3
 {
     uint32_t u;
     struct bdk_trcx_trccidr3_s
@@ -725,7 +743,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trccidr3_s cn; */
-} bdk_trcx_trccidr3_t;
+};
+typedef union bdk_trcx_trccidr3 bdk_trcx_trccidr3_t;
 
 static inline uint64_t BDK_TRCX_TRCCIDR3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCCIDR3(unsigned long a)
@@ -747,7 +766,7 @@ static inline uint64_t BDK_TRCX_TRCCIDR3(unsigned long a)
  * ETMv4 Counter Control Register 0
  * Control the operation of counter n.
  */
-typedef union
+union bdk_trcx_trccntctlr0
 {
     uint32_t u;
     struct bdk_trcx_trccntctlr0_s
@@ -775,7 +794,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trccntctlr0_s cn; */
-} bdk_trcx_trccntctlr0_t;
+};
+typedef union bdk_trcx_trccntctlr0 bdk_trcx_trccntctlr0_t;
 
 static inline uint64_t BDK_TRCX_TRCCNTCTLR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCCNTCTLR0(unsigned long a)
@@ -797,7 +817,7 @@ static inline uint64_t BDK_TRCX_TRCCNTCTLR0(unsigned long a)
  * ETMv4 Counter Control Register 1
  * Control the operation of counter n.
  */
-typedef union
+union bdk_trcx_trccntctlr1
 {
     uint32_t u;
     struct bdk_trcx_trccntctlr1_s
@@ -825,7 +845,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trccntctlr1_s cn; */
-} bdk_trcx_trccntctlr1_t;
+};
+typedef union bdk_trcx_trccntctlr1 bdk_trcx_trccntctlr1_t;
 
 static inline uint64_t BDK_TRCX_TRCCNTCTLR1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCCNTCTLR1(unsigned long a)
@@ -847,7 +868,7 @@ static inline uint64_t BDK_TRCX_TRCCNTCTLR1(unsigned long a)
  * ETMv4 Counter Reload Value Register 0
  * Set or read the reload counter value for counter n.
  */
-typedef union
+union bdk_trcx_trccntrldvr0
 {
     uint32_t u;
     struct bdk_trcx_trccntrldvr0_s
@@ -861,7 +882,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trccntrldvr0_s cn; */
-} bdk_trcx_trccntrldvr0_t;
+};
+typedef union bdk_trcx_trccntrldvr0 bdk_trcx_trccntrldvr0_t;
 
 static inline uint64_t BDK_TRCX_TRCCNTRLDVR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCCNTRLDVR0(unsigned long a)
@@ -883,7 +905,7 @@ static inline uint64_t BDK_TRCX_TRCCNTRLDVR0(unsigned long a)
  * ETMv4 Counter Reload Value Register 1
  * Set or read the reload counter value for counter n.
  */
-typedef union
+union bdk_trcx_trccntrldvr1
 {
     uint32_t u;
     struct bdk_trcx_trccntrldvr1_s
@@ -897,7 +919,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trccntrldvr1_s cn; */
-} bdk_trcx_trccntrldvr1_t;
+};
+typedef union bdk_trcx_trccntrldvr1 bdk_trcx_trccntrldvr1_t;
 
 static inline uint64_t BDK_TRCX_TRCCNTRLDVR1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCCNTRLDVR1(unsigned long a)
@@ -919,7 +942,7 @@ static inline uint64_t BDK_TRCX_TRCCNTRLDVR1(unsigned long a)
  * ETMv4 Counter Value Register 0
  * This register returns the value of counter n.
  */
-typedef union
+union bdk_trcx_trccntvr0
 {
     uint32_t u;
     struct bdk_trcx_trccntvr0_s
@@ -933,7 +956,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trccntvr0_s cn; */
-} bdk_trcx_trccntvr0_t;
+};
+typedef union bdk_trcx_trccntvr0 bdk_trcx_trccntvr0_t;
 
 static inline uint64_t BDK_TRCX_TRCCNTVR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCCNTVR0(unsigned long a)
@@ -955,7 +979,7 @@ static inline uint64_t BDK_TRCX_TRCCNTVR0(unsigned long a)
  * ETMv4 Counter Value Register 1
  * This register returns the value of counter n.
  */
-typedef union
+union bdk_trcx_trccntvr1
 {
     uint32_t u;
     struct bdk_trcx_trccntvr1_s
@@ -969,7 +993,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trccntvr1_s cn; */
-} bdk_trcx_trccntvr1_t;
+};
+typedef union bdk_trcx_trccntvr1 bdk_trcx_trccntvr1_t;
 
 static inline uint64_t BDK_TRCX_TRCCNTVR1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCCNTVR1(unsigned long a)
@@ -991,7 +1016,7 @@ static inline uint64_t BDK_TRCX_TRCCNTVR1(unsigned long a)
  * ETMv4 Trace Configuration Register
  * Control the trace unit options.
  */
-typedef union
+union bdk_trcx_trcconfigr
 {
     uint32_t u;
     struct bdk_trcx_trcconfigr_s
@@ -1105,7 +1130,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trcconfigr_s cn; */
-} bdk_trcx_trcconfigr_t;
+};
+typedef union bdk_trcx_trcconfigr bdk_trcx_trcconfigr_t;
 
 static inline uint64_t BDK_TRCX_TRCCONFIGR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCCONFIGR(unsigned long a)
@@ -1127,7 +1153,7 @@ static inline uint64_t BDK_TRCX_TRCCONFIGR(unsigned long a)
  * ETMv4 Management Device Affinity Register 0
  * Causes event pulses to be generated on ECT channels.
  */
-typedef union
+union bdk_trcx_trcdevaff0
 {
     uint32_t u;
     struct bdk_trcx_trcdevaff0_s
@@ -1155,7 +1181,8 @@ typedef union
     /* struct bdk_trcx_trcdevaff0_s cn81xx; */
     /* struct bdk_trcx_trcdevaff0_s cn83xx; */
     /* struct bdk_trcx_trcdevaff0_s cn88xxp2; */
-} bdk_trcx_trcdevaff0_t;
+};
+typedef union bdk_trcx_trcdevaff0 bdk_trcx_trcdevaff0_t;
 
 static inline uint64_t BDK_TRCX_TRCDEVAFF0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCDEVAFF0(unsigned long a)
@@ -1177,7 +1204,7 @@ static inline uint64_t BDK_TRCX_TRCDEVAFF0(unsigned long a)
  * ETMv4 Management Device Affinity Register 1
  * Causes event pulses to be generated on ECT channels.
  */
-typedef union
+union bdk_trcx_trcdevaff1
 {
     uint32_t u;
     struct bdk_trcx_trcdevaff1_s
@@ -1189,7 +1216,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trcdevaff1_s cn; */
-} bdk_trcx_trcdevaff1_t;
+};
+typedef union bdk_trcx_trcdevaff1 bdk_trcx_trcdevaff1_t;
 
 static inline uint64_t BDK_TRCX_TRCDEVAFF1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCDEVAFF1(unsigned long a)
@@ -1211,7 +1239,7 @@ static inline uint64_t BDK_TRCX_TRCDEVAFF1(unsigned long a)
  * TRC Device Architecture Register
  * Identifies the programmers' model architecture.
  */
-typedef union
+union bdk_trcx_trcdevarch
 {
     uint32_t u;
     struct bdk_trcx_trcdevarch_s
@@ -1255,7 +1283,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trcdevarch_s cn; */
-} bdk_trcx_trcdevarch_t;
+};
+typedef union bdk_trcx_trcdevarch bdk_trcx_trcdevarch_t;
 
 static inline uint64_t BDK_TRCX_TRCDEVARCH(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCDEVARCH(unsigned long a)
@@ -1277,7 +1306,7 @@ static inline uint64_t BDK_TRCX_TRCDEVARCH(unsigned long a)
  * TRC Device ID Register 0
  * Describes the component to the debugger.
  */
-typedef union
+union bdk_trcx_trcdevid
 {
     uint32_t u;
     struct bdk_trcx_trcdevid_s
@@ -1357,7 +1386,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trcdevid_s cn; */
-} bdk_trcx_trcdevid_t;
+};
+typedef union bdk_trcx_trcdevid bdk_trcx_trcdevid_t;
 
 static inline uint64_t BDK_TRCX_TRCDEVID(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCDEVID(unsigned long a)
@@ -1380,7 +1410,7 @@ static inline uint64_t BDK_TRCX_TRCDEVID(unsigned long a)
  * Indicates to a debugger that this component is part of a processor's cross-trigger
  * interface.
  */
-typedef union
+union bdk_trcx_trcdevtype
 {
     uint32_t u;
     struct bdk_trcx_trcdevtype_s
@@ -1396,7 +1426,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trcdevtype_s cn; */
-} bdk_trcx_trcdevtype_t;
+};
+typedef union bdk_trcx_trcdevtype bdk_trcx_trcdevtype_t;
 
 static inline uint64_t BDK_TRCX_TRCDEVTYPE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCDEVTYPE(unsigned long a)
@@ -1418,7 +1449,7 @@ static inline uint64_t BDK_TRCX_TRCDEVTYPE(unsigned long a)
  * ETMv4 Data Value Comparator Mask Register
  * Causes event pulses to be generated on ECT channels.
  */
-typedef union
+union bdk_trcx_trcdvcmr0
 {
     uint32_t u;
     struct bdk_trcx_trcdvcmr0_s
@@ -1430,7 +1461,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trcdvcmr0_s cn; */
-} bdk_trcx_trcdvcmr0_t;
+};
+typedef union bdk_trcx_trcdvcmr0 bdk_trcx_trcdvcmr0_t;
 
 static inline uint64_t BDK_TRCX_TRCDVCMR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCDVCMR0(unsigned long a)
@@ -1452,7 +1484,7 @@ static inline uint64_t BDK_TRCX_TRCDVCMR0(unsigned long a)
  * ETMv4 Data Value Comparator Value Register
  * Causes event pulses to be generated on ECT channels.
  */
-typedef union
+union bdk_trcx_trcdvcvr0
 {
     uint32_t u;
     struct bdk_trcx_trcdvcvr0_s
@@ -1464,7 +1496,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trcdvcvr0_s cn; */
-} bdk_trcx_trcdvcvr0_t;
+};
+typedef union bdk_trcx_trcdvcvr0 bdk_trcx_trcdvcvr0_t;
 
 static inline uint64_t BDK_TRCX_TRCDVCVR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCDVCVR0(unsigned long a)
@@ -1486,7 +1519,7 @@ static inline uint64_t BDK_TRCX_TRCDVCVR0(unsigned long a)
  * ETMv4 Event Control 0 Register
  * Control the tracing of arbitrary event.
  */
-typedef union
+union bdk_trcx_trceventctl0r
 {
     uint32_t u;
     struct bdk_trcx_trceventctl0r_s
@@ -1504,7 +1537,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trceventctl0r_s cn; */
-} bdk_trcx_trceventctl0r_t;
+};
+typedef union bdk_trcx_trceventctl0r bdk_trcx_trceventctl0r_t;
 
 static inline uint64_t BDK_TRCX_TRCEVENTCTL0R(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCEVENTCTL0R(unsigned long a)
@@ -1526,7 +1560,7 @@ static inline uint64_t BDK_TRCX_TRCEVENTCTL0R(unsigned long a)
  * ETMv4 Event Control 1 Register
  * Control the behavior of events that TRC()_TRCEVENTCTL0R selects.
  */
-typedef union
+union bdk_trcx_trceventctl1r
 {
     uint32_t u;
     struct bdk_trcx_trceventctl1r_s
@@ -1566,7 +1600,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trceventctl1r_s cn; */
-} bdk_trcx_trceventctl1r_t;
+};
+typedef union bdk_trcx_trceventctl1r bdk_trcx_trceventctl1r_t;
 
 static inline uint64_t BDK_TRCX_TRCEVENTCTL1R(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCEVENTCTL1R(unsigned long a)
@@ -1588,7 +1623,7 @@ static inline uint64_t BDK_TRCX_TRCEVENTCTL1R(unsigned long a)
  * ETMv4 External Input Select Register
  * Set or read which external inputs are resources to trace unit.
  */
-typedef union
+union bdk_trcx_trcextinselr
 {
     uint32_t u;
     struct bdk_trcx_trcextinselr_s
@@ -1606,7 +1641,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trcextinselr_s cn; */
-} bdk_trcx_trcextinselr_t;
+};
+typedef union bdk_trcx_trcextinselr bdk_trcx_trcextinselr_t;
 
 static inline uint64_t BDK_TRCX_TRCEXTINSELR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCEXTINSELR(unsigned long a)
@@ -1628,7 +1664,7 @@ static inline uint64_t BDK_TRCX_TRCEXTINSELR(unsigned long a)
  * ETMv4 ID Register 0
  * This register indicates the capabilities of the trace unit.
  */
-typedef union
+union bdk_trcx_trcidr0
 {
     uint32_t u;
     struct bdk_trcx_trcidr0_s
@@ -1874,7 +1910,8 @@ typedef union
     } cn81xx;
     /* struct bdk_trcx_trcidr0_cn81xx cn83xx; */
     /* struct bdk_trcx_trcidr0_cn81xx cn88xxp2; */
-} bdk_trcx_trcidr0_t;
+};
+typedef union bdk_trcx_trcidr0 bdk_trcx_trcidr0_t;
 
 static inline uint64_t BDK_TRCX_TRCIDR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCIDR0(unsigned long a)
@@ -1896,7 +1933,7 @@ static inline uint64_t BDK_TRCX_TRCIDR0(unsigned long a)
  * ETMv4 ID Register 1
  * This register indicates the capabilities of the trace unit.
  */
-typedef union
+union bdk_trcx_trcidr1
 {
     uint32_t u;
     struct bdk_trcx_trcidr1_s
@@ -1938,7 +1975,8 @@ typedef union
     } cn81xx;
     /* struct bdk_trcx_trcidr1_cn81xx cn83xx; */
     /* struct bdk_trcx_trcidr1_cn81xx cn88xxp2; */
-} bdk_trcx_trcidr1_t;
+};
+typedef union bdk_trcx_trcidr1 bdk_trcx_trcidr1_t;
 
 static inline uint64_t BDK_TRCX_TRCIDR1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCIDR1(unsigned long a)
@@ -1960,7 +1998,7 @@ static inline uint64_t BDK_TRCX_TRCIDR1(unsigned long a)
  * ETMv4 ID Register 10
  * This register indicates the capabilities of the trace unit.
  */
-typedef union
+union bdk_trcx_trcidr10
 {
     uint32_t u;
     struct bdk_trcx_trcidr10_s
@@ -1974,7 +2012,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trcidr10_s cn; */
-} bdk_trcx_trcidr10_t;
+};
+typedef union bdk_trcx_trcidr10 bdk_trcx_trcidr10_t;
 
 static inline uint64_t BDK_TRCX_TRCIDR10(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCIDR10(unsigned long a)
@@ -2000,7 +2039,7 @@ static inline uint64_t BDK_TRCX_TRCIDR10(unsigned long a)
  * ETMv4 ID Register 11
  * This register indicates the capabilities of the trace unit.
  */
-typedef union
+union bdk_trcx_trcidr11
 {
     uint32_t u;
     struct bdk_trcx_trcidr11_s
@@ -2012,7 +2051,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trcidr11_s cn; */
-} bdk_trcx_trcidr11_t;
+};
+typedef union bdk_trcx_trcidr11 bdk_trcx_trcidr11_t;
 
 static inline uint64_t BDK_TRCX_TRCIDR11(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCIDR11(unsigned long a)
@@ -2038,7 +2078,7 @@ static inline uint64_t BDK_TRCX_TRCIDR11(unsigned long a)
  * ETMv4 ID Register 12
  * This register indicates the capabilities of the trace unit.
  */
-typedef union
+union bdk_trcx_trcidr12
 {
     uint32_t u;
     struct bdk_trcx_trcidr12_s
@@ -2052,7 +2092,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trcidr12_s cn; */
-} bdk_trcx_trcidr12_t;
+};
+typedef union bdk_trcx_trcidr12 bdk_trcx_trcidr12_t;
 
 static inline uint64_t BDK_TRCX_TRCIDR12(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCIDR12(unsigned long a)
@@ -2078,7 +2119,7 @@ static inline uint64_t BDK_TRCX_TRCIDR12(unsigned long a)
  * ETMv4 ID Register 13
  * This register indicates the capabilities of the trace unit.
  */
-typedef union
+union bdk_trcx_trcidr13
 {
     uint32_t u;
     struct bdk_trcx_trcidr13_s
@@ -2092,7 +2133,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trcidr13_s cn; */
-} bdk_trcx_trcidr13_t;
+};
+typedef union bdk_trcx_trcidr13 bdk_trcx_trcidr13_t;
 
 static inline uint64_t BDK_TRCX_TRCIDR13(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCIDR13(unsigned long a)
@@ -2118,7 +2160,7 @@ static inline uint64_t BDK_TRCX_TRCIDR13(unsigned long a)
  * ETMv4 ID Register 2
  * This register returns the maximum size of data address and data value.
  */
-typedef union
+union bdk_trcx_trcidr2
 {
     uint32_t u;
     struct bdk_trcx_trcidr2_s
@@ -2343,7 +2385,8 @@ typedef union
     } cn81xx;
     /* struct bdk_trcx_trcidr2_cn81xx cn83xx; */
     /* struct bdk_trcx_trcidr2_cn81xx cn88xxp2; */
-} bdk_trcx_trcidr2_t;
+};
+typedef union bdk_trcx_trcidr2 bdk_trcx_trcidr2_t;
 
 static inline uint64_t BDK_TRCX_TRCIDR2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCIDR2(unsigned long a)
@@ -2365,7 +2408,7 @@ static inline uint64_t BDK_TRCX_TRCIDR2(unsigned long a)
  * ETMv4 ID Register 3
  * This register indicates the capabilities of the trace unit.
  */
-typedef union
+union bdk_trcx_trcidr3
 {
     uint32_t u;
     struct bdk_trcx_trcidr3_s
@@ -2716,7 +2759,8 @@ typedef union
                                                                  For CNXXXX not supported. */
 #endif /* Word 0 - End */
     } cn88xxp2;
-} bdk_trcx_trcidr3_t;
+};
+typedef union bdk_trcx_trcidr3 bdk_trcx_trcidr3_t;
 
 static inline uint64_t BDK_TRCX_TRCIDR3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCIDR3(unsigned long a)
@@ -2738,7 +2782,7 @@ static inline uint64_t BDK_TRCX_TRCIDR3(unsigned long a)
  * ETMv4 ID Register 4
  * This register indicates the capabilities of the trace unit.
  */
-typedef union
+union bdk_trcx_trcidr4
 {
     uint32_t u;
     struct bdk_trcx_trcidr4_s
@@ -2818,7 +2862,8 @@ typedef union
     } cn81xx;
     /* struct bdk_trcx_trcidr4_cn81xx cn83xx; */
     /* struct bdk_trcx_trcidr4_cn81xx cn88xxp2; */
-} bdk_trcx_trcidr4_t;
+};
+typedef union bdk_trcx_trcidr4 bdk_trcx_trcidr4_t;
 
 static inline uint64_t BDK_TRCX_TRCIDR4(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCIDR4(unsigned long a)
@@ -2840,7 +2885,7 @@ static inline uint64_t BDK_TRCX_TRCIDR4(unsigned long a)
  * ETMv4 ID Register 5
  * This register indicates the capabilities of the trace unit.
  */
-typedef union
+union bdk_trcx_trcidr5
 {
     uint32_t u;
     struct bdk_trcx_trcidr5_s
@@ -3012,7 +3057,8 @@ typedef union
     } cn81xx;
     /* struct bdk_trcx_trcidr5_cn81xx cn83xx; */
     /* struct bdk_trcx_trcidr5_cn81xx cn88xxp2; */
-} bdk_trcx_trcidr5_t;
+};
+typedef union bdk_trcx_trcidr5 bdk_trcx_trcidr5_t;
 
 static inline uint64_t BDK_TRCX_TRCIDR5(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCIDR5(unsigned long a)
@@ -3034,7 +3080,7 @@ static inline uint64_t BDK_TRCX_TRCIDR5(unsigned long a)
  * ETMv4 ID Register 6
  * This register indicates the capabilities of the trace unit.
  */
-typedef union
+union bdk_trcx_trcidr6
 {
     uint32_t u;
     struct bdk_trcx_trcidr6_s
@@ -3046,7 +3092,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trcidr6_s cn; */
-} bdk_trcx_trcidr6_t;
+};
+typedef union bdk_trcx_trcidr6 bdk_trcx_trcidr6_t;
 
 static inline uint64_t BDK_TRCX_TRCIDR6(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCIDR6(unsigned long a)
@@ -3072,7 +3119,7 @@ static inline uint64_t BDK_TRCX_TRCIDR6(unsigned long a)
  * ETMv4 ID Register 7
  * This register indicates the capabilities of the trace unit.
  */
-typedef union
+union bdk_trcx_trcidr7
 {
     uint32_t u;
     struct bdk_trcx_trcidr7_s
@@ -3084,7 +3131,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trcidr7_s cn; */
-} bdk_trcx_trcidr7_t;
+};
+typedef union bdk_trcx_trcidr7 bdk_trcx_trcidr7_t;
 
 static inline uint64_t BDK_TRCX_TRCIDR7(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCIDR7(unsigned long a)
@@ -3110,7 +3158,7 @@ static inline uint64_t BDK_TRCX_TRCIDR7(unsigned long a)
  * ETMv4 ID Register 8
  * This register indicates the capabilities of the trace unit.
  */
-typedef union
+union bdk_trcx_trcidr8
 {
     uint32_t u;
     struct bdk_trcx_trcidr8_s
@@ -3130,7 +3178,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trcidr8_s cn; */
-} bdk_trcx_trcidr8_t;
+};
+typedef union bdk_trcx_trcidr8 bdk_trcx_trcidr8_t;
 
 static inline uint64_t BDK_TRCX_TRCIDR8(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCIDR8(unsigned long a)
@@ -3156,7 +3205,7 @@ static inline uint64_t BDK_TRCX_TRCIDR8(unsigned long a)
  * ETMv4 ID Register 9
  * This register indicates the capabilities of the trace unit.
  */
-typedef union
+union bdk_trcx_trcidr9
 {
     uint32_t u;
     struct bdk_trcx_trcidr9_s
@@ -3186,7 +3235,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trcidr9_s cn; */
-} bdk_trcx_trcidr9_t;
+};
+typedef union bdk_trcx_trcidr9 bdk_trcx_trcidr9_t;
 
 static inline uint64_t BDK_TRCX_TRCIDR9(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCIDR9(unsigned long a)
@@ -3215,7 +3265,7 @@ static inline uint64_t BDK_TRCX_TRCIDR9(unsigned long a)
  *     inputs and outputs of the processor, for integration testing
  *     or topology detection.
  */
-typedef union
+union bdk_trcx_trcitctrl
 {
     uint32_t u;
     struct bdk_trcx_trcitctrl_s
@@ -3239,7 +3289,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trcitctrl_s cn; */
-} bdk_trcx_trcitctrl_t;
+};
+typedef union bdk_trcx_trcitctrl bdk_trcx_trcitctrl_t;
 
 static inline uint64_t BDK_TRCX_TRCITCTRL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCITCTRL(unsigned long a)
@@ -3262,7 +3313,7 @@ static inline uint64_t BDK_TRCX_TRCITCTRL(unsigned long a)
  * Allows or disallows access to the TRC registers through a
  *     memory-mapped interface.
  */
-typedef union
+union bdk_trcx_trclar
 {
     uint32_t u;
     struct bdk_trcx_trclar_s
@@ -3278,7 +3329,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trclar_s cn; */
-} bdk_trcx_trclar_t;
+};
+typedef union bdk_trcx_trclar bdk_trcx_trclar_t;
 
 static inline uint64_t BDK_TRCX_TRCLAR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCLAR(unsigned long a)
@@ -3301,7 +3353,7 @@ static inline uint64_t BDK_TRCX_TRCLAR(unsigned long a)
  * Indicates the current status of the software lock for TRC
  *     registers.
  */
-typedef union
+union bdk_trcx_trclsr
 {
     uint32_t u;
     struct bdk_trcx_trclsr_s
@@ -3345,7 +3397,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trclsr_s cn; */
-} bdk_trcx_trclsr_t;
+};
+typedef union bdk_trcx_trclsr bdk_trcx_trclsr_t;
 
 static inline uint64_t BDK_TRCX_TRCLSR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCLSR(unsigned long a)
@@ -3367,7 +3420,7 @@ static inline uint64_t BDK_TRCX_TRCLSR(unsigned long a)
  * ETMv4 OS Lock Access Register
  * Clears bits of the Application Trigger register.
  */
-typedef union
+union bdk_trcx_trcoslar
 {
     uint32_t u;
     struct bdk_trcx_trcoslar_s
@@ -3379,7 +3432,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trcoslar_s cn; */
-} bdk_trcx_trcoslar_t;
+};
+typedef union bdk_trcx_trcoslar bdk_trcx_trcoslar_t;
 
 static inline uint64_t BDK_TRCX_TRCOSLAR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCOSLAR(unsigned long a)
@@ -3401,7 +3455,7 @@ static inline uint64_t BDK_TRCX_TRCOSLAR(unsigned long a)
  * ETMv4 OS Lock Status Register
  * Causes event pulses to be generated on ECT channels.
  */
-typedef union
+union bdk_trcx_trcoslsr
 {
     uint32_t u;
     struct bdk_trcx_trcoslsr_s
@@ -3429,7 +3483,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trcoslsr_s cn; */
-} bdk_trcx_trcoslsr_t;
+};
+typedef union bdk_trcx_trcoslsr bdk_trcx_trcoslsr_t;
 
 static inline uint64_t BDK_TRCX_TRCOSLSR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCOSLSR(unsigned long a)
@@ -3452,7 +3507,7 @@ static inline uint64_t BDK_TRCX_TRCOSLSR(unsigned long a)
  * Enables the signaling of an event on output channels when
  *     input trigger event n is received by the TRC.
  */
-typedef union
+union bdk_trcx_trcpdcr
 {
     uint32_t u;
     struct bdk_trcx_trcpdcr_s
@@ -3554,7 +3609,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn88xx;
     /* struct bdk_trcx_trcpdcr_s cn83xx; */
-} bdk_trcx_trcpdcr_t;
+};
+typedef union bdk_trcx_trcpdcr bdk_trcx_trcpdcr_t;
 
 static inline uint64_t BDK_TRCX_TRCPDCR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCPDCR(unsigned long a)
@@ -3576,7 +3632,7 @@ static inline uint64_t BDK_TRCX_TRCPDCR(unsigned long a)
  * ETMv4 PowerDown Status Register
  * Defines which input channels generate output trigger n.
  */
-typedef union
+union bdk_trcx_trcpdsr
 {
     uint32_t u;
     struct bdk_trcx_trcpdsr_s
@@ -3713,7 +3769,8 @@ typedef union
         uint32_t reserved_6_31         : 26;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_trcx_trcpdsr_t;
+};
+typedef union bdk_trcx_trcpdsr bdk_trcx_trcpdsr_t;
 
 static inline uint64_t BDK_TRCX_TRCPDSR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCPDSR(unsigned long a)
@@ -3735,7 +3792,7 @@ static inline uint64_t BDK_TRCX_TRCPDSR(unsigned long a)
  * TRC Peripheral Identification Register 0
  * Provides information to identify a component.
  */
-typedef union
+union bdk_trcx_trcpidr0
 {
     uint32_t u;
     struct bdk_trcx_trcpidr0_s
@@ -3749,7 +3806,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trcpidr0_s cn; */
-} bdk_trcx_trcpidr0_t;
+};
+typedef union bdk_trcx_trcpidr0 bdk_trcx_trcpidr0_t;
 
 static inline uint64_t BDK_TRCX_TRCPIDR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCPIDR0(unsigned long a)
@@ -3771,7 +3829,7 @@ static inline uint64_t BDK_TRCX_TRCPIDR0(unsigned long a)
  * TRC Peripheral Identification Register 1
  * Provides information to identify a component.
  */
-typedef union
+union bdk_trcx_trcpidr1
 {
     uint32_t u;
     struct bdk_trcx_trcpidr1_s
@@ -3787,7 +3845,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trcpidr1_s cn; */
-} bdk_trcx_trcpidr1_t;
+};
+typedef union bdk_trcx_trcpidr1 bdk_trcx_trcpidr1_t;
 
 static inline uint64_t BDK_TRCX_TRCPIDR1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCPIDR1(unsigned long a)
@@ -3809,7 +3868,7 @@ static inline uint64_t BDK_TRCX_TRCPIDR1(unsigned long a)
  * TRC Peripheral Identification Register 2
  * Provides information to identify a component.
  */
-typedef union
+union bdk_trcx_trcpidr2
 {
     uint32_t u;
     struct bdk_trcx_trcpidr2_s
@@ -3827,7 +3886,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trcpidr2_s cn; */
-} bdk_trcx_trcpidr2_t;
+};
+typedef union bdk_trcx_trcpidr2 bdk_trcx_trcpidr2_t;
 
 static inline uint64_t BDK_TRCX_TRCPIDR2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCPIDR2(unsigned long a)
@@ -3849,7 +3909,7 @@ static inline uint64_t BDK_TRCX_TRCPIDR2(unsigned long a)
  * TRC Peripheral Identification Register 3
  * Provides information to identify a component.
  */
-typedef union
+union bdk_trcx_trcpidr3
 {
     uint32_t u;
     struct bdk_trcx_trcpidr3_s
@@ -3867,7 +3927,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trcpidr3_s cn; */
-} bdk_trcx_trcpidr3_t;
+};
+typedef union bdk_trcx_trcpidr3 bdk_trcx_trcpidr3_t;
 
 static inline uint64_t BDK_TRCX_TRCPIDR3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCPIDR3(unsigned long a)
@@ -3889,7 +3950,7 @@ static inline uint64_t BDK_TRCX_TRCPIDR3(unsigned long a)
  * TRC Peripheral Identification Register 4
  * Provides information to identify a component.
  */
-typedef union
+union bdk_trcx_trcpidr4
 {
     uint32_t u;
     struct bdk_trcx_trcpidr4_s
@@ -3907,7 +3968,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trcpidr4_s cn; */
-} bdk_trcx_trcpidr4_t;
+};
+typedef union bdk_trcx_trcpidr4 bdk_trcx_trcpidr4_t;
 
 static inline uint64_t BDK_TRCX_TRCPIDR4(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCPIDR4(unsigned long a)
@@ -3929,7 +3991,7 @@ static inline uint64_t BDK_TRCX_TRCPIDR4(unsigned long a)
  * TRC Peripheral Identification Register 5
  * Provides information to identify an external debug component.
  */
-typedef union
+union bdk_trcx_trcpidr5
 {
     uint32_t u;
     struct bdk_trcx_trcpidr5_s
@@ -3941,7 +4003,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trcpidr5_s cn; */
-} bdk_trcx_trcpidr5_t;
+};
+typedef union bdk_trcx_trcpidr5 bdk_trcx_trcpidr5_t;
 
 static inline uint64_t BDK_TRCX_TRCPIDR5(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCPIDR5(unsigned long a)
@@ -3963,7 +4026,7 @@ static inline uint64_t BDK_TRCX_TRCPIDR5(unsigned long a)
  * TRC Peripheral Identification Register 6
  * Provides information to identify an external debug component.
  */
-typedef union
+union bdk_trcx_trcpidr6
 {
     uint32_t u;
     struct bdk_trcx_trcpidr6_s
@@ -3975,7 +4038,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trcpidr6_s cn; */
-} bdk_trcx_trcpidr6_t;
+};
+typedef union bdk_trcx_trcpidr6 bdk_trcx_trcpidr6_t;
 
 static inline uint64_t BDK_TRCX_TRCPIDR6(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCPIDR6(unsigned long a)
@@ -3997,7 +4061,7 @@ static inline uint64_t BDK_TRCX_TRCPIDR6(unsigned long a)
  * TRC Peripheral Identification Register 7
  * Provides information to identify an external debug component.
  */
-typedef union
+union bdk_trcx_trcpidr7
 {
     uint32_t u;
     struct bdk_trcx_trcpidr7_s
@@ -4009,7 +4073,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trcpidr7_s cn; */
-} bdk_trcx_trcpidr7_t;
+};
+typedef union bdk_trcx_trcpidr7 bdk_trcx_trcpidr7_t;
 
 static inline uint64_t BDK_TRCX_TRCPIDR7(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCPIDR7(unsigned long a)
@@ -4031,7 +4096,7 @@ static inline uint64_t BDK_TRCX_TRCPIDR7(unsigned long a)
  * ETMv4 Programming Control Register
  * Controls whether the TRC is enabled.
  */
-typedef union
+union bdk_trcx_trcprgctlr
 {
     uint32_t u;
     struct bdk_trcx_trcprgctlr_s
@@ -4051,7 +4116,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trcprgctlr_s cn; */
-} bdk_trcx_trcprgctlr_t;
+};
+typedef union bdk_trcx_trcprgctlr bdk_trcx_trcprgctlr_t;
 
 static inline uint64_t BDK_TRCX_TRCPRGCTLR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCPRGCTLR(unsigned long a)
@@ -4073,7 +4139,7 @@ static inline uint64_t BDK_TRCX_TRCPRGCTLR(unsigned long a)
  * ETMv4 PE Select Control Register
  * Programmed to select which PE to trace.
  */
-typedef union
+union bdk_trcx_trcprocselr
 {
     uint32_t u;
     struct bdk_trcx_trcprocselr_s
@@ -4091,7 +4157,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trcprocselr_s cn; */
-} bdk_trcx_trcprocselr_t;
+};
+typedef union bdk_trcx_trcprocselr bdk_trcx_trcprocselr_t;
 
 static inline uint64_t BDK_TRCX_TRCPROCSELR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCPROCSELR(unsigned long a)
@@ -4113,7 +4180,7 @@ static inline uint64_t BDK_TRCX_TRCPROCSELR(unsigned long a)
  * ETMv4 Q Element Control Register
  * Controls when Q elements are enabled.
  */
-typedef union
+union bdk_trcx_trcqctlr
 {
     uint32_t u;
     struct bdk_trcx_trcqctlr_s
@@ -4141,7 +4208,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trcqctlr_s cn; */
-} bdk_trcx_trcqctlr_t;
+};
+typedef union bdk_trcx_trcqctlr bdk_trcx_trcqctlr_t;
 
 static inline uint64_t BDK_TRCX_TRCQCTLR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCQCTLR(unsigned long a)
@@ -4163,7 +4231,7 @@ static inline uint64_t BDK_TRCX_TRCQCTLR(unsigned long a)
  * ETMv4 Resource Selection Control Register 0
  * Causes event pulses to be generated on ECT channels.
  */
-typedef union
+union bdk_trcx_trcrsctlr0
 {
     uint32_t u;
     struct bdk_trcx_trcrsctlr0_s
@@ -4175,7 +4243,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trcrsctlr0_s cn; */
-} bdk_trcx_trcrsctlr0_t;
+};
+typedef union bdk_trcx_trcrsctlr0 bdk_trcx_trcrsctlr0_t;
 
 static inline uint64_t BDK_TRCX_TRCRSCTLR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCRSCTLR0(unsigned long a)
@@ -4197,7 +4266,7 @@ static inline uint64_t BDK_TRCX_TRCRSCTLR0(unsigned long a)
  * ETMv4 Resource Selection Control Register 1
  * Causes event pulses to be generated on ECT channels.
  */
-typedef union
+union bdk_trcx_trcrsctlr1
 {
     uint32_t u;
     struct bdk_trcx_trcrsctlr1_s
@@ -4209,7 +4278,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trcrsctlr1_s cn; */
-} bdk_trcx_trcrsctlr1_t;
+};
+typedef union bdk_trcx_trcrsctlr1 bdk_trcx_trcrsctlr1_t;
 
 static inline uint64_t BDK_TRCX_TRCRSCTLR1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCRSCTLR1(unsigned long a)
@@ -4231,7 +4301,7 @@ static inline uint64_t BDK_TRCX_TRCRSCTLR1(unsigned long a)
  * ETMv4 Resource Selection Control Register 2
  * Causes event pulses to be generated on ECT channels.
  */
-typedef union
+union bdk_trcx_trcrsctlr2
 {
     uint32_t u;
     struct bdk_trcx_trcrsctlr2_s
@@ -4243,7 +4313,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trcrsctlr2_s cn; */
-} bdk_trcx_trcrsctlr2_t;
+};
+typedef union bdk_trcx_trcrsctlr2 bdk_trcx_trcrsctlr2_t;
 
 static inline uint64_t BDK_TRCX_TRCRSCTLR2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCRSCTLR2(unsigned long a)
@@ -4265,7 +4336,7 @@ static inline uint64_t BDK_TRCX_TRCRSCTLR2(unsigned long a)
  * ETMv4 Resource Selection Control Register 3
  * Causes event pulses to be generated on ECT channels.
  */
-typedef union
+union bdk_trcx_trcrsctlr3
 {
     uint32_t u;
     struct bdk_trcx_trcrsctlr3_s
@@ -4277,7 +4348,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trcrsctlr3_s cn; */
-} bdk_trcx_trcrsctlr3_t;
+};
+typedef union bdk_trcx_trcrsctlr3 bdk_trcx_trcrsctlr3_t;
 
 static inline uint64_t BDK_TRCX_TRCRSCTLR3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCRSCTLR3(unsigned long a)
@@ -4299,7 +4371,7 @@ static inline uint64_t BDK_TRCX_TRCRSCTLR3(unsigned long a)
  * ETMv4 Resource Selection Control Register 4
  * Causes event pulses to be generated on ECT channels.
  */
-typedef union
+union bdk_trcx_trcrsctlr4
 {
     uint32_t u;
     struct bdk_trcx_trcrsctlr4_s
@@ -4311,7 +4383,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trcrsctlr4_s cn; */
-} bdk_trcx_trcrsctlr4_t;
+};
+typedef union bdk_trcx_trcrsctlr4 bdk_trcx_trcrsctlr4_t;
 
 static inline uint64_t BDK_TRCX_TRCRSCTLR4(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCRSCTLR4(unsigned long a)
@@ -4333,7 +4406,7 @@ static inline uint64_t BDK_TRCX_TRCRSCTLR4(unsigned long a)
  * ETMv4 Resource Selection Control Register 5
  * Causes event pulses to be generated on ECT channels.
  */
-typedef union
+union bdk_trcx_trcrsctlr5
 {
     uint32_t u;
     struct bdk_trcx_trcrsctlr5_s
@@ -4345,7 +4418,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trcrsctlr5_s cn; */
-} bdk_trcx_trcrsctlr5_t;
+};
+typedef union bdk_trcx_trcrsctlr5 bdk_trcx_trcrsctlr5_t;
 
 static inline uint64_t BDK_TRCX_TRCRSCTLR5(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCRSCTLR5(unsigned long a)
@@ -4367,7 +4441,7 @@ static inline uint64_t BDK_TRCX_TRCRSCTLR5(unsigned long a)
  * ETMv4 Resource Selection Control Register 6
  * Causes event pulses to be generated on ECT channels.
  */
-typedef union
+union bdk_trcx_trcrsctlr6
 {
     uint32_t u;
     struct bdk_trcx_trcrsctlr6_s
@@ -4379,7 +4453,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trcrsctlr6_s cn; */
-} bdk_trcx_trcrsctlr6_t;
+};
+typedef union bdk_trcx_trcrsctlr6 bdk_trcx_trcrsctlr6_t;
 
 static inline uint64_t BDK_TRCX_TRCRSCTLR6(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCRSCTLR6(unsigned long a)
@@ -4401,7 +4476,7 @@ static inline uint64_t BDK_TRCX_TRCRSCTLR6(unsigned long a)
  * ETMv4 Resource Selection Control Register 7
  * Causes event pulses to be generated on ECT channels.
  */
-typedef union
+union bdk_trcx_trcrsctlr7
 {
     uint32_t u;
     struct bdk_trcx_trcrsctlr7_s
@@ -4413,7 +4488,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trcrsctlr7_s cn; */
-} bdk_trcx_trcrsctlr7_t;
+};
+typedef union bdk_trcx_trcrsctlr7 bdk_trcx_trcrsctlr7_t;
 
 static inline uint64_t BDK_TRCX_TRCRSCTLR7(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCRSCTLR7(unsigned long a)
@@ -4435,7 +4511,7 @@ static inline uint64_t BDK_TRCX_TRCRSCTLR7(unsigned long a)
  * ETMv4 Sequencer State Transition Control Register 0
  * Move sequencer state forwards or backwards.
  */
-typedef union
+union bdk_trcx_trcseqevr0
 {
     uint32_t u;
     struct bdk_trcx_trcseqevr0_s
@@ -4451,7 +4527,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trcseqevr0_s cn; */
-} bdk_trcx_trcseqevr0_t;
+};
+typedef union bdk_trcx_trcseqevr0 bdk_trcx_trcseqevr0_t;
 
 static inline uint64_t BDK_TRCX_TRCSEQEVR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCSEQEVR0(unsigned long a)
@@ -4473,7 +4550,7 @@ static inline uint64_t BDK_TRCX_TRCSEQEVR0(unsigned long a)
  * ETMv4 Sequencer State Transition Control Register 1
  * Move sequencer state forwards or backwards.
  */
-typedef union
+union bdk_trcx_trcseqevr1
 {
     uint32_t u;
     struct bdk_trcx_trcseqevr1_s
@@ -4489,7 +4566,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trcseqevr1_s cn; */
-} bdk_trcx_trcseqevr1_t;
+};
+typedef union bdk_trcx_trcseqevr1 bdk_trcx_trcseqevr1_t;
 
 static inline uint64_t BDK_TRCX_TRCSEQEVR1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCSEQEVR1(unsigned long a)
@@ -4511,7 +4589,7 @@ static inline uint64_t BDK_TRCX_TRCSEQEVR1(unsigned long a)
  * ETMv4 Sequencer State Transition Control Register 2
  * Move sequencer state forwards or backwards.
  */
-typedef union
+union bdk_trcx_trcseqevr2
 {
     uint32_t u;
     struct bdk_trcx_trcseqevr2_s
@@ -4527,7 +4605,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trcseqevr2_s cn; */
-} bdk_trcx_trcseqevr2_t;
+};
+typedef union bdk_trcx_trcseqevr2 bdk_trcx_trcseqevr2_t;
 
 static inline uint64_t BDK_TRCX_TRCSEQEVR2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCSEQEVR2(unsigned long a)
@@ -4549,7 +4628,7 @@ static inline uint64_t BDK_TRCX_TRCSEQEVR2(unsigned long a)
  * ETMv4 Sequencer State Transition Control Register 3
  * Move sequencer state forwards or backwards.
  */
-typedef union
+union bdk_trcx_trcseqevr3
 {
     uint32_t u;
     struct bdk_trcx_trcseqevr3_s
@@ -4565,7 +4644,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trcseqevr3_s cn; */
-} bdk_trcx_trcseqevr3_t;
+};
+typedef union bdk_trcx_trcseqevr3 bdk_trcx_trcseqevr3_t;
 
 static inline uint64_t BDK_TRCX_TRCSEQEVR3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCSEQEVR3(unsigned long a)
@@ -4587,7 +4667,7 @@ static inline uint64_t BDK_TRCX_TRCSEQEVR3(unsigned long a)
  * ETMv4 Sequencer Reset Control Register
  * Move the sequencer to state 0 when a programmed event occurs.
  */
-typedef union
+union bdk_trcx_trcseqrstevr
 {
     uint32_t u;
     struct bdk_trcx_trcseqrstevr_s
@@ -4601,7 +4681,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trcseqrstevr_s cn; */
-} bdk_trcx_trcseqrstevr_t;
+};
+typedef union bdk_trcx_trcseqrstevr bdk_trcx_trcseqrstevr_t;
 
 static inline uint64_t BDK_TRCX_TRCSEQRSTEVR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCSEQRSTEVR(unsigned long a)
@@ -4623,7 +4704,7 @@ static inline uint64_t BDK_TRCX_TRCSEQRSTEVR(unsigned long a)
  * ETMv4 Sequencer State Register
  * Set or read the sequencer state.
  */
-typedef union
+union bdk_trcx_trcseqstr
 {
     uint32_t u;
     struct bdk_trcx_trcseqstr_s
@@ -4645,7 +4726,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trcseqstr_s cn; */
-} bdk_trcx_trcseqstr_t;
+};
+typedef union bdk_trcx_trcseqstr bdk_trcx_trcseqstr_t;
 
 static inline uint64_t BDK_TRCX_TRCSEQSTR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCSEQSTR(unsigned long a)
@@ -4667,7 +4749,7 @@ static inline uint64_t BDK_TRCX_TRCSEQSTR(unsigned long a)
  * ETMv4 Single-Shot Comparator Control Register
  * Causes event pulses to be generated on ECT channels.
  */
-typedef union
+union bdk_trcx_trcssccr0
 {
     uint32_t u;
     struct bdk_trcx_trcssccr0_s
@@ -4679,7 +4761,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trcssccr0_s cn; */
-} bdk_trcx_trcssccr0_t;
+};
+typedef union bdk_trcx_trcssccr0 bdk_trcx_trcssccr0_t;
 
 static inline uint64_t BDK_TRCX_TRCSSCCR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCSSCCR0(unsigned long a)
@@ -4701,7 +4784,7 @@ static inline uint64_t BDK_TRCX_TRCSSCCR0(unsigned long a)
  * ETMv4 Single-Shot Comparator Status Register
  * Causes event pulses to be generated on ECT channels.
  */
-typedef union
+union bdk_trcx_trcsscsr0
 {
     uint32_t u;
     struct bdk_trcx_trcsscsr0_s
@@ -4713,7 +4796,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trcsscsr0_s cn; */
-} bdk_trcx_trcsscsr0_t;
+};
+typedef union bdk_trcx_trcsscsr0 bdk_trcx_trcsscsr0_t;
 
 static inline uint64_t BDK_TRCX_TRCSSCSR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCSSCSR0(unsigned long a)
@@ -4735,7 +4819,7 @@ static inline uint64_t BDK_TRCX_TRCSSCSR0(unsigned long a)
  * ETMv4 Single-Shot PE Comparator Input Control Register
  * Causes event pulses to be generated on ECT channels.
  */
-typedef union
+union bdk_trcx_trcsspcicr0
 {
     uint32_t u;
     struct bdk_trcx_trcsspcicr0_s
@@ -4747,7 +4831,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trcsspcicr0_s cn; */
-} bdk_trcx_trcsspcicr0_t;
+};
+typedef union bdk_trcx_trcsspcicr0 bdk_trcx_trcsspcicr0_t;
 
 static inline uint64_t BDK_TRCX_TRCSSPCICR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCSSPCICR0(unsigned long a)
@@ -4769,7 +4854,7 @@ static inline uint64_t BDK_TRCX_TRCSSPCICR0(unsigned long a)
  * ETMv4 Stall Control Register
  * Enable trace unit functionality that prevents trace unit buffer overflow.
  */
-typedef union
+union bdk_trcx_trcstallctlr
 {
     uint32_t u;
     struct bdk_trcx_trcstallctlr_s
@@ -4837,7 +4922,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trcstallctlr_s cn; */
-} bdk_trcx_trcstallctlr_t;
+};
+typedef union bdk_trcx_trcstallctlr bdk_trcx_trcstallctlr_t;
 
 static inline uint64_t BDK_TRCX_TRCSTALLCTLR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCSTALLCTLR(unsigned long a)
@@ -4859,7 +4945,7 @@ static inline uint64_t BDK_TRCX_TRCSTALLCTLR(unsigned long a)
  * ETMv4 Trace Status Register
  * Trace unit status.
  */
-typedef union
+union bdk_trcx_trcstatr
 {
     uint32_t u;
     struct bdk_trcx_trcstatr_s
@@ -4883,7 +4969,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trcstatr_s cn; */
-} bdk_trcx_trcstatr_t;
+};
+typedef union bdk_trcx_trcstatr bdk_trcx_trcstatr_t;
 
 static inline uint64_t BDK_TRCX_TRCSTATR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCSTATR(unsigned long a)
@@ -4905,7 +4992,7 @@ static inline uint64_t BDK_TRCX_TRCSTATR(unsigned long a)
  * ETMv4 Synchronization Period Register
  * Controls how often trace synchronization request occurs.
  */
-typedef union
+union bdk_trcx_trcsyncpr
 {
     uint32_t u;
     struct bdk_trcx_trcsyncpr_s
@@ -4929,7 +5016,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trcsyncpr_s cn; */
-} bdk_trcx_trcsyncpr_t;
+};
+typedef union bdk_trcx_trcsyncpr bdk_trcx_trcsyncpr_t;
 
 static inline uint64_t BDK_TRCX_TRCSYNCPR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCSYNCPR(unsigned long a)
@@ -4951,7 +5039,7 @@ static inline uint64_t BDK_TRCX_TRCSYNCPR(unsigned long a)
  * ETMv4 Trace ID Register
  * Set the Trace ID value for instruction trace.
  */
-typedef union
+union bdk_trcx_trctraceidr
 {
     uint32_t u;
     struct bdk_trcx_trctraceidr_s
@@ -4965,7 +5053,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trctraceidr_s cn; */
-} bdk_trcx_trctraceidr_t;
+};
+typedef union bdk_trcx_trctraceidr bdk_trcx_trctraceidr_t;
 
 static inline uint64_t BDK_TRCX_TRCTRACEIDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCTRACEIDR(unsigned long a)
@@ -4987,7 +5076,7 @@ static inline uint64_t BDK_TRCX_TRCTRACEIDR(unsigned long a)
  * ETMv4 Global Timestamp Control Register
  * Causes event pulses to be generated on ECT channels.
  */
-typedef union
+union bdk_trcx_trctsctlr
 {
     uint32_t u;
     struct bdk_trcx_trctsctlr_s
@@ -4999,7 +5088,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trctsctlr_s cn; */
-} bdk_trcx_trctsctlr_t;
+};
+typedef union bdk_trcx_trctsctlr bdk_trcx_trctsctlr_t;
 
 static inline uint64_t BDK_TRCX_TRCTSCTLR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCTSCTLR(unsigned long a)
@@ -5021,7 +5111,7 @@ static inline uint64_t BDK_TRCX_TRCTSCTLR(unsigned long a)
  * ETMv4 ViewData Include/Exclude Address Range Comparator Control Register
  * Set or read the address range comparator for ViewData include/exclude control.
  */
-typedef union
+union bdk_trcx_trcvdarcctlr
 {
     uint32_t u;
     struct bdk_trcx_trcvdarcctlr_s
@@ -5055,7 +5145,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trcvdarcctlr_s cn; */
-} bdk_trcx_trcvdarcctlr_t;
+};
+typedef union bdk_trcx_trcvdarcctlr bdk_trcx_trcvdarcctlr_t;
 
 static inline uint64_t BDK_TRCX_TRCVDARCCTLR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCVDARCCTLR(unsigned long a)
@@ -5077,7 +5168,7 @@ static inline uint64_t BDK_TRCX_TRCVDARCCTLR(unsigned long a)
  * ETMv4 ViewData Main Control Register
  * Control data trace filtering.
  */
-typedef union
+union bdk_trcx_trcvdctlr
 {
     uint32_t u;
     struct bdk_trcx_trcvdctlr_s
@@ -5127,7 +5218,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trcvdctlr_s cn; */
-} bdk_trcx_trcvdctlr_t;
+};
+typedef union bdk_trcx_trcvdctlr bdk_trcx_trcvdctlr_t;
 
 static inline uint64_t BDK_TRCX_TRCVDCTLR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCVDCTLR(unsigned long a)
@@ -5149,7 +5241,7 @@ static inline uint64_t BDK_TRCX_TRCVDCTLR(unsigned long a)
  * ETMv4 ViewData Include/Exclude Single Address Comparator Control Register
  * Set or read the single address comparator for ViewData include/exclude control.
  */
-typedef union
+union bdk_trcx_trcvdsacctlr
 {
     uint32_t u;
     struct bdk_trcx_trcvdsacctlr_s
@@ -5183,7 +5275,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trcvdsacctlr_s cn; */
-} bdk_trcx_trcvdsacctlr_t;
+};
+typedef union bdk_trcx_trcvdsacctlr bdk_trcx_trcvdsacctlr_t;
 
 static inline uint64_t BDK_TRCX_TRCVDSACCTLR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCVDSACCTLR(unsigned long a)
@@ -5205,7 +5298,7 @@ static inline uint64_t BDK_TRCX_TRCVDSACCTLR(unsigned long a)
  * ETMv4 ViewInst Main Control Register
  * Control instruction trace filtering.
  */
-typedef union
+union bdk_trcx_trcvictlr
 {
     uint32_t u;
     struct bdk_trcx_trcvictlr_s
@@ -5273,7 +5366,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trcvictlr_s cn; */
-} bdk_trcx_trcvictlr_t;
+};
+typedef union bdk_trcx_trcvictlr bdk_trcx_trcvictlr_t;
 
 static inline uint64_t BDK_TRCX_TRCVICTLR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCVICTLR(unsigned long a)
@@ -5295,7 +5389,7 @@ static inline uint64_t BDK_TRCX_TRCVICTLR(unsigned long a)
  * ETMv4 ViewInst Include/Exclude Control Register
  * Set or read ViewInst include/exclude address comparator.
  */
-typedef union
+union bdk_trcx_trcviiectlr
 {
     uint32_t u;
     struct bdk_trcx_trcviiectlr_s
@@ -5329,7 +5423,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trcviiectlr_s cn; */
-} bdk_trcx_trcviiectlr_t;
+};
+typedef union bdk_trcx_trcviiectlr bdk_trcx_trcviiectlr_t;
 
 static inline uint64_t BDK_TRCX_TRCVIIECTLR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCVIIECTLR(unsigned long a)
@@ -5351,7 +5446,7 @@ static inline uint64_t BDK_TRCX_TRCVIIECTLR(unsigned long a)
  * ETMv4 ViewInst Start/Stop PE Comparator Control Register
  * Read which PE comparator can control ViewInst start-stop logic.
  */
-typedef union
+union bdk_trcx_trcvipcssctlr
 {
     uint32_t u;
     struct bdk_trcx_trcvipcssctlr_s
@@ -5389,7 +5484,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trcvipcssctlr_s cn; */
-} bdk_trcx_trcvipcssctlr_t;
+};
+typedef union bdk_trcx_trcvipcssctlr bdk_trcx_trcvipcssctlr_t;
 
 static inline uint64_t BDK_TRCX_TRCVIPCSSCTLR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCVIPCSSCTLR(unsigned long a)
@@ -5411,7 +5507,7 @@ static inline uint64_t BDK_TRCX_TRCVIPCSSCTLR(unsigned long a)
  * ETMv4 ViewInst Start/Stop Control Register
  * Set or read the single address comparator that controls start-stop logic.
  */
-typedef union
+union bdk_trcx_trcvissctlr
 {
     uint32_t u;
     struct bdk_trcx_trcvissctlr_s
@@ -5449,7 +5545,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trcvissctlr_s cn; */
-} bdk_trcx_trcvissctlr_t;
+};
+typedef union bdk_trcx_trcvissctlr bdk_trcx_trcvissctlr_t;
 
 static inline uint64_t BDK_TRCX_TRCVISSCTLR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCVISSCTLR(unsigned long a)
@@ -5471,7 +5568,7 @@ static inline uint64_t BDK_TRCX_TRCVISSCTLR(unsigned long a)
  * ETMv4 VMID Comparator Control Register 0
  * Causes event pulses to be generated on ECT channels.
  */
-typedef union
+union bdk_trcx_trcvmidcctlr0
 {
     uint32_t u;
     struct bdk_trcx_trcvmidcctlr0_s
@@ -5483,7 +5580,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trcvmidcctlr0_s cn; */
-} bdk_trcx_trcvmidcctlr0_t;
+};
+typedef union bdk_trcx_trcvmidcctlr0 bdk_trcx_trcvmidcctlr0_t;
 
 static inline uint64_t BDK_TRCX_TRCVMIDCCTLR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCVMIDCCTLR0(unsigned long a)
@@ -5505,7 +5603,7 @@ static inline uint64_t BDK_TRCX_TRCVMIDCCTLR0(unsigned long a)
  * ETMv4 VMID Comparator Control Register 1
  * Causes event pulses to be generated on ECT channels.
  */
-typedef union
+union bdk_trcx_trcvmidcctlr1
 {
     uint32_t u;
     struct bdk_trcx_trcvmidcctlr1_s
@@ -5517,7 +5615,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trcvmidcctlr1_s cn; */
-} bdk_trcx_trcvmidcctlr1_t;
+};
+typedef union bdk_trcx_trcvmidcctlr1 bdk_trcx_trcvmidcctlr1_t;
 
 static inline uint64_t BDK_TRCX_TRCVMIDCCTLR1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCVMIDCCTLR1(unsigned long a)
@@ -5539,7 +5638,7 @@ static inline uint64_t BDK_TRCX_TRCVMIDCCTLR1(unsigned long a)
  * ETMv4 VMID Comparator Value Register
  * Causes event pulses to be generated on ECT channels.
  */
-typedef union
+union bdk_trcx_trcvmidcvr0
 {
     uint32_t u;
     struct bdk_trcx_trcvmidcvr0_s
@@ -5551,7 +5650,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trcvmidcvr0_s cn; */
-} bdk_trcx_trcvmidcvr0_t;
+};
+typedef union bdk_trcx_trcvmidcvr0 bdk_trcx_trcvmidcvr0_t;
 
 static inline uint64_t BDK_TRCX_TRCVMIDCVR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCVMIDCVR0(unsigned long a)

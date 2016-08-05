@@ -88,7 +88,7 @@
  * USBH MSI-X Pending Bit Array Registers
  * This register is the MSI-X PBA table, the bit number is indexed by the USBH_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_usbhx_msix_pbax
 {
     uint64_t u;
     struct bdk_usbhx_msix_pbax_s
@@ -102,7 +102,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_msix_pbax_s cn; */
-} bdk_usbhx_msix_pbax_t;
+};
+typedef union bdk_usbhx_msix_pbax bdk_usbhx_msix_pbax_t;
 
 static inline uint64_t BDK_USBHX_MSIX_PBAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_MSIX_PBAX(unsigned long a, unsigned long b)
@@ -125,7 +126,7 @@ static inline uint64_t BDK_USBHX_MSIX_PBAX(unsigned long a, unsigned long b)
  * USBH MSI-X Vector Table Address Registers
  * This register is the MSI-X vector table, indexed by the USBH_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_usbhx_msix_vecx_addr
 {
     uint64_t u;
     struct bdk_usbhx_msix_vecx_addr_s
@@ -161,7 +162,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_msix_vecx_addr_s cn; */
-} bdk_usbhx_msix_vecx_addr_t;
+};
+typedef union bdk_usbhx_msix_vecx_addr bdk_usbhx_msix_vecx_addr_t;
 
 static inline uint64_t BDK_USBHX_MSIX_VECX_ADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
@@ -184,7 +186,7 @@ static inline uint64_t BDK_USBHX_MSIX_VECX_ADDR(unsigned long a, unsigned long b
  * USBH MSI-X Vector Table Control and Data Registers
  * This register is the MSI-X vector table, indexed by the USBH_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_usbhx_msix_vecx_ctl
 {
     uint64_t u;
     struct bdk_usbhx_msix_vecx_ctl_s
@@ -202,7 +204,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_msix_vecx_ctl_s cn; */
-} bdk_usbhx_msix_vecx_ctl_t;
+};
+typedef union bdk_usbhx_msix_vecx_ctl bdk_usbhx_msix_vecx_ctl_t;
 
 static inline uint64_t BDK_USBHX_MSIX_VECX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
@@ -225,7 +228,7 @@ static inline uint64_t BDK_USBHX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
  * XHCI Capability Length Register
  * For information on this register, refer to the xHCI Specification, v1.0, section 5.3.1.
  */
-typedef union
+union bdk_usbhx_uahc_caplength
 {
     uint32_t u;
     struct bdk_usbhx_uahc_caplength_s
@@ -241,7 +244,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uahc_caplength_s cn; */
-} bdk_usbhx_uahc_caplength_t;
+};
+typedef union bdk_usbhx_uahc_caplength bdk_usbhx_uahc_caplength_t;
 
 static inline uint64_t BDK_USBHX_UAHC_CAPLENGTH(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_CAPLENGTH(unsigned long a)
@@ -269,7 +273,7 @@ static inline uint64_t BDK_USBHX_UAHC_CAPLENGTH(unsigned long a)
  * or USBH()_UAHC_GCTL[CORESOFTRESET],
  * or USBH()_UAHC_USBCMD[HCRST], or USBH()_UAHC_USBCMD[LHCRST].
  */
-typedef union
+union bdk_usbhx_uahc_config
 {
     uint32_t u;
     struct bdk_usbhx_uahc_config_s
@@ -283,7 +287,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uahc_config_s cn; */
-} bdk_usbhx_uahc_config_t;
+};
+typedef union bdk_usbhx_uahc_config bdk_usbhx_uahc_config_t;
 
 static inline uint64_t BDK_USBHX_UAHC_CONFIG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_CONFIG(unsigned long a)
@@ -311,7 +316,7 @@ static inline uint64_t BDK_USBHX_UAHC_CONFIG(unsigned long a)
  * or USBH()_UAHC_GCTL[CORESOFTRESET],
  * or USBH()_UAHC_USBCMD[HCRST], or USBH()_UAHC_USBCMD[LHCRST].
  */
-typedef union
+union bdk_usbhx_uahc_crcr
 {
     uint64_t u;
     struct bdk_usbhx_uahc_crcr_s
@@ -333,7 +338,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uahc_crcr_s cn; */
-} bdk_usbhx_uahc_crcr_t;
+};
+typedef union bdk_usbhx_uahc_crcr bdk_usbhx_uahc_crcr_t;
 
 static inline uint64_t BDK_USBHX_UAHC_CRCR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_CRCR(unsigned long a)
@@ -364,7 +370,7 @@ static inline uint64_t BDK_USBHX_UAHC_CRCR(unsigned long a)
  * Internal:
  * xHCI spec, page 32: there are USBH()_UAHC_HCSPARAMS1[MAXSLOTS]+1 doorbell registers.
  */
-typedef union
+union bdk_usbhx_uahc_dbx
 {
     uint32_t u;
     struct bdk_usbhx_uahc_dbx_s
@@ -380,7 +386,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uahc_dbx_s cn; */
-} bdk_usbhx_uahc_dbx_t;
+};
+typedef union bdk_usbhx_uahc_dbx bdk_usbhx_uahc_dbx_t;
 
 static inline uint64_t BDK_USBHX_UAHC_DBX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_DBX(unsigned long a, unsigned long b)
@@ -403,7 +410,7 @@ static inline uint64_t BDK_USBHX_UAHC_DBX(unsigned long a, unsigned long b)
  * XHCI Doorbell Array Offset Register
  * For information on this register, refer to the xHCI Specification, v1.0, section 5.3.7.
  */
-typedef union
+union bdk_usbhx_uahc_dboff
 {
     uint32_t u;
     struct bdk_usbhx_uahc_dboff_s
@@ -417,7 +424,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uahc_dboff_s cn; */
-} bdk_usbhx_uahc_dboff_t;
+};
+typedef union bdk_usbhx_uahc_dboff bdk_usbhx_uahc_dboff_t;
 
 static inline uint64_t BDK_USBHX_UAHC_DBOFF(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_DBOFF(unsigned long a)
@@ -445,7 +453,7 @@ static inline uint64_t BDK_USBHX_UAHC_DBOFF(unsigned long a)
  * or USBH()_UAHC_GCTL[CORESOFTRESET],
  * or USBH()_UAHC_USBCMD[HCRST], or USBH()_UAHC_USBCMD[LHCRST].
  */
-typedef union
+union bdk_usbhx_uahc_dcbaap
 {
     uint64_t u;
     struct bdk_usbhx_uahc_dcbaap_s
@@ -459,7 +467,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uahc_dcbaap_s cn; */
-} bdk_usbhx_uahc_dcbaap_t;
+};
+typedef union bdk_usbhx_uahc_dcbaap bdk_usbhx_uahc_dcbaap_t;
 
 static inline uint64_t BDK_USBHX_UAHC_DCBAAP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_DCBAAP(unsigned long a)
@@ -487,7 +496,7 @@ static inline uint64_t BDK_USBHX_UAHC_DCBAAP(unsigned long a)
  * or USBH()_UAHC_GCTL[CORESOFTRESET],
  * or USBH()_UAHC_USBCMD[HCRST], or USBH()_UAHC_USBCMD[LHCRST].
  */
-typedef union
+union bdk_usbhx_uahc_dnctrl
 {
     uint32_t u;
     struct bdk_usbhx_uahc_dnctrl_s
@@ -501,7 +510,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uahc_dnctrl_s cn; */
-} bdk_usbhx_uahc_dnctrl_t;
+};
+typedef union bdk_usbhx_uahc_dnctrl bdk_usbhx_uahc_dnctrl_t;
 
 static inline uint64_t BDK_USBHX_UAHC_DNCTRL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_DNCTRL(unsigned long a)
@@ -529,7 +539,7 @@ static inline uint64_t BDK_USBHX_UAHC_DNCTRL(unsigned long a)
  * or USBH()_UAHC_GCTL[CORESOFTRESET],
  * or USBH()_UAHC_USBCMD[HCRST], or USBH()_UAHC_USBCMD[LHCRST].
  */
-typedef union
+union bdk_usbhx_uahc_erdpx
 {
     uint64_t u;
     struct bdk_usbhx_uahc_erdpx_s
@@ -545,7 +555,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uahc_erdpx_s cn; */
-} bdk_usbhx_uahc_erdpx_t;
+};
+typedef union bdk_usbhx_uahc_erdpx bdk_usbhx_uahc_erdpx_t;
 
 static inline uint64_t BDK_USBHX_UAHC_ERDPX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_ERDPX(unsigned long a, unsigned long b)
@@ -573,7 +584,7 @@ static inline uint64_t BDK_USBHX_UAHC_ERDPX(unsigned long a, unsigned long b)
  * or USBH()_UAHC_GCTL[CORESOFTRESET],
  * or USBH()_UAHC_USBCMD[HCRST], or USBH()_UAHC_USBCMD[LHCRST].
  */
-typedef union
+union bdk_usbhx_uahc_erstbax
 {
     uint64_t u;
     struct bdk_usbhx_uahc_erstbax_s
@@ -587,7 +598,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uahc_erstbax_s cn; */
-} bdk_usbhx_uahc_erstbax_t;
+};
+typedef union bdk_usbhx_uahc_erstbax bdk_usbhx_uahc_erstbax_t;
 
 static inline uint64_t BDK_USBHX_UAHC_ERSTBAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_ERSTBAX(unsigned long a, unsigned long b)
@@ -615,7 +627,7 @@ static inline uint64_t BDK_USBHX_UAHC_ERSTBAX(unsigned long a, unsigned long b)
  * or USBH()_UAHC_GCTL[CORESOFTRESET],
  * or USBH()_UAHC_USBCMD[HCRST], or USBH()_UAHC_USBCMD[LHCRST].
  */
-typedef union
+union bdk_usbhx_uahc_erstszx
 {
     uint32_t u;
     struct bdk_usbhx_uahc_erstszx_s
@@ -629,7 +641,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uahc_erstszx_s cn; */
-} bdk_usbhx_uahc_erstszx_t;
+};
+typedef union bdk_usbhx_uahc_erstszx bdk_usbhx_uahc_erstszx_t;
 
 static inline uint64_t BDK_USBHX_UAHC_ERSTSZX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_ERSTSZX(unsigned long a, unsigned long b)
@@ -669,7 +682,7 @@ static inline uint64_t BDK_USBHX_UAHC_ERSTSZX(unsigned long a, unsigned long b)
  * Internal:
  * See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.12.
  */
-typedef union
+union bdk_usbhx_uahc_gbuserraddr
 {
     uint64_t u;
     struct bdk_usbhx_uahc_gbuserraddr_s
@@ -685,7 +698,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uahc_gbuserraddr_s cn; */
-} bdk_usbhx_uahc_gbuserraddr_t;
+};
+typedef union bdk_usbhx_uahc_gbuserraddr bdk_usbhx_uahc_gbuserraddr_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GBUSERRADDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_GBUSERRADDR(unsigned long a)
@@ -710,7 +724,7 @@ static inline uint64_t BDK_USBHX_UAHC_GBUSERRADDR(unsigned long a)
  * Internal:
  * See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.5.
  */
-typedef union
+union bdk_usbhx_uahc_gctl
 {
     uint32_t u;
     struct bdk_usbhx_uahc_gctl_s
@@ -982,7 +996,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uahc_gctl_s cn; */
-} bdk_usbhx_uahc_gctl_t;
+};
+typedef union bdk_usbhx_uahc_gctl bdk_usbhx_uahc_gctl_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GCTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_GCTL(unsigned long a)
@@ -1010,7 +1025,7 @@ static inline uint64_t BDK_USBHX_UAHC_GCTL(unsigned long a)
  * Internal:
  * See Synopsys DWC_usb3 Databook v2.50a, section 6.2.4.5.
  */
-typedef union
+union bdk_usbhx_uahc_gdbgbmu
 {
     uint32_t u;
     struct bdk_usbhx_uahc_gdbgbmu_s
@@ -1026,7 +1041,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uahc_gdbgbmu_s cn; */
-} bdk_usbhx_uahc_gdbgbmu_t;
+};
+typedef union bdk_usbhx_uahc_gdbgbmu bdk_usbhx_uahc_gdbgbmu_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GDBGBMU(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_GDBGBMU(unsigned long a)
@@ -1051,7 +1067,7 @@ static inline uint64_t BDK_USBHX_UAHC_GDBGBMU(unsigned long a)
  *
  * This register can be reset by NCB reset or with USBH()_UCTL_CTL[UAHC_RST].
  */
-typedef union
+union bdk_usbhx_uahc_gdbgepinfo
 {
     uint64_t u;
     struct bdk_usbhx_uahc_gdbgepinfo_s
@@ -1063,7 +1079,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uahc_gdbgepinfo_s cn; */
-} bdk_usbhx_uahc_gdbgepinfo_t;
+};
+typedef union bdk_usbhx_uahc_gdbgepinfo bdk_usbhx_uahc_gdbgepinfo_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GDBGEPINFO(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_GDBGEPINFO(unsigned long a)
@@ -1096,7 +1113,7 @@ static inline uint64_t BDK_USBHX_UAHC_GDBGEPINFO(unsigned long a)
  * See Synopsys DWC_usb3 Databook v2.50a, section 6.2.4.2.
  * INTERNAL: Contact Synopsys directly.
  */
-typedef union
+union bdk_usbhx_uahc_gdbgfifospace
 {
     uint32_t u;
     struct bdk_usbhx_uahc_gdbgfifospace_s
@@ -1138,7 +1155,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uahc_gdbgfifospace_s cn; */
-} bdk_usbhx_uahc_gdbgfifospace_t;
+};
+typedef union bdk_usbhx_uahc_gdbgfifospace bdk_usbhx_uahc_gdbgfifospace_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GDBGFIFOSPACE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_GDBGFIFOSPACE(unsigned long a)
@@ -1166,7 +1184,7 @@ static inline uint64_t BDK_USBHX_UAHC_GDBGFIFOSPACE(unsigned long a)
  * Internal:
  * See Synopsys DWC_usb3 Databook v2.50a, section 6.2.4.4.
  */
-typedef union
+union bdk_usbhx_uahc_gdbglnmcc
 {
     uint32_t u;
     struct bdk_usbhx_uahc_gdbglnmcc_s
@@ -1184,7 +1202,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uahc_gdbglnmcc_s cn; */
-} bdk_usbhx_uahc_gdbglnmcc_t;
+};
+typedef union bdk_usbhx_uahc_gdbglnmcc bdk_usbhx_uahc_gdbglnmcc_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GDBGLNMCC(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_GDBGLNMCC(unsigned long a)
@@ -1209,7 +1228,7 @@ static inline uint64_t BDK_USBHX_UAHC_GDBGLNMCC(unsigned long a)
  *
  * This register can be reset by NCB reset or with USBH()_UCTL_CTL[UAHC_RST].
  */
-typedef union
+union bdk_usbhx_uahc_gdbglsp
 {
     uint32_t u;
     struct bdk_usbhx_uahc_gdbglsp_s
@@ -1221,7 +1240,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uahc_gdbglsp_s cn; */
-} bdk_usbhx_uahc_gdbglsp_t;
+};
+typedef union bdk_usbhx_uahc_gdbglsp bdk_usbhx_uahc_gdbglsp_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GDBGLSP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_GDBGLSP(unsigned long a)
@@ -1250,7 +1270,7 @@ static inline uint64_t BDK_USBHX_UAHC_GDBGLSP(unsigned long a)
  * See Synopsys DWC_usb3 Databook v2.50a, section 6.2.4.6.
  * INTERNAL: This register is for Synopsys internal use only.
  */
-typedef union
+union bdk_usbhx_uahc_gdbglspmux
 {
     uint32_t u;
     struct bdk_usbhx_uahc_gdbglspmux_s
@@ -1286,7 +1306,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uahc_gdbglspmux_s cn; */
-} bdk_usbhx_uahc_gdbglspmux_t;
+};
+typedef union bdk_usbhx_uahc_gdbglspmux bdk_usbhx_uahc_gdbglspmux_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GDBGLSPMUX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_GDBGLSPMUX(unsigned long a)
@@ -1317,7 +1338,7 @@ static inline uint64_t BDK_USBHX_UAHC_GDBGLSPMUX(unsigned long a)
  * Internal:
  * See Synopsys DWC_usb3 Databook v2.50a, section 6.2.4.3.
  */
-typedef union
+union bdk_usbhx_uahc_gdbgltssm
 {
     uint32_t u;
     struct bdk_usbhx_uahc_gdbgltssm_s
@@ -1389,7 +1410,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uahc_gdbgltssm_s cn; */
-} bdk_usbhx_uahc_gdbgltssm_t;
+};
+typedef union bdk_usbhx_uahc_gdbgltssm bdk_usbhx_uahc_gdbgltssm_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GDBGLTSSM(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_GDBGLTSSM(unsigned long a)
@@ -1434,7 +1456,7 @@ static inline uint64_t BDK_USBHX_UAHC_GDBGLTSSM(unsigned long a)
  * Internal:
  * See Synopsys DWC_usb3 Databook v2.50a, section 6.2.9.5.
  */
-typedef union
+union bdk_usbhx_uahc_gdmahlratio
 {
     uint32_t u;
     struct bdk_usbhx_uahc_gdmahlratio_s
@@ -1452,7 +1474,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uahc_gdmahlratio_s cn; */
-} bdk_usbhx_uahc_gdmahlratio_t;
+};
+typedef union bdk_usbhx_uahc_gdmahlratio bdk_usbhx_uahc_gdmahlratio_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GDMAHLRATIO(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_GDMAHLRATIO(unsigned long a)
@@ -1485,7 +1508,7 @@ static inline uint64_t BDK_USBHX_UAHC_GDMAHLRATIO(unsigned long a)
  * Internal:
  * See Synopsys DWC_usb3 Databook v2.50a, section 6.2.9.6.
  */
-typedef union
+union bdk_usbhx_uahc_gfladj
 {
     uint32_t u;
     struct bdk_usbhx_uahc_gfladj_s
@@ -1675,7 +1698,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uahc_gfladj_s cn; */
-} bdk_usbhx_uahc_gfladj_t;
+};
+typedef union bdk_usbhx_uahc_gfladj bdk_usbhx_uahc_gfladj_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GFLADJ(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_GFLADJ(unsigned long a)
@@ -1704,7 +1728,7 @@ static inline uint64_t BDK_USBHX_UAHC_GFLADJ(unsigned long a)
  * Internal:
  * See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.9.
  */
-typedef union
+union bdk_usbhx_uahc_ggpio
 {
     uint32_t u;
     struct bdk_usbhx_uahc_ggpio_s
@@ -1718,7 +1742,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uahc_ggpio_s cn; */
-} bdk_usbhx_uahc_ggpio_t;
+};
+typedef union bdk_usbhx_uahc_ggpio bdk_usbhx_uahc_ggpio_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GGPIO(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_GGPIO(unsigned long a)
@@ -1744,7 +1769,7 @@ static inline uint64_t BDK_USBHX_UAHC_GGPIO(unsigned long a)
  * Register field names refer to Synopsys DWC_USB3_* parameters of the same suffix.
  * INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.3.1.
  */
-typedef union
+union bdk_usbhx_uahc_ghwparams0
 {
     uint32_t u;
     struct bdk_usbhx_uahc_ghwparams0_s
@@ -1766,7 +1791,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uahc_ghwparams0_s cn; */
-} bdk_usbhx_uahc_ghwparams0_t;
+};
+typedef union bdk_usbhx_uahc_ghwparams0 bdk_usbhx_uahc_ghwparams0_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS0(unsigned long a)
@@ -1792,7 +1818,7 @@ static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS0(unsigned long a)
  * Register field names refer to Synopsys DWC_USB3_* parameters of the same suffix.
  * INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.3.2.
  */
-typedef union
+union bdk_usbhx_uahc_ghwparams1
 {
     uint32_t u;
     struct bdk_usbhx_uahc_ghwparams1_s
@@ -1842,7 +1868,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uahc_ghwparams1_s cn; */
-} bdk_usbhx_uahc_ghwparams1_t;
+};
+typedef union bdk_usbhx_uahc_ghwparams1 bdk_usbhx_uahc_ghwparams1_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS1(unsigned long a)
@@ -1868,7 +1895,7 @@ static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS1(unsigned long a)
  * Register field names refer to Synopsys DWC_USB3_* parameters of the same suffix.
  * INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.3.3.
  */
-typedef union
+union bdk_usbhx_uahc_ghwparams2
 {
     uint32_t u;
     struct bdk_usbhx_uahc_ghwparams2_s
@@ -1880,7 +1907,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uahc_ghwparams2_s cn; */
-} bdk_usbhx_uahc_ghwparams2_t;
+};
+typedef union bdk_usbhx_uahc_ghwparams2 bdk_usbhx_uahc_ghwparams2_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS2(unsigned long a)
@@ -1905,7 +1933,7 @@ static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS2(unsigned long a)
  * Internal:
  * See Synopsys DWC_usb3 Databook v2.50a, section 6.2.3.4.
  */
-typedef union
+union bdk_usbhx_uahc_ghwparams3
 {
     uint32_t u;
     struct bdk_usbhx_uahc_ghwparams3_s
@@ -1937,7 +1965,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uahc_ghwparams3_s cn; */
-} bdk_usbhx_uahc_ghwparams3_t;
+};
+typedef union bdk_usbhx_uahc_ghwparams3 bdk_usbhx_uahc_ghwparams3_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS3(unsigned long a)
@@ -1963,7 +1992,7 @@ static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS3(unsigned long a)
  * Register field names refer to Synopsys DWC_USB3_* parameters of the same suffix.
  * INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.3.5.
  */
-typedef union
+union bdk_usbhx_uahc_ghwparams4
 {
     uint32_t u;
     struct bdk_usbhx_uahc_ghwparams4_s
@@ -1991,7 +2020,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uahc_ghwparams4_s cn; */
-} bdk_usbhx_uahc_ghwparams4_t;
+};
+typedef union bdk_usbhx_uahc_ghwparams4 bdk_usbhx_uahc_ghwparams4_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS4(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS4(unsigned long a)
@@ -2017,7 +2047,7 @@ static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS4(unsigned long a)
  * Register field names refer to Synopsys DWC_USB3_* parameters of the same suffix.
  * INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.3.6.
  */
-typedef union
+union bdk_usbhx_uahc_ghwparams5
 {
     uint32_t u;
     struct bdk_usbhx_uahc_ghwparams5_s
@@ -2039,7 +2069,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uahc_ghwparams5_s cn; */
-} bdk_usbhx_uahc_ghwparams5_t;
+};
+typedef union bdk_usbhx_uahc_ghwparams5 bdk_usbhx_uahc_ghwparams5_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS5(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS5(unsigned long a)
@@ -2065,7 +2096,7 @@ static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS5(unsigned long a)
  * Register field names refer to Synopsys DWC_USB3_* parameters of the same suffix.
  * INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.3.7.
  */
-typedef union
+union bdk_usbhx_uahc_ghwparams6
 {
     uint32_t u;
     struct bdk_usbhx_uahc_ghwparams6_s
@@ -2097,7 +2128,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uahc_ghwparams6_s cn; */
-} bdk_usbhx_uahc_ghwparams6_t;
+};
+typedef union bdk_usbhx_uahc_ghwparams6 bdk_usbhx_uahc_ghwparams6_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS6(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS6(unsigned long a)
@@ -2123,7 +2155,7 @@ static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS6(unsigned long a)
  * Register field names refer to Synopsys DWC_USB3_* parameters of the same suffix.
  * INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.3.8.
  */
-typedef union
+union bdk_usbhx_uahc_ghwparams7
 {
     uint32_t u;
     struct bdk_usbhx_uahc_ghwparams7_s
@@ -2137,7 +2169,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uahc_ghwparams7_s cn; */
-} bdk_usbhx_uahc_ghwparams7_t;
+};
+typedef union bdk_usbhx_uahc_ghwparams7 bdk_usbhx_uahc_ghwparams7_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS7(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS7(unsigned long a)
@@ -2163,7 +2196,7 @@ static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS7(unsigned long a)
  * Register field names refer to Synopsys DWC_USB3_* parameters of the same suffix.
  * INTERNAL: See Synopsys DWC_usb3 Databook v2.20a, section 6.2.3.9.
  */
-typedef union
+union bdk_usbhx_uahc_ghwparams8
 {
     uint32_t u;
     struct bdk_usbhx_uahc_ghwparams8_s
@@ -2175,7 +2208,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uahc_ghwparams8_s cn; */
-} bdk_usbhx_uahc_ghwparams8_t;
+};
+typedef union bdk_usbhx_uahc_ghwparams8 bdk_usbhx_uahc_ghwparams8_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS8(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS8(unsigned long a)
@@ -2208,7 +2242,7 @@ static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS8(unsigned long a)
  * See Synopsys DWC_usb3 Databook v2.50a, section 6.2.4.1.
  * INTERNAL: Contact Synopsys directly.
  */
-typedef union
+union bdk_usbhx_uahc_gpmsts
 {
     uint32_t u;
     struct bdk_usbhx_uahc_gpmsts_s
@@ -2258,7 +2292,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uahc_gpmsts_s cn; */
-} bdk_usbhx_uahc_gpmsts_t;
+};
+typedef union bdk_usbhx_uahc_gpmsts bdk_usbhx_uahc_gpmsts_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GPMSTS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_GPMSTS(unsigned long a)
@@ -2290,7 +2325,7 @@ static inline uint64_t BDK_USBHX_UAHC_GPMSTS(unsigned long a)
  * Internal:
  * See Synopsys DWC_usb3 Databook v2.50a, section 6.2.2.1.
  */
-typedef union
+union bdk_usbhx_uahc_gprtbimap
 {
     uint64_t u;
     struct bdk_usbhx_uahc_gprtbimap_s
@@ -2304,7 +2339,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uahc_gprtbimap_s cn; */
-} bdk_usbhx_uahc_gprtbimap_t;
+};
+typedef union bdk_usbhx_uahc_gprtbimap bdk_usbhx_uahc_gprtbimap_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GPRTBIMAP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_GPRTBIMAP(unsigned long a)
@@ -2336,7 +2372,7 @@ static inline uint64_t BDK_USBHX_UAHC_GPRTBIMAP(unsigned long a)
  * Internal:
  * See Synopsys DWC_usb3 Databook v2.20a, section 6.2.2.3.
  */
-typedef union
+union bdk_usbhx_uahc_gprtbimap_fs
 {
     uint64_t u;
     struct bdk_usbhx_uahc_gprtbimap_fs_s
@@ -2350,7 +2386,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uahc_gprtbimap_fs_s cn; */
-} bdk_usbhx_uahc_gprtbimap_fs_t;
+};
+typedef union bdk_usbhx_uahc_gprtbimap_fs bdk_usbhx_uahc_gprtbimap_fs_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GPRTBIMAP_FS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_GPRTBIMAP_FS(unsigned long a)
@@ -2382,7 +2419,7 @@ static inline uint64_t BDK_USBHX_UAHC_GPRTBIMAP_FS(unsigned long a)
  * Internal:
  * See Synopsys DWC_usb3 Databook v2.20a, section 6.2.2.2.
  */
-typedef union
+union bdk_usbhx_uahc_gprtbimap_hs
 {
     uint64_t u;
     struct bdk_usbhx_uahc_gprtbimap_hs_s
@@ -2396,7 +2433,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uahc_gprtbimap_hs_s cn; */
-} bdk_usbhx_uahc_gprtbimap_hs_t;
+};
+typedef union bdk_usbhx_uahc_gprtbimap_hs bdk_usbhx_uahc_gprtbimap_hs_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GPRTBIMAP_HS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_GPRTBIMAP_HS(unsigned long a)
@@ -2422,7 +2460,7 @@ static inline uint64_t BDK_USBHX_UAHC_GPRTBIMAP_HS(unsigned long a)
  * Original name: GSNPSID = Synopsys ID.
  * INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.8.
  */
-typedef union
+union bdk_usbhx_uahc_grlsid
 {
     uint32_t u;
     struct bdk_usbhx_uahc_grlsid_s
@@ -2444,7 +2482,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uahc_grlsid_s cn; */
-} bdk_usbhx_uahc_grlsid_t;
+};
+typedef union bdk_usbhx_uahc_grlsid bdk_usbhx_uahc_grlsid_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GRLSID(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_GRLSID(unsigned long a)
@@ -2491,7 +2530,7 @@ static inline uint64_t BDK_USBHX_UAHC_GRLSID(unsigned long a)
  * Internal:
  * See Synopsys DWC_usb3 Databook v2.50a, section 6.2.9.3.
  */
-typedef union
+union bdk_usbhx_uahc_grxfifoprihst
 {
     uint32_t u;
     struct bdk_usbhx_uahc_grxfifoprihst_s
@@ -2505,7 +2544,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uahc_grxfifoprihst_s cn; */
-} bdk_usbhx_uahc_grxfifoprihst_t;
+};
+typedef union bdk_usbhx_uahc_grxfifoprihst bdk_usbhx_uahc_grxfifoprihst_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GRXFIFOPRIHST(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_GRXFIFOPRIHST(unsigned long a)
@@ -2539,7 +2579,7 @@ static inline uint64_t BDK_USBHX_UAHC_GRXFIFOPRIHST(unsigned long a)
  * INTERNAL: For more information, see the BMU section in Block Descriptions on Synopsys Databook
  * page 238.
  */
-typedef union
+union bdk_usbhx_uahc_grxfifosizx
 {
     uint32_t u;
     struct bdk_usbhx_uahc_grxfifosizx_s
@@ -2567,7 +2607,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uahc_grxfifosizx_s cn; */
-} bdk_usbhx_uahc_grxfifosizx_t;
+};
+typedef union bdk_usbhx_uahc_grxfifosizx bdk_usbhx_uahc_grxfifosizx_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GRXFIFOSIZX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_GRXFIFOSIZX(unsigned long a, unsigned long b)
@@ -2611,7 +2652,7 @@ static inline uint64_t BDK_USBHX_UAHC_GRXFIFOSIZX(unsigned long a, unsigned long
  * Internal:
  * See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.4.
  */
-typedef union
+union bdk_usbhx_uahc_grxthrcfg
 {
     uint32_t u;
     struct bdk_usbhx_uahc_grxthrcfg_s
@@ -2724,7 +2765,8 @@ typedef union
         uint32_t reserved_30_31        : 2;
 #endif /* Word 0 - End */
     } cn;
-} bdk_usbhx_uahc_grxthrcfg_t;
+};
+typedef union bdk_usbhx_uahc_grxthrcfg bdk_usbhx_uahc_grxthrcfg_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GRXTHRCFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_GRXTHRCFG(unsigned long a)
@@ -2758,7 +2800,7 @@ static inline uint64_t BDK_USBHX_UAHC_GRXTHRCFG(unsigned long a)
  * can be ignored.
  * INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.1.
  */
-typedef union
+union bdk_usbhx_uahc_gsbuscfg0
 {
     uint32_t u;
     struct bdk_usbhx_uahc_gsbuscfg0_s
@@ -2828,7 +2870,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uahc_gsbuscfg0_s cn; */
-} bdk_usbhx_uahc_gsbuscfg0_t;
+};
+typedef union bdk_usbhx_uahc_gsbuscfg0 bdk_usbhx_uahc_gsbuscfg0_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GSBUSCFG0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_GSBUSCFG0(unsigned long a)
@@ -2859,7 +2902,7 @@ static inline uint64_t BDK_USBHX_UAHC_GSBUSCFG0(unsigned long a)
  * Internal:
  * See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.2.
  */
-typedef union
+union bdk_usbhx_uahc_gsbuscfg1
 {
     uint32_t u;
     struct bdk_usbhx_uahc_gsbuscfg1_s
@@ -2903,7 +2946,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uahc_gsbuscfg1_s cn; */
-} bdk_usbhx_uahc_gsbuscfg1_t;
+};
+typedef union bdk_usbhx_uahc_gsbuscfg1 bdk_usbhx_uahc_gsbuscfg1_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GSBUSCFG1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_GSBUSCFG1(unsigned long a)
@@ -2928,7 +2972,7 @@ static inline uint64_t BDK_USBHX_UAHC_GSBUSCFG1(unsigned long a)
  * Internal:
  * See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.6.
  */
-typedef union
+union bdk_usbhx_uahc_gsts
 {
     uint32_t u;
     struct bdk_usbhx_uahc_gsts_s
@@ -2968,7 +3012,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uahc_gsts_s cn; */
-} bdk_usbhx_uahc_gsts_t;
+};
+typedef union bdk_usbhx_uahc_gsts bdk_usbhx_uahc_gsts_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GSTS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_GSTS(unsigned long a)
@@ -3016,7 +3061,7 @@ static inline uint64_t BDK_USBHX_UAHC_GSTS(unsigned long a)
  * Internal:
  * See Synopsys DWC_usb3 Databook v2.50a, section 6.2.9.2.
  */
-typedef union
+union bdk_usbhx_uahc_gtxfifoprihst
 {
     uint32_t u;
     struct bdk_usbhx_uahc_gtxfifoprihst_s
@@ -3032,7 +3077,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uahc_gtxfifoprihst_s cn; */
-} bdk_usbhx_uahc_gtxfifoprihst_t;
+};
+typedef union bdk_usbhx_uahc_gtxfifoprihst bdk_usbhx_uahc_gtxfifoprihst_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GTXFIFOPRIHST(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_GTXFIFOPRIHST(unsigned long a)
@@ -3067,7 +3113,7 @@ static inline uint64_t BDK_USBHX_UAHC_GTXFIFOPRIHST(unsigned long a)
  * INTERNAL: For more information, refer to the BMU section in Block Descriptions on Synopsys
  * Databook page 238.
  */
-typedef union
+union bdk_usbhx_uahc_gtxfifosizx
 {
     uint32_t u;
     struct bdk_usbhx_uahc_gtxfifosizx_s
@@ -3095,7 +3141,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uahc_gtxfifosizx_s cn; */
-} bdk_usbhx_uahc_gtxfifosizx_t;
+};
+typedef union bdk_usbhx_uahc_gtxfifosizx bdk_usbhx_uahc_gtxfifosizx_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GTXFIFOSIZX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_GTXFIFOSIZX(unsigned long a, unsigned long b)
@@ -3136,7 +3183,7 @@ static inline uint64_t BDK_USBHX_UAHC_GTXFIFOSIZX(unsigned long a, unsigned long
  * Internal:
  * See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.3.
  */
-typedef union
+union bdk_usbhx_uahc_gtxthrcfg
 {
     uint32_t u;
     struct bdk_usbhx_uahc_gtxthrcfg_s
@@ -3243,7 +3290,8 @@ typedef union
         uint32_t reserved_30_31        : 2;
 #endif /* Word 0 - End */
     } cn;
-} bdk_usbhx_uahc_gtxthrcfg_t;
+};
+typedef union bdk_usbhx_uahc_gtxthrcfg bdk_usbhx_uahc_gtxthrcfg_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GTXTHRCFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_GTXTHRCFG(unsigned long a)
@@ -3272,7 +3320,7 @@ static inline uint64_t BDK_USBHX_UAHC_GTXTHRCFG(unsigned long a)
  * Internal:
  * See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.11.
  */
-typedef union
+union bdk_usbhx_uahc_guctl
 {
     uint32_t u;
     struct bdk_usbhx_uahc_guctl_s
@@ -3480,7 +3528,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uahc_guctl_s cn; */
-} bdk_usbhx_uahc_guctl_t;
+};
+typedef union bdk_usbhx_uahc_guctl bdk_usbhx_uahc_guctl_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GUCTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_GUCTL(unsigned long a)
@@ -3505,7 +3554,7 @@ static inline uint64_t BDK_USBHX_UAHC_GUCTL(unsigned long a)
  * Internal:
  * See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.7.
  */
-typedef union
+union bdk_usbhx_uahc_guctl1
 {
     uint32_t u;
     struct bdk_usbhx_uahc_guctl1_s
@@ -3591,7 +3640,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uahc_guctl1_s cn; */
-} bdk_usbhx_uahc_guctl1_t;
+};
+typedef union bdk_usbhx_uahc_guctl1 bdk_usbhx_uahc_guctl1_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GUCTL1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_GUCTL1(unsigned long a)
@@ -3624,7 +3674,7 @@ static inline uint64_t BDK_USBHX_UAHC_GUCTL1(unsigned long a)
  * Internal:
  * See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.10.
  */
-typedef union
+union bdk_usbhx_uahc_guid
 {
     uint32_t u;
     struct bdk_usbhx_uahc_guid_s
@@ -3636,7 +3686,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uahc_guid_s cn; */
-} bdk_usbhx_uahc_guid_t;
+};
+typedef union bdk_usbhx_uahc_guid bdk_usbhx_uahc_guid_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GUID(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_GUID(unsigned long a)
@@ -3664,7 +3715,7 @@ static inline uint64_t BDK_USBHX_UAHC_GUID(unsigned long a)
  * Internal:
  * See Synopsys DWC_usb3 Databook v2.20a, section 6.2.5.2.
  */
-typedef union
+union bdk_usbhx_uahc_gusb2i2cctlx
 {
     uint32_t u;
     struct bdk_usbhx_uahc_gusb2i2cctlx_s
@@ -3676,7 +3727,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uahc_gusb2i2cctlx_s cn; */
-} bdk_usbhx_uahc_gusb2i2cctlx_t;
+};
+typedef union bdk_usbhx_uahc_gusb2i2cctlx bdk_usbhx_uahc_gusb2i2cctlx_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GUSB2I2CCTLX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_GUSB2I2CCTLX(unsigned long a, unsigned long b)
@@ -3709,7 +3761,7 @@ static inline uint64_t BDK_USBHX_UAHC_GUSB2I2CCTLX(unsigned long a, unsigned lon
  * Internal:
  * See Synopsys DWC_usb3 Databook v2.20a, section 6.2.5.1.
  */
-typedef union
+union bdk_usbhx_uahc_gusb2phycfgx
 {
     uint32_t u;
     struct bdk_usbhx_uahc_gusb2phycfgx_s
@@ -3994,7 +4046,8 @@ typedef union
         uint32_t physoftrst            : 1;  /**< [ 31: 31](R/W) PHY soft reset. Causes the usb2phy_reset signal to be asserted to reset a UTMI PHY. */
 #endif /* Word 0 - End */
     } cn;
-} bdk_usbhx_uahc_gusb2phycfgx_t;
+};
+typedef union bdk_usbhx_uahc_gusb2phycfgx bdk_usbhx_uahc_gusb2phycfgx_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GUSB2PHYCFGX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_GUSB2PHYCFGX(unsigned long a, unsigned long b)
@@ -4027,7 +4080,7 @@ static inline uint64_t BDK_USBHX_UAHC_GUSB2PHYCFGX(unsigned long a, unsigned lon
  * Internal:
  * See Synopsys DWC_usb3 Databook v2.20a, section 6.2.5.4.
  */
-typedef union
+union bdk_usbhx_uahc_gusb3pipectlx
 {
     uint32_t u;
     struct bdk_usbhx_uahc_gusb3pipectlx_s
@@ -4357,7 +4410,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uahc_gusb3pipectlx_s cn; */
-} bdk_usbhx_uahc_gusb3pipectlx_t;
+};
+typedef union bdk_usbhx_uahc_gusb3pipectlx bdk_usbhx_uahc_gusb3pipectlx_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GUSB3PIPECTLX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_GUSB3PIPECTLX(unsigned long a, unsigned long b)
@@ -4380,7 +4434,7 @@ static inline uint64_t BDK_USBHX_UAHC_GUSB3PIPECTLX(unsigned long a, unsigned lo
  * XHCI Controller Capability Parameters Register
  * For information on this register, refer to the xHCI Specification, v1.0, section 5.3.6.
  */
-typedef union
+union bdk_usbhx_uahc_hccparams
 {
     uint32_t u;
     struct bdk_usbhx_uahc_hccparams_s
@@ -4418,7 +4472,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uahc_hccparams_s cn; */
-} bdk_usbhx_uahc_hccparams_t;
+};
+typedef union bdk_usbhx_uahc_hccparams bdk_usbhx_uahc_hccparams_t;
 
 static inline uint64_t BDK_USBHX_UAHC_HCCPARAMS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_HCCPARAMS(unsigned long a)
@@ -4441,7 +4496,7 @@ static inline uint64_t BDK_USBHX_UAHC_HCCPARAMS(unsigned long a)
  * XHCI Controller Structural Parameters Register 1
  * For information on this register, refer to the xHCI Specification, v1.0, section 5.3.3.
  */
-typedef union
+union bdk_usbhx_uahc_hcsparams1
 {
     uint32_t u;
     struct bdk_usbhx_uahc_hcsparams1_s
@@ -4459,7 +4514,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uahc_hcsparams1_s cn; */
-} bdk_usbhx_uahc_hcsparams1_t;
+};
+typedef union bdk_usbhx_uahc_hcsparams1 bdk_usbhx_uahc_hcsparams1_t;
 
 static inline uint64_t BDK_USBHX_UAHC_HCSPARAMS1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_HCSPARAMS1(unsigned long a)
@@ -4482,7 +4538,7 @@ static inline uint64_t BDK_USBHX_UAHC_HCSPARAMS1(unsigned long a)
  * XHCI Controller Structural Parameters Register 2
  * For information on this register, refer to the xHCI Specification, v1.0, section 5.3.4.
  */
-typedef union
+union bdk_usbhx_uahc_hcsparams2
 {
     uint32_t u;
     struct bdk_usbhx_uahc_hcsparams2_s
@@ -4504,7 +4560,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uahc_hcsparams2_s cn; */
-} bdk_usbhx_uahc_hcsparams2_t;
+};
+typedef union bdk_usbhx_uahc_hcsparams2 bdk_usbhx_uahc_hcsparams2_t;
 
 static inline uint64_t BDK_USBHX_UAHC_HCSPARAMS2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_HCSPARAMS2(unsigned long a)
@@ -4527,7 +4584,7 @@ static inline uint64_t BDK_USBHX_UAHC_HCSPARAMS2(unsigned long a)
  * XHCI Controller Structural Parameters Register 3
  * For information on this register, refer to the xHCI Specification, v1.0, section 5.3.5.
  */
-typedef union
+union bdk_usbhx_uahc_hcsparams3
 {
     uint32_t u;
     struct bdk_usbhx_uahc_hcsparams3_s
@@ -4543,7 +4600,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uahc_hcsparams3_s cn; */
-} bdk_usbhx_uahc_hcsparams3_t;
+};
+typedef union bdk_usbhx_uahc_hcsparams3 bdk_usbhx_uahc_hcsparams3_t;
 
 static inline uint64_t BDK_USBHX_UAHC_HCSPARAMS3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_HCSPARAMS3(unsigned long a)
@@ -4571,7 +4629,7 @@ static inline uint64_t BDK_USBHX_UAHC_HCSPARAMS3(unsigned long a)
  * or USBH()_UAHC_GCTL[CORESOFTRESET],
  * or USBH()_UAHC_USBCMD[HCRST], or USBH()_UAHC_USBCMD[LHCRST].
  */
-typedef union
+union bdk_usbhx_uahc_imanx
 {
     uint32_t u;
     struct bdk_usbhx_uahc_imanx_s
@@ -4587,7 +4645,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uahc_imanx_s cn; */
-} bdk_usbhx_uahc_imanx_t;
+};
+typedef union bdk_usbhx_uahc_imanx bdk_usbhx_uahc_imanx_t;
 
 static inline uint64_t BDK_USBHX_UAHC_IMANX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_IMANX(unsigned long a, unsigned long b)
@@ -4615,7 +4674,7 @@ static inline uint64_t BDK_USBHX_UAHC_IMANX(unsigned long a, unsigned long b)
  * or USBH()_UAHC_GCTL[CORESOFTRESET],
  * or USBH()_UAHC_USBCMD[HCRST], or USBH()_UAHC_USBCMD[LHCRST].
  */
-typedef union
+union bdk_usbhx_uahc_imodx
 {
     uint32_t u;
     struct bdk_usbhx_uahc_imodx_s
@@ -4629,7 +4688,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uahc_imodx_s cn; */
-} bdk_usbhx_uahc_imodx_t;
+};
+typedef union bdk_usbhx_uahc_imodx bdk_usbhx_uahc_imodx_t;
 
 static inline uint64_t BDK_USBHX_UAHC_IMODX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_IMODX(unsigned long a, unsigned long b)
@@ -4657,7 +4717,7 @@ static inline uint64_t BDK_USBHX_UAHC_IMODX(unsigned long a, unsigned long b)
  * or USBH()_UAHC_GCTL[CORESOFTRESET],
  * or USBH()_UAHC_USBCMD[HCRST], or USBH()_UAHC_USBCMD[LHCRST].
  */
-typedef union
+union bdk_usbhx_uahc_mfindex
 {
     uint32_t u;
     struct bdk_usbhx_uahc_mfindex_s
@@ -4671,7 +4731,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uahc_mfindex_s cn; */
-} bdk_usbhx_uahc_mfindex_t;
+};
+typedef union bdk_usbhx_uahc_mfindex bdk_usbhx_uahc_mfindex_t;
 
 static inline uint64_t BDK_USBHX_UAHC_MFINDEX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_MFINDEX(unsigned long a)
@@ -4694,7 +4755,7 @@ static inline uint64_t BDK_USBHX_UAHC_MFINDEX(unsigned long a)
  * XHCI Page-Size Register
  * For information on this register, refer to the xHCI Specification, v1.0, section 5.4.3.
  */
-typedef union
+union bdk_usbhx_uahc_pagesize
 {
     uint32_t u;
     struct bdk_usbhx_uahc_pagesize_s
@@ -4708,7 +4769,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uahc_pagesize_s cn; */
-} bdk_usbhx_uahc_pagesize_t;
+};
+typedef union bdk_usbhx_uahc_pagesize bdk_usbhx_uahc_pagesize_t;
 
 static inline uint64_t BDK_USBHX_UAHC_PAGESIZE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_PAGESIZE(unsigned long a)
@@ -4736,7 +4798,7 @@ static inline uint64_t BDK_USBHX_UAHC_PAGESIZE(unsigned long a)
  * or USBH()_UAHC_GCTL[CORESOFTRESET],
  * or USBH()_UAHC_USBCMD[HCRST], or USBH()_UAHC_USBCMD[LHCRST].
  */
-typedef union
+union bdk_usbhx_uahc_porthlpmc_20x
 {
     uint32_t u;
     struct bdk_usbhx_uahc_porthlpmc_20x_s
@@ -4776,7 +4838,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uahc_porthlpmc_20x_s cn; */
-} bdk_usbhx_uahc_porthlpmc_20x_t;
+};
+typedef union bdk_usbhx_uahc_porthlpmc_20x bdk_usbhx_uahc_porthlpmc_20x_t;
 
 static inline uint64_t BDK_USBHX_UAHC_PORTHLPMC_20X(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_PORTHLPMC_20X(unsigned long a, unsigned long b)
@@ -4805,7 +4868,7 @@ static inline uint64_t BDK_USBHX_UAHC_PORTHLPMC_20X(unsigned long a, unsigned lo
  * or USBH()_UAHC_GCTL[CORESOFTRESET],
  * or USBH()_UAHC_USBCMD[HCRST].
  */
-typedef union
+union bdk_usbhx_uahc_porthlpmc_ssx
 {
     uint32_t u;
     struct bdk_usbhx_uahc_porthlpmc_ssx_s
@@ -4817,7 +4880,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uahc_porthlpmc_ssx_s cn; */
-} bdk_usbhx_uahc_porthlpmc_ssx_t;
+};
+typedef union bdk_usbhx_uahc_porthlpmc_ssx bdk_usbhx_uahc_porthlpmc_ssx_t;
 
 static inline uint64_t BDK_USBHX_UAHC_PORTHLPMC_SSX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_PORTHLPMC_SSX(unsigned long a, unsigned long b)
@@ -4840,7 +4904,7 @@ static inline uint64_t BDK_USBHX_UAHC_PORTHLPMC_SSX(unsigned long a, unsigned lo
  * XHCI Port Link (High-Speed) Register
  * For information on this register, refer to the xHCI Specification, v1.0, section 5.4.10.
  */
-typedef union
+union bdk_usbhx_uahc_portli_20x
 {
     uint32_t u;
     struct bdk_usbhx_uahc_portli_20x_s
@@ -4852,7 +4916,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uahc_portli_20x_s cn; */
-} bdk_usbhx_uahc_portli_20x_t;
+};
+typedef union bdk_usbhx_uahc_portli_20x bdk_usbhx_uahc_portli_20x_t;
 
 static inline uint64_t BDK_USBHX_UAHC_PORTLI_20X(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_PORTLI_20X(unsigned long a, unsigned long b)
@@ -4875,7 +4940,7 @@ static inline uint64_t BDK_USBHX_UAHC_PORTLI_20X(unsigned long a, unsigned long 
  * XHCI Port Link (SuperSpeed) Register
  * For information on this register, refer to the xHCI Specification, v1.0, section 5.4.10.
  */
-typedef union
+union bdk_usbhx_uahc_portli_ssx
 {
     uint32_t u;
     struct bdk_usbhx_uahc_portli_ssx_s
@@ -4889,7 +4954,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uahc_portli_ssx_s cn; */
-} bdk_usbhx_uahc_portli_ssx_t;
+};
+typedef union bdk_usbhx_uahc_portli_ssx bdk_usbhx_uahc_portli_ssx_t;
 
 static inline uint64_t BDK_USBHX_UAHC_PORTLI_SSX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_PORTLI_SSX(unsigned long a, unsigned long b)
@@ -4917,7 +4983,7 @@ static inline uint64_t BDK_USBHX_UAHC_PORTLI_SSX(unsigned long a, unsigned long 
  * or USBH()_UAHC_GCTL[CORESOFTRESET],
  * or USBH()_UAHC_USBCMD[HCRST].
  */
-typedef union
+union bdk_usbhx_uahc_portpmsc_20x
 {
     uint32_t u;
     struct bdk_usbhx_uahc_portpmsc_20x_s
@@ -4941,7 +5007,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uahc_portpmsc_20x_s cn; */
-} bdk_usbhx_uahc_portpmsc_20x_t;
+};
+typedef union bdk_usbhx_uahc_portpmsc_20x bdk_usbhx_uahc_portpmsc_20x_t;
 
 static inline uint64_t BDK_USBHX_UAHC_PORTPMSC_20X(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_PORTPMSC_20X(unsigned long a, unsigned long b)
@@ -4969,7 +5036,7 @@ static inline uint64_t BDK_USBHX_UAHC_PORTPMSC_20X(unsigned long a, unsigned lon
  * or USBH()_UAHC_GCTL[CORESOFTRESET],
  * or USBH()_UAHC_USBCMD[HCRST].
  */
-typedef union
+union bdk_usbhx_uahc_portpmsc_ssx
 {
     uint32_t u;
     struct bdk_usbhx_uahc_portpmsc_ssx_s
@@ -4987,7 +5054,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uahc_portpmsc_ssx_s cn; */
-} bdk_usbhx_uahc_portpmsc_ssx_t;
+};
+typedef union bdk_usbhx_uahc_portpmsc_ssx bdk_usbhx_uahc_portpmsc_ssx_t;
 
 static inline uint64_t BDK_USBHX_UAHC_PORTPMSC_SSX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_PORTPMSC_SSX(unsigned long a, unsigned long b)
@@ -5016,7 +5084,7 @@ static inline uint64_t BDK_USBHX_UAHC_PORTPMSC_SSX(unsigned long a, unsigned lon
  * or USBH()_UAHC_GCTL[CORESOFTRESET],
  * or USBH()_UAHC_USBCMD[HCRST].
  */
-typedef union
+union bdk_usbhx_uahc_portscx
 {
     uint32_t u;
     struct bdk_usbhx_uahc_portscx_s
@@ -5074,7 +5142,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uahc_portscx_s cn; */
-} bdk_usbhx_uahc_portscx_t;
+};
+typedef union bdk_usbhx_uahc_portscx bdk_usbhx_uahc_portscx_t;
 
 static inline uint64_t BDK_USBHX_UAHC_PORTSCX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_PORTSCX(unsigned long a, unsigned long b)
@@ -5097,7 +5166,7 @@ static inline uint64_t BDK_USBHX_UAHC_PORTSCX(unsigned long a, unsigned long b)
  * XHCI Runtime Register-Space Offset Register
  * For information on this register, refer to the xHCI Specification, v1.0, section 5.3.8.
  */
-typedef union
+union bdk_usbhx_uahc_rtsoff
 {
     uint32_t u;
     struct bdk_usbhx_uahc_rtsoff_s
@@ -5111,7 +5180,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uahc_rtsoff_s cn; */
-} bdk_usbhx_uahc_rtsoff_t;
+};
+typedef union bdk_usbhx_uahc_rtsoff bdk_usbhx_uahc_rtsoff_t;
 
 static inline uint64_t BDK_USBHX_UAHC_RTSOFF(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_RTSOFF(unsigned long a)
@@ -5134,7 +5204,7 @@ static inline uint64_t BDK_USBHX_UAHC_RTSOFF(unsigned long a)
  * XHCI Supported-Protocol-Capability (USB 2.0) Register 0
  * For information on this register, refer to the xHCI Specification, v1.0, section 7.2.
  */
-typedef union
+union bdk_usbhx_uahc_suptprt2_dw0
 {
     uint32_t u;
     struct bdk_usbhx_uahc_suptprt2_dw0_s
@@ -5152,7 +5222,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uahc_suptprt2_dw0_s cn; */
-} bdk_usbhx_uahc_suptprt2_dw0_t;
+};
+typedef union bdk_usbhx_uahc_suptprt2_dw0 bdk_usbhx_uahc_suptprt2_dw0_t;
 
 static inline uint64_t BDK_USBHX_UAHC_SUPTPRT2_DW0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_SUPTPRT2_DW0(unsigned long a)
@@ -5175,7 +5246,7 @@ static inline uint64_t BDK_USBHX_UAHC_SUPTPRT2_DW0(unsigned long a)
  * XHCI Supported-Protocol-Capability (USB 2.0) Register 1
  * For information on this register, refer to the xHCI Specification, v1.0, section 7.2.
  */
-typedef union
+union bdk_usbhx_uahc_suptprt2_dw1
 {
     uint32_t u;
     struct bdk_usbhx_uahc_suptprt2_dw1_s
@@ -5187,7 +5258,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uahc_suptprt2_dw1_s cn; */
-} bdk_usbhx_uahc_suptprt2_dw1_t;
+};
+typedef union bdk_usbhx_uahc_suptprt2_dw1 bdk_usbhx_uahc_suptprt2_dw1_t;
 
 static inline uint64_t BDK_USBHX_UAHC_SUPTPRT2_DW1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_SUPTPRT2_DW1(unsigned long a)
@@ -5210,7 +5282,7 @@ static inline uint64_t BDK_USBHX_UAHC_SUPTPRT2_DW1(unsigned long a)
  * XHCI Supported-Protocol-Capability (USB 2.0) Register 2
  * For information on this register, refer to the xHCI Specification, v1.0, section 7.2.
  */
-typedef union
+union bdk_usbhx_uahc_suptprt2_dw2
 {
     uint32_t u;
     struct bdk_usbhx_uahc_suptprt2_dw2_s
@@ -5238,7 +5310,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uahc_suptprt2_dw2_s cn; */
-} bdk_usbhx_uahc_suptprt2_dw2_t;
+};
+typedef union bdk_usbhx_uahc_suptprt2_dw2 bdk_usbhx_uahc_suptprt2_dw2_t;
 
 static inline uint64_t BDK_USBHX_UAHC_SUPTPRT2_DW2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_SUPTPRT2_DW2(unsigned long a)
@@ -5261,7 +5334,7 @@ static inline uint64_t BDK_USBHX_UAHC_SUPTPRT2_DW2(unsigned long a)
  * XHCI Supported-Protocol-Capability (USB 2.0) Register 3
  * For information on this register, refer to the xHCI Specification, v1.1, section 7.2.
  */
-typedef union
+union bdk_usbhx_uahc_suptprt2_dw3
 {
     uint32_t u;
     struct bdk_usbhx_uahc_suptprt2_dw3_s
@@ -5275,7 +5348,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uahc_suptprt2_dw3_s cn; */
-} bdk_usbhx_uahc_suptprt2_dw3_t;
+};
+typedef union bdk_usbhx_uahc_suptprt2_dw3 bdk_usbhx_uahc_suptprt2_dw3_t;
 
 static inline uint64_t BDK_USBHX_UAHC_SUPTPRT2_DW3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_SUPTPRT2_DW3(unsigned long a)
@@ -5298,7 +5372,7 @@ static inline uint64_t BDK_USBHX_UAHC_SUPTPRT2_DW3(unsigned long a)
  * XHCI Supported-Protocol-Capability (USB 3.0) Register 0
  * For information on this register, refer to the xHCI Specification, v1.0, section 7.2.
  */
-typedef union
+union bdk_usbhx_uahc_suptprt3_dw0
 {
     uint32_t u;
     struct bdk_usbhx_uahc_suptprt3_dw0_s
@@ -5320,7 +5394,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uahc_suptprt3_dw0_s cn; */
-} bdk_usbhx_uahc_suptprt3_dw0_t;
+};
+typedef union bdk_usbhx_uahc_suptprt3_dw0 bdk_usbhx_uahc_suptprt3_dw0_t;
 
 static inline uint64_t BDK_USBHX_UAHC_SUPTPRT3_DW0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_SUPTPRT3_DW0(unsigned long a)
@@ -5343,7 +5418,7 @@ static inline uint64_t BDK_USBHX_UAHC_SUPTPRT3_DW0(unsigned long a)
  * XHCI Supported-Protocol-Capability (USB 3.0) Register 1
  * For information on this register, refer to the xHCI Specification, v1.0, section 7.2.
  */
-typedef union
+union bdk_usbhx_uahc_suptprt3_dw1
 {
     uint32_t u;
     struct bdk_usbhx_uahc_suptprt3_dw1_s
@@ -5355,7 +5430,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uahc_suptprt3_dw1_s cn; */
-} bdk_usbhx_uahc_suptprt3_dw1_t;
+};
+typedef union bdk_usbhx_uahc_suptprt3_dw1 bdk_usbhx_uahc_suptprt3_dw1_t;
 
 static inline uint64_t BDK_USBHX_UAHC_SUPTPRT3_DW1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_SUPTPRT3_DW1(unsigned long a)
@@ -5378,7 +5454,7 @@ static inline uint64_t BDK_USBHX_UAHC_SUPTPRT3_DW1(unsigned long a)
  * XHCI Supported-Protocol-Capability (USB 3.0) Register 2
  * For information on this register, refer to the xHCI Specification, v1.0, section 7.2.
  */
-typedef union
+union bdk_usbhx_uahc_suptprt3_dw2
 {
     uint32_t u;
     struct bdk_usbhx_uahc_suptprt3_dw2_s
@@ -5396,7 +5472,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uahc_suptprt3_dw2_s cn; */
-} bdk_usbhx_uahc_suptprt3_dw2_t;
+};
+typedef union bdk_usbhx_uahc_suptprt3_dw2 bdk_usbhx_uahc_suptprt3_dw2_t;
 
 static inline uint64_t BDK_USBHX_UAHC_SUPTPRT3_DW2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_SUPTPRT3_DW2(unsigned long a)
@@ -5419,7 +5496,7 @@ static inline uint64_t BDK_USBHX_UAHC_SUPTPRT3_DW2(unsigned long a)
  * XHCI Supported-Protocol-Capability (USB 3.0) Register 3
  * For information on this register, refer to the xHCI Specification, v1.1, section 7.2.
  */
-typedef union
+union bdk_usbhx_uahc_suptprt3_dw3
 {
     uint32_t u;
     struct bdk_usbhx_uahc_suptprt3_dw3_s
@@ -5433,7 +5510,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uahc_suptprt3_dw3_s cn; */
-} bdk_usbhx_uahc_suptprt3_dw3_t;
+};
+typedef union bdk_usbhx_uahc_suptprt3_dw3 bdk_usbhx_uahc_suptprt3_dw3_t;
 
 static inline uint64_t BDK_USBHX_UAHC_SUPTPRT3_DW3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_SUPTPRT3_DW3(unsigned long a)
@@ -5461,7 +5539,7 @@ static inline uint64_t BDK_USBHX_UAHC_SUPTPRT3_DW3(unsigned long a)
  * or USBH()_UAHC_GCTL[CORESOFTRESET],
  * or USBH()_UAHC_USBCMD[HCRST], or USBH()_UAHC_USBCMD[LHCRST].
  */
-typedef union
+union bdk_usbhx_uahc_usbcmd
 {
     uint32_t u;
     struct bdk_usbhx_uahc_usbcmd_s
@@ -5493,7 +5571,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uahc_usbcmd_s cn; */
-} bdk_usbhx_uahc_usbcmd_t;
+};
+typedef union bdk_usbhx_uahc_usbcmd bdk_usbhx_uahc_usbcmd_t;
 
 static inline uint64_t BDK_USBHX_UAHC_USBCMD(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_USBCMD(unsigned long a)
@@ -5522,7 +5601,7 @@ static inline uint64_t BDK_USBHX_UAHC_USBCMD(unsigned long a)
  * or USBH()_UAHC_GCTL[CORESOFTRESET],
  * or USBH()_UAHC_USBCMD[HCRST], or USBH()_UAHC_USBCMD[LHCRST].
  */
-typedef union
+union bdk_usbhx_uahc_usblegctlsts
 {
     uint32_t u;
     struct bdk_usbhx_uahc_usblegctlsts_s
@@ -5578,7 +5657,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uahc_usblegctlsts_s cn; */
-} bdk_usbhx_uahc_usblegctlsts_t;
+};
+typedef union bdk_usbhx_uahc_usblegctlsts bdk_usbhx_uahc_usblegctlsts_t;
 
 static inline uint64_t BDK_USBHX_UAHC_USBLEGCTLSTS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_USBLEGCTLSTS(unsigned long a)
@@ -5606,7 +5686,7 @@ static inline uint64_t BDK_USBHX_UAHC_USBLEGCTLSTS(unsigned long a)
  * or USBH()_UAHC_GCTL[CORESOFTRESET],
  * or USBH()_UAHC_USBCMD[HCRST], or USBH()_UAHC_USBCMD[LHCRST].
  */
-typedef union
+union bdk_usbhx_uahc_usblegsup
 {
     uint32_t u;
     struct bdk_usbhx_uahc_usblegsup_s
@@ -5628,7 +5708,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uahc_usblegsup_s cn; */
-} bdk_usbhx_uahc_usblegsup_t;
+};
+typedef union bdk_usbhx_uahc_usblegsup bdk_usbhx_uahc_usblegsup_t;
 
 static inline uint64_t BDK_USBHX_UAHC_USBLEGSUP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_USBLEGSUP(unsigned long a)
@@ -5656,7 +5737,7 @@ static inline uint64_t BDK_USBHX_UAHC_USBLEGSUP(unsigned long a)
  * or USBH()_UAHC_GCTL[CORESOFTRESET],
  * or USBH()_UAHC_USBCMD[HCRST], or USBH()_UAHC_USBCMD[LHCRST].
  */
-typedef union
+union bdk_usbhx_uahc_usbsts
 {
     uint32_t u;
     struct bdk_usbhx_uahc_usbsts_s
@@ -5690,7 +5771,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uahc_usbsts_s cn; */
-} bdk_usbhx_uahc_usbsts_t;
+};
+typedef union bdk_usbhx_uahc_usbsts bdk_usbhx_uahc_usbsts_t;
 
 static inline uint64_t BDK_USBHX_UAHC_USBSTS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_USBSTS(unsigned long a)
@@ -5714,7 +5796,7 @@ static inline uint64_t BDK_USBHX_UAHC_USBSTS(unsigned long a)
  * This register indicates the results from the built-in self-test (BIST) runs of USBH memories.
  * A 0 indicates pass or never run, a 1 indicates fail. This register can be reset by NCB reset.
  */
-typedef union
+union bdk_usbhx_uctl_bist_status
 {
     uint64_t u;
     struct bdk_usbhx_uctl_bist_status_s
@@ -5752,7 +5834,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uctl_bist_status_s cn; */
-} bdk_usbhx_uctl_bist_status_t;
+};
+typedef union bdk_usbhx_uctl_bist_status bdk_usbhx_uctl_bist_status_t;
 
 static inline uint64_t BDK_USBHX_UCTL_BIST_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UCTL_BIST_STATUS(unsigned long a)
@@ -5777,7 +5860,7 @@ static inline uint64_t BDK_USBHX_UCTL_BIST_STATUS(unsigned long a)
  *
  * This register can be reset by NCB reset.
  */
-typedef union
+union bdk_usbhx_uctl_ctl
 {
     uint64_t u;
     struct bdk_usbhx_uctl_ctl_s
@@ -6163,7 +6246,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uctl_ctl_s cn; */
-} bdk_usbhx_uctl_ctl_t;
+};
+typedef union bdk_usbhx_uctl_ctl bdk_usbhx_uctl_ctl_t;
 
 static inline uint64_t BDK_USBHX_UCTL_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UCTL_CTL(unsigned long a)
@@ -6204,7 +6288,7 @@ static inline uint64_t BDK_USBHX_UCTL_CTL(unsigned long a)
  *
  * This register can be reset by NCB reset or with USBH()_UCTL_CTL[UCTL_RST].
  */
-typedef union
+union bdk_usbhx_uctl_ecc
 {
     uint64_t u;
     struct bdk_usbhx_uctl_ecc_s
@@ -6246,7 +6330,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uctl_ecc_s cn; */
-} bdk_usbhx_uctl_ecc_t;
+};
+typedef union bdk_usbhx_uctl_ecc bdk_usbhx_uctl_ecc_t;
 
 static inline uint64_t BDK_USBHX_UCTL_ECC(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UCTL_ECC(unsigned long a)
@@ -6274,7 +6359,7 @@ static inline uint64_t BDK_USBHX_UCTL_ECC(unsigned long a)
  *
  * This register can be reset by NCB reset or with USBH()_UCTL_CTL[UCTL_RST].
  */
-typedef union
+union bdk_usbhx_uctl_host_cfg
 {
     uint64_t u;
     struct bdk_usbhx_uctl_host_cfg_s
@@ -6388,7 +6473,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uctl_host_cfg_s cn; */
-} bdk_usbhx_uctl_host_cfg_t;
+};
+typedef union bdk_usbhx_uctl_host_cfg bdk_usbhx_uctl_host_cfg_t;
 
 static inline uint64_t BDK_USBHX_UCTL_HOST_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UCTL_HOST_CFG(unsigned long a)
@@ -6411,7 +6497,7 @@ static inline uint64_t BDK_USBHX_UCTL_HOST_CFG(unsigned long a)
  * UCTL Interrupt Status Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_usbhx_uctl_intena_w1c
 {
     uint64_t u;
     struct bdk_usbhx_uctl_intena_w1c_s
@@ -6459,7 +6545,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uctl_intena_w1c_s cn; */
-} bdk_usbhx_uctl_intena_w1c_t;
+};
+typedef union bdk_usbhx_uctl_intena_w1c bdk_usbhx_uctl_intena_w1c_t;
 
 static inline uint64_t BDK_USBHX_UCTL_INTENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UCTL_INTENA_W1C(unsigned long a)
@@ -6482,7 +6569,7 @@ static inline uint64_t BDK_USBHX_UCTL_INTENA_W1C(unsigned long a)
  * UCTL Interrupt Status Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_usbhx_uctl_intena_w1s
 {
     uint64_t u;
     struct bdk_usbhx_uctl_intena_w1s_s
@@ -6530,7 +6617,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uctl_intena_w1s_s cn; */
-} bdk_usbhx_uctl_intena_w1s_t;
+};
+typedef union bdk_usbhx_uctl_intena_w1s bdk_usbhx_uctl_intena_w1s_t;
 
 static inline uint64_t BDK_USBHX_UCTL_INTENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UCTL_INTENA_W1S(unsigned long a)
@@ -6556,7 +6644,7 @@ static inline uint64_t BDK_USBHX_UCTL_INTENA_W1S(unsigned long a)
  * can
  * be reset by NCB reset.
  */
-typedef union
+union bdk_usbhx_uctl_intstat
 {
     uint64_t u;
     struct bdk_usbhx_uctl_intstat_s
@@ -6624,7 +6712,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uctl_intstat_s cn; */
-} bdk_usbhx_uctl_intstat_t;
+};
+typedef union bdk_usbhx_uctl_intstat bdk_usbhx_uctl_intstat_t;
 
 static inline uint64_t BDK_USBHX_UCTL_INTSTAT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UCTL_INTSTAT(unsigned long a)
@@ -6647,7 +6736,7 @@ static inline uint64_t BDK_USBHX_UCTL_INTSTAT(unsigned long a)
  * UCTL Interrupt Status Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_usbhx_uctl_intstat_w1s
 {
     uint64_t u;
     struct bdk_usbhx_uctl_intstat_w1s_s
@@ -6695,7 +6784,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uctl_intstat_w1s_s cn; */
-} bdk_usbhx_uctl_intstat_w1s_t;
+};
+typedef union bdk_usbhx_uctl_intstat_w1s bdk_usbhx_uctl_intstat_w1s_t;
 
 static inline uint64_t BDK_USBHX_UCTL_INTSTAT_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UCTL_INTSTAT_W1S(unsigned long a)
@@ -6725,7 +6815,7 @@ static inline uint64_t BDK_USBHX_UCTL_INTSTAT_W1S(unsigned long a)
  * Internal:
  * INTERNAL: All these settings are for HS functionality, connect on DVDD power domain.
  */
-typedef union
+union bdk_usbhx_uctl_portx_cfg_hs
 {
     uint64_t u;
     struct bdk_usbhx_uctl_portx_cfg_hs_s
@@ -6899,7 +6989,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uctl_portx_cfg_hs_s cn; */
-} bdk_usbhx_uctl_portx_cfg_hs_t;
+};
+typedef union bdk_usbhx_uctl_portx_cfg_hs bdk_usbhx_uctl_portx_cfg_hs_t;
 
 static inline uint64_t BDK_USBHX_UCTL_PORTX_CFG_HS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UCTL_PORTX_CFG_HS(unsigned long a, unsigned long b)
@@ -6929,7 +7020,7 @@ static inline uint64_t BDK_USBHX_UCTL_PORTX_CFG_HS(unsigned long a, unsigned lon
  * Internal:
  * All these settings are for high-speed functionality, connect on DVDD power domain.
  */
-typedef union
+union bdk_usbhx_uctl_portx_cfg_ss
 {
     uint64_t u;
     struct bdk_usbhx_uctl_portx_cfg_ss_s
@@ -7167,7 +7258,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uctl_portx_cfg_ss_s cn; */
-} bdk_usbhx_uctl_portx_cfg_ss_t;
+};
+typedef union bdk_usbhx_uctl_portx_cfg_ss bdk_usbhx_uctl_portx_cfg_ss_t;
 
 static inline uint64_t BDK_USBHX_UCTL_PORTX_CFG_SS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UCTL_PORTX_CFG_SS(unsigned long a, unsigned long b)
@@ -7251,7 +7343,7 @@ static inline uint64_t BDK_USBHX_UCTL_PORTX_CFG_SS(unsigned long a, unsigned lon
  * For partial writes, a read-modify write is required. Note that the CAP_ADDR steps (1-5)
  * do not have to be repeated until the address needs changed.
  */
-typedef union
+union bdk_usbhx_uctl_portx_cr_dbg_cfg
 {
     uint64_t u;
     struct bdk_usbhx_uctl_portx_cr_dbg_cfg_s
@@ -7275,7 +7367,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uctl_portx_cr_dbg_cfg_s cn; */
-} bdk_usbhx_uctl_portx_cr_dbg_cfg_t;
+};
+typedef union bdk_usbhx_uctl_portx_cr_dbg_cfg bdk_usbhx_uctl_portx_cr_dbg_cfg_t;
 
 static inline uint64_t BDK_USBHX_UCTL_PORTX_CR_DBG_CFG(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UCTL_PORTX_CR_DBG_CFG(unsigned long a, unsigned long b)
@@ -7303,7 +7396,7 @@ static inline uint64_t BDK_USBHX_UCTL_PORTX_CR_DBG_CFG(unsigned long a, unsigned
  *
  * This register can be reset by NCB reset or with USBH()_UCTL_CTL[UCTL_RST].
  */
-typedef union
+union bdk_usbhx_uctl_portx_cr_dbg_status
 {
     uint64_t u;
     struct bdk_usbhx_uctl_portx_cr_dbg_status_s
@@ -7321,7 +7414,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uctl_portx_cr_dbg_status_s cn; */
-} bdk_usbhx_uctl_portx_cr_dbg_status_t;
+};
+typedef union bdk_usbhx_uctl_portx_cr_dbg_status bdk_usbhx_uctl_portx_cr_dbg_status_t;
 
 static inline uint64_t BDK_USBHX_UCTL_PORTX_CR_DBG_STATUS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UCTL_PORTX_CR_DBG_STATUS(unsigned long a, unsigned long b)
@@ -7351,7 +7445,7 @@ static inline uint64_t BDK_USBHX_UCTL_PORTX_CR_DBG_STATUS(unsigned long a, unsig
  *
  * This register can be reset by NCB reset or with USBH()_UCTL_CTL[UCTL_RST].
  */
-typedef union
+union bdk_usbhx_uctl_shim_cfg
 {
     uint64_t u;
     struct bdk_usbhx_uctl_shim_cfg_s
@@ -7399,7 +7493,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uctl_shim_cfg_s cn; */
-} bdk_usbhx_uctl_shim_cfg_t;
+};
+typedef union bdk_usbhx_uctl_shim_cfg bdk_usbhx_uctl_shim_cfg_t;
 
 static inline uint64_t BDK_USBHX_UCTL_SHIM_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UCTL_SHIM_CFG(unsigned long a)
@@ -7422,7 +7517,7 @@ static inline uint64_t BDK_USBHX_UCTL_SHIM_CFG(unsigned long a)
  * UCTL Spare Register 0
  * This register is a spare register. This register can be reset by NCB reset.
  */
-typedef union
+union bdk_usbhx_uctl_spare0
 {
     uint64_t u;
     struct bdk_usbhx_uctl_spare0_s
@@ -7434,7 +7529,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uctl_spare0_s cn; */
-} bdk_usbhx_uctl_spare0_t;
+};
+typedef union bdk_usbhx_uctl_spare0 bdk_usbhx_uctl_spare0_t;
 
 static inline uint64_t BDK_USBHX_UCTL_SPARE0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UCTL_SPARE0(unsigned long a)
@@ -7459,7 +7555,7 @@ static inline uint64_t BDK_USBHX_UCTL_SPARE0(unsigned long a)
  *
  * This register can be reset by NCB reset or with USBH()_UCTL_CTL[UCTL_RST].
  */
-typedef union
+union bdk_usbhx_uctl_spare1
 {
     uint64_t u;
     struct bdk_usbhx_uctl_spare1_s
@@ -7471,7 +7567,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbhx_uctl_spare1_s cn; */
-} bdk_usbhx_uctl_spare1_t;
+};
+typedef union bdk_usbhx_uctl_spare1 bdk_usbhx_uctl_spare1_t;
 
 static inline uint64_t BDK_USBHX_UCTL_SPARE1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UCTL_SPARE1(unsigned long a)

@@ -114,7 +114,7 @@
  * This register contains the address index and control bits for access to memory ranges of BAR1.
  * The index is selected from the PCIe address depending on the programmed BAR-1 size.
  */
-typedef union
+union bdk_pemx_bar1_indexx
 {
     uint64_t u;
     struct bdk_pemx_bar1_indexx_s
@@ -151,7 +151,8 @@ typedef union
     } cn81xx;
     /* struct bdk_pemx_bar1_indexx_cn81xx cn88xx; */
     /* struct bdk_pemx_bar1_indexx_s cn83xx; */
-} bdk_pemx_bar1_indexx_t;
+};
+typedef union bdk_pemx_bar1_indexx bdk_pemx_bar1_indexx_t;
 
 static inline uint64_t BDK_PEMX_BAR1_INDEXX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_BAR1_INDEXX(unsigned long a, unsigned long b)
@@ -179,7 +180,7 @@ static inline uint64_t BDK_PEMX_BAR1_INDEXX(unsigned long a, unsigned long b)
  * This register contains the mask pattern that is ANDed with the address from the PCIe core for
  * BAR2 hits.
  */
-typedef union
+union bdk_pemx_bar2_mask
 {
     uint64_t u;
     struct bdk_pemx_bar2_mask_s
@@ -208,7 +209,8 @@ typedef union
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_pemx_bar2_mask_t;
+};
+typedef union bdk_pemx_bar2_mask bdk_pemx_bar2_mask_t;
 
 static inline uint64_t BDK_PEMX_BAR2_MASK(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_BAR2_MASK(unsigned long a)
@@ -235,7 +237,7 @@ static inline uint64_t BDK_PEMX_BAR2_MASK(unsigned long a)
  * PEM BAR Control Register
  * This register contains control for BAR accesses.
  */
-typedef union
+union bdk_pemx_bar_ctl
 {
     uint64_t u;
     struct bdk_pemx_bar_ctl_s
@@ -381,7 +383,8 @@ typedef union
         uint64_t reserved_25_63        : 39;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_pemx_bar_ctl_t;
+};
+typedef union bdk_pemx_bar_ctl bdk_pemx_bar_ctl_t;
 
 static inline uint64_t BDK_PEMX_BAR_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_BAR_CTL(unsigned long a)
@@ -408,7 +411,7 @@ static inline uint64_t BDK_PEMX_BAR_CTL(unsigned long a)
  * PEM BIST Status Register
  * This register contains results from BIST runs of PEM's memories.
  */
-typedef union
+union bdk_pemx_bist_status
 {
     uint64_t u;
     struct bdk_pemx_bist_status_s
@@ -600,7 +603,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn83xx;
     /* struct bdk_pemx_bist_status_cn81xx cn88xxp2; */
-} bdk_pemx_bist_status_t;
+};
+typedef union bdk_pemx_bist_status bdk_pemx_bist_status_t;
 
 static inline uint64_t BDK_PEMX_BIST_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_BIST_STATUS(unsigned long a)
@@ -627,7 +631,7 @@ static inline uint64_t BDK_PEMX_BIST_STATUS(unsigned long a)
  * PEM Application Configuration Register
  * Configuration of the PCIe Application.
  */
-typedef union
+union bdk_pemx_cfg
 {
     uint64_t u;
     struct bdk_pemx_cfg_s
@@ -810,7 +814,8 @@ typedef union
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_pemx_cfg_t;
+};
+typedef union bdk_pemx_cfg bdk_pemx_cfg_t;
 
 static inline uint64_t BDK_PEMX_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_CFG(unsigned long a)
@@ -837,7 +842,7 @@ static inline uint64_t BDK_PEMX_CFG(unsigned long a)
  * PEM Configuration Read Register
  * This register allows read access to the configuration in the PCIe core.
  */
-typedef union
+union bdk_pemx_cfg_rd
 {
     uint64_t u;
     struct bdk_pemx_cfg_rd_s
@@ -910,7 +915,8 @@ typedef union
         uint64_t data                  : 32; /**< [ 63: 32](R/W/H) Data. */
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_pemx_cfg_rd_t;
+};
+typedef union bdk_pemx_cfg_rd bdk_pemx_cfg_rd_t;
 
 static inline uint64_t BDK_PEMX_CFG_RD(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_CFG_RD(unsigned long a)
@@ -937,7 +943,7 @@ static inline uint64_t BDK_PEMX_CFG_RD(unsigned long a)
  * PEM Configuration Write Register
  * This register allows write access to the configuration in the PCIe core.
  */
-typedef union
+union bdk_pemx_cfg_wr
 {
     uint64_t u;
     struct bdk_pemx_cfg_wr_s
@@ -1024,7 +1030,8 @@ typedef union
         uint64_t data                  : 32; /**< [ 63: 32](R/W) Data to write. A write to this register starts a write operation. */
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_pemx_cfg_wr_t;
+};
+typedef union bdk_pemx_cfg_wr bdk_pemx_cfg_wr_t;
 
 static inline uint64_t BDK_PEMX_CFG_WR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_CFG_WR(unsigned long a)
@@ -1051,7 +1058,7 @@ static inline uint64_t BDK_PEMX_CFG_WR(unsigned long a)
  * PEM Clock Enable Register
  * This register contains the clock enable for CSCLK and PCE_CLK.
  */
-typedef union
+union bdk_pemx_clk_en
 {
     uint64_t u;
     struct bdk_pemx_clk_en_s
@@ -1100,7 +1107,8 @@ typedef union
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_pemx_clk_en_t;
+};
+typedef union bdk_pemx_clk_en bdk_pemx_clk_en_t;
 
 static inline uint64_t BDK_PEMX_CLK_EN(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_CLK_EN(unsigned long a)
@@ -1127,7 +1135,7 @@ static inline uint64_t BDK_PEMX_CLK_EN(unsigned long a)
  * PEM Completion Lookup Table Valid Register
  * This register specifies the bit set for an outstanding tag read.
  */
-typedef union
+union bdk_pemx_cpl_lut_valid
 {
     uint64_t u;
     struct bdk_pemx_cpl_lut_valid_s
@@ -1139,7 +1147,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pemx_cpl_lut_valid_s cn; */
-} bdk_pemx_cpl_lut_valid_t;
+};
+typedef union bdk_pemx_cpl_lut_valid bdk_pemx_cpl_lut_valid_t;
 
 static inline uint64_t BDK_PEMX_CPL_LUT_VALID(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_CPL_LUT_VALID(unsigned long a)
@@ -1166,7 +1175,7 @@ static inline uint64_t BDK_PEMX_CPL_LUT_VALID(unsigned long a)
  * PEM Control Status Register
  * This is a general control and status register of the PEM.
  */
-typedef union
+union bdk_pemx_ctl_status
 {
     uint64_t u;
     struct bdk_pemx_ctl_status_s
@@ -1551,7 +1560,8 @@ typedef union
         uint64_t reserved_55_63        : 9;
 #endif /* Word 0 - End */
     } cn88xxp2;
-} bdk_pemx_ctl_status_t;
+};
+typedef union bdk_pemx_ctl_status bdk_pemx_ctl_status_t;
 
 static inline uint64_t BDK_PEMX_CTL_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_CTL_STATUS(unsigned long a)
@@ -1578,7 +1588,7 @@ static inline uint64_t BDK_PEMX_CTL_STATUS(unsigned long a)
  * PEM Control Status 2 Register
  * This register contains additional general control and status of the PEM.
  */
-typedef union
+union bdk_pemx_ctl_status2
 {
     uint64_t u;
     struct bdk_pemx_ctl_status2_s
@@ -1602,7 +1612,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pemx_ctl_status2_s cn; */
-} bdk_pemx_ctl_status2_t;
+};
+typedef union bdk_pemx_ctl_status2 bdk_pemx_ctl_status2_t;
 
 static inline uint64_t BDK_PEMX_CTL_STATUS2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_CTL_STATUS2(unsigned long a)
@@ -1629,7 +1640,7 @@ static inline uint64_t BDK_PEMX_CTL_STATUS2(unsigned long a)
  * PEM EP Mode Stream Register
  * This register is used to generate the SMMU stream ID when in endpoint mode.
  */
-typedef union
+union bdk_pemx_ctl_stream
 {
     uint64_t u;
     struct bdk_pemx_ctl_stream_s
@@ -1677,7 +1688,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pemx_ctl_stream_s cn; */
-} bdk_pemx_ctl_stream_t;
+};
+typedef union bdk_pemx_ctl_stream bdk_pemx_ctl_stream_t;
 
 static inline uint64_t BDK_PEMX_CTL_STREAM(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_CTL_STREAM(unsigned long a)
@@ -1700,7 +1712,7 @@ static inline uint64_t BDK_PEMX_CTL_STREAM(unsigned long a)
  * PEM Debug Information Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_pemx_dbg_ena_w1c
 {
     uint64_t u;
     struct bdk_pemx_dbg_ena_w1c_s
@@ -2891,7 +2903,8 @@ typedef union
         uint64_t reserved_58_63        : 6;
 #endif /* Word 0 - End */
     } cn88xxp2;
-} bdk_pemx_dbg_ena_w1c_t;
+};
+typedef union bdk_pemx_dbg_ena_w1c bdk_pemx_dbg_ena_w1c_t;
 
 static inline uint64_t BDK_PEMX_DBG_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_DBG_ENA_W1C(unsigned long a)
@@ -2918,7 +2931,7 @@ static inline uint64_t BDK_PEMX_DBG_ENA_W1C(unsigned long a)
  * PEM Debug Information Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_pemx_dbg_ena_w1s
 {
     uint64_t u;
     struct bdk_pemx_dbg_ena_w1s_s
@@ -4109,7 +4122,8 @@ typedef union
         uint64_t reserved_58_63        : 6;
 #endif /* Word 0 - End */
     } cn88xxp2;
-} bdk_pemx_dbg_ena_w1s_t;
+};
+typedef union bdk_pemx_dbg_ena_w1s bdk_pemx_dbg_ena_w1s_t;
 
 static inline uint64_t BDK_PEMX_DBG_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_DBG_ENA_W1S(unsigned long a)
@@ -4136,7 +4150,7 @@ static inline uint64_t BDK_PEMX_DBG_ENA_W1S(unsigned long a)
  * PEM Debug Information Register
  * This is a debug information register of the PEM.
  */
-typedef union
+union bdk_pemx_dbg_info
 {
     uint64_t u;
     struct bdk_pemx_dbg_info_s
@@ -5180,7 +5194,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn83xx;
     /* struct bdk_pemx_dbg_info_cn81xx cn88xxp2; */
-} bdk_pemx_dbg_info_t;
+};
+typedef union bdk_pemx_dbg_info bdk_pemx_dbg_info_t;
 
 static inline uint64_t BDK_PEMX_DBG_INFO(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_DBG_INFO(unsigned long a)
@@ -5207,7 +5222,7 @@ static inline uint64_t BDK_PEMX_DBG_INFO(unsigned long a)
  * PEM Debug Information Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_pemx_dbg_info_w1s
 {
     uint64_t u;
     struct bdk_pemx_dbg_info_w1s_s
@@ -6398,7 +6413,8 @@ typedef union
         uint64_t reserved_58_63        : 6;
 #endif /* Word 0 - End */
     } cn88xxp2;
-} bdk_pemx_dbg_info_w1s_t;
+};
+typedef union bdk_pemx_dbg_info_w1s bdk_pemx_dbg_info_w1s_t;
 
 static inline uint64_t BDK_PEMX_DBG_INFO_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_DBG_INFO_W1S(unsigned long a)
@@ -6425,7 +6441,7 @@ static inline uint64_t BDK_PEMX_DBG_INFO_W1S(unsigned long a)
  * PEM Debug Register
  * This register contains status of level interrupts for debugging purposes.
  */
-typedef union
+union bdk_pemx_debug
 {
     uint64_t u;
     struct bdk_pemx_debug_s
@@ -6526,7 +6542,8 @@ typedef union
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } cn88xxp2;
-} bdk_pemx_debug_t;
+};
+typedef union bdk_pemx_debug bdk_pemx_debug_t;
 
 static inline uint64_t BDK_PEMX_DEBUG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_DEBUG(unsigned long a)
@@ -6553,7 +6570,7 @@ static inline uint64_t BDK_PEMX_DEBUG(unsigned long a)
  * PEM Diagnostic Status Register
  * This register contains selection control for the core diagnostic bus.
  */
-typedef union
+union bdk_pemx_diag_status
 {
     uint64_t u;
     struct bdk_pemx_diag_status_s
@@ -6594,7 +6611,8 @@ typedef union
         uint64_t reserved_9_63         : 55;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_pemx_diag_status_t;
+};
+typedef union bdk_pemx_diag_status bdk_pemx_diag_status_t;
 
 static inline uint64_t BDK_PEMX_DIAG_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_DIAG_STATUS(unsigned long a)
@@ -6621,7 +6639,7 @@ static inline uint64_t BDK_PEMX_DIAG_STATUS(unsigned long a)
  * PEM ECC Enable Register
  * Contains enables for TLP FIFO ECC RAMs.
  */
-typedef union
+union bdk_pemx_ecc_ena
 {
     uint64_t u;
     struct bdk_pemx_ecc_ena_s
@@ -6727,7 +6745,8 @@ typedef union
         uint64_t reserved_11_63        : 53;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_pemx_ecc_ena_t;
+};
+typedef union bdk_pemx_ecc_ena bdk_pemx_ecc_ena_t;
 
 static inline uint64_t BDK_PEMX_ECC_ENA(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_ECC_ENA(unsigned long a)
@@ -6754,7 +6773,7 @@ static inline uint64_t BDK_PEMX_ECC_ENA(unsigned long a)
  * PEM ECC Syndrome Control Register
  * This register contains syndrome control for TLP FIFO ECC RAMs.
  */
-typedef union
+union bdk_pemx_ecc_synd_ctrl
 {
     uint64_t u;
     struct bdk_pemx_ecc_synd_ctrl_s
@@ -6860,7 +6879,8 @@ typedef union
         uint64_t reserved_22_63        : 42;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_pemx_ecc_synd_ctrl_t;
+};
+typedef union bdk_pemx_ecc_synd_ctrl bdk_pemx_ecc_synd_ctrl_t;
 
 static inline uint64_t BDK_PEMX_ECC_SYND_CTRL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_ECC_SYND_CTRL(unsigned long a)
@@ -6886,7 +6906,7 @@ static inline uint64_t BDK_PEMX_ECC_SYND_CTRL(unsigned long a)
  *
  * INTERNAL: PEM ECO Register
  */
-typedef union
+union bdk_pemx_eco
 {
     uint64_t u;
     struct bdk_pemx_eco_s
@@ -6902,7 +6922,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pemx_eco_s cn; */
-} bdk_pemx_eco_t;
+};
+typedef union bdk_pemx_eco bdk_pemx_eco_t;
 
 static inline uint64_t BDK_PEMX_ECO(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_ECO(unsigned long a)
@@ -6925,7 +6946,7 @@ static inline uint64_t BDK_PEMX_ECO(unsigned long a)
  * PEM Expansion ROM Registers
  * This register accesses the external EEPROM.
  */
-typedef union
+union bdk_pemx_eromx
 {
     uint64_t u;
     struct bdk_pemx_eromx_s
@@ -6951,7 +6972,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pemx_eromx_s cn; */
-} bdk_pemx_eromx_t;
+};
+typedef union bdk_pemx_eromx bdk_pemx_eromx_t;
 
 static inline uint64_t BDK_PEMX_EROMX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_EROMX(unsigned long a, unsigned long b)
@@ -6974,7 +6996,7 @@ static inline uint64_t BDK_PEMX_EROMX(unsigned long a, unsigned long b)
  * PEM FLR Global Count Control Register
  * Function level reset global counter control.
  */
-typedef union
+union bdk_pemx_flr_glblcnt_ctl
 {
     uint64_t u;
     struct bdk_pemx_flr_glblcnt_ctl_s
@@ -7006,7 +7028,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pemx_flr_glblcnt_ctl_s cn; */
-} bdk_pemx_flr_glblcnt_ctl_t;
+};
+typedef union bdk_pemx_flr_glblcnt_ctl bdk_pemx_flr_glblcnt_ctl_t;
 
 static inline uint64_t BDK_PEMX_FLR_GLBLCNT_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_FLR_GLBLCNT_CTL(unsigned long a)
@@ -7048,7 +7071,7 @@ static inline uint64_t BDK_PEMX_FLR_GLBLCNT_CTL(unsigned long a)
  *
  * Note that STOPREQ will have no effect on M2S traffic.
  */
-typedef union
+union bdk_pemx_flr_pf0_vf_stopreq
 {
     uint64_t u;
     struct bdk_pemx_flr_pf0_vf_stopreq_s
@@ -7060,7 +7083,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pemx_flr_pf0_vf_stopreq_s cn; */
-} bdk_pemx_flr_pf0_vf_stopreq_t;
+};
+typedef union bdk_pemx_flr_pf0_vf_stopreq bdk_pemx_flr_pf0_vf_stopreq_t;
 
 static inline uint64_t BDK_PEMX_FLR_PF0_VF_STOPREQ(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_FLR_PF0_VF_STOPREQ(unsigned long a)
@@ -7101,7 +7125,7 @@ static inline uint64_t BDK_PEMX_FLR_PF0_VF_STOPREQ(unsigned long a)
  * Note that when PF0_STOPREQ is set, none of the PEM()_FLR_PF0_VF_STOPREQ[VF_STOPREQ]
  * will be set.
  */
-typedef union
+union bdk_pemx_flr_pf_stopreq
 {
     uint64_t u;
     struct bdk_pemx_flr_pf_stopreq_s
@@ -7115,7 +7139,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pemx_flr_pf_stopreq_s cn; */
-} bdk_pemx_flr_pf_stopreq_t;
+};
+typedef union bdk_pemx_flr_pf_stopreq bdk_pemx_flr_pf_stopreq_t;
 
 static inline uint64_t BDK_PEMX_FLR_PF_STOPREQ(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_FLR_PF_STOPREQ(unsigned long a)
@@ -7138,7 +7163,7 @@ static inline uint64_t BDK_PEMX_FLR_PF_STOPREQ(unsigned long a)
  * PEM FLR Global Count Control Register
  * Function level reset STOPREQ control register.
  */
-typedef union
+union bdk_pemx_flr_stopreq_ctl
 {
     uint64_t u;
     struct bdk_pemx_flr_stopreq_ctl_s
@@ -7168,7 +7193,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pemx_flr_stopreq_ctl_s cn; */
-} bdk_pemx_flr_stopreq_ctl_t;
+};
+typedef union bdk_pemx_flr_stopreq_ctl bdk_pemx_flr_stopreq_ctl_t;
 
 static inline uint64_t BDK_PEMX_FLR_STOPREQ_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_FLR_STOPREQ_CTL(unsigned long a)
@@ -7191,7 +7217,7 @@ static inline uint64_t BDK_PEMX_FLR_STOPREQ_CTL(unsigned long a)
  * PEM FLR Global Count Control Register
  * Function level reset global zombie counter control register.
  */
-typedef union
+union bdk_pemx_flr_zombie_ctl
 {
     uint64_t u;
     struct bdk_pemx_flr_zombie_ctl_s
@@ -7221,7 +7247,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pemx_flr_zombie_ctl_s cn; */
-} bdk_pemx_flr_zombie_ctl_t;
+};
+typedef union bdk_pemx_flr_zombie_ctl bdk_pemx_flr_zombie_ctl_t;
 
 static inline uint64_t BDK_PEMX_FLR_ZOMBIE_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_FLR_ZOMBIE_CTL(unsigned long a)
@@ -7244,7 +7271,7 @@ static inline uint64_t BDK_PEMX_FLR_ZOMBIE_CTL(unsigned long a)
  * PEM In-flight Read Credits Register
  * This register contains the number of in-flight read operations from PCIe core to SLI.
  */
-typedef union
+union bdk_pemx_inb_read_credits
 {
     uint64_t u;
     struct bdk_pemx_inb_read_credits_s
@@ -7274,7 +7301,8 @@ typedef union
     /* struct bdk_pemx_inb_read_credits_s cn81xx; */
     /* struct bdk_pemx_inb_read_credits_s cn83xx; */
     /* struct bdk_pemx_inb_read_credits_s cn88xxp2; */
-} bdk_pemx_inb_read_credits_t;
+};
+typedef union bdk_pemx_inb_read_credits bdk_pemx_inb_read_credits_t;
 
 static inline uint64_t BDK_PEMX_INB_READ_CREDITS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_INB_READ_CREDITS(unsigned long a)
@@ -7301,7 +7329,7 @@ static inline uint64_t BDK_PEMX_INB_READ_CREDITS(unsigned long a)
  * PEM Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_pemx_int_ena_w1c
 {
     uint64_t u;
     struct bdk_pemx_int_ena_w1c_s
@@ -7464,7 +7492,8 @@ typedef union
         uint64_t reserved_15_63        : 49;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_pemx_int_ena_w1c_t;
+};
+typedef union bdk_pemx_int_ena_w1c bdk_pemx_int_ena_w1c_t;
 
 static inline uint64_t BDK_PEMX_INT_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_INT_ENA_W1C(unsigned long a)
@@ -7491,7 +7520,7 @@ static inline uint64_t BDK_PEMX_INT_ENA_W1C(unsigned long a)
  * PEM Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_pemx_int_ena_w1s
 {
     uint64_t u;
     struct bdk_pemx_int_ena_w1s_s
@@ -7654,7 +7683,8 @@ typedef union
         uint64_t reserved_15_63        : 49;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_pemx_int_ena_w1s_t;
+};
+typedef union bdk_pemx_int_ena_w1s bdk_pemx_int_ena_w1s_t;
 
 static inline uint64_t BDK_PEMX_INT_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_INT_ENA_W1S(unsigned long a)
@@ -7681,7 +7711,7 @@ static inline uint64_t BDK_PEMX_INT_ENA_W1S(unsigned long a)
  * PEM Interrupt Summary Register
  * This register contains the different interrupt summary bits of the PEM.
  */
-typedef union
+union bdk_pemx_int_sum
 {
     uint64_t u;
     struct bdk_pemx_int_sum_s
@@ -7766,7 +7796,8 @@ typedef union
     } cn81xx;
     /* struct bdk_pemx_int_sum_cn81xx cn88xx; */
     /* struct bdk_pemx_int_sum_s cn83xx; */
-} bdk_pemx_int_sum_t;
+};
+typedef union bdk_pemx_int_sum bdk_pemx_int_sum_t;
 
 static inline uint64_t BDK_PEMX_INT_SUM(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_INT_SUM(unsigned long a)
@@ -7793,7 +7824,7 @@ static inline uint64_t BDK_PEMX_INT_SUM(unsigned long a)
  * PEM Interrupt Summary Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_pemx_int_sum_w1s
 {
     uint64_t u;
     struct bdk_pemx_int_sum_w1s_s
@@ -7956,7 +7987,8 @@ typedef union
         uint64_t reserved_15_63        : 49;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_pemx_int_sum_w1s_t;
+};
+typedef union bdk_pemx_int_sum_w1s bdk_pemx_int_sum_w1s_t;
 
 static inline uint64_t BDK_PEMX_INT_SUM_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_INT_SUM_W1S(unsigned long a)
@@ -7983,7 +8015,7 @@ static inline uint64_t BDK_PEMX_INT_SUM_W1S(unsigned long a)
  * PEM Latency Count Register
  * This register contains read latency count for debugging purposes.
  */
-typedef union
+union bdk_pemx_latency_pc
 {
     uint64_t u;
     struct bdk_pemx_latency_pc_s
@@ -7999,7 +8031,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pemx_latency_pc_s cn; */
-} bdk_pemx_latency_pc_t;
+};
+typedef union bdk_pemx_latency_pc bdk_pemx_latency_pc_t;
 
 static inline uint64_t BDK_PEMX_LATENCY_PC(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_LATENCY_PC(unsigned long a)
@@ -8022,7 +8055,7 @@ static inline uint64_t BDK_PEMX_LATENCY_PC(unsigned long a)
  * PEM Latency Control Register
  * This register controls read latency monitoring for debugging purposes.
  */
-typedef union
+union bdk_pemx_latency_pc_ctl
 {
     uint64_t u;
     struct bdk_pemx_latency_pc_ctl_s
@@ -8060,7 +8093,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pemx_latency_pc_ctl_s cn; */
-} bdk_pemx_latency_pc_ctl_t;
+};
+typedef union bdk_pemx_latency_pc_ctl bdk_pemx_latency_pc_ctl_t;
 
 static inline uint64_t BDK_PEMX_LATENCY_PC_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_LATENCY_PC_CTL(unsigned long a)
@@ -8083,7 +8117,7 @@ static inline uint64_t BDK_PEMX_LATENCY_PC_CTL(unsigned long a)
  * PEM Latency Counts Low Register
  * This register contains read latency masking for debugging purposes.
  */
-typedef union
+union bdk_pemx_latency_pc_maskx
 {
     uint64_t u;
     struct bdk_pemx_latency_pc_maskx_s
@@ -8101,7 +8135,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pemx_latency_pc_maskx_s cn; */
-} bdk_pemx_latency_pc_maskx_t;
+};
+typedef union bdk_pemx_latency_pc_maskx bdk_pemx_latency_pc_maskx_t;
 
 static inline uint64_t BDK_PEMX_LATENCY_PC_MASKX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_LATENCY_PC_MASKX(unsigned long a, unsigned long b)
@@ -8124,7 +8159,7 @@ static inline uint64_t BDK_PEMX_LATENCY_PC_MASKX(unsigned long a, unsigned long 
  * PEM MSI-X Pending Bit Array Registers
  * This register is the MSI-X PBA table, the bit number is indexed by the PEM_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_pemx_msix_pbax
 {
     uint64_t u;
     struct bdk_pemx_msix_pbax_s
@@ -8138,7 +8173,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pemx_msix_pbax_s cn; */
-} bdk_pemx_msix_pbax_t;
+};
+typedef union bdk_pemx_msix_pbax bdk_pemx_msix_pbax_t;
 
 static inline uint64_t BDK_PEMX_MSIX_PBAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_MSIX_PBAX(unsigned long a, unsigned long b)
@@ -8165,7 +8201,7 @@ static inline uint64_t BDK_PEMX_MSIX_PBAX(unsigned long a, unsigned long b)
  * PEM MSI-X Vector Table Address Registers
  * This register is the MSI-X vector table, indexed by the PEM_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_pemx_msix_vecx_addr
 {
     uint64_t u;
     struct bdk_pemx_msix_vecx_addr_s
@@ -8259,7 +8295,8 @@ typedef union
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_pemx_msix_vecx_addr_t;
+};
+typedef union bdk_pemx_msix_vecx_addr bdk_pemx_msix_vecx_addr_t;
 
 static inline uint64_t BDK_PEMX_MSIX_VECX_ADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
@@ -8288,7 +8325,7 @@ static inline uint64_t BDK_PEMX_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
  * PEM MSI-X Vector Table Control and Data Registers
  * This register is the MSI-X vector table, indexed by the PEM_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_pemx_msix_vecx_ctl
 {
     uint64_t u;
     struct bdk_pemx_msix_vecx_ctl_s
@@ -8306,7 +8343,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pemx_msix_vecx_ctl_s cn; */
-} bdk_pemx_msix_vecx_ctl_t;
+};
+typedef union bdk_pemx_msix_vecx_ctl bdk_pemx_msix_vecx_ctl_t;
 
 static inline uint64_t BDK_PEMX_MSIX_VECX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
@@ -8335,7 +8373,7 @@ static inline uint64_t BDK_PEMX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
  * PEM On Status Register
  * This register indicates that PEM is configured and ready.
  */
-typedef union
+union bdk_pemx_on
 {
     uint64_t u;
     struct bdk_pemx_on_s
@@ -8355,7 +8393,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pemx_on_s cn; */
-} bdk_pemx_on_t;
+};
+typedef union bdk_pemx_on bdk_pemx_on_t;
 
 static inline uint64_t BDK_PEMX_ON(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_ON(unsigned long a)
@@ -8383,7 +8422,7 @@ static inline uint64_t BDK_PEMX_ON(unsigned long a)
  * This register specifies the starting address for memory requests that are to be forwarded to
  * the SLI in RC mode.
  */
-typedef union
+union bdk_pemx_p2n_bar0_start
 {
     uint64_t u;
     struct bdk_pemx_p2n_bar0_start_s
@@ -8415,7 +8454,8 @@ typedef union
         uint64_t addr                  : 41; /**< [ 63: 23](R/W) The starting address of the 8 MB BAR0 address space. */
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_pemx_p2n_bar0_start_t;
+};
+typedef union bdk_pemx_p2n_bar0_start bdk_pemx_p2n_bar0_start_t;
 
 static inline uint64_t BDK_PEMX_P2N_BAR0_START(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_P2N_BAR0_START(unsigned long a)
@@ -8443,7 +8483,7 @@ static inline uint64_t BDK_PEMX_P2N_BAR0_START(unsigned long a)
  * This register specifies the starting address for memory requests that are to be forwarded to
  * the SLI in RC mode.
  */
-typedef union
+union bdk_pemx_p2n_bar1_start
 {
     uint64_t u;
     struct bdk_pemx_p2n_bar1_start_s
@@ -8457,7 +8497,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pemx_p2n_bar1_start_s cn; */
-} bdk_pemx_p2n_bar1_start_t;
+};
+typedef union bdk_pemx_p2n_bar1_start bdk_pemx_p2n_bar1_start_t;
 
 static inline uint64_t BDK_PEMX_P2N_BAR1_START(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_P2N_BAR1_START(unsigned long a)
@@ -8485,7 +8526,7 @@ static inline uint64_t BDK_PEMX_P2N_BAR1_START(unsigned long a)
  * This register specifies the starting address for memory requests that are to be forwarded to
  * the SLI in RC mode.
  */
-typedef union
+union bdk_pemx_p2n_bar2_start
 {
     uint64_t u;
     struct bdk_pemx_p2n_bar2_start_s
@@ -8525,7 +8566,8 @@ typedef union
                                                                  which defaults to ADDR<63:50> and used to determine a RC bar2 hit. */
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_pemx_p2n_bar2_start_t;
+};
+typedef union bdk_pemx_p2n_bar2_start bdk_pemx_p2n_bar2_start_t;
 
 static inline uint64_t BDK_PEMX_P2N_BAR2_START(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_P2N_BAR2_START(unsigned long a)
@@ -8553,7 +8595,7 @@ static inline uint64_t BDK_PEMX_P2N_BAR2_START(unsigned long a)
  * This register specifies the ending address for memory requests that are to be forwarded to the
  * PCIe peer port.
  */
-typedef union
+union bdk_pemx_p2p_barx_end
 {
     uint64_t u;
     struct bdk_pemx_p2p_barx_end_s
@@ -8571,7 +8613,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pemx_p2p_barx_end_s cn; */
-} bdk_pemx_p2p_barx_end_t;
+};
+typedef union bdk_pemx_p2p_barx_end bdk_pemx_p2p_barx_end_t;
 
 static inline uint64_t BDK_PEMX_P2P_BARX_END(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_P2P_BARX_END(unsigned long a, unsigned long b)
@@ -8595,7 +8638,7 @@ static inline uint64_t BDK_PEMX_P2P_BARX_END(unsigned long a, unsigned long b)
  * This register specifies the starting address for memory requests that are to be forwarded to
  * the PCIe peer port.
  */
-typedef union
+union bdk_pemx_p2p_barx_start
 {
     uint64_t u;
     struct bdk_pemx_p2p_barx_start_s
@@ -8619,7 +8662,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pemx_p2p_barx_start_s cn; */
-} bdk_pemx_p2p_barx_start_t;
+};
+typedef union bdk_pemx_p2p_barx_start bdk_pemx_p2p_barx_start_t;
 
 static inline uint64_t BDK_PEMX_P2P_BARX_START(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_P2P_BARX_START(unsigned long a, unsigned long b)
@@ -8642,7 +8686,7 @@ static inline uint64_t BDK_PEMX_P2P_BARX_START(unsigned long a, unsigned long b)
  * PEM QLM Configuration Register
  * This register configures the PEM QLM.
  */
-typedef union
+union bdk_pemx_qlm
 {
     uint64_t u;
     struct bdk_pemx_qlm_s
@@ -8674,7 +8718,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pemx_qlm_s cn; */
-} bdk_pemx_qlm_t;
+};
+typedef union bdk_pemx_qlm bdk_pemx_qlm_t;
 
 static inline uint64_t BDK_PEMX_QLM(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_QLM(unsigned long a)
@@ -8696,7 +8741,7 @@ static inline uint64_t BDK_PEMX_QLM(unsigned long a)
  *
  * PEM RAS Time Based Analysis Control Register
  */
-typedef union
+union bdk_pemx_ras_tba_ctl
 {
     uint64_t u;
     struct bdk_pemx_ras_tba_ctl_s
@@ -8728,7 +8773,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pemx_ras_tba_ctl_s cn; */
-} bdk_pemx_ras_tba_ctl_t;
+};
+typedef union bdk_pemx_ras_tba_ctl bdk_pemx_ras_tba_ctl_t;
 
 static inline uint64_t BDK_PEMX_RAS_TBA_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_RAS_TBA_CTL(unsigned long a)
@@ -8751,7 +8797,7 @@ static inline uint64_t BDK_PEMX_RAS_TBA_CTL(unsigned long a)
  * PEM Read Count Register
  * This register contains read count for debugging purposes.
  */
-typedef union
+union bdk_pemx_reads_pc
 {
     uint64_t u;
     struct bdk_pemx_reads_pc_s
@@ -8769,7 +8815,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pemx_reads_pc_s cn; */
-} bdk_pemx_reads_pc_t;
+};
+typedef union bdk_pemx_reads_pc bdk_pemx_reads_pc_t;
 
 static inline uint64_t BDK_PEMX_READS_PC(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_READS_PC(unsigned long a)
@@ -8791,7 +8838,7 @@ static inline uint64_t BDK_PEMX_READS_PC(unsigned long a)
  *
  * PEM SPI Control Register
  */
-typedef union
+union bdk_pemx_spi_ctl
 {
     uint64_t u;
     struct bdk_pemx_spi_ctl_s
@@ -8867,7 +8914,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pemx_spi_ctl_s cn; */
-} bdk_pemx_spi_ctl_t;
+};
+typedef union bdk_pemx_spi_ctl bdk_pemx_spi_ctl_t;
 
 static inline uint64_t BDK_PEMX_SPI_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_SPI_CTL(unsigned long a)
@@ -8891,7 +8939,7 @@ static inline uint64_t BDK_PEMX_SPI_CTL(unsigned long a)
  * This register contains the most recently read or written SPI data and is unpredictable upon
  * power-up.
  */
-typedef union
+union bdk_pemx_spi_data
 {
     uint64_t u;
     struct bdk_pemx_spi_data_s
@@ -8911,7 +8959,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pemx_spi_data_s cn; */
-} bdk_pemx_spi_data_t;
+};
+typedef union bdk_pemx_spi_data bdk_pemx_spi_data_t;
 
 static inline uint64_t BDK_PEMX_SPI_DATA(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_SPI_DATA(unsigned long a)
@@ -8933,7 +8982,7 @@ static inline uint64_t BDK_PEMX_SPI_DATA(unsigned long a)
  *
  * PEM Pin Strapping Register
  */
-typedef union
+union bdk_pemx_strap
 {
     uint64_t u;
     struct bdk_pemx_strap_s
@@ -8969,7 +9018,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pemx_strap_s cn; */
-} bdk_pemx_strap_t;
+};
+typedef union bdk_pemx_strap bdk_pemx_strap_t;
 
 static inline uint64_t BDK_PEMX_STRAP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_STRAP(unsigned long a)
@@ -8994,7 +9044,7 @@ static inline uint64_t BDK_PEMX_STRAP(unsigned long a)
  * written, the credit values are reset to the register value. A write to this register should
  * take place before traffic flow starts.
  */
-typedef union
+union bdk_pemx_tlp_credits
 {
     uint64_t u;
     struct bdk_pemx_tlp_credits_s
@@ -9119,7 +9169,8 @@ typedef union
         uint64_t reserved_24_63        : 40;
 #endif /* Word 0 - End */
     } cn88xxp2;
-} bdk_pemx_tlp_credits_t;
+};
+typedef union bdk_pemx_tlp_credits bdk_pemx_tlp_credits_t;
 
 static inline uint64_t BDK_PEMX_TLP_CREDITS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_TLP_CREDITS(unsigned long a)

@@ -1989,7 +1989,7 @@ union bdk_nic_send_mem_s
  * Internal:
  * Bits in each field are enumerated by NIC_PF_ECC0_FLIP0.
  */
-typedef union
+union bdk_nic_pf_bist0_status
 {
     uint64_t u;
     struct bdk_nic_pf_bist0_status_s
@@ -2049,7 +2049,8 @@ typedef union
         uint64_t blk3                  : 32; /**< [ 63: 32](RO/H) Group 0 Block 3 memories. */
 #endif /* Word 0 - End */
     } cn88xxp2;
-} bdk_nic_pf_bist0_status_t;
+};
+typedef union bdk_nic_pf_bist0_status bdk_nic_pf_bist0_status_t;
 
 #define BDK_NIC_PF_BIST0_STATUS BDK_NIC_PF_BIST0_STATUS_FUNC()
 static inline uint64_t BDK_NIC_PF_BIST0_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2071,7 +2072,7 @@ static inline uint64_t BDK_NIC_PF_BIST0_STATUS_FUNC(void)
  * NIC Memory BIST 1 Status Register
  * See NIC_PF_BIST0_STATUS.
  */
-typedef union
+union bdk_nic_pf_bist1_status
 {
     uint64_t u;
     struct bdk_nic_pf_bist1_status_s
@@ -2087,7 +2088,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_bist1_status_s cn; */
-} bdk_nic_pf_bist1_status_t;
+};
+typedef union bdk_nic_pf_bist1_status bdk_nic_pf_bist1_status_t;
 
 #define BDK_NIC_PF_BIST1_STATUS BDK_NIC_PF_BIST1_STATUS_FUNC()
 static inline uint64_t BDK_NIC_PF_BIST1_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2109,7 +2111,7 @@ static inline uint64_t BDK_NIC_PF_BIST1_STATUS_FUNC(void)
  * NIC Memory BIST 2 Status Register
  * See NIC_PF_BIST0_STATUS.
  */
-typedef union
+union bdk_nic_pf_bist2_status
 {
     uint64_t u;
     struct bdk_nic_pf_bist2_status_s
@@ -2123,7 +2125,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_bist2_status_s cn; */
-} bdk_nic_pf_bist2_status_t;
+};
+typedef union bdk_nic_pf_bist2_status bdk_nic_pf_bist2_status_t;
 
 #define BDK_NIC_PF_BIST2_STATUS BDK_NIC_PF_BIST2_STATUS_FUNC()
 static inline uint64_t BDK_NIC_PF_BIST2_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2145,7 +2148,7 @@ static inline uint64_t BDK_NIC_PF_BIST2_STATUS_FUNC(void)
  * NIC Memory BIST 3 Status Register
  * See NIC_PF_BIST0_STATUS.
  */
-typedef union
+union bdk_nic_pf_bist3_status
 {
     uint64_t u;
     struct bdk_nic_pf_bist3_status_s
@@ -2161,7 +2164,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_bist3_status_s cn; */
-} bdk_nic_pf_bist3_status_t;
+};
+typedef union bdk_nic_pf_bist3_status bdk_nic_pf_bist3_status_t;
 
 #define BDK_NIC_PF_BIST3_STATUS BDK_NIC_PF_BIST3_STATUS_FUNC()
 static inline uint64_t BDK_NIC_PF_BIST3_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2182,7 +2186,7 @@ static inline uint64_t BDK_NIC_PF_BIST3_STATUS_FUNC(void)
  *
  * NIC Memory BIST 4 Status Register
  */
-typedef union
+union bdk_nic_pf_bist4_status
 {
     uint64_t u;
     struct bdk_nic_pf_bist4_status_s
@@ -2196,7 +2200,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_bist4_status_s cn; */
-} bdk_nic_pf_bist4_status_t;
+};
+typedef union bdk_nic_pf_bist4_status bdk_nic_pf_bist4_status_t;
 
 #define BDK_NIC_PF_BIST4_STATUS BDK_NIC_PF_BIST4_STATUS_FUNC()
 static inline uint64_t BDK_NIC_PF_BIST4_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2223,7 +2228,7 @@ static inline uint64_t BDK_NIC_PF_BIST4_STATUS_FUNC(void)
  *
  * NIC PF Backpressure/RED Configuration Register
  */
-typedef union
+union bdk_nic_pf_bp_cfg
 {
     uint64_t u;
     struct bdk_nic_pf_bp_cfg_s
@@ -2243,7 +2248,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_bp_cfg_s cn; */
-} bdk_nic_pf_bp_cfg_t;
+};
+typedef union bdk_nic_pf_bp_cfg bdk_nic_pf_bp_cfg_t;
 
 #define BDK_NIC_PF_BP_CFG BDK_NIC_PF_BP_CFG_FUNC()
 static inline uint64_t BDK_NIC_PF_BP_CFG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2264,7 +2270,7 @@ static inline uint64_t BDK_NIC_PF_BP_CFG_FUNC(void)
  *
  * NIC General Configuration Register
  */
-typedef union
+union bdk_nic_pf_cfg
 {
     uint64_t u;
     struct bdk_nic_pf_cfg_s
@@ -2290,7 +2296,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_cfg_s cn; */
-} bdk_nic_pf_cfg_t;
+};
+typedef union bdk_nic_pf_cfg bdk_nic_pf_cfg_t;
 
 #define BDK_NIC_PF_CFG BDK_NIC_PF_CFG_FUNC()
 static inline uint64_t BDK_NIC_PF_CFG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2314,7 +2321,7 @@ static inline uint64_t BDK_NIC_PF_CFG_FUNC(void)
  * credits apply to a channel rather than an LMAC.
  * Enumerated by NIC_TX_CHAN_BYPASS_E when TNS is bypassed, NIC_TX_CHAN_NONBYPASS_E otherwise.
  */
-typedef union
+union bdk_nic_pf_chanx_credit
 {
     uint64_t u;
     struct bdk_nic_pf_chanx_credit_s
@@ -2520,7 +2527,8 @@ typedef union
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_nic_pf_chanx_credit_t;
+};
+typedef union bdk_nic_pf_chanx_credit bdk_nic_pf_chanx_credit_t;
 
 static inline uint64_t BDK_NIC_PF_CHANX_CREDIT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_CHANX_CREDIT(unsigned long a)
@@ -2546,7 +2554,7 @@ static inline uint64_t BDK_NIC_PF_CHANX_CREDIT(unsigned long a)
  *
  * NIC Channel Receive Backpressure Configuration Registers
  */
-typedef union
+union bdk_nic_pf_chanx_rx_bp_cfg
 {
     uint64_t u;
     struct bdk_nic_pf_chanx_rx_bp_cfg_s
@@ -2588,7 +2596,8 @@ typedef union
         uint64_t ena                   : 1;  /**< [ 63: 63](R/W) This bit is set to enable backpressure for this channel. */
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_nic_pf_chanx_rx_bp_cfg_t;
+};
+typedef union bdk_nic_pf_chanx_rx_bp_cfg bdk_nic_pf_chanx_rx_bp_cfg_t;
 
 static inline uint64_t BDK_NIC_PF_CHANX_RX_BP_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_CHANX_RX_BP_CFG(unsigned long a)
@@ -2614,7 +2623,7 @@ static inline uint64_t BDK_NIC_PF_CHANX_RX_BP_CFG(unsigned long a)
  *
  * NIC Channel Receive Configuration Registers
  */
-typedef union
+union bdk_nic_pf_chanx_rx_cfg
 {
     uint64_t u;
     struct bdk_nic_pf_chanx_rx_cfg_s
@@ -2649,7 +2658,8 @@ typedef union
     } cn81xx;
     /* struct bdk_nic_pf_chanx_rx_cfg_s cn88xx; */
     /* struct bdk_nic_pf_chanx_rx_cfg_s cn83xx; */
-} bdk_nic_pf_chanx_rx_cfg_t;
+};
+typedef union bdk_nic_pf_chanx_rx_cfg bdk_nic_pf_chanx_rx_cfg_t;
 
 static inline uint64_t BDK_NIC_PF_CHANX_RX_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_CHANX_RX_CFG(unsigned long a)
@@ -2677,7 +2687,7 @@ static inline uint64_t BDK_NIC_PF_CHANX_RX_CFG(unsigned long a)
  * Index enumerated by NIC_TX_CHAN_BYPASS_E when TNS is bypassed,
  * NIC_TX_CHAN_NONBYPASS_E otherwise.
  */
-typedef union
+union bdk_nic_pf_chanx_sw_xoff
 {
     uint64_t u;
     struct bdk_nic_pf_chanx_sw_xoff_s
@@ -2695,7 +2705,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_chanx_sw_xoff_s cn; */
-} bdk_nic_pf_chanx_sw_xoff_t;
+};
+typedef union bdk_nic_pf_chanx_sw_xoff bdk_nic_pf_chanx_sw_xoff_t;
 
 static inline uint64_t BDK_NIC_PF_CHANX_SW_XOFF(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_CHANX_SW_XOFF(unsigned long a)
@@ -2723,7 +2734,7 @@ static inline uint64_t BDK_NIC_PF_CHANX_SW_XOFF(unsigned long a)
  * Index enumerated by NIC_TX_CHAN_BYPASS_E when TNS is bypassed,
  * NIC_TX_CHAN_NONBYPASS_E otherwise.
  */
-typedef union
+union bdk_nic_pf_chanx_tx_cfg
 {
     uint64_t u;
     struct bdk_nic_pf_chanx_tx_cfg_s
@@ -2737,7 +2748,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_chanx_tx_cfg_s cn; */
-} bdk_nic_pf_chanx_tx_cfg_t;
+};
+typedef union bdk_nic_pf_chanx_tx_cfg bdk_nic_pf_chanx_tx_cfg_t;
 
 static inline uint64_t BDK_NIC_PF_CHANX_TX_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_CHANX_TX_CFG(unsigned long a)
@@ -2764,7 +2776,7 @@ static inline uint64_t BDK_NIC_PF_CHANX_TX_CFG(unsigned long a)
  * NIC PF Constants Register
  * This register contains constants for software discovery.
  */
-typedef union
+union bdk_nic_pf_const
 {
     uint64_t u;
     struct bdk_nic_pf_const_s
@@ -2794,7 +2806,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_const_s cn; */
-} bdk_nic_pf_const_t;
+};
+typedef union bdk_nic_pf_const bdk_nic_pf_const_t;
 
 #define BDK_NIC_PF_CONST BDK_NIC_PF_CONST_FUNC()
 static inline uint64_t BDK_NIC_PF_CONST_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2820,7 +2833,7 @@ static inline uint64_t BDK_NIC_PF_CONST_FUNC(void)
  * NIC PF Constants 1 Register
  * This register contains constants for software discovery.
  */
-typedef union
+union bdk_nic_pf_const1
 {
     uint64_t u;
     struct bdk_nic_pf_const1_s
@@ -2836,7 +2849,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_const1_s cn; */
-} bdk_nic_pf_const1_t;
+};
+typedef union bdk_nic_pf_const1 bdk_nic_pf_const1_t;
 
 #define BDK_NIC_PF_CONST1 BDK_NIC_PF_CONST1_FUNC()
 static inline uint64_t BDK_NIC_PF_CONST1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2861,7 +2875,7 @@ static inline uint64_t BDK_NIC_PF_CONST1_FUNC(void)
  *
  * NIC CPI Table Registers
  */
-typedef union
+union bdk_nic_pf_cpix_cfg
 {
     uint64_t u;
     struct bdk_nic_pf_cpix_cfg_s
@@ -3005,7 +3019,8 @@ typedef union
                                                                  the MCAM lookup. */
 #endif /* Word 0 - End */
     } cn88xxp2;
-} bdk_nic_pf_cpix_cfg_t;
+};
+typedef union bdk_nic_pf_cpix_cfg bdk_nic_pf_cpix_cfg_t;
 
 static inline uint64_t BDK_NIC_PF_CPIX_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_CPIX_CFG(unsigned long a)
@@ -3031,7 +3046,7 @@ static inline uint64_t BDK_NIC_PF_CPIX_CFG(unsigned long a)
  *
  * NIC PF CQ Averaging Configuration Register
  */
-typedef union
+union bdk_nic_pf_cq_avg_cfg
 {
     uint64_t u;
     struct bdk_nic_pf_cq_avg_cfg_s
@@ -3069,7 +3084,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_cq_avg_cfg_s cn; */
-} bdk_nic_pf_cq_avg_cfg_t;
+};
+typedef union bdk_nic_pf_cq_avg_cfg bdk_nic_pf_cq_avg_cfg_t;
 
 #define BDK_NIC_PF_CQ_AVG_CFG BDK_NIC_PF_CQ_AVG_CFG_FUNC()
 static inline uint64_t BDK_NIC_PF_CQ_AVG_CFG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3090,7 +3106,7 @@ static inline uint64_t BDK_NIC_PF_CQ_AVG_CFG_FUNC(void)
  *
  * NIC PF CQM Configuration Register
  */
-typedef union
+union bdk_nic_pf_cqm_cfg
 {
     uint64_t u;
     struct bdk_nic_pf_cqm_cfg_s
@@ -3125,7 +3141,8 @@ typedef union
     } cn81xx;
     /* struct bdk_nic_pf_cqm_cfg_s cn88xx; */
     /* struct bdk_nic_pf_cqm_cfg_cn81xx cn83xx; */
-} bdk_nic_pf_cqm_cfg_t;
+};
+typedef union bdk_nic_pf_cqm_cfg bdk_nic_pf_cqm_cfg_t;
 
 #define BDK_NIC_PF_CQM_CFG BDK_NIC_PF_CQM_CFG_FUNC()
 static inline uint64_t BDK_NIC_PF_CQM_CFG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3146,7 +3163,7 @@ static inline uint64_t BDK_NIC_PF_CQM_CFG_FUNC(void)
  *
  * INTERNAL: NIC CQM Test Register
  */
-typedef union
+union bdk_nic_pf_cqm_test
 {
     uint64_t u;
     struct bdk_nic_pf_cqm_test_s
@@ -3196,7 +3213,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_cqm_test_s cn; */
-} bdk_nic_pf_cqm_test_t;
+};
+typedef union bdk_nic_pf_cqm_test bdk_nic_pf_cqm_test_t;
 
 #define BDK_NIC_PF_CQM_TEST BDK_NIC_PF_CQM_TEST_FUNC()
 static inline uint64_t BDK_NIC_PF_CQM_TEST_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3217,7 +3235,7 @@ static inline uint64_t BDK_NIC_PF_CQM_TEST_FUNC(void)
  *
  * INTERNAL: NIC CSI Test Register
  */
-typedef union
+union bdk_nic_pf_csi_test
 {
     uint64_t u;
     struct bdk_nic_pf_csi_test_s
@@ -3267,7 +3285,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_csi_test_s cn; */
-} bdk_nic_pf_csi_test_t;
+};
+typedef union bdk_nic_pf_csi_test bdk_nic_pf_csi_test_t;
 
 #define BDK_NIC_PF_CSI_TEST BDK_NIC_PF_CSI_TEST_FUNC()
 static inline uint64_t BDK_NIC_PF_CSI_TEST_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3290,7 +3309,7 @@ static inline uint64_t BDK_NIC_PF_CSI_TEST_FUNC(void)
  * This register can be used to disable ECC correction for testing. Each bit that is set disables
  * ECC correction on read operations from a corresponding RAM.
  */
-typedef union
+union bdk_nic_pf_ecc0_cdis
 {
     uint64_t u;
     struct bdk_nic_pf_ecc0_cdis_s
@@ -3753,7 +3772,8 @@ typedef union
                                                                  ath_fifo.nic_reb_fifo_bulk.nic_reb_fifomem. */
 #endif /* Word 0 - End */
     } cn88xxp2;
-} bdk_nic_pf_ecc0_cdis_t;
+};
+typedef union bdk_nic_pf_ecc0_cdis bdk_nic_pf_ecc0_cdis_t;
 
 #define BDK_NIC_PF_ECC0_CDIS BDK_NIC_PF_ECC0_CDIS_FUNC()
 static inline uint64_t BDK_NIC_PF_ECC0_CDIS_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3775,7 +3795,7 @@ static inline uint64_t BDK_NIC_PF_ECC0_CDIS_FUNC(void)
  * NIC ECC 0 Double-bit Error Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_nic_pf_ecc0_dbe_ena_w1c
 {
     uint64_t u;
     struct bdk_nic_pf_ecc0_dbe_ena_w1c_s
@@ -3809,7 +3829,8 @@ typedef union
     /* struct bdk_nic_pf_ecc0_dbe_ena_w1c_s cn81xx; */
     /* struct bdk_nic_pf_ecc0_dbe_ena_w1c_s cn83xx; */
     /* struct bdk_nic_pf_ecc0_dbe_ena_w1c_s cn88xxp2; */
-} bdk_nic_pf_ecc0_dbe_ena_w1c_t;
+};
+typedef union bdk_nic_pf_ecc0_dbe_ena_w1c bdk_nic_pf_ecc0_dbe_ena_w1c_t;
 
 #define BDK_NIC_PF_ECC0_DBE_ENA_W1C BDK_NIC_PF_ECC0_DBE_ENA_W1C_FUNC()
 static inline uint64_t BDK_NIC_PF_ECC0_DBE_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3831,7 +3852,7 @@ static inline uint64_t BDK_NIC_PF_ECC0_DBE_ENA_W1C_FUNC(void)
  * NIC ECC 0 Single-bit Error Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_nic_pf_ecc0_dbe_ena_w1s
 {
     uint64_t u;
     struct bdk_nic_pf_ecc0_dbe_ena_w1s_s
@@ -3865,7 +3886,8 @@ typedef union
     /* struct bdk_nic_pf_ecc0_dbe_ena_w1s_s cn81xx; */
     /* struct bdk_nic_pf_ecc0_dbe_ena_w1s_s cn83xx; */
     /* struct bdk_nic_pf_ecc0_dbe_ena_w1s_s cn88xxp2; */
-} bdk_nic_pf_ecc0_dbe_ena_w1s_t;
+};
+typedef union bdk_nic_pf_ecc0_dbe_ena_w1s bdk_nic_pf_ecc0_dbe_ena_w1s_t;
 
 #define BDK_NIC_PF_ECC0_DBE_ENA_W1S BDK_NIC_PF_ECC0_DBE_ENA_W1S_FUNC()
 static inline uint64_t BDK_NIC_PF_ECC0_DBE_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3891,7 +3913,7 @@ static inline uint64_t BDK_NIC_PF_ECC0_DBE_ENA_W1S_FUNC(void)
  * Internal:
  * Bits in each field are enumerated by NIC_PF_ECC0_FLIP0.
  */
-typedef union
+union bdk_nic_pf_ecc0_dbe_int
 {
     uint64_t u;
     struct bdk_nic_pf_ecc0_dbe_int_s
@@ -3951,7 +3973,8 @@ typedef union
         uint64_t blk3                  : 32; /**< [ 63: 32](R/W1C/H) Group 0 Block 3 memories. */
 #endif /* Word 0 - End */
     } cn88xxp2;
-} bdk_nic_pf_ecc0_dbe_int_t;
+};
+typedef union bdk_nic_pf_ecc0_dbe_int bdk_nic_pf_ecc0_dbe_int_t;
 
 #define BDK_NIC_PF_ECC0_DBE_INT BDK_NIC_PF_ECC0_DBE_INT_FUNC()
 static inline uint64_t BDK_NIC_PF_ECC0_DBE_INT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3973,7 +3996,7 @@ static inline uint64_t BDK_NIC_PF_ECC0_DBE_INT_FUNC(void)
  * NIC ECC 0 Double-bit Error Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_nic_pf_ecc0_dbe_int_w1s
 {
     uint64_t u;
     struct bdk_nic_pf_ecc0_dbe_int_w1s_s
@@ -4007,7 +4030,8 @@ typedef union
     /* struct bdk_nic_pf_ecc0_dbe_int_w1s_s cn81xx; */
     /* struct bdk_nic_pf_ecc0_dbe_int_w1s_s cn83xx; */
     /* struct bdk_nic_pf_ecc0_dbe_int_w1s_s cn88xxp2; */
-} bdk_nic_pf_ecc0_dbe_int_w1s_t;
+};
+typedef union bdk_nic_pf_ecc0_dbe_int_w1s bdk_nic_pf_ecc0_dbe_int_w1s_t;
 
 #define BDK_NIC_PF_ECC0_DBE_INT_W1S BDK_NIC_PF_ECC0_DBE_INT_W1S_FUNC()
 static inline uint64_t BDK_NIC_PF_ECC0_DBE_INT_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -4030,7 +4054,7 @@ static inline uint64_t BDK_NIC_PF_ECC0_DBE_INT_W1S_FUNC(void)
  * This register allows inserting ECC errors for testing. Each bit that is set flips bit <0> on
  * writes to a corresponding RAM to test single-bit or double-bit error handling.
  */
-typedef union
+union bdk_nic_pf_ecc0_flip0
 {
     uint64_t u;
     struct bdk_nic_pf_ecc0_flip0_s
@@ -4493,7 +4517,8 @@ typedef union
                                                                  ath_fifo.nic_reb_fifo_bulk.nic_reb_fifomem. */
 #endif /* Word 0 - End */
     } cn88xxp2;
-} bdk_nic_pf_ecc0_flip0_t;
+};
+typedef union bdk_nic_pf_ecc0_flip0 bdk_nic_pf_ecc0_flip0_t;
 
 #define BDK_NIC_PF_ECC0_FLIP0 BDK_NIC_PF_ECC0_FLIP0_FUNC()
 static inline uint64_t BDK_NIC_PF_ECC0_FLIP0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -4516,7 +4541,7 @@ static inline uint64_t BDK_NIC_PF_ECC0_FLIP0_FUNC(void)
  * This register allows inserting ECC errors for testing. Each bit that is set flips bit <1> on
  * writes to a corresponding RAM to test single-bit or double-bit error handling.
  */
-typedef union
+union bdk_nic_pf_ecc0_flip1
 {
     uint64_t u;
     struct bdk_nic_pf_ecc0_flip1_s
@@ -4979,7 +5004,8 @@ typedef union
                                                                  ath_fifo.nic_reb_fifo_bulk.nic_reb_fifomem. */
 #endif /* Word 0 - End */
     } cn88xxp2;
-} bdk_nic_pf_ecc0_flip1_t;
+};
+typedef union bdk_nic_pf_ecc0_flip1 bdk_nic_pf_ecc0_flip1_t;
 
 #define BDK_NIC_PF_ECC0_FLIP1 BDK_NIC_PF_ECC0_FLIP1_FUNC()
 static inline uint64_t BDK_NIC_PF_ECC0_FLIP1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -5001,7 +5027,7 @@ static inline uint64_t BDK_NIC_PF_ECC0_FLIP1_FUNC(void)
  * NIC ECC 0 Single-bit Error Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_nic_pf_ecc0_sbe_ena_w1c
 {
     uint64_t u;
     struct bdk_nic_pf_ecc0_sbe_ena_w1c_s
@@ -5035,7 +5061,8 @@ typedef union
     /* struct bdk_nic_pf_ecc0_sbe_ena_w1c_s cn81xx; */
     /* struct bdk_nic_pf_ecc0_sbe_ena_w1c_s cn83xx; */
     /* struct bdk_nic_pf_ecc0_sbe_ena_w1c_s cn88xxp2; */
-} bdk_nic_pf_ecc0_sbe_ena_w1c_t;
+};
+typedef union bdk_nic_pf_ecc0_sbe_ena_w1c bdk_nic_pf_ecc0_sbe_ena_w1c_t;
 
 #define BDK_NIC_PF_ECC0_SBE_ENA_W1C BDK_NIC_PF_ECC0_SBE_ENA_W1C_FUNC()
 static inline uint64_t BDK_NIC_PF_ECC0_SBE_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -5057,7 +5084,7 @@ static inline uint64_t BDK_NIC_PF_ECC0_SBE_ENA_W1C_FUNC(void)
  * NIC ECC 0 Single-bit Error Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_nic_pf_ecc0_sbe_ena_w1s
 {
     uint64_t u;
     struct bdk_nic_pf_ecc0_sbe_ena_w1s_s
@@ -5091,7 +5118,8 @@ typedef union
     /* struct bdk_nic_pf_ecc0_sbe_ena_w1s_s cn81xx; */
     /* struct bdk_nic_pf_ecc0_sbe_ena_w1s_s cn83xx; */
     /* struct bdk_nic_pf_ecc0_sbe_ena_w1s_s cn88xxp2; */
-} bdk_nic_pf_ecc0_sbe_ena_w1s_t;
+};
+typedef union bdk_nic_pf_ecc0_sbe_ena_w1s bdk_nic_pf_ecc0_sbe_ena_w1s_t;
 
 #define BDK_NIC_PF_ECC0_SBE_ENA_W1S BDK_NIC_PF_ECC0_SBE_ENA_W1S_FUNC()
 static inline uint64_t BDK_NIC_PF_ECC0_SBE_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -5117,7 +5145,7 @@ static inline uint64_t BDK_NIC_PF_ECC0_SBE_ENA_W1S_FUNC(void)
  * Internal:
  * Bits in each field are enumerated by NIC_PF_ECC0_FLIP0.
  */
-typedef union
+union bdk_nic_pf_ecc0_sbe_int
 {
     uint64_t u;
     struct bdk_nic_pf_ecc0_sbe_int_s
@@ -5177,7 +5205,8 @@ typedef union
         uint64_t blk3                  : 32; /**< [ 63: 32](R/W1C/H) Group 0 Block 3 memories. */
 #endif /* Word 0 - End */
     } cn88xxp2;
-} bdk_nic_pf_ecc0_sbe_int_t;
+};
+typedef union bdk_nic_pf_ecc0_sbe_int bdk_nic_pf_ecc0_sbe_int_t;
 
 #define BDK_NIC_PF_ECC0_SBE_INT BDK_NIC_PF_ECC0_SBE_INT_FUNC()
 static inline uint64_t BDK_NIC_PF_ECC0_SBE_INT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -5199,7 +5228,7 @@ static inline uint64_t BDK_NIC_PF_ECC0_SBE_INT_FUNC(void)
  * NIC ECC 0 Single-bit Error Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_nic_pf_ecc0_sbe_int_w1s
 {
     uint64_t u;
     struct bdk_nic_pf_ecc0_sbe_int_w1s_s
@@ -5233,7 +5262,8 @@ typedef union
     /* struct bdk_nic_pf_ecc0_sbe_int_w1s_s cn81xx; */
     /* struct bdk_nic_pf_ecc0_sbe_int_w1s_s cn83xx; */
     /* struct bdk_nic_pf_ecc0_sbe_int_w1s_s cn88xxp2; */
-} bdk_nic_pf_ecc0_sbe_int_w1s_t;
+};
+typedef union bdk_nic_pf_ecc0_sbe_int_w1s bdk_nic_pf_ecc0_sbe_int_w1s_t;
 
 #define BDK_NIC_PF_ECC0_SBE_INT_W1S BDK_NIC_PF_ECC0_SBE_INT_W1S_FUNC()
 static inline uint64_t BDK_NIC_PF_ECC0_SBE_INT_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -5255,7 +5285,7 @@ static inline uint64_t BDK_NIC_PF_ECC0_SBE_INT_W1S_FUNC(void)
  * NIC Memory ECC 1 Correction Disable Register
  * See NIC_PF_ECC0_CDIS.
  */
-typedef union
+union bdk_nic_pf_ecc1_cdis
 {
     uint64_t u;
     struct bdk_nic_pf_ecc1_cdis_s
@@ -5507,7 +5537,8 @@ typedef union
         uint64_t reserved_40_63        : 24;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_nic_pf_ecc1_cdis_t;
+};
+typedef union bdk_nic_pf_ecc1_cdis bdk_nic_pf_ecc1_cdis_t;
 
 #define BDK_NIC_PF_ECC1_CDIS BDK_NIC_PF_ECC1_CDIS_FUNC()
 static inline uint64_t BDK_NIC_PF_ECC1_CDIS_FUNC(void) __attribute__ ((pure, always_inline));
@@ -5529,7 +5560,7 @@ static inline uint64_t BDK_NIC_PF_ECC1_CDIS_FUNC(void)
  * NIC ECC 1 Double-bit Error Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_nic_pf_ecc1_dbe_ena_w1c
 {
     uint64_t u;
     struct bdk_nic_pf_ecc1_dbe_ena_w1c_s
@@ -5545,7 +5576,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_ecc1_dbe_ena_w1c_s cn; */
-} bdk_nic_pf_ecc1_dbe_ena_w1c_t;
+};
+typedef union bdk_nic_pf_ecc1_dbe_ena_w1c bdk_nic_pf_ecc1_dbe_ena_w1c_t;
 
 #define BDK_NIC_PF_ECC1_DBE_ENA_W1C BDK_NIC_PF_ECC1_DBE_ENA_W1C_FUNC()
 static inline uint64_t BDK_NIC_PF_ECC1_DBE_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -5567,7 +5599,7 @@ static inline uint64_t BDK_NIC_PF_ECC1_DBE_ENA_W1C_FUNC(void)
  * NIC ECC 1 Single-bit Error Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_nic_pf_ecc1_dbe_ena_w1s
 {
     uint64_t u;
     struct bdk_nic_pf_ecc1_dbe_ena_w1s_s
@@ -5583,7 +5615,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_ecc1_dbe_ena_w1s_s cn; */
-} bdk_nic_pf_ecc1_dbe_ena_w1s_t;
+};
+typedef union bdk_nic_pf_ecc1_dbe_ena_w1s bdk_nic_pf_ecc1_dbe_ena_w1s_t;
 
 #define BDK_NIC_PF_ECC1_DBE_ENA_W1S BDK_NIC_PF_ECC1_DBE_ENA_W1S_FUNC()
 static inline uint64_t BDK_NIC_PF_ECC1_DBE_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -5609,7 +5642,7 @@ static inline uint64_t BDK_NIC_PF_ECC1_DBE_ENA_W1S_FUNC(void)
  * Internal:
  * Bits in each field are enumerated by NIC_PF_ECC1_FLIP0.
  */
-typedef union
+union bdk_nic_pf_ecc1_dbe_int
 {
     uint64_t u;
     struct bdk_nic_pf_ecc1_dbe_int_s
@@ -5625,7 +5658,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_ecc1_dbe_int_s cn; */
-} bdk_nic_pf_ecc1_dbe_int_t;
+};
+typedef union bdk_nic_pf_ecc1_dbe_int bdk_nic_pf_ecc1_dbe_int_t;
 
 #define BDK_NIC_PF_ECC1_DBE_INT BDK_NIC_PF_ECC1_DBE_INT_FUNC()
 static inline uint64_t BDK_NIC_PF_ECC1_DBE_INT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -5647,7 +5681,7 @@ static inline uint64_t BDK_NIC_PF_ECC1_DBE_INT_FUNC(void)
  * NIC ECC 1 Double-bit Error Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_nic_pf_ecc1_dbe_int_w1s
 {
     uint64_t u;
     struct bdk_nic_pf_ecc1_dbe_int_w1s_s
@@ -5663,7 +5697,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_ecc1_dbe_int_w1s_s cn; */
-} bdk_nic_pf_ecc1_dbe_int_w1s_t;
+};
+typedef union bdk_nic_pf_ecc1_dbe_int_w1s bdk_nic_pf_ecc1_dbe_int_w1s_t;
 
 #define BDK_NIC_PF_ECC1_DBE_INT_W1S BDK_NIC_PF_ECC1_DBE_INT_W1S_FUNC()
 static inline uint64_t BDK_NIC_PF_ECC1_DBE_INT_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -5685,7 +5720,7 @@ static inline uint64_t BDK_NIC_PF_ECC1_DBE_INT_W1S_FUNC(void)
  * NIC Memory ECC 1 Flip 0 Register
  * See NIC_PF_ECC0_FLIP0.
  */
-typedef union
+union bdk_nic_pf_ecc1_flip0
 {
     uint64_t u;
     struct bdk_nic_pf_ecc1_flip0_s
@@ -5937,7 +5972,8 @@ typedef union
         uint64_t reserved_40_63        : 24;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_nic_pf_ecc1_flip0_t;
+};
+typedef union bdk_nic_pf_ecc1_flip0 bdk_nic_pf_ecc1_flip0_t;
 
 #define BDK_NIC_PF_ECC1_FLIP0 BDK_NIC_PF_ECC1_FLIP0_FUNC()
 static inline uint64_t BDK_NIC_PF_ECC1_FLIP0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -5959,7 +5995,7 @@ static inline uint64_t BDK_NIC_PF_ECC1_FLIP0_FUNC(void)
  * NIC Memory ECC 1 Flip 1 Register
  * See NIC_PF_ECC0_FLIP1.
  */
-typedef union
+union bdk_nic_pf_ecc1_flip1
 {
     uint64_t u;
     struct bdk_nic_pf_ecc1_flip1_s
@@ -6211,7 +6247,8 @@ typedef union
         uint64_t reserved_40_63        : 24;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_nic_pf_ecc1_flip1_t;
+};
+typedef union bdk_nic_pf_ecc1_flip1 bdk_nic_pf_ecc1_flip1_t;
 
 #define BDK_NIC_PF_ECC1_FLIP1 BDK_NIC_PF_ECC1_FLIP1_FUNC()
 static inline uint64_t BDK_NIC_PF_ECC1_FLIP1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -6233,7 +6270,7 @@ static inline uint64_t BDK_NIC_PF_ECC1_FLIP1_FUNC(void)
  * NIC ECC 1 Single-bit Error Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_nic_pf_ecc1_sbe_ena_w1c
 {
     uint64_t u;
     struct bdk_nic_pf_ecc1_sbe_ena_w1c_s
@@ -6249,7 +6286,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_ecc1_sbe_ena_w1c_s cn; */
-} bdk_nic_pf_ecc1_sbe_ena_w1c_t;
+};
+typedef union bdk_nic_pf_ecc1_sbe_ena_w1c bdk_nic_pf_ecc1_sbe_ena_w1c_t;
 
 #define BDK_NIC_PF_ECC1_SBE_ENA_W1C BDK_NIC_PF_ECC1_SBE_ENA_W1C_FUNC()
 static inline uint64_t BDK_NIC_PF_ECC1_SBE_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -6271,7 +6309,7 @@ static inline uint64_t BDK_NIC_PF_ECC1_SBE_ENA_W1C_FUNC(void)
  * NIC ECC 1 Single-bit Error Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_nic_pf_ecc1_sbe_ena_w1s
 {
     uint64_t u;
     struct bdk_nic_pf_ecc1_sbe_ena_w1s_s
@@ -6287,7 +6325,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_ecc1_sbe_ena_w1s_s cn; */
-} bdk_nic_pf_ecc1_sbe_ena_w1s_t;
+};
+typedef union bdk_nic_pf_ecc1_sbe_ena_w1s bdk_nic_pf_ecc1_sbe_ena_w1s_t;
 
 #define BDK_NIC_PF_ECC1_SBE_ENA_W1S BDK_NIC_PF_ECC1_SBE_ENA_W1S_FUNC()
 static inline uint64_t BDK_NIC_PF_ECC1_SBE_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -6313,7 +6352,7 @@ static inline uint64_t BDK_NIC_PF_ECC1_SBE_ENA_W1S_FUNC(void)
  * Internal:
  * Bits in each field are enumerated by NIC_PF_ECC1_FLIP0.
  */
-typedef union
+union bdk_nic_pf_ecc1_sbe_int
 {
     uint64_t u;
     struct bdk_nic_pf_ecc1_sbe_int_s
@@ -6329,7 +6368,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_ecc1_sbe_int_s cn; */
-} bdk_nic_pf_ecc1_sbe_int_t;
+};
+typedef union bdk_nic_pf_ecc1_sbe_int bdk_nic_pf_ecc1_sbe_int_t;
 
 #define BDK_NIC_PF_ECC1_SBE_INT BDK_NIC_PF_ECC1_SBE_INT_FUNC()
 static inline uint64_t BDK_NIC_PF_ECC1_SBE_INT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -6351,7 +6391,7 @@ static inline uint64_t BDK_NIC_PF_ECC1_SBE_INT_FUNC(void)
  * NIC ECC 1 Single-bit Error Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_nic_pf_ecc1_sbe_int_w1s
 {
     uint64_t u;
     struct bdk_nic_pf_ecc1_sbe_int_w1s_s
@@ -6367,7 +6407,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_ecc1_sbe_int_w1s_s cn; */
-} bdk_nic_pf_ecc1_sbe_int_w1s_t;
+};
+typedef union bdk_nic_pf_ecc1_sbe_int_w1s bdk_nic_pf_ecc1_sbe_int_w1s_t;
 
 #define BDK_NIC_PF_ECC1_SBE_INT_W1S BDK_NIC_PF_ECC1_SBE_INT_W1S_FUNC()
 static inline uint64_t BDK_NIC_PF_ECC1_SBE_INT_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -6389,7 +6430,7 @@ static inline uint64_t BDK_NIC_PF_ECC1_SBE_INT_W1S_FUNC(void)
  * NIC Memory ECC 2 Correction Disable Register
  * See NIC_PF_ECC0_CDIS.
  */
-typedef union
+union bdk_nic_pf_ecc2_cdis
 {
     uint64_t u;
     struct bdk_nic_pf_ecc2_cdis_s
@@ -6512,7 +6553,8 @@ typedef union
     } cn81xx;
     /* struct bdk_nic_pf_ecc2_cdis_s cn88xx; */
     /* struct bdk_nic_pf_ecc2_cdis_cn81xx cn83xx; */
-} bdk_nic_pf_ecc2_cdis_t;
+};
+typedef union bdk_nic_pf_ecc2_cdis bdk_nic_pf_ecc2_cdis_t;
 
 #define BDK_NIC_PF_ECC2_CDIS BDK_NIC_PF_ECC2_CDIS_FUNC()
 static inline uint64_t BDK_NIC_PF_ECC2_CDIS_FUNC(void) __attribute__ ((pure, always_inline));
@@ -6534,7 +6576,7 @@ static inline uint64_t BDK_NIC_PF_ECC2_CDIS_FUNC(void)
  * NIC ECC 2 Double-bit Error Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_nic_pf_ecc2_dbe_ena_w1c
 {
     uint64_t u;
     struct bdk_nic_pf_ecc2_dbe_ena_w1c_s
@@ -6548,7 +6590,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_ecc2_dbe_ena_w1c_s cn; */
-} bdk_nic_pf_ecc2_dbe_ena_w1c_t;
+};
+typedef union bdk_nic_pf_ecc2_dbe_ena_w1c bdk_nic_pf_ecc2_dbe_ena_w1c_t;
 
 #define BDK_NIC_PF_ECC2_DBE_ENA_W1C BDK_NIC_PF_ECC2_DBE_ENA_W1C_FUNC()
 static inline uint64_t BDK_NIC_PF_ECC2_DBE_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -6570,7 +6613,7 @@ static inline uint64_t BDK_NIC_PF_ECC2_DBE_ENA_W1C_FUNC(void)
  * NIC ECC 2 Single-bit Error Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_nic_pf_ecc2_dbe_ena_w1s
 {
     uint64_t u;
     struct bdk_nic_pf_ecc2_dbe_ena_w1s_s
@@ -6584,7 +6627,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_ecc2_dbe_ena_w1s_s cn; */
-} bdk_nic_pf_ecc2_dbe_ena_w1s_t;
+};
+typedef union bdk_nic_pf_ecc2_dbe_ena_w1s bdk_nic_pf_ecc2_dbe_ena_w1s_t;
 
 #define BDK_NIC_PF_ECC2_DBE_ENA_W1S BDK_NIC_PF_ECC2_DBE_ENA_W1S_FUNC()
 static inline uint64_t BDK_NIC_PF_ECC2_DBE_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -6610,7 +6654,7 @@ static inline uint64_t BDK_NIC_PF_ECC2_DBE_ENA_W1S_FUNC(void)
  * Internal:
  * Bits in each field are enumerated by NIC_PF_ECC2_FLIP0.
  */
-typedef union
+union bdk_nic_pf_ecc2_dbe_int
 {
     uint64_t u;
     struct bdk_nic_pf_ecc2_dbe_int_s
@@ -6624,7 +6668,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_ecc2_dbe_int_s cn; */
-} bdk_nic_pf_ecc2_dbe_int_t;
+};
+typedef union bdk_nic_pf_ecc2_dbe_int bdk_nic_pf_ecc2_dbe_int_t;
 
 #define BDK_NIC_PF_ECC2_DBE_INT BDK_NIC_PF_ECC2_DBE_INT_FUNC()
 static inline uint64_t BDK_NIC_PF_ECC2_DBE_INT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -6646,7 +6691,7 @@ static inline uint64_t BDK_NIC_PF_ECC2_DBE_INT_FUNC(void)
  * NIC ECC 2 Double-bit Error Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_nic_pf_ecc2_dbe_int_w1s
 {
     uint64_t u;
     struct bdk_nic_pf_ecc2_dbe_int_w1s_s
@@ -6660,7 +6705,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_ecc2_dbe_int_w1s_s cn; */
-} bdk_nic_pf_ecc2_dbe_int_w1s_t;
+};
+typedef union bdk_nic_pf_ecc2_dbe_int_w1s bdk_nic_pf_ecc2_dbe_int_w1s_t;
 
 #define BDK_NIC_PF_ECC2_DBE_INT_W1S BDK_NIC_PF_ECC2_DBE_INT_W1S_FUNC()
 static inline uint64_t BDK_NIC_PF_ECC2_DBE_INT_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -6682,7 +6728,7 @@ static inline uint64_t BDK_NIC_PF_ECC2_DBE_INT_W1S_FUNC(void)
  * NIC Memory ECC 2 Flip 0 Register
  * See NIC_PF_ECC0_FLIP0.
  */
-typedef union
+union bdk_nic_pf_ecc2_flip0
 {
     uint64_t u;
     struct bdk_nic_pf_ecc2_flip0_s
@@ -6805,7 +6851,8 @@ typedef union
     } cn81xx;
     /* struct bdk_nic_pf_ecc2_flip0_s cn88xx; */
     /* struct bdk_nic_pf_ecc2_flip0_cn81xx cn83xx; */
-} bdk_nic_pf_ecc2_flip0_t;
+};
+typedef union bdk_nic_pf_ecc2_flip0 bdk_nic_pf_ecc2_flip0_t;
 
 #define BDK_NIC_PF_ECC2_FLIP0 BDK_NIC_PF_ECC2_FLIP0_FUNC()
 static inline uint64_t BDK_NIC_PF_ECC2_FLIP0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -6827,7 +6874,7 @@ static inline uint64_t BDK_NIC_PF_ECC2_FLIP0_FUNC(void)
  * NIC Memory ECC 2 Flip 1 Register
  * See NIC_PF_ECC0_FLIP1.
  */
-typedef union
+union bdk_nic_pf_ecc2_flip1
 {
     uint64_t u;
     struct bdk_nic_pf_ecc2_flip1_s
@@ -6950,7 +6997,8 @@ typedef union
     } cn81xx;
     /* struct bdk_nic_pf_ecc2_flip1_s cn88xx; */
     /* struct bdk_nic_pf_ecc2_flip1_cn81xx cn83xx; */
-} bdk_nic_pf_ecc2_flip1_t;
+};
+typedef union bdk_nic_pf_ecc2_flip1 bdk_nic_pf_ecc2_flip1_t;
 
 #define BDK_NIC_PF_ECC2_FLIP1 BDK_NIC_PF_ECC2_FLIP1_FUNC()
 static inline uint64_t BDK_NIC_PF_ECC2_FLIP1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -6972,7 +7020,7 @@ static inline uint64_t BDK_NIC_PF_ECC2_FLIP1_FUNC(void)
  * NIC ECC 2 Single-bit Error Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_nic_pf_ecc2_sbe_ena_w1c
 {
     uint64_t u;
     struct bdk_nic_pf_ecc2_sbe_ena_w1c_s
@@ -6986,7 +7034,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_ecc2_sbe_ena_w1c_s cn; */
-} bdk_nic_pf_ecc2_sbe_ena_w1c_t;
+};
+typedef union bdk_nic_pf_ecc2_sbe_ena_w1c bdk_nic_pf_ecc2_sbe_ena_w1c_t;
 
 #define BDK_NIC_PF_ECC2_SBE_ENA_W1C BDK_NIC_PF_ECC2_SBE_ENA_W1C_FUNC()
 static inline uint64_t BDK_NIC_PF_ECC2_SBE_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -7008,7 +7057,7 @@ static inline uint64_t BDK_NIC_PF_ECC2_SBE_ENA_W1C_FUNC(void)
  * NIC ECC 2 Single-bit Error Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_nic_pf_ecc2_sbe_ena_w1s
 {
     uint64_t u;
     struct bdk_nic_pf_ecc2_sbe_ena_w1s_s
@@ -7022,7 +7071,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_ecc2_sbe_ena_w1s_s cn; */
-} bdk_nic_pf_ecc2_sbe_ena_w1s_t;
+};
+typedef union bdk_nic_pf_ecc2_sbe_ena_w1s bdk_nic_pf_ecc2_sbe_ena_w1s_t;
 
 #define BDK_NIC_PF_ECC2_SBE_ENA_W1S BDK_NIC_PF_ECC2_SBE_ENA_W1S_FUNC()
 static inline uint64_t BDK_NIC_PF_ECC2_SBE_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -7048,7 +7098,7 @@ static inline uint64_t BDK_NIC_PF_ECC2_SBE_ENA_W1S_FUNC(void)
  * Internal:
  * Bits in each field are enumerated by NIC_PF_ECC2_FLIP0.
  */
-typedef union
+union bdk_nic_pf_ecc2_sbe_int
 {
     uint64_t u;
     struct bdk_nic_pf_ecc2_sbe_int_s
@@ -7062,7 +7112,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_ecc2_sbe_int_s cn; */
-} bdk_nic_pf_ecc2_sbe_int_t;
+};
+typedef union bdk_nic_pf_ecc2_sbe_int bdk_nic_pf_ecc2_sbe_int_t;
 
 #define BDK_NIC_PF_ECC2_SBE_INT BDK_NIC_PF_ECC2_SBE_INT_FUNC()
 static inline uint64_t BDK_NIC_PF_ECC2_SBE_INT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -7084,7 +7135,7 @@ static inline uint64_t BDK_NIC_PF_ECC2_SBE_INT_FUNC(void)
  * NIC ECC 2 Single-bit Error Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_nic_pf_ecc2_sbe_int_w1s
 {
     uint64_t u;
     struct bdk_nic_pf_ecc2_sbe_int_w1s_s
@@ -7098,7 +7149,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_ecc2_sbe_int_w1s_s cn; */
-} bdk_nic_pf_ecc2_sbe_int_w1s_t;
+};
+typedef union bdk_nic_pf_ecc2_sbe_int_w1s bdk_nic_pf_ecc2_sbe_int_w1s_t;
 
 #define BDK_NIC_PF_ECC2_SBE_INT_W1S BDK_NIC_PF_ECC2_SBE_INT_W1S_FUNC()
 static inline uint64_t BDK_NIC_PF_ECC2_SBE_INT_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -7120,7 +7172,7 @@ static inline uint64_t BDK_NIC_PF_ECC2_SBE_INT_W1S_FUNC(void)
  * NIC Memory ECC 3 Correction Disable Register
  * See NIC_PF_ECC0_CDIS.
  */
-typedef union
+union bdk_nic_pf_ecc3_cdis
 {
     uint64_t u;
     struct bdk_nic_pf_ecc3_cdis_s
@@ -7390,7 +7442,8 @@ typedef union
         uint64_t reserved_40_63        : 24;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_nic_pf_ecc3_cdis_t;
+};
+typedef union bdk_nic_pf_ecc3_cdis bdk_nic_pf_ecc3_cdis_t;
 
 #define BDK_NIC_PF_ECC3_CDIS BDK_NIC_PF_ECC3_CDIS_FUNC()
 static inline uint64_t BDK_NIC_PF_ECC3_CDIS_FUNC(void) __attribute__ ((pure, always_inline));
@@ -7412,7 +7465,7 @@ static inline uint64_t BDK_NIC_PF_ECC3_CDIS_FUNC(void)
  * NIC ECC 3 Double-bit Error Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_nic_pf_ecc3_dbe_ena_w1c
 {
     uint64_t u;
     struct bdk_nic_pf_ecc3_dbe_ena_w1c_s
@@ -7428,7 +7481,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_ecc3_dbe_ena_w1c_s cn; */
-} bdk_nic_pf_ecc3_dbe_ena_w1c_t;
+};
+typedef union bdk_nic_pf_ecc3_dbe_ena_w1c bdk_nic_pf_ecc3_dbe_ena_w1c_t;
 
 #define BDK_NIC_PF_ECC3_DBE_ENA_W1C BDK_NIC_PF_ECC3_DBE_ENA_W1C_FUNC()
 static inline uint64_t BDK_NIC_PF_ECC3_DBE_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -7450,7 +7504,7 @@ static inline uint64_t BDK_NIC_PF_ECC3_DBE_ENA_W1C_FUNC(void)
  * NIC ECC 3 Single-bit Error Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_nic_pf_ecc3_dbe_ena_w1s
 {
     uint64_t u;
     struct bdk_nic_pf_ecc3_dbe_ena_w1s_s
@@ -7466,7 +7520,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_ecc3_dbe_ena_w1s_s cn; */
-} bdk_nic_pf_ecc3_dbe_ena_w1s_t;
+};
+typedef union bdk_nic_pf_ecc3_dbe_ena_w1s bdk_nic_pf_ecc3_dbe_ena_w1s_t;
 
 #define BDK_NIC_PF_ECC3_DBE_ENA_W1S BDK_NIC_PF_ECC3_DBE_ENA_W1S_FUNC()
 static inline uint64_t BDK_NIC_PF_ECC3_DBE_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -7492,7 +7547,7 @@ static inline uint64_t BDK_NIC_PF_ECC3_DBE_ENA_W1S_FUNC(void)
  * Internal:
  * Bits in each field are enumerated by NIC_PF_ECC3_FLIP0.
  */
-typedef union
+union bdk_nic_pf_ecc3_dbe_int
 {
     uint64_t u;
     struct bdk_nic_pf_ecc3_dbe_int_s
@@ -7508,7 +7563,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_ecc3_dbe_int_s cn; */
-} bdk_nic_pf_ecc3_dbe_int_t;
+};
+typedef union bdk_nic_pf_ecc3_dbe_int bdk_nic_pf_ecc3_dbe_int_t;
 
 #define BDK_NIC_PF_ECC3_DBE_INT BDK_NIC_PF_ECC3_DBE_INT_FUNC()
 static inline uint64_t BDK_NIC_PF_ECC3_DBE_INT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -7530,7 +7586,7 @@ static inline uint64_t BDK_NIC_PF_ECC3_DBE_INT_FUNC(void)
  * NIC ECC 3 Double-bit Error Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_nic_pf_ecc3_dbe_int_w1s
 {
     uint64_t u;
     struct bdk_nic_pf_ecc3_dbe_int_w1s_s
@@ -7546,7 +7602,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_ecc3_dbe_int_w1s_s cn; */
-} bdk_nic_pf_ecc3_dbe_int_w1s_t;
+};
+typedef union bdk_nic_pf_ecc3_dbe_int_w1s bdk_nic_pf_ecc3_dbe_int_w1s_t;
 
 #define BDK_NIC_PF_ECC3_DBE_INT_W1S BDK_NIC_PF_ECC3_DBE_INT_W1S_FUNC()
 static inline uint64_t BDK_NIC_PF_ECC3_DBE_INT_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -7568,7 +7625,7 @@ static inline uint64_t BDK_NIC_PF_ECC3_DBE_INT_W1S_FUNC(void)
  * NIC Memory ECC 3 Flip 0 Register
  * See NIC_PF_ECC0_FLIP0.
  */
-typedef union
+union bdk_nic_pf_ecc3_flip0
 {
     uint64_t u;
     struct bdk_nic_pf_ecc3_flip0_s
@@ -7838,7 +7895,8 @@ typedef union
         uint64_t reserved_40_63        : 24;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_nic_pf_ecc3_flip0_t;
+};
+typedef union bdk_nic_pf_ecc3_flip0 bdk_nic_pf_ecc3_flip0_t;
 
 #define BDK_NIC_PF_ECC3_FLIP0 BDK_NIC_PF_ECC3_FLIP0_FUNC()
 static inline uint64_t BDK_NIC_PF_ECC3_FLIP0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -7860,7 +7918,7 @@ static inline uint64_t BDK_NIC_PF_ECC3_FLIP0_FUNC(void)
  * NIC Memory ECC 3 Flip 1 Register
  * See NIC_PF_ECC0_FLIP1.
  */
-typedef union
+union bdk_nic_pf_ecc3_flip1
 {
     uint64_t u;
     struct bdk_nic_pf_ecc3_flip1_s
@@ -8130,7 +8188,8 @@ typedef union
         uint64_t reserved_40_63        : 24;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_nic_pf_ecc3_flip1_t;
+};
+typedef union bdk_nic_pf_ecc3_flip1 bdk_nic_pf_ecc3_flip1_t;
 
 #define BDK_NIC_PF_ECC3_FLIP1 BDK_NIC_PF_ECC3_FLIP1_FUNC()
 static inline uint64_t BDK_NIC_PF_ECC3_FLIP1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -8152,7 +8211,7 @@ static inline uint64_t BDK_NIC_PF_ECC3_FLIP1_FUNC(void)
  * NIC ECC 3 Single-bit Error Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_nic_pf_ecc3_sbe_ena_w1c
 {
     uint64_t u;
     struct bdk_nic_pf_ecc3_sbe_ena_w1c_s
@@ -8168,7 +8227,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_ecc3_sbe_ena_w1c_s cn; */
-} bdk_nic_pf_ecc3_sbe_ena_w1c_t;
+};
+typedef union bdk_nic_pf_ecc3_sbe_ena_w1c bdk_nic_pf_ecc3_sbe_ena_w1c_t;
 
 #define BDK_NIC_PF_ECC3_SBE_ENA_W1C BDK_NIC_PF_ECC3_SBE_ENA_W1C_FUNC()
 static inline uint64_t BDK_NIC_PF_ECC3_SBE_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -8190,7 +8250,7 @@ static inline uint64_t BDK_NIC_PF_ECC3_SBE_ENA_W1C_FUNC(void)
  * NIC ECC 3 Single-bit Error Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_nic_pf_ecc3_sbe_ena_w1s
 {
     uint64_t u;
     struct bdk_nic_pf_ecc3_sbe_ena_w1s_s
@@ -8206,7 +8266,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_ecc3_sbe_ena_w1s_s cn; */
-} bdk_nic_pf_ecc3_sbe_ena_w1s_t;
+};
+typedef union bdk_nic_pf_ecc3_sbe_ena_w1s bdk_nic_pf_ecc3_sbe_ena_w1s_t;
 
 #define BDK_NIC_PF_ECC3_SBE_ENA_W1S BDK_NIC_PF_ECC3_SBE_ENA_W1S_FUNC()
 static inline uint64_t BDK_NIC_PF_ECC3_SBE_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -8232,7 +8293,7 @@ static inline uint64_t BDK_NIC_PF_ECC3_SBE_ENA_W1S_FUNC(void)
  * Internal:
  * Bits in each field are enumerated by NIC_PF_ECC3_FLIP0.
  */
-typedef union
+union bdk_nic_pf_ecc3_sbe_int
 {
     uint64_t u;
     struct bdk_nic_pf_ecc3_sbe_int_s
@@ -8248,7 +8309,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_ecc3_sbe_int_s cn; */
-} bdk_nic_pf_ecc3_sbe_int_t;
+};
+typedef union bdk_nic_pf_ecc3_sbe_int bdk_nic_pf_ecc3_sbe_int_t;
 
 #define BDK_NIC_PF_ECC3_SBE_INT BDK_NIC_PF_ECC3_SBE_INT_FUNC()
 static inline uint64_t BDK_NIC_PF_ECC3_SBE_INT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -8270,7 +8332,7 @@ static inline uint64_t BDK_NIC_PF_ECC3_SBE_INT_FUNC(void)
  * NIC ECC 3 Single-bit Error Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_nic_pf_ecc3_sbe_int_w1s
 {
     uint64_t u;
     struct bdk_nic_pf_ecc3_sbe_int_w1s_s
@@ -8286,7 +8348,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_ecc3_sbe_int_w1s_s cn; */
-} bdk_nic_pf_ecc3_sbe_int_w1s_t;
+};
+typedef union bdk_nic_pf_ecc3_sbe_int_w1s bdk_nic_pf_ecc3_sbe_int_w1s_t;
 
 #define BDK_NIC_PF_ECC3_SBE_INT_W1S BDK_NIC_PF_ECC3_SBE_INT_W1S_FUNC()
 static inline uint64_t BDK_NIC_PF_ECC3_SBE_INT_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -8307,7 +8370,7 @@ static inline uint64_t BDK_NIC_PF_ECC3_SBE_INT_W1S_FUNC(void)
  *
  * INTERNAL: ECO 0 Register
  */
-typedef union
+union bdk_nic_pf_eco0
 {
     uint64_t u;
     struct bdk_nic_pf_eco0_s
@@ -8323,7 +8386,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_eco0_s cn; */
-} bdk_nic_pf_eco0_t;
+};
+typedef union bdk_nic_pf_eco0 bdk_nic_pf_eco0_t;
 
 #define BDK_NIC_PF_ECO0 BDK_NIC_PF_ECO0_FUNC()
 static inline uint64_t BDK_NIC_PF_ECO0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -8350,7 +8414,7 @@ static inline uint64_t BDK_NIC_PF_ECO0_FUNC(void)
  *
  * INTERNAL: ECO 1 Register
  */
-typedef union
+union bdk_nic_pf_eco1
 {
     uint64_t u;
     struct bdk_nic_pf_eco1_s
@@ -8366,7 +8430,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_eco1_s cn; */
-} bdk_nic_pf_eco1_t;
+};
+typedef union bdk_nic_pf_eco1 bdk_nic_pf_eco1_t;
 
 #define BDK_NIC_PF_ECO1 BDK_NIC_PF_ECO1_FUNC()
 static inline uint64_t BDK_NIC_PF_ECO1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -8393,7 +8458,7 @@ static inline uint64_t BDK_NIC_PF_ECO1_FUNC(void)
  *
  * INTERNAL: ECO 2 Register
  */
-typedef union
+union bdk_nic_pf_eco2
 {
     uint64_t u;
     struct bdk_nic_pf_eco2_s
@@ -8409,7 +8474,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_eco2_s cn; */
-} bdk_nic_pf_eco2_t;
+};
+typedef union bdk_nic_pf_eco2 bdk_nic_pf_eco2_t;
 
 #define BDK_NIC_PF_ECO2 BDK_NIC_PF_ECO2_FUNC()
 static inline uint64_t BDK_NIC_PF_ECO2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -8436,7 +8502,7 @@ static inline uint64_t BDK_NIC_PF_ECO2_FUNC(void)
  *
  * INTERNAL: ECO 3 Register
  */
-typedef union
+union bdk_nic_pf_eco3
 {
     uint64_t u;
     struct bdk_nic_pf_eco3_s
@@ -8452,7 +8518,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_eco3_s cn; */
-} bdk_nic_pf_eco3_t;
+};
+typedef union bdk_nic_pf_eco3 bdk_nic_pf_eco3_t;
 
 #define BDK_NIC_PF_ECO3 BDK_NIC_PF_ECO3_FUNC()
 static inline uint64_t BDK_NIC_PF_ECO3_FUNC(void) __attribute__ ((pure, always_inline));
@@ -8479,7 +8546,7 @@ static inline uint64_t BDK_NIC_PF_ECO3_FUNC(void)
  *
  * INTERNAL: ECO 4 Register
  */
-typedef union
+union bdk_nic_pf_eco4
 {
     uint64_t u;
     struct bdk_nic_pf_eco4_s
@@ -8495,7 +8562,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_eco4_s cn; */
-} bdk_nic_pf_eco4_t;
+};
+typedef union bdk_nic_pf_eco4 bdk_nic_pf_eco4_t;
 
 #define BDK_NIC_PF_ECO4 BDK_NIC_PF_ECO4_FUNC()
 static inline uint64_t BDK_NIC_PF_ECO4_FUNC(void) __attribute__ ((pure, always_inline));
@@ -8522,7 +8590,7 @@ static inline uint64_t BDK_NIC_PF_ECO4_FUNC(void)
  *
  * INTERNAL: ECO 5 Register
  */
-typedef union
+union bdk_nic_pf_eco5
 {
     uint64_t u;
     struct bdk_nic_pf_eco5_s
@@ -8538,7 +8606,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_eco5_s cn; */
-} bdk_nic_pf_eco5_t;
+};
+typedef union bdk_nic_pf_eco5 bdk_nic_pf_eco5_t;
 
 #define BDK_NIC_PF_ECO5 BDK_NIC_PF_ECO5_FUNC()
 static inline uint64_t BDK_NIC_PF_ECO5_FUNC(void) __attribute__ ((pure, always_inline));
@@ -8565,7 +8634,7 @@ static inline uint64_t BDK_NIC_PF_ECO5_FUNC(void)
  *
  * NIC Interrupt-Timer Configuration Register
  */
-typedef union
+union bdk_nic_pf_int_timer_cfg
 {
     uint64_t u;
     struct bdk_nic_pf_int_timer_cfg_s
@@ -8581,7 +8650,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_int_timer_cfg_s cn; */
-} bdk_nic_pf_int_timer_cfg_t;
+};
+typedef union bdk_nic_pf_int_timer_cfg bdk_nic_pf_int_timer_cfg_t;
 
 #define BDK_NIC_PF_INT_TIMER_CFG BDK_NIC_PF_INT_TIMER_CFG_FUNC()
 static inline uint64_t BDK_NIC_PF_INT_TIMER_CFG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -8603,7 +8673,7 @@ static inline uint64_t BDK_NIC_PF_INT_TIMER_CFG_FUNC(void)
  * NIC Interface Backpressure Configuration Registers
  * Configures backpressure on the NIC TNS receive interface.
  */
-typedef union
+union bdk_nic_pf_intfx_bp_cfg
 {
     uint64_t u;
     struct bdk_nic_pf_intfx_bp_cfg_s
@@ -8654,7 +8724,8 @@ typedef union
     } cn81xx;
     /* struct bdk_nic_pf_intfx_bp_cfg_s cn88xx; */
     /* struct bdk_nic_pf_intfx_bp_cfg_cn81xx cn83xx; */
-} bdk_nic_pf_intfx_bp_cfg_t;
+};
+typedef union bdk_nic_pf_intfx_bp_cfg bdk_nic_pf_intfx_bp_cfg_t;
 
 static inline uint64_t BDK_NIC_PF_INTFX_BP_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_INTFX_BP_CFG(unsigned long a)
@@ -8680,7 +8751,7 @@ static inline uint64_t BDK_NIC_PF_INTFX_BP_CFG(unsigned long a)
  *
  * NIC Interface Backpressure Disable Registers
  */
-typedef union
+union bdk_nic_pf_intfx_bp_disx
 {
     uint64_t u;
     struct bdk_nic_pf_intfx_bp_disx_s
@@ -8694,7 +8765,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_intfx_bp_disx_s cn; */
-} bdk_nic_pf_intfx_bp_disx_t;
+};
+typedef union bdk_nic_pf_intfx_bp_disx bdk_nic_pf_intfx_bp_disx_t;
 
 static inline uint64_t BDK_NIC_PF_INTFX_BP_DISX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_INTFX_BP_DISX(unsigned long a, unsigned long b)
@@ -8716,7 +8788,7 @@ static inline uint64_t BDK_NIC_PF_INTFX_BP_DISX(unsigned long a, unsigned long b
  *
  * NIC Interface Backpressure Software Force Registers
  */
-typedef union
+union bdk_nic_pf_intfx_bp_swx
 {
     uint64_t u;
     struct bdk_nic_pf_intfx_bp_swx_s
@@ -8730,7 +8802,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_intfx_bp_swx_s cn; */
-} bdk_nic_pf_intfx_bp_swx_t;
+};
+typedef union bdk_nic_pf_intfx_bp_swx bdk_nic_pf_intfx_bp_swx_t;
 
 static inline uint64_t BDK_NIC_PF_INTFX_BP_SWX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_INTFX_BP_SWX(unsigned long a, unsigned long b)
@@ -8753,7 +8826,7 @@ static inline uint64_t BDK_NIC_PF_INTFX_BP_SWX(unsigned long a, unsigned long b)
  * NIC Interface Send Configuration Registers
  * Configures the NIC TNS send interface.
  */
-typedef union
+union bdk_nic_pf_intfx_send_cfg
 {
     uint64_t u;
     struct bdk_nic_pf_intfx_send_cfg_s
@@ -8880,7 +8953,8 @@ typedef union
     } cn81xx;
     /* struct bdk_nic_pf_intfx_send_cfg_s cn88xx; */
     /* struct bdk_nic_pf_intfx_send_cfg_cn81xx cn83xx; */
-} bdk_nic_pf_intfx_send_cfg_t;
+};
+typedef union bdk_nic_pf_intfx_send_cfg bdk_nic_pf_intfx_send_cfg_t;
 
 static inline uint64_t BDK_NIC_PF_INTFX_SEND_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_INTFX_SEND_CFG(unsigned long a)
@@ -8906,7 +8980,7 @@ static inline uint64_t BDK_NIC_PF_INTFX_SEND_CFG(unsigned long a)
  *
  * NIC Interface Transmit FIFO Status Registers
  */
-typedef union
+union bdk_nic_pf_intfx_tx_fifo_status
 {
     uint64_t u;
     struct bdk_nic_pf_intfx_tx_fifo_status_s
@@ -8920,7 +8994,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_intfx_tx_fifo_status_s cn; */
-} bdk_nic_pf_intfx_tx_fifo_status_t;
+};
+typedef union bdk_nic_pf_intfx_tx_fifo_status bdk_nic_pf_intfx_tx_fifo_status_t;
 
 static inline uint64_t BDK_NIC_PF_INTFX_TX_FIFO_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_INTFX_TX_FIFO_STATUS(unsigned long a)
@@ -8943,7 +9018,7 @@ static inline uint64_t BDK_NIC_PF_INTFX_TX_FIFO_STATUS(unsigned long a)
  * NIC LMAC Configuration Registers
  * Index enumerated by NIC_TX_LMAC_E.
  */
-typedef union
+union bdk_nic_pf_lmacx_cfg
 {
     uint64_t u;
     struct bdk_nic_pf_lmacx_cfg_s
@@ -8969,7 +9044,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_lmacx_cfg_s cn; */
-} bdk_nic_pf_lmacx_cfg_t;
+};
+typedef union bdk_nic_pf_lmacx_cfg bdk_nic_pf_lmacx_cfg_t;
 
 static inline uint64_t BDK_NIC_PF_LMACX_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_LMACX_CFG(unsigned long a)
@@ -8996,7 +9072,7 @@ static inline uint64_t BDK_NIC_PF_LMACX_CFG(unsigned long a)
  * NIC LMAC Configuration Registers
  * Index enumerated by NIC_TX_LMAC_E.
  */
-typedef union
+union bdk_nic_pf_lmacx_cfg2
 {
     uint64_t u;
     struct bdk_nic_pf_lmacx_cfg2_s
@@ -9018,7 +9094,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_lmacx_cfg2_s cn; */
-} bdk_nic_pf_lmacx_cfg2_t;
+};
+typedef union bdk_nic_pf_lmacx_cfg2 bdk_nic_pf_lmacx_cfg2_t;
 
 static inline uint64_t BDK_NIC_PF_LMACX_CFG2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_LMACX_CFG2(unsigned long a)
@@ -9045,7 +9122,7 @@ static inline uint64_t BDK_NIC_PF_LMACX_CFG2(unsigned long a)
  * NIC LMAC Credit Registers
  * Index enumerated by NIC_TX_LMAC_E.
  */
-typedef union
+union bdk_nic_pf_lmacx_credit
 {
     uint64_t u;
     struct bdk_nic_pf_lmacx_credit_s
@@ -9251,7 +9328,8 @@ typedef union
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_nic_pf_lmacx_credit_t;
+};
+typedef union bdk_nic_pf_lmacx_credit bdk_nic_pf_lmacx_credit_t;
 
 static inline uint64_t BDK_NIC_PF_LMACX_CREDIT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_LMACX_CREDIT(unsigned long a)
@@ -9278,7 +9356,7 @@ static inline uint64_t BDK_NIC_PF_LMACX_CREDIT(unsigned long a)
  * NIC LMAC Software Controlled XOFF Registers
  * Index enumerated by NIC_TX_LMAC_E.
  */
-typedef union
+union bdk_nic_pf_lmacx_sw_xoff
 {
     uint64_t u;
     struct bdk_nic_pf_lmacx_sw_xoff_s
@@ -9292,7 +9370,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_lmacx_sw_xoff_s cn; */
-} bdk_nic_pf_lmacx_sw_xoff_t;
+};
+typedef union bdk_nic_pf_lmacx_sw_xoff bdk_nic_pf_lmacx_sw_xoff_t;
 
 static inline uint64_t BDK_NIC_PF_LMACX_SW_XOFF(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_LMACX_SW_XOFF(unsigned long a)
@@ -9319,7 +9398,7 @@ static inline uint64_t BDK_NIC_PF_LMACX_SW_XOFF(unsigned long a)
  * NIC PF Mailbox Enable Clear Registers
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_nic_pf_mbox_ena_w1cx
 {
     uint64_t u;
     struct bdk_nic_pf_mbox_ena_w1cx_s
@@ -9340,7 +9419,8 @@ typedef union
     } cn81xx;
     /* struct bdk_nic_pf_mbox_ena_w1cx_s cn88xx; */
     /* struct bdk_nic_pf_mbox_ena_w1cx_cn81xx cn83xx; */
-} bdk_nic_pf_mbox_ena_w1cx_t;
+};
+typedef union bdk_nic_pf_mbox_ena_w1cx bdk_nic_pf_mbox_ena_w1cx_t;
 
 static inline uint64_t BDK_NIC_PF_MBOX_ENA_W1CX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_MBOX_ENA_W1CX(unsigned long a)
@@ -9367,7 +9447,7 @@ static inline uint64_t BDK_NIC_PF_MBOX_ENA_W1CX(unsigned long a)
  * NIC PF Mailbox Enable Set Registers
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_nic_pf_mbox_ena_w1sx
 {
     uint64_t u;
     struct bdk_nic_pf_mbox_ena_w1sx_s
@@ -9388,7 +9468,8 @@ typedef union
     } cn81xx;
     /* struct bdk_nic_pf_mbox_ena_w1sx_s cn88xx; */
     /* struct bdk_nic_pf_mbox_ena_w1sx_cn81xx cn83xx; */
-} bdk_nic_pf_mbox_ena_w1sx_t;
+};
+typedef union bdk_nic_pf_mbox_ena_w1sx bdk_nic_pf_mbox_ena_w1sx_t;
 
 static inline uint64_t BDK_NIC_PF_MBOX_ENA_W1SX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_MBOX_ENA_W1SX(unsigned long a)
@@ -9414,7 +9495,7 @@ static inline uint64_t BDK_NIC_PF_MBOX_ENA_W1SX(unsigned long a)
  *
  * NIC PF Mailbox Interrupt Registers
  */
-typedef union
+union bdk_nic_pf_mbox_intx
 {
     uint64_t u;
     struct bdk_nic_pf_mbox_intx_s
@@ -9454,7 +9535,8 @@ typedef union
                                                                  Bits corresponding to unimplemented VFs (above bit 31) are never set by hardware. */
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_nic_pf_mbox_intx_t;
+};
+typedef union bdk_nic_pf_mbox_intx bdk_nic_pf_mbox_intx_t;
 
 static inline uint64_t BDK_NIC_PF_MBOX_INTX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_MBOX_INTX(unsigned long a)
@@ -9481,7 +9563,7 @@ static inline uint64_t BDK_NIC_PF_MBOX_INTX(unsigned long a)
  * NIC PF Mailbox Interrupt Set Registers
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_nic_pf_mbox_int_w1sx
 {
     uint64_t u;
     struct bdk_nic_pf_mbox_int_w1sx_s
@@ -9502,7 +9584,8 @@ typedef union
     } cn81xx;
     /* struct bdk_nic_pf_mbox_int_w1sx_s cn88xx; */
     /* struct bdk_nic_pf_mbox_int_w1sx_cn81xx cn83xx; */
-} bdk_nic_pf_mbox_int_w1sx_t;
+};
+typedef union bdk_nic_pf_mbox_int_w1sx bdk_nic_pf_mbox_int_w1sx_t;
 
 static inline uint64_t BDK_NIC_PF_MBOX_INT_W1SX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_MBOX_INT_W1SX(unsigned long a)
@@ -9529,7 +9612,7 @@ static inline uint64_t BDK_NIC_PF_MBOX_INT_W1SX(unsigned long a)
  * NIC MCAM Enable Registers
  * This register enables the corresponding ECAM entry number.
  */
-typedef union
+union bdk_nic_pf_mcamx_ena
 {
     uint64_t u;
     struct bdk_nic_pf_mcamx_ena_s
@@ -9543,7 +9626,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_mcamx_ena_s cn; */
-} bdk_nic_pf_mcamx_ena_t;
+};
+typedef union bdk_nic_pf_mcamx_ena bdk_nic_pf_mcamx_ena_t;
 
 static inline uint64_t BDK_NIC_PF_MCAMX_ENA(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_MCAMX_ENA(unsigned long a)
@@ -9571,7 +9655,7 @@ static inline uint64_t BDK_NIC_PF_MCAMX_ENA(unsigned long a)
  * This register specifies the ternary match data for the corresponding ECAM entry
  * number.
  */
-typedef union
+union bdk_nic_pf_mcamx_mx_data
 {
     uint64_t u;
     struct bdk_nic_pf_mcamx_mx_data_s
@@ -9621,7 +9705,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_mcamx_mx_data_s cn; */
-} bdk_nic_pf_mcamx_mx_data_t;
+};
+typedef union bdk_nic_pf_mcamx_mx_data bdk_nic_pf_mcamx_mx_data_t;
 
 static inline uint64_t BDK_NIC_PF_MCAMX_MX_DATA(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_MCAMX_MX_DATA(unsigned long a, unsigned long b)
@@ -9648,7 +9733,7 @@ static inline uint64_t BDK_NIC_PF_MCAMX_MX_DATA(unsigned long a, unsigned long b
  * NIC MCAM Control Register
  * This register controls the MCAM.
  */
-typedef union
+union bdk_nic_pf_mcam_ctrl
 {
     uint64_t u;
     struct bdk_nic_pf_mcam_ctrl_s
@@ -9668,7 +9753,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_mcam_ctrl_s cn; */
-} bdk_nic_pf_mcam_ctrl_t;
+};
+typedef union bdk_nic_pf_mcam_ctrl bdk_nic_pf_mcam_ctrl_t;
 
 #define BDK_NIC_PF_MCAM_CTRL BDK_NIC_PF_MCAM_CTRL_FUNC()
 static inline uint64_t BDK_NIC_PF_MCAM_CTRL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -9695,7 +9781,7 @@ static inline uint64_t BDK_NIC_PF_MCAM_CTRL_FUNC(void)
  *
  * NIC MPI Table Registers
  */
-typedef union
+union bdk_nic_pf_mpix_cfg
 {
     uint64_t u;
     struct bdk_nic_pf_mpix_cfg_s
@@ -9880,7 +9966,8 @@ typedef union
         uint64_t reserved_31_63        : 33;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_nic_pf_mpix_cfg_t;
+};
+typedef union bdk_nic_pf_mpix_cfg bdk_nic_pf_mpix_cfg_t;
 
 static inline uint64_t BDK_NIC_PF_MPIX_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_MPIX_CFG(unsigned long a)
@@ -9908,7 +9995,7 @@ static inline uint64_t BDK_NIC_PF_MPIX_CFG(unsigned long a)
  * This register is the MSI-X PBA table, the bit number is indexed by the NIC_PF_INT_VEC_E
  * enumeration.
  */
-typedef union
+union bdk_nic_pf_msix_pbax
 {
     uint64_t u;
     struct bdk_nic_pf_msix_pbax_s
@@ -9924,7 +10011,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_msix_pbax_s cn; */
-} bdk_nic_pf_msix_pbax_t;
+};
+typedef union bdk_nic_pf_msix_pbax bdk_nic_pf_msix_pbax_t;
 
 static inline uint64_t BDK_NIC_PF_MSIX_PBAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_MSIX_PBAX(unsigned long a)
@@ -9947,7 +10035,7 @@ static inline uint64_t BDK_NIC_PF_MSIX_PBAX(unsigned long a)
  * NIC PF MSI-X Vector-Table Address Registers
  * This register is the MSI-X vector table, indexed by the NIC_PF_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_nic_pf_msix_vecx_addr
 {
     uint64_t u;
     struct bdk_nic_pf_msix_vecx_addr_s
@@ -9979,7 +10067,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_msix_vecx_addr_s cn; */
-} bdk_nic_pf_msix_vecx_addr_t;
+};
+typedef union bdk_nic_pf_msix_vecx_addr bdk_nic_pf_msix_vecx_addr_t;
 
 static inline uint64_t BDK_NIC_PF_MSIX_VECX_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_MSIX_VECX_ADDR(unsigned long a)
@@ -10006,7 +10095,7 @@ static inline uint64_t BDK_NIC_PF_MSIX_VECX_ADDR(unsigned long a)
  * NIC PF MSI-X Vector-Table Control and Data Registers
  * This register is the MSI-X vector table, indexed by the NIC_PF_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_nic_pf_msix_vecx_ctl
 {
     uint64_t u;
     struct bdk_nic_pf_msix_vecx_ctl_s
@@ -10024,7 +10113,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_msix_vecx_ctl_s cn; */
-} bdk_nic_pf_msix_vecx_ctl_t;
+};
+typedef union bdk_nic_pf_msix_vecx_ctl bdk_nic_pf_msix_vecx_ctl_t;
 
 static inline uint64_t BDK_NIC_PF_MSIX_VECX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_MSIX_VECX_CTL(unsigned long a)
@@ -10050,7 +10140,7 @@ static inline uint64_t BDK_NIC_PF_MSIX_VECX_CTL(unsigned long a)
  *
  * NIC PIR Configuration Register
  */
-typedef union
+union bdk_nic_pf_pir_cfg
 {
     uint64_t u;
     struct bdk_nic_pf_pir_cfg_s
@@ -10072,7 +10162,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_pir_cfg_s cn; */
-} bdk_nic_pf_pir_cfg_t;
+};
+typedef union bdk_nic_pf_pir_cfg bdk_nic_pf_pir_cfg_t;
 
 #define BDK_NIC_PF_PIR_CFG BDK_NIC_PF_PIR_CFG_FUNC()
 static inline uint64_t BDK_NIC_PF_PIR_CFG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -10097,7 +10188,7 @@ static inline uint64_t BDK_NIC_PF_PIR_CFG_FUNC(void)
  *
  * NIC Pkind Configuration Registers
  */
-typedef union
+union bdk_nic_pf_pkindx_cfg
 {
     uint64_t u;
     struct bdk_nic_pf_pkindx_cfg_s
@@ -10252,7 +10343,8 @@ typedef union
                                                                  1 = DEXT position is absolute. */
 #endif /* Word 0 - End */
     } cn88xxp2;
-} bdk_nic_pf_pkindx_cfg_t;
+};
+typedef union bdk_nic_pf_pkindx_cfg bdk_nic_pf_pkindx_cfg_t;
 
 static inline uint64_t BDK_NIC_PF_PKINDX_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_PKINDX_CFG(unsigned long a)
@@ -10274,7 +10366,7 @@ static inline uint64_t BDK_NIC_PF_PKINDX_CFG(unsigned long a)
  *
  * NIC Queue Set-Configuration Registers
  */
-typedef union
+union bdk_nic_pf_qsx_cfg
 {
     uint64_t u;
     struct bdk_nic_pf_qsx_cfg_s
@@ -10510,7 +10602,8 @@ typedef union
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_nic_pf_qsx_cfg_t;
+};
+typedef union bdk_nic_pf_qsx_cfg bdk_nic_pf_qsx_cfg_t;
 
 static inline uint64_t BDK_NIC_PF_QSX_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_QSX_CFG(unsigned long a)
@@ -10537,7 +10630,7 @@ static inline uint64_t BDK_NIC_PF_QSX_CFG(unsigned long a)
  * NIC PF VNIC Lockdown Registers
  * Modified in pass 2 to increase lockdown bytes per QS from 64 to 96.
  */
-typedef union
+union bdk_nic_pf_qsx_lockx
 {
     uint64_t u;
     struct bdk_nic_pf_qsx_lockx_s
@@ -10669,7 +10762,8 @@ typedef union
         uint64_t reserved_36_63        : 28;
 #endif /* Word 0 - End */
     } cn88xxp2;
-} bdk_nic_pf_qsx_lockx_t;
+};
+typedef union bdk_nic_pf_qsx_lockx bdk_nic_pf_qsx_lockx_t;
 
 static inline uint64_t BDK_NIC_PF_QSX_LOCKX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_QSX_LOCKX(unsigned long a, unsigned long b)
@@ -10697,7 +10791,7 @@ static inline uint64_t BDK_NIC_PF_QSX_LOCKX(unsigned long a, unsigned long b)
  *
  * NIC Receive-Queue Backpressure Configuration Registers
  */
-typedef union
+union bdk_nic_pf_qsx_rqx_bp_cfg
 {
     uint64_t u;
     struct bdk_nic_pf_qsx_rqx_bp_cfg_s
@@ -10757,7 +10851,8 @@ typedef union
         uint64_t rbdr_bp_ena           : 1;  /**< [ 63: 63](R/W) Enables BP based off the RBDR levels of the Start and Continue Rings. */
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_nic_pf_qsx_rqx_bp_cfg_t;
+};
+typedef union bdk_nic_pf_qsx_rqx_bp_cfg bdk_nic_pf_qsx_rqx_bp_cfg_t;
 
 static inline uint64_t BDK_NIC_PF_QSX_RQX_BP_CFG(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_QSX_RQX_BP_CFG(unsigned long a, unsigned long b)
@@ -10784,7 +10879,7 @@ static inline uint64_t BDK_NIC_PF_QSX_RQX_BP_CFG(unsigned long a, unsigned long 
  * NIC Receive Queue Configuration Registers
  * Used by the PF to map shared resources to a Receive Queue.
  */
-typedef union
+union bdk_nic_pf_qsx_rqx_cfg
 {
     uint64_t u;
     struct bdk_nic_pf_qsx_rqx_cfg_s
@@ -10926,7 +11021,8 @@ typedef union
                                                                  Reserved for future use - Overrides NIC_QS()_RQ()_CFG[TCP_ENA]. */
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_nic_pf_qsx_rqx_cfg_t;
+};
+typedef union bdk_nic_pf_qsx_rqx_cfg bdk_nic_pf_qsx_rqx_cfg_t;
 
 static inline uint64_t BDK_NIC_PF_QSX_RQX_CFG(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_QSX_RQX_CFG(unsigned long a, unsigned long b)
@@ -10952,7 +11048,7 @@ static inline uint64_t BDK_NIC_PF_QSX_RQX_CFG(unsigned long a, unsigned long b)
  *
  * NIC Receive-Queue Drop Configuration Registers
  */
-typedef union
+union bdk_nic_pf_qsx_rqx_drop_cfg
 {
     uint64_t u;
     struct bdk_nic_pf_qsx_rqx_drop_cfg_s
@@ -11008,7 +11104,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_qsx_rqx_drop_cfg_s cn; */
-} bdk_nic_pf_qsx_rqx_drop_cfg_t;
+};
+typedef union bdk_nic_pf_qsx_rqx_drop_cfg bdk_nic_pf_qsx_rqx_drop_cfg_t;
 
 static inline uint64_t BDK_NIC_PF_QSX_RQX_DROP_CFG(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_QSX_RQX_DROP_CFG(unsigned long a, unsigned long b)
@@ -11035,7 +11132,7 @@ static inline uint64_t BDK_NIC_PF_QSX_RQX_DROP_CFG(unsigned long a, unsigned lon
  * NIC PF Receive-Queue Statistics Registers
  * The third dimension indicates which statistic, and is enumerated by NIC_STAT_RQ_E.
  */
-typedef union
+union bdk_nic_pf_qsx_rqx_statx
 {
     uint64_t u;
     struct bdk_nic_pf_qsx_rqx_statx_s
@@ -11049,7 +11146,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_qsx_rqx_statx_s cn; */
-} bdk_nic_pf_qsx_rqx_statx_t;
+};
+typedef union bdk_nic_pf_qsx_rqx_statx bdk_nic_pf_qsx_rqx_statx_t;
 
 static inline uint64_t BDK_NIC_PF_QSX_RQX_STATX(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_QSX_RQX_STATX(unsigned long a, unsigned long b, unsigned long c)
@@ -11075,7 +11173,7 @@ static inline uint64_t BDK_NIC_PF_QSX_RQX_STATX(unsigned long a, unsigned long b
  *
  * NIC Send-Queue Configuration Registers
  */
-typedef union
+union bdk_nic_pf_qsx_sqx_cfg
 {
     uint64_t u;
     struct bdk_nic_pf_qsx_sqx_cfg_s
@@ -11151,7 +11249,8 @@ typedef union
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_nic_pf_qsx_sqx_cfg_t;
+};
+typedef union bdk_nic_pf_qsx_sqx_cfg bdk_nic_pf_qsx_sqx_cfg_t;
 
 static inline uint64_t BDK_NIC_PF_QSX_SQX_CFG(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_QSX_SQX_CFG(unsigned long a, unsigned long b)
@@ -11177,7 +11276,7 @@ static inline uint64_t BDK_NIC_PF_QSX_SQX_CFG(unsigned long a, unsigned long b)
  *
  * NIC Send-Queue Configuration Registers 2
  */
-typedef union
+union bdk_nic_pf_qsx_sqx_cfg2
 {
     uint64_t u;
     struct bdk_nic_pf_qsx_sqx_cfg2_s
@@ -11235,7 +11334,8 @@ typedef union
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_nic_pf_qsx_sqx_cfg2_t;
+};
+typedef union bdk_nic_pf_qsx_sqx_cfg2 bdk_nic_pf_qsx_sqx_cfg2_t;
 
 static inline uint64_t BDK_NIC_PF_QSX_SQX_CFG2(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_QSX_SQX_CFG2(unsigned long a, unsigned long b)
@@ -11262,7 +11362,7 @@ static inline uint64_t BDK_NIC_PF_QSX_SQX_CFG2(unsigned long a, unsigned long b)
  * NIC PF Send-Queue Statistics Registers
  * The third dimension indicates which statistic, and is enumerated by NIC_STAT_SQ_E.
  */
-typedef union
+union bdk_nic_pf_qsx_sqx_statx
 {
     uint64_t u;
     struct bdk_nic_pf_qsx_sqx_statx_s
@@ -11276,7 +11376,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_qsx_sqx_statx_s cn; */
-} bdk_nic_pf_qsx_sqx_statx_t;
+};
+typedef union bdk_nic_pf_qsx_sqx_statx bdk_nic_pf_qsx_sqx_statx_t;
 
 static inline uint64_t BDK_NIC_PF_QSX_SQX_STATX(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_QSX_SQX_STATX(unsigned long a, unsigned long b, unsigned long c)
@@ -11302,7 +11403,7 @@ static inline uint64_t BDK_NIC_PF_QSX_SQX_STATX(unsigned long a, unsigned long b
  *
  * NIC RBDR Backpressure State Registers
  */
-typedef union
+union bdk_nic_pf_rbdr_bp_statex
 {
     uint64_t u;
     struct bdk_nic_pf_rbdr_bp_statex_s
@@ -11316,7 +11417,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_rbdr_bp_statex_s cn; */
-} bdk_nic_pf_rbdr_bp_statex_t;
+};
+typedef union bdk_nic_pf_rbdr_bp_statex bdk_nic_pf_rbdr_bp_statex_t;
 
 static inline uint64_t BDK_NIC_PF_RBDR_BP_STATEX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_RBDR_BP_STATEX(unsigned long a)
@@ -11338,7 +11440,7 @@ static inline uint64_t BDK_NIC_PF_RBDR_BP_STATEX(unsigned long a)
  *
  * INTERNAL: NIC RQM Test Register
  */
-typedef union
+union bdk_nic_pf_rqm_test
 {
     uint64_t u;
     struct bdk_nic_pf_rqm_test_s
@@ -11388,7 +11490,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_rqm_test_s cn; */
-} bdk_nic_pf_rqm_test_t;
+};
+typedef union bdk_nic_pf_rqm_test bdk_nic_pf_rqm_test_t;
 
 #define BDK_NIC_PF_RQM_TEST BDK_NIC_PF_RQM_TEST_FUNC()
 static inline uint64_t BDK_NIC_PF_RQM_TEST_FUNC(void) __attribute__ ((pure, always_inline));
@@ -11409,7 +11512,7 @@ static inline uint64_t BDK_NIC_PF_RQM_TEST_FUNC(void)
  *
  * NIC PF RBDR-Averaging Configuration Register
  */
-typedef union
+union bdk_nic_pf_rrm_avg_cfg
 {
     uint64_t u;
     struct bdk_nic_pf_rrm_avg_cfg_s
@@ -11447,7 +11550,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_rrm_avg_cfg_s cn; */
-} bdk_nic_pf_rrm_avg_cfg_t;
+};
+typedef union bdk_nic_pf_rrm_avg_cfg bdk_nic_pf_rrm_avg_cfg_t;
 
 #define BDK_NIC_PF_RRM_AVG_CFG BDK_NIC_PF_RRM_AVG_CFG_FUNC()
 static inline uint64_t BDK_NIC_PF_RRM_AVG_CFG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -11468,7 +11572,7 @@ static inline uint64_t BDK_NIC_PF_RRM_AVG_CFG_FUNC(void)
  *
  * NIC PF RRM Configuration Register
  */
-typedef union
+union bdk_nic_pf_rrm_cfg
 {
     uint64_t u;
     struct bdk_nic_pf_rrm_cfg_s
@@ -11486,7 +11590,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_rrm_cfg_s cn; */
-} bdk_nic_pf_rrm_cfg_t;
+};
+typedef union bdk_nic_pf_rrm_cfg bdk_nic_pf_rrm_cfg_t;
 
 #define BDK_NIC_PF_RRM_CFG BDK_NIC_PF_RRM_CFG_FUNC()
 static inline uint64_t BDK_NIC_PF_RRM_CFG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -11507,7 +11612,7 @@ static inline uint64_t BDK_NIC_PF_RRM_CFG_FUNC(void)
  *
  * INTERNAL: NIC RRM Test Register
  */
-typedef union
+union bdk_nic_pf_rrm_test
 {
     uint64_t u;
     struct bdk_nic_pf_rrm_test_s
@@ -11557,7 +11662,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_rrm_test_s cn; */
-} bdk_nic_pf_rrm_test_t;
+};
+typedef union bdk_nic_pf_rrm_test bdk_nic_pf_rrm_test_t;
 
 #define BDK_NIC_PF_RRM_TEST BDK_NIC_PF_RRM_TEST_FUNC()
 static inline uint64_t BDK_NIC_PF_RRM_TEST_FUNC(void) __attribute__ ((pure, always_inline));
@@ -11579,7 +11685,7 @@ static inline uint64_t BDK_NIC_PF_RRM_TEST_FUNC(void)
  * NIC RSSI Indirection Receive Queue Registers
  * The RSSI table is used to distribute RSS hashes to compute which RQ receives a packet.
  */
-typedef union
+union bdk_nic_pf_rssix_rq
 {
     uint64_t u;
     struct bdk_nic_pf_rssix_rq_s
@@ -11623,7 +11729,8 @@ typedef union
         uint64_t reserved_10_63        : 54;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_nic_pf_rssix_rq_t;
+};
+typedef union bdk_nic_pf_rssix_rq bdk_nic_pf_rssix_rq_t;
 
 static inline uint64_t BDK_NIC_PF_RSSIX_RQ(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_RSSIX_RQ(unsigned long a)
@@ -11649,7 +11756,7 @@ static inline uint64_t BDK_NIC_PF_RSSIX_RQ(unsigned long a)
  *
  * NIC RBDR Backpressure State Registers
  */
-typedef union
+union bdk_nic_pf_rx_bp_statex
 {
     uint64_t u;
     struct bdk_nic_pf_rx_bp_statex_s
@@ -11663,7 +11770,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_rx_bp_statex_s cn; */
-} bdk_nic_pf_rx_bp_statex_t;
+};
+typedef union bdk_nic_pf_rx_bp_statex bdk_nic_pf_rx_bp_statex_t;
 
 static inline uint64_t BDK_NIC_PF_RX_BP_STATEX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_RX_BP_STATEX(unsigned long a)
@@ -11689,7 +11797,7 @@ static inline uint64_t BDK_NIC_PF_RX_BP_STATEX(unsigned long a)
  * Internal:
  * Renamed from NIC_PF_RBDR_BP_STATE() in 88XX.
  */
-typedef union
+union bdk_nic_pf_rx_bpid_statex
 {
     uint64_t u;
     struct bdk_nic_pf_rx_bpid_statex_s
@@ -11705,7 +11813,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_rx_bpid_statex_s cn; */
-} bdk_nic_pf_rx_bpid_statex_t;
+};
+typedef union bdk_nic_pf_rx_bpid_statex bdk_nic_pf_rx_bpid_statex_t;
 
 static inline uint64_t BDK_NIC_PF_RX_BPID_STATEX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_RX_BPID_STATEX(unsigned long a)
@@ -11729,7 +11838,7 @@ static inline uint64_t BDK_NIC_PF_RX_BPID_STATEX(unsigned long a)
  *
  * NIC Receive Configuration Register
  */
-typedef union
+union bdk_nic_pf_rx_cfg
 {
     uint64_t u;
     struct bdk_nic_pf_rx_cfg_s
@@ -11765,7 +11874,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn88xx;
     /* struct bdk_nic_pf_rx_cfg_cn81xx cn83xx; */
-} bdk_nic_pf_rx_cfg_t;
+};
+typedef union bdk_nic_pf_rx_cfg bdk_nic_pf_rx_cfg_t;
 
 #define BDK_NIC_PF_RX_CFG BDK_NIC_PF_RX_CFG_FUNC()
 static inline uint64_t BDK_NIC_PF_RX_CFG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -11794,7 +11904,7 @@ static inline uint64_t BDK_NIC_PF_RX_CFG_FUNC(void)
  * Internal:
  * Renamed from NIC_PF_INTF()_BP_DIS() in 88XX.
  */
-typedef union
+union bdk_nic_pf_rx_chan_bp_disx
 {
     uint64_t u;
     struct bdk_nic_pf_rx_chan_bp_disx_s
@@ -11808,7 +11918,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_rx_chan_bp_disx_s cn; */
-} bdk_nic_pf_rx_chan_bp_disx_t;
+};
+typedef union bdk_nic_pf_rx_chan_bp_disx bdk_nic_pf_rx_chan_bp_disx_t;
 
 static inline uint64_t BDK_NIC_PF_RX_CHAN_BP_DISX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_RX_CHAN_BP_DISX(unsigned long a)
@@ -11834,7 +11945,7 @@ static inline uint64_t BDK_NIC_PF_RX_CHAN_BP_DISX(unsigned long a)
  * Internal:
  * Renamed from NIC_PF_INTF()_BP_SW() in 88XX.
  */
-typedef union
+union bdk_nic_pf_rx_chan_bp_swx
 {
     uint64_t u;
     struct bdk_nic_pf_rx_chan_bp_swx_s
@@ -11850,7 +11961,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_rx_chan_bp_swx_s cn; */
-} bdk_nic_pf_rx_chan_bp_swx_t;
+};
+typedef union bdk_nic_pf_rx_chan_bp_swx bdk_nic_pf_rx_chan_bp_swx_t;
 
 static inline uint64_t BDK_NIC_PF_RX_CHAN_BP_SWX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_RX_CHAN_BP_SWX(unsigned long a)
@@ -11874,7 +11986,7 @@ static inline uint64_t BDK_NIC_PF_RX_CHAN_BP_SWX(unsigned long a)
  *
  * NIC Receive Ethertype Registers
  */
-typedef union
+union bdk_nic_pf_rx_etypex
 {
     uint64_t u;
     struct bdk_nic_pf_rx_etypex_s
@@ -11902,7 +12014,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_rx_etypex_s cn; */
-} bdk_nic_pf_rx_etypex_t;
+};
+typedef union bdk_nic_pf_rx_etypex bdk_nic_pf_rx_etypex_t;
 
 static inline uint64_t BDK_NIC_PF_RX_ETYPEX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_RX_ETYPEX(unsigned long a)
@@ -11924,7 +12037,7 @@ static inline uint64_t BDK_NIC_PF_RX_ETYPEX(unsigned long a)
  *
  * NIC Receive GENEVE Control Register
  */
-typedef union
+union bdk_nic_pf_rx_geneve_def
 {
     uint64_t u;
     struct bdk_nic_pf_rx_geneve_def_s
@@ -11940,7 +12053,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_rx_geneve_def_s cn; */
-} bdk_nic_pf_rx_geneve_def_t;
+};
+typedef union bdk_nic_pf_rx_geneve_def bdk_nic_pf_rx_geneve_def_t;
 
 #define BDK_NIC_PF_RX_GENEVE_DEF BDK_NIC_PF_RX_GENEVE_DEF_FUNC()
 static inline uint64_t BDK_NIC_PF_RX_GENEVE_DEF_FUNC(void) __attribute__ ((pure, always_inline));
@@ -11967,7 +12081,7 @@ static inline uint64_t BDK_NIC_PF_RX_GENEVE_DEF_FUNC(void)
  *
  * NIC Receive GENEVE Protocal Definition Register
  */
-typedef union
+union bdk_nic_pf_rx_geneve_prot_def
 {
     uint64_t u;
     struct bdk_nic_pf_rx_geneve_prot_def_s
@@ -11991,7 +12105,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_rx_geneve_prot_def_s cn; */
-} bdk_nic_pf_rx_geneve_prot_def_t;
+};
+typedef union bdk_nic_pf_rx_geneve_prot_def bdk_nic_pf_rx_geneve_prot_def_t;
 
 #define BDK_NIC_PF_RX_GENEVE_PROT_DEF BDK_NIC_PF_RX_GENEVE_PROT_DEF_FUNC()
 static inline uint64_t BDK_NIC_PF_RX_GENEVE_PROT_DEF_FUNC(void) __attribute__ ((pure, always_inline));
@@ -12018,7 +12133,7 @@ static inline uint64_t BDK_NIC_PF_RX_GENEVE_PROT_DEF_FUNC(void)
  *
  * NIC Receive NVGRE Protocal Definition Register
  */
-typedef union
+union bdk_nic_pf_rx_nvgre_prot_def
 {
     uint64_t u;
     struct bdk_nic_pf_rx_nvgre_prot_def_s
@@ -12042,7 +12157,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_rx_nvgre_prot_def_s cn; */
-} bdk_nic_pf_rx_nvgre_prot_def_t;
+};
+typedef union bdk_nic_pf_rx_nvgre_prot_def bdk_nic_pf_rx_nvgre_prot_def_t;
 
 #define BDK_NIC_PF_RX_NVGRE_PROT_DEF BDK_NIC_PF_RX_NVGRE_PROT_DEF_FUNC()
 static inline uint64_t BDK_NIC_PF_RX_NVGRE_PROT_DEF_FUNC(void) __attribute__ ((pure, always_inline));
@@ -12073,7 +12189,7 @@ static inline uint64_t BDK_NIC_PF_RX_NVGRE_PROT_DEF_FUNC(void)
  * Internal:
  * Unused register.
  */
-typedef union
+union bdk_nic_pf_rx_rocev2_def
 {
     uint64_t u;
     struct bdk_nic_pf_rx_rocev2_def_s
@@ -12089,7 +12205,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_rx_rocev2_def_s cn; */
-} bdk_nic_pf_rx_rocev2_def_t;
+};
+typedef union bdk_nic_pf_rx_rocev2_def bdk_nic_pf_rx_rocev2_def_t;
 
 #define BDK_NIC_PF_RX_ROCEV2_DEF BDK_NIC_PF_RX_ROCEV2_DEF_FUNC()
 static inline uint64_t BDK_NIC_PF_RX_ROCEV2_DEF_FUNC(void) __attribute__ ((pure, always_inline));
@@ -12116,7 +12233,7 @@ static inline uint64_t BDK_NIC_PF_RX_ROCEV2_DEF_FUNC(void)
  *
  * NIC Receive VXLAN Control Register
  */
-typedef union
+union bdk_nic_pf_rx_vxlan_defx
 {
     uint64_t u;
     struct bdk_nic_pf_rx_vxlan_defx_s
@@ -12136,7 +12253,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_rx_vxlan_defx_s cn; */
-} bdk_nic_pf_rx_vxlan_defx_t;
+};
+typedef union bdk_nic_pf_rx_vxlan_defx bdk_nic_pf_rx_vxlan_defx_t;
 
 static inline uint64_t BDK_NIC_PF_RX_VXLAN_DEFX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_RX_VXLAN_DEFX(unsigned long a)
@@ -12162,7 +12280,7 @@ static inline uint64_t BDK_NIC_PF_RX_VXLAN_DEFX(unsigned long a)
  *
  * NIC Receive VXLAN Protocal Definition Register
  */
-typedef union
+union bdk_nic_pf_rx_vxlan_prot_def
 {
     uint64_t u;
     struct bdk_nic_pf_rx_vxlan_prot_def_s
@@ -12192,7 +12310,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_rx_vxlan_prot_def_s cn; */
-} bdk_nic_pf_rx_vxlan_prot_def_t;
+};
+typedef union bdk_nic_pf_rx_vxlan_prot_def bdk_nic_pf_rx_vxlan_prot_def_t;
 
 #define BDK_NIC_PF_RX_VXLAN_PROT_DEF BDK_NIC_PF_RX_VXLAN_PROT_DEF_FUNC()
 static inline uint64_t BDK_NIC_PF_RX_VXLAN_PROT_DEF_FUNC(void) __attribute__ ((pure, always_inline));
@@ -12219,7 +12338,7 @@ static inline uint64_t BDK_NIC_PF_RX_VXLAN_PROT_DEF_FUNC(void)
  *
  * NIC Receive Weighted Round Robin Configuration Registers
  */
-typedef union
+union bdk_nic_pf_rx_wrr_cfgx
 {
     uint64_t u;
     struct bdk_nic_pf_rx_wrr_cfgx_s
@@ -12279,7 +12398,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_rx_wrr_cfgx_s cn; */
-} bdk_nic_pf_rx_wrr_cfgx_t;
+};
+typedef union bdk_nic_pf_rx_wrr_cfgx bdk_nic_pf_rx_wrr_cfgx_t;
 
 static inline uint64_t BDK_NIC_PF_RX_WRR_CFGX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_RX_WRR_CFGX(unsigned long a)
@@ -12303,7 +12423,7 @@ static inline uint64_t BDK_NIC_PF_RX_WRR_CFGX(unsigned long a)
  *
  * INTERNAL: NIC SEB Test Register
  */
-typedef union
+union bdk_nic_pf_seb_test
 {
     uint64_t u;
     struct bdk_nic_pf_seb_test_s
@@ -12413,7 +12533,8 @@ typedef union
     /* struct bdk_nic_pf_seb_test_s cn81xx; */
     /* struct bdk_nic_pf_seb_test_s cn83xx; */
     /* struct bdk_nic_pf_seb_test_s cn88xxp2; */
-} bdk_nic_pf_seb_test_t;
+};
+typedef union bdk_nic_pf_seb_test bdk_nic_pf_seb_test_t;
 
 #define BDK_NIC_PF_SEB_TEST BDK_NIC_PF_SEB_TEST_FUNC()
 static inline uint64_t BDK_NIC_PF_SEB_TEST_FUNC(void) __attribute__ ((pure, always_inline));
@@ -12435,7 +12556,7 @@ static inline uint64_t BDK_NIC_PF_SEB_TEST_FUNC(void)
  * NIC Send Configuration Registers
  * Configures the NIC send side for all the interfaces enumerated by NIC_INTF_E.
  */
-typedef union
+union bdk_nic_pf_send_cfg
 {
     uint64_t u;
     struct bdk_nic_pf_send_cfg_s
@@ -12449,7 +12570,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_send_cfg_s cn; */
-} bdk_nic_pf_send_cfg_t;
+};
+typedef union bdk_nic_pf_send_cfg bdk_nic_pf_send_cfg_t;
 
 #define BDK_NIC_PF_SEND_CFG BDK_NIC_PF_SEND_CFG_FUNC()
 static inline uint64_t BDK_NIC_PF_SEND_CFG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -12474,7 +12596,7 @@ static inline uint64_t BDK_NIC_PF_SEND_CFG_FUNC(void)
  *
  * NIC Soft Reset Register
  */
-typedef union
+union bdk_nic_pf_soft_reset
 {
     uint64_t u;
     struct bdk_nic_pf_soft_reset_s
@@ -12535,7 +12657,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn88xx;
     /* struct bdk_nic_pf_soft_reset_s cn83xx; */
-} bdk_nic_pf_soft_reset_t;
+};
+typedef union bdk_nic_pf_soft_reset bdk_nic_pf_soft_reset_t;
 
 #define BDK_NIC_PF_SOFT_RESET BDK_NIC_PF_SOFT_RESET_FUNC()
 static inline uint64_t BDK_NIC_PF_SOFT_RESET_FUNC(void) __attribute__ ((pure, always_inline));
@@ -12562,7 +12685,7 @@ static inline uint64_t BDK_NIC_PF_SOFT_RESET_FUNC(void)
  *
  * INTERNAL: NIC SQM Test 1 Register
  */
-typedef union
+union bdk_nic_pf_sqm_test1
 {
     uint64_t u;
     struct bdk_nic_pf_sqm_test1_s
@@ -12612,7 +12735,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_sqm_test1_s cn; */
-} bdk_nic_pf_sqm_test1_t;
+};
+typedef union bdk_nic_pf_sqm_test1 bdk_nic_pf_sqm_test1_t;
 
 #define BDK_NIC_PF_SQM_TEST1 BDK_NIC_PF_SQM_TEST1_FUNC()
 static inline uint64_t BDK_NIC_PF_SQM_TEST1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -12633,7 +12757,7 @@ static inline uint64_t BDK_NIC_PF_SQM_TEST1_FUNC(void)
  *
  * INTERNAL: NIC SQM Test 2 Register
  */
-typedef union
+union bdk_nic_pf_sqm_test2
 {
     uint64_t u;
     struct bdk_nic_pf_sqm_test2_s
@@ -12683,7 +12807,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_sqm_test2_s cn; */
-} bdk_nic_pf_sqm_test2_t;
+};
+typedef union bdk_nic_pf_sqm_test2 bdk_nic_pf_sqm_test2_t;
 
 #define BDK_NIC_PF_SQM_TEST2 BDK_NIC_PF_SQM_TEST2_FUNC()
 static inline uint64_t BDK_NIC_PF_SQM_TEST2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -12704,7 +12829,7 @@ static inline uint64_t BDK_NIC_PF_SQM_TEST2_FUNC(void)
  *
  * NIC General Status Register
  */
-typedef union
+union bdk_nic_pf_status
 {
     uint64_t u;
     struct bdk_nic_pf_status_s
@@ -12744,7 +12869,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_status_s cn; */
-} bdk_nic_pf_status_t;
+};
+typedef union bdk_nic_pf_status bdk_nic_pf_status_t;
 
 #define BDK_NIC_PF_STATUS BDK_NIC_PF_STATUS_FUNC()
 static inline uint64_t BDK_NIC_PF_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
@@ -12767,7 +12893,7 @@ static inline uint64_t BDK_NIC_PF_STATUS_FUNC(void)
  *
  * For diagnostic use only for debug of the NIC_PF_SW_SYNC_RX[SW_RX_SYNC] function.
  */
-typedef union
+union bdk_nic_pf_sw_sync_pipex_cq_cnts
 {
     uint64_t u;
     struct bdk_nic_pf_sw_sync_pipex_cq_cnts_s
@@ -12781,7 +12907,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_sw_sync_pipex_cq_cnts_s cn; */
-} bdk_nic_pf_sw_sync_pipex_cq_cnts_t;
+};
+typedef union bdk_nic_pf_sw_sync_pipex_cq_cnts bdk_nic_pf_sw_sync_pipex_cq_cnts_t;
 
 static inline uint64_t BDK_NIC_PF_SW_SYNC_PIPEX_CQ_CNTS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_SW_SYNC_PIPEX_CQ_CNTS(unsigned long a)
@@ -12809,7 +12936,7 @@ static inline uint64_t BDK_NIC_PF_SW_SYNC_PIPEX_CQ_CNTS(unsigned long a)
  *
  * For diagnostic use only for debug of the NIC_PF_SW_SYNC_RX[SW_RX_SYNC] function.
  */
-typedef union
+union bdk_nic_pf_sw_sync_pipex_pkt_cnts
 {
     uint64_t u;
     struct bdk_nic_pf_sw_sync_pipex_pkt_cnts_s
@@ -12823,7 +12950,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_sw_sync_pipex_pkt_cnts_s cn; */
-} bdk_nic_pf_sw_sync_pipex_pkt_cnts_t;
+};
+typedef union bdk_nic_pf_sw_sync_pipex_pkt_cnts bdk_nic_pf_sw_sync_pipex_pkt_cnts_t;
 
 static inline uint64_t BDK_NIC_PF_SW_SYNC_PIPEX_PKT_CNTS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_SW_SYNC_PIPEX_PKT_CNTS(unsigned long a)
@@ -12849,7 +12977,7 @@ static inline uint64_t BDK_NIC_PF_SW_SYNC_PIPEX_PKT_CNTS(unsigned long a)
  *
  * NIC Receive-Path Software Sync Register
  */
-typedef union
+union bdk_nic_pf_sw_sync_rx
 {
     uint64_t u;
     struct bdk_nic_pf_sw_sync_rx_s
@@ -12867,7 +12995,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_sw_sync_rx_s cn; */
-} bdk_nic_pf_sw_sync_rx_t;
+};
+typedef union bdk_nic_pf_sw_sync_rx bdk_nic_pf_sw_sync_rx_t;
 
 #define BDK_NIC_PF_SW_SYNC_RX BDK_NIC_PF_SW_SYNC_RX_FUNC()
 static inline uint64_t BDK_NIC_PF_SW_SYNC_RX_FUNC(void) __attribute__ ((pure, always_inline));
@@ -12892,7 +13021,7 @@ static inline uint64_t BDK_NIC_PF_SW_SYNC_RX_FUNC(void)
  * The first dimension indicates which the counter values, and is enumerated by
  * NIC_SW_SYNC_RX_CNTS_E.
  */
-typedef union
+union bdk_nic_pf_sw_sync_rx_cntsx
 {
     uint64_t u;
     struct bdk_nic_pf_sw_sync_rx_cntsx_s
@@ -12906,7 +13035,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_sw_sync_rx_cntsx_s cn; */
-} bdk_nic_pf_sw_sync_rx_cntsx_t;
+};
+typedef union bdk_nic_pf_sw_sync_rx_cntsx bdk_nic_pf_sw_sync_rx_cntsx_t;
 
 static inline uint64_t BDK_NIC_PF_SW_SYNC_RX_CNTSX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_SW_SYNC_RX_CNTSX(unsigned long a)
@@ -12928,7 +13058,7 @@ static inline uint64_t BDK_NIC_PF_SW_SYNC_RX_CNTSX(unsigned long a)
  *
  * NIC Receive-Path Software Synchronization Register
  */
-typedef union
+union bdk_nic_pf_sw_sync_rx_done
 {
     uint64_t u;
     struct bdk_nic_pf_sw_sync_rx_done_s
@@ -12944,7 +13074,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_sw_sync_rx_done_s cn; */
-} bdk_nic_pf_sw_sync_rx_done_t;
+};
+typedef union bdk_nic_pf_sw_sync_rx_done bdk_nic_pf_sw_sync_rx_done_t;
 
 #define BDK_NIC_PF_SW_SYNC_RX_DONE BDK_NIC_PF_SW_SYNC_RX_DONE_FUNC()
 static inline uint64_t BDK_NIC_PF_SW_SYNC_RX_DONE_FUNC(void) __attribute__ ((pure, always_inline));
@@ -12965,7 +13096,7 @@ static inline uint64_t BDK_NIC_PF_SW_SYNC_RX_DONE_FUNC(void)
  *
  * NIC TCP Timer Register
  */
-typedef union
+union bdk_nic_pf_tcp_timer
 {
     uint64_t u;
     struct bdk_nic_pf_tcp_timer_s
@@ -12993,7 +13124,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_tcp_timer_s cn; */
-} bdk_nic_pf_tcp_timer_t;
+};
+typedef union bdk_nic_pf_tcp_timer bdk_nic_pf_tcp_timer_t;
 
 #define BDK_NIC_PF_TCP_TIMER BDK_NIC_PF_TCP_TIMER_FUNC()
 static inline uint64_t BDK_NIC_PF_TCP_TIMER_FUNC(void) __attribute__ ((pure, always_inline));
@@ -13014,7 +13146,7 @@ static inline uint64_t BDK_NIC_PF_TCP_TIMER_FUNC(void)
  *
  * NIC Traffic Limiter 2 Configuration Registers
  */
-typedef union
+union bdk_nic_pf_tl2x_cfg
 {
     uint64_t u;
     struct bdk_nic_pf_tl2x_cfg_s
@@ -13034,7 +13166,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_tl2x_cfg_s cn; */
-} bdk_nic_pf_tl2x_cfg_t;
+};
+typedef union bdk_nic_pf_tl2x_cfg bdk_nic_pf_tl2x_cfg_t;
 
 static inline uint64_t BDK_NIC_PF_TL2X_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_TL2X_CFG(unsigned long a)
@@ -13060,7 +13193,7 @@ static inline uint64_t BDK_NIC_PF_TL2X_CFG(unsigned long a)
  *
  * NIC Traffic Limiter 2 LMAC Mapping Registers
  */
-typedef union
+union bdk_nic_pf_tl2x_lmac
 {
     uint64_t u;
     struct bdk_nic_pf_tl2x_lmac_s
@@ -13074,7 +13207,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_tl2x_lmac_s cn; */
-} bdk_nic_pf_tl2x_lmac_t;
+};
+typedef union bdk_nic_pf_tl2x_lmac bdk_nic_pf_tl2x_lmac_t;
 
 static inline uint64_t BDK_NIC_PF_TL2X_LMAC(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_TL2X_LMAC(unsigned long a)
@@ -13098,7 +13232,7 @@ static inline uint64_t BDK_NIC_PF_TL2X_LMAC(unsigned long a)
  *
  * NIC Traffic Limiter 2 Configuration Registers
  */
-typedef union
+union bdk_nic_pf_tl2x_pri
 {
     uint64_t u;
     struct bdk_nic_pf_tl2x_pri_s
@@ -13112,7 +13246,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_tl2x_pri_s cn; */
-} bdk_nic_pf_tl2x_pri_t;
+};
+typedef union bdk_nic_pf_tl2x_pri bdk_nic_pf_tl2x_pri_t;
 
 static inline uint64_t BDK_NIC_PF_TL2X_PRI(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_TL2X_PRI(unsigned long a)
@@ -13138,7 +13273,7 @@ static inline uint64_t BDK_NIC_PF_TL2X_PRI(unsigned long a)
  *
  * NIC Traffic Limiter 2 Shaper Status Registers
  */
-typedef union
+union bdk_nic_pf_tl2x_sh_status
 {
     uint64_t u;
     struct bdk_nic_pf_tl2x_sh_status_s
@@ -13152,7 +13287,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_tl2x_sh_status_s cn; */
-} bdk_nic_pf_tl2x_sh_status_t;
+};
+typedef union bdk_nic_pf_tl2x_sh_status bdk_nic_pf_tl2x_sh_status_t;
 
 static inline uint64_t BDK_NIC_PF_TL2X_SH_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_TL2X_SH_STATUS(unsigned long a)
@@ -13178,7 +13314,7 @@ static inline uint64_t BDK_NIC_PF_TL2X_SH_STATUS(unsigned long a)
  *
  * NIC Traffic Limiter 3 Configuration Registers
  */
-typedef union
+union bdk_nic_pf_tl3x_cfg
 {
     uint64_t u;
     struct bdk_nic_pf_tl3x_cfg_s
@@ -13198,7 +13334,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_tl3x_cfg_s cn; */
-} bdk_nic_pf_tl3x_cfg_t;
+};
+typedef union bdk_nic_pf_tl3x_cfg bdk_nic_pf_tl3x_cfg_t;
 
 static inline uint64_t BDK_NIC_PF_TL3X_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_TL3X_CFG(unsigned long a)
@@ -13224,7 +13361,7 @@ static inline uint64_t BDK_NIC_PF_TL3X_CFG(unsigned long a)
  *
  * NIC Traffic Limiter 3 Channel Mapping Registers
  */
-typedef union
+union bdk_nic_pf_tl3x_chan
 {
     uint64_t u;
     struct bdk_nic_pf_tl3x_chan_s
@@ -13288,7 +13425,8 @@ typedef union
         uint64_t reserved_7_63         : 57;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_nic_pf_tl3x_chan_t;
+};
+typedef union bdk_nic_pf_tl3x_chan bdk_nic_pf_tl3x_chan_t;
 
 static inline uint64_t BDK_NIC_PF_TL3X_CHAN(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_TL3X_CHAN(unsigned long a)
@@ -13314,7 +13452,7 @@ static inline uint64_t BDK_NIC_PF_TL3X_CHAN(unsigned long a)
  *
  * NIC Traffic Limiter 3 Peak Information Rate Registers
  */
-typedef union
+union bdk_nic_pf_tl3x_pir
 {
     uint64_t u;
     struct bdk_nic_pf_tl3x_pir_s
@@ -13346,7 +13484,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_tl3x_pir_s cn; */
-} bdk_nic_pf_tl3x_pir_t;
+};
+typedef union bdk_nic_pf_tl3x_pir bdk_nic_pf_tl3x_pir_t;
 
 static inline uint64_t BDK_NIC_PF_TL3X_PIR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_TL3X_PIR(unsigned long a)
@@ -13370,7 +13509,7 @@ static inline uint64_t BDK_NIC_PF_TL3X_PIR(unsigned long a)
  *
  * NIC Traffic Limiter 3 Shaper Status Registers
  */
-typedef union
+union bdk_nic_pf_tl3x_sh_status
 {
     uint64_t u;
     struct bdk_nic_pf_tl3x_sh_status_s
@@ -13417,7 +13556,8 @@ typedef union
         uint64_t reserved_63           : 1;
 #endif /* Word 0 - End */
     } cn88xxp2;
-} bdk_nic_pf_tl3x_sh_status_t;
+};
+typedef union bdk_nic_pf_tl3x_sh_status bdk_nic_pf_tl3x_sh_status_t;
 
 static inline uint64_t BDK_NIC_PF_TL3X_SH_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_TL3X_SH_STATUS(unsigned long a)
@@ -13443,7 +13583,7 @@ static inline uint64_t BDK_NIC_PF_TL3X_SH_STATUS(unsigned long a)
  *
  * NIC Traffic Limiter 3 Software-Controlled XOFF Registers
  */
-typedef union
+union bdk_nic_pf_tl3x_sw_xoff
 {
     uint64_t u;
     struct bdk_nic_pf_tl3x_sw_xoff_s
@@ -13463,7 +13603,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_tl3x_sw_xoff_s cn; */
-} bdk_nic_pf_tl3x_sw_xoff_t;
+};
+typedef union bdk_nic_pf_tl3x_sw_xoff bdk_nic_pf_tl3x_sw_xoff_t;
 
 static inline uint64_t BDK_NIC_PF_TL3X_SW_XOFF(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_TL3X_SW_XOFF(unsigned long a)
@@ -13489,7 +13630,7 @@ static inline uint64_t BDK_NIC_PF_TL3X_SW_XOFF(unsigned long a)
  *
  * NIC Traffic Limiter 3 Aggregation Configuration Registers
  */
-typedef union
+union bdk_nic_pf_tl3ax_cfg
 {
     uint64_t u;
     struct bdk_nic_pf_tl3ax_cfg_s
@@ -13558,7 +13699,8 @@ typedef union
         uint64_t reserved_6_63         : 58;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_nic_pf_tl3ax_cfg_t;
+};
+typedef union bdk_nic_pf_tl3ax_cfg bdk_nic_pf_tl3ax_cfg_t;
 
 static inline uint64_t BDK_NIC_PF_TL3AX_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_TL3AX_CFG(unsigned long a)
@@ -13584,7 +13726,7 @@ static inline uint64_t BDK_NIC_PF_TL3AX_CFG(unsigned long a)
  *
  * NIC Traffic Limiter 4 Configuration Registers
  */
-typedef union
+union bdk_nic_pf_tl4x_cfg
 {
     uint64_t u;
     struct bdk_nic_pf_tl4x_cfg_s
@@ -13638,7 +13780,8 @@ typedef union
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_nic_pf_tl4x_cfg_t;
+};
+typedef union bdk_nic_pf_tl4x_cfg bdk_nic_pf_tl4x_cfg_t;
 
 static inline uint64_t BDK_NIC_PF_TL4X_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_TL4X_CFG(unsigned long a)
@@ -13664,7 +13807,7 @@ static inline uint64_t BDK_NIC_PF_TL4X_CFG(unsigned long a)
  *
  * NIC Traffic Limiter 4 Shaper Status Registers
  */
-typedef union
+union bdk_nic_pf_tl4x_sh_status
 {
     uint64_t u;
     struct bdk_nic_pf_tl4x_sh_status_s
@@ -13678,7 +13821,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_tl4x_sh_status_s cn; */
-} bdk_nic_pf_tl4x_sh_status_t;
+};
+typedef union bdk_nic_pf_tl4x_sh_status bdk_nic_pf_tl4x_sh_status_t;
 
 static inline uint64_t BDK_NIC_PF_TL4X_SH_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_TL4X_SH_STATUS(unsigned long a)
@@ -13700,7 +13844,7 @@ static inline uint64_t BDK_NIC_PF_TL4X_SH_STATUS(unsigned long a)
  *
  * NIC Traffic Limiter 4 Software-Controlled XOFF Registers
  */
-typedef union
+union bdk_nic_pf_tl4x_sw_xoff
 {
     uint64_t u;
     struct bdk_nic_pf_tl4x_sw_xoff_s
@@ -13714,7 +13858,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_tl4x_sw_xoff_s cn; */
-} bdk_nic_pf_tl4x_sw_xoff_t;
+};
+typedef union bdk_nic_pf_tl4x_sw_xoff bdk_nic_pf_tl4x_sw_xoff_t;
 
 static inline uint64_t BDK_NIC_PF_TL4X_SW_XOFF(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_TL4X_SW_XOFF(unsigned long a)
@@ -13740,7 +13885,7 @@ static inline uint64_t BDK_NIC_PF_TL4X_SW_XOFF(unsigned long a)
  *
  * NIC Traffic Limiter 4 Aggregation Configuration Registers
  */
-typedef union
+union bdk_nic_pf_tl4ax_cfg
 {
     uint64_t u;
     struct bdk_nic_pf_tl4ax_cfg_s
@@ -13760,7 +13905,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_tl4ax_cfg_s cn; */
-} bdk_nic_pf_tl4ax_cfg_t;
+};
+typedef union bdk_nic_pf_tl4ax_cfg bdk_nic_pf_tl4ax_cfg_t;
 
 static inline uint64_t BDK_NIC_PF_TL4AX_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_TL4AX_CFG(unsigned long a)
@@ -13782,7 +13928,7 @@ static inline uint64_t BDK_NIC_PF_TL4AX_CFG(unsigned long a)
  *
  * NIC TCP Segmentation Offload Configuration Register
  */
-typedef union
+union bdk_nic_pf_tso_cfg
 {
     uint64_t u;
     struct bdk_nic_pf_tso_cfg_s
@@ -13877,7 +14023,8 @@ typedef union
     } cn81xx;
     /* struct bdk_nic_pf_tso_cfg_s cn88xx; */
     /* struct bdk_nic_pf_tso_cfg_cn81xx cn83xx; */
-} bdk_nic_pf_tso_cfg_t;
+};
+typedef union bdk_nic_pf_tso_cfg bdk_nic_pf_tso_cfg_t;
 
 #define BDK_NIC_PF_TSO_CFG BDK_NIC_PF_TSO_CFG_FUNC()
 static inline uint64_t BDK_NIC_PF_TSO_CFG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -13904,7 +14051,7 @@ static inline uint64_t BDK_NIC_PF_TSO_CFG_FUNC(void)
  *
  * NIC Interface Transmit FIFO Status Register
  */
-typedef union
+union bdk_nic_pf_tx_fifo_status
 {
     uint64_t u;
     struct bdk_nic_pf_tx_fifo_status_s
@@ -13918,7 +14065,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_tx_fifo_status_s cn; */
-} bdk_nic_pf_tx_fifo_status_t;
+};
+typedef union bdk_nic_pf_tx_fifo_status bdk_nic_pf_tx_fifo_status_t;
 
 #define BDK_NIC_PF_TX_FIFO_STATUS BDK_NIC_PF_TX_FIFO_STATUS_FUNC()
 static inline uint64_t BDK_NIC_PF_TX_FIFO_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
@@ -13943,7 +14091,7 @@ static inline uint64_t BDK_NIC_PF_TX_FIFO_STATUS_FUNC(void)
  *
  * NIC Transmit LBK FIFO Credit Count Register
  */
-typedef union
+union bdk_nic_pf_tx_lbkx_fifo_credit
 {
     uint64_t u;
     struct bdk_nic_pf_tx_lbkx_fifo_credit_s
@@ -13963,7 +14111,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_tx_lbkx_fifo_credit_s cn; */
-} bdk_nic_pf_tx_lbkx_fifo_credit_t;
+};
+typedef union bdk_nic_pf_tx_lbkx_fifo_credit bdk_nic_pf_tx_lbkx_fifo_credit_t;
 
 static inline uint64_t BDK_NIC_PF_TX_LBKX_FIFO_CREDIT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_TX_LBKX_FIFO_CREDIT(unsigned long a)
@@ -13985,7 +14134,7 @@ static inline uint64_t BDK_NIC_PF_TX_LBKX_FIFO_CREDIT(unsigned long a)
  *
  * NIC PF/VF Mailbox Registers
  */
-typedef union
+union bdk_nic_pf_vfx_mboxx
 {
     uint64_t u;
     struct bdk_nic_pf_vfx_mboxx_s
@@ -14007,7 +14156,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_vfx_mboxx_s cn; */
-} bdk_nic_pf_vfx_mboxx_t;
+};
+typedef union bdk_nic_pf_vfx_mboxx bdk_nic_pf_vfx_mboxx_t;
 
 static inline uint64_t BDK_NIC_PF_VFX_MBOXX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_VFX_MBOXX(unsigned long a, unsigned long b)
@@ -14034,7 +14184,7 @@ static inline uint64_t BDK_NIC_PF_VFX_MBOXX(unsigned long a, unsigned long b)
  * NIC PF VNIC Receive Statistics Registers
  * The second dimension indicates which statistic, and is enumerated by NIC_STAT_VNIC_RX_E.
  */
-typedef union
+union bdk_nic_pf_vnicx_rx_statx
 {
     uint64_t u;
     struct bdk_nic_pf_vnicx_rx_statx_s
@@ -14048,7 +14198,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_vnicx_rx_statx_s cn; */
-} bdk_nic_pf_vnicx_rx_statx_t;
+};
+typedef union bdk_nic_pf_vnicx_rx_statx bdk_nic_pf_vnicx_rx_statx_t;
 
 static inline uint64_t BDK_NIC_PF_VNICX_RX_STATX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_VNICX_RX_STATX(unsigned long a, unsigned long b)
@@ -14075,7 +14226,7 @@ static inline uint64_t BDK_NIC_PF_VNICX_RX_STATX(unsigned long a, unsigned long 
  * NIC PF VNIC Transmit Statistics Registers
  * The second dimension indicates which statistic, and is enumerated by NIC_STAT_VNIC_TX_E.
  */
-typedef union
+union bdk_nic_pf_vnicx_tx_statx
 {
     uint64_t u;
     struct bdk_nic_pf_vnicx_tx_statx_s
@@ -14089,7 +14240,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_vnicx_tx_statx_s cn; */
-} bdk_nic_pf_vnicx_tx_statx_t;
+};
+typedef union bdk_nic_pf_vnicx_tx_statx bdk_nic_pf_vnicx_tx_statx_t;
 
 static inline uint64_t BDK_NIC_PF_VNICX_TX_STATX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_VNICX_TX_STATX(unsigned long a, unsigned long b)
@@ -14115,7 +14267,7 @@ static inline uint64_t BDK_NIC_PF_VNICX_TX_STATX(unsigned long a, unsigned long 
  *
  * NIC Completion-Queue Base-Address Registers
  */
-typedef union
+union bdk_nic_qsx_cqx_base
 {
     uint64_t u;
     struct bdk_nic_qsx_cqx_base_s
@@ -14135,7 +14287,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_qsx_cqx_base_s cn; */
-} bdk_nic_qsx_cqx_base_t;
+};
+typedef union bdk_nic_qsx_cqx_base bdk_nic_qsx_cqx_base_t;
 
 static inline uint64_t BDK_NIC_QSX_CQX_BASE(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_QSX_CQX_BASE(unsigned long a, unsigned long b)
@@ -14162,7 +14315,7 @@ static inline uint64_t BDK_NIC_QSX_CQX_BASE(unsigned long a, unsigned long b)
  * NIC Completion-Queue Configuration Registers
  * Writes to all fields except for [ENA] are ignored when the CQ ring is enabled, i.e. [ENA]==1.
  */
-typedef union
+union bdk_nic_qsx_cqx_cfg
 {
     uint64_t u;
     struct bdk_nic_qsx_cqx_cfg_s
@@ -14395,7 +14548,8 @@ typedef union
         uint64_t reserved_43_63        : 21;
 #endif /* Word 0 - End */
     } cn88xxp2;
-} bdk_nic_qsx_cqx_cfg_t;
+};
+typedef union bdk_nic_qsx_cqx_cfg bdk_nic_qsx_cqx_cfg_t;
 
 static inline uint64_t BDK_NIC_QSX_CQX_CFG(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_QSX_CQX_CFG(unsigned long a, unsigned long b)
@@ -14421,7 +14575,7 @@ static inline uint64_t BDK_NIC_QSX_CQX_CFG(unsigned long a, unsigned long b)
  *
  * NIC Completion-Queue Configuration Registers
  */
-typedef union
+union bdk_nic_qsx_cqx_cfg2
 {
     uint64_t u;
     struct bdk_nic_qsx_cqx_cfg2_s
@@ -14441,7 +14595,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_qsx_cqx_cfg2_s cn; */
-} bdk_nic_qsx_cqx_cfg2_t;
+};
+typedef union bdk_nic_qsx_cqx_cfg2 bdk_nic_qsx_cqx_cfg2_t;
 
 static inline uint64_t BDK_NIC_QSX_CQX_CFG2(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_QSX_CQX_CFG2(unsigned long a, unsigned long b)
@@ -14467,7 +14622,7 @@ static inline uint64_t BDK_NIC_QSX_CQX_CFG2(unsigned long a, unsigned long b)
  *
  * NIC Completion-Queue Debug-Status Registers
  */
-typedef union
+union bdk_nic_qsx_cqx_debug
 {
     uint64_t u;
     struct bdk_nic_qsx_cqx_debug_s
@@ -14485,7 +14640,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_qsx_cqx_debug_s cn; */
-} bdk_nic_qsx_cqx_debug_t;
+};
+typedef union bdk_nic_qsx_cqx_debug bdk_nic_qsx_cqx_debug_t;
 
 static inline uint64_t BDK_NIC_QSX_CQX_DEBUG(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_QSX_CQX_DEBUG(unsigned long a, unsigned long b)
@@ -14513,7 +14669,7 @@ static inline uint64_t BDK_NIC_QSX_CQX_DEBUG(unsigned long a, unsigned long b)
  * Software writes to this register to notify hardware that one or more entries have been
  * dequeued from the CQ ring.
  */
-typedef union
+union bdk_nic_qsx_cqx_door
 {
     uint64_t u;
     struct bdk_nic_qsx_cqx_door_s
@@ -14529,7 +14685,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_qsx_cqx_door_s cn; */
-} bdk_nic_qsx_cqx_door_t;
+};
+typedef union bdk_nic_qsx_cqx_door bdk_nic_qsx_cqx_door_t;
 
 static inline uint64_t BDK_NIC_QSX_CQX_DOOR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_QSX_CQX_DOOR(unsigned long a, unsigned long b)
@@ -14555,7 +14712,7 @@ static inline uint64_t BDK_NIC_QSX_CQX_DOOR(unsigned long a, unsigned long b)
  *
  * NIC Completion-Queue Head Registers
  */
-typedef union
+union bdk_nic_qsx_cqx_head
 {
     uint64_t u;
     struct bdk_nic_qsx_cqx_head_s
@@ -14575,7 +14732,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_qsx_cqx_head_s cn; */
-} bdk_nic_qsx_cqx_head_t;
+};
+typedef union bdk_nic_qsx_cqx_head bdk_nic_qsx_cqx_head_t;
 
 static inline uint64_t BDK_NIC_QSX_CQX_HEAD(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_QSX_CQX_HEAD(unsigned long a, unsigned long b)
@@ -14601,7 +14759,7 @@ static inline uint64_t BDK_NIC_QSX_CQX_HEAD(unsigned long a, unsigned long b)
  *
  * NIC Completion-Queue Status Registers
  */
-typedef union
+union bdk_nic_qsx_cqx_status
 {
     uint64_t u;
     struct bdk_nic_qsx_cqx_status_s
@@ -14655,7 +14813,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_qsx_cqx_status_s cn; */
-} bdk_nic_qsx_cqx_status_t;
+};
+typedef union bdk_nic_qsx_cqx_status bdk_nic_qsx_cqx_status_t;
 
 static inline uint64_t BDK_NIC_QSX_CQX_STATUS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_QSX_CQX_STATUS(unsigned long a, unsigned long b)
@@ -14681,7 +14840,7 @@ static inline uint64_t BDK_NIC_QSX_CQX_STATUS(unsigned long a, unsigned long b)
  *
  * NIC Completion-Queue Status Registers 2
  */
-typedef union
+union bdk_nic_qsx_cqx_status2
 {
     uint64_t u;
     struct bdk_nic_qsx_cqx_status2_s
@@ -14723,7 +14882,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_qsx_cqx_status2_s cn; */
-} bdk_nic_qsx_cqx_status2_t;
+};
+typedef union bdk_nic_qsx_cqx_status2 bdk_nic_qsx_cqx_status2_t;
 
 static inline uint64_t BDK_NIC_QSX_CQX_STATUS2(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_QSX_CQX_STATUS2(unsigned long a, unsigned long b)
@@ -14749,7 +14909,7 @@ static inline uint64_t BDK_NIC_QSX_CQX_STATUS2(unsigned long a, unsigned long b)
  *
  * NIC Completion-Queue Tail Registers
  */
-typedef union
+union bdk_nic_qsx_cqx_tail
 {
     uint64_t u;
     struct bdk_nic_qsx_cqx_tail_s
@@ -14771,7 +14931,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_qsx_cqx_tail_s cn; */
-} bdk_nic_qsx_cqx_tail_t;
+};
+typedef union bdk_nic_qsx_cqx_tail bdk_nic_qsx_cqx_tail_t;
 
 static inline uint64_t BDK_NIC_QSX_CQX_TAIL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_QSX_CQX_TAIL(unsigned long a, unsigned long b)
@@ -14797,7 +14958,7 @@ static inline uint64_t BDK_NIC_QSX_CQX_TAIL(unsigned long a, unsigned long b)
  *
  * NIC Completion-Queue Threshold Registers
  */
-typedef union
+union bdk_nic_qsx_cqx_thresh
 {
     uint64_t u;
     struct bdk_nic_qsx_cqx_thresh_s
@@ -14815,7 +14976,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_qsx_cqx_thresh_s cn; */
-} bdk_nic_qsx_cqx_thresh_t;
+};
+typedef union bdk_nic_qsx_cqx_thresh bdk_nic_qsx_cqx_thresh_t;
 
 static inline uint64_t BDK_NIC_QSX_CQX_THRESH(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_QSX_CQX_THRESH(unsigned long a, unsigned long b)
@@ -14841,7 +15003,7 @@ static inline uint64_t BDK_NIC_QSX_CQX_THRESH(unsigned long a, unsigned long b)
  *
  * NIC Receive-Buffer Descriptor-Ring Base-Address Registers
  */
-typedef union
+union bdk_nic_qsx_rbdrx_base
 {
     uint64_t u;
     struct bdk_nic_qsx_rbdrx_base_s
@@ -14865,7 +15027,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_qsx_rbdrx_base_s cn; */
-} bdk_nic_qsx_rbdrx_base_t;
+};
+typedef union bdk_nic_qsx_rbdrx_base bdk_nic_qsx_rbdrx_base_t;
 
 static inline uint64_t BDK_NIC_QSX_RBDRX_BASE(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_QSX_RBDRX_BASE(unsigned long a, unsigned long b)
@@ -14896,7 +15059,7 @@ static inline uint64_t BDK_NIC_QSX_RBDRX_BASE(unsigned long a, unsigned long b)
  *
  * Furthermore, writes to [RESET] are ignored when [ENA]==1.
  */
-typedef union
+union bdk_nic_qsx_rbdrx_cfg
 {
     uint64_t u;
     struct bdk_nic_qsx_rbdrx_cfg_s
@@ -15115,7 +15278,8 @@ typedef union
         uint64_t reserved_45_63        : 19;
 #endif /* Word 0 - End */
     } cn88xxp2;
-} bdk_nic_qsx_rbdrx_cfg_t;
+};
+typedef union bdk_nic_qsx_rbdrx_cfg bdk_nic_qsx_rbdrx_cfg_t;
 
 static inline uint64_t BDK_NIC_QSX_RBDRX_CFG(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_QSX_RBDRX_CFG(unsigned long a, unsigned long b)
@@ -15143,7 +15307,7 @@ static inline uint64_t BDK_NIC_QSX_RBDRX_CFG(unsigned long a, unsigned long b)
  * Software writes to this register to notify hardware that one or more entries have been
  * enqueued to the RBDR.
  */
-typedef union
+union bdk_nic_qsx_rbdrx_door
 {
     uint64_t u;
     struct bdk_nic_qsx_rbdrx_door_s
@@ -15169,7 +15333,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_qsx_rbdrx_door_s cn; */
-} bdk_nic_qsx_rbdrx_door_t;
+};
+typedef union bdk_nic_qsx_rbdrx_door bdk_nic_qsx_rbdrx_door_t;
 
 static inline uint64_t BDK_NIC_QSX_RBDRX_DOOR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_QSX_RBDRX_DOOR(unsigned long a, unsigned long b)
@@ -15195,7 +15360,7 @@ static inline uint64_t BDK_NIC_QSX_RBDRX_DOOR(unsigned long a, unsigned long b)
  *
  * NIC Receive-Buffer Descriptor-Ring Head Registers
  */
-typedef union
+union bdk_nic_qsx_rbdrx_head
 {
     uint64_t u;
     struct bdk_nic_qsx_rbdrx_head_s
@@ -15217,7 +15382,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_qsx_rbdrx_head_s cn; */
-} bdk_nic_qsx_rbdrx_head_t;
+};
+typedef union bdk_nic_qsx_rbdrx_head bdk_nic_qsx_rbdrx_head_t;
 
 static inline uint64_t BDK_NIC_QSX_RBDRX_HEAD(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_QSX_RBDRX_HEAD(unsigned long a, unsigned long b)
@@ -15243,7 +15409,7 @@ static inline uint64_t BDK_NIC_QSX_RBDRX_HEAD(unsigned long a, unsigned long b)
  *
  * NIC Receive-Buffer Descriptor-Ring Buffer PreFetch Status Register
  */
-typedef union
+union bdk_nic_qsx_rbdrx_prefetch_status
 {
     uint64_t u;
     struct bdk_nic_qsx_rbdrx_prefetch_status_s
@@ -15261,7 +15427,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_qsx_rbdrx_prefetch_status_s cn; */
-} bdk_nic_qsx_rbdrx_prefetch_status_t;
+};
+typedef union bdk_nic_qsx_rbdrx_prefetch_status bdk_nic_qsx_rbdrx_prefetch_status_t;
 
 static inline uint64_t BDK_NIC_QSX_RBDRX_PREFETCH_STATUS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_QSX_RBDRX_PREFETCH_STATUS(unsigned long a, unsigned long b)
@@ -15287,7 +15454,7 @@ static inline uint64_t BDK_NIC_QSX_RBDRX_PREFETCH_STATUS(unsigned long a, unsign
  *
  * NIC Receive-Buffer Descriptor-Ring Status 0 Registers
  */
-typedef union
+union bdk_nic_qsx_rbdrx_status0
 {
     uint64_t u;
     struct bdk_nic_qsx_rbdrx_status0_s
@@ -15321,7 +15488,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_qsx_rbdrx_status0_s cn; */
-} bdk_nic_qsx_rbdrx_status0_t;
+};
+typedef union bdk_nic_qsx_rbdrx_status0 bdk_nic_qsx_rbdrx_status0_t;
 
 static inline uint64_t BDK_NIC_QSX_RBDRX_STATUS0(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_QSX_RBDRX_STATUS0(unsigned long a, unsigned long b)
@@ -15347,7 +15515,7 @@ static inline uint64_t BDK_NIC_QSX_RBDRX_STATUS0(unsigned long a, unsigned long 
  *
  * NIC Receive-Buffer Descriptor-Ring Status 1 Registers
  */
-typedef union
+union bdk_nic_qsx_rbdrx_status1
 {
     uint64_t u;
     struct bdk_nic_qsx_rbdrx_status1_s
@@ -15361,7 +15529,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_qsx_rbdrx_status1_s cn; */
-} bdk_nic_qsx_rbdrx_status1_t;
+};
+typedef union bdk_nic_qsx_rbdrx_status1 bdk_nic_qsx_rbdrx_status1_t;
 
 static inline uint64_t BDK_NIC_QSX_RBDRX_STATUS1(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_QSX_RBDRX_STATUS1(unsigned long a, unsigned long b)
@@ -15387,7 +15556,7 @@ static inline uint64_t BDK_NIC_QSX_RBDRX_STATUS1(unsigned long a, unsigned long 
  *
  * NIC Receive-Buffer Descriptor-Ring Tail Registers
  */
-typedef union
+union bdk_nic_qsx_rbdrx_tail
 {
     uint64_t u;
     struct bdk_nic_qsx_rbdrx_tail_s
@@ -15409,7 +15578,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_qsx_rbdrx_tail_s cn; */
-} bdk_nic_qsx_rbdrx_tail_t;
+};
+typedef union bdk_nic_qsx_rbdrx_tail bdk_nic_qsx_rbdrx_tail_t;
 
 static inline uint64_t BDK_NIC_QSX_RBDRX_TAIL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_QSX_RBDRX_TAIL(unsigned long a, unsigned long b)
@@ -15435,7 +15605,7 @@ static inline uint64_t BDK_NIC_QSX_RBDRX_TAIL(unsigned long a, unsigned long b)
  *
  * NIC Receive-Buffer Descriptor-Ring Threshold Registers
  */
-typedef union
+union bdk_nic_qsx_rbdrx_thresh
 {
     uint64_t u;
     struct bdk_nic_qsx_rbdrx_thresh_s
@@ -15453,7 +15623,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_qsx_rbdrx_thresh_s cn; */
-} bdk_nic_qsx_rbdrx_thresh_t;
+};
+typedef union bdk_nic_qsx_rbdrx_thresh bdk_nic_qsx_rbdrx_thresh_t;
 
 static inline uint64_t BDK_NIC_QSX_RBDRX_THRESH(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_QSX_RBDRX_THRESH(unsigned long a, unsigned long b)
@@ -15479,7 +15650,7 @@ static inline uint64_t BDK_NIC_QSX_RBDRX_THRESH(unsigned long a, unsigned long b
  *
  * NIC Receive-Queue Configuration Registers
  */
-typedef union
+union bdk_nic_qsx_rqx_cfg
 {
     uint64_t u;
     struct bdk_nic_qsx_rqx_cfg_s
@@ -15503,7 +15674,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_qsx_rqx_cfg_s cn; */
-} bdk_nic_qsx_rqx_cfg_t;
+};
+typedef union bdk_nic_qsx_rqx_cfg bdk_nic_qsx_rqx_cfg_t;
 
 static inline uint64_t BDK_NIC_QSX_RQX_CFG(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_QSX_RQX_CFG(unsigned long a, unsigned long b)
@@ -15530,7 +15702,7 @@ static inline uint64_t BDK_NIC_QSX_RQX_CFG(unsigned long a, unsigned long b)
  * NIC Receive-Queue Statistics Registers
  * The third dimension indicates which statistic, and is enumerated by NIC_STAT_RQ_E.
  */
-typedef union
+union bdk_nic_qsx_rqx_statx
 {
     uint64_t u;
     struct bdk_nic_qsx_rqx_statx_s
@@ -15544,7 +15716,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_qsx_rqx_statx_s cn; */
-} bdk_nic_qsx_rqx_statx_t;
+};
+typedef union bdk_nic_qsx_rqx_statx bdk_nic_qsx_rqx_statx_t;
 
 static inline uint64_t BDK_NIC_QSX_RQX_STATX(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_QSX_RQX_STATX(unsigned long a, unsigned long b, unsigned long c)
@@ -15570,7 +15743,7 @@ static inline uint64_t BDK_NIC_QSX_RQX_STATX(unsigned long a, unsigned long b, u
  *
  * NIC VF Receive-Queue General Configuration Registers
  */
-typedef union
+union bdk_nic_qsx_rq_gen_cfg
 {
     uint64_t u;
     struct bdk_nic_qsx_rq_gen_cfg_s
@@ -15838,7 +16011,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn83xx;
     /* struct bdk_nic_qsx_rq_gen_cfg_s cn88xxp2; */
-} bdk_nic_qsx_rq_gen_cfg_t;
+};
+typedef union bdk_nic_qsx_rq_gen_cfg bdk_nic_qsx_rq_gen_cfg_t;
 
 static inline uint64_t BDK_NIC_QSX_RQ_GEN_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_QSX_RQ_GEN_CFG(unsigned long a)
@@ -15864,7 +16038,7 @@ static inline uint64_t BDK_NIC_QSX_RQ_GEN_CFG(unsigned long a)
  *
  * NIC Send-Queue Base-Address Registers
  */
-typedef union
+union bdk_nic_qsx_sqx_base
 {
     uint64_t u;
     struct bdk_nic_qsx_sqx_base_s
@@ -15884,7 +16058,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_qsx_sqx_base_s cn; */
-} bdk_nic_qsx_sqx_base_t;
+};
+typedef union bdk_nic_qsx_sqx_base bdk_nic_qsx_sqx_base_t;
 
 static inline uint64_t BDK_NIC_QSX_SQX_BASE(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_QSX_SQX_BASE(unsigned long a, unsigned long b)
@@ -15914,7 +16089,7 @@ static inline uint64_t BDK_NIC_QSX_SQX_BASE(unsigned long a, unsigned long b)
  * * NIC_QS()_SQ()_HEAD[HEAD_PTR]!=NIC_QS()_SQ()_TAIL[TAIL_PTR], and
  * * NIC_QS()_SQ()_STATUS[STOPPED]==0.
  */
-typedef union
+union bdk_nic_qsx_sqx_cfg
 {
     uint64_t u;
     struct bdk_nic_qsx_sqx_cfg_s
@@ -16177,7 +16352,8 @@ typedef union
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } cn88xxp2;
-} bdk_nic_qsx_sqx_cfg_t;
+};
+typedef union bdk_nic_qsx_sqx_cfg bdk_nic_qsx_sqx_cfg_t;
 
 static inline uint64_t BDK_NIC_QSX_SQX_CFG(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_QSX_SQX_CFG(unsigned long a, unsigned long b)
@@ -16203,7 +16379,7 @@ static inline uint64_t BDK_NIC_QSX_SQX_CFG(unsigned long a, unsigned long b)
  *
  * NIC Send-Queue Debug-Status Registers
  */
-typedef union
+union bdk_nic_qsx_sqx_debug
 {
     uint64_t u;
     struct bdk_nic_qsx_sqx_debug_s
@@ -16227,7 +16403,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_qsx_sqx_debug_s cn; */
-} bdk_nic_qsx_sqx_debug_t;
+};
+typedef union bdk_nic_qsx_sqx_debug bdk_nic_qsx_sqx_debug_t;
 
 static inline uint64_t BDK_NIC_QSX_SQX_DEBUG(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_QSX_SQX_DEBUG(unsigned long a, unsigned long b)
@@ -16255,7 +16432,7 @@ static inline uint64_t BDK_NIC_QSX_SQX_DEBUG(unsigned long a, unsigned long b)
  * Software writes to this register to notify hardware that one or more entries have been enqeued
  * to the SQ ring.
  */
-typedef union
+union bdk_nic_qsx_sqx_door
 {
     uint64_t u;
     struct bdk_nic_qsx_sqx_door_s
@@ -16283,7 +16460,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_qsx_sqx_door_s cn; */
-} bdk_nic_qsx_sqx_door_t;
+};
+typedef union bdk_nic_qsx_sqx_door bdk_nic_qsx_sqx_door_t;
 
 static inline uint64_t BDK_NIC_QSX_SQX_DOOR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_QSX_SQX_DOOR(unsigned long a, unsigned long b)
@@ -16309,7 +16487,7 @@ static inline uint64_t BDK_NIC_QSX_SQX_DOOR(unsigned long a, unsigned long b)
  *
  * NIC Send-Queue Head Registers
  */
-typedef union
+union bdk_nic_qsx_sqx_head
 {
     uint64_t u;
     struct bdk_nic_qsx_sqx_head_s
@@ -16331,7 +16509,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_qsx_sqx_head_s cn; */
-} bdk_nic_qsx_sqx_head_t;
+};
+typedef union bdk_nic_qsx_sqx_head bdk_nic_qsx_sqx_head_t;
 
 static inline uint64_t BDK_NIC_QSX_SQX_HEAD(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_QSX_SQX_HEAD(unsigned long a, unsigned long b)
@@ -16358,7 +16537,7 @@ static inline uint64_t BDK_NIC_QSX_SQX_HEAD(unsigned long a, unsigned long b)
  * NIC Send-Queue Statistics Registers
  * The third dimension indicates which statistic, and is enumerated by NIC_STAT_SQ_E.
  */
-typedef union
+union bdk_nic_qsx_sqx_statx
 {
     uint64_t u;
     struct bdk_nic_qsx_sqx_statx_s
@@ -16372,7 +16551,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_qsx_sqx_statx_s cn; */
-} bdk_nic_qsx_sqx_statx_t;
+};
+typedef union bdk_nic_qsx_sqx_statx bdk_nic_qsx_sqx_statx_t;
 
 static inline uint64_t BDK_NIC_QSX_SQX_STATX(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_QSX_SQX_STATX(unsigned long a, unsigned long b, unsigned long c)
@@ -16398,7 +16578,7 @@ static inline uint64_t BDK_NIC_QSX_SQX_STATX(unsigned long a, unsigned long b, u
  *
  * NIC Send-Queue Status Registers
  */
-typedef union
+union bdk_nic_qsx_sqx_status
 {
     uint64_t u;
     struct bdk_nic_qsx_sqx_status_s
@@ -16653,7 +16833,8 @@ typedef union
         uint64_t reserved_22_63        : 42;
 #endif /* Word 0 - End */
     } cn88xxp2;
-} bdk_nic_qsx_sqx_status_t;
+};
+typedef union bdk_nic_qsx_sqx_status bdk_nic_qsx_sqx_status_t;
 
 static inline uint64_t BDK_NIC_QSX_SQX_STATUS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_QSX_SQX_STATUS(unsigned long a, unsigned long b)
@@ -16679,7 +16860,7 @@ static inline uint64_t BDK_NIC_QSX_SQX_STATUS(unsigned long a, unsigned long b)
  *
  * NIC Send-Queue Tail Registers
  */
-typedef union
+union bdk_nic_qsx_sqx_tail
 {
     uint64_t u;
     struct bdk_nic_qsx_sqx_tail_s
@@ -16699,7 +16880,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_qsx_sqx_tail_s cn; */
-} bdk_nic_qsx_sqx_tail_t;
+};
+typedef union bdk_nic_qsx_sqx_tail bdk_nic_qsx_sqx_tail_t;
 
 static inline uint64_t BDK_NIC_QSX_SQX_TAIL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_QSX_SQX_TAIL(unsigned long a, unsigned long b)
@@ -16725,7 +16907,7 @@ static inline uint64_t BDK_NIC_QSX_SQX_TAIL(unsigned long a, unsigned long b)
  *
  * NIC Send-Queue Threshold Registers
  */
-typedef union
+union bdk_nic_qsx_sqx_thresh
 {
     uint64_t u;
     struct bdk_nic_qsx_sqx_thresh_s
@@ -16743,7 +16925,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_qsx_sqx_thresh_s cn; */
-} bdk_nic_qsx_sqx_thresh_t;
+};
+typedef union bdk_nic_qsx_sqx_thresh bdk_nic_qsx_sqx_thresh_t;
 
 static inline uint64_t BDK_NIC_QSX_SQX_THRESH(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_QSX_SQX_THRESH(unsigned long a, unsigned long b)
@@ -16769,7 +16952,7 @@ static inline uint64_t BDK_NIC_QSX_SQX_THRESH(unsigned long a, unsigned long b)
  *
  * NIC VF Configuration Registers
  */
-typedef union
+union bdk_nic_vfx_cfg
 {
     uint64_t u;
     struct bdk_nic_vfx_cfg_s
@@ -16789,7 +16972,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_vfx_cfg_s cn; */
-} bdk_nic_vfx_cfg_t;
+};
+typedef union bdk_nic_vfx_cfg bdk_nic_vfx_cfg_t;
 
 static inline uint64_t BDK_NIC_VFX_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_VFX_CFG(unsigned long a)
@@ -16816,7 +17000,7 @@ static inline uint64_t BDK_NIC_VFX_CFG(unsigned long a)
  * NIC VF Interrupt-Enable Clear Registers
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_nic_vfx_ena_w1c
 {
     uint64_t u;
     struct bdk_nic_vfx_ena_w1c_s
@@ -16892,7 +17076,8 @@ typedef union
         uint64_t reserved_24_63        : 40;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_nic_vfx_ena_w1c_t;
+};
+typedef union bdk_nic_vfx_ena_w1c bdk_nic_vfx_ena_w1c_t;
 
 static inline uint64_t BDK_NIC_VFX_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_VFX_ENA_W1C(unsigned long a)
@@ -16919,7 +17104,7 @@ static inline uint64_t BDK_NIC_VFX_ENA_W1C(unsigned long a)
  * NIC VF Interrupt-Enable Set Registers
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_nic_vfx_ena_w1s
 {
     uint64_t u;
     struct bdk_nic_vfx_ena_w1s_s
@@ -16995,7 +17180,8 @@ typedef union
         uint64_t reserved_24_63        : 40;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_nic_vfx_ena_w1s_t;
+};
+typedef union bdk_nic_vfx_ena_w1s bdk_nic_vfx_ena_w1s_t;
 
 static inline uint64_t BDK_NIC_VFX_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_VFX_ENA_W1S(unsigned long a)
@@ -17021,7 +17207,7 @@ static inline uint64_t BDK_NIC_VFX_ENA_W1S(unsigned long a)
  *
  * NIC VF Interrupt Registers
  */
-typedef union
+union bdk_nic_vfx_int
 {
     uint64_t u;
     struct bdk_nic_vfx_int_s
@@ -17331,7 +17517,8 @@ typedef union
         uint64_t reserved_24_63        : 40;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_nic_vfx_int_t;
+};
+typedef union bdk_nic_vfx_int bdk_nic_vfx_int_t;
 
 static inline uint64_t BDK_NIC_VFX_INT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_VFX_INT(unsigned long a)
@@ -17358,7 +17545,7 @@ static inline uint64_t BDK_NIC_VFX_INT(unsigned long a)
  * NIC VF Interrupt-Set Registers
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_nic_vfx_int_w1s
 {
     uint64_t u;
     struct bdk_nic_vfx_int_w1s_s
@@ -17434,7 +17621,8 @@ typedef union
         uint64_t reserved_24_63        : 40;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_nic_vfx_int_w1s_t;
+};
+typedef union bdk_nic_vfx_int_w1s bdk_nic_vfx_int_w1s_t;
 
 static inline uint64_t BDK_NIC_VFX_INT_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_VFX_INT_W1S(unsigned long a)
@@ -17462,7 +17650,7 @@ static inline uint64_t BDK_NIC_VFX_INT_W1S(unsigned long a)
  * This register is the MSI-X PBA table, the bit number is indexed by the NIC_VF_INT_VEC_E
  * enumeration.
  */
-typedef union
+union bdk_nic_vfx_msix_pbax
 {
     uint64_t u;
     struct bdk_nic_vfx_msix_pbax_s
@@ -17476,7 +17664,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_vfx_msix_pbax_s cn; */
-} bdk_nic_vfx_msix_pbax_t;
+};
+typedef union bdk_nic_vfx_msix_pbax bdk_nic_vfx_msix_pbax_t;
 
 static inline uint64_t BDK_NIC_VFX_MSIX_PBAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_VFX_MSIX_PBAX(unsigned long a, unsigned long b)
@@ -17503,7 +17692,7 @@ static inline uint64_t BDK_NIC_VFX_MSIX_PBAX(unsigned long a, unsigned long b)
  * NIC VF MSI-X Vector-Table Address Registers
  * This register is the MSI-X vector table, indexed by the NIC_VF_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_nic_vfx_msix_vecx_addr
 {
     uint64_t u;
     struct bdk_nic_vfx_msix_vecx_addr_s
@@ -17525,7 +17714,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_vfx_msix_vecx_addr_s cn; */
-} bdk_nic_vfx_msix_vecx_addr_t;
+};
+typedef union bdk_nic_vfx_msix_vecx_addr bdk_nic_vfx_msix_vecx_addr_t;
 
 static inline uint64_t BDK_NIC_VFX_MSIX_VECX_ADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_VFX_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
@@ -17552,7 +17742,7 @@ static inline uint64_t BDK_NIC_VFX_MSIX_VECX_ADDR(unsigned long a, unsigned long
  * NIC VF MSI-X Vector-Table Control and Data Registers
  * This register is the MSI-X vector table, indexed by the NIC_VF_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_nic_vfx_msix_vecx_ctl
 {
     uint64_t u;
     struct bdk_nic_vfx_msix_vecx_ctl_s
@@ -17570,7 +17760,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_vfx_msix_vecx_ctl_s cn; */
-} bdk_nic_vfx_msix_vecx_ctl_t;
+};
+typedef union bdk_nic_vfx_msix_vecx_ctl bdk_nic_vfx_msix_vecx_ctl_t;
 
 static inline uint64_t BDK_NIC_VFX_MSIX_VECX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_VFX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
@@ -17596,7 +17787,7 @@ static inline uint64_t BDK_NIC_VFX_MSIX_VECX_CTL(unsigned long a, unsigned long 
  *
  * NIC VF/PF Mailbox Registers
  */
-typedef union
+union bdk_nic_vfx_pf_mboxx
 {
     uint64_t u;
     struct bdk_nic_vfx_pf_mboxx_s
@@ -17618,7 +17809,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_vfx_pf_mboxx_s cn; */
-} bdk_nic_vfx_pf_mboxx_t;
+};
+typedef union bdk_nic_vfx_pf_mboxx bdk_nic_vfx_pf_mboxx_t;
 
 static inline uint64_t BDK_NIC_VFX_PF_MBOXX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_VFX_PF_MBOXX(unsigned long a, unsigned long b)
@@ -17644,7 +17836,7 @@ static inline uint64_t BDK_NIC_VFX_PF_MBOXX(unsigned long a, unsigned long b)
  *
  * NIC VNIC RSS Configuration Registers
  */
-typedef union
+union bdk_nic_vnicx_rss_cfg
 {
     uint64_t u;
     struct bdk_nic_vnicx_rss_cfg_s
@@ -17750,7 +17942,8 @@ typedef union
     } cn81xx;
     /* struct bdk_nic_vnicx_rss_cfg_cn81xx cn83xx; */
     /* struct bdk_nic_vnicx_rss_cfg_cn81xx cn88xxp2; */
-} bdk_nic_vnicx_rss_cfg_t;
+};
+typedef union bdk_nic_vnicx_rss_cfg bdk_nic_vnicx_rss_cfg_t;
 
 static inline uint64_t BDK_NIC_VNICX_RSS_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_VNICX_RSS_CFG(unsigned long a)
@@ -17776,7 +17969,7 @@ static inline uint64_t BDK_NIC_VNICX_RSS_CFG(unsigned long a)
  *
  * NIC VNIC RSS Hash-Key Registers
  */
-typedef union
+union bdk_nic_vnicx_rss_keyx
 {
     uint64_t u;
     struct bdk_nic_vnicx_rss_keyx_s
@@ -17796,7 +17989,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_vnicx_rss_keyx_s cn; */
-} bdk_nic_vnicx_rss_keyx_t;
+};
+typedef union bdk_nic_vnicx_rss_keyx bdk_nic_vnicx_rss_keyx_t;
 
 static inline uint64_t BDK_NIC_VNICX_RSS_KEYX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_VNICX_RSS_KEYX(unsigned long a, unsigned long b)
@@ -17823,7 +18017,7 @@ static inline uint64_t BDK_NIC_VNICX_RSS_KEYX(unsigned long a, unsigned long b)
  * NIC VNIC Receive Statistics Registers
  * The second dimension indicates which statistic, and is enumerated by NIC_STAT_VNIC_RX_E.
  */
-typedef union
+union bdk_nic_vnicx_rx_statx
 {
     uint64_t u;
     struct bdk_nic_vnicx_rx_statx_s
@@ -17837,7 +18031,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_vnicx_rx_statx_s cn; */
-} bdk_nic_vnicx_rx_statx_t;
+};
+typedef union bdk_nic_vnicx_rx_statx bdk_nic_vnicx_rx_statx_t;
 
 static inline uint64_t BDK_NIC_VNICX_RX_STATX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_VNICX_RX_STATX(unsigned long a, unsigned long b)
@@ -17864,7 +18059,7 @@ static inline uint64_t BDK_NIC_VNICX_RX_STATX(unsigned long a, unsigned long b)
  * NIC VNIC Transmit Statistics Registers
  * The second dimension indicates which statistic, and is enumerated by NIC_STAT_VNIC_TX_E.
  */
-typedef union
+union bdk_nic_vnicx_tx_statx
 {
     uint64_t u;
     struct bdk_nic_vnicx_tx_statx_s
@@ -17878,7 +18073,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_vnicx_tx_statx_s cn; */
-} bdk_nic_vnicx_tx_statx_t;
+};
+typedef union bdk_nic_vnicx_tx_statx bdk_nic_vnicx_tx_statx_t;
 
 static inline uint64_t BDK_NIC_VNICX_TX_STATX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_VNICX_TX_STATX(unsigned long a, unsigned long b)

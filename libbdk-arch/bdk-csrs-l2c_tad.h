@@ -77,7 +77,7 @@
  * Level 2 Cache TAD Interrupt Enable Clear Registers
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_l2c_tadx_int_ena_w1c
 {
     uint64_t u;
     struct bdk_l2c_tadx_int_ena_w1c_s
@@ -332,7 +332,8 @@ typedef union
         uint64_t reserved_36_63        : 28;
 #endif /* Word 0 - End */
     } cn88xxp2;
-} bdk_l2c_tadx_int_ena_w1c_t;
+};
+typedef union bdk_l2c_tadx_int_ena_w1c bdk_l2c_tadx_int_ena_w1c_t;
 
 static inline uint64_t BDK_L2C_TADX_INT_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_TADX_INT_ENA_W1C(unsigned long a)
@@ -359,7 +360,7 @@ static inline uint64_t BDK_L2C_TADX_INT_ENA_W1C(unsigned long a)
  * Level 2 Cache TAD Interrupt Enable Set Registers
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_l2c_tadx_int_ena_w1s
 {
     uint64_t u;
     struct bdk_l2c_tadx_int_ena_w1s_s
@@ -614,7 +615,8 @@ typedef union
         uint64_t reserved_36_63        : 28;
 #endif /* Word 0 - End */
     } cn88xxp2;
-} bdk_l2c_tadx_int_ena_w1s_t;
+};
+typedef union bdk_l2c_tadx_int_ena_w1s bdk_l2c_tadx_int_ena_w1s_t;
 
 static inline uint64_t BDK_L2C_TADX_INT_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_TADX_INT_ENA_W1S(unsigned long a)
@@ -641,7 +643,7 @@ static inline uint64_t BDK_L2C_TADX_INT_ENA_W1S(unsigned long a)
  * Level 2 Cache TAD Interrupt Registers
  * This register is for TAD-based interrupts.
  */
-typedef union
+union bdk_l2c_tadx_int_w1c
 {
     uint64_t u;
     struct bdk_l2c_tadx_int_w1c_s
@@ -984,7 +986,8 @@ typedef union
     } cn81xx;
     /* struct bdk_l2c_tadx_int_w1c_cn81xx cn83xx; */
     /* struct bdk_l2c_tadx_int_w1c_s cn88xxp2; */
-} bdk_l2c_tadx_int_w1c_t;
+};
+typedef union bdk_l2c_tadx_int_w1c bdk_l2c_tadx_int_w1c_t;
 
 static inline uint64_t BDK_L2C_TADX_INT_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_TADX_INT_W1C(unsigned long a)
@@ -1011,7 +1014,7 @@ static inline uint64_t BDK_L2C_TADX_INT_W1C(unsigned long a)
  * Level 2 Cache TAD Interrupt Set Registers
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_l2c_tadx_int_w1s
 {
     uint64_t u;
     struct bdk_l2c_tadx_int_w1s_s
@@ -1266,7 +1269,8 @@ typedef union
         uint64_t reserved_36_63        : 28;
 #endif /* Word 0 - End */
     } cn88xxp2;
-} bdk_l2c_tadx_int_w1s_t;
+};
+typedef union bdk_l2c_tadx_int_w1s bdk_l2c_tadx_int_w1s_t;
 
 static inline uint64_t BDK_L2C_TADX_INT_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_TADX_INT_W1S(unsigned long a)
@@ -1294,7 +1298,7 @@ static inline uint64_t BDK_L2C_TADX_INT_W1S(unsigned long a)
  * This register is the MSI-X PBA table; the bit number is indexed by the L2C_TAD_INT_VEC_E
  * enumeration.
  */
-typedef union
+union bdk_l2c_tadx_msix_pbax
 {
     uint64_t u;
     struct bdk_l2c_tadx_msix_pbax_s
@@ -1310,7 +1314,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_l2c_tadx_msix_pbax_s cn; */
-} bdk_l2c_tadx_msix_pbax_t;
+};
+typedef union bdk_l2c_tadx_msix_pbax bdk_l2c_tadx_msix_pbax_t;
 
 static inline uint64_t BDK_L2C_TADX_MSIX_PBAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_TADX_MSIX_PBAX(unsigned long a, unsigned long b)
@@ -1337,7 +1342,7 @@ static inline uint64_t BDK_L2C_TADX_MSIX_PBAX(unsigned long a, unsigned long b)
  * L2C_TAD MSI-X Vector-Table Address Register
  * This register is the MSI-X vector table, indexed by the L2C_TAD_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_l2c_tadx_msix_vecx_addr
 {
     uint64_t u;
     struct bdk_l2c_tadx_msix_vecx_addr_s
@@ -1371,7 +1376,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_l2c_tadx_msix_vecx_addr_s cn; */
-} bdk_l2c_tadx_msix_vecx_addr_t;
+};
+typedef union bdk_l2c_tadx_msix_vecx_addr bdk_l2c_tadx_msix_vecx_addr_t;
 
 static inline uint64_t BDK_L2C_TADX_MSIX_VECX_ADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_TADX_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
@@ -1398,7 +1404,7 @@ static inline uint64_t BDK_L2C_TADX_MSIX_VECX_ADDR(unsigned long a, unsigned lon
  * L2C_TAD MSI-X Vector-Table Control and Data Register
  * This register is the MSI-X vector table, indexed by the L2C_TAD_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_l2c_tadx_msix_vecx_ctl
 {
     uint64_t u;
     struct bdk_l2c_tadx_msix_vecx_ctl_s
@@ -1416,7 +1422,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_l2c_tadx_msix_vecx_ctl_s cn; */
-} bdk_l2c_tadx_msix_vecx_ctl_t;
+};
+typedef union bdk_l2c_tadx_msix_vecx_ctl bdk_l2c_tadx_msix_vecx_ctl_t;
 
 static inline uint64_t BDK_L2C_TADX_MSIX_VECX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_TADX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
@@ -1447,7 +1454,7 @@ static inline uint64_t BDK_L2C_TADX_MSIX_VECX_CTL(unsigned long a, unsigned long
  * The syndrome is recorded for DBE errors, though the utility of the value is not clear.
  * [L2IDX]<19:7> is the L2 block index associated with the command which had no way to allocate.
  */
-typedef union
+union bdk_l2c_tadx_rtg_err
 {
     uint64_t u;
     struct bdk_l2c_tadx_rtg_err_s
@@ -1473,7 +1480,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_l2c_tadx_rtg_err_s cn; */
-} bdk_l2c_tadx_rtg_err_t;
+};
+typedef union bdk_l2c_tadx_rtg_err bdk_l2c_tadx_rtg_err_t;
 
 static inline uint64_t BDK_L2C_TADX_RTG_ERR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_TADX_RTG_ERR(unsigned long a)
@@ -1495,7 +1503,7 @@ static inline uint64_t BDK_L2C_TADX_RTG_ERR(unsigned long a)
  *
  * Level 2 Cache TAD Quad Buffer BIST Status Registers
  */
-typedef union
+union bdk_l2c_tadx_tbf_bist_status
 {
     uint64_t u;
     struct bdk_l2c_tadx_tbf_bist_status_s
@@ -1513,7 +1521,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_l2c_tadx_tbf_bist_status_s cn; */
-} bdk_l2c_tadx_tbf_bist_status_t;
+};
+typedef union bdk_l2c_tadx_tbf_bist_status bdk_l2c_tadx_tbf_bist_status_t;
 
 static inline uint64_t BDK_L2C_TADX_TBF_BIST_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_TADX_TBF_BIST_STATUS(unsigned long a)
@@ -1539,7 +1548,7 @@ static inline uint64_t BDK_L2C_TADX_TBF_BIST_STATUS(unsigned long a)
  *
  * Level 2 Cache TAD Data BIST Status Registers
  */
-typedef union
+union bdk_l2c_tadx_tdt_bist_status
 {
     uint64_t u;
     struct bdk_l2c_tadx_tdt_bist_status_s
@@ -1553,7 +1562,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_l2c_tadx_tdt_bist_status_s cn; */
-} bdk_l2c_tadx_tdt_bist_status_t;
+};
+typedef union bdk_l2c_tadx_tdt_bist_status bdk_l2c_tadx_tdt_bist_status_t;
 
 static inline uint64_t BDK_L2C_TADX_TDT_BIST_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_TADX_TDT_BIST_STATUS(unsigned long a)
@@ -1585,7 +1595,7 @@ static inline uint64_t BDK_L2C_TADX_TDT_BIST_STATUS(unsigned long a)
  * at any given time and serves to document which error the [L2DIDX]/[SYN] is associated with.
  * The syndrome is recorded for DBE errors, though the utility of the value is not clear.
  */
-typedef union
+union bdk_l2c_tadx_tqd_err
 {
     uint64_t u;
     struct bdk_l2c_tadx_tqd_err_s
@@ -1621,7 +1631,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_l2c_tadx_tqd_err_s cn; */
-} bdk_l2c_tadx_tqd_err_t;
+};
+typedef union bdk_l2c_tadx_tqd_err bdk_l2c_tadx_tqd_err_t;
 
 static inline uint64_t BDK_L2C_TADX_TQD_ERR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_TADX_TQD_ERR(unsigned long a)
@@ -1647,7 +1658,7 @@ static inline uint64_t BDK_L2C_TADX_TQD_ERR(unsigned long a)
  *
  * Level 2 Cache TAD Tag BIST Status Registers
  */
-typedef union
+union bdk_l2c_tadx_ttg_bist_status
 {
     uint64_t u;
     struct bdk_l2c_tadx_ttg_bist_status_s
@@ -1707,7 +1718,8 @@ typedef union
         uint64_t reserved_50_63        : 14;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_l2c_tadx_ttg_bist_status_t;
+};
+typedef union bdk_l2c_tadx_ttg_bist_status bdk_l2c_tadx_ttg_bist_status_t;
 
 static inline uint64_t BDK_L2C_TADX_TTG_BIST_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_TADX_TTG_BIST_STATUS(unsigned long a)
@@ -1739,7 +1751,7 @@ static inline uint64_t BDK_L2C_TADX_TTG_BIST_STATUS(unsigned long a)
  * A NOWAY error does not change the value of the [SYN] field, and leaves [WAY] unpredictable.
  * [L2IDX]<19:7> is the L2 block index associated with the command which had no way to allocate.
  */
-typedef union
+union bdk_l2c_tadx_ttg_err
 {
     uint64_t u;
     struct bdk_l2c_tadx_ttg_err_s
@@ -1832,7 +1844,8 @@ typedef union
         uint64_t tagdbe                : 1;  /**< [ 63: 63](RO/H) Information refers to a double-bit TAG ECC error. */
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_l2c_tadx_ttg_err_t;
+};
+typedef union bdk_l2c_tadx_ttg_err bdk_l2c_tadx_ttg_err_t;
 
 static inline uint64_t BDK_L2C_TADX_TTG_ERR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_TADX_TTG_ERR(unsigned long a)

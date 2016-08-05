@@ -107,7 +107,7 @@
  * SMMU Active Cycles Register
  * This register counts every core-clock cycle that the SMMU clocks are active.
  */
-typedef union
+union bdk_smmux_active_pc
 {
     uint64_t u;
     struct bdk_smmux_active_pc_s
@@ -123,7 +123,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_active_pc_s cn; */
-} bdk_smmux_active_pc_t;
+};
+typedef union bdk_smmux_active_pc bdk_smmux_active_pc_t;
 
 static inline uint64_t BDK_SMMUX_ACTIVE_PC(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_ACTIVE_PC(unsigned long a)
@@ -150,7 +151,7 @@ static inline uint64_t BDK_SMMUX_ACTIVE_PC(unsigned long a)
  * SMMU BIST Status Register
  * Contains the BIST status for the memories.
  */
-typedef union
+union bdk_smmux_bist_status
 {
     uint64_t u;
     struct bdk_smmux_bist_status_s
@@ -216,7 +217,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_bist_status_s cn; */
-} bdk_smmux_bist_status_t;
+};
+typedef union bdk_smmux_bist_status bdk_smmux_bist_status_t;
 
 static inline uint64_t BDK_SMMUX_BIST_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_BIST_STATUS(unsigned long a)
@@ -243,7 +245,7 @@ static inline uint64_t BDK_SMMUX_BIST_STATUS(unsigned long a)
  * SMMU Context Auxiliary Control Register
  * This register contains implementation specific context fields.
  */
-typedef union
+union bdk_smmux_cbx_actlr
 {
     uint32_t u;
     struct bdk_smmux_cbx_actlr_s
@@ -265,7 +267,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_cbx_actlr_s cn; */
-} bdk_smmux_cbx_actlr_t;
+};
+typedef union bdk_smmux_cbx_actlr bdk_smmux_cbx_actlr_t;
 
 static inline uint64_t BDK_SMMUX_CBX_ACTLR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_CBX_ACTLR(unsigned long a, unsigned long b)
@@ -293,7 +296,7 @@ static inline uint64_t BDK_SMMUX_CBX_ACTLR(unsigned long a, unsigned long b)
  * Identifies the current process identifier. Used only by software.
  * This register is used by stage 1 context banks.
  */
-typedef union
+union bdk_smmux_cbx_contextidr
 {
     uint32_t u;
     struct bdk_smmux_cbx_contextidr_s
@@ -305,7 +308,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_cbx_contextidr_s cn; */
-} bdk_smmux_cbx_contextidr_t;
+};
+typedef union bdk_smmux_cbx_contextidr bdk_smmux_cbx_contextidr_t;
 
 static inline uint64_t BDK_SMMUX_CBX_CONTEXTIDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_CBX_CONTEXTIDR(unsigned long a, unsigned long b)
@@ -345,7 +349,7 @@ static inline uint64_t BDK_SMMUX_CBX_CONTEXTIDR(unsigned long a, unsigned long b
  * SMMU()_CB()_IPAFAR below and the fault is tagged as nested. The index of the stage 1
  * context is recorded in SMMU()_CB()_FSYNR0.
  */
-typedef union
+union bdk_smmux_cbx_far
 {
     uint64_t u;
     struct bdk_smmux_cbx_far_s
@@ -365,7 +369,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_cbx_far_s cn; */
-} bdk_smmux_cbx_far_t;
+};
+typedef union bdk_smmux_cbx_far bdk_smmux_cbx_far_t;
 
 static inline uint64_t BDK_SMMUX_CBX_FAR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_CBX_FAR(unsigned long a, unsigned long b)
@@ -393,7 +398,7 @@ static inline uint64_t BDK_SMMUX_CBX_FAR(unsigned long a, unsigned long b)
  * Provides memory system fault status information. This register is used by both stage 1 and
  * stage 2 context banks.
  */
-typedef union
+union bdk_smmux_cbx_fsr
 {
     uint32_t u;
     struct bdk_smmux_cbx_fsr_s
@@ -465,7 +470,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_cbx_fsr_s cn; */
-} bdk_smmux_cbx_fsr_t;
+};
+typedef union bdk_smmux_cbx_fsr bdk_smmux_cbx_fsr_t;
 
 static inline uint64_t BDK_SMMUX_CBX_FSR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_CBX_FSR(unsigned long a, unsigned long b)
@@ -493,7 +499,7 @@ static inline uint64_t BDK_SMMUX_CBX_FSR(unsigned long a, unsigned long b)
  * Restores the SMMU()_CB()_FSR register after reset. This register is used by both
  * stage 1 and stage 2 context banks.
  */
-typedef union
+union bdk_smmux_cbx_fsrrestore
 {
     uint32_t u;
     struct bdk_smmux_cbx_fsrrestore_s
@@ -505,7 +511,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_cbx_fsrrestore_s cn; */
-} bdk_smmux_cbx_fsrrestore_t;
+};
+typedef union bdk_smmux_cbx_fsrrestore bdk_smmux_cbx_fsrrestore_t;
 
 static inline uint64_t BDK_SMMUX_CBX_FSRRESTORE(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_CBX_FSRRESTORE(unsigned long a, unsigned long b)
@@ -531,7 +538,7 @@ static inline uint64_t BDK_SMMUX_CBX_FSRRESTORE(unsigned long a, unsigned long b
  *
  * SMMU Context Fault Syndrome Register 0
  */
-typedef union
+union bdk_smmux_cbx_fsynr0
 {
     uint32_t u;
     struct bdk_smmux_cbx_fsynr0_s
@@ -637,7 +644,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_cbx_fsynr0_s cn; */
-} bdk_smmux_cbx_fsynr0_t;
+};
+typedef union bdk_smmux_cbx_fsynr0 bdk_smmux_cbx_fsynr0_t;
 
 static inline uint64_t BDK_SMMUX_CBX_FSYNR0(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_CBX_FSYNR0(unsigned long a, unsigned long b)
@@ -664,7 +672,7 @@ static inline uint64_t BDK_SMMUX_CBX_FSYNR0(unsigned long a, unsigned long b)
  * SMMU Context Fault Syndrome Register 1
  * Not implemented in CNXXXX.
  */
-typedef union
+union bdk_smmux_cbx_fsynr1
 {
     uint32_t u;
     struct bdk_smmux_cbx_fsynr1_s
@@ -676,7 +684,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_cbx_fsynr1_s cn; */
-} bdk_smmux_cbx_fsynr1_t;
+};
+typedef union bdk_smmux_cbx_fsynr1 bdk_smmux_cbx_fsynr1_t;
 
 static inline uint64_t BDK_SMMUX_CBX_FSYNR1(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_CBX_FSYNR1(unsigned long a, unsigned long b)
@@ -705,7 +714,7 @@ static inline uint64_t BDK_SMMUX_CBX_FSYNR1(unsigned long a, unsigned long b)
  *
  * Unlike SMMU()_CB()_FAR this register will zero extend 32-bit writes to the upper 32-bits.
  */
-typedef union
+union bdk_smmux_cbx_ipafar
 {
     uint64_t u;
     struct bdk_smmux_cbx_ipafar_s
@@ -725,7 +734,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_cbx_ipafar_s cn; */
-} bdk_smmux_cbx_ipafar_t;
+};
+typedef union bdk_smmux_cbx_ipafar bdk_smmux_cbx_ipafar_t;
 
 static inline uint64_t BDK_SMMUX_CBX_IPAFAR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_CBX_IPAFAR(unsigned long a, unsigned long b)
@@ -754,7 +764,7 @@ static inline uint64_t BDK_SMMUX_CBX_IPAFAR(unsigned long a, unsigned long b)
  * attributes from the translation table entries.
  * This register is used by stage 1 context banks.
  */
-typedef union
+union bdk_smmux_cbx_mair0
 {
     uint32_t u;
     struct bdk_smmux_cbx_mair0_s
@@ -772,7 +782,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_cbx_mair0_s cn; */
-} bdk_smmux_cbx_mair0_t;
+};
+typedef union bdk_smmux_cbx_mair0 bdk_smmux_cbx_mair0_t;
 
 static inline uint64_t BDK_SMMUX_CBX_MAIR0(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_CBX_MAIR0(unsigned long a, unsigned long b)
@@ -801,7 +812,7 @@ static inline uint64_t BDK_SMMUX_CBX_MAIR0(unsigned long a, unsigned long b)
  * attributes from the translation table entries.
  * This register is used by stage 1 context banks.
  */
-typedef union
+union bdk_smmux_cbx_mair1
 {
     uint32_t u;
     struct bdk_smmux_cbx_mair1_s
@@ -819,7 +830,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_cbx_mair1_s cn; */
-} bdk_smmux_cbx_mair1_t;
+};
+typedef union bdk_smmux_cbx_mair1 bdk_smmux_cbx_mair1_t;
 
 static inline uint64_t BDK_SMMUX_CBX_MAIR1(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_CBX_MAIR1(unsigned long a, unsigned long b)
@@ -846,7 +858,7 @@ static inline uint64_t BDK_SMMUX_CBX_MAIR1(unsigned long a, unsigned long b)
  * SMMU Context Resume Register 1
  * Not implemented in CNXXXX.
  */
-typedef union
+union bdk_smmux_cbx_resume
 {
     uint32_t u;
     struct bdk_smmux_cbx_resume_s
@@ -858,7 +870,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_cbx_resume_s cn; */
-} bdk_smmux_cbx_resume_t;
+};
+typedef union bdk_smmux_cbx_resume bdk_smmux_cbx_resume_t;
 
 static inline uint64_t BDK_SMMUX_CBX_RESUME(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_CBX_RESUME(unsigned long a, unsigned long b)
@@ -886,7 +899,7 @@ static inline uint64_t BDK_SMMUX_CBX_RESUME(unsigned long a, unsigned long b)
  * Provides top-level control of the translation system for the related translation context bank.
  * This register is used by both stage 1 and stage 2 context banks.
  */
-typedef union
+union bdk_smmux_cbx_sctlr
 {
     uint32_t u;
     struct bdk_smmux_cbx_sctlr_s
@@ -1150,7 +1163,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_cbx_sctlr_s cn; */
-} bdk_smmux_cbx_sctlr_t;
+};
+typedef union bdk_smmux_cbx_sctlr bdk_smmux_cbx_sctlr_t;
 
 static inline uint64_t BDK_SMMUX_CBX_SCTLR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_CBX_SCTLR(unsigned long a, unsigned long b)
@@ -1176,7 +1190,7 @@ static inline uint64_t BDK_SMMUX_CBX_SCTLR(unsigned long a, unsigned long b)
  *
  * SMMU Context Translation Control Register
  */
-typedef union
+union bdk_smmux_cbx_tcr
 {
     uint32_t u;
     struct bdk_smmux_cbx_tcr_s
@@ -1338,7 +1352,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_cbx_tcr_s cn; */
-} bdk_smmux_cbx_tcr_t;
+};
+typedef union bdk_smmux_cbx_tcr bdk_smmux_cbx_tcr_t;
 
 static inline uint64_t BDK_SMMUX_CBX_TCR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_CBX_TCR(unsigned long a, unsigned long b)
@@ -1364,7 +1379,7 @@ static inline uint64_t BDK_SMMUX_CBX_TCR(unsigned long a, unsigned long b)
  *
  * SMMU Context Translation Control 2 Register
  */
-typedef union
+union bdk_smmux_cbx_tcr2
 {
     uint32_t u;
     struct bdk_smmux_cbx_tcr2_s
@@ -1484,7 +1499,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_cbx_tcr2_s cn; */
-} bdk_smmux_cbx_tcr2_t;
+};
+typedef union bdk_smmux_cbx_tcr2 bdk_smmux_cbx_tcr2_t;
 
 static inline uint64_t BDK_SMMUX_CBX_TCR2(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_CBX_TCR2(unsigned long a, unsigned long b)
@@ -1518,7 +1534,7 @@ static inline uint64_t BDK_SMMUX_CBX_TCR2(unsigned long a, unsigned long b)
  * Stage 1 translation context bank is a member of.
  * Register fields are identical to those in SMMU()_TLBIALLH.
  */
-typedef union
+union bdk_smmux_cbx_tlbiall
 {
     uint32_t u;
     struct bdk_smmux_cbx_tlbiall_s
@@ -1530,7 +1546,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_cbx_tlbiall_s cn; */
-} bdk_smmux_cbx_tlbiall_t;
+};
+typedef union bdk_smmux_cbx_tlbiall bdk_smmux_cbx_tlbiall_t;
 
 static inline uint64_t BDK_SMMUX_CBX_TLBIALL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_CBX_TLBIALL(unsigned long a, unsigned long b)
@@ -1562,7 +1579,7 @@ static inline uint64_t BDK_SMMUX_CBX_TLBIALL(unsigned long a, unsigned long b)
  * This operation only has to apply to TLB entries associated with the security domain that the
  * Stage 1 translation context bank is a member of.
  */
-typedef union
+union bdk_smmux_cbx_tlbiasid
 {
     uint32_t u;
     struct bdk_smmux_cbx_tlbiasid_s
@@ -1576,7 +1593,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_cbx_tlbiasid_s cn; */
-} bdk_smmux_cbx_tlbiasid_t;
+};
+typedef union bdk_smmux_cbx_tlbiasid bdk_smmux_cbx_tlbiasid_t;
 
 static inline uint64_t BDK_SMMUX_CBX_TLBIASID(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_CBX_TLBIASID(unsigned long a, unsigned long b)
@@ -1614,7 +1632,7 @@ static inline uint64_t BDK_SMMUX_CBX_TLBIASID(unsigned long a, unsigned long b)
  * Stage 2 page table entry then software must invalidate all stage 1 contexts (using an
  * SMMU()_TLBIVMIDS1 operation).
  */
-typedef union
+union bdk_smmux_cbx_tlbiipas2
 {
     uint64_t u;
     struct bdk_smmux_cbx_tlbiipas2_s
@@ -1632,7 +1650,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_cbx_tlbiipas2_s cn; */
-} bdk_smmux_cbx_tlbiipas2_t;
+};
+typedef union bdk_smmux_cbx_tlbiipas2 bdk_smmux_cbx_tlbiipas2_t;
 
 static inline uint64_t BDK_SMMUX_CBX_TLBIIPAS2(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_CBX_TLBIIPAS2(unsigned long a, unsigned long b)
@@ -1660,7 +1679,7 @@ static inline uint64_t BDK_SMMUX_CBX_TLBIIPAS2(unsigned long a, unsigned long b)
  * Operates exactly as SMMU()_CB()_TLBIIPAS2, but only invalidating those that
  * correspond to the last level of the translation table walk.
  */
-typedef union
+union bdk_smmux_cbx_tlbiipas2l
 {
     uint64_t u;
     struct bdk_smmux_cbx_tlbiipas2l_s
@@ -1678,7 +1697,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_cbx_tlbiipas2l_s cn; */
-} bdk_smmux_cbx_tlbiipas2l_t;
+};
+typedef union bdk_smmux_cbx_tlbiipas2l bdk_smmux_cbx_tlbiipas2l_t;
 
 static inline uint64_t BDK_SMMUX_CBX_TLBIIPAS2L(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_CBX_TLBIIPAS2L(unsigned long a, unsigned long b)
@@ -1711,7 +1731,7 @@ static inline uint64_t BDK_SMMUX_CBX_TLBIIPAS2L(unsigned long a, unsigned long b
  * operation only applies to TLB entries associated with the security domain that the stage 1
  * translation context bank is a member of.
  */
-typedef union
+union bdk_smmux_cbx_tlbiva
 {
     uint64_t u;
     struct bdk_smmux_cbx_tlbiva_s
@@ -1733,7 +1753,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_cbx_tlbiva_s cn; */
-} bdk_smmux_cbx_tlbiva_t;
+};
+typedef union bdk_smmux_cbx_tlbiva bdk_smmux_cbx_tlbiva_t;
 
 static inline uint64_t BDK_SMMUX_CBX_TLBIVA(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_CBX_TLBIVA(unsigned long a, unsigned long b)
@@ -1765,7 +1786,7 @@ static inline uint64_t BDK_SMMUX_CBX_TLBIVA(unsigned long a, unsigned long b)
  * domain that the stage 1 translation context bank is a member of.
  * Register fields are identical to those in SMMU()_TLBIVAH64.
  */
-typedef union
+union bdk_smmux_cbx_tlbivaa
 {
     uint64_t u;
     struct bdk_smmux_cbx_tlbivaa_s
@@ -1785,7 +1806,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_cbx_tlbivaa_s cn; */
-} bdk_smmux_cbx_tlbivaa_t;
+};
+typedef union bdk_smmux_cbx_tlbivaa bdk_smmux_cbx_tlbivaa_t;
 
 static inline uint64_t BDK_SMMUX_CBX_TLBIVAA(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_CBX_TLBIVAA(unsigned long a, unsigned long b)
@@ -1813,7 +1835,7 @@ static inline uint64_t BDK_SMMUX_CBX_TLBIVAA(unsigned long a, unsigned long b)
  * Operates exactly as SMMU()_CB()_TLBIVAA, but only invalidating those that correspond
  * to the last level of the translation table walk.
  */
-typedef union
+union bdk_smmux_cbx_tlbivaal
 {
     uint64_t u;
     struct bdk_smmux_cbx_tlbivaal_s
@@ -1833,7 +1855,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_cbx_tlbivaal_s cn; */
-} bdk_smmux_cbx_tlbivaal_t;
+};
+typedef union bdk_smmux_cbx_tlbivaal bdk_smmux_cbx_tlbivaal_t;
 
 static inline uint64_t BDK_SMMUX_CBX_TLBIVAAL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_CBX_TLBIVAAL(unsigned long a, unsigned long b)
@@ -1861,7 +1884,7 @@ static inline uint64_t BDK_SMMUX_CBX_TLBIVAAL(unsigned long a, unsigned long b)
  * Operates exactly as SMMU()_CB()_TLBIVA, but only invalidating those that correspond
  * to the last level of the translation table walk.
  */
-typedef union
+union bdk_smmux_cbx_tlbival
 {
     uint64_t u;
     struct bdk_smmux_cbx_tlbival_s
@@ -1883,7 +1906,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_cbx_tlbival_s cn; */
-} bdk_smmux_cbx_tlbival_t;
+};
+typedef union bdk_smmux_cbx_tlbival bdk_smmux_cbx_tlbival_t;
 
 static inline uint64_t BDK_SMMUX_CBX_TLBIVAL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_CBX_TLBIVAL(unsigned long a, unsigned long b)
@@ -1911,7 +1935,7 @@ static inline uint64_t BDK_SMMUX_CBX_TLBIVAL(unsigned long a, unsigned long b)
  * Gives the status of a TLB maintenance operation. Register fields are identical to those in
  * SMMU()_(S)TLBGSTATUS.
  */
-typedef union
+union bdk_smmux_cbx_tlbstatus
 {
     uint32_t u;
     struct bdk_smmux_cbx_tlbstatus_s
@@ -1929,7 +1953,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_cbx_tlbstatus_s cn; */
-} bdk_smmux_cbx_tlbstatus_t;
+};
+typedef union bdk_smmux_cbx_tlbstatus bdk_smmux_cbx_tlbstatus_t;
 
 static inline uint64_t BDK_SMMUX_CBX_TLBSTATUS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_CBX_TLBSTATUS(unsigned long a, unsigned long b)
@@ -1958,7 +1983,7 @@ static inline uint64_t BDK_SMMUX_CBX_TLBSTATUS(unsigned long a, unsigned long b)
  * accepted TLB Invalidate operation. Register fields are identical to those in
  * SMMU()_(S)TLBGSYNC.
  */
-typedef union
+union bdk_smmux_cbx_tlbsync
 {
     uint32_t u;
     struct bdk_smmux_cbx_tlbsync_s
@@ -1970,7 +1995,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_cbx_tlbsync_s cn; */
-} bdk_smmux_cbx_tlbsync_t;
+};
+typedef union bdk_smmux_cbx_tlbsync bdk_smmux_cbx_tlbsync_t;
 
 static inline uint64_t BDK_SMMUX_CBX_TLBSYNC(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_CBX_TLBSYNC(unsigned long a, unsigned long b)
@@ -1998,7 +2024,7 @@ static inline uint64_t BDK_SMMUX_CBX_TLBSYNC(unsigned long a, unsigned long b)
  * Holds the base address of translation tables. This register is used by both stage 1 and stage
  * 2 context banks.
  */
-typedef union
+union bdk_smmux_cbx_ttbr0
 {
     uint64_t u;
     struct bdk_smmux_cbx_ttbr0_s
@@ -2020,7 +2046,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_cbx_ttbr0_s cn; */
-} bdk_smmux_cbx_ttbr0_t;
+};
+typedef union bdk_smmux_cbx_ttbr0 bdk_smmux_cbx_ttbr0_t;
 
 static inline uint64_t BDK_SMMUX_CBX_TTBR0(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_CBX_TTBR0(unsigned long a, unsigned long b)
@@ -2048,7 +2075,7 @@ static inline uint64_t BDK_SMMUX_CBX_TTBR0(unsigned long a, unsigned long b)
  * Holds the base address of translation tables. This register is used by stage 1 context banks.
  * Register fields are identical to those in SMMU()_CB()_TTBR0.
  */
-typedef union
+union bdk_smmux_cbx_ttbr1
 {
     uint64_t u;
     struct bdk_smmux_cbx_ttbr1_s
@@ -2070,7 +2097,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_cbx_ttbr1_s cn; */
-} bdk_smmux_cbx_ttbr1_t;
+};
+typedef union bdk_smmux_cbx_ttbr1 bdk_smmux_cbx_ttbr1_t;
 
 static inline uint64_t BDK_SMMUX_CBX_TTBR1(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_CBX_TTBR1(unsigned long a, unsigned long b)
@@ -2097,7 +2125,7 @@ static inline uint64_t BDK_SMMUX_CBX_TTBR1(unsigned long a, unsigned long b)
  * SMMU Context Bank Attribute 2 Register
  * Extended attributes for context bank n.
  */
-typedef union
+union bdk_smmux_cba2rx
 {
     uint32_t u;
     struct bdk_smmux_cba2rx_s
@@ -2183,7 +2211,8 @@ typedef union
     } cn81xx;
     /* struct bdk_smmux_cba2rx_cn81xx cn83xx; */
     /* struct bdk_smmux_cba2rx_cn81xx cn88xxp2; */
-} bdk_smmux_cba2rx_t;
+};
+typedef union bdk_smmux_cba2rx bdk_smmux_cba2rx_t;
 
 static inline uint64_t BDK_SMMUX_CBA2RX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_CBA2RX(unsigned long a, unsigned long b)
@@ -2211,7 +2240,7 @@ static inline uint64_t BDK_SMMUX_CBA2RX(unsigned long a, unsigned long b)
  * Specifies configuration attributes for translation context bank n. This field has different
  * layouts based on the CTYPE field value.
  */
-typedef union
+union bdk_smmux_cbarx
 {
     uint32_t u;
     struct bdk_smmux_cbarx_s
@@ -2365,7 +2394,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_cbarx_s cn; */
-} bdk_smmux_cbarx_t;
+};
+typedef union bdk_smmux_cbarx bdk_smmux_cbarx_t;
 
 static inline uint64_t BDK_SMMUX_CBARX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_CBARX(unsigned long a, unsigned long b)
@@ -2393,7 +2423,7 @@ static inline uint64_t BDK_SMMUX_CBARX(unsigned long a, unsigned long b)
  * Gives fault syndrome information about the access that caused an exception in the associated
  * translation.
  */
-typedef union
+union bdk_smmux_cbfrsynrax
 {
     uint32_t u;
     struct bdk_smmux_cbfrsynrax_s
@@ -2417,7 +2447,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_cbfrsynrax_s cn; */
-} bdk_smmux_cbfrsynrax_t;
+};
+typedef union bdk_smmux_cbfrsynrax bdk_smmux_cbfrsynrax_t;
 
 static inline uint64_t BDK_SMMUX_CBFRSYNRAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_CBFRSYNRAX(unsigned long a, unsigned long b)
@@ -2444,7 +2475,7 @@ static inline uint64_t BDK_SMMUX_CBFRSYNRAX(unsigned long a, unsigned long b)
  * SMMU Component Identification Register 0
  * This register is visible regardless of the setting of SMMU()_SCR1[GASRAE].
  */
-typedef union
+union bdk_smmux_cidr0
 {
     uint32_t u;
     struct bdk_smmux_cidr0_s
@@ -2458,7 +2489,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_cidr0_s cn; */
-} bdk_smmux_cidr0_t;
+};
+typedef union bdk_smmux_cidr0 bdk_smmux_cidr0_t;
 
 static inline uint64_t BDK_SMMUX_CIDR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_CIDR0(unsigned long a)
@@ -2485,7 +2517,7 @@ static inline uint64_t BDK_SMMUX_CIDR0(unsigned long a)
  * SMMU Component Identification Register 1
  * This register is visible regardless of the setting of SMMU()_SCR1[GASRAE].
  */
-typedef union
+union bdk_smmux_cidr1
 {
     uint32_t u;
     struct bdk_smmux_cidr1_s
@@ -2499,7 +2531,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_cidr1_s cn; */
-} bdk_smmux_cidr1_t;
+};
+typedef union bdk_smmux_cidr1 bdk_smmux_cidr1_t;
 
 static inline uint64_t BDK_SMMUX_CIDR1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_CIDR1(unsigned long a)
@@ -2526,7 +2559,7 @@ static inline uint64_t BDK_SMMUX_CIDR1(unsigned long a)
  * SMMU Component Identification Register 2
  * This register is visible regardless of the setting of SMMU()_SCR1[GASRAE].
  */
-typedef union
+union bdk_smmux_cidr2
 {
     uint32_t u;
     struct bdk_smmux_cidr2_s
@@ -2540,7 +2573,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_cidr2_s cn; */
-} bdk_smmux_cidr2_t;
+};
+typedef union bdk_smmux_cidr2 bdk_smmux_cidr2_t;
 
 static inline uint64_t BDK_SMMUX_CIDR2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_CIDR2(unsigned long a)
@@ -2567,7 +2601,7 @@ static inline uint64_t BDK_SMMUX_CIDR2(unsigned long a)
  * SMMU Component Identification Register 3
  * This register is visible regardless of the setting of SMMU()_SCR1[GASRAE].
  */
-typedef union
+union bdk_smmux_cidr3
 {
     uint32_t u;
     struct bdk_smmux_cidr3_s
@@ -2581,7 +2615,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_cidr3_s cn; */
-} bdk_smmux_cidr3_t;
+};
+typedef union bdk_smmux_cidr3 bdk_smmux_cidr3_t;
 
 static inline uint64_t BDK_SMMUX_CIDR3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_CIDR3(unsigned long a)
@@ -2608,7 +2643,7 @@ static inline uint64_t BDK_SMMUX_CIDR3(unsigned long a)
  * SMMU Debug Registers
  * This register contains debug information.
  */
-typedef union
+union bdk_smmux_debug
 {
     uint64_t u;
     struct bdk_smmux_debug_s
@@ -2628,7 +2663,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_debug_s cn; */
-} bdk_smmux_debug_t;
+};
+typedef union bdk_smmux_debug bdk_smmux_debug_t;
 
 static inline uint64_t BDK_SMMUX_DEBUG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_DEBUG(unsigned long a)
@@ -2654,7 +2690,7 @@ static inline uint64_t BDK_SMMUX_DEBUG(unsigned long a)
  *
  * SMMU Secure Diagnostic Control Register
  */
-typedef union
+union bdk_smmux_diag_ctl
 {
     uint64_t u;
     struct bdk_smmux_diag_ctl_s
@@ -2782,7 +2818,8 @@ typedef union
     } cn81xx;
     /* struct bdk_smmux_diag_ctl_cn81xx cn83xx; */
     /* struct bdk_smmux_diag_ctl_cn81xx cn88xxp2; */
-} bdk_smmux_diag_ctl_t;
+};
+typedef union bdk_smmux_diag_ctl bdk_smmux_diag_ctl_t;
 
 static inline uint64_t BDK_SMMUX_DIAG_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_DIAG_CTL(unsigned long a)
@@ -2808,7 +2845,7 @@ static inline uint64_t BDK_SMMUX_DIAG_CTL(unsigned long a)
  *
  * SMMU Secure ECC Control Register
  */
-typedef union
+union bdk_smmux_ecc_ctl_0
 {
     uint64_t u;
     struct bdk_smmux_ecc_ctl_0_s
@@ -2870,7 +2907,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_ecc_ctl_0_s cn; */
-} bdk_smmux_ecc_ctl_0_t;
+};
+typedef union bdk_smmux_ecc_ctl_0 bdk_smmux_ecc_ctl_0_t;
 
 static inline uint64_t BDK_SMMUX_ECC_CTL_0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_ECC_CTL_0(unsigned long a)
@@ -2896,7 +2934,7 @@ static inline uint64_t BDK_SMMUX_ECC_CTL_0(unsigned long a)
  *
  * SMMU Secure ECC Control Register
  */
-typedef union
+union bdk_smmux_ecc_ctl_1
 {
     uint64_t u;
     struct bdk_smmux_ecc_ctl_1_s
@@ -2934,7 +2972,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_ecc_ctl_1_s cn; */
-} bdk_smmux_ecc_ctl_1_t;
+};
+typedef union bdk_smmux_ecc_ctl_1 bdk_smmux_ecc_ctl_1_t;
 
 static inline uint64_t BDK_SMMUX_ECC_CTL_1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_ECC_CTL_1(unsigned long a)
@@ -2961,7 +3000,7 @@ static inline uint64_t BDK_SMMUX_ECC_CTL_1(unsigned long a)
  * SMMU ECC Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_smmux_err_ena_w1c
 {
     uint64_t u;
     struct bdk_smmux_err_ena_w1c_s
@@ -3019,7 +3058,8 @@ typedef union
         uint64_t reserved_53_63        : 11;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_smmux_err_ena_w1c_t;
+};
+typedef union bdk_smmux_err_ena_w1c bdk_smmux_err_ena_w1c_t;
 
 static inline uint64_t BDK_SMMUX_ERR_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_ERR_ENA_W1C(unsigned long a)
@@ -3046,7 +3086,7 @@ static inline uint64_t BDK_SMMUX_ERR_ENA_W1C(unsigned long a)
  * SMMU ECC Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_smmux_err_ena_w1s
 {
     uint64_t u;
     struct bdk_smmux_err_ena_w1s_s
@@ -3104,7 +3144,8 @@ typedef union
         uint64_t reserved_53_63        : 11;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_smmux_err_ena_w1s_t;
+};
+typedef union bdk_smmux_err_ena_w1s bdk_smmux_err_ena_w1s_t;
 
 static inline uint64_t BDK_SMMUX_ERR_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_ERR_ENA_W1S(unsigned long a)
@@ -3133,7 +3174,7 @@ static inline uint64_t BDK_SMMUX_ERR_ENA_W1S(unsigned long a)
  * This register contains ECC and other miscellaneous error bits.  INTERNAL: Errors are only
  * reported in the lowest number SMMU in each SMMU that shares an IOB.
  */
-typedef union
+union bdk_smmux_err_int
 {
     uint64_t u;
     struct bdk_smmux_err_int_s
@@ -3197,7 +3238,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_err_int_s cn; */
-} bdk_smmux_err_int_t;
+};
+typedef union bdk_smmux_err_int bdk_smmux_err_int_t;
 
 static inline uint64_t BDK_SMMUX_ERR_INT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_ERR_INT(unsigned long a)
@@ -3226,7 +3268,7 @@ static inline uint64_t BDK_SMMUX_ERR_INT(unsigned long a)
  * Internal:
  * INTERNAL: Errors are only reported in the lowest number SMMU in each SMMU that shares an IOB.
  */
-typedef union
+union bdk_smmux_err_int_w1s
 {
     uint64_t u;
     struct bdk_smmux_err_int_w1s_s
@@ -3284,7 +3326,8 @@ typedef union
         uint64_t reserved_53_63        : 11;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_smmux_err_int_w1s_t;
+};
+typedef union bdk_smmux_err_int_w1s bdk_smmux_err_int_w1s_t;
 
 static inline uint64_t BDK_SMMUX_ERR_INT_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_ERR_INT_W1S(unsigned long a)
@@ -3311,7 +3354,7 @@ static inline uint64_t BDK_SMMUX_ERR_INT_W1S(unsigned long a)
  * SMMU Identification Register 0
  * Provides SMMU capability information.
  */
-typedef union
+union bdk_smmux_idr0
 {
     uint32_t u;
     struct bdk_smmux_idr0_s
@@ -3385,7 +3428,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_idr0_s cn; */
-} bdk_smmux_idr0_t;
+};
+typedef union bdk_smmux_idr0 bdk_smmux_idr0_t;
 
 static inline uint64_t BDK_SMMUX_IDR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_IDR0(unsigned long a)
@@ -3412,7 +3456,7 @@ static inline uint64_t BDK_SMMUX_IDR0(unsigned long a)
  * SMMU Identification Register 1
  * Provides SMMU capability information.
  */
-typedef union
+union bdk_smmux_idr1
 {
     uint32_t u;
     struct bdk_smmux_idr1_s
@@ -3496,7 +3540,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_idr1_s cn; */
-} bdk_smmux_idr1_t;
+};
+typedef union bdk_smmux_idr1 bdk_smmux_idr1_t;
 
 static inline uint64_t BDK_SMMUX_IDR1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_IDR1(unsigned long a)
@@ -3522,7 +3567,7 @@ static inline uint64_t BDK_SMMUX_IDR1(unsigned long a)
  *
  * SMMU Identification Register 2
  */
-typedef union
+union bdk_smmux_idr2
 {
     uint32_t u;
     struct bdk_smmux_idr2_s
@@ -3592,7 +3637,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_idr2_s cn; */
-} bdk_smmux_idr2_t;
+};
+typedef union bdk_smmux_idr2 bdk_smmux_idr2_t;
 
 static inline uint64_t BDK_SMMUX_IDR2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_IDR2(unsigned long a)
@@ -3619,7 +3665,7 @@ static inline uint64_t BDK_SMMUX_IDR2(unsigned long a)
  * SMMU Identification Register 3
  * Not implemented in CNXXXX.
  */
-typedef union
+union bdk_smmux_idr3
 {
     uint32_t u;
     struct bdk_smmux_idr3_s
@@ -3631,7 +3677,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_idr3_s cn; */
-} bdk_smmux_idr3_t;
+};
+typedef union bdk_smmux_idr3 bdk_smmux_idr3_t;
 
 static inline uint64_t BDK_SMMUX_IDR3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_IDR3(unsigned long a)
@@ -3658,7 +3705,7 @@ static inline uint64_t BDK_SMMUX_IDR3(unsigned long a)
  * SMMU Identification Register 4
  * Not implemented in CNXXXX.
  */
-typedef union
+union bdk_smmux_idr4
 {
     uint32_t u;
     struct bdk_smmux_idr4_s
@@ -3670,7 +3717,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_idr4_s cn; */
-} bdk_smmux_idr4_t;
+};
+typedef union bdk_smmux_idr4 bdk_smmux_idr4_t;
 
 static inline uint64_t BDK_SMMUX_IDR4(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_IDR4(unsigned long a)
@@ -3697,7 +3745,7 @@ static inline uint64_t BDK_SMMUX_IDR4(unsigned long a)
  * SMMU Identification Register 5
  * Not implemented in CNXXXX.
  */
-typedef union
+union bdk_smmux_idr5
 {
     uint32_t u;
     struct bdk_smmux_idr5_s
@@ -3709,7 +3757,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_idr5_s cn; */
-} bdk_smmux_idr5_t;
+};
+typedef union bdk_smmux_idr5 bdk_smmux_idr5_t;
 
 static inline uint64_t BDK_SMMUX_IDR5(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_IDR5(unsigned long a)
@@ -3736,7 +3785,7 @@ static inline uint64_t BDK_SMMUX_IDR5(unsigned long a)
  * SMMU Identification Register 6
  * Not implemented in CNXXXX.
  */
-typedef union
+union bdk_smmux_idr6
 {
     uint32_t u;
     struct bdk_smmux_idr6_s
@@ -3748,7 +3797,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_idr6_s cn; */
-} bdk_smmux_idr6_t;
+};
+typedef union bdk_smmux_idr6 bdk_smmux_idr6_t;
 
 static inline uint64_t BDK_SMMUX_IDR6(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_IDR6(unsigned long a)
@@ -3774,7 +3824,7 @@ static inline uint64_t BDK_SMMUX_IDR6(unsigned long a)
  *
  * SMMU Identification Register 7
  */
-typedef union
+union bdk_smmux_idr7
 {
     uint32_t u;
     struct bdk_smmux_idr7_s
@@ -3794,7 +3844,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_idr7_s cn; */
-} bdk_smmux_idr7_t;
+};
+typedef union bdk_smmux_idr7 bdk_smmux_idr7_t;
 
 static inline uint64_t BDK_SMMUX_IDR7(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_IDR7(unsigned long a)
@@ -3821,7 +3872,7 @@ static inline uint64_t BDK_SMMUX_IDR7(unsigned long a)
  * SMMU Secure Diagnostic Lookup Result Register
  * Receives the physical address from a SMMU()_LOOK_REQ operation. For diagnostic use only.
  */
-typedef union
+union bdk_smmux_look_par
 {
     uint64_t u;
     struct bdk_smmux_look_par_s
@@ -3849,7 +3900,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_look_par_s cn; */
-} bdk_smmux_look_par_t;
+};
+typedef union bdk_smmux_look_par bdk_smmux_look_par_t;
 
 static inline uint64_t BDK_SMMUX_LOOK_PAR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_LOOK_PAR(unsigned long a)
@@ -3876,7 +3928,7 @@ static inline uint64_t BDK_SMMUX_LOOK_PAR(unsigned long a)
  * SMMU Secure Diagnostic Lookup Request Register
  * For diagnostic use only.
  */
-typedef union
+union bdk_smmux_look_req
 {
     uint64_t u;
     struct bdk_smmux_look_req_s
@@ -3900,7 +3952,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_look_req_s cn; */
-} bdk_smmux_look_req_t;
+};
+typedef union bdk_smmux_look_req bdk_smmux_look_req_t;
 
 static inline uint64_t BDK_SMMUX_LOOK_REQ(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_LOOK_REQ(unsigned long a)
@@ -3928,7 +3981,7 @@ static inline uint64_t BDK_SMMUX_LOOK_REQ(unsigned long a)
  * Specifies additional lookup values for the next SMMU()_LOOK_REQ
  * operation. For diagnostic use only.
  */
-typedef union
+union bdk_smmux_look_strm
 {
     uint64_t u;
     struct bdk_smmux_look_strm_s
@@ -3942,7 +3995,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_look_strm_s cn; */
-} bdk_smmux_look_strm_t;
+};
+typedef union bdk_smmux_look_strm bdk_smmux_look_strm_t;
 
 static inline uint64_t BDK_SMMUX_LOOK_STRM(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_LOOK_STRM(unsigned long a)
@@ -3969,7 +4023,7 @@ static inline uint64_t BDK_SMMUX_LOOK_STRM(unsigned long a)
  * SMMU MSI-X Pending Bit Array Registers
  * This register is the MSI-X PBA table, the bit number is indexed by the SMMU_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_smmux_msix_pbax
 {
     uint64_t u;
     struct bdk_smmux_msix_pbax_s
@@ -3983,7 +4037,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_msix_pbax_s cn; */
-} bdk_smmux_msix_pbax_t;
+};
+typedef union bdk_smmux_msix_pbax bdk_smmux_msix_pbax_t;
 
 static inline uint64_t BDK_SMMUX_MSIX_PBAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_MSIX_PBAX(unsigned long a, unsigned long b)
@@ -4010,7 +4065,7 @@ static inline uint64_t BDK_SMMUX_MSIX_PBAX(unsigned long a, unsigned long b)
  * SMMU MSI-X Vector Table Address Registers
  * This register is the MSI-X vector table, indexed by the SMMU_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_smmux_msix_vecx_addr
 {
     uint64_t u;
     struct bdk_smmux_msix_vecx_addr_s
@@ -4104,7 +4159,8 @@ typedef union
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_smmux_msix_vecx_addr_t;
+};
+typedef union bdk_smmux_msix_vecx_addr bdk_smmux_msix_vecx_addr_t;
 
 static inline uint64_t BDK_SMMUX_MSIX_VECX_ADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
@@ -4131,7 +4187,7 @@ static inline uint64_t BDK_SMMUX_MSIX_VECX_ADDR(unsigned long a, unsigned long b
  * SMMU MSI-X Vector Table Control and Data Registers
  * This register is the MSI-X vector table, indexed by the SMMU_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_smmux_msix_vecx_ctl
 {
     uint64_t u;
     struct bdk_smmux_msix_vecx_ctl_s
@@ -4149,7 +4205,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_msix_vecx_ctl_s cn; */
-} bdk_smmux_msix_vecx_ctl_t;
+};
+typedef union bdk_smmux_msix_vecx_ctl bdk_smmux_msix_vecx_ctl_t;
 
 static inline uint64_t BDK_SMMUX_MSIX_VECX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
@@ -4175,7 +4232,7 @@ static inline uint64_t BDK_SMMUX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
  *
  * SMMU Nonsecure Hits Performance Counter Register
  */
-typedef union
+union bdk_smmux_ns_hit_perf
 {
     uint64_t u;
     struct bdk_smmux_ns_hit_perf_s
@@ -4187,7 +4244,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_ns_hit_perf_s cn; */
-} bdk_smmux_ns_hit_perf_t;
+};
+typedef union bdk_smmux_ns_hit_perf bdk_smmux_ns_hit_perf_t;
 
 static inline uint64_t BDK_SMMUX_NS_HIT_PERF(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_NS_HIT_PERF(unsigned long a)
@@ -4214,7 +4272,7 @@ static inline uint64_t BDK_SMMUX_NS_HIT_PERF(unsigned long a)
  * SMMU Secure Alias for Auxiliary Configuration Register
  * Provides secure alias for nonsecure register SMMU()_(S)ACR.
  */
-typedef union
+union bdk_smmux_nsacr
 {
     uint32_t u;
     struct bdk_smmux_nsacr_s
@@ -4234,7 +4292,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_nsacr_s cn; */
-} bdk_smmux_nsacr_t;
+};
+typedef union bdk_smmux_nsacr bdk_smmux_nsacr_t;
 
 static inline uint64_t BDK_SMMUX_NSACR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_NSACR(unsigned long a)
@@ -4261,7 +4320,7 @@ static inline uint64_t BDK_SMMUX_NSACR(unsigned long a)
  * SMMU Secure Alias for Configuration Register 0
  * Provides secure alias for nonsecure register SMMU()_(S)CR0.
  */
-typedef union
+union bdk_smmux_nscr0
 {
     uint32_t u;
     struct bdk_smmux_nscr0_s
@@ -4555,7 +4614,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_nscr0_s cn; */
-} bdk_smmux_nscr0_t;
+};
+typedef union bdk_smmux_nscr0 bdk_smmux_nscr0_t;
 
 static inline uint64_t BDK_SMMUX_NSCR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_NSCR0(unsigned long a)
@@ -4582,7 +4642,7 @@ static inline uint64_t BDK_SMMUX_NSCR0(unsigned long a)
  * SMMU Secure Alias for Configuration Register 2
  * Provides secure alias for nonsecure register SMMU()_(S)CR2.
  */
-typedef union
+union bdk_smmux_nscr2
 {
     uint32_t u;
     struct bdk_smmux_nscr2_s
@@ -4624,7 +4684,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_nscr2_s cn; */
-} bdk_smmux_nscr2_t;
+};
+typedef union bdk_smmux_nscr2 bdk_smmux_nscr2_t;
 
 static inline uint64_t BDK_SMMUX_NSCR2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_NSCR2(unsigned long a)
@@ -4651,7 +4712,7 @@ static inline uint64_t BDK_SMMUX_NSCR2(unsigned long a)
  * SMMU Secure Alias for Global Fault Address Register
  * Provides secure alias for nonsecure register SMMU()_(S)GFAR.
  */
-typedef union
+union bdk_smmux_nsgfar
 {
     uint64_t u;
     struct bdk_smmux_nsgfar_s
@@ -4677,7 +4738,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_nsgfar_s cn; */
-} bdk_smmux_nsgfar_t;
+};
+typedef union bdk_smmux_nsgfar bdk_smmux_nsgfar_t;
 
 static inline uint64_t BDK_SMMUX_NSGFAR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_NSGFAR(unsigned long a)
@@ -4704,7 +4766,7 @@ static inline uint64_t BDK_SMMUX_NSGFAR(unsigned long a)
  * SMMU Secure Alias for Global Fault Status Register
  * Provides secure alias for nonsecure register SMMU()_(S)GFSR.
  */
-typedef union
+union bdk_smmux_nsgfsr
 {
     uint32_t u;
     struct bdk_smmux_nsgfsr_s
@@ -4754,7 +4816,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_nsgfsr_s cn; */
-} bdk_smmux_nsgfsr_t;
+};
+typedef union bdk_smmux_nsgfsr bdk_smmux_nsgfsr_t;
 
 static inline uint64_t BDK_SMMUX_NSGFSR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_NSGFSR(unsigned long a)
@@ -4781,7 +4844,7 @@ static inline uint64_t BDK_SMMUX_NSGFSR(unsigned long a)
  * SMMU Secure Alias for Global Fault Status Restore Register
  * Provides secure alias for nonsecure register SMMU()_(S)GFSRRESTORE.
  */
-typedef union
+union bdk_smmux_nsgfsrrestore
 {
     uint32_t u;
     struct bdk_smmux_nsgfsrrestore_s
@@ -4793,7 +4856,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_nsgfsrrestore_s cn; */
-} bdk_smmux_nsgfsrrestore_t;
+};
+typedef union bdk_smmux_nsgfsrrestore bdk_smmux_nsgfsrrestore_t;
 
 static inline uint64_t BDK_SMMUX_NSGFSRRESTORE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_NSGFSRRESTORE(unsigned long a)
@@ -4820,7 +4884,7 @@ static inline uint64_t BDK_SMMUX_NSGFSRRESTORE(unsigned long a)
  * SMMU Secure Alias for Global Fault Syndrome Register 0
  * Provides secure alias for nonsecure register SMMU()_(S)GFSYNR0.
  */
-typedef union
+union bdk_smmux_nsgfsynr0
 {
     uint32_t u;
     struct bdk_smmux_nsgfsynr0_s
@@ -4888,7 +4952,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_nsgfsynr0_s cn; */
-} bdk_smmux_nsgfsynr0_t;
+};
+typedef union bdk_smmux_nsgfsynr0 bdk_smmux_nsgfsynr0_t;
 
 static inline uint64_t BDK_SMMUX_NSGFSYNR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_NSGFSYNR0(unsigned long a)
@@ -4915,7 +4980,7 @@ static inline uint64_t BDK_SMMUX_NSGFSYNR0(unsigned long a)
  * SMMU Secure Alias for Global Fault Syndrome Register 1
  * Provides secure alias for nonsecure register SMMU()_(S)GFSYNR1.
  */
-typedef union
+union bdk_smmux_nsgfsynr1
 {
     uint32_t u;
     struct bdk_smmux_nsgfsynr1_s
@@ -4937,7 +5002,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_nsgfsynr1_s cn; */
-} bdk_smmux_nsgfsynr1_t;
+};
+typedef union bdk_smmux_nsgfsynr1 bdk_smmux_nsgfsynr1_t;
 
 static inline uint64_t BDK_SMMUX_NSGFSYNR1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_NSGFSYNR1(unsigned long a)
@@ -4964,7 +5030,7 @@ static inline uint64_t BDK_SMMUX_NSGFSYNR1(unsigned long a)
  * SMMU Secure Alias for Global Fault Syndrome Register 2
  * Provides secure alias for nonsecure register SMMU()_(S)GFSYNR2.
  */
-typedef union
+union bdk_smmux_nsgfsynr2
 {
     uint32_t u;
     struct bdk_smmux_nsgfsynr2_s
@@ -4976,7 +5042,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_nsgfsynr2_s cn; */
-} bdk_smmux_nsgfsynr2_t;
+};
+typedef union bdk_smmux_nsgfsynr2 bdk_smmux_nsgfsynr2_t;
 
 static inline uint64_t BDK_SMMUX_NSGFSYNR2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_NSGFSYNR2(unsigned long a)
@@ -5002,7 +5069,7 @@ static inline uint64_t BDK_SMMUX_NSGFSYNR2(unsigned long a)
  *
  * SMMU Nonsecure Misses Performance Counter Register
  */
-typedef union
+union bdk_smmux_nsmiss_perf
 {
     uint64_t u;
     struct bdk_smmux_nsmiss_perf_s
@@ -5016,7 +5083,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_nsmiss_perf_s cn; */
-} bdk_smmux_nsmiss_perf_t;
+};
+typedef union bdk_smmux_nsmiss_perf bdk_smmux_nsmiss_perf_t;
 
 static inline uint64_t BDK_SMMUX_NSMISS_PERF(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_NSMISS_PERF(unsigned long a)
@@ -5042,7 +5110,7 @@ static inline uint64_t BDK_SMMUX_NSMISS_PERF(unsigned long a)
  *
  * SMMU Nonsecure Page Table Reads Performance Counter Register
  */
-typedef union
+union bdk_smmux_nsptread_perf
 {
     uint64_t u;
     struct bdk_smmux_nsptread_perf_s
@@ -5054,7 +5122,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_nsptread_perf_s cn; */
-} bdk_smmux_nsptread_perf_t;
+};
+typedef union bdk_smmux_nsptread_perf bdk_smmux_nsptread_perf_t;
 
 static inline uint64_t BDK_SMMUX_NSPTREAD_PERF(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_NSPTREAD_PERF(unsigned long a)
@@ -5081,7 +5150,7 @@ static inline uint64_t BDK_SMMUX_NSPTREAD_PERF(unsigned long a)
  * SMMU Non-Secure Alias Global Synchronize TLB Status Register
  * Gives the status of a TLB maintenance operation.
  */
-typedef union
+union bdk_smmux_nstlbgstatus
 {
     uint32_t u;
     struct bdk_smmux_nstlbgstatus_s
@@ -5099,7 +5168,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_nstlbgstatus_s cn; */
-} bdk_smmux_nstlbgstatus_t;
+};
+typedef union bdk_smmux_nstlbgstatus bdk_smmux_nstlbgstatus_t;
 
 static inline uint64_t BDK_SMMUX_NSTLBGSTATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_NSTLBGSTATUS(unsigned long a)
@@ -5127,7 +5197,7 @@ static inline uint64_t BDK_SMMUX_NSTLBGSTATUS(unsigned long a)
  * Starts a global synchronization operation that ensures the completion of any previously
  * accepted TLB invalidate operation.
  */
-typedef union
+union bdk_smmux_nstlbgsync
 {
     uint32_t u;
     struct bdk_smmux_nstlbgsync_s
@@ -5139,7 +5209,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_nstlbgsync_s cn; */
-} bdk_smmux_nstlbgsync_t;
+};
+typedef union bdk_smmux_nstlbgsync bdk_smmux_nstlbgsync_t;
 
 static inline uint64_t BDK_SMMUX_NSTLBGSYNC(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_NSTLBGSYNC(unsigned long a)
@@ -5166,7 +5237,7 @@ static inline uint64_t BDK_SMMUX_NSTLBGSYNC(unsigned long a)
  * SMMU Peripheral Identification Register 0
  * This register is visible regardless of the setting of SMMU()_SCR1[GASRAE].
  */
-typedef union
+union bdk_smmux_pidr0
 {
     uint32_t u;
     struct bdk_smmux_pidr0_s
@@ -5180,7 +5251,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_pidr0_s cn; */
-} bdk_smmux_pidr0_t;
+};
+typedef union bdk_smmux_pidr0 bdk_smmux_pidr0_t;
 
 static inline uint64_t BDK_SMMUX_PIDR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_PIDR0(unsigned long a)
@@ -5207,7 +5279,7 @@ static inline uint64_t BDK_SMMUX_PIDR0(unsigned long a)
  * SMMU Peripheral Identification Register 1
  * This register is visible regardless of the setting of SMMU()_SCR1[GASRAE].
  */
-typedef union
+union bdk_smmux_pidr1
 {
     uint32_t u;
     struct bdk_smmux_pidr1_s
@@ -5223,7 +5295,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_pidr1_s cn; */
-} bdk_smmux_pidr1_t;
+};
+typedef union bdk_smmux_pidr1 bdk_smmux_pidr1_t;
 
 static inline uint64_t BDK_SMMUX_PIDR1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_PIDR1(unsigned long a)
@@ -5250,7 +5323,7 @@ static inline uint64_t BDK_SMMUX_PIDR1(unsigned long a)
  * SMMU Peripheral Identification Register 2
  * This register is visible regardless of the setting of SMMU()_SCR1[GASRAE].
  */
-typedef union
+union bdk_smmux_pidr2
 {
     uint32_t u;
     struct bdk_smmux_pidr2_s
@@ -5272,7 +5345,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_pidr2_s cn; */
-} bdk_smmux_pidr2_t;
+};
+typedef union bdk_smmux_pidr2 bdk_smmux_pidr2_t;
 
 static inline uint64_t BDK_SMMUX_PIDR2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_PIDR2(unsigned long a)
@@ -5299,7 +5373,7 @@ static inline uint64_t BDK_SMMUX_PIDR2(unsigned long a)
  * SMMU Peripheral Identification Register 3
  * This register is visible regardless of the setting of SMMU()_SCR1[GASRAE].
  */
-typedef union
+union bdk_smmux_pidr3
 {
     uint32_t u;
     struct bdk_smmux_pidr3_s
@@ -5317,7 +5391,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_pidr3_s cn; */
-} bdk_smmux_pidr3_t;
+};
+typedef union bdk_smmux_pidr3 bdk_smmux_pidr3_t;
 
 static inline uint64_t BDK_SMMUX_PIDR3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_PIDR3(unsigned long a)
@@ -5344,7 +5419,7 @@ static inline uint64_t BDK_SMMUX_PIDR3(unsigned long a)
  * SMMU Peripheral Identification Register 4
  * This register is visible regardless of the setting of SMMU()_SCR1[GASRAE].
  */
-typedef union
+union bdk_smmux_pidr4
 {
     uint32_t u;
     struct bdk_smmux_pidr4_s
@@ -5360,7 +5435,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_pidr4_s cn; */
-} bdk_smmux_pidr4_t;
+};
+typedef union bdk_smmux_pidr4 bdk_smmux_pidr4_t;
 
 static inline uint64_t BDK_SMMUX_PIDR4(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_PIDR4(unsigned long a)
@@ -5387,7 +5463,7 @@ static inline uint64_t BDK_SMMUX_PIDR4(unsigned long a)
  * SMMU Peripheral Identification Register 5
  * This register is visible regardless of the setting of SMMU()_SCR1[GASRAE].
  */
-typedef union
+union bdk_smmux_pidr5
 {
     uint32_t u;
     struct bdk_smmux_pidr5_s
@@ -5399,7 +5475,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_pidr5_s cn; */
-} bdk_smmux_pidr5_t;
+};
+typedef union bdk_smmux_pidr5 bdk_smmux_pidr5_t;
 
 static inline uint64_t BDK_SMMUX_PIDR5(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_PIDR5(unsigned long a)
@@ -5426,7 +5503,7 @@ static inline uint64_t BDK_SMMUX_PIDR5(unsigned long a)
  * SMMU Peripheral Identification Register 6
  * This register is visible regardless of the setting of SMMU()_SCR1[GASRAE].
  */
-typedef union
+union bdk_smmux_pidr6
 {
     uint32_t u;
     struct bdk_smmux_pidr6_s
@@ -5438,7 +5515,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_pidr6_s cn; */
-} bdk_smmux_pidr6_t;
+};
+typedef union bdk_smmux_pidr6 bdk_smmux_pidr6_t;
 
 static inline uint64_t BDK_SMMUX_PIDR6(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_PIDR6(unsigned long a)
@@ -5465,7 +5543,7 @@ static inline uint64_t BDK_SMMUX_PIDR6(unsigned long a)
  * SMMU Peripheral Identification Register 7
  * This register is visible regardless of the setting of SMMU()_SCR1[GASRAE].
  */
-typedef union
+union bdk_smmux_pidr7
 {
     uint32_t u;
     struct bdk_smmux_pidr7_s
@@ -5477,7 +5555,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_pidr7_s cn; */
-} bdk_smmux_pidr7_t;
+};
+typedef union bdk_smmux_pidr7 bdk_smmux_pidr7_t;
 
 static inline uint64_t BDK_SMMUX_PIDR7(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_PIDR7(unsigned long a)
@@ -5509,7 +5588,7 @@ static inline uint64_t BDK_SMMUX_PIDR7(unsigned long a)
  * secure software. An SMMU()_S2CR() register that is accessible from the nonsecure
  * state must only specify a translation context bank that is not reserved by secure software
  */
-typedef union
+union bdk_smmux_s2crx
 {
     uint32_t u;
     struct bdk_smmux_s2crx_s
@@ -5751,7 +5830,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_s2crx_s cn; */
-} bdk_smmux_s2crx_t;
+};
+typedef union bdk_smmux_s2crx bdk_smmux_s2crx_t;
 
 static inline uint64_t BDK_SMMUX_S2CRX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_S2CRX(unsigned long a, unsigned long b)
@@ -5777,7 +5857,7 @@ static inline uint64_t BDK_SMMUX_S2CRX(unsigned long a, unsigned long b)
  *
  * SMMU Secure Hits Performance Counter Register
  */
-typedef union
+union bdk_smmux_s_hit_perf
 {
     uint64_t u;
     struct bdk_smmux_s_hit_perf_s
@@ -5789,7 +5869,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_s_hit_perf_s cn; */
-} bdk_smmux_s_hit_perf_t;
+};
+typedef union bdk_smmux_s_hit_perf bdk_smmux_s_hit_perf_t;
 
 static inline uint64_t BDK_SMMUX_S_HIT_PERF(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_S_HIT_PERF(unsigned long a)
@@ -5816,7 +5897,7 @@ static inline uint64_t BDK_SMMUX_S_HIT_PERF(unsigned long a)
  * SMMU (Secure) Auxiliary Control Register
  * This register contains implementation specific context fields.
  */
-typedef union
+union bdk_smmux_sacr
 {
     uint32_t u;
     struct bdk_smmux_sacr_s
@@ -5836,7 +5917,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_sacr_s cn; */
-} bdk_smmux_sacr_t;
+};
+typedef union bdk_smmux_sacr bdk_smmux_sacr_t;
 
 static inline uint64_t BDK_SMMUX_SACR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_SACR(unsigned long a)
@@ -5864,7 +5946,7 @@ static inline uint64_t BDK_SMMUX_SACR(unsigned long a)
  * The nonsecure version of this register does not provide full top-level control of the SMMU.
  * Some fields only apply to secure or nonsecure transactions.
  */
-typedef union
+union bdk_smmux_scr0
 {
     uint32_t u;
     struct bdk_smmux_scr0_s
@@ -6158,7 +6240,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_scr0_s cn; */
-} bdk_smmux_scr0_t;
+};
+typedef union bdk_smmux_scr0 bdk_smmux_scr0_t;
 
 static inline uint64_t BDK_SMMUX_SCR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_SCR0(unsigned long a)
@@ -6185,7 +6268,7 @@ static inline uint64_t BDK_SMMUX_SCR0(unsigned long a)
  * SMMU Secure Configuration Register 1
  * Provides top-level secure control of the SMMU.
  */
-typedef union
+union bdk_smmux_scr1
 {
     uint32_t u;
     struct bdk_smmux_scr1_s
@@ -6499,7 +6582,8 @@ typedef union
     } cn81xx;
     /* struct bdk_smmux_scr1_cn81xx cn83xx; */
     /* struct bdk_smmux_scr1_cn81xx cn88xxp2; */
-} bdk_smmux_scr1_t;
+};
+typedef union bdk_smmux_scr1 bdk_smmux_scr1_t;
 
 static inline uint64_t BDK_SMMUX_SCR1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_SCR1(unsigned long a)
@@ -6526,7 +6610,7 @@ static inline uint64_t BDK_SMMUX_SCR1(unsigned long a)
  * SMMU (Secure) Control Register 2
  * Not implemented in CNXXXX.
  */
-typedef union
+union bdk_smmux_scr2
 {
     uint32_t u;
     struct bdk_smmux_scr2_s
@@ -6568,7 +6652,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_scr2_s cn; */
-} bdk_smmux_scr2_t;
+};
+typedef union bdk_smmux_scr2 bdk_smmux_scr2_t;
 
 static inline uint64_t BDK_SMMUX_SCR2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_SCR2(unsigned long a)
@@ -6595,7 +6680,7 @@ static inline uint64_t BDK_SMMUX_SCR2(unsigned long a)
  * SMMU (Secure) Global Fault Address Register
  * Contains the input address of an erroneous request reported by SMMU()_(S)GFSR.
  */
-typedef union
+union bdk_smmux_sgfar
 {
     uint64_t u;
     struct bdk_smmux_sgfar_s
@@ -6621,7 +6706,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_sgfar_s cn; */
-} bdk_smmux_sgfar_t;
+};
+typedef union bdk_smmux_sgfar bdk_smmux_sgfar_t;
 
 static inline uint64_t BDK_SMMUX_SGFAR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_SGFAR(unsigned long a)
@@ -6647,7 +6733,7 @@ static inline uint64_t BDK_SMMUX_SGFAR(unsigned long a)
  *
  * SMMU (Secure) Global Fault Status Register
  */
-typedef union
+union bdk_smmux_sgfsr
 {
     uint32_t u;
     struct bdk_smmux_sgfsr_s
@@ -6697,7 +6783,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_sgfsr_s cn; */
-} bdk_smmux_sgfsr_t;
+};
+typedef union bdk_smmux_sgfsr bdk_smmux_sgfsr_t;
 
 static inline uint64_t BDK_SMMUX_SGFSR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_SGFSR(unsigned long a)
@@ -6724,7 +6811,7 @@ static inline uint64_t BDK_SMMUX_SGFSR(unsigned long a)
  * SMMU (Secure) Global Fault Status Restore Register
  * Restores the SMMU()_(S)GFSR register after reset.
  */
-typedef union
+union bdk_smmux_sgfsrrestore
 {
     uint32_t u;
     struct bdk_smmux_sgfsrrestore_s
@@ -6736,7 +6823,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_sgfsrrestore_s cn; */
-} bdk_smmux_sgfsrrestore_t;
+};
+typedef union bdk_smmux_sgfsrrestore bdk_smmux_sgfsrrestore_t;
 
 static inline uint64_t BDK_SMMUX_SGFSRRESTORE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_SGFSRRESTORE(unsigned long a)
@@ -6763,7 +6851,7 @@ static inline uint64_t BDK_SMMUX_SGFSRRESTORE(unsigned long a)
  * SMMU (Secure) Global Fault Syndrome Register 0
  * Contains fault syndrome information relating to SMMU()_(S)GFSR.
  */
-typedef union
+union bdk_smmux_sgfsynr0
 {
     uint32_t u;
     struct bdk_smmux_sgfsynr0_s
@@ -6831,7 +6919,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_sgfsynr0_s cn; */
-} bdk_smmux_sgfsynr0_t;
+};
+typedef union bdk_smmux_sgfsynr0 bdk_smmux_sgfsynr0_t;
 
 static inline uint64_t BDK_SMMUX_SGFSYNR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_SGFSYNR0(unsigned long a)
@@ -6858,7 +6947,7 @@ static inline uint64_t BDK_SMMUX_SGFSYNR0(unsigned long a)
  * SMMU (Secure) Global Fault Syndrome Register 1
  * Contains fault syndrome information relating to SMMU()_(S)GFSR.
  */
-typedef union
+union bdk_smmux_sgfsynr1
 {
     uint32_t u;
     struct bdk_smmux_sgfsynr1_s
@@ -6880,7 +6969,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_sgfsynr1_s cn; */
-} bdk_smmux_sgfsynr1_t;
+};
+typedef union bdk_smmux_sgfsynr1 bdk_smmux_sgfsynr1_t;
 
 static inline uint64_t BDK_SMMUX_SGFSYNR1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_SGFSYNR1(unsigned long a)
@@ -6907,7 +6997,7 @@ static inline uint64_t BDK_SMMUX_SGFSYNR1(unsigned long a)
  * SMMU (Secure) Global Fault Syndrome Register 2
  * Not implemented in CNXXXX.
  */
-typedef union
+union bdk_smmux_sgfsynr2
 {
     uint32_t u;
     struct bdk_smmux_sgfsynr2_s
@@ -6919,7 +7009,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_sgfsynr2_s cn; */
-} bdk_smmux_sgfsynr2_t;
+};
+typedef union bdk_smmux_sgfsynr2 bdk_smmux_sgfsynr2_t;
 
 static inline uint64_t BDK_SMMUX_SGFSYNR2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_SGFSYNR2(unsigned long a)
@@ -6945,7 +7036,7 @@ static inline uint64_t BDK_SMMUX_SGFSYNR2(unsigned long a)
  *
  * SMMU Secure Misses Performance Counter Register
  */
-typedef union
+union bdk_smmux_smiss_perf
 {
     uint64_t u;
     struct bdk_smmux_smiss_perf_s
@@ -6959,7 +7050,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_smiss_perf_s cn; */
-} bdk_smmux_smiss_perf_t;
+};
+typedef union bdk_smmux_smiss_perf bdk_smmux_smiss_perf_t;
 
 static inline uint64_t BDK_SMMUX_SMISS_PERF(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_SMISS_PERF(unsigned long a)
@@ -6992,7 +7084,7 @@ static inline uint64_t BDK_SMMUX_SMISS_PERF(unsigned long a)
  * the corresponding SMMU()_SMR()[VALID] bit, 2. disable the SMMU completely with
  * SMMU()_CB()_SCTLR[M].
  */
-typedef union
+union bdk_smmux_smrx
 {
     uint32_t u;
     struct bdk_smmux_smrx_s
@@ -7020,7 +7112,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_smrx_s cn; */
-} bdk_smmux_smrx_t;
+};
+typedef union bdk_smmux_smrx bdk_smmux_smrx_t;
 
 static inline uint64_t BDK_SMMUX_SMRX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_SMRX(unsigned long a, unsigned long b)
@@ -7046,7 +7139,7 @@ static inline uint64_t BDK_SMMUX_SMRX(unsigned long a, unsigned long b)
  *
  * SMMU Secure Page Table Reads Performance Counter Register
  */
-typedef union
+union bdk_smmux_sptread_perf
 {
     uint64_t u;
     struct bdk_smmux_sptread_perf_s
@@ -7058,7 +7151,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_sptread_perf_s cn; */
-} bdk_smmux_sptread_perf_t;
+};
+typedef union bdk_smmux_sptread_perf bdk_smmux_sptread_perf_t;
 
 static inline uint64_t BDK_SMMUX_SPTREAD_PERF(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_SPTREAD_PERF(unsigned long a)
@@ -7086,7 +7180,7 @@ static inline uint64_t BDK_SMMUX_SPTREAD_PERF(unsigned long a)
  * Internal:
  * INTERNAL: Address offset from SMM_GSSD_BASE.
  */
-typedef union
+union bdk_smmux_ssdrx
 {
     uint32_t u;
     struct bdk_smmux_ssdrx_s
@@ -7110,7 +7204,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_ssdrx_s cn; */
-} bdk_smmux_ssdrx_t;
+};
+typedef union bdk_smmux_ssdrx bdk_smmux_ssdrx_t;
 
 static inline uint64_t BDK_SMMUX_SSDRX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_SSDRX(unsigned long a, unsigned long b)
@@ -7138,7 +7233,7 @@ static inline uint64_t BDK_SMMUX_SSDRX(unsigned long a, unsigned long b)
  * Gives the status of a TLB maintenance operation. Register fields are identical to those in
  * SMMU()_(S)TLBGSTATUS.
  */
-typedef union
+union bdk_smmux_stlbgstatus
 {
     uint32_t u;
     struct bdk_smmux_stlbgstatus_s
@@ -7156,7 +7251,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_stlbgstatus_s cn; */
-} bdk_smmux_stlbgstatus_t;
+};
+typedef union bdk_smmux_stlbgstatus bdk_smmux_stlbgstatus_t;
 
 static inline uint64_t BDK_SMMUX_STLBGSTATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_STLBGSTATUS(unsigned long a)
@@ -7185,7 +7281,7 @@ static inline uint64_t BDK_SMMUX_STLBGSTATUS(unsigned long a)
  * accepted TLB invalidate operation. Register fields are identical to those in
  * SMMU()_(S)TLBGSYNC.
  */
-typedef union
+union bdk_smmux_stlbgsync
 {
     uint32_t u;
     struct bdk_smmux_stlbgsync_s
@@ -7197,7 +7293,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_stlbgsync_s cn; */
-} bdk_smmux_stlbgsync_t;
+};
+typedef union bdk_smmux_stlbgsync bdk_smmux_stlbgsync_t;
 
 static inline uint64_t BDK_SMMUX_STLBGSYNC(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_STLBGSYNC(unsigned long a)
@@ -7225,7 +7322,7 @@ static inline uint64_t BDK_SMMUX_STLBGSYNC(unsigned long a)
  * Invalidates all unlocked secure entries in the TLB. Register fields are identical to those in
  * SMMU()_TLBIALLH.
  */
-typedef union
+union bdk_smmux_stlbiall
 {
     uint32_t u;
     struct bdk_smmux_stlbiall_s
@@ -7237,7 +7334,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_stlbiall_s cn; */
-} bdk_smmux_stlbiall_t;
+};
+typedef union bdk_smmux_stlbiall bdk_smmux_stlbiall_t;
 
 static inline uint64_t BDK_SMMUX_STLBIALL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_STLBIALL(unsigned long a)
@@ -7265,7 +7363,7 @@ static inline uint64_t BDK_SMMUX_STLBIALL(unsigned long a)
  * Invalidate all unlocked secure monitor entries in the TLB. Register fields are identical to
  * those in SMMU()_TLBIALLH.
  */
-typedef union
+union bdk_smmux_stlbiallm
 {
     uint32_t u;
     struct bdk_smmux_stlbiallm_s
@@ -7277,7 +7375,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_stlbiallm_s cn; */
-} bdk_smmux_stlbiallm_t;
+};
+typedef union bdk_smmux_stlbiallm bdk_smmux_stlbiallm_t;
 
 static inline uint64_t BDK_SMMUX_STLBIALLM(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_STLBIALLM(unsigned long a)
@@ -7306,7 +7405,7 @@ static inline uint64_t BDK_SMMUX_STLBIALLM(unsigned long a)
  * need only apply to the caching of entries returned from the last level of translation table
  * walk. This 64-bit register supports the ARMv8 TLB invalidation operation address format.
  */
-typedef union
+union bdk_smmux_stlbivalm
 {
     uint64_t u;
     struct bdk_smmux_stlbivalm_s
@@ -7326,7 +7425,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_stlbivalm_s cn; */
-} bdk_smmux_stlbivalm_t;
+};
+typedef union bdk_smmux_stlbivalm bdk_smmux_stlbivalm_t;
 
 static inline uint64_t BDK_SMMUX_STLBIVALM(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_STLBIVALM(unsigned long a)
@@ -7356,7 +7456,7 @@ static inline uint64_t BDK_SMMUX_STLBIVALM(unsigned long a)
  * register supports the ARMv8 TLB invalidation operation address format. Register fields are
  * identical to those in SMMU()_TLBIVAH64.
  */
-typedef union
+union bdk_smmux_stlbivam
 {
     uint64_t u;
     struct bdk_smmux_stlbivam_s
@@ -7376,7 +7476,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_stlbivam_s cn; */
-} bdk_smmux_stlbivam_t;
+};
+typedef union bdk_smmux_stlbivam bdk_smmux_stlbivam_t;
 
 static inline uint64_t BDK_SMMUX_STLBIVAM(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_STLBIVAM(unsigned long a)
@@ -7402,7 +7503,7 @@ static inline uint64_t BDK_SMMUX_STLBIVAM(unsigned long a)
  *
  * SMMU Secure TLB Diagnostic Data Register
  */
-typedef union
+union bdk_smmux_tlbx_dat
 {
     uint64_t u;
     struct bdk_smmux_tlbx_dat_s
@@ -7414,7 +7515,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_tlbx_dat_s cn; */
-} bdk_smmux_tlbx_dat_t;
+};
+typedef union bdk_smmux_tlbx_dat bdk_smmux_tlbx_dat_t;
 
 static inline uint64_t BDK_SMMUX_TLBX_DAT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_TLBX_DAT(unsigned long a, unsigned long b)
@@ -7442,7 +7544,7 @@ static inline uint64_t BDK_SMMUX_TLBX_DAT(unsigned long a, unsigned long b)
  * Invalidate all hypervisor tagged entries in the TLB, regardless of the security state of each
  * entry. It can optionally apply to all unlocked entries.
  */
-typedef union
+union bdk_smmux_tlbiallh
 {
     uint32_t u;
     struct bdk_smmux_tlbiallh_s
@@ -7454,7 +7556,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_tlbiallh_s cn; */
-} bdk_smmux_tlbiallh_t;
+};
+typedef union bdk_smmux_tlbiallh bdk_smmux_tlbiallh_t;
 
 static inline uint64_t BDK_SMMUX_TLBIALLH(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_TLBIALLH(unsigned long a)
@@ -7482,7 +7585,7 @@ static inline uint64_t BDK_SMMUX_TLBIALLH(unsigned long a)
  * Invalidate all nonsecure, non-hypervisor tagged entries in the TLB. Register fields are
  * identical to those in SMMU()_TLBIALLH. It can optionally apply to all unlocked entries.
  */
-typedef union
+union bdk_smmux_tlbiallnsnh
 {
     uint32_t u;
     struct bdk_smmux_tlbiallnsnh_s
@@ -7494,7 +7597,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_tlbiallnsnh_s cn; */
-} bdk_smmux_tlbiallnsnh_t;
+};
+typedef union bdk_smmux_tlbiallnsnh bdk_smmux_tlbiallnsnh_t;
 
 static inline uint64_t BDK_SMMUX_TLBIALLNSNH(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_TLBIALLNSNH(unsigned long a)
@@ -7521,7 +7625,7 @@ static inline uint64_t BDK_SMMUX_TLBIALLNSNH(unsigned long a)
  * SMMU TLB Invalidate Hypervisor Legacy Register
  * Backward compatible version of SMMU()_TLBIVAH64.
  */
-typedef union
+union bdk_smmux_tlbivah
 {
     uint32_t u;
     struct bdk_smmux_tlbivah_s
@@ -7533,7 +7637,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_tlbivah_s cn; */
-} bdk_smmux_tlbivah_t;
+};
+typedef union bdk_smmux_tlbivah bdk_smmux_tlbivah_t;
 
 static inline uint64_t BDK_SMMUX_TLBIVAH(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_TLBIVAH(unsigned long a)
@@ -7561,7 +7666,7 @@ static inline uint64_t BDK_SMMUX_TLBIVAH(unsigned long a)
  * Invalidate all hypervisor tagged entries in the TLB, regardless of the security tagging
  * associated with the entry. It can optionally apply to all unlocked entries.
  */
-typedef union
+union bdk_smmux_tlbivah64
 {
     uint64_t u;
     struct bdk_smmux_tlbivah64_s
@@ -7581,7 +7686,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_tlbivah64_s cn; */
-} bdk_smmux_tlbivah64_t;
+};
+typedef union bdk_smmux_tlbivah64 bdk_smmux_tlbivah64_t;
 
 static inline uint64_t BDK_SMMUX_TLBIVAH64(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_TLBIVAH64(unsigned long a)
@@ -7611,7 +7717,7 @@ static inline uint64_t BDK_SMMUX_TLBIVAH64(unsigned long a)
  * translation table walk. This 64-bit register supports the ARMv8 TLB invalidation operation
  * address format.
  */
-typedef union
+union bdk_smmux_tlbivalh64
 {
     uint64_t u;
     struct bdk_smmux_tlbivalh64_s
@@ -7631,7 +7737,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_tlbivalh64_s cn; */
-} bdk_smmux_tlbivalh64_t;
+};
+typedef union bdk_smmux_tlbivalh64 bdk_smmux_tlbivalh64_t;
 
 static inline uint64_t BDK_SMMUX_TLBIVALH64(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_TLBIVALH64(unsigned long a)
@@ -7659,7 +7766,7 @@ static inline uint64_t BDK_SMMUX_TLBIVALH64(unsigned long a)
  * Invalidate all nonsecure, non-hypervisor TLB entries having the specified VMID. It can
  * optionally apply to all entries.
  */
-typedef union
+union bdk_smmux_tlbivmid
 {
     uint32_t u;
     struct bdk_smmux_tlbivmid_s
@@ -7679,7 +7786,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_tlbivmid_s cn; */
-} bdk_smmux_tlbivmid_t;
+};
+typedef union bdk_smmux_tlbivmid bdk_smmux_tlbivmid_t;
 
 static inline uint64_t BDK_SMMUX_TLBIVMID(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_TLBIVMID(unsigned long a)
@@ -7709,7 +7817,7 @@ static inline uint64_t BDK_SMMUX_TLBIVMID(unsigned long a)
  * tagged with a valid matching VMID. It operates exactly as SMMU()_TLBIVMID, except it only
  * applies to caching of entries containing information from the first stage of translation.
  */
-typedef union
+union bdk_smmux_tlbivmids1
 {
     uint32_t u;
     struct bdk_smmux_tlbivmids1_s
@@ -7729,7 +7837,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_tlbivmids1_s cn; */
-} bdk_smmux_tlbivmids1_t;
+};
+typedef union bdk_smmux_tlbivmids1 bdk_smmux_tlbivmids1_t;
 
 static inline uint64_t BDK_SMMUX_TLBIVMIDS1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_TLBIVMIDS1(unsigned long a)
@@ -7755,7 +7864,7 @@ static inline uint64_t BDK_SMMUX_TLBIVMIDS1(unsigned long a)
  *
  * SMMU Secure Walker Cache Diagnostic Data Register
  */
-typedef union
+union bdk_smmux_wcux_dat
 {
     uint64_t u;
     struct bdk_smmux_wcux_dat_s
@@ -7767,7 +7876,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_wcux_dat_s cn; */
-} bdk_smmux_wcux_dat_t;
+};
+typedef union bdk_smmux_wcux_dat bdk_smmux_wcux_dat_t;
 
 static inline uint64_t BDK_SMMUX_WCUX_DAT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_WCUX_DAT(unsigned long a, unsigned long b)

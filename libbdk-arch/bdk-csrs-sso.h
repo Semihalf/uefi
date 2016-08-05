@@ -140,7 +140,7 @@
  *
  * SSO PF Active Cycles Register
  */
-typedef union
+union bdk_sso_active_cycles0
 {
     uint64_t u;
     struct bdk_sso_active_cycles0_s
@@ -152,7 +152,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_active_cycles0_s cn; */
-} bdk_sso_active_cycles0_t;
+};
+typedef union bdk_sso_active_cycles0 bdk_sso_active_cycles0_t;
 
 #define BDK_SSO_ACTIVE_CYCLES0 BDK_SSO_ACTIVE_CYCLES0_FUNC()
 static inline uint64_t BDK_SSO_ACTIVE_CYCLES0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -175,7 +176,7 @@ static inline uint64_t BDK_SSO_ACTIVE_CYCLES0_FUNC(void)
  *
  * SSO PF Active Cycles Register
  */
-typedef union
+union bdk_sso_active_cycles1
 {
     uint64_t u;
     struct bdk_sso_active_cycles1_s
@@ -187,7 +188,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_active_cycles1_s cn; */
-} bdk_sso_active_cycles1_t;
+};
+typedef union bdk_sso_active_cycles1 bdk_sso_active_cycles1_t;
 
 #define BDK_SSO_ACTIVE_CYCLES1 BDK_SSO_ACTIVE_CYCLES1_FUNC()
 static inline uint64_t BDK_SSO_ACTIVE_CYCLES1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -210,7 +212,7 @@ static inline uint64_t BDK_SSO_ACTIVE_CYCLES1_FUNC(void)
  *
  * SSO PF Active Cycles Register
  */
-typedef union
+union bdk_sso_active_cycles2
 {
     uint64_t u;
     struct bdk_sso_active_cycles2_s
@@ -222,7 +224,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_active_cycles2_s cn; */
-} bdk_sso_active_cycles2_t;
+};
+typedef union bdk_sso_active_cycles2 bdk_sso_active_cycles2_t;
 
 #define BDK_SSO_ACTIVE_CYCLES2 BDK_SSO_ACTIVE_CYCLES2_FUNC()
 static inline uint64_t BDK_SSO_ACTIVE_CYCLES2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -245,7 +248,7 @@ static inline uint64_t BDK_SSO_ACTIVE_CYCLES2_FUNC(void)
  *
  * SSO PF Work-Entries Add Register
  */
-typedef union
+union bdk_sso_aw_add
 {
     uint64_t u;
     struct bdk_sso_aw_add_s
@@ -263,7 +266,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_aw_add_s cn; */
-} bdk_sso_aw_add_t;
+};
+typedef union bdk_sso_aw_add bdk_sso_aw_add_t;
 
 #define BDK_SSO_AW_ADD BDK_SSO_AW_ADD_FUNC()
 static inline uint64_t BDK_SSO_AW_ADD_FUNC(void) __attribute__ ((pure, always_inline));
@@ -287,7 +291,7 @@ static inline uint64_t BDK_SSO_AW_ADD_FUNC(void)
  * SSO PF Add-Work Configuration Register
  * This register controls the operation of the add-work block (AW).
  */
-typedef union
+union bdk_sso_aw_cfg
 {
     uint64_t u;
     struct bdk_sso_aw_cfg_s
@@ -327,7 +331,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_aw_cfg_s cn; */
-} bdk_sso_aw_cfg_t;
+};
+typedef union bdk_sso_aw_cfg bdk_sso_aw_cfg_t;
 
 #define BDK_SSO_AW_CFG BDK_SSO_AW_CFG_FUNC()
 static inline uint64_t BDK_SSO_AW_CFG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -350,7 +355,7 @@ static inline uint64_t BDK_SSO_AW_CFG_FUNC(void)
  *
  * INTERNAL: SSO PF AW ECO Register
  */
-typedef union
+union bdk_sso_aw_eco
 {
     uint64_t u;
     struct bdk_sso_aw_eco_s
@@ -366,7 +371,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_aw_eco_s cn; */
-} bdk_sso_aw_eco_t;
+};
+typedef union bdk_sso_aw_eco bdk_sso_aw_eco_t;
 
 #define BDK_SSO_AW_ECO BDK_SSO_AW_ECO_FUNC()
 static inline uint64_t BDK_SSO_AW_ECO_FUNC(void) __attribute__ ((pure, always_inline));
@@ -389,7 +395,7 @@ static inline uint64_t BDK_SSO_AW_ECO_FUNC(void)
  *
  * SSO PF Add-Work Input Control Register
  */
-typedef union
+union bdk_sso_aw_inp_ctl
 {
     uint64_t u;
     struct bdk_sso_aw_inp_ctl_s
@@ -407,7 +413,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_aw_inp_ctl_s cn; */
-} bdk_sso_aw_inp_ctl_t;
+};
+typedef union bdk_sso_aw_inp_ctl bdk_sso_aw_inp_ctl_t;
 
 #define BDK_SSO_AW_INP_CTL BDK_SSO_AW_INP_CTL_FUNC()
 static inline uint64_t BDK_SSO_AW_INP_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -431,7 +438,7 @@ static inline uint64_t BDK_SSO_AW_INP_CTL_FUNC(void)
  * SSO PF Read Arbitration Register
  * This register fine tunes the AW read arbiter and is for diagnostic use.
  */
-typedef union
+union bdk_sso_aw_read_arb
 {
     uint64_t u;
     struct bdk_sso_aw_read_arb_s
@@ -459,7 +466,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_aw_read_arb_s cn; */
-} bdk_sso_aw_read_arb_t;
+};
+typedef union bdk_sso_aw_read_arb bdk_sso_aw_read_arb_t;
 
 #define BDK_SSO_AW_READ_ARB BDK_SSO_AW_READ_ARB_FUNC()
 static inline uint64_t BDK_SSO_AW_READ_ARB_FUNC(void) __attribute__ ((pure, always_inline));
@@ -483,7 +491,7 @@ static inline uint64_t BDK_SSO_AW_READ_ARB_FUNC(void)
  * SSO PF Add-Work Status Register
  * This register indicates the status of the add-work block (AW).
  */
-typedef union
+union bdk_sso_aw_status
 {
     uint64_t u;
     struct bdk_sso_aw_status_s
@@ -497,7 +505,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_aw_status_s cn; */
-} bdk_sso_aw_status_t;
+};
+typedef union bdk_sso_aw_status bdk_sso_aw_status_t;
 
 #define BDK_SSO_AW_STATUS BDK_SSO_AW_STATUS_FUNC()
 static inline uint64_t BDK_SSO_AW_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
@@ -520,7 +529,7 @@ static inline uint64_t BDK_SSO_AW_STATUS_FUNC(void)
  *
  * SSO PF Short Form Tag Requests Perf-Count Register
  */
-typedef union
+union bdk_sso_aw_tag_latency_pc
 {
     uint64_t u;
     struct bdk_sso_aw_tag_latency_pc_s
@@ -534,7 +543,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_aw_tag_latency_pc_s cn; */
-} bdk_sso_aw_tag_latency_pc_t;
+};
+typedef union bdk_sso_aw_tag_latency_pc bdk_sso_aw_tag_latency_pc_t;
 
 #define BDK_SSO_AW_TAG_LATENCY_PC BDK_SSO_AW_TAG_LATENCY_PC_FUNC()
 static inline uint64_t BDK_SSO_AW_TAG_LATENCY_PC_FUNC(void) __attribute__ ((pure, always_inline));
@@ -557,7 +567,7 @@ static inline uint64_t BDK_SSO_AW_TAG_LATENCY_PC_FUNC(void)
  *
  * SSO PF Short Form Tag Latency Perf-Count Register
  */
-typedef union
+union bdk_sso_aw_tag_req_pc
 {
     uint64_t u;
     struct bdk_sso_aw_tag_req_pc_s
@@ -569,7 +579,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_aw_tag_req_pc_s cn; */
-} bdk_sso_aw_tag_req_pc_t;
+};
+typedef union bdk_sso_aw_tag_req_pc bdk_sso_aw_tag_req_pc_t;
 
 #define BDK_SSO_AW_TAG_REQ_PC BDK_SSO_AW_TAG_REQ_PC_FUNC()
 static inline uint64_t BDK_SSO_AW_TAG_REQ_PC_FUNC(void) __attribute__ ((pure, always_inline));
@@ -592,7 +603,7 @@ static inline uint64_t BDK_SSO_AW_TAG_REQ_PC_FUNC(void)
  *
  * SSO PF Work-Entries Count Register
  */
-typedef union
+union bdk_sso_aw_we
 {
     uint64_t u;
     struct bdk_sso_aw_we_s
@@ -620,7 +631,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_aw_we_s cn; */
-} bdk_sso_aw_we_t;
+};
+typedef union bdk_sso_aw_we bdk_sso_aw_we_t;
 
 #define BDK_SSO_AW_WE BDK_SSO_AW_WE_FUNC()
 static inline uint64_t BDK_SSO_AW_WE_FUNC(void) __attribute__ ((pure, always_inline));
@@ -644,7 +656,7 @@ static inline uint64_t BDK_SSO_AW_WE_FUNC(void)
  * SSO PF BIST Status Register
  * Contains the BIST status for the SSO memories.
  */
-typedef union
+union bdk_sso_bist_status0
 {
     uint64_t u;
     struct bdk_sso_bist_status0_s
@@ -690,7 +702,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_bist_status0_s cn; */
-} bdk_sso_bist_status0_t;
+};
+typedef union bdk_sso_bist_status0 bdk_sso_bist_status0_t;
 
 #define BDK_SSO_BIST_STATUS0 BDK_SSO_BIST_STATUS0_FUNC()
 static inline uint64_t BDK_SSO_BIST_STATUS0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -714,7 +727,7 @@ static inline uint64_t BDK_SSO_BIST_STATUS0_FUNC(void)
  * SSO PF BIST Status 1 Register
  * Contains the BIST status for the SSO memories.
  */
-typedef union
+union bdk_sso_bist_status1
 {
     uint64_t u;
     struct bdk_sso_bist_status1_s
@@ -752,7 +765,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_bist_status1_s cn; */
-} bdk_sso_bist_status1_t;
+};
+typedef union bdk_sso_bist_status1 bdk_sso_bist_status1_t;
 
 #define BDK_SSO_BIST_STATUS1 BDK_SSO_BIST_STATUS1_FUNC()
 static inline uint64_t BDK_SSO_BIST_STATUS1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -776,7 +790,7 @@ static inline uint64_t BDK_SSO_BIST_STATUS1_FUNC(void)
  * SSO PF BIST Status 2 Register
  * Contains the BIST status for the SSO memories.
  */
-typedef union
+union bdk_sso_bist_status2
 {
     uint64_t u;
     struct bdk_sso_bist_status2_s
@@ -822,7 +836,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_bist_status2_s cn; */
-} bdk_sso_bist_status2_t;
+};
+typedef union bdk_sso_bist_status2 bdk_sso_bist_status2_t;
 
 #define BDK_SSO_BIST_STATUS2 BDK_SSO_BIST_STATUS2_FUNC()
 static inline uint64_t BDK_SSO_BIST_STATUS2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -845,7 +860,7 @@ static inline uint64_t BDK_SSO_BIST_STATUS2_FUNC(void)
  *
  * INTERNAL: SSO PF Backpressure Test Register 0
  */
-typedef union
+union bdk_sso_bp_test0
 {
     uint64_t u;
     struct bdk_sso_bp_test0_s
@@ -895,7 +910,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_bp_test0_s cn; */
-} bdk_sso_bp_test0_t;
+};
+typedef union bdk_sso_bp_test0 bdk_sso_bp_test0_t;
 
 #define BDK_SSO_BP_TEST0 BDK_SSO_BP_TEST0_FUNC()
 static inline uint64_t BDK_SSO_BP_TEST0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -918,7 +934,7 @@ static inline uint64_t BDK_SSO_BP_TEST0_FUNC(void)
  *
  * INTERNAL: SSO PF Backpressure Test Register 1
  */
-typedef union
+union bdk_sso_bp_test1
 {
     uint64_t u;
     struct bdk_sso_bp_test1_s
@@ -968,7 +984,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_bp_test1_s cn; */
-} bdk_sso_bp_test1_t;
+};
+typedef union bdk_sso_bp_test1 bdk_sso_bp_test1_t;
 
 #define BDK_SSO_BP_TEST1 BDK_SSO_BP_TEST1_FUNC()
 static inline uint64_t BDK_SSO_BP_TEST1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -991,7 +1008,7 @@ static inline uint64_t BDK_SSO_BP_TEST1_FUNC(void)
  *
  * INTERNAL: SSO PF Backpressure Test Register 2
  */
-typedef union
+union bdk_sso_bp_test2
 {
     uint64_t u;
     struct bdk_sso_bp_test2_s
@@ -1041,7 +1058,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_bp_test2_s cn; */
-} bdk_sso_bp_test2_t;
+};
+typedef union bdk_sso_bp_test2 bdk_sso_bp_test2_t;
 
 #define BDK_SSO_BP_TEST2 BDK_SSO_BP_TEST2_FUNC()
 static inline uint64_t BDK_SSO_BP_TEST2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1065,7 +1083,7 @@ static inline uint64_t BDK_SSO_BP_TEST2_FUNC(void)
  * SSO PF Constants Register
  * This register contains constants for software discovery.
  */
-typedef union
+union bdk_sso_const
 {
     uint64_t u;
     struct bdk_sso_const_s
@@ -1085,7 +1103,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_const_s cn; */
-} bdk_sso_const_t;
+};
+typedef union bdk_sso_const bdk_sso_const_t;
 
 #define BDK_SSO_CONST BDK_SSO_CONST_FUNC()
 static inline uint64_t BDK_SSO_CONST_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1109,7 +1128,7 @@ static inline uint64_t BDK_SSO_CONST_FUNC(void)
  * SSO PF Constants Register 1
  * This register contains constants for software discovery.
  */
-typedef union
+union bdk_sso_const1
 {
     uint64_t u;
     struct bdk_sso_const1_s
@@ -1127,7 +1146,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_const1_s cn; */
-} bdk_sso_const1_t;
+};
+typedef union bdk_sso_const1 bdk_sso_const1_t;
 
 #define BDK_SSO_CONST1 BDK_SSO_CONST1_FUNC()
 static inline uint64_t BDK_SSO_CONST1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1150,7 +1170,7 @@ static inline uint64_t BDK_SSO_CONST1_FUNC(void)
  *
  * SSO PF ECC Control 0 Register
  */
-typedef union
+union bdk_sso_ecc_ctl0
 {
     uint64_t u;
     struct bdk_sso_ecc_ctl0_s
@@ -1212,7 +1232,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_ecc_ctl0_s cn; */
-} bdk_sso_ecc_ctl0_t;
+};
+typedef union bdk_sso_ecc_ctl0 bdk_sso_ecc_ctl0_t;
 
 #define BDK_SSO_ECC_CTL0 BDK_SSO_ECC_CTL0_FUNC()
 static inline uint64_t BDK_SSO_ECC_CTL0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1235,7 +1256,7 @@ static inline uint64_t BDK_SSO_ECC_CTL0_FUNC(void)
  *
  * SSO PF ECC Control 1 Register
  */
-typedef union
+union bdk_sso_ecc_ctl1
 {
     uint64_t u;
     struct bdk_sso_ecc_ctl1_s
@@ -1281,7 +1302,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_ecc_ctl1_s cn; */
-} bdk_sso_ecc_ctl1_t;
+};
+typedef union bdk_sso_ecc_ctl1 bdk_sso_ecc_ctl1_t;
 
 #define BDK_SSO_ECC_CTL1 BDK_SSO_ECC_CTL1_FUNC()
 static inline uint64_t BDK_SSO_ECC_CTL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1304,7 +1326,7 @@ static inline uint64_t BDK_SSO_ECC_CTL1_FUNC(void)
  *
  * SSO PF ECC Control 2 Register
  */
-typedef union
+union bdk_sso_ecc_ctl2
 {
     uint64_t u;
     struct bdk_sso_ecc_ctl2_s
@@ -1350,7 +1372,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_ecc_ctl2_s cn; */
-} bdk_sso_ecc_ctl2_t;
+};
+typedef union bdk_sso_ecc_ctl2 bdk_sso_ecc_ctl2_t;
 
 #define BDK_SSO_ECC_CTL2 BDK_SSO_ECC_CTL2_FUNC()
 static inline uint64_t BDK_SSO_ECC_CTL2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1374,7 +1397,7 @@ static inline uint64_t BDK_SSO_ECC_CTL2_FUNC(void)
  * SSO PF Error 0 Register
  * This register contains ECC and other miscellaneous error bits.
  */
-typedef union
+union bdk_sso_err0
 {
     uint64_t u;
     struct bdk_sso_err0_s
@@ -1494,7 +1517,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_err0_s cn; */
-} bdk_sso_err0_t;
+};
+typedef union bdk_sso_err0 bdk_sso_err0_t;
 
 #define BDK_SSO_ERR0 BDK_SSO_ERR0_FUNC()
 static inline uint64_t BDK_SSO_ERR0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1518,7 +1542,7 @@ static inline uint64_t BDK_SSO_ERR0_FUNC(void)
  * SSO PF Error 0 Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_sso_err0_ena_w1c
 {
     uint64_t u;
     struct bdk_sso_err0_ena_w1c_s
@@ -1604,7 +1628,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_err0_ena_w1c_s cn; */
-} bdk_sso_err0_ena_w1c_t;
+};
+typedef union bdk_sso_err0_ena_w1c bdk_sso_err0_ena_w1c_t;
 
 #define BDK_SSO_ERR0_ENA_W1C BDK_SSO_ERR0_ENA_W1C_FUNC()
 static inline uint64_t BDK_SSO_ERR0_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1628,7 +1653,7 @@ static inline uint64_t BDK_SSO_ERR0_ENA_W1C_FUNC(void)
  * SSO PF Error 0 Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_sso_err0_ena_w1s
 {
     uint64_t u;
     struct bdk_sso_err0_ena_w1s_s
@@ -1714,7 +1739,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_err0_ena_w1s_s cn; */
-} bdk_sso_err0_ena_w1s_t;
+};
+typedef union bdk_sso_err0_ena_w1s bdk_sso_err0_ena_w1s_t;
 
 #define BDK_SSO_ERR0_ENA_W1S BDK_SSO_ERR0_ENA_W1S_FUNC()
 static inline uint64_t BDK_SSO_ERR0_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1738,7 +1764,7 @@ static inline uint64_t BDK_SSO_ERR0_ENA_W1S_FUNC(void)
  * SSO PF Error 0 Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_sso_err0_w1s
 {
     uint64_t u;
     struct bdk_sso_err0_w1s_s
@@ -1824,7 +1850,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_err0_w1s_s cn; */
-} bdk_sso_err0_w1s_t;
+};
+typedef union bdk_sso_err0_w1s bdk_sso_err0_w1s_t;
 
 #define BDK_SSO_ERR0_W1S BDK_SSO_ERR0_W1S_FUNC()
 static inline uint64_t BDK_SSO_ERR0_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1848,7 +1875,7 @@ static inline uint64_t BDK_SSO_ERR0_W1S_FUNC(void)
  * SSO PF Error 1 Register
  * This register contains ECC and other miscellaneous error bits.
  */
-typedef union
+union bdk_sso_err1
 {
     uint64_t u;
     struct bdk_sso_err1_s
@@ -1892,7 +1919,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_err1_s cn; */
-} bdk_sso_err1_t;
+};
+typedef union bdk_sso_err1 bdk_sso_err1_t;
 
 #define BDK_SSO_ERR1 BDK_SSO_ERR1_FUNC()
 static inline uint64_t BDK_SSO_ERR1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1916,7 +1944,7 @@ static inline uint64_t BDK_SSO_ERR1_FUNC(void)
  * SSO PF Error 1 Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_sso_err1_ena_w1c
 {
     uint64_t u;
     struct bdk_sso_err1_ena_w1c_s
@@ -1960,7 +1988,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_err1_ena_w1c_s cn; */
-} bdk_sso_err1_ena_w1c_t;
+};
+typedef union bdk_sso_err1_ena_w1c bdk_sso_err1_ena_w1c_t;
 
 #define BDK_SSO_ERR1_ENA_W1C BDK_SSO_ERR1_ENA_W1C_FUNC()
 static inline uint64_t BDK_SSO_ERR1_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1984,7 +2013,7 @@ static inline uint64_t BDK_SSO_ERR1_ENA_W1C_FUNC(void)
  * SSO PF Error 1 Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_sso_err1_ena_w1s
 {
     uint64_t u;
     struct bdk_sso_err1_ena_w1s_s
@@ -2028,7 +2057,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_err1_ena_w1s_s cn; */
-} bdk_sso_err1_ena_w1s_t;
+};
+typedef union bdk_sso_err1_ena_w1s bdk_sso_err1_ena_w1s_t;
 
 #define BDK_SSO_ERR1_ENA_W1S BDK_SSO_ERR1_ENA_W1S_FUNC()
 static inline uint64_t BDK_SSO_ERR1_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2052,7 +2082,7 @@ static inline uint64_t BDK_SSO_ERR1_ENA_W1S_FUNC(void)
  * SSO PF Error 1 Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_sso_err1_w1s
 {
     uint64_t u;
     struct bdk_sso_err1_w1s_s
@@ -2096,7 +2126,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_err1_w1s_s cn; */
-} bdk_sso_err1_w1s_t;
+};
+typedef union bdk_sso_err1_w1s bdk_sso_err1_w1s_t;
 
 #define BDK_SSO_ERR1_W1S BDK_SSO_ERR1_W1S_FUNC()
 static inline uint64_t BDK_SSO_ERR1_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2120,7 +2151,7 @@ static inline uint64_t BDK_SSO_ERR1_W1S_FUNC(void)
  * SSO PF Error 2 Register
  * This register contains ECC and other miscellaneous error bits.
  */
-typedef union
+union bdk_sso_err2
 {
     uint64_t u;
     struct bdk_sso_err2_s
@@ -2228,7 +2259,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_err2_s cn; */
-} bdk_sso_err2_t;
+};
+typedef union bdk_sso_err2 bdk_sso_err2_t;
 
 #define BDK_SSO_ERR2 BDK_SSO_ERR2_FUNC()
 static inline uint64_t BDK_SSO_ERR2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2252,7 +2284,7 @@ static inline uint64_t BDK_SSO_ERR2_FUNC(void)
  * SSO PF Error 2 Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_sso_err2_ena_w1c
 {
     uint64_t u;
     struct bdk_sso_err2_ena_w1c_s
@@ -2308,7 +2340,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_err2_ena_w1c_s cn; */
-} bdk_sso_err2_ena_w1c_t;
+};
+typedef union bdk_sso_err2_ena_w1c bdk_sso_err2_ena_w1c_t;
 
 #define BDK_SSO_ERR2_ENA_W1C BDK_SSO_ERR2_ENA_W1C_FUNC()
 static inline uint64_t BDK_SSO_ERR2_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2332,7 +2365,7 @@ static inline uint64_t BDK_SSO_ERR2_ENA_W1C_FUNC(void)
  * SSO PF Error 2 Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_sso_err2_ena_w1s
 {
     uint64_t u;
     struct bdk_sso_err2_ena_w1s_s
@@ -2388,7 +2421,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_err2_ena_w1s_s cn; */
-} bdk_sso_err2_ena_w1s_t;
+};
+typedef union bdk_sso_err2_ena_w1s bdk_sso_err2_ena_w1s_t;
 
 #define BDK_SSO_ERR2_ENA_W1S BDK_SSO_ERR2_ENA_W1S_FUNC()
 static inline uint64_t BDK_SSO_ERR2_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2412,7 +2446,7 @@ static inline uint64_t BDK_SSO_ERR2_ENA_W1S_FUNC(void)
  * SSO PF Error 2 Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_sso_err2_w1s
 {
     uint64_t u;
     struct bdk_sso_err2_w1s_s
@@ -2468,7 +2502,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_err2_w1s_s cn; */
-} bdk_sso_err2_w1s_t;
+};
+typedef union bdk_sso_err2_w1s bdk_sso_err2_w1s_t;
 
 #define BDK_SSO_ERR2_W1S BDK_SSO_ERR2_W1S_FUNC()
 static inline uint64_t BDK_SSO_ERR2_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2493,7 +2528,7 @@ static inline uint64_t BDK_SSO_ERR2_W1S_FUNC(void)
  * Counts the number of deschedule requests for each hardware-group. Counter rolls over
  * through zero when max value exceeded.
  */
-typedef union
+union bdk_sso_grpx_ds_pc
 {
     uint64_t u;
     struct bdk_sso_grpx_ds_pc_s
@@ -2507,7 +2542,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_grpx_ds_pc_s cn; */
-} bdk_sso_grpx_ds_pc_t;
+};
+typedef union bdk_sso_grpx_ds_pc bdk_sso_grpx_ds_pc_t;
 
 static inline uint64_t BDK_SSO_GRPX_DS_PC(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_GRPX_DS_PC(unsigned long a)
@@ -2531,7 +2567,7 @@ static inline uint64_t BDK_SSO_GRPX_DS_PC(unsigned long a)
  * Counts the number of cache lines of WAEs sent to L2/DDR. Counter rolls over through zero when
  * max value exceeded.
  */
-typedef union
+union bdk_sso_grpx_ext_pc
 {
     uint64_t u;
     struct bdk_sso_grpx_ext_pc_s
@@ -2547,7 +2583,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_grpx_ext_pc_s cn; */
-} bdk_sso_grpx_ext_pc_t;
+};
+typedef union bdk_sso_grpx_ext_pc bdk_sso_grpx_ext_pc_t;
 
 static inline uint64_t BDK_SSO_GRPX_EXT_PC(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_GRPX_EXT_PC(unsigned long a)
@@ -2570,7 +2607,7 @@ static inline uint64_t BDK_SSO_GRPX_EXT_PC(unsigned long a)
  * SSO PF Hardware-Group In-unit Admission Queue Threshold Registers
  * These registers contain the thresholds for allocating SSO in-unit admission queue entries.
  */
-typedef union
+union bdk_sso_grpx_iaq_thr
 {
     uint64_t u;
     struct bdk_sso_grpx_iaq_thr_s
@@ -2614,7 +2651,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_grpx_iaq_thr_s cn; */
-} bdk_sso_grpx_iaq_thr_t;
+};
+typedef union bdk_sso_grpx_iaq_thr bdk_sso_grpx_iaq_thr_t;
 
 static inline uint64_t BDK_SSO_GRPX_IAQ_THR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_GRPX_IAQ_THR(unsigned long a)
@@ -2637,7 +2675,7 @@ static inline uint64_t BDK_SSO_GRPX_IAQ_THR(unsigned long a)
  * SSO PF Hardware-Group Priority Register
  * Controls the priority and hardware-group affinity arbitration for each hardware-group.
  */
-typedef union
+union bdk_sso_grpx_pri
 {
     uint64_t u;
     struct bdk_sso_grpx_pri_s
@@ -2681,7 +2719,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_grpx_pri_s cn; */
-} bdk_sso_grpx_pri_t;
+};
+typedef union bdk_sso_grpx_pri bdk_sso_grpx_pri_t;
 
 static inline uint64_t BDK_SSO_GRPX_PRI(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_GRPX_PRI(unsigned long a)
@@ -2705,7 +2744,7 @@ static inline uint64_t BDK_SSO_GRPX_PRI(unsigned long a)
  * These registers contain the thresholds for allocating SSO transitory admission queue storage
  * buffers, indexed by hardware-group.
  */
-typedef union
+union bdk_sso_grpx_taq_thr
 {
     uint64_t u;
     struct bdk_sso_grpx_taq_thr_s
@@ -2743,7 +2782,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_grpx_taq_thr_s cn; */
-} bdk_sso_grpx_taq_thr_t;
+};
+typedef union bdk_sso_grpx_taq_thr bdk_sso_grpx_taq_thr_t;
 
 static inline uint64_t BDK_SSO_GRPX_TAQ_THR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_GRPX_TAQ_THR(unsigned long a)
@@ -2767,7 +2807,7 @@ static inline uint64_t BDK_SSO_GRPX_TAQ_THR(unsigned long a)
  * Counts the number of tag switch requests for each hardware-group being switched
  * to. Counter rolls over through zero when max value exceeded.
  */
-typedef union
+union bdk_sso_grpx_ts_pc
 {
     uint64_t u;
     struct bdk_sso_grpx_ts_pc_s
@@ -2781,7 +2821,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_grpx_ts_pc_s cn; */
-} bdk_sso_grpx_ts_pc_t;
+};
+typedef union bdk_sso_grpx_ts_pc bdk_sso_grpx_ts_pc_t;
 
 static inline uint64_t BDK_SSO_GRPX_TS_PC(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_GRPX_TS_PC(unsigned long a)
@@ -2805,7 +2846,7 @@ static inline uint64_t BDK_SSO_GRPX_TS_PC(unsigned long a)
  * Counts the number of add new work requests for each hardware-group. The counter
  * rolls over through zero when the max value exceeded.
  */
-typedef union
+union bdk_sso_grpx_wa_pc
 {
     uint64_t u;
     struct bdk_sso_grpx_wa_pc_s
@@ -2821,7 +2862,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_grpx_wa_pc_s cn; */
-} bdk_sso_grpx_wa_pc_t;
+};
+typedef union bdk_sso_grpx_wa_pc bdk_sso_grpx_wa_pc_t;
 
 static inline uint64_t BDK_SSO_GRPX_WA_PC(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_GRPX_WA_PC(unsigned long a)
@@ -2845,7 +2887,7 @@ static inline uint64_t BDK_SSO_GRPX_WA_PC(unsigned long a)
  * Counts the number of work schedules for each hardware-group. The counter rolls over
  * through zero when the maximum value is exceeded.
  */
-typedef union
+union bdk_sso_grpx_ws_pc
 {
     uint64_t u;
     struct bdk_sso_grpx_ws_pc_s
@@ -2861,7 +2903,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_grpx_ws_pc_s cn; */
-} bdk_sso_grpx_ws_pc_t;
+};
+typedef union bdk_sso_grpx_ws_pc bdk_sso_grpx_ws_pc_t;
 
 static inline uint64_t BDK_SSO_GRPX_WS_PC(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_GRPX_WS_PC(unsigned long a)
@@ -2883,7 +2926,7 @@ static inline uint64_t BDK_SSO_GRPX_WS_PC(unsigned long a)
  *
  * SSO PF Hardware-Group External Admission Queue Limit Registers
  */
-typedef union
+union bdk_sso_grpx_xaq_limit
 {
     uint64_t u;
     struct bdk_sso_grpx_xaq_limit_s
@@ -2905,7 +2948,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_grpx_xaq_limit_s cn; */
-} bdk_sso_grpx_xaq_limit_t;
+};
+typedef union bdk_sso_grpx_xaq_limit bdk_sso_grpx_xaq_limit_t;
 
 static inline uint64_t BDK_SSO_GRPX_XAQ_LIMIT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_GRPX_XAQ_LIMIT(unsigned long a)
@@ -2927,7 +2971,7 @@ static inline uint64_t BDK_SSO_GRPX_XAQ_LIMIT(unsigned long a)
  *
  * INTERNAL: SSO PF GW ECO Register
  */
-typedef union
+union bdk_sso_gw_eco
 {
     uint64_t u;
     struct bdk_sso_gw_eco_s
@@ -2943,7 +2987,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_gw_eco_s cn; */
-} bdk_sso_gw_eco_t;
+};
+typedef union bdk_sso_gw_eco bdk_sso_gw_eco_t;
 
 #define BDK_SSO_GW_ECO BDK_SSO_GW_ECO_FUNC()
 static inline uint64_t BDK_SSO_GW_ECO_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2967,7 +3012,7 @@ static inline uint64_t BDK_SSO_GW_ECO_FUNC(void)
  * SSO PF Get-Work Examiner Configuration Register
  * This register controls the operation of the get-work examiner (GWE).
  */
-typedef union
+union bdk_sso_gwe_cfg
 {
     uint64_t u;
     struct bdk_sso_gwe_cfg_s
@@ -2985,7 +3030,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_gwe_cfg_s cn; */
-} bdk_sso_gwe_cfg_t;
+};
+typedef union bdk_sso_gwe_cfg bdk_sso_gwe_cfg_t;
 
 #define BDK_SSO_GWE_CFG BDK_SSO_GWE_CFG_FUNC()
 static inline uint64_t BDK_SSO_GWE_CFG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3009,7 +3055,7 @@ static inline uint64_t BDK_SSO_GWE_CFG_FUNC(void)
  * SSO PF Get-Work Examiner Random Register
  * This register contains the random search start position for the get-work examiner (GWE).
  */
-typedef union
+union bdk_sso_gwe_random
 {
     uint64_t u;
     struct bdk_sso_gwe_random_s
@@ -3059,7 +3105,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_gwe_random_s cn; */
-} bdk_sso_gwe_random_t;
+};
+typedef union bdk_sso_gwe_random bdk_sso_gwe_random_t;
 
 #define BDK_SSO_GWE_RANDOM BDK_SSO_GWE_RANDOM_FUNC()
 static inline uint64_t BDK_SSO_GWE_RANDOM_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3083,7 +3130,7 @@ static inline uint64_t BDK_SSO_GWE_RANDOM_FUNC(void)
  * SSO PF HWS Arbitration State Register
  * For diagnostic use, returns the arbitration state for each HWS.
  */
-typedef union
+union bdk_sso_hwsx_arb
 {
     uint64_t u;
     struct bdk_sso_hwsx_arb_s
@@ -3101,7 +3148,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_hwsx_arb_s cn; */
-} bdk_sso_hwsx_arb_t;
+};
+typedef union bdk_sso_hwsx_arb bdk_sso_hwsx_arb_t;
 
 static inline uint64_t BDK_SSO_HWSX_ARB(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_HWSX_ARB(unsigned long a)
@@ -3123,7 +3171,7 @@ static inline uint64_t BDK_SSO_HWSX_ARB(unsigned long a)
  *
  * SSO PF HWS Guest Machine Control Register
  */
-typedef union
+union bdk_sso_hwsx_gmctl
 {
     uint64_t u;
     struct bdk_sso_hwsx_gmctl_s
@@ -3195,7 +3243,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_hwsx_gmctl_s cn; */
-} bdk_sso_hwsx_gmctl_t;
+};
+typedef union bdk_sso_hwsx_gmctl bdk_sso_hwsx_gmctl_t;
 
 static inline uint64_t BDK_SSO_HWSX_GMCTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_HWSX_GMCTL(unsigned long a)
@@ -3222,7 +3271,7 @@ static inline uint64_t BDK_SSO_HWSX_GMCTL(unsigned long a)
  * Note bit-fields are indexed by hardware-group, not the guest-group; therefore this
  * register should not be exposed as-is to guest drivers.
  */
-typedef union
+union bdk_sso_hwsx_sx_grpmskx
 {
     uint64_t u;
     struct bdk_sso_hwsx_sx_grpmskx_s
@@ -3262,7 +3311,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_hwsx_sx_grpmskx_s cn; */
-} bdk_sso_hwsx_sx_grpmskx_t;
+};
+typedef union bdk_sso_hwsx_sx_grpmskx bdk_sso_hwsx_sx_grpmskx_t;
 
 static inline uint64_t BDK_SSO_HWSX_SX_GRPMSKX(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_HWSX_SX_GRPMSKX(unsigned long a, unsigned long b, unsigned long c)
@@ -3285,7 +3335,7 @@ static inline uint64_t BDK_SSO_HWSX_SX_GRPMSKX(unsigned long a, unsigned long b,
  * SSO PF Internal Entry Hardware-Group Registers
  * Returns unit memory status for an index.
  */
-typedef union
+union bdk_sso_ientx_grp
 {
     uint64_t u;
     struct bdk_sso_ientx_grp_s
@@ -3311,7 +3361,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_ientx_grp_s cn; */
-} bdk_sso_ientx_grp_t;
+};
+typedef union bdk_sso_ientx_grp bdk_sso_ientx_grp_t;
 
 static inline uint64_t BDK_SSO_IENTX_GRP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_IENTX_GRP(unsigned long a)
@@ -3334,7 +3385,7 @@ static inline uint64_t BDK_SSO_IENTX_GRP(unsigned long a)
  * SSO PF Internal Entry Links Registers
  * Returns unit memory status for an index.
  */
-typedef union
+union bdk_sso_ientx_links
 {
     uint64_t u;
     struct bdk_sso_ientx_links_s
@@ -3358,7 +3409,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_ientx_links_s cn; */
-} bdk_sso_ientx_links_t;
+};
+typedef union bdk_sso_ientx_links bdk_sso_ientx_links_t;
 
 static inline uint64_t BDK_SSO_IENTX_LINKS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_IENTX_LINKS(unsigned long a)
@@ -3381,7 +3433,7 @@ static inline uint64_t BDK_SSO_IENTX_LINKS(unsigned long a)
  * SSO PF Internal Entry Pending Tag Registers
  * Returns unit memory status for an index.
  */
-typedef union
+union bdk_sso_ientx_pendtag
 {
     uint64_t u;
     struct bdk_sso_ientx_pendtag_s
@@ -3403,7 +3455,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_ientx_pendtag_s cn; */
-} bdk_sso_ientx_pendtag_t;
+};
+typedef union bdk_sso_ientx_pendtag bdk_sso_ientx_pendtag_t;
 
 static inline uint64_t BDK_SSO_IENTX_PENDTAG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_IENTX_PENDTAG(unsigned long a)
@@ -3426,7 +3479,7 @@ static inline uint64_t BDK_SSO_IENTX_PENDTAG(unsigned long a)
  * SSO PF Internal Queue Links Registers
  * Returns unit memory status for an index.
  */
-typedef union
+union bdk_sso_ientx_qlinks
 {
     uint64_t u;
     struct bdk_sso_ientx_qlinks_s
@@ -3440,7 +3493,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_ientx_qlinks_s cn; */
-} bdk_sso_ientx_qlinks_t;
+};
+typedef union bdk_sso_ientx_qlinks bdk_sso_ientx_qlinks_t;
 
 static inline uint64_t BDK_SSO_IENTX_QLINKS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_IENTX_QLINKS(unsigned long a)
@@ -3463,7 +3517,7 @@ static inline uint64_t BDK_SSO_IENTX_QLINKS(unsigned long a)
  * SSO PF Internal Entry Tag Registers
  * Returns unit memory status for an index.
  */
-typedef union
+union bdk_sso_ientx_tag
 {
     uint64_t u;
     struct bdk_sso_ientx_tag_s
@@ -3491,7 +3545,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_ientx_tag_s cn; */
-} bdk_sso_ientx_tag_t;
+};
+typedef union bdk_sso_ientx_tag bdk_sso_ientx_tag_t;
 
 static inline uint64_t BDK_SSO_IENTX_TAG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_IENTX_TAG(unsigned long a)
@@ -3514,7 +3569,7 @@ static inline uint64_t BDK_SSO_IENTX_TAG(unsigned long a)
  * SSO PF Internal Entry WQP Registers
  * Returns unit memory status for an index.
  */
-typedef union
+union bdk_sso_ientx_wqp
 {
     uint64_t u;
     struct bdk_sso_ientx_wqp_s
@@ -3528,7 +3583,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_ientx_wqp_s cn; */
-} bdk_sso_ientx_wqp_t;
+};
+typedef union bdk_sso_ientx_wqp bdk_sso_ientx_wqp_t;
 
 static inline uint64_t BDK_SSO_IENTX_WQP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_IENTX_WQP(unsigned long a)
@@ -3552,7 +3608,7 @@ static inline uint64_t BDK_SSO_IENTX_WQP(unsigned long a)
  * Returns list status for the conflicted list indexed by hardware-group. Register
  * fields are identical to those in SSO_IPL_IAQ() above.
  */
-typedef union
+union bdk_sso_ipl_confx
 {
     uint64_t u;
     struct bdk_sso_ipl_confx_s
@@ -3576,7 +3632,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_ipl_confx_s cn; */
-} bdk_sso_ipl_confx_t;
+};
+typedef union bdk_sso_ipl_confx bdk_sso_ipl_confx_t;
 
 static inline uint64_t BDK_SSO_IPL_CONFX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_IPL_CONFX(unsigned long a)
@@ -3600,7 +3657,7 @@ static inline uint64_t BDK_SSO_IPL_CONFX(unsigned long a)
  * Returns list status for the deschedule list indexed by hardware-group. Register
  * fields are identical to those in SSO_IPL_IAQ() above.
  */
-typedef union
+union bdk_sso_ipl_deschedx
 {
     uint64_t u;
     struct bdk_sso_ipl_deschedx_s
@@ -3624,7 +3681,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_ipl_deschedx_s cn; */
-} bdk_sso_ipl_deschedx_t;
+};
+typedef union bdk_sso_ipl_deschedx bdk_sso_ipl_deschedx_t;
 
 static inline uint64_t BDK_SSO_IPL_DESCHEDX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_IPL_DESCHEDX(unsigned long a)
@@ -3647,7 +3705,7 @@ static inline uint64_t BDK_SSO_IPL_DESCHEDX(unsigned long a)
  * SSO PF Free List State Registers
  * Returns list status.
  */
-typedef union
+union bdk_sso_ipl_freex
 {
     uint64_t u;
     struct bdk_sso_ipl_freex_s
@@ -3675,7 +3733,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_ipl_freex_s cn; */
-} bdk_sso_ipl_freex_t;
+};
+typedef union bdk_sso_ipl_freex bdk_sso_ipl_freex_t;
 
 static inline uint64_t BDK_SSO_IPL_FREEX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_IPL_FREEX(unsigned long a)
@@ -3698,7 +3757,7 @@ static inline uint64_t BDK_SSO_IPL_FREEX(unsigned long a)
  * SSO PF Hardware-Group IAQ List State Registers
  * Returns list status for the internal admission queue indexed by hardware-group.
  */
-typedef union
+union bdk_sso_ipl_iaqx
 {
     uint64_t u;
     struct bdk_sso_ipl_iaqx_s
@@ -3722,7 +3781,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_ipl_iaqx_s cn; */
-} bdk_sso_ipl_iaqx_t;
+};
+typedef union bdk_sso_ipl_iaqx bdk_sso_ipl_iaqx_t;
 
 static inline uint64_t BDK_SSO_IPL_IAQX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_IPL_IAQX(unsigned long a)
@@ -3745,7 +3805,7 @@ static inline uint64_t BDK_SSO_IPL_IAQX(unsigned long a)
  * SSO PF No-schedule Count Register
  * Contains the number of work-queue entries on the no-schedule list.
  */
-typedef union
+union bdk_sso_nos_cnt
 {
     uint64_t u;
     struct bdk_sso_nos_cnt_s
@@ -3759,7 +3819,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_nos_cnt_s cn; */
-} bdk_sso_nos_cnt_t;
+};
+typedef union bdk_sso_nos_cnt bdk_sso_nos_cnt_t;
 
 #define BDK_SSO_NOS_CNT BDK_SSO_NOS_CNT_FUNC()
 static inline uint64_t BDK_SSO_NOS_CNT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3785,7 +3846,7 @@ static inline uint64_t BDK_SSO_NOS_CNT_FUNC(void)
  * notation, with the increment value of 1024 clock cycles. Thus, a value of 0x0 in this register
  * translates to 1024 cycles, 0x1 translates to 2048 cycles, 0x2 translates to 3072 cycles, etc.
  */
-typedef union
+union bdk_sso_nw_tim
 {
     uint64_t u;
     struct bdk_sso_nw_tim_s
@@ -3807,7 +3868,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_nw_tim_s cn; */
-} bdk_sso_nw_tim_t;
+};
+typedef union bdk_sso_nw_tim bdk_sso_nw_tim_t;
 
 #define BDK_SSO_NW_TIM BDK_SSO_NW_TIM_FUNC()
 static inline uint64_t BDK_SSO_NW_TIM_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3830,7 +3892,7 @@ static inline uint64_t BDK_SSO_NW_TIM_FUNC(void)
  *
  * SSO PF In-use Page Count Register
  */
-typedef union
+union bdk_sso_page_cnt
 {
     uint64_t u;
     struct bdk_sso_page_cnt_s
@@ -3846,7 +3908,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_page_cnt_s cn; */
-} bdk_sso_page_cnt_t;
+};
+typedef union bdk_sso_page_cnt bdk_sso_page_cnt_t;
 
 #define BDK_SSO_PAGE_CNT BDK_SSO_PAGE_CNT_FUNC()
 static inline uint64_t BDK_SSO_PAGE_CNT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3945,7 +4008,7 @@ static inline uint64_t BDK_SSO_PAGE_CNT_FUNC(void)
  *  o if the lookup hits duplicate entries a SSO_ERR2[WS_MULTI] error is reported and
  *     the GGRP returned is the VHGRP.
  */
-typedef union
+union bdk_sso_pf_mapx
 {
     uint64_t u;
     struct bdk_sso_pf_mapx_s
@@ -3967,7 +4030,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_pf_mapx_s cn; */
-} bdk_sso_pf_mapx_t;
+};
+typedef union bdk_sso_pf_mapx bdk_sso_pf_mapx_t;
 
 static inline uint64_t BDK_SSO_PF_MAPX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_PF_MAPX(unsigned long a)
@@ -3990,7 +4054,7 @@ static inline uint64_t BDK_SSO_PF_MAPX(unsigned long a)
  * SSO PF Mailbox Enable Clear Registers
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_sso_pf_mbox_ena_w1cx
 {
     uint64_t u;
     struct bdk_sso_pf_mbox_ena_w1cx_s
@@ -4002,7 +4066,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_pf_mbox_ena_w1cx_s cn; */
-} bdk_sso_pf_mbox_ena_w1cx_t;
+};
+typedef union bdk_sso_pf_mbox_ena_w1cx bdk_sso_pf_mbox_ena_w1cx_t;
 
 static inline uint64_t BDK_SSO_PF_MBOX_ENA_W1CX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_PF_MBOX_ENA_W1CX(unsigned long a)
@@ -4025,7 +4090,7 @@ static inline uint64_t BDK_SSO_PF_MBOX_ENA_W1CX(unsigned long a)
  * SSO PF Mailbox Enable Set Registers
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_sso_pf_mbox_ena_w1sx
 {
     uint64_t u;
     struct bdk_sso_pf_mbox_ena_w1sx_s
@@ -4037,7 +4102,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_pf_mbox_ena_w1sx_s cn; */
-} bdk_sso_pf_mbox_ena_w1sx_t;
+};
+typedef union bdk_sso_pf_mbox_ena_w1sx bdk_sso_pf_mbox_ena_w1sx_t;
 
 static inline uint64_t BDK_SSO_PF_MBOX_ENA_W1SX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_PF_MBOX_ENA_W1SX(unsigned long a)
@@ -4059,7 +4125,7 @@ static inline uint64_t BDK_SSO_PF_MBOX_ENA_W1SX(unsigned long a)
  *
  * SSO PF Mailbox Interrupt Registers
  */
-typedef union
+union bdk_sso_pf_mbox_intx
 {
     uint64_t u;
     struct bdk_sso_pf_mbox_intx_s
@@ -4073,7 +4139,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_pf_mbox_intx_s cn; */
-} bdk_sso_pf_mbox_intx_t;
+};
+typedef union bdk_sso_pf_mbox_intx bdk_sso_pf_mbox_intx_t;
 
 static inline uint64_t BDK_SSO_PF_MBOX_INTX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_PF_MBOX_INTX(unsigned long a)
@@ -4096,7 +4163,7 @@ static inline uint64_t BDK_SSO_PF_MBOX_INTX(unsigned long a)
  * SSO PF Mailbox Interrupt Set Registers
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_sso_pf_mbox_int_w1sx
 {
     uint64_t u;
     struct bdk_sso_pf_mbox_int_w1sx_s
@@ -4108,7 +4175,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_pf_mbox_int_w1sx_s cn; */
-} bdk_sso_pf_mbox_int_w1sx_t;
+};
+typedef union bdk_sso_pf_mbox_int_w1sx bdk_sso_pf_mbox_int_w1sx_t;
 
 static inline uint64_t BDK_SSO_PF_MBOX_INT_W1SX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_PF_MBOX_INT_W1SX(unsigned long a)
@@ -4132,7 +4200,7 @@ static inline uint64_t BDK_SSO_PF_MBOX_INT_W1SX(unsigned long a)
  * This register is the MSI-X PBA table; the bit number is indexed by the SSO_PF_INT_VEC_E
  * enumeration.
  */
-typedef union
+union bdk_sso_pf_msix_pbax
 {
     uint64_t u;
     struct bdk_sso_pf_msix_pbax_s
@@ -4146,7 +4214,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_pf_msix_pbax_s cn; */
-} bdk_sso_pf_msix_pbax_t;
+};
+typedef union bdk_sso_pf_msix_pbax bdk_sso_pf_msix_pbax_t;
 
 static inline uint64_t BDK_SSO_PF_MSIX_PBAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_PF_MSIX_PBAX(unsigned long a)
@@ -4169,7 +4238,7 @@ static inline uint64_t BDK_SSO_PF_MSIX_PBAX(unsigned long a)
  * SSO PF MSI-X Vector-Table Address Register
  * This register is the MSI-X vector table, indexed by the SSO_PF_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_sso_pf_msix_vecx_addr
 {
     uint64_t u;
     struct bdk_sso_pf_msix_vecx_addr_s
@@ -4203,7 +4272,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_pf_msix_vecx_addr_s cn; */
-} bdk_sso_pf_msix_vecx_addr_t;
+};
+typedef union bdk_sso_pf_msix_vecx_addr bdk_sso_pf_msix_vecx_addr_t;
 
 static inline uint64_t BDK_SSO_PF_MSIX_VECX_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_PF_MSIX_VECX_ADDR(unsigned long a)
@@ -4226,7 +4296,7 @@ static inline uint64_t BDK_SSO_PF_MSIX_VECX_ADDR(unsigned long a)
  * SSO PF MSI-X Vector-Table Control and Data Register
  * This register is the MSI-X vector table, indexed by the SSO_PF_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_sso_pf_msix_vecx_ctl
 {
     uint64_t u;
     struct bdk_sso_pf_msix_vecx_ctl_s
@@ -4244,7 +4314,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_pf_msix_vecx_ctl_s cn; */
-} bdk_sso_pf_msix_vecx_ctl_t;
+};
+typedef union bdk_sso_pf_msix_vecx_ctl bdk_sso_pf_msix_vecx_ctl_t;
 
 static inline uint64_t BDK_SSO_PF_MSIX_VECX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_PF_MSIX_VECX_CTL(unsigned long a)
@@ -4266,7 +4337,7 @@ static inline uint64_t BDK_SSO_PF_MSIX_VECX_CTL(unsigned long a)
  *
  * SSO PF/VF Mailbox Registers
  */
-typedef union
+union bdk_sso_pf_vhgrpx_mboxx
 {
     uint64_t u;
     struct bdk_sso_pf_vhgrpx_mboxx_s
@@ -4290,7 +4361,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_pf_vhgrpx_mboxx_s cn; */
-} bdk_sso_pf_vhgrpx_mboxx_t;
+};
+typedef union bdk_sso_pf_vhgrpx_mboxx bdk_sso_pf_vhgrpx_mboxx_t;
 
 static inline uint64_t BDK_SSO_PF_VHGRPX_MBOXX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_PF_VHGRPX_MBOXX(unsigned long a, unsigned long b)
@@ -4315,7 +4387,7 @@ static inline uint64_t BDK_SSO_PF_VHGRPX_MBOXX(unsigned long a, unsigned long b)
  * must not be sent any other operations for 2500 coprocessor (SCLK) cycles. Note that the
  * contents of this register are reset along with the rest of the SSO.
  */
-typedef union
+union bdk_sso_reset
 {
     uint64_t u;
     struct bdk_sso_reset_s
@@ -4335,7 +4407,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_reset_s cn; */
-} bdk_sso_reset_t;
+};
+typedef union bdk_sso_reset bdk_sso_reset_t;
 
 #define BDK_SSO_RESET BDK_SSO_RESET_FUNC()
 static inline uint64_t BDK_SSO_RESET_FUNC(void) __attribute__ ((pure, always_inline));
@@ -4359,7 +4432,7 @@ static inline uint64_t BDK_SSO_RESET_FUNC(void)
  * SSO PF Transitory Admission Queue Link Registers
  * Returns TAQ status for a given line.
  */
-typedef union
+union bdk_sso_taqx_link
 {
     uint64_t u;
     struct bdk_sso_taqx_link_s
@@ -4373,7 +4446,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_taqx_link_s cn; */
-} bdk_sso_taqx_link_t;
+};
+typedef union bdk_sso_taqx_link bdk_sso_taqx_link_t;
 
 static inline uint64_t BDK_SSO_TAQX_LINK(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_TAQX_LINK(unsigned long a)
@@ -4396,7 +4470,7 @@ static inline uint64_t BDK_SSO_TAQX_LINK(unsigned long a)
  * SSO PF Transitory Admission Queue Tag Registers
  * Returns TAQ status for a given line and WAE within that line.
  */
-typedef union
+union bdk_sso_taqx_waex_tag
 {
     uint64_t u;
     struct bdk_sso_taqx_waex_tag_s
@@ -4412,7 +4486,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_taqx_waex_tag_s cn; */
-} bdk_sso_taqx_waex_tag_t;
+};
+typedef union bdk_sso_taqx_waex_tag bdk_sso_taqx_waex_tag_t;
 
 static inline uint64_t BDK_SSO_TAQX_WAEX_TAG(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_TAQX_WAEX_TAG(unsigned long a, unsigned long b)
@@ -4435,7 +4510,7 @@ static inline uint64_t BDK_SSO_TAQX_WAEX_TAG(unsigned long a, unsigned long b)
  * SSO PF Transitory Admission Queue Pointer Registers
  * Returns TAQ status for a given line and WAE within that line.
  */
-typedef union
+union bdk_sso_taqx_waex_wqp
 {
     uint64_t u;
     struct bdk_sso_taqx_waex_wqp_s
@@ -4449,7 +4524,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_taqx_waex_wqp_s cn; */
-} bdk_sso_taqx_waex_wqp_t;
+};
+typedef union bdk_sso_taqx_waex_wqp bdk_sso_taqx_waex_wqp_t;
 
 static inline uint64_t BDK_SSO_TAQX_WAEX_WQP(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_TAQX_WAEX_WQP(unsigned long a, unsigned long b)
@@ -4471,7 +4547,7 @@ static inline uint64_t BDK_SSO_TAQX_WAEX_WQP(unsigned long a, unsigned long b)
  *
  * SSO PF Transitory Admission Queue Add Register
  */
-typedef union
+union bdk_sso_taq_add
 {
     uint64_t u;
     struct bdk_sso_taq_add_s
@@ -4489,7 +4565,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_taq_add_s cn; */
-} bdk_sso_taq_add_t;
+};
+typedef union bdk_sso_taq_add bdk_sso_taq_add_t;
 
 #define BDK_SSO_TAQ_ADD BDK_SSO_TAQ_ADD_FUNC()
 static inline uint64_t BDK_SSO_TAQ_ADD_FUNC(void) __attribute__ ((pure, always_inline));
@@ -4512,7 +4589,7 @@ static inline uint64_t BDK_SSO_TAQ_ADD_FUNC(void)
  *
  * SSO PF Transitory Admission Queue Count Register
  */
-typedef union
+union bdk_sso_taq_cnt
 {
     uint64_t u;
     struct bdk_sso_taq_cnt_s
@@ -4540,7 +4617,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_taq_cnt_s cn; */
-} bdk_sso_taq_cnt_t;
+};
+typedef union bdk_sso_taq_cnt bdk_sso_taq_cnt_t;
 
 #define BDK_SSO_TAQ_CNT BDK_SSO_TAQ_CNT_FUNC()
 static inline uint64_t BDK_SSO_TAQ_CNT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -4564,7 +4642,7 @@ static inline uint64_t BDK_SSO_TAQ_CNT_FUNC(void)
  * SSO PF Hardware-Group Transitory Input Admission Queue Status Registers
  * This register returns TAQ inbound status indexed by hardware-group.
  */
-typedef union
+union bdk_sso_tiaqx_status
 {
     uint64_t u;
     struct bdk_sso_tiaqx_status_s
@@ -4602,7 +4680,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_tiaqx_status_s cn; */
-} bdk_sso_tiaqx_status_t;
+};
+typedef union bdk_sso_tiaqx_status bdk_sso_tiaqx_status_t;
 
 static inline uint64_t BDK_SSO_TIAQX_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_TIAQX_STATUS(unsigned long a)
@@ -4625,7 +4704,7 @@ static inline uint64_t BDK_SSO_TIAQX_STATUS(unsigned long a)
  * SSO PF Hardware-Group Transitory Output Admission Queue Status Registers
  * This register returns TAQ outbound status indexed by hardware-group.
  */
-typedef union
+union bdk_sso_toaqx_status
 {
     uint64_t u;
     struct bdk_sso_toaqx_status_s
@@ -4665,7 +4744,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_toaqx_status_s cn; */
-} bdk_sso_toaqx_status_t;
+};
+typedef union bdk_sso_toaqx_status bdk_sso_toaqx_status_t;
 
 static inline uint64_t BDK_SSO_TOAQX_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_TOAQX_STATUS(unsigned long a)
@@ -4692,7 +4772,7 @@ static inline uint64_t BDK_SSO_TOAQX_STATUS(unsigned long a)
  * the first error detected for SSO_ERR0[GMID_UNMAP] or SSO_ERR0[GMID_MULTI]. Values in
  * register are held until errors are cleared in SSO_ERR0 register.
  */
-typedef union
+union bdk_sso_unmap_info
 {
     uint64_t u;
     struct bdk_sso_unmap_info_s
@@ -4756,7 +4836,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_unmap_info_s cn; */
-} bdk_sso_unmap_info_t;
+};
+typedef union bdk_sso_unmap_info bdk_sso_unmap_info_t;
 
 #define BDK_SSO_UNMAP_INFO BDK_SSO_UNMAP_INFO_FUNC()
 static inline uint64_t BDK_SSO_UNMAP_INFO_FUNC(void) __attribute__ ((pure, always_inline));
@@ -4783,7 +4864,7 @@ static inline uint64_t BDK_SSO_UNMAP_INFO_FUNC(void)
  * latches the first error and will not be updated again until all of the
  * corresponding SSO_ERR2 bits are cleared.
  */
-typedef union
+union bdk_sso_unmap_info2
 {
     uint64_t u;
     struct bdk_sso_unmap_info2_s
@@ -4837,7 +4918,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_unmap_info2_s cn; */
-} bdk_sso_unmap_info2_t;
+};
+typedef union bdk_sso_unmap_info2 bdk_sso_unmap_info2_t;
 
 #define BDK_SSO_UNMAP_INFO2 BDK_SSO_UNMAP_INFO2_FUNC()
 static inline uint64_t BDK_SSO_UNMAP_INFO2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -4862,7 +4944,7 @@ static inline uint64_t BDK_SSO_UNMAP_INFO2_FUNC(void)
  * This register is the MSI-X PBA table; the bit number is indexed by the SSO_VF_INT_VEC_E
  * enumeration.
  */
-typedef union
+union bdk_sso_vfx_msix_pbax
 {
     uint64_t u;
     struct bdk_sso_vfx_msix_pbax_s
@@ -4876,7 +4958,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_vfx_msix_pbax_s cn; */
-} bdk_sso_vfx_msix_pbax_t;
+};
+typedef union bdk_sso_vfx_msix_pbax bdk_sso_vfx_msix_pbax_t;
 
 static inline uint64_t BDK_SSO_VFX_MSIX_PBAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_VFX_MSIX_PBAX(unsigned long a, unsigned long b)
@@ -4899,7 +4982,7 @@ static inline uint64_t BDK_SSO_VFX_MSIX_PBAX(unsigned long a, unsigned long b)
  * SSO VF MSI-X Vector-Table Address Register
  * This register is the MSI-X vector table, indexed by the SSO_VF_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_sso_vfx_msix_vecx_addr
 {
     uint64_t u;
     struct bdk_sso_vfx_msix_vecx_addr_s
@@ -4921,7 +5004,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_vfx_msix_vecx_addr_s cn; */
-} bdk_sso_vfx_msix_vecx_addr_t;
+};
+typedef union bdk_sso_vfx_msix_vecx_addr bdk_sso_vfx_msix_vecx_addr_t;
 
 static inline uint64_t BDK_SSO_VFX_MSIX_VECX_ADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_VFX_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
@@ -4944,7 +5028,7 @@ static inline uint64_t BDK_SSO_VFX_MSIX_VECX_ADDR(unsigned long a, unsigned long
  * SSO VF MSI-X Vector-Table Control and Data Register
  * This register is the MSI-X vector table, indexed by the SSO_VF_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_sso_vfx_msix_vecx_ctl
 {
     uint64_t u;
     struct bdk_sso_vfx_msix_vecx_ctl_s
@@ -4962,7 +5046,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_vfx_msix_vecx_ctl_s cn; */
-} bdk_sso_vfx_msix_vecx_ctl_t;
+};
+typedef union bdk_sso_vfx_msix_vecx_ctl bdk_sso_vfx_msix_vecx_ctl_t;
 
 static inline uint64_t BDK_SSO_VFX_MSIX_VECX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_VFX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
@@ -4984,7 +5069,7 @@ static inline uint64_t BDK_SSO_VFX_MSIX_VECX_CTL(unsigned long a, unsigned long 
  *
  * SSO VF Hardware-Group Admission Queue Count Registers
  */
-typedef union
+union bdk_sso_vhgrpx_aq_cnt
 {
     uint64_t u;
     struct bdk_sso_vhgrpx_aq_cnt_s
@@ -4998,7 +5083,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_vhgrpx_aq_cnt_s cn; */
-} bdk_sso_vhgrpx_aq_cnt_t;
+};
+typedef union bdk_sso_vhgrpx_aq_cnt bdk_sso_vhgrpx_aq_cnt_t;
 
 static inline uint64_t BDK_SSO_VHGRPX_AQ_CNT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_VHGRPX_AQ_CNT(unsigned long a)
@@ -5020,7 +5106,7 @@ static inline uint64_t BDK_SSO_VHGRPX_AQ_CNT(unsigned long a)
  *
  * SSO VF Hardware-Group Total Admission Queue Threshold Register
  */
-typedef union
+union bdk_sso_vhgrpx_aq_thr
 {
     uint64_t u;
     struct bdk_sso_vhgrpx_aq_thr_s
@@ -5036,7 +5122,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_vhgrpx_aq_thr_s cn; */
-} bdk_sso_vhgrpx_aq_thr_t;
+};
+typedef union bdk_sso_vhgrpx_aq_thr bdk_sso_vhgrpx_aq_thr_t;
 
 static inline uint64_t BDK_SSO_VHGRPX_AQ_THR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_VHGRPX_AQ_THR(unsigned long a)
@@ -5060,7 +5147,7 @@ static inline uint64_t BDK_SSO_VHGRPX_AQ_THR(unsigned long a)
  * Contains the per-hardware-group interrupts and are used to clear these
  * interrupts. For more information on this register, refer to Interrupts.
  */
-typedef union
+union bdk_sso_vhgrpx_int
 {
     uint64_t u;
     struct bdk_sso_vhgrpx_int_s
@@ -5128,7 +5215,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_vhgrpx_int_s cn; */
-} bdk_sso_vhgrpx_int_t;
+};
+typedef union bdk_sso_vhgrpx_int bdk_sso_vhgrpx_int_t;
 
 static inline uint64_t BDK_SSO_VHGRPX_INT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_VHGRPX_INT(unsigned long a)
@@ -5152,7 +5240,7 @@ static inline uint64_t BDK_SSO_VHGRPX_INT(unsigned long a)
  * These registers contain a read-only copy of the counts used to trigger work-queue interrupts
  * (one per hardware-group). For more information on this register, refer to Interrupts.
  */
-typedef union
+union bdk_sso_vhgrpx_int_cnt
 {
     uint64_t u;
     struct bdk_sso_vhgrpx_int_cnt_s
@@ -5196,7 +5284,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_vhgrpx_int_cnt_s cn; */
-} bdk_sso_vhgrpx_int_cnt_t;
+};
+typedef union bdk_sso_vhgrpx_int_cnt bdk_sso_vhgrpx_int_cnt_t;
 
 static inline uint64_t BDK_SSO_VHGRPX_INT_CNT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_VHGRPX_INT_CNT(unsigned long a)
@@ -5218,7 +5307,7 @@ static inline uint64_t BDK_SSO_VHGRPX_INT_CNT(unsigned long a)
  *
  * SSO VF Hardware-Group Interrupt Enable Clear Register
  */
-typedef union
+union bdk_sso_vhgrpx_int_ena_w1c
 {
     uint64_t u;
     struct bdk_sso_vhgrpx_int_ena_w1c_s
@@ -5248,7 +5337,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_vhgrpx_int_ena_w1c_s cn; */
-} bdk_sso_vhgrpx_int_ena_w1c_t;
+};
+typedef union bdk_sso_vhgrpx_int_ena_w1c bdk_sso_vhgrpx_int_ena_w1c_t;
 
 static inline uint64_t BDK_SSO_VHGRPX_INT_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_VHGRPX_INT_ENA_W1C(unsigned long a)
@@ -5270,7 +5360,7 @@ static inline uint64_t BDK_SSO_VHGRPX_INT_ENA_W1C(unsigned long a)
  *
  * SSO VF Hardware-Group Interrupt Enable Set Register
  */
-typedef union
+union bdk_sso_vhgrpx_int_ena_w1s
 {
     uint64_t u;
     struct bdk_sso_vhgrpx_int_ena_w1s_s
@@ -5300,7 +5390,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_vhgrpx_int_ena_w1s_s cn; */
-} bdk_sso_vhgrpx_int_ena_w1s_t;
+};
+typedef union bdk_sso_vhgrpx_int_ena_w1s bdk_sso_vhgrpx_int_ena_w1s_t;
 
 static inline uint64_t BDK_SSO_VHGRPX_INT_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_VHGRPX_INT_ENA_W1S(unsigned long a)
@@ -5324,7 +5415,7 @@ static inline uint64_t BDK_SSO_VHGRPX_INT_ENA_W1S(unsigned long a)
  * These registers contain the thresholds for enabling and setting work-queue interrupts (one per
  * hardware-group). For more information on this register, refer to Interrupts.
  */
-typedef union
+union bdk_sso_vhgrpx_int_thr
 {
     uint64_t u;
     struct bdk_sso_vhgrpx_int_thr_s
@@ -5368,7 +5459,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_vhgrpx_int_thr_s cn; */
-} bdk_sso_vhgrpx_int_thr_t;
+};
+typedef union bdk_sso_vhgrpx_int_thr bdk_sso_vhgrpx_int_thr_t;
 
 static inline uint64_t BDK_SSO_VHGRPX_INT_THR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_VHGRPX_INT_THR(unsigned long a)
@@ -5390,7 +5482,7 @@ static inline uint64_t BDK_SSO_VHGRPX_INT_THR(unsigned long a)
  *
  * SSO VF Hardware-Group Interrupt Set Register
  */
-typedef union
+union bdk_sso_vhgrpx_int_w1s
 {
     uint64_t u;
     struct bdk_sso_vhgrpx_int_w1s_s
@@ -5422,7 +5514,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_vhgrpx_int_w1s_s cn; */
-} bdk_sso_vhgrpx_int_w1s_t;
+};
+typedef union bdk_sso_vhgrpx_int_w1s bdk_sso_vhgrpx_int_w1s_t;
 
 static inline uint64_t BDK_SSO_VHGRPX_INT_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_VHGRPX_INT_W1S(unsigned long a)
@@ -5445,7 +5538,7 @@ static inline uint64_t BDK_SSO_VHGRPX_INT_W1S(unsigned long a)
  * SSO VF Hardware-Group Add Work Register 0
  * See SSO_VHGRP()_OP_ADD_WORK1.
  */
-typedef union
+union bdk_sso_vhgrpx_op_add_work0
 {
     uint64_t u;
     struct bdk_sso_vhgrpx_op_add_work0_s
@@ -5461,7 +5554,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_vhgrpx_op_add_work0_s cn; */
-} bdk_sso_vhgrpx_op_add_work0_t;
+};
+typedef union bdk_sso_vhgrpx_op_add_work0 bdk_sso_vhgrpx_op_add_work0_t;
 
 static inline uint64_t BDK_SSO_VHGRPX_OP_ADD_WORK0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_VHGRPX_OP_ADD_WORK0(unsigned long a)
@@ -5490,7 +5584,7 @@ static inline uint64_t BDK_SSO_VHGRPX_OP_ADD_WORK0(unsigned long a)
  * * Writing SSO_VHGRP()_OP_ADD_WORK0 without a simultanious write to ADD_WORK1
  * as described above is ignored.
  */
-typedef union
+union bdk_sso_vhgrpx_op_add_work1
 {
     uint64_t u;
     struct bdk_sso_vhgrpx_op_add_work1_s
@@ -5502,7 +5596,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_vhgrpx_op_add_work1_s cn; */
-} bdk_sso_vhgrpx_op_add_work1_t;
+};
+typedef union bdk_sso_vhgrpx_op_add_work1 bdk_sso_vhgrpx_op_add_work1_t;
 
 static inline uint64_t BDK_SSO_VHGRPX_OP_ADD_WORK1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_VHGRPX_OP_ADD_WORK1(unsigned long a)
@@ -5524,7 +5619,7 @@ static inline uint64_t BDK_SSO_VHGRPX_OP_ADD_WORK1(unsigned long a)
  *
  * SSO VF/PF Mailbox Registers
  */
-typedef union
+union bdk_sso_vhgrpx_pf_mboxx
 {
     uint64_t u;
     struct bdk_sso_vhgrpx_pf_mboxx_s
@@ -5546,7 +5641,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_vhgrpx_pf_mboxx_s cn; */
-} bdk_sso_vhgrpx_pf_mboxx_t;
+};
+typedef union bdk_sso_vhgrpx_pf_mboxx bdk_sso_vhgrpx_pf_mboxx_t;
 
 static inline uint64_t BDK_SSO_VHGRPX_PF_MBOXX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_VHGRPX_PF_MBOXX(unsigned long a, unsigned long b)
@@ -5568,7 +5664,7 @@ static inline uint64_t BDK_SSO_VHGRPX_PF_MBOXX(unsigned long a, unsigned long b)
  *
  * SSO Admission Queue Control Registers
  */
-typedef union
+union bdk_sso_vhgrpx_qctl
 {
     uint64_t u;
     struct bdk_sso_vhgrpx_qctl_s
@@ -5588,7 +5684,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_vhgrpx_qctl_s cn; */
-} bdk_sso_vhgrpx_qctl_t;
+};
+typedef union bdk_sso_vhgrpx_qctl bdk_sso_vhgrpx_qctl_t;
 
 static inline uint64_t BDK_SSO_VHGRPX_QCTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_VHGRPX_QCTL(unsigned long a)
@@ -5610,7 +5707,7 @@ static inline uint64_t BDK_SSO_VHGRPX_QCTL(unsigned long a)
  *
  * SSO VF Hardware-Group External Queue Count Registers
  */
-typedef union
+union bdk_sso_vhgrpx_xaq_cnt
 {
     uint64_t u;
     struct bdk_sso_vhgrpx_xaq_cnt_s
@@ -5624,7 +5721,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_vhgrpx_xaq_cnt_s cn; */
-} bdk_sso_vhgrpx_xaq_cnt_t;
+};
+typedef union bdk_sso_vhgrpx_xaq_cnt bdk_sso_vhgrpx_xaq_cnt_t;
 
 static inline uint64_t BDK_SSO_VHGRPX_XAQ_CNT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_VHGRPX_XAQ_CNT(unsigned long a)
@@ -5649,7 +5747,7 @@ static inline uint64_t BDK_SSO_VHGRPX_XAQ_CNT(unsigned long a)
  * read-only copy of the periodic counter. For more information on this register, refer to
  * Interrupts.
  */
-typedef union
+union bdk_sso_wq_int_pc
 {
     uint64_t u;
     struct bdk_sso_wq_int_pc_s
@@ -5671,7 +5769,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_wq_int_pc_s cn; */
-} bdk_sso_wq_int_pc_t;
+};
+typedef union bdk_sso_wq_int_pc bdk_sso_wq_int_pc_t;
 
 #define BDK_SSO_WQ_INT_PC BDK_SSO_WQ_INT_PC_FUNC()
 static inline uint64_t BDK_SSO_WQ_INT_PC_FUNC(void) __attribute__ ((pure, always_inline));
@@ -5695,7 +5794,7 @@ static inline uint64_t BDK_SSO_WQ_INT_PC_FUNC(void)
  * SSO PF Configuration Register
  * This register contains various SSO work-slot configuration bits.
  */
-typedef union
+union bdk_sso_ws_cfg
 {
     uint64_t u;
     struct bdk_sso_ws_cfg_s
@@ -5797,7 +5896,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_ws_cfg_s cn; */
-} bdk_sso_ws_cfg_t;
+};
+typedef union bdk_sso_ws_cfg bdk_sso_ws_cfg_t;
 
 #define BDK_SSO_WS_CFG BDK_SSO_WS_CFG_FUNC()
 static inline uint64_t BDK_SSO_WS_CFG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -5820,7 +5920,7 @@ static inline uint64_t BDK_SSO_WS_CFG_FUNC(void)
  *
  * INTERNAL: SSO PF WS ECO Register
  */
-typedef union
+union bdk_sso_ws_eco
 {
     uint64_t u;
     struct bdk_sso_ws_eco_s
@@ -5836,7 +5936,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_ws_eco_s cn; */
-} bdk_sso_ws_eco_t;
+};
+typedef union bdk_sso_ws_eco bdk_sso_ws_eco_t;
 
 #define BDK_SSO_WS_ECO BDK_SSO_WS_ECO_FUNC()
 static inline uint64_t BDK_SSO_WS_ECO_FUNC(void) __attribute__ ((pure, always_inline));
@@ -5863,7 +5964,7 @@ static inline uint64_t BDK_SSO_WS_ECO_FUNC(void)
  *
  * This register must not be written when SSO_VHGRP()_QCTL[ENA] is set.
  */
-typedef union
+union bdk_sso_xaqx_head_next
 {
     uint64_t u;
     struct bdk_sso_xaqx_head_next_s
@@ -5883,7 +5984,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_xaqx_head_next_s cn; */
-} bdk_sso_xaqx_head_next_t;
+};
+typedef union bdk_sso_xaqx_head_next bdk_sso_xaqx_head_next_t;
 
 static inline uint64_t BDK_SSO_XAQX_HEAD_NEXT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_XAQX_HEAD_NEXT(unsigned long a)
@@ -5911,7 +6013,7 @@ static inline uint64_t BDK_SSO_XAQX_HEAD_NEXT(unsigned long a)
  *
  * This register must not be written when SSO_VHGRP()_QCTL[ENA] is set.
  */
-typedef union
+union bdk_sso_xaqx_head_ptr
 {
     uint64_t u;
     struct bdk_sso_xaqx_head_ptr_s
@@ -5933,7 +6035,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_xaqx_head_ptr_s cn; */
-} bdk_sso_xaqx_head_ptr_t;
+};
+typedef union bdk_sso_xaqx_head_ptr bdk_sso_xaqx_head_ptr_t;
 
 static inline uint64_t BDK_SSO_XAQX_HEAD_PTR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_XAQX_HEAD_PTR(unsigned long a)
@@ -5960,7 +6063,7 @@ static inline uint64_t BDK_SSO_XAQX_HEAD_PTR(unsigned long a)
  *
  * This register must not be written when SSO_VHGRP()_QCTL[ENA] is set.
  */
-typedef union
+union bdk_sso_xaqx_tail_next
 {
     uint64_t u;
     struct bdk_sso_xaqx_tail_next_s
@@ -5980,7 +6083,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_xaqx_tail_next_s cn; */
-} bdk_sso_xaqx_tail_next_t;
+};
+typedef union bdk_sso_xaqx_tail_next bdk_sso_xaqx_tail_next_t;
 
 static inline uint64_t BDK_SSO_XAQX_TAIL_NEXT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_XAQX_TAIL_NEXT(unsigned long a)
@@ -6009,7 +6113,7 @@ static inline uint64_t BDK_SSO_XAQX_TAIL_NEXT(unsigned long a)
  *
  * This register must not be written when SSO_VHGRP()_QCTL[ENA] is set.
  */
-typedef union
+union bdk_sso_xaqx_tail_ptr
 {
     uint64_t u;
     struct bdk_sso_xaqx_tail_ptr_s
@@ -6031,7 +6135,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_xaqx_tail_ptr_s cn; */
-} bdk_sso_xaqx_tail_ptr_t;
+};
+typedef union bdk_sso_xaqx_tail_ptr bdk_sso_xaqx_tail_ptr_t;
 
 static inline uint64_t BDK_SSO_XAQX_TAIL_PTR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_XAQX_TAIL_PTR(unsigned long a)
@@ -6053,7 +6158,7 @@ static inline uint64_t BDK_SSO_XAQX_TAIL_PTR(unsigned long a)
  *
  * SSO PF External Admission Queue Aura Register
  */
-typedef union
+union bdk_sso_xaq_aura
 {
     uint64_t u;
     struct bdk_sso_xaq_aura_s
@@ -6075,7 +6180,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_xaq_aura_s cn; */
-} bdk_sso_xaq_aura_t;
+};
+typedef union bdk_sso_xaq_aura bdk_sso_xaq_aura_t;
 
 #define BDK_SSO_XAQ_AURA BDK_SSO_XAQ_AURA_FUNC()
 static inline uint64_t BDK_SSO_XAQ_AURA_FUNC(void) __attribute__ ((pure, always_inline));
@@ -6098,7 +6204,7 @@ static inline uint64_t BDK_SSO_XAQ_AURA_FUNC(void)
  *
  * SSO PF External Admission Queue Guest Machine Control Register
  */
-typedef union
+union bdk_sso_xaq_gmctl
 {
     uint64_t u;
     struct bdk_sso_xaq_gmctl_s
@@ -6116,7 +6222,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_xaq_gmctl_s cn; */
-} bdk_sso_xaq_gmctl_t;
+};
+typedef union bdk_sso_xaq_gmctl bdk_sso_xaq_gmctl_t;
 
 #define BDK_SSO_XAQ_GMCTL BDK_SSO_XAQ_GMCTL_FUNC()
 static inline uint64_t BDK_SSO_XAQ_GMCTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -6139,7 +6246,7 @@ static inline uint64_t BDK_SSO_XAQ_GMCTL_FUNC(void)
  *
  * SSO PF External Admission Queue Latency Perf-Count Register
  */
-typedef union
+union bdk_sso_xaq_latency_pc
 {
     uint64_t u;
     struct bdk_sso_xaq_latency_pc_s
@@ -6153,7 +6260,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_xaq_latency_pc_s cn; */
-} bdk_sso_xaq_latency_pc_t;
+};
+typedef union bdk_sso_xaq_latency_pc bdk_sso_xaq_latency_pc_t;
 
 #define BDK_SSO_XAQ_LATENCY_PC BDK_SSO_XAQ_LATENCY_PC_FUNC()
 static inline uint64_t BDK_SSO_XAQ_LATENCY_PC_FUNC(void) __attribute__ ((pure, always_inline));
@@ -6176,7 +6284,7 @@ static inline uint64_t BDK_SSO_XAQ_LATENCY_PC_FUNC(void)
  *
  * SSO PF External Admission Queue Requests Perf-Count Register
  */
-typedef union
+union bdk_sso_xaq_req_pc
 {
     uint64_t u;
     struct bdk_sso_xaq_req_pc_s
@@ -6188,7 +6296,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_xaq_req_pc_s cn; */
-} bdk_sso_xaq_req_pc_t;
+};
+typedef union bdk_sso_xaq_req_pc bdk_sso_xaq_req_pc_t;
 
 #define BDK_SSO_XAQ_REQ_PC BDK_SSO_XAQ_REQ_PC_FUNC()
 static inline uint64_t BDK_SSO_XAQ_REQ_PC_FUNC(void) __attribute__ ((pure, always_inline));

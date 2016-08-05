@@ -771,7 +771,7 @@ union bdk_rom_csib_s
  *
  * ROM Internal Boot Memory Registers
  */
-typedef union
+union bdk_rom_memx
 {
     uint64_t u;
     struct bdk_rom_memx_s
@@ -783,7 +783,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rom_memx_s cn; */
-} bdk_rom_memx_t;
+};
+typedef union bdk_rom_memx bdk_rom_memx_t;
 
 static inline uint64_t BDK_ROM_MEMX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ROM_MEMX(unsigned long a)

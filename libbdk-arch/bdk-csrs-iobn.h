@@ -77,7 +77,7 @@
  * IOBN BIST Status Register
  * This register contains the result of the BIST run on the IOB rclk memories.
  */
-typedef union
+union bdk_iobnx_bistr_reg
 {
     uint64_t u;
     struct bdk_iobnx_bistr_reg_s
@@ -286,7 +286,8 @@ typedef union
         uint64_t reserved_22_63        : 42;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_iobnx_bistr_reg_t;
+};
+typedef union bdk_iobnx_bistr_reg bdk_iobnx_bistr_reg_t;
 
 static inline uint64_t BDK_IOBNX_BISTR_REG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_BISTR_REG(unsigned long a)
@@ -313,7 +314,7 @@ static inline uint64_t BDK_IOBNX_BISTR_REG(unsigned long a)
  * IOBN BIST Status Register
  * This register contains the result of the BIST run on the IOB sclk memories.
  */
-typedef union
+union bdk_iobnx_bists_reg
 {
     uint64_t u;
     struct bdk_iobnx_bists_reg_s
@@ -386,7 +387,8 @@ typedef union
     } cn81xx;
     /* struct bdk_iobnx_bists_reg_s cn88xx; */
     /* struct bdk_iobnx_bists_reg_s cn83xx; */
-} bdk_iobnx_bists_reg_t;
+};
+typedef union bdk_iobnx_bists_reg bdk_iobnx_bists_reg_t;
 
 static inline uint64_t BDK_IOBNX_BISTS_REG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_BISTS_REG(unsigned long a)
@@ -416,7 +418,7 @@ static inline uint64_t BDK_IOBNX_BISTS_REG(unsigned long a)
  * This register contains the current power setting.
  * Only index zero (IOB(0)) is used.
  */
-typedef union
+union bdk_iobnx_chip_cur_pwr
 {
     uint64_t u;
     struct bdk_iobnx_chip_cur_pwr_s
@@ -454,7 +456,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_iobnx_chip_cur_pwr_s cn; */
-} bdk_iobnx_chip_cur_pwr_t;
+};
+typedef union bdk_iobnx_chip_cur_pwr bdk_iobnx_chip_cur_pwr_t;
 
 static inline uint64_t BDK_IOBNX_CHIP_CUR_PWR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_CHIP_CUR_PWR(unsigned long a)
@@ -484,7 +487,7 @@ static inline uint64_t BDK_IOBNX_CHIP_CUR_PWR(unsigned long a)
  * This register controls the min/max power settings.
  * Only index zero (IOB(0)) is used.
  */
-typedef union
+union bdk_iobnx_chip_glb_pwr_throttle
 {
     uint64_t u;
     struct bdk_iobnx_chip_glb_pwr_throttle_s
@@ -534,7 +537,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_iobnx_chip_glb_pwr_throttle_s cn; */
-} bdk_iobnx_chip_glb_pwr_throttle_t;
+};
+typedef union bdk_iobnx_chip_glb_pwr_throttle bdk_iobnx_chip_glb_pwr_throttle_t;
 
 static inline uint64_t BDK_IOBNX_CHIP_GLB_PWR_THROTTLE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_CHIP_GLB_PWR_THROTTLE(unsigned long a)
@@ -562,7 +566,7 @@ static inline uint64_t BDK_IOBNX_CHIP_GLB_PWR_THROTTLE(unsigned long a)
  * This register contains power numbers from the various partitions on the chip.
  * Only index zero (IOB(0)) is used.
  */
-typedef union
+union bdk_iobnx_chip_pwr_out
 {
     uint64_t u;
     struct bdk_iobnx_chip_pwr_out_s
@@ -642,7 +646,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_iobnx_chip_pwr_out_s cn; */
-} bdk_iobnx_chip_pwr_out_t;
+};
+typedef union bdk_iobnx_chip_pwr_out bdk_iobnx_chip_pwr_out_t;
 
 static inline uint64_t BDK_IOBNX_CHIP_PWR_OUT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_CHIP_PWR_OUT(unsigned long a)
@@ -748,7 +753,7 @@ static inline uint64_t BDK_IOBNX_CHIP_PWR_OUT(unsigned long a)
  *   74 = zipd5___zipd___zipd_clk___zip_state_csclk_drv.
  *   75 = zipd5___zipd___zipd_clk___zip_sha_csclk_drv.
  */
-typedef union
+union bdk_iobnx_cond_clk_capx
 {
     uint64_t u;
     struct bdk_iobnx_cond_clk_capx_s
@@ -764,7 +769,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_iobnx_cond_clk_capx_s cn; */
-} bdk_iobnx_cond_clk_capx_t;
+};
+typedef union bdk_iobnx_cond_clk_capx bdk_iobnx_cond_clk_capx_t;
 
 static inline uint64_t BDK_IOBNX_COND_CLK_CAPX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_COND_CLK_CAPX(unsigned long a, unsigned long b)
@@ -787,7 +793,7 @@ static inline uint64_t BDK_IOBNX_COND_CLK_CAPX(unsigned long a, unsigned long b)
  * IOBN Cores BIST Status Register
  * This register contains the result of the BIST run on the cores.
  */
-typedef union
+union bdk_iobnx_core_bist_status
 {
     uint64_t u;
     struct bdk_iobnx_core_bist_status_s
@@ -859,7 +865,8 @@ typedef union
         uint64_t reserved_24_63        : 40;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_iobnx_core_bist_status_t;
+};
+typedef union bdk_iobnx_core_bist_status bdk_iobnx_core_bist_status_t;
 
 static inline uint64_t BDK_IOBNX_CORE_BIST_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_CORE_BIST_STATUS(unsigned long a)
@@ -886,7 +893,7 @@ static inline uint64_t BDK_IOBNX_CORE_BIST_STATUS(unsigned long a)
  * IOBN Disable NCBI IO Register
  * IOBN control.
  */
-typedef union
+union bdk_iobnx_dis_ncbi_io
 {
     uint64_t u;
     struct bdk_iobnx_dis_ncbi_io_s
@@ -1170,7 +1177,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn83xx;
     /* struct bdk_iobnx_dis_ncbi_io_cn81xx cn88xxp2; */
-} bdk_iobnx_dis_ncbi_io_t;
+};
+typedef union bdk_iobnx_dis_ncbi_io bdk_iobnx_dis_ncbi_io_t;
 
 static inline uint64_t BDK_IOBNX_DIS_NCBI_IO(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_DIS_NCBI_IO(unsigned long a)
@@ -1198,7 +1206,7 @@ static inline uint64_t BDK_IOBNX_DIS_NCBI_IO(unsigned long a)
  *
  * Status of the global core-clock DLL.
  */
-typedef union
+union bdk_iobnx_gbl_dll
 {
     uint64_t u;
     struct bdk_iobnx_gbl_dll_s
@@ -1236,7 +1244,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_iobnx_gbl_dll_s cn; */
-} bdk_iobnx_gbl_dll_t;
+};
+typedef union bdk_iobnx_gbl_dll bdk_iobnx_gbl_dll_t;
 
 static inline uint64_t BDK_IOBNX_GBL_DLL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_GBL_DLL(unsigned long a)
@@ -1263,7 +1272,7 @@ static inline uint64_t BDK_IOBNX_GBL_DLL(unsigned long a)
  * IOBN Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_iobnx_int_ena_w1c
 {
     uint64_t u;
     struct bdk_iobnx_int_ena_w1c_s
@@ -1940,7 +1949,8 @@ typedef union
         uint64_t pem_sie               : 1;  /**< [ 63: 63](R/W1C/H) Reads or clears enable for IOBN(0..1)_INT_SUM[PEM_SIE]. */
 #endif /* Word 0 - End */
     } cn88xxp2;
-} bdk_iobnx_int_ena_w1c_t;
+};
+typedef union bdk_iobnx_int_ena_w1c bdk_iobnx_int_ena_w1c_t;
 
 static inline uint64_t BDK_IOBNX_INT_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_INT_ENA_W1C(unsigned long a)
@@ -1967,7 +1977,7 @@ static inline uint64_t BDK_IOBNX_INT_ENA_W1C(unsigned long a)
  * IOBN Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_iobnx_int_ena_w1s
 {
     uint64_t u;
     struct bdk_iobnx_int_ena_w1s_s
@@ -2644,7 +2654,8 @@ typedef union
         uint64_t pem_sie               : 1;  /**< [ 63: 63](R/W1S/H) Reads or sets enable for IOBN(0..1)_INT_SUM[PEM_SIE]. */
 #endif /* Word 0 - End */
     } cn88xxp2;
-} bdk_iobnx_int_ena_w1s_t;
+};
+typedef union bdk_iobnx_int_ena_w1s bdk_iobnx_int_ena_w1s_t;
 
 static inline uint64_t BDK_IOBNX_INT_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_INT_ENA_W1S(unsigned long a)
@@ -2671,7 +2682,7 @@ static inline uint64_t BDK_IOBNX_INT_ENA_W1S(unsigned long a)
  * IOBN Interrupt Summary Register
  * This register contains the different interrupt-summary bits of the IOBN.
  */
-typedef union
+union bdk_iobnx_int_sum
 {
     uint64_t u;
     struct bdk_iobnx_int_sum_s
@@ -3354,7 +3365,8 @@ typedef union
         uint64_t pem_sie               : 1;  /**< [ 63: 63](R/W1C/H) PEM sent in an invalid stream ID. */
 #endif /* Word 0 - End */
     } cn88xxp2;
-} bdk_iobnx_int_sum_t;
+};
+typedef union bdk_iobnx_int_sum bdk_iobnx_int_sum_t;
 
 static inline uint64_t BDK_IOBNX_INT_SUM(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_INT_SUM(unsigned long a)
@@ -3381,7 +3393,7 @@ static inline uint64_t BDK_IOBNX_INT_SUM(unsigned long a)
  * IOBN Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_iobnx_int_sum_w1s
 {
     uint64_t u;
     struct bdk_iobnx_int_sum_w1s_s
@@ -4058,7 +4070,8 @@ typedef union
         uint64_t pem_sie               : 1;  /**< [ 63: 63](R/W1S/H) Reads or sets IOBN(0..1)_INT_SUM[PEM_SIE]. */
 #endif /* Word 0 - End */
     } cn88xxp2;
-} bdk_iobnx_int_sum_w1s_t;
+};
+typedef union bdk_iobnx_int_sum_w1s bdk_iobnx_int_sum_w1s_t;
 
 static inline uint64_t BDK_IOBNX_INT_SUM_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_INT_SUM_W1S(unsigned long a)
@@ -4085,7 +4098,7 @@ static inline uint64_t BDK_IOBNX_INT_SUM_W1S(unsigned long a)
  * IOBN Memory SControl Register
  * Contains the sclk memory control for memories.
  */
-typedef union
+union bdk_iobnx_mctlr_reg
 {
     uint64_t u;
     struct bdk_iobnx_mctlr_reg_s
@@ -4327,7 +4340,8 @@ typedef union
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_iobnx_mctlr_reg_t;
+};
+typedef union bdk_iobnx_mctlr_reg bdk_iobnx_mctlr_reg_t;
 
 static inline uint64_t BDK_IOBNX_MCTLR_REG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_MCTLR_REG(unsigned long a)
@@ -4354,7 +4368,7 @@ static inline uint64_t BDK_IOBNX_MCTLR_REG(unsigned long a)
  * IOBN Memory SControl Register
  * Contains the sclk memory control for memories.
  */
-typedef union
+union bdk_iobnx_mctls_reg
 {
     uint64_t u;
     struct bdk_iobnx_mctls_reg_s
@@ -4424,7 +4438,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_iobnx_mctls_reg_s cn; */
-} bdk_iobnx_mctls_reg_t;
+};
+typedef union bdk_iobnx_mctls_reg bdk_iobnx_mctls_reg_t;
 
 static inline uint64_t BDK_IOBNX_MCTLS_REG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_MCTLS_REG(unsigned long a)
@@ -4451,7 +4466,7 @@ static inline uint64_t BDK_IOBNX_MCTLS_REG(unsigned long a)
  * IOBN MSI-X Pending Bit Array Registers
  * This register is the MSI-X PBA table; the bit number is indexed by the IOBN_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_iobnx_msix_pbax
 {
     uint64_t u;
     struct bdk_iobnx_msix_pbax_s
@@ -4465,7 +4480,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_iobnx_msix_pbax_s cn; */
-} bdk_iobnx_msix_pbax_t;
+};
+typedef union bdk_iobnx_msix_pbax bdk_iobnx_msix_pbax_t;
 
 static inline uint64_t BDK_IOBNX_MSIX_PBAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_MSIX_PBAX(unsigned long a, unsigned long b)
@@ -4492,7 +4508,7 @@ static inline uint64_t BDK_IOBNX_MSIX_PBAX(unsigned long a, unsigned long b)
  * IOBN MSI-X Vector-Table Address Register
  * This register is the MSI-X vector table, indexed by the IOBN_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_iobnx_msix_vecx_addr
 {
     uint64_t u;
     struct bdk_iobnx_msix_vecx_addr_s
@@ -4524,7 +4540,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_iobnx_msix_vecx_addr_s cn; */
-} bdk_iobnx_msix_vecx_addr_t;
+};
+typedef union bdk_iobnx_msix_vecx_addr bdk_iobnx_msix_vecx_addr_t;
 
 static inline uint64_t BDK_IOBNX_MSIX_VECX_ADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
@@ -4551,7 +4568,7 @@ static inline uint64_t BDK_IOBNX_MSIX_VECX_ADDR(unsigned long a, unsigned long b
  * IOBN MSI-X Vector-Table Control and Data Register
  * This register is the MSI-X vector table, indexed by the IOBN_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_iobnx_msix_vecx_ctl
 {
     uint64_t u;
     struct bdk_iobnx_msix_vecx_ctl_s
@@ -4569,7 +4586,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_iobnx_msix_vecx_ctl_s cn; */
-} bdk_iobnx_msix_vecx_ctl_t;
+};
+typedef union bdk_iobnx_msix_vecx_ctl bdk_iobnx_msix_vecx_ctl_t;
 
 static inline uint64_t BDK_IOBNX_MSIX_VECX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
@@ -4596,7 +4614,7 @@ static inline uint64_t BDK_IOBNX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
  * IOBN NCB Credits Register
  * This register controls the number of loads and stores each NCB can have to the L2.
  */
-typedef union
+union bdk_iobnx_ncbx_credits
 {
     uint64_t u;
     struct bdk_iobnx_ncbx_credits_s
@@ -4626,7 +4644,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_iobnx_ncbx_credits_s cn; */
-} bdk_iobnx_ncbx_credits_t;
+};
+typedef union bdk_iobnx_ncbx_credits bdk_iobnx_ncbx_credits_t;
 
 static inline uint64_t BDK_IOBNX_NCBX_CREDITS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_NCBX_CREDITS(unsigned long a, unsigned long b)
@@ -4653,7 +4672,7 @@ static inline uint64_t BDK_IOBNX_NCBX_CREDITS(unsigned long a, unsigned long b)
  * IOBN NCB Credits Register
  * This register controls the number of loads and stores each NCB can have to the L2.
  */
-typedef union
+union bdk_iobnx_ncbx_ctl
 {
     uint64_t u;
     struct bdk_iobnx_ncbx_ctl_s
@@ -4687,7 +4706,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_iobnx_ncbx_ctl_s cn; */
-} bdk_iobnx_ncbx_ctl_t;
+};
+typedef union bdk_iobnx_ncbx_ctl bdk_iobnx_ncbx_ctl_t;
 
 static inline uint64_t BDK_IOBNX_NCBX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_NCBX_CTL(unsigned long a, unsigned long b)
@@ -4713,7 +4733,7 @@ static inline uint64_t BDK_IOBNX_NCBX_CTL(unsigned long a, unsigned long b)
  *
  * IOBN NCB Latency Performance Counter Registers
  */
-typedef union
+union bdk_iobnx_ncbx_rwx_lat_pc
 {
     uint64_t u;
     struct bdk_iobnx_ncbx_rwx_lat_pc_s
@@ -4745,7 +4765,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_iobnx_ncbx_rwx_lat_pc_s cn; */
-} bdk_iobnx_ncbx_rwx_lat_pc_t;
+};
+typedef union bdk_iobnx_ncbx_rwx_lat_pc bdk_iobnx_ncbx_rwx_lat_pc_t;
 
 static inline uint64_t BDK_IOBNX_NCBX_RWX_LAT_PC(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_NCBX_RWX_LAT_PC(unsigned long a, unsigned long b, unsigned long c)
@@ -4771,7 +4792,7 @@ static inline uint64_t BDK_IOBNX_NCBX_RWX_LAT_PC(unsigned long a, unsigned long 
  *
  * IOBN NCB Request Performance Counter Registers
  */
-typedef union
+union bdk_iobnx_ncbx_rwx_req_pc
 {
     uint64_t u;
     struct bdk_iobnx_ncbx_rwx_req_pc_s
@@ -4791,7 +4812,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_iobnx_ncbx_rwx_req_pc_s cn; */
-} bdk_iobnx_ncbx_rwx_req_pc_t;
+};
+typedef union bdk_iobnx_ncbx_rwx_req_pc bdk_iobnx_ncbx_rwx_req_pc_t;
 
 static inline uint64_t BDK_IOBNX_NCBX_RWX_REQ_PC(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_NCBX_RWX_REQ_PC(unsigned long a, unsigned long b, unsigned long c)
@@ -4817,7 +4839,7 @@ static inline uint64_t BDK_IOBNX_NCBX_RWX_REQ_PC(unsigned long a, unsigned long 
  *
  * IOBN NCB SMMU Latency Performance Counter Registers
  */
-typedef union
+union bdk_iobnx_ncbx_rwx_smmu_lat_pc
 {
     uint64_t u;
     struct bdk_iobnx_ncbx_rwx_smmu_lat_pc_s
@@ -4849,7 +4871,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_iobnx_ncbx_rwx_smmu_lat_pc_s cn; */
-} bdk_iobnx_ncbx_rwx_smmu_lat_pc_t;
+};
+typedef union bdk_iobnx_ncbx_rwx_smmu_lat_pc bdk_iobnx_ncbx_rwx_smmu_lat_pc_t;
 
 static inline uint64_t BDK_IOBNX_NCBX_RWX_SMMU_LAT_PC(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_NCBX_RWX_SMMU_LAT_PC(unsigned long a, unsigned long b, unsigned long c)
@@ -4875,7 +4898,7 @@ static inline uint64_t BDK_IOBNX_NCBX_RWX_SMMU_LAT_PC(unsigned long a, unsigned 
  *
  * IOBN NCBI0 High Performance Register
  */
-typedef union
+union bdk_iobnx_ncb0_hp
 {
     uint64_t u;
     struct bdk_iobnx_ncb0_hp_s
@@ -4942,7 +4965,8 @@ typedef union
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_iobnx_ncb0_hp_t;
+};
+typedef union bdk_iobnx_ncb0_hp bdk_iobnx_ncb0_hp_t;
 
 static inline uint64_t BDK_IOBNX_NCB0_HP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_NCB0_HP(unsigned long a)
@@ -4968,7 +4992,7 @@ static inline uint64_t BDK_IOBNX_NCB0_HP(unsigned long a)
  *
  * IOBN NCB Secure Disable Register
  */
-typedef union
+union bdk_iobnx_ncb0_sdisx
 {
     uint64_t u;
     struct bdk_iobnx_ncb0_sdisx_s
@@ -4988,7 +5012,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_iobnx_ncb0_sdisx_s cn; */
-} bdk_iobnx_ncb0_sdisx_t;
+};
+typedef union bdk_iobnx_ncb0_sdisx bdk_iobnx_ncb0_sdisx_t;
 
 static inline uint64_t BDK_IOBNX_NCB0_SDISX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_NCB0_SDISX(unsigned long a, unsigned long b)
@@ -5014,7 +5039,7 @@ static inline uint64_t BDK_IOBNX_NCB0_SDISX(unsigned long a, unsigned long b)
  *
  * IOBN NCB Secure Kill-Device Registers
  */
-typedef union
+union bdk_iobnx_ncb0_skillx
 {
     uint64_t u;
     struct bdk_iobnx_ncb0_skillx_s
@@ -5034,7 +5059,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_iobnx_ncb0_skillx_s cn; */
-} bdk_iobnx_ncb0_skillx_t;
+};
+typedef union bdk_iobnx_ncb0_skillx bdk_iobnx_ncb0_skillx_t;
 
 static inline uint64_t BDK_IOBNX_NCB0_SKILLX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_NCB0_SKILLX(unsigned long a, unsigned long b)
@@ -5062,7 +5088,7 @@ static inline uint64_t BDK_IOBNX_NCB0_SKILLX(unsigned long a, unsigned long b)
  *
  * Status of the ROC core-clock DLL.
  */
-typedef union
+union bdk_iobnx_roc_dll
 {
     uint64_t u;
     struct bdk_iobnx_roc_dll_s
@@ -5114,7 +5140,8 @@ typedef union
     /* struct bdk_iobnx_roc_dll_s cn81xx; */
     /* struct bdk_iobnx_roc_dll_s cn83xx; */
     /* struct bdk_iobnx_roc_dll_s cn88xxp2; */
-} bdk_iobnx_roc_dll_t;
+};
+typedef union bdk_iobnx_roc_dll bdk_iobnx_roc_dll_t;
 
 static inline uint64_t BDK_IOBNX_ROC_DLL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_ROC_DLL(unsigned long a)
@@ -5140,7 +5167,7 @@ static inline uint64_t BDK_IOBNX_ROC_DLL(unsigned long a)
  *
  * INTERNAL: IOBN Scratch Register
  */
-typedef union
+union bdk_iobnx_scratch
 {
     uint64_t u;
     struct bdk_iobnx_scratch_s
@@ -5152,7 +5179,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_iobnx_scratch_s cn; */
-} bdk_iobnx_scratch_t;
+};
+typedef union bdk_iobnx_scratch bdk_iobnx_scratch_t;
 
 static inline uint64_t BDK_IOBNX_SCRATCH(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_SCRATCH(unsigned long a)
@@ -5179,7 +5207,7 @@ static inline uint64_t BDK_IOBNX_SCRATCH(unsigned long a)
  * IOBN Control Register
  * This register contains various control bits for IOBN functionality.
  */
-typedef union
+union bdk_iobnx_slitagx_control
 {
     uint64_t u;
     struct bdk_iobnx_slitagx_control_s
@@ -5332,7 +5360,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn83xx;
     /* struct bdk_iobnx_slitagx_control_cn81xx cn88xxp2; */
-} bdk_iobnx_slitagx_control_t;
+};
+typedef union bdk_iobnx_slitagx_control bdk_iobnx_slitagx_control_t;
 
 static inline uint64_t BDK_IOBNX_SLITAGX_CONTROL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_SLITAGX_CONTROL(unsigned long a, unsigned long b)
@@ -5358,7 +5387,7 @@ static inline uint64_t BDK_IOBNX_SLITAGX_CONTROL(unsigned long a, unsigned long 
  *
  * INTERNAL: IOBN Test Register
  */
-typedef union
+union bdk_iobnx_test
 {
     uint64_t u;
     struct bdk_iobnx_test_s
@@ -5383,7 +5412,8 @@ typedef union
     } cn81xx;
     /* struct bdk_iobnx_test_s cn88xx; */
     /* struct bdk_iobnx_test_cn81xx cn83xx; */
-} bdk_iobnx_test_t;
+};
+typedef union bdk_iobnx_test bdk_iobnx_test_t;
 
 static inline uint64_t BDK_IOBNX_TEST(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_TEST(unsigned long a)

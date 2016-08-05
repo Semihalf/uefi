@@ -88,7 +88,7 @@
  * This register provides access to the internal BIST results. Each bit is the BIST result of an
  * individual memory (per bit, 0 = pass and 1 = fail).
  */
-typedef union
+union bdk_lbkx_bist_result
 {
     uint64_t u;
     struct bdk_lbkx_bist_result_s
@@ -102,7 +102,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_lbkx_bist_result_s cn; */
-} bdk_lbkx_bist_result_t;
+};
+typedef union bdk_lbkx_bist_result bdk_lbkx_bist_result_t;
 
 static inline uint64_t BDK_LBKX_BIST_RESULT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LBKX_BIST_RESULT(unsigned long a)
@@ -126,7 +127,7 @@ static inline uint64_t BDK_LBKX_BIST_RESULT(unsigned long a)
  *
  * Loopback Channel to Port Kind Register
  */
-typedef union
+union bdk_lbkx_chx_pkind
 {
     uint64_t u;
     struct bdk_lbkx_chx_pkind_s
@@ -140,7 +141,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_lbkx_chx_pkind_s cn; */
-} bdk_lbkx_chx_pkind_t;
+};
+typedef union bdk_lbkx_chx_pkind bdk_lbkx_chx_pkind_t;
 
 static inline uint64_t BDK_LBKX_CHX_PKIND(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LBKX_CHX_PKIND(unsigned long a, unsigned long b)
@@ -165,7 +167,7 @@ static inline uint64_t BDK_LBKX_CHX_PKIND(unsigned long a, unsigned long b)
  * Loopback Reset Register
  * This register is for diagnostic use only.
  */
-typedef union
+union bdk_lbkx_clk_gate_ctl
 {
     uint64_t u;
     struct bdk_lbkx_clk_gate_ctl_s
@@ -179,7 +181,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_lbkx_clk_gate_ctl_s cn; */
-} bdk_lbkx_clk_gate_ctl_t;
+};
+typedef union bdk_lbkx_clk_gate_ctl bdk_lbkx_clk_gate_ctl_t;
 
 static inline uint64_t BDK_LBKX_CLK_GATE_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LBKX_CLK_GATE_CTL(unsigned long a)
@@ -204,7 +207,7 @@ static inline uint64_t BDK_LBKX_CLK_GATE_CTL(unsigned long a)
  * Loopback Constants Register
  * This register contains constants for software discovery.
  */
-typedef union
+union bdk_lbkx_const
 {
     uint64_t u;
     struct bdk_lbkx_const_s
@@ -306,7 +309,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_lbkx_const_s cn83xx; */
-} bdk_lbkx_const_t;
+};
+typedef union bdk_lbkx_const bdk_lbkx_const_t;
 
 static inline uint64_t BDK_LBKX_CONST(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LBKX_CONST(unsigned long a)
@@ -331,7 +335,7 @@ static inline uint64_t BDK_LBKX_CONST(unsigned long a)
  * Loopback Constants Register
  * This register contains constants for software discovery.
  */
-typedef union
+union bdk_lbkx_const1
 {
     uint64_t u;
     struct bdk_lbkx_const1_s
@@ -343,7 +347,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_lbkx_const1_s cn; */
-} bdk_lbkx_const1_t;
+};
+typedef union bdk_lbkx_const1 bdk_lbkx_const1_t;
 
 static inline uint64_t BDK_LBKX_CONST1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LBKX_CONST1(unsigned long a)
@@ -367,7 +372,7 @@ static inline uint64_t BDK_LBKX_CONST1(unsigned long a)
  *
  * Loopback ECC Configuration Register
  */
-typedef union
+union bdk_lbkx_ecc_cfg
 {
     uint64_t u;
     struct bdk_lbkx_ecc_cfg_s
@@ -385,7 +390,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_lbkx_ecc_cfg_s cn; */
-} bdk_lbkx_ecc_cfg_t;
+};
+typedef union bdk_lbkx_ecc_cfg bdk_lbkx_ecc_cfg_t;
 
 static inline uint64_t BDK_LBKX_ECC_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LBKX_ECC_CFG(unsigned long a)
@@ -409,7 +415,7 @@ static inline uint64_t BDK_LBKX_ECC_CFG(unsigned long a)
  *
  * Loopback Error Interrupt Register
  */
-typedef union
+union bdk_lbkx_err_int
 {
     uint64_t u;
     struct bdk_lbkx_err_int_s
@@ -433,7 +439,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_lbkx_err_int_s cn; */
-} bdk_lbkx_err_int_t;
+};
+typedef union bdk_lbkx_err_int bdk_lbkx_err_int_t;
 
 static inline uint64_t BDK_LBKX_ERR_INT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LBKX_ERR_INT(unsigned long a)
@@ -458,7 +465,7 @@ static inline uint64_t BDK_LBKX_ERR_INT(unsigned long a)
  * Loopback Error Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_lbkx_err_int_ena_w1c
 {
     uint64_t u;
     struct bdk_lbkx_err_int_ena_w1c_s
@@ -502,7 +509,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_lbkx_err_int_ena_w1c_s cn83xx; */
-} bdk_lbkx_err_int_ena_w1c_t;
+};
+typedef union bdk_lbkx_err_int_ena_w1c bdk_lbkx_err_int_ena_w1c_t;
 
 static inline uint64_t BDK_LBKX_ERR_INT_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LBKX_ERR_INT_ENA_W1C(unsigned long a)
@@ -527,7 +535,7 @@ static inline uint64_t BDK_LBKX_ERR_INT_ENA_W1C(unsigned long a)
  * Loopback Error Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_lbkx_err_int_ena_w1s
 {
     uint64_t u;
     struct bdk_lbkx_err_int_ena_w1s_s
@@ -571,7 +579,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_lbkx_err_int_ena_w1s_s cn83xx; */
-} bdk_lbkx_err_int_ena_w1s_t;
+};
+typedef union bdk_lbkx_err_int_ena_w1s bdk_lbkx_err_int_ena_w1s_t;
 
 static inline uint64_t BDK_LBKX_ERR_INT_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LBKX_ERR_INT_ENA_W1S(unsigned long a)
@@ -596,7 +605,7 @@ static inline uint64_t BDK_LBKX_ERR_INT_ENA_W1S(unsigned long a)
  * Loopback Error Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_lbkx_err_int_w1s
 {
     uint64_t u;
     struct bdk_lbkx_err_int_w1s_s
@@ -640,7 +649,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_lbkx_err_int_w1s_s cn83xx; */
-} bdk_lbkx_err_int_w1s_t;
+};
+typedef union bdk_lbkx_err_int_w1s bdk_lbkx_err_int_w1s_t;
 
 static inline uint64_t BDK_LBKX_ERR_INT_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LBKX_ERR_INT_W1S(unsigned long a)
@@ -665,7 +675,7 @@ static inline uint64_t BDK_LBKX_ERR_INT_W1S(unsigned long a)
  * LBK MSI-X Pending Bit Array Registers
  * This register is the MSI-X PBA table; the bit number is indexed by the LBK_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_lbkx_msix_pbax
 {
     uint64_t u;
     struct bdk_lbkx_msix_pbax_s
@@ -679,7 +689,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_lbkx_msix_pbax_s cn; */
-} bdk_lbkx_msix_pbax_t;
+};
+typedef union bdk_lbkx_msix_pbax bdk_lbkx_msix_pbax_t;
 
 static inline uint64_t BDK_LBKX_MSIX_PBAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LBKX_MSIX_PBAX(unsigned long a, unsigned long b)
@@ -704,7 +715,7 @@ static inline uint64_t BDK_LBKX_MSIX_PBAX(unsigned long a, unsigned long b)
  * LBK MSI-X Vector-Table Address Register
  * This register is the MSI-X vector table, indexed by the LBK_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_lbkx_msix_vecx_addr
 {
     uint64_t u;
     struct bdk_lbkx_msix_vecx_addr_s
@@ -738,7 +749,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_lbkx_msix_vecx_addr_s cn; */
-} bdk_lbkx_msix_vecx_addr_t;
+};
+typedef union bdk_lbkx_msix_vecx_addr bdk_lbkx_msix_vecx_addr_t;
 
 static inline uint64_t BDK_LBKX_MSIX_VECX_ADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LBKX_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
@@ -763,7 +775,7 @@ static inline uint64_t BDK_LBKX_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
  * LBK MSI-X Vector-Table Control and Data Register
  * This register is the MSI-X vector table, indexed by the LBK_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_lbkx_msix_vecx_ctl
 {
     uint64_t u;
     struct bdk_lbkx_msix_vecx_ctl_s
@@ -781,7 +793,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_lbkx_msix_vecx_ctl_s cn; */
-} bdk_lbkx_msix_vecx_ctl_t;
+};
+typedef union bdk_lbkx_msix_vecx_ctl bdk_lbkx_msix_vecx_ctl_t;
 
 static inline uint64_t BDK_LBKX_MSIX_VECX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LBKX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
@@ -805,7 +818,7 @@ static inline uint64_t BDK_LBKX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
  *
  * Loopback Reset Register
  */
-typedef union
+union bdk_lbkx_sft_rst
 {
     uint64_t u;
     struct bdk_lbkx_sft_rst_s
@@ -819,7 +832,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_lbkx_sft_rst_s cn; */
-} bdk_lbkx_sft_rst_t;
+};
+typedef union bdk_lbkx_sft_rst bdk_lbkx_sft_rst_t;
 
 static inline uint64_t BDK_LBKX_SFT_RST(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LBKX_SFT_RST(unsigned long a)

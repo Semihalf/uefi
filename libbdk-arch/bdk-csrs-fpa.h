@@ -161,7 +161,7 @@ union bdk_fpa_free_addr_s
  * read of this register to avoid a race whereby a new range error changes this
  * register.
  */
-typedef union
+union bdk_fpa_addr_range_error
 {
     uint64_t u;
     struct bdk_fpa_addr_range_error_s
@@ -177,7 +177,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_addr_range_error_s cn; */
-} bdk_fpa_addr_range_error_t;
+};
+typedef union bdk_fpa_addr_range_error bdk_fpa_addr_range_error_t;
 
 #define BDK_FPA_ADDR_RANGE_ERROR BDK_FPA_ADDR_RANGE_ERROR_FUNC()
 static inline uint64_t BDK_FPA_ADDR_RANGE_ERROR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -201,7 +202,7 @@ static inline uint64_t BDK_FPA_ADDR_RANGE_ERROR_FUNC(void)
  * FPA Aura Config Register
  * This register configures aura backpressure, etc.
  */
-typedef union
+union bdk_fpa_aurax_cfg
 {
     uint64_t u;
     struct bdk_fpa_aurax_cfg_s
@@ -259,7 +260,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_aurax_cfg_s cn; */
-} bdk_fpa_aurax_cfg_t;
+};
+typedef union bdk_fpa_aurax_cfg bdk_fpa_aurax_cfg_t;
 
 static inline uint64_t BDK_FPA_AURAX_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_FPA_AURAX_CFG(unsigned long a)
@@ -281,7 +283,7 @@ static inline uint64_t BDK_FPA_AURAX_CFG(unsigned long a)
  *
  * FPA Aura Count Level Registers
  */
-typedef union
+union bdk_fpa_aurax_cnt_levels
 {
     uint64_t u;
     struct bdk_fpa_aurax_cnt_levels_s
@@ -351,7 +353,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_aurax_cnt_levels_s cn; */
-} bdk_fpa_aurax_cnt_levels_t;
+};
+typedef union bdk_fpa_aurax_cnt_levels bdk_fpa_aurax_cnt_levels_t;
 
 static inline uint64_t BDK_FPA_AURAX_CNT_LEVELS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_FPA_AURAX_CNT_LEVELS(unsigned long a)
@@ -374,7 +377,7 @@ static inline uint64_t BDK_FPA_AURAX_CNT_LEVELS(unsigned long a)
  * FPA Aura to Pool Registers
  * Provides the mapping from each aura to the pool number.
  */
-typedef union
+union bdk_fpa_aurax_pool
 {
     uint64_t u;
     struct bdk_fpa_aurax_pool_s
@@ -390,7 +393,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_aurax_pool_s cn; */
-} bdk_fpa_aurax_pool_t;
+};
+typedef union bdk_fpa_aurax_pool bdk_fpa_aurax_pool_t;
 
 static inline uint64_t BDK_FPA_AURAX_POOL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_FPA_AURAX_POOL(unsigned long a)
@@ -412,7 +416,7 @@ static inline uint64_t BDK_FPA_AURAX_POOL(unsigned long a)
  *
  * FPA Aura FPA Level Registers
  */
-typedef union
+union bdk_fpa_aurax_pool_levels
 {
     uint64_t u;
     struct bdk_fpa_aurax_pool_levels_s
@@ -496,7 +500,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_aurax_pool_levels_s cn; */
-} bdk_fpa_aurax_pool_levels_t;
+};
+typedef union bdk_fpa_aurax_pool_levels bdk_fpa_aurax_pool_levels_t;
 
 static inline uint64_t BDK_FPA_AURAX_POOL_LEVELS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_FPA_AURAX_POOL_LEVELS(unsigned long a)
@@ -519,7 +524,7 @@ static inline uint64_t BDK_FPA_AURAX_POOL_LEVELS(unsigned long a)
  * FPA BIST Status Register
  * This register provides the result of the BIST run on the FPA memories.
  */
-typedef union
+union bdk_fpa_bist_status
 {
     uint64_t u;
     struct bdk_fpa_bist_status_s
@@ -533,7 +538,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_bist_status_s cn; */
-} bdk_fpa_bist_status_t;
+};
+typedef union bdk_fpa_bist_status bdk_fpa_bist_status_t;
 
 #define BDK_FPA_BIST_STATUS BDK_FPA_BIST_STATUS_FUNC()
 static inline uint64_t BDK_FPA_BIST_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
@@ -556,7 +562,7 @@ static inline uint64_t BDK_FPA_BIST_STATUS_FUNC(void)
  *
  * INTERNAL: FPA Backpressure Test Register
  */
-typedef union
+union bdk_fpa_bp_test
 {
     uint64_t u;
     struct bdk_fpa_bp_test_s
@@ -678,7 +684,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_bp_test_s cn; */
-} bdk_fpa_bp_test_t;
+};
+typedef union bdk_fpa_bp_test bdk_fpa_bp_test_t;
 
 #define BDK_FPA_BP_TEST BDK_FPA_BP_TEST_FUNC()
 static inline uint64_t BDK_FPA_BP_TEST_FUNC(void) __attribute__ ((pure, always_inline));
@@ -702,7 +709,7 @@ static inline uint64_t BDK_FPA_BP_TEST_FUNC(void)
  * FPA Clock Count Register
  * This register counts the number of coprocessor-clock cycles since the deassertion of reset.
  */
-typedef union
+union bdk_fpa_clk_count
 {
     uint64_t u;
     struct bdk_fpa_clk_count_s
@@ -716,7 +723,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_clk_count_s cn; */
-} bdk_fpa_clk_count_t;
+};
+typedef union bdk_fpa_clk_count bdk_fpa_clk_count_t;
 
 #define BDK_FPA_CLK_COUNT BDK_FPA_CLK_COUNT_FUNC()
 static inline uint64_t BDK_FPA_CLK_COUNT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -740,7 +748,7 @@ static inline uint64_t BDK_FPA_CLK_COUNT_FUNC(void)
  * FPA Constants Register
  * This register contains constants for software discovery.
  */
-typedef union
+union bdk_fpa_const
 {
     uint64_t u;
     struct bdk_fpa_const_s
@@ -760,7 +768,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_const_s cn; */
-} bdk_fpa_const_t;
+};
+typedef union bdk_fpa_const bdk_fpa_const_t;
 
 #define BDK_FPA_CONST BDK_FPA_CONST_FUNC()
 static inline uint64_t BDK_FPA_CONST_FUNC(void) __attribute__ ((pure, always_inline));
@@ -784,7 +793,7 @@ static inline uint64_t BDK_FPA_CONST_FUNC(void)
  * FPA Constants Register 1
  * This register contains constants for software discovery.
  */
-typedef union
+union bdk_fpa_const1
 {
     uint64_t u;
     struct bdk_fpa_const1_s
@@ -798,7 +807,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_const1_s cn; */
-} bdk_fpa_const1_t;
+};
+typedef union bdk_fpa_const1 bdk_fpa_const1_t;
 
 #define BDK_FPA_CONST1 BDK_FPA_CONST1_FUNC()
 static inline uint64_t BDK_FPA_CONST1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -823,7 +833,7 @@ static inline uint64_t BDK_FPA_CONST1_FUNC(void)
  * Internal:
  * This register provides debug information.
  */
-typedef union
+union bdk_fpa_dbg_info
 {
     uint64_t u;
     struct bdk_fpa_dbg_info_s
@@ -867,7 +877,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_dbg_info_s cn; */
-} bdk_fpa_dbg_info_t;
+};
+typedef union bdk_fpa_dbg_info bdk_fpa_dbg_info_t;
 
 #define BDK_FPA_DBG_INFO BDK_FPA_DBG_INFO_FUNC()
 static inline uint64_t BDK_FPA_DBG_INFO_FUNC(void) __attribute__ ((pure, always_inline));
@@ -891,7 +902,7 @@ static inline uint64_t BDK_FPA_DBG_INFO_FUNC(void)
  * FPA ECC Control Register
  * This register allows inserting ECC errors for testing.
  */
-typedef union
+union bdk_fpa_ecc_ctl
 {
     uint64_t u;
     struct bdk_fpa_ecc_ctl_s
@@ -913,7 +924,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_ecc_ctl_s cn; */
-} bdk_fpa_ecc_ctl_t;
+};
+typedef union bdk_fpa_ecc_ctl bdk_fpa_ecc_ctl_t;
 
 #define BDK_FPA_ECC_CTL BDK_FPA_ECC_CTL_FUNC()
 static inline uint64_t BDK_FPA_ECC_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -937,7 +949,7 @@ static inline uint64_t BDK_FPA_ECC_CTL_FUNC(void)
  * FPA ECC Interrupt Register
  * This register contains ECC error interrupt summary bits.
  */
-typedef union
+union bdk_fpa_ecc_int
 {
     uint64_t u;
     struct bdk_fpa_ecc_int_s
@@ -955,7 +967,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_ecc_int_s cn; */
-} bdk_fpa_ecc_int_t;
+};
+typedef union bdk_fpa_ecc_int bdk_fpa_ecc_int_t;
 
 #define BDK_FPA_ECC_INT BDK_FPA_ECC_INT_FUNC()
 static inline uint64_t BDK_FPA_ECC_INT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -979,7 +992,7 @@ static inline uint64_t BDK_FPA_ECC_INT_FUNC(void)
  * FPA ECC Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_fpa_ecc_int_ena_w1c
 {
     uint64_t u;
     struct bdk_fpa_ecc_int_ena_w1c_s
@@ -997,7 +1010,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_ecc_int_ena_w1c_s cn; */
-} bdk_fpa_ecc_int_ena_w1c_t;
+};
+typedef union bdk_fpa_ecc_int_ena_w1c bdk_fpa_ecc_int_ena_w1c_t;
 
 #define BDK_FPA_ECC_INT_ENA_W1C BDK_FPA_ECC_INT_ENA_W1C_FUNC()
 static inline uint64_t BDK_FPA_ECC_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1021,7 +1035,7 @@ static inline uint64_t BDK_FPA_ECC_INT_ENA_W1C_FUNC(void)
  * FPA ECC Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_fpa_ecc_int_ena_w1s
 {
     uint64_t u;
     struct bdk_fpa_ecc_int_ena_w1s_s
@@ -1039,7 +1053,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_ecc_int_ena_w1s_s cn; */
-} bdk_fpa_ecc_int_ena_w1s_t;
+};
+typedef union bdk_fpa_ecc_int_ena_w1s bdk_fpa_ecc_int_ena_w1s_t;
 
 #define BDK_FPA_ECC_INT_ENA_W1S BDK_FPA_ECC_INT_ENA_W1S_FUNC()
 static inline uint64_t BDK_FPA_ECC_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1063,7 +1078,7 @@ static inline uint64_t BDK_FPA_ECC_INT_ENA_W1S_FUNC(void)
  * FPA ECC Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_fpa_ecc_int_w1s
 {
     uint64_t u;
     struct bdk_fpa_ecc_int_w1s_s
@@ -1081,7 +1096,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_ecc_int_w1s_s cn; */
-} bdk_fpa_ecc_int_w1s_t;
+};
+typedef union bdk_fpa_ecc_int_w1s bdk_fpa_ecc_int_w1s_t;
 
 #define BDK_FPA_ECC_INT_W1S BDK_FPA_ECC_INT_W1S_FUNC()
 static inline uint64_t BDK_FPA_ECC_INT_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1105,7 +1121,7 @@ static inline uint64_t BDK_FPA_ECC_INT_W1S_FUNC(void)
  * FPA Configuration Register
  * This register provides FPA control and status information.
  */
-typedef union
+union bdk_fpa_gen_cfg
 {
     uint64_t u;
     struct bdk_fpa_gen_cfg_s
@@ -1163,7 +1179,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_gen_cfg_s cn; */
-} bdk_fpa_gen_cfg_t;
+};
+typedef union bdk_fpa_gen_cfg bdk_fpa_gen_cfg_t;
 
 #define BDK_FPA_GEN_CFG BDK_FPA_GEN_CFG_FUNC()
 static inline uint64_t BDK_FPA_GEN_CFG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1187,7 +1204,7 @@ static inline uint64_t BDK_FPA_GEN_CFG_FUNC(void)
  * FPA General Interrupt Register
  * This register contains GEN error interrupt summary bits.
  */
-typedef union
+union bdk_fpa_gen_int
 {
     uint64_t u;
     struct bdk_fpa_gen_int_s
@@ -1221,7 +1238,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_gen_int_s cn; */
-} bdk_fpa_gen_int_t;
+};
+typedef union bdk_fpa_gen_int bdk_fpa_gen_int_t;
 
 #define BDK_FPA_GEN_INT BDK_FPA_GEN_INT_FUNC()
 static inline uint64_t BDK_FPA_GEN_INT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1245,7 +1263,7 @@ static inline uint64_t BDK_FPA_GEN_INT_FUNC(void)
  * FPA General Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_fpa_gen_int_ena_w1c
 {
     uint64_t u;
     struct bdk_fpa_gen_int_ena_w1c_s
@@ -1267,7 +1285,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_gen_int_ena_w1c_s cn; */
-} bdk_fpa_gen_int_ena_w1c_t;
+};
+typedef union bdk_fpa_gen_int_ena_w1c bdk_fpa_gen_int_ena_w1c_t;
 
 #define BDK_FPA_GEN_INT_ENA_W1C BDK_FPA_GEN_INT_ENA_W1C_FUNC()
 static inline uint64_t BDK_FPA_GEN_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1291,7 +1310,7 @@ static inline uint64_t BDK_FPA_GEN_INT_ENA_W1C_FUNC(void)
  * FPA General Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_fpa_gen_int_ena_w1s
 {
     uint64_t u;
     struct bdk_fpa_gen_int_ena_w1s_s
@@ -1313,7 +1332,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_gen_int_ena_w1s_s cn; */
-} bdk_fpa_gen_int_ena_w1s_t;
+};
+typedef union bdk_fpa_gen_int_ena_w1s bdk_fpa_gen_int_ena_w1s_t;
 
 #define BDK_FPA_GEN_INT_ENA_W1S BDK_FPA_GEN_INT_ENA_W1S_FUNC()
 static inline uint64_t BDK_FPA_GEN_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1337,7 +1357,7 @@ static inline uint64_t BDK_FPA_GEN_INT_ENA_W1S_FUNC(void)
  * FPA General Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_fpa_gen_int_w1s
 {
     uint64_t u;
     struct bdk_fpa_gen_int_w1s_s
@@ -1359,7 +1379,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_gen_int_w1s_s cn; */
-} bdk_fpa_gen_int_w1s_t;
+};
+typedef union bdk_fpa_gen_int_w1s bdk_fpa_gen_int_w1s_t;
 
 #define BDK_FPA_GEN_INT_W1S BDK_FPA_GEN_INT_W1S_FUNC()
 static inline uint64_t BDK_FPA_GEN_INT_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1382,7 +1403,7 @@ static inline uint64_t BDK_FPA_GEN_INT_W1S_FUNC(void)
  *
  * FPA Input Control Register
  */
-typedef union
+union bdk_fpa_inp_ctl
 {
     uint64_t u;
     struct bdk_fpa_inp_ctl_s
@@ -1454,7 +1475,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_inp_ctl_s cn; */
-} bdk_fpa_inp_ctl_t;
+};
+typedef union bdk_fpa_inp_ctl bdk_fpa_inp_ctl_t;
 
 #define BDK_FPA_INP_CTL BDK_FPA_INP_CTL_FUNC()
 static inline uint64_t BDK_FPA_INP_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1493,7 +1515,7 @@ static inline uint64_t BDK_FPA_INP_CTL_FUNC(void)
  * * else (excluding GMID 0x0 and 0x1), if a request does not hit any entries a
  * FPA_GEN_INT[GMID_UNMAP] error will be reported.
  */
-typedef union
+union bdk_fpa_pf_mapx
 {
     uint64_t u;
     struct bdk_fpa_pf_mapx_s
@@ -1521,7 +1543,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_pf_mapx_s cn; */
-} bdk_fpa_pf_mapx_t;
+};
+typedef union bdk_fpa_pf_mapx bdk_fpa_pf_mapx_t;
 
 static inline uint64_t BDK_FPA_PF_MAPX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_FPA_PF_MAPX(unsigned long a)
@@ -1545,7 +1568,7 @@ static inline uint64_t BDK_FPA_PF_MAPX(unsigned long a)
  * This register is the MSI-X PBA table; the bit number is indexed by the FPA_PF_INT_VEC_E
  * enumeration.
  */
-typedef union
+union bdk_fpa_pf_msix_pbax
 {
     uint64_t u;
     struct bdk_fpa_pf_msix_pbax_s
@@ -1559,7 +1582,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_pf_msix_pbax_s cn; */
-} bdk_fpa_pf_msix_pbax_t;
+};
+typedef union bdk_fpa_pf_msix_pbax bdk_fpa_pf_msix_pbax_t;
 
 static inline uint64_t BDK_FPA_PF_MSIX_PBAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_FPA_PF_MSIX_PBAX(unsigned long a)
@@ -1582,7 +1606,7 @@ static inline uint64_t BDK_FPA_PF_MSIX_PBAX(unsigned long a)
  * FPA MSI-X Vector-Table Address Register
  * This register is the MSI-X vector table, indexed by the FPA_PF_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_fpa_pf_msix_vecx_addr
 {
     uint64_t u;
     struct bdk_fpa_pf_msix_vecx_addr_s
@@ -1616,7 +1640,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_pf_msix_vecx_addr_s cn; */
-} bdk_fpa_pf_msix_vecx_addr_t;
+};
+typedef union bdk_fpa_pf_msix_vecx_addr bdk_fpa_pf_msix_vecx_addr_t;
 
 static inline uint64_t BDK_FPA_PF_MSIX_VECX_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_FPA_PF_MSIX_VECX_ADDR(unsigned long a)
@@ -1639,7 +1664,7 @@ static inline uint64_t BDK_FPA_PF_MSIX_VECX_ADDR(unsigned long a)
  * FPA MSI-X Vector-Table Control and Data Register
  * This register is the MSI-X vector table, indexed by the FPA_PF_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_fpa_pf_msix_vecx_ctl
 {
     uint64_t u;
     struct bdk_fpa_pf_msix_vecx_ctl_s
@@ -1657,7 +1682,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_pf_msix_vecx_ctl_s cn; */
-} bdk_fpa_pf_msix_vecx_ctl_t;
+};
+typedef union bdk_fpa_pf_msix_vecx_ctl bdk_fpa_pf_msix_vecx_ctl_t;
 
 static inline uint64_t BDK_FPA_PF_MSIX_VECX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_FPA_PF_MSIX_VECX_CTL(unsigned long a)
@@ -1680,7 +1706,7 @@ static inline uint64_t BDK_FPA_PF_MSIX_VECX_CTL(unsigned long a)
  * FPA PF VF Guest Machine Control Register
  * These registers configure the memory management for each VF.
  */
-typedef union
+union bdk_fpa_pf_vfx_gmctl
 {
     uint64_t u;
     struct bdk_fpa_pf_vfx_gmctl_s
@@ -1728,7 +1754,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_pf_vfx_gmctl_s cn; */
-} bdk_fpa_pf_vfx_gmctl_t;
+};
+typedef union bdk_fpa_pf_vfx_gmctl bdk_fpa_pf_vfx_gmctl_t;
 
 static inline uint64_t BDK_FPA_PF_VFX_GMCTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_FPA_PF_VFX_GMCTL(unsigned long a)
@@ -1750,7 +1777,7 @@ static inline uint64_t BDK_FPA_PF_VFX_GMCTL(unsigned long a)
  *
  * FPA Pool Configuration Registers
  */
-typedef union
+union bdk_fpa_poolx_cfg
 {
     uint64_t u;
     struct bdk_fpa_poolx_cfg_s
@@ -1818,7 +1845,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_poolx_cfg_s cn; */
-} bdk_fpa_poolx_cfg_t;
+};
+typedef union bdk_fpa_poolx_cfg bdk_fpa_poolx_cfg_t;
 
 static inline uint64_t BDK_FPA_POOLX_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_FPA_POOLX_CFG(unsigned long a)
@@ -1841,7 +1869,7 @@ static inline uint64_t BDK_FPA_POOLX_CFG(unsigned long a)
  * FPA Pool Internal Read Write Marks Registers
  * The low watermark register that determines when we read free pages from L2C.
  */
-typedef union
+union bdk_fpa_poolx_fpf_marks
 {
     uint64_t u;
     struct bdk_fpa_poolx_fpf_marks_s
@@ -1889,7 +1917,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_poolx_fpf_marks_s cn; */
-} bdk_fpa_poolx_fpf_marks_t;
+};
+typedef union bdk_fpa_poolx_fpf_marks bdk_fpa_poolx_fpf_marks_t;
 
 static inline uint64_t BDK_FPA_POOLX_FPF_MARKS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_FPA_POOLX_FPF_MARKS(unsigned long a)
@@ -1911,7 +1940,7 @@ static inline uint64_t BDK_FPA_POOLX_FPF_MARKS(unsigned long a)
  *
  * FPA Pool Operation Perf-Count Registers
  */
-typedef union
+union bdk_fpa_poolx_op_pc
 {
     uint64_t u;
     struct bdk_fpa_poolx_op_pc_s
@@ -1927,7 +1956,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_poolx_op_pc_s cn; */
-} bdk_fpa_poolx_op_pc_t;
+};
+typedef union bdk_fpa_poolx_op_pc bdk_fpa_poolx_op_pc_t;
 
 static inline uint64_t BDK_FPA_POOLX_OP_PC(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_FPA_POOLX_OP_PC(unsigned long a)
@@ -1949,7 +1979,7 @@ static inline uint64_t BDK_FPA_POOLX_OP_PC(unsigned long a)
  *
  * FPA Pool Stack Last Address Registers
  */
-typedef union
+union bdk_fpa_poolx_stack_addr
 {
     uint64_t u;
     struct bdk_fpa_poolx_stack_addr_s
@@ -1967,7 +1997,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_poolx_stack_addr_s cn; */
-} bdk_fpa_poolx_stack_addr_t;
+};
+typedef union bdk_fpa_poolx_stack_addr bdk_fpa_poolx_stack_addr_t;
 
 static inline uint64_t BDK_FPA_POOLX_STACK_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_FPA_POOLX_STACK_ADDR(unsigned long a)
@@ -1989,7 +2020,7 @@ static inline uint64_t BDK_FPA_POOLX_STACK_ADDR(unsigned long a)
  *
  * FPA Pool Stack Base Address Registers
  */
-typedef union
+union bdk_fpa_poolx_stack_base
 {
     uint64_t u;
     struct bdk_fpa_poolx_stack_base_s
@@ -2005,7 +2036,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_poolx_stack_base_s cn; */
-} bdk_fpa_poolx_stack_base_t;
+};
+typedef union bdk_fpa_poolx_stack_base bdk_fpa_poolx_stack_base_t;
 
 static inline uint64_t BDK_FPA_POOLX_STACK_BASE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_FPA_POOLX_STACK_BASE(unsigned long a)
@@ -2027,7 +2059,7 @@ static inline uint64_t BDK_FPA_POOLX_STACK_BASE(unsigned long a)
  *
  * FPA Pool Stack End Registers
  */
-typedef union
+union bdk_fpa_poolx_stack_end
 {
     uint64_t u;
     struct bdk_fpa_poolx_stack_end_s
@@ -2045,7 +2077,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_poolx_stack_end_s cn; */
-} bdk_fpa_poolx_stack_end_t;
+};
+typedef union bdk_fpa_poolx_stack_end bdk_fpa_poolx_stack_end_t;
 
 static inline uint64_t BDK_FPA_POOLX_STACK_END(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_FPA_POOLX_STACK_END(unsigned long a)
@@ -2067,7 +2100,7 @@ static inline uint64_t BDK_FPA_POOLX_STACK_END(unsigned long a)
  *
  * FPA Read Latency Perf-Count Register
  */
-typedef union
+union bdk_fpa_rd_latency_pc
 {
     uint64_t u;
     struct bdk_fpa_rd_latency_pc_s
@@ -2083,7 +2116,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_rd_latency_pc_s cn; */
-} bdk_fpa_rd_latency_pc_t;
+};
+typedef union bdk_fpa_rd_latency_pc bdk_fpa_rd_latency_pc_t;
 
 #define BDK_FPA_RD_LATENCY_PC BDK_FPA_RD_LATENCY_PC_FUNC()
 static inline uint64_t BDK_FPA_RD_LATENCY_PC_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2106,7 +2140,7 @@ static inline uint64_t BDK_FPA_RD_LATENCY_PC_FUNC(void)
  *
  * FPA Read Request Perf-Count Register
  */
-typedef union
+union bdk_fpa_rd_req_pc
 {
     uint64_t u;
     struct bdk_fpa_rd_req_pc_s
@@ -2118,7 +2152,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_rd_req_pc_s cn; */
-} bdk_fpa_rd_req_pc_t;
+};
+typedef union bdk_fpa_rd_req_pc bdk_fpa_rd_req_pc_t;
 
 #define BDK_FPA_RD_REQ_PC BDK_FPA_RD_REQ_PC_FUNC()
 static inline uint64_t BDK_FPA_RD_REQ_PC_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2141,7 +2176,7 @@ static inline uint64_t BDK_FPA_RD_REQ_PC_FUNC(void)
  *
  * FPA RED Delay Register
  */
-typedef union
+union bdk_fpa_red_delay
 {
     uint64_t u;
     struct bdk_fpa_red_delay_s
@@ -2177,7 +2212,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_red_delay_s cn; */
-} bdk_fpa_red_delay_t;
+};
+typedef union bdk_fpa_red_delay bdk_fpa_red_delay_t;
 
 #define BDK_FPA_RED_DELAY BDK_FPA_RED_DELAY_FUNC()
 static inline uint64_t BDK_FPA_RED_DELAY_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2201,7 +2237,7 @@ static inline uint64_t BDK_FPA_RED_DELAY_FUNC(void)
  * FPA Soft Reset Register
  * Allows soft reset.
  */
-typedef union
+union bdk_fpa_sft_rst
 {
     uint64_t u;
     struct bdk_fpa_sft_rst_s
@@ -2223,7 +2259,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_sft_rst_s cn; */
-} bdk_fpa_sft_rst_t;
+};
+typedef union bdk_fpa_sft_rst bdk_fpa_sft_rst_t;
 
 #define BDK_FPA_SFT_RST BDK_FPA_SFT_RST_FUNC()
 static inline uint64_t BDK_FPA_SFT_RST_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2247,7 +2284,7 @@ static inline uint64_t BDK_FPA_SFT_RST_FUNC(void)
  * FPA Status Register
  * This register returns FPA operational status.
  */
-typedef union
+union bdk_fpa_status
 {
     uint64_t u;
     struct bdk_fpa_status_s
@@ -2265,7 +2302,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_status_s cn; */
-} bdk_fpa_status_t;
+};
+typedef union bdk_fpa_status bdk_fpa_status_t;
 
 #define BDK_FPA_STATUS BDK_FPA_STATUS_FUNC()
 static inline uint64_t BDK_FPA_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2290,7 +2328,7 @@ static inline uint64_t BDK_FPA_STATUS_FUNC(void)
  * When any FPA_GEN_INT[GMID_UNMAP] error occurs, this register is latched with
  * information from the original request.
  */
-typedef union
+union bdk_fpa_unmap_info
 {
     uint64_t u;
     struct bdk_fpa_unmap_info_s
@@ -2306,7 +2344,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_unmap_info_s cn; */
-} bdk_fpa_unmap_info_t;
+};
+typedef union bdk_fpa_unmap_info bdk_fpa_unmap_info_t;
 
 #define BDK_FPA_UNMAP_INFO BDK_FPA_UNMAP_INFO_FUNC()
 static inline uint64_t BDK_FPA_UNMAP_INFO_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2329,7 +2368,7 @@ static inline uint64_t BDK_FPA_UNMAP_INFO_FUNC(void)
  *
  * FPA VF Interrupt Registers
  */
-typedef union
+union bdk_fpa_vfx_int
 {
     uint64_t u;
     struct bdk_fpa_vfx_int_s
@@ -2393,7 +2432,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_vfx_int_s cn; */
-} bdk_fpa_vfx_int_t;
+};
+typedef union bdk_fpa_vfx_int bdk_fpa_vfx_int_t;
 
 static inline uint64_t BDK_FPA_VFX_INT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_FPA_VFX_INT(unsigned long a)
@@ -2416,7 +2456,7 @@ static inline uint64_t BDK_FPA_VFX_INT(unsigned long a)
  * FPA VF Interrupt Enable Clear Registers
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_fpa_vfx_int_ena_w1c
 {
     uint64_t u;
     struct bdk_fpa_vfx_int_ena_w1c_s
@@ -2446,7 +2486,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_vfx_int_ena_w1c_s cn; */
-} bdk_fpa_vfx_int_ena_w1c_t;
+};
+typedef union bdk_fpa_vfx_int_ena_w1c bdk_fpa_vfx_int_ena_w1c_t;
 
 static inline uint64_t BDK_FPA_VFX_INT_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_FPA_VFX_INT_ENA_W1C(unsigned long a)
@@ -2469,7 +2510,7 @@ static inline uint64_t BDK_FPA_VFX_INT_ENA_W1C(unsigned long a)
  * FPA VF Interrupt Enable Set Registers
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_fpa_vfx_int_ena_w1s
 {
     uint64_t u;
     struct bdk_fpa_vfx_int_ena_w1s_s
@@ -2499,7 +2540,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_vfx_int_ena_w1s_s cn; */
-} bdk_fpa_vfx_int_ena_w1s_t;
+};
+typedef union bdk_fpa_vfx_int_ena_w1s bdk_fpa_vfx_int_ena_w1s_t;
 
 static inline uint64_t BDK_FPA_VFX_INT_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_FPA_VFX_INT_ENA_W1S(unsigned long a)
@@ -2522,7 +2564,7 @@ static inline uint64_t BDK_FPA_VFX_INT_ENA_W1S(unsigned long a)
  * FPA VF Interrupt Set Registers
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_fpa_vfx_int_w1s
 {
     uint64_t u;
     struct bdk_fpa_vfx_int_w1s_s
@@ -2552,7 +2594,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_vfx_int_w1s_s cn; */
-} bdk_fpa_vfx_int_w1s_t;
+};
+typedef union bdk_fpa_vfx_int_w1s bdk_fpa_vfx_int_w1s_t;
 
 static inline uint64_t BDK_FPA_VFX_INT_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_FPA_VFX_INT_W1S(unsigned long a)
@@ -2576,7 +2619,7 @@ static inline uint64_t BDK_FPA_VFX_INT_W1S(unsigned long a)
  * This register is the MSI-X PBA table; the bit number is indexed by the FPA_VF()_INT_VEC_E
  * enumeration.
  */
-typedef union
+union bdk_fpa_vfx_msix_pbax
 {
     uint64_t u;
     struct bdk_fpa_vfx_msix_pbax_s
@@ -2590,7 +2633,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_vfx_msix_pbax_s cn; */
-} bdk_fpa_vfx_msix_pbax_t;
+};
+typedef union bdk_fpa_vfx_msix_pbax bdk_fpa_vfx_msix_pbax_t;
 
 static inline uint64_t BDK_FPA_VFX_MSIX_PBAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_FPA_VFX_MSIX_PBAX(unsigned long a, unsigned long b)
@@ -2613,7 +2657,7 @@ static inline uint64_t BDK_FPA_VFX_MSIX_PBAX(unsigned long a, unsigned long b)
  * FPA VF MSI-X Vector-Table Address Register
  * This register is the MSI-X vector table, indexed by the FPA_VF_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_fpa_vfx_msix_vecx_addr
 {
     uint64_t u;
     struct bdk_fpa_vfx_msix_vecx_addr_s
@@ -2635,7 +2679,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_vfx_msix_vecx_addr_s cn; */
-} bdk_fpa_vfx_msix_vecx_addr_t;
+};
+typedef union bdk_fpa_vfx_msix_vecx_addr bdk_fpa_vfx_msix_vecx_addr_t;
 
 static inline uint64_t BDK_FPA_VFX_MSIX_VECX_ADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_FPA_VFX_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
@@ -2658,7 +2703,7 @@ static inline uint64_t BDK_FPA_VFX_MSIX_VECX_ADDR(unsigned long a, unsigned long
  * FPA MSI-X Vector-Table Control and Data Register
  * This register is the MSI-X vector table, indexed by the FPA_VF_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_fpa_vfx_msix_vecx_ctl
 {
     uint64_t u;
     struct bdk_fpa_vfx_msix_vecx_ctl_s
@@ -2676,7 +2721,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_vfx_msix_vecx_ctl_s cn; */
-} bdk_fpa_vfx_msix_vecx_ctl_t;
+};
+typedef union bdk_fpa_vfx_msix_vecx_ctl bdk_fpa_vfx_msix_vecx_ctl_t;
 
 static inline uint64_t BDK_FPA_VFX_MSIX_VECX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_FPA_VFX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
@@ -2698,7 +2744,7 @@ static inline uint64_t BDK_FPA_VFX_MSIX_VECX_CTL(unsigned long a, unsigned long 
  *
  * FPA VF Aura Count Register
  */
-typedef union
+union bdk_fpa_vhaurax_cnt
 {
     uint64_t u;
     struct bdk_fpa_vhaurax_cnt_s
@@ -2712,7 +2758,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_vhaurax_cnt_s cn; */
-} bdk_fpa_vhaurax_cnt_t;
+};
+typedef union bdk_fpa_vhaurax_cnt bdk_fpa_vhaurax_cnt_t;
 
 static inline uint64_t BDK_FPA_VHAURAX_CNT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_FPA_VHAURAX_CNT(unsigned long a)
@@ -2734,7 +2781,7 @@ static inline uint64_t BDK_FPA_VHAURAX_CNT(unsigned long a)
  *
  * FPA VF Aura Count Addition Register
  */
-typedef union
+union bdk_fpa_vhaurax_cnt_add
 {
     uint64_t u;
     struct bdk_fpa_vhaurax_cnt_add_s
@@ -2762,7 +2809,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_vhaurax_cnt_add_s cn; */
-} bdk_fpa_vhaurax_cnt_add_t;
+};
+typedef union bdk_fpa_vhaurax_cnt_add bdk_fpa_vhaurax_cnt_add_t;
 
 static inline uint64_t BDK_FPA_VHAURAX_CNT_ADD(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_FPA_VHAURAX_CNT_ADD(unsigned long a)
@@ -2784,7 +2832,7 @@ static inline uint64_t BDK_FPA_VHAURAX_CNT_ADD(unsigned long a)
  *
  * FPA VF Aura Allocation Limit Register
  */
-typedef union
+union bdk_fpa_vhaurax_cnt_limit
 {
     uint64_t u;
     struct bdk_fpa_vhaurax_cnt_limit_s
@@ -2802,7 +2850,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_vhaurax_cnt_limit_s cn; */
-} bdk_fpa_vhaurax_cnt_limit_t;
+};
+typedef union bdk_fpa_vhaurax_cnt_limit bdk_fpa_vhaurax_cnt_limit_t;
 
 static inline uint64_t BDK_FPA_VHAURAX_CNT_LIMIT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_FPA_VHAURAX_CNT_LIMIT(unsigned long a)
@@ -2824,7 +2873,7 @@ static inline uint64_t BDK_FPA_VHAURAX_CNT_LIMIT(unsigned long a)
  *
  * FPA VF Aura Count Threshold Register
  */
-typedef union
+union bdk_fpa_vhaurax_cnt_threshold
 {
     uint64_t u;
     struct bdk_fpa_vhaurax_cnt_threshold_s
@@ -2842,7 +2891,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_vhaurax_cnt_threshold_s cn; */
-} bdk_fpa_vhaurax_cnt_threshold_t;
+};
+typedef union bdk_fpa_vhaurax_cnt_threshold bdk_fpa_vhaurax_cnt_threshold_t;
 
 static inline uint64_t BDK_FPA_VHAURAX_CNT_THRESHOLD(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_FPA_VHAURAX_CNT_THRESHOLD(unsigned long a)
@@ -2873,7 +2923,7 @@ static inline uint64_t BDK_FPA_VHAURAX_CNT_THRESHOLD(unsigned long a)
  * Internal:
  * arch_max really 65536,4096.
  */
-typedef union
+union bdk_fpa_vhaurax_op_allocx
 {
     uint64_t u;
     struct bdk_fpa_vhaurax_op_allocx_s
@@ -2893,7 +2943,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_vhaurax_op_allocx_s cn; */
-} bdk_fpa_vhaurax_op_allocx_t;
+};
+typedef union bdk_fpa_vhaurax_op_allocx bdk_fpa_vhaurax_op_allocx_t;
 
 static inline uint64_t BDK_FPA_VHAURAX_OP_ALLOCX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_FPA_VHAURAX_OP_ALLOCX(unsigned long a, unsigned long b)
@@ -2924,7 +2975,7 @@ static inline uint64_t BDK_FPA_VHAURAX_OP_ALLOCX(unsigned long a, unsigned long 
  * Internal:
  * arch_max really 65536,4096.
  */
-typedef union
+union bdk_fpa_vhaurax_op_freex
 {
     uint64_t u;
     struct bdk_fpa_vhaurax_op_freex_s
@@ -2940,7 +2991,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_vhaurax_op_freex_s cn; */
-} bdk_fpa_vhaurax_op_freex_t;
+};
+typedef union bdk_fpa_vhaurax_op_freex bdk_fpa_vhaurax_op_freex_t;
 
 static inline uint64_t BDK_FPA_VHAURAX_OP_FREEX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_FPA_VHAURAX_OP_FREEX(unsigned long a, unsigned long b)
@@ -2962,7 +3014,7 @@ static inline uint64_t BDK_FPA_VHAURAX_OP_FREEX(unsigned long a, unsigned long b
  *
  * FPA Pool Free Buffers Available Registers
  */
-typedef union
+union bdk_fpa_vhpoolx_available
 {
     uint64_t u;
     struct bdk_fpa_vhpoolx_available_s
@@ -2982,7 +3034,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_vhpoolx_available_s cn; */
-} bdk_fpa_vhpoolx_available_t;
+};
+typedef union bdk_fpa_vhpoolx_available bdk_fpa_vhpoolx_available_t;
 
 static inline uint64_t BDK_FPA_VHPOOLX_AVAILABLE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_FPA_VHPOOLX_AVAILABLE(unsigned long a)
@@ -3005,7 +3058,7 @@ static inline uint64_t BDK_FPA_VHPOOLX_AVAILABLE(unsigned long a)
  * FPA Pool Ending Address Registers
  * Pointers sent to this pool after alignment must be equal to or less than this address.
  */
-typedef union
+union bdk_fpa_vhpoolx_end_addr
 {
     uint64_t u;
     struct bdk_fpa_vhpoolx_end_addr_s
@@ -3021,7 +3074,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_vhpoolx_end_addr_s cn; */
-} bdk_fpa_vhpoolx_end_addr_t;
+};
+typedef union bdk_fpa_vhpoolx_end_addr bdk_fpa_vhpoolx_end_addr_t;
 
 static inline uint64_t BDK_FPA_VHPOOLX_END_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_FPA_VHPOOLX_END_ADDR(unsigned long a)
@@ -3044,7 +3098,7 @@ static inline uint64_t BDK_FPA_VHPOOLX_END_ADDR(unsigned long a)
  * FPA Pool Starting Address Registers
  * Pointers sent to this pool after alignment must be equal to or greater than this address.
  */
-typedef union
+union bdk_fpa_vhpoolx_start_addr
 {
     uint64_t u;
     struct bdk_fpa_vhpoolx_start_addr_s
@@ -3060,7 +3114,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_vhpoolx_start_addr_s cn; */
-} bdk_fpa_vhpoolx_start_addr_t;
+};
+typedef union bdk_fpa_vhpoolx_start_addr bdk_fpa_vhpoolx_start_addr_t;
 
 static inline uint64_t BDK_FPA_VHPOOLX_START_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_FPA_VHPOOLX_START_ADDR(unsigned long a)
@@ -3082,7 +3137,7 @@ static inline uint64_t BDK_FPA_VHPOOLX_START_ADDR(unsigned long a)
  *
  * FPA Pool Threshold Register
  */
-typedef union
+union bdk_fpa_vhpoolx_threshold
 {
     uint64_t u;
     struct bdk_fpa_vhpoolx_threshold_s
@@ -3100,7 +3155,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_vhpoolx_threshold_s cn; */
-} bdk_fpa_vhpoolx_threshold_t;
+};
+typedef union bdk_fpa_vhpoolx_threshold bdk_fpa_vhpoolx_threshold_t;
 
 static inline uint64_t BDK_FPA_VHPOOLX_THRESHOLD(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_FPA_VHPOOLX_THRESHOLD(unsigned long a)

@@ -58,7 +58,7 @@
  * PCIe VF Vendor and Device Register
  * This register contains the first 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepvfx_cfg000
 {
     uint32_t u;
     struct bdk_pcieepvfx_cfg000_s
@@ -72,7 +72,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepvfx_cfg000_s cn; */
-} bdk_pcieepvfx_cfg000_t;
+};
+typedef union bdk_pcieepvfx_cfg000 bdk_pcieepvfx_cfg000_t;
 
 static inline uint64_t BDK_PCIEEPVFX_CFG000(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPVFX_CFG000(unsigned long a)
@@ -94,7 +95,7 @@ static inline uint64_t BDK_PCIEEPVFX_CFG000(unsigned long a)
  * PCIe VF Command/Status Register
  * This register contains the second 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepvfx_cfg001
 {
     uint32_t u;
     struct bdk_pcieepvfx_cfg001_s
@@ -162,7 +163,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepvfx_cfg001_s cn; */
-} bdk_pcieepvfx_cfg001_t;
+};
+typedef union bdk_pcieepvfx_cfg001 bdk_pcieepvfx_cfg001_t;
 
 static inline uint64_t BDK_PCIEEPVFX_CFG001(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPVFX_CFG001(unsigned long a)
@@ -184,7 +186,7 @@ static inline uint64_t BDK_PCIEEPVFX_CFG001(unsigned long a)
  * PCIe VF Class Code/Revision ID Register
  * This register contains the third 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepvfx_cfg002
 {
     uint32_t u;
     struct bdk_pcieepvfx_cfg002_s
@@ -206,7 +208,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepvfx_cfg002_s cn; */
-} bdk_pcieepvfx_cfg002_t;
+};
+typedef union bdk_pcieepvfx_cfg002 bdk_pcieepvfx_cfg002_t;
 
 static inline uint64_t BDK_PCIEEPVFX_CFG002(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPVFX_CFG002(unsigned long a)
@@ -228,7 +231,7 @@ static inline uint64_t BDK_PCIEEPVFX_CFG002(unsigned long a)
  * PCIe VF BIST, Header Type, Master Latency Timer, Cache Line Size Register
  * This register contains the fourth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepvfx_cfg003
 {
     uint32_t u;
     struct bdk_pcieepvfx_cfg003_s
@@ -256,7 +259,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepvfx_cfg003_s cn; */
-} bdk_pcieepvfx_cfg003_t;
+};
+typedef union bdk_pcieepvfx_cfg003 bdk_pcieepvfx_cfg003_t;
 
 static inline uint64_t BDK_PCIEEPVFX_CFG003(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPVFX_CFG003(unsigned long a)
@@ -278,7 +282,7 @@ static inline uint64_t BDK_PCIEEPVFX_CFG003(unsigned long a)
  * PCIe VF Base Address 0 Low Register
  * This register contains the fifth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepvfx_cfg004
 {
     uint32_t u;
     struct bdk_pcieepvfx_cfg004_s
@@ -290,7 +294,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepvfx_cfg004_s cn; */
-} bdk_pcieepvfx_cfg004_t;
+};
+typedef union bdk_pcieepvfx_cfg004 bdk_pcieepvfx_cfg004_t;
 
 static inline uint64_t BDK_PCIEEPVFX_CFG004(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPVFX_CFG004(unsigned long a)
@@ -312,7 +317,7 @@ static inline uint64_t BDK_PCIEEPVFX_CFG004(unsigned long a)
  * PCIe VF Base Address 0 High Register
  * This register contains the sixth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepvfx_cfg005
 {
     uint32_t u;
     struct bdk_pcieepvfx_cfg005_s
@@ -324,7 +329,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepvfx_cfg005_s cn; */
-} bdk_pcieepvfx_cfg005_t;
+};
+typedef union bdk_pcieepvfx_cfg005 bdk_pcieepvfx_cfg005_t;
 
 static inline uint64_t BDK_PCIEEPVFX_CFG005(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPVFX_CFG005(unsigned long a)
@@ -346,7 +352,7 @@ static inline uint64_t BDK_PCIEEPVFX_CFG005(unsigned long a)
  * PCIe VF Base Address 1 Low Register
  * This register contains the seventh 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepvfx_cfg006
 {
     uint32_t u;
     struct bdk_pcieepvfx_cfg006_s
@@ -358,7 +364,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepvfx_cfg006_s cn; */
-} bdk_pcieepvfx_cfg006_t;
+};
+typedef union bdk_pcieepvfx_cfg006 bdk_pcieepvfx_cfg006_t;
 
 static inline uint64_t BDK_PCIEEPVFX_CFG006(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPVFX_CFG006(unsigned long a)
@@ -380,7 +387,7 @@ static inline uint64_t BDK_PCIEEPVFX_CFG006(unsigned long a)
  * PCIe VF Base Address 1 High Register
  * This register contains the eighth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepvfx_cfg007
 {
     uint32_t u;
     struct bdk_pcieepvfx_cfg007_s
@@ -392,7 +399,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepvfx_cfg007_s cn; */
-} bdk_pcieepvfx_cfg007_t;
+};
+typedef union bdk_pcieepvfx_cfg007 bdk_pcieepvfx_cfg007_t;
 
 static inline uint64_t BDK_PCIEEPVFX_CFG007(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPVFX_CFG007(unsigned long a)
@@ -414,7 +422,7 @@ static inline uint64_t BDK_PCIEEPVFX_CFG007(unsigned long a)
  * PCIe VF Base Address 2 Low Register
  * This register contains the ninth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepvfx_cfg008
 {
     uint32_t u;
     struct bdk_pcieepvfx_cfg008_s
@@ -426,7 +434,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepvfx_cfg008_s cn; */
-} bdk_pcieepvfx_cfg008_t;
+};
+typedef union bdk_pcieepvfx_cfg008 bdk_pcieepvfx_cfg008_t;
 
 static inline uint64_t BDK_PCIEEPVFX_CFG008(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPVFX_CFG008(unsigned long a)
@@ -448,7 +457,7 @@ static inline uint64_t BDK_PCIEEPVFX_CFG008(unsigned long a)
  * PCIe VF Base Address Register 2 - High Register
  * This register contains the tenth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepvfx_cfg009
 {
     uint32_t u;
     struct bdk_pcieepvfx_cfg009_s
@@ -460,7 +469,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepvfx_cfg009_s cn; */
-} bdk_pcieepvfx_cfg009_t;
+};
+typedef union bdk_pcieepvfx_cfg009 bdk_pcieepvfx_cfg009_t;
 
 static inline uint64_t BDK_PCIEEPVFX_CFG009(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPVFX_CFG009(unsigned long a)
@@ -482,7 +492,7 @@ static inline uint64_t BDK_PCIEEPVFX_CFG009(unsigned long a)
  * PCIe VF Card Bus CIS Pointer Register
  * This register contains the eleventh 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepvfx_cfg010
 {
     uint32_t u;
     struct bdk_pcieepvfx_cfg010_s
@@ -494,7 +504,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepvfx_cfg010_s cn; */
-} bdk_pcieepvfx_cfg010_t;
+};
+typedef union bdk_pcieepvfx_cfg010 bdk_pcieepvfx_cfg010_t;
 
 static inline uint64_t BDK_PCIEEPVFX_CFG010(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPVFX_CFG010(unsigned long a)
@@ -516,7 +527,7 @@ static inline uint64_t BDK_PCIEEPVFX_CFG010(unsigned long a)
  * PCIe VF SubSystem ID/Subsystem Vendor ID Register
  * This register contains the twelfth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepvfx_cfg011
 {
     uint32_t u;
     struct bdk_pcieepvfx_cfg011_s
@@ -530,7 +541,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepvfx_cfg011_s cn; */
-} bdk_pcieepvfx_cfg011_t;
+};
+typedef union bdk_pcieepvfx_cfg011 bdk_pcieepvfx_cfg011_t;
 
 static inline uint64_t BDK_PCIEEPVFX_CFG011(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPVFX_CFG011(unsigned long a)
@@ -552,7 +564,7 @@ static inline uint64_t BDK_PCIEEPVFX_CFG011(unsigned long a)
  * PCIe VF Expansion ROM Base Address Register
  * This register contains the thirteenth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepvfx_cfg012
 {
     uint32_t u;
     struct bdk_pcieepvfx_cfg012_s
@@ -568,7 +580,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepvfx_cfg012_s cn; */
-} bdk_pcieepvfx_cfg012_t;
+};
+typedef union bdk_pcieepvfx_cfg012 bdk_pcieepvfx_cfg012_t;
 
 static inline uint64_t BDK_PCIEEPVFX_CFG012(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPVFX_CFG012(unsigned long a)
@@ -590,7 +603,7 @@ static inline uint64_t BDK_PCIEEPVFX_CFG012(unsigned long a)
  * PCIe VF Capability Pointer Register
  * This register contains the fourteenth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepvfx_cfg013
 {
     uint32_t u;
     struct bdk_pcieepvfx_cfg013_s
@@ -604,7 +617,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepvfx_cfg013_s cn; */
-} bdk_pcieepvfx_cfg013_t;
+};
+typedef union bdk_pcieepvfx_cfg013 bdk_pcieepvfx_cfg013_t;
 
 static inline uint64_t BDK_PCIEEPVFX_CFG013(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPVFX_CFG013(unsigned long a)
@@ -626,7 +640,7 @@ static inline uint64_t BDK_PCIEEPVFX_CFG013(unsigned long a)
  * PCIe VF Interrupt Line/Interrupt Pin/Bridge Control Register
  * This register contains the sixteenth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepvfx_cfg015
 {
     uint32_t u;
     struct bdk_pcieepvfx_cfg015_s
@@ -644,7 +658,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepvfx_cfg015_s cn; */
-} bdk_pcieepvfx_cfg015_t;
+};
+typedef union bdk_pcieepvfx_cfg015 bdk_pcieepvfx_cfg015_t;
 
 static inline uint64_t BDK_PCIEEPVFX_CFG015(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPVFX_CFG015(unsigned long a)
@@ -666,7 +681,7 @@ static inline uint64_t BDK_PCIEEPVFX_CFG015(unsigned long a)
  * PCIe VF PCIe Capabilities/PCIe Capabilities List Register
  * This register contains the twenty-ninth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepvfx_cfg028
 {
     uint32_t u;
     struct bdk_pcieepvfx_cfg028_s
@@ -690,7 +705,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepvfx_cfg028_s cn; */
-} bdk_pcieepvfx_cfg028_t;
+};
+typedef union bdk_pcieepvfx_cfg028 bdk_pcieepvfx_cfg028_t;
 
 static inline uint64_t BDK_PCIEEPVFX_CFG028(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPVFX_CFG028(unsigned long a)
@@ -712,7 +728,7 @@ static inline uint64_t BDK_PCIEEPVFX_CFG028(unsigned long a)
  * PCIe VF Device Capabilities Register
  * This register contains the thirtieth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepvfx_cfg029
 {
     uint32_t u;
     struct bdk_pcieepvfx_cfg029_s
@@ -779,7 +795,8 @@ typedef union
         uint32_t reserved_29_31        : 3;
 #endif /* Word 0 - End */
     } cn;
-} bdk_pcieepvfx_cfg029_t;
+};
+typedef union bdk_pcieepvfx_cfg029 bdk_pcieepvfx_cfg029_t;
 
 static inline uint64_t BDK_PCIEEPVFX_CFG029(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPVFX_CFG029(unsigned long a)
@@ -801,7 +818,7 @@ static inline uint64_t BDK_PCIEEPVFX_CFG029(unsigned long a)
  * PCIe VF Device Control/Device Status Register
  * This register contains the thirty-first 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepvfx_cfg030
 {
     uint32_t u;
     struct bdk_pcieepvfx_cfg030_s
@@ -885,7 +902,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepvfx_cfg030_s cn; */
-} bdk_pcieepvfx_cfg030_t;
+};
+typedef union bdk_pcieepvfx_cfg030 bdk_pcieepvfx_cfg030_t;
 
 static inline uint64_t BDK_PCIEEPVFX_CFG030(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPVFX_CFG030(unsigned long a)
@@ -907,7 +925,7 @@ static inline uint64_t BDK_PCIEEPVFX_CFG030(unsigned long a)
  * PCIe VF Link Capabilities Register
  * This register contains the thirty-second 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepvfx_cfg031
 {
     uint32_t u;
     struct bdk_pcieepvfx_cfg031_s
@@ -939,7 +957,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepvfx_cfg031_s cn; */
-} bdk_pcieepvfx_cfg031_t;
+};
+typedef union bdk_pcieepvfx_cfg031 bdk_pcieepvfx_cfg031_t;
 
 static inline uint64_t BDK_PCIEEPVFX_CFG031(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPVFX_CFG031(unsigned long a)
@@ -961,7 +980,7 @@ static inline uint64_t BDK_PCIEEPVFX_CFG031(unsigned long a)
  * PCIe VF Link Control/Link Status Register
  * This register contains the thirty-third 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepvfx_cfg032
 {
     uint32_t u;
     struct bdk_pcieepvfx_cfg032_s
@@ -999,7 +1018,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepvfx_cfg032_s cn; */
-} bdk_pcieepvfx_cfg032_t;
+};
+typedef union bdk_pcieepvfx_cfg032 bdk_pcieepvfx_cfg032_t;
 
 static inline uint64_t BDK_PCIEEPVFX_CFG032(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPVFX_CFG032(unsigned long a)
@@ -1021,7 +1041,7 @@ static inline uint64_t BDK_PCIEEPVFX_CFG032(unsigned long a)
  * PCIe VF Device Capabilities 2 Register
  * This register contains the thirty-eighth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepvfx_cfg037
 {
     uint32_t u;
     struct bdk_pcieepvfx_cfg037_s
@@ -1087,7 +1107,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepvfx_cfg037_s cn; */
-} bdk_pcieepvfx_cfg037_t;
+};
+typedef union bdk_pcieepvfx_cfg037 bdk_pcieepvfx_cfg037_t;
 
 static inline uint64_t BDK_PCIEEPVFX_CFG037(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPVFX_CFG037(unsigned long a)
@@ -1109,7 +1130,7 @@ static inline uint64_t BDK_PCIEEPVFX_CFG037(unsigned long a)
  * PCIe VF Device Control 2 Register/Device Status 2 Register
  * This register contains the thirty-ninth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepvfx_cfg038
 {
     uint32_t u;
     struct bdk_pcieepvfx_cfg038_s
@@ -1141,7 +1162,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepvfx_cfg038_s cn; */
-} bdk_pcieepvfx_cfg038_t;
+};
+typedef union bdk_pcieepvfx_cfg038 bdk_pcieepvfx_cfg038_t;
 
 static inline uint64_t BDK_PCIEEPVFX_CFG038(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPVFX_CFG038(unsigned long a)
@@ -1163,7 +1185,7 @@ static inline uint64_t BDK_PCIEEPVFX_CFG038(unsigned long a)
  * PCIe VF Link Capabilities 2 Register
  * This register contains the fortieth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepvfx_cfg039
 {
     uint32_t u;
     struct bdk_pcieepvfx_cfg039_s
@@ -1181,7 +1203,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepvfx_cfg039_s cn; */
-} bdk_pcieepvfx_cfg039_t;
+};
+typedef union bdk_pcieepvfx_cfg039 bdk_pcieepvfx_cfg039_t;
 
 static inline uint64_t BDK_PCIEEPVFX_CFG039(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPVFX_CFG039(unsigned long a)
@@ -1203,7 +1226,7 @@ static inline uint64_t BDK_PCIEEPVFX_CFG039(unsigned long a)
  * PCIe VF Link Control 2 Register/Link Status 2 Register
  * This register contains the forty-first 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepvfx_cfg040
 {
     uint32_t u;
     struct bdk_pcieepvfx_cfg040_s
@@ -1235,7 +1258,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepvfx_cfg040_s cn; */
-} bdk_pcieepvfx_cfg040_t;
+};
+typedef union bdk_pcieepvfx_cfg040 bdk_pcieepvfx_cfg040_t;
 
 static inline uint64_t BDK_PCIEEPVFX_CFG040(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPVFX_CFG040(unsigned long a)
@@ -1257,7 +1281,7 @@ static inline uint64_t BDK_PCIEEPVFX_CFG040(unsigned long a)
  * PCIe VF PCI Express MSI-X Capability ID/MSI-X Next Item Pointer/MSI-X Control Register
  * This register contains the forty-fifth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepvfx_cfg044
 {
     uint32_t u;
     struct bdk_pcieepvfx_cfg044_s
@@ -1289,7 +1313,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepvfx_cfg044_s cn; */
-} bdk_pcieepvfx_cfg044_t;
+};
+typedef union bdk_pcieepvfx_cfg044 bdk_pcieepvfx_cfg044_t;
 
 static inline uint64_t BDK_PCIEEPVFX_CFG044(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPVFX_CFG044(unsigned long a)
@@ -1311,7 +1336,7 @@ static inline uint64_t BDK_PCIEEPVFX_CFG044(unsigned long a)
  * PCIe VF PCI Express MSI-X Table Offset and BIR Register
  * This register contains the forty-sixth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepvfx_cfg045
 {
     uint32_t u;
     struct bdk_pcieepvfx_cfg045_s
@@ -1325,7 +1350,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepvfx_cfg045_s cn; */
-} bdk_pcieepvfx_cfg045_t;
+};
+typedef union bdk_pcieepvfx_cfg045 bdk_pcieepvfx_cfg045_t;
 
 static inline uint64_t BDK_PCIEEPVFX_CFG045(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPVFX_CFG045(unsigned long a)
@@ -1347,7 +1373,7 @@ static inline uint64_t BDK_PCIEEPVFX_CFG045(unsigned long a)
  * PCIe VF PCI Express MSI-X PBA Offset and BIR Register
  * This register contains the forty-seventh 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepvfx_cfg046
 {
     uint32_t u;
     struct bdk_pcieepvfx_cfg046_s
@@ -1363,7 +1389,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepvfx_cfg046_s cn; */
-} bdk_pcieepvfx_cfg046_t;
+};
+typedef union bdk_pcieepvfx_cfg046 bdk_pcieepvfx_cfg046_t;
 
 static inline uint64_t BDK_PCIEEPVFX_CFG046(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPVFX_CFG046(unsigned long a)
@@ -1385,7 +1412,7 @@ static inline uint64_t BDK_PCIEEPVFX_CFG046(unsigned long a)
  * PCIe VF PCI Express ARI Extended Capability
  * This register contains the sixty-fifth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepvfx_cfg064
 {
     uint32_t u;
     struct bdk_pcieepvfx_cfg064_s
@@ -1401,7 +1428,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepvfx_cfg064_s cn; */
-} bdk_pcieepvfx_cfg064_t;
+};
+typedef union bdk_pcieepvfx_cfg064 bdk_pcieepvfx_cfg064_t;
 
 static inline uint64_t BDK_PCIEEPVFX_CFG064(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPVFX_CFG064(unsigned long a)
@@ -1423,7 +1451,7 @@ static inline uint64_t BDK_PCIEEPVFX_CFG064(unsigned long a)
  * PCIe VF PCI Express ARI Capability Register/PCI Express ARI Control Register
  * This register contains the sixty-sixth 32-bits of PCIe type 0 configuration space.
  */
-typedef union
+union bdk_pcieepvfx_cfg065
 {
     uint32_t u;
     struct bdk_pcieepvfx_cfg065_s
@@ -1449,7 +1477,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepvfx_cfg065_s cn; */
-} bdk_pcieepvfx_cfg065_t;
+};
+typedef union bdk_pcieepvfx_cfg065 bdk_pcieepvfx_cfg065_t;
 
 static inline uint64_t BDK_PCIEEPVFX_CFG065(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPVFX_CFG065(unsigned long a)

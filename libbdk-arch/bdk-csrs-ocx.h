@@ -80,7 +80,7 @@
  * memories and REPLAY memories are organized by link and are located in
  * OCX_TLK()_BIST_STATUS.
  */
-typedef union
+union bdk_ocx_com_bist_status
 {
     uint64_t u;
     struct bdk_ocx_com_bist_status_s
@@ -132,7 +132,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_com_bist_status_s cn; */
-} bdk_ocx_com_bist_status_t;
+};
+typedef union bdk_ocx_com_bist_status bdk_ocx_com_bist_status_t;
 
 #define BDK_OCX_COM_BIST_STATUS BDK_OCX_COM_BIST_STATUS_FUNC()
 static inline uint64_t BDK_OCX_COM_BIST_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
@@ -155,7 +156,7 @@ static inline uint64_t BDK_OCX_COM_BIST_STATUS_FUNC(void)
  *
  * OCX COM Dual Sort Register
  */
-typedef union
+union bdk_ocx_com_dual_sort
 {
     uint64_t u;
     struct bdk_ocx_com_dual_sort_s
@@ -177,7 +178,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_com_dual_sort_s cn; */
-} bdk_ocx_com_dual_sort_t;
+};
+typedef union bdk_ocx_com_dual_sort bdk_ocx_com_dual_sort_t;
 
 #define BDK_OCX_COM_DUAL_SORT BDK_OCX_COM_DUAL_SORT_FUNC()
 static inline uint64_t BDK_OCX_COM_DUAL_SORT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -200,7 +202,7 @@ static inline uint64_t BDK_OCX_COM_DUAL_SORT_FUNC(void)
  *
  * OCX COM Interrupt Register
  */
-typedef union
+union bdk_ocx_com_int
 {
     uint64_t u;
     struct bdk_ocx_com_int_s
@@ -258,7 +260,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_com_int_s cn; */
-} bdk_ocx_com_int_t;
+};
+typedef union bdk_ocx_com_int bdk_ocx_com_int_t;
 
 #define BDK_OCX_COM_INT BDK_OCX_COM_INT_FUNC()
 static inline uint64_t BDK_OCX_COM_INT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -282,7 +285,7 @@ static inline uint64_t BDK_OCX_COM_INT_FUNC(void)
  * OCX COM Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_ocx_com_int_ena_w1c
 {
     uint64_t u;
     struct bdk_ocx_com_int_ena_w1c_s
@@ -312,7 +315,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_com_int_ena_w1c_s cn; */
-} bdk_ocx_com_int_ena_w1c_t;
+};
+typedef union bdk_ocx_com_int_ena_w1c bdk_ocx_com_int_ena_w1c_t;
 
 #define BDK_OCX_COM_INT_ENA_W1C BDK_OCX_COM_INT_ENA_W1C_FUNC()
 static inline uint64_t BDK_OCX_COM_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -336,7 +340,7 @@ static inline uint64_t BDK_OCX_COM_INT_ENA_W1C_FUNC(void)
  * OCX COM Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_ocx_com_int_ena_w1s
 {
     uint64_t u;
     struct bdk_ocx_com_int_ena_w1s_s
@@ -366,7 +370,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_com_int_ena_w1s_s cn; */
-} bdk_ocx_com_int_ena_w1s_t;
+};
+typedef union bdk_ocx_com_int_ena_w1s bdk_ocx_com_int_ena_w1s_t;
 
 #define BDK_OCX_COM_INT_ENA_W1S BDK_OCX_COM_INT_ENA_W1S_FUNC()
 static inline uint64_t BDK_OCX_COM_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -390,7 +395,7 @@ static inline uint64_t BDK_OCX_COM_INT_ENA_W1S_FUNC(void)
  * OCX COM Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_ocx_com_int_w1s
 {
     uint64_t u;
     struct bdk_ocx_com_int_w1s_s
@@ -420,7 +425,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_com_int_w1s_s cn; */
-} bdk_ocx_com_int_w1s_t;
+};
+typedef union bdk_ocx_com_int_w1s bdk_ocx_com_int_w1s_t;
 
 #define BDK_OCX_COM_INT_W1S BDK_OCX_COM_INT_W1S_FUNC()
 static inline uint64_t BDK_OCX_COM_INT_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -455,7 +461,7 @@ static inline uint64_t BDK_OCX_COM_INT_W1S_FUNC(void)
  * * Detected uncorrectable ECC error while reading the replay buffer (see
  * OCX_COM_LINK(0..2)_INT[REPLAY_DBE]).
  */
-typedef union
+union bdk_ocx_com_linkx_ctl
 {
     uint64_t u;
     struct bdk_ocx_com_linkx_ctl_s
@@ -523,7 +529,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_com_linkx_ctl_s cn; */
-} bdk_ocx_com_linkx_ctl_t;
+};
+typedef union bdk_ocx_com_linkx_ctl bdk_ocx_com_linkx_ctl_t;
 
 static inline uint64_t BDK_OCX_COM_LINKX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCX_COM_LINKX_CTL(unsigned long a)
@@ -545,7 +552,7 @@ static inline uint64_t BDK_OCX_COM_LINKX_CTL(unsigned long a)
  *
  * OCX COM Link Interrupt Register
  */
-typedef union
+union bdk_ocx_com_linkx_int
 {
     uint64_t u;
     struct bdk_ocx_com_linkx_int_s
@@ -595,7 +602,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_com_linkx_int_s cn; */
-} bdk_ocx_com_linkx_int_t;
+};
+typedef union bdk_ocx_com_linkx_int bdk_ocx_com_linkx_int_t;
 
 static inline uint64_t BDK_OCX_COM_LINKX_INT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCX_COM_LINKX_INT(unsigned long a)
@@ -618,7 +626,7 @@ static inline uint64_t BDK_OCX_COM_LINKX_INT(unsigned long a)
  * OCX COM Link Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_ocx_com_linkx_int_ena_w1c
 {
     uint64_t u;
     struct bdk_ocx_com_linkx_int_ena_w1c_s
@@ -658,7 +666,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_com_linkx_int_ena_w1c_s cn; */
-} bdk_ocx_com_linkx_int_ena_w1c_t;
+};
+typedef union bdk_ocx_com_linkx_int_ena_w1c bdk_ocx_com_linkx_int_ena_w1c_t;
 
 static inline uint64_t BDK_OCX_COM_LINKX_INT_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCX_COM_LINKX_INT_ENA_W1C(unsigned long a)
@@ -681,7 +690,7 @@ static inline uint64_t BDK_OCX_COM_LINKX_INT_ENA_W1C(unsigned long a)
  * OCX COM Link Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_ocx_com_linkx_int_ena_w1s
 {
     uint64_t u;
     struct bdk_ocx_com_linkx_int_ena_w1s_s
@@ -721,7 +730,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_com_linkx_int_ena_w1s_s cn; */
-} bdk_ocx_com_linkx_int_ena_w1s_t;
+};
+typedef union bdk_ocx_com_linkx_int_ena_w1s bdk_ocx_com_linkx_int_ena_w1s_t;
 
 static inline uint64_t BDK_OCX_COM_LINKX_INT_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCX_COM_LINKX_INT_ENA_W1S(unsigned long a)
@@ -744,7 +754,7 @@ static inline uint64_t BDK_OCX_COM_LINKX_INT_ENA_W1S(unsigned long a)
  * OCX COM Link Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_ocx_com_linkx_int_w1s
 {
     uint64_t u;
     struct bdk_ocx_com_linkx_int_w1s_s
@@ -784,7 +794,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_com_linkx_int_w1s_s cn; */
-} bdk_ocx_com_linkx_int_w1s_t;
+};
+typedef union bdk_ocx_com_linkx_int_w1s bdk_ocx_com_linkx_int_w1s_t;
 
 static inline uint64_t BDK_OCX_COM_LINKX_INT_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCX_COM_LINKX_INT_W1S(unsigned long a)
@@ -806,7 +817,7 @@ static inline uint64_t BDK_OCX_COM_LINKX_INT_W1S(unsigned long a)
  *
  * OCX COM Link Timer Register
  */
-typedef union
+union bdk_ocx_com_link_timer
 {
     uint64_t u;
     struct bdk_ocx_com_link_timer_s
@@ -822,7 +833,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_com_link_timer_s cn; */
-} bdk_ocx_com_link_timer_t;
+};
+typedef union bdk_ocx_com_link_timer bdk_ocx_com_link_timer_t;
 
 #define BDK_OCX_COM_LINK_TIMER BDK_OCX_COM_LINK_TIMER_FUNC()
 static inline uint64_t BDK_OCX_COM_LINK_TIMER_FUNC(void) __attribute__ ((pure, always_inline));
@@ -845,7 +857,7 @@ static inline uint64_t BDK_OCX_COM_LINK_TIMER_FUNC(void)
  *
  * OCX COM Node Register
  */
-typedef union
+union bdk_ocx_com_node
 {
     uint64_t u;
     struct bdk_ocx_com_node_s
@@ -889,7 +901,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_com_node_s cn; */
-} bdk_ocx_com_node_t;
+};
+typedef union bdk_ocx_com_node bdk_ocx_com_node_t;
 
 #define BDK_OCX_COM_NODE BDK_OCX_COM_NODE_FUNC()
 static inline uint64_t BDK_OCX_COM_NODE_FUNC(void) __attribute__ ((pure, always_inline));
@@ -914,7 +927,7 @@ static inline uint64_t BDK_OCX_COM_NODE_FUNC(void)
  * These registers provides the parameters for DLL observability.  Index 0 is the northeast DLL,
  * index 1 the southeast DLL.
  */
-typedef union
+union bdk_ocx_dllx_status
 {
     uint64_t u;
     struct bdk_ocx_dllx_status_s
@@ -946,7 +959,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_dllx_status_s cn; */
-} bdk_ocx_dllx_status_t;
+};
+typedef union bdk_ocx_dllx_status bdk_ocx_dllx_status_t;
 
 static inline uint64_t BDK_OCX_DLLX_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCX_DLLX_STATUS(unsigned long a)
@@ -968,7 +982,7 @@ static inline uint64_t BDK_OCX_DLLX_STATUS(unsigned long a)
  *
  * OCX FRC 0-5 Statistics Registers 0
  */
-typedef union
+union bdk_ocx_frcx_stat0
 {
     uint64_t u;
     struct bdk_ocx_frcx_stat0_s
@@ -984,7 +998,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_frcx_stat0_s cn; */
-} bdk_ocx_frcx_stat0_t;
+};
+typedef union bdk_ocx_frcx_stat0 bdk_ocx_frcx_stat0_t;
 
 static inline uint64_t BDK_OCX_FRCX_STAT0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCX_FRCX_STAT0(unsigned long a)
@@ -1006,7 +1021,7 @@ static inline uint64_t BDK_OCX_FRCX_STAT0(unsigned long a)
  *
  * OCX FRC 0-5 Statistics Registers 1
  */
-typedef union
+union bdk_ocx_frcx_stat1
 {
     uint64_t u;
     struct bdk_ocx_frcx_stat1_s
@@ -1022,7 +1037,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_frcx_stat1_s cn; */
-} bdk_ocx_frcx_stat1_t;
+};
+typedef union bdk_ocx_frcx_stat1 bdk_ocx_frcx_stat1_t;
 
 static inline uint64_t BDK_OCX_FRCX_STAT1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCX_FRCX_STAT1(unsigned long a)
@@ -1044,7 +1060,7 @@ static inline uint64_t BDK_OCX_FRCX_STAT1(unsigned long a)
  *
  * OCX FRC 0-5 Statistics Registers 2
  */
-typedef union
+union bdk_ocx_frcx_stat2
 {
     uint64_t u;
     struct bdk_ocx_frcx_stat2_s
@@ -1058,7 +1074,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_frcx_stat2_s cn; */
-} bdk_ocx_frcx_stat2_t;
+};
+typedef union bdk_ocx_frcx_stat2 bdk_ocx_frcx_stat2_t;
 
 static inline uint64_t BDK_OCX_FRCX_STAT2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCX_FRCX_STAT2(unsigned long a)
@@ -1080,7 +1097,7 @@ static inline uint64_t BDK_OCX_FRCX_STAT2(unsigned long a)
  *
  * OCX FRC 0-5 Statistics Registers 3
  */
-typedef union
+union bdk_ocx_frcx_stat3
 {
     uint64_t u;
     struct bdk_ocx_frcx_stat3_s
@@ -1094,7 +1111,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_frcx_stat3_s cn; */
-} bdk_ocx_frcx_stat3_t;
+};
+typedef union bdk_ocx_frcx_stat3 bdk_ocx_frcx_stat3_t;
 
 static inline uint64_t BDK_OCX_FRCX_STAT3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCX_FRCX_STAT3(unsigned long a)
@@ -1116,7 +1134,7 @@ static inline uint64_t BDK_OCX_FRCX_STAT3(unsigned long a)
  *
  * OCX Lane Bad Count Register
  */
-typedef union
+union bdk_ocx_lnex_bad_cnt
 {
     uint64_t u;
     struct bdk_ocx_lnex_bad_cnt_s
@@ -1138,7 +1156,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_lnex_bad_cnt_s cn; */
-} bdk_ocx_lnex_bad_cnt_t;
+};
+typedef union bdk_ocx_lnex_bad_cnt bdk_ocx_lnex_bad_cnt_t;
 
 static inline uint64_t BDK_OCX_LNEX_BAD_CNT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCX_LNEX_BAD_CNT(unsigned long a)
@@ -1160,7 +1179,7 @@ static inline uint64_t BDK_OCX_LNEX_BAD_CNT(unsigned long a)
  *
  * OCX Lane Config Register
  */
-typedef union
+union bdk_ocx_lnex_cfg
 {
     uint64_t u;
     struct bdk_ocx_lnex_cfg_s
@@ -1184,7 +1203,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_lnex_cfg_s cn; */
-} bdk_ocx_lnex_cfg_t;
+};
+typedef union bdk_ocx_lnex_cfg bdk_ocx_lnex_cfg_t;
 
 static inline uint64_t BDK_OCX_LNEX_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCX_LNEX_CFG(unsigned long a)
@@ -1206,7 +1226,7 @@ static inline uint64_t BDK_OCX_LNEX_CFG(unsigned long a)
  *
  * OCX Lane Interrupt Register
  */
-typedef union
+union bdk_ocx_lnex_int
 {
     uint64_t u;
     struct bdk_ocx_lnex_int_s
@@ -1242,7 +1262,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_lnex_int_s cn; */
-} bdk_ocx_lnex_int_t;
+};
+typedef union bdk_ocx_lnex_int bdk_ocx_lnex_int_t;
 
 static inline uint64_t BDK_OCX_LNEX_INT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCX_LNEX_INT(unsigned long a)
@@ -1264,7 +1285,7 @@ static inline uint64_t BDK_OCX_LNEX_INT(unsigned long a)
  *
  * OCX Lane Interrupt Enable Register
  */
-typedef union
+union bdk_ocx_lnex_int_en
 {
     uint64_t u;
     struct bdk_ocx_lnex_int_en_s
@@ -1328,7 +1349,8 @@ typedef union
         uint64_t reserved_10_63        : 54;
 #endif /* Word 0 - End */
     } cn88xxp2;
-} bdk_ocx_lnex_int_en_t;
+};
+typedef union bdk_ocx_lnex_int_en bdk_ocx_lnex_int_en_t;
 
 static inline uint64_t BDK_OCX_LNEX_INT_EN(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCX_LNEX_INT_EN(unsigned long a)
@@ -1350,7 +1372,7 @@ static inline uint64_t BDK_OCX_LNEX_INT_EN(unsigned long a)
  *
  * OCX Lane Statistic 0 Register
  */
-typedef union
+union bdk_ocx_lnex_stat00
 {
     uint64_t u;
     struct bdk_ocx_lnex_stat00_s
@@ -1366,7 +1388,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_lnex_stat00_s cn; */
-} bdk_ocx_lnex_stat00_t;
+};
+typedef union bdk_ocx_lnex_stat00 bdk_ocx_lnex_stat00_t;
 
 static inline uint64_t BDK_OCX_LNEX_STAT00(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCX_LNEX_STAT00(unsigned long a)
@@ -1388,7 +1411,7 @@ static inline uint64_t BDK_OCX_LNEX_STAT00(unsigned long a)
  *
  * OCX Lane Statistic 1 Register
  */
-typedef union
+union bdk_ocx_lnex_stat01
 {
     uint64_t u;
     struct bdk_ocx_lnex_stat01_s
@@ -1404,7 +1427,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_lnex_stat01_s cn; */
-} bdk_ocx_lnex_stat01_t;
+};
+typedef union bdk_ocx_lnex_stat01 bdk_ocx_lnex_stat01_t;
 
 static inline uint64_t BDK_OCX_LNEX_STAT01(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCX_LNEX_STAT01(unsigned long a)
@@ -1426,7 +1450,7 @@ static inline uint64_t BDK_OCX_LNEX_STAT01(unsigned long a)
  *
  * OCX Lane Statistic 2 Register
  */
-typedef union
+union bdk_ocx_lnex_stat02
 {
     uint64_t u;
     struct bdk_ocx_lnex_stat02_s
@@ -1442,7 +1466,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_lnex_stat02_s cn; */
-} bdk_ocx_lnex_stat02_t;
+};
+typedef union bdk_ocx_lnex_stat02 bdk_ocx_lnex_stat02_t;
 
 static inline uint64_t BDK_OCX_LNEX_STAT02(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCX_LNEX_STAT02(unsigned long a)
@@ -1464,7 +1489,7 @@ static inline uint64_t BDK_OCX_LNEX_STAT02(unsigned long a)
  *
  * OCX Lane Statistic 3 Register
  */
-typedef union
+union bdk_ocx_lnex_stat03
 {
     uint64_t u;
     struct bdk_ocx_lnex_stat03_s
@@ -1480,7 +1505,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_lnex_stat03_s cn; */
-} bdk_ocx_lnex_stat03_t;
+};
+typedef union bdk_ocx_lnex_stat03 bdk_ocx_lnex_stat03_t;
 
 static inline uint64_t BDK_OCX_LNEX_STAT03(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCX_LNEX_STAT03(unsigned long a)
@@ -1502,7 +1528,7 @@ static inline uint64_t BDK_OCX_LNEX_STAT03(unsigned long a)
  *
  * OCX Lane Statistic 4 Register
  */
-typedef union
+union bdk_ocx_lnex_stat04
 {
     uint64_t u;
     struct bdk_ocx_lnex_stat04_s
@@ -1518,7 +1544,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_lnex_stat04_s cn; */
-} bdk_ocx_lnex_stat04_t;
+};
+typedef union bdk_ocx_lnex_stat04 bdk_ocx_lnex_stat04_t;
 
 static inline uint64_t BDK_OCX_LNEX_STAT04(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCX_LNEX_STAT04(unsigned long a)
@@ -1540,7 +1567,7 @@ static inline uint64_t BDK_OCX_LNEX_STAT04(unsigned long a)
  *
  * OCX Lane Statistic 5 Register
  */
-typedef union
+union bdk_ocx_lnex_stat05
 {
     uint64_t u;
     struct bdk_ocx_lnex_stat05_s
@@ -1556,7 +1583,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_lnex_stat05_s cn; */
-} bdk_ocx_lnex_stat05_t;
+};
+typedef union bdk_ocx_lnex_stat05 bdk_ocx_lnex_stat05_t;
 
 static inline uint64_t BDK_OCX_LNEX_STAT05(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCX_LNEX_STAT05(unsigned long a)
@@ -1578,7 +1606,7 @@ static inline uint64_t BDK_OCX_LNEX_STAT05(unsigned long a)
  *
  * OCX Lane Statistic 6 Register
  */
-typedef union
+union bdk_ocx_lnex_stat06
 {
     uint64_t u;
     struct bdk_ocx_lnex_stat06_s
@@ -1594,7 +1622,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_lnex_stat06_s cn; */
-} bdk_ocx_lnex_stat06_t;
+};
+typedef union bdk_ocx_lnex_stat06 bdk_ocx_lnex_stat06_t;
 
 static inline uint64_t BDK_OCX_LNEX_STAT06(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCX_LNEX_STAT06(unsigned long a)
@@ -1616,7 +1645,7 @@ static inline uint64_t BDK_OCX_LNEX_STAT06(unsigned long a)
  *
  * OCX Lane Statistic 7 Register
  */
-typedef union
+union bdk_ocx_lnex_stat07
 {
     uint64_t u;
     struct bdk_ocx_lnex_stat07_s
@@ -1632,7 +1661,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_lnex_stat07_s cn; */
-} bdk_ocx_lnex_stat07_t;
+};
+typedef union bdk_ocx_lnex_stat07 bdk_ocx_lnex_stat07_t;
 
 static inline uint64_t BDK_OCX_LNEX_STAT07(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCX_LNEX_STAT07(unsigned long a)
@@ -1654,7 +1684,7 @@ static inline uint64_t BDK_OCX_LNEX_STAT07(unsigned long a)
  *
  * OCX Lane Statistic 8 Register
  */
-typedef union
+union bdk_ocx_lnex_stat08
 {
     uint64_t u;
     struct bdk_ocx_lnex_stat08_s
@@ -1672,7 +1702,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_lnex_stat08_s cn; */
-} bdk_ocx_lnex_stat08_t;
+};
+typedef union bdk_ocx_lnex_stat08 bdk_ocx_lnex_stat08_t;
 
 static inline uint64_t BDK_OCX_LNEX_STAT08(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCX_LNEX_STAT08(unsigned long a)
@@ -1694,7 +1725,7 @@ static inline uint64_t BDK_OCX_LNEX_STAT08(unsigned long a)
  *
  * OCX Lane Statistic 9 Register
  */
-typedef union
+union bdk_ocx_lnex_stat09
 {
     uint64_t u;
     struct bdk_ocx_lnex_stat09_s
@@ -1710,7 +1741,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_lnex_stat09_s cn; */
-} bdk_ocx_lnex_stat09_t;
+};
+typedef union bdk_ocx_lnex_stat09 bdk_ocx_lnex_stat09_t;
 
 static inline uint64_t BDK_OCX_LNEX_STAT09(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCX_LNEX_STAT09(unsigned long a)
@@ -1732,7 +1764,7 @@ static inline uint64_t BDK_OCX_LNEX_STAT09(unsigned long a)
  *
  * OCX Lane Statistic 10 Register
  */
-typedef union
+union bdk_ocx_lnex_stat10
 {
     uint64_t u;
     struct bdk_ocx_lnex_stat10_s
@@ -1748,7 +1780,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_lnex_stat10_s cn; */
-} bdk_ocx_lnex_stat10_t;
+};
+typedef union bdk_ocx_lnex_stat10 bdk_ocx_lnex_stat10_t;
 
 static inline uint64_t BDK_OCX_LNEX_STAT10(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCX_LNEX_STAT10(unsigned long a)
@@ -1770,7 +1803,7 @@ static inline uint64_t BDK_OCX_LNEX_STAT10(unsigned long a)
  *
  * OCX Lane Statistic 11 Register
  */
-typedef union
+union bdk_ocx_lnex_stat11
 {
     uint64_t u;
     struct bdk_ocx_lnex_stat11_s
@@ -1786,7 +1819,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_lnex_stat11_s cn; */
-} bdk_ocx_lnex_stat11_t;
+};
+typedef union bdk_ocx_lnex_stat11 bdk_ocx_lnex_stat11_t;
 
 static inline uint64_t BDK_OCX_LNEX_STAT11(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCX_LNEX_STAT11(unsigned long a)
@@ -1808,7 +1842,7 @@ static inline uint64_t BDK_OCX_LNEX_STAT11(unsigned long a)
  *
  * OCX Lane Statistic 12 Register
  */
-typedef union
+union bdk_ocx_lnex_stat12
 {
     uint64_t u;
     struct bdk_ocx_lnex_stat12_s
@@ -1824,7 +1858,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_lnex_stat12_s cn; */
-} bdk_ocx_lnex_stat12_t;
+};
+typedef union bdk_ocx_lnex_stat12 bdk_ocx_lnex_stat12_t;
 
 static inline uint64_t BDK_OCX_LNEX_STAT12(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCX_LNEX_STAT12(unsigned long a)
@@ -1846,7 +1881,7 @@ static inline uint64_t BDK_OCX_LNEX_STAT12(unsigned long a)
  *
  * OCX Lane Statistic 13 Register
  */
-typedef union
+union bdk_ocx_lnex_stat13
 {
     uint64_t u;
     struct bdk_ocx_lnex_stat13_s
@@ -1862,7 +1897,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_lnex_stat13_s cn; */
-} bdk_ocx_lnex_stat13_t;
+};
+typedef union bdk_ocx_lnex_stat13 bdk_ocx_lnex_stat13_t;
 
 static inline uint64_t BDK_OCX_LNEX_STAT13(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCX_LNEX_STAT13(unsigned long a)
@@ -1884,7 +1920,7 @@ static inline uint64_t BDK_OCX_LNEX_STAT13(unsigned long a)
  *
  * OCX Lane Statistic 14 Register
  */
-typedef union
+union bdk_ocx_lnex_stat14
 {
     uint64_t u;
     struct bdk_ocx_lnex_stat14_s
@@ -1900,7 +1936,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_lnex_stat14_s cn; */
-} bdk_ocx_lnex_stat14_t;
+};
+typedef union bdk_ocx_lnex_stat14 bdk_ocx_lnex_stat14_t;
 
 static inline uint64_t BDK_OCX_LNEX_STAT14(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCX_LNEX_STAT14(unsigned long a)
@@ -1922,7 +1959,7 @@ static inline uint64_t BDK_OCX_LNEX_STAT14(unsigned long a)
  *
  * OCX Lane Status Register
  */
-typedef union
+union bdk_ocx_lnex_status
 {
     uint64_t u;
     struct bdk_ocx_lnex_status_s
@@ -1940,7 +1977,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_lnex_status_s cn; */
-} bdk_ocx_lnex_status_t;
+};
+typedef union bdk_ocx_lnex_status bdk_ocx_lnex_status_t;
 
 static inline uint64_t BDK_OCX_LNEX_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCX_LNEX_STATUS(unsigned long a)
@@ -1962,7 +2000,7 @@ static inline uint64_t BDK_OCX_LNEX_STATUS(unsigned long a)
  *
  * OCX Lane Status Message Register
  */
-typedef union
+union bdk_ocx_lnex_sts_msg
 {
     uint64_t u;
     struct bdk_ocx_lnex_sts_msg_s
@@ -1998,7 +2036,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_lnex_sts_msg_s cn; */
-} bdk_ocx_lnex_sts_msg_t;
+};
+typedef union bdk_ocx_lnex_sts_msg bdk_ocx_lnex_sts_msg_t;
 
 static inline uint64_t BDK_OCX_LNEX_STS_MSG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCX_LNEX_STS_MSG(unsigned long a)
@@ -2020,7 +2059,7 @@ static inline uint64_t BDK_OCX_LNEX_STS_MSG(unsigned long a)
  *
  * OCX Lane Training Link Partner Register
  */
-typedef union
+union bdk_ocx_lnex_trn_ctl
 {
     uint64_t u;
     struct bdk_ocx_lnex_trn_ctl_s
@@ -2044,7 +2083,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_lnex_trn_ctl_s cn; */
-} bdk_ocx_lnex_trn_ctl_t;
+};
+typedef union bdk_ocx_lnex_trn_ctl bdk_ocx_lnex_trn_ctl_t;
 
 static inline uint64_t BDK_OCX_LNEX_TRN_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCX_LNEX_TRN_CTL(unsigned long a)
@@ -2066,7 +2106,7 @@ static inline uint64_t BDK_OCX_LNEX_TRN_CTL(unsigned long a)
  *
  * OCX Lane Training Local Device Register
  */
-typedef union
+union bdk_ocx_lnex_trn_ld
 {
     uint64_t u;
     struct bdk_ocx_lnex_trn_ld_s
@@ -2094,7 +2134,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_lnex_trn_ld_s cn; */
-} bdk_ocx_lnex_trn_ld_t;
+};
+typedef union bdk_ocx_lnex_trn_ld bdk_ocx_lnex_trn_ld_t;
 
 static inline uint64_t BDK_OCX_LNEX_TRN_LD(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCX_LNEX_TRN_LD(unsigned long a)
@@ -2116,7 +2157,7 @@ static inline uint64_t BDK_OCX_LNEX_TRN_LD(unsigned long a)
  *
  * OCX Lane Training Link Partner Register
  */
-typedef union
+union bdk_ocx_lnex_trn_lp
 {
     uint64_t u;
     struct bdk_ocx_lnex_trn_lp_s
@@ -2142,7 +2183,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_lnex_trn_lp_s cn; */
-} bdk_ocx_lnex_trn_lp_t;
+};
+typedef union bdk_ocx_lnex_trn_lp bdk_ocx_lnex_trn_lp_t;
 
 static inline uint64_t BDK_OCX_LNEX_TRN_LP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCX_LNEX_TRN_LP(unsigned long a)
@@ -2164,7 +2206,7 @@ static inline uint64_t BDK_OCX_LNEX_TRN_LP(unsigned long a)
  *
  * OCX Lane Debug Register
  */
-typedef union
+union bdk_ocx_lne_dbg
 {
     uint64_t u;
     struct bdk_ocx_lne_dbg_s
@@ -2236,7 +2278,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_lne_dbg_s cn; */
-} bdk_ocx_lne_dbg_t;
+};
+typedef union bdk_ocx_lne_dbg bdk_ocx_lne_dbg_t;
 
 #define BDK_OCX_LNE_DBG BDK_OCX_LNE_DBG_FUNC()
 static inline uint64_t BDK_OCX_LNE_DBG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2259,7 +2302,7 @@ static inline uint64_t BDK_OCX_LNE_DBG_FUNC(void)
  *
  * OCX Link 0-2 Configuration Registers
  */
-typedef union
+union bdk_ocx_lnkx_cfg
 {
     uint64_t u;
     struct bdk_ocx_lnkx_cfg_s
@@ -2525,7 +2568,8 @@ typedef union
         uint64_t reserved_54_63        : 10;
 #endif /* Word 0 - End */
     } cn88xxp2;
-} bdk_ocx_lnkx_cfg_t;
+};
+typedef union bdk_ocx_lnkx_cfg bdk_ocx_lnkx_cfg_t;
 
 static inline uint64_t BDK_OCX_LNKX_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCX_LNKX_CFG(unsigned long a)
@@ -2549,7 +2593,7 @@ static inline uint64_t BDK_OCX_LNKX_CFG(unsigned long a)
  * This register is the MSI-X PBA table; the bit number is indexed by the OCX_INT_VEC_E
  * enumeration.
  */
-typedef union
+union bdk_ocx_msix_pbax
 {
     uint64_t u;
     struct bdk_ocx_msix_pbax_s
@@ -2563,7 +2607,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_msix_pbax_s cn; */
-} bdk_ocx_msix_pbax_t;
+};
+typedef union bdk_ocx_msix_pbax bdk_ocx_msix_pbax_t;
 
 static inline uint64_t BDK_OCX_MSIX_PBAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCX_MSIX_PBAX(unsigned long a)
@@ -2586,7 +2631,7 @@ static inline uint64_t BDK_OCX_MSIX_PBAX(unsigned long a)
  * OCX MSI-X Vector-Table Address Register
  * This register is the MSI-X vector table, indexed by the OCX_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_ocx_msix_vecx_addr
 {
     uint64_t u;
     struct bdk_ocx_msix_vecx_addr_s
@@ -2620,7 +2665,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_msix_vecx_addr_s cn; */
-} bdk_ocx_msix_vecx_addr_t;
+};
+typedef union bdk_ocx_msix_vecx_addr bdk_ocx_msix_vecx_addr_t;
 
 static inline uint64_t BDK_OCX_MSIX_VECX_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCX_MSIX_VECX_ADDR(unsigned long a)
@@ -2643,7 +2689,7 @@ static inline uint64_t BDK_OCX_MSIX_VECX_ADDR(unsigned long a)
  * OCX MSI-X Vector-Table Control and Data Register
  * This register is the MSI-X vector table, indexed by the OCX_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_ocx_msix_vecx_ctl
 {
     uint64_t u;
     struct bdk_ocx_msix_vecx_ctl_s
@@ -2661,7 +2707,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_msix_vecx_ctl_s cn; */
-} bdk_ocx_msix_vecx_ctl_t;
+};
+typedef union bdk_ocx_msix_vecx_ctl bdk_ocx_msix_vecx_ctl_t;
 
 static inline uint64_t BDK_OCX_MSIX_VECX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCX_MSIX_VECX_CTL(unsigned long a)
@@ -2688,7 +2735,7 @@ static inline uint64_t BDK_OCX_MSIX_VECX_CTL(unsigned long a)
  * stall. Data is placed in the OCX_PP_RD_DATA register.
  * This register has the same bit fields as OCX_WIN_CMD.
  */
-typedef union
+union bdk_ocx_pp_cmd
 {
     uint64_t u;
     struct bdk_ocx_pp_cmd_s
@@ -2762,7 +2809,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_pp_cmd_s cn; */
-} bdk_ocx_pp_cmd_t;
+};
+typedef union bdk_ocx_pp_cmd bdk_ocx_pp_cmd_t;
 
 #define BDK_OCX_PP_CMD BDK_OCX_PP_CMD_FUNC()
 static inline uint64_t BDK_OCX_PP_CMD_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2788,7 +2836,7 @@ static inline uint64_t BDK_OCX_PP_CMD_FUNC(void)
  * response is received.
  * This register has the same bit fields as OCX_WIN_RD_DATA.
  */
-typedef union
+union bdk_ocx_pp_rd_data
 {
     uint64_t u;
     struct bdk_ocx_pp_rd_data_s
@@ -2800,7 +2848,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_pp_rd_data_s cn; */
-} bdk_ocx_pp_rd_data_t;
+};
+typedef union bdk_ocx_pp_rd_data bdk_ocx_pp_rd_data_t;
 
 #define BDK_OCX_PP_RD_DATA BDK_OCX_PP_RD_DATA_FUNC()
 static inline uint64_t BDK_OCX_PP_RD_DATA_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2826,7 +2875,7 @@ static inline uint64_t BDK_OCX_PP_RD_DATA_FUNC(void)
  * cause a write operation to take place.
  * This register has the same bit fields as OCX_WIN_WR_DATA.
  */
-typedef union
+union bdk_ocx_pp_wr_data
 {
     uint64_t u;
     struct bdk_ocx_pp_wr_data_s
@@ -2838,7 +2887,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_pp_wr_data_s cn; */
-} bdk_ocx_pp_wr_data_t;
+};
+typedef union bdk_ocx_pp_wr_data bdk_ocx_pp_wr_data_t;
 
 #define BDK_OCX_PP_WR_DATA BDK_OCX_PP_WR_DATA_FUNC()
 static inline uint64_t BDK_OCX_PP_WR_DATA_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2861,7 +2911,7 @@ static inline uint64_t BDK_OCX_PP_WR_DATA_FUNC(void)
  *
  * OCX QLM 0-5 Configuration Registers
  */
-typedef union
+union bdk_ocx_qlmx_cfg
 {
     uint64_t u;
     struct bdk_ocx_qlmx_cfg_s
@@ -2969,7 +3019,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_qlmx_cfg_s cn; */
-} bdk_ocx_qlmx_cfg_t;
+};
+typedef union bdk_ocx_qlmx_cfg bdk_ocx_qlmx_cfg_t;
 
 static inline uint64_t BDK_OCX_QLMX_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCX_QLMX_CFG(unsigned long a)
@@ -2991,7 +3042,7 @@ static inline uint64_t BDK_OCX_QLMX_CFG(unsigned long a)
  *
  * OCX Receive Link Align Registers
  */
-typedef union
+union bdk_ocx_rlkx_align
 {
     uint64_t u;
     struct bdk_ocx_rlkx_align_s
@@ -3009,7 +3060,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_rlkx_align_s cn; */
-} bdk_ocx_rlkx_align_t;
+};
+typedef union bdk_ocx_rlkx_align bdk_ocx_rlkx_align_t;
 
 static inline uint64_t BDK_OCX_RLKX_ALIGN(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCX_RLKX_ALIGN(unsigned long a)
@@ -3031,7 +3083,7 @@ static inline uint64_t BDK_OCX_RLKX_ALIGN(unsigned long a)
  *
  * OCX Receive Link Block Error Registers
  */
-typedef union
+union bdk_ocx_rlkx_blk_err
 {
     uint64_t u;
     struct bdk_ocx_rlkx_blk_err_s
@@ -3051,7 +3103,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_rlkx_blk_err_s cn; */
-} bdk_ocx_rlkx_blk_err_t;
+};
+typedef union bdk_ocx_rlkx_blk_err bdk_ocx_rlkx_blk_err_t;
 
 static inline uint64_t BDK_OCX_RLKX_BLK_ERR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCX_RLKX_BLK_ERR(unsigned long a)
@@ -3073,7 +3126,7 @@ static inline uint64_t BDK_OCX_RLKX_BLK_ERR(unsigned long a)
  *
  * OCX Receive ECC Control Registers
  */
-typedef union
+union bdk_ocx_rlkx_ecc_ctl
 {
     uint64_t u;
     struct bdk_ocx_rlkx_ecc_ctl_s
@@ -3095,7 +3148,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_rlkx_ecc_ctl_s cn; */
-} bdk_ocx_rlkx_ecc_ctl_t;
+};
+typedef union bdk_ocx_rlkx_ecc_ctl bdk_ocx_rlkx_ecc_ctl_t;
 
 static inline uint64_t BDK_OCX_RLKX_ECC_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCX_RLKX_ECC_CTL(unsigned long a)
@@ -3117,7 +3171,7 @@ static inline uint64_t BDK_OCX_RLKX_ECC_CTL(unsigned long a)
  *
  * OCX Receive Link Enable Registers
  */
-typedef union
+union bdk_ocx_rlkx_enables
 {
     uint64_t u;
     struct bdk_ocx_rlkx_enables_s
@@ -3153,7 +3207,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_rlkx_enables_s cn; */
-} bdk_ocx_rlkx_enables_t;
+};
+typedef union bdk_ocx_rlkx_enables bdk_ocx_rlkx_enables_t;
 
 static inline uint64_t BDK_OCX_RLKX_ENABLES(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCX_RLKX_ENABLES(unsigned long a)
@@ -3175,7 +3230,7 @@ static inline uint64_t BDK_OCX_RLKX_ENABLES(unsigned long a)
  *
  * OCX Receive Link FIFO Count Registers
  */
-typedef union
+union bdk_ocx_rlkx_fifox_cnt
 {
     uint64_t u;
     struct bdk_ocx_rlkx_fifox_cnt_s
@@ -3191,7 +3246,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_rlkx_fifox_cnt_s cn; */
-} bdk_ocx_rlkx_fifox_cnt_t;
+};
+typedef union bdk_ocx_rlkx_fifox_cnt bdk_ocx_rlkx_fifox_cnt_t;
 
 static inline uint64_t BDK_OCX_RLKX_FIFOX_CNT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCX_RLKX_FIFOX_CNT(unsigned long a, unsigned long b)
@@ -3213,7 +3269,7 @@ static inline uint64_t BDK_OCX_RLKX_FIFOX_CNT(unsigned long a, unsigned long b)
  *
  * OCX Receive Encryption Key Register
  */
-typedef union
+union bdk_ocx_rlkx_key_highx
 {
     uint64_t u;
     struct bdk_ocx_rlkx_key_highx_s
@@ -3227,7 +3283,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_rlkx_key_highx_s cn; */
-} bdk_ocx_rlkx_key_highx_t;
+};
+typedef union bdk_ocx_rlkx_key_highx bdk_ocx_rlkx_key_highx_t;
 
 static inline uint64_t BDK_OCX_RLKX_KEY_HIGHX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCX_RLKX_KEY_HIGHX(unsigned long a, unsigned long b)
@@ -3249,7 +3306,7 @@ static inline uint64_t BDK_OCX_RLKX_KEY_HIGHX(unsigned long a, unsigned long b)
  *
  * OCX Receive Encryption Key Register
  */
-typedef union
+union bdk_ocx_rlkx_key_lowx
 {
     uint64_t u;
     struct bdk_ocx_rlkx_key_lowx_s
@@ -3263,7 +3320,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_rlkx_key_lowx_s cn; */
-} bdk_ocx_rlkx_key_lowx_t;
+};
+typedef union bdk_ocx_rlkx_key_lowx bdk_ocx_rlkx_key_lowx_t;
 
 static inline uint64_t BDK_OCX_RLKX_KEY_LOWX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCX_RLKX_KEY_LOWX(unsigned long a, unsigned long b)
@@ -3285,7 +3343,7 @@ static inline uint64_t BDK_OCX_RLKX_KEY_LOWX(unsigned long a, unsigned long b)
  *
  * OCX Receive Link Data Registers
  */
-typedef union
+union bdk_ocx_rlkx_lnk_data
 {
     uint64_t u;
     struct bdk_ocx_rlkx_lnk_data_s
@@ -3305,7 +3363,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_rlkx_lnk_data_s cn; */
-} bdk_ocx_rlkx_lnk_data_t;
+};
+typedef union bdk_ocx_rlkx_lnk_data bdk_ocx_rlkx_lnk_data_t;
 
 static inline uint64_t BDK_OCX_RLKX_LNK_DATA(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCX_RLKX_LNK_DATA(unsigned long a)
@@ -3330,7 +3389,7 @@ static inline uint64_t BDK_OCX_RLKX_LNK_DATA(unsigned long a)
  * MCD bits are received when the both the OCX_RLK(0..2)_ENABLES[MCD] bit is set and the MCD was
  * not previously transmitted.
  */
-typedef union
+union bdk_ocx_rlkx_mcd_ctl
 {
     uint64_t u;
     struct bdk_ocx_rlkx_mcd_ctl_s
@@ -3346,7 +3405,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_rlkx_mcd_ctl_s cn; */
-} bdk_ocx_rlkx_mcd_ctl_t;
+};
+typedef union bdk_ocx_rlkx_mcd_ctl bdk_ocx_rlkx_mcd_ctl_t;
 
 static inline uint64_t BDK_OCX_RLKX_MCD_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCX_RLKX_MCD_CTL(unsigned long a)
@@ -3368,7 +3428,7 @@ static inline uint64_t BDK_OCX_RLKX_MCD_CTL(unsigned long a)
  *
  * OCX Receive Data Protection Control Register
  */
-typedef union
+union bdk_ocx_rlkx_protect
 {
     uint64_t u;
     struct bdk_ocx_rlkx_protect_s
@@ -3390,7 +3450,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_rlkx_protect_s cn; */
-} bdk_ocx_rlkx_protect_t;
+};
+typedef union bdk_ocx_rlkx_protect bdk_ocx_rlkx_protect_t;
 
 static inline uint64_t BDK_OCX_RLKX_PROTECT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCX_RLKX_PROTECT(unsigned long a)
@@ -3412,7 +3473,7 @@ static inline uint64_t BDK_OCX_RLKX_PROTECT(unsigned long a)
  *
  * OCX Receive Encryption Salt Register
  */
-typedef union
+union bdk_ocx_rlkx_salt_high
 {
     uint64_t u;
     struct bdk_ocx_rlkx_salt_high_s
@@ -3426,7 +3487,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_rlkx_salt_high_s cn; */
-} bdk_ocx_rlkx_salt_high_t;
+};
+typedef union bdk_ocx_rlkx_salt_high bdk_ocx_rlkx_salt_high_t;
 
 static inline uint64_t BDK_OCX_RLKX_SALT_HIGH(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCX_RLKX_SALT_HIGH(unsigned long a)
@@ -3448,7 +3510,7 @@ static inline uint64_t BDK_OCX_RLKX_SALT_HIGH(unsigned long a)
  *
  * OCX Receive Encryption Salt Register
  */
-typedef union
+union bdk_ocx_rlkx_salt_low
 {
     uint64_t u;
     struct bdk_ocx_rlkx_salt_low_s
@@ -3462,7 +3524,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_rlkx_salt_low_s cn; */
-} bdk_ocx_rlkx_salt_low_t;
+};
+typedef union bdk_ocx_rlkx_salt_low bdk_ocx_rlkx_salt_low_t;
 
 static inline uint64_t BDK_OCX_RLKX_SALT_LOW(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCX_RLKX_SALT_LOW(unsigned long a)
@@ -3485,7 +3548,7 @@ static inline uint64_t BDK_OCX_RLKX_SALT_LOW(unsigned long a)
  * OCX Strap Register
  * This register provide read-only access to OCI straps.
  */
-typedef union
+union bdk_ocx_strap
 {
     uint64_t u;
     struct bdk_ocx_strap_s
@@ -3513,7 +3576,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_strap_s cn; */
-} bdk_ocx_strap_t;
+};
+typedef union bdk_ocx_strap bdk_ocx_strap_t;
 
 #define BDK_OCX_STRAP BDK_OCX_STRAP_FUNC()
 static inline uint64_t BDK_OCX_STRAP_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3538,7 +3602,7 @@ static inline uint64_t BDK_OCX_STRAP_FUNC(void)
  * Contains status from last memory BIST for all TX FIFO memories and REPLAY memories in this
  * link. RX FIFO status can be found in OCX_COM_BIST_STATUS.
  */
-typedef union
+union bdk_ocx_tlkx_bist_status
 {
     uint64_t u;
     struct bdk_ocx_tlkx_bist_status_s
@@ -3556,7 +3620,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_tlkx_bist_status_s cn; */
-} bdk_ocx_tlkx_bist_status_t;
+};
+typedef union bdk_ocx_tlkx_bist_status bdk_ocx_tlkx_bist_status_t;
 
 static inline uint64_t BDK_OCX_TLKX_BIST_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCX_TLKX_BIST_STATUS(unsigned long a)
@@ -3579,7 +3644,7 @@ static inline uint64_t BDK_OCX_TLKX_BIST_STATUS(unsigned long a)
  * OCX Transmit FIFO Bypass Control Register
  * This register is for diagnostic use.
  */
-typedef union
+union bdk_ocx_tlkx_byp_ctl
 {
     uint64_t u;
     struct bdk_ocx_tlkx_byp_ctl_s
@@ -3599,7 +3664,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_tlkx_byp_ctl_s cn; */
-} bdk_ocx_tlkx_byp_ctl_t;
+};
+typedef union bdk_ocx_tlkx_byp_ctl bdk_ocx_tlkx_byp_ctl_t;
 
 static inline uint64_t BDK_OCX_TLKX_BYP_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCX_TLKX_BYP_CTL(unsigned long a)
@@ -3621,7 +3687,7 @@ static inline uint64_t BDK_OCX_TLKX_BYP_CTL(unsigned long a)
  *
  * OCX Transmit Link ECC Control Registers
  */
-typedef union
+union bdk_ocx_tlkx_ecc_ctl
 {
     uint64_t u;
     struct bdk_ocx_tlkx_ecc_ctl_s
@@ -3647,7 +3713,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_tlkx_ecc_ctl_s cn; */
-} bdk_ocx_tlkx_ecc_ctl_t;
+};
+typedef union bdk_ocx_tlkx_ecc_ctl bdk_ocx_tlkx_ecc_ctl_t;
 
 static inline uint64_t BDK_OCX_TLKX_ECC_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCX_TLKX_ECC_CTL(unsigned long a)
@@ -3669,7 +3736,7 @@ static inline uint64_t BDK_OCX_TLKX_ECC_CTL(unsigned long a)
  *
  * OCX Transmit Link FIFO Count Registers
  */
-typedef union
+union bdk_ocx_tlkx_fifox_cnt
 {
     uint64_t u;
     struct bdk_ocx_tlkx_fifox_cnt_s
@@ -3683,7 +3750,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_tlkx_fifox_cnt_s cn; */
-} bdk_ocx_tlkx_fifox_cnt_t;
+};
+typedef union bdk_ocx_tlkx_fifox_cnt bdk_ocx_tlkx_fifox_cnt_t;
 
 static inline uint64_t BDK_OCX_TLKX_FIFOX_CNT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCX_TLKX_FIFOX_CNT(unsigned long a, unsigned long b)
@@ -3705,7 +3773,7 @@ static inline uint64_t BDK_OCX_TLKX_FIFOX_CNT(unsigned long a, unsigned long b)
  *
  * OCX Transmit Encryption Key Register
  */
-typedef union
+union bdk_ocx_tlkx_key_highx
 {
     uint64_t u;
     struct bdk_ocx_tlkx_key_highx_s
@@ -3719,7 +3787,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_tlkx_key_highx_s cn; */
-} bdk_ocx_tlkx_key_highx_t;
+};
+typedef union bdk_ocx_tlkx_key_highx bdk_ocx_tlkx_key_highx_t;
 
 static inline uint64_t BDK_OCX_TLKX_KEY_HIGHX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCX_TLKX_KEY_HIGHX(unsigned long a, unsigned long b)
@@ -3741,7 +3810,7 @@ static inline uint64_t BDK_OCX_TLKX_KEY_HIGHX(unsigned long a, unsigned long b)
  *
  * OCX Transmit Encryption Key Register
  */
-typedef union
+union bdk_ocx_tlkx_key_lowx
 {
     uint64_t u;
     struct bdk_ocx_tlkx_key_lowx_s
@@ -3755,7 +3824,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_tlkx_key_lowx_s cn; */
-} bdk_ocx_tlkx_key_lowx_t;
+};
+typedef union bdk_ocx_tlkx_key_lowx bdk_ocx_tlkx_key_lowx_t;
 
 static inline uint64_t BDK_OCX_TLKX_KEY_LOWX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCX_TLKX_KEY_LOWX(unsigned long a, unsigned long b)
@@ -3777,7 +3847,7 @@ static inline uint64_t BDK_OCX_TLKX_KEY_LOWX(unsigned long a, unsigned long b)
  *
  * OCX Transmit Link Data Registers
  */
-typedef union
+union bdk_ocx_tlkx_lnk_data
 {
     uint64_t u;
     struct bdk_ocx_tlkx_lnk_data_s
@@ -3793,7 +3863,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_tlkx_lnk_data_s cn; */
-} bdk_ocx_tlkx_lnk_data_t;
+};
+typedef union bdk_ocx_tlkx_lnk_data bdk_ocx_tlkx_lnk_data_t;
 
 static inline uint64_t BDK_OCX_TLKX_LNK_DATA(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCX_TLKX_LNK_DATA(unsigned long a)
@@ -3815,7 +3886,7 @@ static inline uint64_t BDK_OCX_TLKX_LNK_DATA(unsigned long a)
  *
  * OCX Transmit Link VC Credits Registers
  */
-typedef union
+union bdk_ocx_tlkx_lnk_vcx_cnt
 {
     uint64_t u;
     struct bdk_ocx_tlkx_lnk_vcx_cnt_s
@@ -3829,7 +3900,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_tlkx_lnk_vcx_cnt_s cn; */
-} bdk_ocx_tlkx_lnk_vcx_cnt_t;
+};
+typedef union bdk_ocx_tlkx_lnk_vcx_cnt bdk_ocx_tlkx_lnk_vcx_cnt_t;
 
 static inline uint64_t BDK_OCX_TLKX_LNK_VCX_CNT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCX_TLKX_LNK_VCX_CNT(unsigned long a, unsigned long b)
@@ -3859,7 +3931,7 @@ static inline uint64_t BDK_OCX_TLKX_LNK_VCX_CNT(unsigned long a, unsigned long b
  * to each of the other chips.  No MCD enabled links should connect between chips that don't
  * include the "central" chip.
  */
-typedef union
+union bdk_ocx_tlkx_mcd_ctl
 {
     uint64_t u;
     struct bdk_ocx_tlkx_mcd_ctl_s
@@ -3873,7 +3945,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_tlkx_mcd_ctl_s cn; */
-} bdk_ocx_tlkx_mcd_ctl_t;
+};
+typedef union bdk_ocx_tlkx_mcd_ctl bdk_ocx_tlkx_mcd_ctl_t;
 
 static inline uint64_t BDK_OCX_TLKX_MCD_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCX_TLKX_MCD_CTL(unsigned long a)
@@ -3895,7 +3968,7 @@ static inline uint64_t BDK_OCX_TLKX_MCD_CTL(unsigned long a)
  *
  * OCX Transmit Data Protection Control Register
  */
-typedef union
+union bdk_ocx_tlkx_protect
 {
     uint64_t u;
     struct bdk_ocx_tlkx_protect_s
@@ -3937,7 +4010,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_tlkx_protect_s cn; */
-} bdk_ocx_tlkx_protect_t;
+};
+typedef union bdk_ocx_tlkx_protect bdk_ocx_tlkx_protect_t;
 
 static inline uint64_t BDK_OCX_TLKX_PROTECT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCX_TLKX_PROTECT(unsigned long a)
@@ -3959,7 +4033,7 @@ static inline uint64_t BDK_OCX_TLKX_PROTECT(unsigned long a)
  *
  * OCX Transmit Link Return VC Credits Registers
  */
-typedef union
+union bdk_ocx_tlkx_rtn_vcx_cnt
 {
     uint64_t u;
     struct bdk_ocx_tlkx_rtn_vcx_cnt_s
@@ -3973,7 +4047,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_tlkx_rtn_vcx_cnt_s cn; */
-} bdk_ocx_tlkx_rtn_vcx_cnt_t;
+};
+typedef union bdk_ocx_tlkx_rtn_vcx_cnt bdk_ocx_tlkx_rtn_vcx_cnt_t;
 
 static inline uint64_t BDK_OCX_TLKX_RTN_VCX_CNT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCX_TLKX_RTN_VCX_CNT(unsigned long a, unsigned long b)
@@ -3995,7 +4070,7 @@ static inline uint64_t BDK_OCX_TLKX_RTN_VCX_CNT(unsigned long a, unsigned long b
  *
  * OCX Transmit Encryption Salt Register
  */
-typedef union
+union bdk_ocx_tlkx_salt_high
 {
     uint64_t u;
     struct bdk_ocx_tlkx_salt_high_s
@@ -4009,7 +4084,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_tlkx_salt_high_s cn; */
-} bdk_ocx_tlkx_salt_high_t;
+};
+typedef union bdk_ocx_tlkx_salt_high bdk_ocx_tlkx_salt_high_t;
 
 static inline uint64_t BDK_OCX_TLKX_SALT_HIGH(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCX_TLKX_SALT_HIGH(unsigned long a)
@@ -4031,7 +4107,7 @@ static inline uint64_t BDK_OCX_TLKX_SALT_HIGH(unsigned long a)
  *
  * OCX Transmit Encryption Salt Register
  */
-typedef union
+union bdk_ocx_tlkx_salt_low
 {
     uint64_t u;
     struct bdk_ocx_tlkx_salt_low_s
@@ -4045,7 +4121,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_tlkx_salt_low_s cn; */
-} bdk_ocx_tlkx_salt_low_t;
+};
+typedef union bdk_ocx_tlkx_salt_low bdk_ocx_tlkx_salt_low_t;
 
 static inline uint64_t BDK_OCX_TLKX_SALT_LOW(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCX_TLKX_SALT_LOW(unsigned long a)
@@ -4067,7 +4144,7 @@ static inline uint64_t BDK_OCX_TLKX_SALT_LOW(unsigned long a)
  *
  * OCX Transmit Link Statistics Control Registers
  */
-typedef union
+union bdk_ocx_tlkx_stat_ctl
 {
     uint64_t u;
     struct bdk_ocx_tlkx_stat_ctl_s
@@ -4089,7 +4166,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_tlkx_stat_ctl_s cn; */
-} bdk_ocx_tlkx_stat_ctl_t;
+};
+typedef union bdk_ocx_tlkx_stat_ctl bdk_ocx_tlkx_stat_ctl_t;
 
 static inline uint64_t BDK_OCX_TLKX_STAT_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCX_TLKX_STAT_CTL(unsigned long a)
@@ -4111,7 +4189,7 @@ static inline uint64_t BDK_OCX_TLKX_STAT_CTL(unsigned long a)
  *
  * OCX Transmit Link Statistics Data Count Registers
  */
-typedef union
+union bdk_ocx_tlkx_stat_data_cnt
 {
     uint64_t u;
     struct bdk_ocx_tlkx_stat_data_cnt_s
@@ -4125,7 +4203,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_tlkx_stat_data_cnt_s cn; */
-} bdk_ocx_tlkx_stat_data_cnt_t;
+};
+typedef union bdk_ocx_tlkx_stat_data_cnt bdk_ocx_tlkx_stat_data_cnt_t;
 
 static inline uint64_t BDK_OCX_TLKX_STAT_DATA_CNT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCX_TLKX_STAT_DATA_CNT(unsigned long a)
@@ -4147,7 +4226,7 @@ static inline uint64_t BDK_OCX_TLKX_STAT_DATA_CNT(unsigned long a)
  *
  * OCX Transmit Link Statistics Error Count Registers
  */
-typedef union
+union bdk_ocx_tlkx_stat_err_cnt
 {
     uint64_t u;
     struct bdk_ocx_tlkx_stat_err_cnt_s
@@ -4161,7 +4240,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_tlkx_stat_err_cnt_s cn; */
-} bdk_ocx_tlkx_stat_err_cnt_t;
+};
+typedef union bdk_ocx_tlkx_stat_err_cnt bdk_ocx_tlkx_stat_err_cnt_t;
 
 static inline uint64_t BDK_OCX_TLKX_STAT_ERR_CNT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCX_TLKX_STAT_ERR_CNT(unsigned long a)
@@ -4183,7 +4263,7 @@ static inline uint64_t BDK_OCX_TLKX_STAT_ERR_CNT(unsigned long a)
  *
  * OCX Transmit Link Statistics Idle Count Registers
  */
-typedef union
+union bdk_ocx_tlkx_stat_idle_cnt
 {
     uint64_t u;
     struct bdk_ocx_tlkx_stat_idle_cnt_s
@@ -4197,7 +4277,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_tlkx_stat_idle_cnt_s cn; */
-} bdk_ocx_tlkx_stat_idle_cnt_t;
+};
+typedef union bdk_ocx_tlkx_stat_idle_cnt bdk_ocx_tlkx_stat_idle_cnt_t;
 
 static inline uint64_t BDK_OCX_TLKX_STAT_IDLE_CNT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCX_TLKX_STAT_IDLE_CNT(unsigned long a)
@@ -4219,7 +4300,7 @@ static inline uint64_t BDK_OCX_TLKX_STAT_IDLE_CNT(unsigned long a)
  *
  * OCX Transmit Link Statistics Match Count Registers
  */
-typedef union
+union bdk_ocx_tlkx_stat_matx_cnt
 {
     uint64_t u;
     struct bdk_ocx_tlkx_stat_matx_cnt_s
@@ -4233,7 +4314,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_tlkx_stat_matx_cnt_s cn; */
-} bdk_ocx_tlkx_stat_matx_cnt_t;
+};
+typedef union bdk_ocx_tlkx_stat_matx_cnt bdk_ocx_tlkx_stat_matx_cnt_t;
 
 static inline uint64_t BDK_OCX_TLKX_STAT_MATX_CNT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCX_TLKX_STAT_MATX_CNT(unsigned long a, unsigned long b)
@@ -4255,7 +4337,7 @@ static inline uint64_t BDK_OCX_TLKX_STAT_MATX_CNT(unsigned long a, unsigned long
  *
  * OCX Transmit Link Statistics Match Registers
  */
-typedef union
+union bdk_ocx_tlkx_stat_matchx
 {
     uint64_t u;
     struct bdk_ocx_tlkx_stat_matchx_s
@@ -4285,7 +4367,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_tlkx_stat_matchx_s cn; */
-} bdk_ocx_tlkx_stat_matchx_t;
+};
+typedef union bdk_ocx_tlkx_stat_matchx bdk_ocx_tlkx_stat_matchx_t;
 
 static inline uint64_t BDK_OCX_TLKX_STAT_MATCHX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCX_TLKX_STAT_MATCHX(unsigned long a, unsigned long b)
@@ -4307,7 +4390,7 @@ static inline uint64_t BDK_OCX_TLKX_STAT_MATCHX(unsigned long a, unsigned long b
  *
  * OCX Transmit Link Statistics Retry Count Registers
  */
-typedef union
+union bdk_ocx_tlkx_stat_retry_cnt
 {
     uint64_t u;
     struct bdk_ocx_tlkx_stat_retry_cnt_s
@@ -4321,7 +4404,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_tlkx_stat_retry_cnt_s cn; */
-} bdk_ocx_tlkx_stat_retry_cnt_t;
+};
+typedef union bdk_ocx_tlkx_stat_retry_cnt bdk_ocx_tlkx_stat_retry_cnt_t;
 
 static inline uint64_t BDK_OCX_TLKX_STAT_RETRY_CNT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCX_TLKX_STAT_RETRY_CNT(unsigned long a)
@@ -4343,7 +4427,7 @@ static inline uint64_t BDK_OCX_TLKX_STAT_RETRY_CNT(unsigned long a)
  *
  * OCX Transmit Link Statistics Sync Count Registers
  */
-typedef union
+union bdk_ocx_tlkx_stat_sync_cnt
 {
     uint64_t u;
     struct bdk_ocx_tlkx_stat_sync_cnt_s
@@ -4357,7 +4441,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_tlkx_stat_sync_cnt_s cn; */
-} bdk_ocx_tlkx_stat_sync_cnt_t;
+};
+typedef union bdk_ocx_tlkx_stat_sync_cnt bdk_ocx_tlkx_stat_sync_cnt_t;
 
 static inline uint64_t BDK_OCX_TLKX_STAT_SYNC_CNT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCX_TLKX_STAT_SYNC_CNT(unsigned long a)
@@ -4379,7 +4464,7 @@ static inline uint64_t BDK_OCX_TLKX_STAT_SYNC_CNT(unsigned long a)
  *
  * OCX Transmit Link Statistics VC Commands Count Registers
  */
-typedef union
+union bdk_ocx_tlkx_stat_vcx_cmd
 {
     uint64_t u;
     struct bdk_ocx_tlkx_stat_vcx_cmd_s
@@ -4395,7 +4480,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_tlkx_stat_vcx_cmd_s cn; */
-} bdk_ocx_tlkx_stat_vcx_cmd_t;
+};
+typedef union bdk_ocx_tlkx_stat_vcx_cmd bdk_ocx_tlkx_stat_vcx_cmd_t;
 
 static inline uint64_t BDK_OCX_TLKX_STAT_VCX_CMD(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCX_TLKX_STAT_VCX_CMD(unsigned long a, unsigned long b)
@@ -4417,7 +4503,7 @@ static inline uint64_t BDK_OCX_TLKX_STAT_VCX_CMD(unsigned long a, unsigned long 
  *
  * OCX Transmit Link Statistics VC Conflict Count Registers
  */
-typedef union
+union bdk_ocx_tlkx_stat_vcx_con
 {
     uint64_t u;
     struct bdk_ocx_tlkx_stat_vcx_con_s
@@ -4435,7 +4521,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_tlkx_stat_vcx_con_s cn; */
-} bdk_ocx_tlkx_stat_vcx_con_t;
+};
+typedef union bdk_ocx_tlkx_stat_vcx_con bdk_ocx_tlkx_stat_vcx_con_t;
 
 static inline uint64_t BDK_OCX_TLKX_STAT_VCX_CON(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCX_TLKX_STAT_VCX_CON(unsigned long a, unsigned long b)
@@ -4457,7 +4544,7 @@ static inline uint64_t BDK_OCX_TLKX_STAT_VCX_CON(unsigned long a, unsigned long 
  *
  * OCX Transmit Link Statistics VC Packet Count Registers
  */
-typedef union
+union bdk_ocx_tlkx_stat_vcx_pkt
 {
     uint64_t u;
     struct bdk_ocx_tlkx_stat_vcx_pkt_s
@@ -4471,7 +4558,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_tlkx_stat_vcx_pkt_s cn; */
-} bdk_ocx_tlkx_stat_vcx_pkt_t;
+};
+typedef union bdk_ocx_tlkx_stat_vcx_pkt bdk_ocx_tlkx_stat_vcx_pkt_t;
 
 static inline uint64_t BDK_OCX_TLKX_STAT_VCX_PKT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCX_TLKX_STAT_VCX_PKT(unsigned long a, unsigned long b)
@@ -4493,7 +4581,7 @@ static inline uint64_t BDK_OCX_TLKX_STAT_VCX_PKT(unsigned long a, unsigned long 
  *
  * OCX Transmit Link Status Registers
  */
-typedef union
+union bdk_ocx_tlkx_status
 {
     uint64_t u;
     struct bdk_ocx_tlkx_status_s
@@ -4535,7 +4623,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_tlkx_status_s cn; */
-} bdk_ocx_tlkx_status_t;
+};
+typedef union bdk_ocx_tlkx_status bdk_ocx_tlkx_status_t;
 
 static inline uint64_t BDK_OCX_TLKX_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCX_TLKX_STATUS(unsigned long a)
@@ -4563,7 +4652,7 @@ static inline uint64_t BDK_OCX_TLKX_STATUS(unsigned long a)
  * operation
  * is in progress will stall.
  */
-typedef union
+union bdk_ocx_win_cmd
 {
     uint64_t u;
     struct bdk_ocx_win_cmd_s
@@ -4637,7 +4726,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_win_cmd_s cn; */
-} bdk_ocx_win_cmd_t;
+};
+typedef union bdk_ocx_win_cmd bdk_ocx_win_cmd_t;
 
 #define BDK_OCX_WIN_CMD BDK_OCX_WIN_CMD_FUNC()
 static inline uint64_t BDK_OCX_WIN_CMD_FUNC(void) __attribute__ ((pure, always_inline));
@@ -4662,7 +4752,7 @@ static inline uint64_t BDK_OCX_WIN_CMD_FUNC(void)
  * For diagnostic use only. This register is the read response data associated with window
  * command. Reads all-ones until response is received.
  */
-typedef union
+union bdk_ocx_win_rd_data
 {
     uint64_t u;
     struct bdk_ocx_win_rd_data_s
@@ -4674,7 +4764,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_win_rd_data_s cn; */
-} bdk_ocx_win_rd_data_t;
+};
+typedef union bdk_ocx_win_rd_data bdk_ocx_win_rd_data_t;
 
 #define BDK_OCX_WIN_RD_DATA BDK_OCX_WIN_RD_DATA_FUNC()
 static inline uint64_t BDK_OCX_WIN_RD_DATA_FUNC(void) __attribute__ ((pure, always_inline));
@@ -4698,7 +4789,7 @@ static inline uint64_t BDK_OCX_WIN_RD_DATA_FUNC(void)
  * OCX Window Timer Register
  * Number of core clocks before untransmitted WIN request is dropped and interrupt is issued.
  */
-typedef union
+union bdk_ocx_win_timer
 {
     uint64_t u;
     struct bdk_ocx_win_timer_s
@@ -4714,7 +4805,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_win_timer_s cn; */
-} bdk_ocx_win_timer_t;
+};
+typedef union bdk_ocx_win_timer bdk_ocx_win_timer_t;
 
 #define BDK_OCX_WIN_TIMER BDK_OCX_WIN_TIMER_FUNC()
 static inline uint64_t BDK_OCX_WIN_TIMER_FUNC(void) __attribute__ ((pure, always_inline));
@@ -4739,7 +4831,7 @@ static inline uint64_t BDK_OCX_WIN_TIMER_FUNC(void)
  * For diagnostic use only. This register is typically written by hardware after accesses to the
  * SLI_WIN_WR_DATA register. Contains the data to write to the address located in OCX_WIN_CMD.
  */
-typedef union
+union bdk_ocx_win_wr_data
 {
     uint64_t u;
     struct bdk_ocx_win_wr_data_s
@@ -4751,7 +4843,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ocx_win_wr_data_s cn; */
-} bdk_ocx_win_wr_data_t;
+};
+typedef union bdk_ocx_win_wr_data bdk_ocx_win_wr_data_t;
 
 #define BDK_OCX_WIN_WR_DATA BDK_OCX_WIN_WR_DATA_FUNC()
 static inline uint64_t BDK_OCX_WIN_WR_DATA_FUNC(void) __attribute__ ((pure, always_inline));

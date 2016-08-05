@@ -158,7 +158,7 @@ union bdk_ocla_cap_dat_s
  * This register provides access to the internal BIST results. Each bit is the BIST result of an
  * individual memory (per bit, 0 = pass and 1 = fail).
  */
-typedef union
+union bdk_oclax_bist_result
 {
     uint64_t u;
     struct bdk_oclax_bist_result_s
@@ -172,7 +172,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_oclax_bist_result_s cn; */
-} bdk_oclax_bist_result_t;
+};
+typedef union bdk_oclax_bist_result bdk_oclax_bist_result_t;
 
 static inline uint64_t BDK_OCLAX_BIST_RESULT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_BIST_RESULT(unsigned long a)
@@ -198,7 +199,7 @@ static inline uint64_t BDK_OCLAX_BIST_RESULT(unsigned long a)
  *
  * OCLA Capture Data Half Control Registers
  */
-typedef union
+union bdk_oclax_cdhx_ctl
 {
     uint64_t u;
     struct bdk_oclax_cdhx_ctl_s
@@ -358,7 +359,8 @@ typedef union
         uint64_t reserved_6_63         : 58;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_oclax_cdhx_ctl_t;
+};
+typedef union bdk_oclax_cdhx_ctl bdk_oclax_cdhx_ctl_t;
 
 static inline uint64_t BDK_OCLAX_CDHX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_CDHX_CTL(unsigned long a, unsigned long b)
@@ -384,7 +386,7 @@ static inline uint64_t BDK_OCLAX_CDHX_CTL(unsigned long a, unsigned long b)
  *
  * OCLA Constants Registers
  */
-typedef union
+union bdk_oclax_const
 {
     uint64_t u;
     struct bdk_oclax_const_s
@@ -417,7 +419,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn88xx;
     /* struct bdk_oclax_const_s cn83xx; */
-} bdk_oclax_const_t;
+};
+typedef union bdk_oclax_const bdk_oclax_const_t;
 
 static inline uint64_t BDK_OCLAX_CONST(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_CONST(unsigned long a)
@@ -443,7 +446,7 @@ static inline uint64_t BDK_OCLAX_CONST(unsigned long a)
  *
  * OCLA Data Registers
  */
-typedef union
+union bdk_oclax_datx
 {
     uint64_t u;
     struct bdk_oclax_datx_s
@@ -457,7 +460,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_oclax_datx_s cn; */
-} bdk_oclax_datx_t;
+};
+typedef union bdk_oclax_datx bdk_oclax_datx_t;
 
 static inline uint64_t BDK_OCLAX_DATX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_DATX(unsigned long a, unsigned long b)
@@ -483,7 +487,7 @@ static inline uint64_t BDK_OCLAX_DATX(unsigned long a, unsigned long b)
  *
  * OCLA Data Pop Registers
  */
-typedef union
+union bdk_oclax_dat_pop
 {
     uint64_t u;
     struct bdk_oclax_dat_pop_s
@@ -513,7 +517,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_oclax_dat_pop_s cn; */
-} bdk_oclax_dat_pop_t;
+};
+typedef union bdk_oclax_dat_pop bdk_oclax_dat_pop_t;
 
 static inline uint64_t BDK_OCLAX_DAT_POP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_DAT_POP(unsigned long a)
@@ -539,7 +544,7 @@ static inline uint64_t BDK_OCLAX_DAT_POP(unsigned long a)
  *
  * INTERNAL: OCLA ECO Register
  */
-typedef union
+union bdk_oclax_eco
 {
     uint64_t u;
     struct bdk_oclax_eco_s
@@ -555,7 +560,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_oclax_eco_s cn; */
-} bdk_oclax_eco_t;
+};
+typedef union bdk_oclax_eco bdk_oclax_eco_t;
 
 static inline uint64_t BDK_OCLAX_ECO(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_ECO(unsigned long a)
@@ -581,7 +587,7 @@ static inline uint64_t BDK_OCLAX_ECO(unsigned long a)
  *
  * OCLA Capture FIFO Depth Registers
  */
-typedef union
+union bdk_oclax_fifo_depth
 {
     uint64_t u;
     struct bdk_oclax_fifo_depth_s
@@ -595,7 +601,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_oclax_fifo_depth_s cn; */
-} bdk_oclax_fifo_depth_t;
+};
+typedef union bdk_oclax_fifo_depth bdk_oclax_fifo_depth_t;
 
 static inline uint64_t BDK_OCLAX_FIFO_DEPTH(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_FIFO_DEPTH(unsigned long a)
@@ -621,7 +628,7 @@ static inline uint64_t BDK_OCLAX_FIFO_DEPTH(unsigned long a)
  *
  * OCLA Capture FIFO Limit Registers
  */
-typedef union
+union bdk_oclax_fifo_limit
 {
     uint64_t u;
     struct bdk_oclax_fifo_limit_s
@@ -653,7 +660,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_oclax_fifo_limit_s cn; */
-} bdk_oclax_fifo_limit_t;
+};
+typedef union bdk_oclax_fifo_limit bdk_oclax_fifo_limit_t;
 
 static inline uint64_t BDK_OCLAX_FIFO_LIMIT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_FIFO_LIMIT(unsigned long a)
@@ -679,7 +687,7 @@ static inline uint64_t BDK_OCLAX_FIFO_LIMIT(unsigned long a)
  *
  * OCLA Capture FIFO Tail Registers
  */
-typedef union
+union bdk_oclax_fifo_tail
 {
     uint64_t u;
     struct bdk_oclax_fifo_tail_s
@@ -693,7 +701,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_oclax_fifo_tail_s cn; */
-} bdk_oclax_fifo_tail_t;
+};
+typedef union bdk_oclax_fifo_tail bdk_oclax_fifo_tail_t;
 
 static inline uint64_t BDK_OCLAX_FIFO_TAIL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_FIFO_TAIL(unsigned long a)
@@ -719,7 +728,7 @@ static inline uint64_t BDK_OCLAX_FIFO_TAIL(unsigned long a)
  *
  * OCLA Capture FIFO Trigger Level Registers
  */
-typedef union
+union bdk_oclax_fifo_trig
 {
     uint64_t u;
     struct bdk_oclax_fifo_trig_s
@@ -739,7 +748,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_oclax_fifo_trig_s cn; */
-} bdk_oclax_fifo_trig_t;
+};
+typedef union bdk_oclax_fifo_trig bdk_oclax_fifo_trig_t;
 
 static inline uint64_t BDK_OCLAX_FIFO_TRIG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_FIFO_TRIG(unsigned long a)
@@ -765,7 +775,7 @@ static inline uint64_t BDK_OCLAX_FIFO_TRIG(unsigned long a)
  *
  * OCLA Capture FIFO Wrap Counter Registers
  */
-typedef union
+union bdk_oclax_fifo_wrap
 {
     uint64_t u;
     struct bdk_oclax_fifo_wrap_s
@@ -783,7 +793,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_oclax_fifo_wrap_s cn; */
-} bdk_oclax_fifo_wrap_t;
+};
+typedef union bdk_oclax_fifo_wrap bdk_oclax_fifo_wrap_t;
 
 static inline uint64_t BDK_OCLAX_FIFO_WRAP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_FIFO_WRAP(unsigned long a)
@@ -812,7 +823,7 @@ static inline uint64_t BDK_OCLAX_FIFO_WRAP(unsigned long a)
  * indicates the term non-inverted, for I=1 indicates the term inverted. Any AND tree may be
  * disabled by setting the same bit in both _I(0) and _I(1), as '((1) & !(1))' is always false.
  */
-typedef union
+union bdk_oclax_fsmx_andx_ix
 {
     uint64_t u;
     struct bdk_oclax_fsmx_andx_ix_s
@@ -854,7 +865,8 @@ typedef union
     /* struct bdk_oclax_fsmx_andx_ix_s cn81xx; */
     /* struct bdk_oclax_fsmx_andx_ix_s cn83xx; */
     /* struct bdk_oclax_fsmx_andx_ix_s cn88xxp2; */
-} bdk_oclax_fsmx_andx_ix_t;
+};
+typedef union bdk_oclax_fsmx_andx_ix bdk_oclax_fsmx_andx_ix_t;
 
 static inline uint64_t BDK_OCLAX_FSMX_ANDX_IX(unsigned long a, unsigned long b, unsigned long c, unsigned long d) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_FSMX_ANDX_IX(unsigned long a, unsigned long b, unsigned long c, unsigned long d)
@@ -880,7 +892,7 @@ static inline uint64_t BDK_OCLAX_FSMX_ANDX_IX(unsigned long a, unsigned long b, 
  *
  * OCLA FSM PLA AND Tree Registers
  */
-typedef union
+union bdk_oclax_fsmx_orx
 {
     uint64_t u;
     struct bdk_oclax_fsmx_orx_s
@@ -894,7 +906,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_oclax_fsmx_orx_s cn; */
-} bdk_oclax_fsmx_orx_t;
+};
+typedef union bdk_oclax_fsmx_orx bdk_oclax_fsmx_orx_t;
 
 static inline uint64_t BDK_OCLAX_FSMX_ORX(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_FSMX_ORX(unsigned long a, unsigned long b, unsigned long c)
@@ -921,7 +934,7 @@ static inline uint64_t BDK_OCLAX_FSMX_ORX(unsigned long a, unsigned long b, unsi
  * OCLA FSM State Registers
  * See State Outputs for more details on each of these actions.
  */
-typedef union
+union bdk_oclax_fsmx_statex
 {
     uint64_t u;
     struct bdk_oclax_fsmx_statex_s
@@ -959,7 +972,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_oclax_fsmx_statex_s cn; */
-} bdk_oclax_fsmx_statex_t;
+};
+typedef union bdk_oclax_fsmx_statex bdk_oclax_fsmx_statex_t;
 
 static inline uint64_t BDK_OCLAX_FSMX_STATEX(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_FSMX_STATEX(unsigned long a, unsigned long b, unsigned long c)
@@ -985,7 +999,7 @@ static inline uint64_t BDK_OCLAX_FSMX_STATEX(unsigned long a, unsigned long b, u
  *
  * OCLA General Control Registers
  */
-typedef union
+union bdk_oclax_gen_ctl
 {
     uint64_t u;
     struct bdk_oclax_gen_ctl_s
@@ -1061,7 +1075,8 @@ typedef union
     /* struct bdk_oclax_gen_ctl_s cn81xx; */
     /* struct bdk_oclax_gen_ctl_s cn83xx; */
     /* struct bdk_oclax_gen_ctl_s cn88xxp2; */
-} bdk_oclax_gen_ctl_t;
+};
+typedef union bdk_oclax_gen_ctl bdk_oclax_gen_ctl_t;
 
 static inline uint64_t BDK_OCLAX_GEN_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_GEN_CTL(unsigned long a)
@@ -1087,7 +1102,7 @@ static inline uint64_t BDK_OCLAX_GEN_CTL(unsigned long a)
  *
  * OCLA Matcher Count Registers
  */
-typedef union
+union bdk_oclax_matx_count
 {
     uint64_t u;
     struct bdk_oclax_matx_count_s
@@ -1103,7 +1118,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_oclax_matx_count_s cn; */
-} bdk_oclax_matx_count_t;
+};
+typedef union bdk_oclax_matx_count bdk_oclax_matx_count_t;
 
 static inline uint64_t BDK_OCLAX_MATX_COUNT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_MATX_COUNT(unsigned long a, unsigned long b)
@@ -1129,7 +1145,7 @@ static inline uint64_t BDK_OCLAX_MATX_COUNT(unsigned long a, unsigned long b)
  *
  * OCLA Matcher Control Registers
  */
-typedef union
+union bdk_oclax_matx_ctl
 {
     uint64_t u;
     struct bdk_oclax_matx_ctl_s
@@ -1153,7 +1169,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_oclax_matx_ctl_s cn; */
-} bdk_oclax_matx_ctl_t;
+};
+typedef union bdk_oclax_matx_ctl bdk_oclax_matx_ctl_t;
 
 static inline uint64_t BDK_OCLAX_MATX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_MATX_CTL(unsigned long a, unsigned long b)
@@ -1179,7 +1196,7 @@ static inline uint64_t BDK_OCLAX_MATX_CTL(unsigned long a, unsigned long b)
  *
  * OCLA Matcher Compare Mask Registers
  */
-typedef union
+union bdk_oclax_matx_maskx
 {
     uint64_t u;
     struct bdk_oclax_matx_maskx_s
@@ -1234,7 +1251,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn88xx;
     /* struct bdk_oclax_matx_maskx_s cn83xx; */
-} bdk_oclax_matx_maskx_t;
+};
+typedef union bdk_oclax_matx_maskx bdk_oclax_matx_maskx_t;
 
 static inline uint64_t BDK_OCLAX_MATX_MASKX(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_MATX_MASKX(unsigned long a, unsigned long b, unsigned long c)
@@ -1260,7 +1278,7 @@ static inline uint64_t BDK_OCLAX_MATX_MASKX(unsigned long a, unsigned long b, un
  *
  * OCLA Matcher Count Threshold Registers
  */
-typedef union
+union bdk_oclax_matx_thresh
 {
     uint64_t u;
     struct bdk_oclax_matx_thresh_s
@@ -1276,7 +1294,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_oclax_matx_thresh_s cn; */
-} bdk_oclax_matx_thresh_t;
+};
+typedef union bdk_oclax_matx_thresh bdk_oclax_matx_thresh_t;
 
 static inline uint64_t BDK_OCLAX_MATX_THRESH(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_MATX_THRESH(unsigned long a, unsigned long b)
@@ -1302,7 +1321,7 @@ static inline uint64_t BDK_OCLAX_MATX_THRESH(unsigned long a, unsigned long b)
  *
  * OCLA Matcher Compare Value Registers
  */
-typedef union
+union bdk_oclax_matx_valuex
 {
     uint64_t u;
     struct bdk_oclax_matx_valuex_s
@@ -1318,7 +1337,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_oclax_matx_valuex_s cn; */
-} bdk_oclax_matx_valuex_t;
+};
+typedef union bdk_oclax_matx_valuex bdk_oclax_matx_valuex_t;
 
 static inline uint64_t BDK_OCLAX_MATX_VALUEX(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_MATX_VALUEX(unsigned long a, unsigned long b, unsigned long c)
@@ -1345,7 +1365,7 @@ static inline uint64_t BDK_OCLAX_MATX_VALUEX(unsigned long a, unsigned long b, u
  * OCLA MSI-X Pending Bit Array Registers
  * This register is the MSI-X PBA table; the bit number is indexed by the OCLA_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_oclax_msix_pbax
 {
     uint64_t u;
     struct bdk_oclax_msix_pbax_s
@@ -1359,7 +1379,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_oclax_msix_pbax_s cn; */
-} bdk_oclax_msix_pbax_t;
+};
+typedef union bdk_oclax_msix_pbax bdk_oclax_msix_pbax_t;
 
 static inline uint64_t BDK_OCLAX_MSIX_PBAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_MSIX_PBAX(unsigned long a, unsigned long b)
@@ -1386,7 +1407,7 @@ static inline uint64_t BDK_OCLAX_MSIX_PBAX(unsigned long a, unsigned long b)
  * OCLA MSI-X Vector-Table Address Register
  * This register is the MSI-X vector table, indexed by the OCLA_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_oclax_msix_vecx_addr
 {
     uint64_t u;
     struct bdk_oclax_msix_vecx_addr_s
@@ -1420,7 +1441,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_oclax_msix_vecx_addr_s cn; */
-} bdk_oclax_msix_vecx_addr_t;
+};
+typedef union bdk_oclax_msix_vecx_addr bdk_oclax_msix_vecx_addr_t;
 
 static inline uint64_t BDK_OCLAX_MSIX_VECX_ADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
@@ -1447,7 +1469,7 @@ static inline uint64_t BDK_OCLAX_MSIX_VECX_ADDR(unsigned long a, unsigned long b
  * OCLA MSI-X Vector-Table Control and Data Register
  * This register is the MSI-X vector table, indexed by the OCLA_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_oclax_msix_vecx_ctl
 {
     uint64_t u;
     struct bdk_oclax_msix_vecx_ctl_s
@@ -1465,7 +1487,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_oclax_msix_vecx_ctl_s cn; */
-} bdk_oclax_msix_vecx_ctl_t;
+};
+typedef union bdk_oclax_msix_vecx_ctl bdk_oclax_msix_vecx_ctl_t;
 
 static inline uint64_t BDK_OCLAX_MSIX_VECX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
@@ -1491,7 +1514,7 @@ static inline uint64_t BDK_OCLAX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
  *
  * OCLA Raw Input Registers
  */
-typedef union
+union bdk_oclax_rawx
 {
     uint64_t u;
     struct bdk_oclax_rawx_s
@@ -1505,7 +1528,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_oclax_rawx_s cn; */
-} bdk_oclax_rawx_t;
+};
+typedef union bdk_oclax_rawx bdk_oclax_rawx_t;
 
 static inline uint64_t BDK_OCLAX_RAWX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_RAWX(unsigned long a, unsigned long b)
@@ -1531,7 +1555,7 @@ static inline uint64_t BDK_OCLAX_RAWX(unsigned long a, unsigned long b)
  *
  * OCLA Reset Registers
  */
-typedef union
+union bdk_oclax_sft_rst
 {
     uint64_t u;
     struct bdk_oclax_sft_rst_s
@@ -1549,7 +1573,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_oclax_sft_rst_s cn; */
-} bdk_oclax_sft_rst_t;
+};
+typedef union bdk_oclax_sft_rst bdk_oclax_sft_rst_t;
 
 static inline uint64_t BDK_OCLAX_SFT_RST(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_SFT_RST(unsigned long a)
@@ -1575,7 +1600,7 @@ static inline uint64_t BDK_OCLAX_SFT_RST(unsigned long a)
  *
  * OCLA Stack Base Registers
  */
-typedef union
+union bdk_oclax_stack_base
 {
     uint64_t u;
     struct bdk_oclax_stack_base_s
@@ -1640,7 +1665,8 @@ typedef union
     } cn81xx;
     /* struct bdk_oclax_stack_base_s cn88xx; */
     /* struct bdk_oclax_stack_base_cn81xx cn83xx; */
-} bdk_oclax_stack_base_t;
+};
+typedef union bdk_oclax_stack_base bdk_oclax_stack_base_t;
 
 static inline uint64_t BDK_OCLAX_STACK_BASE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_STACK_BASE(unsigned long a)
@@ -1666,7 +1692,7 @@ static inline uint64_t BDK_OCLAX_STACK_BASE(unsigned long a)
  *
  * OCLA Stack Current Registers
  */
-typedef union
+union bdk_oclax_stack_cur
 {
     uint64_t u;
     struct bdk_oclax_stack_cur_s
@@ -1688,7 +1714,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_oclax_stack_cur_s cn; */
-} bdk_oclax_stack_cur_t;
+};
+typedef union bdk_oclax_stack_cur bdk_oclax_stack_cur_t;
 
 static inline uint64_t BDK_OCLAX_STACK_CUR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_STACK_CUR(unsigned long a)
@@ -1714,7 +1741,7 @@ static inline uint64_t BDK_OCLAX_STACK_CUR(unsigned long a)
  *
  * OCLA Stack Stores Performance Counter Registers
  */
-typedef union
+union bdk_oclax_stack_store_cnt
 {
     uint64_t u;
     struct bdk_oclax_stack_store_cnt_s
@@ -1728,7 +1755,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_oclax_stack_store_cnt_s cn; */
-} bdk_oclax_stack_store_cnt_t;
+};
+typedef union bdk_oclax_stack_store_cnt bdk_oclax_stack_store_cnt_t;
 
 static inline uint64_t BDK_OCLAX_STACK_STORE_CNT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_STACK_STORE_CNT(unsigned long a)
@@ -1754,7 +1782,7 @@ static inline uint64_t BDK_OCLAX_STACK_STORE_CNT(unsigned long a)
  *
  * OCLA Stack Top Address Registers
  */
-typedef union
+union bdk_oclax_stack_top
 {
     uint64_t u;
     struct bdk_oclax_stack_top_s
@@ -1774,7 +1802,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_oclax_stack_top_s cn; */
-} bdk_oclax_stack_top_t;
+};
+typedef union bdk_oclax_stack_top bdk_oclax_stack_top_t;
 
 static inline uint64_t BDK_OCLAX_STACK_TOP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_STACK_TOP(unsigned long a)
@@ -1800,7 +1829,7 @@ static inline uint64_t BDK_OCLAX_STACK_TOP(unsigned long a)
  *
  * OCLA Stack Wrap Counter Registers
  */
-typedef union
+union bdk_oclax_stack_wrap
 {
     uint64_t u;
     struct bdk_oclax_stack_wrap_s
@@ -1816,7 +1845,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_oclax_stack_wrap_s cn; */
-} bdk_oclax_stack_wrap_t;
+};
+typedef union bdk_oclax_stack_wrap bdk_oclax_stack_wrap_t;
 
 static inline uint64_t BDK_OCLAX_STACK_WRAP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_STACK_WRAP(unsigned long a)
@@ -1842,7 +1872,7 @@ static inline uint64_t BDK_OCLAX_STACK_WRAP(unsigned long a)
  *
  * OCLA Input Staging Registers
  */
-typedef union
+union bdk_oclax_stagex
 {
     uint64_t u;
     struct bdk_oclax_stagex_s
@@ -1856,7 +1886,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_oclax_stagex_s cn; */
-} bdk_oclax_stagex_t;
+};
+typedef union bdk_oclax_stagex bdk_oclax_stagex_t;
 
 static inline uint64_t BDK_OCLAX_STAGEX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_STAGEX(unsigned long a, unsigned long b)
@@ -1883,7 +1914,7 @@ static inline uint64_t BDK_OCLAX_STAGEX(unsigned long a, unsigned long b)
  * OCLA State Interrupt Enable Clear Registers
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_oclax_state_ena_w1c
 {
     uint64_t u;
     struct bdk_oclax_state_ena_w1c_s
@@ -1917,7 +1948,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_oclax_state_ena_w1c_s cn; */
-} bdk_oclax_state_ena_w1c_t;
+};
+typedef union bdk_oclax_state_ena_w1c bdk_oclax_state_ena_w1c_t;
 
 static inline uint64_t BDK_OCLAX_STATE_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_STATE_ENA_W1C(unsigned long a)
@@ -1944,7 +1976,7 @@ static inline uint64_t BDK_OCLAX_STATE_ENA_W1C(unsigned long a)
  * OCLA State Interrupt Enable Set Registers
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_oclax_state_ena_w1s
 {
     uint64_t u;
     struct bdk_oclax_state_ena_w1s_s
@@ -1978,7 +2010,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_oclax_state_ena_w1s_s cn; */
-} bdk_oclax_state_ena_w1s_t;
+};
+typedef union bdk_oclax_state_ena_w1s bdk_oclax_state_ena_w1s_t;
 
 static inline uint64_t BDK_OCLAX_STATE_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_STATE_ENA_W1S(unsigned long a)
@@ -2004,7 +2037,7 @@ static inline uint64_t BDK_OCLAX_STATE_ENA_W1S(unsigned long a)
  *
  * OCLA State and Interrupt Registers
  */
-typedef union
+union bdk_oclax_state_int
 {
     uint64_t u;
     struct bdk_oclax_state_int_s
@@ -2070,7 +2103,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_oclax_state_int_s cn; */
-} bdk_oclax_state_int_t;
+};
+typedef union bdk_oclax_state_int bdk_oclax_state_int_t;
 
 static inline uint64_t BDK_OCLAX_STATE_INT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_STATE_INT(unsigned long a)
@@ -2097,7 +2131,7 @@ static inline uint64_t BDK_OCLAX_STATE_INT(unsigned long a)
  * OCLA State Set Registers
  * This register reads identically to OCLA()_STATE_INT, but allows R/W1S instead of R/W1C access.
  */
-typedef union
+union bdk_oclax_state_set
 {
     uint64_t u;
     struct bdk_oclax_state_set_s
@@ -2145,7 +2179,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_oclax_state_set_s cn; */
-} bdk_oclax_state_set_t;
+};
+typedef union bdk_oclax_state_set bdk_oclax_state_set_t;
 
 static inline uint64_t BDK_OCLAX_STATE_SET(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_STATE_SET(unsigned long a)
@@ -2171,7 +2206,7 @@ static inline uint64_t BDK_OCLAX_STATE_SET(unsigned long a)
  *
  * OCLA Current Time Registers
  */
-typedef union
+union bdk_oclax_time
 {
     uint64_t u;
     struct bdk_oclax_time_s
@@ -2199,7 +2234,8 @@ typedef union
     /* struct bdk_oclax_time_s cn81xx; */
     /* struct bdk_oclax_time_s cn83xx; */
     /* struct bdk_oclax_time_s cn88xxp2; */
-} bdk_oclax_time_t;
+};
+typedef union bdk_oclax_time bdk_oclax_time_t;
 
 static inline uint64_t BDK_OCLAX_TIME(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_TIME(unsigned long a)

@@ -219,7 +219,7 @@ union bdk_ecam_cfg_addr_s
  *
  * ECAM Bus Nonsecure Disable Registers
  */
-typedef union
+union bdk_ecamx_busx_nsdis
 {
     uint64_t u;
     struct bdk_ecamx_busx_nsdis_s
@@ -241,7 +241,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ecamx_busx_nsdis_s cn; */
-} bdk_ecamx_busx_nsdis_t;
+};
+typedef union bdk_ecamx_busx_nsdis bdk_ecamx_busx_nsdis_t;
 
 static inline uint64_t BDK_ECAMX_BUSX_NSDIS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ECAMX_BUSX_NSDIS(unsigned long a, unsigned long b)
@@ -267,7 +268,7 @@ static inline uint64_t BDK_ECAMX_BUSX_NSDIS(unsigned long a, unsigned long b)
  *
  * ECAM Bus Secure Disable Registers
  */
-typedef union
+union bdk_ecamx_busx_sdis
 {
     uint64_t u;
     struct bdk_ecamx_busx_sdis_s
@@ -291,7 +292,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ecamx_busx_sdis_s cn; */
-} bdk_ecamx_busx_sdis_t;
+};
+typedef union bdk_ecamx_busx_sdis bdk_ecamx_busx_sdis_t;
 
 static inline uint64_t BDK_ECAMX_BUSX_SDIS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ECAMX_BUSX_SDIS(unsigned long a, unsigned long b)
@@ -317,7 +319,7 @@ static inline uint64_t BDK_ECAMX_BUSX_SDIS(unsigned long a, unsigned long b)
  *
  * ECAM Bus Secure Disable Registers
  */
-typedef union
+union bdk_ecamx_busx_skill
 {
     uint64_t u;
     struct bdk_ecamx_busx_skill_s
@@ -337,7 +339,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ecamx_busx_skill_s cn; */
-} bdk_ecamx_busx_skill_t;
+};
+typedef union bdk_ecamx_busx_skill bdk_ecamx_busx_skill_t;
 
 static inline uint64_t BDK_ECAMX_BUSX_SKILL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ECAMX_BUSX_SKILL(unsigned long a, unsigned long b)
@@ -364,7 +367,7 @@ static inline uint64_t BDK_ECAMX_BUSX_SKILL(unsigned long a, unsigned long b)
  * ECAM Constants Register
  * This register contains constants for software discovery.
  */
-typedef union
+union bdk_ecamx_const
 {
     uint64_t u;
     struct bdk_ecamx_const_s
@@ -378,7 +381,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ecamx_const_s cn; */
-} bdk_ecamx_const_t;
+};
+typedef union bdk_ecamx_const bdk_ecamx_const_t;
 
 static inline uint64_t BDK_ECAMX_CONST(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ECAMX_CONST(unsigned long a)
@@ -402,7 +406,7 @@ static inline uint64_t BDK_ECAMX_CONST(unsigned long a)
  *
  * ECAM Device Nonsecure Disable Registers
  */
-typedef union
+union bdk_ecamx_devx_nsdis
 {
     uint64_t u;
     struct bdk_ecamx_devx_nsdis_s
@@ -422,7 +426,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ecamx_devx_nsdis_s cn; */
-} bdk_ecamx_devx_nsdis_t;
+};
+typedef union bdk_ecamx_devx_nsdis bdk_ecamx_devx_nsdis_t;
 
 static inline uint64_t BDK_ECAMX_DEVX_NSDIS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ECAMX_DEVX_NSDIS(unsigned long a, unsigned long b)
@@ -448,7 +453,7 @@ static inline uint64_t BDK_ECAMX_DEVX_NSDIS(unsigned long a, unsigned long b)
  *
  * ECAM Device Secure Disable Registers
  */
-typedef union
+union bdk_ecamx_devx_sdis
 {
     uint64_t u;
     struct bdk_ecamx_devx_sdis_s
@@ -474,7 +479,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ecamx_devx_sdis_s cn; */
-} bdk_ecamx_devx_sdis_t;
+};
+typedef union bdk_ecamx_devx_sdis bdk_ecamx_devx_sdis_t;
 
 static inline uint64_t BDK_ECAMX_DEVX_SDIS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ECAMX_DEVX_SDIS(unsigned long a, unsigned long b)
@@ -500,7 +506,7 @@ static inline uint64_t BDK_ECAMX_DEVX_SDIS(unsigned long a, unsigned long b)
  *
  * ECAM Device Secure Disable Registers
  */
-typedef union
+union bdk_ecamx_devx_skill
 {
     uint64_t u;
     struct bdk_ecamx_devx_skill_s
@@ -520,7 +526,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ecamx_devx_skill_s cn; */
-} bdk_ecamx_devx_skill_t;
+};
+typedef union bdk_ecamx_devx_skill bdk_ecamx_devx_skill_t;
 
 static inline uint64_t BDK_ECAMX_DEVX_SKILL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ECAMX_DEVX_SKILL(unsigned long a, unsigned long b)
@@ -546,7 +553,7 @@ static inline uint64_t BDK_ECAMX_DEVX_SKILL(unsigned long a, unsigned long b)
  *
  * ECAM No-Operation Ones Faulting Register
  */
-typedef union
+union bdk_ecamx_nop_of
 {
     uint64_t u;
     struct bdk_ecamx_nop_of_s
@@ -558,7 +565,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ecamx_nop_of_s cn; */
-} bdk_ecamx_nop_of_t;
+};
+typedef union bdk_ecamx_nop_of bdk_ecamx_nop_of_t;
 
 static inline uint64_t BDK_ECAMX_NOP_OF(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ECAMX_NOP_OF(unsigned long a)
@@ -584,7 +592,7 @@ static inline uint64_t BDK_ECAMX_NOP_OF(unsigned long a)
  *
  * ECAM No-Operation Ones Non-Faulting Register
  */
-typedef union
+union bdk_ecamx_nop_onf
 {
     uint64_t u;
     struct bdk_ecamx_nop_onf_s
@@ -596,7 +604,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ecamx_nop_onf_s cn; */
-} bdk_ecamx_nop_onf_t;
+};
+typedef union bdk_ecamx_nop_onf bdk_ecamx_nop_onf_t;
 
 static inline uint64_t BDK_ECAMX_NOP_ONF(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ECAMX_NOP_ONF(unsigned long a)
@@ -622,7 +631,7 @@ static inline uint64_t BDK_ECAMX_NOP_ONF(unsigned long a)
  *
  * ECAM No-Operation Zero Faulting Register
  */
-typedef union
+union bdk_ecamx_nop_zf
 {
     uint64_t u;
     struct bdk_ecamx_nop_zf_s
@@ -634,7 +643,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ecamx_nop_zf_s cn; */
-} bdk_ecamx_nop_zf_t;
+};
+typedef union bdk_ecamx_nop_zf bdk_ecamx_nop_zf_t;
 
 static inline uint64_t BDK_ECAMX_NOP_ZF(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ECAMX_NOP_ZF(unsigned long a)
@@ -660,7 +670,7 @@ static inline uint64_t BDK_ECAMX_NOP_ZF(unsigned long a)
  *
  * ECAM No-Operation Zero Non-Faulting Register
  */
-typedef union
+union bdk_ecamx_nop_znf
 {
     uint64_t u;
     struct bdk_ecamx_nop_znf_s
@@ -672,7 +682,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ecamx_nop_znf_s cn; */
-} bdk_ecamx_nop_znf_t;
+};
+typedef union bdk_ecamx_nop_znf bdk_ecamx_nop_znf_t;
 
 static inline uint64_t BDK_ECAMX_NOP_ZNF(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ECAMX_NOP_ZNF(unsigned long a)
@@ -699,7 +710,7 @@ static inline uint64_t BDK_ECAMX_NOP_ZNF(unsigned long a)
  * ECAM RSL Function Nonsecure Disable Registers
  * This register is only implemented for ECAM0 which sources RSL.
  */
-typedef union
+union bdk_ecamx_rslx_nsdis
 {
     uint64_t u;
     struct bdk_ecamx_rslx_nsdis_s
@@ -719,7 +730,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ecamx_rslx_nsdis_s cn; */
-} bdk_ecamx_rslx_nsdis_t;
+};
+typedef union bdk_ecamx_rslx_nsdis bdk_ecamx_rslx_nsdis_t;
 
 static inline uint64_t BDK_ECAMX_RSLX_NSDIS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ECAMX_RSLX_NSDIS(unsigned long a, unsigned long b)
@@ -746,7 +758,7 @@ static inline uint64_t BDK_ECAMX_RSLX_NSDIS(unsigned long a, unsigned long b)
  * ECAM RSL Function Secure Disable Registers
  * This register is only implemented for ECAM0 which sources RSL.
  */
-typedef union
+union bdk_ecamx_rslx_sdis
 {
     uint64_t u;
     struct bdk_ecamx_rslx_sdis_s
@@ -772,7 +784,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ecamx_rslx_sdis_s cn; */
-} bdk_ecamx_rslx_sdis_t;
+};
+typedef union bdk_ecamx_rslx_sdis bdk_ecamx_rslx_sdis_t;
 
 static inline uint64_t BDK_ECAMX_RSLX_SDIS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ECAMX_RSLX_SDIS(unsigned long a, unsigned long b)
@@ -799,7 +812,7 @@ static inline uint64_t BDK_ECAMX_RSLX_SDIS(unsigned long a, unsigned long b)
  * ECAM RSL Function Secure Disable Registers
  * This register is only implemented for ECAM0 which sources RSL.
  */
-typedef union
+union bdk_ecamx_rslx_skill
 {
     uint64_t u;
     struct bdk_ecamx_rslx_skill_s
@@ -819,7 +832,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ecamx_rslx_skill_s cn; */
-} bdk_ecamx_rslx_skill_t;
+};
+typedef union bdk_ecamx_rslx_skill bdk_ecamx_rslx_skill_t;
 
 static inline uint64_t BDK_ECAMX_RSLX_SKILL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ECAMX_RSLX_SKILL(unsigned long a, unsigned long b)

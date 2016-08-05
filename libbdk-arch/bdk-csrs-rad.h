@@ -660,7 +660,7 @@ union bdk_rad_resp_s
  *
  * RAD Interrupt Done Ack Register
  */
-typedef union
+union bdk_rad_done_ack
 {
     uint64_t u;
     struct bdk_rad_done_ack_s
@@ -682,7 +682,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rad_done_ack_s cn; */
-} bdk_rad_done_ack_t;
+};
+typedef union bdk_rad_done_ack bdk_rad_done_ack_t;
 
 #define BDK_RAD_DONE_ACK BDK_RAD_DONE_ACK_FUNC()
 static inline uint64_t BDK_RAD_DONE_ACK_FUNC(void) __attribute__ ((pure, always_inline));
@@ -705,7 +706,7 @@ static inline uint64_t BDK_RAD_DONE_ACK_FUNC(void)
  *
  * RAD Done Count Register
  */
-typedef union
+union bdk_rad_done_cnt
 {
     uint64_t u;
     struct bdk_rad_done_cnt_s
@@ -771,7 +772,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rad_done_cnt_s cn; */
-} bdk_rad_done_cnt_t;
+};
+typedef union bdk_rad_done_cnt bdk_rad_done_cnt_t;
 
 #define BDK_RAD_DONE_CNT BDK_RAD_DONE_CNT_FUNC()
 static inline uint64_t BDK_RAD_DONE_CNT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -795,7 +797,7 @@ static inline uint64_t BDK_RAD_DONE_CNT_FUNC(void)
  * RAD Done Interrupt Coalescing Wait Registers
  * Specifies the interrupt coalescing settings.
  */
-typedef union
+union bdk_rad_done_wait
 {
     uint64_t u;
     struct bdk_rad_done_wait_s
@@ -819,7 +821,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rad_done_wait_s cn; */
-} bdk_rad_done_wait_t;
+};
+typedef union bdk_rad_done_wait bdk_rad_done_wait_t;
 
 #define BDK_RAD_DONE_WAIT BDK_RAD_DONE_WAIT_FUNC()
 static inline uint64_t BDK_RAD_DONE_WAIT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -842,7 +845,7 @@ static inline uint64_t BDK_RAD_DONE_WAIT_FUNC(void)
  *
  * RAD Doorbell Register
  */
-typedef union
+union bdk_rad_doorbell
 {
     uint64_t u;
     struct bdk_rad_doorbell_s
@@ -858,7 +861,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rad_doorbell_s cn; */
-} bdk_rad_doorbell_t;
+};
+typedef union bdk_rad_doorbell bdk_rad_doorbell_t;
 
 #define BDK_RAD_DOORBELL BDK_RAD_DOORBELL_FUNC()
 static inline uint64_t BDK_RAD_DOORBELL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -881,7 +885,7 @@ static inline uint64_t BDK_RAD_DOORBELL_FUNC(void)
  *
  * INTERNAL: RAD ECO Register
  */
-typedef union
+union bdk_rad_eco
 {
     uint64_t u;
     struct bdk_rad_eco_s
@@ -897,7 +901,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rad_eco_s cn; */
-} bdk_rad_eco_t;
+};
+typedef union bdk_rad_eco bdk_rad_eco_t;
 
 #define BDK_RAD_ECO BDK_RAD_ECO_FUNC()
 static inline uint64_t BDK_RAD_ECO_FUNC(void) __attribute__ ((pure, always_inline));
@@ -920,7 +925,7 @@ static inline uint64_t BDK_RAD_ECO_FUNC(void)
  *
  * RAD Guest Machine Control Register
  */
-typedef union
+union bdk_rad_gmctl
 {
     uint64_t u;
     struct bdk_rad_gmctl_s
@@ -938,7 +943,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rad_gmctl_s cn; */
-} bdk_rad_gmctl_t;
+};
+typedef union bdk_rad_gmctl bdk_rad_gmctl_t;
 
 #define BDK_RAD_GMCTL BDK_RAD_GMCTL_FUNC()
 static inline uint64_t BDK_RAD_GMCTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -961,7 +967,7 @@ static inline uint64_t BDK_RAD_GMCTL_FUNC(void)
  *
  * RAD Interrupt Clear Register
  */
-typedef union
+union bdk_rad_int
 {
     uint64_t u;
     struct bdk_rad_int_s
@@ -979,7 +985,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rad_int_s cn; */
-} bdk_rad_int_t;
+};
+typedef union bdk_rad_int bdk_rad_int_t;
 
 #define BDK_RAD_INT BDK_RAD_INT_FUNC()
 static inline uint64_t BDK_RAD_INT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1003,7 +1010,7 @@ static inline uint64_t BDK_RAD_INT_FUNC(void)
  * RAD Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_rad_int_ena_w1c
 {
     uint64_t u;
     struct bdk_rad_int_ena_w1c_s
@@ -1019,7 +1026,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rad_int_ena_w1c_s cn; */
-} bdk_rad_int_ena_w1c_t;
+};
+typedef union bdk_rad_int_ena_w1c bdk_rad_int_ena_w1c_t;
 
 #define BDK_RAD_INT_ENA_W1C BDK_RAD_INT_ENA_W1C_FUNC()
 static inline uint64_t BDK_RAD_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1043,7 +1051,7 @@ static inline uint64_t BDK_RAD_INT_ENA_W1C_FUNC(void)
  * RAD Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_rad_int_ena_w1s
 {
     uint64_t u;
     struct bdk_rad_int_ena_w1s_s
@@ -1059,7 +1067,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rad_int_ena_w1s_s cn; */
-} bdk_rad_int_ena_w1s_t;
+};
+typedef union bdk_rad_int_ena_w1s bdk_rad_int_ena_w1s_t;
 
 #define BDK_RAD_INT_ENA_W1S BDK_RAD_INT_ENA_W1S_FUNC()
 static inline uint64_t BDK_RAD_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1082,7 +1091,7 @@ static inline uint64_t BDK_RAD_INT_ENA_W1S_FUNC(void)
  *
  * RAD Interrupt Set Register
  */
-typedef union
+union bdk_rad_int_w1s
 {
     uint64_t u;
     struct bdk_rad_int_w1s_s
@@ -1098,7 +1107,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rad_int_w1s_s cn; */
-} bdk_rad_int_w1s_t;
+};
+typedef union bdk_rad_int_w1s bdk_rad_int_w1s_t;
 
 #define BDK_RAD_INT_W1S BDK_RAD_INT_W1S_FUNC()
 static inline uint64_t BDK_RAD_INT_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1125,7 +1135,7 @@ static inline uint64_t BDK_RAD_INT_W1S_FUNC(void)
  * any CSR read operations to this address can be performed. A read of any entry that has not
  * been previously written is illegal and will result in unpredictable CSR read data.
  */
-typedef union
+union bdk_rad_mem_debug0
 {
     uint64_t u;
     struct bdk_rad_mem_debug0_s
@@ -1137,7 +1147,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rad_mem_debug0_s cn; */
-} bdk_rad_mem_debug0_t;
+};
+typedef union bdk_rad_mem_debug0 bdk_rad_mem_debug0_t;
 
 #define BDK_RAD_MEM_DEBUG0 BDK_RAD_MEM_DEBUG0_FUNC()
 static inline uint64_t BDK_RAD_MEM_DEBUG0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1166,7 +1177,7 @@ static inline uint64_t BDK_RAD_MEM_DEBUG0_FUNC(void)
  * any CSR read operations to this address can be performed. A read of any entry that has not
  * been previously written is illegal and will result in unpredictable CSR read data.
  */
-typedef union
+union bdk_rad_mem_debug1
 {
     uint64_t u;
     struct bdk_rad_mem_debug1_s
@@ -1178,7 +1189,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rad_mem_debug1_s cn; */
-} bdk_rad_mem_debug1_t;
+};
+typedef union bdk_rad_mem_debug1 bdk_rad_mem_debug1_t;
 
 #define BDK_RAD_MEM_DEBUG1 BDK_RAD_MEM_DEBUG1_FUNC()
 static inline uint64_t BDK_RAD_MEM_DEBUG1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1207,7 +1219,7 @@ static inline uint64_t BDK_RAD_MEM_DEBUG1_FUNC(void)
  * any CSR read operations to this address can be performed. A read of any entry that has not
  * been previously written is illegal and will result in unpredictable CSR read data.
  */
-typedef union
+union bdk_rad_mem_debug2
 {
     uint64_t u;
     struct bdk_rad_mem_debug2_s
@@ -1219,7 +1231,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rad_mem_debug2_s cn; */
-} bdk_rad_mem_debug2_t;
+};
+typedef union bdk_rad_mem_debug2 bdk_rad_mem_debug2_t;
 
 #define BDK_RAD_MEM_DEBUG2 BDK_RAD_MEM_DEBUG2_FUNC()
 static inline uint64_t BDK_RAD_MEM_DEBUG2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1246,7 +1259,7 @@ static inline uint64_t BDK_RAD_MEM_DEBUG2_FUNC(void)
  * This register is the MSI-X PBA table, the bit number is indexed by the RAD_INT_VEC_E
  * enumeration.
  */
-typedef union
+union bdk_rad_msix_pbax
 {
     uint64_t u;
     struct bdk_rad_msix_pbax_s
@@ -1260,7 +1273,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rad_msix_pbax_s cn; */
-} bdk_rad_msix_pbax_t;
+};
+typedef union bdk_rad_msix_pbax bdk_rad_msix_pbax_t;
 
 static inline uint64_t BDK_RAD_MSIX_PBAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RAD_MSIX_PBAX(unsigned long a)
@@ -1283,7 +1297,7 @@ static inline uint64_t BDK_RAD_MSIX_PBAX(unsigned long a)
  * RAD MSI-X Vector Table Address Registers
  * This register is the MSI-X vector table, indexed by the RAD_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_rad_msix_vecx_addr
 {
     uint64_t u;
     struct bdk_rad_msix_vecx_addr_s
@@ -1315,7 +1329,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rad_msix_vecx_addr_s cn; */
-} bdk_rad_msix_vecx_addr_t;
+};
+typedef union bdk_rad_msix_vecx_addr bdk_rad_msix_vecx_addr_t;
 
 static inline uint64_t BDK_RAD_MSIX_VECX_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RAD_MSIX_VECX_ADDR(unsigned long a)
@@ -1338,7 +1353,7 @@ static inline uint64_t BDK_RAD_MSIX_VECX_ADDR(unsigned long a)
  * RAD MSI-X Vector Table Control and Data Registers
  * This register is the MSI-X vector table, indexed by the RAD_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_rad_msix_vecx_ctl
 {
     uint64_t u;
     struct bdk_rad_msix_vecx_ctl_s
@@ -1356,7 +1371,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rad_msix_vecx_ctl_s cn; */
-} bdk_rad_msix_vecx_ctl_t;
+};
+typedef union bdk_rad_msix_vecx_ctl bdk_rad_msix_vecx_ctl_t;
 
 static inline uint64_t BDK_RAD_MSIX_VECX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RAD_MSIX_VECX_CTL(unsigned long a)
@@ -1379,7 +1395,7 @@ static inline uint64_t BDK_RAD_MSIX_VECX_CTL(unsigned long a)
  * RAD PF Mailbox Enable Clear Registers
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_rad_pf_mbox_ena_w1cx
 {
     uint64_t u;
     struct bdk_rad_pf_mbox_ena_w1cx_s
@@ -1393,7 +1409,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rad_pf_mbox_ena_w1cx_s cn; */
-} bdk_rad_pf_mbox_ena_w1cx_t;
+};
+typedef union bdk_rad_pf_mbox_ena_w1cx bdk_rad_pf_mbox_ena_w1cx_t;
 
 static inline uint64_t BDK_RAD_PF_MBOX_ENA_W1CX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RAD_PF_MBOX_ENA_W1CX(unsigned long a)
@@ -1416,7 +1433,7 @@ static inline uint64_t BDK_RAD_PF_MBOX_ENA_W1CX(unsigned long a)
  * RAD PF Mailbox Enable Set Registers
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_rad_pf_mbox_ena_w1sx
 {
     uint64_t u;
     struct bdk_rad_pf_mbox_ena_w1sx_s
@@ -1430,7 +1447,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rad_pf_mbox_ena_w1sx_s cn; */
-} bdk_rad_pf_mbox_ena_w1sx_t;
+};
+typedef union bdk_rad_pf_mbox_ena_w1sx bdk_rad_pf_mbox_ena_w1sx_t;
 
 static inline uint64_t BDK_RAD_PF_MBOX_ENA_W1SX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RAD_PF_MBOX_ENA_W1SX(unsigned long a)
@@ -1452,7 +1470,7 @@ static inline uint64_t BDK_RAD_PF_MBOX_ENA_W1SX(unsigned long a)
  *
  * RAD PF Mailbox Interrupt Registers
  */
-typedef union
+union bdk_rad_pf_mbox_intx
 {
     uint64_t u;
     struct bdk_rad_pf_mbox_intx_s
@@ -1470,7 +1488,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rad_pf_mbox_intx_s cn; */
-} bdk_rad_pf_mbox_intx_t;
+};
+typedef union bdk_rad_pf_mbox_intx bdk_rad_pf_mbox_intx_t;
 
 static inline uint64_t BDK_RAD_PF_MBOX_INTX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RAD_PF_MBOX_INTX(unsigned long a)
@@ -1493,7 +1512,7 @@ static inline uint64_t BDK_RAD_PF_MBOX_INTX(unsigned long a)
  * RAD PF Mailbox Interrupt Set Registers
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_rad_pf_mbox_int_w1sx
 {
     uint64_t u;
     struct bdk_rad_pf_mbox_int_w1sx_s
@@ -1507,7 +1526,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rad_pf_mbox_int_w1sx_s cn; */
-} bdk_rad_pf_mbox_int_w1sx_t;
+};
+typedef union bdk_rad_pf_mbox_int_w1sx bdk_rad_pf_mbox_int_w1sx_t;
 
 static inline uint64_t BDK_RAD_PF_MBOX_INT_W1SX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RAD_PF_MBOX_INT_W1SX(unsigned long a)
@@ -1531,7 +1551,7 @@ static inline uint64_t BDK_RAD_PF_MBOX_INT_W1SX(unsigned long a)
  * This register is the MSI-X PBA table, the bit number is indexed by the RAD_PF_INT_VEC_E
  * enumeration.
  */
-typedef union
+union bdk_rad_pf_msix_pbax
 {
     uint64_t u;
     struct bdk_rad_pf_msix_pbax_s
@@ -1545,7 +1565,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rad_pf_msix_pbax_s cn; */
-} bdk_rad_pf_msix_pbax_t;
+};
+typedef union bdk_rad_pf_msix_pbax bdk_rad_pf_msix_pbax_t;
 
 static inline uint64_t BDK_RAD_PF_MSIX_PBAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RAD_PF_MSIX_PBAX(unsigned long a)
@@ -1568,7 +1589,7 @@ static inline uint64_t BDK_RAD_PF_MSIX_PBAX(unsigned long a)
  * RAD PF MSI-X Vector Table Address Registers
  * This register is the MSI-X vector table, indexed by the RAD_PF_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_rad_pf_msix_vecx_addr
 {
     uint64_t u;
     struct bdk_rad_pf_msix_vecx_addr_s
@@ -1600,7 +1621,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rad_pf_msix_vecx_addr_s cn; */
-} bdk_rad_pf_msix_vecx_addr_t;
+};
+typedef union bdk_rad_pf_msix_vecx_addr bdk_rad_pf_msix_vecx_addr_t;
 
 static inline uint64_t BDK_RAD_PF_MSIX_VECX_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RAD_PF_MSIX_VECX_ADDR(unsigned long a)
@@ -1623,7 +1645,7 @@ static inline uint64_t BDK_RAD_PF_MSIX_VECX_ADDR(unsigned long a)
  * RAD PF MSI-X Vector Table Control and Data Registers
  * This register is the MSI-X vector table, indexed by the RAD_PF_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_rad_pf_msix_vecx_ctl
 {
     uint64_t u;
     struct bdk_rad_pf_msix_vecx_ctl_s
@@ -1641,7 +1663,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rad_pf_msix_vecx_ctl_s cn; */
-} bdk_rad_pf_msix_vecx_ctl_t;
+};
+typedef union bdk_rad_pf_msix_vecx_ctl bdk_rad_pf_msix_vecx_ctl_t;
 
 static inline uint64_t BDK_RAD_PF_MSIX_VECX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RAD_PF_MSIX_VECX_CTL(unsigned long a)
@@ -1663,7 +1686,7 @@ static inline uint64_t BDK_RAD_PF_MSIX_VECX_CTL(unsigned long a)
  *
  * RAD PF/VF Mailbox Registers
  */
-typedef union
+union bdk_rad_pf_vfx_mboxx
 {
     uint64_t u;
     struct bdk_rad_pf_vfx_mboxx_s
@@ -1687,7 +1710,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rad_pf_vfx_mboxx_s cn; */
-} bdk_rad_pf_vfx_mboxx_t;
+};
+typedef union bdk_rad_pf_vfx_mboxx bdk_rad_pf_vfx_mboxx_t;
 
 static inline uint64_t BDK_RAD_PF_VFX_MBOXX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RAD_PF_VFX_MBOXX(unsigned long a, unsigned long b)
@@ -1711,7 +1735,7 @@ static inline uint64_t BDK_RAD_PF_VFX_MBOXX(unsigned long a, unsigned long b)
  * This register provides access to internal BIST results. Each bit is the BIST result of an
  * individual memory (per bit, 0 = pass, 1 = fail).
  */
-typedef union
+union bdk_rad_reg_bist_result
 {
     uint64_t u;
     struct bdk_rad_reg_bist_result_s
@@ -1798,7 +1822,8 @@ typedef union
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_rad_reg_bist_result_t;
+};
+typedef union bdk_rad_reg_bist_result bdk_rad_reg_bist_result_t;
 
 #define BDK_RAD_REG_BIST_RESULT BDK_RAD_REG_BIST_RESULT_FUNC()
 static inline uint64_t BDK_RAD_REG_BIST_RESULT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1824,7 +1849,7 @@ static inline uint64_t BDK_RAD_REG_BIST_RESULT_FUNC(void)
  * RAD Command Buffer Register
  * This register sets the command-buffer parameters.
  */
-typedef union
+union bdk_rad_reg_cmd_buf
 {
     uint64_t u;
     struct bdk_rad_reg_cmd_buf_s
@@ -1922,7 +1947,8 @@ typedef union
         uint64_t reserved_60_63        : 4;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_rad_reg_cmd_buf_t;
+};
+typedef union bdk_rad_reg_cmd_buf bdk_rad_reg_cmd_buf_t;
 
 #define BDK_RAD_REG_CMD_BUF BDK_RAD_REG_CMD_BUF_FUNC()
 static inline uint64_t BDK_RAD_REG_CMD_BUF_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1948,7 +1974,7 @@ static inline uint64_t BDK_RAD_REG_CMD_BUF_FUNC(void)
  * RAD Command Buffer Pointer Register
  * This register sets the command-buffer parameters.
  */
-typedef union
+union bdk_rad_reg_cmd_ptr
 {
     uint64_t u;
     struct bdk_rad_reg_cmd_ptr_s
@@ -1966,7 +1992,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rad_reg_cmd_ptr_s cn; */
-} bdk_rad_reg_cmd_ptr_t;
+};
+typedef union bdk_rad_reg_cmd_ptr bdk_rad_reg_cmd_ptr_t;
 
 #define BDK_RAD_REG_CMD_PTR BDK_RAD_REG_CMD_PTR_FUNC()
 static inline uint64_t BDK_RAD_REG_CMD_PTR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1989,7 +2016,7 @@ static inline uint64_t BDK_RAD_REG_CMD_PTR_FUNC(void)
  *
  * RAD Control Register
  */
-typedef union
+union bdk_rad_reg_ctl
 {
     uint64_t u;
     struct bdk_rad_reg_ctl_s
@@ -2045,7 +2072,8 @@ typedef union
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_rad_reg_ctl_t;
+};
+typedef union bdk_rad_reg_ctl bdk_rad_reg_ctl_t;
 
 #define BDK_RAD_REG_CTL BDK_RAD_REG_CTL_FUNC()
 static inline uint64_t BDK_RAD_REG_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2070,7 +2098,7 @@ static inline uint64_t BDK_RAD_REG_CTL_FUNC(void)
  *
  * INTERNAL: RAD Debug0 Register
  */
-typedef union
+union bdk_rad_reg_debug0
 {
     uint64_t u;
     struct bdk_rad_reg_debug0_s
@@ -2100,7 +2128,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rad_reg_debug0_s cn; */
-} bdk_rad_reg_debug0_t;
+};
+typedef union bdk_rad_reg_debug0 bdk_rad_reg_debug0_t;
 
 #define BDK_RAD_REG_DEBUG0 BDK_RAD_REG_DEBUG0_FUNC()
 static inline uint64_t BDK_RAD_REG_DEBUG0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2125,7 +2154,7 @@ static inline uint64_t BDK_RAD_REG_DEBUG0_FUNC(void)
  *
  * INTERNAL: RAD Debug1 Register
  */
-typedef union
+union bdk_rad_reg_debug1
 {
     uint64_t u;
     struct bdk_rad_reg_debug1_s
@@ -2137,7 +2166,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rad_reg_debug1_s cn; */
-} bdk_rad_reg_debug1_t;
+};
+typedef union bdk_rad_reg_debug1 bdk_rad_reg_debug1_t;
 
 #define BDK_RAD_REG_DEBUG1 BDK_RAD_REG_DEBUG1_FUNC()
 static inline uint64_t BDK_RAD_REG_DEBUG1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2162,7 +2192,7 @@ static inline uint64_t BDK_RAD_REG_DEBUG1_FUNC(void)
  *
  * INTERNAL: RAD Debug10 Register
  */
-typedef union
+union bdk_rad_reg_debug10
 {
     uint64_t u;
     struct bdk_rad_reg_debug10_s
@@ -2178,7 +2208,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rad_reg_debug10_s cn; */
-} bdk_rad_reg_debug10_t;
+};
+typedef union bdk_rad_reg_debug10 bdk_rad_reg_debug10_t;
 
 #define BDK_RAD_REG_DEBUG10 BDK_RAD_REG_DEBUG10_FUNC()
 static inline uint64_t BDK_RAD_REG_DEBUG10_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2203,7 +2234,7 @@ static inline uint64_t BDK_RAD_REG_DEBUG10_FUNC(void)
  *
  * INTERNAL: RAD Debug11 Register
  */
-typedef union
+union bdk_rad_reg_debug11
 {
     uint64_t u;
     struct bdk_rad_reg_debug11_s
@@ -2227,7 +2258,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rad_reg_debug11_s cn; */
-} bdk_rad_reg_debug11_t;
+};
+typedef union bdk_rad_reg_debug11 bdk_rad_reg_debug11_t;
 
 #define BDK_RAD_REG_DEBUG11 BDK_RAD_REG_DEBUG11_FUNC()
 static inline uint64_t BDK_RAD_REG_DEBUG11_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2252,7 +2284,7 @@ static inline uint64_t BDK_RAD_REG_DEBUG11_FUNC(void)
  *
  * INTERNAL: RAD Debug12 Register
  */
-typedef union
+union bdk_rad_reg_debug12
 {
     uint64_t u;
     struct bdk_rad_reg_debug12_s
@@ -2266,7 +2298,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rad_reg_debug12_s cn; */
-} bdk_rad_reg_debug12_t;
+};
+typedef union bdk_rad_reg_debug12 bdk_rad_reg_debug12_t;
 
 #define BDK_RAD_REG_DEBUG12 BDK_RAD_REG_DEBUG12_FUNC()
 static inline uint64_t BDK_RAD_REG_DEBUG12_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2291,7 +2324,7 @@ static inline uint64_t BDK_RAD_REG_DEBUG12_FUNC(void)
  *
  * INTERNAL: RAD Debug2 Register
  */
-typedef union
+union bdk_rad_reg_debug2
 {
     uint64_t u;
     struct bdk_rad_reg_debug2_s
@@ -2303,7 +2336,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rad_reg_debug2_s cn; */
-} bdk_rad_reg_debug2_t;
+};
+typedef union bdk_rad_reg_debug2 bdk_rad_reg_debug2_t;
 
 #define BDK_RAD_REG_DEBUG2 BDK_RAD_REG_DEBUG2_FUNC()
 static inline uint64_t BDK_RAD_REG_DEBUG2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2328,7 +2362,7 @@ static inline uint64_t BDK_RAD_REG_DEBUG2_FUNC(void)
  *
  * INTERNAL: RAD Debug3 Register
  */
-typedef union
+union bdk_rad_reg_debug3
 {
     uint64_t u;
     struct bdk_rad_reg_debug3_s
@@ -2340,7 +2374,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rad_reg_debug3_s cn; */
-} bdk_rad_reg_debug3_t;
+};
+typedef union bdk_rad_reg_debug3 bdk_rad_reg_debug3_t;
 
 #define BDK_RAD_REG_DEBUG3 BDK_RAD_REG_DEBUG3_FUNC()
 static inline uint64_t BDK_RAD_REG_DEBUG3_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2365,7 +2400,7 @@ static inline uint64_t BDK_RAD_REG_DEBUG3_FUNC(void)
  *
  * INTERNAL: RAD Debug4 Register
  */
-typedef union
+union bdk_rad_reg_debug4
 {
     uint64_t u;
     struct bdk_rad_reg_debug4_s
@@ -2377,7 +2412,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rad_reg_debug4_s cn; */
-} bdk_rad_reg_debug4_t;
+};
+typedef union bdk_rad_reg_debug4 bdk_rad_reg_debug4_t;
 
 #define BDK_RAD_REG_DEBUG4 BDK_RAD_REG_DEBUG4_FUNC()
 static inline uint64_t BDK_RAD_REG_DEBUG4_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2402,7 +2438,7 @@ static inline uint64_t BDK_RAD_REG_DEBUG4_FUNC(void)
  *
  * INTERNAL: RAD Debug5 Register
  */
-typedef union
+union bdk_rad_reg_debug5
 {
     uint64_t u;
     struct bdk_rad_reg_debug5_s
@@ -2448,7 +2484,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rad_reg_debug5_s cn; */
-} bdk_rad_reg_debug5_t;
+};
+typedef union bdk_rad_reg_debug5 bdk_rad_reg_debug5_t;
 
 #define BDK_RAD_REG_DEBUG5 BDK_RAD_REG_DEBUG5_FUNC()
 static inline uint64_t BDK_RAD_REG_DEBUG5_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2473,7 +2510,7 @@ static inline uint64_t BDK_RAD_REG_DEBUG5_FUNC(void)
  *
  * INTERNAL: RAD Debug6 Register
  */
-typedef union
+union bdk_rad_reg_debug6
 {
     uint64_t u;
     struct bdk_rad_reg_debug6_s
@@ -2489,7 +2526,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rad_reg_debug6_s cn; */
-} bdk_rad_reg_debug6_t;
+};
+typedef union bdk_rad_reg_debug6 bdk_rad_reg_debug6_t;
 
 #define BDK_RAD_REG_DEBUG6 BDK_RAD_REG_DEBUG6_FUNC()
 static inline uint64_t BDK_RAD_REG_DEBUG6_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2514,7 +2552,7 @@ static inline uint64_t BDK_RAD_REG_DEBUG6_FUNC(void)
  *
  * INTERNAL: RAD Debug7 Register
  */
-typedef union
+union bdk_rad_reg_debug7
 {
     uint64_t u;
     struct bdk_rad_reg_debug7_s
@@ -2528,7 +2566,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rad_reg_debug7_s cn; */
-} bdk_rad_reg_debug7_t;
+};
+typedef union bdk_rad_reg_debug7 bdk_rad_reg_debug7_t;
 
 #define BDK_RAD_REG_DEBUG7 BDK_RAD_REG_DEBUG7_FUNC()
 static inline uint64_t BDK_RAD_REG_DEBUG7_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2553,7 +2592,7 @@ static inline uint64_t BDK_RAD_REG_DEBUG7_FUNC(void)
  *
  * INTERNAL: RAD Debug8 Register
  */
-typedef union
+union bdk_rad_reg_debug8
 {
     uint64_t u;
     struct bdk_rad_reg_debug8_s
@@ -2569,7 +2608,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rad_reg_debug8_s cn; */
-} bdk_rad_reg_debug8_t;
+};
+typedef union bdk_rad_reg_debug8 bdk_rad_reg_debug8_t;
 
 #define BDK_RAD_REG_DEBUG8 BDK_RAD_REG_DEBUG8_FUNC()
 static inline uint64_t BDK_RAD_REG_DEBUG8_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2594,7 +2634,7 @@ static inline uint64_t BDK_RAD_REG_DEBUG8_FUNC(void)
  *
  * INTERNAL: RAD Debug9 Register
  */
-typedef union
+union bdk_rad_reg_debug9
 {
     uint64_t u;
     struct bdk_rad_reg_debug9_s
@@ -2618,7 +2658,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rad_reg_debug9_s cn; */
-} bdk_rad_reg_debug9_t;
+};
+typedef union bdk_rad_reg_debug9 bdk_rad_reg_debug9_t;
 
 #define BDK_RAD_REG_DEBUG9 BDK_RAD_REG_DEBUG9_FUNC()
 static inline uint64_t BDK_RAD_REG_DEBUG9_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2644,7 +2685,7 @@ static inline uint64_t BDK_RAD_REG_DEBUG9_FUNC(void)
  * RAD Polynomial Register
  * The polynomial is x^8 + C7*x^7 + C6*x^6 + C5*x^5 + C4*x^4 + C3*x^3 + C2*x^2 + C1*x^1 + C0.
  */
-typedef union
+union bdk_rad_reg_polynomial
 {
     uint64_t u;
     struct bdk_rad_reg_polynomial_s
@@ -2662,7 +2703,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rad_reg_polynomial_s cn; */
-} bdk_rad_reg_polynomial_t;
+};
+typedef union bdk_rad_reg_polynomial bdk_rad_reg_polynomial_t;
 
 #define BDK_RAD_REG_POLYNOMIAL BDK_RAD_REG_POLYNOMIAL_FUNC()
 static inline uint64_t BDK_RAD_REG_POLYNOMIAL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2692,7 +2734,7 @@ static inline uint64_t BDK_RAD_REG_POLYNOMIAL_FUNC(void)
  * CSR read. The intended use is to initially write this CSR such that IDX = 0 and INC = 1. Then,
  * the entire contents of a CSR memory can be read with consecutive CSR read commands.
  */
-typedef union
+union bdk_rad_reg_read_idx
 {
     uint64_t u;
     struct bdk_rad_reg_read_idx_s
@@ -2720,7 +2762,8 @@ typedef union
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_rad_reg_read_idx_t;
+};
+typedef union bdk_rad_reg_read_idx bdk_rad_reg_read_idx_t;
 
 #define BDK_RAD_REG_READ_IDX BDK_RAD_REG_READ_IDX_FUNC()
 static inline uint64_t BDK_RAD_REG_READ_IDX_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2745,7 +2788,7 @@ static inline uint64_t BDK_RAD_REG_READ_IDX_FUNC(void)
  *
  * RAD VF Interrupt Clear Register
  */
-typedef union
+union bdk_rad_vfx_int
 {
     uint64_t u;
     struct bdk_rad_vfx_int_s
@@ -2771,7 +2814,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rad_vfx_int_s cn; */
-} bdk_rad_vfx_int_t;
+};
+typedef union bdk_rad_vfx_int bdk_rad_vfx_int_t;
 
 static inline uint64_t BDK_RAD_VFX_INT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RAD_VFX_INT(unsigned long a)
@@ -2794,7 +2838,7 @@ static inline uint64_t BDK_RAD_VFX_INT(unsigned long a)
  * RAD VF Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_rad_vfx_int_ena_w1c
 {
     uint64_t u;
     struct bdk_rad_vfx_int_ena_w1c_s
@@ -2814,7 +2858,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rad_vfx_int_ena_w1c_s cn; */
-} bdk_rad_vfx_int_ena_w1c_t;
+};
+typedef union bdk_rad_vfx_int_ena_w1c bdk_rad_vfx_int_ena_w1c_t;
 
 static inline uint64_t BDK_RAD_VFX_INT_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RAD_VFX_INT_ENA_W1C(unsigned long a)
@@ -2837,7 +2882,7 @@ static inline uint64_t BDK_RAD_VFX_INT_ENA_W1C(unsigned long a)
  * RAD VF Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_rad_vfx_int_ena_w1s
 {
     uint64_t u;
     struct bdk_rad_vfx_int_ena_w1s_s
@@ -2857,7 +2902,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rad_vfx_int_ena_w1s_s cn; */
-} bdk_rad_vfx_int_ena_w1s_t;
+};
+typedef union bdk_rad_vfx_int_ena_w1s bdk_rad_vfx_int_ena_w1s_t;
 
 static inline uint64_t BDK_RAD_VFX_INT_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RAD_VFX_INT_ENA_W1S(unsigned long a)
@@ -2879,7 +2925,7 @@ static inline uint64_t BDK_RAD_VFX_INT_ENA_W1S(unsigned long a)
  *
  * RAD VF Interrupt Set Register
  */
-typedef union
+union bdk_rad_vfx_int_w1s
 {
     uint64_t u;
     struct bdk_rad_vfx_int_w1s_s
@@ -2899,7 +2945,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rad_vfx_int_w1s_s cn; */
-} bdk_rad_vfx_int_w1s_t;
+};
+typedef union bdk_rad_vfx_int_w1s bdk_rad_vfx_int_w1s_t;
 
 static inline uint64_t BDK_RAD_VFX_INT_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RAD_VFX_INT_W1S(unsigned long a)
@@ -2923,7 +2970,7 @@ static inline uint64_t BDK_RAD_VFX_INT_W1S(unsigned long a)
  * This register is the MSI-X PBA table, the bit number is indexed by the RAD_VF_INT_VEC_E
  * enumeration.
  */
-typedef union
+union bdk_rad_vfx_msix_pbax
 {
     uint64_t u;
     struct bdk_rad_vfx_msix_pbax_s
@@ -2937,7 +2984,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rad_vfx_msix_pbax_s cn; */
-} bdk_rad_vfx_msix_pbax_t;
+};
+typedef union bdk_rad_vfx_msix_pbax bdk_rad_vfx_msix_pbax_t;
 
 static inline uint64_t BDK_RAD_VFX_MSIX_PBAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RAD_VFX_MSIX_PBAX(unsigned long a, unsigned long b)
@@ -2960,7 +3008,7 @@ static inline uint64_t BDK_RAD_VFX_MSIX_PBAX(unsigned long a, unsigned long b)
  * RAD VF MSI-X Vector-Table Address Registers
  * This register is the MSI-X vector table, indexed by the RAD_VF_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_rad_vfx_msix_vecx_addr
 {
     uint64_t u;
     struct bdk_rad_vfx_msix_vecx_addr_s
@@ -2982,7 +3030,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rad_vfx_msix_vecx_addr_s cn; */
-} bdk_rad_vfx_msix_vecx_addr_t;
+};
+typedef union bdk_rad_vfx_msix_vecx_addr bdk_rad_vfx_msix_vecx_addr_t;
 
 static inline uint64_t BDK_RAD_VFX_MSIX_VECX_ADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RAD_VFX_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
@@ -3005,7 +3054,7 @@ static inline uint64_t BDK_RAD_VFX_MSIX_VECX_ADDR(unsigned long a, unsigned long
  * RAD VF MSI-X Vector-Table Control and Data Registers
  * This register is the MSI-X vector table, indexed by the RAD_VF_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_rad_vfx_msix_vecx_ctl
 {
     uint64_t u;
     struct bdk_rad_vfx_msix_vecx_ctl_s
@@ -3023,7 +3072,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rad_vfx_msix_vecx_ctl_s cn; */
-} bdk_rad_vfx_msix_vecx_ctl_t;
+};
+typedef union bdk_rad_vfx_msix_vecx_ctl bdk_rad_vfx_msix_vecx_ctl_t;
 
 static inline uint64_t BDK_RAD_VFX_MSIX_VECX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RAD_VFX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
@@ -3045,7 +3095,7 @@ static inline uint64_t BDK_RAD_VFX_MSIX_VECX_CTL(unsigned long a, unsigned long 
  *
  * RAD VF/PF Mailbox Registers
  */
-typedef union
+union bdk_rad_vfx_pf_mboxx
 {
     uint64_t u;
     struct bdk_rad_vfx_pf_mboxx_s
@@ -3067,7 +3117,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rad_vfx_pf_mboxx_s cn; */
-} bdk_rad_vfx_pf_mboxx_t;
+};
+typedef union bdk_rad_vfx_pf_mboxx bdk_rad_vfx_pf_mboxx_t;
 
 static inline uint64_t BDK_RAD_VFX_PF_MBOXX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RAD_VFX_PF_MBOXX(unsigned long a, unsigned long b)
@@ -3090,7 +3141,7 @@ static inline uint64_t BDK_RAD_VFX_PF_MBOXX(unsigned long a, unsigned long b)
  * RAD VF Queue Command Buffer Pointer Register
  * This register sets the command-buffer parameters.
  */
-typedef union
+union bdk_rad_vqx_cmd_ptr
 {
     uint64_t u;
     struct bdk_rad_vqx_cmd_ptr_s
@@ -3108,7 +3159,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rad_vqx_cmd_ptr_s cn; */
-} bdk_rad_vqx_cmd_ptr_t;
+};
+typedef union bdk_rad_vqx_cmd_ptr bdk_rad_vqx_cmd_ptr_t;
 
 static inline uint64_t BDK_RAD_VQX_CMD_PTR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RAD_VQX_CMD_PTR(unsigned long a)
@@ -3130,7 +3182,7 @@ static inline uint64_t BDK_RAD_VQX_CMD_PTR(unsigned long a)
  *
  * RAD VF Queue Interrupt Done Ack Register
  */
-typedef union
+union bdk_rad_vqx_done_ack
 {
     uint64_t u;
     struct bdk_rad_vqx_done_ack_s
@@ -3152,7 +3204,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rad_vqx_done_ack_s cn; */
-} bdk_rad_vqx_done_ack_t;
+};
+typedef union bdk_rad_vqx_done_ack bdk_rad_vqx_done_ack_t;
 
 static inline uint64_t BDK_RAD_VQX_DONE_ACK(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RAD_VQX_DONE_ACK(unsigned long a)
@@ -3174,7 +3227,7 @@ static inline uint64_t BDK_RAD_VQX_DONE_ACK(unsigned long a)
  *
  * RAD VF Queue Done Count Register
  */
-typedef union
+union bdk_rad_vqx_done_cnt
 {
     uint64_t u;
     struct bdk_rad_vqx_done_cnt_s
@@ -3240,7 +3293,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rad_vqx_done_cnt_s cn; */
-} bdk_rad_vqx_done_cnt_t;
+};
+typedef union bdk_rad_vqx_done_cnt bdk_rad_vqx_done_cnt_t;
 
 static inline uint64_t BDK_RAD_VQX_DONE_CNT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RAD_VQX_DONE_CNT(unsigned long a)
@@ -3263,7 +3317,7 @@ static inline uint64_t BDK_RAD_VQX_DONE_CNT(unsigned long a)
  * RAD VF Queue Done Interrupt Coalescing Wait Registers
  * Specifies the interrupt coalescing settings.
  */
-typedef union
+union bdk_rad_vqx_done_wait
 {
     uint64_t u;
     struct bdk_rad_vqx_done_wait_s
@@ -3291,7 +3345,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rad_vqx_done_wait_s cn; */
-} bdk_rad_vqx_done_wait_t;
+};
+typedef union bdk_rad_vqx_done_wait bdk_rad_vqx_done_wait_t;
 
 static inline uint64_t BDK_RAD_VQX_DONE_WAIT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RAD_VQX_DONE_WAIT(unsigned long a)
@@ -3313,7 +3368,7 @@ static inline uint64_t BDK_RAD_VQX_DONE_WAIT(unsigned long a)
  *
  * RAD VF Queue Doorbell Register
  */
-typedef union
+union bdk_rad_vqx_doorbell
 {
     uint64_t u;
     struct bdk_rad_vqx_doorbell_s
@@ -3329,7 +3384,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rad_vqx_doorbell_s cn; */
-} bdk_rad_vqx_doorbell_t;
+};
+typedef union bdk_rad_vqx_doorbell bdk_rad_vqx_doorbell_t;
 
 static inline uint64_t BDK_RAD_VQX_DOORBELL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RAD_VQX_DOORBELL(unsigned long a)
@@ -3352,7 +3408,7 @@ static inline uint64_t BDK_RAD_VQX_DOORBELL(unsigned long a)
  * RAD VF Queue Polynomial Register
  * The polynomial is x^8 + C7*x^7 + C6*x^6 + C5*x^5 + C4*x^4 + C3*x^3 + C2*x^2 + C1*x^1 + C0.
  */
-typedef union
+union bdk_rad_vqx_polynomial
 {
     uint64_t u;
     struct bdk_rad_vqx_polynomial_s
@@ -3370,7 +3426,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rad_vqx_polynomial_s cn; */
-} bdk_rad_vqx_polynomial_t;
+};
+typedef union bdk_rad_vqx_polynomial bdk_rad_vqx_polynomial_t;
 
 static inline uint64_t BDK_RAD_VQX_POLYNOMIAL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RAD_VQX_POLYNOMIAL(unsigned long a)

@@ -483,7 +483,7 @@ union bdk_pcc_ea_entry_s
  * PCC PF ARI Capability Header Register
  * This register is the header of the 8-byte PCI ARI capability structure.
  */
-typedef union
+union bdk_pccpf_xxx_ari_cap_hdr
 {
     uint32_t u;
     struct bdk_pccpf_xxx_ari_cap_hdr_s
@@ -514,7 +514,8 @@ typedef union
     } cn81xx;
     /* struct bdk_pccpf_xxx_ari_cap_hdr_s cn88xx; */
     /* struct bdk_pccpf_xxx_ari_cap_hdr_cn81xx cn83xx; */
-} bdk_pccpf_xxx_ari_cap_hdr_t;
+};
+typedef union bdk_pccpf_xxx_ari_cap_hdr bdk_pccpf_xxx_ari_cap_hdr_t;
 
 #define BDK_PCCPF_XXX_ARI_CAP_HDR BDK_PCCPF_XXX_ARI_CAP_HDR_FUNC()
 static inline uint64_t BDK_PCCPF_XXX_ARI_CAP_HDR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -540,7 +541,7 @@ static inline uint64_t BDK_PCCPF_XXX_ARI_CAP_HDR_FUNC(void)
  *
  * PCC PF Base Address 0 Lower Register
  */
-typedef union
+union bdk_pccpf_xxx_bar0l
 {
     uint32_t u;
     struct bdk_pccpf_xxx_bar0l_s
@@ -610,7 +611,8 @@ typedef union
     } cn81xx;
     /* struct bdk_pccpf_xxx_bar0l_cn81xx cn83xx; */
     /* struct bdk_pccpf_xxx_bar0l_cn81xx cn88xxp2; */
-} bdk_pccpf_xxx_bar0l_t;
+};
+typedef union bdk_pccpf_xxx_bar0l bdk_pccpf_xxx_bar0l_t;
 
 #define BDK_PCCPF_XXX_BAR0L BDK_PCCPF_XXX_BAR0L_FUNC()
 static inline uint64_t BDK_PCCPF_XXX_BAR0L_FUNC(void) __attribute__ ((pure, always_inline));
@@ -630,7 +632,7 @@ static inline uint64_t BDK_PCCPF_XXX_BAR0L_FUNC(void)
  *
  * PCC PF Base Address 0 Upper Register
  */
-typedef union
+union bdk_pccpf_xxx_bar0u
 {
     uint32_t u;
     struct bdk_pccpf_xxx_bar0u_s
@@ -660,7 +662,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pccpf_xxx_bar0u_s cn; */
-} bdk_pccpf_xxx_bar0u_t;
+};
+typedef union bdk_pccpf_xxx_bar0u bdk_pccpf_xxx_bar0u_t;
 
 #define BDK_PCCPF_XXX_BAR0U BDK_PCCPF_XXX_BAR0U_FUNC()
 static inline uint64_t BDK_PCCPF_XXX_BAR0U_FUNC(void) __attribute__ ((pure, always_inline));
@@ -681,7 +684,7 @@ static inline uint64_t BDK_PCCPF_XXX_BAR0U_FUNC(void)
  * PCC PF Base Address 2 Lower Register
  * This register is nonzero only for those devices needing two register BARs.
  */
-typedef union
+union bdk_pccpf_xxx_bar2l
 {
     uint32_t u;
     struct bdk_pccpf_xxx_bar2l_s
@@ -751,7 +754,8 @@ typedef union
     } cn81xx;
     /* struct bdk_pccpf_xxx_bar2l_cn81xx cn83xx; */
     /* struct bdk_pccpf_xxx_bar2l_cn81xx cn88xxp2; */
-} bdk_pccpf_xxx_bar2l_t;
+};
+typedef union bdk_pccpf_xxx_bar2l bdk_pccpf_xxx_bar2l_t;
 
 #define BDK_PCCPF_XXX_BAR2L BDK_PCCPF_XXX_BAR2L_FUNC()
 static inline uint64_t BDK_PCCPF_XXX_BAR2L_FUNC(void) __attribute__ ((pure, always_inline));
@@ -772,7 +776,7 @@ static inline uint64_t BDK_PCCPF_XXX_BAR2L_FUNC(void)
  * PCC PF Base Address 2 Upper Register
  * This register is nonzero only for those devices needing two register BARs.
  */
-typedef union
+union bdk_pccpf_xxx_bar2u
 {
     uint32_t u;
     struct bdk_pccpf_xxx_bar2u_s
@@ -792,7 +796,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pccpf_xxx_bar2u_s cn; */
-} bdk_pccpf_xxx_bar2u_t;
+};
+typedef union bdk_pccpf_xxx_bar2u bdk_pccpf_xxx_bar2u_t;
 
 #define BDK_PCCPF_XXX_BAR2U BDK_PCCPF_XXX_BAR2U_FUNC()
 static inline uint64_t BDK_PCCPF_XXX_BAR2U_FUNC(void) __attribute__ ((pure, always_inline));
@@ -813,7 +818,7 @@ static inline uint64_t BDK_PCCPF_XXX_BAR2U_FUNC(void)
  * PCC PF Base Address 4 Lower Register
  * This register is nonzero only for MSI-X devices.
  */
-typedef union
+union bdk_pccpf_xxx_bar4l
 {
     uint32_t u;
     struct bdk_pccpf_xxx_bar4l_s
@@ -883,7 +888,8 @@ typedef union
     } cn81xx;
     /* struct bdk_pccpf_xxx_bar4l_cn81xx cn83xx; */
     /* struct bdk_pccpf_xxx_bar4l_cn81xx cn88xxp2; */
-} bdk_pccpf_xxx_bar4l_t;
+};
+typedef union bdk_pccpf_xxx_bar4l bdk_pccpf_xxx_bar4l_t;
 
 #define BDK_PCCPF_XXX_BAR4L BDK_PCCPF_XXX_BAR4L_FUNC()
 static inline uint64_t BDK_PCCPF_XXX_BAR4L_FUNC(void) __attribute__ ((pure, always_inline));
@@ -904,7 +910,7 @@ static inline uint64_t BDK_PCCPF_XXX_BAR4L_FUNC(void)
  * PCC PF Base Address 4 Upper Register
  * This register is nonzero only for MSI-X devices.
  */
-typedef union
+union bdk_pccpf_xxx_bar4u
 {
     uint32_t u;
     struct bdk_pccpf_xxx_bar4u_s
@@ -924,7 +930,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pccpf_xxx_bar4u_s cn; */
-} bdk_pccpf_xxx_bar4u_t;
+};
+typedef union bdk_pccpf_xxx_bar4u bdk_pccpf_xxx_bar4u_t;
 
 #define BDK_PCCPF_XXX_BAR4U BDK_PCCPF_XXX_BAR4U_FUNC()
 static inline uint64_t BDK_PCCPF_XXX_BAR4U_FUNC(void) __attribute__ ((pure, always_inline));
@@ -944,7 +951,7 @@ static inline uint64_t BDK_PCCPF_XXX_BAR4U_FUNC(void)
  *
  * PCC PF Capability Pointer Register
  */
-typedef union
+union bdk_pccpf_xxx_cap_ptr
 {
     uint32_t u;
     struct bdk_pccpf_xxx_cap_ptr_s
@@ -958,7 +965,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pccpf_xxx_cap_ptr_s cn; */
-} bdk_pccpf_xxx_cap_ptr_t;
+};
+typedef union bdk_pccpf_xxx_cap_ptr bdk_pccpf_xxx_cap_ptr_t;
 
 #define BDK_PCCPF_XXX_CAP_PTR BDK_PCCPF_XXX_CAP_PTR_FUNC()
 static inline uint64_t BDK_PCCPF_XXX_CAP_PTR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -978,7 +986,7 @@ static inline uint64_t BDK_PCCPF_XXX_CAP_PTR_FUNC(void)
  *
  * PCC PF Cache Line Size Register
  */
-typedef union
+union bdk_pccpf_xxx_clsize
 {
     uint32_t u;
     struct bdk_pccpf_xxx_clsize_s
@@ -998,7 +1006,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pccpf_xxx_clsize_s cn; */
-} bdk_pccpf_xxx_clsize_t;
+};
+typedef union bdk_pccpf_xxx_clsize bdk_pccpf_xxx_clsize_t;
 
 #define BDK_PCCPF_XXX_CLSIZE BDK_PCCPF_XXX_CLSIZE_FUNC()
 static inline uint64_t BDK_PCCPF_XXX_CLSIZE_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1018,7 +1027,7 @@ static inline uint64_t BDK_PCCPF_XXX_CLSIZE_FUNC(void)
  *
  * PCC PF Command/Status Register
  */
-typedef union
+union bdk_pccpf_xxx_cmd
 {
     uint32_t u;
     struct bdk_pccpf_xxx_cmd_s
@@ -1048,7 +1057,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pccpf_xxx_cmd_s cn; */
-} bdk_pccpf_xxx_cmd_t;
+};
+typedef union bdk_pccpf_xxx_cmd bdk_pccpf_xxx_cmd_t;
 
 #define BDK_PCCPF_XXX_CMD BDK_PCCPF_XXX_CMD_FUNC()
 static inline uint64_t BDK_PCCPF_XXX_CMD_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1069,7 +1079,7 @@ static inline uint64_t BDK_PCCPF_XXX_CMD_FUNC(void)
  * PCC PF PCI Express Capabilities Register
  * This register is the header of the 64-byte PCIe capability header.
  */
-typedef union
+union bdk_pccpf_xxx_e_cap_hdr
 {
     uint32_t u;
     struct bdk_pccpf_xxx_e_cap_hdr_s
@@ -1151,7 +1161,8 @@ typedef union
         uint32_t reserved_24_31        : 8;
 #endif /* Word 0 - End */
     } cn88xxp2;
-} bdk_pccpf_xxx_e_cap_hdr_t;
+};
+typedef union bdk_pccpf_xxx_e_cap_hdr bdk_pccpf_xxx_e_cap_hdr_t;
 
 #define BDK_PCCPF_XXX_E_CAP_HDR BDK_PCCPF_XXX_E_CAP_HDR_FUNC()
 static inline uint64_t BDK_PCCPF_XXX_E_CAP_HDR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1179,7 +1190,7 @@ static inline uint64_t BDK_PCCPF_XXX_E_CAP_HDR_FUNC(void)
  *
  * PCC PF PCI Express Device Capabilities Register
  */
-typedef union
+union bdk_pccpf_xxx_e_dev_cap
 {
     uint32_t u;
     struct bdk_pccpf_xxx_e_dev_cap_s
@@ -1195,7 +1206,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pccpf_xxx_e_dev_cap_s cn; */
-} bdk_pccpf_xxx_e_dev_cap_t;
+};
+typedef union bdk_pccpf_xxx_e_dev_cap bdk_pccpf_xxx_e_dev_cap_t;
 
 #define BDK_PCCPF_XXX_E_DEV_CAP BDK_PCCPF_XXX_E_DEV_CAP_FUNC()
 static inline uint64_t BDK_PCCPF_XXX_E_DEV_CAP_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1222,7 +1234,7 @@ static inline uint64_t BDK_PCCPF_XXX_E_DEV_CAP_FUNC(void)
  * structure for type 0 devices.
  * The register is 0x0 when PCCPF_XXX_VSEC_SCTL[EA] is clear.
  */
-typedef union
+union bdk_pccpf_xxx_ea_cap_hdr
 {
     uint32_t u;
     struct bdk_pccpf_xxx_ea_cap_hdr_s
@@ -1254,7 +1266,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pccpf_xxx_ea_cap_hdr_s cn; */
-} bdk_pccpf_xxx_ea_cap_hdr_t;
+};
+typedef union bdk_pccpf_xxx_ea_cap_hdr bdk_pccpf_xxx_ea_cap_hdr_t;
 
 #define BDK_PCCPF_XXX_EA_CAP_HDR BDK_PCCPF_XXX_EA_CAP_HDR_FUNC()
 static inline uint64_t BDK_PCCPF_XXX_EA_CAP_HDR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1283,7 +1296,7 @@ static inline uint64_t BDK_PCCPF_XXX_EA_CAP_HDR_FUNC(void)
  * entry consists of 5 sequential words described by PCC_EA_ENTRY_S.
  * All entries are 0x0 when PCCPF_XXX_VSEC_SCTL[EA] is clear.
  */
-typedef union
+union bdk_pccpf_xxx_ea_entryx
 {
     uint32_t u;
     struct bdk_pccpf_xxx_ea_entryx_s
@@ -1295,7 +1308,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pccpf_xxx_ea_entryx_s cn; */
-} bdk_pccpf_xxx_ea_entryx_t;
+};
+typedef union bdk_pccpf_xxx_ea_entryx bdk_pccpf_xxx_ea_entryx_t;
 
 static inline uint64_t BDK_PCCPF_XXX_EA_ENTRYX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCCPF_XXX_EA_ENTRYX(unsigned long a)
@@ -1321,7 +1335,7 @@ static inline uint64_t BDK_PCCPF_XXX_EA_ENTRYX(unsigned long a)
  * PCC PF Vendor and Device ID Register
  * This register is the header of the 64-byte PCI type 0 configuration structure.
  */
-typedef union
+union bdk_pccpf_xxx_id
 {
     uint32_t u;
     struct bdk_pccpf_xxx_id_s
@@ -1343,7 +1357,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pccpf_xxx_id_s cn; */
-} bdk_pccpf_xxx_id_t;
+};
+typedef union bdk_pccpf_xxx_id bdk_pccpf_xxx_id_t;
 
 #define BDK_PCCPF_XXX_ID BDK_PCCPF_XXX_ID_FUNC()
 static inline uint64_t BDK_PCCPF_XXX_ID_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1364,7 +1379,7 @@ static inline uint64_t BDK_PCCPF_XXX_ID_FUNC(void)
  * PCC PF MSI-X Capability Header Register
  * This register is the header of the 36-byte PCI MSI-X capability structure.
  */
-typedef union
+union bdk_pccpf_xxx_msix_cap_hdr
 {
     uint32_t u;
     struct bdk_pccpf_xxx_msix_cap_hdr_s
@@ -1448,7 +1463,8 @@ typedef union
     } cn81xx;
     /* struct bdk_pccpf_xxx_msix_cap_hdr_cn81xx cn83xx; */
     /* struct bdk_pccpf_xxx_msix_cap_hdr_cn81xx cn88xxp2; */
-} bdk_pccpf_xxx_msix_cap_hdr_t;
+};
+typedef union bdk_pccpf_xxx_msix_cap_hdr bdk_pccpf_xxx_msix_cap_hdr_t;
 
 #define BDK_PCCPF_XXX_MSIX_CAP_HDR BDK_PCCPF_XXX_MSIX_CAP_HDR_FUNC()
 static inline uint64_t BDK_PCCPF_XXX_MSIX_CAP_HDR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1476,7 +1492,7 @@ static inline uint64_t BDK_PCCPF_XXX_MSIX_CAP_HDR_FUNC(void)
  *
  * PCC PF MSI-X PBA Offset and BIR Register
  */
-typedef union
+union bdk_pccpf_xxx_msix_pba
 {
     uint32_t u;
     struct bdk_pccpf_xxx_msix_pba_s
@@ -1494,7 +1510,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pccpf_xxx_msix_pba_s cn; */
-} bdk_pccpf_xxx_msix_pba_t;
+};
+typedef union bdk_pccpf_xxx_msix_pba bdk_pccpf_xxx_msix_pba_t;
 
 #define BDK_PCCPF_XXX_MSIX_PBA BDK_PCCPF_XXX_MSIX_PBA_FUNC()
 static inline uint64_t BDK_PCCPF_XXX_MSIX_PBA_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1522,7 +1539,7 @@ static inline uint64_t BDK_PCCPF_XXX_MSIX_PBA_FUNC(void)
  *
  * PCC PF MSI-X Table Offset and BIR Register
  */
-typedef union
+union bdk_pccpf_xxx_msix_table
 {
     uint32_t u;
     struct bdk_pccpf_xxx_msix_table_s
@@ -1540,7 +1557,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pccpf_xxx_msix_table_s cn; */
-} bdk_pccpf_xxx_msix_table_t;
+};
+typedef union bdk_pccpf_xxx_msix_table bdk_pccpf_xxx_msix_table_t;
 
 #define BDK_PCCPF_XXX_MSIX_TABLE BDK_PCCPF_XXX_MSIX_TABLE_FUNC()
 static inline uint64_t BDK_PCCPF_XXX_MSIX_TABLE_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1568,7 +1586,7 @@ static inline uint64_t BDK_PCCPF_XXX_MSIX_TABLE_FUNC(void)
  *
  * PCC PF Class Code/Revision ID Register
  */
-typedef union
+union bdk_pccpf_xxx_rev
 {
     uint32_t u;
     struct bdk_pccpf_xxx_rev_s
@@ -1598,7 +1616,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pccpf_xxx_rev_s cn; */
-} bdk_pccpf_xxx_rev_t;
+};
+typedef union bdk_pccpf_xxx_rev bdk_pccpf_xxx_rev_t;
 
 #define BDK_PCCPF_XXX_REV BDK_PCCPF_XXX_REV_FUNC()
 static inline uint64_t BDK_PCCPF_XXX_REV_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1618,7 +1637,7 @@ static inline uint64_t BDK_PCCPF_XXX_REV_FUNC(void)
  *
  * PCC PF ARI Capability Register
  */
-typedef union
+union bdk_pccpf_xxx_sari_nxt
 {
     uint32_t u;
     struct bdk_pccpf_xxx_sari_nxt_s
@@ -1640,7 +1659,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pccpf_xxx_sari_nxt_s cn; */
-} bdk_pccpf_xxx_sari_nxt_t;
+};
+typedef union bdk_pccpf_xxx_sari_nxt bdk_pccpf_xxx_sari_nxt_t;
 
 #define BDK_PCCPF_XXX_SARI_NXT BDK_PCCPF_XXX_SARI_NXT_FUNC()
 static inline uint64_t BDK_PCCPF_XXX_SARI_NXT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1666,7 +1686,7 @@ static inline uint64_t BDK_PCCPF_XXX_SARI_NXT_FUNC(void)
  *
  * PCC PF SR-IOV BAR 0 Lower Register
  */
-typedef union
+union bdk_pccpf_xxx_sriov_bar0l
 {
     uint32_t u;
     struct bdk_pccpf_xxx_sriov_bar0l_s
@@ -1773,7 +1793,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn83xx;
     /* struct bdk_pccpf_xxx_sriov_bar0l_cn83xx cn88xxp2; */
-} bdk_pccpf_xxx_sriov_bar0l_t;
+};
+typedef union bdk_pccpf_xxx_sriov_bar0l bdk_pccpf_xxx_sriov_bar0l_t;
 
 #define BDK_PCCPF_XXX_SRIOV_BAR0L BDK_PCCPF_XXX_SRIOV_BAR0L_FUNC()
 static inline uint64_t BDK_PCCPF_XXX_SRIOV_BAR0L_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1793,7 +1814,7 @@ static inline uint64_t BDK_PCCPF_XXX_SRIOV_BAR0L_FUNC(void)
  *
  * PCC PF SR-IOV BAR 0 Upper Register
  */
-typedef union
+union bdk_pccpf_xxx_sriov_bar0u
 {
     uint32_t u;
     struct bdk_pccpf_xxx_sriov_bar0u_s
@@ -1813,7 +1834,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pccpf_xxx_sriov_bar0u_s cn; */
-} bdk_pccpf_xxx_sriov_bar0u_t;
+};
+typedef union bdk_pccpf_xxx_sriov_bar0u bdk_pccpf_xxx_sriov_bar0u_t;
 
 #define BDK_PCCPF_XXX_SRIOV_BAR0U BDK_PCCPF_XXX_SRIOV_BAR0U_FUNC()
 static inline uint64_t BDK_PCCPF_XXX_SRIOV_BAR0U_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1833,7 +1855,7 @@ static inline uint64_t BDK_PCCPF_XXX_SRIOV_BAR0U_FUNC(void)
  *
  * PCC PF SR-IOV BAR 2 Lower Register
  */
-typedef union
+union bdk_pccpf_xxx_sriov_bar2l
 {
     uint32_t u;
     struct bdk_pccpf_xxx_sriov_bar2l_s
@@ -1903,7 +1925,8 @@ typedef union
     } cn81xx;
     /* struct bdk_pccpf_xxx_sriov_bar2l_cn81xx cn83xx; */
     /* struct bdk_pccpf_xxx_sriov_bar2l_cn81xx cn88xxp2; */
-} bdk_pccpf_xxx_sriov_bar2l_t;
+};
+typedef union bdk_pccpf_xxx_sriov_bar2l bdk_pccpf_xxx_sriov_bar2l_t;
 
 #define BDK_PCCPF_XXX_SRIOV_BAR2L BDK_PCCPF_XXX_SRIOV_BAR2L_FUNC()
 static inline uint64_t BDK_PCCPF_XXX_SRIOV_BAR2L_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1923,7 +1946,7 @@ static inline uint64_t BDK_PCCPF_XXX_SRIOV_BAR2L_FUNC(void)
  *
  * PCC PF SR-IOV BAR 2 Upper Register
  */
-typedef union
+union bdk_pccpf_xxx_sriov_bar2u
 {
     uint32_t u;
     struct bdk_pccpf_xxx_sriov_bar2u_s
@@ -1943,7 +1966,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pccpf_xxx_sriov_bar2u_s cn; */
-} bdk_pccpf_xxx_sriov_bar2u_t;
+};
+typedef union bdk_pccpf_xxx_sriov_bar2u bdk_pccpf_xxx_sriov_bar2u_t;
 
 #define BDK_PCCPF_XXX_SRIOV_BAR2U BDK_PCCPF_XXX_SRIOV_BAR2U_FUNC()
 static inline uint64_t BDK_PCCPF_XXX_SRIOV_BAR2U_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1963,7 +1987,7 @@ static inline uint64_t BDK_PCCPF_XXX_SRIOV_BAR2U_FUNC(void)
  *
  * PCC PF SR-IOV BAR 4 Lower Register
  */
-typedef union
+union bdk_pccpf_xxx_sriov_bar4l
 {
     uint32_t u;
     struct bdk_pccpf_xxx_sriov_bar4l_s
@@ -2033,7 +2057,8 @@ typedef union
     } cn81xx;
     /* struct bdk_pccpf_xxx_sriov_bar4l_cn81xx cn83xx; */
     /* struct bdk_pccpf_xxx_sriov_bar4l_cn81xx cn88xxp2; */
-} bdk_pccpf_xxx_sriov_bar4l_t;
+};
+typedef union bdk_pccpf_xxx_sriov_bar4l bdk_pccpf_xxx_sriov_bar4l_t;
 
 #define BDK_PCCPF_XXX_SRIOV_BAR4L BDK_PCCPF_XXX_SRIOV_BAR4L_FUNC()
 static inline uint64_t BDK_PCCPF_XXX_SRIOV_BAR4L_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2053,7 +2078,7 @@ static inline uint64_t BDK_PCCPF_XXX_SRIOV_BAR4L_FUNC(void)
  *
  * PCC PF SR-IOV BAR 4 Upper Register
  */
-typedef union
+union bdk_pccpf_xxx_sriov_bar4u
 {
     uint32_t u;
     struct bdk_pccpf_xxx_sriov_bar4u_s
@@ -2073,7 +2098,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pccpf_xxx_sriov_bar4u_s cn; */
-} bdk_pccpf_xxx_sriov_bar4u_t;
+};
+typedef union bdk_pccpf_xxx_sriov_bar4u bdk_pccpf_xxx_sriov_bar4u_t;
 
 #define BDK_PCCPF_XXX_SRIOV_BAR4U BDK_PCCPF_XXX_SRIOV_BAR4U_FUNC()
 static inline uint64_t BDK_PCCPF_XXX_SRIOV_BAR4U_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2093,7 +2119,7 @@ static inline uint64_t BDK_PCCPF_XXX_SRIOV_BAR4U_FUNC(void)
  *
  * PCC PF SR-IOV Capability Register
  */
-typedef union
+union bdk_pccpf_xxx_sriov_cap
 {
     uint32_t u;
     struct bdk_pccpf_xxx_sriov_cap_s
@@ -2111,7 +2137,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pccpf_xxx_sriov_cap_s cn; */
-} bdk_pccpf_xxx_sriov_cap_t;
+};
+typedef union bdk_pccpf_xxx_sriov_cap bdk_pccpf_xxx_sriov_cap_t;
 
 #define BDK_PCCPF_XXX_SRIOV_CAP BDK_PCCPF_XXX_SRIOV_CAP_FUNC()
 static inline uint64_t BDK_PCCPF_XXX_SRIOV_CAP_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2132,7 +2159,7 @@ static inline uint64_t BDK_PCCPF_XXX_SRIOV_CAP_FUNC(void)
  * PCC PF SR-IOV Capability Header Register
  * This register is the header of the 64-byte PCI SR-IOV capability structure.
  */
-typedef union
+union bdk_pccpf_xxx_sriov_cap_hdr
 {
     uint32_t u;
     struct bdk_pccpf_xxx_sriov_cap_hdr_s
@@ -2148,7 +2175,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pccpf_xxx_sriov_cap_hdr_s cn; */
-} bdk_pccpf_xxx_sriov_cap_hdr_t;
+};
+typedef union bdk_pccpf_xxx_sriov_cap_hdr bdk_pccpf_xxx_sriov_cap_hdr_t;
 
 #define BDK_PCCPF_XXX_SRIOV_CAP_HDR BDK_PCCPF_XXX_SRIOV_CAP_HDR_FUNC()
 static inline uint64_t BDK_PCCPF_XXX_SRIOV_CAP_HDR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2168,7 +2196,7 @@ static inline uint64_t BDK_PCCPF_XXX_SRIOV_CAP_HDR_FUNC(void)
  *
  * PCC PF SR-IOV Control/Status Register
  */
-typedef union
+union bdk_pccpf_xxx_sriov_ctl
 {
     uint32_t u;
     struct bdk_pccpf_xxx_sriov_ctl_s
@@ -2194,7 +2222,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pccpf_xxx_sriov_ctl_s cn; */
-} bdk_pccpf_xxx_sriov_ctl_t;
+};
+typedef union bdk_pccpf_xxx_sriov_ctl bdk_pccpf_xxx_sriov_ctl_t;
 
 #define BDK_PCCPF_XXX_SRIOV_CTL BDK_PCCPF_XXX_SRIOV_CTL_FUNC()
 static inline uint64_t BDK_PCCPF_XXX_SRIOV_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2214,7 +2243,7 @@ static inline uint64_t BDK_PCCPF_XXX_SRIOV_CTL_FUNC(void)
  *
  * PCC PF SR-IOV VF Device ID Register
  */
-typedef union
+union bdk_pccpf_xxx_sriov_dev
 {
     uint32_t u;
     struct bdk_pccpf_xxx_sriov_dev_s
@@ -2236,7 +2265,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pccpf_xxx_sriov_dev_s cn; */
-} bdk_pccpf_xxx_sriov_dev_t;
+};
+typedef union bdk_pccpf_xxx_sriov_dev bdk_pccpf_xxx_sriov_dev_t;
 
 #define BDK_PCCPF_XXX_SRIOV_DEV BDK_PCCPF_XXX_SRIOV_DEV_FUNC()
 static inline uint64_t BDK_PCCPF_XXX_SRIOV_DEV_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2256,7 +2286,7 @@ static inline uint64_t BDK_PCCPF_XXX_SRIOV_DEV_FUNC(void)
  *
  * PCC PF SR-IOV First VF Offset/VF Stride Register
  */
-typedef union
+union bdk_pccpf_xxx_sriov_fo
 {
     uint32_t u;
     struct bdk_pccpf_xxx_sriov_fo_s
@@ -2270,7 +2300,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pccpf_xxx_sriov_fo_s cn; */
-} bdk_pccpf_xxx_sriov_fo_t;
+};
+typedef union bdk_pccpf_xxx_sriov_fo bdk_pccpf_xxx_sriov_fo_t;
 
 #define BDK_PCCPF_XXX_SRIOV_FO BDK_PCCPF_XXX_SRIOV_FO_FUNC()
 static inline uint64_t BDK_PCCPF_XXX_SRIOV_FO_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2290,7 +2321,7 @@ static inline uint64_t BDK_PCCPF_XXX_SRIOV_FO_FUNC(void)
  *
  * PCC PF SR-IOV Number of VFs/Function Dependency Link Register
  */
-typedef union
+union bdk_pccpf_xxx_sriov_nvf
 {
     uint32_t u;
     struct bdk_pccpf_xxx_sriov_nvf_s
@@ -2310,7 +2341,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pccpf_xxx_sriov_nvf_s cn; */
-} bdk_pccpf_xxx_sriov_nvf_t;
+};
+typedef union bdk_pccpf_xxx_sriov_nvf bdk_pccpf_xxx_sriov_nvf_t;
 
 #define BDK_PCCPF_XXX_SRIOV_NVF BDK_PCCPF_XXX_SRIOV_NVF_FUNC()
 static inline uint64_t BDK_PCCPF_XXX_SRIOV_NVF_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2330,7 +2362,7 @@ static inline uint64_t BDK_PCCPF_XXX_SRIOV_NVF_FUNC(void)
  *
  * PCC PF SR-IOV System Page Sizes Register
  */
-typedef union
+union bdk_pccpf_xxx_sriov_ps
 {
     uint32_t u;
     struct bdk_pccpf_xxx_sriov_ps_s
@@ -2342,7 +2374,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pccpf_xxx_sriov_ps_s cn; */
-} bdk_pccpf_xxx_sriov_ps_t;
+};
+typedef union bdk_pccpf_xxx_sriov_ps bdk_pccpf_xxx_sriov_ps_t;
 
 #define BDK_PCCPF_XXX_SRIOV_PS BDK_PCCPF_XXX_SRIOV_PS_FUNC()
 static inline uint64_t BDK_PCCPF_XXX_SRIOV_PS_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2362,7 +2395,7 @@ static inline uint64_t BDK_PCCPF_XXX_SRIOV_PS_FUNC(void)
  *
  * PCC PF SR-IOV Supported Page Sizes Register
  */
-typedef union
+union bdk_pccpf_xxx_sriov_supps
 {
     uint32_t u;
     struct bdk_pccpf_xxx_sriov_supps_s
@@ -2376,7 +2409,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pccpf_xxx_sriov_supps_s cn; */
-} bdk_pccpf_xxx_sriov_supps_t;
+};
+typedef union bdk_pccpf_xxx_sriov_supps bdk_pccpf_xxx_sriov_supps_t;
 
 #define BDK_PCCPF_XXX_SRIOV_SUPPS BDK_PCCPF_XXX_SRIOV_SUPPS_FUNC()
 static inline uint64_t BDK_PCCPF_XXX_SRIOV_SUPPS_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2396,7 +2430,7 @@ static inline uint64_t BDK_PCCPF_XXX_SRIOV_SUPPS_FUNC(void)
  *
  * PCC PF SR-IOV Initial VFs/Total VFs Register
  */
-typedef union
+union bdk_pccpf_xxx_sriov_vfs
 {
     uint32_t u;
     struct bdk_pccpf_xxx_sriov_vfs_s
@@ -2418,7 +2452,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pccpf_xxx_sriov_vfs_s cn; */
-} bdk_pccpf_xxx_sriov_vfs_t;
+};
+typedef union bdk_pccpf_xxx_sriov_vfs bdk_pccpf_xxx_sriov_vfs_t;
 
 #define BDK_PCCPF_XXX_SRIOV_VFS BDK_PCCPF_XXX_SRIOV_VFS_FUNC()
 static inline uint64_t BDK_PCCPF_XXX_SRIOV_VFS_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2438,7 +2473,7 @@ static inline uint64_t BDK_PCCPF_XXX_SRIOV_VFS_FUNC(void)
  *
  * PCC PF Subsystem ID/Subsystem Vendor ID Register
  */
-typedef union
+union bdk_pccpf_xxx_subid
 {
     uint32_t u;
     struct bdk_pccpf_xxx_subid_s
@@ -2458,7 +2493,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pccpf_xxx_subid_s cn; */
-} bdk_pccpf_xxx_subid_t;
+};
+typedef union bdk_pccpf_xxx_subid bdk_pccpf_xxx_subid_t;
 
 #define BDK_PCCPF_XXX_SUBID BDK_PCCPF_XXX_SUBID_FUNC()
 static inline uint64_t BDK_PCCPF_XXX_SUBID_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2478,7 +2514,7 @@ static inline uint64_t BDK_PCCPF_XXX_SUBID_FUNC(void)
  *
  * PCC PF Vendor-Specific Address 0 Lower Register
  */
-typedef union
+union bdk_pccpf_xxx_vsec_bar0l
 {
     uint32_t u;
     struct bdk_pccpf_xxx_vsec_bar0l_s
@@ -2500,7 +2536,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pccpf_xxx_vsec_bar0l_s cn; */
-} bdk_pccpf_xxx_vsec_bar0l_t;
+};
+typedef union bdk_pccpf_xxx_vsec_bar0l bdk_pccpf_xxx_vsec_bar0l_t;
 
 #define BDK_PCCPF_XXX_VSEC_BAR0L BDK_PCCPF_XXX_VSEC_BAR0L_FUNC()
 static inline uint64_t BDK_PCCPF_XXX_VSEC_BAR0L_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2526,7 +2563,7 @@ static inline uint64_t BDK_PCCPF_XXX_VSEC_BAR0L_FUNC(void)
  *
  * PCC PF Vendor-Specific Address 0 Upper Register
  */
-typedef union
+union bdk_pccpf_xxx_vsec_bar0u
 {
     uint32_t u;
     struct bdk_pccpf_xxx_vsec_bar0u_s
@@ -2546,7 +2583,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pccpf_xxx_vsec_bar0u_s cn; */
-} bdk_pccpf_xxx_vsec_bar0u_t;
+};
+typedef union bdk_pccpf_xxx_vsec_bar0u bdk_pccpf_xxx_vsec_bar0u_t;
 
 #define BDK_PCCPF_XXX_VSEC_BAR0U BDK_PCCPF_XXX_VSEC_BAR0U_FUNC()
 static inline uint64_t BDK_PCCPF_XXX_VSEC_BAR0U_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2572,7 +2610,7 @@ static inline uint64_t BDK_PCCPF_XXX_VSEC_BAR0U_FUNC(void)
  *
  * PCC PF Vendor-Specific Address 2 Lower Register
  */
-typedef union
+union bdk_pccpf_xxx_vsec_bar2l
 {
     uint32_t u;
     struct bdk_pccpf_xxx_vsec_bar2l_s
@@ -2594,7 +2632,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pccpf_xxx_vsec_bar2l_s cn; */
-} bdk_pccpf_xxx_vsec_bar2l_t;
+};
+typedef union bdk_pccpf_xxx_vsec_bar2l bdk_pccpf_xxx_vsec_bar2l_t;
 
 #define BDK_PCCPF_XXX_VSEC_BAR2L BDK_PCCPF_XXX_VSEC_BAR2L_FUNC()
 static inline uint64_t BDK_PCCPF_XXX_VSEC_BAR2L_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2620,7 +2659,7 @@ static inline uint64_t BDK_PCCPF_XXX_VSEC_BAR2L_FUNC(void)
  *
  * PCC PF Vendor-Specific Address 2 Upper Register
  */
-typedef union
+union bdk_pccpf_xxx_vsec_bar2u
 {
     uint32_t u;
     struct bdk_pccpf_xxx_vsec_bar2u_s
@@ -2640,7 +2679,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pccpf_xxx_vsec_bar2u_s cn; */
-} bdk_pccpf_xxx_vsec_bar2u_t;
+};
+typedef union bdk_pccpf_xxx_vsec_bar2u bdk_pccpf_xxx_vsec_bar2u_t;
 
 #define BDK_PCCPF_XXX_VSEC_BAR2U BDK_PCCPF_XXX_VSEC_BAR2U_FUNC()
 static inline uint64_t BDK_PCCPF_XXX_VSEC_BAR2U_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2666,7 +2706,7 @@ static inline uint64_t BDK_PCCPF_XXX_VSEC_BAR2U_FUNC(void)
  *
  * PCC PF Vendor-Specific Address 4 Lower Register
  */
-typedef union
+union bdk_pccpf_xxx_vsec_bar4l
 {
     uint32_t u;
     struct bdk_pccpf_xxx_vsec_bar4l_s
@@ -2688,7 +2728,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pccpf_xxx_vsec_bar4l_s cn; */
-} bdk_pccpf_xxx_vsec_bar4l_t;
+};
+typedef union bdk_pccpf_xxx_vsec_bar4l bdk_pccpf_xxx_vsec_bar4l_t;
 
 #define BDK_PCCPF_XXX_VSEC_BAR4L BDK_PCCPF_XXX_VSEC_BAR4L_FUNC()
 static inline uint64_t BDK_PCCPF_XXX_VSEC_BAR4L_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2714,7 +2755,7 @@ static inline uint64_t BDK_PCCPF_XXX_VSEC_BAR4L_FUNC(void)
  *
  * PCC PF Vendor-Specific Address 4 Upper Register
  */
-typedef union
+union bdk_pccpf_xxx_vsec_bar4u
 {
     uint32_t u;
     struct bdk_pccpf_xxx_vsec_bar4u_s
@@ -2734,7 +2775,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pccpf_xxx_vsec_bar4u_s cn; */
-} bdk_pccpf_xxx_vsec_bar4u_t;
+};
+typedef union bdk_pccpf_xxx_vsec_bar4u bdk_pccpf_xxx_vsec_bar4u_t;
 
 #define BDK_PCCPF_XXX_VSEC_BAR4U BDK_PCCPF_XXX_VSEC_BAR4U_FUNC()
 static inline uint64_t BDK_PCCPF_XXX_VSEC_BAR4U_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2762,7 +2804,7 @@ static inline uint64_t BDK_PCCPF_XXX_VSEC_BAR4U_FUNC(void)
  * This register is the header of the 64-byte {ProductLine} family PF capability
  * structure.
  */
-typedef union
+union bdk_pccpf_xxx_vsec_cap_hdr
 {
     uint32_t u;
     struct bdk_pccpf_xxx_vsec_cap_hdr_s
@@ -2795,7 +2837,8 @@ typedef union
     } cn81xx;
     /* struct bdk_pccpf_xxx_vsec_cap_hdr_s cn88xx; */
     /* struct bdk_pccpf_xxx_vsec_cap_hdr_cn81xx cn83xx; */
-} bdk_pccpf_xxx_vsec_cap_hdr_t;
+};
+typedef union bdk_pccpf_xxx_vsec_cap_hdr bdk_pccpf_xxx_vsec_cap_hdr_t;
 
 #define BDK_PCCPF_XXX_VSEC_CAP_HDR BDK_PCCPF_XXX_VSEC_CAP_HDR_FUNC()
 static inline uint64_t BDK_PCCPF_XXX_VSEC_CAP_HDR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2821,7 +2864,7 @@ static inline uint64_t BDK_PCCPF_XXX_VSEC_CAP_HDR_FUNC(void)
  *
  * PCC PF Vendor-Specific Control Register
  */
-typedef union
+union bdk_pccpf_xxx_vsec_ctl
 {
     uint32_t u;
     struct bdk_pccpf_xxx_vsec_ctl_s
@@ -2843,7 +2886,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pccpf_xxx_vsec_ctl_s cn; */
-} bdk_pccpf_xxx_vsec_ctl_t;
+};
+typedef union bdk_pccpf_xxx_vsec_ctl bdk_pccpf_xxx_vsec_ctl_t;
 
 #define BDK_PCCPF_XXX_VSEC_CTL BDK_PCCPF_XXX_VSEC_CTL_FUNC()
 static inline uint64_t BDK_PCCPF_XXX_VSEC_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2869,7 +2913,7 @@ static inline uint64_t BDK_PCCPF_XXX_VSEC_CTL_FUNC(void)
  *
  * PCC PF Vendor-Specific Identification Register
  */
-typedef union
+union bdk_pccpf_xxx_vsec_id
 {
     uint32_t u;
     struct bdk_pccpf_xxx_vsec_id_s
@@ -2885,7 +2929,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pccpf_xxx_vsec_id_s cn; */
-} bdk_pccpf_xxx_vsec_id_t;
+};
+typedef union bdk_pccpf_xxx_vsec_id bdk_pccpf_xxx_vsec_id_t;
 
 #define BDK_PCCPF_XXX_VSEC_ID BDK_PCCPF_XXX_VSEC_ID_FUNC()
 static inline uint64_t BDK_PCCPF_XXX_VSEC_ID_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2911,7 +2956,7 @@ static inline uint64_t BDK_PCCPF_XXX_VSEC_ID_FUNC(void)
  *
  * PCC PF Vendor-Specific Secure Control Register
  */
-typedef union
+union bdk_pccpf_xxx_vsec_sctl
 {
     uint32_t u;
     struct bdk_pccpf_xxx_vsec_sctl_s
@@ -3023,7 +3068,8 @@ typedef union
     } cn81xx;
     /* struct bdk_pccpf_xxx_vsec_sctl_cn81xx cn83xx; */
     /* struct bdk_pccpf_xxx_vsec_sctl_cn81xx cn88xxp2; */
-} bdk_pccpf_xxx_vsec_sctl_t;
+};
+typedef union bdk_pccpf_xxx_vsec_sctl bdk_pccpf_xxx_vsec_sctl_t;
 
 #define BDK_PCCPF_XXX_VSEC_SCTL BDK_PCCPF_XXX_VSEC_SCTL_FUNC()
 static inline uint64_t BDK_PCCPF_XXX_VSEC_SCTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3049,7 +3095,7 @@ static inline uint64_t BDK_PCCPF_XXX_VSEC_SCTL_FUNC(void)
  *
  * PCC PF Vendor-Specific SR-IOV Address 0 Lower Register
  */
-typedef union
+union bdk_pccpf_xxx_vsec_sriov_bar0l
 {
     uint32_t u;
     struct bdk_pccpf_xxx_vsec_sriov_bar0l_s
@@ -3071,7 +3117,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pccpf_xxx_vsec_sriov_bar0l_s cn; */
-} bdk_pccpf_xxx_vsec_sriov_bar0l_t;
+};
+typedef union bdk_pccpf_xxx_vsec_sriov_bar0l bdk_pccpf_xxx_vsec_sriov_bar0l_t;
 
 #define BDK_PCCPF_XXX_VSEC_SRIOV_BAR0L BDK_PCCPF_XXX_VSEC_SRIOV_BAR0L_FUNC()
 static inline uint64_t BDK_PCCPF_XXX_VSEC_SRIOV_BAR0L_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3097,7 +3144,7 @@ static inline uint64_t BDK_PCCPF_XXX_VSEC_SRIOV_BAR0L_FUNC(void)
  *
  * PCC PF Vendor-Specific SR-IOV Address 0 Upper Register
  */
-typedef union
+union bdk_pccpf_xxx_vsec_sriov_bar0u
 {
     uint32_t u;
     struct bdk_pccpf_xxx_vsec_sriov_bar0u_s
@@ -3117,7 +3164,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pccpf_xxx_vsec_sriov_bar0u_s cn; */
-} bdk_pccpf_xxx_vsec_sriov_bar0u_t;
+};
+typedef union bdk_pccpf_xxx_vsec_sriov_bar0u bdk_pccpf_xxx_vsec_sriov_bar0u_t;
 
 #define BDK_PCCPF_XXX_VSEC_SRIOV_BAR0U BDK_PCCPF_XXX_VSEC_SRIOV_BAR0U_FUNC()
 static inline uint64_t BDK_PCCPF_XXX_VSEC_SRIOV_BAR0U_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3143,7 +3191,7 @@ static inline uint64_t BDK_PCCPF_XXX_VSEC_SRIOV_BAR0U_FUNC(void)
  *
  * PCC PF Vendor-Specific SR-IOV Address 2 Lower Register
  */
-typedef union
+union bdk_pccpf_xxx_vsec_sriov_bar2l
 {
     uint32_t u;
     struct bdk_pccpf_xxx_vsec_sriov_bar2l_s
@@ -3165,7 +3213,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pccpf_xxx_vsec_sriov_bar2l_s cn; */
-} bdk_pccpf_xxx_vsec_sriov_bar2l_t;
+};
+typedef union bdk_pccpf_xxx_vsec_sriov_bar2l bdk_pccpf_xxx_vsec_sriov_bar2l_t;
 
 #define BDK_PCCPF_XXX_VSEC_SRIOV_BAR2L BDK_PCCPF_XXX_VSEC_SRIOV_BAR2L_FUNC()
 static inline uint64_t BDK_PCCPF_XXX_VSEC_SRIOV_BAR2L_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3191,7 +3240,7 @@ static inline uint64_t BDK_PCCPF_XXX_VSEC_SRIOV_BAR2L_FUNC(void)
  *
  * PCC PF Vendor-Specific SR-IOV Address 2 Upper Register
  */
-typedef union
+union bdk_pccpf_xxx_vsec_sriov_bar2u
 {
     uint32_t u;
     struct bdk_pccpf_xxx_vsec_sriov_bar2u_s
@@ -3211,7 +3260,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pccpf_xxx_vsec_sriov_bar2u_s cn; */
-} bdk_pccpf_xxx_vsec_sriov_bar2u_t;
+};
+typedef union bdk_pccpf_xxx_vsec_sriov_bar2u bdk_pccpf_xxx_vsec_sriov_bar2u_t;
 
 #define BDK_PCCPF_XXX_VSEC_SRIOV_BAR2U BDK_PCCPF_XXX_VSEC_SRIOV_BAR2U_FUNC()
 static inline uint64_t BDK_PCCPF_XXX_VSEC_SRIOV_BAR2U_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3237,7 +3287,7 @@ static inline uint64_t BDK_PCCPF_XXX_VSEC_SRIOV_BAR2U_FUNC(void)
  *
  * PCC PF Vendor-Specific SR-IOV Address 4 Lower Register
  */
-typedef union
+union bdk_pccpf_xxx_vsec_sriov_bar4l
 {
     uint32_t u;
     struct bdk_pccpf_xxx_vsec_sriov_bar4l_s
@@ -3259,7 +3309,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pccpf_xxx_vsec_sriov_bar4l_s cn; */
-} bdk_pccpf_xxx_vsec_sriov_bar4l_t;
+};
+typedef union bdk_pccpf_xxx_vsec_sriov_bar4l bdk_pccpf_xxx_vsec_sriov_bar4l_t;
 
 #define BDK_PCCPF_XXX_VSEC_SRIOV_BAR4L BDK_PCCPF_XXX_VSEC_SRIOV_BAR4L_FUNC()
 static inline uint64_t BDK_PCCPF_XXX_VSEC_SRIOV_BAR4L_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3285,7 +3336,7 @@ static inline uint64_t BDK_PCCPF_XXX_VSEC_SRIOV_BAR4L_FUNC(void)
  *
  * PCC PF Vendor-Specific SR-IOV Address 4 Upper Register
  */
-typedef union
+union bdk_pccpf_xxx_vsec_sriov_bar4u
 {
     uint32_t u;
     struct bdk_pccpf_xxx_vsec_sriov_bar4u_s
@@ -3305,7 +3356,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pccpf_xxx_vsec_sriov_bar4u_s cn; */
-} bdk_pccpf_xxx_vsec_sriov_bar4u_t;
+};
+typedef union bdk_pccpf_xxx_vsec_sriov_bar4u bdk_pccpf_xxx_vsec_sriov_bar4u_t;
 
 #define BDK_PCCPF_XXX_VSEC_SRIOV_BAR4U BDK_PCCPF_XXX_VSEC_SRIOV_BAR4U_FUNC()
 static inline uint64_t BDK_PCCPF_XXX_VSEC_SRIOV_BAR4U_FUNC(void) __attribute__ ((pure, always_inline));

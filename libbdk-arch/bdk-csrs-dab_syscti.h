@@ -58,7 +58,7 @@
  * SYSCTI External Multiplexer Control Register
  * Provides a control for external multiplexing of additional triggers.
  */
-typedef union
+union bdk_sysctix_asicctl
 {
     uint32_t u;
     struct bdk_sysctix_asicctl_s
@@ -82,7 +82,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sysctix_asicctl_s cn; */
-} bdk_sysctix_asicctl_t;
+};
+typedef union bdk_sysctix_asicctl bdk_sysctix_asicctl_t;
 
 static inline uint64_t BDK_SYSCTIX_ASICCTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SYSCTIX_ASICCTL(unsigned long a)
@@ -105,7 +106,7 @@ static inline uint64_t BDK_SYSCTIX_ASICCTL(unsigned long a)
  * Used by software to read the values of the CLAIM bits, and to
  *     clear these bits to 0.
  */
-typedef union
+union bdk_sysctix_claimclr_el1
 {
     uint32_t u;
     struct bdk_sysctix_claimclr_el1_s
@@ -129,7 +130,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sysctix_claimclr_el1_s cn; */
-} bdk_sysctix_claimclr_el1_t;
+};
+typedef union bdk_sysctix_claimclr_el1 bdk_sysctix_claimclr_el1_t;
 
 static inline uint64_t BDK_SYSCTIX_CLAIMCLR_EL1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SYSCTIX_CLAIMCLR_EL1(unsigned long a)
@@ -151,7 +153,7 @@ static inline uint64_t BDK_SYSCTIX_CLAIMCLR_EL1(unsigned long a)
  * SYSCTI Claim Tag Set Register
  * Used by software to set CLAIM bits to 1.
  */
-typedef union
+union bdk_sysctix_claimset_el1
 {
     uint32_t u;
     struct bdk_sysctix_claimset_el1_s
@@ -173,7 +175,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sysctix_claimset_el1_s cn; */
-} bdk_sysctix_claimset_el1_t;
+};
+typedef union bdk_sysctix_claimset_el1 bdk_sysctix_claimset_el1_t;
 
 static inline uint64_t BDK_SYSCTIX_CLAIMSET_EL1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SYSCTIX_CLAIMSET_EL1(unsigned long a)
@@ -195,7 +198,7 @@ static inline uint64_t BDK_SYSCTIX_CLAIMSET_EL1(unsigned long a)
  * SYSCTI Application Trigger Clear Register
  * Clears bits of the application trigger register.
  */
-typedef union
+union bdk_sysctix_ctiappclear
 {
     uint32_t u;
     struct bdk_sysctix_ctiappclear_s
@@ -207,7 +210,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sysctix_ctiappclear_s cn; */
-} bdk_sysctix_ctiappclear_t;
+};
+typedef union bdk_sysctix_ctiappclear bdk_sysctix_ctiappclear_t;
 
 static inline uint64_t BDK_SYSCTIX_CTIAPPCLEAR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SYSCTIX_CTIAPPCLEAR(unsigned long a)
@@ -229,7 +233,7 @@ static inline uint64_t BDK_SYSCTIX_CTIAPPCLEAR(unsigned long a)
  * SYSCTI Application Pulse Register
  * Causes event pulses to be generated on ECT channels.
  */
-typedef union
+union bdk_sysctix_ctiapppulse
 {
     uint32_t u;
     struct bdk_sysctix_ctiapppulse_s
@@ -257,7 +261,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sysctix_ctiapppulse_s cn; */
-} bdk_sysctix_ctiapppulse_t;
+};
+typedef union bdk_sysctix_ctiapppulse bdk_sysctix_ctiapppulse_t;
 
 static inline uint64_t BDK_SYSCTIX_CTIAPPPULSE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SYSCTIX_CTIAPPPULSE(unsigned long a)
@@ -279,7 +284,7 @@ static inline uint64_t BDK_SYSCTIX_CTIAPPPULSE(unsigned long a)
  * SYSCTI Application Trigger Set Register
  * Sets bits of the application trigger register.
  */
-typedef union
+union bdk_sysctix_ctiappset
 {
     uint32_t u;
     struct bdk_sysctix_ctiappset_s
@@ -333,7 +338,8 @@ typedef union
     /* struct bdk_sysctix_ctiappset_s cn81xx; */
     /* struct bdk_sysctix_ctiappset_s cn83xx; */
     /* struct bdk_sysctix_ctiappset_s cn88xxp2; */
-} bdk_sysctix_ctiappset_t;
+};
+typedef union bdk_sysctix_ctiappset bdk_sysctix_ctiappset_t;
 
 static inline uint64_t BDK_SYSCTIX_CTIAPPSET(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SYSCTIX_CTIAPPSET(unsigned long a)
@@ -356,7 +362,7 @@ static inline uint64_t BDK_SYSCTIX_CTIAPPSET(unsigned long a)
  * Provides information about the state of the implementation defined authentication
  * interface.
  */
-typedef union
+union bdk_sysctix_ctiauthstatus_el1
 {
     uint32_t u;
     struct bdk_sysctix_ctiauthstatus_el1_s
@@ -384,7 +390,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sysctix_ctiauthstatus_el1_s cn; */
-} bdk_sysctix_ctiauthstatus_el1_t;
+};
+typedef union bdk_sysctix_ctiauthstatus_el1 bdk_sysctix_ctiauthstatus_el1_t;
 
 static inline uint64_t BDK_SYSCTIX_CTIAUTHSTATUS_EL1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SYSCTIX_CTIAUTHSTATUS_EL1(unsigned long a)
@@ -406,7 +413,7 @@ static inline uint64_t BDK_SYSCTIX_CTIAUTHSTATUS_EL1(unsigned long a)
  * SYSCTI Channel In Status Register
  * Provides the raw status of the ECT channel inputs.
  */
-typedef union
+union bdk_sysctix_ctichinstatus
 {
     uint32_t u;
     struct bdk_sysctix_ctichinstatus_s
@@ -432,7 +439,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sysctix_ctichinstatus_s cn; */
-} bdk_sysctix_ctichinstatus_t;
+};
+typedef union bdk_sysctix_ctichinstatus bdk_sysctix_ctichinstatus_t;
 
 static inline uint64_t BDK_SYSCTIX_CTICHINSTATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SYSCTIX_CTICHINSTATUS(unsigned long a)
@@ -454,7 +462,7 @@ static inline uint64_t BDK_SYSCTIX_CTICHINSTATUS(unsigned long a)
  * SYSCTI Channel Out Status Register
  * Provides the status of the ECT channel outputs.
  */
-typedef union
+union bdk_sysctix_ctichoutstatus
 {
     uint32_t u;
     struct bdk_sysctix_ctichoutstatus_s
@@ -480,7 +488,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sysctix_ctichoutstatus_s cn; */
-} bdk_sysctix_ctichoutstatus_t;
+};
+typedef union bdk_sysctix_ctichoutstatus bdk_sysctix_ctichoutstatus_t;
 
 static inline uint64_t BDK_SYSCTIX_CTICHOUTSTATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SYSCTIX_CTICHOUTSTATUS(unsigned long a)
@@ -502,7 +511,7 @@ static inline uint64_t BDK_SYSCTIX_CTICHOUTSTATUS(unsigned long a)
  * SYSCTI Component Identification Register 0
  * Provides information to identify a component.
  */
-typedef union
+union bdk_sysctix_cticidr0
 {
     uint32_t u;
     struct bdk_sysctix_cticidr0_s
@@ -516,7 +525,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sysctix_cticidr0_s cn; */
-} bdk_sysctix_cticidr0_t;
+};
+typedef union bdk_sysctix_cticidr0 bdk_sysctix_cticidr0_t;
 
 static inline uint64_t BDK_SYSCTIX_CTICIDR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SYSCTIX_CTICIDR0(unsigned long a)
@@ -538,7 +548,7 @@ static inline uint64_t BDK_SYSCTIX_CTICIDR0(unsigned long a)
  * SYSCTI Component Identification Register 1
  * Provides information to identify a component.
  */
-typedef union
+union bdk_sysctix_cticidr1
 {
     uint32_t u;
     struct bdk_sysctix_cticidr1_s
@@ -554,7 +564,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sysctix_cticidr1_s cn; */
-} bdk_sysctix_cticidr1_t;
+};
+typedef union bdk_sysctix_cticidr1 bdk_sysctix_cticidr1_t;
 
 static inline uint64_t BDK_SYSCTIX_CTICIDR1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SYSCTIX_CTICIDR1(unsigned long a)
@@ -576,7 +587,7 @@ static inline uint64_t BDK_SYSCTIX_CTICIDR1(unsigned long a)
  * SYSCTI Component Identification Register 2
  * Provides information to identify a component.
  */
-typedef union
+union bdk_sysctix_cticidr2
 {
     uint32_t u;
     struct bdk_sysctix_cticidr2_s
@@ -590,7 +601,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sysctix_cticidr2_s cn; */
-} bdk_sysctix_cticidr2_t;
+};
+typedef union bdk_sysctix_cticidr2 bdk_sysctix_cticidr2_t;
 
 static inline uint64_t BDK_SYSCTIX_CTICIDR2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SYSCTIX_CTICIDR2(unsigned long a)
@@ -612,7 +624,7 @@ static inline uint64_t BDK_SYSCTIX_CTICIDR2(unsigned long a)
  * SYSCTI Component Identification Register 3
  * Provides information to identify a component.
  */
-typedef union
+union bdk_sysctix_cticidr3
 {
     uint32_t u;
     struct bdk_sysctix_cticidr3_s
@@ -626,7 +638,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sysctix_cticidr3_s cn; */
-} bdk_sysctix_cticidr3_t;
+};
+typedef union bdk_sysctix_cticidr3 bdk_sysctix_cticidr3_t;
 
 static inline uint64_t BDK_SYSCTIX_CTICIDR3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SYSCTIX_CTICIDR3(unsigned long a)
@@ -648,7 +661,7 @@ static inline uint64_t BDK_SYSCTIX_CTICIDR3(unsigned long a)
  * SYSCTI Control Register
  * Controls whether the SYSCTI is enabled.
  */
-typedef union
+union bdk_sysctix_cticontrol
 {
     uint32_t u;
     struct bdk_sysctix_cticontrol_s
@@ -678,7 +691,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sysctix_cticontrol_s cn; */
-} bdk_sysctix_cticontrol_t;
+};
+typedef union bdk_sysctix_cticontrol bdk_sysctix_cticontrol_t;
 
 static inline uint64_t BDK_SYSCTIX_CTICONTROL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SYSCTIX_CTICONTROL(unsigned long a)
@@ -702,7 +716,7 @@ static inline uint64_t BDK_SYSCTIX_CTICONTROL(unsigned long a)
  * determine which processor in a multiprocessor system the SYSCTI component relates
  * to.
  */
-typedef union
+union bdk_sysctix_ctidevaff0
 {
     uint32_t u;
     struct bdk_sysctix_ctidevaff0_s
@@ -716,7 +730,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sysctix_ctidevaff0_s cn; */
-} bdk_sysctix_ctidevaff0_t;
+};
+typedef union bdk_sysctix_ctidevaff0 bdk_sysctix_ctidevaff0_t;
 
 static inline uint64_t BDK_SYSCTIX_CTIDEVAFF0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SYSCTIX_CTIDEVAFF0(unsigned long a)
@@ -740,7 +755,7 @@ static inline uint64_t BDK_SYSCTIX_CTIDEVAFF0(unsigned long a)
  * determine which processor in a multiprocessor system the SYSCTI component relates
  * to.
  */
-typedef union
+union bdk_sysctix_ctidevaff1
 {
     uint32_t u;
     struct bdk_sysctix_ctidevaff1_s
@@ -754,7 +769,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sysctix_ctidevaff1_s cn; */
-} bdk_sysctix_ctidevaff1_t;
+};
+typedef union bdk_sysctix_ctidevaff1 bdk_sysctix_ctidevaff1_t;
 
 static inline uint64_t BDK_SYSCTIX_CTIDEVAFF1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SYSCTIX_CTIDEVAFF1(unsigned long a)
@@ -776,7 +792,7 @@ static inline uint64_t BDK_SYSCTIX_CTIDEVAFF1(unsigned long a)
  * SYSCTI Device Architecture Register
  * Identifies the programmers' model architecture.
  */
-typedef union
+union bdk_sysctix_ctidevarch
 {
     uint32_t u;
     struct bdk_sysctix_ctidevarch_s
@@ -822,7 +838,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sysctix_ctidevarch_s cn; */
-} bdk_sysctix_ctidevarch_t;
+};
+typedef union bdk_sysctix_ctidevarch bdk_sysctix_ctidevarch_t;
 
 static inline uint64_t BDK_SYSCTIX_CTIDEVARCH(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SYSCTIX_CTIDEVARCH(unsigned long a)
@@ -844,7 +861,7 @@ static inline uint64_t BDK_SYSCTIX_CTIDEVARCH(unsigned long a)
  * SYSCTI Device ID Register 0
  * Describes the component to the debugger.
  */
-typedef union
+union bdk_sysctix_ctidevid
 {
     uint32_t u;
     struct bdk_sysctix_ctidevid_s
@@ -924,7 +941,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sysctix_ctidevid_s cn; */
-} bdk_sysctix_ctidevid_t;
+};
+typedef union bdk_sysctix_ctidevid bdk_sysctix_ctidevid_t;
 
 static inline uint64_t BDK_SYSCTIX_CTIDEVID(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SYSCTIX_CTIDEVID(unsigned long a)
@@ -946,7 +964,7 @@ static inline uint64_t BDK_SYSCTIX_CTIDEVID(unsigned long a)
  * SYSCTI Device ID Register 1
  * Reserved for future information about the component to the debugger.
  */
-typedef union
+union bdk_sysctix_ctidevid1
 {
     uint32_t u;
     struct bdk_sysctix_ctidevid1_s
@@ -958,7 +976,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sysctix_ctidevid1_s cn; */
-} bdk_sysctix_ctidevid1_t;
+};
+typedef union bdk_sysctix_ctidevid1 bdk_sysctix_ctidevid1_t;
 
 static inline uint64_t BDK_SYSCTIX_CTIDEVID1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SYSCTIX_CTIDEVID1(unsigned long a)
@@ -980,7 +999,7 @@ static inline uint64_t BDK_SYSCTIX_CTIDEVID1(unsigned long a)
  * SYSCTI Device ID Register 2
  * Reserved for future information about the SYSCTI component to the debugger.
  */
-typedef union
+union bdk_sysctix_ctidevid2
 {
     uint32_t u;
     struct bdk_sysctix_ctidevid2_s
@@ -992,7 +1011,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sysctix_ctidevid2_s cn; */
-} bdk_sysctix_ctidevid2_t;
+};
+typedef union bdk_sysctix_ctidevid2 bdk_sysctix_ctidevid2_t;
 
 static inline uint64_t BDK_SYSCTIX_CTIDEVID2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SYSCTIX_CTIDEVID2(unsigned long a)
@@ -1015,7 +1035,7 @@ static inline uint64_t BDK_SYSCTIX_CTIDEVID2(unsigned long a)
  * Indicates to a debugger that this component is part of a processor's cross-trigger
  * interface.
  */
-typedef union
+union bdk_sysctix_ctidevtype
 {
     uint32_t u;
     struct bdk_sysctix_ctidevtype_s
@@ -1031,7 +1051,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sysctix_ctidevtype_s cn; */
-} bdk_sysctix_ctidevtype_t;
+};
+typedef union bdk_sysctix_ctidevtype bdk_sysctix_ctidevtype_t;
 
 static inline uint64_t BDK_SYSCTIX_CTIDEVTYPE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SYSCTIX_CTIDEVTYPE(unsigned long a)
@@ -1054,7 +1075,7 @@ static inline uint64_t BDK_SYSCTIX_CTIDEVTYPE(unsigned long a)
  * Determines whether events on channels propagate through the
  *     CTM to other ECT components, or from the CTM into the SYSCTI.
  */
-typedef union
+union bdk_sysctix_ctigate
 {
     uint32_t u;
     struct bdk_sysctix_ctigate_s
@@ -1080,7 +1101,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sysctix_ctigate_s cn; */
-} bdk_sysctix_ctigate_t;
+};
+typedef union bdk_sysctix_ctigate bdk_sysctix_ctigate_t;
 
 static inline uint64_t BDK_SYSCTIX_CTIGATE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SYSCTIX_CTIGATE(unsigned long a)
@@ -1103,7 +1125,7 @@ static inline uint64_t BDK_SYSCTIX_CTIGATE(unsigned long a)
  * Enables the signaling of an event on output channels when
  *     input trigger event n is received by the SYSCTI.
  */
-typedef union
+union bdk_sysctix_ctiinenx
 {
     uint32_t u;
     struct bdk_sysctix_ctiinenx_s
@@ -1137,7 +1159,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sysctix_ctiinenx_s cn; */
-} bdk_sysctix_ctiinenx_t;
+};
+typedef union bdk_sysctix_ctiinenx bdk_sysctix_ctiinenx_t;
 
 static inline uint64_t BDK_SYSCTIX_CTIINENX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SYSCTIX_CTIINENX(unsigned long a, unsigned long b)
@@ -1159,7 +1182,7 @@ static inline uint64_t BDK_SYSCTIX_CTIINENX(unsigned long a, unsigned long b)
  * SYSCTI Output Trigger Acknowledge Register
  * Creates soft acknowledges for output triggers.
  */
-typedef union
+union bdk_sysctix_ctiintack
 {
     uint32_t u;
     struct bdk_sysctix_ctiintack_s
@@ -1211,7 +1234,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sysctix_ctiintack_s cn; */
-} bdk_sysctix_ctiintack_t;
+};
+typedef union bdk_sysctix_ctiintack bdk_sysctix_ctiintack_t;
 
 static inline uint64_t BDK_SYSCTIX_CTIINTACK(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SYSCTIX_CTIINTACK(unsigned long a)
@@ -1236,7 +1260,7 @@ static inline uint64_t BDK_SYSCTIX_CTIINTACK(unsigned long a)
  *     inputs and outputs of the processor, for integration testing
  *     or topology detection.
  */
-typedef union
+union bdk_sysctix_ctiitctrl
 {
     uint32_t u;
     struct bdk_sysctix_ctiitctrl_s
@@ -1260,7 +1284,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sysctix_ctiitctrl_s cn; */
-} bdk_sysctix_ctiitctrl_t;
+};
+typedef union bdk_sysctix_ctiitctrl bdk_sysctix_ctiitctrl_t;
 
 static inline uint64_t BDK_SYSCTIX_CTIITCTRL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SYSCTIX_CTIITCTRL(unsigned long a)
@@ -1283,7 +1308,7 @@ static inline uint64_t BDK_SYSCTIX_CTIITCTRL(unsigned long a)
  * Allows or disallows access to the SYSCTI registers through a memory-mapped
  * interface.
  */
-typedef union
+union bdk_sysctix_ctilar
 {
     uint32_t u;
     struct bdk_sysctix_ctilar_s
@@ -1299,7 +1324,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sysctix_ctilar_s cn; */
-} bdk_sysctix_ctilar_t;
+};
+typedef union bdk_sysctix_ctilar bdk_sysctix_ctilar_t;
 
 static inline uint64_t BDK_SYSCTIX_CTILAR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SYSCTIX_CTILAR(unsigned long a)
@@ -1321,7 +1347,7 @@ static inline uint64_t BDK_SYSCTIX_CTILAR(unsigned long a)
  * SYSCTI Lock Status Register
  * Indicates the current status of the software lock for registers.
  */
-typedef union
+union bdk_sysctix_ctilsr
 {
     uint32_t u;
     struct bdk_sysctix_ctilsr_s
@@ -1365,7 +1391,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sysctix_ctilsr_s cn; */
-} bdk_sysctix_ctilsr_t;
+};
+typedef union bdk_sysctix_ctilsr bdk_sysctix_ctilsr_t;
 
 static inline uint64_t BDK_SYSCTIX_CTILSR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SYSCTIX_CTILSR(unsigned long a)
@@ -1387,7 +1414,7 @@ static inline uint64_t BDK_SYSCTIX_CTILSR(unsigned long a)
  * SYSCTI Input Channel to Output Trigger Enable Registers
  * Defines which input channels generate output trigger n.
  */
-typedef union
+union bdk_sysctix_ctioutenx
 {
     uint32_t u;
     struct bdk_sysctix_ctioutenx_s
@@ -1421,7 +1448,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sysctix_ctioutenx_s cn; */
-} bdk_sysctix_ctioutenx_t;
+};
+typedef union bdk_sysctix_ctioutenx bdk_sysctix_ctioutenx_t;
 
 static inline uint64_t BDK_SYSCTIX_CTIOUTENX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SYSCTIX_CTIOUTENX(unsigned long a, unsigned long b)
@@ -1443,7 +1471,7 @@ static inline uint64_t BDK_SYSCTIX_CTIOUTENX(unsigned long a, unsigned long b)
  * SYSCTI Peripheral Identification Register 0
  * Provides information to identify a component.
  */
-typedef union
+union bdk_sysctix_ctipidr0
 {
     uint32_t u;
     struct bdk_sysctix_ctipidr0_s
@@ -1457,7 +1485,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sysctix_ctipidr0_s cn; */
-} bdk_sysctix_ctipidr0_t;
+};
+typedef union bdk_sysctix_ctipidr0 bdk_sysctix_ctipidr0_t;
 
 static inline uint64_t BDK_SYSCTIX_CTIPIDR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SYSCTIX_CTIPIDR0(unsigned long a)
@@ -1479,7 +1508,7 @@ static inline uint64_t BDK_SYSCTIX_CTIPIDR0(unsigned long a)
  * SYSCTI Peripheral Identification Register 1
  * Provides information to identify a component.
  */
-typedef union
+union bdk_sysctix_ctipidr1
 {
     uint32_t u;
     struct bdk_sysctix_ctipidr1_s
@@ -1495,7 +1524,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sysctix_ctipidr1_s cn; */
-} bdk_sysctix_ctipidr1_t;
+};
+typedef union bdk_sysctix_ctipidr1 bdk_sysctix_ctipidr1_t;
 
 static inline uint64_t BDK_SYSCTIX_CTIPIDR1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SYSCTIX_CTIPIDR1(unsigned long a)
@@ -1517,7 +1547,7 @@ static inline uint64_t BDK_SYSCTIX_CTIPIDR1(unsigned long a)
  * SYSCTI Peripheral Identification Register 2
  * Provides information to identify a component.
  */
-typedef union
+union bdk_sysctix_ctipidr2
 {
     uint32_t u;
     struct bdk_sysctix_ctipidr2_s
@@ -1535,7 +1565,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sysctix_ctipidr2_s cn; */
-} bdk_sysctix_ctipidr2_t;
+};
+typedef union bdk_sysctix_ctipidr2 bdk_sysctix_ctipidr2_t;
 
 static inline uint64_t BDK_SYSCTIX_CTIPIDR2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SYSCTIX_CTIPIDR2(unsigned long a)
@@ -1557,7 +1588,7 @@ static inline uint64_t BDK_SYSCTIX_CTIPIDR2(unsigned long a)
  * SYSCTI Peripheral Identification Register 3
  * Provides information to identify a component.
  */
-typedef union
+union bdk_sysctix_ctipidr3
 {
     uint32_t u;
     struct bdk_sysctix_ctipidr3_s
@@ -1575,7 +1606,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sysctix_ctipidr3_s cn; */
-} bdk_sysctix_ctipidr3_t;
+};
+typedef union bdk_sysctix_ctipidr3 bdk_sysctix_ctipidr3_t;
 
 static inline uint64_t BDK_SYSCTIX_CTIPIDR3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SYSCTIX_CTIPIDR3(unsigned long a)
@@ -1597,7 +1629,7 @@ static inline uint64_t BDK_SYSCTIX_CTIPIDR3(unsigned long a)
  * SYSCTI Peripheral Identification Register 4
  * Provides information to identify a component.
  */
-typedef union
+union bdk_sysctix_ctipidr4
 {
     uint32_t u;
     struct bdk_sysctix_ctipidr4_s
@@ -1615,7 +1647,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sysctix_ctipidr4_s cn; */
-} bdk_sysctix_ctipidr4_t;
+};
+typedef union bdk_sysctix_ctipidr4 bdk_sysctix_ctipidr4_t;
 
 static inline uint64_t BDK_SYSCTIX_CTIPIDR4(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SYSCTIX_CTIPIDR4(unsigned long a)
@@ -1637,7 +1670,7 @@ static inline uint64_t BDK_SYSCTIX_CTIPIDR4(unsigned long a)
  * SYSCTI Peripheral Identification Register 5
  * Provides information to identify an external debug component.
  */
-typedef union
+union bdk_sysctix_ctipidr5
 {
     uint32_t u;
     struct bdk_sysctix_ctipidr5_s
@@ -1649,7 +1682,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sysctix_ctipidr5_s cn; */
-} bdk_sysctix_ctipidr5_t;
+};
+typedef union bdk_sysctix_ctipidr5 bdk_sysctix_ctipidr5_t;
 
 static inline uint64_t BDK_SYSCTIX_CTIPIDR5(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SYSCTIX_CTIPIDR5(unsigned long a)
@@ -1671,7 +1705,7 @@ static inline uint64_t BDK_SYSCTIX_CTIPIDR5(unsigned long a)
  * SYSCTI Peripheral Identification Register 6
  * Provides information to identify an external debug component.
  */
-typedef union
+union bdk_sysctix_ctipidr6
 {
     uint32_t u;
     struct bdk_sysctix_ctipidr6_s
@@ -1683,7 +1717,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sysctix_ctipidr6_s cn; */
-} bdk_sysctix_ctipidr6_t;
+};
+typedef union bdk_sysctix_ctipidr6 bdk_sysctix_ctipidr6_t;
 
 static inline uint64_t BDK_SYSCTIX_CTIPIDR6(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SYSCTIX_CTIPIDR6(unsigned long a)
@@ -1705,7 +1740,7 @@ static inline uint64_t BDK_SYSCTIX_CTIPIDR6(unsigned long a)
  * SYSCTI Peripheral Identification Register 7
  * Provides information to identify an external debug component.
  */
-typedef union
+union bdk_sysctix_ctipidr7
 {
     uint32_t u;
     struct bdk_sysctix_ctipidr7_s
@@ -1717,7 +1752,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sysctix_ctipidr7_s cn; */
-} bdk_sysctix_ctipidr7_t;
+};
+typedef union bdk_sysctix_ctipidr7 bdk_sysctix_ctipidr7_t;
 
 static inline uint64_t BDK_SYSCTIX_CTIPIDR7(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SYSCTIX_CTIPIDR7(unsigned long a)
@@ -1739,7 +1775,7 @@ static inline uint64_t BDK_SYSCTIX_CTIPIDR7(unsigned long a)
  * SYSCTI Trigger In Status Register
  * Provides the status of the trigger inputs.
  */
-typedef union
+union bdk_sysctix_ctitriginstatus
 {
     uint32_t u;
     struct bdk_sysctix_ctitriginstatus_s
@@ -1767,7 +1803,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sysctix_ctitriginstatus_s cn; */
-} bdk_sysctix_ctitriginstatus_t;
+};
+typedef union bdk_sysctix_ctitriginstatus bdk_sysctix_ctitriginstatus_t;
 
 static inline uint64_t BDK_SYSCTIX_CTITRIGINSTATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SYSCTIX_CTITRIGINSTATUS(unsigned long a)
@@ -1789,7 +1826,7 @@ static inline uint64_t BDK_SYSCTIX_CTITRIGINSTATUS(unsigned long a)
  * SYSCTI Trigger Out Status Register
  * Provides the status of the trigger outputs.
  */
-typedef union
+union bdk_sysctix_ctitrigoutstatus
 {
     uint32_t u;
     struct bdk_sysctix_ctitrigoutstatus_s
@@ -1823,7 +1860,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sysctix_ctitrigoutstatus_s cn; */
-} bdk_sysctix_ctitrigoutstatus_t;
+};
+typedef union bdk_sysctix_ctitrigoutstatus bdk_sysctix_ctitrigoutstatus_t;
 
 static inline uint64_t BDK_SYSCTIX_CTITRIGOUTSTATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SYSCTIX_CTITRIGOUTSTATUS(unsigned long a)

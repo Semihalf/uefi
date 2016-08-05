@@ -81,7 +81,7 @@
  * PBUS DMA Engine Address Registers
  * This register sets each DMA engine address.
  */
-typedef union
+union bdk_pbus_dma_adrx
 {
     uint64_t u;
     struct bdk_pbus_dma_adrx_s
@@ -97,7 +97,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pbus_dma_adrx_s cn; */
-} bdk_pbus_dma_adrx_t;
+};
+typedef union bdk_pbus_dma_adrx bdk_pbus_dma_adrx_t;
 
 static inline uint64_t BDK_PBUS_DMA_ADRX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PBUS_DMA_ADRX(unsigned long a)
@@ -135,7 +136,7 @@ static inline uint64_t BDK_PBUS_DMA_ADRX(unsigned long a)
  * Coprocessor clocks can be converted to core clocks by multiplying the value by the clock ratio
  * RST_BOOT[C_MUL] / RST_BOOT[PNR_MUL].
  */
-typedef union
+union bdk_pbus_dma_cfgx
 {
     uint64_t u;
     struct bdk_pbus_dma_cfgx_s
@@ -201,7 +202,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pbus_dma_cfgx_s cn; */
-} bdk_pbus_dma_cfgx_t;
+};
+typedef union bdk_pbus_dma_cfgx bdk_pbus_dma_cfgx_t;
 
 static inline uint64_t BDK_PBUS_DMA_CFGX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PBUS_DMA_CFGX(unsigned long a)
@@ -229,7 +231,7 @@ static inline uint64_t BDK_PBUS_DMA_CFGX(unsigned long a)
  * Traditional DMACK_PI and DMARQ_PI have been eliminated
  * because the corresponding GPIO pin can use GPIO_BIT_CFG[PIN_XOR].
  */
-typedef union
+union bdk_pbus_dma_timx
 {
     uint64_t u;
     struct bdk_pbus_dma_timx_s
@@ -293,7 +295,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pbus_dma_timx_s cn; */
-} bdk_pbus_dma_timx_t;
+};
+typedef union bdk_pbus_dma_timx bdk_pbus_dma_timx_t;
 
 static inline uint64_t BDK_PBUS_DMA_TIMX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PBUS_DMA_TIMX(unsigned long a)
@@ -317,7 +320,7 @@ static inline uint64_t BDK_PBUS_DMA_TIMX(unsigned long a)
  *
  * INTERNAL: PBUS ECO Register
  */
-typedef union
+union bdk_pbus_eco
 {
     uint64_t u;
     struct bdk_pbus_eco_s
@@ -331,7 +334,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pbus_eco_s cn; */
-} bdk_pbus_eco_t;
+};
+typedef union bdk_pbus_eco bdk_pbus_eco_t;
 
 #define BDK_PBUS_ECO BDK_PBUS_ECO_FUNC()
 static inline uint64_t BDK_PBUS_ECO_FUNC(void) __attribute__ ((pure, always_inline));
@@ -357,7 +361,7 @@ static inline uint64_t BDK_PBUS_ECO_FUNC(void)
  * PBUS Interupt Register
  * This register contains the PBUS DMA and error interrupts.
  */
-typedef union
+union bdk_pbus_int
 {
     uint64_t u;
     struct bdk_pbus_int_s
@@ -383,7 +387,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pbus_int_s cn; */
-} bdk_pbus_int_t;
+};
+typedef union bdk_pbus_int bdk_pbus_int_t;
 
 #define BDK_PBUS_INT BDK_PBUS_INT_FUNC()
 static inline uint64_t BDK_PBUS_INT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -409,7 +414,7 @@ static inline uint64_t BDK_PBUS_INT_FUNC(void)
  * PBUS Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_pbus_int_ena_w1c
 {
     uint64_t u;
     struct bdk_pbus_int_ena_w1c_s
@@ -429,7 +434,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pbus_int_ena_w1c_s cn; */
-} bdk_pbus_int_ena_w1c_t;
+};
+typedef union bdk_pbus_int_ena_w1c bdk_pbus_int_ena_w1c_t;
 
 #define BDK_PBUS_INT_ENA_W1C BDK_PBUS_INT_ENA_W1C_FUNC()
 static inline uint64_t BDK_PBUS_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -455,7 +461,7 @@ static inline uint64_t BDK_PBUS_INT_ENA_W1C_FUNC(void)
  * PBUS Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_pbus_int_ena_w1s
 {
     uint64_t u;
     struct bdk_pbus_int_ena_w1s_s
@@ -475,7 +481,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pbus_int_ena_w1s_s cn; */
-} bdk_pbus_int_ena_w1s_t;
+};
+typedef union bdk_pbus_int_ena_w1s bdk_pbus_int_ena_w1s_t;
 
 #define BDK_PBUS_INT_ENA_W1S BDK_PBUS_INT_ENA_W1S_FUNC()
 static inline uint64_t BDK_PBUS_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -501,7 +508,7 @@ static inline uint64_t BDK_PBUS_INT_ENA_W1S_FUNC(void)
  * PBUS Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_pbus_int_w1s
 {
     uint64_t u;
     struct bdk_pbus_int_w1s_s
@@ -521,7 +528,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pbus_int_w1s_s cn; */
-} bdk_pbus_int_w1s_t;
+};
+typedef union bdk_pbus_int_w1s bdk_pbus_int_w1s_t;
 
 #define BDK_PBUS_INT_W1S BDK_PBUS_INT_W1S_FUNC()
 static inline uint64_t BDK_PBUS_INT_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -548,7 +556,7 @@ static inline uint64_t BDK_PBUS_INT_W1S_FUNC(void)
  * This register is the MSI-X PBA table, the bit number is indexed by the PBUS_INT_VEC_E
  * enumeration.
  */
-typedef union
+union bdk_pbus_msix_pbax
 {
     uint64_t u;
     struct bdk_pbus_msix_pbax_s
@@ -562,7 +570,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pbus_msix_pbax_s cn; */
-} bdk_pbus_msix_pbax_t;
+};
+typedef union bdk_pbus_msix_pbax bdk_pbus_msix_pbax_t;
 
 static inline uint64_t BDK_PBUS_MSIX_PBAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PBUS_MSIX_PBAX(unsigned long a)
@@ -587,7 +596,7 @@ static inline uint64_t BDK_PBUS_MSIX_PBAX(unsigned long a)
  * PBUS MSI-X Vector Table Address Registers
  * This register is the MSI-X vector table, indexed by the PBUS_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_pbus_msix_vecx_addr
 {
     uint64_t u;
     struct bdk_pbus_msix_vecx_addr_s
@@ -621,7 +630,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pbus_msix_vecx_addr_s cn; */
-} bdk_pbus_msix_vecx_addr_t;
+};
+typedef union bdk_pbus_msix_vecx_addr bdk_pbus_msix_vecx_addr_t;
 
 static inline uint64_t BDK_PBUS_MSIX_VECX_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PBUS_MSIX_VECX_ADDR(unsigned long a)
@@ -646,7 +656,7 @@ static inline uint64_t BDK_PBUS_MSIX_VECX_ADDR(unsigned long a)
  * PBUS MSI-X Vector Table Control and Data Registers
  * This register is the MSI-X vector table, indexed by the PBUS_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_pbus_msix_vecx_ctl
 {
     uint64_t u;
     struct bdk_pbus_msix_vecx_ctl_s
@@ -664,7 +674,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pbus_msix_vecx_ctl_s cn; */
-} bdk_pbus_msix_vecx_ctl_t;
+};
+typedef union bdk_pbus_msix_vecx_ctl bdk_pbus_msix_vecx_ctl_t;
 
 static inline uint64_t BDK_PBUS_MSIX_VECX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PBUS_MSIX_VECX_CTL(unsigned long a)
@@ -689,7 +700,7 @@ static inline uint64_t BDK_PBUS_MSIX_VECX_CTL(unsigned long a)
  * PBUS Region Configuration Registers
  * This register contains parameters for each bus region.
  */
-typedef union
+union bdk_pbus_regx_cfg
 {
     uint64_t u;
     struct bdk_pbus_regx_cfg_s
@@ -901,7 +912,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pbus_regx_cfg_s cn; */
-} bdk_pbus_regx_cfg_t;
+};
+typedef union bdk_pbus_regx_cfg bdk_pbus_regx_cfg_t;
 
 static inline uint64_t BDK_PBUS_REGX_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PBUS_REGX_CFG(unsigned long a)
@@ -926,7 +938,7 @@ static inline uint64_t BDK_PBUS_REGX_CFG(unsigned long a)
  * PBUS Region Timing Registers
  * This register contains page-mode, wait-mode, and timing parameters for each region.
  */
-typedef union
+union bdk_pbus_regx_tim
 {
     uint64_t u;
     struct bdk_pbus_regx_tim_s
@@ -1006,7 +1018,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pbus_regx_tim_s cn; */
-} bdk_pbus_regx_tim_t;
+};
+typedef union bdk_pbus_regx_tim bdk_pbus_regx_tim_t;
 
 static inline uint64_t BDK_PBUS_REGX_TIM(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PBUS_REGX_TIM(unsigned long a)
@@ -1032,7 +1045,7 @@ static inline uint64_t BDK_PBUS_REGX_TIM(unsigned long a)
  * This register controls read and write requests to the PBUS registers and external
  * devices.
  */
-typedef union
+union bdk_pbus_thr
 {
     uint64_t u;
     struct bdk_pbus_thr_s
@@ -1058,7 +1071,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pbus_thr_s cn; */
-} bdk_pbus_thr_t;
+};
+typedef union bdk_pbus_thr bdk_pbus_thr_t;
 
 #define BDK_PBUS_THR BDK_PBUS_THR_FUNC()
 static inline uint64_t BDK_PBUS_THR_FUNC(void) __attribute__ ((pure, always_inline));

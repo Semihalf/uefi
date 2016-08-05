@@ -67,7 +67,7 @@
  * TNS SDE Configuration Spare Register
  * Scratch register for SDE
  */
-typedef union
+union bdk_tns_sde_cfg_spare
 {
     uint64_t u;
     struct bdk_tns_sde_cfg_spare_s
@@ -79,7 +79,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_cfg_spare_s cn; */
-} bdk_tns_sde_cfg_spare_t;
+};
+typedef union bdk_tns_sde_cfg_spare bdk_tns_sde_cfg_spare_t;
 
 #define BDK_TNS_SDE_CFG_SPARE BDK_TNS_SDE_CFG_SPARE_FUNC()
 static inline uint64_t BDK_TNS_SDE_CFG_SPARE_FUNC(void) __attribute__ ((pure, always_inline));
@@ -103,7 +104,7 @@ static inline uint64_t BDK_TNS_SDE_CFG_SPARE_FUNC(void)
  * TNS SDE CNT Bank Bank ECC Control Registers
  * --
  */
-typedef union
+union bdk_tns_sde_cnt_bkx_bk_ecc_ctlx
 {
     uint32_t u;
     struct bdk_tns_sde_cnt_bkx_bk_ecc_ctlx_s
@@ -121,7 +122,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_cnt_bkx_bk_ecc_ctlx_s cn; */
-} bdk_tns_sde_cnt_bkx_bk_ecc_ctlx_t;
+};
+typedef union bdk_tns_sde_cnt_bkx_bk_ecc_ctlx bdk_tns_sde_cnt_bkx_bk_ecc_ctlx_t;
 
 static inline uint64_t BDK_TNS_SDE_CNT_BKX_BK_ECC_CTLX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_CNT_BKX_BK_ECC_CTLX(unsigned long a, unsigned long b)
@@ -144,7 +146,7 @@ static inline uint64_t BDK_TNS_SDE_CNT_BKX_BK_ECC_CTLX(unsigned long a, unsigned
  * TNS SDE CNT Bank Counter Overflow Status Registers
  * --
  */
-typedef union
+union bdk_tns_sde_cnt_bkx_ctr_ovfl_stax
 {
     uint32_t u;
     struct bdk_tns_sde_cnt_bkx_ctr_ovfl_stax_s
@@ -162,7 +164,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_cnt_bkx_ctr_ovfl_stax_s cn; */
-} bdk_tns_sde_cnt_bkx_ctr_ovfl_stax_t;
+};
+typedef union bdk_tns_sde_cnt_bkx_ctr_ovfl_stax bdk_tns_sde_cnt_bkx_ctr_ovfl_stax_t;
 
 static inline uint64_t BDK_TNS_SDE_CNT_BKX_CTR_OVFL_STAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_CNT_BKX_CTR_OVFL_STAX(unsigned long a, unsigned long b)
@@ -185,7 +188,7 @@ static inline uint64_t BDK_TNS_SDE_CNT_BKX_CTR_OVFL_STAX(unsigned long a, unsign
  * TNS SDE CNT Bank ECC Interrrupt Enable High Registers
  * --
  */
-typedef union
+union bdk_tns_sde_cnt_bkx_ecc_int_en_hix
 {
     uint32_t u;
     struct bdk_tns_sde_cnt_bkx_ecc_int_en_hix_s
@@ -201,7 +204,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_cnt_bkx_ecc_int_en_hix_s cn; */
-} bdk_tns_sde_cnt_bkx_ecc_int_en_hix_t;
+};
+typedef union bdk_tns_sde_cnt_bkx_ecc_int_en_hix bdk_tns_sde_cnt_bkx_ecc_int_en_hix_t;
 
 static inline uint64_t BDK_TNS_SDE_CNT_BKX_ECC_INT_EN_HIX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_CNT_BKX_ECC_INT_EN_HIX(unsigned long a, unsigned long b)
@@ -224,7 +228,7 @@ static inline uint64_t BDK_TNS_SDE_CNT_BKX_ECC_INT_EN_HIX(unsigned long a, unsig
  * TNS SDE CNT Bank ECC Interrrupt Enable Low Registers
  * --
  */
-typedef union
+union bdk_tns_sde_cnt_bkx_ecc_int_en_lox
 {
     uint32_t u;
     struct bdk_tns_sde_cnt_bkx_ecc_int_en_lox_s
@@ -240,7 +244,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_cnt_bkx_ecc_int_en_lox_s cn; */
-} bdk_tns_sde_cnt_bkx_ecc_int_en_lox_t;
+};
+typedef union bdk_tns_sde_cnt_bkx_ecc_int_en_lox bdk_tns_sde_cnt_bkx_ecc_int_en_lox_t;
 
 static inline uint64_t BDK_TNS_SDE_CNT_BKX_ECC_INT_EN_LOX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_CNT_BKX_ECC_INT_EN_LOX(unsigned long a, unsigned long b)
@@ -263,7 +268,7 @@ static inline uint64_t BDK_TNS_SDE_CNT_BKX_ECC_INT_EN_LOX(unsigned long a, unsig
  * TNS SDE CNT Bank ECC Interrrupt Force Registers
  * --
  */
-typedef union
+union bdk_tns_sde_cnt_bkx_ecc_int_frcx
 {
     uint32_t u;
     struct bdk_tns_sde_cnt_bkx_ecc_int_frcx_s
@@ -279,7 +284,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_cnt_bkx_ecc_int_frcx_s cn; */
-} bdk_tns_sde_cnt_bkx_ecc_int_frcx_t;
+};
+typedef union bdk_tns_sde_cnt_bkx_ecc_int_frcx bdk_tns_sde_cnt_bkx_ecc_int_frcx_t;
 
 static inline uint64_t BDK_TNS_SDE_CNT_BKX_ECC_INT_FRCX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_CNT_BKX_ECC_INT_FRCX(unsigned long a, unsigned long b)
@@ -302,7 +308,7 @@ static inline uint64_t BDK_TNS_SDE_CNT_BKX_ECC_INT_FRCX(unsigned long a, unsigne
  * TNS SDE CNT Bank ECC Interrrupt W1C Registers
  * --
  */
-typedef union
+union bdk_tns_sde_cnt_bkx_ecc_int_w1cx
 {
     uint32_t u;
     struct bdk_tns_sde_cnt_bkx_ecc_int_w1cx_s
@@ -318,7 +324,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_cnt_bkx_ecc_int_w1cx_s cn; */
-} bdk_tns_sde_cnt_bkx_ecc_int_w1cx_t;
+};
+typedef union bdk_tns_sde_cnt_bkx_ecc_int_w1cx bdk_tns_sde_cnt_bkx_ecc_int_w1cx_t;
 
 static inline uint64_t BDK_TNS_SDE_CNT_BKX_ECC_INT_W1CX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_CNT_BKX_ECC_INT_W1CX(unsigned long a, unsigned long b)
@@ -341,7 +348,7 @@ static inline uint64_t BDK_TNS_SDE_CNT_BKX_ECC_INT_W1CX(unsigned long a, unsigne
  * TNS SDE CNT Bank FIFO Interrrupt Enable High Registers
  * --
  */
-typedef union
+union bdk_tns_sde_cnt_bkx_fif_int_en_hix
 {
     uint32_t u;
     struct bdk_tns_sde_cnt_bkx_fif_int_en_hix_s
@@ -357,7 +364,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_cnt_bkx_fif_int_en_hix_s cn; */
-} bdk_tns_sde_cnt_bkx_fif_int_en_hix_t;
+};
+typedef union bdk_tns_sde_cnt_bkx_fif_int_en_hix bdk_tns_sde_cnt_bkx_fif_int_en_hix_t;
 
 static inline uint64_t BDK_TNS_SDE_CNT_BKX_FIF_INT_EN_HIX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_CNT_BKX_FIF_INT_EN_HIX(unsigned long a, unsigned long b)
@@ -380,7 +388,7 @@ static inline uint64_t BDK_TNS_SDE_CNT_BKX_FIF_INT_EN_HIX(unsigned long a, unsig
  * TNS SDE CNT Bank FIFO Interrrupt Enable Low Registers
  * --
  */
-typedef union
+union bdk_tns_sde_cnt_bkx_fif_int_en_lox
 {
     uint32_t u;
     struct bdk_tns_sde_cnt_bkx_fif_int_en_lox_s
@@ -396,7 +404,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_cnt_bkx_fif_int_en_lox_s cn; */
-} bdk_tns_sde_cnt_bkx_fif_int_en_lox_t;
+};
+typedef union bdk_tns_sde_cnt_bkx_fif_int_en_lox bdk_tns_sde_cnt_bkx_fif_int_en_lox_t;
 
 static inline uint64_t BDK_TNS_SDE_CNT_BKX_FIF_INT_EN_LOX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_CNT_BKX_FIF_INT_EN_LOX(unsigned long a, unsigned long b)
@@ -419,7 +428,7 @@ static inline uint64_t BDK_TNS_SDE_CNT_BKX_FIF_INT_EN_LOX(unsigned long a, unsig
  * TNS SDE CNT Bank FIFO Interrrupt Force Registers
  * --
  */
-typedef union
+union bdk_tns_sde_cnt_bkx_fif_int_frcx
 {
     uint32_t u;
     struct bdk_tns_sde_cnt_bkx_fif_int_frcx_s
@@ -435,7 +444,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_cnt_bkx_fif_int_frcx_s cn; */
-} bdk_tns_sde_cnt_bkx_fif_int_frcx_t;
+};
+typedef union bdk_tns_sde_cnt_bkx_fif_int_frcx bdk_tns_sde_cnt_bkx_fif_int_frcx_t;
 
 static inline uint64_t BDK_TNS_SDE_CNT_BKX_FIF_INT_FRCX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_CNT_BKX_FIF_INT_FRCX(unsigned long a, unsigned long b)
@@ -458,7 +468,7 @@ static inline uint64_t BDK_TNS_SDE_CNT_BKX_FIF_INT_FRCX(unsigned long a, unsigne
  * TNS SDE CNT Bank FIFO Interrrupt W1C Registers
  * --
  */
-typedef union
+union bdk_tns_sde_cnt_bkx_fif_int_w1cx
 {
     uint32_t u;
     struct bdk_tns_sde_cnt_bkx_fif_int_w1cx_s
@@ -474,7 +484,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_cnt_bkx_fif_int_w1cx_s cn; */
-} bdk_tns_sde_cnt_bkx_fif_int_w1cx_t;
+};
+typedef union bdk_tns_sde_cnt_bkx_fif_int_w1cx bdk_tns_sde_cnt_bkx_fif_int_w1cx_t;
 
 static inline uint64_t BDK_TNS_SDE_CNT_BKX_FIF_INT_W1CX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_CNT_BKX_FIF_INT_W1CX(unsigned long a, unsigned long b)
@@ -497,7 +508,7 @@ static inline uint64_t BDK_TNS_SDE_CNT_BKX_FIF_INT_W1CX(unsigned long a, unsigne
  * TNS SDE CNT Bank Lock Registers
  * Lock Register
  */
-typedef union
+union bdk_tns_sde_cnt_bkx_lock
 {
     uint32_t u;
     struct bdk_tns_sde_cnt_bkx_lock_s
@@ -509,7 +520,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_cnt_bkx_lock_s cn; */
-} bdk_tns_sde_cnt_bkx_lock_t;
+};
+typedef union bdk_tns_sde_cnt_bkx_lock bdk_tns_sde_cnt_bkx_lock_t;
 
 static inline uint64_t BDK_TNS_SDE_CNT_BKX_LOCK(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_CNT_BKX_LOCK(unsigned long a)
@@ -536,7 +548,7 @@ static inline uint64_t BDK_TNS_SDE_CNT_BKX_LOCK(unsigned long a)
  * When writing, make the access to this decoder atomic w.r.t. other writes to
  * this decoder.
  */
-typedef union
+union bdk_tns_sde_cnt_bkx_memxdx_wx
 {
     uint32_t u;
     struct bdk_tns_sde_cnt_bkx_memxdx_wx_s
@@ -548,7 +560,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_cnt_bkx_memxdx_wx_s cn; */
-} bdk_tns_sde_cnt_bkx_memxdx_wx_t;
+};
+typedef union bdk_tns_sde_cnt_bkx_memxdx_wx bdk_tns_sde_cnt_bkx_memxdx_wx_t;
 
 static inline uint64_t BDK_TNS_SDE_CNT_BKX_MEMXDX_WX(unsigned long a, unsigned long b, unsigned long c, unsigned long d) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_CNT_BKX_MEMXDX_WX(unsigned long a, unsigned long b, unsigned long c, unsigned long d)
@@ -571,7 +584,7 @@ static inline uint64_t BDK_TNS_SDE_CNT_BKX_MEMXDX_WX(unsigned long a, unsigned l
  * TNS SDE CNT Bank Mode Registers
  * --
  */
-typedef union
+union bdk_tns_sde_cnt_bkx_modex
 {
     uint32_t u;
     struct bdk_tns_sde_cnt_bkx_modex_s
@@ -593,7 +606,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_cnt_bkx_modex_s cn; */
-} bdk_tns_sde_cnt_bkx_modex_t;
+};
+typedef union bdk_tns_sde_cnt_bkx_modex bdk_tns_sde_cnt_bkx_modex_t;
 
 static inline uint64_t BDK_TNS_SDE_CNT_BKX_MODEX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_CNT_BKX_MODEX(unsigned long a, unsigned long b)
@@ -616,7 +630,7 @@ static inline uint64_t BDK_TNS_SDE_CNT_BKX_MODEX(unsigned long a, unsigned long 
  * TNS SDE CNT Bank Mode POL Registers
  * --
  */
-typedef union
+union bdk_tns_sde_cnt_bkx_mode_polx
 {
     uint64_t u;
     struct bdk_tns_sde_cnt_bkx_mode_polx_s
@@ -638,7 +652,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_cnt_bkx_mode_polx_s cn; */
-} bdk_tns_sde_cnt_bkx_mode_polx_t;
+};
+typedef union bdk_tns_sde_cnt_bkx_mode_polx bdk_tns_sde_cnt_bkx_mode_polx_t;
 
 static inline uint64_t BDK_TNS_SDE_CNT_BKX_MODE_POLX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_CNT_BKX_MODE_POLX(unsigned long a, unsigned long b)
@@ -661,7 +676,7 @@ static inline uint64_t BDK_TNS_SDE_CNT_BKX_MODE_POLX(unsigned long a, unsigned l
  * TNS SDE CNT Bank ScratchPad Registers
  * Scratch Pad Register for XCAT
  */
-typedef union
+union bdk_tns_sde_cnt_bkx_spad
 {
     uint32_t u;
     struct bdk_tns_sde_cnt_bkx_spad_s
@@ -673,7 +688,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_cnt_bkx_spad_s cn; */
-} bdk_tns_sde_cnt_bkx_spad_t;
+};
+typedef union bdk_tns_sde_cnt_bkx_spad bdk_tns_sde_cnt_bkx_spad_t;
 
 static inline uint64_t BDK_TNS_SDE_CNT_BKX_SPAD(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_CNT_BKX_SPAD(unsigned long a)
@@ -696,7 +712,7 @@ static inline uint64_t BDK_TNS_SDE_CNT_BKX_SPAD(unsigned long a)
  * TNS SDE CNT Client Interface Bucket Registers
  * --
  */
-typedef union
+union bdk_tns_sde_cnt_cinf_bcktx
 {
     uint64_t u;
     struct bdk_tns_sde_cnt_cinf_bcktx_s
@@ -722,7 +738,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_cnt_cinf_bcktx_s cn; */
-} bdk_tns_sde_cnt_cinf_bcktx_t;
+};
+typedef union bdk_tns_sde_cnt_cinf_bcktx bdk_tns_sde_cnt_cinf_bcktx_t;
 
 static inline uint64_t BDK_TNS_SDE_CNT_CINF_BCKTX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_CNT_CINF_BCKTX(unsigned long a)
@@ -745,7 +762,7 @@ static inline uint64_t BDK_TNS_SDE_CNT_CINF_BCKTX(unsigned long a)
  * TNS SDE CNT Client Interface Interrrupt Read Only Register
  * --
  */
-typedef union
+union bdk_tns_sde_cnt_cinf_int_ro
 {
     uint32_t u;
     struct bdk_tns_sde_cnt_cinf_int_ro_s
@@ -759,7 +776,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_cnt_cinf_int_ro_s cn; */
-} bdk_tns_sde_cnt_cinf_int_ro_t;
+};
+typedef union bdk_tns_sde_cnt_cinf_int_ro bdk_tns_sde_cnt_cinf_int_ro_t;
 
 #define BDK_TNS_SDE_CNT_CINF_INT_RO BDK_TNS_SDE_CNT_CINF_INT_RO_FUNC()
 static inline uint64_t BDK_TNS_SDE_CNT_CINF_INT_RO_FUNC(void) __attribute__ ((pure, always_inline));
@@ -783,7 +801,7 @@ static inline uint64_t BDK_TNS_SDE_CNT_CINF_INT_RO_FUNC(void)
  * TNS SDE CNT Client Interface Interface Table Registers
  * --
  */
-typedef union
+union bdk_tns_sde_cnt_cinf_intf_tblx
 {
     uint32_t u;
     struct bdk_tns_sde_cnt_cinf_intf_tblx_s
@@ -807,7 +825,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_cnt_cinf_intf_tblx_s cn; */
-} bdk_tns_sde_cnt_cinf_intf_tblx_t;
+};
+typedef union bdk_tns_sde_cnt_cinf_intf_tblx bdk_tns_sde_cnt_cinf_intf_tblx_t;
 
 static inline uint64_t BDK_TNS_SDE_CNT_CINF_INTF_TBLX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_CNT_CINF_INTF_TBLX(unsigned long a)
@@ -830,7 +849,7 @@ static inline uint64_t BDK_TNS_SDE_CNT_CINF_INTF_TBLX(unsigned long a)
  * TNS SDE CNT Client Interface Lock Register
  * Lock Register
  */
-typedef union
+union bdk_tns_sde_cnt_cinf_lock
 {
     uint32_t u;
     struct bdk_tns_sde_cnt_cinf_lock_s
@@ -842,7 +861,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_cnt_cinf_lock_s cn; */
-} bdk_tns_sde_cnt_cinf_lock_t;
+};
+typedef union bdk_tns_sde_cnt_cinf_lock bdk_tns_sde_cnt_cinf_lock_t;
 
 #define BDK_TNS_SDE_CNT_CINF_LOCK BDK_TNS_SDE_CNT_CINF_LOCK_FUNC()
 static inline uint64_t BDK_TNS_SDE_CNT_CINF_LOCK_FUNC(void) __attribute__ ((pure, always_inline));
@@ -866,7 +886,7 @@ static inline uint64_t BDK_TNS_SDE_CNT_CINF_LOCK_FUNC(void)
  * TNS SDE CNT Client Interface ScratchPad Register
  * Scratch Pad Register for XCAT
  */
-typedef union
+union bdk_tns_sde_cnt_cinf_spad
 {
     uint32_t u;
     struct bdk_tns_sde_cnt_cinf_spad_s
@@ -878,7 +898,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_cnt_cinf_spad_s cn; */
-} bdk_tns_sde_cnt_cinf_spad_t;
+};
+typedef union bdk_tns_sde_cnt_cinf_spad bdk_tns_sde_cnt_cinf_spad_t;
 
 #define BDK_TNS_SDE_CNT_CINF_SPAD BDK_TNS_SDE_CNT_CINF_SPAD_FUNC()
 static inline uint64_t BDK_TNS_SDE_CNT_CINF_SPAD_FUNC(void) __attribute__ ((pure, always_inline));
@@ -902,7 +923,7 @@ static inline uint64_t BDK_TNS_SDE_CNT_CINF_SPAD_FUNC(void)
  * TNS SDE CNT Client Result CNT Debug Selector Register
  * --
  */
-typedef union
+union bdk_tns_sde_cnt_crsl_cnt_dbg_sel
 {
     uint32_t u;
     struct bdk_tns_sde_cnt_crsl_cnt_dbg_sel_s
@@ -918,7 +939,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_cnt_crsl_cnt_dbg_sel_s cn; */
-} bdk_tns_sde_cnt_crsl_cnt_dbg_sel_t;
+};
+typedef union bdk_tns_sde_cnt_crsl_cnt_dbg_sel bdk_tns_sde_cnt_crsl_cnt_dbg_sel_t;
 
 #define BDK_TNS_SDE_CNT_CRSL_CNT_DBG_SEL BDK_TNS_SDE_CNT_CRSL_CNT_DBG_SEL_FUNC()
 static inline uint64_t BDK_TNS_SDE_CNT_CRSL_CNT_DBG_SEL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -942,7 +964,7 @@ static inline uint64_t BDK_TNS_SDE_CNT_CRSL_CNT_DBG_SEL_FUNC(void)
  * TNS SDE CNT Client Result Lock Register
  * Lock Register
  */
-typedef union
+union bdk_tns_sde_cnt_crsl_lock
 {
     uint32_t u;
     struct bdk_tns_sde_cnt_crsl_lock_s
@@ -954,7 +976,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_cnt_crsl_lock_s cn; */
-} bdk_tns_sde_cnt_crsl_lock_t;
+};
+typedef union bdk_tns_sde_cnt_crsl_lock bdk_tns_sde_cnt_crsl_lock_t;
 
 #define BDK_TNS_SDE_CNT_CRSL_LOCK BDK_TNS_SDE_CNT_CRSL_LOCK_FUNC()
 static inline uint64_t BDK_TNS_SDE_CNT_CRSL_LOCK_FUNC(void) __attribute__ ((pure, always_inline));
@@ -978,7 +1001,7 @@ static inline uint64_t BDK_TNS_SDE_CNT_CRSL_LOCK_FUNC(void)
  * TNS SDE CNT Client Result POL ECC Control Registers
  * --
  */
-typedef union
+union bdk_tns_sde_cnt_crsl_pol_ecc_ctlx
 {
     uint32_t u;
     struct bdk_tns_sde_cnt_crsl_pol_ecc_ctlx_s
@@ -996,7 +1019,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_cnt_crsl_pol_ecc_ctlx_s cn; */
-} bdk_tns_sde_cnt_crsl_pol_ecc_ctlx_t;
+};
+typedef union bdk_tns_sde_cnt_crsl_pol_ecc_ctlx bdk_tns_sde_cnt_crsl_pol_ecc_ctlx_t;
 
 static inline uint64_t BDK_TNS_SDE_CNT_CRSL_POL_ECC_CTLX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_CNT_CRSL_POL_ECC_CTLX(unsigned long a)
@@ -1019,7 +1043,7 @@ static inline uint64_t BDK_TNS_SDE_CNT_CRSL_POL_ECC_CTLX(unsigned long a)
  * TNS SDE CNT Client Result POL Parameter Registers
  * This memory is only applicable to request interface 0, 4, 8, ... 44
  */
-typedef union
+union bdk_tns_sde_cnt_crsl_pol_prmxdx
 {
     uint64_t u;
     struct bdk_tns_sde_cnt_crsl_pol_prmxdx_s
@@ -1033,7 +1057,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_cnt_crsl_pol_prmxdx_s cn; */
-} bdk_tns_sde_cnt_crsl_pol_prmxdx_t;
+};
+typedef union bdk_tns_sde_cnt_crsl_pol_prmxdx bdk_tns_sde_cnt_crsl_pol_prmxdx_t;
 
 static inline uint64_t BDK_TNS_SDE_CNT_CRSL_POL_PRMXDX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_CNT_CRSL_POL_PRMXDX(unsigned long a, unsigned long b)
@@ -1056,7 +1081,7 @@ static inline uint64_t BDK_TNS_SDE_CNT_CRSL_POL_PRMXDX(unsigned long a, unsigned
  * TNS SDE CNT Client Result ScratchPad Register
  * Scratch Pad Register for XCAT
  */
-typedef union
+union bdk_tns_sde_cnt_crsl_spad
 {
     uint32_t u;
     struct bdk_tns_sde_cnt_crsl_spad_s
@@ -1068,7 +1093,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_cnt_crsl_spad_s cn; */
-} bdk_tns_sde_cnt_crsl_spad_t;
+};
+typedef union bdk_tns_sde_cnt_crsl_spad bdk_tns_sde_cnt_crsl_spad_t;
 
 #define BDK_TNS_SDE_CNT_CRSL_SPAD BDK_TNS_SDE_CNT_CRSL_SPAD_FUNC()
 static inline uint64_t BDK_TNS_SDE_CNT_CRSL_SPAD_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1092,7 +1118,7 @@ static inline uint64_t BDK_TNS_SDE_CNT_CRSL_SPAD_FUNC(void)
  * TNS SDE HDBF Debug Selector Register
  * --
  */
-typedef union
+union bdk_tns_sde_hdbf_dbg_sel
 {
     uint32_t u;
     struct bdk_tns_sde_hdbf_dbg_sel_s
@@ -1108,7 +1134,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_hdbf_dbg_sel_s cn; */
-} bdk_tns_sde_hdbf_dbg_sel_t;
+};
+typedef union bdk_tns_sde_hdbf_dbg_sel bdk_tns_sde_hdbf_dbg_sel_t;
 
 #define BDK_TNS_SDE_HDBF_DBG_SEL BDK_TNS_SDE_HDBF_DBG_SEL_FUNC()
 static inline uint64_t BDK_TNS_SDE_HDBF_DBG_SEL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1132,7 +1159,7 @@ static inline uint64_t BDK_TNS_SDE_HDBF_DBG_SEL_FUNC(void)
  * TNS SDE HDBF ECC Control Register
  * --
  */
-typedef union
+union bdk_tns_sde_hdbf_ecc_ctl
 {
     uint32_t u;
     struct bdk_tns_sde_hdbf_ecc_ctl_s
@@ -1162,7 +1189,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_hdbf_ecc_ctl_s cn; */
-} bdk_tns_sde_hdbf_ecc_ctl_t;
+};
+typedef union bdk_tns_sde_hdbf_ecc_ctl bdk_tns_sde_hdbf_ecc_ctl_t;
 
 #define BDK_TNS_SDE_HDBF_ECC_CTL BDK_TNS_SDE_HDBF_ECC_CTL_FUNC()
 static inline uint64_t BDK_TNS_SDE_HDBF_ECC_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1196,7 +1224,7 @@ static inline uint64_t BDK_TNS_SDE_HDBF_ECC_CTL_FUNC(void)
  * in fl_mon_status are updated with the number of times the
  * requested block was seen being returned to the free list FIFO.
  */
-typedef union
+union bdk_tns_sde_hdbf_fl_mon
 {
     uint32_t u;
     struct bdk_tns_sde_hdbf_fl_mon_s
@@ -1212,7 +1240,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_hdbf_fl_mon_s cn; */
-} bdk_tns_sde_hdbf_fl_mon_t;
+};
+typedef union bdk_tns_sde_hdbf_fl_mon bdk_tns_sde_hdbf_fl_mon_t;
 
 #define BDK_TNS_SDE_HDBF_FL_MON BDK_TNS_SDE_HDBF_FL_MON_FUNC()
 static inline uint64_t BDK_TNS_SDE_HDBF_FL_MON_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1236,7 +1265,7 @@ static inline uint64_t BDK_TNS_SDE_HDBF_FL_MON_FUNC(void)
  * TNS SDE HDBF Fail Monitor Status Register
  * --
  */
-typedef union
+union bdk_tns_sde_hdbf_fl_mon_sta
 {
     uint32_t u;
     struct bdk_tns_sde_hdbf_fl_mon_sta_s
@@ -1250,7 +1279,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_hdbf_fl_mon_sta_s cn; */
-} bdk_tns_sde_hdbf_fl_mon_sta_t;
+};
+typedef union bdk_tns_sde_hdbf_fl_mon_sta bdk_tns_sde_hdbf_fl_mon_sta_t;
 
 #define BDK_TNS_SDE_HDBF_FL_MON_STA BDK_TNS_SDE_HDBF_FL_MON_STA_FUNC()
 static inline uint64_t BDK_TNS_SDE_HDBF_FL_MON_STA_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1274,7 +1304,7 @@ static inline uint64_t BDK_TNS_SDE_HDBF_FL_MON_STA_FUNC(void)
  * TNS SDE HDBF Freelist Control Register
  * --
  */
-typedef union
+union bdk_tns_sde_hdbf_flst_ctl
 {
     uint32_t u;
     struct bdk_tns_sde_hdbf_flst_ctl_s
@@ -1294,7 +1324,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_hdbf_flst_ctl_s cn; */
-} bdk_tns_sde_hdbf_flst_ctl_t;
+};
+typedef union bdk_tns_sde_hdbf_flst_ctl bdk_tns_sde_hdbf_flst_ctl_t;
 
 #define BDK_TNS_SDE_HDBF_FLST_CTL BDK_TNS_SDE_HDBF_FLST_CTL_FUNC()
 static inline uint64_t BDK_TNS_SDE_HDBF_FLST_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1321,7 +1352,7 @@ static inline uint64_t BDK_TNS_SDE_HDBF_FLST_CTL_FUNC(void)
  * must be set to 1 before any read/write access is attempted to this
  * register.
  */
-typedef union
+union bdk_tns_sde_hdbf_flst_dbg
 {
     uint32_t u;
     struct bdk_tns_sde_hdbf_flst_dbg_s
@@ -1335,7 +1366,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_hdbf_flst_dbg_s cn; */
-} bdk_tns_sde_hdbf_flst_dbg_t;
+};
+typedef union bdk_tns_sde_hdbf_flst_dbg bdk_tns_sde_hdbf_flst_dbg_t;
 
 #define BDK_TNS_SDE_HDBF_FLST_DBG BDK_TNS_SDE_HDBF_FLST_DBG_FUNC()
 static inline uint64_t BDK_TNS_SDE_HDBF_FLST_DBG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1361,7 +1393,7 @@ static inline uint64_t BDK_TNS_SDE_HDBF_FLST_DBG_FUNC(void)
  * four free list FIFOs.  In operation these FIFOs will show a
  * value of 253 when empty due to prefetching of free pages.
  */
-typedef union
+union bdk_tns_sde_hdbf_free_ct
 {
     uint32_t u;
     struct bdk_tns_sde_hdbf_free_ct_s
@@ -1375,7 +1407,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_hdbf_free_ct_s cn; */
-} bdk_tns_sde_hdbf_free_ct_t;
+};
+typedef union bdk_tns_sde_hdbf_free_ct bdk_tns_sde_hdbf_free_ct_t;
 
 #define BDK_TNS_SDE_HDBF_FREE_CT BDK_TNS_SDE_HDBF_FREE_CT_FUNC()
 static inline uint64_t BDK_TNS_SDE_HDBF_FREE_CT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1399,7 +1432,7 @@ static inline uint64_t BDK_TNS_SDE_HDBF_FREE_CT_FUNC(void)
  * TNS SDE HDBF General Register
  * General configuration for header buffer
  */
-typedef union
+union bdk_tns_sde_hdbf_gen
 {
     uint32_t u;
     struct bdk_tns_sde_hdbf_gen_s
@@ -1459,7 +1492,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_hdbf_gen_s cn; */
-} bdk_tns_sde_hdbf_gen_t;
+};
+typedef union bdk_tns_sde_hdbf_gen bdk_tns_sde_hdbf_gen_t;
 
 #define BDK_TNS_SDE_HDBF_GEN BDK_TNS_SDE_HDBF_GEN_FUNC()
 static inline uint64_t BDK_TNS_SDE_HDBF_GEN_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1483,7 +1517,7 @@ static inline uint64_t BDK_TNS_SDE_HDBF_GEN_FUNC(void)
  * TNS SDE HDBF Interrrupt Enable High Register
  * --
  */
-typedef union
+union bdk_tns_sde_hdbf_int_en_hi
 {
     uint32_t u;
     struct bdk_tns_sde_hdbf_int_en_hi_s
@@ -1517,7 +1551,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_hdbf_int_en_hi_s cn; */
-} bdk_tns_sde_hdbf_int_en_hi_t;
+};
+typedef union bdk_tns_sde_hdbf_int_en_hi bdk_tns_sde_hdbf_int_en_hi_t;
 
 #define BDK_TNS_SDE_HDBF_INT_EN_HI BDK_TNS_SDE_HDBF_INT_EN_HI_FUNC()
 static inline uint64_t BDK_TNS_SDE_HDBF_INT_EN_HI_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1541,7 +1576,7 @@ static inline uint64_t BDK_TNS_SDE_HDBF_INT_EN_HI_FUNC(void)
  * TNS SDE HDBF Interrrupt Enable Low Register
  * --
  */
-typedef union
+union bdk_tns_sde_hdbf_int_en_lo
 {
     uint32_t u;
     struct bdk_tns_sde_hdbf_int_en_lo_s
@@ -1575,7 +1610,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_hdbf_int_en_lo_s cn; */
-} bdk_tns_sde_hdbf_int_en_lo_t;
+};
+typedef union bdk_tns_sde_hdbf_int_en_lo bdk_tns_sde_hdbf_int_en_lo_t;
 
 #define BDK_TNS_SDE_HDBF_INT_EN_LO BDK_TNS_SDE_HDBF_INT_EN_LO_FUNC()
 static inline uint64_t BDK_TNS_SDE_HDBF_INT_EN_LO_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1599,7 +1635,7 @@ static inline uint64_t BDK_TNS_SDE_HDBF_INT_EN_LO_FUNC(void)
  * TNS SDE HDBF Interrrupt Force Register
  * --
  */
-typedef union
+union bdk_tns_sde_hdbf_int_frc
 {
     uint32_t u;
     struct bdk_tns_sde_hdbf_int_frc_s
@@ -1633,7 +1669,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_hdbf_int_frc_s cn; */
-} bdk_tns_sde_hdbf_int_frc_t;
+};
+typedef union bdk_tns_sde_hdbf_int_frc bdk_tns_sde_hdbf_int_frc_t;
 
 #define BDK_TNS_SDE_HDBF_INT_FRC BDK_TNS_SDE_HDBF_INT_FRC_FUNC()
 static inline uint64_t BDK_TNS_SDE_HDBF_INT_FRC_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1657,7 +1694,7 @@ static inline uint64_t BDK_TNS_SDE_HDBF_INT_FRC_FUNC(void)
  * TNS SDE HDBF Interrrupt W1C Register
  * --
  */
-typedef union
+union bdk_tns_sde_hdbf_int_w1c
 {
     uint32_t u;
     struct bdk_tns_sde_hdbf_int_w1c_s
@@ -1691,7 +1728,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_hdbf_int_w1c_s cn; */
-} bdk_tns_sde_hdbf_int_w1c_t;
+};
+typedef union bdk_tns_sde_hdbf_int_w1c bdk_tns_sde_hdbf_int_w1c_t;
 
 #define BDK_TNS_SDE_HDBF_INT_W1C BDK_TNS_SDE_HDBF_INT_W1C_FUNC()
 static inline uint64_t BDK_TNS_SDE_HDBF_INT_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1715,7 +1753,7 @@ static inline uint64_t BDK_TNS_SDE_HDBF_INT_W1C_FUNC(void)
  * TNS SDE HDBF Lock Register
  * Lock Register
  */
-typedef union
+union bdk_tns_sde_hdbf_lock
 {
     uint32_t u;
     struct bdk_tns_sde_hdbf_lock_s
@@ -1727,7 +1765,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_hdbf_lock_s cn; */
-} bdk_tns_sde_hdbf_lock_t;
+};
+typedef union bdk_tns_sde_hdbf_lock bdk_tns_sde_hdbf_lock_t;
 
 #define BDK_TNS_SDE_HDBF_LOCK BDK_TNS_SDE_HDBF_LOCK_FUNC()
 static inline uint64_t BDK_TNS_SDE_HDBF_LOCK_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1752,7 +1791,7 @@ static inline uint64_t BDK_TNS_SDE_HDBF_LOCK_FUNC(void)
  * Shared address value for indirect access to context memory bank.
  * Context memory is 512 words deep.
  */
-typedef union
+union bdk_tns_sde_hdbf_memctx_adr
 {
     uint32_t u;
     struct bdk_tns_sde_hdbf_memctx_adr_s
@@ -1766,7 +1805,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_hdbf_memctx_adr_s cn; */
-} bdk_tns_sde_hdbf_memctx_adr_t;
+};
+typedef union bdk_tns_sde_hdbf_memctx_adr bdk_tns_sde_hdbf_memctx_adr_t;
 
 #define BDK_TNS_SDE_HDBF_MEMCTX_ADR BDK_TNS_SDE_HDBF_MEMCTX_ADR_FUNC()
 static inline uint64_t BDK_TNS_SDE_HDBF_MEMCTX_ADR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1791,7 +1831,7 @@ static inline uint64_t BDK_TNS_SDE_HDBF_MEMCTX_ADR_FUNC(void)
  * Indirect access for header context bank
  * Bits 63..36 of registers ending in _W2 are unused.
  */
-typedef union
+union bdk_tns_sde_hdbf_memctx_wx
 {
     uint64_t u;
     struct bdk_tns_sde_hdbf_memctx_wx_s
@@ -1803,7 +1843,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_hdbf_memctx_wx_s cn; */
-} bdk_tns_sde_hdbf_memctx_wx_t;
+};
+typedef union bdk_tns_sde_hdbf_memctx_wx bdk_tns_sde_hdbf_memctx_wx_t;
 
 static inline uint64_t BDK_TNS_SDE_HDBF_MEMCTX_WX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_HDBF_MEMCTX_WX(unsigned long a)
@@ -1827,7 +1868,7 @@ static inline uint64_t BDK_TNS_SDE_HDBF_MEMCTX_WX(unsigned long a)
  * Shared address value for indirect access to main memory bank.  Main
  * memory is 1024 words deep.
  */
-typedef union
+union bdk_tns_sde_hdbf_memmain_adr
 {
     uint32_t u;
     struct bdk_tns_sde_hdbf_memmain_adr_s
@@ -1841,7 +1882,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_hdbf_memmain_adr_s cn; */
-} bdk_tns_sde_hdbf_memmain_adr_t;
+};
+typedef union bdk_tns_sde_hdbf_memmain_adr bdk_tns_sde_hdbf_memmain_adr_t;
 
 #define BDK_TNS_SDE_HDBF_MEMMAIN_ADR BDK_TNS_SDE_HDBF_MEMMAIN_ADR_FUNC()
 static inline uint64_t BDK_TNS_SDE_HDBF_MEMMAIN_ADR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1865,7 +1907,7 @@ static inline uint64_t BDK_TNS_SDE_HDBF_MEMMAIN_ADR_FUNC(void)
  * TNS SDE HDBF Main Memory Registers
  * Indirect access for header main memory bank
  */
-typedef union
+union bdk_tns_sde_hdbf_memmain_wx
 {
     uint32_t u;
     struct bdk_tns_sde_hdbf_memmain_wx_s
@@ -1877,7 +1919,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_hdbf_memmain_wx_s cn; */
-} bdk_tns_sde_hdbf_memmain_wx_t;
+};
+typedef union bdk_tns_sde_hdbf_memmain_wx bdk_tns_sde_hdbf_memmain_wx_t;
 
 static inline uint64_t BDK_TNS_SDE_HDBF_MEMMAIN_WX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_HDBF_MEMMAIN_WX(unsigned long a)
@@ -1904,7 +1947,7 @@ static inline uint64_t BDK_TNS_SDE_HDBF_MEMMAIN_WX(unsigned long a)
  * value for
  * the request counter.
  */
-typedef union
+union bdk_tns_sde_hdbf_mre_budget
 {
     uint32_t u;
     struct bdk_tns_sde_hdbf_mre_budget_s
@@ -1918,7 +1961,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_hdbf_mre_budget_s cn; */
-} bdk_tns_sde_hdbf_mre_budget_t;
+};
+typedef union bdk_tns_sde_hdbf_mre_budget bdk_tns_sde_hdbf_mre_budget_t;
 
 #define BDK_TNS_SDE_HDBF_MRE_BUDGET BDK_TNS_SDE_HDBF_MRE_BUDGET_FUNC()
 static inline uint64_t BDK_TNS_SDE_HDBF_MRE_BUDGET_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1946,7 +1990,7 @@ static inline uint64_t BDK_TNS_SDE_HDBF_MRE_BUDGET_FUNC(void)
  * value for
  * the request counter.
  */
-typedef union
+union bdk_tns_sde_hdbf_parser_budget
 {
     uint32_t u;
     struct bdk_tns_sde_hdbf_parser_budget_s
@@ -1960,7 +2004,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_hdbf_parser_budget_s cn; */
-} bdk_tns_sde_hdbf_parser_budget_t;
+};
+typedef union bdk_tns_sde_hdbf_parser_budget bdk_tns_sde_hdbf_parser_budget_t;
 
 #define BDK_TNS_SDE_HDBF_PARSER_BUDGET BDK_TNS_SDE_HDBF_PARSER_BUDGET_FUNC()
 static inline uint64_t BDK_TNS_SDE_HDBF_PARSER_BUDGET_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1984,7 +2029,7 @@ static inline uint64_t BDK_TNS_SDE_HDBF_PARSER_BUDGET_FUNC(void)
  * TNS SDE HDBF Request Status Counter Register
  * Status counters for each requestor
  */
-typedef union
+union bdk_tns_sde_hdbf_req_cts
 {
     uint32_t u;
     struct bdk_tns_sde_hdbf_req_cts_s
@@ -2000,7 +2045,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_hdbf_req_cts_s cn; */
-} bdk_tns_sde_hdbf_req_cts_t;
+};
+typedef union bdk_tns_sde_hdbf_req_cts bdk_tns_sde_hdbf_req_cts_t;
 
 #define BDK_TNS_SDE_HDBF_REQ_CTS BDK_TNS_SDE_HDBF_REQ_CTS_FUNC()
 static inline uint64_t BDK_TNS_SDE_HDBF_REQ_CTS_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2024,7 +2070,7 @@ static inline uint64_t BDK_TNS_SDE_HDBF_REQ_CTS_FUNC(void)
  * TNS SDE HDBF ScratchPad Register
  * Scratch Pad Register for XCAT
  */
-typedef union
+union bdk_tns_sde_hdbf_spad
 {
     uint32_t u;
     struct bdk_tns_sde_hdbf_spad_s
@@ -2036,7 +2082,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_hdbf_spad_s cn; */
-} bdk_tns_sde_hdbf_spad_t;
+};
+typedef union bdk_tns_sde_hdbf_spad bdk_tns_sde_hdbf_spad_t;
 
 #define BDK_TNS_SDE_HDBF_SPAD BDK_TNS_SDE_HDBF_SPAD_FUNC()
 static inline uint64_t BDK_TNS_SDE_HDBF_SPAD_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2061,7 +2108,7 @@ static inline uint64_t BDK_TNS_SDE_HDBF_SPAD_FUNC(void)
  * Config key_length_mode, lookup_bypass option, 4-b hash function sel, 3-b
  * mem_tile offset for each LDE
  */
-typedef union
+union bdk_tns_sde_isme_cfg_lm_ldex
 {
     uint32_t u;
     struct bdk_tns_sde_isme_cfg_lm_ldex_s
@@ -2083,7 +2130,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_isme_cfg_lm_ldex_s cn; */
-} bdk_tns_sde_isme_cfg_lm_ldex_t;
+};
+typedef union bdk_tns_sde_isme_cfg_lm_ldex bdk_tns_sde_isme_cfg_lm_ldex_t;
 
 static inline uint64_t BDK_TNS_SDE_ISME_CFG_LM_LDEX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_ISME_CFG_LM_LDEX(unsigned long a)
@@ -2107,7 +2155,7 @@ static inline uint64_t BDK_TNS_SDE_ISME_CFG_LM_LDEX(unsigned long a)
  * Config key_length_mode for each memory tile - THIS REGISTER IS NOT USED. ONLY
  * PRESENT FOR SW/ENV COMPATIBILITY
  */
-typedef union
+union bdk_tns_sde_isme_cfg_lm_tile
 {
     uint32_t u;
     struct bdk_tns_sde_isme_cfg_lm_tile_s
@@ -2123,7 +2171,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_isme_cfg_lm_tile_s cn; */
-} bdk_tns_sde_isme_cfg_lm_tile_t;
+};
+typedef union bdk_tns_sde_isme_cfg_lm_tile bdk_tns_sde_isme_cfg_lm_tile_t;
 
 #define BDK_TNS_SDE_ISME_CFG_LM_TILE BDK_TNS_SDE_ISME_CFG_LM_TILE_FUNC()
 static inline uint64_t BDK_TNS_SDE_ISME_CFG_LM_TILE_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2147,7 +2196,7 @@ static inline uint64_t BDK_TNS_SDE_ISME_CFG_LM_TILE_FUNC(void)
  * TNS SDE ISME ECC Control Disable Correction Register
  * --
  */
-typedef union
+union bdk_tns_sde_isme_ecc_ctl_cd
 {
     uint32_t u;
     struct bdk_tns_sde_isme_ecc_ctl_cd_s
@@ -2163,7 +2212,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_isme_ecc_ctl_cd_s cn; */
-} bdk_tns_sde_isme_ecc_ctl_cd_t;
+};
+typedef union bdk_tns_sde_isme_ecc_ctl_cd bdk_tns_sde_isme_ecc_ctl_cd_t;
 
 #define BDK_TNS_SDE_ISME_ECC_CTL_CD BDK_TNS_SDE_ISME_ECC_CTL_CD_FUNC()
 static inline uint64_t BDK_TNS_SDE_ISME_ECC_CTL_CD_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2187,7 +2237,7 @@ static inline uint64_t BDK_TNS_SDE_ISME_ECC_CTL_CD_FUNC(void)
  * TNS SDE ISME ECC Control Flip Register
  * --
  */
-typedef union
+union bdk_tns_sde_isme_ecc_ctl_flp
 {
     uint32_t u;
     struct bdk_tns_sde_isme_ecc_ctl_flp_s
@@ -2207,7 +2257,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_isme_ecc_ctl_flp_s cn; */
-} bdk_tns_sde_isme_ecc_ctl_flp_t;
+};
+typedef union bdk_tns_sde_isme_ecc_ctl_flp bdk_tns_sde_isme_ecc_ctl_flp_t;
 
 #define BDK_TNS_SDE_ISME_ECC_CTL_FLP BDK_TNS_SDE_ISME_ECC_CTL_FLP_FUNC()
 static inline uint64_t BDK_TNS_SDE_ISME_ECC_CTL_FLP_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2235,7 +2286,7 @@ static inline uint64_t BDK_TNS_SDE_ISME_ECC_CTL_FLP_FUNC(void)
  * When writing, make the access to this decoder atomic w.r.t. other writes to
  * this decoder.
  */
-typedef union
+union bdk_tns_sde_isme_lm_tile_lmemx_w0
 {
     uint64_t u;
     struct bdk_tns_sde_isme_lm_tile_lmemx_w0_s
@@ -2247,7 +2298,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_isme_lm_tile_lmemx_w0_s cn; */
-} bdk_tns_sde_isme_lm_tile_lmemx_w0_t;
+};
+typedef union bdk_tns_sde_isme_lm_tile_lmemx_w0 bdk_tns_sde_isme_lm_tile_lmemx_w0_t;
 
 static inline uint64_t BDK_TNS_SDE_ISME_LM_TILE_LMEMX_W0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_ISME_LM_TILE_LMEMX_W0(unsigned long a)
@@ -2270,7 +2322,7 @@ static inline uint64_t BDK_TNS_SDE_ISME_LM_TILE_LMEMX_W0(unsigned long a)
  * TNS SDE ISME LM Tile Left Memory Word 1 Registers
  * Continuation of structure defined in TNS_SDE_ISME_LM_TILE_LMEM(0..4095)_W0
  */
-typedef union
+union bdk_tns_sde_isme_lm_tile_lmemx_w1
 {
     uint64_t u;
     struct bdk_tns_sde_isme_lm_tile_lmemx_w1_s
@@ -2282,7 +2334,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_isme_lm_tile_lmemx_w1_s cn; */
-} bdk_tns_sde_isme_lm_tile_lmemx_w1_t;
+};
+typedef union bdk_tns_sde_isme_lm_tile_lmemx_w1 bdk_tns_sde_isme_lm_tile_lmemx_w1_t;
 
 static inline uint64_t BDK_TNS_SDE_ISME_LM_TILE_LMEMX_W1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_ISME_LM_TILE_LMEMX_W1(unsigned long a)
@@ -2305,7 +2358,7 @@ static inline uint64_t BDK_TNS_SDE_ISME_LM_TILE_LMEMX_W1(unsigned long a)
  * TNS SDE ISME LM Tile Left Memory Word 2 Registers
  * Continuation of structure defined in TNS_SDE_ISME_LM_TILE_LMEM(0..4095)_W0
  */
-typedef union
+union bdk_tns_sde_isme_lm_tile_lmemx_w2
 {
     uint64_t u;
     struct bdk_tns_sde_isme_lm_tile_lmemx_w2_s
@@ -2319,7 +2372,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_isme_lm_tile_lmemx_w2_s cn; */
-} bdk_tns_sde_isme_lm_tile_lmemx_w2_t;
+};
+typedef union bdk_tns_sde_isme_lm_tile_lmemx_w2 bdk_tns_sde_isme_lm_tile_lmemx_w2_t;
 
 static inline uint64_t BDK_TNS_SDE_ISME_LM_TILE_LMEMX_W2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_ISME_LM_TILE_LMEMX_W2(unsigned long a)
@@ -2342,7 +2396,7 @@ static inline uint64_t BDK_TNS_SDE_ISME_LM_TILE_LMEMX_W2(unsigned long a)
  * TNS SDE ISME LM Tile Left Memory Word 3 Registers
  * Continuation of structure defined in TNS_SDE_ISME_LM_TILE_LMEM(0..4095)_W0
  */
-typedef union
+union bdk_tns_sde_isme_lm_tile_lmemx_w3
 {
     uint64_t u;
     struct bdk_tns_sde_isme_lm_tile_lmemx_w3_s
@@ -2354,7 +2408,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_isme_lm_tile_lmemx_w3_s cn; */
-} bdk_tns_sde_isme_lm_tile_lmemx_w3_t;
+};
+typedef union bdk_tns_sde_isme_lm_tile_lmemx_w3 bdk_tns_sde_isme_lm_tile_lmemx_w3_t;
 
 static inline uint64_t BDK_TNS_SDE_ISME_LM_TILE_LMEMX_W3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_ISME_LM_TILE_LMEMX_W3(unsigned long a)
@@ -2377,7 +2432,7 @@ static inline uint64_t BDK_TNS_SDE_ISME_LM_TILE_LMEMX_W3(unsigned long a)
  * TNS SDE ISME LM Tile Left Memory Word 4 Registers
  * Continuation of structure defined in TNS_SDE_ISME_LM_TILE_LMEM(0..4095)_W0
  */
-typedef union
+union bdk_tns_sde_isme_lm_tile_lmemx_w4
 {
     uint64_t u;
     struct bdk_tns_sde_isme_lm_tile_lmemx_w4_s
@@ -2389,7 +2444,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_isme_lm_tile_lmemx_w4_s cn; */
-} bdk_tns_sde_isme_lm_tile_lmemx_w4_t;
+};
+typedef union bdk_tns_sde_isme_lm_tile_lmemx_w4 bdk_tns_sde_isme_lm_tile_lmemx_w4_t;
 
 static inline uint64_t BDK_TNS_SDE_ISME_LM_TILE_LMEMX_W4(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_ISME_LM_TILE_LMEMX_W4(unsigned long a)
@@ -2416,7 +2472,7 @@ static inline uint64_t BDK_TNS_SDE_ISME_LM_TILE_LMEMX_W4(unsigned long a)
  * When writing, make the access to this decoder atomic w.r.t. other writes to
  * this decoder.
  */
-typedef union
+union bdk_tns_sde_isme_lm_tile_rmemx_w0
 {
     uint64_t u;
     struct bdk_tns_sde_isme_lm_tile_rmemx_w0_s
@@ -2428,7 +2484,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_isme_lm_tile_rmemx_w0_s cn; */
-} bdk_tns_sde_isme_lm_tile_rmemx_w0_t;
+};
+typedef union bdk_tns_sde_isme_lm_tile_rmemx_w0 bdk_tns_sde_isme_lm_tile_rmemx_w0_t;
 
 static inline uint64_t BDK_TNS_SDE_ISME_LM_TILE_RMEMX_W0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_ISME_LM_TILE_RMEMX_W0(unsigned long a)
@@ -2451,7 +2508,7 @@ static inline uint64_t BDK_TNS_SDE_ISME_LM_TILE_RMEMX_W0(unsigned long a)
  * TNS SDE ISME LM Tile Right Memory Word 1 Registers
  * Continuation of structure defined in TNS_SDE_ISME_LM_TILE_RMEM(0..4095)_W0
  */
-typedef union
+union bdk_tns_sde_isme_lm_tile_rmemx_w1
 {
     uint64_t u;
     struct bdk_tns_sde_isme_lm_tile_rmemx_w1_s
@@ -2463,7 +2520,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_isme_lm_tile_rmemx_w1_s cn; */
-} bdk_tns_sde_isme_lm_tile_rmemx_w1_t;
+};
+typedef union bdk_tns_sde_isme_lm_tile_rmemx_w1 bdk_tns_sde_isme_lm_tile_rmemx_w1_t;
 
 static inline uint64_t BDK_TNS_SDE_ISME_LM_TILE_RMEMX_W1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_ISME_LM_TILE_RMEMX_W1(unsigned long a)
@@ -2486,7 +2544,7 @@ static inline uint64_t BDK_TNS_SDE_ISME_LM_TILE_RMEMX_W1(unsigned long a)
  * TNS SDE ISME LM Tile Right Memory Word 2 Registers
  * Continuation of structure defined in TNS_SDE_ISME_LM_TILE_RMEM(0..4095)_W0
  */
-typedef union
+union bdk_tns_sde_isme_lm_tile_rmemx_w2
 {
     uint64_t u;
     struct bdk_tns_sde_isme_lm_tile_rmemx_w2_s
@@ -2500,7 +2558,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_isme_lm_tile_rmemx_w2_s cn; */
-} bdk_tns_sde_isme_lm_tile_rmemx_w2_t;
+};
+typedef union bdk_tns_sde_isme_lm_tile_rmemx_w2 bdk_tns_sde_isme_lm_tile_rmemx_w2_t;
 
 static inline uint64_t BDK_TNS_SDE_ISME_LM_TILE_RMEMX_W2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_ISME_LM_TILE_RMEMX_W2(unsigned long a)
@@ -2523,7 +2582,7 @@ static inline uint64_t BDK_TNS_SDE_ISME_LM_TILE_RMEMX_W2(unsigned long a)
  * TNS SDE ISME LM Tile Right Memory Word 3 Registers
  * Continuation of structure defined in TNS_SDE_ISME_LM_TILE_RMEM(0..4095)_W0
  */
-typedef union
+union bdk_tns_sde_isme_lm_tile_rmemx_w3
 {
     uint64_t u;
     struct bdk_tns_sde_isme_lm_tile_rmemx_w3_s
@@ -2535,7 +2594,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_isme_lm_tile_rmemx_w3_s cn; */
-} bdk_tns_sde_isme_lm_tile_rmemx_w3_t;
+};
+typedef union bdk_tns_sde_isme_lm_tile_rmemx_w3 bdk_tns_sde_isme_lm_tile_rmemx_w3_t;
 
 static inline uint64_t BDK_TNS_SDE_ISME_LM_TILE_RMEMX_W3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_ISME_LM_TILE_RMEMX_W3(unsigned long a)
@@ -2558,7 +2618,7 @@ static inline uint64_t BDK_TNS_SDE_ISME_LM_TILE_RMEMX_W3(unsigned long a)
  * TNS SDE ISME LM Tile Right Memory Word 4 Registers
  * Continuation of structure defined in TNS_SDE_ISME_LM_TILE_RMEM(0..4095)_W0
  */
-typedef union
+union bdk_tns_sde_isme_lm_tile_rmemx_w4
 {
     uint64_t u;
     struct bdk_tns_sde_isme_lm_tile_rmemx_w4_s
@@ -2570,7 +2630,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_isme_lm_tile_rmemx_w4_s cn; */
-} bdk_tns_sde_isme_lm_tile_rmemx_w4_t;
+};
+typedef union bdk_tns_sde_isme_lm_tile_rmemx_w4 bdk_tns_sde_isme_lm_tile_rmemx_w4_t;
 
 static inline uint64_t BDK_TNS_SDE_ISME_LM_TILE_RMEMX_W4(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_ISME_LM_TILE_RMEMX_W4(unsigned long a)
@@ -2593,7 +2654,7 @@ static inline uint64_t BDK_TNS_SDE_ISME_LM_TILE_RMEMX_W4(unsigned long a)
  * TNS SDE ISME LMKL Lock Register
  * Lock Register
  */
-typedef union
+union bdk_tns_sde_isme_lmkl_lock
 {
     uint32_t u;
     struct bdk_tns_sde_isme_lmkl_lock_s
@@ -2605,7 +2666,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_isme_lmkl_lock_s cn; */
-} bdk_tns_sde_isme_lmkl_lock_t;
+};
+typedef union bdk_tns_sde_isme_lmkl_lock bdk_tns_sde_isme_lmkl_lock_t;
 
 #define BDK_TNS_SDE_ISME_LMKL_LOCK BDK_TNS_SDE_ISME_LMKL_LOCK_FUNC()
 static inline uint64_t BDK_TNS_SDE_ISME_LMKL_LOCK_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2629,7 +2691,7 @@ static inline uint64_t BDK_TNS_SDE_ISME_LMKL_LOCK_FUNC(void)
  * TNS SDE ISME Routing Configuration Debug Selector Register
  * Select debug data for isme__dbg_data_out to the top
  */
-typedef union
+union bdk_tns_sde_isme_rt_cfg_dbg_sel
 {
     uint32_t u;
     struct bdk_tns_sde_isme_rt_cfg_dbg_sel_s
@@ -2645,7 +2707,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_isme_rt_cfg_dbg_sel_s cn; */
-} bdk_tns_sde_isme_rt_cfg_dbg_sel_t;
+};
+typedef union bdk_tns_sde_isme_rt_cfg_dbg_sel bdk_tns_sde_isme_rt_cfg_dbg_sel_t;
 
 #define BDK_TNS_SDE_ISME_RT_CFG_DBG_SEL BDK_TNS_SDE_ISME_RT_CFG_DBG_SEL_FUNC()
 static inline uint64_t BDK_TNS_SDE_ISME_RT_CFG_DBG_SEL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2674,7 +2737,7 @@ static inline uint64_t BDK_TNS_SDE_ISME_RT_CFG_DBG_SEL_FUNC(void)
  * LDEs. This field is used to select the local memory configuration to
  * be used for each of the lookups.
  */
-typedef union
+union bdk_tns_sde_isme_rt_cfg_mtrtx
 {
     uint32_t u;
     struct bdk_tns_sde_isme_rt_cfg_mtrtx_s
@@ -2694,7 +2757,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_isme_rt_cfg_mtrtx_s cn; */
-} bdk_tns_sde_isme_rt_cfg_mtrtx_t;
+};
+typedef union bdk_tns_sde_isme_rt_cfg_mtrtx bdk_tns_sde_isme_rt_cfg_mtrtx_t;
 
 static inline uint64_t BDK_TNS_SDE_ISME_RT_CFG_MTRTX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_ISME_RT_CFG_MTRTX(unsigned long a)
@@ -2717,7 +2781,7 @@ static inline uint64_t BDK_TNS_SDE_ISME_RT_CFG_MTRTX(unsigned long a)
  * TNS SDE ISME Routing Configuration UTRT Registers
  * --
  */
-typedef union
+union bdk_tns_sde_isme_rt_cfg_utrtx
 {
     uint32_t u;
     struct bdk_tns_sde_isme_rt_cfg_utrtx_s
@@ -2735,7 +2799,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_isme_rt_cfg_utrtx_s cn; */
-} bdk_tns_sde_isme_rt_cfg_utrtx_t;
+};
+typedef union bdk_tns_sde_isme_rt_cfg_utrtx bdk_tns_sde_isme_rt_cfg_utrtx_t;
 
 static inline uint64_t BDK_TNS_SDE_ISME_RT_CFG_UTRTX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_ISME_RT_CFG_UTRTX(unsigned long a)
@@ -2758,7 +2823,7 @@ static inline uint64_t BDK_TNS_SDE_ISME_RT_CFG_UTRTX(unsigned long a)
  * TNS SDE ISME Routing Debug Caputure Register
  * --
  */
-typedef union
+union bdk_tns_sde_isme_rt_dbg_cptr
 {
     uint32_t u;
     struct bdk_tns_sde_isme_rt_dbg_cptr_s
@@ -2772,7 +2837,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_isme_rt_dbg_cptr_s cn; */
-} bdk_tns_sde_isme_rt_dbg_cptr_t;
+};
+typedef union bdk_tns_sde_isme_rt_dbg_cptr bdk_tns_sde_isme_rt_dbg_cptr_t;
 
 #define BDK_TNS_SDE_ISME_RT_DBG_CPTR BDK_TNS_SDE_ISME_RT_DBG_CPTR_FUNC()
 static inline uint64_t BDK_TNS_SDE_ISME_RT_DBG_CPTR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2798,7 +2864,7 @@ static inline uint64_t BDK_TNS_SDE_ISME_RT_DBG_CPTR_FUNC(void)
  * but each interrupt type has one status bit stored in the config block
  * so the CPU can come to read it.
  */
-typedef union
+union bdk_tns_sde_isme_rt_dr_int_en_hi
 {
     uint32_t u;
     struct bdk_tns_sde_isme_rt_dr_int_en_hi_s
@@ -2818,7 +2884,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_isme_rt_dr_int_en_hi_s cn; */
-} bdk_tns_sde_isme_rt_dr_int_en_hi_t;
+};
+typedef union bdk_tns_sde_isme_rt_dr_int_en_hi bdk_tns_sde_isme_rt_dr_int_en_hi_t;
 
 #define BDK_TNS_SDE_ISME_RT_DR_INT_EN_HI BDK_TNS_SDE_ISME_RT_DR_INT_EN_HI_FUNC()
 static inline uint64_t BDK_TNS_SDE_ISME_RT_DR_INT_EN_HI_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2844,7 +2911,7 @@ static inline uint64_t BDK_TNS_SDE_ISME_RT_DR_INT_EN_HI_FUNC(void)
  * but each interrupt type has one status bit stored in the config block
  * so the CPU can come to read it.
  */
-typedef union
+union bdk_tns_sde_isme_rt_dr_int_en_lo
 {
     uint32_t u;
     struct bdk_tns_sde_isme_rt_dr_int_en_lo_s
@@ -2864,7 +2931,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_isme_rt_dr_int_en_lo_s cn; */
-} bdk_tns_sde_isme_rt_dr_int_en_lo_t;
+};
+typedef union bdk_tns_sde_isme_rt_dr_int_en_lo bdk_tns_sde_isme_rt_dr_int_en_lo_t;
 
 #define BDK_TNS_SDE_ISME_RT_DR_INT_EN_LO BDK_TNS_SDE_ISME_RT_DR_INT_EN_LO_FUNC()
 static inline uint64_t BDK_TNS_SDE_ISME_RT_DR_INT_EN_LO_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2890,7 +2958,7 @@ static inline uint64_t BDK_TNS_SDE_ISME_RT_DR_INT_EN_LO_FUNC(void)
  * but each interrupt type has one status bit stored in the config block
  * so the CPU can come to read it.
  */
-typedef union
+union bdk_tns_sde_isme_rt_dr_int_frc
 {
     uint32_t u;
     struct bdk_tns_sde_isme_rt_dr_int_frc_s
@@ -2910,7 +2978,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_isme_rt_dr_int_frc_s cn; */
-} bdk_tns_sde_isme_rt_dr_int_frc_t;
+};
+typedef union bdk_tns_sde_isme_rt_dr_int_frc bdk_tns_sde_isme_rt_dr_int_frc_t;
 
 #define BDK_TNS_SDE_ISME_RT_DR_INT_FRC BDK_TNS_SDE_ISME_RT_DR_INT_FRC_FUNC()
 static inline uint64_t BDK_TNS_SDE_ISME_RT_DR_INT_FRC_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2936,7 +3005,7 @@ static inline uint64_t BDK_TNS_SDE_ISME_RT_DR_INT_FRC_FUNC(void)
  * but each interrupt type has one status bit stored in the config block
  * so the CPU can come to read it.
  */
-typedef union
+union bdk_tns_sde_isme_rt_dr_int_w1c
 {
     uint32_t u;
     struct bdk_tns_sde_isme_rt_dr_int_w1c_s
@@ -2956,7 +3025,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_isme_rt_dr_int_w1c_s cn; */
-} bdk_tns_sde_isme_rt_dr_int_w1c_t;
+};
+typedef union bdk_tns_sde_isme_rt_dr_int_w1c bdk_tns_sde_isme_rt_dr_int_w1c_t;
 
 #define BDK_TNS_SDE_ISME_RT_DR_INT_W1C BDK_TNS_SDE_ISME_RT_DR_INT_W1C_FUNC()
 static inline uint64_t BDK_TNS_SDE_ISME_RT_DR_INT_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2980,7 +3050,7 @@ static inline uint64_t BDK_TNS_SDE_ISME_RT_DR_INT_W1C_FUNC(void)
  * TNS SDE ISME Routing Forward Mode Register
  * --
  */
-typedef union
+union bdk_tns_sde_isme_rt_fw_mode
 {
     uint32_t u;
     struct bdk_tns_sde_isme_rt_fw_mode_s
@@ -2994,7 +3064,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_isme_rt_fw_mode_s cn; */
-} bdk_tns_sde_isme_rt_fw_mode_t;
+};
+typedef union bdk_tns_sde_isme_rt_fw_mode bdk_tns_sde_isme_rt_fw_mode_t;
 
 #define BDK_TNS_SDE_ISME_RT_FW_MODE BDK_TNS_SDE_ISME_RT_FW_MODE_FUNC()
 static inline uint64_t BDK_TNS_SDE_ISME_RT_FW_MODE_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3018,7 +3089,7 @@ static inline uint64_t BDK_TNS_SDE_ISME_RT_FW_MODE_FUNC(void)
  * TNS SDE ISME Routing Lock Register
  * Lock Register
  */
-typedef union
+union bdk_tns_sde_isme_rt_lock
 {
     uint32_t u;
     struct bdk_tns_sde_isme_rt_lock_s
@@ -3030,7 +3101,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_isme_rt_lock_s cn; */
-} bdk_tns_sde_isme_rt_lock_t;
+};
+typedef union bdk_tns_sde_isme_rt_lock bdk_tns_sde_isme_rt_lock_t;
 
 #define BDK_TNS_SDE_ISME_RT_LOCK BDK_TNS_SDE_ISME_RT_LOCK_FUNC()
 static inline uint64_t BDK_TNS_SDE_ISME_RT_LOCK_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3054,7 +3126,7 @@ static inline uint64_t BDK_TNS_SDE_ISME_RT_LOCK_FUNC(void)
  * TNS SDE ISME Routing ScratchPad Register
  * Scratch Pad Register for XCAT
  */
-typedef union
+union bdk_tns_sde_isme_rt_spad
 {
     uint32_t u;
     struct bdk_tns_sde_isme_rt_spad_s
@@ -3066,7 +3138,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_isme_rt_spad_s cn; */
-} bdk_tns_sde_isme_rt_spad_t;
+};
+typedef union bdk_tns_sde_isme_rt_spad bdk_tns_sde_isme_rt_spad_t;
 
 #define BDK_TNS_SDE_ISME_RT_SPAD BDK_TNS_SDE_ISME_RT_SPAD_FUNC()
 static inline uint64_t BDK_TNS_SDE_ISME_RT_SPAD_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3090,7 +3163,7 @@ static inline uint64_t BDK_TNS_SDE_ISME_RT_SPAD_FUNC(void)
  * TNS SDE ISME ScratchPad Register
  * Scratch Pad Register for XCAT
  */
-typedef union
+union bdk_tns_sde_isme_spad
 {
     uint32_t u;
     struct bdk_tns_sde_isme_spad_s
@@ -3102,7 +3175,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_isme_spad_s cn; */
-} bdk_tns_sde_isme_spad_t;
+};
+typedef union bdk_tns_sde_isme_spad bdk_tns_sde_isme_spad_t;
 
 #define BDK_TNS_SDE_ISME_SPAD BDK_TNS_SDE_ISME_SPAD_FUNC()
 static inline uint64_t BDK_TNS_SDE_ISME_SPAD_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3128,7 +3202,7 @@ static inline uint64_t BDK_TNS_SDE_ISME_SPAD_FUNC(void)
  * but each interrupt type has one status bit stored in the config block
  * so the CPU can come to read it.
  */
-typedef union
+union bdk_tns_sde_isme_tile_int_en_hi
 {
     uint32_t u;
     struct bdk_tns_sde_isme_tile_int_en_hi_s
@@ -3156,7 +3230,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_isme_tile_int_en_hi_s cn; */
-} bdk_tns_sde_isme_tile_int_en_hi_t;
+};
+typedef union bdk_tns_sde_isme_tile_int_en_hi bdk_tns_sde_isme_tile_int_en_hi_t;
 
 #define BDK_TNS_SDE_ISME_TILE_INT_EN_HI BDK_TNS_SDE_ISME_TILE_INT_EN_HI_FUNC()
 static inline uint64_t BDK_TNS_SDE_ISME_TILE_INT_EN_HI_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3182,7 +3257,7 @@ static inline uint64_t BDK_TNS_SDE_ISME_TILE_INT_EN_HI_FUNC(void)
  * but each interrupt type has one status bit stored in the config block
  * so the CPU can come to read it.
  */
-typedef union
+union bdk_tns_sde_isme_tile_int_en_lo
 {
     uint32_t u;
     struct bdk_tns_sde_isme_tile_int_en_lo_s
@@ -3210,7 +3285,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_isme_tile_int_en_lo_s cn; */
-} bdk_tns_sde_isme_tile_int_en_lo_t;
+};
+typedef union bdk_tns_sde_isme_tile_int_en_lo bdk_tns_sde_isme_tile_int_en_lo_t;
 
 #define BDK_TNS_SDE_ISME_TILE_INT_EN_LO BDK_TNS_SDE_ISME_TILE_INT_EN_LO_FUNC()
 static inline uint64_t BDK_TNS_SDE_ISME_TILE_INT_EN_LO_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3236,7 +3312,7 @@ static inline uint64_t BDK_TNS_SDE_ISME_TILE_INT_EN_LO_FUNC(void)
  * but each interrupt type has one status bit stored in the config block
  * so the CPU can come to read it.
  */
-typedef union
+union bdk_tns_sde_isme_tile_int_frc
 {
     uint32_t u;
     struct bdk_tns_sde_isme_tile_int_frc_s
@@ -3264,7 +3340,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_isme_tile_int_frc_s cn; */
-} bdk_tns_sde_isme_tile_int_frc_t;
+};
+typedef union bdk_tns_sde_isme_tile_int_frc bdk_tns_sde_isme_tile_int_frc_t;
 
 #define BDK_TNS_SDE_ISME_TILE_INT_FRC BDK_TNS_SDE_ISME_TILE_INT_FRC_FUNC()
 static inline uint64_t BDK_TNS_SDE_ISME_TILE_INT_FRC_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3290,7 +3367,7 @@ static inline uint64_t BDK_TNS_SDE_ISME_TILE_INT_FRC_FUNC(void)
  * but each interrupt type has one status bit stored in the config block
  * so the CPU can come to read it.
  */
-typedef union
+union bdk_tns_sde_isme_tile_int_w1c
 {
     uint32_t u;
     struct bdk_tns_sde_isme_tile_int_w1c_s
@@ -3318,7 +3395,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_isme_tile_int_w1c_s cn; */
-} bdk_tns_sde_isme_tile_int_w1c_t;
+};
+typedef union bdk_tns_sde_isme_tile_int_w1c bdk_tns_sde_isme_tile_int_w1c_t;
 
 #define BDK_TNS_SDE_ISME_TILE_INT_W1C BDK_TNS_SDE_ISME_TILE_INT_W1C_FUNC()
 static inline uint64_t BDK_TNS_SDE_ISME_TILE_INT_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3344,7 +3422,7 @@ static inline uint64_t BDK_TNS_SDE_ISME_TILE_INT_W1C_FUNC(void)
  * but each interrupt type has one status bit stored in the config block
  * so the CPU can come to read it.
  */
-typedef union
+union bdk_tns_sde_ldex_acmrh_int_en_hi
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_acmrh_int_en_hi_s
@@ -3358,7 +3436,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_acmrh_int_en_hi_s cn; */
-} bdk_tns_sde_ldex_acmrh_int_en_hi_t;
+};
+typedef union bdk_tns_sde_ldex_acmrh_int_en_hi bdk_tns_sde_ldex_acmrh_int_en_hi_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_ACMRH_INT_EN_HI(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_ACMRH_INT_EN_HI(unsigned long a)
@@ -3383,7 +3462,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_ACMRH_INT_EN_HI(unsigned long a)
  * but each interrupt type has one status bit stored in the config block
  * so the CPU can come to read it.
  */
-typedef union
+union bdk_tns_sde_ldex_acmrh_int_en_lo
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_acmrh_int_en_lo_s
@@ -3397,7 +3476,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_acmrh_int_en_lo_s cn; */
-} bdk_tns_sde_ldex_acmrh_int_en_lo_t;
+};
+typedef union bdk_tns_sde_ldex_acmrh_int_en_lo bdk_tns_sde_ldex_acmrh_int_en_lo_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_ACMRH_INT_EN_LO(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_ACMRH_INT_EN_LO(unsigned long a)
@@ -3422,7 +3502,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_ACMRH_INT_EN_LO(unsigned long a)
  * but each interrupt type has one status bit stored in the config block
  * so the CPU can come to read it.
  */
-typedef union
+union bdk_tns_sde_ldex_acmrh_int_frc
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_acmrh_int_frc_s
@@ -3436,7 +3516,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_acmrh_int_frc_s cn; */
-} bdk_tns_sde_ldex_acmrh_int_frc_t;
+};
+typedef union bdk_tns_sde_ldex_acmrh_int_frc bdk_tns_sde_ldex_acmrh_int_frc_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_ACMRH_INT_FRC(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_ACMRH_INT_FRC(unsigned long a)
@@ -3461,7 +3542,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_ACMRH_INT_FRC(unsigned long a)
  * but each interrupt type has one status bit stored in the config block
  * so the CPU can come to read it.
  */
-typedef union
+union bdk_tns_sde_ldex_acmrh_int_w1c
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_acmrh_int_w1c_s
@@ -3475,7 +3556,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_acmrh_int_w1c_s cn; */
-} bdk_tns_sde_ldex_acmrh_int_w1c_t;
+};
+typedef union bdk_tns_sde_ldex_acmrh_int_w1c bdk_tns_sde_ldex_acmrh_int_w1c_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_ACMRH_INT_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_ACMRH_INT_W1C(unsigned long a)
@@ -3498,7 +3580,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_ACMRH_INT_W1C(unsigned long a)
  * TNS SDE LDE Configuration ACM Bypass Mode Registers
  * --
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_acm_bp_mode
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_cfg_acm_bp_mode_s
@@ -3512,7 +3594,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_acm_bp_mode_s cn; */
-} bdk_tns_sde_ldex_cfg_acm_bp_mode_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_acm_bp_mode bdk_tns_sde_ldex_cfg_acm_bp_mode_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_ACM_BP_MODE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_ACM_BP_MODE(unsigned long a)
@@ -3535,7 +3618,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_ACM_BP_MODE(unsigned long a)
  * TNS SDE LDE Configuration ACM Full Mirror Bit Mask Enable Registers
  * --
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_acm_fmbm_en
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_cfg_acm_fmbm_en_s
@@ -3549,7 +3632,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_acm_fmbm_en_s cn; */
-} bdk_tns_sde_ldex_cfg_acm_fmbm_en_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_acm_fmbm_en bdk_tns_sde_ldex_cfg_acm_fmbm_en_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_ACM_FMBM_EN(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_ACM_FMBM_EN(unsigned long a)
@@ -3572,7 +3656,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_ACM_FMBM_EN(unsigned long a)
  * TNS SDE LDE Configuration ACM Full Mirror Bit Mask Index Registers
  * --
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_acm_fmbm_idx
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_cfg_acm_fmbm_idx_s
@@ -3586,7 +3670,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_acm_fmbm_idx_s cn; */
-} bdk_tns_sde_ldex_cfg_acm_fmbm_idx_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_acm_fmbm_idx bdk_tns_sde_ldex_cfg_acm_fmbm_idx_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_ACM_FMBM_IDX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_ACM_FMBM_IDX(unsigned long a)
@@ -3609,7 +3694,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_ACM_FMBM_IDX(unsigned long a)
  * TNS SDE LDE Configuration ACM Full Next Engine Registers
  * --
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_acm_fneng
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_cfg_acm_fneng_s
@@ -3623,7 +3708,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_acm_fneng_s cn; */
-} bdk_tns_sde_ldex_cfg_acm_fneng_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_acm_fneng bdk_tns_sde_ldex_cfg_acm_fneng_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_ACM_FNENG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_ACM_FNENG(unsigned long a)
@@ -3646,7 +3732,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_ACM_FNENG(unsigned long a)
  * TNS SDE LDE Configuration ACM Full Packet Command Is COPY2CPU Registers
  * --
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_acm_fpcmd_cp
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_cfg_acm_fpcmd_cp_s
@@ -3660,7 +3746,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_acm_fpcmd_cp_s cn; */
-} bdk_tns_sde_ldex_cfg_acm_fpcmd_cp_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_acm_fpcmd_cp bdk_tns_sde_ldex_cfg_acm_fpcmd_cp_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_ACM_FPCMD_CP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_ACM_FPCMD_CP(unsigned long a)
@@ -3683,7 +3770,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_ACM_FPCMD_CP(unsigned long a)
  * TNS SDE LDE Configuration ACM Full Packet Command Is Drop Registers
  * --
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_acm_fpcmd_dp
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_cfg_acm_fpcmd_dp_s
@@ -3697,7 +3784,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_acm_fpcmd_dp_s cn; */
-} bdk_tns_sde_ldex_cfg_acm_fpcmd_dp_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_acm_fpcmd_dp bdk_tns_sde_ldex_cfg_acm_fpcmd_dp_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_ACM_FPCMD_DP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_ACM_FPCMD_DP(unsigned long a)
@@ -3720,7 +3808,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_ACM_FPCMD_DP(unsigned long a)
  * TNS SDE LDE Configuration ACM Full Packet Command Forward Registers
  * --
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_acm_fpcmd_fw
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_cfg_acm_fpcmd_fw_s
@@ -3734,7 +3822,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_acm_fpcmd_fw_s cn; */
-} bdk_tns_sde_ldex_cfg_acm_fpcmd_fw_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_acm_fpcmd_fw bdk_tns_sde_ldex_cfg_acm_fpcmd_fw_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_ACM_FPCMD_FW(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_ACM_FPCMD_FW(unsigned long a)
@@ -3757,7 +3846,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_ACM_FPCMD_FW(unsigned long a)
  * TNS SDE LDE Configuration ACM Full Packet Command Is TRAP2CPU Registers
  * --
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_acm_fpcmd_tr
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_cfg_acm_fpcmd_tr_s
@@ -3771,7 +3860,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_acm_fpcmd_tr_s cn; */
-} bdk_tns_sde_ldex_cfg_acm_fpcmd_tr_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_acm_fpcmd_tr bdk_tns_sde_ldex_cfg_acm_fpcmd_tr_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_ACM_FPCMD_TR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_ACM_FPCMD_TR(unsigned long a)
@@ -3794,7 +3884,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_ACM_FPCMD_TR(unsigned long a)
  * TNS SDE LDE Configuration ACM Full Reason Code Registers
  * --
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_acm_frcod
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_cfg_acm_frcod_s
@@ -3808,7 +3898,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_acm_frcod_s cn; */
-} bdk_tns_sde_ldex_cfg_acm_frcod_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_acm_frcod bdk_tns_sde_ldex_cfg_acm_frcod_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_ACM_FRCOD(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_ACM_FRCOD(unsigned long a)
@@ -3831,7 +3922,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_ACM_FRCOD(unsigned long a)
  * TNS SDE LDE Configuration ACM Lane Registers
  * ACM lane types: null, counting, policing or sampling
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_acm_lanex
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_cfg_acm_lanex_s
@@ -3845,7 +3936,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_acm_lanex_s cn; */
-} bdk_tns_sde_ldex_cfg_acm_lanex_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_acm_lanex bdk_tns_sde_ldex_cfg_acm_lanex_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_ACM_LANEX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_ACM_LANEX(unsigned long a, unsigned long b)
@@ -3868,7 +3960,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_ACM_LANEX(unsigned long a, unsigned 
  * TNS SDE LDE Configuration ACM Timeout Cycle Registers
  * --
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_acm_to_cy
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_cfg_acm_to_cy_s
@@ -3882,7 +3974,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_acm_to_cy_s cn; */
-} bdk_tns_sde_ldex_cfg_acm_to_cy_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_acm_to_cy bdk_tns_sde_ldex_cfg_acm_to_cy_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_ACM_TO_CY(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_ACM_TO_CY(unsigned long a)
@@ -3905,7 +3998,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_ACM_TO_CY(unsigned long a)
  * TNS SDE LDE Configuration ACM Timeout Forward Enable Registers
  * --
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_acm_to_fw_en
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_cfg_acm_to_fw_en_s
@@ -3919,7 +4012,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_acm_to_fw_en_s cn; */
-} bdk_tns_sde_ldex_cfg_acm_to_fw_en_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_acm_to_fw_en bdk_tns_sde_ldex_cfg_acm_to_fw_en_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_ACM_TO_FW_EN(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_ACM_TO_FW_EN(unsigned long a)
@@ -3946,7 +4040,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_ACM_TO_FW_EN(unsigned long a)
  * When writing, make the access to this decoder atomic w.r.t. other writes to
  * this decoder.
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_kfit0x_w0
 {
     uint64_t u;
     struct bdk_tns_sde_ldex_cfg_kfit0x_w0_s
@@ -3960,7 +4054,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_kfit0x_w0_s cn; */
-} bdk_tns_sde_ldex_cfg_kfit0x_w0_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_kfit0x_w0 bdk_tns_sde_ldex_cfg_kfit0x_w0_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT0X_W0(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT0X_W0(unsigned long a, unsigned long b)
@@ -3983,7 +4078,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT0X_W0(unsigned long a, unsigned 
  * TNS SDE LDE Configuration 1FIT_0 Word 1 Registers
  * Continuation of structure defined in TNS_SDE_LDE(0..1)_CFG_KFIT0(0..15)_W0
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_kfit0x_w1
 {
     uint64_t u;
     struct bdk_tns_sde_ldex_cfg_kfit0x_w1_s
@@ -3999,7 +4094,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_kfit0x_w1_s cn; */
-} bdk_tns_sde_ldex_cfg_kfit0x_w1_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_kfit0x_w1 bdk_tns_sde_ldex_cfg_kfit0x_w1_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT0X_W1(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT0X_W1(unsigned long a, unsigned long b)
@@ -4022,7 +4118,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT0X_W1(unsigned long a, unsigned 
  * TNS SDE LDE Configuration 1FIT_0 Word 2 Registers
  * Continuation of structure defined in TNS_SDE_LDE(0..1)_CFG_KFIT0(0..15)_W0
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_kfit0x_w2
 {
     uint64_t u;
     struct bdk_tns_sde_ldex_cfg_kfit0x_w2_s
@@ -4036,7 +4132,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_kfit0x_w2_s cn; */
-} bdk_tns_sde_ldex_cfg_kfit0x_w2_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_kfit0x_w2 bdk_tns_sde_ldex_cfg_kfit0x_w2_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT0X_W2(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT0X_W2(unsigned long a, unsigned long b)
@@ -4063,7 +4160,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT0X_W2(unsigned long a, unsigned 
  * When writing, make the access to this decoder atomic w.r.t. other writes to
  * this decoder.
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_kfit1x_w0
 {
     uint64_t u;
     struct bdk_tns_sde_ldex_cfg_kfit1x_w0_s
@@ -4077,7 +4174,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_kfit1x_w0_s cn; */
-} bdk_tns_sde_ldex_cfg_kfit1x_w0_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_kfit1x_w0 bdk_tns_sde_ldex_cfg_kfit1x_w0_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT1X_W0(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT1X_W0(unsigned long a, unsigned long b)
@@ -4100,7 +4198,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT1X_W0(unsigned long a, unsigned 
  * TNS SDE LDE Configuration 1FIT_1 Word 1 Registers
  * Continuation of structure defined in TNS_SDE_LDE(0..1)_CFG_KFIT1(0..15)_W0
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_kfit1x_w1
 {
     uint64_t u;
     struct bdk_tns_sde_ldex_cfg_kfit1x_w1_s
@@ -4116,7 +4214,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_kfit1x_w1_s cn; */
-} bdk_tns_sde_ldex_cfg_kfit1x_w1_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_kfit1x_w1 bdk_tns_sde_ldex_cfg_kfit1x_w1_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT1X_W1(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT1X_W1(unsigned long a, unsigned long b)
@@ -4139,7 +4238,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT1X_W1(unsigned long a, unsigned 
  * TNS SDE LDE Configuration 1FIT_1 Word 2 Registers
  * Continuation of structure defined in TNS_SDE_LDE(0..1)_CFG_KFIT1(0..15)_W0
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_kfit1x_w2
 {
     uint64_t u;
     struct bdk_tns_sde_ldex_cfg_kfit1x_w2_s
@@ -4153,7 +4252,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_kfit1x_w2_s cn; */
-} bdk_tns_sde_ldex_cfg_kfit1x_w2_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_kfit1x_w2 bdk_tns_sde_ldex_cfg_kfit1x_w2_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT1X_W2(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT1X_W2(unsigned long a, unsigned long b)
@@ -4180,7 +4280,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT1X_W2(unsigned long a, unsigned 
  * When writing, make the access to this decoder atomic w.r.t. other writes to
  * this decoder.
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_kfit2x_w0
 {
     uint64_t u;
     struct bdk_tns_sde_ldex_cfg_kfit2x_w0_s
@@ -4194,7 +4294,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_kfit2x_w0_s cn; */
-} bdk_tns_sde_ldex_cfg_kfit2x_w0_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_kfit2x_w0 bdk_tns_sde_ldex_cfg_kfit2x_w0_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT2X_W0(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT2X_W0(unsigned long a, unsigned long b)
@@ -4217,7 +4318,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT2X_W0(unsigned long a, unsigned 
  * TNS SDE LDE Configuration 1FIT_2 Word 1 Registers
  * Continuation of structure defined in TNS_SDE_LDE(0..1)_CFG_KFIT2(0..15)_W0
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_kfit2x_w1
 {
     uint64_t u;
     struct bdk_tns_sde_ldex_cfg_kfit2x_w1_s
@@ -4233,7 +4334,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_kfit2x_w1_s cn; */
-} bdk_tns_sde_ldex_cfg_kfit2x_w1_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_kfit2x_w1 bdk_tns_sde_ldex_cfg_kfit2x_w1_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT2X_W1(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT2X_W1(unsigned long a, unsigned long b)
@@ -4256,7 +4358,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT2X_W1(unsigned long a, unsigned 
  * TNS SDE LDE Configuration 1FIT_2 Word 2 Registers
  * Continuation of structure defined in TNS_SDE_LDE(0..1)_CFG_KFIT2(0..15)_W0
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_kfit2x_w2
 {
     uint64_t u;
     struct bdk_tns_sde_ldex_cfg_kfit2x_w2_s
@@ -4270,7 +4372,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_kfit2x_w2_s cn; */
-} bdk_tns_sde_ldex_cfg_kfit2x_w2_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_kfit2x_w2 bdk_tns_sde_ldex_cfg_kfit2x_w2_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT2X_W2(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT2X_W2(unsigned long a, unsigned long b)
@@ -4297,7 +4400,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT2X_W2(unsigned long a, unsigned 
  * When writing, make the access to this decoder atomic w.r.t. other writes to
  * this decoder.
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_kfit3x_w0
 {
     uint64_t u;
     struct bdk_tns_sde_ldex_cfg_kfit3x_w0_s
@@ -4311,7 +4414,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_kfit3x_w0_s cn; */
-} bdk_tns_sde_ldex_cfg_kfit3x_w0_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_kfit3x_w0 bdk_tns_sde_ldex_cfg_kfit3x_w0_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT3X_W0(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT3X_W0(unsigned long a, unsigned long b)
@@ -4334,7 +4438,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT3X_W0(unsigned long a, unsigned 
  * TNS SDE LDE Configuration 1FIT_3 Word 1 Registers
  * Continuation of structure defined in TNS_SDE_LDE(0..1)_CFG_KFIT3(0..15)_W0
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_kfit3x_w1
 {
     uint64_t u;
     struct bdk_tns_sde_ldex_cfg_kfit3x_w1_s
@@ -4350,7 +4454,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_kfit3x_w1_s cn; */
-} bdk_tns_sde_ldex_cfg_kfit3x_w1_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_kfit3x_w1 bdk_tns_sde_ldex_cfg_kfit3x_w1_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT3X_W1(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT3X_W1(unsigned long a, unsigned long b)
@@ -4373,7 +4478,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT3X_W1(unsigned long a, unsigned 
  * TNS SDE LDE Configuration 1FIT_3 Word 2 Registers
  * Continuation of structure defined in TNS_SDE_LDE(0..1)_CFG_KFIT3(0..15)_W0
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_kfit3x_w2
 {
     uint64_t u;
     struct bdk_tns_sde_ldex_cfg_kfit3x_w2_s
@@ -4387,7 +4492,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_kfit3x_w2_s cn; */
-} bdk_tns_sde_ldex_cfg_kfit3x_w2_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_kfit3x_w2 bdk_tns_sde_ldex_cfg_kfit3x_w2_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT3X_W2(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT3X_W2(unsigned long a, unsigned long b)
@@ -4414,7 +4520,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT3X_W2(unsigned long a, unsigned 
  * When writing, make the access to this decoder atomic w.r.t. other writes to
  * this decoder.
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_kfit4x_w0
 {
     uint64_t u;
     struct bdk_tns_sde_ldex_cfg_kfit4x_w0_s
@@ -4428,7 +4534,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_kfit4x_w0_s cn; */
-} bdk_tns_sde_ldex_cfg_kfit4x_w0_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_kfit4x_w0 bdk_tns_sde_ldex_cfg_kfit4x_w0_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT4X_W0(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT4X_W0(unsigned long a, unsigned long b)
@@ -4451,7 +4558,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT4X_W0(unsigned long a, unsigned 
  * TNS SDE LDE Configuration 1FIT_4 Word 1 Registers
  * Continuation of structure defined in TNS_SDE_LDE(0..1)_CFG_KFIT4(0..15)_W0
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_kfit4x_w1
 {
     uint64_t u;
     struct bdk_tns_sde_ldex_cfg_kfit4x_w1_s
@@ -4467,7 +4574,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_kfit4x_w1_s cn; */
-} bdk_tns_sde_ldex_cfg_kfit4x_w1_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_kfit4x_w1 bdk_tns_sde_ldex_cfg_kfit4x_w1_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT4X_W1(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT4X_W1(unsigned long a, unsigned long b)
@@ -4490,7 +4598,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT4X_W1(unsigned long a, unsigned 
  * TNS SDE LDE Configuration 1FIT_4 Word 2 Registers
  * Continuation of structure defined in TNS_SDE_LDE(0..1)_CFG_KFIT4(0..15)_W0
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_kfit4x_w2
 {
     uint64_t u;
     struct bdk_tns_sde_ldex_cfg_kfit4x_w2_s
@@ -4504,7 +4612,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_kfit4x_w2_s cn; */
-} bdk_tns_sde_ldex_cfg_kfit4x_w2_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_kfit4x_w2 bdk_tns_sde_ldex_cfg_kfit4x_w2_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT4X_W2(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT4X_W2(unsigned long a, unsigned long b)
@@ -4531,7 +4640,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT4X_W2(unsigned long a, unsigned 
  * When writing, make the access to this decoder atomic w.r.t. other writes to
  * this decoder.
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_kfit5x_w0
 {
     uint64_t u;
     struct bdk_tns_sde_ldex_cfg_kfit5x_w0_s
@@ -4545,7 +4654,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_kfit5x_w0_s cn; */
-} bdk_tns_sde_ldex_cfg_kfit5x_w0_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_kfit5x_w0 bdk_tns_sde_ldex_cfg_kfit5x_w0_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT5X_W0(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT5X_W0(unsigned long a, unsigned long b)
@@ -4568,7 +4678,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT5X_W0(unsigned long a, unsigned 
  * TNS SDE LDE Configuration 1FIT_5 Word 1 Registers
  * Continuation of structure defined in TNS_SDE_LDE(0..1)_CFG_KFIT5(0..15)_W0
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_kfit5x_w1
 {
     uint64_t u;
     struct bdk_tns_sde_ldex_cfg_kfit5x_w1_s
@@ -4584,7 +4694,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_kfit5x_w1_s cn; */
-} bdk_tns_sde_ldex_cfg_kfit5x_w1_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_kfit5x_w1 bdk_tns_sde_ldex_cfg_kfit5x_w1_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT5X_W1(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT5X_W1(unsigned long a, unsigned long b)
@@ -4607,7 +4718,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT5X_W1(unsigned long a, unsigned 
  * TNS SDE LDE Configuration 1FIT_5 Word 2 Registers
  * Continuation of structure defined in TNS_SDE_LDE(0..1)_CFG_KFIT5(0..15)_W0
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_kfit5x_w2
 {
     uint64_t u;
     struct bdk_tns_sde_ldex_cfg_kfit5x_w2_s
@@ -4621,7 +4732,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_kfit5x_w2_s cn; */
-} bdk_tns_sde_ldex_cfg_kfit5x_w2_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_kfit5x_w2 bdk_tns_sde_ldex_cfg_kfit5x_w2_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT5X_W2(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT5X_W2(unsigned long a, unsigned long b)
@@ -4644,7 +4756,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT5X_W2(unsigned long a, unsigned 
  * TNS SDE LDE Configuration 1FIT_6 Registers
  * KFIT_6
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_kfit6x
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_cfg_kfit6x_s
@@ -4660,7 +4772,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_kfit6x_s cn; */
-} bdk_tns_sde_ldex_cfg_kfit6x_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_kfit6x bdk_tns_sde_ldex_cfg_kfit6x_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT6X(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT6X(unsigned long a, unsigned long b)
@@ -4683,7 +4796,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT6X(unsigned long a, unsigned lon
  * TNS SDE LDE Configuration KFITS Index Registers
  * --
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_kfits_idx
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_cfg_kfits_idx_s
@@ -4697,7 +4810,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_kfits_idx_s cn; */
-} bdk_tns_sde_ldex_cfg_kfits_idx_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_kfits_idx bdk_tns_sde_ldex_cfg_kfits_idx_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFITS_IDX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFITS_IDX(unsigned long a)
@@ -4720,7 +4834,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFITS_IDX(unsigned long a)
  * TNS SDE LDE Configuration LDE Address Registers
  * --
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_lde_adr
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_cfg_lde_adr_s
@@ -4734,7 +4848,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_lde_adr_s cn; */
-} bdk_tns_sde_ldex_cfg_lde_adr_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_lde_adr bdk_tns_sde_ldex_cfg_lde_adr_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_LDE_ADR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_LDE_ADR(unsigned long a)
@@ -4757,7 +4872,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_LDE_ADR(unsigned long a)
  * TNS SDE LDE Configuration LDE Type Registers
  * --
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_lde_type
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_cfg_lde_type_s
@@ -4771,7 +4886,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_lde_type_s cn; */
-} bdk_tns_sde_ldex_cfg_lde_type_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_lde_type bdk_tns_sde_ldex_cfg_lde_type_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_LDE_TYPE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_LDE_TYPE(unsigned long a)
@@ -4794,7 +4910,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_LDE_TYPE(unsigned long a)
  * TNS SDE LDE Configuration LDEA Debug Selector Registers
  * --
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_ldea_dbg_sel
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_cfg_ldea_dbg_sel_s
@@ -4810,7 +4926,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_ldea_dbg_sel_s cn; */
-} bdk_tns_sde_ldex_cfg_ldea_dbg_sel_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_ldea_dbg_sel bdk_tns_sde_ldex_cfg_ldea_dbg_sel_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_LDEA_DBG_SEL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_LDEA_DBG_SEL(unsigned long a)
@@ -4833,7 +4950,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_LDEA_DBG_SEL(unsigned long a)
  * TNS SDE LDE Configuration LDEB Debug Selector Registers
  * --
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_ldeb_dbg_sel
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_cfg_ldeb_dbg_sel_s
@@ -4849,7 +4966,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_ldeb_dbg_sel_s cn; */
-} bdk_tns_sde_ldex_cfg_ldeb_dbg_sel_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_ldeb_dbg_sel bdk_tns_sde_ldex_cfg_ldeb_dbg_sel_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_LDEB_DBG_SEL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_LDEB_DBG_SEL(unsigned long a)
@@ -4872,7 +4990,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_LDEB_DBG_SEL(unsigned long a)
  * TNS SDE LDE Configuration Maximum ACM Requests Registers
  * --
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_max_acm_reqs
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_cfg_max_acm_reqs_s
@@ -4886,7 +5004,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_max_acm_reqs_s cn; */
-} bdk_tns_sde_ldex_cfg_max_acm_reqs_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_max_acm_reqs bdk_tns_sde_ldex_cfg_max_acm_reqs_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_MAX_ACM_REQS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_MAX_ACM_REQS(unsigned long a)
@@ -4909,7 +5028,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_MAX_ACM_REQS(unsigned long a)
  * TNS SDE LDE Configuration Maximum Search Requests Registers
  * --
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_max_se_reqs
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_cfg_max_se_reqs_s
@@ -4923,7 +5042,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_max_se_reqs_s cn; */
-} bdk_tns_sde_ldex_cfg_max_se_reqs_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_max_se_reqs bdk_tns_sde_ldex_cfg_max_se_reqs_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_MAX_SE_REQS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_MAX_SE_REQS(unsigned long a)
@@ -4946,7 +5066,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_MAX_SE_REQS(unsigned long a)
  * TNS SDE LDE Configuration Merge Mode Registers
  * --
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_merge_mode
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_cfg_merge_mode_s
@@ -4960,7 +5080,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_merge_mode_s cn; */
-} bdk_tns_sde_ldex_cfg_merge_mode_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_merge_mode bdk_tns_sde_ldex_cfg_merge_mode_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_MERGE_MODE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_MERGE_MODE(unsigned long a)
@@ -4987,7 +5108,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_MERGE_MODE(unsigned long a)
  * When writing, make the access to this decoder atomic w.r.t. other writes to
  * this decoder.
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_ofit0x_w0
 {
     uint64_t u;
     struct bdk_tns_sde_ldex_cfg_ofit0x_w0_s
@@ -5007,7 +5128,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_ofit0x_w0_s cn; */
-} bdk_tns_sde_ldex_cfg_ofit0x_w0_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_ofit0x_w0 bdk_tns_sde_ldex_cfg_ofit0x_w0_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT0X_W0(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT0X_W0(unsigned long a, unsigned long b)
@@ -5030,7 +5152,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT0X_W0(unsigned long a, unsigned 
  * TNS SDE LDE Configuration 1FIT_0 Word 1 Registers
  * Continuation of structure defined in TNS_SDE_LDE(0..1)_CFG_OFIT0(0..31)_W0
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_ofit0x_w1
 {
     uint64_t u;
     struct bdk_tns_sde_ldex_cfg_ofit0x_w1_s
@@ -5046,7 +5168,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_ofit0x_w1_s cn; */
-} bdk_tns_sde_ldex_cfg_ofit0x_w1_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_ofit0x_w1 bdk_tns_sde_ldex_cfg_ofit0x_w1_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT0X_W1(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT0X_W1(unsigned long a, unsigned long b)
@@ -5069,7 +5192,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT0X_W1(unsigned long a, unsigned 
  * TNS SDE LDE Configuration 1FIT_0 Word 2 Registers
  * Continuation of structure defined in TNS_SDE_LDE(0..1)_CFG_OFIT0(0..31)_W0
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_ofit0x_w2
 {
     uint64_t u;
     struct bdk_tns_sde_ldex_cfg_ofit0x_w2_s
@@ -5085,7 +5208,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_ofit0x_w2_s cn; */
-} bdk_tns_sde_ldex_cfg_ofit0x_w2_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_ofit0x_w2 bdk_tns_sde_ldex_cfg_ofit0x_w2_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT0X_W2(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT0X_W2(unsigned long a, unsigned long b)
@@ -5108,7 +5232,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT0X_W2(unsigned long a, unsigned 
  * TNS SDE LDE Configuration 1FIT_1 Registers
  * OFIT_1
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_ofit1x
 {
     uint64_t u;
     struct bdk_tns_sde_ldex_cfg_ofit1x_s
@@ -5128,7 +5252,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_ofit1x_s cn; */
-} bdk_tns_sde_ldex_cfg_ofit1x_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_ofit1x bdk_tns_sde_ldex_cfg_ofit1x_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT1X(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT1X(unsigned long a, unsigned long b)
@@ -5151,7 +5276,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT1X(unsigned long a, unsigned lon
  * TNS SDE LDE Configuration 1FIT_2 Registers
  * OFIT_2
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_ofit2x
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_cfg_ofit2x_s
@@ -5165,7 +5290,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_ofit2x_s cn; */
-} bdk_tns_sde_ldex_cfg_ofit2x_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_ofit2x bdk_tns_sde_ldex_cfg_ofit2x_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT2X(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT2X(unsigned long a, unsigned long b)
@@ -5192,7 +5318,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT2X(unsigned long a, unsigned lon
  * When writing, make the access to this decoder atomic w.r.t. other writes to
  * this decoder.
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_ofit3x_w0
 {
     uint64_t u;
     struct bdk_tns_sde_ldex_cfg_ofit3x_w0_s
@@ -5210,7 +5336,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_ofit3x_w0_s cn; */
-} bdk_tns_sde_ldex_cfg_ofit3x_w0_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_ofit3x_w0 bdk_tns_sde_ldex_cfg_ofit3x_w0_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT3X_W0(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT3X_W0(unsigned long a, unsigned long b)
@@ -5233,7 +5360,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT3X_W0(unsigned long a, unsigned 
  * TNS SDE LDE Configuration 1FIT_3 Word 1 Registers
  * Continuation of structure defined in TNS_SDE_LDE(0..1)_CFG_OFIT3(0..31)_W0
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_ofit3x_w1
 {
     uint64_t u;
     struct bdk_tns_sde_ldex_cfg_ofit3x_w1_s
@@ -5251,7 +5378,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_ofit3x_w1_s cn; */
-} bdk_tns_sde_ldex_cfg_ofit3x_w1_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_ofit3x_w1 bdk_tns_sde_ldex_cfg_ofit3x_w1_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT3X_W1(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT3X_W1(unsigned long a, unsigned long b)
@@ -5278,7 +5406,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT3X_W1(unsigned long a, unsigned 
  * When writing, make the access to this decoder atomic w.r.t. other writes to
  * this decoder.
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_ofit4x_w0
 {
     uint64_t u;
     struct bdk_tns_sde_ldex_cfg_ofit4x_w0_s
@@ -5296,7 +5424,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_ofit4x_w0_s cn; */
-} bdk_tns_sde_ldex_cfg_ofit4x_w0_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_ofit4x_w0 bdk_tns_sde_ldex_cfg_ofit4x_w0_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT4X_W0(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT4X_W0(unsigned long a, unsigned long b)
@@ -5319,7 +5448,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT4X_W0(unsigned long a, unsigned 
  * TNS SDE LDE Configuration 1FIT_4 Word 1 Registers
  * Continuation of structure defined in TNS_SDE_LDE(0..1)_CFG_OFIT4(0..31)_W0
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_ofit4x_w1
 {
     uint64_t u;
     struct bdk_tns_sde_ldex_cfg_ofit4x_w1_s
@@ -5337,7 +5466,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_ofit4x_w1_s cn; */
-} bdk_tns_sde_ldex_cfg_ofit4x_w1_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_ofit4x_w1 bdk_tns_sde_ldex_cfg_ofit4x_w1_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT4X_W1(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT4X_W1(unsigned long a, unsigned long b)
@@ -5360,7 +5490,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT4X_W1(unsigned long a, unsigned 
  * TNS SDE LDE Configuration 1FIT_4 Word 2 Registers
  * Continuation of structure defined in TNS_SDE_LDE(0..1)_CFG_OFIT4(0..31)_W0
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_ofit4x_w2
 {
     uint64_t u;
     struct bdk_tns_sde_ldex_cfg_ofit4x_w2_s
@@ -5380,7 +5510,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_ofit4x_w2_s cn; */
-} bdk_tns_sde_ldex_cfg_ofit4x_w2_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_ofit4x_w2 bdk_tns_sde_ldex_cfg_ofit4x_w2_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT4X_W2(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT4X_W2(unsigned long a, unsigned long b)
@@ -5407,7 +5538,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT4X_W2(unsigned long a, unsigned 
  * When writing, make the access to this decoder atomic w.r.t. other writes to
  * this decoder.
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_ofit5x_w0
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_cfg_ofit5x_w0_s
@@ -5419,7 +5550,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_ofit5x_w0_s cn; */
-} bdk_tns_sde_ldex_cfg_ofit5x_w0_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_ofit5x_w0 bdk_tns_sde_ldex_cfg_ofit5x_w0_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT5X_W0(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT5X_W0(unsigned long a, unsigned long b)
@@ -5442,7 +5574,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT5X_W0(unsigned long a, unsigned 
  * TNS SDE LDE Configuration 1FIT_5 Word 1 Registers
  * Continuation of structure defined in TNS_SDE_LDE(0..1)_CFG_OFIT5(0..31)_W0
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_ofit5x_w1
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_cfg_ofit5x_w1_s
@@ -5456,7 +5588,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_ofit5x_w1_s cn; */
-} bdk_tns_sde_ldex_cfg_ofit5x_w1_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_ofit5x_w1 bdk_tns_sde_ldex_cfg_ofit5x_w1_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT5X_W1(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT5X_W1(unsigned long a, unsigned long b)
@@ -5479,7 +5612,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT5X_W1(unsigned long a, unsigned 
  * TNS SDE LDE Configuration 1FIT_5 Word 10 Registers
  * Continuation of structure defined in TNS_SDE_LDE(0..1)_CFG_OFIT5(0..31)_W0
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_ofit5x_w10
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_cfg_ofit5x_w10_s
@@ -5493,7 +5626,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_ofit5x_w10_s cn; */
-} bdk_tns_sde_ldex_cfg_ofit5x_w10_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_ofit5x_w10 bdk_tns_sde_ldex_cfg_ofit5x_w10_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT5X_W10(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT5X_W10(unsigned long a, unsigned long b)
@@ -5516,7 +5650,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT5X_W10(unsigned long a, unsigned
  * TNS SDE LDE Configuration 1FIT_5 Word 2 Registers
  * Continuation of structure defined in TNS_SDE_LDE(0..1)_CFG_OFIT5(0..31)_W0
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_ofit5x_w2
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_cfg_ofit5x_w2_s
@@ -5528,7 +5662,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_ofit5x_w2_s cn; */
-} bdk_tns_sde_ldex_cfg_ofit5x_w2_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_ofit5x_w2 bdk_tns_sde_ldex_cfg_ofit5x_w2_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT5X_W2(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT5X_W2(unsigned long a, unsigned long b)
@@ -5551,7 +5686,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT5X_W2(unsigned long a, unsigned 
  * TNS SDE LDE Configuration 1FIT_5 Word 3 Registers
  * Continuation of structure defined in TNS_SDE_LDE(0..1)_CFG_OFIT5(0..31)_W0
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_ofit5x_w3
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_cfg_ofit5x_w3_s
@@ -5565,7 +5700,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_ofit5x_w3_s cn; */
-} bdk_tns_sde_ldex_cfg_ofit5x_w3_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_ofit5x_w3 bdk_tns_sde_ldex_cfg_ofit5x_w3_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT5X_W3(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT5X_W3(unsigned long a, unsigned long b)
@@ -5588,7 +5724,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT5X_W3(unsigned long a, unsigned 
  * TNS SDE LDE Configuration 1FIT_5 Word 4 Registers
  * Continuation of structure defined in TNS_SDE_LDE(0..1)_CFG_OFIT5(0..31)_W0
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_ofit5x_w4
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_cfg_ofit5x_w4_s
@@ -5602,7 +5738,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_ofit5x_w4_s cn; */
-} bdk_tns_sde_ldex_cfg_ofit5x_w4_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_ofit5x_w4 bdk_tns_sde_ldex_cfg_ofit5x_w4_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT5X_W4(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT5X_W4(unsigned long a, unsigned long b)
@@ -5625,7 +5762,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT5X_W4(unsigned long a, unsigned 
  * TNS SDE LDE Configuration 1FIT_5 Word 5 Registers
  * Continuation of structure defined in TNS_SDE_LDE(0..1)_CFG_OFIT5(0..31)_W0
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_ofit5x_w5
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_cfg_ofit5x_w5_s
@@ -5639,7 +5776,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_ofit5x_w5_s cn; */
-} bdk_tns_sde_ldex_cfg_ofit5x_w5_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_ofit5x_w5 bdk_tns_sde_ldex_cfg_ofit5x_w5_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT5X_W5(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT5X_W5(unsigned long a, unsigned long b)
@@ -5662,7 +5800,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT5X_W5(unsigned long a, unsigned 
  * TNS SDE LDE Configuration 1FIT_5 Word 6 Registers
  * Continuation of structure defined in TNS_SDE_LDE(0..1)_CFG_OFIT5(0..31)_W0
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_ofit5x_w6
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_cfg_ofit5x_w6_s
@@ -5676,7 +5814,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_ofit5x_w6_s cn; */
-} bdk_tns_sde_ldex_cfg_ofit5x_w6_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_ofit5x_w6 bdk_tns_sde_ldex_cfg_ofit5x_w6_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT5X_W6(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT5X_W6(unsigned long a, unsigned long b)
@@ -5699,7 +5838,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT5X_W6(unsigned long a, unsigned 
  * TNS SDE LDE Configuration 1FIT_5 Word 7 Registers
  * Continuation of structure defined in TNS_SDE_LDE(0..1)_CFG_OFIT5(0..31)_W0
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_ofit5x_w7
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_cfg_ofit5x_w7_s
@@ -5713,7 +5852,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_ofit5x_w7_s cn; */
-} bdk_tns_sde_ldex_cfg_ofit5x_w7_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_ofit5x_w7 bdk_tns_sde_ldex_cfg_ofit5x_w7_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT5X_W7(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT5X_W7(unsigned long a, unsigned long b)
@@ -5736,7 +5876,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT5X_W7(unsigned long a, unsigned 
  * TNS SDE LDE Configuration 1FIT_5 Word 8 Registers
  * Continuation of structure defined in TNS_SDE_LDE(0..1)_CFG_OFIT5(0..31)_W0
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_ofit5x_w8
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_cfg_ofit5x_w8_s
@@ -5748,7 +5888,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_ofit5x_w8_s cn; */
-} bdk_tns_sde_ldex_cfg_ofit5x_w8_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_ofit5x_w8 bdk_tns_sde_ldex_cfg_ofit5x_w8_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT5X_W8(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT5X_W8(unsigned long a, unsigned long b)
@@ -5771,7 +5912,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT5X_W8(unsigned long a, unsigned 
  * TNS SDE LDE Configuration 1FIT_5 Word 9 Registers
  * Continuation of structure defined in TNS_SDE_LDE(0..1)_CFG_OFIT5(0..31)_W0
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_ofit5x_w9
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_cfg_ofit5x_w9_s
@@ -5785,7 +5926,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_ofit5x_w9_s cn; */
-} bdk_tns_sde_ldex_cfg_ofit5x_w9_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_ofit5x_w9 bdk_tns_sde_ldex_cfg_ofit5x_w9_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT5X_W9(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT5X_W9(unsigned long a, unsigned long b)
@@ -5812,7 +5954,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT5X_W9(unsigned long a, unsigned 
  * When writing, make the access to this decoder atomic w.r.t. other writes to
  * this decoder.
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_ofit6x_w0
 {
     uint64_t u;
     struct bdk_tns_sde_ldex_cfg_ofit6x_w0_s
@@ -5826,7 +5968,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_ofit6x_w0_s cn; */
-} bdk_tns_sde_ldex_cfg_ofit6x_w0_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_ofit6x_w0 bdk_tns_sde_ldex_cfg_ofit6x_w0_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT6X_W0(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT6X_W0(unsigned long a, unsigned long b)
@@ -5849,7 +5992,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT6X_W0(unsigned long a, unsigned 
  * TNS SDE LDE Configuration 1FIT_6 Word 1 Registers
  * Continuation of structure defined in TNS_SDE_LDE(0..1)_CFG_OFIT6(0..31)_W0
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_ofit6x_w1
 {
     uint64_t u;
     struct bdk_tns_sde_ldex_cfg_ofit6x_w1_s
@@ -5863,7 +6006,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_ofit6x_w1_s cn; */
-} bdk_tns_sde_ldex_cfg_ofit6x_w1_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_ofit6x_w1 bdk_tns_sde_ldex_cfg_ofit6x_w1_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT6X_W1(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT6X_W1(unsigned long a, unsigned long b)
@@ -5886,7 +6030,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT6X_W1(unsigned long a, unsigned 
  * TNS SDE LDE Configuration 1FIT_6 Word 2 Registers
  * Continuation of structure defined in TNS_SDE_LDE(0..1)_CFG_OFIT6(0..31)_W0
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_ofit6x_w2
 {
     uint64_t u;
     struct bdk_tns_sde_ldex_cfg_ofit6x_w2_s
@@ -5902,7 +6046,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_ofit6x_w2_s cn; */
-} bdk_tns_sde_ldex_cfg_ofit6x_w2_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_ofit6x_w2 bdk_tns_sde_ldex_cfg_ofit6x_w2_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT6X_W2(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT6X_W2(unsigned long a, unsigned long b)
@@ -5929,7 +6074,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT6X_W2(unsigned long a, unsigned 
  * When writing, make the access to this decoder atomic w.r.t. other writes to
  * this decoder.
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_ofit7x_w0
 {
     uint64_t u;
     struct bdk_tns_sde_ldex_cfg_ofit7x_w0_s
@@ -5943,7 +6088,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_ofit7x_w0_s cn; */
-} bdk_tns_sde_ldex_cfg_ofit7x_w0_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_ofit7x_w0 bdk_tns_sde_ldex_cfg_ofit7x_w0_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT7X_W0(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT7X_W0(unsigned long a, unsigned long b)
@@ -5966,7 +6112,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT7X_W0(unsigned long a, unsigned 
  * TNS SDE LDE Configuration 1FIT_7 Word 1 Registers
  * Continuation of structure defined in TNS_SDE_LDE(0..1)_CFG_OFIT7(0..31)_W0
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_ofit7x_w1
 {
     uint64_t u;
     struct bdk_tns_sde_ldex_cfg_ofit7x_w1_s
@@ -5980,7 +6126,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_ofit7x_w1_s cn; */
-} bdk_tns_sde_ldex_cfg_ofit7x_w1_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_ofit7x_w1 bdk_tns_sde_ldex_cfg_ofit7x_w1_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT7X_W1(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT7X_W1(unsigned long a, unsigned long b)
@@ -6003,7 +6150,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT7X_W1(unsigned long a, unsigned 
  * TNS SDE LDE Configuration 1FIT_7 Word 2 Registers
  * Continuation of structure defined in TNS_SDE_LDE(0..1)_CFG_OFIT7(0..31)_W0
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_ofit7x_w2
 {
     uint64_t u;
     struct bdk_tns_sde_ldex_cfg_ofit7x_w2_s
@@ -6019,7 +6166,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_ofit7x_w2_s cn; */
-} bdk_tns_sde_ldex_cfg_ofit7x_w2_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_ofit7x_w2 bdk_tns_sde_ldex_cfg_ofit7x_w2_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT7X_W2(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT7X_W2(unsigned long a, unsigned long b)
@@ -6046,7 +6194,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT7X_W2(unsigned long a, unsigned 
  * When writing, make the access to this decoder atomic w.r.t. other writes to
  * this decoder.
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_ofit8x_w0
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_cfg_ofit8x_w0_s
@@ -6058,7 +6206,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_ofit8x_w0_s cn; */
-} bdk_tns_sde_ldex_cfg_ofit8x_w0_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_ofit8x_w0 bdk_tns_sde_ldex_cfg_ofit8x_w0_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT8X_W0(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT8X_W0(unsigned long a, unsigned long b)
@@ -6081,7 +6230,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT8X_W0(unsigned long a, unsigned 
  * TNS SDE LDE Configuration 1FIT_8 Word 1 Registers
  * Continuation of structure defined in TNS_SDE_LDE(0..1)_CFG_OFIT8(0..15)_W0
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_ofit8x_w1
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_cfg_ofit8x_w1_s
@@ -6097,7 +6246,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_ofit8x_w1_s cn; */
-} bdk_tns_sde_ldex_cfg_ofit8x_w1_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_ofit8x_w1 bdk_tns_sde_ldex_cfg_ofit8x_w1_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT8X_W1(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT8X_W1(unsigned long a, unsigned long b)
@@ -6120,7 +6270,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT8X_W1(unsigned long a, unsigned 
  * TNS SDE LDE Configuration 1FIT_8 Word 2 Registers
  * Continuation of structure defined in TNS_SDE_LDE(0..1)_CFG_OFIT8(0..15)_W0
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_ofit8x_w2
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_cfg_ofit8x_w2_s
@@ -6136,7 +6286,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_ofit8x_w2_s cn; */
-} bdk_tns_sde_ldex_cfg_ofit8x_w2_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_ofit8x_w2 bdk_tns_sde_ldex_cfg_ofit8x_w2_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT8X_W2(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT8X_W2(unsigned long a, unsigned long b)
@@ -6159,7 +6310,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT8X_W2(unsigned long a, unsigned 
  * TNS SDE LDE Configuration 1FIT_8 Word 3 Registers
  * Continuation of structure defined in TNS_SDE_LDE(0..1)_CFG_OFIT8(0..15)_W0
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_ofit8x_w3
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_cfg_ofit8x_w3_s
@@ -6175,7 +6326,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_ofit8x_w3_s cn; */
-} bdk_tns_sde_ldex_cfg_ofit8x_w3_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_ofit8x_w3 bdk_tns_sde_ldex_cfg_ofit8x_w3_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT8X_W3(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT8X_W3(unsigned long a, unsigned long b)
@@ -6198,7 +6350,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT8X_W3(unsigned long a, unsigned 
  * TNS SDE LDE Configuration 1FIT_8 Word 4 Registers
  * Continuation of structure defined in TNS_SDE_LDE(0..1)_CFG_OFIT8(0..15)_W0
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_ofit8x_w4
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_cfg_ofit8x_w4_s
@@ -6214,7 +6366,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_ofit8x_w4_s cn; */
-} bdk_tns_sde_ldex_cfg_ofit8x_w4_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_ofit8x_w4 bdk_tns_sde_ldex_cfg_ofit8x_w4_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT8X_W4(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT8X_W4(unsigned long a, unsigned long b)
@@ -6241,7 +6394,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT8X_W4(unsigned long a, unsigned 
  * When writing, make the access to this decoder atomic w.r.t. other writes to
  * this decoder.
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_ofit9x_w0
 {
     uint64_t u;
     struct bdk_tns_sde_ldex_cfg_ofit9x_w0_s
@@ -6255,7 +6408,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_ofit9x_w0_s cn; */
-} bdk_tns_sde_ldex_cfg_ofit9x_w0_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_ofit9x_w0 bdk_tns_sde_ldex_cfg_ofit9x_w0_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT9X_W0(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT9X_W0(unsigned long a, unsigned long b)
@@ -6278,7 +6432,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT9X_W0(unsigned long a, unsigned 
  * TNS SDE LDE Configuration 1FIT_9 Word 1 Registers
  * Continuation of structure defined in TNS_SDE_LDE(0..1)_CFG_OFIT9(0..15)_W0
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_ofit9x_w1
 {
     uint64_t u;
     struct bdk_tns_sde_ldex_cfg_ofit9x_w1_s
@@ -6294,7 +6448,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_ofit9x_w1_s cn; */
-} bdk_tns_sde_ldex_cfg_ofit9x_w1_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_ofit9x_w1 bdk_tns_sde_ldex_cfg_ofit9x_w1_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT9X_W1(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT9X_W1(unsigned long a, unsigned long b)
@@ -6317,7 +6472,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT9X_W1(unsigned long a, unsigned 
  * TNS SDE LDE Configuration 1FIT_9 Word 2 Registers
  * Continuation of structure defined in TNS_SDE_LDE(0..1)_CFG_OFIT9(0..15)_W0
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_ofit9x_w2
 {
     uint64_t u;
     struct bdk_tns_sde_ldex_cfg_ofit9x_w2_s
@@ -6333,7 +6488,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_ofit9x_w2_s cn; */
-} bdk_tns_sde_ldex_cfg_ofit9x_w2_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_ofit9x_w2 bdk_tns_sde_ldex_cfg_ofit9x_w2_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT9X_W2(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT9X_W2(unsigned long a, unsigned long b)
@@ -6356,7 +6512,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT9X_W2(unsigned long a, unsigned 
  * TNS SDE LDE Configuration 1FIT_9 Word 3 Registers
  * Continuation of structure defined in TNS_SDE_LDE(0..1)_CFG_OFIT9(0..15)_W0
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_ofit9x_w3
 {
     uint64_t u;
     struct bdk_tns_sde_ldex_cfg_ofit9x_w3_s
@@ -6370,7 +6526,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_ofit9x_w3_s cn; */
-} bdk_tns_sde_ldex_cfg_ofit9x_w3_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_ofit9x_w3 bdk_tns_sde_ldex_cfg_ofit9x_w3_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT9X_W3(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT9X_W3(unsigned long a, unsigned long b)
@@ -6393,7 +6550,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT9X_W3(unsigned long a, unsigned 
  * TNS SDE LDE Configuration 1FIT_9 Word 4 Registers
  * Continuation of structure defined in TNS_SDE_LDE(0..1)_CFG_OFIT9(0..15)_W0
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_ofit9x_w4
 {
     uint64_t u;
     struct bdk_tns_sde_ldex_cfg_ofit9x_w4_s
@@ -6411,7 +6568,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_ofit9x_w4_s cn; */
-} bdk_tns_sde_ldex_cfg_ofit9x_w4_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_ofit9x_w4 bdk_tns_sde_ldex_cfg_ofit9x_w4_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT9X_W4(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT9X_W4(unsigned long a, unsigned long b)
@@ -6434,7 +6592,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT9X_W4(unsigned long a, unsigned 
  * TNS SDE LDE Configuration OFITS Index Registers
  * --
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_ofits_idx
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_cfg_ofits_idx_s
@@ -6448,7 +6606,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_ofits_idx_s cn; */
-} bdk_tns_sde_ldex_cfg_ofits_idx_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_ofits_idx bdk_tns_sde_ldex_cfg_ofits_idx_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFITS_IDX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFITS_IDX(unsigned long a)
@@ -6471,7 +6630,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFITS_IDX(unsigned long a)
  * TNS SDE LDE Configuration POL Drop Mirror Bit Mask Enable Registers
  * --
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_pol_dmbm_en
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_cfg_pol_dmbm_en_s
@@ -6485,7 +6644,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_pol_dmbm_en_s cn; */
-} bdk_tns_sde_ldex_cfg_pol_dmbm_en_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_pol_dmbm_en bdk_tns_sde_ldex_cfg_pol_dmbm_en_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_POL_DMBM_EN(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_POL_DMBM_EN(unsigned long a)
@@ -6508,7 +6668,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_POL_DMBM_EN(unsigned long a)
  * TNS SDE LDE Configuration POL Drop Mirror Bit Mask Index Registers
  * --
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_pol_dmbm_idx
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_cfg_pol_dmbm_idx_s
@@ -6522,7 +6682,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_pol_dmbm_idx_s cn; */
-} bdk_tns_sde_ldex_cfg_pol_dmbm_idx_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_pol_dmbm_idx bdk_tns_sde_ldex_cfg_pol_dmbm_idx_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_POL_DMBM_IDX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_POL_DMBM_IDX(unsigned long a)
@@ -6545,7 +6706,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_POL_DMBM_IDX(unsigned long a)
  * TNS SDE LDE Configuration POL Drop Next Engine Registers
  * --
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_pol_dneng
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_cfg_pol_dneng_s
@@ -6559,7 +6720,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_pol_dneng_s cn; */
-} bdk_tns_sde_ldex_cfg_pol_dneng_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_pol_dneng bdk_tns_sde_ldex_cfg_pol_dneng_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_POL_DNENG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_POL_DNENG(unsigned long a)
@@ -6582,7 +6744,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_POL_DNENG(unsigned long a)
  * TNS SDE LDE Configuration POL Drop Packet Command Is COPY2CPU Registers
  * --
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_pol_dpcmd_cp
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_cfg_pol_dpcmd_cp_s
@@ -6596,7 +6758,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_pol_dpcmd_cp_s cn; */
-} bdk_tns_sde_ldex_cfg_pol_dpcmd_cp_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_pol_dpcmd_cp bdk_tns_sde_ldex_cfg_pol_dpcmd_cp_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_POL_DPCMD_CP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_POL_DPCMD_CP(unsigned long a)
@@ -6619,7 +6782,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_POL_DPCMD_CP(unsigned long a)
  * TNS SDE LDE Configuration POL Drop Packet Command Is Drop Registers
  * --
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_pol_dpcmd_dp
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_cfg_pol_dpcmd_dp_s
@@ -6633,7 +6796,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_pol_dpcmd_dp_s cn; */
-} bdk_tns_sde_ldex_cfg_pol_dpcmd_dp_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_pol_dpcmd_dp bdk_tns_sde_ldex_cfg_pol_dpcmd_dp_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_POL_DPCMD_DP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_POL_DPCMD_DP(unsigned long a)
@@ -6656,7 +6820,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_POL_DPCMD_DP(unsigned long a)
  * TNS SDE LDE Configuration POL Drop Packet Command Forward Registers
  * --
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_pol_dpcmd_fw
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_cfg_pol_dpcmd_fw_s
@@ -6670,7 +6834,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_pol_dpcmd_fw_s cn; */
-} bdk_tns_sde_ldex_cfg_pol_dpcmd_fw_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_pol_dpcmd_fw bdk_tns_sde_ldex_cfg_pol_dpcmd_fw_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_POL_DPCMD_FW(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_POL_DPCMD_FW(unsigned long a)
@@ -6693,7 +6858,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_POL_DPCMD_FW(unsigned long a)
  * TNS SDE LDE Configuration POL Drop Packet Command Is TRAP2CPU Registers
  * --
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_pol_dpcmd_tr
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_cfg_pol_dpcmd_tr_s
@@ -6707,7 +6872,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_pol_dpcmd_tr_s cn; */
-} bdk_tns_sde_ldex_cfg_pol_dpcmd_tr_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_pol_dpcmd_tr bdk_tns_sde_ldex_cfg_pol_dpcmd_tr_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_POL_DPCMD_TR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_POL_DPCMD_TR(unsigned long a)
@@ -6730,7 +6896,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_POL_DPCMD_TR(unsigned long a)
  * TNS SDE LDE Configuration POL Drop Reason Code Registers
  * --
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_pol_drcod
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_cfg_pol_drcod_s
@@ -6744,7 +6910,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_pol_drcod_s cn; */
-} bdk_tns_sde_ldex_cfg_pol_drcod_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_pol_drcod bdk_tns_sde_ldex_cfg_pol_drcod_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_POL_DRCOD(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_POL_DRCOD(unsigned long a)
@@ -6767,7 +6934,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_POL_DRCOD(unsigned long a)
  * TNS SDE LDE Configuration Profile Table Registers
  * ProfileID Table
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_prfl_tblx
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_cfg_prfl_tblx_s
@@ -6785,7 +6952,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_prfl_tblx_s cn; */
-} bdk_tns_sde_ldex_cfg_prfl_tblx_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_prfl_tblx bdk_tns_sde_ldex_cfg_prfl_tblx_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_PRFL_TBLX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_PRFL_TBLX(unsigned long a, unsigned long b)
@@ -6808,7 +6976,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_PRFL_TBLX(unsigned long a, unsigned 
  * TNS SDE LDE Configuration Search Timeout Cycle Registers
  * --
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_se_to_cy
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_cfg_se_to_cy_s
@@ -6822,7 +6990,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_se_to_cy_s cn; */
-} bdk_tns_sde_ldex_cfg_se_to_cy_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_se_to_cy bdk_tns_sde_ldex_cfg_se_to_cy_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_SE_TO_CY(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_SE_TO_CY(unsigned long a)
@@ -6845,7 +7014,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_SE_TO_CY(unsigned long a)
  * TNS SDE LDE Configuration Search Timeout Forward Enable Registers
  * --
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_se_to_fw_en
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_cfg_se_to_fw_en_s
@@ -6859,7 +7028,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_se_to_fw_en_s cn; */
-} bdk_tns_sde_ldex_cfg_se_to_fw_en_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_se_to_fw_en bdk_tns_sde_ldex_cfg_se_to_fw_en_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_SE_TO_FW_EN(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_SE_TO_FW_EN(unsigned long a)
@@ -6882,7 +7052,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_SE_TO_FW_EN(unsigned long a)
  * TNS SDE LDE Configuration SMP Lane Registers
  * 4 sampling indexes for 4 rslt lanes
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_smp_lanex
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_cfg_smp_lanex_s
@@ -6896,7 +7066,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_smp_lanex_s cn; */
-} bdk_tns_sde_ldex_cfg_smp_lanex_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_smp_lanex bdk_tns_sde_ldex_cfg_smp_lanex_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_SMP_LANEX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_SMP_LANEX(unsigned long a, unsigned long b)
@@ -6923,7 +7094,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_SMP_LANEX(unsigned long a, unsigned 
  * When writing, make the access to this decoder atomic w.r.t. other writes to
  * this decoder.
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_tpl_tblx_w0
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_cfg_tpl_tblx_w0_s
@@ -6935,7 +7106,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_tpl_tblx_w0_s cn; */
-} bdk_tns_sde_ldex_cfg_tpl_tblx_w0_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_tpl_tblx_w0 bdk_tns_sde_ldex_cfg_tpl_tblx_w0_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_TPL_TBLX_W0(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_TPL_TBLX_W0(unsigned long a, unsigned long b)
@@ -6958,7 +7130,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_TPL_TBLX_W0(unsigned long a, unsigne
  * TNS SDE LDE Configuration TPL Table Word 1 Registers
  * Continuation of structure defined in TNS_SDE_LDE(0..1)_CFG_TPL_TBL(0..255)_W0
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_tpl_tblx_w1
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_cfg_tpl_tblx_w1_s
@@ -6978,7 +7150,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_tpl_tblx_w1_s cn; */
-} bdk_tns_sde_ldex_cfg_tpl_tblx_w1_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_tpl_tblx_w1 bdk_tns_sde_ldex_cfg_tpl_tblx_w1_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_TPL_TBLX_W1(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_TPL_TBLX_W1(unsigned long a, unsigned long b)
@@ -7001,7 +7174,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_TPL_TBLX_W1(unsigned long a, unsigne
  * TNS SDE LDE Configuration TPL Table Word 2 Registers
  * Continuation of structure defined in TNS_SDE_LDE(0..1)_CFG_TPL_TBL(0..255)_W0
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_tpl_tblx_w2
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_cfg_tpl_tblx_w2_s
@@ -7025,7 +7198,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_tpl_tblx_w2_s cn; */
-} bdk_tns_sde_ldex_cfg_tpl_tblx_w2_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_tpl_tblx_w2 bdk_tns_sde_ldex_cfg_tpl_tblx_w2_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_TPL_TBLX_W2(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_TPL_TBLX_W2(unsigned long a, unsigned long b)
@@ -7048,7 +7222,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_TPL_TBLX_W2(unsigned long a, unsigne
  * TNS SDE LDE Configuration Total Fail Next Engine Registers
  * --
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_ttl_fl_neng
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_cfg_ttl_fl_neng_s
@@ -7062,7 +7236,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_ttl_fl_neng_s cn; */
-} bdk_tns_sde_ldex_cfg_ttl_fl_neng_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_ttl_fl_neng bdk_tns_sde_ldex_cfg_ttl_fl_neng_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_TTL_FL_NENG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_TTL_FL_NENG(unsigned long a)
@@ -7085,7 +7260,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_TTL_FL_NENG(unsigned long a)
  * TNS SDE LDE Configuration Total Fail Packet Command Registers
  * --
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_ttl_fl_pcmd
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_cfg_ttl_fl_pcmd_s
@@ -7099,7 +7274,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_ttl_fl_pcmd_s cn; */
-} bdk_tns_sde_ldex_cfg_ttl_fl_pcmd_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_ttl_fl_pcmd bdk_tns_sde_ldex_cfg_ttl_fl_pcmd_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_TTL_FL_PCMD(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_TTL_FL_PCMD(unsigned long a)
@@ -7122,7 +7298,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_TTL_FL_PCMD(unsigned long a)
  * TNS SDE LDE Configuration Total Fail Reason Code Registers
  * --
  */
-typedef union
+union bdk_tns_sde_ldex_cfg_ttl_fl_rcod
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_cfg_ttl_fl_rcod_s
@@ -7136,7 +7312,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_cfg_ttl_fl_rcod_s cn; */
-} bdk_tns_sde_ldex_cfg_ttl_fl_rcod_t;
+};
+typedef union bdk_tns_sde_ldex_cfg_ttl_fl_rcod bdk_tns_sde_ldex_cfg_ttl_fl_rcod_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_TTL_FL_RCOD(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_TTL_FL_RCOD(unsigned long a)
@@ -7159,7 +7336,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_TTL_FL_RCOD(unsigned long a)
  * TNS SDE LDE Debug ACMRH Word 0 Registers
  * Capture acmrh info for debug
  */
-typedef union
+union bdk_tns_sde_ldex_dbg_acmrh_w0
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_dbg_acmrh_w0_s
@@ -7187,7 +7364,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_dbg_acmrh_w0_s cn; */
-} bdk_tns_sde_ldex_dbg_acmrh_w0_t;
+};
+typedef union bdk_tns_sde_ldex_dbg_acmrh_w0 bdk_tns_sde_ldex_dbg_acmrh_w0_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_DBG_ACMRH_W0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_DBG_ACMRH_W0(unsigned long a)
@@ -7210,7 +7388,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_DBG_ACMRH_W0(unsigned long a)
  * TNS SDE LDE Debug ACMRH Word 1 Registers
  * Continuation of structure defined in TNS_SDE_LDE(0..1)_DBG_ACMRH_W0
  */
-typedef union
+union bdk_tns_sde_ldex_dbg_acmrh_w1
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_dbg_acmrh_w1_s
@@ -7242,7 +7420,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_dbg_acmrh_w1_s cn; */
-} bdk_tns_sde_ldex_dbg_acmrh_w1_t;
+};
+typedef union bdk_tns_sde_ldex_dbg_acmrh_w1 bdk_tns_sde_ldex_dbg_acmrh_w1_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_DBG_ACMRH_W1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_DBG_ACMRH_W1(unsigned long a)
@@ -7265,7 +7444,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_DBG_ACMRH_W1(unsigned long a)
  * TNS SDE LDE Debug ACMRH Word 2 Registers
  * Continuation of structure defined in TNS_SDE_LDE(0..1)_DBG_ACMRH_W0
  */
-typedef union
+union bdk_tns_sde_ldex_dbg_acmrh_w2
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_dbg_acmrh_w2_s
@@ -7309,7 +7488,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_dbg_acmrh_w2_s cn; */
-} bdk_tns_sde_ldex_dbg_acmrh_w2_t;
+};
+typedef union bdk_tns_sde_ldex_dbg_acmrh_w2 bdk_tns_sde_ldex_dbg_acmrh_w2_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_DBG_ACMRH_W2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_DBG_ACMRH_W2(unsigned long a)
@@ -7332,7 +7512,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_DBG_ACMRH_W2(unsigned long a)
  * TNS SDE LDE Debug ACMRH Word 3 Registers
  * Continuation of structure defined in TNS_SDE_LDE(0..1)_DBG_ACMRH_W0
  */
-typedef union
+union bdk_tns_sde_ldex_dbg_acmrh_w3
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_dbg_acmrh_w3_s
@@ -7352,7 +7532,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_dbg_acmrh_w3_s cn; */
-} bdk_tns_sde_ldex_dbg_acmrh_w3_t;
+};
+typedef union bdk_tns_sde_ldex_dbg_acmrh_w3 bdk_tns_sde_ldex_dbg_acmrh_w3_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_DBG_ACMRH_W3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_DBG_ACMRH_W3(unsigned long a)
@@ -7375,7 +7556,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_DBG_ACMRH_W3(unsigned long a)
  * TNS SDE LDE Debug Input FIFO Registers
  * Capture input_fifo info for debug
  */
-typedef union
+union bdk_tns_sde_ldex_dbg_ifif
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_dbg_ifif_s
@@ -7399,7 +7580,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_dbg_ifif_s cn; */
-} bdk_tns_sde_ldex_dbg_ifif_t;
+};
+typedef union bdk_tns_sde_ldex_dbg_ifif bdk_tns_sde_ldex_dbg_ifif_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_DBG_IFIF(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_DBG_IFIF(unsigned long a)
@@ -7422,7 +7604,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_DBG_IFIF(unsigned long a)
  * TNS SDE LDE Debug KFCP Bits Word 0 Registers
  * Capture kfcp_bits_extract info for debug
  */
-typedef union
+union bdk_tns_sde_ldex_dbg_kfcp_bits_w0
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_dbg_kfcp_bits_w0_s
@@ -7440,7 +7622,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_dbg_kfcp_bits_w0_s cn; */
-} bdk_tns_sde_ldex_dbg_kfcp_bits_w0_t;
+};
+typedef union bdk_tns_sde_ldex_dbg_kfcp_bits_w0 bdk_tns_sde_ldex_dbg_kfcp_bits_w0_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_DBG_KFCP_BITS_W0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_DBG_KFCP_BITS_W0(unsigned long a)
@@ -7463,7 +7646,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_DBG_KFCP_BITS_W0(unsigned long a)
  * TNS SDE LDE Debug KFCP Bits Word 1 Registers
  * Continuation of structure defined in TNS_SDE_LDE(0..1)_DBG_KFCP_BITS_W0
  */
-typedef union
+union bdk_tns_sde_ldex_dbg_kfcp_bits_w1
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_dbg_kfcp_bits_w1_s
@@ -7483,7 +7666,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_dbg_kfcp_bits_w1_s cn; */
-} bdk_tns_sde_ldex_dbg_kfcp_bits_w1_t;
+};
+typedef union bdk_tns_sde_ldex_dbg_kfcp_bits_w1 bdk_tns_sde_ldex_dbg_kfcp_bits_w1_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_DBG_KFCP_BITS_W1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_DBG_KFCP_BITS_W1(unsigned long a)
@@ -7506,7 +7690,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_DBG_KFCP_BITS_W1(unsigned long a)
  * TNS SDE LDE Debug KFCP Bits Word 2 Registers
  * Continuation of structure defined in TNS_SDE_LDE(0..1)_DBG_KFCP_BITS_W0
  */
-typedef union
+union bdk_tns_sde_ldex_dbg_kfcp_bits_w2
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_dbg_kfcp_bits_w2_s
@@ -7532,7 +7716,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_dbg_kfcp_bits_w2_s cn; */
-} bdk_tns_sde_ldex_dbg_kfcp_bits_w2_t;
+};
+typedef union bdk_tns_sde_ldex_dbg_kfcp_bits_w2 bdk_tns_sde_ldex_dbg_kfcp_bits_w2_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_DBG_KFCP_BITS_W2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_DBG_KFCP_BITS_W2(unsigned long a)
@@ -7555,7 +7740,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_DBG_KFCP_BITS_W2(unsigned long a)
  * TNS SDE LDE Debug KFCP KFIT Registers
  * Capture kfcp_kfit info for debug
  */
-typedef union
+union bdk_tns_sde_ldex_dbg_kfcp_kfit
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_dbg_kfcp_kfit_s
@@ -7583,7 +7768,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_dbg_kfcp_kfit_s cn; */
-} bdk_tns_sde_ldex_dbg_kfcp_kfit_t;
+};
+typedef union bdk_tns_sde_ldex_dbg_kfcp_kfit bdk_tns_sde_ldex_dbg_kfcp_kfit_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_DBG_KFCP_KFIT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_DBG_KFCP_KFIT(unsigned long a)
@@ -7606,7 +7792,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_DBG_KFCP_KFIT(unsigned long a)
  * TNS SDE LDE Debug KFCP MUXLUT Cloud Info Word 0 Registers
  * Capture kfcp_muxlut_cloud info for debug
  */
-typedef union
+union bdk_tns_sde_ldex_dbg_kfcp_mlcd_w0
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_dbg_kfcp_mlcd_w0_s
@@ -7624,7 +7810,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_dbg_kfcp_mlcd_w0_s cn; */
-} bdk_tns_sde_ldex_dbg_kfcp_mlcd_w0_t;
+};
+typedef union bdk_tns_sde_ldex_dbg_kfcp_mlcd_w0 bdk_tns_sde_ldex_dbg_kfcp_mlcd_w0_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_DBG_KFCP_MLCD_W0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_DBG_KFCP_MLCD_W0(unsigned long a)
@@ -7647,7 +7834,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_DBG_KFCP_MLCD_W0(unsigned long a)
  * TNS SDE LDE Debug KFCP MUXLUT Cloud Info Word 1 Registers
  * Continuation of structure defined in TNS_SDE_LDE(0..1)_DBG_KFCP_MLCD_W0
  */
-typedef union
+union bdk_tns_sde_ldex_dbg_kfcp_mlcd_w1
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_dbg_kfcp_mlcd_w1_s
@@ -7677,7 +7864,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_dbg_kfcp_mlcd_w1_s cn; */
-} bdk_tns_sde_ldex_dbg_kfcp_mlcd_w1_t;
+};
+typedef union bdk_tns_sde_ldex_dbg_kfcp_mlcd_w1 bdk_tns_sde_ldex_dbg_kfcp_mlcd_w1_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_DBG_KFCP_MLCD_W1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_DBG_KFCP_MLCD_W1(unsigned long a)
@@ -7700,7 +7888,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_DBG_KFCP_MLCD_W1(unsigned long a)
  * TNS SDE LDE Debug KFDP Core Registers
  * Capture kfdp_core info for debug
  */
-typedef union
+union bdk_tns_sde_ldex_dbg_kfdp_core
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_dbg_kfdp_core_s
@@ -7726,7 +7914,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_dbg_kfdp_core_s cn; */
-} bdk_tns_sde_ldex_dbg_kfdp_core_t;
+};
+typedef union bdk_tns_sde_ldex_dbg_kfdp_core bdk_tns_sde_ldex_dbg_kfdp_core_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_DBG_KFDP_CORE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_DBG_KFDP_CORE(unsigned long a)
@@ -7749,7 +7938,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_DBG_KFDP_CORE(unsigned long a)
  * TNS SDE LDE Debug KFDP Request ID General Info Registers
  * Capture kfdp_reqid_gen info for debug
  */
-typedef union
+union bdk_tns_sde_ldex_dbg_kfdp_ridg
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_dbg_kfdp_ridg_s
@@ -7779,7 +7968,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_dbg_kfdp_ridg_s cn; */
-} bdk_tns_sde_ldex_dbg_kfdp_ridg_t;
+};
+typedef union bdk_tns_sde_ldex_dbg_kfdp_ridg bdk_tns_sde_ldex_dbg_kfdp_ridg_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_DBG_KFDP_RIDG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_DBG_KFDP_RIDG(unsigned long a)
@@ -7802,7 +7992,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_DBG_KFDP_RIDG(unsigned long a)
  * TNS SDE LDE Debug Merger Info Word 0 Registers
  * Capture merger info for debug
  */
-typedef union
+union bdk_tns_sde_ldex_dbg_mgr_info_w0
 {
     uint64_t u;
     struct bdk_tns_sde_ldex_dbg_mgr_info_w0_s
@@ -7850,7 +8040,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_dbg_mgr_info_w0_s cn; */
-} bdk_tns_sde_ldex_dbg_mgr_info_w0_t;
+};
+typedef union bdk_tns_sde_ldex_dbg_mgr_info_w0 bdk_tns_sde_ldex_dbg_mgr_info_w0_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_DBG_MGR_INFO_W0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_DBG_MGR_INFO_W0(unsigned long a)
@@ -7873,7 +8064,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_DBG_MGR_INFO_W0(unsigned long a)
  * TNS SDE LDE Debug Merger Info Word 1 Registers
  * Continuation of structure defined in TNS_SDE_LDE(0..1)_DBG_MGR_INFO_W0
  */
-typedef union
+union bdk_tns_sde_ldex_dbg_mgr_info_w1
 {
     uint64_t u;
     struct bdk_tns_sde_ldex_dbg_mgr_info_w1_s
@@ -7931,7 +8122,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_dbg_mgr_info_w1_s cn; */
-} bdk_tns_sde_ldex_dbg_mgr_info_w1_t;
+};
+typedef union bdk_tns_sde_ldex_dbg_mgr_info_w1 bdk_tns_sde_ldex_dbg_mgr_info_w1_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_DBG_MGR_INFO_W1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_DBG_MGR_INFO_W1(unsigned long a)
@@ -7954,7 +8146,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_DBG_MGR_INFO_W1(unsigned long a)
  * TNS SDE LDE Debug OFCP Bits Registers
  * Capture ofcp_bits_extracted info for debug
  */
-typedef union
+union bdk_tns_sde_ldex_dbg_ofcp_bits
 {
     uint64_t u;
     struct bdk_tns_sde_ldex_dbg_ofcp_bits_s
@@ -7992,7 +8184,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_dbg_ofcp_bits_s cn; */
-} bdk_tns_sde_ldex_dbg_ofcp_bits_t;
+};
+typedef union bdk_tns_sde_ldex_dbg_ofcp_bits bdk_tns_sde_ldex_dbg_ofcp_bits_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_DBG_OFCP_BITS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_DBG_OFCP_BITS(unsigned long a)
@@ -8015,7 +8208,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_DBG_OFCP_BITS(unsigned long a)
  * TNS SDE LDE Debug OFCP MUXLUT Cloud Info Word 0 Registers
  * Capture ofcp_muxlut_cloud info for debug
  */
-typedef union
+union bdk_tns_sde_ldex_dbg_ofcp_mlcd_w0
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_dbg_ofcp_mlcd_w0_s
@@ -8027,7 +8220,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_dbg_ofcp_mlcd_w0_s cn; */
-} bdk_tns_sde_ldex_dbg_ofcp_mlcd_w0_t;
+};
+typedef union bdk_tns_sde_ldex_dbg_ofcp_mlcd_w0 bdk_tns_sde_ldex_dbg_ofcp_mlcd_w0_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_DBG_OFCP_MLCD_W0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_DBG_OFCP_MLCD_W0(unsigned long a)
@@ -8050,7 +8244,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_DBG_OFCP_MLCD_W0(unsigned long a)
  * TNS SDE LDE Debug OFCP MUXLUT Cloud Info Word 1 Registers
  * Continuation of structure defined in TNS_SDE_LDE(0..1)_DBG_OFCP_MLCD_W0
  */
-typedef union
+union bdk_tns_sde_ldex_dbg_ofcp_mlcd_w1
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_dbg_ofcp_mlcd_w1_s
@@ -8074,7 +8268,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_dbg_ofcp_mlcd_w1_s cn; */
-} bdk_tns_sde_ldex_dbg_ofcp_mlcd_w1_t;
+};
+typedef union bdk_tns_sde_ldex_dbg_ofcp_mlcd_w1 bdk_tns_sde_ldex_dbg_ofcp_mlcd_w1_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_DBG_OFCP_MLCD_W1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_DBG_OFCP_MLCD_W1(unsigned long a)
@@ -8097,7 +8292,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_DBG_OFCP_MLCD_W1(unsigned long a)
  * TNS SDE LDE Debug OFCP MUXLUT Cloud Info Word 2 Registers
  * Continuation of structure defined in TNS_SDE_LDE(0..1)_DBG_OFCP_MLCD_W0
  */
-typedef union
+union bdk_tns_sde_ldex_dbg_ofcp_mlcd_w2
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_dbg_ofcp_mlcd_w2_s
@@ -8133,7 +8328,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_dbg_ofcp_mlcd_w2_s cn; */
-} bdk_tns_sde_ldex_dbg_ofcp_mlcd_w2_t;
+};
+typedef union bdk_tns_sde_ldex_dbg_ofcp_mlcd_w2 bdk_tns_sde_ldex_dbg_ofcp_mlcd_w2_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_DBG_OFCP_MLCD_W2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_DBG_OFCP_MLCD_W2(unsigned long a)
@@ -8156,7 +8352,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_DBG_OFCP_MLCD_W2(unsigned long a)
  * TNS SDE LDE Debug OFCP MUXXOR Cloud Registers
  * Capture ofcp_muxxor_cloud info for debug
  */
-typedef union
+union bdk_tns_sde_ldex_dbg_ofcp_mxcd
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_dbg_ofcp_mxcd_s
@@ -8180,7 +8376,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_dbg_ofcp_mxcd_s cn; */
-} bdk_tns_sde_ldex_dbg_ofcp_mxcd_t;
+};
+typedef union bdk_tns_sde_ldex_dbg_ofcp_mxcd bdk_tns_sde_ldex_dbg_ofcp_mxcd_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_DBG_OFCP_MXCD(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_DBG_OFCP_MXCD(unsigned long a)
@@ -8203,7 +8400,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_DBG_OFCP_MXCD(unsigned long a)
  * TNS SDE LDE Debug OFCP OFIT Word 0 Registers
  * Capture ofcp_ofit info for debug
  */
-typedef union
+union bdk_tns_sde_ldex_dbg_ofcp_ofit_w0
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_dbg_ofcp_ofit_w0_s
@@ -8225,7 +8422,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_dbg_ofcp_ofit_w0_s cn; */
-} bdk_tns_sde_ldex_dbg_ofcp_ofit_w0_t;
+};
+typedef union bdk_tns_sde_ldex_dbg_ofcp_ofit_w0 bdk_tns_sde_ldex_dbg_ofcp_ofit_w0_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_DBG_OFCP_OFIT_W0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_DBG_OFCP_OFIT_W0(unsigned long a)
@@ -8248,7 +8446,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_DBG_OFCP_OFIT_W0(unsigned long a)
  * TNS SDE LDE Debug OFCP OFIT Word 1 Registers
  * Continuation of structure defined in TNS_SDE_LDE(0..1)_DBG_OFCP_OFIT_W0
  */
-typedef union
+union bdk_tns_sde_ldex_dbg_ofcp_ofit_w1
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_dbg_ofcp_ofit_w1_s
@@ -8270,7 +8468,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_dbg_ofcp_ofit_w1_s cn; */
-} bdk_tns_sde_ldex_dbg_ofcp_ofit_w1_t;
+};
+typedef union bdk_tns_sde_ldex_dbg_ofcp_ofit_w1 bdk_tns_sde_ldex_dbg_ofcp_ofit_w1_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_DBG_OFCP_OFIT_W1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_DBG_OFCP_OFIT_W1(unsigned long a)
@@ -8293,7 +8492,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_DBG_OFCP_OFIT_W1(unsigned long a)
  * TNS SDE LDE Debug OFCP OFIT Word 2 Registers
  * Continuation of structure defined in TNS_SDE_LDE(0..1)_DBG_OFCP_OFIT_W0
  */
-typedef union
+union bdk_tns_sde_ldex_dbg_ofcp_ofit_w2
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_dbg_ofcp_ofit_w2_s
@@ -8323,7 +8522,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_dbg_ofcp_ofit_w2_s cn; */
-} bdk_tns_sde_ldex_dbg_ofcp_ofit_w2_t;
+};
+typedef union bdk_tns_sde_ldex_dbg_ofcp_ofit_w2 bdk_tns_sde_ldex_dbg_ofcp_ofit_w2_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_DBG_OFCP_OFIT_W2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_DBG_OFCP_OFIT_W2(unsigned long a)
@@ -8346,7 +8546,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_DBG_OFCP_OFIT_W2(unsigned long a)
  * TNS SDE LDE Debug OFDP ACM Request ID General Info Registers
  * Capture odfp_acm_reqid_gen info for debug
  */
-typedef union
+union bdk_tns_sde_ldex_dbg_ofdp_acmridg
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_dbg_ofdp_acmridg_s
@@ -8384,7 +8584,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_dbg_ofdp_acmridg_s cn; */
-} bdk_tns_sde_ldex_dbg_ofdp_acmridg_t;
+};
+typedef union bdk_tns_sde_ldex_dbg_ofdp_acmridg bdk_tns_sde_ldex_dbg_ofdp_acmridg_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_DBG_OFDP_ACMRIDG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_DBG_OFDP_ACMRIDG(unsigned long a)
@@ -8407,7 +8608,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_DBG_OFDP_ACMRIDG(unsigned long a)
  * TNS SDE LDE Debug OFDP Core Registers
  * Capture odfp_core info for debug
  */
-typedef union
+union bdk_tns_sde_ldex_dbg_ofdp_core
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_dbg_ofdp_core_s
@@ -8437,7 +8638,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_dbg_ofdp_core_s cn; */
-} bdk_tns_sde_ldex_dbg_ofdp_core_t;
+};
+typedef union bdk_tns_sde_ldex_dbg_ofdp_core bdk_tns_sde_ldex_dbg_ofdp_core_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_DBG_OFDP_CORE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_DBG_OFDP_CORE(unsigned long a)
@@ -8460,7 +8662,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_DBG_OFDP_CORE(unsigned long a)
  * TNS SDE LDE Debug Template Table Registers
  * Capture templateid lookup info for debug
  */
-typedef union
+union bdk_tns_sde_ldex_dbg_tmp_tbl
 {
     uint64_t u;
     struct bdk_tns_sde_ldex_dbg_tmp_tbl_s
@@ -8498,7 +8700,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_dbg_tmp_tbl_s cn; */
-} bdk_tns_sde_ldex_dbg_tmp_tbl_t;
+};
+typedef union bdk_tns_sde_ldex_dbg_tmp_tbl bdk_tns_sde_ldex_dbg_tmp_tbl_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_DBG_TMP_TBL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_DBG_TMP_TBL(unsigned long a)
@@ -8521,7 +8724,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_DBG_TMP_TBL(unsigned long a)
  * TNS SDE LDE Debug Total Loopback Word 0 Registers
  * Capture ttl and loopback info for debug
  */
-typedef union
+union bdk_tns_sde_ldex_dbg_ttl_lb_w0
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_dbg_ttl_lb_w0_s
@@ -8547,7 +8750,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_dbg_ttl_lb_w0_s cn; */
-} bdk_tns_sde_ldex_dbg_ttl_lb_w0_t;
+};
+typedef union bdk_tns_sde_ldex_dbg_ttl_lb_w0 bdk_tns_sde_ldex_dbg_ttl_lb_w0_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_DBG_TTL_LB_W0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_DBG_TTL_LB_W0(unsigned long a)
@@ -8570,7 +8774,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_DBG_TTL_LB_W0(unsigned long a)
  * TNS SDE LDE Debug Total Loopback Word 1 Registers
  * Continuation of structure defined in TNS_SDE_LDE(0..1)_DBG_TTL_LB_W0
  */
-typedef union
+union bdk_tns_sde_ldex_dbg_ttl_lb_w1
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_dbg_ttl_lb_w1_s
@@ -8588,7 +8792,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_dbg_ttl_lb_w1_s cn; */
-} bdk_tns_sde_ldex_dbg_ttl_lb_w1_t;
+};
+typedef union bdk_tns_sde_ldex_dbg_ttl_lb_w1 bdk_tns_sde_ldex_dbg_ttl_lb_w1_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_DBG_TTL_LB_W1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_DBG_TTL_LB_W1(unsigned long a)
@@ -8612,7 +8817,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_DBG_TTL_LB_W1(unsigned long a)
  * A dynamic register for configuring all muxes in all kfcp_stage0_bypassmux cells
  * - 32 cells
  */
-typedef union
+union bdk_tns_sde_ldex_kfcp0_bypm_dmux
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_kfcp0_bypm_dmux_s
@@ -8626,7 +8831,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_kfcp0_bypm_dmux_s cn; */
-} bdk_tns_sde_ldex_kfcp0_bypm_dmux_t;
+};
+typedef union bdk_tns_sde_ldex_kfcp0_bypm_dmux bdk_tns_sde_ldex_kfcp0_bypm_dmux_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_KFCP0_BYPM_DMUX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_KFCP0_BYPM_DMUX(unsigned long a)
@@ -8650,7 +8856,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_KFCP0_BYPM_DMUX(unsigned long a)
  * A dynamic register for configuring all luts in all kfcp_stage0_muxlut cells -
  * 32 cells
  */
-typedef union
+union bdk_tns_sde_ldex_kfcp0_ml_dlut
 {
     uint64_t u;
     struct bdk_tns_sde_ldex_kfcp0_ml_dlut_s
@@ -8662,7 +8868,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_kfcp0_ml_dlut_s cn; */
-} bdk_tns_sde_ldex_kfcp0_ml_dlut_t;
+};
+typedef union bdk_tns_sde_ldex_kfcp0_ml_dlut bdk_tns_sde_ldex_kfcp0_ml_dlut_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_KFCP0_ML_DLUT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_KFCP0_ML_DLUT(unsigned long a)
@@ -8686,7 +8893,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_KFCP0_ML_DLUT(unsigned long a)
  * A dynamic register for configuring all muxes in all kfcp_stage0_muxlut cells -
  * 32 cells
  */
-typedef union
+union bdk_tns_sde_ldex_kfcp0_ml_dmux
 {
     uint64_t u;
     struct bdk_tns_sde_ldex_kfcp0_ml_dmux_s
@@ -8710,7 +8917,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_kfcp0_ml_dmux_s cn; */
-} bdk_tns_sde_ldex_kfcp0_ml_dmux_t;
+};
+typedef union bdk_tns_sde_ldex_kfcp0_ml_dmux bdk_tns_sde_ldex_kfcp0_ml_dmux_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_KFCP0_ML_DMUX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_KFCP0_ML_DMUX(unsigned long a)
@@ -8734,7 +8942,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_KFCP0_ML_DMUX(unsigned long a)
  * A dynamic register for configuring all muxes in all kfcp_stage1_bypassmux cells
  * - 32 cells
  */
-typedef union
+union bdk_tns_sde_ldex_kfcp1_bypm_dmux
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_kfcp1_bypm_dmux_s
@@ -8748,7 +8956,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_kfcp1_bypm_dmux_s cn; */
-} bdk_tns_sde_ldex_kfcp1_bypm_dmux_t;
+};
+typedef union bdk_tns_sde_ldex_kfcp1_bypm_dmux bdk_tns_sde_ldex_kfcp1_bypm_dmux_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_KFCP1_BYPM_DMUX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_KFCP1_BYPM_DMUX(unsigned long a)
@@ -8772,7 +8981,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_KFCP1_BYPM_DMUX(unsigned long a)
  * A dynamic register for configuring all luts in all kfcp_stage1_muxlut cells -
  * 32 cells
  */
-typedef union
+union bdk_tns_sde_ldex_kfcp1_ml_dlut_wx
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_kfcp1_ml_dlut_wx_s
@@ -8784,7 +8993,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_kfcp1_ml_dlut_wx_s cn; */
-} bdk_tns_sde_ldex_kfcp1_ml_dlut_wx_t;
+};
+typedef union bdk_tns_sde_ldex_kfcp1_ml_dlut_wx bdk_tns_sde_ldex_kfcp1_ml_dlut_wx_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_KFCP1_ML_DLUT_WX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_KFCP1_ML_DLUT_WX(unsigned long a, unsigned long b)
@@ -8808,7 +9018,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_KFCP1_ML_DLUT_WX(unsigned long a, unsign
  * A dynamic register for configuring all muxes in all kfcp_stage1_muxlut cells -
  * 32 cells
  */
-typedef union
+union bdk_tns_sde_ldex_kfcp1_ml_dmux_w0
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_kfcp1_ml_dmux_w0_s
@@ -8830,7 +9040,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_kfcp1_ml_dmux_w0_s cn; */
-} bdk_tns_sde_ldex_kfcp1_ml_dmux_w0_t;
+};
+typedef union bdk_tns_sde_ldex_kfcp1_ml_dmux_w0 bdk_tns_sde_ldex_kfcp1_ml_dmux_w0_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_KFCP1_ML_DMUX_W0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_KFCP1_ML_DMUX_W0(unsigned long a)
@@ -8853,7 +9064,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_KFCP1_ML_DMUX_W0(unsigned long a)
  * TNS SDE LDE KFCP Stage 1 MUXLUT Dynamic MUX Word 1 Registers
  * Continuation of structure defined in TNS_SDE_LDE(0..1)_KFCP1_ML_DMUX_W0
  */
-typedef union
+union bdk_tns_sde_ldex_kfcp1_ml_dmux_w1
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_kfcp1_ml_dmux_w1_s
@@ -8867,7 +9078,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_kfcp1_ml_dmux_w1_s cn; */
-} bdk_tns_sde_ldex_kfcp1_ml_dmux_w1_t;
+};
+typedef union bdk_tns_sde_ldex_kfcp1_ml_dmux_w1 bdk_tns_sde_ldex_kfcp1_ml_dmux_w1_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_KFCP1_ML_DMUX_W1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_KFCP1_ML_DMUX_W1(unsigned long a)
@@ -8891,7 +9103,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_KFCP1_ML_DMUX_W1(unsigned long a)
  * A dynamic register for configuring all luts in all kfcp_stage2_muxlut cells -
  * 28 cells
  */
-typedef union
+union bdk_tns_sde_ldex_kfcp2_ml_dlut
 {
     uint64_t u;
     struct bdk_tns_sde_ldex_kfcp2_ml_dlut_s
@@ -8903,7 +9115,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_kfcp2_ml_dlut_s cn; */
-} bdk_tns_sde_ldex_kfcp2_ml_dlut_t;
+};
+typedef union bdk_tns_sde_ldex_kfcp2_ml_dlut bdk_tns_sde_ldex_kfcp2_ml_dlut_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_KFCP2_ML_DLUT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_KFCP2_ML_DLUT(unsigned long a)
@@ -8927,7 +9140,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_KFCP2_ML_DLUT(unsigned long a)
  * A dynamic register for configuring all muxes in all kfcp_stage2_muxlut cells -
  * 28 cells
  */
-typedef union
+union bdk_tns_sde_ldex_kfcp2_ml_dmux
 {
     uint64_t u;
     struct bdk_tns_sde_ldex_kfcp2_ml_dmux_s
@@ -8951,7 +9164,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_kfcp2_ml_dmux_s cn; */
-} bdk_tns_sde_ldex_kfcp2_ml_dmux_t;
+};
+typedef union bdk_tns_sde_ldex_kfcp2_ml_dmux bdk_tns_sde_ldex_kfcp2_ml_dmux_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_KFCP2_ML_DMUX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_KFCP2_ML_DMUX(unsigned long a)
@@ -8974,7 +9188,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_KFCP2_ML_DMUX(unsigned long a)
  * TNS SDE LDE KFCP Cloud Lock Registers
  * Lock Register
  */
-typedef union
+union bdk_tns_sde_ldex_kfcp_cloud_lock
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_kfcp_cloud_lock_s
@@ -8986,7 +9200,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_kfcp_cloud_lock_s cn; */
-} bdk_tns_sde_ldex_kfcp_cloud_lock_t;
+};
+typedef union bdk_tns_sde_ldex_kfcp_cloud_lock bdk_tns_sde_ldex_kfcp_cloud_lock_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_KFCP_CLOUD_LOCK(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_KFCP_CLOUD_LOCK(unsigned long a)
@@ -9009,7 +9224,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_KFCP_CLOUD_LOCK(unsigned long a)
  * TNS SDE LDE KFCP Cloud ScratchPad Registers
  * Scratch Pad Register for XCAT
  */
-typedef union
+union bdk_tns_sde_ldex_kfcp_cloud_spad
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_kfcp_cloud_spad_s
@@ -9021,7 +9236,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_kfcp_cloud_spad_s cn; */
-} bdk_tns_sde_ldex_kfcp_cloud_spad_t;
+};
+typedef union bdk_tns_sde_ldex_kfcp_cloud_spad bdk_tns_sde_ldex_kfcp_cloud_spad_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_KFCP_CLOUD_SPAD(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_KFCP_CLOUD_SPAD(unsigned long a)
@@ -9046,7 +9262,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_KFCP_CLOUD_SPAD(unsigned long a)
  * but each interrupt type has one status bit stored in the config block
  * so the CPU can come to read it.
  */
-typedef union
+union bdk_tns_sde_ldex_kfcp_int_en_hi
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_kfcp_int_en_hi_s
@@ -9074,7 +9290,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_kfcp_int_en_hi_s cn; */
-} bdk_tns_sde_ldex_kfcp_int_en_hi_t;
+};
+typedef union bdk_tns_sde_ldex_kfcp_int_en_hi bdk_tns_sde_ldex_kfcp_int_en_hi_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_KFCP_INT_EN_HI(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_KFCP_INT_EN_HI(unsigned long a)
@@ -9099,7 +9316,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_KFCP_INT_EN_HI(unsigned long a)
  * but each interrupt type has one status bit stored in the config block
  * so the CPU can come to read it.
  */
-typedef union
+union bdk_tns_sde_ldex_kfcp_int_en_lo
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_kfcp_int_en_lo_s
@@ -9127,7 +9344,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_kfcp_int_en_lo_s cn; */
-} bdk_tns_sde_ldex_kfcp_int_en_lo_t;
+};
+typedef union bdk_tns_sde_ldex_kfcp_int_en_lo bdk_tns_sde_ldex_kfcp_int_en_lo_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_KFCP_INT_EN_LO(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_KFCP_INT_EN_LO(unsigned long a)
@@ -9152,7 +9370,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_KFCP_INT_EN_LO(unsigned long a)
  * but each interrupt type has one status bit stored in the config block
  * so the CPU can come to read it.
  */
-typedef union
+union bdk_tns_sde_ldex_kfcp_int_frc
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_kfcp_int_frc_s
@@ -9180,7 +9398,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_kfcp_int_frc_s cn; */
-} bdk_tns_sde_ldex_kfcp_int_frc_t;
+};
+typedef union bdk_tns_sde_ldex_kfcp_int_frc bdk_tns_sde_ldex_kfcp_int_frc_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_KFCP_INT_FRC(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_KFCP_INT_FRC(unsigned long a)
@@ -9205,7 +9424,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_KFCP_INT_FRC(unsigned long a)
  * but each interrupt type has one status bit stored in the config block
  * so the CPU can come to read it.
  */
-typedef union
+union bdk_tns_sde_ldex_kfcp_int_w1c
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_kfcp_int_w1c_s
@@ -9233,7 +9452,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_kfcp_int_w1c_s cn; */
-} bdk_tns_sde_ldex_kfcp_int_w1c_t;
+};
+typedef union bdk_tns_sde_ldex_kfcp_int_w1c bdk_tns_sde_ldex_kfcp_int_w1c_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_KFCP_INT_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_KFCP_INT_W1C(unsigned long a)
@@ -9258,7 +9478,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_KFCP_INT_W1C(unsigned long a)
  * but each interrupt type has one status bit stored in the config block
  * so the CPU can come to read it.
  */
-typedef union
+union bdk_tns_sde_ldex_kfdp_int_en_hi
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_kfdp_int_en_hi_s
@@ -9274,7 +9494,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_kfdp_int_en_hi_s cn; */
-} bdk_tns_sde_ldex_kfdp_int_en_hi_t;
+};
+typedef union bdk_tns_sde_ldex_kfdp_int_en_hi bdk_tns_sde_ldex_kfdp_int_en_hi_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_KFDP_INT_EN_HI(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_KFDP_INT_EN_HI(unsigned long a)
@@ -9299,7 +9520,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_KFDP_INT_EN_HI(unsigned long a)
  * but each interrupt type has one status bit stored in the config block
  * so the CPU can come to read it.
  */
-typedef union
+union bdk_tns_sde_ldex_kfdp_int_en_lo
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_kfdp_int_en_lo_s
@@ -9315,7 +9536,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_kfdp_int_en_lo_s cn; */
-} bdk_tns_sde_ldex_kfdp_int_en_lo_t;
+};
+typedef union bdk_tns_sde_ldex_kfdp_int_en_lo bdk_tns_sde_ldex_kfdp_int_en_lo_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_KFDP_INT_EN_LO(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_KFDP_INT_EN_LO(unsigned long a)
@@ -9340,7 +9562,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_KFDP_INT_EN_LO(unsigned long a)
  * but each interrupt type has one status bit stored in the config block
  * so the CPU can come to read it.
  */
-typedef union
+union bdk_tns_sde_ldex_kfdp_int_frc
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_kfdp_int_frc_s
@@ -9356,7 +9578,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_kfdp_int_frc_s cn; */
-} bdk_tns_sde_ldex_kfdp_int_frc_t;
+};
+typedef union bdk_tns_sde_ldex_kfdp_int_frc bdk_tns_sde_ldex_kfdp_int_frc_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_KFDP_INT_FRC(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_KFDP_INT_FRC(unsigned long a)
@@ -9381,7 +9604,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_KFDP_INT_FRC(unsigned long a)
  * but each interrupt type has one status bit stored in the config block
  * so the CPU can come to read it.
  */
-typedef union
+union bdk_tns_sde_ldex_kfdp_int_w1c
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_kfdp_int_w1c_s
@@ -9397,7 +9620,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_kfdp_int_w1c_s cn; */
-} bdk_tns_sde_ldex_kfdp_int_w1c_t;
+};
+typedef union bdk_tns_sde_ldex_kfdp_int_w1c bdk_tns_sde_ldex_kfdp_int_w1c_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_KFDP_INT_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_KFDP_INT_W1C(unsigned long a)
@@ -9420,7 +9644,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_KFDP_INT_W1C(unsigned long a)
  * TNS SDE LDE KFIT Lock Registers
  * Lock Register
  */
-typedef union
+union bdk_tns_sde_ldex_kfit_lock
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_kfit_lock_s
@@ -9432,7 +9656,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_kfit_lock_s cn; */
-} bdk_tns_sde_ldex_kfit_lock_t;
+};
+typedef union bdk_tns_sde_ldex_kfit_lock bdk_tns_sde_ldex_kfit_lock_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_KFIT_LOCK(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_KFIT_LOCK(unsigned long a)
@@ -9455,7 +9680,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_KFIT_LOCK(unsigned long a)
  * TNS SDE LDE KFIT ScratchPad Registers
  * Scratch Pad Register for XCAT
  */
-typedef union
+union bdk_tns_sde_ldex_kfit_spad
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_kfit_spad_s
@@ -9467,7 +9692,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_kfit_spad_s cn; */
-} bdk_tns_sde_ldex_kfit_spad_t;
+};
+typedef union bdk_tns_sde_ldex_kfit_spad bdk_tns_sde_ldex_kfit_spad_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_KFIT_SPAD(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_KFIT_SPAD(unsigned long a)
@@ -9490,7 +9716,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_KFIT_SPAD(unsigned long a)
  * TNS SDE LDE KFMISC ECC Control Disable Correction Registers
  * --
  */
-typedef union
+union bdk_tns_sde_ldex_kfm_ecc_ctl_cd
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_kfm_ecc_ctl_cd_s
@@ -9504,7 +9730,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_kfm_ecc_ctl_cd_s cn; */
-} bdk_tns_sde_ldex_kfm_ecc_ctl_cd_t;
+};
+typedef union bdk_tns_sde_ldex_kfm_ecc_ctl_cd bdk_tns_sde_ldex_kfm_ecc_ctl_cd_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_KFM_ECC_CTL_CD(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_KFM_ECC_CTL_CD(unsigned long a)
@@ -9527,7 +9754,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_KFM_ECC_CTL_CD(unsigned long a)
  * TNS SDE LDE KFMISC ECC Control Flip Double Bit Registers
  * --
  */
-typedef union
+union bdk_tns_sde_ldex_kfm_ecc_ctl_fd
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_kfm_ecc_ctl_fd_s
@@ -9541,7 +9768,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_kfm_ecc_ctl_fd_s cn; */
-} bdk_tns_sde_ldex_kfm_ecc_ctl_fd_t;
+};
+typedef union bdk_tns_sde_ldex_kfm_ecc_ctl_fd bdk_tns_sde_ldex_kfm_ecc_ctl_fd_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_KFM_ECC_CTL_FD(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_KFM_ECC_CTL_FD(unsigned long a)
@@ -9564,7 +9792,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_KFM_ECC_CTL_FD(unsigned long a)
  * TNS SDE LDE KFMISC ECC Control Flip Single Bit Registers
  * --
  */
-typedef union
+union bdk_tns_sde_ldex_kfm_ecc_ctl_fs
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_kfm_ecc_ctl_fs_s
@@ -9578,7 +9806,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_kfm_ecc_ctl_fs_s cn; */
-} bdk_tns_sde_ldex_kfm_ecc_ctl_fs_t;
+};
+typedef union bdk_tns_sde_ldex_kfm_ecc_ctl_fs bdk_tns_sde_ldex_kfm_ecc_ctl_fs_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_KFM_ECC_CTL_FS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_KFM_ECC_CTL_FS(unsigned long a)
@@ -9601,7 +9830,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_KFM_ECC_CTL_FS(unsigned long a)
  * TNS SDE LDE KFMISC Debug Caputure Registers
  * --
  */
-typedef union
+union bdk_tns_sde_ldex_kfmisc_dbg_cptr
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_kfmisc_dbg_cptr_s
@@ -9615,7 +9844,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_kfmisc_dbg_cptr_s cn; */
-} bdk_tns_sde_ldex_kfmisc_dbg_cptr_t;
+};
+typedef union bdk_tns_sde_ldex_kfmisc_dbg_cptr bdk_tns_sde_ldex_kfmisc_dbg_cptr_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_KFMISC_DBG_CPTR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_KFMISC_DBG_CPTR(unsigned long a)
@@ -9638,7 +9868,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_KFMISC_DBG_CPTR(unsigned long a)
  * TNS SDE LDE KFMISC Lock Registers
  * Lock Register
  */
-typedef union
+union bdk_tns_sde_ldex_kfmisc_lock
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_kfmisc_lock_s
@@ -9650,7 +9880,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_kfmisc_lock_s cn; */
-} bdk_tns_sde_ldex_kfmisc_lock_t;
+};
+typedef union bdk_tns_sde_ldex_kfmisc_lock bdk_tns_sde_ldex_kfmisc_lock_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_KFMISC_LOCK(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_KFMISC_LOCK(unsigned long a)
@@ -9673,7 +9904,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_KFMISC_LOCK(unsigned long a)
  * TNS SDE LDE KFMISC ScratchPad Registers
  * Scratch Pad Register for XCAT
  */
-typedef union
+union bdk_tns_sde_ldex_kfmisc_spad
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_kfmisc_spad_s
@@ -9685,7 +9916,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_kfmisc_spad_s cn; */
-} bdk_tns_sde_ldex_kfmisc_spad_t;
+};
+typedef union bdk_tns_sde_ldex_kfmisc_spad bdk_tns_sde_ldex_kfmisc_spad_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_KFMISC_SPAD(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_KFMISC_SPAD(unsigned long a)
@@ -9708,7 +9940,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_KFMISC_SPAD(unsigned long a)
  * TNS SDE LDE LDEA Interrrupt Enable High Registers
  * --
  */
-typedef union
+union bdk_tns_sde_ldex_ldea_int_en_hi
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_ldea_int_en_hi_s
@@ -9726,7 +9958,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_ldea_int_en_hi_s cn; */
-} bdk_tns_sde_ldex_ldea_int_en_hi_t;
+};
+typedef union bdk_tns_sde_ldex_ldea_int_en_hi bdk_tns_sde_ldex_ldea_int_en_hi_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_LDEA_INT_EN_HI(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_LDEA_INT_EN_HI(unsigned long a)
@@ -9749,7 +9982,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_LDEA_INT_EN_HI(unsigned long a)
  * TNS SDE LDE LDEA Interrrupt Enable Low Registers
  * --
  */
-typedef union
+union bdk_tns_sde_ldex_ldea_int_en_lo
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_ldea_int_en_lo_s
@@ -9767,7 +10000,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_ldea_int_en_lo_s cn; */
-} bdk_tns_sde_ldex_ldea_int_en_lo_t;
+};
+typedef union bdk_tns_sde_ldex_ldea_int_en_lo bdk_tns_sde_ldex_ldea_int_en_lo_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_LDEA_INT_EN_LO(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_LDEA_INT_EN_LO(unsigned long a)
@@ -9790,7 +10024,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_LDEA_INT_EN_LO(unsigned long a)
  * TNS SDE LDE LDEA Interrrupt Force Registers
  * --
  */
-typedef union
+union bdk_tns_sde_ldex_ldea_int_frc
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_ldea_int_frc_s
@@ -9808,7 +10042,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_ldea_int_frc_s cn; */
-} bdk_tns_sde_ldex_ldea_int_frc_t;
+};
+typedef union bdk_tns_sde_ldex_ldea_int_frc bdk_tns_sde_ldex_ldea_int_frc_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_LDEA_INT_FRC(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_LDEA_INT_FRC(unsigned long a)
@@ -9831,7 +10066,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_LDEA_INT_FRC(unsigned long a)
  * TNS SDE LDE LDEA Interrrupt W1C Registers
  * --
  */
-typedef union
+union bdk_tns_sde_ldex_ldea_int_w1c
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_ldea_int_w1c_s
@@ -9849,7 +10084,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_ldea_int_w1c_s cn; */
-} bdk_tns_sde_ldex_ldea_int_w1c_t;
+};
+typedef union bdk_tns_sde_ldex_ldea_int_w1c bdk_tns_sde_ldex_ldea_int_w1c_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_LDEA_INT_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_LDEA_INT_W1C(unsigned long a)
@@ -9874,7 +10110,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_LDEA_INT_W1C(unsigned long a)
  * but each interrupt type has one status bit stored in the config block
  * so the CPU can come to read it.
  */
-typedef union
+union bdk_tns_sde_ldex_ldeb_int_en_hi
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_ldeb_int_en_hi_s
@@ -9890,7 +10126,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_ldeb_int_en_hi_s cn; */
-} bdk_tns_sde_ldex_ldeb_int_en_hi_t;
+};
+typedef union bdk_tns_sde_ldex_ldeb_int_en_hi bdk_tns_sde_ldex_ldeb_int_en_hi_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_LDEB_INT_EN_HI(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_LDEB_INT_EN_HI(unsigned long a)
@@ -9915,7 +10152,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_LDEB_INT_EN_HI(unsigned long a)
  * but each interrupt type has one status bit stored in the config block
  * so the CPU can come to read it.
  */
-typedef union
+union bdk_tns_sde_ldex_ldeb_int_en_lo
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_ldeb_int_en_lo_s
@@ -9931,7 +10168,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_ldeb_int_en_lo_s cn; */
-} bdk_tns_sde_ldex_ldeb_int_en_lo_t;
+};
+typedef union bdk_tns_sde_ldex_ldeb_int_en_lo bdk_tns_sde_ldex_ldeb_int_en_lo_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_LDEB_INT_EN_LO(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_LDEB_INT_EN_LO(unsigned long a)
@@ -9956,7 +10194,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_LDEB_INT_EN_LO(unsigned long a)
  * but each interrupt type has one status bit stored in the config block
  * so the CPU can come to read it.
  */
-typedef union
+union bdk_tns_sde_ldex_ldeb_int_frc
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_ldeb_int_frc_s
@@ -9972,7 +10210,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_ldeb_int_frc_s cn; */
-} bdk_tns_sde_ldex_ldeb_int_frc_t;
+};
+typedef union bdk_tns_sde_ldex_ldeb_int_frc bdk_tns_sde_ldex_ldeb_int_frc_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_LDEB_INT_FRC(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_LDEB_INT_FRC(unsigned long a)
@@ -9997,7 +10236,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_LDEB_INT_FRC(unsigned long a)
  * but each interrupt type has one status bit stored in the config block
  * so the CPU can come to read it.
  */
-typedef union
+union bdk_tns_sde_ldex_ldeb_int_w1c
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_ldeb_int_w1c_s
@@ -10013,7 +10252,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_ldeb_int_w1c_s cn; */
-} bdk_tns_sde_ldex_ldeb_int_w1c_t;
+};
+typedef union bdk_tns_sde_ldex_ldeb_int_w1c bdk_tns_sde_ldex_ldeb_int_w1c_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_LDEB_INT_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_LDEB_INT_W1C(unsigned long a)
@@ -10036,7 +10276,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_LDEB_INT_W1C(unsigned long a)
  * TNS SDE LDE Merger ECC Control Disable Correction Registers
  * --
  */
-typedef union
+union bdk_tns_sde_ldex_mgr_ecc_ctl_cd
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_mgr_ecc_ctl_cd_s
@@ -10066,7 +10306,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_mgr_ecc_ctl_cd_s cn; */
-} bdk_tns_sde_ldex_mgr_ecc_ctl_cd_t;
+};
+typedef union bdk_tns_sde_ldex_mgr_ecc_ctl_cd bdk_tns_sde_ldex_mgr_ecc_ctl_cd_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_MGR_ECC_CTL_CD(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_MGR_ECC_CTL_CD(unsigned long a)
@@ -10089,7 +10330,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_MGR_ECC_CTL_CD(unsigned long a)
  * TNS SDE LDE Merger ECC Control Flip Double Bit Registers
  * --
  */
-typedef union
+union bdk_tns_sde_ldex_mgr_ecc_ctl_fd
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_mgr_ecc_ctl_fd_s
@@ -10119,7 +10360,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_mgr_ecc_ctl_fd_s cn; */
-} bdk_tns_sde_ldex_mgr_ecc_ctl_fd_t;
+};
+typedef union bdk_tns_sde_ldex_mgr_ecc_ctl_fd bdk_tns_sde_ldex_mgr_ecc_ctl_fd_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_MGR_ECC_CTL_FD(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_MGR_ECC_CTL_FD(unsigned long a)
@@ -10142,7 +10384,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_MGR_ECC_CTL_FD(unsigned long a)
  * TNS SDE LDE Merger ECC Control Flip Single Bit Registers
  * --
  */
-typedef union
+union bdk_tns_sde_ldex_mgr_ecc_ctl_fs
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_mgr_ecc_ctl_fs_s
@@ -10172,7 +10414,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_mgr_ecc_ctl_fs_s cn; */
-} bdk_tns_sde_ldex_mgr_ecc_ctl_fs_t;
+};
+typedef union bdk_tns_sde_ldex_mgr_ecc_ctl_fs bdk_tns_sde_ldex_mgr_ecc_ctl_fs_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_MGR_ECC_CTL_FS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_MGR_ECC_CTL_FS(unsigned long a)
@@ -10197,7 +10440,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_MGR_ECC_CTL_FS(unsigned long a)
  * but each interrupt type has one status bit stored in the config block
  * so the CPU can come to read it.
  */
-typedef union
+union bdk_tns_sde_ldex_mgr_int_en_hi
 {
     uint64_t u;
     struct bdk_tns_sde_ldex_mgr_int_en_hi_s
@@ -10247,7 +10490,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_mgr_int_en_hi_s cn; */
-} bdk_tns_sde_ldex_mgr_int_en_hi_t;
+};
+typedef union bdk_tns_sde_ldex_mgr_int_en_hi bdk_tns_sde_ldex_mgr_int_en_hi_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_MGR_INT_EN_HI(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_MGR_INT_EN_HI(unsigned long a)
@@ -10272,7 +10516,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_MGR_INT_EN_HI(unsigned long a)
  * but each interrupt type has one status bit stored in the config block
  * so the CPU can come to read it.
  */
-typedef union
+union bdk_tns_sde_ldex_mgr_int_en_lo
 {
     uint64_t u;
     struct bdk_tns_sde_ldex_mgr_int_en_lo_s
@@ -10322,7 +10566,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_mgr_int_en_lo_s cn; */
-} bdk_tns_sde_ldex_mgr_int_en_lo_t;
+};
+typedef union bdk_tns_sde_ldex_mgr_int_en_lo bdk_tns_sde_ldex_mgr_int_en_lo_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_MGR_INT_EN_LO(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_MGR_INT_EN_LO(unsigned long a)
@@ -10347,7 +10592,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_MGR_INT_EN_LO(unsigned long a)
  * but each interrupt type has one status bit stored in the config block
  * so the CPU can come to read it.
  */
-typedef union
+union bdk_tns_sde_ldex_mgr_int_frc
 {
     uint64_t u;
     struct bdk_tns_sde_ldex_mgr_int_frc_s
@@ -10397,7 +10642,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_mgr_int_frc_s cn; */
-} bdk_tns_sde_ldex_mgr_int_frc_t;
+};
+typedef union bdk_tns_sde_ldex_mgr_int_frc bdk_tns_sde_ldex_mgr_int_frc_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_MGR_INT_FRC(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_MGR_INT_FRC(unsigned long a)
@@ -10422,7 +10668,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_MGR_INT_FRC(unsigned long a)
  * but each interrupt type has one status bit stored in the config block
  * so the CPU can come to read it.
  */
-typedef union
+union bdk_tns_sde_ldex_mgr_int_w1c
 {
     uint64_t u;
     struct bdk_tns_sde_ldex_mgr_int_w1c_s
@@ -10472,7 +10718,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_mgr_int_w1c_s cn; */
-} bdk_tns_sde_ldex_mgr_int_w1c_t;
+};
+typedef union bdk_tns_sde_ldex_mgr_int_w1c bdk_tns_sde_ldex_mgr_int_w1c_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_MGR_INT_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_MGR_INT_W1C(unsigned long a)
@@ -10495,7 +10742,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_MGR_INT_W1C(unsigned long a)
  * TNS SDE LDE Merger LDE Type Registers
  * --
  */
-typedef union
+union bdk_tns_sde_ldex_mgr_lde_type
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_mgr_lde_type_s
@@ -10509,7 +10756,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_mgr_lde_type_s cn; */
-} bdk_tns_sde_ldex_mgr_lde_type_t;
+};
+typedef union bdk_tns_sde_ldex_mgr_lde_type bdk_tns_sde_ldex_mgr_lde_type_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_MGR_LDE_TYPE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_MGR_LDE_TYPE(unsigned long a)
@@ -10532,7 +10780,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_MGR_LDE_TYPE(unsigned long a)
  * TNS SDE LDE Merger Lock Registers
  * Lock Register
  */
-typedef union
+union bdk_tns_sde_ldex_mgr_lock
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_mgr_lock_s
@@ -10544,7 +10792,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_mgr_lock_s cn; */
-} bdk_tns_sde_ldex_mgr_lock_t;
+};
+typedef union bdk_tns_sde_ldex_mgr_lock bdk_tns_sde_ldex_mgr_lock_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_MGR_LOCK(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_MGR_LOCK(unsigned long a)
@@ -10567,7 +10816,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_MGR_LOCK(unsigned long a)
  * TNS SDE LDE Merger ScratchPad Registers
  * Scratch Pad Register for XCAT
  */
-typedef union
+union bdk_tns_sde_ldex_mgr_spad
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_mgr_spad_s
@@ -10579,7 +10828,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_mgr_spad_s cn; */
-} bdk_tns_sde_ldex_mgr_spad_t;
+};
+typedef union bdk_tns_sde_ldex_mgr_spad bdk_tns_sde_ldex_mgr_spad_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_MGR_SPAD(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_MGR_SPAD(unsigned long a)
@@ -10603,7 +10853,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_MGR_SPAD(unsigned long a)
  * A dynamic register for configuring all muxes in all kfcp_stage0_bypassmux cells
  * - 32 cells
  */
-typedef union
+union bdk_tns_sde_ldex_ofcp0_bypm_dmux
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_ofcp0_bypm_dmux_s
@@ -10617,7 +10867,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_ofcp0_bypm_dmux_s cn; */
-} bdk_tns_sde_ldex_ofcp0_bypm_dmux_t;
+};
+typedef union bdk_tns_sde_ldex_ofcp0_bypm_dmux bdk_tns_sde_ldex_ofcp0_bypm_dmux_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_OFCP0_BYPM_DMUX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_OFCP0_BYPM_DMUX(unsigned long a)
@@ -10641,7 +10892,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_OFCP0_BYPM_DMUX(unsigned long a)
  * A dynamic register for configuring all luts in all ofcp_stage0_muxlut cells -
  * 32 cells
  */
-typedef union
+union bdk_tns_sde_ldex_ofcp0_ml_dlut
 {
     uint64_t u;
     struct bdk_tns_sde_ldex_ofcp0_ml_dlut_s
@@ -10653,7 +10904,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_ofcp0_ml_dlut_s cn; */
-} bdk_tns_sde_ldex_ofcp0_ml_dlut_t;
+};
+typedef union bdk_tns_sde_ldex_ofcp0_ml_dlut bdk_tns_sde_ldex_ofcp0_ml_dlut_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_OFCP0_ML_DLUT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_OFCP0_ML_DLUT(unsigned long a)
@@ -10677,7 +10929,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_OFCP0_ML_DLUT(unsigned long a)
  * A dynamic register for configuring all muxes in all ofcp_stage0_muxlut cells -
  * 32 cells
  */
-typedef union
+union bdk_tns_sde_ldex_ofcp0_ml_dmux
 {
     uint64_t u;
     struct bdk_tns_sde_ldex_ofcp0_ml_dmux_s
@@ -10701,7 +10953,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_ofcp0_ml_dmux_s cn; */
-} bdk_tns_sde_ldex_ofcp0_ml_dmux_t;
+};
+typedef union bdk_tns_sde_ldex_ofcp0_ml_dmux bdk_tns_sde_ldex_ofcp0_ml_dmux_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_OFCP0_ML_DMUX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_OFCP0_ML_DMUX(unsigned long a)
@@ -10725,7 +10978,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_OFCP0_ML_DMUX(unsigned long a)
  * A dynamic register for configuring all muxes in all kfcp_stage1_bypassmux cells
  * - 32 cells
  */
-typedef union
+union bdk_tns_sde_ldex_ofcp1_bypm_dmux
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_ofcp1_bypm_dmux_s
@@ -10739,7 +10992,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_ofcp1_bypm_dmux_s cn; */
-} bdk_tns_sde_ldex_ofcp1_bypm_dmux_t;
+};
+typedef union bdk_tns_sde_ldex_ofcp1_bypm_dmux bdk_tns_sde_ldex_ofcp1_bypm_dmux_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_OFCP1_BYPM_DMUX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_OFCP1_BYPM_DMUX(unsigned long a)
@@ -10763,7 +11017,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_OFCP1_BYPM_DMUX(unsigned long a)
  * A dynamic register for configuring all luts in all ofcp_stage1_muxlut cells -
  * 32 cells
  */
-typedef union
+union bdk_tns_sde_ldex_ofcp1_ml_dlut_wx
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_ofcp1_ml_dlut_wx_s
@@ -10775,7 +11029,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_ofcp1_ml_dlut_wx_s cn; */
-} bdk_tns_sde_ldex_ofcp1_ml_dlut_wx_t;
+};
+typedef union bdk_tns_sde_ldex_ofcp1_ml_dlut_wx bdk_tns_sde_ldex_ofcp1_ml_dlut_wx_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_OFCP1_ML_DLUT_WX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_OFCP1_ML_DLUT_WX(unsigned long a, unsigned long b)
@@ -10799,7 +11054,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_OFCP1_ML_DLUT_WX(unsigned long a, unsign
  * A dynamic register for configuring all muxes in all ofcp_stage1_muxlut cells -
  * 32 cells
  */
-typedef union
+union bdk_tns_sde_ldex_ofcp1_ml_dmux_w0
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_ofcp1_ml_dmux_w0_s
@@ -10821,7 +11076,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_ofcp1_ml_dmux_w0_s cn; */
-} bdk_tns_sde_ldex_ofcp1_ml_dmux_w0_t;
+};
+typedef union bdk_tns_sde_ldex_ofcp1_ml_dmux_w0 bdk_tns_sde_ldex_ofcp1_ml_dmux_w0_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_OFCP1_ML_DMUX_W0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_OFCP1_ML_DMUX_W0(unsigned long a)
@@ -10844,7 +11100,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_OFCP1_ML_DMUX_W0(unsigned long a)
  * TNS SDE LDE OFCP Stage 1 MUXLUT Dynamic MUX Word 1 Registers
  * Continuation of structure defined in TNS_SDE_LDE(0..1)_OFCP1_ML_DMUX_W0
  */
-typedef union
+union bdk_tns_sde_ldex_ofcp1_ml_dmux_w1
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_ofcp1_ml_dmux_w1_s
@@ -10858,7 +11114,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_ofcp1_ml_dmux_w1_s cn; */
-} bdk_tns_sde_ldex_ofcp1_ml_dmux_w1_t;
+};
+typedef union bdk_tns_sde_ldex_ofcp1_ml_dmux_w1 bdk_tns_sde_ldex_ofcp1_ml_dmux_w1_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_OFCP1_ML_DMUX_W1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_OFCP1_ML_DMUX_W1(unsigned long a)
@@ -10882,7 +11139,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_OFCP1_ML_DMUX_W1(unsigned long a)
  * A dynamic register for configuring all muxes in all kfcp_stage2_bypassmux cells
  * - 32 cells
  */
-typedef union
+union bdk_tns_sde_ldex_ofcp2_bypm_dmux
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_ofcp2_bypm_dmux_s
@@ -10896,7 +11153,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_ofcp2_bypm_dmux_s cn; */
-} bdk_tns_sde_ldex_ofcp2_bypm_dmux_t;
+};
+typedef union bdk_tns_sde_ldex_ofcp2_bypm_dmux bdk_tns_sde_ldex_ofcp2_bypm_dmux_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_OFCP2_BYPM_DMUX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_OFCP2_BYPM_DMUX(unsigned long a)
@@ -10920,7 +11178,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_OFCP2_BYPM_DMUX(unsigned long a)
  * A dynamic register for configuring all luts in all ofcp_stage2_muxlut cells -
  * 32 cells
  */
-typedef union
+union bdk_tns_sde_ldex_ofcp2_ml_dlut
 {
     uint64_t u;
     struct bdk_tns_sde_ldex_ofcp2_ml_dlut_s
@@ -10932,7 +11190,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_ofcp2_ml_dlut_s cn; */
-} bdk_tns_sde_ldex_ofcp2_ml_dlut_t;
+};
+typedef union bdk_tns_sde_ldex_ofcp2_ml_dlut bdk_tns_sde_ldex_ofcp2_ml_dlut_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_OFCP2_ML_DLUT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_OFCP2_ML_DLUT(unsigned long a)
@@ -10956,7 +11215,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_OFCP2_ML_DLUT(unsigned long a)
  * A dynamic register for configuring all muxes in all ofcp_stage2_muxlut cells -
  * 32 cells
  */
-typedef union
+union bdk_tns_sde_ldex_ofcp2_ml_dmux
 {
     uint64_t u;
     struct bdk_tns_sde_ldex_ofcp2_ml_dmux_s
@@ -10980,7 +11239,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_ofcp2_ml_dmux_s cn; */
-} bdk_tns_sde_ldex_ofcp2_ml_dmux_t;
+};
+typedef union bdk_tns_sde_ldex_ofcp2_ml_dmux bdk_tns_sde_ldex_ofcp2_ml_dmux_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_OFCP2_ML_DMUX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_OFCP2_ML_DMUX(unsigned long a)
@@ -11004,7 +11264,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_OFCP2_ML_DMUX(unsigned long a)
  * A dynamic register for configuring all muxes in all kfcp_stage3_bypassmux cells
  * - 32 cells
  */
-typedef union
+union bdk_tns_sde_ldex_ofcp3_bypm_dmux
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_ofcp3_bypm_dmux_s
@@ -11018,7 +11278,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_ofcp3_bypm_dmux_s cn; */
-} bdk_tns_sde_ldex_ofcp3_bypm_dmux_t;
+};
+typedef union bdk_tns_sde_ldex_ofcp3_bypm_dmux bdk_tns_sde_ldex_ofcp3_bypm_dmux_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_OFCP3_BYPM_DMUX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_OFCP3_BYPM_DMUX(unsigned long a)
@@ -11042,7 +11303,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_OFCP3_BYPM_DMUX(unsigned long a)
  * A dynamic register for configuring all luts in all ofcp_stage3_muxlut cells -
  * 32 cells
  */
-typedef union
+union bdk_tns_sde_ldex_ofcp3_ml_dlut_wx
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_ofcp3_ml_dlut_wx_s
@@ -11054,7 +11315,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_ofcp3_ml_dlut_wx_s cn; */
-} bdk_tns_sde_ldex_ofcp3_ml_dlut_wx_t;
+};
+typedef union bdk_tns_sde_ldex_ofcp3_ml_dlut_wx bdk_tns_sde_ldex_ofcp3_ml_dlut_wx_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_OFCP3_ML_DLUT_WX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_OFCP3_ML_DLUT_WX(unsigned long a, unsigned long b)
@@ -11078,7 +11340,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_OFCP3_ML_DLUT_WX(unsigned long a, unsign
  * A dynamic register for configuring all muxes in all ofcp_stage3_muxlut cells -
  * 32 cells
  */
-typedef union
+union bdk_tns_sde_ldex_ofcp3_ml_dmux_w0
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_ofcp3_ml_dmux_w0_s
@@ -11100,7 +11362,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_ofcp3_ml_dmux_w0_s cn; */
-} bdk_tns_sde_ldex_ofcp3_ml_dmux_w0_t;
+};
+typedef union bdk_tns_sde_ldex_ofcp3_ml_dmux_w0 bdk_tns_sde_ldex_ofcp3_ml_dmux_w0_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_OFCP3_ML_DMUX_W0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_OFCP3_ML_DMUX_W0(unsigned long a)
@@ -11123,7 +11386,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_OFCP3_ML_DMUX_W0(unsigned long a)
  * TNS SDE LDE OFCP Stage 3 MUXLUT Dynamic MUX Word 1 Registers
  * Continuation of structure defined in TNS_SDE_LDE(0..1)_OFCP3_ML_DMUX_W0
  */
-typedef union
+union bdk_tns_sde_ldex_ofcp3_ml_dmux_w1
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_ofcp3_ml_dmux_w1_s
@@ -11137,7 +11400,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_ofcp3_ml_dmux_w1_s cn; */
-} bdk_tns_sde_ldex_ofcp3_ml_dmux_w1_t;
+};
+typedef union bdk_tns_sde_ldex_ofcp3_ml_dmux_w1 bdk_tns_sde_ldex_ofcp3_ml_dmux_w1_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_OFCP3_ML_DMUX_W1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_OFCP3_ML_DMUX_W1(unsigned long a)
@@ -11161,7 +11425,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_OFCP3_ML_DMUX_W1(unsigned long a)
  * A dynamic register for configuring all luts in all ofcp_stage4_muxlut cells -
  * 48 cells
  */
-typedef union
+union bdk_tns_sde_ldex_ofcp4_ml_dlut
 {
     uint64_t u;
     struct bdk_tns_sde_ldex_ofcp4_ml_dlut_s
@@ -11173,7 +11437,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_ofcp4_ml_dlut_s cn; */
-} bdk_tns_sde_ldex_ofcp4_ml_dlut_t;
+};
+typedef union bdk_tns_sde_ldex_ofcp4_ml_dlut bdk_tns_sde_ldex_ofcp4_ml_dlut_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_OFCP4_ML_DLUT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_OFCP4_ML_DLUT(unsigned long a)
@@ -11197,7 +11462,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_OFCP4_ML_DLUT(unsigned long a)
  * A dynamic register for configuring all muxes in all ofcp_stage4_muxlut cells -
  * 48 cells
  */
-typedef union
+union bdk_tns_sde_ldex_ofcp4_ml_dmux
 {
     uint64_t u;
     struct bdk_tns_sde_ldex_ofcp4_ml_dmux_s
@@ -11221,7 +11486,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_ofcp4_ml_dmux_s cn; */
-} bdk_tns_sde_ldex_ofcp4_ml_dmux_t;
+};
+typedef union bdk_tns_sde_ldex_ofcp4_ml_dmux bdk_tns_sde_ldex_ofcp4_ml_dmux_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_OFCP4_ML_DMUX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_OFCP4_ML_DMUX(unsigned long a)
@@ -11244,7 +11510,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_OFCP4_ML_DMUX(unsigned long a)
  * TNS SDE LDE OFCP Cloud Lock Registers
  * Lock Register
  */
-typedef union
+union bdk_tns_sde_ldex_ofcp_cloud_lock
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_ofcp_cloud_lock_s
@@ -11256,7 +11522,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_ofcp_cloud_lock_s cn; */
-} bdk_tns_sde_ldex_ofcp_cloud_lock_t;
+};
+typedef union bdk_tns_sde_ldex_ofcp_cloud_lock bdk_tns_sde_ldex_ofcp_cloud_lock_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_OFCP_CLOUD_LOCK(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_OFCP_CLOUD_LOCK(unsigned long a)
@@ -11279,7 +11546,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_OFCP_CLOUD_LOCK(unsigned long a)
  * TNS SDE LDE OFCP Cloud ScratchPad Registers
  * Scratch Pad Register for XCAT
  */
-typedef union
+union bdk_tns_sde_ldex_ofcp_cloud_spad
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_ofcp_cloud_spad_s
@@ -11291,7 +11558,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_ofcp_cloud_spad_s cn; */
-} bdk_tns_sde_ldex_ofcp_cloud_spad_t;
+};
+typedef union bdk_tns_sde_ldex_ofcp_cloud_spad bdk_tns_sde_ldex_ofcp_cloud_spad_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_OFCP_CLOUD_SPAD(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_OFCP_CLOUD_SPAD(unsigned long a)
@@ -11316,7 +11584,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_OFCP_CLOUD_SPAD(unsigned long a)
  * but each interrupt type has one status bit stored in the config block
  * so the CPU can come to read it.
  */
-typedef union
+union bdk_tns_sde_ldex_ofcp_int_en_hi
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_ofcp_int_en_hi_s
@@ -11358,7 +11626,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_ofcp_int_en_hi_s cn; */
-} bdk_tns_sde_ldex_ofcp_int_en_hi_t;
+};
+typedef union bdk_tns_sde_ldex_ofcp_int_en_hi bdk_tns_sde_ldex_ofcp_int_en_hi_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_OFCP_INT_EN_HI(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_OFCP_INT_EN_HI(unsigned long a)
@@ -11383,7 +11652,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_OFCP_INT_EN_HI(unsigned long a)
  * but each interrupt type has one status bit stored in the config block
  * so the CPU can come to read it.
  */
-typedef union
+union bdk_tns_sde_ldex_ofcp_int_en_lo
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_ofcp_int_en_lo_s
@@ -11425,7 +11694,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_ofcp_int_en_lo_s cn; */
-} bdk_tns_sde_ldex_ofcp_int_en_lo_t;
+};
+typedef union bdk_tns_sde_ldex_ofcp_int_en_lo bdk_tns_sde_ldex_ofcp_int_en_lo_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_OFCP_INT_EN_LO(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_OFCP_INT_EN_LO(unsigned long a)
@@ -11450,7 +11720,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_OFCP_INT_EN_LO(unsigned long a)
  * but each interrupt type has one status bit stored in the config block
  * so the CPU can come to read it.
  */
-typedef union
+union bdk_tns_sde_ldex_ofcp_int_frc
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_ofcp_int_frc_s
@@ -11492,7 +11762,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_ofcp_int_frc_s cn; */
-} bdk_tns_sde_ldex_ofcp_int_frc_t;
+};
+typedef union bdk_tns_sde_ldex_ofcp_int_frc bdk_tns_sde_ldex_ofcp_int_frc_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_OFCP_INT_FRC(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_OFCP_INT_FRC(unsigned long a)
@@ -11517,7 +11788,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_OFCP_INT_FRC(unsigned long a)
  * but each interrupt type has one status bit stored in the config block
  * so the CPU can come to read it.
  */
-typedef union
+union bdk_tns_sde_ldex_ofcp_int_w1c
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_ofcp_int_w1c_s
@@ -11559,7 +11830,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_ofcp_int_w1c_s cn; */
-} bdk_tns_sde_ldex_ofcp_int_w1c_t;
+};
+typedef union bdk_tns_sde_ldex_ofcp_int_w1c bdk_tns_sde_ldex_ofcp_int_w1c_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_OFCP_INT_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_OFCP_INT_W1C(unsigned long a)
@@ -11582,7 +11854,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_OFCP_INT_W1C(unsigned long a)
  * TNS SDE LDE OFCP MUXXOR DYN Registers
  * A dynamic register for configuring all cfg_ofcp_muxxor cells - 8 cells
  */
-typedef union
+union bdk_tns_sde_ldex_ofcp_mxxr_dyn
 {
     uint64_t u;
     struct bdk_tns_sde_ldex_ofcp_mxxr_dyn_s
@@ -11610,7 +11882,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_ofcp_mxxr_dyn_s cn; */
-} bdk_tns_sde_ldex_ofcp_mxxr_dyn_t;
+};
+typedef union bdk_tns_sde_ldex_ofcp_mxxr_dyn bdk_tns_sde_ldex_ofcp_mxxr_dyn_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_OFCP_MXXR_DYN(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_OFCP_MXXR_DYN(unsigned long a)
@@ -11635,7 +11908,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_OFCP_MXXR_DYN(unsigned long a)
  * but each interrupt type has one status bit stored in the config block
  * so the CPU can come to read it.
  */
-typedef union
+union bdk_tns_sde_ldex_ofdp_int_en_hi
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_ofdp_int_en_hi_s
@@ -11653,7 +11926,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_ofdp_int_en_hi_s cn; */
-} bdk_tns_sde_ldex_ofdp_int_en_hi_t;
+};
+typedef union bdk_tns_sde_ldex_ofdp_int_en_hi bdk_tns_sde_ldex_ofdp_int_en_hi_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_OFDP_INT_EN_HI(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_OFDP_INT_EN_HI(unsigned long a)
@@ -11678,7 +11952,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_OFDP_INT_EN_HI(unsigned long a)
  * but each interrupt type has one status bit stored in the config block
  * so the CPU can come to read it.
  */
-typedef union
+union bdk_tns_sde_ldex_ofdp_int_en_lo
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_ofdp_int_en_lo_s
@@ -11696,7 +11970,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_ofdp_int_en_lo_s cn; */
-} bdk_tns_sde_ldex_ofdp_int_en_lo_t;
+};
+typedef union bdk_tns_sde_ldex_ofdp_int_en_lo bdk_tns_sde_ldex_ofdp_int_en_lo_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_OFDP_INT_EN_LO(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_OFDP_INT_EN_LO(unsigned long a)
@@ -11721,7 +11996,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_OFDP_INT_EN_LO(unsigned long a)
  * but each interrupt type has one status bit stored in the config block
  * so the CPU can come to read it.
  */
-typedef union
+union bdk_tns_sde_ldex_ofdp_int_frc
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_ofdp_int_frc_s
@@ -11739,7 +12014,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_ofdp_int_frc_s cn; */
-} bdk_tns_sde_ldex_ofdp_int_frc_t;
+};
+typedef union bdk_tns_sde_ldex_ofdp_int_frc bdk_tns_sde_ldex_ofdp_int_frc_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_OFDP_INT_FRC(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_OFDP_INT_FRC(unsigned long a)
@@ -11764,7 +12040,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_OFDP_INT_FRC(unsigned long a)
  * but each interrupt type has one status bit stored in the config block
  * so the CPU can come to read it.
  */
-typedef union
+union bdk_tns_sde_ldex_ofdp_int_w1c
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_ofdp_int_w1c_s
@@ -11782,7 +12058,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_ofdp_int_w1c_s cn; */
-} bdk_tns_sde_ldex_ofdp_int_w1c_t;
+};
+typedef union bdk_tns_sde_ldex_ofdp_int_w1c bdk_tns_sde_ldex_ofdp_int_w1c_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_OFDP_INT_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_OFDP_INT_W1C(unsigned long a)
@@ -11805,7 +12082,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_OFDP_INT_W1C(unsigned long a)
  * TNS SDE LDE OFIT Lock Registers
  * Lock Register
  */
-typedef union
+union bdk_tns_sde_ldex_ofit_lock
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_ofit_lock_s
@@ -11817,7 +12094,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_ofit_lock_s cn; */
-} bdk_tns_sde_ldex_ofit_lock_t;
+};
+typedef union bdk_tns_sde_ldex_ofit_lock bdk_tns_sde_ldex_ofit_lock_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_OFIT_LOCK(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_OFIT_LOCK(unsigned long a)
@@ -11840,7 +12118,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_OFIT_LOCK(unsigned long a)
  * TNS SDE LDE OFIT ScratchPad Registers
  * Scratch Pad Register for XCAT
  */
-typedef union
+union bdk_tns_sde_ldex_ofit_spad
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_ofit_spad_s
@@ -11852,7 +12130,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_ofit_spad_s cn; */
-} bdk_tns_sde_ldex_ofit_spad_t;
+};
+typedef union bdk_tns_sde_ldex_ofit_spad bdk_tns_sde_ldex_ofit_spad_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_OFIT_SPAD(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_OFIT_SPAD(unsigned long a)
@@ -11875,7 +12154,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_OFIT_SPAD(unsigned long a)
  * TNS SDE LDE OFMISC Debug Caputure Registers
  * --
  */
-typedef union
+union bdk_tns_sde_ldex_ofmisc_dbg_cptr
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_ofmisc_dbg_cptr_s
@@ -11889,7 +12168,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_ofmisc_dbg_cptr_s cn; */
-} bdk_tns_sde_ldex_ofmisc_dbg_cptr_t;
+};
+typedef union bdk_tns_sde_ldex_ofmisc_dbg_cptr bdk_tns_sde_ldex_ofmisc_dbg_cptr_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_OFMISC_DBG_CPTR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_OFMISC_DBG_CPTR(unsigned long a)
@@ -11912,7 +12192,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_OFMISC_DBG_CPTR(unsigned long a)
  * TNS SDE LDE OFMISC Lock Registers
  * Lock Register
  */
-typedef union
+union bdk_tns_sde_ldex_ofmisc_lock
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_ofmisc_lock_s
@@ -11924,7 +12204,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_ofmisc_lock_s cn; */
-} bdk_tns_sde_ldex_ofmisc_lock_t;
+};
+typedef union bdk_tns_sde_ldex_ofmisc_lock bdk_tns_sde_ldex_ofmisc_lock_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_OFMISC_LOCK(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_OFMISC_LOCK(unsigned long a)
@@ -11947,7 +12228,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_OFMISC_LOCK(unsigned long a)
  * TNS SDE LDE OFMISC ScratchPad Registers
  * Scratch Pad Register for XCAT
  */
-typedef union
+union bdk_tns_sde_ldex_ofmisc_spad
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_ofmisc_spad_s
@@ -11959,7 +12240,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_ofmisc_spad_s cn; */
-} bdk_tns_sde_ldex_ofmisc_spad_t;
+};
+typedef union bdk_tns_sde_ldex_ofmisc_spad bdk_tns_sde_ldex_ofmisc_spad_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_OFMISC_SPAD(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_OFMISC_SPAD(unsigned long a)
@@ -11984,7 +12266,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_OFMISC_SPAD(unsigned long a)
  * but each interrupt type has one status bit stored in the config block
  * so the CPU can come to read it.
  */
-typedef union
+union bdk_tns_sde_ldex_tlom_int_en_hi
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_tlom_int_en_hi_s
@@ -12006,7 +12288,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_tlom_int_en_hi_s cn; */
-} bdk_tns_sde_ldex_tlom_int_en_hi_t;
+};
+typedef union bdk_tns_sde_ldex_tlom_int_en_hi bdk_tns_sde_ldex_tlom_int_en_hi_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_TLOM_INT_EN_HI(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_TLOM_INT_EN_HI(unsigned long a)
@@ -12031,7 +12314,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_TLOM_INT_EN_HI(unsigned long a)
  * but each interrupt type has one status bit stored in the config block
  * so the CPU can come to read it.
  */
-typedef union
+union bdk_tns_sde_ldex_tlom_int_en_lo
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_tlom_int_en_lo_s
@@ -12053,7 +12336,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_tlom_int_en_lo_s cn; */
-} bdk_tns_sde_ldex_tlom_int_en_lo_t;
+};
+typedef union bdk_tns_sde_ldex_tlom_int_en_lo bdk_tns_sde_ldex_tlom_int_en_lo_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_TLOM_INT_EN_LO(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_TLOM_INT_EN_LO(unsigned long a)
@@ -12078,7 +12362,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_TLOM_INT_EN_LO(unsigned long a)
  * but each interrupt type has one status bit stored in the config block
  * so the CPU can come to read it.
  */
-typedef union
+union bdk_tns_sde_ldex_tlom_int_frc
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_tlom_int_frc_s
@@ -12100,7 +12384,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_tlom_int_frc_s cn; */
-} bdk_tns_sde_ldex_tlom_int_frc_t;
+};
+typedef union bdk_tns_sde_ldex_tlom_int_frc bdk_tns_sde_ldex_tlom_int_frc_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_TLOM_INT_FRC(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_TLOM_INT_FRC(unsigned long a)
@@ -12125,7 +12410,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_TLOM_INT_FRC(unsigned long a)
  * but each interrupt type has one status bit stored in the config block
  * so the CPU can come to read it.
  */
-typedef union
+union bdk_tns_sde_ldex_tlom_int_w1c
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_tlom_int_w1c_s
@@ -12147,7 +12432,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_tlom_int_w1c_s cn; */
-} bdk_tns_sde_ldex_tlom_int_w1c_t;
+};
+typedef union bdk_tns_sde_ldex_tlom_int_w1c bdk_tns_sde_ldex_tlom_int_w1c_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_TLOM_INT_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_TLOM_INT_W1C(unsigned long a)
@@ -12172,7 +12458,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_TLOM_INT_W1C(unsigned long a)
  * but each interrupt type has one status bit stored in the config block
  * so the CPU can come to read it.
  */
-typedef union
+union bdk_tns_sde_ldex_ttl_int_en_hi
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_ttl_int_en_hi_s
@@ -12188,7 +12474,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_ttl_int_en_hi_s cn; */
-} bdk_tns_sde_ldex_ttl_int_en_hi_t;
+};
+typedef union bdk_tns_sde_ldex_ttl_int_en_hi bdk_tns_sde_ldex_ttl_int_en_hi_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_TTL_INT_EN_HI(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_TTL_INT_EN_HI(unsigned long a)
@@ -12213,7 +12500,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_TTL_INT_EN_HI(unsigned long a)
  * but each interrupt type has one status bit stored in the config block
  * so the CPU can come to read it.
  */
-typedef union
+union bdk_tns_sde_ldex_ttl_int_en_lo
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_ttl_int_en_lo_s
@@ -12229,7 +12516,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_ttl_int_en_lo_s cn; */
-} bdk_tns_sde_ldex_ttl_int_en_lo_t;
+};
+typedef union bdk_tns_sde_ldex_ttl_int_en_lo bdk_tns_sde_ldex_ttl_int_en_lo_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_TTL_INT_EN_LO(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_TTL_INT_EN_LO(unsigned long a)
@@ -12254,7 +12542,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_TTL_INT_EN_LO(unsigned long a)
  * but each interrupt type has one status bit stored in the config block
  * so the CPU can come to read it.
  */
-typedef union
+union bdk_tns_sde_ldex_ttl_int_frc
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_ttl_int_frc_s
@@ -12270,7 +12558,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_ttl_int_frc_s cn; */
-} bdk_tns_sde_ldex_ttl_int_frc_t;
+};
+typedef union bdk_tns_sde_ldex_ttl_int_frc bdk_tns_sde_ldex_ttl_int_frc_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_TTL_INT_FRC(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_TTL_INT_FRC(unsigned long a)
@@ -12295,7 +12584,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_TTL_INT_FRC(unsigned long a)
  * but each interrupt type has one status bit stored in the config block
  * so the CPU can come to read it.
  */
-typedef union
+union bdk_tns_sde_ldex_ttl_int_w1c
 {
     uint32_t u;
     struct bdk_tns_sde_ldex_ttl_int_w1c_s
@@ -12311,7 +12600,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_ldex_ttl_int_w1c_s cn; */
-} bdk_tns_sde_ldex_ttl_int_w1c_t;
+};
+typedef union bdk_tns_sde_ldex_ttl_int_w1c bdk_tns_sde_ldex_ttl_int_w1c_t;
 
 static inline uint64_t BDK_TNS_SDE_LDEX_TTL_INT_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_LDEX_TTL_INT_W1C(unsigned long a)
@@ -12334,7 +12624,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_TTL_INT_W1C(unsigned long a)
  * TNS SDE MRE Bottom Arbitor Out Count Register
  * --
  */
-typedef union
+union bdk_tns_sde_mreb_arb_out_ct
 {
     uint32_t u;
     struct bdk_tns_sde_mreb_arb_out_ct_s
@@ -12348,7 +12638,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_mreb_arb_out_ct_s cn; */
-} bdk_tns_sde_mreb_arb_out_ct_t;
+};
+typedef union bdk_tns_sde_mreb_arb_out_ct bdk_tns_sde_mreb_arb_out_ct_t;
 
 #define BDK_TNS_SDE_MREB_ARB_OUT_CT BDK_TNS_SDE_MREB_ARB_OUT_CT_FUNC()
 static inline uint64_t BDK_TNS_SDE_MREB_ARB_OUT_CT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -12372,7 +12663,7 @@ static inline uint64_t BDK_TNS_SDE_MREB_ARB_OUT_CT_FUNC(void)
  * TNS SDE MRE Bottom Arbitor Out Stepper Register
  * Controls the single stepper debug logic on the output of the arbiter.
  */
-typedef union
+union bdk_tns_sde_mreb_arb_out_stepper
 {
     uint32_t u;
     struct bdk_tns_sde_mreb_arb_out_stepper_s
@@ -12396,7 +12687,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_mreb_arb_out_stepper_s cn; */
-} bdk_tns_sde_mreb_arb_out_stepper_t;
+};
+typedef union bdk_tns_sde_mreb_arb_out_stepper bdk_tns_sde_mreb_arb_out_stepper_t;
 
 #define BDK_TNS_SDE_MREB_ARB_OUT_STEPPER BDK_TNS_SDE_MREB_ARB_OUT_STEPPER_FUNC()
 static inline uint64_t BDK_TNS_SDE_MREB_ARB_OUT_STEPPER_FUNC(void) __attribute__ ((pure, always_inline));
@@ -12421,7 +12713,7 @@ static inline uint64_t BDK_TNS_SDE_MREB_ARB_OUT_STEPPER_FUNC(void)
  * Indicates the next winner of the arbitration. The address indicates the page in
  * the token and header memory that will be read.
  */
-typedef union
+union bdk_tns_sde_mreb_arbiter_sta
 {
     uint32_t u;
     struct bdk_tns_sde_mreb_arbiter_sta_s
@@ -12437,7 +12729,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_mreb_arbiter_sta_s cn; */
-} bdk_tns_sde_mreb_arbiter_sta_t;
+};
+typedef union bdk_tns_sde_mreb_arbiter_sta bdk_tns_sde_mreb_arbiter_sta_t;
 
 #define BDK_TNS_SDE_MREB_ARBITER_STA BDK_TNS_SDE_MREB_ARBITER_STA_FUNC()
 static inline uint64_t BDK_TNS_SDE_MREB_ARBITER_STA_FUNC(void) __attribute__ ((pure, always_inline));
@@ -12461,7 +12754,7 @@ static inline uint64_t BDK_TNS_SDE_MREB_ARBITER_STA_FUNC(void)
  * TNS SDE MRE Bottom Copies Count Register
  * --
  */
-typedef union
+union bdk_tns_sde_mreb_copies_ct
 {
     uint32_t u;
     struct bdk_tns_sde_mreb_copies_ct_s
@@ -12475,7 +12768,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_mreb_copies_ct_s cn; */
-} bdk_tns_sde_mreb_copies_ct_t;
+};
+typedef union bdk_tns_sde_mreb_copies_ct bdk_tns_sde_mreb_copies_ct_t;
 
 #define BDK_TNS_SDE_MREB_COPIES_CT BDK_TNS_SDE_MREB_COPIES_CT_FUNC()
 static inline uint64_t BDK_TNS_SDE_MREB_COPIES_CT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -12499,7 +12793,7 @@ static inline uint64_t BDK_TNS_SDE_MREB_COPIES_CT_FUNC(void)
  * TNS SDE MRE Bottom Drop Count Register
  * --
  */
-typedef union
+union bdk_tns_sde_mreb_drp_ct
 {
     uint32_t u;
     struct bdk_tns_sde_mreb_drp_ct_s
@@ -12513,7 +12807,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_mreb_drp_ct_s cn; */
-} bdk_tns_sde_mreb_drp_ct_t;
+};
+typedef union bdk_tns_sde_mreb_drp_ct bdk_tns_sde_mreb_drp_ct_t;
 
 #define BDK_TNS_SDE_MREB_DRP_CT BDK_TNS_SDE_MREB_DRP_CT_FUNC()
 static inline uint64_t BDK_TNS_SDE_MREB_DRP_CT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -12537,7 +12832,7 @@ static inline uint64_t BDK_TNS_SDE_MREB_DRP_CT_FUNC(void)
  * TNS SDE MRE Bottom Feedback Count Register
  * --
  */
-typedef union
+union bdk_tns_sde_mreb_feedback_ct
 {
     uint32_t u;
     struct bdk_tns_sde_mreb_feedback_ct_s
@@ -12551,7 +12846,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_mreb_feedback_ct_s cn; */
-} bdk_tns_sde_mreb_feedback_ct_t;
+};
+typedef union bdk_tns_sde_mreb_feedback_ct bdk_tns_sde_mreb_feedback_ct_t;
 
 #define BDK_TNS_SDE_MREB_FEEDBACK_CT BDK_TNS_SDE_MREB_FEEDBACK_CT_FUNC()
 static inline uint64_t BDK_TNS_SDE_MREB_FEEDBACK_CT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -12578,7 +12874,7 @@ static inline uint64_t BDK_TNS_SDE_MREB_FEEDBACK_CT_FUNC(void)
  * (based on this register) and matched against a 24 bit field in the MDT
  * table.
  */
-typedef union
+union bdk_tns_sde_mreb_filter_cfg
 {
     uint32_t u;
     struct bdk_tns_sde_mreb_filter_cfg_s
@@ -12610,7 +12906,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_mreb_filter_cfg_s cn; */
-} bdk_tns_sde_mreb_filter_cfg_t;
+};
+typedef union bdk_tns_sde_mreb_filter_cfg bdk_tns_sde_mreb_filter_cfg_t;
 
 #define BDK_TNS_SDE_MREB_FILTER_CFG BDK_TNS_SDE_MREB_FILTER_CFG_FUNC()
 static inline uint64_t BDK_TNS_SDE_MREB_FILTER_CFG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -12634,7 +12931,7 @@ static inline uint64_t BDK_TNS_SDE_MREB_FILTER_CFG_FUNC(void)
  * TNS SDE MRE Bottom Header Buffer Cycle Count Register
  * --
  */
-typedef union
+union bdk_tns_sde_mreb_hbuf_cyc_ct
 {
     uint32_t u;
     struct bdk_tns_sde_mreb_hbuf_cyc_ct_s
@@ -12648,7 +12945,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_mreb_hbuf_cyc_ct_s cn; */
-} bdk_tns_sde_mreb_hbuf_cyc_ct_t;
+};
+typedef union bdk_tns_sde_mreb_hbuf_cyc_ct bdk_tns_sde_mreb_hbuf_cyc_ct_t;
 
 #define BDK_TNS_SDE_MREB_HBUF_CYC_CT BDK_TNS_SDE_MREB_HBUF_CYC_CT_FUNC()
 static inline uint64_t BDK_TNS_SDE_MREB_HBUF_CYC_CT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -12672,7 +12970,7 @@ static inline uint64_t BDK_TNS_SDE_MREB_HBUF_CYC_CT_FUNC(void)
  * TNS SDE MRE Bottom Header Buffer Packet Count Register
  * --
  */
-typedef union
+union bdk_tns_sde_mreb_hbuf_pkt_ct
 {
     uint32_t u;
     struct bdk_tns_sde_mreb_hbuf_pkt_ct_s
@@ -12686,7 +12984,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_mreb_hbuf_pkt_ct_s cn; */
-} bdk_tns_sde_mreb_hbuf_pkt_ct_t;
+};
+typedef union bdk_tns_sde_mreb_hbuf_pkt_ct bdk_tns_sde_mreb_hbuf_pkt_ct_t;
 
 #define BDK_TNS_SDE_MREB_HBUF_PKT_CT BDK_TNS_SDE_MREB_HBUF_PKT_CT_FUNC()
 static inline uint64_t BDK_TNS_SDE_MREB_HBUF_PKT_CT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -12710,7 +13009,7 @@ static inline uint64_t BDK_TNS_SDE_MREB_HBUF_PKT_CT_FUNC(void)
  * TNS SDE MRE Bottom Header Memory Free Instruction Register
  * --
  */
-typedef union
+union bdk_tns_sde_mreb_hmem_free_inst
 {
     uint32_t u;
     struct bdk_tns_sde_mreb_hmem_free_inst_s
@@ -12726,7 +13025,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_mreb_hmem_free_inst_s cn; */
-} bdk_tns_sde_mreb_hmem_free_inst_t;
+};
+typedef union bdk_tns_sde_mreb_hmem_free_inst bdk_tns_sde_mreb_hmem_free_inst_t;
 
 #define BDK_TNS_SDE_MREB_HMEM_FREE_INST BDK_TNS_SDE_MREB_HMEM_FREE_INST_FUNC()
 static inline uint64_t BDK_TNS_SDE_MREB_HMEM_FREE_INST_FUNC(void) __attribute__ ((pure, always_inline));
@@ -12750,7 +13050,7 @@ static inline uint64_t BDK_TNS_SDE_MREB_HMEM_FREE_INST_FUNC(void)
  * TNS SDE MRE Bottom Lock Register
  * Lock Register
  */
-typedef union
+union bdk_tns_sde_mreb_lock
 {
     uint32_t u;
     struct bdk_tns_sde_mreb_lock_s
@@ -12762,7 +13062,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_mreb_lock_s cn; */
-} bdk_tns_sde_mreb_lock_t;
+};
+typedef union bdk_tns_sde_mreb_lock bdk_tns_sde_mreb_lock_t;
 
 #define BDK_TNS_SDE_MREB_LOCK BDK_TNS_SDE_MREB_LOCK_FUNC()
 static inline uint64_t BDK_TNS_SDE_MREB_LOCK_FUNC(void) __attribute__ ((pure, always_inline));
@@ -12786,7 +13087,7 @@ static inline uint64_t BDK_TNS_SDE_MREB_LOCK_FUNC(void)
  * TNS SDE MRE Bottom PipeGrid Count Register
  * --
  */
-typedef union
+union bdk_tns_sde_mreb_pipegrid_ct
 {
     uint32_t u;
     struct bdk_tns_sde_mreb_pipegrid_ct_s
@@ -12800,7 +13101,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_mreb_pipegrid_ct_s cn; */
-} bdk_tns_sde_mreb_pipegrid_ct_t;
+};
+typedef union bdk_tns_sde_mreb_pipegrid_ct bdk_tns_sde_mreb_pipegrid_ct_t;
 
 #define BDK_TNS_SDE_MREB_PIPEGRID_CT BDK_TNS_SDE_MREB_PIPEGRID_CT_FUNC()
 static inline uint64_t BDK_TNS_SDE_MREB_PIPEGRID_CT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -12826,7 +13128,7 @@ static inline uint64_t BDK_TNS_SDE_MREB_PIPEGRID_CT_FUNC(void)
  * data returned from
  * SE requests.
  */
-typedef union
+union bdk_tns_sde_mreb_rcv
 {
     uint64_t u;
     struct bdk_tns_sde_mreb_rcv_s
@@ -12840,7 +13142,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_mreb_rcv_s cn; */
-} bdk_tns_sde_mreb_rcv_t;
+};
+typedef union bdk_tns_sde_mreb_rcv bdk_tns_sde_mreb_rcv_t;
 
 #define BDK_TNS_SDE_MREB_RCV BDK_TNS_SDE_MREB_RCV_FUNC()
 static inline uint64_t BDK_TNS_SDE_MREB_RCV_FUNC(void) __attribute__ ((pure, always_inline));
@@ -12865,7 +13168,7 @@ static inline uint64_t BDK_TNS_SDE_MREB_RCV_FUNC(void)
  * Current value of the req counter. Counts outstanding requests to SE MRE is
  * waiting for.
  */
-typedef union
+union bdk_tns_sde_mreb_req
 {
     uint32_t u;
     struct bdk_tns_sde_mreb_req_s
@@ -12879,7 +13182,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_mreb_req_s cn; */
-} bdk_tns_sde_mreb_req_t;
+};
+typedef union bdk_tns_sde_mreb_req bdk_tns_sde_mreb_req_t;
 
 #define BDK_TNS_SDE_MREB_REQ BDK_TNS_SDE_MREB_REQ_FUNC()
 static inline uint64_t BDK_TNS_SDE_MREB_REQ_FUNC(void) __attribute__ ((pure, always_inline));
@@ -12903,7 +13207,7 @@ static inline uint64_t BDK_TNS_SDE_MREB_REQ_FUNC(void)
  * TNS SDE MRE Bottom Search Request Count Register
  * --
  */
-typedef union
+union bdk_tns_sde_mreb_se_req_ct
 {
     uint32_t u;
     struct bdk_tns_sde_mreb_se_req_ct_s
@@ -12917,7 +13221,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_mreb_se_req_ct_s cn; */
-} bdk_tns_sde_mreb_se_req_ct_t;
+};
+typedef union bdk_tns_sde_mreb_se_req_ct bdk_tns_sde_mreb_se_req_ct_t;
 
 #define BDK_TNS_SDE_MREB_SE_REQ_CT BDK_TNS_SDE_MREB_SE_REQ_CT_FUNC()
 static inline uint64_t BDK_TNS_SDE_MREB_SE_REQ_CT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -12941,7 +13246,7 @@ static inline uint64_t BDK_TNS_SDE_MREB_SE_REQ_CT_FUNC(void)
  * TNS SDE MRE Bottom Search Response 0 Count Register
  * --
  */
-typedef union
+union bdk_tns_sde_mreb_se_resp0_ct
 {
     uint32_t u;
     struct bdk_tns_sde_mreb_se_resp0_ct_s
@@ -12955,7 +13260,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_mreb_se_resp0_ct_s cn; */
-} bdk_tns_sde_mreb_se_resp0_ct_t;
+};
+typedef union bdk_tns_sde_mreb_se_resp0_ct bdk_tns_sde_mreb_se_resp0_ct_t;
 
 #define BDK_TNS_SDE_MREB_SE_RESP0_CT BDK_TNS_SDE_MREB_SE_RESP0_CT_FUNC()
 static inline uint64_t BDK_TNS_SDE_MREB_SE_RESP0_CT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -12979,7 +13285,7 @@ static inline uint64_t BDK_TNS_SDE_MREB_SE_RESP0_CT_FUNC(void)
  * TNS SDE MRE Bottom Search Response 1 Count Register
  * --
  */
-typedef union
+union bdk_tns_sde_mreb_se_resp1_ct
 {
     uint32_t u;
     struct bdk_tns_sde_mreb_se_resp1_ct_s
@@ -12993,7 +13299,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_mreb_se_resp1_ct_s cn; */
-} bdk_tns_sde_mreb_se_resp1_ct_t;
+};
+typedef union bdk_tns_sde_mreb_se_resp1_ct bdk_tns_sde_mreb_se_resp1_ct_t;
 
 #define BDK_TNS_SDE_MREB_SE_RESP1_CT BDK_TNS_SDE_MREB_SE_RESP1_CT_FUNC()
 static inline uint64_t BDK_TNS_SDE_MREB_SE_RESP1_CT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -13017,7 +13324,7 @@ static inline uint64_t BDK_TNS_SDE_MREB_SE_RESP1_CT_FUNC(void)
  * TNS SDE MRE Bottom ScratchPad Register
  * Scratch Pad Register for XCAT
  */
-typedef union
+union bdk_tns_sde_mreb_spad
 {
     uint32_t u;
     struct bdk_tns_sde_mreb_spad_s
@@ -13029,7 +13336,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_mreb_spad_s cn; */
-} bdk_tns_sde_mreb_spad_t;
+};
+typedef union bdk_tns_sde_mreb_spad bdk_tns_sde_mreb_spad_t;
 
 #define BDK_TNS_SDE_MREB_SPAD BDK_TNS_SDE_MREB_SPAD_FUNC()
 static inline uint64_t BDK_TNS_SDE_MREB_SPAD_FUNC(void) __attribute__ ((pure, always_inline));
@@ -13053,7 +13361,7 @@ static inline uint64_t BDK_TNS_SDE_MREB_SPAD_FUNC(void)
  * TNS SDE MRE Bottom Suppressed Count Register
  * --
  */
-typedef union
+union bdk_tns_sde_mreb_sprsd_ct
 {
     uint32_t u;
     struct bdk_tns_sde_mreb_sprsd_ct_s
@@ -13067,7 +13375,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_mreb_sprsd_ct_s cn; */
-} bdk_tns_sde_mreb_sprsd_ct_t;
+};
+typedef union bdk_tns_sde_mreb_sprsd_ct bdk_tns_sde_mreb_sprsd_ct_t;
 
 #define BDK_TNS_SDE_MREB_SPRSD_CT BDK_TNS_SDE_MREB_SPRSD_CT_FUNC()
 static inline uint64_t BDK_TNS_SDE_MREB_SPRSD_CT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -13091,7 +13400,7 @@ static inline uint64_t BDK_TNS_SDE_MREB_SPRSD_CT_FUNC(void)
  * TNS SDE MRE Bottom Token Memory Address Register
  * --
  */
-typedef union
+union bdk_tns_sde_mreb_tkn_mem_adr
 {
     uint32_t u;
     struct bdk_tns_sde_mreb_tkn_mem_adr_s
@@ -13105,7 +13414,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_mreb_tkn_mem_adr_s cn; */
-} bdk_tns_sde_mreb_tkn_mem_adr_t;
+};
+typedef union bdk_tns_sde_mreb_tkn_mem_adr bdk_tns_sde_mreb_tkn_mem_adr_t;
 
 #define BDK_TNS_SDE_MREB_TKN_MEM_ADR BDK_TNS_SDE_MREB_TKN_MEM_ADR_FUNC()
 static inline uint64_t BDK_TNS_SDE_MREB_TKN_MEM_ADR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -13129,7 +13439,7 @@ static inline uint64_t BDK_TNS_SDE_MREB_TKN_MEM_ADR_FUNC(void)
  * TNS SDE MRE Bottom Token Memory Data Registers
  * Bits 31..20 of registers ending in _W40 are unused.
  */
-typedef union
+union bdk_tns_sde_mreb_tkn_mem_dat_wx
 {
     uint32_t u;
     struct bdk_tns_sde_mreb_tkn_mem_dat_wx_s
@@ -13141,7 +13451,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_mreb_tkn_mem_dat_wx_s cn; */
-} bdk_tns_sde_mreb_tkn_mem_dat_wx_t;
+};
+typedef union bdk_tns_sde_mreb_tkn_mem_dat_wx bdk_tns_sde_mreb_tkn_mem_dat_wx_t;
 
 static inline uint64_t BDK_TNS_SDE_MREB_TKN_MEM_DAT_WX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_MREB_TKN_MEM_DAT_WX(unsigned long a)
@@ -13164,7 +13475,7 @@ static inline uint64_t BDK_TNS_SDE_MREB_TKN_MEM_DAT_WX(unsigned long a)
  * TNS SDE MRE Bottom Token Memory ECC Error Register
  * --
  */
-typedef union
+union bdk_tns_sde_mreb_tkn_mem_ecc_err
 {
     uint32_t u;
     struct bdk_tns_sde_mreb_tkn_mem_ecc_err_s
@@ -13180,7 +13491,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_mreb_tkn_mem_ecc_err_s cn; */
-} bdk_tns_sde_mreb_tkn_mem_ecc_err_t;
+};
+typedef union bdk_tns_sde_mreb_tkn_mem_ecc_err bdk_tns_sde_mreb_tkn_mem_ecc_err_t;
 
 #define BDK_TNS_SDE_MREB_TKN_MEM_ECC_ERR BDK_TNS_SDE_MREB_TKN_MEM_ECC_ERR_FUNC()
 static inline uint64_t BDK_TNS_SDE_MREB_TKN_MEM_ECC_ERR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -13204,7 +13516,7 @@ static inline uint64_t BDK_TNS_SDE_MREB_TKN_MEM_ECC_ERR_FUNC(void)
  * TNS SDE MRE Top Arbiter Configuration Word 0 Register
  * Controls the behaviour of the arbiter in the MRE.
  */
-typedef union
+union bdk_tns_sde_mret_arbiter_cfg_w0
 {
     uint32_t u;
     struct bdk_tns_sde_mret_arbiter_cfg_w0_s
@@ -13220,7 +13532,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_mret_arbiter_cfg_w0_s cn; */
-} bdk_tns_sde_mret_arbiter_cfg_w0_t;
+};
+typedef union bdk_tns_sde_mret_arbiter_cfg_w0 bdk_tns_sde_mret_arbiter_cfg_w0_t;
 
 #define BDK_TNS_SDE_MRET_ARBITER_CFG_W0 BDK_TNS_SDE_MRET_ARBITER_CFG_W0_FUNC()
 static inline uint64_t BDK_TNS_SDE_MRET_ARBITER_CFG_W0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -13244,7 +13557,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_ARBITER_CFG_W0_FUNC(void)
  * TNS SDE MRE Top Arbiter Configuration Word 1 Register
  * Continuation of structure defined in TNS_SDE_MRET_ARBITER_CFG_W0
  */
-typedef union
+union bdk_tns_sde_mret_arbiter_cfg_w1
 {
     uint32_t u;
     struct bdk_tns_sde_mret_arbiter_cfg_w1_s
@@ -13264,7 +13577,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_mret_arbiter_cfg_w1_s cn; */
-} bdk_tns_sde_mret_arbiter_cfg_w1_t;
+};
+typedef union bdk_tns_sde_mret_arbiter_cfg_w1 bdk_tns_sde_mret_arbiter_cfg_w1_t;
 
 #define BDK_TNS_SDE_MRET_ARBITER_CFG_W1 BDK_TNS_SDE_MRET_ARBITER_CFG_W1_FUNC()
 static inline uint64_t BDK_TNS_SDE_MRET_ARBITER_CFG_W1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -13288,7 +13602,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_ARBITER_CFG_W1_FUNC(void)
  * TNS SDE MRE Top Configuration2 Register
  * --
  */
-typedef union
+union bdk_tns_sde_mret_cfg2
 {
     uint64_t u;
     struct bdk_tns_sde_mret_cfg2_s
@@ -13332,7 +13646,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_mret_cfg2_s cn; */
-} bdk_tns_sde_mret_cfg2_t;
+};
+typedef union bdk_tns_sde_mret_cfg2 bdk_tns_sde_mret_cfg2_t;
 
 #define BDK_TNS_SDE_MRET_CFG2 BDK_TNS_SDE_MRET_CFG2_FUNC()
 static inline uint64_t BDK_TNS_SDE_MRET_CFG2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -13356,7 +13671,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_CFG2_FUNC(void)
  * TNS SDE MRE Top Configuration NULL Pointer Register
  * --
  */
-typedef union
+union bdk_tns_sde_mret_cfg_null_ptr
 {
     uint32_t u;
     struct bdk_tns_sde_mret_cfg_null_ptr_s
@@ -13370,7 +13685,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_mret_cfg_null_ptr_s cn; */
-} bdk_tns_sde_mret_cfg_null_ptr_t;
+};
+typedef union bdk_tns_sde_mret_cfg_null_ptr bdk_tns_sde_mret_cfg_null_ptr_t;
 
 #define BDK_TNS_SDE_MRET_CFG_NULL_PTR BDK_TNS_SDE_MRET_CFG_NULL_PTR_FUNC()
 static inline uint64_t BDK_TNS_SDE_MRET_CFG_NULL_PTR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -13395,7 +13711,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_CFG_NULL_PTR_FUNC(void)
  * Stores the reason code used for various conditions for which the MRE would send
  * out a token with packet command = DROP.
  */
-typedef union
+union bdk_tns_sde_mret_cfg_rcod
 {
     uint64_t u;
     struct bdk_tns_sde_mret_cfg_rcod_s
@@ -13417,7 +13733,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_mret_cfg_rcod_s cn; */
-} bdk_tns_sde_mret_cfg_rcod_t;
+};
+typedef union bdk_tns_sde_mret_cfg_rcod bdk_tns_sde_mret_cfg_rcod_t;
 
 #define BDK_TNS_SDE_MRET_CFG_RCOD BDK_TNS_SDE_MRET_CFG_RCOD_FUNC()
 static inline uint64_t BDK_TNS_SDE_MRET_CFG_RCOD_FUNC(void) __attribute__ ((pure, always_inline));
@@ -13441,7 +13758,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_CFG_RCOD_FUNC(void)
  * TNS SDE MRE Top Configuration Word 0 Register
  * General Config for MRE
  */
-typedef union
+union bdk_tns_sde_mret_cfg_w0
 {
     uint32_t u;
     struct bdk_tns_sde_mret_cfg_w0_s
@@ -13479,7 +13796,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_mret_cfg_w0_s cn; */
-} bdk_tns_sde_mret_cfg_w0_t;
+};
+typedef union bdk_tns_sde_mret_cfg_w0 bdk_tns_sde_mret_cfg_w0_t;
 
 #define BDK_TNS_SDE_MRET_CFG_W0 BDK_TNS_SDE_MRET_CFG_W0_FUNC()
 static inline uint64_t BDK_TNS_SDE_MRET_CFG_W0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -13503,7 +13821,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_CFG_W0_FUNC(void)
  * TNS SDE MRE Top Configuration Word 1 Register
  * Continuation of structure defined in TNS_SDE_MRET_CFG_W0
  */
-typedef union
+union bdk_tns_sde_mret_cfg_w1
 {
     uint32_t u;
     struct bdk_tns_sde_mret_cfg_w1_s
@@ -13529,7 +13847,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_mret_cfg_w1_s cn; */
-} bdk_tns_sde_mret_cfg_w1_t;
+};
+typedef union bdk_tns_sde_mret_cfg_w1 bdk_tns_sde_mret_cfg_w1_t;
 
 #define BDK_TNS_SDE_MRET_CFG_W1 BDK_TNS_SDE_MRET_CFG_W1_FUNC()
 static inline uint64_t BDK_TNS_SDE_MRET_CFG_W1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -13553,7 +13872,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_CFG_W1_FUNC(void)
  * TNS SDE MRE Top Contex Memory ECC Error Register
  * --
  */
-typedef union
+union bdk_tns_sde_mret_ctx_mem_ecc_err
 {
     uint32_t u;
     struct bdk_tns_sde_mret_ctx_mem_ecc_err_s
@@ -13569,7 +13888,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_mret_ctx_mem_ecc_err_s cn; */
-} bdk_tns_sde_mret_ctx_mem_ecc_err_t;
+};
+typedef union bdk_tns_sde_mret_ctx_mem_ecc_err bdk_tns_sde_mret_ctx_mem_ecc_err_t;
 
 #define BDK_TNS_SDE_MRET_CTX_MEM_ECC_ERR BDK_TNS_SDE_MRET_CTX_MEM_ECC_ERR_FUNC()
 static inline uint64_t BDK_TNS_SDE_MRET_CTX_MEM_ECC_ERR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -13593,7 +13913,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_CTX_MEM_ECC_ERR_FUNC(void)
  * TNS SDE MRE Top Contex Memory Address Register
  * --
  */
-typedef union
+union bdk_tns_sde_mret_ctxt_mem_adr
 {
     uint32_t u;
     struct bdk_tns_sde_mret_ctxt_mem_adr_s
@@ -13607,7 +13927,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_mret_ctxt_mem_adr_s cn; */
-} bdk_tns_sde_mret_ctxt_mem_adr_t;
+};
+typedef union bdk_tns_sde_mret_ctxt_mem_adr bdk_tns_sde_mret_ctxt_mem_adr_t;
 
 #define BDK_TNS_SDE_MRET_CTXT_MEM_ADR BDK_TNS_SDE_MRET_CTXT_MEM_ADR_FUNC()
 static inline uint64_t BDK_TNS_SDE_MRET_CTXT_MEM_ADR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -13631,7 +13952,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_CTXT_MEM_ADR_FUNC(void)
  * TNS SDE MRE Top Contex Memory Data Registers
  * Bits 63..40 of registers ending in _W2 are unused.
  */
-typedef union
+union bdk_tns_sde_mret_ctxt_mem_dat_wx
 {
     uint64_t u;
     struct bdk_tns_sde_mret_ctxt_mem_dat_wx_s
@@ -13643,7 +13964,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_mret_ctxt_mem_dat_wx_s cn; */
-} bdk_tns_sde_mret_ctxt_mem_dat_wx_t;
+};
+typedef union bdk_tns_sde_mret_ctxt_mem_dat_wx bdk_tns_sde_mret_ctxt_mem_dat_wx_t;
 
 static inline uint64_t BDK_TNS_SDE_MRET_CTXT_MEM_DAT_WX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_MRET_CTXT_MEM_DAT_WX(unsigned long a)
@@ -13666,7 +13988,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_CTXT_MEM_DAT_WX(unsigned long a)
  * TNS SDE MRE Top Debug Selector Register
  * --
  */
-typedef union
+union bdk_tns_sde_mret_dbg_sel
 {
     uint32_t u;
     struct bdk_tns_sde_mret_dbg_sel_s
@@ -13682,7 +14004,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_mret_dbg_sel_s cn; */
-} bdk_tns_sde_mret_dbg_sel_t;
+};
+typedef union bdk_tns_sde_mret_dbg_sel bdk_tns_sde_mret_dbg_sel_t;
 
 #define BDK_TNS_SDE_MRET_DBG_SEL BDK_TNS_SDE_MRET_DBG_SEL_FUNC()
 static inline uint64_t BDK_TNS_SDE_MRET_DBG_SEL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -13706,7 +14029,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_DBG_SEL_FUNC(void)
  * TNS SDE MRE Top ECC Control Disable Correction Register
  * If set each bit disables ECC correction for the corresponding memory.
  */
-typedef union
+union bdk_tns_sde_mret_ecc_ctl_cd
 {
     uint32_t u;
     struct bdk_tns_sde_mret_ecc_ctl_cd_s
@@ -13728,7 +14051,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_mret_ecc_ctl_cd_s cn; */
-} bdk_tns_sde_mret_ecc_ctl_cd_t;
+};
+typedef union bdk_tns_sde_mret_ecc_ctl_cd bdk_tns_sde_mret_ecc_ctl_cd_t;
 
 #define BDK_TNS_SDE_MRET_ECC_CTL_CD BDK_TNS_SDE_MRET_ECC_CTL_CD_FUNC()
 static inline uint64_t BDK_TNS_SDE_MRET_ECC_CTL_CD_FUNC(void) __attribute__ ((pure, always_inline));
@@ -13752,7 +14076,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_ECC_CTL_CD_FUNC(void)
  * TNS SDE MRE Top Feature Enable Register
  * Allows enabling or disabling individual MRE features.
  */
-typedef union
+union bdk_tns_sde_mret_feature_en
 {
     uint32_t u;
     struct bdk_tns_sde_mret_feature_en_s
@@ -13806,7 +14130,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_mret_feature_en_s cn; */
-} bdk_tns_sde_mret_feature_en_t;
+};
+typedef union bdk_tns_sde_mret_feature_en bdk_tns_sde_mret_feature_en_t;
 
 #define BDK_TNS_SDE_MRET_FEATURE_EN BDK_TNS_SDE_MRET_FEATURE_EN_FUNC()
 static inline uint64_t BDK_TNS_SDE_MRET_FEATURE_EN_FUNC(void) __attribute__ ((pure, always_inline));
@@ -13830,7 +14155,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_FEATURE_EN_FUNC(void)
  * TNS SDE MRE Top Freelist 0 FIFO Pointer Register
  * --
  */
-typedef union
+union bdk_tns_sde_mret_fl0_fif_ptr
 {
     uint32_t u;
     struct bdk_tns_sde_mret_fl0_fif_ptr_s
@@ -13850,7 +14175,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_mret_fl0_fif_ptr_s cn; */
-} bdk_tns_sde_mret_fl0_fif_ptr_t;
+};
+typedef union bdk_tns_sde_mret_fl0_fif_ptr bdk_tns_sde_mret_fl0_fif_ptr_t;
 
 #define BDK_TNS_SDE_MRET_FL0_FIF_PTR BDK_TNS_SDE_MRET_FL0_FIF_PTR_FUNC()
 static inline uint64_t BDK_TNS_SDE_MRET_FL0_FIF_PTR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -13874,7 +14200,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_FL0_FIF_PTR_FUNC(void)
  * TNS SDE MRE Top Freelist Bank 0 Address Register
  * --
  */
-typedef union
+union bdk_tns_sde_mret_flst_bk0_adr
 {
     uint32_t u;
     struct bdk_tns_sde_mret_flst_bk0_adr_s
@@ -13888,7 +14214,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_mret_flst_bk0_adr_s cn; */
-} bdk_tns_sde_mret_flst_bk0_adr_t;
+};
+typedef union bdk_tns_sde_mret_flst_bk0_adr bdk_tns_sde_mret_flst_bk0_adr_t;
 
 #define BDK_TNS_SDE_MRET_FLST_BK0_ADR BDK_TNS_SDE_MRET_FLST_BK0_ADR_FUNC()
 static inline uint64_t BDK_TNS_SDE_MRET_FLST_BK0_ADR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -13912,7 +14239,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_FLST_BK0_ADR_FUNC(void)
  * TNS SDE MRE Top Freelist Bank 0 Data Register
  * --
  */
-typedef union
+union bdk_tns_sde_mret_flst_bk0_dat
 {
     uint32_t u;
     struct bdk_tns_sde_mret_flst_bk0_dat_s
@@ -13926,7 +14253,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_mret_flst_bk0_dat_s cn; */
-} bdk_tns_sde_mret_flst_bk0_dat_t;
+};
+typedef union bdk_tns_sde_mret_flst_bk0_dat bdk_tns_sde_mret_flst_bk0_dat_t;
 
 #define BDK_TNS_SDE_MRET_FLST_BK0_DAT BDK_TNS_SDE_MRET_FLST_BK0_DAT_FUNC()
 static inline uint64_t BDK_TNS_SDE_MRET_FLST_BK0_DAT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -13951,7 +14279,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_FLST_BK0_DAT_FUNC(void)
  * This register should not be modified from its default values, unless you know
  * what you are doing.
  */
-typedef union
+union bdk_tns_sde_mret_flst_dbg_cfg
 {
     uint32_t u;
     struct bdk_tns_sde_mret_flst_dbg_cfg_s
@@ -13971,7 +14299,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_mret_flst_dbg_cfg_s cn; */
-} bdk_tns_sde_mret_flst_dbg_cfg_t;
+};
+typedef union bdk_tns_sde_mret_flst_dbg_cfg bdk_tns_sde_mret_flst_dbg_cfg_t;
 
 #define BDK_TNS_SDE_MRET_FLST_DBG_CFG BDK_TNS_SDE_MRET_FLST_DBG_CFG_FUNC()
 static inline uint64_t BDK_TNS_SDE_MRET_FLST_DBG_CFG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -13995,7 +14324,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_FLST_DBG_CFG_FUNC(void)
  * TNS SDE MRE Top Freelist Status Register
  * --
  */
-typedef union
+union bdk_tns_sde_mret_flst_sta
 {
     uint32_t u;
     struct bdk_tns_sde_mret_flst_sta_s
@@ -14011,7 +14340,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_mret_flst_sta_s cn; */
-} bdk_tns_sde_mret_flst_sta_t;
+};
+typedef union bdk_tns_sde_mret_flst_sta bdk_tns_sde_mret_flst_sta_t;
 
 #define BDK_TNS_SDE_MRET_FLST_STA BDK_TNS_SDE_MRET_FLST_STA_FUNC()
 static inline uint64_t BDK_TNS_SDE_MRET_FLST_STA_FUNC(void) __attribute__ ((pure, always_inline));
@@ -14035,7 +14365,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_FLST_STA_FUNC(void)
  * TNS SDE MRE Top Header Cycle Count Register
  * --
  */
-typedef union
+union bdk_tns_sde_mret_hdrcyc_ct
 {
     uint32_t u;
     struct bdk_tns_sde_mret_hdrcyc_ct_s
@@ -14049,7 +14379,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_mret_hdrcyc_ct_s cn; */
-} bdk_tns_sde_mret_hdrcyc_ct_t;
+};
+typedef union bdk_tns_sde_mret_hdrcyc_ct bdk_tns_sde_mret_hdrcyc_ct_t;
 
 #define BDK_TNS_SDE_MRET_HDRCYC_CT BDK_TNS_SDE_MRET_HDRCYC_CT_FUNC()
 static inline uint64_t BDK_TNS_SDE_MRET_HDRCYC_CT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -14073,7 +14404,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_HDRCYC_CT_FUNC(void)
  * TNS SDE MRE Top Header Memory Address Register
  * --
  */
-typedef union
+union bdk_tns_sde_mret_hmem_adr
 {
     uint32_t u;
     struct bdk_tns_sde_mret_hmem_adr_s
@@ -14089,7 +14420,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_mret_hmem_adr_s cn; */
-} bdk_tns_sde_mret_hmem_adr_t;
+};
+typedef union bdk_tns_sde_mret_hmem_adr bdk_tns_sde_mret_hmem_adr_t;
 
 #define BDK_TNS_SDE_MRET_HMEM_ADR BDK_TNS_SDE_MRET_HMEM_ADR_FUNC()
 static inline uint64_t BDK_TNS_SDE_MRET_HMEM_ADR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -14113,7 +14445,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_HMEM_ADR_FUNC(void)
  * TNS SDE MRE Top Header Memory Data Registers
  * Bits 31..2 of registers ending in _W16 are unused.
  */
-typedef union
+union bdk_tns_sde_mret_hmem_dat_wx
 {
     uint32_t u;
     struct bdk_tns_sde_mret_hmem_dat_wx_s
@@ -14125,7 +14457,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_mret_hmem_dat_wx_s cn; */
-} bdk_tns_sde_mret_hmem_dat_wx_t;
+};
+typedef union bdk_tns_sde_mret_hmem_dat_wx bdk_tns_sde_mret_hmem_dat_wx_t;
 
 static inline uint64_t BDK_TNS_SDE_MRET_HMEM_DAT_WX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_MRET_HMEM_DAT_WX(unsigned long a)
@@ -14148,7 +14481,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_HMEM_DAT_WX(unsigned long a)
  * TNS SDE MRE Top Header Memory ECC Error Register
  * --
  */
-typedef union
+union bdk_tns_sde_mret_hmem_ecc_err
 {
     uint32_t u;
     struct bdk_tns_sde_mret_hmem_ecc_err_s
@@ -14164,7 +14497,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_mret_hmem_ecc_err_s cn; */
-} bdk_tns_sde_mret_hmem_ecc_err_t;
+};
+typedef union bdk_tns_sde_mret_hmem_ecc_err bdk_tns_sde_mret_hmem_ecc_err_t;
 
 #define BDK_TNS_SDE_MRET_HMEM_ECC_ERR BDK_TNS_SDE_MRET_HMEM_ECC_ERR_FUNC()
 static inline uint64_t BDK_TNS_SDE_MRET_HMEM_ECC_ERR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -14188,7 +14522,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_HMEM_ECC_ERR_FUNC(void)
  * TNS SDE MRE Top Interrrupt Enable High Register
  * Interrupts for the MRE module
  */
-typedef union
+union bdk_tns_sde_mret_int_en_hi
 {
     uint64_t u;
     struct bdk_tns_sde_mret_int_en_hi_s
@@ -14300,7 +14634,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_mret_int_en_hi_s cn; */
-} bdk_tns_sde_mret_int_en_hi_t;
+};
+typedef union bdk_tns_sde_mret_int_en_hi bdk_tns_sde_mret_int_en_hi_t;
 
 #define BDK_TNS_SDE_MRET_INT_EN_HI BDK_TNS_SDE_MRET_INT_EN_HI_FUNC()
 static inline uint64_t BDK_TNS_SDE_MRET_INT_EN_HI_FUNC(void) __attribute__ ((pure, always_inline));
@@ -14324,7 +14659,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_INT_EN_HI_FUNC(void)
  * TNS SDE MRE Top Interrrupt Enable Low Register
  * Interrupts for the MRE module
  */
-typedef union
+union bdk_tns_sde_mret_int_en_lo
 {
     uint64_t u;
     struct bdk_tns_sde_mret_int_en_lo_s
@@ -14436,7 +14771,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_mret_int_en_lo_s cn; */
-} bdk_tns_sde_mret_int_en_lo_t;
+};
+typedef union bdk_tns_sde_mret_int_en_lo bdk_tns_sde_mret_int_en_lo_t;
 
 #define BDK_TNS_SDE_MRET_INT_EN_LO BDK_TNS_SDE_MRET_INT_EN_LO_FUNC()
 static inline uint64_t BDK_TNS_SDE_MRET_INT_EN_LO_FUNC(void) __attribute__ ((pure, always_inline));
@@ -14460,7 +14796,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_INT_EN_LO_FUNC(void)
  * TNS SDE MRE Top Interrrupt Force Register
  * Interrupts for the MRE module
  */
-typedef union
+union bdk_tns_sde_mret_int_frc
 {
     uint64_t u;
     struct bdk_tns_sde_mret_int_frc_s
@@ -14572,7 +14908,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_mret_int_frc_s cn; */
-} bdk_tns_sde_mret_int_frc_t;
+};
+typedef union bdk_tns_sde_mret_int_frc bdk_tns_sde_mret_int_frc_t;
 
 #define BDK_TNS_SDE_MRET_INT_FRC BDK_TNS_SDE_MRET_INT_FRC_FUNC()
 static inline uint64_t BDK_TNS_SDE_MRET_INT_FRC_FUNC(void) __attribute__ ((pure, always_inline));
@@ -14596,7 +14933,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_INT_FRC_FUNC(void)
  * TNS SDE MRE Top Interrrupt W1C Register
  * Interrupts for the MRE module
  */
-typedef union
+union bdk_tns_sde_mret_int_w1c
 {
     uint64_t u;
     struct bdk_tns_sde_mret_int_w1c_s
@@ -14708,7 +15045,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_mret_int_w1c_s cn; */
-} bdk_tns_sde_mret_int_w1c_t;
+};
+typedef union bdk_tns_sde_mret_int_w1c bdk_tns_sde_mret_int_w1c_t;
 
 #define BDK_TNS_SDE_MRET_INT_W1C BDK_TNS_SDE_MRET_INT_W1C_FUNC()
 static inline uint64_t BDK_TNS_SDE_MRET_INT_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -14732,7 +15070,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_INT_W1C_FUNC(void)
  * TNS SDE MRE Top Lock Register
  * Lock Register
  */
-typedef union
+union bdk_tns_sde_mret_lock
 {
     uint32_t u;
     struct bdk_tns_sde_mret_lock_s
@@ -14744,7 +15082,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_mret_lock_s cn; */
-} bdk_tns_sde_mret_lock_t;
+};
+typedef union bdk_tns_sde_mret_lock bdk_tns_sde_mret_lock_t;
 
 #define BDK_TNS_SDE_MRET_LOCK BDK_TNS_SDE_MRET_LOCK_FUNC()
 static inline uint64_t BDK_TNS_SDE_MRET_LOCK_FUNC(void) __attribute__ ((pure, always_inline));
@@ -14769,7 +15108,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_LOCK_FUNC(void)
  * Controls the number and type of SE requests issued byt the MRE
  * module for the purpose of MDT traversal.
  */
-typedef union
+union bdk_tns_sde_mret_mdt_req_cfg
 {
     uint32_t u;
     struct bdk_tns_sde_mret_mdt_req_cfg_s
@@ -14809,7 +15148,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_mret_mdt_req_cfg_s cn; */
-} bdk_tns_sde_mret_mdt_req_cfg_t;
+};
+typedef union bdk_tns_sde_mret_mdt_req_cfg bdk_tns_sde_mret_mdt_req_cfg_t;
 
 #define BDK_TNS_SDE_MRET_MDT_REQ_CFG BDK_TNS_SDE_MRET_MDT_REQ_CFG_FUNC()
 static inline uint64_t BDK_TNS_SDE_MRET_MDT_REQ_CFG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -14833,7 +15173,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_MDT_REQ_CFG_FUNC(void)
  * TNS SDE MRE Top MDT Response Configuration Register
  * Controls behavior of the MRE related to the SE data reception.
  */
-typedef union
+union bdk_tns_sde_mret_mdt_resp_cfg
 {
     uint32_t u;
     struct bdk_tns_sde_mret_mdt_resp_cfg_s
@@ -14853,7 +15193,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_mret_mdt_resp_cfg_s cn; */
-} bdk_tns_sde_mret_mdt_resp_cfg_t;
+};
+typedef union bdk_tns_sde_mret_mdt_resp_cfg bdk_tns_sde_mret_mdt_resp_cfg_t;
 
 #define BDK_TNS_SDE_MRET_MDT_RESP_CFG BDK_TNS_SDE_MRET_MDT_RESP_CFG_FUNC()
 static inline uint64_t BDK_TNS_SDE_MRET_MDT_RESP_CFG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -14877,7 +15218,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_MDT_RESP_CFG_FUNC(void)
  * TNS SDE MRE Top Page FIF 0 Address Register
  * --
  */
-typedef union
+union bdk_tns_sde_mret_pg_fif0_adr
 {
     uint32_t u;
     struct bdk_tns_sde_mret_pg_fif0_adr_s
@@ -14893,7 +15234,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_mret_pg_fif0_adr_s cn; */
-} bdk_tns_sde_mret_pg_fif0_adr_t;
+};
+typedef union bdk_tns_sde_mret_pg_fif0_adr bdk_tns_sde_mret_pg_fif0_adr_t;
 
 #define BDK_TNS_SDE_MRET_PG_FIF0_ADR BDK_TNS_SDE_MRET_PG_FIF0_ADR_FUNC()
 static inline uint64_t BDK_TNS_SDE_MRET_PG_FIF0_ADR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -14917,7 +15259,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_PG_FIF0_ADR_FUNC(void)
  * TNS SDE MRE Top Page FIF 0 Data Register
  * --
  */
-typedef union
+union bdk_tns_sde_mret_pg_fif0_dat
 {
     uint32_t u;
     struct bdk_tns_sde_mret_pg_fif0_dat_s
@@ -14931,7 +15273,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_mret_pg_fif0_dat_s cn; */
-} bdk_tns_sde_mret_pg_fif0_dat_t;
+};
+typedef union bdk_tns_sde_mret_pg_fif0_dat bdk_tns_sde_mret_pg_fif0_dat_t;
 
 #define BDK_TNS_SDE_MRET_PG_FIF0_DAT BDK_TNS_SDE_MRET_PG_FIF0_DAT_FUNC()
 static inline uint64_t BDK_TNS_SDE_MRET_PG_FIF0_DAT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -14955,7 +15298,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_PG_FIF0_DAT_FUNC(void)
  * TNS SDE MRE Top Page FIF 0 Priority 0 Pointer Register
  * --
  */
-typedef union
+union bdk_tns_sde_mret_pg_fif0_pr0_ptr
 {
     uint32_t u;
     struct bdk_tns_sde_mret_pg_fif0_pr0_ptr_s
@@ -14975,7 +15318,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_mret_pg_fif0_pr0_ptr_s cn; */
-} bdk_tns_sde_mret_pg_fif0_pr0_ptr_t;
+};
+typedef union bdk_tns_sde_mret_pg_fif0_pr0_ptr bdk_tns_sde_mret_pg_fif0_pr0_ptr_t;
 
 #define BDK_TNS_SDE_MRET_PG_FIF0_PR0_PTR BDK_TNS_SDE_MRET_PG_FIF0_PR0_PTR_FUNC()
 static inline uint64_t BDK_TNS_SDE_MRET_PG_FIF0_PR0_PTR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -14999,7 +15343,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_PG_FIF0_PR0_PTR_FUNC(void)
  * TNS SDE MRE Top Page FIF 0 Priority 1 Pointer Register
  * --
  */
-typedef union
+union bdk_tns_sde_mret_pg_fif0_pr1_ptr
 {
     uint32_t u;
     struct bdk_tns_sde_mret_pg_fif0_pr1_ptr_s
@@ -15019,7 +15363,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_mret_pg_fif0_pr1_ptr_s cn; */
-} bdk_tns_sde_mret_pg_fif0_pr1_ptr_t;
+};
+typedef union bdk_tns_sde_mret_pg_fif0_pr1_ptr bdk_tns_sde_mret_pg_fif0_pr1_ptr_t;
 
 #define BDK_TNS_SDE_MRET_PG_FIF0_PR1_PTR BDK_TNS_SDE_MRET_PG_FIF0_PR1_PTR_FUNC()
 static inline uint64_t BDK_TNS_SDE_MRET_PG_FIF0_PR1_PTR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -15043,7 +15388,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_PG_FIF0_PR1_PTR_FUNC(void)
  * TNS SDE MRE Top Page FIF 0 Priority 2 Pointer Register
  * --
  */
-typedef union
+union bdk_tns_sde_mret_pg_fif0_pr2_ptr
 {
     uint32_t u;
     struct bdk_tns_sde_mret_pg_fif0_pr2_ptr_s
@@ -15063,7 +15408,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_mret_pg_fif0_pr2_ptr_s cn; */
-} bdk_tns_sde_mret_pg_fif0_pr2_ptr_t;
+};
+typedef union bdk_tns_sde_mret_pg_fif0_pr2_ptr bdk_tns_sde_mret_pg_fif0_pr2_ptr_t;
 
 #define BDK_TNS_SDE_MRET_PG_FIF0_PR2_PTR BDK_TNS_SDE_MRET_PG_FIF0_PR2_PTR_FUNC()
 static inline uint64_t BDK_TNS_SDE_MRET_PG_FIF0_PR2_PTR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -15087,7 +15433,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_PG_FIF0_PR2_PTR_FUNC(void)
  * TNS SDE MRE Top Page FIF 0 Priority 3 Pointer Register
  * --
  */
-typedef union
+union bdk_tns_sde_mret_pg_fif0_pr3_ptr
 {
     uint32_t u;
     struct bdk_tns_sde_mret_pg_fif0_pr3_ptr_s
@@ -15107,7 +15453,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_mret_pg_fif0_pr3_ptr_s cn; */
-} bdk_tns_sde_mret_pg_fif0_pr3_ptr_t;
+};
+typedef union bdk_tns_sde_mret_pg_fif0_pr3_ptr bdk_tns_sde_mret_pg_fif0_pr3_ptr_t;
 
 #define BDK_TNS_SDE_MRET_PG_FIF0_PR3_PTR BDK_TNS_SDE_MRET_PG_FIF0_PR3_PTR_FUNC()
 static inline uint64_t BDK_TNS_SDE_MRET_PG_FIF0_PR3_PTR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -15131,7 +15478,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_PG_FIF0_PR3_PTR_FUNC(void)
  * TNS SDE MRE Top Page FIFO Configuration Word 0 Register
  * Controls the thresholds of the page fifos for each bank
  */
-typedef union
+union bdk_tns_sde_mret_pg_fif_cfg_w0
 {
     uint32_t u;
     struct bdk_tns_sde_mret_pg_fif_cfg_w0_s
@@ -15149,7 +15496,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_mret_pg_fif_cfg_w0_s cn; */
-} bdk_tns_sde_mret_pg_fif_cfg_w0_t;
+};
+typedef union bdk_tns_sde_mret_pg_fif_cfg_w0 bdk_tns_sde_mret_pg_fif_cfg_w0_t;
 
 #define BDK_TNS_SDE_MRET_PG_FIF_CFG_W0 BDK_TNS_SDE_MRET_PG_FIF_CFG_W0_FUNC()
 static inline uint64_t BDK_TNS_SDE_MRET_PG_FIF_CFG_W0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -15173,7 +15521,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_PG_FIF_CFG_W0_FUNC(void)
  * TNS SDE MRE Top Page FIFO Configuration Word 1 Register
  * Continuation of structure defined in TNS_SDE_MRET_PG_FIF_CFG_W0
  */
-typedef union
+union bdk_tns_sde_mret_pg_fif_cfg_w1
 {
     uint32_t u;
     struct bdk_tns_sde_mret_pg_fif_cfg_w1_s
@@ -15187,7 +15535,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_mret_pg_fif_cfg_w1_s cn; */
-} bdk_tns_sde_mret_pg_fif_cfg_w1_t;
+};
+typedef union bdk_tns_sde_mret_pg_fif_cfg_w1 bdk_tns_sde_mret_pg_fif_cfg_w1_t;
 
 #define BDK_TNS_SDE_MRET_PG_FIF_CFG_W1 BDK_TNS_SDE_MRET_PG_FIF_CFG_W1_FUNC()
 static inline uint64_t BDK_TNS_SDE_MRET_PG_FIF_CFG_W1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -15212,7 +15561,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_PG_FIF_CFG_W1_FUNC(void)
  * This register should not be modified from its default values, unless you know
  * what you are doing.
  */
-typedef union
+union bdk_tns_sde_mret_pg_fif_dbg_cfg
 {
     uint32_t u;
     struct bdk_tns_sde_mret_pg_fif_dbg_cfg_s
@@ -15256,7 +15605,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_mret_pg_fif_dbg_cfg_s cn; */
-} bdk_tns_sde_mret_pg_fif_dbg_cfg_t;
+};
+typedef union bdk_tns_sde_mret_pg_fif_dbg_cfg bdk_tns_sde_mret_pg_fif_dbg_cfg_t;
 
 #define BDK_TNS_SDE_MRET_PG_FIF_DBG_CFG BDK_TNS_SDE_MRET_PG_FIF_DBG_CFG_FUNC()
 static inline uint64_t BDK_TNS_SDE_MRET_PG_FIF_DBG_CFG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -15280,7 +15630,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_PG_FIF_DBG_CFG_FUNC(void)
  * TNS SDE MRE Top ScratchPad Register
  * Scratch Pad Register for XCAT
  */
-typedef union
+union bdk_tns_sde_mret_spad
 {
     uint32_t u;
     struct bdk_tns_sde_mret_spad_s
@@ -15292,7 +15642,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_mret_spad_s cn; */
-} bdk_tns_sde_mret_spad_t;
+};
+typedef union bdk_tns_sde_mret_spad bdk_tns_sde_mret_spad_t;
 
 #define BDK_TNS_SDE_MRET_SPAD BDK_TNS_SDE_MRET_SPAD_FUNC()
 static inline uint64_t BDK_TNS_SDE_MRET_SPAD_FUNC(void) __attribute__ ((pure, always_inline));
@@ -15316,7 +15667,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_SPAD_FUNC(void)
  * TNS SDE MRE Top Status Register
  * Status register for general status of the MRE module
  */
-typedef union
+union bdk_tns_sde_mret_sta
 {
     uint32_t u;
     struct bdk_tns_sde_mret_sta_s
@@ -15332,7 +15683,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_mret_sta_s cn; */
-} bdk_tns_sde_mret_sta_t;
+};
+typedef union bdk_tns_sde_mret_sta bdk_tns_sde_mret_sta_t;
 
 #define BDK_TNS_SDE_MRET_STA BDK_TNS_SDE_MRET_STA_FUNC()
 static inline uint64_t BDK_TNS_SDE_MRET_STA_FUNC(void) __attribute__ ((pure, always_inline));
@@ -15356,7 +15708,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_STA_FUNC(void)
  * TNS SDE MRE Top Token In Count Register
  * --
  */
-typedef union
+union bdk_tns_sde_mret_tkn_in_ct
 {
     uint32_t u;
     struct bdk_tns_sde_mret_tkn_in_ct_s
@@ -15370,7 +15722,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_mret_tkn_in_ct_s cn; */
-} bdk_tns_sde_mret_tkn_in_ct_t;
+};
+typedef union bdk_tns_sde_mret_tkn_in_ct bdk_tns_sde_mret_tkn_in_ct_t;
 
 #define BDK_TNS_SDE_MRET_TKN_IN_CT BDK_TNS_SDE_MRET_TKN_IN_CT_FUNC()
 static inline uint64_t BDK_TNS_SDE_MRET_TKN_IN_CT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -15394,7 +15747,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_TKN_IN_CT_FUNC(void)
  * TNS SDE Parser Interrrupt Enable High Register
  * --
  */
-typedef union
+union bdk_tns_sde_parser_int_en_hi
 {
     uint64_t u;
     struct bdk_tns_sde_parser_int_en_hi_s
@@ -15448,7 +15801,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_parser_int_en_hi_s cn; */
-} bdk_tns_sde_parser_int_en_hi_t;
+};
+typedef union bdk_tns_sde_parser_int_en_hi bdk_tns_sde_parser_int_en_hi_t;
 
 #define BDK_TNS_SDE_PARSER_INT_EN_HI BDK_TNS_SDE_PARSER_INT_EN_HI_FUNC()
 static inline uint64_t BDK_TNS_SDE_PARSER_INT_EN_HI_FUNC(void) __attribute__ ((pure, always_inline));
@@ -15472,7 +15826,7 @@ static inline uint64_t BDK_TNS_SDE_PARSER_INT_EN_HI_FUNC(void)
  * TNS SDE Parser Interrrupt Enable Low Register
  * --
  */
-typedef union
+union bdk_tns_sde_parser_int_en_lo
 {
     uint64_t u;
     struct bdk_tns_sde_parser_int_en_lo_s
@@ -15526,7 +15880,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_parser_int_en_lo_s cn; */
-} bdk_tns_sde_parser_int_en_lo_t;
+};
+typedef union bdk_tns_sde_parser_int_en_lo bdk_tns_sde_parser_int_en_lo_t;
 
 #define BDK_TNS_SDE_PARSER_INT_EN_LO BDK_TNS_SDE_PARSER_INT_EN_LO_FUNC()
 static inline uint64_t BDK_TNS_SDE_PARSER_INT_EN_LO_FUNC(void) __attribute__ ((pure, always_inline));
@@ -15550,7 +15905,7 @@ static inline uint64_t BDK_TNS_SDE_PARSER_INT_EN_LO_FUNC(void)
  * TNS SDE Parser Interrrupt Force Register
  * --
  */
-typedef union
+union bdk_tns_sde_parser_int_frc
 {
     uint64_t u;
     struct bdk_tns_sde_parser_int_frc_s
@@ -15604,7 +15959,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_parser_int_frc_s cn; */
-} bdk_tns_sde_parser_int_frc_t;
+};
+typedef union bdk_tns_sde_parser_int_frc bdk_tns_sde_parser_int_frc_t;
 
 #define BDK_TNS_SDE_PARSER_INT_FRC BDK_TNS_SDE_PARSER_INT_FRC_FUNC()
 static inline uint64_t BDK_TNS_SDE_PARSER_INT_FRC_FUNC(void) __attribute__ ((pure, always_inline));
@@ -15628,7 +15984,7 @@ static inline uint64_t BDK_TNS_SDE_PARSER_INT_FRC_FUNC(void)
  * TNS SDE Parser Interrrupt W1C Register
  * --
  */
-typedef union
+union bdk_tns_sde_parser_int_w1c
 {
     uint64_t u;
     struct bdk_tns_sde_parser_int_w1c_s
@@ -15682,7 +16038,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_parser_int_w1c_s cn; */
-} bdk_tns_sde_parser_int_w1c_t;
+};
+typedef union bdk_tns_sde_parser_int_w1c bdk_tns_sde_parser_int_w1c_t;
 
 #define BDK_TNS_SDE_PARSER_INT_W1C BDK_TNS_SDE_PARSER_INT_W1C_FUNC()
 static inline uint64_t BDK_TNS_SDE_PARSER_INT_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -15706,7 +16063,7 @@ static inline uint64_t BDK_TNS_SDE_PARSER_INT_W1C_FUNC(void)
  * TNS SDE Parser Lock Register
  * Lock Register
  */
-typedef union
+union bdk_tns_sde_parser_lock
 {
     uint32_t u;
     struct bdk_tns_sde_parser_lock_s
@@ -15718,7 +16075,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_parser_lock_s cn; */
-} bdk_tns_sde_parser_lock_t;
+};
+typedef union bdk_tns_sde_parser_lock bdk_tns_sde_parser_lock_t;
 
 #define BDK_TNS_SDE_PARSER_LOCK BDK_TNS_SDE_PARSER_LOCK_FUNC()
 static inline uint64_t BDK_TNS_SDE_PARSER_LOCK_FUNC(void) __attribute__ ((pure, always_inline));
@@ -15742,7 +16100,7 @@ static inline uint64_t BDK_TNS_SDE_PARSER_LOCK_FUNC(void)
  * TNS SDE Parser ScratchPad Register
  * Scratch Pad Register for XCAT
  */
-typedef union
+union bdk_tns_sde_parser_spad
 {
     uint32_t u;
     struct bdk_tns_sde_parser_spad_s
@@ -15754,7 +16112,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_parser_spad_s cn; */
-} bdk_tns_sde_parser_spad_t;
+};
+typedef union bdk_tns_sde_parser_spad bdk_tns_sde_parser_spad_t;
 
 #define BDK_TNS_SDE_PARSER_SPAD BDK_TNS_SDE_PARSER_SPAD_FUNC()
 static inline uint64_t BDK_TNS_SDE_PARSER_SPAD_FUNC(void) __attribute__ ((pure, always_inline));
@@ -15778,7 +16137,7 @@ static inline uint64_t BDK_TNS_SDE_PARSER_SPAD_FUNC(void)
  * TNS SDE PE KPU KPU Debug Word 0 Registers
  * Provides debug information about last TCAM entry
  */
-typedef union
+union bdk_tns_sde_pe_kpux_kpu_dbg_w0
 {
     uint32_t u;
     struct bdk_tns_sde_pe_kpux_kpu_dbg_w0_s
@@ -15794,7 +16153,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_kpux_kpu_dbg_w0_s cn; */
-} bdk_tns_sde_pe_kpux_kpu_dbg_w0_t;
+};
+typedef union bdk_tns_sde_pe_kpux_kpu_dbg_w0 bdk_tns_sde_pe_kpux_kpu_dbg_w0_t;
 
 static inline uint64_t BDK_TNS_SDE_PE_KPUX_KPU_DBG_W0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_PE_KPUX_KPU_DBG_W0(unsigned long a)
@@ -15817,7 +16177,7 @@ static inline uint64_t BDK_TNS_SDE_PE_KPUX_KPU_DBG_W0(unsigned long a)
  * TNS SDE PE KPU KPU Debug Word 1 Registers
  * Continuation of structure defined in TNS_SDE_PE_KPU(0..3)_KPU_DBG_W0
  */
-typedef union
+union bdk_tns_sde_pe_kpux_kpu_dbg_w1
 {
     uint32_t u;
     struct bdk_tns_sde_pe_kpux_kpu_dbg_w1_s
@@ -15829,7 +16189,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_kpux_kpu_dbg_w1_s cn; */
-} bdk_tns_sde_pe_kpux_kpu_dbg_w1_t;
+};
+typedef union bdk_tns_sde_pe_kpux_kpu_dbg_w1 bdk_tns_sde_pe_kpux_kpu_dbg_w1_t;
 
 static inline uint64_t BDK_TNS_SDE_PE_KPUX_KPU_DBG_W1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_PE_KPUX_KPU_DBG_W1(unsigned long a)
@@ -15852,7 +16213,7 @@ static inline uint64_t BDK_TNS_SDE_PE_KPUX_KPU_DBG_W1(unsigned long a)
  * TNS SDE PE KPU KPU Debug Word 2 Registers
  * Continuation of structure defined in TNS_SDE_PE_KPU(0..3)_KPU_DBG_W0
  */
-typedef union
+union bdk_tns_sde_pe_kpux_kpu_dbg_w2
 {
     uint32_t u;
     struct bdk_tns_sde_pe_kpux_kpu_dbg_w2_s
@@ -15870,7 +16231,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_kpux_kpu_dbg_w2_s cn; */
-} bdk_tns_sde_pe_kpux_kpu_dbg_w2_t;
+};
+typedef union bdk_tns_sde_pe_kpux_kpu_dbg_w2 bdk_tns_sde_pe_kpux_kpu_dbg_w2_t;
 
 static inline uint64_t BDK_TNS_SDE_PE_KPUX_KPU_DBG_W2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_PE_KPUX_KPU_DBG_W2(unsigned long a)
@@ -15893,7 +16255,7 @@ static inline uint64_t BDK_TNS_SDE_PE_KPUX_KPU_DBG_W2(unsigned long a)
  * TNS SDE PE KPU KPU ECC Control Registers
  * --
  */
-typedef union
+union bdk_tns_sde_pe_kpux_kpu_ecc_ctl
 {
     uint32_t u;
     struct bdk_tns_sde_pe_kpux_kpu_ecc_ctl_s
@@ -15911,7 +16273,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_kpux_kpu_ecc_ctl_s cn; */
-} bdk_tns_sde_pe_kpux_kpu_ecc_ctl_t;
+};
+typedef union bdk_tns_sde_pe_kpux_kpu_ecc_ctl bdk_tns_sde_pe_kpux_kpu_ecc_ctl_t;
 
 static inline uint64_t BDK_TNS_SDE_PE_KPUX_KPU_ECC_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_PE_KPUX_KPU_ECC_CTL(unsigned long a)
@@ -15938,7 +16301,7 @@ static inline uint64_t BDK_TNS_SDE_PE_KPUX_KPU_ECC_CTL(unsigned long a)
  * When writing, make the access to this decoder atomic w.r.t. other writes to
  * this decoder.
  */
-typedef union
+union bdk_tns_sde_pe_kpux_kpu_sramx_w0
 {
     uint64_t u;
     struct bdk_tns_sde_pe_kpux_kpu_sramx_w0_s
@@ -15970,7 +16333,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_kpux_kpu_sramx_w0_s cn; */
-} bdk_tns_sde_pe_kpux_kpu_sramx_w0_t;
+};
+typedef union bdk_tns_sde_pe_kpux_kpu_sramx_w0 bdk_tns_sde_pe_kpux_kpu_sramx_w0_t;
 
 static inline uint64_t BDK_TNS_SDE_PE_KPUX_KPU_SRAMX_W0(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_PE_KPUX_KPU_SRAMX_W0(unsigned long a, unsigned long b)
@@ -15993,7 +16357,7 @@ static inline uint64_t BDK_TNS_SDE_PE_KPUX_KPU_SRAMX_W0(unsigned long a, unsigne
  * TNS SDE PE KPU KPU Sram Word 1 Registers
  * Continuation of structure defined in TNS_SDE_PE_KPU(0..3)_KPU_SRAM(0..127)_W0
  */
-typedef union
+union bdk_tns_sde_pe_kpux_kpu_sramx_w1
 {
     uint64_t u;
     struct bdk_tns_sde_pe_kpux_kpu_sramx_w1_s
@@ -16013,7 +16377,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_kpux_kpu_sramx_w1_s cn; */
-} bdk_tns_sde_pe_kpux_kpu_sramx_w1_t;
+};
+typedef union bdk_tns_sde_pe_kpux_kpu_sramx_w1 bdk_tns_sde_pe_kpux_kpu_sramx_w1_t;
 
 static inline uint64_t BDK_TNS_SDE_PE_KPUX_KPU_SRAMX_W1(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_PE_KPUX_KPU_SRAMX_W1(unsigned long a, unsigned long b)
@@ -16036,7 +16401,7 @@ static inline uint64_t BDK_TNS_SDE_PE_KPUX_KPU_SRAMX_W1(unsigned long a, unsigne
  * TNS SDE PE KPU Lock Registers
  * Lock Register
  */
-typedef union
+union bdk_tns_sde_pe_kpux_lock
 {
     uint32_t u;
     struct bdk_tns_sde_pe_kpux_lock_s
@@ -16048,7 +16413,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_kpux_lock_s cn; */
-} bdk_tns_sde_pe_kpux_lock_t;
+};
+typedef union bdk_tns_sde_pe_kpux_lock bdk_tns_sde_pe_kpux_lock_t;
 
 static inline uint64_t BDK_TNS_SDE_PE_KPUX_LOCK(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_PE_KPUX_LOCK(unsigned long a)
@@ -16071,7 +16437,7 @@ static inline uint64_t BDK_TNS_SDE_PE_KPUX_LOCK(unsigned long a)
  * TNS SDE PE KPU ScratchPad Registers
  * Scratch Pad Register for XCAT
  */
-typedef union
+union bdk_tns_sde_pe_kpux_spad
 {
     uint32_t u;
     struct bdk_tns_sde_pe_kpux_spad_s
@@ -16083,7 +16449,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_kpux_spad_s cn; */
-} bdk_tns_sde_pe_kpux_spad_t;
+};
+typedef union bdk_tns_sde_pe_kpux_spad bdk_tns_sde_pe_kpux_spad_t;
 
 static inline uint64_t BDK_TNS_SDE_PE_KPUX_SPAD(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_PE_KPUX_SPAD(unsigned long a)
@@ -16106,7 +16473,7 @@ static inline uint64_t BDK_TNS_SDE_PE_KPUX_SPAD(unsigned long a)
  * TNS SDE PE KPU TCAM Data Registers
  * DUMMY REGISTER -- ACCESS TO THIS REGISTER HAS NO EFFECT.
  */
-typedef union
+union bdk_tns_sde_pe_kpux_tcam_datx
 {
     uint64_t u;
     struct bdk_tns_sde_pe_kpux_tcam_datx_s
@@ -16128,7 +16495,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_kpux_tcam_datx_s cn; */
-} bdk_tns_sde_pe_kpux_tcam_datx_t;
+};
+typedef union bdk_tns_sde_pe_kpux_tcam_datx bdk_tns_sde_pe_kpux_tcam_datx_t;
 
 static inline uint64_t BDK_TNS_SDE_PE_KPUX_TCAM_DATX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_PE_KPUX_TCAM_DATX(unsigned long a, unsigned long b)
@@ -16155,7 +16523,7 @@ static inline uint64_t BDK_TNS_SDE_PE_KPUX_TCAM_DATX(unsigned long a, unsigned l
  * When writing, make the access to this decoder atomic w.r.t. other writes to
  * this decoder.
  */
-typedef union
+union bdk_tns_sde_pe_kpux_tcam_dmskx_w0
 {
     uint32_t u;
     struct bdk_tns_sde_pe_kpux_tcam_dmskx_w0_s
@@ -16167,7 +16535,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_kpux_tcam_dmskx_w0_s cn; */
-} bdk_tns_sde_pe_kpux_tcam_dmskx_w0_t;
+};
+typedef union bdk_tns_sde_pe_kpux_tcam_dmskx_w0 bdk_tns_sde_pe_kpux_tcam_dmskx_w0_t;
 
 static inline uint64_t BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W0(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W0(unsigned long a, unsigned long b)
@@ -16190,7 +16559,7 @@ static inline uint64_t BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W0(unsigned long a, unsign
  * TNS SDE PE KPU TCAM Data Mask Word 1 Registers
  * Continuation of structure defined in TNS_SDE_PE_KPU(0..3)_TCAM_DMSK(0..127)_W0
  */
-typedef union
+union bdk_tns_sde_pe_kpux_tcam_dmskx_w1
 {
     uint32_t u;
     struct bdk_tns_sde_pe_kpux_tcam_dmskx_w1_s
@@ -16202,7 +16571,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_kpux_tcam_dmskx_w1_s cn; */
-} bdk_tns_sde_pe_kpux_tcam_dmskx_w1_t;
+};
+typedef union bdk_tns_sde_pe_kpux_tcam_dmskx_w1 bdk_tns_sde_pe_kpux_tcam_dmskx_w1_t;
 
 static inline uint64_t BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W1(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W1(unsigned long a, unsigned long b)
@@ -16225,7 +16595,7 @@ static inline uint64_t BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W1(unsigned long a, unsign
  * TNS SDE PE KPU TCAM Data Mask Word 2 Registers
  * Continuation of structure defined in TNS_SDE_PE_KPU(0..3)_TCAM_DMSK(0..127)_W0
  */
-typedef union
+union bdk_tns_sde_pe_kpux_tcam_dmskx_w2
 {
     uint32_t u;
     struct bdk_tns_sde_pe_kpux_tcam_dmskx_w2_s
@@ -16237,7 +16607,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_kpux_tcam_dmskx_w2_s cn; */
-} bdk_tns_sde_pe_kpux_tcam_dmskx_w2_t;
+};
+typedef union bdk_tns_sde_pe_kpux_tcam_dmskx_w2 bdk_tns_sde_pe_kpux_tcam_dmskx_w2_t;
 
 static inline uint64_t BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W2(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W2(unsigned long a, unsigned long b)
@@ -16260,7 +16631,7 @@ static inline uint64_t BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W2(unsigned long a, unsign
  * TNS SDE PE KPU TCAM Data Mask Word 3 Registers
  * Continuation of structure defined in TNS_SDE_PE_KPU(0..3)_TCAM_DMSK(0..127)_W0
  */
-typedef union
+union bdk_tns_sde_pe_kpux_tcam_dmskx_w3
 {
     uint32_t u;
     struct bdk_tns_sde_pe_kpux_tcam_dmskx_w3_s
@@ -16272,7 +16643,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_kpux_tcam_dmskx_w3_s cn; */
-} bdk_tns_sde_pe_kpux_tcam_dmskx_w3_t;
+};
+typedef union bdk_tns_sde_pe_kpux_tcam_dmskx_w3 bdk_tns_sde_pe_kpux_tcam_dmskx_w3_t;
 
 static inline uint64_t BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W3(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W3(unsigned long a, unsigned long b)
@@ -16295,7 +16667,7 @@ static inline uint64_t BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W3(unsigned long a, unsign
  * TNS SDE PE KPU TCAM Data Mask Word 4 Registers
  * Continuation of structure defined in TNS_SDE_PE_KPU(0..3)_TCAM_DMSK(0..127)_W0
  */
-typedef union
+union bdk_tns_sde_pe_kpux_tcam_dmskx_w4
 {
     uint32_t u;
     struct bdk_tns_sde_pe_kpux_tcam_dmskx_w4_s
@@ -16307,7 +16679,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_kpux_tcam_dmskx_w4_s cn; */
-} bdk_tns_sde_pe_kpux_tcam_dmskx_w4_t;
+};
+typedef union bdk_tns_sde_pe_kpux_tcam_dmskx_w4 bdk_tns_sde_pe_kpux_tcam_dmskx_w4_t;
 
 static inline uint64_t BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W4(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W4(unsigned long a, unsigned long b)
@@ -16330,7 +16703,7 @@ static inline uint64_t BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W4(unsigned long a, unsign
  * TNS SDE PE KPU TCAM Data Mask Word 5 Registers
  * Continuation of structure defined in TNS_SDE_PE_KPU(0..3)_TCAM_DMSK(0..127)_W0
  */
-typedef union
+union bdk_tns_sde_pe_kpux_tcam_dmskx_w5
 {
     uint32_t u;
     struct bdk_tns_sde_pe_kpux_tcam_dmskx_w5_s
@@ -16342,7 +16715,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_kpux_tcam_dmskx_w5_s cn; */
-} bdk_tns_sde_pe_kpux_tcam_dmskx_w5_t;
+};
+typedef union bdk_tns_sde_pe_kpux_tcam_dmskx_w5 bdk_tns_sde_pe_kpux_tcam_dmskx_w5_t;
 
 static inline uint64_t BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W5(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W5(unsigned long a, unsigned long b)
@@ -16365,7 +16739,7 @@ static inline uint64_t BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W5(unsigned long a, unsign
  * TNS SDE PE KPU TCAM Data Mask Word 6 Registers
  * Continuation of structure defined in TNS_SDE_PE_KPU(0..3)_TCAM_DMSK(0..127)_W0
  */
-typedef union
+union bdk_tns_sde_pe_kpux_tcam_dmskx_w6
 {
     uint32_t u;
     struct bdk_tns_sde_pe_kpux_tcam_dmskx_w6_s
@@ -16381,7 +16755,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_kpux_tcam_dmskx_w6_s cn; */
-} bdk_tns_sde_pe_kpux_tcam_dmskx_w6_t;
+};
+typedef union bdk_tns_sde_pe_kpux_tcam_dmskx_w6 bdk_tns_sde_pe_kpux_tcam_dmskx_w6_t;
 
 static inline uint64_t BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W6(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W6(unsigned long a, unsigned long b)
@@ -16404,7 +16779,7 @@ static inline uint64_t BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W6(unsigned long a, unsign
  * TNS SDE PE KPU TCAM Mask Registers
  * DUMMY REGISTER -- ACCESS TO THIS REGISTER HAS NO EFFECT.
  */
-typedef union
+union bdk_tns_sde_pe_kpux_tcam_maskx
 {
     uint64_t u;
     struct bdk_tns_sde_pe_kpux_tcam_maskx_s
@@ -16426,7 +16801,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_kpux_tcam_maskx_s cn; */
-} bdk_tns_sde_pe_kpux_tcam_maskx_t;
+};
+typedef union bdk_tns_sde_pe_kpux_tcam_maskx bdk_tns_sde_pe_kpux_tcam_maskx_t;
 
 static inline uint64_t BDK_TNS_SDE_PE_KPUX_TCAM_MASKX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_PE_KPUX_TCAM_MASKX(unsigned long a, unsigned long b)
@@ -16449,7 +16825,7 @@ static inline uint64_t BDK_TNS_SDE_PE_KPUX_TCAM_MASKX(unsigned long a, unsigned 
  * TNS SDE PE Layer Command Command Info Word 0 Register
  * Contains different values that are used during the token creation
  */
-typedef union
+union bdk_tns_sde_pe_lcmd_cmdinfo_w0
 {
     uint64_t u;
     struct bdk_tns_sde_pe_lcmd_cmdinfo_w0_s
@@ -16481,7 +16857,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_lcmd_cmdinfo_w0_s cn; */
-} bdk_tns_sde_pe_lcmd_cmdinfo_w0_t;
+};
+typedef union bdk_tns_sde_pe_lcmd_cmdinfo_w0 bdk_tns_sde_pe_lcmd_cmdinfo_w0_t;
 
 #define BDK_TNS_SDE_PE_LCMD_CMDINFO_W0 BDK_TNS_SDE_PE_LCMD_CMDINFO_W0_FUNC()
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_CMDINFO_W0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -16505,7 +16882,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_CMDINFO_W0_FUNC(void)
  * TNS SDE PE Layer Command Command Info Word 1 Register
  * Continuation of structure defined in TNS_SDE_PE_LCMD_CMDINFO_W0
  */
-typedef union
+union bdk_tns_sde_pe_lcmd_cmdinfo_w1
 {
     uint64_t u;
     struct bdk_tns_sde_pe_lcmd_cmdinfo_w1_s
@@ -16519,7 +16896,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_lcmd_cmdinfo_w1_s cn; */
-} bdk_tns_sde_pe_lcmd_cmdinfo_w1_t;
+};
+typedef union bdk_tns_sde_pe_lcmd_cmdinfo_w1 bdk_tns_sde_pe_lcmd_cmdinfo_w1_t;
 
 #define BDK_TNS_SDE_PE_LCMD_CMDINFO_W1 BDK_TNS_SDE_PE_LCMD_CMDINFO_W1_FUNC()
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_CMDINFO_W1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -16543,7 +16921,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_CMDINFO_W1_FUNC(void)
  * TNS SDE PE Layer Command Command Info Word 2 Register
  * Continuation of structure defined in TNS_SDE_PE_LCMD_CMDINFO_W0
  */
-typedef union
+union bdk_tns_sde_pe_lcmd_cmdinfo_w2
 {
     uint64_t u;
     struct bdk_tns_sde_pe_lcmd_cmdinfo_w2_s
@@ -16557,7 +16935,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_lcmd_cmdinfo_w2_s cn; */
-} bdk_tns_sde_pe_lcmd_cmdinfo_w2_t;
+};
+typedef union bdk_tns_sde_pe_lcmd_cmdinfo_w2 bdk_tns_sde_pe_lcmd_cmdinfo_w2_t;
 
 #define BDK_TNS_SDE_PE_LCMD_CMDINFO_W2 BDK_TNS_SDE_PE_LCMD_CMDINFO_W2_FUNC()
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_CMDINFO_W2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -16581,7 +16960,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_CMDINFO_W2_FUNC(void)
  * TNS SDE PE Layer Command Command Info Word 3 Register
  * Continuation of structure defined in TNS_SDE_PE_LCMD_CMDINFO_W0
  */
-typedef union
+union bdk_tns_sde_pe_lcmd_cmdinfo_w3
 {
     uint64_t u;
     struct bdk_tns_sde_pe_lcmd_cmdinfo_w3_s
@@ -16597,7 +16976,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_lcmd_cmdinfo_w3_s cn; */
-} bdk_tns_sde_pe_lcmd_cmdinfo_w3_t;
+};
+typedef union bdk_tns_sde_pe_lcmd_cmdinfo_w3 bdk_tns_sde_pe_lcmd_cmdinfo_w3_t;
 
 #define BDK_TNS_SDE_PE_LCMD_CMDINFO_W3 BDK_TNS_SDE_PE_LCMD_CMDINFO_W3_FUNC()
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_CMDINFO_W3_FUNC(void) __attribute__ ((pure, always_inline));
@@ -16622,7 +17002,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_CMDINFO_W3_FUNC(void)
  * Contains canon commands for layers which match the stored layerType and
  * layerHash values
  */
-typedef union
+union bdk_tns_sde_pe_lcmd_cnncmdx
 {
     uint64_t u;
     struct bdk_tns_sde_pe_lcmd_cnncmdx_s
@@ -16642,7 +17022,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_lcmd_cnncmdx_s cn; */
-} bdk_tns_sde_pe_lcmd_cnncmdx_t;
+};
+typedef union bdk_tns_sde_pe_lcmd_cnncmdx bdk_tns_sde_pe_lcmd_cnncmdx_t;
 
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_CNNCMDX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_CNNCMDX(unsigned long a)
@@ -16665,7 +17046,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_CNNCMDX(unsigned long a)
  * TNS SDE PE Layer Command Control Word 0 Register
  * This register is used for debug purpose only
  */
-typedef union
+union bdk_tns_sde_pe_lcmd_ctl_w0
 {
     uint32_t u;
     struct bdk_tns_sde_pe_lcmd_ctl_w0_s
@@ -16681,7 +17062,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_lcmd_ctl_w0_s cn; */
-} bdk_tns_sde_pe_lcmd_ctl_w0_t;
+};
+typedef union bdk_tns_sde_pe_lcmd_ctl_w0 bdk_tns_sde_pe_lcmd_ctl_w0_t;
 
 #define BDK_TNS_SDE_PE_LCMD_CTL_W0 BDK_TNS_SDE_PE_LCMD_CTL_W0_FUNC()
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_CTL_W0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -16705,7 +17087,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_CTL_W0_FUNC(void)
  * TNS SDE PE Layer Command Control Word 1 Register
  * Continuation of structure defined in TNS_SDE_PE_LCMD_CTL_W0
  */
-typedef union
+union bdk_tns_sde_pe_lcmd_ctl_w1
 {
     uint32_t u;
     struct bdk_tns_sde_pe_lcmd_ctl_w1_s
@@ -16727,7 +17109,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_lcmd_ctl_w1_s cn; */
-} bdk_tns_sde_pe_lcmd_ctl_w1_t;
+};
+typedef union bdk_tns_sde_pe_lcmd_ctl_w1 bdk_tns_sde_pe_lcmd_ctl_w1_t;
 
 #define BDK_TNS_SDE_PE_LCMD_CTL_W1 BDK_TNS_SDE_PE_LCMD_CTL_W1_FUNC()
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_CTL_W1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -16751,7 +17134,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_CTL_W1_FUNC(void)
  * TNS SDE PE Layer Command Control Word 2 Register
  * Continuation of structure defined in TNS_SDE_PE_LCMD_CTL_W0
  */
-typedef union
+union bdk_tns_sde_pe_lcmd_ctl_w2
 {
     uint32_t u;
     struct bdk_tns_sde_pe_lcmd_ctl_w2_s
@@ -16767,7 +17150,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_lcmd_ctl_w2_s cn; */
-} bdk_tns_sde_pe_lcmd_ctl_w2_t;
+};
+typedef union bdk_tns_sde_pe_lcmd_ctl_w2 bdk_tns_sde_pe_lcmd_ctl_w2_t;
 
 #define BDK_TNS_SDE_PE_LCMD_CTL_W2 BDK_TNS_SDE_PE_LCMD_CTL_W2_FUNC()
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_CTL_W2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -16794,7 +17178,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_CTL_W2_FUNC(void)
  * bit.
  * If they match, the packet is considered to be received with an error.
  */
-typedef union
+union bdk_tns_sde_pe_lcmd_errorbodyptr
 {
     uint32_t u;
     struct bdk_tns_sde_pe_lcmd_errorbodyptr_s
@@ -16810,7 +17194,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_lcmd_errorbodyptr_s cn; */
-} bdk_tns_sde_pe_lcmd_errorbodyptr_t;
+};
+typedef union bdk_tns_sde_pe_lcmd_errorbodyptr bdk_tns_sde_pe_lcmd_errorbodyptr_t;
 
 #define BDK_TNS_SDE_PE_LCMD_ERRORBODYPTR BDK_TNS_SDE_PE_LCMD_ERRORBODYPTR_FUNC()
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_ERRORBODYPTR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -16834,7 +17219,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_ERRORBODYPTR_FUNC(void)
  * TNS SDE PE Layer Command Ethernet Layer Control Registers
  * Contains the ether-type and vlan offset values that are used for etherent layer
  */
-typedef union
+union bdk_tns_sde_pe_lcmd_ethernetctrlx
 {
     uint32_t u;
     struct bdk_tns_sde_pe_lcmd_ethernetctrlx_s
@@ -16856,7 +17241,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_lcmd_ethernetctrlx_s cn; */
-} bdk_tns_sde_pe_lcmd_ethernetctrlx_t;
+};
+typedef union bdk_tns_sde_pe_lcmd_ethernetctrlx bdk_tns_sde_pe_lcmd_ethernetctrlx_t;
 
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_ETHERNETCTRLX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_ETHERNETCTRLX(unsigned long a)
@@ -16884,7 +17270,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_ETHERNETCTRLX(unsigned long a)
  * When writing, make the access to this decoder atomic w.r.t. other writes to
  * this decoder.
  */
-typedef union
+union bdk_tns_sde_pe_lcmd_hashcmdsx_w0
 {
     uint32_t u;
     struct bdk_tns_sde_pe_lcmd_hashcmdsx_w0_s
@@ -16910,7 +17296,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_lcmd_hashcmdsx_w0_s cn; */
-} bdk_tns_sde_pe_lcmd_hashcmdsx_w0_t;
+};
+typedef union bdk_tns_sde_pe_lcmd_hashcmdsx_w0 bdk_tns_sde_pe_lcmd_hashcmdsx_w0_t;
 
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_HASHCMDSX_W0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_HASHCMDSX_W0(unsigned long a)
@@ -16933,7 +17320,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_HASHCMDSX_W0(unsigned long a)
  * TNS SDE PE Layer Command Hash Commands Word 1 Registers
  * Continuation of structure defined in TNS_SDE_PE_LCMD_HASHCMDS(0..31)_W0
  */
-typedef union
+union bdk_tns_sde_pe_lcmd_hashcmdsx_w1
 {
     uint32_t u;
     struct bdk_tns_sde_pe_lcmd_hashcmdsx_w1_s
@@ -16961,7 +17348,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_lcmd_hashcmdsx_w1_s cn; */
-} bdk_tns_sde_pe_lcmd_hashcmdsx_w1_t;
+};
+typedef union bdk_tns_sde_pe_lcmd_hashcmdsx_w1 bdk_tns_sde_pe_lcmd_hashcmdsx_w1_t;
 
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_HASHCMDSX_W1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_HASHCMDSX_W1(unsigned long a)
@@ -16984,7 +17372,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_HASHCMDSX_W1(unsigned long a)
  * TNS SDE PE Layer Command Hash Commands Word 2 Registers
  * Continuation of structure defined in TNS_SDE_PE_LCMD_HASHCMDS(0..31)_W0
  */
-typedef union
+union bdk_tns_sde_pe_lcmd_hashcmdsx_w2
 {
     uint32_t u;
     struct bdk_tns_sde_pe_lcmd_hashcmdsx_w2_s
@@ -16998,7 +17386,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_lcmd_hashcmdsx_w2_s cn; */
-} bdk_tns_sde_pe_lcmd_hashcmdsx_w2_t;
+};
+typedef union bdk_tns_sde_pe_lcmd_hashcmdsx_w2 bdk_tns_sde_pe_lcmd_hashcmdsx_w2_t;
 
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_HASHCMDSX_W2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_HASHCMDSX_W2(unsigned long a)
@@ -17023,7 +17412,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_HASHCMDSX_W2(unsigned long a)
  * used are: 0: 2011 1: 2415 2: 2461 3: 2745 4: 2431 5: 2707 6: 2055 7: 2157.
  * Polynomials for lag are 0: 435 1: 567 2: 763 3: 551
  */
-typedef union
+union bdk_tns_sde_pe_lcmd_hashctrl_w0
 {
     uint64_t u;
     struct bdk_tns_sde_pe_lcmd_hashctrl_w0_s
@@ -17055,7 +17444,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_lcmd_hashctrl_w0_s cn; */
-} bdk_tns_sde_pe_lcmd_hashctrl_w0_t;
+};
+typedef union bdk_tns_sde_pe_lcmd_hashctrl_w0 bdk_tns_sde_pe_lcmd_hashctrl_w0_t;
 
 #define BDK_TNS_SDE_PE_LCMD_HASHCTRL_W0 BDK_TNS_SDE_PE_LCMD_HASHCTRL_W0_FUNC()
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_HASHCTRL_W0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -17079,7 +17469,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_HASHCTRL_W0_FUNC(void)
  * TNS SDE PE Layer Command Hash Generation Control Word 1 Register
  * Continuation of structure defined in TNS_SDE_PE_LCMD_HASHCTRL_W0
  */
-typedef union
+union bdk_tns_sde_pe_lcmd_hashctrl_w1
 {
     uint64_t u;
     struct bdk_tns_sde_pe_lcmd_hashctrl_w1_s
@@ -17105,7 +17495,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_lcmd_hashctrl_w1_s cn; */
-} bdk_tns_sde_pe_lcmd_hashctrl_w1_t;
+};
+typedef union bdk_tns_sde_pe_lcmd_hashctrl_w1 bdk_tns_sde_pe_lcmd_hashctrl_w1_t;
 
 #define BDK_TNS_SDE_PE_LCMD_HASHCTRL_W1 BDK_TNS_SDE_PE_LCMD_HASHCTRL_W1_FUNC()
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_HASHCTRL_W1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -17129,7 +17520,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_HASHCTRL_W1_FUNC(void)
  * TNS SDE PE Layer Command Header Memory Data Registers
  * --
  */
-typedef union
+union bdk_tns_sde_pe_lcmd_hmem_dat_wx
 {
     uint64_t u;
     struct bdk_tns_sde_pe_lcmd_hmem_dat_wx_s
@@ -17141,7 +17532,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_lcmd_hmem_dat_wx_s cn; */
-} bdk_tns_sde_pe_lcmd_hmem_dat_wx_t;
+};
+typedef union bdk_tns_sde_pe_lcmd_hmem_dat_wx bdk_tns_sde_pe_lcmd_hmem_dat_wx_t;
 
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_HMEM_DAT_WX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_HMEM_DAT_WX(unsigned long a)
@@ -17164,7 +17556,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_HMEM_DAT_WX(unsigned long a)
  * TNS SDE PE Layer Command Info Memory Data Word 0 Register
  * --
  */
-typedef union
+union bdk_tns_sde_pe_lcmd_imem_dat_w0
 {
     uint64_t u;
     struct bdk_tns_sde_pe_lcmd_imem_dat_w0_s
@@ -17176,7 +17568,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_lcmd_imem_dat_w0_s cn; */
-} bdk_tns_sde_pe_lcmd_imem_dat_w0_t;
+};
+typedef union bdk_tns_sde_pe_lcmd_imem_dat_w0 bdk_tns_sde_pe_lcmd_imem_dat_w0_t;
 
 #define BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W0 BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W0_FUNC()
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -17200,7 +17593,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W0_FUNC(void)
  * TNS SDE PE Layer Command Info Memory Data Word 1 Register
  * Continuation of structure defined in TNS_SDE_PE_LCMD_IMEM_DAT_W0
  */
-typedef union
+union bdk_tns_sde_pe_lcmd_imem_dat_w1
 {
     uint64_t u;
     struct bdk_tns_sde_pe_lcmd_imem_dat_w1_s
@@ -17216,7 +17609,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_lcmd_imem_dat_w1_s cn; */
-} bdk_tns_sde_pe_lcmd_imem_dat_w1_t;
+};
+typedef union bdk_tns_sde_pe_lcmd_imem_dat_w1 bdk_tns_sde_pe_lcmd_imem_dat_w1_t;
 
 #define BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W1 BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W1_FUNC()
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -17240,7 +17634,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W1_FUNC(void)
  * TNS SDE PE Layer Command Info Memory Data Word 2 Register
  * Continuation of structure defined in TNS_SDE_PE_LCMD_IMEM_DAT_W0
  */
-typedef union
+union bdk_tns_sde_pe_lcmd_imem_dat_w2
 {
     uint64_t u;
     struct bdk_tns_sde_pe_lcmd_imem_dat_w2_s
@@ -17256,7 +17650,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_lcmd_imem_dat_w2_s cn; */
-} bdk_tns_sde_pe_lcmd_imem_dat_w2_t;
+};
+typedef union bdk_tns_sde_pe_lcmd_imem_dat_w2 bdk_tns_sde_pe_lcmd_imem_dat_w2_t;
 
 #define BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W2 BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W2_FUNC()
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -17280,7 +17675,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W2_FUNC(void)
  * TNS SDE PE Layer Command Info Memory Data Word 3 Register
  * Continuation of structure defined in TNS_SDE_PE_LCMD_IMEM_DAT_W0
  */
-typedef union
+union bdk_tns_sde_pe_lcmd_imem_dat_w3
 {
     uint64_t u;
     struct bdk_tns_sde_pe_lcmd_imem_dat_w3_s
@@ -17296,7 +17691,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_lcmd_imem_dat_w3_s cn; */
-} bdk_tns_sde_pe_lcmd_imem_dat_w3_t;
+};
+typedef union bdk_tns_sde_pe_lcmd_imem_dat_w3 bdk_tns_sde_pe_lcmd_imem_dat_w3_t;
 
 #define BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W3 BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W3_FUNC()
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W3_FUNC(void) __attribute__ ((pure, always_inline));
@@ -17320,7 +17716,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W3_FUNC(void)
  * TNS SDE PE Layer Command Info Memory Data Word 4 Register
  * Continuation of structure defined in TNS_SDE_PE_LCMD_IMEM_DAT_W0
  */
-typedef union
+union bdk_tns_sde_pe_lcmd_imem_dat_w4
 {
     uint64_t u;
     struct bdk_tns_sde_pe_lcmd_imem_dat_w4_s
@@ -17336,7 +17732,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_lcmd_imem_dat_w4_s cn; */
-} bdk_tns_sde_pe_lcmd_imem_dat_w4_t;
+};
+typedef union bdk_tns_sde_pe_lcmd_imem_dat_w4 bdk_tns_sde_pe_lcmd_imem_dat_w4_t;
 
 #define BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W4 BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W4_FUNC()
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W4_FUNC(void) __attribute__ ((pure, always_inline));
@@ -17360,7 +17757,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W4_FUNC(void)
  * TNS SDE PE Layer Command Info Memory Data Word 5 Register
  * Continuation of structure defined in TNS_SDE_PE_LCMD_IMEM_DAT_W0
  */
-typedef union
+union bdk_tns_sde_pe_lcmd_imem_dat_w5
 {
     uint64_t u;
     struct bdk_tns_sde_pe_lcmd_imem_dat_w5_s
@@ -17396,7 +17793,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_lcmd_imem_dat_w5_s cn; */
-} bdk_tns_sde_pe_lcmd_imem_dat_w5_t;
+};
+typedef union bdk_tns_sde_pe_lcmd_imem_dat_w5 bdk_tns_sde_pe_lcmd_imem_dat_w5_t;
 
 #define BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W5 BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W5_FUNC()
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W5_FUNC(void) __attribute__ ((pure, always_inline));
@@ -17420,7 +17818,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W5_FUNC(void)
  * TNS SDE PE Layer Command Info Memory Data Word 6 Register
  * Continuation of structure defined in TNS_SDE_PE_LCMD_IMEM_DAT_W0
  */
-typedef union
+union bdk_tns_sde_pe_lcmd_imem_dat_w6
 {
     uint64_t u;
     struct bdk_tns_sde_pe_lcmd_imem_dat_w6_s
@@ -17450,7 +17848,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_lcmd_imem_dat_w6_s cn; */
-} bdk_tns_sde_pe_lcmd_imem_dat_w6_t;
+};
+typedef union bdk_tns_sde_pe_lcmd_imem_dat_w6 bdk_tns_sde_pe_lcmd_imem_dat_w6_t;
 
 #define BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W6 BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W6_FUNC()
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W6_FUNC(void) __attribute__ ((pure, always_inline));
@@ -17474,7 +17873,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W6_FUNC(void)
  * TNS SDE PE Layer Command Info Memory Data Word 7 Register
  * Continuation of structure defined in TNS_SDE_PE_LCMD_IMEM_DAT_W0
  */
-typedef union
+union bdk_tns_sde_pe_lcmd_imem_dat_w7
 {
     uint64_t u;
     struct bdk_tns_sde_pe_lcmd_imem_dat_w7_s
@@ -17500,7 +17899,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_lcmd_imem_dat_w7_s cn; */
-} bdk_tns_sde_pe_lcmd_imem_dat_w7_t;
+};
+typedef union bdk_tns_sde_pe_lcmd_imem_dat_w7 bdk_tns_sde_pe_lcmd_imem_dat_w7_t;
 
 #define BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W7 BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W7_FUNC()
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W7_FUNC(void) __attribute__ ((pure, always_inline));
@@ -17528,7 +17928,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W7_FUNC(void)
  * When writing, make the access to this decoder atomic w.r.t. other writes to
  * this decoder.
  */
-typedef union
+union bdk_tns_sde_pe_lcmd_ittx_w0
 {
     uint32_t u;
     struct bdk_tns_sde_pe_lcmd_ittx_w0_s
@@ -17560,7 +17960,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_lcmd_ittx_w0_s cn; */
-} bdk_tns_sde_pe_lcmd_ittx_w0_t;
+};
+typedef union bdk_tns_sde_pe_lcmd_ittx_w0 bdk_tns_sde_pe_lcmd_ittx_w0_t;
 
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_ITTX_W0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_ITTX_W0(unsigned long a)
@@ -17583,7 +17984,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_ITTX_W0(unsigned long a)
  * TNS SDE PE Layer Command ITT Word 1 Registers
  * Continuation of structure defined in TNS_SDE_PE_LCMD_ITT(0..136)_W0
  */
-typedef union
+union bdk_tns_sde_pe_lcmd_ittx_w1
 {
     uint32_t u;
     struct bdk_tns_sde_pe_lcmd_ittx_w1_s
@@ -17595,7 +17996,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_lcmd_ittx_w1_s cn; */
-} bdk_tns_sde_pe_lcmd_ittx_w1_t;
+};
+typedef union bdk_tns_sde_pe_lcmd_ittx_w1 bdk_tns_sde_pe_lcmd_ittx_w1_t;
 
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_ITTX_W1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_ITTX_W1(unsigned long a)
@@ -17618,7 +18020,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_ITTX_W1(unsigned long a)
  * TNS SDE PE Layer Command ITT Word 2 Registers
  * Continuation of structure defined in TNS_SDE_PE_LCMD_ITT(0..136)_W0
  */
-typedef union
+union bdk_tns_sde_pe_lcmd_ittx_w2
 {
     uint32_t u;
     struct bdk_tns_sde_pe_lcmd_ittx_w2_s
@@ -17632,7 +18034,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_lcmd_ittx_w2_s cn; */
-} bdk_tns_sde_pe_lcmd_ittx_w2_t;
+};
+typedef union bdk_tns_sde_pe_lcmd_ittx_w2 bdk_tns_sde_pe_lcmd_ittx_w2_t;
 
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_ITTX_W2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_ITTX_W2(unsigned long a)
@@ -17655,7 +18058,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_ITTX_W2(unsigned long a)
  * TNS SDE PE Layer Command ITT Word 3 Registers
  * Continuation of structure defined in TNS_SDE_PE_LCMD_ITT(0..136)_W0
  */
-typedef union
+union bdk_tns_sde_pe_lcmd_ittx_w3
 {
     uint32_t u;
     struct bdk_tns_sde_pe_lcmd_ittx_w3_s
@@ -17669,7 +18072,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_lcmd_ittx_w3_s cn; */
-} bdk_tns_sde_pe_lcmd_ittx_w3_t;
+};
+typedef union bdk_tns_sde_pe_lcmd_ittx_w3 bdk_tns_sde_pe_lcmd_ittx_w3_t;
 
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_ITTX_W3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_ITTX_W3(unsigned long a)
@@ -17692,7 +18096,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_ITTX_W3(unsigned long a)
  * TNS SDE PE Layer Command ITT Word 4 Registers
  * Continuation of structure defined in TNS_SDE_PE_LCMD_ITT(0..136)_W0
  */
-typedef union
+union bdk_tns_sde_pe_lcmd_ittx_w4
 {
     uint32_t u;
     struct bdk_tns_sde_pe_lcmd_ittx_w4_s
@@ -17718,7 +18122,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_lcmd_ittx_w4_s cn; */
-} bdk_tns_sde_pe_lcmd_ittx_w4_t;
+};
+typedef union bdk_tns_sde_pe_lcmd_ittx_w4 bdk_tns_sde_pe_lcmd_ittx_w4_t;
 
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_ITTX_W4(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_ITTX_W4(unsigned long a)
@@ -17741,7 +18146,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_ITTX_W4(unsigned long a)
  * TNS SDE PE Layer Command Lock Register
  * Lock Register
  */
-typedef union
+union bdk_tns_sde_pe_lcmd_lock
 {
     uint32_t u;
     struct bdk_tns_sde_pe_lcmd_lock_s
@@ -17753,7 +18158,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_lcmd_lock_s cn; */
-} bdk_tns_sde_pe_lcmd_lock_t;
+};
+typedef union bdk_tns_sde_pe_lcmd_lock bdk_tns_sde_pe_lcmd_lock_t;
 
 #define BDK_TNS_SDE_PE_LCMD_LOCK BDK_TNS_SDE_PE_LCMD_LOCK_FUNC()
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_LOCK_FUNC(void) __attribute__ ((pure, always_inline));
@@ -17777,7 +18183,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_LOCK_FUNC(void)
  * TNS SDE PE Layer Command Layer Split Command Registers
  * --
  */
-typedef union
+union bdk_tns_sde_pe_lcmd_lsplitcmdx
 {
     uint32_t u;
     struct bdk_tns_sde_pe_lcmd_lsplitcmdx_s
@@ -17795,7 +18201,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_lcmd_lsplitcmdx_s cn; */
-} bdk_tns_sde_pe_lcmd_lsplitcmdx_t;
+};
+typedef union bdk_tns_sde_pe_lcmd_lsplitcmdx bdk_tns_sde_pe_lcmd_lsplitcmdx_t;
 
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_LSPLITCMDX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_LSPLITCMDX(unsigned long a)
@@ -17823,7 +18230,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_LSPLITCMDX(unsigned long a)
  * When writing, make the access to this decoder atomic w.r.t. other writes to
  * this decoder.
  */
-typedef union
+union bdk_tns_sde_pe_lcmd_ltokencmdx_w0
 {
     uint32_t u;
     struct bdk_tns_sde_pe_lcmd_ltokencmdx_w0_s
@@ -17847,7 +18254,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_lcmd_ltokencmdx_w0_s cn; */
-} bdk_tns_sde_pe_lcmd_ltokencmdx_w0_t;
+};
+typedef union bdk_tns_sde_pe_lcmd_ltokencmdx_w0 bdk_tns_sde_pe_lcmd_ltokencmdx_w0_t;
 
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_LTOKENCMDX_W0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_LTOKENCMDX_W0(unsigned long a)
@@ -17870,7 +18278,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_LTOKENCMDX_W0(unsigned long a)
  * TNS SDE PE Layer Command Layer Token Command Word 1 Registers
  * Continuation of structure defined in TNS_SDE_PE_LCMD_LTOKENCMD(0..31)_W0
  */
-typedef union
+union bdk_tns_sde_pe_lcmd_ltokencmdx_w1
 {
     uint32_t u;
     struct bdk_tns_sde_pe_lcmd_ltokencmdx_w1_s
@@ -17894,7 +18302,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_lcmd_ltokencmdx_w1_s cn; */
-} bdk_tns_sde_pe_lcmd_ltokencmdx_w1_t;
+};
+typedef union bdk_tns_sde_pe_lcmd_ltokencmdx_w1 bdk_tns_sde_pe_lcmd_ltokencmdx_w1_t;
 
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_LTOKENCMDX_W1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_LTOKENCMDX_W1(unsigned long a)
@@ -17917,7 +18326,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_LTOKENCMDX_W1(unsigned long a)
  * TNS SDE PE Layer Command Layer Token Command Word 2 Registers
  * Continuation of structure defined in TNS_SDE_PE_LCMD_LTOKENCMD(0..31)_W0
  */
-typedef union
+union bdk_tns_sde_pe_lcmd_ltokencmdx_w2
 {
     uint32_t u;
     struct bdk_tns_sde_pe_lcmd_ltokencmdx_w2_s
@@ -17935,7 +18344,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_lcmd_ltokencmdx_w2_s cn; */
-} bdk_tns_sde_pe_lcmd_ltokencmdx_w2_t;
+};
+typedef union bdk_tns_sde_pe_lcmd_ltokencmdx_w2 bdk_tns_sde_pe_lcmd_ltokencmdx_w2_t;
 
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_LTOKENCMDX_W2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_LTOKENCMDX_W2(unsigned long a)
@@ -17958,7 +18368,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_LTOKENCMDX_W2(unsigned long a)
  * TNS SDE PE Layer Command MAC To Router Data Registers
  * DUMMY REGISTER -- ACCESS TO THIS REGISTER HAS NO EFFECT.
  */
-typedef union
+union bdk_tns_sde_pe_lcmd_m2r_datx
 {
     uint64_t u;
     struct bdk_tns_sde_pe_lcmd_m2r_datx_s
@@ -17976,7 +18386,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_lcmd_m2r_datx_s cn; */
-} bdk_tns_sde_pe_lcmd_m2r_datx_t;
+};
+typedef union bdk_tns_sde_pe_lcmd_m2r_datx bdk_tns_sde_pe_lcmd_m2r_datx_t;
 
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_M2R_DATX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_M2R_DATX(unsigned long a)
@@ -17999,7 +18410,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_M2R_DATX(unsigned long a)
  * TNS SDE PE Layer Command MAC To Router Debug Word 0 Register
  * --
  */
-typedef union
+union bdk_tns_sde_pe_lcmd_m2r_dbg_w0
 {
     uint32_t u;
     struct bdk_tns_sde_pe_lcmd_m2r_dbg_w0_s
@@ -18015,7 +18426,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_lcmd_m2r_dbg_w0_s cn; */
-} bdk_tns_sde_pe_lcmd_m2r_dbg_w0_t;
+};
+typedef union bdk_tns_sde_pe_lcmd_m2r_dbg_w0 bdk_tns_sde_pe_lcmd_m2r_dbg_w0_t;
 
 #define BDK_TNS_SDE_PE_LCMD_M2R_DBG_W0 BDK_TNS_SDE_PE_LCMD_M2R_DBG_W0_FUNC()
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_M2R_DBG_W0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -18039,7 +18451,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_M2R_DBG_W0_FUNC(void)
  * TNS SDE PE Layer Command MAC To Router Debug Word 1 Register
  * Continuation of structure defined in TNS_SDE_PE_LCMD_M2R_DBG_W0
  */
-typedef union
+union bdk_tns_sde_pe_lcmd_m2r_dbg_w1
 {
     uint32_t u;
     struct bdk_tns_sde_pe_lcmd_m2r_dbg_w1_s
@@ -18051,7 +18463,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_lcmd_m2r_dbg_w1_s cn; */
-} bdk_tns_sde_pe_lcmd_m2r_dbg_w1_t;
+};
+typedef union bdk_tns_sde_pe_lcmd_m2r_dbg_w1 bdk_tns_sde_pe_lcmd_m2r_dbg_w1_t;
 
 #define BDK_TNS_SDE_PE_LCMD_M2R_DBG_W1 BDK_TNS_SDE_PE_LCMD_M2R_DBG_W1_FUNC()
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_M2R_DBG_W1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -18075,7 +18488,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_M2R_DBG_W1_FUNC(void)
  * TNS SDE PE Layer Command MAC To Router Debug Word 2 Register
  * Continuation of structure defined in TNS_SDE_PE_LCMD_M2R_DBG_W0
  */
-typedef union
+union bdk_tns_sde_pe_lcmd_m2r_dbg_w2
 {
     uint32_t u;
     struct bdk_tns_sde_pe_lcmd_m2r_dbg_w2_s
@@ -18099,7 +18512,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_lcmd_m2r_dbg_w2_s cn; */
-} bdk_tns_sde_pe_lcmd_m2r_dbg_w2_t;
+};
+typedef union bdk_tns_sde_pe_lcmd_m2r_dbg_w2 bdk_tns_sde_pe_lcmd_m2r_dbg_w2_t;
 
 #define BDK_TNS_SDE_PE_LCMD_M2R_DBG_W2 BDK_TNS_SDE_PE_LCMD_M2R_DBG_W2_FUNC()
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_M2R_DBG_W2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -18127,7 +18541,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_M2R_DBG_W2_FUNC(void)
  * When writing, make the access to this decoder atomic w.r.t. other writes to
  * this decoder.
  */
-typedef union
+union bdk_tns_sde_pe_lcmd_m2r_dmskx_w0
 {
     uint32_t u;
     struct bdk_tns_sde_pe_lcmd_m2r_dmskx_w0_s
@@ -18139,7 +18553,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_lcmd_m2r_dmskx_w0_s cn; */
-} bdk_tns_sde_pe_lcmd_m2r_dmskx_w0_t;
+};
+typedef union bdk_tns_sde_pe_lcmd_m2r_dmskx_w0 bdk_tns_sde_pe_lcmd_m2r_dmskx_w0_t;
 
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_M2R_DMSKX_W0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_M2R_DMSKX_W0(unsigned long a)
@@ -18162,7 +18577,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_M2R_DMSKX_W0(unsigned long a)
  * TNS SDE PE Layer Command MAC To Router Data Mask Word 1 Registers
  * Continuation of structure defined in TNS_SDE_PE_LCMD_M2R_DMSK(0..255)_W0
  */
-typedef union
+union bdk_tns_sde_pe_lcmd_m2r_dmskx_w1
 {
     uint32_t u;
     struct bdk_tns_sde_pe_lcmd_m2r_dmskx_w1_s
@@ -18174,7 +18589,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_lcmd_m2r_dmskx_w1_s cn; */
-} bdk_tns_sde_pe_lcmd_m2r_dmskx_w1_t;
+};
+typedef union bdk_tns_sde_pe_lcmd_m2r_dmskx_w1 bdk_tns_sde_pe_lcmd_m2r_dmskx_w1_t;
 
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_M2R_DMSKX_W1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_M2R_DMSKX_W1(unsigned long a)
@@ -18197,7 +18613,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_M2R_DMSKX_W1(unsigned long a)
  * TNS SDE PE Layer Command MAC To Router Data Mask Word 2 Registers
  * Continuation of structure defined in TNS_SDE_PE_LCMD_M2R_DMSK(0..255)_W0
  */
-typedef union
+union bdk_tns_sde_pe_lcmd_m2r_dmskx_w2
 {
     uint32_t u;
     struct bdk_tns_sde_pe_lcmd_m2r_dmskx_w2_s
@@ -18209,7 +18625,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_lcmd_m2r_dmskx_w2_s cn; */
-} bdk_tns_sde_pe_lcmd_m2r_dmskx_w2_t;
+};
+typedef union bdk_tns_sde_pe_lcmd_m2r_dmskx_w2 bdk_tns_sde_pe_lcmd_m2r_dmskx_w2_t;
 
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_M2R_DMSKX_W2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_M2R_DMSKX_W2(unsigned long a)
@@ -18232,7 +18649,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_M2R_DMSKX_W2(unsigned long a)
  * TNS SDE PE Layer Command MAC To Router Data Mask Word 3 Registers
  * Continuation of structure defined in TNS_SDE_PE_LCMD_M2R_DMSK(0..255)_W0
  */
-typedef union
+union bdk_tns_sde_pe_lcmd_m2r_dmskx_w3
 {
     uint32_t u;
     struct bdk_tns_sde_pe_lcmd_m2r_dmskx_w3_s
@@ -18244,7 +18661,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_lcmd_m2r_dmskx_w3_s cn; */
-} bdk_tns_sde_pe_lcmd_m2r_dmskx_w3_t;
+};
+typedef union bdk_tns_sde_pe_lcmd_m2r_dmskx_w3 bdk_tns_sde_pe_lcmd_m2r_dmskx_w3_t;
 
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_M2R_DMSKX_W3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_M2R_DMSKX_W3(unsigned long a)
@@ -18267,7 +18685,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_M2R_DMSKX_W3(unsigned long a)
  * TNS SDE PE Layer Command MAC To Router Data Mask Word 4 Registers
  * Continuation of structure defined in TNS_SDE_PE_LCMD_M2R_DMSK(0..255)_W0
  */
-typedef union
+union bdk_tns_sde_pe_lcmd_m2r_dmskx_w4
 {
     uint32_t u;
     struct bdk_tns_sde_pe_lcmd_m2r_dmskx_w4_s
@@ -18281,7 +18699,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_lcmd_m2r_dmskx_w4_s cn; */
-} bdk_tns_sde_pe_lcmd_m2r_dmskx_w4_t;
+};
+typedef union bdk_tns_sde_pe_lcmd_m2r_dmskx_w4 bdk_tns_sde_pe_lcmd_m2r_dmskx_w4_t;
 
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_M2R_DMSKX_W4(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_M2R_DMSKX_W4(unsigned long a)
@@ -18304,7 +18723,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_M2R_DMSKX_W4(unsigned long a)
  * TNS SDE PE Layer Command MAC To Router Mask Registers
  * DUMMY REGISTER -- ACCESS TO THIS REGISTER HAS NO EFFECT.
  */
-typedef union
+union bdk_tns_sde_pe_lcmd_m2r_maskx
 {
     uint64_t u;
     struct bdk_tns_sde_pe_lcmd_m2r_maskx_s
@@ -18322,7 +18741,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_lcmd_m2r_maskx_s cn; */
-} bdk_tns_sde_pe_lcmd_m2r_maskx_t;
+};
+typedef union bdk_tns_sde_pe_lcmd_m2r_maskx bdk_tns_sde_pe_lcmd_m2r_maskx_t;
 
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_M2R_MASKX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_M2R_MASKX(unsigned long a)
@@ -18346,7 +18766,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_M2R_MASKX(unsigned long a)
  * This memory is accessed based on hit address of mac2router TCAM. Each entry
  * maps to 4 consecutive addresses
  */
-typedef union
+union bdk_tns_sde_pe_lcmd_m2r_memx
 {
     uint32_t u;
     struct bdk_tns_sde_pe_lcmd_m2r_memx_s
@@ -18366,7 +18786,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_lcmd_m2r_memx_s cn; */
-} bdk_tns_sde_pe_lcmd_m2r_memx_t;
+};
+typedef union bdk_tns_sde_pe_lcmd_m2r_memx bdk_tns_sde_pe_lcmd_m2r_memx_t;
 
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_M2R_MEMX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_M2R_MEMX(unsigned long a)
@@ -18389,7 +18810,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_M2R_MEMX(unsigned long a)
  * TNS SDE PE Layer Command Memory ECC Control Register
  * --
  */
-typedef union
+union bdk_tns_sde_pe_lcmd_mem_ecc_ctl
 {
     uint32_t u;
     struct bdk_tns_sde_pe_lcmd_mem_ecc_ctl_s
@@ -18431,7 +18852,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_lcmd_mem_ecc_ctl_s cn; */
-} bdk_tns_sde_pe_lcmd_mem_ecc_ctl_t;
+};
+typedef union bdk_tns_sde_pe_lcmd_mem_ecc_ctl bdk_tns_sde_pe_lcmd_mem_ecc_ctl_t;
 
 #define BDK_TNS_SDE_PE_LCMD_MEM_ECC_CTL BDK_TNS_SDE_PE_LCMD_MEM_ECC_CTL_FUNC()
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_MEM_ECC_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -18459,7 +18881,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_MEM_ECC_CTL_FUNC(void)
  * When writing, make the access to this decoder atomic w.r.t. other writes to
  * this decoder.
  */
-typedef union
+union bdk_tns_sde_pe_lcmd_nengx_w0
 {
     uint32_t u;
     struct bdk_tns_sde_pe_lcmd_nengx_w0_s
@@ -18481,7 +18903,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_lcmd_nengx_w0_s cn; */
-} bdk_tns_sde_pe_lcmd_nengx_w0_t;
+};
+typedef union bdk_tns_sde_pe_lcmd_nengx_w0 bdk_tns_sde_pe_lcmd_nengx_w0_t;
 
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_NENGX_W0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_NENGX_W0(unsigned long a)
@@ -18504,7 +18927,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_NENGX_W0(unsigned long a)
  * TNS SDE PE Layer Command Next Engine Word 1 Registers
  * Continuation of structure defined in TNS_SDE_PE_LCMD_NENG(0..127)_W0
  */
-typedef union
+union bdk_tns_sde_pe_lcmd_nengx_w1
 {
     uint32_t u;
     struct bdk_tns_sde_pe_lcmd_nengx_w1_s
@@ -18522,7 +18945,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_lcmd_nengx_w1_s cn; */
-} bdk_tns_sde_pe_lcmd_nengx_w1_t;
+};
+typedef union bdk_tns_sde_pe_lcmd_nengx_w1 bdk_tns_sde_pe_lcmd_nengx_w1_t;
 
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_NENGX_W1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_NENGX_W1(unsigned long a)
@@ -18545,7 +18969,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_NENGX_W1(unsigned long a)
  * TNS SDE PE Layer Command Next Engine Word 2 Registers
  * Continuation of structure defined in TNS_SDE_PE_LCMD_NENG(0..127)_W0
  */
-typedef union
+union bdk_tns_sde_pe_lcmd_nengx_w2
 {
     uint32_t u;
     struct bdk_tns_sde_pe_lcmd_nengx_w2_s
@@ -18559,7 +18983,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_lcmd_nengx_w2_s cn; */
-} bdk_tns_sde_pe_lcmd_nengx_w2_t;
+};
+typedef union bdk_tns_sde_pe_lcmd_nengx_w2 bdk_tns_sde_pe_lcmd_nengx_w2_t;
 
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_NENGX_W2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_NENGX_W2(unsigned long a)
@@ -18582,7 +19007,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_NENGX_W2(unsigned long a)
  * TNS SDE PE Layer Command PINDEX To Port Registers
  * --
  */
-typedef union
+union bdk_tns_sde_pe_lcmd_pindex2portx
 {
     uint32_t u;
     struct bdk_tns_sde_pe_lcmd_pindex2portx_s
@@ -18596,7 +19021,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_lcmd_pindex2portx_s cn; */
-} bdk_tns_sde_pe_lcmd_pindex2portx_t;
+};
+typedef union bdk_tns_sde_pe_lcmd_pindex2portx bdk_tns_sde_pe_lcmd_pindex2portx_t;
 
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_PINDEX2PORTX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_PINDEX2PORTX(unsigned long a)
@@ -18619,7 +19045,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_PINDEX2PORTX(unsigned long a)
  * TNS SDE PE Layer Command Parser Debug Selector Register
  * --
  */
-typedef union
+union bdk_tns_sde_pe_lcmd_prsr_dbg_sel
 {
     uint32_t u;
     struct bdk_tns_sde_pe_lcmd_prsr_dbg_sel_s
@@ -18635,7 +19061,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_lcmd_prsr_dbg_sel_s cn; */
-} bdk_tns_sde_pe_lcmd_prsr_dbg_sel_t;
+};
+typedef union bdk_tns_sde_pe_lcmd_prsr_dbg_sel bdk_tns_sde_pe_lcmd_prsr_dbg_sel_t;
 
 #define BDK_TNS_SDE_PE_LCMD_PRSR_DBG_SEL BDK_TNS_SDE_PE_LCMD_PRSR_DBG_SEL_FUNC()
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_PRSR_DBG_SEL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -18662,7 +19089,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_PRSR_DBG_SEL_FUNC(void)
  * Layer2 is indexed using PINDEX*16+{PCP, DEI}, IP is indexed using 18*16 +
  * PINDEX*64 + DSCP, MPLS is indexed using 18*64 + 18*16 + PINDEX*8 + EXP
  */
-typedef union
+union bdk_tns_sde_pe_lcmd_qosx
 {
     uint32_t u;
     struct bdk_tns_sde_pe_lcmd_qosx_s
@@ -18686,7 +19113,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_lcmd_qosx_s cn; */
-} bdk_tns_sde_pe_lcmd_qosx_t;
+};
+typedef union bdk_tns_sde_pe_lcmd_qosx bdk_tns_sde_pe_lcmd_qosx_t;
 
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_QOSX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_QOSX(unsigned long a)
@@ -18709,7 +19137,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_QOSX(unsigned long a)
  * TNS SDE PE Layer Command ScratchPad Register
  * Scratch Pad Register for XCAT
  */
-typedef union
+union bdk_tns_sde_pe_lcmd_spad
 {
     uint32_t u;
     struct bdk_tns_sde_pe_lcmd_spad_s
@@ -18721,7 +19149,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_lcmd_spad_s cn; */
-} bdk_tns_sde_pe_lcmd_spad_t;
+};
+typedef union bdk_tns_sde_pe_lcmd_spad bdk_tns_sde_pe_lcmd_spad_t;
 
 #define BDK_TNS_SDE_PE_LCMD_SPAD BDK_TNS_SDE_PE_LCMD_SPAD_FUNC()
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_SPAD_FUNC(void) __attribute__ ((pure, always_inline));
@@ -18745,7 +19174,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_SPAD_FUNC(void)
  * TNS SDE PE Layer Command Status Word 0 Register
  * --
  */
-typedef union
+union bdk_tns_sde_pe_lcmd_sta_w0
 {
     uint32_t u;
     struct bdk_tns_sde_pe_lcmd_sta_w0_s
@@ -18775,7 +19204,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_lcmd_sta_w0_s cn; */
-} bdk_tns_sde_pe_lcmd_sta_w0_t;
+};
+typedef union bdk_tns_sde_pe_lcmd_sta_w0 bdk_tns_sde_pe_lcmd_sta_w0_t;
 
 #define BDK_TNS_SDE_PE_LCMD_STA_W0 BDK_TNS_SDE_PE_LCMD_STA_W0_FUNC()
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_STA_W0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -18799,7 +19229,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_STA_W0_FUNC(void)
  * TNS SDE PE Layer Command Status Word 1 Register
  * Continuation of structure defined in TNS_SDE_PE_LCMD_STA_W0
  */
-typedef union
+union bdk_tns_sde_pe_lcmd_sta_w1
 {
     uint32_t u;
     struct bdk_tns_sde_pe_lcmd_sta_w1_s
@@ -18813,7 +19243,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_lcmd_sta_w1_s cn; */
-} bdk_tns_sde_pe_lcmd_sta_w1_t;
+};
+typedef union bdk_tns_sde_pe_lcmd_sta_w1 bdk_tns_sde_pe_lcmd_sta_w1_t;
 
 #define BDK_TNS_SDE_PE_LCMD_STA_W1 BDK_TNS_SDE_PE_LCMD_STA_W1_FUNC()
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_STA_W1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -18837,7 +19268,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_STA_W1_FUNC(void)
  * TNS SDE PE Layer Command Status Word 2 Register
  * Continuation of structure defined in TNS_SDE_PE_LCMD_STA_W0
  */
-typedef union
+union bdk_tns_sde_pe_lcmd_sta_w2
 {
     uint32_t u;
     struct bdk_tns_sde_pe_lcmd_sta_w2_s
@@ -18853,7 +19284,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_lcmd_sta_w2_s cn; */
-} bdk_tns_sde_pe_lcmd_sta_w2_t;
+};
+typedef union bdk_tns_sde_pe_lcmd_sta_w2 bdk_tns_sde_pe_lcmd_sta_w2_t;
 
 #define BDK_TNS_SDE_PE_LCMD_STA_W2 BDK_TNS_SDE_PE_LCMD_STA_W2_FUNC()
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_STA_W2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -18877,7 +19309,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_STA_W2_FUNC(void)
  * TNS SDE PE Layer Command Status Word 3 Register
  * Continuation of structure defined in TNS_SDE_PE_LCMD_STA_W0
  */
-typedef union
+union bdk_tns_sde_pe_lcmd_sta_w3
 {
     uint32_t u;
     struct bdk_tns_sde_pe_lcmd_sta_w3_s
@@ -18899,7 +19331,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_lcmd_sta_w3_s cn; */
-} bdk_tns_sde_pe_lcmd_sta_w3_t;
+};
+typedef union bdk_tns_sde_pe_lcmd_sta_w3 bdk_tns_sde_pe_lcmd_sta_w3_t;
 
 #define BDK_TNS_SDE_PE_LCMD_STA_W3 BDK_TNS_SDE_PE_LCMD_STA_W3_FUNC()
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_STA_W3_FUNC(void) __attribute__ ((pure, always_inline));
@@ -18923,7 +19356,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_STA_W3_FUNC(void)
  * TNS SDE PE Layer Command Status Word 4 Register
  * Continuation of structure defined in TNS_SDE_PE_LCMD_STA_W0
  */
-typedef union
+union bdk_tns_sde_pe_lcmd_sta_w4
 {
     uint32_t u;
     struct bdk_tns_sde_pe_lcmd_sta_w4_s
@@ -18945,7 +19378,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_lcmd_sta_w4_s cn; */
-} bdk_tns_sde_pe_lcmd_sta_w4_t;
+};
+typedef union bdk_tns_sde_pe_lcmd_sta_w4 bdk_tns_sde_pe_lcmd_sta_w4_t;
 
 #define BDK_TNS_SDE_PE_LCMD_STA_W4 BDK_TNS_SDE_PE_LCMD_STA_W4_FUNC()
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_STA_W4_FUNC(void) __attribute__ ((pure, always_inline));
@@ -18969,7 +19403,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_STA_W4_FUNC(void)
  * TNS SDE PE Layer Command Status Word 5 Register
  * Continuation of structure defined in TNS_SDE_PE_LCMD_STA_W0
  */
-typedef union
+union bdk_tns_sde_pe_lcmd_sta_w5
 {
     uint32_t u;
     struct bdk_tns_sde_pe_lcmd_sta_w5_s
@@ -18987,7 +19421,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_lcmd_sta_w5_s cn; */
-} bdk_tns_sde_pe_lcmd_sta_w5_t;
+};
+typedef union bdk_tns_sde_pe_lcmd_sta_w5 bdk_tns_sde_pe_lcmd_sta_w5_t;
 
 #define BDK_TNS_SDE_PE_LCMD_STA_W5 BDK_TNS_SDE_PE_LCMD_STA_W5_FUNC()
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_STA_W5_FUNC(void) __attribute__ ((pure, always_inline));
@@ -19011,7 +19446,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_STA_W5_FUNC(void)
  * TNS SDE PE Layer Command Status Word 6 Register
  * Continuation of structure defined in TNS_SDE_PE_LCMD_STA_W0
  */
-typedef union
+union bdk_tns_sde_pe_lcmd_sta_w6
 {
     uint32_t u;
     struct bdk_tns_sde_pe_lcmd_sta_w6_s
@@ -19025,7 +19460,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_lcmd_sta_w6_s cn; */
-} bdk_tns_sde_pe_lcmd_sta_w6_t;
+};
+typedef union bdk_tns_sde_pe_lcmd_sta_w6 bdk_tns_sde_pe_lcmd_sta_w6_t;
 
 #define BDK_TNS_SDE_PE_LCMD_STA_W6 BDK_TNS_SDE_PE_LCMD_STA_W6_FUNC()
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_STA_W6_FUNC(void) __attribute__ ((pure, always_inline));
@@ -19049,7 +19485,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_STA_W6_FUNC(void)
  * TNS SDE PE Layer Command Template ID Data Registers
  * DUMMY REGISTER -- ACCESS TO THIS REGISTER HAS NO EFFECT.
  */
-typedef union
+union bdk_tns_sde_pe_lcmd_tid_datx
 {
     uint64_t u;
     struct bdk_tns_sde_pe_lcmd_tid_datx_s
@@ -19079,7 +19515,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_lcmd_tid_datx_s cn; */
-} bdk_tns_sde_pe_lcmd_tid_datx_t;
+};
+typedef union bdk_tns_sde_pe_lcmd_tid_datx bdk_tns_sde_pe_lcmd_tid_datx_t;
 
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_TID_DATX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_TID_DATX(unsigned long a)
@@ -19102,7 +19539,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_TID_DATX(unsigned long a)
  * TNS SDE PE Layer Command Template ID Debug Register
  * --
  */
-typedef union
+union bdk_tns_sde_pe_lcmd_tid_dbg
 {
     uint64_t u;
     struct bdk_tns_sde_pe_lcmd_tid_dbg_s
@@ -19126,7 +19563,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_lcmd_tid_dbg_s cn; */
-} bdk_tns_sde_pe_lcmd_tid_dbg_t;
+};
+typedef union bdk_tns_sde_pe_lcmd_tid_dbg bdk_tns_sde_pe_lcmd_tid_dbg_t;
 
 #define BDK_TNS_SDE_PE_LCMD_TID_DBG BDK_TNS_SDE_PE_LCMD_TID_DBG_FUNC()
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_TID_DBG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -19154,7 +19592,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_TID_DBG_FUNC(void)
  * When writing, make the access to this decoder atomic w.r.t. other writes to
  * this decoder.
  */
-typedef union
+union bdk_tns_sde_pe_lcmd_tid_dmskx_w0
 {
     uint32_t u;
     struct bdk_tns_sde_pe_lcmd_tid_dmskx_w0_s
@@ -19166,7 +19604,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_lcmd_tid_dmskx_w0_s cn; */
-} bdk_tns_sde_pe_lcmd_tid_dmskx_w0_t;
+};
+typedef union bdk_tns_sde_pe_lcmd_tid_dmskx_w0 bdk_tns_sde_pe_lcmd_tid_dmskx_w0_t;
 
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_TID_DMSKX_W0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_TID_DMSKX_W0(unsigned long a)
@@ -19189,7 +19628,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_TID_DMSKX_W0(unsigned long a)
  * TNS SDE PE Layer Command Template ID Data Mask Word 1 Registers
  * Continuation of structure defined in TNS_SDE_PE_LCMD_TID_DMSK(0..255)_W0
  */
-typedef union
+union bdk_tns_sde_pe_lcmd_tid_dmskx_w1
 {
     uint32_t u;
     struct bdk_tns_sde_pe_lcmd_tid_dmskx_w1_s
@@ -19201,7 +19640,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_lcmd_tid_dmskx_w1_s cn; */
-} bdk_tns_sde_pe_lcmd_tid_dmskx_w1_t;
+};
+typedef union bdk_tns_sde_pe_lcmd_tid_dmskx_w1 bdk_tns_sde_pe_lcmd_tid_dmskx_w1_t;
 
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_TID_DMSKX_W1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_TID_DMSKX_W1(unsigned long a)
@@ -19224,7 +19664,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_TID_DMSKX_W1(unsigned long a)
  * TNS SDE PE Layer Command Template ID Data Mask Word 2 Registers
  * Continuation of structure defined in TNS_SDE_PE_LCMD_TID_DMSK(0..255)_W0
  */
-typedef union
+union bdk_tns_sde_pe_lcmd_tid_dmskx_w2
 {
     uint32_t u;
     struct bdk_tns_sde_pe_lcmd_tid_dmskx_w2_s
@@ -19236,7 +19676,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_lcmd_tid_dmskx_w2_s cn; */
-} bdk_tns_sde_pe_lcmd_tid_dmskx_w2_t;
+};
+typedef union bdk_tns_sde_pe_lcmd_tid_dmskx_w2 bdk_tns_sde_pe_lcmd_tid_dmskx_w2_t;
 
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_TID_DMSKX_W2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_TID_DMSKX_W2(unsigned long a)
@@ -19259,7 +19700,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_TID_DMSKX_W2(unsigned long a)
  * TNS SDE PE Layer Command Template ID Data Mask Word 3 Registers
  * Continuation of structure defined in TNS_SDE_PE_LCMD_TID_DMSK(0..255)_W0
  */
-typedef union
+union bdk_tns_sde_pe_lcmd_tid_dmskx_w3
 {
     uint32_t u;
     struct bdk_tns_sde_pe_lcmd_tid_dmskx_w3_s
@@ -19271,7 +19712,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_lcmd_tid_dmskx_w3_s cn; */
-} bdk_tns_sde_pe_lcmd_tid_dmskx_w3_t;
+};
+typedef union bdk_tns_sde_pe_lcmd_tid_dmskx_w3 bdk_tns_sde_pe_lcmd_tid_dmskx_w3_t;
 
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_TID_DMSKX_W3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_TID_DMSKX_W3(unsigned long a)
@@ -19294,7 +19736,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_TID_DMSKX_W3(unsigned long a)
  * TNS SDE PE Layer Command Template ID Data Mask Word 4 Registers
  * Continuation of structure defined in TNS_SDE_PE_LCMD_TID_DMSK(0..255)_W0
  */
-typedef union
+union bdk_tns_sde_pe_lcmd_tid_dmskx_w4
 {
     uint32_t u;
     struct bdk_tns_sde_pe_lcmd_tid_dmskx_w4_s
@@ -19308,7 +19750,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_lcmd_tid_dmskx_w4_s cn; */
-} bdk_tns_sde_pe_lcmd_tid_dmskx_w4_t;
+};
+typedef union bdk_tns_sde_pe_lcmd_tid_dmskx_w4 bdk_tns_sde_pe_lcmd_tid_dmskx_w4_t;
 
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_TID_DMSKX_W4(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_TID_DMSKX_W4(unsigned long a)
@@ -19331,7 +19774,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_TID_DMSKX_W4(unsigned long a)
  * TNS SDE PE Layer Command Template ID Mask Registers
  * DUMMY REGISTER -- ACCESS TO THIS REGISTER HAS NO EFFECT.
  */
-typedef union
+union bdk_tns_sde_pe_lcmd_tid_maskx
 {
     uint64_t u;
     struct bdk_tns_sde_pe_lcmd_tid_maskx_s
@@ -19361,7 +19804,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_lcmd_tid_maskx_s cn; */
-} bdk_tns_sde_pe_lcmd_tid_maskx_t;
+};
+typedef union bdk_tns_sde_pe_lcmd_tid_maskx bdk_tns_sde_pe_lcmd_tid_maskx_t;
 
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_TID_MASKX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_TID_MASKX(unsigned long a)
@@ -19384,7 +19828,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_TID_MASKX(unsigned long a)
  * TNS SDE PE Layer Command Token Commands Registers
  * --
  */
-typedef union
+union bdk_tns_sde_pe_lcmd_tokencmdsx
 {
     uint64_t u;
     struct bdk_tns_sde_pe_lcmd_tokencmdsx_s
@@ -19406,7 +19850,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_lcmd_tokencmdsx_s cn; */
-} bdk_tns_sde_pe_lcmd_tokencmdsx_t;
+};
+typedef union bdk_tns_sde_pe_lcmd_tokencmdsx bdk_tns_sde_pe_lcmd_tokencmdsx_t;
 
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_TOKENCMDSX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_TOKENCMDSX(unsigned long a)
@@ -19429,7 +19874,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_TOKENCMDSX(unsigned long a)
  * TNS SDE PE SKPU Control Register
  * Misc control bits for the entire parser
  */
-typedef union
+union bdk_tns_sde_pe_skpu_control
 {
     uint32_t u;
     struct bdk_tns_sde_pe_skpu_control_s
@@ -19463,7 +19908,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_skpu_control_s cn; */
-} bdk_tns_sde_pe_skpu_control_t;
+};
+typedef union bdk_tns_sde_pe_skpu_control bdk_tns_sde_pe_skpu_control_t;
 
 #define BDK_TNS_SDE_PE_SKPU_CONTROL BDK_TNS_SDE_PE_SKPU_CONTROL_FUNC()
 static inline uint64_t BDK_TNS_SDE_PE_SKPU_CONTROL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -19487,7 +19933,7 @@ static inline uint64_t BDK_TNS_SDE_PE_SKPU_CONTROL_FUNC(void)
  * TNS SDE PE SKPU ECC Control Register
  * --
  */
-typedef union
+union bdk_tns_sde_pe_skpu_ecc_ctl
 {
     uint32_t u;
     struct bdk_tns_sde_pe_skpu_ecc_ctl_s
@@ -19505,7 +19951,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_skpu_ecc_ctl_s cn; */
-} bdk_tns_sde_pe_skpu_ecc_ctl_t;
+};
+typedef union bdk_tns_sde_pe_skpu_ecc_ctl bdk_tns_sde_pe_skpu_ecc_ctl_t;
 
 #define BDK_TNS_SDE_PE_SKPU_ECC_CTL BDK_TNS_SDE_PE_SKPU_ECC_CTL_FUNC()
 static inline uint64_t BDK_TNS_SDE_PE_SKPU_ECC_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -19533,7 +19980,7 @@ static inline uint64_t BDK_TNS_SDE_PE_SKPU_ECC_CTL_FUNC(void)
  * When writing, make the access to this decoder atomic w.r.t. other writes to
  * this decoder.
  */
-typedef union
+union bdk_tns_sde_pe_skpu_iktx_w0
 {
     uint64_t u;
     struct bdk_tns_sde_pe_skpu_iktx_w0_s
@@ -19565,7 +20012,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_skpu_iktx_w0_s cn; */
-} bdk_tns_sde_pe_skpu_iktx_w0_t;
+};
+typedef union bdk_tns_sde_pe_skpu_iktx_w0 bdk_tns_sde_pe_skpu_iktx_w0_t;
 
 static inline uint64_t BDK_TNS_SDE_PE_SKPU_IKTX_W0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_PE_SKPU_IKTX_W0(unsigned long a)
@@ -19588,7 +20036,7 @@ static inline uint64_t BDK_TNS_SDE_PE_SKPU_IKTX_W0(unsigned long a)
  * TNS SDE PE SKPU Initial KPU Table Word 1 Registers
  * Continuation of structure defined in TNS_SDE_PE_SKPU_IKT(0..136)_W0
  */
-typedef union
+union bdk_tns_sde_pe_skpu_iktx_w1
 {
     uint64_t u;
     struct bdk_tns_sde_pe_skpu_iktx_w1_s
@@ -19616,7 +20064,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_skpu_iktx_w1_s cn; */
-} bdk_tns_sde_pe_skpu_iktx_w1_t;
+};
+typedef union bdk_tns_sde_pe_skpu_iktx_w1 bdk_tns_sde_pe_skpu_iktx_w1_t;
 
 static inline uint64_t BDK_TNS_SDE_PE_SKPU_IKTX_W1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_PE_SKPU_IKTX_W1(unsigned long a)
@@ -19639,7 +20088,7 @@ static inline uint64_t BDK_TNS_SDE_PE_SKPU_IKTX_W1(unsigned long a)
  * TNS SDE PE SKPU Initial KPU Table Debug Register
  * --
  */
-typedef union
+union bdk_tns_sde_pe_skpu_ikt_dbg
 {
     uint32_t u;
     struct bdk_tns_sde_pe_skpu_ikt_dbg_s
@@ -19657,7 +20106,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_skpu_ikt_dbg_s cn; */
-} bdk_tns_sde_pe_skpu_ikt_dbg_t;
+};
+typedef union bdk_tns_sde_pe_skpu_ikt_dbg bdk_tns_sde_pe_skpu_ikt_dbg_t;
 
 #define BDK_TNS_SDE_PE_SKPU_IKT_DBG BDK_TNS_SDE_PE_SKPU_IKT_DBG_FUNC()
 static inline uint64_t BDK_TNS_SDE_PE_SKPU_IKT_DBG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -19681,7 +20131,7 @@ static inline uint64_t BDK_TNS_SDE_PE_SKPU_IKT_DBG_FUNC(void)
  * TNS SDE PE SKPU Lock Register
  * Lock Register
  */
-typedef union
+union bdk_tns_sde_pe_skpu_lock
 {
     uint32_t u;
     struct bdk_tns_sde_pe_skpu_lock_s
@@ -19693,7 +20143,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_skpu_lock_s cn; */
-} bdk_tns_sde_pe_skpu_lock_t;
+};
+typedef union bdk_tns_sde_pe_skpu_lock bdk_tns_sde_pe_skpu_lock_t;
 
 #define BDK_TNS_SDE_PE_SKPU_LOCK BDK_TNS_SDE_PE_SKPU_LOCK_FUNC()
 static inline uint64_t BDK_TNS_SDE_PE_SKPU_LOCK_FUNC(void) __attribute__ ((pure, always_inline));
@@ -19717,7 +20168,7 @@ static inline uint64_t BDK_TNS_SDE_PE_SKPU_LOCK_FUNC(void)
  * TNS SDE PE SKPU SKPU Debug Word 0 Register
  * Provides debug information about last TCAM entry
  */
-typedef union
+union bdk_tns_sde_pe_skpu_skpu_dbg_w0
 {
     uint32_t u;
     struct bdk_tns_sde_pe_skpu_skpu_dbg_w0_s
@@ -19733,7 +20184,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_skpu_skpu_dbg_w0_s cn; */
-} bdk_tns_sde_pe_skpu_skpu_dbg_w0_t;
+};
+typedef union bdk_tns_sde_pe_skpu_skpu_dbg_w0 bdk_tns_sde_pe_skpu_skpu_dbg_w0_t;
 
 #define BDK_TNS_SDE_PE_SKPU_SKPU_DBG_W0 BDK_TNS_SDE_PE_SKPU_SKPU_DBG_W0_FUNC()
 static inline uint64_t BDK_TNS_SDE_PE_SKPU_SKPU_DBG_W0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -19757,7 +20209,7 @@ static inline uint64_t BDK_TNS_SDE_PE_SKPU_SKPU_DBG_W0_FUNC(void)
  * TNS SDE PE SKPU SKPU Debug Word 1 Register
  * Continuation of structure defined in TNS_SDE_PE_SKPU_SKPU_DBG_W0
  */
-typedef union
+union bdk_tns_sde_pe_skpu_skpu_dbg_w1
 {
     uint32_t u;
     struct bdk_tns_sde_pe_skpu_skpu_dbg_w1_s
@@ -19769,7 +20221,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_skpu_skpu_dbg_w1_s cn; */
-} bdk_tns_sde_pe_skpu_skpu_dbg_w1_t;
+};
+typedef union bdk_tns_sde_pe_skpu_skpu_dbg_w1 bdk_tns_sde_pe_skpu_skpu_dbg_w1_t;
 
 #define BDK_TNS_SDE_PE_SKPU_SKPU_DBG_W1 BDK_TNS_SDE_PE_SKPU_SKPU_DBG_W1_FUNC()
 static inline uint64_t BDK_TNS_SDE_PE_SKPU_SKPU_DBG_W1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -19793,7 +20246,7 @@ static inline uint64_t BDK_TNS_SDE_PE_SKPU_SKPU_DBG_W1_FUNC(void)
  * TNS SDE PE SKPU SKPU Debug Word 2 Register
  * Continuation of structure defined in TNS_SDE_PE_SKPU_SKPU_DBG_W0
  */
-typedef union
+union bdk_tns_sde_pe_skpu_skpu_dbg_w2
 {
     uint32_t u;
     struct bdk_tns_sde_pe_skpu_skpu_dbg_w2_s
@@ -19805,7 +20258,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_skpu_skpu_dbg_w2_s cn; */
-} bdk_tns_sde_pe_skpu_skpu_dbg_w2_t;
+};
+typedef union bdk_tns_sde_pe_skpu_skpu_dbg_w2 bdk_tns_sde_pe_skpu_skpu_dbg_w2_t;
 
 #define BDK_TNS_SDE_PE_SKPU_SKPU_DBG_W2 BDK_TNS_SDE_PE_SKPU_SKPU_DBG_W2_FUNC()
 static inline uint64_t BDK_TNS_SDE_PE_SKPU_SKPU_DBG_W2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -19829,7 +20283,7 @@ static inline uint64_t BDK_TNS_SDE_PE_SKPU_SKPU_DBG_W2_FUNC(void)
  * TNS SDE PE SKPU SKPU Debug Word 3 Register
  * Continuation of structure defined in TNS_SDE_PE_SKPU_SKPU_DBG_W0
  */
-typedef union
+union bdk_tns_sde_pe_skpu_skpu_dbg_w3
 {
     uint32_t u;
     struct bdk_tns_sde_pe_skpu_skpu_dbg_w3_s
@@ -19849,7 +20303,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_skpu_skpu_dbg_w3_s cn; */
-} bdk_tns_sde_pe_skpu_skpu_dbg_w3_t;
+};
+typedef union bdk_tns_sde_pe_skpu_skpu_dbg_w3 bdk_tns_sde_pe_skpu_skpu_dbg_w3_t;
 
 #define BDK_TNS_SDE_PE_SKPU_SKPU_DBG_W3 BDK_TNS_SDE_PE_SKPU_SKPU_DBG_W3_FUNC()
 static inline uint64_t BDK_TNS_SDE_PE_SKPU_SKPU_DBG_W3_FUNC(void) __attribute__ ((pure, always_inline));
@@ -19877,7 +20332,7 @@ static inline uint64_t BDK_TNS_SDE_PE_SKPU_SKPU_DBG_W3_FUNC(void)
  * When writing, make the access to this decoder atomic w.r.t. other writes to
  * this decoder.
  */
-typedef union
+union bdk_tns_sde_pe_skpu_skpu_sramx_w0
 {
     uint64_t u;
     struct bdk_tns_sde_pe_skpu_skpu_sramx_w0_s
@@ -19913,7 +20368,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_skpu_skpu_sramx_w0_s cn; */
-} bdk_tns_sde_pe_skpu_skpu_sramx_w0_t;
+};
+typedef union bdk_tns_sde_pe_skpu_skpu_sramx_w0 bdk_tns_sde_pe_skpu_skpu_sramx_w0_t;
 
 static inline uint64_t BDK_TNS_SDE_PE_SKPU_SKPU_SRAMX_W0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_PE_SKPU_SKPU_SRAMX_W0(unsigned long a)
@@ -19936,7 +20392,7 @@ static inline uint64_t BDK_TNS_SDE_PE_SKPU_SKPU_SRAMX_W0(unsigned long a)
  * TNS SDE PE SKPU SKPU Sram Word 1 Registers
  * Continuation of structure defined in TNS_SDE_PE_SKPU_SKPU_SRAM(0..127)_W0
  */
-typedef union
+union bdk_tns_sde_pe_skpu_skpu_sramx_w1
 {
     uint64_t u;
     struct bdk_tns_sde_pe_skpu_skpu_sramx_w1_s
@@ -19952,7 +20408,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_skpu_skpu_sramx_w1_s cn; */
-} bdk_tns_sde_pe_skpu_skpu_sramx_w1_t;
+};
+typedef union bdk_tns_sde_pe_skpu_skpu_sramx_w1 bdk_tns_sde_pe_skpu_skpu_sramx_w1_t;
 
 static inline uint64_t BDK_TNS_SDE_PE_SKPU_SKPU_SRAMX_W1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_PE_SKPU_SKPU_SRAMX_W1(unsigned long a)
@@ -19975,7 +20432,7 @@ static inline uint64_t BDK_TNS_SDE_PE_SKPU_SKPU_SRAMX_W1(unsigned long a)
  * TNS SDE PE SKPU SKPU Sram Word 2 Registers
  * Continuation of structure defined in TNS_SDE_PE_SKPU_SKPU_SRAM(0..127)_W0
  */
-typedef union
+union bdk_tns_sde_pe_skpu_skpu_sramx_w2
 {
     uint64_t u;
     struct bdk_tns_sde_pe_skpu_skpu_sramx_w2_s
@@ -19993,7 +20450,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_skpu_skpu_sramx_w2_s cn; */
-} bdk_tns_sde_pe_skpu_skpu_sramx_w2_t;
+};
+typedef union bdk_tns_sde_pe_skpu_skpu_sramx_w2 bdk_tns_sde_pe_skpu_skpu_sramx_w2_t;
 
 static inline uint64_t BDK_TNS_SDE_PE_SKPU_SKPU_SRAMX_W2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_PE_SKPU_SKPU_SRAMX_W2(unsigned long a)
@@ -20016,7 +20474,7 @@ static inline uint64_t BDK_TNS_SDE_PE_SKPU_SKPU_SRAMX_W2(unsigned long a)
  * TNS SDE PE SKPU ScratchPad Register
  * Scratch Pad Register for XCAT
  */
-typedef union
+union bdk_tns_sde_pe_skpu_spad
 {
     uint32_t u;
     struct bdk_tns_sde_pe_skpu_spad_s
@@ -20028,7 +20486,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_skpu_spad_s cn; */
-} bdk_tns_sde_pe_skpu_spad_t;
+};
+typedef union bdk_tns_sde_pe_skpu_spad bdk_tns_sde_pe_skpu_spad_t;
 
 #define BDK_TNS_SDE_PE_SKPU_SPAD BDK_TNS_SDE_PE_SKPU_SPAD_FUNC()
 static inline uint64_t BDK_TNS_SDE_PE_SKPU_SPAD_FUNC(void) __attribute__ ((pure, always_inline));
@@ -20056,7 +20515,7 @@ static inline uint64_t BDK_TNS_SDE_PE_SKPU_SPAD_FUNC(void)
  * When writing, make the access to this decoder atomic w.r.t. other writes to
  * this decoder.
  */
-typedef union
+union bdk_tns_sde_pe_skpu_tcam_datx_w0
 {
     uint64_t u;
     struct bdk_tns_sde_pe_skpu_tcam_datx_w0_s
@@ -20082,7 +20541,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_skpu_tcam_datx_w0_s cn; */
-} bdk_tns_sde_pe_skpu_tcam_datx_w0_t;
+};
+typedef union bdk_tns_sde_pe_skpu_tcam_datx_w0 bdk_tns_sde_pe_skpu_tcam_datx_w0_t;
 
 static inline uint64_t BDK_TNS_SDE_PE_SKPU_TCAM_DATX_W0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_PE_SKPU_TCAM_DATX_W0(unsigned long a)
@@ -20105,7 +20565,7 @@ static inline uint64_t BDK_TNS_SDE_PE_SKPU_TCAM_DATX_W0(unsigned long a)
  * TNS SDE PE SKPU TCAM Data Word 1 Registers
  * Continuation of structure defined in TNS_SDE_PE_SKPU_TCAM_DAT(0..127)_W0
  */
-typedef union
+union bdk_tns_sde_pe_skpu_tcam_datx_w1
 {
     uint64_t u;
     struct bdk_tns_sde_pe_skpu_tcam_datx_w1_s
@@ -20129,7 +20589,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_skpu_tcam_datx_w1_s cn; */
-} bdk_tns_sde_pe_skpu_tcam_datx_w1_t;
+};
+typedef union bdk_tns_sde_pe_skpu_tcam_datx_w1 bdk_tns_sde_pe_skpu_tcam_datx_w1_t;
 
 static inline uint64_t BDK_TNS_SDE_PE_SKPU_TCAM_DATX_W1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_PE_SKPU_TCAM_DATX_W1(unsigned long a)
@@ -20156,7 +20617,7 @@ static inline uint64_t BDK_TNS_SDE_PE_SKPU_TCAM_DATX_W1(unsigned long a)
  * When writing, make the access to this decoder atomic w.r.t. other writes to
  * this decoder.
  */
-typedef union
+union bdk_tns_sde_pe_skpu_tcam_dmskx_w0
 {
     uint32_t u;
     struct bdk_tns_sde_pe_skpu_tcam_dmskx_w0_s
@@ -20168,7 +20629,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_skpu_tcam_dmskx_w0_s cn; */
-} bdk_tns_sde_pe_skpu_tcam_dmskx_w0_t;
+};
+typedef union bdk_tns_sde_pe_skpu_tcam_dmskx_w0 bdk_tns_sde_pe_skpu_tcam_dmskx_w0_t;
 
 static inline uint64_t BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W0(unsigned long a)
@@ -20191,7 +20653,7 @@ static inline uint64_t BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W0(unsigned long a)
  * TNS SDE PE SKPU TCAM Data Mask Word 1 Registers
  * Continuation of structure defined in TNS_SDE_PE_SKPU_TCAM_DMSK(0..127)_W0
  */
-typedef union
+union bdk_tns_sde_pe_skpu_tcam_dmskx_w1
 {
     uint32_t u;
     struct bdk_tns_sde_pe_skpu_tcam_dmskx_w1_s
@@ -20203,7 +20665,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_skpu_tcam_dmskx_w1_s cn; */
-} bdk_tns_sde_pe_skpu_tcam_dmskx_w1_t;
+};
+typedef union bdk_tns_sde_pe_skpu_tcam_dmskx_w1 bdk_tns_sde_pe_skpu_tcam_dmskx_w1_t;
 
 static inline uint64_t BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W1(unsigned long a)
@@ -20226,7 +20689,7 @@ static inline uint64_t BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W1(unsigned long a)
  * TNS SDE PE SKPU TCAM Data Mask Word 2 Registers
  * Continuation of structure defined in TNS_SDE_PE_SKPU_TCAM_DMSK(0..127)_W0
  */
-typedef union
+union bdk_tns_sde_pe_skpu_tcam_dmskx_w2
 {
     uint32_t u;
     struct bdk_tns_sde_pe_skpu_tcam_dmskx_w2_s
@@ -20238,7 +20701,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_skpu_tcam_dmskx_w2_s cn; */
-} bdk_tns_sde_pe_skpu_tcam_dmskx_w2_t;
+};
+typedef union bdk_tns_sde_pe_skpu_tcam_dmskx_w2 bdk_tns_sde_pe_skpu_tcam_dmskx_w2_t;
 
 static inline uint64_t BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W2(unsigned long a)
@@ -20261,7 +20725,7 @@ static inline uint64_t BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W2(unsigned long a)
  * TNS SDE PE SKPU TCAM Data Mask Word 3 Registers
  * Continuation of structure defined in TNS_SDE_PE_SKPU_TCAM_DMSK(0..127)_W0
  */
-typedef union
+union bdk_tns_sde_pe_skpu_tcam_dmskx_w3
 {
     uint32_t u;
     struct bdk_tns_sde_pe_skpu_tcam_dmskx_w3_s
@@ -20273,7 +20737,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_skpu_tcam_dmskx_w3_s cn; */
-} bdk_tns_sde_pe_skpu_tcam_dmskx_w3_t;
+};
+typedef union bdk_tns_sde_pe_skpu_tcam_dmskx_w3 bdk_tns_sde_pe_skpu_tcam_dmskx_w3_t;
 
 static inline uint64_t BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W3(unsigned long a)
@@ -20296,7 +20761,7 @@ static inline uint64_t BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W3(unsigned long a)
  * TNS SDE PE SKPU TCAM Data Mask Word 4 Registers
  * Continuation of structure defined in TNS_SDE_PE_SKPU_TCAM_DMSK(0..127)_W0
  */
-typedef union
+union bdk_tns_sde_pe_skpu_tcam_dmskx_w4
 {
     uint32_t u;
     struct bdk_tns_sde_pe_skpu_tcam_dmskx_w4_s
@@ -20308,7 +20773,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_skpu_tcam_dmskx_w4_s cn; */
-} bdk_tns_sde_pe_skpu_tcam_dmskx_w4_t;
+};
+typedef union bdk_tns_sde_pe_skpu_tcam_dmskx_w4 bdk_tns_sde_pe_skpu_tcam_dmskx_w4_t;
 
 static inline uint64_t BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W4(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W4(unsigned long a)
@@ -20331,7 +20797,7 @@ static inline uint64_t BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W4(unsigned long a)
  * TNS SDE PE SKPU TCAM Data Mask Word 5 Registers
  * Continuation of structure defined in TNS_SDE_PE_SKPU_TCAM_DMSK(0..127)_W0
  */
-typedef union
+union bdk_tns_sde_pe_skpu_tcam_dmskx_w5
 {
     uint32_t u;
     struct bdk_tns_sde_pe_skpu_tcam_dmskx_w5_s
@@ -20343,7 +20809,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_skpu_tcam_dmskx_w5_s cn; */
-} bdk_tns_sde_pe_skpu_tcam_dmskx_w5_t;
+};
+typedef union bdk_tns_sde_pe_skpu_tcam_dmskx_w5 bdk_tns_sde_pe_skpu_tcam_dmskx_w5_t;
 
 static inline uint64_t BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W5(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W5(unsigned long a)
@@ -20366,7 +20833,7 @@ static inline uint64_t BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W5(unsigned long a)
  * TNS SDE PE SKPU TCAM Data Mask Word 6 Registers
  * Continuation of structure defined in TNS_SDE_PE_SKPU_TCAM_DMSK(0..127)_W0
  */
-typedef union
+union bdk_tns_sde_pe_skpu_tcam_dmskx_w6
 {
     uint32_t u;
     struct bdk_tns_sde_pe_skpu_tcam_dmskx_w6_s
@@ -20382,7 +20849,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_skpu_tcam_dmskx_w6_s cn; */
-} bdk_tns_sde_pe_skpu_tcam_dmskx_w6_t;
+};
+typedef union bdk_tns_sde_pe_skpu_tcam_dmskx_w6 bdk_tns_sde_pe_skpu_tcam_dmskx_w6_t;
 
 static inline uint64_t BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W6(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W6(unsigned long a)
@@ -20409,7 +20877,7 @@ static inline uint64_t BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W6(unsigned long a)
  * When writing, make the access to this decoder atomic w.r.t. other writes to
  * this decoder.
  */
-typedef union
+union bdk_tns_sde_pe_skpu_tcam_maskx_w0
 {
     uint64_t u;
     struct bdk_tns_sde_pe_skpu_tcam_maskx_w0_s
@@ -20435,7 +20903,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_skpu_tcam_maskx_w0_s cn; */
-} bdk_tns_sde_pe_skpu_tcam_maskx_w0_t;
+};
+typedef union bdk_tns_sde_pe_skpu_tcam_maskx_w0 bdk_tns_sde_pe_skpu_tcam_maskx_w0_t;
 
 static inline uint64_t BDK_TNS_SDE_PE_SKPU_TCAM_MASKX_W0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_PE_SKPU_TCAM_MASKX_W0(unsigned long a)
@@ -20458,7 +20927,7 @@ static inline uint64_t BDK_TNS_SDE_PE_SKPU_TCAM_MASKX_W0(unsigned long a)
  * TNS SDE PE SKPU TCAM Mask Word 1 Registers
  * Continuation of structure defined in TNS_SDE_PE_SKPU_TCAM_MASK(0..127)_W0
  */
-typedef union
+union bdk_tns_sde_pe_skpu_tcam_maskx_w1
 {
     uint64_t u;
     struct bdk_tns_sde_pe_skpu_tcam_maskx_w1_s
@@ -20482,7 +20951,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_pe_skpu_tcam_maskx_w1_s cn; */
-} bdk_tns_sde_pe_skpu_tcam_maskx_w1_t;
+};
+typedef union bdk_tns_sde_pe_skpu_tcam_maskx_w1 bdk_tns_sde_pe_skpu_tcam_maskx_w1_t;
 
 static inline uint64_t BDK_TNS_SDE_PE_SKPU_TCAM_MASKX_W1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_PE_SKPU_TCAM_MASKX_W1(unsigned long a)
@@ -20505,7 +20975,7 @@ static inline uint64_t BDK_TNS_SDE_PE_SKPU_TCAM_MASKX_W1(unsigned long a)
  * TNS SDE URW1 Almost Full Threshold Register
  * Controls the max inflight requests.
  */
-typedef union
+union bdk_tns_sde_urw1_afull_thresh
 {
     uint32_t u;
     struct bdk_tns_sde_urw1_afull_thresh_s
@@ -20519,7 +20989,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw1_afull_thresh_s cn; */
-} bdk_tns_sde_urw1_afull_thresh_t;
+};
+typedef union bdk_tns_sde_urw1_afull_thresh bdk_tns_sde_urw1_afull_thresh_t;
 
 #define BDK_TNS_SDE_URW1_AFULL_THRESH BDK_TNS_SDE_URW1_AFULL_THRESH_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW1_AFULL_THRESH_FUNC(void) __attribute__ ((pure, always_inline));
@@ -20543,7 +21014,7 @@ static inline uint64_t BDK_TNS_SDE_URW1_AFULL_THRESH_FUNC(void)
  * TNS SDE URW1 Control Register
  * Contains disable bits for various features
  */
-typedef union
+union bdk_tns_sde_urw1_control
 {
     uint32_t u;
     struct bdk_tns_sde_urw1_control_s
@@ -20559,7 +21030,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw1_control_s cn; */
-} bdk_tns_sde_urw1_control_t;
+};
+typedef union bdk_tns_sde_urw1_control bdk_tns_sde_urw1_control_t;
 
 #define BDK_TNS_SDE_URW1_CONTROL BDK_TNS_SDE_URW1_CONTROL_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW1_CONTROL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -20583,7 +21055,7 @@ static inline uint64_t BDK_TNS_SDE_URW1_CONTROL_FUNC(void)
  * TNS SDE URW1 Debug Selector Register
  * --
  */
-typedef union
+union bdk_tns_sde_urw1_dbg_sel
 {
     uint32_t u;
     struct bdk_tns_sde_urw1_dbg_sel_s
@@ -20599,7 +21071,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw1_dbg_sel_s cn; */
-} bdk_tns_sde_urw1_dbg_sel_t;
+};
+typedef union bdk_tns_sde_urw1_dbg_sel bdk_tns_sde_urw1_dbg_sel_t;
 
 #define BDK_TNS_SDE_URW1_DBG_SEL BDK_TNS_SDE_URW1_DBG_SEL_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW1_DBG_SEL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -20623,7 +21096,7 @@ static inline uint64_t BDK_TNS_SDE_URW1_DBG_SEL_FUNC(void)
  * TNS SDE URW1 Debug Status LIVE Register
  * --
  */
-typedef union
+union bdk_tns_sde_urw1_dbg_sta_live
 {
     uint32_t u;
     struct bdk_tns_sde_urw1_dbg_sta_live_s
@@ -20637,7 +21110,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw1_dbg_sta_live_s cn; */
-} bdk_tns_sde_urw1_dbg_sta_live_t;
+};
+typedef union bdk_tns_sde_urw1_dbg_sta_live bdk_tns_sde_urw1_dbg_sta_live_t;
 
 #define BDK_TNS_SDE_URW1_DBG_STA_LIVE BDK_TNS_SDE_URW1_DBG_STA_LIVE_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW1_DBG_STA_LIVE_FUNC(void) __attribute__ ((pure, always_inline));
@@ -20661,7 +21135,7 @@ static inline uint64_t BDK_TNS_SDE_URW1_DBG_STA_LIVE_FUNC(void)
  * TNS SDE URW1 Debug VLF Register
  * For debug hooks to VLF fifo
  */
-typedef union
+union bdk_tns_sde_urw1_dbg_vlf
 {
     uint32_t u;
     struct bdk_tns_sde_urw1_dbg_vlf_s
@@ -20681,7 +21155,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw1_dbg_vlf_s cn; */
-} bdk_tns_sde_urw1_dbg_vlf_t;
+};
+typedef union bdk_tns_sde_urw1_dbg_vlf bdk_tns_sde_urw1_dbg_vlf_t;
 
 #define BDK_TNS_SDE_URW1_DBG_VLF BDK_TNS_SDE_URW1_DBG_VLF_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW1_DBG_VLF_FUNC(void) __attribute__ ((pure, always_inline));
@@ -20705,7 +21180,7 @@ static inline uint64_t BDK_TNS_SDE_URW1_DBG_VLF_FUNC(void)
  * TNS SDE URW1 DYN Debug VLF Register
  * For debug hooks to VLF fifo
  */
-typedef union
+union bdk_tns_sde_urw1_dyn_dbg_vlf
 {
     uint32_t u;
     struct bdk_tns_sde_urw1_dyn_dbg_vlf_s
@@ -20719,7 +21194,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw1_dyn_dbg_vlf_s cn; */
-} bdk_tns_sde_urw1_dyn_dbg_vlf_t;
+};
+typedef union bdk_tns_sde_urw1_dyn_dbg_vlf bdk_tns_sde_urw1_dyn_dbg_vlf_t;
 
 #define BDK_TNS_SDE_URW1_DYN_DBG_VLF BDK_TNS_SDE_URW1_DYN_DBG_VLF_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW1_DYN_DBG_VLF_FUNC(void) __attribute__ ((pure, always_inline));
@@ -20743,7 +21219,7 @@ static inline uint64_t BDK_TNS_SDE_URW1_DYN_DBG_VLF_FUNC(void)
  * TNS SDE URW1 ECC Control Disable Correction Register
  * --
  */
-typedef union
+union bdk_tns_sde_urw1_ecc_ctl_cd
 {
     uint32_t u;
     struct bdk_tns_sde_urw1_ecc_ctl_cd_s
@@ -20769,7 +21245,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw1_ecc_ctl_cd_s cn; */
-} bdk_tns_sde_urw1_ecc_ctl_cd_t;
+};
+typedef union bdk_tns_sde_urw1_ecc_ctl_cd bdk_tns_sde_urw1_ecc_ctl_cd_t;
 
 #define BDK_TNS_SDE_URW1_ECC_CTL_CD BDK_TNS_SDE_URW1_ECC_CTL_CD_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW1_ECC_CTL_CD_FUNC(void) __attribute__ ((pure, always_inline));
@@ -20793,7 +21270,7 @@ static inline uint64_t BDK_TNS_SDE_URW1_ECC_CTL_CD_FUNC(void)
  * TNS SDE URW1 ECC Control Flip Word 0 Register
  * --
  */
-typedef union
+union bdk_tns_sde_urw1_ecc_ctl_flp_w0
 {
     uint32_t u;
     struct bdk_tns_sde_urw1_ecc_ctl_flp_w0_s
@@ -20819,7 +21296,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw1_ecc_ctl_flp_w0_s cn; */
-} bdk_tns_sde_urw1_ecc_ctl_flp_w0_t;
+};
+typedef union bdk_tns_sde_urw1_ecc_ctl_flp_w0 bdk_tns_sde_urw1_ecc_ctl_flp_w0_t;
 
 #define BDK_TNS_SDE_URW1_ECC_CTL_FLP_W0 BDK_TNS_SDE_URW1_ECC_CTL_FLP_W0_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW1_ECC_CTL_FLP_W0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -20843,7 +21321,7 @@ static inline uint64_t BDK_TNS_SDE_URW1_ECC_CTL_FLP_W0_FUNC(void)
  * TNS SDE URW1 ECC Control Flip Word 1 Register
  * Continuation of structure defined in TNS_SDE_URW1_ECC_CTL_FLP_W0
  */
-typedef union
+union bdk_tns_sde_urw1_ecc_ctl_flp_w1
 {
     uint32_t u;
     struct bdk_tns_sde_urw1_ecc_ctl_flp_w1_s
@@ -20869,7 +21347,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw1_ecc_ctl_flp_w1_s cn; */
-} bdk_tns_sde_urw1_ecc_ctl_flp_w1_t;
+};
+typedef union bdk_tns_sde_urw1_ecc_ctl_flp_w1 bdk_tns_sde_urw1_ecc_ctl_flp_w1_t;
 
 #define BDK_TNS_SDE_URW1_ECC_CTL_FLP_W1 BDK_TNS_SDE_URW1_ECC_CTL_FLP_W1_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW1_ECC_CTL_FLP_W1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -20897,7 +21376,7 @@ static inline uint64_t BDK_TNS_SDE_URW1_ECC_CTL_FLP_W1_FUNC(void)
  * When writing, make the access to this decoder atomic w.r.t. other writes to
  * this decoder.
  */
-typedef union
+union bdk_tns_sde_urw1_egr_flt_tblx_wx
 {
     uint32_t u;
     struct bdk_tns_sde_urw1_egr_flt_tblx_wx_s
@@ -20909,7 +21388,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw1_egr_flt_tblx_wx_s cn; */
-} bdk_tns_sde_urw1_egr_flt_tblx_wx_t;
+};
+typedef union bdk_tns_sde_urw1_egr_flt_tblx_wx bdk_tns_sde_urw1_egr_flt_tblx_wx_t;
 
 static inline uint64_t BDK_TNS_SDE_URW1_EGR_FLT_TBLX_WX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_URW1_EGR_FLT_TBLX_WX(unsigned long a, unsigned long b)
@@ -20935,7 +21415,7 @@ static inline uint64_t BDK_TNS_SDE_URW1_EGR_FLT_TBLX_WX(unsigned long a, unsigne
  * When writing, make the access to this decoder atomic w.r.t. other writes to
  * this decoder.
  */
-typedef union
+union bdk_tns_sde_urw1_evif_tblx_wx
 {
     uint64_t u;
     struct bdk_tns_sde_urw1_evif_tblx_wx_s
@@ -20947,7 +21427,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw1_evif_tblx_wx_s cn; */
-} bdk_tns_sde_urw1_evif_tblx_wx_t;
+};
+typedef union bdk_tns_sde_urw1_evif_tblx_wx bdk_tns_sde_urw1_evif_tblx_wx_t;
 
 static inline uint64_t BDK_TNS_SDE_URW1_EVIF_TBLX_WX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_URW1_EVIF_TBLX_WX(unsigned long a, unsigned long b)
@@ -20971,7 +21452,7 @@ static inline uint64_t BDK_TNS_SDE_URW1_EVIF_TBLX_WX(unsigned long a, unsigned l
  * eVif Range0_3
  * Bits 31..8 of registers ending in _W1 are unused.
  */
-typedef union
+union bdk_tns_sde_urw1_evif_wx
 {
     uint32_t u;
     struct bdk_tns_sde_urw1_evif_wx_s
@@ -20983,7 +21464,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw1_evif_wx_s cn; */
-} bdk_tns_sde_urw1_evif_wx_t;
+};
+typedef union bdk_tns_sde_urw1_evif_wx bdk_tns_sde_urw1_evif_wx_t;
 
 static inline uint64_t BDK_TNS_SDE_URW1_EVIF_WX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_URW1_EVIF_WX(unsigned long a)
@@ -21006,7 +21488,7 @@ static inline uint64_t BDK_TNS_SDE_URW1_EVIF_WX(unsigned long a)
  * TNS SDE URW1 Interrrupt Enable High Word 0 Register
  * Channel Interrupt register low priority
  */
-typedef union
+union bdk_tns_sde_urw1_int_en_hi_w0
 {
     uint32_t u;
     struct bdk_tns_sde_urw1_int_en_hi_w0_s
@@ -21020,7 +21502,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw1_int_en_hi_w0_s cn; */
-} bdk_tns_sde_urw1_int_en_hi_w0_t;
+};
+typedef union bdk_tns_sde_urw1_int_en_hi_w0 bdk_tns_sde_urw1_int_en_hi_w0_t;
 
 #define BDK_TNS_SDE_URW1_INT_EN_HI_W0 BDK_TNS_SDE_URW1_INT_EN_HI_W0_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW1_INT_EN_HI_W0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -21044,7 +21527,7 @@ static inline uint64_t BDK_TNS_SDE_URW1_INT_EN_HI_W0_FUNC(void)
  * TNS SDE URW1 Interrrupt Enable High Word 1 Register
  * Continuation of structure defined in TNS_SDE_URW1_INT_EN_HI_W0
  */
-typedef union
+union bdk_tns_sde_urw1_int_en_hi_w1
 {
     uint32_t u;
     struct bdk_tns_sde_urw1_int_en_hi_w1_s
@@ -21060,7 +21543,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw1_int_en_hi_w1_s cn; */
-} bdk_tns_sde_urw1_int_en_hi_w1_t;
+};
+typedef union bdk_tns_sde_urw1_int_en_hi_w1 bdk_tns_sde_urw1_int_en_hi_w1_t;
 
 #define BDK_TNS_SDE_URW1_INT_EN_HI_W1 BDK_TNS_SDE_URW1_INT_EN_HI_W1_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW1_INT_EN_HI_W1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -21084,7 +21568,7 @@ static inline uint64_t BDK_TNS_SDE_URW1_INT_EN_HI_W1_FUNC(void)
  * TNS SDE URW1 Interrrupt Enable Low Word 0 Register
  * Channel Interrupt register low priority
  */
-typedef union
+union bdk_tns_sde_urw1_int_en_lo_w0
 {
     uint32_t u;
     struct bdk_tns_sde_urw1_int_en_lo_w0_s
@@ -21098,7 +21582,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw1_int_en_lo_w0_s cn; */
-} bdk_tns_sde_urw1_int_en_lo_w0_t;
+};
+typedef union bdk_tns_sde_urw1_int_en_lo_w0 bdk_tns_sde_urw1_int_en_lo_w0_t;
 
 #define BDK_TNS_SDE_URW1_INT_EN_LO_W0 BDK_TNS_SDE_URW1_INT_EN_LO_W0_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW1_INT_EN_LO_W0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -21122,7 +21607,7 @@ static inline uint64_t BDK_TNS_SDE_URW1_INT_EN_LO_W0_FUNC(void)
  * TNS SDE URW1 Interrrupt Enable Low Word 1 Register
  * Continuation of structure defined in TNS_SDE_URW1_INT_EN_LO_W0
  */
-typedef union
+union bdk_tns_sde_urw1_int_en_lo_w1
 {
     uint32_t u;
     struct bdk_tns_sde_urw1_int_en_lo_w1_s
@@ -21138,7 +21623,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw1_int_en_lo_w1_s cn; */
-} bdk_tns_sde_urw1_int_en_lo_w1_t;
+};
+typedef union bdk_tns_sde_urw1_int_en_lo_w1 bdk_tns_sde_urw1_int_en_lo_w1_t;
 
 #define BDK_TNS_SDE_URW1_INT_EN_LO_W1 BDK_TNS_SDE_URW1_INT_EN_LO_W1_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW1_INT_EN_LO_W1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -21162,7 +21648,7 @@ static inline uint64_t BDK_TNS_SDE_URW1_INT_EN_LO_W1_FUNC(void)
  * TNS SDE URW1 Interrrupt Force Word 0 Register
  * Channel Interrupt register low priority
  */
-typedef union
+union bdk_tns_sde_urw1_int_frc_w0
 {
     uint32_t u;
     struct bdk_tns_sde_urw1_int_frc_w0_s
@@ -21176,7 +21662,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw1_int_frc_w0_s cn; */
-} bdk_tns_sde_urw1_int_frc_w0_t;
+};
+typedef union bdk_tns_sde_urw1_int_frc_w0 bdk_tns_sde_urw1_int_frc_w0_t;
 
 #define BDK_TNS_SDE_URW1_INT_FRC_W0 BDK_TNS_SDE_URW1_INT_FRC_W0_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW1_INT_FRC_W0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -21200,7 +21687,7 @@ static inline uint64_t BDK_TNS_SDE_URW1_INT_FRC_W0_FUNC(void)
  * TNS SDE URW1 Interrrupt Force Word 1 Register
  * Continuation of structure defined in TNS_SDE_URW1_INT_FRC_W0
  */
-typedef union
+union bdk_tns_sde_urw1_int_frc_w1
 {
     uint32_t u;
     struct bdk_tns_sde_urw1_int_frc_w1_s
@@ -21216,7 +21703,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw1_int_frc_w1_s cn; */
-} bdk_tns_sde_urw1_int_frc_w1_t;
+};
+typedef union bdk_tns_sde_urw1_int_frc_w1 bdk_tns_sde_urw1_int_frc_w1_t;
 
 #define BDK_TNS_SDE_URW1_INT_FRC_W1 BDK_TNS_SDE_URW1_INT_FRC_W1_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW1_INT_FRC_W1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -21240,7 +21728,7 @@ static inline uint64_t BDK_TNS_SDE_URW1_INT_FRC_W1_FUNC(void)
  * TNS SDE URW1 Interrrupt W1C Word 0 Register
  * Channel Interrupt register low priority
  */
-typedef union
+union bdk_tns_sde_urw1_int_w1c_w0
 {
     uint32_t u;
     struct bdk_tns_sde_urw1_int_w1c_w0_s
@@ -21254,7 +21742,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw1_int_w1c_w0_s cn; */
-} bdk_tns_sde_urw1_int_w1c_w0_t;
+};
+typedef union bdk_tns_sde_urw1_int_w1c_w0 bdk_tns_sde_urw1_int_w1c_w0_t;
 
 #define BDK_TNS_SDE_URW1_INT_W1C_W0 BDK_TNS_SDE_URW1_INT_W1C_W0_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW1_INT_W1C_W0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -21278,7 +21767,7 @@ static inline uint64_t BDK_TNS_SDE_URW1_INT_W1C_W0_FUNC(void)
  * TNS SDE URW1 Interrrupt W1C Word 1 Register
  * Continuation of structure defined in TNS_SDE_URW1_INT_W1C_W0
  */
-typedef union
+union bdk_tns_sde_urw1_int_w1c_w1
 {
     uint32_t u;
     struct bdk_tns_sde_urw1_int_w1c_w1_s
@@ -21294,7 +21783,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw1_int_w1c_w1_s cn; */
-} bdk_tns_sde_urw1_int_w1c_w1_t;
+};
+typedef union bdk_tns_sde_urw1_int_w1c_w1 bdk_tns_sde_urw1_int_w1c_w1_t;
 
 #define BDK_TNS_SDE_URW1_INT_W1C_W1 BDK_TNS_SDE_URW1_INT_W1C_W1_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW1_INT_W1C_W1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -21322,7 +21812,7 @@ static inline uint64_t BDK_TNS_SDE_URW1_INT_W1C_W1_FUNC(void)
  * When writing, make the access to this decoder atomic w.r.t. other writes to
  * this decoder.
  */
-typedef union
+union bdk_tns_sde_urw1_ivif_tblx_wx
 {
     uint64_t u;
     struct bdk_tns_sde_urw1_ivif_tblx_wx_s
@@ -21334,7 +21824,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw1_ivif_tblx_wx_s cn; */
-} bdk_tns_sde_urw1_ivif_tblx_wx_t;
+};
+typedef union bdk_tns_sde_urw1_ivif_tblx_wx bdk_tns_sde_urw1_ivif_tblx_wx_t;
 
 static inline uint64_t BDK_TNS_SDE_URW1_IVIF_TBLX_WX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_URW1_IVIF_TBLX_WX(unsigned long a, unsigned long b)
@@ -21358,7 +21849,7 @@ static inline uint64_t BDK_TNS_SDE_URW1_IVIF_TBLX_WX(unsigned long a, unsigned l
  * iVif Range0_3
  * Bits 31..8 of registers ending in _W1 are unused.
  */
-typedef union
+union bdk_tns_sde_urw1_ivif_wx
 {
     uint32_t u;
     struct bdk_tns_sde_urw1_ivif_wx_s
@@ -21370,7 +21861,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw1_ivif_wx_s cn; */
-} bdk_tns_sde_urw1_ivif_wx_t;
+};
+typedef union bdk_tns_sde_urw1_ivif_wx bdk_tns_sde_urw1_ivif_wx_t;
 
 static inline uint64_t BDK_TNS_SDE_URW1_IVIF_WX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_URW1_IVIF_WX(unsigned long a)
@@ -21393,7 +21885,7 @@ static inline uint64_t BDK_TNS_SDE_URW1_IVIF_WX(unsigned long a)
  * TNS SDE URW1 Lock Register
  * Lock Register
  */
-typedef union
+union bdk_tns_sde_urw1_lock
 {
     uint32_t u;
     struct bdk_tns_sde_urw1_lock_s
@@ -21405,7 +21897,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw1_lock_s cn; */
-} bdk_tns_sde_urw1_lock_t;
+};
+typedef union bdk_tns_sde_urw1_lock bdk_tns_sde_urw1_lock_t;
 
 #define BDK_TNS_SDE_URW1_LOCK BDK_TNS_SDE_URW1_LOCK_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW1_LOCK_FUNC(void) __attribute__ ((pure, always_inline));
@@ -21429,7 +21922,7 @@ static inline uint64_t BDK_TNS_SDE_URW1_LOCK_FUNC(void)
  * TNS SDE URW1 Mirror Mask Register
  * This holds masks for Ingress, Egress, evif and ivif Mirror.
  */
-typedef union
+union bdk_tns_sde_urw1_mir_mask
 {
     uint32_t u;
     struct bdk_tns_sde_urw1_mir_mask_s
@@ -21443,7 +21936,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw1_mir_mask_s cn; */
-} bdk_tns_sde_urw1_mir_mask_t;
+};
+typedef union bdk_tns_sde_urw1_mir_mask bdk_tns_sde_urw1_mir_mask_t;
 
 #define BDK_TNS_SDE_URW1_MIR_MASK BDK_TNS_SDE_URW1_MIR_MASK_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW1_MIR_MASK_FUNC(void) __attribute__ ((pure, always_inline));
@@ -21468,7 +21962,7 @@ static inline uint64_t BDK_TNS_SDE_URW1_MIR_MASK_FUNC(void)
  * Reason Code table used for CPU packets and cpu copies. Indexed by lower 10 bits
  * of reasonCode.
  */
-typedef union
+union bdk_tns_sde_urw1_rsn_tblx
 {
     uint32_t u;
     struct bdk_tns_sde_urw1_rsn_tblx_s
@@ -21488,7 +21982,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw1_rsn_tblx_s cn; */
-} bdk_tns_sde_urw1_rsn_tblx_t;
+};
+typedef union bdk_tns_sde_urw1_rsn_tblx bdk_tns_sde_urw1_rsn_tblx_t;
 
 static inline uint64_t BDK_TNS_SDE_URW1_RSN_TBLX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_URW1_RSN_TBLX(unsigned long a)
@@ -21514,7 +22009,7 @@ static inline uint64_t BDK_TNS_SDE_URW1_RSN_TBLX(unsigned long a)
  * 64-bit se lane should be valid.
  * If this bit is set, then token_id_0_32bit_format should be : 1000_0000
  */
-typedef union
+union bdk_tns_sde_urw1_se_resp_tblx
 {
     uint64_t u;
     struct bdk_tns_sde_urw1_se_resp_tblx_s
@@ -21542,7 +22037,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw1_se_resp_tblx_s cn; */
-} bdk_tns_sde_urw1_se_resp_tblx_t;
+};
+typedef union bdk_tns_sde_urw1_se_resp_tblx bdk_tns_sde_urw1_se_resp_tblx_t;
 
 static inline uint64_t BDK_TNS_SDE_URW1_SE_RESP_TBLX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_URW1_SE_RESP_TBLX(unsigned long a)
@@ -21565,7 +22061,7 @@ static inline uint64_t BDK_TNS_SDE_URW1_SE_RESP_TBLX(unsigned long a)
  * TNS SDE URW1 ScratchPad Register
  * Scratch Pad Register for XCAT
  */
-typedef union
+union bdk_tns_sde_urw1_spad
 {
     uint32_t u;
     struct bdk_tns_sde_urw1_spad_s
@@ -21577,7 +22073,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw1_spad_s cn; */
-} bdk_tns_sde_urw1_spad_t;
+};
+typedef union bdk_tns_sde_urw1_spad bdk_tns_sde_urw1_spad_t;
 
 #define BDK_TNS_SDE_URW1_SPAD BDK_TNS_SDE_URW1_SPAD_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW1_SPAD_FUNC(void) __attribute__ ((pure, always_inline));
@@ -21605,7 +22102,7 @@ static inline uint64_t BDK_TNS_SDE_URW1_SPAD_FUNC(void)
  * When writing, make the access to this decoder atomic w.r.t. other writes to
  * this decoder.
  */
-typedef union
+union bdk_tns_sde_urw1_tpid_tblx_wx
 {
     uint32_t u;
     struct bdk_tns_sde_urw1_tpid_tblx_wx_s
@@ -21617,7 +22114,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw1_tpid_tblx_wx_s cn; */
-} bdk_tns_sde_urw1_tpid_tblx_wx_t;
+};
+typedef union bdk_tns_sde_urw1_tpid_tblx_wx bdk_tns_sde_urw1_tpid_tblx_wx_t;
 
 static inline uint64_t BDK_TNS_SDE_URW1_TPID_TBLX_WX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_URW1_TPID_TBLX_WX(unsigned long a, unsigned long b)
@@ -21646,7 +22144,7 @@ static inline uint64_t BDK_TNS_SDE_URW1_TPID_TBLX_WX(unsigned long a, unsigned l
  * When writing, make the access to this decoder atomic w.r.t. other writes to
  * this decoder.
  */
-typedef union
+union bdk_tns_sde_urw1_trt_tblx_wx
 {
     uint32_t u;
     struct bdk_tns_sde_urw1_trt_tblx_wx_s
@@ -21658,7 +22156,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw1_trt_tblx_wx_s cn; */
-} bdk_tns_sde_urw1_trt_tblx_wx_t;
+};
+typedef union bdk_tns_sde_urw1_trt_tblx_wx bdk_tns_sde_urw1_trt_tblx_wx_t;
 
 static inline uint64_t BDK_TNS_SDE_URW1_TRT_TBLX_WX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_URW1_TRT_TBLX_WX(unsigned long a, unsigned long b)
@@ -21681,7 +22180,7 @@ static inline uint64_t BDK_TNS_SDE_URW1_TRT_TBLX_WX(unsigned long a, unsigned lo
  * TNS SDE URW2A Debug Selector Register
  * --
  */
-typedef union
+union bdk_tns_sde_urw2a_dbg_sel
 {
     uint32_t u;
     struct bdk_tns_sde_urw2a_dbg_sel_s
@@ -21697,7 +22196,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw2a_dbg_sel_s cn; */
-} bdk_tns_sde_urw2a_dbg_sel_t;
+};
+typedef union bdk_tns_sde_urw2a_dbg_sel bdk_tns_sde_urw2a_dbg_sel_t;
 
 #define BDK_TNS_SDE_URW2A_DBG_SEL BDK_TNS_SDE_URW2A_DBG_SEL_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW2A_DBG_SEL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -21721,7 +22221,7 @@ static inline uint64_t BDK_TNS_SDE_URW2A_DBG_SEL_FUNC(void)
  * TNS SDE URW2A Debug Status LIVE Registers
  * Bits 31..27 of registers ending in _W6 are unused.
  */
-typedef union
+union bdk_tns_sde_urw2a_dbg_sta_live_wx
 {
     uint32_t u;
     struct bdk_tns_sde_urw2a_dbg_sta_live_wx_s
@@ -21733,7 +22233,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw2a_dbg_sta_live_wx_s cn; */
-} bdk_tns_sde_urw2a_dbg_sta_live_wx_t;
+};
+typedef union bdk_tns_sde_urw2a_dbg_sta_live_wx bdk_tns_sde_urw2a_dbg_sta_live_wx_t;
 
 static inline uint64_t BDK_TNS_SDE_URW2A_DBG_STA_LIVE_WX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_URW2A_DBG_STA_LIVE_WX(unsigned long a)
@@ -21757,7 +22258,7 @@ static inline uint64_t BDK_TNS_SDE_URW2A_DBG_STA_LIVE_WX(unsigned long a)
  * Contains enable bits per port and modify etag enable for packet modifications
  * going to etag ports.
  */
-typedef union
+union bdk_tns_sde_urw2a_etag_w0
 {
     uint32_t u;
     struct bdk_tns_sde_urw2a_etag_w0_s
@@ -21769,7 +22270,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw2a_etag_w0_s cn; */
-} bdk_tns_sde_urw2a_etag_w0_t;
+};
+typedef union bdk_tns_sde_urw2a_etag_w0 bdk_tns_sde_urw2a_etag_w0_t;
 
 #define BDK_TNS_SDE_URW2A_ETAG_W0 BDK_TNS_SDE_URW2A_ETAG_W0_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW2A_ETAG_W0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -21793,7 +22295,7 @@ static inline uint64_t BDK_TNS_SDE_URW2A_ETAG_W0_FUNC(void)
  * TNS SDE URW2A ETAG Word 1 Register
  * Continuation of structure defined in TNS_SDE_URW2A_ETAG_W0
  */
-typedef union
+union bdk_tns_sde_urw2a_etag_w1
 {
     uint32_t u;
     struct bdk_tns_sde_urw2a_etag_w1_s
@@ -21805,7 +22307,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw2a_etag_w1_s cn; */
-} bdk_tns_sde_urw2a_etag_w1_t;
+};
+typedef union bdk_tns_sde_urw2a_etag_w1 bdk_tns_sde_urw2a_etag_w1_t;
 
 #define BDK_TNS_SDE_URW2A_ETAG_W1 BDK_TNS_SDE_URW2A_ETAG_W1_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW2A_ETAG_W1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -21829,7 +22332,7 @@ static inline uint64_t BDK_TNS_SDE_URW2A_ETAG_W1_FUNC(void)
  * TNS SDE URW2A ETAG Word 2 Register
  * Continuation of structure defined in TNS_SDE_URW2A_ETAG_W0
  */
-typedef union
+union bdk_tns_sde_urw2a_etag_w2
 {
     uint32_t u;
     struct bdk_tns_sde_urw2a_etag_w2_s
@@ -21841,7 +22344,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw2a_etag_w2_s cn; */
-} bdk_tns_sde_urw2a_etag_w2_t;
+};
+typedef union bdk_tns_sde_urw2a_etag_w2 bdk_tns_sde_urw2a_etag_w2_t;
 
 #define BDK_TNS_SDE_URW2A_ETAG_W2 BDK_TNS_SDE_URW2A_ETAG_W2_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW2A_ETAG_W2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -21865,7 +22369,7 @@ static inline uint64_t BDK_TNS_SDE_URW2A_ETAG_W2_FUNC(void)
  * TNS SDE URW2A ETAG Word 3 Register
  * Continuation of structure defined in TNS_SDE_URW2A_ETAG_W0
  */
-typedef union
+union bdk_tns_sde_urw2a_etag_w3
 {
     uint32_t u;
     struct bdk_tns_sde_urw2a_etag_w3_s
@@ -21877,7 +22381,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw2a_etag_w3_s cn; */
-} bdk_tns_sde_urw2a_etag_w3_t;
+};
+typedef union bdk_tns_sde_urw2a_etag_w3 bdk_tns_sde_urw2a_etag_w3_t;
 
 #define BDK_TNS_SDE_URW2A_ETAG_W3 BDK_TNS_SDE_URW2A_ETAG_W3_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW2A_ETAG_W3_FUNC(void) __attribute__ ((pure, always_inline));
@@ -21901,7 +22406,7 @@ static inline uint64_t BDK_TNS_SDE_URW2A_ETAG_W3_FUNC(void)
  * TNS SDE URW2A ETAG Word 4 Register
  * Continuation of structure defined in TNS_SDE_URW2A_ETAG_W0
  */
-typedef union
+union bdk_tns_sde_urw2a_etag_w4
 {
     uint32_t u;
     struct bdk_tns_sde_urw2a_etag_w4_s
@@ -21917,7 +22422,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw2a_etag_w4_s cn; */
-} bdk_tns_sde_urw2a_etag_w4_t;
+};
+typedef union bdk_tns_sde_urw2a_etag_w4 bdk_tns_sde_urw2a_etag_w4_t;
 
 #define BDK_TNS_SDE_URW2A_ETAG_W4 BDK_TNS_SDE_URW2A_ETAG_W4_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW2A_ETAG_W4_FUNC(void) __attribute__ ((pure, always_inline));
@@ -21941,7 +22447,7 @@ static inline uint64_t BDK_TNS_SDE_URW2A_ETAG_W4_FUNC(void)
  * TNS SDE URW2A Header Configuration Word 0 Register
  * Contains disable bits for various features
  */
-typedef union
+union bdk_tns_sde_urw2a_hdr_w0
 {
     uint64_t u;
     struct bdk_tns_sde_urw2a_hdr_w0_s
@@ -21955,7 +22461,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw2a_hdr_w0_s cn; */
-} bdk_tns_sde_urw2a_hdr_w0_t;
+};
+typedef union bdk_tns_sde_urw2a_hdr_w0 bdk_tns_sde_urw2a_hdr_w0_t;
 
 #define BDK_TNS_SDE_URW2A_HDR_W0 BDK_TNS_SDE_URW2A_HDR_W0_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW2A_HDR_W0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -21979,7 +22486,7 @@ static inline uint64_t BDK_TNS_SDE_URW2A_HDR_W0_FUNC(void)
  * TNS SDE URW2A Header Configuration Word 1 Register
  * Continuation of structure defined in TNS_SDE_URW2A_HDR_W0
  */
-typedef union
+union bdk_tns_sde_urw2a_hdr_w1
 {
     uint64_t u;
     struct bdk_tns_sde_urw2a_hdr_w1_s
@@ -21991,7 +22498,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw2a_hdr_w1_s cn; */
-} bdk_tns_sde_urw2a_hdr_w1_t;
+};
+typedef union bdk_tns_sde_urw2a_hdr_w1 bdk_tns_sde_urw2a_hdr_w1_t;
 
 #define BDK_TNS_SDE_URW2A_HDR_W1 BDK_TNS_SDE_URW2A_HDR_W1_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW2A_HDR_W1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -22015,7 +22523,7 @@ static inline uint64_t BDK_TNS_SDE_URW2A_HDR_W1_FUNC(void)
  * TNS SDE URW2A Header Configuration Word 2 Register
  * Continuation of structure defined in TNS_SDE_URW2A_HDR_W0
  */
-typedef union
+union bdk_tns_sde_urw2a_hdr_w2
 {
     uint64_t u;
     struct bdk_tns_sde_urw2a_hdr_w2_s
@@ -22029,7 +22537,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw2a_hdr_w2_s cn; */
-} bdk_tns_sde_urw2a_hdr_w2_t;
+};
+typedef union bdk_tns_sde_urw2a_hdr_w2 bdk_tns_sde_urw2a_hdr_w2_t;
 
 #define BDK_TNS_SDE_URW2A_HDR_W2 BDK_TNS_SDE_URW2A_HDR_W2_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW2A_HDR_W2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -22053,7 +22562,7 @@ static inline uint64_t BDK_TNS_SDE_URW2A_HDR_W2_FUNC(void)
  * TNS SDE URW2A Header Configuration Word 3 Register
  * Continuation of structure defined in TNS_SDE_URW2A_HDR_W0
  */
-typedef union
+union bdk_tns_sde_urw2a_hdr_w3
 {
     uint64_t u;
     struct bdk_tns_sde_urw2a_hdr_w3_s
@@ -22065,7 +22574,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw2a_hdr_w3_s cn; */
-} bdk_tns_sde_urw2a_hdr_w3_t;
+};
+typedef union bdk_tns_sde_urw2a_hdr_w3 bdk_tns_sde_urw2a_hdr_w3_t;
 
 #define BDK_TNS_SDE_URW2A_HDR_W3 BDK_TNS_SDE_URW2A_HDR_W3_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW2A_HDR_W3_FUNC(void) __attribute__ ((pure, always_inline));
@@ -22089,7 +22599,7 @@ static inline uint64_t BDK_TNS_SDE_URW2A_HDR_W3_FUNC(void)
  * TNS SDE URW2A Header Configuration Word 4 Register
  * Continuation of structure defined in TNS_SDE_URW2A_HDR_W0
  */
-typedef union
+union bdk_tns_sde_urw2a_hdr_w4
 {
     uint64_t u;
     struct bdk_tns_sde_urw2a_hdr_w4_s
@@ -22105,7 +22615,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw2a_hdr_w4_s cn; */
-} bdk_tns_sde_urw2a_hdr_w4_t;
+};
+typedef union bdk_tns_sde_urw2a_hdr_w4 bdk_tns_sde_urw2a_hdr_w4_t;
 
 #define BDK_TNS_SDE_URW2A_HDR_W4 BDK_TNS_SDE_URW2A_HDR_W4_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW2A_HDR_W4_FUNC(void) __attribute__ ((pure, always_inline));
@@ -22133,7 +22644,7 @@ static inline uint64_t BDK_TNS_SDE_URW2A_HDR_W4_FUNC(void)
  * When writing, make the access to this decoder atomic w.r.t. other writes to
  * this decoder.
  */
-typedef union
+union bdk_tns_sde_urw2a_ins_ctd_tblx_w0
 {
     uint32_t u;
     struct bdk_tns_sde_urw2a_ins_ctd_tblx_w0_s
@@ -22145,7 +22656,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw2a_ins_ctd_tblx_w0_s cn; */
-} bdk_tns_sde_urw2a_ins_ctd_tblx_w0_t;
+};
+typedef union bdk_tns_sde_urw2a_ins_ctd_tblx_w0 bdk_tns_sde_urw2a_ins_ctd_tblx_w0_t;
 
 static inline uint64_t BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W0(unsigned long a)
@@ -22168,7 +22680,7 @@ static inline uint64_t BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W0(unsigned long a)
  * TNS SDE URW2A Insert Const Data Table Word 1 Registers
  * Continuation of structure defined in TNS_SDE_URW2A_INS_CTD_TBL(0..31)_W0
  */
-typedef union
+union bdk_tns_sde_urw2a_ins_ctd_tblx_w1
 {
     uint32_t u;
     struct bdk_tns_sde_urw2a_ins_ctd_tblx_w1_s
@@ -22180,7 +22692,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw2a_ins_ctd_tblx_w1_s cn; */
-} bdk_tns_sde_urw2a_ins_ctd_tblx_w1_t;
+};
+typedef union bdk_tns_sde_urw2a_ins_ctd_tblx_w1 bdk_tns_sde_urw2a_ins_ctd_tblx_w1_t;
 
 static inline uint64_t BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W1(unsigned long a)
@@ -22203,7 +22716,7 @@ static inline uint64_t BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W1(unsigned long a)
  * TNS SDE URW2A Insert Const Data Table Word 2 Registers
  * Continuation of structure defined in TNS_SDE_URW2A_INS_CTD_TBL(0..31)_W0
  */
-typedef union
+union bdk_tns_sde_urw2a_ins_ctd_tblx_w2
 {
     uint32_t u;
     struct bdk_tns_sde_urw2a_ins_ctd_tblx_w2_s
@@ -22215,7 +22728,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw2a_ins_ctd_tblx_w2_s cn; */
-} bdk_tns_sde_urw2a_ins_ctd_tblx_w2_t;
+};
+typedef union bdk_tns_sde_urw2a_ins_ctd_tblx_w2 bdk_tns_sde_urw2a_ins_ctd_tblx_w2_t;
 
 static inline uint64_t BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W2(unsigned long a)
@@ -22238,7 +22752,7 @@ static inline uint64_t BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W2(unsigned long a)
  * TNS SDE URW2A Insert Const Data Table Word 3 Registers
  * Continuation of structure defined in TNS_SDE_URW2A_INS_CTD_TBL(0..31)_W0
  */
-typedef union
+union bdk_tns_sde_urw2a_ins_ctd_tblx_w3
 {
     uint32_t u;
     struct bdk_tns_sde_urw2a_ins_ctd_tblx_w3_s
@@ -22250,7 +22764,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw2a_ins_ctd_tblx_w3_s cn; */
-} bdk_tns_sde_urw2a_ins_ctd_tblx_w3_t;
+};
+typedef union bdk_tns_sde_urw2a_ins_ctd_tblx_w3 bdk_tns_sde_urw2a_ins_ctd_tblx_w3_t;
 
 static inline uint64_t BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W3(unsigned long a)
@@ -22273,7 +22788,7 @@ static inline uint64_t BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W3(unsigned long a)
  * TNS SDE URW2A Insert Const Data Table Word 4 Registers
  * Continuation of structure defined in TNS_SDE_URW2A_INS_CTD_TBL(0..31)_W0
  */
-typedef union
+union bdk_tns_sde_urw2a_ins_ctd_tblx_w4
 {
     uint32_t u;
     struct bdk_tns_sde_urw2a_ins_ctd_tblx_w4_s
@@ -22285,7 +22800,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw2a_ins_ctd_tblx_w4_s cn; */
-} bdk_tns_sde_urw2a_ins_ctd_tblx_w4_t;
+};
+typedef union bdk_tns_sde_urw2a_ins_ctd_tblx_w4 bdk_tns_sde_urw2a_ins_ctd_tblx_w4_t;
 
 static inline uint64_t BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W4(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W4(unsigned long a)
@@ -22308,7 +22824,7 @@ static inline uint64_t BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W4(unsigned long a)
  * TNS SDE URW2A Insert Const Data Table Word 5 Registers
  * Continuation of structure defined in TNS_SDE_URW2A_INS_CTD_TBL(0..31)_W0
  */
-typedef union
+union bdk_tns_sde_urw2a_ins_ctd_tblx_w5
 {
     uint32_t u;
     struct bdk_tns_sde_urw2a_ins_ctd_tblx_w5_s
@@ -22320,7 +22836,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw2a_ins_ctd_tblx_w5_s cn; */
-} bdk_tns_sde_urw2a_ins_ctd_tblx_w5_t;
+};
+typedef union bdk_tns_sde_urw2a_ins_ctd_tblx_w5 bdk_tns_sde_urw2a_ins_ctd_tblx_w5_t;
 
 static inline uint64_t BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W5(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W5(unsigned long a)
@@ -22343,7 +22860,7 @@ static inline uint64_t BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W5(unsigned long a)
  * TNS SDE URW2A Insert Const Data Table Word 6 Registers
  * Continuation of structure defined in TNS_SDE_URW2A_INS_CTD_TBL(0..31)_W0
  */
-typedef union
+union bdk_tns_sde_urw2a_ins_ctd_tblx_w6
 {
     uint32_t u;
     struct bdk_tns_sde_urw2a_ins_ctd_tblx_w6_s
@@ -22355,7 +22872,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw2a_ins_ctd_tblx_w6_s cn; */
-} bdk_tns_sde_urw2a_ins_ctd_tblx_w6_t;
+};
+typedef union bdk_tns_sde_urw2a_ins_ctd_tblx_w6 bdk_tns_sde_urw2a_ins_ctd_tblx_w6_t;
 
 static inline uint64_t BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W6(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W6(unsigned long a)
@@ -22378,7 +22896,7 @@ static inline uint64_t BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W6(unsigned long a)
  * TNS SDE URW2A Insert Const Data Table Word 7 Registers
  * Continuation of structure defined in TNS_SDE_URW2A_INS_CTD_TBL(0..31)_W0
  */
-typedef union
+union bdk_tns_sde_urw2a_ins_ctd_tblx_w7
 {
     uint32_t u;
     struct bdk_tns_sde_urw2a_ins_ctd_tblx_w7_s
@@ -22390,7 +22908,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw2a_ins_ctd_tblx_w7_s cn; */
-} bdk_tns_sde_urw2a_ins_ctd_tblx_w7_t;
+};
+typedef union bdk_tns_sde_urw2a_ins_ctd_tblx_w7 bdk_tns_sde_urw2a_ins_ctd_tblx_w7_t;
 
 static inline uint64_t BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W7(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W7(unsigned long a)
@@ -22413,7 +22932,7 @@ static inline uint64_t BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W7(unsigned long a)
  * TNS SDE URW2A Insert Const Data Table Word 8 Registers
  * Continuation of structure defined in TNS_SDE_URW2A_INS_CTD_TBL(0..31)_W0
  */
-typedef union
+union bdk_tns_sde_urw2a_ins_ctd_tblx_w8
 {
     uint32_t u;
     struct bdk_tns_sde_urw2a_ins_ctd_tblx_w8_s
@@ -22425,7 +22944,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw2a_ins_ctd_tblx_w8_s cn; */
-} bdk_tns_sde_urw2a_ins_ctd_tblx_w8_t;
+};
+typedef union bdk_tns_sde_urw2a_ins_ctd_tblx_w8 bdk_tns_sde_urw2a_ins_ctd_tblx_w8_t;
 
 static inline uint64_t BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W8(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W8(unsigned long a)
@@ -22452,7 +22972,7 @@ static inline uint64_t BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W8(unsigned long a)
  * When writing, make the access to this decoder atomic w.r.t. other writes to
  * this decoder.
  */
-typedef union
+union bdk_tns_sde_urw2a_ins_mem_tblx_wx
 {
     uint64_t u;
     struct bdk_tns_sde_urw2a_ins_mem_tblx_wx_s
@@ -22464,7 +22984,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw2a_ins_mem_tblx_wx_s cn; */
-} bdk_tns_sde_urw2a_ins_mem_tblx_wx_t;
+};
+typedef union bdk_tns_sde_urw2a_ins_mem_tblx_wx bdk_tns_sde_urw2a_ins_mem_tblx_wx_t;
 
 static inline uint64_t BDK_TNS_SDE_URW2A_INS_MEM_TBLX_WX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_URW2A_INS_MEM_TBLX_WX(unsigned long a, unsigned long b)
@@ -22487,7 +23008,7 @@ static inline uint64_t BDK_TNS_SDE_URW2A_INS_MEM_TBLX_WX(unsigned long a, unsign
  * TNS SDE URW2A Lock Register
  * Lock Register
  */
-typedef union
+union bdk_tns_sde_urw2a_lock
 {
     uint32_t u;
     struct bdk_tns_sde_urw2a_lock_s
@@ -22499,7 +23020,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw2a_lock_s cn; */
-} bdk_tns_sde_urw2a_lock_t;
+};
+typedef union bdk_tns_sde_urw2a_lock bdk_tns_sde_urw2a_lock_t;
 
 #define BDK_TNS_SDE_URW2A_LOCK BDK_TNS_SDE_URW2A_LOCK_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW2A_LOCK_FUNC(void) __attribute__ ((pure, always_inline));
@@ -22527,7 +23049,7 @@ static inline uint64_t BDK_TNS_SDE_URW2A_LOCK_FUNC(void)
  * When writing, make the access to this decoder atomic w.r.t. other writes to
  * this decoder.
  */
-typedef union
+union bdk_tns_sde_urw2a_rwmem_tblx_wx
 {
     uint64_t u;
     struct bdk_tns_sde_urw2a_rwmem_tblx_wx_s
@@ -22539,7 +23061,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw2a_rwmem_tblx_wx_s cn; */
-} bdk_tns_sde_urw2a_rwmem_tblx_wx_t;
+};
+typedef union bdk_tns_sde_urw2a_rwmem_tblx_wx bdk_tns_sde_urw2a_rwmem_tblx_wx_t;
 
 static inline uint64_t BDK_TNS_SDE_URW2A_RWMEM_TBLX_WX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_URW2A_RWMEM_TBLX_WX(unsigned long a, unsigned long b)
@@ -22562,7 +23085,7 @@ static inline uint64_t BDK_TNS_SDE_URW2A_RWMEM_TBLX_WX(unsigned long a, unsigned
  * TNS SDE URW2A ScratchPad Register
  * Scratch Pad Register for XCAT
  */
-typedef union
+union bdk_tns_sde_urw2a_spad
 {
     uint32_t u;
     struct bdk_tns_sde_urw2a_spad_s
@@ -22574,7 +23097,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw2a_spad_s cn; */
-} bdk_tns_sde_urw2a_spad_t;
+};
+typedef union bdk_tns_sde_urw2a_spad bdk_tns_sde_urw2a_spad_t;
 
 #define BDK_TNS_SDE_URW2A_SPAD BDK_TNS_SDE_URW2A_SPAD_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW2A_SPAD_FUNC(void) __attribute__ ((pure, always_inline));
@@ -22598,7 +23122,7 @@ static inline uint64_t BDK_TNS_SDE_URW2A_SPAD_FUNC(void)
  * TNS SDE URW2B Control Register
  * Contains disable bits for various features
  */
-typedef union
+union bdk_tns_sde_urw2b_control
 {
     uint32_t u;
     struct bdk_tns_sde_urw2b_control_s
@@ -22618,7 +23142,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw2b_control_s cn; */
-} bdk_tns_sde_urw2b_control_t;
+};
+typedef union bdk_tns_sde_urw2b_control bdk_tns_sde_urw2b_control_t;
 
 #define BDK_TNS_SDE_URW2B_CONTROL BDK_TNS_SDE_URW2B_CONTROL_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW2B_CONTROL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -22644,7 +23169,7 @@ static inline uint64_t BDK_TNS_SDE_URW2B_CONTROL_FUNC(void)
  * RCODE_NEW_ADDR  = CFG_CPU_RCODES_BASE + 3'd2;
  * RCODE_MTU_ERR   = CFG_CPU_RCODES_BASE + 3'd3;
  */
-typedef union
+union bdk_tns_sde_urw2b_cpu_rcod_base
 {
     uint32_t u;
     struct bdk_tns_sde_urw2b_cpu_rcod_base_s
@@ -22658,7 +23183,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw2b_cpu_rcod_base_s cn; */
-} bdk_tns_sde_urw2b_cpu_rcod_base_t;
+};
+typedef union bdk_tns_sde_urw2b_cpu_rcod_base bdk_tns_sde_urw2b_cpu_rcod_base_t;
 
 #define BDK_TNS_SDE_URW2B_CPU_RCOD_BASE BDK_TNS_SDE_URW2B_CPU_RCOD_BASE_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW2B_CPU_RCOD_BASE_FUNC(void) __attribute__ ((pure, always_inline));
@@ -22682,7 +23208,7 @@ static inline uint64_t BDK_TNS_SDE_URW2B_CPU_RCOD_BASE_FUNC(void)
  * TNS SDE URW2B Debug Selector Register
  * --
  */
-typedef union
+union bdk_tns_sde_urw2b_dbg_sel
 {
     uint32_t u;
     struct bdk_tns_sde_urw2b_dbg_sel_s
@@ -22698,7 +23224,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw2b_dbg_sel_s cn; */
-} bdk_tns_sde_urw2b_dbg_sel_t;
+};
+typedef union bdk_tns_sde_urw2b_dbg_sel bdk_tns_sde_urw2b_dbg_sel_t;
 
 #define BDK_TNS_SDE_URW2B_DBG_SEL BDK_TNS_SDE_URW2B_DBG_SEL_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW2B_DBG_SEL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -22722,7 +23249,7 @@ static inline uint64_t BDK_TNS_SDE_URW2B_DBG_SEL_FUNC(void)
  * TNS SDE URW2B Debug Status LIVE Register
  * --
  */
-typedef union
+union bdk_tns_sde_urw2b_dbg_sta_live
 {
     uint32_t u;
     struct bdk_tns_sde_urw2b_dbg_sta_live_s
@@ -22736,7 +23263,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw2b_dbg_sta_live_s cn; */
-} bdk_tns_sde_urw2b_dbg_sta_live_t;
+};
+typedef union bdk_tns_sde_urw2b_dbg_sta_live bdk_tns_sde_urw2b_dbg_sta_live_t;
 
 #define BDK_TNS_SDE_URW2B_DBG_STA_LIVE BDK_TNS_SDE_URW2B_DBG_STA_LIVE_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW2B_DBG_STA_LIVE_FUNC(void) __attribute__ ((pure, always_inline));
@@ -22761,7 +23289,7 @@ static inline uint64_t BDK_TNS_SDE_URW2B_DBG_STA_LIVE_FUNC(void)
  * Contains enable bits per port and modify etag enable for packet modifications
  * going to etag ports.
  */
-typedef union
+union bdk_tns_sde_urw2b_etag_w0
 {
     uint32_t u;
     struct bdk_tns_sde_urw2b_etag_w0_s
@@ -22773,7 +23301,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw2b_etag_w0_s cn; */
-} bdk_tns_sde_urw2b_etag_w0_t;
+};
+typedef union bdk_tns_sde_urw2b_etag_w0 bdk_tns_sde_urw2b_etag_w0_t;
 
 #define BDK_TNS_SDE_URW2B_ETAG_W0 BDK_TNS_SDE_URW2B_ETAG_W0_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW2B_ETAG_W0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -22797,7 +23326,7 @@ static inline uint64_t BDK_TNS_SDE_URW2B_ETAG_W0_FUNC(void)
  * TNS SDE URW2B ETAG Word 1 Register
  * Continuation of structure defined in TNS_SDE_URW2B_ETAG_W0
  */
-typedef union
+union bdk_tns_sde_urw2b_etag_w1
 {
     uint32_t u;
     struct bdk_tns_sde_urw2b_etag_w1_s
@@ -22809,7 +23338,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw2b_etag_w1_s cn; */
-} bdk_tns_sde_urw2b_etag_w1_t;
+};
+typedef union bdk_tns_sde_urw2b_etag_w1 bdk_tns_sde_urw2b_etag_w1_t;
 
 #define BDK_TNS_SDE_URW2B_ETAG_W1 BDK_TNS_SDE_URW2B_ETAG_W1_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW2B_ETAG_W1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -22833,7 +23363,7 @@ static inline uint64_t BDK_TNS_SDE_URW2B_ETAG_W1_FUNC(void)
  * TNS SDE URW2B ETAG Word 2 Register
  * Continuation of structure defined in TNS_SDE_URW2B_ETAG_W0
  */
-typedef union
+union bdk_tns_sde_urw2b_etag_w2
 {
     uint32_t u;
     struct bdk_tns_sde_urw2b_etag_w2_s
@@ -22845,7 +23375,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw2b_etag_w2_s cn; */
-} bdk_tns_sde_urw2b_etag_w2_t;
+};
+typedef union bdk_tns_sde_urw2b_etag_w2 bdk_tns_sde_urw2b_etag_w2_t;
 
 #define BDK_TNS_SDE_URW2B_ETAG_W2 BDK_TNS_SDE_URW2B_ETAG_W2_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW2B_ETAG_W2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -22869,7 +23400,7 @@ static inline uint64_t BDK_TNS_SDE_URW2B_ETAG_W2_FUNC(void)
  * TNS SDE URW2B ETAG Word 3 Register
  * Continuation of structure defined in TNS_SDE_URW2B_ETAG_W0
  */
-typedef union
+union bdk_tns_sde_urw2b_etag_w3
 {
     uint32_t u;
     struct bdk_tns_sde_urw2b_etag_w3_s
@@ -22881,7 +23412,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw2b_etag_w3_s cn; */
-} bdk_tns_sde_urw2b_etag_w3_t;
+};
+typedef union bdk_tns_sde_urw2b_etag_w3 bdk_tns_sde_urw2b_etag_w3_t;
 
 #define BDK_TNS_SDE_URW2B_ETAG_W3 BDK_TNS_SDE_URW2B_ETAG_W3_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW2B_ETAG_W3_FUNC(void) __attribute__ ((pure, always_inline));
@@ -22905,7 +23437,7 @@ static inline uint64_t BDK_TNS_SDE_URW2B_ETAG_W3_FUNC(void)
  * TNS SDE URW2B ETAG Word 4 Register
  * Continuation of structure defined in TNS_SDE_URW2B_ETAG_W0
  */
-typedef union
+union bdk_tns_sde_urw2b_etag_w4
 {
     uint32_t u;
     struct bdk_tns_sde_urw2b_etag_w4_s
@@ -22921,7 +23453,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw2b_etag_w4_s cn; */
-} bdk_tns_sde_urw2b_etag_w4_t;
+};
+typedef union bdk_tns_sde_urw2b_etag_w4 bdk_tns_sde_urw2b_etag_w4_t;
 
 #define BDK_TNS_SDE_URW2B_ETAG_W4 BDK_TNS_SDE_URW2B_ETAG_W4_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW2B_ETAG_W4_FUNC(void) __attribute__ ((pure, always_inline));
@@ -22945,7 +23478,7 @@ static inline uint64_t BDK_TNS_SDE_URW2B_ETAG_W4_FUNC(void)
  * TNS SDE URW2B Header Configuration Word 0 Register
  * Contains disable bits for various features
  */
-typedef union
+union bdk_tns_sde_urw2b_hdr_w0
 {
     uint64_t u;
     struct bdk_tns_sde_urw2b_hdr_w0_s
@@ -22959,7 +23492,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw2b_hdr_w0_s cn; */
-} bdk_tns_sde_urw2b_hdr_w0_t;
+};
+typedef union bdk_tns_sde_urw2b_hdr_w0 bdk_tns_sde_urw2b_hdr_w0_t;
 
 #define BDK_TNS_SDE_URW2B_HDR_W0 BDK_TNS_SDE_URW2B_HDR_W0_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW2B_HDR_W0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -22983,7 +23517,7 @@ static inline uint64_t BDK_TNS_SDE_URW2B_HDR_W0_FUNC(void)
  * TNS SDE URW2B Header Configuration Word 1 Register
  * Continuation of structure defined in TNS_SDE_URW2B_HDR_W0
  */
-typedef union
+union bdk_tns_sde_urw2b_hdr_w1
 {
     uint64_t u;
     struct bdk_tns_sde_urw2b_hdr_w1_s
@@ -22995,7 +23529,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw2b_hdr_w1_s cn; */
-} bdk_tns_sde_urw2b_hdr_w1_t;
+};
+typedef union bdk_tns_sde_urw2b_hdr_w1 bdk_tns_sde_urw2b_hdr_w1_t;
 
 #define BDK_TNS_SDE_URW2B_HDR_W1 BDK_TNS_SDE_URW2B_HDR_W1_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW2B_HDR_W1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -23019,7 +23554,7 @@ static inline uint64_t BDK_TNS_SDE_URW2B_HDR_W1_FUNC(void)
  * TNS SDE URW2B Header Configuration Word 2 Register
  * Continuation of structure defined in TNS_SDE_URW2B_HDR_W0
  */
-typedef union
+union bdk_tns_sde_urw2b_hdr_w2
 {
     uint64_t u;
     struct bdk_tns_sde_urw2b_hdr_w2_s
@@ -23033,7 +23568,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw2b_hdr_w2_s cn; */
-} bdk_tns_sde_urw2b_hdr_w2_t;
+};
+typedef union bdk_tns_sde_urw2b_hdr_w2 bdk_tns_sde_urw2b_hdr_w2_t;
 
 #define BDK_TNS_SDE_URW2B_HDR_W2 BDK_TNS_SDE_URW2B_HDR_W2_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW2B_HDR_W2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -23057,7 +23593,7 @@ static inline uint64_t BDK_TNS_SDE_URW2B_HDR_W2_FUNC(void)
  * TNS SDE URW2B Header Configuration Word 3 Register
  * Continuation of structure defined in TNS_SDE_URW2B_HDR_W0
  */
-typedef union
+union bdk_tns_sde_urw2b_hdr_w3
 {
     uint64_t u;
     struct bdk_tns_sde_urw2b_hdr_w3_s
@@ -23069,7 +23605,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw2b_hdr_w3_s cn; */
-} bdk_tns_sde_urw2b_hdr_w3_t;
+};
+typedef union bdk_tns_sde_urw2b_hdr_w3 bdk_tns_sde_urw2b_hdr_w3_t;
 
 #define BDK_TNS_SDE_URW2B_HDR_W3 BDK_TNS_SDE_URW2B_HDR_W3_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW2B_HDR_W3_FUNC(void) __attribute__ ((pure, always_inline));
@@ -23093,7 +23630,7 @@ static inline uint64_t BDK_TNS_SDE_URW2B_HDR_W3_FUNC(void)
  * TNS SDE URW2B Header Configuration Word 4 Register
  * Continuation of structure defined in TNS_SDE_URW2B_HDR_W0
  */
-typedef union
+union bdk_tns_sde_urw2b_hdr_w4
 {
     uint64_t u;
     struct bdk_tns_sde_urw2b_hdr_w4_s
@@ -23109,7 +23646,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw2b_hdr_w4_s cn; */
-} bdk_tns_sde_urw2b_hdr_w4_t;
+};
+typedef union bdk_tns_sde_urw2b_hdr_w4 bdk_tns_sde_urw2b_hdr_w4_t;
 
 #define BDK_TNS_SDE_URW2B_HDR_W4 BDK_TNS_SDE_URW2B_HDR_W4_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW2B_HDR_W4_FUNC(void) __attribute__ ((pure, always_inline));
@@ -23133,7 +23671,7 @@ static inline uint64_t BDK_TNS_SDE_URW2B_HDR_W4_FUNC(void)
  * TNS SDE URW2B Interrrupt Enable High Register
  * Channel Interrupt register low priority
  */
-typedef union
+union bdk_tns_sde_urw2b_int_en_hi
 {
     uint32_t u;
     struct bdk_tns_sde_urw2b_int_en_hi_s
@@ -23147,7 +23685,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw2b_int_en_hi_s cn; */
-} bdk_tns_sde_urw2b_int_en_hi_t;
+};
+typedef union bdk_tns_sde_urw2b_int_en_hi bdk_tns_sde_urw2b_int_en_hi_t;
 
 #define BDK_TNS_SDE_URW2B_INT_EN_HI BDK_TNS_SDE_URW2B_INT_EN_HI_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW2B_INT_EN_HI_FUNC(void) __attribute__ ((pure, always_inline));
@@ -23171,7 +23710,7 @@ static inline uint64_t BDK_TNS_SDE_URW2B_INT_EN_HI_FUNC(void)
  * TNS SDE URW2B Interrrupt Enable Low Register
  * Channel Interrupt register low priority
  */
-typedef union
+union bdk_tns_sde_urw2b_int_en_lo
 {
     uint32_t u;
     struct bdk_tns_sde_urw2b_int_en_lo_s
@@ -23185,7 +23724,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw2b_int_en_lo_s cn; */
-} bdk_tns_sde_urw2b_int_en_lo_t;
+};
+typedef union bdk_tns_sde_urw2b_int_en_lo bdk_tns_sde_urw2b_int_en_lo_t;
 
 #define BDK_TNS_SDE_URW2B_INT_EN_LO BDK_TNS_SDE_URW2B_INT_EN_LO_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW2B_INT_EN_LO_FUNC(void) __attribute__ ((pure, always_inline));
@@ -23209,7 +23749,7 @@ static inline uint64_t BDK_TNS_SDE_URW2B_INT_EN_LO_FUNC(void)
  * TNS SDE URW2B Interrrupt Force Register
  * Channel Interrupt register low priority
  */
-typedef union
+union bdk_tns_sde_urw2b_int_frc
 {
     uint32_t u;
     struct bdk_tns_sde_urw2b_int_frc_s
@@ -23223,7 +23763,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw2b_int_frc_s cn; */
-} bdk_tns_sde_urw2b_int_frc_t;
+};
+typedef union bdk_tns_sde_urw2b_int_frc bdk_tns_sde_urw2b_int_frc_t;
 
 #define BDK_TNS_SDE_URW2B_INT_FRC BDK_TNS_SDE_URW2B_INT_FRC_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW2B_INT_FRC_FUNC(void) __attribute__ ((pure, always_inline));
@@ -23247,7 +23788,7 @@ static inline uint64_t BDK_TNS_SDE_URW2B_INT_FRC_FUNC(void)
  * TNS SDE URW2B Interrrupt W1C Register
  * Channel Interrupt register low priority
  */
-typedef union
+union bdk_tns_sde_urw2b_int_w1c
 {
     uint32_t u;
     struct bdk_tns_sde_urw2b_int_w1c_s
@@ -23261,7 +23802,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw2b_int_w1c_s cn; */
-} bdk_tns_sde_urw2b_int_w1c_t;
+};
+typedef union bdk_tns_sde_urw2b_int_w1c bdk_tns_sde_urw2b_int_w1c_t;
 
 #define BDK_TNS_SDE_URW2B_INT_W1C BDK_TNS_SDE_URW2B_INT_W1C_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW2B_INT_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -23285,7 +23827,7 @@ static inline uint64_t BDK_TNS_SDE_URW2B_INT_W1C_FUNC(void)
  * TNS SDE URW2B Lock Register
  * Lock Register
  */
-typedef union
+union bdk_tns_sde_urw2b_lock
 {
     uint32_t u;
     struct bdk_tns_sde_urw2b_lock_s
@@ -23297,7 +23839,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw2b_lock_s cn; */
-} bdk_tns_sde_urw2b_lock_t;
+};
+typedef union bdk_tns_sde_urw2b_lock bdk_tns_sde_urw2b_lock_t;
 
 #define BDK_TNS_SDE_URW2B_LOCK BDK_TNS_SDE_URW2B_LOCK_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW2B_LOCK_FUNC(void) __attribute__ ((pure, always_inline));
@@ -23321,7 +23864,7 @@ static inline uint64_t BDK_TNS_SDE_URW2B_LOCK_FUNC(void)
  * TNS SDE URW2B Mirror Mask Word 0 Register
  * This holds masks for Ingress, Egress, evif and ivif Mirror.
  */
-typedef union
+union bdk_tns_sde_urw2b_mir_mask_w0
 {
     uint32_t u;
     struct bdk_tns_sde_urw2b_mir_mask_w0_s
@@ -23335,7 +23878,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw2b_mir_mask_w0_s cn; */
-} bdk_tns_sde_urw2b_mir_mask_w0_t;
+};
+typedef union bdk_tns_sde_urw2b_mir_mask_w0 bdk_tns_sde_urw2b_mir_mask_w0_t;
 
 #define BDK_TNS_SDE_URW2B_MIR_MASK_W0 BDK_TNS_SDE_URW2B_MIR_MASK_W0_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW2B_MIR_MASK_W0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -23359,7 +23903,7 @@ static inline uint64_t BDK_TNS_SDE_URW2B_MIR_MASK_W0_FUNC(void)
  * TNS SDE URW2B Mirror Mask Word 1 Register
  * Continuation of structure defined in TNS_SDE_URW2B_MIR_MASK_W0
  */
-typedef union
+union bdk_tns_sde_urw2b_mir_mask_w1
 {
     uint32_t u;
     struct bdk_tns_sde_urw2b_mir_mask_w1_s
@@ -23373,7 +23917,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw2b_mir_mask_w1_s cn; */
-} bdk_tns_sde_urw2b_mir_mask_w1_t;
+};
+typedef union bdk_tns_sde_urw2b_mir_mask_w1 bdk_tns_sde_urw2b_mir_mask_w1_t;
 
 #define BDK_TNS_SDE_URW2B_MIR_MASK_W1 BDK_TNS_SDE_URW2B_MIR_MASK_W1_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW2B_MIR_MASK_W1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -23397,7 +23942,7 @@ static inline uint64_t BDK_TNS_SDE_URW2B_MIR_MASK_W1_FUNC(void)
  * TNS SDE URW2B MRE Drop Count Word 0 Register
  * --
  */
-typedef union
+union bdk_tns_sde_urw2b_mre_dcnt_w0
 {
     uint32_t u;
     struct bdk_tns_sde_urw2b_mre_dcnt_w0_s
@@ -23417,7 +23962,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw2b_mre_dcnt_w0_s cn; */
-} bdk_tns_sde_urw2b_mre_dcnt_w0_t;
+};
+typedef union bdk_tns_sde_urw2b_mre_dcnt_w0 bdk_tns_sde_urw2b_mre_dcnt_w0_t;
 
 #define BDK_TNS_SDE_URW2B_MRE_DCNT_W0 BDK_TNS_SDE_URW2B_MRE_DCNT_W0_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW2B_MRE_DCNT_W0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -23441,7 +23987,7 @@ static inline uint64_t BDK_TNS_SDE_URW2B_MRE_DCNT_W0_FUNC(void)
  * TNS SDE URW2B MRE Drop Count Word 1 Register
  * Continuation of structure defined in TNS_SDE_URW2B_MRE_DCNT_W0
  */
-typedef union
+union bdk_tns_sde_urw2b_mre_dcnt_w1
 {
     uint32_t u;
     struct bdk_tns_sde_urw2b_mre_dcnt_w1_s
@@ -23457,7 +24003,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw2b_mre_dcnt_w1_s cn; */
-} bdk_tns_sde_urw2b_mre_dcnt_w1_t;
+};
+typedef union bdk_tns_sde_urw2b_mre_dcnt_w1 bdk_tns_sde_urw2b_mre_dcnt_w1_t;
 
 #define BDK_TNS_SDE_URW2B_MRE_DCNT_W1 BDK_TNS_SDE_URW2B_MRE_DCNT_W1_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW2B_MRE_DCNT_W1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -23481,7 +24028,7 @@ static inline uint64_t BDK_TNS_SDE_URW2B_MRE_DCNT_W1_FUNC(void)
  * TNS SDE URW2B MRE Drop Count Word 2 Register
  * Continuation of structure defined in TNS_SDE_URW2B_MRE_DCNT_W0
  */
-typedef union
+union bdk_tns_sde_urw2b_mre_dcnt_w2
 {
     uint32_t u;
     struct bdk_tns_sde_urw2b_mre_dcnt_w2_s
@@ -23495,7 +24042,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw2b_mre_dcnt_w2_s cn; */
-} bdk_tns_sde_urw2b_mre_dcnt_w2_t;
+};
+typedef union bdk_tns_sde_urw2b_mre_dcnt_w2 bdk_tns_sde_urw2b_mre_dcnt_w2_t;
 
 #define BDK_TNS_SDE_URW2B_MRE_DCNT_W2 BDK_TNS_SDE_URW2B_MRE_DCNT_W2_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW2B_MRE_DCNT_W2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -23519,7 +24067,7 @@ static inline uint64_t BDK_TNS_SDE_URW2B_MRE_DCNT_W2_FUNC(void)
  * TNS SDE URW2B MRE Priority Table Register
  * This is a 2-wide and 4 deep table and holds pri for various cases.
  */
-typedef union
+union bdk_tns_sde_urw2b_mre_pri_tbl
 {
     uint32_t u;
     struct bdk_tns_sde_urw2b_mre_pri_tbl_s
@@ -23533,7 +24081,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw2b_mre_pri_tbl_s cn; */
-} bdk_tns_sde_urw2b_mre_pri_tbl_t;
+};
+typedef union bdk_tns_sde_urw2b_mre_pri_tbl bdk_tns_sde_urw2b_mre_pri_tbl_t;
 
 #define BDK_TNS_SDE_URW2B_MRE_PRI_TBL BDK_TNS_SDE_URW2B_MRE_PRI_TBL_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW2B_MRE_PRI_TBL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -23557,7 +24106,7 @@ static inline uint64_t BDK_TNS_SDE_URW2B_MRE_PRI_TBL_FUNC(void)
  * TNS SDE URW2B MRE Interface Register
  * This is a 2-wide and 4 deep table and holds pri for various cases.
  */
-typedef union
+union bdk_tns_sde_urw2b_mreif
 {
     uint32_t u;
     struct bdk_tns_sde_urw2b_mreif_s
@@ -23581,7 +24130,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw2b_mreif_s cn; */
-} bdk_tns_sde_urw2b_mreif_t;
+};
+typedef union bdk_tns_sde_urw2b_mreif bdk_tns_sde_urw2b_mreif_t;
 
 #define BDK_TNS_SDE_URW2B_MREIF BDK_TNS_SDE_URW2B_MREIF_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW2B_MREIF_FUNC(void) __attribute__ ((pure, always_inline));
@@ -23605,7 +24155,7 @@ static inline uint64_t BDK_TNS_SDE_URW2B_MREIF_FUNC(void)
  * TNS SDE URW2B MRE Pointers Word 0 Register
  * This holds MRE Pointers for Ingress, Egress and CPU cases.
  */
-typedef union
+union bdk_tns_sde_urw2b_mreptr_w0
 {
     uint32_t u;
     struct bdk_tns_sde_urw2b_mreptr_w0_s
@@ -23623,7 +24173,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw2b_mreptr_w0_s cn; */
-} bdk_tns_sde_urw2b_mreptr_w0_t;
+};
+typedef union bdk_tns_sde_urw2b_mreptr_w0 bdk_tns_sde_urw2b_mreptr_w0_t;
 
 #define BDK_TNS_SDE_URW2B_MREPTR_W0 BDK_TNS_SDE_URW2B_MREPTR_W0_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW2B_MREPTR_W0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -23647,7 +24198,7 @@ static inline uint64_t BDK_TNS_SDE_URW2B_MREPTR_W0_FUNC(void)
  * TNS SDE URW2B MRE Pointers Word 1 Register
  * Continuation of structure defined in TNS_SDE_URW2B_MREPTR_W0
  */
-typedef union
+union bdk_tns_sde_urw2b_mreptr_w1
 {
     uint32_t u;
     struct bdk_tns_sde_urw2b_mreptr_w1_s
@@ -23663,7 +24214,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw2b_mreptr_w1_s cn; */
-} bdk_tns_sde_urw2b_mreptr_w1_t;
+};
+typedef union bdk_tns_sde_urw2b_mreptr_w1 bdk_tns_sde_urw2b_mreptr_w1_t;
 
 #define BDK_TNS_SDE_URW2B_MREPTR_W1 BDK_TNS_SDE_URW2B_MREPTR_W1_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW2B_MREPTR_W1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -23687,7 +24239,7 @@ static inline uint64_t BDK_TNS_SDE_URW2B_MREPTR_W1_FUNC(void)
  * TNS SDE URW2B MRE Pointers Word 2 Register
  * Continuation of structure defined in TNS_SDE_URW2B_MREPTR_W0
  */
-typedef union
+union bdk_tns_sde_urw2b_mreptr_w2
 {
     uint32_t u;
     struct bdk_tns_sde_urw2b_mreptr_w2_s
@@ -23701,7 +24253,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw2b_mreptr_w2_s cn; */
-} bdk_tns_sde_urw2b_mreptr_w2_t;
+};
+typedef union bdk_tns_sde_urw2b_mreptr_w2 bdk_tns_sde_urw2b_mreptr_w2_t;
 
 #define BDK_TNS_SDE_URW2B_MREPTR_W2 BDK_TNS_SDE_URW2B_MREPTR_W2_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW2B_MREPTR_W2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -23726,7 +24279,7 @@ static inline uint64_t BDK_TNS_SDE_URW2B_MREPTR_W2_FUNC(void)
  * Indexed by 3 bits of mtu_profile in the token. Outputs a 14 bit max_mtu size.
  * Bits 31..16 of registers ending in _W3 are unused.
  */
-typedef union
+union bdk_tns_sde_urw2b_mtu_prf_tbl_wx
 {
     uint32_t u;
     struct bdk_tns_sde_urw2b_mtu_prf_tbl_wx_s
@@ -23738,7 +24291,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw2b_mtu_prf_tbl_wx_s cn; */
-} bdk_tns_sde_urw2b_mtu_prf_tbl_wx_t;
+};
+typedef union bdk_tns_sde_urw2b_mtu_prf_tbl_wx bdk_tns_sde_urw2b_mtu_prf_tbl_wx_t;
 
 static inline uint64_t BDK_TNS_SDE_URW2B_MTU_PRF_TBL_WX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_URW2B_MTU_PRF_TBL_WX(unsigned long a)
@@ -23761,7 +24315,7 @@ static inline uint64_t BDK_TNS_SDE_URW2B_MTU_PRF_TBL_WX(unsigned long a)
  * TNS SDE URW2B ScratchPad Register
  * Scratch Pad Register for XCAT
  */
-typedef union
+union bdk_tns_sde_urw2b_spad
 {
     uint32_t u;
     struct bdk_tns_sde_urw2b_spad_s
@@ -23773,7 +24327,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw2b_spad_s cn; */
-} bdk_tns_sde_urw2b_spad_t;
+};
+typedef union bdk_tns_sde_urw2b_spad bdk_tns_sde_urw2b_spad_t;
 
 #define BDK_TNS_SDE_URW2B_SPAD BDK_TNS_SDE_URW2B_SPAD_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW2B_SPAD_FUNC(void) __attribute__ ((pure, always_inline));
@@ -23797,7 +24352,7 @@ static inline uint64_t BDK_TNS_SDE_URW2B_SPAD_FUNC(void)
  * TNS SDE URW2B Traffic Class To Priority Map Table Register
  * Mapping table to map {4-bit token.traffic_class} class to 2 bit priority.
  */
-typedef union
+union bdk_tns_sde_urw2b_tcls_pmap_tbl
 {
     uint32_t u;
     struct bdk_tns_sde_urw2b_tcls_pmap_tbl_s
@@ -23809,7 +24364,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw2b_tcls_pmap_tbl_s cn; */
-} bdk_tns_sde_urw2b_tcls_pmap_tbl_t;
+};
+typedef union bdk_tns_sde_urw2b_tcls_pmap_tbl bdk_tns_sde_urw2b_tcls_pmap_tbl_t;
 
 #define BDK_TNS_SDE_URW2B_TCLS_PMAP_TBL BDK_TNS_SDE_URW2B_TCLS_PMAP_TBL_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW2B_TCLS_PMAP_TBL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -23834,7 +24390,7 @@ static inline uint64_t BDK_TNS_SDE_URW2B_TCLS_PMAP_TBL_FUNC(void)
  * Contains canon commands for layers which match the stored layerType and
  * layerHash values
  */
-typedef union
+union bdk_tns_sde_urw3_cnncmd_tblx
 {
     uint64_t u;
     struct bdk_tns_sde_urw3_cnncmd_tblx_s
@@ -23854,7 +24410,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw3_cnncmd_tblx_s cn; */
-} bdk_tns_sde_urw3_cnncmd_tblx_t;
+};
+typedef union bdk_tns_sde_urw3_cnncmd_tblx bdk_tns_sde_urw3_cnncmd_tblx_t;
 
 static inline uint64_t BDK_TNS_SDE_URW3_CNNCMD_TBLX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_URW3_CNNCMD_TBLX(unsigned long a)
@@ -23877,7 +24434,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_CNNCMD_TBLX(unsigned long a)
  * TNS SDE URW3 Control Register
  * Contains disable bits for various features
  */
-typedef union
+union bdk_tns_sde_urw3_control
 {
     uint32_t u;
     struct bdk_tns_sde_urw3_control_s
@@ -23897,7 +24454,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw3_control_s cn; */
-} bdk_tns_sde_urw3_control_t;
+};
+typedef union bdk_tns_sde_urw3_control bdk_tns_sde_urw3_control_t;
 
 #define BDK_TNS_SDE_URW3_CONTROL BDK_TNS_SDE_URW3_CONTROL_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW3_CONTROL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -23921,7 +24479,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_CONTROL_FUNC(void)
  * TNS SDE URW3 Debug LPATH FIFO Register
  * For debug hooks to VLF fifo
  */
-typedef union
+union bdk_tns_sde_urw3_dbg_lpathf
 {
     uint32_t u;
     struct bdk_tns_sde_urw3_dbg_lpathf_s
@@ -23941,7 +24499,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw3_dbg_lpathf_s cn; */
-} bdk_tns_sde_urw3_dbg_lpathf_t;
+};
+typedef union bdk_tns_sde_urw3_dbg_lpathf bdk_tns_sde_urw3_dbg_lpathf_t;
 
 #define BDK_TNS_SDE_URW3_DBG_LPATHF BDK_TNS_SDE_URW3_DBG_LPATHF_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW3_DBG_LPATHF_FUNC(void) __attribute__ ((pure, always_inline));
@@ -23965,7 +24524,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_DBG_LPATHF_FUNC(void)
  * TNS SDE URW3 Debug Selector Register
  * --
  */
-typedef union
+union bdk_tns_sde_urw3_dbg_sel
 {
     uint32_t u;
     struct bdk_tns_sde_urw3_dbg_sel_s
@@ -23981,7 +24540,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw3_dbg_sel_s cn; */
-} bdk_tns_sde_urw3_dbg_sel_t;
+};
+typedef union bdk_tns_sde_urw3_dbg_sel bdk_tns_sde_urw3_dbg_sel_t;
 
 #define BDK_TNS_SDE_URW3_DBG_SEL BDK_TNS_SDE_URW3_DBG_SEL_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW3_DBG_SEL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -24005,7 +24565,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_DBG_SEL_FUNC(void)
  * TNS SDE URW3 Debug Status LIVE Register
  * --
  */
-typedef union
+union bdk_tns_sde_urw3_dbg_sta_live
 {
     uint64_t u;
     struct bdk_tns_sde_urw3_dbg_sta_live_s
@@ -24023,7 +24583,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw3_dbg_sta_live_s cn; */
-} bdk_tns_sde_urw3_dbg_sta_live_t;
+};
+typedef union bdk_tns_sde_urw3_dbg_sta_live bdk_tns_sde_urw3_dbg_sta_live_t;
 
 #define BDK_TNS_SDE_URW3_DBG_STA_LIVE BDK_TNS_SDE_URW3_DBG_STA_LIVE_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW3_DBG_STA_LIVE_FUNC(void) __attribute__ ((pure, always_inline));
@@ -24047,7 +24608,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_DBG_STA_LIVE_FUNC(void)
  * TNS SDE URW3 Debug TxQ Response FIFO Register
  * For debug hooks to VLF fifo
  */
-typedef union
+union bdk_tns_sde_urw3_dbg_txq_rpf
 {
     uint32_t u;
     struct bdk_tns_sde_urw3_dbg_txq_rpf_s
@@ -24067,7 +24628,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw3_dbg_txq_rpf_s cn; */
-} bdk_tns_sde_urw3_dbg_txq_rpf_t;
+};
+typedef union bdk_tns_sde_urw3_dbg_txq_rpf bdk_tns_sde_urw3_dbg_txq_rpf_t;
 
 #define BDK_TNS_SDE_URW3_DBG_TXQ_RPF BDK_TNS_SDE_URW3_DBG_TXQ_RPF_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW3_DBG_TXQ_RPF_FUNC(void) __attribute__ ((pure, always_inline));
@@ -24091,7 +24653,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_DBG_TXQ_RPF_FUNC(void)
  * TNS SDE URW3 DYN Debug LPATH FIFO Register
  * For debug hooks to Lpath fifo
  */
-typedef union
+union bdk_tns_sde_urw3_dyn_dbg_lpathf
 {
     uint32_t u;
     struct bdk_tns_sde_urw3_dyn_dbg_lpathf_s
@@ -24105,7 +24667,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw3_dyn_dbg_lpathf_s cn; */
-} bdk_tns_sde_urw3_dyn_dbg_lpathf_t;
+};
+typedef union bdk_tns_sde_urw3_dyn_dbg_lpathf bdk_tns_sde_urw3_dyn_dbg_lpathf_t;
 
 #define BDK_TNS_SDE_URW3_DYN_DBG_LPATHF BDK_TNS_SDE_URW3_DYN_DBG_LPATHF_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW3_DYN_DBG_LPATHF_FUNC(void) __attribute__ ((pure, always_inline));
@@ -24129,7 +24692,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_DYN_DBG_LPATHF_FUNC(void)
  * TNS SDE URW3 DYN Debug TxQ Response FIFO Register
  * For debug hooks to Lpath fifo
  */
-typedef union
+union bdk_tns_sde_urw3_dyn_dbg_txq_rpf
 {
     uint32_t u;
     struct bdk_tns_sde_urw3_dyn_dbg_txq_rpf_s
@@ -24143,7 +24706,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw3_dyn_dbg_txq_rpf_s cn; */
-} bdk_tns_sde_urw3_dyn_dbg_txq_rpf_t;
+};
+typedef union bdk_tns_sde_urw3_dyn_dbg_txq_rpf bdk_tns_sde_urw3_dyn_dbg_txq_rpf_t;
 
 #define BDK_TNS_SDE_URW3_DYN_DBG_TXQ_RPF BDK_TNS_SDE_URW3_DYN_DBG_TXQ_RPF_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW3_DYN_DBG_TXQ_RPF_FUNC(void) __attribute__ ((pure, always_inline));
@@ -24167,7 +24731,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_DYN_DBG_TXQ_RPF_FUNC(void)
  * TNS SDE URW3 ECC Control Disable Correction Register
  * --
  */
-typedef union
+union bdk_tns_sde_urw3_ecc_ctl_cd
 {
     uint32_t u;
     struct bdk_tns_sde_urw3_ecc_ctl_cd_s
@@ -24187,7 +24751,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw3_ecc_ctl_cd_s cn; */
-} bdk_tns_sde_urw3_ecc_ctl_cd_t;
+};
+typedef union bdk_tns_sde_urw3_ecc_ctl_cd bdk_tns_sde_urw3_ecc_ctl_cd_t;
 
 #define BDK_TNS_SDE_URW3_ECC_CTL_CD BDK_TNS_SDE_URW3_ECC_CTL_CD_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW3_ECC_CTL_CD_FUNC(void) __attribute__ ((pure, always_inline));
@@ -24211,7 +24776,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_ECC_CTL_CD_FUNC(void)
  * TNS SDE URW3 ECC Control Flip Word 0 Register
  * --
  */
-typedef union
+union bdk_tns_sde_urw3_ecc_ctl_flp_w0
 {
     uint32_t u;
     struct bdk_tns_sde_urw3_ecc_ctl_flp_w0_s
@@ -24227,7 +24792,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw3_ecc_ctl_flp_w0_s cn; */
-} bdk_tns_sde_urw3_ecc_ctl_flp_w0_t;
+};
+typedef union bdk_tns_sde_urw3_ecc_ctl_flp_w0 bdk_tns_sde_urw3_ecc_ctl_flp_w0_t;
 
 #define BDK_TNS_SDE_URW3_ECC_CTL_FLP_W0 BDK_TNS_SDE_URW3_ECC_CTL_FLP_W0_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW3_ECC_CTL_FLP_W0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -24251,7 +24817,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_ECC_CTL_FLP_W0_FUNC(void)
  * TNS SDE URW3 ECC Control Flip Word 1 Register
  * Continuation of structure defined in TNS_SDE_URW3_ECC_CTL_FLP_W0
  */
-typedef union
+union bdk_tns_sde_urw3_ecc_ctl_flp_w1
 {
     uint32_t u;
     struct bdk_tns_sde_urw3_ecc_ctl_flp_w1_s
@@ -24269,7 +24835,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw3_ecc_ctl_flp_w1_s cn; */
-} bdk_tns_sde_urw3_ecc_ctl_flp_w1_t;
+};
+typedef union bdk_tns_sde_urw3_ecc_ctl_flp_w1 bdk_tns_sde_urw3_ecc_ctl_flp_w1_t;
 
 #define BDK_TNS_SDE_URW3_ECC_CTL_FLP_W1 BDK_TNS_SDE_URW3_ECC_CTL_FLP_W1_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW3_ECC_CTL_FLP_W1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -24293,7 +24860,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_ECC_CTL_FLP_W1_FUNC(void)
  * TNS SDE URW3 ECC Control Flip Word 2 Register
  * Continuation of structure defined in TNS_SDE_URW3_ECC_CTL_FLP_W0
  */
-typedef union
+union bdk_tns_sde_urw3_ecc_ctl_flp_w2
 {
     uint32_t u;
     struct bdk_tns_sde_urw3_ecc_ctl_flp_w2_s
@@ -24309,7 +24876,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw3_ecc_ctl_flp_w2_s cn; */
-} bdk_tns_sde_urw3_ecc_ctl_flp_w2_t;
+};
+typedef union bdk_tns_sde_urw3_ecc_ctl_flp_w2 bdk_tns_sde_urw3_ecc_ctl_flp_w2_t;
 
 #define BDK_TNS_SDE_URW3_ECC_CTL_FLP_W2 BDK_TNS_SDE_URW3_ECC_CTL_FLP_W2_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW3_ECC_CTL_FLP_W2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -24334,7 +24902,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_ECC_CTL_FLP_W2_FUNC(void)
  * Contains enable bits per port and modify etag enable for packet modifications
  * going to etag ports.
  */
-typedef union
+union bdk_tns_sde_urw3_etag
 {
     uint32_t u;
     struct bdk_tns_sde_urw3_etag_s
@@ -24348,7 +24916,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw3_etag_s cn; */
-} bdk_tns_sde_urw3_etag_t;
+};
+typedef union bdk_tns_sde_urw3_etag bdk_tns_sde_urw3_etag_t;
 
 #define BDK_TNS_SDE_URW3_ETAG BDK_TNS_SDE_URW3_ETAG_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW3_ETAG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -24374,7 +24943,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_ETAG_FUNC(void)
  * within, evif[17:0] AND  mask is treated as MREPTR and original header goes
  * directly to MRE.
  */
-typedef union
+union bdk_tns_sde_urw3_evif_mreptr_w0
 {
     uint32_t u;
     struct bdk_tns_sde_urw3_evif_mreptr_w0_s
@@ -24390,7 +24959,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw3_evif_mreptr_w0_s cn; */
-} bdk_tns_sde_urw3_evif_mreptr_w0_t;
+};
+typedef union bdk_tns_sde_urw3_evif_mreptr_w0 bdk_tns_sde_urw3_evif_mreptr_w0_t;
 
 #define BDK_TNS_SDE_URW3_EVIF_MREPTR_W0 BDK_TNS_SDE_URW3_EVIF_MREPTR_W0_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW3_EVIF_MREPTR_W0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -24414,7 +24984,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_EVIF_MREPTR_W0_FUNC(void)
  * TNS SDE URW3 EVIF MRE Pointers Word 1 Register
  * Continuation of structure defined in TNS_SDE_URW3_EVIF_MREPTR_W0
  */
-typedef union
+union bdk_tns_sde_urw3_evif_mreptr_w1
 {
     uint32_t u;
     struct bdk_tns_sde_urw3_evif_mreptr_w1_s
@@ -24428,7 +24998,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw3_evif_mreptr_w1_s cn; */
-} bdk_tns_sde_urw3_evif_mreptr_w1_t;
+};
+typedef union bdk_tns_sde_urw3_evif_mreptr_w1 bdk_tns_sde_urw3_evif_mreptr_w1_t;
 
 #define BDK_TNS_SDE_URW3_EVIF_MREPTR_W1 BDK_TNS_SDE_URW3_EVIF_MREPTR_W1_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW3_EVIF_MREPTR_W1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -24452,7 +25023,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_EVIF_MREPTR_W1_FUNC(void)
  * TNS SDE URW3 INS0 Register
  * INS0 Range0_3
  */
-typedef union
+union bdk_tns_sde_urw3_ins0
 {
     uint64_t u;
     struct bdk_tns_sde_urw3_ins0_s
@@ -24466,7 +25037,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw3_ins0_s cn; */
-} bdk_tns_sde_urw3_ins0_t;
+};
+typedef union bdk_tns_sde_urw3_ins0 bdk_tns_sde_urw3_ins0_t;
 
 #define BDK_TNS_SDE_URW3_INS0 BDK_TNS_SDE_URW3_INS0_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW3_INS0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -24490,7 +25062,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_INS0_FUNC(void)
  * TNS SDE URW3 INS1 Register
  * INS0 Range0_3
  */
-typedef union
+union bdk_tns_sde_urw3_ins1
 {
     uint64_t u;
     struct bdk_tns_sde_urw3_ins1_s
@@ -24504,7 +25076,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw3_ins1_s cn; */
-} bdk_tns_sde_urw3_ins1_t;
+};
+typedef union bdk_tns_sde_urw3_ins1 bdk_tns_sde_urw3_ins1_t;
 
 #define BDK_TNS_SDE_URW3_INS1 BDK_TNS_SDE_URW3_INS1_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW3_INS1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -24528,7 +25101,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_INS1_FUNC(void)
  * TNS SDE URW3 INS2 Register
  * INS0 Range0_3
  */
-typedef union
+union bdk_tns_sde_urw3_ins2
 {
     uint64_t u;
     struct bdk_tns_sde_urw3_ins2_s
@@ -24542,7 +25115,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw3_ins2_s cn; */
-} bdk_tns_sde_urw3_ins2_t;
+};
+typedef union bdk_tns_sde_urw3_ins2 bdk_tns_sde_urw3_ins2_t;
 
 #define BDK_TNS_SDE_URW3_INS2 BDK_TNS_SDE_URW3_INS2_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW3_INS2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -24566,7 +25140,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_INS2_FUNC(void)
  * TNS SDE URW3 INS3 Register
  * INS0 Range0_3
  */
-typedef union
+union bdk_tns_sde_urw3_ins3
 {
     uint64_t u;
     struct bdk_tns_sde_urw3_ins3_s
@@ -24580,7 +25154,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw3_ins3_s cn; */
-} bdk_tns_sde_urw3_ins3_t;
+};
+typedef union bdk_tns_sde_urw3_ins3 bdk_tns_sde_urw3_ins3_t;
 
 #define BDK_TNS_SDE_URW3_INS3 BDK_TNS_SDE_URW3_INS3_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW3_INS3_FUNC(void) __attribute__ ((pure, always_inline));
@@ -24604,7 +25179,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_INS3_FUNC(void)
  * TNS SDE URW3 Insert FIFO Registers
  * --
  */
-typedef union
+union bdk_tns_sde_urw3_ins_fifx
 {
     uint64_t u;
     struct bdk_tns_sde_urw3_ins_fifx_s
@@ -24616,7 +25191,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw3_ins_fifx_s cn; */
-} bdk_tns_sde_urw3_ins_fifx_t;
+};
+typedef union bdk_tns_sde_urw3_ins_fifx bdk_tns_sde_urw3_ins_fifx_t;
 
 static inline uint64_t BDK_TNS_SDE_URW3_INS_FIFX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_URW3_INS_FIFX(unsigned long a)
@@ -24639,7 +25215,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_INS_FIFX(unsigned long a)
  * TNS SDE URW3 Interrrupt Enable High Word 0 Register
  * Channel Interrupt register low priority
  */
-typedef union
+union bdk_tns_sde_urw3_int_en_hi_w0
 {
     uint32_t u;
     struct bdk_tns_sde_urw3_int_en_hi_w0_s
@@ -24665,7 +25241,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw3_int_en_hi_w0_s cn; */
-} bdk_tns_sde_urw3_int_en_hi_w0_t;
+};
+typedef union bdk_tns_sde_urw3_int_en_hi_w0 bdk_tns_sde_urw3_int_en_hi_w0_t;
 
 #define BDK_TNS_SDE_URW3_INT_EN_HI_W0 BDK_TNS_SDE_URW3_INT_EN_HI_W0_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW3_INT_EN_HI_W0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -24689,7 +25266,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_INT_EN_HI_W0_FUNC(void)
  * TNS SDE URW3 Interrrupt Enable High Word 1 Register
  * Continuation of structure defined in TNS_SDE_URW3_INT_EN_HI_W0
  */
-typedef union
+union bdk_tns_sde_urw3_int_en_hi_w1
 {
     uint32_t u;
     struct bdk_tns_sde_urw3_int_en_hi_w1_s
@@ -24703,7 +25280,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw3_int_en_hi_w1_s cn; */
-} bdk_tns_sde_urw3_int_en_hi_w1_t;
+};
+typedef union bdk_tns_sde_urw3_int_en_hi_w1 bdk_tns_sde_urw3_int_en_hi_w1_t;
 
 #define BDK_TNS_SDE_URW3_INT_EN_HI_W1 BDK_TNS_SDE_URW3_INT_EN_HI_W1_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW3_INT_EN_HI_W1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -24727,7 +25305,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_INT_EN_HI_W1_FUNC(void)
  * TNS SDE URW3 Interrrupt Enable High Word 2 Register
  * Continuation of structure defined in TNS_SDE_URW3_INT_EN_HI_W0
  */
-typedef union
+union bdk_tns_sde_urw3_int_en_hi_w2
 {
     uint32_t u;
     struct bdk_tns_sde_urw3_int_en_hi_w2_s
@@ -24745,7 +25323,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw3_int_en_hi_w2_s cn; */
-} bdk_tns_sde_urw3_int_en_hi_w2_t;
+};
+typedef union bdk_tns_sde_urw3_int_en_hi_w2 bdk_tns_sde_urw3_int_en_hi_w2_t;
 
 #define BDK_TNS_SDE_URW3_INT_EN_HI_W2 BDK_TNS_SDE_URW3_INT_EN_HI_W2_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW3_INT_EN_HI_W2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -24769,7 +25348,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_INT_EN_HI_W2_FUNC(void)
  * TNS SDE URW3 Interrrupt Enable Low Word 0 Register
  * Channel Interrupt register low priority
  */
-typedef union
+union bdk_tns_sde_urw3_int_en_lo_w0
 {
     uint32_t u;
     struct bdk_tns_sde_urw3_int_en_lo_w0_s
@@ -24795,7 +25374,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw3_int_en_lo_w0_s cn; */
-} bdk_tns_sde_urw3_int_en_lo_w0_t;
+};
+typedef union bdk_tns_sde_urw3_int_en_lo_w0 bdk_tns_sde_urw3_int_en_lo_w0_t;
 
 #define BDK_TNS_SDE_URW3_INT_EN_LO_W0 BDK_TNS_SDE_URW3_INT_EN_LO_W0_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW3_INT_EN_LO_W0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -24819,7 +25399,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_INT_EN_LO_W0_FUNC(void)
  * TNS SDE URW3 Interrrupt Enable Low Word 1 Register
  * Continuation of structure defined in TNS_SDE_URW3_INT_EN_LO_W0
  */
-typedef union
+union bdk_tns_sde_urw3_int_en_lo_w1
 {
     uint32_t u;
     struct bdk_tns_sde_urw3_int_en_lo_w1_s
@@ -24833,7 +25413,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw3_int_en_lo_w1_s cn; */
-} bdk_tns_sde_urw3_int_en_lo_w1_t;
+};
+typedef union bdk_tns_sde_urw3_int_en_lo_w1 bdk_tns_sde_urw3_int_en_lo_w1_t;
 
 #define BDK_TNS_SDE_URW3_INT_EN_LO_W1 BDK_TNS_SDE_URW3_INT_EN_LO_W1_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW3_INT_EN_LO_W1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -24857,7 +25438,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_INT_EN_LO_W1_FUNC(void)
  * TNS SDE URW3 Interrrupt Enable Low Word 2 Register
  * Continuation of structure defined in TNS_SDE_URW3_INT_EN_LO_W0
  */
-typedef union
+union bdk_tns_sde_urw3_int_en_lo_w2
 {
     uint32_t u;
     struct bdk_tns_sde_urw3_int_en_lo_w2_s
@@ -24875,7 +25456,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw3_int_en_lo_w2_s cn; */
-} bdk_tns_sde_urw3_int_en_lo_w2_t;
+};
+typedef union bdk_tns_sde_urw3_int_en_lo_w2 bdk_tns_sde_urw3_int_en_lo_w2_t;
 
 #define BDK_TNS_SDE_URW3_INT_EN_LO_W2 BDK_TNS_SDE_URW3_INT_EN_LO_W2_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW3_INT_EN_LO_W2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -24899,7 +25481,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_INT_EN_LO_W2_FUNC(void)
  * TNS SDE URW3 Interrrupt Force Word 0 Register
  * Channel Interrupt register low priority
  */
-typedef union
+union bdk_tns_sde_urw3_int_frc_w0
 {
     uint32_t u;
     struct bdk_tns_sde_urw3_int_frc_w0_s
@@ -24925,7 +25507,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw3_int_frc_w0_s cn; */
-} bdk_tns_sde_urw3_int_frc_w0_t;
+};
+typedef union bdk_tns_sde_urw3_int_frc_w0 bdk_tns_sde_urw3_int_frc_w0_t;
 
 #define BDK_TNS_SDE_URW3_INT_FRC_W0 BDK_TNS_SDE_URW3_INT_FRC_W0_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW3_INT_FRC_W0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -24949,7 +25532,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_INT_FRC_W0_FUNC(void)
  * TNS SDE URW3 Interrrupt Force Word 1 Register
  * Continuation of structure defined in TNS_SDE_URW3_INT_FRC_W0
  */
-typedef union
+union bdk_tns_sde_urw3_int_frc_w1
 {
     uint32_t u;
     struct bdk_tns_sde_urw3_int_frc_w1_s
@@ -24963,7 +25546,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw3_int_frc_w1_s cn; */
-} bdk_tns_sde_urw3_int_frc_w1_t;
+};
+typedef union bdk_tns_sde_urw3_int_frc_w1 bdk_tns_sde_urw3_int_frc_w1_t;
 
 #define BDK_TNS_SDE_URW3_INT_FRC_W1 BDK_TNS_SDE_URW3_INT_FRC_W1_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW3_INT_FRC_W1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -24987,7 +25571,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_INT_FRC_W1_FUNC(void)
  * TNS SDE URW3 Interrrupt Force Word 2 Register
  * Continuation of structure defined in TNS_SDE_URW3_INT_FRC_W0
  */
-typedef union
+union bdk_tns_sde_urw3_int_frc_w2
 {
     uint32_t u;
     struct bdk_tns_sde_urw3_int_frc_w2_s
@@ -25005,7 +25589,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw3_int_frc_w2_s cn; */
-} bdk_tns_sde_urw3_int_frc_w2_t;
+};
+typedef union bdk_tns_sde_urw3_int_frc_w2 bdk_tns_sde_urw3_int_frc_w2_t;
 
 #define BDK_TNS_SDE_URW3_INT_FRC_W2 BDK_TNS_SDE_URW3_INT_FRC_W2_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW3_INT_FRC_W2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -25029,7 +25614,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_INT_FRC_W2_FUNC(void)
  * TNS SDE URW3 Interrrupt W1C Word 0 Register
  * Channel Interrupt register low priority
  */
-typedef union
+union bdk_tns_sde_urw3_int_w1c_w0
 {
     uint32_t u;
     struct bdk_tns_sde_urw3_int_w1c_w0_s
@@ -25055,7 +25640,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw3_int_w1c_w0_s cn; */
-} bdk_tns_sde_urw3_int_w1c_w0_t;
+};
+typedef union bdk_tns_sde_urw3_int_w1c_w0 bdk_tns_sde_urw3_int_w1c_w0_t;
 
 #define BDK_TNS_SDE_URW3_INT_W1C_W0 BDK_TNS_SDE_URW3_INT_W1C_W0_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW3_INT_W1C_W0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -25079,7 +25665,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_INT_W1C_W0_FUNC(void)
  * TNS SDE URW3 Interrrupt W1C Word 1 Register
  * Continuation of structure defined in TNS_SDE_URW3_INT_W1C_W0
  */
-typedef union
+union bdk_tns_sde_urw3_int_w1c_w1
 {
     uint32_t u;
     struct bdk_tns_sde_urw3_int_w1c_w1_s
@@ -25093,7 +25679,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw3_int_w1c_w1_s cn; */
-} bdk_tns_sde_urw3_int_w1c_w1_t;
+};
+typedef union bdk_tns_sde_urw3_int_w1c_w1 bdk_tns_sde_urw3_int_w1c_w1_t;
 
 #define BDK_TNS_SDE_URW3_INT_W1C_W1 BDK_TNS_SDE_URW3_INT_W1C_W1_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW3_INT_W1C_W1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -25117,7 +25704,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_INT_W1C_W1_FUNC(void)
  * TNS SDE URW3 Interrrupt W1C Word 2 Register
  * Continuation of structure defined in TNS_SDE_URW3_INT_W1C_W0
  */
-typedef union
+union bdk_tns_sde_urw3_int_w1c_w2
 {
     uint32_t u;
     struct bdk_tns_sde_urw3_int_w1c_w2_s
@@ -25135,7 +25722,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw3_int_w1c_w2_s cn; */
-} bdk_tns_sde_urw3_int_w1c_w2_t;
+};
+typedef union bdk_tns_sde_urw3_int_w1c_w2 bdk_tns_sde_urw3_int_w1c_w2_t;
 
 #define BDK_TNS_SDE_URW3_INT_W1C_W2 BDK_TNS_SDE_URW3_INT_W1C_W2_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW3_INT_W1C_W2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -25159,7 +25747,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_INT_W1C_W2_FUNC(void)
  * TNS SDE URW3 Lock Register
  * Lock Register
  */
-typedef union
+union bdk_tns_sde_urw3_lock
 {
     uint32_t u;
     struct bdk_tns_sde_urw3_lock_s
@@ -25171,7 +25759,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw3_lock_s cn; */
-} bdk_tns_sde_urw3_lock_t;
+};
+typedef union bdk_tns_sde_urw3_lock bdk_tns_sde_urw3_lock_t;
 
 #define BDK_TNS_SDE_URW3_LOCK BDK_TNS_SDE_URW3_LOCK_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW3_LOCK_FUNC(void) __attribute__ ((pure, always_inline));
@@ -25195,7 +25784,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_LOCK_FUNC(void)
  * TNS SDE URW3 Maximum In Flight Register
  * Controls the max inflight requests.
  */
-typedef union
+union bdk_tns_sde_urw3_max_in_flight
 {
     uint32_t u;
     struct bdk_tns_sde_urw3_max_in_flight_s
@@ -25217,7 +25806,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw3_max_in_flight_s cn; */
-} bdk_tns_sde_urw3_max_in_flight_t;
+};
+typedef union bdk_tns_sde_urw3_max_in_flight bdk_tns_sde_urw3_max_in_flight_t;
 
 #define BDK_TNS_SDE_URW3_MAX_IN_FLIGHT BDK_TNS_SDE_URW3_MAX_IN_FLIGHT_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW3_MAX_IN_FLIGHT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -25241,7 +25831,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_MAX_IN_FLIGHT_FUNC(void)
  * TNS SDE URW3 Mirror Mask Register
  * This holds masks for Ingress, Egress, evif and ivif Mirror.
  */
-typedef union
+union bdk_tns_sde_urw3_mir_mask
 {
     uint32_t u;
     struct bdk_tns_sde_urw3_mir_mask_s
@@ -25255,7 +25845,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw3_mir_mask_s cn; */
-} bdk_tns_sde_urw3_mir_mask_t;
+};
+typedef union bdk_tns_sde_urw3_mir_mask bdk_tns_sde_urw3_mir_mask_t;
 
 #define BDK_TNS_SDE_URW3_MIR_MASK BDK_TNS_SDE_URW3_MIR_MASK_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW3_MIR_MASK_FUNC(void) __attribute__ ((pure, always_inline));
@@ -25280,7 +25871,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_MIR_MASK_FUNC(void)
  * This holds port enable for egress mirroring.
  * Bits 31..9 of registers ending in _W4 are unused.
  */
-typedef union
+union bdk_tns_sde_urw3_prt_em_wx
 {
     uint32_t u;
     struct bdk_tns_sde_urw3_prt_em_wx_s
@@ -25292,7 +25883,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw3_prt_em_wx_s cn; */
-} bdk_tns_sde_urw3_prt_em_wx_t;
+};
+typedef union bdk_tns_sde_urw3_prt_em_wx bdk_tns_sde_urw3_prt_em_wx_t;
 
 static inline uint64_t BDK_TNS_SDE_URW3_PRT_EM_WX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_URW3_PRT_EM_WX(unsigned long a)
@@ -25315,7 +25907,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_PRT_EM_WX(unsigned long a)
  * TNS SDE URW3 Round Robin Configuration Register
  * Arbitration cfgs to configure the arbiter
  */
-typedef union
+union bdk_tns_sde_urw3_rr
 {
     uint32_t u;
     struct bdk_tns_sde_urw3_rr_s
@@ -25333,7 +25925,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw3_rr_s cn; */
-} bdk_tns_sde_urw3_rr_t;
+};
+typedef union bdk_tns_sde_urw3_rr bdk_tns_sde_urw3_rr_t;
 
 #define BDK_TNS_SDE_URW3_RR BDK_TNS_SDE_URW3_RR_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW3_RR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -25357,7 +25950,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_RR_FUNC(void)
  * TNS SDE URW3 Search Insert FIFO Register
  * --
  */
-typedef union
+union bdk_tns_sde_urw3_se_ins_fif
 {
     uint32_t u;
     struct bdk_tns_sde_urw3_se_ins_fif_s
@@ -25371,7 +25964,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw3_se_ins_fif_s cn; */
-} bdk_tns_sde_urw3_se_ins_fif_t;
+};
+typedef union bdk_tns_sde_urw3_se_ins_fif bdk_tns_sde_urw3_se_ins_fif_t;
 
 #define BDK_TNS_SDE_URW3_SE_INS_FIF BDK_TNS_SDE_URW3_SE_INS_FIF_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW3_SE_INS_FIF_FUNC(void) __attribute__ ((pure, always_inline));
@@ -25395,7 +25989,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_SE_INS_FIF_FUNC(void)
  * TNS SDE URW3 Search VIF FIFO Register
  * --
  */
-typedef union
+union bdk_tns_sde_urw3_se_vif_fif
 {
     uint32_t u;
     struct bdk_tns_sde_urw3_se_vif_fif_s
@@ -25409,7 +26003,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw3_se_vif_fif_s cn; */
-} bdk_tns_sde_urw3_se_vif_fif_t;
+};
+typedef union bdk_tns_sde_urw3_se_vif_fif bdk_tns_sde_urw3_se_vif_fif_t;
 
 #define BDK_TNS_SDE_URW3_SE_VIF_FIF BDK_TNS_SDE_URW3_SE_VIF_FIF_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW3_SE_VIF_FIF_FUNC(void) __attribute__ ((pure, always_inline));
@@ -25440,7 +26035,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_SE_VIF_FIF_FUNC(void)
  * When writing, make the access to this decoder atomic w.r.t. other writes to
  * this decoder.
  */
-typedef union
+union bdk_tns_sde_urw3_sein_rp_tblx_w0
 {
     uint32_t u;
     struct bdk_tns_sde_urw3_sein_rp_tblx_w0_s
@@ -25468,7 +26063,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw3_sein_rp_tblx_w0_s cn; */
-} bdk_tns_sde_urw3_sein_rp_tblx_w0_t;
+};
+typedef union bdk_tns_sde_urw3_sein_rp_tblx_w0 bdk_tns_sde_urw3_sein_rp_tblx_w0_t;
 
 static inline uint64_t BDK_TNS_SDE_URW3_SEIN_RP_TBLX_W0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_URW3_SEIN_RP_TBLX_W0(unsigned long a)
@@ -25491,7 +26087,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_SEIN_RP_TBLX_W0(unsigned long a)
  * TNS SDE URW3 SEINS Response Table Word 1 Registers
  * Continuation of structure defined in TNS_SDE_URW3_SEIN_RP_TBL(0..23)_W0
  */
-typedef union
+union bdk_tns_sde_urw3_sein_rp_tblx_w1
 {
     uint32_t u;
     struct bdk_tns_sde_urw3_sein_rp_tblx_w1_s
@@ -25511,7 +26107,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw3_sein_rp_tblx_w1_s cn; */
-} bdk_tns_sde_urw3_sein_rp_tblx_w1_t;
+};
+typedef union bdk_tns_sde_urw3_sein_rp_tblx_w1 bdk_tns_sde_urw3_sein_rp_tblx_w1_t;
 
 static inline uint64_t BDK_TNS_SDE_URW3_SEIN_RP_TBLX_W1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_URW3_SEIN_RP_TBLX_W1(unsigned long a)
@@ -25534,7 +26131,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_SEIN_RP_TBLX_W1(unsigned long a)
  * TNS SDE URW3 SEINS Response Table Word 2 Registers
  * Continuation of structure defined in TNS_SDE_URW3_SEIN_RP_TBL(0..23)_W0
  */
-typedef union
+union bdk_tns_sde_urw3_sein_rp_tblx_w2
 {
     uint32_t u;
     struct bdk_tns_sde_urw3_sein_rp_tblx_w2_s
@@ -25550,7 +26147,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw3_sein_rp_tblx_w2_s cn; */
-} bdk_tns_sde_urw3_sein_rp_tblx_w2_t;
+};
+typedef union bdk_tns_sde_urw3_sein_rp_tblx_w2 bdk_tns_sde_urw3_sein_rp_tblx_w2_t;
 
 static inline uint64_t BDK_TNS_SDE_URW3_SEIN_RP_TBLX_W2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_URW3_SEIN_RP_TBLX_W2(unsigned long a)
@@ -25573,7 +26171,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_SEIN_RP_TBLX_W2(unsigned long a)
  * TNS SDE URW3 ScratchPad Register
  * Scratch Pad Register for XCAT
  */
-typedef union
+union bdk_tns_sde_urw3_spad
 {
     uint32_t u;
     struct bdk_tns_sde_urw3_spad_s
@@ -25585,7 +26183,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw3_spad_s cn; */
-} bdk_tns_sde_urw3_spad_t;
+};
+typedef union bdk_tns_sde_urw3_spad bdk_tns_sde_urw3_spad_t;
 
 #define BDK_TNS_SDE_URW3_SPAD BDK_TNS_SDE_URW3_SPAD_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW3_SPAD_FUNC(void) __attribute__ ((pure, always_inline));
@@ -25613,7 +26212,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_SPAD_FUNC(void)
  * When writing, make the access to this decoder atomic w.r.t. other writes to
  * this decoder.
  */
-typedef union
+union bdk_tns_sde_urw3_tqifx_wx
 {
     uint32_t u;
     struct bdk_tns_sde_urw3_tqifx_wx_s
@@ -25625,7 +26224,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw3_tqifx_wx_s cn; */
-} bdk_tns_sde_urw3_tqifx_wx_t;
+};
+typedef union bdk_tns_sde_urw3_tqifx_wx bdk_tns_sde_urw3_tqifx_wx_t;
 
 static inline uint64_t BDK_TNS_SDE_URW3_TQIFX_WX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_URW3_TQIFX_WX(unsigned long a, unsigned long b)
@@ -25648,7 +26248,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_TQIFX_WX(unsigned long a, unsigned long 
  * TNS SDE URW3 VIF FIFO Registers
  * --
  */
-typedef union
+union bdk_tns_sde_urw3_vif_fifx
 {
     uint64_t u;
     struct bdk_tns_sde_urw3_vif_fifx_s
@@ -25660,7 +26260,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw3_vif_fifx_s cn; */
-} bdk_tns_sde_urw3_vif_fifx_t;
+};
+typedef union bdk_tns_sde_urw3_vif_fifx bdk_tns_sde_urw3_vif_fifx_t;
 
 static inline uint64_t BDK_TNS_SDE_URW3_VIF_FIFX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SDE_URW3_VIF_FIFX(unsigned long a)
@@ -25683,7 +26284,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_VIF_FIFX(unsigned long a)
  * TNS SDE URW3 Weigted Round Robin Configuration Register
  * Controls the priority of slow path and fast path
  */
-typedef union
+union bdk_tns_sde_urw3_wrr
 {
     uint32_t u;
     struct bdk_tns_sde_urw3_wrr_s
@@ -25701,7 +26302,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_urw3_wrr_s cn; */
-} bdk_tns_sde_urw3_wrr_t;
+};
+typedef union bdk_tns_sde_urw3_wrr bdk_tns_sde_urw3_wrr_t;
 
 #define BDK_TNS_SDE_URW3_WRR BDK_TNS_SDE_URW3_WRR_FUNC()
 static inline uint64_t BDK_TNS_SDE_URW3_WRR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -25725,7 +26327,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_WRR_FUNC(void)
  * TNS Search Age Memory Age Interrrupt Enable High Register
  * --
  */
-typedef union
+union bdk_tns_se_age_mem_age_int_en_hi
 {
     uint32_t u;
     struct bdk_tns_se_age_mem_age_int_en_hi_s
@@ -25753,7 +26355,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_age_mem_age_int_en_hi_s cn; */
-} bdk_tns_se_age_mem_age_int_en_hi_t;
+};
+typedef union bdk_tns_se_age_mem_age_int_en_hi bdk_tns_se_age_mem_age_int_en_hi_t;
 
 #define BDK_TNS_SE_AGE_MEM_AGE_INT_EN_HI BDK_TNS_SE_AGE_MEM_AGE_INT_EN_HI_FUNC()
 static inline uint64_t BDK_TNS_SE_AGE_MEM_AGE_INT_EN_HI_FUNC(void) __attribute__ ((pure, always_inline));
@@ -25777,7 +26380,7 @@ static inline uint64_t BDK_TNS_SE_AGE_MEM_AGE_INT_EN_HI_FUNC(void)
  * TNS Search Age Memory Age Interrrupt Enable Low Register
  * --
  */
-typedef union
+union bdk_tns_se_age_mem_age_int_en_lo
 {
     uint32_t u;
     struct bdk_tns_se_age_mem_age_int_en_lo_s
@@ -25805,7 +26408,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_age_mem_age_int_en_lo_s cn; */
-} bdk_tns_se_age_mem_age_int_en_lo_t;
+};
+typedef union bdk_tns_se_age_mem_age_int_en_lo bdk_tns_se_age_mem_age_int_en_lo_t;
 
 #define BDK_TNS_SE_AGE_MEM_AGE_INT_EN_LO BDK_TNS_SE_AGE_MEM_AGE_INT_EN_LO_FUNC()
 static inline uint64_t BDK_TNS_SE_AGE_MEM_AGE_INT_EN_LO_FUNC(void) __attribute__ ((pure, always_inline));
@@ -25829,7 +26433,7 @@ static inline uint64_t BDK_TNS_SE_AGE_MEM_AGE_INT_EN_LO_FUNC(void)
  * TNS Search Age Memory Age Interrrupt Force Register
  * --
  */
-typedef union
+union bdk_tns_se_age_mem_age_int_frc
 {
     uint32_t u;
     struct bdk_tns_se_age_mem_age_int_frc_s
@@ -25857,7 +26461,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_age_mem_age_int_frc_s cn; */
-} bdk_tns_se_age_mem_age_int_frc_t;
+};
+typedef union bdk_tns_se_age_mem_age_int_frc bdk_tns_se_age_mem_age_int_frc_t;
 
 #define BDK_TNS_SE_AGE_MEM_AGE_INT_FRC BDK_TNS_SE_AGE_MEM_AGE_INT_FRC_FUNC()
 static inline uint64_t BDK_TNS_SE_AGE_MEM_AGE_INT_FRC_FUNC(void) __attribute__ ((pure, always_inline));
@@ -25881,7 +26486,7 @@ static inline uint64_t BDK_TNS_SE_AGE_MEM_AGE_INT_FRC_FUNC(void)
  * TNS Search Age Memory Age Interrrupt W1C Register
  * --
  */
-typedef union
+union bdk_tns_se_age_mem_age_int_w1c
 {
     uint32_t u;
     struct bdk_tns_se_age_mem_age_int_w1c_s
@@ -25909,7 +26514,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_age_mem_age_int_w1c_s cn; */
-} bdk_tns_se_age_mem_age_int_w1c_t;
+};
+typedef union bdk_tns_se_age_mem_age_int_w1c bdk_tns_se_age_mem_age_int_w1c_t;
 
 #define BDK_TNS_SE_AGE_MEM_AGE_INT_W1C BDK_TNS_SE_AGE_MEM_AGE_INT_W1C_FUNC()
 static inline uint64_t BDK_TNS_SE_AGE_MEM_AGE_INT_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -25933,7 +26539,7 @@ static inline uint64_t BDK_TNS_SE_AGE_MEM_AGE_INT_W1C_FUNC(void)
  * TNS Search Age Memory Age Status Word 0 Register
  * This is a read only status register.
  */
-typedef union
+union bdk_tns_se_age_mem_age_sta_w0
 {
     uint32_t u;
     struct bdk_tns_se_age_mem_age_sta_w0_s
@@ -25947,7 +26553,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_age_mem_age_sta_w0_s cn; */
-} bdk_tns_se_age_mem_age_sta_w0_t;
+};
+typedef union bdk_tns_se_age_mem_age_sta_w0 bdk_tns_se_age_mem_age_sta_w0_t;
 
 #define BDK_TNS_SE_AGE_MEM_AGE_STA_W0 BDK_TNS_SE_AGE_MEM_AGE_STA_W0_FUNC()
 static inline uint64_t BDK_TNS_SE_AGE_MEM_AGE_STA_W0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -25971,7 +26578,7 @@ static inline uint64_t BDK_TNS_SE_AGE_MEM_AGE_STA_W0_FUNC(void)
  * TNS Search Age Memory Age Status Word 1 Register
  * Continuation of structure defined in TNS_SE_AGE_MEM_AGE_STA_W0
  */
-typedef union
+union bdk_tns_se_age_mem_age_sta_w1
 {
     uint32_t u;
     struct bdk_tns_se_age_mem_age_sta_w1_s
@@ -25983,7 +26590,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_age_mem_age_sta_w1_s cn; */
-} bdk_tns_se_age_mem_age_sta_w1_t;
+};
+typedef union bdk_tns_se_age_mem_age_sta_w1 bdk_tns_se_age_mem_age_sta_w1_t;
 
 #define BDK_TNS_SE_AGE_MEM_AGE_STA_W1 BDK_TNS_SE_AGE_MEM_AGE_STA_W1_FUNC()
 static inline uint64_t BDK_TNS_SE_AGE_MEM_AGE_STA_W1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -26007,7 +26615,7 @@ static inline uint64_t BDK_TNS_SE_AGE_MEM_AGE_STA_W1_FUNC(void)
  * TNS Search Age Memory Age Status Word 2 Register
  * Continuation of structure defined in TNS_SE_AGE_MEM_AGE_STA_W0
  */
-typedef union
+union bdk_tns_se_age_mem_age_sta_w2
 {
     uint32_t u;
     struct bdk_tns_se_age_mem_age_sta_w2_s
@@ -26027,7 +26635,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_age_mem_age_sta_w2_s cn; */
-} bdk_tns_se_age_mem_age_sta_w2_t;
+};
+typedef union bdk_tns_se_age_mem_age_sta_w2 bdk_tns_se_age_mem_age_sta_w2_t;
 
 #define BDK_TNS_SE_AGE_MEM_AGE_STA_W2 BDK_TNS_SE_AGE_MEM_AGE_STA_W2_FUNC()
 static inline uint64_t BDK_TNS_SE_AGE_MEM_AGE_STA_W2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -26051,7 +26660,7 @@ static inline uint64_t BDK_TNS_SE_AGE_MEM_AGE_STA_W2_FUNC(void)
  * TNS Search Age Memory Bist Status Done Register
  * --
  */
-typedef union
+union bdk_tns_se_age_mem_bist_stdn
 {
     uint32_t u;
     struct bdk_tns_se_age_mem_bist_stdn_s
@@ -26067,7 +26676,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_age_mem_bist_stdn_s cn; */
-} bdk_tns_se_age_mem_bist_stdn_t;
+};
+typedef union bdk_tns_se_age_mem_bist_stdn bdk_tns_se_age_mem_bist_stdn_t;
 
 #define BDK_TNS_SE_AGE_MEM_BIST_STDN BDK_TNS_SE_AGE_MEM_BIST_STDN_FUNC()
 static inline uint64_t BDK_TNS_SE_AGE_MEM_BIST_STDN_FUNC(void) __attribute__ ((pure, always_inline));
@@ -26091,7 +26701,7 @@ static inline uint64_t BDK_TNS_SE_AGE_MEM_BIST_STDN_FUNC(void)
  * TNS Search Age Memory Debug Selector Register
  * --
  */
-typedef union
+union bdk_tns_se_age_mem_dbg_sel
 {
     uint32_t u;
     struct bdk_tns_se_age_mem_dbg_sel_s
@@ -26105,7 +26715,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_age_mem_dbg_sel_s cn; */
-} bdk_tns_se_age_mem_dbg_sel_t;
+};
+typedef union bdk_tns_se_age_mem_dbg_sel bdk_tns_se_age_mem_dbg_sel_t;
 
 #define BDK_TNS_SE_AGE_MEM_DBG_SEL BDK_TNS_SE_AGE_MEM_DBG_SEL_FUNC()
 static inline uint64_t BDK_TNS_SE_AGE_MEM_DBG_SEL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -26129,7 +26740,7 @@ static inline uint64_t BDK_TNS_SE_AGE_MEM_DBG_SEL_FUNC(void)
  * TNS Search Age Memory ECC Control Register
  * ECC configuration for AGE memories
  */
-typedef union
+union bdk_tns_se_age_mem_ecc_ctl
 {
     uint32_t u;
     struct bdk_tns_se_age_mem_ecc_ctl_s
@@ -26153,7 +26764,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_age_mem_ecc_ctl_s cn; */
-} bdk_tns_se_age_mem_ecc_ctl_t;
+};
+typedef union bdk_tns_se_age_mem_ecc_ctl bdk_tns_se_age_mem_ecc_ctl_t;
 
 #define BDK_TNS_SE_AGE_MEM_ECC_CTL BDK_TNS_SE_AGE_MEM_ECC_CTL_FUNC()
 static inline uint64_t BDK_TNS_SE_AGE_MEM_ECC_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -26177,7 +26789,7 @@ static inline uint64_t BDK_TNS_SE_AGE_MEM_ECC_CTL_FUNC(void)
  * TNS Search Age Memory Lock Register
  * Lock Register
  */
-typedef union
+union bdk_tns_se_age_mem_lock
 {
     uint32_t u;
     struct bdk_tns_se_age_mem_lock_s
@@ -26189,7 +26801,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_age_mem_lock_s cn; */
-} bdk_tns_se_age_mem_lock_t;
+};
+typedef union bdk_tns_se_age_mem_lock bdk_tns_se_age_mem_lock_t;
 
 #define BDK_TNS_SE_AGE_MEM_LOCK BDK_TNS_SE_AGE_MEM_LOCK_FUNC()
 static inline uint64_t BDK_TNS_SE_AGE_MEM_LOCK_FUNC(void) __attribute__ ((pure, always_inline));
@@ -26216,7 +26829,7 @@ static inline uint64_t BDK_TNS_SE_AGE_MEM_LOCK_FUNC(void)
  * organized into 2 tiles of 64-bit by 2K-row tiles, forming a contiguous
  * address space from 0 to 4K rows.
  */
-typedef union
+union bdk_tns_se_age_mem_markxdx
 {
     uint64_t u;
     struct bdk_tns_se_age_mem_markxdx_s
@@ -26228,7 +26841,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_age_mem_markxdx_s cn; */
-} bdk_tns_se_age_mem_markxdx_t;
+};
+typedef union bdk_tns_se_age_mem_markxdx bdk_tns_se_age_mem_markxdx_t;
 
 static inline uint64_t BDK_TNS_SE_AGE_MEM_MARKXDX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_AGE_MEM_MARKXDX(unsigned long a, unsigned long b)
@@ -26252,7 +26866,7 @@ static inline uint64_t BDK_TNS_SE_AGE_MEM_MARKXDX(unsigned long a, unsigned long
  * Each age mark bit is associated with an age mask bit to disable aging of the
  * particular entry.
  */
-typedef union
+union bdk_tns_se_age_mem_maskxdx
 {
     uint64_t u;
     struct bdk_tns_se_age_mem_maskxdx_s
@@ -26264,7 +26878,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_age_mem_maskxdx_s cn; */
-} bdk_tns_se_age_mem_maskxdx_t;
+};
+typedef union bdk_tns_se_age_mem_maskxdx bdk_tns_se_age_mem_maskxdx_t;
 
 static inline uint64_t BDK_TNS_SE_AGE_MEM_MASKXDX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_AGE_MEM_MASKXDX(unsigned long a, unsigned long b)
@@ -26287,7 +26902,7 @@ static inline uint64_t BDK_TNS_SE_AGE_MEM_MASKXDX(unsigned long a, unsigned long
  * TNS Search Age Memory Mark ECC Log Registers
  * These are read only
  */
-typedef union
+union bdk_tns_se_age_mem_mrk_ecc_logx
 {
     uint32_t u;
     struct bdk_tns_se_age_mem_mrk_ecc_logx_s
@@ -26301,7 +26916,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_age_mem_mrk_ecc_logx_s cn; */
-} bdk_tns_se_age_mem_mrk_ecc_logx_t;
+};
+typedef union bdk_tns_se_age_mem_mrk_ecc_logx bdk_tns_se_age_mem_mrk_ecc_logx_t;
 
 static inline uint64_t BDK_TNS_SE_AGE_MEM_MRK_ECC_LOGX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_AGE_MEM_MRK_ECC_LOGX(unsigned long a)
@@ -26324,7 +26940,7 @@ static inline uint64_t BDK_TNS_SE_AGE_MEM_MRK_ECC_LOGX(unsigned long a)
  * TNS Search Age Memory Mask ECC Log Registers
  * These are read only
  */
-typedef union
+union bdk_tns_se_age_mem_msk_ecc_logx
 {
     uint32_t u;
     struct bdk_tns_se_age_mem_msk_ecc_logx_s
@@ -26338,7 +26954,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_age_mem_msk_ecc_logx_s cn; */
-} bdk_tns_se_age_mem_msk_ecc_logx_t;
+};
+typedef union bdk_tns_se_age_mem_msk_ecc_logx bdk_tns_se_age_mem_msk_ecc_logx_t;
 
 static inline uint64_t BDK_TNS_SE_AGE_MEM_MSK_ECC_LOGX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_AGE_MEM_MSK_ECC_LOGX(unsigned long a)
@@ -26361,7 +26978,7 @@ static inline uint64_t BDK_TNS_SE_AGE_MEM_MSK_ECC_LOGX(unsigned long a)
  * TNS Search Age Memory Refresh Word 0 Register
  * --
  */
-typedef union
+union bdk_tns_se_age_mem_rfrsh_w0
 {
     uint64_t u;
     struct bdk_tns_se_age_mem_rfrsh_w0_s
@@ -26381,7 +26998,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_age_mem_rfrsh_w0_s cn; */
-} bdk_tns_se_age_mem_rfrsh_w0_t;
+};
+typedef union bdk_tns_se_age_mem_rfrsh_w0 bdk_tns_se_age_mem_rfrsh_w0_t;
 
 #define BDK_TNS_SE_AGE_MEM_RFRSH_W0 BDK_TNS_SE_AGE_MEM_RFRSH_W0_FUNC()
 static inline uint64_t BDK_TNS_SE_AGE_MEM_RFRSH_W0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -26405,7 +27023,7 @@ static inline uint64_t BDK_TNS_SE_AGE_MEM_RFRSH_W0_FUNC(void)
  * TNS Search Age Memory Refresh Word 1 Register
  * Continuation of structure defined in TNS_SE_AGE_MEM_RFRSH_W0
  */
-typedef union
+union bdk_tns_se_age_mem_rfrsh_w1
 {
     uint64_t u;
     struct bdk_tns_se_age_mem_rfrsh_w1_s
@@ -26423,7 +27041,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_age_mem_rfrsh_w1_s cn; */
-} bdk_tns_se_age_mem_rfrsh_w1_t;
+};
+typedef union bdk_tns_se_age_mem_rfrsh_w1 bdk_tns_se_age_mem_rfrsh_w1_t;
 
 #define BDK_TNS_SE_AGE_MEM_RFRSH_W1 BDK_TNS_SE_AGE_MEM_RFRSH_W1_FUNC()
 static inline uint64_t BDK_TNS_SE_AGE_MEM_RFRSH_W1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -26447,7 +27066,7 @@ static inline uint64_t BDK_TNS_SE_AGE_MEM_RFRSH_W1_FUNC(void)
  * TNS Search Age Memory ScratchPad Register
  * Scratch Pad Register for XCAT
  */
-typedef union
+union bdk_tns_se_age_mem_spad
 {
     uint32_t u;
     struct bdk_tns_se_age_mem_spad_s
@@ -26459,7 +27078,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_age_mem_spad_s cn; */
-} bdk_tns_se_age_mem_spad_t;
+};
+typedef union bdk_tns_se_age_mem_spad bdk_tns_se_age_mem_spad_t;
 
 #define BDK_TNS_SE_AGE_MEM_SPAD BDK_TNS_SE_AGE_MEM_SPAD_FUNC()
 static inline uint64_t BDK_TNS_SE_AGE_MEM_SPAD_FUNC(void) __attribute__ ((pure, always_inline));
@@ -26483,7 +27103,7 @@ static inline uint64_t BDK_TNS_SE_AGE_MEM_SPAD_FUNC(void)
  * TNS Search Age Table Configuration ID Registers
  * --
  */
-typedef union
+union bdk_tns_se_age_tblx_cfg_idx
 {
     uint32_t u;
     struct bdk_tns_se_age_tblx_cfg_idx_s
@@ -26503,7 +27123,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_age_tblx_cfg_idx_s cn; */
-} bdk_tns_se_age_tblx_cfg_idx_t;
+};
+typedef union bdk_tns_se_age_tblx_cfg_idx bdk_tns_se_age_tblx_cfg_idx_t;
 
 static inline uint64_t BDK_TNS_SE_AGE_TBLX_CFG_IDX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_AGE_TBLX_CFG_IDX(unsigned long a, unsigned long b)
@@ -26526,7 +27147,7 @@ static inline uint64_t BDK_TNS_SE_AGE_TBLX_CFG_IDX(unsigned long a, unsigned lon
  * TNS Search Age Table Lock Registers
  * Lock Register
  */
-typedef union
+union bdk_tns_se_age_tblx_lock
 {
     uint32_t u;
     struct bdk_tns_se_age_tblx_lock_s
@@ -26538,7 +27159,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_age_tblx_lock_s cn; */
-} bdk_tns_se_age_tblx_lock_t;
+};
+typedef union bdk_tns_se_age_tblx_lock bdk_tns_se_age_tblx_lock_t;
 
 static inline uint64_t BDK_TNS_SE_AGE_TBLX_LOCK(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_AGE_TBLX_LOCK(unsigned long a)
@@ -26561,7 +27183,7 @@ static inline uint64_t BDK_TNS_SE_AGE_TBLX_LOCK(unsigned long a)
  * TNS Search Age Table ScratchPad Registers
  * Scratch Pad Register for XCAT
  */
-typedef union
+union bdk_tns_se_age_tblx_spad
 {
     uint32_t u;
     struct bdk_tns_se_age_tblx_spad_s
@@ -26573,7 +27195,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_age_tblx_spad_s cn; */
-} bdk_tns_se_age_tblx_spad_t;
+};
+typedef union bdk_tns_se_age_tblx_spad bdk_tns_se_age_tblx_spad_t;
 
 static inline uint64_t BDK_TNS_SE_AGE_TBLX_SPAD(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_AGE_TBLX_SPAD(unsigned long a)
@@ -26596,7 +27219,7 @@ static inline uint64_t BDK_TNS_SE_AGE_TBLX_SPAD(unsigned long a)
  * TNS Search Age Table Registers
  * --
  */
-typedef union
+union bdk_tns_se_age_tblxcx
 {
     uint64_t u;
     struct bdk_tns_se_age_tblxcx_s
@@ -26626,7 +27249,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_age_tblxcx_s cn; */
-} bdk_tns_se_age_tblxcx_t;
+};
+typedef union bdk_tns_se_age_tblxcx bdk_tns_se_age_tblxcx_t;
 
 static inline uint64_t BDK_TNS_SE_AGE_TBLXCX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_AGE_TBLXCX(unsigned long a, unsigned long b)
@@ -26649,7 +27273,7 @@ static inline uint64_t BDK_TNS_SE_AGE_TBLXCX(unsigned long a, unsigned long b)
  * TNS Search Configuration Spare Register
  * --
  */
-typedef union
+union bdk_tns_se_cfg_spare
 {
     uint64_t u;
     struct bdk_tns_se_cfg_spare_s
@@ -26661,7 +27285,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_cfg_spare_s cn; */
-} bdk_tns_se_cfg_spare_t;
+};
+typedef union bdk_tns_se_cfg_spare bdk_tns_se_cfg_spare_t;
 
 #define BDK_TNS_SE_CFG_SPARE BDK_TNS_SE_CFG_SPARE_FUNC()
 static inline uint64_t BDK_TNS_SE_CFG_SPARE_FUNC(void) __attribute__ ((pure, always_inline));
@@ -26685,7 +27310,7 @@ static inline uint64_t BDK_TNS_SE_CFG_SPARE_FUNC(void)
  * TNS Search Direct Lock Register
  * Lock Register
  */
-typedef union
+union bdk_tns_se_direct_lock
 {
     uint32_t u;
     struct bdk_tns_se_direct_lock_s
@@ -26697,7 +27322,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_direct_lock_s cn; */
-} bdk_tns_se_direct_lock_t;
+};
+typedef union bdk_tns_se_direct_lock bdk_tns_se_direct_lock_t;
 
 #define BDK_TNS_SE_DIRECT_LOCK BDK_TNS_SE_DIRECT_LOCK_FUNC()
 static inline uint64_t BDK_TNS_SE_DIRECT_LOCK_FUNC(void) __attribute__ ((pure, always_inline));
@@ -26721,7 +27347,7 @@ static inline uint64_t BDK_TNS_SE_DIRECT_LOCK_FUNC(void)
  * TNS Search Direct ScratchPad Register
  * Scratch Pad Register for XCAT
  */
-typedef union
+union bdk_tns_se_direct_spad
 {
     uint32_t u;
     struct bdk_tns_se_direct_spad_s
@@ -26733,7 +27359,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_direct_spad_s cn; */
-} bdk_tns_se_direct_spad_t;
+};
+typedef union bdk_tns_se_direct_spad bdk_tns_se_direct_spad_t;
 
 #define BDK_TNS_SE_DIRECT_SPAD BDK_TNS_SE_DIRECT_SPAD_FUNC()
 static inline uint64_t BDK_TNS_SE_DIRECT_SPAD_FUNC(void) __attribute__ ((pure, always_inline));
@@ -26757,7 +27384,7 @@ static inline uint64_t BDK_TNS_SE_DIRECT_SPAD_FUNC(void)
  * TNS Search Direct Table Direct Registers
  * --
  */
-typedef union
+union bdk_tns_se_direct_tbl_directx
 {
     uint32_t u;
     struct bdk_tns_se_direct_tbl_directx_s
@@ -26787,7 +27414,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_direct_tbl_directx_s cn; */
-} bdk_tns_se_direct_tbl_directx_t;
+};
+typedef union bdk_tns_se_direct_tbl_directx bdk_tns_se_direct_tbl_directx_t;
 
 static inline uint64_t BDK_TNS_SE_DIRECT_TBL_DIRECTX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_DIRECT_TBL_DIRECTX(unsigned long a)
@@ -26810,7 +27438,7 @@ static inline uint64_t BDK_TNS_SE_DIRECT_TBL_DIRECTX(unsigned long a)
  * TNS Search Hash Hash Debug Selector Register
  * --
  */
-typedef union
+union bdk_tns_se_hash_hash_dbg_sel
 {
     uint32_t u;
     struct bdk_tns_se_hash_hash_dbg_sel_s
@@ -26824,7 +27452,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_hash_hash_dbg_sel_s cn; */
-} bdk_tns_se_hash_hash_dbg_sel_t;
+};
+typedef union bdk_tns_se_hash_hash_dbg_sel bdk_tns_se_hash_hash_dbg_sel_t;
 
 #define BDK_TNS_SE_HASH_HASH_DBG_SEL BDK_TNS_SE_HASH_HASH_DBG_SEL_FUNC()
 static inline uint64_t BDK_TNS_SE_HASH_HASH_DBG_SEL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -26848,7 +27477,7 @@ static inline uint64_t BDK_TNS_SE_HASH_HASH_DBG_SEL_FUNC(void)
  * TNS Search Hash Lock Register
  * Lock Register
  */
-typedef union
+union bdk_tns_se_hash_lock
 {
     uint32_t u;
     struct bdk_tns_se_hash_lock_s
@@ -26860,7 +27489,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_hash_lock_s cn; */
-} bdk_tns_se_hash_lock_t;
+};
+typedef union bdk_tns_se_hash_lock bdk_tns_se_hash_lock_t;
 
 #define BDK_TNS_SE_HASH_LOCK BDK_TNS_SE_HASH_LOCK_FUNC()
 static inline uint64_t BDK_TNS_SE_HASH_LOCK_FUNC(void) __attribute__ ((pure, always_inline));
@@ -26884,7 +27514,7 @@ static inline uint64_t BDK_TNS_SE_HASH_LOCK_FUNC(void)
  * TNS Search Hash ScratchPad Register
  * Scratch Pad Register for XCAT
  */
-typedef union
+union bdk_tns_se_hash_spad
 {
     uint32_t u;
     struct bdk_tns_se_hash_spad_s
@@ -26896,7 +27526,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_hash_spad_s cn; */
-} bdk_tns_se_hash_spad_t;
+};
+typedef union bdk_tns_se_hash_spad bdk_tns_se_hash_spad_t;
 
 #define BDK_TNS_SE_HASH_SPAD BDK_TNS_SE_HASH_SPAD_FUNC()
 static inline uint64_t BDK_TNS_SE_HASH_SPAD_FUNC(void) __attribute__ ((pure, always_inline));
@@ -26920,7 +27551,7 @@ static inline uint64_t BDK_TNS_SE_HASH_SPAD_FUNC(void)
  * TNS Search Hash Table Hash Word 0 Registers
  * --
  */
-typedef union
+union bdk_tns_se_hash_tbl_hashx_w0
 {
     uint32_t u;
     struct bdk_tns_se_hash_tbl_hashx_w0_s
@@ -26954,7 +27585,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_hash_tbl_hashx_w0_s cn; */
-} bdk_tns_se_hash_tbl_hashx_w0_t;
+};
+typedef union bdk_tns_se_hash_tbl_hashx_w0 bdk_tns_se_hash_tbl_hashx_w0_t;
 
 static inline uint64_t BDK_TNS_SE_HASH_TBL_HASHX_W0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_HASH_TBL_HASHX_W0(unsigned long a)
@@ -26977,7 +27609,7 @@ static inline uint64_t BDK_TNS_SE_HASH_TBL_HASHX_W0(unsigned long a)
  * TNS Search Hash Table Hash Word 1 Registers
  * Continuation of structure defined in TNS_SE_HASH_TBL_HASH(0..31)_W0
  */
-typedef union
+union bdk_tns_se_hash_tbl_hashx_w1
 {
     uint32_t u;
     struct bdk_tns_se_hash_tbl_hashx_w1_s
@@ -27001,7 +27633,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_hash_tbl_hashx_w1_s cn; */
-} bdk_tns_se_hash_tbl_hashx_w1_t;
+};
+typedef union bdk_tns_se_hash_tbl_hashx_w1 bdk_tns_se_hash_tbl_hashx_w1_t;
 
 static inline uint64_t BDK_TNS_SE_HASH_TBL_HASHX_W1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_HASH_TBL_HASHX_W1(unsigned long a)
@@ -27024,7 +27657,7 @@ static inline uint64_t BDK_TNS_SE_HASH_TBL_HASHX_W1(unsigned long a)
  * TNS Search Hash Table Hash Word 2 Registers
  * Continuation of structure defined in TNS_SE_HASH_TBL_HASH(0..31)_W0
  */
-typedef union
+union bdk_tns_se_hash_tbl_hashx_w2
 {
     uint32_t u;
     struct bdk_tns_se_hash_tbl_hashx_w2_s
@@ -27056,7 +27689,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_hash_tbl_hashx_w2_s cn; */
-} bdk_tns_se_hash_tbl_hashx_w2_t;
+};
+typedef union bdk_tns_se_hash_tbl_hashx_w2 bdk_tns_se_hash_tbl_hashx_w2_t;
 
 static inline uint64_t BDK_TNS_SE_HASH_TBL_HASHX_W2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_HASH_TBL_HASHX_W2(unsigned long a)
@@ -27079,7 +27713,7 @@ static inline uint64_t BDK_TNS_SE_HASH_TBL_HASHX_W2(unsigned long a)
  * TNS Search Interrrupt Read Only Word 0 Register
  * --
  */
-typedef union
+union bdk_tns_se_int_ro_w0
 {
     uint32_t u;
     struct bdk_tns_se_int_ro_w0_s
@@ -27101,7 +27735,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_int_ro_w0_s cn; */
-} bdk_tns_se_int_ro_w0_t;
+};
+typedef union bdk_tns_se_int_ro_w0 bdk_tns_se_int_ro_w0_t;
 
 #define BDK_TNS_SE_INT_RO_W0 BDK_TNS_SE_INT_RO_W0_FUNC()
 static inline uint64_t BDK_TNS_SE_INT_RO_W0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -27125,7 +27760,7 @@ static inline uint64_t BDK_TNS_SE_INT_RO_W0_FUNC(void)
  * TNS Search Interrrupt Read Only Word 1 Register
  * Continuation of structure defined in TNS_SE_INT_RO_W0
  */
-typedef union
+union bdk_tns_se_int_ro_w1
 {
     uint32_t u;
     struct bdk_tns_se_int_ro_w1_s
@@ -27145,7 +27780,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_int_ro_w1_s cn; */
-} bdk_tns_se_int_ro_w1_t;
+};
+typedef union bdk_tns_se_int_ro_w1 bdk_tns_se_int_ro_w1_t;
 
 #define BDK_TNS_SE_INT_RO_W1 BDK_TNS_SE_INT_RO_W1_FUNC()
 static inline uint64_t BDK_TNS_SE_INT_RO_W1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -27169,7 +27805,7 @@ static inline uint64_t BDK_TNS_SE_INT_RO_W1_FUNC(void)
  * TNS Search Interrrupt Read Only Word 2 Register
  * Continuation of structure defined in TNS_SE_INT_RO_W0
  */
-typedef union
+union bdk_tns_se_int_ro_w2
 {
     uint32_t u;
     struct bdk_tns_se_int_ro_w2_s
@@ -27187,7 +27823,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_int_ro_w2_s cn; */
-} bdk_tns_se_int_ro_w2_t;
+};
+typedef union bdk_tns_se_int_ro_w2 bdk_tns_se_int_ro_w2_t;
 
 #define BDK_TNS_SE_INT_RO_W2 BDK_TNS_SE_INT_RO_W2_FUNC()
 static inline uint64_t BDK_TNS_SE_INT_RO_W2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -27216,7 +27853,7 @@ static inline uint64_t BDK_TNS_SE_INT_RO_W2_FUNC(void)
  * command configuration
  * as j*32+i*8+p
  */
-typedef union
+union bdk_tns_se_lde_srch_cmdx_w0
 {
     uint32_t u;
     struct bdk_tns_se_lde_srch_cmdx_w0_s
@@ -27292,7 +27929,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_lde_srch_cmdx_w0_s cn; */
-} bdk_tns_se_lde_srch_cmdx_w0_t;
+};
+typedef union bdk_tns_se_lde_srch_cmdx_w0 bdk_tns_se_lde_srch_cmdx_w0_t;
 
 static inline uint64_t BDK_TNS_SE_LDE_SRCH_CMDX_W0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_LDE_SRCH_CMDX_W0(unsigned long a)
@@ -27315,7 +27953,7 @@ static inline uint64_t BDK_TNS_SE_LDE_SRCH_CMDX_W0(unsigned long a)
  * TNS Search LDE Search Command Word 1 Registers
  * Continuation of structure defined in TNS_SE_LDE_SRCH_CMD(0..63)_W0
  */
-typedef union
+union bdk_tns_se_lde_srch_cmdx_w1
 {
     uint32_t u;
     struct bdk_tns_se_lde_srch_cmdx_w1_s
@@ -27327,7 +27965,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_lde_srch_cmdx_w1_s cn; */
-} bdk_tns_se_lde_srch_cmdx_w1_t;
+};
+typedef union bdk_tns_se_lde_srch_cmdx_w1 bdk_tns_se_lde_srch_cmdx_w1_t;
 
 static inline uint64_t BDK_TNS_SE_LDE_SRCH_CMDX_W1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_LDE_SRCH_CMDX_W1(unsigned long a)
@@ -27350,7 +27989,7 @@ static inline uint64_t BDK_TNS_SE_LDE_SRCH_CMDX_W1(unsigned long a)
  * TNS Search LDE Search Command Word 2 Registers
  * Continuation of structure defined in TNS_SE_LDE_SRCH_CMD(0..63)_W0
  */
-typedef union
+union bdk_tns_se_lde_srch_cmdx_w2
 {
     uint32_t u;
     struct bdk_tns_se_lde_srch_cmdx_w2_s
@@ -27404,7 +28043,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_lde_srch_cmdx_w2_s cn; */
-} bdk_tns_se_lde_srch_cmdx_w2_t;
+};
+typedef union bdk_tns_se_lde_srch_cmdx_w2 bdk_tns_se_lde_srch_cmdx_w2_t;
 
 static inline uint64_t BDK_TNS_SE_LDE_SRCH_CMDX_W2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_LDE_SRCH_CMDX_W2(unsigned long a)
@@ -27427,7 +28067,7 @@ static inline uint64_t BDK_TNS_SE_LDE_SRCH_CMDX_W2(unsigned long a)
  * TNS Search LDE Command Lock Register
  * Lock Register
  */
-typedef union
+union bdk_tns_se_ldecmd_lock
 {
     uint32_t u;
     struct bdk_tns_se_ldecmd_lock_s
@@ -27439,7 +28079,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_ldecmd_lock_s cn; */
-} bdk_tns_se_ldecmd_lock_t;
+};
+typedef union bdk_tns_se_ldecmd_lock bdk_tns_se_ldecmd_lock_t;
 
 #define BDK_TNS_SE_LDECMD_LOCK BDK_TNS_SE_LDECMD_LOCK_FUNC()
 static inline uint64_t BDK_TNS_SE_LDECMD_LOCK_FUNC(void) __attribute__ ((pure, always_inline));
@@ -27463,7 +28104,7 @@ static inline uint64_t BDK_TNS_SE_LDECMD_LOCK_FUNC(void)
  * TNS Search LDE Command ScratchPad Register
  * Scratch Pad Register for XCAT
  */
-typedef union
+union bdk_tns_se_ldecmd_spad
 {
     uint32_t u;
     struct bdk_tns_se_ldecmd_spad_s
@@ -27475,7 +28116,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_ldecmd_spad_s cn; */
-} bdk_tns_se_ldecmd_spad_t;
+};
+typedef union bdk_tns_se_ldecmd_spad bdk_tns_se_ldecmd_spad_t;
 
 #define BDK_TNS_SE_LDECMD_SPAD BDK_TNS_SE_LDECMD_SPAD_FUNC()
 static inline uint64_t BDK_TNS_SE_LDECMD_SPAD_FUNC(void) __attribute__ ((pure, always_inline));
@@ -27501,7 +28143,7 @@ static inline uint64_t BDK_TNS_SE_LDECMD_SPAD_FUNC(void)
  * command).
  * The whole CPU search profile can return upto 512-bit of control data
  */
-typedef union
+union bdk_tns_se_ldei_cpu_rsl_lnx_w0
 {
     uint32_t u;
     struct bdk_tns_se_ldei_cpu_rsl_lnx_w0_s
@@ -27513,7 +28155,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_ldei_cpu_rsl_lnx_w0_s cn; */
-} bdk_tns_se_ldei_cpu_rsl_lnx_w0_t;
+};
+typedef union bdk_tns_se_ldei_cpu_rsl_lnx_w0 bdk_tns_se_ldei_cpu_rsl_lnx_w0_t;
 
 static inline uint64_t BDK_TNS_SE_LDEI_CPU_RSL_LNX_W0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_LDEI_CPU_RSL_LNX_W0(unsigned long a)
@@ -27536,7 +28179,7 @@ static inline uint64_t BDK_TNS_SE_LDEI_CPU_RSL_LNX_W0(unsigned long a)
  * TNS Search LDE Interface CPU Result LANE Word 1 Registers
  * Continuation of structure defined in TNS_SE_LDEI_CPU_RSL_LN(0..7)_W0
  */
-typedef union
+union bdk_tns_se_ldei_cpu_rsl_lnx_w1
 {
     uint32_t u;
     struct bdk_tns_se_ldei_cpu_rsl_lnx_w1_s
@@ -27548,7 +28191,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_ldei_cpu_rsl_lnx_w1_s cn; */
-} bdk_tns_se_ldei_cpu_rsl_lnx_w1_t;
+};
+typedef union bdk_tns_se_ldei_cpu_rsl_lnx_w1 bdk_tns_se_ldei_cpu_rsl_lnx_w1_t;
 
 static inline uint64_t BDK_TNS_SE_LDEI_CPU_RSL_LNX_W1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_LDEI_CPU_RSL_LNX_W1(unsigned long a)
@@ -27571,7 +28215,7 @@ static inline uint64_t BDK_TNS_SE_LDEI_CPU_RSL_LNX_W1(unsigned long a)
  * TNS Search LDE Interface CPU Result LANE Word 2 Registers
  * Continuation of structure defined in TNS_SE_LDEI_CPU_RSL_LN(0..7)_W0
  */
-typedef union
+union bdk_tns_se_ldei_cpu_rsl_lnx_w2
 {
     uint32_t u;
     struct bdk_tns_se_ldei_cpu_rsl_lnx_w2_s
@@ -27603,7 +28247,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_ldei_cpu_rsl_lnx_w2_s cn; */
-} bdk_tns_se_ldei_cpu_rsl_lnx_w2_t;
+};
+typedef union bdk_tns_se_ldei_cpu_rsl_lnx_w2 bdk_tns_se_ldei_cpu_rsl_lnx_w2_t;
 
 static inline uint64_t BDK_TNS_SE_LDEI_CPU_RSL_LNX_W2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_LDEI_CPU_RSL_LNX_W2(unsigned long a)
@@ -27628,7 +28273,7 @@ static inline uint64_t BDK_TNS_SE_LDEI_CPU_RSL_LNX_W2(unsigned long a)
  * xp_se_cpu_search_rslt_lane's
  * Note that CPU request can only access control data up to 256-bit.
  */
-typedef union
+union bdk_tns_se_ldei_cpu_srch_req_w0
 {
     uint32_t u;
     struct bdk_tns_se_ldei_cpu_srch_req_w0_s
@@ -27644,7 +28289,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_ldei_cpu_srch_req_w0_s cn; */
-} bdk_tns_se_ldei_cpu_srch_req_w0_t;
+};
+typedef union bdk_tns_se_ldei_cpu_srch_req_w0 bdk_tns_se_ldei_cpu_srch_req_w0_t;
 
 #define BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W0 BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W0_FUNC()
 static inline uint64_t BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -27668,7 +28314,7 @@ static inline uint64_t BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W0_FUNC(void)
  * TNS Search LDE Interface CPU Search Request Word 1 Register
  * Continuation of structure defined in TNS_SE_LDEI_CPU_SRCH_REQ_W0
  */
-typedef union
+union bdk_tns_se_ldei_cpu_srch_req_w1
 {
     uint32_t u;
     struct bdk_tns_se_ldei_cpu_srch_req_w1_s
@@ -27680,7 +28326,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_ldei_cpu_srch_req_w1_s cn; */
-} bdk_tns_se_ldei_cpu_srch_req_w1_t;
+};
+typedef union bdk_tns_se_ldei_cpu_srch_req_w1 bdk_tns_se_ldei_cpu_srch_req_w1_t;
 
 #define BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W1 BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W1_FUNC()
 static inline uint64_t BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -27704,7 +28351,7 @@ static inline uint64_t BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W1_FUNC(void)
  * TNS Search LDE Interface CPU Search Request Word 10 Register
  * Continuation of structure defined in TNS_SE_LDEI_CPU_SRCH_REQ_W0
  */
-typedef union
+union bdk_tns_se_ldei_cpu_srch_req_w10
 {
     uint32_t u;
     struct bdk_tns_se_ldei_cpu_srch_req_w10_s
@@ -27716,7 +28363,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_ldei_cpu_srch_req_w10_s cn; */
-} bdk_tns_se_ldei_cpu_srch_req_w10_t;
+};
+typedef union bdk_tns_se_ldei_cpu_srch_req_w10 bdk_tns_se_ldei_cpu_srch_req_w10_t;
 
 #define BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W10 BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W10_FUNC()
 static inline uint64_t BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W10_FUNC(void) __attribute__ ((pure, always_inline));
@@ -27740,7 +28388,7 @@ static inline uint64_t BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W10_FUNC(void)
  * TNS Search LDE Interface CPU Search Request Word 11 Register
  * Continuation of structure defined in TNS_SE_LDEI_CPU_SRCH_REQ_W0
  */
-typedef union
+union bdk_tns_se_ldei_cpu_srch_req_w11
 {
     uint32_t u;
     struct bdk_tns_se_ldei_cpu_srch_req_w11_s
@@ -27752,7 +28400,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_ldei_cpu_srch_req_w11_s cn; */
-} bdk_tns_se_ldei_cpu_srch_req_w11_t;
+};
+typedef union bdk_tns_se_ldei_cpu_srch_req_w11 bdk_tns_se_ldei_cpu_srch_req_w11_t;
 
 #define BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W11 BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W11_FUNC()
 static inline uint64_t BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W11_FUNC(void) __attribute__ ((pure, always_inline));
@@ -27776,7 +28425,7 @@ static inline uint64_t BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W11_FUNC(void)
  * TNS Search LDE Interface CPU Search Request Word 12 Register
  * Continuation of structure defined in TNS_SE_LDEI_CPU_SRCH_REQ_W0
  */
-typedef union
+union bdk_tns_se_ldei_cpu_srch_req_w12
 {
     uint32_t u;
     struct bdk_tns_se_ldei_cpu_srch_req_w12_s
@@ -27794,7 +28443,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_ldei_cpu_srch_req_w12_s cn; */
-} bdk_tns_se_ldei_cpu_srch_req_w12_t;
+};
+typedef union bdk_tns_se_ldei_cpu_srch_req_w12 bdk_tns_se_ldei_cpu_srch_req_w12_t;
 
 #define BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W12 BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W12_FUNC()
 static inline uint64_t BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W12_FUNC(void) __attribute__ ((pure, always_inline));
@@ -27818,7 +28468,7 @@ static inline uint64_t BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W12_FUNC(void)
  * TNS Search LDE Interface CPU Search Request Word 2 Register
  * Continuation of structure defined in TNS_SE_LDEI_CPU_SRCH_REQ_W0
  */
-typedef union
+union bdk_tns_se_ldei_cpu_srch_req_w2
 {
     uint32_t u;
     struct bdk_tns_se_ldei_cpu_srch_req_w2_s
@@ -27830,7 +28480,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_ldei_cpu_srch_req_w2_s cn; */
-} bdk_tns_se_ldei_cpu_srch_req_w2_t;
+};
+typedef union bdk_tns_se_ldei_cpu_srch_req_w2 bdk_tns_se_ldei_cpu_srch_req_w2_t;
 
 #define BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W2 BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W2_FUNC()
 static inline uint64_t BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -27854,7 +28505,7 @@ static inline uint64_t BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W2_FUNC(void)
  * TNS Search LDE Interface CPU Search Request Word 3 Register
  * Continuation of structure defined in TNS_SE_LDEI_CPU_SRCH_REQ_W0
  */
-typedef union
+union bdk_tns_se_ldei_cpu_srch_req_w3
 {
     uint32_t u;
     struct bdk_tns_se_ldei_cpu_srch_req_w3_s
@@ -27866,7 +28517,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_ldei_cpu_srch_req_w3_s cn; */
-} bdk_tns_se_ldei_cpu_srch_req_w3_t;
+};
+typedef union bdk_tns_se_ldei_cpu_srch_req_w3 bdk_tns_se_ldei_cpu_srch_req_w3_t;
 
 #define BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W3 BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W3_FUNC()
 static inline uint64_t BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W3_FUNC(void) __attribute__ ((pure, always_inline));
@@ -27890,7 +28542,7 @@ static inline uint64_t BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W3_FUNC(void)
  * TNS Search LDE Interface CPU Search Request Word 4 Register
  * Continuation of structure defined in TNS_SE_LDEI_CPU_SRCH_REQ_W0
  */
-typedef union
+union bdk_tns_se_ldei_cpu_srch_req_w4
 {
     uint32_t u;
     struct bdk_tns_se_ldei_cpu_srch_req_w4_s
@@ -27902,7 +28554,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_ldei_cpu_srch_req_w4_s cn; */
-} bdk_tns_se_ldei_cpu_srch_req_w4_t;
+};
+typedef union bdk_tns_se_ldei_cpu_srch_req_w4 bdk_tns_se_ldei_cpu_srch_req_w4_t;
 
 #define BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W4 BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W4_FUNC()
 static inline uint64_t BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W4_FUNC(void) __attribute__ ((pure, always_inline));
@@ -27926,7 +28579,7 @@ static inline uint64_t BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W4_FUNC(void)
  * TNS Search LDE Interface CPU Search Request Word 5 Register
  * Continuation of structure defined in TNS_SE_LDEI_CPU_SRCH_REQ_W0
  */
-typedef union
+union bdk_tns_se_ldei_cpu_srch_req_w5
 {
     uint32_t u;
     struct bdk_tns_se_ldei_cpu_srch_req_w5_s
@@ -27938,7 +28591,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_ldei_cpu_srch_req_w5_s cn; */
-} bdk_tns_se_ldei_cpu_srch_req_w5_t;
+};
+typedef union bdk_tns_se_ldei_cpu_srch_req_w5 bdk_tns_se_ldei_cpu_srch_req_w5_t;
 
 #define BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W5 BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W5_FUNC()
 static inline uint64_t BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W5_FUNC(void) __attribute__ ((pure, always_inline));
@@ -27962,7 +28616,7 @@ static inline uint64_t BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W5_FUNC(void)
  * TNS Search LDE Interface CPU Search Request Word 6 Register
  * Continuation of structure defined in TNS_SE_LDEI_CPU_SRCH_REQ_W0
  */
-typedef union
+union bdk_tns_se_ldei_cpu_srch_req_w6
 {
     uint32_t u;
     struct bdk_tns_se_ldei_cpu_srch_req_w6_s
@@ -27974,7 +28628,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_ldei_cpu_srch_req_w6_s cn; */
-} bdk_tns_se_ldei_cpu_srch_req_w6_t;
+};
+typedef union bdk_tns_se_ldei_cpu_srch_req_w6 bdk_tns_se_ldei_cpu_srch_req_w6_t;
 
 #define BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W6 BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W6_FUNC()
 static inline uint64_t BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W6_FUNC(void) __attribute__ ((pure, always_inline));
@@ -27998,7 +28653,7 @@ static inline uint64_t BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W6_FUNC(void)
  * TNS Search LDE Interface CPU Search Request Word 7 Register
  * Continuation of structure defined in TNS_SE_LDEI_CPU_SRCH_REQ_W0
  */
-typedef union
+union bdk_tns_se_ldei_cpu_srch_req_w7
 {
     uint32_t u;
     struct bdk_tns_se_ldei_cpu_srch_req_w7_s
@@ -28010,7 +28665,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_ldei_cpu_srch_req_w7_s cn; */
-} bdk_tns_se_ldei_cpu_srch_req_w7_t;
+};
+typedef union bdk_tns_se_ldei_cpu_srch_req_w7 bdk_tns_se_ldei_cpu_srch_req_w7_t;
 
 #define BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W7 BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W7_FUNC()
 static inline uint64_t BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W7_FUNC(void) __attribute__ ((pure, always_inline));
@@ -28034,7 +28690,7 @@ static inline uint64_t BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W7_FUNC(void)
  * TNS Search LDE Interface CPU Search Request Word 8 Register
  * Continuation of structure defined in TNS_SE_LDEI_CPU_SRCH_REQ_W0
  */
-typedef union
+union bdk_tns_se_ldei_cpu_srch_req_w8
 {
     uint32_t u;
     struct bdk_tns_se_ldei_cpu_srch_req_w8_s
@@ -28046,7 +28702,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_ldei_cpu_srch_req_w8_s cn; */
-} bdk_tns_se_ldei_cpu_srch_req_w8_t;
+};
+typedef union bdk_tns_se_ldei_cpu_srch_req_w8 bdk_tns_se_ldei_cpu_srch_req_w8_t;
 
 #define BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W8 BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W8_FUNC()
 static inline uint64_t BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W8_FUNC(void) __attribute__ ((pure, always_inline));
@@ -28070,7 +28727,7 @@ static inline uint64_t BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W8_FUNC(void)
  * TNS Search LDE Interface CPU Search Request Word 9 Register
  * Continuation of structure defined in TNS_SE_LDEI_CPU_SRCH_REQ_W0
  */
-typedef union
+union bdk_tns_se_ldei_cpu_srch_req_w9
 {
     uint32_t u;
     struct bdk_tns_se_ldei_cpu_srch_req_w9_s
@@ -28082,7 +28739,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_ldei_cpu_srch_req_w9_s cn; */
-} bdk_tns_se_ldei_cpu_srch_req_w9_t;
+};
+typedef union bdk_tns_se_ldei_cpu_srch_req_w9 bdk_tns_se_ldei_cpu_srch_req_w9_t;
 
 #define BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W9 BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W9_FUNC()
 static inline uint64_t BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W9_FUNC(void) __attribute__ ((pure, always_inline));
@@ -28106,7 +28764,7 @@ static inline uint64_t BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W9_FUNC(void)
  * TNS Search LDE Interface Debug Selector Register
  * --
  */
-typedef union
+union bdk_tns_se_ldei_dbg_sel
 {
     uint32_t u;
     struct bdk_tns_se_ldei_dbg_sel_s
@@ -28120,7 +28778,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_ldei_dbg_sel_s cn; */
-} bdk_tns_se_ldei_dbg_sel_t;
+};
+typedef union bdk_tns_se_ldei_dbg_sel bdk_tns_se_ldei_dbg_sel_t;
 
 #define BDK_TNS_SE_LDEI_DBG_SEL BDK_TNS_SE_LDEI_DBG_SEL_FUNC()
 static inline uint64_t BDK_TNS_SE_LDEI_DBG_SEL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -28148,7 +28807,7 @@ static inline uint64_t BDK_TNS_SE_LDEI_DBG_SEL_FUNC(void)
  * corresponding to
  * cmd_0 are engine 0-3, those 4 for cmd_1 are 4-7, etc.
  */
-typedef union
+union bdk_tns_se_ldei_hash_bufx
 {
     uint32_t u;
     struct bdk_tns_se_ldei_hash_bufx_s
@@ -28164,7 +28823,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_ldei_hash_bufx_s cn; */
-} bdk_tns_se_ldei_hash_bufx_t;
+};
+typedef union bdk_tns_se_ldei_hash_bufx bdk_tns_se_ldei_hash_bufx_t;
 
 static inline uint64_t BDK_TNS_SE_LDEI_HASH_BUFX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_LDEI_HASH_BUFX(unsigned long a)
@@ -28187,7 +28847,7 @@ static inline uint64_t BDK_TNS_SE_LDEI_HASH_BUFX(unsigned long a)
  * TNS Search LDE Interface LDE Interface Debug Register
  * --
  */
-typedef union
+union bdk_tns_se_ldei_ldeif_dbg
 {
     uint32_t u;
     struct bdk_tns_se_ldei_ldeif_dbg_s
@@ -28215,7 +28875,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_ldei_ldeif_dbg_s cn; */
-} bdk_tns_se_ldei_ldeif_dbg_t;
+};
+typedef union bdk_tns_se_ldei_ldeif_dbg bdk_tns_se_ldei_ldeif_dbg_t;
 
 #define BDK_TNS_SE_LDEI_LDEIF_DBG BDK_TNS_SE_LDEI_LDEIF_DBG_FUNC()
 static inline uint64_t BDK_TNS_SE_LDEI_LDEIF_DBG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -28239,7 +28900,7 @@ static inline uint64_t BDK_TNS_SE_LDEI_LDEIF_DBG_FUNC(void)
  * TNS Search LDE Interface Lock Register
  * Lock Register
  */
-typedef union
+union bdk_tns_se_ldei_lock
 {
     uint32_t u;
     struct bdk_tns_se_ldei_lock_s
@@ -28251,7 +28912,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_ldei_lock_s cn; */
-} bdk_tns_se_ldei_lock_t;
+};
+typedef union bdk_tns_se_ldei_lock bdk_tns_se_ldei_lock_t;
 
 #define BDK_TNS_SE_LDEI_LOCK BDK_TNS_SE_LDEI_LOCK_FUNC()
 static inline uint64_t BDK_TNS_SE_LDEI_LOCK_FUNC(void) __attribute__ ((pure, always_inline));
@@ -28275,7 +28937,7 @@ static inline uint64_t BDK_TNS_SE_LDEI_LOCK_FUNC(void)
  * TNS Search LDE Interface ScratchPad Register
  * Scratch Pad Register for XCAT
  */
-typedef union
+union bdk_tns_se_ldei_spad
 {
     uint32_t u;
     struct bdk_tns_se_ldei_spad_s
@@ -28287,7 +28949,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_ldei_spad_s cn; */
-} bdk_tns_se_ldei_spad_t;
+};
+typedef union bdk_tns_se_ldei_spad bdk_tns_se_ldei_spad_t;
 
 #define BDK_TNS_SE_LDEI_SPAD BDK_TNS_SE_LDEI_SPAD_FUNC()
 static inline uint64_t BDK_TNS_SE_LDEI_SPAD_FUNC(void) __attribute__ ((pure, always_inline));
@@ -28311,7 +28974,7 @@ static inline uint64_t BDK_TNS_SE_LDEI_SPAD_FUNC(void)
  * TNS Search LDE Interface Status Hash Buffer Registers
  * --
  */
-typedef union
+union bdk_tns_se_ldei_sta_hash_bufx
 {
     uint64_t u;
     struct bdk_tns_se_ldei_sta_hash_bufx_s
@@ -28341,7 +29004,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_ldei_sta_hash_bufx_s cn; */
-} bdk_tns_se_ldei_sta_hash_bufx_t;
+};
+typedef union bdk_tns_se_ldei_sta_hash_bufx bdk_tns_se_ldei_sta_hash_bufx_t;
 
 static inline uint64_t BDK_TNS_SE_LDEI_STA_HASH_BUFX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_LDEI_STA_HASH_BUFX(unsigned long a)
@@ -28364,7 +29028,7 @@ static inline uint64_t BDK_TNS_SE_LDEI_STA_HASH_BUFX(unsigned long a)
  * TNS Search LDE Interface Status Request Debug Word 0 Register
  * --
  */
-typedef union
+union bdk_tns_se_ldei_sta_req_dbg_w0
 {
     uint32_t u;
     struct bdk_tns_se_ldei_sta_req_dbg_w0_s
@@ -28380,7 +29044,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_ldei_sta_req_dbg_w0_s cn; */
-} bdk_tns_se_ldei_sta_req_dbg_w0_t;
+};
+typedef union bdk_tns_se_ldei_sta_req_dbg_w0 bdk_tns_se_ldei_sta_req_dbg_w0_t;
 
 #define BDK_TNS_SE_LDEI_STA_REQ_DBG_W0 BDK_TNS_SE_LDEI_STA_REQ_DBG_W0_FUNC()
 static inline uint64_t BDK_TNS_SE_LDEI_STA_REQ_DBG_W0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -28404,7 +29069,7 @@ static inline uint64_t BDK_TNS_SE_LDEI_STA_REQ_DBG_W0_FUNC(void)
  * TNS Search LDE Interface Status Request Debug Word 1 Register
  * Continuation of structure defined in TNS_SE_LDEI_STA_REQ_DBG_W0
  */
-typedef union
+union bdk_tns_se_ldei_sta_req_dbg_w1
 {
     uint32_t u;
     struct bdk_tns_se_ldei_sta_req_dbg_w1_s
@@ -28416,7 +29081,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_ldei_sta_req_dbg_w1_s cn; */
-} bdk_tns_se_ldei_sta_req_dbg_w1_t;
+};
+typedef union bdk_tns_se_ldei_sta_req_dbg_w1 bdk_tns_se_ldei_sta_req_dbg_w1_t;
 
 #define BDK_TNS_SE_LDEI_STA_REQ_DBG_W1 BDK_TNS_SE_LDEI_STA_REQ_DBG_W1_FUNC()
 static inline uint64_t BDK_TNS_SE_LDEI_STA_REQ_DBG_W1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -28440,7 +29106,7 @@ static inline uint64_t BDK_TNS_SE_LDEI_STA_REQ_DBG_W1_FUNC(void)
  * TNS Search LDE Interface Status Request Debug Word 10 Register
  * Continuation of structure defined in TNS_SE_LDEI_STA_REQ_DBG_W0
  */
-typedef union
+union bdk_tns_se_ldei_sta_req_dbg_w10
 {
     uint32_t u;
     struct bdk_tns_se_ldei_sta_req_dbg_w10_s
@@ -28452,7 +29118,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_ldei_sta_req_dbg_w10_s cn; */
-} bdk_tns_se_ldei_sta_req_dbg_w10_t;
+};
+typedef union bdk_tns_se_ldei_sta_req_dbg_w10 bdk_tns_se_ldei_sta_req_dbg_w10_t;
 
 #define BDK_TNS_SE_LDEI_STA_REQ_DBG_W10 BDK_TNS_SE_LDEI_STA_REQ_DBG_W10_FUNC()
 static inline uint64_t BDK_TNS_SE_LDEI_STA_REQ_DBG_W10_FUNC(void) __attribute__ ((pure, always_inline));
@@ -28476,7 +29143,7 @@ static inline uint64_t BDK_TNS_SE_LDEI_STA_REQ_DBG_W10_FUNC(void)
  * TNS Search LDE Interface Status Request Debug Word 11 Register
  * Continuation of structure defined in TNS_SE_LDEI_STA_REQ_DBG_W0
  */
-typedef union
+union bdk_tns_se_ldei_sta_req_dbg_w11
 {
     uint32_t u;
     struct bdk_tns_se_ldei_sta_req_dbg_w11_s
@@ -28488,7 +29155,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_ldei_sta_req_dbg_w11_s cn; */
-} bdk_tns_se_ldei_sta_req_dbg_w11_t;
+};
+typedef union bdk_tns_se_ldei_sta_req_dbg_w11 bdk_tns_se_ldei_sta_req_dbg_w11_t;
 
 #define BDK_TNS_SE_LDEI_STA_REQ_DBG_W11 BDK_TNS_SE_LDEI_STA_REQ_DBG_W11_FUNC()
 static inline uint64_t BDK_TNS_SE_LDEI_STA_REQ_DBG_W11_FUNC(void) __attribute__ ((pure, always_inline));
@@ -28512,7 +29180,7 @@ static inline uint64_t BDK_TNS_SE_LDEI_STA_REQ_DBG_W11_FUNC(void)
  * TNS Search LDE Interface Status Request Debug Word 12 Register
  * Continuation of structure defined in TNS_SE_LDEI_STA_REQ_DBG_W0
  */
-typedef union
+union bdk_tns_se_ldei_sta_req_dbg_w12
 {
     uint32_t u;
     struct bdk_tns_se_ldei_sta_req_dbg_w12_s
@@ -28526,7 +29194,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_ldei_sta_req_dbg_w12_s cn; */
-} bdk_tns_se_ldei_sta_req_dbg_w12_t;
+};
+typedef union bdk_tns_se_ldei_sta_req_dbg_w12 bdk_tns_se_ldei_sta_req_dbg_w12_t;
 
 #define BDK_TNS_SE_LDEI_STA_REQ_DBG_W12 BDK_TNS_SE_LDEI_STA_REQ_DBG_W12_FUNC()
 static inline uint64_t BDK_TNS_SE_LDEI_STA_REQ_DBG_W12_FUNC(void) __attribute__ ((pure, always_inline));
@@ -28550,7 +29219,7 @@ static inline uint64_t BDK_TNS_SE_LDEI_STA_REQ_DBG_W12_FUNC(void)
  * TNS Search LDE Interface Status Request Debug Word 2 Register
  * Continuation of structure defined in TNS_SE_LDEI_STA_REQ_DBG_W0
  */
-typedef union
+union bdk_tns_se_ldei_sta_req_dbg_w2
 {
     uint32_t u;
     struct bdk_tns_se_ldei_sta_req_dbg_w2_s
@@ -28562,7 +29231,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_ldei_sta_req_dbg_w2_s cn; */
-} bdk_tns_se_ldei_sta_req_dbg_w2_t;
+};
+typedef union bdk_tns_se_ldei_sta_req_dbg_w2 bdk_tns_se_ldei_sta_req_dbg_w2_t;
 
 #define BDK_TNS_SE_LDEI_STA_REQ_DBG_W2 BDK_TNS_SE_LDEI_STA_REQ_DBG_W2_FUNC()
 static inline uint64_t BDK_TNS_SE_LDEI_STA_REQ_DBG_W2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -28586,7 +29256,7 @@ static inline uint64_t BDK_TNS_SE_LDEI_STA_REQ_DBG_W2_FUNC(void)
  * TNS Search LDE Interface Status Request Debug Word 3 Register
  * Continuation of structure defined in TNS_SE_LDEI_STA_REQ_DBG_W0
  */
-typedef union
+union bdk_tns_se_ldei_sta_req_dbg_w3
 {
     uint32_t u;
     struct bdk_tns_se_ldei_sta_req_dbg_w3_s
@@ -28598,7 +29268,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_ldei_sta_req_dbg_w3_s cn; */
-} bdk_tns_se_ldei_sta_req_dbg_w3_t;
+};
+typedef union bdk_tns_se_ldei_sta_req_dbg_w3 bdk_tns_se_ldei_sta_req_dbg_w3_t;
 
 #define BDK_TNS_SE_LDEI_STA_REQ_DBG_W3 BDK_TNS_SE_LDEI_STA_REQ_DBG_W3_FUNC()
 static inline uint64_t BDK_TNS_SE_LDEI_STA_REQ_DBG_W3_FUNC(void) __attribute__ ((pure, always_inline));
@@ -28622,7 +29293,7 @@ static inline uint64_t BDK_TNS_SE_LDEI_STA_REQ_DBG_W3_FUNC(void)
  * TNS Search LDE Interface Status Request Debug Word 4 Register
  * Continuation of structure defined in TNS_SE_LDEI_STA_REQ_DBG_W0
  */
-typedef union
+union bdk_tns_se_ldei_sta_req_dbg_w4
 {
     uint32_t u;
     struct bdk_tns_se_ldei_sta_req_dbg_w4_s
@@ -28634,7 +29305,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_ldei_sta_req_dbg_w4_s cn; */
-} bdk_tns_se_ldei_sta_req_dbg_w4_t;
+};
+typedef union bdk_tns_se_ldei_sta_req_dbg_w4 bdk_tns_se_ldei_sta_req_dbg_w4_t;
 
 #define BDK_TNS_SE_LDEI_STA_REQ_DBG_W4 BDK_TNS_SE_LDEI_STA_REQ_DBG_W4_FUNC()
 static inline uint64_t BDK_TNS_SE_LDEI_STA_REQ_DBG_W4_FUNC(void) __attribute__ ((pure, always_inline));
@@ -28658,7 +29330,7 @@ static inline uint64_t BDK_TNS_SE_LDEI_STA_REQ_DBG_W4_FUNC(void)
  * TNS Search LDE Interface Status Request Debug Word 5 Register
  * Continuation of structure defined in TNS_SE_LDEI_STA_REQ_DBG_W0
  */
-typedef union
+union bdk_tns_se_ldei_sta_req_dbg_w5
 {
     uint32_t u;
     struct bdk_tns_se_ldei_sta_req_dbg_w5_s
@@ -28670,7 +29342,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_ldei_sta_req_dbg_w5_s cn; */
-} bdk_tns_se_ldei_sta_req_dbg_w5_t;
+};
+typedef union bdk_tns_se_ldei_sta_req_dbg_w5 bdk_tns_se_ldei_sta_req_dbg_w5_t;
 
 #define BDK_TNS_SE_LDEI_STA_REQ_DBG_W5 BDK_TNS_SE_LDEI_STA_REQ_DBG_W5_FUNC()
 static inline uint64_t BDK_TNS_SE_LDEI_STA_REQ_DBG_W5_FUNC(void) __attribute__ ((pure, always_inline));
@@ -28694,7 +29367,7 @@ static inline uint64_t BDK_TNS_SE_LDEI_STA_REQ_DBG_W5_FUNC(void)
  * TNS Search LDE Interface Status Request Debug Word 6 Register
  * Continuation of structure defined in TNS_SE_LDEI_STA_REQ_DBG_W0
  */
-typedef union
+union bdk_tns_se_ldei_sta_req_dbg_w6
 {
     uint32_t u;
     struct bdk_tns_se_ldei_sta_req_dbg_w6_s
@@ -28706,7 +29379,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_ldei_sta_req_dbg_w6_s cn; */
-} bdk_tns_se_ldei_sta_req_dbg_w6_t;
+};
+typedef union bdk_tns_se_ldei_sta_req_dbg_w6 bdk_tns_se_ldei_sta_req_dbg_w6_t;
 
 #define BDK_TNS_SE_LDEI_STA_REQ_DBG_W6 BDK_TNS_SE_LDEI_STA_REQ_DBG_W6_FUNC()
 static inline uint64_t BDK_TNS_SE_LDEI_STA_REQ_DBG_W6_FUNC(void) __attribute__ ((pure, always_inline));
@@ -28730,7 +29404,7 @@ static inline uint64_t BDK_TNS_SE_LDEI_STA_REQ_DBG_W6_FUNC(void)
  * TNS Search LDE Interface Status Request Debug Word 7 Register
  * Continuation of structure defined in TNS_SE_LDEI_STA_REQ_DBG_W0
  */
-typedef union
+union bdk_tns_se_ldei_sta_req_dbg_w7
 {
     uint32_t u;
     struct bdk_tns_se_ldei_sta_req_dbg_w7_s
@@ -28742,7 +29416,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_ldei_sta_req_dbg_w7_s cn; */
-} bdk_tns_se_ldei_sta_req_dbg_w7_t;
+};
+typedef union bdk_tns_se_ldei_sta_req_dbg_w7 bdk_tns_se_ldei_sta_req_dbg_w7_t;
 
 #define BDK_TNS_SE_LDEI_STA_REQ_DBG_W7 BDK_TNS_SE_LDEI_STA_REQ_DBG_W7_FUNC()
 static inline uint64_t BDK_TNS_SE_LDEI_STA_REQ_DBG_W7_FUNC(void) __attribute__ ((pure, always_inline));
@@ -28766,7 +29441,7 @@ static inline uint64_t BDK_TNS_SE_LDEI_STA_REQ_DBG_W7_FUNC(void)
  * TNS Search LDE Interface Status Request Debug Word 8 Register
  * Continuation of structure defined in TNS_SE_LDEI_STA_REQ_DBG_W0
  */
-typedef union
+union bdk_tns_se_ldei_sta_req_dbg_w8
 {
     uint32_t u;
     struct bdk_tns_se_ldei_sta_req_dbg_w8_s
@@ -28778,7 +29453,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_ldei_sta_req_dbg_w8_s cn; */
-} bdk_tns_se_ldei_sta_req_dbg_w8_t;
+};
+typedef union bdk_tns_se_ldei_sta_req_dbg_w8 bdk_tns_se_ldei_sta_req_dbg_w8_t;
 
 #define BDK_TNS_SE_LDEI_STA_REQ_DBG_W8 BDK_TNS_SE_LDEI_STA_REQ_DBG_W8_FUNC()
 static inline uint64_t BDK_TNS_SE_LDEI_STA_REQ_DBG_W8_FUNC(void) __attribute__ ((pure, always_inline));
@@ -28802,7 +29478,7 @@ static inline uint64_t BDK_TNS_SE_LDEI_STA_REQ_DBG_W8_FUNC(void)
  * TNS Search LDE Interface Status Request Debug Word 9 Register
  * Continuation of structure defined in TNS_SE_LDEI_STA_REQ_DBG_W0
  */
-typedef union
+union bdk_tns_se_ldei_sta_req_dbg_w9
 {
     uint32_t u;
     struct bdk_tns_se_ldei_sta_req_dbg_w9_s
@@ -28814,7 +29490,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_ldei_sta_req_dbg_w9_s cn; */
-} bdk_tns_se_ldei_sta_req_dbg_w9_t;
+};
+typedef union bdk_tns_se_ldei_sta_req_dbg_w9 bdk_tns_se_ldei_sta_req_dbg_w9_t;
 
 #define BDK_TNS_SE_LDEI_STA_REQ_DBG_W9 BDK_TNS_SE_LDEI_STA_REQ_DBG_W9_FUNC()
 static inline uint64_t BDK_TNS_SE_LDEI_STA_REQ_DBG_W9_FUNC(void) __attribute__ ((pure, always_inline));
@@ -28838,7 +29515,7 @@ static inline uint64_t BDK_TNS_SE_LDEI_STA_REQ_DBG_W9_FUNC(void)
  * TNS Search LPM Lock Register
  * Lock Register
  */
-typedef union
+union bdk_tns_se_lpm_lock
 {
     uint32_t u;
     struct bdk_tns_se_lpm_lock_s
@@ -28850,7 +29527,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_lpm_lock_s cn; */
-} bdk_tns_se_lpm_lock_t;
+};
+typedef union bdk_tns_se_lpm_lock bdk_tns_se_lpm_lock_t;
 
 #define BDK_TNS_SE_LPM_LOCK BDK_TNS_SE_LPM_LOCK_FUNC()
 static inline uint64_t BDK_TNS_SE_LPM_LOCK_FUNC(void) __attribute__ ((pure, always_inline));
@@ -28874,7 +29552,7 @@ static inline uint64_t BDK_TNS_SE_LPM_LOCK_FUNC(void)
  * TNS Search LPM LPM Debug Selector Register
  * --
  */
-typedef union
+union bdk_tns_se_lpm_lpm_dbg_sel
 {
     uint32_t u;
     struct bdk_tns_se_lpm_lpm_dbg_sel_s
@@ -28888,7 +29566,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_lpm_lpm_dbg_sel_s cn; */
-} bdk_tns_se_lpm_lpm_dbg_sel_t;
+};
+typedef union bdk_tns_se_lpm_lpm_dbg_sel bdk_tns_se_lpm_lpm_dbg_sel_t;
 
 #define BDK_TNS_SE_LPM_LPM_DBG_SEL BDK_TNS_SE_LPM_LPM_DBG_SEL_FUNC()
 static inline uint64_t BDK_TNS_SE_LPM_LPM_DBG_SEL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -28912,7 +29591,7 @@ static inline uint64_t BDK_TNS_SE_LPM_LPM_DBG_SEL_FUNC(void)
  * TNS Search LPM ScratchPad Register
  * Scratch Pad Register for XCAT
  */
-typedef union
+union bdk_tns_se_lpm_spad
 {
     uint32_t u;
     struct bdk_tns_se_lpm_spad_s
@@ -28924,7 +29603,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_lpm_spad_s cn; */
-} bdk_tns_se_lpm_spad_t;
+};
+typedef union bdk_tns_se_lpm_spad bdk_tns_se_lpm_spad_t;
 
 #define BDK_TNS_SE_LPM_SPAD BDK_TNS_SE_LPM_SPAD_FUNC()
 static inline uint64_t BDK_TNS_SE_LPM_SPAD_FUNC(void) __attribute__ ((pure, always_inline));
@@ -28950,7 +29630,7 @@ static inline uint64_t BDK_TNS_SE_LPM_SPAD_FUNC(void)
  * addresses.
  * 64-bit keys are also supported.
  */
-typedef union
+union bdk_tns_se_lpm_tbl_lpmx
 {
     uint32_t u;
     struct bdk_tns_se_lpm_tbl_lpmx_s
@@ -28964,7 +29644,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_lpm_tbl_lpmx_s cn; */
-} bdk_tns_se_lpm_tbl_lpmx_t;
+};
+typedef union bdk_tns_se_lpm_tbl_lpmx bdk_tns_se_lpm_tbl_lpmx_t;
 
 static inline uint64_t BDK_TNS_SE_LPM_TBL_LPMX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_LPM_TBL_LPMX(unsigned long a)
@@ -28987,7 +29668,7 @@ static inline uint64_t BDK_TNS_SE_LPM_TBL_LPMX(unsigned long a)
  * TNS Search LPM Table NH Word 0 Registers
  * NH table i is associated with LPM table i.
  */
-typedef union
+union bdk_tns_se_lpm_tbl_nhx_w0
 {
     uint32_t u;
     struct bdk_tns_se_lpm_tbl_nhx_w0_s
@@ -29013,7 +29694,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_lpm_tbl_nhx_w0_s cn; */
-} bdk_tns_se_lpm_tbl_nhx_w0_t;
+};
+typedef union bdk_tns_se_lpm_tbl_nhx_w0 bdk_tns_se_lpm_tbl_nhx_w0_t;
 
 static inline uint64_t BDK_TNS_SE_LPM_TBL_NHX_W0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_LPM_TBL_NHX_W0(unsigned long a)
@@ -29036,7 +29718,7 @@ static inline uint64_t BDK_TNS_SE_LPM_TBL_NHX_W0(unsigned long a)
  * TNS Search LPM Table NH Word 1 Registers
  * Continuation of structure defined in TNS_SE_LPM_TBL_NH(0..7)_W0
  */
-typedef union
+union bdk_tns_se_lpm_tbl_nhx_w1
 {
     uint32_t u;
     struct bdk_tns_se_lpm_tbl_nhx_w1_s
@@ -29064,7 +29746,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_lpm_tbl_nhx_w1_s cn; */
-} bdk_tns_se_lpm_tbl_nhx_w1_t;
+};
+typedef union bdk_tns_se_lpm_tbl_nhx_w1 bdk_tns_se_lpm_tbl_nhx_w1_t;
 
 static inline uint64_t BDK_TNS_SE_LPM_TBL_NHX_W1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_LPM_TBL_NHX_W1(unsigned long a)
@@ -29087,7 +29770,7 @@ static inline uint64_t BDK_TNS_SE_LPM_TBL_NHX_W1(unsigned long a)
  * TNS Search LPM Table NH Word 2 Registers
  * Continuation of structure defined in TNS_SE_LPM_TBL_NH(0..7)_W0
  */
-typedef union
+union bdk_tns_se_lpm_tbl_nhx_w2
 {
     uint32_t u;
     struct bdk_tns_se_lpm_tbl_nhx_w2_s
@@ -29101,7 +29784,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_lpm_tbl_nhx_w2_s cn; */
-} bdk_tns_se_lpm_tbl_nhx_w2_t;
+};
+typedef union bdk_tns_se_lpm_tbl_nhx_w2 bdk_tns_se_lpm_tbl_nhx_w2_t;
 
 static inline uint64_t BDK_TNS_SE_LPM_TBL_NHX_W2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_LPM_TBL_NHX_W2(unsigned long a)
@@ -29124,7 +29808,7 @@ static inline uint64_t BDK_TNS_SE_LPM_TBL_NHX_W2(unsigned long a)
  * TNS Search LPM Table NHI Table Word 0 Registers
  * NHI table i is associated with LPM table i, nhi table is alwasy 128-bit wide
  */
-typedef union
+union bdk_tns_se_lpm_tbl_nhix_w0
 {
     uint32_t u;
     struct bdk_tns_se_lpm_tbl_nhix_w0_s
@@ -29146,7 +29830,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_lpm_tbl_nhix_w0_s cn; */
-} bdk_tns_se_lpm_tbl_nhix_w0_t;
+};
+typedef union bdk_tns_se_lpm_tbl_nhix_w0 bdk_tns_se_lpm_tbl_nhix_w0_t;
 
 static inline uint64_t BDK_TNS_SE_LPM_TBL_NHIX_W0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_LPM_TBL_NHIX_W0(unsigned long a)
@@ -29169,7 +29854,7 @@ static inline uint64_t BDK_TNS_SE_LPM_TBL_NHIX_W0(unsigned long a)
  * TNS Search LPM Table NHI Table Word 1 Registers
  * Continuation of structure defined in TNS_SE_LPM_TBL_NHI(0..7)_W0
  */
-typedef union
+union bdk_tns_se_lpm_tbl_nhix_w1
 {
     uint32_t u;
     struct bdk_tns_se_lpm_tbl_nhix_w1_s
@@ -29197,7 +29882,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_lpm_tbl_nhix_w1_s cn; */
-} bdk_tns_se_lpm_tbl_nhix_w1_t;
+};
+typedef union bdk_tns_se_lpm_tbl_nhix_w1 bdk_tns_se_lpm_tbl_nhix_w1_t;
 
 static inline uint64_t BDK_TNS_SE_LPM_TBL_NHIX_W1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_LPM_TBL_NHIX_W1(unsigned long a)
@@ -29220,7 +29906,7 @@ static inline uint64_t BDK_TNS_SE_LPM_TBL_NHIX_W1(unsigned long a)
  * TNS Search LPM Table NHI Table Word 2 Registers
  * Continuation of structure defined in TNS_SE_LPM_TBL_NHI(0..7)_W0
  */
-typedef union
+union bdk_tns_se_lpm_tbl_nhix_w2
 {
     uint32_t u;
     struct bdk_tns_se_lpm_tbl_nhix_w2_s
@@ -29246,7 +29932,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_lpm_tbl_nhix_w2_s cn; */
-} bdk_tns_se_lpm_tbl_nhix_w2_t;
+};
+typedef union bdk_tns_se_lpm_tbl_nhix_w2 bdk_tns_se_lpm_tbl_nhix_w2_t;
 
 static inline uint64_t BDK_TNS_SE_LPM_TBL_NHIX_W2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_LPM_TBL_NHIX_W2(unsigned long a)
@@ -29269,7 +29956,7 @@ static inline uint64_t BDK_TNS_SE_LPM_TBL_NHIX_W2(unsigned long a)
  * TNS Search Prefix Lock Register
  * Lock Register
  */
-typedef union
+union bdk_tns_se_prfx_lock
 {
     uint32_t u;
     struct bdk_tns_se_prfx_lock_s
@@ -29281,7 +29968,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_prfx_lock_s cn; */
-} bdk_tns_se_prfx_lock_t;
+};
+typedef union bdk_tns_se_prfx_lock bdk_tns_se_prfx_lock_t;
 
 #define BDK_TNS_SE_PRFX_LOCK BDK_TNS_SE_PRFX_LOCK_FUNC()
 static inline uint64_t BDK_TNS_SE_PRFX_LOCK_FUNC(void) __attribute__ ((pure, always_inline));
@@ -29305,7 +29993,7 @@ static inline uint64_t BDK_TNS_SE_PRFX_LOCK_FUNC(void)
  * TNS Search Prefix ScratchPad Register
  * Scratch Pad Register for XCAT
  */
-typedef union
+union bdk_tns_se_prfx_spad
 {
     uint32_t u;
     struct bdk_tns_se_prfx_spad_s
@@ -29317,7 +30005,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_prfx_spad_s cn; */
-} bdk_tns_se_prfx_spad_t;
+};
+typedef union bdk_tns_se_prfx_spad bdk_tns_se_prfx_spad_t;
 
 #define BDK_TNS_SE_PRFX_SPAD BDK_TNS_SE_PRFX_SPAD_FUNC()
 static inline uint64_t BDK_TNS_SE_PRFX_SPAD_FUNC(void) __attribute__ ((pure, always_inline));
@@ -29342,7 +30031,7 @@ static inline uint64_t BDK_TNS_SE_PRFX_SPAD_FUNC(void)
  * prefix table 32*i through 32*i+31 are associated with LPM table i.
  * Within the 32 prefix tables, all go to SRAM pool 0 (only one pool)
  */
-typedef union
+union bdk_tns_se_prfx_tbl_prefixx
 {
     uint32_t u;
     struct bdk_tns_se_prfx_tbl_prefixx_s
@@ -29372,7 +30061,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_prfx_tbl_prefixx_s cn; */
-} bdk_tns_se_prfx_tbl_prefixx_t;
+};
+typedef union bdk_tns_se_prfx_tbl_prefixx bdk_tns_se_prfx_tbl_prefixx_t;
 
 static inline uint64_t BDK_TNS_SE_PRFX_TBL_PREFIXX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_PRFX_TBL_PREFIXX(unsigned long a)
@@ -29395,7 +30085,7 @@ static inline uint64_t BDK_TNS_SE_PRFX_TBL_PREFIXX(unsigned long a)
  * TNS Search Sram Pair Bist Status Done Registers
  * --
  */
-typedef union
+union bdk_tns_se_sram_pairx_bist_stdn
 {
     uint32_t u;
     struct bdk_tns_se_sram_pairx_bist_stdn_s
@@ -29411,7 +30101,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_sram_pairx_bist_stdn_s cn; */
-} bdk_tns_se_sram_pairx_bist_stdn_t;
+};
+typedef union bdk_tns_se_sram_pairx_bist_stdn bdk_tns_se_sram_pairx_bist_stdn_t;
 
 static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_BIST_STDN(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_BIST_STDN(unsigned long a)
@@ -29434,7 +30125,7 @@ static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_BIST_STDN(unsigned long a)
  * TNS Search Sram Pair Debug Selector Registers
  * Debug select
  */
-typedef union
+union bdk_tns_se_sram_pairx_dbg_sel
 {
     uint32_t u;
     struct bdk_tns_se_sram_pairx_dbg_sel_s
@@ -29448,7 +30139,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_sram_pairx_dbg_sel_s cn; */
-} bdk_tns_se_sram_pairx_dbg_sel_t;
+};
+typedef union bdk_tns_se_sram_pairx_dbg_sel bdk_tns_se_sram_pairx_dbg_sel_t;
 
 static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_DBG_SEL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_DBG_SEL(unsigned long a)
@@ -29471,7 +30163,7 @@ static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_DBG_SEL(unsigned long a)
  * TNS Search Sram Pair Duo Hash Word 0 Registers
  * --
  */
-typedef union
+union bdk_tns_se_sram_pairx_dhshx_w0
 {
     uint32_t u;
     struct bdk_tns_se_sram_pairx_dhshx_w0_s
@@ -29493,7 +30185,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_sram_pairx_dhshx_w0_s cn; */
-} bdk_tns_se_sram_pairx_dhshx_w0_t;
+};
+typedef union bdk_tns_se_sram_pairx_dhshx_w0 bdk_tns_se_sram_pairx_dhshx_w0_t;
 
 static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_DHSHX_W0(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_DHSHX_W0(unsigned long a, unsigned long b)
@@ -29516,7 +30209,7 @@ static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_DHSHX_W0(unsigned long a, unsigned 
  * TNS Search Sram Pair Duo Hash Word 1 Registers
  * Continuation of structure defined in TNS_SE_SRAM_PAIR(0..7)_DHSH(0..1)_W0
  */
-typedef union
+union bdk_tns_se_sram_pairx_dhshx_w1
 {
     uint32_t u;
     struct bdk_tns_se_sram_pairx_dhshx_w1_s
@@ -29540,7 +30233,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_sram_pairx_dhshx_w1_s cn; */
-} bdk_tns_se_sram_pairx_dhshx_w1_t;
+};
+typedef union bdk_tns_se_sram_pairx_dhshx_w1 bdk_tns_se_sram_pairx_dhshx_w1_t;
 
 static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_DHSHX_W1(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_DHSHX_W1(unsigned long a, unsigned long b)
@@ -29563,7 +30257,7 @@ static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_DHSHX_W1(unsigned long a, unsigned 
  * TNS Search Sram Pair Duo Hash Word 2 Registers
  * Continuation of structure defined in TNS_SE_SRAM_PAIR(0..7)_DHSH(0..1)_W0
  */
-typedef union
+union bdk_tns_se_sram_pairx_dhshx_w2
 {
     uint32_t u;
     struct bdk_tns_se_sram_pairx_dhshx_w2_s
@@ -29579,7 +30273,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_sram_pairx_dhshx_w2_s cn; */
-} bdk_tns_se_sram_pairx_dhshx_w2_t;
+};
+typedef union bdk_tns_se_sram_pairx_dhshx_w2 bdk_tns_se_sram_pairx_dhshx_w2_t;
 
 static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_DHSHX_W2(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_DHSHX_W2(unsigned long a, unsigned long b)
@@ -29602,7 +30297,7 @@ static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_DHSHX_W2(unsigned long a, unsigned 
  * TNS Search Sram Pair Done Registers
  * --
  */
-typedef union
+union bdk_tns_se_sram_pairx_done
 {
     uint32_t u;
     struct bdk_tns_se_sram_pairx_done_s
@@ -29620,7 +30315,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_sram_pairx_done_s cn; */
-} bdk_tns_se_sram_pairx_done_t;
+};
+typedef union bdk_tns_se_sram_pairx_done bdk_tns_se_sram_pairx_done_t;
 
 static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_DONE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_DONE(unsigned long a)
@@ -29644,7 +30340,7 @@ static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_DONE(unsigned long a)
  * No memoir memory in XPT. This register will return 0x0
  * Bits 31..8 of registers ending in _W2 are unused.
  */
-typedef union
+union bdk_tns_se_sram_pairx_dyn_dbg_wx
 {
     uint32_t u;
     struct bdk_tns_se_sram_pairx_dyn_dbg_wx_s
@@ -29656,7 +30352,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_sram_pairx_dyn_dbg_wx_s cn; */
-} bdk_tns_se_sram_pairx_dyn_dbg_wx_t;
+};
+typedef union bdk_tns_se_sram_pairx_dyn_dbg_wx bdk_tns_se_sram_pairx_dyn_dbg_wx_t;
 
 static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_DYN_DBG_WX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_DYN_DBG_WX(unsigned long a, unsigned long b)
@@ -29679,7 +30376,7 @@ static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_DYN_DBG_WX(unsigned long a, unsigne
  * TNS Search Sram Pair ECC Control Registers
  * --
  */
-typedef union
+union bdk_tns_se_sram_pairx_ecc_ctlx
 {
     uint32_t u;
     struct bdk_tns_se_sram_pairx_ecc_ctlx_s
@@ -29701,7 +30398,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_sram_pairx_ecc_ctlx_s cn; */
-} bdk_tns_se_sram_pairx_ecc_ctlx_t;
+};
+typedef union bdk_tns_se_sram_pairx_ecc_ctlx bdk_tns_se_sram_pairx_ecc_ctlx_t;
 
 static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_ECC_CTLX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_ECC_CTLX(unsigned long a, unsigned long b)
@@ -29726,7 +30424,7 @@ static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_ECC_CTLX(unsigned long a, unsigned 
  * Address is sticky on first error.  Re-armed after reading (of 4 registers
  * 1 and 3 not used. 0 is for sram_tile0, 2 is sram_tile1)
  */
-typedef union
+union bdk_tns_se_sram_pairx_ecc_errx
 {
     uint32_t u;
     struct bdk_tns_se_sram_pairx_ecc_errx_s
@@ -29744,7 +30442,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_sram_pairx_ecc_errx_s cn; */
-} bdk_tns_se_sram_pairx_ecc_errx_t;
+};
+typedef union bdk_tns_se_sram_pairx_ecc_errx bdk_tns_se_sram_pairx_ecc_errx_t;
 
 static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_ECC_ERRX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_ECC_ERRX(unsigned long a, unsigned long b)
@@ -29767,7 +30466,7 @@ static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_ECC_ERRX(unsigned long a, unsigned 
  * TNS Search Sram Pair Flush Match Mask Registers
  * --
  */
-typedef union
+union bdk_tns_se_sram_pairx_flsh_mm_wx
 {
     uint32_t u;
     struct bdk_tns_se_sram_pairx_flsh_mm_wx_s
@@ -29781,7 +30480,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_sram_pairx_flsh_mm_wx_s cn; */
-} bdk_tns_se_sram_pairx_flsh_mm_wx_t;
+};
+typedef union bdk_tns_se_sram_pairx_flsh_mm_wx bdk_tns_se_sram_pairx_flsh_mm_wx_t;
 
 static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_FLSH_MM_WX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_FLSH_MM_WX(unsigned long a, unsigned long b)
@@ -29804,7 +30504,7 @@ static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_FLSH_MM_WX(unsigned long a, unsigne
  * TNS Search Sram Pair Flush Match Pattern Registers
  * --
  */
-typedef union
+union bdk_tns_se_sram_pairx_flsh_mp_wx
 {
     uint32_t u;
     struct bdk_tns_se_sram_pairx_flsh_mp_wx_s
@@ -29816,7 +30516,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_sram_pairx_flsh_mp_wx_s cn; */
-} bdk_tns_se_sram_pairx_flsh_mp_wx_t;
+};
+typedef union bdk_tns_se_sram_pairx_flsh_mp_wx bdk_tns_se_sram_pairx_flsh_mp_wx_t;
 
 static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_FLSH_MP_WX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_FLSH_MP_WX(unsigned long a, unsigned long b)
@@ -29839,7 +30540,7 @@ static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_FLSH_MP_WX(unsigned long a, unsigne
  * TNS Search Sram Pair Flush SUBST Mask Registers
  * --
  */
-typedef union
+union bdk_tns_se_sram_pairx_flsh_sm_wx
 {
     uint32_t u;
     struct bdk_tns_se_sram_pairx_flsh_sm_wx_s
@@ -29851,7 +30552,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_sram_pairx_flsh_sm_wx_s cn; */
-} bdk_tns_se_sram_pairx_flsh_sm_wx_t;
+};
+typedef union bdk_tns_se_sram_pairx_flsh_sm_wx bdk_tns_se_sram_pairx_flsh_sm_wx_t;
 
 static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_FLSH_SM_WX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_FLSH_SM_WX(unsigned long a, unsigned long b)
@@ -29874,7 +30576,7 @@ static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_FLSH_SM_WX(unsigned long a, unsigne
  * TNS Search Sram Pair Flush SUBST Pattern Registers
  * --
  */
-typedef union
+union bdk_tns_se_sram_pairx_flsh_sp_wx
 {
     uint32_t u;
     struct bdk_tns_se_sram_pairx_flsh_sp_wx_s
@@ -29886,7 +30588,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_sram_pairx_flsh_sp_wx_s cn; */
-} bdk_tns_se_sram_pairx_flsh_sp_wx_t;
+};
+typedef union bdk_tns_se_sram_pairx_flsh_sp_wx bdk_tns_se_sram_pairx_flsh_sp_wx_t;
 
 static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_FLSH_SP_WX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_FLSH_SP_WX(unsigned long a, unsigned long b)
@@ -29909,7 +30612,7 @@ static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_FLSH_SP_WX(unsigned long a, unsigne
  * TNS Search Sram Pair Flush Word 0 Registers
  * --
  */
-typedef union
+union bdk_tns_se_sram_pairx_flsh_w0
 {
     uint32_t u;
     struct bdk_tns_se_sram_pairx_flsh_w0_s
@@ -29959,7 +30662,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_sram_pairx_flsh_w0_s cn; */
-} bdk_tns_se_sram_pairx_flsh_w0_t;
+};
+typedef union bdk_tns_se_sram_pairx_flsh_w0 bdk_tns_se_sram_pairx_flsh_w0_t;
 
 static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_FLSH_W0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_FLSH_W0(unsigned long a)
@@ -29982,7 +30686,7 @@ static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_FLSH_W0(unsigned long a)
  * TNS Search Sram Pair Flush Word 1 Registers
  * Continuation of structure defined in TNS_SE_SRAM_PAIR(0..7)_FLSH_W0
  */
-typedef union
+union bdk_tns_se_sram_pairx_flsh_w1
 {
     uint32_t u;
     struct bdk_tns_se_sram_pairx_flsh_w1_s
@@ -29996,7 +30700,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_sram_pairx_flsh_w1_s cn; */
-} bdk_tns_se_sram_pairx_flsh_w1_t;
+};
+typedef union bdk_tns_se_sram_pairx_flsh_w1 bdk_tns_se_sram_pairx_flsh_w1_t;
 
 static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_FLSH_W1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_FLSH_W1(unsigned long a)
@@ -30019,7 +30724,7 @@ static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_FLSH_W1(unsigned long a)
  * TNS Search Sram Pair Interface Force Registers
  * --
  */
-typedef union
+union bdk_tns_se_sram_pairx_inf_frc
 {
     uint32_t u;
     struct bdk_tns_se_sram_pairx_inf_frc_s
@@ -30039,7 +30744,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_sram_pairx_inf_frc_s cn; */
-} bdk_tns_se_sram_pairx_inf_frc_t;
+};
+typedef union bdk_tns_se_sram_pairx_inf_frc bdk_tns_se_sram_pairx_inf_frc_t;
 
 static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_INF_FRC(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_INF_FRC(unsigned long a)
@@ -30062,7 +30768,7 @@ static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_INF_FRC(unsigned long a)
  * TNS Search Sram Pair Interrrupt Enable High Registers
  * register 0 for port-A, 1 for port-B
  */
-typedef union
+union bdk_tns_se_sram_pairx_int_en_hix
 {
     uint32_t u;
     struct bdk_tns_se_sram_pairx_int_en_hix_s
@@ -30096,7 +30802,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_sram_pairx_int_en_hix_s cn; */
-} bdk_tns_se_sram_pairx_int_en_hix_t;
+};
+typedef union bdk_tns_se_sram_pairx_int_en_hix bdk_tns_se_sram_pairx_int_en_hix_t;
 
 static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_INT_EN_HIX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_INT_EN_HIX(unsigned long a, unsigned long b)
@@ -30119,7 +30826,7 @@ static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_INT_EN_HIX(unsigned long a, unsigne
  * TNS Search Sram Pair Interrrupt Enable Low Registers
  * register 0 for port-A, 1 for port-B
  */
-typedef union
+union bdk_tns_se_sram_pairx_int_en_lox
 {
     uint32_t u;
     struct bdk_tns_se_sram_pairx_int_en_lox_s
@@ -30153,7 +30860,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_sram_pairx_int_en_lox_s cn; */
-} bdk_tns_se_sram_pairx_int_en_lox_t;
+};
+typedef union bdk_tns_se_sram_pairx_int_en_lox bdk_tns_se_sram_pairx_int_en_lox_t;
 
 static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_INT_EN_LOX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_INT_EN_LOX(unsigned long a, unsigned long b)
@@ -30176,7 +30884,7 @@ static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_INT_EN_LOX(unsigned long a, unsigne
  * TNS Search Sram Pair Interrrupt Force Registers
  * register 0 for port-A, 1 for port-B
  */
-typedef union
+union bdk_tns_se_sram_pairx_int_frcx
 {
     uint32_t u;
     struct bdk_tns_se_sram_pairx_int_frcx_s
@@ -30210,7 +30918,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_sram_pairx_int_frcx_s cn; */
-} bdk_tns_se_sram_pairx_int_frcx_t;
+};
+typedef union bdk_tns_se_sram_pairx_int_frcx bdk_tns_se_sram_pairx_int_frcx_t;
 
 static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_INT_FRCX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_INT_FRCX(unsigned long a, unsigned long b)
@@ -30233,7 +30942,7 @@ static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_INT_FRCX(unsigned long a, unsigned 
  * TNS Search Sram Pair Interrrupt W1C Registers
  * register 0 for port-A, 1 for port-B
  */
-typedef union
+union bdk_tns_se_sram_pairx_int_w1cx
 {
     uint32_t u;
     struct bdk_tns_se_sram_pairx_int_w1cx_s
@@ -30267,7 +30976,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_sram_pairx_int_w1cx_s cn; */
-} bdk_tns_se_sram_pairx_int_w1cx_t;
+};
+typedef union bdk_tns_se_sram_pairx_int_w1cx bdk_tns_se_sram_pairx_int_w1cx_t;
 
 static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_INT_W1CX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_INT_W1CX(unsigned long a, unsigned long b)
@@ -30290,7 +31000,7 @@ static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_INT_W1CX(unsigned long a, unsigned 
  * TNS Search Sram Pair Lock Registers
  * Lock Register
  */
-typedef union
+union bdk_tns_se_sram_pairx_lock
 {
     uint32_t u;
     struct bdk_tns_se_sram_pairx_lock_s
@@ -30302,7 +31012,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_sram_pairx_lock_s cn; */
-} bdk_tns_se_sram_pairx_lock_t;
+};
+typedef union bdk_tns_se_sram_pairx_lock bdk_tns_se_sram_pairx_lock_t;
 
 static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_LOCK(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_LOCK(unsigned long a)
@@ -30325,7 +31036,7 @@ static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_LOCK(unsigned long a)
  * TNS Search Sram Pair ScratchPad Registers
  * Scratch Pad Register for XCAT
  */
-typedef union
+union bdk_tns_se_sram_pairx_spad
 {
     uint32_t u;
     struct bdk_tns_se_sram_pairx_spad_s
@@ -30337,7 +31048,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_sram_pairx_spad_s cn; */
-} bdk_tns_se_sram_pairx_spad_t;
+};
+typedef union bdk_tns_se_sram_pairx_spad bdk_tns_se_sram_pairx_spad_t;
 
 static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_SPAD(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_SPAD(unsigned long a)
@@ -30360,7 +31072,7 @@ static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_SPAD(unsigned long a)
  * TNS Search Sram Pair Sram Debug Registers
  * debugging of memoir memory
  */
-typedef union
+union bdk_tns_se_sram_pairx_sram_dbg
 {
     uint32_t u;
     struct bdk_tns_se_sram_pairx_sram_dbg_s
@@ -30384,7 +31096,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_sram_pairx_sram_dbg_s cn; */
-} bdk_tns_se_sram_pairx_sram_dbg_t;
+};
+typedef union bdk_tns_se_sram_pairx_sram_dbg bdk_tns_se_sram_pairx_sram_dbg_t;
 
 static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_SRAM_DBG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_SRAM_DBG(unsigned long a)
@@ -30407,7 +31120,7 @@ static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_SRAM_DBG(unsigned long a)
  * TNS Search Sram Pair Tile Reset Registers
  * --
  */
-typedef union
+union bdk_tns_se_sram_pairx_tile_rst
 {
     uint32_t u;
     struct bdk_tns_se_sram_pairx_tile_rst_s
@@ -30421,7 +31134,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_sram_pairx_tile_rst_s cn; */
-} bdk_tns_se_sram_pairx_tile_rst_t;
+};
+typedef union bdk_tns_se_sram_pairx_tile_rst bdk_tns_se_sram_pairx_tile_rst_t;
 
 static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_TILE_RST(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_TILE_RST(unsigned long a)
@@ -30447,7 +31161,7 @@ static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_TILE_RST(unsigned long a)
  * When writing, make the access to this decoder atomic w.r.t. other writes to
  * this decoder.
  */
-typedef union
+union bdk_tns_se_sram_pairxtilexdx_wx
 {
     uint64_t u;
     struct bdk_tns_se_sram_pairxtilexdx_wx_s
@@ -30459,7 +31173,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_sram_pairxtilexdx_wx_s cn; */
-} bdk_tns_se_sram_pairxtilexdx_wx_t;
+};
+typedef union bdk_tns_se_sram_pairxtilexdx_wx bdk_tns_se_sram_pairxtilexdx_wx_t;
 
 static inline uint64_t BDK_TNS_SE_SRAM_PAIRXTILEXDX_WX(unsigned long a, unsigned long b, unsigned long c, unsigned long d) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_SRAM_PAIRXTILEXDX_WX(unsigned long a, unsigned long b, unsigned long c, unsigned long d)
@@ -30482,7 +31197,7 @@ static inline uint64_t BDK_TNS_SE_SRAM_PAIRXTILEXDX_WX(unsigned long a, unsigned
  * TNS Search TCAM Debug Selector Registers
  * Debug select
  */
-typedef union
+union bdk_tns_se_tcamx_dbg_sel
 {
     uint32_t u;
     struct bdk_tns_se_tcamx_dbg_sel_s
@@ -30496,7 +31211,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_tcamx_dbg_sel_s cn; */
-} bdk_tns_se_tcamx_dbg_sel_t;
+};
+typedef union bdk_tns_se_tcamx_dbg_sel bdk_tns_se_tcamx_dbg_sel_t;
 
 static inline uint64_t BDK_TNS_SE_TCAMX_DBG_SEL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_TCAMX_DBG_SEL(unsigned long a)
@@ -30519,7 +31235,7 @@ static inline uint64_t BDK_TNS_SE_TCAMX_DBG_SEL(unsigned long a)
  * TNS Search TCAM ECC Control Registers
  * ECC configuration for TCAM SRAM memories
  */
-typedef union
+union bdk_tns_se_tcamx_ecc_ctl
 {
     uint32_t u;
     struct bdk_tns_se_tcamx_ecc_ctl_s
@@ -30541,7 +31257,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_tcamx_ecc_ctl_s cn; */
-} bdk_tns_se_tcamx_ecc_ctl_t;
+};
+typedef union bdk_tns_se_tcamx_ecc_ctl bdk_tns_se_tcamx_ecc_ctl_t;
 
 static inline uint64_t BDK_TNS_SE_TCAMX_ECC_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_TCAMX_ECC_CTL(unsigned long a)
@@ -30567,7 +31284,7 @@ static inline uint64_t BDK_TNS_SE_TCAMX_ECC_CTL(unsigned long a)
  * When writing, make the access to this decoder atomic w.r.t. other writes to
  * this decoder.
  */
-typedef union
+union bdk_tns_se_tcamx_sramx_wx
 {
     uint64_t u;
     struct bdk_tns_se_tcamx_sramx_wx_s
@@ -30579,7 +31296,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_tcamx_sramx_wx_s cn; */
-} bdk_tns_se_tcamx_sramx_wx_t;
+};
+typedef union bdk_tns_se_tcamx_sramx_wx bdk_tns_se_tcamx_sramx_wx_t;
 
 static inline uint64_t BDK_TNS_SE_TCAMX_SRAMX_WX(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_TCAMX_SRAMX_WX(unsigned long a, unsigned long b, unsigned long c)
@@ -30602,7 +31320,7 @@ static inline uint64_t BDK_TNS_SE_TCAMX_SRAMX_WX(unsigned long a, unsigned long 
  * TNS Search TCAM Sram ECC Log Registers
  * These are read only
  */
-typedef union
+union bdk_tns_se_tcamx_sram_ecc_log
 {
     uint32_t u;
     struct bdk_tns_se_tcamx_sram_ecc_log_s
@@ -30616,7 +31334,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_tcamx_sram_ecc_log_s cn; */
-} bdk_tns_se_tcamx_sram_ecc_log_t;
+};
+typedef union bdk_tns_se_tcamx_sram_ecc_log bdk_tns_se_tcamx_sram_ecc_log_t;
 
 static inline uint64_t BDK_TNS_SE_TCAMX_SRAM_ECC_LOG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_TCAMX_SRAM_ECC_LOG(unsigned long a)
@@ -30639,7 +31358,7 @@ static inline uint64_t BDK_TNS_SE_TCAMX_SRAM_ECC_LOG(unsigned long a)
  * TNS Search TCAM Sram Interrrupt Enable High Registers
  * TCAM SRAM interrupt register
  */
-typedef union
+union bdk_tns_se_tcamx_sram_int_en_hi
 {
     uint32_t u;
     struct bdk_tns_se_tcamx_sram_int_en_hi_s
@@ -30659,7 +31378,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_tcamx_sram_int_en_hi_s cn; */
-} bdk_tns_se_tcamx_sram_int_en_hi_t;
+};
+typedef union bdk_tns_se_tcamx_sram_int_en_hi bdk_tns_se_tcamx_sram_int_en_hi_t;
 
 static inline uint64_t BDK_TNS_SE_TCAMX_SRAM_INT_EN_HI(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_TCAMX_SRAM_INT_EN_HI(unsigned long a)
@@ -30682,7 +31402,7 @@ static inline uint64_t BDK_TNS_SE_TCAMX_SRAM_INT_EN_HI(unsigned long a)
  * TNS Search TCAM Sram Interrrupt Enable Low Registers
  * TCAM SRAM interrupt register
  */
-typedef union
+union bdk_tns_se_tcamx_sram_int_en_lo
 {
     uint32_t u;
     struct bdk_tns_se_tcamx_sram_int_en_lo_s
@@ -30702,7 +31422,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_tcamx_sram_int_en_lo_s cn; */
-} bdk_tns_se_tcamx_sram_int_en_lo_t;
+};
+typedef union bdk_tns_se_tcamx_sram_int_en_lo bdk_tns_se_tcamx_sram_int_en_lo_t;
 
 static inline uint64_t BDK_TNS_SE_TCAMX_SRAM_INT_EN_LO(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_TCAMX_SRAM_INT_EN_LO(unsigned long a)
@@ -30725,7 +31446,7 @@ static inline uint64_t BDK_TNS_SE_TCAMX_SRAM_INT_EN_LO(unsigned long a)
  * TNS Search TCAM Sram Interrrupt Force Registers
  * TCAM SRAM interrupt register
  */
-typedef union
+union bdk_tns_se_tcamx_sram_int_frc
 {
     uint32_t u;
     struct bdk_tns_se_tcamx_sram_int_frc_s
@@ -30745,7 +31466,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_tcamx_sram_int_frc_s cn; */
-} bdk_tns_se_tcamx_sram_int_frc_t;
+};
+typedef union bdk_tns_se_tcamx_sram_int_frc bdk_tns_se_tcamx_sram_int_frc_t;
 
 static inline uint64_t BDK_TNS_SE_TCAMX_SRAM_INT_FRC(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_TCAMX_SRAM_INT_FRC(unsigned long a)
@@ -30768,7 +31490,7 @@ static inline uint64_t BDK_TNS_SE_TCAMX_SRAM_INT_FRC(unsigned long a)
  * TNS Search TCAM Sram Interrrupt W1C Registers
  * TCAM SRAM interrupt register
  */
-typedef union
+union bdk_tns_se_tcamx_sram_int_w1c
 {
     uint32_t u;
     struct bdk_tns_se_tcamx_sram_int_w1c_s
@@ -30788,7 +31510,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_tcamx_sram_int_w1c_s cn; */
-} bdk_tns_se_tcamx_sram_int_w1c_t;
+};
+typedef union bdk_tns_se_tcamx_sram_int_w1c bdk_tns_se_tcamx_sram_int_w1c_t;
 
 static inline uint64_t BDK_TNS_SE_TCAMX_SRAM_INT_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_TCAMX_SRAM_INT_W1C(unsigned long a)
@@ -30811,7 +31534,7 @@ static inline uint64_t BDK_TNS_SE_TCAMX_SRAM_INT_W1C(unsigned long a)
  * TNS Search TCAM Database Bist Status Done Registers
  * --
  */
-typedef union
+union bdk_tns_se_tcam_dbx_bist_stdn
 {
     uint32_t u;
     struct bdk_tns_se_tcam_dbx_bist_stdn_s
@@ -30831,7 +31554,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_tcam_dbx_bist_stdn_s cn; */
-} bdk_tns_se_tcam_dbx_bist_stdn_t;
+};
+typedef union bdk_tns_se_tcam_dbx_bist_stdn bdk_tns_se_tcam_dbx_bist_stdn_t;
 
 static inline uint64_t BDK_TNS_SE_TCAM_DBX_BIST_STDN(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_TCAM_DBX_BIST_STDN(unsigned long a)
@@ -30854,7 +31578,7 @@ static inline uint64_t BDK_TNS_SE_TCAM_DBX_BIST_STDN(unsigned long a)
  * TNS Search TCAM Database Clock Enable Bit Map Registers
  * TCAM tile clk_en bit map
  */
-typedef union
+union bdk_tns_se_tcam_dbx_clk_en_bmap
 {
     uint32_t u;
     struct bdk_tns_se_tcam_dbx_clk_en_bmap_s
@@ -30868,7 +31592,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_tcam_dbx_clk_en_bmap_s cn; */
-} bdk_tns_se_tcam_dbx_clk_en_bmap_t;
+};
+typedef union bdk_tns_se_tcam_dbx_clk_en_bmap bdk_tns_se_tcam_dbx_clk_en_bmap_t;
 
 static inline uint64_t BDK_TNS_SE_TCAM_DBX_CLK_EN_BMAP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_TCAM_DBX_CLK_EN_BMAP(unsigned long a)
@@ -30891,7 +31616,7 @@ static inline uint64_t BDK_TNS_SE_TCAM_DBX_CLK_EN_BMAP(unsigned long a)
  * TNS Search TCAM Database Database Debug Selector Registers
  * Debug select
  */
-typedef union
+union bdk_tns_se_tcam_dbx_db_dbg_sel
 {
     uint32_t u;
     struct bdk_tns_se_tcam_dbx_db_dbg_sel_s
@@ -30905,7 +31630,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_tcam_dbx_db_dbg_sel_s cn; */
-} bdk_tns_se_tcam_dbx_db_dbg_sel_t;
+};
+typedef union bdk_tns_se_tcam_dbx_db_dbg_sel bdk_tns_se_tcam_dbx_db_dbg_sel_t;
 
 static inline uint64_t BDK_TNS_SE_TCAM_DBX_DB_DBG_SEL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_TCAM_DBX_DB_DBG_SEL(unsigned long a)
@@ -30928,7 +31654,7 @@ static inline uint64_t BDK_TNS_SE_TCAM_DBX_DB_DBG_SEL(unsigned long a)
  * TNS Search TCAM Database Lock Registers
  * Lock Register
  */
-typedef union
+union bdk_tns_se_tcam_dbx_lock
 {
     uint32_t u;
     struct bdk_tns_se_tcam_dbx_lock_s
@@ -30940,7 +31666,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_tcam_dbx_lock_s cn; */
-} bdk_tns_se_tcam_dbx_lock_t;
+};
+typedef union bdk_tns_se_tcam_dbx_lock bdk_tns_se_tcam_dbx_lock_t;
 
 static inline uint64_t BDK_TNS_SE_TCAM_DBX_LOCK(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_TCAM_DBX_LOCK(unsigned long a)
@@ -30963,7 +31690,7 @@ static inline uint64_t BDK_TNS_SE_TCAM_DBX_LOCK(unsigned long a)
  * TNS Search TCAM Database ScratchPad Registers
  * Scratch Pad Register for XCAT
  */
-typedef union
+union bdk_tns_se_tcam_dbx_spad
 {
     uint32_t u;
     struct bdk_tns_se_tcam_dbx_spad_s
@@ -30975,7 +31702,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_tcam_dbx_spad_s cn; */
-} bdk_tns_se_tcam_dbx_spad_t;
+};
+typedef union bdk_tns_se_tcam_dbx_spad bdk_tns_se_tcam_dbx_spad_t;
 
 static inline uint64_t BDK_TNS_SE_TCAM_DBX_SPAD(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_TCAM_DBX_SPAD(unsigned long a)
@@ -30999,7 +31727,7 @@ static inline uint64_t BDK_TNS_SE_TCAM_DBX_SPAD(unsigned long a)
  * Power optoin, each row_vld control 16 lines in a TCAM tile. Feature NOT
  * available in CN88XX custom TCAM
  */
-typedef union
+union bdk_tns_se_tcam_dbx_tdb_rvld_wx
 {
     uint32_t u;
     struct bdk_tns_se_tcam_dbx_tdb_rvld_wx_s
@@ -31011,7 +31739,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_tcam_dbx_tdb_rvld_wx_s cn; */
-} bdk_tns_se_tcam_dbx_tdb_rvld_wx_t;
+};
+typedef union bdk_tns_se_tcam_dbx_tdb_rvld_wx bdk_tns_se_tcam_dbx_tdb_rvld_wx_t;
 
 static inline uint64_t BDK_TNS_SE_TCAM_DBX_TDB_RVLD_WX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_TCAM_DBX_TDB_RVLD_WX(unsigned long a, unsigned long b)
@@ -31034,7 +31763,7 @@ static inline uint64_t BDK_TNS_SE_TCAM_DBX_TDB_RVLD_WX(unsigned long a, unsigned
  * TNS Search TCAM Database Tile Reset Registers
  * reset TCAM tile, rising edge trigger
  */
-typedef union
+union bdk_tns_se_tcam_dbx_tile_rst
 {
     uint32_t u;
     struct bdk_tns_se_tcam_dbx_tile_rst_s
@@ -31048,7 +31777,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_tcam_dbx_tile_rst_s cn; */
-} bdk_tns_se_tcam_dbx_tile_rst_t;
+};
+typedef union bdk_tns_se_tcam_dbx_tile_rst bdk_tns_se_tcam_dbx_tile_rst_t;
 
 static inline uint64_t BDK_TNS_SE_TCAM_DBX_TILE_RST(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_TCAM_DBX_TILE_RST(unsigned long a)
@@ -31072,7 +31802,7 @@ static inline uint64_t BDK_TNS_SE_TCAM_DBX_TILE_RST(unsigned long a)
  * configuration within a TCAM database, it has to be consistent with the
  * corresponding TCAM table definition.
  */
-typedef union
+union bdk_tns_se_tcam_dbx_tpool_db
 {
     uint32_t u;
     struct bdk_tns_se_tcam_dbx_tpool_db_s
@@ -31094,7 +31824,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_tcam_dbx_tpool_db_s cn; */
-} bdk_tns_se_tcam_dbx_tpool_db_t;
+};
+typedef union bdk_tns_se_tcam_dbx_tpool_db bdk_tns_se_tcam_dbx_tpool_db_t;
 
 static inline uint64_t BDK_TNS_SE_TCAM_DBX_TPOOL_DB(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_TCAM_DBX_TPOOL_DB(unsigned long a)
@@ -31121,7 +31852,7 @@ static inline uint64_t BDK_TNS_SE_TCAM_DBX_TPOOL_DB(unsigned long a)
  * When writing, make the access to this decoder atomic w.r.t. other writes to
  * this decoder.
  */
-typedef union
+union bdk_tns_se_tcam_dbxcn_vdmxdx_wx
 {
     uint32_t u;
     struct bdk_tns_se_tcam_dbxcn_vdmxdx_wx_s
@@ -31133,7 +31864,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_tcam_dbxcn_vdmxdx_wx_s cn; */
-} bdk_tns_se_tcam_dbxcn_vdmxdx_wx_t;
+};
+typedef union bdk_tns_se_tcam_dbxcn_vdmxdx_wx bdk_tns_se_tcam_dbxcn_vdmxdx_wx_t;
 
 static inline uint64_t BDK_TNS_SE_TCAM_DBXCN_VDMXDX_WX(unsigned long a, unsigned long b, unsigned long c, unsigned long d) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_TCAM_DBXCN_VDMXDX_WX(unsigned long a, unsigned long b, unsigned long c, unsigned long d)
@@ -31156,7 +31888,7 @@ static inline uint64_t BDK_TNS_SE_TCAM_DBXCN_VDMXDX_WX(unsigned long a, unsigned
  * TNS Search TCAM Engine Debug Selector Register
  * --
  */
-typedef union
+union bdk_tns_se_tcam_eng_dbg_sel
 {
     uint32_t u;
     struct bdk_tns_se_tcam_eng_dbg_sel_s
@@ -31170,7 +31902,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_tcam_eng_dbg_sel_s cn; */
-} bdk_tns_se_tcam_eng_dbg_sel_t;
+};
+typedef union bdk_tns_se_tcam_eng_dbg_sel bdk_tns_se_tcam_eng_dbg_sel_t;
 
 #define BDK_TNS_SE_TCAM_ENG_DBG_SEL BDK_TNS_SE_TCAM_ENG_DBG_SEL_FUNC()
 static inline uint64_t BDK_TNS_SE_TCAM_ENG_DBG_SEL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -31194,7 +31927,7 @@ static inline uint64_t BDK_TNS_SE_TCAM_ENG_DBG_SEL_FUNC(void)
  * TNS Search TCAM Engine Lock Register
  * Lock Register
  */
-typedef union
+union bdk_tns_se_tcam_eng_lock
 {
     uint32_t u;
     struct bdk_tns_se_tcam_eng_lock_s
@@ -31206,7 +31939,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_tcam_eng_lock_s cn; */
-} bdk_tns_se_tcam_eng_lock_t;
+};
+typedef union bdk_tns_se_tcam_eng_lock bdk_tns_se_tcam_eng_lock_t;
 
 #define BDK_TNS_SE_TCAM_ENG_LOCK BDK_TNS_SE_TCAM_ENG_LOCK_FUNC()
 static inline uint64_t BDK_TNS_SE_TCAM_ENG_LOCK_FUNC(void) __attribute__ ((pure, always_inline));
@@ -31230,7 +31964,7 @@ static inline uint64_t BDK_TNS_SE_TCAM_ENG_LOCK_FUNC(void)
  * TNS Search TCAM Engine Result Debug Selector Register
  * --
  */
-typedef union
+union bdk_tns_se_tcam_eng_rslt_dbg_sel
 {
     uint32_t u;
     struct bdk_tns_se_tcam_eng_rslt_dbg_sel_s
@@ -31244,7 +31978,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_tcam_eng_rslt_dbg_sel_s cn; */
-} bdk_tns_se_tcam_eng_rslt_dbg_sel_t;
+};
+typedef union bdk_tns_se_tcam_eng_rslt_dbg_sel bdk_tns_se_tcam_eng_rslt_dbg_sel_t;
 
 #define BDK_TNS_SE_TCAM_ENG_RSLT_DBG_SEL BDK_TNS_SE_TCAM_ENG_RSLT_DBG_SEL_FUNC()
 static inline uint64_t BDK_TNS_SE_TCAM_ENG_RSLT_DBG_SEL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -31268,7 +32003,7 @@ static inline uint64_t BDK_TNS_SE_TCAM_ENG_RSLT_DBG_SEL_FUNC(void)
  * TNS Search TCAM Engine ScratchPad Register
  * Scratch Pad Register for XCAT
  */
-typedef union
+union bdk_tns_se_tcam_eng_spad
 {
     uint32_t u;
     struct bdk_tns_se_tcam_eng_spad_s
@@ -31280,7 +32015,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_tcam_eng_spad_s cn; */
-} bdk_tns_se_tcam_eng_spad_t;
+};
+typedef union bdk_tns_se_tcam_eng_spad bdk_tns_se_tcam_eng_spad_t;
 
 #define BDK_TNS_SE_TCAM_ENG_SPAD BDK_TNS_SE_TCAM_ENG_SPAD_FUNC()
 static inline uint64_t BDK_TNS_SE_TCAM_ENG_SPAD_FUNC(void) __attribute__ ((pure, always_inline));
@@ -31304,7 +32040,7 @@ static inline uint64_t BDK_TNS_SE_TCAM_ENG_SPAD_FUNC(void)
  * TNS Search TCAM Engine TCAM Database Buffer Registers
  * --
  */
-typedef union
+union bdk_tns_se_tcam_eng_tcam_dbbufx
 {
     uint32_t u;
     struct bdk_tns_se_tcam_eng_tcam_dbbufx_s
@@ -31318,7 +32054,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_tcam_eng_tcam_dbbufx_s cn; */
-} bdk_tns_se_tcam_eng_tcam_dbbufx_t;
+};
+typedef union bdk_tns_se_tcam_eng_tcam_dbbufx bdk_tns_se_tcam_eng_tcam_dbbufx_t;
 
 static inline uint64_t BDK_TNS_SE_TCAM_ENG_TCAM_DBBUFX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_TCAM_ENG_TCAM_DBBUFX(unsigned long a)
@@ -31342,7 +32079,7 @@ static inline uint64_t BDK_TNS_SE_TCAM_ENG_TCAM_DBBUFX(unsigned long a)
  * configuration across TCAM databases, it has to be consistent with the
  * corresponding TCAM table definition.
  */
-typedef union
+union bdk_tns_se_tcam_eng_tpool_vcodx
 {
     uint32_t u;
     struct bdk_tns_se_tcam_eng_tpool_vcodx_s
@@ -31362,7 +32099,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_tcam_eng_tpool_vcodx_s cn; */
-} bdk_tns_se_tcam_eng_tpool_vcodx_t;
+};
+typedef union bdk_tns_se_tcam_eng_tpool_vcodx bdk_tns_se_tcam_eng_tpool_vcodx_t;
 
 static inline uint64_t BDK_TNS_SE_TCAM_ENG_TPOOL_VCODX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_TCAM_ENG_TPOOL_VCODX(unsigned long a)
@@ -31385,7 +32123,7 @@ static inline uint64_t BDK_TNS_SE_TCAM_ENG_TPOOL_VCODX(unsigned long a)
  * TNS Search TCAM Scrub ECC Registers
  * --
  */
-typedef union
+union bdk_tns_se_tcam_scrbx_eccxdx
 {
     uint32_t u;
     struct bdk_tns_se_tcam_scrbx_eccxdx_s
@@ -31399,7 +32137,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_tcam_scrbx_eccxdx_s cn; */
-} bdk_tns_se_tcam_scrbx_eccxdx_t;
+};
+typedef union bdk_tns_se_tcam_scrbx_eccxdx bdk_tns_se_tcam_scrbx_eccxdx_t;
 
 static inline uint64_t BDK_TNS_SE_TCAM_SCRBX_ECCXDX(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_TCAM_SCRBX_ECCXDX(unsigned long a, unsigned long b, unsigned long c)
@@ -31422,7 +32161,7 @@ static inline uint64_t BDK_TNS_SE_TCAM_SCRBX_ECCXDX(unsigned long a, unsigned lo
  * TNS Search TCAM Scrub ECC Log Registers
  * These are read only
  */
-typedef union
+union bdk_tns_se_tcam_scrbx_ecc_logx
 {
     uint32_t u;
     struct bdk_tns_se_tcam_scrbx_ecc_logx_s
@@ -31436,7 +32175,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_tcam_scrbx_ecc_logx_s cn; */
-} bdk_tns_se_tcam_scrbx_ecc_logx_t;
+};
+typedef union bdk_tns_se_tcam_scrbx_ecc_logx bdk_tns_se_tcam_scrbx_ecc_logx_t;
 
 static inline uint64_t BDK_TNS_SE_TCAM_SCRBX_ECC_LOGX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_TCAM_SCRBX_ECC_LOGX(unsigned long a, unsigned long b)
@@ -31459,7 +32199,7 @@ static inline uint64_t BDK_TNS_SE_TCAM_SCRBX_ECC_LOGX(unsigned long a, unsigned 
  * TNS Search TCAM Scrub Interrrupt Enable High Registers
  * TCAM scrub interrupt register
  */
-typedef union
+union bdk_tns_se_tcam_scrbx_int_en_hix
 {
     uint32_t u;
     struct bdk_tns_se_tcam_scrbx_int_en_hix_s
@@ -31475,7 +32215,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_tcam_scrbx_int_en_hix_s cn; */
-} bdk_tns_se_tcam_scrbx_int_en_hix_t;
+};
+typedef union bdk_tns_se_tcam_scrbx_int_en_hix bdk_tns_se_tcam_scrbx_int_en_hix_t;
 
 static inline uint64_t BDK_TNS_SE_TCAM_SCRBX_INT_EN_HIX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_TCAM_SCRBX_INT_EN_HIX(unsigned long a, unsigned long b)
@@ -31498,7 +32239,7 @@ static inline uint64_t BDK_TNS_SE_TCAM_SCRBX_INT_EN_HIX(unsigned long a, unsigne
  * TNS Search TCAM Scrub Interrrupt Enable Low Registers
  * TCAM scrub interrupt register
  */
-typedef union
+union bdk_tns_se_tcam_scrbx_int_en_lox
 {
     uint32_t u;
     struct bdk_tns_se_tcam_scrbx_int_en_lox_s
@@ -31514,7 +32255,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_tcam_scrbx_int_en_lox_s cn; */
-} bdk_tns_se_tcam_scrbx_int_en_lox_t;
+};
+typedef union bdk_tns_se_tcam_scrbx_int_en_lox bdk_tns_se_tcam_scrbx_int_en_lox_t;
 
 static inline uint64_t BDK_TNS_SE_TCAM_SCRBX_INT_EN_LOX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_TCAM_SCRBX_INT_EN_LOX(unsigned long a, unsigned long b)
@@ -31537,7 +32279,7 @@ static inline uint64_t BDK_TNS_SE_TCAM_SCRBX_INT_EN_LOX(unsigned long a, unsigne
  * TNS Search TCAM Scrub Interrrupt Force Registers
  * TCAM scrub interrupt register
  */
-typedef union
+union bdk_tns_se_tcam_scrbx_int_frcx
 {
     uint32_t u;
     struct bdk_tns_se_tcam_scrbx_int_frcx_s
@@ -31553,7 +32295,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_tcam_scrbx_int_frcx_s cn; */
-} bdk_tns_se_tcam_scrbx_int_frcx_t;
+};
+typedef union bdk_tns_se_tcam_scrbx_int_frcx bdk_tns_se_tcam_scrbx_int_frcx_t;
 
 static inline uint64_t BDK_TNS_SE_TCAM_SCRBX_INT_FRCX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_TCAM_SCRBX_INT_FRCX(unsigned long a, unsigned long b)
@@ -31576,7 +32319,7 @@ static inline uint64_t BDK_TNS_SE_TCAM_SCRBX_INT_FRCX(unsigned long a, unsigned 
  * TNS Search TCAM Scrub Interrrupt W1C Registers
  * TCAM scrub interrupt register
  */
-typedef union
+union bdk_tns_se_tcam_scrbx_int_w1cx
 {
     uint32_t u;
     struct bdk_tns_se_tcam_scrbx_int_w1cx_s
@@ -31592,7 +32335,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_tcam_scrbx_int_w1cx_s cn; */
-} bdk_tns_se_tcam_scrbx_int_w1cx_t;
+};
+typedef union bdk_tns_se_tcam_scrbx_int_w1cx bdk_tns_se_tcam_scrbx_int_w1cx_t;
 
 static inline uint64_t BDK_TNS_SE_TCAM_SCRBX_INT_W1CX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_TCAM_SCRBX_INT_W1CX(unsigned long a, unsigned long b)
@@ -31615,7 +32359,7 @@ static inline uint64_t BDK_TNS_SE_TCAM_SCRBX_INT_W1CX(unsigned long a, unsigned 
  * TNS Search TCAM Scrub Lock Registers
  * Lock Register
  */
-typedef union
+union bdk_tns_se_tcam_scrbx_lock
 {
     uint32_t u;
     struct bdk_tns_se_tcam_scrbx_lock_s
@@ -31627,7 +32371,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_tcam_scrbx_lock_s cn; */
-} bdk_tns_se_tcam_scrbx_lock_t;
+};
+typedef union bdk_tns_se_tcam_scrbx_lock bdk_tns_se_tcam_scrbx_lock_t;
 
 static inline uint64_t BDK_TNS_SE_TCAM_SCRBX_LOCK(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_TCAM_SCRBX_LOCK(unsigned long a)
@@ -31650,7 +32395,7 @@ static inline uint64_t BDK_TNS_SE_TCAM_SCRBX_LOCK(unsigned long a)
  * TNS Search TCAM Scrub Scrub Registers
  * Hardware scrubbing of TCAMs
  */
-typedef union
+union bdk_tns_se_tcam_scrbx_scrbx
 {
     uint32_t u;
     struct bdk_tns_se_tcam_scrbx_scrbx_s
@@ -31696,7 +32441,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_tcam_scrbx_scrbx_s cn; */
-} bdk_tns_se_tcam_scrbx_scrbx_t;
+};
+typedef union bdk_tns_se_tcam_scrbx_scrbx bdk_tns_se_tcam_scrbx_scrbx_t;
 
 static inline uint64_t BDK_TNS_SE_TCAM_SCRBX_SCRBX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_TCAM_SCRBX_SCRBX(unsigned long a, unsigned long b)
@@ -31719,7 +32465,7 @@ static inline uint64_t BDK_TNS_SE_TCAM_SCRBX_SCRBX(unsigned long a, unsigned lon
  * TNS Search TCAM Scrub ScratchPad Registers
  * Scratch Pad Register for XCAT
  */
-typedef union
+union bdk_tns_se_tcam_scrbx_spad
 {
     uint32_t u;
     struct bdk_tns_se_tcam_scrbx_spad_s
@@ -31731,7 +32477,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_tcam_scrbx_spad_s cn; */
-} bdk_tns_se_tcam_scrbx_spad_t;
+};
+typedef union bdk_tns_se_tcam_scrbx_spad bdk_tns_se_tcam_scrbx_spad_t;
 
 static inline uint64_t BDK_TNS_SE_TCAM_SCRBX_SPAD(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_TCAM_SCRBX_SPAD(unsigned long a)
@@ -31754,7 +32501,7 @@ static inline uint64_t BDK_TNS_SE_TCAM_SCRBX_SPAD(unsigned long a)
  * TNS Search TCAM Sram Bist Status Done Registers
  * --
  */
-typedef union
+union bdk_tns_se_tcam_sramx_bist_stdn
 {
     uint32_t u;
     struct bdk_tns_se_tcam_sramx_bist_stdn_s
@@ -31770,7 +32517,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_tcam_sramx_bist_stdn_s cn; */
-} bdk_tns_se_tcam_sramx_bist_stdn_t;
+};
+typedef union bdk_tns_se_tcam_sramx_bist_stdn bdk_tns_se_tcam_sramx_bist_stdn_t;
 
 static inline uint64_t BDK_TNS_SE_TCAM_SRAMX_BIST_STDN(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_TCAM_SRAMX_BIST_STDN(unsigned long a)
@@ -31793,7 +32541,7 @@ static inline uint64_t BDK_TNS_SE_TCAM_SRAMX_BIST_STDN(unsigned long a)
  * TNS Search TCAM Sram Lock Registers
  * Lock Register
  */
-typedef union
+union bdk_tns_se_tcam_sramx_lock
 {
     uint32_t u;
     struct bdk_tns_se_tcam_sramx_lock_s
@@ -31805,7 +32553,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_tcam_sramx_lock_s cn; */
-} bdk_tns_se_tcam_sramx_lock_t;
+};
+typedef union bdk_tns_se_tcam_sramx_lock bdk_tns_se_tcam_sramx_lock_t;
 
 static inline uint64_t BDK_TNS_SE_TCAM_SRAMX_LOCK(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_TCAM_SRAMX_LOCK(unsigned long a)
@@ -31828,7 +32577,7 @@ static inline uint64_t BDK_TNS_SE_TCAM_SRAMX_LOCK(unsigned long a)
  * TNS Search TCAM Sram ScratchPad Registers
  * Scratch Pad Register for XCAT
  */
-typedef union
+union bdk_tns_se_tcam_sramx_spad
 {
     uint32_t u;
     struct bdk_tns_se_tcam_sramx_spad_s
@@ -31840,7 +32589,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_tcam_sramx_spad_s cn; */
-} bdk_tns_se_tcam_sramx_spad_t;
+};
+typedef union bdk_tns_se_tcam_sramx_spad bdk_tns_se_tcam_sramx_spad_t;
 
 static inline uint64_t BDK_TNS_SE_TCAM_SRAMX_SPAD(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_TCAM_SRAMX_SPAD(unsigned long a)
@@ -31863,7 +32613,7 @@ static inline uint64_t BDK_TNS_SE_TCAM_SRAMX_SPAD(unsigned long a)
  * TNS Search TCAM Sram TCAM Read Buffer Registers
  * --
  */
-typedef union
+union bdk_tns_se_tcam_sramx_tcam_rdbuf
 {
     uint32_t u;
     struct bdk_tns_se_tcam_sramx_tcam_rdbuf_s
@@ -31877,7 +32627,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_tcam_sramx_tcam_rdbuf_s cn; */
-} bdk_tns_se_tcam_sramx_tcam_rdbuf_t;
+};
+typedef union bdk_tns_se_tcam_sramx_tcam_rdbuf bdk_tns_se_tcam_sramx_tcam_rdbuf_t;
 
 static inline uint64_t BDK_TNS_SE_TCAM_SRAMX_TCAM_RDBUF(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_TCAM_SRAMX_TCAM_RDBUF(unsigned long a)
@@ -31900,7 +32651,7 @@ static inline uint64_t BDK_TNS_SE_TCAM_SRAMX_TCAM_RDBUF(unsigned long a)
  * TNS Search TCAM Table Registers
  * --
  */
-typedef union
+union bdk_tns_se_tcam_tblx
 {
     uint32_t u;
     struct bdk_tns_se_tcam_tblx_s
@@ -31922,7 +32673,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_tcam_tblx_s cn; */
-} bdk_tns_se_tcam_tblx_t;
+};
+typedef union bdk_tns_se_tcam_tblx bdk_tns_se_tcam_tblx_t;
 
 static inline uint64_t BDK_TNS_SE_TCAM_TBLX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_TCAM_TBLX(unsigned long a)
@@ -31945,7 +32697,7 @@ static inline uint64_t BDK_TNS_SE_TCAM_TBLX(unsigned long a)
  * TNS Search TCAM Table Lock Register
  * Lock Register
  */
-typedef union
+union bdk_tns_se_tcam_tbl_lock
 {
     uint32_t u;
     struct bdk_tns_se_tcam_tbl_lock_s
@@ -31957,7 +32709,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_tcam_tbl_lock_s cn; */
-} bdk_tns_se_tcam_tbl_lock_t;
+};
+typedef union bdk_tns_se_tcam_tbl_lock bdk_tns_se_tcam_tbl_lock_t;
 
 #define BDK_TNS_SE_TCAM_TBL_LOCK BDK_TNS_SE_TCAM_TBL_LOCK_FUNC()
 static inline uint64_t BDK_TNS_SE_TCAM_TBL_LOCK_FUNC(void) __attribute__ ((pure, always_inline));
@@ -31981,7 +32734,7 @@ static inline uint64_t BDK_TNS_SE_TCAM_TBL_LOCK_FUNC(void)
  * TNS Search TCAM Table ScratchPad Register
  * Scratch Pad Register for XCAT
  */
-typedef union
+union bdk_tns_se_tcam_tbl_spad
 {
     uint32_t u;
     struct bdk_tns_se_tcam_tbl_spad_s
@@ -31993,7 +32746,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_tcam_tbl_spad_s cn; */
-} bdk_tns_se_tcam_tbl_spad_t;
+};
+typedef union bdk_tns_se_tcam_tbl_spad bdk_tns_se_tcam_tbl_spad_t;
 
 #define BDK_TNS_SE_TCAM_TBL_SPAD BDK_TNS_SE_TCAM_TBL_SPAD_FUNC()
 static inline uint64_t BDK_TNS_SE_TCAM_TBL_SPAD_FUNC(void) __attribute__ ((pure, always_inline));
@@ -32017,7 +32771,7 @@ static inline uint64_t BDK_TNS_SE_TCAM_TBL_SPAD_FUNC(void)
  * TNS Search URW Table Lock Register
  * Lock Register
  */
-typedef union
+union bdk_tns_se_urw_tbl_lock
 {
     uint32_t u;
     struct bdk_tns_se_urw_tbl_lock_s
@@ -32029,7 +32783,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_urw_tbl_lock_s cn; */
-} bdk_tns_se_urw_tbl_lock_t;
+};
+typedef union bdk_tns_se_urw_tbl_lock bdk_tns_se_urw_tbl_lock_t;
 
 #define BDK_TNS_SE_URW_TBL_LOCK BDK_TNS_SE_URW_TBL_LOCK_FUNC()
 static inline uint64_t BDK_TNS_SE_URW_TBL_LOCK_FUNC(void) __attribute__ ((pure, always_inline));
@@ -32053,7 +32808,7 @@ static inline uint64_t BDK_TNS_SE_URW_TBL_LOCK_FUNC(void)
  * TNS Search URW Table ScratchPad Register
  * Scratch Pad Register for XCAT
  */
-typedef union
+union bdk_tns_se_urw_tbl_spad
 {
     uint32_t u;
     struct bdk_tns_se_urw_tbl_spad_s
@@ -32065,7 +32820,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_urw_tbl_spad_s cn; */
-} bdk_tns_se_urw_tbl_spad_t;
+};
+typedef union bdk_tns_se_urw_tbl_spad bdk_tns_se_urw_tbl_spad_t;
 
 #define BDK_TNS_SE_URW_TBL_SPAD BDK_TNS_SE_URW_TBL_SPAD_FUNC()
 static inline uint64_t BDK_TNS_SE_URW_TBL_SPAD_FUNC(void) __attribute__ ((pure, always_inline));
@@ -32089,7 +32845,7 @@ static inline uint64_t BDK_TNS_SE_URW_TBL_SPAD_FUNC(void)
  * TNS Search URW Table URW Registers
  * Same as xp_se_config_table_direct
  */
-typedef union
+union bdk_tns_se_urw_tbl_urwx
 {
     uint32_t u;
     struct bdk_tns_se_urw_tbl_urwx_s
@@ -32121,7 +32877,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_urw_tbl_urwx_s cn; */
-} bdk_tns_se_urw_tbl_urwx_t;
+};
+typedef union bdk_tns_se_urw_tbl_urwx bdk_tns_se_urw_tbl_urwx_t;
 
 static inline uint64_t BDK_TNS_SE_URW_TBL_URWX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_URW_TBL_URWX(unsigned long a)
@@ -32144,7 +32901,7 @@ static inline uint64_t BDK_TNS_SE_URW_TBL_URWX(unsigned long a)
  * TNS Search URW Command Lock Registers
  * Lock Register
  */
-typedef union
+union bdk_tns_se_urwcmdx_lock
 {
     uint32_t u;
     struct bdk_tns_se_urwcmdx_lock_s
@@ -32156,7 +32913,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_urwcmdx_lock_s cn; */
-} bdk_tns_se_urwcmdx_lock_t;
+};
+typedef union bdk_tns_se_urwcmdx_lock bdk_tns_se_urwcmdx_lock_t;
 
 static inline uint64_t BDK_TNS_SE_URWCMDX_LOCK(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_URWCMDX_LOCK(unsigned long a)
@@ -32179,7 +32937,7 @@ static inline uint64_t BDK_TNS_SE_URWCMDX_LOCK(unsigned long a)
  * TNS Search URW Command ScratchPad Registers
  * Scratch Pad Register for XCAT
  */
-typedef union
+union bdk_tns_se_urwcmdx_spad
 {
     uint32_t u;
     struct bdk_tns_se_urwcmdx_spad_s
@@ -32191,7 +32949,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_urwcmdx_spad_s cn; */
-} bdk_tns_se_urwcmdx_spad_t;
+};
+typedef union bdk_tns_se_urwcmdx_spad bdk_tns_se_urwcmdx_spad_t;
 
 static inline uint64_t BDK_TNS_SE_URWCMDX_SPAD(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_URWCMDX_SPAD(unsigned long a)
@@ -32232,7 +32991,7 @@ static inline uint64_t BDK_TNS_SE_URWCMDX_SPAD(unsigned long a)
  * So for example URWINS starts at 32 and if it's command 3 of profile 0
  * then it has to be urw_cmd = 35.
  */
-typedef union
+union bdk_tns_se_urwcmdx_srch_cmdx_w0
 {
     uint32_t u;
     struct bdk_tns_se_urwcmdx_srch_cmdx_w0_s
@@ -32264,7 +33023,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_urwcmdx_srch_cmdx_w0_s cn; */
-} bdk_tns_se_urwcmdx_srch_cmdx_w0_t;
+};
+typedef union bdk_tns_se_urwcmdx_srch_cmdx_w0 bdk_tns_se_urwcmdx_srch_cmdx_w0_t;
 
 static inline uint64_t BDK_TNS_SE_URWCMDX_SRCH_CMDX_W0(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_URWCMDX_SRCH_CMDX_W0(unsigned long a, unsigned long b)
@@ -32287,7 +33047,7 @@ static inline uint64_t BDK_TNS_SE_URWCMDX_SRCH_CMDX_W0(unsigned long a, unsigned
  * TNS Search URW Command Search Command Word 1 Registers
  * Continuation of structure defined in TNS_SE_URWCMD(0..1)_SRCH_CMD(0..63)_W0
  */
-typedef union
+union bdk_tns_se_urwcmdx_srch_cmdx_w1
 {
     uint32_t u;
     struct bdk_tns_se_urwcmdx_srch_cmdx_w1_s
@@ -32299,7 +33059,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_urwcmdx_srch_cmdx_w1_s cn; */
-} bdk_tns_se_urwcmdx_srch_cmdx_w1_t;
+};
+typedef union bdk_tns_se_urwcmdx_srch_cmdx_w1 bdk_tns_se_urwcmdx_srch_cmdx_w1_t;
 
 static inline uint64_t BDK_TNS_SE_URWCMDX_SRCH_CMDX_W1(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_URWCMDX_SRCH_CMDX_W1(unsigned long a, unsigned long b)
@@ -32322,7 +33083,7 @@ static inline uint64_t BDK_TNS_SE_URWCMDX_SRCH_CMDX_W1(unsigned long a, unsigned
  * TNS Search URW Command Search Command Word 2 Registers
  * Continuation of structure defined in TNS_SE_URWCMD(0..1)_SRCH_CMD(0..63)_W0
  */
-typedef union
+union bdk_tns_se_urwcmdx_srch_cmdx_w2
 {
     uint32_t u;
     struct bdk_tns_se_urwcmdx_srch_cmdx_w2_s
@@ -32378,7 +33139,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_urwcmdx_srch_cmdx_w2_s cn; */
-} bdk_tns_se_urwcmdx_srch_cmdx_w2_t;
+};
+typedef union bdk_tns_se_urwcmdx_srch_cmdx_w2 bdk_tns_se_urwcmdx_srch_cmdx_w2_t;
 
 static inline uint64_t BDK_TNS_SE_URWCMDX_SRCH_CMDX_W2(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_URWCMDX_SRCH_CMDX_W2(unsigned long a, unsigned long b)
@@ -32401,7 +33163,7 @@ static inline uint64_t BDK_TNS_SE_URWCMDX_SRCH_CMDX_W2(unsigned long a, unsigned
  * TNS Search URW Interface Debug Register
  * --
  */
-typedef union
+union bdk_tns_se_urwif_dbg
 {
     uint32_t u;
     struct bdk_tns_se_urwif_dbg_s
@@ -32435,7 +33197,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_urwif_dbg_s cn; */
-} bdk_tns_se_urwif_dbg_t;
+};
+typedef union bdk_tns_se_urwif_dbg bdk_tns_se_urwif_dbg_t;
 
 #define BDK_TNS_SE_URWIF_DBG BDK_TNS_SE_URWIF_DBG_FUNC()
 static inline uint64_t BDK_TNS_SE_URWIF_DBG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -32459,7 +33222,7 @@ static inline uint64_t BDK_TNS_SE_URWIF_DBG_FUNC(void)
  * TNS Search URW Interface Debug Selector Register
  * --
  */
-typedef union
+union bdk_tns_se_urwif_dbg_sel
 {
     uint32_t u;
     struct bdk_tns_se_urwif_dbg_sel_s
@@ -32473,7 +33236,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_urwif_dbg_sel_s cn; */
-} bdk_tns_se_urwif_dbg_sel_t;
+};
+typedef union bdk_tns_se_urwif_dbg_sel bdk_tns_se_urwif_dbg_sel_t;
 
 #define BDK_TNS_SE_URWIF_DBG_SEL BDK_TNS_SE_URWIF_DBG_SEL_FUNC()
 static inline uint64_t BDK_TNS_SE_URWIF_DBG_SEL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -32497,7 +33261,7 @@ static inline uint64_t BDK_TNS_SE_URWIF_DBG_SEL_FUNC(void)
  * TNS Search URW Interface Lock Register
  * Lock Register
  */
-typedef union
+union bdk_tns_se_urwif_lock
 {
     uint32_t u;
     struct bdk_tns_se_urwif_lock_s
@@ -32509,7 +33273,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_urwif_lock_s cn; */
-} bdk_tns_se_urwif_lock_t;
+};
+typedef union bdk_tns_se_urwif_lock bdk_tns_se_urwif_lock_t;
 
 #define BDK_TNS_SE_URWIF_LOCK BDK_TNS_SE_URWIF_LOCK_FUNC()
 static inline uint64_t BDK_TNS_SE_URWIF_LOCK_FUNC(void) __attribute__ ((pure, always_inline));
@@ -32533,7 +33298,7 @@ static inline uint64_t BDK_TNS_SE_URWIF_LOCK_FUNC(void)
  * TNS Search URW Interface Request Debug Word 0 Register
  * --
  */
-typedef union
+union bdk_tns_se_urwif_req_dbg_w0
 {
     uint32_t u;
     struct bdk_tns_se_urwif_req_dbg_w0_s
@@ -32549,7 +33314,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_urwif_req_dbg_w0_s cn; */
-} bdk_tns_se_urwif_req_dbg_w0_t;
+};
+typedef union bdk_tns_se_urwif_req_dbg_w0 bdk_tns_se_urwif_req_dbg_w0_t;
 
 #define BDK_TNS_SE_URWIF_REQ_DBG_W0 BDK_TNS_SE_URWIF_REQ_DBG_W0_FUNC()
 static inline uint64_t BDK_TNS_SE_URWIF_REQ_DBG_W0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -32573,7 +33339,7 @@ static inline uint64_t BDK_TNS_SE_URWIF_REQ_DBG_W0_FUNC(void)
  * TNS Search URW Interface Request Debug Word 1 Register
  * Continuation of structure defined in TNS_SE_URWIF_REQ_DBG_W0
  */
-typedef union
+union bdk_tns_se_urwif_req_dbg_w1
 {
     uint32_t u;
     struct bdk_tns_se_urwif_req_dbg_w1_s
@@ -32585,7 +33351,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_urwif_req_dbg_w1_s cn; */
-} bdk_tns_se_urwif_req_dbg_w1_t;
+};
+typedef union bdk_tns_se_urwif_req_dbg_w1 bdk_tns_se_urwif_req_dbg_w1_t;
 
 #define BDK_TNS_SE_URWIF_REQ_DBG_W1 BDK_TNS_SE_URWIF_REQ_DBG_W1_FUNC()
 static inline uint64_t BDK_TNS_SE_URWIF_REQ_DBG_W1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -32609,7 +33376,7 @@ static inline uint64_t BDK_TNS_SE_URWIF_REQ_DBG_W1_FUNC(void)
  * TNS Search URW Interface Request Debug Word 2 Register
  * Continuation of structure defined in TNS_SE_URWIF_REQ_DBG_W0
  */
-typedef union
+union bdk_tns_se_urwif_req_dbg_w2
 {
     uint32_t u;
     struct bdk_tns_se_urwif_req_dbg_w2_s
@@ -32621,7 +33388,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_urwif_req_dbg_w2_s cn; */
-} bdk_tns_se_urwif_req_dbg_w2_t;
+};
+typedef union bdk_tns_se_urwif_req_dbg_w2 bdk_tns_se_urwif_req_dbg_w2_t;
 
 #define BDK_TNS_SE_URWIF_REQ_DBG_W2 BDK_TNS_SE_URWIF_REQ_DBG_W2_FUNC()
 static inline uint64_t BDK_TNS_SE_URWIF_REQ_DBG_W2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -32645,7 +33413,7 @@ static inline uint64_t BDK_TNS_SE_URWIF_REQ_DBG_W2_FUNC(void)
  * TNS Search URW Interface Request Debug Word 3 Register
  * Continuation of structure defined in TNS_SE_URWIF_REQ_DBG_W0
  */
-typedef union
+union bdk_tns_se_urwif_req_dbg_w3
 {
     uint32_t u;
     struct bdk_tns_se_urwif_req_dbg_w3_s
@@ -32659,7 +33427,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_urwif_req_dbg_w3_s cn; */
-} bdk_tns_se_urwif_req_dbg_w3_t;
+};
+typedef union bdk_tns_se_urwif_req_dbg_w3 bdk_tns_se_urwif_req_dbg_w3_t;
 
 #define BDK_TNS_SE_URWIF_REQ_DBG_W3 BDK_TNS_SE_URWIF_REQ_DBG_W3_FUNC()
 static inline uint64_t BDK_TNS_SE_URWIF_REQ_DBG_W3_FUNC(void) __attribute__ ((pure, always_inline));
@@ -32683,7 +33452,7 @@ static inline uint64_t BDK_TNS_SE_URWIF_REQ_DBG_W3_FUNC(void)
  * TNS Search URW Interface Result Debug Word 0 Registers
  * --
  */
-typedef union
+union bdk_tns_se_urwif_rslt_dbgx_w0
 {
     uint32_t u;
     struct bdk_tns_se_urwif_rslt_dbgx_w0_s
@@ -32695,7 +33464,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_urwif_rslt_dbgx_w0_s cn; */
-} bdk_tns_se_urwif_rslt_dbgx_w0_t;
+};
+typedef union bdk_tns_se_urwif_rslt_dbgx_w0 bdk_tns_se_urwif_rslt_dbgx_w0_t;
 
 static inline uint64_t BDK_TNS_SE_URWIF_RSLT_DBGX_W0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_URWIF_RSLT_DBGX_W0(unsigned long a)
@@ -32718,7 +33488,7 @@ static inline uint64_t BDK_TNS_SE_URWIF_RSLT_DBGX_W0(unsigned long a)
  * TNS Search URW Interface Result Debug Word 1 Registers
  * Continuation of structure defined in TNS_SE_URWIF_RSLT_DBG(0..7)_W0
  */
-typedef union
+union bdk_tns_se_urwif_rslt_dbgx_w1
 {
     uint32_t u;
     struct bdk_tns_se_urwif_rslt_dbgx_w1_s
@@ -32730,7 +33500,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_urwif_rslt_dbgx_w1_s cn; */
-} bdk_tns_se_urwif_rslt_dbgx_w1_t;
+};
+typedef union bdk_tns_se_urwif_rslt_dbgx_w1 bdk_tns_se_urwif_rslt_dbgx_w1_t;
 
 static inline uint64_t BDK_TNS_SE_URWIF_RSLT_DBGX_W1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_URWIF_RSLT_DBGX_W1(unsigned long a)
@@ -32753,7 +33524,7 @@ static inline uint64_t BDK_TNS_SE_URWIF_RSLT_DBGX_W1(unsigned long a)
  * TNS Search URW Interface Result Debug Word 2 Registers
  * Continuation of structure defined in TNS_SE_URWIF_RSLT_DBG(0..7)_W0
  */
-typedef union
+union bdk_tns_se_urwif_rslt_dbgx_w2
 {
     uint32_t u;
     struct bdk_tns_se_urwif_rslt_dbgx_w2_s
@@ -32771,7 +33542,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_urwif_rslt_dbgx_w2_s cn; */
-} bdk_tns_se_urwif_rslt_dbgx_w2_t;
+};
+typedef union bdk_tns_se_urwif_rslt_dbgx_w2 bdk_tns_se_urwif_rslt_dbgx_w2_t;
 
 static inline uint64_t BDK_TNS_SE_URWIF_RSLT_DBGX_W2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_SE_URWIF_RSLT_DBGX_W2(unsigned long a)
@@ -32794,7 +33566,7 @@ static inline uint64_t BDK_TNS_SE_URWIF_RSLT_DBGX_W2(unsigned long a)
  * TNS Search URW Interface ScratchPad Register
  * Scratch Pad Register for XCAT
  */
-typedef union
+union bdk_tns_se_urwif_spad
 {
     uint32_t u;
     struct bdk_tns_se_urwif_spad_s
@@ -32806,7 +33578,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_urwif_spad_s cn; */
-} bdk_tns_se_urwif_spad_t;
+};
+typedef union bdk_tns_se_urwif_spad bdk_tns_se_urwif_spad_t;
 
 #define BDK_TNS_SE_URWIF_SPAD BDK_TNS_SE_URWIF_SPAD_FUNC()
 static inline uint64_t BDK_TNS_SE_URWIF_SPAD_FUNC(void) __attribute__ ((pure, always_inline));
@@ -32830,7 +33603,7 @@ static inline uint64_t BDK_TNS_SE_URWIF_SPAD_FUNC(void)
  * TNS TxQ Configuration Spare Register
  * Spare register with default signature value 0x210FEDCBA9876543 after reset.
  */
-typedef union
+union bdk_tns_txq_cfg_spare
 {
     uint64_t u;
     struct bdk_tns_txq_cfg_spare_s
@@ -32842,7 +33615,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_cfg_spare_s cn; */
-} bdk_tns_txq_cfg_spare_t;
+};
+typedef union bdk_tns_txq_cfg_spare bdk_tns_txq_cfg_spare_t;
 
 #define BDK_TNS_TXQ_CFG_SPARE BDK_TNS_TXQ_CFG_SPARE_FUNC()
 static inline uint64_t BDK_TNS_TXQ_CFG_SPARE_FUNC(void) __attribute__ ((pure, always_inline));
@@ -32867,7 +33641,7 @@ static inline uint64_t BDK_TNS_TXQ_CFG_SPARE_FUNC(void)
  * Configuration to allow counters to go negative or saturate at 0 in RTL.
  * Setting to '1' allows the counter to go negative
  */
-typedef union
+union bdk_tns_txq_cnt_ct_go_neg_cfg
 {
     uint32_t u;
     struct bdk_tns_txq_cnt_ct_go_neg_cfg_s
@@ -32893,7 +33667,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_cnt_ct_go_neg_cfg_s cn; */
-} bdk_tns_txq_cnt_ct_go_neg_cfg_t;
+};
+typedef union bdk_tns_txq_cnt_ct_go_neg_cfg bdk_tns_txq_cnt_ct_go_neg_cfg_t;
 
 #define BDK_TNS_TXQ_CNT_CT_GO_NEG_CFG BDK_TNS_TXQ_CNT_CT_GO_NEG_CFG_FUNC()
 static inline uint64_t BDK_TNS_TXQ_CNT_CT_GO_NEG_CFG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -32917,7 +33692,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_CT_GO_NEG_CFG_FUNC(void)
  * TNS TxQ CNT ECC Control Register
  * ECC configuration of TxQ Counters memories
  */
-typedef union
+union bdk_tns_txq_cnt_ecc_ctl
 {
     uint32_t u;
     struct bdk_tns_txq_cnt_ecc_ctl_s
@@ -32989,7 +33764,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_cnt_ecc_ctl_s cn; */
-} bdk_tns_txq_cnt_ecc_ctl_t;
+};
+typedef union bdk_tns_txq_cnt_ecc_ctl bdk_tns_txq_cnt_ecc_ctl_t;
 
 #define BDK_TNS_TXQ_CNT_ECC_CTL BDK_TNS_TXQ_CNT_ECC_CTL_FUNC()
 static inline uint64_t BDK_TNS_TXQ_CNT_ECC_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -33013,7 +33789,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_ECC_CTL_FUNC(void)
  * TNS TxQ CNT Force Global Multi-cast Flow Control Off Register
  * Configuration to force global Multiple copy flow control off
  */
-typedef union
+union bdk_tns_txq_cnt_frc_gbl_mcfc_off
 {
     uint32_t u;
     struct bdk_tns_txq_cnt_frc_gbl_mcfc_off_s
@@ -33027,7 +33803,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_cnt_frc_gbl_mcfc_off_s cn; */
-} bdk_tns_txq_cnt_frc_gbl_mcfc_off_t;
+};
+typedef union bdk_tns_txq_cnt_frc_gbl_mcfc_off bdk_tns_txq_cnt_frc_gbl_mcfc_off_t;
 
 #define BDK_TNS_TXQ_CNT_FRC_GBL_MCFC_OFF BDK_TNS_TXQ_CNT_FRC_GBL_MCFC_OFF_FUNC()
 static inline uint64_t BDK_TNS_TXQ_CNT_FRC_GBL_MCFC_OFF_FUNC(void) __attribute__ ((pure, always_inline));
@@ -33051,7 +33828,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_FRC_GBL_MCFC_OFF_FUNC(void)
  * TNS TxQ CNT Force Global Multi-cast Flow Control On Register
  * Configuration to force global Multiple copy flow control on
  */
-typedef union
+union bdk_tns_txq_cnt_frc_gbl_mcfc_on
 {
     uint32_t u;
     struct bdk_tns_txq_cnt_frc_gbl_mcfc_on_s
@@ -33065,7 +33842,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_cnt_frc_gbl_mcfc_on_s cn; */
-} bdk_tns_txq_cnt_frc_gbl_mcfc_on_t;
+};
+typedef union bdk_tns_txq_cnt_frc_gbl_mcfc_on bdk_tns_txq_cnt_frc_gbl_mcfc_on_t;
 
 #define BDK_TNS_TXQ_CNT_FRC_GBL_MCFC_ON BDK_TNS_TXQ_CNT_FRC_GBL_MCFC_ON_FUNC()
 static inline uint64_t BDK_TNS_TXQ_CNT_FRC_GBL_MCFC_ON_FUNC(void) __attribute__ ((pure, always_inline));
@@ -33089,7 +33867,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_FRC_GBL_MCFC_ON_FUNC(void)
  * TNS TxQ CNT Force Port Cluster PFC Off Register
  * Configuration to force PFC off per port cluster.  One bit per port
  */
-typedef union
+union bdk_tns_txq_cnt_frc_pc_pfc_off
 {
     uint32_t u;
     struct bdk_tns_txq_cnt_frc_pc_pfc_off_s
@@ -33103,7 +33881,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_cnt_frc_pc_pfc_off_s cn; */
-} bdk_tns_txq_cnt_frc_pc_pfc_off_t;
+};
+typedef union bdk_tns_txq_cnt_frc_pc_pfc_off bdk_tns_txq_cnt_frc_pc_pfc_off_t;
 
 #define BDK_TNS_TXQ_CNT_FRC_PC_PFC_OFF BDK_TNS_TXQ_CNT_FRC_PC_PFC_OFF_FUNC()
 static inline uint64_t BDK_TNS_TXQ_CNT_FRC_PC_PFC_OFF_FUNC(void) __attribute__ ((pure, always_inline));
@@ -33127,7 +33906,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_FRC_PC_PFC_OFF_FUNC(void)
  * TNS TxQ CNT Force Port Cluster PFC On Register
  * Configuration to force PFC on per port cluster. One bit per port
  */
-typedef union
+union bdk_tns_txq_cnt_frc_pc_pfc_on
 {
     uint32_t u;
     struct bdk_tns_txq_cnt_frc_pc_pfc_on_s
@@ -33141,7 +33920,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_cnt_frc_pc_pfc_on_s cn; */
-} bdk_tns_txq_cnt_frc_pc_pfc_on_t;
+};
+typedef union bdk_tns_txq_cnt_frc_pc_pfc_on bdk_tns_txq_cnt_frc_pc_pfc_on_t;
 
 #define BDK_TNS_TXQ_CNT_FRC_PC_PFC_ON BDK_TNS_TXQ_CNT_FRC_PC_PFC_ON_FUNC()
 static inline uint64_t BDK_TNS_TXQ_CNT_FRC_PC_PFC_ON_FUNC(void) __attribute__ ((pure, always_inline));
@@ -33166,7 +33946,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_FRC_PC_PFC_ON_FUNC(void)
  * Configuration to force PFC off per flow control channel. One bit per FC channel
  * Bits 31..16 of registers ending in _W12 are unused.
  */
-typedef union
+union bdk_tns_txq_cnt_frc_pfc_off_wx
 {
     uint32_t u;
     struct bdk_tns_txq_cnt_frc_pfc_off_wx_s
@@ -33178,7 +33958,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_cnt_frc_pfc_off_wx_s cn; */
-} bdk_tns_txq_cnt_frc_pfc_off_wx_t;
+};
+typedef union bdk_tns_txq_cnt_frc_pfc_off_wx bdk_tns_txq_cnt_frc_pfc_off_wx_t;
 
 static inline uint64_t BDK_TNS_TXQ_CNT_FRC_PFC_OFF_WX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_CNT_FRC_PFC_OFF_WX(unsigned long a)
@@ -33202,7 +33983,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_FRC_PFC_OFF_WX(unsigned long a)
  * Configuration to force PFC on per flow control channel.  One bit per FC channel
  * Bits 31..16 of registers ending in _W12 are unused.
  */
-typedef union
+union bdk_tns_txq_cnt_frc_pfc_on_wx
 {
     uint32_t u;
     struct bdk_tns_txq_cnt_frc_pfc_on_wx_s
@@ -33214,7 +33995,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_cnt_frc_pfc_on_wx_s cn; */
-} bdk_tns_txq_cnt_frc_pfc_on_wx_t;
+};
+typedef union bdk_tns_txq_cnt_frc_pfc_on_wx bdk_tns_txq_cnt_frc_pfc_on_wx_t;
 
 static inline uint64_t BDK_TNS_TXQ_CNT_FRC_PFC_ON_WX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_CNT_FRC_PFC_ON_WX(unsigned long a)
@@ -33237,7 +34019,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_FRC_PFC_ON_WX(unsigned long a)
  * TNS TxQ CNT Force Traffic Class PFC Off Register
  * Configuration to force PFC off per traffic class. One bit per TC
  */
-typedef union
+union bdk_tns_txq_cnt_frc_tc_pfc_off
 {
     uint32_t u;
     struct bdk_tns_txq_cnt_frc_tc_pfc_off_s
@@ -33251,7 +34033,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_cnt_frc_tc_pfc_off_s cn; */
-} bdk_tns_txq_cnt_frc_tc_pfc_off_t;
+};
+typedef union bdk_tns_txq_cnt_frc_tc_pfc_off bdk_tns_txq_cnt_frc_tc_pfc_off_t;
 
 #define BDK_TNS_TXQ_CNT_FRC_TC_PFC_OFF BDK_TNS_TXQ_CNT_FRC_TC_PFC_OFF_FUNC()
 static inline uint64_t BDK_TNS_TXQ_CNT_FRC_TC_PFC_OFF_FUNC(void) __attribute__ ((pure, always_inline));
@@ -33275,7 +34058,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_FRC_TC_PFC_OFF_FUNC(void)
  * TNS TxQ CNT Force Traffic Class PFC On Register
  * Configuration to force PFC on per traffic class.  One bit per TC
  */
-typedef union
+union bdk_tns_txq_cnt_frc_tc_pfc_on
 {
     uint32_t u;
     struct bdk_tns_txq_cnt_frc_tc_pfc_on_s
@@ -33289,7 +34072,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_cnt_frc_tc_pfc_on_s cn; */
-} bdk_tns_txq_cnt_frc_tc_pfc_on_t;
+};
+typedef union bdk_tns_txq_cnt_frc_tc_pfc_on bdk_tns_txq_cnt_frc_tc_pfc_on_t;
 
 #define BDK_TNS_TXQ_CNT_FRC_TC_PFC_ON BDK_TNS_TXQ_CNT_FRC_TC_PFC_ON_FUNC()
 static inline uint64_t BDK_TNS_TXQ_CNT_FRC_TC_PFC_ON_FUNC(void) __attribute__ ((pure, always_inline));
@@ -33314,7 +34098,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_FRC_TC_PFC_ON_FUNC(void)
  * Configuration indicating clear on read functionality for packet and packet
  * length forward and drop counters
  */
-typedef union
+union bdk_tns_txq_cnt_fw_drp_rdclr_cfg
 {
     uint32_t u;
     struct bdk_tns_txq_cnt_fw_drp_rdclr_cfg_s
@@ -33334,7 +34118,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_cnt_fw_drp_rdclr_cfg_s cn; */
-} bdk_tns_txq_cnt_fw_drp_rdclr_cfg_t;
+};
+typedef union bdk_tns_txq_cnt_fw_drp_rdclr_cfg bdk_tns_txq_cnt_fw_drp_rdclr_cfg_t;
 
 #define BDK_TNS_TXQ_CNT_FW_DRP_RDCLR_CFG BDK_TNS_TXQ_CNT_FW_DRP_RDCLR_CFG_FUNC()
 static inline uint64_t BDK_TNS_TXQ_CNT_FW_DRP_RDCLR_CFG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -33358,7 +34143,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_FW_DRP_RDCLR_CFG_FUNC(void)
  * TNS TxQ CNT Global Multip-cast Count Register
  * Read/write access to global multi-cast count.
  */
-typedef union
+union bdk_tns_txq_cnt_gbl_mc_ct
 {
     uint32_t u;
     struct bdk_tns_txq_cnt_gbl_mc_ct_s
@@ -33372,7 +34157,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_cnt_gbl_mc_ct_s cn; */
-} bdk_tns_txq_cnt_gbl_mc_ct_t;
+};
+typedef union bdk_tns_txq_cnt_gbl_mc_ct bdk_tns_txq_cnt_gbl_mc_ct_t;
 
 #define BDK_TNS_TXQ_CNT_GBL_MC_CT BDK_TNS_TXQ_CNT_GBL_MC_CT_FUNC()
 static inline uint64_t BDK_TNS_TXQ_CNT_GBL_MC_CT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -33396,7 +34182,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_GBL_MC_CT_FUNC(void)
  * TNS TxQ CNT Global Multip-cast Threshold Register
  * Provide Xon/Xoff profiles for the global MC count.
  */
-typedef union
+union bdk_tns_txq_cnt_gbl_mc_thr
 {
     uint32_t u;
     struct bdk_tns_txq_cnt_gbl_mc_thr_s
@@ -33412,7 +34198,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_cnt_gbl_mc_thr_s cn; */
-} bdk_tns_txq_cnt_gbl_mc_thr_t;
+};
+typedef union bdk_tns_txq_cnt_gbl_mc_thr bdk_tns_txq_cnt_gbl_mc_thr_t;
 
 #define BDK_TNS_TXQ_CNT_GBL_MC_THR BDK_TNS_TXQ_CNT_GBL_MC_THR_FUNC()
 static inline uint64_t BDK_TNS_TXQ_CNT_GBL_MC_THR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -33437,7 +34224,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_GBL_MC_THR_FUNC(void)
  * H1 dropped length ECC error log.  Address is sticky on first error.  Re-armed
  * after reading
  */
-typedef union
+union bdk_tns_txq_cnt_h1_dlcm_ecc_log
 {
     uint32_t u;
     struct bdk_tns_txq_cnt_h1_dlcm_ecc_log_s
@@ -33451,7 +34238,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_cnt_h1_dlcm_ecc_log_s cn; */
-} bdk_tns_txq_cnt_h1_dlcm_ecc_log_t;
+};
+typedef union bdk_tns_txq_cnt_h1_dlcm_ecc_log bdk_tns_txq_cnt_h1_dlcm_ecc_log_t;
 
 #define BDK_TNS_TXQ_CNT_H1_DLCM_ECC_LOG BDK_TNS_TXQ_CNT_H1_DLCM_ECC_LOG_FUNC()
 static inline uint64_t BDK_TNS_TXQ_CNT_H1_DLCM_ECC_LOG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -33476,7 +34264,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_H1_DLCM_ECC_LOG_FUNC(void)
  * H1 dropped packet ECC error log.  Address is sticky on first error.  Re-armed
  * after reading
  */
-typedef union
+union bdk_tns_txq_cnt_h1_dpcm_ecc_log
 {
     uint32_t u;
     struct bdk_tns_txq_cnt_h1_dpcm_ecc_log_s
@@ -33490,7 +34278,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_cnt_h1_dpcm_ecc_log_s cn; */
-} bdk_tns_txq_cnt_h1_dpcm_ecc_log_t;
+};
+typedef union bdk_tns_txq_cnt_h1_dpcm_ecc_log bdk_tns_txq_cnt_h1_dpcm_ecc_log_t;
 
 #define BDK_TNS_TXQ_CNT_H1_DPCM_ECC_LOG BDK_TNS_TXQ_CNT_H1_DPCM_ECC_LOG_FUNC()
 static inline uint64_t BDK_TNS_TXQ_CNT_H1_DPCM_ECC_LOG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -33514,7 +34303,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_H1_DPCM_ECC_LOG_FUNC(void)
  * TNS TxQ CNT H1 Drop Length Count Registers
  * CPU access to H1 dropped packet byte count memory
  */
-typedef union
+union bdk_tns_txq_cnt_h1_drp_len_ctx
 {
     uint64_t u;
     struct bdk_tns_txq_cnt_h1_drp_len_ctx_s
@@ -33530,7 +34319,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_cnt_h1_drp_len_ctx_s cn; */
-} bdk_tns_txq_cnt_h1_drp_len_ctx_t;
+};
+typedef union bdk_tns_txq_cnt_h1_drp_len_ctx bdk_tns_txq_cnt_h1_drp_len_ctx_t;
 
 static inline uint64_t BDK_TNS_TXQ_CNT_H1_DRP_LEN_CTX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_CNT_H1_DRP_LEN_CTX(unsigned long a)
@@ -33553,7 +34343,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_H1_DRP_LEN_CTX(unsigned long a)
  * TNS TxQ CNT H1 Drop Packet Count Registers
  * CPU access to H1 dropped packet count memory
  */
-typedef union
+union bdk_tns_txq_cnt_h1_drp_pkt_ctx
 {
     uint64_t u;
     struct bdk_tns_txq_cnt_h1_drp_pkt_ctx_s
@@ -33569,7 +34359,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_cnt_h1_drp_pkt_ctx_s cn; */
-} bdk_tns_txq_cnt_h1_drp_pkt_ctx_t;
+};
+typedef union bdk_tns_txq_cnt_h1_drp_pkt_ctx bdk_tns_txq_cnt_h1_drp_pkt_ctx_t;
 
 static inline uint64_t BDK_TNS_TXQ_CNT_H1_DRP_PKT_CTX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_CNT_H1_DRP_PKT_CTX(unsigned long a)
@@ -33593,7 +34384,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_H1_DRP_PKT_CTX(unsigned long a)
  * H1 forwarded length ECC error log.  Address is sticky on first error.  Re-armed
  * after reading
  */
-typedef union
+union bdk_tns_txq_cnt_h1_flcm_ecc_log
 {
     uint32_t u;
     struct bdk_tns_txq_cnt_h1_flcm_ecc_log_s
@@ -33607,7 +34398,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_cnt_h1_flcm_ecc_log_s cn; */
-} bdk_tns_txq_cnt_h1_flcm_ecc_log_t;
+};
+typedef union bdk_tns_txq_cnt_h1_flcm_ecc_log bdk_tns_txq_cnt_h1_flcm_ecc_log_t;
 
 #define BDK_TNS_TXQ_CNT_H1_FLCM_ECC_LOG BDK_TNS_TXQ_CNT_H1_FLCM_ECC_LOG_FUNC()
 static inline uint64_t BDK_TNS_TXQ_CNT_H1_FLCM_ECC_LOG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -33632,7 +34424,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_H1_FLCM_ECC_LOG_FUNC(void)
  * H1 forwarded packet ECC error log.  Address is sticky on first error.  Re-armed
  * after reading
  */
-typedef union
+union bdk_tns_txq_cnt_h1_fpcm_ecc_log
 {
     uint32_t u;
     struct bdk_tns_txq_cnt_h1_fpcm_ecc_log_s
@@ -33646,7 +34438,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_cnt_h1_fpcm_ecc_log_s cn; */
-} bdk_tns_txq_cnt_h1_fpcm_ecc_log_t;
+};
+typedef union bdk_tns_txq_cnt_h1_fpcm_ecc_log bdk_tns_txq_cnt_h1_fpcm_ecc_log_t;
 
 #define BDK_TNS_TXQ_CNT_H1_FPCM_ECC_LOG BDK_TNS_TXQ_CNT_H1_FPCM_ECC_LOG_FUNC()
 static inline uint64_t BDK_TNS_TXQ_CNT_H1_FPCM_ECC_LOG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -33670,7 +34463,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_H1_FPCM_ECC_LOG_FUNC(void)
  * TNS TxQ CNT H1 Forward Length Count Registers
  * CPU access to H1 forwarded packet byte count memory
  */
-typedef union
+union bdk_tns_txq_cnt_h1_fw_len_ctx
 {
     uint64_t u;
     struct bdk_tns_txq_cnt_h1_fw_len_ctx_s
@@ -33686,7 +34479,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_cnt_h1_fw_len_ctx_s cn; */
-} bdk_tns_txq_cnt_h1_fw_len_ctx_t;
+};
+typedef union bdk_tns_txq_cnt_h1_fw_len_ctx bdk_tns_txq_cnt_h1_fw_len_ctx_t;
 
 static inline uint64_t BDK_TNS_TXQ_CNT_H1_FW_LEN_CTX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_CNT_H1_FW_LEN_CTX(unsigned long a)
@@ -33709,7 +34503,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_H1_FW_LEN_CTX(unsigned long a)
  * TNS TxQ CNT H1 Forward Packet Count Registers
  * CPU access to H1 forwarded packet count memory
  */
-typedef union
+union bdk_tns_txq_cnt_h1_fw_pkt_ctx
 {
     uint64_t u;
     struct bdk_tns_txq_cnt_h1_fw_pkt_ctx_s
@@ -33725,7 +34519,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_cnt_h1_fw_pkt_ctx_s cn; */
-} bdk_tns_txq_cnt_h1_fw_pkt_ctx_t;
+};
+typedef union bdk_tns_txq_cnt_h1_fw_pkt_ctx bdk_tns_txq_cnt_h1_fw_pkt_ctx_t;
 
 static inline uint64_t BDK_TNS_TXQ_CNT_H1_FW_PKT_CTX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_CNT_H1_FW_PKT_CTX(unsigned long a)
@@ -33748,7 +34543,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_H1_FW_PKT_CTX(unsigned long a)
  * TNS TxQ CNT H1 Length Count Registers
  * CPU access to H1 length counters memory
  */
-typedef union
+union bdk_tns_txq_cnt_h1_len_ctx
 {
     uint32_t u;
     struct bdk_tns_txq_cnt_h1_len_ctx_s
@@ -33762,7 +34557,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_cnt_h1_len_ctx_s cn; */
-} bdk_tns_txq_cnt_h1_len_ctx_t;
+};
+typedef union bdk_tns_txq_cnt_h1_len_ctx bdk_tns_txq_cnt_h1_len_ctx_t;
 
 static inline uint64_t BDK_TNS_TXQ_CNT_H1_LEN_CTX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_CNT_H1_LEN_CTX(unsigned long a)
@@ -33785,7 +34581,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_H1_LEN_CTX(unsigned long a)
  * TNS TxQ CNT Interrrupt Enable High Register
  * CNT interrupt register
  */
-typedef union
+union bdk_tns_txq_cnt_int_en_hi
 {
     uint64_t u;
     struct bdk_tns_txq_cnt_int_en_hi_s
@@ -33869,7 +34665,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_cnt_int_en_hi_s cn; */
-} bdk_tns_txq_cnt_int_en_hi_t;
+};
+typedef union bdk_tns_txq_cnt_int_en_hi bdk_tns_txq_cnt_int_en_hi_t;
 
 #define BDK_TNS_TXQ_CNT_INT_EN_HI BDK_TNS_TXQ_CNT_INT_EN_HI_FUNC()
 static inline uint64_t BDK_TNS_TXQ_CNT_INT_EN_HI_FUNC(void) __attribute__ ((pure, always_inline));
@@ -33893,7 +34690,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_INT_EN_HI_FUNC(void)
  * TNS TxQ CNT Interrrupt Enable Low Register
  * CNT interrupt register
  */
-typedef union
+union bdk_tns_txq_cnt_int_en_lo
 {
     uint64_t u;
     struct bdk_tns_txq_cnt_int_en_lo_s
@@ -33977,7 +34774,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_cnt_int_en_lo_s cn; */
-} bdk_tns_txq_cnt_int_en_lo_t;
+};
+typedef union bdk_tns_txq_cnt_int_en_lo bdk_tns_txq_cnt_int_en_lo_t;
 
 #define BDK_TNS_TXQ_CNT_INT_EN_LO BDK_TNS_TXQ_CNT_INT_EN_LO_FUNC()
 static inline uint64_t BDK_TNS_TXQ_CNT_INT_EN_LO_FUNC(void) __attribute__ ((pure, always_inline));
@@ -34001,7 +34799,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_INT_EN_LO_FUNC(void)
  * TNS TxQ CNT Interrrupt Force Register
  * CNT interrupt register
  */
-typedef union
+union bdk_tns_txq_cnt_int_frc
 {
     uint64_t u;
     struct bdk_tns_txq_cnt_int_frc_s
@@ -34085,7 +34883,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_cnt_int_frc_s cn; */
-} bdk_tns_txq_cnt_int_frc_t;
+};
+typedef union bdk_tns_txq_cnt_int_frc bdk_tns_txq_cnt_int_frc_t;
 
 #define BDK_TNS_TXQ_CNT_INT_FRC BDK_TNS_TXQ_CNT_INT_FRC_FUNC()
 static inline uint64_t BDK_TNS_TXQ_CNT_INT_FRC_FUNC(void) __attribute__ ((pure, always_inline));
@@ -34109,7 +34908,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_INT_FRC_FUNC(void)
  * TNS TxQ CNT Interrrupt W1C Register
  * CNT interrupt register
  */
-typedef union
+union bdk_tns_txq_cnt_int_w1c
 {
     uint64_t u;
     struct bdk_tns_txq_cnt_int_w1c_s
@@ -34193,7 +34992,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_cnt_int_w1c_s cn; */
-} bdk_tns_txq_cnt_int_w1c_t;
+};
+typedef union bdk_tns_txq_cnt_int_w1c bdk_tns_txq_cnt_int_w1c_t;
 
 #define BDK_TNS_TXQ_CNT_INT_W1C BDK_TNS_TXQ_CNT_INT_W1C_FUNC()
 static inline uint64_t BDK_TNS_TXQ_CNT_INT_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -34217,7 +35017,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_INT_W1C_FUNC(void)
  * TNS TxQ CNT Lock Register
  * Lock Register
  */
-typedef union
+union bdk_tns_txq_cnt_lock
 {
     uint32_t u;
     struct bdk_tns_txq_cnt_lock_s
@@ -34229,7 +35029,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_cnt_lock_s cn; */
-} bdk_tns_txq_cnt_lock_t;
+};
+typedef union bdk_tns_txq_cnt_lock bdk_tns_txq_cnt_lock_t;
 
 #define BDK_TNS_TXQ_CNT_LOCK BDK_TNS_TXQ_CNT_LOCK_FUNC()
 static inline uint64_t BDK_TNS_TXQ_CNT_LOCK_FUNC(void) __attribute__ ((pure, always_inline));
@@ -34257,7 +35058,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_LOCK_FUNC(void)
  * flow controls itself with credits.  Log is sticky on first error.  Re-armed
  * after reading.
  */
-typedef union
+union bdk_tns_txq_cnt_nic_crd_ov_thr_wx
 {
     uint64_t u;
     struct bdk_tns_txq_cnt_nic_crd_ov_thr_wx_s
@@ -34269,7 +35070,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_cnt_nic_crd_ov_thr_wx_s cn; */
-} bdk_tns_txq_cnt_nic_crd_ov_thr_wx_t;
+};
+typedef union bdk_tns_txq_cnt_nic_crd_ov_thr_wx bdk_tns_txq_cnt_nic_crd_ov_thr_wx_t;
 
 static inline uint64_t BDK_TNS_TXQ_CNT_NIC_CRD_OV_THR_WX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_CNT_NIC_CRD_OV_THR_WX(unsigned long a)
@@ -34293,7 +35095,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_NIC_CRD_OV_THR_WX(unsigned long a)
  * Count of the total number of packets currently in the pipeline between the txq
  * reply to enqueuing operation
  */
-typedef union
+union bdk_tns_txq_cnt_onthefly_pkt_ct
 {
     uint32_t u;
     struct bdk_tns_txq_cnt_onthefly_pkt_ct_s
@@ -34307,7 +35109,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_cnt_onthefly_pkt_ct_s cn; */
-} bdk_tns_txq_cnt_onthefly_pkt_ct_t;
+};
+typedef union bdk_tns_txq_cnt_onthefly_pkt_ct bdk_tns_txq_cnt_onthefly_pkt_ct_t;
 
 #define BDK_TNS_TXQ_CNT_ONTHEFLY_PKT_CT BDK_TNS_TXQ_CNT_ONTHEFLY_PKT_CT_FUNC()
 static inline uint64_t BDK_TNS_TXQ_CNT_ONTHEFLY_PKT_CT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -34331,7 +35134,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_ONTHEFLY_PKT_CT_FUNC(void)
  * TNS TxQ CNT Port Cluster CNT Memory Registers
  * CPU access to per-port cluster count
  */
-typedef union
+union bdk_tns_txq_cnt_pc_cnt_memx
 {
     uint32_t u;
     struct bdk_tns_txq_cnt_pc_cnt_memx_s
@@ -34345,7 +35148,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_cnt_pc_cnt_memx_s cn; */
-} bdk_tns_txq_cnt_pc_cnt_memx_t;
+};
+typedef union bdk_tns_txq_cnt_pc_cnt_memx bdk_tns_txq_cnt_pc_cnt_memx_t;
 
 static inline uint64_t BDK_TNS_TXQ_CNT_PC_CNT_MEMX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_CNT_PC_CNT_MEMX(unsigned long a)
@@ -34369,7 +35173,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_PC_CNT_MEMX(unsigned long a)
  * CPU access to port cluster profile memory. Provide Xon/Xoff profiles for each
  * of the 11 port clusters.  address 0 corresponds to port cluster 0
  */
-typedef union
+union bdk_tns_txq_cnt_pc_pfl_memx
 {
     uint32_t u;
     struct bdk_tns_txq_cnt_pc_pfl_memx_s
@@ -34385,7 +35189,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_cnt_pc_pfl_memx_s cn; */
-} bdk_tns_txq_cnt_pc_pfl_memx_t;
+};
+typedef union bdk_tns_txq_cnt_pc_pfl_memx bdk_tns_txq_cnt_pc_pfl_memx_t;
 
 static inline uint64_t BDK_TNS_TXQ_CNT_PC_PFL_MEMX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_CNT_PC_PFL_MEMX(unsigned long a)
@@ -34408,7 +35213,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_PC_PFL_MEMX(unsigned long a)
  * TNS TxQ CNT PFC Configuration Register
  * PFC mode and NIC Credit Enable Configuration.
  */
-typedef union
+union bdk_tns_txq_cnt_pfc_cfg
 {
     uint32_t u;
     struct bdk_tns_txq_cnt_pfc_cfg_s
@@ -34424,7 +35229,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_cnt_pfc_cfg_s cn; */
-} bdk_tns_txq_cnt_pfc_cfg_t;
+};
+typedef union bdk_tns_txq_cnt_pfc_cfg bdk_tns_txq_cnt_pfc_cfg_t;
 
 #define BDK_TNS_TXQ_CNT_PFC_CFG BDK_TNS_TXQ_CNT_PFC_CFG_FUNC()
 static inline uint64_t BDK_TNS_TXQ_CNT_PFC_CFG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -34448,7 +35254,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_PFC_CFG_FUNC(void)
  * TNS TxQ CNT PFC CNT Memory Registers
  * CPU access to PFC counters 400 channels (256 for NIC, 128 for BGX, 16 for CPU)
  */
-typedef union
+union bdk_tns_txq_cnt_pfc_cnt_memx
 {
     uint32_t u;
     struct bdk_tns_txq_cnt_pfc_cnt_memx_s
@@ -34462,7 +35268,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_cnt_pfc_cnt_memx_s cn; */
-} bdk_tns_txq_cnt_pfc_cnt_memx_t;
+};
+typedef union bdk_tns_txq_cnt_pfc_cnt_memx bdk_tns_txq_cnt_pfc_cnt_memx_t;
 
 static inline uint64_t BDK_TNS_TXQ_CNT_PFC_CNT_MEMX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_CNT_PFC_CNT_MEMX(unsigned long a)
@@ -34485,7 +35292,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_PFC_CNT_MEMX(unsigned long a)
  * TNS TxQ CNT PFC Hardware Init Status Register
  * Per memory HW init.  Read for status.  '1' indicates that HW init is completed
  */
-typedef union
+union bdk_tns_txq_cnt_pfc_hw_init_sta
 {
     uint32_t u;
     struct bdk_tns_txq_cnt_pfc_hw_init_sta_s
@@ -34503,7 +35310,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_cnt_pfc_hw_init_sta_s cn; */
-} bdk_tns_txq_cnt_pfc_hw_init_sta_t;
+};
+typedef union bdk_tns_txq_cnt_pfc_hw_init_sta bdk_tns_txq_cnt_pfc_hw_init_sta_t;
 
 #define BDK_TNS_TXQ_CNT_PFC_HW_INIT_STA BDK_TNS_TXQ_CNT_PFC_HW_INIT_STA_FUNC()
 static inline uint64_t BDK_TNS_TXQ_CNT_PFC_HW_INIT_STA_FUNC(void) __attribute__ ((pure, always_inline));
@@ -34528,7 +35336,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_PFC_HW_INIT_STA_FUNC(void)
  * CPU access to PFC profile map memory. Maps a PFC profile to each of the 400
  * flow control channels
  */
-typedef union
+union bdk_tns_txq_cnt_pfc_pfl_map_memx
 {
     uint32_t u;
     struct bdk_tns_txq_cnt_pfc_pfl_map_memx_s
@@ -34542,7 +35350,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_cnt_pfc_pfl_map_memx_s cn; */
-} bdk_tns_txq_cnt_pfc_pfl_map_memx_t;
+};
+typedef union bdk_tns_txq_cnt_pfc_pfl_map_memx bdk_tns_txq_cnt_pfc_pfl_map_memx_t;
 
 static inline uint64_t BDK_TNS_TXQ_CNT_PFC_PFL_MAP_MEMX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_CNT_PFC_PFL_MAP_MEMX(unsigned long a)
@@ -34567,7 +35376,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_PFC_PFL_MAP_MEMX(unsigned long a)
  * channels.  Each channel is assigned one of the 64 profiles to determine its
  * xon/xoff thresholds.
  */
-typedef union
+union bdk_tns_txq_cnt_pfc_pfl_memx
 {
     uint32_t u;
     struct bdk_tns_txq_cnt_pfc_pfl_memx_s
@@ -34583,7 +35392,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_cnt_pfc_pfl_memx_s cn; */
-} bdk_tns_txq_cnt_pfc_pfl_memx_t;
+};
+typedef union bdk_tns_txq_cnt_pfc_pfl_memx bdk_tns_txq_cnt_pfc_pfl_memx_t;
 
 static inline uint64_t BDK_TNS_TXQ_CNT_PFC_PFL_MEMX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_CNT_PFC_PFL_MEMX(unsigned long a)
@@ -34607,7 +35417,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_PFC_PFL_MEMX(unsigned long a)
  * Configuration to assign port to a port cluster.  A registers exists for each
  * port to assign to a port cluster.  Port cluster values 0-10 are valid.
  */
-typedef union
+union bdk_tns_txq_cnt_pfc_pt_clus_cfgx
 {
     uint32_t u;
     struct bdk_tns_txq_cnt_pfc_pt_clus_cfgx_s
@@ -34621,7 +35431,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_cnt_pfc_pt_clus_cfgx_s cn; */
-} bdk_tns_txq_cnt_pfc_pt_clus_cfgx_t;
+};
+typedef union bdk_tns_txq_cnt_pfc_pt_clus_cfgx bdk_tns_txq_cnt_pfc_pt_clus_cfgx_t;
 
 static inline uint64_t BDK_TNS_TXQ_CNT_PFC_PT_CLUS_CFGX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_CNT_PFC_PT_CLUS_CFGX(unsigned long a)
@@ -34645,7 +35456,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_PFC_PT_CLUS_CFGX(unsigned long a)
  * Reset configuration to auto-initialize counters in PFC block and start various
  * modules within TBM
  */
-typedef union
+union bdk_tns_txq_cnt_pfc_rst_cfg
 {
     uint32_t u;
     struct bdk_tns_txq_cnt_pfc_rst_cfg_s
@@ -34663,7 +35474,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_cnt_pfc_rst_cfg_s cn; */
-} bdk_tns_txq_cnt_pfc_rst_cfg_t;
+};
+typedef union bdk_tns_txq_cnt_pfc_rst_cfg bdk_tns_txq_cnt_pfc_rst_cfg_t;
 
 #define BDK_TNS_TXQ_CNT_PFC_RST_CFG BDK_TNS_TXQ_CNT_PFC_RST_CFG_FUNC()
 static inline uint64_t BDK_TNS_TXQ_CNT_PFC_RST_CFG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -34687,7 +35499,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_PFC_RST_CFG_FUNC(void)
  * TNS TxQ CNT PORT Drop Length Count Registers
  * CPU access to port dropped packet byte count memory
  */
-typedef union
+union bdk_tns_txq_cnt_pt_drp_len_ctx
 {
     uint64_t u;
     struct bdk_tns_txq_cnt_pt_drp_len_ctx_s
@@ -34703,7 +35515,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_cnt_pt_drp_len_ctx_s cn; */
-} bdk_tns_txq_cnt_pt_drp_len_ctx_t;
+};
+typedef union bdk_tns_txq_cnt_pt_drp_len_ctx bdk_tns_txq_cnt_pt_drp_len_ctx_t;
 
 static inline uint64_t BDK_TNS_TXQ_CNT_PT_DRP_LEN_CTX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_CNT_PT_DRP_LEN_CTX(unsigned long a)
@@ -34726,7 +35539,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_PT_DRP_LEN_CTX(unsigned long a)
  * TNS TxQ CNT PORT Drop Packet Count Registers
  * CPU access to port dropped packet count memory
  */
-typedef union
+union bdk_tns_txq_cnt_pt_drp_pkt_ctx
 {
     uint64_t u;
     struct bdk_tns_txq_cnt_pt_drp_pkt_ctx_s
@@ -34742,7 +35555,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_cnt_pt_drp_pkt_ctx_s cn; */
-} bdk_tns_txq_cnt_pt_drp_pkt_ctx_t;
+};
+typedef union bdk_tns_txq_cnt_pt_drp_pkt_ctx bdk_tns_txq_cnt_pt_drp_pkt_ctx_t;
 
 static inline uint64_t BDK_TNS_TXQ_CNT_PT_DRP_PKT_CTX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_CNT_PT_DRP_PKT_CTX(unsigned long a)
@@ -34765,7 +35579,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_PT_DRP_PKT_CTX(unsigned long a)
  * TNS TxQ CNT PORT Forward Length Count Registers
  * CPU access to port forwarded packet byte count memory
  */
-typedef union
+union bdk_tns_txq_cnt_pt_fw_len_ctx
 {
     uint64_t u;
     struct bdk_tns_txq_cnt_pt_fw_len_ctx_s
@@ -34781,7 +35595,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_cnt_pt_fw_len_ctx_s cn; */
-} bdk_tns_txq_cnt_pt_fw_len_ctx_t;
+};
+typedef union bdk_tns_txq_cnt_pt_fw_len_ctx bdk_tns_txq_cnt_pt_fw_len_ctx_t;
 
 static inline uint64_t BDK_TNS_TXQ_CNT_PT_FW_LEN_CTX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_CNT_PT_FW_LEN_CTX(unsigned long a)
@@ -34804,7 +35619,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_PT_FW_LEN_CTX(unsigned long a)
  * TNS TxQ CNT PORT Forward Packet Count Registers
  * CPU access to port forwarded packet count memory
  */
-typedef union
+union bdk_tns_txq_cnt_pt_fw_pkt_ctx
 {
     uint64_t u;
     struct bdk_tns_txq_cnt_pt_fw_pkt_ctx_s
@@ -34820,7 +35635,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_cnt_pt_fw_pkt_ctx_s cn; */
-} bdk_tns_txq_cnt_pt_fw_pkt_ctx_t;
+};
+typedef union bdk_tns_txq_cnt_pt_fw_pkt_ctx bdk_tns_txq_cnt_pt_fw_pkt_ctx_t;
 
 static inline uint64_t BDK_TNS_TXQ_CNT_PT_FW_PKT_CTX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_CNT_PT_FW_PKT_CTX(unsigned long a)
@@ -34843,7 +35659,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_PT_FW_PKT_CTX(unsigned long a)
  * TNS TxQ CNT PORT Length Count Registers
  * CPU access to PORT length counters memory
  */
-typedef union
+union bdk_tns_txq_cnt_pt_len_ctx
 {
     uint32_t u;
     struct bdk_tns_txq_cnt_pt_len_ctx_s
@@ -34857,7 +35673,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_cnt_pt_len_ctx_s cn; */
-} bdk_tns_txq_cnt_pt_len_ctx_t;
+};
+typedef union bdk_tns_txq_cnt_pt_len_ctx bdk_tns_txq_cnt_pt_len_ctx_t;
 
 static inline uint64_t BDK_TNS_TXQ_CNT_PT_LEN_CTX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_CNT_PT_LEN_CTX(unsigned long a)
@@ -34881,7 +35698,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_PT_LEN_CTX(unsigned long a)
  * Q average length ECC error log.  Address is sticky on first error.  Re-armed
  * after reading
  */
-typedef union
+union bdk_tns_txq_cnt_q_alcm_ecc_log
 {
     uint32_t u;
     struct bdk_tns_txq_cnt_q_alcm_ecc_log_s
@@ -34895,7 +35712,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_cnt_q_alcm_ecc_log_s cn; */
-} bdk_tns_txq_cnt_q_alcm_ecc_log_t;
+};
+typedef union bdk_tns_txq_cnt_q_alcm_ecc_log bdk_tns_txq_cnt_q_alcm_ecc_log_t;
 
 #define BDK_TNS_TXQ_CNT_Q_ALCM_ECC_LOG BDK_TNS_TXQ_CNT_Q_ALCM_ECC_LOG_FUNC()
 static inline uint64_t BDK_TNS_TXQ_CNT_Q_ALCM_ECC_LOG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -34919,7 +35737,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_Q_ALCM_ECC_LOG_FUNC(void)
  * TNS TxQ CNT Queue Avergage Length Count Registers
  * CPU access to Q avg_length counters memory
  */
-typedef union
+union bdk_tns_txq_cnt_q_avg_len_ctx
 {
     uint32_t u;
     struct bdk_tns_txq_cnt_q_avg_len_ctx_s
@@ -34933,7 +35751,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_cnt_q_avg_len_ctx_s cn; */
-} bdk_tns_txq_cnt_q_avg_len_ctx_t;
+};
+typedef union bdk_tns_txq_cnt_q_avg_len_ctx bdk_tns_txq_cnt_q_avg_len_ctx_t;
 
 static inline uint64_t BDK_TNS_TXQ_CNT_Q_AVG_LEN_CTX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_CNT_Q_AVG_LEN_CTX(unsigned long a)
@@ -34957,7 +35776,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_Q_AVG_LEN_CTX(unsigned long a)
  * Q dropped length ECC error log.  Address is sticky on first error.  Re-armed
  * after reading
  */
-typedef union
+union bdk_tns_txq_cnt_q_dlcm_ecc_log
 {
     uint32_t u;
     struct bdk_tns_txq_cnt_q_dlcm_ecc_log_s
@@ -34971,7 +35790,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_cnt_q_dlcm_ecc_log_s cn; */
-} bdk_tns_txq_cnt_q_dlcm_ecc_log_t;
+};
+typedef union bdk_tns_txq_cnt_q_dlcm_ecc_log bdk_tns_txq_cnt_q_dlcm_ecc_log_t;
 
 #define BDK_TNS_TXQ_CNT_Q_DLCM_ECC_LOG BDK_TNS_TXQ_CNT_Q_DLCM_ECC_LOG_FUNC()
 static inline uint64_t BDK_TNS_TXQ_CNT_Q_DLCM_ECC_LOG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -34996,7 +35816,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_Q_DLCM_ECC_LOG_FUNC(void)
  * Q dropped packet ECC error log.  Address is sticky on first error.  Re-armed
  * after reading
  */
-typedef union
+union bdk_tns_txq_cnt_q_dpcm_ecc_log
 {
     uint32_t u;
     struct bdk_tns_txq_cnt_q_dpcm_ecc_log_s
@@ -35010,7 +35830,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_cnt_q_dpcm_ecc_log_s cn; */
-} bdk_tns_txq_cnt_q_dpcm_ecc_log_t;
+};
+typedef union bdk_tns_txq_cnt_q_dpcm_ecc_log bdk_tns_txq_cnt_q_dpcm_ecc_log_t;
 
 #define BDK_TNS_TXQ_CNT_Q_DPCM_ECC_LOG BDK_TNS_TXQ_CNT_Q_DPCM_ECC_LOG_FUNC()
 static inline uint64_t BDK_TNS_TXQ_CNT_Q_DPCM_ECC_LOG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -35034,7 +35855,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_Q_DPCM_ECC_LOG_FUNC(void)
  * TNS TxQ CNT Queue Drop Length Count Registers
  * CPU access to Q dropped packet byte count memory
  */
-typedef union
+union bdk_tns_txq_cnt_q_drp_len_ctx
 {
     uint64_t u;
     struct bdk_tns_txq_cnt_q_drp_len_ctx_s
@@ -35050,7 +35871,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_cnt_q_drp_len_ctx_s cn; */
-} bdk_tns_txq_cnt_q_drp_len_ctx_t;
+};
+typedef union bdk_tns_txq_cnt_q_drp_len_ctx bdk_tns_txq_cnt_q_drp_len_ctx_t;
 
 static inline uint64_t BDK_TNS_TXQ_CNT_Q_DRP_LEN_CTX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_CNT_Q_DRP_LEN_CTX(unsigned long a)
@@ -35073,7 +35895,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_Q_DRP_LEN_CTX(unsigned long a)
  * TNS TxQ CNT Queue Drop Packet Count Registers
  * CPU access to Q dropped packet count memory
  */
-typedef union
+union bdk_tns_txq_cnt_q_drp_pkt_ctx
 {
     uint64_t u;
     struct bdk_tns_txq_cnt_q_drp_pkt_ctx_s
@@ -35089,7 +35911,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_cnt_q_drp_pkt_ctx_s cn; */
-} bdk_tns_txq_cnt_q_drp_pkt_ctx_t;
+};
+typedef union bdk_tns_txq_cnt_q_drp_pkt_ctx bdk_tns_txq_cnt_q_drp_pkt_ctx_t;
 
 static inline uint64_t BDK_TNS_TXQ_CNT_Q_DRP_PKT_CTX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_CNT_Q_DRP_PKT_CTX(unsigned long a)
@@ -35113,7 +35936,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_Q_DRP_PKT_CTX(unsigned long a)
  * Q forwarded length ECC error log.  Address is sticky on first error.  Re-armed
  * after reading
  */
-typedef union
+union bdk_tns_txq_cnt_q_flcm_ecc_log
 {
     uint32_t u;
     struct bdk_tns_txq_cnt_q_flcm_ecc_log_s
@@ -35127,7 +35950,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_cnt_q_flcm_ecc_log_s cn; */
-} bdk_tns_txq_cnt_q_flcm_ecc_log_t;
+};
+typedef union bdk_tns_txq_cnt_q_flcm_ecc_log bdk_tns_txq_cnt_q_flcm_ecc_log_t;
 
 #define BDK_TNS_TXQ_CNT_Q_FLCM_ECC_LOG BDK_TNS_TXQ_CNT_Q_FLCM_ECC_LOG_FUNC()
 static inline uint64_t BDK_TNS_TXQ_CNT_Q_FLCM_ECC_LOG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -35152,7 +35976,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_Q_FLCM_ECC_LOG_FUNC(void)
  * Q forwarded packet ECC error log.  Address is sticky on first error.  Re-armed
  * after reading
  */
-typedef union
+union bdk_tns_txq_cnt_q_fpcm_ecc_log
 {
     uint32_t u;
     struct bdk_tns_txq_cnt_q_fpcm_ecc_log_s
@@ -35166,7 +35990,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_cnt_q_fpcm_ecc_log_s cn; */
-} bdk_tns_txq_cnt_q_fpcm_ecc_log_t;
+};
+typedef union bdk_tns_txq_cnt_q_fpcm_ecc_log bdk_tns_txq_cnt_q_fpcm_ecc_log_t;
 
 #define BDK_TNS_TXQ_CNT_Q_FPCM_ECC_LOG BDK_TNS_TXQ_CNT_Q_FPCM_ECC_LOG_FUNC()
 static inline uint64_t BDK_TNS_TXQ_CNT_Q_FPCM_ECC_LOG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -35190,7 +36015,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_Q_FPCM_ECC_LOG_FUNC(void)
  * TNS TxQ CNT Queue Forward Length Count Registers
  * CPU access to Q forwarded packet byte count memory
  */
-typedef union
+union bdk_tns_txq_cnt_q_fw_len_ctx
 {
     uint64_t u;
     struct bdk_tns_txq_cnt_q_fw_len_ctx_s
@@ -35206,7 +36031,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_cnt_q_fw_len_ctx_s cn; */
-} bdk_tns_txq_cnt_q_fw_len_ctx_t;
+};
+typedef union bdk_tns_txq_cnt_q_fw_len_ctx bdk_tns_txq_cnt_q_fw_len_ctx_t;
 
 static inline uint64_t BDK_TNS_TXQ_CNT_Q_FW_LEN_CTX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_CNT_Q_FW_LEN_CTX(unsigned long a)
@@ -35229,7 +36055,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_Q_FW_LEN_CTX(unsigned long a)
  * TNS TxQ CNT Queue Forward Packet Count Registers
  * CPU access to Q forwarded packet count memory
  */
-typedef union
+union bdk_tns_txq_cnt_q_fw_pkt_ctx
 {
     uint64_t u;
     struct bdk_tns_txq_cnt_q_fw_pkt_ctx_s
@@ -35245,7 +36071,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_cnt_q_fw_pkt_ctx_s cn; */
-} bdk_tns_txq_cnt_q_fw_pkt_ctx_t;
+};
+typedef union bdk_tns_txq_cnt_q_fw_pkt_ctx bdk_tns_txq_cnt_q_fw_pkt_ctx_t;
 
 static inline uint64_t BDK_TNS_TXQ_CNT_Q_FW_PKT_CTX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_CNT_Q_FW_PKT_CTX(unsigned long a)
@@ -35268,7 +36095,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_Q_FW_PKT_CTX(unsigned long a)
  * TNS TxQ CNT Queue Length Count Registers
  * CPU access to Q length counters memory
  */
-typedef union
+union bdk_tns_txq_cnt_q_len_ctx
 {
     uint32_t u;
     struct bdk_tns_txq_cnt_q_len_ctx_s
@@ -35282,7 +36109,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_cnt_q_len_ctx_s cn; */
-} bdk_tns_txq_cnt_q_len_ctx_t;
+};
+typedef union bdk_tns_txq_cnt_q_len_ctx bdk_tns_txq_cnt_q_len_ctx_t;
 
 static inline uint64_t BDK_TNS_TXQ_CNT_Q_LEN_CTX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_CNT_Q_LEN_CTX(unsigned long a)
@@ -35306,7 +36134,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_Q_LEN_CTX(unsigned long a)
  * Q old length ECC error log.  Address is sticky on first error.  Re-armed after
  * reading
  */
-typedef union
+union bdk_tns_txq_cnt_q_olcm_ecc_log
 {
     uint32_t u;
     struct bdk_tns_txq_cnt_q_olcm_ecc_log_s
@@ -35320,7 +36148,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_cnt_q_olcm_ecc_log_s cn; */
-} bdk_tns_txq_cnt_q_olcm_ecc_log_t;
+};
+typedef union bdk_tns_txq_cnt_q_olcm_ecc_log bdk_tns_txq_cnt_q_olcm_ecc_log_t;
 
 #define BDK_TNS_TXQ_CNT_Q_OLCM_ECC_LOG BDK_TNS_TXQ_CNT_Q_OLCM_ECC_LOG_FUNC()
 static inline uint64_t BDK_TNS_TXQ_CNT_Q_OLCM_ECC_LOG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -35344,7 +36173,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_Q_OLCM_ECC_LOG_FUNC(void)
  * TNS TxQ CNT Queue Old Length Count Registers
  * CPU access to Q old_length counters memory
  */
-typedef union
+union bdk_tns_txq_cnt_q_old_len_ctx
 {
     uint32_t u;
     struct bdk_tns_txq_cnt_q_old_len_ctx_s
@@ -35358,7 +36187,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_cnt_q_old_len_ctx_s cn; */
-} bdk_tns_txq_cnt_q_old_len_ctx_t;
+};
+typedef union bdk_tns_txq_cnt_q_old_len_ctx bdk_tns_txq_cnt_q_old_len_ctx_t;
 
 static inline uint64_t BDK_TNS_TXQ_CNT_Q_OLD_LEN_CTX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_CNT_Q_OLD_LEN_CTX(unsigned long a)
@@ -35381,7 +36211,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_Q_OLD_LEN_CTX(unsigned long a)
  * TNS TxQ CNT QAC Bist Status Done Register
  * TxQ QAC bist status and bist_done
  */
-typedef union
+union bdk_tns_txq_cnt_qac_bist_stdn
 {
     uint32_t u;
     struct bdk_tns_txq_cnt_qac_bist_stdn_s
@@ -35441,7 +36271,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_cnt_qac_bist_stdn_s cn; */
-} bdk_tns_txq_cnt_qac_bist_stdn_t;
+};
+typedef union bdk_tns_txq_cnt_qac_bist_stdn bdk_tns_txq_cnt_qac_bist_stdn_t;
 
 #define BDK_TNS_TXQ_CNT_QAC_BIST_STDN BDK_TNS_TXQ_CNT_QAC_BIST_STDN_FUNC()
 static inline uint64_t BDK_TNS_TXQ_CNT_QAC_BIST_STDN_FUNC(void) __attribute__ ((pure, always_inline));
@@ -35466,7 +36297,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_QAC_BIST_STDN_FUNC(void)
  * Count of the total number of pages currently in use by packets stored in the
  * token buffer shared pools
  */
-typedef union
+union bdk_tns_txq_cnt_shrd_pkt_lenx
 {
     uint32_t u;
     struct bdk_tns_txq_cnt_shrd_pkt_lenx_s
@@ -35480,7 +36311,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_cnt_shrd_pkt_lenx_s cn; */
-} bdk_tns_txq_cnt_shrd_pkt_lenx_t;
+};
+typedef union bdk_tns_txq_cnt_shrd_pkt_lenx bdk_tns_txq_cnt_shrd_pkt_lenx_t;
 
 static inline uint64_t BDK_TNS_TXQ_CNT_SHRD_PKT_LENX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_CNT_SHRD_PKT_LENX(unsigned long a)
@@ -35504,7 +36336,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_SHRD_PKT_LENX(unsigned long a)
  * Limit for the number of pages consumed by each shared pool before full is
  * asserted to AQM
  */
-typedef union
+union bdk_tns_txq_cnt_shrd_pkt_len_maxx
 {
     uint32_t u;
     struct bdk_tns_txq_cnt_shrd_pkt_len_maxx_s
@@ -35518,7 +36350,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_cnt_shrd_pkt_len_maxx_s cn; */
-} bdk_tns_txq_cnt_shrd_pkt_len_maxx_t;
+};
+typedef union bdk_tns_txq_cnt_shrd_pkt_len_maxx bdk_tns_txq_cnt_shrd_pkt_len_maxx_t;
 
 static inline uint64_t BDK_TNS_TXQ_CNT_SHRD_PKT_LEN_MAXX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_CNT_SHRD_PKT_LEN_MAXX(unsigned long a)
@@ -35541,7 +36374,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_SHRD_PKT_LEN_MAXX(unsigned long a)
  * TNS TxQ CNT ScratchPad Register
  * Scratch Pad Register for XCAT
  */
-typedef union
+union bdk_tns_txq_cnt_spad
 {
     uint32_t u;
     struct bdk_tns_txq_cnt_spad_s
@@ -35553,7 +36386,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_cnt_spad_s cn; */
-} bdk_tns_txq_cnt_spad_t;
+};
+typedef union bdk_tns_txq_cnt_spad bdk_tns_txq_cnt_spad_t;
 
 #define BDK_TNS_TXQ_CNT_SPAD BDK_TNS_TXQ_CNT_SPAD_FUNC()
 static inline uint64_t BDK_TNS_TXQ_CNT_SPAD_FUNC(void) __attribute__ ((pure, always_inline));
@@ -35577,7 +36411,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_SPAD_FUNC(void)
  * TNS TxQ CNT Traffic Class CNT Memory Registers
  * CPU access to global per-TC count
  */
-typedef union
+union bdk_tns_txq_cnt_tc_cnt_memx
 {
     uint32_t u;
     struct bdk_tns_txq_cnt_tc_cnt_memx_s
@@ -35591,7 +36425,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_cnt_tc_cnt_memx_s cn; */
-} bdk_tns_txq_cnt_tc_cnt_memx_t;
+};
+typedef union bdk_tns_txq_cnt_tc_cnt_memx bdk_tns_txq_cnt_tc_cnt_memx_t;
 
 static inline uint64_t BDK_TNS_TXQ_CNT_TC_CNT_MEMX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_CNT_TC_CNT_MEMX(unsigned long a)
@@ -35615,7 +36450,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_TC_CNT_MEMX(unsigned long a)
  * CPU access to traffic class  profile memory. Provide Xon/Xoff profiles for each
  * of the 16 PFC  channels.  address 0 corresponds to TC 0
  */
-typedef union
+union bdk_tns_txq_cnt_tc_pfl_memx
 {
     uint32_t u;
     struct bdk_tns_txq_cnt_tc_pfl_memx_s
@@ -35631,7 +36466,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_cnt_tc_pfl_memx_s cn; */
-} bdk_tns_txq_cnt_tc_pfl_memx_t;
+};
+typedef union bdk_tns_txq_cnt_tc_pfl_memx bdk_tns_txq_cnt_tc_pfl_memx_t;
 
 static inline uint64_t BDK_TNS_TXQ_CNT_TC_PFL_MEMX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_CNT_TC_PFL_MEMX(unsigned long a)
@@ -35654,7 +36490,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_TC_PFL_MEMX(unsigned long a)
  * TNS TxQ CNT Total Multip-cast Packet Count Register
  * Count of the total number of multi-copy packets currently stored by the switch
  */
-typedef union
+union bdk_tns_txq_cnt_tl_mc_pkt_ct
 {
     uint32_t u;
     struct bdk_tns_txq_cnt_tl_mc_pkt_ct_s
@@ -35668,7 +36504,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_cnt_tl_mc_pkt_ct_s cn; */
-} bdk_tns_txq_cnt_tl_mc_pkt_ct_t;
+};
+typedef union bdk_tns_txq_cnt_tl_mc_pkt_ct bdk_tns_txq_cnt_tl_mc_pkt_ct_t;
 
 #define BDK_TNS_TXQ_CNT_TL_MC_PKT_CT BDK_TNS_TXQ_CNT_TL_MC_PKT_CT_FUNC()
 static inline uint64_t BDK_TNS_TXQ_CNT_TL_MC_PKT_CT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -35692,7 +36529,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_TL_MC_PKT_CT_FUNC(void)
  * TNS TxQ CNT Total Multip-cast Packet Length Register
  * Count of the total number of pages currently in use by multi-copy packet
  */
-typedef union
+union bdk_tns_txq_cnt_tl_mc_pkt_len
 {
     uint32_t u;
     struct bdk_tns_txq_cnt_tl_mc_pkt_len_s
@@ -35706,7 +36543,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_cnt_tl_mc_pkt_len_s cn; */
-} bdk_tns_txq_cnt_tl_mc_pkt_len_t;
+};
+typedef union bdk_tns_txq_cnt_tl_mc_pkt_len bdk_tns_txq_cnt_tl_mc_pkt_len_t;
 
 #define BDK_TNS_TXQ_CNT_TL_MC_PKT_LEN BDK_TNS_TXQ_CNT_TL_MC_PKT_LEN_FUNC()
 static inline uint64_t BDK_TNS_TXQ_CNT_TL_MC_PKT_LEN_FUNC(void) __attribute__ ((pure, always_inline));
@@ -35730,7 +36568,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_TL_MC_PKT_LEN_FUNC(void)
  * TNS TxQ CNT Total Multi-cast Packet Count Maximum Register
  * Limit for the number of MC packet before full is asserted to AQM
  */
-typedef union
+union bdk_tns_txq_cnt_tl_mcpkt_ct_max
 {
     uint32_t u;
     struct bdk_tns_txq_cnt_tl_mcpkt_ct_max_s
@@ -35744,7 +36582,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_cnt_tl_mcpkt_ct_max_s cn; */
-} bdk_tns_txq_cnt_tl_mcpkt_ct_max_t;
+};
+typedef union bdk_tns_txq_cnt_tl_mcpkt_ct_max bdk_tns_txq_cnt_tl_mcpkt_ct_max_t;
 
 #define BDK_TNS_TXQ_CNT_TL_MCPKT_CT_MAX BDK_TNS_TXQ_CNT_TL_MCPKT_CT_MAX_FUNC()
 static inline uint64_t BDK_TNS_TXQ_CNT_TL_MCPKT_CT_MAX_FUNC(void) __attribute__ ((pure, always_inline));
@@ -35769,7 +36608,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_TL_MCPKT_CT_MAX_FUNC(void)
  * Limit for the number of pages consumed by MC packets before full is asserted to
  * AQM
  */
-typedef union
+union bdk_tns_txq_cnt_tl_mcpkt_len_max
 {
     uint32_t u;
     struct bdk_tns_txq_cnt_tl_mcpkt_len_max_s
@@ -35783,7 +36622,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_cnt_tl_mcpkt_len_max_s cn; */
-} bdk_tns_txq_cnt_tl_mcpkt_len_max_t;
+};
+typedef union bdk_tns_txq_cnt_tl_mcpkt_len_max bdk_tns_txq_cnt_tl_mcpkt_len_max_t;
 
 #define BDK_TNS_TXQ_CNT_TL_MCPKT_LEN_MAX BDK_TNS_TXQ_CNT_TL_MCPKT_LEN_MAX_FUNC()
 static inline uint64_t BDK_TNS_TXQ_CNT_TL_MCPKT_LEN_MAX_FUNC(void) __attribute__ ((pure, always_inline));
@@ -35807,7 +36647,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_TL_MCPKT_LEN_MAX_FUNC(void)
  * TNS TxQ CNT Total Packet Count Register
  * Count of the total number of packets currently stored by the switch
  */
-typedef union
+union bdk_tns_txq_cnt_tl_pkt_ct
 {
     uint32_t u;
     struct bdk_tns_txq_cnt_tl_pkt_ct_s
@@ -35821,7 +36661,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_cnt_tl_pkt_ct_s cn; */
-} bdk_tns_txq_cnt_tl_pkt_ct_t;
+};
+typedef union bdk_tns_txq_cnt_tl_pkt_ct bdk_tns_txq_cnt_tl_pkt_ct_t;
 
 #define BDK_TNS_TXQ_CNT_TL_PKT_CT BDK_TNS_TXQ_CNT_TL_PKT_CT_FUNC()
 static inline uint64_t BDK_TNS_TXQ_CNT_TL_PKT_CT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -35845,7 +36686,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_TL_PKT_CT_FUNC(void)
  * TNS TxQ CNT Total Packet Count Maximum Register
  * Limit for the number of packets stored before full is asserted to AQM
  */
-typedef union
+union bdk_tns_txq_cnt_tl_pkt_ct_max
 {
     uint32_t u;
     struct bdk_tns_txq_cnt_tl_pkt_ct_max_s
@@ -35859,7 +36700,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_cnt_tl_pkt_ct_max_s cn; */
-} bdk_tns_txq_cnt_tl_pkt_ct_max_t;
+};
+typedef union bdk_tns_txq_cnt_tl_pkt_ct_max bdk_tns_txq_cnt_tl_pkt_ct_max_t;
 
 #define BDK_TNS_TXQ_CNT_TL_PKT_CT_MAX BDK_TNS_TXQ_CNT_TL_PKT_CT_MAX_FUNC()
 static inline uint64_t BDK_TNS_TXQ_CNT_TL_PKT_CT_MAX_FUNC(void) __attribute__ ((pure, always_inline));
@@ -35883,7 +36725,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_TL_PKT_CT_MAX_FUNC(void)
  * TNS TxQ CNT Total Packet Length Register
  * Count of the total number of pages currently in use by the switch
  */
-typedef union
+union bdk_tns_txq_cnt_tl_pkt_len
 {
     uint32_t u;
     struct bdk_tns_txq_cnt_tl_pkt_len_s
@@ -35897,7 +36739,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_cnt_tl_pkt_len_s cn; */
-} bdk_tns_txq_cnt_tl_pkt_len_t;
+};
+typedef union bdk_tns_txq_cnt_tl_pkt_len bdk_tns_txq_cnt_tl_pkt_len_t;
 
 #define BDK_TNS_TXQ_CNT_TL_PKT_LEN BDK_TNS_TXQ_CNT_TL_PKT_LEN_FUNC()
 static inline uint64_t BDK_TNS_TXQ_CNT_TL_PKT_LEN_FUNC(void) __attribute__ ((pure, always_inline));
@@ -35922,7 +36765,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_TL_PKT_LEN_FUNC(void)
  * Limit for the number of pages consumed by all packets before full is asserted
  * to AQM
  */
-typedef union
+union bdk_tns_txq_cnt_tl_pkt_len_max
 {
     uint32_t u;
     struct bdk_tns_txq_cnt_tl_pkt_len_max_s
@@ -35936,7 +36779,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_cnt_tl_pkt_len_max_s cn; */
-} bdk_tns_txq_cnt_tl_pkt_len_max_t;
+};
+typedef union bdk_tns_txq_cnt_tl_pkt_len_max bdk_tns_txq_cnt_tl_pkt_len_max_t;
 
 #define BDK_TNS_TXQ_CNT_TL_PKT_LEN_MAX BDK_TNS_TXQ_CNT_TL_PKT_LEN_MAX_FUNC()
 static inline uint64_t BDK_TNS_TXQ_CNT_TL_PKT_LEN_MAX_FUNC(void) __attribute__ ((pure, always_inline));
@@ -35960,7 +36804,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_TL_PKT_LEN_MAX_FUNC(void)
  * TNS TxQ Deque Bist Status Done Register
  * TxQ DQ bist status and bist_done
  */
-typedef union
+union bdk_tns_txq_dq_bist_stdn
 {
     uint32_t u;
     struct bdk_tns_txq_dq_bist_stdn_s
@@ -36004,7 +36848,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_bist_stdn_s cn; */
-} bdk_tns_txq_dq_bist_stdn_t;
+};
+typedef union bdk_tns_txq_dq_bist_stdn bdk_tns_txq_dq_bist_stdn_t;
 
 #define BDK_TNS_TXQ_DQ_BIST_STDN BDK_TNS_TXQ_DQ_BIST_STDN_FUNC()
 static inline uint64_t BDK_TNS_TXQ_DQ_BIST_STDN_FUNC(void) __attribute__ ((pure, always_inline));
@@ -36032,7 +36877,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_BIST_STDN_FUNC(void)
  * (e.g. XPH).  Bit 0-7 indicate number of bytes.  Bit 8 indicates positive or
  * negative (1=negative, 0=positive).
  */
-typedef union
+union bdk_tns_txq_dq_byte_ct_off_w0
 {
     uint32_t u;
     struct bdk_tns_txq_dq_byte_ct_off_w0_s
@@ -36050,7 +36895,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_byte_ct_off_w0_s cn; */
-} bdk_tns_txq_dq_byte_ct_off_w0_t;
+};
+typedef union bdk_tns_txq_dq_byte_ct_off_w0 bdk_tns_txq_dq_byte_ct_off_w0_t;
 
 #define BDK_TNS_TXQ_DQ_BYTE_CT_OFF_W0 BDK_TNS_TXQ_DQ_BYTE_CT_OFF_W0_FUNC()
 static inline uint64_t BDK_TNS_TXQ_DQ_BYTE_CT_OFF_W0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -36074,7 +36920,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_BYTE_CT_OFF_W0_FUNC(void)
  * TNS TxQ Deque Byte Count Off Word 1 Register
  * Continuation of structure defined in TNS_TXQ_DQ_BYTE_CT_OFF_W0
  */
-typedef union
+union bdk_tns_txq_dq_byte_ct_off_w1
 {
     uint32_t u;
     struct bdk_tns_txq_dq_byte_ct_off_w1_s
@@ -36094,7 +36940,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_byte_ct_off_w1_s cn; */
-} bdk_tns_txq_dq_byte_ct_off_w1_t;
+};
+typedef union bdk_tns_txq_dq_byte_ct_off_w1 bdk_tns_txq_dq_byte_ct_off_w1_t;
 
 #define BDK_TNS_TXQ_DQ_BYTE_CT_OFF_W1 BDK_TNS_TXQ_DQ_BYTE_CT_OFF_W1_FUNC()
 static inline uint64_t BDK_TNS_TXQ_DQ_BYTE_CT_OFF_W1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -36118,7 +36965,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_BYTE_CT_OFF_W1_FUNC(void)
  * TNS TxQ Deque Byte Count Off Word 2 Register
  * Continuation of structure defined in TNS_TXQ_DQ_BYTE_CT_OFF_W0
  */
-typedef union
+union bdk_tns_txq_dq_byte_ct_off_w2
 {
     uint32_t u;
     struct bdk_tns_txq_dq_byte_ct_off_w2_s
@@ -36136,7 +36983,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_byte_ct_off_w2_s cn; */
-} bdk_tns_txq_dq_byte_ct_off_w2_t;
+};
+typedef union bdk_tns_txq_dq_byte_ct_off_w2 bdk_tns_txq_dq_byte_ct_off_w2_t;
 
 #define BDK_TNS_TXQ_DQ_BYTE_CT_OFF_W2 BDK_TNS_TXQ_DQ_BYTE_CT_OFF_W2_FUNC()
 static inline uint64_t BDK_TNS_TXQ_DQ_BYTE_CT_OFF_W2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -36160,7 +37008,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_BYTE_CT_OFF_W2_FUNC(void)
  * TNS TxQ Deque Byte Count Off Word 3 Register
  * Continuation of structure defined in TNS_TXQ_DQ_BYTE_CT_OFF_W0
  */
-typedef union
+union bdk_tns_txq_dq_byte_ct_off_w3
 {
     uint32_t u;
     struct bdk_tns_txq_dq_byte_ct_off_w3_s
@@ -36180,7 +37028,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_byte_ct_off_w3_s cn; */
-} bdk_tns_txq_dq_byte_ct_off_w3_t;
+};
+typedef union bdk_tns_txq_dq_byte_ct_off_w3 bdk_tns_txq_dq_byte_ct_off_w3_t;
 
 #define BDK_TNS_TXQ_DQ_BYTE_CT_OFF_W3 BDK_TNS_TXQ_DQ_BYTE_CT_OFF_W3_FUNC()
 static inline uint64_t BDK_TNS_TXQ_DQ_BYTE_CT_OFF_W3_FUNC(void) __attribute__ ((pure, always_inline));
@@ -36204,7 +37053,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_BYTE_CT_OFF_W3_FUNC(void)
  * TNS TxQ Deque Byte Count Off Word 4 Register
  * Continuation of structure defined in TNS_TXQ_DQ_BYTE_CT_OFF_W0
  */
-typedef union
+union bdk_tns_txq_dq_byte_ct_off_w4
 {
     uint32_t u;
     struct bdk_tns_txq_dq_byte_ct_off_w4_s
@@ -36220,7 +37069,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_byte_ct_off_w4_s cn; */
-} bdk_tns_txq_dq_byte_ct_off_w4_t;
+};
+typedef union bdk_tns_txq_dq_byte_ct_off_w4 bdk_tns_txq_dq_byte_ct_off_w4_t;
 
 #define BDK_TNS_TXQ_DQ_BYTE_CT_OFF_W4 BDK_TNS_TXQ_DQ_BYTE_CT_OFF_W4_FUNC()
 static inline uint64_t BDK_TNS_TXQ_DQ_BYTE_CT_OFF_W4_FUNC(void) __attribute__ ((pure, always_inline));
@@ -36244,7 +37094,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_BYTE_CT_OFF_W4_FUNC(void)
  * TNS TxQ Deque DRC Rx and Token Buffer Access FIFO Interrrupt Enable High Register
  * DQ DFC Rx FIFO and Token Buffer Access FIFO errors interrupt status register
  */
-typedef union
+union bdk_tns_txq_dq_drtbaf_int_en_hi
 {
     uint32_t u;
     struct bdk_tns_txq_dq_drtbaf_int_en_hi_s
@@ -36264,7 +37114,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_drtbaf_int_en_hi_s cn; */
-} bdk_tns_txq_dq_drtbaf_int_en_hi_t;
+};
+typedef union bdk_tns_txq_dq_drtbaf_int_en_hi bdk_tns_txq_dq_drtbaf_int_en_hi_t;
 
 #define BDK_TNS_TXQ_DQ_DRTBAF_INT_EN_HI BDK_TNS_TXQ_DQ_DRTBAF_INT_EN_HI_FUNC()
 static inline uint64_t BDK_TNS_TXQ_DQ_DRTBAF_INT_EN_HI_FUNC(void) __attribute__ ((pure, always_inline));
@@ -36288,7 +37139,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_DRTBAF_INT_EN_HI_FUNC(void)
  * TNS TxQ Deque DRC Rx and Token Buffer Access FIFO Interrrupt Enable Low Register
  * DQ DFC Rx FIFO and Token Buffer Access FIFO errors interrupt status register
  */
-typedef union
+union bdk_tns_txq_dq_drtbaf_int_en_lo
 {
     uint32_t u;
     struct bdk_tns_txq_dq_drtbaf_int_en_lo_s
@@ -36308,7 +37159,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_drtbaf_int_en_lo_s cn; */
-} bdk_tns_txq_dq_drtbaf_int_en_lo_t;
+};
+typedef union bdk_tns_txq_dq_drtbaf_int_en_lo bdk_tns_txq_dq_drtbaf_int_en_lo_t;
 
 #define BDK_TNS_TXQ_DQ_DRTBAF_INT_EN_LO BDK_TNS_TXQ_DQ_DRTBAF_INT_EN_LO_FUNC()
 static inline uint64_t BDK_TNS_TXQ_DQ_DRTBAF_INT_EN_LO_FUNC(void) __attribute__ ((pure, always_inline));
@@ -36332,7 +37184,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_DRTBAF_INT_EN_LO_FUNC(void)
  * TNS TxQ Deque DRC Rx and Token Buffer Access FIFO Interrrupt Force Register
  * DQ DFC Rx FIFO and Token Buffer Access FIFO errors interrupt status register
  */
-typedef union
+union bdk_tns_txq_dq_drtbaf_int_frc
 {
     uint32_t u;
     struct bdk_tns_txq_dq_drtbaf_int_frc_s
@@ -36352,7 +37204,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_drtbaf_int_frc_s cn; */
-} bdk_tns_txq_dq_drtbaf_int_frc_t;
+};
+typedef union bdk_tns_txq_dq_drtbaf_int_frc bdk_tns_txq_dq_drtbaf_int_frc_t;
 
 #define BDK_TNS_TXQ_DQ_DRTBAF_INT_FRC BDK_TNS_TXQ_DQ_DRTBAF_INT_FRC_FUNC()
 static inline uint64_t BDK_TNS_TXQ_DQ_DRTBAF_INT_FRC_FUNC(void) __attribute__ ((pure, always_inline));
@@ -36376,7 +37229,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_DRTBAF_INT_FRC_FUNC(void)
  * TNS TxQ Deque DRC Rx and Token Buffer Access FIFO Interrrupt W1C Register
  * DQ DFC Rx FIFO and Token Buffer Access FIFO errors interrupt status register
  */
-typedef union
+union bdk_tns_txq_dq_drtbaf_int_w1c
 {
     uint32_t u;
     struct bdk_tns_txq_dq_drtbaf_int_w1c_s
@@ -36396,7 +37249,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_drtbaf_int_w1c_s cn; */
-} bdk_tns_txq_dq_drtbaf_int_w1c_t;
+};
+typedef union bdk_tns_txq_dq_drtbaf_int_w1c bdk_tns_txq_dq_drtbaf_int_w1c_t;
 
 #define BDK_TNS_TXQ_DQ_DRTBAF_INT_W1C BDK_TNS_TXQ_DQ_DRTBAF_INT_W1C_FUNC()
 static inline uint64_t BDK_TNS_TXQ_DQ_DRTBAF_INT_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -36420,7 +37274,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_DRTBAF_INT_W1C_FUNC(void)
  * TNS TxQ Deque ECC Control Register
  * ECC configuration of DQ token buffer access memory
  */
-typedef union
+union bdk_tns_txq_dq_ecc_ctl
 {
     uint32_t u;
     struct bdk_tns_txq_dq_ecc_ctl_s
@@ -36438,7 +37292,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_ecc_ctl_s cn; */
-} bdk_tns_txq_dq_ecc_ctl_t;
+};
+typedef union bdk_tns_txq_dq_ecc_ctl bdk_tns_txq_dq_ecc_ctl_t;
 
 #define BDK_TNS_TXQ_DQ_ECC_CTL BDK_TNS_TXQ_DQ_ECC_CTL_FUNC()
 static inline uint64_t BDK_TNS_TXQ_DQ_ECC_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -36462,7 +37317,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_ECC_CTL_FUNC(void)
  * TNS TxQ Deque H1 Scheduler DWRR Configuration Status Table Memory Registers
  * Q DWRR weights and counters memory
  */
-typedef union
+union bdk_tns_txq_dq_h1s_dwrr_cst_memx
 {
     uint32_t u;
     struct bdk_tns_txq_dq_h1s_dwrr_cst_memx_s
@@ -36476,7 +37331,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_h1s_dwrr_cst_memx_s cn; */
-} bdk_tns_txq_dq_h1s_dwrr_cst_memx_t;
+};
+typedef union bdk_tns_txq_dq_h1s_dwrr_cst_memx bdk_tns_txq_dq_h1s_dwrr_cst_memx_t;
 
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_DWRR_CST_MEMX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_DWRR_CST_MEMX(unsigned long a)
@@ -36500,7 +37356,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_DWRR_CST_MEMX(unsigned long a)
  * H1 scheduler DWRR configuration and state memory ECC error log.  Address is
  * sticky on first error.  Re-armed after reading
  */
-typedef union
+union bdk_tns_txq_dq_h1s_dwrr_ecc_log
 {
     uint32_t u;
     struct bdk_tns_txq_dq_h1s_dwrr_ecc_log_s
@@ -36514,7 +37370,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_h1s_dwrr_ecc_log_s cn; */
-} bdk_tns_txq_dq_h1s_dwrr_ecc_log_t;
+};
+typedef union bdk_tns_txq_dq_h1s_dwrr_ecc_log bdk_tns_txq_dq_h1s_dwrr_ecc_log_t;
 
 #define BDK_TNS_TXQ_DQ_H1S_DWRR_ECC_LOG BDK_TNS_TXQ_DQ_H1S_DWRR_ECC_LOG_FUNC()
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_DWRR_ECC_LOG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -36538,7 +37395,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_DWRR_ECC_LOG_FUNC(void)
  * TNS TxQ Deque H1 Scheduler ECC Control Register
  * ECC configuration of DQ H1 scheduler memories
  */
-typedef union
+union bdk_tns_txq_dq_h1s_ecc_ctl
 {
     uint32_t u;
     struct bdk_tns_txq_dq_h1s_ecc_ctl_s
@@ -36614,7 +37471,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_h1s_ecc_ctl_s cn; */
-} bdk_tns_txq_dq_h1s_ecc_ctl_t;
+};
+typedef union bdk_tns_txq_dq_h1s_ecc_ctl bdk_tns_txq_dq_h1s_ecc_ctl_t;
 
 #define BDK_TNS_TXQ_DQ_H1S_ECC_CTL BDK_TNS_TXQ_DQ_H1S_ECC_CTL_FUNC()
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_ECC_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -36639,7 +37497,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_ECC_CTL_FUNC(void)
  * "Q CB shapers fast_update Q # mapping memory. Maps the index of the fast shaper
  * to the associated Queue"
  */
-typedef union
+union bdk_tns_txq_dq_h1s_fshp_i2qx
 {
     uint32_t u;
     struct bdk_tns_txq_dq_h1s_fshp_i2qx_s
@@ -36653,7 +37511,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_h1s_fshp_i2qx_s cn; */
-} bdk_tns_txq_dq_h1s_fshp_i2qx_t;
+};
+typedef union bdk_tns_txq_dq_h1s_fshp_i2qx bdk_tns_txq_dq_h1s_fshp_i2qx_t;
 
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_FSHP_I2QX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_FSHP_I2QX(unsigned long a)
@@ -36680,7 +37539,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_FSHP_I2QX(unsigned long a)
  * When writing, make the access to this decoder atomic w.r.t. other writes to
  * this decoder.
  */
-typedef union
+union bdk_tns_txq_dq_h1s_fshp_memx_w0
 {
     uint32_t u;
     struct bdk_tns_txq_dq_h1s_fshp_memx_w0_s
@@ -36694,7 +37553,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_h1s_fshp_memx_w0_s cn; */
-} bdk_tns_txq_dq_h1s_fshp_memx_w0_t;
+};
+typedef union bdk_tns_txq_dq_h1s_fshp_memx_w0 bdk_tns_txq_dq_h1s_fshp_memx_w0_t;
 
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_FSHP_MEMX_W0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_FSHP_MEMX_W0(unsigned long a)
@@ -36717,7 +37577,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_FSHP_MEMX_W0(unsigned long a)
  * TNS TxQ Deque H1 Scheduler CB Fast Update Shapper Memory Word 1 Registers
  * Continuation of structure defined in TNS_TXQ_DQ_H1S_FSHP_MEM(0..159)_W0
  */
-typedef union
+union bdk_tns_txq_dq_h1s_fshp_memx_w1
 {
     uint32_t u;
     struct bdk_tns_txq_dq_h1s_fshp_memx_w1_s
@@ -36739,7 +37599,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_h1s_fshp_memx_w1_s cn; */
-} bdk_tns_txq_dq_h1s_fshp_memx_w1_t;
+};
+typedef union bdk_tns_txq_dq_h1s_fshp_memx_w1 bdk_tns_txq_dq_h1s_fshp_memx_w1_t;
 
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_FSHP_MEMX_W1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_FSHP_MEMX_W1(unsigned long a)
@@ -36762,7 +37623,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_FSHP_MEMX_W1(unsigned long a)
  * TNS TxQ Deque H1 Scheduler CB Fast Update Shapper Memory Word 2 Registers
  * Continuation of structure defined in TNS_TXQ_DQ_H1S_FSHP_MEM(0..159)_W0
  */
-typedef union
+union bdk_tns_txq_dq_h1s_fshp_memx_w2
 {
     uint32_t u;
     struct bdk_tns_txq_dq_h1s_fshp_memx_w2_s
@@ -36776,7 +37637,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_h1s_fshp_memx_w2_s cn; */
-} bdk_tns_txq_dq_h1s_fshp_memx_w2_t;
+};
+typedef union bdk_tns_txq_dq_h1s_fshp_memx_w2 bdk_tns_txq_dq_h1s_fshp_memx_w2_t;
 
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_FSHP_MEMX_W2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_FSHP_MEMX_W2(unsigned long a)
@@ -36799,7 +37661,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_FSHP_MEMX_W2(unsigned long a)
  * TNS TxQ Deque H1 Scheduler Interrrupt Enable High Register
  * H1 scheduler interrupt register
  */
-typedef union
+union bdk_tns_txq_dq_h1s_int_en_hi
 {
     uint32_t u;
     struct bdk_tns_txq_dq_h1s_int_en_hi_s
@@ -36859,7 +37721,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_h1s_int_en_hi_s cn; */
-} bdk_tns_txq_dq_h1s_int_en_hi_t;
+};
+typedef union bdk_tns_txq_dq_h1s_int_en_hi bdk_tns_txq_dq_h1s_int_en_hi_t;
 
 #define BDK_TNS_TXQ_DQ_H1S_INT_EN_HI BDK_TNS_TXQ_DQ_H1S_INT_EN_HI_FUNC()
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_INT_EN_HI_FUNC(void) __attribute__ ((pure, always_inline));
@@ -36883,7 +37746,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_INT_EN_HI_FUNC(void)
  * TNS TxQ Deque H1 Scheduler Interrrupt Enable Low Register
  * H1 scheduler interrupt register
  */
-typedef union
+union bdk_tns_txq_dq_h1s_int_en_lo
 {
     uint32_t u;
     struct bdk_tns_txq_dq_h1s_int_en_lo_s
@@ -36943,7 +37806,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_h1s_int_en_lo_s cn; */
-} bdk_tns_txq_dq_h1s_int_en_lo_t;
+};
+typedef union bdk_tns_txq_dq_h1s_int_en_lo bdk_tns_txq_dq_h1s_int_en_lo_t;
 
 #define BDK_TNS_TXQ_DQ_H1S_INT_EN_LO BDK_TNS_TXQ_DQ_H1S_INT_EN_LO_FUNC()
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_INT_EN_LO_FUNC(void) __attribute__ ((pure, always_inline));
@@ -36967,7 +37831,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_INT_EN_LO_FUNC(void)
  * TNS TxQ Deque H1 Scheduler Interrrupt Force Register
  * H1 scheduler interrupt register
  */
-typedef union
+union bdk_tns_txq_dq_h1s_int_frc
 {
     uint32_t u;
     struct bdk_tns_txq_dq_h1s_int_frc_s
@@ -37027,7 +37891,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_h1s_int_frc_s cn; */
-} bdk_tns_txq_dq_h1s_int_frc_t;
+};
+typedef union bdk_tns_txq_dq_h1s_int_frc bdk_tns_txq_dq_h1s_int_frc_t;
 
 #define BDK_TNS_TXQ_DQ_H1S_INT_FRC BDK_TNS_TXQ_DQ_H1S_INT_FRC_FUNC()
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_INT_FRC_FUNC(void) __attribute__ ((pure, always_inline));
@@ -37051,7 +37916,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_INT_FRC_FUNC(void)
  * TNS TxQ Deque H1 Scheduler Interrrupt W1C Register
  * H1 scheduler interrupt register
  */
-typedef union
+union bdk_tns_txq_dq_h1s_int_w1c
 {
     uint32_t u;
     struct bdk_tns_txq_dq_h1s_int_w1c_s
@@ -37111,7 +37976,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_h1s_int_w1c_s cn; */
-} bdk_tns_txq_dq_h1s_int_w1c_t;
+};
+typedef union bdk_tns_txq_dq_h1s_int_w1c bdk_tns_txq_dq_h1s_int_w1c_t;
 
 #define BDK_TNS_TXQ_DQ_H1S_INT_W1C BDK_TNS_TXQ_DQ_H1S_INT_W1C_FUNC()
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_INT_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -37135,7 +38001,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_INT_W1C_FUNC(void)
  * TNS TxQ Deque H1 Scheduler Lock Register
  * Lock Register
  */
-typedef union
+union bdk_tns_txq_dq_h1s_lock
 {
     uint32_t u;
     struct bdk_tns_txq_dq_h1s_lock_s
@@ -37147,7 +38013,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_h1s_lock_s cn; */
-} bdk_tns_txq_dq_h1s_lock_t;
+};
+typedef union bdk_tns_txq_dq_h1s_lock bdk_tns_txq_dq_h1s_lock_t;
 
 #define BDK_TNS_TXQ_DQ_H1S_LOCK BDK_TNS_TXQ_DQ_H1S_LOCK_FUNC()
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_LOCK_FUNC(void) __attribute__ ((pure, always_inline));
@@ -37171,7 +38038,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_LOCK_FUNC(void)
  * TNS TxQ Deque H1 Scheduler Queue General Configuration Register
  * Enable for shapers, DWRR, and slow compensation
  */
-typedef union
+union bdk_tns_txq_dq_h1s_q_gen_cfg
 {
     uint32_t u;
     struct bdk_tns_txq_dq_h1s_q_gen_cfg_s
@@ -37191,7 +38058,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_h1s_q_gen_cfg_s cn; */
-} bdk_tns_txq_dq_h1s_q_gen_cfg_t;
+};
+typedef union bdk_tns_txq_dq_h1s_q_gen_cfg bdk_tns_txq_dq_h1s_q_gen_cfg_t;
 
 #define BDK_TNS_TXQ_DQ_H1S_Q_GEN_CFG BDK_TNS_TXQ_DQ_H1S_Q_GEN_CFG_FUNC()
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_Q_GEN_CFG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -37215,7 +38083,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_Q_GEN_CFG_FUNC(void)
  * TNS TxQ Deque H1 Scheduler Queue DWRR MTU Configuration Register
  * MTU configuration for H1 arbiter (MTU in bytes = 2^q_dwrr_mtu_cfg).
  */
-typedef union
+union bdk_tns_txq_dq_h1s_qdwrr_mtu_cfg
 {
     uint32_t u;
     struct bdk_tns_txq_dq_h1s_qdwrr_mtu_cfg_s
@@ -37229,7 +38097,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_h1s_qdwrr_mtu_cfg_s cn; */
-} bdk_tns_txq_dq_h1s_qdwrr_mtu_cfg_t;
+};
+typedef union bdk_tns_txq_dq_h1s_qdwrr_mtu_cfg bdk_tns_txq_dq_h1s_qdwrr_mtu_cfg_t;
 
 #define BDK_TNS_TXQ_DQ_H1S_QDWRR_MTU_CFG BDK_TNS_TXQ_DQ_H1S_QDWRR_MTU_CFG_FUNC()
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_QDWRR_MTU_CFG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -37253,7 +38122,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_QDWRR_MTU_CFG_FUNC(void)
  * TNS TxQ Deque H1 Scheduler Queue Fast CB Shapper Address Map Register
  * Configuration to map bits in Q array to FAST_UPD CB shapers list index
  */
-typedef union
+union bdk_tns_txq_dq_h1s_qfshp_adr_map
 {
     uint32_t u;
     struct bdk_tns_txq_dq_h1s_qfshp_adr_map_s
@@ -37279,7 +38148,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_h1s_qfshp_adr_map_s cn; */
-} bdk_tns_txq_dq_h1s_qfshp_adr_map_t;
+};
+typedef union bdk_tns_txq_dq_h1s_qfshp_adr_map bdk_tns_txq_dq_h1s_qfshp_adr_map_t;
 
 #define BDK_TNS_TXQ_DQ_H1S_QFSHP_ADR_MAP BDK_TNS_TXQ_DQ_H1S_QFSHP_ADR_MAP_FUNC()
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_QFSHP_ADR_MAP_FUNC(void) __attribute__ ((pure, always_inline));
@@ -37303,7 +38173,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_QFSHP_ADR_MAP_FUNC(void)
  * TNS TxQ Deque H1 Scheduler Queue Fast CB Shapper Check Configuration Register
  * Bitmap used to validate entry in FAST_UPD list
  */
-typedef union
+union bdk_tns_txq_dq_h1s_qfshp_chk_cfg
 {
     uint32_t u;
     struct bdk_tns_txq_dq_h1s_qfshp_chk_cfg_s
@@ -37317,7 +38187,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_h1s_qfshp_chk_cfg_s cn; */
-} bdk_tns_txq_dq_h1s_qfshp_chk_cfg_t;
+};
+typedef union bdk_tns_txq_dq_h1s_qfshp_chk_cfg bdk_tns_txq_dq_h1s_qfshp_chk_cfg_t;
 
 #define BDK_TNS_TXQ_DQ_H1S_QFSHP_CHK_CFG BDK_TNS_TXQ_DQ_H1S_QFSHP_CHK_CFG_FUNC()
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_QFSHP_CHK_CFG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -37341,7 +38212,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_QFSHP_CHK_CFG_FUNC(void)
  * TNS TxQ Deque H1 Scheduler Queue Fast CB Shapper Map Configuration Register
  * Configuration to map bits in Q array used to validate entry in FAST_UPD list
  */
-typedef union
+union bdk_tns_txq_dq_h1s_qfshp_map_cfg
 {
     uint32_t u;
     struct bdk_tns_txq_dq_h1s_qfshp_map_cfg_s
@@ -37359,7 +38230,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_h1s_qfshp_map_cfg_s cn; */
-} bdk_tns_txq_dq_h1s_qfshp_map_cfg_t;
+};
+typedef union bdk_tns_txq_dq_h1s_qfshp_map_cfg bdk_tns_txq_dq_h1s_qfshp_map_cfg_t;
 
 #define BDK_TNS_TXQ_DQ_H1S_QFSHP_MAP_CFG BDK_TNS_TXQ_DQ_H1S_QFSHP_MAP_CFG_FUNC()
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_QFSHP_MAP_CFG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -37383,7 +38255,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_QFSHP_MAP_CFG_FUNC(void)
  * TNS TxQ Deque H1 Scheduler Queue Packet Count Limit Registers
  * Q packet count limits
  */
-typedef union
+union bdk_tns_txq_dq_h1s_qpkt_ct_lmtx
 {
     uint32_t u;
     struct bdk_tns_txq_dq_h1s_qpkt_ct_lmtx_s
@@ -37397,7 +38269,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_h1s_qpkt_ct_lmtx_s cn; */
-} bdk_tns_txq_dq_h1s_qpkt_ct_lmtx_t;
+};
+typedef union bdk_tns_txq_dq_h1s_qpkt_ct_lmtx bdk_tns_txq_dq_h1s_qpkt_ct_lmtx_t;
 
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_QPKT_CT_LMTX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_QPKT_CT_LMTX(unsigned long a)
@@ -37420,7 +38293,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_QPKT_CT_LMTX(unsigned long a)
  * TNS TxQ Deque H1 Scheduler Queue Packet Count Memory Registers
  * Q packet count memory
  */
-typedef union
+union bdk_tns_txq_dq_h1s_qpkt_ct_memx
 {
     uint32_t u;
     struct bdk_tns_txq_dq_h1s_qpkt_ct_memx_s
@@ -37434,7 +38307,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_h1s_qpkt_ct_memx_s cn; */
-} bdk_tns_txq_dq_h1s_qpkt_ct_memx_t;
+};
+typedef union bdk_tns_txq_dq_h1s_qpkt_ct_memx bdk_tns_txq_dq_h1s_qpkt_ct_memx_t;
 
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_QPKT_CT_MEMX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_QPKT_CT_MEMX(unsigned long a)
@@ -37458,7 +38332,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_QPKT_CT_MEMX(unsigned long a)
  * Use this to set Q nodes to have packet_count_not_zero to 0 or 1 for scheduling
  * purposes.  Useful for clearing a Q in case it has not flushed out properly
  */
-typedef union
+union bdk_tns_txq_dq_h1s_qpkt_ct_nzx
 {
     uint32_t u;
     struct bdk_tns_txq_dq_h1s_qpkt_ct_nzx_s
@@ -37472,7 +38346,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_h1s_qpkt_ct_nzx_s cn; */
-} bdk_tns_txq_dq_h1s_qpkt_ct_nzx_t;
+};
+typedef union bdk_tns_txq_dq_h1s_qpkt_ct_nzx bdk_tns_txq_dq_h1s_qpkt_ct_nzx_t;
 
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_QPKT_CT_NZX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_QPKT_CT_NZX(unsigned long a)
@@ -37495,7 +38370,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_QPKT_CT_NZX(unsigned long a)
  * TNS TxQ Deque H1 Scheduler Queue Packet Full Profile Map Register
  * Map Q address bits to a packet count limit profile
  */
-typedef union
+union bdk_tns_txq_dq_h1s_qpkt_fprf_map
 {
     uint32_t u;
     struct bdk_tns_txq_dq_h1s_qpkt_fprf_map_s
@@ -37521,7 +38396,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_h1s_qpkt_fprf_map_s cn; */
-} bdk_tns_txq_dq_h1s_qpkt_fprf_map_t;
+};
+typedef union bdk_tns_txq_dq_h1s_qpkt_fprf_map bdk_tns_txq_dq_h1s_qpkt_fprf_map_t;
 
 #define BDK_TNS_TXQ_DQ_H1S_QPKT_FPRF_MAP BDK_TNS_TXQ_DQ_H1S_QPKT_FPRF_MAP_FUNC()
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_QPKT_FPRF_MAP_FUNC(void) __attribute__ ((pure, always_inline));
@@ -37545,7 +38421,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_QPKT_FPRF_MAP_FUNC(void)
  * TNS TxQ Deque H1 Scheduler Queue Shapper MTU Configuration Register
  * MTU configuration register (MTU in BYTES = 2^h2_cb_shapers_mtu_cfg)
  */
-typedef union
+union bdk_tns_txq_dq_h1s_qshp_mtu_cfg
 {
     uint32_t u;
     struct bdk_tns_txq_dq_h1s_qshp_mtu_cfg_s
@@ -37559,7 +38435,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_h1s_qshp_mtu_cfg_s cn; */
-} bdk_tns_txq_dq_h1s_qshp_mtu_cfg_t;
+};
+typedef union bdk_tns_txq_dq_h1s_qshp_mtu_cfg bdk_tns_txq_dq_h1s_qshp_mtu_cfg_t;
 
 #define BDK_TNS_TXQ_DQ_H1S_QSHP_MTU_CFG BDK_TNS_TXQ_DQ_H1S_QSHP_MTU_CFG_FUNC()
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_QSHP_MTU_CFG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -37584,7 +38461,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_QSHP_MTU_CFG_FUNC(void)
  * Q slow shaper memory ECC error log.  Address is sticky on first error.  Re-
  * armed after reading
  */
-typedef union
+union bdk_tns_txq_dq_h1s_qsshp_ecc_log
 {
     uint32_t u;
     struct bdk_tns_txq_dq_h1s_qsshp_ecc_log_s
@@ -37598,7 +38475,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_h1s_qsshp_ecc_log_s cn; */
-} bdk_tns_txq_dq_h1s_qsshp_ecc_log_t;
+};
+typedef union bdk_tns_txq_dq_h1s_qsshp_ecc_log bdk_tns_txq_dq_h1s_qsshp_ecc_log_t;
 
 #define BDK_TNS_TXQ_DQ_H1S_QSSHP_ECC_LOG BDK_TNS_TXQ_DQ_H1S_QSSHP_ECC_LOG_FUNC()
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_QSSHP_ECC_LOG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -37622,7 +38500,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_QSSHP_ECC_LOG_FUNC(void)
  * TNS TxQ Deque H1 Scheduler ScratchPad Register
  * Scratch Pad Register for XCAT
  */
-typedef union
+union bdk_tns_txq_dq_h1s_spad
 {
     uint32_t u;
     struct bdk_tns_txq_dq_h1s_spad_s
@@ -37634,7 +38512,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_h1s_spad_s cn; */
-} bdk_tns_txq_dq_h1s_spad_t;
+};
+typedef union bdk_tns_txq_dq_h1s_spad bdk_tns_txq_dq_h1s_spad_t;
 
 #define BDK_TNS_TXQ_DQ_H1S_SPAD BDK_TNS_TXQ_DQ_H1S_SPAD_FUNC()
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_SPAD_FUNC(void) __attribute__ ((pure, always_inline));
@@ -37662,7 +38541,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_SPAD_FUNC(void)
  * When writing, make the access to this decoder atomic w.r.t. other writes to
  * this decoder.
  */
-typedef union
+union bdk_tns_txq_dq_h1s_sshp_memx_w0
 {
     uint32_t u;
     struct bdk_tns_txq_dq_h1s_sshp_memx_w0_s
@@ -37676,7 +38555,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_h1s_sshp_memx_w0_s cn; */
-} bdk_tns_txq_dq_h1s_sshp_memx_w0_t;
+};
+typedef union bdk_tns_txq_dq_h1s_sshp_memx_w0 bdk_tns_txq_dq_h1s_sshp_memx_w0_t;
 
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_SSHP_MEMX_W0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_SSHP_MEMX_W0(unsigned long a)
@@ -37699,7 +38579,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_SSHP_MEMX_W0(unsigned long a)
  * TNS TxQ Deque H1 Scheduler Slow Shapper Memory Word 1 Registers
  * Continuation of structure defined in TNS_TXQ_DQ_H1S_SSHP_MEM(0..2047)_W0
  */
-typedef union
+union bdk_tns_txq_dq_h1s_sshp_memx_w1
 {
     uint32_t u;
     struct bdk_tns_txq_dq_h1s_sshp_memx_w1_s
@@ -37721,7 +38601,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_h1s_sshp_memx_w1_s cn; */
-} bdk_tns_txq_dq_h1s_sshp_memx_w1_t;
+};
+typedef union bdk_tns_txq_dq_h1s_sshp_memx_w1 bdk_tns_txq_dq_h1s_sshp_memx_w1_t;
 
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_SSHP_MEMX_W1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_SSHP_MEMX_W1(unsigned long a)
@@ -37744,7 +38625,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_SSHP_MEMX_W1(unsigned long a)
  * TNS TxQ Deque H1 Scheduler Slow Shapper Memory Word 2 Registers
  * Continuation of structure defined in TNS_TXQ_DQ_H1S_SSHP_MEM(0..2047)_W0
  */
-typedef union
+union bdk_tns_txq_dq_h1s_sshp_memx_w2
 {
     uint32_t u;
     struct bdk_tns_txq_dq_h1s_sshp_memx_w2_s
@@ -37758,7 +38639,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_h1s_sshp_memx_w2_s cn; */
-} bdk_tns_txq_dq_h1s_sshp_memx_w2_t;
+};
+typedef union bdk_tns_txq_dq_h1s_sshp_memx_w2 bdk_tns_txq_dq_h1s_sshp_memx_w2_t;
 
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_SSHP_MEMX_W2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_SSHP_MEMX_W2(unsigned long a)
@@ -37785,7 +38667,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_SSHP_MEMX_W2(unsigned long a)
  * When writing, make the access to this decoder atomic w.r.t. other writes to
  * this decoder.
  */
-typedef union
+union bdk_tns_txq_dq_h1s_tm_cstx_w0
 {
     uint32_t u;
     struct bdk_tns_txq_dq_h1s_tm_cstx_w0_s
@@ -37797,7 +38679,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_h1s_tm_cstx_w0_s cn; */
-} bdk_tns_txq_dq_h1s_tm_cstx_w0_t;
+};
+typedef union bdk_tns_txq_dq_h1s_tm_cstx_w0 bdk_tns_txq_dq_h1s_tm_cstx_w0_t;
 
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W0(unsigned long a)
@@ -37820,7 +38703,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W0(unsigned long a)
  * TNS TxQ Deque H1 Scheduler Traffic Manager Configuration Status Table Word 1 Registers
  * Continuation of structure defined in TNS_TXQ_DQ_H1S_TM_CST(0..255)_W0
  */
-typedef union
+union bdk_tns_txq_dq_h1s_tm_cstx_w1
 {
     uint32_t u;
     struct bdk_tns_txq_dq_h1s_tm_cstx_w1_s
@@ -37832,7 +38715,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_h1s_tm_cstx_w1_s cn; */
-} bdk_tns_txq_dq_h1s_tm_cstx_w1_t;
+};
+typedef union bdk_tns_txq_dq_h1s_tm_cstx_w1 bdk_tns_txq_dq_h1s_tm_cstx_w1_t;
 
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W1(unsigned long a)
@@ -37855,7 +38739,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W1(unsigned long a)
  * TNS TxQ Deque H1 Scheduler Traffic Manager Configuration Status Table Word 10 Registers
  * Continuation of structure defined in TNS_TXQ_DQ_H1S_TM_CST(0..255)_W0
  */
-typedef union
+union bdk_tns_txq_dq_h1s_tm_cstx_w10
 {
     uint32_t u;
     struct bdk_tns_txq_dq_h1s_tm_cstx_w10_s
@@ -37867,7 +38751,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_h1s_tm_cstx_w10_s cn; */
-} bdk_tns_txq_dq_h1s_tm_cstx_w10_t;
+};
+typedef union bdk_tns_txq_dq_h1s_tm_cstx_w10 bdk_tns_txq_dq_h1s_tm_cstx_w10_t;
 
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W10(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W10(unsigned long a)
@@ -37890,7 +38775,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W10(unsigned long a)
  * TNS TxQ Deque H1 Scheduler Traffic Manager Configuration Status Table Word 11 Registers
  * Continuation of structure defined in TNS_TXQ_DQ_H1S_TM_CST(0..255)_W0
  */
-typedef union
+union bdk_tns_txq_dq_h1s_tm_cstx_w11
 {
     uint32_t u;
     struct bdk_tns_txq_dq_h1s_tm_cstx_w11_s
@@ -37902,7 +38787,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_h1s_tm_cstx_w11_s cn; */
-} bdk_tns_txq_dq_h1s_tm_cstx_w11_t;
+};
+typedef union bdk_tns_txq_dq_h1s_tm_cstx_w11 bdk_tns_txq_dq_h1s_tm_cstx_w11_t;
 
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W11(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W11(unsigned long a)
@@ -37925,7 +38811,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W11(unsigned long a)
  * TNS TxQ Deque H1 Scheduler Traffic Manager Configuration Status Table Word 12 Registers
  * Continuation of structure defined in TNS_TXQ_DQ_H1S_TM_CST(0..255)_W0
  */
-typedef union
+union bdk_tns_txq_dq_h1s_tm_cstx_w12
 {
     uint32_t u;
     struct bdk_tns_txq_dq_h1s_tm_cstx_w12_s
@@ -37937,7 +38823,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_h1s_tm_cstx_w12_s cn; */
-} bdk_tns_txq_dq_h1s_tm_cstx_w12_t;
+};
+typedef union bdk_tns_txq_dq_h1s_tm_cstx_w12 bdk_tns_txq_dq_h1s_tm_cstx_w12_t;
 
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W12(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W12(unsigned long a)
@@ -37960,7 +38847,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W12(unsigned long a)
  * TNS TxQ Deque H1 Scheduler Traffic Manager Configuration Status Table Word 13 Registers
  * Continuation of structure defined in TNS_TXQ_DQ_H1S_TM_CST(0..255)_W0
  */
-typedef union
+union bdk_tns_txq_dq_h1s_tm_cstx_w13
 {
     uint32_t u;
     struct bdk_tns_txq_dq_h1s_tm_cstx_w13_s
@@ -37972,7 +38859,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_h1s_tm_cstx_w13_s cn; */
-} bdk_tns_txq_dq_h1s_tm_cstx_w13_t;
+};
+typedef union bdk_tns_txq_dq_h1s_tm_cstx_w13 bdk_tns_txq_dq_h1s_tm_cstx_w13_t;
 
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W13(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W13(unsigned long a)
@@ -37995,7 +38883,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W13(unsigned long a)
  * TNS TxQ Deque H1 Scheduler Traffic Manager Configuration Status Table Word 14 Registers
  * Continuation of structure defined in TNS_TXQ_DQ_H1S_TM_CST(0..255)_W0
  */
-typedef union
+union bdk_tns_txq_dq_h1s_tm_cstx_w14
 {
     uint32_t u;
     struct bdk_tns_txq_dq_h1s_tm_cstx_w14_s
@@ -38007,7 +38895,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_h1s_tm_cstx_w14_s cn; */
-} bdk_tns_txq_dq_h1s_tm_cstx_w14_t;
+};
+typedef union bdk_tns_txq_dq_h1s_tm_cstx_w14 bdk_tns_txq_dq_h1s_tm_cstx_w14_t;
 
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W14(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W14(unsigned long a)
@@ -38030,7 +38919,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W14(unsigned long a)
  * TNS TxQ Deque H1 Scheduler Traffic Manager Configuration Status Table Word 15 Registers
  * Continuation of structure defined in TNS_TXQ_DQ_H1S_TM_CST(0..255)_W0
  */
-typedef union
+union bdk_tns_txq_dq_h1s_tm_cstx_w15
 {
     uint32_t u;
     struct bdk_tns_txq_dq_h1s_tm_cstx_w15_s
@@ -38042,7 +38931,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_h1s_tm_cstx_w15_s cn; */
-} bdk_tns_txq_dq_h1s_tm_cstx_w15_t;
+};
+typedef union bdk_tns_txq_dq_h1s_tm_cstx_w15 bdk_tns_txq_dq_h1s_tm_cstx_w15_t;
 
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W15(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W15(unsigned long a)
@@ -38065,7 +38955,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W15(unsigned long a)
  * TNS TxQ Deque H1 Scheduler Traffic Manager Configuration Status Table Word 16 Registers
  * Continuation of structure defined in TNS_TXQ_DQ_H1S_TM_CST(0..255)_W0
  */
-typedef union
+union bdk_tns_txq_dq_h1s_tm_cstx_w16
 {
     uint32_t u;
     struct bdk_tns_txq_dq_h1s_tm_cstx_w16_s
@@ -38079,7 +38969,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_h1s_tm_cstx_w16_s cn; */
-} bdk_tns_txq_dq_h1s_tm_cstx_w16_t;
+};
+typedef union bdk_tns_txq_dq_h1s_tm_cstx_w16 bdk_tns_txq_dq_h1s_tm_cstx_w16_t;
 
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W16(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W16(unsigned long a)
@@ -38102,7 +38993,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W16(unsigned long a)
  * TNS TxQ Deque H1 Scheduler Traffic Manager Configuration Status Table Word 17 Registers
  * Continuation of structure defined in TNS_TXQ_DQ_H1S_TM_CST(0..255)_W0
  */
-typedef union
+union bdk_tns_txq_dq_h1s_tm_cstx_w17
 {
     uint32_t u;
     struct bdk_tns_txq_dq_h1s_tm_cstx_w17_s
@@ -38114,7 +39005,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_h1s_tm_cstx_w17_s cn; */
-} bdk_tns_txq_dq_h1s_tm_cstx_w17_t;
+};
+typedef union bdk_tns_txq_dq_h1s_tm_cstx_w17 bdk_tns_txq_dq_h1s_tm_cstx_w17_t;
 
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W17(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W17(unsigned long a)
@@ -38137,7 +39029,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W17(unsigned long a)
  * TNS TxQ Deque H1 Scheduler Traffic Manager Configuration Status Table Word 18 Registers
  * Continuation of structure defined in TNS_TXQ_DQ_H1S_TM_CST(0..255)_W0
  */
-typedef union
+union bdk_tns_txq_dq_h1s_tm_cstx_w18
 {
     uint32_t u;
     struct bdk_tns_txq_dq_h1s_tm_cstx_w18_s
@@ -38149,7 +39041,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_h1s_tm_cstx_w18_s cn; */
-} bdk_tns_txq_dq_h1s_tm_cstx_w18_t;
+};
+typedef union bdk_tns_txq_dq_h1s_tm_cstx_w18 bdk_tns_txq_dq_h1s_tm_cstx_w18_t;
 
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W18(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W18(unsigned long a)
@@ -38172,7 +39065,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W18(unsigned long a)
  * TNS TxQ Deque H1 Scheduler Traffic Manager Configuration Status Table Word 19 Registers
  * Continuation of structure defined in TNS_TXQ_DQ_H1S_TM_CST(0..255)_W0
  */
-typedef union
+union bdk_tns_txq_dq_h1s_tm_cstx_w19
 {
     uint32_t u;
     struct bdk_tns_txq_dq_h1s_tm_cstx_w19_s
@@ -38184,7 +39077,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_h1s_tm_cstx_w19_s cn; */
-} bdk_tns_txq_dq_h1s_tm_cstx_w19_t;
+};
+typedef union bdk_tns_txq_dq_h1s_tm_cstx_w19 bdk_tns_txq_dq_h1s_tm_cstx_w19_t;
 
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W19(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W19(unsigned long a)
@@ -38207,7 +39101,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W19(unsigned long a)
  * TNS TxQ Deque H1 Scheduler Traffic Manager Configuration Status Table Word 2 Registers
  * Continuation of structure defined in TNS_TXQ_DQ_H1S_TM_CST(0..255)_W0
  */
-typedef union
+union bdk_tns_txq_dq_h1s_tm_cstx_w2
 {
     uint32_t u;
     struct bdk_tns_txq_dq_h1s_tm_cstx_w2_s
@@ -38221,7 +39115,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_h1s_tm_cstx_w2_s cn; */
-} bdk_tns_txq_dq_h1s_tm_cstx_w2_t;
+};
+typedef union bdk_tns_txq_dq_h1s_tm_cstx_w2 bdk_tns_txq_dq_h1s_tm_cstx_w2_t;
 
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W2(unsigned long a)
@@ -38244,7 +39139,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W2(unsigned long a)
  * TNS TxQ Deque H1 Scheduler Traffic Manager Configuration Status Table Word 20 Registers
  * Continuation of structure defined in TNS_TXQ_DQ_H1S_TM_CST(0..255)_W0
  */
-typedef union
+union bdk_tns_txq_dq_h1s_tm_cstx_w20
 {
     uint32_t u;
     struct bdk_tns_txq_dq_h1s_tm_cstx_w20_s
@@ -38256,7 +39151,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_h1s_tm_cstx_w20_s cn; */
-} bdk_tns_txq_dq_h1s_tm_cstx_w20_t;
+};
+typedef union bdk_tns_txq_dq_h1s_tm_cstx_w20 bdk_tns_txq_dq_h1s_tm_cstx_w20_t;
 
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W20(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W20(unsigned long a)
@@ -38279,7 +39175,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W20(unsigned long a)
  * TNS TxQ Deque H1 Scheduler Traffic Manager Configuration Status Table Word 21 Registers
  * Continuation of structure defined in TNS_TXQ_DQ_H1S_TM_CST(0..255)_W0
  */
-typedef union
+union bdk_tns_txq_dq_h1s_tm_cstx_w21
 {
     uint32_t u;
     struct bdk_tns_txq_dq_h1s_tm_cstx_w21_s
@@ -38291,7 +39187,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_h1s_tm_cstx_w21_s cn; */
-} bdk_tns_txq_dq_h1s_tm_cstx_w21_t;
+};
+typedef union bdk_tns_txq_dq_h1s_tm_cstx_w21 bdk_tns_txq_dq_h1s_tm_cstx_w21_t;
 
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W21(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W21(unsigned long a)
@@ -38314,7 +39211,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W21(unsigned long a)
  * TNS TxQ Deque H1 Scheduler Traffic Manager Configuration Status Table Word 22 Registers
  * Continuation of structure defined in TNS_TXQ_DQ_H1S_TM_CST(0..255)_W0
  */
-typedef union
+union bdk_tns_txq_dq_h1s_tm_cstx_w22
 {
     uint32_t u;
     struct bdk_tns_txq_dq_h1s_tm_cstx_w22_s
@@ -38326,7 +39223,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_h1s_tm_cstx_w22_s cn; */
-} bdk_tns_txq_dq_h1s_tm_cstx_w22_t;
+};
+typedef union bdk_tns_txq_dq_h1s_tm_cstx_w22 bdk_tns_txq_dq_h1s_tm_cstx_w22_t;
 
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W22(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W22(unsigned long a)
@@ -38349,7 +39247,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W22(unsigned long a)
  * TNS TxQ Deque H1 Scheduler Traffic Manager Configuration Status Table Word 23 Registers
  * Continuation of structure defined in TNS_TXQ_DQ_H1S_TM_CST(0..255)_W0
  */
-typedef union
+union bdk_tns_txq_dq_h1s_tm_cstx_w23
 {
     uint32_t u;
     struct bdk_tns_txq_dq_h1s_tm_cstx_w23_s
@@ -38361,7 +39259,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_h1s_tm_cstx_w23_s cn; */
-} bdk_tns_txq_dq_h1s_tm_cstx_w23_t;
+};
+typedef union bdk_tns_txq_dq_h1s_tm_cstx_w23 bdk_tns_txq_dq_h1s_tm_cstx_w23_t;
 
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W23(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W23(unsigned long a)
@@ -38384,7 +39283,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W23(unsigned long a)
  * TNS TxQ Deque H1 Scheduler Traffic Manager Configuration Status Table Word 24 Registers
  * Continuation of structure defined in TNS_TXQ_DQ_H1S_TM_CST(0..255)_W0
  */
-typedef union
+union bdk_tns_txq_dq_h1s_tm_cstx_w24
 {
     uint32_t u;
     struct bdk_tns_txq_dq_h1s_tm_cstx_w24_s
@@ -38396,7 +39295,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_h1s_tm_cstx_w24_s cn; */
-} bdk_tns_txq_dq_h1s_tm_cstx_w24_t;
+};
+typedef union bdk_tns_txq_dq_h1s_tm_cstx_w24 bdk_tns_txq_dq_h1s_tm_cstx_w24_t;
 
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W24(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W24(unsigned long a)
@@ -38419,7 +39319,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W24(unsigned long a)
  * TNS TxQ Deque H1 Scheduler Traffic Manager Configuration Status Table Word 25 Registers
  * Continuation of structure defined in TNS_TXQ_DQ_H1S_TM_CST(0..255)_W0
  */
-typedef union
+union bdk_tns_txq_dq_h1s_tm_cstx_w25
 {
     uint32_t u;
     struct bdk_tns_txq_dq_h1s_tm_cstx_w25_s
@@ -38431,7 +39331,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_h1s_tm_cstx_w25_s cn; */
-} bdk_tns_txq_dq_h1s_tm_cstx_w25_t;
+};
+typedef union bdk_tns_txq_dq_h1s_tm_cstx_w25 bdk_tns_txq_dq_h1s_tm_cstx_w25_t;
 
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W25(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W25(unsigned long a)
@@ -38454,7 +39355,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W25(unsigned long a)
  * TNS TxQ Deque H1 Scheduler Traffic Manager Configuration Status Table Word 26 Registers
  * Continuation of structure defined in TNS_TXQ_DQ_H1S_TM_CST(0..255)_W0
  */
-typedef union
+union bdk_tns_txq_dq_h1s_tm_cstx_w26
 {
     uint32_t u;
     struct bdk_tns_txq_dq_h1s_tm_cstx_w26_s
@@ -38472,7 +39373,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_h1s_tm_cstx_w26_s cn; */
-} bdk_tns_txq_dq_h1s_tm_cstx_w26_t;
+};
+typedef union bdk_tns_txq_dq_h1s_tm_cstx_w26 bdk_tns_txq_dq_h1s_tm_cstx_w26_t;
 
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W26(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W26(unsigned long a)
@@ -38495,7 +39397,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W26(unsigned long a)
  * TNS TxQ Deque H1 Scheduler Traffic Manager Configuration Status Table Word 27 Registers
  * Continuation of structure defined in TNS_TXQ_DQ_H1S_TM_CST(0..255)_W0
  */
-typedef union
+union bdk_tns_txq_dq_h1s_tm_cstx_w27
 {
     uint32_t u;
     struct bdk_tns_txq_dq_h1s_tm_cstx_w27_s
@@ -38513,7 +39415,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_h1s_tm_cstx_w27_s cn; */
-} bdk_tns_txq_dq_h1s_tm_cstx_w27_t;
+};
+typedef union bdk_tns_txq_dq_h1s_tm_cstx_w27 bdk_tns_txq_dq_h1s_tm_cstx_w27_t;
 
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W27(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W27(unsigned long a)
@@ -38536,7 +39439,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W27(unsigned long a)
  * TNS TxQ Deque H1 Scheduler Traffic Manager Configuration Status Table Word 28 Registers
  * Continuation of structure defined in TNS_TXQ_DQ_H1S_TM_CST(0..255)_W0
  */
-typedef union
+union bdk_tns_txq_dq_h1s_tm_cstx_w28
 {
     uint32_t u;
     struct bdk_tns_txq_dq_h1s_tm_cstx_w28_s
@@ -38552,7 +39455,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_h1s_tm_cstx_w28_s cn; */
-} bdk_tns_txq_dq_h1s_tm_cstx_w28_t;
+};
+typedef union bdk_tns_txq_dq_h1s_tm_cstx_w28 bdk_tns_txq_dq_h1s_tm_cstx_w28_t;
 
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W28(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W28(unsigned long a)
@@ -38575,7 +39479,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W28(unsigned long a)
  * TNS TxQ Deque H1 Scheduler Traffic Manager Configuration Status Table Word 3 Registers
  * Continuation of structure defined in TNS_TXQ_DQ_H1S_TM_CST(0..255)_W0
  */
-typedef union
+union bdk_tns_txq_dq_h1s_tm_cstx_w3
 {
     uint32_t u;
     struct bdk_tns_txq_dq_h1s_tm_cstx_w3_s
@@ -38587,7 +39491,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_h1s_tm_cstx_w3_s cn; */
-} bdk_tns_txq_dq_h1s_tm_cstx_w3_t;
+};
+typedef union bdk_tns_txq_dq_h1s_tm_cstx_w3 bdk_tns_txq_dq_h1s_tm_cstx_w3_t;
 
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W3(unsigned long a)
@@ -38610,7 +39515,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W3(unsigned long a)
  * TNS TxQ Deque H1 Scheduler Traffic Manager Configuration Status Table Word 4 Registers
  * Continuation of structure defined in TNS_TXQ_DQ_H1S_TM_CST(0..255)_W0
  */
-typedef union
+union bdk_tns_txq_dq_h1s_tm_cstx_w4
 {
     uint32_t u;
     struct bdk_tns_txq_dq_h1s_tm_cstx_w4_s
@@ -38622,7 +39527,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_h1s_tm_cstx_w4_s cn; */
-} bdk_tns_txq_dq_h1s_tm_cstx_w4_t;
+};
+typedef union bdk_tns_txq_dq_h1s_tm_cstx_w4 bdk_tns_txq_dq_h1s_tm_cstx_w4_t;
 
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W4(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W4(unsigned long a)
@@ -38645,7 +39551,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W4(unsigned long a)
  * TNS TxQ Deque H1 Scheduler Traffic Manager Configuration Status Table Word 5 Registers
  * Continuation of structure defined in TNS_TXQ_DQ_H1S_TM_CST(0..255)_W0
  */
-typedef union
+union bdk_tns_txq_dq_h1s_tm_cstx_w5
 {
     uint32_t u;
     struct bdk_tns_txq_dq_h1s_tm_cstx_w5_s
@@ -38657,7 +39563,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_h1s_tm_cstx_w5_s cn; */
-} bdk_tns_txq_dq_h1s_tm_cstx_w5_t;
+};
+typedef union bdk_tns_txq_dq_h1s_tm_cstx_w5 bdk_tns_txq_dq_h1s_tm_cstx_w5_t;
 
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W5(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W5(unsigned long a)
@@ -38680,7 +39587,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W5(unsigned long a)
  * TNS TxQ Deque H1 Scheduler Traffic Manager Configuration Status Table Word 6 Registers
  * Continuation of structure defined in TNS_TXQ_DQ_H1S_TM_CST(0..255)_W0
  */
-typedef union
+union bdk_tns_txq_dq_h1s_tm_cstx_w6
 {
     uint32_t u;
     struct bdk_tns_txq_dq_h1s_tm_cstx_w6_s
@@ -38692,7 +39599,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_h1s_tm_cstx_w6_s cn; */
-} bdk_tns_txq_dq_h1s_tm_cstx_w6_t;
+};
+typedef union bdk_tns_txq_dq_h1s_tm_cstx_w6 bdk_tns_txq_dq_h1s_tm_cstx_w6_t;
 
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W6(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W6(unsigned long a)
@@ -38715,7 +39623,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W6(unsigned long a)
  * TNS TxQ Deque H1 Scheduler Traffic Manager Configuration Status Table Word 7 Registers
  * Continuation of structure defined in TNS_TXQ_DQ_H1S_TM_CST(0..255)_W0
  */
-typedef union
+union bdk_tns_txq_dq_h1s_tm_cstx_w7
 {
     uint32_t u;
     struct bdk_tns_txq_dq_h1s_tm_cstx_w7_s
@@ -38727,7 +39635,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_h1s_tm_cstx_w7_s cn; */
-} bdk_tns_txq_dq_h1s_tm_cstx_w7_t;
+};
+typedef union bdk_tns_txq_dq_h1s_tm_cstx_w7 bdk_tns_txq_dq_h1s_tm_cstx_w7_t;
 
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W7(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W7(unsigned long a)
@@ -38750,7 +39659,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W7(unsigned long a)
  * TNS TxQ Deque H1 Scheduler Traffic Manager Configuration Status Table Word 8 Registers
  * Continuation of structure defined in TNS_TXQ_DQ_H1S_TM_CST(0..255)_W0
  */
-typedef union
+union bdk_tns_txq_dq_h1s_tm_cstx_w8
 {
     uint32_t u;
     struct bdk_tns_txq_dq_h1s_tm_cstx_w8_s
@@ -38762,7 +39671,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_h1s_tm_cstx_w8_s cn; */
-} bdk_tns_txq_dq_h1s_tm_cstx_w8_t;
+};
+typedef union bdk_tns_txq_dq_h1s_tm_cstx_w8 bdk_tns_txq_dq_h1s_tm_cstx_w8_t;
 
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W8(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W8(unsigned long a)
@@ -38785,7 +39695,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W8(unsigned long a)
  * TNS TxQ Deque H1 Scheduler Traffic Manager Configuration Status Table Word 9 Registers
  * Continuation of structure defined in TNS_TXQ_DQ_H1S_TM_CST(0..255)_W0
  */
-typedef union
+union bdk_tns_txq_dq_h1s_tm_cstx_w9
 {
     uint32_t u;
     struct bdk_tns_txq_dq_h1s_tm_cstx_w9_s
@@ -38797,7 +39707,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_h1s_tm_cstx_w9_s cn; */
-} bdk_tns_txq_dq_h1s_tm_cstx_w9_t;
+};
+typedef union bdk_tns_txq_dq_h1s_tm_cstx_w9 bdk_tns_txq_dq_h1s_tm_cstx_w9_t;
 
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W9(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W9(unsigned long a)
@@ -38821,7 +39732,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W9(unsigned long a)
  * H1 scheduler TM config and state memory ECC error log.  Address is sticky on
  * first error.  Re-armed after reading
  */
-typedef union
+union bdk_tns_txq_dq_h1s_tm_ecc_log
 {
     uint32_t u;
     struct bdk_tns_txq_dq_h1s_tm_ecc_log_s
@@ -38835,7 +39746,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_h1s_tm_ecc_log_s cn; */
-} bdk_tns_txq_dq_h1s_tm_ecc_log_t;
+};
+typedef union bdk_tns_txq_dq_h1s_tm_ecc_log bdk_tns_txq_dq_h1s_tm_ecc_log_t;
 
 #define BDK_TNS_TXQ_DQ_H1S_TM_ECC_LOG BDK_TNS_TXQ_DQ_H1S_TM_ECC_LOG_FUNC()
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_ECC_LOG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -38859,7 +39771,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_ECC_LOG_FUNC(void)
  * TNS TxQ Deque Interrrupt Read Only Register
  * DQ top level interrupt status register
  */
-typedef union
+union bdk_tns_txq_dq_int_ro
 {
     uint32_t u;
     struct bdk_tns_txq_dq_int_ro_s
@@ -38879,7 +39791,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_int_ro_s cn; */
-} bdk_tns_txq_dq_int_ro_t;
+};
+typedef union bdk_tns_txq_dq_int_ro bdk_tns_txq_dq_int_ro_t;
 
 #define BDK_TNS_TXQ_DQ_INT_RO BDK_TNS_TXQ_DQ_INT_RO_FUNC()
 static inline uint64_t BDK_TNS_TXQ_DQ_INT_RO_FUNC(void) __attribute__ ((pure, always_inline));
@@ -38903,7 +39816,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_INT_RO_FUNC(void)
  * TNS TxQ Deque Lock Register
  * Lock Register
  */
-typedef union
+union bdk_tns_txq_dq_lock
 {
     uint32_t u;
     struct bdk_tns_txq_dq_lock_s
@@ -38915,7 +39828,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_lock_s cn; */
-} bdk_tns_txq_dq_lock_t;
+};
+typedef union bdk_tns_txq_dq_lock bdk_tns_txq_dq_lock_t;
 
 #define BDK_TNS_TXQ_DQ_LOCK BDK_TNS_TXQ_DQ_LOCK_FUNC()
 static inline uint64_t BDK_TNS_TXQ_DQ_LOCK_FUNC(void) __attribute__ ((pure, always_inline));
@@ -38939,7 +39853,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_LOCK_FUNC(void)
  * TNS TxQ Deque Pipe Scheduler DWRR Configuration Status Table Memory Registers
  * PORT DWRR weights and counters memory
  */
-typedef union
+union bdk_tns_txq_dq_pps_dwrr_cst_memx
 {
     uint32_t u;
     struct bdk_tns_txq_dq_pps_dwrr_cst_memx_s
@@ -38953,7 +39867,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_pps_dwrr_cst_memx_s cn; */
-} bdk_tns_txq_dq_pps_dwrr_cst_memx_t;
+};
+typedef union bdk_tns_txq_dq_pps_dwrr_cst_memx bdk_tns_txq_dq_pps_dwrr_cst_memx_t;
 
 static inline uint64_t BDK_TNS_TXQ_DQ_PPS_DWRR_CST_MEMX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_DQ_PPS_DWRR_CST_MEMX(unsigned long a)
@@ -38976,7 +39891,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PPS_DWRR_CST_MEMX(unsigned long a)
  * TNS TxQ Deque Pipe Scheduler Force Port Pacing Mask Off Register
  * Debug register to force port pacing mask on.  One bit for each port
  */
-typedef union
+union bdk_tns_txq_dq_pps_frc_ptp_mskof
 {
     uint32_t u;
     struct bdk_tns_txq_dq_pps_frc_ptp_mskof_s
@@ -39020,7 +39935,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_pps_frc_ptp_mskof_s cn; */
-} bdk_tns_txq_dq_pps_frc_ptp_mskof_t;
+};
+typedef union bdk_tns_txq_dq_pps_frc_ptp_mskof bdk_tns_txq_dq_pps_frc_ptp_mskof_t;
 
 #define BDK_TNS_TXQ_DQ_PPS_FRC_PTP_MSKOF BDK_TNS_TXQ_DQ_PPS_FRC_PTP_MSKOF_FUNC()
 static inline uint64_t BDK_TNS_TXQ_DQ_PPS_FRC_PTP_MSKOF_FUNC(void) __attribute__ ((pure, always_inline));
@@ -39044,7 +39960,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PPS_FRC_PTP_MSKOF_FUNC(void)
  * TNS TxQ Deque Pipe Scheduler Force Port Pacing Mask On Register
  * Debug register to force port pacing mask on.  One bit for each port
  */
-typedef union
+union bdk_tns_txq_dq_pps_frc_ptp_mskon
 {
     uint32_t u;
     struct bdk_tns_txq_dq_pps_frc_ptp_mskon_s
@@ -39088,7 +40004,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_pps_frc_ptp_mskon_s cn; */
-} bdk_tns_txq_dq_pps_frc_ptp_mskon_t;
+};
+typedef union bdk_tns_txq_dq_pps_frc_ptp_mskon bdk_tns_txq_dq_pps_frc_ptp_mskon_t;
 
 #define BDK_TNS_TXQ_DQ_PPS_FRC_PTP_MSKON BDK_TNS_TXQ_DQ_PPS_FRC_PTP_MSKON_FUNC()
 static inline uint64_t BDK_TNS_TXQ_DQ_PPS_FRC_PTP_MSKON_FUNC(void) __attribute__ ((pure, always_inline));
@@ -39112,7 +40029,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PPS_FRC_PTP_MSKON_FUNC(void)
  * TNS TxQ Deque Pipe Scheduler CB Fast Update Shapper Memory Registers
  * PORT CB shapers fast_update memory
  */
-typedef union
+union bdk_tns_txq_dq_pps_fshp_memx
 {
     uint64_t u;
     struct bdk_tns_txq_dq_pps_fshp_memx_s
@@ -39136,7 +40053,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_pps_fshp_memx_s cn; */
-} bdk_tns_txq_dq_pps_fshp_memx_t;
+};
+typedef union bdk_tns_txq_dq_pps_fshp_memx bdk_tns_txq_dq_pps_fshp_memx_t;
 
 static inline uint64_t BDK_TNS_TXQ_DQ_PPS_FSHP_MEMX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_DQ_PPS_FSHP_MEMX(unsigned long a)
@@ -39159,7 +40077,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PPS_FSHP_MEMX(unsigned long a)
  * TNS TxQ Deque Pipe Scheduler Interrrupt Enable High Register
  * PIPE scheduler intr register
  */
-typedef union
+union bdk_tns_txq_dq_pps_int_en_hi
 {
     uint32_t u;
     struct bdk_tns_txq_dq_pps_int_en_hi_s
@@ -39177,7 +40095,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_pps_int_en_hi_s cn; */
-} bdk_tns_txq_dq_pps_int_en_hi_t;
+};
+typedef union bdk_tns_txq_dq_pps_int_en_hi bdk_tns_txq_dq_pps_int_en_hi_t;
 
 #define BDK_TNS_TXQ_DQ_PPS_INT_EN_HI BDK_TNS_TXQ_DQ_PPS_INT_EN_HI_FUNC()
 static inline uint64_t BDK_TNS_TXQ_DQ_PPS_INT_EN_HI_FUNC(void) __attribute__ ((pure, always_inline));
@@ -39201,7 +40120,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PPS_INT_EN_HI_FUNC(void)
  * TNS TxQ Deque Pipe Scheduler Interrrupt Enable Low Register
  * PIPE scheduler intr register
  */
-typedef union
+union bdk_tns_txq_dq_pps_int_en_lo
 {
     uint32_t u;
     struct bdk_tns_txq_dq_pps_int_en_lo_s
@@ -39219,7 +40138,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_pps_int_en_lo_s cn; */
-} bdk_tns_txq_dq_pps_int_en_lo_t;
+};
+typedef union bdk_tns_txq_dq_pps_int_en_lo bdk_tns_txq_dq_pps_int_en_lo_t;
 
 #define BDK_TNS_TXQ_DQ_PPS_INT_EN_LO BDK_TNS_TXQ_DQ_PPS_INT_EN_LO_FUNC()
 static inline uint64_t BDK_TNS_TXQ_DQ_PPS_INT_EN_LO_FUNC(void) __attribute__ ((pure, always_inline));
@@ -39243,7 +40163,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PPS_INT_EN_LO_FUNC(void)
  * TNS TxQ Deque Pipe Scheduler Interrrupt Force Register
  * PIPE scheduler intr register
  */
-typedef union
+union bdk_tns_txq_dq_pps_int_frc
 {
     uint32_t u;
     struct bdk_tns_txq_dq_pps_int_frc_s
@@ -39261,7 +40181,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_pps_int_frc_s cn; */
-} bdk_tns_txq_dq_pps_int_frc_t;
+};
+typedef union bdk_tns_txq_dq_pps_int_frc bdk_tns_txq_dq_pps_int_frc_t;
 
 #define BDK_TNS_TXQ_DQ_PPS_INT_FRC BDK_TNS_TXQ_DQ_PPS_INT_FRC_FUNC()
 static inline uint64_t BDK_TNS_TXQ_DQ_PPS_INT_FRC_FUNC(void) __attribute__ ((pure, always_inline));
@@ -39285,7 +40206,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PPS_INT_FRC_FUNC(void)
  * TNS TxQ Deque Pipe Scheduler Interrrupt W1C Register
  * PIPE scheduler intr register
  */
-typedef union
+union bdk_tns_txq_dq_pps_int_w1c
 {
     uint32_t u;
     struct bdk_tns_txq_dq_pps_int_w1c_s
@@ -39303,7 +40224,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_pps_int_w1c_s cn; */
-} bdk_tns_txq_dq_pps_int_w1c_t;
+};
+typedef union bdk_tns_txq_dq_pps_int_w1c bdk_tns_txq_dq_pps_int_w1c_t;
 
 #define BDK_TNS_TXQ_DQ_PPS_INT_W1C BDK_TNS_TXQ_DQ_PPS_INT_W1C_FUNC()
 static inline uint64_t BDK_TNS_TXQ_DQ_PPS_INT_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -39327,7 +40249,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PPS_INT_W1C_FUNC(void)
  * TNS TxQ Deque Pipe Scheduler Lock Register
  * Lock Register
  */
-typedef union
+union bdk_tns_txq_dq_pps_lock
 {
     uint32_t u;
     struct bdk_tns_txq_dq_pps_lock_s
@@ -39339,7 +40261,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_pps_lock_s cn; */
-} bdk_tns_txq_dq_pps_lock_t;
+};
+typedef union bdk_tns_txq_dq_pps_lock bdk_tns_txq_dq_pps_lock_t;
 
 #define BDK_TNS_TXQ_DQ_PPS_LOCK BDK_TNS_TXQ_DQ_PPS_LOCK_FUNC()
 static inline uint64_t BDK_TNS_TXQ_DQ_PPS_LOCK_FUNC(void) __attribute__ ((pure, always_inline));
@@ -39363,7 +40286,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PPS_LOCK_FUNC(void)
  * TNS TxQ Deque Pipe Scheduler Port DWRR MTU Configuration Register
  * MTU configuration for PIPE arbiter (MTU in bytes = 2^port_dwrr_mtu_cfg).
  */
-typedef union
+union bdk_tns_txq_dq_pps_pdwrr_mtu_cfg
 {
     uint32_t u;
     struct bdk_tns_txq_dq_pps_pdwrr_mtu_cfg_s
@@ -39377,7 +40300,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_pps_pdwrr_mtu_cfg_s cn; */
-} bdk_tns_txq_dq_pps_pdwrr_mtu_cfg_t;
+};
+typedef union bdk_tns_txq_dq_pps_pdwrr_mtu_cfg bdk_tns_txq_dq_pps_pdwrr_mtu_cfg_t;
 
 #define BDK_TNS_TXQ_DQ_PPS_PDWRR_MTU_CFG BDK_TNS_TXQ_DQ_PPS_PDWRR_MTU_CFG_FUNC()
 static inline uint64_t BDK_TNS_TXQ_DQ_PPS_PDWRR_MTU_CFG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -39403,7 +40327,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PPS_PDWRR_MTU_CFG_FUNC(void)
  * which a port is masked after scheduling. The assignment of speed values 0-7 is
  * based on the programming of the register port_pacing_mask_cycle
  */
-typedef union
+union bdk_tns_txq_dq_pps_port_spd_memx
 {
     uint32_t u;
     struct bdk_tns_txq_dq_pps_port_spd_memx_s
@@ -39417,7 +40341,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_pps_port_spd_memx_s cn; */
-} bdk_tns_txq_dq_pps_port_spd_memx_t;
+};
+typedef union bdk_tns_txq_dq_pps_port_spd_memx bdk_tns_txq_dq_pps_port_spd_memx_t;
 
 static inline uint64_t BDK_TNS_TXQ_DQ_PPS_PORT_SPD_MEMX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_DQ_PPS_PORT_SPD_MEMX(unsigned long a)
@@ -39440,7 +40365,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PPS_PORT_SPD_MEMX(unsigned long a)
  * TNS TxQ Deque Pipe Scheduler Port Packet Count Limit Registers
  * per-port packet count limits
  */
-typedef union
+union bdk_tns_txq_dq_pps_ppkt_ct_lmtx
 {
     uint32_t u;
     struct bdk_tns_txq_dq_pps_ppkt_ct_lmtx_s
@@ -39454,7 +40379,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_pps_ppkt_ct_lmtx_s cn; */
-} bdk_tns_txq_dq_pps_ppkt_ct_lmtx_t;
+};
+typedef union bdk_tns_txq_dq_pps_ppkt_ct_lmtx bdk_tns_txq_dq_pps_ppkt_ct_lmtx_t;
 
 static inline uint64_t BDK_TNS_TXQ_DQ_PPS_PPKT_CT_LMTX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_DQ_PPS_PPKT_CT_LMTX(unsigned long a)
@@ -39477,7 +40403,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PPS_PPKT_CT_LMTX(unsigned long a)
  * TNS TxQ Deque Pipe Scheduler Port Packet Count Memory Registers
  * per-port packet count memory
  */
-typedef union
+union bdk_tns_txq_dq_pps_ppkt_ct_memx
 {
     uint32_t u;
     struct bdk_tns_txq_dq_pps_ppkt_ct_memx_s
@@ -39491,7 +40417,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_pps_ppkt_ct_memx_s cn; */
-} bdk_tns_txq_dq_pps_ppkt_ct_memx_t;
+};
+typedef union bdk_tns_txq_dq_pps_ppkt_ct_memx bdk_tns_txq_dq_pps_ppkt_ct_memx_t;
 
 static inline uint64_t BDK_TNS_TXQ_DQ_PPS_PPKT_CT_MEMX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_DQ_PPS_PPKT_CT_MEMX(unsigned long a)
@@ -39516,7 +40443,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PPS_PPKT_CT_MEMX(unsigned long a)
  * scheduling purposes.  Useful for clearing a port in case it has not flushed out
  * properly
  */
-typedef union
+union bdk_tns_txq_dq_pps_ppkt_ct_nzx
 {
     uint32_t u;
     struct bdk_tns_txq_dq_pps_ppkt_ct_nzx_s
@@ -39530,7 +40457,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_pps_ppkt_ct_nzx_s cn; */
-} bdk_tns_txq_dq_pps_ppkt_ct_nzx_t;
+};
+typedef union bdk_tns_txq_dq_pps_ppkt_ct_nzx bdk_tns_txq_dq_pps_ppkt_ct_nzx_t;
 
 static inline uint64_t BDK_TNS_TXQ_DQ_PPS_PPKT_CT_NZX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_DQ_PPS_PPKT_CT_NZX(unsigned long a)
@@ -39553,7 +40481,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PPS_PPKT_CT_NZX(unsigned long a)
  * TNS TxQ Deque Pipe Scheduler Port CB Shapper MTU Configuration Register
  * MTU configuration register (MTU in BYTES = 2^port_cb_shapers_mtu_cfg)
  */
-typedef union
+union bdk_tns_txq_dq_pps_pshp_mtu_cfg
 {
     uint32_t u;
     struct bdk_tns_txq_dq_pps_pshp_mtu_cfg_s
@@ -39567,7 +40495,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_pps_pshp_mtu_cfg_s cn; */
-} bdk_tns_txq_dq_pps_pshp_mtu_cfg_t;
+};
+typedef union bdk_tns_txq_dq_pps_pshp_mtu_cfg bdk_tns_txq_dq_pps_pshp_mtu_cfg_t;
 
 #define BDK_TNS_TXQ_DQ_PPS_PSHP_MTU_CFG BDK_TNS_TXQ_DQ_PPS_PSHP_MTU_CFG_FUNC()
 static inline uint64_t BDK_TNS_TXQ_DQ_PPS_PSHP_MTU_CFG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -39591,7 +40520,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PPS_PSHP_MTU_CFG_FUNC(void)
  * TNS TxQ Deque Pipe Scheduler PORT General Configuration Register
  * Enable for shapers and DWRR
  */
-typedef union
+union bdk_tns_txq_dq_pps_pt_gen_cfg
 {
     uint32_t u;
     struct bdk_tns_txq_dq_pps_pt_gen_cfg_s
@@ -39609,7 +40538,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_pps_pt_gen_cfg_s cn; */
-} bdk_tns_txq_dq_pps_pt_gen_cfg_t;
+};
+typedef union bdk_tns_txq_dq_pps_pt_gen_cfg bdk_tns_txq_dq_pps_pt_gen_cfg_t;
 
 #define BDK_TNS_TXQ_DQ_PPS_PT_GEN_CFG BDK_TNS_TXQ_DQ_PPS_PT_GEN_CFG_FUNC()
 static inline uint64_t BDK_TNS_TXQ_DQ_PPS_PT_GEN_CFG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -39636,7 +40566,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PPS_PT_GEN_CFG_FUNC(void)
  * more than the programmed value.  A value of 9 will ensure that a port only has
  * one packet scheduled every 10 cycles."
  */
-typedef union
+union bdk_tns_txq_dq_pps_ptp_mskcy_w0
 {
     uint32_t u;
     struct bdk_tns_txq_dq_pps_ptp_mskcy_w0_s
@@ -39650,7 +40580,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_pps_ptp_mskcy_w0_s cn; */
-} bdk_tns_txq_dq_pps_ptp_mskcy_w0_t;
+};
+typedef union bdk_tns_txq_dq_pps_ptp_mskcy_w0 bdk_tns_txq_dq_pps_ptp_mskcy_w0_t;
 
 #define BDK_TNS_TXQ_DQ_PPS_PTP_MSKCY_W0 BDK_TNS_TXQ_DQ_PPS_PTP_MSKCY_W0_FUNC()
 static inline uint64_t BDK_TNS_TXQ_DQ_PPS_PTP_MSKCY_W0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -39674,7 +40605,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PPS_PTP_MSKCY_W0_FUNC(void)
  * TNS TxQ Deque Pipe Scheduler Port Pacing Mask Cycles Word 1 Register
  * Continuation of structure defined in TNS_TXQ_DQ_PPS_PTP_MSKCY_W0
  */
-typedef union
+union bdk_tns_txq_dq_pps_ptp_mskcy_w1
 {
     uint32_t u;
     struct bdk_tns_txq_dq_pps_ptp_mskcy_w1_s
@@ -39688,7 +40619,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_pps_ptp_mskcy_w1_s cn; */
-} bdk_tns_txq_dq_pps_ptp_mskcy_w1_t;
+};
+typedef union bdk_tns_txq_dq_pps_ptp_mskcy_w1 bdk_tns_txq_dq_pps_ptp_mskcy_w1_t;
 
 #define BDK_TNS_TXQ_DQ_PPS_PTP_MSKCY_W1 BDK_TNS_TXQ_DQ_PPS_PTP_MSKCY_W1_FUNC()
 static inline uint64_t BDK_TNS_TXQ_DQ_PPS_PTP_MSKCY_W1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -39712,7 +40644,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PPS_PTP_MSKCY_W1_FUNC(void)
  * TNS TxQ Deque Pipe Scheduler Port Pacing Mask Cycles Word 2 Register
  * Continuation of structure defined in TNS_TXQ_DQ_PPS_PTP_MSKCY_W0
  */
-typedef union
+union bdk_tns_txq_dq_pps_ptp_mskcy_w2
 {
     uint32_t u;
     struct bdk_tns_txq_dq_pps_ptp_mskcy_w2_s
@@ -39726,7 +40658,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_pps_ptp_mskcy_w2_s cn; */
-} bdk_tns_txq_dq_pps_ptp_mskcy_w2_t;
+};
+typedef union bdk_tns_txq_dq_pps_ptp_mskcy_w2 bdk_tns_txq_dq_pps_ptp_mskcy_w2_t;
 
 #define BDK_TNS_TXQ_DQ_PPS_PTP_MSKCY_W2 BDK_TNS_TXQ_DQ_PPS_PTP_MSKCY_W2_FUNC()
 static inline uint64_t BDK_TNS_TXQ_DQ_PPS_PTP_MSKCY_W2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -39750,7 +40683,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PPS_PTP_MSKCY_W2_FUNC(void)
  * TNS TxQ Deque Pipe Scheduler Port Pacing Mask Cycles Word 3 Register
  * Continuation of structure defined in TNS_TXQ_DQ_PPS_PTP_MSKCY_W0
  */
-typedef union
+union bdk_tns_txq_dq_pps_ptp_mskcy_w3
 {
     uint32_t u;
     struct bdk_tns_txq_dq_pps_ptp_mskcy_w3_s
@@ -39764,7 +40697,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_pps_ptp_mskcy_w3_s cn; */
-} bdk_tns_txq_dq_pps_ptp_mskcy_w3_t;
+};
+typedef union bdk_tns_txq_dq_pps_ptp_mskcy_w3 bdk_tns_txq_dq_pps_ptp_mskcy_w3_t;
 
 #define BDK_TNS_TXQ_DQ_PPS_PTP_MSKCY_W3 BDK_TNS_TXQ_DQ_PPS_PTP_MSKCY_W3_FUNC()
 static inline uint64_t BDK_TNS_TXQ_DQ_PPS_PTP_MSKCY_W3_FUNC(void) __attribute__ ((pure, always_inline));
@@ -39789,7 +40723,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PPS_PTP_MSKCY_W3_FUNC(void)
  * Bit to pause DQ pipe TM_CFG from issuing valid which would stop the entire Dq
  * process
  */
-typedef union
+union bdk_tns_txq_dq_pps_pus_4_cpu_acs
 {
     uint32_t u;
     struct bdk_tns_txq_dq_pps_pus_4_cpu_acs_s
@@ -39803,7 +40737,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_pps_pus_4_cpu_acs_s cn; */
-} bdk_tns_txq_dq_pps_pus_4_cpu_acs_t;
+};
+typedef union bdk_tns_txq_dq_pps_pus_4_cpu_acs bdk_tns_txq_dq_pps_pus_4_cpu_acs_t;
 
 #define BDK_TNS_TXQ_DQ_PPS_PUS_4_CPU_ACS BDK_TNS_TXQ_DQ_PPS_PUS_4_CPU_ACS_FUNC()
 static inline uint64_t BDK_TNS_TXQ_DQ_PPS_PUS_4_CPU_ACS_FUNC(void) __attribute__ ((pure, always_inline));
@@ -39827,7 +40762,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PPS_PUS_4_CPU_ACS_FUNC(void)
  * TNS TxQ Deque Pipe Scheduler ScratchPad Register
  * Scratch Pad Register for XCAT
  */
-typedef union
+union bdk_tns_txq_dq_pps_spad
 {
     uint32_t u;
     struct bdk_tns_txq_dq_pps_spad_s
@@ -39839,7 +40774,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_pps_spad_s cn; */
-} bdk_tns_txq_dq_pps_spad_t;
+};
+typedef union bdk_tns_txq_dq_pps_spad bdk_tns_txq_dq_pps_spad_t;
 
 #define BDK_TNS_TXQ_DQ_PPS_SPAD BDK_TNS_TXQ_DQ_PPS_SPAD_FUNC()
 static inline uint64_t BDK_TNS_TXQ_DQ_PPS_SPAD_FUNC(void) __attribute__ ((pure, always_inline));
@@ -39863,7 +40799,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PPS_SPAD_FUNC(void)
  * TNS TxQ Deque Pipe Scheduler Traffic Manager Configuration Data Register
  * TM config and state information for various ports tied to a pipe
  */
-typedef union
+union bdk_tns_txq_dq_pps_tm_cfg_dat
 {
     uint64_t u;
     struct bdk_tns_txq_dq_pps_tm_cfg_dat_s
@@ -39883,7 +40819,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_pps_tm_cfg_dat_s cn; */
-} bdk_tns_txq_dq_pps_tm_cfg_dat_t;
+};
+typedef union bdk_tns_txq_dq_pps_tm_cfg_dat bdk_tns_txq_dq_pps_tm_cfg_dat_t;
 
 #define BDK_TNS_TXQ_DQ_PPS_TM_CFG_DAT BDK_TNS_TXQ_DQ_PPS_TM_CFG_DAT_FUNC()
 static inline uint64_t BDK_TNS_TXQ_DQ_PPS_TM_CFG_DAT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -39907,7 +40844,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PPS_TM_CFG_DAT_FUNC(void)
  * TNS TxQ Deque Port Scheduler DWRR Configuration Status Table Memory Registers
  * H1 DWRR weights and counters memory
  */
-typedef union
+union bdk_tns_txq_dq_pts_dwrr_cst_memx
 {
     uint32_t u;
     struct bdk_tns_txq_dq_pts_dwrr_cst_memx_s
@@ -39921,7 +40858,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_pts_dwrr_cst_memx_s cn; */
-} bdk_tns_txq_dq_pts_dwrr_cst_memx_t;
+};
+typedef union bdk_tns_txq_dq_pts_dwrr_cst_memx bdk_tns_txq_dq_pts_dwrr_cst_memx_t;
 
 static inline uint64_t BDK_TNS_TXQ_DQ_PTS_DWRR_CST_MEMX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_DQ_PTS_DWRR_CST_MEMX(unsigned long a)
@@ -39945,7 +40883,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_DWRR_CST_MEMX(unsigned long a)
  * Port scheduler DWRR configuration and state memory ECC error log.  Address is
  * sticky on first error.  Re-armed after reading
  */
-typedef union
+union bdk_tns_txq_dq_pts_dwrr_ecc_log
 {
     uint32_t u;
     struct bdk_tns_txq_dq_pts_dwrr_ecc_log_s
@@ -39959,7 +40897,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_pts_dwrr_ecc_log_s cn; */
-} bdk_tns_txq_dq_pts_dwrr_ecc_log_t;
+};
+typedef union bdk_tns_txq_dq_pts_dwrr_ecc_log bdk_tns_txq_dq_pts_dwrr_ecc_log_t;
 
 #define BDK_TNS_TXQ_DQ_PTS_DWRR_ECC_LOG BDK_TNS_TXQ_DQ_PTS_DWRR_ECC_LOG_FUNC()
 static inline uint64_t BDK_TNS_TXQ_DQ_PTS_DWRR_ECC_LOG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -39983,7 +40922,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_DWRR_ECC_LOG_FUNC(void)
  * TNS TxQ Deque Port Scheduler ECC Control Register
  * ECC configuration of DQ port scheduler memories
  */
-typedef union
+union bdk_tns_txq_dq_pts_ecc_ctl
 {
     uint32_t u;
     struct bdk_tns_txq_dq_pts_ecc_ctl_s
@@ -40007,7 +40946,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_pts_ecc_ctl_s cn; */
-} bdk_tns_txq_dq_pts_ecc_ctl_t;
+};
+typedef union bdk_tns_txq_dq_pts_ecc_ctl bdk_tns_txq_dq_pts_ecc_ctl_t;
 
 #define BDK_TNS_TXQ_DQ_PTS_ECC_CTL BDK_TNS_TXQ_DQ_PTS_ECC_CTL_FUNC()
 static inline uint64_t BDK_TNS_TXQ_DQ_PTS_ECC_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -40032,7 +40972,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_ECC_CTL_FUNC(void)
  * "H1 CB shapers fast_update H1 # memory.  Maps the index of the fast shaper to
  * the associated H1 node"
  */
-typedef union
+union bdk_tns_txq_dq_pts_fshp_i2hx
 {
     uint32_t u;
     struct bdk_tns_txq_dq_pts_fshp_i2hx_s
@@ -40046,7 +40986,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_pts_fshp_i2hx_s cn; */
-} bdk_tns_txq_dq_pts_fshp_i2hx_t;
+};
+typedef union bdk_tns_txq_dq_pts_fshp_i2hx bdk_tns_txq_dq_pts_fshp_i2hx_t;
 
 static inline uint64_t BDK_TNS_TXQ_DQ_PTS_FSHP_I2HX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_DQ_PTS_FSHP_I2HX(unsigned long a)
@@ -40073,7 +41014,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_FSHP_I2HX(unsigned long a)
  * When writing, make the access to this decoder atomic w.r.t. other writes to
  * this decoder.
  */
-typedef union
+union bdk_tns_txq_dq_pts_fshp_memx_w0
 {
     uint32_t u;
     struct bdk_tns_txq_dq_pts_fshp_memx_w0_s
@@ -40087,7 +41028,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_pts_fshp_memx_w0_s cn; */
-} bdk_tns_txq_dq_pts_fshp_memx_w0_t;
+};
+typedef union bdk_tns_txq_dq_pts_fshp_memx_w0 bdk_tns_txq_dq_pts_fshp_memx_w0_t;
 
 static inline uint64_t BDK_TNS_TXQ_DQ_PTS_FSHP_MEMX_W0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_DQ_PTS_FSHP_MEMX_W0(unsigned long a)
@@ -40110,7 +41052,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_FSHP_MEMX_W0(unsigned long a)
  * TNS TxQ Deque Port Scheduler CB Fast Update Shapper Memory Word 1 Registers
  * Continuation of structure defined in TNS_TXQ_DQ_PTS_FSHP_MEM(0..63)_W0
  */
-typedef union
+union bdk_tns_txq_dq_pts_fshp_memx_w1
 {
     uint32_t u;
     struct bdk_tns_txq_dq_pts_fshp_memx_w1_s
@@ -40132,7 +41074,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_pts_fshp_memx_w1_s cn; */
-} bdk_tns_txq_dq_pts_fshp_memx_w1_t;
+};
+typedef union bdk_tns_txq_dq_pts_fshp_memx_w1 bdk_tns_txq_dq_pts_fshp_memx_w1_t;
 
 static inline uint64_t BDK_TNS_TXQ_DQ_PTS_FSHP_MEMX_W1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_DQ_PTS_FSHP_MEMX_W1(unsigned long a)
@@ -40155,7 +41098,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_FSHP_MEMX_W1(unsigned long a)
  * TNS TxQ Deque Port Scheduler CB Fast Update Shapper Memory Word 2 Registers
  * Continuation of structure defined in TNS_TXQ_DQ_PTS_FSHP_MEM(0..63)_W0
  */
-typedef union
+union bdk_tns_txq_dq_pts_fshp_memx_w2
 {
     uint32_t u;
     struct bdk_tns_txq_dq_pts_fshp_memx_w2_s
@@ -40169,7 +41112,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_pts_fshp_memx_w2_s cn; */
-} bdk_tns_txq_dq_pts_fshp_memx_w2_t;
+};
+typedef union bdk_tns_txq_dq_pts_fshp_memx_w2 bdk_tns_txq_dq_pts_fshp_memx_w2_t;
 
 static inline uint64_t BDK_TNS_TXQ_DQ_PTS_FSHP_MEMX_W2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_DQ_PTS_FSHP_MEMX_W2(unsigned long a)
@@ -40192,7 +41136,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_FSHP_MEMX_W2(unsigned long a)
  * TNS TxQ Deque Port Scheduler H1 General Configuration Register
  * Enable for shapers, DWRR.
  */
-typedef union
+union bdk_tns_txq_dq_pts_h1_gen_cfg
 {
     uint32_t u;
     struct bdk_tns_txq_dq_pts_h1_gen_cfg_s
@@ -40220,7 +41164,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_pts_h1_gen_cfg_s cn; */
-} bdk_tns_txq_dq_pts_h1_gen_cfg_t;
+};
+typedef union bdk_tns_txq_dq_pts_h1_gen_cfg bdk_tns_txq_dq_pts_h1_gen_cfg_t;
 
 #define BDK_TNS_TXQ_DQ_PTS_H1_GEN_CFG BDK_TNS_TXQ_DQ_PTS_H1_GEN_CFG_FUNC()
 static inline uint64_t BDK_TNS_TXQ_DQ_PTS_H1_GEN_CFG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -40244,7 +41189,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_H1_GEN_CFG_FUNC(void)
  * TNS TxQ Deque Port Scheduler H1 DWRR MTU Configuration Register
  * MTU configuration for PORT arbiter (MTU in bytes = 2^h1_dwrr_mtu_cfg).
  */
-typedef union
+union bdk_tns_txq_dq_pts_hdwrr_mtu_cfg
 {
     uint32_t u;
     struct bdk_tns_txq_dq_pts_hdwrr_mtu_cfg_s
@@ -40258,7 +41203,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_pts_hdwrr_mtu_cfg_s cn; */
-} bdk_tns_txq_dq_pts_hdwrr_mtu_cfg_t;
+};
+typedef union bdk_tns_txq_dq_pts_hdwrr_mtu_cfg bdk_tns_txq_dq_pts_hdwrr_mtu_cfg_t;
 
 #define BDK_TNS_TXQ_DQ_PTS_HDWRR_MTU_CFG BDK_TNS_TXQ_DQ_PTS_HDWRR_MTU_CFG_FUNC()
 static inline uint64_t BDK_TNS_TXQ_DQ_PTS_HDWRR_MTU_CFG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -40282,7 +41228,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_HDWRR_MTU_CFG_FUNC(void)
  * TNS TxQ Deque Port Scheduler H1 CB Fast Shapper Address Map Register
  * Configuration to map bits in H1 array to FAST_UPD CB shapers list index
  */
-typedef union
+union bdk_tns_txq_dq_pts_hfshp_adr_map
 {
     uint32_t u;
     struct bdk_tns_txq_dq_pts_hfshp_adr_map_s
@@ -40306,7 +41252,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_pts_hfshp_adr_map_s cn; */
-} bdk_tns_txq_dq_pts_hfshp_adr_map_t;
+};
+typedef union bdk_tns_txq_dq_pts_hfshp_adr_map bdk_tns_txq_dq_pts_hfshp_adr_map_t;
 
 #define BDK_TNS_TXQ_DQ_PTS_HFSHP_ADR_MAP BDK_TNS_TXQ_DQ_PTS_HFSHP_ADR_MAP_FUNC()
 static inline uint64_t BDK_TNS_TXQ_DQ_PTS_HFSHP_ADR_MAP_FUNC(void) __attribute__ ((pure, always_inline));
@@ -40330,7 +41277,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_HFSHP_ADR_MAP_FUNC(void)
  * TNS TxQ Deque Port Scheduler H1 CB Fast Shapper Check Configuration Register
  * Bitmap used to validate entry in FAST_UPD list
  */
-typedef union
+union bdk_tns_txq_dq_pts_hfshp_chk_cfg
 {
     uint32_t u;
     struct bdk_tns_txq_dq_pts_hfshp_chk_cfg_s
@@ -40344,7 +41291,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_pts_hfshp_chk_cfg_s cn; */
-} bdk_tns_txq_dq_pts_hfshp_chk_cfg_t;
+};
+typedef union bdk_tns_txq_dq_pts_hfshp_chk_cfg bdk_tns_txq_dq_pts_hfshp_chk_cfg_t;
 
 #define BDK_TNS_TXQ_DQ_PTS_HFSHP_CHK_CFG BDK_TNS_TXQ_DQ_PTS_HFSHP_CHK_CFG_FUNC()
 static inline uint64_t BDK_TNS_TXQ_DQ_PTS_HFSHP_CHK_CFG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -40368,7 +41316,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_HFSHP_CHK_CFG_FUNC(void)
  * TNS TxQ Deque Port Scheduler H1 CB Fast Shapper Map Configuration Register
  * Configuration to map bits in H1 array used to validate entry in FAST_UPD list
  */
-typedef union
+union bdk_tns_txq_dq_pts_hfshp_map_cfg
 {
     uint32_t u;
     struct bdk_tns_txq_dq_pts_hfshp_map_cfg_s
@@ -40384,7 +41332,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_pts_hfshp_map_cfg_s cn; */
-} bdk_tns_txq_dq_pts_hfshp_map_cfg_t;
+};
+typedef union bdk_tns_txq_dq_pts_hfshp_map_cfg bdk_tns_txq_dq_pts_hfshp_map_cfg_t;
 
 #define BDK_TNS_TXQ_DQ_PTS_HFSHP_MAP_CFG BDK_TNS_TXQ_DQ_PTS_HFSHP_MAP_CFG_FUNC()
 static inline uint64_t BDK_TNS_TXQ_DQ_PTS_HFSHP_MAP_CFG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -40408,7 +41357,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_HFSHP_MAP_CFG_FUNC(void)
  * TNS TxQ Deque Port Scheduler H1 Packet Count Limit Registers
  * H1 packet count limits
  */
-typedef union
+union bdk_tns_txq_dq_pts_hpkt_ct_lmtx
 {
     uint32_t u;
     struct bdk_tns_txq_dq_pts_hpkt_ct_lmtx_s
@@ -40422,7 +41371,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_pts_hpkt_ct_lmtx_s cn; */
-} bdk_tns_txq_dq_pts_hpkt_ct_lmtx_t;
+};
+typedef union bdk_tns_txq_dq_pts_hpkt_ct_lmtx bdk_tns_txq_dq_pts_hpkt_ct_lmtx_t;
 
 static inline uint64_t BDK_TNS_TXQ_DQ_PTS_HPKT_CT_LMTX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_DQ_PTS_HPKT_CT_LMTX(unsigned long a)
@@ -40445,7 +41395,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_HPKT_CT_LMTX(unsigned long a)
  * TNS TxQ Deque Port Scheduler H1 Packet Count Memory Registers
  * H1 packet count memory
  */
-typedef union
+union bdk_tns_txq_dq_pts_hpkt_ct_memx
 {
     uint32_t u;
     struct bdk_tns_txq_dq_pts_hpkt_ct_memx_s
@@ -40459,7 +41409,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_pts_hpkt_ct_memx_s cn; */
-} bdk_tns_txq_dq_pts_hpkt_ct_memx_t;
+};
+typedef union bdk_tns_txq_dq_pts_hpkt_ct_memx bdk_tns_txq_dq_pts_hpkt_ct_memx_t;
 
 static inline uint64_t BDK_TNS_TXQ_DQ_PTS_HPKT_CT_MEMX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_DQ_PTS_HPKT_CT_MEMX(unsigned long a)
@@ -40483,7 +41434,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_HPKT_CT_MEMX(unsigned long a)
  * Use this to set H1 nodes to have packet_count_not_zero to 0 or 1 for scheduling
  * purposes.  Useful for clearing a H1 in case it has not flushed out properly
  */
-typedef union
+union bdk_tns_txq_dq_pts_hpkt_ct_nzx
 {
     uint32_t u;
     struct bdk_tns_txq_dq_pts_hpkt_ct_nzx_s
@@ -40497,7 +41448,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_pts_hpkt_ct_nzx_s cn; */
-} bdk_tns_txq_dq_pts_hpkt_ct_nzx_t;
+};
+typedef union bdk_tns_txq_dq_pts_hpkt_ct_nzx bdk_tns_txq_dq_pts_hpkt_ct_nzx_t;
 
 static inline uint64_t BDK_TNS_TXQ_DQ_PTS_HPKT_CT_NZX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_DQ_PTS_HPKT_CT_NZX(unsigned long a)
@@ -40520,7 +41472,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_HPKT_CT_NZX(unsigned long a)
  * TNS TxQ Deque Port Scheduler H1 Packet Full Profile Map Register
  * Map H1 address bits to a packet count limit profile
  */
-typedef union
+union bdk_tns_txq_dq_pts_hpkt_fprf_map
 {
     uint32_t u;
     struct bdk_tns_txq_dq_pts_hpkt_fprf_map_s
@@ -40546,7 +41498,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_pts_hpkt_fprf_map_s cn; */
-} bdk_tns_txq_dq_pts_hpkt_fprf_map_t;
+};
+typedef union bdk_tns_txq_dq_pts_hpkt_fprf_map bdk_tns_txq_dq_pts_hpkt_fprf_map_t;
 
 #define BDK_TNS_TXQ_DQ_PTS_HPKT_FPRF_MAP BDK_TNS_TXQ_DQ_PTS_HPKT_FPRF_MAP_FUNC()
 static inline uint64_t BDK_TNS_TXQ_DQ_PTS_HPKT_FPRF_MAP_FUNC(void) __attribute__ ((pure, always_inline));
@@ -40570,7 +41523,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_HPKT_FPRF_MAP_FUNC(void)
  * TNS TxQ Deque Port Scheduler H1 Shapper MTU Configuration Register
  * MTU configuration register (MTU in BYTES = 2^h2_cb_shapers_mtu_cfg)
  */
-typedef union
+union bdk_tns_txq_dq_pts_hshp_mtu_cfg
 {
     uint32_t u;
     struct bdk_tns_txq_dq_pts_hshp_mtu_cfg_s
@@ -40584,7 +41537,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_pts_hshp_mtu_cfg_s cn; */
-} bdk_tns_txq_dq_pts_hshp_mtu_cfg_t;
+};
+typedef union bdk_tns_txq_dq_pts_hshp_mtu_cfg bdk_tns_txq_dq_pts_hshp_mtu_cfg_t;
 
 #define BDK_TNS_TXQ_DQ_PTS_HSHP_MTU_CFG BDK_TNS_TXQ_DQ_PTS_HSHP_MTU_CFG_FUNC()
 static inline uint64_t BDK_TNS_TXQ_DQ_PTS_HSHP_MTU_CFG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -40609,7 +41563,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_HSHP_MTU_CFG_FUNC(void)
  * H1 slow shaper memory ECC error log.  Address is sticky on first error.  Re-
  * armed after reading
  */
-typedef union
+union bdk_tns_txq_dq_pts_hsshp_ecc_log
 {
     uint32_t u;
     struct bdk_tns_txq_dq_pts_hsshp_ecc_log_s
@@ -40623,7 +41577,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_pts_hsshp_ecc_log_s cn; */
-} bdk_tns_txq_dq_pts_hsshp_ecc_log_t;
+};
+typedef union bdk_tns_txq_dq_pts_hsshp_ecc_log bdk_tns_txq_dq_pts_hsshp_ecc_log_t;
 
 #define BDK_TNS_TXQ_DQ_PTS_HSSHP_ECC_LOG BDK_TNS_TXQ_DQ_PTS_HSSHP_ECC_LOG_FUNC()
 static inline uint64_t BDK_TNS_TXQ_DQ_PTS_HSSHP_ECC_LOG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -40647,7 +41602,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_HSSHP_ECC_LOG_FUNC(void)
  * TNS TxQ Deque Port Scheduler Interrrupt Enable High Register
  * Port scheduler interrupt register
  */
-typedef union
+union bdk_tns_txq_dq_pts_int_en_hi
 {
     uint32_t u;
     struct bdk_tns_txq_dq_pts_int_en_hi_s
@@ -40675,7 +41630,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_pts_int_en_hi_s cn; */
-} bdk_tns_txq_dq_pts_int_en_hi_t;
+};
+typedef union bdk_tns_txq_dq_pts_int_en_hi bdk_tns_txq_dq_pts_int_en_hi_t;
 
 #define BDK_TNS_TXQ_DQ_PTS_INT_EN_HI BDK_TNS_TXQ_DQ_PTS_INT_EN_HI_FUNC()
 static inline uint64_t BDK_TNS_TXQ_DQ_PTS_INT_EN_HI_FUNC(void) __attribute__ ((pure, always_inline));
@@ -40699,7 +41655,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_INT_EN_HI_FUNC(void)
  * TNS TxQ Deque Port Scheduler Interrrupt Enable Low Register
  * Port scheduler interrupt register
  */
-typedef union
+union bdk_tns_txq_dq_pts_int_en_lo
 {
     uint32_t u;
     struct bdk_tns_txq_dq_pts_int_en_lo_s
@@ -40727,7 +41683,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_pts_int_en_lo_s cn; */
-} bdk_tns_txq_dq_pts_int_en_lo_t;
+};
+typedef union bdk_tns_txq_dq_pts_int_en_lo bdk_tns_txq_dq_pts_int_en_lo_t;
 
 #define BDK_TNS_TXQ_DQ_PTS_INT_EN_LO BDK_TNS_TXQ_DQ_PTS_INT_EN_LO_FUNC()
 static inline uint64_t BDK_TNS_TXQ_DQ_PTS_INT_EN_LO_FUNC(void) __attribute__ ((pure, always_inline));
@@ -40751,7 +41708,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_INT_EN_LO_FUNC(void)
  * TNS TxQ Deque Port Scheduler Interrrupt Force Register
  * Port scheduler interrupt register
  */
-typedef union
+union bdk_tns_txq_dq_pts_int_frc
 {
     uint32_t u;
     struct bdk_tns_txq_dq_pts_int_frc_s
@@ -40779,7 +41736,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_pts_int_frc_s cn; */
-} bdk_tns_txq_dq_pts_int_frc_t;
+};
+typedef union bdk_tns_txq_dq_pts_int_frc bdk_tns_txq_dq_pts_int_frc_t;
 
 #define BDK_TNS_TXQ_DQ_PTS_INT_FRC BDK_TNS_TXQ_DQ_PTS_INT_FRC_FUNC()
 static inline uint64_t BDK_TNS_TXQ_DQ_PTS_INT_FRC_FUNC(void) __attribute__ ((pure, always_inline));
@@ -40803,7 +41761,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_INT_FRC_FUNC(void)
  * TNS TxQ Deque Port Scheduler Interrrupt W1C Register
  * Port scheduler interrupt register
  */
-typedef union
+union bdk_tns_txq_dq_pts_int_w1c
 {
     uint32_t u;
     struct bdk_tns_txq_dq_pts_int_w1c_s
@@ -40831,7 +41789,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_pts_int_w1c_s cn; */
-} bdk_tns_txq_dq_pts_int_w1c_t;
+};
+typedef union bdk_tns_txq_dq_pts_int_w1c bdk_tns_txq_dq_pts_int_w1c_t;
 
 #define BDK_TNS_TXQ_DQ_PTS_INT_W1C BDK_TNS_TXQ_DQ_PTS_INT_W1C_FUNC()
 static inline uint64_t BDK_TNS_TXQ_DQ_PTS_INT_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -40855,7 +41814,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_INT_W1C_FUNC(void)
  * TNS TxQ Deque Port Scheduler Lock Register
  * Lock Register
  */
-typedef union
+union bdk_tns_txq_dq_pts_lock
 {
     uint32_t u;
     struct bdk_tns_txq_dq_pts_lock_s
@@ -40867,7 +41826,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_pts_lock_s cn; */
-} bdk_tns_txq_dq_pts_lock_t;
+};
+typedef union bdk_tns_txq_dq_pts_lock bdk_tns_txq_dq_pts_lock_t;
 
 #define BDK_TNS_TXQ_DQ_PTS_LOCK BDK_TNS_TXQ_DQ_PTS_LOCK_FUNC()
 static inline uint64_t BDK_TNS_TXQ_DQ_PTS_LOCK_FUNC(void) __attribute__ ((pure, always_inline));
@@ -40891,7 +41851,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_LOCK_FUNC(void)
  * TNS TxQ Deque Port Scheduler ScratchPad Register
  * Scratch Pad Register for XCAT
  */
-typedef union
+union bdk_tns_txq_dq_pts_spad
 {
     uint32_t u;
     struct bdk_tns_txq_dq_pts_spad_s
@@ -40903,7 +41863,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_pts_spad_s cn; */
-} bdk_tns_txq_dq_pts_spad_t;
+};
+typedef union bdk_tns_txq_dq_pts_spad bdk_tns_txq_dq_pts_spad_t;
 
 #define BDK_TNS_TXQ_DQ_PTS_SPAD BDK_TNS_TXQ_DQ_PTS_SPAD_FUNC()
 static inline uint64_t BDK_TNS_TXQ_DQ_PTS_SPAD_FUNC(void) __attribute__ ((pure, always_inline));
@@ -40931,7 +41892,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_SPAD_FUNC(void)
  * When writing, make the access to this decoder atomic w.r.t. other writes to
  * this decoder.
  */
-typedef union
+union bdk_tns_txq_dq_pts_sshp_memx_w0
 {
     uint32_t u;
     struct bdk_tns_txq_dq_pts_sshp_memx_w0_s
@@ -40945,7 +41906,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_pts_sshp_memx_w0_s cn; */
-} bdk_tns_txq_dq_pts_sshp_memx_w0_t;
+};
+typedef union bdk_tns_txq_dq_pts_sshp_memx_w0 bdk_tns_txq_dq_pts_sshp_memx_w0_t;
 
 static inline uint64_t BDK_TNS_TXQ_DQ_PTS_SSHP_MEMX_W0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_DQ_PTS_SSHP_MEMX_W0(unsigned long a)
@@ -40968,7 +41930,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_SSHP_MEMX_W0(unsigned long a)
  * TNS TxQ Deque Port Scheduler Slow Shapper Memory Word 1 Registers
  * Continuation of structure defined in TNS_TXQ_DQ_PTS_SSHP_MEM(0..255)_W0
  */
-typedef union
+union bdk_tns_txq_dq_pts_sshp_memx_w1
 {
     uint32_t u;
     struct bdk_tns_txq_dq_pts_sshp_memx_w1_s
@@ -40990,7 +41952,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_pts_sshp_memx_w1_s cn; */
-} bdk_tns_txq_dq_pts_sshp_memx_w1_t;
+};
+typedef union bdk_tns_txq_dq_pts_sshp_memx_w1 bdk_tns_txq_dq_pts_sshp_memx_w1_t;
 
 static inline uint64_t BDK_TNS_TXQ_DQ_PTS_SSHP_MEMX_W1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_DQ_PTS_SSHP_MEMX_W1(unsigned long a)
@@ -41013,7 +41976,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_SSHP_MEMX_W1(unsigned long a)
  * TNS TxQ Deque Port Scheduler Slow Shapper Memory Word 2 Registers
  * Continuation of structure defined in TNS_TXQ_DQ_PTS_SSHP_MEM(0..255)_W0
  */
-typedef union
+union bdk_tns_txq_dq_pts_sshp_memx_w2
 {
     uint32_t u;
     struct bdk_tns_txq_dq_pts_sshp_memx_w2_s
@@ -41027,7 +41990,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_pts_sshp_memx_w2_s cn; */
-} bdk_tns_txq_dq_pts_sshp_memx_w2_t;
+};
+typedef union bdk_tns_txq_dq_pts_sshp_memx_w2 bdk_tns_txq_dq_pts_sshp_memx_w2_t;
 
 static inline uint64_t BDK_TNS_TXQ_DQ_PTS_SSHP_MEMX_W2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_DQ_PTS_SSHP_MEMX_W2(unsigned long a)
@@ -41054,7 +42018,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_SSHP_MEMX_W2(unsigned long a)
  * When writing, make the access to this decoder atomic w.r.t. other writes to
  * this decoder.
  */
-typedef union
+union bdk_tns_txq_dq_pts_tm_cfgx_w0
 {
     uint64_t u;
     struct bdk_tns_txq_dq_pts_tm_cfgx_w0_s
@@ -41066,7 +42030,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_pts_tm_cfgx_w0_s cn; */
-} bdk_tns_txq_dq_pts_tm_cfgx_w0_t;
+};
+typedef union bdk_tns_txq_dq_pts_tm_cfgx_w0 bdk_tns_txq_dq_pts_tm_cfgx_w0_t;
 
 static inline uint64_t BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W0(unsigned long a)
@@ -41089,7 +42054,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W0(unsigned long a)
  * TNS TxQ Deque Port Scheduler Traffic Manager Configuration Word 1 Registers
  * Continuation of structure defined in TNS_TXQ_DQ_PTS_TM_CFG(0..15)_W0
  */
-typedef union
+union bdk_tns_txq_dq_pts_tm_cfgx_w1
 {
     uint64_t u;
     struct bdk_tns_txq_dq_pts_tm_cfgx_w1_s
@@ -41101,7 +42066,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_pts_tm_cfgx_w1_s cn; */
-} bdk_tns_txq_dq_pts_tm_cfgx_w1_t;
+};
+typedef union bdk_tns_txq_dq_pts_tm_cfgx_w1 bdk_tns_txq_dq_pts_tm_cfgx_w1_t;
 
 static inline uint64_t BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W1(unsigned long a)
@@ -41124,7 +42090,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W1(unsigned long a)
  * TNS TxQ Deque Port Scheduler Traffic Manager Configuration Word 2 Registers
  * Continuation of structure defined in TNS_TXQ_DQ_PTS_TM_CFG(0..15)_W0
  */
-typedef union
+union bdk_tns_txq_dq_pts_tm_cfgx_w2
 {
     uint64_t u;
     struct bdk_tns_txq_dq_pts_tm_cfgx_w2_s
@@ -41136,7 +42102,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_pts_tm_cfgx_w2_s cn; */
-} bdk_tns_txq_dq_pts_tm_cfgx_w2_t;
+};
+typedef union bdk_tns_txq_dq_pts_tm_cfgx_w2 bdk_tns_txq_dq_pts_tm_cfgx_w2_t;
 
 static inline uint64_t BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W2(unsigned long a)
@@ -41159,7 +42126,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W2(unsigned long a)
  * TNS TxQ Deque Port Scheduler Traffic Manager Configuration Word 3 Registers
  * Continuation of structure defined in TNS_TXQ_DQ_PTS_TM_CFG(0..15)_W0
  */
-typedef union
+union bdk_tns_txq_dq_pts_tm_cfgx_w3
 {
     uint64_t u;
     struct bdk_tns_txq_dq_pts_tm_cfgx_w3_s
@@ -41171,7 +42138,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_pts_tm_cfgx_w3_s cn; */
-} bdk_tns_txq_dq_pts_tm_cfgx_w3_t;
+};
+typedef union bdk_tns_txq_dq_pts_tm_cfgx_w3 bdk_tns_txq_dq_pts_tm_cfgx_w3_t;
 
 static inline uint64_t BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W3(unsigned long a)
@@ -41194,7 +42162,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W3(unsigned long a)
  * TNS TxQ Deque Port Scheduler Traffic Manager Configuration Word 4 Registers
  * Continuation of structure defined in TNS_TXQ_DQ_PTS_TM_CFG(0..15)_W0
  */
-typedef union
+union bdk_tns_txq_dq_pts_tm_cfgx_w4
 {
     uint64_t u;
     struct bdk_tns_txq_dq_pts_tm_cfgx_w4_s
@@ -41206,7 +42174,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_pts_tm_cfgx_w4_s cn; */
-} bdk_tns_txq_dq_pts_tm_cfgx_w4_t;
+};
+typedef union bdk_tns_txq_dq_pts_tm_cfgx_w4 bdk_tns_txq_dq_pts_tm_cfgx_w4_t;
 
 static inline uint64_t BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W4(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W4(unsigned long a)
@@ -41229,7 +42198,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W4(unsigned long a)
  * TNS TxQ Deque Port Scheduler Traffic Manager Configuration Word 5 Registers
  * Continuation of structure defined in TNS_TXQ_DQ_PTS_TM_CFG(0..15)_W0
  */
-typedef union
+union bdk_tns_txq_dq_pts_tm_cfgx_w5
 {
     uint64_t u;
     struct bdk_tns_txq_dq_pts_tm_cfgx_w5_s
@@ -41241,7 +42210,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_pts_tm_cfgx_w5_s cn; */
-} bdk_tns_txq_dq_pts_tm_cfgx_w5_t;
+};
+typedef union bdk_tns_txq_dq_pts_tm_cfgx_w5 bdk_tns_txq_dq_pts_tm_cfgx_w5_t;
 
 static inline uint64_t BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W5(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W5(unsigned long a)
@@ -41264,7 +42234,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W5(unsigned long a)
  * TNS TxQ Deque Port Scheduler Traffic Manager Configuration Word 6 Registers
  * Continuation of structure defined in TNS_TXQ_DQ_PTS_TM_CFG(0..15)_W0
  */
-typedef union
+union bdk_tns_txq_dq_pts_tm_cfgx_w6
 {
     uint64_t u;
     struct bdk_tns_txq_dq_pts_tm_cfgx_w6_s
@@ -41294,7 +42264,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_pts_tm_cfgx_w6_s cn; */
-} bdk_tns_txq_dq_pts_tm_cfgx_w6_t;
+};
+typedef union bdk_tns_txq_dq_pts_tm_cfgx_w6 bdk_tns_txq_dq_pts_tm_cfgx_w6_t;
 
 static inline uint64_t BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W6(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W6(unsigned long a)
@@ -41317,7 +42288,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W6(unsigned long a)
  * TNS TxQ Deque Port Scheduler Traffic Manager State Registers
  * PORT scheduler TM state table
  */
-typedef union
+union bdk_tns_txq_dq_pts_tm_sttx
 {
     uint32_t u;
     struct bdk_tns_txq_dq_pts_tm_sttx_s
@@ -41331,7 +42302,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_pts_tm_sttx_s cn; */
-} bdk_tns_txq_dq_pts_tm_sttx_t;
+};
+typedef union bdk_tns_txq_dq_pts_tm_sttx bdk_tns_txq_dq_pts_tm_sttx_t;
 
 static inline uint64_t BDK_TNS_TXQ_DQ_PTS_TM_STTX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_DQ_PTS_TM_STTX(unsigned long a)
@@ -41357,7 +42329,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_TM_STTX(unsigned long a)
  * rates need to be updated.  Software determines the new target rate and current
  * rate to use.
  */
-typedef union
+union bdk_tns_txq_dq_qcn_change
 {
     uint64_t u;
     struct bdk_tns_txq_dq_qcn_change_s
@@ -41379,7 +42351,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_qcn_change_s cn; */
-} bdk_tns_txq_dq_qcn_change_t;
+};
+typedef union bdk_tns_txq_dq_qcn_change bdk_tns_txq_dq_qcn_change_t;
 
 #define BDK_TNS_TXQ_DQ_QCN_CHANGE BDK_TNS_TXQ_DQ_QCN_CHANGE_FUNC()
 static inline uint64_t BDK_TNS_TXQ_DQ_QCN_CHANGE_FUNC(void) __attribute__ ((pure, always_inline));
@@ -41405,7 +42378,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_QCN_CHANGE_FUNC(void)
  * QCN (defeatured) configuration and state memory ECC error log.  Address is
  * sticky on first error.  Re-armed after reading
  */
-typedef union
+union bdk_tns_txq_dq_qcn_ecc_log
 {
     uint32_t u;
     struct bdk_tns_txq_dq_qcn_ecc_log_s
@@ -41419,7 +42392,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_qcn_ecc_log_s cn; */
-} bdk_tns_txq_dq_qcn_ecc_log_t;
+};
+typedef union bdk_tns_txq_dq_qcn_ecc_log bdk_tns_txq_dq_qcn_ecc_log_t;
 
 #define BDK_TNS_TXQ_DQ_QCN_ECC_LOG BDK_TNS_TXQ_DQ_QCN_ECC_LOG_FUNC()
 static inline uint64_t BDK_TNS_TXQ_DQ_QCN_ECC_LOG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -41446,7 +42420,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_QCN_ECC_LOG_FUNC(void)
  * parameters apply to all QCN CCF Queues. QCN has been defeatured and software is
  * not allowed to enable and/or configure QCN in any circumstance.
  */
-typedef union
+union bdk_tns_txq_dq_qcn_gbl_cfg_w0
 {
     uint32_t u;
     struct bdk_tns_txq_dq_qcn_gbl_cfg_w0_s
@@ -41526,7 +42500,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_qcn_gbl_cfg_w0_s cn; */
-} bdk_tns_txq_dq_qcn_gbl_cfg_w0_t;
+};
+typedef union bdk_tns_txq_dq_qcn_gbl_cfg_w0 bdk_tns_txq_dq_qcn_gbl_cfg_w0_t;
 
 #define BDK_TNS_TXQ_DQ_QCN_GBL_CFG_W0 BDK_TNS_TXQ_DQ_QCN_GBL_CFG_W0_FUNC()
 static inline uint64_t BDK_TNS_TXQ_DQ_QCN_GBL_CFG_W0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -41551,7 +42526,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_QCN_GBL_CFG_W0_FUNC(void)
  *
  * Continuation of structure defined in TNS_TXQ_DQ_QCN_GBL_CFG_W0
  */
-typedef union
+union bdk_tns_txq_dq_qcn_gbl_cfg_w1
 {
     uint32_t u;
     struct bdk_tns_txq_dq_qcn_gbl_cfg_w1_s
@@ -41623,7 +42598,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_qcn_gbl_cfg_w1_s cn; */
-} bdk_tns_txq_dq_qcn_gbl_cfg_w1_t;
+};
+typedef union bdk_tns_txq_dq_qcn_gbl_cfg_w1 bdk_tns_txq_dq_qcn_gbl_cfg_w1_t;
 
 #define BDK_TNS_TXQ_DQ_QCN_GBL_CFG_W1 BDK_TNS_TXQ_DQ_QCN_GBL_CFG_W1_FUNC()
 static inline uint64_t BDK_TNS_TXQ_DQ_QCN_GBL_CFG_W1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -41653,7 +42629,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_QCN_GBL_CFG_W1_FUNC(void)
  * When writing, make the access to this decoder atomic w.r.t. other writes to
  * this decoder.
  */
-typedef union
+union bdk_tns_txq_dq_qcn_memx_w0
 {
     uint64_t u;
     struct bdk_tns_txq_dq_qcn_memx_w0_s
@@ -41687,7 +42663,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_qcn_memx_w0_s cn; */
-} bdk_tns_txq_dq_qcn_memx_w0_t;
+};
+typedef union bdk_tns_txq_dq_qcn_memx_w0 bdk_tns_txq_dq_qcn_memx_w0_t;
 
 static inline uint64_t BDK_TNS_TXQ_DQ_QCN_MEMX_W0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_DQ_QCN_MEMX_W0(unsigned long a)
@@ -41711,7 +42688,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_QCN_MEMX_W0(unsigned long a)
  *
  * Continuation of structure defined in TNS_TXQ_DQ_QCN_MEM(0..511)_W0
  */
-typedef union
+union bdk_tns_txq_dq_qcn_memx_w1
 {
     uint64_t u;
     struct bdk_tns_txq_dq_qcn_memx_w1_s
@@ -41739,7 +42716,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_qcn_memx_w1_s cn; */
-} bdk_tns_txq_dq_qcn_memx_w1_t;
+};
+typedef union bdk_tns_txq_dq_qcn_memx_w1 bdk_tns_txq_dq_qcn_memx_w1_t;
 
 static inline uint64_t BDK_TNS_TXQ_DQ_QCN_MEMX_W1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_DQ_QCN_MEMX_W1(unsigned long a)
@@ -41764,7 +42742,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_QCN_MEMX_W1(unsigned long a)
  * QCN (defeatured) Q mapping memory ECC error log.  Address is sticky on first
  * error.  Re-armed after reading
  */
-typedef union
+union bdk_tns_txq_dq_qcn_qmap_ecc_log
 {
     uint32_t u;
     struct bdk_tns_txq_dq_qcn_qmap_ecc_log_s
@@ -41778,7 +42756,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_qcn_qmap_ecc_log_s cn; */
-} bdk_tns_txq_dq_qcn_qmap_ecc_log_t;
+};
+typedef union bdk_tns_txq_dq_qcn_qmap_ecc_log bdk_tns_txq_dq_qcn_qmap_ecc_log_t;
 
 #define BDK_TNS_TXQ_DQ_QCN_QMAP_ECC_LOG BDK_TNS_TXQ_DQ_QCN_QMAP_ECC_LOG_FUNC()
 static inline uint64_t BDK_TNS_TXQ_DQ_QCN_QMAP_ECC_LOG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -41809,7 +42788,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_QCN_QMAP_ECC_LOG_FUNC(void)
  * When writing, make the access to this decoder atomic w.r.t. other writes to
  * this decoder.
  */
-typedef union
+union bdk_tns_txq_dq_qcn_qmap_memx_w0
 {
     uint32_t u;
     struct bdk_tns_txq_dq_qcn_qmap_memx_w0_s
@@ -41835,7 +42814,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_qcn_qmap_memx_w0_s cn; */
-} bdk_tns_txq_dq_qcn_qmap_memx_w0_t;
+};
+typedef union bdk_tns_txq_dq_qcn_qmap_memx_w0 bdk_tns_txq_dq_qcn_qmap_memx_w0_t;
 
 static inline uint64_t BDK_TNS_TXQ_DQ_QCN_QMAP_MEMX_W0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_DQ_QCN_QMAP_MEMX_W0(unsigned long a)
@@ -41859,7 +42839,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_QCN_QMAP_MEMX_W0(unsigned long a)
  *
  * Continuation of structure defined in TNS_TXQ_DQ_QCN_QMAP_MEM(0..255)_W0
  */
-typedef union
+union bdk_tns_txq_dq_qcn_qmap_memx_w1
 {
     uint32_t u;
     struct bdk_tns_txq_dq_qcn_qmap_memx_w1_s
@@ -41883,7 +42863,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_qcn_qmap_memx_w1_s cn; */
-} bdk_tns_txq_dq_qcn_qmap_memx_w1_t;
+};
+typedef union bdk_tns_txq_dq_qcn_qmap_memx_w1 bdk_tns_txq_dq_qcn_qmap_memx_w1_t;
 
 static inline uint64_t BDK_TNS_TXQ_DQ_QCN_QMAP_MEMX_W1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_DQ_QCN_QMAP_MEMX_W1(unsigned long a)
@@ -41907,7 +42888,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_QCN_QMAP_MEMX_W1(unsigned long a)
  *
  * Continuation of structure defined in TNS_TXQ_DQ_QCN_QMAP_MEM(0..255)_W0
  */
-typedef union
+union bdk_tns_txq_dq_qcn_qmap_memx_w2
 {
     uint32_t u;
     struct bdk_tns_txq_dq_qcn_qmap_memx_w2_s
@@ -41925,7 +42906,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_qcn_qmap_memx_w2_s cn; */
-} bdk_tns_txq_dq_qcn_qmap_memx_w2_t;
+};
+typedef union bdk_tns_txq_dq_qcn_qmap_memx_w2 bdk_tns_txq_dq_qcn_qmap_memx_w2_t;
 
 static inline uint64_t BDK_TNS_TXQ_DQ_QCN_QMAP_MEMX_W2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_DQ_QCN_QMAP_MEMX_W2(unsigned long a)
@@ -41949,7 +42931,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_QCN_QMAP_MEMX_W2(unsigned long a)
  *
  * QCN (defeatured) random number generator configuration
  */
-typedef union
+union bdk_tns_txq_dq_qcn_rng_cfg
 {
     uint32_t u;
     struct bdk_tns_txq_dq_qcn_rng_cfg_s
@@ -41963,7 +42945,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_qcn_rng_cfg_s cn; */
-} bdk_tns_txq_dq_qcn_rng_cfg_t;
+};
+typedef union bdk_tns_txq_dq_qcn_rng_cfg bdk_tns_txq_dq_qcn_rng_cfg_t;
 
 #define BDK_TNS_TXQ_DQ_QCN_RNG_CFG BDK_TNS_TXQ_DQ_QCN_RNG_CFG_FUNC()
 static inline uint64_t BDK_TNS_TXQ_DQ_QCN_RNG_CFG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -41988,7 +42971,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_QCN_RNG_CFG_FUNC(void)
  *
  * QCN (defeatured) slow update FIFO data
  */
-typedef union
+union bdk_tns_txq_dq_qcn_supd_fifx
 {
     uint32_t u;
     struct bdk_tns_txq_dq_qcn_supd_fifx_s
@@ -42004,7 +42987,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_qcn_supd_fifx_s cn; */
-} bdk_tns_txq_dq_qcn_supd_fifx_t;
+};
+typedef union bdk_tns_txq_dq_qcn_supd_fifx bdk_tns_txq_dq_qcn_supd_fifx_t;
 
 static inline uint64_t BDK_TNS_TXQ_DQ_QCN_SUPD_FIFX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_DQ_QCN_SUPD_FIFX(unsigned long a)
@@ -42028,7 +43012,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_QCN_SUPD_FIFX(unsigned long a)
  *
  * Status of QCN (defeatured) timer and RNG
  */
-typedef union
+union bdk_tns_txq_dq_qcn_time
 {
     uint64_t u;
     struct bdk_tns_txq_dq_qcn_time_s
@@ -42050,7 +43034,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_qcn_time_s cn; */
-} bdk_tns_txq_dq_qcn_time_t;
+};
+typedef union bdk_tns_txq_dq_qcn_time bdk_tns_txq_dq_qcn_time_t;
 
 #define BDK_TNS_TXQ_DQ_QCN_TIME BDK_TNS_TXQ_DQ_QCN_TIME_FUNC()
 static inline uint64_t BDK_TNS_TXQ_DQ_QCN_TIME_FUNC(void) __attribute__ ((pure, always_inline));
@@ -42074,7 +43059,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_QCN_TIME_FUNC(void)
  * TNS TxQ Deque ScratchPad Register
  * Scratch Pad Register for XCAT
  */
-typedef union
+union bdk_tns_txq_dq_spad
 {
     uint32_t u;
     struct bdk_tns_txq_dq_spad_s
@@ -42086,7 +43071,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_spad_s cn; */
-} bdk_tns_txq_dq_spad_t;
+};
+typedef union bdk_tns_txq_dq_spad bdk_tns_txq_dq_spad_t;
 
 #define BDK_TNS_TXQ_DQ_SPAD BDK_TNS_TXQ_DQ_SPAD_FUNC()
 static inline uint64_t BDK_TNS_TXQ_DQ_SPAD_FUNC(void) __attribute__ ((pure, always_inline));
@@ -42110,7 +43096,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_SPAD_FUNC(void)
  * TNS TxQ Deque Token Buffer Access FIFO Registers
  * TB access fifo
  */
-typedef union
+union bdk_tns_txq_dq_tb_afifx
 {
     uint32_t u;
     struct bdk_tns_txq_dq_tb_afifx_s
@@ -42124,7 +43110,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_tb_afifx_s cn; */
-} bdk_tns_txq_dq_tb_afifx_t;
+};
+typedef union bdk_tns_txq_dq_tb_afifx bdk_tns_txq_dq_tb_afifx_t;
 
 static inline uint64_t BDK_TNS_TXQ_DQ_TB_AFIFX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_DQ_TB_AFIFX(unsigned long a)
@@ -42148,7 +43135,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_TB_AFIFX(unsigned long a)
  * TB access FIFO memory ECC error log.  Address is sticky on first error.  Re-
  * armed after reading
  */
-typedef union
+union bdk_tns_txq_dq_tb_afif_ecc_log
 {
     uint32_t u;
     struct bdk_tns_txq_dq_tb_afif_ecc_log_s
@@ -42162,7 +43149,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_tb_afif_ecc_log_s cn; */
-} bdk_tns_txq_dq_tb_afif_ecc_log_t;
+};
+typedef union bdk_tns_txq_dq_tb_afif_ecc_log bdk_tns_txq_dq_tb_afif_ecc_log_t;
 
 #define BDK_TNS_TXQ_DQ_TB_AFIF_ECC_LOG BDK_TNS_TXQ_DQ_TB_AFIF_ECC_LOG_FUNC()
 static inline uint64_t BDK_TNS_TXQ_DQ_TB_AFIF_ECC_LOG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -42186,7 +43174,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_TB_AFIF_ECC_LOG_FUNC(void)
  * TNS TxQ Deque Token Buffer Access FIFO Flow Control Threshold Register
  * TB access fifo flow control threshold
  */
-typedef union
+union bdk_tns_txq_dq_tb_afif_fc_thr
 {
     uint32_t u;
     struct bdk_tns_txq_dq_tb_afif_fc_thr_s
@@ -42200,7 +43188,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_tb_afif_fc_thr_s cn; */
-} bdk_tns_txq_dq_tb_afif_fc_thr_t;
+};
+typedef union bdk_tns_txq_dq_tb_afif_fc_thr bdk_tns_txq_dq_tb_afif_fc_thr_t;
 
 #define BDK_TNS_TXQ_DQ_TB_AFIF_FC_THR BDK_TNS_TXQ_DQ_TB_AFIF_FC_THR_FUNC()
 static inline uint64_t BDK_TNS_TXQ_DQ_TB_AFIF_FC_THR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -42224,7 +43213,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_TB_AFIF_FC_THR_FUNC(void)
  * TNS TxQ Deque Token Buffer Access FIFO Pointer Register
  * TB access fifo pointer debug register
  */
-typedef union
+union bdk_tns_txq_dq_tb_afif_ptr
 {
     uint32_t u;
     struct bdk_tns_txq_dq_tb_afif_ptr_s
@@ -42238,7 +43227,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_tb_afif_ptr_s cn; */
-} bdk_tns_txq_dq_tb_afif_ptr_t;
+};
+typedef union bdk_tns_txq_dq_tb_afif_ptr bdk_tns_txq_dq_tb_afif_ptr_t;
 
 #define BDK_TNS_TXQ_DQ_TB_AFIF_PTR BDK_TNS_TXQ_DQ_TB_AFIF_PTR_FUNC()
 static inline uint64_t BDK_TNS_TXQ_DQ_TB_AFIF_PTR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -42262,7 +43252,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_TB_AFIF_PTR_FUNC(void)
  * TNS TxQ Deque Token Buffer Access FIFO Usage Register
  * DQ read token buffer access FIFO usage
  */
-typedef union
+union bdk_tns_txq_dq_tb_afif_usage
 {
     uint32_t u;
     struct bdk_tns_txq_dq_tb_afif_usage_s
@@ -42276,7 +43266,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_dq_tb_afif_usage_s cn; */
-} bdk_tns_txq_dq_tb_afif_usage_t;
+};
+typedef union bdk_tns_txq_dq_tb_afif_usage bdk_tns_txq_dq_tb_afif_usage_t;
 
 #define BDK_TNS_TXQ_DQ_TB_AFIF_USAGE BDK_TNS_TXQ_DQ_TB_AFIF_USAGE_FUNC()
 static inline uint64_t BDK_TNS_TXQ_DQ_TB_AFIF_USAGE_FUNC(void) __attribute__ ((pure, always_inline));
@@ -42300,7 +43291,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_TB_AFIF_USAGE_FUNC(void)
  * TNS TxQ Enque Multi-cse Three Speed FIFOs WRR/SP Arbiter Mode Register
  * Multi-cast Speed FIFOs arbiter '0' - WRR, '1' - SP for 40G
  */
-typedef union
+union bdk_tns_txq_eq_3spd_wsarb_mode
 {
     uint32_t u;
     struct bdk_tns_txq_eq_3spd_wsarb_mode_s
@@ -42314,7 +43305,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_eq_3spd_wsarb_mode_s cn; */
-} bdk_tns_txq_eq_3spd_wsarb_mode_t;
+};
+typedef union bdk_tns_txq_eq_3spd_wsarb_mode bdk_tns_txq_eq_3spd_wsarb_mode_t;
 
 #define BDK_TNS_TXQ_EQ_3SPD_WSARB_MODE BDK_TNS_TXQ_EQ_3SPD_WSARB_MODE_FUNC()
 static inline uint64_t BDK_TNS_TXQ_EQ_3SPD_WSARB_MODE_FUNC(void) __attribute__ ((pure, always_inline));
@@ -42338,7 +43330,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_3SPD_WSARB_MODE_FUNC(void)
  * TNS TxQ Enque Multi-cse Three Speed FIFOs WRR/SP Arbiter Weight Register
  * Multi-cast Speed FIFOs arbiter weights for 40G/10G/misc
  */
-typedef union
+union bdk_tns_txq_eq_3spd_wsarb_wgt
 {
     uint32_t u;
     struct bdk_tns_txq_eq_3spd_wsarb_wgt_s
@@ -42356,7 +43348,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_eq_3spd_wsarb_wgt_s cn; */
-} bdk_tns_txq_eq_3spd_wsarb_wgt_t;
+};
+typedef union bdk_tns_txq_eq_3spd_wsarb_wgt bdk_tns_txq_eq_3spd_wsarb_wgt_t;
 
 #define BDK_TNS_TXQ_EQ_3SPD_WSARB_WGT BDK_TNS_TXQ_EQ_3SPD_WSARB_WGT_FUNC()
 static inline uint64_t BDK_TNS_TXQ_EQ_3SPD_WSARB_WGT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -42384,7 +43377,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_3SPD_WSARB_WGT_FUNC(void)
  * When writing, make the access to this decoder atomic w.r.t. other writes to
  * this decoder.
  */
-typedef union
+union bdk_tns_txq_eq_aqm_lfifx_wx
 {
     uint32_t u;
     struct bdk_tns_txq_eq_aqm_lfifx_wx_s
@@ -42396,7 +43389,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_eq_aqm_lfifx_wx_s cn; */
-} bdk_tns_txq_eq_aqm_lfifx_wx_t;
+};
+typedef union bdk_tns_txq_eq_aqm_lfifx_wx bdk_tns_txq_eq_aqm_lfifx_wx_t;
 
 static inline uint64_t BDK_TNS_TXQ_EQ_AQM_LFIFX_WX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_EQ_AQM_LFIFX_WX(unsigned long a, unsigned long b)
@@ -42419,7 +43413,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_AQM_LFIFX_WX(unsigned long a, unsigned lon
  * TNS TxQ Enque AQM Query WRR/SP Arbiter Mode Register
  * AQM query pipeline arbiter '0' - WRR, '1' - SP for Multi-cast
  */
-typedef union
+union bdk_tns_txq_eq_aqmq_wsarb_mode
 {
     uint32_t u;
     struct bdk_tns_txq_eq_aqmq_wsarb_mode_s
@@ -42433,7 +43427,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_eq_aqmq_wsarb_mode_s cn; */
-} bdk_tns_txq_eq_aqmq_wsarb_mode_t;
+};
+typedef union bdk_tns_txq_eq_aqmq_wsarb_mode bdk_tns_txq_eq_aqmq_wsarb_mode_t;
 
 #define BDK_TNS_TXQ_EQ_AQMQ_WSARB_MODE BDK_TNS_TXQ_EQ_AQMQ_WSARB_MODE_FUNC()
 static inline uint64_t BDK_TNS_TXQ_EQ_AQMQ_WSARB_MODE_FUNC(void) __attribute__ ((pure, always_inline));
@@ -42457,7 +43452,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_AQMQ_WSARB_MODE_FUNC(void)
  * TNS TxQ Enque AQM Query WRR/SP Arbiter Weight Register
  * AQM_query arbiter weights for egress mirror (defeatured) and Multi-cast packets
  */
-typedef union
+union bdk_tns_txq_eq_aqmq_wsarb_wgt
 {
     uint32_t u;
     struct bdk_tns_txq_eq_aqmq_wsarb_wgt_s
@@ -42477,7 +43472,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_eq_aqmq_wsarb_wgt_s cn; */
-} bdk_tns_txq_eq_aqmq_wsarb_wgt_t;
+};
+typedef union bdk_tns_txq_eq_aqmq_wsarb_wgt bdk_tns_txq_eq_aqmq_wsarb_wgt_t;
 
 #define BDK_TNS_TXQ_EQ_AQMQ_WSARB_WGT BDK_TNS_TXQ_EQ_AQMQ_WSARB_WGT_FUNC()
 static inline uint64_t BDK_TNS_TXQ_EQ_AQMQ_WSARB_WGT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -42501,7 +43497,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_AQMQ_WSARB_WGT_FUNC(void)
  * TNS TxQ Enque Bist Status Done Register
  * TxQ EQ bist status and bist_done
  */
-typedef union
+union bdk_tns_txq_eq_bist_stdn
 {
     uint32_t u;
     struct bdk_tns_txq_eq_bist_stdn_s
@@ -42517,7 +43513,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_eq_bist_stdn_s cn; */
-} bdk_tns_txq_eq_bist_stdn_t;
+};
+typedef union bdk_tns_txq_eq_bist_stdn bdk_tns_txq_eq_bist_stdn_t;
 
 #define BDK_TNS_TXQ_EQ_BIST_STDN BDK_TNS_TXQ_EQ_BIST_STDN_FUNC()
 static inline uint64_t BDK_TNS_TXQ_EQ_BIST_STDN_FUNC(void) __attribute__ ((pure, always_inline));
@@ -42542,7 +43539,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_BIST_STDN_FUNC(void)
  * Debug/initialization to clear out waiting for EOP status on port in case of
  * errors, or unclean port disabling
  */
-typedef union
+union bdk_tns_txq_eq_clr_pt_wait_eop
 {
     uint32_t u;
     struct bdk_tns_txq_eq_clr_pt_wait_eop_s
@@ -42586,7 +43583,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_eq_clr_pt_wait_eop_s cn; */
-} bdk_tns_txq_eq_clr_pt_wait_eop_t;
+};
+typedef union bdk_tns_txq_eq_clr_pt_wait_eop bdk_tns_txq_eq_clr_pt_wait_eop_t;
 
 #define BDK_TNS_TXQ_EQ_CLR_PT_WAIT_EOP BDK_TNS_TXQ_EQ_CLR_PT_WAIT_EOP_FUNC()
 static inline uint64_t BDK_TNS_TXQ_EQ_CLR_PT_WAIT_EOP_FUNC(void) __attribute__ ((pure, always_inline));
@@ -42610,7 +43608,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_CLR_PT_WAIT_EOP_FUNC(void)
  * TNS TxQ Enque Cut Through Byte Count Configuration Register
  * Byte count in case of cut thru mode for statistics, AQM, etc
  */
-typedef union
+union bdk_tns_txq_eq_cut_thru_bcnt_cfg
 {
     uint32_t u;
     struct bdk_tns_txq_eq_cut_thru_bcnt_cfg_s
@@ -42624,7 +43622,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_eq_cut_thru_bcnt_cfg_s cn; */
-} bdk_tns_txq_eq_cut_thru_bcnt_cfg_t;
+};
+typedef union bdk_tns_txq_eq_cut_thru_bcnt_cfg bdk_tns_txq_eq_cut_thru_bcnt_cfg_t;
 
 #define BDK_TNS_TXQ_EQ_CUT_THRU_BCNT_CFG BDK_TNS_TXQ_EQ_CUT_THRU_BCNT_CFG_FUNC()
 static inline uint64_t BDK_TNS_TXQ_EQ_CUT_THRU_BCNT_CFG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -42648,7 +43647,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_CUT_THRU_BCNT_CFG_FUNC(void)
  * TNS TxQ Enque Cut Through Number of Pages Used Configuration Register
  * Pages used in case of cut thru mode for statistics, AQM, etc.
  */
-typedef union
+union bdk_tns_txq_eq_cut_thru_npgs_cfg
 {
     uint32_t u;
     struct bdk_tns_txq_eq_cut_thru_npgs_cfg_s
@@ -42662,7 +43661,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_eq_cut_thru_npgs_cfg_s cn; */
-} bdk_tns_txq_eq_cut_thru_npgs_cfg_t;
+};
+typedef union bdk_tns_txq_eq_cut_thru_npgs_cfg bdk_tns_txq_eq_cut_thru_npgs_cfg_t;
 
 #define BDK_TNS_TXQ_EQ_CUT_THRU_NPGS_CFG BDK_TNS_TXQ_EQ_CUT_THRU_NPGS_CFG_FUNC()
 static inline uint64_t BDK_TNS_TXQ_EQ_CUT_THRU_NPGS_CFG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -42686,7 +43686,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_CUT_THRU_NPGS_CFG_FUNC(void)
  * TNS TxQ Enque Distributor FIFO Usage Register
  * All distributor FIFO usage
  */
-typedef union
+union bdk_tns_txq_eq_dist_fif_usage
 {
     uint64_t u;
     struct bdk_tns_txq_eq_dist_fif_usage_s
@@ -42720,7 +43720,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_eq_dist_fif_usage_s cn; */
-} bdk_tns_txq_eq_dist_fif_usage_t;
+};
+typedef union bdk_tns_txq_eq_dist_fif_usage bdk_tns_txq_eq_dist_fif_usage_t;
 
 #define BDK_TNS_TXQ_EQ_DIST_FIF_USAGE BDK_TNS_TXQ_EQ_DIST_FIF_USAGE_FUNC()
 static inline uint64_t BDK_TNS_TXQ_EQ_DIST_FIF_USAGE_FUNC(void) __attribute__ ((pure, always_inline));
@@ -42744,7 +43745,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_DIST_FIF_USAGE_FUNC(void)
  * TNS TxQ Enque Distributor Output WRR/SP Arbiter Mode Register
  * Distributer Output aribter '0' - WRR, '1' - SP for Unicast
  */
-typedef union
+union bdk_tns_txq_eq_disto_wsarb_mode
 {
     uint32_t u;
     struct bdk_tns_txq_eq_disto_wsarb_mode_s
@@ -42758,7 +43759,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_eq_disto_wsarb_mode_s cn; */
-} bdk_tns_txq_eq_disto_wsarb_mode_t;
+};
+typedef union bdk_tns_txq_eq_disto_wsarb_mode bdk_tns_txq_eq_disto_wsarb_mode_t;
 
 #define BDK_TNS_TXQ_EQ_DISTO_WSARB_MODE BDK_TNS_TXQ_EQ_DISTO_WSARB_MODE_FUNC()
 static inline uint64_t BDK_TNS_TXQ_EQ_DISTO_WSARB_MODE_FUNC(void) __attribute__ ((pure, always_inline));
@@ -42784,7 +43786,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_DISTO_WSARB_MODE_FUNC(void)
  * Distributer Output ariber weights for Unicast, MC drop, and MC/EM packets. EM
  * is defeatured.
  */
-typedef union
+union bdk_tns_txq_eq_disto_wsarb_wgt
 {
     uint32_t u;
     struct bdk_tns_txq_eq_disto_wsarb_wgt_s
@@ -42806,7 +43808,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_eq_disto_wsarb_wgt_s cn; */
-} bdk_tns_txq_eq_disto_wsarb_wgt_t;
+};
+typedef union bdk_tns_txq_eq_disto_wsarb_wgt bdk_tns_txq_eq_disto_wsarb_wgt_t;
 
 #define BDK_TNS_TXQ_EQ_DISTO_WSARB_WGT BDK_TNS_TXQ_EQ_DISTO_WSARB_WGT_FUNC()
 static inline uint64_t BDK_TNS_TXQ_EQ_DISTO_WSARB_WGT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -42833,7 +43836,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_DISTO_WSARB_WGT_FUNC(void)
  * due to EM copy FIFO being full.  Saturates at 32'hffffffff.  Read only, clear
  * on read.
  */
-typedef union
+union bdk_tns_txq_eq_dists_em_drp_ct
 {
     uint32_t u;
     struct bdk_tns_txq_eq_dists_em_drp_ct_s
@@ -42845,7 +43848,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_eq_dists_em_drp_ct_s cn; */
-} bdk_tns_txq_eq_dists_em_drp_ct_t;
+};
+typedef union bdk_tns_txq_eq_dists_em_drp_ct bdk_tns_txq_eq_dists_em_drp_ct_t;
 
 #define BDK_TNS_TXQ_EQ_DISTS_EM_DRP_CT BDK_TNS_TXQ_EQ_DISTS_EM_DRP_CT_FUNC()
 static inline uint64_t BDK_TNS_TXQ_EQ_DISTS_EM_DRP_CT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -42870,7 +43874,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_DISTS_EM_DRP_CT_FUNC(void)
  * Counter of TXQ multi-cast packet drops made by distributor (source) due to MC
  * FIFO being full.  Saturates at 32'hffffffff.  Read only, clear on read.
  */
-typedef union
+union bdk_tns_txq_eq_dists_mc_drp_ct
 {
     uint32_t u;
     struct bdk_tns_txq_eq_dists_mc_drp_ct_s
@@ -42882,7 +43886,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_eq_dists_mc_drp_ct_s cn; */
-} bdk_tns_txq_eq_dists_mc_drp_ct_t;
+};
+typedef union bdk_tns_txq_eq_dists_mc_drp_ct bdk_tns_txq_eq_dists_mc_drp_ct_t;
 
 #define BDK_TNS_TXQ_EQ_DISTS_MC_DRP_CT BDK_TNS_TXQ_EQ_DISTS_MC_DRP_CT_FUNC()
 static inline uint64_t BDK_TNS_TXQ_EQ_DISTS_MC_DRP_CT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -42906,7 +43911,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_DISTS_MC_DRP_CT_FUNC(void)
  * TNS TxQ Enque ECC Control Register
  * ECC configuration of Token Buffer memories
  */
-typedef union
+union bdk_tns_txq_eq_ecc_ctl
 {
     uint32_t u;
     struct bdk_tns_txq_eq_ecc_ctl_s
@@ -42924,7 +43929,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_eq_ecc_ctl_s cn; */
-} bdk_tns_txq_eq_ecc_ctl_t;
+};
+typedef union bdk_tns_txq_eq_ecc_ctl bdk_tns_txq_eq_ecc_ctl_t;
 
 #define BDK_TNS_TXQ_EQ_ECC_CTL BDK_TNS_TXQ_EQ_ECC_CTL_FUNC()
 static inline uint64_t BDK_TNS_TXQ_EQ_ECC_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -42949,7 +43955,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_ECC_CTL_FUNC(void)
  *
  * Egress mirror configuration
  */
-typedef union
+union bdk_tns_txq_eq_em_copy_cfg
 {
     uint32_t u;
     struct bdk_tns_txq_eq_em_copy_cfg_s
@@ -42967,7 +43973,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_eq_em_copy_cfg_s cn; */
-} bdk_tns_txq_eq_em_copy_cfg_t;
+};
+typedef union bdk_tns_txq_eq_em_copy_cfg bdk_tns_txq_eq_em_copy_cfg_t;
 
 #define BDK_TNS_TXQ_EQ_EM_COPY_CFG BDK_TNS_TXQ_EQ_EM_COPY_CFG_FUNC()
 static inline uint64_t BDK_TNS_TXQ_EQ_EM_COPY_CFG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -42996,7 +44003,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_EM_COPY_CFG_FUNC(void)
  * When writing, make the access to this decoder atomic w.r.t. other writes to
  * this decoder.
  */
-typedef union
+union bdk_tns_txq_eq_em_fifx_wx
 {
     uint32_t u;
     struct bdk_tns_txq_eq_em_fifx_wx_s
@@ -43008,7 +44015,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_eq_em_fifx_wx_s cn; */
-} bdk_tns_txq_eq_em_fifx_wx_t;
+};
+typedef union bdk_tns_txq_eq_em_fifx_wx bdk_tns_txq_eq_em_fifx_wx_t;
 
 static inline uint64_t BDK_TNS_TXQ_EQ_EM_FIFX_WX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_EQ_EM_FIFX_WX(unsigned long a, unsigned long b)
@@ -43032,7 +44040,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_EM_FIFX_WX(unsigned long a, unsigned long 
  *
  * Distributor egress (defeatured) mirror input FIFO flow control threshold
  */
-typedef union
+union bdk_tns_txq_eq_em_fif_fc_thr
 {
     uint32_t u;
     struct bdk_tns_txq_eq_em_fif_fc_thr_s
@@ -43046,7 +44054,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_eq_em_fif_fc_thr_s cn; */
-} bdk_tns_txq_eq_em_fif_fc_thr_t;
+};
+typedef union bdk_tns_txq_eq_em_fif_fc_thr bdk_tns_txq_eq_em_fif_fc_thr_t;
 
 #define BDK_TNS_TXQ_EQ_EM_FIF_FC_THR BDK_TNS_TXQ_EQ_EM_FIF_FC_THR_FUNC()
 static inline uint64_t BDK_TNS_TXQ_EQ_EM_FIF_FC_THR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -43072,7 +44081,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_EM_FIF_FC_THR_FUNC(void)
  * Egress Mirror (defeatured) drop count due to FIFO full in Egress mirror
  * generation.  Saturates at 32'hffffffff.  Read-only, clear on read.
  */
-typedef union
+union bdk_tns_txq_eq_em_pkt_drp_ct
 {
     uint32_t u;
     struct bdk_tns_txq_eq_em_pkt_drp_ct_s
@@ -43084,7 +44093,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_eq_em_pkt_drp_ct_s cn; */
-} bdk_tns_txq_eq_em_pkt_drp_ct_t;
+};
+typedef union bdk_tns_txq_eq_em_pkt_drp_ct bdk_tns_txq_eq_em_pkt_drp_ct_t;
 
 #define BDK_TNS_TXQ_EQ_EM_PKT_DRP_CT BDK_TNS_TXQ_EQ_EM_PKT_DRP_CT_FUNC()
 static inline uint64_t BDK_TNS_TXQ_EQ_EM_PKT_DRP_CT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -43109,7 +44119,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_EM_PKT_DRP_CT_FUNC(void)
  * Cut-thru Egress Mirror (defeatured) and SDMA token WRR/SP arbiter mode; '0' -
  * WRR, '1' - SP for SDMA
  */
-typedef union
+union bdk_tns_txq_eq_emsd_wsarb_mode
 {
     uint32_t u;
     struct bdk_tns_txq_eq_emsd_wsarb_mode_s
@@ -43123,7 +44133,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_eq_emsd_wsarb_mode_s cn; */
-} bdk_tns_txq_eq_emsd_wsarb_mode_t;
+};
+typedef union bdk_tns_txq_eq_emsd_wsarb_mode bdk_tns_txq_eq_emsd_wsarb_mode_t;
 
 #define BDK_TNS_TXQ_EQ_EMSD_WSARB_MODE BDK_TNS_TXQ_EQ_EMSD_WSARB_MODE_FUNC()
 static inline uint64_t BDK_TNS_TXQ_EQ_EMSD_WSARB_MODE_FUNC(void) __attribute__ ((pure, always_inline));
@@ -43147,7 +44158,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_EMSD_WSARB_MODE_FUNC(void)
  * TNS TxQ Enque Cut-thru Egress Mirror and SDMA WRR/SP Arbiter Weight Register
  * Cut-Thru Egress Mirror (defeatured) and SDMA WRR/SP arbiter weights
  */
-typedef union
+union bdk_tns_txq_eq_emsd_wsarb_wgt
 {
     uint32_t u;
     struct bdk_tns_txq_eq_emsd_wsarb_wgt_s
@@ -43167,7 +44178,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_eq_emsd_wsarb_wgt_s cn; */
-} bdk_tns_txq_eq_emsd_wsarb_wgt_t;
+};
+typedef union bdk_tns_txq_eq_emsd_wsarb_wgt bdk_tns_txq_eq_emsd_wsarb_wgt_t;
 
 #define BDK_TNS_TXQ_EQ_EMSD_WSARB_WGT BDK_TNS_TXQ_EQ_EMSD_WSARB_WGT_FUNC()
 static inline uint64_t BDK_TNS_TXQ_EQ_EMSD_WSARB_WGT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -43191,7 +44203,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_EMSD_WSARB_WGT_FUNC(void)
  * TNS TxQ Enque EOP Memory Registers
  * Packet ID memory for storing packet ID of last EOP on port
  */
-typedef union
+union bdk_tns_txq_eq_eop_memx
 {
     uint32_t u;
     struct bdk_tns_txq_eq_eop_memx_s
@@ -43205,7 +44217,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_eq_eop_memx_s cn; */
-} bdk_tns_txq_eq_eop_memx_t;
+};
+typedef union bdk_tns_txq_eq_eop_memx bdk_tns_txq_eq_eop_memx_t;
 
 static inline uint64_t BDK_TNS_TXQ_EQ_EOP_MEMX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_EQ_EOP_MEMX(unsigned long a)
@@ -43233,7 +44246,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_EOP_MEMX(unsigned long a)
  * When writing, make the access to this decoder atomic w.r.t. other writes to
  * this decoder.
  */
-typedef union
+union bdk_tns_txq_eq_eqem_fifx_wx
 {
     uint32_t u;
     struct bdk_tns_txq_eq_eqem_fifx_wx_s
@@ -43245,7 +44258,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_eq_eqem_fifx_wx_s cn; */
-} bdk_tns_txq_eq_eqem_fifx_wx_t;
+};
+typedef union bdk_tns_txq_eq_eqem_fifx_wx bdk_tns_txq_eq_eqem_fifx_wx_t;
 
 static inline uint64_t BDK_TNS_TXQ_EQ_EQEM_FIFX_WX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_EQ_EQEM_FIFX_WX(unsigned long a, unsigned long b)
@@ -43268,7 +44282,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_EQEM_FIFX_WX(unsigned long a, unsigned lon
  * TNS TxQ Enque FIFO Usage Register
  * EQ cut thru and write token FIFO usage
  */
-typedef union
+union bdk_tns_txq_eq_fif_usage
 {
     uint32_t u;
     struct bdk_tns_txq_eq_fif_usage_s
@@ -43292,7 +44306,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_eq_fif_usage_s cn; */
-} bdk_tns_txq_eq_fif_usage_t;
+};
+typedef union bdk_tns_txq_eq_fif_usage bdk_tns_txq_eq_fif_usage_t;
 
 #define BDK_TNS_TXQ_EQ_FIF_USAGE BDK_TNS_TXQ_EQ_FIF_USAGE_FUNC()
 static inline uint64_t BDK_TNS_TXQ_EQ_FIF_USAGE_FUNC(void) __attribute__ ((pure, always_inline));
@@ -43316,7 +44331,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_FIF_USAGE_FUNC(void)
  * TNS TxQ Enque Interrrupt Enable High Register
  * EQ Interrupt register
  */
-typedef union
+union bdk_tns_txq_eq_int_en_hi
 {
     uint32_t u;
     struct bdk_tns_txq_eq_int_en_hi_s
@@ -43354,7 +44369,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_eq_int_en_hi_s cn; */
-} bdk_tns_txq_eq_int_en_hi_t;
+};
+typedef union bdk_tns_txq_eq_int_en_hi bdk_tns_txq_eq_int_en_hi_t;
 
 #define BDK_TNS_TXQ_EQ_INT_EN_HI BDK_TNS_TXQ_EQ_INT_EN_HI_FUNC()
 static inline uint64_t BDK_TNS_TXQ_EQ_INT_EN_HI_FUNC(void) __attribute__ ((pure, always_inline));
@@ -43378,7 +44394,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_INT_EN_HI_FUNC(void)
  * TNS TxQ Enque Interrrupt Enable Low Register
  * EQ Interrupt register
  */
-typedef union
+union bdk_tns_txq_eq_int_en_lo
 {
     uint32_t u;
     struct bdk_tns_txq_eq_int_en_lo_s
@@ -43416,7 +44432,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_eq_int_en_lo_s cn; */
-} bdk_tns_txq_eq_int_en_lo_t;
+};
+typedef union bdk_tns_txq_eq_int_en_lo bdk_tns_txq_eq_int_en_lo_t;
 
 #define BDK_TNS_TXQ_EQ_INT_EN_LO BDK_TNS_TXQ_EQ_INT_EN_LO_FUNC()
 static inline uint64_t BDK_TNS_TXQ_EQ_INT_EN_LO_FUNC(void) __attribute__ ((pure, always_inline));
@@ -43440,7 +44457,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_INT_EN_LO_FUNC(void)
  * TNS TxQ Enque Interrrupt Force Register
  * EQ Interrupt register
  */
-typedef union
+union bdk_tns_txq_eq_int_frc
 {
     uint32_t u;
     struct bdk_tns_txq_eq_int_frc_s
@@ -43478,7 +44495,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_eq_int_frc_s cn; */
-} bdk_tns_txq_eq_int_frc_t;
+};
+typedef union bdk_tns_txq_eq_int_frc bdk_tns_txq_eq_int_frc_t;
 
 #define BDK_TNS_TXQ_EQ_INT_FRC BDK_TNS_TXQ_EQ_INT_FRC_FUNC()
 static inline uint64_t BDK_TNS_TXQ_EQ_INT_FRC_FUNC(void) __attribute__ ((pure, always_inline));
@@ -43502,7 +44520,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_INT_FRC_FUNC(void)
  * TNS TxQ Enque Interrrupt W1C Register
  * EQ Interrupt register
  */
-typedef union
+union bdk_tns_txq_eq_int_w1c
 {
     uint32_t u;
     struct bdk_tns_txq_eq_int_w1c_s
@@ -43540,7 +44558,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_eq_int_w1c_s cn; */
-} bdk_tns_txq_eq_int_w1c_t;
+};
+typedef union bdk_tns_txq_eq_int_w1c bdk_tns_txq_eq_int_w1c_t;
 
 #define BDK_TNS_TXQ_EQ_INT_W1C BDK_TNS_TXQ_EQ_INT_W1C_FUNC()
 static inline uint64_t BDK_TNS_TXQ_EQ_INT_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -43564,7 +44583,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_INT_W1C_FUNC(void)
  * TNS TxQ Enque Lock Register
  * Lock Register
  */
-typedef union
+union bdk_tns_txq_eq_lock
 {
     uint32_t u;
     struct bdk_tns_txq_eq_lock_s
@@ -43576,7 +44595,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_eq_lock_s cn; */
-} bdk_tns_txq_eq_lock_t;
+};
+typedef union bdk_tns_txq_eq_lock bdk_tns_txq_eq_lock_t;
 
 #define BDK_TNS_TXQ_EQ_LOCK BDK_TNS_TXQ_EQ_LOCK_FUNC()
 static inline uint64_t BDK_TNS_TXQ_EQ_LOCK_FUNC(void) __attribute__ ((pure, always_inline));
@@ -43600,7 +44620,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_LOCK_FUNC(void)
  * TNS TxQ Enque Logic Port To Physical Port Mapping Memory Registers
  * Logical Source Port to Physical Source Port Mapping.
  */
-typedef union
+union bdk_tns_txq_eq_lp2pp_memx
 {
     uint32_t u;
     struct bdk_tns_txq_eq_lp2pp_memx_s
@@ -43614,7 +44634,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_eq_lp2pp_memx_s cn; */
-} bdk_tns_txq_eq_lp2pp_memx_t;
+};
+typedef union bdk_tns_txq_eq_lp2pp_memx bdk_tns_txq_eq_lp2pp_memx_t;
 
 static inline uint64_t BDK_TNS_TXQ_EQ_LP2PP_MEMX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_EQ_LP2PP_MEMX(unsigned long a)
@@ -43638,7 +44659,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_LP2PP_MEMX(unsigned long a)
  * Counter of TXQ multi-cast packet drops made by distributor due to per-speed MC
  * FIFO being full.  Saturates at 32'hffffffff.  Read only, clear on read.
  */
-typedef union
+union bdk_tns_txq_eq_mc2drop_ct
 {
     uint32_t u;
     struct bdk_tns_txq_eq_mc2drop_ct_s
@@ -43650,7 +44671,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_eq_mc2drop_ct_s cn; */
-} bdk_tns_txq_eq_mc2drop_ct_t;
+};
+typedef union bdk_tns_txq_eq_mc2drop_ct bdk_tns_txq_eq_mc2drop_ct_t;
 
 #define BDK_TNS_TXQ_EQ_MC2DROP_CT BDK_TNS_TXQ_EQ_MC2DROP_CT_FUNC()
 static inline uint64_t BDK_TNS_TXQ_EQ_MC2DROP_CT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -43678,7 +44700,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_MC2DROP_CT_FUNC(void)
  * When writing, make the access to this decoder atomic w.r.t. other writes to
  * this decoder.
  */
-typedef union
+union bdk_tns_txq_eq_mc2drop_fifx_wx
 {
     uint32_t u;
     struct bdk_tns_txq_eq_mc2drop_fifx_wx_s
@@ -43690,7 +44712,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_eq_mc2drop_fifx_wx_s cn; */
-} bdk_tns_txq_eq_mc2drop_fifx_wx_t;
+};
+typedef union bdk_tns_txq_eq_mc2drop_fifx_wx bdk_tns_txq_eq_mc2drop_fifx_wx_t;
 
 static inline uint64_t BDK_TNS_TXQ_EQ_MC2DROP_FIFX_WX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_EQ_MC2DROP_FIFX_WX(unsigned long a, unsigned long b)
@@ -43717,7 +44740,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_MC2DROP_FIFX_WX(unsigned long a, unsigned 
  * When writing, make the access to this decoder atomic w.r.t. other writes to
  * this decoder.
  */
-typedef union
+union bdk_tns_txq_eq_mc_10g_rep_fifx_wx
 {
     uint64_t u;
     struct bdk_tns_txq_eq_mc_10g_rep_fifx_wx_s
@@ -43729,7 +44752,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_eq_mc_10g_rep_fifx_wx_s cn; */
-} bdk_tns_txq_eq_mc_10g_rep_fifx_wx_t;
+};
+typedef union bdk_tns_txq_eq_mc_10g_rep_fifx_wx bdk_tns_txq_eq_mc_10g_rep_fifx_wx_t;
 
 static inline uint64_t BDK_TNS_TXQ_EQ_MC_10G_REP_FIFX_WX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_EQ_MC_10G_REP_FIFX_WX(unsigned long a, unsigned long b)
@@ -43752,7 +44776,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_MC_10G_REP_FIFX_WX(unsigned long a, unsign
  * TNS TxQ Enque Multip-cast 10G Speed Map Register
  * Ports that are 10G mode.  Bit 0 = port 0, bit 1 = port 1, etc.
  */
-typedef union
+union bdk_tns_txq_eq_mc_10g_spd_map
 {
     uint32_t u;
     struct bdk_tns_txq_eq_mc_10g_spd_map_s
@@ -43766,7 +44790,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_eq_mc_10g_spd_map_s cn; */
-} bdk_tns_txq_eq_mc_10g_spd_map_t;
+};
+typedef union bdk_tns_txq_eq_mc_10g_spd_map bdk_tns_txq_eq_mc_10g_spd_map_t;
 
 #define BDK_TNS_TXQ_EQ_MC_10G_SPD_MAP BDK_TNS_TXQ_EQ_MC_10G_SPD_MAP_FUNC()
 static inline uint64_t BDK_TNS_TXQ_EQ_MC_10G_SPD_MAP_FUNC(void) __attribute__ ((pure, always_inline));
@@ -43794,7 +44819,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_MC_10G_SPD_MAP_FUNC(void)
  * When writing, make the access to this decoder atomic w.r.t. other writes to
  * this decoder.
  */
-typedef union
+union bdk_tns_txq_eq_mc_40g_rep_fifx_wx
 {
     uint64_t u;
     struct bdk_tns_txq_eq_mc_40g_rep_fifx_wx_s
@@ -43806,7 +44831,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_eq_mc_40g_rep_fifx_wx_s cn; */
-} bdk_tns_txq_eq_mc_40g_rep_fifx_wx_t;
+};
+typedef union bdk_tns_txq_eq_mc_40g_rep_fifx_wx bdk_tns_txq_eq_mc_40g_rep_fifx_wx_t;
 
 static inline uint64_t BDK_TNS_TXQ_EQ_MC_40G_REP_FIFX_WX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_EQ_MC_40G_REP_FIFX_WX(unsigned long a, unsigned long b)
@@ -43829,7 +44855,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_MC_40G_REP_FIFX_WX(unsigned long a, unsign
  * TNS TxQ Enque Multip-cast 40G Speed Map Register
  * Ports that are in 40G mode.  Bit 0 = port 0, bit 1 = port 1, etc.
  */
-typedef union
+union bdk_tns_txq_eq_mc_40g_spd_map
 {
     uint32_t u;
     struct bdk_tns_txq_eq_mc_40g_spd_map_s
@@ -43843,7 +44869,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_eq_mc_40g_spd_map_s cn; */
-} bdk_tns_txq_eq_mc_40g_spd_map_t;
+};
+typedef union bdk_tns_txq_eq_mc_40g_spd_map bdk_tns_txq_eq_mc_40g_spd_map_t;
 
 #define BDK_TNS_TXQ_EQ_MC_40G_SPD_MAP BDK_TNS_TXQ_EQ_MC_40G_SPD_MAP_FUNC()
 static inline uint64_t BDK_TNS_TXQ_EQ_MC_40G_SPD_MAP_FUNC(void) __attribute__ ((pure, always_inline));
@@ -43871,7 +44898,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_MC_40G_SPD_MAP_FUNC(void)
  * When writing, make the access to this decoder atomic w.r.t. other writes to
  * this decoder.
  */
-typedef union
+union bdk_tns_txq_eq_mc_fifx_wx
 {
     uint64_t u;
     struct bdk_tns_txq_eq_mc_fifx_wx_s
@@ -43883,7 +44910,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_eq_mc_fifx_wx_s cn; */
-} bdk_tns_txq_eq_mc_fifx_wx_t;
+};
+typedef union bdk_tns_txq_eq_mc_fifx_wx bdk_tns_txq_eq_mc_fifx_wx_t;
 
 static inline uint64_t BDK_TNS_TXQ_EQ_MC_FIFX_WX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_EQ_MC_FIFX_WX(unsigned long a, unsigned long b)
@@ -43910,7 +44938,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_MC_FIFX_WX(unsigned long a, unsigned long 
  * When writing, make the access to this decoder atomic w.r.t. other writes to
  * this decoder.
  */
-typedef union
+union bdk_tns_txq_eq_mc_misc_rep_fifx_wx
 {
     uint64_t u;
     struct bdk_tns_txq_eq_mc_misc_rep_fifx_wx_s
@@ -43922,7 +44950,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_eq_mc_misc_rep_fifx_wx_s cn; */
-} bdk_tns_txq_eq_mc_misc_rep_fifx_wx_t;
+};
+typedef union bdk_tns_txq_eq_mc_misc_rep_fifx_wx bdk_tns_txq_eq_mc_misc_rep_fifx_wx_t;
 
 static inline uint64_t BDK_TNS_TXQ_EQ_MC_MISC_REP_FIFX_WX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_EQ_MC_MISC_REP_FIFX_WX(unsigned long a, unsigned long b)
@@ -43945,7 +44974,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_MC_MISC_REP_FIFX_WX(unsigned long a, unsig
  * TNS TxQ Enque Multip-cast MISC Speed Map Register
  * Ports that are 1G or less mode.  Bit 0 = port 0, bit 1 = port 1, etc.
  */
-typedef union
+union bdk_tns_txq_eq_mc_misc_spd_map
 {
     uint32_t u;
     struct bdk_tns_txq_eq_mc_misc_spd_map_s
@@ -43959,7 +44988,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_eq_mc_misc_spd_map_s cn; */
-} bdk_tns_txq_eq_mc_misc_spd_map_t;
+};
+typedef union bdk_tns_txq_eq_mc_misc_spd_map bdk_tns_txq_eq_mc_misc_spd_map_t;
 
 #define BDK_TNS_TXQ_EQ_MC_MISC_SPD_MAP BDK_TNS_TXQ_EQ_MC_MISC_SPD_MAP_FUNC()
 static inline uint64_t BDK_TNS_TXQ_EQ_MC_MISC_SPD_MAP_FUNC(void) __attribute__ ((pure, always_inline));
@@ -43984,7 +45014,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_MC_MISC_SPD_MAP_FUNC(void)
  * Distributor source multi-cast FIFO flow control threshold.  Lower this to 0 to
  * turn off TxQ multi-cast replication.
  */
-typedef union
+union bdk_tns_txq_eq_mc_src_fif_fc_thr
 {
     uint32_t u;
     struct bdk_tns_txq_eq_mc_src_fif_fc_thr_s
@@ -43998,7 +45028,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_eq_mc_src_fif_fc_thr_s cn; */
-} bdk_tns_txq_eq_mc_src_fif_fc_thr_t;
+};
+typedef union bdk_tns_txq_eq_mc_src_fif_fc_thr bdk_tns_txq_eq_mc_src_fif_fc_thr_t;
 
 #define BDK_TNS_TXQ_EQ_MC_SRC_FIF_FC_THR BDK_TNS_TXQ_EQ_MC_SRC_FIF_FC_THR_FUNC()
 static inline uint64_t BDK_TNS_TXQ_EQ_MC_SRC_FIF_FC_THR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -44023,7 +45054,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_MC_SRC_FIF_FC_THR_FUNC(void)
  * PFC mapping memory ECC error log.  Address is sticky on first error.  Re-armed
  * after reading
  */
-typedef union
+union bdk_tns_txq_eq_pfc_map_ecc_log
 {
     uint32_t u;
     struct bdk_tns_txq_eq_pfc_map_ecc_log_s
@@ -44037,7 +45068,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_eq_pfc_map_ecc_log_s cn; */
-} bdk_tns_txq_eq_pfc_map_ecc_log_t;
+};
+typedef union bdk_tns_txq_eq_pfc_map_ecc_log bdk_tns_txq_eq_pfc_map_ecc_log_t;
 
 #define BDK_TNS_TXQ_EQ_PFC_MAP_ECC_LOG BDK_TNS_TXQ_EQ_PFC_MAP_ECC_LOG_FUNC()
 static inline uint64_t BDK_TNS_TXQ_EQ_PFC_MAP_ECC_LOG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -44066,7 +45098,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_PFC_MAP_ECC_LOG_FUNC(void)
  * to mean both TC and channel.  On ports 8 and 9, it is a full 7 bit
  * channel.   On other ports, it is a 4 bit TC.
  */
-typedef union
+union bdk_tns_txq_eq_pfc_map_memx
 {
     uint64_t u;
     struct bdk_tns_txq_eq_pfc_map_memx_s
@@ -44080,7 +45112,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_eq_pfc_map_memx_s cn; */
-} bdk_tns_txq_eq_pfc_map_memx_t;
+};
+typedef union bdk_tns_txq_eq_pfc_map_memx bdk_tns_txq_eq_pfc_map_memx_t;
 
 static inline uint64_t BDK_TNS_TXQ_EQ_PFC_MAP_MEMX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_EQ_PFC_MAP_MEMX(unsigned long a)
@@ -44104,7 +45137,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_PFC_MAP_MEMX(unsigned long a)
  * Counter of TXQ page clear requests to BM.  Saturates at 32'hffffffff.  Read
  * only, clear on read.
  */
-typedef union
+union bdk_tns_txq_eq_pg_clr_ct
 {
     uint32_t u;
     struct bdk_tns_txq_eq_pg_clr_ct_s
@@ -44116,7 +45149,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_eq_pg_clr_ct_s cn; */
-} bdk_tns_txq_eq_pg_clr_ct_t;
+};
+typedef union bdk_tns_txq_eq_pg_clr_ct bdk_tns_txq_eq_pg_clr_ct_t;
 
 #define BDK_TNS_TXQ_EQ_PG_CLR_CT BDK_TNS_TXQ_EQ_PG_CLR_CT_FUNC()
 static inline uint64_t BDK_TNS_TXQ_EQ_PG_CLR_CT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -44140,7 +45174,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_PG_CLR_CT_FUNC(void)
  * TNS TxQ Enque PORT Speed Memory Registers
  * Unicast_Port_Speed_Map.  0=10M, 1=100M, 2=1G, 3=10G, 4=40G, 5=100G
  */
-typedef union
+union bdk_tns_txq_eq_pt_spd_memx
 {
     uint32_t u;
     struct bdk_tns_txq_eq_pt_spd_memx_s
@@ -44154,7 +45188,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_eq_pt_spd_memx_s cn; */
-} bdk_tns_txq_eq_pt_spd_memx_t;
+};
+typedef union bdk_tns_txq_eq_pt_spd_memx bdk_tns_txq_eq_pt_spd_memx_t;
 
 static inline uint64_t BDK_TNS_TXQ_EQ_PT_SPD_MEMX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_EQ_PT_SPD_MEMX(unsigned long a)
@@ -44182,7 +45217,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_PT_SPD_MEMX(unsigned long a)
  * When writing, make the access to this decoder atomic w.r.t. other writes to
  * this decoder.
  */
-typedef union
+union bdk_tns_txq_eq_query_ofifx_wx
 {
     uint32_t u;
     struct bdk_tns_txq_eq_query_ofifx_wx_s
@@ -44194,7 +45229,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_eq_query_ofifx_wx_s cn; */
-} bdk_tns_txq_eq_query_ofifx_wx_t;
+};
+typedef union bdk_tns_txq_eq_query_ofifx_wx bdk_tns_txq_eq_query_ofifx_wx_t;
 
 static inline uint64_t BDK_TNS_TXQ_EQ_QUERY_OFIFX_WX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_EQ_QUERY_OFIFX_WX(unsigned long a, unsigned long b)
@@ -44220,7 +45256,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_QUERY_OFIFX_WX(unsigned long a, unsigned l
  * Once all the crdits are used, EQ should stop issuing queries to QMAP/AQM. This
  * is for debug use only.
  */
-typedef union
+union bdk_tns_txq_eq_query_ofif_maxcrd
 {
     uint32_t u;
     struct bdk_tns_txq_eq_query_ofif_maxcrd_s
@@ -44234,7 +45270,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_eq_query_ofif_maxcrd_s cn; */
-} bdk_tns_txq_eq_query_ofif_maxcrd_t;
+};
+typedef union bdk_tns_txq_eq_query_ofif_maxcrd bdk_tns_txq_eq_query_ofif_maxcrd_t;
 
 #define BDK_TNS_TXQ_EQ_QUERY_OFIF_MAXCRD BDK_TNS_TXQ_EQ_QUERY_OFIF_MAXCRD_FUNC()
 static inline uint64_t BDK_TNS_TXQ_EQ_QUERY_OFIF_MAXCRD_FUNC(void) __attribute__ ((pure, always_inline));
@@ -44258,7 +45295,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_QUERY_OFIF_MAXCRD_FUNC(void)
  * TNS TxQ Enque ScratchPad Register
  * Scratch Pad Register for XCAT
  */
-typedef union
+union bdk_tns_txq_eq_spad
 {
     uint32_t u;
     struct bdk_tns_txq_eq_spad_s
@@ -44270,7 +45307,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_eq_spad_s cn; */
-} bdk_tns_txq_eq_spad_t;
+};
+typedef union bdk_tns_txq_eq_spad bdk_tns_txq_eq_spad_t;
 
 #define BDK_TNS_TXQ_EQ_SPAD BDK_TNS_TXQ_EQ_SPAD_FUNC()
 static inline uint64_t BDK_TNS_TXQ_EQ_SPAD_FUNC(void) __attribute__ ((pure, always_inline));
@@ -44295,7 +45333,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_SPAD_FUNC(void)
  * Counter of TXQ tail pointer requests to TBM.  Saturates at 32'hffffffff.  Read
  * only, clear on read.
  */
-typedef union
+union bdk_tns_txq_eq_tail_req_ct
 {
     uint32_t u;
     struct bdk_tns_txq_eq_tail_req_ct_s
@@ -44307,7 +45345,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_eq_tail_req_ct_s cn; */
-} bdk_tns_txq_eq_tail_req_ct_t;
+};
+typedef union bdk_tns_txq_eq_tail_req_ct bdk_tns_txq_eq_tail_req_ct_t;
 
 #define BDK_TNS_TXQ_EQ_TAIL_REQ_CT BDK_TNS_TXQ_EQ_TAIL_REQ_CT_FUNC()
 static inline uint64_t BDK_TNS_TXQ_EQ_TAIL_REQ_CT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -44332,7 +45371,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_TAIL_REQ_CT_FUNC(void)
  * Counter of TXQ writes to token buffer.  Saturates at 32'hffffffff.  Read only,
  * clear on read.
  */
-typedef union
+union bdk_tns_txq_eq_tb_wr_ct
 {
     uint32_t u;
     struct bdk_tns_txq_eq_tb_wr_ct_s
@@ -44344,7 +45383,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_eq_tb_wr_ct_s cn; */
-} bdk_tns_txq_eq_tb_wr_ct_t;
+};
+typedef union bdk_tns_txq_eq_tb_wr_ct bdk_tns_txq_eq_tb_wr_ct_t;
 
 #define BDK_TNS_TXQ_EQ_TB_WR_CT BDK_TNS_TXQ_EQ_TB_WR_CT_FUNC()
 static inline uint64_t BDK_TNS_TXQ_EQ_TB_WR_CT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -44372,7 +45412,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_TB_WR_CT_FUNC(void)
  * When writing, make the access to this decoder atomic w.r.t. other writes to
  * this decoder.
  */
-typedef union
+union bdk_tns_txq_eq_token_memx_wx
 {
     uint64_t u;
     struct bdk_tns_txq_eq_token_memx_wx_s
@@ -44384,7 +45424,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_eq_token_memx_wx_s cn; */
-} bdk_tns_txq_eq_token_memx_wx_t;
+};
+typedef union bdk_tns_txq_eq_token_memx_wx bdk_tns_txq_eq_token_memx_wx_t;
 
 static inline uint64_t BDK_TNS_TXQ_EQ_TOKEN_MEMX_WX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_EQ_TOKEN_MEMX_WX(unsigned long a, unsigned long b)
@@ -44411,7 +45452,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_TOKEN_MEMX_WX(unsigned long a, unsigned lo
  * When writing, make the access to this decoder atomic w.r.t. other writes to
  * this decoder.
  */
-typedef union
+union bdk_tns_txq_eq_uc_fifx_wx
 {
     uint32_t u;
     struct bdk_tns_txq_eq_uc_fifx_wx_s
@@ -44423,7 +45464,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_eq_uc_fifx_wx_s cn; */
-} bdk_tns_txq_eq_uc_fifx_wx_t;
+};
+typedef union bdk_tns_txq_eq_uc_fifx_wx bdk_tns_txq_eq_uc_fifx_wx_t;
 
 static inline uint64_t BDK_TNS_TXQ_EQ_UC_FIFX_WX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_EQ_UC_FIFX_WX(unsigned long a, unsigned long b)
@@ -44446,7 +45488,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_UC_FIFX_WX(unsigned long a, unsigned long 
  * TNS TxQ Enque Write Token Latency FIFO Threshold Register
  * Write token latency fifo flow control threshold configuration
  */
-typedef union
+union bdk_tns_txq_eq_wr_token_lfif_thr
 {
     uint32_t u;
     struct bdk_tns_txq_eq_wr_token_lfif_thr_s
@@ -44460,7 +45502,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_eq_wr_token_lfif_thr_s cn; */
-} bdk_tns_txq_eq_wr_token_lfif_thr_t;
+};
+typedef union bdk_tns_txq_eq_wr_token_lfif_thr bdk_tns_txq_eq_wr_token_lfif_thr_t;
 
 #define BDK_TNS_TXQ_EQ_WR_TOKEN_LFIF_THR BDK_TNS_TXQ_EQ_WR_TOKEN_LFIF_THR_FUNC()
 static inline uint64_t BDK_TNS_TXQ_EQ_WR_TOKEN_LFIF_THR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -44488,7 +45531,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_WR_TOKEN_LFIF_THR_FUNC(void)
  * When writing, make the access to this decoder atomic w.r.t. other writes to
  * this decoder.
  */
-typedef union
+union bdk_tns_txq_qmap_aqm_pfl_memx_w0
 {
     uint32_t u;
     struct bdk_tns_txq_qmap_aqm_pfl_memx_w0_s
@@ -44510,7 +45553,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_qmap_aqm_pfl_memx_w0_s cn; */
-} bdk_tns_txq_qmap_aqm_pfl_memx_w0_t;
+};
+typedef union bdk_tns_txq_qmap_aqm_pfl_memx_w0 bdk_tns_txq_qmap_aqm_pfl_memx_w0_t;
 
 static inline uint64_t BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W0(unsigned long a)
@@ -44533,7 +45577,7 @@ static inline uint64_t BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W0(unsigned long a)
  * TNS TxQ QMAP AQM Profile Memory Word 1 Registers
  * Continuation of structure defined in TNS_TXQ_QMAP_AQM_PFL_MEM(0..127)_W0
  */
-typedef union
+union bdk_tns_txq_qmap_aqm_pfl_memx_w1
 {
     uint32_t u;
     struct bdk_tns_txq_qmap_aqm_pfl_memx_w1_s
@@ -44551,7 +45595,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_qmap_aqm_pfl_memx_w1_s cn; */
-} bdk_tns_txq_qmap_aqm_pfl_memx_w1_t;
+};
+typedef union bdk_tns_txq_qmap_aqm_pfl_memx_w1 bdk_tns_txq_qmap_aqm_pfl_memx_w1_t;
 
 static inline uint64_t BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W1(unsigned long a)
@@ -44574,7 +45619,7 @@ static inline uint64_t BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W1(unsigned long a)
  * TNS TxQ QMAP AQM Profile Memory Word 2 Registers
  * Continuation of structure defined in TNS_TXQ_QMAP_AQM_PFL_MEM(0..127)_W0
  */
-typedef union
+union bdk_tns_txq_qmap_aqm_pfl_memx_w2
 {
     uint32_t u;
     struct bdk_tns_txq_qmap_aqm_pfl_memx_w2_s
@@ -44594,7 +45639,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_qmap_aqm_pfl_memx_w2_s cn; */
-} bdk_tns_txq_qmap_aqm_pfl_memx_w2_t;
+};
+typedef union bdk_tns_txq_qmap_aqm_pfl_memx_w2 bdk_tns_txq_qmap_aqm_pfl_memx_w2_t;
 
 static inline uint64_t BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W2(unsigned long a)
@@ -44617,7 +45663,7 @@ static inline uint64_t BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W2(unsigned long a)
  * TNS TxQ QMAP AQM Profile Memory Word 3 Registers
  * Continuation of structure defined in TNS_TXQ_QMAP_AQM_PFL_MEM(0..127)_W0
  */
-typedef union
+union bdk_tns_txq_qmap_aqm_pfl_memx_w3
 {
     uint32_t u;
     struct bdk_tns_txq_qmap_aqm_pfl_memx_w3_s
@@ -44639,7 +45685,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_qmap_aqm_pfl_memx_w3_s cn; */
-} bdk_tns_txq_qmap_aqm_pfl_memx_w3_t;
+};
+typedef union bdk_tns_txq_qmap_aqm_pfl_memx_w3 bdk_tns_txq_qmap_aqm_pfl_memx_w3_t;
 
 static inline uint64_t BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W3(unsigned long a)
@@ -44662,7 +45709,7 @@ static inline uint64_t BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W3(unsigned long a)
  * TNS TxQ QMAP AQM Profile Memory Word 4 Registers
  * Continuation of structure defined in TNS_TXQ_QMAP_AQM_PFL_MEM(0..127)_W0
  */
-typedef union
+union bdk_tns_txq_qmap_aqm_pfl_memx_w4
 {
     uint32_t u;
     struct bdk_tns_txq_qmap_aqm_pfl_memx_w4_s
@@ -44682,7 +45729,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_qmap_aqm_pfl_memx_w4_s cn; */
-} bdk_tns_txq_qmap_aqm_pfl_memx_w4_t;
+};
+typedef union bdk_tns_txq_qmap_aqm_pfl_memx_w4 bdk_tns_txq_qmap_aqm_pfl_memx_w4_t;
 
 static inline uint64_t BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W4(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W4(unsigned long a)
@@ -44705,7 +45753,7 @@ static inline uint64_t BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W4(unsigned long a)
  * TNS TxQ QMAP AQM Profile Memory Word 5 Registers
  * Continuation of structure defined in TNS_TXQ_QMAP_AQM_PFL_MEM(0..127)_W0
  */
-typedef union
+union bdk_tns_txq_qmap_aqm_pfl_memx_w5
 {
     uint32_t u;
     struct bdk_tns_txq_qmap_aqm_pfl_memx_w5_s
@@ -44721,7 +45769,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_qmap_aqm_pfl_memx_w5_s cn; */
-} bdk_tns_txq_qmap_aqm_pfl_memx_w5_t;
+};
+typedef union bdk_tns_txq_qmap_aqm_pfl_memx_w5 bdk_tns_txq_qmap_aqm_pfl_memx_w5_t;
 
 static inline uint64_t BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W5(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W5(unsigned long a)
@@ -44744,7 +45793,7 @@ static inline uint64_t BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W5(unsigned long a)
  * TNS TxQ QMAP AQM Profile Memory Word 6 Registers
  * Continuation of structure defined in TNS_TXQ_QMAP_AQM_PFL_MEM(0..127)_W0
  */
-typedef union
+union bdk_tns_txq_qmap_aqm_pfl_memx_w6
 {
     uint32_t u;
     struct bdk_tns_txq_qmap_aqm_pfl_memx_w6_s
@@ -44762,7 +45811,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_qmap_aqm_pfl_memx_w6_s cn; */
-} bdk_tns_txq_qmap_aqm_pfl_memx_w6_t;
+};
+typedef union bdk_tns_txq_qmap_aqm_pfl_memx_w6 bdk_tns_txq_qmap_aqm_pfl_memx_w6_t;
 
 static inline uint64_t BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W6(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W6(unsigned long a)
@@ -44785,7 +45835,7 @@ static inline uint64_t BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W6(unsigned long a)
  * TNS TxQ QMAP ECC Control Register
  * ECC configuration of Token Buffer memories
  */
-typedef union
+union bdk_tns_txq_qmap_ecc_ctl
 {
     uint32_t u;
     struct bdk_tns_txq_qmap_ecc_ctl_s
@@ -44809,7 +45859,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_qmap_ecc_ctl_s cn; */
-} bdk_tns_txq_qmap_ecc_ctl_t;
+};
+typedef union bdk_tns_txq_qmap_ecc_ctl bdk_tns_txq_qmap_ecc_ctl_t;
 
 #define BDK_TNS_TXQ_QMAP_ECC_CTL BDK_TNS_TXQ_QMAP_ECC_CTL_FUNC()
 static inline uint64_t BDK_TNS_TXQ_QMAP_ECC_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -44833,7 +45884,7 @@ static inline uint64_t BDK_TNS_TXQ_QMAP_ECC_CTL_FUNC(void)
  * TNS TxQ QMAP Enable Configuration Register
  * QMap enabled to accept requests into its pipeline.
  */
-typedef union
+union bdk_tns_txq_qmap_en_cfg
 {
     uint32_t u;
     struct bdk_tns_txq_qmap_en_cfg_s
@@ -44847,7 +45898,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_qmap_en_cfg_s cn; */
-} bdk_tns_txq_qmap_en_cfg_t;
+};
+typedef union bdk_tns_txq_qmap_en_cfg bdk_tns_txq_qmap_en_cfg_t;
 
 #define BDK_TNS_TXQ_QMAP_EN_CFG BDK_TNS_TXQ_QMAP_EN_CFG_FUNC()
 static inline uint64_t BDK_TNS_TXQ_QMAP_EN_CFG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -44872,7 +45924,7 @@ static inline uint64_t BDK_TNS_TXQ_QMAP_EN_CFG_FUNC(void)
  * QMAP EQ configuration memory ECC error log.  Address is sticky on first error.
  * Re-armed after reading
  */
-typedef union
+union bdk_tns_txq_qmap_eq_cfg_ecc_log
 {
     uint32_t u;
     struct bdk_tns_txq_qmap_eq_cfg_ecc_log_s
@@ -44886,7 +45938,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_qmap_eq_cfg_ecc_log_s cn; */
-} bdk_tns_txq_qmap_eq_cfg_ecc_log_t;
+};
+typedef union bdk_tns_txq_qmap_eq_cfg_ecc_log bdk_tns_txq_qmap_eq_cfg_ecc_log_t;
 
 #define BDK_TNS_TXQ_QMAP_EQ_CFG_ECC_LOG BDK_TNS_TXQ_QMAP_EQ_CFG_ECC_LOG_FUNC()
 static inline uint64_t BDK_TNS_TXQ_QMAP_EQ_CFG_ECC_LOG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -44910,7 +45963,7 @@ static inline uint64_t BDK_TNS_TXQ_QMAP_EQ_CFG_ECC_LOG_FUNC(void)
  * TNS TxQ QMAP Enque Configuration Memory Registers
  * Eq Configuration Table
  */
-typedef union
+union bdk_tns_txq_qmap_eq_cfg_memx
 {
     uint64_t u;
     struct bdk_tns_txq_qmap_eq_cfg_memx_s
@@ -44956,7 +46009,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_qmap_eq_cfg_memx_s cn; */
-} bdk_tns_txq_qmap_eq_cfg_memx_t;
+};
+typedef union bdk_tns_txq_qmap_eq_cfg_memx bdk_tns_txq_qmap_eq_cfg_memx_t;
 
 static inline uint64_t BDK_TNS_TXQ_QMAP_EQ_CFG_MEMX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_QMAP_EQ_CFG_MEMX(unsigned long a)
@@ -44979,7 +46033,7 @@ static inline uint64_t BDK_TNS_TXQ_QMAP_EQ_CFG_MEMX(unsigned long a)
  * TNS TxQ QMAP Enque Query Count Register
  * Counter of EQ queries.  Saturates at 32'hffffffff.  Read only, clear on read.
  */
-typedef union
+union bdk_tns_txq_qmap_eq_query_ct
 {
     uint32_t u;
     struct bdk_tns_txq_qmap_eq_query_ct_s
@@ -44991,7 +46045,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_qmap_eq_query_ct_s cn; */
-} bdk_tns_txq_qmap_eq_query_ct_t;
+};
+typedef union bdk_tns_txq_qmap_eq_query_ct bdk_tns_txq_qmap_eq_query_ct_t;
 
 #define BDK_TNS_TXQ_QMAP_EQ_QUERY_CT BDK_TNS_TXQ_QMAP_EQ_QUERY_CT_FUNC()
 static inline uint64_t BDK_TNS_TXQ_QMAP_EQ_QUERY_CT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -45015,7 +46070,7 @@ static inline uint64_t BDK_TNS_TXQ_QMAP_EQ_QUERY_CT_FUNC(void)
  * TNS TxQ QMAP Enque Reply Count Register
  * Counter of EQ replies.  Saturates at 32'hffffffff.  Read only, clear on read.
  */
-typedef union
+union bdk_tns_txq_qmap_eq_reply_ct
 {
     uint32_t u;
     struct bdk_tns_txq_qmap_eq_reply_ct_s
@@ -45027,7 +46082,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_qmap_eq_reply_ct_s cn; */
-} bdk_tns_txq_qmap_eq_reply_ct_t;
+};
+typedef union bdk_tns_txq_qmap_eq_reply_ct bdk_tns_txq_qmap_eq_reply_ct_t;
 
 #define BDK_TNS_TXQ_QMAP_EQ_REPLY_CT BDK_TNS_TXQ_QMAP_EQ_REPLY_CT_FUNC()
 static inline uint64_t BDK_TNS_TXQ_QMAP_EQ_REPLY_CT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -45051,7 +46107,7 @@ static inline uint64_t BDK_TNS_TXQ_QMAP_EQ_REPLY_CT_FUNC(void)
  * TNS TxQ QMAP H1 Full Configuration Memory Registers
  * H1 full vector
  */
-typedef union
+union bdk_tns_txq_qmap_h1_full_cfg_memx
 {
     uint32_t u;
     struct bdk_tns_txq_qmap_h1_full_cfg_memx_s
@@ -45065,7 +46121,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_qmap_h1_full_cfg_memx_s cn; */
-} bdk_tns_txq_qmap_h1_full_cfg_memx_t;
+};
+typedef union bdk_tns_txq_qmap_h1_full_cfg_memx bdk_tns_txq_qmap_h1_full_cfg_memx_t;
 
 static inline uint64_t BDK_TNS_TXQ_QMAP_H1_FULL_CFG_MEMX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_QMAP_H1_FULL_CFG_MEMX(unsigned long a)
@@ -45088,7 +46145,7 @@ static inline uint64_t BDK_TNS_TXQ_QMAP_H1_FULL_CFG_MEMX(unsigned long a)
  * TNS TxQ QMAP Interrrupt Enable High Register
  * QMAP interrupt register
  */
-typedef union
+union bdk_tns_txq_qmap_int_en_hi
 {
     uint32_t u;
     struct bdk_tns_txq_qmap_int_en_hi_s
@@ -45118,7 +46175,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_qmap_int_en_hi_s cn; */
-} bdk_tns_txq_qmap_int_en_hi_t;
+};
+typedef union bdk_tns_txq_qmap_int_en_hi bdk_tns_txq_qmap_int_en_hi_t;
 
 #define BDK_TNS_TXQ_QMAP_INT_EN_HI BDK_TNS_TXQ_QMAP_INT_EN_HI_FUNC()
 static inline uint64_t BDK_TNS_TXQ_QMAP_INT_EN_HI_FUNC(void) __attribute__ ((pure, always_inline));
@@ -45142,7 +46200,7 @@ static inline uint64_t BDK_TNS_TXQ_QMAP_INT_EN_HI_FUNC(void)
  * TNS TxQ QMAP Interrrupt Enable Low Register
  * QMAP interrupt register
  */
-typedef union
+union bdk_tns_txq_qmap_int_en_lo
 {
     uint32_t u;
     struct bdk_tns_txq_qmap_int_en_lo_s
@@ -45172,7 +46230,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_qmap_int_en_lo_s cn; */
-} bdk_tns_txq_qmap_int_en_lo_t;
+};
+typedef union bdk_tns_txq_qmap_int_en_lo bdk_tns_txq_qmap_int_en_lo_t;
 
 #define BDK_TNS_TXQ_QMAP_INT_EN_LO BDK_TNS_TXQ_QMAP_INT_EN_LO_FUNC()
 static inline uint64_t BDK_TNS_TXQ_QMAP_INT_EN_LO_FUNC(void) __attribute__ ((pure, always_inline));
@@ -45196,7 +46255,7 @@ static inline uint64_t BDK_TNS_TXQ_QMAP_INT_EN_LO_FUNC(void)
  * TNS TxQ QMAP Interrrupt Force Register
  * QMAP interrupt register
  */
-typedef union
+union bdk_tns_txq_qmap_int_frc
 {
     uint32_t u;
     struct bdk_tns_txq_qmap_int_frc_s
@@ -45226,7 +46285,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_qmap_int_frc_s cn; */
-} bdk_tns_txq_qmap_int_frc_t;
+};
+typedef union bdk_tns_txq_qmap_int_frc bdk_tns_txq_qmap_int_frc_t;
 
 #define BDK_TNS_TXQ_QMAP_INT_FRC BDK_TNS_TXQ_QMAP_INT_FRC_FUNC()
 static inline uint64_t BDK_TNS_TXQ_QMAP_INT_FRC_FUNC(void) __attribute__ ((pure, always_inline));
@@ -45250,7 +46310,7 @@ static inline uint64_t BDK_TNS_TXQ_QMAP_INT_FRC_FUNC(void)
  * TNS TxQ QMAP Interrrupt W1C Register
  * QMAP interrupt register
  */
-typedef union
+union bdk_tns_txq_qmap_int_w1c
 {
     uint32_t u;
     struct bdk_tns_txq_qmap_int_w1c_s
@@ -45280,7 +46340,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_qmap_int_w1c_s cn; */
-} bdk_tns_txq_qmap_int_w1c_t;
+};
+typedef union bdk_tns_txq_qmap_int_w1c bdk_tns_txq_qmap_int_w1c_t;
 
 #define BDK_TNS_TXQ_QMAP_INT_W1C BDK_TNS_TXQ_QMAP_INT_W1C_FUNC()
 static inline uint64_t BDK_TNS_TXQ_QMAP_INT_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -45304,7 +46365,7 @@ static inline uint64_t BDK_TNS_TXQ_QMAP_INT_W1C_FUNC(void)
  * TNS TxQ QMAP Lock Register
  * Lock Register
  */
-typedef union
+union bdk_tns_txq_qmap_lock
 {
     uint32_t u;
     struct bdk_tns_txq_qmap_lock_s
@@ -45316,7 +46377,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_qmap_lock_s cn; */
-} bdk_tns_txq_qmap_lock_t;
+};
+typedef union bdk_tns_txq_qmap_lock bdk_tns_txq_qmap_lock_t;
 
 #define BDK_TNS_TXQ_QMAP_LOCK BDK_TNS_TXQ_QMAP_LOCK_FUNC()
 static inline uint64_t BDK_TNS_TXQ_QMAP_LOCK_FUNC(void) __attribute__ ((pure, always_inline));
@@ -45340,7 +46402,7 @@ static inline uint64_t BDK_TNS_TXQ_QMAP_LOCK_FUNC(void)
  * TNS TxQ QMAP Port Full Configuration Memory Registers
  * Port full vector
  */
-typedef union
+union bdk_tns_txq_qmap_ptf_cfg_memx
 {
     uint32_t u;
     struct bdk_tns_txq_qmap_ptf_cfg_memx_s
@@ -45354,7 +46416,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_qmap_ptf_cfg_memx_s cn; */
-} bdk_tns_txq_qmap_ptf_cfg_memx_t;
+};
+typedef union bdk_tns_txq_qmap_ptf_cfg_memx bdk_tns_txq_qmap_ptf_cfg_memx_t;
 
 static inline uint64_t BDK_TNS_TXQ_QMAP_PTF_CFG_MEMX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_QMAP_PTF_CFG_MEMX(unsigned long a)
@@ -45377,7 +46440,7 @@ static inline uint64_t BDK_TNS_TXQ_QMAP_PTF_CFG_MEMX(unsigned long a)
  * TNS TxQ QMAP Queue Full Configuration Memory Registers
  * Queue full vector
  */
-typedef union
+union bdk_tns_txq_qmap_q_full_cfg_memx
 {
     uint32_t u;
     struct bdk_tns_txq_qmap_q_full_cfg_memx_s
@@ -45391,7 +46454,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_qmap_q_full_cfg_memx_s cn; */
-} bdk_tns_txq_qmap_q_full_cfg_memx_t;
+};
+typedef union bdk_tns_txq_qmap_q_full_cfg_memx bdk_tns_txq_qmap_q_full_cfg_memx_t;
 
 static inline uint64_t BDK_TNS_TXQ_QMAP_Q_FULL_CFG_MEMX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_QMAP_Q_FULL_CFG_MEMX(unsigned long a)
@@ -45415,7 +46479,7 @@ static inline uint64_t BDK_TNS_TXQ_QMAP_Q_FULL_CFG_MEMX(unsigned long a)
  *
  * QCN (defeatured) congestion point RNG configuration.
  */
-typedef union
+union bdk_tns_txq_qmap_qcn_cp_rng
 {
     uint64_t u;
     struct bdk_tns_txq_qmap_qcn_cp_rng_s
@@ -45431,7 +46495,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_qmap_qcn_cp_rng_s cn; */
-} bdk_tns_txq_qmap_qcn_cp_rng_t;
+};
+typedef union bdk_tns_txq_qmap_qcn_cp_rng bdk_tns_txq_qmap_qcn_cp_rng_t;
 
 #define BDK_TNS_TXQ_QMAP_QCN_CP_RNG BDK_TNS_TXQ_QMAP_QCN_CP_RNG_FUNC()
 static inline uint64_t BDK_TNS_TXQ_QMAP_QCN_CP_RNG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -45455,7 +46520,7 @@ static inline uint64_t BDK_TNS_TXQ_QMAP_QCN_CP_RNG_FUNC(void)
  * TNS TxQ QMAP SDE Query Count Register
  * Counter of SDE queries.  Saturates at 32'hffffffff.  Read only, clear on read.
  */
-typedef union
+union bdk_tns_txq_qmap_sde_query_ct
 {
     uint32_t u;
     struct bdk_tns_txq_qmap_sde_query_ct_s
@@ -45467,7 +46532,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_qmap_sde_query_ct_s cn; */
-} bdk_tns_txq_qmap_sde_query_ct_t;
+};
+typedef union bdk_tns_txq_qmap_sde_query_ct bdk_tns_txq_qmap_sde_query_ct_t;
 
 #define BDK_TNS_TXQ_QMAP_SDE_QUERY_CT BDK_TNS_TXQ_QMAP_SDE_QUERY_CT_FUNC()
 static inline uint64_t BDK_TNS_TXQ_QMAP_SDE_QUERY_CT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -45491,7 +46557,7 @@ static inline uint64_t BDK_TNS_TXQ_QMAP_SDE_QUERY_CT_FUNC(void)
  * TNS TxQ QMAP SDE Reply Count Register
  * Counter of SDE replies.  Saturates at 32'hffffffff.  Read only, clear on read.
  */
-typedef union
+union bdk_tns_txq_qmap_sde_reply_ct
 {
     uint32_t u;
     struct bdk_tns_txq_qmap_sde_reply_ct_s
@@ -45503,7 +46569,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_qmap_sde_reply_ct_s cn; */
-} bdk_tns_txq_qmap_sde_reply_ct_t;
+};
+typedef union bdk_tns_txq_qmap_sde_reply_ct bdk_tns_txq_qmap_sde_reply_ct_t;
 
 #define BDK_TNS_TXQ_QMAP_SDE_REPLY_CT BDK_TNS_TXQ_QMAP_SDE_REPLY_CT_FUNC()
 static inline uint64_t BDK_TNS_TXQ_QMAP_SDE_REPLY_CT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -45527,7 +46594,7 @@ static inline uint64_t BDK_TNS_TXQ_QMAP_SDE_REPLY_CT_FUNC(void)
  * TNS TxQ QMAP ScratchPad Register
  * Scratch Pad Register for XCAT
  */
-typedef union
+union bdk_tns_txq_qmap_spad
 {
     uint32_t u;
     struct bdk_tns_txq_qmap_spad_s
@@ -45539,7 +46606,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_qmap_spad_s cn; */
-} bdk_tns_txq_qmap_spad_t;
+};
+typedef union bdk_tns_txq_qmap_spad bdk_tns_txq_qmap_spad_t;
 
 #define BDK_TNS_TXQ_QMAP_SPAD BDK_TNS_TXQ_QMAP_SPAD_FUNC()
 static inline uint64_t BDK_TNS_TXQ_QMAP_SPAD_FUNC(void) __attribute__ ((pure, always_inline));
@@ -45564,7 +46632,7 @@ static inline uint64_t BDK_TNS_TXQ_QMAP_SPAD_FUNC(void)
  * QMAP table memory ECC error log.  Address is sticky on first error.  Re-armed
  * after reading
  */
-typedef union
+union bdk_tns_txq_qmap_tbl_ecc_log
 {
     uint32_t u;
     struct bdk_tns_txq_qmap_tbl_ecc_log_s
@@ -45578,7 +46646,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_qmap_tbl_ecc_log_s cn; */
-} bdk_tns_txq_qmap_tbl_ecc_log_t;
+};
+typedef union bdk_tns_txq_qmap_tbl_ecc_log bdk_tns_txq_qmap_tbl_ecc_log_t;
 
 #define BDK_TNS_TXQ_QMAP_TBL_ECC_LOG BDK_TNS_TXQ_QMAP_TBL_ECC_LOG_FUNC()
 static inline uint64_t BDK_TNS_TXQ_QMAP_TBL_ECC_LOG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -45602,7 +46671,7 @@ static inline uint64_t BDK_TNS_TXQ_QMAP_TBL_ECC_LOG_FUNC(void)
  * TNS TxQ QMAP Table Index Configuration Word 0 Registers
  * QMap Table index selection
  */
-typedef union
+union bdk_tns_txq_qmap_tbl_idx_cfgx_w0
 {
     uint32_t u;
     struct bdk_tns_txq_qmap_tbl_idx_cfgx_w0_s
@@ -45624,7 +46693,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_qmap_tbl_idx_cfgx_w0_s cn; */
-} bdk_tns_txq_qmap_tbl_idx_cfgx_w0_t;
+};
+typedef union bdk_tns_txq_qmap_tbl_idx_cfgx_w0 bdk_tns_txq_qmap_tbl_idx_cfgx_w0_t;
 
 static inline uint64_t BDK_TNS_TXQ_QMAP_TBL_IDX_CFGX_W0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_QMAP_TBL_IDX_CFGX_W0(unsigned long a)
@@ -45647,7 +46717,7 @@ static inline uint64_t BDK_TNS_TXQ_QMAP_TBL_IDX_CFGX_W0(unsigned long a)
  * TNS TxQ QMAP Table Index Configuration Word 1 Registers
  * Continuation of structure defined in TNS_TXQ_QMAP_TBL_IDX_CFG(0..1)_W0
  */
-typedef union
+union bdk_tns_txq_qmap_tbl_idx_cfgx_w1
 {
     uint32_t u;
     struct bdk_tns_txq_qmap_tbl_idx_cfgx_w1_s
@@ -45669,7 +46739,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_qmap_tbl_idx_cfgx_w1_s cn; */
-} bdk_tns_txq_qmap_tbl_idx_cfgx_w1_t;
+};
+typedef union bdk_tns_txq_qmap_tbl_idx_cfgx_w1 bdk_tns_txq_qmap_tbl_idx_cfgx_w1_t;
 
 static inline uint64_t BDK_TNS_TXQ_QMAP_TBL_IDX_CFGX_W1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_QMAP_TBL_IDX_CFGX_W1(unsigned long a)
@@ -45692,7 +46763,7 @@ static inline uint64_t BDK_TNS_TXQ_QMAP_TBL_IDX_CFGX_W1(unsigned long a)
  * TNS TxQ QMAP Table Index Configuration Word 2 Registers
  * Continuation of structure defined in TNS_TXQ_QMAP_TBL_IDX_CFG(0..1)_W0
  */
-typedef union
+union bdk_tns_txq_qmap_tbl_idx_cfgx_w2
 {
     uint32_t u;
     struct bdk_tns_txq_qmap_tbl_idx_cfgx_w2_s
@@ -45708,7 +46779,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_qmap_tbl_idx_cfgx_w2_s cn; */
-} bdk_tns_txq_qmap_tbl_idx_cfgx_w2_t;
+};
+typedef union bdk_tns_txq_qmap_tbl_idx_cfgx_w2 bdk_tns_txq_qmap_tbl_idx_cfgx_w2_t;
 
 static inline uint64_t BDK_TNS_TXQ_QMAP_TBL_IDX_CFGX_W2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_QMAP_TBL_IDX_CFGX_W2(unsigned long a)
@@ -45731,7 +46803,7 @@ static inline uint64_t BDK_TNS_TXQ_QMAP_TBL_IDX_CFGX_W2(unsigned long a)
  * TNS TxQ QMAP Table Memory Registers
  * QMap Tbl (Each line contains four Q#s - Q3,Q2,Q1,Q0)
  */
-typedef union
+union bdk_tns_txq_qmap_tbl_memx
 {
     uint64_t u;
     struct bdk_tns_txq_qmap_tbl_memx_s
@@ -45751,7 +46823,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_qmap_tbl_memx_s cn; */
-} bdk_tns_txq_qmap_tbl_memx_t;
+};
+typedef union bdk_tns_txq_qmap_tbl_memx bdk_tns_txq_qmap_tbl_memx_t;
 
 static inline uint64_t BDK_TNS_TXQ_QMAP_TBL_MEMX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_QMAP_TBL_MEMX(unsigned long a)
@@ -45774,7 +46847,7 @@ static inline uint64_t BDK_TNS_TXQ_QMAP_TBL_MEMX(unsigned long a)
  * TNS TxQ QMAP WRED Random Number Generator Configuration Register
  * WRED Queue RNG configuration
  */
-typedef union
+union bdk_tns_txq_qmap_wred_rng_cfg
 {
     uint64_t u;
     struct bdk_tns_txq_qmap_wred_rng_cfg_s
@@ -45790,7 +46863,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_qmap_wred_rng_cfg_s cn; */
-} bdk_tns_txq_qmap_wred_rng_cfg_t;
+};
+typedef union bdk_tns_txq_qmap_wred_rng_cfg bdk_tns_txq_qmap_wred_rng_cfg_t;
 
 #define BDK_TNS_TXQ_QMAP_WRED_RNG_CFG BDK_TNS_TXQ_QMAP_WRED_RNG_CFG_FUNC()
 static inline uint64_t BDK_TNS_TXQ_QMAP_WRED_RNG_CFG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -45814,7 +46888,7 @@ static inline uint64_t BDK_TNS_TXQ_QMAP_WRED_RNG_CFG_FUNC(void)
  * TNS TxQ QMAP WRR/SP Arbiter Mode Register
  * QMap WRR/SP arbiter mode; '0' - WRR, '1' - SP
  */
-typedef union
+union bdk_tns_txq_qmap_wsarb_mode
 {
     uint32_t u;
     struct bdk_tns_txq_qmap_wsarb_mode_s
@@ -45828,7 +46902,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_qmap_wsarb_mode_s cn; */
-} bdk_tns_txq_qmap_wsarb_mode_t;
+};
+typedef union bdk_tns_txq_qmap_wsarb_mode bdk_tns_txq_qmap_wsarb_mode_t;
 
 #define BDK_TNS_TXQ_QMAP_WSARB_MODE BDK_TNS_TXQ_QMAP_WSARB_MODE_FUNC()
 static inline uint64_t BDK_TNS_TXQ_QMAP_WSARB_MODE_FUNC(void) __attribute__ ((pure, always_inline));
@@ -45852,7 +46927,7 @@ static inline uint64_t BDK_TNS_TXQ_QMAP_WSARB_MODE_FUNC(void)
  * TNS TxQ QMAP WRR/SP Arbiter Weight Register
  * QMap WRR/SP arbiter weights
  */
-typedef union
+union bdk_tns_txq_qmap_wsarb_wgt
 {
     uint32_t u;
     struct bdk_tns_txq_qmap_wsarb_wgt_s
@@ -45868,7 +46943,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_qmap_wsarb_wgt_s cn; */
-} bdk_tns_txq_qmap_wsarb_wgt_t;
+};
+typedef union bdk_tns_txq_qmap_wsarb_wgt bdk_tns_txq_qmap_wsarb_wgt_t;
 
 #define BDK_TNS_TXQ_QMAP_WSARB_WGT BDK_TNS_TXQ_QMAP_WSARB_WGT_FUNC()
 static inline uint64_t BDK_TNS_TXQ_QMAP_WSARB_WGT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -45892,7 +46968,7 @@ static inline uint64_t BDK_TNS_TXQ_QMAP_WSARB_WGT_FUNC(void)
  * TNS TxQ Source Port QMAP Table Configuration Registers
  * QMap Tbl 0/1 selection based on source port
  */
-typedef union
+union bdk_tns_txq_spt_qmap_tbl_cfg_wx
 {
     uint64_t u;
     struct bdk_tns_txq_spt_qmap_tbl_cfg_wx_s
@@ -45904,7 +46980,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_spt_qmap_tbl_cfg_wx_s cn; */
-} bdk_tns_txq_spt_qmap_tbl_cfg_wx_t;
+};
+typedef union bdk_tns_txq_spt_qmap_tbl_cfg_wx bdk_tns_txq_spt_qmap_tbl_cfg_wx_t;
 
 static inline uint64_t BDK_TNS_TXQ_SPT_QMAP_TBL_CFG_WX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_SPT_QMAP_TBL_CFG_WX(unsigned long a)
@@ -45928,7 +47005,7 @@ static inline uint64_t BDK_TNS_TXQ_SPT_QMAP_TBL_CFG_WX(unsigned long a)
  * Token Buffer memory 0 ECC error log.  Address is sticky on first error.  Re-
  * armed after reading
  */
-typedef union
+union bdk_tns_txq_tb0_ecc_log
 {
     uint32_t u;
     struct bdk_tns_txq_tb0_ecc_log_s
@@ -45942,7 +47019,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_tb0_ecc_log_s cn; */
-} bdk_tns_txq_tb0_ecc_log_t;
+};
+typedef union bdk_tns_txq_tb0_ecc_log bdk_tns_txq_tb0_ecc_log_t;
 
 #define BDK_TNS_TXQ_TB0_ECC_LOG BDK_TNS_TXQ_TB0_ECC_LOG_FUNC()
 static inline uint64_t BDK_TNS_TXQ_TB0_ECC_LOG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -45967,7 +47045,7 @@ static inline uint64_t BDK_TNS_TXQ_TB0_ECC_LOG_FUNC(void)
  * Token Buffer memory 1 ECC error log.  Address is sticky on first error.  Re-
  * armed after reading
  */
-typedef union
+union bdk_tns_txq_tb1_ecc_log
 {
     uint32_t u;
     struct bdk_tns_txq_tb1_ecc_log_s
@@ -45981,7 +47059,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_tb1_ecc_log_s cn; */
-} bdk_tns_txq_tb1_ecc_log_t;
+};
+typedef union bdk_tns_txq_tb1_ecc_log bdk_tns_txq_tb1_ecc_log_t;
 
 #define BDK_TNS_TXQ_TB1_ECC_LOG BDK_TNS_TXQ_TB1_ECC_LOG_FUNC()
 static inline uint64_t BDK_TNS_TXQ_TB1_ECC_LOG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -46006,7 +47085,7 @@ static inline uint64_t BDK_TNS_TXQ_TB1_ECC_LOG_FUNC(void)
  * Token Buffer memory 2 ECC error log.  Address is sticky on first error.  Re-
  * armed after reading
  */
-typedef union
+union bdk_tns_txq_tb2_ecc_log
 {
     uint32_t u;
     struct bdk_tns_txq_tb2_ecc_log_s
@@ -46020,7 +47099,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_tb2_ecc_log_s cn; */
-} bdk_tns_txq_tb2_ecc_log_t;
+};
+typedef union bdk_tns_txq_tb2_ecc_log bdk_tns_txq_tb2_ecc_log_t;
 
 #define BDK_TNS_TXQ_TB2_ECC_LOG BDK_TNS_TXQ_TB2_ECC_LOG_FUNC()
 static inline uint64_t BDK_TNS_TXQ_TB2_ECC_LOG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -46045,7 +47125,7 @@ static inline uint64_t BDK_TNS_TXQ_TB2_ECC_LOG_FUNC(void)
  * Token Buffer memory 3 ECC error log.  Address is sticky on first error.  Re-
  * armed after reading
  */
-typedef union
+union bdk_tns_txq_tb3_ecc_log
 {
     uint32_t u;
     struct bdk_tns_txq_tb3_ecc_log_s
@@ -46059,7 +47139,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_tb3_ecc_log_s cn; */
-} bdk_tns_txq_tb3_ecc_log_t;
+};
+typedef union bdk_tns_txq_tb3_ecc_log bdk_tns_txq_tb3_ecc_log_t;
 
 #define BDK_TNS_TXQ_TB3_ECC_LOG BDK_TNS_TXQ_TB3_ECC_LOG_FUNC()
 static inline uint64_t BDK_TNS_TXQ_TB3_ECC_LOG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -46083,7 +47164,7 @@ static inline uint64_t BDK_TNS_TXQ_TB3_ECC_LOG_FUNC(void)
  * TNS TxQ Token Buffer ECC Control Register
  * ECC configuration of Token Buffer memories
  */
-typedef union
+union bdk_tns_txq_tb_ecc_ctl
 {
     uint32_t u;
     struct bdk_tns_txq_tb_ecc_ctl_s
@@ -46113,7 +47194,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_tb_ecc_ctl_s cn; */
-} bdk_tns_txq_tb_ecc_ctl_t;
+};
+typedef union bdk_tns_txq_tb_ecc_ctl bdk_tns_txq_tb_ecc_ctl_t;
 
 #define BDK_TNS_TXQ_TB_ECC_CTL BDK_TNS_TXQ_TB_ECC_CTL_FUNC()
 static inline uint64_t BDK_TNS_TXQ_TB_ECC_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -46137,7 +47219,7 @@ static inline uint64_t BDK_TNS_TXQ_TB_ECC_CTL_FUNC(void)
  * TNS TxQ Token Buffer Interrrupt Enable High Register
  * TxQ Token Buffer interrupts
  */
-typedef union
+union bdk_tns_txq_tb_int_en_hi
 {
     uint32_t u;
     struct bdk_tns_txq_tb_int_en_hi_s
@@ -46175,7 +47257,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_tb_int_en_hi_s cn; */
-} bdk_tns_txq_tb_int_en_hi_t;
+};
+typedef union bdk_tns_txq_tb_int_en_hi bdk_tns_txq_tb_int_en_hi_t;
 
 #define BDK_TNS_TXQ_TB_INT_EN_HI BDK_TNS_TXQ_TB_INT_EN_HI_FUNC()
 static inline uint64_t BDK_TNS_TXQ_TB_INT_EN_HI_FUNC(void) __attribute__ ((pure, always_inline));
@@ -46199,7 +47282,7 @@ static inline uint64_t BDK_TNS_TXQ_TB_INT_EN_HI_FUNC(void)
  * TNS TxQ Token Buffer Interrrupt Enable Low Register
  * TxQ Token Buffer interrupts
  */
-typedef union
+union bdk_tns_txq_tb_int_en_lo
 {
     uint32_t u;
     struct bdk_tns_txq_tb_int_en_lo_s
@@ -46237,7 +47320,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_tb_int_en_lo_s cn; */
-} bdk_tns_txq_tb_int_en_lo_t;
+};
+typedef union bdk_tns_txq_tb_int_en_lo bdk_tns_txq_tb_int_en_lo_t;
 
 #define BDK_TNS_TXQ_TB_INT_EN_LO BDK_TNS_TXQ_TB_INT_EN_LO_FUNC()
 static inline uint64_t BDK_TNS_TXQ_TB_INT_EN_LO_FUNC(void) __attribute__ ((pure, always_inline));
@@ -46261,7 +47345,7 @@ static inline uint64_t BDK_TNS_TXQ_TB_INT_EN_LO_FUNC(void)
  * TNS TxQ Token Buffer Interrrupt Force Register
  * TxQ Token Buffer interrupts
  */
-typedef union
+union bdk_tns_txq_tb_int_frc
 {
     uint32_t u;
     struct bdk_tns_txq_tb_int_frc_s
@@ -46299,7 +47383,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_tb_int_frc_s cn; */
-} bdk_tns_txq_tb_int_frc_t;
+};
+typedef union bdk_tns_txq_tb_int_frc bdk_tns_txq_tb_int_frc_t;
 
 #define BDK_TNS_TXQ_TB_INT_FRC BDK_TNS_TXQ_TB_INT_FRC_FUNC()
 static inline uint64_t BDK_TNS_TXQ_TB_INT_FRC_FUNC(void) __attribute__ ((pure, always_inline));
@@ -46323,7 +47408,7 @@ static inline uint64_t BDK_TNS_TXQ_TB_INT_FRC_FUNC(void)
  * TNS TxQ Token Buffer Interrrupt W1C Register
  * TxQ Token Buffer interrupts
  */
-typedef union
+union bdk_tns_txq_tb_int_w1c
 {
     uint32_t u;
     struct bdk_tns_txq_tb_int_w1c_s
@@ -46361,7 +47446,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_tb_int_w1c_s cn; */
-} bdk_tns_txq_tb_int_w1c_t;
+};
+typedef union bdk_tns_txq_tb_int_w1c bdk_tns_txq_tb_int_w1c_t;
 
 #define BDK_TNS_TXQ_TB_INT_W1C BDK_TNS_TXQ_TB_INT_W1C_FUNC()
 static inline uint64_t BDK_TNS_TXQ_TB_INT_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -46385,7 +47471,7 @@ static inline uint64_t BDK_TNS_TXQ_TB_INT_W1C_FUNC(void)
  * TNS TxQ Token Buffer Lock Register
  * Lock Register
  */
-typedef union
+union bdk_tns_txq_tb_lock
 {
     uint32_t u;
     struct bdk_tns_txq_tb_lock_s
@@ -46397,7 +47483,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_tb_lock_s cn; */
-} bdk_tns_txq_tb_lock_t;
+};
+typedef union bdk_tns_txq_tb_lock bdk_tns_txq_tb_lock_t;
 
 #define BDK_TNS_TXQ_TB_LOCK BDK_TNS_TXQ_TB_LOCK_FUNC()
 static inline uint64_t BDK_TNS_TXQ_TB_LOCK_FUNC(void) __attribute__ ((pure, always_inline));
@@ -46425,7 +47512,7 @@ static inline uint64_t BDK_TNS_TXQ_TB_LOCK_FUNC(void)
  * When writing, make the access to this decoder atomic w.r.t. other writes to
  * this decoder.
  */
-typedef union
+union bdk_tns_txq_tb_memx_wx
 {
     uint64_t u;
     struct bdk_tns_txq_tb_memx_wx_s
@@ -46437,7 +47524,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_tb_memx_wx_s cn; */
-} bdk_tns_txq_tb_memx_wx_t;
+};
+typedef union bdk_tns_txq_tb_memx_wx bdk_tns_txq_tb_memx_wx_t;
 
 static inline uint64_t BDK_TNS_TXQ_TB_MEMX_WX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_TB_MEMX_WX(unsigned long a, unsigned long b)
@@ -46460,7 +47548,7 @@ static inline uint64_t BDK_TNS_TXQ_TB_MEMX_WX(unsigned long a, unsigned long b)
  * TNS TxQ Token Buffer ScratchPad Register
  * Scratch Pad Register for XCAT
  */
-typedef union
+union bdk_tns_txq_tb_spad
 {
     uint32_t u;
     struct bdk_tns_txq_tb_spad_s
@@ -46472,7 +47560,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_tb_spad_s cn; */
-} bdk_tns_txq_tb_spad_t;
+};
+typedef union bdk_tns_txq_tb_spad bdk_tns_txq_tb_spad_t;
 
 #define BDK_TNS_TXQ_TB_SPAD BDK_TNS_TXQ_TB_SPAD_FUNC()
 static inline uint64_t BDK_TNS_TXQ_TB_SPAD_FUNC(void) __attribute__ ((pure, always_inline));
@@ -46496,7 +47585,7 @@ static inline uint64_t BDK_TNS_TXQ_TB_SPAD_FUNC(void)
  * TNS TxQ TBC Bist Status Done Register
  * TxQ TBC bist status and bist_done
  */
-typedef union
+union bdk_tns_txq_tbc_bist_stdn
 {
     uint32_t u;
     struct bdk_tns_txq_tbc_bist_stdn_s
@@ -46524,7 +47613,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_tbc_bist_stdn_s cn; */
-} bdk_tns_txq_tbc_bist_stdn_t;
+};
+typedef union bdk_tns_txq_tbc_bist_stdn bdk_tns_txq_tbc_bist_stdn_t;
 
 #define BDK_TNS_TXQ_TBC_BIST_STDN BDK_TNS_TXQ_TBC_BIST_STDN_FUNC()
 static inline uint64_t BDK_TNS_TXQ_TBC_BIST_STDN_FUNC(void) __attribute__ ((pure, always_inline));
@@ -46548,7 +47638,7 @@ static inline uint64_t BDK_TNS_TXQ_TBC_BIST_STDN_FUNC(void)
  * TNS TxQ Token Buffer Manager ECC Control Register
  * ECC configuration of all TBM memories
  */
-typedef union
+union bdk_tns_txq_tbm_ecc_ctl
 {
     uint32_t u;
     struct bdk_tns_txq_tbm_ecc_ctl_s
@@ -46578,7 +47668,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_tbm_ecc_ctl_s cn; */
-} bdk_tns_txq_tbm_ecc_ctl_t;
+};
+typedef union bdk_tns_txq_tbm_ecc_ctl bdk_tns_txq_tbm_ecc_ctl_t;
 
 #define BDK_TNS_TXQ_TBM_ECC_CTL BDK_TNS_TXQ_TBM_ECC_CTL_FUNC()
 static inline uint64_t BDK_TNS_TXQ_TBM_ECC_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -46602,7 +47693,7 @@ static inline uint64_t BDK_TNS_TXQ_TBM_ECC_CTL_FUNC(void)
  * TNS TxQ Token Buffer Manager Free Token CNT Data Configuration Register
  * Indicates free token fifo counter data per bank
  */
-typedef union
+union bdk_tns_txq_tbm_ft_cnt_dat_cfg
 {
     uint32_t u;
     struct bdk_tns_txq_tbm_ft_cnt_dat_cfg_s
@@ -46616,7 +47707,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_tbm_ft_cnt_dat_cfg_s cn; */
-} bdk_tns_txq_tbm_ft_cnt_dat_cfg_t;
+};
+typedef union bdk_tns_txq_tbm_ft_cnt_dat_cfg bdk_tns_txq_tbm_ft_cnt_dat_cfg_t;
 
 #define BDK_TNS_TXQ_TBM_FT_CNT_DAT_CFG BDK_TNS_TXQ_TBM_FT_CNT_DAT_CFG_FUNC()
 static inline uint64_t BDK_TNS_TXQ_TBM_FT_CNT_DAT_CFG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -46642,7 +47734,7 @@ static inline uint64_t BDK_TNS_TXQ_TBM_FT_CNT_DAT_CFG_FUNC(void)
  * allocated to the queues with HW init.  This number should be adjusted
  * accordingly
  */
-typedef union
+union bdk_tns_txq_tbm_ft_cnt_init_cfg
 {
     uint32_t u;
     struct bdk_tns_txq_tbm_ft_cnt_init_cfg_s
@@ -46656,7 +47748,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_tbm_ft_cnt_init_cfg_s cn; */
-} bdk_tns_txq_tbm_ft_cnt_init_cfg_t;
+};
+typedef union bdk_tns_txq_tbm_ft_cnt_init_cfg bdk_tns_txq_tbm_ft_cnt_init_cfg_t;
 
 #define BDK_TNS_TXQ_TBM_FT_CNT_INIT_CFG BDK_TNS_TXQ_TBM_FT_CNT_INIT_CFG_FUNC()
 static inline uint64_t BDK_TNS_TXQ_TBM_FT_CNT_INIT_CFG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -46680,7 +47773,7 @@ static inline uint64_t BDK_TNS_TXQ_TBM_FT_CNT_INIT_CFG_FUNC(void)
  * TNS TxQ Token Buffer Manager Free Token CNT Threshold Register
  * Configuration to indicate threshold below which no free tokens are issued
  */
-typedef union
+union bdk_tns_txq_tbm_ft_cnt_thr
 {
     uint32_t u;
     struct bdk_tns_txq_tbm_ft_cnt_thr_s
@@ -46694,7 +47787,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_tbm_ft_cnt_thr_s cn; */
-} bdk_tns_txq_tbm_ft_cnt_thr_t;
+};
+typedef union bdk_tns_txq_tbm_ft_cnt_thr bdk_tns_txq_tbm_ft_cnt_thr_t;
 
 #define BDK_TNS_TXQ_TBM_FT_CNT_THR BDK_TNS_TXQ_TBM_FT_CNT_THR_FUNC()
 static inline uint64_t BDK_TNS_TXQ_TBM_FT_CNT_THR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -46722,7 +47816,7 @@ static inline uint64_t BDK_TNS_TXQ_TBM_FT_CNT_THR_FUNC(void)
  * When writing, make the access to this decoder atomic w.r.t. other writes to
  * this decoder.
  */
-typedef union
+union bdk_tns_txq_tbm_ft_fifx_wx
 {
     uint64_t u;
     struct bdk_tns_txq_tbm_ft_fifx_wx_s
@@ -46734,7 +47828,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_tbm_ft_fifx_wx_s cn; */
-} bdk_tns_txq_tbm_ft_fifx_wx_t;
+};
+typedef union bdk_tns_txq_tbm_ft_fifx_wx bdk_tns_txq_tbm_ft_fifx_wx_t;
 
 static inline uint64_t BDK_TNS_TXQ_TBM_FT_FIFX_WX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_TBM_FT_FIFX_WX(unsigned long a, unsigned long b)
@@ -46757,7 +47852,7 @@ static inline uint64_t BDK_TNS_TXQ_TBM_FT_FIFX_WX(unsigned long a, unsigned long
  * TNS TxQ Token Buffer Manager Free Token FIFO Debug Register
  * Free token fifo debug register
  */
-typedef union
+union bdk_tns_txq_tbm_ft_fif_dbg
 {
     uint32_t u;
     struct bdk_tns_txq_tbm_ft_fif_dbg_s
@@ -46771,7 +47866,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_tbm_ft_fif_dbg_s cn; */
-} bdk_tns_txq_tbm_ft_fif_dbg_t;
+};
+typedef union bdk_tns_txq_tbm_ft_fif_dbg bdk_tns_txq_tbm_ft_fif_dbg_t;
 
 #define BDK_TNS_TXQ_TBM_FT_FIF_DBG BDK_TNS_TXQ_TBM_FT_FIF_DBG_FUNC()
 static inline uint64_t BDK_TNS_TXQ_TBM_FT_FIF_DBG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -46796,7 +47892,7 @@ static inline uint64_t BDK_TNS_TXQ_TBM_FT_FIF_DBG_FUNC(void)
  * Free token fifo pointer ECC error log.  Address is sticky on first error.  Re-
  * armed after reading
  */
-typedef union
+union bdk_tns_txq_tbm_ft_fif_ecc_log
 {
     uint32_t u;
     struct bdk_tns_txq_tbm_ft_fif_ecc_log_s
@@ -46810,7 +47906,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_tbm_ft_fif_ecc_log_s cn; */
-} bdk_tns_txq_tbm_ft_fif_ecc_log_t;
+};
+typedef union bdk_tns_txq_tbm_ft_fif_ecc_log bdk_tns_txq_tbm_ft_fif_ecc_log_t;
 
 #define BDK_TNS_TXQ_TBM_FT_FIF_ECC_LOG BDK_TNS_TXQ_TBM_FT_FIF_ECC_LOG_FUNC()
 static inline uint64_t BDK_TNS_TXQ_TBM_FT_FIF_ECC_LOG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -46834,7 +47931,7 @@ static inline uint64_t BDK_TNS_TXQ_TBM_FT_FIF_ECC_LOG_FUNC(void)
  * TNS TxQ Token Buffer Manager Free Token FIFO Usage Register
  * Token buffer Free Token FIFO usage level
  */
-typedef union
+union bdk_tns_txq_tbm_ft_fif_usage
 {
     uint32_t u;
     struct bdk_tns_txq_tbm_ft_fif_usage_s
@@ -46848,7 +47945,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_tbm_ft_fif_usage_s cn; */
-} bdk_tns_txq_tbm_ft_fif_usage_t;
+};
+typedef union bdk_tns_txq_tbm_ft_fif_usage bdk_tns_txq_tbm_ft_fif_usage_t;
 
 #define BDK_TNS_TXQ_TBM_FT_FIF_USAGE BDK_TNS_TXQ_TBM_FT_FIF_USAGE_FUNC()
 static inline uint64_t BDK_TNS_TXQ_TBM_FT_FIF_USAGE_FUNC(void) __attribute__ ((pure, always_inline));
@@ -46872,7 +47970,7 @@ static inline uint64_t BDK_TNS_TXQ_TBM_FT_FIF_USAGE_FUNC(void)
  * TNS TxQ Token Buffer Manager Free Token Prefecth Count Register
  * Count of the number of valid pre-fetched free-tokens in the ft_prefetch
  */
-typedef union
+union bdk_tns_txq_tbm_ft_prefetch_ct
 {
     uint32_t u;
     struct bdk_tns_txq_tbm_ft_prefetch_ct_s
@@ -46886,7 +47984,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_tbm_ft_prefetch_ct_s cn; */
-} bdk_tns_txq_tbm_ft_prefetch_ct_t;
+};
+typedef union bdk_tns_txq_tbm_ft_prefetch_ct bdk_tns_txq_tbm_ft_prefetch_ct_t;
 
 #define BDK_TNS_TXQ_TBM_FT_PREFETCH_CT BDK_TNS_TXQ_TBM_FT_PREFETCH_CT_FUNC()
 static inline uint64_t BDK_TNS_TXQ_TBM_FT_PREFETCH_CT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -46910,7 +48009,7 @@ static inline uint64_t BDK_TNS_TXQ_TBM_FT_PREFETCH_CT_FUNC(void)
  * TNS TxQ Token Buffer Manager Free Token Prefecth Word 0 Register
  * Read-out of pre-fetched free tokens in the tail pointer block.
  */
-typedef union
+union bdk_tns_txq_tbm_ft_prefetch_w0
 {
     uint32_t u;
     struct bdk_tns_txq_tbm_ft_prefetch_w0_s
@@ -46926,7 +48025,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_tbm_ft_prefetch_w0_s cn; */
-} bdk_tns_txq_tbm_ft_prefetch_w0_t;
+};
+typedef union bdk_tns_txq_tbm_ft_prefetch_w0 bdk_tns_txq_tbm_ft_prefetch_w0_t;
 
 #define BDK_TNS_TXQ_TBM_FT_PREFETCH_W0 BDK_TNS_TXQ_TBM_FT_PREFETCH_W0_FUNC()
 static inline uint64_t BDK_TNS_TXQ_TBM_FT_PREFETCH_W0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -46950,7 +48050,7 @@ static inline uint64_t BDK_TNS_TXQ_TBM_FT_PREFETCH_W0_FUNC(void)
  * TNS TxQ Token Buffer Manager Free Token Prefecth Word 1 Register
  * Continuation of structure defined in TNS_TXQ_TBM_FT_PREFETCH_W0
  */
-typedef union
+union bdk_tns_txq_tbm_ft_prefetch_w1
 {
     uint32_t u;
     struct bdk_tns_txq_tbm_ft_prefetch_w1_s
@@ -46966,7 +48066,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_tbm_ft_prefetch_w1_s cn; */
-} bdk_tns_txq_tbm_ft_prefetch_w1_t;
+};
+typedef union bdk_tns_txq_tbm_ft_prefetch_w1 bdk_tns_txq_tbm_ft_prefetch_w1_t;
 
 #define BDK_TNS_TXQ_TBM_FT_PREFETCH_W1 BDK_TNS_TXQ_TBM_FT_PREFETCH_W1_FUNC()
 static inline uint64_t BDK_TNS_TXQ_TBM_FT_PREFETCH_W1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -46990,7 +48091,7 @@ static inline uint64_t BDK_TNS_TXQ_TBM_FT_PREFETCH_W1_FUNC(void)
  * TNS TxQ Token Buffer Manager Free Token Prefecth Word 2 Register
  * Continuation of structure defined in TNS_TXQ_TBM_FT_PREFETCH_W0
  */
-typedef union
+union bdk_tns_txq_tbm_ft_prefetch_w2
 {
     uint32_t u;
     struct bdk_tns_txq_tbm_ft_prefetch_w2_s
@@ -47006,7 +48107,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_tbm_ft_prefetch_w2_s cn; */
-} bdk_tns_txq_tbm_ft_prefetch_w2_t;
+};
+typedef union bdk_tns_txq_tbm_ft_prefetch_w2 bdk_tns_txq_tbm_ft_prefetch_w2_t;
 
 #define BDK_TNS_TXQ_TBM_FT_PREFETCH_W2 BDK_TNS_TXQ_TBM_FT_PREFETCH_W2_FUNC()
 static inline uint64_t BDK_TNS_TXQ_TBM_FT_PREFETCH_W2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -47030,7 +48132,7 @@ static inline uint64_t BDK_TNS_TXQ_TBM_FT_PREFETCH_W2_FUNC(void)
  * TNS TxQ Token Buffer Manager Free Token Prefecth Word 3 Register
  * Continuation of structure defined in TNS_TXQ_TBM_FT_PREFETCH_W0
  */
-typedef union
+union bdk_tns_txq_tbm_ft_prefetch_w3
 {
     uint32_t u;
     struct bdk_tns_txq_tbm_ft_prefetch_w3_s
@@ -47048,7 +48150,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_tbm_ft_prefetch_w3_s cn; */
-} bdk_tns_txq_tbm_ft_prefetch_w3_t;
+};
+typedef union bdk_tns_txq_tbm_ft_prefetch_w3 bdk_tns_txq_tbm_ft_prefetch_w3_t;
 
 #define BDK_TNS_TXQ_TBM_FT_PREFETCH_W3 BDK_TNS_TXQ_TBM_FT_PREFETCH_W3_FUNC()
 static inline uint64_t BDK_TNS_TXQ_TBM_FT_PREFETCH_W3_FUNC(void) __attribute__ ((pure, always_inline));
@@ -47072,7 +48175,7 @@ static inline uint64_t BDK_TNS_TXQ_TBM_FT_PREFETCH_W3_FUNC(void)
  * TNS TxQ Token Buffer Manager Free Token Prefecth Word 4 Register
  * Continuation of structure defined in TNS_TXQ_TBM_FT_PREFETCH_W0
  */
-typedef union
+union bdk_tns_txq_tbm_ft_prefetch_w4
 {
     uint32_t u;
     struct bdk_tns_txq_tbm_ft_prefetch_w4_s
@@ -47088,7 +48191,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_tbm_ft_prefetch_w4_s cn; */
-} bdk_tns_txq_tbm_ft_prefetch_w4_t;
+};
+typedef union bdk_tns_txq_tbm_ft_prefetch_w4 bdk_tns_txq_tbm_ft_prefetch_w4_t;
 
 #define BDK_TNS_TXQ_TBM_FT_PREFETCH_W4 BDK_TNS_TXQ_TBM_FT_PREFETCH_W4_FUNC()
 static inline uint64_t BDK_TNS_TXQ_TBM_FT_PREFETCH_W4_FUNC(void) __attribute__ ((pure, always_inline));
@@ -47112,7 +48216,7 @@ static inline uint64_t BDK_TNS_TXQ_TBM_FT_PREFETCH_W4_FUNC(void)
  * TNS TxQ Token Buffer Manager Free Token Prefecth Word 5 Register
  * Continuation of structure defined in TNS_TXQ_TBM_FT_PREFETCH_W0
  */
-typedef union
+union bdk_tns_txq_tbm_ft_prefetch_w5
 {
     uint32_t u;
     struct bdk_tns_txq_tbm_ft_prefetch_w5_s
@@ -47128,7 +48232,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_tbm_ft_prefetch_w5_s cn; */
-} bdk_tns_txq_tbm_ft_prefetch_w5_t;
+};
+typedef union bdk_tns_txq_tbm_ft_prefetch_w5 bdk_tns_txq_tbm_ft_prefetch_w5_t;
 
 #define BDK_TNS_TXQ_TBM_FT_PREFETCH_W5 BDK_TNS_TXQ_TBM_FT_PREFETCH_W5_FUNC()
 static inline uint64_t BDK_TNS_TXQ_TBM_FT_PREFETCH_W5_FUNC(void) __attribute__ ((pure, always_inline));
@@ -47152,7 +48257,7 @@ static inline uint64_t BDK_TNS_TXQ_TBM_FT_PREFETCH_W5_FUNC(void)
  * TNS TxQ Token Buffer Manager Free Token Prefecth Word 6 Register
  * Continuation of structure defined in TNS_TXQ_TBM_FT_PREFETCH_W0
  */
-typedef union
+union bdk_tns_txq_tbm_ft_prefetch_w6
 {
     uint32_t u;
     struct bdk_tns_txq_tbm_ft_prefetch_w6_s
@@ -47168,7 +48273,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_tbm_ft_prefetch_w6_s cn; */
-} bdk_tns_txq_tbm_ft_prefetch_w6_t;
+};
+typedef union bdk_tns_txq_tbm_ft_prefetch_w6 bdk_tns_txq_tbm_ft_prefetch_w6_t;
 
 #define BDK_TNS_TXQ_TBM_FT_PREFETCH_W6 BDK_TNS_TXQ_TBM_FT_PREFETCH_W6_FUNC()
 static inline uint64_t BDK_TNS_TXQ_TBM_FT_PREFETCH_W6_FUNC(void) __attribute__ ((pure, always_inline));
@@ -47193,7 +48299,7 @@ static inline uint64_t BDK_TNS_TXQ_TBM_FT_PREFETCH_W6_FUNC(void)
  * TBM head pointer ECC error log.  Address is sticky on first error.  Re-armed
  * after reading
  */
-typedef union
+union bdk_tns_txq_tbm_head_ptr_ecc_log
 {
     uint32_t u;
     struct bdk_tns_txq_tbm_head_ptr_ecc_log_s
@@ -47207,7 +48313,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_tbm_head_ptr_ecc_log_s cn; */
-} bdk_tns_txq_tbm_head_ptr_ecc_log_t;
+};
+typedef union bdk_tns_txq_tbm_head_ptr_ecc_log bdk_tns_txq_tbm_head_ptr_ecc_log_t;
 
 #define BDK_TNS_TXQ_TBM_HEAD_PTR_ECC_LOG BDK_TNS_TXQ_TBM_HEAD_PTR_ECC_LOG_FUNC()
 static inline uint64_t BDK_TNS_TXQ_TBM_HEAD_PTR_ECC_LOG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -47231,7 +48338,7 @@ static inline uint64_t BDK_TNS_TXQ_TBM_HEAD_PTR_ECC_LOG_FUNC(void)
  * TNS TxQ Token Buffer Manager Head Pointer Memory Registers
  * Queue Head pointer memory CPU access
  */
-typedef union
+union bdk_tns_txq_tbm_head_ptr_memx
 {
     uint32_t u;
     struct bdk_tns_txq_tbm_head_ptr_memx_s
@@ -47245,7 +48352,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_tbm_head_ptr_memx_s cn; */
-} bdk_tns_txq_tbm_head_ptr_memx_t;
+};
+typedef union bdk_tns_txq_tbm_head_ptr_memx bdk_tns_txq_tbm_head_ptr_memx_t;
 
 static inline uint64_t BDK_TNS_TXQ_TBM_HEAD_PTR_MEMX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_TBM_HEAD_PTR_MEMX(unsigned long a)
@@ -47269,7 +48377,7 @@ static inline uint64_t BDK_TNS_TXQ_TBM_HEAD_PTR_MEMX(unsigned long a)
  * Per memory HW init.  Write '1' to force HW init.  Read for status.  '1'
  * indicates that HW init is completed
  */
-typedef union
+union bdk_tns_txq_tbm_hw_init_sta
 {
     uint32_t u;
     struct bdk_tns_txq_tbm_hw_init_sta_s
@@ -47287,7 +48395,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_tbm_hw_init_sta_s cn; */
-} bdk_tns_txq_tbm_hw_init_sta_t;
+};
+typedef union bdk_tns_txq_tbm_hw_init_sta bdk_tns_txq_tbm_hw_init_sta_t;
 
 #define BDK_TNS_TXQ_TBM_HW_INIT_STA BDK_TNS_TXQ_TBM_HW_INIT_STA_FUNC()
 static inline uint64_t BDK_TNS_TXQ_TBM_HW_INIT_STA_FUNC(void) __attribute__ ((pure, always_inline));
@@ -47311,7 +48420,7 @@ static inline uint64_t BDK_TNS_TXQ_TBM_HW_INIT_STA_FUNC(void)
  * TNS TxQ Token Buffer Manager Interrrupt Enable High Register
  * Token Buffer Manager Interrupt register
  */
-typedef union
+union bdk_tns_txq_tbm_int_en_hi
 {
     uint32_t u;
     struct bdk_tns_txq_tbm_int_en_hi_s
@@ -47337,7 +48446,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_tbm_int_en_hi_s cn; */
-} bdk_tns_txq_tbm_int_en_hi_t;
+};
+typedef union bdk_tns_txq_tbm_int_en_hi bdk_tns_txq_tbm_int_en_hi_t;
 
 #define BDK_TNS_TXQ_TBM_INT_EN_HI BDK_TNS_TXQ_TBM_INT_EN_HI_FUNC()
 static inline uint64_t BDK_TNS_TXQ_TBM_INT_EN_HI_FUNC(void) __attribute__ ((pure, always_inline));
@@ -47361,7 +48471,7 @@ static inline uint64_t BDK_TNS_TXQ_TBM_INT_EN_HI_FUNC(void)
  * TNS TxQ Token Buffer Manager Interrrupt Enable Low Register
  * Token Buffer Manager Interrupt register
  */
-typedef union
+union bdk_tns_txq_tbm_int_en_lo
 {
     uint32_t u;
     struct bdk_tns_txq_tbm_int_en_lo_s
@@ -47387,7 +48497,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_tbm_int_en_lo_s cn; */
-} bdk_tns_txq_tbm_int_en_lo_t;
+};
+typedef union bdk_tns_txq_tbm_int_en_lo bdk_tns_txq_tbm_int_en_lo_t;
 
 #define BDK_TNS_TXQ_TBM_INT_EN_LO BDK_TNS_TXQ_TBM_INT_EN_LO_FUNC()
 static inline uint64_t BDK_TNS_TXQ_TBM_INT_EN_LO_FUNC(void) __attribute__ ((pure, always_inline));
@@ -47411,7 +48522,7 @@ static inline uint64_t BDK_TNS_TXQ_TBM_INT_EN_LO_FUNC(void)
  * TNS TxQ Token Buffer Manager Interrrupt Force Register
  * Token Buffer Manager Interrupt register
  */
-typedef union
+union bdk_tns_txq_tbm_int_frc
 {
     uint32_t u;
     struct bdk_tns_txq_tbm_int_frc_s
@@ -47437,7 +48548,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_tbm_int_frc_s cn; */
-} bdk_tns_txq_tbm_int_frc_t;
+};
+typedef union bdk_tns_txq_tbm_int_frc bdk_tns_txq_tbm_int_frc_t;
 
 #define BDK_TNS_TXQ_TBM_INT_FRC BDK_TNS_TXQ_TBM_INT_FRC_FUNC()
 static inline uint64_t BDK_TNS_TXQ_TBM_INT_FRC_FUNC(void) __attribute__ ((pure, always_inline));
@@ -47461,7 +48573,7 @@ static inline uint64_t BDK_TNS_TXQ_TBM_INT_FRC_FUNC(void)
  * TNS TxQ Token Buffer Manager Interrrupt W1C Register
  * Token Buffer Manager Interrupt register
  */
-typedef union
+union bdk_tns_txq_tbm_int_w1c
 {
     uint32_t u;
     struct bdk_tns_txq_tbm_int_w1c_s
@@ -47487,7 +48599,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_tbm_int_w1c_s cn; */
-} bdk_tns_txq_tbm_int_w1c_t;
+};
+typedef union bdk_tns_txq_tbm_int_w1c bdk_tns_txq_tbm_int_w1c_t;
 
 #define BDK_TNS_TXQ_TBM_INT_W1C BDK_TNS_TXQ_TBM_INT_W1C_FUNC()
 static inline uint64_t BDK_TNS_TXQ_TBM_INT_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -47511,7 +48624,7 @@ static inline uint64_t BDK_TNS_TXQ_TBM_INT_W1C_FUNC(void)
  * TNS TxQ Token Buffer Manager Lock Register
  * Lock Register
  */
-typedef union
+union bdk_tns_txq_tbm_lock
 {
     uint32_t u;
     struct bdk_tns_txq_tbm_lock_s
@@ -47523,7 +48636,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_tbm_lock_s cn; */
-} bdk_tns_txq_tbm_lock_t;
+};
+typedef union bdk_tns_txq_tbm_lock bdk_tns_txq_tbm_lock_t;
 
 #define BDK_TNS_TXQ_TBM_LOCK BDK_TNS_TXQ_TBM_LOCK_FUNC()
 static inline uint64_t BDK_TNS_TXQ_TBM_LOCK_FUNC(void) __attribute__ ((pure, always_inline));
@@ -47547,7 +48661,7 @@ static inline uint64_t BDK_TNS_TXQ_TBM_LOCK_FUNC(void)
  * TNS TxQ Token Buffer Manager Reset Configuration Register
  * Reset configuration to initialize and start various modules within TBM
  */
-typedef union
+union bdk_tns_txq_tbm_rst_cfg
 {
     uint32_t u;
     struct bdk_tns_txq_tbm_rst_cfg_s
@@ -47563,7 +48677,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_tbm_rst_cfg_s cn; */
-} bdk_tns_txq_tbm_rst_cfg_t;
+};
+typedef union bdk_tns_txq_tbm_rst_cfg bdk_tns_txq_tbm_rst_cfg_t;
 
 #define BDK_TNS_TXQ_TBM_RST_CFG BDK_TNS_TXQ_TBM_RST_CFG_FUNC()
 static inline uint64_t BDK_TNS_TXQ_TBM_RST_CFG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -47587,7 +48702,7 @@ static inline uint64_t BDK_TNS_TXQ_TBM_RST_CFG_FUNC(void)
  * TNS TxQ Token Buffer Manager ScratchPad Register
  * Scratch Pad Register for XCAT
  */
-typedef union
+union bdk_tns_txq_tbm_spad
 {
     uint32_t u;
     struct bdk_tns_txq_tbm_spad_s
@@ -47599,7 +48714,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_tbm_spad_s cn; */
-} bdk_tns_txq_tbm_spad_t;
+};
+typedef union bdk_tns_txq_tbm_spad bdk_tns_txq_tbm_spad_t;
 
 #define BDK_TNS_TXQ_TBM_SPAD BDK_TNS_TXQ_TBM_SPAD_FUNC()
 static inline uint64_t BDK_TNS_TXQ_TBM_SPAD_FUNC(void) __attribute__ ((pure, always_inline));
@@ -47624,7 +48740,7 @@ static inline uint64_t BDK_TNS_TXQ_TBM_SPAD_FUNC(void)
  * TBM tail pointer ECC error log.  Address is sticky on first error.  Re-armed
  * after reading
  */
-typedef union
+union bdk_tns_txq_tbm_tail_ptr_ecc_log
 {
     uint32_t u;
     struct bdk_tns_txq_tbm_tail_ptr_ecc_log_s
@@ -47638,7 +48754,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_tbm_tail_ptr_ecc_log_s cn; */
-} bdk_tns_txq_tbm_tail_ptr_ecc_log_t;
+};
+typedef union bdk_tns_txq_tbm_tail_ptr_ecc_log bdk_tns_txq_tbm_tail_ptr_ecc_log_t;
 
 #define BDK_TNS_TXQ_TBM_TAIL_PTR_ECC_LOG BDK_TNS_TXQ_TBM_TAIL_PTR_ECC_LOG_FUNC()
 static inline uint64_t BDK_TNS_TXQ_TBM_TAIL_PTR_ECC_LOG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -47662,7 +48779,7 @@ static inline uint64_t BDK_TNS_TXQ_TBM_TAIL_PTR_ECC_LOG_FUNC(void)
  * TNS TxQ Token Buffer Manager Tail Pointer Memory Registers
  * Queue Head pointer memory CPU access
  */
-typedef union
+union bdk_tns_txq_tbm_tail_ptr_memx
 {
     uint32_t u;
     struct bdk_tns_txq_tbm_tail_ptr_memx_s
@@ -47676,7 +48793,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_tbm_tail_ptr_memx_s cn; */
-} bdk_tns_txq_tbm_tail_ptr_memx_t;
+};
+typedef union bdk_tns_txq_tbm_tail_ptr_memx bdk_tns_txq_tbm_tail_ptr_memx_t;
 
 static inline uint64_t BDK_TNS_TXQ_TBM_TAIL_PTR_MEMX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TXQ_TBM_TAIL_PTR_MEMX(unsigned long a)
@@ -47700,7 +48818,7 @@ static inline uint64_t BDK_TNS_TXQ_TBM_TAIL_PTR_MEMX(unsigned long a)
  * Counter of the number of tokens allocated by TBM.  Saturates at 32'hffffffff.
  * Read only, clear on read.
  */
-typedef union
+union bdk_tns_txq_tbm_token_alloc_ct
 {
     uint32_t u;
     struct bdk_tns_txq_tbm_token_alloc_ct_s
@@ -47712,7 +48830,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_tbm_token_alloc_ct_s cn; */
-} bdk_tns_txq_tbm_token_alloc_ct_t;
+};
+typedef union bdk_tns_txq_tbm_token_alloc_ct bdk_tns_txq_tbm_token_alloc_ct_t;
 
 #define BDK_TNS_TXQ_TBM_TOKEN_ALLOC_CT BDK_TNS_TXQ_TBM_TOKEN_ALLOC_CT_FUNC()
 static inline uint64_t BDK_TNS_TXQ_TBM_TOKEN_ALLOC_CT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -47737,7 +48856,7 @@ static inline uint64_t BDK_TNS_TXQ_TBM_TOKEN_ALLOC_CT_FUNC(void)
  * Counter of the number of tokens freed back to TBM.  Saturates at 32'hffffffff.
  * Read only, clear on read.
  */
-typedef union
+union bdk_tns_txq_tbm_token_free_ct
 {
     uint32_t u;
     struct bdk_tns_txq_tbm_token_free_ct_s
@@ -47749,7 +48868,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_tbm_token_free_ct_s cn; */
-} bdk_tns_txq_tbm_token_free_ct_t;
+};
+typedef union bdk_tns_txq_tbm_token_free_ct bdk_tns_txq_tbm_token_free_ct_t;
 
 #define BDK_TNS_TXQ_TBM_TOKEN_FREE_CT BDK_TNS_TXQ_TBM_TOKEN_FREE_CT_FUNC()
 static inline uint64_t BDK_TNS_TXQ_TBM_TOKEN_FREE_CT_FUNC(void) __attribute__ ((pure, always_inline));

@@ -70,7 +70,7 @@
  * This register is the RNM memory BIST status register, indicating status of built-in self-
  * tests.  0 = passed BIST, 1 = failed BIST.
  */
-typedef union
+union bdk_rnm_bist_status
 {
     uint64_t u;
     struct bdk_rnm_bist_status_s
@@ -106,7 +106,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn88xx;
     /* struct bdk_rnm_bist_status_cn81xx cn83xx; */
-} bdk_rnm_bist_status_t;
+};
+typedef union bdk_rnm_bist_status bdk_rnm_bist_status_t;
 
 #define BDK_RNM_BIST_STATUS BDK_RNM_BIST_STATUS_FUNC()
 static inline uint64_t BDK_RNM_BIST_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
@@ -130,7 +131,7 @@ static inline uint64_t BDK_RNM_BIST_STATUS_FUNC(void)
  * This register is secure only to prevent nonsecure world from affecting secure-world clients
  * using true random numbers.
  */
-typedef union
+union bdk_rnm_ctl_status
 {
     uint64_t u;
     struct bdk_rnm_ctl_status_s
@@ -214,7 +215,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rnm_ctl_status_s cn; */
-} bdk_rnm_ctl_status_t;
+};
+typedef union bdk_rnm_ctl_status bdk_rnm_ctl_status_t;
 
 #define BDK_RNM_CTL_STATUS BDK_RNM_CTL_STATUS_FUNC()
 static inline uint64_t BDK_RNM_CTL_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
@@ -237,7 +239,7 @@ static inline uint64_t BDK_RNM_CTL_STATUS_FUNC(void)
  *
  * This register is the encryption enable debug register.
  */
-typedef union
+union bdk_rnm_eer_dbg
 {
     uint64_t u;
     struct bdk_rnm_eer_dbg_s
@@ -249,7 +251,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rnm_eer_dbg_s cn; */
-} bdk_rnm_eer_dbg_t;
+};
+typedef union bdk_rnm_eer_dbg bdk_rnm_eer_dbg_t;
 
 #define BDK_RNM_EER_DBG BDK_RNM_EER_DBG_FUNC()
 static inline uint64_t BDK_RNM_EER_DBG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -273,7 +276,7 @@ static inline uint64_t BDK_RNM_EER_DBG_FUNC(void)
  * RNM Encryption Enable Register
  * This register is the encryption enable register.
  */
-typedef union
+union bdk_rnm_eer_key
 {
     uint64_t u;
     struct bdk_rnm_eer_key_s
@@ -287,7 +290,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rnm_eer_key_s cn; */
-} bdk_rnm_eer_key_t;
+};
+typedef union bdk_rnm_eer_key bdk_rnm_eer_key_t;
 
 #define BDK_RNM_EER_KEY BDK_RNM_EER_KEY_FUNC()
 static inline uint64_t BDK_RNM_EER_KEY_FUNC(void) __attribute__ ((pure, always_inline));
@@ -308,7 +312,7 @@ static inline uint64_t BDK_RNM_EER_KEY_FUNC(void)
  *
  * RNM Random Register
  */
-typedef union
+union bdk_rnm_random
 {
     uint64_t u;
     struct bdk_rnm_random_s
@@ -324,7 +328,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rnm_random_s cn; */
-} bdk_rnm_random_t;
+};
+typedef union bdk_rnm_random bdk_rnm_random_t;
 
 #define BDK_RNM_RANDOM BDK_RNM_RANDOM_FUNC()
 static inline uint64_t BDK_RNM_RANDOM_FUNC(void) __attribute__ ((pure, always_inline));
@@ -345,7 +350,7 @@ static inline uint64_t BDK_RNM_RANDOM_FUNC(void)
  *
  * RNM Fuse Serial Number Register
  */
-typedef union
+union bdk_rnm_serial_num
 {
     uint64_t u;
     struct bdk_rnm_serial_num_s
@@ -357,7 +362,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rnm_serial_num_s cn; */
-} bdk_rnm_serial_num_t;
+};
+typedef union bdk_rnm_serial_num bdk_rnm_serial_num_t;
 
 #define BDK_RNM_SERIAL_NUM BDK_RNM_SERIAL_NUM_FUNC()
 static inline uint64_t BDK_RNM_SERIAL_NUM_FUNC(void) __attribute__ ((pure, always_inline));

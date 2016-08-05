@@ -107,7 +107,7 @@ union bdk_dfa_cq_s
  *
  * HFA Address Space Control Region Attributes Registers
  */
-typedef union
+union bdk_dfa_asc_regionx_attr
 {
     uint64_t u;
     struct bdk_dfa_asc_regionx_attr_s
@@ -131,7 +131,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dfa_asc_regionx_attr_s cn; */
-} bdk_dfa_asc_regionx_attr_t;
+};
+typedef union bdk_dfa_asc_regionx_attr bdk_dfa_asc_regionx_attr_t;
 
 static inline uint64_t BDK_DFA_ASC_REGIONX_ATTR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DFA_ASC_REGIONX_ATTR(unsigned long a)
@@ -153,7 +154,7 @@ static inline uint64_t BDK_DFA_ASC_REGIONX_ATTR(unsigned long a)
  *
  * HFA Address Space Control Region End Address Registers
  */
-typedef union
+union bdk_dfa_asc_regionx_end
 {
     uint64_t u;
     struct bdk_dfa_asc_regionx_end_s
@@ -177,7 +178,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dfa_asc_regionx_end_s cn; */
-} bdk_dfa_asc_regionx_end_t;
+};
+typedef union bdk_dfa_asc_regionx_end bdk_dfa_asc_regionx_end_t;
 
 static inline uint64_t BDK_DFA_ASC_REGIONX_END(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DFA_ASC_REGIONX_END(unsigned long a)
@@ -199,7 +201,7 @@ static inline uint64_t BDK_DFA_ASC_REGIONX_END(unsigned long a)
  *
  * HFA Address Space Control Region Offset Registers
  */
-typedef union
+union bdk_dfa_asc_regionx_offset
 {
     uint64_t u;
     struct bdk_dfa_asc_regionx_offset_s
@@ -233,7 +235,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dfa_asc_regionx_offset_s cn; */
-} bdk_dfa_asc_regionx_offset_t;
+};
+typedef union bdk_dfa_asc_regionx_offset bdk_dfa_asc_regionx_offset_t;
 
 static inline uint64_t BDK_DFA_ASC_REGIONX_OFFSET(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DFA_ASC_REGIONX_OFFSET(unsigned long a)
@@ -255,7 +258,7 @@ static inline uint64_t BDK_DFA_ASC_REGIONX_OFFSET(unsigned long a)
  *
  * HFA Address Space Control Region Start Address Registers
  */
-typedef union
+union bdk_dfa_asc_regionx_start
 {
     uint64_t u;
     struct bdk_dfa_asc_regionx_start_s
@@ -273,7 +276,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dfa_asc_regionx_start_s cn; */
-} bdk_dfa_asc_regionx_start_t;
+};
+typedef union bdk_dfa_asc_regionx_start bdk_dfa_asc_regionx_start_t;
 
 static inline uint64_t BDK_DFA_ASC_REGIONX_START(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DFA_ASC_REGIONX_START(unsigned long a)
@@ -297,7 +301,7 @@ static inline uint64_t BDK_DFA_ASC_REGIONX_START(unsigned long a)
  * This register shows the result of the BIST run on the HFA (per-DTC).
  * 1 = BIST error, 0 = BIST passed, is in progress, or never ran.
  */
-typedef union
+union bdk_dfa_bist0
 {
     uint64_t u;
     struct bdk_dfa_bist0_s
@@ -366,7 +370,8 @@ typedef union
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } cn;
-} bdk_dfa_bist0_t;
+};
+typedef union bdk_dfa_bist0 bdk_dfa_bist0_t;
 
 #define BDK_DFA_BIST0 BDK_DFA_BIST0_FUNC()
 static inline uint64_t BDK_DFA_BIST0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -391,7 +396,7 @@ static inline uint64_t BDK_DFA_BIST0_FUNC(void)
  * This register shows the result of the BIST run on the HFA (globals).
  * 1 = BIST error, 0 = BIST passed, is in progress, or never ran.
  */
-typedef union
+union bdk_dfa_bist1
 {
     uint64_t u;
     struct bdk_dfa_bist1_s
@@ -445,7 +450,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dfa_bist1_s cn; */
-} bdk_dfa_bist1_t;
+};
+typedef union bdk_dfa_bist1 bdk_dfa_bist1_t;
 
 #define BDK_DFA_BIST1 BDK_DFA_BIST1_FUNC()
 static inline uint64_t BDK_DFA_BIST1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -468,7 +474,7 @@ static inline uint64_t BDK_DFA_BIST1_FUNC(void)
  *
  * HFA Configuration Register
  */
-typedef union
+union bdk_dfa_config
 {
     uint64_t u;
     struct bdk_dfa_config_s
@@ -592,7 +598,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dfa_config_s cn; */
-} bdk_dfa_config_t;
+};
+typedef union bdk_dfa_config bdk_dfa_config_t;
 
 #define BDK_DFA_CONFIG BDK_DFA_CONFIG_FUNC()
 static inline uint64_t BDK_DFA_CONFIG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -615,7 +622,7 @@ static inline uint64_t BDK_DFA_CONFIG_FUNC(void)
  *
  * HFA Control Register
  */
-typedef union
+union bdk_dfa_control
 {
     uint64_t u;
     struct bdk_dfa_control_s
@@ -687,7 +694,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dfa_control_s cn; */
-} bdk_dfa_control_t;
+};
+typedef union bdk_dfa_control bdk_dfa_control_t;
 
 #define BDK_DFA_CONTROL BDK_DFA_CONTROL_FUNC()
 static inline uint64_t BDK_DFA_CONTROL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -712,7 +720,7 @@ static inline uint64_t BDK_DFA_CONTROL_FUNC(void)
  *
  * Defeatured.
  */
-typedef union
+union bdk_dfa_cq_cfg
 {
     uint64_t u;
     struct bdk_dfa_cq_cfg_s
@@ -790,7 +798,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dfa_cq_cfg_s cn; */
-} bdk_dfa_cq_cfg_t;
+};
+typedef union bdk_dfa_cq_cfg bdk_dfa_cq_cfg_t;
 
 #define BDK_DFA_CQ_CFG BDK_DFA_CQ_CFG_FUNC()
 static inline uint64_t BDK_DFA_CQ_CFG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -815,7 +824,7 @@ static inline uint64_t BDK_DFA_CQ_CFG_FUNC(void)
  * If DFA_CONFIG[DTECLKDIS] = 1 (i.e. HFA-HTE clocks are disabled) or if the HFA HTE
  * disable fuse is blown, read/write operations to DFA_DBELL do not take effect.
  */
-typedef union
+union bdk_dfa_dbell
 {
     uint64_t u;
     struct bdk_dfa_dbell_s
@@ -843,7 +852,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dfa_dbell_s cn; */
-} bdk_dfa_dbell_t;
+};
+typedef union bdk_dfa_dbell bdk_dfa_dbell_t;
 
 #define BDK_DFA_DBELL BDK_DFA_DBELL_FUNC()
 static inline uint64_t BDK_DFA_DBELL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -873,7 +883,7 @@ static inline uint64_t BDK_DFA_DBELL_FUNC(void)
  * model) on the read operations unless the DTE Engine specified by DFA_CONTROL[SBDNUM] has
  * previously been assigned an instruction.
  */
-typedef union
+union bdk_dfa_debug0
 {
     uint64_t u;
     struct bdk_dfa_debug0_s
@@ -931,7 +941,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dfa_debug0_s cn; */
-} bdk_dfa_debug0_t;
+};
+typedef union bdk_dfa_debug0 bdk_dfa_debug0_t;
 
 #define BDK_DFA_DEBUG0 BDK_DFA_DEBUG0_FUNC()
 static inline uint64_t BDK_DFA_DEBUG0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -961,7 +972,7 @@ static inline uint64_t BDK_DFA_DEBUG0_FUNC(void)
  * model) on the read operations unless the DTE Engine specified by DFA_CONTROL[SBDNUM] has
  * previously been assigned an instruction.
  */
-typedef union
+union bdk_dfa_debug1
 {
     uint64_t u;
     struct bdk_dfa_debug1_s
@@ -979,7 +990,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dfa_debug1_s cn; */
-} bdk_dfa_debug1_t;
+};
+typedef union bdk_dfa_debug1 bdk_dfa_debug1_t;
 
 #define BDK_DFA_DEBUG1 BDK_DFA_DEBUG1_FUNC()
 static inline uint64_t BDK_DFA_DEBUG1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1009,7 +1021,7 @@ static inline uint64_t BDK_DFA_DEBUG1_FUNC(void)
  * If DFA_CONFIG[DTECLKDIS] = 1 (i.e. HFA-HTE clocks are disabled) or if FUSE[90] = 'HFA HTE
  * disable' is blown, read/write operations to DFA_DIFCTL do not take effect.
  */
-typedef union
+union bdk_dfa_difctl
 {
     uint64_t u;
     struct bdk_dfa_difctl_s
@@ -1071,7 +1083,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dfa_difctl_s cn; */
-} bdk_dfa_difctl_t;
+};
+typedef union bdk_dfa_difctl bdk_dfa_difctl_t;
 
 #define BDK_DFA_DIFCTL BDK_DFA_DIFCTL_FUNC()
 static inline uint64_t BDK_DFA_DIFCTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1100,7 +1113,7 @@ static inline uint64_t BDK_DFA_DIFCTL_FUNC(void)
  * If DFA_CONFIG[DTECLKDIS] = 1 (i.e. HFA-HTE clocks are disabled) or if FUSE[90] = 'HFA HTE
  * disable' is blown, read/write operations to DFA_DIFRDPTR do not take effect.
  */
-typedef union
+union bdk_dfa_difrdptr
 {
     uint64_t u;
     struct bdk_dfa_difrdptr_s
@@ -1134,7 +1147,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dfa_difrdptr_s cn; */
-} bdk_dfa_difrdptr_t;
+};
+typedef union bdk_dfa_difrdptr bdk_dfa_difrdptr_t;
 
 #define BDK_DFA_DIFRDPTR BDK_DFA_DIFRDPTR_FUNC()
 static inline uint64_t BDK_DFA_DIFRDPTR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1158,7 +1172,7 @@ static inline uint64_t BDK_DFA_DIFRDPTR_FUNC(void)
  * HFA Done Count Ack Registers
  * This register is written by software to acknowledge interrupts.
  */
-typedef union
+union bdk_dfa_done_ack
 {
     uint64_t u;
     struct bdk_dfa_done_ack_s
@@ -1182,7 +1196,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dfa_done_ack_s cn; */
-} bdk_dfa_done_ack_t;
+};
+typedef union bdk_dfa_done_ack bdk_dfa_done_ack_t;
 
 #define BDK_DFA_DONE_ACK BDK_DFA_DONE_ACK_FUNC()
 static inline uint64_t BDK_DFA_DONE_ACK_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1206,7 +1221,7 @@ static inline uint64_t BDK_DFA_DONE_ACK_FUNC(void)
  * HFA Done Interrupt Coalescing Wait Registers
  * Specifies the interrupt coalescing settings.
  */
-typedef union
+union bdk_dfa_done_wait
 {
     uint64_t u;
     struct bdk_dfa_done_wait_s
@@ -1230,7 +1245,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dfa_done_wait_s cn; */
-} bdk_dfa_done_wait_t;
+};
+typedef union bdk_dfa_done_wait bdk_dfa_done_wait_t;
 
 #define BDK_DFA_DONE_WAIT BDK_DFA_DONE_WAIT_FUNC()
 static inline uint64_t BDK_DFA_DONE_WAIT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1255,7 +1271,7 @@ static inline uint64_t BDK_DFA_DONE_WAIT_FUNC(void)
  * This register contains HFA graph-cache failing address/control error capture information. It
  * contains useful information to help in isolating a graph-cache RAM failure.
  */
-typedef union
+union bdk_dfa_dtcfadr
 {
     uint64_t u;
     struct bdk_dfa_dtcfadr_s
@@ -1295,7 +1311,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dfa_dtcfadr_s cn; */
-} bdk_dfa_dtcfadr_t;
+};
+typedef union bdk_dfa_dtcfadr bdk_dfa_dtcfadr_t;
 
 #define BDK_DFA_DTCFADR BDK_DFA_DTCFADR_FUNC()
 static inline uint64_t BDK_DFA_DTCFADR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1318,7 +1335,7 @@ static inline uint64_t BDK_DFA_DTCFADR_FUNC(void)
  *
  * HFA Interrupt Register
  */
-typedef union
+union bdk_dfa_int
 {
     uint64_t u;
     struct bdk_dfa_int_s
@@ -1402,7 +1419,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dfa_int_s cn; */
-} bdk_dfa_int_t;
+};
+typedef union bdk_dfa_int bdk_dfa_int_t;
 
 #define BDK_DFA_INT BDK_DFA_INT_FUNC()
 static inline uint64_t BDK_DFA_INT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1425,7 +1443,7 @@ static inline uint64_t BDK_DFA_INT_FUNC(void)
  *
  * HFA Interrupt Register
  */
-typedef union
+union bdk_dfa_int_done
 {
     uint64_t u;
     struct bdk_dfa_int_done_s
@@ -1453,7 +1471,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dfa_int_done_s cn; */
-} bdk_dfa_int_done_t;
+};
+typedef union bdk_dfa_int_done bdk_dfa_int_done_t;
 
 #define BDK_DFA_INT_DONE BDK_DFA_INT_DONE_FUNC()
 static inline uint64_t BDK_DFA_INT_DONE_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1476,7 +1495,7 @@ static inline uint64_t BDK_DFA_INT_DONE_FUNC(void)
  *
  * HFA Interrupt Register
  */
-typedef union
+union bdk_dfa_int_done_ena_w1c
 {
     uint64_t u;
     struct bdk_dfa_int_done_ena_w1c_s
@@ -1490,7 +1509,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dfa_int_done_ena_w1c_s cn; */
-} bdk_dfa_int_done_ena_w1c_t;
+};
+typedef union bdk_dfa_int_done_ena_w1c bdk_dfa_int_done_ena_w1c_t;
 
 #define BDK_DFA_INT_DONE_ENA_W1C BDK_DFA_INT_DONE_ENA_W1C_FUNC()
 static inline uint64_t BDK_DFA_INT_DONE_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1513,7 +1533,7 @@ static inline uint64_t BDK_DFA_INT_DONE_ENA_W1C_FUNC(void)
  *
  * HFA Interrupt Register
  */
-typedef union
+union bdk_dfa_int_done_ena_w1s
 {
     uint64_t u;
     struct bdk_dfa_int_done_ena_w1s_s
@@ -1527,7 +1547,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dfa_int_done_ena_w1s_s cn; */
-} bdk_dfa_int_done_ena_w1s_t;
+};
+typedef union bdk_dfa_int_done_ena_w1s bdk_dfa_int_done_ena_w1s_t;
 
 #define BDK_DFA_INT_DONE_ENA_W1S BDK_DFA_INT_DONE_ENA_W1S_FUNC()
 static inline uint64_t BDK_DFA_INT_DONE_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1551,7 +1572,7 @@ static inline uint64_t BDK_DFA_INT_DONE_ENA_W1S_FUNC(void)
  * HFA Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_dfa_int_ena_w1c
 {
     uint64_t u;
     struct bdk_dfa_int_ena_w1c_s
@@ -1589,7 +1610,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dfa_int_ena_w1c_s cn; */
-} bdk_dfa_int_ena_w1c_t;
+};
+typedef union bdk_dfa_int_ena_w1c bdk_dfa_int_ena_w1c_t;
 
 #define BDK_DFA_INT_ENA_W1C BDK_DFA_INT_ENA_W1C_FUNC()
 static inline uint64_t BDK_DFA_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1613,7 +1635,7 @@ static inline uint64_t BDK_DFA_INT_ENA_W1C_FUNC(void)
  * HFA Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_dfa_int_ena_w1s
 {
     uint64_t u;
     struct bdk_dfa_int_ena_w1s_s
@@ -1651,7 +1673,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dfa_int_ena_w1s_s cn; */
-} bdk_dfa_int_ena_w1s_t;
+};
+typedef union bdk_dfa_int_ena_w1s bdk_dfa_int_ena_w1s_t;
 
 #define BDK_DFA_INT_ENA_W1S BDK_DFA_INT_ENA_W1S_FUNC()
 static inline uint64_t BDK_DFA_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1674,7 +1697,7 @@ static inline uint64_t BDK_DFA_INT_ENA_W1S_FUNC(void)
  *
  * HFA Interrupt Status Register
  */
-typedef union
+union bdk_dfa_int_status
 {
     uint64_t u;
     struct bdk_dfa_int_status_s
@@ -1770,7 +1793,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dfa_int_status_s cn; */
-} bdk_dfa_int_status_t;
+};
+typedef union bdk_dfa_int_status bdk_dfa_int_status_t;
 
 #define BDK_DFA_INT_STATUS BDK_DFA_INT_STATUS_FUNC()
 static inline uint64_t BDK_DFA_INT_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1794,7 +1818,7 @@ static inline uint64_t BDK_DFA_INT_STATUS_FUNC(void)
  * HFA Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_dfa_int_w1s
 {
     uint64_t u;
     struct bdk_dfa_int_w1s_s
@@ -1832,7 +1856,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dfa_int_w1s_s cn; */
-} bdk_dfa_int_w1s_t;
+};
+typedef union bdk_dfa_int_w1s bdk_dfa_int_w1s_t;
 
 #define BDK_DFA_INT_W1S BDK_DFA_INT_W1S_FUNC()
 static inline uint64_t BDK_DFA_INT_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1855,7 +1880,7 @@ static inline uint64_t BDK_DFA_INT_W1S_FUNC(void)
  *
  * HFA NCB-Direct Memory Space Register
  */
-typedef union
+union bdk_dfa_memhidat
 {
     uint64_t u;
     struct bdk_dfa_memhidat_s
@@ -1867,7 +1892,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dfa_memhidat_s cn; */
-} bdk_dfa_memhidat_t;
+};
+typedef union bdk_dfa_memhidat bdk_dfa_memhidat_t;
 
 #define BDK_DFA_MEMHIDAT BDK_DFA_MEMHIDAT_FUNC()
 static inline uint64_t BDK_DFA_MEMHIDAT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1891,7 +1917,7 @@ static inline uint64_t BDK_DFA_MEMHIDAT_FUNC(void)
  * HFA MSI-X Pending Bit Array Registers
  * This register is the MSI-X PBA table; the bit number is indexed by the DFA_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_dfa_msix_pbax
 {
     uint64_t u;
     struct bdk_dfa_msix_pbax_s
@@ -1905,7 +1931,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dfa_msix_pbax_s cn; */
-} bdk_dfa_msix_pbax_t;
+};
+typedef union bdk_dfa_msix_pbax bdk_dfa_msix_pbax_t;
 
 static inline uint64_t BDK_DFA_MSIX_PBAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DFA_MSIX_PBAX(unsigned long a)
@@ -1928,7 +1955,7 @@ static inline uint64_t BDK_DFA_MSIX_PBAX(unsigned long a)
  * HFA MSI-X Vector-Table Address Register
  * This register is the MSI-X vector table, indexed by the DFA_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_dfa_msix_vecx_addr
 {
     uint64_t u;
     struct bdk_dfa_msix_vecx_addr_s
@@ -1960,7 +1987,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dfa_msix_vecx_addr_s cn; */
-} bdk_dfa_msix_vecx_addr_t;
+};
+typedef union bdk_dfa_msix_vecx_addr bdk_dfa_msix_vecx_addr_t;
 
 static inline uint64_t BDK_DFA_MSIX_VECX_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DFA_MSIX_VECX_ADDR(unsigned long a)
@@ -1983,7 +2011,7 @@ static inline uint64_t BDK_DFA_MSIX_VECX_ADDR(unsigned long a)
  * HFA MSI-X Vector-Table Control and Data Register
  * This register is the MSI-X vector table, indexed by the DFA_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_dfa_msix_vecx_ctl
 {
     uint64_t u;
     struct bdk_dfa_msix_vecx_ctl_s
@@ -2001,7 +2029,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dfa_msix_vecx_ctl_s cn; */
-} bdk_dfa_msix_vecx_ctl_t;
+};
+typedef union bdk_dfa_msix_vecx_ctl bdk_dfa_msix_vecx_ctl_t;
 
 static inline uint64_t BDK_DFA_MSIX_VECX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DFA_MSIX_VECX_CTL(unsigned long a)
@@ -2023,7 +2052,7 @@ static inline uint64_t BDK_DFA_MSIX_VECX_CTL(unsigned long a)
  *
  * INTERNAL: HFA Performance Counter 0 Register
  */
-typedef union
+union bdk_dfa_pfc0_cnt
 {
     uint64_t u;
     struct bdk_dfa_pfc0_cnt_s
@@ -2039,7 +2068,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dfa_pfc0_cnt_s cn; */
-} bdk_dfa_pfc0_cnt_t;
+};
+typedef union bdk_dfa_pfc0_cnt bdk_dfa_pfc0_cnt_t;
 
 #define BDK_DFA_PFC0_CNT BDK_DFA_PFC0_CNT_FUNC()
 static inline uint64_t BDK_DFA_PFC0_CNT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2062,7 +2092,7 @@ static inline uint64_t BDK_DFA_PFC0_CNT_FUNC(void)
  *
  * INTERNAL: HFA Performance Counter 0 Control Register
  */
-typedef union
+union bdk_dfa_pfc0_ctl
 {
     uint64_t u;
     struct bdk_dfa_pfc0_ctl_s
@@ -2168,7 +2198,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dfa_pfc0_ctl_s cn; */
-} bdk_dfa_pfc0_ctl_t;
+};
+typedef union bdk_dfa_pfc0_ctl bdk_dfa_pfc0_ctl_t;
 
 #define BDK_DFA_PFC0_CTL BDK_DFA_PFC0_CTL_FUNC()
 static inline uint64_t BDK_DFA_PFC0_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2191,7 +2222,7 @@ static inline uint64_t BDK_DFA_PFC0_CTL_FUNC(void)
  *
  * INTERNAL: HFA Performance Counter 1 Register
  */
-typedef union
+union bdk_dfa_pfc1_cnt
 {
     uint64_t u;
     struct bdk_dfa_pfc1_cnt_s
@@ -2207,7 +2238,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dfa_pfc1_cnt_s cn; */
-} bdk_dfa_pfc1_cnt_t;
+};
+typedef union bdk_dfa_pfc1_cnt bdk_dfa_pfc1_cnt_t;
 
 #define BDK_DFA_PFC1_CNT BDK_DFA_PFC1_CNT_FUNC()
 static inline uint64_t BDK_DFA_PFC1_CNT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2230,7 +2262,7 @@ static inline uint64_t BDK_DFA_PFC1_CNT_FUNC(void)
  *
  * INTERNAL: HFA Performance Counter 1 Control Register
  */
-typedef union
+union bdk_dfa_pfc1_ctl
 {
     uint64_t u;
     struct bdk_dfa_pfc1_ctl_s
@@ -2258,7 +2290,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dfa_pfc1_ctl_s cn; */
-} bdk_dfa_pfc1_ctl_t;
+};
+typedef union bdk_dfa_pfc1_ctl bdk_dfa_pfc1_ctl_t;
 
 #define BDK_DFA_PFC1_CTL BDK_DFA_PFC1_CTL_FUNC()
 static inline uint64_t BDK_DFA_PFC1_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2281,7 +2314,7 @@ static inline uint64_t BDK_DFA_PFC1_CTL_FUNC(void)
  *
  * INTERNAL: HFA Performance Counter 2 Register
  */
-typedef union
+union bdk_dfa_pfc2_cnt
 {
     uint64_t u;
     struct bdk_dfa_pfc2_cnt_s
@@ -2297,7 +2330,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dfa_pfc2_cnt_s cn; */
-} bdk_dfa_pfc2_cnt_t;
+};
+typedef union bdk_dfa_pfc2_cnt bdk_dfa_pfc2_cnt_t;
 
 #define BDK_DFA_PFC2_CNT BDK_DFA_PFC2_CNT_FUNC()
 static inline uint64_t BDK_DFA_PFC2_CNT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2320,7 +2354,7 @@ static inline uint64_t BDK_DFA_PFC2_CNT_FUNC(void)
  *
  * INTERNAL: HFA Performance Counter 2 Control Register
  */
-typedef union
+union bdk_dfa_pfc2_ctl
 {
     uint64_t u;
     struct bdk_dfa_pfc2_ctl_s
@@ -2348,7 +2382,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dfa_pfc2_ctl_s cn; */
-} bdk_dfa_pfc2_ctl_t;
+};
+typedef union bdk_dfa_pfc2_ctl bdk_dfa_pfc2_ctl_t;
 
 #define BDK_DFA_PFC2_CTL BDK_DFA_PFC2_CTL_FUNC()
 static inline uint64_t BDK_DFA_PFC2_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2371,7 +2406,7 @@ static inline uint64_t BDK_DFA_PFC2_CTL_FUNC(void)
  *
  * INTERNAL: HFA Performance Counter 3 Register
  */
-typedef union
+union bdk_dfa_pfc3_cnt
 {
     uint64_t u;
     struct bdk_dfa_pfc3_cnt_s
@@ -2387,7 +2422,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dfa_pfc3_cnt_s cn; */
-} bdk_dfa_pfc3_cnt_t;
+};
+typedef union bdk_dfa_pfc3_cnt bdk_dfa_pfc3_cnt_t;
 
 #define BDK_DFA_PFC3_CNT BDK_DFA_PFC3_CNT_FUNC()
 static inline uint64_t BDK_DFA_PFC3_CNT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2410,7 +2446,7 @@ static inline uint64_t BDK_DFA_PFC3_CNT_FUNC(void)
  *
  * INTERNAL: HFA Performance Counter 3 Control Register
  */
-typedef union
+union bdk_dfa_pfc3_ctl
 {
     uint64_t u;
     struct bdk_dfa_pfc3_ctl_s
@@ -2438,7 +2474,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dfa_pfc3_ctl_s cn; */
-} bdk_dfa_pfc3_ctl_t;
+};
+typedef union bdk_dfa_pfc3_ctl bdk_dfa_pfc3_ctl_t;
 
 #define BDK_DFA_PFC3_CTL BDK_DFA_PFC3_CTL_FUNC()
 static inline uint64_t BDK_DFA_PFC3_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2461,7 +2498,7 @@ static inline uint64_t BDK_DFA_PFC3_CTL_FUNC(void)
  *
  * INTERNAL: HFA Performance Counter Global Control Register
  */
-typedef union
+union bdk_dfa_pfc_gctl
 {
     uint64_t u;
     struct bdk_dfa_pfc_gctl_s
@@ -2619,7 +2656,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dfa_pfc_gctl_s cn; */
-} bdk_dfa_pfc_gctl_t;
+};
+typedef union bdk_dfa_pfc_gctl bdk_dfa_pfc_gctl_t;
 
 #define BDK_DFA_PFC_GCTL BDK_DFA_PFC_GCTL_FUNC()
 static inline uint64_t BDK_DFA_PFC_GCTL_FUNC(void) __attribute__ ((pure, always_inline));

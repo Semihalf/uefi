@@ -2358,7 +2358,7 @@ union bdk_pko_send_work_s
  *
  * PKO PSE Level 2 Channel Level Register
  */
-typedef union
+union bdk_pko_channel_level
 {
     uint64_t u;
     struct bdk_pko_channel_level_s
@@ -2382,7 +2382,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_channel_level_s cn; */
-} bdk_pko_channel_level_t;
+};
+typedef union bdk_pko_channel_level bdk_pko_channel_level_t;
 
 #define BDK_PKO_CHANNEL_LEVEL BDK_PKO_CHANNEL_LEVEL_FUNC()
 static inline uint64_t BDK_PKO_CHANNEL_LEVEL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2406,7 +2407,7 @@ static inline uint64_t BDK_PKO_CHANNEL_LEVEL_FUNC(void)
  * PKO Constants Register
  * This register contains constants for software discovery.
  */
-typedef union
+union bdk_pko_const
 {
     uint64_t u;
     struct bdk_pko_const_s
@@ -2430,7 +2431,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_const_s cn; */
-} bdk_pko_const_t;
+};
+typedef union bdk_pko_const bdk_pko_const_t;
 
 #define BDK_PKO_CONST BDK_PKO_CONST_FUNC()
 static inline uint64_t BDK_PKO_CONST_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2454,7 +2456,7 @@ static inline uint64_t BDK_PKO_CONST_FUNC(void)
  * PKO Constants Register 1
  * This register contains constants for software discovery.
  */
-typedef union
+union bdk_pko_const1
 {
     uint64_t u;
     struct bdk_pko_const1_s
@@ -2466,7 +2468,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_const1_s cn; */
-} bdk_pko_const1_t;
+};
+typedef union bdk_pko_const1 bdk_pko_const1_t;
 
 #define BDK_PKO_CONST1 BDK_PKO_CONST1_FUNC()
 static inline uint64_t BDK_PKO_CONST1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2489,7 +2492,7 @@ static inline uint64_t BDK_PKO_CONST1_FUNC(void)
  *
  * PKO Descriptor Manager FPA Interface Enable Register
  */
-typedef union
+union bdk_pko_dpfi_ena
 {
     uint64_t u;
     struct bdk_pko_dpfi_ena_s
@@ -2507,7 +2510,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_dpfi_ena_s cn; */
-} bdk_pko_dpfi_ena_t;
+};
+typedef union bdk_pko_dpfi_ena bdk_pko_dpfi_ena_t;
 
 #define BDK_PKO_DPFI_ENA BDK_PKO_DPFI_ENA_FUNC()
 static inline uint64_t BDK_PKO_DPFI_ENA_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2530,7 +2534,7 @@ static inline uint64_t BDK_PKO_DPFI_ENA_FUNC(void)
  *
  * PKO Descriptor Manager FPA Interface Flush Register
  */
-typedef union
+union bdk_pko_dpfi_flush
 {
     uint64_t u;
     struct bdk_pko_dpfi_flush_s
@@ -2552,7 +2556,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_dpfi_flush_s cn; */
-} bdk_pko_dpfi_flush_t;
+};
+typedef union bdk_pko_dpfi_flush bdk_pko_dpfi_flush_t;
 
 #define BDK_PKO_DPFI_FLUSH BDK_PKO_DPFI_FLUSH_FUNC()
 static inline uint64_t BDK_PKO_DPFI_FLUSH_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2575,7 +2580,7 @@ static inline uint64_t BDK_PKO_DPFI_FLUSH_FUNC(void)
  *
  * PKO Descriptor Manager FPA Interface Aura Register
  */
-typedef union
+union bdk_pko_dpfi_fpa_aura
 {
     uint64_t u;
     struct bdk_pko_dpfi_fpa_aura_s
@@ -2593,7 +2598,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_dpfi_fpa_aura_s cn; */
-} bdk_pko_dpfi_fpa_aura_t;
+};
+typedef union bdk_pko_dpfi_fpa_aura bdk_pko_dpfi_fpa_aura_t;
 
 #define BDK_PKO_DPFI_FPA_AURA BDK_PKO_DPFI_FPA_AURA_FUNC()
 static inline uint64_t BDK_PKO_DPFI_FPA_AURA_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2616,7 +2622,7 @@ static inline uint64_t BDK_PKO_DPFI_FPA_AURA_FUNC(void)
  *
  * PKO Descriptor Manager FPA Guest Machine Control Register
  */
-typedef union
+union bdk_pko_dpfi_gmctl
 {
     uint64_t u;
     struct bdk_pko_dpfi_gmctl_s
@@ -2638,7 +2644,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_dpfi_gmctl_s cn; */
-} bdk_pko_dpfi_gmctl_t;
+};
+typedef union bdk_pko_dpfi_gmctl bdk_pko_dpfi_gmctl_t;
 
 #define BDK_PKO_DPFI_GMCTL BDK_PKO_DPFI_GMCTL_FUNC()
 static inline uint64_t BDK_PKO_DPFI_GMCTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2661,7 +2668,7 @@ static inline uint64_t BDK_PKO_DPFI_GMCTL_FUNC(void)
  *
  * PKO Descriptor Manager FPA Interface Status Register
  */
-typedef union
+union bdk_pko_dpfi_status
 {
     uint64_t u;
     struct bdk_pko_dpfi_status_s
@@ -2771,7 +2778,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_dpfi_status_s cn; */
-} bdk_pko_dpfi_status_t;
+};
+typedef union bdk_pko_dpfi_status bdk_pko_dpfi_status_t;
 
 #define BDK_PKO_DPFI_STATUS BDK_PKO_DPFI_STATUS_FUNC()
 static inline uint64_t BDK_PKO_DPFI_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2795,7 +2803,7 @@ static inline uint64_t BDK_PKO_DPFI_STATUS_FUNC(void)
  * PKO PSE Descriptor Queue Sent Bytes Register
  * This register has the same bit fields as PKO_L1_SQ()_GREEN_BYTES.
  */
-typedef union
+union bdk_pko_dqx_bytes
 {
     uint64_t u;
     struct bdk_pko_dqx_bytes_s
@@ -2809,7 +2817,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_dqx_bytes_s cn; */
-} bdk_pko_dqx_bytes_t;
+};
+typedef union bdk_pko_dqx_bytes bdk_pko_dqx_bytes_t;
 
 static inline uint64_t BDK_PKO_DQX_BYTES(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_DQX_BYTES(unsigned long a)
@@ -2832,7 +2841,7 @@ static inline uint64_t BDK_PKO_DQX_BYTES(unsigned long a)
  * PKO PSE Descriptor Queue Shaping Queue Committed Information Rate Register
  * This register has the same bit fields as PKO_L1_SQ()_CIR.
  */
-typedef union
+union bdk_pko_dqx_cir
 {
     uint64_t u;
     struct bdk_pko_dqx_cir_s
@@ -2904,7 +2913,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_dqx_cir_s cn; */
-} bdk_pko_dqx_cir_t;
+};
+typedef union bdk_pko_dqx_cir bdk_pko_dqx_cir_t;
 
 static inline uint64_t BDK_PKO_DQX_CIR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_DQX_CIR(unsigned long a)
@@ -2927,7 +2937,7 @@ static inline uint64_t BDK_PKO_DQX_CIR(unsigned long a)
  * PKO PSE Descriptor Queue Dropped Bytes Register
  * This register has the same bit fields as PKO_L1_SQ()_GREEN_BYTES.
  */
-typedef union
+union bdk_pko_dqx_dropped_bytes
 {
     uint64_t u;
     struct bdk_pko_dqx_dropped_bytes_s
@@ -2941,7 +2951,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_dqx_dropped_bytes_s cn; */
-} bdk_pko_dqx_dropped_bytes_t;
+};
+typedef union bdk_pko_dqx_dropped_bytes bdk_pko_dqx_dropped_bytes_t;
 
 static inline uint64_t BDK_PKO_DQX_DROPPED_BYTES(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_DQX_DROPPED_BYTES(unsigned long a)
@@ -2964,7 +2975,7 @@ static inline uint64_t BDK_PKO_DQX_DROPPED_BYTES(unsigned long a)
  * PKO PSE Descriptor Queue Dropped Packets Register
  * This register has the same bit fields as PKO_L1_SQ()_GREEN_PACKETS.
  */
-typedef union
+union bdk_pko_dqx_dropped_packets
 {
     uint64_t u;
     struct bdk_pko_dqx_dropped_packets_s
@@ -2978,7 +2989,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_dqx_dropped_packets_s cn; */
-} bdk_pko_dqx_dropped_packets_t;
+};
+typedef union bdk_pko_dqx_dropped_packets bdk_pko_dqx_dropped_packets_t;
 
 static inline uint64_t BDK_PKO_DQX_DROPPED_PACKETS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_DQX_DROPPED_PACKETS(unsigned long a)
@@ -3000,7 +3012,7 @@ static inline uint64_t BDK_PKO_DQX_DROPPED_PACKETS(unsigned long a)
  *
  * INTERNAL: PKO PSE Descriptor Queue FIFO State Debug Register
  */
-typedef union
+union bdk_pko_dqx_fifo
 {
     uint64_t u;
     struct bdk_pko_dqx_fifo_s
@@ -3018,7 +3030,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_dqx_fifo_s cn; */
-} bdk_pko_dqx_fifo_t;
+};
+typedef union bdk_pko_dqx_fifo bdk_pko_dqx_fifo_t;
 
 static inline uint64_t BDK_PKO_DQX_FIFO(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_DQX_FIFO(unsigned long a)
@@ -3041,7 +3054,7 @@ static inline uint64_t BDK_PKO_DQX_FIFO(unsigned long a)
  * PKO PSE Descriptor Queue Sent Packets Register
  * This register has the same bit fields as PKO_L1_SQ()_GREEN_PACKETS.
  */
-typedef union
+union bdk_pko_dqx_packets
 {
     uint64_t u;
     struct bdk_pko_dqx_packets_s
@@ -3055,7 +3068,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_dqx_packets_s cn; */
-} bdk_pko_dqx_packets_t;
+};
+typedef union bdk_pko_dqx_packets bdk_pko_dqx_packets_t;
 
 static inline uint64_t BDK_PKO_DQX_PACKETS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_DQX_PACKETS(unsigned long a)
@@ -3079,7 +3093,7 @@ static inline uint64_t BDK_PKO_DQX_PACKETS(unsigned long a)
  * This CSR contains the meta for the DQ, and is for debug and reconfiguration
  * only and should never be written. See also PKO_META_DESC_S.
  */
-typedef union
+union bdk_pko_dqx_pick
 {
     uint64_t u;
     struct bdk_pko_dqx_pick_s
@@ -3183,7 +3197,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_dqx_pick_s cn; */
-} bdk_pko_dqx_pick_t;
+};
+typedef union bdk_pko_dqx_pick bdk_pko_dqx_pick_t;
 
 static inline uint64_t BDK_PKO_DQX_PICK(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_DQX_PICK(unsigned long a)
@@ -3206,7 +3221,7 @@ static inline uint64_t BDK_PKO_DQX_PICK(unsigned long a)
  * PKO PSE Descriptor Queue Shaping Queue Peak Information Rate Register
  * This register has the same bit fields as PKO_L1_SQ()_CIR.
  */
-typedef union
+union bdk_pko_dqx_pir
 {
     uint64_t u;
     struct bdk_pko_dqx_pir_s
@@ -3278,7 +3293,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_dqx_pir_s cn; */
-} bdk_pko_dqx_pir_t;
+};
+typedef union bdk_pko_dqx_pir bdk_pko_dqx_pir_t;
 
 static inline uint64_t BDK_PKO_DQX_PIR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_DQX_PIR(unsigned long a)
@@ -3302,7 +3318,7 @@ static inline uint64_t BDK_PKO_DQX_PIR(unsigned long a)
  *
  * This register has the same bit fields as PKO_L3_SQ(0..255)_POINTERS.
  */
-typedef union
+union bdk_pko_dqx_pointers
 {
     uint64_t u;
     struct bdk_pko_dqx_pointers_s
@@ -3320,7 +3336,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_dqx_pointers_s cn; */
-} bdk_pko_dqx_pointers_t;
+};
+typedef union bdk_pko_dqx_pointers bdk_pko_dqx_pointers_t;
 
 static inline uint64_t BDK_PKO_DQX_POINTERS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_DQX_POINTERS(unsigned long a)
@@ -3343,7 +3360,7 @@ static inline uint64_t BDK_PKO_DQX_POINTERS(unsigned long a)
  * PKO PSE Descriptor Queue Scheduling Control State Register
  * This register has the same bit fields as PKO_L2_SQ()_SCHED_STATE.
  */
-typedef union
+union bdk_pko_dqx_sched_state
 {
     uint64_t u;
     struct bdk_pko_dqx_sched_state_s
@@ -3357,7 +3374,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_dqx_sched_state_s cn; */
-} bdk_pko_dqx_sched_state_t;
+};
+typedef union bdk_pko_dqx_sched_state bdk_pko_dqx_sched_state_t;
 
 static inline uint64_t BDK_PKO_DQX_SCHED_STATE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_DQX_SCHED_STATE(unsigned long a)
@@ -3380,7 +3398,7 @@ static inline uint64_t BDK_PKO_DQX_SCHED_STATE(unsigned long a)
  * PKO PSE Descriptor Queue Scheduling Control Register
  * This register has the same bit fields as PKO_L2_SQ()_SCHEDULE.
  */
-typedef union
+union bdk_pko_dqx_schedule
 {
     uint64_t u;
     struct bdk_pko_dqx_schedule_s
@@ -3424,7 +3442,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_dqx_schedule_s cn; */
-} bdk_pko_dqx_schedule_t;
+};
+typedef union bdk_pko_dqx_schedule bdk_pko_dqx_schedule_t;
 
 static inline uint64_t BDK_PKO_DQX_SCHEDULE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_DQX_SCHEDULE(unsigned long a)
@@ -3447,7 +3466,7 @@ static inline uint64_t BDK_PKO_DQX_SCHEDULE(unsigned long a)
  * PKO PSE Descriptor Queue Shaping Control Register
  * This register has the same bit fields as PKO_L3_SQ()_SHAPE.
  */
-typedef union
+union bdk_pko_dqx_shape
 {
     uint64_t u;
     struct bdk_pko_dqx_shape_s
@@ -3483,7 +3502,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_dqx_shape_s cn; */
-} bdk_pko_dqx_shape_t;
+};
+typedef union bdk_pko_dqx_shape bdk_pko_dqx_shape_t;
 
 static inline uint64_t BDK_PKO_DQX_SHAPE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_DQX_SHAPE(unsigned long a)
@@ -3507,7 +3527,7 @@ static inline uint64_t BDK_PKO_DQX_SHAPE(unsigned long a)
  * This register has the same bit fields as PKO_L2_SQ()_SHAPE_STATE.
  * This register must not be written during normal operation.
  */
-typedef union
+union bdk_pko_dqx_shape_state
 {
     uint64_t u;
     struct bdk_pko_dqx_shape_state_s
@@ -3535,7 +3555,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_dqx_shape_state_s cn; */
-} bdk_pko_dqx_shape_state_t;
+};
+typedef union bdk_pko_dqx_shape_state bdk_pko_dqx_shape_state_t;
 
 static inline uint64_t BDK_PKO_DQX_SHAPE_STATE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_DQX_SHAPE_STATE(unsigned long a)
@@ -3557,7 +3578,7 @@ static inline uint64_t BDK_PKO_DQX_SHAPE_STATE(unsigned long a)
  *
  * PKO PSE Descriptor Queue Topology Register
  */
-typedef union
+union bdk_pko_dqx_topology
 {
     uint64_t u;
     struct bdk_pko_dqx_topology_s
@@ -3573,7 +3594,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_dqx_topology_s cn; */
-} bdk_pko_dqx_topology_t;
+};
+typedef union bdk_pko_dqx_topology bdk_pko_dqx_topology_t;
 
 static inline uint64_t BDK_PKO_DQX_TOPOLOGY(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_DQX_TOPOLOGY(unsigned long a)
@@ -3596,7 +3618,7 @@ static inline uint64_t BDK_PKO_DQX_TOPOLOGY(unsigned long a)
  * PKO DQ Constants Register
  * This register contains constants for software discovery.
  */
-typedef union
+union bdk_pko_dq_const
 {
     uint64_t u;
     struct bdk_pko_dq_const_s
@@ -3610,7 +3632,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_dq_const_s cn; */
-} bdk_pko_dq_const_t;
+};
+typedef union bdk_pko_dq_const bdk_pko_dq_const_t;
 
 #define BDK_PKO_DQ_CONST BDK_PKO_DQ_CONST_FUNC()
 static inline uint64_t BDK_PKO_DQ_CONST_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3633,7 +3656,7 @@ static inline uint64_t BDK_PKO_DQ_CONST_FUNC(void)
  *
  * INTERNAL: PKO PSE DQ Internal Debug Register
  */
-typedef union
+union bdk_pko_dq_debug
 {
     uint64_t u;
     struct bdk_pko_dq_debug_s
@@ -3645,7 +3668,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_dq_debug_s cn; */
-} bdk_pko_dq_debug_t;
+};
+typedef union bdk_pko_dq_debug bdk_pko_dq_debug_t;
 
 #define BDK_PKO_DQ_DEBUG BDK_PKO_DQ_DEBUG_FUNC()
 static inline uint64_t BDK_PKO_DQ_DEBUG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3669,7 +3693,7 @@ static inline uint64_t BDK_PKO_DQ_DEBUG_FUNC(void)
  * PKO DQ RAM ECC DBE Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_pko_dq_ecc_dbe_int_ena_w1c
 {
     uint64_t u;
     struct bdk_pko_dq_ecc_dbe_int_ena_w1c_s
@@ -3681,7 +3705,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_dq_ecc_dbe_int_ena_w1c_s cn; */
-} bdk_pko_dq_ecc_dbe_int_ena_w1c_t;
+};
+typedef union bdk_pko_dq_ecc_dbe_int_ena_w1c bdk_pko_dq_ecc_dbe_int_ena_w1c_t;
 
 #define BDK_PKO_DQ_ECC_DBE_INT_ENA_W1C BDK_PKO_DQ_ECC_DBE_INT_ENA_W1C_FUNC()
 static inline uint64_t BDK_PKO_DQ_ECC_DBE_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3705,7 +3730,7 @@ static inline uint64_t BDK_PKO_DQ_ECC_DBE_INT_ENA_W1C_FUNC(void)
  * PKO DQ RAM ECC DBE Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_pko_dq_ecc_dbe_int_ena_w1s
 {
     uint64_t u;
     struct bdk_pko_dq_ecc_dbe_int_ena_w1s_s
@@ -3717,7 +3742,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_dq_ecc_dbe_int_ena_w1s_s cn; */
-} bdk_pko_dq_ecc_dbe_int_ena_w1s_t;
+};
+typedef union bdk_pko_dq_ecc_dbe_int_ena_w1s bdk_pko_dq_ecc_dbe_int_ena_w1s_t;
 
 #define BDK_PKO_DQ_ECC_DBE_INT_ENA_W1S BDK_PKO_DQ_ECC_DBE_INT_ENA_W1S_FUNC()
 static inline uint64_t BDK_PKO_DQ_ECC_DBE_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3740,7 +3766,7 @@ static inline uint64_t BDK_PKO_DQ_ECC_DBE_INT_ENA_W1S_FUNC(void)
  *
  * PKO PSE DQ RAM ECC DBE Interrupt Register
  */
-typedef union
+union bdk_pko_dq_ecc_dbe_w1c
 {
     uint64_t u;
     struct bdk_pko_dq_ecc_dbe_w1c_s
@@ -3752,7 +3778,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_dq_ecc_dbe_w1c_s cn; */
-} bdk_pko_dq_ecc_dbe_w1c_t;
+};
+typedef union bdk_pko_dq_ecc_dbe_w1c bdk_pko_dq_ecc_dbe_w1c_t;
 
 #define BDK_PKO_DQ_ECC_DBE_W1C BDK_PKO_DQ_ECC_DBE_W1C_FUNC()
 static inline uint64_t BDK_PKO_DQ_ECC_DBE_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3776,7 +3803,7 @@ static inline uint64_t BDK_PKO_DQ_ECC_DBE_W1C_FUNC(void)
  * PKO DQ RAM ECC DBE Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_pko_dq_ecc_dbe_w1s
 {
     uint64_t u;
     struct bdk_pko_dq_ecc_dbe_w1s_s
@@ -3788,7 +3815,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_dq_ecc_dbe_w1s_s cn; */
-} bdk_pko_dq_ecc_dbe_w1s_t;
+};
+typedef union bdk_pko_dq_ecc_dbe_w1s bdk_pko_dq_ecc_dbe_w1s_t;
 
 #define BDK_PKO_DQ_ECC_DBE_W1S BDK_PKO_DQ_ECC_DBE_W1S_FUNC()
 static inline uint64_t BDK_PKO_DQ_ECC_DBE_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3812,7 +3840,7 @@ static inline uint64_t BDK_PKO_DQ_ECC_DBE_W1S_FUNC(void)
  * PKO DQ RAM ECC SBE Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_pko_dq_ecc_sbe_int_ena_w1c
 {
     uint64_t u;
     struct bdk_pko_dq_ecc_sbe_int_ena_w1c_s
@@ -3824,7 +3852,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_dq_ecc_sbe_int_ena_w1c_s cn; */
-} bdk_pko_dq_ecc_sbe_int_ena_w1c_t;
+};
+typedef union bdk_pko_dq_ecc_sbe_int_ena_w1c bdk_pko_dq_ecc_sbe_int_ena_w1c_t;
 
 #define BDK_PKO_DQ_ECC_SBE_INT_ENA_W1C BDK_PKO_DQ_ECC_SBE_INT_ENA_W1C_FUNC()
 static inline uint64_t BDK_PKO_DQ_ECC_SBE_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3848,7 +3877,7 @@ static inline uint64_t BDK_PKO_DQ_ECC_SBE_INT_ENA_W1C_FUNC(void)
  * PKO DQ RAM ECC SBE Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_pko_dq_ecc_sbe_int_ena_w1s
 {
     uint64_t u;
     struct bdk_pko_dq_ecc_sbe_int_ena_w1s_s
@@ -3860,7 +3889,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_dq_ecc_sbe_int_ena_w1s_s cn; */
-} bdk_pko_dq_ecc_sbe_int_ena_w1s_t;
+};
+typedef union bdk_pko_dq_ecc_sbe_int_ena_w1s bdk_pko_dq_ecc_sbe_int_ena_w1s_t;
 
 #define BDK_PKO_DQ_ECC_SBE_INT_ENA_W1S BDK_PKO_DQ_ECC_SBE_INT_ENA_W1S_FUNC()
 static inline uint64_t BDK_PKO_DQ_ECC_SBE_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3883,7 +3913,7 @@ static inline uint64_t BDK_PKO_DQ_ECC_SBE_INT_ENA_W1S_FUNC(void)
  *
  * PKO DQ RAM ECC SBE Interrupt Register
  */
-typedef union
+union bdk_pko_dq_ecc_sbe_w1c
 {
     uint64_t u;
     struct bdk_pko_dq_ecc_sbe_w1c_s
@@ -3895,7 +3925,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_dq_ecc_sbe_w1c_s cn; */
-} bdk_pko_dq_ecc_sbe_w1c_t;
+};
+typedef union bdk_pko_dq_ecc_sbe_w1c bdk_pko_dq_ecc_sbe_w1c_t;
 
 #define BDK_PKO_DQ_ECC_SBE_W1C BDK_PKO_DQ_ECC_SBE_W1C_FUNC()
 static inline uint64_t BDK_PKO_DQ_ECC_SBE_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3919,7 +3950,7 @@ static inline uint64_t BDK_PKO_DQ_ECC_SBE_W1C_FUNC(void)
  * PKO DQ RAM ECC SBE Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_pko_dq_ecc_sbe_w1s
 {
     uint64_t u;
     struct bdk_pko_dq_ecc_sbe_w1s_s
@@ -3931,7 +3962,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_dq_ecc_sbe_w1s_s cn; */
-} bdk_pko_dq_ecc_sbe_w1s_t;
+};
+typedef union bdk_pko_dq_ecc_sbe_w1s bdk_pko_dq_ecc_sbe_w1s_t;
 
 #define BDK_PKO_DQ_ECC_SBE_W1S BDK_PKO_DQ_ECC_SBE_W1S_FUNC()
 static inline uint64_t BDK_PKO_DQ_ECC_SBE_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3954,7 +3986,7 @@ static inline uint64_t BDK_PKO_DQ_ECC_SBE_W1S_FUNC(void)
  *
  * PKO Global Enable Register
  */
-typedef union
+union bdk_pko_enable
 {
     uint64_t u;
     struct bdk_pko_enable_s
@@ -3974,7 +4006,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_enable_s cn; */
-} bdk_pko_enable_t;
+};
+typedef union bdk_pko_enable bdk_pko_enable_t;
 
 #define BDK_PKO_ENABLE BDK_PKO_ENABLE_FUNC()
 static inline uint64_t BDK_PKO_ENABLE_FUNC(void) __attribute__ ((pure, always_inline));
@@ -4016,7 +4049,7 @@ static inline uint64_t BDK_PKO_ENABLE_FUNC(void)
  * _   byte[3]<7:4> |=   R_VAL<3:0>
  * _   byte[3]<7:4> &= ~R_MASK<3:0>
  */
-typedef union
+union bdk_pko_formatx_ctl
 {
     uint64_t u;
     struct bdk_pko_formatx_ctl_s
@@ -4050,7 +4083,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_formatx_ctl_s cn; */
-} bdk_pko_formatx_ctl_t;
+};
+typedef union bdk_pko_formatx_ctl bdk_pko_formatx_ctl_t;
 
 static inline uint64_t BDK_PKO_FORMATX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_FORMATX_CTL(unsigned long a)
@@ -4073,7 +4107,7 @@ static inline uint64_t BDK_PKO_FORMATX_CTL(unsigned long a)
  * PKO Level 1 Constants Register
  * This register contains constants for software discovery.
  */
-typedef union
+union bdk_pko_l1_const
 {
     uint64_t u;
     struct bdk_pko_l1_const_s
@@ -4087,7 +4121,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l1_const_s cn; */
-} bdk_pko_l1_const_t;
+};
+typedef union bdk_pko_l1_const bdk_pko_l1_const_t;
 
 #define BDK_PKO_L1_CONST BDK_PKO_L1_CONST_FUNC()
 static inline uint64_t BDK_PKO_L1_CONST_FUNC(void) __attribute__ ((pure, always_inline));
@@ -4111,7 +4146,7 @@ static inline uint64_t BDK_PKO_L1_CONST_FUNC(void)
  * PKO SQ1 RAM ECC DBE Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_pko_l1_ecc_dbe_int_ena_w1c
 {
     uint64_t u;
     struct bdk_pko_l1_ecc_dbe_int_ena_w1c_s
@@ -4123,7 +4158,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l1_ecc_dbe_int_ena_w1c_s cn; */
-} bdk_pko_l1_ecc_dbe_int_ena_w1c_t;
+};
+typedef union bdk_pko_l1_ecc_dbe_int_ena_w1c bdk_pko_l1_ecc_dbe_int_ena_w1c_t;
 
 #define BDK_PKO_L1_ECC_DBE_INT_ENA_W1C BDK_PKO_L1_ECC_DBE_INT_ENA_W1C_FUNC()
 static inline uint64_t BDK_PKO_L1_ECC_DBE_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -4147,7 +4183,7 @@ static inline uint64_t BDK_PKO_L1_ECC_DBE_INT_ENA_W1C_FUNC(void)
  * PKO SQ1 RAM ECC DBE Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_pko_l1_ecc_dbe_int_ena_w1s
 {
     uint64_t u;
     struct bdk_pko_l1_ecc_dbe_int_ena_w1s_s
@@ -4159,7 +4195,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l1_ecc_dbe_int_ena_w1s_s cn; */
-} bdk_pko_l1_ecc_dbe_int_ena_w1s_t;
+};
+typedef union bdk_pko_l1_ecc_dbe_int_ena_w1s bdk_pko_l1_ecc_dbe_int_ena_w1s_t;
 
 #define BDK_PKO_L1_ECC_DBE_INT_ENA_W1S BDK_PKO_L1_ECC_DBE_INT_ENA_W1S_FUNC()
 static inline uint64_t BDK_PKO_L1_ECC_DBE_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -4182,7 +4219,7 @@ static inline uint64_t BDK_PKO_L1_ECC_DBE_INT_ENA_W1S_FUNC(void)
  *
  * PKO SQ1 RAM ECC DBE Interrupt Register
  */
-typedef union
+union bdk_pko_l1_ecc_dbe_w1c
 {
     uint64_t u;
     struct bdk_pko_l1_ecc_dbe_w1c_s
@@ -4194,7 +4231,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l1_ecc_dbe_w1c_s cn; */
-} bdk_pko_l1_ecc_dbe_w1c_t;
+};
+typedef union bdk_pko_l1_ecc_dbe_w1c bdk_pko_l1_ecc_dbe_w1c_t;
 
 #define BDK_PKO_L1_ECC_DBE_W1C BDK_PKO_L1_ECC_DBE_W1C_FUNC()
 static inline uint64_t BDK_PKO_L1_ECC_DBE_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -4218,7 +4256,7 @@ static inline uint64_t BDK_PKO_L1_ECC_DBE_W1C_FUNC(void)
  * PKO SQ1 RAM ECC DBE Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_pko_l1_ecc_dbe_w1s
 {
     uint64_t u;
     struct bdk_pko_l1_ecc_dbe_w1s_s
@@ -4230,7 +4268,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l1_ecc_dbe_w1s_s cn; */
-} bdk_pko_l1_ecc_dbe_w1s_t;
+};
+typedef union bdk_pko_l1_ecc_dbe_w1s bdk_pko_l1_ecc_dbe_w1s_t;
 
 #define BDK_PKO_L1_ECC_DBE_W1S BDK_PKO_L1_ECC_DBE_W1S_FUNC()
 static inline uint64_t BDK_PKO_L1_ECC_DBE_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -4254,7 +4293,7 @@ static inline uint64_t BDK_PKO_L1_ECC_DBE_W1S_FUNC(void)
  * PKO DQ RAM ECC DBE Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_pko_l1_ecc_sbe_int_ena_w1c
 {
     uint64_t u;
     struct bdk_pko_l1_ecc_sbe_int_ena_w1c_s
@@ -4266,7 +4305,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l1_ecc_sbe_int_ena_w1c_s cn; */
-} bdk_pko_l1_ecc_sbe_int_ena_w1c_t;
+};
+typedef union bdk_pko_l1_ecc_sbe_int_ena_w1c bdk_pko_l1_ecc_sbe_int_ena_w1c_t;
 
 #define BDK_PKO_L1_ECC_SBE_INT_ENA_W1C BDK_PKO_L1_ECC_SBE_INT_ENA_W1C_FUNC()
 static inline uint64_t BDK_PKO_L1_ECC_SBE_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -4290,7 +4330,7 @@ static inline uint64_t BDK_PKO_L1_ECC_SBE_INT_ENA_W1C_FUNC(void)
  * PKO DQ RAM ECC DBE Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_pko_l1_ecc_sbe_int_ena_w1s
 {
     uint64_t u;
     struct bdk_pko_l1_ecc_sbe_int_ena_w1s_s
@@ -4302,7 +4342,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l1_ecc_sbe_int_ena_w1s_s cn; */
-} bdk_pko_l1_ecc_sbe_int_ena_w1s_t;
+};
+typedef union bdk_pko_l1_ecc_sbe_int_ena_w1s bdk_pko_l1_ecc_sbe_int_ena_w1s_t;
 
 #define BDK_PKO_L1_ECC_SBE_INT_ENA_W1S BDK_PKO_L1_ECC_SBE_INT_ENA_W1S_FUNC()
 static inline uint64_t BDK_PKO_L1_ECC_SBE_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -4325,7 +4366,7 @@ static inline uint64_t BDK_PKO_L1_ECC_SBE_INT_ENA_W1S_FUNC(void)
  *
  * PKO SQ1 RAM ECC SBE Interrupt Register
  */
-typedef union
+union bdk_pko_l1_ecc_sbe_w1c
 {
     uint64_t u;
     struct bdk_pko_l1_ecc_sbe_w1c_s
@@ -4337,7 +4378,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l1_ecc_sbe_w1c_s cn; */
-} bdk_pko_l1_ecc_sbe_w1c_t;
+};
+typedef union bdk_pko_l1_ecc_sbe_w1c bdk_pko_l1_ecc_sbe_w1c_t;
 
 #define BDK_PKO_L1_ECC_SBE_W1C BDK_PKO_L1_ECC_SBE_W1C_FUNC()
 static inline uint64_t BDK_PKO_L1_ECC_SBE_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -4361,7 +4403,7 @@ static inline uint64_t BDK_PKO_L1_ECC_SBE_W1C_FUNC(void)
  * PKO SQ1 ECC SBE Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_pko_l1_ecc_sbe_w1s
 {
     uint64_t u;
     struct bdk_pko_l1_ecc_sbe_w1s_s
@@ -4373,7 +4415,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l1_ecc_sbe_w1s_s cn; */
-} bdk_pko_l1_ecc_sbe_w1s_t;
+};
+typedef union bdk_pko_l1_ecc_sbe_w1s bdk_pko_l1_ecc_sbe_w1s_t;
 
 #define BDK_PKO_L1_ECC_SBE_W1S BDK_PKO_L1_ECC_SBE_W1S_FUNC()
 static inline uint64_t BDK_PKO_L1_ECC_SBE_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -4396,7 +4439,7 @@ static inline uint64_t BDK_PKO_L1_ECC_SBE_W1S_FUNC(void)
  *
  * PKO PSE Level 1 Shaping Queue Committed Information Rate Register
  */
-typedef union
+union bdk_pko_l1_sqx_cir
 {
     uint64_t u;
     struct bdk_pko_l1_sqx_cir_s
@@ -4468,7 +4511,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l1_sqx_cir_s cn; */
-} bdk_pko_l1_sqx_cir_t;
+};
+typedef union bdk_pko_l1_sqx_cir bdk_pko_l1_sqx_cir_t;
 
 static inline uint64_t BDK_PKO_L1_SQX_CIR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L1_SQX_CIR(unsigned long a)
@@ -4491,7 +4535,7 @@ static inline uint64_t BDK_PKO_L1_SQX_CIR(unsigned long a)
  * PKO PSE Port Queue Dropped Bytes Register
  * This register has the same bit fields as PKO_L1_SQ()_GREEN_BYTES.
  */
-typedef union
+union bdk_pko_l1_sqx_dropped_bytes
 {
     uint64_t u;
     struct bdk_pko_l1_sqx_dropped_bytes_s
@@ -4505,7 +4549,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l1_sqx_dropped_bytes_s cn; */
-} bdk_pko_l1_sqx_dropped_bytes_t;
+};
+typedef union bdk_pko_l1_sqx_dropped_bytes bdk_pko_l1_sqx_dropped_bytes_t;
 
 static inline uint64_t BDK_PKO_L1_SQX_DROPPED_BYTES(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L1_SQX_DROPPED_BYTES(unsigned long a)
@@ -4528,7 +4573,7 @@ static inline uint64_t BDK_PKO_L1_SQX_DROPPED_BYTES(unsigned long a)
  * PKO PSE Port Queue Dropped Packets Register
  * This register has the same bit fields as PKO_L1_SQ()_GREEN_PACKETS.
  */
-typedef union
+union bdk_pko_l1_sqx_dropped_packets
 {
     uint64_t u;
     struct bdk_pko_l1_sqx_dropped_packets_s
@@ -4542,7 +4587,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l1_sqx_dropped_packets_s cn; */
-} bdk_pko_l1_sqx_dropped_packets_t;
+};
+typedef union bdk_pko_l1_sqx_dropped_packets bdk_pko_l1_sqx_dropped_packets_t;
 
 static inline uint64_t BDK_PKO_L1_SQX_DROPPED_PACKETS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L1_SQX_DROPPED_PACKETS(unsigned long a)
@@ -4564,7 +4610,7 @@ static inline uint64_t BDK_PKO_L1_SQX_DROPPED_PACKETS(unsigned long a)
  *
  * INTERNAL: PKO PSE Level 1 Shaping Queue Green State Debug Register
  */
-typedef union
+union bdk_pko_l1_sqx_green
 {
     uint64_t u;
     struct bdk_pko_l1_sqx_green_s
@@ -4598,7 +4644,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l1_sqx_green_s cn; */
-} bdk_pko_l1_sqx_green_t;
+};
+typedef union bdk_pko_l1_sqx_green bdk_pko_l1_sqx_green_t;
 
 static inline uint64_t BDK_PKO_L1_SQX_GREEN(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L1_SQX_GREEN(unsigned long a)
@@ -4620,7 +4667,7 @@ static inline uint64_t BDK_PKO_L1_SQX_GREEN(unsigned long a)
  *
  * PKO PSE Port Queue Green Sent Bytes Register
  */
-typedef union
+union bdk_pko_l1_sqx_green_bytes
 {
     uint64_t u;
     struct bdk_pko_l1_sqx_green_bytes_s
@@ -4634,7 +4681,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l1_sqx_green_bytes_s cn; */
-} bdk_pko_l1_sqx_green_bytes_t;
+};
+typedef union bdk_pko_l1_sqx_green_bytes bdk_pko_l1_sqx_green_bytes_t;
 
 static inline uint64_t BDK_PKO_L1_SQX_GREEN_BYTES(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L1_SQX_GREEN_BYTES(unsigned long a)
@@ -4656,7 +4704,7 @@ static inline uint64_t BDK_PKO_L1_SQX_GREEN_BYTES(unsigned long a)
  *
  * PKO PSE Port Queue Green Sent Packets Register
  */
-typedef union
+union bdk_pko_l1_sqx_green_packets
 {
     uint64_t u;
     struct bdk_pko_l1_sqx_green_packets_s
@@ -4670,7 +4718,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l1_sqx_green_packets_s cn; */
-} bdk_pko_l1_sqx_green_packets_t;
+};
+typedef union bdk_pko_l1_sqx_green_packets bdk_pko_l1_sqx_green_packets_t;
 
 static inline uint64_t BDK_PKO_L1_SQX_GREEN_PACKETS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L1_SQX_GREEN_PACKETS(unsigned long a)
@@ -4692,7 +4741,7 @@ static inline uint64_t BDK_PKO_L1_SQX_GREEN_PACKETS(unsigned long a)
  *
  * PKO PSE Level 1 Link Configuration Register
  */
-typedef union
+union bdk_pko_l1_sqx_link
 {
     uint64_t u;
     struct bdk_pko_l1_sqx_link_s
@@ -4736,7 +4785,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l1_sqx_link_s cn; */
-} bdk_pko_l1_sqx_link_t;
+};
+typedef union bdk_pko_l1_sqx_link bdk_pko_l1_sqx_link_t;
 
 static inline uint64_t BDK_PKO_L1_SQX_LINK(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L1_SQX_LINK(unsigned long a)
@@ -4760,7 +4810,7 @@ static inline uint64_t BDK_PKO_L1_SQX_LINK(unsigned long a)
  * This CSR contains the meta for the L1 SQ, and is for debug and reconfiguration
  * only and should never be written. See also PKO_META_DESC_S.
  */
-typedef union
+union bdk_pko_l1_sqx_pick
 {
     uint64_t u;
     struct bdk_pko_l1_sqx_pick_s
@@ -4864,7 +4914,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l1_sqx_pick_s cn; */
-} bdk_pko_l1_sqx_pick_t;
+};
+typedef union bdk_pko_l1_sqx_pick bdk_pko_l1_sqx_pick_t;
 
 static inline uint64_t BDK_PKO_L1_SQX_PICK(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L1_SQX_PICK(unsigned long a)
@@ -4888,7 +4939,7 @@ static inline uint64_t BDK_PKO_L1_SQX_PICK(unsigned long a)
  *
  * This register has the same bit fields as PKO_L1_SQ()_YELLOW.
  */
-typedef union
+union bdk_pko_l1_sqx_red
 {
     uint64_t u;
     struct bdk_pko_l1_sqx_red_s
@@ -4906,7 +4957,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l1_sqx_red_s cn; */
-} bdk_pko_l1_sqx_red_t;
+};
+typedef union bdk_pko_l1_sqx_red bdk_pko_l1_sqx_red_t;
 
 static inline uint64_t BDK_PKO_L1_SQX_RED(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L1_SQX_RED(unsigned long a)
@@ -4929,7 +4981,7 @@ static inline uint64_t BDK_PKO_L1_SQX_RED(unsigned long a)
  * PKO PSE Port Queue Red Sent Bytes Register
  * This register has the same bit fields as PKO_L1_SQ()_GREEN_BYTES.
  */
-typedef union
+union bdk_pko_l1_sqx_red_bytes
 {
     uint64_t u;
     struct bdk_pko_l1_sqx_red_bytes_s
@@ -4943,7 +4995,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l1_sqx_red_bytes_s cn; */
-} bdk_pko_l1_sqx_red_bytes_t;
+};
+typedef union bdk_pko_l1_sqx_red_bytes bdk_pko_l1_sqx_red_bytes_t;
 
 static inline uint64_t BDK_PKO_L1_SQX_RED_BYTES(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L1_SQX_RED_BYTES(unsigned long a)
@@ -4966,7 +5019,7 @@ static inline uint64_t BDK_PKO_L1_SQX_RED_BYTES(unsigned long a)
  * PKO PSE Port Queue Red Sent Packets Register
  * This register has the same bit fields as PKO_L1_SQ()_GREEN_PACKETS.
  */
-typedef union
+union bdk_pko_l1_sqx_red_packets
 {
     uint64_t u;
     struct bdk_pko_l1_sqx_red_packets_s
@@ -4980,7 +5033,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l1_sqx_red_packets_s cn; */
-} bdk_pko_l1_sqx_red_packets_t;
+};
+typedef union bdk_pko_l1_sqx_red_packets bdk_pko_l1_sqx_red_packets_t;
 
 static inline uint64_t BDK_PKO_L1_SQX_RED_PACKETS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L1_SQX_RED_PACKETS(unsigned long a)
@@ -5004,7 +5058,7 @@ static inline uint64_t BDK_PKO_L1_SQX_RED_PACKETS(unsigned long a)
  * PKO_CHANNEL_LEVEL[CC_LEVEL] determines whether this CSR array is associated to
  * the L2 SQ's or the L3 SQ's.
  */
-typedef union
+union bdk_pko_l1_sqx_schedule
 {
     uint64_t u;
     struct bdk_pko_l1_sqx_schedule_s
@@ -5026,7 +5080,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l1_sqx_schedule_s cn; */
-} bdk_pko_l1_sqx_schedule_t;
+};
+typedef union bdk_pko_l1_sqx_schedule bdk_pko_l1_sqx_schedule_t;
 
 static inline uint64_t BDK_PKO_L1_SQX_SCHEDULE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L1_SQX_SCHEDULE(unsigned long a)
@@ -5048,7 +5103,7 @@ static inline uint64_t BDK_PKO_L1_SQX_SCHEDULE(unsigned long a)
  *
  * PKO PSE Level 1 Shaping Control Register
  */
-typedef union
+union bdk_pko_l1_sqx_shape
 {
     uint64_t u;
     struct bdk_pko_l1_sqx_shape_s
@@ -5078,7 +5133,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l1_sqx_shape_s cn; */
-} bdk_pko_l1_sqx_shape_t;
+};
+typedef union bdk_pko_l1_sqx_shape bdk_pko_l1_sqx_shape_t;
 
 static inline uint64_t BDK_PKO_L1_SQX_SHAPE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L1_SQX_SHAPE(unsigned long a)
@@ -5101,7 +5157,7 @@ static inline uint64_t BDK_PKO_L1_SQX_SHAPE(unsigned long a)
  * PKO PSE Level 1 Shaping Queue Shape State Register
  * This register must not be written during normal operation.
  */
-typedef union
+union bdk_pko_l1_sqx_shape_state
 {
     uint64_t u;
     struct bdk_pko_l1_sqx_shape_state_s
@@ -5127,7 +5183,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l1_sqx_shape_state_s cn; */
-} bdk_pko_l1_sqx_shape_state_t;
+};
+typedef union bdk_pko_l1_sqx_shape_state bdk_pko_l1_sqx_shape_state_t;
 
 static inline uint64_t BDK_PKO_L1_SQX_SHAPE_STATE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L1_SQX_SHAPE_STATE(unsigned long a)
@@ -5149,7 +5206,7 @@ static inline uint64_t BDK_PKO_L1_SQX_SHAPE_STATE(unsigned long a)
  *
  * PKO PSE Level 1 Shaping Queue Software Controlled XOFF Register
  */
-typedef union
+union bdk_pko_l1_sqx_sw_xoff
 {
     uint64_t u;
     struct bdk_pko_l1_sqx_sw_xoff_s
@@ -5213,7 +5270,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l1_sqx_sw_xoff_s cn; */
-} bdk_pko_l1_sqx_sw_xoff_t;
+};
+typedef union bdk_pko_l1_sqx_sw_xoff bdk_pko_l1_sqx_sw_xoff_t;
 
 static inline uint64_t BDK_PKO_L1_SQX_SW_XOFF(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L1_SQX_SW_XOFF(unsigned long a)
@@ -5235,7 +5293,7 @@ static inline uint64_t BDK_PKO_L1_SQX_SW_XOFF(unsigned long a)
  *
  * PKO PSE Level 1 Shaping Queue Topology Register
  */
-typedef union
+union bdk_pko_l1_sqx_topology
 {
     uint64_t u;
     struct bdk_pko_l1_sqx_topology_s
@@ -5357,7 +5415,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l1_sqx_topology_s cn; */
-} bdk_pko_l1_sqx_topology_t;
+};
+typedef union bdk_pko_l1_sqx_topology bdk_pko_l1_sqx_topology_t;
 
 static inline uint64_t BDK_PKO_L1_SQX_TOPOLOGY(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L1_SQX_TOPOLOGY(unsigned long a)
@@ -5379,7 +5438,7 @@ static inline uint64_t BDK_PKO_L1_SQX_TOPOLOGY(unsigned long a)
  *
  * INTERNAL: PKO PSE Level 1 Shaping Queue Yellow State Debug Register
  */
-typedef union
+union bdk_pko_l1_sqx_yellow
 {
     uint64_t u;
     struct bdk_pko_l1_sqx_yellow_s
@@ -5397,7 +5456,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l1_sqx_yellow_s cn; */
-} bdk_pko_l1_sqx_yellow_t;
+};
+typedef union bdk_pko_l1_sqx_yellow bdk_pko_l1_sqx_yellow_t;
 
 static inline uint64_t BDK_PKO_L1_SQX_YELLOW(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L1_SQX_YELLOW(unsigned long a)
@@ -5420,7 +5480,7 @@ static inline uint64_t BDK_PKO_L1_SQX_YELLOW(unsigned long a)
  * PKO PSE Port Queue Yellow Sent Bytes Register
  * This register has the same bit fields as PKO_L1_SQ()_GREEN_BYTES.
  */
-typedef union
+union bdk_pko_l1_sqx_yellow_bytes
 {
     uint64_t u;
     struct bdk_pko_l1_sqx_yellow_bytes_s
@@ -5434,7 +5494,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l1_sqx_yellow_bytes_s cn; */
-} bdk_pko_l1_sqx_yellow_bytes_t;
+};
+typedef union bdk_pko_l1_sqx_yellow_bytes bdk_pko_l1_sqx_yellow_bytes_t;
 
 static inline uint64_t BDK_PKO_L1_SQX_YELLOW_BYTES(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L1_SQX_YELLOW_BYTES(unsigned long a)
@@ -5457,7 +5518,7 @@ static inline uint64_t BDK_PKO_L1_SQX_YELLOW_BYTES(unsigned long a)
  * PKO PSE Port Queue Yellow Sent Packets Register
  * This register has the same bit fields as PKO_L1_SQ()_GREEN_PACKETS.
  */
-typedef union
+union bdk_pko_l1_sqx_yellow_packets
 {
     uint64_t u;
     struct bdk_pko_l1_sqx_yellow_packets_s
@@ -5471,7 +5532,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l1_sqx_yellow_packets_s cn; */
-} bdk_pko_l1_sqx_yellow_packets_t;
+};
+typedef union bdk_pko_l1_sqx_yellow_packets bdk_pko_l1_sqx_yellow_packets_t;
 
 static inline uint64_t BDK_PKO_L1_SQX_YELLOW_PACKETS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L1_SQX_YELLOW_PACKETS(unsigned long a)
@@ -5495,7 +5557,7 @@ static inline uint64_t BDK_PKO_L1_SQX_YELLOW_PACKETS(unsigned long a)
  *
  * This register has the same bit fields as PKO_PQA_DEBUG.
  */
-typedef union
+union bdk_pko_l1_sqa_debug
 {
     uint64_t u;
     struct bdk_pko_l1_sqa_debug_s
@@ -5507,7 +5569,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l1_sqa_debug_s cn; */
-} bdk_pko_l1_sqa_debug_t;
+};
+typedef union bdk_pko_l1_sqa_debug bdk_pko_l1_sqa_debug_t;
 
 #define BDK_PKO_L1_SQA_DEBUG BDK_PKO_L1_SQA_DEBUG_FUNC()
 static inline uint64_t BDK_PKO_L1_SQA_DEBUG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -5532,7 +5595,7 @@ static inline uint64_t BDK_PKO_L1_SQA_DEBUG_FUNC(void)
  *
  * This register has the same bit fields as PKO_PQA_DEBUG.
  */
-typedef union
+union bdk_pko_l1_sqb_debug
 {
     uint64_t u;
     struct bdk_pko_l1_sqb_debug_s
@@ -5544,7 +5607,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l1_sqb_debug_s cn; */
-} bdk_pko_l1_sqb_debug_t;
+};
+typedef union bdk_pko_l1_sqb_debug bdk_pko_l1_sqb_debug_t;
 
 #define BDK_PKO_L1_SQB_DEBUG BDK_PKO_L1_SQB_DEBUG_FUNC()
 static inline uint64_t BDK_PKO_L1_SQB_DEBUG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -5568,7 +5632,7 @@ static inline uint64_t BDK_PKO_L1_SQB_DEBUG_FUNC(void)
  * PKO Level 2 Constants Register
  * This register contains constants for software discovery.
  */
-typedef union
+union bdk_pko_l2_const
 {
     uint64_t u;
     struct bdk_pko_l2_const_s
@@ -5582,7 +5646,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l2_const_s cn; */
-} bdk_pko_l2_const_t;
+};
+typedef union bdk_pko_l2_const bdk_pko_l2_const_t;
 
 #define BDK_PKO_L2_CONST BDK_PKO_L2_CONST_FUNC()
 static inline uint64_t BDK_PKO_L2_CONST_FUNC(void) __attribute__ ((pure, always_inline));
@@ -5606,7 +5671,7 @@ static inline uint64_t BDK_PKO_L2_CONST_FUNC(void)
  * PKO SQ2 RAM ECC DBE Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_pko_l2_ecc_dbe_int_ena_w1c
 {
     uint64_t u;
     struct bdk_pko_l2_ecc_dbe_int_ena_w1c_s
@@ -5618,7 +5683,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l2_ecc_dbe_int_ena_w1c_s cn; */
-} bdk_pko_l2_ecc_dbe_int_ena_w1c_t;
+};
+typedef union bdk_pko_l2_ecc_dbe_int_ena_w1c bdk_pko_l2_ecc_dbe_int_ena_w1c_t;
 
 #define BDK_PKO_L2_ECC_DBE_INT_ENA_W1C BDK_PKO_L2_ECC_DBE_INT_ENA_W1C_FUNC()
 static inline uint64_t BDK_PKO_L2_ECC_DBE_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -5642,7 +5708,7 @@ static inline uint64_t BDK_PKO_L2_ECC_DBE_INT_ENA_W1C_FUNC(void)
  * PKO SQ2 RAM ECC DBE Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_pko_l2_ecc_dbe_int_ena_w1s
 {
     uint64_t u;
     struct bdk_pko_l2_ecc_dbe_int_ena_w1s_s
@@ -5654,7 +5720,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l2_ecc_dbe_int_ena_w1s_s cn; */
-} bdk_pko_l2_ecc_dbe_int_ena_w1s_t;
+};
+typedef union bdk_pko_l2_ecc_dbe_int_ena_w1s bdk_pko_l2_ecc_dbe_int_ena_w1s_t;
 
 #define BDK_PKO_L2_ECC_DBE_INT_ENA_W1S BDK_PKO_L2_ECC_DBE_INT_ENA_W1S_FUNC()
 static inline uint64_t BDK_PKO_L2_ECC_DBE_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -5677,7 +5744,7 @@ static inline uint64_t BDK_PKO_L2_ECC_DBE_INT_ENA_W1S_FUNC(void)
  *
  * PKO SQ2 RAM ECC DBE Interrupt Register
  */
-typedef union
+union bdk_pko_l2_ecc_dbe_w1c
 {
     uint64_t u;
     struct bdk_pko_l2_ecc_dbe_w1c_s
@@ -5689,7 +5756,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l2_ecc_dbe_w1c_s cn; */
-} bdk_pko_l2_ecc_dbe_w1c_t;
+};
+typedef union bdk_pko_l2_ecc_dbe_w1c bdk_pko_l2_ecc_dbe_w1c_t;
 
 #define BDK_PKO_L2_ECC_DBE_W1C BDK_PKO_L2_ECC_DBE_W1C_FUNC()
 static inline uint64_t BDK_PKO_L2_ECC_DBE_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -5713,7 +5781,7 @@ static inline uint64_t BDK_PKO_L2_ECC_DBE_W1C_FUNC(void)
  * PKO SQ2 RAM ECC DBE Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_pko_l2_ecc_dbe_w1s
 {
     uint64_t u;
     struct bdk_pko_l2_ecc_dbe_w1s_s
@@ -5725,7 +5793,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l2_ecc_dbe_w1s_s cn; */
-} bdk_pko_l2_ecc_dbe_w1s_t;
+};
+typedef union bdk_pko_l2_ecc_dbe_w1s bdk_pko_l2_ecc_dbe_w1s_t;
 
 #define BDK_PKO_L2_ECC_DBE_W1S BDK_PKO_L2_ECC_DBE_W1S_FUNC()
 static inline uint64_t BDK_PKO_L2_ECC_DBE_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -5749,7 +5818,7 @@ static inline uint64_t BDK_PKO_L2_ECC_DBE_W1S_FUNC(void)
  * PKO DQ RAM ECC DBE Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_pko_l2_ecc_sbe_int_ena_w1c
 {
     uint64_t u;
     struct bdk_pko_l2_ecc_sbe_int_ena_w1c_s
@@ -5761,7 +5830,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l2_ecc_sbe_int_ena_w1c_s cn; */
-} bdk_pko_l2_ecc_sbe_int_ena_w1c_t;
+};
+typedef union bdk_pko_l2_ecc_sbe_int_ena_w1c bdk_pko_l2_ecc_sbe_int_ena_w1c_t;
 
 #define BDK_PKO_L2_ECC_SBE_INT_ENA_W1C BDK_PKO_L2_ECC_SBE_INT_ENA_W1C_FUNC()
 static inline uint64_t BDK_PKO_L2_ECC_SBE_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -5785,7 +5855,7 @@ static inline uint64_t BDK_PKO_L2_ECC_SBE_INT_ENA_W1C_FUNC(void)
  * PKO DQ RAM ECC DBE Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_pko_l2_ecc_sbe_int_ena_w1s
 {
     uint64_t u;
     struct bdk_pko_l2_ecc_sbe_int_ena_w1s_s
@@ -5797,7 +5867,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l2_ecc_sbe_int_ena_w1s_s cn; */
-} bdk_pko_l2_ecc_sbe_int_ena_w1s_t;
+};
+typedef union bdk_pko_l2_ecc_sbe_int_ena_w1s bdk_pko_l2_ecc_sbe_int_ena_w1s_t;
 
 #define BDK_PKO_L2_ECC_SBE_INT_ENA_W1S BDK_PKO_L2_ECC_SBE_INT_ENA_W1S_FUNC()
 static inline uint64_t BDK_PKO_L2_ECC_SBE_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -5820,7 +5891,7 @@ static inline uint64_t BDK_PKO_L2_ECC_SBE_INT_ENA_W1S_FUNC(void)
  *
  * PKO SQ2 RAM ECC SBE Interrupt Register
  */
-typedef union
+union bdk_pko_l2_ecc_sbe_w1c
 {
     uint64_t u;
     struct bdk_pko_l2_ecc_sbe_w1c_s
@@ -5832,7 +5903,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l2_ecc_sbe_w1c_s cn; */
-} bdk_pko_l2_ecc_sbe_w1c_t;
+};
+typedef union bdk_pko_l2_ecc_sbe_w1c bdk_pko_l2_ecc_sbe_w1c_t;
 
 #define BDK_PKO_L2_ECC_SBE_W1C BDK_PKO_L2_ECC_SBE_W1C_FUNC()
 static inline uint64_t BDK_PKO_L2_ECC_SBE_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -5856,7 +5928,7 @@ static inline uint64_t BDK_PKO_L2_ECC_SBE_W1C_FUNC(void)
  * PKO SQ2 ECC SBE Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_pko_l2_ecc_sbe_w1s
 {
     uint64_t u;
     struct bdk_pko_l2_ecc_sbe_w1s_s
@@ -5868,7 +5940,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l2_ecc_sbe_w1s_s cn; */
-} bdk_pko_l2_ecc_sbe_w1s_t;
+};
+typedef union bdk_pko_l2_ecc_sbe_w1s bdk_pko_l2_ecc_sbe_w1s_t;
 
 #define BDK_PKO_L2_ECC_SBE_W1S BDK_PKO_L2_ECC_SBE_W1S_FUNC()
 static inline uint64_t BDK_PKO_L2_ECC_SBE_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -5892,7 +5965,7 @@ static inline uint64_t BDK_PKO_L2_ECC_SBE_W1S_FUNC(void)
  * PKO PSE Level 2 Shaping Queue Committed Information Rate Register
  * This register has the same bit fields as PKO_L1_SQ()_CIR.
  */
-typedef union
+union bdk_pko_l2_sqx_cir
 {
     uint64_t u;
     struct bdk_pko_l2_sqx_cir_s
@@ -5964,7 +6037,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l2_sqx_cir_s cn; */
-} bdk_pko_l2_sqx_cir_t;
+};
+typedef union bdk_pko_l2_sqx_cir bdk_pko_l2_sqx_cir_t;
 
 static inline uint64_t BDK_PKO_L2_SQX_CIR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L2_SQX_CIR(unsigned long a)
@@ -5988,7 +6062,7 @@ static inline uint64_t BDK_PKO_L2_SQX_CIR(unsigned long a)
  *
  * This register has the same bit fields as PKO_L1_SQ()_GREEN.
  */
-typedef union
+union bdk_pko_l2_sqx_green
 {
     uint64_t u;
     struct bdk_pko_l2_sqx_green_s
@@ -6022,7 +6096,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l2_sqx_green_s cn; */
-} bdk_pko_l2_sqx_green_t;
+};
+typedef union bdk_pko_l2_sqx_green bdk_pko_l2_sqx_green_t;
 
 static inline uint64_t BDK_PKO_L2_SQX_GREEN(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L2_SQX_GREEN(unsigned long a)
@@ -6046,7 +6121,7 @@ static inline uint64_t BDK_PKO_L2_SQX_GREEN(unsigned long a)
  * This CSR contains the meta for the L2 SQ, and is for debug and reconfiguration
  * only and should never be written. See also PKO_META_DESC_S.
  */
-typedef union
+union bdk_pko_l2_sqx_pick
 {
     uint64_t u;
     struct bdk_pko_l2_sqx_pick_s
@@ -6150,7 +6225,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l2_sqx_pick_s cn; */
-} bdk_pko_l2_sqx_pick_t;
+};
+typedef union bdk_pko_l2_sqx_pick bdk_pko_l2_sqx_pick_t;
 
 static inline uint64_t BDK_PKO_L2_SQX_PICK(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L2_SQX_PICK(unsigned long a)
@@ -6173,7 +6249,7 @@ static inline uint64_t BDK_PKO_L2_SQX_PICK(unsigned long a)
  * PKO PSE Level 2 Shaping Queue Peak Information Rate Register
  * This register has the same bit fields as PKO_L1_SQ()_CIR.
  */
-typedef union
+union bdk_pko_l2_sqx_pir
 {
     uint64_t u;
     struct bdk_pko_l2_sqx_pir_s
@@ -6245,7 +6321,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l2_sqx_pir_s cn; */
-} bdk_pko_l2_sqx_pir_t;
+};
+typedef union bdk_pko_l2_sqx_pir bdk_pko_l2_sqx_pir_t;
 
 static inline uint64_t BDK_PKO_L2_SQX_PIR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L2_SQX_PIR(unsigned long a)
@@ -6267,7 +6344,7 @@ static inline uint64_t BDK_PKO_L2_SQX_PIR(unsigned long a)
  *
  * INTERNAL: PKO PSE Level 2 Shaping Queue Linked List Pointers Debug Register
  */
-typedef union
+union bdk_pko_l2_sqx_pointers
 {
     uint64_t u;
     struct bdk_pko_l2_sqx_pointers_s
@@ -6285,7 +6362,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l2_sqx_pointers_s cn; */
-} bdk_pko_l2_sqx_pointers_t;
+};
+typedef union bdk_pko_l2_sqx_pointers bdk_pko_l2_sqx_pointers_t;
 
 static inline uint64_t BDK_PKO_L2_SQX_POINTERS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L2_SQX_POINTERS(unsigned long a)
@@ -6309,7 +6387,7 @@ static inline uint64_t BDK_PKO_L2_SQX_POINTERS(unsigned long a)
  *
  * This register has the same bit fields as PKO_L1_SQ()_RED.
  */
-typedef union
+union bdk_pko_l2_sqx_red
 {
     uint64_t u;
     struct bdk_pko_l2_sqx_red_s
@@ -6327,7 +6405,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l2_sqx_red_s cn; */
-} bdk_pko_l2_sqx_red_t;
+};
+typedef union bdk_pko_l2_sqx_red bdk_pko_l2_sqx_red_t;
 
 static inline uint64_t BDK_PKO_L2_SQX_RED(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L2_SQX_RED(unsigned long a)
@@ -6349,7 +6428,7 @@ static inline uint64_t BDK_PKO_L2_SQX_RED(unsigned long a)
  *
  * PKO PSE Level 2 Shaping Queue Scheduling Control State Register
  */
-typedef union
+union bdk_pko_l2_sqx_sched_state
 {
     uint64_t u;
     struct bdk_pko_l2_sqx_sched_state_s
@@ -6363,7 +6442,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l2_sqx_sched_state_s cn; */
-} bdk_pko_l2_sqx_sched_state_t;
+};
+typedef union bdk_pko_l2_sqx_sched_state bdk_pko_l2_sqx_sched_state_t;
 
 static inline uint64_t BDK_PKO_L2_SQX_SCHED_STATE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L2_SQX_SCHED_STATE(unsigned long a)
@@ -6385,7 +6465,7 @@ static inline uint64_t BDK_PKO_L2_SQX_SCHED_STATE(unsigned long a)
  *
  * PKO PSE Level 2 Scheduling Control Register
  */
-typedef union
+union bdk_pko_l2_sqx_schedule
 {
     uint64_t u;
     struct bdk_pko_l2_sqx_schedule_s
@@ -6429,7 +6509,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l2_sqx_schedule_s cn; */
-} bdk_pko_l2_sqx_schedule_t;
+};
+typedef union bdk_pko_l2_sqx_schedule bdk_pko_l2_sqx_schedule_t;
 
 static inline uint64_t BDK_PKO_L2_SQX_SCHEDULE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L2_SQX_SCHEDULE(unsigned long a)
@@ -6451,7 +6532,7 @@ static inline uint64_t BDK_PKO_L2_SQX_SCHEDULE(unsigned long a)
  *
  * PKO PSE Level 2 Shaping Control Register
  */
-typedef union
+union bdk_pko_l2_sqx_shape
 {
     uint64_t u;
     struct bdk_pko_l2_sqx_shape_s
@@ -6543,7 +6624,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l2_sqx_shape_s cn; */
-} bdk_pko_l2_sqx_shape_t;
+};
+typedef union bdk_pko_l2_sqx_shape bdk_pko_l2_sqx_shape_t;
 
 static inline uint64_t BDK_PKO_L2_SQX_SHAPE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L2_SQX_SHAPE(unsigned long a)
@@ -6566,7 +6648,7 @@ static inline uint64_t BDK_PKO_L2_SQX_SHAPE(unsigned long a)
  * PKO PSE Level 2 Shaping Queue Shape State Register
  * This register must not be written during normal operation.
  */
-typedef union
+union bdk_pko_l2_sqx_shape_state
 {
     uint64_t u;
     struct bdk_pko_l2_sqx_shape_state_s
@@ -6594,7 +6676,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l2_sqx_shape_state_s cn; */
-} bdk_pko_l2_sqx_shape_state_t;
+};
+typedef union bdk_pko_l2_sqx_shape_state bdk_pko_l2_sqx_shape_state_t;
 
 static inline uint64_t BDK_PKO_L2_SQX_SHAPE_STATE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L2_SQX_SHAPE_STATE(unsigned long a)
@@ -6617,7 +6700,7 @@ static inline uint64_t BDK_PKO_L2_SQX_SHAPE_STATE(unsigned long a)
  * PKO PSE Level 2 Shaping Queue Software Controlled XOFF Register
  * This register has the same bit fields as PKO_L1_SQ()_SW_XOFF.
  */
-typedef union
+union bdk_pko_l2_sqx_sw_xoff
 {
     uint64_t u;
     struct bdk_pko_l2_sqx_sw_xoff_s
@@ -6681,7 +6764,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l2_sqx_sw_xoff_s cn; */
-} bdk_pko_l2_sqx_sw_xoff_t;
+};
+typedef union bdk_pko_l2_sqx_sw_xoff bdk_pko_l2_sqx_sw_xoff_t;
 
 static inline uint64_t BDK_PKO_L2_SQX_SW_XOFF(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L2_SQX_SW_XOFF(unsigned long a)
@@ -6703,7 +6787,7 @@ static inline uint64_t BDK_PKO_L2_SQX_SW_XOFF(unsigned long a)
  *
  * PKO PSE Level 2 Shaping Queue Topology Register
  */
-typedef union
+union bdk_pko_l2_sqx_topology
 {
     uint64_t u;
     struct bdk_pko_l2_sqx_topology_s
@@ -6735,7 +6819,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l2_sqx_topology_s cn; */
-} bdk_pko_l2_sqx_topology_t;
+};
+typedef union bdk_pko_l2_sqx_topology bdk_pko_l2_sqx_topology_t;
 
 static inline uint64_t BDK_PKO_L2_SQX_TOPOLOGY(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L2_SQX_TOPOLOGY(unsigned long a)
@@ -6759,7 +6844,7 @@ static inline uint64_t BDK_PKO_L2_SQX_TOPOLOGY(unsigned long a)
  *
  * This register has the same bit fields as PKO_L1_SQ()_YELLOW.
  */
-typedef union
+union bdk_pko_l2_sqx_yellow
 {
     uint64_t u;
     struct bdk_pko_l2_sqx_yellow_s
@@ -6777,7 +6862,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l2_sqx_yellow_s cn; */
-} bdk_pko_l2_sqx_yellow_t;
+};
+typedef union bdk_pko_l2_sqx_yellow bdk_pko_l2_sqx_yellow_t;
 
 static inline uint64_t BDK_PKO_L2_SQX_YELLOW(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L2_SQX_YELLOW(unsigned long a)
@@ -6801,7 +6887,7 @@ static inline uint64_t BDK_PKO_L2_SQX_YELLOW(unsigned long a)
  *
  * This register has the same bit fields as PKO_PQA_DEBUG.
  */
-typedef union
+union bdk_pko_l2_sqa_debug
 {
     uint64_t u;
     struct bdk_pko_l2_sqa_debug_s
@@ -6813,7 +6899,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l2_sqa_debug_s cn; */
-} bdk_pko_l2_sqa_debug_t;
+};
+typedef union bdk_pko_l2_sqa_debug bdk_pko_l2_sqa_debug_t;
 
 #define BDK_PKO_L2_SQA_DEBUG BDK_PKO_L2_SQA_DEBUG_FUNC()
 static inline uint64_t BDK_PKO_L2_SQA_DEBUG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -6838,7 +6925,7 @@ static inline uint64_t BDK_PKO_L2_SQA_DEBUG_FUNC(void)
  *
  * This register has the same bit fields as PKO_PQA_DEBUG.
  */
-typedef union
+union bdk_pko_l2_sqb_debug
 {
     uint64_t u;
     struct bdk_pko_l2_sqb_debug_s
@@ -6850,7 +6937,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l2_sqb_debug_s cn; */
-} bdk_pko_l2_sqb_debug_t;
+};
+typedef union bdk_pko_l2_sqb_debug bdk_pko_l2_sqb_debug_t;
 
 #define BDK_PKO_L2_SQB_DEBUG BDK_PKO_L2_SQB_DEBUG_FUNC()
 static inline uint64_t BDK_PKO_L2_SQB_DEBUG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -6874,7 +6962,7 @@ static inline uint64_t BDK_PKO_L2_SQB_DEBUG_FUNC(void)
  * PKO Level 3 Constants Register
  * This register contains constants for software discovery.
  */
-typedef union
+union bdk_pko_l3_const
 {
     uint64_t u;
     struct bdk_pko_l3_const_s
@@ -6888,7 +6976,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l3_const_s cn; */
-} bdk_pko_l3_const_t;
+};
+typedef union bdk_pko_l3_const bdk_pko_l3_const_t;
 
 #define BDK_PKO_L3_CONST BDK_PKO_L3_CONST_FUNC()
 static inline uint64_t BDK_PKO_L3_CONST_FUNC(void) __attribute__ ((pure, always_inline));
@@ -6912,7 +7001,7 @@ static inline uint64_t BDK_PKO_L3_CONST_FUNC(void)
  * PKO SQ3 RAM ECC DBE Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_pko_l3_ecc_dbe_int_ena_w1c
 {
     uint64_t u;
     struct bdk_pko_l3_ecc_dbe_int_ena_w1c_s
@@ -6924,7 +7013,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l3_ecc_dbe_int_ena_w1c_s cn; */
-} bdk_pko_l3_ecc_dbe_int_ena_w1c_t;
+};
+typedef union bdk_pko_l3_ecc_dbe_int_ena_w1c bdk_pko_l3_ecc_dbe_int_ena_w1c_t;
 
 #define BDK_PKO_L3_ECC_DBE_INT_ENA_W1C BDK_PKO_L3_ECC_DBE_INT_ENA_W1C_FUNC()
 static inline uint64_t BDK_PKO_L3_ECC_DBE_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -6948,7 +7038,7 @@ static inline uint64_t BDK_PKO_L3_ECC_DBE_INT_ENA_W1C_FUNC(void)
  * PKO SQ3 RAM ECC DBE Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_pko_l3_ecc_dbe_int_ena_w1s
 {
     uint64_t u;
     struct bdk_pko_l3_ecc_dbe_int_ena_w1s_s
@@ -6960,7 +7050,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l3_ecc_dbe_int_ena_w1s_s cn; */
-} bdk_pko_l3_ecc_dbe_int_ena_w1s_t;
+};
+typedef union bdk_pko_l3_ecc_dbe_int_ena_w1s bdk_pko_l3_ecc_dbe_int_ena_w1s_t;
 
 #define BDK_PKO_L3_ECC_DBE_INT_ENA_W1S BDK_PKO_L3_ECC_DBE_INT_ENA_W1S_FUNC()
 static inline uint64_t BDK_PKO_L3_ECC_DBE_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -6983,7 +7074,7 @@ static inline uint64_t BDK_PKO_L3_ECC_DBE_INT_ENA_W1S_FUNC(void)
  *
  * PKO SQ3 RAM ECC DBE Interrupt Register
  */
-typedef union
+union bdk_pko_l3_ecc_dbe_w1c
 {
     uint64_t u;
     struct bdk_pko_l3_ecc_dbe_w1c_s
@@ -6995,7 +7086,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l3_ecc_dbe_w1c_s cn; */
-} bdk_pko_l3_ecc_dbe_w1c_t;
+};
+typedef union bdk_pko_l3_ecc_dbe_w1c bdk_pko_l3_ecc_dbe_w1c_t;
 
 #define BDK_PKO_L3_ECC_DBE_W1C BDK_PKO_L3_ECC_DBE_W1C_FUNC()
 static inline uint64_t BDK_PKO_L3_ECC_DBE_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -7019,7 +7111,7 @@ static inline uint64_t BDK_PKO_L3_ECC_DBE_W1C_FUNC(void)
  * PKO SQ3 RAM ECC DBE Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_pko_l3_ecc_dbe_w1s
 {
     uint64_t u;
     struct bdk_pko_l3_ecc_dbe_w1s_s
@@ -7031,7 +7123,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l3_ecc_dbe_w1s_s cn; */
-} bdk_pko_l3_ecc_dbe_w1s_t;
+};
+typedef union bdk_pko_l3_ecc_dbe_w1s bdk_pko_l3_ecc_dbe_w1s_t;
 
 #define BDK_PKO_L3_ECC_DBE_W1S BDK_PKO_L3_ECC_DBE_W1S_FUNC()
 static inline uint64_t BDK_PKO_L3_ECC_DBE_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -7055,7 +7148,7 @@ static inline uint64_t BDK_PKO_L3_ECC_DBE_W1S_FUNC(void)
  * PKO DQ RAM ECC DBE Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_pko_l3_ecc_sbe_int_ena_w1c
 {
     uint64_t u;
     struct bdk_pko_l3_ecc_sbe_int_ena_w1c_s
@@ -7067,7 +7160,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l3_ecc_sbe_int_ena_w1c_s cn; */
-} bdk_pko_l3_ecc_sbe_int_ena_w1c_t;
+};
+typedef union bdk_pko_l3_ecc_sbe_int_ena_w1c bdk_pko_l3_ecc_sbe_int_ena_w1c_t;
 
 #define BDK_PKO_L3_ECC_SBE_INT_ENA_W1C BDK_PKO_L3_ECC_SBE_INT_ENA_W1C_FUNC()
 static inline uint64_t BDK_PKO_L3_ECC_SBE_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -7091,7 +7185,7 @@ static inline uint64_t BDK_PKO_L3_ECC_SBE_INT_ENA_W1C_FUNC(void)
  * PKO DQ RAM ECC DBE Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_pko_l3_ecc_sbe_int_ena_w1s
 {
     uint64_t u;
     struct bdk_pko_l3_ecc_sbe_int_ena_w1s_s
@@ -7103,7 +7197,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l3_ecc_sbe_int_ena_w1s_s cn; */
-} bdk_pko_l3_ecc_sbe_int_ena_w1s_t;
+};
+typedef union bdk_pko_l3_ecc_sbe_int_ena_w1s bdk_pko_l3_ecc_sbe_int_ena_w1s_t;
 
 #define BDK_PKO_L3_ECC_SBE_INT_ENA_W1S BDK_PKO_L3_ECC_SBE_INT_ENA_W1S_FUNC()
 static inline uint64_t BDK_PKO_L3_ECC_SBE_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -7126,7 +7221,7 @@ static inline uint64_t BDK_PKO_L3_ECC_SBE_INT_ENA_W1S_FUNC(void)
  *
  * PKO PSE SQ3 RAM ECC SBE Interrupt Register
  */
-typedef union
+union bdk_pko_l3_ecc_sbe_w1c
 {
     uint64_t u;
     struct bdk_pko_l3_ecc_sbe_w1c_s
@@ -7138,7 +7233,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l3_ecc_sbe_w1c_s cn; */
-} bdk_pko_l3_ecc_sbe_w1c_t;
+};
+typedef union bdk_pko_l3_ecc_sbe_w1c bdk_pko_l3_ecc_sbe_w1c_t;
 
 #define BDK_PKO_L3_ECC_SBE_W1C BDK_PKO_L3_ECC_SBE_W1C_FUNC()
 static inline uint64_t BDK_PKO_L3_ECC_SBE_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -7162,7 +7258,7 @@ static inline uint64_t BDK_PKO_L3_ECC_SBE_W1C_FUNC(void)
  * PKO SQ3 ECC SBE Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_pko_l3_ecc_sbe_w1s
 {
     uint64_t u;
     struct bdk_pko_l3_ecc_sbe_w1s_s
@@ -7174,7 +7270,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l3_ecc_sbe_w1s_s cn; */
-} bdk_pko_l3_ecc_sbe_w1s_t;
+};
+typedef union bdk_pko_l3_ecc_sbe_w1s bdk_pko_l3_ecc_sbe_w1s_t;
 
 #define BDK_PKO_L3_ECC_SBE_W1S BDK_PKO_L3_ECC_SBE_W1S_FUNC()
 static inline uint64_t BDK_PKO_L3_ECC_SBE_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -7197,7 +7294,7 @@ static inline uint64_t BDK_PKO_L3_ECC_SBE_W1S_FUNC(void)
  *
  * PKO PSE Level 3/2 Shaping Queue Channel Configuration Register
  */
-typedef union
+union bdk_pko_l3_l2_sqx_channel
 {
     uint64_t u;
     struct bdk_pko_l3_l2_sqx_channel_s
@@ -7243,7 +7340,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l3_l2_sqx_channel_s cn; */
-} bdk_pko_l3_l2_sqx_channel_t;
+};
+typedef union bdk_pko_l3_l2_sqx_channel bdk_pko_l3_l2_sqx_channel_t;
 
 static inline uint64_t BDK_PKO_L3_L2_SQX_CHANNEL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L3_L2_SQX_CHANNEL(unsigned long a)
@@ -7266,7 +7364,7 @@ static inline uint64_t BDK_PKO_L3_L2_SQX_CHANNEL(unsigned long a)
  * PKO PSE Level 3 Shaping Queue Committed Information Rate Register
  * This register has the same bit fields as PKO_L1_SQ()_CIR.
  */
-typedef union
+union bdk_pko_l3_sqx_cir
 {
     uint64_t u;
     struct bdk_pko_l3_sqx_cir_s
@@ -7338,7 +7436,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l3_sqx_cir_s cn; */
-} bdk_pko_l3_sqx_cir_t;
+};
+typedef union bdk_pko_l3_sqx_cir bdk_pko_l3_sqx_cir_t;
 
 static inline uint64_t BDK_PKO_L3_SQX_CIR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L3_SQX_CIR(unsigned long a)
@@ -7360,7 +7459,7 @@ static inline uint64_t BDK_PKO_L3_SQX_CIR(unsigned long a)
  *
  * INTERNAL: PKO PSE Level 3 Shaping Queue Green State Debug Register
  */
-typedef union
+union bdk_pko_l3_sqx_green
 {
     uint64_t u;
     struct bdk_pko_l3_sqx_green_s
@@ -7386,7 +7485,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l3_sqx_green_s cn; */
-} bdk_pko_l3_sqx_green_t;
+};
+typedef union bdk_pko_l3_sqx_green bdk_pko_l3_sqx_green_t;
 
 static inline uint64_t BDK_PKO_L3_SQX_GREEN(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L3_SQX_GREEN(unsigned long a)
@@ -7410,7 +7510,7 @@ static inline uint64_t BDK_PKO_L3_SQX_GREEN(unsigned long a)
  * This CSR contains the meta for the L3 SQ, and is for debug and reconfiguration
  * only and should never be written. See also PKO_META_DESC_S.
  */
-typedef union
+union bdk_pko_l3_sqx_pick
 {
     uint64_t u;
     struct bdk_pko_l3_sqx_pick_s
@@ -7514,7 +7614,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l3_sqx_pick_s cn; */
-} bdk_pko_l3_sqx_pick_t;
+};
+typedef union bdk_pko_l3_sqx_pick bdk_pko_l3_sqx_pick_t;
 
 static inline uint64_t BDK_PKO_L3_SQX_PICK(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L3_SQX_PICK(unsigned long a)
@@ -7537,7 +7638,7 @@ static inline uint64_t BDK_PKO_L3_SQX_PICK(unsigned long a)
  * PKO PSE Level 3 Shaping Queue Peak Information Rate Register
  * This register has the same bit fields as PKO_L1_SQ()_CIR.
  */
-typedef union
+union bdk_pko_l3_sqx_pir
 {
     uint64_t u;
     struct bdk_pko_l3_sqx_pir_s
@@ -7609,7 +7710,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l3_sqx_pir_s cn; */
-} bdk_pko_l3_sqx_pir_t;
+};
+typedef union bdk_pko_l3_sqx_pir bdk_pko_l3_sqx_pir_t;
 
 static inline uint64_t BDK_PKO_L3_SQX_PIR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L3_SQX_PIR(unsigned long a)
@@ -7633,7 +7735,7 @@ static inline uint64_t BDK_PKO_L3_SQX_PIR(unsigned long a)
  *
  * This register has the same bit fields as PKO_L2_SQ()_POINTERS.
  */
-typedef union
+union bdk_pko_l3_sqx_pointers
 {
     uint64_t u;
     struct bdk_pko_l3_sqx_pointers_s
@@ -7651,7 +7753,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l3_sqx_pointers_s cn; */
-} bdk_pko_l3_sqx_pointers_t;
+};
+typedef union bdk_pko_l3_sqx_pointers bdk_pko_l3_sqx_pointers_t;
 
 static inline uint64_t BDK_PKO_L3_SQX_POINTERS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L3_SQX_POINTERS(unsigned long a)
@@ -7675,7 +7778,7 @@ static inline uint64_t BDK_PKO_L3_SQX_POINTERS(unsigned long a)
  *
  * This register has the same bit fields as PKO_L3_SQ()_YELLOW.
  */
-typedef union
+union bdk_pko_l3_sqx_red
 {
     uint64_t u;
     struct bdk_pko_l3_sqx_red_s
@@ -7693,7 +7796,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l3_sqx_red_s cn; */
-} bdk_pko_l3_sqx_red_t;
+};
+typedef union bdk_pko_l3_sqx_red bdk_pko_l3_sqx_red_t;
 
 static inline uint64_t BDK_PKO_L3_SQX_RED(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L3_SQX_RED(unsigned long a)
@@ -7716,7 +7820,7 @@ static inline uint64_t BDK_PKO_L3_SQX_RED(unsigned long a)
  * PKO PSE Level 3 Scheduling Control State Register
  * This register has the same bit fields as PKO_L2_SQ(0..255)_SCHED_STATE.
  */
-typedef union
+union bdk_pko_l3_sqx_sched_state
 {
     uint64_t u;
     struct bdk_pko_l3_sqx_sched_state_s
@@ -7730,7 +7834,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l3_sqx_sched_state_s cn; */
-} bdk_pko_l3_sqx_sched_state_t;
+};
+typedef union bdk_pko_l3_sqx_sched_state bdk_pko_l3_sqx_sched_state_t;
 
 static inline uint64_t BDK_PKO_L3_SQX_SCHED_STATE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L3_SQX_SCHED_STATE(unsigned long a)
@@ -7753,7 +7858,7 @@ static inline uint64_t BDK_PKO_L3_SQX_SCHED_STATE(unsigned long a)
  * PKO PSE Level 3 Scheduling Control Register
  * This register has the same bit fields as PKO_L2_SQ()_SCHEDULE.
  */
-typedef union
+union bdk_pko_l3_sqx_schedule
 {
     uint64_t u;
     struct bdk_pko_l3_sqx_schedule_s
@@ -7797,7 +7902,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l3_sqx_schedule_s cn; */
-} bdk_pko_l3_sqx_schedule_t;
+};
+typedef union bdk_pko_l3_sqx_schedule bdk_pko_l3_sqx_schedule_t;
 
 static inline uint64_t BDK_PKO_L3_SQX_SCHEDULE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L3_SQX_SCHEDULE(unsigned long a)
@@ -7819,7 +7925,7 @@ static inline uint64_t BDK_PKO_L3_SQX_SCHEDULE(unsigned long a)
  *
  * PKO PSE Level 3 Shaping Control Register
  */
-typedef union
+union bdk_pko_l3_sqx_shape
 {
     uint64_t u;
     struct bdk_pko_l3_sqx_shape_s
@@ -7855,7 +7961,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l3_sqx_shape_s cn; */
-} bdk_pko_l3_sqx_shape_t;
+};
+typedef union bdk_pko_l3_sqx_shape bdk_pko_l3_sqx_shape_t;
 
 static inline uint64_t BDK_PKO_L3_SQX_SHAPE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L3_SQX_SHAPE(unsigned long a)
@@ -7879,7 +7986,7 @@ static inline uint64_t BDK_PKO_L3_SQX_SHAPE(unsigned long a)
  * This register has the same bit fields as PKO_L2_SQ()_SHAPE_STATE.
  * This register must not be written during normal operation.
  */
-typedef union
+union bdk_pko_l3_sqx_shape_state
 {
     uint64_t u;
     struct bdk_pko_l3_sqx_shape_state_s
@@ -7907,7 +8014,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l3_sqx_shape_state_s cn; */
-} bdk_pko_l3_sqx_shape_state_t;
+};
+typedef union bdk_pko_l3_sqx_shape_state bdk_pko_l3_sqx_shape_state_t;
 
 static inline uint64_t BDK_PKO_L3_SQX_SHAPE_STATE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L3_SQX_SHAPE_STATE(unsigned long a)
@@ -7930,7 +8038,7 @@ static inline uint64_t BDK_PKO_L3_SQX_SHAPE_STATE(unsigned long a)
  * PKO PSE Level 3 Software Controlled XOFF Register
  * This register has the same bit fields as PKO_L1_SQ()_SW_XOFF
  */
-typedef union
+union bdk_pko_l3_sqx_sw_xoff
 {
     uint64_t u;
     struct bdk_pko_l3_sqx_sw_xoff_s
@@ -7994,7 +8102,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l3_sqx_sw_xoff_s cn; */
-} bdk_pko_l3_sqx_sw_xoff_t;
+};
+typedef union bdk_pko_l3_sqx_sw_xoff bdk_pko_l3_sqx_sw_xoff_t;
 
 static inline uint64_t BDK_PKO_L3_SQX_SW_XOFF(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L3_SQX_SW_XOFF(unsigned long a)
@@ -8016,7 +8125,7 @@ static inline uint64_t BDK_PKO_L3_SQX_SW_XOFF(unsigned long a)
  *
  * PKO PSE Level 3 Shaping Queue Topology Register
  */
-typedef union
+union bdk_pko_l3_sqx_topology
 {
     uint64_t u;
     struct bdk_pko_l3_sqx_topology_s
@@ -8040,7 +8149,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l3_sqx_topology_s cn; */
-} bdk_pko_l3_sqx_topology_t;
+};
+typedef union bdk_pko_l3_sqx_topology bdk_pko_l3_sqx_topology_t;
 
 static inline uint64_t BDK_PKO_L3_SQX_TOPOLOGY(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L3_SQX_TOPOLOGY(unsigned long a)
@@ -8062,7 +8172,7 @@ static inline uint64_t BDK_PKO_L3_SQX_TOPOLOGY(unsigned long a)
  *
  * INTERNAL: PKO PSE Level 3 Shaping Queue Yellow State Debug Register
  */
-typedef union
+union bdk_pko_l3_sqx_yellow
 {
     uint64_t u;
     struct bdk_pko_l3_sqx_yellow_s
@@ -8080,7 +8190,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l3_sqx_yellow_s cn; */
-} bdk_pko_l3_sqx_yellow_t;
+};
+typedef union bdk_pko_l3_sqx_yellow bdk_pko_l3_sqx_yellow_t;
 
 static inline uint64_t BDK_PKO_L3_SQX_YELLOW(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L3_SQX_YELLOW(unsigned long a)
@@ -8104,7 +8215,7 @@ static inline uint64_t BDK_PKO_L3_SQX_YELLOW(unsigned long a)
  *
  * This register has the same bit fields as PKO_PQA_DEBUG.
  */
-typedef union
+union bdk_pko_l3_sqa_debug
 {
     uint64_t u;
     struct bdk_pko_l3_sqa_debug_s
@@ -8116,7 +8227,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l3_sqa_debug_s cn; */
-} bdk_pko_l3_sqa_debug_t;
+};
+typedef union bdk_pko_l3_sqa_debug bdk_pko_l3_sqa_debug_t;
 
 #define BDK_PKO_L3_SQA_DEBUG BDK_PKO_L3_SQA_DEBUG_FUNC()
 static inline uint64_t BDK_PKO_L3_SQA_DEBUG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -8141,7 +8253,7 @@ static inline uint64_t BDK_PKO_L3_SQA_DEBUG_FUNC(void)
  *
  * This register has the same bit fields as PKO_PQA_DEBUG.
  */
-typedef union
+union bdk_pko_l3_sqb_debug
 {
     uint64_t u;
     struct bdk_pko_l3_sqb_debug_s
@@ -8153,7 +8265,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l3_sqb_debug_s cn; */
-} bdk_pko_l3_sqb_debug_t;
+};
+typedef union bdk_pko_l3_sqb_debug bdk_pko_l3_sqb_debug_t;
 
 #define BDK_PKO_L3_SQB_DEBUG BDK_PKO_L3_SQB_DEBUG_FUNC()
 static inline uint64_t BDK_PKO_L3_SQB_DEBUG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -8177,7 +8290,7 @@ static inline uint64_t BDK_PKO_L3_SQB_DEBUG_FUNC(void)
  * PKO L4 Constants Register
  * This register contains constants for software discovery.
  */
-typedef union
+union bdk_pko_l4_const
 {
     uint64_t u;
     struct bdk_pko_l4_const_s
@@ -8191,7 +8304,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l4_const_s cn; */
-} bdk_pko_l4_const_t;
+};
+typedef union bdk_pko_l4_const bdk_pko_l4_const_t;
 
 #define BDK_PKO_L4_CONST BDK_PKO_L4_CONST_FUNC()
 static inline uint64_t BDK_PKO_L4_CONST_FUNC(void) __attribute__ ((pure, always_inline));
@@ -8215,7 +8329,7 @@ static inline uint64_t BDK_PKO_L4_CONST_FUNC(void)
  * PKO L5 Constants Register
  * This register contains constants for software discovery.
  */
-typedef union
+union bdk_pko_l5_const
 {
     uint64_t u;
     struct bdk_pko_l5_const_s
@@ -8229,7 +8343,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l5_const_s cn; */
-} bdk_pko_l5_const_t;
+};
+typedef union bdk_pko_l5_const bdk_pko_l5_const_t;
 
 #define BDK_PKO_L5_CONST BDK_PKO_L5_CONST_FUNC()
 static inline uint64_t BDK_PKO_L5_CONST_FUNC(void) __attribute__ ((pure, always_inline));
@@ -8280,7 +8395,7 @@ static inline uint64_t BDK_PKO_L5_CONST_FUNC(void)
  *    18     0xB30-0xB3F   0xB30-0xB3F     BGX3 Logical MAC 3
  * </pre>
  */
-typedef union
+union bdk_pko_lutx
 {
     uint64_t u;
     struct bdk_pko_lutx_s
@@ -8310,7 +8425,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_lutx_s cn; */
-} bdk_pko_lutx_t;
+};
+typedef union bdk_pko_lutx bdk_pko_lutx_t;
 
 static inline uint64_t BDK_PKO_LUTX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_LUTX(unsigned long a)
@@ -8332,7 +8448,7 @@ static inline uint64_t BDK_PKO_LUTX(unsigned long a)
  *
  * PKO LUT BIST Status Register
  */
-typedef union
+union bdk_pko_lut_bist_status
 {
     uint64_t u;
     struct bdk_pko_lut_bist_status_s
@@ -8346,7 +8462,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_lut_bist_status_s cn; */
-} bdk_pko_lut_bist_status_t;
+};
+typedef union bdk_pko_lut_bist_status bdk_pko_lut_bist_status_t;
 
 #define BDK_PKO_LUT_BIST_STATUS BDK_PKO_LUT_BIST_STATUS_FUNC()
 static inline uint64_t BDK_PKO_LUT_BIST_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
@@ -8369,7 +8486,7 @@ static inline uint64_t BDK_PKO_LUT_BIST_STATUS_FUNC(void)
  *
  * PKO LUT RAM ECC Control Register 0
  */
-typedef union
+union bdk_pko_lut_ecc_ctl0
 {
     uint64_t u;
     struct bdk_pko_lut_ecc_ctl0_s
@@ -8385,7 +8502,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_lut_ecc_ctl0_s cn; */
-} bdk_pko_lut_ecc_ctl0_t;
+};
+typedef union bdk_pko_lut_ecc_ctl0 bdk_pko_lut_ecc_ctl0_t;
 
 #define BDK_PKO_LUT_ECC_CTL0 BDK_PKO_LUT_ECC_CTL0_FUNC()
 static inline uint64_t BDK_PKO_LUT_ECC_CTL0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -8409,7 +8527,7 @@ static inline uint64_t BDK_PKO_LUT_ECC_CTL0_FUNC(void)
  * LUT_ECC_DBE Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_pko_lut_ecc_dbe_int_ena_w1c
 {
     uint64_t u;
     struct bdk_pko_lut_ecc_dbe_int_ena_w1c_s
@@ -8429,7 +8547,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_lut_ecc_dbe_int_ena_w1c_s cn; */
-} bdk_pko_lut_ecc_dbe_int_ena_w1c_t;
+};
+typedef union bdk_pko_lut_ecc_dbe_int_ena_w1c bdk_pko_lut_ecc_dbe_int_ena_w1c_t;
 
 #define BDK_PKO_LUT_ECC_DBE_INT_ENA_W1C BDK_PKO_LUT_ECC_DBE_INT_ENA_W1C_FUNC()
 static inline uint64_t BDK_PKO_LUT_ECC_DBE_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -8453,7 +8572,7 @@ static inline uint64_t BDK_PKO_LUT_ECC_DBE_INT_ENA_W1C_FUNC(void)
  * LUT_ECC_DBE Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_pko_lut_ecc_dbe_int_ena_w1s
 {
     uint64_t u;
     struct bdk_pko_lut_ecc_dbe_int_ena_w1s_s
@@ -8473,7 +8592,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_lut_ecc_dbe_int_ena_w1s_s cn; */
-} bdk_pko_lut_ecc_dbe_int_ena_w1s_t;
+};
+typedef union bdk_pko_lut_ecc_dbe_int_ena_w1s bdk_pko_lut_ecc_dbe_int_ena_w1s_t;
 
 #define BDK_PKO_LUT_ECC_DBE_INT_ENA_W1S BDK_PKO_LUT_ECC_DBE_INT_ENA_W1S_FUNC()
 static inline uint64_t BDK_PKO_LUT_ECC_DBE_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -8496,7 +8616,7 @@ static inline uint64_t BDK_PKO_LUT_ECC_DBE_INT_ENA_W1S_FUNC(void)
  *
  * PKO LUT RAM ECC DBE Interrupt Register
  */
-typedef union
+union bdk_pko_lut_ecc_dbe_w1c
 {
     uint64_t u;
     struct bdk_pko_lut_ecc_dbe_w1c_s
@@ -8516,7 +8636,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_lut_ecc_dbe_w1c_s cn; */
-} bdk_pko_lut_ecc_dbe_w1c_t;
+};
+typedef union bdk_pko_lut_ecc_dbe_w1c bdk_pko_lut_ecc_dbe_w1c_t;
 
 #define BDK_PKO_LUT_ECC_DBE_W1C BDK_PKO_LUT_ECC_DBE_W1C_FUNC()
 static inline uint64_t BDK_PKO_LUT_ECC_DBE_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -8540,7 +8661,7 @@ static inline uint64_t BDK_PKO_LUT_ECC_DBE_W1C_FUNC(void)
  * LUT_ECC_DBE Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_pko_lut_ecc_dbe_w1s
 {
     uint64_t u;
     struct bdk_pko_lut_ecc_dbe_w1s_s
@@ -8560,7 +8681,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_lut_ecc_dbe_w1s_s cn; */
-} bdk_pko_lut_ecc_dbe_w1s_t;
+};
+typedef union bdk_pko_lut_ecc_dbe_w1s bdk_pko_lut_ecc_dbe_w1s_t;
 
 #define BDK_PKO_LUT_ECC_DBE_W1S BDK_PKO_LUT_ECC_DBE_W1S_FUNC()
 static inline uint64_t BDK_PKO_LUT_ECC_DBE_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -8584,7 +8706,7 @@ static inline uint64_t BDK_PKO_LUT_ECC_DBE_W1S_FUNC(void)
  * LUT_ECC_SBE Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_pko_lut_ecc_sbe_int_ena_w1c
 {
     uint64_t u;
     struct bdk_pko_lut_ecc_sbe_int_ena_w1c_s
@@ -8604,7 +8726,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_lut_ecc_sbe_int_ena_w1c_s cn; */
-} bdk_pko_lut_ecc_sbe_int_ena_w1c_t;
+};
+typedef union bdk_pko_lut_ecc_sbe_int_ena_w1c bdk_pko_lut_ecc_sbe_int_ena_w1c_t;
 
 #define BDK_PKO_LUT_ECC_SBE_INT_ENA_W1C BDK_PKO_LUT_ECC_SBE_INT_ENA_W1C_FUNC()
 static inline uint64_t BDK_PKO_LUT_ECC_SBE_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -8628,7 +8751,7 @@ static inline uint64_t BDK_PKO_LUT_ECC_SBE_INT_ENA_W1C_FUNC(void)
  * LUT_ECC_SBE Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_pko_lut_ecc_sbe_int_ena_w1s
 {
     uint64_t u;
     struct bdk_pko_lut_ecc_sbe_int_ena_w1s_s
@@ -8648,7 +8771,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_lut_ecc_sbe_int_ena_w1s_s cn; */
-} bdk_pko_lut_ecc_sbe_int_ena_w1s_t;
+};
+typedef union bdk_pko_lut_ecc_sbe_int_ena_w1s bdk_pko_lut_ecc_sbe_int_ena_w1s_t;
 
 #define BDK_PKO_LUT_ECC_SBE_INT_ENA_W1S BDK_PKO_LUT_ECC_SBE_INT_ENA_W1S_FUNC()
 static inline uint64_t BDK_PKO_LUT_ECC_SBE_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -8671,7 +8795,7 @@ static inline uint64_t BDK_PKO_LUT_ECC_SBE_INT_ENA_W1S_FUNC(void)
  *
  * PKO LUT RAM ECC SBE Interrupt Register
  */
-typedef union
+union bdk_pko_lut_ecc_sbe_w1c
 {
     uint64_t u;
     struct bdk_pko_lut_ecc_sbe_w1c_s
@@ -8691,7 +8815,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_lut_ecc_sbe_w1c_s cn; */
-} bdk_pko_lut_ecc_sbe_w1c_t;
+};
+typedef union bdk_pko_lut_ecc_sbe_w1c bdk_pko_lut_ecc_sbe_w1c_t;
 
 #define BDK_PKO_LUT_ECC_SBE_W1C BDK_PKO_LUT_ECC_SBE_W1C_FUNC()
 static inline uint64_t BDK_PKO_LUT_ECC_SBE_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -8715,7 +8840,7 @@ static inline uint64_t BDK_PKO_LUT_ECC_SBE_W1C_FUNC(void)
  * LUT_ECC_SBE Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_pko_lut_ecc_sbe_w1s
 {
     uint64_t u;
     struct bdk_pko_lut_ecc_sbe_w1s_s
@@ -8735,7 +8860,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_lut_ecc_sbe_w1s_s cn; */
-} bdk_pko_lut_ecc_sbe_w1s_t;
+};
+typedef union bdk_pko_lut_ecc_sbe_w1s bdk_pko_lut_ecc_sbe_w1s_t;
 
 #define BDK_PKO_LUT_ECC_SBE_W1S BDK_PKO_LUT_ECC_SBE_W1S_FUNC()
 static inline uint64_t BDK_PKO_LUT_ECC_SBE_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -8785,7 +8911,7 @@ static inline uint64_t BDK_PKO_LUT_ECC_SBE_W1S_FUNC(void)
  *   PKO_MAC18_CFG  BGX3 logical MAC 3
  * </pre>
  */
-typedef union
+union bdk_pko_macx_cfg
 {
     uint64_t u;
     struct bdk_pko_macx_cfg_s
@@ -8829,7 +8955,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_macx_cfg_s cn; */
-} bdk_pko_macx_cfg_t;
+};
+typedef union bdk_pko_macx_cfg bdk_pko_macx_cfg_t;
 
 static inline uint64_t BDK_PKO_MACX_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_MACX_CFG(unsigned long a)
@@ -8851,7 +8978,7 @@ static inline uint64_t BDK_PKO_MACX_CFG(unsigned long a)
  *
  * PKO MCI1 Credit Count Registers
  */
-typedef union
+union bdk_pko_mci1_cred_cntx
 {
     uint64_t u;
     struct bdk_pko_mci1_cred_cntx_s
@@ -8865,7 +8992,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_mci1_cred_cntx_s cn; */
-} bdk_pko_mci1_cred_cntx_t;
+};
+typedef union bdk_pko_mci1_cred_cntx bdk_pko_mci1_cred_cntx_t;
 
 static inline uint64_t BDK_PKO_MCI1_CRED_CNTX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_MCI1_CRED_CNTX(unsigned long a)
@@ -8887,7 +9015,7 @@ static inline uint64_t BDK_PKO_MCI1_CRED_CNTX(unsigned long a)
  *
  * PKO MCI1 Maximum Credit Registers
  */
-typedef union
+union bdk_pko_mci1_max_credx
 {
     uint64_t u;
     struct bdk_pko_mci1_max_credx_s
@@ -8903,7 +9031,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_mci1_max_credx_s cn; */
-} bdk_pko_mci1_max_credx_t;
+};
+typedef union bdk_pko_mci1_max_credx bdk_pko_mci1_max_credx_t;
 
 static inline uint64_t BDK_PKO_MCI1_MAX_CREDX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_MCI1_MAX_CREDX(unsigned long a)
@@ -8926,7 +9055,7 @@ static inline uint64_t BDK_PKO_MCI1_MAX_CREDX(unsigned long a)
  * PKO PDM RAM ECC SBE Status Register 0
  * Each bit is the BIST result of an individual memory (per bit, 0 = pass and 1 = fail).
  */
-typedef union
+union bdk_pko_pdm_bist_status
 {
     uint64_t u;
     struct bdk_pko_pdm_bist_status_s
@@ -8992,7 +9121,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pdm_bist_status_s cn; */
-} bdk_pko_pdm_bist_status_t;
+};
+typedef union bdk_pko_pdm_bist_status bdk_pko_pdm_bist_status_t;
 
 #define BDK_PKO_PDM_BIST_STATUS BDK_PKO_PDM_BIST_STATUS_FUNC()
 static inline uint64_t BDK_PKO_PDM_BIST_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
@@ -9015,7 +9145,7 @@ static inline uint64_t BDK_PKO_PDM_BIST_STATUS_FUNC(void)
  *
  * PKO PDM Configuration Register
  */
-typedef union
+union bdk_pko_pdm_cfg
 {
     uint64_t u;
     struct bdk_pko_pdm_cfg_s
@@ -9107,7 +9237,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pdm_cfg_s cn; */
-} bdk_pko_pdm_cfg_t;
+};
+typedef union bdk_pko_pdm_cfg bdk_pko_pdm_cfg_t;
 
 #define BDK_PKO_PDM_CFG BDK_PKO_PDM_CFG_FUNC()
 static inline uint64_t BDK_PKO_PDM_CFG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -9130,7 +9261,7 @@ static inline uint64_t BDK_PKO_PDM_CFG_FUNC(void)
  *
  * INTERNAL: PKO PDM Configuration Debug Register
  */
-typedef union
+union bdk_pko_pdm_cfg_dbg
 {
     uint64_t u;
     struct bdk_pko_pdm_cfg_dbg_s
@@ -9148,7 +9279,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pdm_cfg_dbg_s cn; */
-} bdk_pko_pdm_cfg_dbg_t;
+};
+typedef union bdk_pko_pdm_cfg_dbg bdk_pko_pdm_cfg_dbg_t;
 
 #define BDK_PKO_PDM_CFG_DBG BDK_PKO_PDM_CFG_DBG_FUNC()
 static inline uint64_t BDK_PKO_PDM_CFG_DBG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -9171,7 +9303,7 @@ static inline uint64_t BDK_PKO_PDM_CFG_DBG_FUNC(void)
  *
  * INTERNAL: PKO PDM CP Internal Debug Register
  */
-typedef union
+union bdk_pko_pdm_cp_dbg
 {
     uint64_t u;
     struct bdk_pko_pdm_cp_dbg_s
@@ -9199,7 +9331,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pdm_cp_dbg_s cn; */
-} bdk_pko_pdm_cp_dbg_t;
+};
+typedef union bdk_pko_pdm_cp_dbg bdk_pko_pdm_cp_dbg_t;
 
 #define BDK_PKO_PDM_CP_DBG BDK_PKO_PDM_CP_DBG_FUNC()
 static inline uint64_t BDK_PKO_PDM_CP_DBG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -9222,7 +9355,7 @@ static inline uint64_t BDK_PKO_PDM_CP_DBG_FUNC(void)
  *
  * PKO PDM Descriptor Queue Minimum Pad Register
  */
-typedef union
+union bdk_pko_pdm_dqx_minpad
 {
     uint64_t u;
     struct bdk_pko_pdm_dqx_minpad_s
@@ -9270,7 +9403,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pdm_dqx_minpad_s cn; */
-} bdk_pko_pdm_dqx_minpad_t;
+};
+typedef union bdk_pko_pdm_dqx_minpad bdk_pko_pdm_dqx_minpad_t;
 
 static inline uint64_t BDK_PKO_PDM_DQX_MINPAD(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_PDM_DQX_MINPAD(unsigned long a)
@@ -9292,7 +9426,7 @@ static inline uint64_t BDK_PKO_PDM_DQX_MINPAD(unsigned long a)
  *
  * INTERNAL: PKO PDM DRPBUF Debug Register
  */
-typedef union
+union bdk_pko_pdm_drpbuf_dbg
 {
     uint64_t u;
     struct bdk_pko_pdm_drpbuf_dbg_s
@@ -9332,7 +9466,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pdm_drpbuf_dbg_s cn; */
-} bdk_pko_pdm_drpbuf_dbg_t;
+};
+typedef union bdk_pko_pdm_drpbuf_dbg bdk_pko_pdm_drpbuf_dbg_t;
 
 #define BDK_PKO_PDM_DRPBUF_DBG BDK_PKO_PDM_DRPBUF_DBG_FUNC()
 static inline uint64_t BDK_PKO_PDM_DRPBUF_DBG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -9355,7 +9490,7 @@ static inline uint64_t BDK_PKO_PDM_DRPBUF_DBG_FUNC(void)
  *
  * INTERNAL: PKO PDM DWPBUF Debug Register
  */
-typedef union
+union bdk_pko_pdm_dwpbuf_dbg
 {
     uint64_t u;
     struct bdk_pko_pdm_dwpbuf_dbg_s
@@ -9405,7 +9540,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pdm_dwpbuf_dbg_s cn; */
-} bdk_pko_pdm_dwpbuf_dbg_t;
+};
+typedef union bdk_pko_pdm_dwpbuf_dbg bdk_pko_pdm_dwpbuf_dbg_t;
 
 #define BDK_PKO_PDM_DWPBUF_DBG BDK_PKO_PDM_DWPBUF_DBG_FUNC()
 static inline uint64_t BDK_PKO_PDM_DWPBUF_DBG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -9428,7 +9564,7 @@ static inline uint64_t BDK_PKO_PDM_DWPBUF_DBG_FUNC(void)
  *
  * PKO PDM RAM ECC Control Register 0
  */
-typedef union
+union bdk_pko_pdm_ecc_ctl0
 {
     uint64_t u;
     struct bdk_pko_pdm_ecc_ctl0_s
@@ -9502,7 +9638,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pdm_ecc_ctl0_s cn; */
-} bdk_pko_pdm_ecc_ctl0_t;
+};
+typedef union bdk_pko_pdm_ecc_ctl0 bdk_pko_pdm_ecc_ctl0_t;
 
 #define BDK_PKO_PDM_ECC_CTL0 BDK_PKO_PDM_ECC_CTL0_FUNC()
 static inline uint64_t BDK_PKO_PDM_ECC_CTL0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -9525,7 +9662,7 @@ static inline uint64_t BDK_PKO_PDM_ECC_CTL0_FUNC(void)
  *
  * PKO PDM RAM ECC Control Register 1
  */
-typedef union
+union bdk_pko_pdm_ecc_ctl1
 {
     uint64_t u;
     struct bdk_pko_pdm_ecc_ctl1_s
@@ -9559,7 +9696,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pdm_ecc_ctl1_s cn; */
-} bdk_pko_pdm_ecc_ctl1_t;
+};
+typedef union bdk_pko_pdm_ecc_ctl1 bdk_pko_pdm_ecc_ctl1_t;
 
 #define BDK_PKO_PDM_ECC_CTL1 BDK_PKO_PDM_ECC_CTL1_FUNC()
 static inline uint64_t BDK_PKO_PDM_ECC_CTL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -9583,7 +9721,7 @@ static inline uint64_t BDK_PKO_PDM_ECC_CTL1_FUNC(void)
  * PKO PDM RAM ECC DBE Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_pko_pdm_ecc_dbe_int_ena_w1c
 {
     uint64_t u;
     struct bdk_pko_pdm_ecc_dbe_int_ena_w1c_s
@@ -9595,7 +9733,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pdm_ecc_dbe_int_ena_w1c_s cn; */
-} bdk_pko_pdm_ecc_dbe_int_ena_w1c_t;
+};
+typedef union bdk_pko_pdm_ecc_dbe_int_ena_w1c bdk_pko_pdm_ecc_dbe_int_ena_w1c_t;
 
 #define BDK_PKO_PDM_ECC_DBE_INT_ENA_W1C BDK_PKO_PDM_ECC_DBE_INT_ENA_W1C_FUNC()
 static inline uint64_t BDK_PKO_PDM_ECC_DBE_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -9619,7 +9758,7 @@ static inline uint64_t BDK_PKO_PDM_ECC_DBE_INT_ENA_W1C_FUNC(void)
  * PKO PDM RAM ECC DBE Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_pko_pdm_ecc_dbe_int_ena_w1s
 {
     uint64_t u;
     struct bdk_pko_pdm_ecc_dbe_int_ena_w1s_s
@@ -9631,7 +9770,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pdm_ecc_dbe_int_ena_w1s_s cn; */
-} bdk_pko_pdm_ecc_dbe_int_ena_w1s_t;
+};
+typedef union bdk_pko_pdm_ecc_dbe_int_ena_w1s bdk_pko_pdm_ecc_dbe_int_ena_w1s_t;
 
 #define BDK_PKO_PDM_ECC_DBE_INT_ENA_W1S BDK_PKO_PDM_ECC_DBE_INT_ENA_W1S_FUNC()
 static inline uint64_t BDK_PKO_PDM_ECC_DBE_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -9654,7 +9794,7 @@ static inline uint64_t BDK_PKO_PDM_ECC_DBE_INT_ENA_W1S_FUNC(void)
  *
  * PKO PDM RAM ECC DBE Interrupt Register
  */
-typedef union
+union bdk_pko_pdm_ecc_dbe_w1c
 {
     uint64_t u;
     struct bdk_pko_pdm_ecc_dbe_w1c_s
@@ -9666,7 +9806,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pdm_ecc_dbe_w1c_s cn; */
-} bdk_pko_pdm_ecc_dbe_w1c_t;
+};
+typedef union bdk_pko_pdm_ecc_dbe_w1c bdk_pko_pdm_ecc_dbe_w1c_t;
 
 #define BDK_PKO_PDM_ECC_DBE_W1C BDK_PKO_PDM_ECC_DBE_W1C_FUNC()
 static inline uint64_t BDK_PKO_PDM_ECC_DBE_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -9690,7 +9831,7 @@ static inline uint64_t BDK_PKO_PDM_ECC_DBE_W1C_FUNC(void)
  * PKO PDM RAM ECC DBE Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_pko_pdm_ecc_dbe_w1s
 {
     uint64_t u;
     struct bdk_pko_pdm_ecc_dbe_w1s_s
@@ -9702,7 +9843,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pdm_ecc_dbe_w1s_s cn; */
-} bdk_pko_pdm_ecc_dbe_w1s_t;
+};
+typedef union bdk_pko_pdm_ecc_dbe_w1s bdk_pko_pdm_ecc_dbe_w1s_t;
 
 #define BDK_PKO_PDM_ECC_DBE_W1S BDK_PKO_PDM_ECC_DBE_W1S_FUNC()
 static inline uint64_t BDK_PKO_PDM_ECC_DBE_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -9726,7 +9868,7 @@ static inline uint64_t BDK_PKO_PDM_ECC_DBE_W1S_FUNC(void)
  * PKO DQ RAM ECC DBE Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_pko_pdm_ecc_sbe_int_ena_w1c
 {
     uint64_t u;
     struct bdk_pko_pdm_ecc_sbe_int_ena_w1c_s
@@ -9738,7 +9880,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pdm_ecc_sbe_int_ena_w1c_s cn; */
-} bdk_pko_pdm_ecc_sbe_int_ena_w1c_t;
+};
+typedef union bdk_pko_pdm_ecc_sbe_int_ena_w1c bdk_pko_pdm_ecc_sbe_int_ena_w1c_t;
 
 #define BDK_PKO_PDM_ECC_SBE_INT_ENA_W1C BDK_PKO_PDM_ECC_SBE_INT_ENA_W1C_FUNC()
 static inline uint64_t BDK_PKO_PDM_ECC_SBE_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -9762,7 +9905,7 @@ static inline uint64_t BDK_PKO_PDM_ECC_SBE_INT_ENA_W1C_FUNC(void)
  * PKO DQ RAM ECC DBE Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_pko_pdm_ecc_sbe_int_ena_w1s
 {
     uint64_t u;
     struct bdk_pko_pdm_ecc_sbe_int_ena_w1s_s
@@ -9774,7 +9917,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pdm_ecc_sbe_int_ena_w1s_s cn; */
-} bdk_pko_pdm_ecc_sbe_int_ena_w1s_t;
+};
+typedef union bdk_pko_pdm_ecc_sbe_int_ena_w1s bdk_pko_pdm_ecc_sbe_int_ena_w1s_t;
 
 #define BDK_PKO_PDM_ECC_SBE_INT_ENA_W1S BDK_PKO_PDM_ECC_SBE_INT_ENA_W1S_FUNC()
 static inline uint64_t BDK_PKO_PDM_ECC_SBE_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -9797,7 +9941,7 @@ static inline uint64_t BDK_PKO_PDM_ECC_SBE_INT_ENA_W1S_FUNC(void)
  *
  * PKO PDM RAM ECC SBE Interrupt Register
  */
-typedef union
+union bdk_pko_pdm_ecc_sbe_w1c
 {
     uint64_t u;
     struct bdk_pko_pdm_ecc_sbe_w1c_s
@@ -9809,7 +9953,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pdm_ecc_sbe_w1c_s cn; */
-} bdk_pko_pdm_ecc_sbe_w1c_t;
+};
+typedef union bdk_pko_pdm_ecc_sbe_w1c bdk_pko_pdm_ecc_sbe_w1c_t;
 
 #define BDK_PKO_PDM_ECC_SBE_W1C BDK_PKO_PDM_ECC_SBE_W1C_FUNC()
 static inline uint64_t BDK_PKO_PDM_ECC_SBE_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -9833,7 +9978,7 @@ static inline uint64_t BDK_PKO_PDM_ECC_SBE_W1C_FUNC(void)
  * PKO PDM ECC SBE Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_pko_pdm_ecc_sbe_w1s
 {
     uint64_t u;
     struct bdk_pko_pdm_ecc_sbe_w1s_s
@@ -9845,7 +9990,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pdm_ecc_sbe_w1s_s cn; */
-} bdk_pko_pdm_ecc_sbe_w1s_t;
+};
+typedef union bdk_pko_pdm_ecc_sbe_w1s bdk_pko_pdm_ecc_sbe_w1s_t;
 
 #define BDK_PKO_PDM_ECC_SBE_W1S BDK_PKO_PDM_ECC_SBE_W1S_FUNC()
 static inline uint64_t BDK_PKO_PDM_ECC_SBE_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -9868,7 +10014,7 @@ static inline uint64_t BDK_PKO_PDM_ECC_SBE_W1S_FUNC(void)
  *
  * INTERNAL: PKO PDM Fill Buffer Debug Register 0
  */
-typedef union
+union bdk_pko_pdm_fillb_dbg0
 {
     uint64_t u;
     struct bdk_pko_pdm_fillb_dbg0_s
@@ -9912,7 +10058,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pdm_fillb_dbg0_s cn; */
-} bdk_pko_pdm_fillb_dbg0_t;
+};
+typedef union bdk_pko_pdm_fillb_dbg0 bdk_pko_pdm_fillb_dbg0_t;
 
 #define BDK_PKO_PDM_FILLB_DBG0 BDK_PKO_PDM_FILLB_DBG0_FUNC()
 static inline uint64_t BDK_PKO_PDM_FILLB_DBG0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -9935,7 +10082,7 @@ static inline uint64_t BDK_PKO_PDM_FILLB_DBG0_FUNC(void)
  *
  * INTERNAL: PKO PDM Fill Buffer Debug Register 1
  */
-typedef union
+union bdk_pko_pdm_fillb_dbg1
 {
     uint64_t u;
     struct bdk_pko_pdm_fillb_dbg1_s
@@ -9979,7 +10126,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pdm_fillb_dbg1_s cn; */
-} bdk_pko_pdm_fillb_dbg1_t;
+};
+typedef union bdk_pko_pdm_fillb_dbg1 bdk_pko_pdm_fillb_dbg1_t;
 
 #define BDK_PKO_PDM_FILLB_DBG1 BDK_PKO_PDM_FILLB_DBG1_FUNC()
 static inline uint64_t BDK_PKO_PDM_FILLB_DBG1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -10002,7 +10150,7 @@ static inline uint64_t BDK_PKO_PDM_FILLB_DBG1_FUNC(void)
  *
  * INTERNAL: PKO PDM Fill Buffer Debug Register 2
  */
-typedef union
+union bdk_pko_pdm_fillb_dbg2
 {
     uint64_t u;
     struct bdk_pko_pdm_fillb_dbg2_s
@@ -10018,7 +10166,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pdm_fillb_dbg2_s cn; */
-} bdk_pko_pdm_fillb_dbg2_t;
+};
+typedef union bdk_pko_pdm_fillb_dbg2 bdk_pko_pdm_fillb_dbg2_t;
 
 #define BDK_PKO_PDM_FILLB_DBG2 BDK_PKO_PDM_FILLB_DBG2_FUNC()
 static inline uint64_t BDK_PKO_PDM_FILLB_DBG2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -10041,7 +10190,7 @@ static inline uint64_t BDK_PKO_PDM_FILLB_DBG2_FUNC(void)
  *
  * INTERNAL: PKO PDM Flush Buffer Debug Register 0
  */
-typedef union
+union bdk_pko_pdm_flshb_dbg0
 {
     uint64_t u;
     struct bdk_pko_pdm_flshb_dbg0_s
@@ -10069,7 +10218,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pdm_flshb_dbg0_s cn; */
-} bdk_pko_pdm_flshb_dbg0_t;
+};
+typedef union bdk_pko_pdm_flshb_dbg0 bdk_pko_pdm_flshb_dbg0_t;
 
 #define BDK_PKO_PDM_FLSHB_DBG0 BDK_PKO_PDM_FLSHB_DBG0_FUNC()
 static inline uint64_t BDK_PKO_PDM_FLSHB_DBG0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -10092,7 +10242,7 @@ static inline uint64_t BDK_PKO_PDM_FLSHB_DBG0_FUNC(void)
  *
  * INTERNAL: PKO PDM Flush Buffer Debug Register 1
  */
-typedef union
+union bdk_pko_pdm_flshb_dbg1
 {
     uint64_t u;
     struct bdk_pko_pdm_flshb_dbg1_s
@@ -10106,7 +10256,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pdm_flshb_dbg1_s cn; */
-} bdk_pko_pdm_flshb_dbg1_t;
+};
+typedef union bdk_pko_pdm_flshb_dbg1 bdk_pko_pdm_flshb_dbg1_t;
 
 #define BDK_PKO_PDM_FLSHB_DBG1 BDK_PKO_PDM_FLSHB_DBG1_FUNC()
 static inline uint64_t BDK_PKO_PDM_FLSHB_DBG1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -10131,7 +10282,7 @@ static inline uint64_t BDK_PKO_PDM_FLSHB_DBG1_FUNC(void)
  *
  * For diagnostic use only.
  */
-typedef union
+union bdk_pko_pdm_intf_dbg_rd
 {
     uint64_t u;
     struct bdk_pko_pdm_intf_dbg_rd_s
@@ -10155,7 +10306,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pdm_intf_dbg_rd_s cn; */
-} bdk_pko_pdm_intf_dbg_rd_t;
+};
+typedef union bdk_pko_pdm_intf_dbg_rd bdk_pko_pdm_intf_dbg_rd_t;
 
 #define BDK_PKO_PDM_INTF_DBG_RD BDK_PKO_PDM_INTF_DBG_RD_FUNC()
 static inline uint64_t BDK_PKO_PDM_INTF_DBG_RD_FUNC(void) __attribute__ ((pure, always_inline));
@@ -10178,7 +10330,7 @@ static inline uint64_t BDK_PKO_PDM_INTF_DBG_RD_FUNC(void)
  *
  * INTERNAL: PKO PDM ISRD Debug Register
  */
-typedef union
+union bdk_pko_pdm_isrd_dbg
 {
     uint64_t u;
     struct bdk_pko_pdm_isrd_dbg_s
@@ -10312,7 +10464,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pdm_isrd_dbg_s cn; */
-} bdk_pko_pdm_isrd_dbg_t;
+};
+typedef union bdk_pko_pdm_isrd_dbg bdk_pko_pdm_isrd_dbg_t;
 
 #define BDK_PKO_PDM_ISRD_DBG BDK_PKO_PDM_ISRD_DBG_FUNC()
 static inline uint64_t BDK_PKO_PDM_ISRD_DBG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -10335,7 +10488,7 @@ static inline uint64_t BDK_PKO_PDM_ISRD_DBG_FUNC(void)
  *
  * INTERNAL: PKO PDM ISRD DQ Debug Register
  */
-typedef union
+union bdk_pko_pdm_isrd_dbg_dq
 {
     uint64_t u;
     struct bdk_pko_pdm_isrd_dbg_dq_s
@@ -10361,7 +10514,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pdm_isrd_dbg_dq_s cn; */
-} bdk_pko_pdm_isrd_dbg_dq_t;
+};
+typedef union bdk_pko_pdm_isrd_dbg_dq bdk_pko_pdm_isrd_dbg_dq_t;
 
 #define BDK_PKO_PDM_ISRD_DBG_DQ BDK_PKO_PDM_ISRD_DBG_DQ_FUNC()
 static inline uint64_t BDK_PKO_PDM_ISRD_DBG_DQ_FUNC(void) __attribute__ ((pure, always_inline));
@@ -10384,7 +10538,7 @@ static inline uint64_t BDK_PKO_PDM_ISRD_DBG_DQ_FUNC(void)
  *
  * INTERNAL: PKO PDM ISRM Debug Register
  */
-typedef union
+union bdk_pko_pdm_isrm_dbg
 {
     uint64_t u;
     struct bdk_pko_pdm_isrm_dbg_s
@@ -10490,7 +10644,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pdm_isrm_dbg_s cn; */
-} bdk_pko_pdm_isrm_dbg_t;
+};
+typedef union bdk_pko_pdm_isrm_dbg bdk_pko_pdm_isrm_dbg_t;
 
 #define BDK_PKO_PDM_ISRM_DBG BDK_PKO_PDM_ISRM_DBG_FUNC()
 static inline uint64_t BDK_PKO_PDM_ISRM_DBG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -10513,7 +10668,7 @@ static inline uint64_t BDK_PKO_PDM_ISRM_DBG_FUNC(void)
  *
  * INTERNAL: PKO PDM ISRM DQ Debug Register
  */
-typedef union
+union bdk_pko_pdm_isrm_dbg_dq
 {
     uint64_t u;
     struct bdk_pko_pdm_isrm_dbg_dq_s
@@ -10535,7 +10690,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pdm_isrm_dbg_dq_s cn; */
-} bdk_pko_pdm_isrm_dbg_dq_t;
+};
+typedef union bdk_pko_pdm_isrm_dbg_dq bdk_pko_pdm_isrm_dbg_dq_t;
 
 #define BDK_PKO_PDM_ISRM_DBG_DQ BDK_PKO_PDM_ISRM_DBG_DQ_FUNC()
 static inline uint64_t BDK_PKO_PDM_ISRM_DBG_DQ_FUNC(void) __attribute__ ((pure, always_inline));
@@ -10558,7 +10714,7 @@ static inline uint64_t BDK_PKO_PDM_ISRM_DBG_DQ_FUNC(void)
  *
  * PKO PDM Memory Read/Write Address Register
  */
-typedef union
+union bdk_pko_pdm_mem_addr
 {
     uint64_t u;
     struct bdk_pko_pdm_mem_addr_s
@@ -10594,7 +10750,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pdm_mem_addr_s cn; */
-} bdk_pko_pdm_mem_addr_t;
+};
+typedef union bdk_pko_pdm_mem_addr bdk_pko_pdm_mem_addr_t;
 
 #define BDK_PKO_PDM_MEM_ADDR BDK_PKO_PDM_MEM_ADDR_FUNC()
 static inline uint64_t BDK_PKO_PDM_MEM_ADDR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -10617,7 +10774,7 @@ static inline uint64_t BDK_PKO_PDM_MEM_ADDR_FUNC(void)
  *
  * PKO PDM Memory Data Word 0 Register
  */
-typedef union
+union bdk_pko_pdm_mem_data
 {
     uint64_t u;
     struct bdk_pko_pdm_mem_data_s
@@ -10633,7 +10790,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pdm_mem_data_s cn; */
-} bdk_pko_pdm_mem_data_t;
+};
+typedef union bdk_pko_pdm_mem_data bdk_pko_pdm_mem_data_t;
 
 #define BDK_PKO_PDM_MEM_DATA BDK_PKO_PDM_MEM_DATA_FUNC()
 static inline uint64_t BDK_PKO_PDM_MEM_DATA_FUNC(void) __attribute__ ((pure, always_inline));
@@ -10656,7 +10814,7 @@ static inline uint64_t BDK_PKO_PDM_MEM_DATA_FUNC(void)
  *
  * PKO PDM Memory Read/Write Control Register
  */
-typedef union
+union bdk_pko_pdm_mem_rw_ctl
 {
     uint64_t u;
     struct bdk_pko_pdm_mem_rw_ctl_s
@@ -10672,7 +10830,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pdm_mem_rw_ctl_s cn; */
-} bdk_pko_pdm_mem_rw_ctl_t;
+};
+typedef union bdk_pko_pdm_mem_rw_ctl bdk_pko_pdm_mem_rw_ctl_t;
 
 #define BDK_PKO_PDM_MEM_RW_CTL BDK_PKO_PDM_MEM_RW_CTL_FUNC()
 static inline uint64_t BDK_PKO_PDM_MEM_RW_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -10695,7 +10854,7 @@ static inline uint64_t BDK_PKO_PDM_MEM_RW_CTL_FUNC(void)
  *
  * PKO PDM Memory Read/Write Status Register
  */
-typedef union
+union bdk_pko_pdm_mem_rw_sts
 {
     uint64_t u;
     struct bdk_pko_pdm_mem_rw_sts_s
@@ -10709,7 +10868,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pdm_mem_rw_sts_s cn; */
-} bdk_pko_pdm_mem_rw_sts_t;
+};
+typedef union bdk_pko_pdm_mem_rw_sts bdk_pko_pdm_mem_rw_sts_t;
 
 #define BDK_PKO_PDM_MEM_RW_STS BDK_PKO_PDM_MEM_RW_STS_FUNC()
 static inline uint64_t BDK_PKO_PDM_MEM_RW_STS_FUNC(void) __attribute__ ((pure, always_inline));
@@ -10732,7 +10892,7 @@ static inline uint64_t BDK_PKO_PDM_MEM_RW_STS_FUNC(void)
  *
  * INTERNAL: PKO PDM MWPBUF Debug Register
  */
-typedef union
+union bdk_pko_pdm_mwpbuf_dbg
 {
     uint64_t u;
     struct bdk_pko_pdm_mwpbuf_dbg_s
@@ -10798,7 +10958,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pdm_mwpbuf_dbg_s cn; */
-} bdk_pko_pdm_mwpbuf_dbg_t;
+};
+typedef union bdk_pko_pdm_mwpbuf_dbg bdk_pko_pdm_mwpbuf_dbg_t;
 
 #define BDK_PKO_PDM_MWPBUF_DBG BDK_PKO_PDM_MWPBUF_DBG_FUNC()
 static inline uint64_t BDK_PKO_PDM_MWPBUF_DBG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -10822,7 +10983,7 @@ static inline uint64_t BDK_PKO_PDM_MWPBUF_DBG_FUNC(void)
  * PKO NCB RAM BIST Status Register
  * Each bit is the BIST result of an individual memory (per bit, 0 = pass and 1 = fail).
  */
-typedef union
+union bdk_pko_pdm_ncb_bist_status
 {
     uint64_t u;
     struct bdk_pko_pdm_ncb_bist_status_s
@@ -10842,7 +11003,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pdm_ncb_bist_status_s cn; */
-} bdk_pko_pdm_ncb_bist_status_t;
+};
+typedef union bdk_pko_pdm_ncb_bist_status bdk_pko_pdm_ncb_bist_status_t;
 
 #define BDK_PKO_PDM_NCB_BIST_STATUS BDK_PKO_PDM_NCB_BIST_STATUS_FUNC()
 static inline uint64_t BDK_PKO_PDM_NCB_BIST_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
@@ -10865,7 +11027,7 @@ static inline uint64_t BDK_PKO_PDM_NCB_BIST_STATUS_FUNC(void)
  *
  * PKO PDM Configuration Register
  */
-typedef union
+union bdk_pko_pdm_ncb_cfg
 {
     uint64_t u;
     struct bdk_pko_pdm_ncb_cfg_s
@@ -10887,7 +11049,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pdm_ncb_cfg_s cn; */
-} bdk_pko_pdm_ncb_cfg_t;
+};
+typedef union bdk_pko_pdm_ncb_cfg bdk_pko_pdm_ncb_cfg_t;
 
 #define BDK_PKO_PDM_NCB_CFG BDK_PKO_PDM_NCB_CFG_FUNC()
 static inline uint64_t BDK_PKO_PDM_NCB_CFG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -10910,7 +11073,7 @@ static inline uint64_t BDK_PKO_PDM_NCB_CFG_FUNC(void)
  *
  * PKO NCB RAM ECC Control Register 0
  */
-typedef union
+union bdk_pko_pdm_ncb_ecc_ctl0
 {
     uint64_t u;
     struct bdk_pko_pdm_ncb_ecc_ctl0_s
@@ -10938,7 +11101,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pdm_ncb_ecc_ctl0_s cn; */
-} bdk_pko_pdm_ncb_ecc_ctl0_t;
+};
+typedef union bdk_pko_pdm_ncb_ecc_ctl0 bdk_pko_pdm_ncb_ecc_ctl0_t;
 
 #define BDK_PKO_PDM_NCB_ECC_CTL0 BDK_PKO_PDM_NCB_ECC_CTL0_FUNC()
 static inline uint64_t BDK_PKO_PDM_NCB_ECC_CTL0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -10962,7 +11126,7 @@ static inline uint64_t BDK_PKO_PDM_NCB_ECC_CTL0_FUNC(void)
  * PKO NCB RAM ECC DBE Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_pko_pdm_ncb_ecc_dbe_int_ena_w1c
 {
     uint64_t u;
     struct bdk_pko_pdm_ncb_ecc_dbe_int_ena_w1c_s
@@ -10974,7 +11138,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pdm_ncb_ecc_dbe_int_ena_w1c_s cn; */
-} bdk_pko_pdm_ncb_ecc_dbe_int_ena_w1c_t;
+};
+typedef union bdk_pko_pdm_ncb_ecc_dbe_int_ena_w1c bdk_pko_pdm_ncb_ecc_dbe_int_ena_w1c_t;
 
 #define BDK_PKO_PDM_NCB_ECC_DBE_INT_ENA_W1C BDK_PKO_PDM_NCB_ECC_DBE_INT_ENA_W1C_FUNC()
 static inline uint64_t BDK_PKO_PDM_NCB_ECC_DBE_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -10998,7 +11163,7 @@ static inline uint64_t BDK_PKO_PDM_NCB_ECC_DBE_INT_ENA_W1C_FUNC(void)
  * PKO NCB RAM ECC DBE Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_pko_pdm_ncb_ecc_dbe_int_ena_w1s
 {
     uint64_t u;
     struct bdk_pko_pdm_ncb_ecc_dbe_int_ena_w1s_s
@@ -11010,7 +11175,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pdm_ncb_ecc_dbe_int_ena_w1s_s cn; */
-} bdk_pko_pdm_ncb_ecc_dbe_int_ena_w1s_t;
+};
+typedef union bdk_pko_pdm_ncb_ecc_dbe_int_ena_w1s bdk_pko_pdm_ncb_ecc_dbe_int_ena_w1s_t;
 
 #define BDK_PKO_PDM_NCB_ECC_DBE_INT_ENA_W1S BDK_PKO_PDM_NCB_ECC_DBE_INT_ENA_W1S_FUNC()
 static inline uint64_t BDK_PKO_PDM_NCB_ECC_DBE_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -11033,7 +11199,7 @@ static inline uint64_t BDK_PKO_PDM_NCB_ECC_DBE_INT_ENA_W1S_FUNC(void)
  *
  * PKO NCB RAM ECC DBE Interrupt Register
  */
-typedef union
+union bdk_pko_pdm_ncb_ecc_dbe_w1c
 {
     uint64_t u;
     struct bdk_pko_pdm_ncb_ecc_dbe_w1c_s
@@ -11045,7 +11211,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pdm_ncb_ecc_dbe_w1c_s cn; */
-} bdk_pko_pdm_ncb_ecc_dbe_w1c_t;
+};
+typedef union bdk_pko_pdm_ncb_ecc_dbe_w1c bdk_pko_pdm_ncb_ecc_dbe_w1c_t;
 
 #define BDK_PKO_PDM_NCB_ECC_DBE_W1C BDK_PKO_PDM_NCB_ECC_DBE_W1C_FUNC()
 static inline uint64_t BDK_PKO_PDM_NCB_ECC_DBE_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -11069,7 +11236,7 @@ static inline uint64_t BDK_PKO_PDM_NCB_ECC_DBE_W1C_FUNC(void)
  * PKO NCB RAM ECC DBE Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_pko_pdm_ncb_ecc_dbe_w1s
 {
     uint64_t u;
     struct bdk_pko_pdm_ncb_ecc_dbe_w1s_s
@@ -11081,7 +11248,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pdm_ncb_ecc_dbe_w1s_s cn; */
-} bdk_pko_pdm_ncb_ecc_dbe_w1s_t;
+};
+typedef union bdk_pko_pdm_ncb_ecc_dbe_w1s bdk_pko_pdm_ncb_ecc_dbe_w1s_t;
 
 #define BDK_PKO_PDM_NCB_ECC_DBE_W1S BDK_PKO_PDM_NCB_ECC_DBE_W1S_FUNC()
 static inline uint64_t BDK_PKO_PDM_NCB_ECC_DBE_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -11105,7 +11273,7 @@ static inline uint64_t BDK_PKO_PDM_NCB_ECC_DBE_W1S_FUNC(void)
  * PKO DQ RAM ECC SBE Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_pko_pdm_ncb_ecc_sbe_int_ena_w1c
 {
     uint64_t u;
     struct bdk_pko_pdm_ncb_ecc_sbe_int_ena_w1c_s
@@ -11117,7 +11285,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pdm_ncb_ecc_sbe_int_ena_w1c_s cn; */
-} bdk_pko_pdm_ncb_ecc_sbe_int_ena_w1c_t;
+};
+typedef union bdk_pko_pdm_ncb_ecc_sbe_int_ena_w1c bdk_pko_pdm_ncb_ecc_sbe_int_ena_w1c_t;
 
 #define BDK_PKO_PDM_NCB_ECC_SBE_INT_ENA_W1C BDK_PKO_PDM_NCB_ECC_SBE_INT_ENA_W1C_FUNC()
 static inline uint64_t BDK_PKO_PDM_NCB_ECC_SBE_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -11141,7 +11310,7 @@ static inline uint64_t BDK_PKO_PDM_NCB_ECC_SBE_INT_ENA_W1C_FUNC(void)
  * PKO DQ RAM ECC SBE Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_pko_pdm_ncb_ecc_sbe_int_ena_w1s
 {
     uint64_t u;
     struct bdk_pko_pdm_ncb_ecc_sbe_int_ena_w1s_s
@@ -11153,7 +11322,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pdm_ncb_ecc_sbe_int_ena_w1s_s cn; */
-} bdk_pko_pdm_ncb_ecc_sbe_int_ena_w1s_t;
+};
+typedef union bdk_pko_pdm_ncb_ecc_sbe_int_ena_w1s bdk_pko_pdm_ncb_ecc_sbe_int_ena_w1s_t;
 
 #define BDK_PKO_PDM_NCB_ECC_SBE_INT_ENA_W1S BDK_PKO_PDM_NCB_ECC_SBE_INT_ENA_W1S_FUNC()
 static inline uint64_t BDK_PKO_PDM_NCB_ECC_SBE_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -11176,7 +11346,7 @@ static inline uint64_t BDK_PKO_PDM_NCB_ECC_SBE_INT_ENA_W1S_FUNC(void)
  *
  * PKO NCB RAM ECC SBE Interrupt Register
  */
-typedef union
+union bdk_pko_pdm_ncb_ecc_sbe_w1c
 {
     uint64_t u;
     struct bdk_pko_pdm_ncb_ecc_sbe_w1c_s
@@ -11188,7 +11358,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pdm_ncb_ecc_sbe_w1c_s cn; */
-} bdk_pko_pdm_ncb_ecc_sbe_w1c_t;
+};
+typedef union bdk_pko_pdm_ncb_ecc_sbe_w1c bdk_pko_pdm_ncb_ecc_sbe_w1c_t;
 
 #define BDK_PKO_PDM_NCB_ECC_SBE_W1C BDK_PKO_PDM_NCB_ECC_SBE_W1C_FUNC()
 static inline uint64_t BDK_PKO_PDM_NCB_ECC_SBE_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -11212,7 +11383,7 @@ static inline uint64_t BDK_PKO_PDM_NCB_ECC_SBE_W1C_FUNC(void)
  * PKO NCB ECC SBE Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_pko_pdm_ncb_ecc_sbe_w1s
 {
     uint64_t u;
     struct bdk_pko_pdm_ncb_ecc_sbe_w1s_s
@@ -11224,7 +11395,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pdm_ncb_ecc_sbe_w1s_s cn; */
-} bdk_pko_pdm_ncb_ecc_sbe_w1s_t;
+};
+typedef union bdk_pko_pdm_ncb_ecc_sbe_w1s bdk_pko_pdm_ncb_ecc_sbe_w1s_t;
 
 #define BDK_PKO_PDM_NCB_ECC_SBE_W1S BDK_PKO_PDM_NCB_ECC_SBE_W1S_FUNC()
 static inline uint64_t BDK_PKO_PDM_NCB_ECC_SBE_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -11248,7 +11420,7 @@ static inline uint64_t BDK_PKO_PDM_NCB_ECC_SBE_W1S_FUNC(void)
  * PKO NCB Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_pko_pdm_ncb_int_ena_w1c
 {
     uint64_t u;
     struct bdk_pko_pdm_ncb_int_ena_w1c_s
@@ -11266,7 +11438,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pdm_ncb_int_ena_w1c_s cn; */
-} bdk_pko_pdm_ncb_int_ena_w1c_t;
+};
+typedef union bdk_pko_pdm_ncb_int_ena_w1c bdk_pko_pdm_ncb_int_ena_w1c_t;
 
 #define BDK_PKO_PDM_NCB_INT_ENA_W1C BDK_PKO_PDM_NCB_INT_ENA_W1C_FUNC()
 static inline uint64_t BDK_PKO_PDM_NCB_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -11290,7 +11463,7 @@ static inline uint64_t BDK_PKO_PDM_NCB_INT_ENA_W1C_FUNC(void)
  * PKO NCB Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_pko_pdm_ncb_int_ena_w1s
 {
     uint64_t u;
     struct bdk_pko_pdm_ncb_int_ena_w1s_s
@@ -11308,7 +11481,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pdm_ncb_int_ena_w1s_s cn; */
-} bdk_pko_pdm_ncb_int_ena_w1s_t;
+};
+typedef union bdk_pko_pdm_ncb_int_ena_w1s bdk_pko_pdm_ncb_int_ena_w1s_t;
 
 #define BDK_PKO_PDM_NCB_INT_ENA_W1S BDK_PKO_PDM_NCB_INT_ENA_W1S_FUNC()
 static inline uint64_t BDK_PKO_PDM_NCB_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -11331,7 +11505,7 @@ static inline uint64_t BDK_PKO_PDM_NCB_INT_ENA_W1S_FUNC(void)
  *
  * PKO NCB Interrupt Register
  */
-typedef union
+union bdk_pko_pdm_ncb_int_w1c
 {
     uint64_t u;
     struct bdk_pko_pdm_ncb_int_w1c_s
@@ -11363,7 +11537,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pdm_ncb_int_w1c_s cn; */
-} bdk_pko_pdm_ncb_int_w1c_t;
+};
+typedef union bdk_pko_pdm_ncb_int_w1c bdk_pko_pdm_ncb_int_w1c_t;
 
 #define BDK_PKO_PDM_NCB_INT_W1C BDK_PKO_PDM_NCB_INT_W1C_FUNC()
 static inline uint64_t BDK_PKO_PDM_NCB_INT_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -11387,7 +11562,7 @@ static inline uint64_t BDK_PKO_PDM_NCB_INT_W1C_FUNC(void)
  * PKO NCB Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_pko_pdm_ncb_int_w1s
 {
     uint64_t u;
     struct bdk_pko_pdm_ncb_int_w1s_s
@@ -11405,7 +11580,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pdm_ncb_int_w1s_s cn; */
-} bdk_pko_pdm_ncb_int_w1s_t;
+};
+typedef union bdk_pko_pdm_ncb_int_w1s bdk_pko_pdm_ncb_int_w1s_t;
 
 #define BDK_PKO_PDM_NCB_INT_W1S BDK_PKO_PDM_NCB_INT_W1S_FUNC()
 static inline uint64_t BDK_PKO_PDM_NCB_INT_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -11428,7 +11604,7 @@ static inline uint64_t BDK_PKO_PDM_NCB_INT_W1S_FUNC(void)
  *
  * PKO PDM NCB Memory Fault Capture Register
  */
-typedef union
+union bdk_pko_pdm_ncb_mem_fault
 {
     uint64_t u;
     struct bdk_pko_pdm_ncb_mem_fault_s
@@ -11464,7 +11640,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pdm_ncb_mem_fault_s cn; */
-} bdk_pko_pdm_ncb_mem_fault_t;
+};
+typedef union bdk_pko_pdm_ncb_mem_fault bdk_pko_pdm_ncb_mem_fault_t;
 
 #define BDK_PKO_PDM_NCB_MEM_FAULT BDK_PKO_PDM_NCB_MEM_FAULT_FUNC()
 static inline uint64_t BDK_PKO_PDM_NCB_MEM_FAULT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -11487,7 +11664,7 @@ static inline uint64_t BDK_PKO_PDM_NCB_MEM_FAULT_FUNC(void)
  *
  * PKO NCB TX Error Information Register
  */
-typedef union
+union bdk_pko_pdm_ncb_tx_err_info
 {
     uint64_t u;
     struct bdk_pko_pdm_ncb_tx_err_info_s
@@ -11513,7 +11690,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pdm_ncb_tx_err_info_s cn; */
-} bdk_pko_pdm_ncb_tx_err_info_t;
+};
+typedef union bdk_pko_pdm_ncb_tx_err_info bdk_pko_pdm_ncb_tx_err_info_t;
 
 #define BDK_PKO_PDM_NCB_TX_ERR_INFO BDK_PKO_PDM_NCB_TX_ERR_INFO_FUNC()
 static inline uint64_t BDK_PKO_PDM_NCB_TX_ERR_INFO_FUNC(void) __attribute__ ((pure, always_inline));
@@ -11536,7 +11714,7 @@ static inline uint64_t BDK_PKO_PDM_NCB_TX_ERR_INFO_FUNC(void)
  *
  * PKO NCB TX Error Word Register
  */
-typedef union
+union bdk_pko_pdm_ncb_tx_err_word
 {
     uint64_t u;
     struct bdk_pko_pdm_ncb_tx_err_word_s
@@ -11552,7 +11730,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pdm_ncb_tx_err_word_s cn; */
-} bdk_pko_pdm_ncb_tx_err_word_t;
+};
+typedef union bdk_pko_pdm_ncb_tx_err_word bdk_pko_pdm_ncb_tx_err_word_t;
 
 #define BDK_PKO_PDM_NCB_TX_ERR_WORD BDK_PKO_PDM_NCB_TX_ERR_WORD_FUNC()
 static inline uint64_t BDK_PKO_PDM_NCB_TX_ERR_WORD_FUNC(void) __attribute__ ((pure, always_inline));
@@ -11575,7 +11754,7 @@ static inline uint64_t BDK_PKO_PDM_NCB_TX_ERR_WORD_FUNC(void)
  *
  * PKO PDM Status Register
  */
-typedef union
+union bdk_pko_pdm_sts_info
 {
     uint64_t u;
     struct bdk_pko_pdm_sts_info_s
@@ -11686,7 +11865,8 @@ typedef union
         uint64_t reserved_30_63        : 34;
 #endif /* Word 0 - End */
     } cn;
-} bdk_pko_pdm_sts_info_t;
+};
+typedef union bdk_pko_pdm_sts_info bdk_pko_pdm_sts_info_t;
 
 #define BDK_PKO_PDM_STS_INFO BDK_PKO_PDM_STS_INFO_FUNC()
 static inline uint64_t BDK_PKO_PDM_STS_INFO_FUNC(void) __attribute__ ((pure, always_inline));
@@ -11710,7 +11890,7 @@ static inline uint64_t BDK_PKO_PDM_STS_INFO_FUNC(void)
  * PKO PDM Status Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_pko_pdm_sts_int_ena_w1c
 {
     uint64_t u;
     struct bdk_pko_pdm_sts_int_ena_w1c_s
@@ -11760,7 +11940,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pdm_sts_int_ena_w1c_s cn; */
-} bdk_pko_pdm_sts_int_ena_w1c_t;
+};
+typedef union bdk_pko_pdm_sts_int_ena_w1c bdk_pko_pdm_sts_int_ena_w1c_t;
 
 #define BDK_PKO_PDM_STS_INT_ENA_W1C BDK_PKO_PDM_STS_INT_ENA_W1C_FUNC()
 static inline uint64_t BDK_PKO_PDM_STS_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -11784,7 +11965,7 @@ static inline uint64_t BDK_PKO_PDM_STS_INT_ENA_W1C_FUNC(void)
  * PKO PDM Status Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_pko_pdm_sts_int_ena_w1s
 {
     uint64_t u;
     struct bdk_pko_pdm_sts_int_ena_w1s_s
@@ -11834,7 +12015,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pdm_sts_int_ena_w1s_s cn; */
-} bdk_pko_pdm_sts_int_ena_w1s_t;
+};
+typedef union bdk_pko_pdm_sts_int_ena_w1s bdk_pko_pdm_sts_int_ena_w1s_t;
 
 #define BDK_PKO_PDM_STS_INT_ENA_W1S BDK_PKO_PDM_STS_INT_ENA_W1S_FUNC()
 static inline uint64_t BDK_PKO_PDM_STS_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -11857,7 +12039,7 @@ static inline uint64_t BDK_PKO_PDM_STS_INT_ENA_W1S_FUNC(void)
  *
  * PKO PDM Status Interrupt Register
  */
-typedef union
+union bdk_pko_pdm_sts_w1c
 {
     uint64_t u;
     struct bdk_pko_pdm_sts_w1c_s
@@ -11925,7 +12107,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pdm_sts_w1c_s cn; */
-} bdk_pko_pdm_sts_w1c_t;
+};
+typedef union bdk_pko_pdm_sts_w1c bdk_pko_pdm_sts_w1c_t;
 
 #define BDK_PKO_PDM_STS_W1C BDK_PKO_PDM_STS_W1C_FUNC()
 static inline uint64_t BDK_PKO_PDM_STS_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -11949,7 +12132,7 @@ static inline uint64_t BDK_PKO_PDM_STS_W1C_FUNC(void)
  * PKO PDM Status Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_pko_pdm_sts_w1s
 {
     uint64_t u;
     struct bdk_pko_pdm_sts_w1s_s
@@ -11999,7 +12182,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pdm_sts_w1s_s cn; */
-} bdk_pko_pdm_sts_w1s_t;
+};
+typedef union bdk_pko_pdm_sts_w1s bdk_pko_pdm_sts_w1s_t;
 
 #define BDK_PKO_PDM_STS_W1S BDK_PKO_PDM_STS_W1S_FUNC()
 static inline uint64_t BDK_PKO_PDM_STS_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -12023,7 +12207,7 @@ static inline uint64_t BDK_PKO_PDM_STS_W1S_FUNC(void)
  * PKO PEB BIST Status Information Register
  * Each bit is the BIST result of an individual memory (per bit, 0 = pass and 1 = fail).
  */
-typedef union
+union bdk_pko_peb_bist_status
 {
     uint64_t u;
     struct bdk_pko_peb_bist_status_s
@@ -12083,7 +12267,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_peb_bist_status_s cn; */
-} bdk_pko_peb_bist_status_t;
+};
+typedef union bdk_pko_peb_bist_status bdk_pko_peb_bist_status_t;
 
 #define BDK_PKO_PEB_BIST_STATUS BDK_PKO_PEB_BIST_STATUS_FUNC()
 static inline uint64_t BDK_PKO_PEB_BIST_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
@@ -12106,7 +12291,7 @@ static inline uint64_t BDK_PKO_PEB_BIST_STATUS_FUNC(void)
  *
  * PKO PEB RAM ECC Control Register 0
  */
-typedef union
+union bdk_pko_peb_ecc_ctl0
 {
     uint64_t u;
     struct bdk_pko_peb_ecc_ctl0_s
@@ -12194,7 +12379,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_peb_ecc_ctl0_s cn; */
-} bdk_pko_peb_ecc_ctl0_t;
+};
+typedef union bdk_pko_peb_ecc_ctl0 bdk_pko_peb_ecc_ctl0_t;
 
 #define BDK_PKO_PEB_ECC_CTL0 BDK_PKO_PEB_ECC_CTL0_FUNC()
 static inline uint64_t BDK_PKO_PEB_ECC_CTL0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -12217,7 +12403,7 @@ static inline uint64_t BDK_PKO_PEB_ECC_CTL0_FUNC(void)
  *
  * PKO PEB RAM ECC Control Register 1
  */
-typedef union
+union bdk_pko_peb_ecc_ctl1
 {
     uint64_t u;
     struct bdk_pko_peb_ecc_ctl1_s
@@ -12243,7 +12429,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_peb_ecc_ctl1_s cn; */
-} bdk_pko_peb_ecc_ctl1_t;
+};
+typedef union bdk_pko_peb_ecc_ctl1 bdk_pko_peb_ecc_ctl1_t;
 
 #define BDK_PKO_PEB_ECC_CTL1 BDK_PKO_PEB_ECC_CTL1_FUNC()
 static inline uint64_t BDK_PKO_PEB_ECC_CTL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -12267,7 +12454,7 @@ static inline uint64_t BDK_PKO_PEB_ECC_CTL1_FUNC(void)
  * PKO PEB RAM ECC DBE Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_pko_peb_ecc_dbe_int_ena_w1c
 {
     uint64_t u;
     struct bdk_pko_peb_ecc_dbe_int_ena_w1c_s
@@ -12279,7 +12466,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_peb_ecc_dbe_int_ena_w1c_s cn; */
-} bdk_pko_peb_ecc_dbe_int_ena_w1c_t;
+};
+typedef union bdk_pko_peb_ecc_dbe_int_ena_w1c bdk_pko_peb_ecc_dbe_int_ena_w1c_t;
 
 #define BDK_PKO_PEB_ECC_DBE_INT_ENA_W1C BDK_PKO_PEB_ECC_DBE_INT_ENA_W1C_FUNC()
 static inline uint64_t BDK_PKO_PEB_ECC_DBE_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -12303,7 +12491,7 @@ static inline uint64_t BDK_PKO_PEB_ECC_DBE_INT_ENA_W1C_FUNC(void)
  * PKO PEB RAM ECC DBE Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_pko_peb_ecc_dbe_int_ena_w1s
 {
     uint64_t u;
     struct bdk_pko_peb_ecc_dbe_int_ena_w1s_s
@@ -12315,7 +12503,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_peb_ecc_dbe_int_ena_w1s_s cn; */
-} bdk_pko_peb_ecc_dbe_int_ena_w1s_t;
+};
+typedef union bdk_pko_peb_ecc_dbe_int_ena_w1s bdk_pko_peb_ecc_dbe_int_ena_w1s_t;
 
 #define BDK_PKO_PEB_ECC_DBE_INT_ENA_W1S BDK_PKO_PEB_ECC_DBE_INT_ENA_W1S_FUNC()
 static inline uint64_t BDK_PKO_PEB_ECC_DBE_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -12338,7 +12527,7 @@ static inline uint64_t BDK_PKO_PEB_ECC_DBE_INT_ENA_W1S_FUNC(void)
  *
  * PKO PEB RAM ECC DBE Interrupt Register
  */
-typedef union
+union bdk_pko_peb_ecc_dbe_w1c
 {
     uint64_t u;
     struct bdk_pko_peb_ecc_dbe_w1c_s
@@ -12350,7 +12539,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_peb_ecc_dbe_w1c_s cn; */
-} bdk_pko_peb_ecc_dbe_w1c_t;
+};
+typedef union bdk_pko_peb_ecc_dbe_w1c bdk_pko_peb_ecc_dbe_w1c_t;
 
 #define BDK_PKO_PEB_ECC_DBE_W1C BDK_PKO_PEB_ECC_DBE_W1C_FUNC()
 static inline uint64_t BDK_PKO_PEB_ECC_DBE_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -12374,7 +12564,7 @@ static inline uint64_t BDK_PKO_PEB_ECC_DBE_W1C_FUNC(void)
  * PKO PEB RAM ECC DBE Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_pko_peb_ecc_dbe_w1s
 {
     uint64_t u;
     struct bdk_pko_peb_ecc_dbe_w1s_s
@@ -12386,7 +12576,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_peb_ecc_dbe_w1s_s cn; */
-} bdk_pko_peb_ecc_dbe_w1s_t;
+};
+typedef union bdk_pko_peb_ecc_dbe_w1s bdk_pko_peb_ecc_dbe_w1s_t;
 
 #define BDK_PKO_PEB_ECC_DBE_W1S BDK_PKO_PEB_ECC_DBE_W1S_FUNC()
 static inline uint64_t BDK_PKO_PEB_ECC_DBE_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -12410,7 +12601,7 @@ static inline uint64_t BDK_PKO_PEB_ECC_DBE_W1S_FUNC(void)
  * PKO PEB RAM ECC DBE Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_pko_peb_ecc_sbe_int_ena_w1c
 {
     uint64_t u;
     struct bdk_pko_peb_ecc_sbe_int_ena_w1c_s
@@ -12422,7 +12613,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_peb_ecc_sbe_int_ena_w1c_s cn; */
-} bdk_pko_peb_ecc_sbe_int_ena_w1c_t;
+};
+typedef union bdk_pko_peb_ecc_sbe_int_ena_w1c bdk_pko_peb_ecc_sbe_int_ena_w1c_t;
 
 #define BDK_PKO_PEB_ECC_SBE_INT_ENA_W1C BDK_PKO_PEB_ECC_SBE_INT_ENA_W1C_FUNC()
 static inline uint64_t BDK_PKO_PEB_ECC_SBE_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -12446,7 +12638,7 @@ static inline uint64_t BDK_PKO_PEB_ECC_SBE_INT_ENA_W1C_FUNC(void)
  * PKO PEB RAM ECC DBE Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_pko_peb_ecc_sbe_int_ena_w1s
 {
     uint64_t u;
     struct bdk_pko_peb_ecc_sbe_int_ena_w1s_s
@@ -12458,7 +12650,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_peb_ecc_sbe_int_ena_w1s_s cn; */
-} bdk_pko_peb_ecc_sbe_int_ena_w1s_t;
+};
+typedef union bdk_pko_peb_ecc_sbe_int_ena_w1s bdk_pko_peb_ecc_sbe_int_ena_w1s_t;
 
 #define BDK_PKO_PEB_ECC_SBE_INT_ENA_W1S BDK_PKO_PEB_ECC_SBE_INT_ENA_W1S_FUNC()
 static inline uint64_t BDK_PKO_PEB_ECC_SBE_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -12481,7 +12674,7 @@ static inline uint64_t BDK_PKO_PEB_ECC_SBE_INT_ENA_W1S_FUNC(void)
  *
  * PKO PEB RAM ECC SBE Interrupt Register
  */
-typedef union
+union bdk_pko_peb_ecc_sbe_w1c
 {
     uint64_t u;
     struct bdk_pko_peb_ecc_sbe_w1c_s
@@ -12493,7 +12686,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_peb_ecc_sbe_w1c_s cn; */
-} bdk_pko_peb_ecc_sbe_w1c_t;
+};
+typedef union bdk_pko_peb_ecc_sbe_w1c bdk_pko_peb_ecc_sbe_w1c_t;
 
 #define BDK_PKO_PEB_ECC_SBE_W1C BDK_PKO_PEB_ECC_SBE_W1C_FUNC()
 static inline uint64_t BDK_PKO_PEB_ECC_SBE_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -12517,7 +12711,7 @@ static inline uint64_t BDK_PKO_PEB_ECC_SBE_W1C_FUNC(void)
  * PKO PEB ECC SBE Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_pko_peb_ecc_sbe_w1s
 {
     uint64_t u;
     struct bdk_pko_peb_ecc_sbe_w1s_s
@@ -12529,7 +12723,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_peb_ecc_sbe_w1s_s cn; */
-} bdk_pko_peb_ecc_sbe_w1s_t;
+};
+typedef union bdk_pko_peb_ecc_sbe_w1s bdk_pko_peb_ecc_sbe_w1s_t;
 
 #define BDK_PKO_PEB_ECC_SBE_W1S BDK_PKO_PEB_ECC_SBE_W1S_FUNC()
 static inline uint64_t BDK_PKO_PEB_ECC_SBE_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -12552,7 +12747,7 @@ static inline uint64_t BDK_PKO_PEB_ECC_SBE_W1S_FUNC(void)
  *
  * INTERNAL: PKO PEB ECO Register
  */
-typedef union
+union bdk_pko_peb_eco
 {
     uint64_t u;
     struct bdk_pko_peb_eco_s
@@ -12568,7 +12763,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_peb_eco_s cn; */
-} bdk_pko_peb_eco_t;
+};
+typedef union bdk_pko_peb_eco bdk_pko_peb_eco_t;
 
 #define BDK_PKO_PEB_ECO BDK_PKO_PEB_ECO_FUNC()
 static inline uint64_t BDK_PKO_PEB_ECO_FUNC(void) __attribute__ ((pure, always_inline));
@@ -12592,7 +12788,7 @@ static inline uint64_t BDK_PKO_PEB_ECO_FUNC(void)
  * PKO PEB Error Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_pko_peb_err_int_ena_w1c
 {
     uint64_t u;
     struct bdk_pko_peb_err_int_ena_w1c_s
@@ -12624,7 +12820,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_peb_err_int_ena_w1c_s cn; */
-} bdk_pko_peb_err_int_ena_w1c_t;
+};
+typedef union bdk_pko_peb_err_int_ena_w1c bdk_pko_peb_err_int_ena_w1c_t;
 
 #define BDK_PKO_PEB_ERR_INT_ENA_W1C BDK_PKO_PEB_ERR_INT_ENA_W1C_FUNC()
 static inline uint64_t BDK_PKO_PEB_ERR_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -12648,7 +12845,7 @@ static inline uint64_t BDK_PKO_PEB_ERR_INT_ENA_W1C_FUNC(void)
  * PKO PEB Error Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_pko_peb_err_int_ena_w1s
 {
     uint64_t u;
     struct bdk_pko_peb_err_int_ena_w1s_s
@@ -12680,7 +12877,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_peb_err_int_ena_w1s_s cn; */
-} bdk_pko_peb_err_int_ena_w1s_t;
+};
+typedef union bdk_pko_peb_err_int_ena_w1s bdk_pko_peb_err_int_ena_w1s_t;
 
 #define BDK_PKO_PEB_ERR_INT_ENA_W1S BDK_PKO_PEB_ERR_INT_ENA_W1S_FUNC()
 static inline uint64_t BDK_PKO_PEB_ERR_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -12703,7 +12901,7 @@ static inline uint64_t BDK_PKO_PEB_ERR_INT_ENA_W1S_FUNC(void)
  *
  * PKO PEB Error Interrupt Status Register
  */
-typedef union
+union bdk_pko_peb_err_int_w1c
 {
     uint64_t u;
     struct bdk_pko_peb_err_int_w1c_s
@@ -12737,7 +12935,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_peb_err_int_w1c_s cn; */
-} bdk_pko_peb_err_int_w1c_t;
+};
+typedef union bdk_pko_peb_err_int_w1c bdk_pko_peb_err_int_w1c_t;
 
 #define BDK_PKO_PEB_ERR_INT_W1C BDK_PKO_PEB_ERR_INT_W1C_FUNC()
 static inline uint64_t BDK_PKO_PEB_ERR_INT_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -12761,7 +12960,7 @@ static inline uint64_t BDK_PKO_PEB_ERR_INT_W1C_FUNC(void)
  * PKO PEB Error Interrupt Status Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_pko_peb_err_int_w1s
 {
     uint64_t u;
     struct bdk_pko_peb_err_int_w1s_s
@@ -12793,7 +12992,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_peb_err_int_w1s_s cn; */
-} bdk_pko_peb_err_int_w1s_t;
+};
+typedef union bdk_pko_peb_err_int_w1s bdk_pko_peb_err_int_w1s_t;
 
 #define BDK_PKO_PEB_ERR_INT_W1S BDK_PKO_PEB_ERR_INT_W1S_FUNC()
 static inline uint64_t BDK_PKO_PEB_ERR_INT_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -12816,7 +13016,7 @@ static inline uint64_t BDK_PKO_PEB_ERR_INT_W1S_FUNC(void)
  *
  * PKO FCS Error Information Register
  */
-typedef union
+union bdk_pko_peb_fcs_sop_err_info
 {
     uint64_t u;
     struct bdk_pko_peb_fcs_sop_err_info_s
@@ -12834,7 +13034,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_peb_fcs_sop_err_info_s cn; */
-} bdk_pko_peb_fcs_sop_err_info_t;
+};
+typedef union bdk_pko_peb_fcs_sop_err_info bdk_pko_peb_fcs_sop_err_info_t;
 
 #define BDK_PKO_PEB_FCS_SOP_ERR_INFO BDK_PKO_PEB_FCS_SOP_ERR_INFO_FUNC()
 static inline uint64_t BDK_PKO_PEB_FCS_SOP_ERR_INFO_FUNC(void) __attribute__ ((pure, always_inline));
@@ -12857,7 +13058,7 @@ static inline uint64_t BDK_PKO_PEB_FCS_SOP_ERR_INFO_FUNC(void)
  *
  * PKO Jump Error Information Register
  */
-typedef union
+union bdk_pko_peb_jump_def_err_info
 {
     uint64_t u;
     struct bdk_pko_peb_jump_def_err_info_s
@@ -12875,7 +13076,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_peb_jump_def_err_info_s cn; */
-} bdk_pko_peb_jump_def_err_info_t;
+};
+typedef union bdk_pko_peb_jump_def_err_info bdk_pko_peb_jump_def_err_info_t;
 
 #define BDK_PKO_PEB_JUMP_DEF_ERR_INFO BDK_PKO_PEB_JUMP_DEF_ERR_INFO_FUNC()
 static inline uint64_t BDK_PKO_PEB_JUMP_DEF_ERR_INFO_FUNC(void) __attribute__ ((pure, always_inline));
@@ -12898,7 +13100,7 @@ static inline uint64_t BDK_PKO_PEB_JUMP_DEF_ERR_INFO_FUNC(void)
  *
  * PKO MAC Configuration Error Information Register
  */
-typedef union
+union bdk_pko_peb_macx_cfg_wr_err_info
 {
     uint64_t u;
     struct bdk_pko_peb_macx_cfg_wr_err_info_s
@@ -12914,7 +13116,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_peb_macx_cfg_wr_err_info_s cn; */
-} bdk_pko_peb_macx_cfg_wr_err_info_t;
+};
+typedef union bdk_pko_peb_macx_cfg_wr_err_info bdk_pko_peb_macx_cfg_wr_err_info_t;
 
 #define BDK_PKO_PEB_MACX_CFG_WR_ERR_INFO BDK_PKO_PEB_MACX_CFG_WR_ERR_INFO_FUNC()
 static inline uint64_t BDK_PKO_PEB_MACX_CFG_WR_ERR_INFO_FUNC(void) __attribute__ ((pure, always_inline));
@@ -12937,7 +13140,7 @@ static inline uint64_t BDK_PKO_PEB_MACX_CFG_WR_ERR_INFO_FUNC(void)
  *
  * PKO Max link Error Information Register
  */
-typedef union
+union bdk_pko_peb_max_link_err_info
 {
     uint64_t u;
     struct bdk_pko_peb_max_link_err_info_s
@@ -12955,7 +13158,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_peb_max_link_err_info_s cn; */
-} bdk_pko_peb_max_link_err_info_t;
+};
+typedef union bdk_pko_peb_max_link_err_info bdk_pko_peb_max_link_err_info_t;
 
 #define BDK_PKO_PEB_MAX_LINK_ERR_INFO BDK_PKO_PEB_MAX_LINK_ERR_INFO_FUNC()
 static inline uint64_t BDK_PKO_PEB_MAX_LINK_ERR_INFO_FUNC(void) __attribute__ ((pure, always_inline));
@@ -12979,7 +13183,7 @@ static inline uint64_t BDK_PKO_PEB_MAX_LINK_ERR_INFO_FUNC(void)
  * PKO PEB NCB RAM BIST Status Register
  * Each bit is the BIST result of an individual memory (per bit, 0 = pass and 1 = fail).
  */
-typedef union
+union bdk_pko_peb_ncb_bist_status
 {
     uint64_t u;
     struct bdk_pko_peb_ncb_bist_status_s
@@ -12993,7 +13197,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_peb_ncb_bist_status_s cn; */
-} bdk_pko_peb_ncb_bist_status_t;
+};
+typedef union bdk_pko_peb_ncb_bist_status bdk_pko_peb_ncb_bist_status_t;
 
 #define BDK_PKO_PEB_NCB_BIST_STATUS BDK_PKO_PEB_NCB_BIST_STATUS_FUNC()
 static inline uint64_t BDK_PKO_PEB_NCB_BIST_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
@@ -13016,7 +13221,7 @@ static inline uint64_t BDK_PKO_PEB_NCB_BIST_STATUS_FUNC(void)
  *
  * PKO PEB NCB Interface Configuration Register
  */
-typedef union
+union bdk_pko_peb_ncb_cfg
 {
     uint64_t u;
     struct bdk_pko_peb_ncb_cfg_s
@@ -13030,7 +13235,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_peb_ncb_cfg_s cn; */
-} bdk_pko_peb_ncb_cfg_t;
+};
+typedef union bdk_pko_peb_ncb_cfg bdk_pko_peb_ncb_cfg_t;
 
 #define BDK_PKO_PEB_NCB_CFG BDK_PKO_PEB_NCB_CFG_FUNC()
 static inline uint64_t BDK_PKO_PEB_NCB_CFG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -13053,7 +13259,7 @@ static inline uint64_t BDK_PKO_PEB_NCB_CFG_FUNC(void)
  *
  * PKO PEB NCB RAM ECC Control Register 0
  */
-typedef union
+union bdk_pko_peb_ncb_ecc_ctl0
 {
     uint64_t u;
     struct bdk_pko_peb_ncb_ecc_ctl0_s
@@ -13069,7 +13275,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_peb_ncb_ecc_ctl0_s cn; */
-} bdk_pko_peb_ncb_ecc_ctl0_t;
+};
+typedef union bdk_pko_peb_ncb_ecc_ctl0 bdk_pko_peb_ncb_ecc_ctl0_t;
 
 #define BDK_PKO_PEB_NCB_ECC_CTL0 BDK_PKO_PEB_NCB_ECC_CTL0_FUNC()
 static inline uint64_t BDK_PKO_PEB_NCB_ECC_CTL0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -13093,7 +13300,7 @@ static inline uint64_t BDK_PKO_PEB_NCB_ECC_CTL0_FUNC(void)
  * PKO NCB RAM ECC DBE Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_pko_peb_ncb_ecc_dbe_int_ena_w1c
 {
     uint64_t u;
     struct bdk_pko_peb_ncb_ecc_dbe_int_ena_w1c_s
@@ -13105,7 +13312,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_peb_ncb_ecc_dbe_int_ena_w1c_s cn; */
-} bdk_pko_peb_ncb_ecc_dbe_int_ena_w1c_t;
+};
+typedef union bdk_pko_peb_ncb_ecc_dbe_int_ena_w1c bdk_pko_peb_ncb_ecc_dbe_int_ena_w1c_t;
 
 #define BDK_PKO_PEB_NCB_ECC_DBE_INT_ENA_W1C BDK_PKO_PEB_NCB_ECC_DBE_INT_ENA_W1C_FUNC()
 static inline uint64_t BDK_PKO_PEB_NCB_ECC_DBE_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -13129,7 +13337,7 @@ static inline uint64_t BDK_PKO_PEB_NCB_ECC_DBE_INT_ENA_W1C_FUNC(void)
  * PKO NCB RAM ECC DBE Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_pko_peb_ncb_ecc_dbe_int_ena_w1s
 {
     uint64_t u;
     struct bdk_pko_peb_ncb_ecc_dbe_int_ena_w1s_s
@@ -13141,7 +13349,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_peb_ncb_ecc_dbe_int_ena_w1s_s cn; */
-} bdk_pko_peb_ncb_ecc_dbe_int_ena_w1s_t;
+};
+typedef union bdk_pko_peb_ncb_ecc_dbe_int_ena_w1s bdk_pko_peb_ncb_ecc_dbe_int_ena_w1s_t;
 
 #define BDK_PKO_PEB_NCB_ECC_DBE_INT_ENA_W1S BDK_PKO_PEB_NCB_ECC_DBE_INT_ENA_W1S_FUNC()
 static inline uint64_t BDK_PKO_PEB_NCB_ECC_DBE_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -13164,7 +13373,7 @@ static inline uint64_t BDK_PKO_PEB_NCB_ECC_DBE_INT_ENA_W1S_FUNC(void)
  *
  * PKO PEB NCB RAM ECC DBE Interrupt Register
  */
-typedef union
+union bdk_pko_peb_ncb_ecc_dbe_w1c
 {
     uint64_t u;
     struct bdk_pko_peb_ncb_ecc_dbe_w1c_s
@@ -13176,7 +13385,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_peb_ncb_ecc_dbe_w1c_s cn; */
-} bdk_pko_peb_ncb_ecc_dbe_w1c_t;
+};
+typedef union bdk_pko_peb_ncb_ecc_dbe_w1c bdk_pko_peb_ncb_ecc_dbe_w1c_t;
 
 #define BDK_PKO_PEB_NCB_ECC_DBE_W1C BDK_PKO_PEB_NCB_ECC_DBE_W1C_FUNC()
 static inline uint64_t BDK_PKO_PEB_NCB_ECC_DBE_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -13200,7 +13410,7 @@ static inline uint64_t BDK_PKO_PEB_NCB_ECC_DBE_W1C_FUNC(void)
  * PKO NCB RAM ECC DBE Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_pko_peb_ncb_ecc_dbe_w1s
 {
     uint64_t u;
     struct bdk_pko_peb_ncb_ecc_dbe_w1s_s
@@ -13212,7 +13422,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_peb_ncb_ecc_dbe_w1s_s cn; */
-} bdk_pko_peb_ncb_ecc_dbe_w1s_t;
+};
+typedef union bdk_pko_peb_ncb_ecc_dbe_w1s bdk_pko_peb_ncb_ecc_dbe_w1s_t;
 
 #define BDK_PKO_PEB_NCB_ECC_DBE_W1S BDK_PKO_PEB_NCB_ECC_DBE_W1S_FUNC()
 static inline uint64_t BDK_PKO_PEB_NCB_ECC_DBE_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -13236,7 +13447,7 @@ static inline uint64_t BDK_PKO_PEB_NCB_ECC_DBE_W1S_FUNC(void)
  * PKO DQ RAM ECC SBE Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_pko_peb_ncb_ecc_sbe_int_ena_w1c
 {
     uint64_t u;
     struct bdk_pko_peb_ncb_ecc_sbe_int_ena_w1c_s
@@ -13248,7 +13459,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_peb_ncb_ecc_sbe_int_ena_w1c_s cn; */
-} bdk_pko_peb_ncb_ecc_sbe_int_ena_w1c_t;
+};
+typedef union bdk_pko_peb_ncb_ecc_sbe_int_ena_w1c bdk_pko_peb_ncb_ecc_sbe_int_ena_w1c_t;
 
 #define BDK_PKO_PEB_NCB_ECC_SBE_INT_ENA_W1C BDK_PKO_PEB_NCB_ECC_SBE_INT_ENA_W1C_FUNC()
 static inline uint64_t BDK_PKO_PEB_NCB_ECC_SBE_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -13272,7 +13484,7 @@ static inline uint64_t BDK_PKO_PEB_NCB_ECC_SBE_INT_ENA_W1C_FUNC(void)
  * PKO DQ RAM ECC SBE Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_pko_peb_ncb_ecc_sbe_int_ena_w1s
 {
     uint64_t u;
     struct bdk_pko_peb_ncb_ecc_sbe_int_ena_w1s_s
@@ -13284,7 +13496,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_peb_ncb_ecc_sbe_int_ena_w1s_s cn; */
-} bdk_pko_peb_ncb_ecc_sbe_int_ena_w1s_t;
+};
+typedef union bdk_pko_peb_ncb_ecc_sbe_int_ena_w1s bdk_pko_peb_ncb_ecc_sbe_int_ena_w1s_t;
 
 #define BDK_PKO_PEB_NCB_ECC_SBE_INT_ENA_W1S BDK_PKO_PEB_NCB_ECC_SBE_INT_ENA_W1S_FUNC()
 static inline uint64_t BDK_PKO_PEB_NCB_ECC_SBE_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -13307,7 +13520,7 @@ static inline uint64_t BDK_PKO_PEB_NCB_ECC_SBE_INT_ENA_W1S_FUNC(void)
  *
  * PKO NCB RAM ECC SBE Interrupt Register
  */
-typedef union
+union bdk_pko_peb_ncb_ecc_sbe_w1c
 {
     uint64_t u;
     struct bdk_pko_peb_ncb_ecc_sbe_w1c_s
@@ -13319,7 +13532,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_peb_ncb_ecc_sbe_w1c_s cn; */
-} bdk_pko_peb_ncb_ecc_sbe_w1c_t;
+};
+typedef union bdk_pko_peb_ncb_ecc_sbe_w1c bdk_pko_peb_ncb_ecc_sbe_w1c_t;
 
 #define BDK_PKO_PEB_NCB_ECC_SBE_W1C BDK_PKO_PEB_NCB_ECC_SBE_W1C_FUNC()
 static inline uint64_t BDK_PKO_PEB_NCB_ECC_SBE_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -13343,7 +13557,7 @@ static inline uint64_t BDK_PKO_PEB_NCB_ECC_SBE_W1C_FUNC(void)
  * PKO NCB ECC SBE Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_pko_peb_ncb_ecc_sbe_w1s
 {
     uint64_t u;
     struct bdk_pko_peb_ncb_ecc_sbe_w1s_s
@@ -13355,7 +13569,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_peb_ncb_ecc_sbe_w1s_s cn; */
-} bdk_pko_peb_ncb_ecc_sbe_w1s_t;
+};
+typedef union bdk_pko_peb_ncb_ecc_sbe_w1s bdk_pko_peb_ncb_ecc_sbe_w1s_t;
 
 #define BDK_PKO_PEB_NCB_ECC_SBE_W1S BDK_PKO_PEB_NCB_ECC_SBE_W1S_FUNC()
 static inline uint64_t BDK_PKO_PEB_NCB_ECC_SBE_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -13379,7 +13594,7 @@ static inline uint64_t BDK_PKO_PEB_NCB_ECC_SBE_W1S_FUNC(void)
  * PKO NCB Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_pko_peb_ncb_int_ena_w1c
 {
     uint64_t u;
     struct bdk_pko_peb_ncb_int_ena_w1c_s
@@ -13395,7 +13610,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_peb_ncb_int_ena_w1c_s cn; */
-} bdk_pko_peb_ncb_int_ena_w1c_t;
+};
+typedef union bdk_pko_peb_ncb_int_ena_w1c bdk_pko_peb_ncb_int_ena_w1c_t;
 
 #define BDK_PKO_PEB_NCB_INT_ENA_W1C BDK_PKO_PEB_NCB_INT_ENA_W1C_FUNC()
 static inline uint64_t BDK_PKO_PEB_NCB_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -13419,7 +13635,7 @@ static inline uint64_t BDK_PKO_PEB_NCB_INT_ENA_W1C_FUNC(void)
  * PKO NCB Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_pko_peb_ncb_int_ena_w1s
 {
     uint64_t u;
     struct bdk_pko_peb_ncb_int_ena_w1s_s
@@ -13435,7 +13651,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_peb_ncb_int_ena_w1s_s cn; */
-} bdk_pko_peb_ncb_int_ena_w1s_t;
+};
+typedef union bdk_pko_peb_ncb_int_ena_w1s bdk_pko_peb_ncb_int_ena_w1s_t;
 
 #define BDK_PKO_PEB_NCB_INT_ENA_W1S BDK_PKO_PEB_NCB_INT_ENA_W1S_FUNC()
 static inline uint64_t BDK_PKO_PEB_NCB_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -13458,7 +13675,7 @@ static inline uint64_t BDK_PKO_PEB_NCB_INT_ENA_W1S_FUNC(void)
  *
  * PKO NCB Interrupt Register
  */
-typedef union
+union bdk_pko_peb_ncb_int_w1c
 {
     uint64_t u;
     struct bdk_pko_peb_ncb_int_w1c_s
@@ -13478,7 +13695,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_peb_ncb_int_w1c_s cn; */
-} bdk_pko_peb_ncb_int_w1c_t;
+};
+typedef union bdk_pko_peb_ncb_int_w1c bdk_pko_peb_ncb_int_w1c_t;
 
 #define BDK_PKO_PEB_NCB_INT_W1C BDK_PKO_PEB_NCB_INT_W1C_FUNC()
 static inline uint64_t BDK_PKO_PEB_NCB_INT_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -13502,7 +13720,7 @@ static inline uint64_t BDK_PKO_PEB_NCB_INT_W1C_FUNC(void)
  * PKO NCB Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_pko_peb_ncb_int_w1s
 {
     uint64_t u;
     struct bdk_pko_peb_ncb_int_w1s_s
@@ -13518,7 +13736,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_peb_ncb_int_w1s_s cn; */
-} bdk_pko_peb_ncb_int_w1s_t;
+};
+typedef union bdk_pko_peb_ncb_int_w1s bdk_pko_peb_ncb_int_w1s_t;
 
 #define BDK_PKO_PEB_NCB_INT_W1S BDK_PKO_PEB_NCB_INT_W1S_FUNC()
 static inline uint64_t BDK_PKO_PEB_NCB_INT_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -13541,7 +13760,7 @@ static inline uint64_t BDK_PKO_PEB_NCB_INT_W1S_FUNC(void)
  *
  * PKO PEB NCB Memory Fault Capture Register
  */
-typedef union
+union bdk_pko_peb_ncb_mem_fault
 {
     uint64_t u;
     struct bdk_pko_peb_ncb_mem_fault_s
@@ -13573,7 +13792,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_peb_ncb_mem_fault_s cn; */
-} bdk_pko_peb_ncb_mem_fault_t;
+};
+typedef union bdk_pko_peb_ncb_mem_fault bdk_pko_peb_ncb_mem_fault_t;
 
 #define BDK_PKO_PEB_NCB_MEM_FAULT BDK_PKO_PEB_NCB_MEM_FAULT_FUNC()
 static inline uint64_t BDK_PKO_PEB_NCB_MEM_FAULT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -13596,7 +13816,7 @@ static inline uint64_t BDK_PKO_PEB_NCB_MEM_FAULT_FUNC(void)
  *
  * PKO PAD Error Information Register
  */
-typedef union
+union bdk_pko_peb_pad_err_info
 {
     uint64_t u;
     struct bdk_pko_peb_pad_err_info_s
@@ -13614,7 +13834,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_peb_pad_err_info_s cn; */
-} bdk_pko_peb_pad_err_info_t;
+};
+typedef union bdk_pko_peb_pad_err_info bdk_pko_peb_pad_err_info_t;
 
 #define BDK_PKO_PEB_PAD_ERR_INFO BDK_PKO_PEB_PAD_ERR_INFO_FUNC()
 static inline uint64_t BDK_PKO_PEB_PAD_ERR_INFO_FUNC(void) __attribute__ ((pure, always_inline));
@@ -13637,7 +13858,7 @@ static inline uint64_t BDK_PKO_PEB_PAD_ERR_INFO_FUNC(void)
  *
  * PKO PSE Error Information Register
  */
-typedef union
+union bdk_pko_peb_pse_fifo_err_info
 {
     uint64_t u;
     struct bdk_pko_peb_pse_fifo_err_info_s
@@ -13657,7 +13878,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_peb_pse_fifo_err_info_s cn; */
-} bdk_pko_peb_pse_fifo_err_info_t;
+};
+typedef union bdk_pko_peb_pse_fifo_err_info bdk_pko_peb_pse_fifo_err_info_t;
 
 #define BDK_PKO_PEB_PSE_FIFO_ERR_INFO BDK_PKO_PEB_PSE_FIFO_ERR_INFO_FUNC()
 static inline uint64_t BDK_PKO_PEB_PSE_FIFO_ERR_INFO_FUNC(void) __attribute__ ((pure, always_inline));
@@ -13680,7 +13902,7 @@ static inline uint64_t BDK_PKO_PEB_PSE_FIFO_ERR_INFO_FUNC(void)
  *
  * PKO Subdecriptor Error Information Register
  */
-typedef union
+union bdk_pko_peb_subd_addr_err_info
 {
     uint64_t u;
     struct bdk_pko_peb_subd_addr_err_info_s
@@ -13698,7 +13920,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_peb_subd_addr_err_info_s cn; */
-} bdk_pko_peb_subd_addr_err_info_t;
+};
+typedef union bdk_pko_peb_subd_addr_err_info bdk_pko_peb_subd_addr_err_info_t;
 
 #define BDK_PKO_PEB_SUBD_ADDR_ERR_INFO BDK_PKO_PEB_SUBD_ADDR_ERR_INFO_FUNC()
 static inline uint64_t BDK_PKO_PEB_SUBD_ADDR_ERR_INFO_FUNC(void) __attribute__ ((pure, always_inline));
@@ -13721,7 +13944,7 @@ static inline uint64_t BDK_PKO_PEB_SUBD_ADDR_ERR_INFO_FUNC(void)
  *
  * PKO Size_ERR Error Information Register
  */
-typedef union
+union bdk_pko_peb_subd_size_err_info
 {
     uint64_t u;
     struct bdk_pko_peb_subd_size_err_info_s
@@ -13739,7 +13962,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_peb_subd_size_err_info_s cn; */
-} bdk_pko_peb_subd_size_err_info_t;
+};
+typedef union bdk_pko_peb_subd_size_err_info bdk_pko_peb_subd_size_err_info_t;
 
 #define BDK_PKO_PEB_SUBD_SIZE_ERR_INFO BDK_PKO_PEB_SUBD_SIZE_ERR_INFO_FUNC()
 static inline uint64_t BDK_PKO_PEB_SUBD_SIZE_ERR_INFO_FUNC(void) __attribute__ ((pure, always_inline));
@@ -13762,7 +13986,7 @@ static inline uint64_t BDK_PKO_PEB_SUBD_SIZE_ERR_INFO_FUNC(void)
  *
  * PKO Truncation Error Information Register
  */
-typedef union
+union bdk_pko_peb_trunc_err_info
 {
     uint64_t u;
     struct bdk_pko_peb_trunc_err_info_s
@@ -13780,7 +14004,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_peb_trunc_err_info_s cn; */
-} bdk_pko_peb_trunc_err_info_t;
+};
+typedef union bdk_pko_peb_trunc_err_info bdk_pko_peb_trunc_err_info_t;
 
 #define BDK_PKO_PEB_TRUNC_ERR_INFO BDK_PKO_PEB_TRUNC_ERR_INFO_FUNC()
 static inline uint64_t BDK_PKO_PEB_TRUNC_ERR_INFO_FUNC(void) __attribute__ ((pure, always_inline));
@@ -13803,7 +14028,7 @@ static inline uint64_t BDK_PKO_PEB_TRUNC_ERR_INFO_FUNC(void)
  *
  * PKO PEB TSO Segmentation Configuration Register
  */
-typedef union
+union bdk_pko_peb_tso_cfg
 {
     uint64_t u;
     struct bdk_pko_peb_tso_cfg_s
@@ -13843,7 +14068,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_peb_tso_cfg_s cn; */
-} bdk_pko_peb_tso_cfg_t;
+};
+typedef union bdk_pko_peb_tso_cfg bdk_pko_peb_tso_cfg_t;
 
 #define BDK_PKO_PEB_TSO_CFG BDK_PKO_PEB_TSO_CFG_FUNC()
 static inline uint64_t BDK_PKO_PEB_TSO_CFG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -13868,7 +14094,7 @@ static inline uint64_t BDK_PKO_PEB_TSO_CFG_FUNC(void)
  * This register is the MSI-X PBA table; the bit number is indexed by the PKO_PF_INT_VEC_E
  * enumeration.
  */
-typedef union
+union bdk_pko_pf_msix_pbax
 {
     uint64_t u;
     struct bdk_pko_pf_msix_pbax_s
@@ -13882,7 +14108,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pf_msix_pbax_s cn; */
-} bdk_pko_pf_msix_pbax_t;
+};
+typedef union bdk_pko_pf_msix_pbax bdk_pko_pf_msix_pbax_t;
 
 static inline uint64_t BDK_PKO_PF_MSIX_PBAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_PF_MSIX_PBAX(unsigned long a)
@@ -13905,7 +14132,7 @@ static inline uint64_t BDK_PKO_PF_MSIX_PBAX(unsigned long a)
  * PKO MSI-X Vector-Table Address Register
  * This register is the MSI-X vector table, indexed by the PKO_PF_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_pko_pf_msix_vecx_addr
 {
     uint64_t u;
     struct bdk_pko_pf_msix_vecx_addr_s
@@ -13939,7 +14166,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pf_msix_vecx_addr_s cn; */
-} bdk_pko_pf_msix_vecx_addr_t;
+};
+typedef union bdk_pko_pf_msix_vecx_addr bdk_pko_pf_msix_vecx_addr_t;
 
 static inline uint64_t BDK_PKO_PF_MSIX_VECX_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_PF_MSIX_VECX_ADDR(unsigned long a)
@@ -13962,7 +14190,7 @@ static inline uint64_t BDK_PKO_PF_MSIX_VECX_ADDR(unsigned long a)
  * PKO MSI-X Vector-Table Control and Data Register
  * This register is the MSI-X vector table, indexed by the PKO_PF_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_pko_pf_msix_vecx_ctl
 {
     uint64_t u;
     struct bdk_pko_pf_msix_vecx_ctl_s
@@ -13980,7 +14208,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pf_msix_vecx_ctl_s cn; */
-} bdk_pko_pf_msix_vecx_ctl_t;
+};
+typedef union bdk_pko_pf_msix_vecx_ctl bdk_pko_pf_msix_vecx_ctl_t;
 
 static inline uint64_t BDK_PKO_PF_MSIX_VECX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_PF_MSIX_VECX_CTL(unsigned long a)
@@ -14003,7 +14232,7 @@ static inline uint64_t BDK_PKO_PF_MSIX_VECX_CTL(unsigned long a)
  * PKO PF VF Guest Machine Control Register
  * These registers configure the memory management for each VF.
  */
-typedef union
+union bdk_pko_pf_vfx_gmctl
 {
     uint64_t u;
     struct bdk_pko_pf_vfx_gmctl_s
@@ -14067,7 +14296,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pf_vfx_gmctl_s cn; */
-} bdk_pko_pf_vfx_gmctl_t;
+};
+typedef union bdk_pko_pf_vfx_gmctl bdk_pko_pf_vfx_gmctl_t;
 
 static inline uint64_t BDK_PKO_PF_VFX_GMCTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_PF_VFX_GMCTL(unsigned long a)
@@ -14091,7 +14321,7 @@ static inline uint64_t BDK_PKO_PF_VFX_GMCTL(unsigned long a)
  *
  * This register is for diagnostic use only, and is a read-only copy of PKO_PF_VF()_GMCTL.
  */
-typedef union
+union bdk_pko_pf_vfx_gmctl_pdm_ro
 {
     uint64_t u;
     struct bdk_pko_pf_vfx_gmctl_pdm_ro_s
@@ -14109,7 +14339,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pf_vfx_gmctl_pdm_ro_s cn; */
-} bdk_pko_pf_vfx_gmctl_pdm_ro_t;
+};
+typedef union bdk_pko_pf_vfx_gmctl_pdm_ro bdk_pko_pf_vfx_gmctl_pdm_ro_t;
 
 static inline uint64_t BDK_PKO_PF_VFX_GMCTL_PDM_RO(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_PF_VFX_GMCTL_PDM_RO(unsigned long a)
@@ -14131,7 +14362,7 @@ static inline uint64_t BDK_PKO_PF_VFX_GMCTL_PDM_RO(unsigned long a)
  *
  * INTERNAL: PKO PSE PQ Level Green Vector Debug Register
  */
-typedef union
+union bdk_pko_pq_debug_green
 {
     uint64_t u;
     struct bdk_pko_pq_debug_green_s
@@ -14145,7 +14376,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pq_debug_green_s cn; */
-} bdk_pko_pq_debug_green_t;
+};
+typedef union bdk_pko_pq_debug_green bdk_pko_pq_debug_green_t;
 
 #define BDK_PKO_PQ_DEBUG_GREEN BDK_PKO_PQ_DEBUG_GREEN_FUNC()
 static inline uint64_t BDK_PKO_PQ_DEBUG_GREEN_FUNC(void) __attribute__ ((pure, always_inline));
@@ -14168,7 +14400,7 @@ static inline uint64_t BDK_PKO_PQ_DEBUG_GREEN_FUNC(void)
  *
  * INTERNAL: PKO PSE PQ Level Red Vector Debug Register
  */
-typedef union
+union bdk_pko_pq_debug_links
 {
     uint64_t u;
     struct bdk_pko_pq_debug_links_s
@@ -14182,7 +14414,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pq_debug_links_s cn; */
-} bdk_pko_pq_debug_links_t;
+};
+typedef union bdk_pko_pq_debug_links bdk_pko_pq_debug_links_t;
 
 #define BDK_PKO_PQ_DEBUG_LINKS BDK_PKO_PQ_DEBUG_LINKS_FUNC()
 static inline uint64_t BDK_PKO_PQ_DEBUG_LINKS_FUNC(void) __attribute__ ((pure, always_inline));
@@ -14205,7 +14438,7 @@ static inline uint64_t BDK_PKO_PQ_DEBUG_LINKS_FUNC(void)
  *
  * INTERNAL: PKO PSE PQ Level Yellow Vector Debug Register
  */
-typedef union
+union bdk_pko_pq_debug_yellow
 {
     uint64_t u;
     struct bdk_pko_pq_debug_yellow_s
@@ -14221,7 +14454,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pq_debug_yellow_s cn; */
-} bdk_pko_pq_debug_yellow_t;
+};
+typedef union bdk_pko_pq_debug_yellow bdk_pko_pq_debug_yellow_t;
 
 #define BDK_PKO_PQ_DEBUG_YELLOW BDK_PKO_PQ_DEBUG_YELLOW_FUNC()
 static inline uint64_t BDK_PKO_PQ_DEBUG_YELLOW_FUNC(void) __attribute__ ((pure, always_inline));
@@ -14245,7 +14479,7 @@ static inline uint64_t BDK_PKO_PQ_DEBUG_YELLOW_FUNC(void)
  * PKO Drain Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_pko_pq_drain_int_ena_w1c
 {
     uint64_t u;
     struct bdk_pko_pq_drain_int_ena_w1c_s
@@ -14259,7 +14493,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pq_drain_int_ena_w1c_s cn; */
-} bdk_pko_pq_drain_int_ena_w1c_t;
+};
+typedef union bdk_pko_pq_drain_int_ena_w1c bdk_pko_pq_drain_int_ena_w1c_t;
 
 #define BDK_PKO_PQ_DRAIN_INT_ENA_W1C BDK_PKO_PQ_DRAIN_INT_ENA_W1C_FUNC()
 static inline uint64_t BDK_PKO_PQ_DRAIN_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -14283,7 +14518,7 @@ static inline uint64_t BDK_PKO_PQ_DRAIN_INT_ENA_W1C_FUNC(void)
  * PKO Drain Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_pko_pq_drain_int_ena_w1s
 {
     uint64_t u;
     struct bdk_pko_pq_drain_int_ena_w1s_s
@@ -14297,7 +14532,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pq_drain_int_ena_w1s_s cn; */
-} bdk_pko_pq_drain_int_ena_w1s_t;
+};
+typedef union bdk_pko_pq_drain_int_ena_w1s bdk_pko_pq_drain_int_ena_w1s_t;
 
 #define BDK_PKO_PQ_DRAIN_INT_ENA_W1S BDK_PKO_PQ_DRAIN_INT_ENA_W1S_FUNC()
 static inline uint64_t BDK_PKO_PQ_DRAIN_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -14320,7 +14556,7 @@ static inline uint64_t BDK_PKO_PQ_DRAIN_INT_ENA_W1S_FUNC(void)
  *
  * PKO Drain Interrupt Register
  */
-typedef union
+union bdk_pko_pq_drain_w1c
 {
     uint64_t u;
     struct bdk_pko_pq_drain_w1c_s
@@ -14338,7 +14574,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pq_drain_w1c_s cn; */
-} bdk_pko_pq_drain_w1c_t;
+};
+typedef union bdk_pko_pq_drain_w1c bdk_pko_pq_drain_w1c_t;
 
 #define BDK_PKO_PQ_DRAIN_W1C BDK_PKO_PQ_DRAIN_W1C_FUNC()
 static inline uint64_t BDK_PKO_PQ_DRAIN_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -14362,7 +14599,7 @@ static inline uint64_t BDK_PKO_PQ_DRAIN_W1C_FUNC(void)
  * PKO Drain Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_pko_pq_drain_w1s
 {
     uint64_t u;
     struct bdk_pko_pq_drain_w1s_s
@@ -14376,7 +14613,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pq_drain_w1s_s cn; */
-} bdk_pko_pq_drain_w1s_t;
+};
+typedef union bdk_pko_pq_drain_w1s bdk_pko_pq_drain_w1s_t;
 
 #define BDK_PKO_PQ_DRAIN_W1S BDK_PKO_PQ_DRAIN_W1S_FUNC()
 static inline uint64_t BDK_PKO_PQ_DRAIN_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -14400,7 +14638,7 @@ static inline uint64_t BDK_PKO_PQ_DRAIN_W1S_FUNC(void)
  * PKO PQ RAM ECC DBE Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_pko_pq_ecc_dbe_int_ena_w1c
 {
     uint64_t u;
     struct bdk_pko_pq_ecc_dbe_int_ena_w1c_s
@@ -14412,7 +14650,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pq_ecc_dbe_int_ena_w1c_s cn; */
-} bdk_pko_pq_ecc_dbe_int_ena_w1c_t;
+};
+typedef union bdk_pko_pq_ecc_dbe_int_ena_w1c bdk_pko_pq_ecc_dbe_int_ena_w1c_t;
 
 #define BDK_PKO_PQ_ECC_DBE_INT_ENA_W1C BDK_PKO_PQ_ECC_DBE_INT_ENA_W1C_FUNC()
 static inline uint64_t BDK_PKO_PQ_ECC_DBE_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -14436,7 +14675,7 @@ static inline uint64_t BDK_PKO_PQ_ECC_DBE_INT_ENA_W1C_FUNC(void)
  * PKO PQ RAM ECC DBE Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_pko_pq_ecc_dbe_int_ena_w1s
 {
     uint64_t u;
     struct bdk_pko_pq_ecc_dbe_int_ena_w1s_s
@@ -14448,7 +14687,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pq_ecc_dbe_int_ena_w1s_s cn; */
-} bdk_pko_pq_ecc_dbe_int_ena_w1s_t;
+};
+typedef union bdk_pko_pq_ecc_dbe_int_ena_w1s bdk_pko_pq_ecc_dbe_int_ena_w1s_t;
 
 #define BDK_PKO_PQ_ECC_DBE_INT_ENA_W1S BDK_PKO_PQ_ECC_DBE_INT_ENA_W1S_FUNC()
 static inline uint64_t BDK_PKO_PQ_ECC_DBE_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -14471,7 +14711,7 @@ static inline uint64_t BDK_PKO_PQ_ECC_DBE_INT_ENA_W1S_FUNC(void)
  *
  * PKO PQ RAM ECC DBE Interrupt Register
  */
-typedef union
+union bdk_pko_pq_ecc_dbe_w1c
 {
     uint64_t u;
     struct bdk_pko_pq_ecc_dbe_w1c_s
@@ -14483,7 +14723,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pq_ecc_dbe_w1c_s cn; */
-} bdk_pko_pq_ecc_dbe_w1c_t;
+};
+typedef union bdk_pko_pq_ecc_dbe_w1c bdk_pko_pq_ecc_dbe_w1c_t;
 
 #define BDK_PKO_PQ_ECC_DBE_W1C BDK_PKO_PQ_ECC_DBE_W1C_FUNC()
 static inline uint64_t BDK_PKO_PQ_ECC_DBE_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -14507,7 +14748,7 @@ static inline uint64_t BDK_PKO_PQ_ECC_DBE_W1C_FUNC(void)
  * PKO PQ RAM ECC DBE Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_pko_pq_ecc_dbe_w1s
 {
     uint64_t u;
     struct bdk_pko_pq_ecc_dbe_w1s_s
@@ -14519,7 +14760,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pq_ecc_dbe_w1s_s cn; */
-} bdk_pko_pq_ecc_dbe_w1s_t;
+};
+typedef union bdk_pko_pq_ecc_dbe_w1s bdk_pko_pq_ecc_dbe_w1s_t;
 
 #define BDK_PKO_PQ_ECC_DBE_W1S BDK_PKO_PQ_ECC_DBE_W1S_FUNC()
 static inline uint64_t BDK_PKO_PQ_ECC_DBE_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -14543,7 +14785,7 @@ static inline uint64_t BDK_PKO_PQ_ECC_DBE_W1S_FUNC(void)
  * PKO DQ RAM ECC DBE Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_pko_pq_ecc_sbe_int_ena_w1c
 {
     uint64_t u;
     struct bdk_pko_pq_ecc_sbe_int_ena_w1c_s
@@ -14555,7 +14797,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pq_ecc_sbe_int_ena_w1c_s cn; */
-} bdk_pko_pq_ecc_sbe_int_ena_w1c_t;
+};
+typedef union bdk_pko_pq_ecc_sbe_int_ena_w1c bdk_pko_pq_ecc_sbe_int_ena_w1c_t;
 
 #define BDK_PKO_PQ_ECC_SBE_INT_ENA_W1C BDK_PKO_PQ_ECC_SBE_INT_ENA_W1C_FUNC()
 static inline uint64_t BDK_PKO_PQ_ECC_SBE_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -14579,7 +14822,7 @@ static inline uint64_t BDK_PKO_PQ_ECC_SBE_INT_ENA_W1C_FUNC(void)
  * PKO DQ RAM ECC DBE Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_pko_pq_ecc_sbe_int_ena_w1s
 {
     uint64_t u;
     struct bdk_pko_pq_ecc_sbe_int_ena_w1s_s
@@ -14591,7 +14834,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pq_ecc_sbe_int_ena_w1s_s cn; */
-} bdk_pko_pq_ecc_sbe_int_ena_w1s_t;
+};
+typedef union bdk_pko_pq_ecc_sbe_int_ena_w1s bdk_pko_pq_ecc_sbe_int_ena_w1s_t;
 
 #define BDK_PKO_PQ_ECC_SBE_INT_ENA_W1S BDK_PKO_PQ_ECC_SBE_INT_ENA_W1S_FUNC()
 static inline uint64_t BDK_PKO_PQ_ECC_SBE_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -14614,7 +14858,7 @@ static inline uint64_t BDK_PKO_PQ_ECC_SBE_INT_ENA_W1S_FUNC(void)
  *
  * PKO PSE PQ RAM ECC SBE Interrupt Register
  */
-typedef union
+union bdk_pko_pq_ecc_sbe_w1c
 {
     uint64_t u;
     struct bdk_pko_pq_ecc_sbe_w1c_s
@@ -14626,7 +14870,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pq_ecc_sbe_w1c_s cn; */
-} bdk_pko_pq_ecc_sbe_w1c_t;
+};
+typedef union bdk_pko_pq_ecc_sbe_w1c bdk_pko_pq_ecc_sbe_w1c_t;
 
 #define BDK_PKO_PQ_ECC_SBE_W1C BDK_PKO_PQ_ECC_SBE_W1C_FUNC()
 static inline uint64_t BDK_PKO_PQ_ECC_SBE_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -14650,7 +14895,7 @@ static inline uint64_t BDK_PKO_PQ_ECC_SBE_W1C_FUNC(void)
  * PKO PQ ECC SBE Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_pko_pq_ecc_sbe_w1s
 {
     uint64_t u;
     struct bdk_pko_pq_ecc_sbe_w1s_s
@@ -14662,7 +14907,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pq_ecc_sbe_w1s_s cn; */
-} bdk_pko_pq_ecc_sbe_w1s_t;
+};
+typedef union bdk_pko_pq_ecc_sbe_w1s bdk_pko_pq_ecc_sbe_w1s_t;
 
 #define BDK_PKO_PQ_ECC_SBE_W1S BDK_PKO_PQ_ECC_SBE_W1S_FUNC()
 static inline uint64_t BDK_PKO_PQ_ECC_SBE_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -14685,7 +14931,7 @@ static inline uint64_t BDK_PKO_PQ_ECC_SBE_W1S_FUNC(void)
  *
  * INTERNAL: PKO PSE PQA Internal Debug Register
  */
-typedef union
+union bdk_pko_pqa_debug
 {
     uint64_t u;
     struct bdk_pko_pqa_debug_s
@@ -14697,7 +14943,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pqa_debug_s cn; */
-} bdk_pko_pqa_debug_t;
+};
+typedef union bdk_pko_pqa_debug bdk_pko_pqa_debug_t;
 
 #define BDK_PKO_PQA_DEBUG BDK_PKO_PQA_DEBUG_FUNC()
 static inline uint64_t BDK_PKO_PQA_DEBUG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -14722,7 +14969,7 @@ static inline uint64_t BDK_PKO_PQA_DEBUG_FUNC(void)
  *
  * This register has the same bit fields as PKO_PQA_DEBUG.
  */
-typedef union
+union bdk_pko_pqb_debug
 {
     uint64_t u;
     struct bdk_pko_pqb_debug_s
@@ -14734,7 +14981,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pqb_debug_s cn; */
-} bdk_pko_pqb_debug_t;
+};
+typedef union bdk_pko_pqb_debug bdk_pko_pqb_debug_t;
 
 #define BDK_PKO_PQB_DEBUG BDK_PKO_PQB_DEBUG_FUNC()
 static inline uint64_t BDK_PKO_PQB_DEBUG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -14758,7 +15006,7 @@ static inline uint64_t BDK_PKO_PQB_DEBUG_FUNC(void)
  * PKO PSE DQ BIST Status Information Register
  * Each bit is the BIST result of an individual memory (per bit, 0 = pass and 1 = fail).
  */
-typedef union
+union bdk_pko_pse_dq_bist_status
 {
     uint64_t u;
     struct bdk_pko_pse_dq_bist_status_s
@@ -14778,7 +15026,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pse_dq_bist_status_s cn; */
-} bdk_pko_pse_dq_bist_status_t;
+};
+typedef union bdk_pko_pse_dq_bist_status bdk_pko_pse_dq_bist_status_t;
 
 #define BDK_PKO_PSE_DQ_BIST_STATUS BDK_PKO_PSE_DQ_BIST_STATUS_FUNC()
 static inline uint64_t BDK_PKO_PSE_DQ_BIST_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
@@ -14801,7 +15050,7 @@ static inline uint64_t BDK_PKO_PSE_DQ_BIST_STATUS_FUNC(void)
  *
  * PKO PSE DQ RAM ECC Control Register 0
  */
-typedef union
+union bdk_pko_pse_dq_ecc_ctl0
 {
     uint64_t u;
     struct bdk_pko_pse_dq_ecc_ctl0_s
@@ -14831,7 +15080,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pse_dq_ecc_ctl0_s cn; */
-} bdk_pko_pse_dq_ecc_ctl0_t;
+};
+typedef union bdk_pko_pse_dq_ecc_ctl0 bdk_pko_pse_dq_ecc_ctl0_t;
 
 #define BDK_PKO_PSE_DQ_ECC_CTL0 BDK_PKO_PSE_DQ_ECC_CTL0_FUNC()
 static inline uint64_t BDK_PKO_PSE_DQ_ECC_CTL0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -14855,7 +15105,7 @@ static inline uint64_t BDK_PKO_PSE_DQ_ECC_CTL0_FUNC(void)
  * PKO PSE PQ BIST Status Information Register
  * Each bit is the BIST result of an individual memory (per bit, 0 = pass and 1 = fail).
  */
-typedef union
+union bdk_pko_pse_pq_bist_status
 {
     uint64_t u;
     struct bdk_pko_pse_pq_bist_status_s
@@ -14897,7 +15147,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pse_pq_bist_status_s cn; */
-} bdk_pko_pse_pq_bist_status_t;
+};
+typedef union bdk_pko_pse_pq_bist_status bdk_pko_pse_pq_bist_status_t;
 
 #define BDK_PKO_PSE_PQ_BIST_STATUS BDK_PKO_PSE_PQ_BIST_STATUS_FUNC()
 static inline uint64_t BDK_PKO_PSE_PQ_BIST_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
@@ -14920,7 +15171,7 @@ static inline uint64_t BDK_PKO_PSE_PQ_BIST_STATUS_FUNC(void)
  *
  * PKO PSE PQ RAM ECC Control Register 0
  */
-typedef union
+union bdk_pko_pse_pq_ecc_ctl0
 {
     uint64_t u;
     struct bdk_pko_pse_pq_ecc_ctl0_s
@@ -14958,7 +15209,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pse_pq_ecc_ctl0_s cn; */
-} bdk_pko_pse_pq_ecc_ctl0_t;
+};
+typedef union bdk_pko_pse_pq_ecc_ctl0 bdk_pko_pse_pq_ecc_ctl0_t;
 
 #define BDK_PKO_PSE_PQ_ECC_CTL0 BDK_PKO_PSE_PQ_ECC_CTL0_FUNC()
 static inline uint64_t BDK_PKO_PSE_PQ_ECC_CTL0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -14982,7 +15234,7 @@ static inline uint64_t BDK_PKO_PSE_PQ_ECC_CTL0_FUNC(void)
  * PKO PSE SQ1 BIST Status Information Register
  * Each bit is the BIST result of an individual memory (per bit, 0 = pass and 1 = fail).
  */
-typedef union
+union bdk_pko_pse_sq1_bist_status
 {
     uint64_t u;
     struct bdk_pko_pse_sq1_bist_status_s
@@ -15079,7 +15331,8 @@ typedef union
         uint64_t reserved_29_63        : 35;
 #endif /* Word 0 - End */
     } cn;
-} bdk_pko_pse_sq1_bist_status_t;
+};
+typedef union bdk_pko_pse_sq1_bist_status bdk_pko_pse_sq1_bist_status_t;
 
 #define BDK_PKO_PSE_SQ1_BIST_STATUS BDK_PKO_PSE_SQ1_BIST_STATUS_FUNC()
 static inline uint64_t BDK_PKO_PSE_SQ1_BIST_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
@@ -15102,7 +15355,7 @@ static inline uint64_t BDK_PKO_PSE_SQ1_BIST_STATUS_FUNC(void)
  *
  * PKO PSE SQ1 RAM ECC Control Register 0
  */
-typedef union
+union bdk_pko_pse_sq1_ecc_ctl0
 {
     uint64_t u;
     struct bdk_pko_pse_sq1_ecc_ctl0_s
@@ -15176,7 +15429,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pse_sq1_ecc_ctl0_s cn; */
-} bdk_pko_pse_sq1_ecc_ctl0_t;
+};
+typedef union bdk_pko_pse_sq1_ecc_ctl0 bdk_pko_pse_sq1_ecc_ctl0_t;
 
 #define BDK_PKO_PSE_SQ1_ECC_CTL0 BDK_PKO_PSE_SQ1_ECC_CTL0_FUNC()
 static inline uint64_t BDK_PKO_PSE_SQ1_ECC_CTL0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -15200,7 +15454,7 @@ static inline uint64_t BDK_PKO_PSE_SQ1_ECC_CTL0_FUNC(void)
  * PKO PSE SQ2 BIST Status Information Register
  * Each bit is the BIST result of an individual memory (per bit, 0 = pass and 1 = fail).
  */
-typedef union
+union bdk_pko_pse_sq2_bist_status
 {
     uint64_t u;
     struct bdk_pko_pse_sq2_bist_status_s
@@ -15238,7 +15492,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pse_sq2_bist_status_s cn; */
-} bdk_pko_pse_sq2_bist_status_t;
+};
+typedef union bdk_pko_pse_sq2_bist_status bdk_pko_pse_sq2_bist_status_t;
 
 #define BDK_PKO_PSE_SQ2_BIST_STATUS BDK_PKO_PSE_SQ2_BIST_STATUS_FUNC()
 static inline uint64_t BDK_PKO_PSE_SQ2_BIST_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
@@ -15261,7 +15516,7 @@ static inline uint64_t BDK_PKO_PSE_SQ2_BIST_STATUS_FUNC(void)
  *
  * PKO PSE SQ2 RAM ECC Control Register 0
  */
-typedef union
+union bdk_pko_pse_sq2_ecc_ctl0
 {
     uint64_t u;
     struct bdk_pko_pse_sq2_ecc_ctl0_s
@@ -15317,7 +15572,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pse_sq2_ecc_ctl0_s cn; */
-} bdk_pko_pse_sq2_ecc_ctl0_t;
+};
+typedef union bdk_pko_pse_sq2_ecc_ctl0 bdk_pko_pse_sq2_ecc_ctl0_t;
 
 #define BDK_PKO_PSE_SQ2_ECC_CTL0 BDK_PKO_PSE_SQ2_ECC_CTL0_FUNC()
 static inline uint64_t BDK_PKO_PSE_SQ2_ECC_CTL0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -15341,7 +15597,7 @@ static inline uint64_t BDK_PKO_PSE_SQ2_ECC_CTL0_FUNC(void)
  * PSE SQ3 BIST Status Information Register
  * Each bit is the BIST result of an individual memory (per bit, 0 = pass and 1 = fail).
  */
-typedef union
+union bdk_pko_pse_sq3_bist_status
 {
     uint64_t u;
     struct bdk_pko_pse_sq3_bist_status_s
@@ -15379,7 +15635,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pse_sq3_bist_status_s cn; */
-} bdk_pko_pse_sq3_bist_status_t;
+};
+typedef union bdk_pko_pse_sq3_bist_status bdk_pko_pse_sq3_bist_status_t;
 
 #define BDK_PKO_PSE_SQ3_BIST_STATUS BDK_PKO_PSE_SQ3_BIST_STATUS_FUNC()
 static inline uint64_t BDK_PKO_PSE_SQ3_BIST_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
@@ -15402,7 +15659,7 @@ static inline uint64_t BDK_PKO_PSE_SQ3_BIST_STATUS_FUNC(void)
  *
  * PKO PSE SQ3 RAM ECC Control Register 0
  */
-typedef union
+union bdk_pko_pse_sq3_ecc_ctl0
 {
     uint64_t u;
     struct bdk_pko_pse_sq3_ecc_ctl0_s
@@ -15458,7 +15715,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pse_sq3_ecc_ctl0_s cn; */
-} bdk_pko_pse_sq3_ecc_ctl0_t;
+};
+typedef union bdk_pko_pse_sq3_ecc_ctl0 bdk_pko_pse_sq3_ecc_ctl0_t;
 
 #define BDK_PKO_PSE_SQ3_ECC_CTL0 BDK_PKO_PSE_SQ3_ECC_CTL0_FUNC()
 static inline uint64_t BDK_PKO_PSE_SQ3_ECC_CTL0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -15481,7 +15739,7 @@ static inline uint64_t BDK_PKO_PSE_SQ3_ECC_CTL0_FUNC(void)
  *
  * PKO TX FIFO / MAC Translation Status Register
  */
-typedef union
+union bdk_pko_ptfx_status
 {
     uint64_t u;
     struct bdk_pko_ptfx_status_s
@@ -15509,7 +15767,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_ptfx_status_s cn; */
-} bdk_pko_ptfx_status_t;
+};
+typedef union bdk_pko_ptfx_status bdk_pko_ptfx_status_t;
 
 static inline uint64_t BDK_PKO_PTFX_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_PTFX_STATUS(unsigned long a)
@@ -15531,7 +15790,7 @@ static inline uint64_t BDK_PKO_PTFX_STATUS(unsigned long a)
  *
  * PKO IOBP Interface Configuration Register
  */
-typedef union
+union bdk_pko_ptf_iobp_cfg
 {
     uint64_t u;
     struct bdk_pko_ptf_iobp_cfg_s
@@ -15553,7 +15812,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_ptf_iobp_cfg_s cn; */
-} bdk_pko_ptf_iobp_cfg_t;
+};
+typedef union bdk_pko_ptf_iobp_cfg bdk_pko_ptf_iobp_cfg_t;
 
 #define BDK_PKO_PTF_IOBP_CFG BDK_PKO_PTF_IOBP_CFG_FUNC()
 static inline uint64_t BDK_PKO_PTF_IOBP_CFG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -15591,7 +15851,7 @@ static inline uint64_t BDK_PKO_PTF_IOBP_CFG_FUNC(void)
  *   PKO_PTGF5_CFG      Virtual/NULL
  * </pre>
  */
-typedef union
+union bdk_pko_ptgfx_cfg
 {
     uint64_t u;
     struct bdk_pko_ptgfx_cfg_s
@@ -15713,7 +15973,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_ptgfx_cfg_s cn; */
-} bdk_pko_ptgfx_cfg_t;
+};
+typedef union bdk_pko_ptgfx_cfg bdk_pko_ptgfx_cfg_t;
 
 static inline uint64_t BDK_PKO_PTGFX_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_PTGFX_CFG(unsigned long a)
@@ -15735,7 +15996,7 @@ static inline uint64_t BDK_PKO_PTGFX_CFG(unsigned long a)
  *
  * PKO PSE Shaper Configuration Register
  */
-typedef union
+union bdk_pko_shaper_cfg
 {
     uint64_t u;
     struct bdk_pko_shaper_cfg_s
@@ -15781,7 +16042,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_shaper_cfg_s cn; */
-} bdk_pko_shaper_cfg_t;
+};
+typedef union bdk_pko_shaper_cfg bdk_pko_shaper_cfg_t;
 
 #define BDK_PKO_SHAPER_CFG BDK_PKO_SHAPER_CFG_FUNC()
 static inline uint64_t BDK_PKO_SHAPER_CFG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -15806,7 +16068,7 @@ static inline uint64_t BDK_PKO_SHAPER_CFG_FUNC(void)
  *
  * For diagnostic use only.
  */
-typedef union
+union bdk_pko_state_uid_in_usex_rd
 {
     uint64_t u;
     struct bdk_pko_state_uid_in_usex_rd_s
@@ -15818,7 +16080,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_state_uid_in_usex_rd_s cn; */
-} bdk_pko_state_uid_in_usex_rd_t;
+};
+typedef union bdk_pko_state_uid_in_usex_rd bdk_pko_state_uid_in_usex_rd_t;
 
 static inline uint64_t BDK_PKO_STATE_UID_IN_USEX_RD(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_STATE_UID_IN_USEX_RD(unsigned long a)
@@ -15840,7 +16103,7 @@ static inline uint64_t BDK_PKO_STATE_UID_IN_USEX_RD(unsigned long a)
  *
  * PKO Global Status Register
  */
-typedef union
+union bdk_pko_status
 {
     uint64_t u;
     struct bdk_pko_status_s
@@ -15870,7 +16133,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_status_s cn; */
-} bdk_pko_status_t;
+};
+typedef union bdk_pko_status bdk_pko_status_t;
 
 #define BDK_PKO_STATUS BDK_PKO_STATUS_FUNC()
 static inline uint64_t BDK_PKO_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
@@ -15893,7 +16157,7 @@ static inline uint64_t BDK_PKO_STATUS_FUNC(void)
  *
  * PKO TX FIFO Packet Counter Read Register
  */
-typedef union
+union bdk_pko_txfx_pkt_cnt_rd
 {
     uint64_t u;
     struct bdk_pko_txfx_pkt_cnt_rd_s
@@ -15907,7 +16171,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_txfx_pkt_cnt_rd_s cn; */
-} bdk_pko_txfx_pkt_cnt_rd_t;
+};
+typedef union bdk_pko_txfx_pkt_cnt_rd bdk_pko_txfx_pkt_cnt_rd_t;
 
 static inline uint64_t BDK_PKO_TXFX_PKT_CNT_RD(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_TXFX_PKT_CNT_RD(unsigned long a)
@@ -15929,7 +16194,7 @@ static inline uint64_t BDK_PKO_TXFX_PKT_CNT_RD(unsigned long a)
  *
  * PKO DQ Flow Control Status Register
  */
-typedef union
+union bdk_pko_vfx_dqx_fc_status
 {
     uint64_t u;
     struct bdk_pko_vfx_dqx_fc_status_s
@@ -15951,7 +16216,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_vfx_dqx_fc_status_s cn; */
-} bdk_pko_vfx_dqx_fc_status_t;
+};
+typedef union bdk_pko_vfx_dqx_fc_status bdk_pko_vfx_dqx_fc_status_t;
 
 static inline uint64_t BDK_PKO_VFX_DQX_FC_STATUS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_VFX_DQX_FC_STATUS(unsigned long a, unsigned long b)
@@ -15973,7 +16239,7 @@ static inline uint64_t BDK_PKO_VFX_DQX_FC_STATUS(unsigned long a, unsigned long 
  *
  * PKO Packet Meta-packet-descriptor State Per DQ Access Register
  */
-typedef union
+union bdk_pko_vfx_dqx_mp_statex
 {
     uint64_t u;
     struct bdk_pko_vfx_dqx_mp_statex_s
@@ -15993,7 +16259,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_vfx_dqx_mp_statex_s cn; */
-} bdk_pko_vfx_dqx_mp_statex_t;
+};
+typedef union bdk_pko_vfx_dqx_mp_statex bdk_pko_vfx_dqx_mp_statex_t;
 
 static inline uint64_t BDK_PKO_VFX_DQX_MP_STATEX(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_VFX_DQX_MP_STATEX(unsigned long a, unsigned long b, unsigned long c)
@@ -16019,7 +16286,7 @@ static inline uint64_t BDK_PKO_VFX_DQX_MP_STATEX(unsigned long a, unsigned long 
  * these addresses are ignored. The increment provided to the fetch-and-add will be
  * ignored. The CSR fields described are for the returned read data.
  */
-typedef union
+union bdk_pko_vfx_dqx_op_close
 {
     uint64_t u;
     struct bdk_pko_vfx_dqx_op_close_s
@@ -16077,7 +16344,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_vfx_dqx_op_close_s cn; */
-} bdk_pko_vfx_dqx_op_close_t;
+};
+typedef union bdk_pko_vfx_dqx_op_close bdk_pko_vfx_dqx_op_close_t;
 
 static inline uint64_t BDK_PKO_VFX_DQX_OP_CLOSE(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_VFX_DQX_OP_CLOSE(unsigned long a, unsigned long b)
@@ -16103,7 +16371,7 @@ static inline uint64_t BDK_PKO_VFX_DQX_OP_CLOSE(unsigned long a, unsigned long b
  * these addresses are ignored. The increment provided to the fetch-and-add will be
  * ignored. The CSR fields described are for the returned read data.
  */
-typedef union
+union bdk_pko_vfx_dqx_op_open
 {
     uint64_t u;
     struct bdk_pko_vfx_dqx_op_open_s
@@ -16161,7 +16429,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_vfx_dqx_op_open_s cn; */
-} bdk_pko_vfx_dqx_op_open_t;
+};
+typedef union bdk_pko_vfx_dqx_op_open bdk_pko_vfx_dqx_op_open_t;
 
 static inline uint64_t BDK_PKO_VFX_DQX_OP_OPEN(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_VFX_DQX_OP_OPEN(unsigned long a, unsigned long b)
@@ -16185,7 +16454,7 @@ static inline uint64_t BDK_PKO_VFX_DQX_OP_OPEN(unsigned long a, unsigned long b)
  * Read operations to these registers performs a query operation. All other transaction
  * types to these addresses are unpredictable.
  */
-typedef union
+union bdk_pko_vfx_dqx_op_query
 {
     uint64_t u;
     struct bdk_pko_vfx_dqx_op_query_s
@@ -16243,7 +16512,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_vfx_dqx_op_query_s cn; */
-} bdk_pko_vfx_dqx_op_query_t;
+};
+typedef union bdk_pko_vfx_dqx_op_query bdk_pko_vfx_dqx_op_query_t;
 
 static inline uint64_t BDK_PKO_VFX_DQX_OP_QUERY(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_VFX_DQX_OP_QUERY(unsigned long a, unsigned long b)
@@ -16288,7 +16558,7 @@ static inline uint64_t BDK_PKO_VFX_DQX_OP_QUERY(unsigned long a, unsigned long b
  * information on ordering, refer to the HRM "Core Memory Reference Ordering" section
  * in the CPU cores chapter.
  */
-typedef union
+union bdk_pko_vfx_dqx_op_sendx
 {
     uint64_t u;
     struct bdk_pko_vfx_dqx_op_sendx_s
@@ -16300,7 +16570,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_vfx_dqx_op_sendx_s cn; */
-} bdk_pko_vfx_dqx_op_sendx_t;
+};
+typedef union bdk_pko_vfx_dqx_op_sendx bdk_pko_vfx_dqx_op_sendx_t;
 
 static inline uint64_t BDK_PKO_VFX_DQX_OP_SENDX(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_VFX_DQX_OP_SENDX(unsigned long a, unsigned long b, unsigned long c)
@@ -16322,7 +16593,7 @@ static inline uint64_t BDK_PKO_VFX_DQX_OP_SENDX(unsigned long a, unsigned long b
  *
  * PKO Packet Descriptor State Per DQ Access Register
  */
-typedef union
+union bdk_pko_vfx_dqx_pd_statex
 {
     uint64_t u;
     struct bdk_pko_vfx_dqx_pd_statex_s
@@ -16342,7 +16613,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_vfx_dqx_pd_statex_s cn; */
-} bdk_pko_vfx_dqx_pd_statex_t;
+};
+typedef union bdk_pko_vfx_dqx_pd_statex bdk_pko_vfx_dqx_pd_statex_t;
 
 static inline uint64_t BDK_PKO_VFX_DQX_PD_STATEX(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_VFX_DQX_PD_STATEX(unsigned long a, unsigned long b, unsigned long c)
@@ -16365,7 +16637,7 @@ static inline uint64_t BDK_PKO_VFX_DQX_PD_STATEX(unsigned long a, unsigned long 
  * PKO Descriptor Queue Software Controlled XOFF Register
  * This register has the same bit fields as PKO_L1_SQ()_SW_XOFF.
  */
-typedef union
+union bdk_pko_vfx_dqx_sw_xoff
 {
     uint64_t u;
     struct bdk_pko_vfx_dqx_sw_xoff_s
@@ -16429,7 +16701,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_vfx_dqx_sw_xoff_s cn; */
-} bdk_pko_vfx_dqx_sw_xoff_t;
+};
+typedef union bdk_pko_vfx_dqx_sw_xoff bdk_pko_vfx_dqx_sw_xoff_t;
 
 static inline uint64_t BDK_PKO_VFX_DQX_SW_XOFF(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_VFX_DQX_SW_XOFF(unsigned long a, unsigned long b)
@@ -16451,7 +16724,7 @@ static inline uint64_t BDK_PKO_VFX_DQX_SW_XOFF(unsigned long a, unsigned long b)
  *
  * PKO Descriptor Queue Watermark Count Register
  */
-typedef union
+union bdk_pko_vfx_dqx_wm_cnt
 {
     uint64_t u;
     struct bdk_pko_vfx_dqx_wm_cnt_s
@@ -16477,7 +16750,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_vfx_dqx_wm_cnt_s cn; */
-} bdk_pko_vfx_dqx_wm_cnt_t;
+};
+typedef union bdk_pko_vfx_dqx_wm_cnt bdk_pko_vfx_dqx_wm_cnt_t;
 
 static inline uint64_t BDK_PKO_VFX_DQX_WM_CNT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_VFX_DQX_WM_CNT(unsigned long a, unsigned long b)
@@ -16499,7 +16773,7 @@ static inline uint64_t BDK_PKO_VFX_DQX_WM_CNT(unsigned long a, unsigned long b)
  *
  * PKO Descriptor Queue Watermark Control Register
  */
-typedef union
+union bdk_pko_vfx_dqx_wm_ctl
 {
     uint64_t u;
     struct bdk_pko_vfx_dqx_wm_ctl_s
@@ -16535,7 +16809,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_vfx_dqx_wm_ctl_s cn; */
-} bdk_pko_vfx_dqx_wm_ctl_t;
+};
+typedef union bdk_pko_vfx_dqx_wm_ctl bdk_pko_vfx_dqx_wm_ctl_t;
 
 static inline uint64_t BDK_PKO_VFX_DQX_WM_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_VFX_DQX_WM_CTL(unsigned long a, unsigned long b)
@@ -16557,7 +16832,7 @@ static inline uint64_t BDK_PKO_VFX_DQX_WM_CTL(unsigned long a, unsigned long b)
  *
  * PKO DQ Flow Control Configuration Register
  */
-typedef union
+union bdk_pko_vfx_dq_fc_config
 {
     uint64_t u;
     struct bdk_pko_vfx_dq_fc_config_s
@@ -16667,7 +16942,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_vfx_dq_fc_config_s cn; */
-} bdk_pko_vfx_dq_fc_config_t;
+};
+typedef union bdk_pko_vfx_dq_fc_config bdk_pko_vfx_dq_fc_config_t;
 
 static inline uint64_t BDK_PKO_VFX_DQ_FC_CONFIG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_VFX_DQ_FC_CONFIG(unsigned long a)

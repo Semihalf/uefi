@@ -797,7 +797,7 @@ union bdk_sli_sdp_addr_s
  * This register contains results from BIST runs of MAC's memories: 0 = pass (or BIST in
  * progress/never run), 1 = fail.
  */
-typedef union
+union bdk_sdpx_bistx_status
 {
     uint64_t u;
     struct bdk_sdpx_bistx_status_s
@@ -815,7 +815,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sdpx_bistx_status_s cn; */
-} bdk_sdpx_bistx_status_t;
+};
+typedef union bdk_sdpx_bistx_status bdk_sdpx_bistx_status_t;
 
 static inline uint64_t BDK_SDPX_BISTX_STATUS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SDPX_BISTX_STATUS(unsigned long a, unsigned long b)
@@ -838,7 +839,7 @@ static inline uint64_t BDK_SDPX_BISTX_STATUS(unsigned long a, unsigned long b)
  * SDP Constants Register
  * This register contains constants for software discovery.
  */
-typedef union
+union bdk_sdpx_const
 {
     uint64_t u;
     struct bdk_sdpx_const_s
@@ -854,7 +855,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sdpx_const_s cn; */
-} bdk_sdpx_const_t;
+};
+typedef union bdk_sdpx_const bdk_sdpx_const_t;
 
 static inline uint64_t BDK_SDPX_CONST(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SDPX_CONST(unsigned long a)
@@ -877,7 +879,7 @@ static inline uint64_t BDK_SDPX_CONST(unsigned long a)
  * SDP Diagnostic Status Register
  * This register indicates some conditions which may be interesting for diagnostics.
  */
-typedef union
+union bdk_sdpx_diag
 {
     uint64_t u;
     struct bdk_sdpx_diag_s
@@ -895,7 +897,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sdpx_diag_s cn; */
-} bdk_sdpx_diag_t;
+};
+typedef union bdk_sdpx_diag bdk_sdpx_diag_t;
 
 static inline uint64_t BDK_SDPX_DIAG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SDPX_DIAG(unsigned long a)
@@ -918,7 +921,7 @@ static inline uint64_t BDK_SDPX_DIAG(unsigned long a)
  * SDP ECC Control Register
  * This register controls the ECC of the SDP memories.
  */
-typedef union
+union bdk_sdpx_eccx_ctl
 {
     uint64_t u;
     struct bdk_sdpx_eccx_ctl_s
@@ -936,7 +939,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sdpx_eccx_ctl_s cn; */
-} bdk_sdpx_eccx_ctl_t;
+};
+typedef union bdk_sdpx_eccx_ctl bdk_sdpx_eccx_ctl_t;
 
 static inline uint64_t BDK_SDPX_ECCX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SDPX_ECCX_CTL(unsigned long a, unsigned long b)
@@ -959,7 +963,7 @@ static inline uint64_t BDK_SDPX_ECCX_CTL(unsigned long a, unsigned long b)
  * SDP ECC Control Register
  * This register controls the ECC of the SDP memories.
  */
-typedef union
+union bdk_sdpx_eccx_flip
 {
     uint64_t u;
     struct bdk_sdpx_eccx_flip_s
@@ -981,7 +985,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sdpx_eccx_flip_s cn; */
-} bdk_sdpx_eccx_flip_t;
+};
+typedef union bdk_sdpx_eccx_flip bdk_sdpx_eccx_flip_t;
 
 static inline uint64_t BDK_SDPX_ECCX_FLIP(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SDPX_ECCX_FLIP(unsigned long a, unsigned long b)
@@ -1004,7 +1009,7 @@ static inline uint64_t BDK_SDPX_ECCX_FLIP(unsigned long a, unsigned long b)
  * SDP ECC Interrupt Status Register
  * This register contains the ECC interrupt-summary bits of the SDP.
  */
-typedef union
+union bdk_sdpx_eccx_lint
 {
     uint64_t u;
     struct bdk_sdpx_eccx_lint_s
@@ -1026,7 +1031,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sdpx_eccx_lint_s cn; */
-} bdk_sdpx_eccx_lint_t;
+};
+typedef union bdk_sdpx_eccx_lint bdk_sdpx_eccx_lint_t;
 
 static inline uint64_t BDK_SDPX_ECCX_LINT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SDPX_ECCX_LINT(unsigned long a, unsigned long b)
@@ -1049,7 +1055,7 @@ static inline uint64_t BDK_SDPX_ECCX_LINT(unsigned long a, unsigned long b)
  * SDP ECC Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_sdpx_eccx_lint_ena_w1c
 {
     uint64_t u;
     struct bdk_sdpx_eccx_lint_ena_w1c_s
@@ -1063,7 +1069,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sdpx_eccx_lint_ena_w1c_s cn; */
-} bdk_sdpx_eccx_lint_ena_w1c_t;
+};
+typedef union bdk_sdpx_eccx_lint_ena_w1c bdk_sdpx_eccx_lint_ena_w1c_t;
 
 static inline uint64_t BDK_SDPX_ECCX_LINT_ENA_W1C(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SDPX_ECCX_LINT_ENA_W1C(unsigned long a, unsigned long b)
@@ -1086,7 +1093,7 @@ static inline uint64_t BDK_SDPX_ECCX_LINT_ENA_W1C(unsigned long a, unsigned long
  * SDP ECC Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_sdpx_eccx_lint_ena_w1s
 {
     uint64_t u;
     struct bdk_sdpx_eccx_lint_ena_w1s_s
@@ -1100,7 +1107,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sdpx_eccx_lint_ena_w1s_s cn; */
-} bdk_sdpx_eccx_lint_ena_w1s_t;
+};
+typedef union bdk_sdpx_eccx_lint_ena_w1s bdk_sdpx_eccx_lint_ena_w1s_t;
 
 static inline uint64_t BDK_SDPX_ECCX_LINT_ENA_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SDPX_ECCX_LINT_ENA_W1S(unsigned long a, unsigned long b)
@@ -1123,7 +1131,7 @@ static inline uint64_t BDK_SDPX_ECCX_LINT_ENA_W1S(unsigned long a, unsigned long
  * SDP ECC Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_sdpx_eccx_lint_w1s
 {
     uint64_t u;
     struct bdk_sdpx_eccx_lint_w1s_s
@@ -1137,7 +1145,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sdpx_eccx_lint_w1s_s cn; */
-} bdk_sdpx_eccx_lint_w1s_t;
+};
+typedef union bdk_sdpx_eccx_lint_w1s bdk_sdpx_eccx_lint_w1s_t;
 
 static inline uint64_t BDK_SDPX_ECCX_LINT_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SDPX_ECCX_LINT_W1S(unsigned long a, unsigned long b)
@@ -1159,7 +1168,7 @@ static inline uint64_t BDK_SDPX_ECCX_LINT_W1S(unsigned long a, unsigned long b)
  *
  * INTERNAL: SDP ECO Register
  */
-typedef union
+union bdk_sdpx_eco
 {
     uint64_t u;
     struct bdk_sdpx_eco_s
@@ -1175,7 +1184,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sdpx_eco_s cn; */
-} bdk_sdpx_eco_t;
+};
+typedef union bdk_sdpx_eco bdk_sdpx_eco_t;
 
 static inline uint64_t BDK_SDPX_ECO(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SDPX_ECO(unsigned long a)
@@ -1198,7 +1208,7 @@ static inline uint64_t BDK_SDPX_ECO(unsigned long a)
  * SDP Function Level Reset VF Bit Array Registers
  * These registers are only valid for PEM0 PF0 and PEM2 PF0.
  */
-typedef union
+union bdk_sdpx_epfx_flr_vf_lint
 {
     uint64_t u;
     struct bdk_sdpx_epfx_flr_vf_lint_s
@@ -1210,7 +1220,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sdpx_epfx_flr_vf_lint_s cn; */
-} bdk_sdpx_epfx_flr_vf_lint_t;
+};
+typedef union bdk_sdpx_epfx_flr_vf_lint bdk_sdpx_epfx_flr_vf_lint_t;
 
 static inline uint64_t BDK_SDPX_EPFX_FLR_VF_LINT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SDPX_EPFX_FLR_VF_LINT(unsigned long a, unsigned long b)
@@ -1233,7 +1244,7 @@ static inline uint64_t BDK_SDPX_EPFX_FLR_VF_LINT(unsigned long a, unsigned long 
  * SDP Function Level Reset VF Bit Array Local Enable Clear Registers
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_sdpx_epfx_flr_vf_lint_ena_w1c
 {
     uint64_t u;
     struct bdk_sdpx_epfx_flr_vf_lint_ena_w1c_s
@@ -1245,7 +1256,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sdpx_epfx_flr_vf_lint_ena_w1c_s cn; */
-} bdk_sdpx_epfx_flr_vf_lint_ena_w1c_t;
+};
+typedef union bdk_sdpx_epfx_flr_vf_lint_ena_w1c bdk_sdpx_epfx_flr_vf_lint_ena_w1c_t;
 
 static inline uint64_t BDK_SDPX_EPFX_FLR_VF_LINT_ENA_W1C(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SDPX_EPFX_FLR_VF_LINT_ENA_W1C(unsigned long a, unsigned long b)
@@ -1268,7 +1280,7 @@ static inline uint64_t BDK_SDPX_EPFX_FLR_VF_LINT_ENA_W1C(unsigned long a, unsign
  * SDP Function Level Reset VF Bit Array Local Enable Set Registers
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_sdpx_epfx_flr_vf_lint_ena_w1s
 {
     uint64_t u;
     struct bdk_sdpx_epfx_flr_vf_lint_ena_w1s_s
@@ -1280,7 +1292,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sdpx_epfx_flr_vf_lint_ena_w1s_s cn; */
-} bdk_sdpx_epfx_flr_vf_lint_ena_w1s_t;
+};
+typedef union bdk_sdpx_epfx_flr_vf_lint_ena_w1s bdk_sdpx_epfx_flr_vf_lint_ena_w1s_t;
 
 static inline uint64_t BDK_SDPX_EPFX_FLR_VF_LINT_ENA_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SDPX_EPFX_FLR_VF_LINT_ENA_W1S(unsigned long a, unsigned long b)
@@ -1303,7 +1316,7 @@ static inline uint64_t BDK_SDPX_EPFX_FLR_VF_LINT_ENA_W1S(unsigned long a, unsign
  * SDP Function Level Reset VF Bit Array Set Registers
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_sdpx_epfx_flr_vf_lint_w1s
 {
     uint64_t u;
     struct bdk_sdpx_epfx_flr_vf_lint_w1s_s
@@ -1315,7 +1328,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sdpx_epfx_flr_vf_lint_w1s_s cn; */
-} bdk_sdpx_epfx_flr_vf_lint_w1s_t;
+};
+typedef union bdk_sdpx_epfx_flr_vf_lint_w1s bdk_sdpx_epfx_flr_vf_lint_w1s_t;
 
 static inline uint64_t BDK_SDPX_EPFX_FLR_VF_LINT_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SDPX_EPFX_FLR_VF_LINT_W1S(unsigned long a, unsigned long b)
@@ -1340,7 +1354,7 @@ static inline uint64_t BDK_SDPX_EPFX_FLR_VF_LINT_W1S(unsigned long a, unsigned l
  * The given register associated with an EPF will be reset due to a PF FLR or MAC Reset.
  * These registers are not affected by VF FLR.
  */
-typedef union
+union bdk_sdpx_epfx_irerr_lint
 {
     uint64_t u;
     struct bdk_sdpx_epfx_irerr_lint_s
@@ -1352,7 +1366,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sdpx_epfx_irerr_lint_s cn; */
-} bdk_sdpx_epfx_irerr_lint_t;
+};
+typedef union bdk_sdpx_epfx_irerr_lint bdk_sdpx_epfx_irerr_lint_t;
 
 static inline uint64_t BDK_SDPX_EPFX_IRERR_LINT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SDPX_EPFX_IRERR_LINT(unsigned long a, unsigned long b)
@@ -1375,7 +1390,7 @@ static inline uint64_t BDK_SDPX_EPFX_IRERR_LINT(unsigned long a, unsigned long b
  * SDP Input Error Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_sdpx_epfx_irerr_lint_ena_w1c
 {
     uint64_t u;
     struct bdk_sdpx_epfx_irerr_lint_ena_w1c_s
@@ -1387,7 +1402,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sdpx_epfx_irerr_lint_ena_w1c_s cn; */
-} bdk_sdpx_epfx_irerr_lint_ena_w1c_t;
+};
+typedef union bdk_sdpx_epfx_irerr_lint_ena_w1c bdk_sdpx_epfx_irerr_lint_ena_w1c_t;
 
 static inline uint64_t BDK_SDPX_EPFX_IRERR_LINT_ENA_W1C(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SDPX_EPFX_IRERR_LINT_ENA_W1C(unsigned long a, unsigned long b)
@@ -1410,7 +1426,7 @@ static inline uint64_t BDK_SDPX_EPFX_IRERR_LINT_ENA_W1C(unsigned long a, unsigne
  * SDP Input Error Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_sdpx_epfx_irerr_lint_ena_w1s
 {
     uint64_t u;
     struct bdk_sdpx_epfx_irerr_lint_ena_w1s_s
@@ -1422,7 +1438,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sdpx_epfx_irerr_lint_ena_w1s_s cn; */
-} bdk_sdpx_epfx_irerr_lint_ena_w1s_t;
+};
+typedef union bdk_sdpx_epfx_irerr_lint_ena_w1s bdk_sdpx_epfx_irerr_lint_ena_w1s_t;
 
 static inline uint64_t BDK_SDPX_EPFX_IRERR_LINT_ENA_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SDPX_EPFX_IRERR_LINT_ENA_W1S(unsigned long a, unsigned long b)
@@ -1445,7 +1462,7 @@ static inline uint64_t BDK_SDPX_EPFX_IRERR_LINT_ENA_W1S(unsigned long a, unsigne
  * SDP Input Error Status Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_sdpx_epfx_irerr_lint_w1s
 {
     uint64_t u;
     struct bdk_sdpx_epfx_irerr_lint_w1s_s
@@ -1457,7 +1474,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sdpx_epfx_irerr_lint_w1s_s cn; */
-} bdk_sdpx_epfx_irerr_lint_w1s_t;
+};
+typedef union bdk_sdpx_epfx_irerr_lint_w1s bdk_sdpx_epfx_irerr_lint_w1s_t;
 
 static inline uint64_t BDK_SDPX_EPFX_IRERR_LINT_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SDPX_EPFX_IRERR_LINT_W1S(unsigned long a, unsigned long b)
@@ -1482,7 +1500,7 @@ static inline uint64_t BDK_SDPX_EPFX_IRERR_LINT_W1S(unsigned long a, unsigned lo
  * The given register associated with an EPF will be reset due to a PF FLR or MAC Reset.
  * These registers are not affected by VF FLR.
  */
-typedef union
+union bdk_sdpx_epfx_irerr_rint
 {
     uint64_t u;
     struct bdk_sdpx_epfx_irerr_rint_s
@@ -1494,7 +1512,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sdpx_epfx_irerr_rint_s cn; */
-} bdk_sdpx_epfx_irerr_rint_t;
+};
+typedef union bdk_sdpx_epfx_irerr_rint bdk_sdpx_epfx_irerr_rint_t;
 
 static inline uint64_t BDK_SDPX_EPFX_IRERR_RINT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SDPX_EPFX_IRERR_RINT(unsigned long a, unsigned long b)
@@ -1517,7 +1536,7 @@ static inline uint64_t BDK_SDPX_EPFX_IRERR_RINT(unsigned long a, unsigned long b
  * SDP Input Error Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_sdpx_epfx_irerr_rint_ena_w1c
 {
     uint64_t u;
     struct bdk_sdpx_epfx_irerr_rint_ena_w1c_s
@@ -1529,7 +1548,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sdpx_epfx_irerr_rint_ena_w1c_s cn; */
-} bdk_sdpx_epfx_irerr_rint_ena_w1c_t;
+};
+typedef union bdk_sdpx_epfx_irerr_rint_ena_w1c bdk_sdpx_epfx_irerr_rint_ena_w1c_t;
 
 static inline uint64_t BDK_SDPX_EPFX_IRERR_RINT_ENA_W1C(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SDPX_EPFX_IRERR_RINT_ENA_W1C(unsigned long a, unsigned long b)
@@ -1552,7 +1572,7 @@ static inline uint64_t BDK_SDPX_EPFX_IRERR_RINT_ENA_W1C(unsigned long a, unsigne
  * SDP Input Error Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_sdpx_epfx_irerr_rint_ena_w1s
 {
     uint64_t u;
     struct bdk_sdpx_epfx_irerr_rint_ena_w1s_s
@@ -1564,7 +1584,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sdpx_epfx_irerr_rint_ena_w1s_s cn; */
-} bdk_sdpx_epfx_irerr_rint_ena_w1s_t;
+};
+typedef union bdk_sdpx_epfx_irerr_rint_ena_w1s bdk_sdpx_epfx_irerr_rint_ena_w1s_t;
 
 static inline uint64_t BDK_SDPX_EPFX_IRERR_RINT_ENA_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SDPX_EPFX_IRERR_RINT_ENA_W1S(unsigned long a, unsigned long b)
@@ -1587,7 +1608,7 @@ static inline uint64_t BDK_SDPX_EPFX_IRERR_RINT_ENA_W1S(unsigned long a, unsigne
  * SDP Input Error Status Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_sdpx_epfx_irerr_rint_w1s
 {
     uint64_t u;
     struct bdk_sdpx_epfx_irerr_rint_w1s_s
@@ -1599,7 +1620,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sdpx_epfx_irerr_rint_w1s_s cn; */
-} bdk_sdpx_epfx_irerr_rint_w1s_t;
+};
+typedef union bdk_sdpx_epfx_irerr_rint_w1s bdk_sdpx_epfx_irerr_rint_w1s_t;
 
 static inline uint64_t BDK_SDPX_EPFX_IRERR_RINT_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SDPX_EPFX_IRERR_RINT_W1S(unsigned long a, unsigned long b)
@@ -1624,7 +1646,7 @@ static inline uint64_t BDK_SDPX_EPFX_IRERR_RINT_W1S(unsigned long a, unsigned lo
  * The given register associated with an EPF will be reset due to a PF FLR or MAC Reset.
  * These registers are not affected by VF FLR.
  */
-typedef union
+union bdk_sdpx_epfx_mbox_rint
 {
     uint64_t u;
     struct bdk_sdpx_epfx_mbox_rint_s
@@ -1636,7 +1658,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sdpx_epfx_mbox_rint_s cn; */
-} bdk_sdpx_epfx_mbox_rint_t;
+};
+typedef union bdk_sdpx_epfx_mbox_rint bdk_sdpx_epfx_mbox_rint_t;
 
 static inline uint64_t BDK_SDPX_EPFX_MBOX_RINT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SDPX_EPFX_MBOX_RINT(unsigned long a, unsigned long b)
@@ -1659,7 +1682,7 @@ static inline uint64_t BDK_SDPX_EPFX_MBOX_RINT(unsigned long a, unsigned long b)
  * SDP Mailbox Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_sdpx_epfx_mbox_rint_ena_w1c
 {
     uint64_t u;
     struct bdk_sdpx_epfx_mbox_rint_ena_w1c_s
@@ -1671,7 +1694,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sdpx_epfx_mbox_rint_ena_w1c_s cn; */
-} bdk_sdpx_epfx_mbox_rint_ena_w1c_t;
+};
+typedef union bdk_sdpx_epfx_mbox_rint_ena_w1c bdk_sdpx_epfx_mbox_rint_ena_w1c_t;
 
 static inline uint64_t BDK_SDPX_EPFX_MBOX_RINT_ENA_W1C(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SDPX_EPFX_MBOX_RINT_ENA_W1C(unsigned long a, unsigned long b)
@@ -1694,7 +1718,7 @@ static inline uint64_t BDK_SDPX_EPFX_MBOX_RINT_ENA_W1C(unsigned long a, unsigned
  * SDP Mailbox Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_sdpx_epfx_mbox_rint_ena_w1s
 {
     uint64_t u;
     struct bdk_sdpx_epfx_mbox_rint_ena_w1s_s
@@ -1706,7 +1730,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sdpx_epfx_mbox_rint_ena_w1s_s cn; */
-} bdk_sdpx_epfx_mbox_rint_ena_w1s_t;
+};
+typedef union bdk_sdpx_epfx_mbox_rint_ena_w1s bdk_sdpx_epfx_mbox_rint_ena_w1s_t;
 
 static inline uint64_t BDK_SDPX_EPFX_MBOX_RINT_ENA_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SDPX_EPFX_MBOX_RINT_ENA_W1S(unsigned long a, unsigned long b)
@@ -1729,7 +1754,7 @@ static inline uint64_t BDK_SDPX_EPFX_MBOX_RINT_ENA_W1S(unsigned long a, unsigned
  * SDP Mailbox Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_sdpx_epfx_mbox_rint_w1s
 {
     uint64_t u;
     struct bdk_sdpx_epfx_mbox_rint_w1s_s
@@ -1741,7 +1766,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sdpx_epfx_mbox_rint_w1s_s cn; */
-} bdk_sdpx_epfx_mbox_rint_w1s_t;
+};
+typedef union bdk_sdpx_epfx_mbox_rint_w1s bdk_sdpx_epfx_mbox_rint_w1s_t;
 
 static inline uint64_t BDK_SDPX_EPFX_MBOX_RINT_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SDPX_EPFX_MBOX_RINT_W1S(unsigned long a, unsigned long b)
@@ -1766,7 +1792,7 @@ static inline uint64_t BDK_SDPX_EPFX_MBOX_RINT_W1S(unsigned long a, unsigned lon
  * This could be used to prevent a misbehaving VF from flooding the system with MSI-X
  * messages and starving traffic from other VFs.
  */
-typedef union
+union bdk_sdpx_epfx_msix_recovery
 {
     uint64_t u;
     struct bdk_sdpx_epfx_msix_recovery_s
@@ -1780,7 +1806,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sdpx_epfx_msix_recovery_s cn; */
-} bdk_sdpx_epfx_msix_recovery_t;
+};
+typedef union bdk_sdpx_epfx_msix_recovery bdk_sdpx_epfx_msix_recovery_t;
 
 static inline uint64_t BDK_SDPX_EPFX_MSIX_RECOVERY(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SDPX_EPFX_MSIX_RECOVERY(unsigned long a, unsigned long b)
@@ -1804,7 +1831,7 @@ static inline uint64_t BDK_SDPX_EPFX_MSIX_RECOVERY(unsigned long a, unsigned lon
  * Interrupt data for interrupts sent to remote hosts.
  * This register is reset due to PF FLR, it is not affected by VF FLR.
  */
-typedef union
+union bdk_sdpx_epfx_oei_rint
 {
     uint64_t u;
     struct bdk_sdpx_epfx_oei_rint_s
@@ -1816,7 +1843,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sdpx_epfx_oei_rint_s cn; */
-} bdk_sdpx_epfx_oei_rint_t;
+};
+typedef union bdk_sdpx_epfx_oei_rint bdk_sdpx_epfx_oei_rint_t;
 
 static inline uint64_t BDK_SDPX_EPFX_OEI_RINT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SDPX_EPFX_OEI_RINT(unsigned long a, unsigned long b)
@@ -1839,7 +1867,7 @@ static inline uint64_t BDK_SDPX_EPFX_OEI_RINT(unsigned long a, unsigned long b)
  * Output Endpoint Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_sdpx_epfx_oei_rint_ena_w1c
 {
     uint64_t u;
     struct bdk_sdpx_epfx_oei_rint_ena_w1c_s
@@ -1851,7 +1879,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sdpx_epfx_oei_rint_ena_w1c_s cn; */
-} bdk_sdpx_epfx_oei_rint_ena_w1c_t;
+};
+typedef union bdk_sdpx_epfx_oei_rint_ena_w1c bdk_sdpx_epfx_oei_rint_ena_w1c_t;
 
 static inline uint64_t BDK_SDPX_EPFX_OEI_RINT_ENA_W1C(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SDPX_EPFX_OEI_RINT_ENA_W1C(unsigned long a, unsigned long b)
@@ -1874,7 +1903,7 @@ static inline uint64_t BDK_SDPX_EPFX_OEI_RINT_ENA_W1C(unsigned long a, unsigned 
  * Output Endpoint Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_sdpx_epfx_oei_rint_ena_w1s
 {
     uint64_t u;
     struct bdk_sdpx_epfx_oei_rint_ena_w1s_s
@@ -1886,7 +1915,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sdpx_epfx_oei_rint_ena_w1s_s cn; */
-} bdk_sdpx_epfx_oei_rint_ena_w1s_t;
+};
+typedef union bdk_sdpx_epfx_oei_rint_ena_w1s bdk_sdpx_epfx_oei_rint_ena_w1s_t;
 
 static inline uint64_t BDK_SDPX_EPFX_OEI_RINT_ENA_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SDPX_EPFX_OEI_RINT_ENA_W1S(unsigned long a, unsigned long b)
@@ -1909,7 +1939,7 @@ static inline uint64_t BDK_SDPX_EPFX_OEI_RINT_ENA_W1S(unsigned long a, unsigned 
  * Output Endpoint Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_sdpx_epfx_oei_rint_w1s
 {
     uint64_t u;
     struct bdk_sdpx_epfx_oei_rint_w1s_s
@@ -1921,7 +1951,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sdpx_epfx_oei_rint_w1s_s cn; */
-} bdk_sdpx_epfx_oei_rint_w1s_t;
+};
+typedef union bdk_sdpx_epfx_oei_rint_w1s bdk_sdpx_epfx_oei_rint_w1s_t;
 
 static inline uint64_t BDK_SDPX_EPFX_OEI_RINT_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SDPX_EPFX_OEI_RINT_W1S(unsigned long a, unsigned long b)
@@ -1952,7 +1983,7 @@ static inline uint64_t BDK_SDPX_EPFX_OEI_RINT_W1S(unsigned long a, unsigned long
  * Internal:
  * These registers must be on a dedicated 64KB page to isolate guests from changing other CSRs.
  */
-typedef union
+union bdk_sdpx_epfx_oei_trig
 {
     uint64_t u;
     struct bdk_sdpx_epfx_oei_trig_s
@@ -1984,7 +2015,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sdpx_epfx_oei_trig_s cn; */
-} bdk_sdpx_epfx_oei_trig_t;
+};
+typedef union bdk_sdpx_epfx_oei_trig bdk_sdpx_epfx_oei_trig_t;
 
 static inline uint64_t BDK_SDPX_EPFX_OEI_TRIG(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SDPX_EPFX_OEI_TRIG(unsigned long a, unsigned long b)
@@ -2009,7 +2041,7 @@ static inline uint64_t BDK_SDPX_EPFX_OEI_TRIG(unsigned long a, unsigned long b)
  * The given register associated with an EPF will be reset due to a PF FLR or MAC Reset.
  * These registers are not affected by VF FLR.
  */
-typedef union
+union bdk_sdpx_epfx_orerr_lint
 {
     uint64_t u;
     struct bdk_sdpx_epfx_orerr_lint_s
@@ -2021,7 +2053,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sdpx_epfx_orerr_lint_s cn; */
-} bdk_sdpx_epfx_orerr_lint_t;
+};
+typedef union bdk_sdpx_epfx_orerr_lint bdk_sdpx_epfx_orerr_lint_t;
 
 static inline uint64_t BDK_SDPX_EPFX_ORERR_LINT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SDPX_EPFX_ORERR_LINT(unsigned long a, unsigned long b)
@@ -2044,7 +2077,7 @@ static inline uint64_t BDK_SDPX_EPFX_ORERR_LINT(unsigned long a, unsigned long b
  * SDP Output Error Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_sdpx_epfx_orerr_lint_ena_w1c
 {
     uint64_t u;
     struct bdk_sdpx_epfx_orerr_lint_ena_w1c_s
@@ -2056,7 +2089,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sdpx_epfx_orerr_lint_ena_w1c_s cn; */
-} bdk_sdpx_epfx_orerr_lint_ena_w1c_t;
+};
+typedef union bdk_sdpx_epfx_orerr_lint_ena_w1c bdk_sdpx_epfx_orerr_lint_ena_w1c_t;
 
 static inline uint64_t BDK_SDPX_EPFX_ORERR_LINT_ENA_W1C(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SDPX_EPFX_ORERR_LINT_ENA_W1C(unsigned long a, unsigned long b)
@@ -2079,7 +2113,7 @@ static inline uint64_t BDK_SDPX_EPFX_ORERR_LINT_ENA_W1C(unsigned long a, unsigne
  * SDP Output Error Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_sdpx_epfx_orerr_lint_ena_w1s
 {
     uint64_t u;
     struct bdk_sdpx_epfx_orerr_lint_ena_w1s_s
@@ -2091,7 +2125,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sdpx_epfx_orerr_lint_ena_w1s_s cn; */
-} bdk_sdpx_epfx_orerr_lint_ena_w1s_t;
+};
+typedef union bdk_sdpx_epfx_orerr_lint_ena_w1s bdk_sdpx_epfx_orerr_lint_ena_w1s_t;
 
 static inline uint64_t BDK_SDPX_EPFX_ORERR_LINT_ENA_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SDPX_EPFX_ORERR_LINT_ENA_W1S(unsigned long a, unsigned long b)
@@ -2114,7 +2149,7 @@ static inline uint64_t BDK_SDPX_EPFX_ORERR_LINT_ENA_W1S(unsigned long a, unsigne
  * SDP Output Error Status Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_sdpx_epfx_orerr_lint_w1s
 {
     uint64_t u;
     struct bdk_sdpx_epfx_orerr_lint_w1s_s
@@ -2126,7 +2161,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sdpx_epfx_orerr_lint_w1s_s cn; */
-} bdk_sdpx_epfx_orerr_lint_w1s_t;
+};
+typedef union bdk_sdpx_epfx_orerr_lint_w1s bdk_sdpx_epfx_orerr_lint_w1s_t;
 
 static inline uint64_t BDK_SDPX_EPFX_ORERR_LINT_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SDPX_EPFX_ORERR_LINT_W1S(unsigned long a, unsigned long b)
@@ -2151,7 +2187,7 @@ static inline uint64_t BDK_SDPX_EPFX_ORERR_LINT_W1S(unsigned long a, unsigned lo
  * The given register associated with an EPF will be reset due to a PF FLR or MAC Reset.
  * These registers are not affected by VF FLR.
  */
-typedef union
+union bdk_sdpx_epfx_orerr_rint
 {
     uint64_t u;
     struct bdk_sdpx_epfx_orerr_rint_s
@@ -2163,7 +2199,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sdpx_epfx_orerr_rint_s cn; */
-} bdk_sdpx_epfx_orerr_rint_t;
+};
+typedef union bdk_sdpx_epfx_orerr_rint bdk_sdpx_epfx_orerr_rint_t;
 
 static inline uint64_t BDK_SDPX_EPFX_ORERR_RINT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SDPX_EPFX_ORERR_RINT(unsigned long a, unsigned long b)
@@ -2186,7 +2223,7 @@ static inline uint64_t BDK_SDPX_EPFX_ORERR_RINT(unsigned long a, unsigned long b
  * SDP Output Error Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_sdpx_epfx_orerr_rint_ena_w1c
 {
     uint64_t u;
     struct bdk_sdpx_epfx_orerr_rint_ena_w1c_s
@@ -2198,7 +2235,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sdpx_epfx_orerr_rint_ena_w1c_s cn; */
-} bdk_sdpx_epfx_orerr_rint_ena_w1c_t;
+};
+typedef union bdk_sdpx_epfx_orerr_rint_ena_w1c bdk_sdpx_epfx_orerr_rint_ena_w1c_t;
 
 static inline uint64_t BDK_SDPX_EPFX_ORERR_RINT_ENA_W1C(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SDPX_EPFX_ORERR_RINT_ENA_W1C(unsigned long a, unsigned long b)
@@ -2221,7 +2259,7 @@ static inline uint64_t BDK_SDPX_EPFX_ORERR_RINT_ENA_W1C(unsigned long a, unsigne
  * SDP Output Error Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_sdpx_epfx_orerr_rint_ena_w1s
 {
     uint64_t u;
     struct bdk_sdpx_epfx_orerr_rint_ena_w1s_s
@@ -2233,7 +2271,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sdpx_epfx_orerr_rint_ena_w1s_s cn; */
-} bdk_sdpx_epfx_orerr_rint_ena_w1s_t;
+};
+typedef union bdk_sdpx_epfx_orerr_rint_ena_w1s bdk_sdpx_epfx_orerr_rint_ena_w1s_t;
 
 static inline uint64_t BDK_SDPX_EPFX_ORERR_RINT_ENA_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SDPX_EPFX_ORERR_RINT_ENA_W1S(unsigned long a, unsigned long b)
@@ -2256,7 +2295,7 @@ static inline uint64_t BDK_SDPX_EPFX_ORERR_RINT_ENA_W1S(unsigned long a, unsigne
  * SDP Output Error Status Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_sdpx_epfx_orerr_rint_w1s
 {
     uint64_t u;
     struct bdk_sdpx_epfx_orerr_rint_w1s_s
@@ -2268,7 +2307,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sdpx_epfx_orerr_rint_w1s_s cn; */
-} bdk_sdpx_epfx_orerr_rint_w1s_t;
+};
+typedef union bdk_sdpx_epfx_orerr_rint_w1s bdk_sdpx_epfx_orerr_rint_w1s_t;
 
 static inline uint64_t BDK_SDPX_EPFX_ORERR_RINT_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SDPX_EPFX_ORERR_RINT_W1S(unsigned long a, unsigned long b)
@@ -2301,7 +2341,7 @@ static inline uint64_t BDK_SDPX_EPFX_ORERR_RINT_W1S(unsigned long a, unsigned lo
  * The CNTS register must be cleared by software as part of initialization after a reset
  * (including FLR) which will cause the interrupt state in this register to clear.
  */
-typedef union
+union bdk_sdpx_epfx_rx_all_int_status
 {
     uint64_t u;
     struct bdk_sdpx_epfx_rx_all_int_status_s
@@ -2381,7 +2421,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sdpx_epfx_rx_all_int_status_s cn; */
-} bdk_sdpx_epfx_rx_all_int_status_t;
+};
+typedef union bdk_sdpx_epfx_rx_all_int_status bdk_sdpx_epfx_rx_all_int_status_t;
 
 static inline uint64_t BDK_SDPX_EPFX_RX_ALL_INT_STATUS(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SDPX_EPFX_RX_ALL_INT_STATUS(unsigned long a, unsigned long b, unsigned long c)
@@ -2410,7 +2451,7 @@ static inline uint64_t BDK_SDPX_EPFX_RX_ALL_INT_STATUS(unsigned long a, unsigned
  * All 64 registers associated with an EPF will be reset due to a PF FLR or MAC Reset.
  * These registers are not affected by VF FLR.
  */
-typedef union
+union bdk_sdpx_epfx_rx_err_type
 {
     uint64_t u;
     struct bdk_sdpx_epfx_rx_err_type_s
@@ -2454,7 +2495,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sdpx_epfx_rx_err_type_s cn; */
-} bdk_sdpx_epfx_rx_err_type_t;
+};
+typedef union bdk_sdpx_epfx_rx_err_type bdk_sdpx_epfx_rx_err_type_t;
 
 static inline uint64_t BDK_SDPX_EPFX_RX_ERR_TYPE(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SDPX_EPFX_RX_ERR_TYPE(unsigned long a, unsigned long b, unsigned long c)
@@ -2479,7 +2521,7 @@ static inline uint64_t BDK_SDPX_EPFX_RX_ERR_TYPE(unsigned long a, unsigned long 
  * The counter will wrap when it reaches its maximum value. It should be cleared
  * before the ring is enabled for an accurate count.
  */
-typedef union
+union bdk_sdpx_epfx_rx_in_byte_cnt
 {
     uint64_t u;
     struct bdk_sdpx_epfx_rx_in_byte_cnt_s
@@ -2495,7 +2537,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sdpx_epfx_rx_in_byte_cnt_s cn; */
-} bdk_sdpx_epfx_rx_in_byte_cnt_t;
+};
+typedef union bdk_sdpx_epfx_rx_in_byte_cnt bdk_sdpx_epfx_rx_in_byte_cnt_t;
 
 static inline uint64_t BDK_SDPX_EPFX_RX_IN_BYTE_CNT(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SDPX_EPFX_RX_IN_BYTE_CNT(unsigned long a, unsigned long b, unsigned long c)
@@ -2520,7 +2563,7 @@ static inline uint64_t BDK_SDPX_EPFX_RX_IN_BYTE_CNT(unsigned long a, unsigned lo
  * This register is not affected by reset (including FLR) and must be initialized
  * by the VF prior to enabling the ring.
  */
-typedef union
+union bdk_sdpx_epfx_rx_in_cnts
 {
     uint64_t u;
     struct bdk_sdpx_epfx_rx_in_cnts_s
@@ -2586,7 +2629,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sdpx_epfx_rx_in_cnts_s cn; */
-} bdk_sdpx_epfx_rx_in_cnts_t;
+};
+typedef union bdk_sdpx_epfx_rx_in_cnts bdk_sdpx_epfx_rx_in_cnts_t;
 
 static inline uint64_t BDK_SDPX_EPFX_RX_IN_CNTS(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SDPX_EPFX_RX_IN_CNTS(unsigned long a, unsigned long b, unsigned long c)
@@ -2614,7 +2658,7 @@ static inline uint64_t BDK_SDPX_EPFX_RX_IN_CNTS(unsigned long a, unsigned long b
  *   * [IDLE] is clear.
  *   * Or, SDP()_EPF()_R()_IN_ENABLE[ENB] is set.
  */
-typedef union
+union bdk_sdpx_epfx_rx_in_control
 {
     uint64_t u;
     struct bdk_sdpx_epfx_rx_in_control_s
@@ -2688,7 +2732,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sdpx_epfx_rx_in_control_s cn; */
-} bdk_sdpx_epfx_rx_in_control_t;
+};
+typedef union bdk_sdpx_epfx_rx_in_control bdk_sdpx_epfx_rx_in_control_t;
 
 static inline uint64_t BDK_SDPX_EPFX_RX_IN_CONTROL(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SDPX_EPFX_RX_IN_CONTROL(unsigned long a, unsigned long b, unsigned long c)
@@ -2711,7 +2756,7 @@ static inline uint64_t BDK_SDPX_EPFX_RX_IN_CONTROL(unsigned long a, unsigned lon
  * SDP Input Instruction Ring Enable Register
  * This register is the enable for read operations on the input instruction rings.
  */
-typedef union
+union bdk_sdpx_epfx_rx_in_enable
 {
     uint64_t u;
     struct bdk_sdpx_epfx_rx_in_enable_s
@@ -2729,7 +2774,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sdpx_epfx_rx_in_enable_s cn; */
-} bdk_sdpx_epfx_rx_in_enable_t;
+};
+typedef union bdk_sdpx_epfx_rx_in_enable bdk_sdpx_epfx_rx_in_enable_t;
 
 static inline uint64_t BDK_SDPX_EPFX_RX_IN_ENABLE(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SDPX_EPFX_RX_IN_ENABLE(unsigned long a, unsigned long b, unsigned long c)
@@ -2757,7 +2803,7 @@ static inline uint64_t BDK_SDPX_EPFX_RX_IN_ENABLE(unsigned long a, unsigned long
  *   * SDP()_EPF()_R()_IN_CONTROL[IDLE] is clear.
  *   * Or, SDP()_EPF()_R()_IN_ENABLE[ENB] is set.
  */
-typedef union
+union bdk_sdpx_epfx_rx_in_instr_baddr
 {
     uint64_t u;
     struct bdk_sdpx_epfx_rx_in_instr_baddr_s
@@ -2771,7 +2817,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sdpx_epfx_rx_in_instr_baddr_s cn; */
-} bdk_sdpx_epfx_rx_in_instr_baddr_t;
+};
+typedef union bdk_sdpx_epfx_rx_in_instr_baddr bdk_sdpx_epfx_rx_in_instr_baddr_t;
 
 static inline uint64_t BDK_SDPX_EPFX_RX_IN_INSTR_BADDR(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SDPX_EPFX_RX_IN_INSTR_BADDR(unsigned long a, unsigned long b, unsigned long c)
@@ -2796,7 +2843,7 @@ static inline uint64_t BDK_SDPX_EPFX_RX_IN_INSTR_BADDR(unsigned long a, unsigned
  * This register is not affected by reset (including FLR) and must be initialized
  * by the VF prior to enabling the ring.
  */
-typedef union
+union bdk_sdpx_epfx_rx_in_instr_dbell
 {
     uint64_t u;
     struct bdk_sdpx_epfx_rx_in_instr_dbell_s
@@ -2820,7 +2867,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sdpx_epfx_rx_in_instr_dbell_s cn; */
-} bdk_sdpx_epfx_rx_in_instr_dbell_t;
+};
+typedef union bdk_sdpx_epfx_rx_in_instr_dbell bdk_sdpx_epfx_rx_in_instr_dbell_t;
 
 static inline uint64_t BDK_SDPX_EPFX_RX_IN_INSTR_DBELL(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SDPX_EPFX_RX_IN_INSTR_DBELL(unsigned long a, unsigned long b, unsigned long c)
@@ -2848,7 +2896,7 @@ static inline uint64_t BDK_SDPX_EPFX_RX_IN_INSTR_DBELL(unsigned long a, unsigned
  *   * SDP()_EPF()_R()_IN_CONTROL[IDLE] is clear.
  *   * or, SDP()_EPF()_R()_IN_ENABLE[ENB] is set.
  */
-typedef union
+union bdk_sdpx_epfx_rx_in_instr_rsize
 {
     uint64_t u;
     struct bdk_sdpx_epfx_rx_in_instr_rsize_s
@@ -2862,7 +2910,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sdpx_epfx_rx_in_instr_rsize_s cn; */
-} bdk_sdpx_epfx_rx_in_instr_rsize_t;
+};
+typedef union bdk_sdpx_epfx_rx_in_instr_rsize bdk_sdpx_epfx_rx_in_instr_rsize_t;
 
 static inline uint64_t BDK_SDPX_EPFX_RX_IN_INSTR_RSIZE(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SDPX_EPFX_RX_IN_INSTR_RSIZE(unsigned long a, unsigned long b, unsigned long c)
@@ -2890,7 +2939,7 @@ static inline uint64_t BDK_SDPX_EPFX_RX_IN_INSTR_RSIZE(unsigned long a, unsigned
  *   * SDP()_EPF()_R()_IN_CONTROL[IDLE] is clear.
  *   * SDP()_EPF()_R()_IN_ENABLE[ENB] is set.
  */
-typedef union
+union bdk_sdpx_epfx_rx_in_int_levels
 {
     uint64_t u;
     struct bdk_sdpx_epfx_rx_in_int_levels_s
@@ -2912,7 +2961,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sdpx_epfx_rx_in_int_levels_s cn; */
-} bdk_sdpx_epfx_rx_in_int_levels_t;
+};
+typedef union bdk_sdpx_epfx_rx_in_int_levels bdk_sdpx_epfx_rx_in_int_levels_t;
 
 static inline uint64_t BDK_SDPX_EPFX_RX_IN_INT_LEVELS(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SDPX_EPFX_RX_IN_INT_LEVELS(unsigned long a, unsigned long b, unsigned long c)
@@ -2938,7 +2988,7 @@ static inline uint64_t BDK_SDPX_EPFX_RX_IN_INT_LEVELS(unsigned long a, unsigned 
  * VF will return the same value.  When the PF reads any ring in this register it will
  * return the same value (64 bits each representing one ring.)
  */
-typedef union
+union bdk_sdpx_epfx_rx_in_int_status
 {
     uint64_t u;
     struct bdk_sdpx_epfx_rx_in_int_status_s
@@ -2976,7 +3026,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sdpx_epfx_rx_in_int_status_s cn; */
-} bdk_sdpx_epfx_rx_in_int_status_t;
+};
+typedef union bdk_sdpx_epfx_rx_in_int_status bdk_sdpx_epfx_rx_in_int_status_t;
 
 static inline uint64_t BDK_SDPX_EPFX_RX_IN_INT_STATUS(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SDPX_EPFX_RX_IN_INT_STATUS(unsigned long a, unsigned long b, unsigned long c)
@@ -3001,7 +3052,7 @@ static inline uint64_t BDK_SDPX_EPFX_RX_IN_INT_STATUS(unsigned long a, unsigned 
  * The counter will wrap when it reaches its maximum value.  It should be cleared
  * before the ring is enabled for an accurate count.
  */
-typedef union
+union bdk_sdpx_epfx_rx_in_pkt_cnt
 {
     uint64_t u;
     struct bdk_sdpx_epfx_rx_in_pkt_cnt_s
@@ -3019,7 +3070,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sdpx_epfx_rx_in_pkt_cnt_s cn; */
-} bdk_sdpx_epfx_rx_in_pkt_cnt_t;
+};
+typedef union bdk_sdpx_epfx_rx_in_pkt_cnt bdk_sdpx_epfx_rx_in_pkt_cnt_t;
 
 static inline uint64_t BDK_SDPX_EPFX_RX_IN_PKT_CNT(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SDPX_EPFX_RX_IN_PKT_CNT(unsigned long a, unsigned long b, unsigned long c)
@@ -3046,7 +3098,7 @@ static inline uint64_t BDK_SDPX_EPFX_RX_IN_PKT_CNT(unsigned long a, unsigned lon
  * SDP()_EPF()_R()_MBOX_RINT_STATUS, SDP()_EPF()_R()_OUT_CNTS[MBOX_INT], and
  * SDP()_EPF()_R()_IN_CNTS[MBOX_INT].
  */
-typedef union
+union bdk_sdpx_epfx_rx_mbox_pf_vf_data
 {
     uint64_t u;
     struct bdk_sdpx_epfx_rx_mbox_pf_vf_data_s
@@ -3058,7 +3110,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sdpx_epfx_rx_mbox_pf_vf_data_s cn; */
-} bdk_sdpx_epfx_rx_mbox_pf_vf_data_t;
+};
+typedef union bdk_sdpx_epfx_rx_mbox_pf_vf_data bdk_sdpx_epfx_rx_mbox_pf_vf_data_t;
 
 static inline uint64_t BDK_SDPX_EPFX_RX_MBOX_PF_VF_DATA(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SDPX_EPFX_RX_MBOX_PF_VF_DATA(unsigned long a, unsigned long b, unsigned long c)
@@ -3087,7 +3140,7 @@ static inline uint64_t BDK_SDPX_EPFX_RX_MBOX_PF_VF_DATA(unsigned long a, unsigne
  * If the [ENAB] bit is set, then an MSI-X interrupt will also be generated when the [INTR] bit
  * is set. This register is cleared also due to an FLR.
  */
-typedef union
+union bdk_sdpx_epfx_rx_mbox_pf_vf_int
 {
     uint64_t u;
     struct bdk_sdpx_epfx_rx_mbox_pf_vf_int_s
@@ -3103,7 +3156,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sdpx_epfx_rx_mbox_pf_vf_int_s cn; */
-} bdk_sdpx_epfx_rx_mbox_pf_vf_int_t;
+};
+typedef union bdk_sdpx_epfx_rx_mbox_pf_vf_int bdk_sdpx_epfx_rx_mbox_pf_vf_int_t;
 
 static inline uint64_t BDK_SDPX_EPFX_RX_MBOX_PF_VF_INT(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SDPX_EPFX_RX_MBOX_PF_VF_INT(unsigned long a, unsigned long b, unsigned long c)
@@ -3129,7 +3183,7 @@ static inline uint64_t BDK_SDPX_EPFX_RX_MBOX_PF_VF_INT(unsigned long a, unsigned
  * within a given VF will return the same value.  When the PF reads any ring in this register it
  * will return the same value (64 bits each representing one ring.)
  */
-typedef union
+union bdk_sdpx_epfx_rx_mbox_rint_status
 {
     uint64_t u;
     struct bdk_sdpx_epfx_rx_mbox_rint_status_s
@@ -3155,7 +3209,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sdpx_epfx_rx_mbox_rint_status_s cn; */
-} bdk_sdpx_epfx_rx_mbox_rint_status_t;
+};
+typedef union bdk_sdpx_epfx_rx_mbox_rint_status bdk_sdpx_epfx_rx_mbox_rint_status_t;
 
 static inline uint64_t BDK_SDPX_EPFX_RX_MBOX_RINT_STATUS(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SDPX_EPFX_RX_MBOX_RINT_STATUS(unsigned long a, unsigned long b, unsigned long c)
@@ -3181,7 +3236,7 @@ static inline uint64_t BDK_SDPX_EPFX_RX_MBOX_RINT_STATUS(unsigned long a, unsign
  * SDP()_MBOX_EPF()_INT to be set to be set, and an MSI-X message to be generated.
  * To clear the interrupt condition, the PF should write a 1 to SDP()_MBOX_EPF()_INT.
  */
-typedef union
+union bdk_sdpx_epfx_rx_mbox_vf_pf_data
 {
     uint64_t u;
     struct bdk_sdpx_epfx_rx_mbox_vf_pf_data_s
@@ -3193,7 +3248,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sdpx_epfx_rx_mbox_vf_pf_data_s cn; */
-} bdk_sdpx_epfx_rx_mbox_vf_pf_data_t;
+};
+typedef union bdk_sdpx_epfx_rx_mbox_vf_pf_data bdk_sdpx_epfx_rx_mbox_vf_pf_data_t;
 
 static inline uint64_t BDK_SDPX_EPFX_RX_MBOX_VF_PF_DATA(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SDPX_EPFX_RX_MBOX_VF_PF_DATA(unsigned long a, unsigned long b, unsigned long c)
@@ -3218,7 +3274,7 @@ static inline uint64_t BDK_SDPX_EPFX_RX_MBOX_VF_PF_DATA(unsigned long a, unsigne
  * The counter will wrap when it reaches its maximum value.  It should be cleared
  * before the ring is enabled for an accurate count.
  */
-typedef union
+union bdk_sdpx_epfx_rx_out_byte_cnt
 {
     uint64_t u;
     struct bdk_sdpx_epfx_rx_out_byte_cnt_s
@@ -3234,7 +3290,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sdpx_epfx_rx_out_byte_cnt_s cn; */
-} bdk_sdpx_epfx_rx_out_byte_cnt_t;
+};
+typedef union bdk_sdpx_epfx_rx_out_byte_cnt bdk_sdpx_epfx_rx_out_byte_cnt_t;
 
 static inline uint64_t BDK_SDPX_EPFX_RX_OUT_BYTE_CNT(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SDPX_EPFX_RX_OUT_BYTE_CNT(unsigned long a, unsigned long b, unsigned long c)
@@ -3259,7 +3316,7 @@ static inline uint64_t BDK_SDPX_EPFX_RX_OUT_BYTE_CNT(unsigned long a, unsigned l
  * This register is not affected by reset (including FLR) and must be initialized
  * by the VF prior to enabling the ring.
  */
-typedef union
+union bdk_sdpx_epfx_rx_out_cnts
 {
     uint64_t u;
     struct bdk_sdpx_epfx_rx_out_cnts_s
@@ -3337,7 +3394,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sdpx_epfx_rx_out_cnts_s cn; */
-} bdk_sdpx_epfx_rx_out_cnts_t;
+};
+typedef union bdk_sdpx_epfx_rx_out_cnts bdk_sdpx_epfx_rx_out_cnts_t;
 
 static inline uint64_t BDK_SDPX_EPFX_RX_OUT_CNTS(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SDPX_EPFX_RX_OUT_CNTS(unsigned long a, unsigned long b, unsigned long c)
@@ -3365,7 +3423,7 @@ static inline uint64_t BDK_SDPX_EPFX_RX_OUT_CNTS(unsigned long a, unsigned long 
  *   * SDP()_EPF()_R()_OUT_CONTROL[IDLE] is clear.
  *   * Or, SDP()_EPF()_R()_OUT_ENABLE[ENB] is set.
  */
-typedef union
+union bdk_sdpx_epfx_rx_out_control
 {
     uint64_t u;
     struct bdk_sdpx_epfx_rx_out_control_s
@@ -3445,7 +3503,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sdpx_epfx_rx_out_control_s cn; */
-} bdk_sdpx_epfx_rx_out_control_t;
+};
+typedef union bdk_sdpx_epfx_rx_out_control bdk_sdpx_epfx_rx_out_control_t;
 
 static inline uint64_t BDK_SDPX_EPFX_RX_OUT_CONTROL(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SDPX_EPFX_RX_OUT_CONTROL(unsigned long a, unsigned long b, unsigned long c)
@@ -3468,7 +3527,7 @@ static inline uint64_t BDK_SDPX_EPFX_RX_OUT_CONTROL(unsigned long a, unsigned lo
  * SDP Packet Output Enable Register
  * This register is the enable for the output pointer rings.
  */
-typedef union
+union bdk_sdpx_epfx_rx_out_enable
 {
     uint64_t u;
     struct bdk_sdpx_epfx_rx_out_enable_s
@@ -3486,7 +3545,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sdpx_epfx_rx_out_enable_s cn; */
-} bdk_sdpx_epfx_rx_out_enable_t;
+};
+typedef union bdk_sdpx_epfx_rx_out_enable bdk_sdpx_epfx_rx_out_enable_t;
 
 static inline uint64_t BDK_SDPX_EPFX_RX_OUT_ENABLE(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SDPX_EPFX_RX_OUT_ENABLE(unsigned long a, unsigned long b, unsigned long c)
@@ -3514,7 +3574,7 @@ static inline uint64_t BDK_SDPX_EPFX_RX_OUT_ENABLE(unsigned long a, unsigned lon
  *   * SDP()_EPF()_R()_OUT_CONTROL[IDLE] is clear.
  *   * Or, SDP()_EPF()_R()_OUT_ENABLE[ENB] is set.
  */
-typedef union
+union bdk_sdpx_epfx_rx_out_int_levels
 {
     uint64_t u;
     struct bdk_sdpx_epfx_rx_out_int_levels_s
@@ -3560,7 +3620,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sdpx_epfx_rx_out_int_levels_s cn; */
-} bdk_sdpx_epfx_rx_out_int_levels_t;
+};
+typedef union bdk_sdpx_epfx_rx_out_int_levels bdk_sdpx_epfx_rx_out_int_levels_t;
 
 static inline uint64_t BDK_SDPX_EPFX_RX_OUT_INT_LEVELS(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SDPX_EPFX_RX_OUT_INT_LEVELS(unsigned long a, unsigned long b, unsigned long c)
@@ -3586,7 +3647,7 @@ static inline uint64_t BDK_SDPX_EPFX_RX_OUT_INT_LEVELS(unsigned long a, unsigned
  * VF will return the same value.  When the PF reads any ring in this register it will
  * return the same value (64 bits each representing one ring.)
  */
-typedef union
+union bdk_sdpx_epfx_rx_out_int_status
 {
     uint64_t u;
     struct bdk_sdpx_epfx_rx_out_int_status_s
@@ -3626,7 +3687,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sdpx_epfx_rx_out_int_status_s cn; */
-} bdk_sdpx_epfx_rx_out_int_status_t;
+};
+typedef union bdk_sdpx_epfx_rx_out_int_status bdk_sdpx_epfx_rx_out_int_status_t;
 
 static inline uint64_t BDK_SDPX_EPFX_RX_OUT_INT_STATUS(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SDPX_EPFX_RX_OUT_INT_STATUS(unsigned long a, unsigned long b, unsigned long c)
@@ -3651,7 +3713,7 @@ static inline uint64_t BDK_SDPX_EPFX_RX_OUT_INT_STATUS(unsigned long a, unsigned
  * The counter will wrap when it reaches its maximum value.  It should be cleared
  * before the ring is enabled for an accurate count.
  */
-typedef union
+union bdk_sdpx_epfx_rx_out_pkt_cnt
 {
     uint64_t u;
     struct bdk_sdpx_epfx_rx_out_pkt_cnt_s
@@ -3669,7 +3731,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sdpx_epfx_rx_out_pkt_cnt_s cn; */
-} bdk_sdpx_epfx_rx_out_pkt_cnt_t;
+};
+typedef union bdk_sdpx_epfx_rx_out_pkt_cnt bdk_sdpx_epfx_rx_out_pkt_cnt_t;
 
 static inline uint64_t BDK_SDPX_EPFX_RX_OUT_PKT_CNT(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SDPX_EPFX_RX_OUT_PKT_CNT(unsigned long a, unsigned long b, unsigned long c)
@@ -3697,7 +3760,7 @@ static inline uint64_t BDK_SDPX_EPFX_RX_OUT_PKT_CNT(unsigned long a, unsigned lo
  *   * SDP()_EPF()_R()_OUT_CONTROL[IDLE] is clear.
  *   * Or, SDP()_EPF()_R()_OUT_ENABLE[ENB] is set.
  */
-typedef union
+union bdk_sdpx_epfx_rx_out_slist_baddr
 {
     uint64_t u;
     struct bdk_sdpx_epfx_rx_out_slist_baddr_s
@@ -3721,7 +3784,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sdpx_epfx_rx_out_slist_baddr_s cn; */
-} bdk_sdpx_epfx_rx_out_slist_baddr_t;
+};
+typedef union bdk_sdpx_epfx_rx_out_slist_baddr bdk_sdpx_epfx_rx_out_slist_baddr_t;
 
 static inline uint64_t BDK_SDPX_EPFX_RX_OUT_SLIST_BADDR(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SDPX_EPFX_RX_OUT_SLIST_BADDR(unsigned long a, unsigned long b, unsigned long c)
@@ -3746,7 +3810,7 @@ static inline uint64_t BDK_SDPX_EPFX_RX_OUT_SLIST_BADDR(unsigned long a, unsigne
  * This register is not affected by reset (including FLR) and must be initialized
  * by the VF prior to enabling the ring.
  */
-typedef union
+union bdk_sdpx_epfx_rx_out_slist_dbell
 {
     uint64_t u;
     struct bdk_sdpx_epfx_rx_out_slist_dbell_s
@@ -3772,7 +3836,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sdpx_epfx_rx_out_slist_dbell_s cn; */
-} bdk_sdpx_epfx_rx_out_slist_dbell_t;
+};
+typedef union bdk_sdpx_epfx_rx_out_slist_dbell bdk_sdpx_epfx_rx_out_slist_dbell_t;
 
 static inline uint64_t BDK_SDPX_EPFX_RX_OUT_SLIST_DBELL(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SDPX_EPFX_RX_OUT_SLIST_DBELL(unsigned long a, unsigned long b, unsigned long c)
@@ -3800,7 +3865,7 @@ static inline uint64_t BDK_SDPX_EPFX_RX_OUT_SLIST_DBELL(unsigned long a, unsigne
  *   * SDP()_EPF()_R()_OUT_CONTROL[IDLE] is clear.
  *   * Or, SDP()_EPF()_R()_OUT_ENABLE[ENB] is set.
  */
-typedef union
+union bdk_sdpx_epfx_rx_out_slist_rsize
 {
     uint64_t u;
     struct bdk_sdpx_epfx_rx_out_slist_rsize_s
@@ -3818,7 +3883,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sdpx_epfx_rx_out_slist_rsize_s cn; */
-} bdk_sdpx_epfx_rx_out_slist_rsize_t;
+};
+typedef union bdk_sdpx_epfx_rx_out_slist_rsize bdk_sdpx_epfx_rx_out_slist_rsize_t;
 
 static inline uint64_t BDK_SDPX_EPFX_RX_OUT_SLIST_RSIZE(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SDPX_EPFX_RX_OUT_SLIST_RSIZE(unsigned long a, unsigned long b, unsigned long c)
@@ -3846,7 +3912,7 @@ static inline uint64_t BDK_SDPX_EPFX_RX_OUT_SLIST_RSIZE(unsigned long a, unsigne
  * All 64 registers associated with an EPF will be reset due to a PF FLR or MAC Reset.
  * These registers are not affected by VF FLR.
  */
-typedef union
+union bdk_sdpx_epfx_rx_vf_num
 {
     uint64_t u;
     struct bdk_sdpx_epfx_rx_vf_num_s
@@ -3874,7 +3940,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sdpx_epfx_rx_vf_num_s cn; */
-} bdk_sdpx_epfx_rx_vf_num_t;
+};
+typedef union bdk_sdpx_epfx_rx_vf_num bdk_sdpx_epfx_rx_vf_num_t;
 
 static inline uint64_t BDK_SDPX_EPFX_RX_VF_NUM(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SDPX_EPFX_RX_VF_NUM(unsigned long a, unsigned long b, unsigned long c)
@@ -3914,7 +3981,7 @@ static inline uint64_t BDK_SDPX_EPFX_RX_VF_NUM(unsigned long a, unsigned long b,
  * The given register associated with an EPF will be reset due to a PF FLR or MAC Reset.
  * These registers are not affected by VF FLR.
  */
-typedef union
+union bdk_sdpx_epfx_rinfo
 {
     uint64_t u;
     struct bdk_sdpx_epfx_rinfo_s
@@ -3958,7 +4025,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sdpx_epfx_rinfo_s cn; */
-} bdk_sdpx_epfx_rinfo_t;
+};
+typedef union bdk_sdpx_epfx_rinfo bdk_sdpx_epfx_rinfo_t;
 
 static inline uint64_t BDK_SDPX_EPFX_RINFO(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SDPX_EPFX_RINFO(unsigned long a, unsigned long b)
@@ -3983,7 +4051,7 @@ static inline uint64_t BDK_SDPX_EPFX_RINFO(unsigned long a, unsigned long b)
  * Note: EPF2..3 only advertise 16 MSI-X entries to the remote host, so
  * PBA1 does not exist for these EPFs.
  */
-typedef union
+union bdk_sdpx_epfx_rmt_msix_pbax
 {
     uint64_t u;
     struct bdk_sdpx_epfx_rmt_msix_pbax_s
@@ -3997,7 +4065,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sdpx_epfx_rmt_msix_pbax_s cn; */
-} bdk_sdpx_epfx_rmt_msix_pbax_t;
+};
+typedef union bdk_sdpx_epfx_rmt_msix_pbax bdk_sdpx_epfx_rmt_msix_pbax_t;
 
 static inline uint64_t BDK_SDPX_EPFX_RMT_MSIX_PBAX(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SDPX_EPFX_RMT_MSIX_PBAX(unsigned long a, unsigned long b, unsigned long c)
@@ -4027,7 +4096,7 @@ static inline uint64_t BDK_SDPX_EPFX_RMT_MSIX_PBAX(unsigned long a, unsigned lon
  * Note: EPF2..3 only advertise 16 MSI-X entries to the remote host, and table
  * entries above 15 do not exist.
  */
-typedef union
+union bdk_sdpx_epfx_rmt_msix_vecx_addr
 {
     uint64_t u;
     struct bdk_sdpx_epfx_rmt_msix_vecx_addr_s
@@ -4041,7 +4110,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sdpx_epfx_rmt_msix_vecx_addr_s cn; */
-} bdk_sdpx_epfx_rmt_msix_vecx_addr_t;
+};
+typedef union bdk_sdpx_epfx_rmt_msix_vecx_addr bdk_sdpx_epfx_rmt_msix_vecx_addr_t;
 
 static inline uint64_t BDK_SDPX_EPFX_RMT_MSIX_VECX_ADDR(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SDPX_EPFX_RMT_MSIX_VECX_ADDR(unsigned long a, unsigned long b, unsigned long c)
@@ -4068,7 +4138,7 @@ static inline uint64_t BDK_SDPX_EPFX_RMT_MSIX_VECX_ADDR(unsigned long a, unsigne
  * Note: EPF2..3 only advertise 16 MSI-X entries to the remote host, and table
  * entries above 15 do not exist.
  */
-typedef union
+union bdk_sdpx_epfx_rmt_msix_vecx_ctl
 {
     uint64_t u;
     struct bdk_sdpx_epfx_rmt_msix_vecx_ctl_s
@@ -4092,7 +4162,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sdpx_epfx_rmt_msix_vecx_ctl_s cn; */
-} bdk_sdpx_epfx_rmt_msix_vecx_ctl_t;
+};
+typedef union bdk_sdpx_epfx_rmt_msix_vecx_ctl bdk_sdpx_epfx_rmt_msix_vecx_ctl_t;
 
 static inline uint64_t BDK_SDPX_EPFX_RMT_MSIX_VECX_CTL(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SDPX_EPFX_RMT_MSIX_VECX_CTL(unsigned long a, unsigned long b, unsigned long c)
@@ -4115,7 +4186,7 @@ static inline uint64_t BDK_SDPX_EPFX_RMT_MSIX_VECX_CTL(unsigned long a, unsigned
  * SDP Global Control Register
  * Global control bits for SDP.
  */
-typedef union
+union bdk_sdpx_gbl_control
 {
     uint64_t u;
     struct bdk_sdpx_gbl_control_s
@@ -4147,7 +4218,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sdpx_gbl_control_s cn; */
-} bdk_sdpx_gbl_control_t;
+};
+typedef union bdk_sdpx_gbl_control bdk_sdpx_gbl_control_t;
 
 static inline uint64_t BDK_SDPX_GBL_CONTROL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SDPX_GBL_CONTROL(unsigned long a)
@@ -4170,7 +4242,7 @@ static inline uint64_t BDK_SDPX_GBL_CONTROL(unsigned long a)
  * SDP Packet Output Backpressure W1C Register
  * This register enables sending backpressure to PKO.
  */
-typedef union
+union bdk_sdpx_out_bp_enx_w1c
 {
     uint64_t u;
     struct bdk_sdpx_out_bp_enx_w1c_s
@@ -4188,7 +4260,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sdpx_out_bp_enx_w1c_s cn; */
-} bdk_sdpx_out_bp_enx_w1c_t;
+};
+typedef union bdk_sdpx_out_bp_enx_w1c bdk_sdpx_out_bp_enx_w1c_t;
 
 static inline uint64_t BDK_SDPX_OUT_BP_ENX_W1C(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SDPX_OUT_BP_ENX_W1C(unsigned long a, unsigned long b)
@@ -4211,7 +4284,7 @@ static inline uint64_t BDK_SDPX_OUT_BP_ENX_W1C(unsigned long a, unsigned long b)
  * SDP Packet Output Backpressure W1S Register
  * This register reads or sets bits.
  */
-typedef union
+union bdk_sdpx_out_bp_enx_w1s
 {
     uint64_t u;
     struct bdk_sdpx_out_bp_enx_w1s_s
@@ -4223,7 +4296,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sdpx_out_bp_enx_w1s_s cn; */
-} bdk_sdpx_out_bp_enx_w1s_t;
+};
+typedef union bdk_sdpx_out_bp_enx_w1s bdk_sdpx_out_bp_enx_w1s_t;
 
 static inline uint64_t BDK_SDPX_OUT_BP_ENX_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SDPX_OUT_BP_ENX_W1S(unsigned long a, unsigned long b)
@@ -4253,7 +4327,7 @@ static inline uint64_t BDK_SDPX_OUT_BP_ENX_W1S(unsigned long a, unsigned long b)
  * and discard remaining packets destined for the port.  This should not happen except
  * for a mis-programmed threshold value.
  */
-typedef union
+union bdk_sdpx_out_wmark
 {
     uint64_t u;
     struct bdk_sdpx_out_wmark_s
@@ -4267,7 +4341,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sdpx_out_wmark_s cn; */
-} bdk_sdpx_out_wmark_t;
+};
+typedef union bdk_sdpx_out_wmark bdk_sdpx_out_wmark_t;
 
 static inline uint64_t BDK_SDPX_OUT_WMARK(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SDPX_OUT_WMARK(unsigned long a)
@@ -4291,7 +4366,7 @@ static inline uint64_t BDK_SDPX_OUT_WMARK(unsigned long a)
  * Enables bits per PKIND that are allowed to be sent to PKI specified in the
  * SDP_INSTR_HDR_S[PKIND] packet instruction field.
  */
-typedef union
+union bdk_sdpx_pkind_valid
 {
     uint64_t u;
     struct bdk_sdpx_pkind_valid_s
@@ -4309,7 +4384,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sdpx_pkind_valid_s cn; */
-} bdk_sdpx_pkind_valid_t;
+};
+typedef union bdk_sdpx_pkind_valid bdk_sdpx_pkind_valid_t;
 
 static inline uint64_t BDK_SDPX_PKIND_VALID(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SDPX_PKIND_VALID(unsigned long a)
@@ -4332,7 +4408,7 @@ static inline uint64_t BDK_SDPX_PKIND_VALID(unsigned long a)
  * SDP Scratch Register
  * These registers are general purpose 64-bit scratch registers for software use.
  */
-typedef union
+union bdk_sdpx_scratchx
 {
     uint64_t u;
     struct bdk_sdpx_scratchx_s
@@ -4344,7 +4420,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sdpx_scratchx_s cn; */
-} bdk_sdpx_scratchx_t;
+};
+typedef union bdk_sdpx_scratchx bdk_sdpx_scratchx_t;
 
 static inline uint64_t BDK_SDPX_SCRATCHX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SDPX_SCRATCHX(unsigned long a, unsigned long b)
@@ -4367,7 +4444,7 @@ static inline uint64_t BDK_SDPX_SCRATCHX(unsigned long a, unsigned long b)
  * SLI BAR3 Address Register
  * This register configures PEM BAR3 accesses.
  */
-typedef union
+union bdk_slix_bar3_addr
 {
     uint64_t u;
     struct bdk_slix_bar3_addr_s
@@ -4393,7 +4470,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_slix_bar3_addr_s cn; */
-} bdk_slix_bar3_addr_t;
+};
+typedef union bdk_slix_bar3_addr bdk_slix_bar3_addr_t;
 
 static inline uint64_t BDK_SLIX_BAR3_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_BAR3_ADDR(unsigned long a)
@@ -4417,7 +4495,7 @@ static inline uint64_t BDK_SLIX_BAR3_ADDR(unsigned long a)
  * This register contains results from BIST runs of MAC's memories: 0 = pass (or BIST in
  * progress/never run), 1 = fail.
  */
-typedef union
+union bdk_slix_bist_status
 {
     uint64_t u;
     struct bdk_slix_bist_status_s
@@ -4547,7 +4625,8 @@ typedef union
         uint64_t reserved_31_63        : 33;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_slix_bist_status_t;
+};
+typedef union bdk_slix_bist_status bdk_slix_bist_status_t;
 
 static inline uint64_t BDK_SLIX_BIST_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_BIST_STATUS(unsigned long a)
@@ -4574,7 +4653,7 @@ static inline uint64_t BDK_SLIX_BIST_STATUS(unsigned long a)
  * SLI Constants Register
  * This register contains constants for software discovery.
  */
-typedef union
+union bdk_slix_const
 {
     uint64_t u;
     struct bdk_slix_const_s
@@ -4600,7 +4679,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_slix_const_s cn; */
-} bdk_slix_const_t;
+};
+typedef union bdk_slix_const bdk_slix_const_t;
 
 static inline uint64_t BDK_SLIX_CONST(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_CONST(unsigned long a)
@@ -4623,7 +4703,7 @@ static inline uint64_t BDK_SLIX_CONST(unsigned long a)
  * SLI Constants Register 1
  * This register contains constants for software discovery.
  */
-typedef union
+union bdk_slix_const1
 {
     uint64_t u;
     struct bdk_slix_const1_s
@@ -4635,7 +4715,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_slix_const1_s cn; */
-} bdk_slix_const1_t;
+};
+typedef union bdk_slix_const1 bdk_slix_const1_t;
 
 static inline uint64_t BDK_SLIX_CONST1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_CONST1(unsigned long a)
@@ -4658,7 +4739,7 @@ static inline uint64_t BDK_SLIX_CONST1(unsigned long a)
  * SLI Data Out Count Register
  * This register contains the EXEC data out FIFO count and the data unload counter.
  */
-typedef union
+union bdk_slix_data_out_cntx
 {
     uint64_t u;
     struct bdk_slix_data_out_cntx_s
@@ -4678,7 +4759,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_slix_data_out_cntx_s cn; */
-} bdk_slix_data_out_cntx_t;
+};
+typedef union bdk_slix_data_out_cntx bdk_slix_data_out_cntx_t;
 
 static inline uint64_t BDK_SLIX_DATA_OUT_CNTX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_DATA_OUT_CNTX(unsigned long a, unsigned long b)
@@ -4702,7 +4784,7 @@ static inline uint64_t BDK_SLIX_DATA_OUT_CNTX(unsigned long a, unsigned long b)
  *
  * INTERNAL: SLI ECO Register
  */
-typedef union
+union bdk_slix_eco
 {
     uint64_t u;
     struct bdk_slix_eco_s
@@ -4718,7 +4800,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_slix_eco_s cn; */
-} bdk_slix_eco_t;
+};
+typedef union bdk_slix_eco bdk_slix_eco_t;
 
 static inline uint64_t BDK_SLIX_ECO(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_ECO(unsigned long a)
@@ -4741,7 +4824,7 @@ static inline uint64_t BDK_SLIX_ECO(unsigned long a)
  * SLI End Merge Register
  * Writing this register will cause a merge to end.
  */
-typedef union
+union bdk_slix_end_merge
 {
     uint64_t u;
     struct bdk_slix_end_merge_s
@@ -4753,7 +4836,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_slix_end_merge_s cn; */
-} bdk_slix_end_merge_t;
+};
+typedef union bdk_slix_end_merge bdk_slix_end_merge_t;
 
 static inline uint64_t BDK_SLIX_END_MERGE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_END_MERGE(unsigned long a)
@@ -4780,7 +4864,7 @@ static inline uint64_t BDK_SLIX_END_MERGE(unsigned long a)
  * SLI Data Out Count Register
  * This register contains the EXEC data out FIFO count and the data unload counter.
  */
-typedef union
+union bdk_slix_epfx_data_out_cnt
 {
     uint64_t u;
     struct bdk_slix_epfx_data_out_cnt_s
@@ -4800,7 +4884,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_slix_epfx_data_out_cnt_s cn; */
-} bdk_slix_epfx_data_out_cnt_t;
+};
+typedef union bdk_slix_epfx_data_out_cnt bdk_slix_epfx_data_out_cnt_t;
 
 static inline uint64_t BDK_SLIX_EPFX_DATA_OUT_CNT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_EPFX_DATA_OUT_CNT(unsigned long a, unsigned long b)
@@ -4823,7 +4908,7 @@ static inline uint64_t BDK_SLIX_EPFX_DATA_OUT_CNT(unsigned long a, unsigned long
  * SLI DMA Count Registers
  * These registers contain the DMA count values.
  */
-typedef union
+union bdk_slix_epfx_dma_cntx
 {
     uint64_t u;
     struct bdk_slix_epfx_dma_cntx_s
@@ -4847,7 +4932,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_slix_epfx_dma_cntx_s cn; */
-} bdk_slix_epfx_dma_cntx_t;
+};
+typedef union bdk_slix_epfx_dma_cntx bdk_slix_epfx_dma_cntx_t;
 
 static inline uint64_t BDK_SLIX_EPFX_DMA_CNTX(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_EPFX_DMA_CNTX(unsigned long a, unsigned long b, unsigned long c)
@@ -4870,7 +4956,7 @@ static inline uint64_t BDK_SLIX_EPFX_DMA_CNTX(unsigned long a, unsigned long b, 
  * SLI DMA Interrupt Level Registers
  * These registers contain the thresholds for DMA count and timer interrupts.
  */
-typedef union
+union bdk_slix_epfx_dma_int_levelx
 {
     uint64_t u;
     struct bdk_slix_epfx_dma_int_levelx_s
@@ -4892,7 +4978,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_slix_epfx_dma_int_levelx_s cn; */
-} bdk_slix_epfx_dma_int_levelx_t;
+};
+typedef union bdk_slix_epfx_dma_int_levelx bdk_slix_epfx_dma_int_levelx_t;
 
 static inline uint64_t BDK_SLIX_EPFX_DMA_INT_LEVELX(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_EPFX_DMA_INT_LEVELX(unsigned long a, unsigned long b, unsigned long c)
@@ -4917,7 +5004,7 @@ static inline uint64_t BDK_SLIX_EPFX_DMA_INT_LEVELX(unsigned long a, unsigned lo
  * The given register associated with an EPF will be reset due to a PF FLR or MAC reset.
  * These registers are not affected by VF FLR.
  */
-typedef union
+union bdk_slix_epfx_dma_rint
 {
     uint64_t u;
     struct bdk_slix_epfx_dma_rint_s
@@ -4949,7 +5036,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_slix_epfx_dma_rint_s cn; */
-} bdk_slix_epfx_dma_rint_t;
+};
+typedef union bdk_slix_epfx_dma_rint bdk_slix_epfx_dma_rint_t;
 
 static inline uint64_t BDK_SLIX_EPFX_DMA_RINT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_EPFX_DMA_RINT(unsigned long a, unsigned long b)
@@ -4972,7 +5060,7 @@ static inline uint64_t BDK_SLIX_EPFX_DMA_RINT(unsigned long a, unsigned long b)
  * SLI/DPI DTIME/DCNT/DMAFI Interrupt Remote Enable Clear Registers
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_slix_epfx_dma_rint_ena_w1c
 {
     uint64_t u;
     struct bdk_slix_epfx_dma_rint_ena_w1c_s
@@ -4990,7 +5078,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_slix_epfx_dma_rint_ena_w1c_s cn; */
-} bdk_slix_epfx_dma_rint_ena_w1c_t;
+};
+typedef union bdk_slix_epfx_dma_rint_ena_w1c bdk_slix_epfx_dma_rint_ena_w1c_t;
 
 static inline uint64_t BDK_SLIX_EPFX_DMA_RINT_ENA_W1C(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_EPFX_DMA_RINT_ENA_W1C(unsigned long a, unsigned long b)
@@ -5013,7 +5102,7 @@ static inline uint64_t BDK_SLIX_EPFX_DMA_RINT_ENA_W1C(unsigned long a, unsigned 
  * SLI/DPI DTIME/DCNT/DMAFI Interrupt Remote Enable Set Registers
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_slix_epfx_dma_rint_ena_w1s
 {
     uint64_t u;
     struct bdk_slix_epfx_dma_rint_ena_w1s_s
@@ -5031,7 +5120,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_slix_epfx_dma_rint_ena_w1s_s cn; */
-} bdk_slix_epfx_dma_rint_ena_w1s_t;
+};
+typedef union bdk_slix_epfx_dma_rint_ena_w1s bdk_slix_epfx_dma_rint_ena_w1s_t;
 
 static inline uint64_t BDK_SLIX_EPFX_DMA_RINT_ENA_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_EPFX_DMA_RINT_ENA_W1S(unsigned long a, unsigned long b)
@@ -5054,7 +5144,7 @@ static inline uint64_t BDK_SLIX_EPFX_DMA_RINT_ENA_W1S(unsigned long a, unsigned 
  * SLI/DPI DTIME/DCNT/DMAFI Interrupt Set Registers
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_slix_epfx_dma_rint_w1s
 {
     uint64_t u;
     struct bdk_slix_epfx_dma_rint_w1s_s
@@ -5072,7 +5162,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_slix_epfx_dma_rint_w1s_s cn; */
-} bdk_slix_epfx_dma_rint_w1s_t;
+};
+typedef union bdk_slix_epfx_dma_rint_w1s bdk_slix_epfx_dma_rint_w1s_t;
 
 static inline uint64_t BDK_SLIX_EPFX_DMA_RINT_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_EPFX_DMA_RINT_W1S(unsigned long a, unsigned long b)
@@ -5095,7 +5186,7 @@ static inline uint64_t BDK_SLIX_EPFX_DMA_RINT_W1S(unsigned long a, unsigned long
  * SLI DMA Timer Registers
  * These registers contain the DMA timer values.
  */
-typedef union
+union bdk_slix_epfx_dma_timx
 {
     uint64_t u;
     struct bdk_slix_epfx_dma_timx_s
@@ -5113,7 +5204,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_slix_epfx_dma_timx_s cn; */
-} bdk_slix_epfx_dma_timx_t;
+};
+typedef union bdk_slix_epfx_dma_timx bdk_slix_epfx_dma_timx_t;
 
 static inline uint64_t BDK_SLIX_EPFX_DMA_TIMX(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_EPFX_DMA_TIMX(unsigned long a, unsigned long b, unsigned long c)
@@ -5138,7 +5230,7 @@ static inline uint64_t BDK_SLIX_EPFX_DMA_TIMX(unsigned long a, unsigned long b, 
  * bit is set.  The appropriate PF should read the appropriate register.
  * These registers are only valid for PEM0 PF0 and PEM2 PF0.
  */
-typedef union
+union bdk_slix_epfx_dma_vf_lint
 {
     uint64_t u;
     struct bdk_slix_epfx_dma_vf_lint_s
@@ -5152,7 +5244,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_slix_epfx_dma_vf_lint_s cn; */
-} bdk_slix_epfx_dma_vf_lint_t;
+};
+typedef union bdk_slix_epfx_dma_vf_lint bdk_slix_epfx_dma_vf_lint_t;
 
 static inline uint64_t BDK_SLIX_EPFX_DMA_VF_LINT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_EPFX_DMA_VF_LINT(unsigned long a, unsigned long b)
@@ -5175,7 +5268,7 @@ static inline uint64_t BDK_SLIX_EPFX_DMA_VF_LINT(unsigned long a, unsigned long 
  * SLI DMA Error Response VF Bit Array Local Enable Clear Registers
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_slix_epfx_dma_vf_lint_ena_w1c
 {
     uint64_t u;
     struct bdk_slix_epfx_dma_vf_lint_ena_w1c_s
@@ -5187,7 +5280,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_slix_epfx_dma_vf_lint_ena_w1c_s cn; */
-} bdk_slix_epfx_dma_vf_lint_ena_w1c_t;
+};
+typedef union bdk_slix_epfx_dma_vf_lint_ena_w1c bdk_slix_epfx_dma_vf_lint_ena_w1c_t;
 
 static inline uint64_t BDK_SLIX_EPFX_DMA_VF_LINT_ENA_W1C(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_EPFX_DMA_VF_LINT_ENA_W1C(unsigned long a, unsigned long b)
@@ -5210,7 +5304,7 @@ static inline uint64_t BDK_SLIX_EPFX_DMA_VF_LINT_ENA_W1C(unsigned long a, unsign
  * SLI DMA Error Response VF Bit Array Local Enable Set Registers
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_slix_epfx_dma_vf_lint_ena_w1s
 {
     uint64_t u;
     struct bdk_slix_epfx_dma_vf_lint_ena_w1s_s
@@ -5222,7 +5316,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_slix_epfx_dma_vf_lint_ena_w1s_s cn; */
-} bdk_slix_epfx_dma_vf_lint_ena_w1s_t;
+};
+typedef union bdk_slix_epfx_dma_vf_lint_ena_w1s bdk_slix_epfx_dma_vf_lint_ena_w1s_t;
 
 static inline uint64_t BDK_SLIX_EPFX_DMA_VF_LINT_ENA_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_EPFX_DMA_VF_LINT_ENA_W1S(unsigned long a, unsigned long b)
@@ -5245,7 +5340,7 @@ static inline uint64_t BDK_SLIX_EPFX_DMA_VF_LINT_ENA_W1S(unsigned long a, unsign
  * SLI DMA Error Response VF Bit Array Set Registers
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_slix_epfx_dma_vf_lint_w1s
 {
     uint64_t u;
     struct bdk_slix_epfx_dma_vf_lint_w1s_s
@@ -5257,7 +5352,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_slix_epfx_dma_vf_lint_w1s_s cn; */
-} bdk_slix_epfx_dma_vf_lint_w1s_t;
+};
+typedef union bdk_slix_epfx_dma_vf_lint_w1s bdk_slix_epfx_dma_vf_lint_w1s_t;
 
 static inline uint64_t BDK_SLIX_EPFX_DMA_VF_LINT_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_EPFX_DMA_VF_LINT_W1S(unsigned long a, unsigned long b)
@@ -5284,7 +5380,7 @@ static inline uint64_t BDK_SLIX_EPFX_DMA_VF_LINT_W1S(unsigned long a, unsigned l
  * These registers are not affected by VF FLR.
  * These registers are only valid for PEM0 PF0 and PEM2 PF0.
  */
-typedef union
+union bdk_slix_epfx_dma_vf_rint
 {
     uint64_t u;
     struct bdk_slix_epfx_dma_vf_rint_s
@@ -5298,7 +5394,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_slix_epfx_dma_vf_rint_s cn; */
-} bdk_slix_epfx_dma_vf_rint_t;
+};
+typedef union bdk_slix_epfx_dma_vf_rint bdk_slix_epfx_dma_vf_rint_t;
 
 static inline uint64_t BDK_SLIX_EPFX_DMA_VF_RINT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_EPFX_DMA_VF_RINT(unsigned long a, unsigned long b)
@@ -5321,7 +5418,7 @@ static inline uint64_t BDK_SLIX_EPFX_DMA_VF_RINT(unsigned long a, unsigned long 
  * SLI DMA Error Response VF Bit Array Local Enable Clear Registers
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_slix_epfx_dma_vf_rint_ena_w1c
 {
     uint64_t u;
     struct bdk_slix_epfx_dma_vf_rint_ena_w1c_s
@@ -5333,7 +5430,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_slix_epfx_dma_vf_rint_ena_w1c_s cn; */
-} bdk_slix_epfx_dma_vf_rint_ena_w1c_t;
+};
+typedef union bdk_slix_epfx_dma_vf_rint_ena_w1c bdk_slix_epfx_dma_vf_rint_ena_w1c_t;
 
 static inline uint64_t BDK_SLIX_EPFX_DMA_VF_RINT_ENA_W1C(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_EPFX_DMA_VF_RINT_ENA_W1C(unsigned long a, unsigned long b)
@@ -5356,7 +5454,7 @@ static inline uint64_t BDK_SLIX_EPFX_DMA_VF_RINT_ENA_W1C(unsigned long a, unsign
  * SLI DMA Error Response VF Bit Array Local Enable Set Registers
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_slix_epfx_dma_vf_rint_ena_w1s
 {
     uint64_t u;
     struct bdk_slix_epfx_dma_vf_rint_ena_w1s_s
@@ -5368,7 +5466,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_slix_epfx_dma_vf_rint_ena_w1s_s cn; */
-} bdk_slix_epfx_dma_vf_rint_ena_w1s_t;
+};
+typedef union bdk_slix_epfx_dma_vf_rint_ena_w1s bdk_slix_epfx_dma_vf_rint_ena_w1s_t;
 
 static inline uint64_t BDK_SLIX_EPFX_DMA_VF_RINT_ENA_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_EPFX_DMA_VF_RINT_ENA_W1S(unsigned long a, unsigned long b)
@@ -5391,7 +5490,7 @@ static inline uint64_t BDK_SLIX_EPFX_DMA_VF_RINT_ENA_W1S(unsigned long a, unsign
  * SLI DMA Error Response VF Bit Array Set Registers
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_slix_epfx_dma_vf_rint_w1s
 {
     uint64_t u;
     struct bdk_slix_epfx_dma_vf_rint_w1s_s
@@ -5403,7 +5502,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_slix_epfx_dma_vf_rint_w1s_s cn; */
-} bdk_slix_epfx_dma_vf_rint_w1s_t;
+};
+typedef union bdk_slix_epfx_dma_vf_rint_w1s bdk_slix_epfx_dma_vf_rint_w1s_t;
 
 static inline uint64_t BDK_SLIX_EPFX_DMA_VF_RINT_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_EPFX_DMA_VF_RINT_W1S(unsigned long a, unsigned long b)
@@ -5430,7 +5530,7 @@ static inline uint64_t BDK_SLIX_EPFX_DMA_VF_RINT_W1S(unsigned long a, unsigned l
  * SLI(0)_EPF(0..3)_MISC_LINT_ENA_W1C aliases to SLI(0)_MAC(0..3)_INT_ENA_W1C.
  * SLI(0)_EPF(0..3)_MISC_LINT_ENA_W1S aliases to SLI(0)_MAC(0..3)_INT_ENA_W1S.
  */
-typedef union
+union bdk_slix_epfx_misc_lint
 {
     uint64_t u;
     struct bdk_slix_epfx_misc_lint_s
@@ -5466,7 +5566,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_slix_epfx_misc_lint_s cn; */
-} bdk_slix_epfx_misc_lint_t;
+};
+typedef union bdk_slix_epfx_misc_lint bdk_slix_epfx_misc_lint_t;
 
 static inline uint64_t BDK_SLIX_EPFX_MISC_LINT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_EPFX_MISC_LINT(unsigned long a, unsigned long b)
@@ -5489,7 +5590,7 @@ static inline uint64_t BDK_SLIX_EPFX_MISC_LINT(unsigned long a, unsigned long b)
  * SLI MAC Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_slix_epfx_misc_lint_ena_w1c
 {
     uint64_t u;
     struct bdk_slix_epfx_misc_lint_ena_w1c_s
@@ -5515,7 +5616,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_slix_epfx_misc_lint_ena_w1c_s cn; */
-} bdk_slix_epfx_misc_lint_ena_w1c_t;
+};
+typedef union bdk_slix_epfx_misc_lint_ena_w1c bdk_slix_epfx_misc_lint_ena_w1c_t;
 
 static inline uint64_t BDK_SLIX_EPFX_MISC_LINT_ENA_W1C(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_EPFX_MISC_LINT_ENA_W1C(unsigned long a, unsigned long b)
@@ -5538,7 +5640,7 @@ static inline uint64_t BDK_SLIX_EPFX_MISC_LINT_ENA_W1C(unsigned long a, unsigned
  * SLI MAC Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_slix_epfx_misc_lint_ena_w1s
 {
     uint64_t u;
     struct bdk_slix_epfx_misc_lint_ena_w1s_s
@@ -5564,7 +5666,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_slix_epfx_misc_lint_ena_w1s_s cn; */
-} bdk_slix_epfx_misc_lint_ena_w1s_t;
+};
+typedef union bdk_slix_epfx_misc_lint_ena_w1s bdk_slix_epfx_misc_lint_ena_w1s_t;
 
 static inline uint64_t BDK_SLIX_EPFX_MISC_LINT_ENA_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_EPFX_MISC_LINT_ENA_W1S(unsigned long a, unsigned long b)
@@ -5587,7 +5690,7 @@ static inline uint64_t BDK_SLIX_EPFX_MISC_LINT_ENA_W1S(unsigned long a, unsigned
  * SLI MAC Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_slix_epfx_misc_lint_w1s
 {
     uint64_t u;
     struct bdk_slix_epfx_misc_lint_w1s_s
@@ -5613,7 +5716,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_slix_epfx_misc_lint_w1s_s cn; */
-} bdk_slix_epfx_misc_lint_w1s_t;
+};
+typedef union bdk_slix_epfx_misc_lint_w1s bdk_slix_epfx_misc_lint_w1s_t;
 
 static inline uint64_t BDK_SLIX_EPFX_MISC_LINT_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_EPFX_MISC_LINT_W1S(unsigned long a, unsigned long b)
@@ -5638,7 +5742,7 @@ static inline uint64_t BDK_SLIX_EPFX_MISC_LINT_W1S(unsigned long a, unsigned lon
  * The given register associated with an EPF will be reset due to a PF FLR or MAC reset.
  * These registers are not affected by VF FLR.
  */
-typedef union
+union bdk_slix_epfx_misc_rint
 {
     uint64_t u;
     struct bdk_slix_epfx_misc_rint_s
@@ -5674,7 +5778,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_slix_epfx_misc_rint_s cn; */
-} bdk_slix_epfx_misc_rint_t;
+};
+typedef union bdk_slix_epfx_misc_rint bdk_slix_epfx_misc_rint_t;
 
 static inline uint64_t BDK_SLIX_EPFX_MISC_RINT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_EPFX_MISC_RINT(unsigned long a, unsigned long b)
@@ -5697,7 +5802,7 @@ static inline uint64_t BDK_SLIX_EPFX_MISC_RINT(unsigned long a, unsigned long b)
  * SLI MAC Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_slix_epfx_misc_rint_ena_w1c
 {
     uint64_t u;
     struct bdk_slix_epfx_misc_rint_ena_w1c_s
@@ -5721,7 +5826,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_slix_epfx_misc_rint_ena_w1c_s cn; */
-} bdk_slix_epfx_misc_rint_ena_w1c_t;
+};
+typedef union bdk_slix_epfx_misc_rint_ena_w1c bdk_slix_epfx_misc_rint_ena_w1c_t;
 
 static inline uint64_t BDK_SLIX_EPFX_MISC_RINT_ENA_W1C(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_EPFX_MISC_RINT_ENA_W1C(unsigned long a, unsigned long b)
@@ -5744,7 +5850,7 @@ static inline uint64_t BDK_SLIX_EPFX_MISC_RINT_ENA_W1C(unsigned long a, unsigned
  * SLI MAC Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_slix_epfx_misc_rint_ena_w1s
 {
     uint64_t u;
     struct bdk_slix_epfx_misc_rint_ena_w1s_s
@@ -5768,7 +5874,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_slix_epfx_misc_rint_ena_w1s_s cn; */
-} bdk_slix_epfx_misc_rint_ena_w1s_t;
+};
+typedef union bdk_slix_epfx_misc_rint_ena_w1s bdk_slix_epfx_misc_rint_ena_w1s_t;
 
 static inline uint64_t BDK_SLIX_EPFX_MISC_RINT_ENA_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_EPFX_MISC_RINT_ENA_W1S(unsigned long a, unsigned long b)
@@ -5791,7 +5898,7 @@ static inline uint64_t BDK_SLIX_EPFX_MISC_RINT_ENA_W1S(unsigned long a, unsigned
  * SLI MAC Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_slix_epfx_misc_rint_w1s
 {
     uint64_t u;
     struct bdk_slix_epfx_misc_rint_w1s_s
@@ -5815,7 +5922,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_slix_epfx_misc_rint_w1s_s cn; */
-} bdk_slix_epfx_misc_rint_w1s_t;
+};
+typedef union bdk_slix_epfx_misc_rint_w1s bdk_slix_epfx_misc_rint_w1s_t;
 
 static inline uint64_t BDK_SLIX_EPFX_MISC_RINT_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_EPFX_MISC_RINT_W1S(unsigned long a, unsigned long b)
@@ -5840,7 +5948,7 @@ static inline uint64_t BDK_SLIX_EPFX_MISC_RINT_W1S(unsigned long a, unsigned lon
  * bit is set.  The appropriate PF should read the appropriate register.
  * These registers are only valid for PEM0 PF0 and PEM2 PF0.
  */
-typedef union
+union bdk_slix_epfx_pp_vf_lint
 {
     uint64_t u;
     struct bdk_slix_epfx_pp_vf_lint_s
@@ -5854,7 +5962,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_slix_epfx_pp_vf_lint_s cn; */
-} bdk_slix_epfx_pp_vf_lint_t;
+};
+typedef union bdk_slix_epfx_pp_vf_lint bdk_slix_epfx_pp_vf_lint_t;
 
 static inline uint64_t BDK_SLIX_EPFX_PP_VF_LINT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_EPFX_PP_VF_LINT(unsigned long a, unsigned long b)
@@ -5877,7 +5986,7 @@ static inline uint64_t BDK_SLIX_EPFX_PP_VF_LINT(unsigned long a, unsigned long b
  * SLI PP Error Response VF Bit Array Local Enable Clear Registers
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_slix_epfx_pp_vf_lint_ena_w1c
 {
     uint64_t u;
     struct bdk_slix_epfx_pp_vf_lint_ena_w1c_s
@@ -5889,7 +5998,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_slix_epfx_pp_vf_lint_ena_w1c_s cn; */
-} bdk_slix_epfx_pp_vf_lint_ena_w1c_t;
+};
+typedef union bdk_slix_epfx_pp_vf_lint_ena_w1c bdk_slix_epfx_pp_vf_lint_ena_w1c_t;
 
 static inline uint64_t BDK_SLIX_EPFX_PP_VF_LINT_ENA_W1C(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_EPFX_PP_VF_LINT_ENA_W1C(unsigned long a, unsigned long b)
@@ -5912,7 +6022,7 @@ static inline uint64_t BDK_SLIX_EPFX_PP_VF_LINT_ENA_W1C(unsigned long a, unsigne
  * SLI PP Error Response VF Bit Array Local Enable Set Registers
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_slix_epfx_pp_vf_lint_ena_w1s
 {
     uint64_t u;
     struct bdk_slix_epfx_pp_vf_lint_ena_w1s_s
@@ -5924,7 +6034,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_slix_epfx_pp_vf_lint_ena_w1s_s cn; */
-} bdk_slix_epfx_pp_vf_lint_ena_w1s_t;
+};
+typedef union bdk_slix_epfx_pp_vf_lint_ena_w1s bdk_slix_epfx_pp_vf_lint_ena_w1s_t;
 
 static inline uint64_t BDK_SLIX_EPFX_PP_VF_LINT_ENA_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_EPFX_PP_VF_LINT_ENA_W1S(unsigned long a, unsigned long b)
@@ -5947,7 +6058,7 @@ static inline uint64_t BDK_SLIX_EPFX_PP_VF_LINT_ENA_W1S(unsigned long a, unsigne
  * SLI PP Error Response VF Bit Array Set Registers
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_slix_epfx_pp_vf_lint_w1s
 {
     uint64_t u;
     struct bdk_slix_epfx_pp_vf_lint_w1s_s
@@ -5959,7 +6070,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_slix_epfx_pp_vf_lint_w1s_s cn; */
-} bdk_slix_epfx_pp_vf_lint_w1s_t;
+};
+typedef union bdk_slix_epfx_pp_vf_lint_w1s bdk_slix_epfx_pp_vf_lint_w1s_t;
 
 static inline uint64_t BDK_SLIX_EPFX_PP_VF_LINT_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_EPFX_PP_VF_LINT_W1S(unsigned long a, unsigned long b)
@@ -5986,7 +6098,7 @@ static inline uint64_t BDK_SLIX_EPFX_PP_VF_LINT_W1S(unsigned long a, unsigned lo
  * These registers are not affected by VF FLR.
  * These registers are only valid for PEM0 PF0 and PEM2 PF0.
  */
-typedef union
+union bdk_slix_epfx_pp_vf_rint
 {
     uint64_t u;
     struct bdk_slix_epfx_pp_vf_rint_s
@@ -6000,7 +6112,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_slix_epfx_pp_vf_rint_s cn; */
-} bdk_slix_epfx_pp_vf_rint_t;
+};
+typedef union bdk_slix_epfx_pp_vf_rint bdk_slix_epfx_pp_vf_rint_t;
 
 static inline uint64_t BDK_SLIX_EPFX_PP_VF_RINT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_EPFX_PP_VF_RINT(unsigned long a, unsigned long b)
@@ -6023,7 +6136,7 @@ static inline uint64_t BDK_SLIX_EPFX_PP_VF_RINT(unsigned long a, unsigned long b
  * SLI PP Error Response VF Bit Array Remote Enable Clear Registers
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_slix_epfx_pp_vf_rint_ena_w1c
 {
     uint64_t u;
     struct bdk_slix_epfx_pp_vf_rint_ena_w1c_s
@@ -6035,7 +6148,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_slix_epfx_pp_vf_rint_ena_w1c_s cn; */
-} bdk_slix_epfx_pp_vf_rint_ena_w1c_t;
+};
+typedef union bdk_slix_epfx_pp_vf_rint_ena_w1c bdk_slix_epfx_pp_vf_rint_ena_w1c_t;
 
 static inline uint64_t BDK_SLIX_EPFX_PP_VF_RINT_ENA_W1C(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_EPFX_PP_VF_RINT_ENA_W1C(unsigned long a, unsigned long b)
@@ -6058,7 +6172,7 @@ static inline uint64_t BDK_SLIX_EPFX_PP_VF_RINT_ENA_W1C(unsigned long a, unsigne
  * SLI PP Error Response VF Bit Array Remote Enable Set Registers
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_slix_epfx_pp_vf_rint_ena_w1s
 {
     uint64_t u;
     struct bdk_slix_epfx_pp_vf_rint_ena_w1s_s
@@ -6070,7 +6184,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_slix_epfx_pp_vf_rint_ena_w1s_s cn; */
-} bdk_slix_epfx_pp_vf_rint_ena_w1s_t;
+};
+typedef union bdk_slix_epfx_pp_vf_rint_ena_w1s bdk_slix_epfx_pp_vf_rint_ena_w1s_t;
 
 static inline uint64_t BDK_SLIX_EPFX_PP_VF_RINT_ENA_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_EPFX_PP_VF_RINT_ENA_W1S(unsigned long a, unsigned long b)
@@ -6093,7 +6208,7 @@ static inline uint64_t BDK_SLIX_EPFX_PP_VF_RINT_ENA_W1S(unsigned long a, unsigne
  * SLI PP Error Response VF Bit Array Set Registers
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_slix_epfx_pp_vf_rint_w1s
 {
     uint64_t u;
     struct bdk_slix_epfx_pp_vf_rint_w1s_s
@@ -6105,7 +6220,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_slix_epfx_pp_vf_rint_w1s_s cn; */
-} bdk_slix_epfx_pp_vf_rint_w1s_t;
+};
+typedef union bdk_slix_epfx_pp_vf_rint_w1s bdk_slix_epfx_pp_vf_rint_w1s_t;
 
 static inline uint64_t BDK_SLIX_EPFX_PP_VF_RINT_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_EPFX_PP_VF_RINT_W1S(unsigned long a, unsigned long b)
@@ -6128,7 +6244,7 @@ static inline uint64_t BDK_SLIX_EPFX_PP_VF_RINT_W1S(unsigned long a, unsigned lo
  * SLI Scratch Register
  * These registers are general purpose 64-bit scratch registers for software use.
  */
-typedef union
+union bdk_slix_epfx_scratch
 {
     uint64_t u;
     struct bdk_slix_epfx_scratch_s
@@ -6140,7 +6256,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_slix_epfx_scratch_s cn; */
-} bdk_slix_epfx_scratch_t;
+};
+typedef union bdk_slix_epfx_scratch bdk_slix_epfx_scratch_t;
 
 static inline uint64_t BDK_SLIX_EPFX_SCRATCH(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_EPFX_SCRATCH(unsigned long a, unsigned long b)
@@ -6180,7 +6297,7 @@ static inline uint64_t BDK_SLIX_EPFX_SCRATCH(unsigned long a, unsigned long b)
  * * SLI(0)_LMAC_CONST0/1(3) [ V=1 EP=1 IFTY=0 IFN=3 MAC=3 PF=0 EPF=3 VFS=0  RINGS=0  ].
  * * SLI(0)_LMAC_CONST0/1(4) [ V=0 ].
  */
-typedef union
+union bdk_slix_lmac_const0x
 {
     uint64_t u;
     struct bdk_slix_lmac_const0x_s
@@ -6228,7 +6345,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_slix_lmac_const0x_s cn; */
-} bdk_slix_lmac_const0x_t;
+};
+typedef union bdk_slix_lmac_const0x bdk_slix_lmac_const0x_t;
 
 static inline uint64_t BDK_SLIX_LMAC_CONST0X(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_LMAC_CONST0X(unsigned long a, unsigned long b)
@@ -6253,7 +6371,7 @@ static inline uint64_t BDK_SLIX_LMAC_CONST0X(unsigned long a, unsigned long b)
  * SLI Logical MAC Capabilities Register 1
  * See SLI()_LMAC_CONST0().
  */
-typedef union
+union bdk_slix_lmac_const1x
 {
     uint64_t u;
     struct bdk_slix_lmac_const1x_s
@@ -6279,7 +6397,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_slix_lmac_const1x_s cn; */
-} bdk_slix_lmac_const1x_t;
+};
+typedef union bdk_slix_lmac_const1x bdk_slix_lmac_const1x_t;
 
 static inline uint64_t BDK_SLIX_LMAC_CONST1X(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_LMAC_CONST1X(unsigned long a, unsigned long b)
@@ -6306,7 +6425,7 @@ static inline uint64_t BDK_SLIX_LMAC_CONST1X(unsigned long a, unsigned long b)
  * Internal:
  * In 78xx was SLI()_CTL_PORT() and SLI()_S2M_PORT()_CTL.
  */
-typedef union
+union bdk_slix_m2s_macx_ctl
 {
     uint64_t u;
     struct bdk_slix_m2s_macx_ctl_s
@@ -6668,7 +6787,8 @@ typedef union
         uint64_t reserved_20_63        : 44;
 #endif /* Word 0 - End */
     } cn88xxp2;
-} bdk_slix_m2s_macx_ctl_t;
+};
+typedef union bdk_slix_m2s_macx_ctl bdk_slix_m2s_macx_ctl_t;
 
 static inline uint64_t BDK_SLIX_M2S_MACX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_M2S_MACX_CTL(unsigned long a, unsigned long b)
@@ -6695,7 +6815,7 @@ static inline uint64_t BDK_SLIX_M2S_MACX_CTL(unsigned long a, unsigned long b)
  * SLI MAC Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_slix_macx_int_ena_w1c
 {
     uint64_t u;
     struct bdk_slix_macx_int_ena_w1c_s
@@ -6747,7 +6867,8 @@ typedef union
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_slix_macx_int_ena_w1c_t;
+};
+typedef union bdk_slix_macx_int_ena_w1c bdk_slix_macx_int_ena_w1c_t;
 
 static inline uint64_t BDK_SLIX_MACX_INT_ENA_W1C(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_MACX_INT_ENA_W1C(unsigned long a, unsigned long b)
@@ -6774,7 +6895,7 @@ static inline uint64_t BDK_SLIX_MACX_INT_ENA_W1C(unsigned long a, unsigned long 
  * SLI MAC Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_slix_macx_int_ena_w1s
 {
     uint64_t u;
     struct bdk_slix_macx_int_ena_w1s_s
@@ -6826,7 +6947,8 @@ typedef union
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_slix_macx_int_ena_w1s_t;
+};
+typedef union bdk_slix_macx_int_ena_w1s bdk_slix_macx_int_ena_w1s_t;
 
 static inline uint64_t BDK_SLIX_MACX_INT_ENA_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_MACX_INT_ENA_W1S(unsigned long a, unsigned long b)
@@ -6853,7 +6975,7 @@ static inline uint64_t BDK_SLIX_MACX_INT_ENA_W1S(unsigned long a, unsigned long 
  * SLI MAC Interrupt Summary Register
  * This register contains the different interrupt-summary bits for one MAC in the SLI.
  */
-typedef union
+union bdk_slix_macx_int_sum
 {
     uint64_t u;
     struct bdk_slix_macx_int_sum_s
@@ -6906,7 +7028,8 @@ typedef union
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_slix_macx_int_sum_t;
+};
+typedef union bdk_slix_macx_int_sum bdk_slix_macx_int_sum_t;
 
 static inline uint64_t BDK_SLIX_MACX_INT_SUM(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_MACX_INT_SUM(unsigned long a, unsigned long b)
@@ -6933,7 +7056,7 @@ static inline uint64_t BDK_SLIX_MACX_INT_SUM(unsigned long a, unsigned long b)
  * SLI MAC Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_slix_macx_int_sum_w1s
 {
     uint64_t u;
     struct bdk_slix_macx_int_sum_w1s_s
@@ -6985,7 +7108,8 @@ typedef union
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_slix_macx_int_sum_w1s_t;
+};
+typedef union bdk_slix_macx_int_sum_w1s bdk_slix_macx_int_sum_w1s_t;
 
 static inline uint64_t BDK_SLIX_MACX_INT_SUM_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_MACX_INT_SUM_W1S(unsigned long a, unsigned long b)
@@ -7012,7 +7136,7 @@ static inline uint64_t BDK_SLIX_MACX_INT_SUM_W1S(unsigned long a, unsigned long 
  * SLI MAC Number Register
  * When read from a MAC, this register returns the MAC's port number, otherwise returns zero.
  */
-typedef union
+union bdk_slix_mac_number
 {
     uint64_t u;
     struct bdk_slix_mac_number_s
@@ -7036,7 +7160,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_slix_mac_number_s cn; */
-} bdk_slix_mac_number_t;
+};
+typedef union bdk_slix_mac_number bdk_slix_mac_number_t;
 
 static inline uint64_t BDK_SLIX_MAC_NUMBER(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_MAC_NUMBER(unsigned long a)
@@ -7060,7 +7185,7 @@ static inline uint64_t BDK_SLIX_MAC_NUMBER(unsigned long a)
  * SLI MAC Number Register
  * When read from a MAC, this register returns the MAC's port number, otherwise returns zero.
  */
-typedef union
+union bdk_slix_mac_numberx
 {
     uint64_t u;
     struct bdk_slix_mac_numberx_s
@@ -7084,7 +7209,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_slix_mac_numberx_s cn; */
-} bdk_slix_mac_numberx_t;
+};
+typedef union bdk_slix_mac_numberx bdk_slix_mac_numberx_t;
 
 static inline uint64_t BDK_SLIX_MAC_NUMBERX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_MAC_NUMBERX(unsigned long a, unsigned long b)
@@ -7106,7 +7232,7 @@ static inline uint64_t BDK_SLIX_MAC_NUMBERX(unsigned long a, unsigned long b)
  * SLI Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_slix_mbe_int_ena_w1c
 {
     uint64_t u;
     struct bdk_slix_mbe_int_ena_w1c_s
@@ -7155,7 +7281,8 @@ typedef union
         uint64_t dbe                   : 32; /**< [ 63: 32](R/W1C/H) Reads or clears enable for SLI(0)_MBE_INT_SUM[DBE]. */
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_slix_mbe_int_ena_w1c_t;
+};
+typedef union bdk_slix_mbe_int_ena_w1c bdk_slix_mbe_int_ena_w1c_t;
 
 static inline uint64_t BDK_SLIX_MBE_INT_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_MBE_INT_ENA_W1C(unsigned long a)
@@ -7182,7 +7309,7 @@ static inline uint64_t BDK_SLIX_MBE_INT_ENA_W1C(unsigned long a)
  * SLI Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_slix_mbe_int_ena_w1s
 {
     uint64_t u;
     struct bdk_slix_mbe_int_ena_w1s_s
@@ -7231,7 +7358,8 @@ typedef union
         uint64_t dbe                   : 32; /**< [ 63: 32](R/W1S/H) Reads or sets enable for SLI(0)_MBE_INT_SUM[DBE]. */
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_slix_mbe_int_ena_w1s_t;
+};
+typedef union bdk_slix_mbe_int_ena_w1s bdk_slix_mbe_int_ena_w1s_t;
 
 static inline uint64_t BDK_SLIX_MBE_INT_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_MBE_INT_ENA_W1S(unsigned long a)
@@ -7258,7 +7386,7 @@ static inline uint64_t BDK_SLIX_MBE_INT_ENA_W1S(unsigned long a)
  * SLI MBE Interrupt Summary Register
  * This register contains the MBE interrupt-summary bits of the SLI.
  */
-typedef union
+union bdk_slix_mbe_int_sum
 {
     uint64_t u;
     struct bdk_slix_mbe_int_sum_s
@@ -7298,7 +7426,8 @@ typedef union
                                                                  SLI_RAMS_E. */
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_slix_mbe_int_sum_t;
+};
+typedef union bdk_slix_mbe_int_sum bdk_slix_mbe_int_sum_t;
 
 static inline uint64_t BDK_SLIX_MBE_INT_SUM(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_MBE_INT_SUM(unsigned long a)
@@ -7325,7 +7454,7 @@ static inline uint64_t BDK_SLIX_MBE_INT_SUM(unsigned long a)
  * SLI Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_slix_mbe_int_sum_w1s
 {
     uint64_t u;
     struct bdk_slix_mbe_int_sum_w1s_s
@@ -7374,7 +7503,8 @@ typedef union
         uint64_t dbe                   : 32; /**< [ 63: 32](R/W1S/H) Reads or sets SLI(0)_MBE_INT_SUM[DBE]. */
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_slix_mbe_int_sum_w1s_t;
+};
+typedef union bdk_slix_mbe_int_sum_w1s bdk_slix_mbe_int_sum_w1s_t;
 
 static inline uint64_t BDK_SLIX_MBE_INT_SUM_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_MBE_INT_SUM_W1S(unsigned long a)
@@ -7401,7 +7531,7 @@ static inline uint64_t BDK_SLIX_MBE_INT_SUM_W1S(unsigned long a)
  * SLI Memory Control Register
  * This register controls the ECC of the SLI memories.
  */
-typedef union
+union bdk_slix_mem_ctl
 {
     uint64_t u;
     struct bdk_slix_mem_ctl_s
@@ -7534,7 +7664,8 @@ typedef union
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_slix_mem_ctl_t;
+};
+typedef union bdk_slix_mem_ctl bdk_slix_mem_ctl_t;
 
 static inline uint64_t BDK_SLIX_MEM_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_MEM_CTL(unsigned long a)
@@ -7561,7 +7692,7 @@ static inline uint64_t BDK_SLIX_MEM_CTL(unsigned long a)
  * SLI ECC Control Register
  * This register controls the ECC of the SLI memories.
  */
-typedef union
+union bdk_slix_mem_flip
 {
     uint64_t u;
     struct bdk_slix_mem_flip_s
@@ -7575,7 +7706,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_slix_mem_flip_s cn; */
-} bdk_slix_mem_flip_t;
+};
+typedef union bdk_slix_mem_flip bdk_slix_mem_flip_t;
 
 static inline uint64_t BDK_SLIX_MEM_FLIP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_MEM_FLIP(unsigned long a)
@@ -7598,7 +7730,7 @@ static inline uint64_t BDK_SLIX_MEM_FLIP(unsigned long a)
  * SLI MSI-X Pending Bit Array Registers
  * This register is the MSI-X PBA table; the bit number is indexed by the SLI_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_slix_msix_pbax
 {
     uint64_t u;
     struct bdk_slix_msix_pbax_s
@@ -7612,7 +7744,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_slix_msix_pbax_s cn; */
-} bdk_slix_msix_pbax_t;
+};
+typedef union bdk_slix_msix_pbax bdk_slix_msix_pbax_t;
 
 static inline uint64_t BDK_SLIX_MSIX_PBAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_MSIX_PBAX(unsigned long a, unsigned long b)
@@ -7639,7 +7772,7 @@ static inline uint64_t BDK_SLIX_MSIX_PBAX(unsigned long a, unsigned long b)
  * SLI MSI-X Vector-Table Address Register
  * This register is the MSI-X vector table, indexed by the SLI_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_slix_msix_vecx_addr
 {
     uint64_t u;
     struct bdk_slix_msix_vecx_addr_s
@@ -7671,7 +7804,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_slix_msix_vecx_addr_s cn; */
-} bdk_slix_msix_vecx_addr_t;
+};
+typedef union bdk_slix_msix_vecx_addr bdk_slix_msix_vecx_addr_t;
 
 static inline uint64_t BDK_SLIX_MSIX_VECX_ADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
@@ -7698,7 +7832,7 @@ static inline uint64_t BDK_SLIX_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
  * SLI MSI-X Vector-Table Control and Data Register
  * This register is the MSI-X vector table, indexed by the SLI_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_slix_msix_vecx_ctl
 {
     uint64_t u;
     struct bdk_slix_msix_vecx_ctl_s
@@ -7716,7 +7850,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_slix_msix_vecx_ctl_s cn; */
-} bdk_slix_msix_vecx_ctl_t;
+};
+typedef union bdk_slix_msix_vecx_ctl bdk_slix_msix_vecx_ctl_t;
 
 static inline uint64_t BDK_SLIX_MSIX_VECX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
@@ -7744,7 +7879,7 @@ static inline uint64_t BDK_SLIX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
  * This register contains control functionality of the S2M attached to the SLI. This register
  * impacts all MACs attached to the S2M.
  */
-typedef union
+union bdk_slix_s2m_ctl
 {
     uint64_t u;
     struct bdk_slix_s2m_ctl_s
@@ -7853,7 +7988,8 @@ typedef union
         uint64_t reserved_15_63        : 49;
 #endif /* Word 0 - End */
     } cn88xxp2;
-} bdk_slix_s2m_ctl_t;
+};
+typedef union bdk_slix_s2m_ctl bdk_slix_s2m_ctl_t;
 
 static inline uint64_t BDK_SLIX_S2M_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_S2M_CTL(unsigned long a)
@@ -7882,7 +8018,7 @@ static inline uint64_t BDK_SLIX_S2M_CTL(unsigned long a)
  * Internal:
  * In 78xx was SLI()_CTL_STATUS and SLI()_MAC_CREDIT_CNT.
  */
-typedef union
+union bdk_slix_s2m_macx_ctl
 {
     uint64_t u;
     struct bdk_slix_s2m_macx_ctl_s
@@ -7935,7 +8071,8 @@ typedef union
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_slix_s2m_macx_ctl_t;
+};
+typedef union bdk_slix_s2m_macx_ctl bdk_slix_s2m_macx_ctl_t;
 
 static inline uint64_t BDK_SLIX_S2M_MACX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_S2M_MACX_CTL(unsigned long a, unsigned long b)
@@ -7963,7 +8100,7 @@ static inline uint64_t BDK_SLIX_S2M_MACX_CTL(unsigned long a, unsigned long b)
  * These registers contains address index and control bits for access to memory from cores.
  * Indexed using {NCBO DST[3:0], NCBO Address[35:32]}.
  */
-typedef union
+union bdk_slix_s2m_regx_acc
 {
     uint64_t u;
     struct bdk_slix_s2m_regx_acc_s
@@ -8111,7 +8248,8 @@ typedef union
         uint64_t reserved_55_63        : 9;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_slix_s2m_regx_acc_t;
+};
+typedef union bdk_slix_s2m_regx_acc bdk_slix_s2m_regx_acc_t;
 
 static inline uint64_t BDK_SLIX_S2M_REGX_ACC(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_S2M_REGX_ACC(unsigned long a, unsigned long b)
@@ -8138,7 +8276,7 @@ static inline uint64_t BDK_SLIX_S2M_REGX_ACC(unsigned long a, unsigned long b)
  * SLI Region Access 2 Registers
  * See SLI()_LMAC_CONST0().
  */
-typedef union
+union bdk_slix_s2m_regx_acc2
 {
     uint64_t u;
     struct bdk_slix_s2m_regx_acc2_s
@@ -8158,7 +8296,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_slix_s2m_regx_acc2_s cn; */
-} bdk_slix_s2m_regx_acc2_t;
+};
+typedef union bdk_slix_s2m_regx_acc2 bdk_slix_s2m_regx_acc2_t;
 
 static inline uint64_t BDK_SLIX_S2M_REGX_ACC2(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_S2M_REGX_ACC2(unsigned long a, unsigned long b)
@@ -8181,7 +8320,7 @@ static inline uint64_t BDK_SLIX_S2M_REGX_ACC2(unsigned long a, unsigned long b)
  * SLI Scratch 1 Register
  * These registers are general purpose 64-bit scratch registers for software use.
  */
-typedef union
+union bdk_slix_scratch_1
 {
     uint64_t u;
     struct bdk_slix_scratch_1_s
@@ -8193,7 +8332,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_slix_scratch_1_s cn; */
-} bdk_slix_scratch_1_t;
+};
+typedef union bdk_slix_scratch_1 bdk_slix_scratch_1_t;
 
 static inline uint64_t BDK_SLIX_SCRATCH_1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_SCRATCH_1(unsigned long a)
@@ -8220,7 +8360,7 @@ static inline uint64_t BDK_SLIX_SCRATCH_1(unsigned long a)
  * SLI Scratch 2 Register
  * These registers are general purpose 64-bit scratch registers for software use.
  */
-typedef union
+union bdk_slix_scratch_2
 {
     uint64_t u;
     struct bdk_slix_scratch_2_s
@@ -8232,7 +8372,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_slix_scratch_2_s cn; */
-} bdk_slix_scratch_2_t;
+};
+typedef union bdk_slix_scratch_2 bdk_slix_scratch_2_t;
 
 static inline uint64_t BDK_SLIX_SCRATCH_2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_SCRATCH_2(unsigned long a)
@@ -8258,7 +8399,7 @@ static inline uint64_t BDK_SLIX_SCRATCH_2(unsigned long a)
  *
  * SLI Secure Control Register
  */
-typedef union
+union bdk_slix_sctl
 {
     uint64_t u;
     struct bdk_slix_sctl_s
@@ -8323,7 +8464,8 @@ typedef union
     } cn81xx;
     /* struct bdk_slix_sctl_cn81xx cn88xx; */
     /* struct bdk_slix_sctl_s cn83xx; */
-} bdk_slix_sctl_t;
+};
+typedef union bdk_slix_sctl bdk_slix_sctl_t;
 
 static inline uint64_t BDK_SLIX_SCTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_SCTL(unsigned long a)
@@ -8352,7 +8494,7 @@ static inline uint64_t BDK_SLIX_SCTL(unsigned long a)
  * Writing this register causes a read operation to take place.
  * This register should not be used to read SLI_* registers.
  */
-typedef union
+union bdk_slix_win_rd_addr
 {
     uint64_t u;
     struct bdk_slix_win_rd_addr_s
@@ -8409,7 +8551,8 @@ typedef union
     } cn88xxp1;
     /* struct bdk_slix_win_rd_addr_s cn81xx; */
     /* struct bdk_slix_win_rd_addr_s cn88xxp2; */
-} bdk_slix_win_rd_addr_t;
+};
+typedef union bdk_slix_win_rd_addr bdk_slix_win_rd_addr_t;
 
 static inline uint64_t BDK_SLIX_WIN_RD_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_WIN_RD_ADDR(unsigned long a)
@@ -8435,7 +8578,7 @@ static inline uint64_t BDK_SLIX_WIN_RD_ADDR(unsigned long a)
  * Writing this register causes a read operation to take place.
  * This register should not be used to read SLI_* registers.
  */
-typedef union
+union bdk_slix_win_rd_addrx
 {
     uint64_t u;
     struct bdk_slix_win_rd_addrx_s
@@ -8471,7 +8614,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_slix_win_rd_addrx_s cn; */
-} bdk_slix_win_rd_addrx_t;
+};
+typedef union bdk_slix_win_rd_addrx bdk_slix_win_rd_addrx_t;
 
 static inline uint64_t BDK_SLIX_WIN_RD_ADDRX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_WIN_RD_ADDRX(unsigned long a, unsigned long b)
@@ -8493,7 +8637,7 @@ static inline uint64_t BDK_SLIX_WIN_RD_ADDRX(unsigned long a, unsigned long b)
  * SLI Window Read Data Register
  * This register contains the address to be read when SLI()_WIN_RD_DATA is read.
  */
-typedef union
+union bdk_slix_win_rd_data
 {
     uint64_t u;
     struct bdk_slix_win_rd_data_s
@@ -8505,7 +8649,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_slix_win_rd_data_s cn; */
-} bdk_slix_win_rd_data_t;
+};
+typedef union bdk_slix_win_rd_data bdk_slix_win_rd_data_t;
 
 static inline uint64_t BDK_SLIX_WIN_RD_DATA(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_WIN_RD_DATA(unsigned long a)
@@ -8529,7 +8674,7 @@ static inline uint64_t BDK_SLIX_WIN_RD_DATA(unsigned long a)
  * SLI Window Read Data Register
  * This register contains the address to be read when SLI()_WIN_RD_DATA is read.
  */
-typedef union
+union bdk_slix_win_rd_datax
 {
     uint64_t u;
     struct bdk_slix_win_rd_datax_s
@@ -8541,7 +8686,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_slix_win_rd_datax_s cn; */
-} bdk_slix_win_rd_datax_t;
+};
+typedef union bdk_slix_win_rd_datax bdk_slix_win_rd_datax_t;
 
 static inline uint64_t BDK_SLIX_WIN_RD_DATAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_WIN_RD_DATAX(unsigned long a, unsigned long b)
@@ -8565,7 +8711,7 @@ static inline uint64_t BDK_SLIX_WIN_RD_DATAX(unsigned long a, unsigned long b)
  * SLI()_WIN_WR_DATA.
  * This register should not be used to write SLI_* registers.
  */
-typedef union
+union bdk_slix_win_wr_addr
 {
     uint64_t u;
     struct bdk_slix_win_wr_addr_s
@@ -8606,7 +8752,8 @@ typedef union
     } cn88xxp1;
     /* struct bdk_slix_win_wr_addr_s cn81xx; */
     /* struct bdk_slix_win_wr_addr_s cn88xxp2; */
-} bdk_slix_win_wr_addr_t;
+};
+typedef union bdk_slix_win_wr_addr bdk_slix_win_wr_addr_t;
 
 static inline uint64_t BDK_SLIX_WIN_WR_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_WIN_WR_ADDR(unsigned long a)
@@ -8632,7 +8779,7 @@ static inline uint64_t BDK_SLIX_WIN_WR_ADDR(unsigned long a)
  * SLI()_WIN_WR_DATA.
  * This register should not be used to write SLI_* registers.
  */
-typedef union
+union bdk_slix_win_wr_addrx
 {
     uint64_t u;
     struct bdk_slix_win_wr_addrx_s
@@ -8660,7 +8807,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_slix_win_wr_addrx_s cn; */
-} bdk_slix_win_wr_addrx_t;
+};
+typedef union bdk_slix_win_wr_addrx bdk_slix_win_wr_addrx_t;
 
 static inline uint64_t BDK_SLIX_WIN_WR_ADDRX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_WIN_WR_ADDRX(unsigned long a, unsigned long b)
@@ -8683,7 +8831,7 @@ static inline uint64_t BDK_SLIX_WIN_WR_ADDRX(unsigned long a, unsigned long b)
  * This register contains the data to write to the address located in SLI()_WIN_WR_ADDR.
  * Writing this register causes a write operation to take place.
  */
-typedef union
+union bdk_slix_win_wr_data
 {
     uint64_t u;
     struct bdk_slix_win_wr_data_s
@@ -8695,7 +8843,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_slix_win_wr_data_s cn; */
-} bdk_slix_win_wr_data_t;
+};
+typedef union bdk_slix_win_wr_data bdk_slix_win_wr_data_t;
 
 static inline uint64_t BDK_SLIX_WIN_WR_DATA(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_WIN_WR_DATA(unsigned long a)
@@ -8720,7 +8869,7 @@ static inline uint64_t BDK_SLIX_WIN_WR_DATA(unsigned long a)
  * This register contains the data to write to the address located in SLI()_WIN_WR_ADDR.
  * Writing this register causes a write operation to take place.
  */
-typedef union
+union bdk_slix_win_wr_datax
 {
     uint64_t u;
     struct bdk_slix_win_wr_datax_s
@@ -8732,7 +8881,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_slix_win_wr_datax_s cn; */
-} bdk_slix_win_wr_datax_t;
+};
+typedef union bdk_slix_win_wr_datax bdk_slix_win_wr_datax_t;
 
 static inline uint64_t BDK_SLIX_WIN_WR_DATAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_WIN_WR_DATAX(unsigned long a, unsigned long b)
@@ -8754,7 +8904,7 @@ static inline uint64_t BDK_SLIX_WIN_WR_DATAX(unsigned long a, unsigned long b)
  * SLI Window Write Mask Register
  * This register contains the mask for the data in SLI()_WIN_WR_DATA.
  */
-typedef union
+union bdk_slix_win_wr_mask
 {
     uint64_t u;
     struct bdk_slix_win_wr_mask_s
@@ -8768,7 +8918,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_slix_win_wr_mask_s cn; */
-} bdk_slix_win_wr_mask_t;
+};
+typedef union bdk_slix_win_wr_mask bdk_slix_win_wr_mask_t;
 
 static inline uint64_t BDK_SLIX_WIN_WR_MASK(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_WIN_WR_MASK(unsigned long a)
@@ -8792,7 +8943,7 @@ static inline uint64_t BDK_SLIX_WIN_WR_MASK(unsigned long a)
  * SLI Window Write Mask Register
  * This register contains the mask for the data in SLI()_WIN_WR_DATA.
  */
-typedef union
+union bdk_slix_win_wr_maskx
 {
     uint64_t u;
     struct bdk_slix_win_wr_maskx_s
@@ -8806,7 +8957,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_slix_win_wr_maskx_s cn; */
-} bdk_slix_win_wr_maskx_t;
+};
+typedef union bdk_slix_win_wr_maskx bdk_slix_win_wr_maskx_t;
 
 static inline uint64_t BDK_SLIX_WIN_WR_MASKX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_WIN_WR_MASKX(unsigned long a, unsigned long b)

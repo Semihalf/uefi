@@ -133,7 +133,7 @@
  *
  * NCSI BIST Register
  */
-typedef union
+union bdk_ncsi_bist_status
 {
     uint64_t u;
     struct bdk_ncsi_bist_status_s
@@ -161,7 +161,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ncsi_bist_status_s cn; */
-} bdk_ncsi_bist_status_t;
+};
+typedef union bdk_ncsi_bist_status bdk_ncsi_bist_status_t;
 
 #define BDK_NCSI_BIST_STATUS BDK_NCSI_BIST_STATUS_FUNC()
 static inline uint64_t BDK_NCSI_BIST_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
@@ -184,7 +185,7 @@ static inline uint64_t BDK_NCSI_BIST_STATUS_FUNC(void)
  *
  * NCSI BMC to CPU Message Control Register
  */
-typedef union
+union bdk_ncsi_bmc2cpu_msg
 {
     uint64_t u;
     struct bdk_ncsi_bmc2cpu_msg_s
@@ -226,7 +227,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn88xx;
     /* struct bdk_ncsi_bmc2cpu_msg_s cn83xx; */
-} bdk_ncsi_bmc2cpu_msg_t;
+};
+typedef union bdk_ncsi_bmc2cpu_msg bdk_ncsi_bmc2cpu_msg_t;
 
 #define BDK_NCSI_BMC2CPU_MSG BDK_NCSI_BMC2CPU_MSG_FUNC()
 static inline uint64_t BDK_NCSI_BMC2CPU_MSG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -251,7 +253,7 @@ static inline uint64_t BDK_NCSI_BMC2CPU_MSG_FUNC(void)
  *
  * NCSI Configuration Register
  */
-typedef union
+union bdk_ncsi_config
 {
     uint64_t u;
     struct bdk_ncsi_config_s
@@ -312,7 +314,8 @@ typedef union
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } cn88xxp1;
-} bdk_ncsi_config_t;
+};
+typedef union bdk_ncsi_config bdk_ncsi_config_t;
 
 #define BDK_NCSI_CONFIG BDK_NCSI_CONFIG_FUNC()
 static inline uint64_t BDK_NCSI_CONFIG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -337,7 +340,7 @@ static inline uint64_t BDK_NCSI_CONFIG_FUNC(void)
  *
  * NCSI CPU to BMC Message Control Register
  */
-typedef union
+union bdk_ncsi_cpu2bmc_msg
 {
     uint64_t u;
     struct bdk_ncsi_cpu2bmc_msg_s
@@ -353,7 +356,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ncsi_cpu2bmc_msg_s cn; */
-} bdk_ncsi_cpu2bmc_msg_t;
+};
+typedef union bdk_ncsi_cpu2bmc_msg bdk_ncsi_cpu2bmc_msg_t;
 
 #define BDK_NCSI_CPU2BMC_MSG BDK_NCSI_CPU2BMC_MSG_FUNC()
 static inline uint64_t BDK_NCSI_CPU2BMC_MSG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -378,7 +382,7 @@ static inline uint64_t BDK_NCSI_CPU2BMC_MSG_FUNC(void)
  *
  * NCSI Memory Interrupt Register
  */
-typedef union
+union bdk_ncsi_int
 {
     uint64_t u;
     struct bdk_ncsi_int_s
@@ -528,7 +532,8 @@ typedef union
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } cn88xxp1;
-} bdk_ncsi_int_t;
+};
+typedef union bdk_ncsi_int bdk_ncsi_int_t;
 
 #define BDK_NCSI_INT BDK_NCSI_INT_FUNC()
 static inline uint64_t BDK_NCSI_INT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -554,7 +559,7 @@ static inline uint64_t BDK_NCSI_INT_FUNC(void)
  * NCSI Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_ncsi_int_ena_w1c
 {
     uint64_t u;
     struct bdk_ncsi_int_ena_w1c_s
@@ -640,7 +645,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn88xx;
     /* struct bdk_ncsi_int_ena_w1c_s cn83xx; */
-} bdk_ncsi_int_ena_w1c_t;
+};
+typedef union bdk_ncsi_int_ena_w1c bdk_ncsi_int_ena_w1c_t;
 
 #define BDK_NCSI_INT_ENA_W1C BDK_NCSI_INT_ENA_W1C_FUNC()
 static inline uint64_t BDK_NCSI_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -666,7 +672,7 @@ static inline uint64_t BDK_NCSI_INT_ENA_W1C_FUNC(void)
  * NCSI Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_ncsi_int_ena_w1s
 {
     uint64_t u;
     struct bdk_ncsi_int_ena_w1s_s
@@ -752,7 +758,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn88xx;
     /* struct bdk_ncsi_int_ena_w1s_s cn83xx; */
-} bdk_ncsi_int_ena_w1s_t;
+};
+typedef union bdk_ncsi_int_ena_w1s bdk_ncsi_int_ena_w1s_t;
 
 #define BDK_NCSI_INT_ENA_W1S BDK_NCSI_INT_ENA_W1S_FUNC()
 static inline uint64_t BDK_NCSI_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -778,7 +785,7 @@ static inline uint64_t BDK_NCSI_INT_ENA_W1S_FUNC(void)
  * NCSI Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_ncsi_int_w1s
 {
     uint64_t u;
     struct bdk_ncsi_int_w1s_s
@@ -864,7 +871,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn88xx;
     /* struct bdk_ncsi_int_w1s_s cn83xx; */
-} bdk_ncsi_int_w1s_t;
+};
+typedef union bdk_ncsi_int_w1s bdk_ncsi_int_w1s_t;
 
 #define BDK_NCSI_INT_W1S BDK_NCSI_INT_W1S_FUNC()
 static inline uint64_t BDK_NCSI_INT_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -889,7 +897,7 @@ static inline uint64_t BDK_NCSI_INT_W1S_FUNC(void)
  *
  * NCSI Memory Control Register
  */
-typedef union
+union bdk_ncsi_mem_ctrl
 {
     uint64_t u;
     struct bdk_ncsi_mem_ctrl_s
@@ -913,7 +921,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ncsi_mem_ctrl_s cn; */
-} bdk_ncsi_mem_ctrl_t;
+};
+typedef union bdk_ncsi_mem_ctrl bdk_ncsi_mem_ctrl_t;
 
 #define BDK_NCSI_MEM_CTRL BDK_NCSI_MEM_CTRL_FUNC()
 static inline uint64_t BDK_NCSI_MEM_CTRL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -939,7 +948,7 @@ static inline uint64_t BDK_NCSI_MEM_CTRL_FUNC(void)
  * NCSI MSI-X Pending Bit Array Registers
  * This register is the MSI-X PBA table; the bit number is indexed by the NCSI_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_ncsi_msix_pbax
 {
     uint64_t u;
     struct bdk_ncsi_msix_pbax_s
@@ -953,7 +962,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ncsi_msix_pbax_s cn; */
-} bdk_ncsi_msix_pbax_t;
+};
+typedef union bdk_ncsi_msix_pbax bdk_ncsi_msix_pbax_t;
 
 static inline uint64_t BDK_NCSI_MSIX_PBAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NCSI_MSIX_PBAX(unsigned long a)
@@ -978,7 +988,7 @@ static inline uint64_t BDK_NCSI_MSIX_PBAX(unsigned long a)
  * NCSI MSI-X Vector-Table Address Register
  * This register is the MSI-X vector table, indexed by the NCSI_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_ncsi_msix_vecx_addr
 {
     uint64_t u;
     struct bdk_ncsi_msix_vecx_addr_s
@@ -1010,7 +1020,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ncsi_msix_vecx_addr_s cn; */
-} bdk_ncsi_msix_vecx_addr_t;
+};
+typedef union bdk_ncsi_msix_vecx_addr bdk_ncsi_msix_vecx_addr_t;
 
 static inline uint64_t BDK_NCSI_MSIX_VECX_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NCSI_MSIX_VECX_ADDR(unsigned long a)
@@ -1035,7 +1046,7 @@ static inline uint64_t BDK_NCSI_MSIX_VECX_ADDR(unsigned long a)
  * NCSI MSI-X Vector-Table Control and Data Register
  * This register is the MSI-X vector table, indexed by the NCSI_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_ncsi_msix_vecx_ctl
 {
     uint64_t u;
     struct bdk_ncsi_msix_vecx_ctl_s
@@ -1053,7 +1064,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ncsi_msix_vecx_ctl_s cn; */
-} bdk_ncsi_msix_vecx_ctl_t;
+};
+typedef union bdk_ncsi_msix_vecx_ctl bdk_ncsi_msix_vecx_ctl_t;
 
 static inline uint64_t BDK_NCSI_MSIX_VECX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NCSI_MSIX_VECX_CTL(unsigned long a)
@@ -1084,7 +1096,7 @@ static inline uint64_t BDK_NCSI_MSIX_VECX_CTL(unsigned long a)
  * be stripping these values.
  * Practically speaking, preamble and FCS should be set together.
  */
-typedef union
+union bdk_ncsi_rx_frm_ctl
 {
     uint64_t u;
     struct bdk_ncsi_rx_frm_ctl_s
@@ -1104,7 +1116,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ncsi_rx_frm_ctl_s cn; */
-} bdk_ncsi_rx_frm_ctl_t;
+};
+typedef union bdk_ncsi_rx_frm_ctl bdk_ncsi_rx_frm_ctl_t;
 
 #define BDK_NCSI_RX_FRM_CTL BDK_NCSI_RX_FRM_CTL_FUNC()
 static inline uint64_t BDK_NCSI_RX_FRM_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1134,7 +1147,7 @@ static inline uint64_t BDK_NCSI_RX_FRM_CTL_FUNC(void)
  * For all other systems, IFG1 and IFG2 can be any value in the range of 1-15, allowing for a
  * total possible IFG sum of 2 minimum and 30 maximum.
  */
-typedef union
+union bdk_ncsi_rx_ifg
 {
     uint64_t u;
     struct bdk_ncsi_rx_ifg_s
@@ -1154,7 +1167,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ncsi_rx_ifg_s cn; */
-} bdk_ncsi_rx_ifg_t;
+};
+typedef union bdk_ncsi_rx_ifg bdk_ncsi_rx_ifg_t;
 
 #define BDK_NCSI_RX_IFG BDK_NCSI_RX_IFG_FUNC()
 static inline uint64_t BDK_NCSI_RX_IFG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1180,7 +1194,7 @@ static inline uint64_t BDK_NCSI_RX_IFG_FUNC(void)
  * NCSI RX Manufacturer ID Register
  * This register sets the manufacturer ID.
  */
-typedef union
+union bdk_ncsi_rx_mfg
 {
     uint64_t u;
     struct bdk_ncsi_rx_mfg_s
@@ -1202,7 +1216,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ncsi_rx_mfg_s cn; */
-} bdk_ncsi_rx_mfg_t;
+};
+typedef union bdk_ncsi_rx_mfg bdk_ncsi_rx_mfg_t;
 
 #define BDK_NCSI_RX_MFG BDK_NCSI_RX_MFG_FUNC()
 static inline uint64_t BDK_NCSI_RX_MFG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1227,7 +1242,7 @@ static inline uint64_t BDK_NCSI_RX_MFG_FUNC(void)
  *
  * NCSI RX Minimum-Size-Packet Registers
  */
-typedef union
+union bdk_ncsi_rx_min_pkt
 {
     uint64_t u;
     struct bdk_ncsi_rx_min_pkt_s
@@ -1247,7 +1262,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ncsi_rx_min_pkt_s cn; */
-} bdk_ncsi_rx_min_pkt_t;
+};
+typedef union bdk_ncsi_rx_min_pkt bdk_ncsi_rx_min_pkt_t;
 
 #define BDK_NCSI_RX_MIN_PKT BDK_NCSI_RX_MIN_PKT_FUNC()
 static inline uint64_t BDK_NCSI_RX_MIN_PKT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1274,7 +1290,7 @@ static inline uint64_t BDK_NCSI_RX_MIN_PKT_FUNC(void)
  * This register provides a count of valid packets through the recieve side NCSI at the output of
  * the recieve side buffers.
  */
-typedef union
+union bdk_ncsi_rx_stat0
 {
     uint64_t u;
     struct bdk_ncsi_rx_stat0_s
@@ -1294,7 +1310,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ncsi_rx_stat0_s cn; */
-} bdk_ncsi_rx_stat0_t;
+};
+typedef union bdk_ncsi_rx_stat0 bdk_ncsi_rx_stat0_t;
 
 #define BDK_NCSI_RX_STAT0 BDK_NCSI_RX_STAT0_FUNC()
 static inline uint64_t BDK_NCSI_RX_STAT0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1323,7 +1340,7 @@ static inline uint64_t BDK_NCSI_RX_STAT0_FUNC(void)
  * the number of bytes that appear on the RMII interface.  This is due to the fact the design
  * does not deassert CRS_DV during underflow situations until the packet boundary is detected.
  */
-typedef union
+union bdk_ncsi_rx_stat1
 {
     uint64_t u;
     struct bdk_ncsi_rx_stat1_s
@@ -1343,7 +1360,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ncsi_rx_stat1_s cn; */
-} bdk_ncsi_rx_stat1_t;
+};
+typedef union bdk_ncsi_rx_stat1 bdk_ncsi_rx_stat1_t;
 
 #define BDK_NCSI_RX_STAT1 BDK_NCSI_RX_STAT1_FUNC()
 static inline uint64_t BDK_NCSI_RX_STAT1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1368,7 +1386,7 @@ static inline uint64_t BDK_NCSI_RX_STAT1_FUNC(void)
  *
  * NCSI RX Threshold Register
  */
-typedef union
+union bdk_ncsi_rx_thresh
 {
     uint64_t u;
     struct bdk_ncsi_rx_thresh_s
@@ -1386,7 +1404,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ncsi_rx_thresh_s cn; */
-} bdk_ncsi_rx_thresh_t;
+};
+typedef union bdk_ncsi_rx_thresh bdk_ncsi_rx_thresh_t;
 
 #define BDK_NCSI_RX_THRESH BDK_NCSI_RX_THRESH_FUNC()
 static inline uint64_t BDK_NCSI_RX_THRESH_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1411,7 +1430,7 @@ static inline uint64_t BDK_NCSI_RX_THRESH_FUNC(void)
  *
  * NCSI Secure Configuration Register
  */
-typedef union
+union bdk_ncsi_secure_config
 {
     uint64_t u;
     struct bdk_ncsi_secure_config_s
@@ -1437,7 +1456,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ncsi_secure_config_s cn; */
-} bdk_ncsi_secure_config_t;
+};
+typedef union bdk_ncsi_secure_config bdk_ncsi_secure_config_t;
 
 #define BDK_NCSI_SECURE_CONFIG BDK_NCSI_SECURE_CONFIG_FUNC()
 static inline uint64_t BDK_NCSI_SECURE_CONFIG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1463,7 +1483,7 @@ static inline uint64_t BDK_NCSI_SECURE_CONFIG_FUNC(void)
  * NCSI TX Frame Control Registers
  * Frame control register for packets coming in from the RMII interface.
  */
-typedef union
+union bdk_ncsi_tx_frm_ctl
 {
     uint64_t u;
     struct bdk_ncsi_tx_frm_ctl_s
@@ -1564,7 +1584,8 @@ typedef union
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } cn88xxp1;
-} bdk_ncsi_tx_frm_ctl_t;
+};
+typedef union bdk_ncsi_tx_frm_ctl bdk_ncsi_tx_frm_ctl_t;
 
 #define BDK_NCSI_TX_FRM_CTL BDK_NCSI_TX_FRM_CTL_FUNC()
 static inline uint64_t BDK_NCSI_TX_FRM_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1591,7 +1612,7 @@ static inline uint64_t BDK_NCSI_TX_FRM_CTL_FUNC(void)
  * These registers set TX framer source MAC address CAM.  See NCSI_CONFIG for addition CAM config
  * options.
  */
-typedef union
+union bdk_ncsi_tx_frm_smacx_cam
 {
     uint64_t u;
     struct bdk_ncsi_tx_frm_smacx_cam_s
@@ -1611,7 +1632,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ncsi_tx_frm_smacx_cam_s cn; */
-} bdk_ncsi_tx_frm_smacx_cam_t;
+};
+typedef union bdk_ncsi_tx_frm_smacx_cam bdk_ncsi_tx_frm_smacx_cam_t;
 
 static inline uint64_t BDK_NCSI_TX_FRM_SMACX_CAM(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NCSI_TX_FRM_SMACX_CAM(unsigned long a)
@@ -1637,7 +1659,7 @@ static inline uint64_t BDK_NCSI_TX_FRM_SMACX_CAM(unsigned long a)
  * This register specifies the minimum number of interframe-gap (IFG) cycles between packets
  * recieved from the RMII input interface.
  */
-typedef union
+union bdk_ncsi_tx_ifg
 {
     uint64_t u;
     struct bdk_ncsi_tx_ifg_s
@@ -1659,7 +1681,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ncsi_tx_ifg_s cn; */
-} bdk_ncsi_tx_ifg_t;
+};
+typedef union bdk_ncsi_tx_ifg bdk_ncsi_tx_ifg_t;
 
 #define BDK_NCSI_TX_IFG BDK_NCSI_TX_IFG_FUNC()
 static inline uint64_t BDK_NCSI_TX_IFG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1688,7 +1711,7 @@ static inline uint64_t BDK_NCSI_TX_IFG_FUNC(void)
  * marked with error and become eligible for packet truncation.  Transmission will resume at
  * the detection of the next packet.
  */
-typedef union
+union bdk_ncsi_tx_jabber
 {
     uint64_t u;
     struct bdk_ncsi_tx_jabber_s
@@ -1704,7 +1727,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ncsi_tx_jabber_s cn; */
-} bdk_ncsi_tx_jabber_t;
+};
+typedef union bdk_ncsi_tx_jabber bdk_ncsi_tx_jabber_t;
 
 #define BDK_NCSI_TX_JABBER BDK_NCSI_TX_JABBER_FUNC()
 static inline uint64_t BDK_NCSI_TX_JABBER_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1730,7 +1754,7 @@ static inline uint64_t BDK_NCSI_TX_JABBER_FUNC(void)
  * NCSI TX MIX Configuration Register
  * This register specifies configuration parameters for the MIX interface of BGX.
  */
-typedef union
+union bdk_ncsi_tx_mix
 {
     uint64_t u;
     struct bdk_ncsi_tx_mix_s
@@ -1744,7 +1768,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ncsi_tx_mix_s cn; */
-} bdk_ncsi_tx_mix_t;
+};
+typedef union bdk_ncsi_tx_mix bdk_ncsi_tx_mix_t;
 
 #define BDK_NCSI_TX_MIX BDK_NCSI_TX_MIX_FUNC()
 static inline uint64_t BDK_NCSI_TX_MIX_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1770,7 +1795,7 @@ static inline uint64_t BDK_NCSI_TX_MIX_FUNC(void)
  * NCSI TX NCP State Register
  * This register provides the NCSI command processor channel state status.
  */
-typedef union
+union bdk_ncsi_tx_ncp_ch_st
 {
     uint64_t u;
     struct bdk_ncsi_tx_ncp_ch_st_s
@@ -1786,7 +1811,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ncsi_tx_ncp_ch_st_s cn; */
-} bdk_ncsi_tx_ncp_ch_st_t;
+};
+typedef union bdk_ncsi_tx_ncp_ch_st bdk_ncsi_tx_ncp_ch_st_t;
 
 #define BDK_NCSI_TX_NCP_CH_ST BDK_NCSI_TX_NCP_CH_ST_FUNC()
 static inline uint64_t BDK_NCSI_TX_NCP_CH_ST_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1812,7 +1838,7 @@ static inline uint64_t BDK_NCSI_TX_NCP_CH_ST_FUNC(void)
  * NCSI TX NCP Permissions Table Hi Registers
  * These registers set the TX NCP Permission table high address range filter for the OEM command.
  */
-typedef union
+union bdk_ncsi_tx_ncp_permx_table_hi
 {
     uint64_t u;
     struct bdk_ncsi_tx_ncp_permx_table_hi_s
@@ -1920,7 +1946,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn88xx;
     /* struct bdk_ncsi_tx_ncp_permx_table_hi_s cn83xx; */
-} bdk_ncsi_tx_ncp_permx_table_hi_t;
+};
+typedef union bdk_ncsi_tx_ncp_permx_table_hi bdk_ncsi_tx_ncp_permx_table_hi_t;
 
 static inline uint64_t BDK_NCSI_TX_NCP_PERMX_TABLE_HI(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NCSI_TX_NCP_PERMX_TABLE_HI(unsigned long a)
@@ -1945,7 +1972,7 @@ static inline uint64_t BDK_NCSI_TX_NCP_PERMX_TABLE_HI(unsigned long a)
  * NCSI TX NCP Permissions Table Low Registers
  * These registers set the TX NCP Permission table low address range filter for the OEM command.
  */
-typedef union
+union bdk_ncsi_tx_ncp_permx_table_low
 {
     uint64_t u;
     struct bdk_ncsi_tx_ncp_permx_table_low_s
@@ -1959,7 +1986,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ncsi_tx_ncp_permx_table_low_s cn; */
-} bdk_ncsi_tx_ncp_permx_table_low_t;
+};
+typedef union bdk_ncsi_tx_ncp_permx_table_low bdk_ncsi_tx_ncp_permx_table_low_t;
 
 static inline uint64_t BDK_NCSI_TX_NCP_PERMX_TABLE_LOW(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NCSI_TX_NCP_PERMX_TABLE_LOW(unsigned long a)
@@ -1984,7 +2012,7 @@ static inline uint64_t BDK_NCSI_TX_NCP_PERMX_TABLE_LOW(unsigned long a)
  * NCSI TX NCP State Register
  * This register provides the NCSI command processor package state status.
  */
-typedef union
+union bdk_ncsi_tx_ncp_pkg_st
 {
     uint64_t u;
     struct bdk_ncsi_tx_ncp_pkg_st_s
@@ -1998,7 +2026,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ncsi_tx_ncp_pkg_st_s cn; */
-} bdk_ncsi_tx_ncp_pkg_st_t;
+};
+typedef union bdk_ncsi_tx_ncp_pkg_st bdk_ncsi_tx_ncp_pkg_st_t;
 
 #define BDK_NCSI_TX_NCP_PKG_ST BDK_NCSI_TX_NCP_PKG_ST_FUNC()
 static inline uint64_t BDK_NCSI_TX_NCP_PKG_ST_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2025,7 +2054,7 @@ static inline uint64_t BDK_NCSI_TX_NCP_PKG_ST_FUNC(void)
  * This register provides a count of valid packets detected at the output of the transmit side
  * NCSI framer.
  */
-typedef union
+union bdk_ncsi_tx_stat0
 {
     uint64_t u;
     struct bdk_ncsi_tx_stat0_s
@@ -2043,7 +2072,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ncsi_tx_stat0_s cn; */
-} bdk_ncsi_tx_stat0_t;
+};
+typedef union bdk_ncsi_tx_stat0 bdk_ncsi_tx_stat0_t;
 
 #define BDK_NCSI_TX_STAT0 BDK_NCSI_TX_STAT0_FUNC()
 static inline uint64_t BDK_NCSI_TX_STAT0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2070,7 +2100,7 @@ static inline uint64_t BDK_NCSI_TX_STAT0_FUNC(void)
  * This register provides a count of valid bytes detected at the output of the transmit side
  * NCSI framer.  These bytes are detected as being part of a valid frame.
  */
-typedef union
+union bdk_ncsi_tx_stat1
 {
     uint64_t u;
     struct bdk_ncsi_tx_stat1_s
@@ -2088,7 +2118,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ncsi_tx_stat1_s cn; */
-} bdk_ncsi_tx_stat1_t;
+};
+typedef union bdk_ncsi_tx_stat1 bdk_ncsi_tx_stat1_t;
 
 #define BDK_NCSI_TX_STAT1 BDK_NCSI_TX_STAT1_FUNC()
 static inline uint64_t BDK_NCSI_TX_STAT1_FUNC(void) __attribute__ ((pure, always_inline));

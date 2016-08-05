@@ -58,7 +58,7 @@
  * PCC Bridge ARI Capability Header Register
  * This register is the header of the 8-byte PCI ARI capability structure.
  */
-typedef union
+union bdk_pccbr_xxx_ari_cap_hdr
 {
     uint32_t u;
     struct bdk_pccbr_xxx_ari_cap_hdr_s
@@ -74,7 +74,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pccbr_xxx_ari_cap_hdr_s cn; */
-} bdk_pccbr_xxx_ari_cap_hdr_t;
+};
+typedef union bdk_pccbr_xxx_ari_cap_hdr bdk_pccbr_xxx_ari_cap_hdr_t;
 
 #define BDK_PCCBR_XXX_ARI_CAP_HDR BDK_PCCBR_XXX_ARI_CAP_HDR_FUNC()
 static inline uint64_t BDK_PCCBR_XXX_ARI_CAP_HDR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -96,7 +97,7 @@ static inline uint64_t BDK_PCCBR_XXX_ARI_CAP_HDR_FUNC(void)
  *
  * PCC Bridge Bus Register
  */
-typedef union
+union bdk_pccbr_xxx_bus
 {
     uint32_t u;
     struct bdk_pccbr_xxx_bus_s
@@ -156,7 +157,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pccbr_xxx_bus_s cn; */
-} bdk_pccbr_xxx_bus_t;
+};
+typedef union bdk_pccbr_xxx_bus bdk_pccbr_xxx_bus_t;
 
 #define BDK_PCCBR_XXX_BUS BDK_PCCBR_XXX_BUS_FUNC()
 static inline uint64_t BDK_PCCBR_XXX_BUS_FUNC(void) __attribute__ ((pure, always_inline));
@@ -176,7 +178,7 @@ static inline uint64_t BDK_PCCBR_XXX_BUS_FUNC(void)
  *
  * PCC Bridge Capability Pointer Register
  */
-typedef union
+union bdk_pccbr_xxx_cap_ptr
 {
     uint32_t u;
     struct bdk_pccbr_xxx_cap_ptr_s
@@ -190,7 +192,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pccbr_xxx_cap_ptr_s cn; */
-} bdk_pccbr_xxx_cap_ptr_t;
+};
+typedef union bdk_pccbr_xxx_cap_ptr bdk_pccbr_xxx_cap_ptr_t;
 
 #define BDK_PCCBR_XXX_CAP_PTR BDK_PCCBR_XXX_CAP_PTR_FUNC()
 static inline uint64_t BDK_PCCBR_XXX_CAP_PTR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -210,7 +213,7 @@ static inline uint64_t BDK_PCCBR_XXX_CAP_PTR_FUNC(void)
  *
  * PCC Bridge Cache Line Size Register
  */
-typedef union
+union bdk_pccbr_xxx_clsize
 {
     uint32_t u;
     struct bdk_pccbr_xxx_clsize_s
@@ -230,7 +233,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pccbr_xxx_clsize_s cn; */
-} bdk_pccbr_xxx_clsize_t;
+};
+typedef union bdk_pccbr_xxx_clsize bdk_pccbr_xxx_clsize_t;
 
 #define BDK_PCCBR_XXX_CLSIZE BDK_PCCBR_XXX_CLSIZE_FUNC()
 static inline uint64_t BDK_PCCBR_XXX_CLSIZE_FUNC(void) __attribute__ ((pure, always_inline));
@@ -250,7 +254,7 @@ static inline uint64_t BDK_PCCBR_XXX_CLSIZE_FUNC(void)
  *
  * PCC Bridge Command/Status Register
  */
-typedef union
+union bdk_pccbr_xxx_cmd
 {
     uint32_t u;
     struct bdk_pccbr_xxx_cmd_s
@@ -280,7 +284,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pccbr_xxx_cmd_s cn; */
-} bdk_pccbr_xxx_cmd_t;
+};
+typedef union bdk_pccbr_xxx_cmd bdk_pccbr_xxx_cmd_t;
 
 #define BDK_PCCBR_XXX_CMD BDK_PCCBR_XXX_CMD_FUNC()
 static inline uint64_t BDK_PCCBR_XXX_CMD_FUNC(void) __attribute__ ((pure, always_inline));
@@ -300,7 +305,7 @@ static inline uint64_t BDK_PCCBR_XXX_CMD_FUNC(void)
  *
  * PCC Bridge PCI Express Capabilities 2 Register
  */
-typedef union
+union bdk_pccbr_xxx_e_cap2
 {
     uint32_t u;
     struct bdk_pccbr_xxx_e_cap2_s
@@ -331,7 +336,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn88xx;
     /* struct bdk_pccbr_xxx_e_cap2_s cn83xx; */
-} bdk_pccbr_xxx_e_cap2_t;
+};
+typedef union bdk_pccbr_xxx_e_cap2 bdk_pccbr_xxx_e_cap2_t;
 
 #define BDK_PCCBR_XXX_E_CAP2 BDK_PCCBR_XXX_E_CAP2_FUNC()
 static inline uint64_t BDK_PCCBR_XXX_E_CAP2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -352,7 +358,7 @@ static inline uint64_t BDK_PCCBR_XXX_E_CAP2_FUNC(void)
  * PCC Bridge PCI Express Capabilities Register
  * This register is the header of the 64-byte PCIe capability header.
  */
-typedef union
+union bdk_pccbr_xxx_e_cap_hdr
 {
     uint32_t u;
     struct bdk_pccbr_xxx_e_cap_hdr_s
@@ -390,7 +396,8 @@ typedef union
     } cn81xx;
     /* struct bdk_pccbr_xxx_e_cap_hdr_cn81xx cn83xx; */
     /* struct bdk_pccbr_xxx_e_cap_hdr_cn81xx cn88xxp2; */
-} bdk_pccbr_xxx_e_cap_hdr_t;
+};
+typedef union bdk_pccbr_xxx_e_cap_hdr bdk_pccbr_xxx_e_cap_hdr_t;
 
 #define BDK_PCCBR_XXX_E_CAP_HDR BDK_PCCBR_XXX_E_CAP_HDR_FUNC()
 static inline uint64_t BDK_PCCBR_XXX_E_CAP_HDR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -410,7 +417,7 @@ static inline uint64_t BDK_PCCBR_XXX_E_CAP_HDR_FUNC(void)
  *
  * PCC Bridge PCI Express Device Capabilities Register
  */
-typedef union
+union bdk_pccbr_xxx_e_dev_cap
 {
     uint32_t u;
     struct bdk_pccbr_xxx_e_dev_cap_s
@@ -426,7 +433,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pccbr_xxx_e_dev_cap_s cn; */
-} bdk_pccbr_xxx_e_dev_cap_t;
+};
+typedef union bdk_pccbr_xxx_e_dev_cap bdk_pccbr_xxx_e_dev_cap_t;
 
 #define BDK_PCCBR_XXX_E_DEV_CAP BDK_PCCBR_XXX_E_DEV_CAP_FUNC()
 static inline uint64_t BDK_PCCBR_XXX_E_DEV_CAP_FUNC(void) __attribute__ ((pure, always_inline));
@@ -450,7 +458,7 @@ static inline uint64_t BDK_PCCBR_XXX_E_DEV_CAP_FUNC(void)
  *
  * PCC Bridge PCI Enhanced Allocation Bridge Register
  */
-typedef union
+union bdk_pccbr_xxx_ea_br
 {
     uint32_t u;
     struct bdk_pccbr_xxx_ea_br_s
@@ -470,7 +478,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pccbr_xxx_ea_br_s cn; */
-} bdk_pccbr_xxx_ea_br_t;
+};
+typedef union bdk_pccbr_xxx_ea_br bdk_pccbr_xxx_ea_br_t;
 
 #define BDK_PCCBR_XXX_EA_BR BDK_PCCBR_XXX_EA_BR_FUNC()
 static inline uint64_t BDK_PCCBR_XXX_EA_BR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -498,7 +507,7 @@ static inline uint64_t BDK_PCCBR_XXX_EA_BR_FUNC(void)
  * This register is the header of the 8-byte PCI enhanced allocation capability
  * structure for type 1 bridges.
  */
-typedef union
+union bdk_pccbr_xxx_ea_cap_hdr
 {
     uint32_t u;
     struct bdk_pccbr_xxx_ea_cap_hdr_s
@@ -516,7 +525,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pccbr_xxx_ea_cap_hdr_s cn; */
-} bdk_pccbr_xxx_ea_cap_hdr_t;
+};
+typedef union bdk_pccbr_xxx_ea_cap_hdr bdk_pccbr_xxx_ea_cap_hdr_t;
 
 #define BDK_PCCBR_XXX_EA_CAP_HDR BDK_PCCBR_XXX_EA_CAP_HDR_FUNC()
 static inline uint64_t BDK_PCCBR_XXX_EA_CAP_HDR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -543,7 +553,7 @@ static inline uint64_t BDK_PCCBR_XXX_EA_CAP_HDR_FUNC(void)
  * PCC Bridge Vendor and Device ID Register
  * This register is the header of the 64-byte PCI type 1 configuration structure.
  */
-typedef union
+union bdk_pccbr_xxx_id
 {
     uint32_t u;
     struct bdk_pccbr_xxx_id_s
@@ -557,7 +567,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pccbr_xxx_id_s cn; */
-} bdk_pccbr_xxx_id_t;
+};
+typedef union bdk_pccbr_xxx_id bdk_pccbr_xxx_id_t;
 
 #define BDK_PCCBR_XXX_ID BDK_PCCBR_XXX_ID_FUNC()
 static inline uint64_t BDK_PCCBR_XXX_ID_FUNC(void) __attribute__ ((pure, always_inline));
@@ -577,7 +588,7 @@ static inline uint64_t BDK_PCCBR_XXX_ID_FUNC(void)
  *
  * PCC Bridge Class Code/Revision ID Register
  */
-typedef union
+union bdk_pccbr_xxx_rev
 {
     uint32_t u;
     struct bdk_pccbr_xxx_rev_s
@@ -595,7 +606,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pccbr_xxx_rev_s cn; */
-} bdk_pccbr_xxx_rev_t;
+};
+typedef union bdk_pccbr_xxx_rev bdk_pccbr_xxx_rev_t;
 
 #define BDK_PCCBR_XXX_REV BDK_PCCBR_XXX_REV_FUNC()
 static inline uint64_t BDK_PCCBR_XXX_REV_FUNC(void) __attribute__ ((pure, always_inline));
@@ -617,7 +629,7 @@ static inline uint64_t BDK_PCCBR_XXX_REV_FUNC(void)
  * This register is the header of the 16-byte {ProductLine} family bridge capability
  * structure.
  */
-typedef union
+union bdk_pccbr_xxx_vsec_cap_hdr
 {
     uint32_t u;
     struct bdk_pccbr_xxx_vsec_cap_hdr_s
@@ -633,7 +645,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pccbr_xxx_vsec_cap_hdr_s cn; */
-} bdk_pccbr_xxx_vsec_cap_hdr_t;
+};
+typedef union bdk_pccbr_xxx_vsec_cap_hdr bdk_pccbr_xxx_vsec_cap_hdr_t;
 
 #define BDK_PCCBR_XXX_VSEC_CAP_HDR BDK_PCCBR_XXX_VSEC_CAP_HDR_FUNC()
 static inline uint64_t BDK_PCCBR_XXX_VSEC_CAP_HDR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -659,7 +672,7 @@ static inline uint64_t BDK_PCCBR_XXX_VSEC_CAP_HDR_FUNC(void)
  *
  * PCC Bridge Vendor-Specific Control Register
  */
-typedef union
+union bdk_pccbr_xxx_vsec_ctl
 {
     uint32_t u;
     struct bdk_pccbr_xxx_vsec_ctl_s
@@ -679,7 +692,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pccbr_xxx_vsec_ctl_s cn; */
-} bdk_pccbr_xxx_vsec_ctl_t;
+};
+typedef union bdk_pccbr_xxx_vsec_ctl bdk_pccbr_xxx_vsec_ctl_t;
 
 #define BDK_PCCBR_XXX_VSEC_CTL BDK_PCCBR_XXX_VSEC_CTL_FUNC()
 static inline uint64_t BDK_PCCBR_XXX_VSEC_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -705,7 +719,7 @@ static inline uint64_t BDK_PCCBR_XXX_VSEC_CTL_FUNC(void)
  *
  * PCC Bridge Vendor-Specific Identification Register
  */
-typedef union
+union bdk_pccbr_xxx_vsec_id
 {
     uint32_t u;
     struct bdk_pccbr_xxx_vsec_id_s
@@ -727,7 +741,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pccbr_xxx_vsec_id_s cn; */
-} bdk_pccbr_xxx_vsec_id_t;
+};
+typedef union bdk_pccbr_xxx_vsec_id bdk_pccbr_xxx_vsec_id_t;
 
 #define BDK_PCCBR_XXX_VSEC_ID BDK_PCCBR_XXX_VSEC_ID_FUNC()
 static inline uint64_t BDK_PCCBR_XXX_VSEC_ID_FUNC(void) __attribute__ ((pure, always_inline));
@@ -753,7 +768,7 @@ static inline uint64_t BDK_PCCBR_XXX_VSEC_ID_FUNC(void)
  *
  * PCC Bridge Vendor-Specific Secure Control Register
  */
-typedef union
+union bdk_pccbr_xxx_vsec_sctl
 {
     uint32_t u;
     struct bdk_pccbr_xxx_vsec_sctl_s
@@ -769,7 +784,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pccbr_xxx_vsec_sctl_s cn; */
-} bdk_pccbr_xxx_vsec_sctl_t;
+};
+typedef union bdk_pccbr_xxx_vsec_sctl bdk_pccbr_xxx_vsec_sctl_t;
 
 #define BDK_PCCBR_XXX_VSEC_SCTL BDK_PCCBR_XXX_VSEC_SCTL_FUNC()
 static inline uint64_t BDK_PCCBR_XXX_VSEC_SCTL_FUNC(void) __attribute__ ((pure, always_inline));

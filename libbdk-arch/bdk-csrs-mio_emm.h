@@ -84,7 +84,7 @@
  *
  * eMMC Access Watchdog Register
  */
-typedef union
+union bdk_mio_emm_access_wdog
 {
     uint64_t u;
     struct bdk_mio_emm_access_wdog_s
@@ -104,7 +104,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_emm_access_wdog_s cn; */
-} bdk_mio_emm_access_wdog_t;
+};
+typedef union bdk_mio_emm_access_wdog bdk_mio_emm_access_wdog_t;
 
 #define BDK_MIO_EMM_ACCESS_WDOG BDK_MIO_EMM_ACCESS_WDOG_FUNC()
 static inline uint64_t BDK_MIO_EMM_ACCESS_WDOG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -125,7 +126,7 @@ static inline uint64_t BDK_MIO_EMM_ACCESS_WDOG_FUNC(void)
  *
  * eMMC Data Buffer Access Register
  */
-typedef union
+union bdk_mio_emm_buf_dat
 {
     uint64_t u;
     struct bdk_mio_emm_buf_dat_s
@@ -137,7 +138,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_emm_buf_dat_s cn; */
-} bdk_mio_emm_buf_dat_t;
+};
+typedef union bdk_mio_emm_buf_dat bdk_mio_emm_buf_dat_t;
 
 #define BDK_MIO_EMM_BUF_DAT BDK_MIO_EMM_BUF_DAT_FUNC()
 static inline uint64_t BDK_MIO_EMM_BUF_DAT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -158,7 +160,7 @@ static inline uint64_t BDK_MIO_EMM_BUF_DAT_FUNC(void)
  *
  * eMMC Data Buffer Address Register
  */
-typedef union
+union bdk_mio_emm_buf_idx
 {
     uint64_t u;
     struct bdk_mio_emm_buf_idx_s
@@ -180,7 +182,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_emm_buf_idx_s cn; */
-} bdk_mio_emm_buf_idx_t;
+};
+typedef union bdk_mio_emm_buf_idx bdk_mio_emm_buf_idx_t;
 
 #define BDK_MIO_EMM_BUF_IDX BDK_MIO_EMM_BUF_IDX_FUNC()
 static inline uint64_t BDK_MIO_EMM_BUF_IDX_FUNC(void) __attribute__ ((pure, always_inline));
@@ -201,7 +204,7 @@ static inline uint64_t BDK_MIO_EMM_BUF_IDX_FUNC(void)
  *
  * eMMC Configuration Register
  */
-typedef union
+union bdk_mio_emm_cfg
 {
     uint64_t u;
     struct bdk_mio_emm_cfg_s
@@ -235,7 +238,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_emm_cfg_s cn; */
-} bdk_mio_emm_cfg_t;
+};
+typedef union bdk_mio_emm_cfg bdk_mio_emm_cfg_t;
 
 #define BDK_MIO_EMM_CFG BDK_MIO_EMM_CFG_FUNC()
 static inline uint64_t BDK_MIO_EMM_CFG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -256,7 +260,7 @@ static inline uint64_t BDK_MIO_EMM_CFG_FUNC(void)
  *
  * eMMC Command Register
  */
-typedef union
+union bdk_mio_emm_cmd
 {
     uint64_t u;
     struct bdk_mio_emm_cmd_s
@@ -326,7 +330,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_emm_cmd_s cn; */
-} bdk_mio_emm_cmd_t;
+};
+typedef union bdk_mio_emm_cmd bdk_mio_emm_cmd_t;
 
 #define BDK_MIO_EMM_CMD BDK_MIO_EMM_CMD_FUNC()
 static inline uint64_t BDK_MIO_EMM_CMD_FUNC(void) __attribute__ ((pure, always_inline));
@@ -347,7 +352,7 @@ static inline uint64_t BDK_MIO_EMM_CMD_FUNC(void)
  *
  * eMMC Compensation Register
  */
-typedef union
+union bdk_mio_emm_comp
 {
     uint64_t u;
     struct bdk_mio_emm_comp_s
@@ -377,7 +382,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_emm_comp_s cn; */
-} bdk_mio_emm_comp_t;
+};
+typedef union bdk_mio_emm_comp bdk_mio_emm_comp_t;
 
 #define BDK_MIO_EMM_COMP BDK_MIO_EMM_COMP_FUNC()
 static inline uint64_t BDK_MIO_EMM_COMP_FUNC(void) __attribute__ ((pure, always_inline));
@@ -402,7 +408,7 @@ static inline uint64_t BDK_MIO_EMM_COMP_FUNC(void)
  *
  * eMMC External DMA Configuration Register
  */
-typedef union
+union bdk_mio_emm_dma
 {
     uint64_t u;
     struct bdk_mio_emm_dma_s
@@ -454,7 +460,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_emm_dma_s cn; */
-} bdk_mio_emm_dma_t;
+};
+typedef union bdk_mio_emm_dma bdk_mio_emm_dma_t;
 
 #define BDK_MIO_EMM_DMA BDK_MIO_EMM_DMA_FUNC()
 static inline uint64_t BDK_MIO_EMM_DMA_FUNC(void) __attribute__ ((pure, always_inline));
@@ -478,7 +485,7 @@ static inline uint64_t BDK_MIO_EMM_DMA_FUNC(void)
  * operations must be used to access this register. This register is updated by the DMA
  * hardware and can be reloaded by the values placed in the MIO_EMM_DMA_FIFO_ADR.
  */
-typedef union
+union bdk_mio_emm_dma_adr
 {
     uint64_t u;
     struct bdk_mio_emm_dma_adr_s
@@ -492,7 +499,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_emm_dma_adr_s cn; */
-} bdk_mio_emm_dma_adr_t;
+};
+typedef union bdk_mio_emm_dma_adr bdk_mio_emm_dma_adr_t;
 
 #define BDK_MIO_EMM_DMA_ADR BDK_MIO_EMM_DMA_ADR_FUNC()
 static inline uint64_t BDK_MIO_EMM_DMA_ADR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -516,7 +524,7 @@ static inline uint64_t BDK_MIO_EMM_DMA_ADR_FUNC(void)
  * four-bit operations must be used to access this register. This register is updated by the
  * hardware DMA engine and can also be reloaded by writes to the MIO_EMM_DMA_FIFO_CMD register.
  */
-typedef union
+union bdk_mio_emm_dma_cfg
 {
     uint64_t u;
     struct bdk_mio_emm_dma_cfg_s
@@ -548,7 +556,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_emm_dma_cfg_s cn; */
-} bdk_mio_emm_dma_cfg_t;
+};
+typedef union bdk_mio_emm_dma_cfg bdk_mio_emm_dma_cfg_t;
 
 #define BDK_MIO_EMM_DMA_CFG BDK_MIO_EMM_DMA_CFG_FUNC()
 static inline uint64_t BDK_MIO_EMM_DMA_CFG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -572,7 +581,7 @@ static inline uint64_t BDK_MIO_EMM_DMA_CFG_FUNC(void)
  * The FIFO is used to queue up operations for the MIO_EMM_DMA_CFG/MIO_EMM_DMA_ADR when the DMA
  * completes successfully.
  */
-typedef union
+union bdk_mio_emm_dma_fifo_adr
 {
     uint64_t u;
     struct bdk_mio_emm_dma_fifo_adr_s
@@ -588,7 +597,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_emm_dma_fifo_adr_s cn; */
-} bdk_mio_emm_dma_fifo_adr_t;
+};
+typedef union bdk_mio_emm_dma_fifo_adr bdk_mio_emm_dma_fifo_adr_t;
 
 #define BDK_MIO_EMM_DMA_FIFO_ADR BDK_MIO_EMM_DMA_FIFO_ADR_FUNC()
 static inline uint64_t BDK_MIO_EMM_DMA_FIFO_ADR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -610,7 +620,7 @@ static inline uint64_t BDK_MIO_EMM_DMA_FIFO_ADR_FUNC(void)
  * eMMC Internal DMA FIFO Configuration Register
  * This register controls DMA FIFO Operations.
  */
-typedef union
+union bdk_mio_emm_dma_fifo_cfg
 {
     uint64_t u;
     struct bdk_mio_emm_dma_fifo_cfg_s
@@ -652,7 +662,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_emm_dma_fifo_cfg_s cn; */
-} bdk_mio_emm_dma_fifo_cfg_t;
+};
+typedef union bdk_mio_emm_dma_fifo_cfg bdk_mio_emm_dma_fifo_cfg_t;
 
 #define BDK_MIO_EMM_DMA_FIFO_CFG BDK_MIO_EMM_DMA_FIFO_CFG_FUNC()
 static inline uint64_t BDK_MIO_EMM_DMA_FIFO_CFG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -681,7 +692,7 @@ static inline uint64_t BDK_MIO_EMM_DMA_FIFO_CFG_FUNC(void)
  * Note: This register has a similar format to the MIO_EMM_DMA_CFG register with the exception
  * that the EN and CLR fields are absent. These are supported in the MIO_EMM_DMA_FIFO_CFG.
  */
-typedef union
+union bdk_mio_emm_dma_fifo_cmd
 {
     uint64_t u;
     struct bdk_mio_emm_dma_fifo_cmd_s
@@ -807,7 +818,8 @@ typedef union
     /* struct bdk_mio_emm_dma_fifo_cmd_s cn81xx; */
     /* struct bdk_mio_emm_dma_fifo_cmd_s cn83xx; */
     /* struct bdk_mio_emm_dma_fifo_cmd_s cn88xxp2; */
-} bdk_mio_emm_dma_fifo_cmd_t;
+};
+typedef union bdk_mio_emm_dma_fifo_cmd bdk_mio_emm_dma_fifo_cmd_t;
 
 #define BDK_MIO_EMM_DMA_FIFO_CMD BDK_MIO_EMM_DMA_FIFO_CMD_FUNC()
 static inline uint64_t BDK_MIO_EMM_DMA_FIFO_CMD_FUNC(void) __attribute__ ((pure, always_inline));
@@ -829,7 +841,7 @@ static inline uint64_t BDK_MIO_EMM_DMA_FIFO_CMD_FUNC(void)
  * eMMC DMA Interrupt Register
  * Sixty-four-bit operations must be used to access this register.
  */
-typedef union
+union bdk_mio_emm_dma_int
 {
     uint64_t u;
     struct bdk_mio_emm_dma_int_s
@@ -845,7 +857,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_emm_dma_int_s cn; */
-} bdk_mio_emm_dma_int_t;
+};
+typedef union bdk_mio_emm_dma_int bdk_mio_emm_dma_int_t;
 
 #define BDK_MIO_EMM_DMA_INT BDK_MIO_EMM_DMA_INT_FUNC()
 static inline uint64_t BDK_MIO_EMM_DMA_INT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -867,7 +880,7 @@ static inline uint64_t BDK_MIO_EMM_DMA_INT_FUNC(void)
  * eMMC DMA Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_mio_emm_dma_int_ena_w1c
 {
     uint64_t u;
     struct bdk_mio_emm_dma_int_ena_w1c_s
@@ -883,7 +896,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_emm_dma_int_ena_w1c_s cn; */
-} bdk_mio_emm_dma_int_ena_w1c_t;
+};
+typedef union bdk_mio_emm_dma_int_ena_w1c bdk_mio_emm_dma_int_ena_w1c_t;
 
 #define BDK_MIO_EMM_DMA_INT_ENA_W1C BDK_MIO_EMM_DMA_INT_ENA_W1C_FUNC()
 static inline uint64_t BDK_MIO_EMM_DMA_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -905,7 +919,7 @@ static inline uint64_t BDK_MIO_EMM_DMA_INT_ENA_W1C_FUNC(void)
  * eMMC DMA Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_mio_emm_dma_int_ena_w1s
 {
     uint64_t u;
     struct bdk_mio_emm_dma_int_ena_w1s_s
@@ -921,7 +935,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_emm_dma_int_ena_w1s_s cn; */
-} bdk_mio_emm_dma_int_ena_w1s_t;
+};
+typedef union bdk_mio_emm_dma_int_ena_w1s bdk_mio_emm_dma_int_ena_w1s_t;
 
 #define BDK_MIO_EMM_DMA_INT_ENA_W1S BDK_MIO_EMM_DMA_INT_ENA_W1S_FUNC()
 static inline uint64_t BDK_MIO_EMM_DMA_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -943,7 +958,7 @@ static inline uint64_t BDK_MIO_EMM_DMA_INT_ENA_W1S_FUNC(void)
  * eMMC DMA Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_mio_emm_dma_int_w1s
 {
     uint64_t u;
     struct bdk_mio_emm_dma_int_w1s_s
@@ -959,7 +974,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_emm_dma_int_w1s_s cn; */
-} bdk_mio_emm_dma_int_w1s_t;
+};
+typedef union bdk_mio_emm_dma_int_w1s bdk_mio_emm_dma_int_w1s_t;
 
 #define BDK_MIO_EMM_DMA_INT_W1S BDK_MIO_EMM_DMA_INT_W1S_FUNC()
 static inline uint64_t BDK_MIO_EMM_DMA_INT_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -980,7 +996,7 @@ static inline uint64_t BDK_MIO_EMM_DMA_INT_W1S_FUNC(void)
  *
  * eMMC Interrupt Register
  */
-typedef union
+union bdk_mio_emm_int
 {
     uint64_t u;
     struct bdk_mio_emm_int_s
@@ -1006,7 +1022,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_emm_int_s cn; */
-} bdk_mio_emm_int_t;
+};
+typedef union bdk_mio_emm_int bdk_mio_emm_int_t;
 
 #define BDK_MIO_EMM_INT BDK_MIO_EMM_INT_FUNC()
 static inline uint64_t BDK_MIO_EMM_INT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1028,7 +1045,7 @@ static inline uint64_t BDK_MIO_EMM_INT_FUNC(void)
  * eMMC Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_mio_emm_int_ena_w1c
 {
     uint64_t u;
     struct bdk_mio_emm_int_ena_w1c_s
@@ -1054,7 +1071,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_emm_int_ena_w1c_s cn; */
-} bdk_mio_emm_int_ena_w1c_t;
+};
+typedef union bdk_mio_emm_int_ena_w1c bdk_mio_emm_int_ena_w1c_t;
 
 #define BDK_MIO_EMM_INT_ENA_W1C BDK_MIO_EMM_INT_ENA_W1C_FUNC()
 static inline uint64_t BDK_MIO_EMM_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1076,7 +1094,7 @@ static inline uint64_t BDK_MIO_EMM_INT_ENA_W1C_FUNC(void)
  * eMMC Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_mio_emm_int_ena_w1s
 {
     uint64_t u;
     struct bdk_mio_emm_int_ena_w1s_s
@@ -1102,7 +1120,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_emm_int_ena_w1s_s cn; */
-} bdk_mio_emm_int_ena_w1s_t;
+};
+typedef union bdk_mio_emm_int_ena_w1s bdk_mio_emm_int_ena_w1s_t;
 
 #define BDK_MIO_EMM_INT_ENA_W1S BDK_MIO_EMM_INT_ENA_W1S_FUNC()
 static inline uint64_t BDK_MIO_EMM_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1124,7 +1143,7 @@ static inline uint64_t BDK_MIO_EMM_INT_ENA_W1S_FUNC(void)
  * eMMC Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_mio_emm_int_w1s
 {
     uint64_t u;
     struct bdk_mio_emm_int_w1s_s
@@ -1150,7 +1169,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_emm_int_w1s_s cn; */
-} bdk_mio_emm_int_w1s_t;
+};
+typedef union bdk_mio_emm_int_w1s bdk_mio_emm_int_w1s_t;
 
 #define BDK_MIO_EMM_INT_W1S BDK_MIO_EMM_INT_W1S_FUNC()
 static inline uint64_t BDK_MIO_EMM_INT_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1171,7 +1191,7 @@ static inline uint64_t BDK_MIO_EMM_INT_W1S_FUNC(void)
  *
  * eMMC Operating Mode Register
  */
-typedef union
+union bdk_mio_emm_modex
 {
     uint64_t u;
     struct bdk_mio_emm_modex_s
@@ -1221,7 +1241,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_emm_modex_s cn; */
-} bdk_mio_emm_modex_t;
+};
+typedef union bdk_mio_emm_modex bdk_mio_emm_modex_t;
 
 static inline uint64_t BDK_MIO_EMM_MODEX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_MIO_EMM_MODEX(unsigned long a)
@@ -1245,7 +1266,7 @@ static inline uint64_t BDK_MIO_EMM_MODEX(unsigned long a)
  * This register is the MSI-X PBA table; the bit number is indexed by the MIO_EMM_INT_VEC_E
  * enumeration.
  */
-typedef union
+union bdk_mio_emm_msix_pbax
 {
     uint64_t u;
     struct bdk_mio_emm_msix_pbax_s
@@ -1259,7 +1280,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_emm_msix_pbax_s cn; */
-} bdk_mio_emm_msix_pbax_t;
+};
+typedef union bdk_mio_emm_msix_pbax bdk_mio_emm_msix_pbax_t;
 
 static inline uint64_t BDK_MIO_EMM_MSIX_PBAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_MIO_EMM_MSIX_PBAX(unsigned long a)
@@ -1282,7 +1304,7 @@ static inline uint64_t BDK_MIO_EMM_MSIX_PBAX(unsigned long a)
  * eMMC MSI-X Vector-Table Address Register
  * This register is the MSI-X vector table, indexed by the MIO_EMM_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_mio_emm_msix_vecx_addr
 {
     uint64_t u;
     struct bdk_mio_emm_msix_vecx_addr_s
@@ -1316,7 +1338,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_emm_msix_vecx_addr_s cn; */
-} bdk_mio_emm_msix_vecx_addr_t;
+};
+typedef union bdk_mio_emm_msix_vecx_addr bdk_mio_emm_msix_vecx_addr_t;
 
 static inline uint64_t BDK_MIO_EMM_MSIX_VECX_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_MIO_EMM_MSIX_VECX_ADDR(unsigned long a)
@@ -1339,7 +1362,7 @@ static inline uint64_t BDK_MIO_EMM_MSIX_VECX_ADDR(unsigned long a)
  * eMMC MSI-X Vector-Table Control and Data Register
  * This register is the MSI-X vector table, indexed by the MIO_EMM_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_mio_emm_msix_vecx_ctl
 {
     uint64_t u;
     struct bdk_mio_emm_msix_vecx_ctl_s
@@ -1357,7 +1380,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_emm_msix_vecx_ctl_s cn; */
-} bdk_mio_emm_msix_vecx_ctl_t;
+};
+typedef union bdk_mio_emm_msix_vecx_ctl bdk_mio_emm_msix_vecx_ctl_t;
 
 static inline uint64_t BDK_MIO_EMM_MSIX_VECX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_MIO_EMM_MSIX_VECX_CTL(unsigned long a)
@@ -1379,7 +1403,7 @@ static inline uint64_t BDK_MIO_EMM_MSIX_VECX_CTL(unsigned long a)
  *
  * eMMC Relative Card Address Register
  */
-typedef union
+union bdk_mio_emm_rca
 {
     uint64_t u;
     struct bdk_mio_emm_rca_s
@@ -1397,7 +1421,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_emm_rca_s cn; */
-} bdk_mio_emm_rca_t;
+};
+typedef union bdk_mio_emm_rca bdk_mio_emm_rca_t;
 
 #define BDK_MIO_EMM_RCA BDK_MIO_EMM_RCA_FUNC()
 static inline uint64_t BDK_MIO_EMM_RCA_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1418,7 +1443,7 @@ static inline uint64_t BDK_MIO_EMM_RCA_FUNC(void)
  *
  * eMMC Response Data High Register
  */
-typedef union
+union bdk_mio_emm_rsp_hi
 {
     uint64_t u;
     struct bdk_mio_emm_rsp_hi_s
@@ -1440,7 +1465,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_emm_rsp_hi_s cn; */
-} bdk_mio_emm_rsp_hi_t;
+};
+typedef union bdk_mio_emm_rsp_hi bdk_mio_emm_rsp_hi_t;
 
 #define BDK_MIO_EMM_RSP_HI BDK_MIO_EMM_RSP_HI_FUNC()
 static inline uint64_t BDK_MIO_EMM_RSP_HI_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1461,7 +1487,7 @@ static inline uint64_t BDK_MIO_EMM_RSP_HI_FUNC(void)
  *
  * eMMC Response Data Low Register
  */
-typedef union
+union bdk_mio_emm_rsp_lo
 {
     uint64_t u;
     struct bdk_mio_emm_rsp_lo_s
@@ -1553,7 +1579,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_emm_rsp_lo_s cn; */
-} bdk_mio_emm_rsp_lo_t;
+};
+typedef union bdk_mio_emm_rsp_lo bdk_mio_emm_rsp_lo_t;
 
 #define BDK_MIO_EMM_RSP_LO BDK_MIO_EMM_RSP_LO_FUNC()
 static inline uint64_t BDK_MIO_EMM_RSP_LO_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1574,7 +1601,7 @@ static inline uint64_t BDK_MIO_EMM_RSP_LO_FUNC(void)
  *
  * eMMC Response Status Register
  */
-typedef union
+union bdk_mio_emm_rsp_sts
 {
     uint64_t u;
     struct bdk_mio_emm_rsp_sts_s
@@ -1684,7 +1711,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_emm_rsp_sts_s cn; */
-} bdk_mio_emm_rsp_sts_t;
+};
+typedef union bdk_mio_emm_rsp_sts bdk_mio_emm_rsp_sts_t;
 
 #define BDK_MIO_EMM_RSP_STS BDK_MIO_EMM_RSP_STS_FUNC()
 static inline uint64_t BDK_MIO_EMM_RSP_STS_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1705,7 +1733,7 @@ static inline uint64_t BDK_MIO_EMM_RSP_STS_FUNC(void)
  *
  * eMMC Sampling Register
  */
-typedef union
+union bdk_mio_emm_sample
 {
     uint64_t u;
     struct bdk_mio_emm_sample_s
@@ -1723,7 +1751,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_emm_sample_s cn; */
-} bdk_mio_emm_sample_t;
+};
+typedef union bdk_mio_emm_sample bdk_mio_emm_sample_t;
 
 #define BDK_MIO_EMM_SAMPLE BDK_MIO_EMM_SAMPLE_FUNC()
 static inline uint64_t BDK_MIO_EMM_SAMPLE_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1744,7 +1773,7 @@ static inline uint64_t BDK_MIO_EMM_SAMPLE_FUNC(void)
  *
  * eMMC Status Mask Register
  */
-typedef union
+union bdk_mio_emm_sts_mask
 {
     uint64_t u;
     struct bdk_mio_emm_sts_mask_s
@@ -1760,7 +1789,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_emm_sts_mask_s cn; */
-} bdk_mio_emm_sts_mask_t;
+};
+typedef union bdk_mio_emm_sts_mask bdk_mio_emm_sts_mask_t;
 
 #define BDK_MIO_EMM_STS_MASK BDK_MIO_EMM_STS_MASK_FUNC()
 static inline uint64_t BDK_MIO_EMM_STS_MASK_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1781,7 +1811,7 @@ static inline uint64_t BDK_MIO_EMM_STS_MASK_FUNC(void)
  *
  * eMMC Operating Mode Switch Register
  */
-typedef union
+union bdk_mio_emm_switch
 {
     uint64_t u;
     struct bdk_mio_emm_switch_s
@@ -1855,7 +1885,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_emm_switch_s cn; */
-} bdk_mio_emm_switch_t;
+};
+typedef union bdk_mio_emm_switch bdk_mio_emm_switch_t;
 
 #define BDK_MIO_EMM_SWITCH BDK_MIO_EMM_SWITCH_FUNC()
 static inline uint64_t BDK_MIO_EMM_SWITCH_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1876,7 +1907,7 @@ static inline uint64_t BDK_MIO_EMM_SWITCH_FUNC(void)
  *
  * eMMC Watchdog Register
  */
-typedef union
+union bdk_mio_emm_wdog
 {
     uint64_t u;
     struct bdk_mio_emm_wdog_s
@@ -1938,7 +1969,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_emm_wdog_s cn; */
-} bdk_mio_emm_wdog_t;
+};
+typedef union bdk_mio_emm_wdog bdk_mio_emm_wdog_t;
 
 #define BDK_MIO_EMM_WDOG BDK_MIO_EMM_WDOG_FUNC()
 static inline uint64_t BDK_MIO_EMM_WDOG_FUNC(void) __attribute__ ((pure, always_inline));

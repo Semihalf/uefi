@@ -170,7 +170,7 @@ union bdk_ssow_get_work_addr_s
  * provided so 2 bits may be changed using a multi-word store instruction (STP, ST1), or
  * 4 bits with LMTST.
  */
-typedef union
+union bdk_ssow_vhwsx_grpmsk_chgx
 {
     uint64_t u;
     struct bdk_ssow_vhwsx_grpmsk_chgx_s
@@ -232,7 +232,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ssow_vhwsx_grpmsk_chgx_s cn; */
-} bdk_ssow_vhwsx_grpmsk_chgx_t;
+};
+typedef union bdk_ssow_vhwsx_grpmsk_chgx bdk_ssow_vhwsx_grpmsk_chgx_t;
 
 static inline uint64_t BDK_SSOW_VHWSX_GRPMSK_CHGX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSOW_VHWSX_GRPMSK_CHGX(unsigned long a, unsigned long b)
@@ -255,7 +256,7 @@ static inline uint64_t BDK_SSOW_VHWSX_GRPMSK_CHGX(unsigned long a, unsigned long
  * SSO Work Slot VF Links Status Registers
  * Returns status of each HWS.
  */
-typedef union
+union bdk_ssow_vhwsx_links
 {
     uint64_t u;
     struct bdk_ssow_vhwsx_links_s
@@ -297,7 +298,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ssow_vhwsx_links_s cn; */
-} bdk_ssow_vhwsx_links_t;
+};
+typedef union bdk_ssow_vhwsx_links bdk_ssow_vhwsx_links_t;
 
 static inline uint64_t BDK_SSOW_VHWSX_LINKS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSOW_VHWSX_LINKS(unsigned long a)
@@ -320,7 +322,7 @@ static inline uint64_t BDK_SSOW_VHWSX_LINKS(unsigned long a)
  * SSO Work Slot VF Allocate Work Entry Operation Register
  * A read to this register allocates a work entry.
  */
-typedef union
+union bdk_ssow_vhwsx_op_alloc_we
 {
     uint64_t u;
     struct bdk_ssow_vhwsx_op_alloc_we_s
@@ -334,7 +336,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ssow_vhwsx_op_alloc_we_s cn; */
-} bdk_ssow_vhwsx_op_alloc_we_t;
+};
+typedef union bdk_ssow_vhwsx_op_alloc_we bdk_ssow_vhwsx_op_alloc_we_t;
 
 static inline uint64_t BDK_SSOW_VHWSX_OP_ALLOC_WE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSOW_VHWSX_OP_ALLOC_WE(unsigned long a)
@@ -359,7 +362,7 @@ static inline uint64_t BDK_SSOW_VHWSX_OP_ALLOC_WE(unsigned long a)
  *
  * The address offset is calculated using SSOW_CLR_NSCHED_ADDR_S.
  */
-typedef union
+union bdk_ssow_vhwsx_op_clr_nsched
 {
     uint64_t u;
     struct bdk_ssow_vhwsx_op_clr_nsched_s
@@ -373,7 +376,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ssow_vhwsx_op_clr_nsched_s cn; */
-} bdk_ssow_vhwsx_op_clr_nsched_t;
+};
+typedef union bdk_ssow_vhwsx_op_clr_nsched bdk_ssow_vhwsx_op_clr_nsched_t;
 
 static inline uint64_t BDK_SSOW_VHWSX_OP_CLR_NSCHED(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSOW_VHWSX_OP_CLR_NSCHED(unsigned long a)
@@ -396,7 +400,7 @@ static inline uint64_t BDK_SSOW_VHWSX_OP_CLR_NSCHED(unsigned long a)
  * SSO Work Slot VF Deschedule Operation Register
  * A write to this register performs a deschedule operation.
  */
-typedef union
+union bdk_ssow_vhwsx_op_desched
 {
     uint64_t u;
     struct bdk_ssow_vhwsx_op_desched_s
@@ -408,7 +412,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ssow_vhwsx_op_desched_s cn; */
-} bdk_ssow_vhwsx_op_desched_t;
+};
+typedef union bdk_ssow_vhwsx_op_desched bdk_ssow_vhwsx_op_desched_t;
 
 static inline uint64_t BDK_SSOW_VHWSX_OP_DESCHED(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSOW_VHWSX_OP_DESCHED(unsigned long a)
@@ -431,7 +436,7 @@ static inline uint64_t BDK_SSOW_VHWSX_OP_DESCHED(unsigned long a)
  * SSO Work Slot VF Deschedule Noschedule Operation Register
  * A write to this register performs a deschedule nosched operation.
  */
-typedef union
+union bdk_ssow_vhwsx_op_desched_nosch
 {
     uint64_t u;
     struct bdk_ssow_vhwsx_op_desched_nosch_s
@@ -443,7 +448,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ssow_vhwsx_op_desched_nosch_s cn; */
-} bdk_ssow_vhwsx_op_desched_nosch_t;
+};
+typedef union bdk_ssow_vhwsx_op_desched_nosch bdk_ssow_vhwsx_op_desched_nosch_t;
 
 static inline uint64_t BDK_SSOW_VHWSX_OP_DESCHED_NOSCH(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSOW_VHWSX_OP_DESCHED_NOSCH(unsigned long a)
@@ -466,7 +472,7 @@ static inline uint64_t BDK_SSOW_VHWSX_OP_DESCHED_NOSCH(unsigned long a)
  * SSO Work Slot VF Get-Work Operation Register 0
  * See SSOW_VHWS()_OP_GET_WORK1.
  */
-typedef union
+union bdk_ssow_vhwsx_op_get_work0
 {
     uint64_t u;
     struct bdk_ssow_vhwsx_op_get_work0_s
@@ -514,7 +520,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ssow_vhwsx_op_get_work0_s cn; */
-} bdk_ssow_vhwsx_op_get_work0_t;
+};
+typedef union bdk_ssow_vhwsx_op_get_work0 bdk_ssow_vhwsx_op_get_work0_t;
 
 static inline uint64_t BDK_SSOW_VHWSX_OP_GET_WORK0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSOW_VHWSX_OP_GET_WORK0(unsigned long a)
@@ -547,7 +554,7 @@ static inline uint64_t BDK_SSOW_VHWSX_OP_GET_WORK0(unsigned long a)
  *
  * The address offset is calculated using SSOW_GET_WORK_ADDR_S.
  */
-typedef union
+union bdk_ssow_vhwsx_op_get_work1
 {
     uint64_t u;
     struct bdk_ssow_vhwsx_op_get_work1_s
@@ -561,7 +568,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ssow_vhwsx_op_get_work1_s cn; */
-} bdk_ssow_vhwsx_op_get_work1_t;
+};
+typedef union bdk_ssow_vhwsx_op_get_work1 bdk_ssow_vhwsx_op_get_work1_t;
 
 static inline uint64_t BDK_SSOW_VHWSX_OP_GET_WORK1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSOW_VHWSX_OP_GET_WORK1(unsigned long a)
@@ -584,7 +592,7 @@ static inline uint64_t BDK_SSOW_VHWSX_OP_GET_WORK1(unsigned long a)
  * SSO Work Slot VF Switch Tag Deschedule Operation Register
  * A write to this register performs a switch tag.
  */
-typedef union
+union bdk_ssow_vhwsx_op_swtag_desched
 {
     uint64_t u;
     struct bdk_ssow_vhwsx_op_swtag_desched_s
@@ -604,7 +612,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ssow_vhwsx_op_swtag_desched_s cn; */
-} bdk_ssow_vhwsx_op_swtag_desched_t;
+};
+typedef union bdk_ssow_vhwsx_op_swtag_desched bdk_ssow_vhwsx_op_swtag_desched_t;
 
 static inline uint64_t BDK_SSOW_VHWSX_OP_SWTAG_DESCHED(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSOW_VHWSX_OP_SWTAG_DESCHED(unsigned long a)
@@ -630,7 +639,7 @@ static inline uint64_t BDK_SSOW_VHWSX_OP_SWTAG_DESCHED(unsigned long a)
  * A 128-bit store (STP) must be used to SSOW_VHWS()_OP_SWTAG_FULL0 and
  * SSOW_VHWS()_OP_SWTAG_FULL1.
  */
-typedef union
+union bdk_ssow_vhwsx_op_swtag_full0
 {
     uint64_t u;
     struct bdk_ssow_vhwsx_op_swtag_full0_s
@@ -666,7 +675,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ssow_vhwsx_op_swtag_full0_s cn; */
-} bdk_ssow_vhwsx_op_swtag_full0_t;
+};
+typedef union bdk_ssow_vhwsx_op_swtag_full0 bdk_ssow_vhwsx_op_swtag_full0_t;
 
 static inline uint64_t BDK_SSOW_VHWSX_OP_SWTAG_FULL0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSOW_VHWSX_OP_SWTAG_FULL0(unsigned long a)
@@ -692,7 +702,7 @@ static inline uint64_t BDK_SSOW_VHWSX_OP_SWTAG_FULL0(unsigned long a)
  * A 128-bit store (STP) must be used to SSOW_VHWS()_OP_SWTAG_FULL0 and
  * SSOW_VHWS()_OP_SWTAG_FULL1.
  */
-typedef union
+union bdk_ssow_vhwsx_op_swtag_full1
 {
     uint64_t u;
     struct bdk_ssow_vhwsx_op_swtag_full1_s
@@ -706,7 +716,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ssow_vhwsx_op_swtag_full1_s cn; */
-} bdk_ssow_vhwsx_op_swtag_full1_t;
+};
+typedef union bdk_ssow_vhwsx_op_swtag_full1 bdk_ssow_vhwsx_op_swtag_full1_t;
 
 static inline uint64_t BDK_SSOW_VHWSX_OP_SWTAG_FULL1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSOW_VHWSX_OP_SWTAG_FULL1(unsigned long a)
@@ -729,7 +740,7 @@ static inline uint64_t BDK_SSOW_VHWSX_OP_SWTAG_FULL1(unsigned long a)
  * SSO Work Slot VF Switch Tag Normal Operation Register
  * A write to this register performs a switch tag.
  */
-typedef union
+union bdk_ssow_vhwsx_op_swtag_norm
 {
     uint64_t u;
     struct bdk_ssow_vhwsx_op_swtag_norm_s
@@ -745,7 +756,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ssow_vhwsx_op_swtag_norm_s cn; */
-} bdk_ssow_vhwsx_op_swtag_norm_t;
+};
+typedef union bdk_ssow_vhwsx_op_swtag_norm bdk_ssow_vhwsx_op_swtag_norm_t;
 
 static inline uint64_t BDK_SSOW_VHWSX_OP_SWTAG_NORM(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSOW_VHWSX_OP_SWTAG_NORM(unsigned long a)
@@ -768,7 +780,7 @@ static inline uint64_t BDK_SSOW_VHWSX_OP_SWTAG_NORM(unsigned long a)
  * SSO Work Slot VF Switch Tag Nosched Operation Register
  * A write to this register performs a switch tag.
  */
-typedef union
+union bdk_ssow_vhwsx_op_swtag_nosched
 {
     uint64_t u;
     struct bdk_ssow_vhwsx_op_swtag_nosched_s
@@ -788,7 +800,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ssow_vhwsx_op_swtag_nosched_s cn; */
-} bdk_ssow_vhwsx_op_swtag_nosched_t;
+};
+typedef union bdk_ssow_vhwsx_op_swtag_nosched bdk_ssow_vhwsx_op_swtag_nosched_t;
 
 static inline uint64_t BDK_SSOW_VHWSX_OP_SWTAG_NOSCHED(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSOW_VHWSX_OP_SWTAG_NOSCHED(unsigned long a)
@@ -811,7 +824,7 @@ static inline uint64_t BDK_SSOW_VHWSX_OP_SWTAG_NOSCHED(unsigned long a)
  * SSO Work Slot VF Switch Tag Untagged Operation Register
  * A write to this register performs a switch tag to UNTAGGED.
  */
-typedef union
+union bdk_ssow_vhwsx_op_swtag_untag
 {
     uint64_t u;
     struct bdk_ssow_vhwsx_op_swtag_untag_s
@@ -823,7 +836,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ssow_vhwsx_op_swtag_untag_s cn; */
-} bdk_ssow_vhwsx_op_swtag_untag_t;
+};
+typedef union bdk_ssow_vhwsx_op_swtag_untag bdk_ssow_vhwsx_op_swtag_untag_t;
 
 static inline uint64_t BDK_SSOW_VHWSX_OP_SWTAG_UNTAG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSOW_VHWSX_OP_SWTAG_UNTAG(unsigned long a)
@@ -848,7 +862,7 @@ static inline uint64_t BDK_SSOW_VHWSX_OP_SWTAG_UNTAG(unsigned long a)
  * work-slot's SSOW_VHWS()_PENDTAG[PEND_SWITCH] bit is unaffected. The write data is
  * ignored.
  */
-typedef union
+union bdk_ssow_vhwsx_op_swtp_clr
 {
     uint64_t u;
     struct bdk_ssow_vhwsx_op_swtp_clr_s
@@ -860,7 +874,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ssow_vhwsx_op_swtp_clr_s cn; */
-} bdk_ssow_vhwsx_op_swtp_clr_t;
+};
+typedef union bdk_ssow_vhwsx_op_swtp_clr bdk_ssow_vhwsx_op_swtp_clr_t;
 
 static inline uint64_t BDK_SSOW_VHWSX_OP_SWTP_CLR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSOW_VHWSX_OP_SWTP_CLR(unsigned long a)
@@ -885,7 +900,7 @@ static inline uint64_t BDK_SSOW_VHWSX_OP_SWTP_CLR(unsigned long a)
  * work-slot's SSOW_VHWS()_PENDTAG[PEND_SWITCH] bit is unaffected. The write data is
  * ignored.
  */
-typedef union
+union bdk_ssow_vhwsx_op_swtp_set
 {
     uint64_t u;
     struct bdk_ssow_vhwsx_op_swtp_set_s
@@ -897,7 +912,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ssow_vhwsx_op_swtp_set_s cn; */
-} bdk_ssow_vhwsx_op_swtp_set_t;
+};
+typedef union bdk_ssow_vhwsx_op_swtp_set bdk_ssow_vhwsx_op_swtp_set_t;
 
 static inline uint64_t BDK_SSOW_VHWSX_OP_SWTP_SET(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSOW_VHWSX_OP_SWTP_SET(unsigned long a)
@@ -923,7 +939,7 @@ static inline uint64_t BDK_SSOW_VHWSX_OP_SWTP_SET(unsigned long a)
  * A 128-bit store (STP) must be used to SSOW_VHWS()_OP_UPD_WQP_GRP0 and
  * SSOW_VHWS()_OP_UPD_WQP_GRP1 to update both the WQP and group.
  */
-typedef union
+union bdk_ssow_vhwsx_op_upd_wqp_grp0
 {
     uint64_t u;
     struct bdk_ssow_vhwsx_op_upd_wqp_grp0_s
@@ -941,7 +957,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ssow_vhwsx_op_upd_wqp_grp0_s cn; */
-} bdk_ssow_vhwsx_op_upd_wqp_grp0_t;
+};
+typedef union bdk_ssow_vhwsx_op_upd_wqp_grp0 bdk_ssow_vhwsx_op_upd_wqp_grp0_t;
 
 static inline uint64_t BDK_SSOW_VHWSX_OP_UPD_WQP_GRP0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSOW_VHWSX_OP_UPD_WQP_GRP0(unsigned long a)
@@ -967,7 +984,7 @@ static inline uint64_t BDK_SSOW_VHWSX_OP_UPD_WQP_GRP0(unsigned long a)
  * A 128-bit store (STP) must be used to SSOW_VHWS()_OP_UPD_WQP_GRP0 and
  * SSOW_VHWS()_OP_UPD_WQP_GRP1 to update both the WQP and group.
  */
-typedef union
+union bdk_ssow_vhwsx_op_upd_wqp_grp1
 {
     uint64_t u;
     struct bdk_ssow_vhwsx_op_upd_wqp_grp1_s
@@ -981,7 +998,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ssow_vhwsx_op_upd_wqp_grp1_s cn; */
-} bdk_ssow_vhwsx_op_upd_wqp_grp1_t;
+};
+typedef union bdk_ssow_vhwsx_op_upd_wqp_grp1 bdk_ssow_vhwsx_op_upd_wqp_grp1_t;
 
 static inline uint64_t BDK_SSOW_VHWSX_OP_UPD_WQP_GRP1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSOW_VHWSX_OP_UPD_WQP_GRP1(unsigned long a)
@@ -1004,7 +1022,7 @@ static inline uint64_t BDK_SSOW_VHWSX_OP_UPD_WQP_GRP1(unsigned long a)
  * SSO Work Slot VF Pending Tag Status Registers
  * Returns status of each HWS.
  */
-typedef union
+union bdk_ssow_vhwsx_pendtag
 {
     uint64_t u;
     struct bdk_ssow_vhwsx_pendtag_s
@@ -1044,7 +1062,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ssow_vhwsx_pendtag_s cn; */
-} bdk_ssow_vhwsx_pendtag_t;
+};
+typedef union bdk_ssow_vhwsx_pendtag bdk_ssow_vhwsx_pendtag_t;
 
 static inline uint64_t BDK_SSOW_VHWSX_PENDTAG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSOW_VHWSX_PENDTAG(unsigned long a)
@@ -1067,7 +1086,7 @@ static inline uint64_t BDK_SSOW_VHWSX_PENDTAG(unsigned long a)
  * SSO Work Slot VF Pending WQP Status Registers
  * Returns status of each HWS.
  */
-typedef union
+union bdk_ssow_vhwsx_pendwqp
 {
     uint64_t u;
     struct bdk_ssow_vhwsx_pendwqp_s
@@ -1081,7 +1100,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ssow_vhwsx_pendwqp_s cn; */
-} bdk_ssow_vhwsx_pendwqp_t;
+};
+typedef union bdk_ssow_vhwsx_pendwqp bdk_ssow_vhwsx_pendwqp_t;
 
 static inline uint64_t BDK_SSOW_VHWSX_PENDWQP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSOW_VHWSX_PENDWQP(unsigned long a)
@@ -1111,7 +1131,7 @@ static inline uint64_t BDK_SSOW_VHWSX_PENDWQP(unsigned long a)
  * Internal:
  * The address of this register is decoded by AP MEM.
  */
-typedef union
+union bdk_ssow_vhwsx_swtp
 {
     uint64_t u;
     struct bdk_ssow_vhwsx_swtp_s
@@ -1125,7 +1145,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ssow_vhwsx_swtp_s cn; */
-} bdk_ssow_vhwsx_swtp_t;
+};
+typedef union bdk_ssow_vhwsx_swtp bdk_ssow_vhwsx_swtp_t;
 
 static inline uint64_t BDK_SSOW_VHWSX_SWTP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSOW_VHWSX_SWTP(unsigned long a)
@@ -1148,7 +1169,7 @@ static inline uint64_t BDK_SSOW_VHWSX_SWTP(unsigned long a)
  * SSO Work Slot VF Tag Status Registers
  * Returns status of each HWS.
  */
-typedef union
+union bdk_ssow_vhwsx_tag
 {
     uint64_t u;
     struct bdk_ssow_vhwsx_tag_s
@@ -1196,7 +1217,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ssow_vhwsx_tag_s cn; */
-} bdk_ssow_vhwsx_tag_t;
+};
+typedef union bdk_ssow_vhwsx_tag bdk_ssow_vhwsx_tag_t;
 
 static inline uint64_t BDK_SSOW_VHWSX_TAG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSOW_VHWSX_TAG(unsigned long a)
@@ -1219,7 +1241,7 @@ static inline uint64_t BDK_SSOW_VHWSX_TAG(unsigned long a)
  * SSO Work Slot VF WQP Status Registers
  * Returns status of each HWS.
  */
-typedef union
+union bdk_ssow_vhwsx_wqp
 {
     uint64_t u;
     struct bdk_ssow_vhwsx_wqp_s
@@ -1233,7 +1255,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ssow_vhwsx_wqp_s cn; */
-} bdk_ssow_vhwsx_wqp_t;
+};
+typedef union bdk_ssow_vhwsx_wqp bdk_ssow_vhwsx_wqp_t;
 
 static inline uint64_t BDK_SSOW_VHWSX_WQP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSOW_VHWSX_WQP(unsigned long a)

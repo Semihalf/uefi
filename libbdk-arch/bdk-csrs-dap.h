@@ -68,7 +68,7 @@
  *
  * INTERNAL: DAP ECO Register
  */
-typedef union
+union bdk_dap_eco
 {
     uint64_t u;
     struct bdk_dap_eco_s
@@ -84,7 +84,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dap_eco_s cn; */
-} bdk_dap_eco_t;
+};
+typedef union bdk_dap_eco bdk_dap_eco_t;
 
 #define BDK_DAP_ECO BDK_DAP_ECO_FUNC()
 static inline uint64_t BDK_DAP_ECO_FUNC(void) __attribute__ ((pure, always_inline));
@@ -111,7 +112,7 @@ static inline uint64_t BDK_DAP_ECO_FUNC(void)
  *
  * DAP Hardware Poll Counter Register
  */
-typedef union
+union bdk_dap_hwpoll_cnt
 {
     uint32_t u;
     struct bdk_dap_hwpoll_cnt_s
@@ -153,7 +154,8 @@ typedef union
     /* struct bdk_dap_hwpoll_cnt_s cn81xx; */
     /* struct bdk_dap_hwpoll_cnt_s cn83xx; */
     /* struct bdk_dap_hwpoll_cnt_s cn88xxp2; */
-} bdk_dap_hwpoll_cnt_t;
+};
+typedef union bdk_dap_hwpoll_cnt bdk_dap_hwpoll_cnt_t;
 
 #define BDK_DAP_HWPOLL_CNT BDK_DAP_HWPOLL_CNT_FUNC()
 static inline uint64_t BDK_DAP_HWPOLL_CNT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -175,7 +177,7 @@ static inline uint64_t BDK_DAP_HWPOLL_CNT_FUNC(void)
  * DAP Debug Authentication Register
  * This register controls the device enables and secure/nonsecure access permissions.
  */
-typedef union
+union bdk_dap_imp_dar
 {
     uint32_t u;
     struct bdk_dap_imp_dar_s
@@ -323,7 +325,8 @@ typedef union
     /* struct bdk_dap_imp_dar_s cn81xx; */
     /* struct bdk_dap_imp_dar_s cn83xx; */
     /* struct bdk_dap_imp_dar_s cn88xxp2; */
-} bdk_dap_imp_dar_t;
+};
+typedef union bdk_dap_imp_dar bdk_dap_imp_dar_t;
 
 #define BDK_DAP_IMP_DAR BDK_DAP_IMP_DAR_FUNC()
 static inline uint64_t BDK_DAP_IMP_DAR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -345,7 +348,7 @@ static inline uint64_t BDK_DAP_IMP_DAR_FUNC(void)
  * DAP One-Wire-Bus TimeOut Register
  * This register configures the one-wire bus.
  */
-typedef union
+union bdk_dap_owb_to
 {
     uint32_t u;
     struct bdk_dap_owb_to_s
@@ -379,7 +382,8 @@ typedef union
     /* struct bdk_dap_owb_to_s cn81xx; */
     /* struct bdk_dap_owb_to_s cn83xx; */
     /* struct bdk_dap_owb_to_s cn88xxp2; */
-} bdk_dap_owb_to_t;
+};
+typedef union bdk_dap_owb_to bdk_dap_owb_to_t;
 
 #define BDK_DAP_OWB_TO BDK_DAP_OWB_TO_FUNC()
 static inline uint64_t BDK_DAP_OWB_TO_FUNC(void) __attribute__ ((pure, always_inline));
@@ -400,7 +404,7 @@ static inline uint64_t BDK_DAP_OWB_TO_FUNC(void)
  *
  * DAP Reset On Warm Reset Register
  */
-typedef union
+union bdk_dap_rst_on_warm
 {
     uint64_t u;
     struct bdk_dap_rst_on_warm_s
@@ -420,7 +424,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dap_rst_on_warm_s cn; */
-} bdk_dap_rst_on_warm_t;
+};
+typedef union bdk_dap_rst_on_warm bdk_dap_rst_on_warm_t;
 
 #define BDK_DAP_RST_ON_WARM BDK_DAP_RST_ON_WARM_FUNC()
 static inline uint64_t BDK_DAP_RST_ON_WARM_FUNC(void) __attribute__ ((pure, always_inline));
@@ -449,7 +454,7 @@ static inline uint64_t BDK_DAP_RST_ON_WARM_FUNC(void)
  *
  * This register is a scratch register for software use.
  */
-typedef union
+union bdk_dap_scratch
 {
     uint64_t u;
     struct bdk_dap_scratch_s
@@ -461,7 +466,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dap_scratch_s cn; */
-} bdk_dap_scratch_t;
+};
+typedef union bdk_dap_scratch bdk_dap_scratch_t;
 
 #define BDK_DAP_SCRATCH BDK_DAP_SCRATCH_FUNC()
 static inline uint64_t BDK_DAP_SCRATCH_FUNC(void) __attribute__ ((pure, always_inline));
@@ -489,7 +495,7 @@ static inline uint64_t BDK_DAP_SCRATCH_FUNC(void)
  * DAP RSL Devices Broadcast Write Polling Register
  * This register controls broadcast write or polling to the cores.
  */
-typedef union
+union bdk_dap_sraaddr
 {
     uint32_t u;
     struct bdk_dap_sraaddr_s
@@ -579,7 +585,8 @@ typedef union
     } cn81xx;
     /* struct bdk_dap_sraaddr_cn81xx cn83xx; */
     /* struct bdk_dap_sraaddr_cn81xx cn88xxp2; */
-} bdk_dap_sraaddr_t;
+};
+typedef union bdk_dap_sraaddr bdk_dap_sraaddr_t;
 
 #define BDK_DAP_SRAADDR BDK_DAP_SRAADDR_FUNC()
 static inline uint64_t BDK_DAP_SRAADDR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -601,7 +608,7 @@ static inline uint64_t BDK_DAP_SRAADDR_FUNC(void)
  * DAP Broadcast Write Data Register
  * Data register for broadcast writes and polling from the cores.
  */
-typedef union
+union bdk_dap_sradata
 {
     uint64_t u;
     struct bdk_dap_sradata_s
@@ -613,7 +620,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dap_sradata_s cn; */
-} bdk_dap_sradata_t;
+};
+typedef union bdk_dap_sradata bdk_dap_sradata_t;
 
 #define BDK_DAP_SRADATA BDK_DAP_SRADATA_FUNC()
 static inline uint64_t BDK_DAP_SRADATA_FUNC(void) __attribute__ ((pure, always_inline));

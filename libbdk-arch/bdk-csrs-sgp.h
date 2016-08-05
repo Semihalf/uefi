@@ -107,7 +107,7 @@
  *
  * SGPIO Configuration 0 Register
  */
-typedef union
+union bdk_sgp_cfg0
 {
     uint32_t u;
     struct bdk_sgp_cfg0_s
@@ -137,7 +137,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sgp_cfg0_s cn; */
-} bdk_sgp_cfg0_t;
+};
+typedef union bdk_sgp_cfg0 bdk_sgp_cfg0_t;
 
 #define BDK_SGP_CFG0 BDK_SGP_CFG0_FUNC()
 static inline uint64_t BDK_SGP_CFG0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -158,7 +159,7 @@ static inline uint64_t BDK_SGP_CFG0_FUNC(void)
  *
  * SGPIO Configuration 1 Register
  */
-typedef union
+union bdk_sgp_cfg1
 {
     uint32_t u;
     struct bdk_sgp_cfg1_s
@@ -234,7 +235,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sgp_cfg1_s cn; */
-} bdk_sgp_cfg1_t;
+};
+typedef union bdk_sgp_cfg1 bdk_sgp_cfg1_t;
 
 #define BDK_SGP_CFG1 BDK_SGP_CFG1_FUNC()
 static inline uint64_t BDK_SGP_CFG1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -255,7 +257,7 @@ static inline uint64_t BDK_SGP_CFG1_FUNC(void)
  *
  * SGPIO Implementation Clock Register
  */
-typedef union
+union bdk_sgp_imp_clk
 {
     uint32_t u;
     struct bdk_sgp_imp_clk_s
@@ -277,7 +279,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sgp_imp_clk_s cn; */
-} bdk_sgp_imp_clk_t;
+};
+typedef union bdk_sgp_imp_clk bdk_sgp_imp_clk_t;
 
 #define BDK_SGP_IMP_CLK BDK_SGP_IMP_CLK_FUNC()
 static inline uint64_t BDK_SGP_IMP_CLK_FUNC(void) __attribute__ ((pure, always_inline));
@@ -298,7 +301,7 @@ static inline uint64_t BDK_SGP_IMP_CLK_FUNC(void)
  *
  * SGPIO Implementation Control Register
  */
-typedef union
+union bdk_sgp_imp_ctl
 {
     uint32_t u;
     struct bdk_sgp_imp_ctl_s
@@ -330,7 +333,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sgp_imp_ctl_s cn; */
-} bdk_sgp_imp_ctl_t;
+};
+typedef union bdk_sgp_imp_ctl bdk_sgp_imp_ctl_t;
 
 #define BDK_SGP_IMP_CTL BDK_SGP_IMP_CTL_FUNC()
 static inline uint64_t BDK_SGP_IMP_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -351,7 +355,7 @@ static inline uint64_t BDK_SGP_IMP_CTL_FUNC(void)
  *
  * SGPIO Implementation Drive Map Register
  */
-typedef union
+union bdk_sgp_imp_drivex
 {
     uint32_t u;
     struct bdk_sgp_imp_drivex_s
@@ -389,7 +393,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sgp_imp_drivex_s cn; */
-} bdk_sgp_imp_drivex_t;
+};
+typedef union bdk_sgp_imp_drivex bdk_sgp_imp_drivex_t;
 
 static inline uint64_t BDK_SGP_IMP_DRIVEX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SGP_IMP_DRIVEX(unsigned long a)
@@ -411,7 +416,7 @@ static inline uint64_t BDK_SGP_IMP_DRIVEX(unsigned long a)
  *
  * SGPIO Implementation Seconds Clock Register
  */
-typedef union
+union bdk_sgp_imp_sec_clk
 {
     uint32_t u;
     struct bdk_sgp_imp_sec_clk_s
@@ -431,7 +436,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sgp_imp_sec_clk_s cn; */
-} bdk_sgp_imp_sec_clk_t;
+};
+typedef union bdk_sgp_imp_sec_clk bdk_sgp_imp_sec_clk_t;
 
 #define BDK_SGP_IMP_SEC_CLK BDK_SGP_IMP_SEC_CLK_FUNC()
 static inline uint64_t BDK_SGP_IMP_SEC_CLK_FUNC(void) __attribute__ ((pure, always_inline));
@@ -452,7 +458,7 @@ static inline uint64_t BDK_SGP_IMP_SEC_CLK_FUNC(void)
  *
  * SGPIO Receive Registers
  */
-typedef union
+union bdk_sgp_rxx
 {
     uint32_t u;
     struct bdk_sgp_rxx_s
@@ -478,7 +484,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sgp_rxx_s cn; */
-} bdk_sgp_rxx_t;
+};
+typedef union bdk_sgp_rxx bdk_sgp_rxx_t;
 
 static inline uint64_t BDK_SGP_RXX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SGP_RXX(unsigned long a)
@@ -500,7 +507,7 @@ static inline uint64_t BDK_SGP_RXX(unsigned long a)
  *
  * SGPIO Receive GPIO Registers
  */
-typedef union
+union bdk_sgp_rx_gpx
 {
     uint32_t u;
     struct bdk_sgp_rx_gpx_s
@@ -538,7 +545,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sgp_rx_gpx_s cn; */
-} bdk_sgp_rx_gpx_t;
+};
+typedef union bdk_sgp_rx_gpx bdk_sgp_rx_gpx_t;
 
 static inline uint64_t BDK_SGP_RX_GPX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SGP_RX_GPX(unsigned long a)
@@ -560,7 +568,7 @@ static inline uint64_t BDK_SGP_RX_GPX(unsigned long a)
  *
  * SGPIO Receive GPIO Configuration Register
  */
-typedef union
+union bdk_sgp_rx_gp_cfg
 {
     uint32_t u;
     struct bdk_sgp_rx_gp_cfg_s
@@ -576,7 +584,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sgp_rx_gp_cfg_s cn; */
-} bdk_sgp_rx_gp_cfg_t;
+};
+typedef union bdk_sgp_rx_gp_cfg bdk_sgp_rx_gp_cfg_t;
 
 #define BDK_SGP_RX_GP_CFG BDK_SGP_RX_GP_CFG_FUNC()
 static inline uint64_t BDK_SGP_RX_GP_CFG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -597,7 +606,7 @@ static inline uint64_t BDK_SGP_RX_GP_CFG_FUNC(void)
  *
  * SGPIO Transmit Registers
  */
-typedef union
+union bdk_sgp_txx
 {
     uint32_t u;
     struct bdk_sgp_txx_s
@@ -631,7 +640,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sgp_txx_s cn; */
-} bdk_sgp_txx_t;
+};
+typedef union bdk_sgp_txx bdk_sgp_txx_t;
 
 static inline uint64_t BDK_SGP_TXX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SGP_TXX(unsigned long a)
@@ -653,7 +663,7 @@ static inline uint64_t BDK_SGP_TXX(unsigned long a)
  *
  * SGPIO Transmit GPIO Registers
  */
-typedef union
+union bdk_sgp_tx_gpx
 {
     uint32_t u;
     struct bdk_sgp_tx_gpx_s
@@ -691,7 +701,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sgp_tx_gpx_s cn; */
-} bdk_sgp_tx_gpx_t;
+};
+typedef union bdk_sgp_tx_gpx bdk_sgp_tx_gpx_t;
 
 static inline uint64_t BDK_SGP_TX_GPX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SGP_TX_GPX(unsigned long a)
@@ -713,7 +724,7 @@ static inline uint64_t BDK_SGP_TX_GPX(unsigned long a)
  *
  * SGPIO Transmit GPIO Configuration Register
  */
-typedef union
+union bdk_sgp_tx_gp_cfg
 {
     uint32_t u;
     struct bdk_sgp_tx_gp_cfg_s
@@ -737,7 +748,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sgp_tx_gp_cfg_s cn; */
-} bdk_sgp_tx_gp_cfg_t;
+};
+typedef union bdk_sgp_tx_gp_cfg bdk_sgp_tx_gp_cfg_t;
 
 #define BDK_SGP_TX_GP_CFG BDK_SGP_TX_GP_CFG_FUNC()
 static inline uint64_t BDK_SGP_TX_GP_CFG_FUNC(void) __attribute__ ((pure, always_inline));

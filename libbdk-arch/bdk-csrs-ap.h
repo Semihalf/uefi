@@ -60,7 +60,7 @@
  * while executing at the associated execution level, or, in the case of ACTLR_EL1, while
  * executing at EL0.
  */
-typedef union
+union bdk_ap_actlr_elx
 {
     uint64_t u;
     struct bdk_ap_actlr_elx_s
@@ -72,7 +72,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_actlr_elx_s cn; */
-} bdk_ap_actlr_elx_t;
+};
+typedef union bdk_ap_actlr_elx bdk_ap_actlr_elx_t;
 
 static inline uint64_t BDK_AP_ACTLR_ELX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_ACTLR_ELX(unsigned long a)
@@ -95,7 +96,7 @@ static inline uint64_t BDK_AP_ACTLR_ELX(unsigned long a)
  * Provides additional implementation defined fault status
  *     information for exceptions taken to EL*.
  */
-typedef union
+union bdk_ap_afsrx_elx
 {
     uint32_t u;
     struct bdk_ap_afsrx_elx_s
@@ -107,7 +108,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_afsrx_elx_s cn; */
-} bdk_ap_afsrx_elx_t;
+};
+typedef union bdk_ap_afsrx_elx bdk_ap_afsrx_elx_t;
 
 static inline uint64_t BDK_AP_AFSRX_ELX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_AFSRX_ELX(unsigned long a, unsigned long b)
@@ -129,7 +131,7 @@ static inline uint64_t BDK_AP_AFSRX_ELX(unsigned long a, unsigned long b)
  * AP Auxiliary Fault Status 0 and 1 Alias Registers
  * Alias of AFSR(n)_EL1 when accessed from EL2 and AP_HCR_EL2[E2H] is set.
  */
-typedef union
+union bdk_ap_afsrx_el12
 {
     uint32_t u;
     struct bdk_ap_afsrx_el12_s
@@ -141,7 +143,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_afsrx_el12_s cn; */
-} bdk_ap_afsrx_el12_t;
+};
+typedef union bdk_ap_afsrx_el12 bdk_ap_afsrx_el12_t;
 
 static inline uint64_t BDK_AP_AFSRX_EL12(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_AFSRX_EL12(unsigned long a)
@@ -163,7 +166,7 @@ static inline uint64_t BDK_AP_AFSRX_EL12(unsigned long a)
  * AP Auxiliary ID Register
  * Provides implementation defined identification information.
  */
-typedef union
+union bdk_ap_aidr_el1
 {
     uint64_t u;
     struct bdk_ap_aidr_el1_s
@@ -175,7 +178,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_aidr_el1_s cn; */
-} bdk_ap_aidr_el1_t;
+};
+typedef union bdk_ap_aidr_el1 bdk_ap_aidr_el1_t;
 
 #define BDK_AP_AIDR_EL1 BDK_AP_AIDR_EL1_FUNC()
 static inline uint64_t BDK_AP_AIDR_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -197,7 +201,7 @@ static inline uint64_t BDK_AP_AIDR_EL1_FUNC(void)
  * Provides implementation defined memory attributes for the
  *     memory regions specified by MAIR_EL*.
  */
-typedef union
+union bdk_ap_amair_elx
 {
     uint64_t u;
     struct bdk_ap_amair_elx_s
@@ -209,7 +213,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_amair_elx_s cn; */
-} bdk_ap_amair_elx_t;
+};
+typedef union bdk_ap_amair_elx bdk_ap_amair_elx_t;
 
 static inline uint64_t BDK_AP_AMAIR_ELX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_AMAIR_ELX(unsigned long a)
@@ -231,7 +236,7 @@ static inline uint64_t BDK_AP_AMAIR_ELX(unsigned long a)
  * AP Auxiliary Memory Attribute Indirection Register
  * Alias of AMAIR_EL1 when accessed at EL2/3 and AP_HCR_EL2[E2H] is set.
  */
-typedef union
+union bdk_ap_amair_el12
 {
     uint64_t u;
     struct bdk_ap_amair_el12_s
@@ -243,7 +248,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_amair_el12_s cn; */
-} bdk_ap_amair_el12_t;
+};
+typedef union bdk_ap_amair_el12 bdk_ap_amair_el12_t;
 
 #define BDK_AP_AMAIR_EL12 BDK_AP_AMAIR_EL12_FUNC()
 static inline uint64_t BDK_AP_AMAIR_EL12_FUNC(void) __attribute__ ((pure, always_inline));
@@ -265,7 +271,7 @@ static inline uint64_t BDK_AP_AMAIR_EL12_FUNC(void)
  * This register provides information about the architecture of the currently selected
  * cache.
  */
-typedef union
+union bdk_ap_ccsidr_el1
 {
     uint32_t u;
     struct bdk_ap_ccsidr_el1_s
@@ -541,7 +547,8 @@ typedef union
                                                                  For CNXXXX does not apply as hardware managed coherence. */
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_ap_ccsidr_el1_t;
+};
+typedef union bdk_ap_ccsidr_el1 bdk_ap_ccsidr_el1_t;
 
 #define BDK_AP_CCSIDR_EL1 BDK_AP_CCSIDR_EL1_FUNC()
 static inline uint64_t BDK_AP_CCSIDR_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -564,7 +571,7 @@ static inline uint64_t BDK_AP_CCSIDR_EL1_FUNC(void)
  * to a maximum of seven levels. Also identifies the Level of Coherence (LoC) and Level
  * of Unification (LoU) for the cache hierarchy.
  */
-typedef union
+union bdk_ap_clidr_el1
 {
     uint32_t u;
     struct bdk_ap_clidr_el1_s
@@ -893,7 +900,8 @@ typedef union
     } cn81xx;
     /* struct bdk_ap_clidr_el1_s cn88xx; */
     /* struct bdk_ap_clidr_el1_cn81xx cn83xx; */
-} bdk_ap_clidr_el1_t;
+};
+typedef union bdk_ap_clidr_el1 bdk_ap_clidr_el1_t;
 
 #define BDK_AP_CLIDR_EL1 BDK_AP_CLIDR_EL1_FUNC()
 static inline uint64_t BDK_AP_CLIDR_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -914,7 +922,7 @@ static inline uint64_t BDK_AP_CLIDR_EL1_FUNC(void)
  * AP Counter-timer Frequency Register
  * Holds the clock frequency of the system counter.
  */
-typedef union
+union bdk_ap_cntfrq_el0
 {
     uint32_t u;
     struct bdk_ap_cntfrq_el0_s
@@ -928,7 +936,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_cntfrq_el0_s cn; */
-} bdk_ap_cntfrq_el0_t;
+};
+typedef union bdk_ap_cntfrq_el0 bdk_ap_cntfrq_el0_t;
 
 #define BDK_AP_CNTFRQ_EL0 BDK_AP_CNTFRQ_EL0_FUNC()
 static inline uint64_t BDK_AP_CNTFRQ_EL0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -953,7 +962,7 @@ static inline uint64_t BDK_AP_CNTFRQ_EL0_FUNC(void)
  *
  * This register is at the same select as AP_CNTHCTL_EL2_E2H and is used when E2H=0.
  */
-typedef union
+union bdk_ap_cnthctl_el2
 {
     uint32_t u;
     struct bdk_ap_cnthctl_el2_s
@@ -1027,7 +1036,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_cnthctl_el2_s cn; */
-} bdk_ap_cnthctl_el2_t;
+};
+typedef union bdk_ap_cnthctl_el2 bdk_ap_cnthctl_el2_t;
 
 #define BDK_AP_CNTHCTL_EL2 BDK_AP_CNTHCTL_EL2_FUNC()
 static inline uint64_t BDK_AP_CNTHCTL_EL2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1048,7 +1058,7 @@ static inline uint64_t BDK_AP_CNTHCTL_EL2_FUNC(void)
  * AP Counter-timer Hypervisor Control E2H Register
  * This register is at the same select as AP_CNTHCTL_EL2 and is used when E2H=1.
  */
-typedef union
+union bdk_ap_cnthctl_el2_e2h
 {
     uint32_t u;
     struct bdk_ap_cnthctl_el2_e2h_s
@@ -1254,7 +1264,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_cnthctl_el2_e2h_s cn; */
-} bdk_ap_cnthctl_el2_e2h_t;
+};
+typedef union bdk_ap_cnthctl_el2_e2h bdk_ap_cnthctl_el2_e2h_t;
 
 #define BDK_AP_CNTHCTL_EL2_E2H BDK_AP_CNTHCTL_EL2_E2H_FUNC()
 static inline uint64_t BDK_AP_CNTHCTL_EL2_E2H_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1275,7 +1286,7 @@ static inline uint64_t BDK_AP_CNTHCTL_EL2_E2H_FUNC(void)
  * AP Counter-timer Hypervisor Physical Timer Control Register
  * Control register for the EL2 physical timer.
  */
-typedef union
+union bdk_ap_cnthp_ctl_el2
 {
     uint32_t u;
     struct bdk_ap_cnthp_ctl_el2_s
@@ -1315,7 +1326,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_cnthp_ctl_el2_s cn; */
-} bdk_ap_cnthp_ctl_el2_t;
+};
+typedef union bdk_ap_cnthp_ctl_el2 bdk_ap_cnthp_ctl_el2_t;
 
 #define BDK_AP_CNTHP_CTL_EL2 BDK_AP_CNTHP_CTL_EL2_FUNC()
 static inline uint64_t BDK_AP_CNTHP_CTL_EL2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1336,7 +1348,7 @@ static inline uint64_t BDK_AP_CNTHP_CTL_EL2_FUNC(void)
  * AP Counter-timer Hypervisor Physical Timer Compare Value Register
  * Holds the compare value for the EL2 physical timer.
  */
-typedef union
+union bdk_ap_cnthp_cval_el2
 {
     uint64_t u;
     struct bdk_ap_cnthp_cval_el2_s
@@ -1348,7 +1360,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_cnthp_cval_el2_s cn; */
-} bdk_ap_cnthp_cval_el2_t;
+};
+typedef union bdk_ap_cnthp_cval_el2 bdk_ap_cnthp_cval_el2_t;
 
 #define BDK_AP_CNTHP_CVAL_EL2 BDK_AP_CNTHP_CVAL_EL2_FUNC()
 static inline uint64_t BDK_AP_CNTHP_CVAL_EL2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1369,7 +1382,7 @@ static inline uint64_t BDK_AP_CNTHP_CVAL_EL2_FUNC(void)
  * AP Counter-timer Hypervisor Physical Timer Value Register
  * Holds the timer value for the EL2 physical timer.
  */
-typedef union
+union bdk_ap_cnthp_tval_el2
 {
     uint32_t u;
     struct bdk_ap_cnthp_tval_el2_s
@@ -1381,7 +1394,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_cnthp_tval_el2_s cn; */
-} bdk_ap_cnthp_tval_el2_t;
+};
+typedef union bdk_ap_cnthp_tval_el2 bdk_ap_cnthp_tval_el2_t;
 
 #define BDK_AP_CNTHP_TVAL_EL2 BDK_AP_CNTHP_TVAL_EL2_FUNC()
 static inline uint64_t BDK_AP_CNTHP_TVAL_EL2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1402,7 +1416,7 @@ static inline uint64_t BDK_AP_CNTHP_TVAL_EL2_FUNC(void)
  * AP v8.1 Counter-timer Hypervisor Virtual Timer Control Register
  * v8.1 Control register for the EL2 virtual timer.
  */
-typedef union
+union bdk_ap_cnthv_ctl_el2
 {
     uint32_t u;
     struct bdk_ap_cnthv_ctl_el2_s
@@ -1442,7 +1456,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_cnthv_ctl_el2_s cn; */
-} bdk_ap_cnthv_ctl_el2_t;
+};
+typedef union bdk_ap_cnthv_ctl_el2 bdk_ap_cnthv_ctl_el2_t;
 
 #define BDK_AP_CNTHV_CTL_EL2 BDK_AP_CNTHV_CTL_EL2_FUNC()
 static inline uint64_t BDK_AP_CNTHV_CTL_EL2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1463,7 +1478,7 @@ static inline uint64_t BDK_AP_CNTHV_CTL_EL2_FUNC(void)
  * AP v8.1 Counter-timer Hypervisor Virtual Timer Compare Value Register
  * v8.1 Holds the compare value for the EL2 virtual timer.
  */
-typedef union
+union bdk_ap_cnthv_cval_el2
 {
     uint64_t u;
     struct bdk_ap_cnthv_cval_el2_s
@@ -1475,7 +1490,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_cnthv_cval_el2_s cn; */
-} bdk_ap_cnthv_cval_el2_t;
+};
+typedef union bdk_ap_cnthv_cval_el2 bdk_ap_cnthv_cval_el2_t;
 
 #define BDK_AP_CNTHV_CVAL_EL2 BDK_AP_CNTHV_CVAL_EL2_FUNC()
 static inline uint64_t BDK_AP_CNTHV_CVAL_EL2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1496,7 +1512,7 @@ static inline uint64_t BDK_AP_CNTHV_CVAL_EL2_FUNC(void)
  * AP v8.1 Counter-timer Hypervisor Virtual Timer Value Register
  * v8.1 Holds the timer value for the EL2 virtual timer.
  */
-typedef union
+union bdk_ap_cnthv_tval_el2
 {
     uint32_t u;
     struct bdk_ap_cnthv_tval_el2_s
@@ -1508,7 +1524,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_cnthv_tval_el2_s cn; */
-} bdk_ap_cnthv_tval_el2_t;
+};
+typedef union bdk_ap_cnthv_tval_el2 bdk_ap_cnthv_tval_el2_t;
 
 #define BDK_AP_CNTHV_TVAL_EL2 BDK_AP_CNTHV_TVAL_EL2_FUNC()
 static inline uint64_t BDK_AP_CNTHV_TVAL_EL2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1531,7 +1548,7 @@ static inline uint64_t BDK_AP_CNTHV_TVAL_EL2_FUNC(void)
  *     counter, and access from EL0 to the physical counter, virtual
  *     counter, EL1 physical timers, and the virtual timer.
  */
-typedef union
+union bdk_ap_cntkctl_el1
 {
     uint32_t u;
     struct bdk_ap_cntkctl_el1_s
@@ -1613,7 +1630,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_cntkctl_el1_s cn; */
-} bdk_ap_cntkctl_el1_t;
+};
+typedef union bdk_ap_cntkctl_el1 bdk_ap_cntkctl_el1_t;
 
 #define BDK_AP_CNTKCTL_EL1 BDK_AP_CNTKCTL_EL1_FUNC()
 static inline uint64_t BDK_AP_CNTKCTL_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1634,7 +1652,7 @@ static inline uint64_t BDK_AP_CNTKCTL_EL1_FUNC(void)
  * AP Counter-timer Kernel Control Register
  * Alias of AP_CNTKCTL_EL1 when accessed at EL2/3 and AP_HCR_EL2[E2H] is set.
  */
-typedef union
+union bdk_ap_cntkctl_el12
 {
     uint32_t u;
     struct bdk_ap_cntkctl_el12_s
@@ -1646,7 +1664,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_cntkctl_el12_s cn; */
-} bdk_ap_cntkctl_el12_t;
+};
+typedef union bdk_ap_cntkctl_el12 bdk_ap_cntkctl_el12_t;
 
 #define BDK_AP_CNTKCTL_EL12 BDK_AP_CNTKCTL_EL12_FUNC()
 static inline uint64_t BDK_AP_CNTKCTL_EL12_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1667,7 +1686,7 @@ static inline uint64_t BDK_AP_CNTKCTL_EL12_FUNC(void)
  * AP Counter-timer Physical Timer Control Register
  * Control register for the EL1 physical timer.
  */
-typedef union
+union bdk_ap_cntp_ctl_el0
 {
     uint32_t u;
     struct bdk_ap_cntp_ctl_el0_s
@@ -1707,7 +1726,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_cntp_ctl_el0_s cn; */
-} bdk_ap_cntp_ctl_el0_t;
+};
+typedef union bdk_ap_cntp_ctl_el0 bdk_ap_cntp_ctl_el0_t;
 
 #define BDK_AP_CNTP_CTL_EL0 BDK_AP_CNTP_CTL_EL0_FUNC()
 static inline uint64_t BDK_AP_CNTP_CTL_EL0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1728,7 +1748,7 @@ static inline uint64_t BDK_AP_CNTP_CTL_EL0_FUNC(void)
  * AP Counter-timer Physical Timer Control Register
  * Alias of AP_CNTP_CTL_EL0 when accessed at EL2/3 and AP_HCR_EL2[E2H] is set.
  */
-typedef union
+union bdk_ap_cntp_ctl_el02
 {
     uint32_t u;
     struct bdk_ap_cntp_ctl_el02_s
@@ -1740,7 +1760,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_cntp_ctl_el02_s cn; */
-} bdk_ap_cntp_ctl_el02_t;
+};
+typedef union bdk_ap_cntp_ctl_el02 bdk_ap_cntp_ctl_el02_t;
 
 #define BDK_AP_CNTP_CTL_EL02 BDK_AP_CNTP_CTL_EL02_FUNC()
 static inline uint64_t BDK_AP_CNTP_CTL_EL02_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1761,7 +1782,7 @@ static inline uint64_t BDK_AP_CNTP_CTL_EL02_FUNC(void)
  * AP Counter-timer Physical Timer Compare Value Register
  * Holds the compare value for the EL1 physical timer.
  */
-typedef union
+union bdk_ap_cntp_cval_el0
 {
     uint64_t u;
     struct bdk_ap_cntp_cval_el0_s
@@ -1773,7 +1794,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_cntp_cval_el0_s cn; */
-} bdk_ap_cntp_cval_el0_t;
+};
+typedef union bdk_ap_cntp_cval_el0 bdk_ap_cntp_cval_el0_t;
 
 #define BDK_AP_CNTP_CVAL_EL0 BDK_AP_CNTP_CVAL_EL0_FUNC()
 static inline uint64_t BDK_AP_CNTP_CVAL_EL0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1794,7 +1816,7 @@ static inline uint64_t BDK_AP_CNTP_CVAL_EL0_FUNC(void)
  * AP Counter-timer Physical Timer Compare Value Register
  * Alias of AP_CNTP_CVAL_EL0 when accessed at EL2/3 and AP_HCR_EL2[E2H] is set.
  */
-typedef union
+union bdk_ap_cntp_cval_el02
 {
     uint64_t u;
     struct bdk_ap_cntp_cval_el02_s
@@ -1806,7 +1828,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_cntp_cval_el02_s cn; */
-} bdk_ap_cntp_cval_el02_t;
+};
+typedef union bdk_ap_cntp_cval_el02 bdk_ap_cntp_cval_el02_t;
 
 #define BDK_AP_CNTP_CVAL_EL02 BDK_AP_CNTP_CVAL_EL02_FUNC()
 static inline uint64_t BDK_AP_CNTP_CVAL_EL02_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1827,7 +1850,7 @@ static inline uint64_t BDK_AP_CNTP_CVAL_EL02_FUNC(void)
  * AP Counter-timer Physical Timer Value Register
  * Holds the timer value for the EL1 physical timer.
  */
-typedef union
+union bdk_ap_cntp_tval_el0
 {
     uint32_t u;
     struct bdk_ap_cntp_tval_el0_s
@@ -1839,7 +1862,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_cntp_tval_el0_s cn; */
-} bdk_ap_cntp_tval_el0_t;
+};
+typedef union bdk_ap_cntp_tval_el0 bdk_ap_cntp_tval_el0_t;
 
 #define BDK_AP_CNTP_TVAL_EL0 BDK_AP_CNTP_TVAL_EL0_FUNC()
 static inline uint64_t BDK_AP_CNTP_TVAL_EL0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1860,7 +1884,7 @@ static inline uint64_t BDK_AP_CNTP_TVAL_EL0_FUNC(void)
  * AP Counter-timer Physical Timer Value Register
  * Alias of CNTP_TVAL_EL1 when accessed at EL2/3 and AP_HCR_EL2[E2H] is set.
  */
-typedef union
+union bdk_ap_cntp_tval_el02
 {
     uint32_t u;
     struct bdk_ap_cntp_tval_el02_s
@@ -1872,7 +1896,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_cntp_tval_el02_s cn; */
-} bdk_ap_cntp_tval_el02_t;
+};
+typedef union bdk_ap_cntp_tval_el02 bdk_ap_cntp_tval_el02_t;
 
 #define BDK_AP_CNTP_TVAL_EL02 BDK_AP_CNTP_TVAL_EL02_FUNC()
 static inline uint64_t BDK_AP_CNTP_TVAL_EL02_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1893,7 +1918,7 @@ static inline uint64_t BDK_AP_CNTP_TVAL_EL02_FUNC(void)
  * AP Counter-timer Physical Count Register
  * Holds the 64-bit physical count value.
  */
-typedef union
+union bdk_ap_cntpct_el0
 {
     uint64_t u;
     struct bdk_ap_cntpct_el0_s
@@ -1905,7 +1930,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_cntpct_el0_s cn; */
-} bdk_ap_cntpct_el0_t;
+};
+typedef union bdk_ap_cntpct_el0 bdk_ap_cntpct_el0_t;
 
 #define BDK_AP_CNTPCT_EL0 BDK_AP_CNTPCT_EL0_FUNC()
 static inline uint64_t BDK_AP_CNTPCT_EL0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1928,7 +1954,7 @@ static inline uint64_t BDK_AP_CNTPCT_EL0_FUNC(void)
  *     accessible at EL3 but configurably accessible at EL1 in Secure
  *     state.
  */
-typedef union
+union bdk_ap_cntps_ctl_el1
 {
     uint32_t u;
     struct bdk_ap_cntps_ctl_el1_s
@@ -1968,7 +1994,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_cntps_ctl_el1_s cn; */
-} bdk_ap_cntps_ctl_el1_t;
+};
+typedef union bdk_ap_cntps_ctl_el1 bdk_ap_cntps_ctl_el1_t;
 
 #define BDK_AP_CNTPS_CTL_EL1 BDK_AP_CNTPS_CTL_EL1_FUNC()
 static inline uint64_t BDK_AP_CNTPS_CTL_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1991,7 +2018,7 @@ static inline uint64_t BDK_AP_CNTPS_CTL_EL1_FUNC(void)
  *     accessible at EL3 but configurably accessible at EL1 in Secure
  *     state.
  */
-typedef union
+union bdk_ap_cntps_cval_el1
 {
     uint64_t u;
     struct bdk_ap_cntps_cval_el1_s
@@ -2003,7 +2030,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_cntps_cval_el1_s cn; */
-} bdk_ap_cntps_cval_el1_t;
+};
+typedef union bdk_ap_cntps_cval_el1 bdk_ap_cntps_cval_el1_t;
 
 #define BDK_AP_CNTPS_CVAL_EL1 BDK_AP_CNTPS_CVAL_EL1_FUNC()
 static inline uint64_t BDK_AP_CNTPS_CVAL_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2026,7 +2054,7 @@ static inline uint64_t BDK_AP_CNTPS_CVAL_EL1_FUNC(void)
  *     accessible at EL3 but configurably accessible at EL1 in Secure
  *     state.
  */
-typedef union
+union bdk_ap_cntps_tval_el1
 {
     uint32_t u;
     struct bdk_ap_cntps_tval_el1_s
@@ -2038,7 +2066,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_cntps_tval_el1_s cn; */
-} bdk_ap_cntps_tval_el1_t;
+};
+typedef union bdk_ap_cntps_tval_el1 bdk_ap_cntps_tval_el1_t;
 
 #define BDK_AP_CNTPS_TVAL_EL1 BDK_AP_CNTPS_TVAL_EL1_FUNC()
 static inline uint64_t BDK_AP_CNTPS_TVAL_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2059,7 +2088,7 @@ static inline uint64_t BDK_AP_CNTPS_TVAL_EL1_FUNC(void)
  * AP Counter-timer Virtual Timer Control Register
  * Control register for the virtual timer.
  */
-typedef union
+union bdk_ap_cntv_ctl_el0
 {
     uint32_t u;
     struct bdk_ap_cntv_ctl_el0_s
@@ -2099,7 +2128,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_cntv_ctl_el0_s cn; */
-} bdk_ap_cntv_ctl_el0_t;
+};
+typedef union bdk_ap_cntv_ctl_el0 bdk_ap_cntv_ctl_el0_t;
 
 #define BDK_AP_CNTV_CTL_EL0 BDK_AP_CNTV_CTL_EL0_FUNC()
 static inline uint64_t BDK_AP_CNTV_CTL_EL0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2120,7 +2150,7 @@ static inline uint64_t BDK_AP_CNTV_CTL_EL0_FUNC(void)
  * AP Counter-timer Virtual Timer Control Register
  * Alias of AP_CNTV_CTL_EL0 when accessed at EL2/3 and AP_HCR_EL2[E2H] is set.
  */
-typedef union
+union bdk_ap_cntv_ctl_el02
 {
     uint32_t u;
     struct bdk_ap_cntv_ctl_el02_s
@@ -2132,7 +2162,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_cntv_ctl_el02_s cn; */
-} bdk_ap_cntv_ctl_el02_t;
+};
+typedef union bdk_ap_cntv_ctl_el02 bdk_ap_cntv_ctl_el02_t;
 
 #define BDK_AP_CNTV_CTL_EL02 BDK_AP_CNTV_CTL_EL02_FUNC()
 static inline uint64_t BDK_AP_CNTV_CTL_EL02_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2153,7 +2184,7 @@ static inline uint64_t BDK_AP_CNTV_CTL_EL02_FUNC(void)
  * AP Counter-timer Virtual Timer Compare Value Register
  * Holds the compare value for the virtual timer.
  */
-typedef union
+union bdk_ap_cntv_cval_el0
 {
     uint64_t u;
     struct bdk_ap_cntv_cval_el0_s
@@ -2165,7 +2196,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_cntv_cval_el0_s cn; */
-} bdk_ap_cntv_cval_el0_t;
+};
+typedef union bdk_ap_cntv_cval_el0 bdk_ap_cntv_cval_el0_t;
 
 #define BDK_AP_CNTV_CVAL_EL0 BDK_AP_CNTV_CVAL_EL0_FUNC()
 static inline uint64_t BDK_AP_CNTV_CVAL_EL0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2186,7 +2218,7 @@ static inline uint64_t BDK_AP_CNTV_CVAL_EL0_FUNC(void)
  * AP Counter-timer Virtual Timer Compare Value Register
  * Alias of AP_CNTV_CVAL_EL0 when accessed at EL2/3 and AP_HCR_EL2[E2H] is set.
  */
-typedef union
+union bdk_ap_cntv_cval_el02
 {
     uint64_t u;
     struct bdk_ap_cntv_cval_el02_s
@@ -2198,7 +2230,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_cntv_cval_el02_s cn; */
-} bdk_ap_cntv_cval_el02_t;
+};
+typedef union bdk_ap_cntv_cval_el02 bdk_ap_cntv_cval_el02_t;
 
 #define BDK_AP_CNTV_CVAL_EL02 BDK_AP_CNTV_CVAL_EL02_FUNC()
 static inline uint64_t BDK_AP_CNTV_CVAL_EL02_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2219,7 +2252,7 @@ static inline uint64_t BDK_AP_CNTV_CVAL_EL02_FUNC(void)
  * AP Counter-timer Virtual Timer Value Register
  * Holds the timer value for the virtual timer.
  */
-typedef union
+union bdk_ap_cntv_tval_el0
 {
     uint32_t u;
     struct bdk_ap_cntv_tval_el0_s
@@ -2231,7 +2264,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_cntv_tval_el0_s cn; */
-} bdk_ap_cntv_tval_el0_t;
+};
+typedef union bdk_ap_cntv_tval_el0 bdk_ap_cntv_tval_el0_t;
 
 #define BDK_AP_CNTV_TVAL_EL0 BDK_AP_CNTV_TVAL_EL0_FUNC()
 static inline uint64_t BDK_AP_CNTV_TVAL_EL0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2252,7 +2286,7 @@ static inline uint64_t BDK_AP_CNTV_TVAL_EL0_FUNC(void)
  * AP Counter-timer Virtual Timer Value Register
  * Alias of AP_CNTV_TVAL_EL0 when accessed at EL2/3 and AP_HCR_EL2[E2H] is set.
  */
-typedef union
+union bdk_ap_cntv_tval_el02
 {
     uint32_t u;
     struct bdk_ap_cntv_tval_el02_s
@@ -2264,7 +2298,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_cntv_tval_el02_s cn; */
-} bdk_ap_cntv_tval_el02_t;
+};
+typedef union bdk_ap_cntv_tval_el02 bdk_ap_cntv_tval_el02_t;
 
 #define BDK_AP_CNTV_TVAL_EL02 BDK_AP_CNTV_TVAL_EL02_FUNC()
 static inline uint64_t BDK_AP_CNTV_TVAL_EL02_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2285,7 +2320,7 @@ static inline uint64_t BDK_AP_CNTV_TVAL_EL02_FUNC(void)
  * AP Counter-timer Virtual Count Register
  * Holds the 64-bit virtual count value.
  */
-typedef union
+union bdk_ap_cntvct_el0
 {
     uint64_t u;
     struct bdk_ap_cntvct_el0_s
@@ -2297,7 +2332,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_cntvct_el0_s cn; */
-} bdk_ap_cntvct_el0_t;
+};
+typedef union bdk_ap_cntvct_el0 bdk_ap_cntvct_el0_t;
 
 #define BDK_AP_CNTVCT_EL0 BDK_AP_CNTVCT_EL0_FUNC()
 static inline uint64_t BDK_AP_CNTVCT_EL0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2318,7 +2354,7 @@ static inline uint64_t BDK_AP_CNTVCT_EL0_FUNC(void)
  * AP Counter-timer Virtual Offset Register
  * Holds the 64-bit virtual offset.
  */
-typedef union
+union bdk_ap_cntvoff_el2
 {
     uint64_t u;
     struct bdk_ap_cntvoff_el2_s
@@ -2330,7 +2366,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_cntvoff_el2_s cn; */
-} bdk_ap_cntvoff_el2_t;
+};
+typedef union bdk_ap_cntvoff_el2 bdk_ap_cntvoff_el2_t;
 
 #define BDK_AP_CNTVOFF_EL2 BDK_AP_CNTVOFF_EL2_FUNC()
 static inline uint64_t BDK_AP_CNTVOFF_EL2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2351,7 +2388,7 @@ static inline uint64_t BDK_AP_CNTVOFF_EL2_FUNC(void)
  * AP Context ID Register
  * Identifies the current Process Identifier.
  */
-typedef union
+union bdk_ap_contextidr_el1
 {
     uint32_t u;
     struct bdk_ap_contextidr_el1_s
@@ -2367,7 +2404,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_contextidr_el1_s cn; */
-} bdk_ap_contextidr_el1_t;
+};
+typedef union bdk_ap_contextidr_el1 bdk_ap_contextidr_el1_t;
 
 #define BDK_AP_CONTEXTIDR_EL1 BDK_AP_CONTEXTIDR_EL1_FUNC()
 static inline uint64_t BDK_AP_CONTEXTIDR_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2388,7 +2426,7 @@ static inline uint64_t BDK_AP_CONTEXTIDR_EL1_FUNC(void)
  * AP Context ID Register
  * Alias of AP_CONTEXTIDR_EL1 when accessed at EL2/2 and AP_HCR_EL2[E2H] is set.
  */
-typedef union
+union bdk_ap_contextidr_el12
 {
     uint32_t u;
     struct bdk_ap_contextidr_el12_s
@@ -2400,7 +2438,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_contextidr_el12_s cn; */
-} bdk_ap_contextidr_el12_t;
+};
+typedef union bdk_ap_contextidr_el12 bdk_ap_contextidr_el12_t;
 
 #define BDK_AP_CONTEXTIDR_EL12 BDK_AP_CONTEXTIDR_EL12_FUNC()
 static inline uint64_t BDK_AP_CONTEXTIDR_EL12_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2421,7 +2460,7 @@ static inline uint64_t BDK_AP_CONTEXTIDR_EL12_FUNC(void)
  * AP Context ID EL2 Register
  * v8.1: Identifies the current Process Identifier.
  */
-typedef union
+union bdk_ap_contextidr_el2
 {
     uint32_t u;
     struct bdk_ap_contextidr_el2_s
@@ -2437,7 +2476,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_contextidr_el2_s cn; */
-} bdk_ap_contextidr_el2_t;
+};
+typedef union bdk_ap_contextidr_el2 bdk_ap_contextidr_el2_t;
 
 #define BDK_AP_CONTEXTIDR_EL2 BDK_AP_CONTEXTIDR_EL2_FUNC()
 static inline uint64_t BDK_AP_CONTEXTIDR_EL2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2459,7 +2499,7 @@ static inline uint64_t BDK_AP_CONTEXTIDR_EL2_FUNC(void)
  * Controls access to Trace, Floating-point, and Advanced SIMD
  *     functionality.
  */
-typedef union
+union bdk_ap_cpacr_el1
 {
     uint32_t u;
     struct bdk_ap_cpacr_el1_s
@@ -2542,7 +2582,8 @@ typedef union
         uint32_t reserved_29_31        : 3;
 #endif /* Word 0 - End */
     } cn;
-} bdk_ap_cpacr_el1_t;
+};
+typedef union bdk_ap_cpacr_el1 bdk_ap_cpacr_el1_t;
 
 #define BDK_AP_CPACR_EL1 BDK_AP_CPACR_EL1_FUNC()
 static inline uint64_t BDK_AP_CPACR_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2563,7 +2604,7 @@ static inline uint64_t BDK_AP_CPACR_EL1_FUNC(void)
  * AP Architectural Feature Access Control Register
  * Alias of AP_CPACR_EL1 when accessed from EL2 and AP_HCR_EL2[E2H] is set.
  */
-typedef union
+union bdk_ap_cpacr_el12
 {
     uint32_t u;
     struct bdk_ap_cpacr_el12_s
@@ -2575,7 +2616,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_cpacr_el12_s cn; */
-} bdk_ap_cpacr_el12_t;
+};
+typedef union bdk_ap_cpacr_el12 bdk_ap_cpacr_el12_t;
 
 #define BDK_AP_CPACR_EL12 BDK_AP_CPACR_EL12_FUNC()
 static inline uint64_t BDK_AP_CPACR_EL12_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2601,7 +2643,7 @@ static inline uint64_t BDK_AP_CPACR_EL12_FUNC(void)
  *
  * This register is at the same select as AP_CPTR_EL2_E2H and is used when E2H=0.
  */
-typedef union
+union bdk_ap_cptr_el2
 {
     uint32_t u;
     struct bdk_ap_cptr_el2_s
@@ -2682,7 +2724,8 @@ typedef union
                                                                  1 = Causes access to CPACR or AP_CPACR_EL1 to be trapped. */
 #endif /* Word 0 - End */
     } cn;
-} bdk_ap_cptr_el2_t;
+};
+typedef union bdk_ap_cptr_el2 bdk_ap_cptr_el2_t;
 
 #define BDK_AP_CPTR_EL2 BDK_AP_CPTR_EL2_FUNC()
 static inline uint64_t BDK_AP_CPTR_EL2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2708,7 +2751,7 @@ static inline uint64_t BDK_AP_CPTR_EL2_FUNC(void)
  *
  * This register is at the same select as AP_CPTR_EL2 and is used when E2H=1.
  */
-typedef union
+union bdk_ap_cptr_el2_e2h
 {
     uint32_t u;
     struct bdk_ap_cptr_el2_e2h_s
@@ -2875,7 +2918,8 @@ typedef union
                                                                  does not cause access to the AP_CPACR_EL1 to be trapped. */
 #endif /* Word 0 - End */
     } cn;
-} bdk_ap_cptr_el2_e2h_t;
+};
+typedef union bdk_ap_cptr_el2_e2h bdk_ap_cptr_el2_e2h_t;
 
 #define BDK_AP_CPTR_EL2_E2H BDK_AP_CPTR_EL2_E2H_FUNC()
 static inline uint64_t BDK_AP_CPTR_EL2_E2H_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2899,7 +2943,7 @@ static inline uint64_t BDK_AP_CPTR_EL2_E2H_FUNC(void)
  *     Advanced SIMD execution. Also controls EL3 access to this
  *     functionality.
  */
-typedef union
+union bdk_ap_cptr_el3
 {
     uint32_t u;
     struct bdk_ap_cptr_el3_s
@@ -2978,7 +3022,8 @@ typedef union
                                                                  1 = Causes access to the AP_CPACR_EL1 or AP_CPTR_EL2 to be trapped. */
 #endif /* Word 0 - End */
     } cn;
-} bdk_ap_cptr_el3_t;
+};
+typedef union bdk_ap_cptr_el3 bdk_ap_cptr_el3_t;
 
 #define BDK_AP_CPTR_EL3 BDK_AP_CPTR_EL3_FUNC()
 static inline uint64_t BDK_AP_CPTR_EL3_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3001,7 +3046,7 @@ static inline uint64_t BDK_AP_CPTR_EL3_FUNC(void)
  *     specifying the required cache level and the cache type (either
  *     instruction or data cache).
  */
-typedef union
+union bdk_ap_csselr_el1
 {
     uint32_t u;
     struct bdk_ap_csselr_el1_s
@@ -3021,7 +3066,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_csselr_el1_s cn; */
-} bdk_ap_csselr_el1_t;
+};
+typedef union bdk_ap_csselr_el1 bdk_ap_csselr_el1_t;
 
 #define BDK_AP_CSSELR_EL1 BDK_AP_CSSELR_EL1_FUNC()
 static inline uint64_t BDK_AP_CSSELR_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3042,7 +3088,7 @@ static inline uint64_t BDK_AP_CSSELR_EL1_FUNC(void)
  * AP Cache Type Register
  * This register provides information about the architecture of the caches.
  */
-typedef union
+union bdk_ap_ctr_el0
 {
     uint32_t u;
     struct bdk_ap_ctr_el0_s
@@ -3114,7 +3160,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_ctr_el0_s cn; */
-} bdk_ap_ctr_el0_t;
+};
+typedef union bdk_ap_ctr_el0 bdk_ap_ctr_el0_t;
 
 #define BDK_AP_CTR_EL0 BDK_AP_CTR_EL0_FUNC()
 static inline uint64_t BDK_AP_CTR_EL0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3135,7 +3182,7 @@ static inline uint64_t BDK_AP_CTR_EL0_FUNC(void)
  * AP Current Exception Level Register
  * Holds the current Exception level.
  */
-typedef union
+union bdk_ap_currentel
 {
     uint32_t u;
     struct bdk_ap_currentel_s
@@ -3159,7 +3206,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_currentel_s cn; */
-} bdk_ap_currentel_t;
+};
+typedef union bdk_ap_currentel bdk_ap_currentel_t;
 
 #define BDK_AP_CURRENTEL BDK_AP_CURRENTEL_FUNC()
 static inline uint64_t BDK_AP_CURRENTEL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3197,7 +3245,7 @@ static inline uint64_t BDK_AP_CURRENTEL_FUNC(void)
  * trap occurs at the lowest. This is similar to ARM's
  * AP_CPACR_EL1/AP_CPTR_EL2/AP_CPTR_EL3.
  */
-typedef union
+union bdk_ap_cvm_access_el1
 {
     uint64_t u;
     struct bdk_ap_cvm_access_el1_s
@@ -3243,7 +3291,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_cvm_access_el1_s cn; */
-} bdk_ap_cvm_access_el1_t;
+};
+typedef union bdk_ap_cvm_access_el1 bdk_ap_cvm_access_el1_t;
 
 #define BDK_AP_CVM_ACCESS_EL1 BDK_AP_CVM_ACCESS_EL1_FUNC()
 static inline uint64_t BDK_AP_CVM_ACCESS_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3264,7 +3313,7 @@ static inline uint64_t BDK_AP_CVM_ACCESS_EL1_FUNC(void)
  * AP Cavium Access EL2 Register
  * This register controls trap/access of Cavium registers. Read/write access at EL2 and EL3.
  */
-typedef union
+union bdk_ap_cvm_access_el2
 {
     uint64_t u;
     struct bdk_ap_cvm_access_el2_s
@@ -3310,7 +3359,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_cvm_access_el2_s cn; */
-} bdk_ap_cvm_access_el2_t;
+};
+typedef union bdk_ap_cvm_access_el2 bdk_ap_cvm_access_el2_t;
 
 #define BDK_AP_CVM_ACCESS_EL2 BDK_AP_CVM_ACCESS_EL2_FUNC()
 static inline uint64_t BDK_AP_CVM_ACCESS_EL2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3335,7 +3385,7 @@ static inline uint64_t BDK_AP_CVM_ACCESS_EL2_FUNC(void)
  * exception levels may cause nonsecure state to mess with secure
  * state, which would cause a security hole.
  */
-typedef union
+union bdk_ap_cvm_access_el3
 {
     uint64_t u;
     struct bdk_ap_cvm_access_el3_s
@@ -3385,7 +3435,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_cvm_access_el3_s cn; */
-} bdk_ap_cvm_access_el3_t;
+};
+typedef union bdk_ap_cvm_access_el3 bdk_ap_cvm_access_el3_t;
 
 #define BDK_AP_CVM_ACCESS_EL3 BDK_AP_CVM_ACCESS_EL3_FUNC()
 static inline uint64_t BDK_AP_CVM_ACCESS_EL3_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3406,7 +3457,7 @@ static inline uint64_t BDK_AP_CVM_ACCESS_EL3_FUNC(void)
  * AP Cavium BIST0 Register
  * This register indicates BIST status, where a 1 in a bit position indicates defective.
  */
-typedef union
+union bdk_ap_cvm_bist0_el1
 {
     uint64_t u;
     struct bdk_ap_cvm_bist0_el1_s
@@ -3446,7 +3497,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_cvm_bist0_el1_s cn; */
-} bdk_ap_cvm_bist0_el1_t;
+};
+typedef union bdk_ap_cvm_bist0_el1 bdk_ap_cvm_bist0_el1_t;
 
 #define BDK_AP_CVM_BIST0_EL1 BDK_AP_CVM_BIST0_EL1_FUNC()
 static inline uint64_t BDK_AP_CVM_BIST0_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3467,7 +3519,7 @@ static inline uint64_t BDK_AP_CVM_BIST0_EL1_FUNC(void)
  * AP Cavium BIST1 Register
  * This register indicates BIST status, where a 1 in a bit position indicates defective.
  */
-typedef union
+union bdk_ap_cvm_bist1_el1
 {
     uint64_t u;
     struct bdk_ap_cvm_bist1_el1_s
@@ -3495,7 +3547,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_cvm_bist1_el1_s cn; */
-} bdk_ap_cvm_bist1_el1_t;
+};
+typedef union bdk_ap_cvm_bist1_el1 bdk_ap_cvm_bist1_el1_t;
 
 #define BDK_AP_CVM_BIST1_EL1 BDK_AP_CVM_BIST1_EL1_FUNC()
 static inline uint64_t BDK_AP_CVM_BIST1_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3516,7 +3569,7 @@ static inline uint64_t BDK_AP_CVM_BIST1_EL1_FUNC(void)
  * AP Cavium BIST2 Register
  * This register indicates BIST status, where a 1 in a bit position indicates defective.
  */
-typedef union
+union bdk_ap_cvm_bist2_el1
 {
     uint64_t u;
     struct bdk_ap_cvm_bist2_el1_s
@@ -3546,7 +3599,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_cvm_bist2_el1_s cn; */
-} bdk_ap_cvm_bist2_el1_t;
+};
+typedef union bdk_ap_cvm_bist2_el1 bdk_ap_cvm_bist2_el1_t;
 
 #define BDK_AP_CVM_BIST2_EL1 BDK_AP_CVM_BIST2_EL1_FUNC()
 static inline uint64_t BDK_AP_CVM_BIST2_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3567,7 +3621,7 @@ static inline uint64_t BDK_AP_CVM_BIST2_EL1_FUNC(void)
  * AP Cavium BIST3 Register
  * This register indicates BIST status, where a 1 in a bit position indicates defective.
  */
-typedef union
+union bdk_ap_cvm_bist3_el1
 {
     uint64_t u;
     struct bdk_ap_cvm_bist3_el1_s
@@ -3595,7 +3649,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_cvm_bist3_el1_s cn; */
-} bdk_ap_cvm_bist3_el1_t;
+};
+typedef union bdk_ap_cvm_bist3_el1 bdk_ap_cvm_bist3_el1_t;
 
 #define BDK_AP_CVM_BIST3_EL1 BDK_AP_CVM_BIST3_EL1_FUNC()
 static inline uint64_t BDK_AP_CVM_BIST3_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3615,7 +3670,7 @@ static inline uint64_t BDK_AP_CVM_BIST3_EL1_FUNC(void)
  *
  * AP Cavium Dcache Data 0 Register
  */
-typedef union
+union bdk_ap_cvm_dcachedata0_el1
 {
     uint64_t u;
     struct bdk_ap_cvm_dcachedata0_el1_s
@@ -3627,7 +3682,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_cvm_dcachedata0_el1_s cn; */
-} bdk_ap_cvm_dcachedata0_el1_t;
+};
+typedef union bdk_ap_cvm_dcachedata0_el1 bdk_ap_cvm_dcachedata0_el1_t;
 
 #define BDK_AP_CVM_DCACHEDATA0_EL1 BDK_AP_CVM_DCACHEDATA0_EL1_FUNC()
 static inline uint64_t BDK_AP_CVM_DCACHEDATA0_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3647,7 +3703,7 @@ static inline uint64_t BDK_AP_CVM_DCACHEDATA0_EL1_FUNC(void)
  *
  * AP Cavium Dcache Data 1 Register
  */
-typedef union
+union bdk_ap_cvm_dcachedata1_el1
 {
     uint64_t u;
     struct bdk_ap_cvm_dcachedata1_el1_s
@@ -3661,7 +3717,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_cvm_dcachedata1_el1_s cn; */
-} bdk_ap_cvm_dcachedata1_el1_t;
+};
+typedef union bdk_ap_cvm_dcachedata1_el1 bdk_ap_cvm_dcachedata1_el1_t;
 
 #define BDK_AP_CVM_DCACHEDATA1_EL1 BDK_AP_CVM_DCACHEDATA1_EL1_FUNC()
 static inline uint64_t BDK_AP_CVM_DCACHEDATA1_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3681,7 +3738,7 @@ static inline uint64_t BDK_AP_CVM_DCACHEDATA1_EL1_FUNC(void)
  *
  * AP Cavium Dcache Ptag 0 Register
  */
-typedef union
+union bdk_ap_cvm_dcacheptag0_el1
 {
     uint64_t u;
     struct bdk_ap_cvm_dcacheptag0_el1_s
@@ -3701,7 +3758,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_cvm_dcacheptag0_el1_s cn; */
-} bdk_ap_cvm_dcacheptag0_el1_t;
+};
+typedef union bdk_ap_cvm_dcacheptag0_el1 bdk_ap_cvm_dcacheptag0_el1_t;
 
 #define BDK_AP_CVM_DCACHEPTAG0_EL1 BDK_AP_CVM_DCACHEPTAG0_EL1_FUNC()
 static inline uint64_t BDK_AP_CVM_DCACHEPTAG0_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3721,7 +3779,7 @@ static inline uint64_t BDK_AP_CVM_DCACHEPTAG0_EL1_FUNC(void)
  *
  * AP Cavium Dcache Vtag 0 Register
  */
-typedef union
+union bdk_ap_cvm_dcachevtag0_el1
 {
     uint64_t u;
     struct bdk_ap_cvm_dcachevtag0_el1_s
@@ -3751,7 +3809,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_cvm_dcachevtag0_el1_s cn; */
-} bdk_ap_cvm_dcachevtag0_el1_t;
+};
+typedef union bdk_ap_cvm_dcachevtag0_el1 bdk_ap_cvm_dcachevtag0_el1_t;
 
 #define BDK_AP_CVM_DCACHEVTAG0_EL1 BDK_AP_CVM_DCACHEVTAG0_EL1_FUNC()
 static inline uint64_t BDK_AP_CVM_DCACHEVTAG0_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3771,7 +3830,7 @@ static inline uint64_t BDK_AP_CVM_DCACHEVTAG0_EL1_FUNC(void)
  *
  * AP Cavium Dcache Vtag 1 Register
  */
-typedef union
+union bdk_ap_cvm_dcachevtag1_el1
 {
     uint64_t u;
     struct bdk_ap_cvm_dcachevtag1_el1_s
@@ -3789,7 +3848,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_cvm_dcachevtag1_el1_s cn; */
-} bdk_ap_cvm_dcachevtag1_el1_t;
+};
+typedef union bdk_ap_cvm_dcachevtag1_el1 bdk_ap_cvm_dcachevtag1_el1_t;
 
 #define BDK_AP_CVM_DCACHEVTAG1_EL1 BDK_AP_CVM_DCACHEVTAG1_EL1_FUNC()
 static inline uint64_t BDK_AP_CVM_DCACHEVTAG1_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3811,7 +3871,7 @@ static inline uint64_t BDK_AP_CVM_DCACHEVTAG1_EL1_FUNC(void)
  *
  * This register is for diagnostic use only.
  */
-typedef union
+union bdk_ap_cvm_debug0_el3
 {
     uint64_t u;
     struct bdk_ap_cvm_debug0_el3_s
@@ -3823,7 +3883,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_cvm_debug0_el3_s cn; */
-} bdk_ap_cvm_debug0_el3_t;
+};
+typedef union bdk_ap_cvm_debug0_el3 bdk_ap_cvm_debug0_el3_t;
 
 #define BDK_AP_CVM_DEBUG0_EL3 BDK_AP_CVM_DEBUG0_EL3_FUNC()
 static inline uint64_t BDK_AP_CVM_DEBUG0_EL3_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3845,7 +3906,7 @@ static inline uint64_t BDK_AP_CVM_DEBUG0_EL3_FUNC(void)
  *
  * This register is for diagnostic use only.
  */
-typedef union
+union bdk_ap_cvm_debug1_el3
 {
     uint64_t u;
     struct bdk_ap_cvm_debug1_el3_s
@@ -3857,7 +3918,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_cvm_debug1_el3_s cn; */
-} bdk_ap_cvm_debug1_el3_t;
+};
+typedef union bdk_ap_cvm_debug1_el3 bdk_ap_cvm_debug1_el3_t;
 
 #define BDK_AP_CVM_DEBUG1_EL3 BDK_AP_CVM_DEBUG1_EL3_FUNC()
 static inline uint64_t BDK_AP_CVM_DEBUG1_EL3_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3879,7 +3941,7 @@ static inline uint64_t BDK_AP_CVM_DEBUG1_EL3_FUNC(void)
  *
  * This register is for diagnostic use only.
  */
-typedef union
+union bdk_ap_cvm_debug2_el3
 {
     uint64_t u;
     struct bdk_ap_cvm_debug2_el3_s
@@ -3891,7 +3953,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_cvm_debug2_el3_s cn; */
-} bdk_ap_cvm_debug2_el3_t;
+};
+typedef union bdk_ap_cvm_debug2_el3 bdk_ap_cvm_debug2_el3_t;
 
 #define BDK_AP_CVM_DEBUG2_EL3 BDK_AP_CVM_DEBUG2_EL3_FUNC()
 static inline uint64_t BDK_AP_CVM_DEBUG2_EL3_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3913,7 +3976,7 @@ static inline uint64_t BDK_AP_CVM_DEBUG2_EL3_FUNC(void)
  *
  * This register is for diagnostic use only.
  */
-typedef union
+union bdk_ap_cvm_debug3_el3
 {
     uint64_t u;
     struct bdk_ap_cvm_debug3_el3_s
@@ -3925,7 +3988,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_cvm_debug3_el3_s cn; */
-} bdk_ap_cvm_debug3_el3_t;
+};
+typedef union bdk_ap_cvm_debug3_el3 bdk_ap_cvm_debug3_el3_t;
 
 #define BDK_AP_CVM_DEBUG3_EL3 BDK_AP_CVM_DEBUG3_EL3_FUNC()
 static inline uint64_t BDK_AP_CVM_DEBUG3_EL3_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3947,7 +4011,7 @@ static inline uint64_t BDK_AP_CVM_DEBUG3_EL3_FUNC(void)
  *
  * This register is for diagnostic use only.
  */
-typedef union
+union bdk_ap_cvm_debug4_el3
 {
     uint64_t u;
     struct bdk_ap_cvm_debug4_el3_s
@@ -3973,7 +4037,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_cvm_debug4_el3_s cn; */
-} bdk_ap_cvm_debug4_el3_t;
+};
+typedef union bdk_ap_cvm_debug4_el3 bdk_ap_cvm_debug4_el3_t;
 
 #define BDK_AP_CVM_DEBUG4_EL3 BDK_AP_CVM_DEBUG4_EL3_FUNC()
 static inline uint64_t BDK_AP_CVM_DEBUG4_EL3_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3995,7 +4060,7 @@ static inline uint64_t BDK_AP_CVM_DEBUG4_EL3_FUNC(void)
  *
  * This register is for diagnostic use only.
  */
-typedef union
+union bdk_ap_cvm_debug6_el3
 {
     uint64_t u;
     struct bdk_ap_cvm_debug6_el3_s
@@ -4017,7 +4082,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_cvm_debug6_el3_s cn; */
-} bdk_ap_cvm_debug6_el3_t;
+};
+typedef union bdk_ap_cvm_debug6_el3 bdk_ap_cvm_debug6_el3_t;
 
 #define BDK_AP_CVM_DEBUG6_EL3 BDK_AP_CVM_DEBUG6_EL3_FUNC()
 static inline uint64_t BDK_AP_CVM_DEBUG6_EL3_FUNC(void) __attribute__ ((pure, always_inline));
@@ -4039,7 +4105,7 @@ static inline uint64_t BDK_AP_CVM_DEBUG6_EL3_FUNC(void)
  *
  * This register is for diagnostic use only.
  */
-typedef union
+union bdk_ap_cvm_debug7_el3
 {
     uint64_t u;
     struct bdk_ap_cvm_debug7_el3_s
@@ -4051,7 +4117,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_cvm_debug7_el3_s cn; */
-} bdk_ap_cvm_debug7_el3_t;
+};
+typedef union bdk_ap_cvm_debug7_el3 bdk_ap_cvm_debug7_el3_t;
 
 #define BDK_AP_CVM_DEBUG7_EL3 BDK_AP_CVM_DEBUG7_EL3_FUNC()
 static inline uint64_t BDK_AP_CVM_DEBUG7_EL3_FUNC(void) __attribute__ ((pure, always_inline));
@@ -4073,7 +4140,7 @@ static inline uint64_t BDK_AP_CVM_DEBUG7_EL3_FUNC(void)
  *
  * This register is for diagnostic use only.
  */
-typedef union
+union bdk_ap_cvm_debug8_el3
 {
     uint64_t u;
     struct bdk_ap_cvm_debug8_el3_s
@@ -4097,7 +4164,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_cvm_debug8_el3_s cn; */
-} bdk_ap_cvm_debug8_el3_t;
+};
+typedef union bdk_ap_cvm_debug8_el3 bdk_ap_cvm_debug8_el3_t;
 
 #define BDK_AP_CVM_DEBUG8_EL3 BDK_AP_CVM_DEBUG8_EL3_FUNC()
 static inline uint64_t BDK_AP_CVM_DEBUG8_EL3_FUNC(void) __attribute__ ((pure, always_inline));
@@ -4119,7 +4187,7 @@ static inline uint64_t BDK_AP_CVM_DEBUG8_EL3_FUNC(void)
  *
  * This register is for diagnostic use only.
  */
-typedef union
+union bdk_ap_cvm_debug9_el3
 {
     uint64_t u;
     struct bdk_ap_cvm_debug9_el3_s
@@ -4149,7 +4217,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_cvm_debug9_el3_s cn; */
-} bdk_ap_cvm_debug9_el3_t;
+};
+typedef union bdk_ap_cvm_debug9_el3 bdk_ap_cvm_debug9_el3_t;
 
 #define BDK_AP_CVM_DEBUG9_EL3 BDK_AP_CVM_DEBUG9_EL3_FUNC()
 static inline uint64_t BDK_AP_CVM_DEBUG9_EL3_FUNC(void) __attribute__ ((pure, always_inline));
@@ -4169,7 +4238,7 @@ static inline uint64_t BDK_AP_CVM_DEBUG9_EL3_FUNC(void)
  *
  * INTERNAL: AP Cavium DLL Observability Register
  */
-typedef union
+union bdk_ap_cvm_dll_observabilty_el3
 {
     uint64_t u;
     struct bdk_ap_cvm_dll_observabilty_el3_s
@@ -4201,7 +4270,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_cvm_dll_observabilty_el3_s cn; */
-} bdk_ap_cvm_dll_observabilty_el3_t;
+};
+typedef union bdk_ap_cvm_dll_observabilty_el3 bdk_ap_cvm_dll_observabilty_el3_t;
 
 #define BDK_AP_CVM_DLL_OBSERVABILTY_EL3 BDK_AP_CVM_DLL_OBSERVABILTY_EL3_FUNC()
 static inline uint64_t BDK_AP_CVM_DLL_OBSERVABILTY_EL3_FUNC(void) __attribute__ ((pure, always_inline));
@@ -4221,7 +4291,7 @@ static inline uint64_t BDK_AP_CVM_DLL_OBSERVABILTY_EL3_FUNC(void)
  *
  * AP Cavium Error Icache Register
  */
-typedef union
+union bdk_ap_cvm_erricache_el1
 {
     uint64_t u;
     struct bdk_ap_cvm_erricache_el1_s
@@ -4241,7 +4311,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_cvm_erricache_el1_s cn; */
-} bdk_ap_cvm_erricache_el1_t;
+};
+typedef union bdk_ap_cvm_erricache_el1 bdk_ap_cvm_erricache_el1_t;
 
 #define BDK_AP_CVM_ERRICACHE_EL1 BDK_AP_CVM_ERRICACHE_EL1_FUNC()
 static inline uint64_t BDK_AP_CVM_ERRICACHE_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -4261,7 +4332,7 @@ static inline uint64_t BDK_AP_CVM_ERRICACHE_EL1_FUNC(void)
  *
  * AP Cavium Error Memory Register
  */
-typedef union
+union bdk_ap_cvm_errmem_el1
 {
     uint64_t u;
     struct bdk_ap_cvm_errmem_el1_s
@@ -4641,7 +4712,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn83xx;
     /* struct bdk_ap_cvm_errmem_el1_cn81xx cn88xxp2; */
-} bdk_ap_cvm_errmem_el1_t;
+};
+typedef union bdk_ap_cvm_errmem_el1 bdk_ap_cvm_errmem_el1_t;
 
 #define BDK_AP_CVM_ERRMEM_EL1 BDK_AP_CVM_ERRMEM_EL1_FUNC()
 static inline uint64_t BDK_AP_CVM_ERRMEM_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -4662,7 +4734,7 @@ static inline uint64_t BDK_AP_CVM_ERRMEM_EL1_FUNC(void)
  * AP Cavium EVATTID Register
  * This register is for diagnostic use only.
  */
-typedef union
+union bdk_ap_cvm_evattid_el1
 {
     uint64_t u;
     struct bdk_ap_cvm_evattid_el1_s
@@ -4684,7 +4756,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_cvm_evattid_el1_s cn; */
-} bdk_ap_cvm_evattid_el1_t;
+};
+typedef union bdk_ap_cvm_evattid_el1 bdk_ap_cvm_evattid_el1_t;
 
 #define BDK_AP_CVM_EVATTID_EL1 BDK_AP_CVM_EVATTID_EL1_FUNC()
 static inline uint64_t BDK_AP_CVM_EVATTID_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -4704,7 +4777,7 @@ static inline uint64_t BDK_AP_CVM_EVATTID_EL1_FUNC(void)
  *
  * INTERNAL: AP Cavium Icache Data 0 Register
  */
-typedef union
+union bdk_ap_cvm_icachedata0_el1
 {
     uint64_t u;
     struct bdk_ap_cvm_icachedata0_el1_s
@@ -4716,7 +4789,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_cvm_icachedata0_el1_s cn; */
-} bdk_ap_cvm_icachedata0_el1_t;
+};
+typedef union bdk_ap_cvm_icachedata0_el1 bdk_ap_cvm_icachedata0_el1_t;
 
 #define BDK_AP_CVM_ICACHEDATA0_EL1 BDK_AP_CVM_ICACHEDATA0_EL1_FUNC()
 static inline uint64_t BDK_AP_CVM_ICACHEDATA0_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -4736,7 +4810,7 @@ static inline uint64_t BDK_AP_CVM_ICACHEDATA0_EL1_FUNC(void)
  *
  * INTERNAL: AP Cavium Icache Data 1 Register
  */
-typedef union
+union bdk_ap_cvm_icachedata1_el1
 {
     uint64_t u;
     struct bdk_ap_cvm_icachedata1_el1_s
@@ -4750,7 +4824,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_cvm_icachedata1_el1_s cn; */
-} bdk_ap_cvm_icachedata1_el1_t;
+};
+typedef union bdk_ap_cvm_icachedata1_el1 bdk_ap_cvm_icachedata1_el1_t;
 
 #define BDK_AP_CVM_ICACHEDATA1_EL1 BDK_AP_CVM_ICACHEDATA1_EL1_FUNC()
 static inline uint64_t BDK_AP_CVM_ICACHEDATA1_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -4770,7 +4845,7 @@ static inline uint64_t BDK_AP_CVM_ICACHEDATA1_EL1_FUNC(void)
  *
  * INTERNAL: AP Cavium Icache Tag 0 Register
  */
-typedef union
+union bdk_ap_cvm_icachetag0_el1
 {
     uint64_t u;
     struct bdk_ap_cvm_icachetag0_el1_s
@@ -4792,7 +4867,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_cvm_icachetag0_el1_s cn; */
-} bdk_ap_cvm_icachetag0_el1_t;
+};
+typedef union bdk_ap_cvm_icachetag0_el1 bdk_ap_cvm_icachetag0_el1_t;
 
 #define BDK_AP_CVM_ICACHETAG0_EL1 BDK_AP_CVM_ICACHETAG0_EL1_FUNC()
 static inline uint64_t BDK_AP_CVM_ICACHETAG0_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -4812,7 +4888,7 @@ static inline uint64_t BDK_AP_CVM_ICACHETAG0_EL1_FUNC(void)
  *
  * INTERNAL: AP Cavium Memory Debug 0 Register
  */
-typedef union
+union bdk_ap_cvm_memdebug0_el3
 {
     uint64_t u;
     struct bdk_ap_cvm_memdebug0_el3_s
@@ -4824,7 +4900,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_cvm_memdebug0_el3_s cn; */
-} bdk_ap_cvm_memdebug0_el3_t;
+};
+typedef union bdk_ap_cvm_memdebug0_el3 bdk_ap_cvm_memdebug0_el3_t;
 
 #define BDK_AP_CVM_MEMDEBUG0_EL3 BDK_AP_CVM_MEMDEBUG0_EL3_FUNC()
 static inline uint64_t BDK_AP_CVM_MEMDEBUG0_EL3_FUNC(void) __attribute__ ((pure, always_inline));
@@ -4844,7 +4921,7 @@ static inline uint64_t BDK_AP_CVM_MEMDEBUG0_EL3_FUNC(void)
  *
  * INTERNAL: AP Cavium Memory Debug 1 Register
  */
-typedef union
+union bdk_ap_cvm_memdebug1_el3
 {
     uint64_t u;
     struct bdk_ap_cvm_memdebug1_el3_s
@@ -4856,7 +4933,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_cvm_memdebug1_el3_s cn; */
-} bdk_ap_cvm_memdebug1_el3_t;
+};
+typedef union bdk_ap_cvm_memdebug1_el3 bdk_ap_cvm_memdebug1_el3_t;
 
 #define BDK_AP_CVM_MEMDEBUG1_EL3 BDK_AP_CVM_MEMDEBUG1_EL3_FUNC()
 static inline uint64_t BDK_AP_CVM_MEMDEBUG1_EL3_FUNC(void) __attribute__ ((pure, always_inline));
@@ -4876,7 +4954,7 @@ static inline uint64_t BDK_AP_CVM_MEMDEBUG1_EL3_FUNC(void)
  *
  * INTERNAL: AP Cavium Memory Debug 2 Register
  */
-typedef union
+union bdk_ap_cvm_memdebug2_el3
 {
     uint64_t u;
     struct bdk_ap_cvm_memdebug2_el3_s
@@ -4888,7 +4966,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_cvm_memdebug2_el3_s cn; */
-} bdk_ap_cvm_memdebug2_el3_t;
+};
+typedef union bdk_ap_cvm_memdebug2_el3 bdk_ap_cvm_memdebug2_el3_t;
 
 #define BDK_AP_CVM_MEMDEBUG2_EL3 BDK_AP_CVM_MEMDEBUG2_EL3_FUNC()
 static inline uint64_t BDK_AP_CVM_MEMDEBUG2_EL3_FUNC(void) __attribute__ ((pure, always_inline));
@@ -4908,7 +4987,7 @@ static inline uint64_t BDK_AP_CVM_MEMDEBUG2_EL3_FUNC(void)
  *
  * INTERNAL: AP Cavium Memory Debug 3 Register
  */
-typedef union
+union bdk_ap_cvm_memdebug3_el3
 {
     uint64_t u;
     struct bdk_ap_cvm_memdebug3_el3_s
@@ -4920,7 +4999,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_cvm_memdebug3_el3_s cn; */
-} bdk_ap_cvm_memdebug3_el3_t;
+};
+typedef union bdk_ap_cvm_memdebug3_el3 bdk_ap_cvm_memdebug3_el3_t;
 
 #define BDK_AP_CVM_MEMDEBUG3_EL3 BDK_AP_CVM_MEMDEBUG3_EL3_FUNC()
 static inline uint64_t BDK_AP_CVM_MEMDEBUG3_EL3_FUNC(void) __attribute__ ((pure, always_inline));
@@ -4940,7 +5020,7 @@ static inline uint64_t BDK_AP_CVM_MEMDEBUG3_EL3_FUNC(void)
  *
  * INTERNAL: AP Cavium Memory Debug 4 Register
  */
-typedef union
+union bdk_ap_cvm_memdebug4_el3
 {
     uint64_t u;
     struct bdk_ap_cvm_memdebug4_el3_s
@@ -4952,7 +5032,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_cvm_memdebug4_el3_s cn; */
-} bdk_ap_cvm_memdebug4_el3_t;
+};
+typedef union bdk_ap_cvm_memdebug4_el3 bdk_ap_cvm_memdebug4_el3_t;
 
 #define BDK_AP_CVM_MEMDEBUG4_EL3 BDK_AP_CVM_MEMDEBUG4_EL3_FUNC()
 static inline uint64_t BDK_AP_CVM_MEMDEBUG4_EL3_FUNC(void) __attribute__ ((pure, always_inline));
@@ -4972,7 +5053,7 @@ static inline uint64_t BDK_AP_CVM_MEMDEBUG4_EL3_FUNC(void)
  *
  * INTERNAL: AP Cavium Memory Debug 5 Register
  */
-typedef union
+union bdk_ap_cvm_memdebug5_el3
 {
     uint64_t u;
     struct bdk_ap_cvm_memdebug5_el3_s
@@ -4984,7 +5065,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_cvm_memdebug5_el3_s cn; */
-} bdk_ap_cvm_memdebug5_el3_t;
+};
+typedef union bdk_ap_cvm_memdebug5_el3 bdk_ap_cvm_memdebug5_el3_t;
 
 #define BDK_AP_CVM_MEMDEBUG5_EL3 BDK_AP_CVM_MEMDEBUG5_EL3_FUNC()
 static inline uint64_t BDK_AP_CVM_MEMDEBUG5_EL3_FUNC(void) __attribute__ ((pure, always_inline));
@@ -5004,7 +5086,7 @@ static inline uint64_t BDK_AP_CVM_MEMDEBUG5_EL3_FUNC(void)
  *
  * INTERNAL: AP Cavium Memory Debug 6 Register
  */
-typedef union
+union bdk_ap_cvm_memdebug6_el3
 {
     uint64_t u;
     struct bdk_ap_cvm_memdebug6_el3_s
@@ -5016,7 +5098,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_cvm_memdebug6_el3_s cn; */
-} bdk_ap_cvm_memdebug6_el3_t;
+};
+typedef union bdk_ap_cvm_memdebug6_el3 bdk_ap_cvm_memdebug6_el3_t;
 
 #define BDK_AP_CVM_MEMDEBUG6_EL3 BDK_AP_CVM_MEMDEBUG6_EL3_FUNC()
 static inline uint64_t BDK_AP_CVM_MEMDEBUG6_EL3_FUNC(void) __attribute__ ((pure, always_inline));
@@ -5036,7 +5119,7 @@ static inline uint64_t BDK_AP_CVM_MEMDEBUG6_EL3_FUNC(void)
  *
  * INTERNAL: AP Cavium Memory Debug 7 Register
  */
-typedef union
+union bdk_ap_cvm_memdebug7_el3
 {
     uint64_t u;
     struct bdk_ap_cvm_memdebug7_el3_s
@@ -5048,7 +5131,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_cvm_memdebug7_el3_s cn; */
-} bdk_ap_cvm_memdebug7_el3_t;
+};
+typedef union bdk_ap_cvm_memdebug7_el3 bdk_ap_cvm_memdebug7_el3_t;
 
 #define BDK_AP_CVM_MEMDEBUG7_EL3 BDK_AP_CVM_MEMDEBUG7_EL3_FUNC()
 static inline uint64_t BDK_AP_CVM_MEMDEBUG7_EL3_FUNC(void) __attribute__ ((pure, always_inline));
@@ -5068,7 +5152,7 @@ static inline uint64_t BDK_AP_CVM_MEMDEBUG7_EL3_FUNC(void)
  *
  * AP Cavium DEL3T Address Register
  */
-typedef union
+union bdk_ap_cvm_nvbar_el3
 {
     uint64_t u;
     struct bdk_ap_cvm_nvbar_el3_s
@@ -5082,7 +5166,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_cvm_nvbar_el3_s cn; */
-} bdk_ap_cvm_nvbar_el3_t;
+};
+typedef union bdk_ap_cvm_nvbar_el3 bdk_ap_cvm_nvbar_el3_t;
 
 #define BDK_AP_CVM_NVBAR_EL3 BDK_AP_CVM_NVBAR_EL3_FUNC()
 static inline uint64_t BDK_AP_CVM_NVBAR_EL3_FUNC(void) __attribute__ ((pure, always_inline));
@@ -5103,7 +5188,7 @@ static inline uint64_t BDK_AP_CVM_NVBAR_EL3_FUNC(void)
  * AP Cavium Power Control Register
  * This register controls power management.
  */
-typedef union
+union bdk_ap_cvm_power_el1
 {
     uint64_t u;
     struct bdk_ap_cvm_power_el1_s
@@ -5205,7 +5290,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_cvm_power_el1_s cn; */
-} bdk_ap_cvm_power_el1_t;
+};
+typedef union bdk_ap_cvm_power_el1 bdk_ap_cvm_power_el1_t;
 
 #define BDK_AP_CVM_POWER_EL1 BDK_AP_CVM_POWER_EL1_FUNC()
 static inline uint64_t BDK_AP_CVM_POWER_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -5225,7 +5311,7 @@ static inline uint64_t BDK_AP_CVM_POWER_EL1_FUNC(void)
  *
  * AP Cavium Translation Data 0 EL1 Register
  */
-typedef union
+union bdk_ap_cvm_xlatdata0_el1
 {
     uint64_t u;
     struct bdk_ap_cvm_xlatdata0_el1_s
@@ -5263,7 +5349,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_cvm_xlatdata0_el1_s cn; */
-} bdk_ap_cvm_xlatdata0_el1_t;
+};
+typedef union bdk_ap_cvm_xlatdata0_el1 bdk_ap_cvm_xlatdata0_el1_t;
 
 #define BDK_AP_CVM_XLATDATA0_EL1 BDK_AP_CVM_XLATDATA0_EL1_FUNC()
 static inline uint64_t BDK_AP_CVM_XLATDATA0_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -5283,7 +5370,7 @@ static inline uint64_t BDK_AP_CVM_XLATDATA0_EL1_FUNC(void)
  *
  * AP Cavium Translation Data 1 EL1 Register
  */
-typedef union
+union bdk_ap_cvm_xlatdata1_el1
 {
     uint64_t u;
     struct bdk_ap_cvm_xlatdata1_el1_s
@@ -5317,7 +5404,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_cvm_xlatdata1_el1_s cn; */
-} bdk_ap_cvm_xlatdata1_el1_t;
+};
+typedef union bdk_ap_cvm_xlatdata1_el1 bdk_ap_cvm_xlatdata1_el1_t;
 
 #define BDK_AP_CVM_XLATDATA1_EL1 BDK_AP_CVM_XLATDATA1_EL1_FUNC()
 static inline uint64_t BDK_AP_CVM_XLATDATA1_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -5337,7 +5425,7 @@ static inline uint64_t BDK_AP_CVM_XLATDATA1_EL1_FUNC(void)
  *
  * AP Cavium Translation Tag 0 EL1 Register
  */
-typedef union
+union bdk_ap_cvm_xlatvtag0_el1
 {
     uint64_t u;
     struct bdk_ap_cvm_xlatvtag0_el1_s
@@ -5367,7 +5455,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_cvm_xlatvtag0_el1_s cn; */
-} bdk_ap_cvm_xlatvtag0_el1_t;
+};
+typedef union bdk_ap_cvm_xlatvtag0_el1 bdk_ap_cvm_xlatvtag0_el1_t;
 
 #define BDK_AP_CVM_XLATVTAG0_EL1 BDK_AP_CVM_XLATVTAG0_EL1_FUNC()
 static inline uint64_t BDK_AP_CVM_XLATVTAG0_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -5387,7 +5476,7 @@ static inline uint64_t BDK_AP_CVM_XLATVTAG0_EL1_FUNC(void)
  *
  * AP Cavium Translation Tag 1 EL1 Register
  */
-typedef union
+union bdk_ap_cvm_xlatvtag1_el1
 {
     uint64_t u;
     struct bdk_ap_cvm_xlatvtag1_el1_s
@@ -5415,7 +5504,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_cvm_xlatvtag1_el1_s cn; */
-} bdk_ap_cvm_xlatvtag1_el1_t;
+};
+typedef union bdk_ap_cvm_xlatvtag1_el1 bdk_ap_cvm_xlatvtag1_el1_t;
 
 #define BDK_AP_CVM_XLATVTAG1_EL1 BDK_AP_CVM_XLATVTAG1_EL1_FUNC()
 static inline uint64_t BDK_AP_CVM_XLATVTAG1_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -5436,7 +5526,7 @@ static inline uint64_t BDK_AP_CVM_XLATVTAG1_EL1_FUNC(void)
  * AP Cavium Control Register
  * This register provides Cavium-specific control information.
  */
-typedef union
+union bdk_ap_cvmctl_el1
 {
     uint64_t u;
     struct bdk_ap_cvmctl_el1_s
@@ -5712,7 +5802,8 @@ typedef union
         uint64_t reserved_40_63        : 24;
 #endif /* Word 0 - End */
     } cn88xxp2;
-} bdk_ap_cvmctl_el1_t;
+};
+typedef union bdk_ap_cvmctl_el1 bdk_ap_cvmctl_el1_t;
 
 #define BDK_AP_CVMCTL_EL1 BDK_AP_CVMCTL_EL1_FUNC()
 static inline uint64_t BDK_AP_CVMCTL_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -5733,7 +5824,7 @@ static inline uint64_t BDK_AP_CVMCTL_EL1_FUNC(void)
  * AP Cavium Memory Control 0 Register
  * This register controls memory features.
  */
-typedef union
+union bdk_ap_cvmmemctl0_el1
 {
     uint64_t u;
     struct bdk_ap_cvmmemctl0_el1_s
@@ -6374,7 +6465,8 @@ typedef union
     } cn81xx;
     /* struct bdk_ap_cvmmemctl0_el1_cn81xx cn83xx; */
     /* struct bdk_ap_cvmmemctl0_el1_s cn88xxp2; */
-} bdk_ap_cvmmemctl0_el1_t;
+};
+typedef union bdk_ap_cvmmemctl0_el1 bdk_ap_cvmmemctl0_el1_t;
 
 #define BDK_AP_CVMMEMCTL0_EL1 BDK_AP_CVMMEMCTL0_EL1_FUNC()
 static inline uint64_t BDK_AP_CVMMEMCTL0_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -6397,7 +6489,7 @@ static inline uint64_t BDK_AP_CVMMEMCTL0_EL1_FUNC(void)
  * Internal:
  * Back-end, non-debug.
  */
-typedef union
+union bdk_ap_cvmmemctl1_el1
 {
     uint64_t u;
     struct bdk_ap_cvmmemctl1_el1_s
@@ -6623,7 +6715,8 @@ typedef union
         uint64_t reserved_39_63        : 25;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_ap_cvmmemctl1_el1_t;
+};
+typedef union bdk_ap_cvmmemctl1_el1 bdk_ap_cvmmemctl1_el1_t;
 
 #define BDK_AP_CVMMEMCTL1_EL1 BDK_AP_CVMMEMCTL1_EL1_FUNC()
 static inline uint64_t BDK_AP_CVMMEMCTL1_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -6645,7 +6738,7 @@ static inline uint64_t BDK_AP_CVMMEMCTL1_EL1_FUNC(void)
  * Allows access to the AArch32 DACR register from AArch64 state
  *     only. Its value has no effect on execution in AArch64 state.
  */
-typedef union
+union bdk_ap_dacr32_el2
 {
     uint32_t u;
     struct bdk_ap_dacr32_el2_s
@@ -6657,7 +6750,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_dacr32_el2_s cn; */
-} bdk_ap_dacr32_el2_t;
+};
+typedef union bdk_ap_dacr32_el2 bdk_ap_dacr32_el2_t;
 
 #define BDK_AP_DACR32_EL2 BDK_AP_DACR32_EL2_FUNC()
 static inline uint64_t BDK_AP_DACR32_EL2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -6678,7 +6772,7 @@ static inline uint64_t BDK_AP_DACR32_EL2_FUNC(void)
  * AP Interrupt Mask Bits Register
  * Allows access to the interrupt mask bits.
  */
-typedef union
+union bdk_ap_daif
 {
     uint32_t u;
     struct bdk_ap_daif_s
@@ -6730,7 +6824,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_daif_s cn; */
-} bdk_ap_daif_t;
+};
+typedef union bdk_ap_daif bdk_ap_daif_t;
 
 #define BDK_AP_DAIF BDK_AP_DAIF_FUNC()
 static inline uint64_t BDK_AP_DAIF_FUNC(void) __attribute__ ((pure, always_inline));
@@ -6752,7 +6847,7 @@ static inline uint64_t BDK_AP_DAIF_FUNC(void)
  * Provides information about the state of the implementation
  *     defined authentication interface for debug.
  */
-typedef union
+union bdk_ap_dbgauthstatus_el1
 {
     uint32_t u;
     struct bdk_ap_dbgauthstatus_el1_s
@@ -6802,7 +6897,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_dbgauthstatus_el1_s cn; */
-} bdk_ap_dbgauthstatus_el1_t;
+};
+typedef union bdk_ap_dbgauthstatus_el1 bdk_ap_dbgauthstatus_el1_t;
 
 #define BDK_AP_DBGAUTHSTATUS_EL1 BDK_AP_DBGAUTHSTATUS_EL1_FUNC()
 static inline uint64_t BDK_AP_DBGAUTHSTATUS_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -6825,7 +6921,7 @@ static inline uint64_t BDK_AP_DBGAUTHSTATUS_EL1_FUNC(void)
  *     together with value register DBGBVR<n>_EL1, where n is 0 to
  *     15.
  */
-typedef union
+union bdk_ap_dbgbcrx_el1
 {
     uint32_t u;
     struct bdk_ap_dbgbcrx_el1_s
@@ -6989,7 +7085,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_dbgbcrx_el1_s cn; */
-} bdk_ap_dbgbcrx_el1_t;
+};
+typedef union bdk_ap_dbgbcrx_el1 bdk_ap_dbgbcrx_el1_t;
 
 static inline uint64_t BDK_AP_DBGBCRX_EL1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_DBGBCRX_EL1(unsigned long a)
@@ -7013,7 +7110,7 @@ static inline uint64_t BDK_AP_DBGBCRX_EL1(unsigned long a)
  *     use in breakpoint matching. Forms breakpoint n together with
  *     control register DBGBCR<n>_EL1, where n is 0 to 15.
  */
-typedef union
+union bdk_ap_dbgbvrx_el1
 {
     uint64_t u;
     struct bdk_ap_dbgbvrx_el1_s
@@ -7033,7 +7130,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_dbgbvrx_el1_s cn; */
-} bdk_ap_dbgbvrx_el1_t;
+};
+typedef union bdk_ap_dbgbvrx_el1 bdk_ap_dbgbvrx_el1_t;
 
 static inline uint64_t BDK_AP_DBGBVRX_EL1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_DBGBVRX_EL1(unsigned long a)
@@ -7056,7 +7154,7 @@ static inline uint64_t BDK_AP_DBGBVRX_EL1(unsigned long a)
  * Used by software to read the values of the CLAIM bits, and to
  *     clear these bits to 0.
  */
-typedef union
+union bdk_ap_dbgclaimclr_el1
 {
     uint32_t u;
     struct bdk_ap_dbgclaimclr_el1_s
@@ -7080,7 +7178,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_dbgclaimclr_el1_s cn; */
-} bdk_ap_dbgclaimclr_el1_t;
+};
+typedef union bdk_ap_dbgclaimclr_el1 bdk_ap_dbgclaimclr_el1_t;
 
 #define BDK_AP_DBGCLAIMCLR_EL1 BDK_AP_DBGCLAIMCLR_EL1_FUNC()
 static inline uint64_t BDK_AP_DBGCLAIMCLR_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -7101,7 +7200,7 @@ static inline uint64_t BDK_AP_DBGCLAIMCLR_EL1_FUNC(void)
  * AP Debug Claim Tag Set Register
  * Used by software to set CLAIM bits to 1.
  */
-typedef union
+union bdk_ap_dbgclaimset_el1
 {
     uint32_t u;
     struct bdk_ap_dbgclaimset_el1_s
@@ -7123,7 +7222,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_dbgclaimset_el1_s cn; */
-} bdk_ap_dbgclaimset_el1_t;
+};
+typedef union bdk_ap_dbgclaimset_el1 bdk_ap_dbgclaimset_el1_t;
 
 #define BDK_AP_DBGCLAIMSET_EL1 BDK_AP_DBGCLAIMSET_EL1_FUNC()
 static inline uint64_t BDK_AP_DBGCLAIMSET_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -7146,7 +7246,7 @@ static inline uint64_t BDK_AP_DBGCLAIMSET_EL1_FUNC(void)
  *     external host. Can transfer both ways using only a single
  *     register.
  */
-typedef union
+union bdk_ap_dbgdtr_el0
 {
     uint64_t u;
     struct bdk_ap_dbgdtr_el0_s
@@ -7164,7 +7264,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_dbgdtr_el0_s cn; */
-} bdk_ap_dbgdtr_el0_t;
+};
+typedef union bdk_ap_dbgdtr_el0 bdk_ap_dbgdtr_el0_t;
 
 #define BDK_AP_DBGDTR_EL0 BDK_AP_DBGDTR_EL0_FUNC()
 static inline uint64_t BDK_AP_DBGDTR_EL0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -7188,7 +7289,7 @@ static inline uint64_t BDK_AP_DBGDTR_EL0_FUNC(void)
  *
  * This register is at the same select as AP_DBGDTRTX_EL0.
  */
-typedef union
+union bdk_ap_dbgdtrrx_el0
 {
     uint32_t u;
     struct bdk_ap_dbgdtrrx_el0_s
@@ -7210,7 +7311,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_dbgdtrrx_el0_s cn; */
-} bdk_ap_dbgdtrrx_el0_t;
+};
+typedef union bdk_ap_dbgdtrrx_el0 bdk_ap_dbgdtrrx_el0_t;
 
 #define BDK_AP_DBGDTRRX_EL0 BDK_AP_DBGDTRRX_EL0_FUNC()
 static inline uint64_t BDK_AP_DBGDTRRX_EL0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -7234,7 +7336,7 @@ static inline uint64_t BDK_AP_DBGDTRRX_EL0_FUNC(void)
  *
  * This register is at the same select as AP_DBGDTRRX_EL0.
  */
-typedef union
+union bdk_ap_dbgdtrtx_el0
 {
     uint32_t u;
     struct bdk_ap_dbgdtrtx_el0_s
@@ -7254,7 +7356,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_dbgdtrtx_el0_s cn; */
-} bdk_ap_dbgdtrtx_el0_t;
+};
+typedef union bdk_ap_dbgdtrtx_el0 bdk_ap_dbgdtrtx_el0_t;
 
 #define BDK_AP_DBGDTRTX_EL0 BDK_AP_DBGDTRTX_EL0_FUNC()
 static inline uint64_t BDK_AP_DBGDTRTX_EL0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -7275,7 +7378,7 @@ static inline uint64_t BDK_AP_DBGDTRTX_EL0_FUNC(void)
  * AP Debug Power Control Register
  * Controls behavior of processor on power-down request.
  */
-typedef union
+union bdk_ap_dbgprcr_el1
 {
     uint32_t u;
     struct bdk_ap_dbgprcr_el1_s
@@ -7301,7 +7404,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_dbgprcr_el1_s cn; */
-} bdk_ap_dbgprcr_el1_t;
+};
+typedef union bdk_ap_dbgprcr_el1 bdk_ap_dbgprcr_el1_t;
 
 #define BDK_AP_DBGPRCR_EL1 BDK_AP_DBGPRCR_EL1_FUNC()
 static inline uint64_t BDK_AP_DBGPRCR_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -7324,7 +7428,7 @@ static inline uint64_t BDK_AP_DBGPRCR_EL1_FUNC(void)
  *     state only. Its value has no effect on execution in AArch64
  *     state.
  */
-typedef union
+union bdk_ap_dbgvcr32_el2
 {
     uint32_t u;
     struct bdk_ap_dbgvcr32_el2_s
@@ -7390,7 +7494,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_dbgvcr32_el2_s cn; */
-} bdk_ap_dbgvcr32_el2_t;
+};
+typedef union bdk_ap_dbgvcr32_el2 bdk_ap_dbgvcr32_el2_t;
 
 #define BDK_AP_DBGVCR32_EL2 BDK_AP_DBGVCR32_EL2_FUNC()
 static inline uint64_t BDK_AP_DBGVCR32_EL2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -7413,7 +7518,7 @@ static inline uint64_t BDK_AP_DBGVCR32_EL2_FUNC(void)
  *     together with value register DBGWVR<n>_EL1, where n is 0 to
  *     15.
  */
-typedef union
+union bdk_ap_dbgwcrx_el1
 {
     uint32_t u;
     struct bdk_ap_dbgwcrx_el1_s
@@ -7547,7 +7652,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_dbgwcrx_el1_s cn; */
-} bdk_ap_dbgwcrx_el1_t;
+};
+typedef union bdk_ap_dbgwcrx_el1 bdk_ap_dbgwcrx_el1_t;
 
 static inline uint64_t BDK_AP_DBGWCRX_EL1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_DBGWCRX_EL1(unsigned long a)
@@ -7571,7 +7677,7 @@ static inline uint64_t BDK_AP_DBGWCRX_EL1(unsigned long a)
  *     Forms watchpoint n together with control register
  *     DBGWCR<n>_EL1, where n is 0 to 15.
  */
-typedef union
+union bdk_ap_dbgwvrx_el1
 {
     uint64_t u;
     struct bdk_ap_dbgwvrx_el1_s
@@ -7593,7 +7699,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_dbgwvrx_el1_s cn; */
-} bdk_ap_dbgwvrx_el1_t;
+};
+typedef union bdk_ap_dbgwvrx_el1 bdk_ap_dbgwvrx_el1_t;
 
 static inline uint64_t BDK_AP_DBGWVRX_EL1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_DBGWVRX_EL1(unsigned long a)
@@ -7616,7 +7723,7 @@ static inline uint64_t BDK_AP_DBGWVRX_EL1(unsigned long a)
  * This register indicates the block size that is written with byte values of 0 by the
  * DC ZVA (Data Cache Zero by Address) system instruction.
  */
-typedef union
+union bdk_ap_dczid_el0
 {
     uint32_t u;
     struct bdk_ap_dczid_el0_s
@@ -7644,7 +7751,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_dczid_el0_s cn; */
-} bdk_ap_dczid_el0_t;
+};
+typedef union bdk_ap_dczid_el0 bdk_ap_dczid_el0_t;
 
 #define BDK_AP_DCZID_EL0 BDK_AP_DCZID_EL0_FUNC()
 static inline uint64_t BDK_AP_DCZID_EL0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -7665,7 +7773,7 @@ static inline uint64_t BDK_AP_DCZID_EL0_FUNC(void)
  * AP Debug Link Register
  * In Debug state, holds the address to restart from.
  */
-typedef union
+union bdk_ap_dlr_el0
 {
     uint64_t u;
     struct bdk_ap_dlr_el0_s
@@ -7677,7 +7785,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_dlr_el0_s cn; */
-} bdk_ap_dlr_el0_t;
+};
+typedef union bdk_ap_dlr_el0 bdk_ap_dlr_el0_t;
 
 #define BDK_AP_DLR_EL0 BDK_AP_DLR_EL0_FUNC()
 static inline uint64_t BDK_AP_DLR_EL0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -7698,7 +7807,7 @@ static inline uint64_t BDK_AP_DLR_EL0_FUNC(void)
  * AP Debug Saved Program Status Register
  * Holds the saved processor state on entry to debug state.
  */
-typedef union
+union bdk_ap_dspsr_el0
 {
     uint32_t u;
     struct bdk_ap_dspsr_el0_s
@@ -7766,7 +7875,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_dspsr_el0_s cn; */
-} bdk_ap_dspsr_el0_t;
+};
+typedef union bdk_ap_dspsr_el0 bdk_ap_dspsr_el0_t;
 
 #define BDK_AP_DSPSR_EL0 BDK_AP_DSPSR_EL0_FUNC()
 static inline uint64_t BDK_AP_DSPSR_EL0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -7787,7 +7897,7 @@ static inline uint64_t BDK_AP_DSPSR_EL0_FUNC(void)
  * AP Exception Link Register
  * Return address for exception
  */
-typedef union
+union bdk_ap_elr_elx
 {
     uint64_t u;
     struct bdk_ap_elr_elx_s
@@ -7799,7 +7909,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_elr_elx_s cn; */
-} bdk_ap_elr_elx_t;
+};
+typedef union bdk_ap_elr_elx bdk_ap_elr_elx_t;
 
 static inline uint64_t BDK_AP_ELR_ELX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_ELR_ELX(unsigned long a)
@@ -7821,7 +7932,7 @@ static inline uint64_t BDK_AP_ELR_ELX(unsigned long a)
  * AP Exception Link EL2/3 Alias Register
  * Alias to allow EL2/3 access to ELR_EL1 when AP_HCR_EL2[E2H]==1.
  */
-typedef union
+union bdk_ap_elr_el12
 {
     uint64_t u;
     struct bdk_ap_elr_el12_s
@@ -7833,7 +7944,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_elr_el12_s cn; */
-} bdk_ap_elr_el12_t;
+};
+typedef union bdk_ap_elr_el12 bdk_ap_elr_el12_t;
 
 #define BDK_AP_ELR_EL12 BDK_AP_ELR_EL12_FUNC()
 static inline uint64_t BDK_AP_ELR_EL12_FUNC(void) __attribute__ ((pure, always_inline));
@@ -7854,7 +7966,7 @@ static inline uint64_t BDK_AP_ELR_EL12_FUNC(void)
  * AP Exception Syndrome Register
  * Holds syndrome information for an exception taken to EL*.
  */
-typedef union
+union bdk_ap_esr_elx
 {
     uint32_t u;
     struct bdk_ap_esr_elx_s
@@ -8068,7 +8180,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_esr_elx_s cn; */
-} bdk_ap_esr_elx_t;
+};
+typedef union bdk_ap_esr_elx bdk_ap_esr_elx_t;
 
 static inline uint64_t BDK_AP_ESR_ELX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_ESR_ELX(unsigned long a)
@@ -8090,7 +8203,7 @@ static inline uint64_t BDK_AP_ESR_ELX(unsigned long a)
  * AP Exception Syndrome Register
  * Alias of ESR_EL1 when accessed at EL2/3 and AP_HCR_EL2[E2H] is set.
  */
-typedef union
+union bdk_ap_esr_el12
 {
     uint32_t u;
     struct bdk_ap_esr_el12_s
@@ -8102,7 +8215,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_esr_el12_s cn; */
-} bdk_ap_esr_el12_t;
+};
+typedef union bdk_ap_esr_el12 bdk_ap_esr_el12_t;
 
 #define BDK_AP_ESR_EL12 BDK_AP_ESR_EL12_FUNC()
 static inline uint64_t BDK_AP_ESR_EL12_FUNC(void) __attribute__ ((pure, always_inline));
@@ -8125,7 +8239,7 @@ static inline uint64_t BDK_AP_ESR_EL12_FUNC(void)
  *     instruction or data aborts, or exceptions from a misaligned
  *     PC, taken to EL*.
  */
-typedef union
+union bdk_ap_far_elx
 {
     uint64_t u;
     struct bdk_ap_far_elx_s
@@ -8149,7 +8263,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_far_elx_s cn; */
-} bdk_ap_far_elx_t;
+};
+typedef union bdk_ap_far_elx bdk_ap_far_elx_t;
 
 static inline uint64_t BDK_AP_FAR_ELX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_FAR_ELX(unsigned long a)
@@ -8171,7 +8286,7 @@ static inline uint64_t BDK_AP_FAR_ELX(unsigned long a)
  * AP Fault Address Register
  * Alias of ESR_EL1 when accessed at EL2/3 and AP_HCR_EL2[E2H] is set.
  */
-typedef union
+union bdk_ap_far_el12
 {
     uint64_t u;
     struct bdk_ap_far_el12_s
@@ -8183,7 +8298,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_far_el12_s cn; */
-} bdk_ap_far_el12_t;
+};
+typedef union bdk_ap_far_el12 bdk_ap_far_el12_t;
 
 #define BDK_AP_FAR_EL12 BDK_AP_FAR_EL12_FUNC()
 static inline uint64_t BDK_AP_FAR_EL12_FUNC(void) __attribute__ ((pure, always_inline));
@@ -8204,7 +8320,7 @@ static inline uint64_t BDK_AP_FAR_EL12_FUNC(void)
  * AP Floating-point Control Register
  * Controls floating-point extension behavior.
  */
-typedef union
+union bdk_ap_fpcr
 {
     uint32_t u;
     struct bdk_ap_fpcr_s
@@ -8339,7 +8455,8 @@ typedef union
         uint32_t reserved_27_31        : 5;
 #endif /* Word 0 - End */
     } cn;
-} bdk_ap_fpcr_t;
+};
+typedef union bdk_ap_fpcr bdk_ap_fpcr_t;
 
 #define BDK_AP_FPCR BDK_AP_FPCR_FUNC()
 static inline uint64_t BDK_AP_FPCR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -8361,7 +8478,7 @@ static inline uint64_t BDK_AP_FPCR_FUNC(void)
  * Allows access to the AArch32 register FPEXC from AArch64 state
  *     only. Its value has no effect on execution in AArch64 state.
  */
-typedef union
+union bdk_ap_fpexc32_el2
 {
     uint32_t u;
     struct bdk_ap_fpexc32_el2_s
@@ -8373,7 +8490,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_fpexc32_el2_s cn; */
-} bdk_ap_fpexc32_el2_t;
+};
+typedef union bdk_ap_fpexc32_el2 bdk_ap_fpexc32_el2_t;
 
 #define BDK_AP_FPEXC32_EL2 BDK_AP_FPEXC32_EL2_FUNC()
 static inline uint64_t BDK_AP_FPEXC32_EL2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -8394,7 +8512,7 @@ static inline uint64_t BDK_AP_FPEXC32_EL2_FUNC(void)
  * AP Floating-point Status Register
  * Provides floating-point system status information.
  */
-typedef union
+union bdk_ap_fpsr
 {
     uint32_t u;
     struct bdk_ap_fpsr_s
@@ -8631,7 +8749,8 @@ typedef union
         uint32_t reserved_31           : 1;
 #endif /* Word 0 - End */
     } cn;
-} bdk_ap_fpsr_t;
+};
+typedef union bdk_ap_fpsr bdk_ap_fpsr_t;
 
 #define BDK_AP_FPSR BDK_AP_FPSR_FUNC()
 static inline uint64_t BDK_AP_FPSR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -8653,7 +8772,7 @@ static inline uint64_t BDK_AP_FPSR_FUNC(void)
  * Controls trapping to EL2 of implementation defined aspects of
  *     nonsecure EL1 or EL0 operation.
  */
-typedef union
+union bdk_ap_hacr_el2
 {
     uint32_t u;
     struct bdk_ap_hacr_el2_s
@@ -8665,7 +8784,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_hacr_el2_s cn; */
-} bdk_ap_hacr_el2_t;
+};
+typedef union bdk_ap_hacr_el2 bdk_ap_hacr_el2_t;
 
 #define BDK_AP_HACR_EL2 BDK_AP_HACR_EL2_FUNC()
 static inline uint64_t BDK_AP_HACR_EL2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -8688,7 +8808,7 @@ static inline uint64_t BDK_AP_HACR_EL2_FUNC(void)
  *     defining whether various nonsecure operations are trapped to
  *     EL2.
  */
-typedef union
+union bdk_ap_hcr_el2
 {
     uint64_t u;
     struct bdk_ap_hcr_el2_s
@@ -9368,7 +9488,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_hcr_el2_s cn; */
-} bdk_ap_hcr_el2_t;
+};
+typedef union bdk_ap_hcr_el2 bdk_ap_hcr_el2_t;
 
 #define BDK_AP_HCR_EL2 BDK_AP_HCR_EL2_FUNC()
 static inline uint64_t BDK_AP_HCR_EL2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -9390,7 +9511,7 @@ static inline uint64_t BDK_AP_HCR_EL2_FUNC(void)
  * Holds the faulting IPA for some aborts on a stage 2
  *     translation taken to EL2.
  */
-typedef union
+union bdk_ap_hpfar_el2
 {
     uint64_t u;
     struct bdk_ap_hpfar_el2_s
@@ -9410,7 +9531,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_hpfar_el2_s cn; */
-} bdk_ap_hpfar_el2_t;
+};
+typedef union bdk_ap_hpfar_el2 bdk_ap_hpfar_el2_t;
 
 #define BDK_AP_HPFAR_EL2 BDK_AP_HPFAR_EL2_FUNC()
 static inline uint64_t BDK_AP_HPFAR_EL2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -9432,7 +9554,7 @@ static inline uint64_t BDK_AP_HPFAR_EL2_FUNC(void)
  * Controls access to coprocessor registers at lower Exception
  *     levels in AArch32.
  */
-typedef union
+union bdk_ap_hstr_el2
 {
     uint32_t u;
     struct bdk_ap_hstr_el2_s
@@ -9444,7 +9566,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_hstr_el2_s cn; */
-} bdk_ap_hstr_el2_t;
+};
+typedef union bdk_ap_hstr_el2 bdk_ap_hstr_el2_t;
 
 #define BDK_AP_HSTR_EL2 BDK_AP_HSTR_EL2_FUNC()
 static inline uint64_t BDK_AP_HSTR_EL2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -9466,7 +9589,7 @@ static inline uint64_t BDK_AP_HSTR_EL2_FUNC(void)
  * Provides information about the active priorities for the
  *     current interrupt regime.
  */
-typedef union
+union bdk_ap_icc_ap0rx_el1
 {
     uint32_t u;
     struct bdk_ap_icc_ap0rx_el1_s
@@ -9564,7 +9687,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_icc_ap0rx_el1_s cn; */
-} bdk_ap_icc_ap0rx_el1_t;
+};
+typedef union bdk_ap_icc_ap0rx_el1 bdk_ap_icc_ap0rx_el1_t;
 
 static inline uint64_t BDK_AP_ICC_AP0RX_EL1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_ICC_AP0RX_EL1(unsigned long a)
@@ -9587,7 +9711,7 @@ static inline uint64_t BDK_AP_ICC_AP0RX_EL1(unsigned long a)
  * Provides information about the active priorities for the
  *     current interrupt regime.
  */
-typedef union
+union bdk_ap_icc_ap1rx_el1
 {
     uint32_t u;
     struct bdk_ap_icc_ap1rx_el1_s
@@ -9705,7 +9829,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_icc_ap1rx_el1_s cn; */
-} bdk_ap_icc_ap1rx_el1_t;
+};
+typedef union bdk_ap_icc_ap1rx_el1 bdk_ap_icc_ap1rx_el1_t;
 
 static inline uint64_t BDK_AP_ICC_AP1RX_EL1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_ICC_AP1RX_EL1(unsigned long a)
@@ -9728,7 +9853,7 @@ static inline uint64_t BDK_AP_ICC_AP1RX_EL1(unsigned long a)
  * Provides software the ability to generate group 1 SGIs for the
  *     other Security state.
  */
-typedef union
+union bdk_ap_icc_asgi1r_el1
 {
     uint64_t u;
     struct bdk_ap_icc_asgi1r_el1_s
@@ -9798,7 +9923,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_icc_asgi1r_el1_s cn; */
-} bdk_ap_icc_asgi1r_el1_t;
+};
+typedef union bdk_ap_icc_asgi1r_el1 bdk_ap_icc_asgi1r_el1_t;
 
 #define BDK_AP_ICC_ASGI1R_EL1 BDK_AP_ICC_ASGI1R_EL1_FUNC()
 static inline uint64_t BDK_AP_ICC_ASGI1R_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -9822,7 +9948,7 @@ static inline uint64_t BDK_AP_ICC_ASGI1R_EL1_FUNC(void)
  *     field. The group priority field is used to determine interrupt
  *     preemption.
  */
-typedef union
+union bdk_ap_icc_bpr0_el1
 {
     uint32_t u;
     struct bdk_ap_icc_bpr0_el1_s
@@ -9868,7 +9994,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_icc_bpr0_el1_s cn; */
-} bdk_ap_icc_bpr0_el1_t;
+};
+typedef union bdk_ap_icc_bpr0_el1 bdk_ap_icc_bpr0_el1_t;
 
 #define BDK_AP_ICC_BPR0_EL1 BDK_AP_ICC_BPR0_EL1_FUNC()
 static inline uint64_t BDK_AP_ICC_BPR0_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -9892,7 +10019,7 @@ static inline uint64_t BDK_AP_ICC_BPR0_EL1_FUNC(void)
  *     field. The group priority field is used to determine Group 1
  *     interrupt preemption.
  */
-typedef union
+union bdk_ap_icc_bpr1_el1
 {
     uint32_t u;
     struct bdk_ap_icc_bpr1_el1_s
@@ -9936,7 +10063,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_icc_bpr1_el1_s cn; */
-} bdk_ap_icc_bpr1_el1_t;
+};
+typedef union bdk_ap_icc_bpr1_el1 bdk_ap_icc_bpr1_el1_t;
 
 #define BDK_AP_ICC_BPR1_EL1 BDK_AP_ICC_BPR1_EL1_FUNC()
 static inline uint64_t BDK_AP_ICC_BPR1_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -9958,7 +10086,7 @@ static inline uint64_t BDK_AP_ICC_BPR1_EL1_FUNC(void)
  * Controls aspects of the behaviour of the GIC CPU interface and
  *     provides information about the features implemented.
  */
-typedef union
+union bdk_ap_icc_ctlr_el1
 {
     uint32_t u;
     struct bdk_ap_icc_ctlr_el1_s
@@ -10056,7 +10184,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_icc_ctlr_el1_s cn; */
-} bdk_ap_icc_ctlr_el1_t;
+};
+typedef union bdk_ap_icc_ctlr_el1 bdk_ap_icc_ctlr_el1_t;
 
 #define BDK_AP_ICC_CTLR_EL1 BDK_AP_ICC_CTLR_EL1_FUNC()
 static inline uint64_t BDK_AP_ICC_CTLR_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -10078,7 +10207,7 @@ static inline uint64_t BDK_AP_ICC_CTLR_EL1_FUNC(void)
  * Controls aspects of the behaviour of the GIC CPU interface and
  *     provides information about the features implemented.
  */
-typedef union
+union bdk_ap_icc_ctlr_el3
 {
     uint32_t u;
     struct bdk_ap_icc_ctlr_el3_s
@@ -10180,7 +10309,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_icc_ctlr_el3_s cn; */
-} bdk_ap_icc_ctlr_el3_t;
+};
+typedef union bdk_ap_icc_ctlr_el3 bdk_ap_icc_ctlr_el3_t;
 
 #define BDK_AP_ICC_CTLR_EL3 BDK_AP_ICC_CTLR_EL3_FUNC()
 static inline uint64_t BDK_AP_ICC_CTLR_EL3_FUNC(void) __attribute__ ((pure, always_inline));
@@ -10203,7 +10333,7 @@ static inline uint64_t BDK_AP_ICC_CTLR_EL3_FUNC(void)
  *     deactivation, a write to this register deactivates the
  *     specified interrupt.
  */
-typedef union
+union bdk_ap_icc_dir_el1
 {
     uint32_t u;
     struct bdk_ap_icc_dir_el1_s
@@ -10225,7 +10355,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_icc_dir_el1_s cn; */
-} bdk_ap_icc_dir_el1_t;
+};
+typedef union bdk_ap_icc_dir_el1 bdk_ap_icc_dir_el1_t;
 
 #define BDK_AP_ICC_DIR_EL1 BDK_AP_ICC_DIR_EL1_FUNC()
 static inline uint64_t BDK_AP_ICC_DIR_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -10248,7 +10379,7 @@ static inline uint64_t BDK_AP_ICC_DIR_EL1_FUNC(void)
  *     interface that it has completed the processing of the
  *     specified interrupt.
  */
-typedef union
+union bdk_ap_icc_eoir0_el1
 {
     uint32_t u;
     struct bdk_ap_icc_eoir0_el1_s
@@ -10270,7 +10401,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_icc_eoir0_el1_s cn; */
-} bdk_ap_icc_eoir0_el1_t;
+};
+typedef union bdk_ap_icc_eoir0_el1 bdk_ap_icc_eoir0_el1_t;
 
 #define BDK_AP_ICC_EOIR0_EL1 BDK_AP_ICC_EOIR0_EL1_FUNC()
 static inline uint64_t BDK_AP_ICC_EOIR0_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -10293,7 +10425,7 @@ static inline uint64_t BDK_AP_ICC_EOIR0_EL1_FUNC(void)
  *     interface that it has completed the processing of the
  *     specified Group 1 interrupt.
  */
-typedef union
+union bdk_ap_icc_eoir1_el1
 {
     uint32_t u;
     struct bdk_ap_icc_eoir1_el1_s
@@ -10315,7 +10447,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_icc_eoir1_el1_s cn; */
-} bdk_ap_icc_eoir1_el1_t;
+};
+typedef union bdk_ap_icc_eoir1_el1 bdk_ap_icc_eoir1_el1_t;
 
 #define BDK_AP_ICC_EOIR1_EL1 BDK_AP_ICC_EOIR1_EL1_FUNC()
 static inline uint64_t BDK_AP_ICC_EOIR1_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -10338,7 +10471,7 @@ static inline uint64_t BDK_AP_ICC_EOIR1_EL1_FUNC(void)
  *     of the highest priority pending interrupt on the CPU
  *     interface.
  */
-typedef union
+union bdk_ap_icc_hppir0_el1
 {
     uint32_t u;
     struct bdk_ap_icc_hppir0_el1_s
@@ -10360,7 +10493,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_icc_hppir0_el1_s cn; */
-} bdk_ap_icc_hppir0_el1_t;
+};
+typedef union bdk_ap_icc_hppir0_el1 bdk_ap_icc_hppir0_el1_t;
 
 #define BDK_AP_ICC_HPPIR0_EL1 BDK_AP_ICC_HPPIR0_EL1_FUNC()
 static inline uint64_t BDK_AP_ICC_HPPIR0_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -10383,7 +10517,7 @@ static inline uint64_t BDK_AP_ICC_HPPIR0_EL1_FUNC(void)
  *     is a Group 1 interrupt, returns the interrupt ID of that
  *     interrupt. Otherwise, returns a spurious interrupt ID of 1023.
  */
-typedef union
+union bdk_ap_icc_hppir1_el1
 {
     uint32_t u;
     struct bdk_ap_icc_hppir1_el1_s
@@ -10407,7 +10541,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_icc_hppir1_el1_s cn; */
-} bdk_ap_icc_hppir1_el1_t;
+};
+typedef union bdk_ap_icc_hppir1_el1 bdk_ap_icc_hppir1_el1_t;
 
 #define BDK_AP_ICC_HPPIR1_EL1 BDK_AP_ICC_HPPIR1_EL1_FUNC()
 static inline uint64_t BDK_AP_ICC_HPPIR1_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -10430,7 +10565,7 @@ static inline uint64_t BDK_AP_ICC_HPPIR1_EL1_FUNC(void)
  *     of the signaled interrupt. This read acts as an acknowledge
  *     for the interrupt.
  */
-typedef union
+union bdk_ap_icc_iar0_el1
 {
     uint32_t u;
     struct bdk_ap_icc_iar0_el1_s
@@ -10458,7 +10593,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_icc_iar0_el1_s cn; */
-} bdk_ap_icc_iar0_el1_t;
+};
+typedef union bdk_ap_icc_iar0_el1 bdk_ap_icc_iar0_el1_t;
 
 #define BDK_AP_ICC_IAR0_EL1 BDK_AP_ICC_IAR0_EL1_FUNC()
 static inline uint64_t BDK_AP_ICC_IAR0_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -10481,7 +10617,7 @@ static inline uint64_t BDK_AP_ICC_IAR0_EL1_FUNC(void)
  *     of the signaled Group 1 interrupt. This read acts as an
  *     acknowledge for the interrupt.
  */
-typedef union
+union bdk_ap_icc_iar1_el1
 {
     uint32_t u;
     struct bdk_ap_icc_iar1_el1_s
@@ -10509,7 +10645,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_icc_iar1_el1_s cn; */
-} bdk_ap_icc_iar1_el1_t;
+};
+typedef union bdk_ap_icc_iar1_el1 bdk_ap_icc_iar1_el1_t;
 
 #define BDK_AP_ICC_IAR1_EL1 BDK_AP_ICC_IAR1_EL1_FUNC()
 static inline uint64_t BDK_AP_ICC_IAR1_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -10530,7 +10667,7 @@ static inline uint64_t BDK_AP_ICC_IAR1_EL1_FUNC(void)
  * AP Interrupt Controller Interrupt Group 0 Enable Register
  * Controls whether Group 0 interrupts are enabled or not.
  */
-typedef union
+union bdk_ap_icc_igrpen0_el1
 {
     uint32_t u;
     struct bdk_ap_icc_igrpen0_el1_s
@@ -10550,7 +10687,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_icc_igrpen0_el1_s cn; */
-} bdk_ap_icc_igrpen0_el1_t;
+};
+typedef union bdk_ap_icc_igrpen0_el1 bdk_ap_icc_igrpen0_el1_t;
 
 #define BDK_AP_ICC_IGRPEN0_EL1 BDK_AP_ICC_IGRPEN0_EL1_FUNC()
 static inline uint64_t BDK_AP_ICC_IGRPEN0_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -10572,7 +10710,7 @@ static inline uint64_t BDK_AP_ICC_IGRPEN0_EL1_FUNC(void)
  * Controls whether Group 1 interrupts are enabled for the
  *     current Security state.
  */
-typedef union
+union bdk_ap_icc_igrpen1_el1
 {
     uint32_t u;
     struct bdk_ap_icc_igrpen1_el1_s
@@ -10600,7 +10738,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_icc_igrpen1_el1_s cn; */
-} bdk_ap_icc_igrpen1_el1_t;
+};
+typedef union bdk_ap_icc_igrpen1_el1 bdk_ap_icc_igrpen1_el1_t;
 
 #define BDK_AP_ICC_IGRPEN1_EL1 BDK_AP_ICC_IGRPEN1_EL1_FUNC()
 static inline uint64_t BDK_AP_ICC_IGRPEN1_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -10621,7 +10760,7 @@ static inline uint64_t BDK_AP_ICC_IGRPEN1_EL1_FUNC(void)
  * AP Interrupt Controller Interrupt Group 1 Enable EL3 Register
  * Controls whether Group 1 interrupts are enabled or not.
  */
-typedef union
+union bdk_ap_icc_igrpen1_el3
 {
     uint32_t u;
     struct bdk_ap_icc_igrpen1_el3_s
@@ -10645,7 +10784,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_icc_igrpen1_el3_s cn; */
-} bdk_ap_icc_igrpen1_el3_t;
+};
+typedef union bdk_ap_icc_igrpen1_el3 bdk_ap_icc_igrpen1_el3_t;
 
 #define BDK_AP_ICC_IGRPEN1_EL3 BDK_AP_ICC_IGRPEN1_EL3_FUNC()
 static inline uint64_t BDK_AP_ICC_IGRPEN1_EL3_FUNC(void) __attribute__ ((pure, always_inline));
@@ -10668,7 +10808,7 @@ static inline uint64_t BDK_AP_ICC_IGRPEN1_EL3_FUNC(void)
  *     higher priority than the value in this register are signaled
  *     to the processor.
  */
-typedef union
+union bdk_ap_icc_pmr_el1
 {
     uint32_t u;
     struct bdk_ap_icc_pmr_el1_s
@@ -10726,7 +10866,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_icc_pmr_el1_s cn; */
-} bdk_ap_icc_pmr_el1_t;
+};
+typedef union bdk_ap_icc_pmr_el1 bdk_ap_icc_pmr_el1_t;
 
 #define BDK_AP_ICC_PMR_EL1 BDK_AP_ICC_PMR_EL1_FUNC()
 static inline uint64_t BDK_AP_ICC_PMR_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -10747,7 +10888,7 @@ static inline uint64_t BDK_AP_ICC_PMR_EL1_FUNC(void)
  * AP Interrupt Controller Running Priority Register
  * Indicates the Running priority of the CPU interface.
  */
-typedef union
+union bdk_ap_icc_rpr_el1
 {
     uint32_t u;
     struct bdk_ap_icc_rpr_el1_s
@@ -10763,7 +10904,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_icc_rpr_el1_s cn; */
-} bdk_ap_icc_rpr_el1_t;
+};
+typedef union bdk_ap_icc_rpr_el1 bdk_ap_icc_rpr_el1_t;
 
 #define BDK_AP_ICC_RPR_EL1 BDK_AP_ICC_RPR_EL1_FUNC()
 static inline uint64_t BDK_AP_ICC_RPR_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -10785,7 +10927,7 @@ static inline uint64_t BDK_AP_ICC_RPR_EL1_FUNC(void)
  * Controls whether System Error Interrupts generated by bus
  *     message are enabled.
  */
-typedef union
+union bdk_ap_icc_seien_el1
 {
     uint32_t u;
     struct bdk_ap_icc_seien_el1_s
@@ -10805,7 +10947,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_icc_seien_el1_s cn; */
-} bdk_ap_icc_seien_el1_t;
+};
+typedef union bdk_ap_icc_seien_el1 bdk_ap_icc_seien_el1_t;
 
 #define BDK_AP_ICC_SEIEN_EL1 BDK_AP_ICC_SEIEN_EL1_FUNC()
 static inline uint64_t BDK_AP_ICC_SEIEN_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -10828,7 +10971,7 @@ static inline uint64_t BDK_AP_ICC_SEIEN_EL1_FUNC(void)
  *     including from the nonsecure state when permitted by
  *     GICR_NSACR.
  */
-typedef union
+union bdk_ap_icc_sgi0r_el1
 {
     uint64_t u;
     struct bdk_ap_icc_sgi0r_el1_s
@@ -10898,7 +11041,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_icc_sgi0r_el1_s cn; */
-} bdk_ap_icc_sgi0r_el1_t;
+};
+typedef union bdk_ap_icc_sgi0r_el1 bdk_ap_icc_sgi0r_el1_t;
 
 #define BDK_AP_ICC_SGI0R_EL1 BDK_AP_ICC_SGI0R_EL1_FUNC()
 static inline uint64_t BDK_AP_ICC_SGI0R_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -10920,7 +11064,7 @@ static inline uint64_t BDK_AP_ICC_SGI0R_EL1_FUNC(void)
  * Provides software the ability to generate group 1 SGIs for the
  *     current security state.
  */
-typedef union
+union bdk_ap_icc_sgi1r_el1
 {
     uint64_t u;
     struct bdk_ap_icc_sgi1r_el1_s
@@ -10986,7 +11130,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_icc_sgi1r_el1_s cn; */
-} bdk_ap_icc_sgi1r_el1_t;
+};
+typedef union bdk_ap_icc_sgi1r_el1 bdk_ap_icc_sgi1r_el1_t;
 
 #define BDK_AP_ICC_SGI1R_EL1 BDK_AP_ICC_SGI1R_EL1_FUNC()
 static inline uint64_t BDK_AP_ICC_SGI1R_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -11009,7 +11154,7 @@ static inline uint64_t BDK_AP_ICC_SGI1R_EL1_FUNC(void)
  *     mapped interface to the GIC CPU interface is used for EL0 and
  *     EL1.
  */
-typedef union
+union bdk_ap_icc_sre_el1
 {
     uint32_t u;
     struct bdk_ap_icc_sre_el1_s
@@ -11055,7 +11200,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_icc_sre_el1_s cn; */
-} bdk_ap_icc_sre_el1_t;
+};
+typedef union bdk_ap_icc_sre_el1 bdk_ap_icc_sre_el1_t;
 
 #define BDK_AP_ICC_SRE_EL1 BDK_AP_ICC_SRE_EL1_FUNC()
 static inline uint64_t BDK_AP_ICC_SRE_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -11077,7 +11223,7 @@ static inline uint64_t BDK_AP_ICC_SRE_EL1_FUNC(void)
  * Controls whether the system register interface or the memory
  *     mapped interface to the GIC CPU interface is used for EL2.
  */
-typedef union
+union bdk_ap_icc_sre_el2
 {
     uint32_t u;
     struct bdk_ap_icc_sre_el2_s
@@ -11125,7 +11271,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_icc_sre_el2_s cn; */
-} bdk_ap_icc_sre_el2_t;
+};
+typedef union bdk_ap_icc_sre_el2 bdk_ap_icc_sre_el2_t;
 
 #define BDK_AP_ICC_SRE_EL2 BDK_AP_ICC_SRE_EL2_FUNC()
 static inline uint64_t BDK_AP_ICC_SRE_EL2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -11147,7 +11294,7 @@ static inline uint64_t BDK_AP_ICC_SRE_EL2_FUNC(void)
  * Controls whether the system register interface or the memory
  *     mapped interface to the GIC CPU interface is used for EL2.
  */
-typedef union
+union bdk_ap_icc_sre_el3
 {
     uint32_t u;
     struct bdk_ap_icc_sre_el3_s
@@ -11191,7 +11338,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_icc_sre_el3_s cn; */
-} bdk_ap_icc_sre_el3_t;
+};
+typedef union bdk_ap_icc_sre_el3 bdk_ap_icc_sre_el3_t;
 
 #define BDK_AP_ICC_SRE_EL3 BDK_AP_ICC_SRE_EL3_FUNC()
 static inline uint64_t BDK_AP_ICC_SRE_EL3_FUNC(void) __attribute__ ((pure, always_inline));
@@ -11213,7 +11361,7 @@ static inline uint64_t BDK_AP_ICC_SRE_EL3_FUNC(void)
  * Provides information about the active priorities for the
  *     current EL2 interrupt regime.
  */
-typedef union
+union bdk_ap_ich_ap0r0_el2
 {
     uint32_t u;
     struct bdk_ap_ich_ap0r0_el2_s
@@ -11315,7 +11463,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_ich_ap0r0_el2_s cn; */
-} bdk_ap_ich_ap0r0_el2_t;
+};
+typedef union bdk_ap_ich_ap0r0_el2 bdk_ap_ich_ap0r0_el2_t;
 
 #define BDK_AP_ICH_AP0R0_EL2 BDK_AP_ICH_AP0R0_EL2_FUNC()
 static inline uint64_t BDK_AP_ICH_AP0R0_EL2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -11337,7 +11486,7 @@ static inline uint64_t BDK_AP_ICH_AP0R0_EL2_FUNC(void)
  * Provides information about the active priorities for the
  *     current EL2 interrupt regime.
  */
-typedef union
+union bdk_ap_ich_ap0r1_el2
 {
     uint32_t u;
     struct bdk_ap_ich_ap0r1_el2_s
@@ -11349,7 +11498,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_ich_ap0r1_el2_s cn; */
-} bdk_ap_ich_ap0r1_el2_t;
+};
+typedef union bdk_ap_ich_ap0r1_el2 bdk_ap_ich_ap0r1_el2_t;
 
 #define BDK_AP_ICH_AP0R1_EL2 BDK_AP_ICH_AP0R1_EL2_FUNC()
 static inline uint64_t BDK_AP_ICH_AP0R1_EL2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -11371,7 +11521,7 @@ static inline uint64_t BDK_AP_ICH_AP0R1_EL2_FUNC(void)
  * Provides information about the active priorities for the
  *     current EL2 interrupt regime.
  */
-typedef union
+union bdk_ap_ich_ap0r2_el2
 {
     uint32_t u;
     struct bdk_ap_ich_ap0r2_el2_s
@@ -11383,7 +11533,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_ich_ap0r2_el2_s cn; */
-} bdk_ap_ich_ap0r2_el2_t;
+};
+typedef union bdk_ap_ich_ap0r2_el2 bdk_ap_ich_ap0r2_el2_t;
 
 #define BDK_AP_ICH_AP0R2_EL2 BDK_AP_ICH_AP0R2_EL2_FUNC()
 static inline uint64_t BDK_AP_ICH_AP0R2_EL2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -11405,7 +11556,7 @@ static inline uint64_t BDK_AP_ICH_AP0R2_EL2_FUNC(void)
  * Provides information about the active priorities for the
  *     current EL2 interrupt regime.
  */
-typedef union
+union bdk_ap_ich_ap0r3_el2
 {
     uint32_t u;
     struct bdk_ap_ich_ap0r3_el2_s
@@ -11417,7 +11568,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_ich_ap0r3_el2_s cn; */
-} bdk_ap_ich_ap0r3_el2_t;
+};
+typedef union bdk_ap_ich_ap0r3_el2 bdk_ap_ich_ap0r3_el2_t;
 
 #define BDK_AP_ICH_AP0R3_EL2 BDK_AP_ICH_AP0R3_EL2_FUNC()
 static inline uint64_t BDK_AP_ICH_AP0R3_EL2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -11439,7 +11591,7 @@ static inline uint64_t BDK_AP_ICH_AP0R3_EL2_FUNC(void)
  * Provides information about the active priorities for the
  *     current EL2 interrupt regime.
  */
-typedef union
+union bdk_ap_ich_ap1r0_el2
 {
     uint32_t u;
     struct bdk_ap_ich_ap1r0_el2_s
@@ -11557,7 +11709,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_ich_ap1r0_el2_s cn; */
-} bdk_ap_ich_ap1r0_el2_t;
+};
+typedef union bdk_ap_ich_ap1r0_el2 bdk_ap_ich_ap1r0_el2_t;
 
 #define BDK_AP_ICH_AP1R0_EL2 BDK_AP_ICH_AP1R0_EL2_FUNC()
 static inline uint64_t BDK_AP_ICH_AP1R0_EL2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -11579,7 +11732,7 @@ static inline uint64_t BDK_AP_ICH_AP1R0_EL2_FUNC(void)
  * Provides information about the active priorities for the
  *     current EL2 interrupt regime.
  */
-typedef union
+union bdk_ap_ich_ap1r1_el2
 {
     uint32_t u;
     struct bdk_ap_ich_ap1r1_el2_s
@@ -11591,7 +11744,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_ich_ap1r1_el2_s cn; */
-} bdk_ap_ich_ap1r1_el2_t;
+};
+typedef union bdk_ap_ich_ap1r1_el2 bdk_ap_ich_ap1r1_el2_t;
 
 #define BDK_AP_ICH_AP1R1_EL2 BDK_AP_ICH_AP1R1_EL2_FUNC()
 static inline uint64_t BDK_AP_ICH_AP1R1_EL2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -11613,7 +11767,7 @@ static inline uint64_t BDK_AP_ICH_AP1R1_EL2_FUNC(void)
  * Provides information about the active priorities for the
  *     current EL2 interrupt regime.
  */
-typedef union
+union bdk_ap_ich_ap1r2_el2
 {
     uint32_t u;
     struct bdk_ap_ich_ap1r2_el2_s
@@ -11625,7 +11779,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_ich_ap1r2_el2_s cn; */
-} bdk_ap_ich_ap1r2_el2_t;
+};
+typedef union bdk_ap_ich_ap1r2_el2 bdk_ap_ich_ap1r2_el2_t;
 
 #define BDK_AP_ICH_AP1R2_EL2 BDK_AP_ICH_AP1R2_EL2_FUNC()
 static inline uint64_t BDK_AP_ICH_AP1R2_EL2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -11647,7 +11802,7 @@ static inline uint64_t BDK_AP_ICH_AP1R2_EL2_FUNC(void)
  * Provides information about the active priorities for the
  *     current EL2 interrupt regime.
  */
-typedef union
+union bdk_ap_ich_ap1r3_el2
 {
     uint32_t u;
     struct bdk_ap_ich_ap1r3_el2_s
@@ -11659,7 +11814,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_ich_ap1r3_el2_s cn; */
-} bdk_ap_ich_ap1r3_el2_t;
+};
+typedef union bdk_ap_ich_ap1r3_el2 bdk_ap_ich_ap1r3_el2_t;
 
 #define BDK_AP_ICH_AP1R3_EL2 BDK_AP_ICH_AP1R3_EL2_FUNC()
 static inline uint64_t BDK_AP_ICH_AP1R3_EL2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -11682,7 +11838,7 @@ static inline uint64_t BDK_AP_ICH_AP1R3_EL2_FUNC(void)
  *     determine which List registers have outstanding EOI interrupts
  *     that require servicing.
  */
-typedef union
+union bdk_ap_ich_eisr_el2
 {
     uint32_t u;
     struct bdk_ap_ich_eisr_el2_s
@@ -11702,7 +11858,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_ich_eisr_el2_s cn; */
-} bdk_ap_ich_eisr_el2_t;
+};
+typedef union bdk_ap_ich_eisr_el2 bdk_ap_ich_eisr_el2_t;
 
 #define BDK_AP_ICH_EISR_EL2 BDK_AP_ICH_EISR_EL2_FUNC()
 static inline uint64_t BDK_AP_ICH_EISR_EL2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -11724,7 +11881,7 @@ static inline uint64_t BDK_AP_ICH_EISR_EL2_FUNC(void)
  * This register can be used to locate a usable List register
  *     when the hypervisor is delivering an interrupt to a Guest OS.
  */
-typedef union
+union bdk_ap_ich_elsr_el2
 {
     uint32_t u;
     struct bdk_ap_ich_elsr_el2_s
@@ -11754,7 +11911,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_ich_elsr_el2_s cn; */
-} bdk_ap_ich_elsr_el2_t;
+};
+typedef union bdk_ap_ich_elsr_el2 bdk_ap_ich_elsr_el2_t;
 
 #define BDK_AP_ICH_ELSR_EL2 BDK_AP_ICH_ELSR_EL2_FUNC()
 static inline uint64_t BDK_AP_ICH_ELSR_EL2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -11775,7 +11933,7 @@ static inline uint64_t BDK_AP_ICH_ELSR_EL2_FUNC(void)
  * AP Interrupt Controller Hyp Control Register
  * Controls the environment for guest operating systems.
  */
-typedef union
+union bdk_ap_ich_hcr_el2
 {
     uint32_t u;
     struct bdk_ap_ich_hcr_el2_s
@@ -11969,7 +12127,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_ich_hcr_el2_s cn; */
-} bdk_ap_ich_hcr_el2_t;
+};
+typedef union bdk_ap_ich_hcr_el2 bdk_ap_ich_hcr_el2_t;
 
 #define BDK_AP_ICH_HCR_EL2 BDK_AP_ICH_HCR_EL2_FUNC()
 static inline uint64_t BDK_AP_ICH_HCR_EL2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -11990,7 +12149,7 @@ static inline uint64_t BDK_AP_ICH_HCR_EL2_FUNC(void)
  * AP List Registers
  * Provides interrupt context information for the virtual CPU interface.
  */
-typedef union
+union bdk_ap_ich_lrx_el2
 {
     uint64_t u;
     struct bdk_ap_ich_lrx_el2_s
@@ -12024,7 +12183,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_ich_lrx_el2_s cn; */
-} bdk_ap_ich_lrx_el2_t;
+};
+typedef union bdk_ap_ich_lrx_el2 bdk_ap_ich_lrx_el2_t;
 
 static inline uint64_t BDK_AP_ICH_LRX_EL2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_ICH_LRX_EL2(unsigned long a)
@@ -12047,7 +12207,7 @@ static inline uint64_t BDK_AP_ICH_LRX_EL2(unsigned long a)
  * Provides interrupt context information for the virtual CPU interface. Only used for Aarch32.
  * Here for disassembly only.
  */
-typedef union
+union bdk_ap_ich_lrcx
 {
     uint32_t u;
     struct bdk_ap_ich_lrcx_s
@@ -12059,7 +12219,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_ich_lrcx_s cn; */
-} bdk_ap_ich_lrcx_t;
+};
+typedef union bdk_ap_ich_lrcx bdk_ap_ich_lrcx_t;
 
 static inline uint64_t BDK_AP_ICH_LRCX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_ICH_LRCX(unsigned long a)
@@ -12081,7 +12242,7 @@ static inline uint64_t BDK_AP_ICH_LRCX(unsigned long a)
  * AP Interrupt Controller Maintenance Interrupt State Register
  * Indicates which maintenance interrupts are asserted.
  */
-typedef union
+union bdk_ap_ich_misr_el2
 {
     uint32_t u;
     struct bdk_ap_ich_misr_el2_s
@@ -12153,7 +12314,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_ich_misr_el2_s cn; */
-} bdk_ap_ich_misr_el2_t;
+};
+typedef union bdk_ap_ich_misr_el2 bdk_ap_ich_misr_el2_t;
 
 #define BDK_AP_ICH_MISR_EL2 BDK_AP_ICH_MISR_EL2_FUNC()
 static inline uint64_t BDK_AP_ICH_MISR_EL2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -12175,7 +12337,7 @@ static inline uint64_t BDK_AP_ICH_MISR_EL2_FUNC(void)
  * Enables the hypervisor to save and restore the virtual machine
  *     view of the GIC state.
  */
-typedef union
+union bdk_ap_ich_vmcr_el2
 {
     uint32_t u;
     struct bdk_ap_ich_vmcr_el2_s
@@ -12231,7 +12393,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_ich_vmcr_el2_s cn; */
-} bdk_ap_ich_vmcr_el2_t;
+};
+typedef union bdk_ap_ich_vmcr_el2 bdk_ap_ich_vmcr_el2_t;
 
 #define BDK_AP_ICH_VMCR_EL2 BDK_AP_ICH_VMCR_EL2_FUNC()
 static inline uint64_t BDK_AP_ICH_VMCR_EL2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -12252,7 +12415,7 @@ static inline uint64_t BDK_AP_ICH_VMCR_EL2_FUNC(void)
  * AP Interrupt Controller Virtual System Error Interrupt Register
  * Allows the hypervisor to inject a virtual SEI.
  */
-typedef union
+union bdk_ap_ich_vseir_el2
 {
     uint32_t u;
     struct bdk_ap_ich_vseir_el2_s
@@ -12276,7 +12439,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_ich_vseir_el2_s cn; */
-} bdk_ap_ich_vseir_el2_t;
+};
+typedef union bdk_ap_ich_vseir_el2 bdk_ap_ich_vseir_el2_t;
 
 #define BDK_AP_ICH_VSEIR_EL2 BDK_AP_ICH_VSEIR_EL2_FUNC()
 static inline uint64_t BDK_AP_ICH_VSEIR_EL2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -12298,7 +12462,7 @@ static inline uint64_t BDK_AP_ICH_VSEIR_EL2_FUNC(void)
  * Describes the number of implemented virtual priority bits and
  *     List registers.
  */
-typedef union
+union bdk_ap_ich_vtr_el2
 {
     uint32_t u;
     struct bdk_ap_ich_vtr_el2_s
@@ -12348,7 +12512,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_ich_vtr_el2_s cn; */
-} bdk_ap_ich_vtr_el2_t;
+};
+typedef union bdk_ap_ich_vtr_el2 bdk_ap_ich_vtr_el2_t;
 
 #define BDK_AP_ICH_VTR_EL2 BDK_AP_ICH_VTR_EL2_FUNC()
 static inline uint64_t BDK_AP_ICH_VTR_EL2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -12373,7 +12538,7 @@ static inline uint64_t BDK_AP_ICH_VTR_EL2_FUNC(void)
  *     ARM doesn't actually assign a name to these registers, so
  *     for CNXXXX a made up one.
  */
-typedef union
+union bdk_ap_id_aa64afrx_el1_res0
 {
     uint64_t u;
     struct bdk_ap_id_aa64afrx_el1_res0_s
@@ -12385,7 +12550,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_id_aa64afrx_el1_res0_s cn; */
-} bdk_ap_id_aa64afrx_el1_res0_t;
+};
+typedef union bdk_ap_id_aa64afrx_el1_res0 bdk_ap_id_aa64afrx_el1_res0_t;
 
 static inline uint64_t BDK_AP_ID_AA64AFRX_EL1_RES0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_ID_AA64AFRX_EL1_RES0(unsigned long a)
@@ -12408,7 +12574,7 @@ static inline uint64_t BDK_AP_ID_AA64AFRX_EL1_RES0(unsigned long a)
  * Provides information about the implementation defined features
  *     of the processor in AArch64.
  */
-typedef union
+union bdk_ap_id_aa64afr0_el1
 {
     uint64_t u;
     struct bdk_ap_id_aa64afr0_el1_s
@@ -12420,7 +12586,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_id_aa64afr0_el1_s cn; */
-} bdk_ap_id_aa64afr0_el1_t;
+};
+typedef union bdk_ap_id_aa64afr0_el1 bdk_ap_id_aa64afr0_el1_t;
 
 #define BDK_AP_ID_AA64AFR0_EL1 BDK_AP_ID_AA64AFR0_EL1_FUNC()
 static inline uint64_t BDK_AP_ID_AA64AFR0_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -12442,7 +12609,7 @@ static inline uint64_t BDK_AP_ID_AA64AFR0_EL1_FUNC(void)
  * Reserved for future expansion of information about the
  *     implementation defined features of the processor in AArch64.
  */
-typedef union
+union bdk_ap_id_aa64afr1_el1
 {
     uint64_t u;
     struct bdk_ap_id_aa64afr1_el1_s
@@ -12454,7 +12621,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_id_aa64afr1_el1_s cn; */
-} bdk_ap_id_aa64afr1_el1_t;
+};
+typedef union bdk_ap_id_aa64afr1_el1 bdk_ap_id_aa64afr1_el1_t;
 
 #define BDK_AP_ID_AA64AFR1_EL1 BDK_AP_ID_AA64AFR1_EL1_FUNC()
 static inline uint64_t BDK_AP_ID_AA64AFR1_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -12478,7 +12646,7 @@ static inline uint64_t BDK_AP_ID_AA64AFR1_EL1_FUNC(void)
  *     the debug system in AArch64. ARM doesn't actually assign
  *     a name to these registers, so CNXXXX made up one.
  */
-typedef union
+union bdk_ap_id_aa64dfrx_el1_res0
 {
     uint64_t u;
     struct bdk_ap_id_aa64dfrx_el1_res0_s
@@ -12490,7 +12658,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_id_aa64dfrx_el1_res0_s cn; */
-} bdk_ap_id_aa64dfrx_el1_res0_t;
+};
+typedef union bdk_ap_id_aa64dfrx_el1_res0 bdk_ap_id_aa64dfrx_el1_res0_t;
 
 static inline uint64_t BDK_AP_ID_AA64DFRX_EL1_RES0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_ID_AA64DFRX_EL1_RES0(unsigned long a)
@@ -12512,7 +12681,7 @@ static inline uint64_t BDK_AP_ID_AA64DFRX_EL1_RES0(unsigned long a)
  * AP AArch64 Debug Feature Register 0
  * This register provides top level information about the debug system in AArch64.
  */
-typedef union
+union bdk_ap_id_aa64dfr0_el1
 {
     uint64_t u;
     struct bdk_ap_id_aa64dfr0_el1_s
@@ -12602,7 +12771,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_id_aa64dfr0_el1_s cn; */
-} bdk_ap_id_aa64dfr0_el1_t;
+};
+typedef union bdk_ap_id_aa64dfr0_el1 bdk_ap_id_aa64dfr0_el1_t;
 
 #define BDK_AP_ID_AA64DFR0_EL1 BDK_AP_ID_AA64DFR0_EL1_FUNC()
 static inline uint64_t BDK_AP_ID_AA64DFR0_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -12624,7 +12794,7 @@ static inline uint64_t BDK_AP_ID_AA64DFR0_EL1_FUNC(void)
  * Reserved for future expansion of top level information about
  *     the debug system in AArch64.
  */
-typedef union
+union bdk_ap_id_aa64dfr1_el1
 {
     uint64_t u;
     struct bdk_ap_id_aa64dfr1_el1_s
@@ -12636,7 +12806,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_id_aa64dfr1_el1_s cn; */
-} bdk_ap_id_aa64dfr1_el1_t;
+};
+typedef union bdk_ap_id_aa64dfr1_el1 bdk_ap_id_aa64dfr1_el1_t;
 
 #define BDK_AP_ID_AA64DFR1_EL1 BDK_AP_ID_AA64DFR1_EL1_FUNC()
 static inline uint64_t BDK_AP_ID_AA64DFR1_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -12661,7 +12832,7 @@ static inline uint64_t BDK_AP_ID_AA64DFR1_EL1_FUNC(void)
  *     ARM doesn't actually assign a name to these registers, so
  *     CNXXXX made up one.
  */
-typedef union
+union bdk_ap_id_aa64isarx_el1_res0
 {
     uint64_t u;
     struct bdk_ap_id_aa64isarx_el1_res0_s
@@ -12673,7 +12844,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_id_aa64isarx_el1_res0_s cn; */
-} bdk_ap_id_aa64isarx_el1_res0_t;
+};
+typedef union bdk_ap_id_aa64isarx_el1_res0 bdk_ap_id_aa64isarx_el1_res0_t;
 
 static inline uint64_t BDK_AP_ID_AA64ISARX_EL1_RES0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_ID_AA64ISARX_EL1_RES0(unsigned long a)
@@ -12696,7 +12868,7 @@ static inline uint64_t BDK_AP_ID_AA64ISARX_EL1_RES0(unsigned long a)
  * This register provides information about the instructions implemented by the
  * processor in AArch64.
  */
-typedef union
+union bdk_ap_id_aa64isar0_el1
 {
     uint64_t u;
     struct bdk_ap_id_aa64isar0_el1_s
@@ -12800,7 +12972,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_id_aa64isar0_el1_s cn; */
-} bdk_ap_id_aa64isar0_el1_t;
+};
+typedef union bdk_ap_id_aa64isar0_el1 bdk_ap_id_aa64isar0_el1_t;
 
 #define BDK_AP_ID_AA64ISAR0_EL1 BDK_AP_ID_AA64ISAR0_EL1_FUNC()
 static inline uint64_t BDK_AP_ID_AA64ISAR0_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -12822,7 +12995,7 @@ static inline uint64_t BDK_AP_ID_AA64ISAR0_EL1_FUNC(void)
  * Reserved for future expansion of the information about the
  *     instruction sets implemented by the processor in AArch64.
  */
-typedef union
+union bdk_ap_id_aa64isar1_el1
 {
     uint64_t u;
     struct bdk_ap_id_aa64isar1_el1_s
@@ -12834,7 +13007,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_id_aa64isar1_el1_s cn; */
-} bdk_ap_id_aa64isar1_el1_t;
+};
+typedef union bdk_ap_id_aa64isar1_el1 bdk_ap_id_aa64isar1_el1_t;
 
 #define BDK_AP_ID_AA64ISAR1_EL1 BDK_AP_ID_AA64ISAR1_EL1_FUNC()
 static inline uint64_t BDK_AP_ID_AA64ISAR1_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -12859,7 +13033,7 @@ static inline uint64_t BDK_AP_ID_AA64ISAR1_EL1_FUNC(void)
  *     AArch64. ARM doesn't actually assign a name to these
  *     registers, so CNXXXX made up one.
  */
-typedef union
+union bdk_ap_id_aa64mmfrx_el1_res0
 {
     uint64_t u;
     struct bdk_ap_id_aa64mmfrx_el1_res0_s
@@ -12871,7 +13045,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_id_aa64mmfrx_el1_res0_s cn; */
-} bdk_ap_id_aa64mmfrx_el1_res0_t;
+};
+typedef union bdk_ap_id_aa64mmfrx_el1_res0 bdk_ap_id_aa64mmfrx_el1_res0_t;
 
 static inline uint64_t BDK_AP_ID_AA64MMFRX_EL1_RES0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_ID_AA64MMFRX_EL1_RES0(unsigned long a)
@@ -12894,7 +13069,7 @@ static inline uint64_t BDK_AP_ID_AA64MMFRX_EL1_RES0(unsigned long a)
  * This register provides information about the implemented memory model and memory
  * management support in AArch64.
  */
-typedef union
+union bdk_ap_id_aa64mmfr0_el1
 {
     uint64_t u;
     struct bdk_ap_id_aa64mmfr0_el1_s
@@ -13028,7 +13203,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_id_aa64mmfr0_el1_s cn; */
-} bdk_ap_id_aa64mmfr0_el1_t;
+};
+typedef union bdk_ap_id_aa64mmfr0_el1 bdk_ap_id_aa64mmfr0_el1_t;
 
 #define BDK_AP_ID_AA64MMFR0_EL1 BDK_AP_ID_AA64MMFR0_EL1_FUNC()
 static inline uint64_t BDK_AP_ID_AA64MMFR0_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -13050,7 +13226,7 @@ static inline uint64_t BDK_AP_ID_AA64MMFR0_EL1_FUNC(void)
  * This register contains additional information about the implemented memory model and
  * memory management support in AArch64.
  */
-typedef union
+union bdk_ap_id_aa64mmfr1_el1
 {
     uint64_t u;
     struct bdk_ap_id_aa64mmfr1_el1_s
@@ -13138,7 +13314,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_id_aa64mmfr1_el1_s cn; */
-} bdk_ap_id_aa64mmfr1_el1_t;
+};
+typedef union bdk_ap_id_aa64mmfr1_el1 bdk_ap_id_aa64mmfr1_el1_t;
 
 #define BDK_AP_ID_AA64MMFR1_EL1 BDK_AP_ID_AA64MMFR1_EL1_FUNC()
 static inline uint64_t BDK_AP_ID_AA64MMFR1_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -13162,7 +13339,7 @@ static inline uint64_t BDK_AP_ID_AA64MMFR1_EL1_FUNC(void)
  *     processor features in AArch64. ARM doesn't actually assign
  *     a name to these registers, so CNXXXX made up one.
  */
-typedef union
+union bdk_ap_id_aa64pfrx_el1_res0
 {
     uint64_t u;
     struct bdk_ap_id_aa64pfrx_el1_res0_s
@@ -13174,7 +13351,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_id_aa64pfrx_el1_res0_s cn; */
-} bdk_ap_id_aa64pfrx_el1_res0_t;
+};
+typedef union bdk_ap_id_aa64pfrx_el1_res0 bdk_ap_id_aa64pfrx_el1_res0_t;
 
 static inline uint64_t BDK_AP_ID_AA64PFRX_EL1_RES0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_ID_AA64PFRX_EL1_RES0(unsigned long a)
@@ -13197,7 +13375,7 @@ static inline uint64_t BDK_AP_ID_AA64PFRX_EL1_RES0(unsigned long a)
  * This register provides additional information about implemented processor features
  * in AArch64.
  */
-typedef union
+union bdk_ap_id_aa64pfr0_el1
 {
     uint64_t u;
     struct bdk_ap_id_aa64pfr0_el1_s
@@ -13301,7 +13479,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_id_aa64pfr0_el1_s cn; */
-} bdk_ap_id_aa64pfr0_el1_t;
+};
+typedef union bdk_ap_id_aa64pfr0_el1 bdk_ap_id_aa64pfr0_el1_t;
 
 #define BDK_AP_ID_AA64PFR0_EL1 BDK_AP_ID_AA64PFR0_EL1_FUNC()
 static inline uint64_t BDK_AP_ID_AA64PFR0_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -13323,7 +13502,7 @@ static inline uint64_t BDK_AP_ID_AA64PFR0_EL1_FUNC(void)
  * Reserved for future expansion of information about implemented
  *     processor features in AArch64.
  */
-typedef union
+union bdk_ap_id_aa64pfr1_el1
 {
     uint64_t u;
     struct bdk_ap_id_aa64pfr1_el1_s
@@ -13335,7 +13514,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_id_aa64pfr1_el1_s cn; */
-} bdk_ap_id_aa64pfr1_el1_t;
+};
+typedef union bdk_ap_id_aa64pfr1_el1 bdk_ap_id_aa64pfr1_el1_t;
 
 #define BDK_AP_ID_AA64PFR1_EL1 BDK_AP_ID_AA64PFR1_EL1_FUNC()
 static inline uint64_t BDK_AP_ID_AA64PFR1_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -13357,7 +13537,7 @@ static inline uint64_t BDK_AP_ID_AA64PFR1_EL1_FUNC(void)
  * Provides information about the implementation defined features
  *     of the PE in AArch32.
  */
-typedef union
+union bdk_ap_id_afr0_el1
 {
     uint32_t u;
     struct bdk_ap_id_afr0_el1_s
@@ -13369,7 +13549,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_id_afr0_el1_s cn; */
-} bdk_ap_id_afr0_el1_t;
+};
+typedef union bdk_ap_id_afr0_el1 bdk_ap_id_afr0_el1_t;
 
 #define BDK_AP_ID_AFR0_EL1 BDK_AP_ID_AFR0_EL1_FUNC()
 static inline uint64_t BDK_AP_ID_AFR0_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -13393,7 +13574,7 @@ static inline uint64_t BDK_AP_ID_AFR0_EL1_FUNC(void)
  * This register is RES0 on CNXXXX since we don't support 32bit,
  * but it still needs to exist per spec.
  */
-typedef union
+union bdk_ap_id_dfr0_el1
 {
     uint32_t u;
     struct bdk_ap_id_dfr0_el1_s
@@ -13405,7 +13586,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_id_dfr0_el1_s cn; */
-} bdk_ap_id_dfr0_el1_t;
+};
+typedef union bdk_ap_id_dfr0_el1 bdk_ap_id_dfr0_el1_t;
 
 #define BDK_AP_ID_DFR0_EL1 BDK_AP_ID_DFR0_EL1_FUNC()
 static inline uint64_t BDK_AP_ID_DFR0_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -13426,7 +13608,7 @@ static inline uint64_t BDK_AP_ID_DFR0_EL1_FUNC(void)
  * AP ARM32 Instruction Set Attribute Register
  * Instruction set attribute register
  */
-typedef union
+union bdk_ap_id_isarx_el1
 {
     uint32_t u;
     struct bdk_ap_id_isarx_el1_s
@@ -13438,7 +13620,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_id_isarx_el1_s cn; */
-} bdk_ap_id_isarx_el1_t;
+};
+typedef union bdk_ap_id_isarx_el1 bdk_ap_id_isarx_el1_t;
 
 static inline uint64_t BDK_AP_ID_ISARX_EL1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_ID_ISARX_EL1(unsigned long a)
@@ -13462,7 +13645,7 @@ static inline uint64_t BDK_AP_ID_ISARX_EL1(unsigned long a)
  * Instruction set attribute register. ARM doesn't actually assign a name to these registers, so
  * CNXXXX made up one.
  */
-typedef union
+union bdk_ap_id_isarx_el1_res0
 {
     uint32_t u;
     struct bdk_ap_id_isarx_el1_res0_s
@@ -13474,7 +13657,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_id_isarx_el1_res0_s cn; */
-} bdk_ap_id_isarx_el1_res0_t;
+};
+typedef union bdk_ap_id_isarx_el1_res0 bdk_ap_id_isarx_el1_res0_t;
 
 static inline uint64_t BDK_AP_ID_ISARX_EL1_RES0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_ID_ISARX_EL1_RES0(unsigned long a)
@@ -13496,7 +13680,7 @@ static inline uint64_t BDK_AP_ID_ISARX_EL1_RES0(unsigned long a)
  * AP ARM32 Memory Model Feature Register
  * ARM32 Memory model feature register
  */
-typedef union
+union bdk_ap_id_mmfrx_el1
 {
     uint32_t u;
     struct bdk_ap_id_mmfrx_el1_s
@@ -13508,7 +13692,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_id_mmfrx_el1_s cn; */
-} bdk_ap_id_mmfrx_el1_t;
+};
+typedef union bdk_ap_id_mmfrx_el1 bdk_ap_id_mmfrx_el1_t;
 
 static inline uint64_t BDK_AP_ID_MMFRX_EL1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_ID_MMFRX_EL1(unsigned long a)
@@ -13531,7 +13716,7 @@ static inline uint64_t BDK_AP_ID_MMFRX_EL1(unsigned long a)
  * Gives top-level information about the instruction sets
  *     supported by the processor in AArch32.
  */
-typedef union
+union bdk_ap_id_pfr0_el1
 {
     uint32_t u;
     struct bdk_ap_id_pfr0_el1_s
@@ -13597,7 +13782,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_id_pfr0_el1_s cn; */
-} bdk_ap_id_pfr0_el1_t;
+};
+typedef union bdk_ap_id_pfr0_el1 bdk_ap_id_pfr0_el1_t;
 
 #define BDK_AP_ID_PFR0_EL1 BDK_AP_ID_PFR0_EL1_FUNC()
 static inline uint64_t BDK_AP_ID_PFR0_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -13619,7 +13805,7 @@ static inline uint64_t BDK_AP_ID_PFR0_EL1_FUNC(void)
  * Gives information about the programmers' model and extensions
  *     support in AArch32.
  */
-typedef union
+union bdk_ap_id_pfr1_el1
 {
     uint32_t u;
     struct bdk_ap_id_pfr1_el1_s
@@ -13737,7 +13923,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_id_pfr1_el1_s cn; */
-} bdk_ap_id_pfr1_el1_t;
+};
+typedef union bdk_ap_id_pfr1_el1 bdk_ap_id_pfr1_el1_t;
 
 #define BDK_AP_ID_PFR1_EL1 BDK_AP_ID_PFR1_EL1_FUNC()
 static inline uint64_t BDK_AP_ID_PFR1_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -13759,7 +13946,7 @@ static inline uint64_t BDK_AP_ID_PFR1_EL1_FUNC(void)
  * Allows access to the AArch32 IFSR register from AArch64 state
  *     only. Its value has no effect on execution in AArch64 state.
  */
-typedef union
+union bdk_ap_ifsr32_el2
 {
     uint32_t u;
     struct bdk_ap_ifsr32_el2_s
@@ -13790,7 +13977,8 @@ typedef union
         uint32_t reserved_13_31        : 19;
 #endif /* Word 0 - End */
     } cn;
-} bdk_ap_ifsr32_el2_t;
+};
+typedef union bdk_ap_ifsr32_el2 bdk_ap_ifsr32_el2_t;
 
 #define BDK_AP_IFSR32_EL2 BDK_AP_IFSR32_EL2_FUNC()
 static inline uint64_t BDK_AP_IFSR32_EL2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -13813,7 +14001,7 @@ static inline uint64_t BDK_AP_IFSR32_EL2_FUNC(void)
  *     EL2 is implemented, an indicated pending interrupt might be a
  *     physical interrupt or a virtual interrupt.
  */
-typedef union
+union bdk_ap_isr_el1
 {
     uint32_t u;
     struct bdk_ap_isr_el1_s
@@ -13849,7 +14037,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_isr_el1_s cn; */
-} bdk_ap_isr_el1_t;
+};
+typedef union bdk_ap_isr_el1 bdk_ap_isr_el1_t;
 
 #define BDK_AP_ISR_EL1 BDK_AP_ISR_EL1_FUNC()
 static inline uint64_t BDK_AP_ISR_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -13881,7 +14070,7 @@ static inline uint64_t BDK_AP_ISR_EL1_FUNC(void)
  * architecture, the LORC register must be explicitly synchronised for
  * changes in the AP_LORC_EL1[DS] field to take effect.
  */
-typedef union
+union bdk_ap_lorc_el1
 {
     uint64_t u;
     struct bdk_ap_lorc_el1_s
@@ -13911,7 +14100,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_lorc_el1_s cn; */
-} bdk_ap_lorc_el1_t;
+};
+typedef union bdk_ap_lorc_el1 bdk_ap_lorc_el1_t;
 
 #define BDK_AP_LORC_EL1 BDK_AP_LORC_EL1_FUNC()
 static inline uint64_t BDK_AP_LORC_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -13936,7 +14126,7 @@ static inline uint64_t BDK_AP_LORC_EL1_FUNC(void)
  * If the AP_LORN_EL1[StartAddress] > AP_LORN_EL1[EndAddress] for a LOR
  * Descriptor, then that LOR Descriptor does not match any LORegion.
  */
-typedef union
+union bdk_ap_lorea_el1
 {
     uint64_t u;
     struct bdk_ap_lorea_el1_s
@@ -13954,7 +14144,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_lorea_el1_s cn; */
-} bdk_ap_lorea_el1_t;
+};
+typedef union bdk_ap_lorea_el1 bdk_ap_lorea_el1_t;
 
 #define BDK_AP_LOREA_EL1 BDK_AP_LOREA_EL1_FUNC()
 static inline uint64_t BDK_AP_LOREA_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -13980,7 +14171,7 @@ static inline uint64_t BDK_AP_LOREA_EL1_FUNC(void)
  * If no LOR Descriptors are implemented then the AP_LORC_EL1, AP_LORN_EL1,
  * AP_LORSA_EL1 and AP_LOREA_EL1 registers are RES0.
  */
-typedef union
+union bdk_ap_lorid_el1
 {
     uint64_t u;
     struct bdk_ap_lorid_el1_s
@@ -14002,7 +14193,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_lorid_el1_s cn; */
-} bdk_ap_lorid_el1_t;
+};
+typedef union bdk_ap_lorid_el1 bdk_ap_lorid_el1_t;
 
 #define BDK_AP_LORID_EL1 BDK_AP_LORID_EL1_FUNC()
 static inline uint64_t BDK_AP_LORID_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -14027,7 +14219,7 @@ static inline uint64_t BDK_AP_LORID_EL1_FUNC(void)
  * If the AP_LORN_EL1[Num] bit points to a LORegion that is not supported by
  * the implemented, then that LOR Descriptor does not match any LORegion.
  */
-typedef union
+union bdk_ap_lorn_el1
 {
     uint64_t u;
     struct bdk_ap_lorn_el1_s
@@ -14047,7 +14239,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_lorn_el1_s cn; */
-} bdk_ap_lorn_el1_t;
+};
+typedef union bdk_ap_lorn_el1 bdk_ap_lorn_el1_t;
 
 #define BDK_AP_LORN_EL1 BDK_AP_LORN_EL1_FUNC()
 static inline uint64_t BDK_AP_LORN_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -14070,7 +14263,7 @@ static inline uint64_t BDK_AP_LORN_EL1_FUNC(void)
  * accessible from EL1 or above
  * The AP_LORSA_EL1 is permitted to be cached in a TLB.
  */
-typedef union
+union bdk_ap_lorsa_el1
 {
     uint64_t u;
     struct bdk_ap_lorsa_el1_s
@@ -14094,7 +14287,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_lorsa_el1_s cn; */
-} bdk_ap_lorsa_el1_t;
+};
+typedef union bdk_ap_lorsa_el1 bdk_ap_lorsa_el1_t;
 
 #define BDK_AP_LORSA_EL1 BDK_AP_LORSA_EL1_FUNC()
 static inline uint64_t BDK_AP_LORSA_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -14117,7 +14311,7 @@ static inline uint64_t BDK_AP_LORSA_EL1_FUNC(void)
  *     possible AttrIndx values in a Long-descriptor format
  *     translation table entry for stage 1 translations at EL3.
  */
-typedef union
+union bdk_ap_mair_elx
 {
     uint64_t u;
     struct bdk_ap_mair_elx_s
@@ -14213,7 +14407,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_mair_elx_s cn; */
-} bdk_ap_mair_elx_t;
+};
+typedef union bdk_ap_mair_elx bdk_ap_mair_elx_t;
 
 static inline uint64_t BDK_AP_MAIR_ELX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_MAIR_ELX(unsigned long a)
@@ -14235,7 +14430,7 @@ static inline uint64_t BDK_AP_MAIR_ELX(unsigned long a)
  * AP Memory Attribute Indirection Register
  * Alias of ESR_EL1 when accessed at EL2/3 and AP_HCR_EL2[E2H] is set.
  */
-typedef union
+union bdk_ap_mair_el12
 {
     uint64_t u;
     struct bdk_ap_mair_el12_s
@@ -14247,7 +14442,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_mair_el12_s cn; */
-} bdk_ap_mair_el12_t;
+};
+typedef union bdk_ap_mair_el12 bdk_ap_mair_el12_t;
 
 #define BDK_AP_MAIR_EL12 BDK_AP_MAIR_EL12_FUNC()
 static inline uint64_t BDK_AP_MAIR_EL12_FUNC(void) __attribute__ ((pure, always_inline));
@@ -14269,7 +14465,7 @@ static inline uint64_t BDK_AP_MAIR_EL12_FUNC(void)
  * Enables interrupt requests to be signaled based on the DCC
  *     status flags.
  */
-typedef union
+union bdk_ap_mdccint_el1
 {
     uint32_t u;
     struct bdk_ap_mdccint_el1_s
@@ -14315,7 +14511,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_mdccint_el1_s cn; */
-} bdk_ap_mdccint_el1_t;
+};
+typedef union bdk_ap_mdccint_el1 bdk_ap_mdccint_el1_t;
 
 #define BDK_AP_MDCCINT_EL1 BDK_AP_MDCCINT_EL1_FUNC()
 static inline uint64_t BDK_AP_MDCCINT_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -14338,7 +14535,7 @@ static inline uint64_t BDK_AP_MDCCINT_EL1_FUNC(void)
  *     flow-control flags for the DCC. This is an internal, read-only
  *     view.
  */
-typedef union
+union bdk_ap_mdccsr_el0
 {
     uint32_t u;
     struct bdk_ap_mdccsr_el0_s
@@ -14381,7 +14578,8 @@ typedef union
         uint32_t reserved_31           : 1;
 #endif /* Word 0 - End */
     } cn;
-} bdk_ap_mdccsr_el0_t;
+};
+typedef union bdk_ap_mdccsr_el0 bdk_ap_mdccsr_el0_t;
 
 #define BDK_AP_MDCCSR_EL0 BDK_AP_MDCCSR_EL0_FUNC()
 static inline uint64_t BDK_AP_MDCCSR_EL0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -14404,7 +14602,7 @@ static inline uint64_t BDK_AP_MDCCSR_EL0_FUNC(void)
  *     extensions to self-hosted debug and the Performance Monitors
  *     extension.
  */
-typedef union
+union bdk_ap_mdcr_el2
 {
     uint32_t u;
     struct bdk_ap_mdcr_el2_s
@@ -14652,7 +14850,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_mdcr_el2_s cn; */
-} bdk_ap_mdcr_el2_t;
+};
+typedef union bdk_ap_mdcr_el2 bdk_ap_mdcr_el2_t;
 
 #define BDK_AP_MDCR_EL2 BDK_AP_MDCR_EL2_FUNC()
 static inline uint64_t BDK_AP_MDCR_EL2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -14674,7 +14873,7 @@ static inline uint64_t BDK_AP_MDCR_EL2_FUNC(void)
  * Provides configuration options for the Security extensions to
  *     self-hosted debug.
  */
-typedef union
+union bdk_ap_mdcr_el3
 {
     uint32_t u;
     struct bdk_ap_mdcr_el3_s
@@ -14935,7 +15134,8 @@ typedef union
         uint32_t reserved_22_31        : 10;
 #endif /* Word 0 - End */
     } cn;
-} bdk_ap_mdcr_el3_t;
+};
+typedef union bdk_ap_mdcr_el3 bdk_ap_mdcr_el3_t;
 
 #define BDK_AP_MDCR_EL3 BDK_AP_MDCR_EL3_FUNC()
 static inline uint64_t BDK_AP_MDCR_EL3_FUNC(void) __attribute__ ((pure, always_inline));
@@ -14958,7 +15158,7 @@ static inline uint64_t BDK_AP_MDCR_EL3_FUNC(void)
  *     mapped debug component, usually a ROM table that locates and
  *     describes the memory-mapped debug components in the system.
  */
-typedef union
+union bdk_ap_mdrar_el1
 {
     uint64_t u;
     struct bdk_ap_mdrar_el1_s
@@ -15000,7 +15200,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_mdrar_el1_s cn; */
-} bdk_ap_mdrar_el1_t;
+};
+typedef union bdk_ap_mdrar_el1 bdk_ap_mdrar_el1_t;
 
 #define BDK_AP_MDRAR_EL1 BDK_AP_MDRAR_EL1_FUNC()
 static inline uint64_t BDK_AP_MDRAR_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -15021,7 +15222,7 @@ static inline uint64_t BDK_AP_MDRAR_EL1_FUNC(void)
  * AP Monitor Debug System Control Register
  * Main control register for the debug implementation.
  */
-typedef union
+union bdk_ap_mdscr_el1
 {
     uint32_t u;
     struct bdk_ap_mdscr_el1_s
@@ -15405,7 +15606,8 @@ typedef union
     /* struct bdk_ap_mdscr_el1_s cn81xx; */
     /* struct bdk_ap_mdscr_el1_s cn83xx; */
     /* struct bdk_ap_mdscr_el1_s cn88xxp2; */
-} bdk_ap_mdscr_el1_t;
+};
+typedef union bdk_ap_mdscr_el1 bdk_ap_mdscr_el1_t;
 
 #define BDK_AP_MDSCR_EL1 BDK_AP_MDSCR_EL1_FUNC()
 static inline uint64_t BDK_AP_MDSCR_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -15427,7 +15629,7 @@ static inline uint64_t BDK_AP_MDSCR_EL1_FUNC(void)
  * This register provides identification information for the PE, including an
  * implementer code for the device and a device ID number.
  */
-typedef union
+union bdk_ap_midr_el1
 {
     uint32_t u;
     struct bdk_ap_midr_el1_s
@@ -15519,7 +15721,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_midr_el1_s cn; */
-} bdk_ap_midr_el1_t;
+};
+typedef union bdk_ap_midr_el1 bdk_ap_midr_el1_t;
 
 #define BDK_AP_MIDR_EL1 BDK_AP_MIDR_EL1_FUNC()
 static inline uint64_t BDK_AP_MIDR_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -15542,7 +15745,7 @@ static inline uint64_t BDK_AP_MIDR_EL1_FUNC(void)
  * mechanism for scheduling purposes, and indicates whether the implementation includes
  * the multiprocessing extensions.
  */
-typedef union
+union bdk_ap_mpidr_el1
 {
     uint64_t u;
     struct bdk_ap_mpidr_el1_s
@@ -15608,7 +15811,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_mpidr_el1_s cn; */
-} bdk_ap_mpidr_el1_t;
+};
+typedef union bdk_ap_mpidr_el1 bdk_ap_mpidr_el1_t;
 
 #define BDK_AP_MPIDR_EL1 BDK_AP_MPIDR_EL1_FUNC()
 static inline uint64_t BDK_AP_MPIDR_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -15629,7 +15833,7 @@ static inline uint64_t BDK_AP_MPIDR_EL1_FUNC(void)
  * AP ARM32 Media and VFP Feature Register
  * Describes the features provided by the Advanced SIMD and Floating-point Extensions.
  */
-typedef union
+union bdk_ap_mvfrx_el1
 {
     uint32_t u;
     struct bdk_ap_mvfrx_el1_s
@@ -15641,7 +15845,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_mvfrx_el1_s cn; */
-} bdk_ap_mvfrx_el1_t;
+};
+typedef union bdk_ap_mvfrx_el1 bdk_ap_mvfrx_el1_t;
 
 static inline uint64_t BDK_AP_MVFRX_EL1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_MVFRX_EL1(unsigned long a)
@@ -15663,7 +15868,7 @@ static inline uint64_t BDK_AP_MVFRX_EL1(unsigned long a)
  * AP Condition Flags Register
  * Allows access to the condition flags.
  */
-typedef union
+union bdk_ap_nzcv
 {
     uint32_t u;
     struct bdk_ap_nzcv_s
@@ -15703,7 +15908,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_nzcv_s cn; */
-} bdk_ap_nzcv_t;
+};
+typedef union bdk_ap_nzcv bdk_ap_nzcv_t;
 
 #define BDK_AP_NZCV BDK_AP_NZCV_FUNC()
 static inline uint64_t BDK_AP_NZCV_FUNC(void) __attribute__ ((pure, always_inline));
@@ -15724,7 +15930,7 @@ static inline uint64_t BDK_AP_NZCV_FUNC(void)
  * AP OS Double Lock Register
  * Used to control the OS Double Lock.
  */
-typedef union
+union bdk_ap_osdlr_el1
 {
     uint32_t u;
     struct bdk_ap_osdlr_el1_s
@@ -15746,7 +15952,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_osdlr_el1_s cn; */
-} bdk_ap_osdlr_el1_t;
+};
+typedef union bdk_ap_osdlr_el1 bdk_ap_osdlr_el1_t;
 
 #define BDK_AP_OSDLR_EL1 BDK_AP_OSDLR_EL1_FUNC()
 static inline uint64_t BDK_AP_OSDLR_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -15768,7 +15975,7 @@ static inline uint64_t BDK_AP_OSDLR_EL1_FUNC(void)
  * Used for save/restore of AP_DBGDTRRX_EL0. It is a component of
  *     the Debug Communications Channel.
  */
-typedef union
+union bdk_ap_osdtrrx_el1
 {
     uint32_t u;
     struct bdk_ap_osdtrrx_el1_s
@@ -15786,7 +15993,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_osdtrrx_el1_s cn; */
-} bdk_ap_osdtrrx_el1_t;
+};
+typedef union bdk_ap_osdtrrx_el1 bdk_ap_osdtrrx_el1_t;
 
 #define BDK_AP_OSDTRRX_EL1 BDK_AP_OSDTRRX_EL1_FUNC()
 static inline uint64_t BDK_AP_OSDTRRX_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -15808,7 +16016,7 @@ static inline uint64_t BDK_AP_OSDTRRX_EL1_FUNC(void)
  * Used for save/restore of AP_DBGDTRTX_EL0. It is a component of
  *     the Debug Communications Channel.
  */
-typedef union
+union bdk_ap_osdtrtx_el1
 {
     uint32_t u;
     struct bdk_ap_osdtrtx_el1_s
@@ -15826,7 +16034,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_osdtrtx_el1_s cn; */
-} bdk_ap_osdtrtx_el1_t;
+};
+typedef union bdk_ap_osdtrtx_el1 bdk_ap_osdtrtx_el1_t;
 
 #define BDK_AP_OSDTRTX_EL1 BDK_AP_OSDTRTX_EL1_FUNC()
 static inline uint64_t BDK_AP_OSDTRTX_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -15850,7 +16059,7 @@ static inline uint64_t BDK_AP_OSDTRTX_EL1_FUNC(void)
  *     so it can save/restore the contents of EDECCR over powerdown
  *     on behalf of the external debugger.
  */
-typedef union
+union bdk_ap_oseccr_el1
 {
     uint32_t u;
     struct bdk_ap_oseccr_el1_s
@@ -15862,7 +16071,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_oseccr_el1_s cn; */
-} bdk_ap_oseccr_el1_t;
+};
+typedef union bdk_ap_oseccr_el1 bdk_ap_oseccr_el1_t;
 
 #define BDK_AP_OSECCR_EL1 BDK_AP_OSECCR_EL1_FUNC()
 static inline uint64_t BDK_AP_OSECCR_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -15883,7 +16093,7 @@ static inline uint64_t BDK_AP_OSECCR_EL1_FUNC(void)
  * AP OS Lock Access Register
  * Used to lock or unlock the OS lock.
  */
-typedef union
+union bdk_ap_oslar_el1
 {
     uint32_t u;
     struct bdk_ap_oslar_el1_s
@@ -15899,7 +16109,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_oslar_el1_s cn; */
-} bdk_ap_oslar_el1_t;
+};
+typedef union bdk_ap_oslar_el1 bdk_ap_oslar_el1_t;
 
 #define BDK_AP_OSLAR_EL1 BDK_AP_OSLAR_EL1_FUNC()
 static inline uint64_t BDK_AP_OSLAR_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -15920,7 +16131,7 @@ static inline uint64_t BDK_AP_OSLAR_EL1_FUNC(void)
  * AP OS Lock Status Register
  * Provides the status of the OS lock.
  */
-typedef union
+union bdk_ap_oslsr_el1
 {
     uint32_t u;
     struct bdk_ap_oslsr_el1_s
@@ -15960,7 +16171,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_oslsr_el1_s cn; */
-} bdk_ap_oslsr_el1_t;
+};
+typedef union bdk_ap_oslsr_el1 bdk_ap_oslsr_el1_t;
 
 #define BDK_AP_OSLSR_EL1 BDK_AP_OSLSR_EL1_FUNC()
 static inline uint64_t BDK_AP_OSLSR_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -16000,7 +16212,7 @@ static inline uint64_t BDK_AP_OSLSR_EL1_FUNC(void)
  * PSTATE[AP_PAN] is copied to SPSR[AP_PAN] on an exception taken from AArch64
  * SPSR[AP_PAN] is copied to PSTATE[AP_PAN] on an exception return to AArch64
  */
-typedef union
+union bdk_ap_pan
 {
     uint64_t u;
     struct bdk_ap_pan_s
@@ -16016,7 +16228,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_pan_s cn; */
-} bdk_ap_pan_t;
+};
+typedef union bdk_ap_pan bdk_ap_pan_t;
 
 #define BDK_AP_PAN BDK_AP_PAN_FUNC()
 static inline uint64_t BDK_AP_PAN_FUNC(void) __attribute__ ((pure, always_inline));
@@ -16037,7 +16250,7 @@ static inline uint64_t BDK_AP_PAN_FUNC(void)
  * AP Physical Address Register
  * Receives the PA from any address translation operation.
  */
-typedef union
+union bdk_ap_par_el1
 {
     uint64_t u;
     struct bdk_ap_par_el1_s
@@ -16089,7 +16302,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_par_el1_s cn; */
-} bdk_ap_par_el1_t;
+};
+typedef union bdk_ap_par_el1 bdk_ap_par_el1_t;
 
 #define BDK_AP_PAR_EL1 BDK_AP_PAR_EL1_FUNC()
 static inline uint64_t BDK_AP_PAR_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -16111,7 +16325,7 @@ static inline uint64_t BDK_AP_PAR_EL1_FUNC(void)
  * Determines the modes in which the Cycle Counter, AP_PMCCNTR_EL0,
  *     increments.
  */
-typedef union
+union bdk_ap_pmccfiltr_el0
 {
     uint32_t u;
     struct bdk_ap_pmccfiltr_el0_s
@@ -16187,7 +16401,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_pmccfiltr_el0_s cn; */
-} bdk_ap_pmccfiltr_el0_t;
+};
+typedef union bdk_ap_pmccfiltr_el0 bdk_ap_pmccfiltr_el0_t;
 
 #define BDK_AP_PMCCFILTR_EL0 BDK_AP_PMCCFILTR_EL0_FUNC()
 static inline uint64_t BDK_AP_PMCCFILTR_EL0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -16209,7 +16424,7 @@ static inline uint64_t BDK_AP_PMCCFILTR_EL0_FUNC(void)
  * Holds the value of the processor Cycle Counter, CCNT, that
  *     counts processor clock cycles.
  */
-typedef union
+union bdk_ap_pmccntr_el0
 {
     uint64_t u;
     struct bdk_ap_pmccntr_el0_s
@@ -16229,7 +16444,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_pmccntr_el0_s cn; */
-} bdk_ap_pmccntr_el0_t;
+};
+typedef union bdk_ap_pmccntr_el0 bdk_ap_pmccntr_el0_t;
 
 #define BDK_AP_PMCCNTR_EL0 BDK_AP_PMCCNTR_EL0_FUNC()
 static inline uint64_t BDK_AP_PMCCNTR_EL0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -16253,7 +16469,7 @@ static inline uint64_t BDK_AP_PMCCNTR_EL0_FUNC(void)
  *     particular bit is set to 1, then the event for that bit is
  *     implemented.
  */
-typedef union
+union bdk_ap_pmceid0_el0
 {
     uint64_t u;
     struct bdk_ap_pmceid0_el0_s
@@ -16345,7 +16561,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_pmceid0_el0_s cn; */
-} bdk_ap_pmceid0_el0_t;
+};
+typedef union bdk_ap_pmceid0_el0 bdk_ap_pmceid0_el0_t;
 
 #define BDK_AP_PMCEID0_EL0 BDK_AP_PMCEID0_EL0_FUNC()
 static inline uint64_t BDK_AP_PMCEID0_EL0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -16367,7 +16584,7 @@ static inline uint64_t BDK_AP_PMCEID0_EL0_FUNC(void)
  * Reserved for future indication of which common architectural
  *     and common microarchitectural feature events are implemented.
  */
-typedef union
+union bdk_ap_pmceid1_el0
 {
     uint64_t u;
     struct bdk_ap_pmceid1_el0_s
@@ -16399,7 +16616,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_pmceid1_el0_s cn; */
-} bdk_ap_pmceid1_el0_t;
+};
+typedef union bdk_ap_pmceid1_el0 bdk_ap_pmceid1_el0_t;
 
 #define BDK_AP_PMCEID1_EL0 BDK_AP_PMCEID1_EL0_FUNC()
 static inline uint64_t BDK_AP_PMCEID1_EL0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -16422,7 +16640,7 @@ static inline uint64_t BDK_AP_PMCEID1_EL0_FUNC(void)
  *     implemented event counters PMEVCNTR<x>. Reading this register
  *     shows which counters are enabled.
  */
-typedef union
+union bdk_ap_pmcntenclr_el0
 {
     uint32_t u;
     struct bdk_ap_pmcntenclr_el0_s
@@ -16462,7 +16680,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_pmcntenclr_el0_s cn; */
-} bdk_ap_pmcntenclr_el0_t;
+};
+typedef union bdk_ap_pmcntenclr_el0 bdk_ap_pmcntenclr_el0_t;
 
 #define BDK_AP_PMCNTENCLR_EL0 BDK_AP_PMCNTENCLR_EL0_FUNC()
 static inline uint64_t BDK_AP_PMCNTENCLR_EL0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -16485,7 +16704,7 @@ static inline uint64_t BDK_AP_PMCNTENCLR_EL0_FUNC(void)
  *     implemented event counters PMEVCNTR<x>. Reading this register
  *     shows which counters are enabled.
  */
-typedef union
+union bdk_ap_pmcntenset_el0
 {
     uint32_t u;
     struct bdk_ap_pmcntenset_el0_s
@@ -16525,7 +16744,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_pmcntenset_el0_s cn; */
-} bdk_ap_pmcntenset_el0_t;
+};
+typedef union bdk_ap_pmcntenset_el0 bdk_ap_pmcntenset_el0_t;
 
 #define BDK_AP_PMCNTENSET_EL0 BDK_AP_PMCNTENSET_EL0_FUNC()
 static inline uint64_t BDK_AP_PMCNTENSET_EL0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -16548,7 +16768,7 @@ static inline uint64_t BDK_AP_PMCNTENSET_EL0_FUNC(void)
  *     including the number of counters implemented, and configures
  *     and controls the counters.
  */
-typedef union
+union bdk_ap_pmcr_el0
 {
     uint32_t u;
     struct bdk_ap_pmcr_el0_s
@@ -16734,7 +16954,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_pmcr_el0_s cn; */
-} bdk_ap_pmcr_el0_t;
+};
+typedef union bdk_ap_pmcr_el0 bdk_ap_pmcr_el0_t;
 
 #define BDK_AP_PMCR_EL0 BDK_AP_PMCR_EL0_FUNC()
 static inline uint64_t BDK_AP_PMCR_EL0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -16756,7 +16977,7 @@ static inline uint64_t BDK_AP_PMCR_EL0_FUNC(void)
  * Holds event counter n, which counts events, where n is 0 to
  *     30.
  */
-typedef union
+union bdk_ap_pmevcntrx_el0
 {
     uint32_t u;
     struct bdk_ap_pmevcntrx_el0_s
@@ -16770,7 +16991,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_pmevcntrx_el0_s cn; */
-} bdk_ap_pmevcntrx_el0_t;
+};
+typedef union bdk_ap_pmevcntrx_el0 bdk_ap_pmevcntrx_el0_t;
 
 static inline uint64_t BDK_AP_PMEVCNTRX_EL0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_PMEVCNTRX_EL0(unsigned long a)
@@ -16792,7 +17014,7 @@ static inline uint64_t BDK_AP_PMEVCNTRX_EL0(unsigned long a)
  * AP Performance Monitors Event Type Registers
  * Configures event counter n, where n is 0 to 30.
  */
-typedef union
+union bdk_ap_pmevtyperx_el0
 {
     uint32_t u;
     struct bdk_ap_pmevtyperx_el0_s
@@ -16918,7 +17140,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_pmevtyperx_el0_s cn; */
-} bdk_ap_pmevtyperx_el0_t;
+};
+typedef union bdk_ap_pmevtyperx_el0 bdk_ap_pmevtyperx_el0_t;
 
 static inline uint64_t BDK_AP_PMEVTYPERX_EL0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_PMEVTYPERX_EL0(unsigned long a)
@@ -16943,7 +17166,7 @@ static inline uint64_t BDK_AP_PMEVTYPERX_EL0(unsigned long a)
  *     counters PMEVCNTR<n>_EL0. Reading the register shows which
  *     overflow interrupt requests are enabled.
  */
-typedef union
+union bdk_ap_pmintenclr_el1
 {
     uint32_t u;
     struct bdk_ap_pmintenclr_el1_s
@@ -16989,7 +17212,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_pmintenclr_el1_s cn; */
-} bdk_ap_pmintenclr_el1_t;
+};
+typedef union bdk_ap_pmintenclr_el1 bdk_ap_pmintenclr_el1_t;
 
 #define BDK_AP_PMINTENCLR_EL1 BDK_AP_PMINTENCLR_EL1_FUNC()
 static inline uint64_t BDK_AP_PMINTENCLR_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -17013,7 +17237,7 @@ static inline uint64_t BDK_AP_PMINTENCLR_EL1_FUNC(void)
  *     PMEVCNTR<n>_EL0. Reading the register shows which overflow
  *     interrupt requests are enabled.
  */
-typedef union
+union bdk_ap_pmintenset_el1
 {
     uint32_t u;
     struct bdk_ap_pmintenset_el1_s
@@ -17065,7 +17289,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_pmintenset_el1_s cn; */
-} bdk_ap_pmintenset_el1_t;
+};
+typedef union bdk_ap_pmintenset_el1 bdk_ap_pmintenset_el1_t;
 
 #define BDK_AP_PMINTENSET_EL1 BDK_AP_PMINTENSET_EL1_FUNC()
 static inline uint64_t BDK_AP_PMINTENSET_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -17089,7 +17314,7 @@ static inline uint64_t BDK_AP_PMINTENSET_EL1_FUNC(void)
  *     counters PMEVCNTR<x>. Writing to this register clears these
  *     bits.
  */
-typedef union
+union bdk_ap_pmovsclr_el0
 {
     uint32_t u;
     struct bdk_ap_pmovsclr_el0_s
@@ -17133,7 +17358,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_pmovsclr_el0_s cn; */
-} bdk_ap_pmovsclr_el0_t;
+};
+typedef union bdk_ap_pmovsclr_el0 bdk_ap_pmovsclr_el0_t;
 
 #define BDK_AP_PMOVSCLR_EL0 BDK_AP_PMOVSCLR_EL0_FUNC()
 static inline uint64_t BDK_AP_PMOVSCLR_EL0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -17156,7 +17382,7 @@ static inline uint64_t BDK_AP_PMOVSCLR_EL0_FUNC(void)
  *     Register, AP_PMCCNTR_EL0, and each of the implemented event
  *     counters PMEVCNTR<x>.
  */
-typedef union
+union bdk_ap_pmovsset_el0
 {
     uint32_t u;
     struct bdk_ap_pmovsset_el0_s
@@ -17194,7 +17420,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_pmovsset_el0_s cn; */
-} bdk_ap_pmovsset_el0_t;
+};
+typedef union bdk_ap_pmovsset_el0 bdk_ap_pmovsset_el0_t;
 
 #define BDK_AP_PMOVSSET_EL0 BDK_AP_PMOVSSET_EL0_FUNC()
 static inline uint64_t BDK_AP_PMOVSSET_EL0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -17216,7 +17443,7 @@ static inline uint64_t BDK_AP_PMOVSSET_EL0_FUNC(void)
  * Selects the current event counter PMEVCNTR<x> or the cycle
  *     counter, CCNT.
  */
-typedef union
+union bdk_ap_pmselr_el0
 {
     uint32_t u;
     struct bdk_ap_pmselr_el0_s
@@ -17298,7 +17525,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_pmselr_el0_s cn; */
-} bdk_ap_pmselr_el0_t;
+};
+typedef union bdk_ap_pmselr_el0 bdk_ap_pmselr_el0_t;
 
 #define BDK_AP_PMSELR_EL0 BDK_AP_PMSELR_EL0_FUNC()
 static inline uint64_t BDK_AP_PMSELR_EL0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -17320,7 +17548,7 @@ static inline uint64_t BDK_AP_PMSELR_EL0_FUNC(void)
  * Increments a counter that is configured to count the Software
  *     increment event, event 0x0.
  */
-typedef union
+union bdk_ap_pmswinc_el0
 {
     uint32_t u;
     struct bdk_ap_pmswinc_el0_s
@@ -17352,7 +17580,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_pmswinc_el0_s cn; */
-} bdk_ap_pmswinc_el0_t;
+};
+typedef union bdk_ap_pmswinc_el0 bdk_ap_pmswinc_el0_t;
 
 #define BDK_AP_PMSWINC_EL0 BDK_AP_PMSWINC_EL0_FUNC()
 static inline uint64_t BDK_AP_PMSWINC_EL0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -17373,7 +17602,7 @@ static inline uint64_t BDK_AP_PMSWINC_EL0_FUNC(void)
  * AP Performance Monitors User Enable Register
  * Enables or disables EL0 access to the Performance Monitors.
  */
-typedef union
+union bdk_ap_pmuserenr_el0
 {
     uint32_t u;
     struct bdk_ap_pmuserenr_el0_s
@@ -17423,7 +17652,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_pmuserenr_el0_s cn; */
-} bdk_ap_pmuserenr_el0_t;
+};
+typedef union bdk_ap_pmuserenr_el0 bdk_ap_pmuserenr_el0_t;
 
 #define BDK_AP_PMUSERENR_EL0 BDK_AP_PMUSERENR_EL0_FUNC()
 static inline uint64_t BDK_AP_PMUSERENR_EL0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -17446,7 +17676,7 @@ static inline uint64_t BDK_AP_PMUSERENR_EL0_FUNC(void)
  *     PMEVCNTR<x>_EL0. AP_PMSELR_EL0[SEL] determines which event counter
  *     is selected.
  */
-typedef union
+union bdk_ap_pmxevcntr_el0
 {
     uint32_t u;
     struct bdk_ap_pmxevcntr_el0_s
@@ -17460,7 +17690,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_pmxevcntr_el0_s cn; */
-} bdk_ap_pmxevcntr_el0_t;
+};
+typedef union bdk_ap_pmxevcntr_el0 bdk_ap_pmxevcntr_el0_t;
 
 #define BDK_AP_PMXEVCNTR_EL0 BDK_AP_PMXEVCNTR_EL0_FUNC()
 static inline uint64_t BDK_AP_PMXEVCNTR_EL0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -17483,7 +17714,7 @@ static inline uint64_t BDK_AP_PMXEVCNTR_EL0_FUNC(void)
  *     PMEVTYPER<n>_EL0 register. When AP_PMSELR_EL0[SEL] selects the
  *     cycle counter, this accesses AP_PMCCFILTR_EL0.
  */
-typedef union
+union bdk_ap_pmxevtyper_el0
 {
     uint32_t u;
     struct bdk_ap_pmxevtyper_el0_s
@@ -17503,7 +17734,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_pmxevtyper_el0_s cn; */
-} bdk_ap_pmxevtyper_el0_t;
+};
+typedef union bdk_ap_pmxevtyper_el0 bdk_ap_pmxevtyper_el0_t;
 
 #define BDK_AP_PMXEVTYPER_EL0 BDK_AP_PMXEVTYPER_EL0_FUNC()
 static inline uint64_t BDK_AP_PMXEVTYPER_EL0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -17525,7 +17757,7 @@ static inline uint64_t BDK_AP_PMXEVTYPER_EL0_FUNC(void)
  * This register provides implementation-specific minor revision information
  * that can only be interpreted in conjunction with AP_MIDR_EL1.
  */
-typedef union
+union bdk_ap_revidr_el1
 {
     uint32_t u;
     struct bdk_ap_revidr_el1_s
@@ -17537,7 +17769,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_revidr_el1_s cn; */
-} bdk_ap_revidr_el1_t;
+};
+typedef union bdk_ap_revidr_el1 bdk_ap_revidr_el1_t;
 
 #define BDK_AP_REVIDR_EL1 BDK_AP_REVIDR_EL1_FUNC()
 static inline uint64_t BDK_AP_REVIDR_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -17558,7 +17791,7 @@ static inline uint64_t BDK_AP_REVIDR_EL1_FUNC(void)
  * AP Reset Management non-EL3 Register
  * Reset control for EL1 or EL2. Doesn't exists since EL3 exists.
  */
-typedef union
+union bdk_ap_rmr_elx
 {
     uint32_t u;
     struct bdk_ap_rmr_elx_s
@@ -17570,7 +17803,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_rmr_elx_s cn; */
-} bdk_ap_rmr_elx_t;
+};
+typedef union bdk_ap_rmr_elx bdk_ap_rmr_elx_t;
 
 static inline uint64_t BDK_AP_RMR_ELX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_RMR_ELX(unsigned long a)
@@ -17597,7 +17831,7 @@ static inline uint64_t BDK_AP_RMR_ELX(unsigned long a)
  *
  * Not implemented on CNXXXX - no 32 bit support.
  */
-typedef union
+union bdk_ap_rmr_el3
 {
     uint32_t u;
     struct bdk_ap_rmr_el3_s
@@ -17625,7 +17859,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_rmr_el3_s cn; */
-} bdk_ap_rmr_el3_t;
+};
+typedef union bdk_ap_rmr_el3 bdk_ap_rmr_el3_t;
 
 #define BDK_AP_RMR_EL3 BDK_AP_RMR_EL3_FUNC()
 static inline uint64_t BDK_AP_RMR_EL3_FUNC(void) __attribute__ ((pure, always_inline));
@@ -17646,7 +17881,7 @@ static inline uint64_t BDK_AP_RMR_EL3_FUNC(void)
  * AP Reset Vector Base Address non-EL3 Register
  * Reset vector for EL1 or EL2. Doesn't exists since EL3 exists.
  */
-typedef union
+union bdk_ap_rvbar_elx
 {
     uint64_t u;
     struct bdk_ap_rvbar_elx_s
@@ -17658,7 +17893,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_rvbar_elx_s cn; */
-} bdk_ap_rvbar_elx_t;
+};
+typedef union bdk_ap_rvbar_elx bdk_ap_rvbar_elx_t;
 
 static inline uint64_t BDK_AP_RVBAR_ELX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_RVBAR_ELX(unsigned long a)
@@ -17682,7 +17918,7 @@ static inline uint64_t BDK_AP_RVBAR_ELX(unsigned long a)
  *     the implementation defined address that execution starts from
  *     after reset when executing in AArch64 state.
  */
-typedef union
+union bdk_ap_rvbar_el3
 {
     uint64_t u;
     struct bdk_ap_rvbar_el3_s
@@ -17714,7 +17950,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_rvbar_el3_s cn; */
-} bdk_ap_rvbar_el3_t;
+};
+typedef union bdk_ap_rvbar_el3 bdk_ap_rvbar_el3_t;
 
 #define BDK_AP_RVBAR_EL3 BDK_AP_RVBAR_EL3_FUNC()
 static inline uint64_t BDK_AP_RVBAR_EL3_FUNC(void) __attribute__ ((pure, always_inline));
@@ -17741,7 +17978,7 @@ static inline uint64_t BDK_AP_RVBAR_EL3_FUNC(void)
  *  Whether IRQ, FIQ, and External Abort interrupts are taken to
  *     EL3.
  */
-typedef union
+union bdk_ap_scr_el3
 {
     uint32_t u;
     struct bdk_ap_scr_el3_s
@@ -17931,7 +18168,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_scr_el3_s cn; */
-} bdk_ap_scr_el3_t;
+};
+typedef union bdk_ap_scr_el3 bdk_ap_scr_el3_t;
 
 #define BDK_AP_SCR_EL3 BDK_AP_SCR_EL3_FUNC()
 static inline uint64_t BDK_AP_SCR_EL3_FUNC(void) __attribute__ ((pure, always_inline));
@@ -17953,7 +18191,7 @@ static inline uint64_t BDK_AP_SCR_EL3_FUNC(void)
  * Provides top level control of the system, including its memory
  *     system, at EL1.
  */
-typedef union
+union bdk_ap_sctlr_el1
 {
     uint32_t u;
     struct bdk_ap_sctlr_el1_s
@@ -18650,7 +18888,8 @@ typedef union
         uint32_t reserved_30_31        : 2;
 #endif /* Word 0 - End */
     } cn;
-} bdk_ap_sctlr_el1_t;
+};
+typedef union bdk_ap_sctlr_el1 bdk_ap_sctlr_el1_t;
 
 #define BDK_AP_SCTLR_EL1 BDK_AP_SCTLR_EL1_FUNC()
 static inline uint64_t BDK_AP_SCTLR_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -18671,7 +18910,7 @@ static inline uint64_t BDK_AP_SCTLR_EL1_FUNC(void)
  * AP System Control EL1/2 Register
  * Alias to allow access to AP_SCTLR_EL1 from EL2 when AP_HCR_EL2[E2H] is set.
  */
-typedef union
+union bdk_ap_sctlr_el12
 {
     uint32_t u;
     struct bdk_ap_sctlr_el12_s
@@ -18683,7 +18922,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_sctlr_el12_s cn; */
-} bdk_ap_sctlr_el12_t;
+};
+typedef union bdk_ap_sctlr_el12 bdk_ap_sctlr_el12_t;
 
 #define BDK_AP_SCTLR_EL12 BDK_AP_SCTLR_EL12_FUNC()
 static inline uint64_t BDK_AP_SCTLR_EL12_FUNC(void) __attribute__ ((pure, always_inline));
@@ -18707,7 +18947,7 @@ static inline uint64_t BDK_AP_SCTLR_EL12_FUNC(void)
  *
  * This register is at the same select as AP_SCTLR_EL2_E2H and is used when E2H=0.
  */
-typedef union
+union bdk_ap_sctlr_el2
 {
     uint32_t u;
     struct bdk_ap_sctlr_el2_s
@@ -18885,7 +19125,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_sctlr_el2_s cn; */
-} bdk_ap_sctlr_el2_t;
+};
+typedef union bdk_ap_sctlr_el2 bdk_ap_sctlr_el2_t;
 
 #define BDK_AP_SCTLR_EL2 BDK_AP_SCTLR_EL2_FUNC()
 static inline uint64_t BDK_AP_SCTLR_EL2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -18909,7 +19150,7 @@ static inline uint64_t BDK_AP_SCTLR_EL2_FUNC(void)
  *
  * This register is at the same select as AP_SCTLR_EL2 and is used when E2H=1.
  */
-typedef union
+union bdk_ap_sctlr_el2_e2h
 {
     uint32_t u;
     struct bdk_ap_sctlr_el2_e2h_s
@@ -19666,7 +19907,8 @@ typedef union
         uint32_t reserved_30_31        : 2;
 #endif /* Word 0 - End */
     } cn;
-} bdk_ap_sctlr_el2_e2h_t;
+};
+typedef union bdk_ap_sctlr_el2_e2h bdk_ap_sctlr_el2_e2h_t;
 
 #define BDK_AP_SCTLR_EL2_E2H BDK_AP_SCTLR_EL2_E2H_FUNC()
 static inline uint64_t BDK_AP_SCTLR_EL2_E2H_FUNC(void) __attribute__ ((pure, always_inline));
@@ -19688,7 +19930,7 @@ static inline uint64_t BDK_AP_SCTLR_EL2_E2H_FUNC(void)
  * Provides top level control of the system, including its memory
  *     system, at EL3.
  */
-typedef union
+union bdk_ap_sctlr_el3
 {
     uint32_t u;
     struct bdk_ap_sctlr_el3_s
@@ -19862,7 +20104,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_sctlr_el3_s cn; */
-} bdk_ap_sctlr_el3_t;
+};
+typedef union bdk_ap_sctlr_el3 bdk_ap_sctlr_el3_t;
 
 #define BDK_AP_SCTLR_EL3 BDK_AP_SCTLR_EL3_FUNC()
 static inline uint64_t BDK_AP_SCTLR_EL3_FUNC(void) __attribute__ ((pure, always_inline));
@@ -19884,7 +20127,7 @@ static inline uint64_t BDK_AP_SCTLR_EL3_FUNC(void)
  * Allows access to the AArch32 register SDER from AArch64 state
  *     only. Its value has no effect on execution in AArch64 state.
  */
-typedef union
+union bdk_ap_sder32_el3
 {
     uint32_t u;
     struct bdk_ap_sder32_el3_s
@@ -19908,7 +20151,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_sder32_el3_s cn; */
-} bdk_ap_sder32_el3_t;
+};
+typedef union bdk_ap_sder32_el3 bdk_ap_sder32_el3_t;
 
 #define BDK_AP_SDER32_EL3 BDK_AP_SDER32_EL3_FUNC()
 static inline uint64_t BDK_AP_SDER32_EL3_FUNC(void) __attribute__ ((pure, always_inline));
@@ -19930,7 +20174,7 @@ static inline uint64_t BDK_AP_SDER32_EL3_FUNC(void)
  * Holds the stack pointer if AP_SPSel[SP] is 0, or the stack pointer
  *     for EL0 if AP_SPSel[SP] is 1.
  */
-typedef union
+union bdk_ap_sp_el0
 {
     uint64_t u;
     struct bdk_ap_sp_el0_s
@@ -19942,7 +20186,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_sp_el0_s cn; */
-} bdk_ap_sp_el0_t;
+};
+typedef union bdk_ap_sp_el0 bdk_ap_sp_el0_t;
 
 #define BDK_AP_SP_EL0 BDK_AP_SP_EL0_FUNC()
 static inline uint64_t BDK_AP_SP_EL0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -19964,7 +20209,7 @@ static inline uint64_t BDK_AP_SP_EL0_FUNC(void)
  * Holds the stack pointer for EL1 if AP_SPSel[SP] is 1 (the stack
  *     pointer selected is SP_ELx).
  */
-typedef union
+union bdk_ap_sp_el1
 {
     uint64_t u;
     struct bdk_ap_sp_el1_s
@@ -19976,7 +20221,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_sp_el1_s cn; */
-} bdk_ap_sp_el1_t;
+};
+typedef union bdk_ap_sp_el1 bdk_ap_sp_el1_t;
 
 #define BDK_AP_SP_EL1 BDK_AP_SP_EL1_FUNC()
 static inline uint64_t BDK_AP_SP_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -19998,7 +20244,7 @@ static inline uint64_t BDK_AP_SP_EL1_FUNC(void)
  * Holds the stack pointer for EL2 if AP_SPSel[SP] is 1 (the stack
  *     pointer selected is SP_ELx).
  */
-typedef union
+union bdk_ap_sp_el2
 {
     uint64_t u;
     struct bdk_ap_sp_el2_s
@@ -20010,7 +20256,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_sp_el2_s cn; */
-} bdk_ap_sp_el2_t;
+};
+typedef union bdk_ap_sp_el2 bdk_ap_sp_el2_t;
 
 #define BDK_AP_SP_EL2 BDK_AP_SP_EL2_FUNC()
 static inline uint64_t BDK_AP_SP_EL2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -20032,7 +20279,7 @@ static inline uint64_t BDK_AP_SP_EL2_FUNC(void)
  * Allows the Stack Pointer to be selected between AP_SP_EL0 and
  *     SP_ELx.
  */
-typedef union
+union bdk_ap_spsel
 {
     uint32_t u;
     struct bdk_ap_spsel_s
@@ -20050,7 +20297,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_spsel_s cn; */
-} bdk_ap_spsel_t;
+};
+typedef union bdk_ap_spsel bdk_ap_spsel_t;
 
 #define BDK_AP_SPSEL BDK_AP_SPSEL_FUNC()
 static inline uint64_t BDK_AP_SPSEL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -20073,7 +20321,7 @@ static inline uint64_t BDK_AP_SPSEL_FUNC(void)
  *     Abort mode.
  * If EL1 does not support execution in AArch32, this register is RES0.
  */
-typedef union
+union bdk_ap_spsr_abt
 {
     uint32_t u;
     struct bdk_ap_spsr_abt_s
@@ -20085,7 +20333,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_spsr_abt_s cn; */
-} bdk_ap_spsr_abt_t;
+};
+typedef union bdk_ap_spsr_abt bdk_ap_spsr_abt_t;
 
 #define BDK_AP_SPSR_ABT BDK_AP_SPSR_ABT_FUNC()
 static inline uint64_t BDK_AP_SPSR_ABT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -20107,7 +20356,7 @@ static inline uint64_t BDK_AP_SPSR_ABT_FUNC(void)
  * Holds the saved processor state when an exception is taken to
  *     EL*.
  */
-typedef union
+union bdk_ap_spsr_elx
 {
     uint32_t u;
     struct bdk_ap_spsr_elx_s
@@ -20237,7 +20486,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_spsr_elx_s cn; */
-} bdk_ap_spsr_elx_t;
+};
+typedef union bdk_ap_spsr_elx bdk_ap_spsr_elx_t;
 
 static inline uint64_t BDK_AP_SPSR_ELX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_SPSR_ELX(unsigned long a)
@@ -20259,7 +20509,7 @@ static inline uint64_t BDK_AP_SPSR_ELX(unsigned long a)
  * AP Saved Processor State EL2/3 Alias Register
  * Allows EL2 and EL3 access to SPSR_EL1 when AP_HCR_EL2[E2H]==1.
  */
-typedef union
+union bdk_ap_spsr_el12
 {
     uint32_t u;
     struct bdk_ap_spsr_el12_s
@@ -20271,7 +20521,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_spsr_el12_s cn; */
-} bdk_ap_spsr_el12_t;
+};
+typedef union bdk_ap_spsr_el12 bdk_ap_spsr_el12_t;
 
 #define BDK_AP_SPSR_EL12 BDK_AP_SPSR_EL12_FUNC()
 static inline uint64_t BDK_AP_SPSR_EL12_FUNC(void) __attribute__ ((pure, always_inline));
@@ -20294,7 +20545,7 @@ static inline uint64_t BDK_AP_SPSR_EL12_FUNC(void)
  *     FIQ mode.
  * If EL1 does not support execution in AArch32, this register is RES0.
  */
-typedef union
+union bdk_ap_spsr_fiq
 {
     uint32_t u;
     struct bdk_ap_spsr_fiq_s
@@ -20306,7 +20557,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_spsr_fiq_s cn; */
-} bdk_ap_spsr_fiq_t;
+};
+typedef union bdk_ap_spsr_fiq bdk_ap_spsr_fiq_t;
 
 #define BDK_AP_SPSR_FIQ BDK_AP_SPSR_FIQ_FUNC()
 static inline uint64_t BDK_AP_SPSR_FIQ_FUNC(void) __attribute__ ((pure, always_inline));
@@ -20329,7 +20581,7 @@ static inline uint64_t BDK_AP_SPSR_FIQ_FUNC(void)
  *     IRQ mode.
  * If EL1 does not support execution in AArch32, this register is RES0.
  */
-typedef union
+union bdk_ap_spsr_irq
 {
     uint32_t u;
     struct bdk_ap_spsr_irq_s
@@ -20341,7 +20593,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_spsr_irq_s cn; */
-} bdk_ap_spsr_irq_t;
+};
+typedef union bdk_ap_spsr_irq bdk_ap_spsr_irq_t;
 
 #define BDK_AP_SPSR_IRQ BDK_AP_SPSR_IRQ_FUNC()
 static inline uint64_t BDK_AP_SPSR_IRQ_FUNC(void) __attribute__ ((pure, always_inline));
@@ -20364,7 +20617,7 @@ static inline uint64_t BDK_AP_SPSR_IRQ_FUNC(void)
  *     Undefined mode.
  * If EL1 does not support execution in AArch32, this register is RES0.
  */
-typedef union
+union bdk_ap_spsr_und
 {
     uint32_t u;
     struct bdk_ap_spsr_und_s
@@ -20376,7 +20629,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_spsr_und_s cn; */
-} bdk_ap_spsr_und_t;
+};
+typedef union bdk_ap_spsr_und bdk_ap_spsr_und_t;
 
 #define BDK_AP_SPSR_UND BDK_AP_SPSR_UND_FUNC()
 static inline uint64_t BDK_AP_SPSR_UND_FUNC(void) __attribute__ ((pure, always_inline));
@@ -20401,7 +20655,7 @@ static inline uint64_t BDK_AP_SPSR_UND_FUNC(void)
  *     EL1. Also controls the translation table format and holds
  *     cacheability and shareability information.
  */
-typedef union
+union bdk_ap_tcr_el1
 {
     uint64_t u;
     struct bdk_ap_tcr_el1_s
@@ -21110,7 +21364,8 @@ typedef union
         uint64_t reserved_43_63        : 21;
 #endif /* Word 0 - End */
     } cn;
-} bdk_ap_tcr_el1_t;
+};
+typedef union bdk_ap_tcr_el1 bdk_ap_tcr_el1_t;
 
 #define BDK_AP_TCR_EL1 BDK_AP_TCR_EL1_FUNC()
 static inline uint64_t BDK_AP_TCR_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -21131,7 +21386,7 @@ static inline uint64_t BDK_AP_TCR_EL1_FUNC(void)
  * AP Translation Control EL1/2 Register
  * Alias of AP_TCR_EL1 when accessed at EL2/3 and AP_HCR_EL2[E2H] is set.
  */
-typedef union
+union bdk_ap_tcr_el12
 {
     uint64_t u;
     struct bdk_ap_tcr_el12_s
@@ -21143,7 +21398,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_tcr_el12_s cn; */
-} bdk_ap_tcr_el12_t;
+};
+typedef union bdk_ap_tcr_el12 bdk_ap_tcr_el12_t;
 
 #define BDK_AP_TCR_EL12 BDK_AP_TCR_EL12_FUNC()
 static inline uint64_t BDK_AP_TCR_EL12_FUNC(void) __attribute__ ((pure, always_inline));
@@ -21168,7 +21424,7 @@ static inline uint64_t BDK_AP_TCR_EL12_FUNC(void)
  *
  * This register is at the same select as AP_TCR_EL2_E2H and is used when E2H=0.
  */
-typedef union
+union bdk_ap_tcr_el2
 {
     uint32_t u;
     struct bdk_ap_tcr_el2_s
@@ -21505,7 +21761,8 @@ typedef union
         uint32_t rsvd_31               : 1;  /**< [ 31: 31](RO) Reserved 1. */
 #endif /* Word 0 - End */
     } cn;
-} bdk_ap_tcr_el2_t;
+};
+typedef union bdk_ap_tcr_el2 bdk_ap_tcr_el2_t;
 
 #define BDK_AP_TCR_EL2 BDK_AP_TCR_EL2_FUNC()
 static inline uint64_t BDK_AP_TCR_EL2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -21532,7 +21789,7 @@ static inline uint64_t BDK_AP_TCR_EL2_FUNC(void)
  *
  * This register is at the same select as AP_TCR_EL2 and is used when E2H=1.
  */
-typedef union
+union bdk_ap_tcr_el2_e2h
 {
     uint64_t u;
     struct bdk_ap_tcr_el2_e2h_s
@@ -22225,7 +22482,8 @@ typedef union
         uint64_t reserved_43_63        : 21;
 #endif /* Word 0 - End */
     } cn;
-} bdk_ap_tcr_el2_e2h_t;
+};
+typedef union bdk_ap_tcr_el2_e2h bdk_ap_tcr_el2_e2h_t;
 
 #define BDK_AP_TCR_EL2_E2H BDK_AP_TCR_EL2_E2H_FUNC()
 static inline uint64_t BDK_AP_TCR_EL2_E2H_FUNC(void) __attribute__ ((pure, always_inline));
@@ -22248,7 +22506,7 @@ static inline uint64_t BDK_AP_TCR_EL2_E2H_FUNC(void)
  *     translation of memory accesses from EL3, and holds
  *     cacheability and shareability information for the accesses.
  */
-typedef union
+union bdk_ap_tcr_el3
 {
     uint32_t u;
     struct bdk_ap_tcr_el3_s
@@ -22573,7 +22831,8 @@ typedef union
         uint32_t rsvd_31               : 1;  /**< [ 31: 31](RO) Reserved 1. */
 #endif /* Word 0 - End */
     } cn;
-} bdk_ap_tcr_el3_t;
+};
+typedef union bdk_ap_tcr_el3 bdk_ap_tcr_el3_t;
 
 #define BDK_AP_TCR_EL3 BDK_AP_TCR_EL3_FUNC()
 static inline uint64_t BDK_AP_TCR_EL3_FUNC(void) __attribute__ ((pure, always_inline));
@@ -22595,7 +22854,7 @@ static inline uint64_t BDK_AP_TCR_EL3_FUNC(void)
  * Allows access to the AArch32 register TEECR from AArch64 state
  *     only. Its value has no effect on execution in AArch64 state.
  */
-typedef union
+union bdk_ap_teecr32_el1
 {
     uint32_t u;
     struct bdk_ap_teecr32_el1_s
@@ -22627,7 +22886,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_teecr32_el1_s cn; */
-} bdk_ap_teecr32_el1_t;
+};
+typedef union bdk_ap_teecr32_el1 bdk_ap_teecr32_el1_t;
 
 #define BDK_AP_TEECR32_EL1 BDK_AP_TEECR32_EL1_FUNC()
 static inline uint64_t BDK_AP_TEECR32_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -22650,7 +22910,7 @@ static inline uint64_t BDK_AP_TEECR32_EL1_FUNC(void)
  *     state only. Its value has no effect on execution in AArch64
  *     state.
  */
-typedef union
+union bdk_ap_teehbr32_el1
 {
     uint32_t u;
     struct bdk_ap_teehbr32_el1_s
@@ -22666,7 +22926,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_teehbr32_el1_s cn; */
-} bdk_ap_teehbr32_el1_t;
+};
+typedef union bdk_ap_teehbr32_el1 bdk_ap_teehbr32_el1_t;
 
 #define BDK_AP_TEEHBR32_EL1 BDK_AP_TEEHBR32_EL1_FUNC()
 static inline uint64_t BDK_AP_TEEHBR32_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -22688,7 +22949,7 @@ static inline uint64_t BDK_AP_TEEHBR32_EL1_FUNC(void)
  * Provides a location where software executing at EL3 can store
  *     thread identifying information, for OS management purposes.
  */
-typedef union
+union bdk_ap_tpidr_elx
 {
     uint64_t u;
     struct bdk_ap_tpidr_elx_s
@@ -22702,7 +22963,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_tpidr_elx_s cn; */
-} bdk_ap_tpidr_elx_t;
+};
+typedef union bdk_ap_tpidr_elx bdk_ap_tpidr_elx_t;
 
 static inline uint64_t BDK_AP_TPIDR_ELX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_TPIDR_ELX(unsigned long a)
@@ -22725,7 +22987,7 @@ static inline uint64_t BDK_AP_TPIDR_ELX(unsigned long a)
  * Provides a location where software executing at EL0 can store
  *     thread identifying information, for OS management purposes.
  */
-typedef union
+union bdk_ap_tpidr_el0
 {
     uint64_t u;
     struct bdk_ap_tpidr_el0_s
@@ -22739,7 +23001,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_tpidr_el0_s cn; */
-} bdk_ap_tpidr_el0_t;
+};
+typedef union bdk_ap_tpidr_el0 bdk_ap_tpidr_el0_t;
 
 #define BDK_AP_TPIDR_EL0 BDK_AP_TPIDR_EL0_FUNC()
 static inline uint64_t BDK_AP_TPIDR_EL0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -22761,7 +23024,7 @@ static inline uint64_t BDK_AP_TPIDR_EL0_FUNC(void)
  * Provides a location where software executing at EL1 can store
  *     thread identifying information, for OS management purposes.
  */
-typedef union
+union bdk_ap_tpidr_el1
 {
     uint64_t u;
     struct bdk_ap_tpidr_el1_s
@@ -22775,7 +23038,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_tpidr_el1_s cn; */
-} bdk_ap_tpidr_el1_t;
+};
+typedef union bdk_ap_tpidr_el1 bdk_ap_tpidr_el1_t;
 
 #define BDK_AP_TPIDR_EL1 BDK_AP_TPIDR_EL1_FUNC()
 static inline uint64_t BDK_AP_TPIDR_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -22798,7 +23062,7 @@ static inline uint64_t BDK_AP_TPIDR_EL1_FUNC(void)
  *     can store thread identifying information that is visible to
  *     software executing at EL0, for OS management purposes.
  */
-typedef union
+union bdk_ap_tpidrro_el0
 {
     uint64_t u;
     struct bdk_ap_tpidrro_el0_s
@@ -22812,7 +23076,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_tpidrro_el0_s cn; */
-} bdk_ap_tpidrro_el0_t;
+};
+typedef union bdk_ap_tpidrro_el0 bdk_ap_tpidrro_el0_t;
 
 #define BDK_AP_TPIDRRO_EL0 BDK_AP_TPIDRRO_EL0_FUNC()
 static inline uint64_t BDK_AP_TPIDRRO_EL0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -22832,7 +23097,7 @@ static inline uint64_t BDK_AP_TPIDRRO_EL0_FUNC(void)
  *
  * AP Register
  */
-typedef union
+union bdk_ap_trcacatrx
 {
     uint64_t u;
     struct bdk_ap_trcacatrx_s
@@ -22844,7 +23109,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_trcacatrx_s cn; */
-} bdk_ap_trcacatrx_t;
+};
+typedef union bdk_ap_trcacatrx bdk_ap_trcacatrx_t;
 
 static inline uint64_t BDK_AP_TRCACATRX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_TRCACATRX(unsigned long a)
@@ -22865,7 +23131,7 @@ static inline uint64_t BDK_AP_TRCACATRX(unsigned long a)
  *
  * AP Register
  */
-typedef union
+union bdk_ap_trcacvrx
 {
     uint64_t u;
     struct bdk_ap_trcacvrx_s
@@ -22877,7 +23143,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_trcacvrx_s cn; */
-} bdk_ap_trcacvrx_t;
+};
+typedef union bdk_ap_trcacvrx bdk_ap_trcacvrx_t;
 
 static inline uint64_t BDK_AP_TRCACVRX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_TRCACVRX(unsigned long a)
@@ -22898,7 +23165,7 @@ static inline uint64_t BDK_AP_TRCACVRX(unsigned long a)
  *
  * AP Register
  */
-typedef union
+union bdk_ap_trcauthstatus
 {
     uint64_t u;
     struct bdk_ap_trcauthstatus_s
@@ -22910,7 +23177,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_trcauthstatus_s cn; */
-} bdk_ap_trcauthstatus_t;
+};
+typedef union bdk_ap_trcauthstatus bdk_ap_trcauthstatus_t;
 
 #define BDK_AP_TRCAUTHSTATUS BDK_AP_TRCAUTHSTATUS_FUNC()
 static inline uint64_t BDK_AP_TRCAUTHSTATUS_FUNC(void) __attribute__ ((pure, always_inline));
@@ -22930,7 +23198,7 @@ static inline uint64_t BDK_AP_TRCAUTHSTATUS_FUNC(void)
  *
  * AP Register
  */
-typedef union
+union bdk_ap_trcauxctlr
 {
     uint64_t u;
     struct bdk_ap_trcauxctlr_s
@@ -22942,7 +23210,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_trcauxctlr_s cn; */
-} bdk_ap_trcauxctlr_t;
+};
+typedef union bdk_ap_trcauxctlr bdk_ap_trcauxctlr_t;
 
 #define BDK_AP_TRCAUXCTLR BDK_AP_TRCAUXCTLR_FUNC()
 static inline uint64_t BDK_AP_TRCAUXCTLR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -22962,7 +23231,7 @@ static inline uint64_t BDK_AP_TRCAUXCTLR_FUNC(void)
  *
  * AP Register
  */
-typedef union
+union bdk_ap_trcbbctlr
 {
     uint64_t u;
     struct bdk_ap_trcbbctlr_s
@@ -22974,7 +23243,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_trcbbctlr_s cn; */
-} bdk_ap_trcbbctlr_t;
+};
+typedef union bdk_ap_trcbbctlr bdk_ap_trcbbctlr_t;
 
 #define BDK_AP_TRCBBCTLR BDK_AP_TRCBBCTLR_FUNC()
 static inline uint64_t BDK_AP_TRCBBCTLR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -22994,7 +23264,7 @@ static inline uint64_t BDK_AP_TRCBBCTLR_FUNC(void)
  *
  * AP Register
  */
-typedef union
+union bdk_ap_trcccctlr
 {
     uint64_t u;
     struct bdk_ap_trcccctlr_s
@@ -23006,7 +23276,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_trcccctlr_s cn; */
-} bdk_ap_trcccctlr_t;
+};
+typedef union bdk_ap_trcccctlr bdk_ap_trcccctlr_t;
 
 #define BDK_AP_TRCCCCTLR BDK_AP_TRCCCCTLR_FUNC()
 static inline uint64_t BDK_AP_TRCCCCTLR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -23026,7 +23297,7 @@ static inline uint64_t BDK_AP_TRCCCCTLR_FUNC(void)
  *
  * AP Register
  */
-typedef union
+union bdk_ap_trccidcctlrx
 {
     uint64_t u;
     struct bdk_ap_trccidcctlrx_s
@@ -23038,7 +23309,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_trccidcctlrx_s cn; */
-} bdk_ap_trccidcctlrx_t;
+};
+typedef union bdk_ap_trccidcctlrx bdk_ap_trccidcctlrx_t;
 
 static inline uint64_t BDK_AP_TRCCIDCCTLRX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_TRCCIDCCTLRX(unsigned long a)
@@ -23059,7 +23331,7 @@ static inline uint64_t BDK_AP_TRCCIDCCTLRX(unsigned long a)
  *
  * AP Register
  */
-typedef union
+union bdk_ap_trccidcvrx
 {
     uint64_t u;
     struct bdk_ap_trccidcvrx_s
@@ -23071,7 +23343,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_trccidcvrx_s cn; */
-} bdk_ap_trccidcvrx_t;
+};
+typedef union bdk_ap_trccidcvrx bdk_ap_trccidcvrx_t;
 
 static inline uint64_t BDK_AP_TRCCIDCVRX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_TRCCIDCVRX(unsigned long a)
@@ -23092,7 +23365,7 @@ static inline uint64_t BDK_AP_TRCCIDCVRX(unsigned long a)
  *
  * AP Register
  */
-typedef union
+union bdk_ap_trccidrx
 {
     uint64_t u;
     struct bdk_ap_trccidrx_s
@@ -23104,7 +23377,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_trccidrx_s cn; */
-} bdk_ap_trccidrx_t;
+};
+typedef union bdk_ap_trccidrx bdk_ap_trccidrx_t;
 
 static inline uint64_t BDK_AP_TRCCIDRX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_TRCCIDRX(unsigned long a)
@@ -23125,7 +23399,7 @@ static inline uint64_t BDK_AP_TRCCIDRX(unsigned long a)
  *
  * AP Register
  */
-typedef union
+union bdk_ap_trcclaimclr
 {
     uint64_t u;
     struct bdk_ap_trcclaimclr_s
@@ -23137,7 +23411,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_trcclaimclr_s cn; */
-} bdk_ap_trcclaimclr_t;
+};
+typedef union bdk_ap_trcclaimclr bdk_ap_trcclaimclr_t;
 
 #define BDK_AP_TRCCLAIMCLR BDK_AP_TRCCLAIMCLR_FUNC()
 static inline uint64_t BDK_AP_TRCCLAIMCLR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -23157,7 +23432,7 @@ static inline uint64_t BDK_AP_TRCCLAIMCLR_FUNC(void)
  *
  * AP Register
  */
-typedef union
+union bdk_ap_trcclaimset
 {
     uint64_t u;
     struct bdk_ap_trcclaimset_s
@@ -23169,7 +23444,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_trcclaimset_s cn; */
-} bdk_ap_trcclaimset_t;
+};
+typedef union bdk_ap_trcclaimset bdk_ap_trcclaimset_t;
 
 #define BDK_AP_TRCCLAIMSET BDK_AP_TRCCLAIMSET_FUNC()
 static inline uint64_t BDK_AP_TRCCLAIMSET_FUNC(void) __attribute__ ((pure, always_inline));
@@ -23189,7 +23465,7 @@ static inline uint64_t BDK_AP_TRCCLAIMSET_FUNC(void)
  *
  * AP Register
  */
-typedef union
+union bdk_ap_trccntctlrx
 {
     uint64_t u;
     struct bdk_ap_trccntctlrx_s
@@ -23201,7 +23477,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_trccntctlrx_s cn; */
-} bdk_ap_trccntctlrx_t;
+};
+typedef union bdk_ap_trccntctlrx bdk_ap_trccntctlrx_t;
 
 static inline uint64_t BDK_AP_TRCCNTCTLRX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_TRCCNTCTLRX(unsigned long a)
@@ -23222,7 +23499,7 @@ static inline uint64_t BDK_AP_TRCCNTCTLRX(unsigned long a)
  *
  * AP Register
  */
-typedef union
+union bdk_ap_trccntrldvrx
 {
     uint64_t u;
     struct bdk_ap_trccntrldvrx_s
@@ -23234,7 +23511,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_trccntrldvrx_s cn; */
-} bdk_ap_trccntrldvrx_t;
+};
+typedef union bdk_ap_trccntrldvrx bdk_ap_trccntrldvrx_t;
 
 static inline uint64_t BDK_AP_TRCCNTRLDVRX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_TRCCNTRLDVRX(unsigned long a)
@@ -23255,7 +23533,7 @@ static inline uint64_t BDK_AP_TRCCNTRLDVRX(unsigned long a)
  *
  * AP Register
  */
-typedef union
+union bdk_ap_trccntvrx
 {
     uint64_t u;
     struct bdk_ap_trccntvrx_s
@@ -23267,7 +23545,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_trccntvrx_s cn; */
-} bdk_ap_trccntvrx_t;
+};
+typedef union bdk_ap_trccntvrx bdk_ap_trccntvrx_t;
 
 static inline uint64_t BDK_AP_TRCCNTVRX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_TRCCNTVRX(unsigned long a)
@@ -23288,7 +23567,7 @@ static inline uint64_t BDK_AP_TRCCNTVRX(unsigned long a)
  *
  * AP Register
  */
-typedef union
+union bdk_ap_trcconfigr
 {
     uint64_t u;
     struct bdk_ap_trcconfigr_s
@@ -23300,7 +23579,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_trcconfigr_s cn; */
-} bdk_ap_trcconfigr_t;
+};
+typedef union bdk_ap_trcconfigr bdk_ap_trcconfigr_t;
 
 #define BDK_AP_TRCCONFIGR BDK_AP_TRCCONFIGR_FUNC()
 static inline uint64_t BDK_AP_TRCCONFIGR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -23320,7 +23600,7 @@ static inline uint64_t BDK_AP_TRCCONFIGR_FUNC(void)
  *
  * AP Register
  */
-typedef union
+union bdk_ap_trcdevaffx
 {
     uint64_t u;
     struct bdk_ap_trcdevaffx_s
@@ -23332,7 +23612,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_trcdevaffx_s cn; */
-} bdk_ap_trcdevaffx_t;
+};
+typedef union bdk_ap_trcdevaffx bdk_ap_trcdevaffx_t;
 
 static inline uint64_t BDK_AP_TRCDEVAFFX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_TRCDEVAFFX(unsigned long a)
@@ -23353,7 +23634,7 @@ static inline uint64_t BDK_AP_TRCDEVAFFX(unsigned long a)
  *
  * AP Register
  */
-typedef union
+union bdk_ap_trcdevarch
 {
     uint64_t u;
     struct bdk_ap_trcdevarch_s
@@ -23365,7 +23646,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_trcdevarch_s cn; */
-} bdk_ap_trcdevarch_t;
+};
+typedef union bdk_ap_trcdevarch bdk_ap_trcdevarch_t;
 
 #define BDK_AP_TRCDEVARCH BDK_AP_TRCDEVARCH_FUNC()
 static inline uint64_t BDK_AP_TRCDEVARCH_FUNC(void) __attribute__ ((pure, always_inline));
@@ -23385,7 +23667,7 @@ static inline uint64_t BDK_AP_TRCDEVARCH_FUNC(void)
  *
  * AP Register
  */
-typedef union
+union bdk_ap_trcdevid
 {
     uint64_t u;
     struct bdk_ap_trcdevid_s
@@ -23397,7 +23679,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_trcdevid_s cn; */
-} bdk_ap_trcdevid_t;
+};
+typedef union bdk_ap_trcdevid bdk_ap_trcdevid_t;
 
 #define BDK_AP_TRCDEVID BDK_AP_TRCDEVID_FUNC()
 static inline uint64_t BDK_AP_TRCDEVID_FUNC(void) __attribute__ ((pure, always_inline));
@@ -23417,7 +23700,7 @@ static inline uint64_t BDK_AP_TRCDEVID_FUNC(void)
  *
  * AP Register
  */
-typedef union
+union bdk_ap_trcdevtype
 {
     uint64_t u;
     struct bdk_ap_trcdevtype_s
@@ -23429,7 +23712,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_trcdevtype_s cn; */
-} bdk_ap_trcdevtype_t;
+};
+typedef union bdk_ap_trcdevtype bdk_ap_trcdevtype_t;
 
 #define BDK_AP_TRCDEVTYPE BDK_AP_TRCDEVTYPE_FUNC()
 static inline uint64_t BDK_AP_TRCDEVTYPE_FUNC(void) __attribute__ ((pure, always_inline));
@@ -23449,7 +23733,7 @@ static inline uint64_t BDK_AP_TRCDEVTYPE_FUNC(void)
  *
  * AP Register
  */
-typedef union
+union bdk_ap_trcdvcmrx
 {
     uint64_t u;
     struct bdk_ap_trcdvcmrx_s
@@ -23461,7 +23745,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_trcdvcmrx_s cn; */
-} bdk_ap_trcdvcmrx_t;
+};
+typedef union bdk_ap_trcdvcmrx bdk_ap_trcdvcmrx_t;
 
 static inline uint64_t BDK_AP_TRCDVCMRX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_TRCDVCMRX(unsigned long a)
@@ -23482,7 +23767,7 @@ static inline uint64_t BDK_AP_TRCDVCMRX(unsigned long a)
  *
  * AP Register
  */
-typedef union
+union bdk_ap_trcdvcvrx
 {
     uint64_t u;
     struct bdk_ap_trcdvcvrx_s
@@ -23494,7 +23779,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_trcdvcvrx_s cn; */
-} bdk_ap_trcdvcvrx_t;
+};
+typedef union bdk_ap_trcdvcvrx bdk_ap_trcdvcvrx_t;
 
 static inline uint64_t BDK_AP_TRCDVCVRX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_TRCDVCVRX(unsigned long a)
@@ -23515,7 +23801,7 @@ static inline uint64_t BDK_AP_TRCDVCVRX(unsigned long a)
  *
  * AP Register
  */
-typedef union
+union bdk_ap_trceventctlxr
 {
     uint64_t u;
     struct bdk_ap_trceventctlxr_s
@@ -23527,7 +23813,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_trceventctlxr_s cn; */
-} bdk_ap_trceventctlxr_t;
+};
+typedef union bdk_ap_trceventctlxr bdk_ap_trceventctlxr_t;
 
 static inline uint64_t BDK_AP_TRCEVENTCTLXR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_TRCEVENTCTLXR(unsigned long a)
@@ -23548,7 +23835,7 @@ static inline uint64_t BDK_AP_TRCEVENTCTLXR(unsigned long a)
  *
  * AP Register
  */
-typedef union
+union bdk_ap_trcextinselr
 {
     uint64_t u;
     struct bdk_ap_trcextinselr_s
@@ -23560,7 +23847,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_trcextinselr_s cn; */
-} bdk_ap_trcextinselr_t;
+};
+typedef union bdk_ap_trcextinselr bdk_ap_trcextinselr_t;
 
 #define BDK_AP_TRCEXTINSELR BDK_AP_TRCEXTINSELR_FUNC()
 static inline uint64_t BDK_AP_TRCEXTINSELR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -23580,7 +23868,7 @@ static inline uint64_t BDK_AP_TRCEXTINSELR_FUNC(void)
  *
  * AP Register
  */
-typedef union
+union bdk_ap_trcidrx
 {
     uint64_t u;
     struct bdk_ap_trcidrx_s
@@ -23592,7 +23880,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_trcidrx_s cn; */
-} bdk_ap_trcidrx_t;
+};
+typedef union bdk_ap_trcidrx bdk_ap_trcidrx_t;
 
 static inline uint64_t BDK_AP_TRCIDRX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_TRCIDRX(unsigned long a)
@@ -23613,7 +23902,7 @@ static inline uint64_t BDK_AP_TRCIDRX(unsigned long a)
  *
  * AP Register
  */
-typedef union
+union bdk_ap_trcimspecx
 {
     uint64_t u;
     struct bdk_ap_trcimspecx_s
@@ -23625,7 +23914,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_trcimspecx_s cn; */
-} bdk_ap_trcimspecx_t;
+};
+typedef union bdk_ap_trcimspecx bdk_ap_trcimspecx_t;
 
 static inline uint64_t BDK_AP_TRCIMSPECX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_TRCIMSPECX(unsigned long a)
@@ -23646,7 +23936,7 @@ static inline uint64_t BDK_AP_TRCIMSPECX(unsigned long a)
  *
  * AP Register
  */
-typedef union
+union bdk_ap_trcitctrl
 {
     uint64_t u;
     struct bdk_ap_trcitctrl_s
@@ -23658,7 +23948,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_trcitctrl_s cn; */
-} bdk_ap_trcitctrl_t;
+};
+typedef union bdk_ap_trcitctrl bdk_ap_trcitctrl_t;
 
 #define BDK_AP_TRCITCTRL BDK_AP_TRCITCTRL_FUNC()
 static inline uint64_t BDK_AP_TRCITCTRL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -23678,7 +23969,7 @@ static inline uint64_t BDK_AP_TRCITCTRL_FUNC(void)
  *
  * AP Register
  */
-typedef union
+union bdk_ap_trclar
 {
     uint64_t u;
     struct bdk_ap_trclar_s
@@ -23690,7 +23981,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_trclar_s cn; */
-} bdk_ap_trclar_t;
+};
+typedef union bdk_ap_trclar bdk_ap_trclar_t;
 
 #define BDK_AP_TRCLAR BDK_AP_TRCLAR_FUNC()
 static inline uint64_t BDK_AP_TRCLAR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -23710,7 +24002,7 @@ static inline uint64_t BDK_AP_TRCLAR_FUNC(void)
  *
  * AP Register
  */
-typedef union
+union bdk_ap_trclsr
 {
     uint64_t u;
     struct bdk_ap_trclsr_s
@@ -23722,7 +24014,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_trclsr_s cn; */
-} bdk_ap_trclsr_t;
+};
+typedef union bdk_ap_trclsr bdk_ap_trclsr_t;
 
 #define BDK_AP_TRCLSR BDK_AP_TRCLSR_FUNC()
 static inline uint64_t BDK_AP_TRCLSR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -23742,7 +24035,7 @@ static inline uint64_t BDK_AP_TRCLSR_FUNC(void)
  *
  * AP Register
  */
-typedef union
+union bdk_ap_trcoslar
 {
     uint64_t u;
     struct bdk_ap_trcoslar_s
@@ -23754,7 +24047,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_trcoslar_s cn; */
-} bdk_ap_trcoslar_t;
+};
+typedef union bdk_ap_trcoslar bdk_ap_trcoslar_t;
 
 #define BDK_AP_TRCOSLAR BDK_AP_TRCOSLAR_FUNC()
 static inline uint64_t BDK_AP_TRCOSLAR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -23774,7 +24068,7 @@ static inline uint64_t BDK_AP_TRCOSLAR_FUNC(void)
  *
  * AP Register
  */
-typedef union
+union bdk_ap_trcoslsr
 {
     uint64_t u;
     struct bdk_ap_trcoslsr_s
@@ -23786,7 +24080,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_trcoslsr_s cn; */
-} bdk_ap_trcoslsr_t;
+};
+typedef union bdk_ap_trcoslsr bdk_ap_trcoslsr_t;
 
 #define BDK_AP_TRCOSLSR BDK_AP_TRCOSLSR_FUNC()
 static inline uint64_t BDK_AP_TRCOSLSR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -23806,7 +24101,7 @@ static inline uint64_t BDK_AP_TRCOSLSR_FUNC(void)
  *
  * AP Register
  */
-typedef union
+union bdk_ap_trcpdcr
 {
     uint64_t u;
     struct bdk_ap_trcpdcr_s
@@ -23818,7 +24113,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_trcpdcr_s cn; */
-} bdk_ap_trcpdcr_t;
+};
+typedef union bdk_ap_trcpdcr bdk_ap_trcpdcr_t;
 
 #define BDK_AP_TRCPDCR BDK_AP_TRCPDCR_FUNC()
 static inline uint64_t BDK_AP_TRCPDCR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -23838,7 +24134,7 @@ static inline uint64_t BDK_AP_TRCPDCR_FUNC(void)
  *
  * AP Register
  */
-typedef union
+union bdk_ap_trcpdsr
 {
     uint64_t u;
     struct bdk_ap_trcpdsr_s
@@ -23850,7 +24146,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_trcpdsr_s cn; */
-} bdk_ap_trcpdsr_t;
+};
+typedef union bdk_ap_trcpdsr bdk_ap_trcpdsr_t;
 
 #define BDK_AP_TRCPDSR BDK_AP_TRCPDSR_FUNC()
 static inline uint64_t BDK_AP_TRCPDSR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -23870,7 +24167,7 @@ static inline uint64_t BDK_AP_TRCPDSR_FUNC(void)
  *
  * AP Register
  */
-typedef union
+union bdk_ap_trcpidrx
 {
     uint64_t u;
     struct bdk_ap_trcpidrx_s
@@ -23882,7 +24179,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_trcpidrx_s cn; */
-} bdk_ap_trcpidrx_t;
+};
+typedef union bdk_ap_trcpidrx bdk_ap_trcpidrx_t;
 
 static inline uint64_t BDK_AP_TRCPIDRX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_TRCPIDRX(unsigned long a)
@@ -23903,7 +24201,7 @@ static inline uint64_t BDK_AP_TRCPIDRX(unsigned long a)
  *
  * AP Register
  */
-typedef union
+union bdk_ap_trcprgctlr
 {
     uint64_t u;
     struct bdk_ap_trcprgctlr_s
@@ -23915,7 +24213,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_trcprgctlr_s cn; */
-} bdk_ap_trcprgctlr_t;
+};
+typedef union bdk_ap_trcprgctlr bdk_ap_trcprgctlr_t;
 
 #define BDK_AP_TRCPRGCTLR BDK_AP_TRCPRGCTLR_FUNC()
 static inline uint64_t BDK_AP_TRCPRGCTLR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -23935,7 +24234,7 @@ static inline uint64_t BDK_AP_TRCPRGCTLR_FUNC(void)
  *
  * AP Register
  */
-typedef union
+union bdk_ap_trcprocselr
 {
     uint64_t u;
     struct bdk_ap_trcprocselr_s
@@ -23947,7 +24246,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_trcprocselr_s cn; */
-} bdk_ap_trcprocselr_t;
+};
+typedef union bdk_ap_trcprocselr bdk_ap_trcprocselr_t;
 
 #define BDK_AP_TRCPROCSELR BDK_AP_TRCPROCSELR_FUNC()
 static inline uint64_t BDK_AP_TRCPROCSELR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -23967,7 +24267,7 @@ static inline uint64_t BDK_AP_TRCPROCSELR_FUNC(void)
  *
  * AP Register
  */
-typedef union
+union bdk_ap_trcqctlr
 {
     uint64_t u;
     struct bdk_ap_trcqctlr_s
@@ -23979,7 +24279,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_trcqctlr_s cn; */
-} bdk_ap_trcqctlr_t;
+};
+typedef union bdk_ap_trcqctlr bdk_ap_trcqctlr_t;
 
 #define BDK_AP_TRCQCTLR BDK_AP_TRCQCTLR_FUNC()
 static inline uint64_t BDK_AP_TRCQCTLR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -23999,7 +24300,7 @@ static inline uint64_t BDK_AP_TRCQCTLR_FUNC(void)
  *
  * AP Register
  */
-typedef union
+union bdk_ap_trcrsctlrx
 {
     uint64_t u;
     struct bdk_ap_trcrsctlrx_s
@@ -24011,7 +24312,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_trcrsctlrx_s cn; */
-} bdk_ap_trcrsctlrx_t;
+};
+typedef union bdk_ap_trcrsctlrx bdk_ap_trcrsctlrx_t;
 
 static inline uint64_t BDK_AP_TRCRSCTLRX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_TRCRSCTLRX(unsigned long a)
@@ -24032,7 +24334,7 @@ static inline uint64_t BDK_AP_TRCRSCTLRX(unsigned long a)
  *
  * AP Register
  */
-typedef union
+union bdk_ap_trcseqevrx
 {
     uint64_t u;
     struct bdk_ap_trcseqevrx_s
@@ -24044,7 +24346,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_trcseqevrx_s cn; */
-} bdk_ap_trcseqevrx_t;
+};
+typedef union bdk_ap_trcseqevrx bdk_ap_trcseqevrx_t;
 
 static inline uint64_t BDK_AP_TRCSEQEVRX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_TRCSEQEVRX(unsigned long a)
@@ -24065,7 +24368,7 @@ static inline uint64_t BDK_AP_TRCSEQEVRX(unsigned long a)
  *
  * AP Register
  */
-typedef union
+union bdk_ap_trcseqrstevr
 {
     uint64_t u;
     struct bdk_ap_trcseqrstevr_s
@@ -24077,7 +24380,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_trcseqrstevr_s cn; */
-} bdk_ap_trcseqrstevr_t;
+};
+typedef union bdk_ap_trcseqrstevr bdk_ap_trcseqrstevr_t;
 
 #define BDK_AP_TRCSEQRSTEVR BDK_AP_TRCSEQRSTEVR_FUNC()
 static inline uint64_t BDK_AP_TRCSEQRSTEVR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -24097,7 +24401,7 @@ static inline uint64_t BDK_AP_TRCSEQRSTEVR_FUNC(void)
  *
  * AP Register
  */
-typedef union
+union bdk_ap_trcseqstr
 {
     uint64_t u;
     struct bdk_ap_trcseqstr_s
@@ -24109,7 +24413,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_trcseqstr_s cn; */
-} bdk_ap_trcseqstr_t;
+};
+typedef union bdk_ap_trcseqstr bdk_ap_trcseqstr_t;
 
 #define BDK_AP_TRCSEQSTR BDK_AP_TRCSEQSTR_FUNC()
 static inline uint64_t BDK_AP_TRCSEQSTR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -24129,7 +24434,7 @@ static inline uint64_t BDK_AP_TRCSEQSTR_FUNC(void)
  *
  * AP Register
  */
-typedef union
+union bdk_ap_trcssccrx
 {
     uint64_t u;
     struct bdk_ap_trcssccrx_s
@@ -24141,7 +24446,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_trcssccrx_s cn; */
-} bdk_ap_trcssccrx_t;
+};
+typedef union bdk_ap_trcssccrx bdk_ap_trcssccrx_t;
 
 static inline uint64_t BDK_AP_TRCSSCCRX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_TRCSSCCRX(unsigned long a)
@@ -24162,7 +24468,7 @@ static inline uint64_t BDK_AP_TRCSSCCRX(unsigned long a)
  *
  * AP Register
  */
-typedef union
+union bdk_ap_trcsscsrx
 {
     uint64_t u;
     struct bdk_ap_trcsscsrx_s
@@ -24174,7 +24480,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_trcsscsrx_s cn; */
-} bdk_ap_trcsscsrx_t;
+};
+typedef union bdk_ap_trcsscsrx bdk_ap_trcsscsrx_t;
 
 static inline uint64_t BDK_AP_TRCSSCSRX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_TRCSSCSRX(unsigned long a)
@@ -24195,7 +24502,7 @@ static inline uint64_t BDK_AP_TRCSSCSRX(unsigned long a)
  *
  * AP Register
  */
-typedef union
+union bdk_ap_trcsspcicrx
 {
     uint64_t u;
     struct bdk_ap_trcsspcicrx_s
@@ -24207,7 +24514,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_trcsspcicrx_s cn; */
-} bdk_ap_trcsspcicrx_t;
+};
+typedef union bdk_ap_trcsspcicrx bdk_ap_trcsspcicrx_t;
 
 static inline uint64_t BDK_AP_TRCSSPCICRX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_TRCSSPCICRX(unsigned long a)
@@ -24228,7 +24536,7 @@ static inline uint64_t BDK_AP_TRCSSPCICRX(unsigned long a)
  *
  * AP Register
  */
-typedef union
+union bdk_ap_trcstallctlr
 {
     uint64_t u;
     struct bdk_ap_trcstallctlr_s
@@ -24240,7 +24548,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_trcstallctlr_s cn; */
-} bdk_ap_trcstallctlr_t;
+};
+typedef union bdk_ap_trcstallctlr bdk_ap_trcstallctlr_t;
 
 #define BDK_AP_TRCSTALLCTLR BDK_AP_TRCSTALLCTLR_FUNC()
 static inline uint64_t BDK_AP_TRCSTALLCTLR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -24260,7 +24569,7 @@ static inline uint64_t BDK_AP_TRCSTALLCTLR_FUNC(void)
  *
  * AP Register
  */
-typedef union
+union bdk_ap_trcstatr
 {
     uint64_t u;
     struct bdk_ap_trcstatr_s
@@ -24272,7 +24581,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_trcstatr_s cn; */
-} bdk_ap_trcstatr_t;
+};
+typedef union bdk_ap_trcstatr bdk_ap_trcstatr_t;
 
 #define BDK_AP_TRCSTATR BDK_AP_TRCSTATR_FUNC()
 static inline uint64_t BDK_AP_TRCSTATR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -24292,7 +24602,7 @@ static inline uint64_t BDK_AP_TRCSTATR_FUNC(void)
  *
  * AP Register
  */
-typedef union
+union bdk_ap_trcsyncpr
 {
     uint64_t u;
     struct bdk_ap_trcsyncpr_s
@@ -24304,7 +24614,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_trcsyncpr_s cn; */
-} bdk_ap_trcsyncpr_t;
+};
+typedef union bdk_ap_trcsyncpr bdk_ap_trcsyncpr_t;
 
 #define BDK_AP_TRCSYNCPR BDK_AP_TRCSYNCPR_FUNC()
 static inline uint64_t BDK_AP_TRCSYNCPR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -24324,7 +24635,7 @@ static inline uint64_t BDK_AP_TRCSYNCPR_FUNC(void)
  *
  * AP Register
  */
-typedef union
+union bdk_ap_trctraceidr
 {
     uint64_t u;
     struct bdk_ap_trctraceidr_s
@@ -24336,7 +24647,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_trctraceidr_s cn; */
-} bdk_ap_trctraceidr_t;
+};
+typedef union bdk_ap_trctraceidr bdk_ap_trctraceidr_t;
 
 #define BDK_AP_TRCTRACEIDR BDK_AP_TRCTRACEIDR_FUNC()
 static inline uint64_t BDK_AP_TRCTRACEIDR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -24356,7 +24668,7 @@ static inline uint64_t BDK_AP_TRCTRACEIDR_FUNC(void)
  *
  * AP Register
  */
-typedef union
+union bdk_ap_trctsctlr
 {
     uint64_t u;
     struct bdk_ap_trctsctlr_s
@@ -24368,7 +24680,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_trctsctlr_s cn; */
-} bdk_ap_trctsctlr_t;
+};
+typedef union bdk_ap_trctsctlr bdk_ap_trctsctlr_t;
 
 #define BDK_AP_TRCTSCTLR BDK_AP_TRCTSCTLR_FUNC()
 static inline uint64_t BDK_AP_TRCTSCTLR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -24388,7 +24701,7 @@ static inline uint64_t BDK_AP_TRCTSCTLR_FUNC(void)
  *
  * AP Register
  */
-typedef union
+union bdk_ap_trcvdarcctlr
 {
     uint64_t u;
     struct bdk_ap_trcvdarcctlr_s
@@ -24400,7 +24713,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_trcvdarcctlr_s cn; */
-} bdk_ap_trcvdarcctlr_t;
+};
+typedef union bdk_ap_trcvdarcctlr bdk_ap_trcvdarcctlr_t;
 
 #define BDK_AP_TRCVDARCCTLR BDK_AP_TRCVDARCCTLR_FUNC()
 static inline uint64_t BDK_AP_TRCVDARCCTLR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -24420,7 +24734,7 @@ static inline uint64_t BDK_AP_TRCVDARCCTLR_FUNC(void)
  *
  * AP Register
  */
-typedef union
+union bdk_ap_trcvdctlr
 {
     uint64_t u;
     struct bdk_ap_trcvdctlr_s
@@ -24432,7 +24746,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_trcvdctlr_s cn; */
-} bdk_ap_trcvdctlr_t;
+};
+typedef union bdk_ap_trcvdctlr bdk_ap_trcvdctlr_t;
 
 #define BDK_AP_TRCVDCTLR BDK_AP_TRCVDCTLR_FUNC()
 static inline uint64_t BDK_AP_TRCVDCTLR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -24452,7 +24767,7 @@ static inline uint64_t BDK_AP_TRCVDCTLR_FUNC(void)
  *
  * AP Register
  */
-typedef union
+union bdk_ap_trcvdsacctlr
 {
     uint64_t u;
     struct bdk_ap_trcvdsacctlr_s
@@ -24464,7 +24779,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_trcvdsacctlr_s cn; */
-} bdk_ap_trcvdsacctlr_t;
+};
+typedef union bdk_ap_trcvdsacctlr bdk_ap_trcvdsacctlr_t;
 
 #define BDK_AP_TRCVDSACCTLR BDK_AP_TRCVDSACCTLR_FUNC()
 static inline uint64_t BDK_AP_TRCVDSACCTLR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -24484,7 +24800,7 @@ static inline uint64_t BDK_AP_TRCVDSACCTLR_FUNC(void)
  *
  * AP Register
  */
-typedef union
+union bdk_ap_trcvictlr
 {
     uint64_t u;
     struct bdk_ap_trcvictlr_s
@@ -24496,7 +24812,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_trcvictlr_s cn; */
-} bdk_ap_trcvictlr_t;
+};
+typedef union bdk_ap_trcvictlr bdk_ap_trcvictlr_t;
 
 #define BDK_AP_TRCVICTLR BDK_AP_TRCVICTLR_FUNC()
 static inline uint64_t BDK_AP_TRCVICTLR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -24516,7 +24833,7 @@ static inline uint64_t BDK_AP_TRCVICTLR_FUNC(void)
  *
  * AP Register
  */
-typedef union
+union bdk_ap_trcviiectlr
 {
     uint64_t u;
     struct bdk_ap_trcviiectlr_s
@@ -24528,7 +24845,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_trcviiectlr_s cn; */
-} bdk_ap_trcviiectlr_t;
+};
+typedef union bdk_ap_trcviiectlr bdk_ap_trcviiectlr_t;
 
 #define BDK_AP_TRCVIIECTLR BDK_AP_TRCVIIECTLR_FUNC()
 static inline uint64_t BDK_AP_TRCVIIECTLR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -24548,7 +24866,7 @@ static inline uint64_t BDK_AP_TRCVIIECTLR_FUNC(void)
  *
  * AP Register
  */
-typedef union
+union bdk_ap_trcvipcssctlr
 {
     uint64_t u;
     struct bdk_ap_trcvipcssctlr_s
@@ -24560,7 +24878,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_trcvipcssctlr_s cn; */
-} bdk_ap_trcvipcssctlr_t;
+};
+typedef union bdk_ap_trcvipcssctlr bdk_ap_trcvipcssctlr_t;
 
 #define BDK_AP_TRCVIPCSSCTLR BDK_AP_TRCVIPCSSCTLR_FUNC()
 static inline uint64_t BDK_AP_TRCVIPCSSCTLR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -24580,7 +24899,7 @@ static inline uint64_t BDK_AP_TRCVIPCSSCTLR_FUNC(void)
  *
  * AP Register
  */
-typedef union
+union bdk_ap_trcvissctlr
 {
     uint64_t u;
     struct bdk_ap_trcvissctlr_s
@@ -24592,7 +24911,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_trcvissctlr_s cn; */
-} bdk_ap_trcvissctlr_t;
+};
+typedef union bdk_ap_trcvissctlr bdk_ap_trcvissctlr_t;
 
 #define BDK_AP_TRCVISSCTLR BDK_AP_TRCVISSCTLR_FUNC()
 static inline uint64_t BDK_AP_TRCVISSCTLR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -24612,7 +24932,7 @@ static inline uint64_t BDK_AP_TRCVISSCTLR_FUNC(void)
  *
  * AP Register
  */
-typedef union
+union bdk_ap_trcvmidcctlrx
 {
     uint64_t u;
     struct bdk_ap_trcvmidcctlrx_s
@@ -24624,7 +24944,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_trcvmidcctlrx_s cn; */
-} bdk_ap_trcvmidcctlrx_t;
+};
+typedef union bdk_ap_trcvmidcctlrx bdk_ap_trcvmidcctlrx_t;
 
 static inline uint64_t BDK_AP_TRCVMIDCCTLRX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_TRCVMIDCCTLRX(unsigned long a)
@@ -24645,7 +24966,7 @@ static inline uint64_t BDK_AP_TRCVMIDCCTLRX(unsigned long a)
  *
  * AP Register
  */
-typedef union
+union bdk_ap_trcvmidcvrx
 {
     uint64_t u;
     struct bdk_ap_trcvmidcvrx_s
@@ -24657,7 +24978,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_trcvmidcvrx_s cn; */
-} bdk_ap_trcvmidcvrx_t;
+};
+typedef union bdk_ap_trcvmidcvrx bdk_ap_trcvmidcvrx_t;
 
 static inline uint64_t BDK_AP_TRCVMIDCVRX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_TRCVMIDCVRX(unsigned long a)
@@ -24682,7 +25004,7 @@ static inline uint64_t BDK_AP_TRCVMIDCVRX(unsigned long a)
  *     tables for the stage 1 translation of memory accesses at EL0
  *     and EL1.
  */
-typedef union
+union bdk_ap_ttbr0_el1
 {
     uint64_t u;
     struct bdk_ap_ttbr0_el1_s
@@ -24746,7 +25068,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_ttbr0_el1_s cn; */
-} bdk_ap_ttbr0_el1_t;
+};
+typedef union bdk_ap_ttbr0_el1 bdk_ap_ttbr0_el1_t;
 
 #define BDK_AP_TTBR0_EL1 BDK_AP_TTBR0_EL1_FUNC()
 static inline uint64_t BDK_AP_TTBR0_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -24767,7 +25090,7 @@ static inline uint64_t BDK_AP_TTBR0_EL1_FUNC(void)
  * AP Translation Table Base EL1/2 Register 0
  * Alias of AP_TTBR0_EL1 from EL2 when AP_HCR_EL2[E2H] is set.
  */
-typedef union
+union bdk_ap_ttbr0_el12
 {
     uint64_t u;
     struct bdk_ap_ttbr0_el12_s
@@ -24779,7 +25102,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_ttbr0_el12_s cn; */
-} bdk_ap_ttbr0_el12_t;
+};
+typedef union bdk_ap_ttbr0_el12 bdk_ap_ttbr0_el12_t;
 
 #define BDK_AP_TTBR0_EL12 BDK_AP_TTBR0_EL12_FUNC()
 static inline uint64_t BDK_AP_TTBR0_EL12_FUNC(void) __attribute__ ((pure, always_inline));
@@ -24803,7 +25127,7 @@ static inline uint64_t BDK_AP_TTBR0_EL12_FUNC(void)
  *     tables for the stage 1 translation of memory accesses at EL0
  *     and EL2 when Virtual Host Extensions are enabled.
  */
-typedef union
+union bdk_ap_ttbr0_el2
 {
     uint64_t u;
     struct bdk_ap_ttbr0_el2_s
@@ -24867,7 +25191,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_ttbr0_el2_s cn; */
-} bdk_ap_ttbr0_el2_t;
+};
+typedef union bdk_ap_ttbr0_el2 bdk_ap_ttbr0_el2_t;
 
 #define BDK_AP_TTBR0_EL2 BDK_AP_TTBR0_EL2_FUNC()
 static inline uint64_t BDK_AP_TTBR0_EL2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -24889,7 +25214,7 @@ static inline uint64_t BDK_AP_TTBR0_EL2_FUNC(void)
  * Holds the base address of the translation table for the stage
  *     1 translation of memory accesses from EL3.
  */
-typedef union
+union bdk_ap_ttbr0_el3
 {
     uint64_t u;
     struct bdk_ap_ttbr0_el3_s
@@ -24947,7 +25272,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_ttbr0_el3_s cn; */
-} bdk_ap_ttbr0_el3_t;
+};
+typedef union bdk_ap_ttbr0_el3 bdk_ap_ttbr0_el3_t;
 
 #define BDK_AP_TTBR0_EL3 BDK_AP_TTBR0_EL3_FUNC()
 static inline uint64_t BDK_AP_TTBR0_EL3_FUNC(void) __attribute__ ((pure, always_inline));
@@ -24971,7 +25297,7 @@ static inline uint64_t BDK_AP_TTBR0_EL3_FUNC(void)
  *     tables for the stage 1 translation of memory accesses at EL0
  *     and EL1.
  */
-typedef union
+union bdk_ap_ttbr1_el1
 {
     uint64_t u;
     struct bdk_ap_ttbr1_el1_s
@@ -25035,7 +25361,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_ttbr1_el1_s cn; */
-} bdk_ap_ttbr1_el1_t;
+};
+typedef union bdk_ap_ttbr1_el1 bdk_ap_ttbr1_el1_t;
 
 #define BDK_AP_TTBR1_EL1 BDK_AP_TTBR1_EL1_FUNC()
 static inline uint64_t BDK_AP_TTBR1_EL1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -25056,7 +25383,7 @@ static inline uint64_t BDK_AP_TTBR1_EL1_FUNC(void)
  * AP Translation Table Base Register 1
  * Alias of AP_TTBR1_EL1 from EL2 when AP_HCR_EL2[E2H] is set.
  */
-typedef union
+union bdk_ap_ttbr1_el12
 {
     uint64_t u;
     struct bdk_ap_ttbr1_el12_s
@@ -25068,7 +25395,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_ttbr1_el12_s cn; */
-} bdk_ap_ttbr1_el12_t;
+};
+typedef union bdk_ap_ttbr1_el12 bdk_ap_ttbr1_el12_t;
 
 #define BDK_AP_TTBR1_EL12 BDK_AP_TTBR1_EL12_FUNC()
 static inline uint64_t BDK_AP_TTBR1_EL12_FUNC(void) __attribute__ ((pure, always_inline));
@@ -25091,7 +25419,7 @@ static inline uint64_t BDK_AP_TTBR1_EL12_FUNC(void)
  *     about the memory it occupies. This is one of the translation
  *     tables for the stage 1 translation of memory accesses at EL2.
  */
-typedef union
+union bdk_ap_ttbr1_el2
 {
     uint64_t u;
     struct bdk_ap_ttbr1_el2_s
@@ -25155,7 +25483,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_ttbr1_el2_s cn; */
-} bdk_ap_ttbr1_el2_t;
+};
+typedef union bdk_ap_ttbr1_el2 bdk_ap_ttbr1_el2_t;
 
 #define BDK_AP_TTBR1_EL2 BDK_AP_TTBR1_EL2_FUNC()
 static inline uint64_t BDK_AP_TTBR1_EL2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -25177,7 +25506,7 @@ static inline uint64_t BDK_AP_TTBR1_EL2_FUNC(void)
  * Holds the exception base address for any exception that is
  *     taken to EL*.
  */
-typedef union
+union bdk_ap_vbar_elx
 {
     uint64_t u;
     struct bdk_ap_vbar_elx_s
@@ -25207,7 +25536,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_vbar_elx_s cn; */
-} bdk_ap_vbar_elx_t;
+};
+typedef union bdk_ap_vbar_elx bdk_ap_vbar_elx_t;
 
 static inline uint64_t BDK_AP_VBAR_ELX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_VBAR_ELX(unsigned long a)
@@ -25229,7 +25559,7 @@ static inline uint64_t BDK_AP_VBAR_ELX(unsigned long a)
  * AP Vector Base Address EL1/2 Register
  * Alias of VBAR_EL1 when accessed at EL2/3 and AP_HCR_EL2[E2H] is set.
  */
-typedef union
+union bdk_ap_vbar_el12
 {
     uint64_t u;
     struct bdk_ap_vbar_el12_s
@@ -25241,7 +25571,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_vbar_el12_s cn; */
-} bdk_ap_vbar_el12_t;
+};
+typedef union bdk_ap_vbar_el12 bdk_ap_vbar_el12_t;
 
 #define BDK_AP_VBAR_EL12 BDK_AP_VBAR_EL12_FUNC()
 static inline uint64_t BDK_AP_VBAR_EL12_FUNC(void) __attribute__ ((pure, always_inline));
@@ -25263,7 +25594,7 @@ static inline uint64_t BDK_AP_VBAR_EL12_FUNC(void)
  * Holds the value of the Virtualization Multiprocessor ID. This
  *     is the value returned by nonsecure EL1 reads of AP_MPIDR_EL1.
  */
-typedef union
+union bdk_ap_vmpidr_el2
 {
     uint64_t u;
     struct bdk_ap_vmpidr_el2_s
@@ -25309,7 +25640,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_vmpidr_el2_s cn; */
-} bdk_ap_vmpidr_el2_t;
+};
+typedef union bdk_ap_vmpidr_el2 bdk_ap_vmpidr_el2_t;
 
 #define BDK_AP_VMPIDR_EL2 BDK_AP_VMPIDR_EL2_FUNC()
 static inline uint64_t BDK_AP_VMPIDR_EL2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -25331,7 +25663,7 @@ static inline uint64_t BDK_AP_VMPIDR_EL2_FUNC(void)
  * Holds the value of the Virtualization Processor ID. This is
  *     the value returned by nonsecure EL1 reads of AP_MIDR_EL1.
  */
-typedef union
+union bdk_ap_vpidr_el2
 {
     uint32_t u;
     struct bdk_ap_vpidr_el2_s
@@ -25411,7 +25743,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_vpidr_el2_s cn; */
-} bdk_ap_vpidr_el2_t;
+};
+typedef union bdk_ap_vpidr_el2 bdk_ap_vpidr_el2_t;
 
 #define BDK_AP_VPIDR_EL2 BDK_AP_VPIDR_EL2_FUNC()
 static inline uint64_t BDK_AP_VPIDR_EL2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -25435,7 +25768,7 @@ static inline uint64_t BDK_AP_VPIDR_EL2_FUNC(void)
  *     and holds cacheability and shareability information for the
  *     accesses.
  */
-typedef union
+union bdk_ap_vtcr_el2
 {
     uint32_t u;
     struct bdk_ap_vtcr_el2_s
@@ -25680,7 +26013,8 @@ typedef union
         uint32_t rsvd_31               : 1;  /**< [ 31: 31](RO) Reserved 1. */
 #endif /* Word 0 - End */
     } cn;
-} bdk_ap_vtcr_el2_t;
+};
+typedef union bdk_ap_vtcr_el2 bdk_ap_vtcr_el2_t;
 
 #define BDK_AP_VTCR_EL2 BDK_AP_VTCR_EL2_FUNC()
 static inline uint64_t BDK_AP_VTCR_EL2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -25702,7 +26036,7 @@ static inline uint64_t BDK_AP_VTCR_EL2_FUNC(void)
  * Holds the base address of the translation table for the stage
  *     2 translation of memory accesses from nonsecure EL0 and EL1.
  */
-typedef union
+union bdk_ap_vttbr_el2
 {
     uint64_t u;
     struct bdk_ap_vttbr_el2_s
@@ -25762,7 +26096,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_vttbr_el2_s cn; */
-} bdk_ap_vttbr_el2_t;
+};
+typedef union bdk_ap_vttbr_el2 bdk_ap_vttbr_el2_t;
 
 #define BDK_AP_VTTBR_EL2 BDK_AP_VTTBR_EL2_FUNC()
 static inline uint64_t BDK_AP_VTTBR_EL2_FUNC(void) __attribute__ ((pure, always_inline));

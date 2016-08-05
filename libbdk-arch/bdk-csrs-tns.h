@@ -119,7 +119,7 @@
  * Internal:
  * All memories listed below are TDMA memories used for both bypass and non-bypass operation.
  */
-typedef union
+union bdk_tns_bist_status
 {
     uint64_t u;
     struct bdk_tns_bist_status_s
@@ -137,7 +137,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_bist_status_s cn; */
-} bdk_tns_bist_status_t;
+};
+typedef union bdk_tns_bist_status bdk_tns_bist_status_t;
 
 #define BDK_TNS_BIST_STATUS BDK_TNS_BIST_STATUS_FUNC()
 static inline uint64_t BDK_TNS_BIST_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
@@ -163,7 +164,7 @@ static inline uint64_t BDK_TNS_BIST_STATUS_FUNC(void)
  * Internal:
  * All TDMA memories listed below are used for non-bypass operation only.
  */
-typedef union
+union bdk_tns_bist_status1
 {
     uint64_t u;
     struct bdk_tns_bist_status1_s
@@ -189,7 +190,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_bist_status1_s cn; */
-} bdk_tns_bist_status1_t;
+};
+typedef union bdk_tns_bist_status1 bdk_tns_bist_status1_t;
 
 #define BDK_TNS_BIST_STATUS1 BDK_TNS_BIST_STATUS1_FUNC()
 static inline uint64_t BDK_TNS_BIST_STATUS1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -215,7 +217,7 @@ static inline uint64_t BDK_TNS_BIST_STATUS1_FUNC(void)
  * Internal:
  * All memories listed below are used only for non-bypass operation.
  */
-typedef union
+union bdk_tns_bist_status10
 {
     uint64_t u;
     struct bdk_tns_bist_status10_s
@@ -233,7 +235,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_bist_status10_s cn; */
-} bdk_tns_bist_status10_t;
+};
+typedef union bdk_tns_bist_status10 bdk_tns_bist_status10_t;
 
 #define BDK_TNS_BIST_STATUS10 BDK_TNS_BIST_STATUS10_FUNC()
 static inline uint64_t BDK_TNS_BIST_STATUS10_FUNC(void) __attribute__ ((pure, always_inline));
@@ -259,7 +262,7 @@ static inline uint64_t BDK_TNS_BIST_STATUS10_FUNC(void)
  * Internal:
  * All memories listed below are used only for non-bypass operation.
  */
-typedef union
+union bdk_tns_bist_status11
 {
     uint64_t u;
     struct bdk_tns_bist_status11_s
@@ -279,7 +282,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_bist_status11_s cn; */
-} bdk_tns_bist_status11_t;
+};
+typedef union bdk_tns_bist_status11 bdk_tns_bist_status11_t;
 
 #define BDK_TNS_BIST_STATUS11 BDK_TNS_BIST_STATUS11_FUNC()
 static inline uint64_t BDK_TNS_BIST_STATUS11_FUNC(void) __attribute__ ((pure, always_inline));
@@ -305,7 +309,7 @@ static inline uint64_t BDK_TNS_BIST_STATUS11_FUNC(void)
  * Internal:
  * All RDMA memories listed below are used only for non-bypass operation.
  */
-typedef union
+union bdk_tns_bist_status2
 {
     uint64_t u;
     struct bdk_tns_bist_status2_s
@@ -353,7 +357,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_bist_status2_s cn; */
-} bdk_tns_bist_status2_t;
+};
+typedef union bdk_tns_bist_status2 bdk_tns_bist_status2_t;
 
 #define BDK_TNS_BIST_STATUS2 BDK_TNS_BIST_STATUS2_FUNC()
 static inline uint64_t BDK_TNS_BIST_STATUS2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -389,7 +394,7 @@ static inline uint64_t BDK_TNS_BIST_STATUS2_FUNC(void)
  *   * rows 32,768 - 40,959:  8k[1,0]
  *   * rows 40,960 - 49,151:  8k[3,2]
  */
-typedef union
+union bdk_tns_bist_status3
 {
     uint64_t u;
     struct bdk_tns_bist_status3_s
@@ -409,7 +414,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_bist_status3_s cn; */
-} bdk_tns_bist_status3_t;
+};
+typedef union bdk_tns_bist_status3 bdk_tns_bist_status3_t;
 
 #define BDK_TNS_BIST_STATUS3 BDK_TNS_BIST_STATUS3_FUNC()
 static inline uint64_t BDK_TNS_BIST_STATUS3_FUNC(void) __attribute__ ((pure, always_inline));
@@ -435,7 +441,7 @@ static inline uint64_t BDK_TNS_BIST_STATUS3_FUNC(void)
  * Internal:
  * All memories listed below are used only for non-bypass operation.
  */
-typedef union
+union bdk_tns_bist_status4
 {
     uint64_t u;
     struct bdk_tns_bist_status4_s
@@ -455,7 +461,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_bist_status4_s cn; */
-} bdk_tns_bist_status4_t;
+};
+typedef union bdk_tns_bist_status4 bdk_tns_bist_status4_t;
 
 #define BDK_TNS_BIST_STATUS4 BDK_TNS_BIST_STATUS4_FUNC()
 static inline uint64_t BDK_TNS_BIST_STATUS4_FUNC(void) __attribute__ ((pure, always_inline));
@@ -481,7 +488,7 @@ static inline uint64_t BDK_TNS_BIST_STATUS4_FUNC(void)
  * Internal:
  * All memories listed below are used only for non-bypass operation.
  */
-typedef union
+union bdk_tns_bist_status5
 {
     uint64_t u;
     struct bdk_tns_bist_status5_s
@@ -499,7 +506,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_bist_status5_s cn; */
-} bdk_tns_bist_status5_t;
+};
+typedef union bdk_tns_bist_status5 bdk_tns_bist_status5_t;
 
 #define BDK_TNS_BIST_STATUS5 BDK_TNS_BIST_STATUS5_FUNC()
 static inline uint64_t BDK_TNS_BIST_STATUS5_FUNC(void) __attribute__ ((pure, always_inline));
@@ -525,7 +533,7 @@ static inline uint64_t BDK_TNS_BIST_STATUS5_FUNC(void)
  * Internal:
  * All memories listed below are used only for non-bypass operation.
  */
-typedef union
+union bdk_tns_bist_status6
 {
     uint64_t u;
     struct bdk_tns_bist_status6_s
@@ -539,7 +547,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_bist_status6_s cn; */
-} bdk_tns_bist_status6_t;
+};
+typedef union bdk_tns_bist_status6 bdk_tns_bist_status6_t;
 
 #define BDK_TNS_BIST_STATUS6 BDK_TNS_BIST_STATUS6_FUNC()
 static inline uint64_t BDK_TNS_BIST_STATUS6_FUNC(void) __attribute__ ((pure, always_inline));
@@ -565,7 +574,7 @@ static inline uint64_t BDK_TNS_BIST_STATUS6_FUNC(void)
  * Internal:
  * All memories listed below are used only for non-bypass operation.
  */
-typedef union
+union bdk_tns_bist_status7
 {
     uint64_t u;
     struct bdk_tns_bist_status7_s
@@ -579,7 +588,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_bist_status7_s cn; */
-} bdk_tns_bist_status7_t;
+};
+typedef union bdk_tns_bist_status7 bdk_tns_bist_status7_t;
 
 #define BDK_TNS_BIST_STATUS7 BDK_TNS_BIST_STATUS7_FUNC()
 static inline uint64_t BDK_TNS_BIST_STATUS7_FUNC(void) __attribute__ ((pure, always_inline));
@@ -605,7 +615,7 @@ static inline uint64_t BDK_TNS_BIST_STATUS7_FUNC(void)
  * Internal:
  * All memories listed below are used only for non-bypass operation.
  */
-typedef union
+union bdk_tns_bist_status8
 {
     uint64_t u;
     struct bdk_tns_bist_status8_s
@@ -625,7 +635,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_bist_status8_s cn; */
-} bdk_tns_bist_status8_t;
+};
+typedef union bdk_tns_bist_status8 bdk_tns_bist_status8_t;
 
 #define BDK_TNS_BIST_STATUS8 BDK_TNS_BIST_STATUS8_FUNC()
 static inline uint64_t BDK_TNS_BIST_STATUS8_FUNC(void) __attribute__ ((pure, always_inline));
@@ -651,7 +662,7 @@ static inline uint64_t BDK_TNS_BIST_STATUS8_FUNC(void)
  * Internal:
  * All memories listed below are used only for non-bypass operation.
  */
-typedef union
+union bdk_tns_bist_status9
 {
     uint64_t u;
     struct bdk_tns_bist_status9_s
@@ -665,7 +676,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_bist_status9_s cn; */
-} bdk_tns_bist_status9_t;
+};
+typedef union bdk_tns_bist_status9 bdk_tns_bist_status9_t;
 
 #define BDK_TNS_BIST_STATUS9 BDK_TNS_BIST_STATUS9_FUNC()
 static inline uint64_t BDK_TNS_BIST_STATUS9_FUNC(void) __attribute__ ((pure, always_inline));
@@ -689,7 +701,7 @@ static inline uint64_t BDK_TNS_BIST_STATUS9_FUNC(void)
  * TNS MSI-X Pending Bit Array Registers
  * This register is the MSI-X PBA table; the bit number is indexed by the TNS_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_tns_msix_pbax
 {
     uint64_t u;
     struct bdk_tns_msix_pbax_s
@@ -703,7 +715,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_msix_pbax_s cn; */
-} bdk_tns_msix_pbax_t;
+};
+typedef union bdk_tns_msix_pbax bdk_tns_msix_pbax_t;
 
 static inline uint64_t BDK_TNS_MSIX_PBAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_MSIX_PBAX(unsigned long a)
@@ -726,7 +739,7 @@ static inline uint64_t BDK_TNS_MSIX_PBAX(unsigned long a)
  * TNS MSI-X Vector-Table Address Register
  * This register is the MSI-X vector table, indexed by the TNS_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_tns_msix_vecx_addr
 {
     uint64_t u;
     struct bdk_tns_msix_vecx_addr_s
@@ -758,7 +771,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_msix_vecx_addr_s cn; */
-} bdk_tns_msix_vecx_addr_t;
+};
+typedef union bdk_tns_msix_vecx_addr bdk_tns_msix_vecx_addr_t;
 
 static inline uint64_t BDK_TNS_MSIX_VECX_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_MSIX_VECX_ADDR(unsigned long a)
@@ -781,7 +795,7 @@ static inline uint64_t BDK_TNS_MSIX_VECX_ADDR(unsigned long a)
  * TNS MSI-X Vector-Table Control and Data Register
  * This register is the MSI-X vector table, indexed by the TNS_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_tns_msix_vecx_ctl
 {
     uint64_t u;
     struct bdk_tns_msix_vecx_ctl_s
@@ -799,7 +813,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_msix_vecx_ctl_s cn; */
-} bdk_tns_msix_vecx_ctl_t;
+};
+typedef union bdk_tns_msix_vecx_ctl bdk_tns_msix_vecx_ctl_t;
 
 static inline uint64_t BDK_TNS_MSIX_VECX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_MSIX_VECX_CTL(unsigned long a)
@@ -825,7 +840,7 @@ static inline uint64_t BDK_TNS_MSIX_VECX_CTL(unsigned long a)
  * The packet memory consists of 49,152 512-bit words.
  * Write access of the packet memory is provided by TNS_PM_WR_ACC.
  */
-typedef union
+union bdk_tns_pm_rd_accx
 {
     uint64_t u;
     struct bdk_tns_pm_rd_accx_s
@@ -837,7 +852,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_pm_rd_accx_s cn; */
-} bdk_tns_pm_rd_accx_t;
+};
+typedef union bdk_tns_pm_rd_accx bdk_tns_pm_rd_accx_t;
 
 static inline uint64_t BDK_TNS_PM_RD_ACCX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_PM_RD_ACCX(unsigned long a)
@@ -867,7 +883,7 @@ static inline uint64_t BDK_TNS_PM_RD_ACCX(unsigned long a)
  * to 0x...80.
  * Read access of the packet memory is provided elsewhere.
  */
-typedef union
+union bdk_tns_pm_wr_accx
 {
     uint64_t u;
     struct bdk_tns_pm_wr_accx_s
@@ -879,7 +895,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_pm_wr_accx_s cn; */
-} bdk_tns_pm_wr_accx_t;
+};
+typedef union bdk_tns_pm_wr_accx bdk_tns_pm_wr_accx_t;
 
 static inline uint64_t BDK_TNS_PM_WR_ACCX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_PM_WR_ACCX(unsigned long a)
@@ -904,7 +921,7 @@ static inline uint64_t BDK_TNS_PM_WR_ACCX(unsigned long a)
  * All fields have roll over counters.
  * Register number enumerated by TNS_PHYS_PORT_E.
  */
-typedef union
+union bdk_tns_rdma_cntx
 {
     uint64_t u;
     struct bdk_tns_rdma_cntx_s
@@ -920,7 +937,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_rdma_cntx_s cn; */
-} bdk_tns_rdma_cntx_t;
+};
+typedef union bdk_tns_rdma_cntx bdk_tns_rdma_cntx_t;
 
 static inline uint64_t BDK_TNS_RDMA_CNTX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_RDMA_CNTX(unsigned long a)
@@ -944,7 +962,7 @@ static inline uint64_t BDK_TNS_RDMA_CNTX(unsigned long a)
  * Bytes received by the physical port. All fields have roll over counters. Register
  * number enumerated by TNS_PHYS_PORT_E.
  */
-typedef union
+union bdk_tns_rdma_cnt_bytesx
 {
     uint64_t u;
     struct bdk_tns_rdma_cnt_bytesx_s
@@ -958,7 +976,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_rdma_cnt_bytesx_s cn; */
-} bdk_tns_rdma_cnt_bytesx_t;
+};
+typedef union bdk_tns_rdma_cnt_bytesx bdk_tns_rdma_cnt_bytesx_t;
 
 static inline uint64_t BDK_TNS_RDMA_CNT_BYTESX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_RDMA_CNT_BYTESX(unsigned long a)
@@ -982,7 +1001,7 @@ static inline uint64_t BDK_TNS_RDMA_CNT_BYTESX(unsigned long a)
  * Packets received by the physical port. All fields have roll over counters. Register
  * number enumerated by TNS_PHYS_PORT_E.
  */
-typedef union
+union bdk_tns_rdma_cnt_pktsx
 {
     uint64_t u;
     struct bdk_tns_rdma_cnt_pktsx_s
@@ -996,7 +1015,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_rdma_cnt_pktsx_s cn; */
-} bdk_tns_rdma_cnt_pktsx_t;
+};
+typedef union bdk_tns_rdma_cnt_pktsx bdk_tns_rdma_cnt_pktsx_t;
 
 static inline uint64_t BDK_TNS_RDMA_CNT_PKTSX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_RDMA_CNT_PKTSX(unsigned long a)
@@ -1018,7 +1038,7 @@ static inline uint64_t BDK_TNS_RDMA_CNT_PKTSX(unsigned long a)
  *
  * TNS RDMA Packet Configuration Register
  */
-typedef union
+union bdk_tns_rdma_config
 {
     uint64_t u;
     struct bdk_tns_rdma_config_s
@@ -1052,7 +1072,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_rdma_config_s cn; */
-} bdk_tns_rdma_config_t;
+};
+typedef union bdk_tns_rdma_config bdk_tns_rdma_config_t;
 
 #define BDK_TNS_RDMA_CONFIG BDK_TNS_RDMA_CONFIG_FUNC()
 static inline uint64_t BDK_TNS_RDMA_CONFIG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1077,7 +1098,7 @@ static inline uint64_t BDK_TNS_RDMA_CONFIG_FUNC(void)
  *
  * This register provides debug control of packet receipt.
  */
-typedef union
+union bdk_tns_rdma_dbg_cdt_ctl
 {
     uint64_t u;
     struct bdk_tns_rdma_dbg_cdt_ctl_s
@@ -1101,7 +1122,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_rdma_dbg_cdt_ctl_s cn; */
-} bdk_tns_rdma_dbg_cdt_ctl_t;
+};
+typedef union bdk_tns_rdma_dbg_cdt_ctl bdk_tns_rdma_dbg_cdt_ctl_t;
 
 #define BDK_TNS_RDMA_DBG_CDT_CTL BDK_TNS_RDMA_DBG_CDT_CTL_FUNC()
 static inline uint64_t BDK_TNS_RDMA_DBG_CDT_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1128,7 +1150,7 @@ static inline uint64_t BDK_TNS_RDMA_DBG_CDT_CTL_FUNC(void)
  * Async FIFOs assert an early full indication when occupancies reach the values
  * below.
  */
-typedef union
+union bdk_tns_rdma_dbg_cx_full
 {
     uint64_t u;
     struct bdk_tns_rdma_dbg_cx_full_s
@@ -1158,7 +1180,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_rdma_dbg_cx_full_s cn; */
-} bdk_tns_rdma_dbg_cx_full_t;
+};
+typedef union bdk_tns_rdma_dbg_cx_full bdk_tns_rdma_dbg_cx_full_t;
 
 #define BDK_TNS_RDMA_DBG_CX_FULL BDK_TNS_RDMA_DBG_CX_FULL_FUNC()
 static inline uint64_t BDK_TNS_RDMA_DBG_CX_FULL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1183,7 +1206,7 @@ static inline uint64_t BDK_TNS_RDMA_DBG_CX_FULL_FUNC(void)
  *
  * Async FIFO occupancies.
  */
-typedef union
+union bdk_tns_rdma_dbg_cx_occ
 {
     uint64_t u;
     struct bdk_tns_rdma_dbg_cx_occ_s
@@ -1225,7 +1248,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_rdma_dbg_cx_occ_s cn; */
-} bdk_tns_rdma_dbg_cx_occ_t;
+};
+typedef union bdk_tns_rdma_dbg_cx_occ bdk_tns_rdma_dbg_cx_occ_t;
 
 #define BDK_TNS_RDMA_DBG_CX_OCC BDK_TNS_RDMA_DBG_CX_OCC_FUNC()
 static inline uint64_t BDK_TNS_RDMA_DBG_CX_OCC_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1250,7 +1274,7 @@ static inline uint64_t BDK_TNS_RDMA_DBG_CX_OCC_FUNC(void)
  *
  * This register provides debug information of packet receipt status.
  */
-typedef union
+union bdk_tns_rdma_dbg_pkt1_status
 {
     uint64_t u;
     struct bdk_tns_rdma_dbg_pkt1_status_s
@@ -1316,7 +1340,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_rdma_dbg_pkt1_status_s cn; */
-} bdk_tns_rdma_dbg_pkt1_status_t;
+};
+typedef union bdk_tns_rdma_dbg_pkt1_status bdk_tns_rdma_dbg_pkt1_status_t;
 
 #define BDK_TNS_RDMA_DBG_PKT1_STATUS BDK_TNS_RDMA_DBG_PKT1_STATUS_FUNC()
 static inline uint64_t BDK_TNS_RDMA_DBG_PKT1_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1341,7 +1366,7 @@ static inline uint64_t BDK_TNS_RDMA_DBG_PKT1_STATUS_FUNC(void)
  *
  * This register provides debug information of packet receipt status.
  */
-typedef union
+union bdk_tns_rdma_dbg_pkt2_status
 {
     uint64_t u;
     struct bdk_tns_rdma_dbg_pkt2_status_s
@@ -1355,7 +1380,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_rdma_dbg_pkt2_status_s cn; */
-} bdk_tns_rdma_dbg_pkt2_status_t;
+};
+typedef union bdk_tns_rdma_dbg_pkt2_status bdk_tns_rdma_dbg_pkt2_status_t;
 
 #define BDK_TNS_RDMA_DBG_PKT2_STATUS BDK_TNS_RDMA_DBG_PKT2_STATUS_FUNC()
 static inline uint64_t BDK_TNS_RDMA_DBG_PKT2_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1380,7 +1406,7 @@ static inline uint64_t BDK_TNS_RDMA_DBG_PKT2_STATUS_FUNC(void)
  *
  * This register provides debug control of packet receipt.
  */
-typedef union
+union bdk_tns_rdma_dbg_pkt_ctl
 {
     uint64_t u;
     struct bdk_tns_rdma_dbg_pkt_ctl_s
@@ -1394,7 +1420,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_rdma_dbg_pkt_ctl_s cn; */
-} bdk_tns_rdma_dbg_pkt_ctl_t;
+};
+typedef union bdk_tns_rdma_dbg_pkt_ctl bdk_tns_rdma_dbg_pkt_ctl_t;
 
 #define BDK_TNS_RDMA_DBG_PKT_CTL BDK_TNS_RDMA_DBG_PKT_CTL_FUNC()
 static inline uint64_t BDK_TNS_RDMA_DBG_PKT_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1420,7 +1447,7 @@ static inline uint64_t BDK_TNS_RDMA_DBG_PKT_CTL_FUNC(void)
  * Debug bus select register.
  * This register is only used in pass 1.x.
  */
-typedef union
+union bdk_tns_rdma_dbgb_sel
 {
     uint64_t u;
     struct bdk_tns_rdma_dbgb_sel_s
@@ -1436,7 +1463,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_rdma_dbgb_sel_s cn; */
-} bdk_tns_rdma_dbgb_sel_t;
+};
+typedef union bdk_tns_rdma_dbgb_sel bdk_tns_rdma_dbgb_sel_t;
 
 #define BDK_TNS_RDMA_DBGB_SEL BDK_TNS_RDMA_DBGB_SEL_FUNC()
 static inline uint64_t BDK_TNS_RDMA_DBGB_SEL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1467,7 +1495,7 @@ static inline uint64_t BDK_TNS_RDMA_DBGB_SEL_FUNC(void)
  * * 0x2 = SBE on bit<1>.
  * * 0x3 = DBE on bits<1:0>.
  */
-typedef union
+union bdk_tns_rdma_ecc_ctl
 {
     uint64_t u;
     struct bdk_tns_rdma_ecc_ctl_s
@@ -1491,7 +1519,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_rdma_ecc_ctl_s cn; */
-} bdk_tns_rdma_ecc_ctl_t;
+};
+typedef union bdk_tns_rdma_ecc_ctl bdk_tns_rdma_ecc_ctl_t;
 
 #define BDK_TNS_RDMA_ECC_CTL BDK_TNS_RDMA_ECC_CTL_FUNC()
 static inline uint64_t BDK_TNS_RDMA_ECC_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1515,7 +1544,7 @@ static inline uint64_t BDK_TNS_RDMA_ECC_CTL_FUNC(void)
  * TNS RDMA ECC Error Status Register
  * This register logs information to help debug ECC errors.
  */
-typedef union
+union bdk_tns_rdma_ecc_err_stat
 {
     uint64_t u;
     struct bdk_tns_rdma_ecc_err_stat_s
@@ -1533,7 +1562,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_rdma_ecc_err_stat_s cn; */
-} bdk_tns_rdma_ecc_err_stat_t;
+};
+typedef union bdk_tns_rdma_ecc_err_stat bdk_tns_rdma_ecc_err_stat_t;
 
 #define BDK_TNS_RDMA_ECC_ERR_STAT BDK_TNS_RDMA_ECC_ERR_STAT_FUNC()
 static inline uint64_t BDK_TNS_RDMA_ECC_ERR_STAT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1558,7 +1588,7 @@ static inline uint64_t BDK_TNS_RDMA_ECC_ERR_STAT_FUNC(void)
  *
  * ECO register.
  */
-typedef union
+union bdk_tns_rdma_eco
 {
     uint64_t u;
     struct bdk_tns_rdma_eco_s
@@ -1574,7 +1604,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_rdma_eco_s cn; */
-} bdk_tns_rdma_eco_t;
+};
+typedef union bdk_tns_rdma_eco bdk_tns_rdma_eco_t;
 
 #define BDK_TNS_RDMA_ECO BDK_TNS_RDMA_ECO_FUNC()
 static inline uint64_t BDK_TNS_RDMA_ECO_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1597,7 +1628,7 @@ static inline uint64_t BDK_TNS_RDMA_ECO_FUNC(void)
  *
  * TNS RDMA Packet Header Timestamp Configuration Register
  */
-typedef union
+union bdk_tns_rdma_hdr_ts_cfg
 {
     uint64_t u;
     struct bdk_tns_rdma_hdr_ts_cfg_s
@@ -1633,7 +1664,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_rdma_hdr_ts_cfg_s cn; */
-} bdk_tns_rdma_hdr_ts_cfg_t;
+};
+typedef union bdk_tns_rdma_hdr_ts_cfg bdk_tns_rdma_hdr_ts_cfg_t;
 
 #define BDK_TNS_RDMA_HDR_TS_CFG BDK_TNS_RDMA_HDR_TS_CFG_FUNC()
 static inline uint64_t BDK_TNS_RDMA_HDR_TS_CFG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1657,7 +1689,7 @@ static inline uint64_t BDK_TNS_RDMA_HDR_TS_CFG_FUNC(void)
  * TNS RDMA Interrupt Enable (Read/Write-1-Clear) Register
  * RDMA Interrupt Enable Register.
  */
-typedef union
+union bdk_tns_rdma_int_en_w1c
 {
     uint64_t u;
     struct bdk_tns_rdma_int_en_w1c_s
@@ -1689,7 +1721,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_rdma_int_en_w1c_s cn; */
-} bdk_tns_rdma_int_en_w1c_t;
+};
+typedef union bdk_tns_rdma_int_en_w1c bdk_tns_rdma_int_en_w1c_t;
 
 #define BDK_TNS_RDMA_INT_EN_W1C BDK_TNS_RDMA_INT_EN_W1C_FUNC()
 static inline uint64_t BDK_TNS_RDMA_INT_EN_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1713,7 +1746,7 @@ static inline uint64_t BDK_TNS_RDMA_INT_EN_W1C_FUNC(void)
  * TNS RDMA Interrupt Enable (Read/Write-1-Set) Register
  * RDMA Interrupt Enable Register.
  */
-typedef union
+union bdk_tns_rdma_int_en_w1s
 {
     uint64_t u;
     struct bdk_tns_rdma_int_en_w1s_s
@@ -1745,7 +1778,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_rdma_int_en_w1s_s cn; */
-} bdk_tns_rdma_int_en_w1s_t;
+};
+typedef union bdk_tns_rdma_int_en_w1s bdk_tns_rdma_int_en_w1s_t;
 
 #define BDK_TNS_RDMA_INT_EN_W1S BDK_TNS_RDMA_INT_EN_W1S_FUNC()
 static inline uint64_t BDK_TNS_RDMA_INT_EN_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1769,7 +1803,7 @@ static inline uint64_t BDK_TNS_RDMA_INT_EN_W1S_FUNC(void)
  * TNS RDMA Interrupt First Enable (Read/Write-1-Clear) Register
  * RDMA Interrupt First Enable Register.
  */
-typedef union
+union bdk_tns_rdma_int_fen_w1c
 {
     uint64_t u;
     struct bdk_tns_rdma_int_fen_w1c_s
@@ -1801,7 +1835,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_rdma_int_fen_w1c_s cn; */
-} bdk_tns_rdma_int_fen_w1c_t;
+};
+typedef union bdk_tns_rdma_int_fen_w1c bdk_tns_rdma_int_fen_w1c_t;
 
 #define BDK_TNS_RDMA_INT_FEN_W1C BDK_TNS_RDMA_INT_FEN_W1C_FUNC()
 static inline uint64_t BDK_TNS_RDMA_INT_FEN_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1825,7 +1860,7 @@ static inline uint64_t BDK_TNS_RDMA_INT_FEN_W1C_FUNC(void)
  * TNS RDMA Interrupt First Enable (Read/Write-1-Set) Register
  * RDMA Interrupt First Enable Register.
  */
-typedef union
+union bdk_tns_rdma_int_fen_w1s
 {
     uint64_t u;
     struct bdk_tns_rdma_int_fen_w1s_s
@@ -1857,7 +1892,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_rdma_int_fen_w1s_s cn; */
-} bdk_tns_rdma_int_fen_w1s_t;
+};
+typedef union bdk_tns_rdma_int_fen_w1s bdk_tns_rdma_int_fen_w1s_t;
 
 #define BDK_TNS_RDMA_INT_FEN_W1S BDK_TNS_RDMA_INT_FEN_W1S_FUNC()
 static inline uint64_t BDK_TNS_RDMA_INT_FEN_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1884,7 +1920,7 @@ static inline uint64_t BDK_TNS_RDMA_INT_FEN_W1S_FUNC(void)
  * This register holds its nonzero value until all TNS_RDMA_INT_STAT_W1S register bits,
  * as enabled by TNS_RDMA_INT_FIRST_EN_W1S, are cleared to 0x0.
  */
-typedef union
+union bdk_tns_rdma_int_fstat
 {
     uint64_t u;
     struct bdk_tns_rdma_int_fstat_s
@@ -1916,7 +1952,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_rdma_int_fstat_s cn; */
-} bdk_tns_rdma_int_fstat_t;
+};
+typedef union bdk_tns_rdma_int_fstat bdk_tns_rdma_int_fstat_t;
 
 #define BDK_TNS_RDMA_INT_FSTAT BDK_TNS_RDMA_INT_FSTAT_FUNC()
 static inline uint64_t BDK_TNS_RDMA_INT_FSTAT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1940,7 +1977,7 @@ static inline uint64_t BDK_TNS_RDMA_INT_FSTAT_FUNC(void)
  * TNS RDMA Interrupt Status (Read/Write-1-Clear) Register
  * RDMA Interrupt Status Register.
  */
-typedef union
+union bdk_tns_rdma_int_stat_w1c
 {
     uint64_t u;
     struct bdk_tns_rdma_int_stat_w1c_s
@@ -1972,7 +2009,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_rdma_int_stat_w1c_s cn; */
-} bdk_tns_rdma_int_stat_w1c_t;
+};
+typedef union bdk_tns_rdma_int_stat_w1c bdk_tns_rdma_int_stat_w1c_t;
 
 #define BDK_TNS_RDMA_INT_STAT_W1C BDK_TNS_RDMA_INT_STAT_W1C_FUNC()
 static inline uint64_t BDK_TNS_RDMA_INT_STAT_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1996,7 +2034,7 @@ static inline uint64_t BDK_TNS_RDMA_INT_STAT_W1C_FUNC(void)
  * TNS RDMA Interrupt Status (Read/Write-1-Set) Register
  * RDMA Interrupt Status Register.
  */
-typedef union
+union bdk_tns_rdma_int_stat_w1s
 {
     uint64_t u;
     struct bdk_tns_rdma_int_stat_w1s_s
@@ -2028,7 +2066,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_rdma_int_stat_w1s_s cn; */
-} bdk_tns_rdma_int_stat_w1s_t;
+};
+typedef union bdk_tns_rdma_int_stat_w1s bdk_tns_rdma_int_stat_w1s_t;
 
 #define BDK_TNS_RDMA_INT_STAT_W1S BDK_TNS_RDMA_INT_STAT_W1S_FUNC()
 static inline uint64_t BDK_TNS_RDMA_INT_STAT_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2051,7 +2090,7 @@ static inline uint64_t BDK_TNS_RDMA_INT_STAT_W1S_FUNC(void)
  *
  * TNS RDMA BGX Drop Counter Register
  */
-typedef union
+union bdk_tns_rdma_lmacx_drop_cnt
 {
     uint64_t u;
     struct bdk_tns_rdma_lmacx_drop_cnt_s
@@ -2077,7 +2116,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_rdma_lmacx_drop_cnt_s cn; */
-} bdk_tns_rdma_lmacx_drop_cnt_t;
+};
+typedef union bdk_tns_rdma_lmacx_drop_cnt bdk_tns_rdma_lmacx_drop_cnt_t;
 
 static inline uint64_t BDK_TNS_RDMA_LMACX_DROP_CNT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_RDMA_LMACX_DROP_CNT(unsigned long a)
@@ -2101,7 +2141,7 @@ static inline uint64_t BDK_TNS_RDMA_LMACX_DROP_CNT(unsigned long a)
  * Packets and bytes received by the internal loopback port.
  * All fields have roll over counters.
  */
-typedef union
+union bdk_tns_rdma_nb_cnt_lb
 {
     uint64_t u;
     struct bdk_tns_rdma_nb_cnt_lb_s
@@ -2117,7 +2157,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_rdma_nb_cnt_lb_s cn; */
-} bdk_tns_rdma_nb_cnt_lb_t;
+};
+typedef union bdk_tns_rdma_nb_cnt_lb bdk_tns_rdma_nb_cnt_lb_t;
 
 #define BDK_TNS_RDMA_NB_CNT_LB BDK_TNS_RDMA_NB_CNT_LB_FUNC()
 static inline uint64_t BDK_TNS_RDMA_NB_CNT_LB_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2141,7 +2182,7 @@ static inline uint64_t BDK_TNS_RDMA_NB_CNT_LB_FUNC(void)
  * TNS RDMA Configuration Register
  * General configuration register.
  */
-typedef union
+union bdk_tns_rdma_nb_config
 {
     uint64_t u;
     struct bdk_tns_rdma_nb_config_s
@@ -2159,7 +2200,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_rdma_nb_config_s cn; */
-} bdk_tns_rdma_nb_config_t;
+};
+typedef union bdk_tns_rdma_nb_config bdk_tns_rdma_nb_config_t;
 
 #define BDK_TNS_RDMA_NB_CONFIG BDK_TNS_RDMA_NB_CONFIG_FUNC()
 static inline uint64_t BDK_TNS_RDMA_NB_CONFIG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2184,7 +2226,7 @@ static inline uint64_t BDK_TNS_RDMA_NB_CONFIG_FUNC(void)
  *
  * This register provides debug control of RDMA functionality.
  */
-typedef union
+union bdk_tns_rdma_nb_dbg_config
 {
     uint64_t u;
     struct bdk_tns_rdma_nb_dbg_config_s
@@ -2230,7 +2272,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_rdma_nb_dbg_config_s cn; */
-} bdk_tns_rdma_nb_dbg_config_t;
+};
+typedef union bdk_tns_rdma_nb_dbg_config bdk_tns_rdma_nb_dbg_config_t;
 
 #define BDK_TNS_RDMA_NB_DBG_CONFIG BDK_TNS_RDMA_NB_DBG_CONFIG_FUNC()
 static inline uint64_t BDK_TNS_RDMA_NB_DBG_CONFIG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2257,7 +2300,7 @@ static inline uint64_t BDK_TNS_RDMA_NB_DBG_CONFIG_FUNC(void)
  * Async FIFOs assert an early full indication when occupancies reach the values
  * below.
  */
-typedef union
+union bdk_tns_rdma_nb_dbg_cx_full
 {
     uint64_t u;
     struct bdk_tns_rdma_nb_dbg_cx_full_s
@@ -2279,7 +2322,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_rdma_nb_dbg_cx_full_s cn; */
-} bdk_tns_rdma_nb_dbg_cx_full_t;
+};
+typedef union bdk_tns_rdma_nb_dbg_cx_full bdk_tns_rdma_nb_dbg_cx_full_t;
 
 #define BDK_TNS_RDMA_NB_DBG_CX_FULL BDK_TNS_RDMA_NB_DBG_CX_FULL_FUNC()
 static inline uint64_t BDK_TNS_RDMA_NB_DBG_CX_FULL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2304,7 +2348,7 @@ static inline uint64_t BDK_TNS_RDMA_NB_DBG_CX_FULL_FUNC(void)
  *
  * Async FIFO occupancies.
  */
-typedef union
+union bdk_tns_rdma_nb_dbg_cx_occ
 {
     uint64_t u;
     struct bdk_tns_rdma_nb_dbg_cx_occ_s
@@ -2338,7 +2382,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_rdma_nb_dbg_cx_occ_s cn; */
-} bdk_tns_rdma_nb_dbg_cx_occ_t;
+};
+typedef union bdk_tns_rdma_nb_dbg_cx_occ bdk_tns_rdma_nb_dbg_cx_occ_t;
 
 #define BDK_TNS_RDMA_NB_DBG_CX_OCC BDK_TNS_RDMA_NB_DBG_CX_OCC_FUNC()
 static inline uint64_t BDK_TNS_RDMA_NB_DBG_CX_OCC_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2364,7 +2409,7 @@ static inline uint64_t BDK_TNS_RDMA_NB_DBG_CX_OCC_FUNC(void)
  * Debug bus select register.
  * This register is only used in pass 1.x.
  */
-typedef union
+union bdk_tns_rdma_nb_dbgb_sel
 {
     uint64_t u;
     struct bdk_tns_rdma_nb_dbgb_sel_s
@@ -2380,7 +2425,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_rdma_nb_dbgb_sel_s cn; */
-} bdk_tns_rdma_nb_dbgb_sel_t;
+};
+typedef union bdk_tns_rdma_nb_dbgb_sel bdk_tns_rdma_nb_dbgb_sel_t;
 
 #define BDK_TNS_RDMA_NB_DBGB_SEL BDK_TNS_RDMA_NB_DBGB_SEL_FUNC()
 static inline uint64_t BDK_TNS_RDMA_NB_DBGB_SEL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2411,7 +2457,7 @@ static inline uint64_t BDK_TNS_RDMA_NB_DBGB_SEL_FUNC(void)
  * * 0x2 = SBE on bit<1>.
  * * 0x3 = DBE on bits<1:0>.
  */
-typedef union
+union bdk_tns_rdma_nb_ecc_ctl
 {
     uint64_t u;
     struct bdk_tns_rdma_nb_ecc_ctl_s
@@ -2455,7 +2501,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_rdma_nb_ecc_ctl_s cn; */
-} bdk_tns_rdma_nb_ecc_ctl_t;
+};
+typedef union bdk_tns_rdma_nb_ecc_ctl bdk_tns_rdma_nb_ecc_ctl_t;
 
 #define BDK_TNS_RDMA_NB_ECC_CTL BDK_TNS_RDMA_NB_ECC_CTL_FUNC()
 static inline uint64_t BDK_TNS_RDMA_NB_ECC_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2479,7 +2526,7 @@ static inline uint64_t BDK_TNS_RDMA_NB_ECC_CTL_FUNC(void)
  * TNS RDMA ECC Error Status Register
  * This register logs information to help debug ECC errors.
  */
-typedef union
+union bdk_tns_rdma_nb_ecc_err_stat
 {
     uint64_t u;
     struct bdk_tns_rdma_nb_ecc_err_stat_s
@@ -2495,7 +2542,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_rdma_nb_ecc_err_stat_s cn; */
-} bdk_tns_rdma_nb_ecc_err_stat_t;
+};
+typedef union bdk_tns_rdma_nb_ecc_err_stat bdk_tns_rdma_nb_ecc_err_stat_t;
 
 #define BDK_TNS_RDMA_NB_ECC_ERR_STAT BDK_TNS_RDMA_NB_ECC_ERR_STAT_FUNC()
 static inline uint64_t BDK_TNS_RDMA_NB_ECC_ERR_STAT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2520,7 +2568,7 @@ static inline uint64_t BDK_TNS_RDMA_NB_ECC_ERR_STAT_FUNC(void)
  *
  * ECO register.
  */
-typedef union
+union bdk_tns_rdma_nb_eco
 {
     uint64_t u;
     struct bdk_tns_rdma_nb_eco_s
@@ -2536,7 +2584,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_rdma_nb_eco_s cn; */
-} bdk_tns_rdma_nb_eco_t;
+};
+typedef union bdk_tns_rdma_nb_eco bdk_tns_rdma_nb_eco_t;
 
 #define BDK_TNS_RDMA_NB_ECO BDK_TNS_RDMA_NB_ECO_FUNC()
 static inline uint64_t BDK_TNS_RDMA_NB_ECO_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2559,7 +2608,7 @@ static inline uint64_t BDK_TNS_RDMA_NB_ECO_FUNC(void)
  *
  * TNS RDMA LMAC Back Pressure Forcing Register
  */
-typedef union
+union bdk_tns_rdma_nb_force_lmacx_bp
 {
     uint64_t u;
     struct bdk_tns_rdma_nb_force_lmacx_bp_s
@@ -2581,7 +2630,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_rdma_nb_force_lmacx_bp_s cn; */
-} bdk_tns_rdma_nb_force_lmacx_bp_t;
+};
+typedef union bdk_tns_rdma_nb_force_lmacx_bp bdk_tns_rdma_nb_force_lmacx_bp_t;
 
 static inline uint64_t BDK_TNS_RDMA_NB_FORCE_LMACX_BP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_RDMA_NB_FORCE_LMACX_BP(unsigned long a)
@@ -2603,7 +2653,7 @@ static inline uint64_t BDK_TNS_RDMA_NB_FORCE_LMACX_BP(unsigned long a)
  *
  * TNS RDMA NIC Back Pressure Forcing Register
  */
-typedef union
+union bdk_tns_rdma_nb_force_nicx_bp
 {
     uint64_t u;
     struct bdk_tns_rdma_nb_force_nicx_bp_s
@@ -2623,7 +2673,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_rdma_nb_force_nicx_bp_s cn; */
-} bdk_tns_rdma_nb_force_nicx_bp_t;
+};
+typedef union bdk_tns_rdma_nb_force_nicx_bp bdk_tns_rdma_nb_force_nicx_bp_t;
 
 static inline uint64_t BDK_TNS_RDMA_NB_FORCE_NICX_BP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_RDMA_NB_FORCE_NICX_BP(unsigned long a)
@@ -2653,7 +2704,7 @@ static inline uint64_t BDK_TNS_RDMA_NB_FORCE_NICX_BP(unsigned long a)
  * for a port while packets are being received.
  * All fields are enumerated by TNS_RDMA_HDR_SZ_E.
  */
-typedef union
+union bdk_tns_rdma_nb_hdr_sz_cfg
 {
     uint64_t u;
     struct bdk_tns_rdma_nb_hdr_sz_cfg_s
@@ -2687,7 +2738,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_rdma_nb_hdr_sz_cfg_s cn; */
-} bdk_tns_rdma_nb_hdr_sz_cfg_t;
+};
+typedef union bdk_tns_rdma_nb_hdr_sz_cfg bdk_tns_rdma_nb_hdr_sz_cfg_t;
 
 #define BDK_TNS_RDMA_NB_HDR_SZ_CFG BDK_TNS_RDMA_NB_HDR_SZ_CFG_FUNC()
 static inline uint64_t BDK_TNS_RDMA_NB_HDR_SZ_CFG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2711,7 +2763,7 @@ static inline uint64_t BDK_TNS_RDMA_NB_HDR_SZ_CFG_FUNC(void)
  * TNS RDMA Interrupt Enable (Read/Write-1-Clear) Register
  * RDMA Interrupt Enable Register.
  */
-typedef union
+union bdk_tns_rdma_nb_int_en_w1c
 {
     uint64_t u;
     struct bdk_tns_rdma_nb_int_en_w1c_s
@@ -2759,7 +2811,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_rdma_nb_int_en_w1c_s cn; */
-} bdk_tns_rdma_nb_int_en_w1c_t;
+};
+typedef union bdk_tns_rdma_nb_int_en_w1c bdk_tns_rdma_nb_int_en_w1c_t;
 
 #define BDK_TNS_RDMA_NB_INT_EN_W1C BDK_TNS_RDMA_NB_INT_EN_W1C_FUNC()
 static inline uint64_t BDK_TNS_RDMA_NB_INT_EN_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2783,7 +2836,7 @@ static inline uint64_t BDK_TNS_RDMA_NB_INT_EN_W1C_FUNC(void)
  * TNS RDMA Interrupt Enable (Read/Write-1-Set) Register
  * RDMA Interrupt Enable Register.
  */
-typedef union
+union bdk_tns_rdma_nb_int_en_w1s
 {
     uint64_t u;
     struct bdk_tns_rdma_nb_int_en_w1s_s
@@ -2831,7 +2884,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_rdma_nb_int_en_w1s_s cn; */
-} bdk_tns_rdma_nb_int_en_w1s_t;
+};
+typedef union bdk_tns_rdma_nb_int_en_w1s bdk_tns_rdma_nb_int_en_w1s_t;
 
 #define BDK_TNS_RDMA_NB_INT_EN_W1S BDK_TNS_RDMA_NB_INT_EN_W1S_FUNC()
 static inline uint64_t BDK_TNS_RDMA_NB_INT_EN_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2855,7 +2909,7 @@ static inline uint64_t BDK_TNS_RDMA_NB_INT_EN_W1S_FUNC(void)
  * TNS RDMA Interrupt First Enable (Read/Write-1-Clear) Register
  * RDMA Interrupt First Enable Register.
  */
-typedef union
+union bdk_tns_rdma_nb_int_fen_w1c
 {
     uint64_t u;
     struct bdk_tns_rdma_nb_int_fen_w1c_s
@@ -2903,7 +2957,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_rdma_nb_int_fen_w1c_s cn; */
-} bdk_tns_rdma_nb_int_fen_w1c_t;
+};
+typedef union bdk_tns_rdma_nb_int_fen_w1c bdk_tns_rdma_nb_int_fen_w1c_t;
 
 #define BDK_TNS_RDMA_NB_INT_FEN_W1C BDK_TNS_RDMA_NB_INT_FEN_W1C_FUNC()
 static inline uint64_t BDK_TNS_RDMA_NB_INT_FEN_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2927,7 +2982,7 @@ static inline uint64_t BDK_TNS_RDMA_NB_INT_FEN_W1C_FUNC(void)
  * TNS RDMA Interrupt First Enable (Read/Write-1-Set) Register
  * RDMA Interrupt First Enable Register.
  */
-typedef union
+union bdk_tns_rdma_nb_int_fen_w1s
 {
     uint64_t u;
     struct bdk_tns_rdma_nb_int_fen_w1s_s
@@ -2975,7 +3030,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_rdma_nb_int_fen_w1s_s cn; */
-} bdk_tns_rdma_nb_int_fen_w1s_t;
+};
+typedef union bdk_tns_rdma_nb_int_fen_w1s bdk_tns_rdma_nb_int_fen_w1s_t;
 
 #define BDK_TNS_RDMA_NB_INT_FEN_W1S BDK_TNS_RDMA_NB_INT_FEN_W1S_FUNC()
 static inline uint64_t BDK_TNS_RDMA_NB_INT_FEN_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2999,7 +3055,7 @@ static inline uint64_t BDK_TNS_RDMA_NB_INT_FEN_W1S_FUNC(void)
  * TNS RDMA Interrupt First Status Register
  * RDMA Interrupt First Status Register.
  */
-typedef union
+union bdk_tns_rdma_nb_int_fstat
 {
     uint64_t u;
     struct bdk_tns_rdma_nb_int_fstat_s
@@ -3047,7 +3103,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_rdma_nb_int_fstat_s cn; */
-} bdk_tns_rdma_nb_int_fstat_t;
+};
+typedef union bdk_tns_rdma_nb_int_fstat bdk_tns_rdma_nb_int_fstat_t;
 
 #define BDK_TNS_RDMA_NB_INT_FSTAT BDK_TNS_RDMA_NB_INT_FSTAT_FUNC()
 static inline uint64_t BDK_TNS_RDMA_NB_INT_FSTAT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3071,7 +3128,7 @@ static inline uint64_t BDK_TNS_RDMA_NB_INT_FSTAT_FUNC(void)
  * TNS RDMA Interrupt Status (Read/Write-1-Clear) Register
  * RDMA Interrupt Status Register.
  */
-typedef union
+union bdk_tns_rdma_nb_int_stat_w1c
 {
     uint64_t u;
     struct bdk_tns_rdma_nb_int_stat_w1c_s
@@ -3119,7 +3176,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_rdma_nb_int_stat_w1c_s cn; */
-} bdk_tns_rdma_nb_int_stat_w1c_t;
+};
+typedef union bdk_tns_rdma_nb_int_stat_w1c bdk_tns_rdma_nb_int_stat_w1c_t;
 
 #define BDK_TNS_RDMA_NB_INT_STAT_W1C BDK_TNS_RDMA_NB_INT_STAT_W1C_FUNC()
 static inline uint64_t BDK_TNS_RDMA_NB_INT_STAT_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3143,7 +3201,7 @@ static inline uint64_t BDK_TNS_RDMA_NB_INT_STAT_W1C_FUNC(void)
  * TNS RDMA Interrupt Status (Read/Write-1-Set) Register
  * RDMA Interrupt Status Register.
  */
-typedef union
+union bdk_tns_rdma_nb_int_stat_w1s
 {
     uint64_t u;
     struct bdk_tns_rdma_nb_int_stat_w1s_s
@@ -3191,7 +3249,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_rdma_nb_int_stat_w1s_s cn; */
-} bdk_tns_rdma_nb_int_stat_w1s_t;
+};
+typedef union bdk_tns_rdma_nb_int_stat_w1s bdk_tns_rdma_nb_int_stat_w1s_t;
 
 #define BDK_TNS_RDMA_NB_INT_STAT_W1S BDK_TNS_RDMA_NB_INT_STAT_W1S_FUNC()
 static inline uint64_t BDK_TNS_RDMA_NB_INT_STAT_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3214,7 +3273,7 @@ static inline uint64_t BDK_TNS_RDMA_NB_INT_STAT_W1S_FUNC(void)
  *
  * TNS RDMA LMAC Runt Packet Size Register
  */
-typedef union
+union bdk_tns_rdma_nb_lmacx_rpkt_sz
 {
     uint64_t u;
     struct bdk_tns_rdma_nb_lmacx_rpkt_sz_s
@@ -3242,7 +3301,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_rdma_nb_lmacx_rpkt_sz_s cn; */
-} bdk_tns_rdma_nb_lmacx_rpkt_sz_t;
+};
+typedef union bdk_tns_rdma_nb_lmacx_rpkt_sz bdk_tns_rdma_nb_lmacx_rpkt_sz_t;
 
 static inline uint64_t BDK_TNS_RDMA_NB_LMACX_RPKT_SZ(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_RDMA_NB_LMACX_RPKT_SZ(unsigned long a)
@@ -3274,7 +3334,7 @@ static inline uint64_t BDK_TNS_RDMA_NB_LMACX_RPKT_SZ(unsigned long a)
  * During operation, hardware only performs reads from this table and addresses this table as:
  * Address = {BGX(1),LMAC(2)}
  */
-typedef union
+union bdk_tns_rdma_nb_lmac_plutx
 {
     uint64_t u;
     struct bdk_tns_rdma_nb_lmac_plutx_s
@@ -3288,7 +3348,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_rdma_nb_lmac_plutx_s cn; */
-} bdk_tns_rdma_nb_lmac_plutx_t;
+};
+typedef union bdk_tns_rdma_nb_lmac_plutx bdk_tns_rdma_nb_lmac_plutx_t;
 
 static inline uint64_t BDK_TNS_RDMA_NB_LMAC_PLUTX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_RDMA_NB_LMAC_PLUTX(unsigned long a)
@@ -3317,7 +3378,7 @@ static inline uint64_t BDK_TNS_RDMA_NB_LMAC_PLUTX(unsigned long a)
  *   * 1 Loopback port
  * Use of logical port numbers 137 through 255 may result in unintended behavior.
  */
-typedef union
+union bdk_tns_rdma_nb_loopback_plut
 {
     uint64_t u;
     struct bdk_tns_rdma_nb_loopback_plut_s
@@ -3331,7 +3392,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_rdma_nb_loopback_plut_s cn; */
-} bdk_tns_rdma_nb_loopback_plut_t;
+};
+typedef union bdk_tns_rdma_nb_loopback_plut bdk_tns_rdma_nb_loopback_plut_t;
 
 #define BDK_TNS_RDMA_NB_LOOPBACK_PLUT BDK_TNS_RDMA_NB_LOOPBACK_PLUT_FUNC()
 static inline uint64_t BDK_TNS_RDMA_NB_LOOPBACK_PLUT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3362,7 +3424,7 @@ static inline uint64_t BDK_TNS_RDMA_NB_LOOPBACK_PLUT_FUNC(void)
  * Values have the meaning as defined in TNS_PHYS_PORT_E.
  * Rows 137 through 255 are unused.
  */
-typedef union
+union bdk_tns_rdma_nb_lp_plutx
 {
     uint64_t u;
     struct bdk_tns_rdma_nb_lp_plutx_s
@@ -3376,7 +3438,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_rdma_nb_lp_plutx_s cn; */
-} bdk_tns_rdma_nb_lp_plutx_t;
+};
+typedef union bdk_tns_rdma_nb_lp_plutx bdk_tns_rdma_nb_lp_plutx_t;
 
 static inline uint64_t BDK_TNS_RDMA_NB_LP_PLUTX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_RDMA_NB_LP_PLUTX(unsigned long a)
@@ -3398,7 +3461,7 @@ static inline uint64_t BDK_TNS_RDMA_NB_LP_PLUTX(unsigned long a)
  *
  * INTERNAL: TNS RDMA NIC Channel Credit Message Pending Register
  */
-typedef union
+union bdk_tns_rdma_nb_nic_c_cdt_pndx
 {
     uint64_t u;
     struct bdk_tns_rdma_nb_nic_c_cdt_pndx_s
@@ -3410,7 +3473,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_rdma_nb_nic_c_cdt_pndx_s cn; */
-} bdk_tns_rdma_nb_nic_c_cdt_pndx_t;
+};
+typedef union bdk_tns_rdma_nb_nic_c_cdt_pndx bdk_tns_rdma_nb_nic_c_cdt_pndx_t;
 
 static inline uint64_t BDK_TNS_RDMA_NB_NIC_C_CDT_PNDX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_RDMA_NB_NIC_C_CDT_PNDX(unsigned long a)
@@ -3442,7 +3506,7 @@ static inline uint64_t BDK_TNS_RDMA_NB_NIC_C_CDT_PNDX(unsigned long a)
  * During operation, hardware only performs reads from this table and addresses this table as:
  * Address = {NICI(1),channel(7)}
  */
-typedef union
+union bdk_tns_rdma_nb_nic_plutx
 {
     uint64_t u;
     struct bdk_tns_rdma_nb_nic_plutx_s
@@ -3456,7 +3520,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_rdma_nb_nic_plutx_s cn; */
-} bdk_tns_rdma_nb_nic_plutx_t;
+};
+typedef union bdk_tns_rdma_nb_nic_plutx bdk_tns_rdma_nb_nic_plutx_t;
 
 static inline uint64_t BDK_TNS_RDMA_NB_NIC_PLUTX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_RDMA_NB_NIC_PLUTX(unsigned long a)
@@ -3478,7 +3543,7 @@ static inline uint64_t BDK_TNS_RDMA_NB_NIC_PLUTX(unsigned long a)
  *
  * TNS RDMA NICI Runt Packet Size Register
  */
-typedef union
+union bdk_tns_rdma_nb_nicix_rpkt_sz
 {
     uint64_t u;
     struct bdk_tns_rdma_nb_nicix_rpkt_sz_s
@@ -3500,7 +3565,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_rdma_nb_nicix_rpkt_sz_s cn; */
-} bdk_tns_rdma_nb_nicix_rpkt_sz_t;
+};
+typedef union bdk_tns_rdma_nb_nicix_rpkt_sz bdk_tns_rdma_nb_nicix_rpkt_sz_t;
 
 static inline uint64_t BDK_TNS_RDMA_NB_NICIX_RPKT_SZ(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_RDMA_NB_NICIX_RPKT_SZ(unsigned long a)
@@ -3524,7 +3590,7 @@ static inline uint64_t BDK_TNS_RDMA_NB_NICIX_RPKT_SZ(unsigned long a)
  *
  * Parser to RDMA status register.
  */
-typedef union
+union bdk_tns_rdma_nb_parser
 {
     uint64_t u;
     struct bdk_tns_rdma_nb_parser_s
@@ -3538,7 +3604,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_rdma_nb_parser_s cn; */
-} bdk_tns_rdma_nb_parser_t;
+};
+typedef union bdk_tns_rdma_nb_parser bdk_tns_rdma_nb_parser_t;
 
 #define BDK_TNS_RDMA_NB_PARSER BDK_TNS_RDMA_NB_PARSER_FUNC()
 static inline uint64_t BDK_TNS_RDMA_NB_PARSER_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3563,7 +3630,7 @@ static inline uint64_t BDK_TNS_RDMA_NB_PARSER_FUNC(void)
  * When 1, allows the RDMA to accept packets and return credits;
  * when 0, resets state and does not allow receiving of packets from the indicated port.
  */
-typedef union
+union bdk_tns_rdma_nb_path_enable
 {
     uint64_t u;
     struct bdk_tns_rdma_nb_path_enable_s
@@ -3611,7 +3678,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_rdma_nb_path_enable_s cn; */
-} bdk_tns_rdma_nb_path_enable_t;
+};
+typedef union bdk_tns_rdma_nb_path_enable bdk_tns_rdma_nb_path_enable_t;
 
 #define BDK_TNS_RDMA_NB_PATH_ENABLE BDK_TNS_RDMA_NB_PATH_ENABLE_FUNC()
 static inline uint64_t BDK_TNS_RDMA_NB_PATH_ENABLE_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3636,7 +3704,7 @@ static inline uint64_t BDK_TNS_RDMA_NB_PATH_ENABLE_FUNC(void)
  *
  * Performance counter control register.
  */
-typedef union
+union bdk_tns_rdma_nb_perf_cntrlx
 {
     uint64_t u;
     struct bdk_tns_rdma_nb_perf_cntrlx_s
@@ -3718,7 +3786,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_rdma_nb_perf_cntrlx_s cn; */
-} bdk_tns_rdma_nb_perf_cntrlx_t;
+};
+typedef union bdk_tns_rdma_nb_perf_cntrlx bdk_tns_rdma_nb_perf_cntrlx_t;
 
 static inline uint64_t BDK_TNS_RDMA_NB_PERF_CNTRLX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_RDMA_NB_PERF_CNTRLX(unsigned long a)
@@ -3742,7 +3811,7 @@ static inline uint64_t BDK_TNS_RDMA_NB_PERF_CNTRLX(unsigned long a)
  *
  * Performance counter status register.
  */
-typedef union
+union bdk_tns_rdma_nb_perf_statusx
 {
     uint64_t u;
     struct bdk_tns_rdma_nb_perf_statusx_s
@@ -3756,7 +3825,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_rdma_nb_perf_statusx_s cn; */
-} bdk_tns_rdma_nb_perf_statusx_t;
+};
+typedef union bdk_tns_rdma_nb_perf_statusx bdk_tns_rdma_nb_perf_statusx_t;
 
 static inline uint64_t BDK_TNS_RDMA_NB_PERF_STATUSX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_RDMA_NB_PERF_STATUSX(unsigned long a)
@@ -3784,7 +3854,7 @@ static inline uint64_t BDK_TNS_RDMA_NB_PERF_STATUSX(unsigned long a)
  * The data in this register is valid only up to the byte length indicated by
  * TNS_RDMA_NB_RPKT_INFO[SIZE].
  */
-typedef union
+union bdk_tns_rdma_nb_rpkt_datax
 {
     uint64_t u;
     struct bdk_tns_rdma_nb_rpkt_datax_s
@@ -3796,7 +3866,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_rdma_nb_rpkt_datax_s cn; */
-} bdk_tns_rdma_nb_rpkt_datax_t;
+};
+typedef union bdk_tns_rdma_nb_rpkt_datax bdk_tns_rdma_nb_rpkt_datax_t;
 
 static inline uint64_t BDK_TNS_RDMA_NB_RPKT_DATAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_RDMA_NB_RPKT_DATAX(unsigned long a)
@@ -3821,7 +3892,7 @@ static inline uint64_t BDK_TNS_RDMA_NB_RPKT_DATAX(unsigned long a)
  * The data in this register is valid only if TNS_RDMA_NB_INT_STAT_W1S[RUNT_PKT] was
  * set by hardware.
  */
-typedef union
+union bdk_tns_rdma_nb_rpkt_info
 {
     uint64_t u;
     struct bdk_tns_rdma_nb_rpkt_info_s
@@ -3839,7 +3910,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_rdma_nb_rpkt_info_s cn; */
-} bdk_tns_rdma_nb_rpkt_info_t;
+};
+typedef union bdk_tns_rdma_nb_rpkt_info bdk_tns_rdma_nb_rpkt_info_t;
 
 #define BDK_TNS_RDMA_NB_RPKT_INFO BDK_TNS_RDMA_NB_RPKT_INFO_FUNC()
 static inline uint64_t BDK_TNS_RDMA_NB_RPKT_INFO_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3864,7 +3936,7 @@ static inline uint64_t BDK_TNS_RDMA_NB_RPKT_INFO_FUNC(void)
  * Runt packets and bytes received by the physical port.
  * All fields have roll over counters.
  */
-typedef union
+union bdk_tns_rdma_nb_runt_cntx
 {
     uint64_t u;
     struct bdk_tns_rdma_nb_runt_cntx_s
@@ -3880,7 +3952,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_rdma_nb_runt_cntx_s cn; */
-} bdk_tns_rdma_nb_runt_cntx_t;
+};
+typedef union bdk_tns_rdma_nb_runt_cntx bdk_tns_rdma_nb_runt_cntx_t;
 
 static inline uint64_t BDK_TNS_RDMA_NB_RUNT_CNTX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_RDMA_NB_RUNT_CNTX(unsigned long a)
@@ -3904,7 +3977,7 @@ static inline uint64_t BDK_TNS_RDMA_NB_RUNT_CNTX(unsigned long a)
  *
  * Force a credit return message to the NIC.
  */
-typedef union
+union bdk_tns_rdma_nic_cdt_rtn
 {
     uint64_t u;
     struct bdk_tns_rdma_nic_cdt_rtn_s
@@ -3936,7 +4009,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_rdma_nic_cdt_rtn_s cn; */
-} bdk_tns_rdma_nic_cdt_rtn_t;
+};
+typedef union bdk_tns_rdma_nic_cdt_rtn bdk_tns_rdma_nic_cdt_rtn_t;
 
 #define BDK_TNS_RDMA_NIC_CDT_RTN BDK_TNS_RDMA_NIC_CDT_RTN_FUNC()
 static inline uint64_t BDK_TNS_RDMA_NIC_CDT_RTN_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3961,7 +4035,7 @@ static inline uint64_t BDK_TNS_RDMA_NIC_CDT_RTN_FUNC(void)
  *
  * Performance counter control register.
  */
-typedef union
+union bdk_tns_rdma_perf_cntrlx
 {
     uint64_t u;
     struct bdk_tns_rdma_perf_cntrlx_s
@@ -4043,7 +4117,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_rdma_perf_cntrlx_s cn; */
-} bdk_tns_rdma_perf_cntrlx_t;
+};
+typedef union bdk_tns_rdma_perf_cntrlx bdk_tns_rdma_perf_cntrlx_t;
 
 static inline uint64_t BDK_TNS_RDMA_PERF_CNTRLX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_RDMA_PERF_CNTRLX(unsigned long a)
@@ -4067,7 +4142,7 @@ static inline uint64_t BDK_TNS_RDMA_PERF_CNTRLX(unsigned long a)
  *
  * Performance counter status register.
  */
-typedef union
+union bdk_tns_rdma_perf_statusx
 {
     uint64_t u;
     struct bdk_tns_rdma_perf_statusx_s
@@ -4081,7 +4156,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_rdma_perf_statusx_s cn; */
-} bdk_tns_rdma_perf_statusx_t;
+};
+typedef union bdk_tns_rdma_perf_statusx bdk_tns_rdma_perf_statusx_t;
 
 static inline uint64_t BDK_TNS_RDMA_PERF_STATUSX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_RDMA_PERF_STATUSX(unsigned long a)
@@ -4105,7 +4181,7 @@ static inline uint64_t BDK_TNS_RDMA_PERF_STATUSX(unsigned long a)
  *
  * Spare register with default signature value 0x10FEDCBA98765432 after reset.
  */
-typedef union
+union bdk_tns_sde_parser_cfg_sde_spare_w0
 {
     uint32_t u;
     struct bdk_tns_sde_parser_cfg_sde_spare_w0_s
@@ -4117,7 +4193,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_parser_cfg_sde_spare_w0_s cn; */
-} bdk_tns_sde_parser_cfg_sde_spare_w0_t;
+};
+typedef union bdk_tns_sde_parser_cfg_sde_spare_w0 bdk_tns_sde_parser_cfg_sde_spare_w0_t;
 
 #define BDK_TNS_SDE_PARSER_CFG_SDE_SPARE_W0 BDK_TNS_SDE_PARSER_CFG_SDE_SPARE_W0_FUNC()
 static inline uint64_t BDK_TNS_SDE_PARSER_CFG_SDE_SPARE_W0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -4142,7 +4219,7 @@ static inline uint64_t BDK_TNS_SDE_PARSER_CFG_SDE_SPARE_W0_FUNC(void)
  *
  * Continuation of structure defined in TNS_SDE_PARSER_CFG_SDE_SPARE_W0
  */
-typedef union
+union bdk_tns_sde_parser_cfg_sde_spare_w1
 {
     uint32_t u;
     struct bdk_tns_sde_parser_cfg_sde_spare_w1_s
@@ -4154,7 +4231,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_sde_parser_cfg_sde_spare_w1_s cn; */
-} bdk_tns_sde_parser_cfg_sde_spare_w1_t;
+};
+typedef union bdk_tns_sde_parser_cfg_sde_spare_w1 bdk_tns_sde_parser_cfg_sde_spare_w1_t;
 
 #define BDK_TNS_SDE_PARSER_CFG_SDE_SPARE_W1 BDK_TNS_SDE_PARSER_CFG_SDE_SPARE_W1_FUNC()
 static inline uint64_t BDK_TNS_SDE_PARSER_CFG_SDE_SPARE_W1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -4179,7 +4257,7 @@ static inline uint64_t BDK_TNS_SDE_PARSER_CFG_SDE_SPARE_W1_FUNC(void)
  *
  * --
  */
-typedef union
+union bdk_tns_se_tcam_table_spare_w0
 {
     uint32_t u;
     struct bdk_tns_se_tcam_table_spare_w0_s
@@ -4191,7 +4269,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_tcam_table_spare_w0_s cn; */
-} bdk_tns_se_tcam_table_spare_w0_t;
+};
+typedef union bdk_tns_se_tcam_table_spare_w0 bdk_tns_se_tcam_table_spare_w0_t;
 
 #define BDK_TNS_SE_TCAM_TABLE_SPARE_W0 BDK_TNS_SE_TCAM_TABLE_SPARE_W0_FUNC()
 static inline uint64_t BDK_TNS_SE_TCAM_TABLE_SPARE_W0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -4216,7 +4295,7 @@ static inline uint64_t BDK_TNS_SE_TCAM_TABLE_SPARE_W0_FUNC(void)
  *
  * Continuation of structure defined in TNS_SE_TCAM_TABLE_SPARE_W0
  */
-typedef union
+union bdk_tns_se_tcam_table_spare_w1
 {
     uint32_t u;
     struct bdk_tns_se_tcam_table_spare_w1_s
@@ -4228,7 +4307,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_se_tcam_table_spare_w1_s cn; */
-} bdk_tns_se_tcam_table_spare_w1_t;
+};
+typedef union bdk_tns_se_tcam_table_spare_w1 bdk_tns_se_tcam_table_spare_w1_t;
 
 #define BDK_TNS_SE_TCAM_TABLE_SPARE_W1 BDK_TNS_SE_TCAM_TABLE_SPARE_W1_FUNC()
 static inline uint64_t BDK_TNS_SE_TCAM_TABLE_SPARE_W1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -4251,7 +4331,7 @@ static inline uint64_t BDK_TNS_SE_TCAM_TABLE_SPARE_W1_FUNC(void)
  *
  * TNS TDMA Capabilities Register
  */
-typedef union
+union bdk_tns_tdma_cap
 {
     uint64_t u;
     struct bdk_tns_tdma_cap_s
@@ -4269,7 +4349,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_tdma_cap_s cn; */
-} bdk_tns_tdma_cap_t;
+};
+typedef union bdk_tns_tdma_cap bdk_tns_tdma_cap_t;
 
 #define BDK_TNS_TDMA_CAP BDK_TNS_TDMA_CAP_FUNC()
 static inline uint64_t BDK_TNS_TDMA_CAP_FUNC(void) __attribute__ ((pure, always_inline));
@@ -4295,7 +4376,7 @@ static inline uint64_t BDK_TNS_TDMA_CAP_FUNC(void)
  * All fields have roll over counters.
  * Register number enumerated by TNS_PHYS_PORT_E.
  */
-typedef union
+union bdk_tns_tdma_cntx
 {
     uint64_t u;
     struct bdk_tns_tdma_cntx_s
@@ -4311,7 +4392,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_tdma_cntx_s cn; */
-} bdk_tns_tdma_cntx_t;
+};
+typedef union bdk_tns_tdma_cntx bdk_tns_tdma_cntx_t;
 
 static inline uint64_t BDK_TNS_TDMA_CNTX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TDMA_CNTX(unsigned long a)
@@ -4335,7 +4417,7 @@ static inline uint64_t BDK_TNS_TDMA_CNTX(unsigned long a)
  * Bytes transmitted by the physical port. All fields have roll over counters. Register
  * number enumerated by TNS_PHYS_PORT_E.
  */
-typedef union
+union bdk_tns_tdma_cnt_bytesx
 {
     uint64_t u;
     struct bdk_tns_tdma_cnt_bytesx_s
@@ -4349,7 +4431,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_tdma_cnt_bytesx_s cn; */
-} bdk_tns_tdma_cnt_bytesx_t;
+};
+typedef union bdk_tns_tdma_cnt_bytesx bdk_tns_tdma_cnt_bytesx_t;
 
 static inline uint64_t BDK_TNS_TDMA_CNT_BYTESX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TDMA_CNT_BYTESX(unsigned long a)
@@ -4373,7 +4456,7 @@ static inline uint64_t BDK_TNS_TDMA_CNT_BYTESX(unsigned long a)
  * Packets transmitted by the physical port. All fields have roll over
  * counters. Register number enumerated by TNS_PHYS_PORT_E.
  */
-typedef union
+union bdk_tns_tdma_cnt_pktsx
 {
     uint64_t u;
     struct bdk_tns_tdma_cnt_pktsx_s
@@ -4387,7 +4470,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_tdma_cnt_pktsx_s cn; */
-} bdk_tns_tdma_cnt_pktsx_t;
+};
+typedef union bdk_tns_tdma_cnt_pktsx bdk_tns_tdma_cnt_pktsx_t;
 
 static inline uint64_t BDK_TNS_TDMA_CNT_PKTSX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TDMA_CNT_PKTSX(unsigned long a)
@@ -4409,7 +4493,7 @@ static inline uint64_t BDK_TNS_TDMA_CNT_PKTSX(unsigned long a)
  *
  * TNS TDMA Configuration Register
  */
-typedef union
+union bdk_tns_tdma_config
 {
     uint64_t u;
     struct bdk_tns_tdma_config_s
@@ -4477,7 +4561,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_tdma_config_s cn; */
-} bdk_tns_tdma_config_t;
+};
+typedef union bdk_tns_tdma_config bdk_tns_tdma_config_t;
 
 #define BDK_TNS_TDMA_CONFIG BDK_TNS_TDMA_CONFIG_FUNC()
 static inline uint64_t BDK_TNS_TDMA_CONFIG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -4502,7 +4587,7 @@ static inline uint64_t BDK_TNS_TDMA_CONFIG_FUNC(void)
  *
  * This register provides debug control of packet transmission.
  */
-typedef union
+union bdk_tns_tdma_dbg_cdt_ctl
 {
     uint64_t u;
     struct bdk_tns_tdma_dbg_cdt_ctl_s
@@ -4522,7 +4607,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_tdma_dbg_cdt_ctl_s cn; */
-} bdk_tns_tdma_dbg_cdt_ctl_t;
+};
+typedef union bdk_tns_tdma_dbg_cdt_ctl bdk_tns_tdma_dbg_cdt_ctl_t;
 
 #define BDK_TNS_TDMA_DBG_CDT_CTL BDK_TNS_TDMA_DBG_CDT_CTL_FUNC()
 static inline uint64_t BDK_TNS_TDMA_DBG_CDT_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -4547,7 +4633,7 @@ static inline uint64_t BDK_TNS_TDMA_DBG_CDT_CTL_FUNC(void)
  *
  * This register provides debug control of TDMA functionality.
  */
-typedef union
+union bdk_tns_tdma_dbg_lmacx_config
 {
     uint64_t u;
     struct bdk_tns_tdma_dbg_lmacx_config_s
@@ -4575,7 +4661,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_tdma_dbg_lmacx_config_s cn; */
-} bdk_tns_tdma_dbg_lmacx_config_t;
+};
+typedef union bdk_tns_tdma_dbg_lmacx_config bdk_tns_tdma_dbg_lmacx_config_t;
 
 static inline uint64_t BDK_TNS_TDMA_DBG_LMACX_CONFIG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TDMA_DBG_LMACX_CONFIG(unsigned long a)
@@ -4599,7 +4686,7 @@ static inline uint64_t BDK_TNS_TDMA_DBG_LMACX_CONFIG(unsigned long a)
  *
  * This register provides debug status of TDMA functionality.
  */
-typedef union
+union bdk_tns_tdma_dbg_lmacx_status1
 {
     uint64_t u;
     struct bdk_tns_tdma_dbg_lmacx_status1_s
@@ -4627,7 +4714,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_tdma_dbg_lmacx_status1_s cn; */
-} bdk_tns_tdma_dbg_lmacx_status1_t;
+};
+typedef union bdk_tns_tdma_dbg_lmacx_status1 bdk_tns_tdma_dbg_lmacx_status1_t;
 
 static inline uint64_t BDK_TNS_TDMA_DBG_LMACX_STATUS1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TDMA_DBG_LMACX_STATUS1(unsigned long a)
@@ -4651,7 +4739,7 @@ static inline uint64_t BDK_TNS_TDMA_DBG_LMACX_STATUS1(unsigned long a)
  *
  * This register provides debug control of TDMA functionality.
  */
-typedef union
+union bdk_tns_tdma_dbg_nicix_config
 {
     uint64_t u;
     struct bdk_tns_tdma_dbg_nicix_config_s
@@ -4669,7 +4757,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_tdma_dbg_nicix_config_s cn; */
-} bdk_tns_tdma_dbg_nicix_config_t;
+};
+typedef union bdk_tns_tdma_dbg_nicix_config bdk_tns_tdma_dbg_nicix_config_t;
 
 static inline uint64_t BDK_TNS_TDMA_DBG_NICIX_CONFIG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TDMA_DBG_NICIX_CONFIG(unsigned long a)
@@ -4699,7 +4788,7 @@ static inline uint64_t BDK_TNS_TDMA_DBG_NICIX_CONFIG(unsigned long a)
  * * 0x2 = SBE on bit<1>.
  * * 0x3 = DBE on bits<1:0>.
  */
-typedef union
+union bdk_tns_tdma_ecc_ctl
 {
     uint64_t u;
     struct bdk_tns_tdma_ecc_ctl_s
@@ -4747,7 +4836,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_tdma_ecc_ctl_s cn; */
-} bdk_tns_tdma_ecc_ctl_t;
+};
+typedef union bdk_tns_tdma_ecc_ctl bdk_tns_tdma_ecc_ctl_t;
 
 #define BDK_TNS_TDMA_ECC_CTL BDK_TNS_TDMA_ECC_CTL_FUNC()
 static inline uint64_t BDK_TNS_TDMA_ECC_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -4771,7 +4861,7 @@ static inline uint64_t BDK_TNS_TDMA_ECC_CTL_FUNC(void)
  * TNS TDMA ECC Error Status Register
  * This register logs information to help debug ECC errors.
  */
-typedef union
+union bdk_tns_tdma_ecc_err_stat
 {
     uint64_t u;
     struct bdk_tns_tdma_ecc_err_stat_s
@@ -4789,7 +4879,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_tdma_ecc_err_stat_s cn; */
-} bdk_tns_tdma_ecc_err_stat_t;
+};
+typedef union bdk_tns_tdma_ecc_err_stat bdk_tns_tdma_ecc_err_stat_t;
 
 #define BDK_TNS_TDMA_ECC_ERR_STAT BDK_TNS_TDMA_ECC_ERR_STAT_FUNC()
 static inline uint64_t BDK_TNS_TDMA_ECC_ERR_STAT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -4814,7 +4905,7 @@ static inline uint64_t BDK_TNS_TDMA_ECC_ERR_STAT_FUNC(void)
  *
  * ECO register.
  */
-typedef union
+union bdk_tns_tdma_eco
 {
     uint64_t u;
     struct bdk_tns_tdma_eco_s
@@ -4830,7 +4921,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_tdma_eco_s cn; */
-} bdk_tns_tdma_eco_t;
+};
+typedef union bdk_tns_tdma_eco bdk_tns_tdma_eco_t;
 
 #define BDK_TNS_TDMA_ECO BDK_TNS_TDMA_ECO_FUNC()
 static inline uint64_t BDK_TNS_TDMA_ECO_FUNC(void) __attribute__ ((pure, always_inline));
@@ -4854,7 +4946,7 @@ static inline uint64_t BDK_TNS_TDMA_ECO_FUNC(void)
  * TNS TDMA Interrupt Enable (Read/Write-1-Clear) Register
  * TDMA Interrupt Enable Register.
  */
-typedef union
+union bdk_tns_tdma_int_en_w1c
 {
     uint64_t u;
     struct bdk_tns_tdma_int_en_w1c_s
@@ -4880,7 +4972,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_tdma_int_en_w1c_s cn; */
-} bdk_tns_tdma_int_en_w1c_t;
+};
+typedef union bdk_tns_tdma_int_en_w1c bdk_tns_tdma_int_en_w1c_t;
 
 #define BDK_TNS_TDMA_INT_EN_W1C BDK_TNS_TDMA_INT_EN_W1C_FUNC()
 static inline uint64_t BDK_TNS_TDMA_INT_EN_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -4904,7 +4997,7 @@ static inline uint64_t BDK_TNS_TDMA_INT_EN_W1C_FUNC(void)
  * TNS TDMA Interrupt Enable (Read/Write-1-Set) Register
  * TDMA Interrupt Enable Register.
  */
-typedef union
+union bdk_tns_tdma_int_en_w1s
 {
     uint64_t u;
     struct bdk_tns_tdma_int_en_w1s_s
@@ -4930,7 +5023,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_tdma_int_en_w1s_s cn; */
-} bdk_tns_tdma_int_en_w1s_t;
+};
+typedef union bdk_tns_tdma_int_en_w1s bdk_tns_tdma_int_en_w1s_t;
 
 #define BDK_TNS_TDMA_INT_EN_W1S BDK_TNS_TDMA_INT_EN_W1S_FUNC()
 static inline uint64_t BDK_TNS_TDMA_INT_EN_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -4954,7 +5048,7 @@ static inline uint64_t BDK_TNS_TDMA_INT_EN_W1S_FUNC(void)
  * TNS TDMA Interrupt First Enable (Read/Write-1-Clear) Register
  * TDMA Interrupt First Enable Register.
  */
-typedef union
+union bdk_tns_tdma_int_fen_w1c
 {
     uint64_t u;
     struct bdk_tns_tdma_int_fen_w1c_s
@@ -4980,7 +5074,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_tdma_int_fen_w1c_s cn; */
-} bdk_tns_tdma_int_fen_w1c_t;
+};
+typedef union bdk_tns_tdma_int_fen_w1c bdk_tns_tdma_int_fen_w1c_t;
 
 #define BDK_TNS_TDMA_INT_FEN_W1C BDK_TNS_TDMA_INT_FEN_W1C_FUNC()
 static inline uint64_t BDK_TNS_TDMA_INT_FEN_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -5004,7 +5099,7 @@ static inline uint64_t BDK_TNS_TDMA_INT_FEN_W1C_FUNC(void)
  * TNS TDMA Interrupt First Enable (Read/Write-1-Set) Register
  * TDMA Interrupt First Enable Register.
  */
-typedef union
+union bdk_tns_tdma_int_fen_w1s
 {
     uint64_t u;
     struct bdk_tns_tdma_int_fen_w1s_s
@@ -5030,7 +5125,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_tdma_int_fen_w1s_s cn; */
-} bdk_tns_tdma_int_fen_w1s_t;
+};
+typedef union bdk_tns_tdma_int_fen_w1s bdk_tns_tdma_int_fen_w1s_t;
 
 #define BDK_TNS_TDMA_INT_FEN_W1S BDK_TNS_TDMA_INT_FEN_W1S_FUNC()
 static inline uint64_t BDK_TNS_TDMA_INT_FEN_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -5054,7 +5150,7 @@ static inline uint64_t BDK_TNS_TDMA_INT_FEN_W1S_FUNC(void)
  * TNS TDMA Interrupt First Status Register
  * TDMA Interrupt First Status Register.
  */
-typedef union
+union bdk_tns_tdma_int_fstat
 {
     uint64_t u;
     struct bdk_tns_tdma_int_fstat_s
@@ -5080,7 +5176,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_tdma_int_fstat_s cn; */
-} bdk_tns_tdma_int_fstat_t;
+};
+typedef union bdk_tns_tdma_int_fstat bdk_tns_tdma_int_fstat_t;
 
 #define BDK_TNS_TDMA_INT_FSTAT BDK_TNS_TDMA_INT_FSTAT_FUNC()
 static inline uint64_t BDK_TNS_TDMA_INT_FSTAT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -5104,7 +5201,7 @@ static inline uint64_t BDK_TNS_TDMA_INT_FSTAT_FUNC(void)
  * TNS TDMA Interrupt Status (Read/Write-1-Clear) Register
  * TDMA Interrupt Status Register.
  */
-typedef union
+union bdk_tns_tdma_int_stat_w1c
 {
     uint64_t u;
     struct bdk_tns_tdma_int_stat_w1c_s
@@ -5130,7 +5227,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_tdma_int_stat_w1c_s cn; */
-} bdk_tns_tdma_int_stat_w1c_t;
+};
+typedef union bdk_tns_tdma_int_stat_w1c bdk_tns_tdma_int_stat_w1c_t;
 
 #define BDK_TNS_TDMA_INT_STAT_W1C BDK_TNS_TDMA_INT_STAT_W1C_FUNC()
 static inline uint64_t BDK_TNS_TDMA_INT_STAT_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -5154,7 +5252,7 @@ static inline uint64_t BDK_TNS_TDMA_INT_STAT_W1C_FUNC(void)
  * TNS TDMA Interrupt Status (Read/Write-1-Set) Register
  * TDMA Interrupt Status Register.
  */
-typedef union
+union bdk_tns_tdma_int_stat_w1s
 {
     uint64_t u;
     struct bdk_tns_tdma_int_stat_w1s_s
@@ -5180,7 +5278,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_tdma_int_stat_w1s_s cn; */
-} bdk_tns_tdma_int_stat_w1s_t;
+};
+typedef union bdk_tns_tdma_int_stat_w1s bdk_tns_tdma_int_stat_w1s_t;
 
 #define BDK_TNS_TDMA_INT_STAT_W1S BDK_TNS_TDMA_INT_STAT_W1S_FUNC()
 static inline uint64_t BDK_TNS_TDMA_INT_STAT_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -5204,7 +5303,7 @@ static inline uint64_t BDK_TNS_TDMA_INT_STAT_W1S_FUNC(void)
  * TNS TDMA LMAC Config Register
  * This register provides control of TDMA functionality.
  */
-typedef union
+union bdk_tns_tdma_lmacx_config
 {
     uint64_t u;
     struct bdk_tns_tdma_lmacx_config_s
@@ -5226,7 +5325,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_tdma_lmacx_config_s cn; */
-} bdk_tns_tdma_lmacx_config_t;
+};
+typedef union bdk_tns_tdma_lmacx_config bdk_tns_tdma_lmacx_config_t;
 
 static inline uint64_t BDK_TNS_TDMA_LMACX_CONFIG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TDMA_LMACX_CONFIG(unsigned long a)
@@ -5249,7 +5349,7 @@ static inline uint64_t BDK_TNS_TDMA_LMACX_CONFIG(unsigned long a)
  * TNS TDMA Configuration Register
  * General configuration register.
  */
-typedef union
+union bdk_tns_tdma_nb_config1
 {
     uint64_t u;
     struct bdk_tns_tdma_nb_config1_s
@@ -5361,7 +5461,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_tdma_nb_config1_s cn; */
-} bdk_tns_tdma_nb_config1_t;
+};
+typedef union bdk_tns_tdma_nb_config1 bdk_tns_tdma_nb_config1_t;
 
 #define BDK_TNS_TDMA_NB_CONFIG1 BDK_TNS_TDMA_NB_CONFIG1_FUNC()
 static inline uint64_t BDK_TNS_TDMA_NB_CONFIG1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -5386,7 +5487,7 @@ static inline uint64_t BDK_TNS_TDMA_NB_CONFIG1_FUNC(void)
  *
  * General configuration register.
  */
-typedef union
+union bdk_tns_tdma_nb_config2
 {
     uint64_t u;
     struct bdk_tns_tdma_nb_config2_s
@@ -5412,7 +5513,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_tdma_nb_config2_s cn; */
-} bdk_tns_tdma_nb_config2_t;
+};
+typedef union bdk_tns_tdma_nb_config2 bdk_tns_tdma_nb_config2_t;
 
 #define BDK_TNS_TDMA_NB_CONFIG2 BDK_TNS_TDMA_NB_CONFIG2_FUNC()
 static inline uint64_t BDK_TNS_TDMA_NB_CONFIG2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -5437,7 +5539,7 @@ static inline uint64_t BDK_TNS_TDMA_NB_CONFIG2_FUNC(void)
  *
  * This register provides debug control of TDMA functionality.
  */
-typedef union
+union bdk_tns_tdma_nb_dbg_config1
 {
     uint64_t u;
     struct bdk_tns_tdma_nb_dbg_config1_s
@@ -5821,7 +5923,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn88xxp1;
     /* struct bdk_tns_tdma_nb_dbg_config1_s cn88xxp2; */
-} bdk_tns_tdma_nb_dbg_config1_t;
+};
+typedef union bdk_tns_tdma_nb_dbg_config1 bdk_tns_tdma_nb_dbg_config1_t;
 
 #define BDK_TNS_TDMA_NB_DBG_CONFIG1 BDK_TNS_TDMA_NB_DBG_CONFIG1_FUNC()
 static inline uint64_t BDK_TNS_TDMA_NB_DBG_CONFIG1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -5846,7 +5949,7 @@ static inline uint64_t BDK_TNS_TDMA_NB_DBG_CONFIG1_FUNC(void)
  *
  * This register provides debug control of TDMA functionality.
  */
-typedef union
+union bdk_tns_tdma_nb_dbg_config2
 {
     uint64_t u;
     struct bdk_tns_tdma_nb_dbg_config2_s
@@ -5868,7 +5971,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_tdma_nb_dbg_config2_s cn; */
-} bdk_tns_tdma_nb_dbg_config2_t;
+};
+typedef union bdk_tns_tdma_nb_dbg_config2 bdk_tns_tdma_nb_dbg_config2_t;
 
 #define BDK_TNS_TDMA_NB_DBG_CONFIG2 BDK_TNS_TDMA_NB_DBG_CONFIG2_FUNC()
 static inline uint64_t BDK_TNS_TDMA_NB_DBG_CONFIG2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -5895,7 +5999,7 @@ static inline uint64_t BDK_TNS_TDMA_NB_DBG_CONFIG2_FUNC(void)
  * Async FIFOs assert an early full indication when occupancies reach the values
  * below.
  */
-typedef union
+union bdk_tns_tdma_nb_dbg_cx_full
 {
     uint64_t u;
     struct bdk_tns_tdma_nb_dbg_cx_full_s
@@ -5913,7 +6017,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_tdma_nb_dbg_cx_full_s cn; */
-} bdk_tns_tdma_nb_dbg_cx_full_t;
+};
+typedef union bdk_tns_tdma_nb_dbg_cx_full bdk_tns_tdma_nb_dbg_cx_full_t;
 
 #define BDK_TNS_TDMA_NB_DBG_CX_FULL BDK_TNS_TDMA_NB_DBG_CX_FULL_FUNC()
 static inline uint64_t BDK_TNS_TDMA_NB_DBG_CX_FULL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -5938,7 +6043,7 @@ static inline uint64_t BDK_TNS_TDMA_NB_DBG_CX_FULL_FUNC(void)
  *
  * Async FIFO occupancies.
  */
-typedef union
+union bdk_tns_tdma_nb_dbg_cx_occ
 {
     uint64_t u;
     struct bdk_tns_tdma_nb_dbg_cx_occ_s
@@ -5956,7 +6061,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_tdma_nb_dbg_cx_occ_s cn; */
-} bdk_tns_tdma_nb_dbg_cx_occ_t;
+};
+typedef union bdk_tns_tdma_nb_dbg_cx_occ bdk_tns_tdma_nb_dbg_cx_occ_t;
 
 #define BDK_TNS_TDMA_NB_DBG_CX_OCC BDK_TNS_TDMA_NB_DBG_CX_OCC_FUNC()
 static inline uint64_t BDK_TNS_TDMA_NB_DBG_CX_OCC_FUNC(void) __attribute__ ((pure, always_inline));
@@ -5979,7 +6085,7 @@ static inline uint64_t BDK_TNS_TDMA_NB_DBG_CX_OCC_FUNC(void)
  *
  * INTERNAL: TNS TDMA Debug LMAC Config1 Register
  */
-typedef union
+union bdk_tns_tdma_nb_dbg_lmacx_config1
 {
     uint64_t u;
     struct bdk_tns_tdma_nb_dbg_lmacx_config1_s
@@ -6009,7 +6115,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_tdma_nb_dbg_lmacx_config1_s cn; */
-} bdk_tns_tdma_nb_dbg_lmacx_config1_t;
+};
+typedef union bdk_tns_tdma_nb_dbg_lmacx_config1 bdk_tns_tdma_nb_dbg_lmacx_config1_t;
 
 static inline uint64_t BDK_TNS_TDMA_NB_DBG_LMACX_CONFIG1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TDMA_NB_DBG_LMACX_CONFIG1(unsigned long a)
@@ -6039,7 +6146,7 @@ static inline uint64_t BDK_TNS_TDMA_NB_DBG_LMACX_CONFIG1(unsigned long a)
  * * 0x2 = SBE on bit<1>.
  * * 0x3 = DBE on bits<1:0>.
  */
-typedef union
+union bdk_tns_tdma_nb_ecc_ctl
 {
     uint64_t u;
     struct bdk_tns_tdma_nb_ecc_ctl_s
@@ -6083,7 +6190,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_tdma_nb_ecc_ctl_s cn; */
-} bdk_tns_tdma_nb_ecc_ctl_t;
+};
+typedef union bdk_tns_tdma_nb_ecc_ctl bdk_tns_tdma_nb_ecc_ctl_t;
 
 #define BDK_TNS_TDMA_NB_ECC_CTL BDK_TNS_TDMA_NB_ECC_CTL_FUNC()
 static inline uint64_t BDK_TNS_TDMA_NB_ECC_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -6107,7 +6215,7 @@ static inline uint64_t BDK_TNS_TDMA_NB_ECC_CTL_FUNC(void)
  * TNS TDMA ECC Error Status Register
  * This register logs information to help debug ECC errors.
  */
-typedef union
+union bdk_tns_tdma_nb_ecc_err_stat
 {
     uint64_t u;
     struct bdk_tns_tdma_nb_ecc_err_stat_s
@@ -6123,7 +6231,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_tdma_nb_ecc_err_stat_s cn; */
-} bdk_tns_tdma_nb_ecc_err_stat_t;
+};
+typedef union bdk_tns_tdma_nb_ecc_err_stat bdk_tns_tdma_nb_ecc_err_stat_t;
 
 #define BDK_TNS_TDMA_NB_ECC_ERR_STAT BDK_TNS_TDMA_NB_ECC_ERR_STAT_FUNC()
 static inline uint64_t BDK_TNS_TDMA_NB_ECC_ERR_STAT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -6148,7 +6257,7 @@ static inline uint64_t BDK_TNS_TDMA_NB_ECC_ERR_STAT_FUNC(void)
  *
  * ECO register.
  */
-typedef union
+union bdk_tns_tdma_nb_eco
 {
     uint64_t u;
     struct bdk_tns_tdma_nb_eco_s
@@ -6164,7 +6273,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_tdma_nb_eco_s cn; */
-} bdk_tns_tdma_nb_eco_t;
+};
+typedef union bdk_tns_tdma_nb_eco bdk_tns_tdma_nb_eco_t;
 
 #define BDK_TNS_TDMA_NB_ECO BDK_TNS_TDMA_NB_ECO_FUNC()
 static inline uint64_t BDK_TNS_TDMA_NB_ECO_FUNC(void) __attribute__ ((pure, always_inline));
@@ -6196,7 +6306,7 @@ static inline uint64_t BDK_TNS_TDMA_NB_ECO_FUNC(void)
  * starting with the least significant bits at 0x...00 and incrementing sequentially up
  * to 0x...10.
  */
-typedef union
+union bdk_tns_tdma_nb_fpm_accx
 {
     uint64_t u;
     struct bdk_tns_tdma_nb_fpm_accx_s
@@ -6208,7 +6318,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_tdma_nb_fpm_accx_s cn; */
-} bdk_tns_tdma_nb_fpm_accx_t;
+};
+typedef union bdk_tns_tdma_nb_fpm_accx bdk_tns_tdma_nb_fpm_accx_t;
 
 static inline uint64_t BDK_TNS_TDMA_NB_FPM_ACCX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TDMA_NB_FPM_ACCX(unsigned long a)
@@ -6237,7 +6348,7 @@ static inline uint64_t BDK_TNS_TDMA_NB_FPM_ACCX(unsigned long a)
  * If performing a PUSH, software must guarantee that all pages in the bundle at the FPM
  * address indicated by the write pointer do not already exist in the FPM.
  */
-typedef union
+union bdk_tns_tdma_nb_fpm_mod
 {
     uint64_t u;
     struct bdk_tns_tdma_nb_fpm_mod_s
@@ -6267,7 +6378,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_tdma_nb_fpm_mod_s cn; */
-} bdk_tns_tdma_nb_fpm_mod_t;
+};
+typedef union bdk_tns_tdma_nb_fpm_mod bdk_tns_tdma_nb_fpm_mod_t;
 
 #define BDK_TNS_TDMA_NB_FPM_MOD BDK_TNS_TDMA_NB_FPM_MOD_FUNC()
 static inline uint64_t BDK_TNS_TDMA_NB_FPM_MOD_FUNC(void) __attribute__ ((pure, always_inline));
@@ -6290,7 +6402,7 @@ static inline uint64_t BDK_TNS_TDMA_NB_FPM_MOD_FUNC(void)
  *
  * INTERNAL: TNS TDMA Free Page Manager Status Register
  */
-typedef union
+union bdk_tns_tdma_nb_fpm_status
 {
     uint64_t u;
     struct bdk_tns_tdma_nb_fpm_status_s
@@ -6314,7 +6426,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_tdma_nb_fpm_status_s cn; */
-} bdk_tns_tdma_nb_fpm_status_t;
+};
+typedef union bdk_tns_tdma_nb_fpm_status bdk_tns_tdma_nb_fpm_status_t;
 
 #define BDK_TNS_TDMA_NB_FPM_STATUS BDK_TNS_TDMA_NB_FPM_STATUS_FUNC()
 static inline uint64_t BDK_TNS_TDMA_NB_FPM_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
@@ -6338,7 +6451,7 @@ static inline uint64_t BDK_TNS_TDMA_NB_FPM_STATUS_FUNC(void)
  * TNS TDMA Interrupt Enable (Read/Write-1-Clear) Register
  * TDMA Interrupt Enable Register.
  */
-typedef union
+union bdk_tns_tdma_nb_int_en_w1c
 {
     uint64_t u;
     struct bdk_tns_tdma_nb_int_en_w1c_s
@@ -6394,7 +6507,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_tdma_nb_int_en_w1c_s cn; */
-} bdk_tns_tdma_nb_int_en_w1c_t;
+};
+typedef union bdk_tns_tdma_nb_int_en_w1c bdk_tns_tdma_nb_int_en_w1c_t;
 
 #define BDK_TNS_TDMA_NB_INT_EN_W1C BDK_TNS_TDMA_NB_INT_EN_W1C_FUNC()
 static inline uint64_t BDK_TNS_TDMA_NB_INT_EN_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -6418,7 +6532,7 @@ static inline uint64_t BDK_TNS_TDMA_NB_INT_EN_W1C_FUNC(void)
  * TNS TDMA Interrupt Enable (Read/Write-1-Set) Register
  * TDMA Interrupt Enable Register.
  */
-typedef union
+union bdk_tns_tdma_nb_int_en_w1s
 {
     uint64_t u;
     struct bdk_tns_tdma_nb_int_en_w1s_s
@@ -6474,7 +6588,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_tdma_nb_int_en_w1s_s cn; */
-} bdk_tns_tdma_nb_int_en_w1s_t;
+};
+typedef union bdk_tns_tdma_nb_int_en_w1s bdk_tns_tdma_nb_int_en_w1s_t;
 
 #define BDK_TNS_TDMA_NB_INT_EN_W1S BDK_TNS_TDMA_NB_INT_EN_W1S_FUNC()
 static inline uint64_t BDK_TNS_TDMA_NB_INT_EN_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -6498,7 +6613,7 @@ static inline uint64_t BDK_TNS_TDMA_NB_INT_EN_W1S_FUNC(void)
  * TNS TDMA Interrupt First Enable (Read/Write-1-Clear) Register
  * TDMA Interrupt First Enable Register.
  */
-typedef union
+union bdk_tns_tdma_nb_int_fen_w1c
 {
     uint64_t u;
     struct bdk_tns_tdma_nb_int_fen_w1c_s
@@ -6554,7 +6669,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_tdma_nb_int_fen_w1c_s cn; */
-} bdk_tns_tdma_nb_int_fen_w1c_t;
+};
+typedef union bdk_tns_tdma_nb_int_fen_w1c bdk_tns_tdma_nb_int_fen_w1c_t;
 
 #define BDK_TNS_TDMA_NB_INT_FEN_W1C BDK_TNS_TDMA_NB_INT_FEN_W1C_FUNC()
 static inline uint64_t BDK_TNS_TDMA_NB_INT_FEN_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -6578,7 +6694,7 @@ static inline uint64_t BDK_TNS_TDMA_NB_INT_FEN_W1C_FUNC(void)
  * TNS TDMA Interrupt First Enable (Read/Write-1-Set) Register
  * TDMA Interrupt First Enable Register.
  */
-typedef union
+union bdk_tns_tdma_nb_int_fen_w1s
 {
     uint64_t u;
     struct bdk_tns_tdma_nb_int_fen_w1s_s
@@ -6634,7 +6750,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_tdma_nb_int_fen_w1s_s cn; */
-} bdk_tns_tdma_nb_int_fen_w1s_t;
+};
+typedef union bdk_tns_tdma_nb_int_fen_w1s bdk_tns_tdma_nb_int_fen_w1s_t;
 
 #define BDK_TNS_TDMA_NB_INT_FEN_W1S BDK_TNS_TDMA_NB_INT_FEN_W1S_FUNC()
 static inline uint64_t BDK_TNS_TDMA_NB_INT_FEN_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -6658,7 +6775,7 @@ static inline uint64_t BDK_TNS_TDMA_NB_INT_FEN_W1S_FUNC(void)
  * TNS TDMA Interrupt First Status Register
  * TDMA Interrupt First Status Register.
  */
-typedef union
+union bdk_tns_tdma_nb_int_fstat
 {
     uint64_t u;
     struct bdk_tns_tdma_nb_int_fstat_s
@@ -6714,7 +6831,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_tdma_nb_int_fstat_s cn; */
-} bdk_tns_tdma_nb_int_fstat_t;
+};
+typedef union bdk_tns_tdma_nb_int_fstat bdk_tns_tdma_nb_int_fstat_t;
 
 #define BDK_TNS_TDMA_NB_INT_FSTAT BDK_TNS_TDMA_NB_INT_FSTAT_FUNC()
 static inline uint64_t BDK_TNS_TDMA_NB_INT_FSTAT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -6738,7 +6856,7 @@ static inline uint64_t BDK_TNS_TDMA_NB_INT_FSTAT_FUNC(void)
  * TNS TDMA Interrupt Status (Read/Write-1-Clear) Register
  * TDMA Interrupt Status Register.
  */
-typedef union
+union bdk_tns_tdma_nb_int_stat_w1c
 {
     uint64_t u;
     struct bdk_tns_tdma_nb_int_stat_w1c_s
@@ -6794,7 +6912,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_tdma_nb_int_stat_w1c_s cn; */
-} bdk_tns_tdma_nb_int_stat_w1c_t;
+};
+typedef union bdk_tns_tdma_nb_int_stat_w1c bdk_tns_tdma_nb_int_stat_w1c_t;
 
 #define BDK_TNS_TDMA_NB_INT_STAT_W1C BDK_TNS_TDMA_NB_INT_STAT_W1C_FUNC()
 static inline uint64_t BDK_TNS_TDMA_NB_INT_STAT_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -6818,7 +6937,7 @@ static inline uint64_t BDK_TNS_TDMA_NB_INT_STAT_W1C_FUNC(void)
  * TNS TDMA Interrupt Status (Read/Write-1-Set) Register
  * TDMA Interrupt Status Register.
  */
-typedef union
+union bdk_tns_tdma_nb_int_stat_w1s
 {
     uint64_t u;
     struct bdk_tns_tdma_nb_int_stat_w1s_s
@@ -6874,7 +6993,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_tdma_nb_int_stat_w1s_s cn; */
-} bdk_tns_tdma_nb_int_stat_w1s_t;
+};
+typedef union bdk_tns_tdma_nb_int_stat_w1s bdk_tns_tdma_nb_int_stat_w1s_t;
 
 #define BDK_TNS_TDMA_NB_INT_STAT_W1S BDK_TNS_TDMA_NB_INT_STAT_W1S_FUNC()
 static inline uint64_t BDK_TNS_TDMA_NB_INT_STAT_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -6906,7 +7026,7 @@ static inline uint64_t BDK_TNS_TDMA_NB_INT_STAT_W1S_FUNC(void)
  * _ [11:8]  = Error code.
  * _ [7:0]   = Valid page bytes. 0 = 256 bytes.
  */
-typedef union
+union bdk_tns_tdma_nb_ll_accx
 {
     uint64_t u;
     struct bdk_tns_tdma_nb_ll_accx_s
@@ -6920,7 +7040,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_tdma_nb_ll_accx_s cn; */
-} bdk_tns_tdma_nb_ll_accx_t;
+};
+typedef union bdk_tns_tdma_nb_ll_accx bdk_tns_tdma_nb_ll_accx_t;
 
 static inline uint64_t BDK_TNS_TDMA_NB_LL_ACCX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TDMA_NB_LL_ACCX(unsigned long a)
@@ -6943,7 +7064,7 @@ static inline uint64_t BDK_TNS_TDMA_NB_LL_ACCX(unsigned long a)
  * TNS TDMA LMAC Channel Credit Config Register
  * Control use of channel credits for packet transmission on a per-LMAC basis.
  */
-typedef union
+union bdk_tns_tdma_nb_lmacx_c_cdt_cfg
 {
     uint64_t u;
     struct bdk_tns_tdma_nb_lmacx_c_cdt_cfg_s
@@ -6991,7 +7112,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_tdma_nb_lmacx_c_cdt_cfg_s cn; */
-} bdk_tns_tdma_nb_lmacx_c_cdt_cfg_t;
+};
+typedef union bdk_tns_tdma_nb_lmacx_c_cdt_cfg bdk_tns_tdma_nb_lmacx_c_cdt_cfg_t;
 
 static inline uint64_t BDK_TNS_TDMA_NB_LMACX_C_CDT_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TDMA_NB_LMACX_C_CDT_CFG(unsigned long a)
@@ -7013,7 +7135,7 @@ static inline uint64_t BDK_TNS_TDMA_NB_LMACX_C_CDT_CFG(unsigned long a)
  *
  * TNS TDMA LMAC Channel Credit Status Register
  */
-typedef union
+union bdk_tns_tdma_nb_lmacx_c_cdt_stat
 {
     uint64_t u;
     struct bdk_tns_tdma_nb_lmacx_c_cdt_stat_s
@@ -7029,7 +7151,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_tdma_nb_lmacx_c_cdt_stat_s cn; */
-} bdk_tns_tdma_nb_lmacx_c_cdt_stat_t;
+};
+typedef union bdk_tns_tdma_nb_lmacx_c_cdt_stat bdk_tns_tdma_nb_lmacx_c_cdt_stat_t;
 
 static inline uint64_t BDK_TNS_TDMA_NB_LMACX_C_CDT_STAT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TDMA_NB_LMACX_C_CDT_STAT(unsigned long a)
@@ -7051,7 +7174,7 @@ static inline uint64_t BDK_TNS_TDMA_NB_LMACX_C_CDT_STAT(unsigned long a)
  *
  * TNS TDMA LMAC EBP Status Register
  */
-typedef union
+union bdk_tns_tdma_nb_lmacx_ebp_stat
 {
     uint64_t u;
     struct bdk_tns_tdma_nb_lmacx_ebp_stat_s
@@ -7065,7 +7188,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_tdma_nb_lmacx_ebp_stat_s cn; */
-} bdk_tns_tdma_nb_lmacx_ebp_stat_t;
+};
+typedef union bdk_tns_tdma_nb_lmacx_ebp_stat bdk_tns_tdma_nb_lmacx_ebp_stat_t;
 
 static inline uint64_t BDK_TNS_TDMA_NB_LMACX_EBP_STAT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TDMA_NB_LMACX_EBP_STAT(unsigned long a)
@@ -7087,7 +7211,7 @@ static inline uint64_t BDK_TNS_TDMA_NB_LMACX_EBP_STAT(unsigned long a)
  *
  * INTERNAL: TNS TDMA Memory Pages Read Counter Register
  */
-typedef union
+union bdk_tns_tdma_nb_page_rd_cntx
 {
     uint64_t u;
     struct bdk_tns_tdma_nb_page_rd_cntx_s
@@ -7117,7 +7241,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_tdma_nb_page_rd_cntx_s cn; */
-} bdk_tns_tdma_nb_page_rd_cntx_t;
+};
+typedef union bdk_tns_tdma_nb_page_rd_cntx bdk_tns_tdma_nb_page_rd_cntx_t;
 
 static inline uint64_t BDK_TNS_TDMA_NB_PAGE_RD_CNTX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TDMA_NB_PAGE_RD_CNTX(unsigned long a)
@@ -7142,7 +7267,7 @@ static inline uint64_t BDK_TNS_TDMA_NB_PAGE_RD_CNTX(unsigned long a)
  * from various different physical source ports, as enumerated by TNS_PHYS_PORT_E.
  * All fields have roll over counters.
  */
-typedef union
+union bdk_tns_tdma_nb_page_src_cntx
 {
     uint64_t u;
     struct bdk_tns_tdma_nb_page_src_cntx_s
@@ -7156,7 +7281,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_tdma_nb_page_src_cntx_s cn; */
-} bdk_tns_tdma_nb_page_src_cntx_t;
+};
+typedef union bdk_tns_tdma_nb_page_src_cntx bdk_tns_tdma_nb_page_src_cntx_t;
 
 static inline uint64_t BDK_TNS_TDMA_NB_PAGE_SRC_CNTX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TDMA_NB_PAGE_SRC_CNTX(unsigned long a)
@@ -7178,7 +7304,7 @@ static inline uint64_t BDK_TNS_TDMA_NB_PAGE_SRC_CNTX(unsigned long a)
  *
  * TNS TDMA Pages Used Counter Register
  */
-typedef union
+union bdk_tns_tdma_nb_pages_used
 {
     uint64_t u;
     struct bdk_tns_tdma_nb_pages_used_s
@@ -7196,7 +7322,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_tdma_nb_pages_used_s cn; */
-} bdk_tns_tdma_nb_pages_used_t;
+};
+typedef union bdk_tns_tdma_nb_pages_used bdk_tns_tdma_nb_pages_used_t;
 
 #define BDK_TNS_TDMA_NB_PAGES_USED BDK_TNS_TDMA_NB_PAGES_USED_FUNC()
 static inline uint64_t BDK_TNS_TDMA_NB_PAGES_USED_FUNC(void) __attribute__ ((pure, always_inline));
@@ -7221,7 +7348,7 @@ static inline uint64_t BDK_TNS_TDMA_NB_PAGES_USED_FUNC(void)
  *
  * Performance counter control register.
  */
-typedef union
+union bdk_tns_tdma_nb_perf_cntrlx
 {
     uint64_t u;
     struct bdk_tns_tdma_nb_perf_cntrlx_s
@@ -7303,7 +7430,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_tdma_nb_perf_cntrlx_s cn; */
-} bdk_tns_tdma_nb_perf_cntrlx_t;
+};
+typedef union bdk_tns_tdma_nb_perf_cntrlx bdk_tns_tdma_nb_perf_cntrlx_t;
 
 static inline uint64_t BDK_TNS_TDMA_NB_PERF_CNTRLX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TDMA_NB_PERF_CNTRLX(unsigned long a)
@@ -7327,7 +7455,7 @@ static inline uint64_t BDK_TNS_TDMA_NB_PERF_CNTRLX(unsigned long a)
  *
  * Performance counter status register.
  */
-typedef union
+union bdk_tns_tdma_nb_perf_statusx
 {
     uint64_t u;
     struct bdk_tns_tdma_nb_perf_statusx_s
@@ -7341,7 +7469,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_tdma_nb_perf_statusx_s cn; */
-} bdk_tns_tdma_nb_perf_statusx_t;
+};
+typedef union bdk_tns_tdma_nb_perf_statusx bdk_tns_tdma_nb_perf_statusx_t;
 
 static inline uint64_t BDK_TNS_TDMA_NB_PERF_STATUSX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TDMA_NB_PERF_STATUSX(unsigned long a)
@@ -7376,7 +7505,7 @@ static inline uint64_t BDK_TNS_TDMA_NB_PERF_STATUSX(unsigned long a)
  * _ [15:0]  = Page Reference Count. Number of times a page will be sent/dropped before being
  * _           returned to the free list.
  */
-typedef union
+union bdk_tns_tdma_nb_prc_accx
 {
     uint64_t u;
     struct bdk_tns_tdma_nb_prc_accx_s
@@ -7390,7 +7519,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_tdma_nb_prc_accx_s cn; */
-} bdk_tns_tdma_nb_prc_accx_t;
+};
+typedef union bdk_tns_tdma_nb_prc_accx bdk_tns_tdma_nb_prc_accx_t;
 
 static inline uint64_t BDK_TNS_TDMA_NB_PRC_ACCX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TDMA_NB_PRC_ACCX(unsigned long a)
@@ -7412,7 +7542,7 @@ static inline uint64_t BDK_TNS_TDMA_NB_PRC_ACCX(unsigned long a)
  *
  * TNS TDMA PRC Error Register
  */
-typedef union
+union bdk_tns_tdma_nb_prc_err
 {
     uint64_t u;
     struct bdk_tns_tdma_nb_prc_err_s
@@ -7426,7 +7556,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_tdma_nb_prc_err_s cn; */
-} bdk_tns_tdma_nb_prc_err_t;
+};
+typedef union bdk_tns_tdma_nb_prc_err bdk_tns_tdma_nb_prc_err_t;
 
 #define BDK_TNS_TDMA_NB_PRC_ERR BDK_TNS_TDMA_NB_PRC_ERR_FUNC()
 static inline uint64_t BDK_TNS_TDMA_NB_PRC_ERR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -7450,7 +7581,7 @@ static inline uint64_t BDK_TNS_TDMA_NB_PRC_ERR_FUNC(void)
  * TNS TDMA Status Register
  * General status register.
  */
-typedef union
+union bdk_tns_tdma_nb_status
 {
     uint64_t u;
     struct bdk_tns_tdma_nb_status_s
@@ -7470,7 +7601,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_tdma_nb_status_s cn; */
-} bdk_tns_tdma_nb_status_t;
+};
+typedef union bdk_tns_tdma_nb_status bdk_tns_tdma_nb_status_t;
 
 #define BDK_TNS_TDMA_NB_STATUS BDK_TNS_TDMA_NB_STATUS_FUNC()
 static inline uint64_t BDK_TNS_TDMA_NB_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
@@ -7493,7 +7625,7 @@ static inline uint64_t BDK_TNS_TDMA_NB_STATUS_FUNC(void)
  *
  * TNS TDMA Strip to-LMAC Packet XPH Configuration Register
  */
-typedef union
+union bdk_tns_tdma_nb_strip_lmacx_xph
 {
     uint64_t u;
     struct bdk_tns_tdma_nb_strip_lmacx_xph_s
@@ -7509,7 +7641,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_tdma_nb_strip_lmacx_xph_s cn; */
-} bdk_tns_tdma_nb_strip_lmacx_xph_t;
+};
+typedef union bdk_tns_tdma_nb_strip_lmacx_xph bdk_tns_tdma_nb_strip_lmacx_xph_t;
 
 static inline uint64_t BDK_TNS_TDMA_NB_STRIP_LMACX_XPH(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TDMA_NB_STRIP_LMACX_XPH(unsigned long a)
@@ -7531,7 +7664,7 @@ static inline uint64_t BDK_TNS_TDMA_NB_STRIP_LMACX_XPH(unsigned long a)
  *
  * TNS TDMA Strip to-NIC Packet XPH Configuration Register
  */
-typedef union
+union bdk_tns_tdma_nb_strip_nic_xphx
 {
     uint64_t u;
     struct bdk_tns_tdma_nb_strip_nic_xphx_s
@@ -7545,7 +7678,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_tdma_nb_strip_nic_xphx_s cn; */
-} bdk_tns_tdma_nb_strip_nic_xphx_t;
+};
+typedef union bdk_tns_tdma_nb_strip_nic_xphx bdk_tns_tdma_nb_strip_nic_xphx_t;
 
 static inline uint64_t BDK_TNS_TDMA_NB_STRIP_NIC_XPHX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TDMA_NB_STRIP_NIC_XPHX(unsigned long a)
@@ -7567,7 +7701,7 @@ static inline uint64_t BDK_TNS_TDMA_NB_STRIP_NIC_XPHX(unsigned long a)
  *
  * TNS TDMA Truncate Length Configuration Register
  */
-typedef union
+union bdk_tns_tdma_nb_truncatex_len
 {
     uint64_t u;
     struct bdk_tns_tdma_nb_truncatex_len_s
@@ -7593,7 +7727,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_tdma_nb_truncatex_len_s cn; */
-} bdk_tns_tdma_nb_truncatex_len_t;
+};
+typedef union bdk_tns_tdma_nb_truncatex_len bdk_tns_tdma_nb_truncatex_len_t;
 
 static inline uint64_t BDK_TNS_TDMA_NB_TRUNCATEX_LEN(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TDMA_NB_TRUNCATEX_LEN(unsigned long a)
@@ -7617,7 +7752,7 @@ static inline uint64_t BDK_TNS_TDMA_NB_TRUNCATEX_LEN(unsigned long a)
  *
  * Performance counter control register.
  */
-typedef union
+union bdk_tns_tdma_perf_cntrlx
 {
     uint64_t u;
     struct bdk_tns_tdma_perf_cntrlx_s
@@ -7701,7 +7836,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_tdma_perf_cntrlx_s cn; */
-} bdk_tns_tdma_perf_cntrlx_t;
+};
+typedef union bdk_tns_tdma_perf_cntrlx bdk_tns_tdma_perf_cntrlx_t;
 
 static inline uint64_t BDK_TNS_TDMA_PERF_CNTRLX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TDMA_PERF_CNTRLX(unsigned long a)
@@ -7725,7 +7861,7 @@ static inline uint64_t BDK_TNS_TDMA_PERF_CNTRLX(unsigned long a)
  *
  * Performance counter status register.
  */
-typedef union
+union bdk_tns_tdma_perf_statusx
 {
     uint64_t u;
     struct bdk_tns_tdma_perf_statusx_s
@@ -7739,7 +7875,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_tdma_perf_statusx_s cn; */
-} bdk_tns_tdma_perf_statusx_t;
+};
+typedef union bdk_tns_tdma_perf_statusx bdk_tns_tdma_perf_statusx_t;
 
 static inline uint64_t BDK_TNS_TDMA_PERF_STATUSX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TDMA_PERF_STATUSX(unsigned long a)
@@ -7763,7 +7900,7 @@ static inline uint64_t BDK_TNS_TDMA_PERF_STATUSX(unsigned long a)
  *
  * NICI X2P packet transmission state.
  */
-typedef union
+union bdk_tns_tdma_pkt_x2p_cntrsx
 {
     uint64_t u;
     struct bdk_tns_tdma_pkt_x2p_cntrsx_s
@@ -7797,7 +7934,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_tdma_pkt_x2p_cntrsx_s cn; */
-} bdk_tns_tdma_pkt_x2p_cntrsx_t;
+};
+typedef union bdk_tns_tdma_pkt_x2p_cntrsx bdk_tns_tdma_pkt_x2p_cntrsx_t;
 
 static inline uint64_t BDK_TNS_TDMA_PKT_X2P_CNTRSX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TDMA_PKT_X2P_CNTRSX(unsigned long a)
@@ -7820,7 +7958,7 @@ static inline uint64_t BDK_TNS_TDMA_PKT_X2P_CNTRSX(unsigned long a)
  * TNS TDMA Reset Control Register
  * Allows software to reset individual components of the network switch.
  */
-typedef union
+union bdk_tns_tdma_reset_ctl
 {
     uint64_t u;
     struct bdk_tns_tdma_reset_ctl_s
@@ -7910,7 +8048,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_tdma_reset_ctl_s cn; */
-} bdk_tns_tdma_reset_ctl_t;
+};
+typedef union bdk_tns_tdma_reset_ctl bdk_tns_tdma_reset_ctl_t;
 
 #define BDK_TNS_TDMA_RESET_CTL BDK_TNS_TDMA_RESET_CTL_FUNC()
 static inline uint64_t BDK_TNS_TDMA_RESET_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -7935,7 +8074,7 @@ static inline uint64_t BDK_TNS_TDMA_RESET_CTL_FUNC(void)
  *
  * Spare register.
  */
-typedef union
+union bdk_tns_tdma_spare
 {
     uint64_t u;
     struct bdk_tns_tdma_spare_s
@@ -7947,7 +8086,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_tdma_spare_s cn; */
-} bdk_tns_tdma_spare_t;
+};
+typedef union bdk_tns_tdma_spare bdk_tns_tdma_spare_t;
 
 #define BDK_TNS_TDMA_SPARE BDK_TNS_TDMA_SPARE_FUNC()
 static inline uint64_t BDK_TNS_TDMA_SPARE_FUNC(void) __attribute__ ((pure, always_inline));
@@ -7970,7 +8110,7 @@ static inline uint64_t BDK_TNS_TDMA_SPARE_FUNC(void)
  *
  * TNS TDMA SST Indirect CSR Access Command Register
  */
-typedef union
+union bdk_tns_tdma_sst_acc_cmd
 {
     uint64_t u;
     struct bdk_tns_tdma_sst_acc_cmd_s
@@ -8004,7 +8144,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_tdma_sst_acc_cmd_s cn; */
-} bdk_tns_tdma_sst_acc_cmd_t;
+};
+typedef union bdk_tns_tdma_sst_acc_cmd bdk_tns_tdma_sst_acc_cmd_t;
 
 #define BDK_TNS_TDMA_SST_ACC_CMD BDK_TNS_TDMA_SST_ACC_CMD_FUNC()
 static inline uint64_t BDK_TNS_TDMA_SST_ACC_CMD_FUNC(void) __attribute__ ((pure, always_inline));
@@ -8027,7 +8168,7 @@ static inline uint64_t BDK_TNS_TDMA_SST_ACC_CMD_FUNC(void)
  *
  * TNS TDMA SST Indirect CSR Access Read Data Register
  */
-typedef union
+union bdk_tns_tdma_sst_acc_rdatx
 {
     uint64_t u;
     struct bdk_tns_tdma_sst_acc_rdatx_s
@@ -8043,7 +8184,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_tdma_sst_acc_rdatx_s cn; */
-} bdk_tns_tdma_sst_acc_rdatx_t;
+};
+typedef union bdk_tns_tdma_sst_acc_rdatx bdk_tns_tdma_sst_acc_rdatx_t;
 
 static inline uint64_t BDK_TNS_TDMA_SST_ACC_RDATX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TDMA_SST_ACC_RDATX(unsigned long a)
@@ -8065,7 +8207,7 @@ static inline uint64_t BDK_TNS_TDMA_SST_ACC_RDATX(unsigned long a)
  *
  * TNS TDMA SST Indirect CSR Access Status Register
  */
-typedef union
+union bdk_tns_tdma_sst_acc_stat
 {
     uint64_t u;
     struct bdk_tns_tdma_sst_acc_stat_s
@@ -8081,7 +8223,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_tdma_sst_acc_stat_s cn; */
-} bdk_tns_tdma_sst_acc_stat_t;
+};
+typedef union bdk_tns_tdma_sst_acc_stat bdk_tns_tdma_sst_acc_stat_t;
 
 #define BDK_TNS_TDMA_SST_ACC_STAT BDK_TNS_TDMA_SST_ACC_STAT_FUNC()
 static inline uint64_t BDK_TNS_TDMA_SST_ACC_STAT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -8106,7 +8249,7 @@ static inline uint64_t BDK_TNS_TDMA_SST_ACC_STAT_FUNC(void)
  * Write data used during a write request issued via TNS_TDMA_SST_ACC_CMD.
  * The first data word is located at [31:0] of TNS_TDMA_SST_ACC_WDAT[0].
  */
-typedef union
+union bdk_tns_tdma_sst_acc_wdatx
 {
     uint64_t u;
     struct bdk_tns_tdma_sst_acc_wdatx_s
@@ -8118,7 +8261,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_tdma_sst_acc_wdatx_s cn; */
-} bdk_tns_tdma_sst_acc_wdatx_t;
+};
+typedef union bdk_tns_tdma_sst_acc_wdatx bdk_tns_tdma_sst_acc_wdatx_t;
 
 static inline uint64_t BDK_TNS_TDMA_SST_ACC_WDATX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_TDMA_SST_ACC_WDATX(unsigned long a)
@@ -8140,7 +8284,7 @@ static inline uint64_t BDK_TNS_TDMA_SST_ACC_WDATX(unsigned long a)
  *
  * TNS TDMA Status Register
  */
-typedef union
+union bdk_tns_tdma_status
 {
     uint64_t u;
     struct bdk_tns_tdma_status_s
@@ -8158,7 +8302,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_tdma_status_s cn; */
-} bdk_tns_tdma_status_t;
+};
+typedef union bdk_tns_tdma_status bdk_tns_tdma_status_t;
 
 #define BDK_TNS_TDMA_STATUS BDK_TNS_TDMA_STATUS_FUNC()
 static inline uint64_t BDK_TNS_TDMA_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
@@ -8183,7 +8328,7 @@ static inline uint64_t BDK_TNS_TDMA_STATUS_FUNC(void)
  *
  * Spare register with default signature value 0x210FEDCBA9876543 after reset.
  */
-typedef union
+union bdk_tns_txq_eq_cfg_spare
 {
     uint64_t u;
     struct bdk_tns_txq_eq_cfg_spare_s
@@ -8197,7 +8342,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tns_txq_eq_cfg_spare_s cn; */
-} bdk_tns_txq_eq_cfg_spare_t;
+};
+typedef union bdk_tns_txq_eq_cfg_spare bdk_tns_txq_eq_cfg_spare_t;
 
 #define BDK_TNS_TXQ_EQ_CFG_SPARE BDK_TNS_TXQ_EQ_CFG_SPARE_FUNC()
 static inline uint64_t BDK_TNS_TXQ_EQ_CFG_SPARE_FUNC(void) __attribute__ ((pure, always_inline));

@@ -138,7 +138,7 @@ union bdk_rst_pp_pwr_s
  *
  * INTERNAL: RST BIST Timer Register
  */
-typedef union
+union bdk_rst_bist_timer
 {
     uint64_t u;
     struct bdk_rst_bist_timer_s
@@ -156,7 +156,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rst_bist_timer_s cn; */
-} bdk_rst_bist_timer_t;
+};
+typedef union bdk_rst_bist_timer bdk_rst_bist_timer_t;
 
 #define BDK_RST_BIST_TIMER BDK_RST_BIST_TIMER_FUNC()
 static inline uint64_t BDK_RST_BIST_TIMER_FUNC(void) __attribute__ ((pure, always_inline));
@@ -177,7 +178,7 @@ static inline uint64_t BDK_RST_BIST_TIMER_FUNC(void)
  *
  * RST Boot Register
  */
-typedef union
+union bdk_rst_boot
 {
     uint64_t u;
     struct bdk_rst_boot_s
@@ -850,7 +851,8 @@ typedef union
                                                                  RST_CKILL[TIMER]. This feature is effectively a delayed warm reset. */
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_rst_boot_t;
+};
+typedef union bdk_rst_boot bdk_rst_boot_t;
 
 #define BDK_RST_BOOT BDK_RST_BOOT_FUNC()
 static inline uint64_t BDK_RST_BOOT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -871,7 +873,7 @@ static inline uint64_t BDK_RST_BOOT_FUNC(void)
  *
  * RST Configuration Register
  */
-typedef union
+union bdk_rst_cfg
 {
     uint64_t u;
     struct bdk_rst_cfg_s
@@ -897,7 +899,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rst_cfg_s cn; */
-} bdk_rst_cfg_t;
+};
+typedef union bdk_rst_cfg bdk_rst_cfg_t;
 
 #define BDK_RST_CFG BDK_RST_CFG_FUNC()
 static inline uint64_t BDK_RST_CFG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -918,7 +921,7 @@ static inline uint64_t BDK_RST_CFG_FUNC(void)
  *
  * RST Chipkill Timer Register
  */
-typedef union
+union bdk_rst_ckill
 {
     uint64_t u;
     struct bdk_rst_ckill_s
@@ -936,7 +939,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rst_ckill_s cn; */
-} bdk_rst_ckill_t;
+};
+typedef union bdk_rst_ckill bdk_rst_ckill_t;
 
 #define BDK_RST_CKILL BDK_RST_CKILL_FUNC()
 static inline uint64_t BDK_RST_CKILL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -957,7 +961,7 @@ static inline uint64_t BDK_RST_CKILL_FUNC(void)
  *
  * RST Cold Reset Data Registers
  */
-typedef union
+union bdk_rst_cold_datax
 {
     uint64_t u;
     struct bdk_rst_cold_datax_s
@@ -969,7 +973,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rst_cold_datax_s cn; */
-} bdk_rst_cold_datax_t;
+};
+typedef union bdk_rst_cold_datax bdk_rst_cold_datax_t;
 
 static inline uint64_t BDK_RST_COLD_DATAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RST_COLD_DATAX(unsigned long a)
@@ -991,7 +996,7 @@ static inline uint64_t BDK_RST_COLD_DATAX(unsigned long a)
  *
  * RST Controllers Registers
  */
-typedef union
+union bdk_rst_ctlx
 {
     uint64_t u;
     struct bdk_rst_ctlx_s
@@ -1387,7 +1392,8 @@ typedef union
         uint64_t reserved_11_63        : 53;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_rst_ctlx_t;
+};
+typedef union bdk_rst_ctlx bdk_rst_ctlx_t;
 
 static inline uint64_t BDK_RST_CTLX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RST_CTLX(unsigned long a)
@@ -1415,7 +1421,7 @@ static inline uint64_t BDK_RST_CTLX(unsigned long a)
  * This register contains the reset control for each core's debug logic.
  * Debug reset is not supported in pass 2.
  */
-typedef union
+union bdk_rst_dbg_reset
 {
     uint64_t u;
     struct bdk_rst_dbg_reset_s
@@ -1469,7 +1475,8 @@ typedef union
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } cn88xxp2;
-} bdk_rst_dbg_reset_t;
+};
+typedef union bdk_rst_dbg_reset bdk_rst_dbg_reset_t;
 
 #define BDK_RST_DBG_RESET BDK_RST_DBG_RESET_FUNC()
 static inline uint64_t BDK_RST_DBG_RESET_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1490,7 +1497,7 @@ static inline uint64_t BDK_RST_DBG_RESET_FUNC(void)
  *
  * RST Debug Register
  */
-typedef union
+union bdk_rst_debug
 {
     uint64_t u;
     struct bdk_rst_debug_s
@@ -1504,7 +1511,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rst_debug_s cn; */
-} bdk_rst_debug_t;
+};
+typedef union bdk_rst_debug bdk_rst_debug_t;
 
 #define BDK_RST_DEBUG BDK_RST_DEBUG_FUNC()
 static inline uint64_t BDK_RST_DEBUG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1531,7 +1539,7 @@ static inline uint64_t BDK_RST_DEBUG_FUNC(void)
  *
  * RST Delay Register
  */
-typedef union
+union bdk_rst_delay
 {
     uint64_t u;
     struct bdk_rst_delay_s
@@ -1559,7 +1567,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rst_delay_s cn; */
-} bdk_rst_delay_t;
+};
+typedef union bdk_rst_delay bdk_rst_delay_t;
 
 #define BDK_RST_DELAY BDK_RST_DELAY_FUNC()
 static inline uint64_t BDK_RST_DELAY_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1580,7 +1589,7 @@ static inline uint64_t BDK_RST_DELAY_FUNC(void)
  *
  * INTERNAL: RST ECO Register
  */
-typedef union
+union bdk_rst_eco
 {
     uint64_t u;
     struct bdk_rst_eco_s
@@ -1594,7 +1603,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rst_eco_s cn; */
-} bdk_rst_eco_t;
+};
+typedef union bdk_rst_eco bdk_rst_eco_t;
 
 #define BDK_RST_ECO BDK_RST_ECO_FUNC()
 static inline uint64_t BDK_RST_ECO_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1621,7 +1631,7 @@ static inline uint64_t BDK_RST_ECO_FUNC(void)
  *
  * RST Interrupt Register
  */
-typedef union
+union bdk_rst_int
 {
     uint64_t u;
     struct bdk_rst_int_s
@@ -1679,7 +1689,8 @@ typedef union
         uint64_t reserved_12_63        : 52;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_rst_int_t;
+};
+typedef union bdk_rst_int bdk_rst_int_t;
 
 #define BDK_RST_INT BDK_RST_INT_FUNC()
 static inline uint64_t BDK_RST_INT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1701,7 +1712,7 @@ static inline uint64_t BDK_RST_INT_FUNC(void)
  * RST Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_rst_int_ena_w1c
 {
     uint64_t u;
     struct bdk_rst_int_ena_w1c_s
@@ -1747,7 +1758,8 @@ typedef union
         uint64_t reserved_12_63        : 52;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_rst_int_ena_w1c_t;
+};
+typedef union bdk_rst_int_ena_w1c bdk_rst_int_ena_w1c_t;
 
 #define BDK_RST_INT_ENA_W1C BDK_RST_INT_ENA_W1C_FUNC()
 static inline uint64_t BDK_RST_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1769,7 +1781,7 @@ static inline uint64_t BDK_RST_INT_ENA_W1C_FUNC(void)
  * RST Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_rst_int_ena_w1s
 {
     uint64_t u;
     struct bdk_rst_int_ena_w1s_s
@@ -1815,7 +1827,8 @@ typedef union
         uint64_t reserved_12_63        : 52;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_rst_int_ena_w1s_t;
+};
+typedef union bdk_rst_int_ena_w1s bdk_rst_int_ena_w1s_t;
 
 #define BDK_RST_INT_ENA_W1S BDK_RST_INT_ENA_W1S_FUNC()
 static inline uint64_t BDK_RST_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1837,7 +1850,7 @@ static inline uint64_t BDK_RST_INT_ENA_W1S_FUNC(void)
  * RST Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_rst_int_w1s
 {
     uint64_t u;
     struct bdk_rst_int_w1s_s
@@ -1883,7 +1896,8 @@ typedef union
         uint64_t reserved_12_63        : 52;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_rst_int_w1s_t;
+};
+typedef union bdk_rst_int_w1s bdk_rst_int_w1s_t;
 
 #define BDK_RST_INT_W1S BDK_RST_INT_W1S_FUNC()
 static inline uint64_t BDK_RST_INT_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1906,7 +1920,7 @@ static inline uint64_t BDK_RST_INT_W1S_FUNC(void)
  * This register is the MSI-X PBA table; the bit number is indexed by the RST_INT_VEC_E
  * enumeration.
  */
-typedef union
+union bdk_rst_msix_pbax
 {
     uint64_t u;
     struct bdk_rst_msix_pbax_s
@@ -1920,7 +1934,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rst_msix_pbax_s cn; */
-} bdk_rst_msix_pbax_t;
+};
+typedef union bdk_rst_msix_pbax bdk_rst_msix_pbax_t;
 
 static inline uint64_t BDK_RST_MSIX_PBAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RST_MSIX_PBAX(unsigned long a)
@@ -1943,7 +1958,7 @@ static inline uint64_t BDK_RST_MSIX_PBAX(unsigned long a)
  * RST MSI-X Vector-Table Address Register
  * This register is the MSI-X vector table, indexed by the RST_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_rst_msix_vecx_addr
 {
     uint64_t u;
     struct bdk_rst_msix_vecx_addr_s
@@ -1977,7 +1992,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rst_msix_vecx_addr_s cn; */
-} bdk_rst_msix_vecx_addr_t;
+};
+typedef union bdk_rst_msix_vecx_addr bdk_rst_msix_vecx_addr_t;
 
 static inline uint64_t BDK_RST_MSIX_VECX_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RST_MSIX_VECX_ADDR(unsigned long a)
@@ -2000,7 +2016,7 @@ static inline uint64_t BDK_RST_MSIX_VECX_ADDR(unsigned long a)
  * RST MSI-X Vector-Table Control and Data Register
  * This register is the MSI-X vector table, indexed by the RST_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_rst_msix_vecx_ctl
 {
     uint64_t u;
     struct bdk_rst_msix_vecx_ctl_s
@@ -2018,7 +2034,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rst_msix_vecx_ctl_s cn; */
-} bdk_rst_msix_vecx_ctl_t;
+};
+typedef union bdk_rst_msix_vecx_ctl bdk_rst_msix_vecx_ctl_t;
 
 static inline uint64_t BDK_RST_MSIX_VECX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RST_MSIX_VECX_CTL(unsigned long a)
@@ -2040,7 +2057,7 @@ static inline uint64_t BDK_RST_MSIX_VECX_CTL(unsigned long a)
  *
  * RST OCX Register
  */
-typedef union
+union bdk_rst_ocx
 {
     uint64_t u;
     struct bdk_rst_ocx_s
@@ -2071,7 +2088,8 @@ typedef union
     } cn81xx;
     /* struct bdk_rst_ocx_s cn88xx; */
     /* struct bdk_rst_ocx_cn81xx cn83xx; */
-} bdk_rst_ocx_t;
+};
+typedef union bdk_rst_ocx bdk_rst_ocx_t;
 
 #define BDK_RST_OCX BDK_RST_OCX_FUNC()
 static inline uint64_t BDK_RST_OCX_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2092,7 +2110,7 @@ static inline uint64_t BDK_RST_OCX_FUNC(void)
  *
  * INTERNAL: RST Internal Ring-Oscillator Counter Register
  */
-typedef union
+union bdk_rst_osc_cntr
 {
     uint64_t u;
     struct bdk_rst_osc_cntr_s
@@ -2104,7 +2122,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rst_osc_cntr_s cn; */
-} bdk_rst_osc_cntr_t;
+};
+typedef union bdk_rst_osc_cntr bdk_rst_osc_cntr_t;
 
 #define BDK_RST_OSC_CNTR BDK_RST_OSC_CNTR_FUNC()
 static inline uint64_t BDK_RST_OSC_CNTR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2131,7 +2150,7 @@ static inline uint64_t BDK_RST_OSC_CNTR_FUNC(void)
  *
  * RST External Reset Control Register
  */
-typedef union
+union bdk_rst_out_ctl
 {
     uint64_t u;
     struct bdk_rst_out_ctl_s
@@ -2151,7 +2170,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rst_out_ctl_s cn; */
-} bdk_rst_out_ctl_t;
+};
+typedef union bdk_rst_out_ctl bdk_rst_out_ctl_t;
 
 #define BDK_RST_OUT_CTL BDK_RST_OUT_CTL_FUNC()
 static inline uint64_t BDK_RST_OUT_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2172,7 +2192,7 @@ static inline uint64_t BDK_RST_OUT_CTL_FUNC(void)
  *
  * RST Core-Power Debug-Control Register
  */
-typedef union
+union bdk_rst_power_dbg
 {
     uint64_t u;
     struct bdk_rst_power_dbg_s
@@ -2190,7 +2210,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rst_power_dbg_s cn; */
-} bdk_rst_power_dbg_t;
+};
+typedef union bdk_rst_power_dbg bdk_rst_power_dbg_t;
 
 #define BDK_RST_POWER_DBG BDK_RST_POWER_DBG_FUNC()
 static inline uint64_t BDK_RST_POWER_DBG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2211,7 +2232,7 @@ static inline uint64_t BDK_RST_POWER_DBG_FUNC(void)
  *
  * RST Core Availablity Register
  */
-typedef union
+union bdk_rst_pp_available
 {
     uint64_t u;
     struct bdk_rst_pp_available_s
@@ -2245,7 +2266,8 @@ typedef union
         uint64_t reserved_24_63        : 40;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_rst_pp_available_t;
+};
+typedef union bdk_rst_pp_available bdk_rst_pp_available_t;
 
 #define BDK_RST_PP_AVAILABLE BDK_RST_PP_AVAILABLE_FUNC()
 static inline uint64_t BDK_RST_PP_AVAILABLE_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2267,7 +2289,7 @@ static inline uint64_t BDK_RST_PP_AVAILABLE_FUNC(void)
  * RST Cores Reset Pending Register
  * This register contains the reset status for each core.
  */
-typedef union
+union bdk_rst_pp_pending
 {
     uint64_t u;
     struct bdk_rst_pp_pending_s
@@ -2337,7 +2359,8 @@ typedef union
         uint64_t reserved_24_63        : 40;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_rst_pp_pending_t;
+};
+typedef union bdk_rst_pp_pending bdk_rst_pp_pending_t;
 
 #define BDK_RST_PP_PENDING BDK_RST_PP_PENDING_FUNC()
 static inline uint64_t BDK_RST_PP_PENDING_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2358,7 +2381,7 @@ static inline uint64_t BDK_RST_PP_PENDING_FUNC(void)
  *
  * RST Core-Power Gating-Control Register
  */
-typedef union
+union bdk_rst_pp_power
 {
     uint64_t u;
     struct bdk_rst_pp_power_s
@@ -2440,7 +2463,8 @@ typedef union
         uint64_t reserved_24_63        : 40;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_rst_pp_power_t;
+};
+typedef union bdk_rst_pp_power bdk_rst_pp_power_t;
 
 #define BDK_RST_PP_POWER BDK_RST_PP_POWER_FUNC()
 static inline uint64_t BDK_RST_PP_POWER_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2461,7 +2485,7 @@ static inline uint64_t BDK_RST_PP_POWER_FUNC(void)
  *
  * RST Core-Power Status Register
  */
-typedef union
+union bdk_rst_pp_power_stat
 {
     uint64_t u;
     struct bdk_rst_pp_power_stat_s
@@ -2543,7 +2567,8 @@ typedef union
         uint64_t reserved_24_63        : 40;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_rst_pp_power_stat_t;
+};
+typedef union bdk_rst_pp_power_stat bdk_rst_pp_power_stat_t;
 
 #define BDK_RST_PP_POWER_STAT BDK_RST_PP_POWER_STAT_FUNC()
 static inline uint64_t BDK_RST_PP_POWER_STAT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2569,7 +2594,7 @@ static inline uint64_t BDK_RST_PP_POWER_STAT_FUNC(void)
  * or all 1s excluding bit 0 otherwise.
  * Write operations to this register should occur only if RST_PP_PENDING is cleared.
  */
-typedef union
+union bdk_rst_pp_reset
 {
     uint64_t u;
     struct bdk_rst_pp_reset_s
@@ -2645,7 +2670,8 @@ typedef union
         uint64_t reserved_24_63        : 40;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_rst_pp_reset_t;
+};
+typedef union bdk_rst_pp_reset bdk_rst_pp_reset_t;
 
 #define BDK_RST_PP_RESET BDK_RST_PP_RESET_FUNC()
 static inline uint64_t BDK_RST_PP_RESET_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2666,7 +2692,7 @@ static inline uint64_t BDK_RST_PP_RESET_FUNC(void)
  *
  * INTERNAL: RST Reference Clock Checker Register
  */
-typedef union
+union bdk_rst_ref_check
 {
     uint64_t u;
     struct bdk_rst_ref_check_s
@@ -2756,7 +2782,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn88xx;
     /* struct bdk_rst_ref_check_s cn83xx; */
-} bdk_rst_ref_check_t;
+};
+typedef union bdk_rst_ref_check bdk_rst_ref_check_t;
 
 #define BDK_RST_REF_CHECK BDK_RST_REF_CHECK_FUNC()
 static inline uint64_t BDK_RST_REF_CHECK_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2783,7 +2810,7 @@ static inline uint64_t BDK_RST_REF_CHECK_FUNC(void)
  *
  * RST Reference-Counter Register
  */
-typedef union
+union bdk_rst_ref_cntr
 {
     uint64_t u;
     struct bdk_rst_ref_cntr_s
@@ -2799,7 +2826,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rst_ref_cntr_s cn; */
-} bdk_rst_ref_cntr_t;
+};
+typedef union bdk_rst_ref_cntr bdk_rst_ref_cntr_t;
 
 #define BDK_RST_REF_CNTR BDK_RST_REF_CNTR_FUNC()
 static inline uint64_t BDK_RST_REF_CNTR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2820,7 +2848,7 @@ static inline uint64_t BDK_RST_REF_CNTR_FUNC(void)
  *
  * RST PCIe Soft Reset Registers
  */
-typedef union
+union bdk_rst_soft_prstx
 {
     uint64_t u;
     struct bdk_rst_soft_prstx_s
@@ -2854,7 +2882,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rst_soft_prstx_s cn; */
-} bdk_rst_soft_prstx_t;
+};
+typedef union bdk_rst_soft_prstx bdk_rst_soft_prstx_t;
 
 static inline uint64_t BDK_RST_SOFT_PRSTX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RST_SOFT_PRSTX(unsigned long a)
@@ -2880,7 +2909,7 @@ static inline uint64_t BDK_RST_SOFT_PRSTX(unsigned long a)
  *
  * RST Soft Reset Register
  */
-typedef union
+union bdk_rst_soft_rst
 {
     uint64_t u;
     struct bdk_rst_soft_rst_s
@@ -2898,7 +2927,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rst_soft_rst_s cn; */
-} bdk_rst_soft_rst_t;
+};
+typedef union bdk_rst_soft_rst bdk_rst_soft_rst_t;
 
 #define BDK_RST_SOFT_RST BDK_RST_SOFT_RST_FUNC()
 static inline uint64_t BDK_RST_SOFT_RST_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2919,7 +2949,7 @@ static inline uint64_t BDK_RST_SOFT_RST_FUNC(void)
  *
  * RST Thermal Alert Register
  */
-typedef union
+union bdk_rst_thermal_alert
 {
     uint64_t u;
     struct bdk_rst_thermal_alert_s
@@ -2972,7 +3002,8 @@ typedef union
     } cn81xx;
     /* struct bdk_rst_thermal_alert_s cn88xx; */
     /* struct bdk_rst_thermal_alert_cn81xx cn83xx; */
-} bdk_rst_thermal_alert_t;
+};
+typedef union bdk_rst_thermal_alert bdk_rst_thermal_alert_t;
 
 #define BDK_RST_THERMAL_ALERT BDK_RST_THERMAL_ALERT_FUNC()
 static inline uint64_t BDK_RST_THERMAL_ALERT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3015,7 +3046,7 @@ static inline uint64_t BDK_RST_THERMAL_ALERT_FUNC(void)
  * PLL clock
  * alignment.
  */
-typedef union
+union bdk_rst_tns_pll_ctl
 {
     uint64_t u;
     struct bdk_rst_tns_pll_ctl_s
@@ -3091,7 +3122,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rst_tns_pll_ctl_s cn; */
-} bdk_rst_tns_pll_ctl_t;
+};
+typedef union bdk_rst_tns_pll_ctl bdk_rst_tns_pll_ctl_t;
 
 #define BDK_RST_TNS_PLL_CTL BDK_RST_TNS_PLL_CTL_FUNC()
 static inline uint64_t BDK_RST_TNS_PLL_CTL_FUNC(void) __attribute__ ((pure, always_inline));

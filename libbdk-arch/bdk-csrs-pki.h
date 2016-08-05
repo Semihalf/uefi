@@ -2199,7 +2199,7 @@ union bdk_pki_wqe_s
  *
  * PKI Active 0 Register
  */
-typedef union
+union bdk_pki_active0
 {
     uint64_t u;
     struct bdk_pki_active0_s
@@ -2217,7 +2217,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_active0_s cn; */
-} bdk_pki_active0_t;
+};
+typedef union bdk_pki_active0 bdk_pki_active0_t;
 
 #define BDK_PKI_ACTIVE0 BDK_PKI_ACTIVE0_FUNC()
 static inline uint64_t BDK_PKI_ACTIVE0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2240,7 +2241,7 @@ static inline uint64_t BDK_PKI_ACTIVE0_FUNC(void)
  *
  * PKI Active 1 Register
  */
-typedef union
+union bdk_pki_active1
 {
     uint64_t u;
     struct bdk_pki_active1_s
@@ -2262,7 +2263,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_active1_s cn; */
-} bdk_pki_active1_t;
+};
+typedef union bdk_pki_active1 bdk_pki_active1_t;
 
 #define BDK_PKI_ACTIVE1 BDK_PKI_ACTIVE1_FUNC()
 static inline uint64_t BDK_PKI_ACTIVE1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2285,7 +2287,7 @@ static inline uint64_t BDK_PKI_ACTIVE1_FUNC(void)
  *
  * PKI Active 2 Register
  */
-typedef union
+union bdk_pki_active2
 {
     uint64_t u;
     struct bdk_pki_active2_s
@@ -2301,7 +2303,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_active2_s cn; */
-} bdk_pki_active2_t;
+};
+typedef union bdk_pki_active2 bdk_pki_active2_t;
 
 #define BDK_PKI_ACTIVE2 BDK_PKI_ACTIVE2_FUNC()
 static inline uint64_t BDK_PKI_ACTIVE2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2325,7 +2328,7 @@ static inline uint64_t BDK_PKI_ACTIVE2_FUNC(void)
  * PKI FPA Allocate Fault Interrupt Registers
  * This register is indexed by the faulting stream ID <7:6>.
  */
-typedef union
+union bdk_pki_alloc_fltx_int
 {
     uint64_t u;
     struct bdk_pki_alloc_fltx_int_s
@@ -2339,7 +2342,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_alloc_fltx_int_s cn; */
-} bdk_pki_alloc_fltx_int_t;
+};
+typedef union bdk_pki_alloc_fltx_int bdk_pki_alloc_fltx_int_t;
 
 static inline uint64_t BDK_PKI_ALLOC_FLTX_INT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_ALLOC_FLTX_INT(unsigned long a)
@@ -2362,7 +2366,7 @@ static inline uint64_t BDK_PKI_ALLOC_FLTX_INT(unsigned long a)
  * PKI FPA Allocate Fault Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_pki_alloc_fltx_int_ena_w1c
 {
     uint64_t u;
     struct bdk_pki_alloc_fltx_int_ena_w1c_s
@@ -2374,7 +2378,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_alloc_fltx_int_ena_w1c_s cn; */
-} bdk_pki_alloc_fltx_int_ena_w1c_t;
+};
+typedef union bdk_pki_alloc_fltx_int_ena_w1c bdk_pki_alloc_fltx_int_ena_w1c_t;
 
 static inline uint64_t BDK_PKI_ALLOC_FLTX_INT_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_ALLOC_FLTX_INT_ENA_W1C(unsigned long a)
@@ -2397,7 +2402,7 @@ static inline uint64_t BDK_PKI_ALLOC_FLTX_INT_ENA_W1C(unsigned long a)
  * PKI FPA Allocate Fault Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_pki_alloc_fltx_int_ena_w1s
 {
     uint64_t u;
     struct bdk_pki_alloc_fltx_int_ena_w1s_s
@@ -2409,7 +2414,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_alloc_fltx_int_ena_w1s_s cn; */
-} bdk_pki_alloc_fltx_int_ena_w1s_t;
+};
+typedef union bdk_pki_alloc_fltx_int_ena_w1s bdk_pki_alloc_fltx_int_ena_w1s_t;
 
 static inline uint64_t BDK_PKI_ALLOC_FLTX_INT_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_ALLOC_FLTX_INT_ENA_W1S(unsigned long a)
@@ -2432,7 +2438,7 @@ static inline uint64_t BDK_PKI_ALLOC_FLTX_INT_ENA_W1S(unsigned long a)
  * PKI FPA Allocate Fault Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_pki_alloc_fltx_int_w1s
 {
     uint64_t u;
     struct bdk_pki_alloc_fltx_int_w1s_s
@@ -2444,7 +2450,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_alloc_fltx_int_w1s_s cn; */
-} bdk_pki_alloc_fltx_int_w1s_t;
+};
+typedef union bdk_pki_alloc_fltx_int_w1s bdk_pki_alloc_fltx_int_w1s_t;
 
 static inline uint64_t BDK_PKI_ALLOC_FLTX_INT_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_ALLOC_FLTX_INT_W1S(unsigned long a)
@@ -2466,7 +2473,7 @@ static inline uint64_t BDK_PKI_ALLOC_FLTX_INT_W1S(unsigned long a)
  *
  * PKI Alloc Fault Debug Register
  */
-typedef union
+union bdk_pki_alloc_flt_debug
 {
     uint64_t u;
     struct bdk_pki_alloc_flt_debug_s
@@ -2490,7 +2497,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_alloc_flt_debug_s cn; */
-} bdk_pki_alloc_flt_debug_t;
+};
+typedef union bdk_pki_alloc_flt_debug bdk_pki_alloc_flt_debug_t;
 
 #define BDK_PKI_ALLOC_FLT_DEBUG BDK_PKI_ALLOC_FLT_DEBUG_FUNC()
 static inline uint64_t BDK_PKI_ALLOC_FLT_DEBUG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2514,7 +2522,7 @@ static inline uint64_t BDK_PKI_ALLOC_FLT_DEBUG_FUNC(void)
  * PKI Aura Configuration Register
  * This register configures aura backpressure, etc. It is indexed by VHAURA.
  */
-typedef union
+union bdk_pki_aurax_cfg
 {
     uint64_t u;
     struct bdk_pki_aurax_cfg_s
@@ -2534,7 +2542,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_aurax_cfg_s cn; */
-} bdk_pki_aurax_cfg_t;
+};
+typedef union bdk_pki_aurax_cfg bdk_pki_aurax_cfg_t;
 
 static inline uint64_t BDK_PKI_AURAX_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_AURAX_CFG(unsigned long a)
@@ -2557,7 +2566,7 @@ static inline uint64_t BDK_PKI_AURAX_CFG(unsigned long a)
  * PKI BIST Results 0 Register
  * This register indicates BIST status.
  */
-typedef union
+union bdk_pki_bist_status0
 {
     uint64_t u;
     struct bdk_pki_bist_status0_s
@@ -2607,7 +2616,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_bist_status0_s cn; */
-} bdk_pki_bist_status0_t;
+};
+typedef union bdk_pki_bist_status0 bdk_pki_bist_status0_t;
 
 #define BDK_PKI_BIST_STATUS0 BDK_PKI_BIST_STATUS0_FUNC()
 static inline uint64_t BDK_PKI_BIST_STATUS0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2631,7 +2641,7 @@ static inline uint64_t BDK_PKI_BIST_STATUS0_FUNC(void)
  * PKI BIST Results 1 Register
  * This register indicates BIST status.
  */
-typedef union
+union bdk_pki_bist_status1
 {
     uint64_t u;
     struct bdk_pki_bist_status1_s
@@ -2703,7 +2713,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_bist_status1_s cn; */
-} bdk_pki_bist_status1_t;
+};
+typedef union bdk_pki_bist_status1 bdk_pki_bist_status1_t;
 
 #define BDK_PKI_BIST_STATUS1 BDK_PKI_BIST_STATUS1_FUNC()
 static inline uint64_t BDK_PKI_BIST_STATUS1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2727,7 +2738,7 @@ static inline uint64_t BDK_PKI_BIST_STATUS1_FUNC(void)
  * PKI BIST Results 2 Register
  * This register indicates BIST status.
  */
-typedef union
+union bdk_pki_bist_status2
 {
     uint64_t u;
     struct bdk_pki_bist_status2_s
@@ -2775,7 +2786,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_bist_status2_s cn; */
-} bdk_pki_bist_status2_t;
+};
+typedef union bdk_pki_bist_status2 bdk_pki_bist_status2_t;
 
 #define BDK_PKI_BIST_STATUS2 BDK_PKI_BIST_STATUS2_FUNC()
 static inline uint64_t BDK_PKI_BIST_STATUS2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2798,7 +2810,7 @@ static inline uint64_t BDK_PKI_BIST_STATUS2_FUNC(void)
  *
  * INTERNAL: PKI Backpressure Test Register 0
  */
-typedef union
+union bdk_pki_bp_test0
 {
     uint64_t u;
     struct bdk_pki_bp_test0_s
@@ -2848,7 +2860,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_bp_test0_s cn; */
-} bdk_pki_bp_test0_t;
+};
+typedef union bdk_pki_bp_test0 bdk_pki_bp_test0_t;
 
 #define BDK_PKI_BP_TEST0 BDK_PKI_BP_TEST0_FUNC()
 static inline uint64_t BDK_PKI_BP_TEST0_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2871,7 +2884,7 @@ static inline uint64_t BDK_PKI_BP_TEST0_FUNC(void)
  *
  * INTERNAL: PKI Backpressure Test Register 1
  */
-typedef union
+union bdk_pki_bp_test1
 {
     uint64_t u;
     struct bdk_pki_bp_test1_s
@@ -2921,7 +2934,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_bp_test1_s cn; */
-} bdk_pki_bp_test1_t;
+};
+typedef union bdk_pki_bp_test1 bdk_pki_bp_test1_t;
 
 #define BDK_PKI_BP_TEST1 BDK_PKI_BP_TEST1_FUNC()
 static inline uint64_t BDK_PKI_BP_TEST1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2944,7 +2958,7 @@ static inline uint64_t BDK_PKI_BP_TEST1_FUNC(void)
  *
  * INTERNAL: PKI Backpressure Test Register 2
  */
-typedef union
+union bdk_pki_bp_test2
 {
     uint64_t u;
     struct bdk_pki_bp_test2_s
@@ -2994,7 +3008,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_bp_test2_s cn; */
-} bdk_pki_bp_test2_t;
+};
+typedef union bdk_pki_bp_test2 bdk_pki_bp_test2_t;
 
 #define BDK_PKI_BP_TEST2 BDK_PKI_BP_TEST2_FUNC()
 static inline uint64_t BDK_PKI_BP_TEST2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3018,7 +3033,7 @@ static inline uint64_t BDK_PKI_BP_TEST2_FUNC(void)
  * PKI Bpid State Register
  * This register shows the current bpid state for diagnostics.
  */
-typedef union
+union bdk_pki_bpidx_state
 {
     uint64_t u;
     struct bdk_pki_bpidx_state_s
@@ -3032,7 +3047,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_bpidx_state_s cn; */
-} bdk_pki_bpidx_state_t;
+};
+typedef union bdk_pki_bpidx_state bdk_pki_bpidx_state_t;
 
 static inline uint64_t BDK_PKI_BPIDX_STATE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_BPIDX_STATE(unsigned long a)
@@ -3054,7 +3070,7 @@ static inline uint64_t BDK_PKI_BPIDX_STATE(unsigned long a)
  *
  * PKI Buffer Control Register
  */
-typedef union
+union bdk_pki_buf_ctl
 {
     uint64_t u;
     struct bdk_pki_buf_ctl_s
@@ -3114,7 +3130,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_buf_ctl_s cn; */
-} bdk_pki_buf_ctl_t;
+};
+typedef union bdk_pki_buf_ctl bdk_pki_buf_ctl_t;
 
 #define BDK_PKI_BUF_CTL BDK_PKI_BUF_CTL_FUNC()
 static inline uint64_t BDK_PKI_BUF_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -3138,7 +3155,7 @@ static inline uint64_t BDK_PKI_BUF_CTL_FUNC(void)
  * PKI Channel Configuration Register
  * This register configures each channel.
  */
-typedef union
+union bdk_pki_chanx_cfg
 {
     uint64_t u;
     struct bdk_pki_chanx_cfg_s
@@ -3168,7 +3185,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_chanx_cfg_s cn; */
-} bdk_pki_chanx_cfg_t;
+};
+typedef union bdk_pki_chanx_cfg bdk_pki_chanx_cfg_t;
 
 static inline uint64_t BDK_PKI_CHANX_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_CHANX_CFG(unsigned long a)
@@ -3191,7 +3209,7 @@ static inline uint64_t BDK_PKI_CHANX_CFG(unsigned long a)
  * PKI Cluster ECC/Parity Control Registers
  * This register configures ECC. All of PKI_CL()_ECC_CTL must be configured identically.
  */
-typedef union
+union bdk_pki_clx_ecc_ctl
 {
     uint64_t u;
     struct bdk_pki_clx_ecc_ctl_s
@@ -3235,7 +3253,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_clx_ecc_ctl_s cn; */
-} bdk_pki_clx_ecc_ctl_t;
+};
+typedef union bdk_pki_clx_ecc_ctl bdk_pki_clx_ecc_ctl_t;
 
 static inline uint64_t BDK_PKI_CLX_ECC_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_CLX_ECC_CTL(unsigned long a)
@@ -3257,7 +3276,7 @@ static inline uint64_t BDK_PKI_CLX_ECC_CTL(unsigned long a)
  *
  * PKI Cluster ECC/Parity Interrupt Registers
  */
-typedef union
+union bdk_pki_clx_ecc_int
 {
     uint64_t u;
     struct bdk_pki_clx_ecc_int_s
@@ -3289,7 +3308,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_clx_ecc_int_s cn; */
-} bdk_pki_clx_ecc_int_t;
+};
+typedef union bdk_pki_clx_ecc_int bdk_pki_clx_ecc_int_t;
 
 static inline uint64_t BDK_PKI_CLX_ECC_INT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_CLX_ECC_INT(unsigned long a)
@@ -3312,7 +3332,7 @@ static inline uint64_t BDK_PKI_CLX_ECC_INT(unsigned long a)
  * PKI Cluster ECC/Parity Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_pki_clx_ecc_int_ena_w1c
 {
     uint64_t u;
     struct bdk_pki_clx_ecc_int_ena_w1c_s
@@ -3340,7 +3360,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_clx_ecc_int_ena_w1c_s cn; */
-} bdk_pki_clx_ecc_int_ena_w1c_t;
+};
+typedef union bdk_pki_clx_ecc_int_ena_w1c bdk_pki_clx_ecc_int_ena_w1c_t;
 
 static inline uint64_t BDK_PKI_CLX_ECC_INT_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_CLX_ECC_INT_ENA_W1C(unsigned long a)
@@ -3363,7 +3384,7 @@ static inline uint64_t BDK_PKI_CLX_ECC_INT_ENA_W1C(unsigned long a)
  * PKI Cluster ECC/Parity Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_pki_clx_ecc_int_ena_w1s
 {
     uint64_t u;
     struct bdk_pki_clx_ecc_int_ena_w1s_s
@@ -3391,7 +3412,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_clx_ecc_int_ena_w1s_s cn; */
-} bdk_pki_clx_ecc_int_ena_w1s_t;
+};
+typedef union bdk_pki_clx_ecc_int_ena_w1s bdk_pki_clx_ecc_int_ena_w1s_t;
 
 static inline uint64_t BDK_PKI_CLX_ECC_INT_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_CLX_ECC_INT_ENA_W1S(unsigned long a)
@@ -3414,7 +3436,7 @@ static inline uint64_t BDK_PKI_CLX_ECC_INT_ENA_W1S(unsigned long a)
  * PKI Cluster ECC/Parity Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_pki_clx_ecc_int_w1s
 {
     uint64_t u;
     struct bdk_pki_clx_ecc_int_w1s_s
@@ -3442,7 +3464,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_clx_ecc_int_w1s_s cn; */
-} bdk_pki_clx_ecc_int_w1s_t;
+};
+typedef union bdk_pki_clx_ecc_int_w1s bdk_pki_clx_ecc_int_w1s_t;
 
 static inline uint64_t BDK_PKI_CLX_ECC_INT_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_CLX_ECC_INT_W1S(unsigned long a)
@@ -3464,7 +3487,7 @@ static inline uint64_t BDK_PKI_CLX_ECC_INT_W1S(unsigned long a)
  *
  * PKI Cluster Interrupt Registers
  */
-typedef union
+union bdk_pki_clx_int
 {
     uint64_t u;
     struct bdk_pki_clx_int_s
@@ -3498,7 +3521,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_clx_int_s cn; */
-} bdk_pki_clx_int_t;
+};
+typedef union bdk_pki_clx_int bdk_pki_clx_int_t;
 
 static inline uint64_t BDK_PKI_CLX_INT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_CLX_INT(unsigned long a)
@@ -3521,7 +3545,7 @@ static inline uint64_t BDK_PKI_CLX_INT(unsigned long a)
  * PKI Cluster Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_pki_clx_int_ena_w1c
 {
     uint64_t u;
     struct bdk_pki_clx_int_ena_w1c_s
@@ -3547,7 +3571,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_clx_int_ena_w1c_s cn; */
-} bdk_pki_clx_int_ena_w1c_t;
+};
+typedef union bdk_pki_clx_int_ena_w1c bdk_pki_clx_int_ena_w1c_t;
 
 static inline uint64_t BDK_PKI_CLX_INT_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_CLX_INT_ENA_W1C(unsigned long a)
@@ -3570,7 +3595,7 @@ static inline uint64_t BDK_PKI_CLX_INT_ENA_W1C(unsigned long a)
  * PKI Cluster Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_pki_clx_int_ena_w1s
 {
     uint64_t u;
     struct bdk_pki_clx_int_ena_w1s_s
@@ -3596,7 +3621,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_clx_int_ena_w1s_s cn; */
-} bdk_pki_clx_int_ena_w1s_t;
+};
+typedef union bdk_pki_clx_int_ena_w1s bdk_pki_clx_int_ena_w1s_t;
 
 static inline uint64_t BDK_PKI_CLX_INT_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_CLX_INT_ENA_W1S(unsigned long a)
@@ -3619,7 +3645,7 @@ static inline uint64_t BDK_PKI_CLX_INT_ENA_W1S(unsigned long a)
  * PKI Cluster Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_pki_clx_int_w1s
 {
     uint64_t u;
     struct bdk_pki_clx_int_w1s_s
@@ -3645,7 +3671,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_clx_int_w1s_s cn; */
-} bdk_pki_clx_int_w1s_t;
+};
+typedef union bdk_pki_clx_int_w1s bdk_pki_clx_int_w1s_t;
 
 static inline uint64_t BDK_PKI_CLX_INT_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_CLX_INT_W1S(unsigned long a)
@@ -3684,7 +3711,7 @@ static inline uint64_t BDK_PKI_CLX_INT_W1S(unsigned long a)
  * interrupt is signaled.  Once a conflict is detected, the PCAM state is unpredictable and is
  * required to be fully reconfigured before further valid processing can take place.
  */
-typedef union
+union bdk_pki_clx_pcamx_actionx
 {
     uint64_t u;
     struct bdk_pki_clx_pcamx_actionx_s
@@ -3800,7 +3827,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_clx_pcamx_actionx_s cn; */
-} bdk_pki_clx_pcamx_actionx_t;
+};
+typedef union bdk_pki_clx_pcamx_actionx bdk_pki_clx_pcamx_actionx_t;
 
 static inline uint64_t BDK_PKI_CLX_PCAMX_ACTIONX(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_CLX_PCAMX_ACTIONX(unsigned long a, unsigned long b, unsigned long c)
@@ -3826,7 +3854,7 @@ static inline uint64_t BDK_PKI_CLX_PCAMX_ACTIONX(unsigned long a, unsigned long 
  *
  * For each legal j and k, PKI_CL(i)_PCAM(j)_MATCH(k) must be configured identically for i=0..1.
  */
-typedef union
+union bdk_pki_clx_pcamx_matchx
 {
     uint64_t u;
     struct bdk_pki_clx_pcamx_matchx_s
@@ -3856,7 +3884,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_clx_pcamx_matchx_s cn; */
-} bdk_pki_clx_pcamx_matchx_t;
+};
+typedef union bdk_pki_clx_pcamx_matchx bdk_pki_clx_pcamx_matchx_t;
 
 static inline uint64_t BDK_PKI_CLX_PCAMX_MATCHX(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_CLX_PCAMX_MATCHX(unsigned long a, unsigned long b, unsigned long c)
@@ -3883,7 +3912,7 @@ static inline uint64_t BDK_PKI_CLX_PCAMX_MATCHX(unsigned long a, unsigned long b
  *
  * For each legal j and k, PKI_CL(i)_PCAM(j)_TERM(k) must be configured identically for i=0..1.
  */
-typedef union
+union bdk_pki_clx_pcamx_termx
 {
     uint64_t u;
     struct bdk_pki_clx_pcamx_termx_s
@@ -3937,7 +3966,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_clx_pcamx_termx_s cn; */
-} bdk_pki_clx_pcamx_termx_t;
+};
+typedef union bdk_pki_clx_pcamx_termx bdk_pki_clx_pcamx_termx_t;
 
 static inline uint64_t BDK_PKI_CLX_PCAMX_TERMX(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_CLX_PCAMX_TERMX(unsigned long a, unsigned long b, unsigned long c)
@@ -3967,7 +3997,7 @@ static inline uint64_t BDK_PKI_CLX_PCAMX_TERMX(unsigned long a, unsigned long b,
  * The value of these CSRs do not directly influence PKI HW. But PKI HW supplies them to the
  * parse engine code for parsing/sequencing.
  */
-typedef union
+union bdk_pki_clx_pkindx_cfg
 {
     uint64_t u;
     struct bdk_pki_clx_pkindx_cfg_s
@@ -4109,7 +4139,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_clx_pkindx_cfg_s cn; */
-} bdk_pki_clx_pkindx_cfg_t;
+};
+typedef union bdk_pki_clx_pkindx_cfg bdk_pki_clx_pkindx_cfg_t;
 
 static inline uint64_t BDK_PKI_CLX_PKINDX_CFG(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_CLX_PKINDX_CFG(unsigned long a, unsigned long b)
@@ -4159,7 +4190,7 @@ static inline uint64_t BDK_PKI_CLX_PKINDX_CFG(unsigned long a, unsigned long b)
  * The value of these CSRs do not directly influence PKI HW. But PKI HW supplies them
  * to the parse engine code for parsing/sequencing.
  */
-typedef union
+union bdk_pki_clx_pkindx_kmemx
 {
     uint64_t u;
     struct bdk_pki_clx_pkindx_kmemx_s
@@ -4173,7 +4204,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_clx_pkindx_kmemx_s cn; */
-} bdk_pki_clx_pkindx_kmemx_t;
+};
+typedef union bdk_pki_clx_pkindx_kmemx bdk_pki_clx_pkindx_kmemx_t;
 
 static inline uint64_t BDK_PKI_CLX_PKINDX_KMEMX(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_CLX_PKINDX_KMEMX(unsigned long a, unsigned long b, unsigned long c)
@@ -4203,7 +4235,7 @@ static inline uint64_t BDK_PKI_CLX_PKINDX_KMEMX(unsigned long a, unsigned long b
  * The value of these CSRs do not directly influence PKI HW. But PKI HW supplies them to the
  * parse engine code for parsing/sequencing.
  */
-typedef union
+union bdk_pki_clx_pkindx_l2_custom
 {
     uint64_t u;
     struct bdk_pki_clx_pkindx_l2_custom_s
@@ -4235,7 +4267,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_clx_pkindx_l2_custom_s cn; */
-} bdk_pki_clx_pkindx_l2_custom_t;
+};
+typedef union bdk_pki_clx_pkindx_l2_custom bdk_pki_clx_pkindx_l2_custom_t;
 
 static inline uint64_t BDK_PKI_CLX_PKINDX_L2_CUSTOM(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_CLX_PKINDX_L2_CUSTOM(unsigned long a, unsigned long b)
@@ -4265,7 +4298,7 @@ static inline uint64_t BDK_PKI_CLX_PKINDX_L2_CUSTOM(unsigned long a, unsigned lo
  * The value of these CSRs do not directly influence PKI HW. But PKI HW supplies them to the
  * parse engine code for parsing/sequencing.
  */
-typedef union
+union bdk_pki_clx_pkindx_lg_custom
 {
     uint64_t u;
     struct bdk_pki_clx_pkindx_lg_custom_s
@@ -4291,7 +4324,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_clx_pkindx_lg_custom_s cn; */
-} bdk_pki_clx_pkindx_lg_custom_t;
+};
+typedef union bdk_pki_clx_pkindx_lg_custom bdk_pki_clx_pkindx_lg_custom_t;
 
 static inline uint64_t BDK_PKI_CLX_PKINDX_LG_CUSTOM(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_CLX_PKINDX_LG_CUSTOM(unsigned long a, unsigned long b)
@@ -4321,7 +4355,7 @@ static inline uint64_t BDK_PKI_CLX_PKINDX_LG_CUSTOM(unsigned long a, unsigned lo
  * The value of these CSRs do not directly influence PKI HW. But PKI HW supplies them to the
  * parse engine code for parsing/sequencing.
  */
-typedef union
+union bdk_pki_clx_pkindx_skip
 {
     uint64_t u;
     struct bdk_pki_clx_pkindx_skip_s
@@ -4349,7 +4383,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_clx_pkindx_skip_s cn; */
-} bdk_pki_clx_pkindx_skip_t;
+};
+typedef union bdk_pki_clx_pkindx_skip bdk_pki_clx_pkindx_skip_t;
 
 static inline uint64_t BDK_PKI_CLX_PKINDX_SKIP(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_CLX_PKINDX_SKIP(unsigned long a, unsigned long b)
@@ -4379,7 +4414,7 @@ static inline uint64_t BDK_PKI_CLX_PKINDX_SKIP(unsigned long a, unsigned long b)
  * The value of these CSRs do not directly influence PKI HW. But PKI HW supplies them to the
  * parse engine code for parsing/sequencing.
  */
-typedef union
+union bdk_pki_clx_pkindx_style
 {
     uint64_t u;
     struct bdk_pki_clx_pkindx_style_s
@@ -4451,7 +4486,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_clx_pkindx_style_s cn; */
-} bdk_pki_clx_pkindx_style_t;
+};
+typedef union bdk_pki_clx_pkindx_style bdk_pki_clx_pkindx_style_t;
 
 static inline uint64_t BDK_PKI_CLX_PKINDX_STYLE(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_CLX_PKINDX_STYLE(unsigned long a, unsigned long b)
@@ -4496,7 +4532,7 @@ static inline uint64_t BDK_PKI_CLX_PKINDX_STYLE(unsigned long a, unsigned long b
  * PKI_BEWQ_S[CFG,CFG2] from them. So not very indirectly, some of these CSRs influence
  * PKI HW.
  */
-typedef union
+union bdk_pki_clx_smemx
 {
     uint64_t u;
     struct bdk_pki_clx_smemx_s
@@ -4510,7 +4546,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_clx_smemx_s cn; */
-} bdk_pki_clx_smemx_t;
+};
+typedef union bdk_pki_clx_smemx bdk_pki_clx_smemx_t;
 
 static inline uint64_t BDK_PKI_CLX_SMEMX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_CLX_SMEMX(unsigned long a, unsigned long b)
@@ -4533,7 +4570,7 @@ static inline uint64_t BDK_PKI_CLX_SMEMX(unsigned long a, unsigned long b)
  * PKI Cluster Start Registers
  * This register configures a cluster. All of PKI_CL()_START must be programmed identically.
  */
-typedef union
+union bdk_pki_clx_start
 {
     uint64_t u;
     struct bdk_pki_clx_start_s
@@ -4547,7 +4584,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_clx_start_s cn; */
-} bdk_pki_clx_start_t;
+};
+typedef union bdk_pki_clx_start bdk_pki_clx_start_t;
 
 static inline uint64_t BDK_PKI_CLX_START(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_CLX_START(unsigned long a)
@@ -4577,7 +4615,7 @@ static inline uint64_t BDK_PKI_CLX_START(unsigned long a)
  * The value of these CSRs do not directly influence PKI HW. But PKI HW supplies them
  * to the parse engine code.
  */
-typedef union
+union bdk_pki_clx_stylex_alg
 {
     uint64_t u;
     struct bdk_pki_clx_stylex_alg_s
@@ -4655,7 +4693,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_clx_stylex_alg_s cn; */
-} bdk_pki_clx_stylex_alg_t;
+};
+typedef union bdk_pki_clx_stylex_alg bdk_pki_clx_stylex_alg_t;
 
 static inline uint64_t BDK_PKI_CLX_STYLEX_ALG(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_CLX_STYLEX_ALG(unsigned long a, unsigned long b)
@@ -4686,7 +4725,7 @@ static inline uint64_t BDK_PKI_CLX_STYLEX_ALG(unsigned long a, unsigned long b)
  * gets them, and the parse engine code will typically indirectly construct
  * PKI_BEWQ_S[CFG] from them. So not very indirectly, these CSRs influence PKI HW.
  */
-typedef union
+union bdk_pki_clx_stylex_cfg
 {
     uint64_t u;
     struct bdk_pki_clx_stylex_cfg_s
@@ -4918,7 +4957,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_clx_stylex_cfg_s cn; */
-} bdk_pki_clx_stylex_cfg_t;
+};
+typedef union bdk_pki_clx_stylex_cfg bdk_pki_clx_stylex_cfg_t;
 
 static inline uint64_t BDK_PKI_CLX_STYLEX_CFG(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_CLX_STYLEX_CFG(unsigned long a, unsigned long b)
@@ -4949,7 +4989,7 @@ static inline uint64_t BDK_PKI_CLX_STYLEX_CFG(unsigned long a, unsigned long b)
  * gets them, and the parse engine code will typically indirectly construct
  * PKI_BEWQ_S[CFG2] from them. So not very indirectly, these CSRs influence PKI HW.
  */
-typedef union
+union bdk_pki_clx_stylex_cfg2
 {
     uint64_t u;
     struct bdk_pki_clx_stylex_cfg2_s
@@ -5335,7 +5375,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_clx_stylex_cfg2_s cn; */
-} bdk_pki_clx_stylex_cfg2_t;
+};
+typedef union bdk_pki_clx_stylex_cfg2 bdk_pki_clx_stylex_cfg2_t;
 
 static inline uint64_t BDK_PKI_CLX_STYLEX_CFG2(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_CLX_STYLEX_CFG2(unsigned long a, unsigned long b)
@@ -5357,7 +5398,7 @@ static inline uint64_t BDK_PKI_CLX_STYLEX_CFG2(unsigned long a, unsigned long b)
  *
  * PKI Clock Enable Register
  */
-typedef union
+union bdk_pki_clken
 {
     uint64_t u;
     struct bdk_pki_clken_s
@@ -5375,7 +5416,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_clken_s cn; */
-} bdk_pki_clken_t;
+};
+typedef union bdk_pki_clken bdk_pki_clken_t;
 
 #define BDK_PKI_CLKEN BDK_PKI_CLKEN_FUNC()
 static inline uint64_t BDK_PKI_CLKEN_FUNC(void) __attribute__ ((pure, always_inline));
@@ -5399,7 +5441,7 @@ static inline uint64_t BDK_PKI_CLKEN_FUNC(void)
  * PKI Constants Register
  * This register contains constants for software discovery.
  */
-typedef union
+union bdk_pki_const
 {
     uint64_t u;
     struct bdk_pki_const_s
@@ -5417,7 +5459,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_const_s cn; */
-} bdk_pki_const_t;
+};
+typedef union bdk_pki_const bdk_pki_const_t;
 
 #define BDK_PKI_CONST BDK_PKI_CONST_FUNC()
 static inline uint64_t BDK_PKI_CONST_FUNC(void) __attribute__ ((pure, always_inline));
@@ -5441,7 +5484,7 @@ static inline uint64_t BDK_PKI_CONST_FUNC(void)
  * PKI Constants Register 1
  * This register contains constants for software discovery.
  */
-typedef union
+union bdk_pki_const1
 {
     uint64_t u;
     struct bdk_pki_const1_s
@@ -5459,7 +5502,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_const1_s cn; */
-} bdk_pki_const1_t;
+};
+typedef union bdk_pki_const1 bdk_pki_const1_t;
 
 #define BDK_PKI_CONST1 BDK_PKI_CONST1_FUNC()
 static inline uint64_t BDK_PKI_CONST1_FUNC(void) __attribute__ ((pure, always_inline));
@@ -5483,7 +5527,7 @@ static inline uint64_t BDK_PKI_CONST1_FUNC(void)
  * PKI Constants Register 2
  * This register contains constants for software discovery.
  */
-typedef union
+union bdk_pki_const2
 {
     uint64_t u;
     struct bdk_pki_const2_s
@@ -5501,7 +5545,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_const2_s cn; */
-} bdk_pki_const2_t;
+};
+typedef union bdk_pki_const2 bdk_pki_const2_t;
 
 #define BDK_PKI_CONST2 BDK_PKI_CONST2_FUNC()
 static inline uint64_t BDK_PKI_CONST2_FUNC(void) __attribute__ ((pure, always_inline));
@@ -5525,7 +5570,7 @@ static inline uint64_t BDK_PKI_CONST2_FUNC(void)
  * PKI Constants Register 3
  * This register contains constants for software discovery.
  */
-typedef union
+union bdk_pki_const3
 {
     uint64_t u;
     struct bdk_pki_const3_s
@@ -5537,7 +5582,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_const3_s cn; */
-} bdk_pki_const3_t;
+};
+typedef union bdk_pki_const3 bdk_pki_const3_t;
 
 #define BDK_PKI_CONST3 BDK_PKI_CONST3_FUNC()
 static inline uint64_t BDK_PKI_CONST3_FUNC(void) __attribute__ ((pure, always_inline));
@@ -5560,7 +5606,7 @@ static inline uint64_t BDK_PKI_CONST3_FUNC(void)
  *
  * INTERNAL: PKI Credit Count Debug Register
  */
-typedef union
+union bdk_pki_dbg_crdts
 {
     uint64_t u;
     struct bdk_pki_dbg_crdts_s
@@ -5574,7 +5620,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_dbg_crdts_s cn; */
-} bdk_pki_dbg_crdts_t;
+};
+typedef union bdk_pki_dbg_crdts bdk_pki_dbg_crdts_t;
 
 #define BDK_PKI_DBG_CRDTS BDK_PKI_DBG_CRDTS_FUNC()
 static inline uint64_t BDK_PKI_DBG_CRDTS_FUNC(void) __attribute__ ((pure, always_inline));
@@ -5598,7 +5645,7 @@ static inline uint64_t BDK_PKI_DBG_CRDTS_FUNC(void)
  * PKI Packets Deep Statistic Registers
  * This register contains statistics indexed by PKI_QPG_TBLB()[DSTAT_ID].
  */
-typedef union
+union bdk_pki_dstatx_stat0
 {
     uint64_t u;
     struct bdk_pki_dstatx_stat0_s
@@ -5614,7 +5661,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_dstatx_stat0_s cn; */
-} bdk_pki_dstatx_stat0_t;
+};
+typedef union bdk_pki_dstatx_stat0 bdk_pki_dstatx_stat0_t;
 
 static inline uint64_t BDK_PKI_DSTATX_STAT0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_DSTATX_STAT0(unsigned long a)
@@ -5637,7 +5685,7 @@ static inline uint64_t BDK_PKI_DSTATX_STAT0(unsigned long a)
  * PKI Octets Deep Statistic Registers
  * This register contains statistics indexed by PKI_QPG_TBLB()[DSTAT_ID].
  */
-typedef union
+union bdk_pki_dstatx_stat1
 {
     uint64_t u;
     struct bdk_pki_dstatx_stat1_s
@@ -5655,7 +5703,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_dstatx_stat1_s cn; */
-} bdk_pki_dstatx_stat1_t;
+};
+typedef union bdk_pki_dstatx_stat1 bdk_pki_dstatx_stat1_t;
 
 static inline uint64_t BDK_PKI_DSTATX_STAT1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_DSTATX_STAT1(unsigned long a)
@@ -5678,7 +5727,7 @@ static inline uint64_t BDK_PKI_DSTATX_STAT1(unsigned long a)
  * PKI Error Packets Deep Statistic Registers
  * This register contains statistics indexed by PKI_QPG_TBLB()[DSTAT_ID].
  */
-typedef union
+union bdk_pki_dstatx_stat2
 {
     uint64_t u;
     struct bdk_pki_dstatx_stat2_s
@@ -5700,7 +5749,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_dstatx_stat2_s cn; */
-} bdk_pki_dstatx_stat2_t;
+};
+typedef union bdk_pki_dstatx_stat2 bdk_pki_dstatx_stat2_t;
 
 static inline uint64_t BDK_PKI_DSTATX_STAT2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_DSTATX_STAT2(unsigned long a)
@@ -5723,7 +5773,7 @@ static inline uint64_t BDK_PKI_DSTATX_STAT2(unsigned long a)
  * PKI Dropped Packets Deep Statistic Registers
  * This register contains statistics indexed by PKI_QPG_TBLB()[DSTAT_ID].
  */
-typedef union
+union bdk_pki_dstatx_stat3
 {
     uint64_t u;
     struct bdk_pki_dstatx_stat3_s
@@ -5739,7 +5789,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_dstatx_stat3_s cn; */
-} bdk_pki_dstatx_stat3_t;
+};
+typedef union bdk_pki_dstatx_stat3 bdk_pki_dstatx_stat3_t;
 
 static inline uint64_t BDK_PKI_DSTATX_STAT3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_DSTATX_STAT3(unsigned long a)
@@ -5762,7 +5813,7 @@ static inline uint64_t BDK_PKI_DSTATX_STAT3(unsigned long a)
  * PKI Dropped Octets Deep Statistic Registers
  * This register contains statistics indexed by PKI_QPG_TBLB()[DSTAT_ID].
  */
-typedef union
+union bdk_pki_dstatx_stat4
 {
     uint64_t u;
     struct bdk_pki_dstatx_stat4_s
@@ -5778,7 +5829,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_dstatx_stat4_s cn; */
-} bdk_pki_dstatx_stat4_t;
+};
+typedef union bdk_pki_dstatx_stat4 bdk_pki_dstatx_stat4_t;
 
 static inline uint64_t BDK_PKI_DSTATX_STAT4(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_DSTATX_STAT4(unsigned long a)
@@ -5801,7 +5853,7 @@ static inline uint64_t BDK_PKI_DSTATX_STAT4(unsigned long a)
  * PKI ECC 0 Control Register
  * This register allows inserting ECC errors for testing.
  */
-typedef union
+union bdk_pki_ecc0_ctl
 {
     uint64_t u;
     struct bdk_pki_ecc0_ctl_s
@@ -5861,7 +5913,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_ecc0_ctl_s cn; */
-} bdk_pki_ecc0_ctl_t;
+};
+typedef union bdk_pki_ecc0_ctl bdk_pki_ecc0_ctl_t;
 
 #define BDK_PKI_ECC0_CTL BDK_PKI_ECC0_CTL_FUNC()
 static inline uint64_t BDK_PKI_ECC0_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -5884,7 +5937,7 @@ static inline uint64_t BDK_PKI_ECC0_CTL_FUNC(void)
  *
  * PKI ECC 0 Interrupt Register
  */
-typedef union
+union bdk_pki_ecc0_int
 {
     uint64_t u;
     struct bdk_pki_ecc0_int_s
@@ -5932,7 +5985,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_ecc0_int_s cn; */
-} bdk_pki_ecc0_int_t;
+};
+typedef union bdk_pki_ecc0_int bdk_pki_ecc0_int_t;
 
 #define BDK_PKI_ECC0_INT BDK_PKI_ECC0_INT_FUNC()
 static inline uint64_t BDK_PKI_ECC0_INT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -5956,7 +6010,7 @@ static inline uint64_t BDK_PKI_ECC0_INT_FUNC(void)
  * PKI ECC 0 Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_pki_ecc0_int_ena_w1c
 {
     uint64_t u;
     struct bdk_pki_ecc0_int_ena_w1c_s
@@ -6000,7 +6054,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_ecc0_int_ena_w1c_s cn; */
-} bdk_pki_ecc0_int_ena_w1c_t;
+};
+typedef union bdk_pki_ecc0_int_ena_w1c bdk_pki_ecc0_int_ena_w1c_t;
 
 #define BDK_PKI_ECC0_INT_ENA_W1C BDK_PKI_ECC0_INT_ENA_W1C_FUNC()
 static inline uint64_t BDK_PKI_ECC0_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -6024,7 +6079,7 @@ static inline uint64_t BDK_PKI_ECC0_INT_ENA_W1C_FUNC(void)
  * PKI ECC 0 Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_pki_ecc0_int_ena_w1s
 {
     uint64_t u;
     struct bdk_pki_ecc0_int_ena_w1s_s
@@ -6068,7 +6123,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_ecc0_int_ena_w1s_s cn; */
-} bdk_pki_ecc0_int_ena_w1s_t;
+};
+typedef union bdk_pki_ecc0_int_ena_w1s bdk_pki_ecc0_int_ena_w1s_t;
 
 #define BDK_PKI_ECC0_INT_ENA_W1S BDK_PKI_ECC0_INT_ENA_W1S_FUNC()
 static inline uint64_t BDK_PKI_ECC0_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -6092,7 +6148,7 @@ static inline uint64_t BDK_PKI_ECC0_INT_ENA_W1S_FUNC(void)
  * PKI ECC 0 Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_pki_ecc0_int_w1s
 {
     uint64_t u;
     struct bdk_pki_ecc0_int_w1s_s
@@ -6136,7 +6192,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_ecc0_int_w1s_s cn; */
-} bdk_pki_ecc0_int_w1s_t;
+};
+typedef union bdk_pki_ecc0_int_w1s bdk_pki_ecc0_int_w1s_t;
 
 #define BDK_PKI_ECC0_INT_W1S BDK_PKI_ECC0_INT_W1S_FUNC()
 static inline uint64_t BDK_PKI_ECC0_INT_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -6160,7 +6217,7 @@ static inline uint64_t BDK_PKI_ECC0_INT_W1S_FUNC(void)
  * PKI ECC 1 Control Register
  * This register allows inserting ECC errors for testing.
  */
-typedef union
+union bdk_pki_ecc1_ctl
 {
     uint64_t u;
     struct bdk_pki_ecc1_ctl_s
@@ -6236,7 +6293,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_ecc1_ctl_s cn; */
-} bdk_pki_ecc1_ctl_t;
+};
+typedef union bdk_pki_ecc1_ctl bdk_pki_ecc1_ctl_t;
 
 #define BDK_PKI_ECC1_CTL BDK_PKI_ECC1_CTL_FUNC()
 static inline uint64_t BDK_PKI_ECC1_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -6259,7 +6317,7 @@ static inline uint64_t BDK_PKI_ECC1_CTL_FUNC(void)
  *
  * PKI ECC 1 Interrupt Register
  */
-typedef union
+union bdk_pki_ecc1_int
 {
     uint64_t u;
     struct bdk_pki_ecc1_int_s
@@ -6333,7 +6391,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_ecc1_int_s cn; */
-} bdk_pki_ecc1_int_t;
+};
+typedef union bdk_pki_ecc1_int bdk_pki_ecc1_int_t;
 
 #define BDK_PKI_ECC1_INT BDK_PKI_ECC1_INT_FUNC()
 static inline uint64_t BDK_PKI_ECC1_INT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -6357,7 +6416,7 @@ static inline uint64_t BDK_PKI_ECC1_INT_FUNC(void)
  * PKI ECC 1 Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_pki_ecc1_int_ena_w1c
 {
     uint64_t u;
     struct bdk_pki_ecc1_int_ena_w1c_s
@@ -6431,7 +6490,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_ecc1_int_ena_w1c_s cn; */
-} bdk_pki_ecc1_int_ena_w1c_t;
+};
+typedef union bdk_pki_ecc1_int_ena_w1c bdk_pki_ecc1_int_ena_w1c_t;
 
 #define BDK_PKI_ECC1_INT_ENA_W1C BDK_PKI_ECC1_INT_ENA_W1C_FUNC()
 static inline uint64_t BDK_PKI_ECC1_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -6455,7 +6515,7 @@ static inline uint64_t BDK_PKI_ECC1_INT_ENA_W1C_FUNC(void)
  * PKI ECC 1 Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_pki_ecc1_int_ena_w1s
 {
     uint64_t u;
     struct bdk_pki_ecc1_int_ena_w1s_s
@@ -6529,7 +6589,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_ecc1_int_ena_w1s_s cn; */
-} bdk_pki_ecc1_int_ena_w1s_t;
+};
+typedef union bdk_pki_ecc1_int_ena_w1s bdk_pki_ecc1_int_ena_w1s_t;
 
 #define BDK_PKI_ECC1_INT_ENA_W1S BDK_PKI_ECC1_INT_ENA_W1S_FUNC()
 static inline uint64_t BDK_PKI_ECC1_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -6553,7 +6614,7 @@ static inline uint64_t BDK_PKI_ECC1_INT_ENA_W1S_FUNC(void)
  * PKI ECC 1 Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_pki_ecc1_int_w1s
 {
     uint64_t u;
     struct bdk_pki_ecc1_int_w1s_s
@@ -6627,7 +6688,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_ecc1_int_w1s_s cn; */
-} bdk_pki_ecc1_int_w1s_t;
+};
+typedef union bdk_pki_ecc1_int_w1s bdk_pki_ecc1_int_w1s_t;
 
 #define BDK_PKI_ECC1_INT_W1S BDK_PKI_ECC1_INT_W1S_FUNC()
 static inline uint64_t BDK_PKI_ECC1_INT_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -6651,7 +6713,7 @@ static inline uint64_t BDK_PKI_ECC1_INT_W1S_FUNC(void)
  * PKI ECC 2 Control Register
  * This register allows inserting ECC errors for testing.
  */
-typedef union
+union bdk_pki_ecc2_ctl
 {
     uint64_t u;
     struct bdk_pki_ecc2_ctl_s
@@ -6669,7 +6731,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_ecc2_ctl_s cn; */
-} bdk_pki_ecc2_ctl_t;
+};
+typedef union bdk_pki_ecc2_ctl bdk_pki_ecc2_ctl_t;
 
 #define BDK_PKI_ECC2_CTL BDK_PKI_ECC2_CTL_FUNC()
 static inline uint64_t BDK_PKI_ECC2_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -6692,7 +6755,7 @@ static inline uint64_t BDK_PKI_ECC2_CTL_FUNC(void)
  *
  * PKI ECC 2 Interrupt Register
  */
-typedef union
+union bdk_pki_ecc2_int
 {
     uint64_t u;
     struct bdk_pki_ecc2_int_s
@@ -6712,7 +6775,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_ecc2_int_s cn; */
-} bdk_pki_ecc2_int_t;
+};
+typedef union bdk_pki_ecc2_int bdk_pki_ecc2_int_t;
 
 #define BDK_PKI_ECC2_INT BDK_PKI_ECC2_INT_FUNC()
 static inline uint64_t BDK_PKI_ECC2_INT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -6736,7 +6800,7 @@ static inline uint64_t BDK_PKI_ECC2_INT_FUNC(void)
  * PKI ECC 2 Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_pki_ecc2_int_ena_w1c
 {
     uint64_t u;
     struct bdk_pki_ecc2_int_ena_w1c_s
@@ -6752,7 +6816,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_ecc2_int_ena_w1c_s cn; */
-} bdk_pki_ecc2_int_ena_w1c_t;
+};
+typedef union bdk_pki_ecc2_int_ena_w1c bdk_pki_ecc2_int_ena_w1c_t;
 
 #define BDK_PKI_ECC2_INT_ENA_W1C BDK_PKI_ECC2_INT_ENA_W1C_FUNC()
 static inline uint64_t BDK_PKI_ECC2_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -6776,7 +6841,7 @@ static inline uint64_t BDK_PKI_ECC2_INT_ENA_W1C_FUNC(void)
  * PKI ECC 2 Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_pki_ecc2_int_ena_w1s
 {
     uint64_t u;
     struct bdk_pki_ecc2_int_ena_w1s_s
@@ -6792,7 +6857,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_ecc2_int_ena_w1s_s cn; */
-} bdk_pki_ecc2_int_ena_w1s_t;
+};
+typedef union bdk_pki_ecc2_int_ena_w1s bdk_pki_ecc2_int_ena_w1s_t;
 
 #define BDK_PKI_ECC2_INT_ENA_W1S BDK_PKI_ECC2_INT_ENA_W1S_FUNC()
 static inline uint64_t BDK_PKI_ECC2_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -6816,7 +6882,7 @@ static inline uint64_t BDK_PKI_ECC2_INT_ENA_W1S_FUNC(void)
  * PKI ECC 2 Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_pki_ecc2_int_w1s
 {
     uint64_t u;
     struct bdk_pki_ecc2_int_w1s_s
@@ -6832,7 +6898,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_ecc2_int_w1s_s cn; */
-} bdk_pki_ecc2_int_w1s_t;
+};
+typedef union bdk_pki_ecc2_int_w1s bdk_pki_ecc2_int_w1s_t;
 
 #define BDK_PKI_ECC2_INT_W1S BDK_PKI_ECC2_INT_W1S_FUNC()
 static inline uint64_t BDK_PKI_ECC2_INT_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -6857,7 +6924,7 @@ static inline uint64_t BDK_PKI_ECC2_INT_W1S_FUNC(void)
  * Internal:
  * INTERNAL: This doesn't virtualize well, but we don't anticipate many sizes.
  */
-typedef union
+union bdk_pki_frm_len_chkx
 {
     uint64_t u;
     struct bdk_pki_frm_len_chkx_s
@@ -6893,7 +6960,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_frm_len_chkx_s cn; */
-} bdk_pki_frm_len_chkx_t;
+};
+typedef union bdk_pki_frm_len_chkx bdk_pki_frm_len_chkx_t;
 
 static inline uint64_t BDK_PKI_FRM_LEN_CHKX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_FRM_LEN_CHKX(unsigned long a)
@@ -6926,7 +6994,7 @@ static inline uint64_t BDK_PKI_FRM_LEN_CHKX(unsigned long a)
  * Internal:
  * This CSR has no direct hardware effect. It is for strictly for software use.
  */
-typedef union
+union bdk_pki_gbl_pen
 {
     uint64_t u;
     struct bdk_pki_gbl_pen_s
@@ -7056,7 +7124,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_gbl_pen_s cn; */
-} bdk_pki_gbl_pen_t;
+};
+typedef union bdk_pki_gbl_pen bdk_pki_gbl_pen_t;
 
 #define BDK_PKI_GBL_PEN BDK_PKI_GBL_PEN_FUNC()
 static inline uint64_t BDK_PKI_GBL_PEN_FUNC(void) __attribute__ ((pure, always_inline));
@@ -7079,7 +7148,7 @@ static inline uint64_t BDK_PKI_GBL_PEN_FUNC(void)
  *
  * PKI General Interrupt Register
  */
-typedef union
+union bdk_pki_gen_int
 {
     uint64_t u;
     struct bdk_pki_gen_int_s
@@ -7133,7 +7202,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_gen_int_s cn; */
-} bdk_pki_gen_int_t;
+};
+typedef union bdk_pki_gen_int bdk_pki_gen_int_t;
 
 #define BDK_PKI_GEN_INT BDK_PKI_GEN_INT_FUNC()
 static inline uint64_t BDK_PKI_GEN_INT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -7157,7 +7227,7 @@ static inline uint64_t BDK_PKI_GEN_INT_FUNC(void)
  * PKI General Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_pki_gen_int_ena_w1c
 {
     uint64_t u;
     struct bdk_pki_gen_int_ena_w1c_s
@@ -7189,7 +7259,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_gen_int_ena_w1c_s cn; */
-} bdk_pki_gen_int_ena_w1c_t;
+};
+typedef union bdk_pki_gen_int_ena_w1c bdk_pki_gen_int_ena_w1c_t;
 
 #define BDK_PKI_GEN_INT_ENA_W1C BDK_PKI_GEN_INT_ENA_W1C_FUNC()
 static inline uint64_t BDK_PKI_GEN_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
@@ -7213,7 +7284,7 @@ static inline uint64_t BDK_PKI_GEN_INT_ENA_W1C_FUNC(void)
  * PKI General Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_pki_gen_int_ena_w1s
 {
     uint64_t u;
     struct bdk_pki_gen_int_ena_w1s_s
@@ -7245,7 +7316,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_gen_int_ena_w1s_s cn; */
-} bdk_pki_gen_int_ena_w1s_t;
+};
+typedef union bdk_pki_gen_int_ena_w1s bdk_pki_gen_int_ena_w1s_t;
 
 #define BDK_PKI_GEN_INT_ENA_W1S BDK_PKI_GEN_INT_ENA_W1S_FUNC()
 static inline uint64_t BDK_PKI_GEN_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -7269,7 +7341,7 @@ static inline uint64_t BDK_PKI_GEN_INT_ENA_W1S_FUNC(void)
  * PKI General Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_pki_gen_int_w1s
 {
     uint64_t u;
     struct bdk_pki_gen_int_w1s_s
@@ -7301,7 +7373,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_gen_int_w1s_s cn; */
-} bdk_pki_gen_int_w1s_t;
+};
+typedef union bdk_pki_gen_int_w1s bdk_pki_gen_int_w1s_t;
 
 #define BDK_PKI_GEN_INT_W1S BDK_PKI_GEN_INT_W1S_FUNC()
 static inline uint64_t BDK_PKI_GEN_INT_W1S_FUNC(void) __attribute__ ((pure, always_inline));
@@ -7325,7 +7398,7 @@ static inline uint64_t BDK_PKI_GEN_INT_W1S_FUNC(void)
  * PKI Cluster Group Control Register
  * This register configures the cluster group.
  */
-typedef union
+union bdk_pki_icgx_cfg
 {
     uint64_t u;
     struct bdk_pki_icgx_cfg_s
@@ -7427,7 +7500,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_icgx_cfg_s cn; */
-} bdk_pki_icgx_cfg_t;
+};
+typedef union bdk_pki_icgx_cfg bdk_pki_icgx_cfg_t;
 
 static inline uint64_t BDK_PKI_ICGX_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_ICGX_CFG(unsigned long a)
@@ -7449,7 +7523,7 @@ static inline uint64_t BDK_PKI_ICGX_CFG(unsigned long a)
  *
  * PKI Cluster IMEM Registers
  */
-typedef union
+union bdk_pki_imemx
 {
     uint64_t u;
     struct bdk_pki_imemx_s
@@ -7463,7 +7537,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_imemx_s cn; */
-} bdk_pki_imemx_t;
+};
+typedef union bdk_pki_imemx bdk_pki_imemx_t;
 
 static inline uint64_t BDK_PKI_IMEMX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_IMEMX(unsigned long a)
@@ -7486,7 +7561,7 @@ static inline uint64_t BDK_PKI_IMEMX(unsigned long a)
  * PKI Backend Layer Map Register
  * This register is the layer type map, indexed by PKI_LTYPE_E.
  */
-typedef union
+union bdk_pki_ltypex_map
 {
     uint64_t u;
     struct bdk_pki_ltypex_map_s
@@ -7506,7 +7581,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_ltypex_map_s cn; */
-} bdk_pki_ltypex_map_t;
+};
+typedef union bdk_pki_ltypex_map bdk_pki_ltypex_map_t;
 
 static inline uint64_t BDK_PKI_LTYPEX_MAP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_LTYPEX_MAP(unsigned long a)
@@ -7530,7 +7606,7 @@ static inline uint64_t BDK_PKI_LTYPEX_MAP(unsigned long a)
  * This register is the MSI-X PBA table; the bit number is indexed by the PKI_INT_VEC_E
  * enumeration.
  */
-typedef union
+union bdk_pki_msix_pbax
 {
     uint64_t u;
     struct bdk_pki_msix_pbax_s
@@ -7544,7 +7620,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_msix_pbax_s cn; */
-} bdk_pki_msix_pbax_t;
+};
+typedef union bdk_pki_msix_pbax bdk_pki_msix_pbax_t;
 
 static inline uint64_t BDK_PKI_MSIX_PBAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_MSIX_PBAX(unsigned long a)
@@ -7567,7 +7644,7 @@ static inline uint64_t BDK_PKI_MSIX_PBAX(unsigned long a)
  * PKI MSI-X Vector-Table Address Register
  * This register is the MSI-X vector table, indexed by the PKI_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_pki_msix_vecx_addr
 {
     uint64_t u;
     struct bdk_pki_msix_vecx_addr_s
@@ -7601,7 +7678,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_msix_vecx_addr_s cn; */
-} bdk_pki_msix_vecx_addr_t;
+};
+typedef union bdk_pki_msix_vecx_addr bdk_pki_msix_vecx_addr_t;
 
 static inline uint64_t BDK_PKI_MSIX_VECX_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_MSIX_VECX_ADDR(unsigned long a)
@@ -7624,7 +7702,7 @@ static inline uint64_t BDK_PKI_MSIX_VECX_ADDR(unsigned long a)
  * PKI MSI-X Vector-Table Control and Data Register
  * This register is the MSI-X vector table, indexed by the PKI_INT_VEC_E enumeration.
  */
-typedef union
+union bdk_pki_msix_vecx_ctl
 {
     uint64_t u;
     struct bdk_pki_msix_vecx_ctl_s
@@ -7642,7 +7720,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_msix_vecx_ctl_s cn; */
-} bdk_pki_msix_vecx_ctl_t;
+};
+typedef union bdk_pki_msix_vecx_ctl bdk_pki_msix_vecx_ctl_t;
 
 static inline uint64_t BDK_PKI_MSIX_VECX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_MSIX_VECX_CTL(unsigned long a)
@@ -7664,7 +7743,7 @@ static inline uint64_t BDK_PKI_MSIX_VECX_CTL(unsigned long a)
  *
  * INTERNAL: PKI PBE ECO Register
  */
-typedef union
+union bdk_pki_pbe_eco
 {
     uint64_t u;
     struct bdk_pki_pbe_eco_s
@@ -7678,7 +7757,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_pbe_eco_s cn; */
-} bdk_pki_pbe_eco_t;
+};
+typedef union bdk_pki_pbe_eco bdk_pki_pbe_eco_t;
 
 #define BDK_PKI_PBE_ECO BDK_PKI_PBE_ECO_FUNC()
 static inline uint64_t BDK_PKI_PBE_ECO_FUNC(void) __attribute__ ((pure, always_inline));
@@ -7709,7 +7789,7 @@ static inline uint64_t BDK_PKI_PBE_ECO_FUNC(void)
  * set. It is recommended that software write to this register prior to each write of
  * PKI_PBE_XFR_REQUEST.
  */
-typedef union
+union bdk_pki_pbe_fxa_result
 {
     uint64_t u;
     struct bdk_pki_pbe_fxa_result_s
@@ -7737,7 +7817,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_pbe_fxa_result_s cn; */
-} bdk_pki_pbe_fxa_result_t;
+};
+typedef union bdk_pki_pbe_fxa_result bdk_pki_pbe_fxa_result_t;
 
 #define BDK_PKI_PBE_FXA_RESULT BDK_PKI_PBE_FXA_RESULT_FUNC()
 static inline uint64_t BDK_PKI_PBE_FXA_RESULT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -7768,7 +7849,7 @@ static inline uint64_t BDK_PKI_PBE_FXA_RESULT_FUNC(void)
  * A read of this register is 0x0 for all bits except <0> which indicates if
  * a previous request is pending (SSO has not yet granted PKI's LWA request).
  */
-typedef union
+union bdk_pki_pbe_lwa_inject_hi
 {
     uint64_t u;
     struct bdk_pki_pbe_lwa_inject_hi_s
@@ -7796,7 +7877,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_pbe_lwa_inject_hi_s cn; */
-} bdk_pki_pbe_lwa_inject_hi_t;
+};
+typedef union bdk_pki_pbe_lwa_inject_hi bdk_pki_pbe_lwa_inject_hi_t;
 
 #define BDK_PKI_PBE_LWA_INJECT_HI BDK_PKI_PBE_LWA_INJECT_HI_FUNC()
 static inline uint64_t BDK_PKI_PBE_LWA_INJECT_HI_FUNC(void) __attribute__ ((pure, always_inline));
@@ -7827,7 +7909,7 @@ static inline uint64_t BDK_PKI_PBE_LWA_INJECT_HI_FUNC(void)
  * A read of this register is 0x0 for all bits except <0> which indicates if
  * a previous request is pending (SSO has not yet granted PKI's LWA request).
  */
-typedef union
+union bdk_pki_pbe_lwa_inject_lo
 {
     uint64_t u;
     struct bdk_pki_pbe_lwa_inject_lo_s
@@ -7861,7 +7943,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_pbe_lwa_inject_lo_s cn; */
-} bdk_pki_pbe_lwa_inject_lo_t;
+};
+typedef union bdk_pki_pbe_lwa_inject_lo bdk_pki_pbe_lwa_inject_lo_t;
 
 #define BDK_PKI_PBE_LWA_INJECT_LO BDK_PKI_PBE_LWA_INJECT_LO_FUNC()
 static inline uint64_t BDK_PKI_PBE_LWA_INJECT_LO_FUNC(void) __attribute__ ((pure, always_inline));
@@ -7884,7 +7967,7 @@ static inline uint64_t BDK_PKI_PBE_LWA_INJECT_LO_FUNC(void)
  *
  * PKI Flush Detection Register
  */
-typedef union
+union bdk_pki_pbe_pce_flush_detect
 {
     uint64_t u;
     struct bdk_pki_pbe_pce_flush_detect_s
@@ -7910,7 +7993,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_pbe_pce_flush_detect_s cn; */
-} bdk_pki_pbe_pce_flush_detect_t;
+};
+typedef union bdk_pki_pbe_pce_flush_detect bdk_pki_pbe_pce_flush_detect_t;
 
 #define BDK_PKI_PBE_PCE_FLUSH_DETECT BDK_PKI_PBE_PCE_FLUSH_DETECT_FUNC()
 static inline uint64_t BDK_PKI_PBE_PCE_FLUSH_DETECT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -7933,7 +8017,7 @@ static inline uint64_t BDK_PKI_PBE_PCE_FLUSH_DETECT_FUNC(void)
  *
  * INTERNAL: PKI PBE X2P Backpressure Injection Register
  */
-typedef union
+union bdk_pki_pbe_x2p_bp_inject
 {
     uint64_t u;
     struct bdk_pki_pbe_x2p_bp_inject_s
@@ -7963,7 +8047,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_pbe_x2p_bp_inject_s cn; */
-} bdk_pki_pbe_x2p_bp_inject_t;
+};
+typedef union bdk_pki_pbe_x2p_bp_inject bdk_pki_pbe_x2p_bp_inject_t;
 
 #define BDK_PKI_PBE_X2P_BP_INJECT BDK_PKI_PBE_X2P_BP_INJECT_FUNC()
 static inline uint64_t BDK_PKI_PBE_X2P_BP_INJECT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -7991,7 +8076,7 @@ static inline uint64_t BDK_PKI_PBE_X2P_BP_INJECT_FUNC(void)
  * A read of this register is 0x0 for all bits except <0> which indicates if
  * a previous request is pending (FPA has not yet granted PKI's XFR request).
  */
-typedef union
+union bdk_pki_pbe_xfr_inject
 {
     uint64_t u;
     struct bdk_pki_pbe_xfr_inject_s
@@ -8017,7 +8102,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_pbe_xfr_inject_s cn; */
-} bdk_pki_pbe_xfr_inject_t;
+};
+typedef union bdk_pki_pbe_xfr_inject bdk_pki_pbe_xfr_inject_t;
 
 #define BDK_PKI_PBE_XFR_INJECT BDK_PKI_PBE_XFR_INJECT_FUNC()
 static inline uint64_t BDK_PKI_PBE_XFR_INJECT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -8048,7 +8134,7 @@ static inline uint64_t BDK_PKI_PBE_XFR_INJECT_FUNC(void)
  * A read of this register is 0x0 for all bits except <0> which indicate if
  * a previous deallocate is pending (FPA has not yet granted PKI's XPD request).
  */
-typedef union
+union bdk_pki_pbe_xpd_inject_hi
 {
     uint64_t u;
     struct bdk_pki_pbe_xpd_inject_hi_s
@@ -8080,7 +8166,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_pbe_xpd_inject_hi_s cn; */
-} bdk_pki_pbe_xpd_inject_hi_t;
+};
+typedef union bdk_pki_pbe_xpd_inject_hi bdk_pki_pbe_xpd_inject_hi_t;
 
 #define BDK_PKI_PBE_XPD_INJECT_HI BDK_PKI_PBE_XPD_INJECT_HI_FUNC()
 static inline uint64_t BDK_PKI_PBE_XPD_INJECT_HI_FUNC(void) __attribute__ ((pure, always_inline));
@@ -8111,7 +8198,7 @@ static inline uint64_t BDK_PKI_PBE_XPD_INJECT_HI_FUNC(void)
  * A read of this register is 0x0 for all bits except <0> which indicates if
  * a previous deallocate is pending (FPA has not yet granted PKI's XPD request).
  */
-typedef union
+union bdk_pki_pbe_xpd_inject_lo
 {
     uint64_t u;
     struct bdk_pki_pbe_xpd_inject_lo_s
@@ -8135,7 +8222,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_pbe_xpd_inject_lo_s cn; */
-} bdk_pki_pbe_xpd_inject_lo_t;
+};
+typedef union bdk_pki_pbe_xpd_inject_lo bdk_pki_pbe_xpd_inject_lo_t;
 
 #define BDK_PKI_PBE_XPD_INJECT_LO BDK_PKI_PBE_XPD_INJECT_LO_FUNC()
 static inline uint64_t BDK_PKI_PBE_XPD_INJECT_LO_FUNC(void) __attribute__ ((pure, always_inline));
@@ -8160,7 +8248,7 @@ static inline uint64_t BDK_PKI_PBE_XPD_INJECT_LO_FUNC(void)
  * For diagnostic use only, this register performs a PCAM lookup against the provided
  * cluster and PCAM instance and loads results into PKI_PCAM_RESULT.
  */
-typedef union
+union bdk_pki_pcam_lookup
 {
     uint64_t u;
     struct bdk_pki_pcam_lookup_s
@@ -8184,7 +8272,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_pcam_lookup_s cn; */
-} bdk_pki_pcam_lookup_t;
+};
+typedef union bdk_pki_pcam_lookup bdk_pki_pcam_lookup_t;
 
 #define BDK_PKI_PCAM_LOOKUP BDK_PKI_PCAM_LOOKUP_FUNC()
 static inline uint64_t BDK_PKI_PCAM_LOOKUP_FUNC(void) __attribute__ ((pure, always_inline));
@@ -8212,7 +8301,7 @@ static inline uint64_t BDK_PKI_PCAM_LOOKUP_FUNC(void)
  * is implemented by delaying the PKI_PCAM_LOOKUP write acknowledge until the PCAM is
  * free and the lookup can be issued.
  */
-typedef union
+union bdk_pki_pcam_result
 {
     uint64_t u;
     struct bdk_pki_pcam_result_s
@@ -8236,7 +8325,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_pcam_result_s cn; */
-} bdk_pki_pcam_result_t;
+};
+typedef union bdk_pki_pcam_result bdk_pki_pcam_result_t;
 
 #define BDK_PKI_PCAM_RESULT BDK_PKI_PCAM_RESULT_FUNC()
 static inline uint64_t BDK_PKI_PCAM_RESULT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -8259,7 +8349,7 @@ static inline uint64_t BDK_PKI_PCAM_RESULT_FUNC(void)
  *
  * INTERNAL: PKI PFE Diagnostic Register
  */
-typedef union
+union bdk_pki_pfe_diag
 {
     uint64_t u;
     struct bdk_pki_pfe_diag_s
@@ -8273,7 +8363,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_pfe_diag_s cn; */
-} bdk_pki_pfe_diag_t;
+};
+typedef union bdk_pki_pfe_diag bdk_pki_pfe_diag_t;
 
 #define BDK_PKI_PFE_DIAG BDK_PKI_PFE_DIAG_FUNC()
 static inline uint64_t BDK_PKI_PFE_DIAG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -8296,7 +8387,7 @@ static inline uint64_t BDK_PKI_PFE_DIAG_FUNC(void)
  *
  * INTERNAL: PKI PFE ECO Register
  */
-typedef union
+union bdk_pki_pfe_eco
 {
     uint64_t u;
     struct bdk_pki_pfe_eco_s
@@ -8310,7 +8401,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_pfe_eco_s cn; */
-} bdk_pki_pfe_eco_t;
+};
+typedef union bdk_pki_pfe_eco bdk_pki_pfe_eco_t;
 
 #define BDK_PKI_PFE_ECO BDK_PKI_PFE_ECO_FUNC()
 static inline uint64_t BDK_PKI_PFE_ECO_FUNC(void) __attribute__ ((pure, always_inline));
@@ -8333,7 +8425,7 @@ static inline uint64_t BDK_PKI_PFE_ECO_FUNC(void)
  *
  * INTERNAL: PKI PIX Conditional Clock Enable Register
  */
-typedef union
+union bdk_pki_pix_clken
 {
     uint64_t u;
     struct bdk_pki_pix_clken_s
@@ -8351,7 +8443,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_pix_clken_s cn; */
-} bdk_pki_pix_clken_t;
+};
+typedef union bdk_pki_pix_clken bdk_pki_pix_clken_t;
 
 #define BDK_PKI_PIX_CLKEN BDK_PKI_PIX_CLKEN_FUNC()
 static inline uint64_t BDK_PKI_PIX_CLKEN_FUNC(void) __attribute__ ((pure, always_inline));
@@ -8374,7 +8467,7 @@ static inline uint64_t BDK_PKI_PIX_CLKEN_FUNC(void)
  *
  * INTERNAL: PKI PIX Diagnostic Register
  */
-typedef union
+union bdk_pki_pix_diag
 {
     uint64_t u;
     struct bdk_pki_pix_diag_s
@@ -8388,7 +8481,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_pix_diag_s cn; */
-} bdk_pki_pix_diag_t;
+};
+typedef union bdk_pki_pix_diag bdk_pki_pix_diag_t;
 
 #define BDK_PKI_PIX_DIAG BDK_PKI_PIX_DIAG_FUNC()
 static inline uint64_t BDK_PKI_PIX_DIAG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -8411,7 +8505,7 @@ static inline uint64_t BDK_PKI_PIX_DIAG_FUNC(void)
  *
  * INTERNAL: PKI PIX ECO Register
  */
-typedef union
+union bdk_pki_pix_eco
 {
     uint64_t u;
     struct bdk_pki_pix_eco_s
@@ -8425,7 +8519,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_pix_eco_s cn; */
-} bdk_pki_pix_eco_t;
+};
+typedef union bdk_pki_pix_eco bdk_pki_pix_eco_t;
 
 #define BDK_PKI_PIX_ECO BDK_PKI_PIX_ECO_FUNC()
 static inline uint64_t BDK_PKI_PIX_ECO_FUNC(void) __attribute__ ((pure, always_inline));
@@ -8448,7 +8543,7 @@ static inline uint64_t BDK_PKI_PIX_ECO_FUNC(void)
  *
  * PKI Per-Pkind Cluster Group Select Register
  */
-typedef union
+union bdk_pki_pkindx_icgsel
 {
     uint64_t u;
     struct bdk_pki_pkindx_icgsel_s
@@ -8468,7 +8563,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_pkindx_icgsel_s cn; */
-} bdk_pki_pkindx_icgsel_t;
+};
+typedef union bdk_pki_pkindx_icgsel bdk_pki_pkindx_icgsel_t;
 
 static inline uint64_t BDK_PKI_PKINDX_ICGSEL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_PKINDX_ICGSEL(unsigned long a)
@@ -8491,7 +8587,7 @@ static inline uint64_t BDK_PKI_PKINDX_ICGSEL(unsigned long a)
  * PKI Inbound Packets Statistic Registers
  * This register counts inbound statistics, indexed by pkind.
  */
-typedef union
+union bdk_pki_pkndx_inb_stat0
 {
     uint64_t u;
     struct bdk_pki_pkndx_inb_stat0_s
@@ -8505,7 +8601,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_pkndx_inb_stat0_s cn; */
-} bdk_pki_pkndx_inb_stat0_t;
+};
+typedef union bdk_pki_pkndx_inb_stat0 bdk_pki_pkndx_inb_stat0_t;
 
 static inline uint64_t BDK_PKI_PKNDX_INB_STAT0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_PKNDX_INB_STAT0(unsigned long a)
@@ -8528,7 +8625,7 @@ static inline uint64_t BDK_PKI_PKNDX_INB_STAT0(unsigned long a)
  * PKI Inbound Octets Statistic Registers
  * This register counts inbound statistics, indexed by pkind.
  */
-typedef union
+union bdk_pki_pkndx_inb_stat1
 {
     uint64_t u;
     struct bdk_pki_pkndx_inb_stat1_s
@@ -8542,7 +8639,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_pkndx_inb_stat1_s cn; */
-} bdk_pki_pkndx_inb_stat1_t;
+};
+typedef union bdk_pki_pkndx_inb_stat1 bdk_pki_pkndx_inb_stat1_t;
 
 static inline uint64_t BDK_PKI_PKNDX_INB_STAT1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_PKNDX_INB_STAT1(unsigned long a)
@@ -8565,7 +8663,7 @@ static inline uint64_t BDK_PKI_PKNDX_INB_STAT1(unsigned long a)
  * PKI Inbound Errors Statistic Registers
  * This register counts inbound statistics, indexed by pkind.
  */
-typedef union
+union bdk_pki_pkndx_inb_stat2
 {
     uint64_t u;
     struct bdk_pki_pkndx_inb_stat2_s
@@ -8579,7 +8677,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_pkndx_inb_stat2_s cn; */
-} bdk_pki_pkndx_inb_stat2_t;
+};
+typedef union bdk_pki_pkndx_inb_stat2 bdk_pki_pkndx_inb_stat2_t;
 
 static inline uint64_t BDK_PKI_PKNDX_INB_STAT2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_PKNDX_INB_STAT2(unsigned long a)
@@ -8601,7 +8700,7 @@ static inline uint64_t BDK_PKI_PKNDX_INB_STAT2(unsigned long a)
  *
  * PKI Packet Error Register
  */
-typedef union
+union bdk_pki_pkt_err
 {
     uint64_t u;
     struct bdk_pki_pkt_err_s
@@ -8617,7 +8716,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_pkt_err_s cn; */
-} bdk_pki_pkt_err_t;
+};
+typedef union bdk_pki_pkt_err bdk_pki_pkt_err_t;
 
 #define BDK_PKI_PKT_ERR BDK_PKI_PKT_ERR_FUNC()
 static inline uint64_t BDK_PKI_PKT_ERR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -8642,7 +8742,7 @@ static inline uint64_t BDK_PKI_PKT_ERR_FUNC(void)
  *
  * This register configures the performance statistics logic.
  */
-typedef union
+union bdk_pki_pstat_cfg
 {
     uint64_t u;
     struct bdk_pki_pstat_cfg_s
@@ -8682,7 +8782,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_pstat_cfg_s cn; */
-} bdk_pki_pstat_cfg_t;
+};
+typedef union bdk_pki_pstat_cfg bdk_pki_pstat_cfg_t;
 
 #define BDK_PKI_PSTAT_CFG BDK_PKI_PSTAT_CFG_FUNC()
 static inline uint64_t BDK_PKI_PSTAT_CFG_FUNC(void) __attribute__ ((pure, always_inline));
@@ -8705,7 +8806,7 @@ static inline uint64_t BDK_PKI_PSTAT_CFG_FUNC(void)
  *
  * INTERNAL: PKI Performance Statistics Counter Register
  */
-typedef union
+union bdk_pki_pstat_cntr
 {
     uint64_t u;
     struct bdk_pki_pstat_cntr_s
@@ -8717,7 +8818,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_pstat_cntr_s cn; */
-} bdk_pki_pstat_cntr_t;
+};
+typedef union bdk_pki_pstat_cntr bdk_pki_pstat_cntr_t;
 
 #define BDK_PKI_PSTAT_CNTR BDK_PKI_PSTAT_CNTR_FUNC()
 static inline uint64_t BDK_PKI_PSTAT_CNTR_FUNC(void) __attribute__ ((pure, always_inline));
@@ -8743,7 +8845,7 @@ static inline uint64_t BDK_PKI_PSTAT_CNTR_FUNC(void)
  * This register holds statistics for the chosen metrics.
  * See PKI_PSTAT_CFG[MODE] for the meaning of each index.
  */
-typedef union
+union bdk_pki_pstata_statx
 {
     uint64_t u;
     struct bdk_pki_pstata_statx_s
@@ -8755,7 +8857,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_pstata_statx_s cn; */
-} bdk_pki_pstata_statx_t;
+};
+typedef union bdk_pki_pstata_statx bdk_pki_pstata_statx_t;
 
 static inline uint64_t BDK_PKI_PSTATA_STATX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_PSTATA_STATX(unsigned long a)
@@ -8780,7 +8883,7 @@ static inline uint64_t BDK_PKI_PSTATA_STATX(unsigned long a)
  * This register holds statistics for the chosen metrics.
  * See PKI_PSTAT_CFG[MODE] for the meaning of each index.
  */
-typedef union
+union bdk_pki_pstatb_statx
 {
     uint64_t u;
     struct bdk_pki_pstatb_statx_s
@@ -8792,7 +8895,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_pstatb_statx_s cn; */
-} bdk_pki_pstatb_statx_t;
+};
+typedef union bdk_pki_pstatb_statx bdk_pki_pstatb_statx_t;
 
 static inline uint64_t BDK_PKI_PSTATB_STATX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_PSTATB_STATX(unsigned long a)
@@ -8817,7 +8921,7 @@ static inline uint64_t BDK_PKI_PSTATB_STATX(unsigned long a)
  * This register holds statistics for the chosen metrics.
  * See PKI_PSTAT_CFG[MODE] for the meaning of each index.
  */
-typedef union
+union bdk_pki_pstatc_statx
 {
     uint64_t u;
     struct bdk_pki_pstatc_statx_s
@@ -8835,7 +8939,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_pstatc_statx_s cn; */
-} bdk_pki_pstatc_statx_t;
+};
+typedef union bdk_pki_pstatc_statx bdk_pki_pstatc_statx_t;
 
 static inline uint64_t BDK_PKI_PSTATC_STATX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_PSTATC_STATX(unsigned long a)
@@ -8868,7 +8973,7 @@ static inline uint64_t BDK_PKI_PSTATC_STATX(unsigned long a)
  * tags available decreases, PKI will use less resources and may begin to assert BP if
  * the current tags in use exceeds the programmed value.
  */
-typedef union
+union bdk_pki_ptag_avail
 {
     uint64_t u;
     struct bdk_pki_ptag_avail_s
@@ -8892,7 +8997,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_ptag_avail_s cn; */
-} bdk_pki_ptag_avail_t;
+};
+typedef union bdk_pki_ptag_avail bdk_pki_ptag_avail_t;
 
 #define BDK_PKI_PTAG_AVAIL BDK_PKI_PTAG_AVAIL_FUNC()
 static inline uint64_t BDK_PKI_PTAG_AVAIL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -8918,7 +9024,7 @@ static inline uint64_t BDK_PKI_PTAG_AVAIL_FUNC(void)
  * from the Diffsrv, HiGig or VLAN information as described in QPG. See also
  * PKI_QPG_TBLB().
  */
-typedef union
+union bdk_pki_qpg_tblx
 {
     uint64_t u;
     struct bdk_pki_qpg_tblx_s
@@ -8964,7 +9070,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_qpg_tblx_s cn; */
-} bdk_pki_qpg_tblx_t;
+};
+typedef union bdk_pki_qpg_tblx bdk_pki_qpg_tblx_t;
 
 static inline uint64_t BDK_PKI_QPG_TBLX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_QPG_TBLX(unsigned long a)
@@ -8987,7 +9094,7 @@ static inline uint64_t BDK_PKI_QPG_TBLX(unsigned long a)
  * PKI QPG Table Registers 2
  * This register configures the QPG table. See also PKI_QPG_TBL().
  */
-typedef union
+union bdk_pki_qpg_tblbx
 {
     uint64_t u;
     struct bdk_pki_qpg_tblbx_s
@@ -9033,7 +9140,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_qpg_tblbx_s cn; */
-} bdk_pki_qpg_tblbx_t;
+};
+typedef union bdk_pki_qpg_tblbx bdk_pki_qpg_tblbx_t;
 
 static inline uint64_t BDK_PKI_QPG_TBLBX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_QPG_TBLBX(unsigned long a)
@@ -9055,7 +9163,7 @@ static inline uint64_t BDK_PKI_QPG_TBLBX(unsigned long a)
  *
  * PKI Reassembly ID SOP Register
  */
-typedef union
+union bdk_pki_reasm_sopx
 {
     uint64_t u;
     struct bdk_pki_reasm_sopx_s
@@ -9075,7 +9183,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_reasm_sopx_s cn; */
-} bdk_pki_reasm_sopx_t;
+};
+typedef union bdk_pki_reasm_sopx bdk_pki_reasm_sopx_t;
 
 static inline uint64_t BDK_PKI_REASM_SOPX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_REASM_SOPX(unsigned long a)
@@ -9099,7 +9208,7 @@ static inline uint64_t BDK_PKI_REASM_SOPX(unsigned long a)
  * This register controls the round-robin weights between each PKI requestor. For diagnostic
  * tuning only.
  */
-typedef union
+union bdk_pki_req_wgt
 {
     uint64_t u;
     struct bdk_pki_req_wgt_s
@@ -9129,7 +9238,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_req_wgt_s cn; */
-} bdk_pki_req_wgt_t;
+};
+typedef union bdk_pki_req_wgt bdk_pki_req_wgt_t;
 
 #define BDK_PKI_REQ_WGT BDK_PKI_REQ_WGT_FUNC()
 static inline uint64_t BDK_PKI_REQ_WGT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -9155,7 +9265,7 @@ static inline uint64_t BDK_PKI_REQ_WGT_FUNC(void)
  * Allows soft reset. See bug18607, PKI_SFT_RST definition, for further definition
  * (http://mcbuggin.caveonetworks.com/bug/18607).
  */
-typedef union
+union bdk_pki_sft_rst
 {
     uint64_t u;
     struct bdk_pki_sft_rst_s
@@ -9203,7 +9313,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_sft_rst_s cn; */
-} bdk_pki_sft_rst_t;
+};
+typedef union bdk_pki_sft_rst bdk_pki_sft_rst_t;
 
 #define BDK_PKI_SFT_RST BDK_PKI_SFT_RST_FUNC()
 static inline uint64_t BDK_PKI_SFT_RST_FUNC(void) __attribute__ ((pure, always_inline));
@@ -9226,7 +9337,7 @@ static inline uint64_t BDK_PKI_SFT_RST_FUNC(void)
  *
  * PKI Histogram 0 Statistic Registers
  */
-typedef union
+union bdk_pki_statx_hist0
 {
     uint64_t u;
     struct bdk_pki_statx_hist0_s
@@ -9242,7 +9353,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_statx_hist0_s cn; */
-} bdk_pki_statx_hist0_t;
+};
+typedef union bdk_pki_statx_hist0 bdk_pki_statx_hist0_t;
 
 static inline uint64_t BDK_PKI_STATX_HIST0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STATX_HIST0(unsigned long a)
@@ -9264,7 +9376,7 @@ static inline uint64_t BDK_PKI_STATX_HIST0(unsigned long a)
  *
  * PKI Histogram 1 Statistic Registers
  */
-typedef union
+union bdk_pki_statx_hist1
 {
     uint64_t u;
     struct bdk_pki_statx_hist1_s
@@ -9278,7 +9390,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_statx_hist1_s cn; */
-} bdk_pki_statx_hist1_t;
+};
+typedef union bdk_pki_statx_hist1 bdk_pki_statx_hist1_t;
 
 static inline uint64_t BDK_PKI_STATX_HIST1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STATX_HIST1(unsigned long a)
@@ -9300,7 +9413,7 @@ static inline uint64_t BDK_PKI_STATX_HIST1(unsigned long a)
  *
  * PKI Histogram 2 Statistic Registers
  */
-typedef union
+union bdk_pki_statx_hist2
 {
     uint64_t u;
     struct bdk_pki_statx_hist2_s
@@ -9314,7 +9427,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_statx_hist2_s cn; */
-} bdk_pki_statx_hist2_t;
+};
+typedef union bdk_pki_statx_hist2 bdk_pki_statx_hist2_t;
 
 static inline uint64_t BDK_PKI_STATX_HIST2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STATX_HIST2(unsigned long a)
@@ -9336,7 +9450,7 @@ static inline uint64_t BDK_PKI_STATX_HIST2(unsigned long a)
  *
  * PKI Histogram 3 Statistic Registers
  */
-typedef union
+union bdk_pki_statx_hist3
 {
     uint64_t u;
     struct bdk_pki_statx_hist3_s
@@ -9350,7 +9464,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_statx_hist3_s cn; */
-} bdk_pki_statx_hist3_t;
+};
+typedef union bdk_pki_statx_hist3 bdk_pki_statx_hist3_t;
 
 static inline uint64_t BDK_PKI_STATX_HIST3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STATX_HIST3(unsigned long a)
@@ -9372,7 +9487,7 @@ static inline uint64_t BDK_PKI_STATX_HIST3(unsigned long a)
  *
  * PKI Histogram 4 Statistic Registers
  */
-typedef union
+union bdk_pki_statx_hist4
 {
     uint64_t u;
     struct bdk_pki_statx_hist4_s
@@ -9386,7 +9501,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_statx_hist4_s cn; */
-} bdk_pki_statx_hist4_t;
+};
+typedef union bdk_pki_statx_hist4 bdk_pki_statx_hist4_t;
 
 static inline uint64_t BDK_PKI_STATX_HIST4(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STATX_HIST4(unsigned long a)
@@ -9408,7 +9524,7 @@ static inline uint64_t BDK_PKI_STATX_HIST4(unsigned long a)
  *
  * PKI Histogram 5 Statistic Registers
  */
-typedef union
+union bdk_pki_statx_hist5
 {
     uint64_t u;
     struct bdk_pki_statx_hist5_s
@@ -9422,7 +9538,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_statx_hist5_s cn; */
-} bdk_pki_statx_hist5_t;
+};
+typedef union bdk_pki_statx_hist5 bdk_pki_statx_hist5_t;
 
 static inline uint64_t BDK_PKI_STATX_HIST5(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STATX_HIST5(unsigned long a)
@@ -9444,7 +9561,7 @@ static inline uint64_t BDK_PKI_STATX_HIST5(unsigned long a)
  *
  * PKI Histogram 6 Statistic Registers
  */
-typedef union
+union bdk_pki_statx_hist6
 {
     uint64_t u;
     struct bdk_pki_statx_hist6_s
@@ -9458,7 +9575,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_statx_hist6_s cn; */
-} bdk_pki_statx_hist6_t;
+};
+typedef union bdk_pki_statx_hist6 bdk_pki_statx_hist6_t;
 
 static inline uint64_t BDK_PKI_STATX_HIST6(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STATX_HIST6(unsigned long a)
@@ -9480,7 +9598,7 @@ static inline uint64_t BDK_PKI_STATX_HIST6(unsigned long a)
  *
  * PKI Packets Statistic Registers
  */
-typedef union
+union bdk_pki_statx_stat0
 {
     uint64_t u;
     struct bdk_pki_statx_stat0_s
@@ -9494,7 +9612,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_statx_stat0_s cn; */
-} bdk_pki_statx_stat0_t;
+};
+typedef union bdk_pki_statx_stat0 bdk_pki_statx_stat0_t;
 
 static inline uint64_t BDK_PKI_STATX_STAT0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STATX_STAT0(unsigned long a)
@@ -9516,7 +9635,7 @@ static inline uint64_t BDK_PKI_STATX_STAT0(unsigned long a)
  *
  * PKI Octets Statistic Registers
  */
-typedef union
+union bdk_pki_statx_stat1
 {
     uint64_t u;
     struct bdk_pki_statx_stat1_s
@@ -9530,7 +9649,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_statx_stat1_s cn; */
-} bdk_pki_statx_stat1_t;
+};
+typedef union bdk_pki_statx_stat1 bdk_pki_statx_stat1_t;
 
 static inline uint64_t BDK_PKI_STATX_STAT1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STATX_STAT1(unsigned long a)
@@ -9552,7 +9672,7 @@ static inline uint64_t BDK_PKI_STATX_STAT1(unsigned long a)
  *
  * PKI Jabber Statistic Registers
  */
-typedef union
+union bdk_pki_statx_stat10
 {
     uint64_t u;
     struct bdk_pki_statx_stat10_s
@@ -9566,7 +9686,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_statx_stat10_s cn; */
-} bdk_pki_statx_stat10_t;
+};
+typedef union bdk_pki_statx_stat10 bdk_pki_statx_stat10_t;
 
 static inline uint64_t BDK_PKI_STATX_STAT10(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STATX_STAT10(unsigned long a)
@@ -9588,7 +9709,7 @@ static inline uint64_t BDK_PKI_STATX_STAT10(unsigned long a)
  *
  * PKI Oversize Statistic Registers
  */
-typedef union
+union bdk_pki_statx_stat11
 {
     uint64_t u;
     struct bdk_pki_statx_stat11_s
@@ -9602,7 +9723,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_statx_stat11_s cn; */
-} bdk_pki_statx_stat11_t;
+};
+typedef union bdk_pki_statx_stat11 bdk_pki_statx_stat11_t;
 
 static inline uint64_t BDK_PKI_STATX_STAT11(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STATX_STAT11(unsigned long a)
@@ -9624,7 +9746,7 @@ static inline uint64_t BDK_PKI_STATX_STAT11(unsigned long a)
  *
  * PKI L2 Error Statistic Registers
  */
-typedef union
+union bdk_pki_statx_stat12
 {
     uint64_t u;
     struct bdk_pki_statx_stat12_s
@@ -9642,7 +9764,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_statx_stat12_s cn; */
-} bdk_pki_statx_stat12_t;
+};
+typedef union bdk_pki_statx_stat12 bdk_pki_statx_stat12_t;
 
 static inline uint64_t BDK_PKI_STATX_STAT12(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STATX_STAT12(unsigned long a)
@@ -9664,7 +9787,7 @@ static inline uint64_t BDK_PKI_STATX_STAT12(unsigned long a)
  *
  * PKI Special Statistic Registers
  */
-typedef union
+union bdk_pki_statx_stat13
 {
     uint64_t u;
     struct bdk_pki_statx_stat13_s
@@ -9680,7 +9803,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_statx_stat13_s cn; */
-} bdk_pki_statx_stat13_t;
+};
+typedef union bdk_pki_statx_stat13 bdk_pki_statx_stat13_t;
 
 static inline uint64_t BDK_PKI_STATX_STAT13(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STATX_STAT13(unsigned long a)
@@ -9702,7 +9826,7 @@ static inline uint64_t BDK_PKI_STATX_STAT13(unsigned long a)
  *
  * PKI Dropped L2 Broadcast Statistic Registers
  */
-typedef union
+union bdk_pki_statx_stat14
 {
     uint64_t u;
     struct bdk_pki_statx_stat14_s
@@ -9718,7 +9842,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_statx_stat14_s cn; */
-} bdk_pki_statx_stat14_t;
+};
+typedef union bdk_pki_statx_stat14 bdk_pki_statx_stat14_t;
 
 static inline uint64_t BDK_PKI_STATX_STAT14(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STATX_STAT14(unsigned long a)
@@ -9740,7 +9865,7 @@ static inline uint64_t BDK_PKI_STATX_STAT14(unsigned long a)
  *
  * PKI Dropped L2 Multicast Statistic Registers
  */
-typedef union
+union bdk_pki_statx_stat15
 {
     uint64_t u;
     struct bdk_pki_statx_stat15_s
@@ -9756,7 +9881,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_statx_stat15_s cn; */
-} bdk_pki_statx_stat15_t;
+};
+typedef union bdk_pki_statx_stat15 bdk_pki_statx_stat15_t;
 
 static inline uint64_t BDK_PKI_STATX_STAT15(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STATX_STAT15(unsigned long a)
@@ -9778,7 +9904,7 @@ static inline uint64_t BDK_PKI_STATX_STAT15(unsigned long a)
  *
  * PKI Dropped L3 Broadcast Statistic Registers
  */
-typedef union
+union bdk_pki_statx_stat16
 {
     uint64_t u;
     struct bdk_pki_statx_stat16_s
@@ -9794,7 +9920,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_statx_stat16_s cn; */
-} bdk_pki_statx_stat16_t;
+};
+typedef union bdk_pki_statx_stat16 bdk_pki_statx_stat16_t;
 
 static inline uint64_t BDK_PKI_STATX_STAT16(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STATX_STAT16(unsigned long a)
@@ -9816,7 +9943,7 @@ static inline uint64_t BDK_PKI_STATX_STAT16(unsigned long a)
  *
  * PKI Dropped L3 Multicast Statistic Registers
  */
-typedef union
+union bdk_pki_statx_stat17
 {
     uint64_t u;
     struct bdk_pki_statx_stat17_s
@@ -9832,7 +9959,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_statx_stat17_s cn; */
-} bdk_pki_statx_stat17_t;
+};
+typedef union bdk_pki_statx_stat17 bdk_pki_statx_stat17_t;
 
 static inline uint64_t BDK_PKI_STATX_STAT17(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STATX_STAT17(unsigned long a)
@@ -9854,7 +9982,7 @@ static inline uint64_t BDK_PKI_STATX_STAT17(unsigned long a)
  *
  * PKI Dropped Special Statistic Registers
  */
-typedef union
+union bdk_pki_statx_stat18
 {
     uint64_t u;
     struct bdk_pki_statx_stat18_s
@@ -9870,7 +9998,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_statx_stat18_s cn; */
-} bdk_pki_statx_stat18_t;
+};
+typedef union bdk_pki_statx_stat18 bdk_pki_statx_stat18_t;
 
 static inline uint64_t BDK_PKI_STATX_STAT18(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STATX_STAT18(unsigned long a)
@@ -9892,7 +10021,7 @@ static inline uint64_t BDK_PKI_STATX_STAT18(unsigned long a)
  *
  * PKI Raw Packets Statistic Registers
  */
-typedef union
+union bdk_pki_statx_stat2
 {
     uint64_t u;
     struct bdk_pki_statx_stat2_s
@@ -9906,7 +10035,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_statx_stat2_s cn; */
-} bdk_pki_statx_stat2_t;
+};
+typedef union bdk_pki_statx_stat2 bdk_pki_statx_stat2_t;
 
 static inline uint64_t BDK_PKI_STATX_STAT2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STATX_STAT2(unsigned long a)
@@ -9928,7 +10058,7 @@ static inline uint64_t BDK_PKI_STATX_STAT2(unsigned long a)
  *
  * PKI Dropped Packets Statistic Registers
  */
-typedef union
+union bdk_pki_statx_stat3
 {
     uint64_t u;
     struct bdk_pki_statx_stat3_s
@@ -9942,7 +10072,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_statx_stat3_s cn; */
-} bdk_pki_statx_stat3_t;
+};
+typedef union bdk_pki_statx_stat3 bdk_pki_statx_stat3_t;
 
 static inline uint64_t BDK_PKI_STATX_STAT3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STATX_STAT3(unsigned long a)
@@ -9964,7 +10095,7 @@ static inline uint64_t BDK_PKI_STATX_STAT3(unsigned long a)
  *
  * PKI Dropped Octets Statistic Registers
  */
-typedef union
+union bdk_pki_statx_stat4
 {
     uint64_t u;
     struct bdk_pki_statx_stat4_s
@@ -9978,7 +10109,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_statx_stat4_s cn; */
-} bdk_pki_statx_stat4_t;
+};
+typedef union bdk_pki_statx_stat4 bdk_pki_statx_stat4_t;
 
 static inline uint64_t BDK_PKI_STATX_STAT4(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STATX_STAT4(unsigned long a)
@@ -10000,7 +10132,7 @@ static inline uint64_t BDK_PKI_STATX_STAT4(unsigned long a)
  *
  * PKI L2 Broadcast Statistic Registers
  */
-typedef union
+union bdk_pki_statx_stat5
 {
     uint64_t u;
     struct bdk_pki_statx_stat5_s
@@ -10016,7 +10148,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_statx_stat5_s cn; */
-} bdk_pki_statx_stat5_t;
+};
+typedef union bdk_pki_statx_stat5 bdk_pki_statx_stat5_t;
 
 static inline uint64_t BDK_PKI_STATX_STAT5(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STATX_STAT5(unsigned long a)
@@ -10038,7 +10171,7 @@ static inline uint64_t BDK_PKI_STATX_STAT5(unsigned long a)
  *
  * PKI L2 Multicast Statistic Registers
  */
-typedef union
+union bdk_pki_statx_stat6
 {
     uint64_t u;
     struct bdk_pki_statx_stat6_s
@@ -10054,7 +10187,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_statx_stat6_s cn; */
-} bdk_pki_statx_stat6_t;
+};
+typedef union bdk_pki_statx_stat6 bdk_pki_statx_stat6_t;
 
 static inline uint64_t BDK_PKI_STATX_STAT6(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STATX_STAT6(unsigned long a)
@@ -10076,7 +10210,7 @@ static inline uint64_t BDK_PKI_STATX_STAT6(unsigned long a)
  *
  * PKI FCS Statistic Registers
  */
-typedef union
+union bdk_pki_statx_stat7
 {
     uint64_t u;
     struct bdk_pki_statx_stat7_s
@@ -10090,7 +10224,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_statx_stat7_s cn; */
-} bdk_pki_statx_stat7_t;
+};
+typedef union bdk_pki_statx_stat7 bdk_pki_statx_stat7_t;
 
 static inline uint64_t BDK_PKI_STATX_STAT7(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STATX_STAT7(unsigned long a)
@@ -10112,7 +10247,7 @@ static inline uint64_t BDK_PKI_STATX_STAT7(unsigned long a)
  *
  * PKI Frac Statistic Registers
  */
-typedef union
+union bdk_pki_statx_stat8
 {
     uint64_t u;
     struct bdk_pki_statx_stat8_s
@@ -10126,7 +10261,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_statx_stat8_s cn; */
-} bdk_pki_statx_stat8_t;
+};
+typedef union bdk_pki_statx_stat8 bdk_pki_statx_stat8_t;
 
 static inline uint64_t BDK_PKI_STATX_STAT8(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STATX_STAT8(unsigned long a)
@@ -10148,7 +10284,7 @@ static inline uint64_t BDK_PKI_STATX_STAT8(unsigned long a)
  *
  * PKI Undersize Statistic Registers
  */
-typedef union
+union bdk_pki_statx_stat9
 {
     uint64_t u;
     struct bdk_pki_statx_stat9_s
@@ -10162,7 +10298,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_statx_stat9_s cn; */
-} bdk_pki_statx_stat9_t;
+};
+typedef union bdk_pki_statx_stat9 bdk_pki_statx_stat9_t;
 
 static inline uint64_t BDK_PKI_STATX_STAT9(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STATX_STAT9(unsigned long a)
@@ -10185,7 +10322,7 @@ static inline uint64_t BDK_PKI_STATX_STAT9(unsigned long a)
  * PKI Stat Control Register
  * This register controls how the PKI statistics counters are handled.
  */
-typedef union
+union bdk_pki_stat_ctl
 {
     uint64_t u;
     struct bdk_pki_stat_ctl_s
@@ -10217,7 +10354,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_stat_ctl_s cn; */
-} bdk_pki_stat_ctl_t;
+};
+typedef union bdk_pki_stat_ctl bdk_pki_stat_ctl_t;
 
 #define BDK_PKI_STAT_CTL BDK_PKI_STAT_CTL_FUNC()
 static inline uint64_t BDK_PKI_STAT_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -10241,7 +10379,7 @@ static inline uint64_t BDK_PKI_STAT_CTL_FUNC(void)
  * PKI Stream ID Configuration Register
  * This register configures each stream.
  */
-typedef union
+union bdk_pki_strmx_cfg
 {
     uint64_t u;
     struct bdk_pki_strmx_cfg_s
@@ -10265,7 +10403,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_strmx_cfg_s cn; */
-} bdk_pki_strmx_cfg_t;
+};
+typedef union bdk_pki_strmx_cfg bdk_pki_strmx_cfg_t;
 
 static inline uint64_t BDK_PKI_STRMX_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STRMX_CFG(unsigned long a)
@@ -10288,7 +10427,7 @@ static inline uint64_t BDK_PKI_STRMX_CFG(unsigned long a)
  * PKI Stream Fault Interrupt Registers
  * This register is indexed by the faulting stream ID <7:6>.
  */
-typedef union
+union bdk_pki_strm_fltx_int
 {
     uint64_t u;
     struct bdk_pki_strm_fltx_int_s
@@ -10302,7 +10441,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_strm_fltx_int_s cn; */
-} bdk_pki_strm_fltx_int_t;
+};
+typedef union bdk_pki_strm_fltx_int bdk_pki_strm_fltx_int_t;
 
 static inline uint64_t BDK_PKI_STRM_FLTX_INT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STRM_FLTX_INT(unsigned long a)
@@ -10325,7 +10465,7 @@ static inline uint64_t BDK_PKI_STRM_FLTX_INT(unsigned long a)
  * PKI Stream Fault Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
-typedef union
+union bdk_pki_strm_fltx_int_ena_w1c
 {
     uint64_t u;
     struct bdk_pki_strm_fltx_int_ena_w1c_s
@@ -10337,7 +10477,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_strm_fltx_int_ena_w1c_s cn; */
-} bdk_pki_strm_fltx_int_ena_w1c_t;
+};
+typedef union bdk_pki_strm_fltx_int_ena_w1c bdk_pki_strm_fltx_int_ena_w1c_t;
 
 static inline uint64_t BDK_PKI_STRM_FLTX_INT_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STRM_FLTX_INT_ENA_W1C(unsigned long a)
@@ -10360,7 +10501,7 @@ static inline uint64_t BDK_PKI_STRM_FLTX_INT_ENA_W1C(unsigned long a)
  * PKI Stream Fault Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
-typedef union
+union bdk_pki_strm_fltx_int_ena_w1s
 {
     uint64_t u;
     struct bdk_pki_strm_fltx_int_ena_w1s_s
@@ -10372,7 +10513,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_strm_fltx_int_ena_w1s_s cn; */
-} bdk_pki_strm_fltx_int_ena_w1s_t;
+};
+typedef union bdk_pki_strm_fltx_int_ena_w1s bdk_pki_strm_fltx_int_ena_w1s_t;
 
 static inline uint64_t BDK_PKI_STRM_FLTX_INT_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STRM_FLTX_INT_ENA_W1S(unsigned long a)
@@ -10395,7 +10537,7 @@ static inline uint64_t BDK_PKI_STRM_FLTX_INT_ENA_W1S(unsigned long a)
  * PKI Stream Fault Interrupt Set Register
  * This register sets interrupt bits.
  */
-typedef union
+union bdk_pki_strm_fltx_int_w1s
 {
     uint64_t u;
     struct bdk_pki_strm_fltx_int_w1s_s
@@ -10407,7 +10549,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_strm_fltx_int_w1s_s cn; */
-} bdk_pki_strm_fltx_int_w1s_t;
+};
+typedef union bdk_pki_strm_fltx_int_w1s bdk_pki_strm_fltx_int_w1s_t;
 
 static inline uint64_t BDK_PKI_STRM_FLTX_INT_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STRM_FLTX_INT_W1S(unsigned long a)
@@ -10435,7 +10578,7 @@ static inline uint64_t BDK_PKI_STRM_FLTX_INT_W1S(unsigned long a)
  * This CSR is really indexed by PKI_BEWQ_S[STYLE]<5:0>, which should match
  * PKI_WQE_S[STYLE]<5:0>.
  */
-typedef union
+union bdk_pki_stylex_buf
 {
     uint64_t u;
     struct bdk_pki_stylex_buf_s
@@ -10577,7 +10720,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_stylex_buf_s cn; */
-} bdk_pki_stylex_buf_t;
+};
+typedef union bdk_pki_stylex_buf bdk_pki_stylex_buf_t;
 
 static inline uint64_t BDK_PKI_STYLEX_BUF(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STYLEX_BUF(unsigned long a)
@@ -10605,7 +10749,7 @@ static inline uint64_t BDK_PKI_STYLEX_BUF(unsigned long a)
  * This CSR is really indexed by PKI_BEWQ_S[STYLE]<5:0>, which should match
  * PKI_WQE_S[STYLE]<5:0>.
  */
-typedef union
+union bdk_pki_stylex_tag_mask
 {
     uint64_t u;
     struct bdk_pki_stylex_tag_mask_s
@@ -10623,7 +10767,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_stylex_tag_mask_s cn; */
-} bdk_pki_stylex_tag_mask_t;
+};
+typedef union bdk_pki_stylex_tag_mask bdk_pki_stylex_tag_mask_t;
 
 static inline uint64_t BDK_PKI_STYLEX_TAG_MASK(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STYLEX_TAG_MASK(unsigned long a)
@@ -10651,7 +10796,7 @@ static inline uint64_t BDK_PKI_STYLEX_TAG_MASK(unsigned long a)
  * This CSR is really indexed by PKI_BEWQ_S[STYLE]<5:0>, which should match
  * PKI_WQE_S[STYLE]<5:0>.
  */
-typedef union
+union bdk_pki_stylex_tag_sel
 {
     uint64_t u;
     struct bdk_pki_stylex_tag_sel_s
@@ -10679,7 +10824,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_stylex_tag_sel_s cn; */
-} bdk_pki_stylex_tag_sel_t;
+};
+typedef union bdk_pki_stylex_tag_sel bdk_pki_stylex_tag_sel_t;
 
 static inline uint64_t BDK_PKI_STYLEX_TAG_SEL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STYLEX_TAG_SEL(unsigned long a)
@@ -10707,7 +10853,7 @@ static inline uint64_t BDK_PKI_STYLEX_TAG_SEL(unsigned long a)
  * This CSR is really indexed by PKI_BEWQ_S[STYLE]<5:0>, which should match
  * PKI_WQE_S[STYLE]<5:0>.
  */
-typedef union
+union bdk_pki_stylex_wq2
 {
     uint64_t u;
     struct bdk_pki_stylex_wq2_s
@@ -10725,7 +10871,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_stylex_wq2_s cn; */
-} bdk_pki_stylex_wq2_t;
+};
+typedef union bdk_pki_stylex_wq2 bdk_pki_stylex_wq2_t;
 
 static inline uint64_t BDK_PKI_STYLEX_WQ2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STYLEX_WQ2(unsigned long a)
@@ -10753,7 +10900,7 @@ static inline uint64_t BDK_PKI_STYLEX_WQ2(unsigned long a)
  * This CSR is really indexed by PKI_BEWQ_S[STYLE]<5:0>, which should match
  * PKI_WQE_S[STYLE]<5:0>.
  */
-typedef union
+union bdk_pki_stylex_wq4
 {
     uint64_t u;
     struct bdk_pki_stylex_wq4_s
@@ -10771,7 +10918,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_stylex_wq4_s cn; */
-} bdk_pki_stylex_wq4_t;
+};
+typedef union bdk_pki_stylex_wq4 bdk_pki_stylex_wq4_t;
 
 static inline uint64_t BDK_PKI_STYLEX_WQ4(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STYLEX_WQ4(unsigned long a)
@@ -10793,7 +10941,7 @@ static inline uint64_t BDK_PKI_STYLEX_WQ4(unsigned long a)
  *
  * PKI Tag Inclusion Control Registers
  */
-typedef union
+union bdk_pki_tag_incx_ctl
 {
     uint64_t u;
     struct bdk_pki_tag_incx_ctl_s
@@ -10853,7 +11001,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_tag_incx_ctl_s cn; */
-} bdk_pki_tag_incx_ctl_t;
+};
+typedef union bdk_pki_tag_incx_ctl bdk_pki_tag_incx_ctl_t;
 
 static inline uint64_t BDK_PKI_TAG_INCX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_TAG_INCX_CTL(unsigned long a)
@@ -10875,7 +11024,7 @@ static inline uint64_t BDK_PKI_TAG_INCX_CTL(unsigned long a)
  *
  * PKI Tag Inclusion Mask Registers
  */
-typedef union
+union bdk_pki_tag_incx_mask
 {
     uint64_t u;
     struct bdk_pki_tag_incx_mask_s
@@ -10891,7 +11040,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_tag_incx_mask_s cn; */
-} bdk_pki_tag_incx_mask_t;
+};
+typedef union bdk_pki_tag_incx_mask bdk_pki_tag_incx_mask_t;
 
 static inline uint64_t BDK_PKI_TAG_INCX_MASK(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_TAG_INCX_MASK(unsigned long a)
@@ -10915,7 +11065,7 @@ static inline uint64_t BDK_PKI_TAG_INCX_MASK(unsigned long a)
  * The source and destination initial values (IVs) in tag generation provide a mechanism for
  * seeding with a random initialization value to reduce cache collision attacks.
  */
-typedef union
+union bdk_pki_tag_secret
 {
     uint64_t u;
     struct bdk_pki_tag_secret_s
@@ -10941,7 +11091,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_tag_secret_s cn; */
-} bdk_pki_tag_secret_t;
+};
+typedef union bdk_pki_tag_secret bdk_pki_tag_secret_t;
 
 #define BDK_PKI_TAG_SECRET BDK_PKI_TAG_SECRET_FUNC()
 static inline uint64_t BDK_PKI_TAG_SECRET_FUNC(void) __attribute__ ((pure, always_inline));
@@ -10964,7 +11115,7 @@ static inline uint64_t BDK_PKI_TAG_SECRET_FUNC(void)
  *
  * INTERNAL: PKI X2P Control Insertion and Activation Register
  */
-typedef union
+union bdk_pki_x2p_ctl
 {
     uint64_t u;
     struct bdk_pki_x2p_ctl_s
@@ -11000,7 +11151,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_x2p_ctl_s cn; */
-} bdk_pki_x2p_ctl_t;
+};
+typedef union bdk_pki_x2p_ctl bdk_pki_x2p_ctl_t;
 
 #define BDK_PKI_X2P_CTL BDK_PKI_X2P_CTL_FUNC()
 static inline uint64_t BDK_PKI_X2P_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -11023,7 +11175,7 @@ static inline uint64_t BDK_PKI_X2P_CTL_FUNC(void)
  *
  * INTERNAL: PKI X2P Data Insertion Register
  */
-typedef union
+union bdk_pki_x2p_datx
 {
     uint64_t u;
     struct bdk_pki_x2p_datx_s
@@ -11041,7 +11193,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_x2p_datx_s cn; */
-} bdk_pki_x2p_datx_t;
+};
+typedef union bdk_pki_x2p_datx bdk_pki_x2p_datx_t;
 
 static inline uint64_t BDK_PKI_X2P_DATX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_X2P_DATX(unsigned long a)
@@ -11063,7 +11216,7 @@ static inline uint64_t BDK_PKI_X2P_DATX(unsigned long a)
  *
  * PKI X2P Request Overflow Error Register
  */
-typedef union
+union bdk_pki_x2p_req_ofl
 {
     uint64_t u;
     struct bdk_pki_x2p_req_ofl_s
@@ -11079,7 +11232,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_x2p_req_ofl_s cn; */
-} bdk_pki_x2p_req_ofl_t;
+};
+typedef union bdk_pki_x2p_req_ofl bdk_pki_x2p_req_ofl_t;
 
 #define BDK_PKI_X2P_REQ_OFL BDK_PKI_X2P_REQ_OFL_FUNC()
 static inline uint64_t BDK_PKI_X2P_REQ_OFL_FUNC(void) __attribute__ ((pure, always_inline));

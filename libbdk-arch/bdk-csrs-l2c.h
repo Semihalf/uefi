@@ -427,7 +427,7 @@
  *
  * Level 2 Cache Address Space Control Region Attributes Registers
  */
-typedef union
+union bdk_l2c_asc_regionx_attr
 {
     uint64_t u;
     struct bdk_l2c_asc_regionx_attr_s
@@ -472,7 +472,8 @@ typedef union
     } cn81xx;
     /* struct bdk_l2c_asc_regionx_attr_s cn88xx; */
     /* struct bdk_l2c_asc_regionx_attr_cn81xx cn83xx; */
-} bdk_l2c_asc_regionx_attr_t;
+};
+typedef union bdk_l2c_asc_regionx_attr bdk_l2c_asc_regionx_attr_t;
 
 static inline uint64_t BDK_L2C_ASC_REGIONX_ATTR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_ASC_REGIONX_ATTR(unsigned long a)
@@ -494,7 +495,7 @@ static inline uint64_t BDK_L2C_ASC_REGIONX_ATTR(unsigned long a)
  *
  * Level 2 Cache Address Space Control Region End Address Registers
  */
-typedef union
+union bdk_l2c_asc_regionx_end
 {
     uint64_t u;
     struct bdk_l2c_asc_regionx_end_s
@@ -520,7 +521,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_l2c_asc_regionx_end_s cn; */
-} bdk_l2c_asc_regionx_end_t;
+};
+typedef union bdk_l2c_asc_regionx_end bdk_l2c_asc_regionx_end_t;
 
 static inline uint64_t BDK_L2C_ASC_REGIONX_END(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_ASC_REGIONX_END(unsigned long a)
@@ -542,7 +544,7 @@ static inline uint64_t BDK_L2C_ASC_REGIONX_END(unsigned long a)
  *
  * Level 2 Cache Address Space Control Region Start Address Registers
  */
-typedef union
+union bdk_l2c_asc_regionx_start
 {
     uint64_t u;
     struct bdk_l2c_asc_regionx_start_s
@@ -560,7 +562,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_l2c_asc_regionx_start_s cn; */
-} bdk_l2c_asc_regionx_start_t;
+};
+typedef union bdk_l2c_asc_regionx_start bdk_l2c_asc_regionx_start_t;
 
 static inline uint64_t BDK_L2C_ASC_REGIONX_START(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_ASC_REGIONX_START(unsigned long a)
@@ -582,7 +585,7 @@ static inline uint64_t BDK_L2C_ASC_REGIONX_START(unsigned long a)
  *
  * Level 2 Cache CBC BIST Status Registers
  */
-typedef union
+union bdk_l2c_cbcx_bist_status
 {
     uint64_t u;
     struct bdk_l2c_cbcx_bist_status_s
@@ -598,7 +601,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_l2c_cbcx_bist_status_s cn; */
-} bdk_l2c_cbcx_bist_status_t;
+};
+typedef union bdk_l2c_cbcx_bist_status bdk_l2c_cbcx_bist_status_t;
 
 static inline uint64_t BDK_L2C_CBCX_BIST_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_CBCX_BIST_STATUS(unsigned long a)
@@ -625,7 +629,7 @@ static inline uint64_t BDK_L2C_CBCX_BIST_STATUS(unsigned long a)
  * Level 2 Cache CBC DLL Observability Register
  * Register for DLL observability.
  */
-typedef union
+union bdk_l2c_cbcx_dll
 {
     uint64_t u;
     struct bdk_l2c_cbcx_dll_s
@@ -657,7 +661,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_l2c_cbcx_dll_s cn; */
-} bdk_l2c_cbcx_dll_t;
+};
+typedef union bdk_l2c_cbcx_dll bdk_l2c_cbcx_dll_t;
 
 static inline uint64_t BDK_L2C_CBCX_DLL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_CBCX_DLL(unsigned long a)
@@ -684,7 +689,7 @@ static inline uint64_t BDK_L2C_CBCX_DLL(unsigned long a)
  * Level 2 Cache CBC Error Information Registers
  * Reserved.
  */
-typedef union
+union bdk_l2c_cbcx_iocerr
 {
     uint64_t u;
     struct bdk_l2c_cbcx_iocerr_s
@@ -696,7 +701,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_l2c_cbcx_iocerr_s cn; */
-} bdk_l2c_cbcx_iocerr_t;
+};
+typedef union bdk_l2c_cbcx_iocerr bdk_l2c_cbcx_iocerr_t;
 
 static inline uint64_t BDK_L2C_CBCX_IOCERR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_CBCX_IOCERR(unsigned long a)
@@ -728,7 +734,7 @@ static inline uint64_t BDK_L2C_CBCX_IOCERR(unsigned long a)
  * transactions
  * may result in IORDDISOCI/IOWRDISOCI interrupts.
  */
-typedef union
+union bdk_l2c_cbcx_iodisocierr
 {
     uint64_t u;
     struct bdk_l2c_cbcx_iodisocierr_s
@@ -758,7 +764,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_l2c_cbcx_iodisocierr_s cn; */
-} bdk_l2c_cbcx_iodisocierr_t;
+};
+typedef union bdk_l2c_cbcx_iodisocierr bdk_l2c_cbcx_iodisocierr_t;
 
 static inline uint64_t BDK_L2C_CBCX_IODISOCIERR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_CBCX_IODISOCIERR(unsigned long a)
@@ -790,7 +797,7 @@ static inline uint64_t BDK_L2C_CBCX_IODISOCIERR(unsigned long a)
  * time and serves to document which error the INDEX/[SYN] is associated with. The syndrome is
  * recorded for DBE errors, though the utility of the value is not clear.
  */
-typedef union
+union bdk_l2c_cbcx_miberr
 {
     uint64_t u;
     struct bdk_l2c_cbcx_miberr_s
@@ -822,7 +829,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_l2c_cbcx_miberr_s cn; */
-} bdk_l2c_cbcx_miberr_t;
+};
+typedef union bdk_l2c_cbcx_miberr bdk_l2c_cbcx_miberr_t;
 
 static inline uint64_t BDK_L2C_CBCX_MIBERR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_CBCX_MIBERR(unsigned long a)
@@ -855,7 +863,7 @@ static inline uint64_t BDK_L2C_CBCX_MIBERR(unsigned long a)
  * associated with.
  * The syndrome is recorded for DBE errors, though the utility of the value is not clear.
  */
-typedef union
+union bdk_l2c_cbcx_rsderr
 {
     uint64_t u;
     struct bdk_l2c_cbcx_rsderr_s
@@ -881,7 +889,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_l2c_cbcx_rsderr_s cn; */
-} bdk_l2c_cbcx_rsderr_t;
+};
+typedef union bdk_l2c_cbcx_rsderr bdk_l2c_cbcx_rsderr_t;
 
 static inline uint64_t BDK_L2C_CBCX_RSDERR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_CBCX_RSDERR(unsigned long a)
@@ -907,7 +916,7 @@ static inline uint64_t BDK_L2C_CBCX_RSDERR(unsigned long a)
  *
  * Level 2 Cache Control Register
  */
-typedef union
+union bdk_l2c_ctl
 {
     uint64_t u;
     struct bdk_l2c_ctl_s
@@ -1086,7 +1095,8 @@ typedef union
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } cn88xxp2;
-} bdk_l2c_ctl_t;
+};
+typedef union bdk_l2c_ctl bdk_l2c_ctl_t;
 
 #define BDK_L2C_CTL BDK_L2C_CTL_FUNC()
 static inline uint64_t BDK_L2C_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1126,7 +1136,7 @@ static inline uint64_t BDK_L2C_CTL_FUNC(void)
  * without the error must change the block to dirty. Then, a subsequent WBL2/WBIL2/victim will
  * trigger the VBFSBE/VBFDBE error.
  */
-typedef union
+union bdk_l2c_ecc_ctl
 {
     uint64_t u;
     struct bdk_l2c_ecc_ctl_s
@@ -1150,7 +1160,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_l2c_ecc_ctl_s cn; */
-} bdk_l2c_ecc_ctl_t;
+};
+typedef union bdk_l2c_ecc_ctl bdk_l2c_ecc_ctl_t;
 
 #define BDK_L2C_ECC_CTL BDK_L2C_ECC_CTL_FUNC()
 static inline uint64_t BDK_L2C_ECC_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1175,7 +1186,7 @@ static inline uint64_t BDK_L2C_ECC_CTL_FUNC(void)
  * after writing [START_BIST] to 1 until the BIST operation completes (indicated by
  * [START_BIST] returning to 0) or operation is undefined.
  */
-typedef union
+union bdk_l2c_mcix_bist_status
 {
     uint64_t u;
     struct bdk_l2c_mcix_bist_status_s
@@ -1193,7 +1204,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_l2c_mcix_bist_status_s cn; */
-} bdk_l2c_mcix_bist_status_t;
+};
+typedef union bdk_l2c_mcix_bist_status bdk_l2c_mcix_bist_status_t;
 
 static inline uint64_t BDK_L2C_MCIX_BIST_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_MCIX_BIST_STATUS(unsigned long a)
@@ -1225,7 +1237,7 @@ static inline uint64_t BDK_L2C_MCIX_BIST_STATUS(unsigned long a)
  * which error(s) were present in the read with the highest priority error.
  * The syndrome is recorded for DBE errors.
  */
-typedef union
+union bdk_l2c_mcix_err
 {
     uint64_t u;
     struct bdk_l2c_mcix_err_s
@@ -1273,7 +1285,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_l2c_mcix_err_s cn; */
-} bdk_l2c_mcix_err_t;
+};
+typedef union bdk_l2c_mcix_err bdk_l2c_mcix_err_t;
 
 static inline uint64_t BDK_L2C_MCIX_ERR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_MCIX_ERR(unsigned long a)
@@ -1299,7 +1312,7 @@ static inline uint64_t BDK_L2C_MCIX_ERR(unsigned long a)
  *
  * L2C CCPI Control Register
  */
-typedef union
+union bdk_l2c_oci_ctl
 {
     uint64_t u;
     struct bdk_l2c_oci_ctl_s
@@ -1628,7 +1641,8 @@ typedef union
         uint64_t reserved_31_63        : 33;
 #endif /* Word 0 - End */
     } cn88xxp2;
-} bdk_l2c_oci_ctl_t;
+};
+typedef union bdk_l2c_oci_ctl bdk_l2c_oci_ctl_t;
 
 #define BDK_L2C_OCI_CTL BDK_L2C_OCI_CTL_FUNC()
 static inline uint64_t BDK_L2C_OCI_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1649,7 +1663,7 @@ static inline uint64_t BDK_L2C_OCI_CTL_FUNC(void)
  *
  * Level 2 Cache Core QOS Level Registers
  */
-typedef union
+union bdk_l2c_qos_ppx
 {
     uint64_t u;
     struct bdk_l2c_qos_ppx_s
@@ -1663,7 +1677,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_l2c_qos_ppx_s cn; */
-} bdk_l2c_qos_ppx_t;
+};
+typedef union bdk_l2c_qos_ppx bdk_l2c_qos_ppx_t;
 
 static inline uint64_t BDK_L2C_QOS_PPX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_QOS_PPX(unsigned long a)
@@ -1689,7 +1704,7 @@ static inline uint64_t BDK_L2C_QOS_PPX(unsigned long a)
  *
  * Level 2 Cache QOS Weight Register
  */
-typedef union
+union bdk_l2c_qos_wgt
 {
     uint64_t u;
     struct bdk_l2c_qos_wgt_s
@@ -1715,7 +1730,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_l2c_qos_wgt_s cn; */
-} bdk_l2c_qos_wgt_t;
+};
+typedef union bdk_l2c_qos_wgt bdk_l2c_qos_wgt_t;
 
 #define BDK_L2C_QOS_WGT BDK_L2C_QOS_WGT_FUNC()
 static inline uint64_t BDK_L2C_QOS_WGT_FUNC(void) __attribute__ ((pure, always_inline));
@@ -1737,7 +1753,7 @@ static inline uint64_t BDK_L2C_QOS_WGT_FUNC(void)
  * Level 2 Cache TAD DLL Observability Register
  * This register provides the parameters for DLL observability.
  */
-typedef union
+union bdk_l2c_tadx_dll
 {
     uint64_t u;
     struct bdk_l2c_tadx_dll_s
@@ -1769,7 +1785,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_l2c_tadx_dll_s cn; */
-} bdk_l2c_tadx_dll_t;
+};
+typedef union bdk_l2c_tadx_dll bdk_l2c_tadx_dll_t;
 
 static inline uint64_t BDK_L2C_TADX_DLL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_TADX_DLL(unsigned long a)
@@ -1801,7 +1818,7 @@ static inline uint64_t BDK_L2C_TADX_DLL(unsigned long a)
  * address. The first [WRDISOCI]/[WRNXM] error will lock the register until the
  * logged error type is cleared; [RDDISOCI]/[RDNXM] never locks the register.
  */
-typedef union
+union bdk_l2c_tadx_err
 {
     uint64_t u;
     struct bdk_l2c_tadx_err_s
@@ -1853,7 +1870,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_l2c_tadx_err_s cn; */
-} bdk_l2c_tadx_err_t;
+};
+typedef union bdk_l2c_tadx_err bdk_l2c_tadx_err_t;
 
 static inline uint64_t BDK_L2C_TADX_ERR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_TADX_ERR(unsigned long a)
@@ -1879,7 +1897,7 @@ static inline uint64_t BDK_L2C_TADX_ERR(unsigned long a)
  *
  * Level 2 Cache TAD Performance Counter Registers
  */
-typedef union
+union bdk_l2c_tadx_pfcx
 {
     uint64_t u;
     struct bdk_l2c_tadx_pfcx_s
@@ -1891,7 +1909,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_l2c_tadx_pfcx_s cn; */
-} bdk_l2c_tadx_pfcx_t;
+};
+typedef union bdk_l2c_tadx_pfcx bdk_l2c_tadx_pfcx_t;
 
 static inline uint64_t BDK_L2C_TADX_PFCX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_TADX_PFCX(unsigned long a, unsigned long b)
@@ -1918,7 +1937,7 @@ static inline uint64_t BDK_L2C_TADX_PFCX(unsigned long a, unsigned long b)
  * Level 2 Cache TAD Performance Counter Control Registers
  * All four counters are equivalent and can use any of the defined selects.
  */
-typedef union
+union bdk_l2c_tadx_prf
 {
     uint64_t u;
     struct bdk_l2c_tadx_prf_s
@@ -1970,7 +1989,8 @@ typedef union
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_l2c_tadx_prf_t;
+};
+typedef union bdk_l2c_tadx_prf bdk_l2c_tadx_prf_t;
 
 static inline uint64_t BDK_L2C_TADX_PRF(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_TADX_PRF(unsigned long a)
@@ -1997,7 +2017,7 @@ static inline uint64_t BDK_L2C_TADX_PRF(unsigned long a)
  * Level 2 Cache TAD Status Registers
  * This register holds information about the instantaneous state of the TAD.
  */
-typedef union
+union bdk_l2c_tadx_stat
 {
     uint64_t u;
     struct bdk_l2c_tadx_stat_s
@@ -2015,7 +2035,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_l2c_tadx_stat_s cn; */
-} bdk_l2c_tadx_stat_t;
+};
+typedef union bdk_l2c_tadx_stat bdk_l2c_tadx_stat_t;
 
 static inline uint64_t BDK_L2C_TADX_STAT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_TADX_STAT(unsigned long a)
@@ -2042,7 +2063,7 @@ static inline uint64_t BDK_L2C_TADX_STAT(unsigned long a)
  * Level 2 Cache Tag Data Registers
  * This register holds the tag information for LTGL2I and STGL2I commands.
  */
-typedef union
+union bdk_l2c_tadx_tag
 {
     uint64_t u;
     struct bdk_l2c_tadx_tag_s
@@ -2241,7 +2262,8 @@ typedef union
                                                                  (0), [SBLKDTY] must be 0 or operation is undefined. */
 #endif /* Word 0 - End */
     } cn83xx;
-} bdk_l2c_tadx_tag_t;
+};
+typedef union bdk_l2c_tadx_tag bdk_l2c_tadx_tag_t;
 
 static inline uint64_t BDK_L2C_TADX_TAG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_TADX_TAG(unsigned long a)
@@ -2272,7 +2294,7 @@ static inline uint64_t BDK_L2C_TADX_TAG(unsigned long a)
  * timed-out. The address can be for the original transaction address or the replacement address
  * (if both could have timed out, then the transaction address will be here).
  */
-typedef union
+union bdk_l2c_tadx_timeout
 {
     uint64_t u;
     struct bdk_l2c_tadx_timeout_s
@@ -2328,7 +2350,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_l2c_tadx_timeout_s cn; */
-} bdk_l2c_tadx_timeout_t;
+};
+typedef union bdk_l2c_tadx_timeout bdk_l2c_tadx_timeout_t;
 
 static inline uint64_t BDK_L2C_TADX_TIMEOUT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_TADX_TIMEOUT(unsigned long a)
@@ -2355,7 +2378,7 @@ static inline uint64_t BDK_L2C_TADX_TIMEOUT(unsigned long a)
  * Level 2 Cache LFB Timeout Count Registers
  * This register records the number of LFB entries that have timed out.
  */
-typedef union
+union bdk_l2c_tadx_timetwo
 {
     uint64_t u;
     struct bdk_l2c_tadx_timetwo_s
@@ -2387,7 +2410,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_l2c_tadx_timetwo_s cn; */
-} bdk_l2c_tadx_timetwo_t;
+};
+typedef union bdk_l2c_tadx_timetwo bdk_l2c_tadx_timetwo_t;
 
 static inline uint64_t BDK_L2C_TADX_TIMETWO(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_TADX_TIMETWO(unsigned long a)
@@ -2420,7 +2444,7 @@ static inline uint64_t BDK_L2C_TADX_TIMETWO(unsigned long a)
  * * If [MAXLFB] != 0, EXLRQ + EXRRQ + EXFWD + EXVIC must be less than or equal to [MAXLFB] - 4.
  * * If [MAXLFB] == 0, EXLRQ + EXRRQ + EXFWD + EXVIC must be less than or equal to 12.
  */
-typedef union
+union bdk_l2c_tad_ctl
 {
     uint64_t u;
     struct bdk_l2c_tad_ctl_s
@@ -2501,7 +2525,8 @@ typedef union
 #endif /* Word 0 - End */
     } cn88xx;
     /* struct bdk_l2c_tad_ctl_s cn83xx; */
-} bdk_l2c_tad_ctl_t;
+};
+typedef union bdk_l2c_tad_ctl bdk_l2c_tad_ctl_t;
 
 #define BDK_L2C_TAD_CTL BDK_L2C_TAD_CTL_FUNC()
 static inline uint64_t BDK_L2C_TAD_CTL_FUNC(void) __attribute__ ((pure, always_inline));
@@ -2522,7 +2547,7 @@ static inline uint64_t BDK_L2C_TAD_CTL_FUNC(void)
  *
  * Level 2 Cache IOB Way Partitioning Registers
  */
-typedef union
+union bdk_l2c_wpar_iobx
 {
     uint64_t u;
     struct bdk_l2c_wpar_iobx_s
@@ -2538,7 +2563,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_l2c_wpar_iobx_s cn; */
-} bdk_l2c_wpar_iobx_t;
+};
+typedef union bdk_l2c_wpar_iobx bdk_l2c_wpar_iobx_t;
 
 static inline uint64_t BDK_L2C_WPAR_IOBX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_WPAR_IOBX(unsigned long a)
@@ -2560,7 +2586,7 @@ static inline uint64_t BDK_L2C_WPAR_IOBX(unsigned long a)
  *
  * Level 2 Cache Core Way Partitioning Registers
  */
-typedef union
+union bdk_l2c_wpar_ppx
 {
     uint64_t u;
     struct bdk_l2c_wpar_ppx_s
@@ -2576,7 +2602,8 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_l2c_wpar_ppx_s cn; */
-} bdk_l2c_wpar_ppx_t;
+};
+typedef union bdk_l2c_wpar_ppx bdk_l2c_wpar_ppx_t;
 
 static inline uint64_t BDK_L2C_WPAR_PPX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_WPAR_PPX(unsigned long a)
