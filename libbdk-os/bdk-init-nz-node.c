@@ -1437,15 +1437,6 @@ void __bdk_init_ccpi_early(int is_master)
             c.s.timer_dis = 1;
             c.s.ser_lane_bad = 0);
     }
-
-    memset(lane_state, 0, sizeof(lane_state));
-    for (int ccpi_lane = 0; ccpi_lane < CCPI_LANES; ccpi_lane++)
-    {
-        lane_state_t *lstate = &lane_state[ccpi_lane];
-        lstate->init_main = TRAIN_INIT_TX_MAIN;
-        lstate->init_post = TRAIN_INIT_TX_POST;
-        lstate->init_pre = TRAIN_INIT_TX_PRE;
-    }
 }
 
 /**
@@ -1474,6 +1465,15 @@ int __bdk_init_ccpi_connection(int is_master, uint64_t gbaud, int ccpi_trace)
     if (gserx_phy_ctl.s.phy_reset)
         return -1;
     int baud_mhz = ccpi_get_speed();
+
+    memset(lane_state, 0, sizeof(lane_state));
+    for (int ccpi_lane = 0; ccpi_lane < CCPI_LANES; ccpi_lane++)
+    {
+        lane_state_t *lstate = &lane_state[ccpi_lane];
+        lstate->init_main = TRAIN_INIT_TX_MAIN;
+        lstate->init_post = TRAIN_INIT_TX_POST;
+        lstate->init_pre = TRAIN_INIT_TX_PRE;
+    }
 
     if (is_master)
     {
