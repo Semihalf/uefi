@@ -2235,8 +2235,7 @@ union bdk_pciercx_cfg030
                                                                  0x4 = 2048 bytes.
                                                                  0x5 = 4096 bytes.
 
-                                                                 SLI_S2M_PORT()_CTL[MRRS] and DPI_SLI_PRT()_CFG[MRRS] must also be set properly.
-                                                                 SLI_S2M_PORT()_CTL[MRRS] and DPI_SLI_PRT()_CFG[MRRS] must not exceed the desired
+                                                                 DPI_SLI_PRT()_CFG[MRRS] must be set and properly must not exceed the desired
                                                                  max read request size. */
         uint32_t ns_en                 : 1;  /**< [ 11: 11](R/W) Enable no snoop. */
         uint32_t ap_en                 : 1;  /**< [ 10: 10](RO) AUX power PM enable (Not supported). */
@@ -2285,8 +2284,7 @@ union bdk_pciercx_cfg030
                                                                  0x4 = 2048 bytes.
                                                                  0x5 = 4096 bytes.
 
-                                                                 SLI_S2M_PORT()_CTL[MRRS] and DPI_SLI_PRT()_CFG[MRRS] must also be set properly.
-                                                                 SLI_S2M_PORT()_CTL[MRRS] and DPI_SLI_PRT()_CFG[MRRS] must not exceed the desired
+                                                                 DPI_SLI_PRT()_CFG[MRRS] must be set and properly must not exceed the desired
                                                                  max read request size. */
         uint32_t reserved_15           : 1;
         uint32_t ce_d                  : 1;  /**< [ 16: 16](R/W1C/H) Correctable error detected. Errors are logged in this register regardless of whether or

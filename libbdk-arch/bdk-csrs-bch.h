@@ -89,8 +89,8 @@ union bdk_bch_cword_s
                                                                    0x1 = Perform a copy operation.
                                                                    0x2 = Perform a parity generation.
                                                                    0x3 = Perform a copy operation. */
-        uint64_t reserved_36_61        : 26;
-        uint64_t ecc_level             : 4;  /**< [ 35: 32] Indicates the maximum number of errors within a data block that can be corrected.
+        uint64_t reserved_39_61        : 23;
+        uint64_t ecc_level             : 7;  /**< [ 38: 32] Indicates the maximum number of errors within a data block that can be corrected.
                                                                  The number of parity bytes is equal to ceiling(15 * [ECC_LEVEL])/8.
                                                                  Must be 4, 8, 16, 24, 32, 40, 48, 56, 60, or 64. */
         uint64_t reserved_12_31        : 20;
@@ -102,10 +102,10 @@ union bdk_bch_cword_s
                                                                  bytes (i.e. [SIZE]<0> must be 0).
                                                                  For copy mode, the maximum [SIZE] is 3800 decimal. */
         uint64_t reserved_12_31        : 20;
-        uint64_t ecc_level             : 4;  /**< [ 35: 32] Indicates the maximum number of errors within a data block that can be corrected.
+        uint64_t ecc_level             : 7;  /**< [ 38: 32] Indicates the maximum number of errors within a data block that can be corrected.
                                                                  The number of parity bytes is equal to ceiling(15 * [ECC_LEVEL])/8.
                                                                  Must be 4, 8, 16, 24, 32, 40, 48, 56, 60, or 64. */
-        uint64_t reserved_36_61        : 26;
+        uint64_t reserved_39_61        : 23;
         uint64_t ecc_gen               : 2;  /**< [ 63: 62] Indicates the BCH function:
                                                                    0x0 = Perform a block correction.
                                                                    0x1 = Perform a copy operation.

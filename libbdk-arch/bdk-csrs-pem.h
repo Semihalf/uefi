@@ -8693,7 +8693,7 @@ union bdk_pemx_qlm
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
-        uint64_t pem_bdlm              : 1;  /**< [  0:  0](R/W/H) This bit can only be set for PEM3/PEM3, for all other PEMs it has no
+        uint64_t pem_bdlm              : 1;  /**< [  0:  0](R/W/H) This bit can only be set for PEM2/PEM3, for all other PEMs it has no
                                                                  function.
                                                                  PEM2: when set, will be configured to send/receive traffic to DLM4.
                                                                        when clear, will be configured to send/receive traffic to QLM2/QLM3.
@@ -8704,7 +8704,7 @@ union bdk_pemx_qlm
                                                                  These conditions can be assured by setting the PEM(2/3)_ON[PEMON] bit after setting this
                                                                  bit. */
 #else /* Word 0 - Little Endian */
-        uint64_t pem_bdlm              : 1;  /**< [  0:  0](R/W/H) This bit can only be set for PEM3/PEM3, for all other PEMs it has no
+        uint64_t pem_bdlm              : 1;  /**< [  0:  0](R/W/H) This bit can only be set for PEM2/PEM3, for all other PEMs it has no
                                                                  function.
                                                                  PEM2: when set, will be configured to send/receive traffic to DLM4.
                                                                        when clear, will be configured to send/receive traffic to QLM2/QLM3.

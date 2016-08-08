@@ -11715,6 +11715,55 @@ union bdk_lmcx_rlevel_rankx
                                                                  0x3 = BYTEn values came from a complete read-leveling sequence. */
         uint64_t byte8                 : 6;  /**< [ 53: 48](R/W/H) "Read level setting.
                                                                  When ECC DRAM is not present in 64-bit mode (i.e. when DRAM is not attached to chip
+                                                                 signals DDR#_DQS_8_* and DDR#_CB<7:0>), software should write BYTE8 to a value that does
+                                                                 not increase the range of possible BYTE* values. The easiest way to do this is to set
+                                                                 LMC()_RLEVEL_RANK()[BYTE8] = LMC()_RLEVEL_RANK()[BYTE0] when there is no
+                                                                 ECC DRAM, using the final BYTE0 value." */
+        uint64_t byte7                 : 6;  /**< [ 47: 42](R/W/H) Read level setting. */
+        uint64_t byte6                 : 6;  /**< [ 41: 36](R/W/H) Read level setting. */
+        uint64_t byte5                 : 6;  /**< [ 35: 30](R/W/H) Read level setting. */
+        uint64_t byte4                 : 6;  /**< [ 29: 24](R/W/H) Read level setting. */
+        uint64_t byte3                 : 6;  /**< [ 23: 18](R/W/H) Read level setting. */
+        uint64_t byte2                 : 6;  /**< [ 17: 12](R/W/H) Read level setting. */
+        uint64_t byte1                 : 6;  /**< [ 11:  6](R/W/H) Read level setting. */
+        uint64_t byte0                 : 6;  /**< [  5:  0](R/W/H) Read level setting. */
+#else /* Word 0 - Little Endian */
+        uint64_t byte0                 : 6;  /**< [  5:  0](R/W/H) Read level setting. */
+        uint64_t byte1                 : 6;  /**< [ 11:  6](R/W/H) Read level setting. */
+        uint64_t byte2                 : 6;  /**< [ 17: 12](R/W/H) Read level setting. */
+        uint64_t byte3                 : 6;  /**< [ 23: 18](R/W/H) Read level setting. */
+        uint64_t byte4                 : 6;  /**< [ 29: 24](R/W/H) Read level setting. */
+        uint64_t byte5                 : 6;  /**< [ 35: 30](R/W/H) Read level setting. */
+        uint64_t byte6                 : 6;  /**< [ 41: 36](R/W/H) Read level setting. */
+        uint64_t byte7                 : 6;  /**< [ 47: 42](R/W/H) Read level setting. */
+        uint64_t byte8                 : 6;  /**< [ 53: 48](R/W/H) "Read level setting.
+                                                                 When ECC DRAM is not present in 64-bit mode (i.e. when DRAM is not attached to chip
+                                                                 signals DDR#_DQS_8_* and DDR#_CB<7:0>), software should write BYTE8 to a value that does
+                                                                 not increase the range of possible BYTE* values. The easiest way to do this is to set
+                                                                 LMC()_RLEVEL_RANK()[BYTE8] = LMC()_RLEVEL_RANK()[BYTE0] when there is no
+                                                                 ECC DRAM, using the final BYTE0 value." */
+        uint64_t status                : 2;  /**< [ 55: 54](RO/H) Indicates status of the read-leveling and where the BYTEn programmings in <53:0> came
+                                                                 from:
+                                                                 0x0 = BYTEn values are their reset value.
+                                                                 0x1 = BYTEn values were set via a CSR write to this register.
+                                                                 0x2 = read-leveling sequence currently in progress (BYTEn values are unpredictable).
+                                                                 0x3 = BYTEn values came from a complete read-leveling sequence. */
+        uint64_t reserved_56_63        : 8;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_lmcx_rlevel_rankx_s cn81xx; */
+    struct bdk_lmcx_rlevel_rankx_cn88xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_56_63        : 8;
+        uint64_t status                : 2;  /**< [ 55: 54](RO/H) Indicates status of the read-leveling and where the BYTEn programmings in <53:0> came
+                                                                 from:
+                                                                 0x0 = BYTEn values are their reset value.
+                                                                 0x1 = BYTEn values were set via a CSR write to this register.
+                                                                 0x2 = read-leveling sequence currently in progress (BYTEn values are unpredictable).
+                                                                 0x3 = BYTEn values came from a complete read-leveling sequence. */
+        uint64_t byte8                 : 6;  /**< [ 53: 48](R/W/H) "Read level setting.
+                                                                 When ECC DRAM is not present in 64-bit mode (i.e. when DRAM is not attached to chip
                                                                  signals DDR#_CBS_0_* and DDR#_CB<7:0>), software should write BYTE8 to a value that does
                                                                  not increase the range of possible BYTE* values. The easiest way to do this is to set
                                                                  LMC()_RLEVEL_RANK()[BYTE8] = LMC()_RLEVEL_RANK()[BYTE0] when there is no
@@ -11750,8 +11799,8 @@ union bdk_lmcx_rlevel_rankx
                                                                  0x3 = BYTEn values came from a complete read-leveling sequence. */
         uint64_t reserved_56_63        : 8;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_lmcx_rlevel_rankx_s cn; */
+    } cn88xx;
+    /* struct bdk_lmcx_rlevel_rankx_cn88xx cn83xx; */
 };
 typedef union bdk_lmcx_rlevel_rankx bdk_lmcx_rlevel_rankx_t;
 
@@ -14130,6 +14179,57 @@ union bdk_lmcx_wlevel_rankx
                                                                  0x3 = BYTE* values came from a complete write-leveling sequence, irrespective of which
                                                                  lanes are masked via LMC()_WLEVEL_CTL[LANEMASK]. */
         uint64_t byte8                 : 5;  /**< [ 44: 40](R/W/H) "Write level setting. Bit 0 of BYTE8 must be zero during normal operation. When ECC DRAM
+                                                                 is not present in 64-bit mode (i.e. when DRAM is not attached to chip signals DDR#_DQS_8_*
+                                                                 and DDR#_CB<7:0>), software should write BYTE8 with a value that does not increase the
+                                                                 range of possible BYTE* values. The easiest way to do this is to set
+                                                                 LMC()_WLEVEL_RANK()[BYTE8] = LMC()_WLEVEL_RANK()[BYTE0] when there is no
+                                                                 ECC DRAM, using the final BYTE0 value." */
+        uint64_t byte7                 : 5;  /**< [ 39: 35](R/W/H) Write level setting. Bit 0 of [BYTE7] must be zero during normal operation. */
+        uint64_t byte6                 : 5;  /**< [ 34: 30](R/W/H) Write level setting. Bit 0 of [BYTE6] must be zero during normal operation. */
+        uint64_t byte5                 : 5;  /**< [ 29: 25](R/W/H) Write level setting. Bit 0 of [BYTE5] must be zero during normal operation. */
+        uint64_t byte4                 : 5;  /**< [ 24: 20](R/W/H) Write level setting. Bit 0 of [BYTE4] must be zero during normal operation. */
+        uint64_t byte3                 : 5;  /**< [ 19: 15](R/W/H) Write level setting. Bit 0 of [BYTE3] must be zero during normal operation. */
+        uint64_t byte2                 : 5;  /**< [ 14: 10](R/W/H) Write level setting. Bit 0 of [BYTE2] must be zero during normal operation. */
+        uint64_t byte1                 : 5;  /**< [  9:  5](R/W/H) Write level setting. Bit 0 of [BYTE1] must be zero during normal operation. */
+        uint64_t byte0                 : 5;  /**< [  4:  0](R/W/H) Write level setting. Bit 0 of [BYTE0] must be zero during normal operation. */
+#else /* Word 0 - Little Endian */
+        uint64_t byte0                 : 5;  /**< [  4:  0](R/W/H) Write level setting. Bit 0 of [BYTE0] must be zero during normal operation. */
+        uint64_t byte1                 : 5;  /**< [  9:  5](R/W/H) Write level setting. Bit 0 of [BYTE1] must be zero during normal operation. */
+        uint64_t byte2                 : 5;  /**< [ 14: 10](R/W/H) Write level setting. Bit 0 of [BYTE2] must be zero during normal operation. */
+        uint64_t byte3                 : 5;  /**< [ 19: 15](R/W/H) Write level setting. Bit 0 of [BYTE3] must be zero during normal operation. */
+        uint64_t byte4                 : 5;  /**< [ 24: 20](R/W/H) Write level setting. Bit 0 of [BYTE4] must be zero during normal operation. */
+        uint64_t byte5                 : 5;  /**< [ 29: 25](R/W/H) Write level setting. Bit 0 of [BYTE5] must be zero during normal operation. */
+        uint64_t byte6                 : 5;  /**< [ 34: 30](R/W/H) Write level setting. Bit 0 of [BYTE6] must be zero during normal operation. */
+        uint64_t byte7                 : 5;  /**< [ 39: 35](R/W/H) Write level setting. Bit 0 of [BYTE7] must be zero during normal operation. */
+        uint64_t byte8                 : 5;  /**< [ 44: 40](R/W/H) "Write level setting. Bit 0 of BYTE8 must be zero during normal operation. When ECC DRAM
+                                                                 is not present in 64-bit mode (i.e. when DRAM is not attached to chip signals DDR#_DQS_8_*
+                                                                 and DDR#_CB<7:0>), software should write BYTE8 with a value that does not increase the
+                                                                 range of possible BYTE* values. The easiest way to do this is to set
+                                                                 LMC()_WLEVEL_RANK()[BYTE8] = LMC()_WLEVEL_RANK()[BYTE0] when there is no
+                                                                 ECC DRAM, using the final BYTE0 value." */
+        uint64_t status                : 2;  /**< [ 46: 45](RO/H) Indicates status of the write-leveling and where the BYTE* programmings in <44:0> came
+                                                                 from:
+                                                                 0x0 = BYTE* values are their reset value.
+                                                                 0x1 = BYTE* values were set via a CSR write to this register.
+                                                                 0x2 = write-leveling sequence currently in progress (BYTE* values are unpredictable).
+                                                                 0x3 = BYTE* values came from a complete write-leveling sequence, irrespective of which
+                                                                 lanes are masked via LMC()_WLEVEL_CTL[LANEMASK]. */
+        uint64_t reserved_47_63        : 17;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_lmcx_wlevel_rankx_s cn81xx; */
+    struct bdk_lmcx_wlevel_rankx_cn88xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_47_63        : 17;
+        uint64_t status                : 2;  /**< [ 46: 45](RO/H) Indicates status of the write-leveling and where the BYTE* programmings in <44:0> came
+                                                                 from:
+                                                                 0x0 = BYTE* values are their reset value.
+                                                                 0x1 = BYTE* values were set via a CSR write to this register.
+                                                                 0x2 = write-leveling sequence currently in progress (BYTE* values are unpredictable).
+                                                                 0x3 = BYTE* values came from a complete write-leveling sequence, irrespective of which
+                                                                 lanes are masked via LMC()_WLEVEL_CTL[LANEMASK]. */
+        uint64_t byte8                 : 5;  /**< [ 44: 40](R/W/H) "Write level setting. Bit 0 of BYTE8 must be zero during normal operation. When ECC DRAM
                                                                  is not present in 64-bit mode (i.e. when DRAM is not attached to chip signals DDR#_CBS_0_*
                                                                  and DDR#_CB<7:0>), software should write BYTE8 with a value that does not increase the
                                                                  range of possible BYTE* values. The easiest way to do this is to set
@@ -14167,8 +14267,8 @@ union bdk_lmcx_wlevel_rankx
                                                                  lanes are masked via LMC()_WLEVEL_CTL[LANEMASK]. */
         uint64_t reserved_47_63        : 17;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_lmcx_wlevel_rankx_s cn; */
+    } cn88xx;
+    /* struct bdk_lmcx_wlevel_rankx_cn88xx cn83xx; */
 };
 typedef union bdk_lmcx_wlevel_rankx bdk_lmcx_wlevel_rankx_t;
 

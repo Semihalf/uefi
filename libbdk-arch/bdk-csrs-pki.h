@@ -422,20 +422,20 @@ union bdk_pki_bewq_s
         uint64_t grp                   : 10; /**< [107: 98] PKI_WQE_S[GRP] is normally calculated solely by PKI BE. But if
                                                                  PKI_CL()_STYLE()_CFG[QPG_DIS_GRP] is set, PKI_WQE_S[GRP] is [GRP]. */
         uint64_t tt                    : 2;  /**< [ 97: 96] BE opaque pass-through to WQE. */
-        uint64_t tag                   : 32; /**< [ 95: 64] PKI_WQE_S[TAG<31:16>] = [TAG<31:16>].
+        uint64_t tag                   : 32; /**< [ 95: 64] PKI_WQE_S[TAG]<31:16> = [TAG]<31:16>.
 
-                                                                 PKI_WQE_S[TAG<15:0>] = [TAG<15:0>] ^ F
+                                                                 PKI_WQE_S[TAG]<15:0> = [TAG]<15:0> ^ F
                                                                  if (PKI_CL()_STYLE()_CFG2[TAG_MASKEN])
-                                                                    PKI_WQE_S[TAG<15:0>] &= ~PKI_STYLE()_TAG_MASK[MASK];
+                                                                    PKI_WQE_S[TAG]<15:0> &= ~PKI_STYLE()_TAG_MASK[MASK];
 
                                                                  Where F is a function of various optional hw_tuple_tag()'s and
                                                                  hw_mask_tag(). See PKI_WQE_S[TAG]. */
 #else /* Word 1 - Little Endian */
-        uint64_t tag                   : 32; /**< [ 95: 64] PKI_WQE_S[TAG<31:16>] = [TAG<31:16>].
+        uint64_t tag                   : 32; /**< [ 95: 64] PKI_WQE_S[TAG]<31:16> = [TAG]<31:16>.
 
-                                                                 PKI_WQE_S[TAG<15:0>] = [TAG<15:0>] ^ F
+                                                                 PKI_WQE_S[TAG]<15:0> = [TAG]<15:0> ^ F
                                                                  if (PKI_CL()_STYLE()_CFG2[TAG_MASKEN])
-                                                                    PKI_WQE_S[TAG<15:0>] &= ~PKI_STYLE()_TAG_MASK[MASK];
+                                                                    PKI_WQE_S[TAG]<15:0> &= ~PKI_STYLE()_TAG_MASK[MASK];
 
                                                                  Where F is a function of various optional hw_tuple_tag()'s and
                                                                  hw_mask_tag(). See PKI_WQE_S[TAG]. */
@@ -997,7 +997,7 @@ union bdk_pki_wqe_s
 
                                                                  Internal:
                                                                  port in the [CHAN] pseudocode above is PKI_BEWQ_S[PORT] and probably
-                                                                 also PKI_FEWQ_S[PORT]. q in the pseudocode above is PKI_BEWQ_S[CFG<10:0>].
+                                                                 also PKI_FEWQ_S[PORT]. q in the pseudocode above is PKI_BEWQ_S[CFG]<10:0>.
 
                                                                  PKI HW does: [CHAN] = PKI_BEWQ_S[PORT] +
                                                                         (PKI_BEWQ_S[CFG<18>] ? 0 : PKI_QPG_TBL(PKI_BEWQ_S[CFG<10:0>])[PADD]) */
@@ -1050,7 +1050,7 @@ union bdk_pki_wqe_s
 
                                                                  Internal:
                                                                  port in the [CHAN] pseudocode above is PKI_BEWQ_S[PORT] and probably
-                                                                 also PKI_FEWQ_S[PORT]. q in the pseudocode above is PKI_BEWQ_S[CFG<10:0>].
+                                                                 also PKI_FEWQ_S[PORT]. q in the pseudocode above is PKI_BEWQ_S[CFG]<10:0>.
 
                                                                  PKI HW does: [CHAN] = PKI_BEWQ_S[PORT] +
                                                                         (PKI_BEWQ_S[CFG<18>] ? 0 : PKI_QPG_TBL(PKI_BEWQ_S[CFG<10:0>])[PADD]) */
@@ -1120,7 +1120,7 @@ union bdk_pki_wqe_s
                                                                  both [ERRLEV,OPCODE] are zero (i.e. RE/RE_NONE), else the BAD's are used.
                                                                  q is the QPG computed for the packet (see the parser document).
 
-                                                                 [GRP<9:8>] is always zero.
+                                                                 [GRP]<9:8> is always zero.
 
                                                                  Internal:
                                                                  q is PKI_BEWQ_S[CFG<10:0>].
@@ -1153,11 +1153,11 @@ union bdk_pki_wqe_s
                                                                  computes PKI_BEWQ_S[TAG]. Hardware creates the final [TAG] as
                                                                  follows:
 
-                                                                 [TAG<31:16>] = PKI_BEWQ_S[TAG<31:16>].
+                                                                 [TAG]<31:16> = PKI_BEWQ_S[TAG]<31:16>.
 
-                                                                 [TAG<15:0>] = PKI_BEWQ_S[TAG<15:0>] ^ F
+                                                                 [TAG]<15:0> = PKI_BEWQ_S[TAG]<15:0> ^ F
                                                                  if (PKI_CL()_STYLE()_CFG2[TAG_MASKEN])
-                                                                    [TAG<15:0>] &= ~PKI_STYLE()_TAG_MASK[MASK];
+                                                                    [TAG]<15:0> &= ~PKI_STYLE()_TAG_MASK[MASK];
 
                                                                  Where F is a function of various optional hw_tuple_tag()'s and
                                                                  hw_mask_tag() - see below.
@@ -1204,11 +1204,11 @@ union bdk_pki_wqe_s
                                                                  computes PKI_BEWQ_S[TAG]. Hardware creates the final [TAG] as
                                                                  follows:
 
-                                                                 [TAG<31:16>] = PKI_BEWQ_S[TAG<31:16>].
+                                                                 [TAG]<31:16> = PKI_BEWQ_S[TAG]<31:16>.
 
-                                                                 [TAG<15:0>] = PKI_BEWQ_S[TAG<15:0>] ^ F
+                                                                 [TAG]<15:0> = PKI_BEWQ_S[TAG]<15:0> ^ F
                                                                  if (PKI_CL()_STYLE()_CFG2[TAG_MASKEN])
-                                                                    [TAG<15:0>] &= ~PKI_STYLE()_TAG_MASK[MASK];
+                                                                    [TAG]<15:0> &= ~PKI_STYLE()_TAG_MASK[MASK];
 
                                                                  Where F is a function of various optional hw_tuple_tag()'s and
                                                                  hw_mask_tag() - see below.
@@ -1275,7 +1275,7 @@ union bdk_pki_wqe_s
                                                                  both [ERRLEV,OPCODE] are zero (i.e. RE/RE_NONE), else the BAD's are used.
                                                                  q is the QPG computed for the packet (see the parser document).
 
-                                                                 [GRP<9:8>] is always zero.
+                                                                 [GRP]<9:8> is always zero.
 
                                                                  Internal:
                                                                  q is PKI_BEWQ_S[CFG<10:0>].
@@ -4443,11 +4443,11 @@ union bdk_pki_clx_pkindx_style
                                                                  Internal:
                                                                  The following are additional constraints:
 
-                                                                 _ [PM<2>] (i.e. [PM<LC>]) must be set when PKI_GBL_PEN[L3_PEN] is set
-                                                                 _ [PM<3>] (i.e. [PM<LD>]) must be set when PKI_GBL_PEN[VIRT_PEN] is set
-                                                                 _ [PM<4>] (i.e. [PM<LE>]) must be set when PKI_GBL_PEN[IL3_PEN] is set
-                                                                 _ [PM<5>] (i.e. [PM<LF>]) must be set when PKI_GBL_PEN[L4_PEN] is set
-                                                                 _ [PM<6>] (i.e. [PM<LG>]) must be set when PKI_GBL_PEN[CLG_PEN] is set */
+                                                                 _ [PM]<2> (i.e. [PM<LC>]) must be set when PKI_GBL_PEN[L3_PEN] is set
+                                                                 _ [PM]<3> (i.e. [PM<LD>]) must be set when PKI_GBL_PEN[VIRT_PEN] is set
+                                                                 _ [PM]<4> (i.e. [PM<LE>]) must be set when PKI_GBL_PEN[IL3_PEN] is set
+                                                                 _ [PM]<5> (i.e. [PM<LF>]) must be set when PKI_GBL_PEN[L4_PEN] is set
+                                                                 _ [PM]<6> (i.e. [PM<LG>]) must be set when PKI_GBL_PEN[CLG_PEN] is set */
         uint64_t style                 : 8;  /**< [  7:  0](R/W) Initial style. Initial style number for packets on this port, will remain as final style
                                                                  if no PCAM entries match the packet. Note only 64 final styles exist, the upper two bits
                                                                  will only be used for PCAM matching. */
@@ -4476,11 +4476,11 @@ union bdk_pki_clx_pkindx_style
                                                                  Internal:
                                                                  The following are additional constraints:
 
-                                                                 _ [PM<2>] (i.e. [PM<LC>]) must be set when PKI_GBL_PEN[L3_PEN] is set
-                                                                 _ [PM<3>] (i.e. [PM<LD>]) must be set when PKI_GBL_PEN[VIRT_PEN] is set
-                                                                 _ [PM<4>] (i.e. [PM<LE>]) must be set when PKI_GBL_PEN[IL3_PEN] is set
-                                                                 _ [PM<5>] (i.e. [PM<LF>]) must be set when PKI_GBL_PEN[L4_PEN] is set
-                                                                 _ [PM<6>] (i.e. [PM<LG>]) must be set when PKI_GBL_PEN[CLG_PEN] is set */
+                                                                 _ [PM]<2> (i.e. [PM<LC>]) must be set when PKI_GBL_PEN[L3_PEN] is set
+                                                                 _ [PM]<3> (i.e. [PM<LD>]) must be set when PKI_GBL_PEN[VIRT_PEN] is set
+                                                                 _ [PM]<4> (i.e. [PM<LE>]) must be set when PKI_GBL_PEN[IL3_PEN] is set
+                                                                 _ [PM]<5> (i.e. [PM<LF>]) must be set when PKI_GBL_PEN[L4_PEN] is set
+                                                                 _ [PM]<6> (i.e. [PM<LG>]) must be set when PKI_GBL_PEN[CLG_PEN] is set */
         uint64_t rsvdrw15              : 1;  /**< [ 15: 15](R/W) Reserved. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
@@ -4835,23 +4835,23 @@ union bdk_pki_clx_stylex_cfg
                                                                  PKI_WQE_S[AURA] is PKI_BEWQ_S[AURA]. */
         uint64_t rsvdrw15              : 5;  /**< [ 15: 11](R/W) Reserved. Must be zero.
                                                                  Internal:
-                                                                 Parse engine code may corrupt PKI_BEWQ_S[CFG<15:11>] during QPG calculations.
-                                                                 See [QPG_BASE]. Effectively, PKI_BEWQ_S[CFG<15:11>] is unpredictable. */
+                                                                 Parse engine code may corrupt PKI_BEWQ_S[CFG]<15:11> during QPG calculations.
+                                                                 See [QPG_BASE]. Effectively, PKI_BEWQ_S[CFG]<15:11> is unpredictable. */
         uint64_t qpg_base              : 11; /**< [ 10:  0](R/W) Base index into PKI_QPG_TBL().
                                                                  Internal:
                                                                  The parse engine typically starts with [QPG_BASE], performs the
                                                                  QPG add in place, and passes the result through to PKI_BEWQ_S[CFG]. The
-                                                                 port shift and carry from the add may corrupt PKI_BEWQ_S[CFG<15:11>]. */
+                                                                 port shift and carry from the add may corrupt PKI_BEWQ_S[CFG]<15:11>. */
 #else /* Word 0 - Little Endian */
         uint64_t qpg_base              : 11; /**< [ 10:  0](R/W) Base index into PKI_QPG_TBL().
                                                                  Internal:
                                                                  The parse engine typically starts with [QPG_BASE], performs the
                                                                  QPG add in place, and passes the result through to PKI_BEWQ_S[CFG]. The
-                                                                 port shift and carry from the add may corrupt PKI_BEWQ_S[CFG<15:11>]. */
+                                                                 port shift and carry from the add may corrupt PKI_BEWQ_S[CFG]<15:11>. */
         uint64_t rsvdrw15              : 5;  /**< [ 15: 11](R/W) Reserved. Must be zero.
                                                                  Internal:
-                                                                 Parse engine code may corrupt PKI_BEWQ_S[CFG<15:11>] during QPG calculations.
-                                                                 See [QPG_BASE]. Effectively, PKI_BEWQ_S[CFG<15:11>] is unpredictable. */
+                                                                 Parse engine code may corrupt PKI_BEWQ_S[CFG]<15:11> during QPG calculations.
+                                                                 See [QPG_BASE]. Effectively, PKI_BEWQ_S[CFG]<15:11> is unpredictable. */
         uint64_t qpg_dis_aura          : 1;  /**< [ 16: 16](R/W) Disable computing aura by QPG algorithm.
 
                                                                  [QPG_DIS_AURA] should normally always be clear.

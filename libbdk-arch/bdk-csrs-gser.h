@@ -221,11 +221,11 @@ union bdk_gserx_ana_sel
 
                                                                  Used to power down the common clock input receiver to reduce power
                                                                  consumption if the common clock input is not used.
-                                                                 If the common clock QLMC_REFCLK1_P/N input is unused program the GSER(2)_ANA_SEL.ANA_SEL
+                                                                 If the common clock DLMC_REFCLK1_P/N input is unused program the GSER(2)_ANA_SEL.ANA_SEL
                                                                  field to 0x1fd.
-                                                                 If the common clock QLMC_REFCLK0_P/N input is unused program the GSER(2)_ANA_SEL.ANA_SEL
+                                                                 If the common clock DLMC_REFCLK0_P/N input is unused program the GSER(2)_ANA_SEL.ANA_SEL
                                                                  field to 0x1fe.
-                                                                 If both common clock QLMC_REFCLK0_P/N and QLMC_REFCLK1_P/N inputs are unused program the
+                                                                 If both common clock DLMC_REFCLK0_P/N and DLMC_REFCLK1_P/N inputs are unused program the
                                                                  GSER(2)_ANA_SEL.ANA_SEL field to 0x1fc. */
 #else /* Word 0 - Little Endian */
         uint64_t ana_sel               : 9;  /**< [  8:  0](R/W) Controls the adr_global input to the analog test block. Note that the
@@ -235,11 +235,11 @@ union bdk_gserx_ana_sel
 
                                                                  Used to power down the common clock input receiver to reduce power
                                                                  consumption if the common clock input is not used.
-                                                                 If the common clock QLMC_REFCLK1_P/N input is unused program the GSER(2)_ANA_SEL.ANA_SEL
+                                                                 If the common clock DLMC_REFCLK1_P/N input is unused program the GSER(2)_ANA_SEL.ANA_SEL
                                                                  field to 0x1fd.
-                                                                 If the common clock QLMC_REFCLK0_P/N input is unused program the GSER(2)_ANA_SEL.ANA_SEL
+                                                                 If the common clock DLMC_REFCLK0_P/N input is unused program the GSER(2)_ANA_SEL.ANA_SEL
                                                                  field to 0x1fe.
-                                                                 If both common clock QLMC_REFCLK0_P/N and QLMC_REFCLK1_P/N inputs are unused program the
+                                                                 If both common clock DLMC_REFCLK0_P/N and DLMC_REFCLK1_P/N inputs are unused program the
                                                                  GSER(2)_ANA_SEL.ANA_SEL field to 0x1fc. */
         uint64_t reserved_9_63         : 55;
 #endif /* Word 0 - End */
@@ -8529,12 +8529,12 @@ union bdk_gserx_refclk_sel
                                                                  links, this bit is loaded with the PCIEn_COM0_CLK_EN pin at cold reset.
 
                                                                  For CN80XX, this field must be set. */
-        uint64_t use_com1              : 1;  /**< [  0:  0](R/W) This bit controls the external mux select. When set, QLMC_REF_CLK1_N/P
-                                                                 are selected as the reference clock. When clear, QLMC_REF_CLK0_N/P are selected as the
+        uint64_t use_com1              : 1;  /**< [  0:  0](R/W) This bit controls the external mux select. When set, DLMC_REF_CLK1_N/P
+                                                                 are selected as the reference clock. When clear, DLMC_REF_CLK0_N/P are selected as the
                                                                  reference clock. */
 #else /* Word 0 - Little Endian */
-        uint64_t use_com1              : 1;  /**< [  0:  0](R/W) This bit controls the external mux select. When set, QLMC_REF_CLK1_N/P
-                                                                 are selected as the reference clock. When clear, QLMC_REF_CLK0_N/P are selected as the
+        uint64_t use_com1              : 1;  /**< [  0:  0](R/W) This bit controls the external mux select. When set, DLMC_REF_CLK1_N/P
+                                                                 are selected as the reference clock. When clear, DLMC_REF_CLK0_N/P are selected as the
                                                                  reference clock. */
         uint64_t com_clk_sel           : 1;  /**< [  1:  1](R/W/H) When set, the reference clock is sourced from the external clock mux. For bootable PCIe
                                                                  links, this bit is loaded with the PCIEn_COM0_CLK_EN pin at cold reset.

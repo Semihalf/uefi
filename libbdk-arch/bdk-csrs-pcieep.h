@@ -1450,11 +1450,10 @@ union bdk_pcieepx_cfg030
                                                                  0x1 = 256 bytes.
                                                                  0x2 = 512 bytes.
                                                                  0x3 = 1024 bytes.
-                                                                 0x4 = 2048 bytes.
-                                                                 0x5 = 4096 bytes.
+                                                                 0x4 = 2048 bytes (Not supported).
+                                                                 0x5 = 4096 bytes (Not supported).
 
-                                                                 SLI_S2M_PORT()_CTL[MRRS] and DPI_SLI_PRT()_CFG[MRRS] must also be set properly.
-                                                                 SLI_S2M_PORT()_CTL[MRRS] and DPI_SLI_PRT()_CFG[MRRS] must not exceed the desired
+                                                                 DPI_SLI_PRT()_CFG[MRRS] must be set properly and must not exceed the desired
                                                                  max read request size. */
         uint32_t ns_en                 : 1;  /**< [ 11: 11](R/W) Enable no snoop. */
         uint32_t ap_en                 : 1;  /**< [ 10: 10](RO) AUX power PM enable (not supported). */
@@ -1498,11 +1497,10 @@ union bdk_pcieepx_cfg030
                                                                  0x1 = 256 bytes.
                                                                  0x2 = 512 bytes.
                                                                  0x3 = 1024 bytes.
-                                                                 0x4 = 2048 bytes.
-                                                                 0x5 = 4096 bytes.
+                                                                 0x4 = 2048 bytes (Not supported).
+                                                                 0x5 = 4096 bytes (Not supported).
 
-                                                                 SLI_S2M_PORT()_CTL[MRRS] and DPI_SLI_PRT()_CFG[MRRS] must also be set properly.
-                                                                 SLI_S2M_PORT()_CTL[MRRS] and DPI_SLI_PRT()_CFG[MRRS] must not exceed the desired
+                                                                 DPI_SLI_PRT()_CFG[MRRS] must be set properly and must not exceed the desired
                                                                  max read request size. */
         uint32_t i_flr                 : 1;  /**< [ 15: 15](R/W) Initiate function level reset.
 
@@ -8035,31 +8033,31 @@ union bdk_pcieepx_cfg176
         uint32_t ep_dis_adm_rx         : 1;  /**< [ 22: 22](R/W) Error correction disable for ADM RX path. */
         uint32_t ep_dis_l3_rx          : 1;  /**< [ 21: 21](R/W) Error correction disable for Layer 3 RX path. */
         uint32_t ep_dis_l2_rx          : 1;  /**< [ 20: 20](R/W) Error correction disable for Layer 2 RX path. */
-        uint32_t ep_dis_dma_rd         : 1;  /**< [ 19: 19](R/W) Error correction disable for DMA Read (Not supported). */
-        uint32_t ep_dis_axib_inbr      : 1;  /**< [ 18: 18](R/W) Error correction disable for AXI Bridge inbound request path (Not supported). */
-        uint32_t ep_dis_axib_inbc      : 1;  /**< [ 17: 17](R/W) Error correction disable for AXI Bridge inbound completion composer (Not supported). */
+        uint32_t ep_dis_dma_rd         : 1;  /**< [ 19: 19](R/W) Error correction disable for DMA Read (not supported). */
+        uint32_t ep_dis_axib_inbr      : 1;  /**< [ 18: 18](R/W) Error correction disable for AXI Bridge inbound request path (not supported). */
+        uint32_t ep_dis_axib_inbc      : 1;  /**< [ 17: 17](R/W) Error correction disable for AXI Bridge inbound completion composer (not supported). */
         uint32_t ep_dis_rx             : 1;  /**< [ 16: 16](R/W) Global error correction disable for all RX Layers. */
         uint32_t reserved_7_15         : 9;
         uint32_t ep_dis_adm_tx         : 1;  /**< [  6:  6](R/W) Error correction disable for ADM TX path. */
         uint32_t ep_dis_l3_tx          : 1;  /**< [  5:  5](R/W) Error correction disable for Layer 3 TX path. */
         uint32_t ep_dis_l2_tx          : 1;  /**< [  4:  4](R/W) Error correction disable for Layer 2 TX path. */
-        uint32_t ep_dis_dma_wr         : 1;  /**< [  3:  3](R/W) Error correction disable for DMA Write (Not supported). */
-        uint32_t ep_dis_axib_outb      : 1;  /**< [  2:  2](R/W) Error correction disable for AXI Bridge outbound request path (Not supported). */
-        uint32_t ep_dis_axib_masc      : 1;  /**< [  1:  1](R/W) Error correction disable for AXI Bridge master completion buffer (Not supported). */
+        uint32_t ep_dis_dma_wr         : 1;  /**< [  3:  3](R/W) Error correction disable for DMA Write (not supported). */
+        uint32_t ep_dis_axib_outb      : 1;  /**< [  2:  2](R/W) Error correction disable for AXI Bridge outbound request path (not supported). */
+        uint32_t ep_dis_axib_masc      : 1;  /**< [  1:  1](R/W) Error correction disable for AXI Bridge master completion buffer (not supported). */
         uint32_t ep_dis_tx             : 1;  /**< [  0:  0](R/W) Global error correction disable for all TX Layers. */
 #else /* Word 0 - Little Endian */
         uint32_t ep_dis_tx             : 1;  /**< [  0:  0](R/W) Global error correction disable for all TX Layers. */
-        uint32_t ep_dis_axib_masc      : 1;  /**< [  1:  1](R/W) Error correction disable for AXI Bridge master completion buffer (Not supported). */
-        uint32_t ep_dis_axib_outb      : 1;  /**< [  2:  2](R/W) Error correction disable for AXI Bridge outbound request path (Not supported). */
-        uint32_t ep_dis_dma_wr         : 1;  /**< [  3:  3](R/W) Error correction disable for DMA Write (Not supported). */
+        uint32_t ep_dis_axib_masc      : 1;  /**< [  1:  1](R/W) Error correction disable for AXI Bridge master completion buffer (not supported). */
+        uint32_t ep_dis_axib_outb      : 1;  /**< [  2:  2](R/W) Error correction disable for AXI Bridge outbound request path (not supported). */
+        uint32_t ep_dis_dma_wr         : 1;  /**< [  3:  3](R/W) Error correction disable for DMA Write (not supported). */
         uint32_t ep_dis_l2_tx          : 1;  /**< [  4:  4](R/W) Error correction disable for Layer 2 TX path. */
         uint32_t ep_dis_l3_tx          : 1;  /**< [  5:  5](R/W) Error correction disable for Layer 3 TX path. */
         uint32_t ep_dis_adm_tx         : 1;  /**< [  6:  6](R/W) Error correction disable for ADM TX path. */
         uint32_t reserved_7_15         : 9;
         uint32_t ep_dis_rx             : 1;  /**< [ 16: 16](R/W) Global error correction disable for all RX Layers. */
-        uint32_t ep_dis_axib_inbc      : 1;  /**< [ 17: 17](R/W) Error correction disable for AXI Bridge inbound completion composer (Not supported). */
-        uint32_t ep_dis_axib_inbr      : 1;  /**< [ 18: 18](R/W) Error correction disable for AXI Bridge inbound request path (Not supported). */
-        uint32_t ep_dis_dma_rd         : 1;  /**< [ 19: 19](R/W) Error correction disable for DMA Read (Not supported). */
+        uint32_t ep_dis_axib_inbc      : 1;  /**< [ 17: 17](R/W) Error correction disable for AXI Bridge inbound completion composer (not supported). */
+        uint32_t ep_dis_axib_inbr      : 1;  /**< [ 18: 18](R/W) Error correction disable for AXI Bridge inbound request path (not supported). */
+        uint32_t ep_dis_dma_rd         : 1;  /**< [ 19: 19](R/W) Error correction disable for DMA Read (not supported). */
         uint32_t ep_dis_l2_rx          : 1;  /**< [ 20: 20](R/W) Error correction disable for Layer 2 RX path. */
         uint32_t ep_dis_l3_rx          : 1;  /**< [ 21: 21](R/W) Error correction disable for Layer 3 RX path. */
         uint32_t ep_dis_adm_rx         : 1;  /**< [ 22: 22](R/W) Error correction disable for ADM RX path. */
@@ -9586,8 +9584,8 @@ union bdk_pcieepx_cfg456
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
         uint32_t m_prs                 : 1;  /**< [  7:  7](R/W) Mask PRS messages dropped silently. */
-        uint32_t m_unmask_td           : 1;  /**< [  6:  6](R/W) Not Supported. */
-        uint32_t m_unmask_ur_pois      : 1;  /**< [  5:  5](R/W) Not Supported. */
+        uint32_t m_unmask_td           : 1;  /**< [  6:  6](R/W) Not supported. */
+        uint32_t m_unmask_ur_pois      : 1;  /**< [  5:  5](R/W) Not supported. */
         uint32_t m_ln_vend1_drop       : 1;  /**< [  4:  4](R/W) Mask LN messages dropped silently. */
         uint32_t m_handle_flush        : 1;  /**< [  3:  3](R/W) Mask core filter to handle flush request. */
         uint32_t m_dabort_4ucpl        : 1;  /**< [  2:  2](R/W) Mask DLLP abort for unexpected CPL. */
@@ -9599,8 +9597,8 @@ union bdk_pcieepx_cfg456
         uint32_t m_dabort_4ucpl        : 1;  /**< [  2:  2](R/W) Mask DLLP abort for unexpected CPL. */
         uint32_t m_handle_flush        : 1;  /**< [  3:  3](R/W) Mask core filter to handle flush request. */
         uint32_t m_ln_vend1_drop       : 1;  /**< [  4:  4](R/W) Mask LN messages dropped silently. */
-        uint32_t m_unmask_ur_pois      : 1;  /**< [  5:  5](R/W) Not Supported. */
-        uint32_t m_unmask_td           : 1;  /**< [  6:  6](R/W) Not Supported. */
+        uint32_t m_unmask_ur_pois      : 1;  /**< [  5:  5](R/W) Not supported. */
+        uint32_t m_unmask_td           : 1;  /**< [  6:  6](R/W) Not supported. */
         uint32_t m_prs                 : 1;  /**< [  7:  7](R/W) Mask PRS messages dropped silently. */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
@@ -10760,7 +10758,7 @@ union bdk_pcieepx_cfg559
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_4_31         : 28;
-        uint32_t simp_replay_timer     : 1;  /**< [  3:  3](R/W) Not Supported. */
+        uint32_t simp_replay_timer     : 1;  /**< [  3:  3](R/W) Not supported. */
         uint32_t ur_c4_mask_4_trgt1    : 1;  /**< [  2:  2](R/W) This field only applies to request TLPs (with UR filtering status) that are
                                                                  chosen to forward to the application (when [DEFAULT_TARGET] is set).
 
@@ -10790,7 +10788,7 @@ union bdk_pcieepx_cfg559
 
                                                                  When set, the core suppresses error logging, error message generation, and CPL
                                                                  generation (for non-posted requests). */
-        uint32_t simp_replay_timer     : 1;  /**< [  3:  3](R/W) Not Supported. */
+        uint32_t simp_replay_timer     : 1;  /**< [  3:  3](R/W) Not supported. */
         uint32_t reserved_4_31         : 28;
 #endif /* Word 0 - End */
     } s;
@@ -10850,8 +10848,8 @@ union bdk_pcieepx_cfg560
                                                                  0x2  = x2.
                                                                  0x4  = x4.
                                                                  0x8  = x8.
-                                                                 0x10 = x16 (Not supported).
-                                                                 0x20 = x32 (Not supported). */
+                                                                 0x10 = x16 (not supported).
+                                                                 0x20 = x32 (not supported). */
 #else /* Word 0 - Little Endian */
         uint32_t trgt_lnk_wdth         : 6;  /**< [  5:  0](R/W/H) Target Link Width.
                                                                  0x0  = Core does not start upconfigure or autonomous width downsizing in configuration
@@ -10860,8 +10858,8 @@ union bdk_pcieepx_cfg560
                                                                  0x2  = x2.
                                                                  0x4  = x4.
                                                                  0x8  = x8.
-                                                                 0x10 = x16 (Not supported).
-                                                                 0x20 = x32 (Not supported). */
+                                                                 0x10 = x16 (not supported).
+                                                                 0x20 = x32 (not supported). */
         uint32_t dir_lnk_wdth_chg      : 1;  /**< [  6:  6](R/W/H) Directed Link Width Change.
                                                                  The core always moves to configuration state through recovery state
                                                                  when this bit is set.

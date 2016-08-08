@@ -1786,7 +1786,7 @@ union bdk_pko_send_hdr_s
                                                                   payload_per_seg = [MSS] - [SB]
                                                                   [ x ] indicates to round x down to the nearest whole number
 
-                                                                 num_segs must be greater than 1 and must never exceed 128. [MSS] must
+                                                                 num_segs must be greater than 1 and must never exceed 127. [MSS] must
                                                                  be >= 576. [MSS] must be <= 1535 whenever PKO considers
                                                                  the length/type field selected by [L2LEN] to be a length field. */
 #else /* Word 1 - Little Endian */
@@ -1801,7 +1801,7 @@ union bdk_pko_send_hdr_s
                                                                   payload_per_seg = [MSS] - [SB]
                                                                   [ x ] indicates to round x down to the nearest whole number
 
-                                                                 num_segs must be greater than 1 and must never exceed 128. [MSS] must
+                                                                 num_segs must be greater than 1 and must never exceed 127. [MSS] must
                                                                  be >= 576. [MSS] must be <= 1535 whenever PKO considers
                                                                  the length/type field selected by [L2LEN] to be a length field. */
         uint64_t shp_ra                : 2;  /**< [ 79: 78] Red algorithm. Enumerated by PKO_REDALG_E. Specifies handling of a packet that

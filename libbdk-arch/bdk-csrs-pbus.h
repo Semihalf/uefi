@@ -954,7 +954,7 @@ union bdk_pbus_regx_tim
                                                                  (or [OE] expires which ever occurs last) before finishing the data cycle.
                                                                  Note that this bit should not be set with PAGEM. */
         uint64_t pages                 : 2;  /**< [ 61: 60](R/W) Region page size.
-                                                                  0x0 = 1 bytes.
+                                                                  0x0 = 8 bytes.
                                                                   0x1 = 2 bytes.
                                                                   0x2 = 4 bytes.
                                                                   0x3 = 8 bytes.
@@ -1001,7 +1001,7 @@ union bdk_pbus_regx_tim
         uint64_t ale                   : 6;  /**< [ 59: 54](R/W) Region ALE count. Must be nonzero to ensure legal transitions on
                                                                  the corresponding PBUS outputs. */
         uint64_t pages                 : 2;  /**< [ 61: 60](R/W) Region page size.
-                                                                  0x0 = 1 bytes.
+                                                                  0x0 = 8 bytes.
                                                                   0x1 = 2 bytes.
                                                                   0x2 = 4 bytes.
                                                                   0x3 = 8 bytes.
