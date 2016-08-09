@@ -1,7 +1,7 @@
 #include <bdk.h>
 
 /**
- * Intialize the LED display on a Cavium evaluation board. This is an eight
+ * Initialize the LED display on a Cavium evaluation board. This is an eight
  * character display.
  *
  * @param node   Node the display is on

@@ -31,7 +31,7 @@ static int qlm_get_lanes(bdk_node_t node, int qlm)
  * Lookup the hardware QLM number for a given interface type and index. This
  * function will fail with a fatal error if called on invalid interfaces for
  * a chip. It returns the QLM number for an interface without checking to
- * see if the QLM is in hte correct mode.
+ * see if the QLM is in the correct mode.
  *
  * @param iftype    Interface type
  * @param interface Interface index number

@@ -149,7 +149,7 @@ int bdk_usb_initialize(bdk_node_t node, int usb_port, bdk_usb_clock_t clock_type
         int ref_clk_fsel = 0x27;
         if (CAVIUM_IS_MODEL(CAVIUM_CN83XX)) {
             if (BDK_USB_CLOCK_SS_PAD_HS_PAD != clock_type) {
-                bdk_error("Node %d usb_port %d: usb clock type %d is invaild\n", node, usb_port, clock_type);
+                bdk_error("Node %d usb_port %d: usb clock type %d is invalid\n", node, usb_port, clock_type);
                 return -1;
             }
         }
@@ -157,7 +157,7 @@ int bdk_usb_initialize(bdk_node_t node, int usb_port, bdk_usb_clock_t clock_type
             switch (clock_type)
             {
             default:
-                bdk_error("Node %d usb_port %d: usb clock type %d is invaild\n", node, usb_port, clock_type);
+                bdk_error("Node %d usb_port %d: usb clock type %d is invalid\n", node, usb_port, clock_type);
                 return -1;
             case BDK_USB_CLOCK_SS_PAD_HS_PAD : ref_clk_src = 2; break;
             case BDK_USB_CLOCK_SS_REF0_HS_REF0 : ref_clk_src = 0; break;  /* Superspeed and high speed use DLM/QLM ref clock 0 */
@@ -181,7 +181,7 @@ int bdk_usb_initialize(bdk_node_t node, int usb_port, bdk_usb_clock_t clock_type
     else
     {
         if (BDK_USB_CLOCK_SS_PAD_HS_PAD != clock_type) {
-            bdk_error("Node %d usb_port %d: usb clock type %d is invaild\n", node, usb_port, clock_type);
+            bdk_error("Node %d usb_port %d: usb clock type %d is invalid\n", node, usb_port, clock_type);
             return -1;
         }
         BDK_CSR_MODIFY(c, node, BDK_USBHX_UCTL_CTL(usb_port),
