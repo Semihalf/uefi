@@ -392,6 +392,11 @@ static void __bdk_pcie_sli_initialize(bdk_node_t node, int pcie_port)
         /* Use the lower order bits to work as an address extension, allowing
            each PCIe port to map a total of 36 bits (32bit each region, 16
            regions) */
+        int epf = sli_group;
+        if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) || CAVIUM_IS_MODEL(CAVIUM_CN81XX)) {
+            BDK_CSR_INIT(lmac_const0,node,BDK_SLIX_LMAC_CONST0X(sli,pcie_port));
+            epf = lmac_const0.s.epf;
+        }
         for (int r = sli_region; r < sli_region + 16; r++)
         {
             uint64_t address = 0;
@@ -408,7 +413,7 @@ static void __bdk_pcie_sli_initialize(bdk_node_t node, int pcie_port)
             BDK_CSR_MODIFY(c, node, BDK_SLIX_S2M_REGX_ACC(sli, r),
                 c.s.ctype = ctype;
                 c.s.zero = 0;
-                c.cn81xx.mac = sli_group;
+                c.cn83xx.epf = epf; /* Superimposed onto c.cn81xx.mac. EPF value works for both */
                 c.s.nmerge = nmerge;
                 c.s.wtype = ordering;
                 c.s.rtype = ordering;
