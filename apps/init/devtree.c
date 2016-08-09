@@ -315,8 +315,10 @@ static int devtree_fixups(void *fdt)
                 /* Delete PEMs that fail any of the above checks */
                 if (del_pem)
                 {
-                    /* Find the FDT node for the PEM */
-                    uint64_t address = bdk_numa_get_address(node, BDK_PEM_BAR_E_PEMX_PF_BAR0(pem));
+                    /* Find the FDT node for the PEM, device tree
+                       addresses are node relative, so don't use
+                       absolute address on the given node. */
+                    uint64_t address = BDK_PEM_BAR_E_PEMX_PF_BAR0(pem);
                     char pem_name[64];
                     snprintf(pem_name, sizeof(pem_name), "/%s/pci@%lx", soc, address);
                     int fdt_node = fdt_path_offset(fdt, pem_name);
@@ -325,8 +327,11 @@ static int devtree_fixups(void *fdt)
                     /* Get its phandle, used by SMMU */
                     uint32_t pem_phandle = fdt_get_phandle(fdt, fdt_node);
                     /* Delete the PEM */
-                    if (devtree_node_del(fdt, pem_name))
+                    int status = fdt_nop_node(fdt, fdt_node);
+                    if (status) {
+                        bdk_error("Unable to delete %s in FDT (%d:%s)\n", pem_name, status, fdt_strerror(status));
                         return -1;
+                    }
                     /* After deleting the PEM, we need to remove references to
                        it from the SMMUs */
                     const char *propname = "mmu-masters";
@@ -406,83 +411,54 @@ static int devtree_fixups(void *fdt)
           is available, don't add the "local-mac-address" property. */
         if (bdk_numa_exists(node))
         {
-            /* Find all nodes with the property "qlm-mode" */
-            const char *propname = "qlm-mode";
-            int fdt_node = devtree_node_offset_by_prop_name(fdt, -1, propname);
-            while (fdt_node >= 0)
+            unsigned int bgx_index, bgx_interface;
+            int len;
+            int fdt_node, fdt_node_prev;
+            for (bgx_interface = 0; bgx_interface < 4; bgx_interface++)
             {
-                /* Figure out the next node. If we delete this one, the link
-                   will be gone later */
-                int next_node = devtree_node_offset_by_prop_name(fdt, fdt_node, propname);
-                const char *fdt_node_name = fdt_get_name(fdt, fdt_node, NULL);
-                /* We will delete the node if none of the properties modes matches */
-                bool update_node = true;
-                bool delete_node = true;
-                /* Get the value of the property */
-                int proplen = 0;
-                const char *propvalue = fdt_getprop(fdt, fdt_node, propname, &proplen);
-                const char *propend = propvalue + proplen;
-                const char *item = propvalue;
-                /* Loop through all the string values of the properly */
-                while (item < propend)
+                for (bgx_index = 0; bgx_index < 4; bgx_index++)
                 {
-                    /* Each string is "bgx_number,mode". Extract the two parts.
-                       The BGX number increments through bgx ports (4), then
-                       through BGXs, then other nodes */
-                    int bgx_id = strtol(item, NULL, 0);
-                    bdk_node_t bgx_node = bdk_extract(bgx_id, 8, 2);
-                    int bgx_interface = bdk_extract(bgx_id, 4, 4);
-                    int bgx_index = bdk_extract(bgx_id, 0, 4);
-                    const char *comma = strchr(item, ',');
-                    if (bgx_node != node)
-                    {
-                        /* For different node, skip it */
-                        update_node = false;
-                        delete_node = false;
-                        break;
-                    }
-                    /* Stop searching if any string is invalid */
-                    if (!comma || (bgx_interface >= 4))
-                    {
-                        /* Invalid: Node will be deleted */
-                        BDK_TRACE(FDT_OS, "    %s[qlm-mode] is invalid (%s)\n", fdt_node_name, item);
-                        break;
-                    }
-                    int qlm = bdk_qlm_get(bgx_node, BDK_IF_BGX, bgx_interface, bgx_index);
+                    char key[64];
+                    int qlm = bdk_qlm_get(node, BDK_IF_BGX, bgx_interface, bgx_index);
                     bdk_qlm_modes_t qlm_mode = (qlm == -1) ? BDK_QLM_MODE_DISABLED : bdk_qlm_get_mode(node, qlm);
-                    const char *qlm_mode_str = QLM_BGX_MODE_MAP[qlm_mode];
-                    /* If the string matches the QLM mode, we will keep this node */
-                    if (qlm_mode_str && (strcasecmp(qlm_mode_str, comma + 1) == 0))
+
+                    if (!bdk_config_get_int(BDK_CONFIG_BGX_ENABLE, node, bgx_interface, bgx_index))
+                        qlm_mode = BDK_QLM_MODE_DISABLED;
+
+                    if (qlm_mode == BDK_QLM_MODE_DISABLED)
+                        snprintf(key, sizeof(key), "0x%x%x%x,disabled", node, bgx_interface, bgx_index);
+                    else
+                        snprintf(key, sizeof(key), "0x%x%x%x,%s", node, bgx_interface, bgx_index, QLM_BGX_MODE_MAP[qlm_mode]);
+                    fdt_node = 0;
+                    do
                     {
-                        /* Property matches, keep this node */
-                        delete_node = false;
-                        BDK_TRACE(FDT_OS, "    %s[qlm-mode] = %s (match)\n", fdt_node_name, item);
-                        break;
-                    }
-                    /* Move to the next list item */
-                    item += strlen(item) + 1;
+                        fdt_node_prev = fdt_node;
+                        fdt_node = fdt_next_node(fdt, fdt_node_prev, NULL);
+
+                        if (fdt_node < 0)
+                            break;
+
+                        const char *prop_value_in_tree = fdt_getprop(fdt, fdt_node, "qlm-mode", &len);
+                        if (!prop_value_in_tree)
+                            continue; /* No qlm-mode property in this node. */
+
+                        if (strncmp(prop_value_in_tree, key, 6) != 0)
+                            continue; /* No key prefix match. */
+
+                        const char *node_name = fdt_get_name(fdt, fdt_node, NULL);
+                        if (fdt_stringlist_contains(prop_value_in_tree, len, key)) {
+                            /* Keep node, remove "qlm-mode" property */
+                            BDK_TRACE(FDT_OS, "    Keep %s because \"%s\"\n", node_name, key);
+                            fdt_nop_property(fdt, fdt_node, "qlm-mode");
+                        } else {
+                            /* No match, remove node */
+                            BDK_TRACE(FDT_OS, "    Remove %s because \"%s\"\n", node_name, key);
+                            fdt_nop_node(fdt, fdt_node);
+                        }
+                        /*  Retry at the same offset as NOP filling may invalidate next nodes. */
+                        fdt_node = fdt_node_prev;
+                    } while (fdt_node >= 0);
                 }
-                /* Delete the node if it didn't match */
-                if (delete_node)
-                {
-                    BDK_TRACE(FDT_OS, "    Delete %s with unused qlm-mode\n", fdt_node_name);
-                    if (fdt_nop_node(fdt, fdt_node))
-                    {
-                        bdk_error("Failed to delete node %s\n", fdt_node_name);
-                        return -1;
-                    }
-                }
-                else if (update_node)
-                {
-                    /* Remove the custom property from the tree */
-                    if (fdt_nop_property(fdt, fdt_node, propname))
-                    {
-                        bdk_error("Failed to NOP property %s[%s]\n", fdt_node_name, propname);
-                        return -1;
-                    }
-                    BDK_TRACE(FDT_OS, "    Removed property %s[%s]\n", fdt_node_name, propname);
-                }
-                fdt_node = next_node;
             }
         }
 
@@ -493,12 +469,40 @@ static int devtree_fixups(void *fdt)
         {
             char refclkuaa[32];
             snprintf(refclkuaa, sizeof(refclkuaa), "/%s/refclkuaa", soc);
-            BDK_CSR_INIT(ibrd, node, BDK_UAAX_IBRD(0));
-            BDK_CSR_INIT(fbrd, node, BDK_UAAX_FBRD(0));
-            int uaa_clock = (((ibrd.u * 64) + fbrd.u) * 115200) / 4;
             int fdt_node = fdt_path_offset(fdt, refclkuaa);
             if (fdt_node >= 0)
             {
+                int divisor;
+                BDK_CSR_INIT(uctl_ctl, node, BDK_UAAX_UCTL_CTL(0));
+
+                switch (uctl_ctl.s.h_clkdiv_sel) {
+                case 0:
+                    divisor = 1;
+                    break;
+                case 1:
+                    divisor = 2;
+                    break;
+                case 2:
+                    divisor = 4;
+                    break;
+                case 3:
+                    divisor = 6;
+                    break;
+                case 4:
+                    divisor = 8;
+                    break;
+                case 5:
+                    divisor = 16;
+                    break;
+                case 6:
+                    divisor = 24;
+                    break;
+                case 7:
+                    divisor = 32;
+                    break;
+                }
+                int uaa_clock = bdk_clock_get_rate(node, BDK_CLOCK_SCLK) / divisor;
+
                 if (fdt_setprop_inplace_u32(fdt, fdt_node, "clock-frequency", uaa_clock))
                 {
                     bdk_error("Unable to edit %s[clock-frequency] in FDT\n", refclkuaa);
@@ -528,18 +532,29 @@ static int devtree_fixups(void *fdt)
         }
 
         /* 8) Patch ECAM property names.  For systems that are *not* either T88
-          pass1, nor T88 Pass2-2-node, find all "compatible" properties with a
+          pass1, nor T88 Pass2-2nd node, find all "compatible" properties with a
           value "cavium,pci-host-thunder-ecam", and change the compatible
           value to "pci-host-ecam-generic". */
-        if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X) ||
-            (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && !bdk_numa_is_only_one()))
+        if (!CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X) &&
+            !(CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && node > 0))
         {
+            char soc_path[32];
             const char *new_compatible = "pci-host-ecam-generic";
-            const int new_compatible_len = strlen(new_compatible);
-            int fdt_node = -1;
-            fdt_node = fdt_node_offset_by_compatible(fdt, -1, "cavium,pci-host-thunder-ecam");
-            while (fdt_node > 0)
+            /* Length includes null terminator */
+            const int new_compatible_len = strlen(new_compatible) + 1;
+            int depth;
+            int fdt_node;
+
+            snprintf(soc_path, sizeof(soc_path), "/%s", soc);
+            fdt_node = fdt_path_offset(fdt, soc_path);
+
+            for (depth = 0;
+                 (fdt_node >= 0) && (depth >= 0);
+                 fdt_node = fdt_next_node(fdt, fdt_node, &depth))
             {
+                if (fdt_node_check_compatible(fdt, fdt_node, "cavium,pci-host-thunder-ecam") != 0)
+                    continue;
+
                 const char *fdt_node_name = fdt_get_name(fdt, fdt_node, NULL);
                 if (fdt_setprop(fdt, fdt_node, "compatible", new_compatible, new_compatible_len))
                 {
@@ -547,7 +562,6 @@ static int devtree_fixups(void *fdt)
                     return -1;
                 }
                 BDK_TRACE(FDT_OS, "    Changed %s[compatible] to %s\n", fdt_node_name, new_compatible);
-                fdt_node = fdt_node_offset_by_compatible(fdt, fdt_node, "cavium,pci-host-thunder-ecam");
             }
         }
 
@@ -565,7 +579,7 @@ static int devtree_fixups(void *fdt)
         if (bdk_numa_exists(node))
         {
             char mem[32];
-            snprintf(mem, sizeof(mem), "/memory@%08lx", (uint64_t)node << 40);
+            snprintf(mem, sizeof(mem), "/memory@%lx", (uint64_t)node << 40);
             int fdt_node = fdt_path_offset(fdt, mem);
             if (fdt_node >= 0)
             {
@@ -576,7 +590,7 @@ static int devtree_fixups(void *fdt)
                     uint64_t base = fdt32_to_cpu(mem_info[1]);
                     base |= (uint64_t)fdt32_to_cpu(mem_info[0]) << 32;
                     uint64_t size = bdk_dram_get_size_mbytes(node) << 20;
-                    size -= base;
+                    size -= base & 0xfffffffffful; /* Mask out node bits */
                     uint32_t new_mem[4];
                     new_mem[0] = cpu_to_fdt32(base >> 32);    /* High part of memory base */
                     new_mem[1] = cpu_to_fdt32(base);          /* Low part of memory base */
@@ -694,7 +708,6 @@ int devtree_process(void)
     /* Warn if we could load a device tree */
     if (!fdt)
     {
-        return -1; /* SDK team is not ready with OS device trees yet */
         printf("\33[1m"); /* Bold */
         bdk_warn("\n");
         bdk_warn("********************************************************\n");
