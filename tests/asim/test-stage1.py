@@ -100,7 +100,7 @@ wait_for("U) Change baud rate and flow control")
 wait_for("R) Reboot")
 wait_for("Choice:")
 
-send("e")
+send("d")
 wait_for("Loading image file '/fatfs/diagnostics.bin'")
 wait_for("---")
 wait_for("Cavium SOC")
