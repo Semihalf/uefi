@@ -45,7 +45,8 @@ def wait_for_bootstub_messages(cnx, powerCycle):
     cnx.match("N) Boot Normally")
     cnx.match("S) Enter Setup")
     cnx.match("D) Enter Diagnostics")
-    cnx.match("E) Enter Diagnostics, skipping Setup")
+    if cnx.chip_model != "CN81XX":
+        cnx.match("E) Enter Diagnostics, skipping Setup")
     cnx.match("F) Select Image from Flash")
     cnx.match("X) Upload File to FatFS using Xmodem")
     cnx.match("W) Burn boot flash using Xmodem")

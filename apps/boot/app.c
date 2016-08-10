@@ -42,7 +42,8 @@ void boot_menu(void)
         bdk_menu_item(&menu, 'S', "Enter Setup", NULL, NULL);
         if (!is_misconfigured) // Hidden if no board configuration
             bdk_menu_item(&menu, 'D', "Enter Diagnostics", NULL, NULL);
-        bdk_menu_item(&menu, 'E', "Enter Diagnostics, skipping Setup", NULL, NULL);
+        if (!CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+            bdk_menu_item(&menu, 'E', "Enter Diagnostics, skipping Setup", NULL, NULL);
         bdk_menu_item(&menu, 'F', "Select Image from Flash", NULL, NULL);
         bdk_menu_item(&menu, 'X', "Upload File to FatFS using Xmodem", NULL, NULL);
         bdk_menu_item(&menu, 'W', "Burn boot flash using Xmodem", NULL, NULL);
@@ -67,7 +68,10 @@ void boot_menu(void)
                 bdk_image_boot("/fatfs/init.bin", 0);
                 break;
             case 'E': /* Enter diagnostics directly */
-                bdk_image_boot("/fatfs/diagnostics.bin", 0);
+                if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+                    bdk_error("Invalid choice\n");
+                else
+                    bdk_image_boot("/fatfs/diagnostics.bin", 0);
                 break;
             case 'F': /* Select an image */
                 bdk_image_choose("BOOT:");
