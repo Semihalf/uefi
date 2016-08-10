@@ -125,8 +125,6 @@ wait_for("Type \"help\" for a list of commands")
 wait_for("(INS)Command>")
 time.sleep(2)
 node = ""
-if "CN88XX" in os.environ["ASIM_CHIP"]:
-    node = "N0."
 send("default %sFAKE0-%sFAKE3" % (node, node))
 wait_for("(INS)Command>")
 send("count 100")
