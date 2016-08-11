@@ -54,6 +54,7 @@ int bdk_pko_global_init(bdk_node_t node)
     BDK_CSR_MODIFY(c, node, BDK_PKO_DPFI_ENA,
         c.s.enable = 1);
     BDK_CSR_MODIFY(c, node, BDK_PKO_PTF_IOBP_CFG,
+        c.s.iobp1_ds_opt = 1; /* hrm recommendation */
         c.s.iobp1_magic_addr = bdk_numa_get_address(bdk_numa_master(), 0) >> 7;
         c.s.max_read_size = 16); /* Recommended by Joe Tompkins */
     BDK_CSR_MODIFY(c, node, BDK_PKO_PDM_CFG,
@@ -699,18 +700,19 @@ int bdk_pko_transmit(bdk_if_handle_t handle, const bdk_if_packet_t *packet)
 #define _LMTS_START 0 /* Number of the lowest lmt slot used*/
     uint64_t io_address = BDK_PKO_VFX_DQX_OP_SENDX(handle->pko_queue / 8, handle->pko_queue & 7, _LMTS_START);
     io_address = bdk_numa_get_address(handle->node, io_address);
+
+    /* Build the two PKO comamnd words we need */
+    union bdk_pko_send_hdr_s pko_send_hdr_s;
+    pko_send_hdr_s.u[0] = 0;
+    pko_send_hdr_s.u[1] = 0;
+    pko_send_hdr_s.s.df = 1;
+    pko_send_hdr_s.s.format = 0; /* We don't use this? */
+    pko_send_hdr_s.s.total = packet->length;
+    pko_send_hdr_s.s.l3ptr = 14; /* This is the offset of the IP header created by traffic-gen */
     do
     {
         int lmstore_words = _LMTS_START;
 #undef _LMTS_START
-        /* Build the two PKO comamnd words we need */
-        union bdk_pko_send_hdr_s pko_send_hdr_s;
-        pko_send_hdr_s.u[0] = 0;
-        pko_send_hdr_s.u[1] = 0;
-        pko_send_hdr_s.s.df = 1;
-        pko_send_hdr_s.s.format = 0; /* We don't use this? */
-        pko_send_hdr_s.s.total = packet->length;
-        pko_send_hdr_s.s.l3ptr = 14; /* This is the offset of the IP header created by traffic-gen */
 
         bdk_lmt_cancel();
         bdk_lmt_store(lmstore_words, pko_send_hdr_s.u[0]);
