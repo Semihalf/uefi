@@ -702,7 +702,7 @@ static void dram_tuning_thread(int arg, void *arg1)
 
     /* Report that we're done */
     debug_print("Core %d on LMC %d node %d done with test_dram_byte with 0x%lx errs\n",
-	      core, node, errs);
+	      core, lmc, node, errs);
 
     if (errs) {
 	bdk_atomic_fetch_and_bset64_nosync(&test_dram_byte_threads_errs, errs);
@@ -745,7 +745,7 @@ static void dram_tuning_thread2(int arg, void *arg1)
 
     /* Report that we're done */
     debug_print("Core %d on LMC %d node %d done with test_dram_byte with 0x%lx errs\n",
-	      core, node, errs);
+	      core, lmc, node, errs);
 
     if (errs) {
 	bdk_atomic_fetch_and_bset64_nosync(&test_dram_byte_threads_errs, errs);

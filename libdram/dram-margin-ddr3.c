@@ -416,7 +416,7 @@ static void dram_margin_thread(int arg, void *arg1)
 
     /* Report that we're done */
     debug_print("Core %d on LMC %d node %d done with test_dram_byte with 0x%lx errs\n",
-	      core, node, errs);
+	      core, lmc, node, errs);
 
     if (errs) {
 	bdk_atomic_fetch_and_bset64_nosync(&dram_margin_threads_errs, errs);
