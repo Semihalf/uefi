@@ -602,12 +602,10 @@ local function create_device(root, bus, deviceid, func, vparent)
             if cap_id == 0x10 then
                 has_pcie = true
                 printf(" - PCIe\n")
-            end
-            if cap_id == 0x11 then
+            elseif cap_id == 0x11 then
                 printf(" - MSI-X\n")
-            end
-            -- Extended Allocation
-            if cap_id == 0x14 then
+            elseif cap_id == 0x14 then
+                -- Extended Allocation
                 printf(" - Enhanced Allocation\n")
                 local nument = self:read8(cap_loc + 2)
                 nument = bit64.bextract(nument,0,5)
@@ -701,6 +699,9 @@ local function create_device(root, bus, deviceid, func, vparent)
                     printf("%s        %s Base:%s Limit:%s [%s]\n",indent, barname,base, maxoffset, propname)
                     ::next_ea::
                 end
+            else
+                -- Capability we do not have verbiage for
+                printf("\n")
             end
             cap_loc = cap_next
         end
