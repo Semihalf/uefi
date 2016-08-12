@@ -616,6 +616,8 @@ int __bdk_init_ccpi_links(uint64_t gbaud)
                 for (int link = 0; link < MAX_LINKS; link++)
                 {
                     ocx_pp_write(node, BDK_OCX_TLKX_STAT_ERR_CNT(link), 0);
+                    ocx_pp_write(node, BDK_OCX_TLKX_STAT_RETRY_CNT(link), 0);
+                    ocx_pp_write(node, BDK_OCX_RLKX_BLK_ERR(link), 0xffff0000);
                     ocx_pp_write(node, BDK_OCX_COM_LINKX_INT(link), ocx_pp_read(node, BDK_OCX_COM_LINKX_INT(link)));
                 }
                 ocx_pp_write(node, BDK_OCX_COM_INT, ocx_pp_read(node, BDK_OCX_COM_INT));
