@@ -106,14 +106,18 @@ def parse_args():
 # Create a connection to the board based on the supplied parameters
 #
 def create_connection(args):
+    log_board_name = args.board
     if args.console == None:
         if args.mcu:
+            log_board_name = args.mcu
             args.console = args.mcu + ":9761"
         else:
             assert args.bmc, "Serial over LAN requires BMC"
+            log_board_name = args.bmc
             args.console = "sol:" + args.bmc
     elif args.console == "sol":
         assert args.bmc, "Serial over LAN requires BMC"
+        log_board_name = args.bmc
         args.console = "sol:" + args.bmc
     if args.mcu and not ":" in args.mcu:
         args.mcu = args.mcu + ":9760"
@@ -127,7 +131,7 @@ def create_connection(args):
     else:
         print "BMC/control connection: %s" % args.bmc
 
-    logname = "log-%s-%s" % (args.board, "+".join(args.test))
+    logname = "log-%s-%s" % (log_board_name, "+".join(args.test))
     log = connection.Log(logname)
     cnx = SUPPORTED_BOARDS[args.board]["cnx"](args, log)
     return cnx
