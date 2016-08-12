@@ -19,7 +19,7 @@ int bdk_sso_init(bdk_node_t node)
     /* Need two per group, one per hardware work slot (HWS) + some for
        memory spillage */
     const int MEM_SPILL = 1024; /* Number of WQE that can spill to DRAM */
-    int num_blocks = sso_const.s.grp*2 + sso_const.s.hws + ((MEM_SPILL + sso_const1.s.xae_waes-1) / sso_const1.s.xae_waes);
+    int num_blocks = sso_const.s.grp*3 + 48 + ((MEM_SPILL + sso_const1.s.xae_waes-1) / sso_const1.s.xae_waes);
     if (bdk_fpa_fill_pool(node, BDK_FPA_SSO_POOL, num_blocks))
         return -1;
     const int aura = BDK_FPA_SSO_POOL; /* Use 1:1 mapping aura */
