@@ -708,6 +708,7 @@ int devtree_process(void)
     /* Warn if we could load a device tree */
     if (!fdt)
     {
+        return -1; /* Suppress warning as the BDK normally doesn't have a device tree */
         printf("\33[1m"); /* Bold */
         bdk_warn("\n");
         bdk_warn("********************************************************\n");
