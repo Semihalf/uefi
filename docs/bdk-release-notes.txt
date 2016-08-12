@@ -77,6 +77,11 @@ caused the defaults for CCPI lane tuning to be lost.
 ** Add required 300Mhz offset for decode of MIO_FUS_DAT3[core_pll_mul]
 ** Add setup menu for choosing tracing levels
 
+== thunder-release-v1.23.9 ==
+* CCPI
+** Clear CCPI link TX retry and RX block error counters after CCPI init. RX
+block error counters were causing false error reporting during UEFI.
+
 == thunder-release-v1.23.8 ==
 * CCPI
 ** Fix bug where CCPI pre/post for node 0 was using node 1 values.  Node 0
