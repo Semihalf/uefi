@@ -15,7 +15,7 @@ static const char *QLM_BGX_MODE_MAP[BDK_QLM_MODE_LAST] =
     [BDK_QLM_MODE_10G_KR_4X1]   = "xfi-10g-kr",
     [BDK_QLM_MODE_10G_KR_2X1]   = "xfi-10g-kr",
     [BDK_QLM_MODE_40G_KR4_1X4]  = "xlaui-40g-kr",
-    [BDK_QLM_MODE_QSGMII_4X1]   = "sgmii",
+    [BDK_QLM_MODE_QSGMII_4X1]   = "qsgmii",
 };
 
 /**
