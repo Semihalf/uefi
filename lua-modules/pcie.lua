@@ -770,28 +770,35 @@ local function create_device(root, bus, deviceid, func, vparent)
                     local sriov_cap = self:read32(cap_loc + PCISRIOV_CAP)
                     local sriov_cap_arichp = bit64.bextract(sriov_cap,1,1)
                     local sriov_cap_vfmc = bit64.bextract(sriov_cap,0,0)
-                    --sriov_cap_vfmimn = bit64.bextract(sriov_cap,21,31)
-                    local sriov_ctl = self:read32(cap_loc + PCISRIOV_CTRL)
-                    local sriov_ctl_vfe = bit64.bextract(sriov_ctl,0,0)
+                    local sriov_cap_vfmimn = bit64.bextract(sriov_cap,21,31)
+                    local sriov_ctrl = self:read16(cap_loc + PCISRIOV_CTRL)
+                    local sriov_ctrl_vfe = bit64.bextract(sriov_ctrl,0,0)
+                    local sriov_ctrl_vfme = bit64.bextract(sriov_ctrl,1,1)
+                    local sriov_ctrl_vfmie = bit64.bextract(sriov_ctrl,2,2)
+                    local sriov_ctrl_vfmse = bit64.bextract(sriov_ctrl,3,3)
+                    local sriov_ctrl_ari = bit64.bextract(sriov_ctrl,4,4)
 
                     local sriov_dev_vfdev = self:read16(cap_loc + PCISRIOV_VF_DID)
                     local sriov_fo = self:read32(cap_loc+PCISRIOV_VF_OFFSET)
                     local sriov_fo_fo = bit64.bextract(sriov_fo,0,15)
                     local sriov_fo_vfs = bit64.bextract(sriov_fo,16,31)
-                    local sriov_nvf = self:read32(cap_loc + PCISRIOV_NUM_VF)
-                    local sriov_nvf_nvf = bit64.bextract(sriov_nvf,0,15)
+                    local sriov_nvf = self:read16(cap_loc + PCISRIOV_NUM_VF)
+                    local sriov_fdl = self:read16(cap_loc + PCISRIOV_FUNC_LINK)
                     local sriov_vfs = self:read32(cap_loc + PCISRIOV_INITIAL_VF)
                     local sriov_vfs_tvf = bit64.bextract(sriov_vfs,16,31)
                     local sriov_vfs_ivf = bit64.bextract(sriov_vfs,0,15)
-                    printf("%s        SRIO-V Capabilties: ARI hint:%d VFMigrationCap:%d VFEnable:%d\n", indent, sriov_cap_arichp, sriov_cap_vfmc, sriov_ctl_vfe)
-                    local vdev_str
+                    printf("%s        SRIO-V Capabilties: ARI hint:%d VFMigrationCap:%d VFMigrInterruptMsg:%03x\n", indent,
+                           sriov_cap_arichp, sriov_cap_vfmc, sriov_cap_vfmimn )
+                    printf("%s               Control: ARI:%d VFMSE:%d VFMIE:%d VFME:%d VFEnable:%d\n", indent,
+                           sriov_ctrl_ari, sriov_ctrl_vfmse, sriov_ctrl_vfmie, sriov_ctrl_vfme, sriov_ctrl_vfe);
+                    local vdev_str = " "
                     if DEVICE_NAME[sriov_dev_vfdev] then
                         vdev_str = DEVICE_NAME[sriov_dev_vfdev]
-                    else
-                        vdev_str = "????-VF"
                     end
                     printf("%s        VF device id: %04x %s\n", indent, sriov_dev_vfdev, vdev_str)
-                    printf("%s        VFOffset:%d VFStride:%d NumberVF:%d TotalVF:%d InitialVF:%d\n", indent, sriov_fo_fo, sriov_fo_vfs, sriov_nvf_nvf, sriov_vfs_tvf, sriov_vfs_ivf)
+                    printf("%s        InitialVFs:%d TotalVFs:%d NumVFs:%d FDL:%d\n", indent,
+                           sriov_vfs_ivf, sriov_vfs_tvf, sriov_nvf,sriov_fdl);
+                    printf("%s        VFOffset:%d VFStride:%d\n", indent, sriov_fo_fo, sriov_fo_vfs)
                     -- local sriov_ps = self:read32(cap_loc + PCISRIOV_SYS_PGSIZE)
 
                     local bar0l = self:read32(cap_loc + PCISRIOV_BAR)
@@ -901,31 +908,49 @@ local function create_device(root, bus, deviceid, func, vparent)
                 local cap_id = bit64.bextract(cap, 0, 15)
                 local cap_next = bit64.bextract(cap, 20, 31)
                 if cap_id == 0x10 then
-                    local sriov_fo = newdev:read32(cap_loc + PCISRIOV_VF_OFFSET)
-                    local sriov_fo_fo = bit64.bextract(sriov_fo,0,15) -- offset
-                    local sriov_fo_vfs = bit64.bextract(sriov_fo,16,31) -- stride
-                    local sriov_vfs = newdev:read32(cap_loc + PCISRIOV_INITIAL_VF)
-                    local sriov_vfs_tvf = bit64.bextract(sriov_vfs,16,31) -- total vfs
-                    local sriov_vfs_ivf = bit64.bextract(sriov_vfs,0,15) -- initial vfs
-                    local sriov_nvf = newdev:read32(cap_loc + PCISRIOV_NUM_VF)
-                    local sriov_nvf_nvf = bit64.bextract(sriov_nvf,0,15) -- nvf
-                    newdev.vftotal = sriov_vfs_tvf;
-                    newdev.sriov_base = cap_loc;
-                    if sriov_vfs_ivf then
-                        newdev.devices = {}
-                        local vfn = 0
-                        while vfn < sriov_vfs_ivf do
-                            local busno =  newdev.bus + ((newdev.func + sriov_fo_fo  + vfn * sriov_fo_vfs)/ 256)
-                            -- next_vfn = ari_to_devfn( 1 + (devfn_to_ari(this_dev,this_fn)))
-                            local pdev = newdev.deviceid*8 + newdev.func +  sriov_fo_fo +  vfn * sriov_fo_vfs
-                            local device = create_device(newdev.root, busno, pdev/8, pdev%8, newdev)
-                            if device then
-                                table.insert(newdev.devices, device)
+                    local sriov_ctrl = newdev:read32(cap_loc + PCISRIOV_CTRL)
+                    local sriov_ctrl_vfe = bit64.bextract(sriov_ctrl,0,0)
+                    local sriov_ctrl_ari = bit64.bextract(sriov_ctrl,4,4)
+                    if 1 == sriov_ctrl_vfe then
+                        local sriov_fo = newdev:read32(cap_loc + PCISRIOV_VF_OFFSET)
+                        local sriov_fo_fo = bit64.bextract(sriov_fo,0,15) -- offset
+                        local sriov_fo_vfs = bit64.bextract(sriov_fo,16,31) -- stride
+                        local sriov_vfs = newdev:read32(cap_loc + PCISRIOV_INITIAL_VF)
+                        local sriov_vfs_tvf = bit64.bextract(sriov_vfs,16,31) -- total vfs
+                        local sriov_vfs_ivf = bit64.bextract(sriov_vfs,0,15) -- initial vfs
+                        local sriov_nvf = newdev:read16(cap_loc + PCISRIOV_NUM_VF)
+
+                        newdev.vftotal = sriov_vfs_tvf;
+                        newdev.sriov_base = cap_loc;
+                        if sriov_nvf ~=0 then
+                            newdev.devices = {}
+                            local vfn = 0
+                            local func_base = 8
+                            if 0 == sriov_ctrl_ari then
+                                func_base = newdev.deviceid*8 + newdev.func +  sriov_fo_fo;
                             end
-                            vfn = vfn + 1
+                            while vfn < sriov_nvf do
+                                local busno =  newdev.bus + ((newdev.func + sriov_fo_fo  + vfn * sriov_fo_vfs)/ 256)
+                                -- next_vfn = ari_to_devfn( 1 + (devfn_to_ari(this_dev,this_fn)))
+                                local pdev = func_base +  vfn * sriov_fo_vfs
+                                local device = create_device(newdev.root, busno, pdev/8, pdev%8, newdev)
+                                if device then
+                                    table.insert(newdev.devices, device)
+                                end
+                                vfn = vfn + 1
+                            end
+                            local max_bus  = newdev.bus + ((newdev.func + sriov_fo_fo  + sriov_vfs_tvf * sriov_fo_vfs)/256)
+                            if root.last_bus < max_bus then
+                                root.last_bus = max_bus
+                            end
+                        else
+                            printf(" VF: %d Dev %2d.%d VFs are not visible - initialVFs:%d totalVFs:%d numVFs:%d\n",
+                                   newdev.bus, newdev.deviceid, newdev.func,
+                                   sriov_vfs_ivf, sriov_vfs_tvf, sriov_nvf)
                         end
+                    else
+                        printf(" VF: %d Dev %2d.%d VFs are disabled\n", newdev.bus, newdev.deviceid, newdev.func)
                     end
-                    root.last_bus = newdev.bus + ((newdev.func + sriov_fo_fo  + sriov_vfs_tvf * sriov_fo_vfs)/256)
                 end
                 cap_loc = cap_next
             end
