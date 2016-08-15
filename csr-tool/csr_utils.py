@@ -395,6 +395,7 @@ def getResetValue(chip, reg):
         if chip in f["reset"]:
             r = f["reset"][chip]
             if r != "--":
+                r &= (1 << (f["bits"][chip][1] - f["bits"][chip][0] + 1)) - 1
                 r <<= f["bits"][chip][0]
                 reset |= r
     return reset
