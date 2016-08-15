@@ -144,10 +144,16 @@ local DEVICE_NAME = {
     [0xa056] = "XCV",
     [0xa057] = "DPI",
     [0xa058] = "DPI_VF",
+    [0xa12d] = "PCIERC-CN88XX",
+    [0xa22d] = "PCIERC-CN81XX",
+    [0xa32d] = "PCIERC-CN83XX",
     [0xa100] = "CN88XX",
     [0xa200] = "CN81XX",
     [0xa300] = "CN83XX",
 }
+
+-- devices for Cavium PCIERC
+local RC_LIST = {  0xa12d, 0xa22d, 0xa32d,}
 
 local configr8 = cavium.c.bdk_pcie_config_read8
 local configr16 = cavium.c.bdk_pcie_config_read16
@@ -237,13 +243,14 @@ local function create_device(root, bus, deviceid, func, vparent)
     -- Scan for devices behind this one on a subordinate bus. The scan is
     -- recursive.
     --
-    function newdev:scan()
+    function newdev:scan(maxdev)
+        maxdev = maxdev or 31
         -- This can only be called if the device is a brdige/switch
         assert(self.isbridge)
         -- Create a table that will contain our sub devices
         self.devices = {}
         -- Scan all possible device IDs on the bus
-        for deviceid = 0,31 do
+        for deviceid = 0,maxdev do
             -- Try and create a device
             local device = create_device(self.root, self.busnum, deviceid, 0,nil)
             -- Device will be nil if nothing was there
@@ -854,6 +861,17 @@ local function create_device(root, bus, deviceid, func, vparent)
     if newdev.isbridge then
         -- Device is a bridge/switch. Assign bus numbers so we can
         -- scan for subordinate devices
+
+        -- trim maxdev for pci RC ports
+        local max_device = 31
+        if (vendor == 0x177d) and (0 == newdev.bus) then
+            for _,list_id in ipairs(RC_LIST) do
+                if id == list_id then
+                    max_device = 0
+                    break
+                end
+            end
+        end
         if newdev:read8(PCICONFIG_SECONDARY_BUS) == 0 then
             newdev:write8(PCICONFIG_PRIMARY_BUS, newdev.bus)
             root.last_bus = root.last_bus + 1
@@ -866,7 +884,7 @@ local function create_device(root, bus, deviceid, func, vparent)
             newdev.busnum = root.last_bus
         end
         -- Scan for children
-        newdev:scan()
+        newdev:scan(max_device)
         -- Update the last bus number now that we know how many busses
         -- were there
         if newdev:read8(PCICONFIG_SUBORIDINATE_BUS) == 0xff then
