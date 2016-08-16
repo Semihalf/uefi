@@ -8,6 +8,32 @@
 This document gives a short overview of the major changes
 incorporated into each BDK release.
 
+== thunder-release-v1.24.2 ==
+* CCPI
+** Clear CCPI link TX retry and RX block error counters after CCPI init. RX
+block error counters were causing false error reporting during UEFI.
+* DRAM
+** Fix missing arguments to debug_print() found by cppcheck
+* Device Tree
+** Device tree now uses qsgmii instead of sgmii tag for QSGMII mode GSER
+** Fix trace help comment to refer to correct file
+** Clarify the description of channel loss
+** Fix PEM trimming on node-1
+** Small optimization when deleting PEM to use already obtained fdt offset.
+** Rewrite "qlm-mode" trimming
+** refclkuaa to exact value.
+** Changed "pci-host-ecam-generic" property replacement to not truncate
+property value, and take effect in more cases.
+** Fix patching of /memory@ nodes.
+* CN81XX / CN80XX
+** Hide the 'E' option in the boot menu for CN81XX/CN80XX. The L2 Cache on
+CN81XX and CN80XX is too small to run diagnostics without DRAM. Don't show
+this boot option on these chips.
+** Fix detection of alternate package for CN80XX.
+** Report a single lane for DLM0-1 on CN80XX.
+** Update serdes config menu for CN80XX.
+** Properly do MCU autoconfig when a DLM only has 1 lane. Applies to CN80XX.
+
 == thunder-release-v1.24.1 ==
 * CCPI
 ** Fix bug where CCPI pre/post for node 0 was using node 1 values.  Node 0
