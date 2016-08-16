@@ -9,32 +9,52 @@ require("menu")
 -- have the same list share the same lists, so take care making
 -- modifications.
 local qlm_modes = {}
-qlm_modes[0] = {
-    {"sgmii",    "SGMII   @  1 Gbps", cavium.QLM_MODE_SGMII_2X1, 1250, 0},
-    {"qsgmii",   "QSGMII  @  1 Gbps", cavium.QLM_MODE_QSGMII_4X1, 5000, 0},
-    {"xaui",     "XAUI    @ 10 Gbps", cavium.QLM_MODE_XAUI_1X4, 3125, 0},
-    {"dxaui",    "DXAUI   @ 20 Gbps", cavium.QLM_MODE_XAUI_1X4, 6250, 0},
-    {"rxaui",    "RXAUI   @ 10 Gbps", cavium.QLM_MODE_RXAUI_1X2, 6250, 0},
-    {"xfi",      "XFI     @ 10 Gbps", cavium.QLM_MODE_XFI_2X1, 10312, 0},
-    {"xlaui",    "XLAUI   @ 40 Gbps", cavium.QLM_MODE_XLAUI_1X4, 10312, 0},
-    {"10g",      "10GBASE-KR @ 10 Gbps", cavium.QLM_MODE_10G_KR_2X1, 10312, 0},
-    {"40g",      "40GBASE-KR4 @ 40 Gbps", cavium.QLM_MODE_40G_KR4_1X4, 10312, 0},
-    {"rc-x2-g1", "PCIe x2 - GEN 1", cavium.QLM_MODE_PCIE_1X2, 2500, 0},
-    {"rc-x2-g2", "PCIe x2 - GEN 2", cavium.QLM_MODE_PCIE_1X2, 5000, 0},
-    {"rc-x2-g3", "PCIe x2 - GEN 3", cavium.QLM_MODE_PCIE_1X2, 8000, 0},
-    {"rc-x4-g1", "PCIe x4 - GEN 1", cavium.QLM_MODE_PCIE_1X4, 2500, 0},
-    {"rc-x4-g2", "PCIe x4 - GEN 2", cavium.QLM_MODE_PCIE_1X4, 5000, 0},
-    {"rc-x4-g3", "PCIe x4 - GEN 3", cavium.QLM_MODE_PCIE_1X4, 8000, 0},
-    {"dis",      "Disabled", cavium.QLM_MODE_DISABLED, 0, 0}
-}
-qlm_modes[1] = {
-    {"sgmii",    "SGMII   @  1 Gbps", cavium.QLM_MODE_SGMII_2X1, 1250, 0},
-    {"qsgmii",   "QSGMII  @  1 Gbps", cavium.QLM_MODE_QSGMII_4X1, 5000, 0},
-    {"rxaui",    "RXAUI   @ 10 Gbps", cavium.QLM_MODE_RXAUI_1X2, 6250, 0},
-    {"xfi",      "XFI     @ 10 Gbps", cavium.QLM_MODE_XFI_2X1, 10312, 0},
-    {"10g",      "10GBASE-KR @ 10 Gbps", cavium.QLM_MODE_10G_KR_2X1, 10312, 0},
-    {"dis",      "Disabled", cavium.QLM_MODE_DISABLED, 0, 0}
-}
+if not cavium.is_altpkg(cavium.CN81XX) then
+    qlm_modes[0] = {
+        {"sgmii",    "SGMII   @  1 Gbps", cavium.QLM_MODE_SGMII_2X1, 1250, 0},
+        {"qsgmii",   "QSGMII  @  1 Gbps", cavium.QLM_MODE_QSGMII_4X1, 5000, 0},
+        {"xaui",     "XAUI    @ 10 Gbps", cavium.QLM_MODE_XAUI_1X4, 3125, 0},
+        {"dxaui",    "DXAUI   @ 20 Gbps", cavium.QLM_MODE_XAUI_1X4, 6250, 0},
+        {"rxaui",    "RXAUI   @ 10 Gbps", cavium.QLM_MODE_RXAUI_1X2, 6250, 0},
+        {"xfi",      "XFI     @ 10 Gbps", cavium.QLM_MODE_XFI_2X1, 10312, 0},
+        {"xlaui",    "XLAUI   @ 40 Gbps", cavium.QLM_MODE_XLAUI_1X4, 10312, 0},
+        {"10g",      "10GBASE-KR @ 10 Gbps", cavium.QLM_MODE_10G_KR_2X1, 10312, 0},
+        {"40g",      "40GBASE-KR4 @ 40 Gbps", cavium.QLM_MODE_40G_KR4_1X4, 10312, 0},
+        {"rc-x2-g1", "PCIe x2 - GEN 1", cavium.QLM_MODE_PCIE_1X2, 2500, 0},
+        {"rc-x2-g2", "PCIe x2 - GEN 2", cavium.QLM_MODE_PCIE_1X2, 5000, 0},
+        {"rc-x2-g3", "PCIe x2 - GEN 3", cavium.QLM_MODE_PCIE_1X2, 8000, 0},
+        {"rc-x4-g1", "PCIe x4 - GEN 1", cavium.QLM_MODE_PCIE_1X4, 2500, 0},
+        {"rc-x4-g2", "PCIe x4 - GEN 2", cavium.QLM_MODE_PCIE_1X4, 5000, 0},
+        {"rc-x4-g3", "PCIe x4 - GEN 3", cavium.QLM_MODE_PCIE_1X4, 8000, 0},
+        {"dis",      "Disabled", cavium.QLM_MODE_DISABLED, 0, 0}
+    }
+    qlm_modes[1] = {
+        {"sgmii",    "SGMII   @  1 Gbps", cavium.QLM_MODE_SGMII_2X1, 1250, 0},
+        {"qsgmii",   "QSGMII  @  1 Gbps", cavium.QLM_MODE_QSGMII_4X1, 5000, 0},
+        {"rxaui",    "RXAUI   @ 10 Gbps", cavium.QLM_MODE_RXAUI_1X2, 6250, 0},
+        {"xfi",      "XFI     @ 10 Gbps", cavium.QLM_MODE_XFI_2X1, 10312, 0},
+        {"10g",      "10GBASE-KR @ 10 Gbps", cavium.QLM_MODE_10G_KR_2X1, 10312, 0},
+        {"dis",      "Disabled", cavium.QLM_MODE_DISABLED, 0, 0}
+    }
+else
+    qlm_modes[0] = {
+        {"sgmii",    "SGMII   @  1 Gbps", cavium.QLM_MODE_SGMII_2X1, 1250, 0},
+        {"qsgmii",   "QSGMII  @  1 Gbps", cavium.QLM_MODE_QSGMII_4X1, 5000, 0},
+        {"xfi",      "XFI     @ 10 Gbps", cavium.QLM_MODE_XFI_2X1, 10312, 0},
+        {"10g",      "10GBASE-KR @ 10 Gbps", cavium.QLM_MODE_10G_KR_2X1, 10312, 0},
+        {"rc-x2-g1", "PCIe x1 - GEN 1", cavium.QLM_MODE_PCIE_1X2, 2500, 0},
+        {"rc-x2-g2", "PCIe x1 - GEN 2", cavium.QLM_MODE_PCIE_1X2, 5000, 0},
+        {"rc-x2-g3", "PCIe x1 - GEN 3", cavium.QLM_MODE_PCIE_1X2, 8000, 0},
+        {"dis",      "Disabled", cavium.QLM_MODE_DISABLED, 0, 0}
+    }
+    qlm_modes[1] = {
+        {"sgmii",    "SGMII   @  1 Gbps", cavium.QLM_MODE_SGMII_2X1, 1250, 0},
+        {"qsgmii",   "QSGMII  @  1 Gbps", cavium.QLM_MODE_QSGMII_4X1, 5000, 0},
+        {"xfi",      "XFI     @ 10 Gbps", cavium.QLM_MODE_XFI_2X1, 10312, 0},
+        {"10g",      "10GBASE-KR @ 10 Gbps", cavium.QLM_MODE_10G_KR_2X1, 10312, 0},
+        {"dis",      "Disabled", cavium.QLM_MODE_DISABLED, 0, 0}
+    }
+end
 qlm_modes[2] = {
     {"sgmii",    "SGMII   @  1 Gbps", cavium.QLM_MODE_SGMII_2X1, 1250, 0},
     {"qsgmii",   "QSGMII  @  1 Gbps", cavium.QLM_MODE_QSGMII_4X1, 5000, 0},
@@ -73,7 +93,9 @@ qlm_modes[3] = {
 --
 local function do_setup(qlm)
     local m = menu.new("Select a reference clock for DLM%d" % qlm)
-    m:item("ext", "External reference (DLM%d_REF_CLK)" % qlm)
+    if not cavium.is_altpkg(cavium.CN81XX) then
+        m:item("ext", "External reference (DLM%d_REF_CLK)" % qlm)
+    end
     m:item("c0", "Common clock 0 (DLMC_REF_CLK0)")
     m:item("c1", "Common clock 1 (DLMC_REF_CLK1)")
     local index = m:show()
