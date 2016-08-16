@@ -28,6 +28,8 @@
 #define CAVIUM_CN88XX           (CAVIUM_CN88XX_PASS1_0 | __OM_IGNORE_REVISION)
 #define CAVIUM_CN88XX_PASS1_X   (CAVIUM_CN88XX_PASS1_0 | __OM_IGNORE_MINOR_REVISION)
 #define CAVIUM_CN88XX_PASS2_X   (CAVIUM_CN88XX_PASS2_0 | __OM_IGNORE_MINOR_REVISION)
+/* Note CN86XX will also match the CN88XX macros above. See comment in
+   CAVIUM_IS_MODEL() about MIO_FUS_FUSE_NUM_E::CHIP_IDX bits 6-7 */
 
 #define CAVIUM_CN83XX_PASS1_0   0x430f0a30
 #define CAVIUM_CN83XX           (CAVIUM_CN83XX_PASS1_0 | __OM_IGNORE_REVISION)
@@ -36,6 +38,8 @@
 #define CAVIUM_CN81XX_PASS1_0   0x430f0a20
 #define CAVIUM_CN81XX           (CAVIUM_CN81XX_PASS1_0 | __OM_IGNORE_REVISION)
 #define CAVIUM_CN81XX_PASS1_X   (CAVIUM_CN81XX_PASS1_0 | __OM_IGNORE_MINOR_REVISION)
+/* Note CN80XX will also match the CN81XX macros above. See comment in
+   CAVIUM_IS_MODEL() about MIO_FUS_FUSE_NUM_E::CHIP_IDX bits 6-7 */
 
 /* These match entire families of chips */
 #define CAVIUM_CN8XXX           (CAVIUM_CN88XX_PASS1_0 | __OM_IGNORE_MODEL)
@@ -63,22 +67,31 @@ static inline uint64_t cavium_get_model()
 static inline int CAVIUM_IS_MODEL(uint32_t arg_model) __attribute__ ((pure, always_inline));
 static inline int CAVIUM_IS_MODEL(uint32_t arg_model)
 {
-    const uint32_t FAMILY = 0xff00;    /* Bits 15:8 */
-    const uint32_t PARTNUM = 0xfff0;    /* Bits 15:4 */
-    const uint32_t VARIANT = 0xf00000;  /* Bits 23:20 */
-    const uint32_t REVISION = 0xf;      /* Bits 3:0 */
+    const uint32_t FAMILY = 0xff00;     /* Bits 15:8, generation t8x=0xa, t9x=0xb */
+    const uint32_t PARTNUM = 0xfff0;    /* Bits 15:4, chip t88=0x81, t81=0xa2, t83=0xa3, etc */
+    const uint32_t VARIANT = 0xf00000;  /* Bits 23:20, major pass */
+    const uint32_t REVISION = 0xf;      /* Bits 3:0, minor pass */
+
+    /* Note that the model matching here is unaffected by
+       MIO_FUS_FUSE_NUM_E::CHIP_IDX bits 6-7, which are the alternate package
+       fuses. These bits don't affect MIDR_EL1, so:
+            CN80XX will match CN81XX (CHIP_IDX 6 is set for 676 ball package)
+            CN80XX will match CN81XX (CHIP_IDX 7 is set for 555 ball package)
+            CN86XX will match CN88XX (CHIP_IDX 6 is set for 676 ball package)
+       Alternate package parts are detected using MIO_FUS_DAT2[chip_id],
+       specifically the upper two bits */
 
     uint32_t my_model = cavium_get_model();
     uint32_t mask;
 
     if (arg_model & __OM_IGNORE_MODEL)
-        mask = FAMILY;
+        mask = FAMILY; /* Matches chip generation (CN8XXX, CN9XXX) */
     else if (arg_model & __OM_IGNORE_REVISION)
-        mask = PARTNUM;
+        mask = PARTNUM; /* Matches chip model (CN88XX, CN81XX, CN83XX) */
     else if (arg_model & __OM_IGNORE_MINOR_REVISION)
-        mask = PARTNUM | VARIANT;
+        mask = PARTNUM | VARIANT; /* Matches chip model and major version */
     else
-        mask = PARTNUM | VARIANT | REVISION;
+        mask = PARTNUM | VARIANT | REVISION; /* Matches chip model, major version, and minor version */
     return ((arg_model & mask) == (my_model & mask));
 }
 
