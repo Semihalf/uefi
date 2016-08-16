@@ -369,18 +369,28 @@ static int model_digits_for_cores(int cores)
  * Return non-zero if the die is in an alternate package. The
  * normal is_model() checks will treat alternate package parts
  * as all the same, where this function can be used to detect
- * them.
+ * them. The return value is the upper two bits of
+ * MIO_FUS_DAT2[chip_id]. Most alternate packages use bit 6,
+ * which will return 1 here. Parts with a second alternative
+ * will use bit 7, which will return 2.
  *
  * @param arg_model One of the CAVIUM_* constants for chip models and passes
  *
- * @return Non-zero if match
+ * @return Non-zero if an alternate package
+ *         0 = Normal package
+ *         1 = Alternate package 1 (CN86XX, CN80XX with 555 balls)
+ *         2 = Alternate package 2 (CN80XX with 676 balls)
+ *         3 = Alternate package 3 (Currently unused)
  */
 int cavium_is_altpkg(uint32_t arg_model)
 {
     if (CAVIUM_IS_MODEL(arg_model))
     {
         BDK_CSR_INIT(mio_fus_dat2, bdk_numa_local(), BDK_MIO_FUS_DAT2);
-        return (mio_fus_dat2.s.chip_id & 0x40) != 0;
+        /* Bits 7:6 are used for alternate packages. Return the exact
+           number so multiple alternate packages can be detected
+           (CN80XX is an example) */
+        return mio_fus_dat2.s.chip_id >> 6;
     }
     else
         return 0;
