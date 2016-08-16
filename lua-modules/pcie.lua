@@ -925,10 +925,7 @@ local function create_device(root, bus, deviceid, func, vparent)
                         if sriov_nvf ~=0 then
                             newdev.devices = {}
                             local vfn = 0
-                            local func_base = 8
-                            if 0 == sriov_ctrl_ari then
-                                func_base = newdev.deviceid*8 + newdev.func +  sriov_fo_fo;
-                            end
+                            local func_base = newdev.deviceid*8 + newdev.func +  sriov_fo_fo;
                             while vfn < sriov_nvf do
                                 local busno =  newdev.bus + ((newdev.func + sriov_fo_fo  + vfn * sriov_fo_vfs)/ 256)
                                 -- next_vfn = ari_to_devfn( 1 + (devfn_to_ari(this_dev,this_fn)))
