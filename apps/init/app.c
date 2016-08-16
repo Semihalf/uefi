@@ -300,6 +300,8 @@ int main(int argc, const char **argv)
             bdk_config_set_str(bdk_model_get_sku(BDK_NODE_1), BDK_CONFIG_CHIP_SKU, BDK_NODE_1);
             bdk_config_set_str(bdk_boot_info_serial(BDK_NODE_1), BDK_CONFIG_CHIP_SERIAL, BDK_NODE_1);
             bdk_boot_info_strapping(BDK_NODE_1);
+            printf("BDK Version: %s\n", (const char *)bdk_phys_to_ptr(
+                bdk_numa_get_address(BDK_NODE_1, BDK_KEY_MEMX(0))));
             bdk_boot_status(BDK_BOOT_STATUS_INIT_NODE1_DRAM);
             bdk_boot_dram(BDK_NODE_1, MFG_SYSTEM_LEVEL_TEST); /* Initialize DRAM on node 1 */
             // FIXME: Failure?

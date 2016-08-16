@@ -102,6 +102,7 @@ def wait_for_bootstub_messages(cnx, powerCycle):
             cnx.match("VRM:   Enabled")
         cnx.match("Trust: Disabled")
         cnx.matchRE("CCPI: .+\n")
+        cnx.matchRE("BDK Version: .+\n")
         cnx.matchRE("N1.LMC0 Configuration Completed: [0-9]+ MB")
         cnx.matchRE("N1.LMC1 Configuration Completed: [0-9]+ MB")
         cnx.matchRE("N1.LMC2 Configuration Completed: [0-9]+ MB")

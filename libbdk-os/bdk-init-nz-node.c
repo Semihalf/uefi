@@ -1755,6 +1755,8 @@ void __bdk_init_incorrect_node(void)
         BDK_CSR_WRITE(node, BDK_RST_SOFT_RST, 1);
     }
 
+    strcpy(bdk_phys_to_ptr(bdk_numa_get_address(node, BDK_KEY_MEMX(0))), bdk_version_string());
+
     __bdk_init_ccpi_connection(false, 0, false);
     bdk_dbg_uart_str("Putting core in reset\r\n");
     __bdk_reset_thread(0, NULL);
