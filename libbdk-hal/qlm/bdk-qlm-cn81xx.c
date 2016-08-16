@@ -21,7 +21,10 @@ static int qlm_get_num(bdk_node_t node)
  */
 static int qlm_get_lanes(bdk_node_t node, int qlm)
 {
-    return 2; /* DLMs */
+    if ((qlm < 2) && cavium_is_altpkg(CAVIUM_CN81XX))
+        return 1; /* DLM0 and DLM1 are a single lane on CN80XX */
+    else
+        return 2; /* DLMs */
 }
 
 /**
