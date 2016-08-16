@@ -239,6 +239,13 @@ static void __bdk_pcie_rc_initialize_config_space(bdk_node_t node, int pcie_port
         BDK_CSR_INIT(pemx_cfg, node, BDK_PEMX_CFG(pcie_port));
         BDK_CSR_MODIFY(c, node, BDK_PCIERCX_CFG452(pcie_port),
             c.s.lme = (pemx_cfg.s.lanes8) ? 0xf : 0x7);
+
+        /* Errata PEM-28629 - PEM Mac incorrectly strapped for 4 lanes */
+        /* Reset causes cfg031.mlw field to change to 4 */
+        if (pemx_cfg.s.lanes8 &&  CAVIUM_IS_MODEL(CAVIUM_CN83XX)) {
+            BDK_CSR_MODIFY(c, node, BDK_PCIERCX_CFG031(pcie_port),
+                c.s.mlw = 8);
+        }
     }
 
     /* Errata PEM-26189 - PEM EQ Preset Removal */
