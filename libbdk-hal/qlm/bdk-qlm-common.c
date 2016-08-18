@@ -914,7 +914,7 @@ int bdk_qlm_mcu_auto_config(bdk_node_t node)
 
         BDK_TRACE(QLM, "MCU lane %d, width %d, mode 0x%x, speed 0x%x, ref 0x%x\n",
             lane, width, mode, speed, refclk);
-        if ((width != 0) && (width != 2) && (width != 4) && (width != 8))
+        if ((width != 0) && (width != 2) && (width != 4) && (width != 8) && (1 != width))
         {
             bdk_error("QLM Config: Unexpected interface width (%d) from MCU\n", width);
             return -1;
