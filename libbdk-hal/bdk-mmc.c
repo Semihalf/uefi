@@ -1034,6 +1034,7 @@ int bdk_mmc_write(bdk_node_t node, int chip_sel, uint64_t address, const void *b
             bdk_error("MMC: Write single block failed\n");
             return -1;
         }
+        address += 512;
         length -= 512;
     }
     return 0;
