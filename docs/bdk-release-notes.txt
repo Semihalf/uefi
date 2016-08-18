@@ -8,6 +8,13 @@
 This document gives a short overview of the major changes
 incorporated into each BDK release.
 
+== thunder-release-v1.24.3 ==
+* CCPI
+** Display the BDK version of node 1 during boot.  The BDK version of both
+nodes must match, so a fatal error will be raised if the version on both
+nodes doesn't match.  The error message "FATAL: Mismatched BDK versions
+between nodes" will be displayed when the nodes don't match.
+
 == thunder-release-v1.24.2 ==
 * CCPI
 ** Clear CCPI link TX retry and RX block error counters after CCPI init. RX
