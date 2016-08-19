@@ -31,7 +31,7 @@ repeat
         local config_mode = cavium.c.bdk_qlm_mode_tostring(mode)
         local config_speed = cavium.c.bdk_qlm_get_gbaud_mhz(menu.node, qlm_num)
         local num_lanes = cavium.c.bdk_qlm_get_lanes(menu.node, qlm_num)
-        local label = (num_lanes == 2) and "DLM" or "QLM"
+        local label = (num_lanes <= 2) and "DLM" or "QLM"
         local ref_clock = cavium.c.bdk_qlm_measure_clock(menu.node, qlm_num)
         -- Round ref clock to the nearest KHz and change to Khz
         ref_clock = (ref_clock + 500) / 1000
