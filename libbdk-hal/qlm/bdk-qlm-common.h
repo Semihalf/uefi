@@ -236,4 +236,17 @@ extern bool __bdk_qlm_is_lane_kr(bdk_node_t node, int qlm, int lane);
  */
 extern void __bdk_qlm_set_lane_kr(bdk_node_t node, int qlm, int lane, bool is_kr);
 
+/**
+ * Initialize a DLM/QLM for use with SATA controllers
+ *
+ * @param node       Node to intialize
+ * @param qlm        Which DLM/QLM to init
+ * @param baud_mhz   QLM speed in Gbaud
+ * @param sata_first First SATA controller connected to this DLM/QLM
+ * @param sata_last  Last SATA controller connected to this DLM/QLM (inclusive)
+ *
+ * @return Zero on success, negative on failure
+ */
+extern int __bdk_qlm_set_sata(bdk_node_t node, int qlm, int baud_mhz, int sata_first, int sata_last);
+
 #endif /* __BDK_QLM_COMMON_H__ */
