@@ -83,6 +83,9 @@ cavium,bdk {
 	disable ports that are not wired on a board. Default is that all
 	ports are enabled. */
 	//BGX-ENABLE.N%d.BGX%d.P%d = "1";
+	/* EBB8004 has Bgx0 Ports 1 and 3 disconnected */
+	BGX-ENABLE.N0.BGX0.P1 = "0";
+	BGX-ENABLE.N0.BGX0.P3 = "0";
 
 	/* Number of packet buffers in the BDK. */
 	//BDK-NUM-PACKET-BUFFERS = "0x1000";
