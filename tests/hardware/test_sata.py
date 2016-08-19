@@ -50,7 +50,7 @@ def sata_detect(cnx, board_info):
         cnx.sendEcho("sata")
         wait_for_main_menu(cnx)
         cnx.sendEcho("port")
-        cnx.match("(INS)SATA port to use (0 - 15) [0]:")
+        cnx.matchRE("\\(INS\\)SATA port to use \\(0 - [0-9]+\\) \\[0\\]:")
         cnx.sendEcho("%d" % sata)
         wait_for_main_menu(cnx)
         sata_id_detect(cnx)
