@@ -19,6 +19,10 @@ void bdk_boot_bgx(void)
                 for (int p = 0; p < 4; p++)
                 {
                     int en = bdk_config_get_int(BDK_CONFIG_BGX_ENABLE, n, bgx, p);
+                    /* CN80XX is a special case where BGX0 ports 2-3 are always
+                       disabled. The serdes lines are missing for these two ports */
+                    if (cavium_is_altpkg(CAVIUM_CN81XX) && (bgx == 0) && (p >= 2))
+                        en = 0;
                     if (en)
                     {
                         /* Make sure the DMAC starts at the hardware default */
