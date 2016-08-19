@@ -60,15 +60,18 @@ void register_cavium_constants(lua_State* L)
     push_bdk_enum(BDK_QLM_MODE_ILK);
     push_bdk_enum(BDK_QLM_MODE_SGMII_4X1);
     push_bdk_enum(BDK_QLM_MODE_SGMII_2X1);
+    push_bdk_enum(BDK_QLM_MODE_SGMII_1X1);
     push_bdk_enum(BDK_QLM_MODE_XAUI_1X4);
     push_bdk_enum(BDK_QLM_MODE_RXAUI_2X2);
     push_bdk_enum(BDK_QLM_MODE_RXAUI_1X2);
     push_bdk_enum(BDK_QLM_MODE_OCI);
     push_bdk_enum(BDK_QLM_MODE_XFI_4X1);
     push_bdk_enum(BDK_QLM_MODE_XFI_2X1);
+    push_bdk_enum(BDK_QLM_MODE_XFI_1X1);
     push_bdk_enum(BDK_QLM_MODE_XLAUI_1X4);
     push_bdk_enum(BDK_QLM_MODE_10G_KR_4X1);
     push_bdk_enum(BDK_QLM_MODE_10G_KR_2X1);
+    push_bdk_enum(BDK_QLM_MODE_10G_KR_1X1);
     push_bdk_enum(BDK_QLM_MODE_40G_KR4_1X4);
     push_bdk_enum(BDK_QLM_MODE_QSGMII_4X1);
 

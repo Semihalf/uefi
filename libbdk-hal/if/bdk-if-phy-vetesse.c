@@ -297,7 +297,8 @@ static void vetesse_setup(bdk_node_t node, int qlm, int mdio_bus, int phy_addr)
 
     /* Check that the GSER mode is SGMII or QSGMII */
     bdk_qlm_modes_t qlm_mode = bdk_qlm_get_mode(node, qlm);
-    if ((qlm_mode != BDK_QLM_MODE_SGMII_2X1) &&
+    if ((qlm_mode != BDK_QLM_MODE_SGMII_1X1) &&
+        (qlm_mode != BDK_QLM_MODE_SGMII_2X1) &&
         (qlm_mode != BDK_QLM_MODE_SGMII_4X1) &&
         (qlm_mode != BDK_QLM_MODE_QSGMII_4X1))
         return;

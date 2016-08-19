@@ -954,7 +954,9 @@ int bdk_qlm_mcu_auto_config(bdk_node_t node)
                     use_ref = 0; /* Use the external reference for EP mode */
                     break;
                 case 0x1000: /* SGMII */
-                    qlm_mode = (width == 2) ? BDK_QLM_MODE_SGMII_2X1 : BDK_QLM_MODE_SGMII_4X1;
+                    qlm_mode = (width == 4) ? BDK_QLM_MODE_SGMII_4X1 :
+                               (width == 2) ? BDK_QLM_MODE_SGMII_2X1 :
+                               BDK_QLM_MODE_SGMII_1X1;
                     use_ref = REF_156MHZ;
                     break;
                 case 0x1100: /* QSGMII */
@@ -992,11 +994,15 @@ int bdk_qlm_mcu_auto_config(bdk_node_t node)
                     use_ref = REF_100MHZ;
                     break;
                 case 0x5001: /* XFI */
-                    qlm_mode = (width == 2) ? BDK_QLM_MODE_XFI_2X1 : BDK_QLM_MODE_XFI_4X1;
+                    qlm_mode = (width == 4) ? BDK_QLM_MODE_XFI_4X1 :
+                               (width == 2) ? BDK_QLM_MODE_XFI_2X1 :
+                               BDK_QLM_MODE_XFI_1X1;
                     use_ref = REF_156MHZ;
                     break;
                 case 0x5002: /* 10G-KR */
-                    qlm_mode = (width == 2) ? BDK_QLM_MODE_10G_KR_2X1 : BDK_QLM_MODE_10G_KR_4X1;
+                    qlm_mode = (width == 4) ? BDK_QLM_MODE_10G_KR_4X1 :
+                               (width == 2) ? BDK_QLM_MODE_10G_KR_2X1 :
+                               BDK_QLM_MODE_10G_KR_1X1;
                     use_ref = REF_156MHZ;
                     break;
                 case 0x6001: /* XLAUI */
@@ -1342,6 +1348,7 @@ void __bdk_qlm_tune(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mhz
     /* Tuning parameters override the KR training. Don't apply them for KR links */
     switch (mode)
     {
+        case BDK_QLM_MODE_10G_KR_1X1:
         case BDK_QLM_MODE_10G_KR_2X1:
         case BDK_QLM_MODE_10G_KR_4X1:
         case BDK_QLM_MODE_40G_KR4_1X4:

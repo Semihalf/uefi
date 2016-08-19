@@ -38,20 +38,20 @@ if not cavium.is_altpkg(cavium.CN81XX) then
     }
 else
     qlm_modes[0] = {
-        {"sgmii",    "SGMII   @  1 Gbps", cavium.QLM_MODE_SGMII_2X1, 1250, 0},
+        {"sgmii",    "SGMII   @  1 Gbps", cavium.QLM_MODE_SGMII_1X1, 1250, 0},
         {"qsgmii",   "QSGMII  @  1 Gbps", cavium.QLM_MODE_QSGMII_4X1, 5000, 0},
-        {"xfi",      "XFI     @ 10 Gbps", cavium.QLM_MODE_XFI_2X1, 10312, 0},
-        {"10g",      "10GBASE-KR @ 10 Gbps", cavium.QLM_MODE_10G_KR_2X1, 10312, 0},
-        {"rc-x2-g1", "PCIe x1 - GEN 1", cavium.QLM_MODE_PCIE_1X2, 2500, 0},
-        {"rc-x2-g2", "PCIe x1 - GEN 2", cavium.QLM_MODE_PCIE_1X2, 5000, 0},
-        {"rc-x2-g3", "PCIe x1 - GEN 3", cavium.QLM_MODE_PCIE_1X2, 8000, 0},
+        {"xfi",      "XFI     @ 10 Gbps", cavium.QLM_MODE_XFI_1X1, 10312, 0},
+        {"10g",      "10GBASE-KR @ 10 Gbps", cavium.QLM_MODE_10G_KR_1X1, 10312, 0},
+        {"rc-x2-g1", "PCIe x1 - GEN 1", cavium.QLM_MODE_PCIE_1X1, 2500, 0},
+        {"rc-x2-g2", "PCIe x1 - GEN 2", cavium.QLM_MODE_PCIE_1X1, 5000, 0},
+        {"rc-x2-g3", "PCIe x1 - GEN 3", cavium.QLM_MODE_PCIE_1X1, 8000, 0},
         {"dis",      "Disabled", cavium.QLM_MODE_DISABLED, 0, 0}
     }
     qlm_modes[1] = {
-        {"sgmii",    "SGMII   @  1 Gbps", cavium.QLM_MODE_SGMII_2X1, 1250, 0},
+        {"sgmii",    "SGMII   @  1 Gbps", cavium.QLM_MODE_SGMII_1X1, 1250, 0},
         {"qsgmii",   "QSGMII  @  1 Gbps", cavium.QLM_MODE_QSGMII_4X1, 5000, 0},
-        {"xfi",      "XFI     @ 10 Gbps", cavium.QLM_MODE_XFI_2X1, 10312, 0},
-        {"10g",      "10GBASE-KR @ 10 Gbps", cavium.QLM_MODE_10G_KR_2X1, 10312, 0},
+        {"xfi",      "XFI     @ 10 Gbps", cavium.QLM_MODE_XFI_1X1, 10312, 0},
+        {"10g",      "10GBASE-KR @ 10 Gbps", cavium.QLM_MODE_10G_KR_1X1, 10312, 0},
         {"dis",      "Disabled", cavium.QLM_MODE_DISABLED, 0, 0}
     }
 end

@@ -176,15 +176,18 @@ const char* bdk_config_get_help(bdk_config_t cfg_item)
             "    ILK\n"
             "    SGMII_4X1\n"
             "    SGMII_2X1\n"
+            "    SGMII_1X1\n"
             "    XAUI_1X4\n"
             "    RXAUI_2X2\n"
             "    RXAUI_1X2\n"
             "    OCI\n"
             "    XFI_4X1\n"
             "    XFI_2X1\n"
+            "    XFI_1X1\n"
             "    XLAUI_1X4\n"
             "    10G_KR_4X1\n"
             "    10G_KR_2X1\n"
+            "    10G_KR_1X1\n"
             "    40G_KR4_1X4",
     [BDK_CONFIG_QLM_FREQ] =
             "Set the speed of a QLM in Mhz. The possible speeds are:\n"
