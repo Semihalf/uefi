@@ -1020,10 +1020,6 @@ int bdk_qlm_mcu_auto_config(bdk_node_t node)
             }
         }
         lane += width;
-        if (cavium_is_altpkg(CAVIUM_CN81XX) && ((1 == lane) || (3 == lane))) {
-            // lanes 1 and 3 do not exist on cn8xx
-            lane +=1;
-        }
         do
         {
             int internal_qlm = qlm;
