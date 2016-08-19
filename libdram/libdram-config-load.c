@@ -169,6 +169,11 @@ const dram_config_t *libdram_config_load(bdk_node_t node)
         custom->fprch2                          = bdk_config_get_int(BDK_CONFIG_DDR_CUSTOM_FPRCH2,          lmc, node);
         custom->mode32b                         = bdk_config_get_int(BDK_CONFIG_DDR_CUSTOM_MODE32B,         lmc, node);
         custom->measured_vref                   = bdk_config_get_int(BDK_CONFIG_DDR_CUSTOM_MEASURED_VREF,   lmc, node);
+
+        /* CN80XX only supports 32bit mode */
+        if (cavium_is_altpkg(CAVIUM_CN81XX))
+            custom->mode32b = 1;
+
         /* Loop through 8 bytes, plus ecc byte */
         #define NUM_BYTES 9 /* Max bytes on LMC (8 plus ECC) */
         static int8_t dll_write_offset[NUM_BYTES];
