@@ -169,6 +169,36 @@ int __bdk_qlm_set_sata(bdk_node_t node, int qlm, int baud_mhz, int sata_first, i
        read/write commands.*/
     bdk_wait_usec(1);
 
+    /* 4a. Poll DLM Reset_Ready to ensure DLM is ready before programming PHY
+       CSRs for SATA overrides.
+       Wait for GSER(3)_QLM_STAT[RST_RDY] = 1, indicating that the PHY is Ready */
+    if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_GSERX_QLM_STAT(qlm), rst_rdy, ==, 1, 10000))
+    {
+        bdk_error("QLM%d: Timeout waiting for GSERX_QLM_STAT[rst_rdy]\n", qlm);
+        return -1;
+    }
+
+    /* 4b. Keep PHY in P0 power state during SATA PHY initialization and
+       start-up. We want to override the SATA_PCS in GSER which is forcing the
+       PHY to P2 Power State when the SATA_PCS starts up until SATA MAC exits
+       reset. */
+    for (int lane = 0; lane < NUM_LANES; lane++)
+    {
+        BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_PCS_CTLIFC_0(qlm, lane),
+            c.s.cfg_tx_pstate_req_ovrrd_val = 0);
+
+        BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_PCS_CTLIFC_1(qlm, lane),
+            c.s.cfg_rx_pstate_req_ovrrd_val = 0);
+
+        BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_PCS_CTLIFC_2(qlm, lane),
+           c.s.cfg_tx_pstate_req_ovrrd_en = 1;
+            c.s.cfg_rx_pstate_req_ovrrd_en = 1;
+            c.s.ctlifc_ovrrd_req = 1);
+    }
+    /* Wait 250 ns until the management interface is ready to accept read/write
+       commands.*/
+    bdk_wait_usec(1);
+
     /* 5. Change the P2 termination
        GSERn_RX_PWR_CTRL_P2[P2_RX_SUBBLK_PD<0>] = 0 (termination) */
     BDK_CSR_MODIFY(c, node, BDK_GSERX_RX_PWR_CTRL_P2(qlm),
