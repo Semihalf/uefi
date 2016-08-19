@@ -68,9 +68,7 @@ cavium,bdk {
 	// When board is running as Node 0
 	// BGX0 PHY addresses
 	PHY-ADDRESS.N0.BGX0.P0 = "0xff000100";
-	PHY-ADDRESS.N0.BGX0.P1 = "0xff000101";
-	PHY-ADDRESS.N0.BGX0.P2 = "0xff000102";
-	PHY-ADDRESS.N0.BGX0.P3 = "0xff000103";
+	PHY-ADDRESS.N0.BGX0.P1 = "0xff000102";
 	// BGX1 PHY addresses
 	PHY-ADDRESS.N0.BGX1.P0 = "0xff000108";
 	PHY-ADDRESS.N0.BGX1.P1 = "0xff000109";
@@ -129,6 +127,12 @@ cavium,bdk {
 	Note EA is not supported on CN88XX pass 1.x, and is always
 	disabled. */
 	//PCIE-ENHANCED-ALLOCATION = "1";
+
+	/* Enforcing stronger PCIe ordering. Use this option if a PCIe card
+	is having compatibility issues.
+	    0 = Don't wait for commit, default for best performance.
+	    1 = Wait for commit, use conservative ordering. */
+	//PCIE-ORDERING = "0";
 
 	/* Force CCPI lane reversal. This should be set for boards which
 	reverse the CCPI lanes between nodes. If lane 0 connects to lane
@@ -217,6 +221,13 @@ cavium,bdk {
 	training. */
 	//QLM-TUNING-TX-VBOOST.N%d.QLM%d.LANE%d = "-1";
 
+	/* The insertion loss at Nyquist rate (e.g. 5.125Ghz for XFI/XLAUI) in
+	dB should be passed into the channel loss attribute. For CN8XXX,
+	this attribute is only used for XFI/10GBASE-KR and
+	XLAUI/40GBASE-KR4 links. If no channel loss attribute is provided
+	the default value assumes a loss of greater than 10dB. */
+	//QLM-CHANNEL-LOSS.N%d.QLM%d = "-1";
+
 	/* Speed grade to use for DRAM in MT/s. Hardware may adjust this value
 	slightly to improve DRAM stability, so scope measurements may not
 	exactly match the frequency with MT/s. The Cavium supported speed
@@ -258,11 +269,38 @@ cavium,bdk {
 	during USB reset events. The default value assumes the SOC has no
 	control of the USB power and it is always on. */
 	//USB-PWR-GPIO.N%d.PORT%d = "-1";
+	USB-PWR-GPIO.N0.PORT0 = "11";
+	USB-PWR-GPIO.N0.PORT1 = "12";
 
 	/* Specify the polarity of a on-chip GPIO used to control power for
 	a USB port. The GPIO used is specified by USB-PWR-GPIO. Setting this
 	GPIO low. The default value drives the GPIO high. */
 	//USB-PWR-GPIO-POLARITY.N%d.PORT%d = "1";
+        USB-PWR-GPIO-POLARITY = "1";
+
+	/* Specify reference clock source for SuperSpeed and HighSpeed PLL.
+	Possible sources:
+	 USB_REF_CLK pin
+	Additional sources for CN81XX/CN80XX chips
+	 DLMC_REF_CLK0 pin
+	 DLMC_REF_CLK1 pin
+	 PLL_REF_CLK
+	Clock used by usb needs to run at 100MHz frequency except PLL_REF_CLK
+	which requires 50MHz frequency.
+	Encoding:
+	0 - SS(USB_REF_CLK)   HS(USB_REF_CLK)
+	1 - SS(DLMC_REF_CLK0) HS(DLMC_REF_CLK0)
+	2 - SS(DLMC_REF_CLK1) HS(DLMC_REF_CLK1)
+	3 - SS(USB_REF_CLK)   HS(PLL_REF_CLK)
+	4 - SS(DLMC_REF_CLK0) HS(PLL_REF_CLK)
+	5 - SS(DLMC_REF_CLK1) HS(PLL_REF_CLK)
+	The default is 0 : USB_REF_CLK. */
+	//USB-REFCLK-SRC.N%d.PORT%d = "0";
+
+	/* CN88XX SC and SNT parts have an errata where a GPIO is used to
+	toggle DC_OK. For boards with SC and SNT parts, a GPIO must be wired
+	per errata description. */
+	//NITROX-GPIO.N%d = "-1";
 
 	/* Number of reading with no errors to signal the start of an
 	eye. The default value should be good for most cases. */
@@ -308,32 +346,48 @@ cavium,bdk {
 	thermal trip (VRM-TEMP-TRIP). The default value is the Cavium
 	recommended maximum operating temperature of the chip. Values
 	between 0 and 110 degrees Celsius. */
-	//VRM-TEMP-HIGH.N%d = "0x60";
+	//VRM-TEMP-HIGH.N%d = "0x6e";
 
 	/* Temperature where minimum throttling is applied to the chip. Chip
 	performance will be maximized at or below this temperature. The
 	throttling level will be set to VRM-THROTTLE-NORMAL. The default
 	value is the Cavium recommended operating temperature of the chip.
 	Values between 0 and 110 degrees Celsius. */
-	//VRM-TEMP-LOW.N%d = "0x5e";
+	//VRM-TEMP-LOW.N%d = "0x64";
 
 	/* Throttle level of the chip when operating normally. Temperatures
 	at or below VRM-TEMP-LOW will use this throttling level. The default
 	level (70%), allows good performance while still reducing power under
 	heavy loads. Value is a percentage between 1 and 100. */
-	//VRM-THROTTLE-NORMAL.N%d = "0x46";
+	//VRM-THROTTLE-NORMAL.N%d = "0x41";
 
 	/* Throttle level of the chip is overheating. Temperatures at or
 	above VRM-TEMP-HIGH will use this throttling level. The default
 	level (5%), allows for forward progress while still reducing power.
 	Value is a percentage between 1 and 100. Setting a value of 100
 	disables dynamic throttling (not recommended). */
-	//VRM-THROTTLE-THERM.N%d = "5";
+	//VRM-THROTTLE-THERM.N%d = "0xf";
 
-        /* setup 32-bit mode for dummy 8004 board for debug purposes
-        * NOTE: only for LMC0 does it need to be initialized
-        */
-        DDR-CONFIG-CUSTOM-MODE32B.LMC0.N0 = "1";
-
+	/* Internal source for GPIO pins. The enumeration GPIO_PIN_SEL_E
+	details the possible internal sources for GPIO pins in the chip.
+	The value of this setting is the numeric value from the GPIO_PIN_SEL_E
+	enumeration. The default value(-1) leaves the pin at the hardware
+	default, which is to connect the pin to the GPIO block for manual
+	control.
+	Parameters:
+	    GPIO#: Which GPIO pin to configure.
+	    N#: Setting can be different for each node. This specifies
+	        which node the value is for. Node must be 0-3. Optional. */
+	//GPIO-PIN-SELECT-GPIO%d.N%d = "-1";
+	GPIO-PIN-SELECT-GPIO7  = "0x24c"; // PCM_DATA0
+	GPIO-PIN-SELECT-GPIO9  = "0x24e"; // PCM_DATA2
+	GPIO-PIN-SELECT-GPIO13 = "0x246"; // PCM_BCLK0
+	GPIO-PIN-SELECT-GPIO14 = "0x24a"; // PCM_FSYNC0
+	GPIO-PIN-SELECT-GPIO15 = "0x24d"; // PCM_DATA1
+	GPIO-PIN-SELECT-GPIO16 = "0x247"; // PCM_BCLK1
+	GPIO-PIN-SELECT-GPIO17 = "0x24b"; // PCM_FSYNC1
+	GPIO-PIN-SELECT-GPIO18 = "0x24f"; // PCM_DATA3
+	GPIO-PIN-SELECT-GPIO19 = "0x235"; // SPI_CS2
+	GPIO-PIN-SELECT-GPIO20 = "0x236"; // SPI_CS3
 }; /* cavium,bdk */
 }; /* / */
