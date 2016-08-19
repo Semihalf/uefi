@@ -425,7 +425,9 @@ static int devtree_fixups(void *fdt)
                     int qlm = bdk_qlm_get(node, BDK_IF_BGX, bgx_interface, bgx_index);
                     bdk_qlm_modes_t qlm_mode = (qlm == -1) ? BDK_QLM_MODE_DISABLED : bdk_qlm_get_mode(node, qlm);
 
-                    if (!bdk_config_get_int(BDK_CONFIG_BGX_ENABLE, node, bgx_interface, bgx_index))
+                    /* BGXX_CMRX_RX_DMAC_CTL is used to mark ports as disabled */
+                    BDK_CSR_INIT(rx_dmac_ctl, node, BDK_BGXX_CMRX_RX_DMAC_CTL(bgx_interface, bgx_index));
+                    if (rx_dmac_ctl.u == 0)
                         qlm_mode = BDK_QLM_MODE_DISABLED;
 
                     if (qlm_mode == BDK_QLM_MODE_DISABLED)
