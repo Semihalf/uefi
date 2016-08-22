@@ -65,44 +65,28 @@ cavium,bdk {
 		    each. PHY Internal address is always zero.
 		    N0.XLAUI1: Slice 0-3 of PHY address 0 (reg through reg + 0x3000)
 		    N0.XFI0.0: Slice 0 of PHY address 1 (reg)
-		    N1.XFI0.0: Slice 1 of PHY address 1 (reg + 0x1000)
-
-		    Reset the line side of the PHY. This is register 0x1000,
-		    which is incremented by 0x1000 for each slice.
-		    Reset the host side of the PHY. This is register 0x1800,
-		    which is incremented by 0x1000 for each slice. */
-		/* XLAUI0, all 4 slices */
-		"45,0,1,0,0,0x1000,0x3",
-		"45,0,1,0,0,0x1800,0x3",
-		"45,0,1,0,0,0x2000,0x3",
-		"45,0,1,0,0,0x2800,0x3",
-		"45,0,1,0,0,0x3000,0x3",
-		"45,0,1,0,0,0x3800,0x3",
-		"45,0,1,0,0,0x4000,0x3",
-		"45,0,1,0,0,0x4800,0x3",
-		/* N0.XFI1.0, slice 0 */
-		"45,0,1,1,0,0x1000,0x3",
-		"45,0,1,1,0,0x1800,0x3",
-		/* N1.XFI1.0, slice 1 */
-		"45,0,1,1,0,0x2000,0x3",
-		"45,0,1,1,0,0x2800,0x3",
-		/* Leave PHY in reset for 100ms */
-		"sleep,100",
-		/* Take the line side out of reset */
-		"45,0,1,0,0,0x1000,0",
-		"45,0,1,0,0,0x1800,0",
-		"45,0,1,0,0,0x2000,0",
-		"45,0,1,0,0,0x2800,0",
-		"45,0,1,0,0,0x3000,0",
-		"45,0,1,0,0,0x3800,0",
-		"45,0,1,0,0,0x4000,0",
-		"45,0,1,0,0,0x4800,0",
-		/* N0.XFI1.0, slice 0 */
-		"45,0,1,1,0,0x1000,0",
-		"45,0,1,1,0,0x1800,0",
-		/* N1.XFI1.0, slice 1 */
-		"45,0,1,1,0,0x2000,0",
-		"45,0,1,1,0,0x2800,0";
+		    N1.XFI0.0: Slice 1 of PHY address 1 (reg + 0x1000) */
+		/* Apply CS4343 tuning values to HOST side
+		    0x#88f = PP_HOST_SDS_COMMON_STX0_TX_OUTPUT_CTRLA
+		    0x#890 = PP_HOST_SDS_COMMON_STX0_TX_OUTPUT_CTRLB */
+		/* Node 0, die 0 port 0-3, slices 7-4 */
+		"45,0,1,1,0,0x188f,0x481c", /* CTRLA */
+		"45,0,1,1,0,0x288f,0x481c",
+		"45,0,1,1,0,0x388f,0x481c",
+		"45,0,1,1,0,0x488f,0x481c",
+		"45,0,1,1,0,0x1890,0x0106", /* CTRLB */
+		"45,0,1,1,0,0x2890,0x0106",
+		"45,0,1,1,0,0x3890,0x0106",
+		"45,0,1,1,0,0x4890,0x0106",
+		/* Node 0, die 1 port 0-3, slices 3-0 */
+		"45,0,1,0,0,0x188f,0x481c", /* CTRLA */
+		"45,0,1,0,0,0x288f,0x481c",
+		"45,0,1,0,0,0x388f,0x481c",
+		"45,0,1,0,0,0x488f,0x481c",
+		"45,0,1,0,0,0x1890,0x0106", /* CTRLB */
+		"45,0,1,0,0,0x2890,0x0106",
+		"45,0,1,0,0,0x3890,0x0106",
+		"45,0,1,0,0,0x4890,0x0106";
 
 	/* PHY address encoding:
 	    Bits[31:24]: Node ID, 0xff for node the ethernet device is on
@@ -295,10 +279,13 @@ cavium,bdk {
 	should only be used for QLMs used for BGX and CCPI not using KR
 	training. */
 	//QLM-TUNING-TX-SWING.N%d.QLM%d.LANE%d = "-1";
+	QLM-TUNING-TX-SWING.N0.QLM0 = "7";
+	QLM-TUNING-TX-SWING.N0.QLM1 = "7";
 	QLM-TUNING-TX-SWING.N0.QLM3 = "12";
 	QLM-TUNING-TX-SWING.N0.QLM6 = "12";
 	QLM-TUNING-TX-SWING.N0.QLM7 = "12";
 
+	QLM-TUNING-TX-SWING.N1.QLM0 = "7";
 	QLM-TUNING-TX-SWING.N1.QLM3 = "12";
 	QLM-TUNING-TX-SWING.N1.QLM6 = "12";
 	QLM-TUNING-TX-SWING.N1.QLM7 = "12";
@@ -308,13 +295,20 @@ cavium,bdk {
 	using KR training. CFG_TX_PREMPTAP:
 	    Bits[8:5] = Tx Post Tap; Bits[3:0] = Tx Pre Tap */
 	//QLM-TUNING-TX-PREMPTAP.N%d.QLM%d.LANE%d = "-1";
+	QLM-TUNING-TX-PREMPTAP.N0.QLM0 = "0x70";
+	QLM-TUNING-TX-PREMPTAP.N0.QLM1 = "0x70";
 	QLM-TUNING-TX-PREMPTAP.N0.QLM3 = "192";
 	QLM-TUNING-TX-PREMPTAP.N0.QLM6 = "192";
 	QLM-TUNING-TX-PREMPTAP.N0.QLM7 = "192";
 
+	QLM-TUNING-TX-PREMPTAP.N1.QLM0 = "0x70";
 	QLM-TUNING-TX-PREMPTAP.N1.QLM3 = "192";
 	QLM-TUNING-TX-PREMPTAP.N1.QLM6 = "192";
 	QLM-TUNING-TX-PREMPTAP.N1.QLM7 = "192";
+
+	QLM-CHANNEL-LOSS.N0.QLM0 = "5"; /* Short channel */
+	QLM-CHANNEL-LOSS.N0.QLM1 = "5"; /* Short channel */
+	QLM-CHANNEL-LOSS.N1.QLM0 = "5"; /* short channel */
 
 	/* Setting of GSERX_LANEX_TX_CFG_3[PCS_SDS_TX_GAIN] for the QLM. This
 	should only be used for QLMs used for BGX and CCPI not using KR
