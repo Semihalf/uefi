@@ -179,7 +179,9 @@ static bdk_qlm_modes_t qlm_get_mode(bdk_node_t node, int qlm)
             case 0: /* PEM0 */
             {
                 BDK_CSR_INIT(pemx_cfg, node, BDK_PEMX_CFG(0));
-                if (pemx_cfg.s.lanes4)
+                if (cavium_is_altpkg(CAVIUM_CN81XX))
+                    return BDK_QLM_MODE_PCIE_1X1; /* PEM0 x1 */
+                else if (pemx_cfg.s.lanes4)
                     return BDK_QLM_MODE_PCIE_1X4; /* PEM0 x4 */
                 else
                     return BDK_QLM_MODE_PCIE_1X2; /* PEM0 x2 */
@@ -339,6 +341,7 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
 
     switch (mode)
     {
+        case BDK_QLM_MODE_PCIE_1X1:
         case BDK_QLM_MODE_PCIE_1X2:
         case BDK_QLM_MODE_PCIE_1X4:
         {
@@ -381,7 +384,7 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
                 cfg_md = 2; /* Gen3 Speed */
             switch (qlm)
             {
-                case 0: /* Either PEM0 x4 or PEM0 x2 */
+                case 0: /* Either PEM0 x4 or PEM0 x2 or PEM0 x1 */
                     BDK_CSR_MODIFY(c, node, BDK_RST_SOFT_PRSTX(0),
                         c.s.soft_prst = !(flags & BDK_QLM_MODE_FLAG_ENDPOINT));
                     __bdk_qlm_setup_pem_reset(node, 0, flags & BDK_QLM_MODE_FLAG_ENDPOINT);
@@ -392,7 +395,7 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
                     BDK_CSR_MODIFY(c, node, BDK_PEMX_ON(0),
                         c.s.pemon = 1);
                     /* x4 mode waits for DLM1 setup before turning on the PEM */
-                    if (mode == BDK_QLM_MODE_PCIE_1X2)
+                    if (mode != BDK_QLM_MODE_PCIE_1X4)
                         BDK_CSR_MODIFY(c, node, BDK_PEMX_ON(0),
                             c.s.pemon = 1);
                     break;
