@@ -243,7 +243,7 @@ static bdk_qlm_modes_t qlm_get_mode(bdk_node_t node, int qlm)
         switch (cmrx_config.s.lmac_type)
         {
             case BDK_BGX_LMAC_TYPES_E_SGMII:
-                if (cavium_is_altpkg(CAVIUM_CN81XX))
+                if (cavium_is_altpkg(CAVIUM_CN81XX) && (qlm < 2))
                     return BDK_QLM_MODE_SGMII_1X1;
                 else
                     return BDK_QLM_MODE_SGMII_2X1;
@@ -251,9 +251,9 @@ static bdk_qlm_modes_t qlm_get_mode(bdk_node_t node, int qlm)
             case BDK_BGX_LMAC_TYPES_E_RXAUI: return BDK_QLM_MODE_RXAUI_1X2;
             case BDK_BGX_LMAC_TYPES_E_TENG_R:
                 if (is_kr)
-                    return cavium_is_altpkg(CAVIUM_CN81XX) ? BDK_QLM_MODE_10G_KR_1X1 : BDK_QLM_MODE_10G_KR_2X1;
+                    return (cavium_is_altpkg(CAVIUM_CN81XX) && (qlm < 2)) ? BDK_QLM_MODE_10G_KR_1X1 : BDK_QLM_MODE_10G_KR_2X1;
                 else
-                    return cavium_is_altpkg(CAVIUM_CN81XX) ? BDK_QLM_MODE_XFI_1X1 : BDK_QLM_MODE_XFI_2X1;
+                    return (cavium_is_altpkg(CAVIUM_CN81XX) && (qlm < 2)) ? BDK_QLM_MODE_XFI_1X1 : BDK_QLM_MODE_XFI_2X1;
             case BDK_BGX_LMAC_TYPES_E_FORTYG_R:
                 if (is_kr)
                     return BDK_QLM_MODE_40G_KR4_1X4;
