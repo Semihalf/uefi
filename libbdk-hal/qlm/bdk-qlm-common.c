@@ -928,7 +928,12 @@ int bdk_qlm_mcu_auto_config(bdk_node_t node)
         }
         /* MCU reports a width of 0 for unconfigured QLMs */
         if (width == 0)
-            width = bdk_qlm_get_lanes(node, qlm);
+        {
+            if (cavium_is_altpkg(CAVIUM_CN81XX) && (qlm < 2))
+                width = 2;
+            else
+                width = bdk_qlm_get_lanes(node, qlm);
+        }
         bdk_qlm_modes_t qlm_mode;
         int qlm_speed = (speed >> 8) * 1000 + (speed & 0xff) * 1000 / 256;
         int use_ref = 0;
