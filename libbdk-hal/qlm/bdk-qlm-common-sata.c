@@ -107,26 +107,6 @@ int __bdk_qlm_set_sata(bdk_node_t node, int qlm, int baud_mhz, int sata_first, i
     }
     bdk_wait_usec(1);
 
-    /* 6.  Deassert UCTL and UAHC resets:
-        a.  SATA(0..15)_UCTL_CTL[SATA_UAHC_RST] = 0
-        b. SATA(0..15)_UCTL_CTL[SATA_UCTL_RST] = 0
-        c. Wait 10 ACLK cycles before accessing any ACLK-only registers. */
-    for (int p = sata_first; p <= sata_last; p++)
-    {
-        BDK_CSR_MODIFY(c, node, BDK_SATAX_UCTL_CTL(p),
-            c.s.sata_uahc_rst = 0;
-            c.s.sata_uctl_rst = 0);
-    }
-    bdk_wait_usec(1);
-
-    /* 7.  Enable conditional SCLK of UCTL by writing
-        SATA(0..15)_UCTL_CTL[CSCLK_EN] = 1. */
-    for (int p = sata_first; p <= sata_last; p++)
-    {
-        BDK_CSR_MODIFY(c, node, BDK_SATAX_UCTL_CTL(p),
-            c.s.csclk_en = 1);
-    }
-
     /* 8.  Configure PHY for SATA. Refer to Section 21.1.2. */
     /* Done below, section 24.1.2.3 */
 
@@ -162,12 +142,31 @@ int __bdk_qlm_set_sata(bdk_node_t node, int qlm, int baud_mhz, int sata_first, i
         c.u = 0;
         c.s.sata = 1);
 
+   /* 9. Clear the appropriate lane resets:
+       GSER(0..13)_SATA_LANE_RST[Ln_RST] = 0, where n is the lane number 0-3. */
+    BDK_CSR_WRITE(node, BDK_GSERX_SATA_LANE_RST(qlm), 0);
+    BDK_CSR_READ(node, BDK_GSERX_SATA_LANE_RST(qlm));
+
+    /* We'll check for the SATA_PCS Ready in step 8a below */
+    /* Short 1 usec wait */
+    bdk_wait_usec(1);
+
     /* 4. Take the PHY out of reset: write GSER(0..13)_PHY_CTL[PHY_RESET] = 0. */
     BDK_CSR_MODIFY(c, node, BDK_GSERX_PHY_CTL(qlm),
         c.s.phy_reset = 0);
-    /* Wait 250 ns until the management interface is ready to accept
-       read/write commands.*/
-    bdk_wait_usec(1);
+
+    /* 4a. Poll for PHY RST_RDY indicating the PHY has initialized before
+           trying to access internal registers to reconfigure for SATA */
+    if (!bdk_is_platform(BDK_PLATFORM_ASIM))
+    {
+        /* 8. Wait for GSER(0..13)_QLM_STAT[RST_RDY] = 1, indicating that the PHY
+           has been reconfigured and PLLs are locked. */
+        if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_GSERX_QLM_STAT(qlm), rst_rdy, ==, 1, 10000))
+        {
+            bdk_error("QLM%d: Timeout waiting for GSERX_QLM_STAT[rst_rdy]\n", qlm);
+            return -1;
+        }
+    }
 
     /* 5. Change the P2 termination
        GSERn_RX_PWR_CTRL_P2[P2_RX_SUBBLK_PD<0>] = 0 (termination) */
@@ -248,12 +247,7 @@ int __bdk_qlm_set_sata(bdk_node_t node, int qlm, int baud_mhz, int sata_first, i
             return -1;
         }
     }
-
-    /* 9. Clear the appropriate lane resets:
-       GSER(0..13)_SATA_LANE_RST[Ln_RST] = 0, where n is the lane number 0-3. */
-    BDK_CSR_WRITE(node, BDK_GSERX_SATA_LANE_RST(qlm), 0);
-    BDK_CSR_READ(node, BDK_GSERX_SATA_LANE_RST(qlm));
-
+   /* 8a. Check that the SATA_PCS is "Ready" here, should be but check it */
     if (!bdk_is_platform(BDK_PLATFORM_ASIM))
     {
         /* Poll GSERX_SATA_STATUS for PX_RDY = 1 */
@@ -262,6 +256,29 @@ int __bdk_qlm_set_sata(bdk_node_t node, int qlm, int baud_mhz, int sata_first, i
             bdk_error("QLM%d: Timeout waiting for GSERX_SATA_STATUS[p0_rdy]\n", qlm);
             return -1;
         }
+    }
+    /* Add 1ms delay for everything to stabilize*/
+    bdk_wait_usec(1000);
+
+
+    /* 6.  Deassert UCTL and UAHC resets:
+        a.  SATA(0..15)_UCTL_CTL[SATA_UAHC_RST] = 0
+        b. SATA(0..15)_UCTL_CTL[SATA_UCTL_RST] = 0
+        c. Wait 10 ACLK cycles before accessing any ACLK-only registers. */
+    for (int p = sata_first; p <= sata_last; p++)
+    {
+        BDK_CSR_MODIFY(c, node, BDK_SATAX_UCTL_CTL(p),
+            c.s.sata_uahc_rst = 0;
+            c.s.sata_uctl_rst = 0);
+    }
+    bdk_wait_usec(1);
+
+    /* 7.  Enable conditional SCLK of UCTL by writing
+        SATA(0..15)_UCTL_CTL[CSCLK_EN] = 1. */
+    for (int p = sata_first; p <= sata_last; p++)
+    {
+        BDK_CSR_MODIFY(c, node, BDK_SATAX_UCTL_CTL(p),
+            c.s.csclk_en = 1);
     }
 
     for (int p = sata_first; p <= sata_last; p++)
