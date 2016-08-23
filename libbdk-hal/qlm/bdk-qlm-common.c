@@ -1091,7 +1091,7 @@ int bdk_qlm_mcu_auto_config(bdk_node_t node)
             else if (width >= num_lanes)
             {
                 if (num_lanes == 1)
-                    width = 0; /* Special case for CN80XX */
+                    width -= 2; /* Special case for CN80XX */
                 else
                     width -= num_lanes;
             }
