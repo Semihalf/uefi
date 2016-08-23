@@ -67,6 +67,8 @@ static int qlm_get_qlm_num(bdk_node_t node, bdk_if_t iftype, int interface, int 
                                 qlm = 0;
                             else if (mode <= BDK_QLM_MODE_PCIE_1X8)
                                 qlm = 1;
+                            else if (cavium_is_altpkg(CAVIUM_CN81XX))
+                                qlm = (index >= 1) ? 1 : 0;
                             else
                                 qlm = (index >= 2) ? 1 : 0;
                         }
