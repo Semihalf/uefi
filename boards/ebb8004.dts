@@ -68,7 +68,9 @@ cavium,bdk {
 	// When board is running as Node 0
 	// BGX0 PHY addresses
 	PHY-ADDRESS.N0.BGX0.P0 = "0xff000100";
-	PHY-ADDRESS.N0.BGX0.P1 = "0xff000102";
+	PHY-ADDRESS.N0.BGX0.P1 = "0xff000101";
+	PHY-ADDRESS.N0.BGX0.P2 = "0xff000102";
+	PHY-ADDRESS.N0.BGX0.P3 = "0xff000103";
 	// BGX1 PHY addresses
 	PHY-ADDRESS.N0.BGX1.P0 = "0xff000108";
 	PHY-ADDRESS.N0.BGX1.P1 = "0xff000109";
