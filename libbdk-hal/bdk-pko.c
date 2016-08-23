@@ -13,7 +13,7 @@ _Static_assert(DQ_FC_PREALLOCATE <= DQ_FC_NOMINAL_DEPTH, "Flow control watermark
 typedef struct
 {
     int64_t pko_fc_depth[PKO_MAX_DQ*2] __attribute__ ((aligned (BDK_CACHE_LINE_SIZE))); /* Queue depth flow control counters */
-    uint64_t pko_free_fifo_mask;    /* PKO_PTGFX_CFG(7) is reserved for NULL MAC */
+    uint64_t pko_free_fifo_mask;    /* PKO_PTGFX_CFG(5) is reserved for NULL MAC */
     int pko_next_free_port_queue;   /* L1 = Port Queues are 0-15 (CN83XX) */
     int pko_next_free_l2_queue;     /* L2 = Channel Queues 0-255 (CN83XX) */
     int pko_next_free_l3_queue;     /* L3 = Channel Queues 0-255 (CN83XX) */
@@ -131,7 +131,10 @@ static int __bdk_pko_allocate_fifo(bdk_node_t node, int lmac, int size)
                     cfg.s.size = 0; /* 2.5kb for all */
                     break;
                 case 2:
-                    cfg.s.size = 1; /* 5kb, 2.5kb, 2.5kb */
+                    if (fifo & 2)
+                        cfg.s.size = 2; /* 2.5kb, 2.5kb, 5kb */
+                    else
+                        cfg.s.size = 1; /* 5kb, 2.5kb, 2.5kb */
                     break;
                 default: /* 4 */
                     cfg.s.size = 4; /* 10kb */
@@ -150,6 +153,7 @@ static int __bdk_pko_allocate_fifo(bdk_node_t node, int lmac, int size)
                 case 2:
                     /* 2nd buffer is now 5kb */
                     cfg.s.size = 3; /* 5kb, 5kb */
+                    cfg.s.rate = 2; /* Use 25 Gb/s rate */
                     break;
                 default: /* 4 */
                     /* This shouldn't be possible */
@@ -158,8 +162,9 @@ static int __bdk_pko_allocate_fifo(bdk_node_t node, int lmac, int size)
             }
             break;
         case 2: /* 2.5kb, 5kb - already allocated */
-            /* This shouldn't be possible */
-            bdk_fatal("Illegal fifo size\n");
+            if (1 != size)
+                bdk_fatal("Illegal fifo size\n");
+            /* we may be allocating into the 2.5kb, <unused 2.5kb>, 5kb */
             break;
         case 3: /* 5kb, 5kb - already allocated */
             /* This shouldn't be possible */
@@ -181,7 +186,7 @@ static int __bdk_pko_allocate_fifo(bdk_node_t node, int lmac, int size)
             case BDK_PKO_LMAC_E_LOOPBACK_0:
             case BDK_PKO_LMAC_E_LOOPBACK_1:
             {
-                BDK_CSR_INIT(lbkx_const, node, BDK_LBKX_CONST(lmac ? 2 : 0));
+                BDK_CSR_INIT(lbkx_const, node, BDK_LBKX_CONST( (lmac != BDK_PKO_LMAC_E_LOOPBACK_0)  ? 2 : 0));
                 mac_buffering = lbkx_const.s.buf_size;
                 break;
             }
