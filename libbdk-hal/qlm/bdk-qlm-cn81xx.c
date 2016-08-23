@@ -449,6 +449,12 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
         case BDK_QLM_MODE_SGMII_4X1:
         case BDK_QLM_MODE_SGMII_2X1:
         case BDK_QLM_MODE_SGMII_1X1:
+            /* Disable port BGX ports 2-3 on CN80XX */
+            if ((qlm < 2) && cavium_is_altpkg(CAVIUM_CN81XX))
+            {
+                BDK_CSR_WRITE(node, BDK_BGXX_CMRX_RX_DMAC_CTL(0, 2), 0);
+                BDK_CSR_WRITE(node, BDK_BGXX_CMRX_RX_DMAC_CTL(0, 3), 0);
+            }
             lmac_type = BDK_BGX_LMAC_TYPES_E_SGMII; /* SGMII */
             is_bgx = 1;
             lane_mode = __bdk_qlm_get_lane_mode_for_speed_and_ref_clk("SGMII", qlm, ref_clk, baud_mhz);
@@ -473,6 +479,12 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
         case BDK_QLM_MODE_XFI_4X1:
         case BDK_QLM_MODE_XFI_2X1:
         case BDK_QLM_MODE_XFI_1X1:
+            /* Disable port BGX ports 2-3 on CN80XX */
+            if ((qlm < 2) && cavium_is_altpkg(CAVIUM_CN81XX))
+            {
+                BDK_CSR_WRITE(node, BDK_BGXX_CMRX_RX_DMAC_CTL(0, 2), 0);
+                BDK_CSR_WRITE(node, BDK_BGXX_CMRX_RX_DMAC_CTL(0, 3), 0);
+            }
             lmac_type = BDK_BGX_LMAC_TYPES_E_TENG_R; /* 10G_R */
             is_bgx = 1;
             lane_mode = __bdk_qlm_get_lane_mode_for_speed_and_ref_clk("XFI", qlm, ref_clk, baud_mhz);
@@ -489,6 +501,12 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
         case BDK_QLM_MODE_10G_KR_4X1:
         case BDK_QLM_MODE_10G_KR_2X1:
         case BDK_QLM_MODE_10G_KR_1X1:
+            /* Disable port BGX ports 2-3 on CN80XX */
+            if ((qlm < 2) && cavium_is_altpkg(CAVIUM_CN81XX))
+            {
+                BDK_CSR_WRITE(node, BDK_BGXX_CMRX_RX_DMAC_CTL(0, 2), 0);
+                BDK_CSR_WRITE(node, BDK_BGXX_CMRX_RX_DMAC_CTL(0, 3), 0);
+            }
             lmac_type = BDK_BGX_LMAC_TYPES_E_TENG_R; /* 10G_R */
             is_bgx = 1;
             lane_mode = __bdk_qlm_get_lane_mode_for_speed_and_ref_clk("10G-KR", qlm, ref_clk, baud_mhz);
