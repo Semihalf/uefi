@@ -251,10 +251,18 @@ def run_test(cnx):
         set_mode(cnx, qlm_test_mode)
         run_traffic_gen(cnx, qlm_test_mode)
 
+class Args:
+    def __init__(self, mcu):
+        self.mcu = "%s:9760" % mcu
+        self.mcu2 = None
+        self.bmc = None
+        self.board = "ebb8104"
+        self.console = "%s:9761" % mcu
+
 def main(logName):
-    console, mcu1, mcu2 = boards.parseArgs()
     log = connection.Log(logName)
-    cnx = boards.Board_EVB(console=console, mcu=mcu1, mcu2=mcu2, logObject=log)
+    args = Args("b11-0036")
+    cnx = boards.Board_EVB(args, log)
     run_test(cnx)
     cnx.close()
 
