@@ -871,13 +871,6 @@ int bdk_qlm_mcu_auto_config(bdk_node_t node)
         correct_lanes = 32;
     else if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         correct_lanes = 22;
-    else if (cavium_is_altpkg(CAVIUM_CN81XX))
-    {
-        correct_lanes = 6; /* DLM0-1 have one lane each, DLM2-3 have two */
-        /* Early MCUs reported the wrong number of lanes */
-        if (lanes == 8)
-            lanes = 6;
-    }
     else if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
         correct_lanes = 8;
     if (lanes != correct_lanes)
