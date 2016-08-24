@@ -10,6 +10,15 @@
 //
 
 /**
+ * Convert USB speed encoding to human-readable token
+ *
+ * @param speed Encoded speed
+ *
+ * @return Pointer to a speed token one of SS:HS:LS:FS:??
+ **/
+const char* __bdk_usb_speed2token(const int speed);
+
+/**
  * Initialize root hub USB XHCI root hub instance on a thunder node
  * Root hub has to be initialized prior to that
  *

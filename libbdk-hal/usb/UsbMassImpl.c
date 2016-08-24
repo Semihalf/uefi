@@ -850,25 +850,26 @@ UsbMassIfStart(EFI_USB_IO_PROTOCOL *UsbIo,
 
     bdk_node_t node;
     int usb_port;
+
+    /* mat-2016-04-8 - tired of plumbing handle conversion  - hack
+       Need to get a pointer to bus lock - it is reliable at this time as all the enteties in the chain exist.
+    */
+    USB_INTERFACE *thisUsbIf =  (typeof(thisUsbIf))USB_INTERFACE_FROM_USBIO (UsbIo);
+    USB_DEVICE *thisDevice = thisUsbIf->Device;
+    USB_BUS *thisBus = thisDevice->Bus;
     {
-        /* mat-2016-04-8 - tired of plumbing handle conversion  - hack
-           Need to get a pointer to bus lock - it is reliable at this time as all the enteties in the chain exist.
-        */
-
-        USB_INTERFACE *UsbIf =  (typeof(UsbIf))USB_INTERFACE_FROM_USBIO (UsbIo);
-        USB_DEVICE *Device = UsbIf->Device;
-        USB_BUS *Bus = Device->Bus;
         typedef struct _EFI_USB2_HC_PROTOCOL  EFI_USB2_HC_PROTOCOL;
-        int cvmH2C_to_node( EFI_USB2_HC_PROTOCOL *This,
-                            bdk_node_t           *node,
-                            int *usb_port,
-                            void **lock);
+        extern int cvmH2C_to_node( EFI_USB2_HC_PROTOCOL *This,
+                                   bdk_node_t           *node,
+                                   int *usb_port,
+                                   void **lock);
 
-        cvmH2C_to_node(Bus->Usb2Hc, &node, &usb_port, (void**)&UsbMass->bus_lock);
+        cvmH2C_to_node(thisBus->Usb2Hc, &node, &usb_port, (void**)&UsbMass->bus_lock);
     }
-    DEBUG((EFI_D_INFO,"Initialized USB_MASS %p ifhandle %p @devindex %d for node %u usb_port %d lock @%p\n", UsbMass, ifHandle, devIndex, (unsigned) node, usb_port,UsbMass->bus_lock ));
+    DEBUG((EFI_D_INFO,"Initializing USB_MASS %p ifhandle %p @devindex %d for node %u usb_port %d lock @%p\n", UsbMass, ifHandle, devIndex, (unsigned) node, usb_port,UsbMass->bus_lock ));
     int rc = bdk_fs_register_dev("usb",devIndex,&bdk_fs_usb_ops);
-    printf("\nRegistered device \"/dev/n0.usb%d\" for node %d usb port %d - %s\n", devIndex, (int) node, usb_port, (rc) ? "??" : "OK");
+    printf("\nRegistered device \"/dev/n0.usb%d\" for node %d usb port %d - %s %s\n", devIndex, (int) node, usb_port,
+           (rc) ? "??" : "OK",  __bdk_usb_speed2token(thisDevice->Speed));
 
     if (rc == 0 && __bdk_fs_fatfs_usbnotify) {
        __bdk_fs_fatfs_usbnotify(devIndex, 1);

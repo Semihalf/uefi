@@ -150,19 +150,20 @@ static int devPathToText(CONST EFI_DEVICE_PATH_PROTOCOL* DevicePath, char *buf, 
 
     return (p - buf);
 }
-static const char *speed2token(const int speed)
+
+const char* __bdk_usb_speed2token(const int speed)
 {
     switch (speed) {
     case  EFI_USB_SPEED_SUPER:
-        return "SS";
+        return "SuperSpeed";
     case EFI_USB_SPEED_HIGH:
-        return "HS";
+        return "HighSpeed";
     case EFI_USB_SPEED_LOW:
-        return "LS";
+        return "LowSpeed";
     case EFI_USB_SPEED_FULL:
-        return "FS";
+        return "FullSpeed";
     default:
-        return "??";
+        return "??Speed";
     }
 }
 
@@ -196,7 +197,7 @@ static void list_usb_interface(const USB_INTERFACE *UsbIf,const int tier)
         } else {
             usbsubclass = Device->DevDesc->Desc.DeviceSubClass;
         }
-        printf("%*s#%02u Device@%p PP:%d PA:%d Tier:%d NumIf:%d DF:%d Class %02x SubClass %02x Vend 0x%04x Prod 0x%04x Speed %s\n",
+        printf("%*s#%02u Device@%p PP:%d PA:%d Tier:%d NumIf:%d DF:%d Class %02x SubClass %02x Vend 0x%04x Prod 0x%04x %s\n",
                2*tier,"", ndx, Device,
                Device->ParentPort, Device->ParentAddr,
                Device->Tier, Device->NumOfInterface,
@@ -204,7 +205,7 @@ static void list_usb_interface(const USB_INTERFACE *UsbIf,const int tier)
                usbclass, usbsubclass,
                bdk_le16_to_cpu(Device->DevDesc->Desc.IdVendor),
                bdk_le16_to_cpu(Device->DevDesc->Desc.IdProduct),
-               speed2token(Device->Speed)
+               __bdk_usb_speed2token(Device->Speed)
             );
         for(unsigned n=0; n < Device->NumOfInterface; n++) {
             if (NULL == Device->Interfaces[n]) continue;
@@ -262,13 +263,13 @@ int bdk_usb_HCList()
                     for(unsigned ndx=1; ndx < Bus->MaxDevices; ndx++) {
                         Device = Bus->Devices[ndx];
                         if (Device && (Device->ParentAddr == p->root_if->Device->Address)) {
-                            printf("R#%02u Device@%p Port:%d Tier:%d NumIf:%d DF:%d Class %02x SubClass %02x Vend 0x%04x Prod 0x%04x Speed %s\n",
+                            printf("R#%02u Device@%p Port:%d Tier:%d NumIf:%d DF:%d Class %02x SubClass %02x Vend 0x%04x Prod 0x%04x %s\n",
                                    ndx, Device, Device->ParentPort,Device->Tier, Device->NumOfInterface,
                                    b2i(Device->DisconnectFail),
                                    Device->DevDesc->Desc.DeviceClass, Device->DevDesc->Desc.DeviceSubClass ,
                                    bdk_le16_to_cpu(Device->DevDesc->Desc.IdVendor),
                                    bdk_le16_to_cpu(Device->DevDesc->Desc.IdProduct),
-                                   speed2token(Device->Speed)
+                                   __bdk_usb_speed2token(Device->Speed)
                                 );
                             for(unsigned n=0; n < Device->NumOfInterface; n++) {
                                 if (NULL == (UsbIf = Device->Interfaces[n])) continue;
