@@ -516,7 +516,7 @@ static int issue_command(bdk_node_t node, int controller, int command, int is_wr
     /* Wait for completion */
     if (BDK_CSR_WAIT_FOR_FIELD(node,BDK_SATAX_UAHC_P0_IS(controller), dhrs | c.s.pss | c.s.dss, !=, 0, TIMEOUT))
     {
-        bdk_error("N%d.SATA%d: Response timeout\n", node, controller);
+        bdk_error("N%d.SATA%d: Command Response timeout\n", node, controller);
         bdk_sata_shutdown(node, controller);
         return -1;
     }
@@ -552,7 +552,7 @@ uint64_t bdk_sata_identify(bdk_node_t node, int controller, int port)
     const int TIMEOUT = 1000000; /* 1 seconds */
     if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_SATAX_UAHC_P0_SSTS(controller), ipm, !=, 0, TIMEOUT))
     {
-        bdk_error("N%d.SATA%d: Response timeout\n", node, controller);
+        bdk_error("N%d.SATA%d: Device not present or communication not established\n", node, controller);
         return 0;
     }
 
