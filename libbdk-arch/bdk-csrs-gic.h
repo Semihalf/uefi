@@ -7015,7 +7015,7 @@ union bdk_gits_typer
                                                                    0 = Target addresses correspond to linear processor numbers.
                                                                    1 = Target addresses correspond to the base physical address of re-distributors. */
         uint64_t seis                  : 1;  /**< [ 18: 18](RO) Locally generated system error interrupts supported. */
-        uint64_t devbits               : 5;  /**< [ 17: 13](RO) The number of device identifier bits supported, minus one. The 21-its device ID is defined
+        uint64_t devbits               : 5;  /**< [ 17: 13](RO) The number of device identifier bits supported, minus one. The 21-bit device ID is defined
                                                                  as {node_id[1:0], iob_id[2:0], stream_id[15:0]}. */
         uint64_t idbits                : 5;  /**< [ 12:  8](RO) The number of interrupt identifier bits supported, minus one. */
         uint64_t itte_size             : 4;  /**< [  7:  4](RO) ITT entry size.  Number of bytes per entry, minus one. The ITT entry size implemented is 4
@@ -7034,7 +7034,7 @@ union bdk_gits_typer
         uint64_t itte_size             : 4;  /**< [  7:  4](RO) ITT entry size.  Number of bytes per entry, minus one. The ITT entry size implemented is 4
                                                                  bytes (32-bit). */
         uint64_t idbits                : 5;  /**< [ 12:  8](RO) The number of interrupt identifier bits supported, minus one. */
-        uint64_t devbits               : 5;  /**< [ 17: 13](RO) The number of device identifier bits supported, minus one. The 21-its device ID is defined
+        uint64_t devbits               : 5;  /**< [ 17: 13](RO) The number of device identifier bits supported, minus one. The 21-bit device ID is defined
                                                                  as {node_id[1:0], iob_id[2:0], stream_id[15:0]}. */
         uint64_t seis                  : 1;  /**< [ 18: 18](RO) Locally generated system error interrupts supported. */
         uint64_t pta                   : 1;  /**< [ 19: 19](RO) Physical target addresses supported.
@@ -7083,7 +7083,7 @@ union bdk_gits_typer
                                                                    0 = Target addresses correspond to linear processor numbers.
                                                                    1 = Target addresses correspond to the base physical address of re-distributors. */
         uint64_t seis                  : 1;  /**< [ 18: 18](RO) Locally generated system error interrupts supported. */
-        uint64_t devbits               : 5;  /**< [ 17: 13](RO) The number of device identifier bits supported, minus one. The 21-its device ID is defined
+        uint64_t devbits               : 5;  /**< [ 17: 13](RO) The number of device identifier bits supported, minus one. The 21-bit device ID is defined
                                                                  as {node_id[1:0], iob_id[2:0], stream_id[15:0]}. */
         uint64_t idbits                : 5;  /**< [ 12:  8](RO) The number of interrupt identifier bits supported, minus one. */
         uint64_t itte_size             : 4;  /**< [  7:  4](RO) ITT entry size.  Number of bytes per entry, minus one. The ITT entry size implemented is 4
@@ -7102,7 +7102,7 @@ union bdk_gits_typer
         uint64_t itte_size             : 4;  /**< [  7:  4](RO) ITT entry size.  Number of bytes per entry, minus one. The ITT entry size implemented is 4
                                                                  bytes (32-bit). */
         uint64_t idbits                : 5;  /**< [ 12:  8](RO) The number of interrupt identifier bits supported, minus one. */
-        uint64_t devbits               : 5;  /**< [ 17: 13](RO) The number of device identifier bits supported, minus one. The 21-its device ID is defined
+        uint64_t devbits               : 5;  /**< [ 17: 13](RO) The number of device identifier bits supported, minus one. The 21-bit device ID is defined
                                                                  as {node_id[1:0], iob_id[2:0], stream_id[15:0]}. */
         uint64_t seis                  : 1;  /**< [ 18: 18](RO) Locally generated system error interrupts supported. */
         uint64_t pta                   : 1;  /**< [ 19: 19](RO) Physical target addresses supported.

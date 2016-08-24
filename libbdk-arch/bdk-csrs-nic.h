@@ -11058,7 +11058,7 @@ union bdk_nic_pf_qsx_rqx_drop_cfg
         uint64_t cq_red                : 1;  /**< [ 62: 62](R/W) Enable CQ RED drop between PASS and DROP levels. */
         uint64_t reserved_48_61        : 14;
         uint64_t rbdr_pass             : 8;  /**< [ 47: 40](R/W) Threshold level for RED accepting packets, in units of 1/256th of RBDR level.
-                                                                 0xff represents a full ring, 0x0 repsents and empty ring.
+                                                                 0xff represents a full RBDR, 0x0 represents an empty RBDR.
                                                                  If the RBDR level is greater >= to this value then the packet is received.
                                                                  If the RBDR level is less that this value but >= [RBDR_DROP] value then the packet is in
                                                                  the RED zone
@@ -11068,7 +11068,7 @@ union bdk_nic_pf_qsx_rqx_drop_cfg
                                                                  for more details. */
         uint64_t reserved_24_31        : 8;
         uint64_t cq_pass               : 8;  /**< [ 23: 16](R/W) Threshold level for RED accepting packets, in units of 1/256th of CQ level.
-                                                                 0xff represents a full ring, 0x0 repsents and empty ring.
+                                                                 0xff represents an empty CQ, 0x0 represents a full CQ.
                                                                  If the CQ level is greater >= to this value then the packet is received.
                                                                  If the CQ level is less that this value but >= [CQ_DROP] then the packet is in the
                                                                  RED zone
@@ -11083,7 +11083,7 @@ union bdk_nic_pf_qsx_rqx_drop_cfg
                                                                  for
                                                                  more details. */
         uint64_t cq_pass               : 8;  /**< [ 23: 16](R/W) Threshold level for RED accepting packets, in units of 1/256th of CQ level.
-                                                                 0xff represents a full ring, 0x0 repsents and empty ring.
+                                                                 0xff represents an empty CQ, 0x0 represents a full CQ.
                                                                  If the CQ level is greater >= to this value then the packet is received.
                                                                  If the CQ level is less that this value but >= [CQ_DROP] then the packet is in the
                                                                  RED zone
@@ -11093,7 +11093,7 @@ union bdk_nic_pf_qsx_rqx_drop_cfg
                                                                  [RBDR_PASS]
                                                                  for more details. */
         uint64_t rbdr_pass             : 8;  /**< [ 47: 40](R/W) Threshold level for RED accepting packets, in units of 1/256th of RBDR level.
-                                                                 0xff represents a full ring, 0x0 repsents and empty ring.
+                                                                 0xff represents a full RBDR, 0x0 represents an empty RBDR.
                                                                  If the RBDR level is greater >= to this value then the packet is received.
                                                                  If the RBDR level is less that this value but >= [RBDR_DROP] value then the packet is in
                                                                  the RED zone
