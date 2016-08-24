@@ -8,6 +8,22 @@
 This document gives a short overview of the major changes
 incorporated into each BDK release.
 
+== thunder-release-v1.25-rc1 ==
+* Includes all fixes from thunder-release-v1.24.3 and thunder-release-v1.23.10
+* CCPI
+** Force boot to stop when CCPI fails on systems requiring multi-node
+* SATA
+** Consolidate QLM+SATA init code into a single common file
+** Take SATA PCS out of reset before the GSER PHY
+* CN80XX
+** Initial support for CN80XX
+** Support for EBB8004
+* eMMC
+** Add menu option to run an automated eMMC/SD test
+* PCIe
+** Fixes to virtual function discovery to support external devices.
+** Do not show euphemeral devices on local hostRC
+
 == thunder-release-v1.24.3 ==
 * CCPI
 ** Display the BDK version of node 1 during boot.  The BDK version of both
