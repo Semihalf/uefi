@@ -369,17 +369,17 @@ int bdk_sata_initialize(bdk_node_t node, int controller)
     /* Setup the port controller */
     BDK_CSR_MODIFY(c, node, BDK_SATAX_UAHC_P0_CMD(controller),
         c.s.fre = 1; /* FIS receive enable */
-        c.s.pod = 1; /* Power on the device */
-        c.s.sud = 1); /* Start the controller */
+        c.s.pod = 1; /* Power on the device, only has affect if SATAX_UAHC_P0_CMD[CPD]=1 */
+        c.s.sud = 1); /* Spin-up the device, only has affect if SATAX_UAHC_GBL_CAP[SSS]=1 */
 
     bdk_wait_usec(1); /* To match RTL sim environment */
 
     /* Allow device detection */
     BDK_CSR_MODIFY(c, node, BDK_SATAX_UAHC_P0_SCTL(controller),
-        c.s.det = 1);
-    bdk_wait_usec(1000); /* 1ms - To match RTL sim environment */
+        c.s.det = 1); /* Sends COMRESET to the device */
+    bdk_wait_usec(1000); /* 1ms required per databook */
     BDK_CSR_MODIFY(c, node, BDK_SATAX_UAHC_P0_SCTL(controller),
-        c.s.det = 0);
+        c.s.det = 0); /* Stops COMRESET, allows device to come up */
 
     /* Start the port controller */
     BDK_CSR_MODIFY(c, node, BDK_SATAX_UAHC_P0_CMD(controller),
