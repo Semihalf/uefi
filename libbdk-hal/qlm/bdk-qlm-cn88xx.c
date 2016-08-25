@@ -773,7 +773,7 @@ static int qlm_get_gbaud_mhz(bdk_node_t node, int qlm)
                 case 3:
                     return 6000;
                 default:
-                    return 0;
+                    return 6000; /* No limit, assume 6G */
             }
         }
         else
