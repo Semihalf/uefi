@@ -468,7 +468,6 @@ static int Perform_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_inter
 
 static void Write_Deskew_Config(int node, int rank_mask, int ddr_interface_num)
 {
-
     /*
     **
     ** Reuse read bit-deskew settings for write bit-deskew.
@@ -490,28 +489,45 @@ static void Write_Deskew_Config(int node, int rank_mask, int ddr_interface_num)
     */
 
     bdk_lmcx_dll_ctl3_t ddr_dll_ctl3;
+
+    // NO-OP first
     ddr_dll_ctl3.u = BDK_CSR_READ(node, BDK_LMCX_DLL_CTL3(ddr_interface_num));
-
-    ddr_dll_ctl3.s.bit_select    = 0xA; /* Enable reuse read deskew settings */
-    ddr_dll_ctl3.s.byte_sel      = 0xA; /* Select all bytes */
-    ddr_dll_ctl3.s.wr_deskew_ena = 0x1;  /* Enable write bit-deskew */
-    DRAM_CSR_WRITE(node, BDK_LMCX_DLL_CTL3(ddr_interface_num),	ddr_dll_ctl3.u);
-
-    ddr_dll_ctl3.s.wr_deskew_ld  = 1;  /* go */
-    DRAM_CSR_WRITE(node, BDK_LMCX_DLL_CTL3(ddr_interface_num),	ddr_dll_ctl3.u);
-
-    // put it back into NOOP
-    ddr_dll_ctl3.s.bit_select    = 0x9; /* Enable reuse read deskew settings */
-    ddr_dll_ctl3.s.byte_sel      = 0xA; /* Select all bytes */
-#if 0
-    ddr_dll_ctl3.s.wr_deskew_ena = 0x1;  /* Enable write bit-deskew */
-#endif
+    ddr_dll_ctl3.s.bit_select    = 0x09; /* NO-OP */
+    ddr_dll_ctl3.s.byte_sel      = 0x0A; /* Select all bytes */
+    ddr_dll_ctl3.s.wr_deskew_ena = 0;    /* Disable write bit-deskew */
     DRAM_CSR_WRITE(node, BDK_LMCX_DLL_CTL3(ddr_interface_num),	ddr_dll_ctl3.u);
 
 #if 0
-    ddr_dll_ctl3.s.wr_deskew_ld  = 1;  /* go */
+    // enable write bit-deskew re-using read bit-deskew settings
+    ddr_dll_ctl3.u = BDK_CSR_READ(node, BDK_LMCX_DLL_CTL3(ddr_interface_num));
+    ddr_dll_ctl3.s.bit_select    = 0x0A; /* Enable reuse of read deskew settings */
+    //ddr_dll_ctl3.s.bit_select    = 0x0F; /* Reset write deskew setting */
+    ddr_dll_ctl3.s.byte_sel      = 0x0A; /* Select all bytes */
+    ddr_dll_ctl3.s.wr_deskew_ena = 1;    /* Enable write bit-deskew */
     DRAM_CSR_WRITE(node, BDK_LMCX_DLL_CTL3(ddr_interface_num),	ddr_dll_ctl3.u);
+#else
+    for (int byte=1; byte < 10; byte++) { // FIXME: need ECC info!!!
+        // enable write bit-deskew re-using read bit-deskew settings
+        ddr_dll_ctl3.u = BDK_CSR_READ(node, BDK_LMCX_DLL_CTL3(ddr_interface_num));
+        //ddr_dll_ctl3.s.bit_select    = 0x0A; /* Enable reuse of read deskew settings */
+        ddr_dll_ctl3.s.bit_select    = 0x0F; /* Reset write deskew setting */
+        ddr_dll_ctl3.s.byte_sel      = byte; /* Select 1 byte */
+        ddr_dll_ctl3.s.wr_deskew_ena = 1;    /* Enable write bit-deskew */
+        DRAM_CSR_WRITE(node, BDK_LMCX_DLL_CTL3(ddr_interface_num),	ddr_dll_ctl3.u);
+    }
+
 #endif
+    //ddr_dll_ctl3.u = BDK_CSR_READ(node, BDK_LMCX_DLL_CTL3(ddr_interface_num));
+    //ddr_dll_ctl3.s.wr_deskew_ld  = 1;  /* go */
+    //DRAM_CSR_WRITE(node, BDK_LMCX_DLL_CTL3(ddr_interface_num),	ddr_dll_ctl3.u);
+
+    // NO-OP last
+    ddr_dll_ctl3.u = BDK_CSR_READ(node, BDK_LMCX_DLL_CTL3(ddr_interface_num));
+    ddr_dll_ctl3.s.bit_select    = 0x09; /* NO-OP */
+    ddr_dll_ctl3.s.byte_sel      = 0x0A; /* Select all bytes */
+    DRAM_CSR_WRITE(node, BDK_LMCX_DLL_CTL3(ddr_interface_num),	ddr_dll_ctl3.u);
+
+    ddr_dll_ctl3.u = BDK_CSR_READ(node, BDK_LMCX_DLL_CTL3(ddr_interface_num));
 }
 
 #define SCALING_FACTOR (1000)
@@ -2768,6 +2784,11 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
     int disable_deskew_training = 0;
     const char *dimm_type_name;
 
+    /* Allow the Write bit-deskew feature to be enabled when desired. */
+    // NOTE: THUNDER pass 2.x only, 81xx, 83xx
+    int enable_write_deskew = ENABLE_WRITE_DESKEW_DEFAULT;
+    int write_deskew_done = 0;
+
 #if SWL_TRY_HWL_ALT
     typedef struct {
 	uint16_t hwl_alt_mask; // mask of bytelanes with alternate
@@ -2809,6 +2830,16 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
     // this one is in Perform_Deskew_Training and controls lock retries 
     if ((s = lookup_env_parameter("ddr_lock_retries")) != NULL) {
         default_lock_retry_limit = strtoul(s, NULL, 0);
+    }
+
+    // setup/override for write bit-deskew feature
+    if (! CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X)) { // added 81xx and 83xx
+        // FIXME: allow override
+        if ((s = lookup_env_parameter("ddr_enable_write_deskew")) != NULL) {
+            enable_write_deskew = !!strtoul(s, NULL, 0);
+        } // else take default setting
+    } else { // not pass 2.x
+        enable_write_deskew = 0; // force disabled
     }
 
 #if 0 // FIXME: do we really need this anymore?
@@ -4864,6 +4895,15 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         Validate_Deskew_Training(node, rank_mask, ddr_interface_num,
                                  &deskew_training_results, VBL_NORM, ddr_interface_64b);
 
+#if !ENABLE_WRITE_DESKEW_VERIFY
+        // do write bit-deskew if enabled...
+        if (enable_write_deskew) {
+            ddr_print("N%d.LMC%d: WRITE BIT-DESKEW feature enabled.\n",
+                      node, ddr_interface_num);
+            Write_Deskew_Config(node, rank_mask, ddr_interface_num);
+        } /* if (enable_write_deskew) */
+#endif /* !ENABLE_WRITE_DESKEW_VERIFY */
+
     } /* if (! disable_deskew_training) */
 
 #if !DAC_OVERRIDE_EARLY
@@ -4875,7 +4915,6 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                   node, ddr_interface_num);
     }
 #endif
-
 
 #if RUN_INIT_SEQ_3
     if (run_init_sequence_3 && (ddr_type == DDR4_DRAM) && spd_rdimm) {
@@ -5221,6 +5260,9 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 	lmc_modereg_params1.u = BDK_CSR_READ(node, BDK_LMCX_MODEREG_PARAMS1(ddr_interface_num));
 #endif
 
+    start_hardware_write_leveling:
+
+        // Start the hardware write-leveling loop per rank
 	for (rankx = 0; rankx < dimm_count * 4; rankx++) {
 
 	    if (!(rank_mask & (1 << rankx)))
@@ -5612,6 +5654,20 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
 	} /* for (rankx = 0; rankx < dimm_count * 4;rankx++) */
 
+#if ENABLE_WRITE_DESKEW_VERIFY
+        // we want to verify, so do this after 1st HWL and then do another
+        if (! disable_deskew_training) {
+            // do write bit-deskew if enabled...
+            if (enable_write_deskew && !write_deskew_done) {
+                ddr_print("N%d.LMC%d: WRITE BIT-DESKEW feature enabled.\n",
+                          node, ddr_interface_num);
+                Write_Deskew_Config(node, rank_mask, ddr_interface_num);
+                write_deskew_done = 1;
+                goto start_hardware_write_leveling;
+            } /* if (enable_write_deskew) */
+        } /* if (! disable_deskew_training) */
+#endif /* ENABLE_WRITE_DESKEW_VERIFY */
+
 #if RUN_INIT_SEQ_3
         if (run_init_sequence_3 && (ddr_type == DDR4_DRAM) && spd_rdimm) {
 
@@ -5672,68 +5728,6 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
             Validate_Deskew_Training(node, rank_mask, ddr_interface_num, 
                                      &dsk_counts, VBL_NORM, ddr_interface_64b);
     }
-
-    /* Enable the Write bit-deskew feature. */
-    // NOTE: THUNDER pass 2.x only
-    // FIXME: allow override
-    int enable_write_deskew = ENABLE_WRITE_DESKEW_DEFAULT;
-    if (! CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X)) { // added 81xx and 83xx
-	if ((s = lookup_env_parameter("ddr_enable_write_deskew")) != NULL) {
-	    enable_write_deskew = !!strtoul(s, NULL, 0);
-	} // else take default setting
-    } else { // not pass 2.x
-	enable_write_deskew = 0; // force disabled
-    }
-
-    if (enable_write_deskew) {
-
-        bdk_lmcx_wlevel_rankx_t lmc_wlevel_rank;
-        int rankx;
-        int passx;
-        int ecc_ena;
-        int wlevel_bitmask[9];
-
-        ddr_print("N%d.LMC%d: Enabling the Write bit-deskew feature.\n",
-                  node, ddr_interface_num);
-
-        Write_Deskew_Config(node, rank_mask, ddr_interface_num);
-
-        ddr_print("N%d.LMC%d: Repeating Write-Leveling.\n",
-                  node, ddr_interface_num);
-
-        lmc_config.u = BDK_CSR_READ(node, BDK_LMCX_CONFIG(ddr_interface_num));
-        ecc_ena = lmc_config.s.ecc_ena;
-
-        for (rankx = 0; rankx < dimm_count * 4; rankx++) {
-            if (!(rank_mask & (1 << rankx)))
-                continue;
-            /* Rerun write-leveling now that write-deskew is enabled. */
-
-            /* Read and write values back in order to update the
-               status field. This insures that we read the updated
-               values after write-leveling has completed. */
-            DRAM_CSR_WRITE(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, rankx),
-			   BDK_CSR_READ(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, rankx)));
-
-            perform_octeon3_ddr3_sequence(node, 1 << rankx, ddr_interface_num, 6); /* write-leveling */
-
-            do {
-                lmc_wlevel_rank.u = BDK_CSR_READ(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, rankx));
-            } while (lmc_wlevel_rank.s.status != 3);
-
-            for (passx=0; passx<(8+ecc_ena); ++passx) {
-                if (!(ddr_interface_bytemask&(1<<passx)))
-                    continue;
-                wlevel_bitmask[passx] = octeon_read_lmcx_ddr3_wlevel_dbg(node, ddr_interface_num, passx);
-                if (wlevel_bitmask[passx] == 0)
-                    ++wlevel_bitmask_errors;
-            } /* for (passx=0; passx<(8+ecc_ena); ++passx) */
-
-            display_WL_BM(node, ddr_interface_num, rankx, wlevel_bitmask);
-            display_WL(node, ddr_interface_num, lmc_wlevel_rank, rankx);
-
-        } /* for (rankx = 0; rankx < dimm_count * 4;rankx++) */
-    } /* if (enable_write_deskew) */
 
     /*
      * 6.9.12 LMC Read Leveling
