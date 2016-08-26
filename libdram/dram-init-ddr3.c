@@ -7113,23 +7113,25 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
 
                                         delay_value = (int)new_byte;
-                                        VB_PRT(VBL_DEV, "N%d.LMC%d.R%d: PERFECT: TIES (0x%x) for bytelane %d INCLUDED %d (%d)\n",
-                                                  node, ddr_interface_num, rankx, ties, byte_idx, (int)new_byte, delay_max);
+                                        VB_PRT(VBL_DEV, "N%d.LMC%d.R%d: PERFECT: Byte %d: TIES (0x%x) INCLUDED %d (%d)\n",
+                                                  node, ddr_interface_num, rankx, byte_idx, ties, (int)new_byte, delay_max);
                                     } else {
                                         // FIXME: should choose a perfect one!!!
                                         // FIXME: for now, leave the choice as new_byte
                                         delay_value = (int)new_byte;
-                                        VB_PRT(VBL_DEV, "N%d.LMC%d.R%d: PERFECT: TIES (0x%x) for bytelane %d OMITTED %d (%d)\n",
-                                                  node, ddr_interface_num, rankx, ties, byte_idx, (int)new_byte, delay_max);
+                                        VB_PRT(VBL_DEV, "N%d.LMC%d.R%d: PERFECT: Byte %d: TIES (0x%x) OMITTED %d (%d)\n",
+                                                  node, ddr_interface_num, rankx, byte_idx, ties, (int)new_byte, delay_max);
                                     }
                                 } /* if (ties != 0) */
 
                                 if (delay_value != (int)new_byte) {
-                                    VB_PRT(VBL_DEV, "N%d.LMC%d.R%d: PERFECT: perfect for bytelane %d is %d DIFF from %d: USING it! (%d)\n",
-                                              node, ddr_interface_num, rankx, byte_idx, delay_value, (int)new_byte, delay_max);
+                                    delay_count = rank_perfect_counts[rankx].count[byte_idx][(int)new_byte];
+                                    VB_PRT(VBL_DEV, "N%d.LMC%d.R%d: PERFECT: Byte %d: DIFF from %d (%d), USING %d (%d)\n",
+                                           node, ddr_interface_num, rankx, byte_idx, (int)new_byte, 
+                                           delay_count, delay_value, delay_max);
                                     new_byte = (uint64_t)delay_value; // FIXME: make this optional via envvar?
                                 } else {
-                                    debug_print("N%d.LMC%d.R%d: PERFECT: perfect for bytelane %d SAME as %d (%d)\n",
+                                    debug_print("N%d.LMC%d.R%d: PERFECT: Byte %d: SAME as %d (%d)\n",
                                                 node, ddr_interface_num, rankx, byte_idx, new_byte, delay_max);
                                 }
                             }
@@ -7137,7 +7139,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                         else {
                             if (ddr_type == DDR4_DRAM) { // only report when DDR4
                                 // FIXME: remove or increase VBL for this output...
-                                VB_PRT(VBL_DEV, "N%d.LMC%d.R%d: PERFECT: no perfect bitmasks for bytelane %d\n",
+                                VB_PRT(VBL_DEV, "N%d.LMC%d.R%d: PERFECT: Byte %d: ZERO perfect bitmasks\n",
                                           node, ddr_interface_num, rankx, byte_idx);
                             }
                         } /* if (rank_perfect_counts[rankx].total[byte_idx] > 0) */
