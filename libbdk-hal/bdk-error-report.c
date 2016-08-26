@@ -200,8 +200,9 @@ static void check_cn8xxx_lmc(bdk_node_t node, int index, int check_intf_en)
 
     if (c.s.nxm_wr_err) {
         BDK_CSR_INIT(nxm_fadr, node, BDK_LMCX_NXM_FADR(index));
-        bdk_error("N%d.LMC%d: NXM_WR_ERR: [0x%016lx]\n",
-                  node, index, nxm_fadr.u);
+        bdk_error("N%d.LMC%d: NXM_WR_ERR: %s at [0x%016lx]\n",
+                  node, index, (nxm_fadr.s.nxm_type) ? "Write" : "Read",
+                  (nxm_fadr.s.nxm_faddr | (nxm_fadr.s.nxm_faddr_ext << 37)));
         CLEAR_CHIP_ERROR(BDK_LMCX_INT(index), s, nxm_wr_err);
     }
 
