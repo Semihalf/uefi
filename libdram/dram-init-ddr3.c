@@ -5084,6 +5084,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         int ddr_wlevel_roundup = 0;
         int ddr_wlevel_printall = (dram_is_verbose(VBL_FAE)); // or default to 1 to print all HW WL samples
         int disable_hwl_validity = 0;
+        int default_wlevel_rtt_nom;
 #pragma pack(pop)
 
         if (wlevel_loops)
@@ -5092,6 +5093,9 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
             wlevel_bitmask_errors = 1; /* Force software write-leveling to run */
             ddr_print("N%d.LMC%d: Forcing software Write-Leveling\n", node, ddr_interface_num);
 	}
+
+        default_wlevel_rtt_nom = (ddr_type == DDR3_DRAM) ? (rttnom_20ohm - 1) : (ddr4_rttnom_40ohm - 1) ; /* FIXME? */
+
 #if RUN_INIT_SEQ_3
         if (run_init_sequence_3 && (ddr_type == DDR4_DRAM) && spd_rdimm) {
             /* 
@@ -5114,6 +5118,10 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 	if ((s = lookup_env_parameter("ddr_disable_hwl_validity")) != NULL) {
 	    disable_hwl_validity = !!strtoul(s, NULL, 0);
 	}
+
+        if ((s = lookup_env_parameter("ddr_wlevel_rtt_nom")) != NULL) {
+            default_wlevel_rtt_nom = strtoul(s, NULL, 0);
+        }
 
 #if RUN_INIT_SEQ_3
 	lmc_modereg_params0.u = BDK_CSR_READ(node, BDK_LMCX_MODEREG_PARAMS0(ddr_interface_num));
@@ -5151,11 +5159,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
 		wlevel_ctl.u = BDK_CSR_READ(node, BDK_LMCX_WLEVEL_CTL(ddr_interface_num));
 
-		wlevel_ctl.s.rtt_nom   = ddr4_rttnom_240ohm - 1; /* FIX */
-
-		if ((s = lookup_env_parameter("ddr_wlevel_rtt_nom")) != NULL) {
-		    wlevel_ctl.s.rtt_nom   = strtoul(s, NULL, 0);
-		}
+		wlevel_ctl.s.rtt_nom   = default_wlevel_rtt_nom;
 
 #if RUN_INIT_SEQ_3
 		if (run_init_sequence_3 && (ddr_type == DDR4_DRAM) && spd_rdimm) {
