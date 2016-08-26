@@ -349,7 +349,7 @@ int bdk_usb_HCInit(bdk_node_t node, int usb_port)
             usb_global_data[node][usb_port].root_hub = NULL;
             usb_global_data[node][usb_port].xhci_priv = NULL;
             printf("memory allocation failure\n");
-            rc = -5;
+            rc = -6;
             goto out;
         }
 
@@ -405,7 +405,7 @@ int bdk_usb_HCInit(bdk_node_t node, int usb_port)
     }
 out:
     if (rc)
-        printf("%s exiting with rc %d\n", __FUNCTION__, rc);
+        bdk_warn("%s exiting with rc %d\n", __FUNCTION__, rc);
     return rc;
 }
 
