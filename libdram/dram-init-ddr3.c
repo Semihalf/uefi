@@ -4274,6 +4274,14 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         //lmc_modereg_params3.s.wr_cmd_lat      =
         //lmc_modereg_params3.s.mpr_fmt         =
 
+        if (!CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X)) {
+            int delay = 0;
+            if ((lranks_per_prank == 4) && (ddr_hertz >= 1000000000))
+                delay = 1;
+            lmc_modereg_params3.s.xrank_add_tccd_l = delay;
+            lmc_modereg_params3.s.xrank_add_tccd_s = delay;
+        }
+
         ddr_print("MODEREG_PARAMS3                               : 0x%016lx\n", lmc_modereg_params3.u);
         DRAM_CSR_WRITE(node, BDK_LMCX_MODEREG_PARAMS3(ddr_interface_num), lmc_modereg_params3.u);
     } /* LMC(0)_MODEREG_PARAMS3 */
