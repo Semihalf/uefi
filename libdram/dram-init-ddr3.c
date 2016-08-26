@@ -1415,7 +1415,7 @@ do_display_BM(bdk_node_t node, int ddr_interface_num, int rank, void *bm, int fl
     } else
     if (flags == WITH_RL_BITMASKS) {
         rlevel_bitmask_t *rlevel_bitmask = (rlevel_bitmask_t *)bm;
-        ddr_print("N%d.LMC%d.R%d: Rlevel Debug Bitmasks      8:0        : %05lx %05lx %05lx %05lx %05lx %05lx %05lx %05lx %05lx\n",
+        ddr_print("N%d.LMC%d.R%d: Rlevel Debug Bitmasks        8:0      : %05lx %05lx %05lx %05lx %05lx %05lx %05lx %05lx %05lx\n",
                   node, ddr_interface_num, rank,
                   PPBM(rlevel_bitmask[XPU(8,ecc)].bm),
                   PPBM(rlevel_bitmask[XPU(7,ecc)].bm),
@@ -5506,7 +5506,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 #endif /* HW_WL_MAJORITY */
             // maybe print an error summary for the rank
             if ((wlevel_bitmask_errors_rank != 0) || (wlevel_validity_errors_rank != 0)) {
-                VB_PRT(VBL_NORM, "N%d.LMC%d.R%d: H/W Write-Leveling errors - %d bitmask, %d validity, %d retries, %d exhausted\n",
+                VB_PRT(VBL_FAE, "N%d.LMC%d.R%d: H/W Write-Leveling errors - %d bitmask, %d validity, %d retries, %d exhausted\n",
                        node, ddr_interface_num, rankx,
                        wlevel_bitmask_errors_rank, wlevel_validity_errors_rank,
                        wloop_retries_total, wloop_retries_exhausted);
@@ -5994,8 +5994,8 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 		if (dyn_rtt_nom_mask & 8) lmc_modereg_params1.s.rtt_nom_11 = rtt_nom;
 
 		DRAM_CSR_WRITE(node, BDK_LMCX_MODEREG_PARAMS1(ddr_interface_num), lmc_modereg_params1.u);
-		ddr_print("\n");
-		ddr_print("RTT_NOM     %3d, %3d, %3d, %3d ohms           :  %x,%x,%x,%x\n",
+		VB_PRT(VBL_TME, "\n");
+		VB_PRT(VBL_TME, "RTT_NOM     %3d, %3d, %3d, %3d ohms           :  %x,%x,%x,%x\n",
 			  imp_values->rtt_nom_ohms[lmc_modereg_params1.s.rtt_nom_11],
 			  imp_values->rtt_nom_ohms[lmc_modereg_params1.s.rtt_nom_10],
 			  imp_values->rtt_nom_ohms[lmc_modereg_params1.s.rtt_nom_01],
@@ -6031,8 +6031,8 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                         DRAM_CSR_WRITE(node, BDK_LMCX_COMP_CTL2(ddr_interface_num), lmc_comp_ctl2.u);
                         lmc_comp_ctl2.u = BDK_CSR_READ(node, BDK_LMCX_COMP_CTL2(ddr_interface_num));
                         bdk_wait_usec(1); /* Give it a little time to take affect */
-                        ddr_print("Read ODT_CTL                                  : 0x%x (%d ohms)\n",
-                                  lmc_comp_ctl2.s.rodt_ctl, imp_values->rodt_ohms[lmc_comp_ctl2.s.rodt_ctl]);
+                        VB_PRT(VBL_TME, "Read ODT_CTL                                  : 0x%x (%d ohms)\n",
+                               lmc_comp_ctl2.s.rodt_ctl, imp_values->rodt_ohms[lmc_comp_ctl2.s.rodt_ctl]);
 
 			memset(rlevel_byte, 0, sizeof(rlevel_byte));
 
@@ -7086,19 +7086,19 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
 
                                         delay_value = (int)new_byte;
-                                        ddr_print("N%d.LMC%d.R%d: PERFECT: TIES (0x%x) for bytelane %d INCLUDED %d (%d)\n",
+                                        VB_PRT(VBL_DEV, "N%d.LMC%d.R%d: PERFECT: TIES (0x%x) for bytelane %d INCLUDED %d (%d)\n",
                                                   node, ddr_interface_num, rankx, ties, byte_idx, (int)new_byte, delay_max);
                                     } else {
                                         // FIXME: should choose a perfect one!!!
                                         // FIXME: for now, leave the choice as new_byte
                                         delay_value = (int)new_byte;
-                                        ddr_print("N%d.LMC%d.R%d: PERFECT: TIES (0x%x) for bytelane %d OMITTED %d (%d)\n",
+                                        VB_PRT(VBL_DEV, "N%d.LMC%d.R%d: PERFECT: TIES (0x%x) for bytelane %d OMITTED %d (%d)\n",
                                                   node, ddr_interface_num, rankx, ties, byte_idx, (int)new_byte, delay_max);
                                     }
                                 } /* if (ties != 0) */
 
                                 if (delay_value != (int)new_byte) {
-                                    ddr_print("N%d.LMC%d.R%d: PERFECT: perfect for bytelane %d is %d DIFF from %d: USING it! (%d)\n",
+                                    VB_PRT(VBL_DEV, "N%d.LMC%d.R%d: PERFECT: perfect for bytelane %d is %d DIFF from %d: USING it! (%d)\n",
                                               node, ddr_interface_num, rankx, byte_idx, delay_value, (int)new_byte, delay_max);
                                     new_byte = (uint64_t)delay_value; // FIXME: make this optional via envvar?
                                 } else {
@@ -7110,7 +7110,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                         else {
                             if (ddr_type == DDR4_DRAM) { // only report when DDR4
                                 // FIXME: remove or increase VBL for this output...
-                                ddr_print("N%d.LMC%d.R%d: PERFECT: no perfect bitmasks for bytelane %d\n",
+                                VB_PRT(VBL_DEV, "N%d.LMC%d.R%d: PERFECT: no perfect bitmasks for bytelane %d\n",
                                           node, ddr_interface_num, rankx, byte_idx);
                             }
                         } /* if (rank_perfect_counts[rankx].total[byte_idx] > 0) */
