@@ -2884,25 +2884,37 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
     spd_dimm_type = get_dimm_module_type(node, &dimm_config_table[0], 0, ddr_type);
 
     if (ddr_type == DDR4_DRAM) {
+        int spd_module_type;
+        const char *signal_load[4] = {"", "MLS", "3DS", "RSV"};
+
         imp_values = &ddr4_impedence_values;
         dimm_type_name = ddr4_dimm_types[spd_dimm_type];
 
-        spd_addr = read_spd(node, &dimm_config_table[0], 0, DDR4_SPD_ADDRESSING_ROW_COL_BITS);
-        spd_org = read_spd(node, &dimm_config_table[0], 0, DDR4_SPD_MODULE_ORGANIZATION);
-        spd_banks = read_spd(node, &dimm_config_table[0], 0, DDR4_SPD_DENSITY_BANKS) & 0xff;
+        spd_addr =  read_spd(node, &dimm_config_table[0], 0, DDR4_SPD_ADDRESSING_ROW_COL_BITS);
+        spd_org  =  read_spd(node, &dimm_config_table[0], 0, DDR4_SPD_MODULE_ORGANIZATION);
+        spd_banks = 0xFF & read_spd(node, &dimm_config_table[0], 0, DDR4_SPD_DENSITY_BANKS);
 
         bank_bits = (2 + ((spd_banks >> 4) & 0x3)) + ((spd_banks >> 6) & 0x3);
         bank_bits = min((int)bank_bits, 4); /* Controller can only address 4 bits. */
 
-	spd_package = read_spd(node, &dimm_config_table[0], 0, DDR4_SPD_PACKAGE_TYPE);
-	is_stacked_die = ((spd_package & 0xf3) == 0x91);
-	ddr_print("DDR4: Package Type 0x%x %s die\n", spd_package, is_stacked_die ? "Stacked" : "Normal");
-
-        spd_rdimm = (spd_dimm_type == 1) || (spd_dimm_type == 5) || (spd_dimm_type == 8);
+	spd_package = 0XFF & read_spd(node, &dimm_config_table[0], 0, DDR4_SPD_PACKAGE_TYPE);
+        if (spd_package & 0x80) { // non-monolithic device
+            is_stacked_die = ((spd_package & 0x73) == 0x11);
+            ddr_print("DDR4: Package Type 0x%x (%s), %d die\n", spd_package,
+                      signal_load[(spd_package & 3)], ((spd_package >> 4) & 7) + 1);
+        }
 
         spd_rawcard = 0xFF & read_spd(node, &dimm_config_table[0], 0, DDR4_SPD_REFERENCE_RAW_CARD);
         ddr_print("DDR4: Reference Raw Card 0x%x \n", spd_rawcard);
 
+        spd_module_type = read_spd(node, &dimm_config_table[0], 0, DDR4_SPD_KEY_BYTE_MODULE_TYPE);
+        if (spd_module_type & 0x80) { // HYBRID module
+            ddr_print("DDR4: HYBRID module, type %s\n",
+                      ((spd_module_type & 0x70) == 0x10) ? "NVDIMM" : "UNKNOWN");
+        }
+
+        spd_dimm_type   = spd_module_type & 0x0F;
+        spd_rdimm = (spd_dimm_type == 1) || (spd_dimm_type == 5) || (spd_dimm_type == 8);
 	if (spd_rdimm) {
 	    int spd_mfgr_id = read_spd(node, &dimm_config_table[0], 0, DDR4_SPD_REGISTER_MANUFACTURER_ID_LSB) |
 		(read_spd(node, &dimm_config_table[0], 0, DDR4_SPD_REGISTER_MANUFACTURER_ID_MSB) << 8);
