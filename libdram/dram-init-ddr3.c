@@ -2743,6 +2743,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
     int spd_rawcard = 0;
     int spd_rawcard_AorB = 0;
     int is_stacked_die = 0;
+    int disable_stacked_die = 0;
     int lranks_per_prank = 1; // 3DS: logical ranks per package rank
 
     /* FTB values are two's complement ranging from +127 to -128. */
@@ -2831,6 +2832,11 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
     // this one is in Perform_Deskew_Training and controls lock retries 
     if ((s = lookup_env_parameter("ddr_lock_retries")) != NULL) {
         default_lock_retry_limit = strtoul(s, NULL, 0);
+    }
+    // this one controls whether stacked die status can affect processing
+    // disabling it will affect computed vref adjustment, and rodt_row_skip_mask
+    if ((s = lookup_env_parameter("ddr_disable_stacked_die")) != NULL) {
+        disable_stacked_die = !!strtoul(s, NULL, 0);
     }
 
     // setup/override for write bit-deskew feature
@@ -2936,7 +2942,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
 	spd_package = 0XFF & read_spd(node, &dimm_config_table[0], 0, DDR4_SPD_PACKAGE_TYPE);
         if (spd_package & 0x80) { // non-monolithic device
-            is_stacked_die = ((spd_package & 0x73) == 0x11);
+            is_stacked_die = (!disable_stacked_die) ? ((spd_package & 0x73) == 0x11) : 0;
             ddr_print("DDR4: Package Type 0x%x (%s), %d die\n", spd_package,
                       signal_load[(spd_package & 3)], ((spd_package >> 4) & 7) + 1);
             if ((spd_package & 3) == 2) // is it 3DS?
