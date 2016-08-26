@@ -5546,8 +5546,9 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 			    if (alts & (1 << ix)) { // FIXME: could be done multiple times? bad if so
 				hwl_alts[rankx].hwl_alt_mask |= (1 << passx); // set the mask
 				hwl_alts[rankx].hwl_alt_delay[passx] = ix << 1; // record the value
-				VB_PRT(VBL_DEV, "N%d.LMC%d.R%d: SWL_TRY_HWL_ALT: Byte %d maj %d alt %d.\n",
-					  node, ddr_interface_num, rankx, passx, mx << 1, ix << 1);
+				VB_PRT(VBL_DEV, "N%d.LMC%d.R%d: SWL_TRY_HWL_ALT: Byte %d maj %d (%d) alt %d (%d).\n",
+                                       node, ddr_interface_num, rankx, passx, mx << 1, xc,
+                                       ix << 1, wlevel_bytes[passx][ix]);
 			    }
 			}
 		    } else {
