@@ -1,6 +1,8 @@
 #include <bdk.h>
 #include "dram-internal.h"
 
+#define DESKEW_RODT_CTL 1
+
 #define ENABLE_WRITE_DESKEW_DEFAULT 0
 
 #define ENABLE_COMPUTED_VREF_ADJUSTMENT 1
@@ -291,6 +293,10 @@ static int Perform_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_inter
     int print_first;
     int print_them_all;
     deskew_counts_t dsk_counts;
+#if DESKEW_RODT_CTL
+    bdk_lmcx_comp_ctl2_t comp_ctl2;
+    int save_deskew_rodt_ctl = -1;
+#endif
 
     VB_PRT(VBL_FAE, "N%d.LMC%d: Performing Deskew Training.\n", node, ddr_interface_num);
 
@@ -305,6 +311,16 @@ static int Perform_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_inter
     if ((s = getenv("ddr_deskew_normal_loops")) != NULL) {
 	normal_loops = strtoul(s, NULL, 0);
     }
+
+#if DESKEW_RODT_CTL
+    if ((s = getenv("ddr_deskew_rodt_ctl")) != NULL) {
+        int deskew_rodt_ctl = strtoul(s, NULL, 0);
+        comp_ctl2.u = BDK_CSR_READ(node, BDK_LMCX_COMP_CTL2(ddr_interface_num));
+        save_deskew_rodt_ctl = comp_ctl2.s.rodt_ctl;
+        comp_ctl2.s.rodt_ctl = deskew_rodt_ctl;
+        DRAM_CSR_WRITE(node, BDK_LMCX_COMP_CTL2(ddr_interface_num), comp_ctl2.u);
+    }
+#endif
 
     lock_retries_limit = default_lock_retry_limit;
     if (! CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X)) // added 81xx and 83xx
@@ -406,6 +422,13 @@ static int Perform_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_inter
 	Validate_Deskew_Training(node, rank_mask, ddr_interface_num, &dsk_counts, VBL_NORM, ddr_interface_64b);
 #endif
 
+#if DESKEW_RODT_CTL
+    if (save_deskew_rodt_ctl != -1) {
+        comp_ctl2.u = BDK_CSR_READ(node, BDK_LMCX_COMP_CTL2(ddr_interface_num));
+        comp_ctl2.s.rodt_ctl = save_deskew_rodt_ctl;
+        DRAM_CSR_WRITE(node, BDK_LMCX_COMP_CTL2(ddr_interface_num), comp_ctl2.u);
+    }
+#endif
     VB_PRT(VBL_FAE, "N%d.LMC%d: Deskew Training %s. %d sat-retries, %d lock-retries\n",
            node, ddr_interface_num,
            (sat_retries >= DEFAULT_SAT_RETRY_LIMIT) ? "Timed Out" : "Completed",
