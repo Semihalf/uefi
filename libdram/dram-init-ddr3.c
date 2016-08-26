@@ -1327,26 +1327,31 @@ static void display_RL_with_RODT(bdk_node_t node, int ddr_interface_num,
 				 int nom_ohms, int rodt_ohms, int flag)
 {
     const char *msg_buf;
+    char set_buf[20];
 #if SKIP_SKIPPING
     if (flag == WITH_RODT_SKIPPING) return;
 #endif
     msg_buf = with_rodt_canned_msgs[flag];
+    if (nom_ohms < 0) {
+        snprintf(set_buf, sizeof(set_buf), "    RODT %3d    ", rodt_ohms);
+    } else {
+        snprintf(set_buf, sizeof(set_buf), "NOM %3d RODT %3d", nom_ohms, rodt_ohms);        
+    }
     
-    VB_PRT(VBL_TME, "N%d.LMC%d.R%d: Rlevel NOM %3d RODT %3d   %s  : %5d %5d %5d %5d %5d %5d %5d %5d %5d (%d)\n",
-	      node, ddr_interface_num, rank,
-	      nom_ohms, rodt_ohms,
-	      msg_buf,
-	      lmc_rlevel_rank.s.byte8,
-	      lmc_rlevel_rank.s.byte7,
-	      lmc_rlevel_rank.s.byte6,
-	      lmc_rlevel_rank.s.byte5,
-	      lmc_rlevel_rank.s.byte4,
-	      lmc_rlevel_rank.s.byte3,
-	      lmc_rlevel_rank.s.byte2,
-	      lmc_rlevel_rank.s.byte1,
-	      lmc_rlevel_rank.s.byte0,
-	      score
-	      );
+    VB_PRT(VBL_TME, "N%d.LMC%d.R%d: Rlevel %s   %s  : %5d %5d %5d %5d %5d %5d %5d %5d %5d (%d)\n",
+           node, ddr_interface_num, rank,
+           set_buf, msg_buf,
+           lmc_rlevel_rank.s.byte8,
+           lmc_rlevel_rank.s.byte7,
+           lmc_rlevel_rank.s.byte6,
+           lmc_rlevel_rank.s.byte5,
+           lmc_rlevel_rank.s.byte4,
+           lmc_rlevel_rank.s.byte3,
+           lmc_rlevel_rank.s.byte2,
+           lmc_rlevel_rank.s.byte1,
+           lmc_rlevel_rank.s.byte0,
+           score
+           );
 
     // FIXME: does this help make the output a little easier to focus?
     if (flag == WITH_RODT_BESTSCORE) {
@@ -5780,6 +5785,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
             uint64_t setting;
             int      score;
         } rlevel_scoreboard[RTT_NOM_OHMS_COUNT][RODT_OHMS_COUNT][4];
+        int print_nom_ohms;
 #if PERFECT_BITMASK_COUNTING
         typedef struct {
             uint8_t count[9][32]; // 8+ECC by 32 values
@@ -6019,13 +6025,18 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 		   zero than RTT_NOM will not be changing during
 		   read-leveling.  Since the value is fixed we only need
 		   to test it once. */
-		if ((dyn_rtt_nom_mask == 0) && (rtt_idx != min_rtt_nom_idx))
-		    continue;
-
-		if (dyn_rtt_nom_mask & 1) lmc_modereg_params1.s.rtt_nom_00 = rtt_nom;
-		if (dyn_rtt_nom_mask & 2) lmc_modereg_params1.s.rtt_nom_01 = rtt_nom;
-		if (dyn_rtt_nom_mask & 4) lmc_modereg_params1.s.rtt_nom_10 = rtt_nom;
-		if (dyn_rtt_nom_mask & 8) lmc_modereg_params1.s.rtt_nom_11 = rtt_nom;
+		if (dyn_rtt_nom_mask == 0) {
+                    print_nom_ohms = -1; // flag not to print NOM ohms
+                    if (rtt_idx != min_rtt_nom_idx)
+                        continue;
+                } else {
+                    if (dyn_rtt_nom_mask & 1) lmc_modereg_params1.s.rtt_nom_00 = rtt_nom;
+                    if (dyn_rtt_nom_mask & 2) lmc_modereg_params1.s.rtt_nom_01 = rtt_nom;
+                    if (dyn_rtt_nom_mask & 4) lmc_modereg_params1.s.rtt_nom_10 = rtt_nom;
+                    if (dyn_rtt_nom_mask & 8) lmc_modereg_params1.s.rtt_nom_11 = rtt_nom;
+                    // FIXME? rank 0 ohms always for the printout?
+                    print_nom_ohms = imp_values->rtt_nom_ohms[lmc_modereg_params1.s.rtt_nom_00];
+                }
 
 		DRAM_CSR_WRITE(node, BDK_LMCX_MODEREG_PARAMS1(ddr_interface_num), lmc_modereg_params1.u);
 		VB_PRT(VBL_TME, "\n");
@@ -6404,8 +6415,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
                             display_RL_with_RODT(node, ddr_interface_num, lmc_rlevel_rank, rankx,
                                                  rlevel_scoreboard[rtt_nom][rodt_ctl][rankx].score,
-                                                 imp_values->rtt_nom_ohms[rtt_nom],
-                                                 imp_values->rodt_ohms[rodt_ctl],
+                                                 print_nom_ohms, imp_values->rodt_ohms[rodt_ctl],
                                                  WITH_RODT_BESTSCORE);
 
 #else /* PICK_BEST_RANK_SCORE_NOT_AVG */
@@ -6775,8 +6785,13 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
 			    for (rtt_idx = min_rtt_nom_idx; rtt_idx <= max_rtt_nom_idx; ++rtt_idx) {
 				rtt_nom = imp_values->rtt_nom_table[rtt_idx];
-				if ((dyn_rtt_nom_mask == 0) && (rtt_idx != min_rtt_nom_idx))
-				    continue;
+				if (dyn_rtt_nom_mask == 0) {
+                                    print_nom_ohms = -1;
+                                    if (rtt_idx != min_rtt_nom_idx)
+                                        continue;
+                                } else {
+                                    print_nom_ohms = imp_values->rtt_nom_ohms[rtt_nom];
+                                }
 
 				// cycle through all the RODT values...
 				for (rodt_ctl = max_rodt_ctl; rodt_ctl >= min_rodt_ctl; --rodt_ctl) {
@@ -6817,7 +6832,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
 				    display_RL_with_RODT(node, ddr_interface_num, 
 							 temp_rlevel_rank, orankx, temp_score,
-							 imp_values->rtt_nom_ohms[rtt_nom],
+							 print_nom_ohms,
 							 imp_values->rodt_ohms[rodt_ctl],
 							 skip_row);
 
