@@ -1,9 +1,12 @@
 #include <bdk.h>
 #include "dram-internal.h"
 
+#define WODT_MASK_2R_1S 1 // FIXME: did not seem to make much difference with #152 1-slot?
+
 #define DESKEW_RODT_CTL 1
 
 #define ENABLE_WRITE_DESKEW_DEFAULT 0
+#define ENABLE_WRITE_DESKEW_VERIFY  1
 
 #define ENABLE_COMPUTED_VREF_ADJUSTMENT 1
 
@@ -5156,6 +5159,9 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         int ddr_wlevel_printall = (dram_is_verbose(VBL_FAE)); // or default to 1 to print all HW WL samples
         int disable_hwl_validity = 0;
         int default_wlevel_rtt_nom;
+#if WODT_MASK_2R_1S
+        uint64_t saved_wodt_mask = 0;
+#endif
 #pragma pack(pop)
 
         if (wlevel_loops)
@@ -5165,7 +5171,23 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
             ddr_print("N%d.LMC%d: Forcing software Write-Leveling\n", node, ddr_interface_num);
 	}
 
-        default_wlevel_rtt_nom = (ddr_type == DDR3_DRAM) ? (rttnom_20ohm - 1) : (ddr4_rttnom_40ohm - 1) ; /* FIXME? */
+        default_wlevel_rtt_nom = (ddr_type == DDR3_DRAM) ? rttnom_20ohm : ddr4_rttnom_40ohm ; /* FIXME? */
+
+#if WODT_MASK_2R_1S
+        if ((ddr_type == DDR4_DRAM) && (num_ranks == 2) && (dimm_count == 1)) {
+            /* LMC(0)_WODT_MASK */
+            bdk_lmcx_wodt_mask_t lmc_wodt_mask;
+            // always save original so we can always restore later
+            saved_wodt_mask = BDK_CSR_READ(node, BDK_LMCX_WODT_MASK(ddr_interface_num));
+            if ((s = lookup_env_parameter_ull("ddr_hwl_wodt_mask")) != NULL) {
+                lmc_wodt_mask.u = strtoull(s, NULL, 0);
+                if (lmc_wodt_mask.u != saved_wodt_mask) { // print/store only when diff
+                    ddr_print("WODT_MASK                                     : 0x%016lx\n", lmc_wodt_mask.u);
+                    DRAM_CSR_WRITE(node, BDK_LMCX_WODT_MASK(ddr_interface_num), lmc_wodt_mask.u);
+                }
+            }
+        }
+#endif /* WODT_MASK_2R_1S */
 
 #if RUN_INIT_SEQ_3
         if (run_init_sequence_3 && (ddr_type == DDR4_DRAM) && spd_rdimm) {
@@ -5230,7 +5252,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
 		wlevel_ctl.u = BDK_CSR_READ(node, BDK_LMCX_WLEVEL_CTL(ddr_interface_num));
 
-		wlevel_ctl.s.rtt_nom   = default_wlevel_rtt_nom;
+		wlevel_ctl.s.rtt_nom   = default_wlevel_rtt_nom - 1;
 
 #if RUN_INIT_SEQ_3
 		if (run_init_sequence_3 && (ddr_type == DDR4_DRAM) && spd_rdimm) {
@@ -5602,6 +5624,20 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
             set_rdimm_mode(node, ddr_interface_num, 1);
         }
 #endif
+
+#if WODT_MASK_2R_1S
+        if ((ddr_type == DDR4_DRAM) && (num_ranks == 2) && (dimm_count == 1)) {
+            /* LMC(0)_WODT_MASK */
+            bdk_lmcx_wodt_mask_t lmc_wodt_mask;
+            // always read current so we can see if its different from saved
+            lmc_wodt_mask.u = BDK_CSR_READ(node, BDK_LMCX_WODT_MASK(ddr_interface_num));
+            if (lmc_wodt_mask.u != saved_wodt_mask) { // always restore what was saved if diff
+                lmc_wodt_mask.u = saved_wodt_mask;
+                ddr_print("WODT_MASK                                     : 0x%016lx\n", lmc_wodt_mask.u);
+                DRAM_CSR_WRITE(node, BDK_LMCX_WODT_MASK(ddr_interface_num), lmc_wodt_mask.u);
+            }
+        }
+#endif /* WODT_MASK_2R_1S */
 
     } // End HW write-leveling block
 
