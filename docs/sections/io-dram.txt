@@ -123,13 +123,12 @@ requires the use of the save/modify/load update procedure.
 . Change the SPD addresses to zero for configurations that need it.
 +
 ----
-    config.ddr_config[1].dimm_config_table[1].spd_addrs[1] = 0
-    config.ddr_config[1].dimm_config_table[1].spd_addrs[2] = 0
+    config.ddr_config[1].dimm_config_table[1].spd_addr = 0
 ----
 . Set the SPD data as a Lua string.
 +
 ----
-    config.ddr_config[1].dimm_config_table[1].spd_ptrs[1] =
+    config.ddr_config[1].dimm_config_table[1].spd_ptr =
         "\x92\x10\x0b\x02\x02\x11\x00\x09\x0b\x52\x01\x08\x0c\x00\x3c\x00" ..
         "\x69\x78\x69\x30\x69\x11\x20\x89\x70\x03\x3c\x3c\x00\xf0\x83\x05" ..
         "\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" ..
@@ -141,7 +140,6 @@ requires the use of the save/modify/load update procedure.
         "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" ..
         "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00" ..
         "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
-    config.ddr_config[1].dimm_config_table[1].spd_ptrs[2] = nil
 ----
 . Load the configuration using "Load current DDR config from a file".
 . Initialize DRAM with "Initialize DDR controller using current config".

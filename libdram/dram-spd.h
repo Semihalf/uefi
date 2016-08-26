@@ -112,15 +112,14 @@ typedef enum ddr4_spd_addrs {
     DDR4_SPD_MODULE_PART_NUMBER				= 329
 } ddr4_spd_addr_t;
 
-extern int read_entire_spd(bdk_node_t node, dram_config_t *cfg, int lmc,
-    int dimm);
-extern int read_spd(bdk_node_t node, const dimm_config_t *dimm_config,
-    int dimm_index, int spd_field);
-extern int validate_dimm(bdk_node_t node, const dimm_config_t *dimm_config,
-    int dimm_index);
+extern int read_entire_spd(bdk_node_t node, dram_config_t *cfg, int lmc, int dimm);
+extern int read_spd(bdk_node_t node, const dimm_config_t *dimm_config, int spd_field);
+
+extern int validate_dimm(bdk_node_t node, const dimm_config_t *dimm_config);
 
 extern void report_dimm(bdk_node_t node, const dimm_config_t *dimm_config,
-                        int upper_dimm, int dimm, int ddr_interface_num);
+                        int dimm, int ddr_interface_num, int num_ranks,
+                        int dram_width, int dimm_size_mb);
 
 extern const char *ddr3_dimm_types[];
 extern const char *ddr4_dimm_types[];

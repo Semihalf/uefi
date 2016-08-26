@@ -858,7 +858,7 @@ int initialize_ddr_clock(bdk_node_t node,
         const dimm_config_t *dimm_config_table = ddr_configuration->dimm_config_table;
 
         /* ddr_type only indicates DDR4 or DDR3 */
-        int ddr_type = get_ddr_type(node, &dimm_config_table[0], 0);
+        int ddr_type = get_ddr_type(node, &dimm_config_table[0]);
 
         /*
          * 6.9 LMC Initialization Sequence
@@ -1982,10 +1982,10 @@ int octeon_ddr_initialize(bdk_node_t node,
     }
 
     // Do this earlier so we can return without doing unnecessary things...
-    /* Check for lower DIMM socket populated */
-    for (interface_index=0; interface_index<4; ++interface_index) {
-	if ((ddr_interface_mask & (1<<interface_index))
-	    && validate_dimm(node, &ddr_configuration[(int)interface_index].dimm_config_table[0], 0))
+    /* Check for DIMM 0 socket populated for each LMC present */
+    for (interface_index = 0; interface_index < 4; ++interface_index) {
+	if ((ddr_interface_mask & (1 << interface_index)) &&
+	    (validate_dimm(node, &ddr_configuration[interface_index].dimm_config_table[0])) == 1)
 	{
 	    ddr_config_valid_mask |= (1 << interface_index);
 	}
@@ -2099,19 +2099,23 @@ int octeon_ddr_initialize(bdk_node_t node,
 	if (tmp_hertz > 0)
 	    calc_ddr_hertz = tmp_hertz;
 
-#if 0 // this should already be printed in more detail before returning from the above...
-	ddr_print("LMC%d: measured speed: %u hz\n",
-		  interface_index, tmp_hertz);
-#endif
-    }
+    } /* for (interface_index = 0; interface_index < 4; ++interface_index) */
 
     if (measured_ddr_hertz)
 	*measured_ddr_hertz = calc_ddr_hertz;
 
     memsize_mbytes = 0;
     for (interface_index = 0; interface_index < 4; ++interface_index) {
-	if (! (ddr_config_valid_mask & (1 << interface_index)))
+	if (! (ddr_config_valid_mask & (1 << interface_index))) { // if LMC has no DIMMs found
+            if (ddr_interface_mask & (1 << interface_index)) // but the LMC is present
+                for (int i = 0; i < DDR_CFG_T_MAX_DIMMS; i++) {
+                    // check for slot presence
+                    if (validate_dimm(node, &ddr_configuration[interface_index].dimm_config_table[i]) == 0)
+                        printf("N%d.LMC%d.DIMM%d: Not Present\n", node, interface_index, i);
+                }
+                error_print("N%d.LMC%d Configuration Completed: 0 MB\n", node, interface_index);
 	    continue;
+        }
 
 	retval = init_octeon_dram_interface(node,
 					    &ddr_configuration[interface_index],

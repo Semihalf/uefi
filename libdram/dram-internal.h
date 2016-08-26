@@ -85,10 +85,12 @@ extern int test_dram_byte_hw(bdk_node_t node, int ddr_interface_num,
 extern int run_test_hw_patterns(bdk_node_t node, int ddr_interface_num,
                                 uint64_t p, int flags, uint64_t *xor_data);
 
-extern int get_dimm_part_number(char *buffer, bdk_node_t node, const dimm_config_t *dimm_config,
-				int dimm_index, int ddr_type);
-extern uint32_t get_dimm_serial_number(bdk_node_t node, const dimm_config_t *dimm_config,
-				       int dimm_index, int ddr_type);
+extern int get_dimm_part_number(char *buffer, bdk_node_t node,
+                                const dimm_config_t *dimm_config,
+				int ddr_type);
+extern uint32_t get_dimm_serial_number(bdk_node_t node,
+                                       const dimm_config_t *dimm_config,
+				       int ddr_type);
 
 extern int octeon_ddr_initialize(bdk_node_t node, uint32_t cpu_hertz,
     uint32_t ddr_hertz, uint32_t ddr_ref_hertz, uint32_t ddr_interface_mask,
@@ -102,12 +104,12 @@ typedef enum {
     DDR4_DRAM = 4,
 } ddr_type_t;
 
-static inline int get_ddr_type(bdk_node_t node, const dimm_config_t *dimm_config, int upper_dimm)
+static inline int get_ddr_type(bdk_node_t node, const dimm_config_t *dimm_config)
 {
     int spd_ddr_type;
 
 #define DEVICE_TYPE DDR4_SPD_KEY_BYTE_DEVICE_TYPE // same for DDR3 and DDR4
-    spd_ddr_type = read_spd(node, dimm_config, upper_dimm, DEVICE_TYPE);
+    spd_ddr_type = read_spd(node, dimm_config, DEVICE_TYPE);
 
     debug_print("%s:%d spd_ddr_type=0x%02x\n", __FUNCTION__, __LINE__, spd_ddr_type);
 
@@ -115,18 +117,18 @@ static inline int get_ddr_type(bdk_node_t node, const dimm_config_t *dimm_config
     return (spd_ddr_type == 0x0C) ? DDR4_DRAM : DDR3_DRAM;
 }
 
-static inline int get_dimm_ecc(bdk_node_t node, const dimm_config_t *dimm_config, int upper_dimm, int ddr_type)
+static inline int get_dimm_ecc(bdk_node_t node, const dimm_config_t *dimm_config, int ddr_type)
 {
 #define BUS_WIDTH(t)   (((t) == DDR4_DRAM) ? DDR4_SPD_MODULE_MEMORY_BUS_WIDTH : DDR3_SPD_MEMORY_BUS_WIDTH)
 
-    return !!(read_spd(node, dimm_config, upper_dimm, BUS_WIDTH(ddr_type)) & 8);
+    return !!(read_spd(node, dimm_config, BUS_WIDTH(ddr_type)) & 8);
 }
 
-static inline int get_dimm_module_type(bdk_node_t node, const dimm_config_t *dimm_config, int upper_dimm, int ddr_type)
+static inline int get_dimm_module_type(bdk_node_t node, const dimm_config_t *dimm_config, int ddr_type)
 {
 #define MODULE_TYPE DDR4_SPD_KEY_BYTE_MODULE_TYPE // same for DDR3 and DDR4
 
-    return (read_spd(node, dimm_config, upper_dimm, MODULE_TYPE) & 0x0F);
+    return (read_spd(node, dimm_config, MODULE_TYPE) & 0x0F);
 }
 
 extern int common_ddr4_fixups(dram_config_t *cfg, uint32_t default_udimm_speed);

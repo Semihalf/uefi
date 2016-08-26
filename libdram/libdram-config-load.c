@@ -115,20 +115,20 @@ const dram_config_t *libdram_config_load(bdk_node_t node)
             int spd_addr = bdk_config_get_int(BDK_CONFIG_DDR_SPD_ADDR, dimm, lmc, node);
             if (spd_addr)
             {
-                cfg->config[lmc].dimm_config_table[dimm].spd_addrs[0] = spd_addr;
+                cfg->config[lmc].dimm_config_table[dimm].spd_addr = spd_addr;
             }
             else
             {
                 int spd_size;
                 const void *spd_data = bdk_config_get_blob(&spd_size, BDK_CONFIG_DDR_SPD_DATA, dimm, lmc, node);
                 if (spd_data && spd_size)
-                    cfg->config[lmc].dimm_config_table[dimm].spd_ptrs[0] = spd_data;
+                    cfg->config[lmc].dimm_config_table[dimm].spd_ptr = spd_data;
             }
         }
     }
 
     /* Check that we know how to get DIMM inofmration. If not, return failure */
-    if (!cfg->config[0].dimm_config_table[0].spd_addrs[0] && !cfg->config[0].dimm_config_table[0].spd_ptrs[0])
+    if (!cfg->config[0].dimm_config_table[0].spd_addr && !cfg->config[0].dimm_config_table[0].spd_ptr)
         return NULL;
 
     cfg->name = "Loaded from bdk-config";

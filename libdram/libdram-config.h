@@ -42,13 +42,13 @@
 
 /* Structure that provides DIMM information, either in the form of an SPD TWSI
    address, or a pointer to an array that contains SPD data.  One of the two
-   fields must be valid. Note the index "[1]" is a historical artifact left
+   fields must be valid. Note that these fields historically were dimension 2, left
    over from CN38XX/CN58XX. These chips supported a 128 bit wide LMC, requiring
    two DIMMs. All other chips use a 64bit wide LMC with multiple LMCs. All
-   Thunder chips use one DIMM for 64bits, so the index is always zero */
+   Thunder chips use one DIMM for 64bits, so we no longer use an index */
 typedef struct {
-    uint16_t spd_addrs[1];      /* TWSI address of SPD, 0 if not used */
-    const uint8_t *spd_ptrs[1]; /* pointer to SPD data array, NULL if not used */
+    uint16_t spd_addr;      /* TWSI address of SPD, 0 if not used */
+    const uint8_t *spd_ptr; /* pointer to SPD data array, NULL if not used */
 } dimm_config_t;
 
 typedef struct {

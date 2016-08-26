@@ -290,8 +290,11 @@ int libdram_config(int node, const dram_config_t *dram_config, int ddr_clock_ove
     uint32_t interface_mask = 0;
     for (int i = 0; i < 4; i++)
     {
-        if (ddr_config[i].dimm_config_table[0].spd_addrs[0] ||
-            ddr_config[i].dimm_config_table[0].spd_ptrs[0])
+        // We need to check only DIMM 0 of each LMC for possible presence of the LMC.
+        // This trusts that the board database is correctly configured.
+        // Empty DIMM slots in present LMCs will be detected later.
+        if (ddr_config[i].dimm_config_table[0].spd_addr ||
+            ddr_config[i].dimm_config_table[0].spd_ptr)
             interface_mask |= 1 << i;
 
         // we know whether alternate refclk is always wanted
@@ -304,8 +307,8 @@ int libdram_config(int node, const dram_config_t *dram_config, int ddr_clock_ove
                 ddr_refclk_hertz = alt_refclk * 1000000;
                 ddr_print("N%d: DRAM init: %d MHz refclk is REQUESTED ALWAYS\n", node, alt_refclk);
             } else if (ddr_clock_hertz > 1000000000) { // if more than 2000 MT/s
-                int ddr_type = get_ddr_type(node, &ddr_config[0].dimm_config_table[0], 0);
-                int spd_dimm_type = get_dimm_module_type(node, &ddr_config[0].dimm_config_table[0], 0, ddr_type);
+                int ddr_type = get_ddr_type(node, &ddr_config[0].dimm_config_table[0]);
+                int spd_dimm_type = get_dimm_module_type(node, &ddr_config[0].dimm_config_table[0], ddr_type);
                 // is DDR4 and RDIMM just to be sure
                 if ((ddr_type == DDR4_DRAM) &&
                     ((spd_dimm_type == 1) || (spd_dimm_type == 5) || (spd_dimm_type == 8))) {
