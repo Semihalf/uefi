@@ -5465,7 +5465,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
 		wlevel_ctl.u = BDK_CSR_READ(node, BDK_LMCX_WLEVEL_CTL(ddr_interface_num));
 
-		wlevel_ctl.s.rtt_nom   = default_wlevel_rtt_nom - 1;
+		wlevel_ctl.s.rtt_nom = (default_wlevel_rtt_nom > 0) ? (default_wlevel_rtt_nom - 1) : 7;
 
 #if RUN_INIT_SEQ_3
 		if (run_init_sequence_3 && (ddr_type == DDR4_DRAM) && spd_rdimm) {
