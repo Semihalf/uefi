@@ -2743,6 +2743,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
     int spd_rawcard = 0;
     int spd_rawcard_AorB = 0;
     int is_stacked_die = 0;
+    int lranks_per_prank = 1; // 3DS: logical ranks per package rank
 
     /* FTB values are two's complement ranging from +127 to -128. */
     typedef signed char SC_t;
@@ -2919,6 +2920,8 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
     if (ddr_type == DDR4_DRAM) {
         int spd_module_type;
+        int asymmetric;
+        int die_cap;
         const char *signal_load[4] = {"", "MLS", "3DS", "RSV"};
 
         imp_values = &ddr4_impedence_values;
@@ -2936,6 +2939,35 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
             is_stacked_die = ((spd_package & 0x73) == 0x11);
             ddr_print("DDR4: Package Type 0x%x (%s), %d die\n", spd_package,
                       signal_load[(spd_package & 3)], ((spd_package >> 4) & 7) + 1);
+            if ((spd_package & 3) == 2) // is it 3DS?
+                lranks_per_prank = ((spd_package >> 4) & 7) + 1;
+        } else if (spd_package != 0) {
+            // FIXME: print non-zero monolithic device definition
+            ddr_print("DDR4: Package Type MONOLITHIC: %d die, signal load %d\n",
+                      ((spd_package >> 4) & 7) + 1, (spd_package & 3));
+        }   
+
+        asymmetric = (spd_org >> 6) & 1;
+        if (asymmetric) {
+            int spd_secondary_pkg = read_spd(node, &dimm_config_table[0], 0,
+                                             DDR4_SPD_SECONDARY_PACKAGE_TYPE);
+            ddr_print("DDR4: Module Organization: ASYMMETRICAL: Secondary Package Type 0x%x\n",
+                      spd_secondary_pkg);
+        } else {
+            uint64_t bus_width = 8 << (0x07 & read_spd(node, &dimm_config_table[0], 0,
+                                                  DDR4_SPD_MODULE_MEMORY_BUS_WIDTH));
+            uint64_t ddr_width = 4 << ((spd_org >> 0) & 0x7);
+            uint64_t module_cap;
+            int shift = (spd_banks & 0x0F);
+            die_cap = (shift < 8) ? (256UL << shift) : ((12UL << (shift & 1)) << 10);
+            ddr_print("DDR4: Module Organization: SYMMETRICAL: capacity per die %d %cbit\n",
+                      (die_cap > 512) ? (die_cap >> 10) : die_cap, (die_cap > 512) ? 'G' : 'M');
+            module_cap = ((uint64_t)die_cap << 20) / 8UL * bus_width / ddr_width *
+                /* no. pkg ranks*/(1UL + ((spd_org >> 3) & 0x7));
+            if ((spd_package & 3) == 2)
+                module_cap *= /* die_count */(uint64_t)(((spd_package >> 4) & 7) + 1);
+            ddr_print("DDR4: Module Organization: SYMMETRICAL: capacity per module %ld GB\n",
+                      module_cap >> 30);
         }
 
         spd_rawcard = 0xFF & read_spd(node, &dimm_config_table[0], 0, DDR4_SPD_REFERENCE_RAW_CARD);
@@ -3038,6 +3070,8 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
 
     mem_size_mbytes =  dimm_count * ((1ull << pbank_lsb) >> 20);
+    if (lranks_per_prank)
+        mem_size_mbytes *= lranks_per_prank;
     if (num_ranks == 4) {
         /* Quad rank dimm capacity is equivalent to two dual-rank dimms. */
         mem_size_mbytes *= 2;
