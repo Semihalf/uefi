@@ -1350,7 +1350,7 @@ static void display_RL_with_RODT(bdk_node_t node, int ddr_interface_num,
 
     // FIXME: does this help make the output a little easier to focus?
     if (flag == WITH_RODT_BESTSCORE) {
-        VB_PRT(VBL_TME, "-----------\n");
+        VB_PRT(VBL_DEV, "-----------\n");
     }
 }
 
@@ -6065,7 +6065,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                         DRAM_CSR_WRITE(node, BDK_LMCX_COMP_CTL2(ddr_interface_num), lmc_comp_ctl2.u);
                         lmc_comp_ctl2.u = BDK_CSR_READ(node, BDK_LMCX_COMP_CTL2(ddr_interface_num));
                         bdk_wait_usec(1); /* Give it a little time to take affect */
-                        VB_PRT(VBL_TME, "Read ODT_CTL                                  : 0x%x (%d ohms)\n",
+                        VB_PRT(VBL_DEV, "Read ODT_CTL                                  : 0x%x (%d ohms)\n",
                                lmc_comp_ctl2.s.rodt_ctl, imp_values->rodt_ohms[lmc_comp_ctl2.s.rodt_ctl]);
 
 			memset(rlevel_byte, 0, sizeof(rlevel_byte));
