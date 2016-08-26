@@ -60,10 +60,6 @@ static void Display_MPR_Page_Location(bdk_node_t node, int rank,
 
 /* Read out Deskew Settings for DDR */
 
-#define READ_DESKEW_SETTINGS 1
-
-#if READ_DESKEW_SETTINGS
-//dskdat->bytes[byte_lane].bits[bit_index] = phy_ctl.s.dsk_dbg_rd_data & 0x3ff;
 typedef struct {
     uint16_t bits[8];
 } deskew_bytes_t;
@@ -121,7 +117,6 @@ Read_Deskew_Settings(bdk_node_t node, int rank_mask, int ddr_interface_num,
 	
     return;
 }
-#endif /* READ_DESKEW_SETTINGS */
 
 typedef struct {
     int saturated;
@@ -139,47 +134,34 @@ static int deskew_validation_delay = 10000; // FIXME: make this a var for overri
 static void Validate_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_interface_num,
                                      deskew_counts_t *counts, int print_enable, int ddr_interface_64b)
 {
-    bdk_lmcx_phy_ctl_t phy_ctl;
     int byte_lane, bit_num, nib_num, nibsat_errs, nibunl_errs;
     bdk_lmcx_config_t  lmc_config;
     uint8_t nib_min[2], nib_max[2], nib_unl[2];
-    int c;
     // NOTE: these are for pass 2.x
     int is_t88p2 = !CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X); // added 81xx and 83xx
-    int bit_end = (is_t88p2) ? 9 : 8;
-    //int bit_start = (is_t88p2) ? 9 : 8;
+    int bit_start = (is_t88p2) ? 9 : 8;
     int byte_limit;
 #if LOOK_FOR_STUCK_BYTE
     uint64_t bl_mask[2]; // enough for 128 values
     int bit_values;
 #endif
+    deskew_data_t dskdat;    
+    int bit_index;
+    uint16_t flags, deskew;
+    const char *fc = " ?-=+*#&";
     
     lmc_config.u = BDK_CSR_READ(node, BDK_LMCX_CONFIG(ddr_interface_num));
     byte_limit = ((ddr_interface_64b) ? 8 : 4) + lmc_config.s.ecc_ena;
 
-    counts->saturated    = 0;
-    counts->unlocked     = 0;
-    counts->nibsat_errs  = 0;
-    counts->nibunl_errs  = 0;
-#if LOOK_FOR_STUCK_BYTE
-    counts->bytes_stuck = 0;
-#endif
+    memset(counts, 0, sizeof(deskew_counts_t));
 
-    BDK_CSR_MODIFY(phy_ctl, node, BDK_LMCX_PHY_CTL(ddr_interface_num),
-                   phy_ctl.s.dsk_dbg_clk_scaler = 3);
-
-#if READ_DESKEW_SETTINGS
-    deskew_data_t dskdat;    
     Read_Deskew_Settings(node, rank_mask, ddr_interface_num, &dskdat, ddr_interface_64b);
-#endif /* READ_DESKEW_SETTINGS */
 
     if (print_enable) {
         VB_PRT(print_enable, "N%d.LMC%d: Deskew Settings:          Bit =>      :",
                 node, ddr_interface_num);
-	for (bit_num = 8; bit_num >= 0; --bit_num) {
-	    if (bit_num != 4)
-		VB_PRT(print_enable, " %3d  ", (bit_num > 4) ? bit_num - 1 : bit_num);
-	}
+	for (bit_num = 7; bit_num >= 0; --bit_num)
+            VB_PRT(print_enable, " %3d  ", bit_num);
         VB_PRT(print_enable, "\n");
     }
 
@@ -194,79 +176,51 @@ static void Validate_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_int
 #if LOOK_FOR_STUCK_BYTE
         bl_mask[0] = bl_mask[1] = 0;
 #endif
-#if READ_DESKEW_SETTINGS
-        int bit_index = 0;
-#endif /* READ_DESKEW_SETTINGS */
-	for (bit_num = 0; bit_num <= bit_end; ++bit_num) {	// NOTE: this is for pass 2.x
-        //for (bit_num = bit_start; bit_num >= 0; --bit_num) {	// NOTE: this is for pass 2.x
+        bit_index = 7;
+
+        for (bit_num = bit_start; bit_num >= 0; --bit_num) {	// NOTE: this is for pass 2.x
 	    if (bit_num == 4) continue;
 	    if ((bit_num == 5) && is_t88p2) continue;	// NOTE: this is for pass 2.x
 
 	    nib_num = (bit_num > 4) ? 1 : 0;
-#if READ_DESKEW_SETTINGS
-	    uint16_t flags = dskdat.bytes[byte_lane].bits[bit_index] & 7;
-	    uint16_t deskew = dskdat.bytes[byte_lane].bits[bit_index] >> 3;
-            bit_index++;
-#else /* READ_DESKEW_SETTINGS */
-            //set byte lane and bit to read
-            BDK_CSR_MODIFY(phy_ctl, node, BDK_LMCX_PHY_CTL(ddr_interface_num),
-                           (phy_ctl.s.dsk_dbg_bit_sel = bit_num,
-                            phy_ctl.s.dsk_dbg_byte_sel = byte_lane));
-            //start read sequence
-            BDK_CSR_MODIFY(phy_ctl, node, BDK_LMCX_PHY_CTL(ddr_interface_num),
-                           phy_ctl.s.dsk_dbg_rd_start = 1);
-            //poll for read sequence to complete
-            do {
-                phy_ctl.u = BDK_CSR_READ(node, BDK_LMCX_PHY_CTL(ddr_interface_num));
-            } while (phy_ctl.s.dsk_dbg_rd_complete != 1);
-			
-	    int flags = phy_ctl.s.dsk_dbg_rd_data & 7;
-	    int deskew = phy_ctl.s.dsk_dbg_rd_data >> 3;
-#endif /* READ_DESKEW_SETTINGS */
-            c = ' ';
-            if (flags & 0x4) {
-                c = '+';        /* Saturated High */
-                ++counts->saturated;
-            }
-            if (flags & 0x2) {
-                c = '-';        /* Saturated Low */
-                ++counts->saturated;
-            }
-            if (! (flags & 0x1)) {
-                c = '?';        /* Failed to Lock */
-                ++counts->unlocked;
-		++nib_unl[nib_num];
-            }
+
+	    flags = dskdat.bytes[byte_lane].bits[bit_index] & 7;
+	    deskew = dskdat.bytes[byte_lane].bits[bit_index] >> 3;
+            bit_index--;
+
+            counts->saturated += !!(flags & 6);
+            counts->unlocked  +=  !(flags & 1);
+            nib_unl[nib_num]  +=  !(flags & 1);
+
 	    nib_min[nib_num] = min(nib_min[nib_num], deskew);
 	    nib_max[nib_num] = max(nib_max[nib_num], deskew);
+
 #if LOOK_FOR_STUCK_BYTE
             bl_mask[(deskew >> 6) & 1] |= 1UL << (deskew & 0x3f);
 #endif
             if (print_enable)
-                VB_PRT(print_enable, " %3d %c", deskew, c);
-        } /* for (bit_num = 8; bit_num >= 0; --bit_num) */
+                VB_PRT(print_enable, " %3d %c", deskew, fc[flags^1]);
 
-	// now look for nibble errors
-	nibsat_errs = 0;
-	nibunl_errs = 0;
+        } /* for (bit_num = bit_start; bit_num >= 0; --bit_num) */
+
 	/*
+          Now look for nibble errors:
+
 	  For bit 55, it looks like a bit deskew problem. When the upper nibble of byte 6 
-	   needs to go to saturation, bit7 of byte 6 lock prematurely at 64.
+	   needs to go to saturation, bit 7 of byte 6 locks prematurely at 64.
 	  For DIMMs with raw card A and B, can we reset the deskew training when we encounter this case?
 	  The reset criteria should be looking at one nibble at a time for raw card A and B;
-	  if the bit-deskew setting within a nibble is differed > 33, we'll issue a reset
+	  if the bit-deskew setting within a nibble is different by > 33, we'll issue a reset
 	  to the bit deskew training.
 
 	  LMC0 Bit Deskew Byte(6): 64 0 - 0 - 0 - 26 61 35 64 
 	*/
-	// upper nibble range
-	nibsat_errs += ((nib_max[1] - nib_min[1]) > 33) ? 1 : 0;
-
-	// lower nibble range
-	nibsat_errs += ((nib_max[0] - nib_min[0]) > 33) ? 1 : 0;
+	// upper nibble range, then lower nibble range
+	nibsat_errs  = ((nib_max[1] - nib_min[1]) > 33) ? 1 : 0;
+	nibsat_errs |= ((nib_max[0] - nib_min[0]) > 33) ? 1 : 0;
 
 	// check for nibble all unlocked
-	nibunl_errs += ((nib_unl[0] == 4) || (nib_unl[1] == 4)) ? 1 : 0;
+	nibunl_errs  = ((nib_unl[0] == 4) || (nib_unl[1] == 4)) ? 1 : 0;
 	
 	if (((nibsat_errs != 0) || (nibunl_errs != 0)) && print_enable) {
 	    VB_PRT(print_enable, " %c%c",
@@ -285,8 +239,8 @@ static void Validate_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_int
         if (print_enable)
             VB_PRT(print_enable, "\n");
 
-	counts->nibsat_errs |= nibsat_errs;
-	counts->nibunl_errs += nibunl_errs;
+	counts->nibsat_errs |= (nibsat_errs << byte_lane);
+	counts->nibunl_errs |= (nibunl_errs << byte_lane);
 
 #if LOOK_FOR_STUCK_BYTE
         // just for completeness, allow print of the stuck values bitmask after the bytelane print
@@ -296,6 +250,7 @@ static void Validate_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_int
                    bl_mask[1], bl_mask[0]);
         }
 #endif
+
     } /* for (byte_lane = 0; byte_lane < byte_limit; byte_lane++) */
 	
     return;
@@ -371,6 +326,32 @@ int read_DAC_DBI_settings(int node, int rank_mask, int ddr_interface_num,
     } /* for (byte_lane = 8; byte_lane >= 0 ; --byte_lane) { */
 
     return 0;
+}
+
+// print out the DBI settings array
+// arg dac_or_dbi is 1 for DAC, 0 for DBI
+void
+display_DAC_DBI_settings(int node, int lmc, int dac_or_dbi,
+                         int ecc_ena, int *settings, char *title)
+{
+    int byte;
+    int flags;
+    int deskew;
+    const char *fc = " ?-=+*#&";
+
+    ddr_print("N%d.LMC%d: %s %s Deskew Settings %d:0 :",
+              node, lmc, title, (dac_or_dbi)?"DAC":"DBI", 7+ecc_ena);
+    for (byte = (7+ecc_ena); byte >= 0; --byte) { // FIXME: what about 32-bit mode?
+        if (dac_or_dbi) { // DAC
+            flags  = 1; // say its locked to get blank
+            deskew = settings[byte] & 0xff;
+        } else { // DBI
+            flags  = settings[byte] & 7;
+            deskew = (settings[byte] >> 3) & 0x7f;
+        }
+        ddr_print(" %3d %c", deskew, fc[flags^1]);
+    }
+    ddr_print("\n");
 }
 
 #define DEFAULT_SAT_RETRY_LIMIT    11    // 1 + 10 retries
@@ -4912,8 +4893,21 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 #endif
     }
 
-    //int offset_vref_training_loops = 2;
-    //while (--offset_vref_training_loops) {
+#define DEFAULT_INTERNAL_VREF_TRAINING_LIMIT 5
+    int internal_retries = 0;
+    int deskew_training_errors;
+    int offset_vref_training_loops;
+
+ perform_internal_vref_training:
+
+    offset_vref_training_loops = 1;
+    if ((s = lookup_env_parameter_ull("ddr_offset_vref_training_loops")) != NULL) {
+        offset_vref_training_loops = strtoull(s, NULL, 0);
+    }
+
+    while (offset_vref_training_loops > 0) {
+        offset_vref_training_loops--;
+
     /*
      * 6.9.8 LMC Offset Training
      * 
@@ -4956,11 +4950,14 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 	perform_octeon3_ddr3_sequence(node, rank_mask, ddr_interface_num, 0x0B); /* Offset training sequence */
     }
 
+#if 0
+    // FIXME: moved to before offset training
 #define DEFAULT_INTERNAL_VREF_TRAINING_LIMIT 5
     int internal_retries = 0;
     int deskew_training_errors;
 
  perform_internal_vref_training:
+#endif
     /*
      * 6.9.9 LMC Internal Vref Training
      * 
@@ -4996,6 +4993,12 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
     perform_octeon3_ddr3_sequence(node, rank_mask, ddr_interface_num, 0x0A); /* LMC Internal Vref Training */
 
+    int dac_settings[9];
+    read_DAC_DBI_settings(node, /*ignored*/0, ddr_interface_num, /*DAC*/1, dac_settings);
+    display_DAC_DBI_settings(node, ddr_interface_num, /*DAC*/1, use_ecc, dac_settings, "Internal VREF");
+
+    } /* while (--offset_vref_training_loops) */
+
 #if DAC_OVERRIDE_EARLY
     // as a second step, after internal VREF training, before starting deskew training:
     // for DDR3 and THUNDER pass 2.x, override the DAC setting to 127
@@ -5005,8 +5008,6 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                   node, ddr_interface_num);
     }
 #endif
-
-    //} /* while (--offset_vref_training_loops) */
 
     /*
      * 6.9.10 LMC Deskew Training

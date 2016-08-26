@@ -1665,32 +1665,6 @@ perform_lmc_reset(bdk_node_t node, int ddr_interface_num)
 ///////////////////////////////////////////////////////////
 // start of DBI switchover
 
-// print out the DBI settings array
-static void
-display_DBI_settings(int node, int lmc, int ecc_ena, int *dbi_settings, char *title)
-{
-    int byte;
-    int flags;
-    int deskew;
-    char fc;
-
-    ddr_print("N%d.LMC%d: %s DBI Deskew Settings %d:0  :",
-              node, lmc, title, 7+ecc_ena);
-    for (byte = (7+ecc_ena); byte >= 0; --byte) {
-        flags = dbi_settings[byte] & 7;
-        deskew = (dbi_settings[byte] >> 3) & 0x7f;
-        fc = ' ';
-        if (flags & 0x4)
-            fc = '+';        /* Saturated High */
-        if (flags & 0x2)
-            fc = '-';        /* Saturated Low */
-        if (! (flags & 0x1))
-            fc = '?';        /* Failed to Lock */
-        ddr_print(" %3d %c", deskew, fc);
-    }
-    ddr_print("\n");
-}
-
 /* first pattern example:
    GENERAL_PURPOSE0.DATA == 64'h00ff00ff00ff00ff;
    GENERAL_PURPOSE1.DATA == 64'h00ff00ff00ff00ff;
@@ -1743,7 +1717,7 @@ static void dbi_switchover_interface(int node, int lmc)
 
     read_DAC_DBI_settings(node, /*ignored*/0, lmc, /*DBI*/0, dbi_settings);
 
-    display_DBI_settings(node, lmc, ecc_ena, dbi_settings, " INIT");
+    display_DAC_DBI_settings(node, lmc, /* DBI */0, ecc_ena, dbi_settings, " INIT");
  
    /* 2. set DBI related CSRs as below and issue MR write. 
          MODEREG_PARAMS3.WR_DBI=1
@@ -1902,7 +1876,7 @@ restart_training:
 
         // FIXME: print out the DBI settings array after each rank?
         if (rank_max > 1) // only when doing more than 1 rank
-            display_DBI_settings(node, lmc, ecc_ena, dbi_settings, " RANK");
+            display_DAC_DBI_settings(node, lmc, /* DBI */0, ecc_ena, dbi_settings, " RANK");
 
         if (unlocked > 0) {
             ddr_print("N%d.LMC%d: DBI switchover: LOCK: %d still unlocked.\n",
@@ -1919,7 +1893,7 @@ restart_training:
     } /* for (rankx = 0; rankx < rank_max; rankx++) */
 
     // print out the final DBI settings array
-    display_DBI_settings(node, lmc, ecc_ena, dbi_settings, "FINAL");
+    display_DAC_DBI_settings(node, lmc, /* DBI */0, ecc_ena, dbi_settings, "FINAL");
 }
 // end of DBI switchover
 ///////////////////////////////////////////////////////////

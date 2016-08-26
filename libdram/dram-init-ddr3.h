@@ -41,6 +41,9 @@ load_dac_override(int node, int ddr_interface_num,
 extern int
 read_DAC_DBI_settings(int node, int rank_mask, int ddr_interface_num,
 		      int dac_or_dbi, int *settings);
+extern void
+display_DAC_DBI_settings(int node, int ddr_interface_num, int dac_or_dbi,
+                         int ecc_ena, int *settings, char *title);
 
 #define RODT_OHMS_COUNT        8
 #define RTT_NOM_OHMS_COUNT     8
