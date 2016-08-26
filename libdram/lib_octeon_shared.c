@@ -435,7 +435,7 @@ int test_dram_byte_hw(bdk_node_t node, int ddr_interface_num,
     int node_address;
     int lmc;
     int dimm;
-    int rank;
+    int prank, lrank;
     int bank;
     int row;
     int col;
@@ -480,9 +480,9 @@ int test_dram_byte_hw(bdk_node_t node, int ddr_interface_num,
 
     errors = 0;
 
-    bdk_dram_address_extract_info(p, &node_address, &lmc, &dimm, &rank, &bank, &row, &col);
-    VB_PRT(VBL_DEV4, "test_dram_byte_hw: Starting at A:0x%012lx, N%d L%d D%d R%d B%1x Row:%05x Col:%05x\n",
-	      p, node_address, lmc, dimm, rank, bank, row, col);
+    bdk_dram_address_extract_info(p, &node_address, &lmc, &dimm, &prank, &lrank, &bank, &row, &col);
+    VB_PRT(VBL_DEV4, "test_dram_byte_hw: Starting at A:0x%012lx, N%d L%d D%d R%d/%d B%1x Row:%05x Col:%05x\n",
+           p, node_address, lmc, dimm, prank, lrank, bank, row, col);
 
     // only check once per call, and ignore if no match...
     if ((int)node != node_address) {
@@ -520,14 +520,15 @@ int test_dram_byte_hw(bdk_node_t node, int ddr_interface_num,
 	p1 = p + k + ii;
 #endif
 
-	bdk_dram_address_extract_info(p1, &node_address, &lmc, &dimm, &rank, &bank, &row, &col);
+	bdk_dram_address_extract_info(p1, &node_address, &lmc, &dimm, &prank, &lrank, &bank, &row, &col);
 
 #if 1
         dbtrain_ctl.u = BDK_CSR_READ(node, BDK_LMCX_DBTRAIN_CTL(ddr_interface_num));
         dbtrain_ctl.s.column_a       = col;
         dbtrain_ctl.s.row_a          = row;
         dbtrain_ctl.s.bg             = (bank >> 2) & 3;
-        dbtrain_ctl.s.prank          = (dimm * 2) + rank; // FIXME? 
+        dbtrain_ctl.s.prank          = (dimm * 2) + prank; // FIXME? 
+        dbtrain_ctl.s.lrank          = lrank; // FIXME? 
         dbtrain_ctl.s.activate       = (flags == 0) ? 0 : 1;
         dbtrain_ctl.s.write_ena      = 1;
         dbtrain_ctl.s.read_cmd_count = 31; // max count pass 1.x
@@ -577,7 +578,7 @@ int test_dram_byte_hw(bdk_node_t node, int ddr_interface_num,
 	      4) Kick off the sequence (SEQ_CTL[SEQ_SEL] = 14, SEQ_CTL[INIT_START] = 1).
 	      5) Poll on SEQ_CTL[SEQ_COMPLETE] for completion.
 	    */
-	    perform_octeon3_ddr3_sequence(node, rank, ddr_interface_num, 14);
+	    perform_octeon3_ddr3_sequence(node, prank, ddr_interface_num, 14);
 
 	    /*
 	      6) Read MPR_DATA0 and MPR_DATA1 for results.
@@ -601,8 +602,8 @@ int test_dram_byte_hw(bdk_node_t node, int ddr_interface_num,
 	    // FIXME FIXME FIXME
 	    //if (mpr_data0 != 0) {
 	    if (0) {
-		debug_print("A:0x%012lx, N%d L%d D%d R%d B%1x Row:%05x Col:%05x\n",
-			    p1, node_address, lmc, dimm, rank, bank, row, col);
+		debug_print("A:0x%012lx, N%d L%d D%d R%d/%d B%1x Row:%05x Col:%05x\n",
+			    p1, node_address, lmc, dimm, prank, lrank, bank, row, col);
 		debug_print("MPR data[2:0] %016lx.%016lx.%016lx\n",
 			    mpr_data[2], mpr_data[1], mpr_data[0]);
 	    }

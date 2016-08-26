@@ -202,7 +202,7 @@ static void check_cn8xxx_lmc(bdk_node_t node, int index, int check_intf_en)
         BDK_CSR_INIT(nxm_fadr, node, BDK_LMCX_NXM_FADR(index));
         bdk_error("N%d.LMC%d: NXM_WR_ERR: %s at [0x%016lx]\n",
                   node, index, (nxm_fadr.s.nxm_type) ? "Write" : "Read",
-                  (nxm_fadr.s.nxm_faddr | (nxm_fadr.s.nxm_faddr_ext << 37)));
+                  (nxm_fadr.s.nxm_faddr | ((nxm_fadr.u >> 2) & (1UL << 37))));
         CLEAR_CHIP_ERROR(BDK_LMCX_INT(index), s, nxm_wr_err);
     }
 
@@ -241,14 +241,13 @@ static void check_cn8xxx_lmc(bdk_node_t node, int index, int check_intf_en)
         }
         uint32_t frow = fadr.s.frow & __bdk_dram_get_row_mask(node, index);
         uint32_t fcol = fadr.s.fcol & __bdk_dram_get_col_mask(node, index);
-        uint64_t where = bdk_dram_construct_address_info(node, index, fadr.s.fdimm, fadr.s.fbunk,
-                                                         fadr.s.fbank, frow, fcol);
+        uint64_t where = bdk_dram_address_construct_info(node, index, fadr.s.fdimm, fadr.s.fbunk,
+                                                         fadr.s.fcid, fadr.s.fbank, frow, fcol);
         construct_phase_info(phasestr, fadr.s.fill_order, EXTRACT(fadr.s.fcol, 1, 3), err_bits);
 
-        bdk_error("N%d.LMC%d: ECC %s (DIMM%d,Rank%d,Bank%02d,Row 0x%05x,Col 0x%04x,%s,%s)[0x%011lx]\n",
-                  node, index, err_type,
-                  fadr.s.fdimm, fadr.s.fbunk, fadr.s.fbank,
-                  frow, fcol, phasestr, synstr, where);
+        bdk_error("N%d.LMC%d: ECC %s (DIMM%d,Rank%d/%d,Bank%02d,Row 0x%05x,Col 0x%04x,%s,%s)[0x%011lx]\n",
+                  node, index, err_type, fadr.s.fdimm, fadr.s.fbunk, fadr.s.fcid,
+                  fadr.s.fbank, frow, fcol, phasestr, synstr, where);
     } /* if (c.s.ded_err || c.s.sec_err) */
 }
 

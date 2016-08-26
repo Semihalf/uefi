@@ -557,12 +557,12 @@ int bdk_dram_test(int test, uint64_t start_address, uint64_t length, bdk_dram_te
  */
 static void __bdk_dram_report_address_decode(uint64_t address, char *buffer, int len)
 {
-    int node, lmc, dimm, rank, bank, row, col;
+    int node, lmc, dimm, prank, lrank, bank, row, col;
 
-    bdk_dram_address_extract_info(address, &node, &lmc, &dimm, &rank, &bank, &row, &col);
+    bdk_dram_address_extract_info(address, &node, &lmc, &dimm, &prank, &lrank, &bank, &row, &col);
 
-    snprintf(buffer, len, "[0x%011lx] (N%d,LMC%d,DIMM%d,Rank%d,Bank%02d,Row 0x%05x,Col 0x%04x)",
-	     address, node, lmc, dimm, rank, bank, row, col);
+    snprintf(buffer, len, "[0x%011lx] (N%d,LMC%d,DIMM%d,Rank%d/%d,Bank%02d,Row 0x%05x,Col 0x%04x)",
+	     address, node, lmc, dimm, prank, lrank, bank, row, col);
 }
 
 /**
@@ -574,7 +574,7 @@ static void __bdk_dram_report_address_decode(uint64_t address, char *buffer, int
  */
 static void __bdk_dram_report_address_decode_new(uint64_t address, uint64_t orig_xor, char *buffer, int len)
 {
-    int node, lmc, dimm, rank, bank, row, col;
+    int node, lmc, dimm, prank, lrank, bank, row, col;
 
     int byte = 8; // means no byte-lanes in error, should not happen
     uint64_t bits, print_bits = 0;
@@ -596,10 +596,10 @@ static void __bdk_dram_report_address_decode_new(uint64_t address, uint64_t orig
 	}
     }
 	
-    bdk_dram_address_extract_info(address, &node, &lmc, &dimm, &rank, &bank, &row, &col);
+    bdk_dram_address_extract_info(address, &node, &lmc, &dimm, &prank, &lrank, &bank, &row, &col);
 
-    snprintf(buffer, len, "N%d.LMC%d: CMP byte %d xor 0x%02lx (DIMM%d,Rank%d,Bank%02d,Row 0x%05x,Col 0x%04x)[0x%011lx]",
-	     node, lmc, byte, print_bits, dimm, rank, bank, row, col, address);
+    snprintf(buffer, len, "N%d.LMC%d: CMP byte %d xor 0x%02lx (DIMM%d,Rank%d/%d,Bank%02d,Row 0x%05x,Col 0x%04x)[0x%011lx]",
+	     node, lmc, byte, print_bits, dimm, prank, lrank, bank, row, col, address);
 }
 
 /**
@@ -772,8 +772,8 @@ void bdk_dram_test_inject_error(uint64_t address, int bit)
         corrupt_bit = (address & 0xf) * 8 + bit;
 
     /* Extract the DRAM controller information */
-    int node, lmc, dimm, rank, bank, row, col;
-    bdk_dram_address_extract_info(address, &node, &lmc, &dimm, &rank, &bank, &row, &col);
+    int node, lmc, dimm, prank, lrank, bank, row, col;
+    bdk_dram_address_extract_info(address, &node, &lmc, &dimm, &prank, &lrank, &bank, &row, &col);
 
     /* Read the current data */
     uint64_t data = __bdk_dram_read64(aligned_address);
@@ -806,7 +806,7 @@ void bdk_dram_test_inject_error(uint64_t address, int bit)
     BDK_CSR_WRITE(node, BDK_LMCX_CHAR_MASK2(lmc), 0);
 
     /* Read back the data, which should now cause an error */
-    printf("Loading the injected error address 0x%lx, node=%d, lmc=%d, dimm=%d, rank=%d, bank=%d, row=%d, col=%d\n",
-        address, node, lmc, dimm, rank, bank, row, col);
+    printf("Loading the injected error address 0x%lx, node=%d, lmc=%d, dimm=%d, rank=%d/%d, bank=%d, row=%d, col=%d\n",
+           address, node, lmc, dimm, prank, lrank, bank, row, col);
     __bdk_dram_read64(aligned_address);
 }

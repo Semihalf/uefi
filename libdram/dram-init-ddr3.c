@@ -2745,6 +2745,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
     int is_stacked_die = 0;
     int disable_stacked_die = 0;
     int lranks_per_prank = 1; // 3DS: logical ranks per package rank
+    int lranks_bits = 0; // 3DS: logical ranks bits
 
     /* FTB values are two's complement ranging from +127 to -128. */
     typedef signed char SC_t;
@@ -2945,8 +2946,12 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
             is_stacked_die = (!disable_stacked_die) ? ((spd_package & 0x73) == 0x11) : 0;
             ddr_print("DDR4: Package Type 0x%x (%s), %d die\n", spd_package,
                       signal_load[(spd_package & 3)], ((spd_package >> 4) & 7) + 1);
-            if ((spd_package & 3) == 2) // is it 3DS?
+            if ((spd_package & 3) == 2) { // is it 3DS?
                 lranks_per_prank = ((spd_package >> 4) & 7) + 1;
+                // FIXME: should make sure it is only 2H or 4H or 8H?
+                lranks_bits = lranks_per_prank >> 1;
+                if (lranks_bits == 4) lranks_bits = 3;
+            }
         } else if (spd_package != 0) {
             // FIXME: print non-zero monolithic device definition
             ddr_print("DDR4: Package Type MONOLITHIC: %d die, signal load %d\n",
@@ -3074,10 +3079,13 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
     pbank_lsb = row_lsb + row_bits + bunk_enable;
     debug_print("pbank_lsb = row_lsb + row_bits + bunk_enable = %d\n", pbank_lsb);
 
+    if (lranks_per_prank > 1) {
+        pbank_lsb = row_lsb + row_bits + lranks_bits + bunk_enable;
+        ddr_print("DDR4: 3DS: pbank_lsb = (%d row_lsb) + (%d row_bits) + (%d lranks_bits) + (%d bunk_enable) = %d\n",
+                  row_lsb, row_bits, lranks_bits, bunk_enable, pbank_lsb);
+    }
 
     mem_size_mbytes =  dimm_count * ((1ull << pbank_lsb) >> 20);
-    if (lranks_per_prank)
-        mem_size_mbytes *= lranks_per_prank;
     if (num_ranks == 4) {
         /* Quad rank dimm capacity is equivalent to two dual-rank dimms. */
         mem_size_mbytes *= 2;
@@ -4273,16 +4281,17 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
     /* LMC(0)_NXM */
     {
         bdk_lmcx_nxm_t lmc_nxm;
+        int num_bits = row_lsb + row_bits + lranks_bits - 26;
         lmc_nxm.u = BDK_CSR_READ(node, BDK_LMCX_NXM(ddr_interface_num));
 
         if (rank_mask & 0x1)
-            lmc_nxm.s.mem_msb_d0_r0 = row_lsb + row_bits - 26;
+            lmc_nxm.s.mem_msb_d0_r0 = num_bits;
         if (rank_mask & 0x2)
-            lmc_nxm.s.mem_msb_d0_r1 = row_lsb + row_bits - 26;
+            lmc_nxm.s.mem_msb_d0_r1 = num_bits;
         if (rank_mask & 0x4)
-            lmc_nxm.s.mem_msb_d1_r0 = row_lsb + row_bits - 26;
+            lmc_nxm.s.mem_msb_d1_r0 = num_bits;
         if (rank_mask & 0x8)
-            lmc_nxm.s.mem_msb_d1_r1 = row_lsb + row_bits - 26;
+            lmc_nxm.s.mem_msb_d1_r1 = num_bits;
 
         lmc_nxm.s.cs_mask = ~rank_mask & 0xff; /* Set the mask for non-existant ranks. */
 
@@ -4411,6 +4420,12 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         bdk_lmcx_phy_ctl_t lmc_phy_ctl;
         lmc_phy_ctl.u = BDK_CSR_READ(node, BDK_LMCX_PHY_CTL(ddr_interface_num));
         lmc_phy_ctl.s.ts_stagger           = 0;
+
+        if (!CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X) && (lranks_per_prank > 1)) {
+            lmc_phy_ctl.s.c0_sel = lmc_phy_ctl.s.c1_sel = 2; // C0 is TEN, C1 is A17
+            ddr_print("N%d.LMC%d: 3DS: setting PHY_CTL[cx_csel] = %d\n",
+                      node, ddr_interface_num, lmc_phy_ctl.s.c1_sel);
+        }
 
         ddr_print("PHY_CTL                                       : 0x%016lx\n", lmc_phy_ctl.u);
         DRAM_CSR_WRITE(node, BDK_LMCX_PHY_CTL(ddr_interface_num), lmc_phy_ctl.u);
@@ -5046,6 +5061,12 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         }
         if ((s = lookup_env_parameter("ddr_drive_bprch")) != NULL) {
             ext_config.s.drive_ena_bprch = strtoul(s, NULL, 0);
+        }
+
+        if (!CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X) && (lranks_per_prank > 1)) {
+            ext_config.s.dimm0_cid = ext_config.s.dimm1_cid = lranks_bits;
+            ddr_print("N%d.LMC%d: 3DS: setting EXT_CONFIG[dimmx_cid] = %d\n",
+                      node, ddr_interface_num, ext_config.s.dimm0_cid);
         }
 
         DRAM_CSR_WRITE(node, BDK_LMCX_EXT_CONFIG(ddr_interface_num), ext_config.u);
@@ -7727,11 +7748,11 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                 if (wlevel_bitmask_errors == 0) {
 
                     /* Determine address of DRAM to test for pass 1 of software write leveling. */
-                    rank_addr  = active_rank * ((1ull << (pbank_lsb+interfaces/2))/(1+bunk_enable));
+                    rank_addr  = active_rank * (1ull << (pbank_lsb - bunk_enable + (interfaces/2)));
                     // FIXME: these now put in by test_dram_byte()
                     //rank_addr |= (ddr_interface_num<<7); /* Map address into proper interface */
                     //rank_addr = bdk_numa_get_address(node, rank_addr);
-                    VB_PRT(VBL_DEV4, "N%d.LMC%d.R%d: Active Rank %d Address: 0x%lx\n",
+                    VB_PRT(VBL_DEV, "N%d.LMC%d.R%d: Active Rank %d Address: 0x%lx\n",
                            node, ddr_interface_num, rankx, active_rank, rank_addr);
 
 		    { // start parallel write-leveling block for delay high-order bits
@@ -7950,7 +7971,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
             } /* for (vref_value=0; vref_value<VREF_LIMIT; ++vref_value) */
 
 	    /* Determine address of DRAM to test for pass 2 and final test of software write leveling. */
-	    rank_addr  = active_rank * ((1ull << (pbank_lsb+interfaces/2))/(1+bunk_enable));
+            rank_addr  = active_rank * (1ull << (pbank_lsb - bunk_enable + (interfaces/2)));
 	    rank_addr |= (ddr_interface_num<<7); /* Map address into proper interface */
 	    rank_addr = bdk_numa_get_address(node, rank_addr);
 	    debug_print("N%d.LMC%d.R%d: Active Rank %d Address: 0x%lx\n",

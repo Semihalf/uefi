@@ -5,20 +5,21 @@
 
 /**
  * Given a physical DRAM address, extract information about the node, LMC, DIMM,
- * rank, bank, row, and column that was accessed.
+ * prank, lrank, bank, row, and column that was accessed.
  *
  * @param address Physical address to decode
  * @param node    Node the address was for
  * @param lmc     LMC controller the address was for
  * @param dimm    DIMM the address was for
- * @param rank    RANK on the DIMM
+ * @param prank   Physical RANK on the DIMM
+ * @param lrank   Logical RANK on the DIMM
  * @param bank    BANK on the DIMM
  * @param row     Row on the DIMM
  * @param col     Column on the DIMM
  */
 void
 bdk_dram_address_extract_info(uint64_t address, int *node, int *lmc, int *dimm,
-                              int *rank, int *bank, int *row, int *col)
+                              int *prank, int *lrank, int *bank, int *row, int *col)
 {
     *node = EXTRACT(address, 40, 2); /* Address bits [41:40] */
     /* Determine the LMC controller */
@@ -40,19 +41,23 @@ bdk_dram_address_extract_info(uint64_t address, int *node, int *lmc, int *dimm,
     int bank_width = __bdk_dram_get_num_bank_bits(*node, *lmc);
 
     /* Extract additional info from the LMC_CONFIG CSR */
+    BDK_CSR_INIT(ext_config, *node, BDK_LMCX_EXT_CONFIG(*lmc));
     int dimm_lsb    = 28 + lmcx_config.s.pbank_lsb + xbits;
     int dimm_width  = 40 - dimm_lsb;
-    int rank_lsb    = dimm_lsb - lmcx_config.s.rank_ena;
-    int rank_width  = dimm_lsb - rank_lsb;
+    int prank_lsb    = dimm_lsb - lmcx_config.s.rank_ena;
+    int prank_width  = dimm_lsb - prank_lsb;
+    int lrank_lsb    = prank_lsb - ext_config.s.dimm0_cid;
+    int lrank_width  = prank_lsb - lrank_lsb;
     int row_lsb     = 14 + lmcx_config.s.row_lsb + xbits;
-    int row_width   = rank_lsb - row_lsb;
+    int row_width   = lrank_lsb - row_lsb;
     int col_hi_lsb  = bank_lsb + bank_width;
     int col_hi_width= row_lsb - col_hi_lsb;
 
     /* Extract the parts of the address */
-    *dimm = EXTRACT(address, dimm_lsb, dimm_width);
-    *rank = EXTRACT(address, rank_lsb, rank_width);
-    *row = EXTRACT(address, row_lsb, row_width);
+    *dimm =  EXTRACT(address, dimm_lsb, dimm_width);
+    *prank = EXTRACT(address, prank_lsb, prank_width);
+    *lrank = EXTRACT(address, lrank_lsb, lrank_width);
+    *row =   EXTRACT(address, row_lsb, row_width);
 
     /* bank calculation may be aliased... */
     BDK_CSR_INIT(lmcx_control, *node, BDK_LMCX_CONTROL(*lmc));
@@ -68,20 +73,21 @@ bdk_dram_address_extract_info(uint64_t address, int *node, int *lmc, int *dimm,
 }
 
 /**
- * Construct a physical address given the node, LMC, DIMM, rank, bank, row, and column.
+ * Construct a physical address given the node, LMC, DIMM, prank, lrank, bank, row, and column.
  *
  * @param address Physical address to decode
  * @param node    Node the address was for
  * @param lmc     LMC controller the address was for
  * @param dimm    DIMM the address was for
- * @param rank    RANK on the DIMM
+ * @param prank   Physical RANK on the DIMM
+ * @param lrank   Logical RANK on the DIMM
  * @param bank    BANK on the DIMM
  * @param row     Row on the DIMM
  * @param col     Column on the DIMM
  */
 uint64_t
-bdk_dram_construct_address_info(bdk_node_t node, int lmc, int dimm,
-                                int rank, int bank, int row, int col)
+bdk_dram_address_construct_info(bdk_node_t node, int lmc, int dimm,
+                                int prank, int lrank, int bank, int row, int col)
 
 {
     uint64_t address = 0;
@@ -98,18 +104,22 @@ bdk_dram_construct_address_info(bdk_node_t node, int lmc, int dimm,
 
     /* Extract additional info from the LMC_CONFIG CSR */
     BDK_CSR_INIT(lmcx_config, node, BDK_LMCX_CONFIG(lmc));
+    BDK_CSR_INIT(ext_config, node, BDK_LMCX_EXT_CONFIG(lmc));
     int dimm_lsb     = 28 + lmcx_config.s.pbank_lsb + xbits;
     int dimm_width   = 40 - dimm_lsb;
-    int rank_lsb     = dimm_lsb - lmcx_config.s.rank_ena;
-    int rank_width   = dimm_lsb - rank_lsb;
+    int prank_lsb    = dimm_lsb - lmcx_config.s.rank_ena;
+    int prank_width  = dimm_lsb - prank_lsb;
+    int lrank_lsb    = prank_lsb - ext_config.s.dimm0_cid;
+    int lrank_width  = prank_lsb - lrank_lsb;
     int row_lsb      = 14 + lmcx_config.s.row_lsb + xbits;
-    int row_width    = rank_lsb - row_lsb;
+    int row_width    = lrank_lsb - row_lsb;
     int col_hi_lsb   = bank_lsb + bank_width;
     int col_hi_width = row_lsb - col_hi_lsb;
 
     /* Insert some other parts of the address */
     INSERT(address, dimm, dimm_lsb, dimm_width);
-    INSERT(address, rank, rank_lsb, rank_width);
+    INSERT(address, prank, prank_lsb, prank_width);
+    INSERT(address, lrank, lrank_lsb, lrank_width);
     INSERT(address, row,  row_lsb,  row_width);
     INSERT(address, col >> 4, col_hi_lsb, col_hi_width);
     INSERT(address, col, 3, 4);

@@ -50,7 +50,9 @@ extern const char* bdk_dram_get_test_name(int test);
  * @return Number of errors found. Zero is success. Negative means the test
  *         did not run due to some other failure.
  */
-extern int bdk_dram_test(int test, uint64_t start_address, uint64_t length, bdk_dram_test_flags_t flags);
+extern int
+bdk_dram_test(int test, uint64_t start_address, uint64_t length,
+              bdk_dram_test_flags_t flags);
 
 /**
  * Given a physical DRAM address, extract information about the node, LMC, DIMM,
@@ -60,13 +62,15 @@ extern int bdk_dram_test(int test, uint64_t start_address, uint64_t length, bdk_
  * @param node    Node the address was for
  * @param lmc     LMC controller the address was for
  * @param dimm    DIMM the address was for
- * @param rank    RANK on the DIMM
+ * @param prank   Physical RANK on the DIMM
+ * @param lrank   Logical RANK on the DIMM
  * @param bank    BANK on the DIMM
  * @param row     Row on the DIMM
  * @param col     Column on the DIMM
  */
-extern void bdk_dram_address_extract_info(uint64_t address, int *node, int *lmc,
-    int *dimm, int *rank, int *bank, int *row, int *col);
+extern void
+bdk_dram_address_extract_info(uint64_t address, int *node, int *lmc, int *dimm,
+                              int *prank, int *lrank, int *bank, int *row, int *col);
 
 /**
  * Construct a physical address given the node, LMC, DIMM, rank, bank, row, and column.
@@ -75,14 +79,15 @@ extern void bdk_dram_address_extract_info(uint64_t address, int *node, int *lmc,
  * @param node    Node the address was for
  * @param lmc     LMC controller the address was for
  * @param dimm    DIMM the address was for
- * @param rank    RANK on the DIMM
+ * @param prank   Physical RANK on the DIMM
+ * @param lrank   Logical RANK on the DIMM
  * @param bank    BANK on the DIMM
  * @param row     Row on the DIMM
  * @param col     Column on the DIMM
  */
 extern uint64_t
-bdk_dram_construct_address_info(bdk_node_t node, int lmc, int dimm,
-                                int rank, int bank, int row, int col);
+bdk_dram_address_construct_info(bdk_node_t node, int lmc, int dimm,
+                                int prank, int lrank, int bank, int row, int col);
 
 /**
  * Inject a DRAM error at a specific address in memory. The injection can either
