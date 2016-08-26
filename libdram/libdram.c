@@ -277,6 +277,12 @@ int libdram_config(int node, const dram_config_t *dram_config, int ddr_clock_ove
     int ddr_refclk_hertz = bdk_clock_get_rate(node, BDK_CLOCK_MAIN_REF);
     int alt_refclk = bdk_config_get_int(BDK_CONFIG_DDR_ALT_REFCLK, node);
 
+    char *str = getenv("ddr_100mhz_refclk");
+    if (str) { // if the envvar was found, force it to that setting
+        int do_100mhz = !!strtoul(str, NULL, 0);
+        alt_refclk = (do_100mhz) ? 100 : 50;
+    }
+
     dram_verbosity = bdk_config_get_int(BDK_CONFIG_DRAM_VERBOSE);
 
     /* We need to calculate the interface mask based on the provided SPD
