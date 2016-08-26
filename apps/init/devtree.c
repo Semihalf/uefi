@@ -425,10 +425,14 @@ static int devtree_fixups(void *fdt)
                     int qlm = bdk_qlm_get(node, BDK_IF_BGX, bgx_interface, bgx_index);
                     bdk_qlm_modes_t qlm_mode = (qlm == -1) ? BDK_QLM_MODE_DISABLED : bdk_qlm_get_mode(node, qlm);
 
-                    /* BGXX_CMRX_RX_DMAC_CTL is used to mark ports as disabled */
-                    BDK_CSR_INIT(rx_dmac_ctl, node, BDK_BGXX_CMRX_RX_DMAC_CTL(bgx_interface, bgx_index));
-                    if (rx_dmac_ctl.u == 0)
-                        qlm_mode = BDK_QLM_MODE_DISABLED;
+                    /* BGXX_CMRX_RX_DMAC_CTL is used to mark ports as disabled
+                       that would otherwise be enabled */
+                    if (qlm_mode != BDK_QLM_MODE_DISABLED)
+                    {
+                        BDK_CSR_INIT(rx_dmac_ctl, node, BDK_BGXX_CMRX_RX_DMAC_CTL(bgx_interface, bgx_index));
+                        if (rx_dmac_ctl.u == 0)
+                            qlm_mode = BDK_QLM_MODE_DISABLED;
+                    }
 
                     if (qlm_mode == BDK_QLM_MODE_DISABLED)
                         snprintf(key, sizeof(key), "0x%x%x%x,disabled", node, bgx_interface, bgx_index);
