@@ -5289,6 +5289,29 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
             default_wlevel_rtt_nom = strtoul(s, NULL, 0);
         }
 
+        // For DDR3, we do not touch WLEVEL_CTL fields OR_DIS or BITMASK
+        if (ddr_type == DDR4_DRAM) {
+            wlevel_ctl.u = BDK_CSR_READ(node, BDK_LMCX_WLEVEL_CTL(ddr_interface_num));
+            wlevel_ctl.s.or_dis  = 1;    // now this is the default for DDR4
+            wlevel_ctl.s.bitmask = 0xFF; // now this is the default for DDR4
+
+            // allow overrides
+            if ((s = lookup_env_parameter("ddr_wlevel_ctl_or_dis")) != NULL) {
+                wlevel_ctl.s.or_dis = !!strtoul(s, NULL, 0);
+            }
+            if ((s = lookup_env_parameter("ddr_wlevel_ctl_bitmask")) != NULL) {
+                wlevel_ctl.s.bitmask = strtoul(s, NULL, 0);
+            }
+
+            // print and write only if not defaults
+            if ((wlevel_ctl.s.or_dis != 1) || (wlevel_ctl.s.bitmask != 0xFF)) {
+                ddr_print("N%d.LMC%d: WLEVEL_CTL: or_dis=%d, bitmask=0x%x\n",
+                          node, ddr_interface_num,
+                          wlevel_ctl.s.or_dis, wlevel_ctl.s.bitmask);
+                DRAM_CSR_WRITE(node, BDK_LMCX_WLEVEL_CTL(ddr_interface_num), wlevel_ctl.u);
+            }
+        }
+
 #if RUN_INIT_SEQ_3
 	lmc_modereg_params0.u = BDK_CSR_READ(node, BDK_LMCX_MODEREG_PARAMS0(ddr_interface_num));
 	lmc_modereg_params1.u = BDK_CSR_READ(node, BDK_LMCX_MODEREG_PARAMS1(ddr_interface_num));
@@ -5973,6 +5996,9 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
             rlevel_ctl.s.or_dis = !!strtoul(s, NULL, 0);
         }
         rlevel_ctl.s.bitmask = 0xff; // should work in 32b mode also
+        if ((s = lookup_env_parameter("ddr_rlevel_ctl_bitmask")) != NULL) {
+            rlevel_ctl.s.bitmask = strtoul(s, NULL, 0);
+        }
         debug_print("N%d.LMC%d: RLEVEL_CTL: or_dis=%d, bitmask=0x%x\n",
                     node, ddr_interface_num,
                     rlevel_ctl.s.or_dis, rlevel_ctl.s.bitmask);
