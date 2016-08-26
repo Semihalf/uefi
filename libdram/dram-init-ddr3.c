@@ -60,6 +60,69 @@ static void Display_MPR_Page_Location(bdk_node_t node, int rank,
 
 /* Read out Deskew Settings for DDR */
 
+#define READ_DESKEW_SETTINGS 1
+
+#if READ_DESKEW_SETTINGS
+//dskdat->bytes[byte_lane].bits[bit_index] = phy_ctl.s.dsk_dbg_rd_data & 0x3ff;
+typedef struct {
+    uint16_t bits[8];
+} deskew_bytes_t;
+typedef struct {
+    deskew_bytes_t bytes[9];
+} deskew_data_t;
+
+static void
+Read_Deskew_Settings(bdk_node_t node, int rank_mask, int ddr_interface_num,
+                     deskew_data_t *dskdat, int ddr_interface_64b)
+{
+    bdk_lmcx_phy_ctl_t phy_ctl;
+    bdk_lmcx_config_t  lmc_config;
+    int bit_num, bit_index;
+    int byte_lane, byte_limit;
+    // NOTE: these are for pass 2.x
+    int is_t88p2 = !CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X); // added 81xx and 83xx
+    int bit_end = (is_t88p2) ? 9 : 8;
+
+    lmc_config.u = BDK_CSR_READ(node, BDK_LMCX_CONFIG(ddr_interface_num));
+    byte_limit = ((ddr_interface_64b) ? 8 : 4) + lmc_config.s.ecc_ena;
+
+    memset(dskdat, 0, sizeof(*dskdat));
+
+    BDK_CSR_MODIFY(phy_ctl, node, BDK_LMCX_PHY_CTL(ddr_interface_num),
+                   phy_ctl.s.dsk_dbg_clk_scaler = 3);
+
+    for (byte_lane = 0; byte_lane < byte_limit; byte_lane++) {
+        bit_index = 0;
+	for (bit_num = 0; bit_num <= bit_end; ++bit_num) {	// NOTE: this is for pass 2.x
+
+	    if (bit_num == 4) continue;
+	    if ((bit_num == 5) && is_t88p2) continue;	// NOTE: this is for pass 2.x
+
+            // set byte lane and bit to read
+            BDK_CSR_MODIFY(phy_ctl, node, BDK_LMCX_PHY_CTL(ddr_interface_num),
+                           (phy_ctl.s.dsk_dbg_bit_sel = bit_num,
+                            phy_ctl.s.dsk_dbg_byte_sel = byte_lane));
+
+            // start read sequence
+            BDK_CSR_MODIFY(phy_ctl, node, BDK_LMCX_PHY_CTL(ddr_interface_num),
+                           phy_ctl.s.dsk_dbg_rd_start = 1);
+
+            // poll for read sequence to complete
+            do {
+                phy_ctl.u = BDK_CSR_READ(node, BDK_LMCX_PHY_CTL(ddr_interface_num));
+            } while (phy_ctl.s.dsk_dbg_rd_complete != 1);
+			
+            // record the data
+            dskdat->bytes[byte_lane].bits[bit_index] = phy_ctl.s.dsk_dbg_rd_data & 0x3ff;
+            bit_index++;
+
+        } /* for (bit_num = 0; bit_num <= bit_end; ++bit_num) */
+    } /* for (byte_lane = 0; byte_lane < byte_limit; byte_lane++) */
+	
+    return;
+}
+#endif /* READ_DESKEW_SETTINGS */
+
 typedef struct {
     int saturated;
     int unlocked;
@@ -83,7 +146,8 @@ static void Validate_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_int
     int c;
     // NOTE: these are for pass 2.x
     int is_t88p2 = !CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X); // added 81xx and 83xx
-    int bit_start = (is_t88p2) ? 9 : 8;
+    int bit_end = (is_t88p2) ? 9 : 8;
+    //int bit_start = (is_t88p2) ? 9 : 8;
     int byte_limit;
 #if LOOK_FOR_STUCK_BYTE
     uint64_t bl_mask[2]; // enough for 128 values
@@ -103,6 +167,11 @@ static void Validate_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_int
 
     BDK_CSR_MODIFY(phy_ctl, node, BDK_LMCX_PHY_CTL(ddr_interface_num),
                    phy_ctl.s.dsk_dbg_clk_scaler = 3);
+
+#if READ_DESKEW_SETTINGS
+    deskew_data_t dskdat;    
+    Read_Deskew_Settings(node, rank_mask, ddr_interface_num, &dskdat, ddr_interface_64b);
+#endif /* READ_DESKEW_SETTINGS */
 
     if (print_enable) {
         VB_PRT(print_enable, "N%d.LMC%d: Deskew Settings:          Bit =>      :",
@@ -125,11 +194,20 @@ static void Validate_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_int
 #if LOOK_FOR_STUCK_BYTE
         bl_mask[0] = bl_mask[1] = 0;
 #endif
-	for (bit_num = bit_start; bit_num >= 0; --bit_num) {	// NOTE: this is for pass 2.x
+#if READ_DESKEW_SETTINGS
+        int bit_index = 0;
+#endif /* READ_DESKEW_SETTINGS */
+	for (bit_num = 0; bit_num <= bit_end; ++bit_num) {	// NOTE: this is for pass 2.x
+        //for (bit_num = bit_start; bit_num >= 0; --bit_num) {	// NOTE: this is for pass 2.x
 	    if (bit_num == 4) continue;
 	    if ((bit_num == 5) && is_t88p2) continue;	// NOTE: this is for pass 2.x
 
 	    nib_num = (bit_num > 4) ? 1 : 0;
+#if READ_DESKEW_SETTINGS
+	    uint16_t flags = dskdat.bytes[byte_lane].bits[bit_index] & 7;
+	    uint16_t deskew = dskdat.bytes[byte_lane].bits[bit_index] >> 3;
+            bit_index++;
+#else /* READ_DESKEW_SETTINGS */
             //set byte lane and bit to read
             BDK_CSR_MODIFY(phy_ctl, node, BDK_LMCX_PHY_CTL(ddr_interface_num),
                            (phy_ctl.s.dsk_dbg_bit_sel = bit_num,
@@ -144,7 +222,7 @@ static void Validate_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_int
 			
 	    int flags = phy_ctl.s.dsk_dbg_rd_data & 7;
 	    int deskew = phy_ctl.s.dsk_dbg_rd_data >> 3;
-
+#endif /* READ_DESKEW_SETTINGS */
             c = ' ';
             if (flags & 0x4) {
                 c = '+';        /* Saturated High */
