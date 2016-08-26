@@ -385,9 +385,10 @@ int bdk_sata_initialize(bdk_node_t node, int controller)
     BDK_CSR_MODIFY(c, node, BDK_SATAX_UAHC_P0_CMD(controller),
         c.s.st = 1); /* Start the controller */
 
-    /* Wait 100ms after starting the controller before proceeding. This seems
-       to be needed for an Intel 80G SSD */
-    bdk_wait_usec(100000);
+    /* A 120ms delay here has been seen to fail idnetify with a Samsung SSD. A
+       delay of 125ms has not been seen to fail. Push the delay up to 250ms
+       just to be sure */
+    bdk_wait_usec(250000);
     return 0;
 }
 
