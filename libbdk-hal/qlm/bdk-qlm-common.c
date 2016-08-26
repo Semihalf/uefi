@@ -919,8 +919,10 @@ int bdk_qlm_mcu_auto_config(bdk_node_t node)
             bdk_error("QLM Config: Unexpected interface width (%d) from MCU\n", width);
             return -1;
         }
-        /* MCU reports a width of 0 for unconfigured QLMs */
-        if (width == 0)
+        /* MCU reports a width of 0 for unconfigured QLMs. It reports a width
+           of 1 for some combinations on CN80XX, and two on others. Convert
+           either 0 or 1 to the actual width, or 2 for CN80XX. Yuck */
+        if ((width == 0) || (width == 1))
         {
             if (cavium_is_altpkg(CAVIUM_CN81XX) && (qlm < 2))
                 width = 2;
