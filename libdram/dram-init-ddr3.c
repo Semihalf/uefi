@@ -24,7 +24,9 @@
 #define KEEP_PERFECT_AVG    0
 
 #define COUNT_RL_CANDIDATES 1
-#define LOOK_FOR_STUCK_BYTE 0
+
+#define LOOK_FOR_STUCK_BYTE      1
+#define ENABLE_STUCK_BYTE_RESET  1
 
 #define FAILSAFE_CHECK      1
 
@@ -82,6 +84,7 @@ static void Validate_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_int
     int byte_limit;
 #if LOOK_FOR_STUCK_BYTE
     uint64_t bl_mask[2]; // enough for 128 values
+    int bit_values;
 #endif
     
     lmc_config.u = BDK_CSR_READ(node, BDK_LMCX_CONFIG(ddr_interface_num));
@@ -185,12 +188,19 @@ static void Validate_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_int
 	nibunl_errs += ((nib_unl[0] == 4) || (nib_unl[1] == 4)) ? 1 : 0;
 	
 	if (((nibsat_errs != 0) || (nibunl_errs != 0)) && print_enable) {
-	    VB_PRT(print_enable, " ");
-	    if (nibsat_errs)
-		VB_PRT(print_enable, "S");
-	    if (nibunl_errs)
-		VB_PRT(print_enable, "U");
+	    VB_PRT(print_enable, " %c%c",
+                   (nibsat_errs)?'S':' ',
+                   (nibunl_errs)?'U':' ');
 	}
+
+#if LOOK_FOR_STUCK_BYTE
+        bit_values = __builtin_popcountl(bl_mask[0]) + __builtin_popcountl(bl_mask[1]);
+        if (bit_values < 3) {
+            counts->bytes_stuck |= (1 << byte_lane);
+            if (print_enable)
+                VB_PRT(print_enable, "X");
+        }
+#endif
         if (print_enable)
             VB_PRT(print_enable, "\n");
 
@@ -198,14 +208,13 @@ static void Validate_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_int
 	counts->nibunl_errs += nibunl_errs;
 
 #if LOOK_FOR_STUCK_BYTE
-        if ((__builtin_popcountl(bl_mask[0]) + __builtin_popcountl(bl_mask[1])) < 3) {
-            VB_PRT(VBL_DEV, "N%d.LMC%d: Deskew byte %d STUCK on value 0x%016lx,0x%016lx\n",
+        // just for completeness, allow print of the stuck values bitmask after the bytelane print
+        if ((bit_values < 3) && print_enable) {
+            VB_PRT(VBL_DEV, "N%d.LMC%d: Deskew byte %d STUCK on value 0x%016lx.%016lx\n",
                    node, ddr_interface_num, byte_lane, 
                    bl_mask[1], bl_mask[0]);
-            counts->bytes_stuck += 1;
         }
 #endif
-
     } /* for (byte_lane = 0; byte_lane < byte_limit; byte_lane++) */
 	
     return;
@@ -313,6 +322,14 @@ static int Perform_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_inter
 	normal_loops = strtoul(s, NULL, 0);
     }
 
+#if LOOK_FOR_STUCK_BYTE
+    // provide override for STUCK BYTE RESETS
+    int do_stuck_reset = ENABLE_STUCK_BYTE_RESET;
+    if ((s = getenv("ddr_enable_stuck_byte_reset")) != NULL) {
+	do_stuck_reset = !!strtoul(s, NULL, 0);
+    }
+#endif
+
 #if DESKEW_RODT_CTL
     if ((s = getenv("ddr_deskew_rodt_ctl")) != NULL) {
         int deskew_rodt_ctl = strtoul(s, NULL, 0);
@@ -398,11 +415,17 @@ static int Perform_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_inter
         // We want to force a Deskew RESET hopefully to unstick the bytes values
         // and then resume normal deskew training as usual.
         // For now, do only if it is all locked...
-        if (locked && (dsk_counts.bytes_stuck > 0)) {
-            unsaturated = 0; // to always make sure the while continues
-            ddr_print("N%d.LMC%d: STUCK BYTES, forcing deskew RESET\n",
-                      node, ddr_interface_num );
-            continue; // bypass the rest to get back to the RESET
+        if (locked && (dsk_counts.bytes_stuck != 0)) {
+            BDK_CSR_INIT(lmc_config, node, BDK_LMCX_CONFIG(ddr_interface_num));
+            if (do_stuck_reset && lmc_config.s.mode_x4dev) { // FIXME: only when x4!!
+                unsaturated = 0; // to always make sure the while continues
+                VB_PRT(VBL_TME, "N%d.LMC%d: STUCK BYTE (0x%x), forcing deskew RESET\n",
+                          node, ddr_interface_num, dsk_counts.bytes_stuck);
+                continue; // bypass the rest to get back to the RESET
+            } else {
+                VB_PRT(VBL_TME, "N%d.LMC%d: STUCK BYTE (0x%x), ignoring deskew RESET\n",
+                          node, ddr_interface_num, dsk_counts.bytes_stuck);
+            }
         }
 #endif
 	/*
@@ -423,6 +446,7 @@ static int Perform_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_inter
         DRAM_CSR_WRITE(node, BDK_LMCX_COMP_CTL2(ddr_interface_num), comp_ctl2.u);
     }
 #endif
+
     VB_PRT(VBL_FAE, "N%d.LMC%d: Deskew Training %s. %d sat-retries, %d lock-retries\n",
            node, ddr_interface_num,
            (sat_retries >= DEFAULT_SAT_RETRY_LIMIT) ? "Timed Out" : "Completed",
