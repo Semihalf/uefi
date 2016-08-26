@@ -28,8 +28,8 @@
 
 #define COUNT_RL_CANDIDATES 1
 
-#define LOOK_FOR_STUCK_BYTE      1
-#define ENABLE_STUCK_BYTE_RESET  1
+#define LOOK_FOR_STUCK_BYTE      0
+#define ENABLE_STUCK_BYTE_RESET  0
 
 #define FAILSAFE_CHECK      1
 
