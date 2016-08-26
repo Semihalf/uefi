@@ -99,7 +99,7 @@ static void Validate_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_int
                    phy_ctl.s.dsk_dbg_clk_scaler = 3);
 
     if (print_enable) {
-        VB_PRT(print_enable, "N%d.LMC%d: Deskew Settings:          Bit =>         :",
+        VB_PRT(print_enable, "N%d.LMC%d: Deskew Settings:          Bit =>      :",
                 node, ddr_interface_num);
 	for (bit_num = 8; bit_num >= 0; --bit_num) {
 	    if (bit_num != 4)
@@ -110,8 +110,9 @@ static void Validate_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_int
 
     for (byte_lane = 0; byte_lane < byte_limit; byte_lane++) {
         if (print_enable)
-            VB_PRT(print_enable, "N%d.LMC%d: Bit Deskew Byte %d                        :",
-                    node, ddr_interface_num, byte_lane);
+            VB_PRT(print_enable, "N%d.LMC%d: Bit Deskew Byte %d %s               :",
+                   node, ddr_interface_num, byte_lane,
+                   (print_enable >= VBL_TME) ? "FINAL" : "     ");
 	nib_min[0] = 127; nib_min[1] = 127;
 	nib_max[0] = 0;   nib_max[1] = 0;
 	nib_unl[0] = 0;   nib_unl[1] = 0;
@@ -415,13 +416,6 @@ static int Perform_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_inter
 
     } while (!unsaturated && (sat_retries < DEFAULT_SAT_RETRY_LIMIT));
 
-#if 0
-    // FIXME: disable this print, we do not know yet if we will have to do this all again
-    // always print the last one unless there was only one
-    if ((sat_retries > 1) || (lock_retries_total > 0))
-	Validate_Deskew_Training(node, rank_mask, ddr_interface_num, &dsk_counts, VBL_NORM, ddr_interface_64b);
-#endif
-
 #if DESKEW_RODT_CTL
     if (save_deskew_rodt_ctl != -1) {
         comp_ctl2.u = BDK_CSR_READ(node, BDK_LMCX_COMP_CTL2(ddr_interface_num));
@@ -478,6 +472,19 @@ static void Write_Deskew_Config(int node, int rank_mask, int ddr_interface_num)
 
     ddr_dll_ctl3.s.wr_deskew_ld  = 1;  /* go */
     DRAM_CSR_WRITE(node, BDK_LMCX_DLL_CTL3(ddr_interface_num),	ddr_dll_ctl3.u);
+
+    // put it back into NOOP
+    ddr_dll_ctl3.s.bit_select    = 0x9; /* Enable reuse read deskew settings */
+    ddr_dll_ctl3.s.byte_sel      = 0xA; /* Select all bytes */
+#if 0
+    ddr_dll_ctl3.s.wr_deskew_ena = 0x1;  /* Enable write bit-deskew */
+#endif
+    DRAM_CSR_WRITE(node, BDK_LMCX_DLL_CTL3(ddr_interface_num),	ddr_dll_ctl3.u);
+
+#if 0
+    ddr_dll_ctl3.s.wr_deskew_ld  = 1;  /* go */
+    DRAM_CSR_WRITE(node, BDK_LMCX_DLL_CTL3(ddr_interface_num),	ddr_dll_ctl3.u);
+#endif
 }
 
 #define SCALING_FACTOR (1000)
@@ -5582,7 +5589,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 		break;
 	} while (retry_count < 5);
 
-        // print the final setting only if we had to do retries here
+        // print the last setting only if we had to do retries here
         if (retry_count > 0)
             Validate_Deskew_Training(node, rank_mask, ddr_interface_num, 
                                      &dsk_counts, VBL_NORM, ddr_interface_64b);
@@ -7304,7 +7311,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 	VB_PRT(VBL_TME, "N%d.LMC%d: Check Deskew Settings before software Write-Leveling.\n",
 		  node, ddr_interface_num);
         Validate_Deskew_Training(node, rank_mask, ddr_interface_num,
-                                 &dsk_counts, VBL_TME, ddr_interface_64b);
+                                 &dsk_counts, VBL_TME, ddr_interface_64b); // TME for FINAL
     }
 
 
