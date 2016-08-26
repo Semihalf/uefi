@@ -1520,7 +1520,8 @@ setup_hw_pattern(bdk_node_t node, int lmc, const uint64_t *pattern_p)
 }
 
 int
-run_test_hw_patterns(bdk_node_t node, int lmc, uint64_t phys_addr, int flags)
+run_test_hw_patterns(bdk_node_t node, int lmc, uint64_t phys_addr,
+                     int flags, uint64_t *xor_data)
 {
     int pattern;
     const uint64_t *pattern_p;
@@ -1530,7 +1531,7 @@ run_test_hw_patterns(bdk_node_t node, int lmc, uint64_t phys_addr, int flags)
 	pattern_p = byte_patterns[pattern];
         setup_hw_pattern(node, lmc, pattern_p);
 
-        errors |= test_dram_byte_hw(node, lmc, phys_addr, 0); // FIXME: flags?
+        errors |= test_dram_byte_hw(node, lmc, phys_addr, 0, xor_data); // FIXME: flags?
     }
     return errors;
 }
@@ -1641,7 +1642,7 @@ hw_assist_test_dll_offset(bdk_node_t node, int dll_offset_mode,
                 active_ranks++;
 
                 // NOTE: return is a now a bitmask of the erroring bytelanes..
-		errors[rankx] = test_dram_byte_hw(node, lmc, phys_addr, 0);
+		errors[rankx] = test_dram_byte_hw(node, lmc, phys_addr, 0, NULL);
 
                 for (byte = byte_lo; byte <= byte_hi; byte++) { // do bytelane(s)
 

@@ -7757,6 +7757,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                         // so we want the EXHAUSTED messages at NORM for computed and DDR3,
                         // and at DEV2 for measured, just for completeness
                         int vbl_local = (measured_vref_flag) ? VBL_DEV2 : VBL_NORM;
+                        uint64_t bad_bits[2];
 
 			do {
 			    // write the current set of WL delays
@@ -7767,10 +7768,10 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
 			    // do the test
                             if (sw_wlevel_hw) {
-                                errors = run_test_hw_patterns(node, ddr_interface_num, rank_addr, 0) & 0xff; // FIXME? ignore ECC
+                                errors = run_test_hw_patterns(node, ddr_interface_num, rank_addr, 0, bad_bits) & 0xff; // FIXME? ignore ECC
                                 errors &= bytes_todo; // keep only the ones we are doing, HW test does not use bytemask
                             } else
-                                errors = test_dram_byte(node, ddr_interface_num, rank_addr, bytemask);
+                                errors = test_dram_byte(node, ddr_interface_num, rank_addr, bytemask, bad_bits);
 
 			    VB_PRT(VBL_DEV4, "WL pass1: test_dram_byte returned 0x%x\n", errors);
 
@@ -7812,8 +7813,9 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                                             bytes_todo &= ~(1 << byte); // remove from bytes to do
                                             byte_test_status[byte] = WL_ESTIMATED; // make sure this is set for this case
                                             debug_print("        byte %d delay %2d Exhausted\n", byte, delay);
-					    VB_PRT(vbl_local, "N%d.LMC%d.R%d: SWL: Byte %d: delay %d EXHAUSTED \n",
-						      node, ddr_interface_num, rankx, byte, delay);
+					    VB_PRT(vbl_local, "N%d.LMC%d.R%d: SWL: Byte %d (0x%x): delay %d EXHAUSTED \n",
+                                                   node, ddr_interface_num, rankx, byte,
+                                                   (unsigned)((bad_bits[0] >> (8 * byte)) & 0xffUL), delay);
                                         }
 				    }
 				} else { // no error, stay with current delay, but keep testing it...
@@ -8014,9 +8016,9 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 			    // do the test
 			    // do the test
                             if (sw_wlevel_hw)
-                                errors = run_test_hw_patterns(node, ddr_interface_num, rank_addr, 0) & 0xff; // FIXME?
+                                errors = run_test_hw_patterns(node, ddr_interface_num, rank_addr, 0, NULL) & 0xff; // FIXME?
                             else
-                                errors = test_dram_byte(node, ddr_interface_num, rank_addr, bytemask);
+                                errors = test_dram_byte(node, ddr_interface_num, rank_addr, bytemask, NULL);
 
 			    debug_print("SWL pass 2: test_dram_byte returned 0x%x\n", errors);
 
@@ -8121,9 +8123,9 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
                     // do the test
                     if (sw_wlevel_hw)
-                        errors = run_test_hw_patterns(node, ddr_interface_num, rank_addr, 0) & 0xff; // FIXME?
+                        errors = run_test_hw_patterns(node, ddr_interface_num, rank_addr, 0, NULL) & 0xff; // FIXME?
                     else
-                        errors = test_dram_byte(node, ddr_interface_num, rank_addr, datamask);
+                        errors = test_dram_byte(node, ddr_interface_num, rank_addr, datamask, NULL);
 
 		    if (errors) {
 			ddr_print("N%d.LMC%d.R%d: Wlevel Rank Final Test errors 0x%x\n",

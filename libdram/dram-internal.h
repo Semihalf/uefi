@@ -77,9 +77,13 @@ extern int initialize_ddr_clock(bdk_node_t node,
     const ddr_configuration_t *ddr_configuration, uint32_t cpu_hertz,
     uint32_t ddr_hertz, uint32_t ddr_ref_hertz, int ddr_interface_num,
     uint32_t ddr_interface_mask);
-extern int test_dram_byte(bdk_node_t node, int ddr_interface_num, uint64_t p, uint64_t bitmask);
-extern int test_dram_byte_hw(bdk_node_t node, int ddr_interface_num, uint64_t p, int flags);
-extern int run_test_hw_patterns(bdk_node_t node, int ddr_interface_num, uint64_t p, int flags);
+
+extern int test_dram_byte(bdk_node_t node, int ddr_interface_num, uint64_t p,
+                          uint64_t bitmask, uint64_t *xor_data);
+extern int test_dram_byte_hw(bdk_node_t node, int ddr_interface_num,
+                             uint64_t p, int flags, uint64_t *xor_data);
+extern int run_test_hw_patterns(bdk_node_t node, int ddr_interface_num,
+                                uint64_t p, int flags, uint64_t *xor_data);
 
 extern int get_dimm_part_number(char *buffer, bdk_node_t node, const dimm_config_t *dimm_config,
 				int dimm_index, int ddr_type);

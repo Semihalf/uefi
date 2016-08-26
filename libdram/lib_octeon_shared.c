@@ -248,7 +248,7 @@ static const uint64_t test_pattern[] = {
 };
 #endif  /* !DO_LIKE_RANDOM_XOR */
 
-int test_dram_byte(bdk_node_t node, int lmc, uint64_t p, uint64_t bitmask)
+int test_dram_byte(bdk_node_t node, int lmc, uint64_t p, uint64_t bitmask, uint64_t *xor_data)
 {
     uint64_t p1, p2, d1, d2;
     uint64_t v, v1;
@@ -262,6 +262,7 @@ int test_dram_byte(bdk_node_t node, int lmc, uint64_t p, uint64_t bitmask)
     uint64_t pattern1 = bdk_rng_get_random64();
     uint64_t this_pattern;
 #endif
+    uint64_t bad_bits[2] = {0,0};
 
     // When doing in parallel, the caller must provide full 8-byte bitmask.
     // Byte lanes may be clear in the mask to indicate no testing on that lane.
@@ -388,6 +389,10 @@ int test_dram_byte(bdk_node_t node, int lmc, uint64_t p, uint64_t bitmask)
 
 		xor = ((d1 ^ v) | (d2 ^ v)) & datamask; // union of error bits only in active byte lanes
 
+                // accumulate bad bits
+                bad_bits[0] |= xor;
+                //bad_bits[1] |= ~mpr_data1 & 0xffUL; // cannot do ECC here
+
 		int bybit = 1;
 		uint64_t bymsk = 0xffULL; // start in byte lane 0
 		while (xor != 0) {
@@ -398,7 +403,7 @@ int test_dram_byte(bdk_node_t node, int lmc, uint64_t p, uint64_t bitmask)
 			xor &= ~bymsk; // clear byte lane in error bits
 			datamask &= ~bymsk; // clear the byte lane in the mask
 			if (datamask == 0) { // nothing left to do
-			    return errors; // completely done when errors found in all byte lanes in datamask
+			    goto done_now; // completely done when errors found in all byte lanes in datamask
 			}
 		    }
 		    bymsk <<= 8; // move mask into next byte lane
@@ -407,18 +412,25 @@ int test_dram_byte(bdk_node_t node, int lmc, uint64_t p, uint64_t bitmask)
 	    }
 	}
     }
+
+ done_now:
+    if (xor_data != NULL) { // send the bad bits back...
+        xor_data[0] = bad_bits[0];
+        xor_data[1] = bad_bits[1]; // let it be zeroed
+    }
     return errors;
 }
 
 // NOTE: "flags" is 0 for normal (tuning) behavior, 1 for DBI deskew training behavior
-int test_dram_byte_hw(bdk_node_t node, int ddr_interface_num, uint64_t p, int flags)
+int test_dram_byte_hw(bdk_node_t node, int ddr_interface_num,
+                      uint64_t p, int flags, uint64_t *xor_data)
 {
     uint64_t p1;
     uint64_t k, ii;
     int errors = 0;
 
     uint64_t mpr_data0, mpr_data1;
-    //uint64_t mpr_data2;
+    uint64_t bad_bits[2] = {0,0};
 
     int node_address;
     int lmc;
@@ -604,6 +616,10 @@ int test_dram_byte_hw(bdk_node_t node, int ddr_interface_num, uint64_t p, int fl
             if (~mpr_data1 & 0xff)
                 errors |= (1 << 8);
 
+            // accumulate bad bits
+            bad_bits[0] |= ~mpr_data0;
+            bad_bits[1] |= ~mpr_data1 & 0xffUL;
+
 	} /* for (int ba_loop = 0; ba_loop < 4; ba_loop++) */
 
 	if (errors == 0x1ff) { // exit if all bytelanes have errored...
@@ -620,6 +636,11 @@ int test_dram_byte_hw(bdk_node_t node, int ddr_interface_num, uint64_t p, int fl
 
     dram_verbosity = save_dram_verbosity;
     //printf("Address 0x%lx has 0x%x errors\n", p, errors);
+
+    if (!flags && (xor_data != NULL)) { // send the bad bits back...
+        xor_data[0] = bad_bits[0];
+        xor_data[1] = bad_bits[1];
+    }
     return errors;
 }
 
@@ -1865,7 +1886,7 @@ static void dbi_switchover_interface(int node, int lmc)
 restart_training:
 
         // NOTE: return is a bitmask of the erroring bytelanes..
-        errors = test_dram_byte_hw(node, lmc, phys_addr, 1);
+        errors = test_dram_byte_hw(node, lmc, phys_addr, 1, NULL);
 
         ddr_print("N%d.LMC%d: DBI switchover: TEST: rank %d, phys_addr 0x%lx, errors 0x%x.\n",
                   node, lmc, rankx, phys_addr, errors);
