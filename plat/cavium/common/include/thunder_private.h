@@ -50,6 +50,7 @@ unsigned int thunder_calc_core_pos(unsigned long mpidr);
 void thunder_pci_init(void);
 void thunder_gti_init(void);
 void thunder_signal_shutdown(void);
+int thunder_pwrc_setup(void);
 
 #define THUNDER_IRQ_MASKED	(1ull << 32)
 
