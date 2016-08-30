@@ -7,6 +7,7 @@
 --
 require("strict")
 require("utils")
+local readline = require("readline")
 
 fileio = {}
 --- Maximum size of block to transfer in one read/write
@@ -171,6 +172,53 @@ function fileio.get_pattern(pattern, length, block_size)
     end
     pat = pat:rep(length * block_size)
     return pat
+end
+
+--
+-- Run an automated test of bit patterns on a file
+--
+function fileio.pattern_test(filename, block_size, max_blocks, start_block)
+    -- Allow this test to be repeated for long term testing
+    local loop_count = menu.prompt_number("Repeat count (-1 for infinite)", 1)
+
+    local handle = assert(cavium.devopen(filename, "r+"))
+    local offset = start_block * block_size
+
+    -- Get the end loop count
+    if loop_count == -1 then
+        loop_count = 0x7fffffffffffffff
+    elseif loop_count < 1 then
+        loop_count = 1
+    end
+    -- Loop running the test
+    for count=1,loop_count do
+        -- Show progress
+        if loop_count == 0x7fffffffffffffff then
+            printf("Pass %d - Press return to exit\n", count)
+        else
+            printf("Pass %d of %d - Press return to exit\n", count, loop_count)
+        end
+        -- Run the test
+        for length=1,max_blocks do
+            printf("Testing %d block accesses\n", length)
+            for i,p in ipairs(fileio.PATTERNS) do
+                local correct = fileio.get_pattern(p, length, block_size)
+                assert(handle:seek("set", offset), "Write seek failed")
+                handle:write(correct)
+                assert(handle:seek("set", offset), "Read seek failed")
+                local data = handle:read(length * block_size)
+                assert(#data == length * block_size, "Read failed")
+                assert(correct == data, "Data doesn't match pattern")
+            end
+            local key = readline.getkey()
+            if key == '\r' then
+                printf("\nAbort on key press\n")
+                goto abort_key
+            end
+        end
+    end
+::abort_key::
+    handle:close()
 end
 
 return fileio

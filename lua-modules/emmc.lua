@@ -11,27 +11,7 @@ local option = ""
 local function do_test(chip_sel)
     local chip_sel = menu.prompt_number("Chip select", 0, 0, 3)
     local filename = utils.devfile("mmc", chip_sel)
-    local handle = assert(cavium.devopen(filename, "r+"))
-    local sector = 0
-    for length=1,128 do
-        printf("Testing %d sector accesses\n", length)
-        for i,p in ipairs(fileio.PATTERNS) do
-            local correct = fileio.get_pattern(p, length)
-            assert(handle:seek("set", sector * 512), "Write seek failed")
-            handle:write(correct)
-            assert(handle:seek("set", sector * 512), "Read seek failed")
-            local data = handle:read(length * 512)
-            assert(#data == length * 512, "SATA read failed")
-            assert(correct == data, "SATA data doesn't match pattern")
-        end
-        local key = readline.getkey()
-        if key == '\r' then
-            printf("\nAbort on key press\n")
-            goto abort_key
-        end
-    end
-::abort_key::
-    handle:close()
+    return fileio.pattern_test(filename, 512, 128, 0)
 end
 
 while (option ~= "quit") do
