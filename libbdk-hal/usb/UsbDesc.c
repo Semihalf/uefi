@@ -573,7 +573,7 @@ UsbGetMaxPacketSize0 (
 #endif
 
     if (!EFI_ERROR (Status)) {
-      if ((DevDesc.BcdUSB == 0x0300) && (DevDesc.MaxPacketSize0 == 9)) {
+      if ((DevDesc.BcdUSB >= 0x0300) && (DevDesc.MaxPacketSize0 == 9)) {
         UsbDev->MaxPacket0 = 1 << 9;
         return EFI_SUCCESS;
       }

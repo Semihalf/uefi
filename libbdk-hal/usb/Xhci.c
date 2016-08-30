@@ -1152,7 +1152,7 @@ XhcControlTransfer (
         // Store a copy of device scriptor as hub device need this info to configure endpoint.
         //
         CopyMem (&Xhc->UsbDevContext[SlotId].DevDesc, Data, *DataLength);
-        if (Xhc->UsbDevContext[SlotId].DevDesc.BcdUSB == 0x0300) {
+        if (Xhc->UsbDevContext[SlotId].DevDesc.BcdUSB >= 0x0300) {
           //
           // If it's a usb3.0 device, then its max packet size is a 2^n.
           //
