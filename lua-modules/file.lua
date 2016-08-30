@@ -50,6 +50,14 @@ m:item("listfs",   "List files", function()
     end
 end)
 
+m:item("pattern", "Run automated pattern test", function()
+    local name = menu.prompt_filename("Enter filename")
+    local block_size = menu.prompt_number("Read/write block size", 512, 1, 65536)
+    local start_block = menu.prompt_number("Starting block", 0)
+    local max_blocks = menu.prompt_number("Blocks to read/write", 128, 1, 65536)
+    return fileio.pattern_test(name, block_size, max_blocks, start_block)
+end)
+
 m:item("quit",  "Main menu")
 
 while (m:show() ~= "quit") do
