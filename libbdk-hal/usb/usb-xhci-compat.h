@@ -82,11 +82,7 @@ typedef uint64_t EFI_PHYSICAL_ADDRESS;
 const char* debuglvl2s(uint32_t lvl);
 
 #define _DEBUG_INNER(lvl, fmt, ...) \
-    if (lvl & (EFI_D_WARN | EFI_D_ERROR)) {  \
-        printf("USB_XHCI: %s %s:%d " fmt, debuglvl2s(lvl), __FUNCTION__, __LINE__, ##__VA_ARGS__); \
-    } else {                                                            \
-        BDK_TRACE(USB_XHCI,"%s %s:%d " fmt, debuglvl2s(lvl), __FUNCTION__, __LINE__,  ##__VA_ARGS__); \
-    }
+    BDK_TRACE(USB_XHCI,"%s %s:%d " fmt, debuglvl2s(lvl), __FUNCTION__, __LINE__,  ##__VA_ARGS__);
 
 #define DEBUG(x) do {\
         _DEBUG_INNER x ;                        \
