@@ -9,17 +9,6 @@ local bit64 = require("bit64")
 
 local option = ""
 local sata = 0
-local PATTERNS = {0x00, 0xff, 0x55, 0xaa}
-
---
--- Create a "length" sector string for the given pattern. The string
--- length will be 512 * length.
---
-local function get_pattern(pattern, length)
-    local pat = string.char(pattern)
-    pat = pat:rep(length * 512)
-    return pat
-end
 
 --
 -- A number of palces below need to ask the user for an area to work on and
@@ -45,7 +34,7 @@ end
 --
 local function write_pattern(pattern)
     local handle, offset, length = get_file_data("w")
-    handle:write(get_pattern(pattern, length))
+    handle:write(fileio.get_pattern(pattern, length))
     handle:close()
 end
 
@@ -54,7 +43,7 @@ end
 --
 local function read_pattern(pattern)
     local handle, offset, length = get_file_data("r")
-    local correct = get_pattern(pattern, length)
+    local correct = fileio.get_pattern(pattern, length)
     local data = handle:read(length * 512)
     handle:close()
     assert(#data == length * 512, "SATA read failed")
@@ -86,8 +75,8 @@ local function run_auto()
         -- Run the test
         for length=1,128 do
             printf("Testing %d sector accesses\n", length)
-            for i,p in ipairs(PATTERNS) do
-                local correct = get_pattern(p, length)
+            for i,p in ipairs(fileio.PATTERNS) do
+                local correct = fileio.get_pattern(p, length)
                 assert(handle:seek("set", sector * 512), "Write seek failed")
                 handle:write(correct)
                 assert(handle:seek("set", sector * 512), "Read seek failed")
@@ -119,7 +108,7 @@ local function margin_rx()
         cavium.csr[menu.node].SATAX_UAHC_P0_SERR(sata).read()
         local errors = 0
         local length = 128
-        local correct = get_pattern(0x55, length)
+        local correct = fileio.get_pattern(0x55, length)
         assert(handle:seek("set", 0), "Write seek failed")
         handle:write(correct)
         for rep = 1,64 do
@@ -235,7 +224,7 @@ while (option ~= "quit") do
         fileio.hexdump(filename, offset * 512, length * 512)
     end)
 
-    for i,p in ipairs(PATTERNS) do
+    for i,p in ipairs(fileio.PATTERNS) do
         m:item("w" .. tostring(p), "Write pattern 0x%02x" % p, write_pattern, p)
         m:item("r" .. tostring(p), "Read  pattern 0x%02x" % p, read_pattern, p)
     end

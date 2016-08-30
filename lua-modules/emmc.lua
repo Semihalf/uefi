@@ -7,17 +7,6 @@ require("menu")
 local readline = require("readline")
 
 local option = ""
-local PATTERNS = {0x00, 0xff, 0x55, 0xaa}
-
---
--- Create a "length" sector string for the given pattern. The string
--- length will be 512 * length.
---
-local function get_pattern(pattern, length)
-    local pat = string.char(pattern)
-    pat = pat:rep(length * 512)
-    return pat
-end
 
 local function do_test(chip_sel)
     local chip_sel = menu.prompt_number("Chip select", 0, 0, 3)
@@ -26,8 +15,8 @@ local function do_test(chip_sel)
     local sector = 0
     for length=1,128 do
         printf("Testing %d sector accesses\n", length)
-        for i,p in ipairs(PATTERNS) do
-            local correct = get_pattern(p, length)
+        for i,p in ipairs(fileio.PATTERNS) do
+            local correct = fileio.get_pattern(p, length)
             assert(handle:seek("set", sector * 512), "Write seek failed")
             handle:write(correct)
             assert(handle:seek("set", sector * 512), "Read seek failed")

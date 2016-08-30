@@ -11,6 +11,7 @@ require("utils")
 fileio = {}
 --- Maximum size of block to transfer in one read/write
 fileio.block_size = 4096
+fileio.PATTERNS = {0x00, 0xff, 0x55, 0xaa}
 
 --- Open a file, throwing an exception on failure
 -- @param filename File to open.
@@ -157,6 +158,19 @@ function fileio.hexdump(source, seek_to, length)
     if close_source then
         source:close()
     end
+end
+
+--
+-- Create a "length" sector string for the given pattern. The string
+-- length will be block_size * length.
+--
+function fileio.get_pattern(pattern, length, block_size)
+    local pat = string.char(pattern)
+    if block_size == nil then
+        block_size = 512
+    end
+    pat = pat:rep(length * block_size)
+    return pat
 end
 
 return fileio
