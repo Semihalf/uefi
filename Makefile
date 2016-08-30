@@ -314,7 +314,7 @@ endif
 # overridden by the platform.
 ifdef BL2_SOURCES
 ifndef EL3_PAYLOAD_BASE
-NEED_BL33		?=	yes
+NEED_BL33		?=	no
 else
 # The BL33 image is not needed when booting an EL3 payload.
 NEED_BL33		:=	no
