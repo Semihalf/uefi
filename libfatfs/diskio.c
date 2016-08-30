@@ -8,6 +8,8 @@
 /*-----------------------------------------------------------------------*/
 
 #include <bdk.h>
+#include <unistd.h>
+#include <fcntl.h>
 #include "diskio.h"		/* FatFs lower layer API */
 
 /* Physical drive numbers. Passed into diskio API as pdrv. */
@@ -47,35 +49,35 @@ static struct drv_list_d
 	const DWORD   img_offset;  /* offset of the FAT fs image on the device */
 
 	/* work area for diskio */
-	FILE *fp;     /* used internally, initialize as NULL */
+	int fp;       /* used internally, initialize as 0 */
 	int dev_init; /* used internally, initialize as 0 */
 } drv_list[] = {
 	{
 		"/boot",
 		512,
 		0x00000,
-		NULL,
+		0,
 		0
 	},
  	{
 		"/dev/n0.usb0",
 		512,
 		0x00000,
-		NULL,
+		0,
 		0
 	},
    	{
 		"/dev/n0.usb1",
 		512,
 		0x00000,
-		NULL,
+		0,
 		0
 	},
    	{
 		"/dev/n0.usb2",
 		512,
 		0x00000,
-		NULL,
+		0,
 		0
 	},
 
@@ -144,7 +146,7 @@ DSTATUS disk_initialize (
 	{
 		bdk_warn("FatFs: Drive %d device already opened in disk_initialize(). "
 					"Closing it first...\n", pdrv);
-		fclose(DRV_FP(pdrv));
+		close(DRV_FP(pdrv));
 	}
 
 	switch (pdrv)
@@ -163,7 +165,7 @@ DSTATUS disk_initialize (
 	}
 
 
-	DRV_FP(pdrv) = fopen(DRV_DEVSTR(pdrv), "r+b");
+	DRV_FP(pdrv) = open(DRV_DEVSTR(pdrv), O_RDWR);
 	if (!DRV_FP(pdrv))
 	{
 		bdk_error("FatFs: Could not open device %s for drive %d\n",
@@ -196,10 +198,10 @@ DRESULT disk_read (
 		return RES_PARERR;
 
 	num_bytes = count * DRV_SECTOR_SIZE(pdrv);
-	fseek(DRV_FP(pdrv), sector * DRV_SECTOR_SIZE(pdrv) + DRV_IMG_OFFSET(pdrv), SEEK_SET);
+	lseek(DRV_FP(pdrv), sector * DRV_SECTOR_SIZE(pdrv) + DRV_IMG_OFFSET(pdrv), SEEK_SET);
 
-	total = fread(buff, num_bytes, 1, DRV_FP(pdrv));
-	if (total != 1)
+	total = read(DRV_FP(pdrv), buff, num_bytes);
+	if (total != num_bytes)
 	{
 		bdk_error("FatFs: disk_read() failed: drv:%d - buf:%p - sec:%d - cnt:%d\n",
 						pdrv, buff, sector, count);
@@ -223,17 +225,17 @@ DRESULT disk_write (
 	UINT count			/* Number of sectors to write */
 )
 {
-	int total;
+	UINT total;
 
 	BDK_TRACE(FATFS, "disk_write(): drv:%d - buf:%p - sec:%d - cnt:%d\n", pdrv, buff, sector, count);
 
 	if (pdrv >= DRV_NUM_DEVICES)
 		return RES_PARERR;
 
-	fseek(DRV_FP(pdrv), sector * DRV_SECTOR_SIZE(pdrv) + DRV_IMG_OFFSET(pdrv), SEEK_SET);
+	lseek(DRV_FP(pdrv), sector * DRV_SECTOR_SIZE(pdrv) + DRV_IMG_OFFSET(pdrv), SEEK_SET);
 
-	total = fwrite(buff, DRV_SECTOR_SIZE(pdrv) * count, 1, DRV_FP(pdrv));
-	if (1 != count)
+	total = write(DRV_FP(pdrv), buff, DRV_SECTOR_SIZE(pdrv) * count);
+	if (total != DRV_SECTOR_SIZE(pdrv) * count)
 	{
 		bdk_error("FatFs: disk_write(): failed drv:%d - buf:%p - sec:%d - cnt:%d - total:%d\n",
 						pdrv, buff, sector, count, total);
@@ -271,7 +273,7 @@ void disk_usbnotify(const unsigned drvNdx, const unsigned available)
     BDK_TRACE(FATFS, "%s:%d USB%d %s\n", __FUNCTION__, __LINE__, drvNdx, (available) ? "On": "Off");
     if (pdrv > DRV_USB2) return;
     if (DRV_FP(pdrv)) {
-	fclose(DRV_FP(pdrv));
+	close(DRV_FP(pdrv));
 	DRV_FP(pdrv) = 0;
     }
     DRV_INIT(pdrv) = 0;
