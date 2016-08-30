@@ -14,7 +14,7 @@ else
 endif
 
 CFLAGS := -D__FILENAME_MAX__=64
-CFLAGS += -D__BUFSIZ__=512
+CFLAGS += -D__BUFSIZ__=4096
 CFLAGS += -g
 CFLAGS += -Os
 CFLAGS += -fno-asynchronous-unwind-tables
