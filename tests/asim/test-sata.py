@@ -172,7 +172,7 @@ for sata in sata_port:
     wait_for("(INS)Repeat count (-1 for infinite) [1]:")
     send("1")
     for sectors in range(1,129):
-        wait_for("Testing %d sector accesses" % sectors)
+        wait_for("Testing %d block accesses" % sectors)
     wait_for("=================================")
     wait_for("SATA Menu")
     wait_for("=================================")
