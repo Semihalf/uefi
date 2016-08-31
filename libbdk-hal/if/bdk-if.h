@@ -137,6 +137,13 @@ typedef union
     } s;
 } bdk_packet_ptr_t;
 
+typedef enum
+{
+    BDK_IF_TYPE_UNKNOWN,    /* Not set */
+    BDK_IF_TYPE_UDP4,       /* IPv4 + UDP */
+    BDK_IF_TYPE_TCP4,       /* IPv4 + TCP */
+} bdk_if_type_t;
+
 /**
  * The packet format for the BDK. This structure is designed to be exactly
  * one cache line to promote alignment and avoid false aliasing. Note that the
@@ -151,7 +158,8 @@ typedef struct
     int             length;     /* Length of the packet in bytes */
     int             segments;   /* Number of segments the packet is spread over */
     int             rx_error;   /* Error number when packet was receive or zero for no error */
-    int             reserved1;  /* Reserved for future use */
+    bdk_if_type_t   packet_type : 16; /* Type of the packet, so sender doesn't need to walk packet */
+    uint16_t        mtu;        /* MTU for hardware fragment, such as TSO */
     uint64_t        reserved2;  /* Reserved for future use */
     bdk_packet_ptr_t packet[BDK_IF_MAX_GATHER]; /* List of segements. Each has a physical address and length */
 } bdk_if_packet_t;
