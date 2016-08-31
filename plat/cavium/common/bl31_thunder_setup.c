@@ -40,6 +40,7 @@
 #include <stddef.h>
 #include <xlat_tables.h>
 #include <thunder_private.h>
+#include <thunder_dt.h>
 #include <debug.h>
 
 /*******************************************************************************
@@ -156,6 +157,7 @@ static void thunder_el3_irq_init(void)
  ******************************************************************************/
 void bl31_platform_setup()
 {
+	thunder_fill_board_details(1);
 	thunder_el3_irq_init();
 	thunder_gic_driver_init();
 	thunder_gic_init();

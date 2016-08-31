@@ -60,6 +60,7 @@ void bl1_plat_arch_setup(void)
 
 void bl1_platform_setup(void)
 {
+	thunder_fill_board_details(1);
 }
 
 void bl1_early_platform_setup(void)

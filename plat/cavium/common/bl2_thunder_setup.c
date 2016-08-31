@@ -37,6 +37,7 @@
 #include <string.h>
 #include <xlat_tables.h>
 #include <thunder_private.h>
+#include <thunder_dt.h>
 #include <stdio.h>
 
 #define BL2_NOLOAD_BASE (unsigned long)(&__NOLOAD_START__)
@@ -196,6 +197,7 @@ void bl2_early_platform_setup(meminfo_t *mem_layout,
  ******************************************************************************/
 void bl2_platform_setup(void)
 {
+	thunder_fill_board_details(1);
 	thunder_gti_init();
 
 	/*
