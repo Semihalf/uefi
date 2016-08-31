@@ -50,7 +50,6 @@ typedef struct
     uint32_t                ip_tos;         /* IPv4 TOS */
     uint16_t                src_port;       /* UDP port numbers */
     uint16_t                dest_port;
-    bool                    do_checksum;    /* Calculate USB payload checksum. FIXME: Not implemented */
     bool                    display_packet; /* Display RX and TX packets */
     bool                    validate;       /* Add and check a CRC32 at the end of each packet */
 } trafficgen_port_setup_t;
@@ -811,7 +810,6 @@ static int do_reset(tg_port_t *tg_port)
     tg_port->pinfo.setup.src_port                   = 4096;
     tg_port->pinfo.setup.dest_port                  = 4097;
     tg_port->pinfo.setup.ip_tos                     = 0;
-    tg_port->pinfo.setup.do_checksum                = 0;
     tg_port->pinfo.setup.display_packet             = false;
     tg_port->pinfo.setup.validate                   = true;
     return do_clear(tg_port);
@@ -919,7 +917,6 @@ static int get_config(lua_State* L)
     pushfield(ip_tos,               number);
     pushfield(src_port,             number);
     pushfield(dest_port,            number);
-    pushfield(do_checksum,          boolean);
     pushfield(display_packet,       boolean);
     pushfield(validate,             boolean);
 
@@ -998,7 +995,6 @@ static int set_config(lua_State* L)
     getfield(ip_tos,               number);
     getfield(src_port,             number);
     getfield(dest_port,            number);
-    getfield(do_checksum,          boolean);
     getfield(display_packet,       boolean);
     getfield(validate,             boolean);
     BDK_WMB;
