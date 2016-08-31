@@ -907,6 +907,30 @@ int bdk_nic_transmit(bdk_if_handle_t handle, const bdk_if_packet_t *packet)
     send_hdr.s.subdc = BDK_NIC_SEND_SUBDC_E_HDR;
     send_hdr.s.subdcnt = packet->segments;
     send_hdr.s.total = packet->length;
+    switch (packet->packet_type)
+    {
+        case BDK_IF_TYPE_UNKNOWN:
+            break;
+        case BDK_IF_TYPE_UDP4:
+            send_hdr.s.ckl3 = 1;        /* L3 - IPv4 checksum enable */
+            send_hdr.s.l3ptr = 14;      /* L2 header is 14 bytes */
+            send_hdr.s.ckl4 = BDK_NIC_SEND_CKL4_E_UDP; /* L4 - UDP checksum enable */
+            send_hdr.s.l4ptr = 14 + 20; /* 14 bytes L2 + 20 bytes IPv4 */
+            break;
+        case BDK_IF_TYPE_TCP4:
+            send_hdr.s.ckl3 = 1;        /* L3 - IPv4 checksum enable */
+            send_hdr.s.l3ptr = 14;      /* L2 header is 14 bytes */
+            send_hdr.s.ckl4 = BDK_NIC_SEND_CKL4_E_TCP; /* L4 - TCP checksum enable */
+            send_hdr.s.l4ptr = 14 + 20; /* 14 bytes L2 + 20 bytes IPv4 */
+            if (packet->mtu)
+            {
+                int headers = 14 + 20 + 20;
+                send_hdr.s.tso = 1;     /* Use TCP offload */
+                send_hdr.s.tso_sb = headers; /* 14 bytes L2 + 20 bytes IPv4, 20 bytes TCP */
+                send_hdr.s.tso_mps = packet->mtu - headers; /* Max TCP data payload size */
+            }
+            break;
+    }
     *(union bdk_nic_send_hdr_s *)(sq_ptr + loc * 16) = send_hdr;
     BDK_TRACE(NIC, "%s: Transmit HDR[%p] = 0x%lx 0x%lx\n",
         nic->handle->name, sq_ptr + loc * 16, send_hdr.u[0], send_hdr.u[1]);
