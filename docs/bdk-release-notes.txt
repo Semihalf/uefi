@@ -133,6 +133,26 @@ caused the defaults for CCPI lane tuning to be lost.
 ** Add required 300Mhz offset for decode of MIO_FUS_DAT3[core_pll_mul]
 ** Add setup menu for choosing tracing levels
 
+== thunder-release-v1.23.11 ==
+* CCPI
+** Display the BDK version of node 1 during boot.  The BDK version of both
+nodes must match, so a fatal error will be raised if the version on both
+nodes doesn't match.  The error message "FATAL: Mismatched BDK versions
+between nodes" will be displayed when the nodes don't match.
+** Force boot to stop when CCPI fails on systems requiring multi-node
+* SATA
+** Consolidate QLM+SATA init code into a single common file
+** Take SATA PCS out of reset before the GSER PHY
+** Improve debug output messages on command failure
+** Fix QLM reporting incorrect SATA speed after controller reset
+** Increase the SATA init delay to 250ms to workaround Samsung SSD failure
+* USB
+** Correct USB version check to work with 3.x devices, not just 3.0
+** Change all xhci warnings and errors to trace messages
+* DRAM
+** Support high-density RDIMM, 2DPC Mode
+** Add detection of 3DS and NV DIMM types
+
 == thunder-release-v1.23.10 ==
 * eMMC
 ** Fix bug where the address didn't increment during writes
