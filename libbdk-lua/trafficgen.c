@@ -10,6 +10,12 @@ static const int ETHERNET_CRC = 4;       /* Gigabit ethernet CRC in bytes */
 static const int MAC_ADDR_LEN = 6;
 static const int CYCLE_SHIFT = 12;
 
+enum tx_pattern
+{
+    TX_PATTERN_RAND = 0,    /* Random bytes */
+    TX_PATTERN_INC = 1,     /* Incrementing bytes, specifically the low 8 bits of the offset */
+};
+
 /**
  * Statistics for the port. Exposed to Lua
  */
@@ -42,6 +48,7 @@ typedef struct
     bool                    output_rate_is_mbps; /* True if output_rate is Mbps */
     bool                    output_enable;  /* True if TX is enabled */
     bool                    tcp;            /* True if packets should be TCP, false for UDP */
+    enum tx_pattern         pattern;        /* What type of pattern to put in packets. See "enum tx_pattern" */
     int                     size;           /* TX packet size without FCS */
     uint64_t                output_count;   /* TX output count, or zero for infinite */
     uint64_t                src_mac;        /* MACs are stored so a printf in hex will show them */
@@ -453,9 +460,21 @@ static int build_packet(tg_port_t *tg_port, bdk_if_packet_t *packet)
         loc = write_packet(packet, loc, 0x00);
     }
 
-    /* Fill the rest of the packet with random bytes */
+    /* Fill the rest of the packet with pattern bytes */
     while (loc < total_length)
-        loc = write_packet(packet, loc, rand());
+    {
+        int data = 0;
+        switch (tg_port->pinfo.setup.pattern)
+        {
+            case TX_PATTERN_RAND:
+                data = rand();
+                break;
+            case TX_PATTERN_INC:
+                data = loc & 0xff;
+                break;
+        }
+        loc = write_packet(packet, loc, data);
+    }
 
     if (tg_port->pinfo.setup.validate)
         is_packet_crc32c_wrong(tg_port, packet, 1);
@@ -943,6 +962,7 @@ static int get_config(lua_State* L)
     pushfield(output_rate_is_mbps,  boolean);
     pushfield(output_enable,        boolean);
     pushfield(tcp,                  boolean);
+    pushfield(pattern,              number);
     pushfield(size,                 number);
     pushfield(output_count,         number);
     pushfield(src_mac,              number);
@@ -1022,6 +1042,7 @@ static int set_config(lua_State* L)
     getfield(output_rate_is_mbps,  boolean);
     getfield(output_enable,        boolean);
     getfield(tcp,                  boolean);
+    getfield(pattern,              number);
     getfield(size,                 number);
     getfield(output_count,         number);
     getfield(src_mac,              number);
