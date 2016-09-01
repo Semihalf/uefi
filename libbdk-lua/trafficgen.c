@@ -649,11 +649,28 @@ static int is_packet_crc32c_wrong(tg_port_t *tg_port, bdk_if_packet_t *packet, i
     void *ptr = bdk_phys_to_ptr(buffer_next->s.address);
     int remaining_bytes = packet->length;
 
+    /* CRC the L2 and L3 header */
     /* Skip the L2 header in the CRC calculation */
-    int skip = get_size_l2(tg_port);
-    ptr += skip;
-    remaining_bytes -= skip;
-    buffer_bytes -= skip;
+    int l2l3_size = 14 + 20;
+    if (remaining_bytes >= l2l3_size + 20)
+    {
+        /* Get the IPv4 packet type */
+        uint8_t ipv4_type = *((uint8_t *)ptr + 14 + 9);
+        crc = bdk_crc32(ptr,  l2l3_size,  crc);
+        buffer_bytes -= l2l3_size;
+        remaining_bytes -= l2l3_size;
+        ptr += l2l3_size;
+        if ((ipv4_type == 0x6) || ipv4_type == 0x11) /* TCP or UDP */
+        {
+            /* CRC header skipping checksum  */
+            int size = (ipv4_type == 0x6) ? 16 : 6;
+            int skip = 2; /* Size of checksum */
+            crc = bdk_crc32(ptr,  size,  crc);
+            buffer_bytes -= size + skip;
+            remaining_bytes -= size + skip;
+            ptr += size + skip;
+        }
+    }
 
     /* Reduce the length by 4, the length of the CRC at the end */
     remaining_bytes -= 4;
