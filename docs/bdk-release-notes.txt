@@ -150,8 +150,13 @@ between nodes" will be displayed when the nodes don't match.
 ** Correct USB version check to work with 3.x devices, not just 3.0
 ** Change all xhci warnings and errors to trace messages
 * DRAM
-** Support high-density RDIMM, 2DPC Mode
-** Add detection of 3DS and NV DIMM types
+** Improve DDR4 read-leveling accuracy
+** Improve performance of 1-rank DIMMs
+** Improve performance of 2-slot configurations
+** Add support for mini-DIMMs and SO-DIMMs
+** Allow read bit-deskew to be disabled
+** Detection of 3DS and NV DIMMs
+** Improve default DIMM information output.
 
 == thunder-release-v1.23.10 ==
 * eMMC
