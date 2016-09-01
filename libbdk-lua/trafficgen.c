@@ -350,6 +350,24 @@ static int build_packet(tg_port_t *tg_port, bdk_if_packet_t *packet)
 
     int total_length = tg_port->pinfo.setup.size;
 
+    /* Packet allocate needs to know the type of packet, otherwise will limit
+       the size of TSO */
+    if (tg_port->pinfo.setup.tcp)
+    {
+        packet->packet_type = BDK_IF_TYPE_TCP4;
+        /* Require the TSO MTU to contain at least 6 bytes of TCP data,
+           making a min size packet */
+        if (tg_port->pinfo.setup.mtu >= 60)
+            packet->mtu = tg_port->pinfo.setup.mtu; /* Needs to be TCP MTU for TSO */
+        else
+            packet->mtu = 0;
+    }
+    else
+    {
+        packet->packet_type = BDK_IF_TYPE_UDP4;
+        packet->mtu = 0;
+    }
+
     /* Allcoate a packet for transmit */
     if (bdk_if_alloc(packet, total_length))
     {
@@ -422,13 +440,6 @@ static int build_packet(tg_port_t *tg_port, bdk_if_packet_t *packet)
 
     if (tg_port->pinfo.setup.tcp)
     {
-        packet->packet_type = BDK_IF_TYPE_TCP4;
-        /* Require the TSO MTU to contain at least 6 bytes of TCP data,
-           making a min size packet */
-        if (tg_port->pinfo.setup.mtu >= 60)
-            packet->mtu = tg_port->pinfo.setup.mtu; /* Needs to be TCP MTU for TSO */
-        else
-            packet->mtu = 0;
         /* TCP sequence number, hardcoded as 0x12345678 */
         loc = write_packet(packet, loc, 0x12);
         loc = write_packet(packet, loc, 0x34);
@@ -455,8 +466,6 @@ static int build_packet(tg_port_t *tg_port, bdk_if_packet_t *packet)
     }
     else
     {
-        packet->packet_type = BDK_IF_TYPE_UDP4;
-        packet->mtu = 0;
         /* UDP length */
         int udp_length = get_size_payload(tg_port);
         loc = write_packet(packet, loc, udp_length>>8);

@@ -484,15 +484,39 @@ static void __bdk_if_link_poll(int unused1, void *unused2)
  */
 int bdk_if_alloc(bdk_if_packet_t *packet, int length)
 {
+    /* Get the buffer chunk size, needed for size calculations */
     static int buf_size = 0;
-    if (length > 9212)
-    {
-        bdk_error("Packets larger than 9212 (9216 with FCS) are not allowed\n");
-        return -1;
-    }
     if (buf_size == 0)
         buf_size = bdk_config_get_int(BDK_CONFIG_PACKET_BUFFER_SIZE);
-    bool ctlPad = (length > BDK_PKO_SEG_LIMIT*buf_size) ;
+
+    /* Find the max TX sized, based on a single packet or multiple in the case
+       of TSO */
+    int max_length = 9212; /* Limit of NIC TX hardware */
+    if ((packet->packet_type == BDK_IF_TYPE_TCP4) && packet->mtu)
+    {
+        if (packet->mtu > max_length)
+        {
+            bdk_error("TSO Segments larger than %d (%d with FCS) are not allowed\n",
+                max_length, max_length + 4);
+            return -1;
+        }
+        max_length = 65536 - 16; /* Limit of PKO, NIC could go bigger */
+    }
+
+    /* The max size must fit inside the packet structure, which can have
+       BDK_IF_MAX_GATHER buffer chunks */
+    if (buf_size * BDK_IF_MAX_GATHER < max_length)
+        max_length = buf_size * BDK_IF_MAX_GATHER; /* Limit of packet structure */
+
+    /* Fail allocation if packet is too large for transmit */
+    if (length > max_length)
+    {
+        bdk_error("Packets larger than %d (%d with FCS) are not allowed\n",
+            max_length, max_length + 4);
+        return -1;
+    }
+
+    bool ctlPad = (length > BDK_PKO_SEG_LIMIT * buf_size);
 
     packet->if_handle = NULL;
     packet->rx_error = 0;
