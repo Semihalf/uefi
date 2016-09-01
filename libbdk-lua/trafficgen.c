@@ -60,6 +60,7 @@ typedef struct
     uint16_t                dest_port;
     bool                    display_packet; /* Display RX and TX packets */
     bool                    validate;       /* Add and check a CRC32 at the end of each packet */
+    int                     mtu;            /* Max packet mtu after TSO. Zero disables TSO. This plus FCS is the L2 ethernet frame size */
 } trafficgen_port_setup_t;
 
 /**
@@ -422,7 +423,12 @@ static int build_packet(tg_port_t *tg_port, bdk_if_packet_t *packet)
     if (tg_port->pinfo.setup.tcp)
     {
         packet->packet_type = BDK_IF_TYPE_TCP4;
-        packet->mtu = 0; /* Needs to be TCP MTU for TSO */
+        /* Require the TSO MTU to contain at least 6 bytes of TCP data,
+           making a min size packet */
+        if (tg_port->pinfo.setup.mtu >= 60)
+            packet->mtu = tg_port->pinfo.setup.mtu; /* Needs to be TCP MTU for TSO */
+        else
+            packet->mtu = 0;
         /* TCP sequence number, hardcoded as 0x12345678 */
         loc = write_packet(packet, loc, 0x12);
         loc = write_packet(packet, loc, 0x34);
@@ -991,6 +997,7 @@ static int get_config(lua_State* L)
     pushfield(dest_port,            number);
     pushfield(display_packet,       boolean);
     pushfield(validate,             boolean);
+    pushfield(mtu,                  number);
 
     lua_pushinteger(L, tg_port->handle->node);
     lua_setfield (L, -2, "node");
@@ -1071,6 +1078,7 @@ static int set_config(lua_State* L)
     getfield(dest_port,            number);
     getfield(display_packet,       boolean);
     getfield(validate,             boolean);
+    getfield(mtu,                  number);
     BDK_WMB;
     return 0;
 }
