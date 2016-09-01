@@ -41,6 +41,7 @@ typedef struct
     int                     output_rate;    /* The TX output rate in packets/s or Mbps */
     bool                    output_rate_is_mbps; /* True if output_rate is Mbps */
     bool                    output_enable;  /* True if TX is enabled */
+    bool                    tcp;            /* True if packets should be TCP, false for UDP */
     int                     size;           /* TX packet size without FCS */
     uint64_t                output_count;   /* TX output count, or zero for infinite */
     uint64_t                src_mac;        /* MACs are stored so a printf in hex will show them */
@@ -48,7 +49,7 @@ typedef struct
     uint32_t                src_ip;         /* IPv4 addresses */
     uint32_t                dest_ip;
     uint32_t                ip_tos;         /* IPv4 TOS */
-    uint16_t                src_port;       /* UDP port numbers */
+    uint16_t                src_port;       /* TCP/UDP port numbers */
     uint16_t                dest_port;
     bool                    display_packet; /* Display RX and TX packets */
     bool                    validate;       /* Add and check a CRC32 at the end of each packet */
@@ -319,7 +320,7 @@ static int write_packet(bdk_if_packet_t *packet, int loc, uint8_t data)
 }
 
 /**
- * Generate a valid UDP packet
+ * Generate a valid TCP/UDP packet
  *
  * @param port   Output port to build for
  */
@@ -376,8 +377,8 @@ static int build_packet(tg_port_t *tg_port, bdk_if_packet_t *packet)
     loc = write_packet(packet, loc, 0x00);
     /* IP ttl */
     loc = write_packet(packet, loc, 0x04);
-    /* IP protocol */
-    loc = write_packet(packet, loc, 0x11);
+    /* IP protocol, TCP=0x6, UDP=0x11 */
+    loc = write_packet(packet, loc, (tg_port->pinfo.setup.tcp) ? 0x06 : 0x11);
     /* IP check */
     int ip_checksum_loc = loc;    /* remember for later */
     loc = write_packet(packet, loc, 0x00);
@@ -404,20 +405,53 @@ static int build_packet(tg_port_t *tg_port, bdk_if_packet_t *packet)
         write_packet(packet, ip_checksum_loc+1, ip_checksum);
     }
 
-    /* UDP source port */
+    /* TCP/UDP source port */
     loc = write_packet(packet, loc, tg_port->pinfo.setup.src_port >> 8);
     loc = write_packet(packet, loc, tg_port->pinfo.setup.src_port & 0xff);
-    /* UDP destination port */
+    /* TCP/UDP destination port */
     loc = write_packet(packet, loc, tg_port->pinfo.setup.dest_port >> 8);
     loc = write_packet(packet, loc, tg_port->pinfo.setup.dest_port & 0xff);
 
-    /* UDP length */
-    int udp_length = get_size_payload(tg_port);
-    loc = write_packet(packet, loc, udp_length>>8);
-    loc = write_packet(packet, loc, udp_length&0xff);
-    /* UDP checksum */
-    loc = write_packet(packet, loc, 0x00);
-    loc = write_packet(packet, loc, 0x00);
+    if (tg_port->pinfo.setup.tcp)
+    {
+        packet->packet_type = BDK_IF_TYPE_TCP4;
+        packet->mtu = 0; /* Needs to be TCP MTU for TSO */
+        /* TCP sequence number, hardcoded as 0x12345678 */
+        loc = write_packet(packet, loc, 0x12);
+        loc = write_packet(packet, loc, 0x34);
+        loc = write_packet(packet, loc, 0x56);
+        loc = write_packet(packet, loc, 0x78);
+        /* TCP ACK number, hardcoded as 0 */
+        loc = write_packet(packet, loc, 0x00);
+        loc = write_packet(packet, loc, 0x00);
+        loc = write_packet(packet, loc, 0x00);
+        loc = write_packet(packet, loc, 0x00);
+        /* TCP Header length (Five 32bit words) + 4 reserved bits */
+        loc = write_packet(packet, loc, 0x50);
+        /* TCP Flags, RST only */
+        loc = write_packet(packet, loc, 0x04);
+        /* TCP Window size, hardcoded as 0x8000 */
+        loc = write_packet(packet, loc, 0x80);
+        loc = write_packet(packet, loc, 0x00);
+        /* TCP checksum, filled by hardware */
+        loc = write_packet(packet, loc, 0x00);
+        loc = write_packet(packet, loc, 0x00);
+        /* TCP Urgent Pointer, zero for no urgent data */
+        loc = write_packet(packet, loc, 0x00);
+        loc = write_packet(packet, loc, 0x00);
+    }
+    else
+    {
+        packet->packet_type = BDK_IF_TYPE_UDP4;
+        packet->mtu = 0;
+        /* UDP length */
+        int udp_length = get_size_payload(tg_port);
+        loc = write_packet(packet, loc, udp_length>>8);
+        loc = write_packet(packet, loc, udp_length&0xff);
+        /* UDP checksum, filled by hardware */
+        loc = write_packet(packet, loc, 0x00);
+        loc = write_packet(packet, loc, 0x00);
+    }
 
     /* Fill the rest of the packet with random bytes */
     while (loc < total_length)
@@ -908,6 +942,7 @@ static int get_config(lua_State* L)
     pushfield(output_rate,          number);
     pushfield(output_rate_is_mbps,  boolean);
     pushfield(output_enable,        boolean);
+    pushfield(tcp,                  boolean);
     pushfield(size,                 number);
     pushfield(output_count,         number);
     pushfield(src_mac,              number);
@@ -986,6 +1021,7 @@ static int set_config(lua_State* L)
     getfield(output_rate,          number);
     getfield(output_rate_is_mbps,  boolean);
     getfield(output_enable,        boolean);
+    getfield(tcp,                  boolean);
     getfield(size,                 number);
     getfield(output_count,         number);
     getfield(src_mac,              number);
