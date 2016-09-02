@@ -958,6 +958,14 @@ int bdk_qlm_mcu_auto_config(bdk_node_t node)
                                (width == 2) ? BDK_QLM_MODE_SGMII_2X1 :
                                BDK_QLM_MODE_SGMII_1X1;
                     use_ref = REF_156MHZ;
+                    /* CN80XX parts on EBBs use phy port 2 for SGMII, while QSGMII
+                       uses the correct port. Fix this for DLM1 and DLM3 */
+                    if (cavium_is_altpkg(CAVIUM_CN81XX))
+                    {
+                        int bgx = (qlm == 3) ? 1 : 0;
+                        uint64_t phy = bdk_config_get_int(BDK_CONFIG_PHY_ADDRESS, 0, bgx, 2);
+                        bdk_config_set_int(phy, BDK_CONFIG_PHY_ADDRESS, 0, bgx, 1);
+                    }
                     break;
                 case 0x1100: /* QSGMII */
                     qlm_mode = BDK_QLM_MODE_QSGMII_4X1;
