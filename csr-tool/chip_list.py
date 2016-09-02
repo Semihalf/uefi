@@ -42,6 +42,7 @@ VALID_BUSSES = [
     "BPHY_RSL",         # RSL registers for Fusion
     "DAB",              # ARM debug port
     "DAB32b",           # ARM debug port 32bit
+    "MDSB",             # t98: ?
     "NCB",              # Non coherent bus - Fast CSR
     "NCB32b",           # Non coherent bus 32bit - Fast CSR
     "PCCBR",            # PCIe bridge register
