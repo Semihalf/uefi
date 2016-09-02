@@ -418,35 +418,55 @@ union bdk_l2c_cbcx_int_w1c
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_9_63         : 55;
-        uint64_t gsyncto               : 1;  /**< [  8:  8](R/W1C/H) Global sync timeout.
+        uint64_t gsyncto               : 1;  /**< [  8:  8](R/W1C/H) Global sync timeout. Should never assert, for diagnostic use only.
                                                                  Internal:
                                                                  The CBC global sync timeout only, so not an OCI timeout. */
         uint64_t iowrdisoci            : 1;  /**< [  7:  7](R/W1C/H) Illegal I/O write operation to a remote node with L2C_OCI_CTL[ENAOCI][node]
                                                                  clear. See L2C_CBC()_IODISOCIERR for logged information. This interrupt applies
                                                                  to IOBST, IOBSTP, IOBADDR, IASET, IACLR, IAADD, IASWP, IACAS, and LMTST XMC
-                                                                 commands. */
+                                                                 commands.
+                                                                 During normal hardware operation, an indication of a software failure and may be
+                                                                 considered fatal. */
         uint64_t iorddisoci            : 1;  /**< [  6:  6](R/W1C/H) Illegal I/O read operation to a remote node with L2C_OCI_CTL[ENAOCI][node]
                                                                  clear. See L2C_CBC()_IODISOCIERR for logged information. This interrupt applies
-                                                                 to IOBLD, IASET, IACLR, IAADD, IASWP, and IACAS XMC commands. */
-        uint64_t mibdbe                : 1;  /**< [  5:  5](R/W1C/H) MIB double-bit error occurred. See L2C_CBC()_MIBERR for logged information. */
-        uint64_t mibsbe                : 1;  /**< [  4:  4](R/W1C/H) MIB double-bit error occurred. See L2C_CBC()_MIBERR for logged information. */
+                                                                 to IOBLD, IASET, IACLR, IAADD, IASWP, and IACAS XMC commands.
+                                                                 During normal hardware operation, an indication of a software failure and may be
+                                                                 considered fatal. */
+        uint64_t mibdbe                : 1;  /**< [  5:  5](R/W1C/H) MIB double-bit error occurred. See L2C_CBC()_MIBERR for logged information.
+                                                                 An indication of a hardware failure and may be considered fatal. */
+        uint64_t mibsbe                : 1;  /**< [  4:  4](R/W1C/H) MIB single-bit error occurred. See L2C_CBC()_MIBERR for logged
+                                                                 information. Hardware corrected the failure. Software may choose to count these
+                                                                 single-bit errors. */
         uint64_t reserved_2_3          : 2;
-        uint64_t rsddbe                : 1;  /**< [  1:  1](R/W1C/H) RSD double-bit error occurred. See L2C_CBC()_RSDERR for logged information. */
-        uint64_t rsdsbe                : 1;  /**< [  0:  0](R/W1C/H) RSD single-bit error occurred. See L2C_CBC()_RSDERR for logged information. */
+        uint64_t rsddbe                : 1;  /**< [  1:  1](R/W1C/H) RSD double-bit error occurred. See L2C_CBC()_RSDERR for logged information.
+                                                                 An indication of a hardware failure and may be considered fatal. */
+        uint64_t rsdsbe                : 1;  /**< [  0:  0](R/W1C/H) RSD single-bit error occurred. See L2C_CBC()_RSDERR for logged
+                                                                 information. Hardware automatically corrected the error. Software may choose to
+                                                                 count the number of these single-bit errors. */
 #else /* Word 0 - Little Endian */
-        uint64_t rsdsbe                : 1;  /**< [  0:  0](R/W1C/H) RSD single-bit error occurred. See L2C_CBC()_RSDERR for logged information. */
-        uint64_t rsddbe                : 1;  /**< [  1:  1](R/W1C/H) RSD double-bit error occurred. See L2C_CBC()_RSDERR for logged information. */
+        uint64_t rsdsbe                : 1;  /**< [  0:  0](R/W1C/H) RSD single-bit error occurred. See L2C_CBC()_RSDERR for logged
+                                                                 information. Hardware automatically corrected the error. Software may choose to
+                                                                 count the number of these single-bit errors. */
+        uint64_t rsddbe                : 1;  /**< [  1:  1](R/W1C/H) RSD double-bit error occurred. See L2C_CBC()_RSDERR for logged information.
+                                                                 An indication of a hardware failure and may be considered fatal. */
         uint64_t reserved_2_3          : 2;
-        uint64_t mibsbe                : 1;  /**< [  4:  4](R/W1C/H) MIB double-bit error occurred. See L2C_CBC()_MIBERR for logged information. */
-        uint64_t mibdbe                : 1;  /**< [  5:  5](R/W1C/H) MIB double-bit error occurred. See L2C_CBC()_MIBERR for logged information. */
+        uint64_t mibsbe                : 1;  /**< [  4:  4](R/W1C/H) MIB single-bit error occurred. See L2C_CBC()_MIBERR for logged
+                                                                 information. Hardware corrected the failure. Software may choose to count these
+                                                                 single-bit errors. */
+        uint64_t mibdbe                : 1;  /**< [  5:  5](R/W1C/H) MIB double-bit error occurred. See L2C_CBC()_MIBERR for logged information.
+                                                                 An indication of a hardware failure and may be considered fatal. */
         uint64_t iorddisoci            : 1;  /**< [  6:  6](R/W1C/H) Illegal I/O read operation to a remote node with L2C_OCI_CTL[ENAOCI][node]
                                                                  clear. See L2C_CBC()_IODISOCIERR for logged information. This interrupt applies
-                                                                 to IOBLD, IASET, IACLR, IAADD, IASWP, and IACAS XMC commands. */
+                                                                 to IOBLD, IASET, IACLR, IAADD, IASWP, and IACAS XMC commands.
+                                                                 During normal hardware operation, an indication of a software failure and may be
+                                                                 considered fatal. */
         uint64_t iowrdisoci            : 1;  /**< [  7:  7](R/W1C/H) Illegal I/O write operation to a remote node with L2C_OCI_CTL[ENAOCI][node]
                                                                  clear. See L2C_CBC()_IODISOCIERR for logged information. This interrupt applies
                                                                  to IOBST, IOBSTP, IOBADDR, IASET, IACLR, IAADD, IASWP, IACAS, and LMTST XMC
-                                                                 commands. */
-        uint64_t gsyncto               : 1;  /**< [  8:  8](R/W1C/H) Global sync timeout.
+                                                                 commands.
+                                                                 During normal hardware operation, an indication of a software failure and may be
+                                                                 considered fatal. */
+        uint64_t gsyncto               : 1;  /**< [  8:  8](R/W1C/H) Global sync timeout. Should never assert, for diagnostic use only.
                                                                  Internal:
                                                                  The CBC global sync timeout only, so not an OCI timeout. */
         uint64_t reserved_9_63         : 55;
@@ -460,28 +480,48 @@ union bdk_l2c_cbcx_int_w1c
         uint64_t iowrdisoci            : 1;  /**< [  7:  7](R/W1C/H) Illegal I/O write operation to a remote node with L2C_OCI_CTL[ENAOCI][node]
                                                                  clear. See L2C_CBC()_IODISOCIERR for logged information. This interrupt applies
                                                                  to IOBST, IOBSTP, IOBADDR, IASET, IACLR, IAADD, IASWP, IACAS, and LMTST XMC
-                                                                 commands. */
+                                                                 commands.
+                                                                 During normal hardware operation, an indication of a software failure and may be
+                                                                 considered fatal. */
         uint64_t iorddisoci            : 1;  /**< [  6:  6](R/W1C/H) Illegal I/O read operation to a remote node with L2C_OCI_CTL[ENAOCI][node]
                                                                  clear. See L2C_CBC()_IODISOCIERR for logged information. This interrupt applies
-                                                                 to IOBLD, IASET, IACLR, IAADD, IASWP, and IACAS XMC commands. */
-        uint64_t mibdbe                : 1;  /**< [  5:  5](R/W1C/H) MIB double-bit error occurred. See L2C_CBC()_MIBERR for logged information. */
-        uint64_t mibsbe                : 1;  /**< [  4:  4](R/W1C/H) MIB double-bit error occurred. See L2C_CBC()_MIBERR for logged information. */
+                                                                 to IOBLD, IASET, IACLR, IAADD, IASWP, and IACAS XMC commands.
+                                                                 During normal hardware operation, an indication of a software failure and may be
+                                                                 considered fatal. */
+        uint64_t mibdbe                : 1;  /**< [  5:  5](R/W1C/H) MIB double-bit error occurred. See L2C_CBC()_MIBERR for logged information.
+                                                                 An indication of a hardware failure and may be considered fatal. */
+        uint64_t mibsbe                : 1;  /**< [  4:  4](R/W1C/H) MIB single-bit error occurred. See L2C_CBC()_MIBERR for logged
+                                                                 information. Hardware corrected the failure. Software may choose to count these
+                                                                 single-bit errors. */
         uint64_t reserved_2_3          : 2;
-        uint64_t rsddbe                : 1;  /**< [  1:  1](R/W1C/H) RSD double-bit error occurred. See L2C_CBC()_RSDERR for logged information. */
-        uint64_t rsdsbe                : 1;  /**< [  0:  0](R/W1C/H) RSD single-bit error occurred. See L2C_CBC()_RSDERR for logged information. */
+        uint64_t rsddbe                : 1;  /**< [  1:  1](R/W1C/H) RSD double-bit error occurred. See L2C_CBC()_RSDERR for logged information.
+                                                                 An indication of a hardware failure and may be considered fatal. */
+        uint64_t rsdsbe                : 1;  /**< [  0:  0](R/W1C/H) RSD single-bit error occurred. See L2C_CBC()_RSDERR for logged
+                                                                 information. Hardware automatically corrected the error. Software may choose to
+                                                                 count the number of these single-bit errors. */
 #else /* Word 0 - Little Endian */
-        uint64_t rsdsbe                : 1;  /**< [  0:  0](R/W1C/H) RSD single-bit error occurred. See L2C_CBC()_RSDERR for logged information. */
-        uint64_t rsddbe                : 1;  /**< [  1:  1](R/W1C/H) RSD double-bit error occurred. See L2C_CBC()_RSDERR for logged information. */
+        uint64_t rsdsbe                : 1;  /**< [  0:  0](R/W1C/H) RSD single-bit error occurred. See L2C_CBC()_RSDERR for logged
+                                                                 information. Hardware automatically corrected the error. Software may choose to
+                                                                 count the number of these single-bit errors. */
+        uint64_t rsddbe                : 1;  /**< [  1:  1](R/W1C/H) RSD double-bit error occurred. See L2C_CBC()_RSDERR for logged information.
+                                                                 An indication of a hardware failure and may be considered fatal. */
         uint64_t reserved_2_3          : 2;
-        uint64_t mibsbe                : 1;  /**< [  4:  4](R/W1C/H) MIB double-bit error occurred. See L2C_CBC()_MIBERR for logged information. */
-        uint64_t mibdbe                : 1;  /**< [  5:  5](R/W1C/H) MIB double-bit error occurred. See L2C_CBC()_MIBERR for logged information. */
+        uint64_t mibsbe                : 1;  /**< [  4:  4](R/W1C/H) MIB single-bit error occurred. See L2C_CBC()_MIBERR for logged
+                                                                 information. Hardware corrected the failure. Software may choose to count these
+                                                                 single-bit errors. */
+        uint64_t mibdbe                : 1;  /**< [  5:  5](R/W1C/H) MIB double-bit error occurred. See L2C_CBC()_MIBERR for logged information.
+                                                                 An indication of a hardware failure and may be considered fatal. */
         uint64_t iorddisoci            : 1;  /**< [  6:  6](R/W1C/H) Illegal I/O read operation to a remote node with L2C_OCI_CTL[ENAOCI][node]
                                                                  clear. See L2C_CBC()_IODISOCIERR for logged information. This interrupt applies
-                                                                 to IOBLD, IASET, IACLR, IAADD, IASWP, and IACAS XMC commands. */
+                                                                 to IOBLD, IASET, IACLR, IAADD, IASWP, and IACAS XMC commands.
+                                                                 During normal hardware operation, an indication of a software failure and may be
+                                                                 considered fatal. */
         uint64_t iowrdisoci            : 1;  /**< [  7:  7](R/W1C/H) Illegal I/O write operation to a remote node with L2C_OCI_CTL[ENAOCI][node]
                                                                  clear. See L2C_CBC()_IODISOCIERR for logged information. This interrupt applies
                                                                  to IOBST, IOBSTP, IOBADDR, IASET, IACLR, IAADD, IASWP, IACAS, and LMTST XMC
-                                                                 commands. */
+                                                                 commands.
+                                                                 During normal hardware operation, an indication of a software failure and may be
+                                                                 considered fatal. */
         uint64_t reserved_8            : 1;
         uint64_t reserved_9_63         : 55;
 #endif /* Word 0 - End */

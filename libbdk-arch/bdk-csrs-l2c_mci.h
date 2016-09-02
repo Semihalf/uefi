@@ -220,11 +220,15 @@ union bdk_l2c_mcix_int_w1c
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_2_63         : 62;
-        uint64_t vbfdbe                : 1;  /**< [  1:  1](R/W1C/H) VBF double-bit error occurred. See L2C_MCI()_ERR for logged information. */
-        uint64_t vbfsbe                : 1;  /**< [  0:  0](R/W1C/H) VBF single-bit error occurred. See L2C_MCI()_ERR for logged information. */
+        uint64_t vbfdbe                : 1;  /**< [  1:  1](R/W1C/H) VBF double-bit error occurred. See L2C_MCI()_ERR for logged information.
+                                                                 An indication of a hardware failure and may be considered fatal. */
+        uint64_t vbfsbe                : 1;  /**< [  0:  0](R/W1C/H) VBF single-bit error occurred. See L2C_MCI()_ERR for logged information.
+                                                                 Hardware corrected the failure. Software may choose to count these single-bit errors. */
 #else /* Word 0 - Little Endian */
-        uint64_t vbfsbe                : 1;  /**< [  0:  0](R/W1C/H) VBF single-bit error occurred. See L2C_MCI()_ERR for logged information. */
-        uint64_t vbfdbe                : 1;  /**< [  1:  1](R/W1C/H) VBF double-bit error occurred. See L2C_MCI()_ERR for logged information. */
+        uint64_t vbfsbe                : 1;  /**< [  0:  0](R/W1C/H) VBF single-bit error occurred. See L2C_MCI()_ERR for logged information.
+                                                                 Hardware corrected the failure. Software may choose to count these single-bit errors. */
+        uint64_t vbfdbe                : 1;  /**< [  1:  1](R/W1C/H) VBF double-bit error occurred. See L2C_MCI()_ERR for logged information.
+                                                                 An indication of a hardware failure and may be considered fatal. */
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
     } s;

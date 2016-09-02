@@ -651,22 +651,49 @@ union bdk_l2c_tadx_int_w1c
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_36_63        : 28;
         uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1C/H) Illegal write operation to a remote node with L2C_OCI_CTL[ENAOCI][node] clear. See
-                                                                 L2C_TAD()_ERR for for logged information. */
+                                                                 L2C_TAD()_ERR for for logged information.
+                                                                 During normal hardware operation, an indication of a software failure and may be
+                                                                 considered fatal. */
         uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1C/H) Illegal read operation to a remote node with L2C_OCI_CTL[ENAOCI][node]
                                                                  clear. Note [RDDISOCI] interrupts can occur during normal operation as the cores
                                                                  are allowed to prefetch to nonexistent memory locations. Therefore, [RDDISOCI]
                                                                  is for informational purposes only. See L2C_TAD()_ERR for logged information. */
-        uint64_t rtgdbe                : 1;  /**< [ 33: 33](R/W1C/H) RTG double-bit error. */
-        uint64_t rtgsbe                : 1;  /**< [ 32: 32](R/W1C/H) RTG single-bit error. */
+        uint64_t rtgdbe                : 1;  /**< [ 33: 33](R/W1C/H) RTG double-bit error.
+                                                                 See L2C_TAD()_RTG_ERR for logged information.
+                                                                 An indication of a hardware failure and may be considered fatal. */
+        uint64_t rtgsbe                : 1;  /**< [ 32: 32](R/W1C/H) RTG single-bit error on a read. See L2C_TAD()_RTG_ERR for logged
+                                                                 information. When [RTGSBE] is set, hardware corrected the error before using the
+                                                                 RTG tag, but did not correct any stored value. When [RTGSBE] is set, software
+                                                                 should eject the RTG location indicated by the corresponding
+                                                                 L2C_TAD()_RTG_ERR[WAY,L2IDX] (via a SYS CVMCACHEWBIL2I instruction below)
+                                                                 before clearing [RTGSBE]. Otherwise, hardware may encounter the error again the
+                                                                 next time the same RTG location is referenced. Software may also choose to count
+                                                                 the number of these single-bit errors.
+
+                                                                 The SYS CVMCACHEWBIL2I instruction payload should have:
+                                                                 <pre>
+                                                                   payload<24>    = 0
+                                                                   payload<23:20> = L2C_TAD()_RTG_ERR[WAY]
+                                                                   payload<19:7>  = L2C_TAD()_RTG_ERR[L2IDX]
+                                                                 </pre>
+                                                                 Note that L2C_CTL[DISIDXALIAS] has no effect on the payload. */
         uint64_t reserved_19_31        : 13;
-        uint64_t gsyncto               : 1;  /**< [ 18: 18](R/W1C/H) Global sync OCI timeout. */
+        uint64_t gsyncto               : 1;  /**< [ 18: 18](R/W1C/H) Global sync timeout. Should not occur during normal operation. This may be an
+                                                                 indication of hardware failure, and may be considered fatal. */
         uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1C/H) An LFB entry (or more) has encountered a timeout condition When [LFBTO] timeout
                                                                  condition occurs L2C_TAD()_TIMEOUT is loaded. L2C_TAD()_TIMEOUT is loaded with
                                                                  info from the first LFB that timed out. if multiple LFB timed out
                                                                  simultaneously, then the it will capture info from the lowest LFB number that
-                                                                 timed out. */
-        uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1C/H) Illegal write to disabled LMC error. A DRAM write arrived before LMC was enabled. */
-        uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1C/H) Illegal read to disabled LMC error. A DRAM read arrived before LMC was enabled. */
+                                                                 timed out.
+                                                                 Should not occur during normal operation.  OCI/CCPI link failures may cause this
+                                                                 failure. This may be an indication of hardware failure, and may be considered
+                                                                 fatal. */
+        uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1C/H) Illegal write to disabled LMC error. A DRAM write arrived before LMC was enabled.
+                                                                 Should not occur during normal operation.
+                                                                 This may be considered fatal. */
+        uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1C/H) Illegal read to disabled LMC error. A DRAM read arrived before LMC was enabled.
+                                                                 Should not occur during normal operation.
+                                                                 This may be considered fatal. */
         uint64_t rdnxm                 : 1;  /**< [ 14: 14](R/W1C/H) Read reference outside all the defined and enabled address space
                                                                  control (ASC) regions, or secure read reference to an ASC region
                                                                  not enabled for secure access, or nonsecure read reference to an ASC
@@ -681,6 +708,8 @@ union bdk_l2c_tadx_int_w1c
                                                                  control (ASC) regions, or secure write reference to an ASC region
                                                                  not enabled for secure access, or nonsecure write reference to an
                                                                  ASC region not enabled for nonsecure access.
+                                                                 This may be an indication of software
+                                                                 failure, and may be considered fatal.
                                                                  See L2C_TAD()_ERR for logged information.
                                                                  See L2C_ASC_REGION()_START, L2C_ASC_REGION()_END, and
                                                                  L2C_ASC_REGION()_ATTR for ASC region specification. */
@@ -694,25 +723,111 @@ union bdk_l2c_tadx_int_w1c
                                                                  misses in the L2 cache, and cannot allocate a WAY.) There is one 'failure' case
                                                                  where L2C sets [NOWAY]: when it cannot leave a block locked in the L2 cache as
                                                                  part of a LCKL2 transaction. See L2C_TTG()_ERR for logged information. */
-        uint64_t tagdbe                : 1;  /**< [  9:  9](R/W1C/H) TAG double-bit error occurred. See L2C_TTG()_ERR for logged information. */
-        uint64_t tagsbe                : 1;  /**< [  8:  8](R/W1C/H) TAG single-bit error occurred. See L2C_TTG()_ERR for logged information. */
+        uint64_t tagdbe                : 1;  /**< [  9:  9](R/W1C/H) TAG double-bit error occurred. See L2C_TTG()_ERR for logged information.
+                                                                 This is an indication of a hardware failure and may be considered fatal. */
+        uint64_t tagsbe                : 1;  /**< [  8:  8](R/W1C/H) TAG single-bit error on a read. See L2C_TAD()_TTG_ERR for logged
+                                                                 information. When [TAGSBE] is set, hardware corrected the error before using the
+                                                                 tag, but did not correct any stored value. When [TAGSBE] is set, software should
+                                                                 eject the TAG location indicated by the corresponding
+                                                                 L2C_TAD()_TTG_ERR[WAY,L2IDX] (via a SYS CVMCACHEWBIL2I instruction below)
+                                                                 before clearing [TAGSBE]. Otherwise, hardware may encounter the error again the
+                                                                 next time the same TAG location is referenced. Software may also choose to count
+                                                                 the number of these single-bit errors.
+
+                                                                 The SYS CVMCACHEWBIL2I instruction payload should have:
+                                                                   <pre>
+                                                                   payload<24> = 0
+                                                                   payload<23:20> = L2C_TAD()_TTG_ERR[WAY]
+                                                                   payload<19:7>  = L2C_TAD()_TTG_ERR[L2IDX]
+                                                                   </pre>
+                                                                 Note that L2C_CTL[DISIDXALIAS] has no effect on this payload. */
         uint64_t reserved_6_7          : 2;
-        uint64_t fbfdbe                : 1;  /**< [  5:  5](R/W1C/H) FBF double-bit error occurred. See L2C_TQD()_ERR for logged information. */
-        uint64_t fbfsbe                : 1;  /**< [  4:  4](R/W1C/H) FBF single-bit error occurred. See L2C_TQD()_ERR for logged information. */
-        uint64_t sbfdbe                : 1;  /**< [  3:  3](R/W1C/H) SBF double-bit error occurred. See L2C_TQD()_ERR for logged information. */
-        uint64_t sbfsbe                : 1;  /**< [  2:  2](R/W1C/H) SBF single-bit error occurred. See L2C_TQD()_ERR for logged information. */
-        uint64_t l2ddbe                : 1;  /**< [  1:  1](R/W1C/H) L2D double-bit error occurred. See L2C_TQD()_ERR for logged information. */
-        uint64_t l2dsbe                : 1;  /**< [  0:  0](R/W1C/H) L2D single-bit error occurred. See L2C_TQD()_ERR for logged information. */
+        uint64_t fbfdbe                : 1;  /**< [  5:  5](R/W1C/H) FBF double-bit error occurred. See L2C_TAD()_TQD_ERR for logged information. An
+                                                                 indication of a hardware failure and may be considered fatal. */
+        uint64_t fbfsbe                : 1;  /**< [  4:  4](R/W1C/H) FBF single-bit error on a read. See L2C_TAD()_TQD_ERR for logged
+                                                                 information. Hardware automatically corrected the error. Software may choose to
+                                                                 count the number of these single-bit errors. */
+        uint64_t sbfdbe                : 1;  /**< [  3:  3](R/W1C/H) SBF double-bit error occurred. See L2C_TAD()_TQD_ERR for logged information. An
+                                                                 indication of a hardware failure and may be considered fatal. */
+        uint64_t sbfsbe                : 1;  /**< [  2:  2](R/W1C/H) SBF single-bit error on a read. See L2C_TAD()_TQD_ERR for logged
+                                                                 information. Hardware automatically corrected the error. Software may choose to
+                                                                 count the number of these single-bit errors. */
+        uint64_t l2ddbe                : 1;  /**< [  1:  1](R/W1C/H) L2D double-bit error occurred. See L2C_TAD()_TQD_ERR for logged information. An
+                                                                 indication of a hardware failure and may be considered fatal. */
+        uint64_t l2dsbe                : 1;  /**< [  0:  0](R/W1C/H) L2D single-bit error on a read. See L2C_TAD()_TQD_ERR for logged
+                                                                 information. When [L2DSBE] is set, hardware corrected the error before using the
+                                                                 data, but did not correct any stored value. When [L2DSBE] is set, software
+                                                                 should eject the cache block indicated by the corresponding
+                                                                 L2C_TAD()_TQD_ERR[QDNUM,L2DIDX] (via a SYS CVMCACHEWBIL2I instruction below)
+                                                                 before clearing [L2DSBE]. Otherwise, hardware may encounter the error again the
+                                                                 next time the same L2D location is referenced. Software may also choose to count
+                                                                 the number of these single-bit errors.
+
+                                                                 The SYS CVMCACHEWBIL2I instruction payload should have:
+                                                                 <pre>
+                                                                   payload<24>    = 1
+                                                                   payload<23:20> = L2C_TAD()_TQD_ERR[L2DIDX]<10:7>  // way
+                                                                   payload<19:13> = L2C_TAD()_TQD_ERR[L2DIDX]<6:0>   // index<12:6>
+                                                                   payload<12:11> = L2C_TAD()_TQD_ERR[L2DIDX]<12:11> // index<5:4>
+                                                                   payload<10>    = L2C_TAD()_TQD_ERR[QDNUM]<2>      // index<3>
+                                                                   payload<9:7>   = tad             // index<2:0>
+                                                                 </pre>
+
+                                                                 where tad is the TAD index from this CSR. Note that L2C_CTL[DISIDXALIAS] has no
+                                                                 effect on the payload. */
 #else /* Word 0 - Little Endian */
-        uint64_t l2dsbe                : 1;  /**< [  0:  0](R/W1C/H) L2D single-bit error occurred. See L2C_TQD()_ERR for logged information. */
-        uint64_t l2ddbe                : 1;  /**< [  1:  1](R/W1C/H) L2D double-bit error occurred. See L2C_TQD()_ERR for logged information. */
-        uint64_t sbfsbe                : 1;  /**< [  2:  2](R/W1C/H) SBF single-bit error occurred. See L2C_TQD()_ERR for logged information. */
-        uint64_t sbfdbe                : 1;  /**< [  3:  3](R/W1C/H) SBF double-bit error occurred. See L2C_TQD()_ERR for logged information. */
-        uint64_t fbfsbe                : 1;  /**< [  4:  4](R/W1C/H) FBF single-bit error occurred. See L2C_TQD()_ERR for logged information. */
-        uint64_t fbfdbe                : 1;  /**< [  5:  5](R/W1C/H) FBF double-bit error occurred. See L2C_TQD()_ERR for logged information. */
+        uint64_t l2dsbe                : 1;  /**< [  0:  0](R/W1C/H) L2D single-bit error on a read. See L2C_TAD()_TQD_ERR for logged
+                                                                 information. When [L2DSBE] is set, hardware corrected the error before using the
+                                                                 data, but did not correct any stored value. When [L2DSBE] is set, software
+                                                                 should eject the cache block indicated by the corresponding
+                                                                 L2C_TAD()_TQD_ERR[QDNUM,L2DIDX] (via a SYS CVMCACHEWBIL2I instruction below)
+                                                                 before clearing [L2DSBE]. Otherwise, hardware may encounter the error again the
+                                                                 next time the same L2D location is referenced. Software may also choose to count
+                                                                 the number of these single-bit errors.
+
+                                                                 The SYS CVMCACHEWBIL2I instruction payload should have:
+                                                                 <pre>
+                                                                   payload<24>    = 1
+                                                                   payload<23:20> = L2C_TAD()_TQD_ERR[L2DIDX]<10:7>  // way
+                                                                   payload<19:13> = L2C_TAD()_TQD_ERR[L2DIDX]<6:0>   // index<12:6>
+                                                                   payload<12:11> = L2C_TAD()_TQD_ERR[L2DIDX]<12:11> // index<5:4>
+                                                                   payload<10>    = L2C_TAD()_TQD_ERR[QDNUM]<2>      // index<3>
+                                                                   payload<9:7>   = tad             // index<2:0>
+                                                                 </pre>
+
+                                                                 where tad is the TAD index from this CSR. Note that L2C_CTL[DISIDXALIAS] has no
+                                                                 effect on the payload. */
+        uint64_t l2ddbe                : 1;  /**< [  1:  1](R/W1C/H) L2D double-bit error occurred. See L2C_TAD()_TQD_ERR for logged information. An
+                                                                 indication of a hardware failure and may be considered fatal. */
+        uint64_t sbfsbe                : 1;  /**< [  2:  2](R/W1C/H) SBF single-bit error on a read. See L2C_TAD()_TQD_ERR for logged
+                                                                 information. Hardware automatically corrected the error. Software may choose to
+                                                                 count the number of these single-bit errors. */
+        uint64_t sbfdbe                : 1;  /**< [  3:  3](R/W1C/H) SBF double-bit error occurred. See L2C_TAD()_TQD_ERR for logged information. An
+                                                                 indication of a hardware failure and may be considered fatal. */
+        uint64_t fbfsbe                : 1;  /**< [  4:  4](R/W1C/H) FBF single-bit error on a read. See L2C_TAD()_TQD_ERR for logged
+                                                                 information. Hardware automatically corrected the error. Software may choose to
+                                                                 count the number of these single-bit errors. */
+        uint64_t fbfdbe                : 1;  /**< [  5:  5](R/W1C/H) FBF double-bit error occurred. See L2C_TAD()_TQD_ERR for logged information. An
+                                                                 indication of a hardware failure and may be considered fatal. */
         uint64_t reserved_6_7          : 2;
-        uint64_t tagsbe                : 1;  /**< [  8:  8](R/W1C/H) TAG single-bit error occurred. See L2C_TTG()_ERR for logged information. */
-        uint64_t tagdbe                : 1;  /**< [  9:  9](R/W1C/H) TAG double-bit error occurred. See L2C_TTG()_ERR for logged information. */
+        uint64_t tagsbe                : 1;  /**< [  8:  8](R/W1C/H) TAG single-bit error on a read. See L2C_TAD()_TTG_ERR for logged
+                                                                 information. When [TAGSBE] is set, hardware corrected the error before using the
+                                                                 tag, but did not correct any stored value. When [TAGSBE] is set, software should
+                                                                 eject the TAG location indicated by the corresponding
+                                                                 L2C_TAD()_TTG_ERR[WAY,L2IDX] (via a SYS CVMCACHEWBIL2I instruction below)
+                                                                 before clearing [TAGSBE]. Otherwise, hardware may encounter the error again the
+                                                                 next time the same TAG location is referenced. Software may also choose to count
+                                                                 the number of these single-bit errors.
+
+                                                                 The SYS CVMCACHEWBIL2I instruction payload should have:
+                                                                   <pre>
+                                                                   payload<24> = 0
+                                                                   payload<23:20> = L2C_TAD()_TTG_ERR[WAY]
+                                                                   payload<19:7>  = L2C_TAD()_TTG_ERR[L2IDX]
+                                                                   </pre>
+                                                                 Note that L2C_CTL[DISIDXALIAS] has no effect on this payload. */
+        uint64_t tagdbe                : 1;  /**< [  9:  9](R/W1C/H) TAG double-bit error occurred. See L2C_TTG()_ERR for logged information.
+                                                                 This is an indication of a hardware failure and may be considered fatal. */
         uint64_t noway                 : 1;  /**< [ 10: 10](R/W1C/H) No way was available for allocation. L2C sets [NOWAY] during its processing of a
                                                                  transaction whenever it needed/wanted to allocate a WAY in the L2 cache, but was
                                                                  unable to. When this bit = 1, it is (generally) not an indication that L2C
@@ -727,6 +842,8 @@ union bdk_l2c_tadx_int_w1c
                                                                  control (ASC) regions, or secure write reference to an ASC region
                                                                  not enabled for secure access, or nonsecure write reference to an
                                                                  ASC region not enabled for nonsecure access.
+                                                                 This may be an indication of software
+                                                                 failure, and may be considered fatal.
                                                                  See L2C_TAD()_ERR for logged information.
                                                                  See L2C_ASC_REGION()_START, L2C_ASC_REGION()_END, and
                                                                  L2C_ASC_REGION()_ATTR for ASC region specification. */
@@ -740,23 +857,50 @@ union bdk_l2c_tadx_int_w1c
                                                                  See L2C_TAD()_ERR for logged information.
                                                                  See L2C_ASC_REGION()_START, L2C_ASC_REGION()_END, and
                                                                  L2C_ASC_REGION()_ATTR for ASC region specification. */
-        uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1C/H) Illegal read to disabled LMC error. A DRAM read arrived before LMC was enabled. */
-        uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1C/H) Illegal write to disabled LMC error. A DRAM write arrived before LMC was enabled. */
+        uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1C/H) Illegal read to disabled LMC error. A DRAM read arrived before LMC was enabled.
+                                                                 Should not occur during normal operation.
+                                                                 This may be considered fatal. */
+        uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1C/H) Illegal write to disabled LMC error. A DRAM write arrived before LMC was enabled.
+                                                                 Should not occur during normal operation.
+                                                                 This may be considered fatal. */
         uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1C/H) An LFB entry (or more) has encountered a timeout condition When [LFBTO] timeout
                                                                  condition occurs L2C_TAD()_TIMEOUT is loaded. L2C_TAD()_TIMEOUT is loaded with
                                                                  info from the first LFB that timed out. if multiple LFB timed out
                                                                  simultaneously, then the it will capture info from the lowest LFB number that
-                                                                 timed out. */
-        uint64_t gsyncto               : 1;  /**< [ 18: 18](R/W1C/H) Global sync OCI timeout. */
+                                                                 timed out.
+                                                                 Should not occur during normal operation.  OCI/CCPI link failures may cause this
+                                                                 failure. This may be an indication of hardware failure, and may be considered
+                                                                 fatal. */
+        uint64_t gsyncto               : 1;  /**< [ 18: 18](R/W1C/H) Global sync timeout. Should not occur during normal operation. This may be an
+                                                                 indication of hardware failure, and may be considered fatal. */
         uint64_t reserved_19_31        : 13;
-        uint64_t rtgsbe                : 1;  /**< [ 32: 32](R/W1C/H) RTG single-bit error. */
-        uint64_t rtgdbe                : 1;  /**< [ 33: 33](R/W1C/H) RTG double-bit error. */
+        uint64_t rtgsbe                : 1;  /**< [ 32: 32](R/W1C/H) RTG single-bit error on a read. See L2C_TAD()_RTG_ERR for logged
+                                                                 information. When [RTGSBE] is set, hardware corrected the error before using the
+                                                                 RTG tag, but did not correct any stored value. When [RTGSBE] is set, software
+                                                                 should eject the RTG location indicated by the corresponding
+                                                                 L2C_TAD()_RTG_ERR[WAY,L2IDX] (via a SYS CVMCACHEWBIL2I instruction below)
+                                                                 before clearing [RTGSBE]. Otherwise, hardware may encounter the error again the
+                                                                 next time the same RTG location is referenced. Software may also choose to count
+                                                                 the number of these single-bit errors.
+
+                                                                 The SYS CVMCACHEWBIL2I instruction payload should have:
+                                                                 <pre>
+                                                                   payload<24>    = 0
+                                                                   payload<23:20> = L2C_TAD()_RTG_ERR[WAY]
+                                                                   payload<19:7>  = L2C_TAD()_RTG_ERR[L2IDX]
+                                                                 </pre>
+                                                                 Note that L2C_CTL[DISIDXALIAS] has no effect on the payload. */
+        uint64_t rtgdbe                : 1;  /**< [ 33: 33](R/W1C/H) RTG double-bit error.
+                                                                 See L2C_TAD()_RTG_ERR for logged information.
+                                                                 An indication of a hardware failure and may be considered fatal. */
         uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1C/H) Illegal read operation to a remote node with L2C_OCI_CTL[ENAOCI][node]
                                                                  clear. Note [RDDISOCI] interrupts can occur during normal operation as the cores
                                                                  are allowed to prefetch to nonexistent memory locations. Therefore, [RDDISOCI]
                                                                  is for informational purposes only. See L2C_TAD()_ERR for logged information. */
         uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1C/H) Illegal write operation to a remote node with L2C_OCI_CTL[ENAOCI][node] clear. See
-                                                                 L2C_TAD()_ERR for for logged information. */
+                                                                 L2C_TAD()_ERR for for logged information.
+                                                                 During normal hardware operation, an indication of a software failure and may be
+                                                                 considered fatal. */
         uint64_t reserved_36_63        : 28;
 #endif /* Word 0 - End */
     } s;
@@ -765,22 +909,48 @@ union bdk_l2c_tadx_int_w1c
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_36_63        : 28;
         uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1C/H) Illegal write operation to a remote node with L2C_OCI_CTL[ENAOCI][node] clear. See
-                                                                 L2C_TAD()_ERR for for logged information. */
+                                                                 L2C_TAD()_ERR for for logged information.
+                                                                 During normal hardware operation, an indication of a software failure and may be
+                                                                 considered fatal. */
         uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1C/H) Illegal read operation to a remote node with L2C_OCI_CTL[ENAOCI][node]
                                                                  clear. Note [RDDISOCI] interrupts can occur during normal operation as the cores
                                                                  are allowed to prefetch to nonexistent memory locations. Therefore, [RDDISOCI]
                                                                  is for informational purposes only. See L2C_TAD()_ERR for logged information. */
-        uint64_t rtgdbe                : 1;  /**< [ 33: 33](R/W1C/H) RTG double-bit error. */
-        uint64_t rtgsbe                : 1;  /**< [ 32: 32](R/W1C/H) RTG single-bit error. */
+        uint64_t rtgdbe                : 1;  /**< [ 33: 33](R/W1C/H) RTG double-bit error.
+                                                                 See L2C_TAD()_RTG_ERR for logged information.
+                                                                 An indication of a hardware failure and may be considered fatal. */
+        uint64_t rtgsbe                : 1;  /**< [ 32: 32](R/W1C/H) RTG single-bit error on a read. See L2C_TAD()_RTG_ERR for logged
+                                                                 information. When [RTGSBE] is set, hardware corrected the error before using the
+                                                                 RTG tag, but did not correct any stored value. When [RTGSBE] is set, software
+                                                                 should eject the RTG location indicated by the corresponding
+                                                                 L2C_TAD()_RTG_ERR[WAY,L2IDX] (via a SYS CVMCACHEWBIL2I instruction below)
+                                                                 before clearing [RTGSBE]. Otherwise, hardware may encounter the error again the
+                                                                 next time the same RTG location is referenced. Software may also choose to count
+                                                                 the number of these single-bit errors.
+
+                                                                 The SYS CVMCACHEWBIL2I instruction payload should have:
+                                                                 <pre>
+                                                                   payload<24>    = 0
+                                                                   payload<23:20> = L2C_TAD()_RTG_ERR[WAY]
+                                                                   payload<19:7>  = L2C_TAD()_RTG_ERR[L2IDX]
+                                                                 </pre>
+                                                                 Note that L2C_CTL[DISIDXALIAS] has no effect on the payload. */
         uint64_t reserved_19_31        : 13;
         uint64_t reserved_18           : 1;
         uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1C/H) An LFB entry (or more) has encountered a timeout condition When [LFBTO] timeout
                                                                  condition occurs L2C_TAD()_TIMEOUT is loaded. L2C_TAD()_TIMEOUT is loaded with
                                                                  info from the first LFB that timed out. if multiple LFB timed out
                                                                  simultaneously, then the it will capture info from the lowest LFB number that
-                                                                 timed out. */
-        uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1C/H) Illegal write to disabled LMC error. A DRAM write arrived before LMC was enabled. */
-        uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1C/H) Illegal read to disabled LMC error. A DRAM read arrived before LMC was enabled. */
+                                                                 timed out.
+                                                                 Should not occur during normal operation.  OCI/CCPI link failures may cause this
+                                                                 failure. This may be an indication of hardware failure, and may be considered
+                                                                 fatal. */
+        uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1C/H) Illegal write to disabled LMC error. A DRAM write arrived before LMC was enabled.
+                                                                 Should not occur during normal operation.
+                                                                 This may be considered fatal. */
+        uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1C/H) Illegal read to disabled LMC error. A DRAM read arrived before LMC was enabled.
+                                                                 Should not occur during normal operation.
+                                                                 This may be considered fatal. */
         uint64_t rdnxm                 : 1;  /**< [ 14: 14](R/W1C/H) Read reference outside all the defined and enabled address space
                                                                  control (ASC) regions, or secure read reference to an ASC region
                                                                  not enabled for secure access, or nonsecure read reference to an ASC
@@ -795,6 +965,8 @@ union bdk_l2c_tadx_int_w1c
                                                                  control (ASC) regions, or secure write reference to an ASC region
                                                                  not enabled for secure access, or nonsecure write reference to an
                                                                  ASC region not enabled for nonsecure access.
+                                                                 This may be an indication of software
+                                                                 failure, and may be considered fatal.
                                                                  See L2C_TAD()_ERR for logged information.
                                                                  See L2C_ASC_REGION()_START, L2C_ASC_REGION()_END, and
                                                                  L2C_ASC_REGION()_ATTR for ASC region specification. */
@@ -808,25 +980,111 @@ union bdk_l2c_tadx_int_w1c
                                                                  misses in the L2 cache, and cannot allocate a WAY.) There is one 'failure' case
                                                                  where L2C sets [NOWAY]: when it cannot leave a block locked in the L2 cache as
                                                                  part of a LCKL2 transaction. See L2C_TTG()_ERR for logged information. */
-        uint64_t tagdbe                : 1;  /**< [  9:  9](R/W1C/H) TAG double-bit error occurred. See L2C_TTG()_ERR for logged information. */
-        uint64_t tagsbe                : 1;  /**< [  8:  8](R/W1C/H) TAG single-bit error occurred. See L2C_TTG()_ERR for logged information. */
+        uint64_t tagdbe                : 1;  /**< [  9:  9](R/W1C/H) TAG double-bit error occurred. See L2C_TTG()_ERR for logged information.
+                                                                 This is an indication of a hardware failure and may be considered fatal. */
+        uint64_t tagsbe                : 1;  /**< [  8:  8](R/W1C/H) TAG single-bit error on a read. See L2C_TAD()_TTG_ERR for logged
+                                                                 information. When [TAGSBE] is set, hardware corrected the error before using the
+                                                                 tag, but did not correct any stored value. When [TAGSBE] is set, software should
+                                                                 eject the TAG location indicated by the corresponding
+                                                                 L2C_TAD()_TTG_ERR[WAY,L2IDX] (via a SYS CVMCACHEWBIL2I instruction below)
+                                                                 before clearing [TAGSBE]. Otherwise, hardware may encounter the error again the
+                                                                 next time the same TAG location is referenced. Software may also choose to count
+                                                                 the number of these single-bit errors.
+
+                                                                 The SYS CVMCACHEWBIL2I instruction payload should have:
+                                                                   <pre>
+                                                                   payload<24> = 0
+                                                                   payload<23:20> = L2C_TAD()_TTG_ERR[WAY]
+                                                                   payload<19:7>  = L2C_TAD()_TTG_ERR[L2IDX]
+                                                                   </pre>
+                                                                 Note that L2C_CTL[DISIDXALIAS] has no effect on this payload. */
         uint64_t reserved_6_7          : 2;
-        uint64_t fbfdbe                : 1;  /**< [  5:  5](R/W1C/H) FBF double-bit error occurred. See L2C_TQD()_ERR for logged information. */
-        uint64_t fbfsbe                : 1;  /**< [  4:  4](R/W1C/H) FBF single-bit error occurred. See L2C_TQD()_ERR for logged information. */
-        uint64_t sbfdbe                : 1;  /**< [  3:  3](R/W1C/H) SBF double-bit error occurred. See L2C_TQD()_ERR for logged information. */
-        uint64_t sbfsbe                : 1;  /**< [  2:  2](R/W1C/H) SBF single-bit error occurred. See L2C_TQD()_ERR for logged information. */
-        uint64_t l2ddbe                : 1;  /**< [  1:  1](R/W1C/H) L2D double-bit error occurred. See L2C_TQD()_ERR for logged information. */
-        uint64_t l2dsbe                : 1;  /**< [  0:  0](R/W1C/H) L2D single-bit error occurred. See L2C_TQD()_ERR for logged information. */
+        uint64_t fbfdbe                : 1;  /**< [  5:  5](R/W1C/H) FBF double-bit error occurred. See L2C_TAD()_TQD_ERR for logged information. An
+                                                                 indication of a hardware failure and may be considered fatal. */
+        uint64_t fbfsbe                : 1;  /**< [  4:  4](R/W1C/H) FBF single-bit error on a read. See L2C_TAD()_TQD_ERR for logged
+                                                                 information. Hardware automatically corrected the error. Software may choose to
+                                                                 count the number of these single-bit errors. */
+        uint64_t sbfdbe                : 1;  /**< [  3:  3](R/W1C/H) SBF double-bit error occurred. See L2C_TAD()_TQD_ERR for logged information. An
+                                                                 indication of a hardware failure and may be considered fatal. */
+        uint64_t sbfsbe                : 1;  /**< [  2:  2](R/W1C/H) SBF single-bit error on a read. See L2C_TAD()_TQD_ERR for logged
+                                                                 information. Hardware automatically corrected the error. Software may choose to
+                                                                 count the number of these single-bit errors. */
+        uint64_t l2ddbe                : 1;  /**< [  1:  1](R/W1C/H) L2D double-bit error occurred. See L2C_TAD()_TQD_ERR for logged information. An
+                                                                 indication of a hardware failure and may be considered fatal. */
+        uint64_t l2dsbe                : 1;  /**< [  0:  0](R/W1C/H) L2D single-bit error on a read. See L2C_TAD()_TQD_ERR for logged
+                                                                 information. When [L2DSBE] is set, hardware corrected the error before using the
+                                                                 data, but did not correct any stored value. When [L2DSBE] is set, software
+                                                                 should eject the cache block indicated by the corresponding
+                                                                 L2C_TAD()_TQD_ERR[QDNUM,L2DIDX] (via a SYS CVMCACHEWBIL2I instruction below)
+                                                                 before clearing [L2DSBE]. Otherwise, hardware may encounter the error again the
+                                                                 next time the same L2D location is referenced. Software may also choose to count
+                                                                 the number of these single-bit errors.
+
+                                                                 The SYS CVMCACHEWBIL2I instruction payload should have:
+                                                                 <pre>
+                                                                   payload<24>    = 1
+                                                                   payload<23:20> = L2C_TAD()_TQD_ERR[L2DIDX]<10:7>  // way
+                                                                   payload<19:13> = L2C_TAD()_TQD_ERR[L2DIDX]<6:0>   // index<12:6>
+                                                                   payload<12:11> = L2C_TAD()_TQD_ERR[L2DIDX]<12:11> // index<5:4>
+                                                                   payload<10>    = L2C_TAD()_TQD_ERR[QDNUM]<2>      // index<3>
+                                                                   payload<9:7>   = tad             // index<2:0>
+                                                                 </pre>
+
+                                                                 where tad is the TAD index from this CSR. Note that L2C_CTL[DISIDXALIAS] has no
+                                                                 effect on the payload. */
 #else /* Word 0 - Little Endian */
-        uint64_t l2dsbe                : 1;  /**< [  0:  0](R/W1C/H) L2D single-bit error occurred. See L2C_TQD()_ERR for logged information. */
-        uint64_t l2ddbe                : 1;  /**< [  1:  1](R/W1C/H) L2D double-bit error occurred. See L2C_TQD()_ERR for logged information. */
-        uint64_t sbfsbe                : 1;  /**< [  2:  2](R/W1C/H) SBF single-bit error occurred. See L2C_TQD()_ERR for logged information. */
-        uint64_t sbfdbe                : 1;  /**< [  3:  3](R/W1C/H) SBF double-bit error occurred. See L2C_TQD()_ERR for logged information. */
-        uint64_t fbfsbe                : 1;  /**< [  4:  4](R/W1C/H) FBF single-bit error occurred. See L2C_TQD()_ERR for logged information. */
-        uint64_t fbfdbe                : 1;  /**< [  5:  5](R/W1C/H) FBF double-bit error occurred. See L2C_TQD()_ERR for logged information. */
+        uint64_t l2dsbe                : 1;  /**< [  0:  0](R/W1C/H) L2D single-bit error on a read. See L2C_TAD()_TQD_ERR for logged
+                                                                 information. When [L2DSBE] is set, hardware corrected the error before using the
+                                                                 data, but did not correct any stored value. When [L2DSBE] is set, software
+                                                                 should eject the cache block indicated by the corresponding
+                                                                 L2C_TAD()_TQD_ERR[QDNUM,L2DIDX] (via a SYS CVMCACHEWBIL2I instruction below)
+                                                                 before clearing [L2DSBE]. Otherwise, hardware may encounter the error again the
+                                                                 next time the same L2D location is referenced. Software may also choose to count
+                                                                 the number of these single-bit errors.
+
+                                                                 The SYS CVMCACHEWBIL2I instruction payload should have:
+                                                                 <pre>
+                                                                   payload<24>    = 1
+                                                                   payload<23:20> = L2C_TAD()_TQD_ERR[L2DIDX]<10:7>  // way
+                                                                   payload<19:13> = L2C_TAD()_TQD_ERR[L2DIDX]<6:0>   // index<12:6>
+                                                                   payload<12:11> = L2C_TAD()_TQD_ERR[L2DIDX]<12:11> // index<5:4>
+                                                                   payload<10>    = L2C_TAD()_TQD_ERR[QDNUM]<2>      // index<3>
+                                                                   payload<9:7>   = tad             // index<2:0>
+                                                                 </pre>
+
+                                                                 where tad is the TAD index from this CSR. Note that L2C_CTL[DISIDXALIAS] has no
+                                                                 effect on the payload. */
+        uint64_t l2ddbe                : 1;  /**< [  1:  1](R/W1C/H) L2D double-bit error occurred. See L2C_TAD()_TQD_ERR for logged information. An
+                                                                 indication of a hardware failure and may be considered fatal. */
+        uint64_t sbfsbe                : 1;  /**< [  2:  2](R/W1C/H) SBF single-bit error on a read. See L2C_TAD()_TQD_ERR for logged
+                                                                 information. Hardware automatically corrected the error. Software may choose to
+                                                                 count the number of these single-bit errors. */
+        uint64_t sbfdbe                : 1;  /**< [  3:  3](R/W1C/H) SBF double-bit error occurred. See L2C_TAD()_TQD_ERR for logged information. An
+                                                                 indication of a hardware failure and may be considered fatal. */
+        uint64_t fbfsbe                : 1;  /**< [  4:  4](R/W1C/H) FBF single-bit error on a read. See L2C_TAD()_TQD_ERR for logged
+                                                                 information. Hardware automatically corrected the error. Software may choose to
+                                                                 count the number of these single-bit errors. */
+        uint64_t fbfdbe                : 1;  /**< [  5:  5](R/W1C/H) FBF double-bit error occurred. See L2C_TAD()_TQD_ERR for logged information. An
+                                                                 indication of a hardware failure and may be considered fatal. */
         uint64_t reserved_6_7          : 2;
-        uint64_t tagsbe                : 1;  /**< [  8:  8](R/W1C/H) TAG single-bit error occurred. See L2C_TTG()_ERR for logged information. */
-        uint64_t tagdbe                : 1;  /**< [  9:  9](R/W1C/H) TAG double-bit error occurred. See L2C_TTG()_ERR for logged information. */
+        uint64_t tagsbe                : 1;  /**< [  8:  8](R/W1C/H) TAG single-bit error on a read. See L2C_TAD()_TTG_ERR for logged
+                                                                 information. When [TAGSBE] is set, hardware corrected the error before using the
+                                                                 tag, but did not correct any stored value. When [TAGSBE] is set, software should
+                                                                 eject the TAG location indicated by the corresponding
+                                                                 L2C_TAD()_TTG_ERR[WAY,L2IDX] (via a SYS CVMCACHEWBIL2I instruction below)
+                                                                 before clearing [TAGSBE]. Otherwise, hardware may encounter the error again the
+                                                                 next time the same TAG location is referenced. Software may also choose to count
+                                                                 the number of these single-bit errors.
+
+                                                                 The SYS CVMCACHEWBIL2I instruction payload should have:
+                                                                   <pre>
+                                                                   payload<24> = 0
+                                                                   payload<23:20> = L2C_TAD()_TTG_ERR[WAY]
+                                                                   payload<19:7>  = L2C_TAD()_TTG_ERR[L2IDX]
+                                                                   </pre>
+                                                                 Note that L2C_CTL[DISIDXALIAS] has no effect on this payload. */
+        uint64_t tagdbe                : 1;  /**< [  9:  9](R/W1C/H) TAG double-bit error occurred. See L2C_TTG()_ERR for logged information.
+                                                                 This is an indication of a hardware failure and may be considered fatal. */
         uint64_t noway                 : 1;  /**< [ 10: 10](R/W1C/H) No way was available for allocation. L2C sets [NOWAY] during its processing of a
                                                                  transaction whenever it needed/wanted to allocate a WAY in the L2 cache, but was
                                                                  unable to. When this bit = 1, it is (generally) not an indication that L2C
@@ -841,6 +1099,8 @@ union bdk_l2c_tadx_int_w1c
                                                                  control (ASC) regions, or secure write reference to an ASC region
                                                                  not enabled for secure access, or nonsecure write reference to an
                                                                  ASC region not enabled for nonsecure access.
+                                                                 This may be an indication of software
+                                                                 failure, and may be considered fatal.
                                                                  See L2C_TAD()_ERR for logged information.
                                                                  See L2C_ASC_REGION()_START, L2C_ASC_REGION()_END, and
                                                                  L2C_ASC_REGION()_ATTR for ASC region specification. */
@@ -854,23 +1114,49 @@ union bdk_l2c_tadx_int_w1c
                                                                  See L2C_TAD()_ERR for logged information.
                                                                  See L2C_ASC_REGION()_START, L2C_ASC_REGION()_END, and
                                                                  L2C_ASC_REGION()_ATTR for ASC region specification. */
-        uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1C/H) Illegal read to disabled LMC error. A DRAM read arrived before LMC was enabled. */
-        uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1C/H) Illegal write to disabled LMC error. A DRAM write arrived before LMC was enabled. */
+        uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1C/H) Illegal read to disabled LMC error. A DRAM read arrived before LMC was enabled.
+                                                                 Should not occur during normal operation.
+                                                                 This may be considered fatal. */
+        uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1C/H) Illegal write to disabled LMC error. A DRAM write arrived before LMC was enabled.
+                                                                 Should not occur during normal operation.
+                                                                 This may be considered fatal. */
         uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1C/H) An LFB entry (or more) has encountered a timeout condition When [LFBTO] timeout
                                                                  condition occurs L2C_TAD()_TIMEOUT is loaded. L2C_TAD()_TIMEOUT is loaded with
                                                                  info from the first LFB that timed out. if multiple LFB timed out
                                                                  simultaneously, then the it will capture info from the lowest LFB number that
-                                                                 timed out. */
+                                                                 timed out.
+                                                                 Should not occur during normal operation.  OCI/CCPI link failures may cause this
+                                                                 failure. This may be an indication of hardware failure, and may be considered
+                                                                 fatal. */
         uint64_t reserved_18           : 1;
         uint64_t reserved_19_31        : 13;
-        uint64_t rtgsbe                : 1;  /**< [ 32: 32](R/W1C/H) RTG single-bit error. */
-        uint64_t rtgdbe                : 1;  /**< [ 33: 33](R/W1C/H) RTG double-bit error. */
+        uint64_t rtgsbe                : 1;  /**< [ 32: 32](R/W1C/H) RTG single-bit error on a read. See L2C_TAD()_RTG_ERR for logged
+                                                                 information. When [RTGSBE] is set, hardware corrected the error before using the
+                                                                 RTG tag, but did not correct any stored value. When [RTGSBE] is set, software
+                                                                 should eject the RTG location indicated by the corresponding
+                                                                 L2C_TAD()_RTG_ERR[WAY,L2IDX] (via a SYS CVMCACHEWBIL2I instruction below)
+                                                                 before clearing [RTGSBE]. Otherwise, hardware may encounter the error again the
+                                                                 next time the same RTG location is referenced. Software may also choose to count
+                                                                 the number of these single-bit errors.
+
+                                                                 The SYS CVMCACHEWBIL2I instruction payload should have:
+                                                                 <pre>
+                                                                   payload<24>    = 0
+                                                                   payload<23:20> = L2C_TAD()_RTG_ERR[WAY]
+                                                                   payload<19:7>  = L2C_TAD()_RTG_ERR[L2IDX]
+                                                                 </pre>
+                                                                 Note that L2C_CTL[DISIDXALIAS] has no effect on the payload. */
+        uint64_t rtgdbe                : 1;  /**< [ 33: 33](R/W1C/H) RTG double-bit error.
+                                                                 See L2C_TAD()_RTG_ERR for logged information.
+                                                                 An indication of a hardware failure and may be considered fatal. */
         uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1C/H) Illegal read operation to a remote node with L2C_OCI_CTL[ENAOCI][node]
                                                                  clear. Note [RDDISOCI] interrupts can occur during normal operation as the cores
                                                                  are allowed to prefetch to nonexistent memory locations. Therefore, [RDDISOCI]
                                                                  is for informational purposes only. See L2C_TAD()_ERR for logged information. */
         uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1C/H) Illegal write operation to a remote node with L2C_OCI_CTL[ENAOCI][node] clear. See
-                                                                 L2C_TAD()_ERR for for logged information. */
+                                                                 L2C_TAD()_ERR for for logged information.
+                                                                 During normal hardware operation, an indication of a software failure and may be
+                                                                 considered fatal. */
         uint64_t reserved_36_63        : 28;
 #endif /* Word 0 - End */
     } cn88xxp1;
@@ -879,20 +1165,30 @@ union bdk_l2c_tadx_int_w1c
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_36_63        : 28;
         uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1C/H) Illegal write operation to a remote node with L2C_OCI_CTL[ENAOCI][node] clear. See
-                                                                 L2C_TAD()_ERR for for logged information. */
+                                                                 L2C_TAD()_ERR for for logged information.
+                                                                 During normal hardware operation, an indication of a software failure and may be
+                                                                 considered fatal. */
         uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1C/H) Illegal read operation to a remote node with L2C_OCI_CTL[ENAOCI][node]
                                                                  clear. Note [RDDISOCI] interrupts can occur during normal operation as the cores
                                                                  are allowed to prefetch to nonexistent memory locations. Therefore, [RDDISOCI]
                                                                  is for informational purposes only. See L2C_TAD()_ERR for logged information. */
         uint64_t reserved_19_33        : 15;
-        uint64_t gsyncto               : 1;  /**< [ 18: 18](R/W1C/H) Global sync OCI timeout. */
+        uint64_t gsyncto               : 1;  /**< [ 18: 18](R/W1C/H) Global sync timeout. Should not occur during normal operation. This may be an
+                                                                 indication of hardware failure, and may be considered fatal. */
         uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1C/H) An LFB entry (or more) has encountered a timeout condition When [LFBTO] timeout
                                                                  condition occurs L2C_TAD()_TIMEOUT is loaded. L2C_TAD()_TIMEOUT is loaded with
                                                                  info from the first LFB that timed out. if multiple LFB timed out
                                                                  simultaneously, then the it will capture info from the lowest LFB number that
-                                                                 timed out. */
-        uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1C/H) Illegal write to disabled LMC error. A DRAM write arrived before LMC was enabled. */
-        uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1C/H) Illegal read to disabled LMC error. A DRAM read arrived before LMC was enabled. */
+                                                                 timed out.
+                                                                 Should not occur during normal operation.  OCI/CCPI link failures may cause this
+                                                                 failure. This may be an indication of hardware failure, and may be considered
+                                                                 fatal. */
+        uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1C/H) Illegal write to disabled LMC error. A DRAM write arrived before LMC was enabled.
+                                                                 Should not occur during normal operation.
+                                                                 This may be considered fatal. */
+        uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1C/H) Illegal read to disabled LMC error. A DRAM read arrived before LMC was enabled.
+                                                                 Should not occur during normal operation.
+                                                                 This may be considered fatal. */
         uint64_t rdnxm                 : 1;  /**< [ 14: 14](R/W1C/H) Read reference outside all the defined and enabled address space
                                                                  control (ASC) regions, or secure read reference to an ASC region
                                                                  not enabled for secure access, or nonsecure read reference to an ASC
@@ -907,6 +1203,8 @@ union bdk_l2c_tadx_int_w1c
                                                                  control (ASC) regions, or secure write reference to an ASC region
                                                                  not enabled for secure access, or nonsecure write reference to an
                                                                  ASC region not enabled for nonsecure access.
+                                                                 This may be an indication of software
+                                                                 failure, and may be considered fatal.
                                                                  See L2C_TAD()_ERR for logged information.
                                                                  See L2C_ASC_REGION()_START, L2C_ASC_REGION()_END, and
                                                                  L2C_ASC_REGION()_ATTR for ASC region specification. */
@@ -920,25 +1218,111 @@ union bdk_l2c_tadx_int_w1c
                                                                  misses in the L2 cache, and cannot allocate a WAY.) There is one 'failure' case
                                                                  where L2C sets [NOWAY]: when it cannot leave a block locked in the L2 cache as
                                                                  part of a LCKL2 transaction. See L2C_TTG()_ERR for logged information. */
-        uint64_t tagdbe                : 1;  /**< [  9:  9](R/W1C/H) TAG double-bit error occurred. See L2C_TTG()_ERR for logged information. */
-        uint64_t tagsbe                : 1;  /**< [  8:  8](R/W1C/H) TAG single-bit error occurred. See L2C_TTG()_ERR for logged information. */
+        uint64_t tagdbe                : 1;  /**< [  9:  9](R/W1C/H) TAG double-bit error occurred. See L2C_TTG()_ERR for logged information.
+                                                                 This is an indication of a hardware failure and may be considered fatal. */
+        uint64_t tagsbe                : 1;  /**< [  8:  8](R/W1C/H) TAG single-bit error on a read. See L2C_TAD()_TTG_ERR for logged
+                                                                 information. When [TAGSBE] is set, hardware corrected the error before using the
+                                                                 tag, but did not correct any stored value. When [TAGSBE] is set, software should
+                                                                 eject the TAG location indicated by the corresponding
+                                                                 L2C_TAD()_TTG_ERR[WAY,L2IDX] (via a SYS CVMCACHEWBIL2I instruction below)
+                                                                 before clearing [TAGSBE]. Otherwise, hardware may encounter the error again the
+                                                                 next time the same TAG location is referenced. Software may also choose to count
+                                                                 the number of these single-bit errors.
+
+                                                                 The SYS CVMCACHEWBIL2I instruction payload should have:
+                                                                   <pre>
+                                                                   payload<24> = 0
+                                                                   payload<23:20> = L2C_TAD()_TTG_ERR[WAY]
+                                                                   payload<19:7>  = L2C_TAD()_TTG_ERR[L2IDX]
+                                                                   </pre>
+                                                                 Note that L2C_CTL[DISIDXALIAS] has no effect on this payload. */
         uint64_t reserved_6_7          : 2;
-        uint64_t fbfdbe                : 1;  /**< [  5:  5](R/W1C/H) FBF double-bit error occurred. See L2C_TQD()_ERR for logged information. */
-        uint64_t fbfsbe                : 1;  /**< [  4:  4](R/W1C/H) FBF single-bit error occurred. See L2C_TQD()_ERR for logged information. */
-        uint64_t sbfdbe                : 1;  /**< [  3:  3](R/W1C/H) SBF double-bit error occurred. See L2C_TQD()_ERR for logged information. */
-        uint64_t sbfsbe                : 1;  /**< [  2:  2](R/W1C/H) SBF single-bit error occurred. See L2C_TQD()_ERR for logged information. */
-        uint64_t l2ddbe                : 1;  /**< [  1:  1](R/W1C/H) L2D double-bit error occurred. See L2C_TQD()_ERR for logged information. */
-        uint64_t l2dsbe                : 1;  /**< [  0:  0](R/W1C/H) L2D single-bit error occurred. See L2C_TQD()_ERR for logged information. */
+        uint64_t fbfdbe                : 1;  /**< [  5:  5](R/W1C/H) FBF double-bit error occurred. See L2C_TAD()_TQD_ERR for logged information. An
+                                                                 indication of a hardware failure and may be considered fatal. */
+        uint64_t fbfsbe                : 1;  /**< [  4:  4](R/W1C/H) FBF single-bit error on a read. See L2C_TAD()_TQD_ERR for logged
+                                                                 information. Hardware automatically corrected the error. Software may choose to
+                                                                 count the number of these single-bit errors. */
+        uint64_t sbfdbe                : 1;  /**< [  3:  3](R/W1C/H) SBF double-bit error occurred. See L2C_TAD()_TQD_ERR for logged information. An
+                                                                 indication of a hardware failure and may be considered fatal. */
+        uint64_t sbfsbe                : 1;  /**< [  2:  2](R/W1C/H) SBF single-bit error on a read. See L2C_TAD()_TQD_ERR for logged
+                                                                 information. Hardware automatically corrected the error. Software may choose to
+                                                                 count the number of these single-bit errors. */
+        uint64_t l2ddbe                : 1;  /**< [  1:  1](R/W1C/H) L2D double-bit error occurred. See L2C_TAD()_TQD_ERR for logged information. An
+                                                                 indication of a hardware failure and may be considered fatal. */
+        uint64_t l2dsbe                : 1;  /**< [  0:  0](R/W1C/H) L2D single-bit error on a read. See L2C_TAD()_TQD_ERR for logged
+                                                                 information. When [L2DSBE] is set, hardware corrected the error before using the
+                                                                 data, but did not correct any stored value. When [L2DSBE] is set, software
+                                                                 should eject the cache block indicated by the corresponding
+                                                                 L2C_TAD()_TQD_ERR[QDNUM,L2DIDX] (via a SYS CVMCACHEWBIL2I instruction below)
+                                                                 before clearing [L2DSBE]. Otherwise, hardware may encounter the error again the
+                                                                 next time the same L2D location is referenced. Software may also choose to count
+                                                                 the number of these single-bit errors.
+
+                                                                 The SYS CVMCACHEWBIL2I instruction payload should have:
+                                                                 <pre>
+                                                                   payload<24>    = 1
+                                                                   payload<23:20> = L2C_TAD()_TQD_ERR[L2DIDX]<10:7>  // way
+                                                                   payload<19:13> = L2C_TAD()_TQD_ERR[L2DIDX]<6:0>   // index<12:6>
+                                                                   payload<12:11> = L2C_TAD()_TQD_ERR[L2DIDX]<12:11> // index<5:4>
+                                                                   payload<10>    = L2C_TAD()_TQD_ERR[QDNUM]<2>      // index<3>
+                                                                   payload<9:7>   = tad             // index<2:0>
+                                                                 </pre>
+
+                                                                 where tad is the TAD index from this CSR. Note that L2C_CTL[DISIDXALIAS] has no
+                                                                 effect on the payload. */
 #else /* Word 0 - Little Endian */
-        uint64_t l2dsbe                : 1;  /**< [  0:  0](R/W1C/H) L2D single-bit error occurred. See L2C_TQD()_ERR for logged information. */
-        uint64_t l2ddbe                : 1;  /**< [  1:  1](R/W1C/H) L2D double-bit error occurred. See L2C_TQD()_ERR for logged information. */
-        uint64_t sbfsbe                : 1;  /**< [  2:  2](R/W1C/H) SBF single-bit error occurred. See L2C_TQD()_ERR for logged information. */
-        uint64_t sbfdbe                : 1;  /**< [  3:  3](R/W1C/H) SBF double-bit error occurred. See L2C_TQD()_ERR for logged information. */
-        uint64_t fbfsbe                : 1;  /**< [  4:  4](R/W1C/H) FBF single-bit error occurred. See L2C_TQD()_ERR for logged information. */
-        uint64_t fbfdbe                : 1;  /**< [  5:  5](R/W1C/H) FBF double-bit error occurred. See L2C_TQD()_ERR for logged information. */
+        uint64_t l2dsbe                : 1;  /**< [  0:  0](R/W1C/H) L2D single-bit error on a read. See L2C_TAD()_TQD_ERR for logged
+                                                                 information. When [L2DSBE] is set, hardware corrected the error before using the
+                                                                 data, but did not correct any stored value. When [L2DSBE] is set, software
+                                                                 should eject the cache block indicated by the corresponding
+                                                                 L2C_TAD()_TQD_ERR[QDNUM,L2DIDX] (via a SYS CVMCACHEWBIL2I instruction below)
+                                                                 before clearing [L2DSBE]. Otherwise, hardware may encounter the error again the
+                                                                 next time the same L2D location is referenced. Software may also choose to count
+                                                                 the number of these single-bit errors.
+
+                                                                 The SYS CVMCACHEWBIL2I instruction payload should have:
+                                                                 <pre>
+                                                                   payload<24>    = 1
+                                                                   payload<23:20> = L2C_TAD()_TQD_ERR[L2DIDX]<10:7>  // way
+                                                                   payload<19:13> = L2C_TAD()_TQD_ERR[L2DIDX]<6:0>   // index<12:6>
+                                                                   payload<12:11> = L2C_TAD()_TQD_ERR[L2DIDX]<12:11> // index<5:4>
+                                                                   payload<10>    = L2C_TAD()_TQD_ERR[QDNUM]<2>      // index<3>
+                                                                   payload<9:7>   = tad             // index<2:0>
+                                                                 </pre>
+
+                                                                 where tad is the TAD index from this CSR. Note that L2C_CTL[DISIDXALIAS] has no
+                                                                 effect on the payload. */
+        uint64_t l2ddbe                : 1;  /**< [  1:  1](R/W1C/H) L2D double-bit error occurred. See L2C_TAD()_TQD_ERR for logged information. An
+                                                                 indication of a hardware failure and may be considered fatal. */
+        uint64_t sbfsbe                : 1;  /**< [  2:  2](R/W1C/H) SBF single-bit error on a read. See L2C_TAD()_TQD_ERR for logged
+                                                                 information. Hardware automatically corrected the error. Software may choose to
+                                                                 count the number of these single-bit errors. */
+        uint64_t sbfdbe                : 1;  /**< [  3:  3](R/W1C/H) SBF double-bit error occurred. See L2C_TAD()_TQD_ERR for logged information. An
+                                                                 indication of a hardware failure and may be considered fatal. */
+        uint64_t fbfsbe                : 1;  /**< [  4:  4](R/W1C/H) FBF single-bit error on a read. See L2C_TAD()_TQD_ERR for logged
+                                                                 information. Hardware automatically corrected the error. Software may choose to
+                                                                 count the number of these single-bit errors. */
+        uint64_t fbfdbe                : 1;  /**< [  5:  5](R/W1C/H) FBF double-bit error occurred. See L2C_TAD()_TQD_ERR for logged information. An
+                                                                 indication of a hardware failure and may be considered fatal. */
         uint64_t reserved_6_7          : 2;
-        uint64_t tagsbe                : 1;  /**< [  8:  8](R/W1C/H) TAG single-bit error occurred. See L2C_TTG()_ERR for logged information. */
-        uint64_t tagdbe                : 1;  /**< [  9:  9](R/W1C/H) TAG double-bit error occurred. See L2C_TTG()_ERR for logged information. */
+        uint64_t tagsbe                : 1;  /**< [  8:  8](R/W1C/H) TAG single-bit error on a read. See L2C_TAD()_TTG_ERR for logged
+                                                                 information. When [TAGSBE] is set, hardware corrected the error before using the
+                                                                 tag, but did not correct any stored value. When [TAGSBE] is set, software should
+                                                                 eject the TAG location indicated by the corresponding
+                                                                 L2C_TAD()_TTG_ERR[WAY,L2IDX] (via a SYS CVMCACHEWBIL2I instruction below)
+                                                                 before clearing [TAGSBE]. Otherwise, hardware may encounter the error again the
+                                                                 next time the same TAG location is referenced. Software may also choose to count
+                                                                 the number of these single-bit errors.
+
+                                                                 The SYS CVMCACHEWBIL2I instruction payload should have:
+                                                                   <pre>
+                                                                   payload<24> = 0
+                                                                   payload<23:20> = L2C_TAD()_TTG_ERR[WAY]
+                                                                   payload<19:7>  = L2C_TAD()_TTG_ERR[L2IDX]
+                                                                   </pre>
+                                                                 Note that L2C_CTL[DISIDXALIAS] has no effect on this payload. */
+        uint64_t tagdbe                : 1;  /**< [  9:  9](R/W1C/H) TAG double-bit error occurred. See L2C_TTG()_ERR for logged information.
+                                                                 This is an indication of a hardware failure and may be considered fatal. */
         uint64_t noway                 : 1;  /**< [ 10: 10](R/W1C/H) No way was available for allocation. L2C sets [NOWAY] during its processing of a
                                                                  transaction whenever it needed/wanted to allocate a WAY in the L2 cache, but was
                                                                  unable to. When this bit = 1, it is (generally) not an indication that L2C
@@ -953,6 +1337,8 @@ union bdk_l2c_tadx_int_w1c
                                                                  control (ASC) regions, or secure write reference to an ASC region
                                                                  not enabled for secure access, or nonsecure write reference to an
                                                                  ASC region not enabled for nonsecure access.
+                                                                 This may be an indication of software
+                                                                 failure, and may be considered fatal.
                                                                  See L2C_TAD()_ERR for logged information.
                                                                  See L2C_ASC_REGION()_START, L2C_ASC_REGION()_END, and
                                                                  L2C_ASC_REGION()_ATTR for ASC region specification. */
@@ -966,26 +1352,295 @@ union bdk_l2c_tadx_int_w1c
                                                                  See L2C_TAD()_ERR for logged information.
                                                                  See L2C_ASC_REGION()_START, L2C_ASC_REGION()_END, and
                                                                  L2C_ASC_REGION()_ATTR for ASC region specification. */
-        uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1C/H) Illegal read to disabled LMC error. A DRAM read arrived before LMC was enabled. */
-        uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1C/H) Illegal write to disabled LMC error. A DRAM write arrived before LMC was enabled. */
+        uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1C/H) Illegal read to disabled LMC error. A DRAM read arrived before LMC was enabled.
+                                                                 Should not occur during normal operation.
+                                                                 This may be considered fatal. */
+        uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1C/H) Illegal write to disabled LMC error. A DRAM write arrived before LMC was enabled.
+                                                                 Should not occur during normal operation.
+                                                                 This may be considered fatal. */
         uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1C/H) An LFB entry (or more) has encountered a timeout condition When [LFBTO] timeout
                                                                  condition occurs L2C_TAD()_TIMEOUT is loaded. L2C_TAD()_TIMEOUT is loaded with
                                                                  info from the first LFB that timed out. if multiple LFB timed out
                                                                  simultaneously, then the it will capture info from the lowest LFB number that
-                                                                 timed out. */
-        uint64_t gsyncto               : 1;  /**< [ 18: 18](R/W1C/H) Global sync OCI timeout. */
+                                                                 timed out.
+                                                                 Should not occur during normal operation.  OCI/CCPI link failures may cause this
+                                                                 failure. This may be an indication of hardware failure, and may be considered
+                                                                 fatal. */
+        uint64_t gsyncto               : 1;  /**< [ 18: 18](R/W1C/H) Global sync timeout. Should not occur during normal operation. This may be an
+                                                                 indication of hardware failure, and may be considered fatal. */
         uint64_t reserved_19_33        : 15;
         uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1C/H) Illegal read operation to a remote node with L2C_OCI_CTL[ENAOCI][node]
                                                                  clear. Note [RDDISOCI] interrupts can occur during normal operation as the cores
                                                                  are allowed to prefetch to nonexistent memory locations. Therefore, [RDDISOCI]
                                                                  is for informational purposes only. See L2C_TAD()_ERR for logged information. */
         uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1C/H) Illegal write operation to a remote node with L2C_OCI_CTL[ENAOCI][node] clear. See
-                                                                 L2C_TAD()_ERR for for logged information. */
+                                                                 L2C_TAD()_ERR for for logged information.
+                                                                 During normal hardware operation, an indication of a software failure and may be
+                                                                 considered fatal. */
         uint64_t reserved_36_63        : 28;
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_l2c_tadx_int_w1c_cn81xx cn83xx; */
-    /* struct bdk_l2c_tadx_int_w1c_s cn88xxp2; */
+    struct bdk_l2c_tadx_int_w1c_cn88xxp2
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_36_63        : 28;
+        uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1C/H) Illegal write operation to a remote node with L2C_OCI_CTL[ENAOCI][node] clear. See
+                                                                 L2C_TAD()_ERR for for logged information.
+                                                                 During normal hardware operation, an indication of a software failure and may be
+                                                                 considered fatal. */
+        uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1C/H) Illegal read operation to a remote node with L2C_OCI_CTL[ENAOCI][node]
+                                                                 clear. Note [RDDISOCI] interrupts can occur during normal operation as the cores
+                                                                 are allowed to prefetch to nonexistent memory locations. Therefore, [RDDISOCI]
+                                                                 is for informational purposes only. See L2C_TAD()_ERR for logged information. */
+        uint64_t rtgdbe                : 1;  /**< [ 33: 33](R/W1C/H) RTG double-bit error.
+                                                                 See L2C_TAD()_RTG_ERR for logged information.
+                                                                 An indication of a hardware failure and may be considered fatal. */
+        uint64_t rtgsbe                : 1;  /**< [ 32: 32](R/W1C/H) RTG single-bit error on a read. See L2C_TAD()_RTG_ERR for logged
+                                                                 information. When [RTGSBE] is set, hardware corrected the error before using the
+                                                                 RTG tag, but did not correct any stored value. When [RTGSBE] is set, software
+                                                                 should eject the RTG location indicated by the corresponding
+                                                                 L2C_TAD()_RTG_ERR[WAY,L2IDX] (via a SYS CVMCACHEWBIL2I instruction below)
+                                                                 before clearing [RTGSBE]. Otherwise, hardware may encounter the error again the
+                                                                 next time the same RTG location is referenced. Software may also choose to count
+                                                                 the number of these single-bit errors.
+
+                                                                 The SYS CVMCACHEWBIL2I instruction payload should have:
+                                                                 <pre>
+                                                                   payload<24>    = 0
+                                                                   payload<23:20> = L2C_TAD()_RTG_ERR[WAY]
+                                                                   payload<19:7>  = L2C_TAD()_RTG_ERR[L2IDX]
+                                                                 </pre>
+                                                                 Note that L2C_CTL[DISIDXALIAS] has no effect on the payload. */
+        uint64_t reserved_19_31        : 13;
+        uint64_t gsyncto               : 1;  /**< [ 18: 18](R/W1C/H) Global sync OCI timeout. Should not occur during normal operation. OCI/CCPI link
+                                                                 failures may cause this failure. This may be an indication of hardware failure,
+                                                                 and may be considered fatal. */
+        uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1C/H) An LFB entry (or more) has encountered a timeout condition When [LFBTO] timeout
+                                                                 condition occurs L2C_TAD()_TIMEOUT is loaded. L2C_TAD()_TIMEOUT is loaded with
+                                                                 info from the first LFB that timed out. if multiple LFB timed out
+                                                                 simultaneously, then the it will capture info from the lowest LFB number that
+                                                                 timed out.
+                                                                 Should not occur during normal operation.  OCI/CCPI link failures may cause this
+                                                                 failure. This may be an indication of hardware failure, and may be considered
+                                                                 fatal. */
+        uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1C/H) Illegal write to disabled LMC error. A DRAM write arrived before LMC was enabled.
+                                                                 Should not occur during normal operation.
+                                                                 This may be considered fatal. */
+        uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1C/H) Illegal read to disabled LMC error. A DRAM read arrived before LMC was enabled.
+                                                                 Should not occur during normal operation.
+                                                                 This may be considered fatal. */
+        uint64_t rdnxm                 : 1;  /**< [ 14: 14](R/W1C/H) Read reference outside all the defined and enabled address space
+                                                                 control (ASC) regions, or secure read reference to an ASC region
+                                                                 not enabled for secure access, or nonsecure read reference to an ASC
+                                                                 region not enabled for nonsecure access.
+                                                                 [RDNXM] interrupts can occur during normal operation as the cores are
+                                                                 allowed to prefetch to nonexistent memory locations.  Therefore,
+                                                                 [RDNXM] is for informational purposes only.
+                                                                 See L2C_TAD()_ERR for logged information.
+                                                                 See L2C_ASC_REGION()_START, L2C_ASC_REGION()_END, and
+                                                                 L2C_ASC_REGION()_ATTR for ASC region specification. */
+        uint64_t wrnxm                 : 1;  /**< [ 13: 13](R/W1C/H) Write reference outside all the defined and enabled address space
+                                                                 control (ASC) regions, or secure write reference to an ASC region
+                                                                 not enabled for secure access, or nonsecure write reference to an
+                                                                 ASC region not enabled for nonsecure access.
+                                                                 This may be an indication of software
+                                                                 failure, and may be considered fatal.
+                                                                 See L2C_TAD()_ERR for logged information.
+                                                                 See L2C_ASC_REGION()_START, L2C_ASC_REGION()_END, and
+                                                                 L2C_ASC_REGION()_ATTR for ASC region specification. */
+        uint64_t reserved_11_12        : 2;
+        uint64_t noway                 : 1;  /**< [ 10: 10](R/W1C/H) No way was available for allocation. L2C sets [NOWAY] during its processing of a
+                                                                 transaction whenever it needed/wanted to allocate a WAY in the L2 cache, but was
+                                                                 unable to. When this bit = 1, it is (generally) not an indication that L2C
+                                                                 failed to complete transactions. Rather, it is a hint of possible performance
+                                                                 degradation. (For example, L2C must read- modify-write DRAM for every
+                                                                 transaction that updates some, but not all, of the bytes in a cache block,
+                                                                 misses in the L2 cache, and cannot allocate a WAY.) There is one 'failure' case
+                                                                 where L2C sets [NOWAY]: when it cannot leave a block locked in the L2 cache as
+                                                                 part of a LCKL2 transaction. See L2C_TTG()_ERR for logged information. */
+        uint64_t tagdbe                : 1;  /**< [  9:  9](R/W1C/H) TAG double-bit error occurred. See L2C_TTG()_ERR for logged information.
+                                                                 This is an indication of a hardware failure and may be considered fatal. */
+        uint64_t tagsbe                : 1;  /**< [  8:  8](R/W1C/H) TAG single-bit error on a read. See L2C_TAD()_TTG_ERR for logged
+                                                                 information. When [TAGSBE] is set, hardware corrected the error before using the
+                                                                 tag, but did not correct any stored value. When [TAGSBE] is set, software should
+                                                                 eject the TAG location indicated by the corresponding
+                                                                 L2C_TAD()_TTG_ERR[WAY,L2IDX] (via a SYS CVMCACHEWBIL2I instruction below)
+                                                                 before clearing [TAGSBE]. Otherwise, hardware may encounter the error again the
+                                                                 next time the same TAG location is referenced. Software may also choose to count
+                                                                 the number of these single-bit errors.
+
+                                                                 The SYS CVMCACHEWBIL2I instruction payload should have:
+                                                                   <pre>
+                                                                   payload<24> = 0
+                                                                   payload<23:20> = L2C_TAD()_TTG_ERR[WAY]
+                                                                   payload<19:7>  = L2C_TAD()_TTG_ERR[L2IDX]
+                                                                   </pre>
+                                                                 Note that L2C_CTL[DISIDXALIAS] has no effect on this payload. */
+        uint64_t reserved_6_7          : 2;
+        uint64_t fbfdbe                : 1;  /**< [  5:  5](R/W1C/H) FBF double-bit error occurred. See L2C_TAD()_TQD_ERR for logged information. An
+                                                                 indication of a hardware failure and may be considered fatal. */
+        uint64_t fbfsbe                : 1;  /**< [  4:  4](R/W1C/H) FBF single-bit error on a read. See L2C_TAD()_TQD_ERR for logged
+                                                                 information. Hardware automatically corrected the error. Software may choose to
+                                                                 count the number of these single-bit errors. */
+        uint64_t sbfdbe                : 1;  /**< [  3:  3](R/W1C/H) SBF double-bit error occurred. See L2C_TAD()_TQD_ERR for logged information. An
+                                                                 indication of a hardware failure and may be considered fatal. */
+        uint64_t sbfsbe                : 1;  /**< [  2:  2](R/W1C/H) SBF single-bit error on a read. See L2C_TAD()_TQD_ERR for logged
+                                                                 information. Hardware automatically corrected the error. Software may choose to
+                                                                 count the number of these single-bit errors. */
+        uint64_t l2ddbe                : 1;  /**< [  1:  1](R/W1C/H) L2D double-bit error occurred. See L2C_TAD()_TQD_ERR for logged information. An
+                                                                 indication of a hardware failure and may be considered fatal. */
+        uint64_t l2dsbe                : 1;  /**< [  0:  0](R/W1C/H) L2D single-bit error on a read. See L2C_TAD()_TQD_ERR for logged
+                                                                 information. When [L2DSBE] is set, hardware corrected the error before using the
+                                                                 data, but did not correct any stored value. When [L2DSBE] is set, software
+                                                                 should eject the cache block indicated by the corresponding
+                                                                 L2C_TAD()_TQD_ERR[QDNUM,L2DIDX] (via a SYS CVMCACHEWBIL2I instruction below)
+                                                                 before clearing [L2DSBE]. Otherwise, hardware may encounter the error again the
+                                                                 next time the same L2D location is referenced. Software may also choose to count
+                                                                 the number of these single-bit errors.
+
+                                                                 The SYS CVMCACHEWBIL2I instruction payload should have:
+                                                                 <pre>
+                                                                   payload<24>    = 1
+                                                                   payload<23:20> = L2C_TAD()_TQD_ERR[L2DIDX]<10:7>  // way
+                                                                   payload<19:13> = L2C_TAD()_TQD_ERR[L2DIDX]<6:0>   // index<12:6>
+                                                                   payload<12:11> = L2C_TAD()_TQD_ERR[L2DIDX]<12:11> // index<5:4>
+                                                                   payload<10>    = L2C_TAD()_TQD_ERR[QDNUM]<2>      // index<3>
+                                                                   payload<9:7>   = tad             // index<2:0>
+                                                                 </pre>
+
+                                                                 where tad is the TAD index from this CSR. Note that L2C_CTL[DISIDXALIAS] has no
+                                                                 effect on the payload. */
+#else /* Word 0 - Little Endian */
+        uint64_t l2dsbe                : 1;  /**< [  0:  0](R/W1C/H) L2D single-bit error on a read. See L2C_TAD()_TQD_ERR for logged
+                                                                 information. When [L2DSBE] is set, hardware corrected the error before using the
+                                                                 data, but did not correct any stored value. When [L2DSBE] is set, software
+                                                                 should eject the cache block indicated by the corresponding
+                                                                 L2C_TAD()_TQD_ERR[QDNUM,L2DIDX] (via a SYS CVMCACHEWBIL2I instruction below)
+                                                                 before clearing [L2DSBE]. Otherwise, hardware may encounter the error again the
+                                                                 next time the same L2D location is referenced. Software may also choose to count
+                                                                 the number of these single-bit errors.
+
+                                                                 The SYS CVMCACHEWBIL2I instruction payload should have:
+                                                                 <pre>
+                                                                   payload<24>    = 1
+                                                                   payload<23:20> = L2C_TAD()_TQD_ERR[L2DIDX]<10:7>  // way
+                                                                   payload<19:13> = L2C_TAD()_TQD_ERR[L2DIDX]<6:0>   // index<12:6>
+                                                                   payload<12:11> = L2C_TAD()_TQD_ERR[L2DIDX]<12:11> // index<5:4>
+                                                                   payload<10>    = L2C_TAD()_TQD_ERR[QDNUM]<2>      // index<3>
+                                                                   payload<9:7>   = tad             // index<2:0>
+                                                                 </pre>
+
+                                                                 where tad is the TAD index from this CSR. Note that L2C_CTL[DISIDXALIAS] has no
+                                                                 effect on the payload. */
+        uint64_t l2ddbe                : 1;  /**< [  1:  1](R/W1C/H) L2D double-bit error occurred. See L2C_TAD()_TQD_ERR for logged information. An
+                                                                 indication of a hardware failure and may be considered fatal. */
+        uint64_t sbfsbe                : 1;  /**< [  2:  2](R/W1C/H) SBF single-bit error on a read. See L2C_TAD()_TQD_ERR for logged
+                                                                 information. Hardware automatically corrected the error. Software may choose to
+                                                                 count the number of these single-bit errors. */
+        uint64_t sbfdbe                : 1;  /**< [  3:  3](R/W1C/H) SBF double-bit error occurred. See L2C_TAD()_TQD_ERR for logged information. An
+                                                                 indication of a hardware failure and may be considered fatal. */
+        uint64_t fbfsbe                : 1;  /**< [  4:  4](R/W1C/H) FBF single-bit error on a read. See L2C_TAD()_TQD_ERR for logged
+                                                                 information. Hardware automatically corrected the error. Software may choose to
+                                                                 count the number of these single-bit errors. */
+        uint64_t fbfdbe                : 1;  /**< [  5:  5](R/W1C/H) FBF double-bit error occurred. See L2C_TAD()_TQD_ERR for logged information. An
+                                                                 indication of a hardware failure and may be considered fatal. */
+        uint64_t reserved_6_7          : 2;
+        uint64_t tagsbe                : 1;  /**< [  8:  8](R/W1C/H) TAG single-bit error on a read. See L2C_TAD()_TTG_ERR for logged
+                                                                 information. When [TAGSBE] is set, hardware corrected the error before using the
+                                                                 tag, but did not correct any stored value. When [TAGSBE] is set, software should
+                                                                 eject the TAG location indicated by the corresponding
+                                                                 L2C_TAD()_TTG_ERR[WAY,L2IDX] (via a SYS CVMCACHEWBIL2I instruction below)
+                                                                 before clearing [TAGSBE]. Otherwise, hardware may encounter the error again the
+                                                                 next time the same TAG location is referenced. Software may also choose to count
+                                                                 the number of these single-bit errors.
+
+                                                                 The SYS CVMCACHEWBIL2I instruction payload should have:
+                                                                   <pre>
+                                                                   payload<24> = 0
+                                                                   payload<23:20> = L2C_TAD()_TTG_ERR[WAY]
+                                                                   payload<19:7>  = L2C_TAD()_TTG_ERR[L2IDX]
+                                                                   </pre>
+                                                                 Note that L2C_CTL[DISIDXALIAS] has no effect on this payload. */
+        uint64_t tagdbe                : 1;  /**< [  9:  9](R/W1C/H) TAG double-bit error occurred. See L2C_TTG()_ERR for logged information.
+                                                                 This is an indication of a hardware failure and may be considered fatal. */
+        uint64_t noway                 : 1;  /**< [ 10: 10](R/W1C/H) No way was available for allocation. L2C sets [NOWAY] during its processing of a
+                                                                 transaction whenever it needed/wanted to allocate a WAY in the L2 cache, but was
+                                                                 unable to. When this bit = 1, it is (generally) not an indication that L2C
+                                                                 failed to complete transactions. Rather, it is a hint of possible performance
+                                                                 degradation. (For example, L2C must read- modify-write DRAM for every
+                                                                 transaction that updates some, but not all, of the bytes in a cache block,
+                                                                 misses in the L2 cache, and cannot allocate a WAY.) There is one 'failure' case
+                                                                 where L2C sets [NOWAY]: when it cannot leave a block locked in the L2 cache as
+                                                                 part of a LCKL2 transaction. See L2C_TTG()_ERR for logged information. */
+        uint64_t reserved_11_12        : 2;
+        uint64_t wrnxm                 : 1;  /**< [ 13: 13](R/W1C/H) Write reference outside all the defined and enabled address space
+                                                                 control (ASC) regions, or secure write reference to an ASC region
+                                                                 not enabled for secure access, or nonsecure write reference to an
+                                                                 ASC region not enabled for nonsecure access.
+                                                                 This may be an indication of software
+                                                                 failure, and may be considered fatal.
+                                                                 See L2C_TAD()_ERR for logged information.
+                                                                 See L2C_ASC_REGION()_START, L2C_ASC_REGION()_END, and
+                                                                 L2C_ASC_REGION()_ATTR for ASC region specification. */
+        uint64_t rdnxm                 : 1;  /**< [ 14: 14](R/W1C/H) Read reference outside all the defined and enabled address space
+                                                                 control (ASC) regions, or secure read reference to an ASC region
+                                                                 not enabled for secure access, or nonsecure read reference to an ASC
+                                                                 region not enabled for nonsecure access.
+                                                                 [RDNXM] interrupts can occur during normal operation as the cores are
+                                                                 allowed to prefetch to nonexistent memory locations.  Therefore,
+                                                                 [RDNXM] is for informational purposes only.
+                                                                 See L2C_TAD()_ERR for logged information.
+                                                                 See L2C_ASC_REGION()_START, L2C_ASC_REGION()_END, and
+                                                                 L2C_ASC_REGION()_ATTR for ASC region specification. */
+        uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1C/H) Illegal read to disabled LMC error. A DRAM read arrived before LMC was enabled.
+                                                                 Should not occur during normal operation.
+                                                                 This may be considered fatal. */
+        uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1C/H) Illegal write to disabled LMC error. A DRAM write arrived before LMC was enabled.
+                                                                 Should not occur during normal operation.
+                                                                 This may be considered fatal. */
+        uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1C/H) An LFB entry (or more) has encountered a timeout condition When [LFBTO] timeout
+                                                                 condition occurs L2C_TAD()_TIMEOUT is loaded. L2C_TAD()_TIMEOUT is loaded with
+                                                                 info from the first LFB that timed out. if multiple LFB timed out
+                                                                 simultaneously, then the it will capture info from the lowest LFB number that
+                                                                 timed out.
+                                                                 Should not occur during normal operation.  OCI/CCPI link failures may cause this
+                                                                 failure. This may be an indication of hardware failure, and may be considered
+                                                                 fatal. */
+        uint64_t gsyncto               : 1;  /**< [ 18: 18](R/W1C/H) Global sync OCI timeout. Should not occur during normal operation. OCI/CCPI link
+                                                                 failures may cause this failure. This may be an indication of hardware failure,
+                                                                 and may be considered fatal. */
+        uint64_t reserved_19_31        : 13;
+        uint64_t rtgsbe                : 1;  /**< [ 32: 32](R/W1C/H) RTG single-bit error on a read. See L2C_TAD()_RTG_ERR for logged
+                                                                 information. When [RTGSBE] is set, hardware corrected the error before using the
+                                                                 RTG tag, but did not correct any stored value. When [RTGSBE] is set, software
+                                                                 should eject the RTG location indicated by the corresponding
+                                                                 L2C_TAD()_RTG_ERR[WAY,L2IDX] (via a SYS CVMCACHEWBIL2I instruction below)
+                                                                 before clearing [RTGSBE]. Otherwise, hardware may encounter the error again the
+                                                                 next time the same RTG location is referenced. Software may also choose to count
+                                                                 the number of these single-bit errors.
+
+                                                                 The SYS CVMCACHEWBIL2I instruction payload should have:
+                                                                 <pre>
+                                                                   payload<24>    = 0
+                                                                   payload<23:20> = L2C_TAD()_RTG_ERR[WAY]
+                                                                   payload<19:7>  = L2C_TAD()_RTG_ERR[L2IDX]
+                                                                 </pre>
+                                                                 Note that L2C_CTL[DISIDXALIAS] has no effect on the payload. */
+        uint64_t rtgdbe                : 1;  /**< [ 33: 33](R/W1C/H) RTG double-bit error.
+                                                                 See L2C_TAD()_RTG_ERR for logged information.
+                                                                 An indication of a hardware failure and may be considered fatal. */
+        uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1C/H) Illegal read operation to a remote node with L2C_OCI_CTL[ENAOCI][node]
+                                                                 clear. Note [RDDISOCI] interrupts can occur during normal operation as the cores
+                                                                 are allowed to prefetch to nonexistent memory locations. Therefore, [RDDISOCI]
+                                                                 is for informational purposes only. See L2C_TAD()_ERR for logged information. */
+        uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1C/H) Illegal write operation to a remote node with L2C_OCI_CTL[ENAOCI][node] clear. See
+                                                                 L2C_TAD()_ERR for for logged information.
+                                                                 During normal hardware operation, an indication of a software failure and may be
+                                                                 considered fatal. */
+        uint64_t reserved_36_63        : 28;
+#endif /* Word 0 - End */
+    } cn88xxp2;
 };
 typedef union bdk_l2c_tadx_int_w1c bdk_l2c_tadx_int_w1c_t;
 
@@ -1466,11 +2121,13 @@ union bdk_l2c_tadx_rtg_err
         uint64_t syn                   : 7;  /**< [ 38: 32](RO/H) Syndrome for the single-bit error. */
         uint64_t reserved_24_31        : 8;
         uint64_t way                   : 4;  /**< [ 23: 20](RO/H) Way of the L2 block containing the error. */
-        uint64_t l2idx                 : 13; /**< [ 19:  7](RO/H) Index of the L2 block containing the error. */
+        uint64_t l2idx                 : 13; /**< [ 19:  7](RO/H) Index of the L2 block containing the error.
+                                                                 See L2C_TAD()_INT_W1C[RTGSBE]. */
         uint64_t reserved_0_6          : 7;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_6          : 7;
-        uint64_t l2idx                 : 13; /**< [ 19:  7](RO/H) Index of the L2 block containing the error. */
+        uint64_t l2idx                 : 13; /**< [ 19:  7](RO/H) Index of the L2 block containing the error.
+                                                                 See L2C_TAD()_INT_W1C[RTGSBE]. */
         uint64_t way                   : 4;  /**< [ 23: 20](RO/H) Way of the L2 block containing the error. */
         uint64_t reserved_24_31        : 8;
         uint64_t syn                   : 7;  /**< [ 38: 32](RO/H) Syndrome for the single-bit error. */
@@ -1613,10 +2270,12 @@ union bdk_l2c_tadx_tqd_err
         uint64_t qdnum                 : 3;  /**< [ 17: 15](RO/H) Quad containing the error. */
         uint64_t qdhlf                 : 1;  /**< [ 14: 14](RO/H) Quad half of the containing the error. */
         uint64_t l2didx                : 14; /**< [ 13:  0](RO/H) For L2D errors, index within the quad-half containing the error. For SBF and FBF errors
-                                                                 <13:5> is 0x0 and <4:0> is the index of the error (<4:1> is lfbnum<3:0>, <0> is addr<5>). */
+                                                                 <13:5> is 0x0 and <4:0> is the index of the error (<4:1> is lfbnum<3:0>, <0> is addr<5>).
+                                                                 See L2C_TAD()_INT_W1C[L2DSBE]. */
 #else /* Word 0 - Little Endian */
         uint64_t l2didx                : 14; /**< [ 13:  0](RO/H) For L2D errors, index within the quad-half containing the error. For SBF and FBF errors
-                                                                 <13:5> is 0x0 and <4:0> is the index of the error (<4:1> is lfbnum<3:0>, <0> is addr<5>). */
+                                                                 <13:5> is 0x0 and <4:0> is the index of the error (<4:1> is lfbnum<3:0>, <0> is addr<5>).
+                                                                 See L2C_TAD()_INT_W1C[L2DSBE]. */
         uint64_t qdhlf                 : 1;  /**< [ 14: 14](RO/H) Quad half of the containing the error. */
         uint64_t qdnum                 : 3;  /**< [ 17: 15](RO/H) Quad containing the error. */
         uint64_t reserved_18_31        : 14;
@@ -1782,11 +2441,13 @@ union bdk_l2c_tadx_ttg_err
         uint64_t syn                   : 7;  /**< [ 38: 32](RO/H) Syndrome for the single-bit error. */
         uint64_t reserved_21_31        : 11;
         uint64_t way                   : 4;  /**< [ 20: 17](RO/H) Way of the L2 block containing the error. */
-        uint64_t l2idx                 : 10; /**< [ 16:  7](RO/H) Index of the L2 block containing the error. */
+        uint64_t l2idx                 : 10; /**< [ 16:  7](RO/H) Index of the L2 block containing the error.
+                                                                 See L2C_TAD()_INT_W1C[TAGSBE]. */
         uint64_t reserved_0_6          : 7;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_6          : 7;
-        uint64_t l2idx                 : 10; /**< [ 16:  7](RO/H) Index of the L2 block containing the error. */
+        uint64_t l2idx                 : 10; /**< [ 16:  7](RO/H) Index of the L2 block containing the error.
+                                                                 See L2C_TAD()_INT_W1C[TAGSBE]. */
         uint64_t way                   : 4;  /**< [ 20: 17](RO/H) Way of the L2 block containing the error. */
         uint64_t reserved_21_31        : 11;
         uint64_t syn                   : 7;  /**< [ 38: 32](RO/H) Syndrome for the single-bit error. */
@@ -1806,11 +2467,13 @@ union bdk_l2c_tadx_ttg_err
         uint64_t syn                   : 7;  /**< [ 38: 32](RO/H) Syndrome for the single-bit error. */
         uint64_t reserved_24_31        : 8;
         uint64_t way                   : 4;  /**< [ 23: 20](RO/H) Way of the L2 block containing the error. */
-        uint64_t l2idx                 : 13; /**< [ 19:  7](RO/H) Index of the L2 block containing the error. */
+        uint64_t l2idx                 : 13; /**< [ 19:  7](RO/H) Index of the L2 block containing the error.
+                                                                 See L2C_TAD()_INT_W1C[TAGSBE]. */
         uint64_t reserved_0_6          : 7;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_6          : 7;
-        uint64_t l2idx                 : 13; /**< [ 19:  7](RO/H) Index of the L2 block containing the error. */
+        uint64_t l2idx                 : 13; /**< [ 19:  7](RO/H) Index of the L2 block containing the error.
+                                                                 See L2C_TAD()_INT_W1C[TAGSBE]. */
         uint64_t way                   : 4;  /**< [ 23: 20](RO/H) Way of the L2 block containing the error. */
         uint64_t reserved_24_31        : 8;
         uint64_t syn                   : 7;  /**< [ 38: 32](RO/H) Syndrome for the single-bit error. */
@@ -1830,11 +2493,13 @@ union bdk_l2c_tadx_ttg_err
         uint64_t syn                   : 7;  /**< [ 38: 32](RO/H) Syndrome for the single-bit error. */
         uint64_t reserved_23_31        : 9;
         uint64_t way                   : 4;  /**< [ 22: 19](RO/H) Way of the L2 block containing the error. */
-        uint64_t l2idx                 : 12; /**< [ 18:  7](RO/H) Index of the L2 block containing the error. */
+        uint64_t l2idx                 : 12; /**< [ 18:  7](RO/H) Index of the L2 block containing the error.
+                                                                 See L2C_TAD()_INT_W1C[TAGSBE]. */
         uint64_t reserved_0_6          : 7;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_6          : 7;
-        uint64_t l2idx                 : 12; /**< [ 18:  7](RO/H) Index of the L2 block containing the error. */
+        uint64_t l2idx                 : 12; /**< [ 18:  7](RO/H) Index of the L2 block containing the error.
+                                                                 See L2C_TAD()_INT_W1C[TAGSBE]. */
         uint64_t way                   : 4;  /**< [ 22: 19](RO/H) Way of the L2 block containing the error. */
         uint64_t reserved_23_31        : 9;
         uint64_t syn                   : 7;  /**< [ 38: 32](RO/H) Syndrome for the single-bit error. */

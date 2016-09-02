@@ -6830,7 +6830,7 @@ union bdk_pcieepx_cfg154
                                                                  0x0 = directed_speed change.
                                                                  0x1 = changed_speed_recovery.
                                                                  0x2 =  successful_speed_negotiation.
-                                                                 0x3 =  upconfigure_capable; Set to '1' if both ports advertised
+                                                                 0x3 =  upconfigure_capable; Set to 1 if both ports advertised
                                                                  the UpConfigure capability in the last Config.Complete.
                                                                  0x4 = select_deemphasis.
                                                                  0x5 = start_equalization_w_preset.
@@ -6950,7 +6950,7 @@ union bdk_pcieepx_cfg154
                                                                  0x0 = directed_speed change.
                                                                  0x1 = changed_speed_recovery.
                                                                  0x2 =  successful_speed_negotiation.
-                                                                 0x3 =  upconfigure_capable; Set to '1' if both ports advertised
+                                                                 0x3 =  upconfigure_capable; Set to 1 if both ports advertised
                                                                  the UpConfigure capability in the last Config.Complete.
                                                                  0x4 = select_deemphasis.
                                                                  0x5 = start_equalization_w_preset.
@@ -10831,7 +10831,7 @@ union bdk_pcieepx_cfg560
                                                                  when this bit is set.
 
                                                                  If PCIEEP()_CFG144[LTSSM_VAR] is set and PCIEEP()_CFG040[HASD]
-                                                                 is '0', the core starts upconfigure or autonomous width
+                                                                 is 0, the core starts upconfigure or autonomous width
                                                                  downsizing (to the TRGT_LNK_WDTH value) in the configuration
                                                                  state.
 
@@ -10865,7 +10865,7 @@ union bdk_pcieepx_cfg560
                                                                  when this bit is set.
 
                                                                  If PCIEEP()_CFG144[LTSSM_VAR] is set and PCIEEP()_CFG040[HASD]
-                                                                 is '0', the core starts upconfigure or autonomous width
+                                                                 is 0, the core starts upconfigure or autonomous width
                                                                  downsizing (to the TRGT_LNK_WDTH value) in the configuration
                                                                  state.
 

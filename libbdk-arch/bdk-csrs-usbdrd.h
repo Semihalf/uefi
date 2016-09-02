@@ -2026,9 +2026,9 @@ union bdk_usbdrdx_uahc_dsts
                                                                     0x5 = Early Suspend state.
                                                                     others: Reserved.
 
-                                                                 The link state resume/reset indicates that the core received a resume or
-                                                                 USB reset request from the host while the link was in hibernation. Software
-                                                                 must write '8' (recovery) to the USBDRD()_UAHC_DCTL[ULSTCHNGREQ] field to acknowledge
+                                                                 The link state resume/reset indicates that the core received a resume or USB
+                                                                 reset request from the host while the link was in hibernation. Software must
+                                                                 write 0x8 (recovery) to the USBDRD()_UAHC_DCTL[ULSTCHNGREQ] field to acknowledge
                                                                  the resume/reset request. */
         uint32_t rxfifoempty           : 1;  /**< [ 17: 17](RO/H) RxFIFO Empty Indication. */
         uint32_t soffn                 : 14; /**< [ 16:  3](RO/H) Frame/MicroFrame number of the received SOF.
@@ -2092,9 +2092,9 @@ union bdk_usbdrdx_uahc_dsts
                                                                     0x5 = Early Suspend state.
                                                                     others: Reserved.
 
-                                                                 The link state resume/reset indicates that the core received a resume or
-                                                                 USB reset request from the host while the link was in hibernation. Software
-                                                                 must write '8' (recovery) to the USBDRD()_UAHC_DCTL[ULSTCHNGREQ] field to acknowledge
+                                                                 The link state resume/reset indicates that the core received a resume or USB
+                                                                 reset request from the host while the link was in hibernation. Software must
+                                                                 write 0x8 (recovery) to the USBDRD()_UAHC_DCTL[ULSTCHNGREQ] field to acknowledge
                                                                  the resume/reset request. */
         uint32_t devctrlhlt            : 1;  /**< [ 22: 22](RO/H) Device controller halted.
                                                                  When 1, the core does not generate device events.
@@ -6212,7 +6212,7 @@ union bdk_usbdrdx_uahc_gusb3pipectlx
                                                                  Pipe3_RxElecIlde is 1 and pipe3_RxValid is 0.
 
                                                                  Internal:
-                                                                 Note: This bit should be set to '1' for Synopsys PHY. It is also used by third-
+                                                                 Note: This bit should be set to 1 for Synopsys PHY. It is also used by third-
                                                                  party SuperSpeed PHY. */
         uint32_t suspend_en            : 1;  /**< [ 17: 17](R/W) Suspend USB3.0 SuperSpeed PHY (Suspend_en). When set to 1, and if suspend conditions are
                                                                  valid, the USB 3.0 PHY enters suspend mode. */
@@ -6359,7 +6359,7 @@ union bdk_usbdrdx_uahc_gusb3pipectlx
                                                                  Pipe3_RxElecIlde is 1 and pipe3_RxValid is 0.
 
                                                                  Internal:
-                                                                 Note: This bit should be set to '1' for Synopsys PHY. It is also used by third-
+                                                                 Note: This bit should be set to 1 for Synopsys PHY. It is also used by third-
                                                                  party SuperSpeed PHY. */
         uint32_t delaypx               : 3;  /**< [ 21: 19](R/W) Delay P1P2P3. Delay P0 to P1/P2/P3 request when entering U1/U2/U3 until (DELAYPX * 8)
                                                                  8B10B error occurs, or Pipe3_RxValid drops to 0.
@@ -6539,7 +6539,7 @@ union bdk_usbdrdx_uahc_gusb3pipectlx
                                                                  Pipe3_RxElecIlde is 1 and pipe3_RxValid is 0.
 
                                                                  Internal:
-                                                                 Note: This bit should be set to '1' for Synopsys PHY. It is also used by third-
+                                                                 Note: This bit should be set to 1 for Synopsys PHY. It is also used by third-
                                                                  party SuperSpeed PHY. */
         uint32_t suspend_en            : 1;  /**< [ 17: 17](R/W) Suspend USB3.0 SuperSpeed PHY (Suspend_en). When set to 1, and if suspend conditions are
                                                                  valid, the USB 3.0 PHY enters suspend mode. */
@@ -6698,7 +6698,7 @@ union bdk_usbdrdx_uahc_gusb3pipectlx
                                                                  Pipe3_RxElecIlde is 1 and pipe3_RxValid is 0.
 
                                                                  Internal:
-                                                                 Note: This bit should be set to '1' for Synopsys PHY. It is also used by third-
+                                                                 Note: This bit should be set to 1 for Synopsys PHY. It is also used by third-
                                                                  party SuperSpeed PHY. */
         uint32_t delaypx               : 3;  /**< [ 21: 19](R/W) Delay P1P2P3. Delay P0 to P1/P2/P3 request when entering U1/U2/U3 until (DELAYPX * 8)
                                                                  8B10B error occurs, or Pipe3_RxValid drops to 0.

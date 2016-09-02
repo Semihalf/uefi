@@ -10134,8 +10134,8 @@ union bdk_ap_icc_ctlr_el1
                                                                      at EL1 and EL2.
                                                                  Virtual accesses modify AP_ICH_VMCR_EL2[VCBPR]. An access is
                                                                      virtual when accessed at nonsecure EL1 and either of FIQ or
-                                                                     IRQ has been virtualized.  That is, when (AP_SCR_EL3[NS] == '1' &&
-                                                                     (AP_HCR_EL2[FMO] == '1' || AP_HCR_EL2[IMO] == '1')). */
+                                                                     IRQ has been virtualized.  That is, when (AP_SCR_EL3[NS] == 1 &&
+                                                                     (AP_HCR_EL2[FMO] == 1 || AP_HCR_EL2[IMO] == 1)). */
 #else /* Word 0 - Little Endian */
         uint32_t cbpr                  : 1;  /**< [  0:  0](R/W) Common Binary Point Register.
                                                                  If EL3 is present and GICD_CTLR[DS] == 0, this bit is a read-
@@ -10145,8 +10145,8 @@ union bdk_ap_icc_ctlr_el1
                                                                      at EL1 and EL2.
                                                                  Virtual accesses modify AP_ICH_VMCR_EL2[VCBPR]. An access is
                                                                      virtual when accessed at nonsecure EL1 and either of FIQ or
-                                                                     IRQ has been virtualized.  That is, when (AP_SCR_EL3[NS] == '1' &&
-                                                                     (AP_HCR_EL2[FMO] == '1' || AP_HCR_EL2[IMO] == '1')). */
+                                                                     IRQ has been virtualized.  That is, when (AP_SCR_EL3[NS] == 1 &&
+                                                                     (AP_HCR_EL2[FMO] == 1 || AP_HCR_EL2[IMO] == 1)). */
         uint32_t eoimode               : 1;  /**< [  1:  1](R/W) Alias of AP_ICC_CTLR_EL3[EOI]mode_EL1{S,NS} as appropriate to the
                                                                      current Security state.
                                                                  Virtual accesses modify AP_ICH_VMCR_EL2[VEOIM]. */

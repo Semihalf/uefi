@@ -2766,7 +2766,8 @@ union bdk_pciercx_cfg032
                                                                  link capabilities register. */
         uint32_t es                    : 1;  /**< [  7:  7](R/W) Extended synch. */
         uint32_t ccc                   : 1;  /**< [  6:  6](R/W) Common clock configuration. */
-        uint32_t rl                    : 1;  /**< [  5:  5](RO) Retrain link. */
+        uint32_t rl                    : 1;  /**< [  5:  5](R/W/H) Retrain link.
+                                                                 As per the PCIe specification this bit always reads as zero. */
         uint32_t ld                    : 1;  /**< [  4:  4](R/W) Link disable. */
         uint32_t rcb                   : 1;  /**< [  3:  3](RO/WRSL) Read completion boundary (RCB), writable through
                                                                  PEM()_CFG_WR. However, the application must not change this field because an RCB of 64
@@ -2780,7 +2781,8 @@ union bdk_pciercx_cfg032
                                                                  PEM()_CFG_WR. However, the application must not change this field because an RCB of 64
                                                                  bytes is not supported. */
         uint32_t ld                    : 1;  /**< [  4:  4](R/W) Link disable. */
-        uint32_t rl                    : 1;  /**< [  5:  5](RO) Retrain link. */
+        uint32_t rl                    : 1;  /**< [  5:  5](R/W/H) Retrain link.
+                                                                 As per the PCIe specification this bit always reads as zero. */
         uint32_t ccc                   : 1;  /**< [  6:  6](R/W) Common clock configuration. */
         uint32_t es                    : 1;  /**< [  7:  7](R/W) Extended synch. */
         uint32_t ecpm                  : 1;  /**< [  8:  8](R/W/H) Enable clock power management. Hardwired to 0 if clock power management is disabled in the
@@ -9194,7 +9196,7 @@ union bdk_pciercx_cfg154
                                                                  0x0 = directed_speed change.
                                                                  0x1 = changed_speed_recovery.
                                                                  0x2 =  successful_speed_negotiation.
-                                                                 0x3 =  upconfigure_capable; Set to '1' if both ports advertised
+                                                                 0x3 =  upconfigure_capable; Set to 1 if both ports advertised
                                                                  the UpConfigure capability in the last Config.Complete.
                                                                  0x4 = select_deemphasis.
                                                                  0x5 = start_equalization_w_preset.
@@ -9310,7 +9312,7 @@ union bdk_pciercx_cfg154
                                                                  0x0 = directed_speed change.
                                                                  0x1 = changed_speed_recovery.
                                                                  0x2 =  successful_speed_negotiation.
-                                                                 0x3 =  upconfigure_capable; Set to '1' if both ports advertised
+                                                                 0x3 =  upconfigure_capable; Set to 1 if both ports advertised
                                                                  the UpConfigure capability in the last Config.Complete.
                                                                  0x4 = select_deemphasis.
                                                                  0x5 = start_equalization_w_preset.
@@ -14505,7 +14507,7 @@ union bdk_pciercx_cfg560
                                                                  when this bit is set.
 
                                                                  If PCIERC()_CFG144[LTSSM_VAR] is set and PCIERC()_CFG040[HASD]
-                                                                 is '0', the core starts upconfigure or autonomous width
+                                                                 is 0, the core starts upconfigure or autonomous width
                                                                  downsizing (to the TRGT_LNK_WDTH value) in the configuration
                                                                  state.
 
@@ -14539,7 +14541,7 @@ union bdk_pciercx_cfg560
                                                                  when this bit is set.
 
                                                                  If PCIERC()_CFG144[LTSSM_VAR] is set and PCIERC()_CFG040[HASD]
-                                                                 is '0', the core starts upconfigure or autonomous width
+                                                                 is 0, the core starts upconfigure or autonomous width
                                                                  downsizing (to the TRGT_LNK_WDTH value) in the configuration
                                                                  state.
 
