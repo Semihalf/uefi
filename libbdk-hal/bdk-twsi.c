@@ -38,6 +38,10 @@
 ***********************license end**************************************/
 #include <bdk.h>
 
+#define RECOVERY_UDELAY  5
+#define RECOVERY_CLK_CNT 9
+#define ARBLOST_UDELAY   5000 /* 5ms */
+
 /* This code is an optional part of the BDK. It is only linked in
     if BDK_REQUIRE() needs it */
 BDK_REQUIRE_DEFINE(TWSI);
@@ -92,6 +96,57 @@ int bdk_twsix_initialize(bdk_node_t node)
 }
 
 /**
+ * Do a twsi bus recovery in the case when the last transaction
+ * on the bus has been left unfinished.
+ *
+ * @param twsi_id   which TWSI bus to use
+ */
+static void bdk_twsix_recover_bus(bdk_node_t node, int twsi_id)
+{
+    bdk_mio_twsx_int_t twsx_int;
+    int i;
+
+    /* read TWSX_INT */
+    twsx_int.u = BDK_CSR_READ(node, BDK_MIO_TWSX_SW_TWSI(twsi_id));
+
+    for (i = 0; i < RECOVERY_CLK_CNT * 2; i++)
+    {
+        if (!twsx_int.s.scl_ovr)
+        {
+            /* SCL shouldn't be low here */
+            if (!twsx_int.s.scl)
+            {
+                bdk_error("N%d.TWSI%d: SCL is stuck low\n", node, twsi_id);
+                return;
+            }
+
+            /* Break if SDA is high */
+            if (twsx_int.s.sda)
+                break;
+        }
+
+        twsx_int.s.scl_ovr = !twsx_int.s.scl_ovr;
+        BDK_CSR_WRITE(node, BDK_MIO_TWSX_INT(twsi_id), twsx_int.u);
+        bdk_wait_usec(RECOVERY_UDELAY);
+    }
+
+    /*
+     * Generate STOP condition using the register overrides
+     * in order to move the higher level controller out of
+     * the bad state. This is a workaround for the TWSI hardware.
+     */
+    twsx_int.s.scl_ovr = 1;
+    twsx_int.s.sda_ovr = 1;
+    BDK_CSR_WRITE(node, BDK_MIO_TWSX_INT(twsi_id), twsx_int.u);
+    bdk_wait_usec(RECOVERY_UDELAY);
+    twsx_int.s.scl_ovr = 0;
+    BDK_CSR_WRITE(node, BDK_MIO_TWSX_INT(twsi_id), twsx_int.u);
+    bdk_wait_usec(RECOVERY_UDELAY);
+    twsx_int.s.sda_ovr = 0;
+    BDK_CSR_WRITE(node, BDK_MIO_TWSX_INT(twsi_id), twsx_int.u);
+}
+
+/**
  * Do a twsi read from a 7 bit device address using an (optional)
  * internal address. Up to 4 bytes can be read at a time.
  *
@@ -138,7 +193,11 @@ retry:
     BDK_CSR_WRITE(node, BDK_MIO_TWSX_SW_TWSI(twsi_id), sw_twsi_val.u);
     if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_MIO_TWSX_SW_TWSI(twsi_id), v, ==, 0, 10000))
     {
-        bdk_error("TWSI%d: Timeout waiting for operation to complete\n", twsi_id);
+        bdk_error("N%d.TWSI%d: Timeout waiting for operation to complete\n", node, twsi_id);
+        /* perform bus recovery */
+        bdk_twsix_recover_bus(node, twsi_id);
+        if (retry_limit-- > 0)
+            goto retry;
         return -1;
     }
     sw_twsi_val.u = BDK_CSR_READ(node, BDK_MIO_TWSX_SW_TWSI(twsi_id));
@@ -160,6 +219,13 @@ retry:
             || sw_twsi_val.s.data == 0xB8
             || sw_twsi_val.s.data == 0xC8)
         {
+            /*
+             * One of the arbitration lost conditions is recognized.
+             * The TWSI hardware has switched to the slave mode and
+             * expects the STOP condition on the bus.
+             * Make a delay before next retry.
+             */
+            bdk_wait_usec(ARBLOST_UDELAY);
             if (retry_limit-- > 0)
                 goto retry;
         }
@@ -224,7 +290,7 @@ int bdk_twsix_write_ia(bdk_node_t node, int twsi_id, uint8_t dev_addr, uint16_t 
     BDK_CSR_WRITE(node, BDK_MIO_TWSX_SW_TWSI(twsi_id), sw_twsi_val.u);
     if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_MIO_TWSX_SW_TWSI(twsi_id), v, ==, 0, 10000))
     {
-        bdk_error("TWSI%d: Timeout waiting for operation to complete\n", twsi_id);
+        bdk_error("N%d.TWSI%d: Timeout waiting for operation to complete\n", node, twsi_id);
         return -1;
     }
 
