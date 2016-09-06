@@ -1,43 +1,41 @@
-/* Copyright (C) 2016 Cavium, Inc.  All rights reserved.
- *
- * This file implements TNS initialization and configuration for basic
- * passthru or other 'profile' functionality.  It is expected to be used in
- * cooperation with the BDK's builtin traffic generator (a.k.a "traffic-gen")
- * where the user configures and enables TNS via traffic-gen commands as
- * follows:
- *
- * Assuming BDK_REQUIRE(TNS) is used, during BDK initialization, the TNS
- * is enabled but BYPASS mode is still enabled so the TNS is not used.
- *
- * bdk_tns_profile_passthru() invoked via the traffic-gen command
- * "tns_profile passthru" can then be called by the user to configure the
- * TNS for passthru operation (or "tns_profile bgxloopback" can be used
- * for BGX loopback operaition.)
- *
- * The traffig-gen command "use_tns" can then be used to enable traffic going
- * through the TNS for BGX0/NIC0 and BGX1/NIC1.  Optionally a 0 or 1 may
- * be specified as a parameter to "use_tns" to enable BGX0/NIC0 or BGX1/NIC1
- * respectively, while leaving the other in BYPASS mode.  Use "bypass_tns"
- * (again with an optional 0 and/or 1) to stop using the TNS.
- *
- * If "use_tns" is issued prior to "tns_profile passthru" (or 
- * "tns_profile bgxloopback") then a "tns_profile passthru" will automatically
- * be issued at that time to set the profile to "passthru" as the default.
- *
- * The passthru and bgxloopback "profiles" are configured using a canned
- * set of register writes that are played back when invoked from (compressed)
- * register lists that are included by this file.  In the future, other
- * "profiles" such as L2 bridging, etc. may be added in a similar manor.
- *
- * Note that althoguh changing profiles and enabling/disabling bypass mode
- * "on-the-fly" are possible, in reality they are not expected to function
- * properly if changed while traffic is flowing, or even after any traffic
- * has passed through the system in a particular mode.  That is, all
- * configuration should be done before sending any traffic and not changed
- * until a reboot.
- *
- */
-
+/***********************license start***********************************
+* Copyright (c) 2003-2016  Cavium Inc. (support@cavium.com). All rights
+* reserved.
+*
+*
+* Redistribution and use in source and binary forms, with or without
+* modification, are permitted provided that the following conditions are
+* met:
+*
+*   * Redistributions of source code must retain the above copyright
+*     notice, this list of conditions and the following disclaimer.
+*
+*   * Redistributions in binary form must reproduce the above
+*     copyright notice, this list of conditions and the following
+*     disclaimer in the documentation and/or other materials provided
+*     with the distribution.
+*
+*   * Neither the name of Cavium Inc. nor the names of
+*     its contributors may be used to endorse or promote products
+*     derived from this software without specific prior written
+*     permission.
+*
+* This Software, including technical data, may be subject to U.S. export
+* control laws, including the U.S. Export Administration Act and its
+* associated regulations, and may be subject to export or import
+* regulations in other countries.
+*
+* TO THE MAXIMUM EXTENT PERMITTED BY LAW, THE SOFTWARE IS PROVIDED "AS IS"
+* AND WITH ALL FAULTS AND CAVIUM INC. MAKES NO PROMISES, REPRESENTATIONS OR
+* WARRANTIES, EITHER EXPRESS, IMPLIED, STATUTORY, OR OTHERWISE, WITH RESPECT
+* TO THE SOFTWARE, INCLUDING ITS CONDITION, ITS CONFORMITY TO ANY
+* REPRESENTATION OR DESCRIPTION, OR THE EXISTENCE OF ANY LATENT OR PATENT
+* DEFECTS, AND CAVIUM SPECIFICALLY DISCLAIMS ALL IMPLIED (IF ANY) WARRANTIES
+* OF TITLE, MERCHANTABILITY, NONINFRINGEMENT, FITNESS FOR A PARTICULAR
+* PURPOSE, LACK OF VIRUSES, ACCURACY OR COMPLETENESS, QUIET ENJOYMENT,
+* QUIET POSSESSION OR CORRESPONDENCE TO DESCRIPTION. THE ENTIRE  RISK
+* ARISING OUT OF USE OR PERFORMANCE OF THE SOFTWARE LIES WITH YOU.
+***********************license end**************************************/
 #include <bdk.h>
 
 #include <stdio.h>
