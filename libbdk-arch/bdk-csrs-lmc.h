@@ -4522,7 +4522,7 @@ union bdk_lmcx_ext_config
                                                                  When set to 1, this bit forces the pbank bit to be inverted
                                                                  when in coalesce_address_mode. That is, pbank value of 0 selects
                                                                  DIMM1 instead of DIMM0.
-                                                                 Intended to be use for the case of DIMM1 having bigger rank/s
+                                                                 Intended to be used for the case of DIMM1 having bigger rank/s
                                                                  than DIMM0. This bit has priority over [DIMM_SEL_INVERT_OFF]. */
         uint64_t coalesce_address_mode : 1;  /**< [ 53: 53](R/W) When set to 1, LMC coalesces the L2C+LMC internal address mapping
                                                                  to create a uniform memory space that are free from holes in
@@ -4575,7 +4575,7 @@ union bdk_lmcx_ext_config
                                                                  after the CS_N active cycle.
 
                                                                  When this bit is set, select the operation where the other command signals (DDR*_RAS_L,
-                                                                 DDR*_CAS_L, DDR*_WE_L, DDR*_A<15:0>, etc) all are active only during the cycle where the
+                                                                 DDR*_CAS_L, DDR*_WE_L, DDR*_A<15:0>, etc.) all are active only during the cycle where the
                                                                  CS_N is also active. */
         uint64_t reserved_33_35        : 3;
         uint64_t invert_data           : 1;  /**< [ 32: 32](R/W) Set this bit to cause all data to be inverted before writing or reading to/from DRAM. This
@@ -4686,7 +4686,7 @@ union bdk_lmcx_ext_config
                                                                  after the CS_N active cycle.
 
                                                                  When this bit is set, select the operation where the other command signals (DDR*_RAS_L,
-                                                                 DDR*_CAS_L, DDR*_WE_L, DDR*_A<15:0>, etc) all are active only during the cycle where the
+                                                                 DDR*_CAS_L, DDR*_WE_L, DDR*_A<15:0>, etc.) all are active only during the cycle where the
                                                                  CS_N is also active. */
         uint64_t mrs_cmd_override      : 1;  /**< [ 37: 37](R/W) Set to override the behavior of MRS and RCW operations.
                                                                  If this bit is set, the override behavior is governed by the control field
@@ -4736,7 +4736,7 @@ union bdk_lmcx_ext_config
                                                                  When set to 1, this bit forces the pbank bit to be inverted
                                                                  when in coalesce_address_mode. That is, pbank value of 0 selects
                                                                  DIMM1 instead of DIMM0.
-                                                                 Intended to be use for the case of DIMM1 having bigger rank/s
+                                                                 Intended to be used for the case of DIMM1 having bigger rank/s
                                                                  than DIMM0. This bit has priority over [DIMM_SEL_INVERT_OFF]. */
         uint64_t dimm_sel_invert_off   : 1;  /**< [ 55: 55](R/W) During coalesce_address_mode, the default logic would be to invert
                                                                  the pbank bit whenever NXM[MEM_MSB_D1_R0] > NXM[MEM_MSB_D0_R0].
@@ -4808,7 +4808,7 @@ union bdk_lmcx_ext_config
                                                                  When set to 1, this bit forces the pbank bit to be inverted
                                                                  when in coalesce_address_mode. That is, pbank value of 0 selects
                                                                  DIMM1 instead of DIMM0.
-                                                                 Intended to be use for the case of DIMM1 having bigger rank/s
+                                                                 Intended to be used for the case of DIMM1 having bigger rank/s
                                                                  than DIMM0. This bit has priority over [DIMM_SEL_INVERT_OFF]. */
         uint64_t coalesce_address_mode : 1;  /**< [ 53: 53](R/W) When set to 1, LMC coalesces the L2C+LMC internal address mapping
                                                                  to create a uniform memory space that are free from holes in
@@ -4861,7 +4861,7 @@ union bdk_lmcx_ext_config
                                                                  after the CS_N active cycle.
 
                                                                  When this bit is set, select the operation where the other command signals (DDR*_RAS_L,
-                                                                 DDR*_CAS_L, DDR*_WE_L, DDR*_A<15:0>, etc) all are active only during the cycle where the
+                                                                 DDR*_CAS_L, DDR*_WE_L, DDR*_A<15:0>, etc.) all are active only during the cycle where the
                                                                  CS_N is also active. */
         uint64_t reserved_33_35        : 3;
         uint64_t invert_data           : 1;  /**< [ 32: 32](R/W) Set this bit to cause all data to be inverted before writing or reading to/from DRAM. This
@@ -4972,7 +4972,7 @@ union bdk_lmcx_ext_config
                                                                  after the CS_N active cycle.
 
                                                                  When this bit is set, select the operation where the other command signals (DDR*_RAS_L,
-                                                                 DDR*_CAS_L, DDR*_WE_L, DDR*_A<15:0>, etc) all are active only during the cycle where the
+                                                                 DDR*_CAS_L, DDR*_WE_L, DDR*_A<15:0>, etc.) all are active only during the cycle where the
                                                                  CS_N is also active. */
         uint64_t mrs_cmd_override      : 1;  /**< [ 37: 37](R/W) Set to override the behavior of MRS and RCW operations.
                                                                  If this bit is set, the override behavior is governed by the control field
@@ -5022,7 +5022,7 @@ union bdk_lmcx_ext_config
                                                                  When set to 1, this bit forces the pbank bit to be inverted
                                                                  when in coalesce_address_mode. That is, pbank value of 0 selects
                                                                  DIMM1 instead of DIMM0.
-                                                                 Intended to be use for the case of DIMM1 having bigger rank/s
+                                                                 Intended to be used for the case of DIMM1 having bigger rank/s
                                                                  than DIMM0. This bit has priority over [DIMM_SEL_INVERT_OFF]. */
         uint64_t dimm_sel_invert_off   : 1;  /**< [ 55: 55](R/W) During coalesce_address_mode, the default logic would be to invert
                                                                  the pbank bit whenever NXM[MEM_MSB_D1_R0] > NXM[MEM_MSB_D0_R0].
@@ -5092,7 +5092,7 @@ union bdk_lmcx_ext_config
         uint64_t dimm_sel_force_invert : 1;  /**< [ 54: 54](R/W) When set to 1, this bit forces the pbank bit to be inverted
                                                                  when in coalesce_address_mode. That is, pbank value of 0 selects
                                                                  DIMM1 instead of DIMM0.
-                                                                 Intended to be use for the case of DIMM1 having bigger rank/s
+                                                                 Intended to be used for the case of DIMM1 having bigger rank/s
                                                                  than DIMM0. This bit has priority over [DIMM_SEL_INVERT_OFF]. */
         uint64_t coalesce_address_mode : 1;  /**< [ 53: 53](R/W) When set to 1, LMC coalesces the L2C+LMC internal address mapping
                                                                  to create a uniform memory space that are free from holes in
@@ -5145,7 +5145,7 @@ union bdk_lmcx_ext_config
                                                                  after the CS_N active cycle.
 
                                                                  When this bit is set, select the operation where the other command signals (DDR*_RAS_L,
-                                                                 DDR*_CAS_L, DDR*_WE_L, DDR*_A<15:0>, etc) all are active only during the cycle where the
+                                                                 DDR*_CAS_L, DDR*_WE_L, DDR*_A<15:0>, etc.) all are active only during the cycle where the
                                                                  CS_N is also active. */
         uint64_t reserved_33_35        : 3;
         uint64_t invert_data           : 1;  /**< [ 32: 32](R/W) Set this bit to cause all data to be inverted before writing or reading to/from DRAM. This
@@ -5254,7 +5254,7 @@ union bdk_lmcx_ext_config
                                                                  after the CS_N active cycle.
 
                                                                  When this bit is set, select the operation where the other command signals (DDR*_RAS_L,
-                                                                 DDR*_CAS_L, DDR*_WE_L, DDR*_A<15:0>, etc) all are active only during the cycle where the
+                                                                 DDR*_CAS_L, DDR*_WE_L, DDR*_A<15:0>, etc.) all are active only during the cycle where the
                                                                  CS_N is also active. */
         uint64_t mrs_cmd_override      : 1;  /**< [ 37: 37](R/W) Set to override the behavior of MRS and RCW operations.
                                                                  If this bit is set, the override behavior is governed by the control field
@@ -5302,7 +5302,7 @@ union bdk_lmcx_ext_config
         uint64_t dimm_sel_force_invert : 1;  /**< [ 54: 54](R/W) When set to 1, this bit forces the pbank bit to be inverted
                                                                  when in coalesce_address_mode. That is, pbank value of 0 selects
                                                                  DIMM1 instead of DIMM0.
-                                                                 Intended to be use for the case of DIMM1 having bigger rank/s
+                                                                 Intended to be used for the case of DIMM1 having bigger rank/s
                                                                  than DIMM0. This bit has priority over [DIMM_SEL_INVERT_OFF]. */
         uint64_t dimm_sel_invert_off   : 1;  /**< [ 55: 55](R/W) During coalesce_address_mode, the default logic would be to invert
                                                                  the pbank bit whenever NXM[MEM_MSB_D1_R0] > NXM[MEM_MSB_D0_R0].
@@ -5372,7 +5372,7 @@ union bdk_lmcx_ext_config
         uint64_t dimm_sel_force_invert : 1;  /**< [ 54: 54](R/W) When set to 1, this bit forces the pbank bit to be inverted
                                                                  when in coalesce_address_mode. That is, pbank value of 0 selects
                                                                  DIMM1 instead of DIMM0.
-                                                                 Intended to be use for the case of DIMM1 having bigger rank/s
+                                                                 Intended to be used for the case of DIMM1 having bigger rank/s
                                                                  than DIMM0. This bit has priority over [DIMM_SEL_INVERT_OFF]. */
         uint64_t coalesce_address_mode : 1;  /**< [ 53: 53](R/W) When set to 1, LMC coalesces the L2C+LMC internal address mapping
                                                                  to create a uniform memory space that are free from holes in
@@ -5425,7 +5425,7 @@ union bdk_lmcx_ext_config
                                                                  after the CS_N active cycle.
 
                                                                  When this bit is set, select the operation where the other command signals (DDR*_RAS_L,
-                                                                 DDR*_CAS_L, DDR*_WE_L, DDR*_A<15:0>, etc) all are active only during the cycle where the
+                                                                 DDR*_CAS_L, DDR*_WE_L, DDR*_A<15:0>, etc.) all are active only during the cycle where the
                                                                  CS_N is also active. */
         uint64_t reserved_33_35        : 3;
         uint64_t invert_data           : 1;  /**< [ 32: 32](R/W) Set this bit to cause all data to be inverted before writing or reading to/from DRAM. This
@@ -5536,7 +5536,7 @@ union bdk_lmcx_ext_config
                                                                  after the CS_N active cycle.
 
                                                                  When this bit is set, select the operation where the other command signals (DDR*_RAS_L,
-                                                                 DDR*_CAS_L, DDR*_WE_L, DDR*_A<15:0>, etc) all are active only during the cycle where the
+                                                                 DDR*_CAS_L, DDR*_WE_L, DDR*_A<15:0>, etc.) all are active only during the cycle where the
                                                                  CS_N is also active. */
         uint64_t mrs_cmd_override      : 1;  /**< [ 37: 37](R/W) Set to override the behavior of MRS and RCW operations.
                                                                  If this bit is set, the override behavior is governed by the control field
@@ -5584,7 +5584,7 @@ union bdk_lmcx_ext_config
         uint64_t dimm_sel_force_invert : 1;  /**< [ 54: 54](R/W) When set to 1, this bit forces the pbank bit to be inverted
                                                                  when in coalesce_address_mode. That is, pbank value of 0 selects
                                                                  DIMM1 instead of DIMM0.
-                                                                 Intended to be use for the case of DIMM1 having bigger rank/s
+                                                                 Intended to be used for the case of DIMM1 having bigger rank/s
                                                                  than DIMM0. This bit has priority over [DIMM_SEL_INVERT_OFF]. */
         uint64_t dimm_sel_invert_off   : 1;  /**< [ 55: 55](R/W) During coalesce_address_mode, the default logic would be to invert
                                                                  the pbank bit whenever NXM[MEM_MSB_D1_R0] > NXM[MEM_MSB_D0_R0].

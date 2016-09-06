@@ -651,7 +651,7 @@ union bdk_l2c_tadx_int_w1c
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_36_63        : 28;
         uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1C/H) Illegal write operation to a remote node with L2C_OCI_CTL[ENAOCI][node] clear. See
-                                                                 L2C_TAD()_ERR for for logged information.
+                                                                 L2C_TAD()_ERR for logged information.
                                                                  During normal hardware operation, an indication of a software failure and may be
                                                                  considered fatal. */
         uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1C/H) Illegal read operation to a remote node with L2C_OCI_CTL[ENAOCI][node]
@@ -898,7 +898,7 @@ union bdk_l2c_tadx_int_w1c
                                                                  are allowed to prefetch to nonexistent memory locations. Therefore, [RDDISOCI]
                                                                  is for informational purposes only. See L2C_TAD()_ERR for logged information. */
         uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1C/H) Illegal write operation to a remote node with L2C_OCI_CTL[ENAOCI][node] clear. See
-                                                                 L2C_TAD()_ERR for for logged information.
+                                                                 L2C_TAD()_ERR for logged information.
                                                                  During normal hardware operation, an indication of a software failure and may be
                                                                  considered fatal. */
         uint64_t reserved_36_63        : 28;
@@ -909,7 +909,7 @@ union bdk_l2c_tadx_int_w1c
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_36_63        : 28;
         uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1C/H) Illegal write operation to a remote node with L2C_OCI_CTL[ENAOCI][node] clear. See
-                                                                 L2C_TAD()_ERR for for logged information.
+                                                                 L2C_TAD()_ERR for logged information.
                                                                  During normal hardware operation, an indication of a software failure and may be
                                                                  considered fatal. */
         uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1C/H) Illegal read operation to a remote node with L2C_OCI_CTL[ENAOCI][node]
@@ -1154,7 +1154,7 @@ union bdk_l2c_tadx_int_w1c
                                                                  are allowed to prefetch to nonexistent memory locations. Therefore, [RDDISOCI]
                                                                  is for informational purposes only. See L2C_TAD()_ERR for logged information. */
         uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1C/H) Illegal write operation to a remote node with L2C_OCI_CTL[ENAOCI][node] clear. See
-                                                                 L2C_TAD()_ERR for for logged information.
+                                                                 L2C_TAD()_ERR for logged information.
                                                                  During normal hardware operation, an indication of a software failure and may be
                                                                  considered fatal. */
         uint64_t reserved_36_63        : 28;
@@ -1165,7 +1165,7 @@ union bdk_l2c_tadx_int_w1c
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_36_63        : 28;
         uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1C/H) Illegal write operation to a remote node with L2C_OCI_CTL[ENAOCI][node] clear. See
-                                                                 L2C_TAD()_ERR for for logged information.
+                                                                 L2C_TAD()_ERR for logged information.
                                                                  During normal hardware operation, an indication of a software failure and may be
                                                                  considered fatal. */
         uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1C/H) Illegal read operation to a remote node with L2C_OCI_CTL[ENAOCI][node]
@@ -1374,7 +1374,7 @@ union bdk_l2c_tadx_int_w1c
                                                                  are allowed to prefetch to nonexistent memory locations. Therefore, [RDDISOCI]
                                                                  is for informational purposes only. See L2C_TAD()_ERR for logged information. */
         uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1C/H) Illegal write operation to a remote node with L2C_OCI_CTL[ENAOCI][node] clear. See
-                                                                 L2C_TAD()_ERR for for logged information.
+                                                                 L2C_TAD()_ERR for logged information.
                                                                  During normal hardware operation, an indication of a software failure and may be
                                                                  considered fatal. */
         uint64_t reserved_36_63        : 28;
@@ -1386,7 +1386,7 @@ union bdk_l2c_tadx_int_w1c
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_36_63        : 28;
         uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1C/H) Illegal write operation to a remote node with L2C_OCI_CTL[ENAOCI][node] clear. See
-                                                                 L2C_TAD()_ERR for for logged information.
+                                                                 L2C_TAD()_ERR for logged information.
                                                                  During normal hardware operation, an indication of a software failure and may be
                                                                  considered fatal. */
         uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1C/H) Illegal read operation to a remote node with L2C_OCI_CTL[ENAOCI][node]
@@ -1635,7 +1635,7 @@ union bdk_l2c_tadx_int_w1c
                                                                  are allowed to prefetch to nonexistent memory locations. Therefore, [RDDISOCI]
                                                                  is for informational purposes only. See L2C_TAD()_ERR for logged information. */
         uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1C/H) Illegal write operation to a remote node with L2C_OCI_CTL[ENAOCI][node] clear. See
-                                                                 L2C_TAD()_ERR for for logged information.
+                                                                 L2C_TAD()_ERR for logged information.
                                                                  During normal hardware operation, an indication of a software failure and may be
                                                                  considered fatal. */
         uint64_t reserved_36_63        : 28;

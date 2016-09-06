@@ -7120,10 +7120,15 @@ static inline uint64_t BDK_PEMX_FLR_PF0_VF_STOPREQ(unsigned long a)
  * interrupt is generated.
  * STOPREQ mimics the behavior of PCIEEP()_CFG001.ME for outbound requests that will
  * master the PCIe bus (P and NP).
- * Note that STOPREQ has no effect on completions returned by {ProductLine} over the S2M.
- * Note that STOPREQ has no effect on M2S traffic.
- * Note that when PF0_STOPREQ is set, none of the PEM()_FLR_PF0_VF_STOPREQ[VF_STOPREQ]
- * will be set.
+ *
+ * STOPREQ has no effect on M2S traffic.
+ *
+ * STOPREQ will have no effect on completions returned by CNXXXX over the S2M.
+ *
+ * When a PF()_STOPREQ is set, none of the associated
+ * PEM()_FLR_PF0_VF_STOPREQ[VF_STOPREQ] will be set.
+ *
+ * STOPREQ is reset when the MAC is reset, and is not reset after a chip soft reset.
  */
 union bdk_pemx_flr_pf_stopreq
 {

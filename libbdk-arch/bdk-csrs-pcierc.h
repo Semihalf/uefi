@@ -2577,7 +2577,8 @@ union bdk_pciercx_cfg032
                                                                  link capabilities register. */
         uint32_t es                    : 1;  /**< [  7:  7](R/W) Extended synch. */
         uint32_t ccc                   : 1;  /**< [  6:  6](R/W) Common clock configuration. */
-        uint32_t rl                    : 1;  /**< [  5:  5](RO) Retrain link (always 0 for RC). */
+        uint32_t rl                    : 1;  /**< [  5:  5](R/W/H) Retrain link.
+                                                                 As per the PCIe specification this bit always reads as zero. */
         uint32_t ld                    : 1;  /**< [  4:  4](R/W) Link disable. */
         uint32_t rcb                   : 1;  /**< [  3:  3](RO/WRSL) Read completion boundary (RCB), writable through
                                                                  PEM()_CFG_WR. However, the application must not change this field because an RCB of 64
@@ -2591,7 +2592,8 @@ union bdk_pciercx_cfg032
                                                                  PEM()_CFG_WR. However, the application must not change this field because an RCB of 64
                                                                  bytes is not supported. */
         uint32_t ld                    : 1;  /**< [  4:  4](R/W) Link disable. */
-        uint32_t rl                    : 1;  /**< [  5:  5](RO) Retrain link (always 0 for RC). */
+        uint32_t rl                    : 1;  /**< [  5:  5](R/W/H) Retrain link.
+                                                                 As per the PCIe specification this bit always reads as zero. */
         uint32_t ccc                   : 1;  /**< [  6:  6](R/W) Common clock configuration. */
         uint32_t es                    : 1;  /**< [  7:  7](R/W) Extended synch. */
         uint32_t ecpm                  : 1;  /**< [  8:  8](R/W/H) Enable clock power management. Hardwired to 0 if clock power management is disabled in the
@@ -2672,7 +2674,8 @@ union bdk_pciercx_cfg032
                                                                  link capabilities register. */
         uint32_t es                    : 1;  /**< [  7:  7](R/W) Extended synch. */
         uint32_t ccc                   : 1;  /**< [  6:  6](R/W) Common clock configuration. */
-        uint32_t rl                    : 1;  /**< [  5:  5](RO) Retrain link (always 0 for RC). */
+        uint32_t rl                    : 1;  /**< [  5:  5](WO) Retrain link.
+                                                                 As per the PCIe specification this bit always reads as zero. */
         uint32_t ld                    : 1;  /**< [  4:  4](R/W) Link disable. */
         uint32_t rcb                   : 1;  /**< [  3:  3](RO/WRSL) Read completion boundary (RCB), writable through
                                                                  PEM()_CFG_WR. However, the application must not change this field because an RCB of 64
@@ -2686,7 +2689,8 @@ union bdk_pciercx_cfg032
                                                                  PEM()_CFG_WR. However, the application must not change this field because an RCB of 64
                                                                  bytes is not supported. */
         uint32_t ld                    : 1;  /**< [  4:  4](R/W) Link disable. */
-        uint32_t rl                    : 1;  /**< [  5:  5](RO) Retrain link (always 0 for RC). */
+        uint32_t rl                    : 1;  /**< [  5:  5](WO) Retrain link.
+                                                                 As per the PCIe specification this bit always reads as zero. */
         uint32_t ccc                   : 1;  /**< [  6:  6](R/W) Common clock configuration. */
         uint32_t es                    : 1;  /**< [  7:  7](R/W) Extended synch. */
         uint32_t ecpm                  : 1;  /**< [  8:  8](R/W/H) Enable clock power management. Hardwired to 0 if clock power management is disabled in the
