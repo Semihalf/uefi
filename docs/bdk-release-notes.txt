@@ -8,13 +8,17 @@
 This document gives a short overview of the major changes
 incorporated into each BDK release.
 
-== thunder-release-v1.25-rc1 ==
+== thunder-release-v1.25-rc2 ==
 * Includes all fixes from thunder-release-v1.24.3 and thunder-release-v1.23.10
+* Add Cavium's BSD license to the top of BDK files
 * CCPI
 ** Force boot to stop when CCPI fails on systems requiring multi-node
 * SATA
 ** Consolidate QLM+SATA init code into a single common file
 ** Take SATA PCS out of reset before the GSER PHY
+** Improve debug output messages on command failure
+** Fix QLM reporting incorrect SATA speed after controller reset
+** Increase the SATA init delay to 250ms to workaround detect issues
 * CN80XX
 ** Initial support for CN80XX
 ** Support for EBB8004
@@ -23,6 +27,22 @@ incorporated into each BDK release.
 * PCIe
 ** Fixes to virtual function discovery to support external devices.
 ** Do not show euphemeral devices on local hostRC
+* DRAM
+** Improve DDR4 read-leveling accuracy
+** Improve performance of 1-rank DIMMs
+** Improve performance of 2-slot configurations
+** Add support for mini-DIMMs and SO-DIMMs
+** Allow read bit-deskew to be disabled
+** Detection of 3DS and NV DIMMs
+** Improve default DIMM information output.
+* USB
+** Correct USB version check to work with 3.x devices, not just 3.0
+** Improved error and warning reporting
+* FATfs
+** Use raw system calls instead of C buffered IO
+** Increase the file IO buffer size to 4KB
+* TWSI
+** Implement bus recovery after a TWSI timeout
 
 == thunder-release-v1.24.4 ==
 * eMMC
