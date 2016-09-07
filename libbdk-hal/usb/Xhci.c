@@ -970,6 +970,7 @@ XhcControlTransfer (
   UINT32                  State;
   EFI_USB_DEVICE_REQUEST  ClearPortRequest;
   UINTN                   Len;
+  unsigned                ErrorLevel = EFI_D_ERROR;
 
   //
   // Validate parameters
@@ -1116,6 +1117,8 @@ XhcControlTransfer (
       RecoveryStatus = XhcRecoverHaltedEndpoint(Xhc, Urb);
       if (EFI_ERROR (RecoveryStatus)) {
         DEBUG ((EFI_D_ERROR, "XhcRecoverHaltedEndpoint failed\n"));
+      } else {
+          ErrorLevel = EFI_D_WARN;
       }
       Status = EFI_DEVICE_ERROR;
       goto FREE_URB;
@@ -1348,7 +1351,7 @@ FREE_URB:
 ON_EXIT:
 
   if (EFI_ERROR (Status)) {
-      DEBUG ((EFI_D_ERROR, "error - %d, transfer - %x\n", (int)Status, *TransferResult));
+      DEBUG ((ErrorLevel, "error - %d, transfer - %x\n", (int)Status, *TransferResult));
   }
 
   /* gBS->RestoreTPL (OldTpl); */
@@ -1409,6 +1412,7 @@ XhcBulkTransfer (
   EFI_STATUS              Status;
   EFI_STATUS              RecoveryStatus;
   /* EFI_TPL                 OldTpl; */
+  unsigned                ErrorLevel = EFI_D_ERROR;
 
   //
   // Validate the parameters
@@ -1493,6 +1497,8 @@ XhcBulkTransfer (
       RecoveryStatus = XhcRecoverHaltedEndpoint(Xhc, Urb);
       if (EFI_ERROR (RecoveryStatus)) {
         DEBUG ((EFI_D_ERROR, "XhcRecoverHaltedEndpoint failed\n"));
+      } else {
+          ErrorLevel = EFI_D_WARN;
       }
       Status = EFI_DEVICE_ERROR;
     }
@@ -1507,7 +1513,7 @@ XhcBulkTransfer (
 ON_EXIT:
 
   if (EFI_ERROR (Status)) {
-      DEBUG ((EFI_D_ERROR, "error - %d, transfer - %x\n", (int)Status, *TransferResult));
+      DEBUG ((ErrorLevel, "error - %d, transfer - %x\n", (int)Status, *TransferResult));
   }
   /* gBS->RestoreTPL (OldTpl); */
 
@@ -1728,6 +1734,7 @@ XhcSyncInterruptTransfer (
   EFI_STATUS              Status;
   EFI_STATUS              RecoveryStatus;
   /* EFI_TPL                 OldTpl; */
+  unsigned                ErrorLevel = EFI_D_ERROR;
 
   //
   // Validates parameters
@@ -1807,6 +1814,8 @@ XhcSyncInterruptTransfer (
       RecoveryStatus = XhcRecoverHaltedEndpoint(Xhc, Urb);
       if (EFI_ERROR (RecoveryStatus)) {
         DEBUG ((EFI_D_ERROR, "XhcRecoverHaltedEndpoint failed\n"));
+      } else {
+          ErrorLevel = EFI_D_WARN;
       }
       Status = EFI_DEVICE_ERROR;
     }
@@ -1820,7 +1829,7 @@ XhcSyncInterruptTransfer (
 
 ON_EXIT:
   if (EFI_ERROR (Status)) {
-      DEBUG ((EFI_D_ERROR, "error - %d, transfer - %x\n", (int)Status, *TransferResult));
+      DEBUG ((ErrorLevel, "error - %d, transfer - %x\n", (int)Status, *TransferResult));
   }
   /* gBS->RestoreTPL (OldTpl); */
 
