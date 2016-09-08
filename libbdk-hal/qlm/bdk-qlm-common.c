@@ -57,7 +57,7 @@ int __bdk_qlm_get_lane_mode_for_speed_and_ref_clk(const char *mode_name, int qlm
 {
     if (baud_mhz <= 1250)
     {
-        if (ref_clk == REF_156MHZ)
+        if ((ref_clk == REF_156MHZ) || (ref_clk == REF_100MHZ))
             return BDK_GSER_LMODE_E_R_125G_REFCLK15625_SGMII;
         else
         {
@@ -548,6 +548,12 @@ void __bdk_qlm_init_mode_table(bdk_node_t node, int qlm, int ref_clk)
                 lane_mode_1.s.vma_mm = 0x1;
                 lane_mode_1.s.cdr_fgain = 0xc;
                 lane_mode_1.s.ph_acc_adj = 0x1e;
+                if(ref_clk == REF_100MHZ)
+                {
+                    pll_mode_0.s.pll_pcs_div = 0x28;
+                    pll_mode_1.s.pll_div = 0x19;
+                    pll_mode_1.s.pll_cpadj = 0x2;
+                }
                 break;
             case BDK_GSER_LMODE_E_R_5G_REFCLK15625_QSGMII:
                 pll_mode_0.s.pll_icp = 0x1; /* Per Scott McIlhenny 5/17/2016 (t81) */
