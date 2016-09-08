@@ -33,12 +33,16 @@
 #include <firmware_image_package.h>
 #include <io_driver.h>
 #include <io_fip.h>
+#include <io_spi.h>
 #include <io_storage.h>
 #include <platform_def.h>
 #include <string.h>
 
 /* IO devices */
+static const io_dev_connector_t *fip_dev_con;
 static uintptr_t fip_dev_handle;
+static const io_dev_connector_t *spi_dev_con;
+static uintptr_t spi_dev_handle;
 
 static const io_block_spec_t fip_block_spec = {
 	.offset	= 0x580000,
@@ -108,6 +112,7 @@ static const io_uuid_spec_t nt_fw_cert_uuid_spec = {
 
 
 static int open_fip(const uintptr_t spec);
+static int open_spi(const uintptr_t spec);
 
 struct plat_io_policy {
 	uintptr_t *dev_handle;
@@ -117,6 +122,11 @@ struct plat_io_policy {
 
 /* By default, ARM platforms load images from the FIP */
 static const struct plat_io_policy policies[] = {
+	[FIP_IMAGE_ID] = {
+		&spi_dev_handle,
+		(uintptr_t)&fip_block_spec,
+		open_spi
+	},
 	[BL2_IMAGE_ID] = {
 		&fip_dev_handle,
 		(uintptr_t)&bl2_uuid_spec,
@@ -215,6 +225,46 @@ static int open_fip(const uintptr_t spec)
 	return result;
 }
 
+
+static int open_spi(const uintptr_t spec)
+{
+	int result;
+	uintptr_t local_image_handle;
+
+	result = io_dev_init(spi_dev_handle, (uintptr_t)NULL);
+	if (result == 0) {
+		result = io_open(spi_dev_handle, spec, &local_image_handle);
+		if (result == 0) {
+			VERBOSE("Using SPI\n");
+			io_close(local_image_handle);
+		}
+	}
+	return result;
+}
+
+
+void thunder_io_setup(void)
+{
+	int io_result;
+
+	io_result = register_io_dev_fip(&fip_dev_con);
+	assert(io_result == 0);
+
+	io_result = register_io_dev_spi(&spi_dev_con);
+	assert(io_result == 0);
+
+	/* Open connections to devices and cache the handles */
+	io_result = io_dev_open(fip_dev_con, (uintptr_t)NULL,
+				&fip_dev_handle);
+	assert(io_result == 0);
+
+	io_result = io_dev_open(spi_dev_con, (uintptr_t)NULL,
+				&spi_dev_handle);
+	assert(io_result == 0);
+
+	/* Ignore improbable errors in release builds */
+	(void)io_result;
+}
 
 /* Return an IO device handle and specification which can be used to access
  * an image. Use this to enforce platform load policy */

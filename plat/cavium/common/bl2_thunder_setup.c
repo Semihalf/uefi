@@ -204,6 +204,9 @@ void bl2_platform_setup(void)
 	 * Do initial security configuration to allow DRAM/device access.
 	 */
 	thunder_security_setup();
+
+        /* Initialise the IO layer and register platform IO devices */
+        thunder_io_setup();
 }
 
 /* Flush the TF params and the TF plat params */
