@@ -70,5 +70,9 @@ uint64_t thunder_dram_size_node(unsigned node)
 		memsize += rank_size * num_ranks;
 	}
 
+	/* Fix for ASIM */
+	if (memsize == 0)
+		memsize = 4ull << 32;
+
 	return memsize;
 }
