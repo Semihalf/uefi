@@ -52,7 +52,7 @@ CPU_PWR_DWN_CORE: /* cpu_ops core_pwr_dwn */
 CPU_PWR_DWN_CLUSTER: /* cpu_ops cluster_pwr_dwn */
 	.space  8
 #endif
-#if (IMAGE_BL31 && CRASH_REPORTING)
+#if ((IMAGE_BL31 || IMAGE_BL1) && CRASH_REPORTING)
 CPU_REG_DUMP: /* cpu specific register dump for crash reporting */
 	.space  8
 #endif

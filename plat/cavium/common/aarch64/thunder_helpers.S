@@ -12,6 +12,7 @@
 	.globl	plat_crash_console_init
 	.globl	plat_crash_console_putc
 	.globl	platform_mem_init
+	.globl	plat_report_exception
 
 	.globl	thunder_calc_core_pos
 	.globl	thunder_sec_entry_point
@@ -115,6 +116,12 @@ endfunc plat_crash_console_putc
 func platform_mem_init
 	ret
 endfunc platform_mem_init
+
+func	plat_report_exception
+/* HACK */
+	bl report_unhandled_exception
+	b .
+endfunc plat_report_exception
 
 	.data
 	.align 3

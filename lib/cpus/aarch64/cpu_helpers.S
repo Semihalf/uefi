@@ -135,7 +135,7 @@ func init_cpu_ops
 endfunc init_cpu_ops
 #endif /* IMAGE_BL31 */
 
-#if IMAGE_BL31 && CRASH_REPORTING
+#if (IMAGE_BL31 || IMAGE_BL1) && CRASH_REPORTING
 	/*
 	 * The cpu specific registers which need to be reported in a crash
 	 * are reported via cpu_ops cpu_reg_dump function. After a matching
