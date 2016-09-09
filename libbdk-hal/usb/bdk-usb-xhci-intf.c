@@ -56,6 +56,8 @@ WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED.
 #include "UsbBus.h"
 #include "UsbDesc.h"
 #include "UsbHub.h"
+#include "UsbMass.h"
+#include "UsbMassImpl.h"
 
 static void async_request_monitor(int unused, void *ctl);
 
@@ -77,6 +79,7 @@ typedef struct usb_hc_descriptor_s {
     USB_DEVICE *root_hub;             // Pointer to hub descriptor for root hub
     USB_INTERFACE *root_if;           // Pointer to interface descriptor for root hub
     xhci_t *xhci_priv;                // Pointer for xhci hardware descriptor.
+    int root_numports;                // Number of logical ports on a root hub itself.                                      // Keep it aside because if hub is attached to root this number may change.
 } usb_hc_descriptor_t;
 /**
 Internal helper routines
@@ -114,82 +117,6 @@ void async_request_monitor(int unused, void *ctl)
     BDK_WMB;
 }
 
-
-
-#define b2i(x) ( (x) ? 1 : 0)
-static int devPathToText(CONST EFI_DEVICE_PATH_PROTOCOL* DevicePath, char *buf, int len) {
-    char *p = buf;
-    int l = len;
-    if (NULL == buf) return 0;
-    if (NULL == DevicePath) { l = snprintf(buf,len,"Null"); buf[len-1] = '\0'; return l;}
-    EFI_DEVICE_PATH_PROTOCOL *Node;
-    Node = (typeof(Node))DevicePath;
-    int c;
-    while(l>0 && !IsDevicePathEnd(Node)) {
-        if (DevicePathType (Node) == HARDWARE_DEVICE_PATH) {
-            if (DevicePathSubType(Node) == HW_CONTROLLER_DP ) {
-                CONTROLLER_DEVICE_PATH *hwctl = (CONTROLLER_DEVICE_PATH*) Node;
-                c = snprintf(p,l, "<HWCTL %08x(node:%d,port:%d)>",
-                             hwctl->Controller,
-                             (hwctl->Controller >>8) & 0xff,
-                             hwctl->Controller & 0xff
-                    );
-            } else {
-               c = snprintf(p,l, "<HW? ST:%x L:%x>",
-                            DevicePathSubType(Node),
-                            DevicePathNodeLength(Node)
-                   );
-            }
-        } else if (DevicePathType (Node) == MESSAGING_DEVICE_PATH) {
-            switch (DevicePathSubType(Node))
-            {
-            default:
-                c =  snprintf(p,l,"<MSG? ST:%x L:%x>",
-                              DevicePathSubType(Node),
-                              DevicePathNodeLength(Node));
-                break;
-            case MSG_USB_DP:
-                c = snprintf(p,l,"<USB(0x%x,0x%x)>",
-                             ((USB_DEVICE_PATH*) Node)->ParentPortNumber,
-                             ((USB_DEVICE_PATH*) Node)->InterfaceNumber);
-                break;
-            case MSG_USB_CLASS_DP: {
-                USB_CLASS_DEVICE_PATH *UsbClass;
-                UsbClass = (typeof(UsbClass)) Node;
-                c = snprintf(p,l,"<USB Class:%x Subclass:%x Vendor:%x Product:%x Proto:%x>",
-                             UsbClass->DeviceClass,
-                             UsbClass->DeviceSubClass,
-                             UsbClass->VendorId,
-                             UsbClass->ProductId,
-                             UsbClass->DeviceProtocol
-                    );
-            } break;
-            case MSG_USB_WWID_DP: {
-                  USB_WWID_DEVICE_PATH  *UsbWWId;
-                  UsbWWId = (typeof(UsbWWId)) Node;
-                  c =  snprintf(p,l,"<USB WWId  Vendor:%x Product:%x Iface %x>",
-                                UsbWWId->VendorId,
-                                UsbWWId->ProductId,
-                                UsbWWId->InterfaceNumber
-                      );
-            } break;
-
-            }
-        } else {
-            c = snprintf(p,l,"<?? T:%x ST:%x L:%x>", DevicePathType(Node), DevicePathSubType(Node), DevicePathNodeLength(Node));
-        }
-        //
-        // Next device path node
-        //
-        l -= c;
-        p += c;
-        Node = NextDevicePathNode (Node);
-    }
-    if (0==l) buf[len-1] = '\0';
-
-    return (p - buf);
-}
-
 const char* __bdk_usb_speed2token(const int speed)
 {
     switch (speed) {
@@ -206,51 +133,67 @@ const char* __bdk_usb_speed2token(const int speed)
     }
 }
 
-static void list_usb_interface(const USB_INTERFACE *UsbIf,const int tier)
+static void list_usb_interface(const USB_INTERFACE *UsbIf,const int tier, const int ifnum)
 {
-    char buf[240];
-    USB_BUS *Bus = UsbIf->Device->Bus;
-    USB_DEVICE              *Device;
+    char buf[128];
+    USB_BUS    *Bus = UsbIf->Device->Bus;
+    USB_DEVICE *Device;
 
-    char *token =
-        ((UsbIf->IfSetting->Desc.InterfaceClass ==  USB_HUB_CLASS_CODE) &&
-         (UsbIf->IfSetting->Desc.InterfaceSubClass == USB_HUB_SUBCLASS_CODE)) ? "--" : "EP";
-
-    devPathToText(UsbIf->DevicePath, buf, sizeof(buf));
-    printf("%*s%02u-%s DevIf@%p IsHub %d IsManaged %d Ports:%d Class %02x SubClass %02x Proto %02x\n%*s.DevicePath:%s\n",
-           2*tier,"", UsbIf->Device->Tier, token,
-           UsbIf, b2i(UsbIf->IsHub), b2i(UsbIf->IsManaged), UsbIf->NumOfPort,
-           UsbIf->IfSetting->Desc.InterfaceClass, UsbIf->IfSetting->Desc.InterfaceSubClass,
-           UsbIf->IfSetting->Desc.InterfaceProtocol,
-           2*tier+7,"",buf
-        );
-
-    for(unsigned ndx=1; ndx < Bus->MaxDevices; ndx++) {
-        Device = Bus->Devices[ndx];
-        if (Device == NULL) continue;
-        if (Device->ParentAddr != UsbIf->Device->Address) continue;
-        int usbclass, usbsubclass;
-        if ( 0 == (usbclass =Device->DevDesc->Desc.DeviceClass) &&  0 == Device->DevDesc->Desc.DeviceSubClass) {
-            usbclass = UsbIf->IfSetting->Desc.InterfaceClass;
-            usbsubclass =  UsbIf->IfSetting->Desc.InterfaceSubClass;
-        } else {
-            usbsubclass = Device->DevDesc->Desc.DeviceSubClass;
+    if (UsbIf->IsHub) {
+        printf("%*sIf %2d Hub %d Ports\n",
+               4*(tier+1),"",ifnum, UsbIf->NumOfPort);
+    } else {
+        int devIndex = UsbMassIfFind(UsbIf);
+        if ( devIndex >= 0) {
+            bdk_node_t if_node = 0;
+            cvm_usbif2node(UsbIf, &if_node, NULL, NULL);
+            snprintf(buf,sizeof(buf), "MassStorage => /dev/n%d.usb%d", if_node,devIndex);
         }
-        printf("%*s#%02u Device@%p PP:%d PA:%d Tier:%d NumIf:%d DF:%d Class %02x SubClass %02x Vend 0x%04x Prod 0x%04x %s\n",
-               2*tier,"", ndx, Device,
-               Device->ParentPort, Device->ParentAddr,
-               Device->Tier, Device->NumOfInterface,
-               b2i(Device->DisconnectFail),
-               usbclass, usbsubclass,
-               bdk_le16_to_cpu(Device->DevDesc->Desc.IdVendor),
-               bdk_le16_to_cpu(Device->DevDesc->Desc.IdProduct),
-               __bdk_usb_speed2token(Device->Speed)
-            );
-        for(unsigned n=0; n < Device->NumOfInterface; n++) {
-            if (NULL == Device->Interfaces[n]) continue;
-            list_usb_interface(Device->Interfaces[n],Device->Tier);
+        else
+            snprintf(buf,sizeof(buf),"Class %02x SubClass %02x Proto %02x",
+                  UsbIf->IfSetting->Desc.InterfaceClass, UsbIf->IfSetting->Desc.InterfaceSubClass,
+                     UsbIf->IfSetting->Desc.InterfaceProtocol);
+        printf("%*sIf %2d %s\n",
+               4*(tier+1),"", ifnum, buf);
+    }
+    if (UsbIf->IsHub) {
+        // Order output by hub port number
+        for(int port = 0; port < UsbIf->NumOfPort; port++) {
+            for(unsigned ndx=1; ndx < Bus->MaxDevices; ndx++) {
+                Device = Bus->Devices[ndx];
+
+                if (Device == NULL) continue;
+                if (Device->ParentAddr != UsbIf->Device->Address) continue;
+                if (Device->ParentPort != port) continue;
+
+                if (
+                    ( Device->DevDesc->Desc.DeviceClass ||  Device->DevDesc->Desc.DeviceSubClass) &&
+                    ((Device->DevDesc->Desc.DeviceClass != USB_HUB_CLASS_CODE) ||
+                     (Device->DevDesc->Desc.DeviceSubClass !=  USB_HUB_SUBCLASS_CODE))
+                    )
+                {
+                    snprintf(buf,sizeof(buf),"Class %02x SubClass %02x ",
+                             Device->DevDesc->Desc.DeviceClass, Device->DevDesc->Desc.DeviceSubClass );
+                } else {
+                    buf[0] = '\0';
+                }
+                printf("%*s|__ Port %d Dev %d %sVendor 0x%04x Product 0x%04x %s\n",
+                       4*tier,"",
+                       Device->ParentPort,
+                       Device->Address,
+                       buf,
+                       bdk_le16_to_cpu(Device->DevDesc->Desc.IdVendor),
+                       bdk_le16_to_cpu(Device->DevDesc->Desc.IdProduct),
+                       __bdk_usb_speed2token(Device->Speed)
+                    );
+
+                for(unsigned n=0; n < Device->NumOfInterface; n++) {
+                    if (NULL == Device->Interfaces[n]) continue;
+                    list_usb_interface(Device->Interfaces[n],Device->Tier,n);
+                }
+            }
         }
-   }
+    }
 }
 
 /*
@@ -275,51 +218,70 @@ static int usb_check_node_and_port(bdk_node_t node, int usb_port)
 }
 
 /**
- * Display current state of enumeration for USB XHCI
+ * Print current USB topology discovered by enumeration
  *
+ * @param node       Node 
+ * @param usb_port   Physical Port
  *
- * @return Zero	success
- * @return Non-Zero error
- **/
-int bdk_usb_HCList()
+ * @return Zero on success, negative on error
+ */
+int bdk_usb_HCList(bdk_node_t node, int usb_port)
 {
-    unsigned i,j;
-    char buf[240];
-    for (i=0;i<BDK_NUMA_MAX_NODES;i++) {
-        if (!bdk_numa_exists(i)) continue;
-        for(j=0;j<CAVIUM_MAX_USB_INSTANCES;j++) {
-            usb_hc_descriptor_t *p = &usb_global_data[i][j];
-            if (p->usb_bus || p->root_hub||p->root_if || p->xhci_priv) {
-                printf("N:%d P:%d Bus@%p Hub@%p If@%p Xhci@%p\n",
-                       i,j,p->usb_bus, p->root_hub,p->root_if,p->xhci_priv);
-                if (p->root_if) {
-                    USB_BUS *Bus = p->root_if->Device->Bus;
-                    USB_DEVICE              *Device;
-                    USB_INTERFACE           *UsbIf = p->root_if;
-                    devPathToText(UsbIf->DevicePath, buf, sizeof(buf));
-                    printf("RootHub If@%p IsHub %d IsManaged %d Ports:%d DevicePath:%s\n",
-                           UsbIf, b2i(UsbIf->IsHub), b2i(UsbIf->IsManaged), UsbIf->NumOfPort, buf );
-                    for(unsigned ndx=1; ndx < Bus->MaxDevices; ndx++) {
-                        Device = Bus->Devices[ndx];
-                        if (Device && (Device->ParentAddr == p->root_if->Device->Address)) {
-                            printf("R#%02u Device@%p Port:%d Tier:%d NumIf:%d DF:%d Class %02x SubClass %02x Vend 0x%04x Prod 0x%04x %s\n",
-                                   ndx, Device, Device->ParentPort,Device->Tier, Device->NumOfInterface,
-                                   b2i(Device->DisconnectFail),
-                                   Device->DevDesc->Desc.DeviceClass, Device->DevDesc->Desc.DeviceSubClass ,
-                                   bdk_le16_to_cpu(Device->DevDesc->Desc.IdVendor),
-                                   bdk_le16_to_cpu(Device->DevDesc->Desc.IdProduct),
-                                   __bdk_usb_speed2token(Device->Speed)
-                                );
-                            for(unsigned n=0; n < Device->NumOfInterface; n++) {
-                                if (NULL == (UsbIf = Device->Interfaces[n])) continue;
-                                list_usb_interface(Device->Interfaces[n], Device->Tier);
+    char buf[64];
+
+    if (0 > usb_check_node_and_port(node,usb_port)) return -1;
+
+    usb_hc_descriptor_t *p = &usb_global_data[node][usb_port];
+    if (p->usb_bus || p->root_hub||p->root_if || p->xhci_priv) {
+        printf("Node %d PhysPort %d\n",node,usb_port);
+        if (p->root_if) {
+            USB_BUS *Bus = p->root_if->Device->Bus;
+            USB_DEVICE              *Device;
+            USB_INTERFACE           *UsbIf = p->root_if;
+            printf("RootHub %d ports\n", UsbIf->NumOfPort);
+
+            for(int port = 0; port < p->root_numports; port++) {
+                bool portEmpty = true;
+
+                for(unsigned ndx=1; ndx < Bus->MaxDevices; ndx++) {
+                    Device = Bus->Devices[ndx];
+                    if (Device &&
+                        (Device->ParentAddr == p->root_if->Device->Address) &&
+                        (port == Device->ParentPort)) {
+                        portEmpty = false;
+                        buf[0] = '\0';
+                        if ((Device->DevDesc->Desc.DeviceClass == USB_HUB_CLASS_CODE) &&
+                            (Device->DevDesc->Desc.DeviceSubClass ==  USB_HUB_SUBCLASS_CODE)) {
+                        } else {
+                            if (Device->DevDesc->Desc.DeviceClass || Device->DevDesc->Desc.DeviceSubClass) {
+                                snprintf(buf, sizeof(buf) ,"Class %02x SubClass %02x ",
+                                         Device->DevDesc->Desc.DeviceClass, Device->DevDesc->Desc.DeviceSubClass );
                             }
+                        }
+                        printf("|__ Port %d Dev %d %sVendor 0x%04x Product 0x%04x %s\n",
+                               Device->ParentPort,
+                               Device->Address,
+                               buf,
+                               bdk_le16_to_cpu(Device->DevDesc->Desc.IdVendor),
+                               bdk_le16_to_cpu(Device->DevDesc->Desc.IdProduct),
+                               __bdk_usb_speed2token(Device->Speed)
+                            );
+
+                        for(unsigned n=0; n < Device->NumOfInterface; n++) {
+                            if (NULL == (UsbIf = Device->Interfaces[n])) continue;
+                            list_usb_interface(Device->Interfaces[n], Device->Tier,n);
                         }
                     }
                 }
+                if (portEmpty) {
+                    printf("|__ Port %d Empty\n",port);
+                }
             }
         }
+    } else {
+        printf("Node %d PhysPort %d Host Controller is not initialized\n",node,usb_port);
     }
+
     return 0;
 }
 
@@ -420,7 +382,7 @@ int bdk_usb_HCInit(bdk_node_t node, int usb_port)
         mUsbRootHubApi.Init (RootIf);
 
         UsbBus->Devices[0] = RootHub;
-
+        usb_global_data[node][usb_port].root_numports = RootIf->NumOfPort;
         usb_global_data[node][usb_port].root_if = RootIf;
         usb_global_data[node][usb_port].usb_bus = UsbBus;
         usb_global_data[node][usb_port].root_hub = RootHub;

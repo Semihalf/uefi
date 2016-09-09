@@ -546,7 +546,7 @@ int bdk_usb_test_mode(bdk_node_t node, int usb_port, bdk_usb_test_t test_mode)
         case BDK_USB_XHCI_INIT:
             return bdk_usb_HCInit(node, usb_port);
         case BDK_USB_XHCI_LIST_ADDRESSES:
-            return bdk_usb_HCList();
+            return bdk_usb_HCList(node, usb_port);
         case BDK_USB_XHCI_POLL_STATUS:
             return bdk_usb_HCPoll(node, usb_port);
         case BDK_USB_XHCI_TOGGLE_POLLING:
@@ -586,7 +586,7 @@ const char* bdk_usb_get_test_mode_string(bdk_node_t node, int usb_port, bdk_usb_
         case BDK_USB_XHCI_INIT:
             return "Initialize host controller";
         case BDK_USB_XHCI_LIST_ADDRESSES:
-            return "List USB interfaces";
+            return "Show USB host controller state";
     	case BDK_USB_XHCI_POLL_STATUS:
             return "USB hxci poll root hub status";
     	case BDK_USB_XHCI_TOGGLE_POLLING:

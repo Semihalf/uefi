@@ -82,8 +82,12 @@ int bdk_usb_HCPoll(bdk_node_t node, int usb_port);
 /**
  * Print current USB topology discovered by enumeration
  *
+ * @param node       Node 
+ * @param usb_port   Physical Port
+ *
+ * @return Zero on success, negative on error
  */
-int bdk_usb_HCList();
+int bdk_usb_HCList(bdk_node_t node, int usb_port);
 
 /**
  * Query or toggle polling for Root Hub Enumeration and async interrupt
