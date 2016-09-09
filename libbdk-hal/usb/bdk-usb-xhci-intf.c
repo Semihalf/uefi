@@ -79,7 +79,6 @@ typedef struct usb_hc_descriptor_s {
     USB_DEVICE *root_hub;             // Pointer to hub descriptor for root hub
     USB_INTERFACE *root_if;           // Pointer to interface descriptor for root hub
     xhci_t *xhci_priv;                // Pointer for xhci hardware descriptor.
-    int root_numports;                // Number of logical ports on a root hub itself.                                      // Keep it aside because if hub is attached to root this number may change.
 } usb_hc_descriptor_t;
 /**
 Internal helper routines
@@ -220,7 +219,7 @@ static int usb_check_node_and_port(bdk_node_t node, int usb_port)
 /**
  * Print current USB topology discovered by enumeration
  *
- * @param node       Node 
+ * @param node       Node
  * @param usb_port   Physical Port
  *
  * @return Zero on success, negative on error
@@ -238,9 +237,11 @@ int bdk_usb_HCList(bdk_node_t node, int usb_port)
             USB_BUS *Bus = p->root_if->Device->Bus;
             USB_DEVICE              *Device;
             USB_INTERFACE           *UsbIf = p->root_if;
-            printf("RootHub %d ports\n", UsbIf->NumOfPort);
+            int num_root_ports = p->xhci_priv->hcsparams1.s.maxports;
 
-            for(int port = 0; port < p->root_numports; port++) {
+            printf("RootHub %d ports\n", num_root_ports);
+
+            for(int port = 0; port < num_root_ports; port++) {
                 bool portEmpty = true;
 
                 for(unsigned ndx=1; ndx < Bus->MaxDevices; ndx++) {
@@ -382,7 +383,6 @@ int bdk_usb_HCInit(bdk_node_t node, int usb_port)
         mUsbRootHubApi.Init (RootIf);
 
         UsbBus->Devices[0] = RootHub;
-        usb_global_data[node][usb_port].root_numports = RootIf->NumOfPort;
         usb_global_data[node][usb_port].root_if = RootIf;
         usb_global_data[node][usb_port].usb_bus = UsbBus;
         usb_global_data[node][usb_port].root_hub = RootHub;
