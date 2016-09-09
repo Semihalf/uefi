@@ -600,23 +600,19 @@ XhcAsyncIsochronousTransfer (
   IN     VOID                                *Context
   );
 
-
-
 /**
  ** return cavium node id and physical interface number for a protocol instance
- ** @param This                 This EFI_USB2_HC_PROTOCOL instance.
- ** @param node                 Address of variable to receive node number
- ** @param usb_port             Address of variable to receive port number
- ** @param lock                 Address of variable to receive pointer to bus level lock
+ ** @param usbIf          Address of USB interface instance
+ ** @param node           Address of variable to receive node number or NULL
+ ** @param usb_port       Address of variable to receive port number or NULL
+ ** @param lock           Address of variable to receive pointer to bus level lock or NULL
 
  ** @return Zero on success, non-zero on failure
  */
-
-int
-cvmH2C_to_node(
-    EFI_USB2_HC_PROTOCOL *This,
-    bdk_node_t           *node,
-    int *usb_port,
-    void **lock);
-
+typedef struct _USB_INTERFACE USB_INTERFACE;
+int cvm_usbif2node(
+    const USB_INTERFACE *usbIf,
+    bdk_node_t    *node,
+    int           *usb_port,
+    void          **lock);
 #endif

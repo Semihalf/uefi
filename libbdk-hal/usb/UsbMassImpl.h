@@ -254,4 +254,13 @@ UsbMassIfStop(void *ifHandle);
   @retval  Zer on success(drive is available) , non-zero on failure
 **/
 int UsbIsDriveAvailable(const unsigned pdrv);
+
+/**
+  Find  the usb mass storage interface
+
+  @param  ifHandle              Opaque handle which will be passed when stopping the interface
+
+**/
+int
+UsbMassIfFind(const void *ifHandle);
 #endif

@@ -34,6 +34,7 @@ EFI_DRIVER_BINDING_PROTOCOL gUSBMassDriverBinding = {
 };
 #else
 #include <bdk.h>
+#include "Xhci.h" // need  cvm_usbif2node
 #include "UsbBus.h"
 #include "UsbMass.h"
 #include "UsbMassImpl.h"
@@ -848,27 +849,21 @@ UsbMassIfStart(EFI_USB_IO_PROTOCOL *UsbIo,
         goto err_exit;
     }
 
-    bdk_node_t node;
-    int usb_port;
-
-    /* mat-2016-04-8 - tired of plumbing handle conversion  - hack
-       Need to get a pointer to bus lock - it is reliable at this time as all the enteties in the chain exist.
-    */
     USB_INTERFACE *thisUsbIf =  (typeof(thisUsbIf))USB_INTERFACE_FROM_USBIO (UsbIo);
-    USB_DEVICE *thisDevice = thisUsbIf->Device;
-    USB_BUS *thisBus = thisDevice->Bus;
-    {
-        typedef struct _EFI_USB2_HC_PROTOCOL  EFI_USB2_HC_PROTOCOL;
-        extern int cvmH2C_to_node( EFI_USB2_HC_PROTOCOL *This,
-                                   bdk_node_t           *node,
-                                   int *usb_port,
-                                   void **lock);
-
-        cvmH2C_to_node(thisBus->Usb2Hc, &node, &usb_port, (void**)&UsbMass->bus_lock);
+    if (ifHandle != thisUsbIf) {
+        bdk_error("USB: Mismatch between UsbIf(UsbIO) and ifhandle %p vs %p\n",thisUsbIf,ifHandle);
+        goto err_exit;
     }
+
+    USB_DEVICE *thisDevice = thisUsbIf->Device;
+    bdk_node_t node = 0;
+    int usb_port = 0;
+
+    cvm_usbif2node(thisUsbIf, &node, &usb_port, (void**)&UsbMass->bus_lock);
+
     DEBUG((EFI_D_INFO,"Initializing USB_MASS %p ifhandle %p @devindex %d for node %u usb_port %d lock @%p\n", UsbMass, ifHandle, devIndex, (unsigned) node, usb_port,UsbMass->bus_lock ));
     int rc = bdk_fs_register_dev("usb",devIndex,&bdk_fs_usb_ops);
-    printf("\nRegistered device \"/dev/n0.usb%d\" for node %d usb port %d - %s %s\n", devIndex, (int) node, usb_port,
+    printf("\nRegistered device \"/dev/n%d.usb%d\" for node %d usb port %d - %s %s\n", (int) node, devIndex, (int) node, usb_port,
            (rc) ? "??" : "OK",  __bdk_usb_speed2token(thisDevice->Speed));
 
     if (rc == 0 && __bdk_fs_fatfs_usbnotify) {
@@ -894,6 +889,7 @@ void
 UsbMassIfStop(void *ifHandle)
 {
     USB_MASS_DEVICE *UsbMass = NULL;
+    USB_INTERFACE *thisUsbIf = ifHandle;
     bdk_rlock_lock(&musb_list_lock);
     unsigned devIndex;
     for(devIndex = 0;  devIndex < ARRAY_SIZE(musb_list); devIndex++) {
@@ -908,14 +904,40 @@ UsbMassIfStop(void *ifHandle)
     if (NULL == UsbMass) {
         DEBUG((EFI_D_ERROR, "Failed to find index for ifHandle %p in device list\n", ifHandle));
     } else {
+        bdk_node_t if_node = 0;
+        int if_phys_port = 0;
+        cvm_usbif2node(thisUsbIf, &if_node, &if_phys_port, NULL);
+
         if (__bdk_fs_fatfs_usbnotify) {
             __bdk_fs_fatfs_usbnotify(devIndex, 0);
          }
 
         int rc = bdk_fs_unregister_dev("usb",devIndex);
-        printf("\nUnregistered device \"/dev/n0.usb%d\" from bdk_fs - %s\n", devIndex , (rc) ? "ERROR" : "OK");
+        printf("\nUnregistered device \"/dev/n%d.usb%d\" for node %d port %d from bdk_fs - %s\n", if_node, devIndex , if_node, if_phys_port, (rc) ? "ERROR" : "OK");
         UsbMass->Transport->CleanUp (UsbMass->Context);
         free(UsbMass);
     }
     DEBUG((EFI_D_INFO, "Stopped USbMass %p for ifHandle %p\n", UsbMass, ifHandle));
+}
+
+/**
+  Find  the usb mass storage interface
+
+  @param  ifHandle              Opaque handle which will be passed when stopping the interface
+
+**/
+int
+UsbMassIfFind(const void *ifHandle)
+{
+    int rc = -1;
+    bdk_rlock_lock(&musb_list_lock);
+    unsigned devIndex;
+    for(devIndex = 0;  devIndex < ARRAY_SIZE(musb_list); devIndex++) {
+        if (ifHandle == musb_list[devIndex].ifHandle) {
+            rc = devIndex;
+            break;
+        }
+    }
+    bdk_rlock_unlock(&musb_list_lock);
+    return rc;
 }

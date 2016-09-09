@@ -1921,26 +1921,30 @@ XhcAsyncIsochronousTransfer (
 
 /**
  ** return cavium node id and physical interface number for a protocol instance
- ** @param This                 This EFI_USB2_HC_PROTOCOL instance.
- ** @param node                 Address of variable to receive node number
- ** @param usb_port             Address of variable to receive port number
- ** @param lock                 Address of variable to receive pointer to bus level lock
+ ** @param usbIf          Address of USB interface instance
+ ** @param node           Address of variable to receive node number or NULL
+ ** @param usb_port       Address of variable to receive port number or NULL
+ ** @param lock           Address of variable to receive pointer to bus level lock or NULL
 
  ** @return Zero on success, non-zero on failure
  */
-int
-cvmH2C_to_node(
-    EFI_USB2_HC_PROTOCOL *This,
-    bdk_node_t           *node,
-    int *usb_port,
-    void **lock)
+int cvm_usbif2node(
+    const USB_INTERFACE *usbIf,
+    bdk_node_t    *node,
+    int           *usb_port,
+    void          **lock)
 {
-    if ((NULL == This) ||
+     if ((NULL == usbIf) ||
         ((NULL == node) && (NULL == usb_port) && (NULL == lock) ))
         return -1;
-    USB_XHCI_INSTANCE       *Xhc = XHC_FROM_THIS(This);
-    if (node) *node = Xhc->node;
-    if (usb_port) *usb_port = Xhc->usb_port;
-    if (lock) *lock = Xhc->xhci_lock;
-    return 0;
+     USB_DEVICE *thisDevice = usbIf->Device;
+     if (!thisDevice) return -1;
+     USB_BUS *thisBus = thisDevice->Bus;
+     if (!thisBus || ! thisBus->Usb2Hc) return -1;
+
+     USB_XHCI_INSTANCE       *Xhc = XHC_FROM_THIS( thisBus->Usb2Hc);
+     if (node) *node = Xhc->node; // Physical node
+     if (usb_port) *usb_port = Xhc->usb_port; // Physical port
+     if (lock) *lock = Xhc->xhci_lock; // Port lock
+     return 0;
 }
