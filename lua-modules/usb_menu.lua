@@ -42,6 +42,7 @@
 require("strict")
 require("utils")
 require("menu")
+require("fileio")
 
 local usb_port = 0
 
@@ -56,6 +57,19 @@ end
 
 local function usb_test(usb_port, test)
     assert(cavium.c.bdk_usb_test_mode(menu.node, usb_port, test) == 0, "Failed to set USB test mode")
+end
+
+local function do_pattern_test(chip_sel)
+    printf("\n")
+    printf("The automated pattern test requires USB bulk storage devices. The\n")
+    printf("names of these device are of the form \"/dev/n%d.usb#\", where the\n", menu.node)
+    printf("\"#\" is a number that increments for each device found. Enter this\n")
+    printf("number at the following prompt. The possible choices can be seen\n")
+    printf("in the output for \"Show USB host controller state\".\n")
+    printf("\n")
+    local chip_sel = menu.prompt_number("USB storage device number", 0, 0, 255)
+    local filename = utils.devfile("usb", chip_sel)
+    return fileio.pattern_test(filename, 512, 128, 0)
 end
 
 repeat
@@ -78,6 +92,7 @@ repeat
         test = test + 1
     end
 
+    m:item("pat-test", "Run automated pattern test", do_pattern_test)
     m:item("quit", "Main menu")
 until m:show() == "quit"
 
