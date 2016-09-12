@@ -1593,6 +1593,11 @@ static uint64_t if_get_lane_mask(bdk_if_handle_t handle)
             BDK_CSR_INIT(cmrx, handle->node, BDK_BGXX_CMRX_CONFIG(handle->interface, handle->index));
             int qlm = bdk_qlm_get(handle->node, BDK_IF_BGX, handle->interface, handle->index);
             int num_lanes = bdk_qlm_get_lanes(handle->node, qlm);
+            /* Even though CN80XX only has one lane per DLM, BGX treats it like
+               there are two. It's part of the hardware's teams plan to make
+               every chip a special case, keeping software busy forever */
+            if (cavium_is_altpkg(CAVIUM_CN81XX) && (qlm < 2))
+                num_lanes = 2;
             int start_lane = cmrx.s.lane_to_sds & 3;
             if (start_lane >= num_lanes)
                 return 1ull << (start_lane - num_lanes); /* One lane on second DLM */
