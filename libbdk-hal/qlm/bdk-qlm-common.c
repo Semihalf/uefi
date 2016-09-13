@@ -1173,27 +1173,6 @@ int __bdk_qlm_rx_equalization(bdk_node_t node, int qlm, int qlm_lane)
     BDK_CSR_INIT(phy_ctl, node, BDK_GSERX_PHY_CTL(qlm));
     if (phy_ctl.s.phy_pd || phy_ctl.s.phy_reset)
         return -1;
-    int gbaud = bdk_qlm_get_gbaud_mhz(node, qlm);
-    /* Slow links don't support equalization. CCPI starts 6.25G, others are at 8G */
-    if (qlm < 8)
-    {
-        if (gbaud < 6250)
-            return 0;
-    }
-    else
-    {
-        BDK_CSR_INIT(gserx_spd, node, BDK_GSERX_SPD(qlm));
-        if (gserx_spd.s.spd == 0xf) /* Supported with SW init at 6.25G */
-        {
-            if (gbaud < 6250)
-                return 0;
-        }
-        else /* Only supported at 8G and higher */
-        {
-            if (gbaud < 8000)
-                return 0;
-        }
-    }
     /* Don't run on PCIe links */
     if (bdk_qlm_get_mode(node, qlm) <= BDK_QLM_MODE_PCIE_1X8)
         return -1;
