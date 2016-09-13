@@ -375,7 +375,6 @@ EXIT:
   @retval Others                 Device not ready.
 
 **/
-static
 EFI_STATUS
 UsbBootIsUnitReady (
   IN USB_MASS_DEVICE            *UsbMass

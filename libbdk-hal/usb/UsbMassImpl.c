@@ -137,6 +137,15 @@ UsbMassReadBlocks (
   // need to detect the media before each read/write. While some of
   // Usb-Flash is marked as removable media.
   //
+#if !defined(notdef_cavium)
+  if (Media->RemovableMedia) {
+      // Will detect media change or removal
+      Status = UsbBootIsUnitReady (UsbMass);
+      if (EFI_ERROR (Status)) {
+          goto ON_EXIT;
+      }
+  }
+#else
   if (Media->RemovableMedia) {
     Status = UsbBootDetectMedia (UsbMass);
     if (EFI_ERROR (Status)) {
@@ -153,7 +162,7 @@ UsbMassReadBlocks (
     Status = EFI_MEDIA_CHANGED;
     goto ON_EXIT;
   }
-
+#endif
   if (BufferSize == 0) {
     Status = EFI_SUCCESS;
     goto ON_EXIT;
@@ -253,6 +262,15 @@ UsbMassWriteBlocks (
   // need to detect the media before each read/write. Some of
   // USB Flash is marked as removable media.
   //
+#if !defined(notdef_cavium)
+  if (Media->RemovableMedia) {
+      // Will detect media change or removal
+      Status = UsbBootIsUnitReady (UsbMass);
+      if (EFI_ERROR (Status)) {
+          goto ON_EXIT;
+      }
+  }
+#else
   if (Media->RemovableMedia) {
     Status = UsbBootDetectMedia (UsbMass);
     if (EFI_ERROR (Status)) {
@@ -269,7 +287,7 @@ UsbMassWriteBlocks (
     Status = EFI_MEDIA_CHANGED;
     goto ON_EXIT;
   }
-
+#endif
   if (BufferSize == 0) {
     Status = EFI_SUCCESS;
     goto ON_EXIT;
@@ -557,15 +575,20 @@ static int cvm_usb_open(__bdk_fs_dev_t *handle, int flags)
 
     EFI_BLOCK_IO_MEDIA  *Media = &UsbMass->BlockIoMedia;
     bdk_rlock_unlock(UsbMass->bus_lock);
-    DEBUG((EFI_D_BLKIO,"Opening usb%d block size 0x%x MaxLBA 0x%lx Removable %d MediaId %u ReadOnly %d\n",
+
+    EFI_STATUS Status = EFI_SUCCESS;
+    if (0 == Media->BlockSize) {
+        Status = UsbBootDetectMedia (UsbMass);
+    }
+    DEBUG((EFI_D_BLKIO,"Opening usb%d block size 0x%x MaxLBA 0x%lx Removable %d MediaId %u ReadOnly %d Status %d\n",
            handle->dev_index,
            Media->BlockSize,
            (uint64_t)Media->LastBlock,
            Media->RemovableMedia ? 1:0,
            (uint32_t)Media->MediaId,
-           Media->ReadOnly ? 1: 0));
+           Media->ReadOnly ? 1: 0, (int) Status));
 
-    return 0;
+    return (Status == EFI_SUCCESS) ? 0 : -1;
 }
 
 static int cvm_usb_read(__bdk_fs_dev_t *handle, void *buffer, int length)
