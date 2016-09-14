@@ -1198,7 +1198,8 @@ int __bdk_qlm_rx_equalization(bdk_node_t node, int qlm, int qlm_lane)
     if (bdk_qlm_get_mode(node, qlm) <= BDK_QLM_MODE_PCIE_1X8)
         return -1;
 
-    int fail = 0; /* Bitmask of lanes that failed */
+    int fail = 0; /* Bitmask of lanes that failed CDR Lock or Eltrical Idle check */
+    int pending = 0; /* Bitmask of lanes that we're waiting for */
     int MAX_LANES = bdk_qlm_get_lanes(node, qlm);
 
     BDK_TRACE(QLM, "N%d.QLM%d: Starting RX equalization on lane %d\n", node, qlm, qlm_lane);
@@ -1222,34 +1223,72 @@ int __bdk_qlm_rx_equalization(bdk_node_t node, int qlm, int qlm_lane)
         BDK_CSR_MODIFY(c, node, BDK_GSERX_BR_RXX_EER(qlm, lane),
             c.s.rxt_esv = 0;
             c.s.rxt_eer = 1);
+        /* Remember that we have to wait for this lane */
+        pending |= 1 << lane;
     }
 
-    /* Wait for RX equalization to complete */
+    /* Timing a few of these over XFI on CN73XX, each takes 21-23ms. XLAUI
+       was about the same time. DXAUI and RXAUI both took 2-3ms. Put the
+       timeout at 250ms, which is roughly 10x my measurements. */
+    uint64_t timeout = bdk_clock_get_count(BDK_CLOCK_TIME) + bdk_clock_get_rate(node, BDK_CLOCK_TIME) / 4;
+    while (pending)
+    {
+        for (int lane = 0; lane < MAX_LANES; lane++)
+        {
+            int lane_mask = 1 << lane;
+            /* Only check lanes that are pending */
+            if (!(pending & lane_mask))
+                continue;
+            /* Read the registers for checking Electrical Idle / CDR lock and
+               the status of the RX equalization */
+            BDK_CSR_INIT(eie_detsts, node, BDK_GSERX_RX_EIE_DETSTS(qlm));
+            BDK_CSR_INIT(gserx_br_rxx_eer, node, BDK_GSERX_BR_RXX_EER(qlm, lane));
+            /* Mark failure if lane entered Electrical Idle or lost CDR Lock. The
+               bit for the lane will have cleared in either EIESTS or CDRLOCK */
+            if (!(eie_detsts.s.eiests & eie_detsts.s.cdrlock & lane_mask))
+            {
+                fail |= lane_mask;
+                pending &= ~lane_mask;
+            }
+            else if (gserx_br_rxx_eer.s.rxt_esv)
+            {
+                /* Clear pending if RX equalization finished */
+                pending &= ~lane_mask;
+            }
+        }
+        /* Break out of the loop on timeout */
+        if (bdk_clock_get_count(BDK_CLOCK_TIME) > timeout)
+            break;
+        /* Yield to other threads while we wait */
+        bdk_thread_yield();
+    }
+
+    /* Cleanup and report status */
     for (int lane = 0; lane < MAX_LANES; lane++)
     {
-        /* Timing a few of these over XFI on CN73XX, each takes 21-23ms. XLAUI
-           was about the same time. DXAUI and RXAUI both took 2-3ms. Put the
-           timeout at 250ms, which is roughly 10x my measurements. */
-        const int TIMEOUT_US = 250000; /* 250ms */
         /* Skip lanes we don't care about */
         if ((qlm_lane != -1) && (qlm_lane != lane))
             continue;
-        /* Skip lane if it failed CDR lock above */
-        if (fail & (1 << lane))
-            continue;
-        BDK_CSR_WAIT_FOR_FIELD(node, BDK_GSERX_BR_RXX_EER(qlm, lane), rxt_esv, ==, 1, TIMEOUT_US);
+        int lane_mask = 1 << lane;
+        /* Get the final RX equalization status */
         BDK_CSR_INIT(gserx_br_rxx_eer, node, BDK_GSERX_BR_RXX_EER(qlm, lane));
+        /* Disable software control */
         BDK_CSR_MODIFY(c, node, BDK_GSERX_BR_RXX_CTL(qlm, lane),
             c.s.rxt_swm = 0);
-        if (gserx_br_rxx_eer.s.rxt_esv)
+        /* Report status */
+        if (fail & lane_mask)
         {
-            BDK_TRACE(QLM, "N%d.QLM%d: Lane %d RX equalization complete. Figure of merit %d (rxt_esm = 0x%x)\n",
-                node, qlm, lane, gserx_br_rxx_eer.s.rxt_esm >> 6, gserx_br_rxx_eer.s.rxt_esm);
+            BDK_TRACE(QLM, "N%d.QLM%d: Lane %d RX equalization lost CDR Lock or entered Electrical Idle\n", node, qlm, lane);
         }
-        else
+        else if ((pending & lane_mask) || !gserx_br_rxx_eer.s.rxt_esv)
         {
             BDK_TRACE(QLM, "N%d.QLM%d: Lane %d RX equalization timeout\n", node, qlm, lane);
             fail |= 1 << lane;
+        }
+        else
+        {
+            BDK_TRACE(QLM, "N%d.QLM%d: Lane %d RX equalization complete. Figure of merit %d (rxt_esm = 0x%x)\n",
+                node, qlm, lane, gserx_br_rxx_eer.s.rxt_esm >> 6, gserx_br_rxx_eer.s.rxt_esm);
         }
     }
 
