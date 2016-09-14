@@ -751,7 +751,33 @@ int bdk_pko_transmit(bdk_if_handle_t handle, const bdk_if_packet_t *packet)
     pko_send_hdr_s.s.df = 1;
     pko_send_hdr_s.s.format = 0; /* We don't use this? */
     pko_send_hdr_s.s.total = packet->length;
-    pko_send_hdr_s.s.l3ptr = 14; /* This is the offset of the IP header created by traffic-gen */
+
+    switch (packet->packet_type)
+    {
+    default:
+    case BDK_IF_TYPE_UNKNOWN:
+        break;
+    case BDK_IF_TYPE_UDP4:
+        pko_send_hdr_s.s.ckl3 = 1;        /* L3 - IPv4 checksum enable */
+        pko_send_hdr_s.s.l3ptr = 14;      /* L2 header is 14 bytes */
+        pko_send_hdr_s.s.ckl4 = BDK_PKO_CKL4ALG_E_UDP; /* L4 - UDP checksum enable */
+        pko_send_hdr_s.s.l4ptr = 14 + 20; /* 14 bytes L2 + 20 bytes IPv4 */
+        break;
+    case BDK_IF_TYPE_TCP4:
+        pko_send_hdr_s.s.ckl3 = 1;        /* L3 - IPv4 checksum enable */
+        pko_send_hdr_s.s.l3ptr = 14;      /* L2 header is 14 bytes */
+        pko_send_hdr_s.s.ckl4 = BDK_PKO_CKL4ALG_E_TCP; /* L4 - TCP checksum enable */
+        pko_send_hdr_s.s.l4ptr = 14 + 20; /* 14 bytes L2 + 20 bytes IPv4 */
+        if (packet->mtu)
+        {
+            int headers = 14 + 20 + 20;
+            pko_send_hdr_s.s.tso = 1;     /* Use TCP offload */
+            pko_send_hdr_s.s.tso_sb = headers; /* 14 bytes L2 + 20 bytes IPv4, 20 bytes TCP */
+            pko_send_hdr_s.s.tso_mss = packet->mtu ; /* TCP MSS */
+        }
+        break;
+    }
+
     do
     {
         int lmstore_words = _LMTS_START;
