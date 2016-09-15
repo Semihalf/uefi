@@ -800,7 +800,10 @@ write_done_noIO:
     if (scratchbuf) free(scratchbuf);
     return rc;
 }
-
+#if 1
+// At this time close does nothing but adds trace entry
+// Remove from ops to save space
+#else
 static int cvm_usb_close(__bdk_fs_dev_t *handle)
 {
     DEBUG((EFI_D_BLKIO," H:%p %d \n",
@@ -814,12 +817,12 @@ static int cvm_usb_close(__bdk_fs_dev_t *handle)
 #endif
     return 0;
 }
-
+#endif
 
 static const __bdk_fs_dev_ops_t bdk_fs_usb_ops =
 {
     .open = cvm_usb_open,
-    .close = cvm_usb_close,
+    .close = NULL, //cvm_usb_close,
     .read = cvm_usb_read,
     .write = cvm_usb_write,
 };
