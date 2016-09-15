@@ -353,6 +353,34 @@ int bdk_sata_initialize(bdk_node_t node, int controller)
         return -1;
     }
 
+    /* The following SATA setup is from the AHCI 1.3 spec, section
+       10.1.1, Firmware Specific Initialization. */
+    /* Early firmware setup was done in __bdk_qlm_set_sata(), we're not
+       starting the staggered spin-up process */
+
+    /* 1. Indicate that system software is AHCI aware by setting GHC.AE to '1'. */
+    BDK_CSR_MODIFY(c, node, BDK_SATAX_UAHC_GBL_GHC(controller),
+        c.s.ae = 1);    /* AHCI enable */
+
+    /* 2. Ensure that PxCMD.ST = '0', PxCMD.CR = '0', PxCMD.FRE = '0',
+       PxCMD.FR = '0', and PxSCTL.DET = '0'. */
+    BDK_CSR_INIT(p0_cmd, node, BDK_SATAX_UAHC_P0_CMD(controller));
+    if (p0_cmd.s.st)
+        bdk_error("N%d.SATA%d: PxCMD[ST] is illegally set during init\n", node, controller);
+    if (p0_cmd.s.cr)
+        bdk_error("N%d.SATA%d: PxCMD[CR] is illegally set during init\n", node, controller);
+    if (p0_cmd.s.fre)
+        bdk_error("N%d.SATA%d: PxCMD[FRE] is illegally set during init\n", node, controller);
+    if (p0_cmd.s.fr)
+        bdk_error("N%d.SATA%d: PxCMD[FR] is illegally set during init\n", node, controller);
+    BDK_CSR_INIT(p0_sctl, node, BDK_SATAX_UAHC_P0_SCTL(controller));
+    if (p0_sctl.s.det)
+        bdk_error("N%d.SATA%d: PxSCTL[DET] is illegally set during init\n", node, controller);
+
+    /* 3. Allocate memory for the command list and the FIS receive area. Set
+       PxCLB and PxCLBU to the physical address of the allocated command list.
+       Set PxFB and PxFBU to the physical address of the allocated FIS receive
+       area. Then set PxCMD.FRE to '1'. */
     /* Allocate area for commands */
     uint64_t clb_pa = BDK_CSR_READ(node, BDK_SATAX_UAHC_P0_CLB(controller));
     if (clb_pa == 0)
@@ -367,7 +395,6 @@ int bdk_sata_initialize(bdk_node_t node, int controller)
         BDK_CSR_WRITE(node, BDK_SATAX_UAHC_P0_CLB(controller),
             bdk_ptr_to_phys(clb));
     }
-
     /* Allocate area for FIS DMAs */
     uint64_t fb_pa = BDK_CSR_READ(node, BDK_SATAX_UAHC_P0_FB(controller));
     if (fb_pa == 0)
@@ -381,6 +408,52 @@ int bdk_sata_initialize(bdk_node_t node, int controller)
         memset(fb, 0, sizeof(hba_fis_t));
         BDK_CSR_WRITE(node, BDK_SATAX_UAHC_P0_FB(controller),
             bdk_ptr_to_phys(fb));
+    }
+    BDK_CSR_MODIFY(c, node, BDK_SATAX_UAHC_P0_CMD(controller),
+        c.s.fre = 1);   /* FIS-receive enable */
+
+    /* 4. Initiate a spin up of the SATA drive attached to the port; i.e. set
+       PxCMD.SUD to '1'.*/
+    BDK_CSR_MODIFY(c, node, BDK_SATAX_UAHC_P0_CMD(controller),
+        c.s.pod = 1;    /* Power on the device, only has affect if SATAX_UAHC_P0_CMD[CPD]=1 */
+        c.s.sud = 1);   /* Spin-up device */
+
+    /* 5. Wait for a positive indication that a device is attached to the port
+       (the maximum amount of time to wait for presence indication is specified
+       in the Serial ATA Revision 2.6 specification). This is done by polling
+       PxSSTS.DET. If PxSSTS.DET returns a value of 1h or 3h when read, then
+       system software shall continue to the next step, otherwise if the
+       polling process times out system software moves to the next implemented
+       port and returns to step 1. */
+    /* Waiting for device detection, up to 500ms. PxCMD[DET] must be 1 or 3 */
+    uint64_t timeout = bdk_clock_get_count(BDK_CLOCK_TIME) + bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_TIME) * 5;
+    BDK_CSR_INIT(p0_ssts, node, BDK_SATAX_UAHC_P0_SSTS(controller));
+    while ((p0_ssts.s.det != 1) && (p0_ssts.s.det != 3) &&
+           (bdk_clock_get_count(BDK_CLOCK_TIME) <= timeout))
+    {
+        p0_ssts.u = BDK_CSR_READ(node, BDK_SATAX_UAHC_P0_SSTS(controller));
+        bdk_thread_yield();
+    }
+    if ((p0_ssts.s.det != 1) && (p0_ssts.s.det != 3))
+    {
+        bdk_error("N%d.SATA%d: PxSCTL[DET]=%d failed to detect a device\n", node, controller, p0_ssts.s.det);
+        return -1;
+    }
+
+    /* 6. Clear the PxSERR register, by writing '1s' to each implemented bit
+       location. */
+    BDK_CSR_WRITE(node, BDK_SATAX_UAHC_P0_SERR(controller), -1);
+
+    /* 7. Wait for indication that SATA drive is ready. This is determined via
+       an examination of PxTFD.STS. If PxTFD.STS.BSY, PxTFD.STS.DRQ, and
+       PxTFD.STS.ERR are all '0', prior to the maximum allowed time as
+       specified in the ATA/ATAPI-7 specification, the device is ready. */
+    /* Wait for the device to be ready. BSY(7), DRQ(3), and ERR(0) must be clear */
+    if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_SATAX_UAHC_P0_TFD(controller), sts & 0x85, ==, 0, 500000))
+    {
+        BDK_CSR_INIT(p0_tfd, node, BDK_SATAX_UAHC_P0_TFD(controller));
+        bdk_error("N%d.SATA%d: PxTFD[STS]=0x%x, Drive not ready\n", node, controller, p0_tfd.s.sts);
+        return -1;
     }
 
     /* Enable AHCI command queuing */
@@ -401,32 +474,9 @@ int bdk_sata_initialize(bdk_node_t node, int controller)
     /* Clear all status bits */
     BDK_CSR_WRITE(node, BDK_SATAX_UAHC_P0_IS(controller), -1);
 
-    /* Clear all error bits */
-    BDK_CSR_WRITE(node, BDK_SATAX_UAHC_P0_SERR(controller), -1);
-
-    /* Setup the port controller */
-    BDK_CSR_MODIFY(c, node, BDK_SATAX_UAHC_P0_CMD(controller),
-        c.s.fre = 1; /* FIS receive enable */
-        c.s.pod = 1; /* Power on the device, only has affect if SATAX_UAHC_P0_CMD[CPD]=1 */
-        c.s.sud = 1); /* Spin-up the device, only has affect if SATAX_UAHC_GBL_CAP[SSS]=1 */
-
-    bdk_wait_usec(1); /* To match RTL sim environment */
-
-    /* Allow device detection */
-    BDK_CSR_MODIFY(c, node, BDK_SATAX_UAHC_P0_SCTL(controller),
-        c.s.det = 1); /* Sends COMRESET to the device */
-    bdk_wait_usec(1000); /* 1ms required per databook */
-    BDK_CSR_MODIFY(c, node, BDK_SATAX_UAHC_P0_SCTL(controller),
-        c.s.det = 0); /* Stops COMRESET, allows device to come up */
-
     /* Start the port controller */
     BDK_CSR_MODIFY(c, node, BDK_SATAX_UAHC_P0_CMD(controller),
         c.s.st = 1); /* Start the controller */
-
-    /* A 120ms delay here has been seen to fail idnetify with a Samsung SSD. A
-       delay of 125ms has not been seen to fail. Push the delay up to 250ms
-       just to be sure */
-    bdk_wait_usec(250000);
     return 0;
 }
 

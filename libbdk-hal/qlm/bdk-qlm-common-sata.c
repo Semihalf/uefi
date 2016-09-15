@@ -298,6 +298,10 @@ int __bdk_qlm_set_sata(bdk_node_t node, int qlm, int baud_mhz, int sata_first, i
     /* Add 1ms delay for everything to stabilize*/
     bdk_wait_usec(1000);
 
+    /* Apply any custom tuning */
+    __bdk_qlm_tune(node, qlm, BDK_QLM_MODE_SATA_4X1, baud_mhz);
+    bdk_wait_usec(1000);
+
 
     /* 6.  Deassert UCTL and UAHC resets:
         a.  SATA(0..15)_UCTL_CTL[SATA_UAHC_RST] = 0
@@ -319,34 +323,16 @@ int __bdk_qlm_set_sata(bdk_node_t node, int qlm, int baud_mhz, int sata_first, i
             c.s.csclk_en = 1);
     }
 
-    for (int p = sata_first; p <= sata_last; p++)
-    {
-        /* From the synopsis data book, SATAX_UAHC_GBL_TIMER1MS is the
-           AMBA clock in MHz * 1000, which is a_clk(Hz) / 1000 */
-        BDK_TRACE(QLM, "QLM%d: SATA%d set to %d Hz\n", qlm, p, a_clk);
-        BDK_CSR_MODIFY(c, node, BDK_SATAX_UAHC_GBL_TIMER1MS(p),
-            c.s.timv = a_clk / 1000);
-        BDK_CSR_MODIFY(c, node, BDK_SATAX_UAHC_GBL_CAP(p),
-            c.s.sss = 0; /* Disabled staggered spin up as in causes trouble with some drives (Samsung 840Pro SSD) */
-            c.s.smps = 1);
-        /* Report 1 port per controller */
-        BDK_CSR_MODIFY(c, node, BDK_SATAX_UAHC_GBL_PI(p),
-            c.s.pi = 1);
-        /* Clear all port errors */
-        BDK_CSR_WRITE(node, BDK_SATAX_UAHC_P0_SERR(p), -1);
-        BDK_CSR_WRITE(node, BDK_SATAX_UAHC_P0_IS(p), -1);
-    }
-
     /* Check BIST on the SATA controller. Start BIST in parallel on the
        controllers */
-    for (int p = sata_first; p <= sata_last; p++)
-    {
-        BDK_CSR_MODIFY(c, node, BDK_SATAX_UCTL_CTL(p),
-            c.s.start_bist = 1);
-    }
-    bdk_wait_usec(1000);
     if (!bdk_is_platform(BDK_PLATFORM_ASIM))
     {
+        for (int p = sata_first; p <= sata_last; p++)
+        {
+            BDK_CSR_MODIFY(c, node, BDK_SATAX_UCTL_CTL(p),
+                c.s.start_bist = 1);
+        }
+        bdk_wait_usec(1000);
         for (int p = sata_first; p <= sata_last; p++)
         {
             BDK_CSR_INIT(bist, node, BDK_SATAX_UCTL_BIST_STATUS(p));
@@ -357,27 +343,6 @@ int __bdk_qlm_set_sata(bdk_node_t node, int qlm, int baud_mhz, int sata_first, i
         }
     }
 
-    /* Apply any custom tuning */
-    __bdk_qlm_tune(node, qlm, BDK_QLM_MODE_SATA_4X1, baud_mhz);
-    bdk_wait_usec(1000);
-
-    /* Perform a host bus reset to make sure SATA is good. This seems to be
-       needed in rare cases. Without it, SATA will very rarely fail the first
-       identify */
-    for (int p = sata_first; p <= sata_last; p++)
-    {
-        BDK_CSR_MODIFY(c, node, BDK_SATAX_UAHC_GBL_GHC(p),
-            c.s.hr = 1);
-    }
-    for (int p = sata_first; p <= sata_last; p++)
-    {
-        if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_SATAX_UAHC_GBL_GHC(p), hr, ==, 0, 10000))
-        {
-            bdk_error("N%d.SATA%d: Controller stuck in reset\n", node, p);
-            return -1;
-        }
-    }
-
     int spd;
     if (baud_mhz < 3000)
         spd = 1;
@@ -385,16 +350,29 @@ int __bdk_qlm_set_sata(bdk_node_t node, int qlm, int baud_mhz, int sata_first, i
         spd = 2;
     else
         spd = 3;
+
     for (int p = sata_first; p <= sata_last; p++)
     {
+        /* From the synopsis data book, SATAX_UAHC_GBL_TIMER1MS is the
+           AMBA clock in MHz * 1000, which is a_clk(Hz) / 1000 */
+        BDK_TRACE(QLM, "QLM%d: SATA%d set to %d Hz\n", qlm, p, a_clk);
+        BDK_CSR_MODIFY(c, node, BDK_SATAX_UAHC_GBL_TIMER1MS(p),
+            c.s.timv = a_clk / 1000);
         /* Set speed */
         BDK_CSR_MODIFY(c, node, BDK_SATAX_UAHC_P0_SCTL(p),
             c.s.spd = spd);
-        /* Clear all port errors */
-        BDK_CSR_WRITE(node, BDK_SATAX_UAHC_P0_SERR(p), -1);
-        BDK_CSR_WRITE(node, BDK_SATAX_UAHC_P0_IS(p), -1);
+        /* The following SATA setup is from the AHCI 1.3 spec, section
+           10.1.1, Firmware Specific Initialization. */
+        BDK_CSR_MODIFY(c, node, BDK_SATAX_UAHC_GBL_CAP(p),
+            c.s.sss = 1;    /* Support staggered spin-up */
+            c.s.smps = 1);  /* Support mechanical presence switch */
+        BDK_CSR_MODIFY(c, node, BDK_SATAX_UAHC_GBL_PI(p),
+            c.s.pi = 1);    /* One port per controller */
+        BDK_CSR_MODIFY(c, node, BDK_SATAX_UAHC_P0_CMD(p),
+            c.s.hpcp = 1;   /* Hot-plug-capable support */
+            c.s.mpsp = 1;   /* Mechanical presence switch attached to port */
+            c.s.cpd = 1);   /* Cold-presence detection */
     }
-
     return 0;
 }
 
