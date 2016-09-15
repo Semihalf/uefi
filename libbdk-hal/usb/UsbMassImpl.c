@@ -199,7 +199,8 @@ UsbMassReadBlocks (
 
   if (EFI_ERROR (Status)) {
     DEBUG ((EFI_D_ERROR, "UsbBootReadBlocks (%d) -> Reset\n", (int) Status));
-    UsbMassReset (This, TRUE);
+    //UsbMassReset (This, TRUE);
+    Status = EFI_DO_RESET;
   }
 
 ON_EXIT:
@@ -328,7 +329,8 @@ UsbMassWriteBlocks (
 
   if (EFI_ERROR (Status)) {
     DEBUG ((EFI_D_ERROR, "UsbBootWriteBlocks (%d) -> Reset\n", (int) Status));
-    UsbMassReset (This, TRUE);
+    // UsbMassReset (This, TRUE);
+    Status = EFI_DO_RESET;
   }
 
 ON_EXIT:
@@ -542,15 +544,68 @@ UsbMassInitMultiLun (
 /* Accounting of active usb mass storage devices */
 typedef struct _MASSDEV
 {
-    void *ifHandle; // Handle provided by USB HCI layer
-    USB_MASS_DEVICE *UsbMass; // Pointer to UsbMassDevice
+    USB_INTERFACE * volatile ifHandle; // Interface handle provided by USB HCI layer
+    USB_MASS_DEVICE * volatile UsbMass; // Pointer to UsbMassDevice
 } MASSDEV;
 
 static bdk_rlock_t musb_list_lock = {0,0};
 static MASSDEV musb_list[8];
+
 /*
 ** Cavium IO methods for /dev/nX.usbY
 */
+
+/*
+** Internal helper to reset port after the failure to read or write blocks.
+** Unlike stock one it accounts for possibility that device was removed
+** Caller is expected to hold bus lock.
+** Lock is released by reset routine if at all possible.
+**
+** @param UsbMass 	Pointer to usb mass context
+** @param devIndex      Index assigned to usb device, ie X in "/dev/n0.usbX"
+**
+** @retval EFI_STATUS
+*/
+static
+int cvm_do_reset(USB_MASS_DEVICE *UsbMass, const int devIndex)
+{
+    bdk_rlock_lock(&musb_list_lock);
+    USB_INTERFACE *thisUsbIf = musb_list[devIndex].ifHandle;
+    bdk_rlock_unlock(&musb_list_lock);
+    if (NULL == thisUsbIf) return EFI_INVALID_PARAMETER;
+    if (musb_list[devIndex].UsbMass != UsbMass) return EFI_INVALID_PARAMETER;
+
+    // We are doing reset because of previous hard error.
+    // Device may have been physically disturbed.
+    // Normal root hub enumeration is not running because our caller holds bus lock.
+    // a) Run enumeration and async transfer checks on the root complex,
+    //   this interface belongs to
+    // b) Check if the device still exists.
+    // c) If it does exist, reset it.
+
+    // a) Poll root complex
+    bdk_node_t if_node;
+    int if_phys_port ;
+    if (cvm_usbif2node(thisUsbIf, &if_node, &if_phys_port, NULL))
+        return EFI_INVALID_PARAMETER;
+    bdk_rlock_t *my_bus_lock = UsbMass->bus_lock; // Get bus lock address while we have it
+    bdk_usb_HCPoll(if_node,if_phys_port,0); // skip locking as we are holding the lock
+
+    // b) Check that device is still there
+    if ((UsbMass != musb_list[devIndex].UsbMass) ||
+        (thisUsbIf !=  musb_list[devIndex].ifHandle))
+    {
+        BDK_TRACE(USB_XHCI, "DevIndex %d have been removed from node %d port %d\n",
+                  devIndex, if_node, if_phys_port);
+        bdk_rlock_unlock(my_bus_lock);
+        return EFI_MEDIA_CHANGED;
+    }
+    // c) If we got here, do reset
+    int Status = UsbMassReset(&UsbMass->BlockIo,TRUE);
+    bdk_rlock_unlock(my_bus_lock);
+    return Status;
+}
+
 static USB_MASS_DEVICE *findUsbMass(const unsigned index, const bool lockIt) {
     if ( index   >= ARRAY_SIZE(musb_list)) {
         DEBUG((EFI_D_ERROR,"Index %u out of bounds max %lu\n",index,ARRAY_SIZE(musb_list) ));
@@ -577,8 +632,11 @@ static int cvm_usb_open(__bdk_fs_dev_t *handle, int flags)
     bdk_rlock_unlock(UsbMass->bus_lock);
 
     EFI_STATUS Status = EFI_SUCCESS;
-    if (0 == Media->BlockSize) {
+    if ((0 == Media->BlockSize) || (Media->RemovableMedia)) {
         Status = UsbBootDetectMedia (UsbMass);
+    }
+    if (!EFI_ERROR(Status) && !Media->MediaPresent) {
+            Status = EFI_NO_MEDIA;
     }
     DEBUG((EFI_D_BLKIO,"Opening usb%d block size 0x%x MaxLBA 0x%lx Removable %d MediaId %u ReadOnly %d Status %d\n",
            handle->dev_index,
@@ -609,8 +667,8 @@ static int cvm_usb_read(__bdk_fs_dev_t *handle, void *buffer, int length)
     if (head || length&BlockMask) {
         scratchbuf = malloc(BlockSize);
         if (NULL == scratchbuf) {
-            rc = 0;
-            goto read_done;
+            rc = -1;
+            goto read_done_noIO;
         }
     }
     uint64_t LBA = handle->location >>BlockShift;
@@ -618,7 +676,7 @@ static int cvm_usb_read(__bdk_fs_dev_t *handle, void *buffer, int length)
         Status = UsbMassReadBlocks(&UsbMass->BlockIo, Media->MediaId, LBA, BlockSize, scratchbuf);
         if (EFI_ERROR(Status)) {
             DEBUG ((EFI_D_ERROR, "Error (%d) reading first block\n", (int) Status));
-            rc = 0;
+            rc = -1;
             goto read_done;
         }
         int lcopy = BlockSize - head;
@@ -643,13 +701,18 @@ static int cvm_usb_read(__bdk_fs_dev_t *handle, void *buffer, int length)
         Status = UsbMassReadBlocks(&UsbMass->BlockIo, Media->MediaId, LBA, BlockSize, scratchbuf);
         if (EFI_ERROR(Status)) {
             DEBUG ((EFI_D_ERROR, "Error (%d) reading tail block\n",  (int) Status));
-            rc = 0;
+            rc = -1;
             goto read_done;
         }
         memcpy(buffer,scratchbuf,length);
     }
 read_done:
-    bdk_rlock_unlock(UsbMass->bus_lock);
+    if (EFI_DO_RESET == Status) {
+        cvm_do_reset(UsbMass, handle->dev_index);
+    } else {
+read_done_noIO:
+        bdk_rlock_unlock(UsbMass->bus_lock);
+    }
     if (scratchbuf) free(scratchbuf);
     return rc;
 }
@@ -666,8 +729,8 @@ static int cvm_usb_write(__bdk_fs_dev_t *handle, const void *buffer, int length)
     char *scratchbuf = NULL;
     if (Media->ReadOnly ) {
         DEBUG ((EFI_D_ERROR, "Write is called for read-only media\n"));
-        rc = 0;
-        goto write_done;
+        rc = -1;
+        goto write_done_noIO;
     }
     int BlockShift = HighBitSet(Media->BlockSize);
     uint64_t BlockMask = (1ULL<<BlockShift)-1;
@@ -676,8 +739,8 @@ static int cvm_usb_write(__bdk_fs_dev_t *handle, const void *buffer, int length)
     if (head || length&BlockMask) {
         scratchbuf = malloc(BlockSize);
         if (NULL == scratchbuf) {
-            rc = 0;
-            goto write_done;
+            rc = -1;
+            goto write_done_noIO;
         }
     }
     uint64_t LBA = handle->location >>BlockShift;
@@ -685,7 +748,7 @@ static int cvm_usb_write(__bdk_fs_dev_t *handle, const void *buffer, int length)
         Status = UsbMassReadBlocks(&UsbMass->BlockIo, Media->MediaId, LBA, BlockSize, scratchbuf);
         if (EFI_ERROR(Status)) {
             DEBUG ((EFI_D_ERROR, "Error (%d) reading first block\n", (int) Status));
-            rc = 0;
+            rc = -1;
             goto write_done;
         }
         int lcopy = BlockSize - head;
@@ -694,7 +757,7 @@ static int cvm_usb_write(__bdk_fs_dev_t *handle, const void *buffer, int length)
         Status = UsbMassWriteBlocks(&UsbMass->BlockIo, Media->MediaId, LBA, BlockSize, scratchbuf);
         if (EFI_ERROR(Status)) {
             DEBUG ((EFI_D_ERROR, "Error (%d) writing first block\n", (int) Status));
-            rc = 0;
+            rc = -1;
             goto write_done;
         }
         buffer = ((char*)buffer) + lcopy;
@@ -715,7 +778,7 @@ static int cvm_usb_write(__bdk_fs_dev_t *handle, const void *buffer, int length)
         Status = UsbMassReadBlocks(&UsbMass->BlockIo, Media->MediaId, LBA, BlockSize, scratchbuf);
         if (EFI_ERROR(Status)) {
             DEBUG ((EFI_D_ERROR, "Error (%d) reading last block\n", (int) Status));
-            rc = 0;
+            rc = -1;
             goto write_done;
         }
         memcpy(scratchbuf,buffer,length);
@@ -728,7 +791,12 @@ static int cvm_usb_write(__bdk_fs_dev_t *handle, const void *buffer, int length)
     }
 
 write_done:
-    bdk_rlock_unlock(UsbMass->bus_lock);
+    if (EFI_DO_RESET == Status) {
+        cvm_do_reset(UsbMass, handle->dev_index);
+    } else {
+write_done_noIO:
+        bdk_rlock_unlock(UsbMass->bus_lock);
+    }
     if (scratchbuf) free(scratchbuf);
     return rc;
 }
@@ -872,7 +940,7 @@ UsbMassIfStart(EFI_USB_IO_PROTOCOL *UsbIo,
         goto err_exit;
     }
 
-    USB_INTERFACE *thisUsbIf =  (typeof(thisUsbIf))USB_INTERFACE_FROM_USBIO (UsbIo);
+    USB_INTERFACE *thisUsbIf = USB_INTERFACE_FROM_USBIO (UsbIo);
     if (ifHandle != thisUsbIf) {
         bdk_error("USB: Mismatch between UsbIf(UsbIO) and ifhandle %p vs %p\n",thisUsbIf,ifHandle);
         goto err_exit;
@@ -964,3 +1032,4 @@ UsbMassIfFind(const void *ifHandle)
     bdk_rlock_unlock(&musb_list_lock);
     return rc;
 }
+

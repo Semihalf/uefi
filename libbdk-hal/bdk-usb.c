@@ -548,7 +548,7 @@ int bdk_usb_test_mode(bdk_node_t node, int usb_port, bdk_usb_test_t test_mode)
         case BDK_USB_XHCI_LIST_ADDRESSES:
             return bdk_usb_HCList(node, usb_port);
         case BDK_USB_XHCI_POLL_STATUS:
-            return bdk_usb_HCPoll(node, usb_port);
+            return bdk_usb_HCPoll(node, usb_port,1);
         case BDK_USB_XHCI_TOGGLE_POLLING:
             bdk_usb_togglePoll(node, usb_port, DO_TOGGLE);
             return 0;

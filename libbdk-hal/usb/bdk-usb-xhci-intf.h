@@ -74,15 +74,16 @@ int bdk_usb_HCInit(bdk_node_t node, int usb_port);
  *
  * @param node       Node to init
  * @param usb_port   Port to intialize
+ * @param checklocks Check/acquire for bus lock
  *
  * @return Zero on success, negative on error
  */
-int bdk_usb_HCPoll(bdk_node_t node, int usb_port);
+int bdk_usb_HCPoll(bdk_node_t node, int usb_port, int checklocks);
 
 /**
  * Print current USB topology discovered by enumeration
  *
- * @param node       Node 
+ * @param node       Node
  * @param usb_port   Physical Port
  *
  * @return Zero on success, negative on error

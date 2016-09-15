@@ -415,24 +415,27 @@ out:
  *
  * @param node       Node to init
  * @param usb_port   Port to intialize
+ * @param checklocks Check/acquire for bus lock
  *
  * @return Zero on success, negative on error
  */
-int bdk_usb_HCPoll(bdk_node_t node, int usb_port){
+int bdk_usb_HCPoll(bdk_node_t node, int usb_port, int checklocks){
     if (usb_check_node_and_port(node,usb_port)) return -1;
 
-    USB_INTERFACE* RootHubIf = (USB_INTERFACE *)usb_global_data[node][usb_port].root_if ;
+    USB_INTERFACE* RootHubIf = usb_global_data[node][usb_port].root_if ;
     if (NULL == RootHubIf) {
         printf("\n** node %d usb_port %d have not been initialized\n",
                node, usb_port);
         return -1;
     }
-    if (bdk_rlock_try_lock(&usb_global_data[node][usb_port].xhci_lock)) {
+    if (checklocks && bdk_rlock_try_lock(&usb_global_data[node][usb_port].xhci_lock)) {
         printf("N:%d P:%d is locked\n", node, usb_port);
         return 0;
     }
     UsbRootHubEnumeration(0,RootHubIf);
-    bdk_rlock_unlock(&usb_global_data[node][usb_port].xhci_lock);
+    XhcMonitorAsyncRequests(0,usb_global_data[node][usb_port].xhci_priv);
+    usb_global_data[node][usb_port].root_hub_enum_timestamp = bdk_clock_get_count(BDK_CLOCK_TIME);
+    if (checklocks) bdk_rlock_unlock(&usb_global_data[node][usb_port].xhci_lock);
 
     return 0;
 }
