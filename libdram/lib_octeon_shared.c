@@ -2108,13 +2108,14 @@ int octeon_ddr_initialize(bdk_node_t node,
     memsize_mbytes = 0;
     for (interface_index = 0; interface_index < 4; ++interface_index) {
 	if (! (ddr_config_valid_mask & (1 << interface_index))) { // if LMC has no DIMMs found
-            if (ddr_interface_mask & (1 << interface_index)) // but the LMC is present
+            if (ddr_interface_mask & (1 << interface_index)) { // but the LMC is present
                 for (int i = 0; i < DDR_CFG_T_MAX_DIMMS; i++) {
                     // check for slot presence
                     if (validate_dimm(node, &ddr_configuration[interface_index].dimm_config_table[i]) == 0)
                         printf("N%d.LMC%d.DIMM%d: Not Present\n", node, interface_index, i);
                 }
                 error_print("N%d.LMC%d Configuration Completed: 0 MB\n", node, interface_index);
+            }
 	    continue;
         }
 
