@@ -785,8 +785,9 @@ UsbBootDetectMedia (
 
   Status = UsbBootReadCapacity (UsbMass);
   if (EFI_ERROR (Status)) {
-    DEBUG ((EFI_D_ERROR, "UsbBootReadCapacity (%d)\n", (int) Status));
-    goto ON_ERROR;
+      int level = (Status = EFI_MEDIA_CHANGED) ? EFI_D_WARN : EFI_D_ERROR;
+      DEBUG ((level, "UsbBootReadCapacity (%d)\n", (int) Status));
+      goto ON_ERROR;
   }
 
   return EFI_SUCCESS;
@@ -823,7 +824,11 @@ ON_ERROR:
     ASSERT (EfiGetCurrentTpl () == TPL_CALLBACK);
     gBS->RaiseTPL (OldTpl);
 #else
-    CAVIUM_NOTYET("Reinstall Block IO proto - media underneath have changed");
+    DEBUG ((EFI_D_BLKIO, "Media Change:  Present %d ReadOnly %d BlockSize %d LastBlock %lld\n",
+            Media->MediaPresent,
+            Media->ReadOnly,
+            Media->BlockSize,
+            Media->LastBlock));
 #endif
     //
     // Update MediaId after reinstalling Block I/O Protocol.

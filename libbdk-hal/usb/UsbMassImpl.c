@@ -933,6 +933,11 @@ UsbMassIfStart(EFI_USB_IO_PROTOCOL *UsbIo,
     UsbMass->Context              = tContext;
 
     Status = UsbMassInitMedia (UsbMass);
+    int retry = 3;
+    while ((Status == EFI_MEDIA_CHANGED) && retry) {
+         Status = UsbMassInitMedia (UsbMass);
+         retry--;
+    }
     if ((EFI_ERROR (Status)) && (Status != EFI_NO_MEDIA)) {
         DEBUG ((EFI_D_ERROR, "UsbMassInitMedia (%d)\n", (int)Status));
         free(UsbMass);
