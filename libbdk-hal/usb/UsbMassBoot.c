@@ -333,6 +333,7 @@ EXIT:
 #else
   /* Retry n times or until timer expires until successful */
   /* Will be done in 60 seconds from now */
+  int tcount = 0;
   uint64_t done = bdk_clock_get_count(BDK_CLOCK_TIME) + 60 /* * 1000000 */ * bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_TIME) /* / 1000000 */;
   do {
       Status = UsbBootExecCmd (
@@ -344,6 +345,11 @@ EXIT:
           DataLen,
           Timeout
           );
+      if (Status == EFI_TIMEOUT) {
+          // Do not allow more then two timeouts
+          tcount++;
+          if (tcount > 1) break;
+      }
       if (Status == EFI_SUCCESS || Status == EFI_MEDIA_CHANGED || Status == EFI_NO_MEDIA) {
           break;
       }
