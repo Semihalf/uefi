@@ -197,11 +197,13 @@ union bdk_pcieepvfx_cfg002
         uint32_t pi                    : 8;  /**< [ 15:  8](RO) Read-only copy of the associated PF's PCIEEP()_CFG002[PI]. */
         uint32_t rid                   : 8;  /**< [  7:  0](RO/WRSL) Revision ID, writable through PEM()_CFG_WR. However, the application must not change
                                                                  this field.
-                                                                 See MIO_FUS_DAT2[CHIP_ID] for more information. */
+                                                                 See MIO_FUS_DAT2[CHIP_ID] for more information.
+                                                                 0x0 = Pass 1.0. */
 #else /* Word 0 - Little Endian */
         uint32_t rid                   : 8;  /**< [  7:  0](RO/WRSL) Revision ID, writable through PEM()_CFG_WR. However, the application must not change
                                                                  this field.
-                                                                 See MIO_FUS_DAT2[CHIP_ID] for more information. */
+                                                                 See MIO_FUS_DAT2[CHIP_ID] for more information.
+                                                                 0x0 = Pass 1.0. */
         uint32_t pi                    : 8;  /**< [ 15:  8](RO) Read-only copy of the associated PF's PCIEEP()_CFG002[PI]. */
         uint32_t sc                    : 8;  /**< [ 23: 16](RO) Read-only copy of the associated PF's PCIEEP()_CFG002[SC]. */
         uint32_t bcc                   : 8;  /**< [ 31: 24](RO) Read-only copy of the associated PF's PCIEEP()_CFG002[BCC]. */

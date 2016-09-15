@@ -207,7 +207,7 @@
  * Enumeration pko_lmac_e
  *
  * PKO LMAC Enumeration
- * Enumerates the values of PKO_LUT index.
+ * Enumerates the PKO_MAC()_CFG CSR array entries.
  */
 #define BDK_PKO_LMAC_E_BGXX_PORTX(a,b) (3 + 4 * (a) + (b))
 #define BDK_PKO_LMAC_E_DPI (2)
@@ -522,8 +522,10 @@ union bdk_pko_send_aura_s
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t subdc                 : 4;  /**< [ 63: 60] Subdescriptor code. Indicates send aura. Enumerated by PKO_SENDSUBDC_E::AURA. */
         uint64_t reserved_49_59        : 11;
-        uint64_t p                     : 1;  /**< [ 48: 48] Cacheline CRC, an 8-bit CRC is striped across each cacheline using this bit in
-                                                                 each descriptor. */
+        uint64_t p                     : 1;  /**< [ 48: 48] Reserved.
+                                                                 Internal:
+                                                                 Intent was to stripe an 8-bit CRC across these bits in the cacheline, but
+                                                                 not implemented. */
         uint64_t reserved_40_47        : 8;
         uint64_t aura                  : 16; /**< [ 39: 24] Guest-aura number. The guest-aura to use for subsequent FPA frees in this
                                                                  PKO SEND descriptor and the aura whose aura count may be decremented by
@@ -611,8 +613,10 @@ union bdk_pko_send_aura_s
                                                                  For the FPA to not discard the free request, FPA_PF_MAP() must map
                                                                  [AURA] and PKO_PF_VF()_GMCTL[GMID] as valid. */
         uint64_t reserved_40_47        : 8;
-        uint64_t p                     : 1;  /**< [ 48: 48] Cacheline CRC, an 8-bit CRC is striped across each cacheline using this bit in
-                                                                 each descriptor. */
+        uint64_t p                     : 1;  /**< [ 48: 48] Reserved.
+                                                                 Internal:
+                                                                 Intent was to stripe an 8-bit CRC across these bits in the cacheline, but
+                                                                 not implemented. */
         uint64_t reserved_49_59        : 11;
         uint64_t subdc                 : 4;  /**< [ 63: 60] Subdescriptor code. Indicates send aura. Enumerated by PKO_SENDSUBDC_E::AURA. */
 #endif /* Word 0 - End */
@@ -684,8 +688,10 @@ union bdk_pko_send_crc_s
         uint64_t subdc                 : 4;  /**< [ 63: 60] Subdescriptor code. Indicates send CRC. Enumerated by PKO_SENDSUBDC_E::CRC. */
         uint64_t alg                   : 2;  /**< [ 59: 58] Checksum algorithm. See PKO_SENDCRCALG_E. */
         uint64_t reserved_49_57        : 9;
-        uint64_t p                     : 1;  /**< [ 48: 48] Cacheline CRC, an 8-bit CRC is striped across each cacheline using this bit in
-                                                                 each descriptor. */
+        uint64_t p                     : 1;  /**< [ 48: 48] Reserved.
+                                                                 Internal:
+                                                                 Intent was to stripe an 8-bit CRC across these bits in the cacheline, but
+                                                                 not implemented. */
         uint64_t insert                : 16; /**< [ 47: 32] Byte position relative to the first packet byte at which to insert the first byte of the
                                                                  calculated CRC. PKO does not allocate bytes as it inserts the CRC result into the packet,
                                                                  it overwrites four pre-supplied packet bytes using PKO_SEND_GATHER_S or PKO_SEND_LINK_S or
@@ -707,8 +713,10 @@ union bdk_pko_send_crc_s
                                                                  it overwrites four pre-supplied packet bytes using PKO_SEND_GATHER_S or PKO_SEND_LINK_S or
                                                                  PKO_SEND_IMM_S. The insertion point may not be within the start/size region of another
                                                                  PKO_SEND_CRC_S. */
-        uint64_t p                     : 1;  /**< [ 48: 48] Cacheline CRC, an 8-bit CRC is striped across each cacheline using this bit in
-                                                                 each descriptor. */
+        uint64_t p                     : 1;  /**< [ 48: 48] Reserved.
+                                                                 Internal:
+                                                                 Intent was to stripe an 8-bit CRC across these bits in the cacheline, but
+                                                                 not implemented. */
         uint64_t reserved_49_57        : 9;
         uint64_t alg                   : 2;  /**< [ 59: 58] Checksum algorithm. See PKO_SENDCRCALG_E. */
         uint64_t subdc                 : 4;  /**< [ 63: 60] Subdescriptor code. Indicates send CRC. Enumerated by PKO_SENDSUBDC_E::CRC. */
@@ -742,8 +750,10 @@ union bdk_pko_send_free_s
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t subdc                 : 4;  /**< [ 63: 60] Subdescriptor code. Indicates send free. Enumerated by PKO_SENDSUBDC_E::FREE. */
         uint64_t reserved_49_59        : 11;
-        uint64_t p                     : 1;  /**< [ 48: 48] Cacheline CRC, an 8-bit CRC is striped across each cacheline using this bit in
-                                                                 each descriptor. */
+        uint64_t p                     : 1;  /**< [ 48: 48] Reserved.
+                                                                 Internal:
+                                                                 Intent was to stripe an 8-bit CRC across these bits in the cacheline, but
+                                                                 not implemented. */
         uint64_t reserved_40_47        : 8;
         uint64_t aura                  : 16; /**< [ 39: 24] Aura number. The aura to use FPA frees. */
         uint64_t reserved_0_23         : 24;
@@ -751,8 +761,10 @@ union bdk_pko_send_free_s
         uint64_t reserved_0_23         : 24;
         uint64_t aura                  : 16; /**< [ 39: 24] Aura number. The aura to use FPA frees. */
         uint64_t reserved_40_47        : 8;
-        uint64_t p                     : 1;  /**< [ 48: 48] Cacheline CRC, an 8-bit CRC is striped across each cacheline using this bit in
-                                                                 each descriptor. */
+        uint64_t p                     : 1;  /**< [ 48: 48] Reserved.
+                                                                 Internal:
+                                                                 Intent was to stripe an 8-bit CRC across these bits in the cacheline, but
+                                                                 not implemented. */
         uint64_t reserved_49_59        : 11;
         uint64_t subdc                 : 4;  /**< [ 63: 60] Subdescriptor code. Indicates send free. Enumerated by PKO_SENDSUBDC_E::FREE. */
 #endif /* Word 0 - End */
@@ -886,8 +898,10 @@ union bdk_pko_send_gather_s
                                                                  Software must not modify the path of meta descriptors from the DQ through
                                                                  PKO to an output FIFO between TSO segments. */
         uint64_t reserved_49_56        : 8;
-        uint64_t p                     : 1;  /**< [ 48: 48] Cacheline CRC, an 8-bit CRC is striped across each cacheline using this bit in
-                                                                 each descriptor. */
+        uint64_t p                     : 1;  /**< [ 48: 48] Reserved.
+                                                                 Internal:
+                                                                 Intent was to stripe an 8-bit CRC across these bits in the cacheline, but
+                                                                 not implemented. */
         uint64_t reserved_40_47        : 8;
         uint64_t aura                  : 16; /**< [ 39: 24] see PKO_SEND_FREE_S[AURA] */
         uint64_t reserved_16_23        : 8;
@@ -931,8 +945,10 @@ union bdk_pko_send_gather_s
         uint64_t reserved_16_23        : 8;
         uint64_t aura                  : 16; /**< [ 39: 24] see PKO_SEND_FREE_S[AURA] */
         uint64_t reserved_40_47        : 8;
-        uint64_t p                     : 1;  /**< [ 48: 48] Cacheline CRC, an 8-bit CRC is striped across each cacheline using this bit in
-                                                                 each descriptor. */
+        uint64_t p                     : 1;  /**< [ 48: 48] Reserved.
+                                                                 Internal:
+                                                                 Intent was to stripe an 8-bit CRC across these bits in the cacheline, but
+                                                                 not implemented. */
         uint64_t reserved_49_56        : 8;
         uint64_t i                     : 1;  /**< [ 57: 57] Invert free. See PKO_SEND_HDR_S[DF,II].
 
@@ -1002,7 +1018,9 @@ union bdk_pko_send_hdr_s
     struct bdk_pko_send_hdr_s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t scntm1                : 3;  /**< [ 63: 61] Sub-descriptor count. PKO packs the send operation's number of sub-descriptors
+        uint64_t scntm1                : 3;  /**< [ 63: 61] Reserved.
+                                                                 Internal:
+                                                                 Sub-descriptor count. PKO packs the send operation's number of sub-descriptors
                                                                  (minus one) here.  Software should not modify this. */
         uint64_t n2                    : 1;  /**< [ 60: 60] No L2 allocate. When clear, PKO allocates all packet load data into the L2 cache.
                                                                  When set, PKO does not allocate blocks containing segment bytes into the L2 cache.
@@ -1180,7 +1198,7 @@ union bdk_pko_send_hdr_s
                                                                  not once per TSO segment.
                                                                  Software must not modify the path of meta descriptors from the DQ through
                                                                  PKO to an output FIFO between TSO segments. */
-        uint64_t tso_eom               : 1;  /**< [ 57: 57] Reserved. Must be zero.
+        uint64_t tso_eom               : 1;  /**< [ 57: 57] Reserved.
                                                                  Internal:
                                                                  End of message. PKO sets [EOM] in the last replicated packet descriptor. */
         uint64_t tstmp                 : 1;  /**< [ 56: 56] PTP timestamp. If set, a later PKO_SEND_MEM_S will be present in this descriptor with
@@ -1194,8 +1212,10 @@ union bdk_pko_send_hdr_s
 
                                                                  When PKO_SEND_HDR_S[TSO] is set in the descriptor, PKO marks each TSO segment
                                                                  independently, using [FORMAT] for every TSO segment. */
-        uint64_t p                     : 1;  /**< [ 48: 48] Cacheline CRC, an 8-bit CRC is striped across each cacheline using this bit in
-                                                                 each descriptor. */
+        uint64_t p                     : 1;  /**< [ 48: 48] Reserved.
+                                                                 Internal:
+                                                                 Intent was to stripe an 8-bit CRC across these bits in the cacheline, but
+                                                                 not implemented. */
         uint64_t ckl4                  : 2;  /**< [ 47: 46] Checksum L4, enumerated by PKO_CKL4ALG_E. If nonzero (not NONE):
 
                                                                  * PKO hardware calculates the Layer 4 TCP/UDP/SCTP checksum for the packet and inserts it
@@ -1533,8 +1553,10 @@ union bdk_pko_send_hdr_s
                                                                  checksums when both are present.
 
                                                                  * When PKO_SEND_HDR_S[TSO] is set, [CKL4] must be TCP */
-        uint64_t p                     : 1;  /**< [ 48: 48] Cacheline CRC, an 8-bit CRC is striped across each cacheline using this bit in
-                                                                 each descriptor. */
+        uint64_t p                     : 1;  /**< [ 48: 48] Reserved.
+                                                                 Internal:
+                                                                 Intent was to stripe an 8-bit CRC across these bits in the cacheline, but
+                                                                 not implemented. */
         uint64_t format                : 7;  /**< [ 55: 49] Selects a CSR from the PKO_FORMAT()_CTL array which specifies
                                                                  how PKO will mark YELLOW and RED_SEND packets. [FORMAT] must
                                                                  be less than the size of the PKO_FORMAT()_CTL array.
@@ -1546,7 +1568,7 @@ union bdk_pko_send_hdr_s
                                                                  set, [RA] must be PKO_REDALG_E::SEND.
 
                                                                  [TSTMP] must not be set when PKO_SEND_HDR_S[TSO] is set in the descriptor. */
-        uint64_t tso_eom               : 1;  /**< [ 57: 57] Reserved. Must be zero.
+        uint64_t tso_eom               : 1;  /**< [ 57: 57] Reserved.
                                                                  Internal:
                                                                  End of message. PKO sets [EOM] in the last replicated packet descriptor. */
         uint64_t df                    : 1;  /**< [ 58: 58] Don't free. If set, by default PKO will not free the surrounding buffer after
@@ -1725,14 +1747,16 @@ union bdk_pko_send_hdr_s
                                                                  into the L2 cache on the first-pass packet read of a two-pass TCP/UDP checksum
                                                                  calculation, and may allocate portions of packet data into the L2 cache when
                                                                  PKO_SEND_HDR_S[TSO]==1. */
-        uint64_t scntm1                : 3;  /**< [ 63: 61] Sub-descriptor count. PKO packs the send operation's number of sub-descriptors
+        uint64_t scntm1                : 3;  /**< [ 63: 61] Reserved.
+                                                                 Internal:
+                                                                 Sub-descriptor count. PKO packs the send operation's number of sub-descriptors
                                                                  (minus one) here.  Software should not modify this. */
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
         uint64_t l2len                 : 8;  /**< [127:120] Offset in bytes to the two-byte L2 header-type/length field. If the type/length
                                                                  field value in the pre-segmented packet is 0 .. 1535, PKO considers it
                                                                  to be a length field, and modifies it for each produced segment. */
-        uint64_t tso_fn                : 7;  /**< [119:113] Reserved. Must be zero.
+        uint64_t tso_fn                : 7;  /**< [119:113] Reserved.
                                                                  Internal:
                                                                  Frame number. PKO increases [FN] in every replicated packet descriptor. */
         uint64_t shp_chg               : 9;  /**< [112:104] Signed packet size adjustment. The packet size used for shaper {a} (PIR_ACCUM and
@@ -1751,7 +1775,12 @@ union bdk_pko_send_hdr_s
 
                                                                  When PKO_SEND_HDR_S[TSO] is set in the descriptor, PKO applies [SHP_CHG]
                                                                  to each TSO segment - PKO copies [SHP_CHG] to each PKO_META_DESC_S[ADJUST]
-                                                                 and PKO_nm_PICK[ADJUST]. */
+                                                                 and PKO_nm_PICK[ADJUST].
+
+                                                                 Internal:
+                                                                 When PDM hardware writes a descriptor to memory, it crams a checksum
+                                                                 here to help detect memory corruption. The corresponding PKO_META_DESC_S[ADJUST]
+                                                                 have already been created from this at that time. */
         uint64_t lfptr                 : 8;  /**< [103: 96] Inner Layer 4 Offset. Similar to [L4PTR] but for inner L4 as directed by [CKLF]. If
                                                                  [CKLF] and [CKL4] are both nonzero, then [LFPTR] must be > [L4PTR] + 20. */
         uint64_t leptr                 : 8;  /**< [ 95: 88] Inner Layer 3 IP Offset. Similar to [L3PTR] but for inner IP as directed by [CKLE]. If
@@ -1843,8 +1872,13 @@ union bdk_pko_send_hdr_s
 
                                                                  When PKO_SEND_HDR_S[TSO] is set in the descriptor, PKO applies [SHP_CHG]
                                                                  to each TSO segment - PKO copies [SHP_CHG] to each PKO_META_DESC_S[ADJUST]
-                                                                 and PKO_nm_PICK[ADJUST]. */
-        uint64_t tso_fn                : 7;  /**< [119:113] Reserved. Must be zero.
+                                                                 and PKO_nm_PICK[ADJUST].
+
+                                                                 Internal:
+                                                                 When PDM hardware writes a descriptor to memory, it crams a checksum
+                                                                 here to help detect memory corruption. The corresponding PKO_META_DESC_S[ADJUST]
+                                                                 have already been created from this at that time. */
+        uint64_t tso_fn                : 7;  /**< [119:113] Reserved.
                                                                  Internal:
                                                                  Frame number. PKO increases [FN] in every replicated packet descriptor. */
         uint64_t l2len                 : 8;  /**< [127:120] Offset in bytes to the two-byte L2 header-type/length field. If the type/length
@@ -1860,7 +1894,7 @@ union bdk_pko_send_hdr_s
  *
  * PKO Send Immediate Subdescriptor Structure
  * The send immediate subdescriptor directly includes bytes of packet data.
- * The subdescriptor format is this 64-bit PKO_SEND_IMM_S followed immediately
+ * The subdescriptor format is this 128-bit PKO_SEND_IMM_S followed immediately
  * by the packet data. The next subdescriptor (if any) follows the packet data
  * bytes (after rounding up to be a multiple of 16 bytes).
  *
@@ -1882,10 +1916,12 @@ union bdk_pko_send_imm_s
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t subdc                 : 4;  /**< [ 63: 60] Subdescriptor code. Indicates send immediate. Enumerated by PKO_SENDSUBDC_E::IMM. */
         uint64_t reserved_49_59        : 11;
-        uint64_t p                     : 1;  /**< [ 48: 48] Cacheline CRC, an 8-bit CRC is striped across each cacheline using this bit in
-                                                                 each descriptor. */
+        uint64_t p                     : 1;  /**< [ 48: 48] Reserved.
+                                                                 Internal:
+                                                                 Intent was to stripe an 8-bit CRC across these bits in the cacheline, but
+                                                                 not implemented. */
         uint64_t reserved_16_47        : 32;
-        uint64_t size                  : 16; /**< [ 15:  0] Size of immediate (in bytes) that immediately follows this 64-bit structure.
+        uint64_t size                  : 16; /**< [ 15:  0] Size of immediate (in bytes) that immediately follows this 128-bit structure.
                                                                  [SIZE] must be between 1 and 32 bytes. The next subdescriptor follow [SIZE]
                                                                  bytes later in the descriptor, rounded up to the next 8-byte aligned
                                                                  boundary.
@@ -1900,7 +1936,7 @@ union bdk_pko_send_imm_s
                                                                  PKO_SEND_LINK_S[SIZE]s in the descriptor plus any PKI_BUFLINK_S[SIZE]s
                                                                  linked by any PKO_SEND_LINK_S must equal or exceed PKO_SEND_HDR_S[TOTAL]. */
 #else /* Word 0 - Little Endian */
-        uint64_t size                  : 16; /**< [ 15:  0] Size of immediate (in bytes) that immediately follows this 64-bit structure.
+        uint64_t size                  : 16; /**< [ 15:  0] Size of immediate (in bytes) that immediately follows this 128-bit structure.
                                                                  [SIZE] must be between 1 and 32 bytes. The next subdescriptor follow [SIZE]
                                                                  bytes later in the descriptor, rounded up to the next 8-byte aligned
                                                                  boundary.
@@ -1915,8 +1951,10 @@ union bdk_pko_send_imm_s
                                                                  PKO_SEND_LINK_S[SIZE]s in the descriptor plus any PKI_BUFLINK_S[SIZE]s
                                                                  linked by any PKO_SEND_LINK_S must equal or exceed PKO_SEND_HDR_S[TOTAL]. */
         uint64_t reserved_16_47        : 32;
-        uint64_t p                     : 1;  /**< [ 48: 48] Cacheline CRC, an 8-bit CRC is striped across each cacheline using this bit in
-                                                                 each descriptor. */
+        uint64_t p                     : 1;  /**< [ 48: 48] Reserved.
+                                                                 Internal:
+                                                                 Intent was to stripe an 8-bit CRC across these bits in the cacheline, but
+                                                                 not implemented. */
         uint64_t reserved_49_59        : 11;
         uint64_t subdc                 : 4;  /**< [ 63: 60] Subdescriptor code. Indicates send immediate. Enumerated by PKO_SENDSUBDC_E::IMM. */
 #endif /* Word 0 - End */
@@ -1962,23 +2000,27 @@ union bdk_pko_send_jump_s
                                                                  Software must not modify the path of meta descriptors from the DQ through
                                                                  PKO to an output FIFO between TSO segments. */
         uint64_t reserved_49_52        : 4;
-        uint64_t p                     : 1;  /**< [ 48: 48] Cacheline CRC, an 8-bit CRC is striped across each cacheline using this bit in
-                                                                 each descriptor. */
+        uint64_t p                     : 1;  /**< [ 48: 48] Reserved.
+                                                                 Internal:
+                                                                 Intent was to stripe an 8-bit CRC across these bits in the cacheline, but
+                                                                 not implemented. */
         uint64_t reserved_40_47        : 8;
         uint64_t aura                  : 16; /**< [ 39: 24] See PKO_SEND_FREE_S[AURA]. */
         uint64_t reserved_16_23        : 8;
         uint64_t size                  : 16; /**< [ 15:  0] Number of 16-byte subdescriptor words in the subdescriptor list that [ADDR]
-                                                                 points to. The total size of a PKO SEND descriptor must never exceed 255 64-bit
+                                                                 points to. The total size of a PKO SEND descriptor must never exceed 127 128-bit
                                                                  words. */
 #else /* Word 0 - Little Endian */
         uint64_t size                  : 16; /**< [ 15:  0] Number of 16-byte subdescriptor words in the subdescriptor list that [ADDR]
-                                                                 points to. The total size of a PKO SEND descriptor must never exceed 255 64-bit
+                                                                 points to. The total size of a PKO SEND descriptor must never exceed 127 128-bit
                                                                  words. */
         uint64_t reserved_16_23        : 8;
         uint64_t aura                  : 16; /**< [ 39: 24] See PKO_SEND_FREE_S[AURA]. */
         uint64_t reserved_40_47        : 8;
-        uint64_t p                     : 1;  /**< [ 48: 48] Cacheline CRC, an 8-bit CRC is striped across each cacheline using this bit in
-                                                                 each descriptor. */
+        uint64_t p                     : 1;  /**< [ 48: 48] Reserved.
+                                                                 Internal:
+                                                                 Intent was to stripe an 8-bit CRC across these bits in the cacheline, but
+                                                                 not implemented. */
         uint64_t reserved_49_52        : 4;
         uint64_t f                     : 1;  /**< [ 53: 53] When set, PKO will free the buffer indicated by [ADDR] to FPA after it has read all
                                                                  subdescriptors from it. When clear, PKO will not free the buffer indicated by [ADDR].
@@ -2079,8 +2121,10 @@ union bdk_pko_send_link_s
                                                                  Software must not modify the path of meta descriptors from the DQ through
                                                                  PKO to an output FIFO between TSO segments. */
         uint64_t reserved_49_56        : 8;
-        uint64_t p                     : 1;  /**< [ 48: 48] Cacheline CRC, an 8-bit CRC is striped across each cacheline using this bit in
-                                                                 each descriptor. */
+        uint64_t p                     : 1;  /**< [ 48: 48] Reserved.
+                                                                 Internal:
+                                                                 Intent was to stripe an 8-bit CRC across these bits in the cacheline, but
+                                                                 not implemented. */
         uint64_t reserved_40_47        : 8;
         uint64_t aura                  : 16; /**< [ 39: 24] see PKO_SEND_FREE_S[AURA] */
         uint64_t reserved_16_23        : 8;
@@ -2130,8 +2174,10 @@ union bdk_pko_send_link_s
         uint64_t reserved_16_23        : 8;
         uint64_t aura                  : 16; /**< [ 39: 24] see PKO_SEND_FREE_S[AURA] */
         uint64_t reserved_40_47        : 8;
-        uint64_t p                     : 1;  /**< [ 48: 48] Cacheline CRC, an 8-bit CRC is striped across each cacheline using this bit in
-                                                                 each descriptor. */
+        uint64_t p                     : 1;  /**< [ 48: 48] Reserved.
+                                                                 Internal:
+                                                                 Intent was to stripe an 8-bit CRC across these bits in the cacheline, but
+                                                                 not implemented. */
         uint64_t reserved_49_56        : 8;
         uint64_t i                     : 1;  /**< [ 57: 57] Invert free. See PKO_SEND_HDR_S[DF,II].
 
@@ -2240,8 +2286,10 @@ union bdk_pko_send_mem_s
                                                                  operation may complete after the ADD_WORK and potentially after software has begun
                                                                  servicing the work. */
         uint64_t reserved_49_52        : 4;
-        uint64_t p                     : 1;  /**< [ 48: 48] Cacheline CRC, an 8-bit CRC is striped across each cacheline using this bit in
-                                                                 each descriptor. */
+        uint64_t p                     : 1;  /**< [ 48: 48] Reserved.
+                                                                 Internal:
+                                                                 Intent was to stripe an 8-bit CRC across these bits in the cacheline, but
+                                                                 not implemented. */
         uint64_t reserved_16_47        : 32;
         uint64_t offset                : 16; /**< [ 15:  0] Adder offset. Constant value to add or subtract or set. If the count being modified is to
                                                                  represent the true packet size, then the offset would represent the outside FCS appended
@@ -2261,8 +2309,10 @@ union bdk_pko_send_mem_s
                                                                  therefore a change of minus one is twice as IOB bandwidth efficient as adding/subtracting
                                                                  other values or setting. */
         uint64_t reserved_16_47        : 32;
-        uint64_t p                     : 1;  /**< [ 48: 48] Cacheline CRC, an 8-bit CRC is striped across each cacheline using this bit in
-                                                                 each descriptor. */
+        uint64_t p                     : 1;  /**< [ 48: 48] Reserved.
+                                                                 Internal:
+                                                                 Intent was to stripe an 8-bit CRC across these bits in the cacheline, but
+                                                                 not implemented. */
         uint64_t reserved_49_52        : 4;
         uint64_t wmem                  : 1;  /**< [ 53: 53] Wait for memory. When set, there must be an SSO ADD_WORK requested with the final
                                                                  PKO_SEND_WORK_S subdescriptor. PKO will wait for this PKO_SEND_MEM_S requested memory
@@ -2324,8 +2374,10 @@ union bdk_pko_send_work_s
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t subdc                 : 4;  /**< [ 63: 60] Subdescriptor code. Indicates send work. Enumerated by PKO_SENDSUBDC_E::WORK. */
         uint64_t reserved_49_59        : 11;
-        uint64_t p                     : 1;  /**< [ 48: 48] Cacheline CRC, an 8-bit CRC is striped across each cacheline using this bit in
-                                                                 each descriptor. */
+        uint64_t p                     : 1;  /**< [ 48: 48] Reserved.
+                                                                 Internal:
+                                                                 Intent was to stripe an 8-bit CRC across these bits in the cacheline, but
+                                                                 not implemented. */
         uint64_t reserved_44_47        : 4;
         uint64_t grp                   : 10; /**< [ 43: 34] SSO group. The SSO group number to add work to. Note the upper two bits
                                                                  correspond to a node number. */
@@ -2337,8 +2389,10 @@ union bdk_pko_send_work_s
         uint64_t grp                   : 10; /**< [ 43: 34] SSO group. The SSO group number to add work to. Note the upper two bits
                                                                  correspond to a node number. */
         uint64_t reserved_44_47        : 4;
-        uint64_t p                     : 1;  /**< [ 48: 48] Cacheline CRC, an 8-bit CRC is striped across each cacheline using this bit in
-                                                                 each descriptor. */
+        uint64_t p                     : 1;  /**< [ 48: 48] Reserved.
+                                                                 Internal:
+                                                                 Intent was to stripe an 8-bit CRC across these bits in the cacheline, but
+                                                                 not implemented. */
         uint64_t reserved_49_59        : 11;
         uint64_t subdc                 : 4;  /**< [ 63: 60] Subdescriptor code. Indicates send work. Enumerated by PKO_SENDSUBDC_E::WORK. */
 #endif /* Word 0 - End */
@@ -5313,7 +5367,7 @@ union bdk_pko_l1_sqx_topology
         uint64_t reserved_21_31        : 11;
         uint64_t link                  : 5;  /**< [ 20: 16](R/W) Link index. Selects the MAC or NULL FIFO used by the L1 SQ.
 
-                                                                 Legal [LINK] values:
+                                                                 Legal [LINK] values (PKO_LMAC_E plus 19/NULL):
 
                                                                  <pre>
                                                                     LINK/          Relevant
@@ -5342,7 +5396,8 @@ union bdk_pko_l1_sqx_topology
                                                                  </pre>
 
                                                                  When a MAC is used by the L1 SQ, [LINK] must be unique relative to
-                                                                 other [LINK]s. [LINK] should be 14 when the L1 SQ is not used. */
+                                                                 other [LINK]s. [LINK] should be 19/NULL when the L1 SQ is
+                                                                 not used. */
         uint64_t reserved_5_15         : 11;
         uint64_t rr_prio               : 4;  /**< [  4:  1](R/W) Round-robin priority. The priority assigned to the round-robin scheduler. A higher-level
                                                                  queue is a child queue of this shaper when its PKO_*_TOPOLOGY[PARENT] selects this shaper,
@@ -5370,7 +5425,7 @@ union bdk_pko_l1_sqx_topology
         uint64_t reserved_5_15         : 11;
         uint64_t link                  : 5;  /**< [ 20: 16](R/W) Link index. Selects the MAC or NULL FIFO used by the L1 SQ.
 
-                                                                 Legal [LINK] values:
+                                                                 Legal [LINK] values (PKO_LMAC_E plus 19/NULL):
 
                                                                  <pre>
                                                                     LINK/          Relevant
@@ -5399,7 +5454,8 @@ union bdk_pko_l1_sqx_topology
                                                                  </pre>
 
                                                                  When a MAC is used by the L1 SQ, [LINK] must be unique relative to
-                                                                 other [LINK]s. [LINK] should be 14 when the L1 SQ is not used. */
+                                                                 other [LINK]s. [LINK] should be 19/NULL when the L1 SQ is
+                                                                 not used. */
         uint64_t reserved_21_31        : 11;
         uint64_t prio_anchor           : 8;  /**< [ 39: 32](R/W) Priority anchor. The base index positioning the static priority child queues of this
                                                                  shaper. A higher-level queue is a child queue of this shaper when its
@@ -8367,8 +8423,8 @@ static inline uint64_t BDK_PKO_L5_CONST_FUNC(void)
  *
  * PKO Channel to Queue Mapping LUT Registers
  * PKO_LUT has a location for each used PKI_CHAN_E. The following table
- * shows the mapping between LINK/MAC_NUM's, PKI_CHAN_E channels, and
- * PKO_LUT indices.
+ * shows the mapping between PKO_LMAC_E LINK/MAC_NUM's, PKI_CHAN_E channels,
+ * and PKO_LUT indices.
  *
  * <pre>
  *   LINK/   PKI_CHAN_E    Corresponding
@@ -8887,29 +8943,7 @@ static inline uint64_t BDK_PKO_LUT_ECC_SBE_W1S_FUNC(void)
  * and hold the per-MAC configuration bits.  These registers must be disabled (FIFO_NUM set
  * to 31) prior to reconfiguration of any of the other bits.
  *
- * <pre>
- *   CSR Name        Associated MAC
- *   ---------------------------------
- *   PKO_MAC0_CFG   LBK0 loopback
- *   PKO_MAC1_CFG   LBK2 loopback
- *   PKO_MAC2_CFG   DPI packet output
- *   PKO_MAC3_CFG   BGX0 logical MAC 0
- *   PKO_MAC4_CFG   BGX0 logical MAC 1
- *   PKO_MAC5_CFG   BGX0 logical MAC 2
- *   PKO_MAC6_CFG   BGX0 logical MAC 3
- *   PKO_MAC7_CFG   BGX1 logical MAC 0
- *   PKO_MAC8_CFG   BGX1 logical MAC 1
- *   PKO_MAC9_CFG   BGX1 logical MAC 2
- *   PKO_MAC10_CFG  BGX1 logical MAC 3
- *   PKO_MAC11_CFG  BGX2 logical MAC 0
- *   PKO_MAC12_CFG  BGX2 logical MAC 1
- *   PKO_MAC13_CFG  BGX2 logical MAC 2
- *   PKO_MAC14_CFG  BGX2 logical MAC 3
- *   PKO_MAC15_CFG  BGX3 logical MAC 0
- *   PKO_MAC16_CFG  BGX3 logical MAC 1
- *   PKO_MAC17_CFG  BGX3 logical MAC 2
- *   PKO_MAC18_CFG  BGX3 logical MAC 3
- * </pre>
+ * The entries in this CSR array correspond to the PKO_LMAC_E enumeration.
  */
 union bdk_pko_macx_cfg
 {
@@ -16576,8 +16610,8 @@ typedef union bdk_pko_vfx_dqx_op_sendx bdk_pko_vfx_dqx_op_sendx_t;
 static inline uint64_t BDK_PKO_VFX_DQX_OP_SENDX(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_VFX_DQX_OP_SENDX(unsigned long a, unsigned long b, unsigned long c)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=31) && (b<=7) && (c<=15)))
-        return 0x854400001000ll + 0x100000ll * ((a) & 0x1f) + 0x20000ll * ((b) & 0x7) + 8ll * ((c) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=31) && (b<=7) && (c==0)))
+        return 0x854400001000ll + 0x100000ll * ((a) & 0x1f) + 0x20000ll * ((b) & 0x7) + 8ll * ((c) & 0x0);
     __bdk_csr_fatal("PKO_VFX_DQX_OP_SENDX", 3, a, b, c, 0);
 }
 

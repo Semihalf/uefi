@@ -9464,13 +9464,13 @@ union bdk_bgxx_gmp_gmi_txx_slot
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_10_63        : 54;
-        uint64_t slot                  : 10; /**< [  9:  0](R/W) Slottime (refer to Std 802.3 to set correctly):
+        uint64_t slot                  : 10; /**< [  9:  0](R/W) Slottime (refer to IEEE 802.3 to set correctly):
                                                                  10/100 Mbs: Set SLOT to 0x40.
                                                                  1000 Mbs: Set SLOT to 0x200.
 
                                                                  SGMII/QSGMII/1000Base-X only. */
 #else /* Word 0 - Little Endian */
-        uint64_t slot                  : 10; /**< [  9:  0](R/W) Slottime (refer to Std 802.3 to set correctly):
+        uint64_t slot                  : 10; /**< [  9:  0](R/W) Slottime (refer to IEEE 802.3 to set correctly):
                                                                  10/100 Mbs: Set SLOT to 0x40.
                                                                  1000 Mbs: Set SLOT to 0x200.
 
@@ -9483,13 +9483,13 @@ union bdk_bgxx_gmp_gmi_txx_slot
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_10_63        : 54;
-        uint64_t slot                  : 10; /**< [  9:  0](R/W) Slottime (refer to Std 802.3 to set correctly):
+        uint64_t slot                  : 10; /**< [  9:  0](R/W) Slottime (refer to IEEE 802.3 to set correctly):
                                                                  10/100 Mbs: Set SLOT to 0x40.
                                                                  1000 Mbs: Set SLOT to 0x200.
 
                                                                  SGMII/1000Base-X only. */
 #else /* Word 0 - Little Endian */
-        uint64_t slot                  : 10; /**< [  9:  0](R/W) Slottime (refer to Std 802.3 to set correctly):
+        uint64_t slot                  : 10; /**< [  9:  0](R/W) Slottime (refer to IEEE 802.3 to set correctly):
                                                                  10/100 Mbs: Set SLOT to 0x40.
                                                                  1000 Mbs: Set SLOT to 0x200.
 
@@ -10943,7 +10943,7 @@ union bdk_bgxx_gmp_pcs_mrx_control
                                                                   1          0         1000 Mb/s
                                                                   1          1         reserved
                                                                  </pre> */
-        uint64_t uni                   : 1;  /**< [  5:  5](R/W) Unidirectional (Std 802.3-2005, Clause 66.2). When set to 1, this bit overrides [AN_EN]
+        uint64_t uni                   : 1;  /**< [  5:  5](R/W) Unidirectional (IEEE 802.3-2005, Clause 66.2). When set to 1, this bit overrides [AN_EN]
                                                                  and
                                                                  disables the autonegotiation variable mr_an_enable. Used in both 1000BASE-X and
                                                                  SGMII/QSGMII
@@ -10951,7 +10951,7 @@ union bdk_bgxx_gmp_pcs_mrx_control
         uint64_t reserved_0_4          : 5;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_4          : 5;
-        uint64_t uni                   : 1;  /**< [  5:  5](R/W) Unidirectional (Std 802.3-2005, Clause 66.2). When set to 1, this bit overrides [AN_EN]
+        uint64_t uni                   : 1;  /**< [  5:  5](R/W) Unidirectional (IEEE 802.3-2005, Clause 66.2). When set to 1, this bit overrides [AN_EN]
                                                                  and
                                                                  disables the autonegotiation variable mr_an_enable. Used in both 1000BASE-X and
                                                                  SGMII/QSGMII
@@ -11050,14 +11050,14 @@ union bdk_bgxx_gmp_pcs_mrx_control
                                                                   1          0         1000 Mb/s
                                                                   1          1         reserved
                                                                  </pre> */
-        uint64_t uni                   : 1;  /**< [  5:  5](R/W) Unidirectional (Std 802.3-2005, Clause 66.2). When set to 1, this bit overrides [AN_EN]
+        uint64_t uni                   : 1;  /**< [  5:  5](R/W) Unidirectional (IEEE 802.3-2005, Clause 66.2). When set to 1, this bit overrides [AN_EN]
                                                                  and
                                                                  disables the autonegotiation variable mr_an_enable. Used in both 1000BASE-X and SGMII
                                                                  modes. */
         uint64_t reserved_0_4          : 5;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_4          : 5;
-        uint64_t uni                   : 1;  /**< [  5:  5](R/W) Unidirectional (Std 802.3-2005, Clause 66.2). When set to 1, this bit overrides [AN_EN]
+        uint64_t uni                   : 1;  /**< [  5:  5](R/W) Unidirectional (IEEE 802.3-2005, Clause 66.2). When set to 1, this bit overrides [AN_EN]
                                                                  and
                                                                  disables the autonegotiation variable mr_an_enable. Used in both 1000BASE-X and SGMII
                                                                  modes. */
@@ -14042,7 +14042,7 @@ static inline uint64_t BDK_BGXX_SMUX_TX_THRESH(unsigned long a, unsigned long b)
  *
  * BGX SPU Autonegotiation Advertisement Registers
  * Software programs this register with the contents of the AN-link code word base page to be
- * transmitted during autonegotiation. (See Std 802.3 section 73.6 for details.) Any write
+ * transmitted during autonegotiation. (See IEEE 802.3 section 73.6 for details.) Any write
  * operations to this register prior to completion of autonegotiation, as indicated by
  * BGX()_SPU()_AN_STATUS[AN_COMPLETE], should be followed by a renegotiation in order for
  * the new values to take effect. Renegotiation is initiated by setting
@@ -14076,9 +14076,9 @@ union bdk_bgxx_spux_an_adv
         uint64_t pause                 : 1;  /**< [ 10: 10](R/W) PAUSE ability. */
         uint64_t e                     : 5;  /**< [  9:  5](R/W) Echoed nonce. Provides the echoed-nonce value to use when ACK = 0 in transmitted DME page.
                                                                  Should always be 0x0. */
-        uint64_t s                     : 5;  /**< [  4:  0](R/W) Selector. Should be 0x1 (encoding for IEEE Std 802.3). */
+        uint64_t s                     : 5;  /**< [  4:  0](R/W) Selector. Should be 0x1 (encoding for IEEE 802.3). */
 #else /* Word 0 - Little Endian */
-        uint64_t s                     : 5;  /**< [  4:  0](R/W) Selector. Should be 0x1 (encoding for IEEE Std 802.3). */
+        uint64_t s                     : 5;  /**< [  4:  0](R/W) Selector. Should be 0x1 (encoding for IEEE 802.3). */
         uint64_t e                     : 5;  /**< [  9:  5](R/W) Echoed nonce. Provides the echoed-nonce value to use when ACK = 0 in transmitted DME page.
                                                                  Should always be 0x0. */
         uint64_t pause                 : 1;  /**< [ 10: 10](R/W) PAUSE ability. */
@@ -14203,7 +14203,7 @@ union bdk_bgxx_spux_an_control
         uint64_t an_reset              : 1;  /**< [ 15: 15](R/W1S/H) Autonegotiation reset. Setting this bit or BGX()_SPU()_CONTROL1[RESET] to 1
                                                                  causes the following to happen:
                                                                  * Resets the logical PCS (LPCS)
-                                                                 * Sets the Std 802.3 PCS, FEC and AN registers for the LPCS to their default states
+                                                                 * Sets the IEEE 802.3 PCS, FEC and AN registers for the LPCS to their default states
                                                                  * Resets the associated SerDes lanes.
 
                                                                  It takes up to 32 coprocessor-clock cycles to reset the LPCS, after which RESET is
@@ -14230,7 +14230,7 @@ union bdk_bgxx_spux_an_control
         uint64_t an_reset              : 1;  /**< [ 15: 15](R/W1S/H) Autonegotiation reset. Setting this bit or BGX()_SPU()_CONTROL1[RESET] to 1
                                                                  causes the following to happen:
                                                                  * Resets the logical PCS (LPCS)
-                                                                 * Sets the Std 802.3 PCS, FEC and AN registers for the LPCS to their default states
+                                                                 * Sets the IEEE 802.3 PCS, FEC and AN registers for the LPCS to their default states
                                                                  * Resets the associated SerDes lanes.
 
                                                                  It takes up to 32 coprocessor-clock cycles to reset the LPCS, after which RESET is
@@ -14266,7 +14266,7 @@ static inline uint64_t BDK_BGXX_SPUX_AN_CONTROL(unsigned long a, unsigned long b
  *
  * BGX SPU Autonegotiation Link-Partner Base-Page Ability Registers
  * This register captures the contents of the latest AN link code word base page received from
- * the link partner during autonegotiation. (See Std 802.3 section 73.6 for details.)
+ * the link partner during autonegotiation. (See IEEE 802.3 section 73.6 for details.)
  * BGX()_SPU()_AN_STATUS[PAGE_RX] is set when this register is updated by hardware.
  */
 union bdk_bgxx_spux_an_lp_base
@@ -14566,10 +14566,10 @@ static inline uint64_t BDK_BGXX_SPUX_AN_XNP_TX(unsigned long a, unsigned long b)
  * Register (RSL) bgx#_spu#_br_algn_status
  *
  * BGX SPU Multilane BASE-R PCS Alignment-Status Registers
- * This register implements the Std 802.3 multilane BASE-R PCS alignment status 1-4 registers
+ * This register implements the IEEE 802.3 multilane BASE-R PCS alignment status 1-4 registers
  * (3.50-3.53). It is valid only when the LPCS type is 40GBASE-R
  * (BGX()_CMR()_CONFIG[LMAC_TYPE] = 0x4), and always returns 0x0 for all other LPCS
- * types. Std 802.3 bits that are not applicable to 40GBASE-R (e.g. status bits for PCS lanes
+ * types. IEEE 802.3 bits that are not applicable to 40GBASE-R (e.g. status bits for PCS lanes
  * 19-4) are not implemented and marked as reserved. PCS lanes 3-0 are valid and are mapped to
  * physical SerDes lanes based on the programming of BGX()_CMR()_CONFIG[LANE_TO_SDS].
  */
@@ -14633,7 +14633,7 @@ static inline uint64_t BDK_BGXX_SPUX_BR_ALGN_STATUS(unsigned long a, unsigned lo
  * Register (RSL) bgx#_spu#_br_bip_err_cnt
  *
  * BGX SPU 40GBASE-R BIP Error-Counter Registers
- * This register implements the Std 802.3 BIP error-counter registers for PCS lanes 0-3
+ * This register implements the IEEE 802.3 BIP error-counter registers for PCS lanes 0-3
  * (3.200-3.203). It is valid only when the LPCS type is 40GBASE-R
  * (BGX()_CMR()_CONFIG[LMAC_TYPE] = 0x4), and always returns 0x0 for all other LPCS
  * types. The counters are indexed by the RX PCS lane number based on the Alignment Marker
@@ -14644,7 +14644,7 @@ static inline uint64_t BDK_BGXX_SPUX_BR_ALGN_STATUS(unsigned long a, unsigned lo
  * The reset operation takes precedence over the increment operation; if the register is read on
  * the same clock cycle as an increment operation, the counter is reset to all 0s and the
  * increment operation is lost. The counters are writable for test purposes, rather than read-
- * only as specified in Std 802.3.
+ * only as specified in IEEE 802.3.
  */
 union bdk_bgxx_spux_br_bip_err_cnt
 {
@@ -14690,7 +14690,7 @@ static inline uint64_t BDK_BGXX_SPUX_BR_BIP_ERR_CNT(unsigned long a, unsigned lo
  * Register (RSL) bgx#_spu#_br_lane_map
  *
  * BGX SPU 40GBASE-R Lane-Mapping Registers
- * This register implements the Std 802.3 lane 0-3 mapping registers (3.400-3.403). It is valid
+ * This register implements the IEEE 802.3 lane 0-3 mapping registers (3.400-3.403). It is valid
  * only when the LPCS type is 40GBASE-R (BGX()_CMR()_CONFIG[LMAC_TYPE] = 0x4), and always
  * returns 0x0 for all other LPCS types. The LNx_MAPPING field for each programmed PCS lane
  * (called service interface in 802.3ba-2010) is valid when that lane has achieved alignment
@@ -14699,7 +14699,7 @@ static inline uint64_t BDK_BGXX_SPUX_BR_BIP_ERR_CNT(unsigned long a, unsigned lo
  * returns the actual detected receive PCS lane number based on the received alignment marker
  * contents received on that service interface.
  *
- * The mapping is flexible because Std 802.3 allows multilane BASE-R receive lanes to be re-
+ * The mapping is flexible because IEEE 802.3 allows multilane BASE-R receive lanes to be re-
  * ordered. Note that for the transmit side, each PCS lane is mapped to a physical SerDes lane
  * based on the programming of BGX()_CMR()_CONFIG[LANE_TO_SDS]. For the receive side,
  * BGX()_CMR()_CONFIG[LANE_TO_SDS] specifies the service interface to physical SerDes
@@ -15134,7 +15134,7 @@ union bdk_bgxx_spux_br_status1
                                                                  0 = BASE-R PCS receive-link down.
                                                                  1 = BASE-R PCS receive-link up.
 
-                                                                 This bit is a reflection of the PCS_status variable defined in Std 802.3 sections
+                                                                 This bit is a reflection of the PCS_status variable defined in IEEE 802.3 sections
                                                                  49.2.14.1 and 82.3.1. */
         uint64_t reserved_4_11         : 8;
         uint64_t prbs9                 : 1;  /**< [  3:  3](RO) 10GBASE-R PRBS9 pattern testing ability. Always 0; PRBS9 pattern testing is not supported. */
@@ -15144,13 +15144,13 @@ union bdk_bgxx_spux_br_status1
                                                                  1 = 64/66 bit receiver is detecting a bit-error rate of >= 10.4.
 
                                                                  This bit is a direct reflection of the state of the HI_BER variable in the 64 B/66 B state
-                                                                 diagram and is defined in Std 802.3 sections 49.2.13.2.2 and 82.2.18.2.2. */
+                                                                 diagram and is defined in IEEE 802.3 sections 49.2.13.2.2 and 82.2.18.2.2. */
         uint64_t blk_lock              : 1;  /**< [  0:  0](RO/H) BASE-R PCS block lock.
                                                                  0 = No block lock.
                                                                  1 = 64/66 bit receiver for BASE-R has block lock.
 
                                                                  This bit is a direct reflection of the state of the BLOCK_LOCK variable in the 64 B/66 B
-                                                                 state diagram and is defined in Std 802.3 sections 49.2.13.2.2 and 82.2.18.2.2.
+                                                                 state diagram and is defined in IEEE 802.3 sections 49.2.13.2.2 and 82.2.18.2.2.
                                                                  For a multilane logical PCS (i.e. 40GBASE-R), this bit indicates that the receiver has
                                                                  both block lock and alignment for all lanes and is identical to
                                                                  BGX()_SPU()_BR_ALGN_STATUS[ALIGND]. */
@@ -15160,7 +15160,7 @@ union bdk_bgxx_spux_br_status1
                                                                  1 = 64/66 bit receiver for BASE-R has block lock.
 
                                                                  This bit is a direct reflection of the state of the BLOCK_LOCK variable in the 64 B/66 B
-                                                                 state diagram and is defined in Std 802.3 sections 49.2.13.2.2 and 82.2.18.2.2.
+                                                                 state diagram and is defined in IEEE 802.3 sections 49.2.13.2.2 and 82.2.18.2.2.
                                                                  For a multilane logical PCS (i.e. 40GBASE-R), this bit indicates that the receiver has
                                                                  both block lock and alignment for all lanes and is identical to
                                                                  BGX()_SPU()_BR_ALGN_STATUS[ALIGND]. */
@@ -15169,7 +15169,7 @@ union bdk_bgxx_spux_br_status1
                                                                  1 = 64/66 bit receiver is detecting a bit-error rate of >= 10.4.
 
                                                                  This bit is a direct reflection of the state of the HI_BER variable in the 64 B/66 B state
-                                                                 diagram and is defined in Std 802.3 sections 49.2.13.2.2 and 82.2.18.2.2. */
+                                                                 diagram and is defined in IEEE 802.3 sections 49.2.13.2.2 and 82.2.18.2.2. */
         uint64_t prbs31                : 1;  /**< [  2:  2](RO) 10GBASE-R PRBS31 pattern testing ability. Always 0; PRBS31 pattern testing is not supported. */
         uint64_t prbs9                 : 1;  /**< [  3:  3](RO) 10GBASE-R PRBS9 pattern testing ability. Always 0; PRBS9 pattern testing is not supported. */
         uint64_t reserved_4_11         : 8;
@@ -15177,7 +15177,7 @@ union bdk_bgxx_spux_br_status1
                                                                  0 = BASE-R PCS receive-link down.
                                                                  1 = BASE-R PCS receive-link up.
 
-                                                                 This bit is a reflection of the PCS_status variable defined in Std 802.3 sections
+                                                                 This bit is a reflection of the PCS_status variable defined in IEEE 802.3 sections
                                                                  49.2.14.1 and 82.3.1. */
         uint64_t reserved_13_63        : 51;
 #endif /* Word 0 - End */
@@ -15209,12 +15209,12 @@ static inline uint64_t BDK_BGXX_SPUX_BR_STATUS1(unsigned long a, unsigned long b
  * Register (RSL) bgx#_spu#_br_status2
  *
  * BGX SPU BASE-R Status 2 Registers
- * This register implements a combination of the following Std 802.3 registers:
+ * This register implements a combination of the following IEEE 802.3 registers:
  * * BASE-R PCS status 2 (MDIO address 3.33).
  * * BASE-R BER high-order counter (MDIO address 3.44).
  * * Errored-blocks high-order counter (MDIO address 3.45).
  *
- * Note that the relative locations of some fields have been moved from Std 802.3 in order to
+ * Note that the relative locations of some fields have been moved from IEEE 802.3 in order to
  * make the register layout more software friendly: the BER counter high-order and low-order bits
  * from sections 3.44 and 3.33 have been combined into the contiguous, 22-bit [BER_CNT] field;
  * likewise, the errored-blocks counter high-order and low-order bits from section 3.45 have been
@@ -15228,7 +15228,8 @@ union bdk_bgxx_spux_br_status2
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_62_63        : 2;
         uint64_t err_blks              : 22; /**< [ 61: 40](RC/W/H) Errored-blocks counter. This is the BASE-R errored-blocks counter as defined by the
-                                                                 errored_block_count variable specified in Std 802.3 sections 49.2.14.2 and 82.2.18.2.4. It
+                                                                 errored_block_count variable specified in IEEE 802.3 sections 49.2.14.2 and 82.2.18.2.4.
+                                                                 It
                                                                  increments by 1 on each block for which the BASE-R receive state machine, specified in Std
                                                                  802.3 diagrams 49-15 and 82-15, enters the RX_E state.
                                                                  Back-to-back blocks in the RX_E state are counted as transitions from RX_E to RX_E and
@@ -15239,16 +15240,18 @@ union bdk_bgxx_spux_br_status2
                                                                  on the same clock cycle as an increment operation, the counter is reset to all 0s and the
                                                                  increment operation is lost.
 
-                                                                 This field is writable for test purposes, rather than read-only as specified in Std 802.3. */
+                                                                 This field is writable for test purposes, rather than read-only as specified in IEEE
+                                                                 802.3. */
         uint64_t reserved_38_39        : 2;
         uint64_t ber_cnt               : 22; /**< [ 37: 16](RC/W/H) Bit-error-rate counter. This is the BASE-R BER counter as defined by the BER_COUNT
-                                                                 variable in Std 802.3 sections 49.2.14.2 and 82.2.18.2.4. The counter is reset to all 0s
+                                                                 variable in IEEE 802.3 sections 49.2.14.2 and 82.2.18.2.4. The counter is reset to all 0s
                                                                  after this register is read by software, and is held at all 1s in case of overflow.
                                                                  The reset operation takes precedence over the increment operation: if the register is read
                                                                  on the same clock cycle an increment operation, the counter is reset to all 0s and the
                                                                  increment operation is lost.
 
-                                                                 This field is writable for test purposes, rather than read-only as specified in Std 802.3. */
+                                                                 This field is writable for test purposes, rather than read-only as specified in IEEE
+                                                                 802.3. */
         uint64_t latched_lock          : 1;  /**< [ 15: 15](R/W1S/H) Latched-block lock.
                                                                  0 = No block.
                                                                  1 = 64/66 bit receiver for BASE-R has block lock.
@@ -15277,16 +15280,18 @@ union bdk_bgxx_spux_br_status2
                                                                  This is a latching-low version of BGX()_SPU()_BR_STATUS1[BLK_LOCK]; it stays clear
                                                                  until a write-1-to-set by software. */
         uint64_t ber_cnt               : 22; /**< [ 37: 16](RC/W/H) Bit-error-rate counter. This is the BASE-R BER counter as defined by the BER_COUNT
-                                                                 variable in Std 802.3 sections 49.2.14.2 and 82.2.18.2.4. The counter is reset to all 0s
+                                                                 variable in IEEE 802.3 sections 49.2.14.2 and 82.2.18.2.4. The counter is reset to all 0s
                                                                  after this register is read by software, and is held at all 1s in case of overflow.
                                                                  The reset operation takes precedence over the increment operation: if the register is read
                                                                  on the same clock cycle an increment operation, the counter is reset to all 0s and the
                                                                  increment operation is lost.
 
-                                                                 This field is writable for test purposes, rather than read-only as specified in Std 802.3. */
+                                                                 This field is writable for test purposes, rather than read-only as specified in IEEE
+                                                                 802.3. */
         uint64_t reserved_38_39        : 2;
         uint64_t err_blks              : 22; /**< [ 61: 40](RC/W/H) Errored-blocks counter. This is the BASE-R errored-blocks counter as defined by the
-                                                                 errored_block_count variable specified in Std 802.3 sections 49.2.14.2 and 82.2.18.2.4. It
+                                                                 errored_block_count variable specified in IEEE 802.3 sections 49.2.14.2 and 82.2.18.2.4.
+                                                                 It
                                                                  increments by 1 on each block for which the BASE-R receive state machine, specified in Std
                                                                  802.3 diagrams 49-15 and 82-15, enters the RX_E state.
                                                                  Back-to-back blocks in the RX_E state are counted as transitions from RX_E to RX_E and
@@ -15297,7 +15302,8 @@ union bdk_bgxx_spux_br_status2
                                                                  on the same clock cycle as an increment operation, the counter is reset to all 0s and the
                                                                  increment operation is lost.
 
-                                                                 This field is writable for test purposes, rather than read-only as specified in Std 802.3. */
+                                                                 This field is writable for test purposes, rather than read-only as specified in IEEE
+                                                                 802.3. */
         uint64_t reserved_62_63        : 2;
 #endif /* Word 0 - End */
     } s;
@@ -15407,23 +15413,25 @@ union bdk_bgxx_spux_br_tp_err_cnt
                                                                  test. These bits are reset to all 0s when this register is read by software, and they are
                                                                  held at all 1s in the case of overflow.
 
-                                                                 The test pattern methodology is described in Std 802.3, Sections 49.2.12 and 82.2.10. This
+                                                                 The test pattern methodology is described in IEEE 802.3, Sections 49.2.12 and 82.2.10.
+                                                                 This
                                                                  counter counts either block errors or bit errors dependent on the test mode (see Section
                                                                  49.2.12). The reset operation takes precedence over the increment operation; if the
                                                                  register is read on the same clock cycle as an increment operation, the counter is reset
                                                                  to all 0s and the increment operation is lost. This field is writable for test purposes,
-                                                                 rather than read-only as specified in Std 802.3. */
+                                                                 rather than read-only as specified in IEEE 802.3. */
 #else /* Word 0 - Little Endian */
         uint64_t err_cnt               : 16; /**< [ 15:  0](RC/W/H) Error counter. This 16-bit counter contains the number of errors received during a pattern
                                                                  test. These bits are reset to all 0s when this register is read by software, and they are
                                                                  held at all 1s in the case of overflow.
 
-                                                                 The test pattern methodology is described in Std 802.3, Sections 49.2.12 and 82.2.10. This
+                                                                 The test pattern methodology is described in IEEE 802.3, Sections 49.2.12 and 82.2.10.
+                                                                 This
                                                                  counter counts either block errors or bit errors dependent on the test mode (see Section
                                                                  49.2.12). The reset operation takes precedence over the increment operation; if the
                                                                  register is read on the same clock cycle as an increment operation, the counter is reset
                                                                  to all 0s and the increment operation is lost. This field is writable for test purposes,
-                                                                 rather than read-only as specified in Std 802.3. */
+                                                                 rather than read-only as specified in IEEE 802.3. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
@@ -15522,7 +15530,7 @@ union bdk_bgxx_spux_control1
         uint64_t reset                 : 1;  /**< [ 15: 15](R/W1S/H) Reset. Setting this bit or BGX()_SPU()_AN_CONTROL[AN_RESET] to 1 causes the
                                                                  following to happen:
                                                                  * Resets the logical PCS (LPCS)
-                                                                 * Sets the Std 802.3 PCS, FEC and AN registers for the LPCS to their default states
+                                                                 * Sets the IEEE 802.3 PCS, FEC and AN registers for the LPCS to their default states
                                                                  * Resets the associated SerDes lanes.
 
                                                                  It takes up to 32 coprocessor-clock cycles to reset the LPCS, after which RESET is
@@ -15583,7 +15591,7 @@ union bdk_bgxx_spux_control1
         uint64_t reset                 : 1;  /**< [ 15: 15](R/W1S/H) Reset. Setting this bit or BGX()_SPU()_AN_CONTROL[AN_RESET] to 1 causes the
                                                                  following to happen:
                                                                  * Resets the logical PCS (LPCS)
-                                                                 * Sets the Std 802.3 PCS, FEC and AN registers for the LPCS to their default states
+                                                                 * Sets the IEEE 802.3 PCS, FEC and AN registers for the LPCS to their default states
                                                                  * Resets the associated SerDes lanes.
 
                                                                  It takes up to 32 coprocessor-clock cycles to reset the LPCS, after which RESET is
@@ -15799,7 +15807,7 @@ static inline uint64_t BDK_BGXX_SPUX_FEC_CONTROL(unsigned long a, unsigned long 
  * BGX SPU FEC Corrected-Blocks Counters 0/1 Registers
  * This register is valid only when the LPCS type is BASE-R
  * (BGX()_CMR()_CONFIG[LMAC_TYPE] = 0x3 or 0x4). The FEC corrected-block counters are
- * defined in Std 802.3 section 74.8.4.1. Each corrected-blocks counter increments by 1 for a
+ * defined in IEEE 802.3 section 74.8.4.1. Each corrected-blocks counter increments by 1 for a
  * corrected FEC block, i.e. an FEC block that has been received with invalid parity on the
  * associated PCS lane and has been corrected by the FEC decoder. The counter is reset to all 0s
  * when the register is read, and held at all 1s in case of overflow.
@@ -15807,7 +15815,7 @@ static inline uint64_t BDK_BGXX_SPUX_FEC_CONTROL(unsigned long a, unsigned long 
  * The reset operation takes precedence over the increment operation; if the register is read on
  * the same clock cycle as an increment operation, the counter is reset to all 0s and the
  * increment operation is lost. The counters are writable for test purposes, rather than read-
- * only as specified in Std 802.3.
+ * only as specified in IEEE 802.3.
  */
 union bdk_bgxx_spux_fec_corr_blks01
 {
@@ -15817,22 +15825,22 @@ union bdk_bgxx_spux_fec_corr_blks01
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t ln1_corr_blks         : 32; /**< [ 63: 32](RC/W/H) PCS Lane 1 FEC corrected blocks.
                                                                  * For 10GBASE-R, reserved.
-                                                                 * For 40GBASE-R, correspond to the Std 802.3 FEC_corrected_blocks_counter_1 variable
+                                                                 * For 40GBASE-R, correspond to the IEEE 802.3 FEC_corrected_blocks_counter_1 variable
                                                                  (registers 1.302-1.303). */
         uint64_t ln0_corr_blks         : 32; /**< [ 31:  0](RC/W/H) PCS Lane 0 FEC corrected blocks.
-                                                                 * For 10GBASE-R, corresponds to the Std 802.3 FEC_corrected_blocks_counter variable
+                                                                 * For 10GBASE-R, corresponds to the IEEE 802.3 FEC_corrected_blocks_counter variable
                                                                  (registers 1.172-1.173).
-                                                                 * For 40GBASE-R, correspond to the Std 802.3 FEC_corrected_blocks_counter_0 variable
+                                                                 * For 40GBASE-R, correspond to the IEEE 802.3 FEC_corrected_blocks_counter_0 variable
                                                                  (registers 1.300-1.301). */
 #else /* Word 0 - Little Endian */
         uint64_t ln0_corr_blks         : 32; /**< [ 31:  0](RC/W/H) PCS Lane 0 FEC corrected blocks.
-                                                                 * For 10GBASE-R, corresponds to the Std 802.3 FEC_corrected_blocks_counter variable
+                                                                 * For 10GBASE-R, corresponds to the IEEE 802.3 FEC_corrected_blocks_counter variable
                                                                  (registers 1.172-1.173).
-                                                                 * For 40GBASE-R, correspond to the Std 802.3 FEC_corrected_blocks_counter_0 variable
+                                                                 * For 40GBASE-R, correspond to the IEEE 802.3 FEC_corrected_blocks_counter_0 variable
                                                                  (registers 1.300-1.301). */
         uint64_t ln1_corr_blks         : 32; /**< [ 63: 32](RC/W/H) PCS Lane 1 FEC corrected blocks.
                                                                  * For 10GBASE-R, reserved.
-                                                                 * For 40GBASE-R, correspond to the Std 802.3 FEC_corrected_blocks_counter_1 variable
+                                                                 * For 40GBASE-R, correspond to the IEEE 802.3 FEC_corrected_blocks_counter_1 variable
                                                                  (registers 1.302-1.303). */
 #endif /* Word 0 - End */
     } s;
@@ -15865,7 +15873,7 @@ static inline uint64_t BDK_BGXX_SPUX_FEC_CORR_BLKS01(unsigned long a, unsigned l
  * BGX SPU FEC Corrected-Blocks Counters 2/3 Registers
  * This register is valid only when the LPCS type is 40GBASE-R
  * (BGX()_CMR()_CONFIG[LMAC_TYPE] = 0x4). The FEC corrected-block counters are defined in
- * Std 802.3 section 74.8.4.1. Each corrected-blocks counter increments by 1 for a corrected FEC
+ * IEEE 802.3 section 74.8.4.1. Each corrected-blocks counter increments by 1 for a corrected FEC
  * block, i.e. an FEC block that has been received with invalid parity on the associated PCS lane
  * and has been corrected by the FEC decoder. The counter is reset to all 0s when the register is
  * read, and held at all 1s in case of overflow.
@@ -15873,7 +15881,7 @@ static inline uint64_t BDK_BGXX_SPUX_FEC_CORR_BLKS01(unsigned long a, unsigned l
  * The reset operation takes precedence over the increment operation; if the register is read on
  * the same clock cycle as an increment operation, the counter is reset to all 0s and the
  * increment operation is lost. The counters are writable for test purposes, rather than read-
- * only as specified in Std 802.3.
+ * only as specified in IEEE 802.3.
  */
 union bdk_bgxx_spux_fec_corr_blks23
 {
@@ -15881,14 +15889,14 @@ union bdk_bgxx_spux_fec_corr_blks23
     struct bdk_bgxx_spux_fec_corr_blks23_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t ln3_corr_blks         : 32; /**< [ 63: 32](RC/W/H) PCS Lane 3 FEC corrected blocks. Correspond to the Std 802.3
+        uint64_t ln3_corr_blks         : 32; /**< [ 63: 32](RC/W/H) PCS Lane 3 FEC corrected blocks. Correspond to the IEEE 802.3
                                                                  FEC_corrected_blocks_counter_3 variable (registers 1.306-1.307). */
-        uint64_t ln2_corr_blks         : 32; /**< [ 31:  0](RC/W/H) PCS Lane 2 FEC corrected blocks. Correspond to the Std 802.3
+        uint64_t ln2_corr_blks         : 32; /**< [ 31:  0](RC/W/H) PCS Lane 2 FEC corrected blocks. Correspond to the IEEE 802.3
                                                                  FEC_corrected_blocks_counter_3 variable (registers 1.304-1.305). */
 #else /* Word 0 - Little Endian */
-        uint64_t ln2_corr_blks         : 32; /**< [ 31:  0](RC/W/H) PCS Lane 2 FEC corrected blocks. Correspond to the Std 802.3
+        uint64_t ln2_corr_blks         : 32; /**< [ 31:  0](RC/W/H) PCS Lane 2 FEC corrected blocks. Correspond to the IEEE 802.3
                                                                  FEC_corrected_blocks_counter_3 variable (registers 1.304-1.305). */
-        uint64_t ln3_corr_blks         : 32; /**< [ 63: 32](RC/W/H) PCS Lane 3 FEC corrected blocks. Correspond to the Std 802.3
+        uint64_t ln3_corr_blks         : 32; /**< [ 63: 32](RC/W/H) PCS Lane 3 FEC corrected blocks. Correspond to the IEEE 802.3
                                                                  FEC_corrected_blocks_counter_3 variable (registers 1.306-1.307). */
 #endif /* Word 0 - End */
     } s;
@@ -15921,7 +15929,7 @@ static inline uint64_t BDK_BGXX_SPUX_FEC_CORR_BLKS23(unsigned long a, unsigned l
  * BGX SPU FEC Uncorrected-Blocks Counters 0/1 Registers
  * This register is valid only when the LPCS type is BASE-R
  * (BGX()_CMR()_CONFIG[LMAC_TYPE] = 0x3 or 0x4). The FEC corrected-block counters are
- * defined in Std 802.3 section 74.8.4.2. Each uncorrected-blocks counter increments by 1 for an
+ * defined in IEEE 802.3 section 74.8.4.2. Each uncorrected-blocks counter increments by 1 for an
  * uncorrected FEC block, i.e. an FEC block that has been received with invalid parity on the
  * associated PCS lane and has not been corrected by the FEC decoder. The counter is reset to all
  * 0s when the register is read, and held at all 1s in case of overflow.
@@ -15929,7 +15937,7 @@ static inline uint64_t BDK_BGXX_SPUX_FEC_CORR_BLKS23(unsigned long a, unsigned l
  * The reset operation takes precedence over the increment operation; if the register is read on
  * the same clock cycle as an increment operation, the counter is reset to all 0s and the
  * increment operation is lost. The counters are writable for test purposes, rather than read-
- * only as specified in Std 802.3.
+ * only as specified in IEEE 802.3.
  */
 union bdk_bgxx_spux_fec_uncorr_blks01
 {
@@ -15939,22 +15947,22 @@ union bdk_bgxx_spux_fec_uncorr_blks01
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t ln1_uncorr_blks       : 32; /**< [ 63: 32](RC/W/H) PCS Lane 1 FEC corrected blocks.
                                                                  * For 10GBASE-R, reserved.
-                                                                 * For 40GBASE-R, corresponds to the Std 802.3 FEC_uncorrected_blocks_counter_1 variable
+                                                                 * For 40GBASE-R, corresponds to the IEEE 802.3 FEC_uncorrected_blocks_counter_1 variable
                                                                  (registers 1.702-1.703). */
         uint64_t ln0_uncorr_blks       : 32; /**< [ 31:  0](RC/W/H) PCS Lane 0 FEC uncorrected blocks.
-                                                                 * For 10GBASE-R, corresponds to the Std 802.3 FEC_uncorrected_blocks_counter variable
+                                                                 * For 10GBASE-R, corresponds to the IEEE 802.3 FEC_uncorrected_blocks_counter variable
                                                                  (registers 1.174-1.175).
-                                                                 * For 40GBASE-R, correspond to the Std 802.3 FEC_uncorrected_blocks_counter_0 variable
+                                                                 * For 40GBASE-R, correspond to the IEEE 802.3 FEC_uncorrected_blocks_counter_0 variable
                                                                  (registers 1.700-1.701). */
 #else /* Word 0 - Little Endian */
         uint64_t ln0_uncorr_blks       : 32; /**< [ 31:  0](RC/W/H) PCS Lane 0 FEC uncorrected blocks.
-                                                                 * For 10GBASE-R, corresponds to the Std 802.3 FEC_uncorrected_blocks_counter variable
+                                                                 * For 10GBASE-R, corresponds to the IEEE 802.3 FEC_uncorrected_blocks_counter variable
                                                                  (registers 1.174-1.175).
-                                                                 * For 40GBASE-R, correspond to the Std 802.3 FEC_uncorrected_blocks_counter_0 variable
+                                                                 * For 40GBASE-R, correspond to the IEEE 802.3 FEC_uncorrected_blocks_counter_0 variable
                                                                  (registers 1.700-1.701). */
         uint64_t ln1_uncorr_blks       : 32; /**< [ 63: 32](RC/W/H) PCS Lane 1 FEC corrected blocks.
                                                                  * For 10GBASE-R, reserved.
-                                                                 * For 40GBASE-R, corresponds to the Std 802.3 FEC_uncorrected_blocks_counter_1 variable
+                                                                 * For 40GBASE-R, corresponds to the IEEE 802.3 FEC_uncorrected_blocks_counter_1 variable
                                                                  (registers 1.702-1.703). */
 #endif /* Word 0 - End */
     } s;
@@ -15987,7 +15995,7 @@ static inline uint64_t BDK_BGXX_SPUX_FEC_UNCORR_BLKS01(unsigned long a, unsigned
  * BGX SPU FEC Uncorrected-Blocks Counters 2/3 Registers
  * This register is valid only when the LPCS type is 40GBASE-R
  * (BGX()_CMR()_CONFIG[LMAC_TYPE] = 0x4). The FEC uncorrected-block counters are defined
- * in Std 802.3 section 74.8.4.2. Each corrected-blocks counter increments by 1 for an
+ * in IEEE 802.3 section 74.8.4.2. Each corrected-blocks counter increments by 1 for an
  * uncorrected FEC block, i.e. an FEC block that has been received with invalid parity on the
  * associated PCS lane and has not been corrected by the FEC decoder. The counter is reset to all
  * 0s when the register is read, and held at all 1s in case of overflow.
@@ -15995,7 +16003,7 @@ static inline uint64_t BDK_BGXX_SPUX_FEC_UNCORR_BLKS01(unsigned long a, unsigned
  * The reset operation takes precedence over the increment operation; if the register is read on
  * the same clock cycle as an increment operation, the counter is reset to all 0s and the
  * increment operation is lost. The counters are writable for test purposes, rather than read-
- * only as specified in Std 802.3.
+ * only as specified in IEEE 802.3.
  */
 union bdk_bgxx_spux_fec_uncorr_blks23
 {
@@ -16003,14 +16011,14 @@ union bdk_bgxx_spux_fec_uncorr_blks23
     struct bdk_bgxx_spux_fec_uncorr_blks23_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t ln3_uncorr_blks       : 32; /**< [ 63: 32](RC/W/H) PCS Lane 3 FEC uncorrected blocks. Corresponds to the Std 802.3
+        uint64_t ln3_uncorr_blks       : 32; /**< [ 63: 32](RC/W/H) PCS Lane 3 FEC uncorrected blocks. Corresponds to the IEEE 802.3
                                                                  FEC_uncorrected_blocks_counter_3 variable (registers 1.706-1.707). */
-        uint64_t ln2_uncorr_blks       : 32; /**< [ 31:  0](RC/W/H) PCS Lane 2 FEC uncorrected blocks. Corresponds to the Std 802.3
+        uint64_t ln2_uncorr_blks       : 32; /**< [ 31:  0](RC/W/H) PCS Lane 2 FEC uncorrected blocks. Corresponds to the IEEE 802.3
                                                                  FEC_uncorrected_blocks_counter_3 variable (registers 1.704-1.705). */
 #else /* Word 0 - Little Endian */
-        uint64_t ln2_uncorr_blks       : 32; /**< [ 31:  0](RC/W/H) PCS Lane 2 FEC uncorrected blocks. Corresponds to the Std 802.3
+        uint64_t ln2_uncorr_blks       : 32; /**< [ 31:  0](RC/W/H) PCS Lane 2 FEC uncorrected blocks. Corresponds to the IEEE 802.3
                                                                  FEC_uncorrected_blocks_counter_3 variable (registers 1.704-1.705). */
-        uint64_t ln3_uncorr_blks       : 32; /**< [ 63: 32](RC/W/H) PCS Lane 3 FEC uncorrected blocks. Corresponds to the Std 802.3
+        uint64_t ln3_uncorr_blks       : 32; /**< [ 63: 32](RC/W/H) PCS Lane 3 FEC uncorrected blocks. Corresponds to the IEEE 802.3
                                                                  FEC_uncorrected_blocks_counter_3 variable (registers 1.706-1.707). */
 #endif /* Word 0 - End */
     } s;

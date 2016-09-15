@@ -80,12 +80,16 @@
 /**
  * Enumeration gpio_pin_sel_e
  *
- * GPIO Output Select Enumeration
+ * GPIO Pin Select Enumeration
  * Enumerates the GPIO pin function selections for GPIO_BIT_CFG()[PIN_SEL].
  * The GPIO pins can be configured as either input or output depending on selected function's
  * definition.
  * When GPIO pin is used as input pin, GPIO input is reported to selected function as well as
  * GPIO_RX_DAT.
+ *
+ * If a given select is not assigned to any pin, then that virtual input receives a
+ * logical zero.  E.g. if no GPIO_BIT_CFG()[PIN_SEL] has the value OCLA_EXT_TRIGGER,
+ * then OCLA_EXT_TRIGGER will provide OCLA with the virtual input value of zero.
  */
 #define BDK_GPIO_PIN_SEL_E_GPIO_CLKX(a) (5 + (a))
 #define BDK_GPIO_PIN_SEL_E_GPIO_CLK_SYNCEX(a) (3 + (a))

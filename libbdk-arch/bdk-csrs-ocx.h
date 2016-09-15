@@ -210,21 +210,27 @@ union bdk_ocx_com_int
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_55_63        : 9;
         uint64_t io_badid              : 1;  /**< [ 54: 54](R/W1C/H) I/O request or response cannot be sent because a link was not found with a packet node ID
-                                                                 matching the OCX_COM_LINK(0..2)_CTL[ID]
-                                                                 with OCX_COM_LINK(0..2)_CTL[VALID] bit set. Transaction has been dropped. */
+                                                                 matching the OCX_COM_LINK(0..2)_CTL[ID] with OCX_COM_LINK(0..2)_CTL[VALID] bit set.
+                                                                 Transaction has been dropped.  Should not occur during normal operation. This may indicate
+                                                                 a software/configuration failure and may be considered fatal. */
         uint64_t mem_badid             : 1;  /**< [ 53: 53](R/W1C/H) Memory request or response cannot be sent because a link was not found with a packet node
-                                                                 ID matching the OCX_COM_LINK(0..2)_CTL[ID]
-                                                                 with OCX_COM_LINK(0..2)_CTL[VALID] bit set. Transaction has been dropped. */
+                                                                 ID matching the OCX_COM_LINK(0..2)_CTL[ID] with OCX_COM_LINK(0..2)_CTL[VALID] bit set.
+                                                                 Transaction has been dropped.  Should not occur during normal operation. This may indicate
+                                                                 a software/configuration failure and may be considered fatal. */
         uint64_t copr_badid            : 1;  /**< [ 52: 52](R/W1C/H) Scheduler add work or buffer pool return cannot be sent because a link was not found with
-                                                                 a node ID matching the
-                                                                 OCX_COM_LINK(0..2)_CTL[ID] with OCX_COM_LINK(0..2)_CTL[VALID] bit set.  Transaction has
-                                                                 been dropped. */
+                                                                 a node ID matching the OCX_COM_LINK(0..2)_CTL[ID] with OCX_COM_LINK(0..2)_CTL[VALID] bit
+                                                                 set.
+                                                                 Transaction has been dropped.  Should not occur during normal operation. This may indicate
+                                                                 a software/configuration failure and may be considered fatal. */
         uint64_t win_req_badid         : 1;  /**< [ 51: 51](R/W1C/H) Window request specified in SLI_WIN_RD_ADDR, SLI_WIN_WR_ADDR, OCX_WIN_CMD or OCX_PP_CMD
                                                                  cannot be sent because a link was not found with a request node ID matching the
-                                                                 OCX_COM_LINK(0..2)_CTL[ID]
-                                                                 with OCX_COM_LINK(0..2)_CTL[VALID] bit set.  Transaction has been dropped. */
+                                                                 OCX_COM_LINK(0..2)_CTL[ID] with OCX_COM_LINK(0..2)_CTL[VALID] bit set.  Transaction has
+                                                                 been
+                                                                 dropped.  Should not occur during normal operation. This may indicate a
+                                                                 software/configuration failure and may be considered fatal. */
         uint64_t win_req_tout          : 1;  /**< [ 50: 50](R/W1C/H) Window or core request was dropped because it could not be send during the period
-                                                                 specified by OCX_WIN_TIMER. */
+                                                                 specified by OCX_WIN_TIMER.  Should not occur during normal operation. This may indicate a
+                                                                 software/configuration failure and may be considered fatal. */
         uint64_t win_req_xmit          : 1;  /**< [ 49: 49](R/W1C/H) Window request specified in SLI_WIN_RD_ADDR, SLI_WIN_WR_ADDR, OCX_WIN_CMD or OCX_PP_CMD
                                                                  has been scheduled for transmission. If the command was not expecting a response, then a
                                                                  new command may be issued. */
@@ -241,21 +247,27 @@ union bdk_ocx_com_int
                                                                  has been scheduled for transmission. If the command was not expecting a response, then a
                                                                  new command may be issued. */
         uint64_t win_req_tout          : 1;  /**< [ 50: 50](R/W1C/H) Window or core request was dropped because it could not be send during the period
-                                                                 specified by OCX_WIN_TIMER. */
+                                                                 specified by OCX_WIN_TIMER.  Should not occur during normal operation. This may indicate a
+                                                                 software/configuration failure and may be considered fatal. */
         uint64_t win_req_badid         : 1;  /**< [ 51: 51](R/W1C/H) Window request specified in SLI_WIN_RD_ADDR, SLI_WIN_WR_ADDR, OCX_WIN_CMD or OCX_PP_CMD
                                                                  cannot be sent because a link was not found with a request node ID matching the
-                                                                 OCX_COM_LINK(0..2)_CTL[ID]
-                                                                 with OCX_COM_LINK(0..2)_CTL[VALID] bit set.  Transaction has been dropped. */
-        uint64_t copr_badid            : 1;  /**< [ 52: 52](R/W1C/H) Scheduler add work or buffer pool return cannot be sent because a link was not found with
-                                                                 a node ID matching the
                                                                  OCX_COM_LINK(0..2)_CTL[ID] with OCX_COM_LINK(0..2)_CTL[VALID] bit set.  Transaction has
-                                                                 been dropped. */
+                                                                 been
+                                                                 dropped.  Should not occur during normal operation. This may indicate a
+                                                                 software/configuration failure and may be considered fatal. */
+        uint64_t copr_badid            : 1;  /**< [ 52: 52](R/W1C/H) Scheduler add work or buffer pool return cannot be sent because a link was not found with
+                                                                 a node ID matching the OCX_COM_LINK(0..2)_CTL[ID] with OCX_COM_LINK(0..2)_CTL[VALID] bit
+                                                                 set.
+                                                                 Transaction has been dropped.  Should not occur during normal operation. This may indicate
+                                                                 a software/configuration failure and may be considered fatal. */
         uint64_t mem_badid             : 1;  /**< [ 53: 53](R/W1C/H) Memory request or response cannot be sent because a link was not found with a packet node
-                                                                 ID matching the OCX_COM_LINK(0..2)_CTL[ID]
-                                                                 with OCX_COM_LINK(0..2)_CTL[VALID] bit set. Transaction has been dropped. */
+                                                                 ID matching the OCX_COM_LINK(0..2)_CTL[ID] with OCX_COM_LINK(0..2)_CTL[VALID] bit set.
+                                                                 Transaction has been dropped.  Should not occur during normal operation. This may indicate
+                                                                 a software/configuration failure and may be considered fatal. */
         uint64_t io_badid              : 1;  /**< [ 54: 54](R/W1C/H) I/O request or response cannot be sent because a link was not found with a packet node ID
-                                                                 matching the OCX_COM_LINK(0..2)_CTL[ID]
-                                                                 with OCX_COM_LINK(0..2)_CTL[VALID] bit set. Transaction has been dropped. */
+                                                                 matching the OCX_COM_LINK(0..2)_CTL[ID] with OCX_COM_LINK(0..2)_CTL[VALID] bit set.
+                                                                 Transaction has been dropped.  Should not occur during normal operation. This may indicate
+                                                                 a software/configuration failure and may be considered fatal. */
         uint64_t reserved_55_63        : 9;
 #endif /* Word 0 - End */
     } s;
@@ -559,45 +571,71 @@ union bdk_ocx_com_linkx_int
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_14_63        : 50;
-        uint64_t bad_word              : 1;  /**< [ 13: 13](R/W1C/H) Illegal word decoded on at least one lane of link. */
-        uint64_t align_fail            : 1;  /**< [ 12: 12](R/W1C/H) Link lanes failed to align. */
-        uint64_t align_done            : 1;  /**< [ 11: 11](R/W1C/H) Link lane alignment is complete. */
+        uint64_t bad_word              : 1;  /**< [ 13: 13](R/W1C/H) Illegal word decoded on at least one lane of link. These receive errors may occur during
+                                                                 normal operation, and may likely occur during link bringup. Hardware normally will
+                                                                 automatically correct the error. Software may choose to count the number of these errors. */
+        uint64_t align_fail            : 1;  /**< [ 12: 12](R/W1C/H) Link lanes failed to align. These receive errors may occur during normal operation, and
+                                                                 may likely occur during link bringup. Hardware normally will automatically correct the
+                                                                 error. Software may choose to count the number of these errors. */
+        uint64_t align_done            : 1;  /**< [ 11: 11](R/W1C/H) Link lane alignment is complete. These may occur during normal operation, and will occur
+                                                                 during link bringup. Software should disable reception of these interrupts during normal
+                                                                 operation. */
         uint64_t up                    : 1;  /**< [ 10: 10](R/W1C/H) Link initialization is complete and is ready to pass traffic.  Note:  This state occurs
                                                                  some time after the link starts exchanging information as indicated in
-                                                                 OCX_COM_LINK(0..2)_CTL[UP]. */
+                                                                 OCX_COM_LINK(0..2)_CTL[UP]. These should not occur during normal operation. */
         uint64_t stop                  : 1;  /**< [  9:  9](R/W1C/H) Link has stopped operating. Link retry count has reached threshold specified in
                                                                  OCX_COM_LINK_TIMER; outgoing traffic has been dropped and an initialization request has
-                                                                 been reissued. */
-        uint64_t blk_err               : 1;  /**< [  8:  8](R/W1C/H) Link block error count has reached threshold specified in OCX_RLK(0..2)_BLK_ERR[LIMIT]. */
-        uint64_t reinit                : 1;  /**< [  7:  7](R/W1C/H) Link has received a initialization request from link partner after link has been established. */
+                                                                 been reissued. These should not occur during normal operation. This may be considered
+                                                                 fatal. */
+        uint64_t blk_err               : 1;  /**< [  8:  8](R/W1C/H) Link block error count has reached threshold specified in OCX_RLK(0..2)_BLK_ERR[LIMIT].
+                                                                 These receive errors may occur during normal operation. Hardware normally will
+                                                                 automatically correct the error. Software may choose to count the number of these errors. */
+        uint64_t reinit                : 1;  /**< [  7:  7](R/W1C/H) Link has received a initialization request from link partner after link has been
+                                                                 established. These should not occur during normal operation */
         uint64_t lnk_data              : 1;  /**< [  6:  6](R/W1C/H) Set by hardware when a link data block is received in OCX_RLK(0..2)_LNK_DATA. It
                                                                  software's responsibility to clear the bit after reading the data. */
-        uint64_t rxfifo_dbe            : 1;  /**< [  5:  5](R/W1C/H) Double-bit error detected in FIFO RAMs. */
-        uint64_t rxfifo_sbe            : 1;  /**< [  4:  4](R/W1C/H) Single-bit error detected/corrected in FIFO RAMs. */
-        uint64_t txfifo_dbe            : 1;  /**< [  3:  3](R/W1C/H) Double-bit error detected in TX FIFO RAMs. */
-        uint64_t txfifo_sbe            : 1;  /**< [  2:  2](R/W1C/H) Single-bit error detected/corrected in TX FIFO RAMs. */
-        uint64_t replay_dbe            : 1;  /**< [  1:  1](R/W1C/H) Double-bit error detected in REPLAY BUFFER RAMs. */
-        uint64_t replay_sbe            : 1;  /**< [  0:  0](R/W1C/H) Single-bit error detected/corrected in REPLAY BUFFER RAMs. */
+        uint64_t rxfifo_dbe            : 1;  /**< [  5:  5](R/W1C/H) Double-bit error detected in FIFO RAMs. This error may be considered fatal. */
+        uint64_t rxfifo_sbe            : 1;  /**< [  4:  4](R/W1C/H) Single-bit error detected/corrected in FIFO RAMs. Hardware automatically corrected the
+                                                                 error. Software may choose to count the number of these single-bit errors. */
+        uint64_t txfifo_dbe            : 1;  /**< [  3:  3](R/W1C/H) Double-bit error detected in TX FIFO RAMs. This error may be considered fatal. */
+        uint64_t txfifo_sbe            : 1;  /**< [  2:  2](R/W1C/H) Single-bit error detected/corrected in TX FIFO RAMs. Hardware automatically corrected the
+                                                                 error. Software may choose to count the number of these single-bit errors. */
+        uint64_t replay_dbe            : 1;  /**< [  1:  1](R/W1C/H) Double-bit error detected in REPLAY BUFFER RAMs. This error may be considered fatal. */
+        uint64_t replay_sbe            : 1;  /**< [  0:  0](R/W1C/H) Single-bit error detected/corrected in REPLAY BUFFER RAMs. Hardware automatically
+                                                                 corrected the error. Software may choose to count the number of these single-bit errors. */
 #else /* Word 0 - Little Endian */
-        uint64_t replay_sbe            : 1;  /**< [  0:  0](R/W1C/H) Single-bit error detected/corrected in REPLAY BUFFER RAMs. */
-        uint64_t replay_dbe            : 1;  /**< [  1:  1](R/W1C/H) Double-bit error detected in REPLAY BUFFER RAMs. */
-        uint64_t txfifo_sbe            : 1;  /**< [  2:  2](R/W1C/H) Single-bit error detected/corrected in TX FIFO RAMs. */
-        uint64_t txfifo_dbe            : 1;  /**< [  3:  3](R/W1C/H) Double-bit error detected in TX FIFO RAMs. */
-        uint64_t rxfifo_sbe            : 1;  /**< [  4:  4](R/W1C/H) Single-bit error detected/corrected in FIFO RAMs. */
-        uint64_t rxfifo_dbe            : 1;  /**< [  5:  5](R/W1C/H) Double-bit error detected in FIFO RAMs. */
+        uint64_t replay_sbe            : 1;  /**< [  0:  0](R/W1C/H) Single-bit error detected/corrected in REPLAY BUFFER RAMs. Hardware automatically
+                                                                 corrected the error. Software may choose to count the number of these single-bit errors. */
+        uint64_t replay_dbe            : 1;  /**< [  1:  1](R/W1C/H) Double-bit error detected in REPLAY BUFFER RAMs. This error may be considered fatal. */
+        uint64_t txfifo_sbe            : 1;  /**< [  2:  2](R/W1C/H) Single-bit error detected/corrected in TX FIFO RAMs. Hardware automatically corrected the
+                                                                 error. Software may choose to count the number of these single-bit errors. */
+        uint64_t txfifo_dbe            : 1;  /**< [  3:  3](R/W1C/H) Double-bit error detected in TX FIFO RAMs. This error may be considered fatal. */
+        uint64_t rxfifo_sbe            : 1;  /**< [  4:  4](R/W1C/H) Single-bit error detected/corrected in FIFO RAMs. Hardware automatically corrected the
+                                                                 error. Software may choose to count the number of these single-bit errors. */
+        uint64_t rxfifo_dbe            : 1;  /**< [  5:  5](R/W1C/H) Double-bit error detected in FIFO RAMs. This error may be considered fatal. */
         uint64_t lnk_data              : 1;  /**< [  6:  6](R/W1C/H) Set by hardware when a link data block is received in OCX_RLK(0..2)_LNK_DATA. It
                                                                  software's responsibility to clear the bit after reading the data. */
-        uint64_t reinit                : 1;  /**< [  7:  7](R/W1C/H) Link has received a initialization request from link partner after link has been established. */
-        uint64_t blk_err               : 1;  /**< [  8:  8](R/W1C/H) Link block error count has reached threshold specified in OCX_RLK(0..2)_BLK_ERR[LIMIT]. */
+        uint64_t reinit                : 1;  /**< [  7:  7](R/W1C/H) Link has received a initialization request from link partner after link has been
+                                                                 established. These should not occur during normal operation */
+        uint64_t blk_err               : 1;  /**< [  8:  8](R/W1C/H) Link block error count has reached threshold specified in OCX_RLK(0..2)_BLK_ERR[LIMIT].
+                                                                 These receive errors may occur during normal operation. Hardware normally will
+                                                                 automatically correct the error. Software may choose to count the number of these errors. */
         uint64_t stop                  : 1;  /**< [  9:  9](R/W1C/H) Link has stopped operating. Link retry count has reached threshold specified in
                                                                  OCX_COM_LINK_TIMER; outgoing traffic has been dropped and an initialization request has
-                                                                 been reissued. */
+                                                                 been reissued. These should not occur during normal operation. This may be considered
+                                                                 fatal. */
         uint64_t up                    : 1;  /**< [ 10: 10](R/W1C/H) Link initialization is complete and is ready to pass traffic.  Note:  This state occurs
                                                                  some time after the link starts exchanging information as indicated in
-                                                                 OCX_COM_LINK(0..2)_CTL[UP]. */
-        uint64_t align_done            : 1;  /**< [ 11: 11](R/W1C/H) Link lane alignment is complete. */
-        uint64_t align_fail            : 1;  /**< [ 12: 12](R/W1C/H) Link lanes failed to align. */
-        uint64_t bad_word              : 1;  /**< [ 13: 13](R/W1C/H) Illegal word decoded on at least one lane of link. */
+                                                                 OCX_COM_LINK(0..2)_CTL[UP]. These should not occur during normal operation. */
+        uint64_t align_done            : 1;  /**< [ 11: 11](R/W1C/H) Link lane alignment is complete. These may occur during normal operation, and will occur
+                                                                 during link bringup. Software should disable reception of these interrupts during normal
+                                                                 operation. */
+        uint64_t align_fail            : 1;  /**< [ 12: 12](R/W1C/H) Link lanes failed to align. These receive errors may occur during normal operation, and
+                                                                 may likely occur during link bringup. Hardware normally will automatically correct the
+                                                                 error. Software may choose to count the number of these errors. */
+        uint64_t bad_word              : 1;  /**< [ 13: 13](R/W1C/H) Illegal word decoded on at least one lane of link. These receive errors may occur during
+                                                                 normal operation, and may likely occur during link bringup. Hardware normally will
+                                                                 automatically correct the error. Software may choose to count the number of these errors. */
         uint64_t reserved_14_63        : 50;
 #endif /* Word 0 - End */
     } s;
@@ -1233,31 +1271,71 @@ union bdk_ocx_lnex_int
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_10_63        : 54;
-        uint64_t disp_err              : 1;  /**< [  9:  9](R/W1C/H) RX disparity error encountered. */
+        uint64_t disp_err              : 1;  /**< [  9:  9](R/W1C/H) RX disparity error encountered. These receive errors may occur during normal operation,
+                                                                 and may likely occur during link bringup. Hardware normally will automatically correct the
+                                                                 error. Software may choose to count the number of these errors. */
         uint64_t bad_64b67b            : 1;  /**< [  8:  8](R/W1C/H) Bad 64B/67B codeword encountered. Once the bad word reaches the link, as denoted by
-                                                                 OCX_COM_LINK(0..2)_INT[BAD_WORD], a retry handshake is initiated. */
+                                                                 OCX_COM_LINK(0..2)_INT[BAD_WORD], a retry handshake is initiated. These receive errors may
+                                                                 occur during normal operation, and may likely occur during link bringup. Hardware normally
+                                                                 will automatically correct the error. Software may choose to count the number of these
+                                                                 errors. */
         uint64_t stat_cnt_ovfl         : 1;  /**< [  7:  7](R/W1C/H) RX lane statistic counter overflow. */
-        uint64_t stat_msg              : 1;  /**< [  6:  6](R/W1C/H) Status bits for the link or a lane transitioned from a 1 (healthy) to a 0 (problem). */
-        uint64_t dskew_fifo_ovfl       : 1;  /**< [  5:  5](R/W1C/H) RX deskew FIFO overflow occurred. */
-        uint64_t scrm_sync_loss        : 1;  /**< [  4:  4](R/W1C/H) 4 consecutive bad sync words or 3 consecutive scramble state mismatches. */
-        uint64_t ukwn_cntl_word        : 1;  /**< [  3:  3](R/W1C/H) Unknown framing control word. Block type does not match any of (SYNC, SCRAM, SKIP, DIAG). */
-        uint64_t crc32_err             : 1;  /**< [  2:  2](R/W1C/H) Diagnostic CRC32 errors. */
+        uint64_t stat_msg              : 1;  /**< [  6:  6](R/W1C/H) Status bits for the link or a lane transitioned from a 1 (healthy) to a 0 (problem). These
+                                                                 should not occur during normal operation. This may be considered fatal, depending on the
+                                                                 software protocol. */
+        uint64_t dskew_fifo_ovfl       : 1;  /**< [  5:  5](R/W1C/H) RX deskew FIFO overflow occurred. These receive errors may occur during normal operation,
+                                                                 and may likely occur during link bringup. Hardware normally will automatically correct the
+                                                                 error. Software may choose to count the number of these errors. */
+        uint64_t scrm_sync_loss        : 1;  /**< [  4:  4](R/W1C/H) 4 consecutive bad sync words or 3 consecutive scramble state mismatches. These receive
+                                                                 errors should not occur during normal operation, but may likely occur during link bringup.
+                                                                 Hardware normally will automatically correct the error. Software may choose to count the
+                                                                 number of these errors. */
+        uint64_t ukwn_cntl_word        : 1;  /**< [  3:  3](R/W1C/H) Unknown framing control word. Block type does not match any of (SYNC, SCRAM, SKIP, DIAG).
+                                                                 These receive errors may occur during normal operation. Hardware normally will
+                                                                 automatically correct the error. Software may choose to count the number of these errors. */
+        uint64_t crc32_err             : 1;  /**< [  2:  2](R/W1C/H) Diagnostic CRC32 errors. These receive errors may occur during normal operation, typically
+                                                                 in the presence of other errors, and may likely occur during link bringup. Hardware
+                                                                 normally will automatically correct the error. Software may choose to count the number of
+                                                                 these errors. */
         uint64_t bdry_sync_loss        : 1;  /**< [  1:  1](R/W1C/H) RX logic lost word boundary sync after 16 tries. Hardware automatically attempts to regain
-                                                                 word boundary sync. */
-        uint64_t serdes_lock_loss      : 1;  /**< [  0:  0](R/W1C/H) RX SerDes loses lock. */
+                                                                 word boundary sync. These receive errors should not occur during normal operation, but may
+                                                                 likely occur during link bringup. Hardware normally will automatically correct the error.
+                                                                 Software may choose to count the number of these errors. */
+        uint64_t serdes_lock_loss      : 1;  /**< [  0:  0](R/W1C/H) RX SerDes loses lock. These receive errors should not occur during normal operation. This
+                                                                 may be considered fatal. */
 #else /* Word 0 - Little Endian */
-        uint64_t serdes_lock_loss      : 1;  /**< [  0:  0](R/W1C/H) RX SerDes loses lock. */
+        uint64_t serdes_lock_loss      : 1;  /**< [  0:  0](R/W1C/H) RX SerDes loses lock. These receive errors should not occur during normal operation. This
+                                                                 may be considered fatal. */
         uint64_t bdry_sync_loss        : 1;  /**< [  1:  1](R/W1C/H) RX logic lost word boundary sync after 16 tries. Hardware automatically attempts to regain
-                                                                 word boundary sync. */
-        uint64_t crc32_err             : 1;  /**< [  2:  2](R/W1C/H) Diagnostic CRC32 errors. */
-        uint64_t ukwn_cntl_word        : 1;  /**< [  3:  3](R/W1C/H) Unknown framing control word. Block type does not match any of (SYNC, SCRAM, SKIP, DIAG). */
-        uint64_t scrm_sync_loss        : 1;  /**< [  4:  4](R/W1C/H) 4 consecutive bad sync words or 3 consecutive scramble state mismatches. */
-        uint64_t dskew_fifo_ovfl       : 1;  /**< [  5:  5](R/W1C/H) RX deskew FIFO overflow occurred. */
-        uint64_t stat_msg              : 1;  /**< [  6:  6](R/W1C/H) Status bits for the link or a lane transitioned from a 1 (healthy) to a 0 (problem). */
+                                                                 word boundary sync. These receive errors should not occur during normal operation, but may
+                                                                 likely occur during link bringup. Hardware normally will automatically correct the error.
+                                                                 Software may choose to count the number of these errors. */
+        uint64_t crc32_err             : 1;  /**< [  2:  2](R/W1C/H) Diagnostic CRC32 errors. These receive errors may occur during normal operation, typically
+                                                                 in the presence of other errors, and may likely occur during link bringup. Hardware
+                                                                 normally will automatically correct the error. Software may choose to count the number of
+                                                                 these errors. */
+        uint64_t ukwn_cntl_word        : 1;  /**< [  3:  3](R/W1C/H) Unknown framing control word. Block type does not match any of (SYNC, SCRAM, SKIP, DIAG).
+                                                                 These receive errors may occur during normal operation. Hardware normally will
+                                                                 automatically correct the error. Software may choose to count the number of these errors. */
+        uint64_t scrm_sync_loss        : 1;  /**< [  4:  4](R/W1C/H) 4 consecutive bad sync words or 3 consecutive scramble state mismatches. These receive
+                                                                 errors should not occur during normal operation, but may likely occur during link bringup.
+                                                                 Hardware normally will automatically correct the error. Software may choose to count the
+                                                                 number of these errors. */
+        uint64_t dskew_fifo_ovfl       : 1;  /**< [  5:  5](R/W1C/H) RX deskew FIFO overflow occurred. These receive errors may occur during normal operation,
+                                                                 and may likely occur during link bringup. Hardware normally will automatically correct the
+                                                                 error. Software may choose to count the number of these errors. */
+        uint64_t stat_msg              : 1;  /**< [  6:  6](R/W1C/H) Status bits for the link or a lane transitioned from a 1 (healthy) to a 0 (problem). These
+                                                                 should not occur during normal operation. This may be considered fatal, depending on the
+                                                                 software protocol. */
         uint64_t stat_cnt_ovfl         : 1;  /**< [  7:  7](R/W1C/H) RX lane statistic counter overflow. */
         uint64_t bad_64b67b            : 1;  /**< [  8:  8](R/W1C/H) Bad 64B/67B codeword encountered. Once the bad word reaches the link, as denoted by
-                                                                 OCX_COM_LINK(0..2)_INT[BAD_WORD], a retry handshake is initiated. */
-        uint64_t disp_err              : 1;  /**< [  9:  9](R/W1C/H) RX disparity error encountered. */
+                                                                 OCX_COM_LINK(0..2)_INT[BAD_WORD], a retry handshake is initiated. These receive errors may
+                                                                 occur during normal operation, and may likely occur during link bringup. Hardware normally
+                                                                 will automatically correct the error. Software may choose to count the number of these
+                                                                 errors. */
+        uint64_t disp_err              : 1;  /**< [  9:  9](R/W1C/H) RX disparity error encountered. These receive errors may occur during normal operation,
+                                                                 and may likely occur during link bringup. Hardware normally will automatically correct the
+                                                                 error. Software may choose to count the number of these errors. */
         uint64_t reserved_10_63        : 54;
 #endif /* Word 0 - End */
     } s;

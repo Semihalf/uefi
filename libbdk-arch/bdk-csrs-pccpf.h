@@ -327,6 +327,32 @@
 #define BDK_PCC_VENDOR_E_CAVIUM (0x177d)
 
 /**
+ * Structure pcc_class_code_s
+ *
+ * PCC Class Code Structure
+ * Defines the components of the PCC class code.
+ */
+union bdk_pcc_class_code_s
+{
+    uint32_t u;
+    struct bdk_pcc_class_code_s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_24_31        : 8;
+        uint32_t bcc                   : 8;  /**< [ 23: 16] Base class code. */
+        uint32_t sc                    : 8;  /**< [ 15:  8] Subclass code. */
+        uint32_t pi                    : 8;  /**< [  7:  0] Programming interface. */
+#else /* Word 0 - Little Endian */
+        uint32_t pi                    : 8;  /**< [  7:  0] Programming interface. */
+        uint32_t sc                    : 8;  /**< [ 15:  8] Subclass code. */
+        uint32_t bcc                   : 8;  /**< [ 23: 16] Base class code. */
+        uint32_t reserved_24_31        : 8;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pcc_class_code_s_s cn; */
+};
+
+/**
  * Structure pcc_dev_con_s
  *
  * PCC Device Connection Structure
@@ -357,32 +383,6 @@ union bdk_pcc_dev_con_s
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcc_dev_con_s_s cn; */
-};
-
-/**
- * Structure pcc_dev_idl_s
- *
- * PCC Device ID Low Structure
- * Defines the components of the PCC device-id low values enumerated by PCC_DEV_IDL_E.
- */
-union bdk_pcc_dev_idl_s
-{
-    uint32_t u;
-    struct bdk_pcc_dev_idl_s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_24_31        : 8;
-        uint32_t bcc                   : 8;  /**< [ 23: 16] Base class code. */
-        uint32_t sc                    : 8;  /**< [ 15:  8] Subclass code. */
-        uint32_t pi                    : 8;  /**< [  7:  0] Programming interface. */
-#else /* Word 0 - Little Endian */
-        uint32_t pi                    : 8;  /**< [  7:  0] Programming interface. */
-        uint32_t sc                    : 8;  /**< [ 15:  8] Subclass code. */
-        uint32_t bcc                   : 8;  /**< [ 23: 16] Base class code. */
-        uint32_t reserved_24_31        : 8;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pcc_dev_idl_s_s cn; */
 };
 
 /**

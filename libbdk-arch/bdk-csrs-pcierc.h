@@ -316,7 +316,38 @@ union bdk_pciercx_cfg002
                                                                  change this field. */
 #endif /* Word 0 - End */
     } cn88xx;
-    /* struct bdk_pciercx_cfg002_s cn83xx; */
+    struct bdk_pciercx_cfg002_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t bcc                   : 8;  /**< [ 31: 24](RO/WRSL) Base class code, writable through PEM()_CFG_WR. However, the application must not
+                                                                 change this field.
+                                                                 0x6 = Bridge. */
+        uint32_t sc                    : 8;  /**< [ 23: 16](RO/WRSL) Subclass code, writable through PEM()_CFG_WR. However, the application must not change
+                                                                 this field.
+                                                                 0x4 = PCI-to-PCI */
+        uint32_t pi                    : 8;  /**< [ 15:  8](RO/WRSL) Programming interface, writable through PEM()_CFG_WR. However, the application must
+                                                                 not change this field.
+                                                                 0x0 = No standard interface. */
+        uint32_t rid                   : 8;  /**< [  7:  0](RO/WRSL) Revision ID, writable through PEM()_CFG_WR. However, the application must not change
+                                                                 this field.
+                                                                 See MIO_FUS_DAT2[CHIP_ID] for more information.
+                                                                 0x0 = Pass 1.0. */
+#else /* Word 0 - Little Endian */
+        uint32_t rid                   : 8;  /**< [  7:  0](RO/WRSL) Revision ID, writable through PEM()_CFG_WR. However, the application must not change
+                                                                 this field.
+                                                                 See MIO_FUS_DAT2[CHIP_ID] for more information.
+                                                                 0x0 = Pass 1.0. */
+        uint32_t pi                    : 8;  /**< [ 15:  8](RO/WRSL) Programming interface, writable through PEM()_CFG_WR. However, the application must
+                                                                 not change this field.
+                                                                 0x0 = No standard interface. */
+        uint32_t sc                    : 8;  /**< [ 23: 16](RO/WRSL) Subclass code, writable through PEM()_CFG_WR. However, the application must not change
+                                                                 this field.
+                                                                 0x4 = PCI-to-PCI */
+        uint32_t bcc                   : 8;  /**< [ 31: 24](RO/WRSL) Base class code, writable through PEM()_CFG_WR. However, the application must not
+                                                                 change this field.
+                                                                 0x6 = Bridge. */
+#endif /* Word 0 - End */
+    } cn83xx;
 };
 typedef union bdk_pciercx_cfg002 bdk_pciercx_cfg002_t;
 
@@ -13285,7 +13316,8 @@ union bdk_pciercx_cfg515
                                                                  with the compliance receive bit assert (equal to 1). */
         uint32_t cpyts                 : 1;  /**< [ 18: 18](R/W) Config PHY TX swing. Indicates the voltage level that the PHY should drive. When set to 1,
                                                                  indicates full swing. When set to 0, indicates low swing. */
-        uint32_t dsc                   : 1;  /**< [ 17: 17](R/W/H) Directed speed change. A write of 1 initiates a speed change; always reads as zero. */
+        uint32_t dsc                   : 1;  /**< [ 17: 17](R/W/H) Directed speed change. A write of 1 initiates a speed change.
+                                                                 When the speed change occurs, the controller will clear the contents of this field. */
         uint32_t reserved_8_16         : 9;
         uint32_t n_fts                 : 8;  /**< [  7:  0](R/W) N_FTS. Sets the number of fast training sequences (N_FTS) that the core advertises as its
                                                                  N_FTS during GEN2 Link training. This value is used to inform the link partner about the
@@ -13303,7 +13335,8 @@ union bdk_pciercx_cfg515
                                                                  when
                                                                  exiting from L0s. */
         uint32_t reserved_8_16         : 9;
-        uint32_t dsc                   : 1;  /**< [ 17: 17](R/W/H) Directed speed change. A write of 1 initiates a speed change; always reads as zero. */
+        uint32_t dsc                   : 1;  /**< [ 17: 17](R/W/H) Directed speed change. A write of 1 initiates a speed change.
+                                                                 When the speed change occurs, the controller will clear the contents of this field. */
         uint32_t cpyts                 : 1;  /**< [ 18: 18](R/W) Config PHY TX swing. Indicates the voltage level that the PHY should drive. When set to 1,
                                                                  indicates full swing. When set to 0, indicates low swing. */
         uint32_t ctcrb                 : 1;  /**< [ 19: 19](R/W) Config TX compliance receive bit. When set to 1, signals LTSSM to transmit TS ordered sets
@@ -13322,7 +13355,8 @@ union bdk_pciercx_cfg515
                                                                  with the compliance receive bit assert (equal to 1). */
         uint32_t cpyts                 : 1;  /**< [ 18: 18](R/W) Config PHY TX swing. Indicates the voltage level that the PHY should drive. When set to 1,
                                                                  indicates full swing. When set to 0, indicates low swing. */
-        uint32_t dsc                   : 1;  /**< [ 17: 17](R/W/H) Directed speed change. A write of 1 initiates a speed change; always reads as zero. */
+        uint32_t dsc                   : 1;  /**< [ 17: 17](R/W/H) Directed speed change. A write of 1 initiates a speed change.
+                                                                 When the speed change occurs, the controller will clear the contents of this field. */
         uint32_t alfpce                : 1;  /**< [ 16: 16](R/W) Auto lane flip control enable.  When set to 1, the core will try to flip the lanes
                                                                  autonomously in Detect LTSSM state when lane0 is not detected. */
         uint32_t pdl                   : 3;  /**< [ 15: 13](R/W) Predetermined lane for Auto Flip.  This field defines which physical lane is connected
@@ -13362,7 +13396,8 @@ union bdk_pciercx_cfg515
                                                                  0x3 = logical Lane0 to physical Lane 7, 0x4 = logical Lane0 to physical lane 15. */
         uint32_t alfpce                : 1;  /**< [ 16: 16](R/W) Auto lane flip control enable.  When set to 1, the core will try to flip the lanes
                                                                  autonomously in Detect LTSSM state when lane0 is not detected. */
-        uint32_t dsc                   : 1;  /**< [ 17: 17](R/W/H) Directed speed change. A write of 1 initiates a speed change; always reads as zero. */
+        uint32_t dsc                   : 1;  /**< [ 17: 17](R/W/H) Directed speed change. A write of 1 initiates a speed change.
+                                                                 When the speed change occurs, the controller will clear the contents of this field. */
         uint32_t cpyts                 : 1;  /**< [ 18: 18](R/W) Config PHY TX swing. Indicates the voltage level that the PHY should drive. When set to 1,
                                                                  indicates full swing. When set to 0, indicates low swing. */
         uint32_t ctcrb                 : 1;  /**< [ 19: 19](R/W) Config TX compliance receive bit. When set to 1, signals LTSSM to transmit TS ordered sets
@@ -13382,7 +13417,8 @@ union bdk_pciercx_cfg515
                                                                  with the compliance receive bit assert (equal to 1). */
         uint32_t cpyts                 : 1;  /**< [ 18: 18](R/W) Config PHY TX swing. Indicates the voltage level that the PHY should drive. When set to 1,
                                                                  indicates full swing. When set to 0, indicates low swing. */
-        uint32_t dsc                   : 1;  /**< [ 17: 17](R/W/H) Directed speed change. A write of 1 initiates a speed change; always reads as zero. */
+        uint32_t dsc                   : 1;  /**< [ 17: 17](R/W/H) Directed speed change. A write of 1 initiates a speed change.
+                                                                 When the speed change occurs, the controller will clear the contents of this field. */
         uint32_t le                    : 9;  /**< [ 16:  8](R/W) Lane enable. Indicates the number of lanes to check for exit from electrical idle in
                                                                  Polling.Active and Polling.Compliance. 0x1 = x1, 0x2 = x2, etc. Used to limit the maximum
                                                                  link width to ignore broken lanes that detect a receiver, but will not exit electrical
@@ -13406,7 +13442,8 @@ union bdk_pciercx_cfg515
                                                                  Polling.Active and Polling.Compliance. 0x1 = x1, 0x2 = x2, etc. Used to limit the maximum
                                                                  link width to ignore broken lanes that detect a receiver, but will not exit electrical
                                                                  idle and would otherwise prevent a valid link from being configured. */
-        uint32_t dsc                   : 1;  /**< [ 17: 17](R/W/H) Directed speed change. A write of 1 initiates a speed change; always reads as zero. */
+        uint32_t dsc                   : 1;  /**< [ 17: 17](R/W/H) Directed speed change. A write of 1 initiates a speed change.
+                                                                 When the speed change occurs, the controller will clear the contents of this field. */
         uint32_t cpyts                 : 1;  /**< [ 18: 18](R/W) Config PHY TX swing. Indicates the voltage level that the PHY should drive. When set to 1,
                                                                  indicates full swing. When set to 0, indicates low swing. */
         uint32_t ctcrb                 : 1;  /**< [ 19: 19](R/W) Config TX compliance receive bit. When set to 1, signals LTSSM to transmit TS ordered sets

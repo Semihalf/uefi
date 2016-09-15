@@ -58,13 +58,13 @@
  * DPI Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define BDK_DPI_BAR_E_DPIX_PF_BAR0(a) (0x86e000000000ll + 0x10000000000ll * (a))
+#define BDK_DPI_BAR_E_DPIX_PF_BAR0(a) (0x86e000000000ll + 0x1000000000ll * (a))
 #define BDK_DPI_BAR_E_DPIX_PF_BAR0_SIZE 0x100000ull
-#define BDK_DPI_BAR_E_DPIX_PF_BAR4(a) (0x86e010000000ll + 0x10000000000ll * (a))
+#define BDK_DPI_BAR_E_DPIX_PF_BAR4(a) (0x86e010000000ll + 0x1000000000ll * (a))
 #define BDK_DPI_BAR_E_DPIX_PF_BAR4_SIZE 0x100000ull
-#define BDK_DPI_BAR_E_DPIX_VFX_BAR0(a,b) (0x86e020000000ll + 0x10000000000ll * (a) + 0x100000ll * (b))
+#define BDK_DPI_BAR_E_DPIX_VFX_BAR0(a,b) (0x86e020000000ll + 0x1000000000ll * (a) + 0x100000ll * (b))
 #define BDK_DPI_BAR_E_DPIX_VFX_BAR0_SIZE 0x100000ull
-#define BDK_DPI_BAR_E_DPIX_VFX_BAR4(a,b) (0x86e030000000ll + 0x10000000000ll * (a) + 0x100000ll * (b))
+#define BDK_DPI_BAR_E_DPIX_VFX_BAR4(a,b) (0x86e030000000ll + 0x1000000000ll * (a) + 0x100000ll * (b))
 #define BDK_DPI_BAR_E_DPIX_VFX_BAR4_SIZE 0x100000ull
 
 /**
@@ -1201,7 +1201,7 @@ static inline uint64_t BDK_DPIX_BIST_STATUS(unsigned long a) __attribute__ ((pur
 static inline uint64_t BDK_DPIX_BIST_STATUS(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
-        return 0x86e000004000ll + 0x10000000000ll * ((a) & 0x0);
+        return 0x86e000004000ll + 0x1000000000ll * ((a) & 0x0);
     __bdk_csr_fatal("DPIX_BIST_STATUS", 1, a, 0, 0, 0);
 }
 
@@ -1239,7 +1239,7 @@ static inline uint64_t BDK_DPIX_CTL(unsigned long a) __attribute__ ((pure, alway
 static inline uint64_t BDK_DPIX_CTL(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
-        return 0x86e000004010ll + 0x10000000000ll * ((a) & 0x0);
+        return 0x86e000004010ll + 0x1000000000ll * ((a) & 0x0);
     __bdk_csr_fatal("DPIX_CTL", 1, a, 0, 0, 0);
 }
 
@@ -1277,7 +1277,7 @@ static inline uint64_t BDK_DPIX_DBE_INT(unsigned long a) __attribute__ ((pure, a
 static inline uint64_t BDK_DPIX_DBE_INT(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
-        return 0x86e0000041a8ll + 0x10000000000ll * ((a) & 0x0);
+        return 0x86e0000041a8ll + 0x1000000000ll * ((a) & 0x0);
     __bdk_csr_fatal("DPIX_DBE_INT", 1, a, 0, 0, 0);
 }
 
@@ -1315,7 +1315,7 @@ static inline uint64_t BDK_DPIX_DBE_INT_ENA_W1C(unsigned long a) __attribute__ (
 static inline uint64_t BDK_DPIX_DBE_INT_ENA_W1C(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
-        return 0x86e0000041b8ll + 0x10000000000ll * ((a) & 0x0);
+        return 0x86e0000041b8ll + 0x1000000000ll * ((a) & 0x0);
     __bdk_csr_fatal("DPIX_DBE_INT_ENA_W1C", 1, a, 0, 0, 0);
 }
 
@@ -1353,7 +1353,7 @@ static inline uint64_t BDK_DPIX_DBE_INT_ENA_W1S(unsigned long a) __attribute__ (
 static inline uint64_t BDK_DPIX_DBE_INT_ENA_W1S(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
-        return 0x86e0000041c0ll + 0x10000000000ll * ((a) & 0x0);
+        return 0x86e0000041c0ll + 0x1000000000ll * ((a) & 0x0);
     __bdk_csr_fatal("DPIX_DBE_INT_ENA_W1S", 1, a, 0, 0, 0);
 }
 
@@ -1391,7 +1391,7 @@ static inline uint64_t BDK_DPIX_DBE_INT_W1S(unsigned long a) __attribute__ ((pur
 static inline uint64_t BDK_DPIX_DBE_INT_W1S(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
-        return 0x86e0000041b0ll + 0x10000000000ll * ((a) & 0x0);
+        return 0x86e0000041b0ll + 0x1000000000ll * ((a) & 0x0);
     __bdk_csr_fatal("DPIX_DBE_INT_W1S", 1, a, 0, 0, 0);
 }
 
@@ -1436,7 +1436,7 @@ static inline uint64_t BDK_DPIX_DMAX_ERR_RSP_STATUS(unsigned long a, unsigned lo
 static inline uint64_t BDK_DPIX_DMAX_ERR_RSP_STATUS(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7)))
-        return 0x86e000000030ll + 0x10000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
+        return 0x86e000000030ll + 0x1000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
     __bdk_csr_fatal("DPIX_DMAX_ERR_RSP_STATUS", 2, a, b, 0, 0);
 }
 
@@ -1478,7 +1478,7 @@ static inline uint64_t BDK_DPIX_DMAX_IBUFF_CSIZE(unsigned long a, unsigned long 
 static inline uint64_t BDK_DPIX_DMAX_IBUFF_CSIZE(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7)))
-        return 0x86e000000000ll + 0x10000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
+        return 0x86e000000000ll + 0x1000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
     __bdk_csr_fatal("DPIX_DMAX_IBUFF_CSIZE", 2, a, b, 0, 0);
 }
 
@@ -1546,7 +1546,7 @@ static inline uint64_t BDK_DPIX_DMAX_IDS(unsigned long a, unsigned long b) __att
 static inline uint64_t BDK_DPIX_DMAX_IDS(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7)))
-        return 0x86e000000018ll + 0x10000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
+        return 0x86e000000018ll + 0x1000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
     __bdk_csr_fatal("DPIX_DMAX_IDS", 2, a, b, 0, 0);
 }
 
@@ -1585,7 +1585,7 @@ static inline uint64_t BDK_DPIX_DMAX_IFLIGHT(unsigned long a, unsigned long b) _
 static inline uint64_t BDK_DPIX_DMAX_IFLIGHT(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7)))
-        return 0x86e000000020ll + 0x10000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
+        return 0x86e000000020ll + 0x1000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
     __bdk_csr_fatal("DPIX_DMAX_IFLIGHT", 2, a, b, 0, 0);
 }
 
@@ -1626,7 +1626,7 @@ static inline uint64_t BDK_DPIX_DMAX_QRST(unsigned long a, unsigned long b) __at
 static inline uint64_t BDK_DPIX_DMAX_QRST(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7)))
-        return 0x86e000000028ll + 0x10000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
+        return 0x86e000000028ll + 0x1000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
     __bdk_csr_fatal("DPIX_DMAX_QRST", 2, a, b, 0, 0);
 }
 
@@ -1662,7 +1662,7 @@ static inline uint64_t BDK_DPIX_DMAX_REQBNK0(unsigned long a, unsigned long b) _
 static inline uint64_t BDK_DPIX_DMAX_REQBNK0(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7)))
-        return 0x86e000000008ll + 0x10000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
+        return 0x86e000000008ll + 0x1000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
     __bdk_csr_fatal("DPIX_DMAX_REQBNK0", 2, a, b, 0, 0);
 }
 
@@ -1698,7 +1698,7 @@ static inline uint64_t BDK_DPIX_DMAX_REQBNK1(unsigned long a, unsigned long b) _
 static inline uint64_t BDK_DPIX_DMAX_REQBNK1(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7)))
-        return 0x86e000000010ll + 0x10000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
+        return 0x86e000000010ll + 0x1000000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x7);
     __bdk_csr_fatal("DPIX_DMAX_REQBNK1", 2, a, b, 0, 0);
 }
 
@@ -1748,7 +1748,7 @@ static inline uint64_t BDK_DPIX_DMA_CCX_CNT(unsigned long a, unsigned long b) __
 static inline uint64_t BDK_DPIX_DMA_CCX_CNT(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=63)))
-        return 0x86e000006000ll + 0x10000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x3f);
+        return 0x86e000006000ll + 0x1000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x3f);
     __bdk_csr_fatal("DPIX_DMA_CCX_CNT", 2, a, b, 0, 0);
 }
 
@@ -1790,7 +1790,7 @@ static inline uint64_t BDK_DPIX_DMA_CCX_INT(unsigned long a, unsigned long b) __
 static inline uint64_t BDK_DPIX_DMA_CCX_INT(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=63)))
-        return 0x86e000005000ll + 0x10000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x3f);
+        return 0x86e000005000ll + 0x1000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x3f);
     __bdk_csr_fatal("DPIX_DMA_CCX_INT", 2, a, b, 0, 0);
 }
 
@@ -1828,7 +1828,7 @@ static inline uint64_t BDK_DPIX_DMA_CCX_INT_ENA_W1C(unsigned long a, unsigned lo
 static inline uint64_t BDK_DPIX_DMA_CCX_INT_ENA_W1C(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=63)))
-        return 0x86e000005800ll + 0x10000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x3f);
+        return 0x86e000005800ll + 0x1000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x3f);
     __bdk_csr_fatal("DPIX_DMA_CCX_INT_ENA_W1C", 2, a, b, 0, 0);
 }
 
@@ -1866,7 +1866,7 @@ static inline uint64_t BDK_DPIX_DMA_CCX_INT_ENA_W1S(unsigned long a, unsigned lo
 static inline uint64_t BDK_DPIX_DMA_CCX_INT_ENA_W1S(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=63)))
-        return 0x86e000005c00ll + 0x10000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x3f);
+        return 0x86e000005c00ll + 0x1000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x3f);
     __bdk_csr_fatal("DPIX_DMA_CCX_INT_ENA_W1S", 2, a, b, 0, 0);
 }
 
@@ -1904,7 +1904,7 @@ static inline uint64_t BDK_DPIX_DMA_CCX_INT_W1S(unsigned long a, unsigned long b
 static inline uint64_t BDK_DPIX_DMA_CCX_INT_W1S(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=63)))
-        return 0x86e000005400ll + 0x10000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x3f);
+        return 0x86e000005400ll + 0x1000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x3f);
     __bdk_csr_fatal("DPIX_DMA_CCX_INT_W1S", 2, a, b, 0, 0);
 }
 
@@ -2096,7 +2096,7 @@ static inline uint64_t BDK_DPIX_DMA_CONTROL(unsigned long a) __attribute__ ((pur
 static inline uint64_t BDK_DPIX_DMA_CONTROL(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
-        return 0x86e000004018ll + 0x10000000000ll * ((a) & 0x0);
+        return 0x86e000004018ll + 0x1000000000ll * ((a) & 0x0);
     __bdk_csr_fatal("DPIX_DMA_CONTROL", 1, a, 0, 0, 0);
 }
 
@@ -2152,7 +2152,7 @@ static inline uint64_t BDK_DPIX_DMA_ENGX_EN(unsigned long a, unsigned long b) __
 static inline uint64_t BDK_DPIX_DMA_ENGX_EN(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=5)))
-        return 0x86e000004040ll + 0x10000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x7);
+        return 0x86e000004040ll + 0x1000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x7);
     __bdk_csr_fatal("DPIX_DMA_ENGX_EN", 2, a, b, 0, 0);
 }
 
@@ -2202,7 +2202,7 @@ static inline uint64_t BDK_DPIX_ECC_CTL(unsigned long a) __attribute__ ((pure, a
 static inline uint64_t BDK_DPIX_ECC_CTL(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
-        return 0x86e000004008ll + 0x10000000000ll * ((a) & 0x0);
+        return 0x86e000004008ll + 0x1000000000ll * ((a) & 0x0);
     __bdk_csr_fatal("DPIX_ECC_CTL", 1, a, 0, 0, 0);
 }
 
@@ -2287,7 +2287,7 @@ static inline uint64_t BDK_DPIX_ENGX_BUF(unsigned long a, unsigned long b) __att
 static inline uint64_t BDK_DPIX_ENGX_BUF(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=5)))
-        return 0x86e0000040c0ll + 0x10000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x7);
+        return 0x86e0000040c0ll + 0x1000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x7);
     __bdk_csr_fatal("DPIX_ENGX_BUF", 2, a, b, 0, 0);
 }
 
@@ -2334,7 +2334,7 @@ static inline uint64_t BDK_DPIX_INFO_REG(unsigned long a) __attribute__ ((pure, 
 static inline uint64_t BDK_DPIX_INFO_REG(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
-        return 0x86e000004160ll + 0x10000000000ll * ((a) & 0x0);
+        return 0x86e000004160ll + 0x1000000000ll * ((a) & 0x0);
     __bdk_csr_fatal("DPIX_INFO_REG", 1, a, 0, 0, 0);
 }
 
@@ -2374,7 +2374,7 @@ static inline uint64_t BDK_DPIX_INT_ENA_W1C(unsigned long a) __attribute__ ((pur
 static inline uint64_t BDK_DPIX_INT_ENA_W1C(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
-        return 0x86e000004178ll + 0x10000000000ll * ((a) & 0x0);
+        return 0x86e000004178ll + 0x1000000000ll * ((a) & 0x0);
     __bdk_csr_fatal("DPIX_INT_ENA_W1C", 1, a, 0, 0, 0);
 }
 
@@ -2414,7 +2414,7 @@ static inline uint64_t BDK_DPIX_INT_ENA_W1S(unsigned long a) __attribute__ ((pur
 static inline uint64_t BDK_DPIX_INT_ENA_W1S(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
-        return 0x86e000004180ll + 0x10000000000ll * ((a) & 0x0);
+        return 0x86e000004180ll + 0x1000000000ll * ((a) & 0x0);
     __bdk_csr_fatal("DPIX_INT_ENA_W1S", 1, a, 0, 0, 0);
 }
 
@@ -2458,7 +2458,7 @@ static inline uint64_t BDK_DPIX_INT_REG(unsigned long a) __attribute__ ((pure, a
 static inline uint64_t BDK_DPIX_INT_REG(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
-        return 0x86e000004168ll + 0x10000000000ll * ((a) & 0x0);
+        return 0x86e000004168ll + 0x1000000000ll * ((a) & 0x0);
     __bdk_csr_fatal("DPIX_INT_REG", 1, a, 0, 0, 0);
 }
 
@@ -2498,7 +2498,7 @@ static inline uint64_t BDK_DPIX_INT_REG_W1S(unsigned long a) __attribute__ ((pur
 static inline uint64_t BDK_DPIX_INT_REG_W1S(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
-        return 0x86e000004170ll + 0x10000000000ll * ((a) & 0x0);
+        return 0x86e000004170ll + 0x1000000000ll * ((a) & 0x0);
     __bdk_csr_fatal("DPIX_INT_REG_W1S", 1, a, 0, 0, 0);
 }
 
@@ -2549,7 +2549,7 @@ static inline uint64_t BDK_DPIX_NCBX_CFG(unsigned long a, unsigned long b) __att
 static inline uint64_t BDK_DPIX_NCBX_CFG(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b==0)))
-        return 0x86e0000040a0ll + 0x10000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x0);
+        return 0x86e0000040a0ll + 0x1000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x0);
     __bdk_csr_fatal("DPIX_NCBX_CFG", 2, a, b, 0, 0);
 }
 
@@ -2588,7 +2588,7 @@ static inline uint64_t BDK_DPIX_PF_MSIX_PBAX(unsigned long a, unsigned long b) _
 static inline uint64_t BDK_DPIX_PF_MSIX_PBAX(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=1)))
-        return 0x86e0100f0000ll + 0x10000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x1);
+        return 0x86e0100f0000ll + 0x1000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x1);
     __bdk_csr_fatal("DPIX_PF_MSIX_PBAX", 2, a, b, 0, 0);
 }
 
@@ -2646,7 +2646,7 @@ static inline uint64_t BDK_DPIX_PF_MSIX_VECX_ADDR(unsigned long a, unsigned long
 static inline uint64_t BDK_DPIX_PF_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=74)))
-        return 0x86e010000000ll + 0x10000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x7f);
+        return 0x86e010000000ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x7f);
     __bdk_csr_fatal("DPIX_PF_MSIX_VECX_ADDR", 2, a, b, 0, 0);
 }
 
@@ -2688,7 +2688,7 @@ static inline uint64_t BDK_DPIX_PF_MSIX_VECX_CTL(unsigned long a, unsigned long 
 static inline uint64_t BDK_DPIX_PF_MSIX_VECX_CTL(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=74)))
-        return 0x86e010000008ll + 0x10000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x7f);
+        return 0x86e010000008ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x7f);
     __bdk_csr_fatal("DPIX_PF_MSIX_VECX_CTL", 2, a, b, 0, 0);
 }
 
@@ -2725,7 +2725,7 @@ static inline uint64_t BDK_DPIX_PKT_ERR_RSP(unsigned long a) __attribute__ ((pur
 static inline uint64_t BDK_DPIX_PKT_ERR_RSP(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
-        return 0x86e000004098ll + 0x10000000000ll * ((a) & 0x0);
+        return 0x86e000004098ll + 0x1000000000ll * ((a) & 0x0);
     __bdk_csr_fatal("DPIX_PKT_ERR_RSP", 1, a, 0, 0, 0);
 }
 
@@ -2766,7 +2766,7 @@ static inline uint64_t BDK_DPIX_REQ_ERR_RSP(unsigned long a) __attribute__ ((pur
 static inline uint64_t BDK_DPIX_REQ_ERR_RSP(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
-        return 0x86e000004078ll + 0x10000000000ll * ((a) & 0x0);
+        return 0x86e000004078ll + 0x1000000000ll * ((a) & 0x0);
     __bdk_csr_fatal("DPIX_REQ_ERR_RSP", 1, a, 0, 0, 0);
 }
 
@@ -2805,7 +2805,7 @@ static inline uint64_t BDK_DPIX_REQ_ERR_RSP_EN(unsigned long a) __attribute__ ((
 static inline uint64_t BDK_DPIX_REQ_ERR_RSP_EN(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
-        return 0x86e000004088ll + 0x10000000000ll * ((a) & 0x0);
+        return 0x86e000004088ll + 0x1000000000ll * ((a) & 0x0);
     __bdk_csr_fatal("DPIX_REQ_ERR_RSP_EN", 1, a, 0, 0, 0);
 }
 
@@ -2879,7 +2879,7 @@ static inline uint64_t BDK_DPIX_REQQX_INT(unsigned long a, unsigned long b) __at
 static inline uint64_t BDK_DPIX_REQQX_INT(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7)))
-        return 0x86e000006600ll + 0x10000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x7);
+        return 0x86e000006600ll + 0x1000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x7);
     __bdk_csr_fatal("DPIX_REQQX_INT", 2, a, b, 0, 0);
 }
 
@@ -2929,7 +2929,7 @@ static inline uint64_t BDK_DPIX_REQQX_INT_ENA_W1C(unsigned long a, unsigned long
 static inline uint64_t BDK_DPIX_REQQX_INT_ENA_W1C(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7)))
-        return 0x86e000006680ll + 0x10000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x7);
+        return 0x86e000006680ll + 0x1000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x7);
     __bdk_csr_fatal("DPIX_REQQX_INT_ENA_W1C", 2, a, b, 0, 0);
 }
 
@@ -2979,7 +2979,7 @@ static inline uint64_t BDK_DPIX_REQQX_INT_ENA_W1S(unsigned long a, unsigned long
 static inline uint64_t BDK_DPIX_REQQX_INT_ENA_W1S(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7)))
-        return 0x86e0000066c0ll + 0x10000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x7);
+        return 0x86e0000066c0ll + 0x1000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x7);
     __bdk_csr_fatal("DPIX_REQQX_INT_ENA_W1S", 2, a, b, 0, 0);
 }
 
@@ -3029,7 +3029,7 @@ static inline uint64_t BDK_DPIX_REQQX_INT_W1S(unsigned long a, unsigned long b) 
 static inline uint64_t BDK_DPIX_REQQX_INT_W1S(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7)))
-        return 0x86e000006640ll + 0x10000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x7);
+        return 0x86e000006640ll + 0x1000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x7);
     __bdk_csr_fatal("DPIX_REQQX_INT_W1S", 2, a, b, 0, 0);
 }
 
@@ -3067,7 +3067,7 @@ static inline uint64_t BDK_DPIX_SBE_INT(unsigned long a) __attribute__ ((pure, a
 static inline uint64_t BDK_DPIX_SBE_INT(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
-        return 0x86e000004188ll + 0x10000000000ll * ((a) & 0x0);
+        return 0x86e000004188ll + 0x1000000000ll * ((a) & 0x0);
     __bdk_csr_fatal("DPIX_SBE_INT", 1, a, 0, 0, 0);
 }
 
@@ -3105,7 +3105,7 @@ static inline uint64_t BDK_DPIX_SBE_INT_ENA_W1C(unsigned long a) __attribute__ (
 static inline uint64_t BDK_DPIX_SBE_INT_ENA_W1C(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
-        return 0x86e000004198ll + 0x10000000000ll * ((a) & 0x0);
+        return 0x86e000004198ll + 0x1000000000ll * ((a) & 0x0);
     __bdk_csr_fatal("DPIX_SBE_INT_ENA_W1C", 1, a, 0, 0, 0);
 }
 
@@ -3143,7 +3143,7 @@ static inline uint64_t BDK_DPIX_SBE_INT_ENA_W1S(unsigned long a) __attribute__ (
 static inline uint64_t BDK_DPIX_SBE_INT_ENA_W1S(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
-        return 0x86e0000041a0ll + 0x10000000000ll * ((a) & 0x0);
+        return 0x86e0000041a0ll + 0x1000000000ll * ((a) & 0x0);
     __bdk_csr_fatal("DPIX_SBE_INT_ENA_W1S", 1, a, 0, 0, 0);
 }
 
@@ -3181,7 +3181,7 @@ static inline uint64_t BDK_DPIX_SBE_INT_W1S(unsigned long a) __attribute__ ((pur
 static inline uint64_t BDK_DPIX_SBE_INT_W1S(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
-        return 0x86e000004190ll + 0x10000000000ll * ((a) & 0x0);
+        return 0x86e000004190ll + 0x1000000000ll * ((a) & 0x0);
     __bdk_csr_fatal("DPIX_SBE_INT_W1S", 1, a, 0, 0, 0);
 }
 
@@ -3310,7 +3310,7 @@ static inline uint64_t BDK_DPIX_SLI_PRTX_CFG(unsigned long a, unsigned long b) _
 static inline uint64_t BDK_DPIX_SLI_PRTX_CFG(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=3)))
-        return 0x86e000004100ll + 0x10000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x3);
+        return 0x86e000004100ll + 0x1000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x3);
     __bdk_csr_fatal("DPIX_SLI_PRTX_CFG", 2, a, b, 0, 0);
 }
 
@@ -3352,7 +3352,7 @@ static inline uint64_t BDK_DPIX_SLI_PRTX_ERR(unsigned long a, unsigned long b) _
 static inline uint64_t BDK_DPIX_SLI_PRTX_ERR(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=3)))
-        return 0x86e000004120ll + 0x10000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x3);
+        return 0x86e000004120ll + 0x1000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x3);
     __bdk_csr_fatal("DPIX_SLI_PRTX_ERR", 2, a, b, 0, 0);
 }
 
@@ -3428,7 +3428,7 @@ static inline uint64_t BDK_DPIX_SLI_PRTX_ERR_INFO(unsigned long a, unsigned long
 static inline uint64_t BDK_DPIX_SLI_PRTX_ERR_INFO(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=3)))
-        return 0x86e000004140ll + 0x10000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x3);
+        return 0x86e000004140ll + 0x1000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x3);
     __bdk_csr_fatal("DPIX_SLI_PRTX_ERR_INFO", 2, a, b, 0, 0);
 }
 
@@ -3478,7 +3478,7 @@ static inline uint64_t BDK_DPIX_VDMAX_CNT(unsigned long a, unsigned long b) __at
 static inline uint64_t BDK_DPIX_VDMAX_CNT(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7)))
-        return 0x86e020000038ll + 0x10000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7);
+        return 0x86e020000038ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7);
     __bdk_csr_fatal("DPIX_VDMAX_CNT", 2, a, b, 0, 0);
 }
 
@@ -3519,7 +3519,7 @@ static inline uint64_t BDK_DPIX_VDMAX_COUNTS(unsigned long a, unsigned long b) _
 static inline uint64_t BDK_DPIX_VDMAX_COUNTS(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7)))
-        return 0x86e020000020ll + 0x10000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7);
+        return 0x86e020000020ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7);
     __bdk_csr_fatal("DPIX_VDMAX_COUNTS", 2, a, b, 0, 0);
 }
 
@@ -3559,7 +3559,7 @@ static inline uint64_t BDK_DPIX_VDMAX_DBELL(unsigned long a, unsigned long b) __
 static inline uint64_t BDK_DPIX_VDMAX_DBELL(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7)))
-        return 0x86e020000010ll + 0x10000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7);
+        return 0x86e020000010ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7);
     __bdk_csr_fatal("DPIX_VDMAX_DBELL", 2, a, b, 0, 0);
 }
 
@@ -3596,7 +3596,7 @@ static inline uint64_t BDK_DPIX_VDMAX_EN(unsigned long a, unsigned long b) __att
 static inline uint64_t BDK_DPIX_VDMAX_EN(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7)))
-        return 0x86e020000000ll + 0x10000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7);
+        return 0x86e020000000ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7);
     __bdk_csr_fatal("DPIX_VDMAX_EN", 2, a, b, 0, 0);
 }
 
@@ -3637,7 +3637,7 @@ static inline uint64_t BDK_DPIX_VDMAX_IWBUSY(unsigned long a, unsigned long b) _
 static inline uint64_t BDK_DPIX_VDMAX_IWBUSY(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7)))
-        return 0x86e020000030ll + 0x10000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7);
+        return 0x86e020000030ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7);
     __bdk_csr_fatal("DPIX_VDMAX_IWBUSY", 2, a, b, 0, 0);
 }
 
@@ -3675,7 +3675,7 @@ static inline uint64_t BDK_DPIX_VDMAX_NADDR(unsigned long a, unsigned long b) __
 static inline uint64_t BDK_DPIX_VDMAX_NADDR(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7)))
-        return 0x86e020000028ll + 0x10000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7);
+        return 0x86e020000028ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7);
     __bdk_csr_fatal("DPIX_VDMAX_NADDR", 2, a, b, 0, 0);
 }
 
@@ -3739,7 +3739,7 @@ static inline uint64_t BDK_DPIX_VDMAX_REQQ_CTL(unsigned long a, unsigned long b)
 static inline uint64_t BDK_DPIX_VDMAX_REQQ_CTL(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7)))
-        return 0x86e020000008ll + 0x10000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7);
+        return 0x86e020000008ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7);
     __bdk_csr_fatal("DPIX_VDMAX_REQQ_CTL", 2, a, b, 0, 0);
 }
 
@@ -3791,7 +3791,7 @@ static inline uint64_t BDK_DPIX_VDMAX_SADDR(unsigned long a, unsigned long b) __
 static inline uint64_t BDK_DPIX_VDMAX_SADDR(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7)))
-        return 0x86e020000018ll + 0x10000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7);
+        return 0x86e020000018ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7);
     __bdk_csr_fatal("DPIX_VDMAX_SADDR", 2, a, b, 0, 0);
 }
 
@@ -3833,7 +3833,7 @@ static inline uint64_t BDK_DPIX_VFX_INT(unsigned long a, unsigned long b) __attr
 static inline uint64_t BDK_DPIX_VFX_INT(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7)))
-        return 0x86e020000100ll + 0x10000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7);
+        return 0x86e020000100ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7);
     __bdk_csr_fatal("DPIX_VFX_INT", 2, a, b, 0, 0);
 }
 
@@ -3871,7 +3871,7 @@ static inline uint64_t BDK_DPIX_VFX_INT_ENA_W1C(unsigned long a, unsigned long b
 static inline uint64_t BDK_DPIX_VFX_INT_ENA_W1C(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7)))
-        return 0x86e020000110ll + 0x10000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7);
+        return 0x86e020000110ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7);
     __bdk_csr_fatal("DPIX_VFX_INT_ENA_W1C", 2, a, b, 0, 0);
 }
 
@@ -3909,7 +3909,7 @@ static inline uint64_t BDK_DPIX_VFX_INT_ENA_W1S(unsigned long a, unsigned long b
 static inline uint64_t BDK_DPIX_VFX_INT_ENA_W1S(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7)))
-        return 0x86e020000118ll + 0x10000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7);
+        return 0x86e020000118ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7);
     __bdk_csr_fatal("DPIX_VFX_INT_ENA_W1S", 2, a, b, 0, 0);
 }
 
@@ -3947,7 +3947,7 @@ static inline uint64_t BDK_DPIX_VFX_INT_W1S(unsigned long a, unsigned long b) __
 static inline uint64_t BDK_DPIX_VFX_INT_W1S(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7)))
-        return 0x86e020000108ll + 0x10000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7);
+        return 0x86e020000108ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7);
     __bdk_csr_fatal("DPIX_VFX_INT_W1S", 2, a, b, 0, 0);
 }
 
@@ -3986,7 +3986,7 @@ static inline uint64_t BDK_DPIX_VFX_MSIX_PBAX(unsigned long a, unsigned long b, 
 static inline uint64_t BDK_DPIX_VFX_MSIX_PBAX(unsigned long a, unsigned long b, unsigned long c)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7) && (c==0)))
-        return 0x86e0300f0000ll + 0x10000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7) + 8ll * ((c) & 0x0);
+        return 0x86e0300f0000ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7) + 8ll * ((c) & 0x0);
     __bdk_csr_fatal("DPIX_VFX_MSIX_PBAX", 3, a, b, c, 0);
 }
 
@@ -4032,7 +4032,7 @@ static inline uint64_t BDK_DPIX_VFX_MSIX_VECX_ADDR(unsigned long a, unsigned lon
 static inline uint64_t BDK_DPIX_VFX_MSIX_VECX_ADDR(unsigned long a, unsigned long b, unsigned long c)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7) && (c==0)))
-        return 0x86e030000000ll + 0x10000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7) + 0x10ll * ((c) & 0x0);
+        return 0x86e030000000ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7) + 0x10ll * ((c) & 0x0);
     __bdk_csr_fatal("DPIX_VFX_MSIX_VECX_ADDR", 3, a, b, c, 0);
 }
 
@@ -4074,7 +4074,7 @@ static inline uint64_t BDK_DPIX_VFX_MSIX_VECX_CTL(unsigned long a, unsigned long
 static inline uint64_t BDK_DPIX_VFX_MSIX_VECX_CTL(unsigned long a, unsigned long b, unsigned long c)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7) && (c==0)))
-        return 0x86e030000008ll + 0x10000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7) + 0x10ll * ((c) & 0x0);
+        return 0x86e030000008ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7) + 0x10ll * ((c) & 0x0);
     __bdk_csr_fatal("DPIX_VFX_MSIX_VECX_CTL", 3, a, b, c, 0);
 }
 
