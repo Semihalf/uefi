@@ -105,10 +105,30 @@ def wait_for_bootstub_messages(cnx, powerCycle):
     cnx.match("Cavium Init")
     cnx.match("===========")
     cnx.matchRE("BDK Version: .+\n")
+    cnx.matchRE("N0.LMC0.DIMM0: .+\n")
+    try:
+        cnx.matchRE("N0.LMC0.DIMM1: .+\n")
+    except:
+        pass
     cnx.matchRE("N0.LMC0 Configuration Completed: [0-9]+ MB", timeout=30)
     if cnx.chip_model == "CN88XX":
+        try:
+            cnx.matchRE("N0.LMC1.DIMM0: .+\n")
+            cnx.matchRE("N0.LMC1.DIMM1: .+\n")
+        except:
+            pass
         cnx.matchRE("N0.LMC1 Configuration Completed: [0-9]+ MB")
+        try:
+            cnx.matchRE("N0.LMC2.DIMM0: .+\n")
+            cnx.matchRE("N0.LMC2.DIMM1: .+\n")
+        except:
+            pass
         cnx.matchRE("N0.LMC2 Configuration Completed: [0-9]+ MB")
+        try:
+            cnx.matchRE("N0.LMC3.DIMM0: .+\n")
+            cnx.matchRE("N0.LMC3.DIMM1: .+\n")
+        except:
+            pass
         cnx.matchRE("N0.LMC3 Configuration Completed: [0-9]+ MB")
     cnx.matchRE("Node 0: DRAM: [0-9]+ MB, [0-9]+ MHz, DDR[34] [UR]DIMM", timeout=60)
     try:
@@ -141,9 +161,29 @@ def wait_for_bootstub_messages(cnx, powerCycle):
         cnx.match("Trust: Disabled")
         cnx.matchRE("CCPI: .+\n")
         cnx.matchRE("BDK Version: .+\n")
+        cnx.matchRE("N0.LMC0.DIMM0: .+\n")
+        try:
+            cnx.matchRE("N0.LMC0.DIMM1: .+\n")
+        except:
+            pass
         cnx.matchRE("N1.LMC0 Configuration Completed: [0-9]+ MB")
+        try:
+            cnx.matchRE("N0.LMC1.DIMM0: .+\n")
+            cnx.matchRE("N0.LMC1.DIMM1: .+\n")
+        except:
+            pass
         cnx.matchRE("N1.LMC1 Configuration Completed: [0-9]+ MB")
+        try:
+            cnx.matchRE("N0.LMC2.DIMM0: .+\n")
+            cnx.matchRE("N0.LMC2.DIMM1: .+\n")
+        except:
+            pass
         cnx.matchRE("N1.LMC2 Configuration Completed: [0-9]+ MB")
+        try:
+            cnx.matchRE("N0.LMC3.DIMM0: .+\n")
+            cnx.matchRE("N0.LMC3.DIMM1: .+\n")
+        except:
+            pass
         cnx.matchRE("N1.LMC3 Configuration Completed: [0-9]+ MB")
         cnx.matchRE("Node 1: DRAM: [0-9]+ MB, [0-9]+ MHz, DDR[34] [UR]DIMM", timeout=60)
     for pcie in range(2*5):
