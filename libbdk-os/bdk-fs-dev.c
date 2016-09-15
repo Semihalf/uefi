@@ -267,9 +267,20 @@ static void *dev_open(const char *name, int flags)
 static int dev_close(__bdk_fs_file_t *handle)
 {
     const dev_fs_t *dev = handle->fs_state;
+    bdk_rlock_lock(&dev_lock);
+    const dev_fs_t * tdev = dev_head;
+    while (tdev)
+    {
+        if (tdev == dev) {
+            break;
+        }
+        tdev = tdev->next;
+    }
+    bdk_rlock_unlock(&dev_lock);
+    if (NULL == tdev) return 0; // Device no longer exists
     int node = dev_get_node(handle->filename);
     if (node < 0)
-        return -1;
+        return 0;
 
     __bdk_fs_dev_t state;
     state.filename = handle->filename;
