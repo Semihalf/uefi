@@ -177,6 +177,7 @@ typedef enum
 
     /* Generic GPIO, unrelated to a specific block */
     BDK_CONFIG_GPIO_PIN_SELECT,     /* Parameters: GPIO, Node */
+    BDK_CONFIG_GPIO_POLARITY,       /* Parameters: GPIO, Node */
 
     __BDK_CONFIG_END
 } bdk_config_t;

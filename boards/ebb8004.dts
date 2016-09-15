@@ -429,5 +429,15 @@ cavium,bdk {
 	GPIO-PIN-SELECT-GPIO18 = "0x24f"; // PCM_DATA3
 	GPIO-PIN-SELECT-GPIO19 = "0x235"; // SPI_CS2
 	GPIO-PIN-SELECT-GPIO20 = "0x236"; // SPI_CS3
+
+        /* Set the polarity of GPIO pins. GPIO pins are normally high=1 and
+        low=0. Setting this configuration item to '1' inverts this, so
+        high=0 and low=1. The inversion applies to both input and output.
+        The default value of '0' configures high=1 and low=0.
+        Parameters:
+            GPIO#: Which GPIO pin to configure.
+            N#: Setting can be different for each node. This specifies
+                which node the value is for. Node must be 0-3. Optional. */
+        //GPIO-POLARITY-GPIO%d.N%d = "0";
 }; /* cavium,bdk */
 }; /* / */

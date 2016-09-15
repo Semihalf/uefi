@@ -1037,6 +1037,15 @@ const char* bdk_config_get_help(bdk_config_t cfg_item)
             "    GPIO#: Which GPIO pin to configure.\n"
             "    N#: Setting can be different for each node. This specifies\n"
             "        which node the value is for. Node must be 0-3. Optional.",
+    [BDK_CONFIG_GPIO_POLARITY] =
+            "Set the polarity of GPIO pins. GPIO pins are normally high=1 and\n"
+            "low=0. Setting this configuration item to '1' inverts this, so\n"
+            "high=0 and low=1. The inversion applies to both input and output.\n"
+            "The default value of '0' configures high=1 and low=0.\n"
+            "Parameters:\n"
+            "    GPIO#: Which GPIO pin to configure.\n"
+            "    N#: Setting can be different for each node. This specifies\n"
+            "        which node the value is for. Node must be 0-3. Optional.",
     };
     return help[cfg_item];
 }

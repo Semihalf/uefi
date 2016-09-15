@@ -57,6 +57,9 @@ void bdk_boot_gpio(void)
                         n, gpio, pin_sel);
                     bdk_gpio_select_pin(n, gpio, pin_sel);
                 }
+                int invert = bdk_config_get_int(BDK_CONFIG_GPIO_POLARITY, gpio, n);
+                if (invert)
+                    BDK_CSR_MODIFY(c, n, BDK_GPIO_BIT_CFGX(gpio), c.s.pin_xor = 1);
             }
         }
     }

@@ -761,6 +761,13 @@ static bdk_config_info_t config_info[__BDK_CONFIG_END] = {
         .min_value = 0, /* GPIO_PIN_SEL_E enumeration */
         .max_value = 65535, /* GPIO_PIN_SEL_E enumeration */
     },
+    [BDK_CONFIG_GPIO_POLARITY] = {
+        .format = "GPIO-POLARITY-GPIO%d.N%d",  /* Parameters: GPIO, Node */
+        .ctype = BDK_CONFIG_TYPE_INT,
+        .default_value = 0, /* Hardware default, not inverted */
+        .min_value = 0, /* Not inverted */
+        .max_value = 1, /* Inverted */
+    },
 };
 
 /**
