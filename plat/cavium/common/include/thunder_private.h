@@ -7,6 +7,7 @@
 #pragma GCC diagnostic pop
 
 #include <arch_helpers.h>
+#include <stddef.h>
 
 #undef AP_CVMCTL_EL1
 #undef AP_CVM_ACCESS_EL1
@@ -51,6 +52,8 @@ void thunder_pci_init(void);
 void thunder_gti_init(void);
 void thunder_signal_shutdown(void);
 int thunder_pwrc_setup(void);
+void thunder_twsi_send(unsigned int node, unsigned int twsi_num,
+			uint16_t addr, const uint8_t *buffer, size_t size);
 
 #define THUNDER_IRQ_MASKED	(1ull << 32)
 
