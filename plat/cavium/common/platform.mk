@@ -6,6 +6,7 @@ PLAT_INCLUDES		:=	-Icsr/include					\
 				-Iplat/cavium/common/include 			\
 
 PLAT_BL_COMMON_SOURCES	:=	drivers/arm/pl011/pl011_console.S		\
+				drivers/cavium/thunder_twsi.c			\
 				lib/aarch64/xlat_tables.c			\
 				${LIBFDT_DIR}/fdt.c				\
 				${LIBFDT_DIR}/fdt_ro.c				\
