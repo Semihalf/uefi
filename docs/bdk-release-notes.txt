@@ -8,7 +8,7 @@
 This document gives a short overview of the major changes
 incorporated into each BDK release.
 
-== thunder-release-v1.25-rc3 ==
+== thunder-release-v1.25-rc4 ==
 * Includes all fixes from thunder-release-v1.24.3 and thunder-release-v1.23.10
 * Add Cavium's BSD license to the top of BDK files
 * CCPI
@@ -42,12 +42,17 @@ incorporated into each BDK release.
 ** Allow read bit-deskew to be disabled
 ** Detection of 3DS and NV DIMMs
 ** Improve default DIMM information output.
+** Fix memory leak on SPD read failure
+** Fix missing brackets on if statement causing spurios output for boards with less than 4 DRAM controllers in use
 * USB
 ** Correct USB version check to work with 3.x devices, not just 3.0
 ** Improved error and warning reporting
 ** Change storage device names for usb dynamic devices to reflect physical node they attached to
 ** Improved USB device display
 ** Add automated pattern test to the usb menu
+** Fix support for write-protectable flash drives
+* GPIO
+** Add device tree item for configuring the polarity of a GPIO
 
 * FATfs
 ** Use raw system calls instead of C buffered IO
