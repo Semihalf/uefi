@@ -555,9 +555,9 @@ static int sgmii_link(bdk_if_handle_t handle)
     /* Check for special PHY address values that indicate a forced speed, and no MDIO
        connection to the PHY.  In these cases we will also force the SGMII speed, and not
        do SGMII autonegotiation. Only 1000/100 Mbits/second are supported.*/
-    if (phy_address == 0x1000)
+    if (phy_address == BDK_IF_PHY_FIXED_1GB)
         forced_speed_mbps = 1000;
-    else if (phy_address == 0x1001)
+    else if (phy_address == BDK_IF_PHY_FIXED_100MB)
         forced_speed_mbps = 100;
     else if ((phy_address & BDK_IF_PHY_TYPE_MASK) == BDK_IF_PHY_TWSI)
         forced_speed_mbps = 1000;
