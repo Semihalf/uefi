@@ -409,6 +409,9 @@ int bdk_sata_initialize(bdk_node_t node, int controller)
         BDK_CSR_WRITE(node, BDK_SATAX_UAHC_P0_FB(controller),
             bdk_ptr_to_phys(fb));
     }
+
+    int retry_count = 0;
+retry:
     BDK_CSR_MODIFY(c, node, BDK_SATAX_UAHC_P0_CMD(controller),
         c.s.fre = 1);   /* FIS-receive enable */
 
@@ -451,6 +454,17 @@ int bdk_sata_initialize(bdk_node_t node, int controller)
     /* Wait for the device to be ready. BSY(7), DRQ(3), and ERR(0) must be clear */
     if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_SATAX_UAHC_P0_TFD(controller), sts & 0x85, ==, 0, 500000))
     {
+        if (retry_count < 3)
+        {
+            BDK_TRACE(SATA, "N%d.SATA%d: Drive not ready, attempting a reset\n", node, controller);
+            BDK_CSR_MODIFY(c, node, BDK_SATAX_UAHC_P0_SCTL(controller),
+                c.s.det = 1);   /* Perform interface reset */
+            bdk_wait_usec(1000); /* 1ms dictated by AHCI 1.3 spec */
+            BDK_CSR_MODIFY(c, node, BDK_SATAX_UAHC_P0_SCTL(controller),
+                c.s.det = 0);   /* Perform interface reset */
+            retry_count++;
+            goto retry;
+        }
         BDK_CSR_INIT(p0_tfd, node, BDK_SATAX_UAHC_P0_TFD(controller));
         bdk_error("N%d.SATA%d: PxTFD[STS]=0x%x, Drive not ready\n", node, controller, p0_tfd.s.sts);
         return -1;
