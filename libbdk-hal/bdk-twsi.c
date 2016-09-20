@@ -103,13 +103,10 @@ int bdk_twsix_initialize(bdk_node_t node)
  */
 static void bdk_twsix_recover_bus(bdk_node_t node, int twsi_id)
 {
-    bdk_mio_twsx_int_t twsx_int;
-    int i;
-
     /* read TWSX_INT */
-    twsx_int.u = BDK_CSR_READ(node, BDK_MIO_TWSX_SW_TWSI(twsi_id));
+    BDK_CSR_INIT(twsx_int, node, BDK_MIO_TWSX_INT(twsi_id));
 
-    for (i = 0; i < RECOVERY_CLK_CNT * 2; i++)
+    for (int i = 0; i < RECOVERY_CLK_CNT * 2; i++)
     {
         if (!twsx_int.s.scl_ovr)
         {
