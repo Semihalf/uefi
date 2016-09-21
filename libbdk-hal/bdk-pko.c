@@ -38,19 +38,22 @@
 ***********************license end**************************************/
 #include <bdk.h>
 #include <malloc.h> // for memalign
+
 #define PKO_MAX_DQ 256 /* CN83XX, Must be a define as it sizes static arrays */
 static const int PKO_QUEUES_PER_CHANNEL = 1;
 #define DQ_FC_NOMINAL_DEPTH 5 /* PKO pages */
 #define DQ_FC_PREALLOCATE 4 /* According to HW (Brian Folsom) opening dq preallocates 4 pages */
 #define DQ_FC_SKID 1
 #define DQ_FC_STRIDE16 16
+#define DQ_FC_STRIDE128 128
+#define FC_STRIDE (DQ_FC_STRIDE128)
 
 _Static_assert(DQ_FC_PREALLOCATE <= DQ_FC_NOMINAL_DEPTH, "Flow control watermark is too low");
 
 /* PKO global variables */
 typedef struct
 {
-    int64_t pko_fc_depth[PKO_MAX_DQ*2] __attribute__ ((aligned (BDK_CACHE_LINE_SIZE))); /* Queue depth flow control counters */
+    int64_t pko_fc_depth[PKO_MAX_DQ * FC_STRIDE /sizeof(uint64_t)] __attribute__ ((aligned (BDK_CACHE_LINE_SIZE))); /* Queue depth flow control counters */
     uint64_t pko_free_fifo_mask;    /* PKO_PTGFX_CFG(5) is reserved for NULL MAC */
     int pko_next_free_port_queue;   /* L1 = Port Queues are 0-15 (CN83XX) */
     int pko_next_free_l2_queue;     /* L2 = Channel Queues 0-255 (CN83XX) */
@@ -478,14 +481,14 @@ int bdk_pko_enable(bdk_node_t node)
         int dq = dq_index & 7;
         if (0 == dq) {
             BDK_CSR_MODIFY(c,node,BDK_PKO_VFX_DQ_FC_CONFIG(vf),
-                           c.s.base = (pko_depth_address + 8 * DQ_FC_STRIDE16 * vf)>>7;
+                           c.s.base = (pko_depth_address + 8 * FC_STRIDE * vf)>>7;
                            c.s.hyst_bits = 0;
-                           c.s.stride=1; /* fc counter stride 16 bytes*/
+                           c.s.stride=(FC_STRIDE == DQ_FC_STRIDE16) ? 1 : 0; /* fc counter stride 16 bytes or 128 bytes*/
                            c.s.enable=1;
                 );
         }
         *(volatile int64_t *)pko_depth_ptr = DQ_FC_NOMINAL_DEPTH - DQ_FC_SKID;
-        pko_depth_ptr += DQ_FC_STRIDE16 /sizeof(*pko_depth_ptr);
+        pko_depth_ptr += FC_STRIDE /sizeof(*pko_depth_ptr);
         BDK_WMB; // Successful open may cause update of value in memory, settle writes now
         BDK_CSR_MODIFY(c,node,BDK_PKO_VFX_DQX_FC_STATUS(vf,dq),
                        c.s.count = DQ_FC_NOMINAL_DEPTH);
@@ -711,7 +714,7 @@ int bdk_pko_transmit(bdk_if_handle_t handle, const bdk_if_packet_t *packet)
     /* Flush pending writes */
     BDK_WMB;
 
-    int64_t *pko_depth_ptr = node_state->pko_fc_depth + handle->pko_queue * DQ_FC_STRIDE16/sizeof(node_state->pko_fc_depth[0]);
+    int64_t *pko_depth_ptr = node_state->pko_fc_depth + handle->pko_queue * FC_STRIDE/sizeof(node_state->pko_fc_depth[0]);
     int64_t pko_depth = *(volatile int64_t *)pko_depth_ptr;
 
     if (pko_depth < 0) {
@@ -749,7 +752,7 @@ int bdk_pko_transmit(bdk_if_handle_t handle, const bdk_if_packet_t *packet)
     pko_send_hdr_s.u[0] = 0;
     pko_send_hdr_s.u[1] = 0;
     pko_send_hdr_s.s.df = 1;
-    pko_send_hdr_s.s.format = 0; /* We don't use this? */
+//--    pko_send_hdr_s.s.format = 0; /* We don't use this? */
     pko_send_hdr_s.s.total = packet->length;
 
     switch (packet->packet_type)
