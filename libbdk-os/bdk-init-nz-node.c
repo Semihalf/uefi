@@ -686,6 +686,7 @@ static void lane_change_state(int ccpi_lane, state_t state)
 static void lane_check_eie(int ccpi_lane)
 {
     lane_state_t *lstate = &lane_state[ccpi_lane];
+    int qlm = 8 + ccpi_lane / 4;
     BDK_CSR_INIT(ocx_lnex_trn_ctl, node, BDK_OCX_LNEX_TRN_CTL(ccpi_lane));
     if (ocx_lnex_trn_ctl.s.eie_detect)
     {
@@ -699,6 +700,9 @@ static void lane_check_eie(int ccpi_lane)
         if (lstate->lane_state != STATE_WAIT_EIE)
             lane_change_state(ccpi_lane, STATE_WAIT_EIE);
     }
+    BDK_CSR_INIT(srst, node, BDK_GSERX_LANE_SRST(qlm));
+    if (srst.s.lsrst)
+        BDK_CSR_WRITE(node, BDK_GSERX_LANE_SRST(qlm), 0);
 }
 
 /**
@@ -764,6 +768,7 @@ static void lane_check_cdr(int ccpi_lane)
 static void lane_check_messaging(int ccpi_lane, bool is_master)
 {
     lane_state_t *lstate = &lane_state[ccpi_lane];
+    int qlm = 8 + ccpi_lane / 4;
     if (lstate->lane_state <= STATE_WAIT_TRAIN_PRESET)
     {
         lstate->ld_cu.u = 0x3f;
@@ -854,6 +859,26 @@ static void lane_check_messaging(int ccpi_lane, bool is_master)
             lstate->ld_cu.u = 0x3f;
             lstate->ld_cu.s.preset = 1;
             lstate->chk_done = 0;
+            if ((request == 63) && !CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_0))
+            {
+                /* Check if most other lanes are past this step. If so, this lane
+                   is stuck waiting for something that won't happen */
+                int finished = 0;
+                for (int l = 0; l < CCPI_LANES; l++)
+                    finished += lane_state[l].chk_done;
+                /* CN88XX pass 1.0 can't restart training */
+                if (finished >= 21)
+                {
+                    if (do_trace)
+                    {
+                        bdk_dbg_uart_str("Lane ");
+                        uart_dec2(ccpi_lane);
+                        bdk_dbg_uart_str(": Training stuck, reseting QLM\r\n");
+                    }
+                    BDK_CSR_WRITE(node, BDK_GSERX_LANE_SRST(qlm), 1);
+                    wait_usec(1000);
+                }
+            }
         }
     }
 }
