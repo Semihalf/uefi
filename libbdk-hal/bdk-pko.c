@@ -841,15 +841,18 @@ void bdk_pko_fill_tx_stats(bdk_if_handle_t handle)
     /* Account for TX adding FCS */
     const int bytes_off_tx = (handle->flags & BDK_IF_FLAGS_HAS_FCS) ? 4 : 0;
 
-    BDK_CSR_INIT(pkts, handle->node, BDK_PKO_DQX_PACKETS(handle->pko_queue));
-    BDK_CSR_INIT(octs, handle->node, BDK_PKO_DQX_BYTES(handle->pko_queue));
     BDK_CSR_INIT(drps, handle->node, BDK_PKO_DQX_DROPPED_PACKETS(handle->pko_queue));
     BDK_CSR_INIT(doct, handle->node, BDK_PKO_DQX_DROPPED_BYTES(handle->pko_queue));
 
-    handle->stats.tx.octets -= handle->stats.tx.packets * bytes_off_tx;
-    handle->stats.tx.packets = bdk_update_stat_with_overflow(pkts.u, handle->stats.tx.packets, 40);
-    handle->stats.tx.octets = bdk_update_stat_with_overflow(octs.u, handle->stats.tx.octets, 48);
-    handle->stats.tx.octets += handle->stats.tx.packets * bytes_off_tx;
+    if (!(handle->flags & BDK_IF_FLAGS_HAS_FCS)) {
+        // Loopback interface - fill both transmit and drop counters
+        BDK_CSR_INIT(pkts, handle->node, BDK_PKO_DQX_PACKETS(handle->pko_queue));
+        BDK_CSR_INIT(octs, handle->node, BDK_PKO_DQX_BYTES(handle->pko_queue));
+        //handle->stats.tx.octets -= handle->stats.tx.packets * bytes_off_tx;
+        handle->stats.tx.packets = bdk_update_stat_with_overflow(pkts.u, handle->stats.tx.packets, 40);
+        handle->stats.tx.octets = bdk_update_stat_with_overflow(octs.u, handle->stats.tx.octets, 48);
+        //handle->stats.tx.octets += handle->stats.tx.packets * bytes_off_tx;
+    }
 
     handle->stats.tx.dropped_packets -= handle->stats.tx.dropped_packets * bytes_off_tx;
     handle->stats.tx.dropped_packets = bdk_update_stat_with_overflow(drps.u, handle->stats.tx.dropped_packets, 40);

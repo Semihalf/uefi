@@ -1558,18 +1558,17 @@ static const bdk_if_stats_t *if_get_stats(bdk_if_handle_t handle)
     else
         bdk_pki_fill_rx_stats(handle);
 
-    if (handle->pko_queue == -1)
-    {
-        /* FCS, if present, is already accounted for */
-        const bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
-        BDK_CSR_INIT(pkts, handle->node, BDK_BGXX_CMRX_TX_STAT5(handle->interface,priv->port));
-        BDK_CSR_INIT(octs, handle->node, BDK_BGXX_CMRX_TX_STAT4(handle->interface,priv->port));
-        handle->stats.tx.packets = bdk_update_stat_with_overflow(pkts.u, handle->stats.tx.packets, 48);
-        handle->stats.tx.octets = bdk_update_stat_with_overflow(octs.u, handle->stats.tx.octets, 48);
+    /* FCS, if present, is already accounted for */
+    const bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
+    BDK_CSR_INIT(pkts, handle->node, BDK_BGXX_CMRX_TX_STAT5(handle->interface,priv->port));
+    BDK_CSR_INIT(octs, handle->node, BDK_BGXX_CMRX_TX_STAT4(handle->interface,priv->port));
+    handle->stats.tx.packets = bdk_update_stat_with_overflow(pkts.u, handle->stats.tx.packets, 48);
+    handle->stats.tx.octets = bdk_update_stat_with_overflow(octs.u, handle->stats.tx.octets, 48);
 
-        bdk_nic_fill_tx_stats(handle);
-    } else
-        bdk_pko_fill_tx_stats(handle);
+   if (handle->pko_queue == -1)
+       bdk_nic_fill_tx_stats(handle);
+   else
+       bdk_pko_fill_tx_stats(handle);
 
     return &handle->stats;
 }
