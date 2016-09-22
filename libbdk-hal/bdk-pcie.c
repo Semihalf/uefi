@@ -325,7 +325,80 @@ static void __bdk_pcie_rc_initialize_config_space(bdk_node_t node, int pcie_port
         c.s.bcc = 0x6);
 }
 
+/**
+ * Get the PCIe LTSSM state for the given port
+ *
+ * @param node      Node to query
+ * @param pcie_port PEM to query
+ *
+ * @return LTSSM state
+ */
+static int __bdk_pcie_rc_get_ltssm_state(bdk_node_t node, int pcie_port)
+{
+    /* LTSSM state is in debug select 0 */
+    BDK_CSR_WRITE(node, BDK_DTX_PEMX_SELX(pcie_port, 0), 0);
+    BDK_CSR_WRITE(node, BDK_DTX_PEMX_ENAX(pcie_port, 0), 0xfffffffffull);
+    /* Read the value */
+    uint64_t debug = BDK_CSR_READ(node, BDK_DTX_PEMX_DATX(pcie_port, 0));
+    /* Disable the PEM from driving OCLA signals */
+    BDK_CSR_WRITE(node, BDK_DTX_PEMX_ENAX(pcie_port, 0), 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return bdk_extract(debug, 0, 6); /* DBGSEL = 0x0, bits[5:0] */
+    else
+        return bdk_extract(debug, 3, 6); /* DBGSEL = 0x0, bits[8:3] */
+}
 
+/**
+ * Get the PCIe LTSSM state for the given port
+ *
+ * @param node      Node to query
+ * @param pcie_port PEM to query
+ *
+ * @return LTSSM state
+ */
+static const char *ltssm_string(int ltssm)
+{
+    switch (ltssm)
+    {
+        case 0x00: return "DETECT_QUIET";
+        case 0x01: return "DETECT_ACT";
+        case 0x02: return "POLL_ACTIVE";
+        case 0x03: return "POLL_COMPLIANCE";
+        case 0x04: return "POLL_CONFIG";
+        case 0x05: return "PRE_DETECT_QUIET";
+        case 0x06: return "DETECT_WAIT";
+        case 0x07: return "CFG_LINKWD_START";
+        case 0x08: return "CFG_LINKWD_ACEPT";
+        case 0x09: return "CFG_LANENUM_WAIT";
+        case 0x0A: return "CFG_LANENUM_ACEPT";
+        case 0x0B: return "CFG_COMPLETE";
+        case 0x0C: return "CFG_IDLE";
+        case 0x0D: return "RCVRY_LOCK";
+        case 0x0E: return "RCVRY_SPEED";
+        case 0x0F: return "RCVRY_RCVRCFG";
+        case 0x10: return "RCVRY_IDLE";
+        case 0x11: return "L0";
+        case 0x12: return "L0S";
+        case 0x13: return "L123_SEND_EIDLE";
+        case 0x14: return "L1_IDLE";
+        case 0x15: return "L2_IDLE";
+        case 0x16: return "L2_WAKE";
+        case 0x17: return "DISABLED_ENTRY";
+        case 0x18: return "DISABLED_IDLE";
+        case 0x19: return "DISABLED";
+        case 0x1A: return "LPBK_ENTRY";
+        case 0x1B: return "LPBK_ACTIVE";
+        case 0x1C: return "LPBK_EXIT";
+        case 0x1D: return "LPBK_EXIT_TIMEOUT";
+        case 0x1E: return "HOT_RESET_ENTRY";
+        case 0x1F: return "HOT_RESET";
+        case 0x20: return "RCVRY_EQ0";
+        case 0x21: return "RCVRY_EQ1";
+        case 0x22: return "RCVRY_EQ2";
+        case 0x23: return "RCVRY_EQ3";
+        default:   return "Unknown";
+    }
+}
 /**
  * @INTERNAL
  * Initialize a host mode PCIe gen 2 link. This function takes a PCIe
@@ -576,7 +649,9 @@ int bdk_pcie_rc_initialize(bdk_node_t node, int pcie_port)
     {
         if (!bdk_is_platform(BDK_PLATFORM_ASIM))
         {
-            printf("N%d.PCIe%d: Link timeout, probably the slot is empty\n", node, pcie_port);
+            int ltssm_state = __bdk_pcie_rc_get_ltssm_state(node, pcie_port);
+            printf("N%d.PCIe%d: Link timeout, probably the slot is empty (LTSSM %s)\n",
+                node, pcie_port, ltssm_string(ltssm_state));
             return -1;
         }
     }
@@ -615,9 +690,16 @@ int bdk_pcie_rc_initialize(bdk_node_t node, int pcie_port)
     /* Display the link status */
     BDK_CSR_INIT(pciercx_cfg032, node, BDK_PCIERCX_CFG032(pcie_port));
     if (bdk_is_platform(BDK_PLATFORM_ASIM))
+    {
         printf("N%d.PCIe%d: Simulation, can't report link speed\n", node, pcie_port);
+    }
     else
-        printf("N%d.PCIe%d: Link active, %d lanes, speed gen%d\n", node, pcie_port, pciercx_cfg032.s.nlw, pciercx_cfg032.s.ls);
+    {
+        int ltssm_state = __bdk_pcie_rc_get_ltssm_state(node, pcie_port);
+        printf("N%d.PCIe%d: Link active, %d lanes, speed gen%d (LTSSM %s)\n",
+            node, pcie_port, pciercx_cfg032.s.nlw, pciercx_cfg032.s.ls,
+            ltssm_string(ltssm_state));
+    }
 
     return 0;
 }
