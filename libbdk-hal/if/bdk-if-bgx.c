@@ -1178,30 +1178,34 @@ static int xaui_link(bdk_if_handle_t handle)
             return -1;
         }
 
-        /* Clear out the BGX error counters/bits. These errors are expected
-           as part of the BGX link up procedure */
-        /* BIP_ERR counters clear as part of this read */
-        BDK_CSR_READ(handle->node, BDK_BGXX_SPUX_BR_BIP_ERR_CNT(bgx_block, bgx_index));
-        /* BER_CNT and ERR_BLKs clear as part of this read */
-        BDK_CSR_INIT(spu_br_status2, handle->node, BDK_BGXX_SPUX_BR_STATUS2(bgx_block, bgx_index));
-        /* Checking that latched BLOCK_LOCK is still set (Block Lock never lost) */
-        if (!spu_br_status2.s.latched_lock)
+        if ((priv->mode == BGX_MODE_XFI) || (priv->mode == BGX_MODE_XLAUI) ||
+            (priv->mode == BGX_MODE_10G_KR) || (priv->mode == BGX_MODE_40G_KR))
         {
-            BDK_TRACE(BGX, "%s: BASE-R PCS block lock lost, need to retry\n", handle->name);
-            return -1;
-        }
+            /* Clear out the BGX error counters/bits. These errors are expected
+               as part of the BGX link up procedure */
+            /* BIP_ERR counters clear as part of this read */
+            BDK_CSR_READ(handle->node, BDK_BGXX_SPUX_BR_BIP_ERR_CNT(bgx_block, bgx_index));
+            /* BER_CNT and ERR_BLKs clear as part of this read */
+            BDK_CSR_INIT(spu_br_status2, handle->node, BDK_BGXX_SPUX_BR_STATUS2(bgx_block, bgx_index));
+            /* Checking that latched BLOCK_LOCK is still set (Block Lock never lost) */
+            if (!spu_br_status2.s.latched_lock)
+            {
+                BDK_TRACE(BGX, "%s: BASE-R PCS block lock lost, need to retry\n", handle->name);
+                return -1;
+            }
 
-        /* If set, clear the LATCHED_BER by writing it to a one.  */
-        if (spu_br_status2.s.latched_ber)
-            BDK_CSR_WRITE(handle->node, BDK_BGXX_SPUX_BR_STATUS2(bgx_block, bgx_index), spu_br_status2.u);
-        /* Complete a BER test.  If latched_ber = 1, then BER >= 10e^4 */
-        /* The BER detection time window is 125us for 10GBASE-R (1250us for 40G). */
-        bdk_wait_usec(1500);
-        spu_br_status2.u = BDK_CSR_READ(handle->node, BDK_BGXX_SPUX_BR_STATUS2(bgx_block, bgx_index));
-        if (spu_br_status2.s.latched_ber)
-        {
-            BDK_TRACE(BGX, "%s: BER test failed, BER >= 10e^4, need to retry\n", handle->name);
-            return -1;
+            /* If set, clear the LATCHED_BER by writing it to a one.  */
+            if (spu_br_status2.s.latched_ber)
+                BDK_CSR_WRITE(handle->node, BDK_BGXX_SPUX_BR_STATUS2(bgx_block, bgx_index), spu_br_status2.u);
+            /* Complete a BER test.  If latched_ber = 1, then BER >= 10e^4 */
+            /* The BER detection time window is 125us for 10GBASE-R (1250us for 40G). */
+            bdk_wait_usec(1500);
+            spu_br_status2.u = BDK_CSR_READ(handle->node, BDK_BGXX_SPUX_BR_STATUS2(bgx_block, bgx_index));
+            if (spu_br_status2.s.latched_ber)
+            {
+                BDK_TRACE(BGX, "%s: BER test failed, BER >= 10e^4, need to retry\n", handle->name);
+                return -1;
+            }
         }
     }
 
