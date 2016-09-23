@@ -522,10 +522,16 @@ static void __bdk_if_link_poll(int unused1, void *unused2)
  */
 int bdk_if_alloc(bdk_if_packet_t *packet, int length)
 {
-    /* Get the buffer chunk size, needed for size calculations */
+    /* Get the buffer chunk size, needed for size calculations.
+    ** Last 256 bytes of first buffer in packets are reserved.
+    **  PKO transmit uses it to build gather list */
+#define _PACKET_PAD (2 * BDK_CACHE_LINE_SIZE)
     static int buf_size = 0;
-    if (buf_size == 0)
+    static int max_gather = 0;
+    if (bdk_unlikely(buf_size == 0)) {
         buf_size = bdk_config_get_int(BDK_CONFIG_PACKET_BUFFER_SIZE);
+	max_gather = buf_size * BDK_IF_MAX_GATHER - _PACKET_PAD;
+    }
 
     /* Find the max TX sized, based on a single packet or multiple in the case
        of TSO */
@@ -543,8 +549,8 @@ int bdk_if_alloc(bdk_if_packet_t *packet, int length)
 
     /* The max size must fit inside the packet structure, which can have
        BDK_IF_MAX_GATHER buffer chunks */
-    if (buf_size * BDK_IF_MAX_GATHER < max_length)
-        max_length = buf_size * BDK_IF_MAX_GATHER; /* Limit of packet structure */
+    if ( max_gather < max_length)
+        max_length = max_gather; /* Limit of packet structure */
 
     /* Fail allocation if packet is too large for transmit */
     if (length > max_length)
@@ -553,8 +559,6 @@ int bdk_if_alloc(bdk_if_packet_t *packet, int length)
             max_length, max_length + 4);
         return -1;
     }
-
-    bool ctlPad = (length > BDK_PKO_SEG_LIMIT * buf_size);
 
     packet->if_handle = NULL;
     packet->rx_error = 0;
@@ -572,13 +576,8 @@ int bdk_if_alloc(bdk_if_packet_t *packet, int length)
             bdk_if_free(packet);
             return -1;
         }
-        if (ctlPad) {
-            /* Rob trailing 256 bytes for potentially building PKO gather array
-            ** Longest array is 18 words(20 with sw flow control), its start needs to be 128 bytes aligned.
-            ** We can get away with subtracting 256 because buffers are aligned in memory
-            */
-            size -= 256;
-            ctlPad = false;
+        if (0 == packet->segments) {
+            size -= _PACKET_PAD;
         }
         packet->packet[packet->segments].s.size = size;
         packet->packet[packet->segments].s.address = buf;
@@ -586,6 +585,7 @@ int bdk_if_alloc(bdk_if_packet_t *packet, int length)
         length -= size;
     }
     return 0;
+#undef _PACKET_PAD
 }
 
 
