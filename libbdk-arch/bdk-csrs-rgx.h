@@ -799,11 +799,11 @@ union bdk_rgxx_cmrx_rx_id_map
 
                                                                  Changes to RID must only occur when the LMAC is quiescent (i.e. the LMAC receive interface
                                                                  is down and the RX FIFO is empty). */
-        uint64_t unused                : 2;  /**< [  7:  6](RAZ) Reserved bits. */
+        uint64_t unused                : 2;  /**< [  7:  6](RAZ) Reserved. */
         uint64_t pknd                  : 6;  /**< [  5:  0](R/W) Port kind for this LMAC. */
 #else /* Word 0 - Little Endian */
         uint64_t pknd                  : 6;  /**< [  5:  0](R/W) Port kind for this LMAC. */
-        uint64_t unused                : 2;  /**< [  7:  6](RAZ) Reserved bits. */
+        uint64_t unused                : 2;  /**< [  7:  6](RAZ) Reserved. */
         uint64_t rid                   : 7;  /**< [ 14:  8](R/W) Reserved.
                                                                  Internal:
                                                                  Defeatured. Reassembly ID for Octeon PKI; not used in CNXXXX.
@@ -4565,7 +4565,7 @@ union bdk_rgxx_gmp_gmi_rxx_int
                                                                  error - CAREXT. */
         uint64_t falerr                : 1;  /**< [  9:  9](R/W1C/H) False-carrier error, or carrier-extend error after slottime is satisfied.
                                                                  SGMII/QSGMII/1000Base-X only. */
-        uint64_t rsverr                : 1;  /**< [  8:  8](R/W1C/H) Reserved opcode. */
+        uint64_t rsverr                : 1;  /**< [  8:  8](R/W1C/H) Detected reserved opcode. */
         uint64_t pcterr                : 1;  /**< [  7:  7](R/W1C/H) Bad preamble/protocol error. Checks that the frame begins with a valid PREAMBLE sequence.
                                                                  Does not check the number of PREAMBLE cycles. */
         uint64_t ovrerr                : 1;  /**< [  6:  6](R/W1C/H) Internal data aggregation overflow. This interrupt should never assert.
@@ -4597,7 +4597,7 @@ union bdk_rgxx_gmp_gmi_rxx_int
                                                                  SGMII/QSGMII/1000Base-X only. */
         uint64_t pcterr                : 1;  /**< [  7:  7](R/W1C/H) Bad preamble/protocol error. Checks that the frame begins with a valid PREAMBLE sequence.
                                                                  Does not check the number of PREAMBLE cycles. */
-        uint64_t rsverr                : 1;  /**< [  8:  8](R/W1C/H) Reserved opcode. */
+        uint64_t rsverr                : 1;  /**< [  8:  8](R/W1C/H) Detected reserved opcode. */
         uint64_t falerr                : 1;  /**< [  9:  9](R/W1C/H) False-carrier error, or carrier-extend error after slottime is satisfied.
                                                                  SGMII/QSGMII/1000Base-X only. */
         uint64_t coldet                : 1;  /**< [ 10: 10](R/W1C/H) Collision detection. Collisions can only occur in half-duplex mode. A collision is assumed

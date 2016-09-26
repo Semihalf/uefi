@@ -5164,7 +5164,7 @@ union bdk_gits_baserx
                                                                  Software must provision memory for "Virtual Processors" if virtual LPIs will be enabled
                                                                  (i.e. GITS_CTLR[VIRTUALLPIENABLE] will be set to one). */
         uint64_t reserved_48_55        : 8;
-        uint64_t arsvd                 : 6;  /**< [ 47: 42](R/W) Reserved and must be zero. This field will be ignored if not zero. */
+        uint64_t arsvd                 : 6;  /**< [ 47: 42](R/W) Reserved; must be zero. This field will be ignored if not zero. */
         uint64_t physical_address      : 30; /**< [ 41: 12](R/W) Physical address. This field provides bits [41:12] of the base physical address of the
                                                                  table.
                                                                  Bits [11:0] of the base physical address are zero. The address must be aligned to the size
@@ -5214,7 +5214,7 @@ union bdk_gits_baserx
 
                                                                  In CNXXXX where the address must be in DRAM this contains fewer than 48 bits of
                                                                  physical address bits. */
-        uint64_t arsvd                 : 6;  /**< [ 47: 42](R/W) Reserved and must be zero. This field will be ignored if not zero. */
+        uint64_t arsvd                 : 6;  /**< [ 47: 42](R/W) Reserved; must be zero. This field will be ignored if not zero. */
         uint64_t reserved_48_55        : 8;
         uint64_t tbl_type              : 3;  /**< [ 58: 56](RO) This field is read-only and specifies the type of entity that requires entries in the
                                                                  associated table. The field may have the following values:
@@ -5340,7 +5340,7 @@ union bdk_gits_baserx
                                                                  Software must provision memory for "Virtual Processors" if virtual LPIs will be enabled
                                                                  (i.e. GITS_CTLR[VIRTUALLPIENABLE] will be set to one). */
         uint64_t entry_size            : 8;  /**< [ 55: 48](RO) This field is read-only and specifies the number of bytes per entry, minus one. */
-        uint64_t arsvd                 : 6;  /**< [ 47: 42](R/W) Reserved and must be zero. This field will be ignored if not zero. */
+        uint64_t arsvd                 : 6;  /**< [ 47: 42](R/W) Reserved; must be zero. This field will be ignored if not zero. */
         uint64_t physical_address      : 30; /**< [ 41: 12](R/W) Physical address. This field provides bits [41:12] of the base physical address of the
                                                                  table.
                                                                  Bits [11:0] of the base physical address are zero. The address must be aligned to the size
@@ -5390,7 +5390,7 @@ union bdk_gits_baserx
 
                                                                  In CNXXXX where the address must be in DRAM this contains fewer than 48 bits of
                                                                  physical address bits. */
-        uint64_t arsvd                 : 6;  /**< [ 47: 42](R/W) Reserved and must be zero. This field will be ignored if not zero. */
+        uint64_t arsvd                 : 6;  /**< [ 47: 42](R/W) Reserved; must be zero. This field will be ignored if not zero. */
         uint64_t entry_size            : 8;  /**< [ 55: 48](RO) This field is read-only and specifies the number of bytes per entry, minus one. */
         uint64_t tbl_type              : 3;  /**< [ 58: 56](RO) This field is read-only and specifies the type of entity that requires entries in the
                                                                  associated table. The field may have the following values:
@@ -5529,7 +5529,7 @@ union bdk_gits_baserx
 
                                                                  In CNXXXX not implemented, ignored. */
         uint64_t entry_size            : 5;  /**< [ 52: 48](RO) This field is read-only and specifies the number of bytes per entry, minus one. */
-        uint64_t arsvd                 : 6;  /**< [ 47: 42](R/W) Reserved and must be zero. This field will be ignored if not zero. */
+        uint64_t arsvd                 : 6;  /**< [ 47: 42](R/W) Reserved; must be zero. This field will be ignored if not zero. */
         uint64_t physical_address      : 30; /**< [ 41: 12](R/W) Physical address. This field provides bits [41:12] of the base physical address of the
                                                                  table.
                                                                  Bits [11:0] of the base physical address are zero. The address must be aligned to the size
@@ -5579,7 +5579,7 @@ union bdk_gits_baserx
 
                                                                  In CNXXXX where the address must be in DRAM this contains fewer than 48 bits of
                                                                  physical address bits. */
-        uint64_t arsvd                 : 6;  /**< [ 47: 42](R/W) Reserved and must be zero. This field will be ignored if not zero. */
+        uint64_t arsvd                 : 6;  /**< [ 47: 42](R/W) Reserved; must be zero. This field will be ignored if not zero. */
         uint64_t entry_size            : 5;  /**< [ 52: 48](RO) This field is read-only and specifies the number of bytes per entry, minus one. */
         uint64_t outer_cacheability    : 3;  /**< [ 55: 53](R/W) Outer cacheability. The cacheability attributes of accesses to the table.
                                                                  0x0 = Memory type defined in bits[61:59]; for normal memory outer cacheability is the same
@@ -5763,7 +5763,7 @@ union bdk_gits_cbaser
 
                                                                  In CNXXXX not implemented, ignored. */
         uint64_t reserved_48_52        : 5;
-        uint64_t arsvd                 : 6;  /**< [ 47: 42](R/W) Reserved and must be zero. This field will be ignored if not zero. */
+        uint64_t arsvd                 : 6;  /**< [ 47: 42](R/W) Reserved; must be zero. This field will be ignored if not zero. */
         uint64_t physical_address      : 30; /**< [ 41: 12](R/W) Physical address. Provides bits <47:12> of the physical address of the memory
                                                                  containing the command queue. Bits <11:0> of the base address of the queue are
                                                                  zero. */
@@ -5793,7 +5793,7 @@ union bdk_gits_cbaser
         uint64_t physical_address      : 30; /**< [ 41: 12](R/W) Physical address. Provides bits <47:12> of the physical address of the memory
                                                                  containing the command queue. Bits <11:0> of the base address of the queue are
                                                                  zero. */
-        uint64_t arsvd                 : 6;  /**< [ 47: 42](R/W) Reserved and must be zero. This field will be ignored if not zero. */
+        uint64_t arsvd                 : 6;  /**< [ 47: 42](R/W) Reserved; must be zero. This field will be ignored if not zero. */
         uint64_t reserved_48_52        : 5;
         uint64_t outer_cacheability    : 3;  /**< [ 55: 53](R/W) Outer cacheability. The cacheability attributes of accesses to the table.
                                                                  0x0 = Memory type defined in bits[61:59]; for normal memory outer cacheability is the same
@@ -5848,7 +5848,7 @@ union bdk_gits_cbaser
 
                                                                  In CNXXXX not implemented, ignored. */
         uint64_t reserved_48_58        : 11;
-        uint64_t arsvd                 : 6;  /**< [ 47: 42](R/W) Reserved and must be zero. This field will be ignored if not zero. */
+        uint64_t arsvd                 : 6;  /**< [ 47: 42](R/W) Reserved; must be zero. This field will be ignored if not zero. */
         uint64_t physical_address      : 30; /**< [ 41: 12](R/W) Physical address. Provides bits <47:12> of the physical address of the memory
                                                                  containing the command queue. Bits <11:0> of the base address of the queue are
                                                                  zero. */
@@ -5878,7 +5878,7 @@ union bdk_gits_cbaser
         uint64_t physical_address      : 30; /**< [ 41: 12](R/W) Physical address. Provides bits <47:12> of the physical address of the memory
                                                                  containing the command queue. Bits <11:0> of the base address of the queue are
                                                                  zero. */
-        uint64_t arsvd                 : 6;  /**< [ 47: 42](R/W) Reserved and must be zero. This field will be ignored if not zero. */
+        uint64_t arsvd                 : 6;  /**< [ 47: 42](R/W) Reserved; must be zero. This field will be ignored if not zero. */
         uint64_t reserved_48_58        : 11;
         uint64_t cacheability          : 3;  /**< [ 61: 59](RO) Cacheability attribute:
                                                                  0x0 = Noncacheable, nonbufferable.
@@ -5932,7 +5932,7 @@ union bdk_gits_cbaser
 
                                                                  In CNXXXX not implemented, ignored. */
         uint64_t reserved_48_52        : 5;
-        uint64_t arsvd                 : 6;  /**< [ 47: 42](R/W) Reserved and must be zero. This field will be ignored if not zero. */
+        uint64_t arsvd                 : 6;  /**< [ 47: 42](R/W) Reserved; must be zero. This field will be ignored if not zero. */
         uint64_t physical_address      : 30; /**< [ 41: 12](R/W) Physical address. Provides bits <47:12> of the physical address of the memory
                                                                  containing the command queue. Bits <11:0> of the base address of the queue are
                                                                  zero. */
@@ -5962,7 +5962,7 @@ union bdk_gits_cbaser
         uint64_t physical_address      : 30; /**< [ 41: 12](R/W) Physical address. Provides bits <47:12> of the physical address of the memory
                                                                  containing the command queue. Bits <11:0> of the base address of the queue are
                                                                  zero. */
-        uint64_t arsvd                 : 6;  /**< [ 47: 42](R/W) Reserved and must be zero. This field will be ignored if not zero. */
+        uint64_t arsvd                 : 6;  /**< [ 47: 42](R/W) Reserved; must be zero. This field will be ignored if not zero. */
         uint64_t reserved_48_52        : 5;
         uint64_t outer_cacheability    : 3;  /**< [ 55: 53](R/W) Outer cacheability. The cacheability attributes of accesses to the table.
                                                                  0x0 = Memory type defined in bits[61:59]; for normal memory outer cacheability is the same

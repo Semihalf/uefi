@@ -296,9 +296,7 @@ union bdk_mio_fus_dat2
                                                                  0x2 = RTL simulator.
                                                                  0x3 = ASIM.
                                                                  0x4-0x7 = reserved. */
-        uint64_t gbl_pwr_throttle      : 8;  /**< [ 55: 48](RO) Reserved.
-                                                                 Internal:
-                                                                 Controls global power throttling. MSB is a spare, and lower 7 bits indicate
+        uint64_t gbl_pwr_throttle      : 8;  /**< [ 55: 48](RO) Controls global power throttling. MSB is a spare, and lower 7 bits indicate
                                                                  N/128 power reduction. Small values have less throttling and higher
                                                                  performance. 0x0 disables throttling. */
         uint64_t fus118                : 1;  /**< [ 47: 47](RO) Reserved.
@@ -456,9 +454,7 @@ union bdk_mio_fus_dat2
         uint64_t fus118                : 1;  /**< [ 47: 47](RO) Reserved.
                                                                  Internal:
                                                                  fuse[99]. Fuse information - Ignore trusted-mode disable. */
-        uint64_t gbl_pwr_throttle      : 8;  /**< [ 55: 48](RO) Reserved.
-                                                                 Internal:
-                                                                 Controls global power throttling. MSB is a spare, and lower 7 bits indicate
+        uint64_t gbl_pwr_throttle      : 8;  /**< [ 55: 48](RO) Controls global power throttling. MSB is a spare, and lower 7 bits indicate
                                                                  N/128 power reduction. Small values have less throttling and higher
                                                                  performance. 0x0 disables throttling. */
         uint64_t run_platform          : 3;  /**< [ 58: 56](RO) Fuses to indicate the run platform. Not to be blown in actual hardware.

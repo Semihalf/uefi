@@ -2625,14 +2625,14 @@ union bdk_sso_grpx_iaq_thr
                                                                  To ensure full streaming performance to all cores, should be at least 208. Must not be
                                                                  changed after traffic is sent to this hardware-group. */
         uint64_t reserved_13_31        : 19;
-        uint64_t rsvd_thr              : 13; /**< [ 12:  0](R/W) Reserved threshold for this internal hardware-group queue. Should be at least 1
-                                                                 for any hardware-groups that must make forward progress when other
+        uint64_t rsvd_thr              : 13; /**< [ 12:  0](R/W) Threshold for reserved entries for this internal hardware-group queue. Should be
+                                                                 at least 0x1 for any hardware-groups that must make forward progress when other
                                                                  hardware-group's work is pending. Updates to this field must also update
                                                                  SSO_AW_ADD[RSVD_FREE]. Must not be changed after traffic is sent to this
                                                                  hardware-group. */
 #else /* Word 0 - Little Endian */
-        uint64_t rsvd_thr              : 13; /**< [ 12:  0](R/W) Reserved threshold for this internal hardware-group queue. Should be at least 1
-                                                                 for any hardware-groups that must make forward progress when other
+        uint64_t rsvd_thr              : 13; /**< [ 12:  0](R/W) Threshold for reserved entries for this internal hardware-group queue. Should be
+                                                                 at least 0x1 for any hardware-groups that must make forward progress when other
                                                                  hardware-group's work is pending. Updates to this field must also update
                                                                  SSO_AW_ADD[RSVD_FREE]. Must not be changed after traffic is sent to this
                                                                  hardware-group. */
@@ -2760,13 +2760,13 @@ union bdk_sso_grpx_taq_thr
                                                                  backpressured by IOBI. Must not be changed after traffic is sent to this
                                                                  hardware-group. */
         uint64_t reserved_11_31        : 21;
-        uint64_t rsvd_thr              : 11; /**< [ 10:  0](R/W) Reserved threshold for this transitory admission queue, in buffers of 11
-                                                                 entries. Must be at least 3 buffers for any hardware-groups that are to be
+        uint64_t rsvd_thr              : 11; /**< [ 10:  0](R/W) Threshold for reserved entries for this transitory admission queue, in buffers
+                                                                 of 11 entries. Must be at least 3 buffers for any hardware-groups that are to be
                                                                  used. Changes to this field must also update SSO_TAQ_ADD[RSVD_FREE]. Must not be
                                                                  changed after traffic is sent to this hardware-group. */
 #else /* Word 0 - Little Endian */
-        uint64_t rsvd_thr              : 11; /**< [ 10:  0](R/W) Reserved threshold for this transitory admission queue, in buffers of 11
-                                                                 entries. Must be at least 3 buffers for any hardware-groups that are to be
+        uint64_t rsvd_thr              : 11; /**< [ 10:  0](R/W) Threshold for reserved entries for this transitory admission queue, in buffers
+                                                                 of 11 entries. Must be at least 3 buffers for any hardware-groups that are to be
                                                                  used. Changes to this field must also update SSO_TAQ_ADD[RSVD_FREE]. Must not be
                                                                  changed after traffic is sent to this hardware-group. */
         uint64_t reserved_11_31        : 21;

@@ -1857,11 +1857,11 @@ union bdk_bgxx_cmrx_rx_id_map
 
                                                                  Changes to RID must only occur when the LMAC is quiescent (i.e. the LMAC receive interface
                                                                  is down and the RX FIFO is empty). */
-        uint64_t unused                : 2;  /**< [  7:  6](RAZ) Reserved bits. */
+        uint64_t unused                : 2;  /**< [  7:  6](RAZ) Reserved. */
         uint64_t pknd                  : 6;  /**< [  5:  0](R/W) Port kind for this LMAC. */
 #else /* Word 0 - Little Endian */
         uint64_t pknd                  : 6;  /**< [  5:  0](R/W) Port kind for this LMAC. */
-        uint64_t unused                : 2;  /**< [  7:  6](RAZ) Reserved bits. */
+        uint64_t unused                : 2;  /**< [  7:  6](RAZ) Reserved. */
         uint64_t rid                   : 7;  /**< [ 14:  8](R/W) Reserved.
                                                                  Internal:
                                                                  Defeatured. Reassembly ID for Octeon PKI; not used in CN8XXX.
@@ -8000,7 +8000,7 @@ union bdk_bgxx_gmp_gmi_rxx_int
                                                                  error - CAREXT. */
         uint64_t falerr                : 1;  /**< [  9:  9](R/W1C/H) False-carrier error, or carrier-extend error after slottime is satisfied.
                                                                  SGMII/QSGMII/1000Base-X only. */
-        uint64_t rsverr                : 1;  /**< [  8:  8](R/W1C/H) Reserved opcode. */
+        uint64_t rsverr                : 1;  /**< [  8:  8](R/W1C/H) Detected reserved opcode. */
         uint64_t pcterr                : 1;  /**< [  7:  7](R/W1C/H) Bad preamble/protocol error. Checks that the frame begins with a valid PREAMBLE sequence.
                                                                  Does not check the number of PREAMBLE cycles. */
         uint64_t ovrerr                : 1;  /**< [  6:  6](R/W1C/H) Internal data aggregation overflow. This interrupt should never assert.
@@ -8032,7 +8032,7 @@ union bdk_bgxx_gmp_gmi_rxx_int
                                                                  SGMII/QSGMII/1000Base-X only. */
         uint64_t pcterr                : 1;  /**< [  7:  7](R/W1C/H) Bad preamble/protocol error. Checks that the frame begins with a valid PREAMBLE sequence.
                                                                  Does not check the number of PREAMBLE cycles. */
-        uint64_t rsverr                : 1;  /**< [  8:  8](R/W1C/H) Reserved opcode. */
+        uint64_t rsverr                : 1;  /**< [  8:  8](R/W1C/H) Detected reserved opcode. */
         uint64_t falerr                : 1;  /**< [  9:  9](R/W1C/H) False-carrier error, or carrier-extend error after slottime is satisfied.
                                                                  SGMII/QSGMII/1000Base-X only. */
         uint64_t coldet                : 1;  /**< [ 10: 10](R/W1C/H) Collision detection. Collisions can only occur in half-duplex mode. A collision is assumed
@@ -8058,7 +8058,7 @@ union bdk_bgxx_gmp_gmi_rxx_int
                                                                  conditions are visible by 1) transfer ended before slottime - COLDET or 2) carrier extend
                                                                  error - CAREXT. */
         uint64_t falerr                : 1;  /**< [  9:  9](R/W1C/H) False-carrier error, or carrier-extend error after slottime is satisfied. SGMII/1000Base-X only. */
-        uint64_t rsverr                : 1;  /**< [  8:  8](R/W1C/H) Reserved opcode. */
+        uint64_t rsverr                : 1;  /**< [  8:  8](R/W1C/H) Detected reserved opcode. */
         uint64_t pcterr                : 1;  /**< [  7:  7](R/W1C/H) Bad preamble/protocol error. Checks that the frame begins with a valid PREAMBLE sequence.
                                                                  Does not check the number of PREAMBLE cycles. */
         uint64_t ovrerr                : 1;  /**< [  6:  6](R/W1C/H) Internal data aggregation overflow. This interrupt should never assert. SGMII/1000Base-X only. */
@@ -8088,7 +8088,7 @@ union bdk_bgxx_gmp_gmi_rxx_int
         uint64_t ovrerr                : 1;  /**< [  6:  6](R/W1C/H) Internal data aggregation overflow. This interrupt should never assert. SGMII/1000Base-X only. */
         uint64_t pcterr                : 1;  /**< [  7:  7](R/W1C/H) Bad preamble/protocol error. Checks that the frame begins with a valid PREAMBLE sequence.
                                                                  Does not check the number of PREAMBLE cycles. */
-        uint64_t rsverr                : 1;  /**< [  8:  8](R/W1C/H) Reserved opcode. */
+        uint64_t rsverr                : 1;  /**< [  8:  8](R/W1C/H) Detected reserved opcode. */
         uint64_t falerr                : 1;  /**< [  9:  9](R/W1C/H) False-carrier error, or carrier-extend error after slottime is satisfied. SGMII/1000Base-X only. */
         uint64_t coldet                : 1;  /**< [ 10: 10](R/W1C/H) Collision detection. Collisions can only occur in half-duplex mode. A collision is assumed
                                                                  by the receiver when the slottime (BGX()_GMP_GMI_PRT()_CFG[SLOTTIME]) is not
@@ -10690,11 +10690,7 @@ union bdk_bgxx_gmp_pcs_miscx_ctl
                                                                  1 = enable disparity checking
 
                                                                  See GSER()_LANE_MODE[LMODE]. */
-        uint64_t sgmii                 : 1;  /**< [ 12: 12](RO/H) SGMII mode.
-                                                                 0 = other mode selected.
-                                                                 1 = SGMII or 1000BASE-X mode selected.
-
-                                                                 See GSER()_LANE_MODE[LMODE]. */
+        uint64_t sgmii                 : 1;  /**< [ 12: 12](RO/H) Reserved. Always 1. */
         uint64_t gmxeno                : 1;  /**< [ 11: 11](R/W) GMI enable override. When set, forces GMI to appear disabled. The enable/disable status of
                                                                  GMI is checked only at SOP of every packet. */
         uint64_t loopbck2              : 1;  /**< [ 10: 10](R/W) Sets external loopback mode to return RX data back out via the TX data path. 0 = No
@@ -10760,11 +10756,7 @@ union bdk_bgxx_gmp_pcs_miscx_ctl
                                                                  LOOPBCK1 and LOOPBCK2 modes may not be supported simultaneously. */
         uint64_t gmxeno                : 1;  /**< [ 11: 11](R/W) GMI enable override. When set, forces GMI to appear disabled. The enable/disable status of
                                                                  GMI is checked only at SOP of every packet. */
-        uint64_t sgmii                 : 1;  /**< [ 12: 12](RO/H) SGMII mode.
-                                                                 0 = other mode selected.
-                                                                 1 = SGMII or 1000BASE-X mode selected.
-
-                                                                 See GSER()_LANE_MODE[LMODE]. */
+        uint64_t sgmii                 : 1;  /**< [ 12: 12](RO/H) Reserved. Always 1. */
         uint64_t disp_en               : 1;  /**< [ 13: 13](R/W) Disparity check enable.  When LMAC_TYPE=QSGMII the running disparity check should be
                                                                  disabled
                                                                  to
@@ -10787,11 +10779,7 @@ union bdk_bgxx_gmp_pcs_miscx_ctl
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_13_63        : 51;
-        uint64_t sgmii                 : 1;  /**< [ 12: 12](RO/H) SGMII mode.
-                                                                 0 = other mode selected.
-                                                                 1 = SGMII or 1000BASE-X mode selected.
-
-                                                                 See GSER()_LANE_MODE[LMODE]. */
+        uint64_t sgmii                 : 1;  /**< [ 12: 12](RO/H) Reserved. Always 1. */
         uint64_t gmxeno                : 1;  /**< [ 11: 11](R/W) GMI enable override. When set, forces GMI to appear disabled. The enable/disable status of
                                                                  GMI is checked only at SOP of every packet. */
         uint64_t loopbck2              : 1;  /**< [ 10: 10](R/W) Sets external loopback mode to return RX data back out via the TX data path. 0 = No
@@ -10857,11 +10845,7 @@ union bdk_bgxx_gmp_pcs_miscx_ctl
                                                                  LOOPBCK1 and LOOPBCK2 modes may not be supported simultaneously. */
         uint64_t gmxeno                : 1;  /**< [ 11: 11](R/W) GMI enable override. When set, forces GMI to appear disabled. The enable/disable status of
                                                                  GMI is checked only at SOP of every packet. */
-        uint64_t sgmii                 : 1;  /**< [ 12: 12](RO/H) SGMII mode.
-                                                                 0 = other mode selected.
-                                                                 1 = SGMII or 1000BASE-X mode selected.
-
-                                                                 See GSER()_LANE_MODE[LMODE]. */
+        uint64_t sgmii                 : 1;  /**< [ 12: 12](RO/H) Reserved. Always 1. */
         uint64_t reserved_13_63        : 51;
 #endif /* Word 0 - End */
     } cn88xx;
@@ -12414,10 +12398,10 @@ union bdk_bgxx_smux_rx_int
         uint64_t bad_term              : 1;  /**< [  9:  9](R/W1C/H) Frame is terminated by control character other than /T/. The error
                                                                  propagation control character /E/ will be included as part of the frame and does not cause
                                                                  a frame termination. */
-        uint64_t bad_seq               : 1;  /**< [  8:  8](R/W1C/H) Reserved sequence detected. */
+        uint64_t bad_seq               : 1;  /**< [  8:  8](R/W1C/H) Detected reserved sequence. */
         uint64_t rem_fault             : 1;  /**< [  7:  7](R/W1C/H) Remote-fault sequence detected. */
         uint64_t loc_fault             : 1;  /**< [  6:  6](R/W1C/H) Local-fault sequence detected. */
-        uint64_t rsverr                : 1;  /**< [  5:  5](R/W1C/H) Reserved opcodes. */
+        uint64_t rsverr                : 1;  /**< [  5:  5](R/W1C/H) Detected reserved opcode. */
         uint64_t pcterr                : 1;  /**< [  4:  4](R/W1C/H) Bad preamble/protocol. In XAUI/RXAUI mode, the column of data that was bad is logged in
                                                                  BGX()_SMU()_RX_BAD_COL_LO and BGX()_SMU()_RX_BAD_COL_HI.
                                                                  PCTERR checks that the frame begins with a valid
@@ -12443,10 +12427,10 @@ union bdk_bgxx_smux_rx_int
                                                                  BGX()_SMU()_RX_BAD_COL_LO and BGX()_SMU()_RX_BAD_COL_HI.
                                                                  PCTERR checks that the frame begins with a valid
                                                                  PREAMBLE sequence. Does not check the number of PREAMBLE cycles. */
-        uint64_t rsverr                : 1;  /**< [  5:  5](R/W1C/H) Reserved opcodes. */
+        uint64_t rsverr                : 1;  /**< [  5:  5](R/W1C/H) Detected reserved opcode. */
         uint64_t loc_fault             : 1;  /**< [  6:  6](R/W1C/H) Local-fault sequence detected. */
         uint64_t rem_fault             : 1;  /**< [  7:  7](R/W1C/H) Remote-fault sequence detected. */
-        uint64_t bad_seq               : 1;  /**< [  8:  8](R/W1C/H) Reserved sequence detected. */
+        uint64_t bad_seq               : 1;  /**< [  8:  8](R/W1C/H) Detected reserved sequence. */
         uint64_t bad_term              : 1;  /**< [  9:  9](R/W1C/H) Frame is terminated by control character other than /T/. The error
                                                                  propagation control character /E/ will be included as part of the frame and does not cause
                                                                  a frame termination. */

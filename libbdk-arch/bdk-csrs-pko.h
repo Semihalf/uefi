@@ -643,32 +643,30 @@ union bdk_pko_send_aura_s
  * bytes are covered by both, or if the checksum calculated for one should be covered by the
  * other.
  *
- * If PKO_SEND_HDR_S[CKL4]=SCTP, PKO_SEND_CRC_S[INSERT] cannot be within SCTP checksum data
- * region.
+ * If PKO_SEND_HDR_S[CKL4]=SCTP, [INSERT] cannot be within SCTP checksum data region.
  * The resulting SCTP checksum would become incorrect in this case.
  *
  * If PKO_SEND_HDR_S[CKLE] is set, the bytes covered or inserted by the CRC must not
  * overlap the inner IPv4 header bytes (including any options). The IPv4 header bytes
  * (and options) start at byte PKO_SEND_HDR_S[LEPTR] in the packet in this case.
  *
- * If PKO_SEND_HDR_S[CKLE] is clear and PKO_SEND_HDR_S[CKL3] is set, the bytes covered
- * or inserted by the CRC must not overlap the IPv4 header bytes (including any
- * options). The IPv4 header bytes (and options) start at byte PKO_SEND_HDR_S[L3PTR] in
- * the packet in this case.
+ * If PKO_SEND_HDR_S[CKL3] is set, the bytes covered or inserted by the CRC must not
+ * overlap the IPv4 header bytes (including any options). The IPv4 header bytes (and
+ * options) start at byte PKO_SEND_HDR_S[L3PTR] in the packet in this case.
  *
- * If PKO_SEND_HDR_S[CKLF] is nonzero, the bytes covered or inserted by each individual
+ * If PKO_SEND_HDR_S[CKLF]!=NONE, the bytes covered or inserted by each individual
  * PKO_SEND_CRC_S CRC must entirely reside within the inner L4 payload. The L4
  * (TCP/UDP) header starts at byte PKO_SEND_HDR_S[LFPTR] in the packet in this case,
- * and the L4 payload follows the L4 header. In this case, the PKO will appear to
+ * and the L4 payload follows the L4 header. In this case, PKO will appear to
  * calculate the inner L4 checksum last, after it has completed all PKO_SEND_CRC_S
  * CRCs.
  *
- * If PKO_SEND_HDR_S[CKLF] is zero and PKO_SEND_HDR_S[CKL4] is nonzero, the bytes
+ * If PKO_SEND_HDR_S[CKLF]=NONE and PKO_SEND_HDR_S[CKL4]!=NONE, the bytes
  * covered or inserted by each individual PKO_SEND_CRC_S CRC must entirely reside
- * within the L4 payload. The L4 (TCP/UDP) header starts at byte PKO_SEND_HDR_S[L4PTR]
- * in the packet in this case, and the L4 payload follows the L4 header. In this case,
- * the PKO will appear to calculate the L4 checksum last, after it has completed all
- * PKO_SEND_CRC_S CRCs.
+ * within the outer L4 payload. The L4 (TCP/UDP) header starts at byte
+ * PKO_SEND_HDR_S[L4PTR] in the packet in this case, and the L4 payload follows the
+ * L4 header. In this case, the PKO will appear to calculate the L4 checksum last,
+ * after it has completed all PKO_SEND_CRC_S CRCs.
  *
  * If the packet L2 or L3 header is to be marked, the bytes covered or inserted by the
  * PKO_SEND_CRC_S CRC must not overlap any of the relevant L2/L3 header bytes, including all
@@ -1018,7 +1016,7 @@ union bdk_pko_send_hdr_s
     struct bdk_pko_send_hdr_s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t scntm1                : 3;  /**< [ 63: 61] Reserved.
+        uint64_t scntm1                : 3;  /**< [ 63: 61] Reserved. Must be zero.
                                                                  Internal:
                                                                  Sub-descriptor count. PKO packs the send operation's number of sub-descriptors
                                                                  (minus one) here.  Software should not modify this. */
@@ -1038,11 +1036,39 @@ union bdk_pko_send_hdr_s
                                                                  any post-PKO_SEND_JUMP_S descriptor reads. Also, PKO always allocates packet data
                                                                  into the L2 cache on the first-pass packet read of a two-pass TCP/UDP checksum
                                                                  calculation, and may allocate portions of packet data into the L2 cache when
-                                                                 PKO_SEND_HDR_S[TSO]==1. */
-        uint64_t tso                   : 1;  /**< [ 59: 59] If set, segment a larger TCP source packet into
-                                                                 multiple smaller TSO segment output packets. Software creates a single
-                                                                 descriptor describing the source packet and including the PKO_SEND_HDR_S[TSO]=1,
-                                                                 and PKO automatically outputs the resultant TSO segmented packets.
+                                                                 [TSO]==1. */
+        uint64_t tso                   : 1;  /**< [ 59: 59] If set, segment a larger TCP source packet into multiple smaller TSO
+                                                                 segment output packets. Software creates a single [TSO]=1 descriptor
+                                                                 describing the source packet, and PKO automatically outputs the resultant
+                                                                 TSO segmented packets. See also [TSO_SB,TSO_MSS,L2LEN].
+
+                                                                 When [TSO]=1:
+
+                                                                 * If [CKL4]=PKO_CKL4ALG_E::TCP, then the TSO is outer-only: [CKLF] must
+                                                                 be PKO_CKL4ALG_E::NONE, [L3PTR,L4PTR] select the IP+TCP headers to
+                                                                 be segmented, and [LEPTR,LFPTR] are not used. [TSO_SB] must be one
+                                                                 beyond the last byte of [L4PTR] in this case.
+
+                                                                 * If [CKL4]!=PKO_CKL4ALG_E::TCP, then the TSO is inner: [CKLF] must be
+                                                                 PKO_CKL4ALG_E::TCP, [L3PTR] must point to the outer IP, and [LEPTR,LFPTR]
+                                                                 select the inner IP+TCP headers to be segmented. [TSO_SB] must
+                                                                 be one beyond the last byte of [LFPTR] in this case, and PKO copies both
+                                                                 inner and outer IP headers to the resultant segments.
+
+                                                                 * With an inner TSO, if the outer IP is a UDP packet, then [L4PTR] must point
+                                                                 to the UDP header, [CKL4] must be either PKO_CKL4ALG_E::UDP or
+                                                                 PKO_CKL4ALG_E::SCTP, and PKO modifies the UDP header length field for each
+                                                                 produced segment.
+
+                                                                 * With an inner TSO, if [CKL4]=PKO_CKL4ALG_E::UDP, PKO calculates and
+                                                                 updates the UDP checksum for the UDP header at [L4PTR] for each segment.
+
+                                                                 * With an inner TSO, if [CKL4]=PKO_CKL4ALG_E::SCTP, PKO will not modify the
+                                                                 UDP checksum selected by [L4PTR]. (The UDP checksum field should normally
+                                                                 be zero in this case.)
+
+                                                                 * With an inner TSO, if [CKL4]=PKO_CKL4ALG_E::NONE, [L4PTR] is not used,
+                                                                 and PKO does not calculate a checksum for it.
 
                                                                  For each produced segment, PKO duplicates the PKO SEND descriptor in the DQ
                                                                  and creates an independent meta descriptor (PKO_META_DESC_S and PKO_*_PICK)
@@ -1060,18 +1086,42 @@ union bdk_pko_send_hdr_s
                                                                  packet to the TSO segments. PKO modifies the following pre-segmented
                                                                  source packet fields in each produced TSO segment:
 
-                                                                 * If PKO considers the L2 type/length field to be a length (see [L2LEN] below):
-                                                                    o PKO sets the L2 length field to (FPS + [SB] - ([L2LEN] + 2)).
+                                                                 * If PKO considers the outer L2 type/length field to be a length (see
+                                                                   [L2LEN] below):
+                                                                    o PKO sets the L2 length field to (FPS + [TSO_SB] - ([L2LEN] + 2)).
 
-                                                                 * In the IPv4 case:
-                                                                    o PKO sets IPv4.totallength to (FPS + [SB] - PKO_SEND_HDR_S[L3PTR]).
-                                                                    o PKO calculates and inserts the IP checksum.
-                                                                    o PKO increments the IP Identification field from the last segment
-                                                                      by one. The IP Identification field in the first produced segment
-                                                                      is unmodified from the pre-segmented source packet.
+                                                                 * In the outer-only IPv4 case and the inner case when [L3PTR] is IPv4:
+                                                                    o PKO sets [L3PTR].IPv4.totallength to (FPS + [TSO_SB] - [L3PTR]).
+                                                                    o PKO calculates and inserts [L3PTR].IPv4.checksum.
+                                                                    o PKO increments [L3PTR].IPv4.identification from the last
+                                                                      segment by one. [L3PTR].IPv4.identification in the first
+                                                                      produced segment is unmodified from the pre-segmented source
+                                                                      packet.
 
-                                                                 * In the IPv6 case:
-                                                                    o PKO sets IPv6.payloadlength to (FPS + [SB] - PKO_SEND_HDR_S[L3PTR] - 40).
+                                                                 * In the inner case when [LEPTR] is IPv4:
+                                                                    o PKO sets [LEPTR].IPv4.totallength to (FPS + [TSO_SB] - [LEPTR]).
+                                                                    o PKO calculates and inserts [LEPTR].IPv4.checksum.
+                                                                    o PKO increments [LEPTR].IPv4.identification from the last
+                                                                      segment by one. [LEPTR].IPv4.identification in the first
+                                                                      produced segment is unmodified from the pre-segmented source
+                                                                      packet.
+
+                                                                 * In the outer-only IPv6 case and the inner case when [L3PTR] is IPv6:
+                                                                    o PKO sets [L3PTR].IPv6.payloadlength to (FPS + [TSO_SB] - [L3PTR] - 40).
+
+                                                                 * In the inner case when [LEPTR] is IPv6:
+                                                                    o PKO sets [LEPTR].IPv6.payloadlength to (FPS + [TSO_SB] - [LEPTR] - 40).
+
+                                                                 * In the inner case when [L4PTR] is UDP:
+                                                                    o PKO sets [L4PTR].UDP.length to (FPS + [TSO_SB] - [L4PTR]).
+                                                                    o if [CKL4]=UDP, PKO also calculates and inserts [L4PTR].UDP.checksum.
+                                                                      This may be appropriate for Geneve.
+                                                                    o if [CKL4]=SCTP, PKO does not modify [L4PTR].UDP.checksum.
+                                                                      ([L4PTR].UDP.checksum should normally be zero in this case.) This may
+                                                                      be appropriate for VXLAN.
+
+                                                                 * In the inner case when [L4PTR] is not UDP:
+                                                                    o PKO does not modify any outer L4 header.
 
                                                                  * PKO produces the TCP sequence number by adding the FPS from the prior
                                                                    segment to the TCP sequence number used in the prior segment.
@@ -1083,9 +1133,10 @@ union bdk_pko_send_hdr_s
                                                                    FSF is used for the first segment, MSF for the middle segments, and
                                                                    LSF for the last segment.
 
-                                                                 Where FPS is the payload bytes in the TSO segment. For all but the last segment,
-                                                                 FPS equals ([MSS]-[SB]). In the last segment, 0 < FPS <= ([MSS]-[SB]). The
-                                                                 aggregate payload bytes in all produced segments is PKO_SEND_HDR_S[TOTAL]-[SB].
+                                                                 Where FPS is the payload bytes in the TSO segment. For all but the last
+                                                                 segment, FPS equals ([TSO_MSS]-[TSO_SB]). In the last segment,
+                                                                 0 < FPS <= ([TSO_MSS]-[TSO_SB]). The aggregate payload bytes in all
+                                                                 produced segments is [TOTAL]-[TSO_SB].
 
                                                                  <page>
 
@@ -1095,47 +1146,55 @@ union bdk_pko_send_hdr_s
 
                                                                  * PKO_META_DESC_S[LENGTH] / PKO_*_PICK[LENGTH] for each TSO segment is
                                                                        (PKO_PDM_DQ*_MINPAD[MINPAD] ?
-                                                                           MAX(PKO_PDM_CFG[PKO_PAD_MINLEN], (FPS+[SB])) :
-                                                                           (FPS+[SB]))
+                                                                           MAX(PKO_PDM_CFG[PKO_PAD_MINLEN], (FPS+[TSO_SB])) :
+                                                                           (FPS+[TSO_SB]))
 
                                                                  * PKO_META_DESC_S[FPD] / PKO_*_PICK[FPD] is independently calculated
                                                                    for each descriptor copy.
 
                                                                  <page>
 
-                                                                 The following are constraints when PKO_SEND_HDR_S[TSO] is set
-                                                                 in a descriptor:
+                                                                 The following are constraints when [TSO]=1:
 
-                                                                 * 576 <= [MSS] < PKO_SEND_HDR_S[TOTAL] <= (128*[MSS] - 127*[SB])
+                                                                 * 576 <= [TSO_MSS] < [TOTAL] <= (128*[TSO_MSS] - 127*[TSO_SB])
 
-                                                                 * PKO_SEND_HDR_S[CKL4] = TCP
+                                                                 * [CKL4] = TCP
 
-                                                                 * PKO_SEND_HDR_S[L3PTR] must point to the first byte in the one and only IP header
-                                                                   o IP tunneled packets are not supported with TSO.
+                                                                 * [L3PTR] must point to the first byte in the outer IP header
 
-                                                                 * PKO_SEND_HDR_S[L4PTR] must point to the first byte in the corresponding TCP header
+                                                                 * [L4PTR] must point to the first byte in the corresponding L4 header,
+                                                                   except for the inner case when [CKL4]=NONE.
 
-                                                                 * In the IPv4 case:
-                                                                    o PKO_SEND_HDR_S[TOTAL] = PKO_SEND_HDR_S[L3PTR]+(IPv4.totallength)
-                                                                    o PKO_SEND_HDR_S[CKL3] = 1
+                                                                 * In the outer-only IPv4 case and the inner case when [L3PTR] is IPv4:
+                                                                    o [TOTAL] = [L3PTR]+([L3PTR].IPv4.totallength)
+                                                                    o [CKL3] = 1
 
-                                                                 * In the IPv6 case:
-                                                                    o PKO_SEND_HDR_S[TOTAL] = PKO_SEND_HDR_S[L3PTR]+40+(IPv6.payloadlength)
-                                                                    o PKO_SEND_HDR_S[CKL3] = 0
+                                                                 * In the inner IPv4 case:
+                                                                    o [TOTAL] = [LEPTR]+([LEPTR].IPv4.totallength)
+                                                                    o [CKL3] = 1
 
-                                                                 * If PKO considers the L2 type/length field to be a length (see [L2LEN] below):
-                                                                    o [MSS] < 0x600
-                                                                    o PKO_SEND_HDR_S[L3PTR] = [L2LEN] + 10 (likely, if not required)
+                                                                 * In the outer-only IPv6 case and the inner case when [L3PTR] is IPv4:
+                                                                    o [TOTAL] = [L3PTR]+40+([L3PTR].IPv6.payloadlength)
+                                                                    o [CKL3] = 0
 
-                                                                 * else if PKO does not consider the L2 type/length field to be a length:
-                                                                    o PKO_SEND_HDR_S[L3PTR] = [L2LEN] + 2
+                                                                 * In the inner IPv6 case
+                                                                    o [TOTAL] = [LEPTR]+40+([LEPTR].IPv6.payloadlength)
+                                                                    o [CKL3] = 0
+
+                                                                 * If PKO considers the outer L2 type/length field to be a length (see
+                                                                   [L2LEN] below):
+                                                                    o [TSO_MSS] < 0x600
+                                                                    o [L3PTR] = [L2LEN] + 10 (likely, if not required)
+
+                                                                 * else if PKO does not consider the outer L2 type/length field to be a length:
+                                                                    o [L3PTR] = [L2LEN] + 2
 
                                                                  * If any PKO_SEND_IMM_S's are present in the descriptor, they must never
-                                                                   provide source packet bytes after the first [SB] bytes in the source packet.
+                                                                   provide source packet bytes after the first [TSO_SB] bytes in the source packet.
 
                                                                  * PKO_MAC()_CFG[MIN_PAD_ENA] and PKO_PDM_CFG[PKO_PAD_MINLEN] must be set
                                                                    appropriately if minimum pad is required by the interface/MAC.
-                                                                   PKO_PDM_DQ*_MINPAD[MINPAD] should normally also be set when minimum
+                                                                   PKO_PDM_DQ()_MINPAD[MINPAD] should normally also be set when minimum
                                                                    pad is required by the interface/MAC.
 
                                                                  * PKO_MAC()_CFG[FCS_ENA] should normally be set if the interface/MAC requires
@@ -1198,51 +1257,107 @@ union bdk_pko_send_hdr_s
                                                                  not once per TSO segment.
                                                                  Software must not modify the path of meta descriptors from the DQ through
                                                                  PKO to an output FIFO between TSO segments. */
-        uint64_t tso_eom               : 1;  /**< [ 57: 57] Reserved.
+        uint64_t tso_eom               : 1;  /**< [ 57: 57] Reserved. Must be zero.
                                                                  Internal:
                                                                  End of message. PKO sets [EOM] in the last replicated packet descriptor. */
         uint64_t tstmp                 : 1;  /**< [ 56: 56] PTP timestamp. If set, a later PKO_SEND_MEM_S will be present in this descriptor with
-                                                                 PKO_SEND_MEM_S[ALG] set to TSTMP to request IEEE 1588 PTP time-stamping. Furthermore, if
-                                                                 set, [RA] must be PKO_REDALG_E::SEND.
+                                                                 PKO_SEND_MEM_S[ALG]=PKO_MEMALG_E::SETTSTMP to request IEEE 1588 PTP time-stamping.
+                                                                 Furthermore, if set, [SHP_RA] must be PKO_REDALG_E::SEND.
 
-                                                                 [TSTMP] must not be set when PKO_SEND_HDR_S[TSO] is set in the descriptor. */
+                                                                 [TSTMP] must not be set when [TSO]=1. */
         uint64_t format                : 7;  /**< [ 55: 49] Selects a CSR from the PKO_FORMAT()_CTL array which specifies
                                                                  how PKO will mark YELLOW and RED_SEND packets. [FORMAT] must
                                                                  be less than the size of the PKO_FORMAT()_CTL array.
 
-                                                                 When PKO_SEND_HDR_S[TSO] is set in the descriptor, PKO marks each TSO segment
-                                                                 independently, using [FORMAT] for every TSO segment. */
-        uint64_t p                     : 1;  /**< [ 48: 48] Reserved.
+                                                                 When [TSO]=1, PKO marks each TSO segment independently, using [FORMAT]
+                                                                 for every TSO segment. */
+        uint64_t p                     : 1;  /**< [ 48: 48] Reserved. Must be zero.
                                                                  Internal:
                                                                  Intent was to stripe an 8-bit CRC across these bits in the cacheline, but
                                                                  not implemented. */
-        uint64_t ckl4                  : 2;  /**< [ 47: 46] Checksum L4, enumerated by PKO_CKL4ALG_E. If nonzero (not NONE):
+        uint64_t ckl4                  : 2;  /**< [ 47: 46] L4 outer checksum, Enumerated by PKO_CKL4ALG_E.
 
-                                                                 * PKO hardware calculates the Layer 4 TCP/UDP/SCTP checksum for the packet and inserts it
-                                                                 into the packet, as described in Send CRC.
+                                                                 CKL4 should correspond to an outer L4 header. If both [CKL4,CKLF] are set,
+                                                                 [CKL4,L3PTR,L4PTR] must correspond to a more outer IP header.
 
-                                                                 * [L4PTR] selects the first byte of the L4 header, and [L3PTR] must indicate the location
-                                                                 of the immediately proceeding and adjacent L3 header.
+                                                                 * When [CKL4]!=PKO_CKL4ALG_E::NONE, [L4PTR] must point to the first byte of
+                                                                 the L4 header of the correct type, and [L3PTR] must point to the first byte
+                                                                 of the immediately preceding and adjacent L3 header. When [TSO]=0
+                                                                 in this case, [CKL4] directly indicates the correct type of [L4PTR],
+                                                                 and PKO calculates and inserts a TCP/UDP/SCTP checksum for the IP packet
+                                                                 that [L3PTR,L4PTR] points to. When [CKL4]=PKO_CKL4ALG_E::UDP in this
+                                                                 case, the L4 length field must not require more than [TOTAL] bytes in
+                                                                 the packet and must be nonzero.
 
-                                                                 * The L4 length field must not require more than [TOTAL] bytes in the packet and the L4
-                                                                 length must be nonzero.
+                                                                 * When [CKL4]=PKO_CKL4ALG_E::NONE, then [L4PTR] is unused, and PKO
+                                                                 generates no outer L4 checksum corresponding to [L4PTR]. This is true in
+                                                                 all cases, including all [TSO] cases.
 
-                                                                 * PKO does not support L4 checksums of IPv6 packets with options that modify the
-                                                                 pseudo-header (e.g. routing option); software checksums must be used.
+                                                                 * When [TSO]=1, exactly one of [CKL4,CKLF] must equal PKO_CKL4ALG_E::TCP.
+                                                                 If [CKL4]=PKO_CKL4ALG_E::TCP, then the TSO is outer-only, else the TSO is
+                                                                 inner.
 
-                                                                 * When PKO_SEND_CRC_S are present, the bytes covered or inserted by PKO_SEND_CRC_S must
-                                                                 all reside in the L4 payload. Conceptually, PKO processes PKO_SEND_CRC_S before L4
-                                                                 checksums when both are present.
+                                                                 * With an outer-only TSO, [L4PTR] must be TCP. In this case
+                                                                 for each segment, PKO calculates and inserts the TCP checksum for the
+                                                                 outer TCP header at [L4PTR].
 
-                                                                 * When PKO_SEND_HDR_S[TSO] is set, [CKL4] must be TCP */
-        uint64_t ckl3                  : 1;  /**< [ 45: 45] Checksum L3. If set, PKO hardware calculates the IPv4 header checksum and inserts it into
-                                                                 the packet, as described in L4 checksum. When set, [L3PTR] selects the location of the
-                                                                 first byte of the L3 header and no L3 header bytes selected by [L3PTR] can overlap with
-                                                                 any bytes covered or inserted by PKO_SEND_CRC_S CRCs. When [CKL3] is set, [L3PTR] must
-                                                                 point to a valid IPv4 header. When PKO_SEND_HDR_S[TSO] is set with an IPv4 packet,
-                                                                 [CKL3] must be set. [CKL3] must never be set with an IPv6 packet. */
-        uint64_t cklf                  : 2;  /**< [ 44: 43] Inner checksum L4, enumerated by PKO_CKL4ALG_E. Similar to [CKL4] but for inner L4. */
-        uint64_t ckle                  : 1;  /**< [ 42: 42] Inner checksum L3. Similar to [CKL3] but for inner IP. */
+                                                                 * With an inner TSO and [CKL4]=PKO_CKL4ALG_E::UDP, then [L4PTR] must
+                                                                 be UDP. In this case for each segment, PKO calculates and inserts
+                                                                 the checksum for and updates the length field in this outer UDP header.
+                                                                 [CKL4]=PKO_CKL4ALG_E::UDP may be appropriate for a Geneve inner TSO,
+                                                                 for example.
+
+                                                                 * With an inner TSO and [CKL4]=PKO_CKL4ALG_E::SCTP, then [L4PTR] must
+                                                                 be UDP, despite the "SCTP" in the name. In this case for each
+                                                                 segment, PKO updates the length field in this outer UDP header,
+                                                                 but does not calculate any checksum for this outer UDP header.
+                                                                 [CKL4]=PKO_CKL4ALG_E::SCTP may be appropriate for a VXLAN inner TSO, for
+                                                                 example. */
+        uint64_t ckl3                  : 1;  /**< [ 45: 45] L3 (outer) checksum. If set, PKO hardware calculates the IPv4 header checksum and
+                                                                 inserts it into the (outer) IPv4 packet that [L3PTR] points at. When [CKL3] is set,
+                                                                 [L3PTR] must point to a valid IPv4 header. When [L3PTR] selects anything other
+                                                                 than an IPv4 header, including an IPv6 header, [CKL3] must be clear.
+
+                                                                 [CKL3] should correspond to an outer IP header. If both [CLK3,CKLE] are set,
+                                                                 [CKLE,LEPTR] must correspond to a more inner IP header.
+
+                                                                 When [TSO]=1 with [L3PTR] pointing to an IPv4 header, [CKL3] must be set.
+                                                                 [L3PTR] could point to an outer-only IPv4 header, or the outer IPv4 header from
+                                                                 a packet that also includes an inner IP packet in this case. */
+        uint64_t cklf                  : 2;  /**< [ 44: 43] L4 inner checksum, Enumerated by PKO_CKL4ALG_E.
+
+                                                                 CKLF should correspond to an inner L4 header. If both [CKL4,CKLF] are set,
+                                                                 [CKLF,LEPTR,LFPTR] must correspond to a more inner IP header.
+
+                                                                 * When [CKLF]!=PKO_CKL4ALG_E::NONE, [LFPTR] must point to the first byte of
+                                                                 the L4 header of the type indicated by [CKLF], and [LEPTR] must point to the
+                                                                 first byte of the immediately preceding and adjacent L3 header. When [TSO]=0
+                                                                 in this case, PKO calculates and inserts a TCP/UDP/SCTP checksum for the IP
+                                                                 packet that [LEPTR,LFPTR] points to. When [CKLF]=PKO_CKL4ALG_E::UDP in this
+                                                                 case, the L4 length field must not require more than [TOTAL] bytes in
+                                                                 the packet and must be nonzero.
+
+                                                                 * When [CKLF]=PKO_CKL4ALG_E::NONE, then [LFPTR] is unused, and PKO
+                                                                 generates no inner L4 checksum corresponding to [LFPTR]. This is true in
+                                                                 all cases, including all [TSO] cases.
+
+                                                                 * When [TSO]=1, exactly one of [CKL4,CKLF] must be PKO_CKL4ALG_E::TCP. If
+                                                                 [CKLF]=PKO_CKL4ALG_E::TCP, the TSO is inner, else the TSO is outer-only
+                                                                 and [CKLF] must be PKO_CKL4ALG_E::NONE.
+
+                                                                 * With an inner TSO, [LFPTR] must be TCP. In this case for each segment,
+                                                                 PKO calculates and inserts the TCP checksum for the inner TCP header at
+                                                                 [LFPTR]. */
+        uint64_t ckle                  : 1;  /**< [ 42: 42] L3 inner checksum. If set, PKO hardware calculates the IPv4 header checksum and
+                                                                 inserts it into the inner IPv4 packet that [LEPTR] points at. When [CKLE] is set,
+                                                                 [LEPTR] must point to a valid IPv4 header. When [LEPTR] selects anything other
+                                                                 than an IPv4 header, including an IPv6 header, [CKLE] must be clear.
+
+                                                                 [CKLE] should correspond to an inner IP header. If both [CKL3,CKLE] are set,
+                                                                 [CKL3,L3PTR] must correspond to a more outer IP header.
+
+                                                                 When [TSO]=1 with [CKLF]=PKO_CKL4ALG_E::TCP (and [CKL4]!=PKO_CKL4ALG_E::TCP)
+                                                                 and with [LEPTR] pointing to an inner IPv4 packet, [CKLE] must be set. */
         uint64_t shp_dis               : 1;  /**< [ 41: 41] Disables the shaper update and internal coloring algorithms used as
                                                                  the packet traverses enabled PKO DQ through L2 shapers. [SHP_DIS]
                                                                  has no effect on the L1 rate limiters.
@@ -1266,9 +1381,9 @@ union bdk_pko_send_hdr_s
                                                                  PKO_*_SHAPE[YELLOW_DISABLE,RED_DISABLE] determine the packet
                                                                  coloring of the shaper.
 
-                                                                 When PKO_SEND_HDR_S[TSO] is set in the descriptor, PKO applies [SHP_DIS]
-                                                                 to each TSO segment - PKO sets each PKO_META_DESC_S[COL]
-                                                                 and PKO_nm_PICK[PIR_DIS,CIR_DIS] as described above. */
+                                                                 When [TSO]=1, PKO applies [SHP_DIS] to each TSO segment - PKO sets
+                                                                 each PKO_META_DESC_S[COL] and PKO_nm_PICK[PIR_DIS,CIR_DIS] as described
+                                                                 above. */
         uint64_t ii                    : 1;  /**< [ 40: 40] Ignore I. If set, ignore all PKO_SEND_GATHER_S/PKO_SEND_LINK_S/PKI_BUFLINK_S[I] bits
                                                                  (effectively, force them all to zero) for the entire PKO SEND descriptor.
 
@@ -1322,50 +1437,62 @@ union bdk_pko_send_hdr_s
                                                                  Note that [DF] has no effect on any buffer frees from a PKO_SEND_FREE_S or
                                                                  PKO_SEND_JUMP_S.
 
-                                                                 When PKO_SEND_HDR_S[TSO] is set in the descriptor, PKO
-                                                                 frees the surrounding buffer only once for the descriptor,
-                                                                 not once per TSO segment.
-                                                                 Software must not modify the path of meta descriptors from the DQ through
-                                                                 PKO to an output FIFO between TSO segments. */
-        uint64_t l4ptr                 : 8;  /**< [ 39: 32] Layer 4 offset. Specifies the location of the first byte of the TCP/UDP/SCTP header for L4
-                                                                 checksumming (layer checksumming) or shaper marking. The Layer 4 header must
-                                                                 be exactly [L4PTR] bytes from the beginning of the packet. Software might populate this
-                                                                 field for forwarded packets from a computation based off WQE[L4PTR], which is the IP
-                                                                 location computed by PKI when the packet is parsed. When [CKL4] is nonzero, no L4 header
-                                                                 bytes indicated by [L4PTR] can overlap with any bytes covered by or inserted by
-                                                                 PKO_SEND_CRC_S CRCs (but the subsequent L4 payload bytes can overlap with the
-                                                                 PKO_SEND_CRC_S CRC bytes).
+                                                                 When [TSO]=1, PKO frees the surrounding buffer only once for the descriptor,
+                                                                 not once per TSO segment. Software must not modify the path of meta
+                                                                 descriptors from the DQ through PKO to an output FIFO between TSO segments. */
+        uint64_t l4ptr                 : 8;  /**< [ 39: 32] Outer Layer 4 offset. Specifies the location of the first byte of the outer
+                                                                 TCP/UDP/SCTP header for L4 checksum calculation or for any TCP segmentation.
+                                                                 (See [CKL4,TSO].) The Layer 4 header must be exactly [L4PTR] bytes from the
+                                                                 beginning of the packet. Software might populate [L4PTR] for forwarded packets
+                                                                 from a computation based off PKI_WQE_S[LFPTR] or PKI_WQE_S[LDPTR]. PKI_WQE_S[LFPTR]
+                                                                 can be the location computed by PKI for an inner TCP/UDP/SCTP header, and
+                                                                 PKI_WQE_S[LDPTR] can be the location computed by PKI for a UDP virtualization
+                                                                 header.
 
-                                                                 When PKO_SEND_HDR_S[TSO] is set in the descriptor, [L4PTR] must point to the
-                                                                 TCP header, which must be before PKO_SEND_HDR_S[TSO_SB]. */
-        uint64_t l3ptr                 : 8;  /**< [ 31: 24] Layer 3 IP offset. Specifies the location of the first byte of the IP packet for L3
-                                                                 checksum and/or L4 checksum and/or shaper marking. (See [CKL3,CKL4,FORMAT] and
-                                                                 PKO_SEND_HDR_S[MARKPTR].) The IP packet must be exactly [L3PTR] bytes from the beginning
-                                                                 of the packet. Software might populate this field for forwarded packets from a computation
-                                                                 based off WQE[L3PTR], which is the IP location computed by PKI when the packet is parsed.
+                                                                 When [TSO] is set and [CKL4] is PKO_CKL4ALG_E::TCP, indicating that PKO should
+                                                                 perform TSO on an outer-only packet, [L4PTR] must point to the TCP header, all
+                                                                 of whose bytes must be before [TSO_SB]. When [TSO] is set and [CKLF] is
+                                                                 PKO_CKL4ALG_E::TCP, indicating that PKO should perform TSO on the inner IP of
+                                                                 a packet containing both an outer and an inner IP, [L4PTR] must point to the
+                                                                 outer L4 header when the outer L4 header is UDP,
 
-                                                                 When PKO_SEND_HDR_S[MARKPTR] is not present in the packet descriptor, [L3PTR] can also
-                                                                 indicate the location of an L2 header. When [L3PTR] is used for any of [CKL3,CKL4] or
-                                                                 marking calculations/modifications, then no L3 nor L2 header bytes indicated by
-                                                                 [L3PTR] can overlap with any bytes covered by or inserted by PKO_SEND_CRC_S CRCs.
+                                                                 When used, [L4PTR] should point to the outer L4 header. If [CKLF] is not
+                                                                 PKO_CKL4ALG_E::NONE when [L4PTR] is used, [LFPTR] must locate a more inner
+                                                                 TCP/UDP/SCTP header than [L4PTR] does.
 
-                                                                 When PKO_SEND_HDR_S[TSO] is set in the descriptor, [L3PTR] must point to the
-                                                                 IP header, which must be before PKO_SEND_HDR_S[TSO_SB]. */
+                                                                 No L4 header bytes indicated by a valid [L4PTR] can overlap with any bytes covered
+                                                                 by or inserted by PKO_SEND_CRC_S CRCs (but the subsequent L4 payload bytes can overlap
+                                                                 with the PKO_SEND_CRC_S CRC bytes). */
+        uint64_t l3ptr                 : 8;  /**< [ 31: 24] Outer Layer 3 IP offset. Specifies the location of the first byte of the outer IP
+                                                                 packet for L3 or L4 checksum calculation or for any TCP segmentation. (See
+                                                                 [CKL3,CKL4,TSO].) The IP packet must be exactly [L3PTR] bytes from the beginning
+                                                                 of the packet when any of [CKL3,CKL4,TSO] are set. Software may populate [L3PTR]
+                                                                 for forwarded packets from a computation based off PKI_WQE_S[LCPTR]. PKI_WQE_S[LCPTR]
+                                                                 can be the IP location computed by PKI when the input packet is parsed.
+
+                                                                 When [CKL4] is not PKO_CKL4ALG_E::NONE or [TSO] is set, [L3PTR] must point to the
+                                                                 prior IP header immediately adjacent to [L4PTR].
+
+                                                                 When used, [L3PTR] should point to the outer IP header. If either of
+                                                                 [CKLE,CKLF] are set when [L3PTR] is used, [LEPTR] must select a more inner IP
+                                                                 header than [L3PTR] does.
+
+                                                                 No IP header bytes selected by a valid [L3PTR] can overlap with any bytes covered
+                                                                 by or inserted by PKO_SEND_CRC_S CRCs. */
         uint64_t markptr               : 8;  /**< [ 23: 16] Mark pointer. Offset from packet start to byte to use for packet shaper marking.
-                                                                 PKO_SEND_HDR_S[FORMAT] indirectly determines how this offset is used by PKO, including
+                                                                 [FORMAT] indirectly determines how this offset is used by PKO, including
                                                                  whether and how an L2 or L3 header is marked. [MARKPTR] is constrained as follows:
 
-                                                                 * If either of PKO_SEND_HDR_S[CKL3,CKL4] is nonzero and a packet L3 header will be marked,
-                                                                 then either (1.1) [MARKPTR] and PKO_SEND_HDR_S[L3PTR] must be equal and refer to the same
-                                                                 L3 header, or (1.2) [MARKPTR] and PKO_SEND_HDR_S[L3PTR] must differ and refer to different
-                                                                 non-overlapping L3 headers.
+                                                                 * If any of [CKL3,CKL4,CKLE,CKLF] is nonzero and a packet L3 header will be
+                                                                 marked, then [MARKPTR] must select the outermost L3 header. [MARKPTR] must equal
+                                                                 [L3PTR] when either of [CKL3,CKL4] is set and a packet L3 header will be marked.
 
                                                                  * If a packet L2 header will be marked, then the entire L2 header must not overlap with
-                                                                 computation enabled by either of PKO_SEND_HDR_S[CKL3,CKL4], and must not overlap with any
-                                                                 PKO_SEND_CRC_S CRCs.
+                                                                 computation enabled by any of [CKL3,CKL4,CKLE,CKLF], and must not overlap
+                                                                 with any PKO_SEND_CRC_S CRCs.
 
-                                                                 When PKO_SEND_HDR_S[TSO] is set in the descriptor, PKO marks each TSO segment
-                                                                 independently, using [MARKPTR] for every TSO segment when present. */
+                                                                 When [TSO] is set, PKO marks each TSO segment independently, using [MARKPTR] for every
+                                                                 TSO segment when present. */
         uint64_t total                 : 16; /**< [ 15:  0] The number of bytes that PKO will fetch from memory and immediate subdescriptors
                                                                  to create the outgoing packet. Also the size in bytes of the outgoing packet that
                                                                  PKO creates, excluding zero pad (if any) and outside FCS bytes (if any). Must
@@ -1379,11 +1506,11 @@ union bdk_pko_send_hdr_s
                                                                  PKO_SEND_LINK_S[SIZE] in the descriptor plus any PKI_BUFLINK_S[SIZE]
                                                                  linked by any PKO_SEND_LINK_S must equal or exceed [TOTAL].
 
-                                                                 [TOTAL] constraints when PKO_SEND_HDR_S[TSO] is set:
-                                                                 * For IPv4: [TOTAL] = [L3PTR]+(IPv4.total length).
-                                                                 * For IPv6: [TOTAL] = [L3PTR]+40+(IPv6.payload length).
-                                                                 * 576 <= PKO_SEND_HDR_S[TSO_MSS] < [TOTAL] <=
-                                                                 (128*PKO_SEND_HDR_S[TSO_MSS]-127*PKO_SEND_HDR_S[TSO_SB]). */
+                                                                 [TOTAL] constraints when [TSO] is set (where XPTR=[L3PTR] when
+                                                                 [CKL4]=PKO_CKL4ALG_E::TCP, else XPTR=[LEPTR] when [CKLF]=PKO_CKL4ALG_E::TCP):
+                                                                 * For IPv4: [TOTAL] = XPTR+(XPTR.IPv4.total length).
+                                                                 * For IPv6: [TOTAL] = XPTR+40+(XPTR.IPv6.payload length).
+                                                                 * 576 <= [TSO_MSS] < [TOTAL] <= (128*[TSO_MSS]-127*[TSO_SB]). */
 #else /* Word 0 - Little Endian */
         uint64_t total                 : 16; /**< [ 15:  0] The number of bytes that PKO will fetch from memory and immediate subdescriptors
                                                                  to create the outgoing packet. Also the size in bytes of the outgoing packet that
@@ -1398,50 +1525,64 @@ union bdk_pko_send_hdr_s
                                                                  PKO_SEND_LINK_S[SIZE] in the descriptor plus any PKI_BUFLINK_S[SIZE]
                                                                  linked by any PKO_SEND_LINK_S must equal or exceed [TOTAL].
 
-                                                                 [TOTAL] constraints when PKO_SEND_HDR_S[TSO] is set:
-                                                                 * For IPv4: [TOTAL] = [L3PTR]+(IPv4.total length).
-                                                                 * For IPv6: [TOTAL] = [L3PTR]+40+(IPv6.payload length).
-                                                                 * 576 <= PKO_SEND_HDR_S[TSO_MSS] < [TOTAL] <=
-                                                                 (128*PKO_SEND_HDR_S[TSO_MSS]-127*PKO_SEND_HDR_S[TSO_SB]). */
+                                                                 [TOTAL] constraints when [TSO] is set (where XPTR=[L3PTR] when
+                                                                 [CKL4]=PKO_CKL4ALG_E::TCP, else XPTR=[LEPTR] when [CKLF]=PKO_CKL4ALG_E::TCP):
+                                                                 * For IPv4: [TOTAL] = XPTR+(XPTR.IPv4.total length).
+                                                                 * For IPv6: [TOTAL] = XPTR+40+(XPTR.IPv6.payload length).
+                                                                 * 576 <= [TSO_MSS] < [TOTAL] <= (128*[TSO_MSS]-127*[TSO_SB]). */
         uint64_t markptr               : 8;  /**< [ 23: 16] Mark pointer. Offset from packet start to byte to use for packet shaper marking.
-                                                                 PKO_SEND_HDR_S[FORMAT] indirectly determines how this offset is used by PKO, including
+                                                                 [FORMAT] indirectly determines how this offset is used by PKO, including
                                                                  whether and how an L2 or L3 header is marked. [MARKPTR] is constrained as follows:
 
-                                                                 * If either of PKO_SEND_HDR_S[CKL3,CKL4] is nonzero and a packet L3 header will be marked,
-                                                                 then either (1.1) [MARKPTR] and PKO_SEND_HDR_S[L3PTR] must be equal and refer to the same
-                                                                 L3 header, or (1.2) [MARKPTR] and PKO_SEND_HDR_S[L3PTR] must differ and refer to different
-                                                                 non-overlapping L3 headers.
+                                                                 * If any of [CKL3,CKL4,CKLE,CKLF] is nonzero and a packet L3 header will be
+                                                                 marked, then [MARKPTR] must select the outermost L3 header. [MARKPTR] must equal
+                                                                 [L3PTR] when either of [CKL3,CKL4] is set and a packet L3 header will be marked.
 
                                                                  * If a packet L2 header will be marked, then the entire L2 header must not overlap with
-                                                                 computation enabled by either of PKO_SEND_HDR_S[CKL3,CKL4], and must not overlap with any
-                                                                 PKO_SEND_CRC_S CRCs.
+                                                                 computation enabled by any of [CKL3,CKL4,CKLE,CKLF], and must not overlap
+                                                                 with any PKO_SEND_CRC_S CRCs.
 
-                                                                 When PKO_SEND_HDR_S[TSO] is set in the descriptor, PKO marks each TSO segment
-                                                                 independently, using [MARKPTR] for every TSO segment when present. */
-        uint64_t l3ptr                 : 8;  /**< [ 31: 24] Layer 3 IP offset. Specifies the location of the first byte of the IP packet for L3
-                                                                 checksum and/or L4 checksum and/or shaper marking. (See [CKL3,CKL4,FORMAT] and
-                                                                 PKO_SEND_HDR_S[MARKPTR].) The IP packet must be exactly [L3PTR] bytes from the beginning
-                                                                 of the packet. Software might populate this field for forwarded packets from a computation
-                                                                 based off WQE[L3PTR], which is the IP location computed by PKI when the packet is parsed.
+                                                                 When [TSO] is set, PKO marks each TSO segment independently, using [MARKPTR] for every
+                                                                 TSO segment when present. */
+        uint64_t l3ptr                 : 8;  /**< [ 31: 24] Outer Layer 3 IP offset. Specifies the location of the first byte of the outer IP
+                                                                 packet for L3 or L4 checksum calculation or for any TCP segmentation. (See
+                                                                 [CKL3,CKL4,TSO].) The IP packet must be exactly [L3PTR] bytes from the beginning
+                                                                 of the packet when any of [CKL3,CKL4,TSO] are set. Software may populate [L3PTR]
+                                                                 for forwarded packets from a computation based off PKI_WQE_S[LCPTR]. PKI_WQE_S[LCPTR]
+                                                                 can be the IP location computed by PKI when the input packet is parsed.
 
-                                                                 When PKO_SEND_HDR_S[MARKPTR] is not present in the packet descriptor, [L3PTR] can also
-                                                                 indicate the location of an L2 header. When [L3PTR] is used for any of [CKL3,CKL4] or
-                                                                 marking calculations/modifications, then no L3 nor L2 header bytes indicated by
-                                                                 [L3PTR] can overlap with any bytes covered by or inserted by PKO_SEND_CRC_S CRCs.
+                                                                 When [CKL4] is not PKO_CKL4ALG_E::NONE or [TSO] is set, [L3PTR] must point to the
+                                                                 prior IP header immediately adjacent to [L4PTR].
 
-                                                                 When PKO_SEND_HDR_S[TSO] is set in the descriptor, [L3PTR] must point to the
-                                                                 IP header, which must be before PKO_SEND_HDR_S[TSO_SB]. */
-        uint64_t l4ptr                 : 8;  /**< [ 39: 32] Layer 4 offset. Specifies the location of the first byte of the TCP/UDP/SCTP header for L4
-                                                                 checksumming (layer checksumming) or shaper marking. The Layer 4 header must
-                                                                 be exactly [L4PTR] bytes from the beginning of the packet. Software might populate this
-                                                                 field for forwarded packets from a computation based off WQE[L4PTR], which is the IP
-                                                                 location computed by PKI when the packet is parsed. When [CKL4] is nonzero, no L4 header
-                                                                 bytes indicated by [L4PTR] can overlap with any bytes covered by or inserted by
-                                                                 PKO_SEND_CRC_S CRCs (but the subsequent L4 payload bytes can overlap with the
-                                                                 PKO_SEND_CRC_S CRC bytes).
+                                                                 When used, [L3PTR] should point to the outer IP header. If either of
+                                                                 [CKLE,CKLF] are set when [L3PTR] is used, [LEPTR] must select a more inner IP
+                                                                 header than [L3PTR] does.
 
-                                                                 When PKO_SEND_HDR_S[TSO] is set in the descriptor, [L4PTR] must point to the
-                                                                 TCP header, which must be before PKO_SEND_HDR_S[TSO_SB]. */
+                                                                 No IP header bytes selected by a valid [L3PTR] can overlap with any bytes covered
+                                                                 by or inserted by PKO_SEND_CRC_S CRCs. */
+        uint64_t l4ptr                 : 8;  /**< [ 39: 32] Outer Layer 4 offset. Specifies the location of the first byte of the outer
+                                                                 TCP/UDP/SCTP header for L4 checksum calculation or for any TCP segmentation.
+                                                                 (See [CKL4,TSO].) The Layer 4 header must be exactly [L4PTR] bytes from the
+                                                                 beginning of the packet. Software might populate [L4PTR] for forwarded packets
+                                                                 from a computation based off PKI_WQE_S[LFPTR] or PKI_WQE_S[LDPTR]. PKI_WQE_S[LFPTR]
+                                                                 can be the location computed by PKI for an inner TCP/UDP/SCTP header, and
+                                                                 PKI_WQE_S[LDPTR] can be the location computed by PKI for a UDP virtualization
+                                                                 header.
+
+                                                                 When [TSO] is set and [CKL4] is PKO_CKL4ALG_E::TCP, indicating that PKO should
+                                                                 perform TSO on an outer-only packet, [L4PTR] must point to the TCP header, all
+                                                                 of whose bytes must be before [TSO_SB]. When [TSO] is set and [CKLF] is
+                                                                 PKO_CKL4ALG_E::TCP, indicating that PKO should perform TSO on the inner IP of
+                                                                 a packet containing both an outer and an inner IP, [L4PTR] must point to the
+                                                                 outer L4 header when the outer L4 header is UDP,
+
+                                                                 When used, [L4PTR] should point to the outer L4 header. If [CKLF] is not
+                                                                 PKO_CKL4ALG_E::NONE when [L4PTR] is used, [LFPTR] must locate a more inner
+                                                                 TCP/UDP/SCTP header than [L4PTR] does.
+
+                                                                 No L4 header bytes indicated by a valid [L4PTR] can overlap with any bytes covered
+                                                                 by or inserted by PKO_SEND_CRC_S CRCs (but the subsequent L4 payload bytes can overlap
+                                                                 with the PKO_SEND_CRC_S CRC bytes). */
         uint64_t ii                    : 1;  /**< [ 40: 40] Ignore I. If set, ignore all PKO_SEND_GATHER_S/PKO_SEND_LINK_S/PKI_BUFLINK_S[I] bits
                                                                  (effectively, force them all to zero) for the entire PKO SEND descriptor.
 
@@ -1495,11 +1636,9 @@ union bdk_pko_send_hdr_s
                                                                  Note that [DF] has no effect on any buffer frees from a PKO_SEND_FREE_S or
                                                                  PKO_SEND_JUMP_S.
 
-                                                                 When PKO_SEND_HDR_S[TSO] is set in the descriptor, PKO
-                                                                 frees the surrounding buffer only once for the descriptor,
-                                                                 not once per TSO segment.
-                                                                 Software must not modify the path of meta descriptors from the DQ through
-                                                                 PKO to an output FIFO between TSO segments. */
+                                                                 When [TSO]=1, PKO frees the surrounding buffer only once for the descriptor,
+                                                                 not once per TSO segment. Software must not modify the path of meta
+                                                                 descriptors from the DQ through PKO to an output FIFO between TSO segments. */
         uint64_t shp_dis               : 1;  /**< [ 41: 41] Disables the shaper update and internal coloring algorithms used as
                                                                  the packet traverses enabled PKO DQ through L2 shapers. [SHP_DIS]
                                                                  has no effect on the L1 rate limiters.
@@ -1523,37 +1662,93 @@ union bdk_pko_send_hdr_s
                                                                  PKO_*_SHAPE[YELLOW_DISABLE,RED_DISABLE] determine the packet
                                                                  coloring of the shaper.
 
-                                                                 When PKO_SEND_HDR_S[TSO] is set in the descriptor, PKO applies [SHP_DIS]
-                                                                 to each TSO segment - PKO sets each PKO_META_DESC_S[COL]
-                                                                 and PKO_nm_PICK[PIR_DIS,CIR_DIS] as described above. */
-        uint64_t ckle                  : 1;  /**< [ 42: 42] Inner checksum L3. Similar to [CKL3] but for inner IP. */
-        uint64_t cklf                  : 2;  /**< [ 44: 43] Inner checksum L4, enumerated by PKO_CKL4ALG_E. Similar to [CKL4] but for inner L4. */
-        uint64_t ckl3                  : 1;  /**< [ 45: 45] Checksum L3. If set, PKO hardware calculates the IPv4 header checksum and inserts it into
-                                                                 the packet, as described in L4 checksum. When set, [L3PTR] selects the location of the
-                                                                 first byte of the L3 header and no L3 header bytes selected by [L3PTR] can overlap with
-                                                                 any bytes covered or inserted by PKO_SEND_CRC_S CRCs. When [CKL3] is set, [L3PTR] must
-                                                                 point to a valid IPv4 header. When PKO_SEND_HDR_S[TSO] is set with an IPv4 packet,
-                                                                 [CKL3] must be set. [CKL3] must never be set with an IPv6 packet. */
-        uint64_t ckl4                  : 2;  /**< [ 47: 46] Checksum L4, enumerated by PKO_CKL4ALG_E. If nonzero (not NONE):
+                                                                 When [TSO]=1, PKO applies [SHP_DIS] to each TSO segment - PKO sets
+                                                                 each PKO_META_DESC_S[COL] and PKO_nm_PICK[PIR_DIS,CIR_DIS] as described
+                                                                 above. */
+        uint64_t ckle                  : 1;  /**< [ 42: 42] L3 inner checksum. If set, PKO hardware calculates the IPv4 header checksum and
+                                                                 inserts it into the inner IPv4 packet that [LEPTR] points at. When [CKLE] is set,
+                                                                 [LEPTR] must point to a valid IPv4 header. When [LEPTR] selects anything other
+                                                                 than an IPv4 header, including an IPv6 header, [CKLE] must be clear.
 
-                                                                 * PKO hardware calculates the Layer 4 TCP/UDP/SCTP checksum for the packet and inserts it
-                                                                 into the packet, as described in Send CRC.
+                                                                 [CKLE] should correspond to an inner IP header. If both [CKL3,CKLE] are set,
+                                                                 [CKL3,L3PTR] must correspond to a more outer IP header.
 
-                                                                 * [L4PTR] selects the first byte of the L4 header, and [L3PTR] must indicate the location
-                                                                 of the immediately proceeding and adjacent L3 header.
+                                                                 When [TSO]=1 with [CKLF]=PKO_CKL4ALG_E::TCP (and [CKL4]!=PKO_CKL4ALG_E::TCP)
+                                                                 and with [LEPTR] pointing to an inner IPv4 packet, [CKLE] must be set. */
+        uint64_t cklf                  : 2;  /**< [ 44: 43] L4 inner checksum, Enumerated by PKO_CKL4ALG_E.
 
-                                                                 * The L4 length field must not require more than [TOTAL] bytes in the packet and the L4
-                                                                 length must be nonzero.
+                                                                 CKLF should correspond to an inner L4 header. If both [CKL4,CKLF] are set,
+                                                                 [CKLF,LEPTR,LFPTR] must correspond to a more inner IP header.
 
-                                                                 * PKO does not support L4 checksums of IPv6 packets with options that modify the
-                                                                 pseudo-header (e.g. routing option); software checksums must be used.
+                                                                 * When [CKLF]!=PKO_CKL4ALG_E::NONE, [LFPTR] must point to the first byte of
+                                                                 the L4 header of the type indicated by [CKLF], and [LEPTR] must point to the
+                                                                 first byte of the immediately preceding and adjacent L3 header. When [TSO]=0
+                                                                 in this case, PKO calculates and inserts a TCP/UDP/SCTP checksum for the IP
+                                                                 packet that [LEPTR,LFPTR] points to. When [CKLF]=PKO_CKL4ALG_E::UDP in this
+                                                                 case, the L4 length field must not require more than [TOTAL] bytes in
+                                                                 the packet and must be nonzero.
 
-                                                                 * When PKO_SEND_CRC_S are present, the bytes covered or inserted by PKO_SEND_CRC_S must
-                                                                 all reside in the L4 payload. Conceptually, PKO processes PKO_SEND_CRC_S before L4
-                                                                 checksums when both are present.
+                                                                 * When [CKLF]=PKO_CKL4ALG_E::NONE, then [LFPTR] is unused, and PKO
+                                                                 generates no inner L4 checksum corresponding to [LFPTR]. This is true in
+                                                                 all cases, including all [TSO] cases.
 
-                                                                 * When PKO_SEND_HDR_S[TSO] is set, [CKL4] must be TCP */
-        uint64_t p                     : 1;  /**< [ 48: 48] Reserved.
+                                                                 * When [TSO]=1, exactly one of [CKL4,CKLF] must be PKO_CKL4ALG_E::TCP. If
+                                                                 [CKLF]=PKO_CKL4ALG_E::TCP, the TSO is inner, else the TSO is outer-only
+                                                                 and [CKLF] must be PKO_CKL4ALG_E::NONE.
+
+                                                                 * With an inner TSO, [LFPTR] must be TCP. In this case for each segment,
+                                                                 PKO calculates and inserts the TCP checksum for the inner TCP header at
+                                                                 [LFPTR]. */
+        uint64_t ckl3                  : 1;  /**< [ 45: 45] L3 (outer) checksum. If set, PKO hardware calculates the IPv4 header checksum and
+                                                                 inserts it into the (outer) IPv4 packet that [L3PTR] points at. When [CKL3] is set,
+                                                                 [L3PTR] must point to a valid IPv4 header. When [L3PTR] selects anything other
+                                                                 than an IPv4 header, including an IPv6 header, [CKL3] must be clear.
+
+                                                                 [CKL3] should correspond to an outer IP header. If both [CLK3,CKLE] are set,
+                                                                 [CKLE,LEPTR] must correspond to a more inner IP header.
+
+                                                                 When [TSO]=1 with [L3PTR] pointing to an IPv4 header, [CKL3] must be set.
+                                                                 [L3PTR] could point to an outer-only IPv4 header, or the outer IPv4 header from
+                                                                 a packet that also includes an inner IP packet in this case. */
+        uint64_t ckl4                  : 2;  /**< [ 47: 46] L4 outer checksum, Enumerated by PKO_CKL4ALG_E.
+
+                                                                 CKL4 should correspond to an outer L4 header. If both [CKL4,CKLF] are set,
+                                                                 [CKL4,L3PTR,L4PTR] must correspond to a more outer IP header.
+
+                                                                 * When [CKL4]!=PKO_CKL4ALG_E::NONE, [L4PTR] must point to the first byte of
+                                                                 the L4 header of the correct type, and [L3PTR] must point to the first byte
+                                                                 of the immediately preceding and adjacent L3 header. When [TSO]=0
+                                                                 in this case, [CKL4] directly indicates the correct type of [L4PTR],
+                                                                 and PKO calculates and inserts a TCP/UDP/SCTP checksum for the IP packet
+                                                                 that [L3PTR,L4PTR] points to. When [CKL4]=PKO_CKL4ALG_E::UDP in this
+                                                                 case, the L4 length field must not require more than [TOTAL] bytes in
+                                                                 the packet and must be nonzero.
+
+                                                                 * When [CKL4]=PKO_CKL4ALG_E::NONE, then [L4PTR] is unused, and PKO
+                                                                 generates no outer L4 checksum corresponding to [L4PTR]. This is true in
+                                                                 all cases, including all [TSO] cases.
+
+                                                                 * When [TSO]=1, exactly one of [CKL4,CKLF] must equal PKO_CKL4ALG_E::TCP.
+                                                                 If [CKL4]=PKO_CKL4ALG_E::TCP, then the TSO is outer-only, else the TSO is
+                                                                 inner.
+
+                                                                 * With an outer-only TSO, [L4PTR] must be TCP. In this case
+                                                                 for each segment, PKO calculates and inserts the TCP checksum for the
+                                                                 outer TCP header at [L4PTR].
+
+                                                                 * With an inner TSO and [CKL4]=PKO_CKL4ALG_E::UDP, then [L4PTR] must
+                                                                 be UDP. In this case for each segment, PKO calculates and inserts
+                                                                 the checksum for and updates the length field in this outer UDP header.
+                                                                 [CKL4]=PKO_CKL4ALG_E::UDP may be appropriate for a Geneve inner TSO,
+                                                                 for example.
+
+                                                                 * With an inner TSO and [CKL4]=PKO_CKL4ALG_E::SCTP, then [L4PTR] must
+                                                                 be UDP, despite the "SCTP" in the name. In this case for each
+                                                                 segment, PKO updates the length field in this outer UDP header,
+                                                                 but does not calculate any checksum for this outer UDP header.
+                                                                 [CKL4]=PKO_CKL4ALG_E::SCTP may be appropriate for a VXLAN inner TSO, for
+                                                                 example. */
+        uint64_t p                     : 1;  /**< [ 48: 48] Reserved. Must be zero.
                                                                  Internal:
                                                                  Intent was to stripe an 8-bit CRC across these bits in the cacheline, but
                                                                  not implemented. */
@@ -1561,14 +1756,14 @@ union bdk_pko_send_hdr_s
                                                                  how PKO will mark YELLOW and RED_SEND packets. [FORMAT] must
                                                                  be less than the size of the PKO_FORMAT()_CTL array.
 
-                                                                 When PKO_SEND_HDR_S[TSO] is set in the descriptor, PKO marks each TSO segment
-                                                                 independently, using [FORMAT] for every TSO segment. */
+                                                                 When [TSO]=1, PKO marks each TSO segment independently, using [FORMAT]
+                                                                 for every TSO segment. */
         uint64_t tstmp                 : 1;  /**< [ 56: 56] PTP timestamp. If set, a later PKO_SEND_MEM_S will be present in this descriptor with
-                                                                 PKO_SEND_MEM_S[ALG] set to TSTMP to request IEEE 1588 PTP time-stamping. Furthermore, if
-                                                                 set, [RA] must be PKO_REDALG_E::SEND.
+                                                                 PKO_SEND_MEM_S[ALG]=PKO_MEMALG_E::SETTSTMP to request IEEE 1588 PTP time-stamping.
+                                                                 Furthermore, if set, [SHP_RA] must be PKO_REDALG_E::SEND.
 
-                                                                 [TSTMP] must not be set when PKO_SEND_HDR_S[TSO] is set in the descriptor. */
-        uint64_t tso_eom               : 1;  /**< [ 57: 57] Reserved.
+                                                                 [TSTMP] must not be set when [TSO]=1. */
+        uint64_t tso_eom               : 1;  /**< [ 57: 57] Reserved. Must be zero.
                                                                  Internal:
                                                                  End of message. PKO sets [EOM] in the last replicated packet descriptor. */
         uint64_t df                    : 1;  /**< [ 58: 58] Don't free. If set, by default PKO will not free the surrounding buffer after
@@ -1624,10 +1819,38 @@ union bdk_pko_send_hdr_s
                                                                  not once per TSO segment.
                                                                  Software must not modify the path of meta descriptors from the DQ through
                                                                  PKO to an output FIFO between TSO segments. */
-        uint64_t tso                   : 1;  /**< [ 59: 59] If set, segment a larger TCP source packet into
-                                                                 multiple smaller TSO segment output packets. Software creates a single
-                                                                 descriptor describing the source packet and including the PKO_SEND_HDR_S[TSO]=1,
-                                                                 and PKO automatically outputs the resultant TSO segmented packets.
+        uint64_t tso                   : 1;  /**< [ 59: 59] If set, segment a larger TCP source packet into multiple smaller TSO
+                                                                 segment output packets. Software creates a single [TSO]=1 descriptor
+                                                                 describing the source packet, and PKO automatically outputs the resultant
+                                                                 TSO segmented packets. See also [TSO_SB,TSO_MSS,L2LEN].
+
+                                                                 When [TSO]=1:
+
+                                                                 * If [CKL4]=PKO_CKL4ALG_E::TCP, then the TSO is outer-only: [CKLF] must
+                                                                 be PKO_CKL4ALG_E::NONE, [L3PTR,L4PTR] select the IP+TCP headers to
+                                                                 be segmented, and [LEPTR,LFPTR] are not used. [TSO_SB] must be one
+                                                                 beyond the last byte of [L4PTR] in this case.
+
+                                                                 * If [CKL4]!=PKO_CKL4ALG_E::TCP, then the TSO is inner: [CKLF] must be
+                                                                 PKO_CKL4ALG_E::TCP, [L3PTR] must point to the outer IP, and [LEPTR,LFPTR]
+                                                                 select the inner IP+TCP headers to be segmented. [TSO_SB] must
+                                                                 be one beyond the last byte of [LFPTR] in this case, and PKO copies both
+                                                                 inner and outer IP headers to the resultant segments.
+
+                                                                 * With an inner TSO, if the outer IP is a UDP packet, then [L4PTR] must point
+                                                                 to the UDP header, [CKL4] must be either PKO_CKL4ALG_E::UDP or
+                                                                 PKO_CKL4ALG_E::SCTP, and PKO modifies the UDP header length field for each
+                                                                 produced segment.
+
+                                                                 * With an inner TSO, if [CKL4]=PKO_CKL4ALG_E::UDP, PKO calculates and
+                                                                 updates the UDP checksum for the UDP header at [L4PTR] for each segment.
+
+                                                                 * With an inner TSO, if [CKL4]=PKO_CKL4ALG_E::SCTP, PKO will not modify the
+                                                                 UDP checksum selected by [L4PTR]. (The UDP checksum field should normally
+                                                                 be zero in this case.)
+
+                                                                 * With an inner TSO, if [CKL4]=PKO_CKL4ALG_E::NONE, [L4PTR] is not used,
+                                                                 and PKO does not calculate a checksum for it.
 
                                                                  For each produced segment, PKO duplicates the PKO SEND descriptor in the DQ
                                                                  and creates an independent meta descriptor (PKO_META_DESC_S and PKO_*_PICK)
@@ -1645,18 +1868,42 @@ union bdk_pko_send_hdr_s
                                                                  packet to the TSO segments. PKO modifies the following pre-segmented
                                                                  source packet fields in each produced TSO segment:
 
-                                                                 * If PKO considers the L2 type/length field to be a length (see [L2LEN] below):
-                                                                    o PKO sets the L2 length field to (FPS + [SB] - ([L2LEN] + 2)).
+                                                                 * If PKO considers the outer L2 type/length field to be a length (see
+                                                                   [L2LEN] below):
+                                                                    o PKO sets the L2 length field to (FPS + [TSO_SB] - ([L2LEN] + 2)).
 
-                                                                 * In the IPv4 case:
-                                                                    o PKO sets IPv4.totallength to (FPS + [SB] - PKO_SEND_HDR_S[L3PTR]).
-                                                                    o PKO calculates and inserts the IP checksum.
-                                                                    o PKO increments the IP Identification field from the last segment
-                                                                      by one. The IP Identification field in the first produced segment
-                                                                      is unmodified from the pre-segmented source packet.
+                                                                 * In the outer-only IPv4 case and the inner case when [L3PTR] is IPv4:
+                                                                    o PKO sets [L3PTR].IPv4.totallength to (FPS + [TSO_SB] - [L3PTR]).
+                                                                    o PKO calculates and inserts [L3PTR].IPv4.checksum.
+                                                                    o PKO increments [L3PTR].IPv4.identification from the last
+                                                                      segment by one. [L3PTR].IPv4.identification in the first
+                                                                      produced segment is unmodified from the pre-segmented source
+                                                                      packet.
 
-                                                                 * In the IPv6 case:
-                                                                    o PKO sets IPv6.payloadlength to (FPS + [SB] - PKO_SEND_HDR_S[L3PTR] - 40).
+                                                                 * In the inner case when [LEPTR] is IPv4:
+                                                                    o PKO sets [LEPTR].IPv4.totallength to (FPS + [TSO_SB] - [LEPTR]).
+                                                                    o PKO calculates and inserts [LEPTR].IPv4.checksum.
+                                                                    o PKO increments [LEPTR].IPv4.identification from the last
+                                                                      segment by one. [LEPTR].IPv4.identification in the first
+                                                                      produced segment is unmodified from the pre-segmented source
+                                                                      packet.
+
+                                                                 * In the outer-only IPv6 case and the inner case when [L3PTR] is IPv6:
+                                                                    o PKO sets [L3PTR].IPv6.payloadlength to (FPS + [TSO_SB] - [L3PTR] - 40).
+
+                                                                 * In the inner case when [LEPTR] is IPv6:
+                                                                    o PKO sets [LEPTR].IPv6.payloadlength to (FPS + [TSO_SB] - [LEPTR] - 40).
+
+                                                                 * In the inner case when [L4PTR] is UDP:
+                                                                    o PKO sets [L4PTR].UDP.length to (FPS + [TSO_SB] - [L4PTR]).
+                                                                    o if [CKL4]=UDP, PKO also calculates and inserts [L4PTR].UDP.checksum.
+                                                                      This may be appropriate for Geneve.
+                                                                    o if [CKL4]=SCTP, PKO does not modify [L4PTR].UDP.checksum.
+                                                                      ([L4PTR].UDP.checksum should normally be zero in this case.) This may
+                                                                      be appropriate for VXLAN.
+
+                                                                 * In the inner case when [L4PTR] is not UDP:
+                                                                    o PKO does not modify any outer L4 header.
 
                                                                  * PKO produces the TCP sequence number by adding the FPS from the prior
                                                                    segment to the TCP sequence number used in the prior segment.
@@ -1668,9 +1915,10 @@ union bdk_pko_send_hdr_s
                                                                    FSF is used for the first segment, MSF for the middle segments, and
                                                                    LSF for the last segment.
 
-                                                                 Where FPS is the payload bytes in the TSO segment. For all but the last segment,
-                                                                 FPS equals ([MSS]-[SB]). In the last segment, 0 < FPS <= ([MSS]-[SB]). The
-                                                                 aggregate payload bytes in all produced segments is PKO_SEND_HDR_S[TOTAL]-[SB].
+                                                                 Where FPS is the payload bytes in the TSO segment. For all but the last
+                                                                 segment, FPS equals ([TSO_MSS]-[TSO_SB]). In the last segment,
+                                                                 0 < FPS <= ([TSO_MSS]-[TSO_SB]). The aggregate payload bytes in all
+                                                                 produced segments is [TOTAL]-[TSO_SB].
 
                                                                  <page>
 
@@ -1680,47 +1928,55 @@ union bdk_pko_send_hdr_s
 
                                                                  * PKO_META_DESC_S[LENGTH] / PKO_*_PICK[LENGTH] for each TSO segment is
                                                                        (PKO_PDM_DQ*_MINPAD[MINPAD] ?
-                                                                           MAX(PKO_PDM_CFG[PKO_PAD_MINLEN], (FPS+[SB])) :
-                                                                           (FPS+[SB]))
+                                                                           MAX(PKO_PDM_CFG[PKO_PAD_MINLEN], (FPS+[TSO_SB])) :
+                                                                           (FPS+[TSO_SB]))
 
                                                                  * PKO_META_DESC_S[FPD] / PKO_*_PICK[FPD] is independently calculated
                                                                    for each descriptor copy.
 
                                                                  <page>
 
-                                                                 The following are constraints when PKO_SEND_HDR_S[TSO] is set
-                                                                 in a descriptor:
+                                                                 The following are constraints when [TSO]=1:
 
-                                                                 * 576 <= [MSS] < PKO_SEND_HDR_S[TOTAL] <= (128*[MSS] - 127*[SB])
+                                                                 * 576 <= [TSO_MSS] < [TOTAL] <= (128*[TSO_MSS] - 127*[TSO_SB])
 
-                                                                 * PKO_SEND_HDR_S[CKL4] = TCP
+                                                                 * [CKL4] = TCP
 
-                                                                 * PKO_SEND_HDR_S[L3PTR] must point to the first byte in the one and only IP header
-                                                                   o IP tunneled packets are not supported with TSO.
+                                                                 * [L3PTR] must point to the first byte in the outer IP header
 
-                                                                 * PKO_SEND_HDR_S[L4PTR] must point to the first byte in the corresponding TCP header
+                                                                 * [L4PTR] must point to the first byte in the corresponding L4 header,
+                                                                   except for the inner case when [CKL4]=NONE.
 
-                                                                 * In the IPv4 case:
-                                                                    o PKO_SEND_HDR_S[TOTAL] = PKO_SEND_HDR_S[L3PTR]+(IPv4.totallength)
-                                                                    o PKO_SEND_HDR_S[CKL3] = 1
+                                                                 * In the outer-only IPv4 case and the inner case when [L3PTR] is IPv4:
+                                                                    o [TOTAL] = [L3PTR]+([L3PTR].IPv4.totallength)
+                                                                    o [CKL3] = 1
 
-                                                                 * In the IPv6 case:
-                                                                    o PKO_SEND_HDR_S[TOTAL] = PKO_SEND_HDR_S[L3PTR]+40+(IPv6.payloadlength)
-                                                                    o PKO_SEND_HDR_S[CKL3] = 0
+                                                                 * In the inner IPv4 case:
+                                                                    o [TOTAL] = [LEPTR]+([LEPTR].IPv4.totallength)
+                                                                    o [CKL3] = 1
 
-                                                                 * If PKO considers the L2 type/length field to be a length (see [L2LEN] below):
-                                                                    o [MSS] < 0x600
-                                                                    o PKO_SEND_HDR_S[L3PTR] = [L2LEN] + 10 (likely, if not required)
+                                                                 * In the outer-only IPv6 case and the inner case when [L3PTR] is IPv4:
+                                                                    o [TOTAL] = [L3PTR]+40+([L3PTR].IPv6.payloadlength)
+                                                                    o [CKL3] = 0
 
-                                                                 * else if PKO does not consider the L2 type/length field to be a length:
-                                                                    o PKO_SEND_HDR_S[L3PTR] = [L2LEN] + 2
+                                                                 * In the inner IPv6 case
+                                                                    o [TOTAL] = [LEPTR]+40+([LEPTR].IPv6.payloadlength)
+                                                                    o [CKL3] = 0
+
+                                                                 * If PKO considers the outer L2 type/length field to be a length (see
+                                                                   [L2LEN] below):
+                                                                    o [TSO_MSS] < 0x600
+                                                                    o [L3PTR] = [L2LEN] + 10 (likely, if not required)
+
+                                                                 * else if PKO does not consider the outer L2 type/length field to be a length:
+                                                                    o [L3PTR] = [L2LEN] + 2
 
                                                                  * If any PKO_SEND_IMM_S's are present in the descriptor, they must never
-                                                                   provide source packet bytes after the first [SB] bytes in the source packet.
+                                                                   provide source packet bytes after the first [TSO_SB] bytes in the source packet.
 
                                                                  * PKO_MAC()_CFG[MIN_PAD_ENA] and PKO_PDM_CFG[PKO_PAD_MINLEN] must be set
                                                                    appropriately if minimum pad is required by the interface/MAC.
-                                                                   PKO_PDM_DQ*_MINPAD[MINPAD] should normally also be set when minimum
+                                                                   PKO_PDM_DQ()_MINPAD[MINPAD] should normally also be set when minimum
                                                                    pad is required by the interface/MAC.
 
                                                                  * PKO_MAC()_CFG[FCS_ENA] should normally be set if the interface/MAC requires
@@ -1746,17 +2002,21 @@ union bdk_pko_send_hdr_s
                                                                  any post-PKO_SEND_JUMP_S descriptor reads. Also, PKO always allocates packet data
                                                                  into the L2 cache on the first-pass packet read of a two-pass TCP/UDP checksum
                                                                  calculation, and may allocate portions of packet data into the L2 cache when
-                                                                 PKO_SEND_HDR_S[TSO]==1. */
-        uint64_t scntm1                : 3;  /**< [ 63: 61] Reserved.
+                                                                 [TSO]==1. */
+        uint64_t scntm1                : 3;  /**< [ 63: 61] Reserved. Must be zero.
                                                                  Internal:
                                                                  Sub-descriptor count. PKO packs the send operation's number of sub-descriptors
                                                                  (minus one) here.  Software should not modify this. */
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
-        uint64_t l2len                 : 8;  /**< [127:120] Offset in bytes to the two-byte L2 header-type/length field. If the type/length
-                                                                 field value in the pre-segmented packet is 0 .. 1535, PKO considers it
-                                                                 to be a length field, and modifies it for each produced segment. */
-        uint64_t tso_fn                : 7;  /**< [119:113] Reserved.
+        uint64_t l2len                 : 8;  /**< [127:120] Offset in bytes to the two-byte L2 header-type/length field. Must be
+                                                                 zero when [TSO] is clear. See also the [TSO] description.
+
+                                                                 When [TSO]=1, if the type/length field value in the pre-segmented
+                                                                 packet is 0 .. 1535, PKO considers it to be a length field, and modifies
+                                                                 it for each produced segment. When [TSO]=1, [L2LEN] must refer to the
+                                                                 outer L2, i.e. [L2LEN] must be less than [L3PTR]. */
+        uint64_t tso_fn                : 7;  /**< [119:113] Reserved. Must be zero.
                                                                  Internal:
                                                                  Frame number. PKO increases [FN] in every replicated packet descriptor. */
         uint64_t shp_chg               : 9;  /**< [112:104] Signed packet size adjustment. The packet size used for shaper {a} (PIR_ACCUM and
@@ -1773,89 +2033,167 @@ union bdk_pko_send_hdr_s
 
                                                                  [SHP_CHG] becomes PKO_META_DESC_S[ADJUST] and PKO_{b}m_PICK[ADJUST].
 
-                                                                 When PKO_SEND_HDR_S[TSO] is set in the descriptor, PKO applies [SHP_CHG]
-                                                                 to each TSO segment - PKO copies [SHP_CHG] to each PKO_META_DESC_S[ADJUST]
-                                                                 and PKO_nm_PICK[ADJUST].
+                                                                 When [TSO]=1, PKO applies [SHP_CHG] to each TSO segment - PKO copies [SHP_CHG]
+                                                                 to each PKO_META_DESC_S[ADJUST] and PKO_nm_PICK[ADJUST].
 
                                                                  Internal:
-                                                                 When PDM hardware writes a descriptor to memory, it crams a checksum
-                                                                 here to help detect memory corruption. The corresponding PKO_META_DESC_S[ADJUST]
-                                                                 have already been created from this at that time. */
-        uint64_t lfptr                 : 8;  /**< [103: 96] Inner Layer 4 Offset. Similar to [L4PTR] but for inner L4 as directed by [CKLF]. If
-                                                                 [CKLF] and [CKL4] are both nonzero, then [LFPTR] must be > [L4PTR] + 20. */
-        uint64_t leptr                 : 8;  /**< [ 95: 88] Inner Layer 3 IP Offset. Similar to [L3PTR] but for inner IP as directed by [CKLE]. If
-                                                                 [CKLE] and [CKL3] are set, then [LEPTR] must be > [L3PTR] + 20. */
-        uint64_t tso_sb                : 8;  /**< [ 87: 80] Start bytes. Location of the start byte of the TCP message payload (a.k.a the
-                                                                 size of the headers preceding the TCP data - must point to the first byte
-                                                                 following the TCP L4 header). PKO copies all bytes preceding [SB] to each
-                                                                 segment, only modifying the specific fields mentioned above in each segment.
+                                                                 When PDM hardware writes a descriptor to memory, it crams a checksum in
+                                                                 [SHP_CHG] to help detect memory corruption. The corresponding
+                                                                 PKO_META_DESC_S[ADJUST] have already been created from [SHP_CHG] at that
+                                                                 time. */
+        uint64_t lfptr                 : 8;  /**< [103: 96] Inner Layer 4 offset. Specifies the location of the first byte of the inner
+                                                                 TCP/UDP/SCTP header for L4 checksum calculation. (See [CKLF].) The inner
+                                                                 Layer 4 header must be exactly [LFPTR] bytes from the beginning of the packet.
+                                                                 Software might populate [LFPTR] for forwarded packets from a computation based
+                                                                 off PKI_WQE_S[LFPTR]. PKI_WQE_S[LFPTR] can be the location computed by PKI for
+                                                                 an inner TCP/UDP/SCTP header.
 
-                                                                 [SB] must be >= [L2LEN]+42 in all cases, sometimes larger. [SB] must be
-                                                                 >= PKO_SEND_HDR_S[L3PTR]+40 in all cases, sometimes larger. [SB] must be >=
-                                                                 PKO_SEND_HDR_S[L4PTR]+20 in all cases, sometimes larger. */
+                                                                 When [TSO] is set and [CKLF] is PKO_CKL4ALG_E::TCP, indicating that PKO should
+                                                                 perform inner TSO on a packet, [LFPTR] must point to the inner TCP header, all
+                                                                 of whose bytes must be before [TSO_SB].
+
+                                                                 When used, [LFPTR] should point to the inner L4 header. If [CKL4] is not
+                                                                 PKO_CKL4ALG_E::NONE when [LFPTR] is used, [L4PTR] must locate a more outer
+                                                                 TCP/UDP/SCTP header than [LFPTR] does - [LFPTR] must be > [L4PTR] + 20.
+
+                                                                 No L4 header bytes indicated by a valid [LFPTR] can overlap with any bytes covered
+                                                                 by or inserted by PKO_SEND_CRC_S CRCs (but the subsequent L4 payload bytes can overlap
+                                                                 with the PKO_SEND_CRC_S CRC bytes). */
+        uint64_t leptr                 : 8;  /**< [ 95: 88] Inner Layer 3 IP offset. Specifies the location of the first byte of the inner
+                                                                 IP packet for L3 or L4 checksum calculation. (See [CKLE,CKLF.) The inner IP
+                                                                 packet must be exactly [LEPTR] bytes from the beginning of the packet when either
+                                                                 of [CKLE,CKLF] are set. Software may populate [LEPTR] for forwarded packets
+                                                                 from a computation based off PKI_WQE_S[LEPTR]. PKI_WQE_S[LEPTR] can be the inner
+                                                                 IP location computed by PKI when the input packet is parsed.
+
+                                                                 When [CKLF] is not PKO_CKL4ALG_E::NONE, [LEPTR] must point to the
+                                                                 prior IP header immediately adjacent to [LFPTR].
+
+                                                                 When used, [LEPTR] should point to the inner IP header. If either of
+                                                                 [CKL3,CKL4] are set when [LEPTR] is used, [L3PTR] must select a more outer IP
+                                                                 header than [LEPTR] does - [LEPTR] must be > [L3PTR] + 20.
+
+                                                                 No IP header bytes selected by a valid [LEPTR] can overlap with any bytes covered
+                                                                 by or inserted by PKO_SEND_CRC_S CRCs. */
+        uint64_t tso_sb                : 8;  /**< [ 87: 80] Start bytes. Must be zero when [TSO] is clear. See also the [TSO]
+                                                                 description.
+
+                                                                 Location of the start byte of the TCP message payload (a.k.a the
+                                                                 size of the headers preceding the TCP data - must point to the first byte
+                                                                 following the TCP L4 header that will be segmented). PKO copies all bytes
+                                                                 preceding [TSO_SB] to each segment when [TSO] is set, in each segment only
+                                                                 modifying the specific fields mentioned in the [TSO] description.
+
+                                                                 [TSO_SB] must be >= [L2LEN]+42 in all cases, sometimes larger. [TSO_SB] must be
+                                                                 >= [LxPTR]+40 in all cases, sometimes larger. [TSO_SB] must be >= [LyPTR]+20
+                                                                 in all cases, sometimes larger. LxPTR is L3PTR for an outer-only TSO, LEPTR
+                                                                 for an inner TSO. LyPTR is L4PTR for an outer-only TSO, LFPTR for an inner
+                                                                 TSO. */
         uint64_t shp_ra                : 2;  /**< [ 79: 78] Red algorithm. Enumerated by PKO_REDALG_E. Specifies handling of a packet that
                                                                  traverses a RED DQ through L2 shaper. (A shaper is in RED state when
                                                                  PKO_*_SHAPE_STATE[COLOR]=0x2.) Has no effect when the packet traverses no
-                                                                 shapers that are in the RED state. When [RA]!=STD, [RA] over-rides the
+                                                                 shapers that are in the RED state. When [SHP_RA]!=STD, [SHP_RA] over-rides the
                                                                  PKO_*_SHAPE[RED_ALGO] settings in all DQ through L2 shapers traversed
-                                                                 by the packet. [RA] has no effect on the L1 rate limiters. See
+                                                                 by the packet. [SHP_RA] has no effect on the L1 rate limiters. See
                                                                  PKO_META_DESC_S[RA] and PKO_*_PICK[RED_ALGO_OVERRIDE].
 
-                                                                 When PKO_SEND_HDR_S[TSO] is set in the descriptor, PKO applies [RA]
-                                                                 to each TSO segment - PKO copies [RA] to each PKO_META_DESC_S[RA]
-                                                                 and PKO_nm_PICK[RED_ALGO_OVERRIDE]. */
-        uint64_t tso_mss               : 14; /**< [ 77: 64] Message segment size. The maximum message header + frame payload size (FPS) for
-                                                                 each segment. The number of segments that PKO creates (num_segs) is
+                                                                 When [TSO]=1, PKO applies [SHP_RA] to each TSO segment - PKO copies [SHP_RA]
+                                                                 to each PKO_META_DESC_S[RA] and PKO_nm_PICK[RED_ALGO_OVERRIDE]. */
+        uint64_t tso_mss               : 14; /**< [ 77: 64] Message segment size. Must be zero when [TSO] is clear. See also the
+                                                                 [TSO] description.
+
+                                                                 The maximum message header + frame payload size (FPS) for
+                                                                 each segment. The number of segments that PKO creates (num_segs)
+                                                                 when [TSO] is set is
 
                                                                   num_segs = [ (total_payload + payload_per_seg - 1) / payload_per_seg ]
 
                                                                  where
 
-                                                                  total_payload = PKO_SEND_HDR_S[TOTAL] - [SB]
-                                                                  payload_per_seg = [MSS] - [SB]
                                                                   [ x ] indicates to round x down to the nearest whole number
+                                                                  total_payload = [TOTAL] - [TSO_SB]
+                                                                  payload_per_seg = [TSO_MSS] - [TSO_SB]
 
-                                                                 num_segs must be greater than 1 and must never exceed 127. [MSS] must
-                                                                 be >= 576. [MSS] must be <= 1535 whenever PKO considers
-                                                                 the length/type field selected by [L2LEN] to be a length field. */
+                                                                 num_segs must be greater than 1 and must never exceed 127. [TSO_MSS] must
+                                                                 be >= 576. [TSO_MSS] must be <= 1535 whenever PKO considers
+                                                                 the outer length/type field selected by [L2LEN] to be a length field. */
 #else /* Word 1 - Little Endian */
-        uint64_t tso_mss               : 14; /**< [ 77: 64] Message segment size. The maximum message header + frame payload size (FPS) for
-                                                                 each segment. The number of segments that PKO creates (num_segs) is
+        uint64_t tso_mss               : 14; /**< [ 77: 64] Message segment size. Must be zero when [TSO] is clear. See also the
+                                                                 [TSO] description.
+
+                                                                 The maximum message header + frame payload size (FPS) for
+                                                                 each segment. The number of segments that PKO creates (num_segs)
+                                                                 when [TSO] is set is
 
                                                                   num_segs = [ (total_payload + payload_per_seg - 1) / payload_per_seg ]
 
                                                                  where
 
-                                                                  total_payload = PKO_SEND_HDR_S[TOTAL] - [SB]
-                                                                  payload_per_seg = [MSS] - [SB]
                                                                   [ x ] indicates to round x down to the nearest whole number
+                                                                  total_payload = [TOTAL] - [TSO_SB]
+                                                                  payload_per_seg = [TSO_MSS] - [TSO_SB]
 
-                                                                 num_segs must be greater than 1 and must never exceed 127. [MSS] must
-                                                                 be >= 576. [MSS] must be <= 1535 whenever PKO considers
-                                                                 the length/type field selected by [L2LEN] to be a length field. */
+                                                                 num_segs must be greater than 1 and must never exceed 127. [TSO_MSS] must
+                                                                 be >= 576. [TSO_MSS] must be <= 1535 whenever PKO considers
+                                                                 the outer length/type field selected by [L2LEN] to be a length field. */
         uint64_t shp_ra                : 2;  /**< [ 79: 78] Red algorithm. Enumerated by PKO_REDALG_E. Specifies handling of a packet that
                                                                  traverses a RED DQ through L2 shaper. (A shaper is in RED state when
                                                                  PKO_*_SHAPE_STATE[COLOR]=0x2.) Has no effect when the packet traverses no
-                                                                 shapers that are in the RED state. When [RA]!=STD, [RA] over-rides the
+                                                                 shapers that are in the RED state. When [SHP_RA]!=STD, [SHP_RA] over-rides the
                                                                  PKO_*_SHAPE[RED_ALGO] settings in all DQ through L2 shapers traversed
-                                                                 by the packet. [RA] has no effect on the L1 rate limiters. See
+                                                                 by the packet. [SHP_RA] has no effect on the L1 rate limiters. See
                                                                  PKO_META_DESC_S[RA] and PKO_*_PICK[RED_ALGO_OVERRIDE].
 
-                                                                 When PKO_SEND_HDR_S[TSO] is set in the descriptor, PKO applies [RA]
-                                                                 to each TSO segment - PKO copies [RA] to each PKO_META_DESC_S[RA]
-                                                                 and PKO_nm_PICK[RED_ALGO_OVERRIDE]. */
-        uint64_t tso_sb                : 8;  /**< [ 87: 80] Start bytes. Location of the start byte of the TCP message payload (a.k.a the
-                                                                 size of the headers preceding the TCP data - must point to the first byte
-                                                                 following the TCP L4 header). PKO copies all bytes preceding [SB] to each
-                                                                 segment, only modifying the specific fields mentioned above in each segment.
+                                                                 When [TSO]=1, PKO applies [SHP_RA] to each TSO segment - PKO copies [SHP_RA]
+                                                                 to each PKO_META_DESC_S[RA] and PKO_nm_PICK[RED_ALGO_OVERRIDE]. */
+        uint64_t tso_sb                : 8;  /**< [ 87: 80] Start bytes. Must be zero when [TSO] is clear. See also the [TSO]
+                                                                 description.
 
-                                                                 [SB] must be >= [L2LEN]+42 in all cases, sometimes larger. [SB] must be
-                                                                 >= PKO_SEND_HDR_S[L3PTR]+40 in all cases, sometimes larger. [SB] must be >=
-                                                                 PKO_SEND_HDR_S[L4PTR]+20 in all cases, sometimes larger. */
-        uint64_t leptr                 : 8;  /**< [ 95: 88] Inner Layer 3 IP Offset. Similar to [L3PTR] but for inner IP as directed by [CKLE]. If
-                                                                 [CKLE] and [CKL3] are set, then [LEPTR] must be > [L3PTR] + 20. */
-        uint64_t lfptr                 : 8;  /**< [103: 96] Inner Layer 4 Offset. Similar to [L4PTR] but for inner L4 as directed by [CKLF]. If
-                                                                 [CKLF] and [CKL4] are both nonzero, then [LFPTR] must be > [L4PTR] + 20. */
+                                                                 Location of the start byte of the TCP message payload (a.k.a the
+                                                                 size of the headers preceding the TCP data - must point to the first byte
+                                                                 following the TCP L4 header that will be segmented). PKO copies all bytes
+                                                                 preceding [TSO_SB] to each segment when [TSO] is set, in each segment only
+                                                                 modifying the specific fields mentioned in the [TSO] description.
+
+                                                                 [TSO_SB] must be >= [L2LEN]+42 in all cases, sometimes larger. [TSO_SB] must be
+                                                                 >= [LxPTR]+40 in all cases, sometimes larger. [TSO_SB] must be >= [LyPTR]+20
+                                                                 in all cases, sometimes larger. LxPTR is L3PTR for an outer-only TSO, LEPTR
+                                                                 for an inner TSO. LyPTR is L4PTR for an outer-only TSO, LFPTR for an inner
+                                                                 TSO. */
+        uint64_t leptr                 : 8;  /**< [ 95: 88] Inner Layer 3 IP offset. Specifies the location of the first byte of the inner
+                                                                 IP packet for L3 or L4 checksum calculation. (See [CKLE,CKLF.) The inner IP
+                                                                 packet must be exactly [LEPTR] bytes from the beginning of the packet when either
+                                                                 of [CKLE,CKLF] are set. Software may populate [LEPTR] for forwarded packets
+                                                                 from a computation based off PKI_WQE_S[LEPTR]. PKI_WQE_S[LEPTR] can be the inner
+                                                                 IP location computed by PKI when the input packet is parsed.
+
+                                                                 When [CKLF] is not PKO_CKL4ALG_E::NONE, [LEPTR] must point to the
+                                                                 prior IP header immediately adjacent to [LFPTR].
+
+                                                                 When used, [LEPTR] should point to the inner IP header. If either of
+                                                                 [CKL3,CKL4] are set when [LEPTR] is used, [L3PTR] must select a more outer IP
+                                                                 header than [LEPTR] does - [LEPTR] must be > [L3PTR] + 20.
+
+                                                                 No IP header bytes selected by a valid [LEPTR] can overlap with any bytes covered
+                                                                 by or inserted by PKO_SEND_CRC_S CRCs. */
+        uint64_t lfptr                 : 8;  /**< [103: 96] Inner Layer 4 offset. Specifies the location of the first byte of the inner
+                                                                 TCP/UDP/SCTP header for L4 checksum calculation. (See [CKLF].) The inner
+                                                                 Layer 4 header must be exactly [LFPTR] bytes from the beginning of the packet.
+                                                                 Software might populate [LFPTR] for forwarded packets from a computation based
+                                                                 off PKI_WQE_S[LFPTR]. PKI_WQE_S[LFPTR] can be the location computed by PKI for
+                                                                 an inner TCP/UDP/SCTP header.
+
+                                                                 When [TSO] is set and [CKLF] is PKO_CKL4ALG_E::TCP, indicating that PKO should
+                                                                 perform inner TSO on a packet, [LFPTR] must point to the inner TCP header, all
+                                                                 of whose bytes must be before [TSO_SB].
+
+                                                                 When used, [LFPTR] should point to the inner L4 header. If [CKL4] is not
+                                                                 PKO_CKL4ALG_E::NONE when [LFPTR] is used, [L4PTR] must locate a more outer
+                                                                 TCP/UDP/SCTP header than [LFPTR] does - [LFPTR] must be > [L4PTR] + 20.
+
+                                                                 No L4 header bytes indicated by a valid [LFPTR] can overlap with any bytes covered
+                                                                 by or inserted by PKO_SEND_CRC_S CRCs (but the subsequent L4 payload bytes can overlap
+                                                                 with the PKO_SEND_CRC_S CRC bytes). */
         uint64_t shp_chg               : 9;  /**< [112:104] Signed packet size adjustment. The packet size used for shaper {a} (PIR_ACCUM and
                                                                  CIR_ACCUM) and DWRR scheduler {a} (RR_COUNT) calculations at level {b} is:
 
@@ -1870,20 +2208,24 @@ union bdk_pko_send_hdr_s
 
                                                                  [SHP_CHG] becomes PKO_META_DESC_S[ADJUST] and PKO_{b}m_PICK[ADJUST].
 
-                                                                 When PKO_SEND_HDR_S[TSO] is set in the descriptor, PKO applies [SHP_CHG]
-                                                                 to each TSO segment - PKO copies [SHP_CHG] to each PKO_META_DESC_S[ADJUST]
-                                                                 and PKO_nm_PICK[ADJUST].
+                                                                 When [TSO]=1, PKO applies [SHP_CHG] to each TSO segment - PKO copies [SHP_CHG]
+                                                                 to each PKO_META_DESC_S[ADJUST] and PKO_nm_PICK[ADJUST].
 
                                                                  Internal:
-                                                                 When PDM hardware writes a descriptor to memory, it crams a checksum
-                                                                 here to help detect memory corruption. The corresponding PKO_META_DESC_S[ADJUST]
-                                                                 have already been created from this at that time. */
-        uint64_t tso_fn                : 7;  /**< [119:113] Reserved.
+                                                                 When PDM hardware writes a descriptor to memory, it crams a checksum in
+                                                                 [SHP_CHG] to help detect memory corruption. The corresponding
+                                                                 PKO_META_DESC_S[ADJUST] have already been created from [SHP_CHG] at that
+                                                                 time. */
+        uint64_t tso_fn                : 7;  /**< [119:113] Reserved. Must be zero.
                                                                  Internal:
                                                                  Frame number. PKO increases [FN] in every replicated packet descriptor. */
-        uint64_t l2len                 : 8;  /**< [127:120] Offset in bytes to the two-byte L2 header-type/length field. If the type/length
-                                                                 field value in the pre-segmented packet is 0 .. 1535, PKO considers it
-                                                                 to be a length field, and modifies it for each produced segment. */
+        uint64_t l2len                 : 8;  /**< [127:120] Offset in bytes to the two-byte L2 header-type/length field. Must be
+                                                                 zero when [TSO] is clear. See also the [TSO] description.
+
+                                                                 When [TSO]=1, if the type/length field value in the pre-segmented
+                                                                 packet is 0 .. 1535, PKO considers it to be a length field, and modifies
+                                                                 it for each produced segment. When [TSO]=1, [L2LEN] must refer to the
+                                                                 outer L2, i.e. [L2LEN] must be less than [L3PTR]. */
 #endif /* Word 1 - End */
     } s;
     /* struct bdk_pko_send_hdr_s_s cn; */
@@ -1893,10 +2235,13 @@ union bdk_pko_send_hdr_s
  * Structure pko_send_imm_s
  *
  * PKO Send Immediate Subdescriptor Structure
- * The send immediate subdescriptor directly includes bytes of packet data.
- * The subdescriptor format is this 128-bit PKO_SEND_IMM_S followed immediately
- * by the packet data. The next subdescriptor (if any) follows the packet data
- * bytes (after rounding up to be a multiple of 16 bytes).
+ * The send immediate subdescriptor directly includes bytes of immediate
+ * packet data. If the immediate packet data is less than 8 bytes, [DATA] in
+ * this PKO_SEND_IMM_S entirely contains it. If the immediate packet data is
+ * more than 8 bytes, then this subdescriptor is this 128-bit PKO_SEND_IMM_S
+ * followed immediately by the packet data bytes that do not fit into [DATA],
+ * and the next subdescriptor follows the packet data bytes (after rounding
+ * up to be a multiple of 16 bytes).
  *
  * There may be multiple PKO_SEND_IMM_S in one PKO SEND descriptor.  A PKO_SEND_IMM_S must
  * not be present in a PKO SEND descriptor when the sum of all prior PKO_SEND_GATHER_S[SIZE]s
@@ -1904,9 +2249,8 @@ union bdk_pko_send_hdr_s
  * immediate bytes must be usable.) Furthermore, all supplied immediate bytes must
  * be used. A PKO_SEND_IMM_S must precede a PKO_SEND_LINK_S in a PKO SEND descriptor.
  *
- * When PKO_SEND_HDR_S[TSO] is set in the descriptor, all PKO_SEND_IMM_S
- * bytes must be included in the the first PKO_SEND_HDR_S[TSO_SB] bytes of the
- * source packet.
+ * When PKO_SEND_HDR_S[TSO]=1, all PKO_SEND_IMM_S bytes must be included
+ * in the the first PKO_SEND_HDR_S[TSO_SB] bytes of the source packet.
  */
 union bdk_pko_send_imm_s
 {
@@ -1921,10 +2265,11 @@ union bdk_pko_send_imm_s
                                                                  Intent was to stripe an 8-bit CRC across these bits in the cacheline, but
                                                                  not implemented. */
         uint64_t reserved_16_47        : 32;
-        uint64_t size                  : 16; /**< [ 15:  0] Size of immediate (in bytes) that immediately follows this 128-bit structure.
-                                                                 [SIZE] must be between 1 and 32 bytes. The next subdescriptor follow [SIZE]
-                                                                 bytes later in the descriptor, rounded up to the next 8-byte aligned
-                                                                 boundary.
+        uint64_t size                  : 16; /**< [ 15:  0] Size of immediate data in bytes. [SIZE] must be between 1 and 40 bytes.
+                                                                 When [SIZE] <= 8, [DATA] contains all the immediate data. When [SIZE] > 8,
+                                                                 the remaining [SIZE]-8 bytes of the immediate data immediately follows
+                                                                 this PKO_SEND_IMM_S, with the next subdescriptor following, after rounding
+                                                                 up to a 16-byte boundary.
 
                                                                  Let priorbytes = the sum of all prior PKO_SEND_GATHER_S[SIZE]s and
                                                                  PKO_SEND_IMM_S[SIZE]s in this descriptor. This PKO_SEND_IMM_S
@@ -1936,10 +2281,11 @@ union bdk_pko_send_imm_s
                                                                  PKO_SEND_LINK_S[SIZE]s in the descriptor plus any PKI_BUFLINK_S[SIZE]s
                                                                  linked by any PKO_SEND_LINK_S must equal or exceed PKO_SEND_HDR_S[TOTAL]. */
 #else /* Word 0 - Little Endian */
-        uint64_t size                  : 16; /**< [ 15:  0] Size of immediate (in bytes) that immediately follows this 128-bit structure.
-                                                                 [SIZE] must be between 1 and 32 bytes. The next subdescriptor follow [SIZE]
-                                                                 bytes later in the descriptor, rounded up to the next 8-byte aligned
-                                                                 boundary.
+        uint64_t size                  : 16; /**< [ 15:  0] Size of immediate data in bytes. [SIZE] must be between 1 and 40 bytes.
+                                                                 When [SIZE] <= 8, [DATA] contains all the immediate data. When [SIZE] > 8,
+                                                                 the remaining [SIZE]-8 bytes of the immediate data immediately follows
+                                                                 this PKO_SEND_IMM_S, with the next subdescriptor following, after rounding
+                                                                 up to a 16-byte boundary.
 
                                                                  Let priorbytes = the sum of all prior PKO_SEND_GATHER_S[SIZE]s and
                                                                  PKO_SEND_IMM_S[SIZE]s in this descriptor. This PKO_SEND_IMM_S
@@ -1959,9 +2305,25 @@ union bdk_pko_send_imm_s
         uint64_t subdc                 : 4;  /**< [ 63: 60] Subdescriptor code. Indicates send immediate. Enumerated by PKO_SENDSUBDC_E::IMM. */
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
-        uint64_t data                  : 64; /**< [127: 64] First 8 bytes of immediate data. */
+        uint64_t data                  : 64; /**< [127: 64] First up to 8 bytes of immediate data.
+
+                                                                 Unlike other PKO descriptor fields, which are fields of a surrounding 64-bit
+                                                                 word and whose format in memory/LMTST depends on PKO_PF_VF()_GMCTL[BE],
+                                                                 [DATA] and any further immediate data that follows this PKO_SEND_IMM_S are
+                                                                 an endian-agnostic byte stream. If X is the byte address of the beginning of
+                                                                 this PKO_SEND_IMM_S, then regardless of any endian-ness, any CPU byte
+                                                                 load/store from/to address X+8 is always the first immediate data byte for
+                                                                 the constructed packet, X+9 is always the second immediate data byte, etc. */
 #else /* Word 1 - Little Endian */
-        uint64_t data                  : 64; /**< [127: 64] First 8 bytes of immediate data. */
+        uint64_t data                  : 64; /**< [127: 64] First up to 8 bytes of immediate data.
+
+                                                                 Unlike other PKO descriptor fields, which are fields of a surrounding 64-bit
+                                                                 word and whose format in memory/LMTST depends on PKO_PF_VF()_GMCTL[BE],
+                                                                 [DATA] and any further immediate data that follows this PKO_SEND_IMM_S are
+                                                                 an endian-agnostic byte stream. If X is the byte address of the beginning of
+                                                                 this PKO_SEND_IMM_S, then regardless of any endian-ness, any CPU byte
+                                                                 load/store from/to address X+8 is always the first immediate data byte for
+                                                                 the constructed packet, X+9 is always the second immediate data byte, etc. */
 #endif /* Word 1 - End */
     } s;
     /* struct bdk_pko_send_imm_s_s cn; */
@@ -1973,7 +2335,7 @@ union bdk_pko_send_imm_s
  * PKO Send Jump Subdescriptor Structure
  * The send jump subdescriptor selects a new address for fetching the next subdescriptor.
  *
- * This allows software to create subdescriptor lists longer than the 15 directly
+ * This allows software to create subdescriptor lists longer than the 7 directly
  * supported by the hardware. There can be only one PKO_SEND_JUMP_S subdescriptor in a packet
  * descriptor. PKO_SEND_JUMP_S must be the last subdescriptor in the initial (up to 2
  * subdescriptor) portion of the packet descriptor and must precede all subdescriptors
@@ -5373,8 +5735,8 @@ union bdk_pko_l1_sqx_topology
                                                                     LINK/          Relevant
                                                                   MAC_NUM     PKO_MAC()_CFG CSR    Description
                                                                   -------------------------------------------------
-                                                                     0         PKO_MAC0_CFG      LBK loopback
-                                                                     1         PKO_MAC1_CFG      LBK loopback
+                                                                     0         PKO_MAC0_CFG      LBK0 loopback (to PKI)
+                                                                     1         PKO_MAC1_CFG      LBK2 loopback (to NIC)
                                                                      2         PKO_MAC2_CFG      DPI packet output
                                                                      3         PKO_MAC3_CFG      BGX0 logical MAC 0
                                                                      4         PKO_MAC4_CFG      BGX0 logical MAC 1
@@ -5431,8 +5793,8 @@ union bdk_pko_l1_sqx_topology
                                                                     LINK/          Relevant
                                                                   MAC_NUM     PKO_MAC()_CFG CSR    Description
                                                                   -------------------------------------------------
-                                                                     0         PKO_MAC0_CFG      LBK loopback
-                                                                     1         PKO_MAC1_CFG      LBK loopback
+                                                                     0         PKO_MAC0_CFG      LBK0 loopback (to PKI)
+                                                                     1         PKO_MAC1_CFG      LBK2 loopback (to NIC)
                                                                      2         PKO_MAC2_CFG      DPI packet output
                                                                      3         PKO_MAC3_CFG      BGX0 logical MAC 0
                                                                      4         PKO_MAC4_CFG      BGX0 logical MAC 1
@@ -8430,8 +8792,8 @@ static inline uint64_t BDK_PKO_L5_CONST_FUNC(void)
  *   LINK/   PKI_CHAN_E    Corresponding
  * MAC_NUM   Range         PKO_LUT index   Description
  * -------   -----------   -------------   -----------------
- *     0     0x000-0x03F   0x000-0x03F     LBK0 Loopback
- *     1     0x200-0x23F   0x200-0x23F     LBK1 Loopback
+ *     0     0x000-0x03F   0x000-0x03F     LBK0 Loopback (to PKI)
+ *     1     0x200-0x23F   0x200-0x23F     LBK2 Loopback (to NIC)
  *     2     0x400-0x47F   0x400-0x47F     DPI packet output
  *     3     0x800-0x80F   0x800-0x80F     BGX0 Logical MAC 0
  *     4     0x810-0x81F   0x810-0x81F     BGX0 Logical MAC 1
@@ -16235,17 +16597,37 @@ union bdk_pko_vfx_dqx_fc_status
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_36_63        : 28;
-        uint64_t count                 : 36; /**< [ 35:  0](R/W/H) Watermark buffer count. The number of buffers allocated (from
-                                                                 FPA aura PKO_DPFI_FPA_AURA[NODE,LAURA]) for this DQ.  When enabled to
-                                                                 do so, PKO stores this value minus PKO_PDM_CFG[DQ_FC_SKID] to L2/DRAM
-                                                                 for flow control purposes as a signed 64-bit integer.  See
-                                                                 PKO_VF()_DQ_FC_CONFIG for more details. */
+        uint64_t count                 : 36; /**< [ 35:  0](R/W/H) Watermark buffer count. PKO decrements [COUNT] by one when it allocates
+                                                                 a buffer for this DQ (from FPA aura PKO_DPFI_FPA_AURA[NODE,LAURA]).
+                                                                 When corresponding PKO_VF()_DQ_FC_CONFIG[ENABLE] is set, PKO occasionally
+                                                                 (PKO_VF()_DQ_FC_CONFIG[HYST_BITS] controls when) stores [COUNT] minus
+                                                                 PKO_PDM_CFG[DQ_FC_SKID] to L2/DRAM as a signed 64-bit
+                                                                 integer for flow control purposes. Software should initialize [COUNT]
+                                                                 when the corresponding DQ is closed. After the corresponding
+                                                                 DQ is open, software should only read this PKO_VF()_DQ()_FC_STATUS.
+                                                                 The initial [COUNT] value can be the number of buffers available for the DQ.
+                                                                 Software can also initialize the memory location for the DQ to this
+                                                                 initial [COUNT] minus PKO_PDM_CFG[DQ_FC_SKID]. If software later stops
+                                                                 adding descriptors to the DQ when the memory location goes negative (and
+                                                                 PKO_PDM_CFG[DQ_FC_SKID] is properly set), software can effectively
+                                                                 prevent the DQ from using more than the buffers available for it.
+                                                                 See PKO_VF()_DQ_FC_CONFIG for more details. */
 #else /* Word 0 - Little Endian */
-        uint64_t count                 : 36; /**< [ 35:  0](R/W/H) Watermark buffer count. The number of buffers allocated (from
-                                                                 FPA aura PKO_DPFI_FPA_AURA[NODE,LAURA]) for this DQ.  When enabled to
-                                                                 do so, PKO stores this value minus PKO_PDM_CFG[DQ_FC_SKID] to L2/DRAM
-                                                                 for flow control purposes as a signed 64-bit integer.  See
-                                                                 PKO_VF()_DQ_FC_CONFIG for more details. */
+        uint64_t count                 : 36; /**< [ 35:  0](R/W/H) Watermark buffer count. PKO decrements [COUNT] by one when it allocates
+                                                                 a buffer for this DQ (from FPA aura PKO_DPFI_FPA_AURA[NODE,LAURA]).
+                                                                 When corresponding PKO_VF()_DQ_FC_CONFIG[ENABLE] is set, PKO occasionally
+                                                                 (PKO_VF()_DQ_FC_CONFIG[HYST_BITS] controls when) stores [COUNT] minus
+                                                                 PKO_PDM_CFG[DQ_FC_SKID] to L2/DRAM as a signed 64-bit
+                                                                 integer for flow control purposes. Software should initialize [COUNT]
+                                                                 when the corresponding DQ is closed. After the corresponding
+                                                                 DQ is open, software should only read this PKO_VF()_DQ()_FC_STATUS.
+                                                                 The initial [COUNT] value can be the number of buffers available for the DQ.
+                                                                 Software can also initialize the memory location for the DQ to this
+                                                                 initial [COUNT] minus PKO_PDM_CFG[DQ_FC_SKID]. If software later stops
+                                                                 adding descriptors to the DQ when the memory location goes negative (and
+                                                                 PKO_PDM_CFG[DQ_FC_SKID] is properly set), software can effectively
+                                                                 prevent the DQ from using more than the buffers available for it.
+                                                                 See PKO_VF()_DQ_FC_CONFIG for more details. */
         uint64_t reserved_36_63        : 28;
 #endif /* Word 0 - End */
     } s;
@@ -16341,12 +16723,12 @@ union bdk_pko_vfx_dqx_op_close
                                                                       X          1         Buffers. [DEPTH] is PKO_VF()_DQ()_FC_STATUS[COUNT],
                                                                                            which is the number of buffers consumed by the DQ.
 
-                                                                      0          0         Byte Count. [DEPTH] is PKO_DQ()_WM_CNT[COUNT],
+                                                                      0          0         Byte Count. [DEPTH] is PKO_VF()_DQ()_WM_CNT[COUNT],
                                                                                            which is the sum of the PKO_META_DESC_S[LENGTH]
                                                                                            stored in the DQ, and of all the PKO_*_PICK[LENGTH]s in
                                                                                            conditioners holding valid metas from the DQ.
 
-                                                                      1          0         Descriptor count. [DEPTH] is PKO_DQ()_WM_CNT[COUNT],
+                                                                      1          0         Descriptor count. [DEPTH] is PKO_VF()_DQ()_WM_CNT[COUNT],
                                                                                            which is the number of descriptors stored in the DQ or from
                                                                                            the DQ and present in a PKO conditioner.
                                                                  </pre> */
@@ -16363,12 +16745,12 @@ union bdk_pko_vfx_dqx_op_close
                                                                       X          1         Buffers. [DEPTH] is PKO_VF()_DQ()_FC_STATUS[COUNT],
                                                                                            which is the number of buffers consumed by the DQ.
 
-                                                                      0          0         Byte Count. [DEPTH] is PKO_DQ()_WM_CNT[COUNT],
+                                                                      0          0         Byte Count. [DEPTH] is PKO_VF()_DQ()_WM_CNT[COUNT],
                                                                                            which is the sum of the PKO_META_DESC_S[LENGTH]
                                                                                            stored in the DQ, and of all the PKO_*_PICK[LENGTH]s in
                                                                                            conditioners holding valid metas from the DQ.
 
-                                                                      1          0         Descriptor count. [DEPTH] is PKO_DQ()_WM_CNT[COUNT],
+                                                                      1          0         Descriptor count. [DEPTH] is PKO_VF()_DQ()_WM_CNT[COUNT],
                                                                                            which is the number of descriptors stored in the DQ or from
                                                                                            the DQ and present in a PKO conditioner.
                                                                  </pre> */
@@ -16426,12 +16808,12 @@ union bdk_pko_vfx_dqx_op_open
                                                                       X          1         Buffers. [DEPTH] is PKO_VF()_DQ()_FC_STATUS[COUNT],
                                                                                            which is the number of buffers consumed by the DQ.
 
-                                                                      0          0         Byte Count. [DEPTH] is PKO_DQ()_WM_CNT[COUNT],
+                                                                      0          0         Byte Count. [DEPTH] is PKO_VF()_DQ()_WM_CNT[COUNT],
                                                                                            which is the sum of the PKO_META_DESC_S[LENGTH]
                                                                                            stored in the DQ, and of all the PKO_*_PICK[LENGTH]s in
                                                                                            conditioners holding valid metas from the DQ.
 
-                                                                      1          0         Descriptor count. [DEPTH] is PKO_DQ()_WM_CNT[COUNT],
+                                                                      1          0         Descriptor count. [DEPTH] is PKO_VF()_DQ()_WM_CNT[COUNT],
                                                                                            which is the number of descriptors stored in the DQ or from
                                                                                            the DQ and present in a PKO conditioner.
                                                                  </pre> */
@@ -16448,12 +16830,12 @@ union bdk_pko_vfx_dqx_op_open
                                                                       X          1         Buffers. [DEPTH] is PKO_VF()_DQ()_FC_STATUS[COUNT],
                                                                                            which is the number of buffers consumed by the DQ.
 
-                                                                      0          0         Byte Count. [DEPTH] is PKO_DQ()_WM_CNT[COUNT],
+                                                                      0          0         Byte Count. [DEPTH] is PKO_VF()_DQ()_WM_CNT[COUNT],
                                                                                            which is the sum of the PKO_META_DESC_S[LENGTH]
                                                                                            stored in the DQ, and of all the PKO_*_PICK[LENGTH]s in
                                                                                            conditioners holding valid metas from the DQ.
 
-                                                                      1          0         Descriptor count. [DEPTH] is PKO_DQ()_WM_CNT[COUNT],
+                                                                      1          0         Descriptor count. [DEPTH] is PKO_VF()_DQ()_WM_CNT[COUNT],
                                                                                            which is the number of descriptors stored in the DQ or from
                                                                                            the DQ and present in a PKO conditioner.
                                                                  </pre> */
@@ -16509,12 +16891,12 @@ union bdk_pko_vfx_dqx_op_query
                                                                       X          1         Buffers. [DEPTH] is PKO_VF()_DQ()_FC_STATUS[COUNT],
                                                                                            which is the number of buffers consumed by the DQ.
 
-                                                                      0          0         Byte Count. [DEPTH] is PKO_DQ()_WM_CNT[COUNT],
+                                                                      0          0         Byte Count. [DEPTH] is PKO_VF()_DQ()_WM_CNT[COUNT],
                                                                                            which is the sum of the PKO_META_DESC_S[LENGTH]
                                                                                            stored in the DQ, and of all the PKO_*_PICK[LENGTH]s in
                                                                                            conditioners holding valid metas from the DQ.
 
-                                                                      1          0         Descriptor count. [DEPTH] is PKO_DQ()_WM_CNT[COUNT],
+                                                                      1          0         Descriptor count. [DEPTH] is PKO_VF()_DQ()_WM_CNT[COUNT],
                                                                                            which is the number of descriptors stored in the DQ or from
                                                                                            the DQ and present in a PKO conditioner.
                                                                  </pre> */
@@ -16531,12 +16913,12 @@ union bdk_pko_vfx_dqx_op_query
                                                                       X          1         Buffers. [DEPTH] is PKO_VF()_DQ()_FC_STATUS[COUNT],
                                                                                            which is the number of buffers consumed by the DQ.
 
-                                                                      0          0         Byte Count. [DEPTH] is PKO_DQ()_WM_CNT[COUNT],
+                                                                      0          0         Byte Count. [DEPTH] is PKO_VF()_DQ()_WM_CNT[COUNT],
                                                                                            which is the sum of the PKO_META_DESC_S[LENGTH]
                                                                                            stored in the DQ, and of all the PKO_*_PICK[LENGTH]s in
                                                                                            conditioners holding valid metas from the DQ.
 
-                                                                      1          0         Descriptor count. [DEPTH] is PKO_DQ()_WM_CNT[COUNT],
+                                                                      1          0         Descriptor count. [DEPTH] is PKO_VF()_DQ()_WM_CNT[COUNT],
                                                                                            which is the number of descriptors stored in the DQ or from
                                                                                            the DQ and present in a PKO conditioner.
                                                                  </pre> */
@@ -16816,28 +17198,28 @@ union bdk_pko_vfx_dqx_wm_ctl
         uint64_t reserved_52_63        : 12;
         uint64_t ncb_query_rsp         : 1;  /**< [ 51: 51](R/W) NCB query response. Specifies what value is returned in
                                                                  PKO_VF()_DQ()_OP_QUERY[DEPTH].
-                                                                 0 = The value held in PKO_DQ()_WM_CNT[COUNT] is returned.
+                                                                 0 = The value held in PKO_VF()_DQ()_WM_CNT[COUNT] is returned.
                                                                  1 = The value held in PKO_VF()_DQ()_FC_STATUS[COUNT] is returned. */
         uint64_t enable                : 1;  /**< [ 50: 50](RAZ) Reserved. */
-        uint64_t kind                  : 1;  /**< [ 49: 49](R/W) Selects the contents of PKO_DQ()_WM_CNT[COUNT].
-                                                                 If [KIND] is clear, PKO_DQ()_WM_CNT[COUNT] is a byte count for the DQ - the
+        uint64_t kind                  : 1;  /**< [ 49: 49](R/W) Selects the contents of PKO_VF()_DQ()_WM_CNT[COUNT].
+                                                                 If [KIND] is clear, PKO_VF()_DQ()_WM_CNT[COUNT] is a byte count for the DQ - the
                                                                  sum of all PKO_META_DESC_S[LENGTH] and PKO_*_PICK[LENGTH] for the DQ.
-                                                                 If [KIND] is set, PKO_DQ()_WM_CNT[COUNT] is a number of descriptors for the DQ.
-                                                                 See PKO_DQ()_WM_CNT[COUNT]. */
+                                                                 If [KIND] is set, PKO_VF()_DQ()_WM_CNT[COUNT] is a number of descriptors for the DQ.
+                                                                 See PKO_VF()_DQ()_WM_CNT[COUNT]. */
         uint64_t intr                  : 1;  /**< [ 48: 48](RAZ) Reserved. */
         uint64_t threshold             : 48; /**< [ 47:  0](RAZ) Reserved. */
 #else /* Word 0 - Little Endian */
         uint64_t threshold             : 48; /**< [ 47:  0](RAZ) Reserved. */
         uint64_t intr                  : 1;  /**< [ 48: 48](RAZ) Reserved. */
-        uint64_t kind                  : 1;  /**< [ 49: 49](R/W) Selects the contents of PKO_DQ()_WM_CNT[COUNT].
-                                                                 If [KIND] is clear, PKO_DQ()_WM_CNT[COUNT] is a byte count for the DQ - the
+        uint64_t kind                  : 1;  /**< [ 49: 49](R/W) Selects the contents of PKO_VF()_DQ()_WM_CNT[COUNT].
+                                                                 If [KIND] is clear, PKO_VF()_DQ()_WM_CNT[COUNT] is a byte count for the DQ - the
                                                                  sum of all PKO_META_DESC_S[LENGTH] and PKO_*_PICK[LENGTH] for the DQ.
-                                                                 If [KIND] is set, PKO_DQ()_WM_CNT[COUNT] is a number of descriptors for the DQ.
-                                                                 See PKO_DQ()_WM_CNT[COUNT]. */
+                                                                 If [KIND] is set, PKO_VF()_DQ()_WM_CNT[COUNT] is a number of descriptors for the DQ.
+                                                                 See PKO_VF()_DQ()_WM_CNT[COUNT]. */
         uint64_t enable                : 1;  /**< [ 50: 50](RAZ) Reserved. */
         uint64_t ncb_query_rsp         : 1;  /**< [ 51: 51](R/W) NCB query response. Specifies what value is returned in
                                                                  PKO_VF()_DQ()_OP_QUERY[DEPTH].
-                                                                 0 = The value held in PKO_DQ()_WM_CNT[COUNT] is returned.
+                                                                 0 = The value held in PKO_VF()_DQ()_WM_CNT[COUNT] is returned.
                                                                  1 = The value held in PKO_VF()_DQ()_FC_STATUS[COUNT] is returned. */
         uint64_t reserved_52_63        : 12;
 #endif /* Word 0 - End */
@@ -16921,13 +17303,17 @@ union bdk_pko_vfx_dq_fc_config
                                                                  PKO_VF()_DQ()_FC_STATUS[COUNT] minus PKO_PDM_CFG[DQ_FC_SKID] to L2/DRAM
                                                                  for flow control purposes as a signed 64-bit integer.  The address to
                                                                  which the value is stored is specified through [BASE] and [STRIDE]; while
-                                                                 the frequency of the stores is controlled via [HYST_BITS]. */
+                                                                 the frequency of the stores is controlled via [HYST_BITS]. See
+                                                                 PKO_VF()_DQ()_FC_STATUS for more details. [ENABLE] should be
+                                                                 configured before any of the corresponding DQ's are open. */
 #else /* Word 0 - Little Endian */
         uint64_t enable                : 1;  /**< [  0:  0](R/W) Enable DQ buffer flow control.  When enabled PKO will periodically store
                                                                  PKO_VF()_DQ()_FC_STATUS[COUNT] minus PKO_PDM_CFG[DQ_FC_SKID] to L2/DRAM
                                                                  for flow control purposes as a signed 64-bit integer.  The address to
                                                                  which the value is stored is specified through [BASE] and [STRIDE]; while
-                                                                 the frequency of the stores is controlled via [HYST_BITS]. */
+                                                                 the frequency of the stores is controlled via [HYST_BITS]. See
+                                                                 PKO_VF()_DQ()_FC_STATUS for more details. [ENABLE] should be
+                                                                 configured before any of the corresponding DQ's are open. */
         uint64_t reserved_1            : 1;
         uint64_t stride                : 1;  /**< [  2:  2](R/W) Address stride.
                                                                  0 = Locations are spaced every 128 bytes to give them their own cache line.

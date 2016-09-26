@@ -6166,7 +6166,7 @@ union bdk_gserx_lanex_tx_pre_emphasis
                                                                     --------------------------------------------------------
                                                                      6,25 Gbaud            0xa0
                                                                      10.3125 Gbaud         0xd0
-                                                                     other                 0xf0
+                                                                     other                 0x70
                                                                  </pre> */
 #else /* Word 0 - Little Endian */
         uint64_t cfg_tx_premptap       : 9;  /**< [  8:  0](R/W) Override preemphasis control. Applies when
@@ -6194,7 +6194,7 @@ union bdk_gserx_lanex_tx_pre_emphasis
                                                                     --------------------------------------------------------
                                                                      6,25 Gbaud            0xa0
                                                                      10.3125 Gbaud         0xd0
-                                                                     other                 0xf0
+                                                                     other                 0x70
                                                                  </pre> */
         uint64_t reserved_9_63         : 55;
 #endif /* Word 0 - End */

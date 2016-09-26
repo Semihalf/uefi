@@ -11079,12 +11079,12 @@ union bdk_pki_tag_secret
                                                                  for maximum security. */
         uint64_t src6                  : 16; /**< [ 47: 32](R/W) Secret for the source tuple IPv6 tag CRC calculation. Typically different from SRC for
                                                                  maximum security. */
-        uint64_t dst                   : 16; /**< [ 31: 16](R/W) Secret for the destination tuple tag CRC calculation. Typically identical to DST6 to
+        uint64_t dst                   : 16; /**< [ 31: 16](R/W) Secret for the destination tuple tag CRC calculation. Typically identical to SRC to
                                                                  insure tagging is symmetric between source/destination flows. */
         uint64_t src                   : 16; /**< [ 15:  0](R/W) Secret for the source tuple tag CRC calculation. */
 #else /* Word 0 - Little Endian */
         uint64_t src                   : 16; /**< [ 15:  0](R/W) Secret for the source tuple tag CRC calculation. */
-        uint64_t dst                   : 16; /**< [ 31: 16](R/W) Secret for the destination tuple tag CRC calculation. Typically identical to DST6 to
+        uint64_t dst                   : 16; /**< [ 31: 16](R/W) Secret for the destination tuple tag CRC calculation. Typically identical to SRC to
                                                                  insure tagging is symmetric between source/destination flows. */
         uint64_t src6                  : 16; /**< [ 47: 32](R/W) Secret for the source tuple IPv6 tag CRC calculation. Typically different from SRC for
                                                                  maximum security. */

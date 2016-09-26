@@ -329,7 +329,8 @@
 /**
  * Structure pcc_class_code_s
  *
- * PCC Class Code Structure
+ * INTERNAL: PCC Class Code Structure
+ *
  * Defines the components of the PCC class code.
  */
 union bdk_pcc_class_code_s
