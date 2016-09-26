@@ -524,8 +524,11 @@ int bdk_if_alloc(bdk_if_packet_t *packet, int length)
 {
     /* Get the buffer chunk size, needed for size calculations */
     static int buf_size = 0;
-    if (buf_size == 0)
+    static int gather_limit = 0;
+    if (buf_size == 0) {
         buf_size = bdk_config_get_int(BDK_CONFIG_PACKET_BUFFER_SIZE);
+        gather_limit = buf_size * BDK_IF_MAX_GATHER - 2 * BDK_CACHE_LINE_SIZE;
+    }
 
     /* Find the max TX sized, based on a single packet or multiple in the case
        of TSO */
@@ -543,8 +546,8 @@ int bdk_if_alloc(bdk_if_packet_t *packet, int length)
 
     /* The max size must fit inside the packet structure, which can have
        BDK_IF_MAX_GATHER buffer chunks */
-    if (buf_size * BDK_IF_MAX_GATHER < max_length)
-        max_length = buf_size * BDK_IF_MAX_GATHER; /* Limit of packet structure */
+    if (gather_limit < max_length)
+        max_length = gather_limit; /* Limit of packet structure */
 
     /* Fail allocation if packet is too large for transmit */
     if (length > max_length)
@@ -574,10 +577,9 @@ int bdk_if_alloc(bdk_if_packet_t *packet, int length)
         }
         if (ctlPad) {
             /* Rob trailing 256 bytes for potentially building PKO gather array
-            ** Longest array is 18 words(20 with sw flow control), its start needs to be 128 bytes aligned.
-            ** We can get away with subtracting 256 because buffers are aligned in memory
+            ** We can get away with subtraction because buffers are aligned in memory
             */
-            size -= 256;
+            size -= 2*BDK_CACHE_LINE_SIZE ;
             ctlPad = false;
         }
         packet->packet[packet->segments].s.size = size;
