@@ -937,18 +937,37 @@ drop:
 
 EFI_STATUS
 Pp2DxeSnpInstall (
-  IN PP2DXE_CONTEXT *Pp2Context
+  IN PP2DXE_CONTEXT *Pp2Context,
+  IN INTN 	     Num
   )
 {
   EFI_HANDLE Handle = NULL;
   EFI_STATUS Status;
   PP2_DEVICE_PATH *Pp2DevicePath;
+  UINT8 MacByte, *MacAddressPtr;
 
   DEBUG((DEBUG_INFO, "Pp2Dxe%d: Installing protocols\n", Pp2Context->Instance));
   Pp2Context->Snp.Mode = AllocateZeroPool (sizeof (EFI_SIMPLE_NETWORK_MODE));
   Pp2DevicePath = AllocateCopyPool (sizeof (PP2_DEVICE_PATH), &Pp2DevicePathTemplate);
-  /* change MAC address depending on interface */
-  Pp2DevicePath->Pp2Mac.MacAddress.Addr[5] += Pp2Context->Instance;
+  /* Read MAC addresses from DSC file */
+  switch (Num) {
+  case 0:
+    MacAddressPtr = PP2DXE_GET_MAC_ADDR(0);
+    break;
+  case 1:
+    MacAddressPtr = PP2DXE_GET_MAC_ADDR(1);
+    break;
+  case 2:
+    MacAddressPtr = PP2DXE_GET_MAC_ADDR(2);
+    break;
+  default:
+    /* Not supported port no */
+    break;
+  }
+  for (MacByte = 0; MacByte < 32; MacByte++) {
+    Pp2DevicePath->Pp2Mac.MacAddress.Addr[MacByte] = MacAddressPtr[MacByte];
+  }
+  DEBUG((DEBUG_INFO, "Pp2DxeMac address: %x\n", Pp2DevicePath->Pp2Mac.MacAddress));
   Pp2Context->Signature = PP2DXE_SIGNATURE;
   Pp2Context->Snp.Initialize = Pp2DxeSnpInitialize;
   Pp2Context->Snp.Start = Pp2SnpStart;
@@ -1137,7 +1156,7 @@ Pp2DxeInitialise (
     return EFI_INVALID_PARAMETER;
   }
 
-  for (i = 0; i < PcdGet32 (PcdPp2PortNumber); i++) {
+  for (i = 0; i < PP2DXE_MAX_PORTS/*PcdGet32 (PcdPp2PortNumber)*/; i++) {
 
     Pp2Context = AllocateZeroPool (sizeof (PP2DXE_CONTEXT));
     if (Pp2Context == NULL) {
@@ -1153,7 +1172,7 @@ Pp2DxeInitialise (
     Pp2Context->Instance = i;
 
     /* Install SNP protocol */
-    Status = Pp2DxeSnpInstall(Pp2Context);
+    Status = Pp2DxeSnpInstall(Pp2Context, i);
 
     if (EFI_ERROR(Status))
       return Status;

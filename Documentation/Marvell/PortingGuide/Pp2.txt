@@ -57,3 +57,13 @@ TCLK frequency:
 
 GMAC and XLG addresses are computed as follows:
   address = base_address + obj_size * gop_index
+
+MAC Addresses for ports are defined as follows:
+  gMarvellTokenSpaceGuid.PcdPp2MacAddress0
+  gMarvellTokenSpaceGuid.PcdPp2MacAddress1
+  gMarvellTokenSpaceGuid.PcdPp2MacAddress2
+
+To change max value of ports you need to change:
+  #define PP2DXE_MAX_PORTS	3
+in Drivers/Net/Pp2Dxe/Pp2Dxe.h file and:
+  gMarvellTokenSpaceGuid.PcdPp2PortNumber

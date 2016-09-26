@@ -56,7 +56,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #define PP2DXE_MAX_PHY  2
 
-#define PP2DXE_DEFAULT_MAC_ADDR { 0x0, 0xaf, 0x1c, 0xdd, 0xe, 0x2 }
+#define PP2DXE_DEFAULT_MAC_ADDR { 0x0, 0x0, 0x0, 0x0, 0x0, 0x0 }
+
+#define PP2DXE_MAX_PORTS	3
+
+#define PP2DXE_GET_MAC_ADDR(num)	PcdGetPtr(PcdPp2MacAddress##num)			
 
 #define MVPP2_TX_SEND_TIMEOUT    10000
 

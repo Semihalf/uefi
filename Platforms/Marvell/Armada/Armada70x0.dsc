@@ -138,6 +138,9 @@
   gMarvellTokenSpaceGuid.PcdPp2Rfu1BaseAddress|0xf2441000
   gMarvellTokenSpaceGuid.PcdPp2SmiBaseAddress|0xf212A200
   gMarvellTokenSpaceGuid.PcdPp2ClockFrequency|333333333
+  gMarvellTokenSpaceGuid.PcdPp2MacAddress0|{ 0x0, 0xaf, 0x1c, 0xdd, 0xe, 0x2 }
+  gMarvellTokenSpaceGuid.PcdPp2MacAddress1|{ 0x0, 0xaf, 0x1c, 0xdd, 0xe, 0x3 }
+  gMarvellTokenSpaceGuid.PcdPp2MacAddress2|{ 0x0, 0xaf, 0x1c, 0xdd, 0xe, 0x4 }
 
   #ResetLib
   gMarvellTokenSpaceGuid.PcdResetRegAddress|0xf06f0084
