@@ -133,7 +133,7 @@ static bdk_thread_t *__bdk_thread_next(void)
  */
 void bdk_thread_yield(void)
 {
-    if (bdk_numa_local() == bdk_numa_master())
+    if (BDK_DBG_MAGIC_ENABLE && (bdk_numa_local() == bdk_numa_master()))
         bdk_dbg_check_magic();
     bdk_thread_node_t *t_node = &bdk_thread_node[bdk_numa_local()];
     bdk_thread_t *current;
@@ -269,7 +269,7 @@ void bdk_thread_destroy(void)
 
     while (1)
     {
-        if (bdk_numa_local() == bdk_numa_master())
+        if (BDK_DBG_MAGIC_ENABLE && (bdk_numa_local() == bdk_numa_master()))
             bdk_dbg_check_magic();
         if (t_node->head)
         {

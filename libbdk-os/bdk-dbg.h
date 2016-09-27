@@ -47,6 +47,11 @@
  */
 
 /**
+ * Set to enable checking for a uart break signal to cause a core register dump
+ */
+#define BDK_DBG_MAGIC_ENABLE 0
+
+/**
  * The routine in this file are called when some unknown bad thing has happened.
  * They bypass the normal output mechanism and push characters directly to the
  * uart. Hopefully this will allow them to work when everything else has died.
