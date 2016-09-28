@@ -22,6 +22,8 @@
 
 #ifdef T81
 #define MIDR_REG			0x430F0A20
+#elif defined T83
+#define MIDR_REG			0x430F0A30
 #endif
 
 /*******************************************************************************
