@@ -14,13 +14,13 @@ static void thunder_gti_sync(unsigned node_count, uint64_t *dividers)
 	uint64_t local_node_cnt;
 	unsigned slope = 0;
 
-	remote_node_cnt = CSR_READ_PA(1, GTI_RD_CNTCV);
-	local_node_cnt = CSR_READ_PA(0, GTI_RD_CNTCV);
+	remote_node_cnt = CSR_READ_PA(1, CAVM_GTI_RD_CNTCV);
+	local_node_cnt = CSR_READ_PA(0, CAVM_GTI_RD_CNTCV);
 
 	if (local_node_cnt < remote_node_cnt) {
-		CSR_WRITE_PA(0, GTI_CC_CNTADD, remote_node_cnt - local_node_cnt);
+		CSR_WRITE_PA(0, CAVM_GTI_CC_CNTADD, remote_node_cnt - local_node_cnt);
 	} else {
-		CSR_WRITE_PA(1, GTI_CC_CNTADD, local_node_cnt - remote_node_cnt);
+		CSR_WRITE_PA(1, CAVM_GTI_CC_CNTADD, local_node_cnt - remote_node_cnt);
 	}
 
 	INFO("Started Syncronizing GTIs");
@@ -31,8 +31,8 @@ static void thunder_gti_sync(unsigned node_count, uint64_t *dividers)
 		unsigned tmp_tries;
 
 		for (tmp_tries = 0; tmp_tries < 100; tmp_tries ++) {
-			remote_node_cnt = CSR_READ_PA(1, GTI_RD_CNTCV);
-			local_node_cnt = CSR_READ_PA(0, GTI_RD_CNTCV);
+			remote_node_cnt = CSR_READ_PA(1, CAVM_GTI_RD_CNTCV);
+			local_node_cnt = CSR_READ_PA(0, CAVM_GTI_RD_CNTCV);
 
 			if (local_node_cnt < remote_node_cnt) {
 				tmp_cntadd = remote_node_cnt - local_node_cnt;
@@ -52,11 +52,11 @@ static void thunder_gti_sync(unsigned node_count, uint64_t *dividers)
 		if (remote_node_cnt > local_node_cnt) {
 			/* NODE1 running fast. slow him down */
 			dividers[1] += 0x4;
-			CSR_WRITE_PA(1 , GTI_CC_CNTRATE, dividers[1]);
+			CSR_WRITE_PA(1 , CAVM_GTI_CC_CNTRATE, dividers[1]);
 		} else {
 			/* NODE0 is fast. slow down */
 			dividers[0] += 0x4;
-			CSR_WRITE_PA(0 , GTI_CC_CNTRATE, dividers[0]);
+			CSR_WRITE_PA(0 , CAVM_GTI_CC_CNTRATE, dividers[0]);
 		}
 
 		INFO(".");
@@ -83,9 +83,9 @@ void thunder_gti_init(void)
 		divider = (THUNDER_SYSCNT_FREQ << 32) / sclk;
 
 		// GTI TIMER CNTFRQ
-		CSR_WRITE_PA(node, GTI_CC_CNTRATE, divider);
+		CSR_WRITE_PA(node, CAVM_GTI_CC_CNTRATE, divider);
 		// Enable GTI TIMER
-		CSR_WRITE_PA(node, GTI_CC_CNTCR, 0x1);
+		CSR_WRITE_PA(node, CAVM_GTI_CC_CNTCR, 0x1);
 
 		/* Handle a case where both nodes can have different SCLK */
 		dividers[node] = divider;

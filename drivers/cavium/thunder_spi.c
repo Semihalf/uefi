@@ -52,11 +52,11 @@ static file_state_t current_file = { 0 };
 int spi_config(uint64_t spi_clk, uint32_t mode, int cpol, int cpha, int cs)
 {
 	uint64_t sclk;
-	rst_boot_t rst_boot;
-	mpi_cfg_t mpi_cfg;
+	union cavm_rst_boot rst_boot;
+	union cavm_mpi_cfg mpi_cfg;
 
-	rst_boot.u = CSR_READ_PA(current_file.node, RST_BOOT);
-	mpi_cfg.u = CSR_READ_PA(current_file.node, MPI_CFG);
+	rst_boot.u = CSR_READ_PA(current_file.node, CAVM_RST_BOOT);
+	mpi_cfg.u = CSR_READ_PA(current_file.node, CAVM_MPI_CFG);
 	sclk = PLL_REF_CLK * rst_boot.s.pnr_mul;
 
 	switch (cs) {
@@ -82,15 +82,15 @@ int spi_config(uint64_t spi_clk, uint32_t mode, int cpol, int cpha, int cs)
 	mpi_cfg.s.idlelo = cpha != cpol;
 	mpi_cfg.s.cslate = cpha;
 	mpi_cfg.s.enable = 1;
-	CSR_WRITE_PA(current_file.node, MPI_CFG, mpi_cfg.u);
+	CSR_WRITE_PA(current_file.node, CAVM_MPI_CFG, mpi_cfg.u);
 
 	return 0;
 }
 
 int spi_xfer(unsigned char *dout, unsigned char *din, int len, int cs, int last_data)
 {
-	mpi_tx_t mpi_tx;
-	mpi_sts_t mpi_sts;
+	union cavm_mpi_tx mpi_tx;
+	union cavm_mpi_sts mpi_sts;
 	int i;
 
 	while (len > 0) {
@@ -98,7 +98,7 @@ int spi_xfer(unsigned char *dout, unsigned char *din, int len, int cs, int last_
 
 		if (dout) {
 			for (i = 0; i < size; i++) {
-				CSR_WRITE_PA(current_file.node, MPI_DATX(i), *dout++);
+				CSR_WRITE_PA(current_file.node, CAVM_MPI_DATX(i), *dout++);
 			}
 		}
 
@@ -112,16 +112,16 @@ int spi_xfer(unsigned char *dout, unsigned char *din, int len, int cs, int last_
 
 		mpi_tx.s.txnum = dout ? size : 0;
 		mpi_tx.s.totnum = size;
-		CSR_WRITE_PA(current_file.node, MPI_TX, mpi_tx.u);
+		CSR_WRITE_PA(current_file.node, CAVM_MPI_TX, mpi_tx.u);
 
 		/* Wait for tx/rx to complete */
 		do {
-			mpi_sts.u = CSR_READ_PA(current_file.node, MPI_STS);
+			mpi_sts.u = CSR_READ_PA(current_file.node, CAVM_MPI_STS);
 		} while (mpi_sts.s.busy != 0);
 
 		if (din) {
 			for (i = 0; i < size; i++) {
-				*din++ = CSR_READ_PA(current_file.node, MPI_DATX(i));
+				*din++ = CSR_READ_PA(current_file.node, CAVM_MPI_DATX(i));
 			}
 		}
 	}

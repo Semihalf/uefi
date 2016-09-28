@@ -301,7 +301,7 @@ static void thunder_ecam_dev_nonsecure(unsigned node, unsigned ecam, unsigned bu
 /* Workaround: reading the space for unexisting device will cause exception*/
 static uint64_t thunder_ecam_dev_config(unsigned node, unsigned ecam, unsigned bus, unsigned dev, unsigned func)
 {
-	uint64_t ecam_pconfig = CSR_PA(node, ECAMX_PF_BAR2(ecam));
+	uint64_t ecam_pconfig = CSR_PA(node, CAVM_ECAMX_PF_BAR2(ecam));
 	struct ecam_device *devs = thunder_ecam_devices[ecam];
 	unsigned i;
 

@@ -52,7 +52,7 @@ int thunder_wait_for_core(unsigned node)
 {
 
 	int loop=10;
-	volatile rst_pp_pending_t pp_pending;
+	volatile union cavm_rst_pp_pending pp_pending;
 
     /*TODO: This might be a good chance to implement
      * Simple timer library.
@@ -69,7 +69,7 @@ int thunder_wait_for_core(unsigned node)
 
     loop =1000000;
     while(loop) {
-        pp_pending.u = CSR_READ_PA(node, RST_PP_PENDING);
+        pp_pending.u = CSR_READ_PA(node, CAVM_RST_PP_PENDING);
 
         if(!pp_pending.s.pend)
             break;
@@ -85,7 +85,7 @@ int thunder_wait_for_core(unsigned node)
 
 void thunder_pwrc_write_pponr(unsigned long mpidr)
 {
-	rst_pp_reset_t pp_reset;
+	union cavm_rst_pp_reset pp_reset;
 	uint32_t midr;
 	unsigned long node, aff1_id, aff0_id, cavm_core_id;
 
@@ -94,7 +94,7 @@ void thunder_pwrc_write_pponr(unsigned long mpidr)
 	aff0_id = ((mpidr >> MPIDR_AFF0_SHIFT) & MPIDR_AFFLVL_MASK);
 	cavm_core_id = (aff1_id * 16) + aff0_id;
 
-	pp_reset.u = CSR_READ_PA(node, RST_PP_RESET);
+	pp_reset.u = CSR_READ_PA(node, CAVM_RST_PP_RESET);
 
 	if(!(pp_reset.u & (1ul << cavm_core_id))) {
 		/* core is WFI suspended state
@@ -102,7 +102,7 @@ void thunder_pwrc_write_pponr(unsigned long mpidr)
 		 * clearing it.
 		 **/
 		pp_reset.u |= (1ul << cavm_core_id);
-		CSR_WRITE_PA(node, RST_PP_RESET, pp_reset.u);
+		CSR_WRITE_PA(node, CAVM_RST_PP_RESET, pp_reset.u);
 		__asm("dsb ishst");
 		__asm("sev");
 		if(thunder_wait_for_core(node)) {
@@ -111,10 +111,10 @@ void thunder_pwrc_write_pponr(unsigned long mpidr)
 			while(1);
 			return;
 		}
-		pp_reset.u = CSR_READ_PA(node, RST_PP_RESET);
+		pp_reset.u = CSR_READ_PA(node, CAVM_RST_PP_RESET);
 	}
 	pp_reset.u &= ~(1ul << cavm_core_id);
-	CSR_WRITE_PA(node, RST_PP_RESET, pp_reset.u);
+	CSR_WRITE_PA(node, CAVM_RST_PP_RESET, pp_reset.u);
 	__asm("dsb ishst");
 	__asm("sev");
 	if(thunder_wait_for_core(node)){
@@ -129,10 +129,10 @@ void thunder_pwrc_write_pponr(unsigned long mpidr)
 	midr = read_midr();
 
 	if (IS_THUNDER_PASS(midr, 1, 0)) {
-		rst_dbg_reset_t dbg_reset;
-		dbg_reset.u = CSR_READ_PA(node, RST_DBG_RESET);
+		union cavm_rst_dbg_reset dbg_reset;
+		dbg_reset.u = CSR_READ_PA(node, CAVM_RST_DBG_RESET);
 		dbg_reset.s.rst &= ~(1ull << cavm_core_id);
-		CSR_WRITE_PA(node, RST_DBG_RESET, dbg_reset.u);
+		CSR_WRITE_PA(node, CAVM_RST_DBG_RESET, dbg_reset.u);
 	}
 
 }

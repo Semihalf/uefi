@@ -74,7 +74,7 @@ void bl1_early_platform_setup(void)
 	fdt_pack(fdt_ptr);
 
 	/* Initialize the console to provide early debug support */
-	console_init(CSR_PA(0, UAAX_PF_BAR0(0)), 0, 0);
+	console_init(CSR_PA(0, CAVM_UAAX_PF_BAR0(0)), 0, 0);
 
 	/* Allow BL1 to see the whole Trusted RAM */
 	bl1_tzram_layout.total_base = TZDRAM_BASE;

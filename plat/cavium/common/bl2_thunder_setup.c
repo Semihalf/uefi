@@ -183,7 +183,7 @@ void bl2_early_platform_setup(meminfo_t *mem_layout,
 				void *plat_params_from_bl1)
 {
 	/* Initialize the console to provide early debug support */
-	console_init(CSR_PA(0, UAAX_PF_BAR0(0)), 0, 0);
+	console_init(CSR_PA(0, CAVM_UAAX_PF_BAR0(0)), 0, 0);
 
 	/* Setup the BL2 memory layout */
 	bl2_tzram_layout = *mem_layout;

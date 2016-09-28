@@ -22,33 +22,33 @@
 
 static int gpio_set_out (int pin)
 {
-	gpio_tx_set_t gpio_tx_set;
-	gpio_bit_cfgx_t gpio_bit_cfg;
+	union cavm_gpio_tx_set gpio_tx_set;
+	union cavm_gpio_bit_cfgx gpio_bit_cfg;
 	unsigned long node = cavm_numa_local();
 
 	gpio_tx_set.u = 0;
 	gpio_tx_set.s.set = (1ULL << pin);
-	CSR_WRITE_PA(node, GPIO_TX_SET, gpio_tx_set.u);
-	gpio_bit_cfg.u = CSR_READ_PA(node, GPIO_BIT_CFGX(pin));
+	CSR_WRITE_PA(node, CAVM_GPIO_TX_SET, gpio_tx_set.u);
+	gpio_bit_cfg.u = CSR_READ_PA(node, CAVM_GPIO_BIT_CFGX(pin));
 	gpio_bit_cfg.s.tx_oe = 1;
 	gpio_bit_cfg.s.pin_sel = 0;
-	CSR_WRITE_PA(node, GPIO_BIT_CFGX(pin), gpio_bit_cfg.u);
+	CSR_WRITE_PA(node, CAVM_GPIO_BIT_CFGX(pin), gpio_bit_cfg.u);
 	return 0;
 }
 
 static int gpio_clr_out (int pin)
 {
-	gpio_bit_cfgx_t gpio_bit_cfg;
-	gpio_tx_clr_t gpio_tx_clr;
+	union cavm_gpio_bit_cfgx gpio_bit_cfg;
+	union cavm_gpio_tx_clr gpio_tx_clr;
 	unsigned long node = cavm_numa_local();
 
 	gpio_tx_clr.u = 0;
 	gpio_tx_clr.s.clr = (1ULL << pin);
-	CSR_WRITE_PA(node, GPIO_TX_CLR, gpio_tx_clr.u);
-	gpio_bit_cfg.u = CSR_READ_PA(node, GPIO_BIT_CFGX(pin));
+	CSR_WRITE_PA(node, CAVM_GPIO_TX_CLR, gpio_tx_clr.u);
+	gpio_bit_cfg.u = CSR_READ_PA(node, CAVM_GPIO_BIT_CFGX(pin));
 	gpio_bit_cfg.s.pin_sel = 0;
 	gpio_bit_cfg.s.tx_oe = 1;
-	CSR_WRITE_PA(node, GPIO_BIT_CFGX(pin), gpio_bit_cfg.u);
+	CSR_WRITE_PA(node, CAVM_GPIO_BIT_CFGX(pin), gpio_bit_cfg.u);
 	return 0;
 }
 
@@ -96,34 +96,34 @@ enum {
 };
 
 static uint64_t twsi_write_sw(unsigned int node, unsigned int twsi_num,
-			      mio_twsx_sw_twsi_t twsi_sw)
+			      union cavm_mio_twsx_sw_twsi twsi_sw)
 {
 	twsi_sw.s.r = 0;
 	twsi_sw.s.v = 1;
 
 	assert(twsi_num < TWSI_NUM);
 
-	CSR_WRITE_PA(node, MIO_TWSX_SW_TWSI(twsi_num), twsi_sw.u);
+	CSR_WRITE_PA(node, CAVM_MIO_TWSX_SW_TWSI(twsi_num), twsi_sw.u);
 
 	do {
-		twsi_sw.u = CSR_READ_PA(node, MIO_TWSX_SW_TWSI(twsi_num));
+		twsi_sw.u = CSR_READ_PA(node, CAVM_MIO_TWSX_SW_TWSI(twsi_num));
 	} while (twsi_sw.s.v != 0);
 
 	return twsi_sw.u;
 }
 
 static uint64_t twsi_read_sw(unsigned int node, unsigned int twsi_num,
-			     mio_twsx_sw_twsi_t twsi_sw)
+			     union cavm_mio_twsx_sw_twsi twsi_sw)
 {
 	twsi_sw.s.r = 1;
 	twsi_sw.s.v = 1;
 
 	assert(twsi_num < TWSI_NUM);
 
-	CSR_WRITE_PA(node, MIO_TWSX_SW_TWSI(twsi_num), twsi_sw.u);
+	CSR_WRITE_PA(node, CAVM_MIO_TWSX_SW_TWSI(twsi_num), twsi_sw.u);
 
 	do {
-		twsi_sw.u = CSR_READ_PA(node, MIO_TWSX_SW_TWSI(twsi_num));
+		twsi_sw.u = CSR_READ_PA(node, CAVM_MIO_TWSX_SW_TWSI(twsi_num));
 	} while (twsi_sw.s.v != 0);
 
 	return twsi_sw.u;
@@ -131,7 +131,7 @@ static uint64_t twsi_read_sw(unsigned int node, unsigned int twsi_num,
 
 void twsi_reset(unsigned int node, unsigned int twsi_num)
 {
-	mio_twsx_sw_twsi_t twsi_sw;
+	union cavm_mio_twsx_sw_twsi twsi_sw;
 
 	twsi_sw.u = 0;
 
@@ -143,7 +143,7 @@ void twsi_reset(unsigned int node, unsigned int twsi_num)
 
 static void twsi_write_ctl(unsigned int node, unsigned int twsi_num, uint8_t data)
 {
-	mio_twsx_sw_twsi_t twsi_sw;
+	union cavm_mio_twsx_sw_twsi twsi_sw;
 
 	twsi_sw.u = 0;
 	twsi_sw.s.op = 0x6;
@@ -155,7 +155,7 @@ static void twsi_write_ctl(unsigned int node, unsigned int twsi_num, uint8_t dat
 
 static uint8_t twsi_read_ctl(unsigned int node, unsigned int twsi_num)
 {
-	mio_twsx_sw_twsi_t twsi_sw;
+	union cavm_mio_twsx_sw_twsi twsi_sw;
 
 	twsi_sw.u = 0;
 	twsi_sw.s.op = 0x6;
@@ -187,14 +187,14 @@ static void twsi_stop(unsigned int node, unsigned int twsi_num)
 
 void twsi_set_speed(unsigned int node, unsigned int twsi_num, unsigned int speed)
 {
-	mio_twsx_sw_twsi_t twsi_sw;
-	rst_boot_t rst_boot;
+	union cavm_mio_twsx_sw_twsi twsi_sw;
+	union cavm_rst_boot rst_boot;
 	uint8_t twsi_clkctl;
 	unsigned int div_n, div_m, div_d;
 	unsigned long pnr_clk, tclk;
 	unsigned long thp;
 
-	rst_boot.u = CSR_READ_PA(node, RST_BOOT);
+	rst_boot.u = CSR_READ_PA(node, CAVM_RST_BOOT);
 
 	pnr_clk = rst_boot.s.pnr_mul * PLL_REF_CLK;
 
@@ -240,7 +240,7 @@ int twsi_wait(unsigned int node, unsigned int twsi_num)
 void thunder_twsi_send(unsigned int node, unsigned int twsi_num,
 			uint16_t addr, const uint8_t *buffer, size_t size)
 {
-	mio_twsx_sw_twsi_t twsi_sw;
+	union cavm_mio_twsx_sw_twsi twsi_sw;
 
 	size_t curr = 0;
 
@@ -276,7 +276,7 @@ void thunder_twsi_send(unsigned int node, unsigned int twsi_num,
 
 void thunder_signal_shutdown(void)
 {
-	mio_twsx_sw_twsi_t twsi_sw;
+	union cavm_mio_twsx_sw_twsi twsi_sw;
 	volatile int	loop;
 	int boot_status_twsi = -1;
 	int shutdown_gpio = -1;
@@ -287,11 +287,11 @@ void thunder_signal_shutdown(void)
 
 	if (boot_status_twsi >= 0  && shutdown_gpio >=0) {
 		/* Write to TWSI register indicating boot status */
-		twsi_sw.u = CSR_READ_PA(node, MIO_TWSX_SW_TWSI(boot_status_twsi));
+		twsi_sw.u = CSR_READ_PA(node, CAVM_MIO_TWSX_SW_TWSI(boot_status_twsi));
 		twsi_sw.u &= ~0xFFFFFFFFULL;
 		twsi_sw.s.data = 0x0F1;
 		twsi_sw.s.v = 1;
-		CSR_WRITE_PA(node, MIO_TWSX_SW_TWSI(boot_status_twsi), twsi_sw.u);
+		CSR_WRITE_PA(node, CAVM_MIO_TWSX_SW_TWSI(boot_status_twsi), twsi_sw.u);
 		/* Assert GPIO to signal shutdown to BMC */
 		gpio_set_out(shutdown_gpio);
 		loop = 0xFFFF;

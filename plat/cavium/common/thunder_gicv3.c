@@ -54,16 +54,16 @@ void thunder_gic_driver_init(void)
 	node_count = thunder_get_node_count();
 
 	for (node = node_count - 1; node < node_count; node --) {
-		gic_cfg_ctlr_t cfg_ctlr;
+		union cavm_gic_cfg_ctlr cfg_ctlr;
 
 		cfg_ctlr.u = 0;
 		cfg_ctlr.s.om = 2; /* Multi-node, Single-root */
 		cfg_ctlr.s.root_dist = (node == 0) ? 1 : 0;
-		CSR_WRITE_PA(node, GIC_CFG_CTLR, cfg_ctlr.u);
+		CSR_WRITE_PA(node, CAVM_GIC_CFG_CTLR, cfg_ctlr.u);
 	}
 
-	thunder_gic_data.gicd_base = CSR_PA(0, GIC_PF_BAR0);
-	thunder_gic_data.gicr_base = CSR_PA(0, GIC_PF_BAR4);
+	thunder_gic_data.gicd_base = CSR_PA(0, CAVM_GIC_PF_BAR0);
+	thunder_gic_data.gicr_base = CSR_PA(0, CAVM_GIC_PF_BAR4);
 	gicv3_driver_init(&thunder_gic_data);
 
 	/* Init GIC redistributors for other nodes */
@@ -72,7 +72,7 @@ void thunder_gic_driver_init(void)
 		gicv3_rdistif_base_addrs_probe(
 				thunder_gic_data.rdistif_base_addrs,
 				thunder_gic_data.rdistif_num,
-				CSR_PA(node, GIC_PF_BAR4),
+				CSR_PA(node, CAVM_GIC_PF_BAR4),
 				thunder_gic_data.mpidr_to_core_pos);
 #endif
 }

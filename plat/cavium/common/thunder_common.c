@@ -50,72 +50,72 @@ static void plat_add_mmio_node(unsigned long node)
 	int i;
 
 	attr = MT_DEVICE | MT_RW | MT_SECURE;
-	add_map_record(CSR_PA(node, RST_PF_BAR0), RST_PF_BAR0_SIZE, attr);
-	add_map_record(CSR_PA(node, L2C_PF_BAR0), L2C_PF_BAR0_SIZE, attr);
-	add_map_record(CSR_PA(node, MIO_BOOT_PF_BAR0), MIO_BOOT_PF_BAR0_SIZE, attr);
-	add_map_record(CSR_PA(node, MIO_EMM_PF_BAR0), MIO_EMM_PF_BAR0_SIZE, attr);
-	add_map_record(CSR_PA(node, MPI_PF_BAR0), MPI_PF_BAR0_SIZE, attr);
-	add_map_record(CSR_PA(node, GIC_PF_BAR0), GIC_PF_BAR0_SIZE, attr);
-	add_map_record(CSR_PA(node, GIC_PF_BAR2), GIC_PF_BAR2_SIZE, attr);
-	add_map_record(CSR_PA(node, GIC_PF_BAR4), GIC_PF_BAR4_SIZE, attr);
+	add_map_record(CSR_PA(node, CAVM_RST_PF_BAR0), CAVM_RST_PF_BAR0_SIZE, attr);
+	add_map_record(CSR_PA(node, CAVM_L2C_PF_BAR0), CAVM_L2C_PF_BAR0_SIZE, attr);
+	add_map_record(CSR_PA(node, CAVM_MIO_BOOT_PF_BAR0), CAVM_MIO_BOOT_PF_BAR0_SIZE, attr);
+	add_map_record(CSR_PA(node, CAVM_MIO_EMM_PF_BAR0), CAVM_MIO_EMM_PF_BAR0_SIZE, attr);
+	add_map_record(CSR_PA(node, CAVM_MPI_PF_BAR0), CAVM_MPI_PF_BAR0_SIZE, attr);
+	add_map_record(CSR_PA(node, CAVM_GIC_PF_BAR0), CAVM_GIC_PF_BAR0_SIZE, attr);
+	add_map_record(CSR_PA(node, CAVM_GIC_PF_BAR2), CAVM_GIC_PF_BAR2_SIZE, attr);
+	add_map_record(CSR_PA(node, CAVM_GIC_PF_BAR4), CAVM_GIC_PF_BAR4_SIZE, attr);
 	for (i = 0; i < 4; i++)
-		add_map_record(CSR_PA(node, SMMUX_PF_BAR0(i)), SMMUX_PF_BAR0_SIZE, attr);
+		add_map_record(CSR_PA(node, CAVM_SMMUX_PF_BAR0(i)), CAVM_SMMUX_PF_BAR0_SIZE, attr);
 	for (i = 0; i < 4; i++)
-		add_map_record(CSR_PA(node, SMMU_BAR_E_SMMUX_PF_BAR4(i)),
-SMMU_BAR_E_SMMUX_PF_BAR4_SIZE, attr);
-	add_map_record(CSR_PA(node, GTI_PF_BAR0), GTI_PF_BAR0_SIZE, attr);
-	add_map_record(CSR_PA(node, GTI_PF_BAR4), GTI_PF_BAR4_SIZE, attr);
+		add_map_record(CSR_PA(node, CAVM_SMMU_BAR_E_SMMUX_PF_BAR4(i)),
+CAVM_SMMU_BAR_E_SMMUX_PF_BAR4_SIZE, attr);
+	add_map_record(CSR_PA(node, CAVM_GTI_PF_BAR0), CAVM_GTI_PF_BAR0_SIZE, attr);
+	add_map_record(CSR_PA(node, CAVM_GTI_PF_BAR4), CAVM_GTI_PF_BAR4_SIZE, attr);
 
 	for (i = 0; i < 4; i++)
-		add_map_record(CSR_PA(node, LMCX_PF_BAR0(i)), LMCX_PF_BAR0_SIZE, attr);
+		add_map_record(CSR_PA(node, CAVM_LMCX_PF_BAR0(i)), CAVM_LMCX_PF_BAR0_SIZE, attr);
 	for (i = 0; i < 6; i++)
-		add_map_record(CSR_PA(node, MIO_TWSX_PF_BAR0(i)), MIO_TWSX_PF_BAR0_SIZE, attr);
+		add_map_record(CSR_PA(node, CAVM_MIO_TWSX_PF_BAR0(i)), CAVM_MIO_TWSX_PF_BAR0_SIZE, attr);
 	for (i = 0; i < 6; i++)
-		add_map_record(CSR_PA(node, MIO_TWS_BAR_E_MIO_TWSX_PF_BAR4(i)), MIO_TWS_BAR_E_MIO_TWSX_PF_BAR4_SIZE, attr);
+		add_map_record(CSR_PA(node, CAVM_MIO_TWS_BAR_E_MIO_TWSX_PF_BAR4(i)), CAVM_MIO_TWS_BAR_E_MIO_TWSX_PF_BAR4_SIZE, attr);
 	for (i = 0; i < 4; i++)
-		add_map_record(CSR_PA(node, L2C_CBCX_PF_BAR0(i)), L2C_CBCX_PF_BAR0_SIZE, attr);
+		add_map_record(CSR_PA(node, CAVM_L2C_CBCX_PF_BAR0(i)), CAVM_L2C_CBCX_PF_BAR0_SIZE, attr);
 	for (i = 0; i < 4; i++)
-		add_map_record(CSR_PA(node, L2C_MCIX_PF_BAR0(i)), L2C_MCIX_PF_BAR0_SIZE, attr);
+		add_map_record(CSR_PA(node, CAVM_L2C_MCIX_PF_BAR0(i)), CAVM_L2C_MCIX_PF_BAR0_SIZE, attr);
 	for (i = 0; i < 8; i++)
-		add_map_record(CSR_PA(node, L2C_TADX_PF_BAR0(i)), L2C_TADX_PF_BAR0_SIZE, attr);
+		add_map_record(CSR_PA(node, CAVM_L2C_TADX_PF_BAR0(i)), CAVM_L2C_TADX_PF_BAR0_SIZE, attr);
 	for (i = 0; i < 6; i++)
-		add_map_record(CSR_PA(node, PEM_BAR_E_PEMX_PF_BAR4(i)),
-PEM_BAR_E_PEMX_PF_BAR4_SIZE, attr);
+		add_map_record(CSR_PA(node, CAVM_PEM_BAR_E_PEMX_PF_BAR4(i)),
+CAVM_PEM_BAR_E_PEMX_PF_BAR4_SIZE, attr);
 	for (i = 0; i < 13; i++)
-		add_map_record(CSR_PA(node, GSERX_PF_BAR0(i)), GSERX_PF_BAR0_SIZE, attr);
+		add_map_record(CSR_PA(node, CAVM_GSERX_PF_BAR0(i)), CAVM_GSERX_PF_BAR0_SIZE, attr);
 	for (i = 0; i < 2; i++)
-		add_map_record(CSR_PA(node, BGXX_PF_BAR0(i)), BGXX_PF_BAR0_SIZE, attr);
+		add_map_record(CSR_PA(node, CAVM_BGXX_PF_BAR0(i)), CAVM_BGXX_PF_BAR0_SIZE, attr);
 
-	add_map_record(CSR_PA(node, DAP_PF_BAR0), DAP_PF_BAR0_SIZE, attr);
-	add_map_record(CSR_PA(node, CIM_CSR_BASE), CIM_CSR_SIZE, attr);
+	add_map_record(CSR_PA(node, CAVM_DAP_PF_BAR0), CAVM_DAP_PF_BAR0_SIZE, attr);
+	add_map_record(CSR_PA(node, CAVM_CIM_CSR_BASE), CAVM_CIM_CSR_SIZE, attr);
 
-	add_map_record(CSR_PA(node, OCX_PF_BAR0), OCX_PF_BAR0_SIZE, attr);
+	add_map_record(CSR_PA(node, CAVM_OCX_PF_BAR0), CAVM_OCX_PF_BAR0_SIZE, attr);
 
-	add_map_record(CSR_PA(node, GPIO_PF_BAR0), GPIO_PF_BAR0_SIZE, attr);
-	add_map_record(CSR_PA(node, GPIO_PF_BAR4), GPIO_PF_BAR4_SIZE, attr);
+	add_map_record(CSR_PA(node, CAVM_GPIO_PF_BAR0), CAVM_GPIO_PF_BAR0_SIZE, attr);
+	add_map_record(CSR_PA(node, CAVM_GPIO_PF_BAR4), CAVM_GPIO_PF_BAR4_SIZE, attr);
 
 	for (i = 0; i < 2; i++)
-		add_map_record(CSR_PA(node, UAAX_PF_BAR0(i)), UAAX_PF_BAR0_SIZE, attr);
+		add_map_record(CSR_PA(node, CAVM_UAAX_PF_BAR0(i)), CAVM_UAAX_PF_BAR0_SIZE, attr);
 	for (i = 0; i < 2; i++)
-		add_map_record(CSR_PA(node, UAA_BAR_E_UAAX_PF_BAR4_CN81XX(i)),
-UAA_BAR_E_UAAX_PF_BAR4_CN81XX_SIZE, attr);
+		add_map_record(CSR_PA(node, CAVM_UAA_BAR_E_UAAX_PF_BAR4_CN81XX(i)),
+CAVM_UAA_BAR_E_UAAX_PF_BAR4_CN81XX_SIZE, attr);
 	for (i = 0; i < 4; i++)
-		add_map_record(CSR_PA(node, ECAM_BAR_E_ECAMX_PF_BAR0(i)),
-ECAM_BAR_E_ECAMX_PF_BAR0_SIZE, attr);
+		add_map_record(CSR_PA(node, CAVM_ECAM_BAR_E_ECAMX_PF_BAR0(i)),
+CAVM_ECAM_BAR_E_ECAMX_PF_BAR0_SIZE, attr);
 	for (i = 0; i < 4; i++)
-		add_map_record(CSR_PA(node, ECAMX_PF_BAR2(i)), ECAMX_PF_BAR2_SIZE, attr);
+		add_map_record(CSR_PA(node, CAVM_ECAMX_PF_BAR2(i)), CAVM_ECAMX_PF_BAR2_SIZE, attr);
 	for (i = 0; i < 6; i++)
-		add_map_record(CSR_PA(node, PEMX_PF_BAR0(i)), PEMX_PF_BAR0_SIZE, attr);
+		add_map_record(CSR_PA(node, CAVM_PEMX_PF_BAR0(i)), CAVM_PEMX_PF_BAR0_SIZE, attr);
 	for (i = 0; i < 2; i++)
-		add_map_record(CSR_PA(node, SLIX_PF_BAR0(i)), SLIX_PF_BAR0_SIZE, attr);
+		add_map_record(CSR_PA(node, CAVM_SLIX_PF_BAR0(i)), CAVM_SLIX_PF_BAR0_SIZE, attr);
 }
 
 unsigned thunder_get_node_count(void)
 {
 	unsigned long node = cavm_numa_local();
-	l2c_oci_ctl_t l2c_oci_ctl;
+	union cavm_l2c_oci_ctl l2c_oci_ctl;
 
-	l2c_oci_ctl.u = CSR_READ_PA(node, L2C_OCI_CTL);
+	l2c_oci_ctl.u = CSR_READ_PA(node, CAVM_L2C_OCI_CTL);
 
 	return (l2c_oci_ctl.s.enaoci > 1) ? 2 : 1;
 }

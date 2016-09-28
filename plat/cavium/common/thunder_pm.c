@@ -225,16 +225,16 @@ static void __dead2 thunder_system_off(void)
 static void __dead2 thunder_system_reset(void)
 {
 	unsigned long node = cavm_numa_local();
-	rst_soft_rst_t rst_soft_rst;
-	rst_ocx_t rst_ocx;
+	union cavm_rst_soft_rst rst_soft_rst;
+	union cavm_rst_ocx rst_ocx;
 
 	rst_ocx.u = 0;
-	CSR_WRITE_PA(node, RST_OCX, rst_ocx.u);
+	CSR_WRITE_PA(node, CAVM_RST_OCX, rst_ocx.u);
 
-	rst_ocx.u = CSR_READ_PA(node, RST_OCX);
+	rst_ocx.u = CSR_READ_PA(node, CAVM_RST_OCX);
 	rst_soft_rst.u = 0;
 	rst_soft_rst.s.soft_rst = 1;
-	CSR_WRITE_PA(node, RST_SOFT_RST, rst_soft_rst.u);
+	CSR_WRITE_PA(node, CAVM_RST_SOFT_RST, rst_soft_rst.u);
 
 	ERROR("Thunder System Reset: operation not handled.\n");
 	panic();

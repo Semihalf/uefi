@@ -37,9 +37,9 @@ static inline uint32_t popcnt(uint64_t val)
 
 int thunder_dram_is_lmc_enabled(unsigned node, unsigned lmc)
 {
-	lmcx_ddr_pll_ctl_t lmcx_ddr_pll_ctl;
+	union cavm_lmcx_ddr_pll_ctl lmcx_ddr_pll_ctl;
 
-	lmcx_ddr_pll_ctl.u = CSR_READ_PA(node, LMCX_DDR_PLL_CTL(lmc));
+	lmcx_ddr_pll_ctl.u = CSR_READ_PA(node, CAVM_LMCX_DDR_PLL_CTL(lmc));
 
 	return lmcx_ddr_pll_ctl.s.reset_n;
 }
@@ -49,7 +49,7 @@ uint64_t thunder_dram_size_node(unsigned node)
 	uint64_t rank_size, memsize = 0;
 	int num_ranks, lmc;
 	int lmc_per_node;
-	lmcx_config_t lmcx_config;
+	union cavm_lmcx_config lmcx_config;
 
 	lmc_per_node = thunder_get_lmc_per_node();
 	if (lmc_per_node < 0) {
@@ -64,7 +64,7 @@ uint64_t thunder_dram_size_node(unsigned node)
 		if (!thunder_dram_is_lmc_enabled(node, lmc))
 			continue;
 
-		lmcx_config.u = CSR_READ(CSR_PA(node, LMCX_PF_BAR0(lmc)), LMCX_CONFIG(lmc));
+		lmcx_config.u = CSR_READ(CSR_PA(node, CAVM_LMCX_PF_BAR0(lmc)), CAVM_LMCX_CONFIG(lmc));
 		num_ranks = popcnt(lmcx_config.s.init_status);
 		rank_size = 1ull << (28 + lmcx_config.s.pbank_lsb - lmcx_config.s.rank_ena);
 		memsize += rank_size * num_ranks;

@@ -109,7 +109,7 @@ entry_point_info_t *bl31_plat_get_next_image_ep_info(uint32_t type)
 void bl31_early_platform_setup(bl31_params_t *from_bl2,
 				void *plat_params_from_bl2)
 {
-	console_init(CSR_PA(0, UAAX_PF_BAR0(0)), 0, 0);
+	console_init(CSR_PA(0, CAVM_UAAX_PF_BAR0(0)), 0, 0);
 
 	/* Check params passed from BL2 should not be NULL,
 	 * We are not checking plat_params_from_bl2 as NULL as we are not
