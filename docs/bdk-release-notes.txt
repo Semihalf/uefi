@@ -207,6 +207,43 @@ caused the defaults for CCPI lane tuning to be lost.
 ** Add required 300Mhz offset for decode of MIO_FUS_DAT3[core_pll_mul]
 ** Add setup menu for choosing tracing levels
 
+== thunder-release-v1.23.15 ==
+* Misc
+** Add define to enable / disable the checking of a magic register dump
+signal. On some systems this has fixed crashes during PCIe link initialization.
+* USB
+** Numerous resource leaks were fixed related to USB plug / unplug.
+** Change storage device names for usb dynamic devices to reflect physical node
+they attached to.
+** Improved output for listing USB devices. List is now per hardware port.
+** Add Manufacturer, product and Serial Number for inserted devices to usb host
+controller status display.
+** Add automated pattern test to the usb menu
+** Fix support for write-protectable flash drives
+** Increase io speed for usb
+* FATfs
+** Use raw system calls instead of C buffered IO
+** Increase the file IO buffer size to 4KB
+* SATA
+** Change QLM setting per new recommendations. This reverts commit
+18adfd92167d43e988ac42b4cf9a52b6c4b4e525, which was suppose to be an
+experiment but communicated as a permanent change.
+** Change QLM CTLE setting to match CSR description. CSRs as of 9/30/2016 show
+CTLE=0 for all SATA speeds.
+** Shutdown SATA controller on SATA init failure. If SATA initialization fails,
+perform a HBA reset to recover the controller. This way the next call won't
+fail due to left over state.
+* CCPI
+** Perform RX equalization during message check. Initial hardware equalization
+may be poor as the nodes come up asynchronously. Perform RX equalization during
+message check just like during training. This allows the SERDES to better tune
+for the incoming PRBS pattern.
+** Send 1/3 of the number of messages during message check. Now that we perform
+RX equalization between each message during message check, the time to perform
+the full check is long. Increment message counters by 3 so we send 1/3 the
+number of messages. This allows more bits in the training message to be checked
+and for the whole sequence to run faster.
+
 == thunder-release-v1.23.14 ==
 * TWSI
 ** Fix CSR name typo in TWSI bus recovery
