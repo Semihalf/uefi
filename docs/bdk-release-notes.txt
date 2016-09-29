@@ -8,6 +8,44 @@
 This document gives a short overview of the major changes
 incorporated into each BDK release.
 
+== thunder-release-v1.26-rc1 ==
+* CN80XX
+** Workaround incorrect alternate package fusing. Due to a documentation mixup,
+some CN80XX parts do not have chip_id bit 7 set. As a backup, use lmc_mode32 to
+find these parts. Both bits are suppose to be fused, but some parts only have
+lmc_mode32. This should only apply to CN81XX/CN80XX parts.
+* Misc
+** Add define to enable / disable the checking of a magic register dump
+signal. On some systems this has fixed crashes during PCIe link initialization.
+* TWSI
+** Fix CSR name typo in TWSI bus recovery
+* PCIe
+** Display the PEM LTSSM state after PCIe init
+* SATA
+** Rewrite SATA init sequence to match AHCI 1.3 spec. AHCI rev 1.3 specifies
+"10.1.1 Firmware Specific Initialization". Update the SATA init to exactly
+follow this sequence for early init. This removed some processing from
+__bdk_qlm_set_sata() and moved it to bdk_sata_initialize().
+** Perform a port reset if device fails to become ready. The SATA device
+seems to get stuck waiting for the busy bit to clear a small percentage of
+the time in the BDK. When this happens, perform a port COMINIT to recover.
+This will be done up to three times.
+* CCPI
+** Reset QLM if training is stuck not receiving messages. Under rare
+conditions the QLMs can fail to transmit training messages while training
+is active. This is seen as one node receiving messages, but not getting
+responses from the other for its requests. This shows up as a lane getting
+stuck in message check. When this is detected, perform a QLM soft reset to
+recover the QLM lanes.
+** Show all lanes in one status line. Add a line to CCPI trace that contains
+the state of all 24 lanes. This makes it easier to follow all lanes at once.
+* Networking
+** Only perform BER test on links using 10G SERDES. The BER tests use the
+BGXX_SPUX_BR block, which is only active for XFI, 10G-KR, XLAUI, and 40G-KR.
+XAUI, DXAUI, and RXAUI don't use this block and can't do the same BER test.
+** Fix max packet length check in packet allocator. Could cause memory
+corruption on large packets.
+
 == thunder-release-v1.25 ==
 * Includes all fixes from thunder-release-v1.24.3 and thunder-release-v1.23.10
 * Add Cavium's BSD license to the top of BDK files
