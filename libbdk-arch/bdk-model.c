@@ -428,7 +428,15 @@ int cavium_is_altpkg(uint32_t arg_model)
         /* Bits 7:6 are used for alternate packages. Return the exact
            number so multiple alternate packages can be detected
            (CN80XX is an example) */
-        return mio_fus_dat2.s.chip_id >> 6;
+        int altpkg = mio_fus_dat2.s.chip_id >> 6;
+        if (altpkg)
+            return altpkg;
+        /* Due to a documentation mixup, some CN80XX parts do not have chip_id
+           bit 7 set. As a backup, use lmc_mode32 to find these parts. Both
+           bits are suppose to be fused, but some parts only have lmc_mode32 */
+        if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && mio_fus_dat2.s.lmc_mode32)
+            return 2;
+        return 0;
     }
     else
         return 0;
