@@ -4,48 +4,71 @@
 #include <stdio.h>
 #include <debug.h>
 
+struct l2c_region {
+	unsigned int  node;
+	unsigned int  number;
+	unsigned long start;
+	unsigned long end;
+	unsigned int  secure;
+};
+
+struct l2c_region l2c_map [] = {
+	{
+		.node    = 0,
+		.number  = 0,
+		.start   = TZDRAM_BASE,
+		.end     = TZDRAM_BASE + TZDRAM_SIZE,
+		.secure  = 1,
+	},
+	{
+		.node    = 0,
+		.number  = 1,
+		.start   = TZDRAM_BASE + TZDRAM_SIZE,
+		.end     = ~0UL,
+		.secure  = 0,
+	},
+	{
+		.node    = 1,
+		.number  = 0,
+		.start   = 0,
+		.end     = ~0UL,
+		.secure  = 0,
+	},
+	{
+		.node    = ~0U,
+	},
+};
+
 void thunder_security_setup(void)
 {
-	int region;
-	unsigned node;
 	unsigned node_count = thunder_get_node_count();
 	union cavm_l2c_asc_regionx_attr l2c_asc_attr;
+	struct l2c_region *region = l2c_map;
 
-	uint64_t dram_size;
+	uint64_t dram_end;
 
-	for(node = 0; node < node_count; node++) {
-		/* Mark the region from 0x0 to 1MB as secure, Boot ROM has done this for
-		 * region 1MB to 2MB
-		 */
-		region = 0;
-		CSR_WRITE_PA(node, CAVM_L2C_ASC_REGIONX_START(region), TZDRAM_BASE);
-		CSR_WRITE_PA(node, CAVM_L2C_ASC_REGIONX_END(region), TZDRAM_BASE + TZDRAM_SIZE - 1);
-		l2c_asc_attr.u = CSR_READ_PA(node, CAVM_L2C_ASC_REGIONX_ATTR(region));
-		l2c_asc_attr.s.s_en = 1;
-		l2c_asc_attr.s.ns_en = 0;
-		CSR_WRITE_PA(node, CAVM_L2C_ASC_REGIONX_ATTR(region), l2c_asc_attr.u );
+	while (region->node < node_count) {
+		dram_end = thunder_dram_size_node(region->node) - 1;
 
+		if (region->end > dram_end)
+			region->end = dram_end;
 
-		WARN("Mark memory region %d:: %lx to %lx as secure (%lx)\n",region,
-			CSR_READ_PA(node, CAVM_L2C_ASC_REGIONX_START(region)),
-			CSR_READ_PA(node, CAVM_L2C_ASC_REGIONX_END(region)) + 0xfffff,
-			CSR_READ_PA(node, CAVM_L2C_ASC_REGIONX_ATTR(region)));
+		CSR_WRITE_PA(region->node, CAVM_L2C_ASC_REGIONX_START(region->number), region->start);
+		CSR_WRITE_PA(region->node, CAVM_L2C_ASC_REGIONX_END(region->number), region->end);
 
-		dram_size = thunder_dram_size_node(node);
+		l2c_asc_attr.u = CSR_READ_PA(region->node, CAVM_L2C_ASC_REGIONX_ATTR(region->number));
+		l2c_asc_attr.s.s_en  = region->secure;
+		l2c_asc_attr.s.ns_en = !region->secure;
 
-		/* Mark the rest of DRAM as non-secure */
-		region = 1;
-		CSR_WRITE_PA(node, CAVM_L2C_ASC_REGIONX_START(region), TZDRAM_BASE + TZDRAM_SIZE);
-		CSR_WRITE_PA(node, CAVM_L2C_ASC_REGIONX_END(region), dram_size - 1);
-		l2c_asc_attr.u = CSR_READ_PA(node, CAVM_L2C_ASC_REGIONX_ATTR(region));
-		l2c_asc_attr.s.s_en = 0;
-		l2c_asc_attr.s.ns_en = 1;
-		CSR_WRITE_PA(node, CAVM_L2C_ASC_REGIONX_ATTR(region), l2c_asc_attr.u );
+		CSR_WRITE_PA(region->node, CAVM_L2C_ASC_REGIONX_ATTR(region->number), l2c_asc_attr.u);
 
+		printf("Mark memory region %d at node %d:: %lx to %lx as %ssecure (%lx)\n",
+			region->number, region->node,
+			CSR_READ_PA(region->node, CAVM_L2C_ASC_REGIONX_START(region->number)),
+			CSR_READ_PA(region->node, CAVM_L2C_ASC_REGIONX_END(region->number)),
+			region->secure ? "" : "non-",
+			CSR_READ_PA(region->node, CAVM_L2C_ASC_REGIONX_ATTR(region->number)));
 
-		WARN("Mark memory region %d:: %lx to %lx as non-secure (%lx)\n",region,
-			CSR_READ_PA(node, CAVM_L2C_ASC_REGIONX_START(region)),
-			CSR_READ_PA(node, CAVM_L2C_ASC_REGIONX_END(region)) + 0xfffff,
-			CSR_READ_PA(node, CAVM_L2C_ASC_REGIONX_ATTR(region)));
+		region++;
 	}
 }

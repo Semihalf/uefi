@@ -74,7 +74,7 @@
 
 /* Location of trusted dram on the base thunder */
 #define TZDRAM_BASE			0x00000000
-#define TZDRAM_SIZE			0x00500000
+#define TZDRAM_SIZE			0x00400000
 
 #define FDT_MAX_SIZE			0x20000
 #define FDT_BASE			(TZDRAM_BASE + TZDRAM_SIZE - FDT_MAX_SIZE)
