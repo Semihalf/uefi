@@ -299,7 +299,10 @@ static const model_sku_info_t t81_sku_info[] =
     },
     { 0x03, "CN", 80, 676, "SCP",
         { /* List of fuses for this SKU */
-            BDK_MIO_FUS_FUSE_NUM_E_CHIP_IDX(7),     /* Alternate package fuse 2? */
+            /* Note that CHIP_ID(7) is suppose to be blown, but a few chips
+               have incorrect fuses. We allow CN80XX SKUs with or without
+               CHIP_ID(7) */
+            //BDK_MIO_FUS_FUSE_NUM_E_CHIP_IDX(7),     /* Alternate package fuse 2? */
             BDK_MIO_FUS_FUSE_NUM_E_L2C_CRIPX(1),    /* L2C is half size */
             BDK_MIO_FUS_FUSE_NUM_E_LMC_HALF,        /* LMC is half width */
             0 /* End of fuse list marker */
@@ -307,7 +310,10 @@ static const model_sku_info_t t81_sku_info[] =
     },
     { 0x04, "CN", 80, 676, "CP",
         { /* List of fuses for this SKU */
-            BDK_MIO_FUS_FUSE_NUM_E_CHIP_IDX(7),     /* Alternate package fuse 2? */
+            /* Note that CHIP_ID(7) is suppose to be blown, but a few chips
+               have incorrect fuses. We allow CN80XX SKUs with or without
+               CHIP_ID(7) */
+            //BDK_MIO_FUS_FUSE_NUM_E_CHIP_IDX(7),     /* Alternate package fuse 2? */
             BDK_MIO_FUS_FUSE_NUM_E_L2C_CRIPX(1),    /* L2C is half size */
             BDK_MIO_FUS_FUSE_NUM_E_LMC_HALF,        /* LMC is half width */
             BDK_MIO_FUS_FUSE_NUM_E_CPT_ENG_DISX(1), /* Nitrox */
