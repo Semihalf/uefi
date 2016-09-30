@@ -232,7 +232,7 @@ int __bdk_qlm_set_sata(bdk_node_t node, int qlm, int baud_mhz, int sata_first, i
             c.s.pll_opr = 0x0;
             c.s.pll_div = 0x1e);
         BDK_CSR_MODIFY(c, node, BDK_GSERX_LANE_PX_MODE_0(qlm, p),
-            c.s.ctle = (p==2) ? 0x3 : 0x0;
+            c.s.ctle = 0x0;
             c.s.pcie = 0;
             c.s.tx_ldiv = 0x0;
             c.s.rx_ldiv = 2 - p;
