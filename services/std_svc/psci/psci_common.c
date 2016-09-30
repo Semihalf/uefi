@@ -686,6 +686,7 @@ void psci_power_up_finish(void)
 {
 	unsigned int end_pwrlvl, cpu_idx = plat_my_core_pos();
 	psci_power_state_t state_info = { {PSCI_LOCAL_STATE_RUN} };
+	aff_info_state_t prev_aff_state;
 
 	/*
 	 * Verify that we have been explicitly turned ON or resumed from
@@ -710,6 +711,18 @@ void psci_power_up_finish(void)
 	psci_acquire_pwr_domain_locks(end_pwrlvl,
 				      cpu_idx);
 
+	/*
+	 * Store the aff_state, since next
+	 * function call is going to change it.
+	 */
+	prev_aff_state = psci_get_aff_info_state();
+
+	/*
+	 * Set the requested and target state of this CPU and all the higher
+	 * power domains which are ancestors of this CPU to run.
+	 */
+	psci_set_pwr_domains_to_run(end_pwrlvl);
+
 	psci_get_target_local_pwr_states(end_pwrlvl, &state_info);
 
 	/*
@@ -724,16 +737,10 @@ void psci_power_up_finish(void)
 	 * of power management handler and perform the generic, architecture
 	 * and platform specific handling.
 	 */
-	if (psci_get_aff_info_state() == AFF_STATE_ON_PENDING)
+	if (prev_aff_state == AFF_STATE_ON_PENDING)
 		psci_cpu_on_finish(cpu_idx, &state_info);
 	else
 		psci_cpu_suspend_finish(cpu_idx, &state_info);
-
-	/*
-	 * Set the requested and target state of this CPU and all the higher
-	 * power domains which are ancestors of this CPU to run.
-	 */
-	psci_set_pwr_domains_to_run(end_pwrlvl);
 
 	/*
 	 * This loop releases the lock corresponding to each power level
