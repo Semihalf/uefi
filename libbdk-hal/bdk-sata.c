@@ -440,7 +440,7 @@ retry:
     if ((p0_ssts.s.det != 1) && (p0_ssts.s.det != 3))
     {
         bdk_error("N%d.SATA%d: PxSCTL[DET]=%d failed to detect a device\n", node, controller, p0_ssts.s.det);
-        return -1;
+        goto fail;
     }
 
     /* 6. Clear the PxSERR register, by writing '1s' to each implemented bit
@@ -467,7 +467,7 @@ retry:
         }
         BDK_CSR_INIT(p0_tfd, node, BDK_SATAX_UAHC_P0_TFD(controller));
         bdk_error("N%d.SATA%d: PxTFD[STS]=0x%x, Drive not ready\n", node, controller, p0_tfd.s.sts);
-        return -1;
+        goto fail;
     }
 
     /* Enable AHCI command queuing */
@@ -492,6 +492,10 @@ retry:
     BDK_CSR_MODIFY(c, node, BDK_SATAX_UAHC_P0_CMD(controller),
         c.s.st = 1); /* Start the controller */
     return 0;
+
+fail:
+    bdk_sata_shutdown(node, controller);
+    return -1;
 }
 
 /**
