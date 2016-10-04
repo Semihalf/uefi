@@ -991,7 +991,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 /* Descriptor ring Macros */
 #define MVPP2_QUEUE_NEXT_DESC(q, index) \
-  (((index) < (q)->last_desc) ? ((index) + 1) : 0)
+  (((index) < (q)->LastDesc) ? ((index) + 1) : 0)
 
 /* Various constants */
 
@@ -1076,7 +1076,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define MVPP2_F_LOOPBACK    BIT(0)
 
 /* Marvell tag types */
-enum mvpp2_tag_type {
+enum Mvpp2TagType {
   MVPP2_TAG_TYPE_NONE = 0,
   MVPP2_TAG_TYPE_MH   = 1,
   MVPP2_TAG_TYPE_DSA  = 2,
@@ -1249,7 +1249,7 @@ enum mvpp2_tag_type {
 #define MVPP2_PRS_DSA     FALSE
 
 /* MAC entries, shadow udf */
-enum mvpp2_prs_udf {
+enum Mvpp2PrsUdf {
   MVPP2_PRS_UDF_MAC_DEF,
   MVPP2_PRS_UDF_MAC_RANGE,
   MVPP2_PRS_UDF_L2_DEF,
@@ -1258,7 +1258,7 @@ enum mvpp2_prs_udf {
 };
 
 /* Lookup ID */
-enum mvpp2_prs_lookup {
+enum Mvpp2PrsLookup {
   MVPP2_PRS_LU_MH,
   MVPP2_PRS_LU_MAC,
   MVPP2_PRS_LU_DSA,
@@ -1272,7 +1272,7 @@ enum mvpp2_prs_lookup {
 };
 
 /* L3 cast enum */
-enum mvpp2_prs_l3_cast {
+enum Mvpp2PrsL3Cast {
   MVPP2_PRS_L3_UNI_CAST,
   MVPP2_PRS_L3_MULTI_CAST,
   MVPP2_PRS_L3_BROAD_CAST
@@ -1335,58 +1335,58 @@ enum mvpp2_prs_l3_cast {
 
 typedef struct {
   UINT32 command;   /* Options used by HW for packet transmitting.*/
-  UINT8  packet_offset; /* the offset from the buffer beginning */
-  UINT8  phys_txq;    /* destination queue ID     */
-  UINT16 data_size;   /* data size of transmitted packet in bytes */
+  UINT8  PacketOffset; /* the offset from the buffer beginning */
+  UINT8  PhysTxq;    /* destination queue ID     */
+  UINT16 DataSize;   /* data size of transmitted packet in bytes */
 #ifdef MVPP2_V1
-  UINT32 buf_phys_addr; /* physical addr of transmitted buffer  */
-  UINT32 buf_cookie;    /* cookie for access to TX buffer in tx path */
-  UINT32 reserved1[3];  /* hw_cmd (for future use, BM, PON, PNC) */
+  UINT32 BufPhysAddr; /* physical addr of transmitted buffer  */
+  UINT32 BufCookie;    /* cookie for access to TX buffer in tx path */
+  UINT32 reserved1[3];  /* HwCmd (for future use, BM, PON, PNC) */
   UINT32 reserved2;   /* reserved (for future use)    */
 #else
-  UINT64 rsrvd_hw_cmd1; /* hw_cmd (BM, PON, PNC) */
-  UINT64 buf_phys_addr_hw_cmd2;
-  UINT64 buf_cookie_bm_qset_hw_cmd3;
+  UINT64 RsrvdHwCmd1; /* HwCmd (BM, PON, PNC) */
+  UINT64 BufPhysAddrHwCmd2;
+  UINT64 BufCookieBmQsetHwCmd3;
 #endif
 } MVPP2_TX_DESC;
 
 typedef struct {
   UINT32 status;    /* info about received packet   */
-  UINT16 reserved1;   /* parser_info (for future use, PnC)  */
-  UINT16 data_size;   /* size of received packet in bytes */
+  UINT16 reserved1;   /* ParserInfo (for future use, PnC)  */
+  UINT16 DataSize;   /* size of received packet in bytes */
 #ifdef MVPP2_V1
-  UINT32 buf_phys_addr; /* physical address of the buffer */
-  UINT32 buf_cookie;    /* cookie for access to RX buffer in rx path */
-  UINT16 reserved2;   /* gem_port_id (for future use, PON)  */
-  UINT16 reserved3;   /* csum_l4 (for future use, PnC)  */
-  UINT8  reserved4;   /* bm_qset (for future use, BM)   */
+  UINT32 BufPhysAddr; /* physical address of the buffer */
+  UINT32 BufCookie;    /* cookie for access to RX buffer in rx path */
+  UINT16 reserved2;   /* GemPortId (for future use, PON)  */
+  UINT16 reserved3;   /* CsumL4 (for future use, PnC)  */
+  UINT8  reserved4;   /* BmQset (for future use, BM)   */
   UINT8  reserved5;
-  UINT16 reserved6;   /* classify_info (for future use, PnC)  */
-  UINT32 reserved7;   /* flow_id (for future use, PnC) */
+  UINT16 reserved6;   /* ClassifyInfo (for future use, PnC)  */
+  UINT32 reserved7;   /* FlowId (for future use, PnC) */
   UINT32 reserved8;
 #else
-  UINT16 rsrvd_gem;   /* gem_port_id (for future use, PON)  */
-  UINT16 rsrvd_l4csum;  /* csum_l4 (for future use, PnC)  */
-  UINT32 rsrvd_timestamp;
-  UINT64 buf_phys_addr_key_hash;
-  UINT64 buf_cookie_bm_qset_cls_info;
+  UINT16 RsrvdGem;   /* GemPortId (for future use, PON)  */
+  UINT16 RsrvdL4csum;  /* CsumL4 (for future use, PnC)  */
+  UINT32 RsrvdTimestamp;
+  UINT64 BufPhysAddrKeyHash;
+  UINT64 BufCookieBmQsetClsInfo;
 #endif
 } MVPP2_RX_DESC;
 
-union mvpp2_prs_tcam_entry {
+union Mvpp2PrsTcamEntry {
   UINT32 word[MVPP2_PRS_TCAM_WORDS];
   UINT8  byte[MVPP2_PRS_TCAM_WORDS * 4];
 };
 
-union mvpp2_prs_sram_entry {
+union Mvpp2PrsSramEntry {
   UINT32 word[MVPP2_PRS_SRAM_WORDS];
   UINT8  byte[MVPP2_PRS_SRAM_WORDS * 4];
 };
 
 typedef struct {
   UINT32 index;
-  union mvpp2_prs_tcam_entry tcam;
-  union mvpp2_prs_sram_entry sram;
+  union Mvpp2PrsTcamEntry tcam;
+  union Mvpp2PrsSramEntry sram;
 } MVPP2_PRS_ENTRY;
 
 typedef struct {
@@ -1401,7 +1401,7 @@ typedef struct {
 
   /* Result info */
   UINT32 ri;
-  UINT32 ri_mask;
+  UINT32 RiMask;
 } MVPP2_PRS_SHADOW;
 
 typedef struct {
@@ -1416,11 +1416,11 @@ typedef struct {
 } MVPP2_CLS_LOOKUP_ENTRY;
 
 typedef struct {
-  UINT32 next_buff_phys_addr;
-  UINT32 next_buff_virt_addr;
-  UINT16 byte_count;
+  UINT32 NextBuffPhysAddr;
+  UINT32 NextBuffVirtAddr;
+  UINT16 ByteCount;
   UINT16 info;
-  UINT8  reserved1;   /* bm_qset (for future use, BM)   */
+  UINT8  reserved1;   /* BmQset (for future use, BM)   */
 } MVPP2_BUFF_HDR;
 
 /* Buffer header info bits */
@@ -2041,7 +2041,7 @@ typedef struct {
 #define MV_XLG_EXTERNAL_INTERRUPT_LINK_CHANGE_MASK  \
     (0x1 << MV_XLG_EXTERNAL_INTERRUPT_LINK_CHANGE_OFFS)
 /* port related */
-enum mv_reset {RESET, UNRESET};
+enum MvReset {RESET, UNRESET};
 
 /*All PPV22 Addresses are 40-bit */
 #define MVPP22_ADDR_HIGH_SIZE     8
@@ -2052,7 +2052,7 @@ enum mv_reset {RESET, UNRESET};
 #define MVPP22_DESC_ADDR_SHIFT      (9-1) /*Applies to RXQ, AGGR_TXQ*/
 
 /* Net Complex */
-enum mv_netc_topology {
+enum MvNetcTopology {
   MV_NETC_GE_MAC0_RXAUI_L23 = BIT(0),
   MV_NETC_GE_MAC0_RXAUI_L45 = BIT(1),
   MV_NETC_GE_MAC0_XAUI    = BIT(2),
@@ -2061,22 +2061,22 @@ enum mv_netc_topology {
   MV_NETC_GE_MAC3_RGMII   = BIT(5),
 };
 
-enum mv_netc_phase {
+enum MvNetcPhase {
   MV_NETC_FIRST_PHASE,
   MV_NETC_SECOND_PHASE,
 };
 
-enum mv_netc_sgmii_xmi_mode {
+enum MvNetcSgmiiXmiMode {
   MV_NETC_GBE_SGMII,
   MV_NETC_GBE_XMII,
 };
 
-enum mv_netc_mii_mode {
+enum MvNetcMiiMode {
   MV_NETC_GBE_RGMII,
   MV_NETC_GBE_MII,
 };
 
-enum mv_netc_lanes {
+enum MvNetcLanes {
   MV_NETC_LANE_23,
   MV_NETC_LANE_45,
 };
@@ -2087,7 +2087,7 @@ enum mv_netc_lanes {
 #define MV_SMI_PHY_ADDRESS_PHYAD_MASK         \
   (0x1F << MV_SMI_PHY_ADDRESS_PHYAD_OFFS)
 
-enum mv_port_duplex {
+enum MvPortDuplex {
   MV_PORT_DUPLEX_AN,
   MV_PORT_DUPLEX_HALF,
   MV_PORT_DUPLEX_FULL

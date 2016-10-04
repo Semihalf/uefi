@@ -95,14 +95,14 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 *******************************************************************************/
 
-#include "mvpp2_lib_hw.h"
+#include "Mvpp2LibHw.h"
 #include "Pp2Dxe.h"
-#include "mvpp2_lib.h"
+#include "Mvpp2Lib.h"
 
 /* Parser configuration routines */
 
 /* Update parser tcam and sram hw entries */
-STATIC INT32 mvpp2_prs_hw_write(MVPP2_SHARED *priv, MVPP2_PRS_ENTRY *pe)
+STATIC INT32 Mvpp2PrsHwWrite(MVPP2_SHARED *priv, MVPP2_PRS_ENTRY *pe)
 {
   INT32 i;
 
@@ -113,20 +113,20 @@ STATIC INT32 mvpp2_prs_hw_write(MVPP2_SHARED *priv, MVPP2_PRS_ENTRY *pe)
   pe->tcam.word[MVPP2_PRS_TCAM_INV_WORD] &= ~MVPP2_PRS_TCAM_INV_MASK;
 
   /* Write tcam index - indirect access */
-  mvpp2_write(priv, MVPP2_PRS_TCAM_IDX_REG, pe->index);
+  Mvpp2Write(priv, MVPP2_PRS_TCAM_IDX_REG, pe->index);
   for (i = 0; i < MVPP2_PRS_TCAM_WORDS; i++)
-    mvpp2_write(priv, MVPP2_PRS_TCAM_DATA_REG(i), pe->tcam.word[i]);
+    Mvpp2Write(priv, MVPP2_PRS_TCAM_DATA_REG(i), pe->tcam.word[i]);
 
   /* Write sram index - indirect access */
-  mvpp2_write(priv, MVPP2_PRS_SRAM_IDX_REG, pe->index);
+  Mvpp2Write(priv, MVPP2_PRS_SRAM_IDX_REG, pe->index);
   for (i = 0; i < MVPP2_PRS_SRAM_WORDS; i++)
-    mvpp2_write(priv, MVPP2_PRS_SRAM_DATA_REG(i), pe->sram.word[i]);
+    Mvpp2Write(priv, MVPP2_PRS_SRAM_DATA_REG(i), pe->sram.word[i]);
 
   return 0;
 }
 
 /* Read tcam entry from hw */
-STATIC INT32 mvpp2_prs_hw_read(MVPP2_SHARED *priv, MVPP2_PRS_ENTRY *pe)
+STATIC INT32 Mvpp2PrsHwRead(MVPP2_SHARED *priv, MVPP2_PRS_ENTRY *pe)
 {
   INT32 i;
 
@@ -134,91 +134,91 @@ STATIC INT32 mvpp2_prs_hw_read(MVPP2_SHARED *priv, MVPP2_PRS_ENTRY *pe)
     return MVPP2_EINVAL;
 
   /* Write tcam index - indirect access */
-  mvpp2_write(priv, MVPP2_PRS_TCAM_IDX_REG, pe->index);
+  Mvpp2Write(priv, MVPP2_PRS_TCAM_IDX_REG, pe->index);
 
-  pe->tcam.word[MVPP2_PRS_TCAM_INV_WORD] = mvpp2_read(priv,
+  pe->tcam.word[MVPP2_PRS_TCAM_INV_WORD] = Mvpp2Read(priv,
             MVPP2_PRS_TCAM_DATA_REG(MVPP2_PRS_TCAM_INV_WORD));
   if (pe->tcam.word[MVPP2_PRS_TCAM_INV_WORD] & MVPP2_PRS_TCAM_INV_MASK)
     return MVPP2_PRS_TCAM_ENTRY_INVALID;
 
   for (i = 0; i < MVPP2_PRS_TCAM_WORDS; i++)
-    pe->tcam.word[i] = mvpp2_read(priv, MVPP2_PRS_TCAM_DATA_REG(i));
+    pe->tcam.word[i] = Mvpp2Read(priv, MVPP2_PRS_TCAM_DATA_REG(i));
 
   /* Write sram index - indirect access */
-  mvpp2_write(priv, MVPP2_PRS_SRAM_IDX_REG, pe->index);
+  Mvpp2Write(priv, MVPP2_PRS_SRAM_IDX_REG, pe->index);
   for (i = 0; i < MVPP2_PRS_SRAM_WORDS; i++)
-    pe->sram.word[i] = mvpp2_read(priv, MVPP2_PRS_SRAM_DATA_REG(i));
+    pe->sram.word[i] = Mvpp2Read(priv, MVPP2_PRS_SRAM_DATA_REG(i));
 
   return 0;
 }
 
 /* Invalidate tcam hw entry */
-STATIC VOID mvpp2_prs_hw_inv(MVPP2_SHARED *priv, INT32 index)
+STATIC VOID Mvpp2PrsHwInv(MVPP2_SHARED *priv, INT32 index)
 {
   /* Write index - indirect access */
-  mvpp2_write(priv, MVPP2_PRS_TCAM_IDX_REG, index);
-  mvpp2_write(priv, MVPP2_PRS_TCAM_DATA_REG(MVPP2_PRS_TCAM_INV_WORD),
+  Mvpp2Write(priv, MVPP2_PRS_TCAM_IDX_REG, index);
+  Mvpp2Write(priv, MVPP2_PRS_TCAM_DATA_REG(MVPP2_PRS_TCAM_INV_WORD),
         MVPP2_PRS_TCAM_INV_MASK);
 }
 
 /* Enable shadow table entry and set its lookup ID */
-STATIC VOID mvpp2_prs_shadow_set(MVPP2_SHARED *priv, INT32 index, INT32 lu)
+STATIC VOID Mvpp2PrsShadowSet(MVPP2_SHARED *priv, INT32 index, INT32 lu)
 {
-  priv->prs_shadow[index].valid = TRUE;
-  priv->prs_shadow[index].lu = lu;
+  priv->PrsShadow[index].valid = TRUE;
+  priv->PrsShadow[index].lu = lu;
 }
 
 /* Update ri fields in shadow table entry */
-STATIC VOID mvpp2_prs_shadow_ri_set(MVPP2_SHARED *priv, INT32 index,
-            UINT32 ri, UINT32 ri_mask)
+STATIC VOID Mvpp2PrsShadowRiSet(MVPP2_SHARED *priv, INT32 index,
+            UINT32 ri, UINT32 RiMask)
 {
-  priv->prs_shadow[index].ri_mask = ri_mask;
-  priv->prs_shadow[index].ri = ri;
+  priv->PrsShadow[index].RiMask = RiMask;
+  priv->PrsShadow[index].ri = ri;
 }
 
 /* Update lookup field in tcam sw entry */
-STATIC VOID mvpp2_prs_tcam_lu_set(MVPP2_PRS_ENTRY *pe, UINT32 lu)
+STATIC VOID Mvpp2PrsTcamLuSet(MVPP2_PRS_ENTRY *pe, UINT32 lu)
 {
-  INT32 enable_off = MVPP2_PRS_TCAM_EN_OFFS(MVPP2_PRS_TCAM_LU_BYTE);
+  INT32 EnableOff = MVPP2_PRS_TCAM_EN_OFFS(MVPP2_PRS_TCAM_LU_BYTE);
 
   pe->tcam.byte[MVPP2_PRS_TCAM_LU_BYTE] = lu;
-  pe->tcam.byte[enable_off] = MVPP2_PRS_LU_MASK;
+  pe->tcam.byte[EnableOff] = MVPP2_PRS_LU_MASK;
 }
 
 /* Update mask for single port in tcam sw entry */
-STATIC VOID mvpp2_prs_tcam_port_set(MVPP2_PRS_ENTRY *pe,
+STATIC VOID Mvpp2PrsTcamPortSet(MVPP2_PRS_ENTRY *pe,
             UINT32 port, BOOLEAN add)
 {
-  INT32 enable_off = MVPP2_PRS_TCAM_EN_OFFS(MVPP2_PRS_TCAM_PORT_BYTE);
+  INT32 EnableOff = MVPP2_PRS_TCAM_EN_OFFS(MVPP2_PRS_TCAM_PORT_BYTE);
 
   if (add)
-    pe->tcam.byte[enable_off] &= ~(1 << port);
+    pe->tcam.byte[EnableOff] &= ~(1 << port);
   else
-    pe->tcam.byte[enable_off] |= 1 << port;
+    pe->tcam.byte[EnableOff] |= 1 << port;
 }
 
 /* Update port map in tcam sw entry */
-STATIC VOID mvpp2_prs_tcam_port_map_set(MVPP2_PRS_ENTRY *pe,
+STATIC VOID Mvpp2PrsTcamPortMapSet(MVPP2_PRS_ENTRY *pe,
           UINT32 ports)
 {
-  UINT8 port_mask = MVPP2_PRS_PORT_MASK;
-  INT32 enable_off = MVPP2_PRS_TCAM_EN_OFFS(MVPP2_PRS_TCAM_PORT_BYTE);
+  UINT8 PortMask = MVPP2_PRS_PORT_MASK;
+  INT32 EnableOff = MVPP2_PRS_TCAM_EN_OFFS(MVPP2_PRS_TCAM_PORT_BYTE);
 
   pe->tcam.byte[MVPP2_PRS_TCAM_PORT_BYTE] = 0;
-  pe->tcam.byte[enable_off] &= ~port_mask;
-  pe->tcam.byte[enable_off] |= ~ports & MVPP2_PRS_PORT_MASK;
+  pe->tcam.byte[EnableOff] &= ~PortMask;
+  pe->tcam.byte[EnableOff] |= ~ports & MVPP2_PRS_PORT_MASK;
 }
 
 /* Obtain port map from tcam sw entry */
-STATIC UINT32 mvpp2_prs_tcam_port_map_get(MVPP2_PRS_ENTRY *pe)
+STATIC UINT32 Mvpp2PrsTcamPortMapGet(MVPP2_PRS_ENTRY *pe)
 {
-  INT32 enable_off = MVPP2_PRS_TCAM_EN_OFFS(MVPP2_PRS_TCAM_PORT_BYTE);
+  INT32 EnableOff = MVPP2_PRS_TCAM_EN_OFFS(MVPP2_PRS_TCAM_PORT_BYTE);
 
-  return ~(pe->tcam.byte[enable_off]) & MVPP2_PRS_PORT_MASK;
+  return ~(pe->tcam.byte[EnableOff]) & MVPP2_PRS_PORT_MASK;
 }
 
 /* Set byte of data and its enable bits in tcam sw entry */
-STATIC VOID mvpp2_prs_tcam_data_byte_set(MVPP2_PRS_ENTRY *pe,
+STATIC VOID Mvpp2PrsTcamDataByteSet(MVPP2_PRS_ENTRY *pe,
            UINT32 offs, UINT8 byte,
            UINT8 enable)
 {
@@ -227,7 +227,7 @@ STATIC VOID mvpp2_prs_tcam_data_byte_set(MVPP2_PRS_ENTRY *pe,
 }
 
 /* Get byte of data and its enable bits from tcam sw entry */
-STATIC VOID mvpp2_prs_tcam_data_byte_get(MVPP2_PRS_ENTRY *pe,
+STATIC VOID Mvpp2PrsTcamDataByteGet(MVPP2_PRS_ENTRY *pe,
            UINT32 offs, UINT8 *byte,
            UINT8 *enable)
 {
@@ -236,23 +236,23 @@ STATIC VOID mvpp2_prs_tcam_data_byte_get(MVPP2_PRS_ENTRY *pe,
 }
 
 /* Compare tcam data bytes with a pattern */
-STATIC BOOLEAN mvpp2_prs_tcam_data_cmp(MVPP2_PRS_ENTRY *pe, INT32 offs,
+STATIC BOOLEAN Mvpp2PrsTcamDataCmp(MVPP2_PRS_ENTRY *pe, INT32 offs,
             UINT16 data)
 {
   INT32 off = MVPP2_PRS_TCAM_DATA_BYTE(offs);
-  UINT16 tcam_data;
+  UINT16 TcamData;
 
-  tcam_data = (8 << pe->tcam.byte[off + 1]) | pe->tcam.byte[off];
-  if (tcam_data != data)
+  TcamData = (8 << pe->tcam.byte[off + 1]) | pe->tcam.byte[off];
+  if (TcamData != data)
     return FALSE;
   return TRUE;
 }
 
 /* Update ai bits in tcam sw entry */
-STATIC VOID mvpp2_prs_tcam_ai_update(MVPP2_PRS_ENTRY *pe,
+STATIC VOID Mvpp2PrsTcamAiUpdate(MVPP2_PRS_ENTRY *pe,
              UINT32 bits, UINT32 enable)
 {
-  INT32 i, ai_idx = MVPP2_PRS_TCAM_AI_BYTE;
+  INT32 i, AiIdx = MVPP2_PRS_TCAM_AI_BYTE;
 
   for (i = 0; i < MVPP2_PRS_AI_BITS; i++) {
 
@@ -260,22 +260,22 @@ STATIC VOID mvpp2_prs_tcam_ai_update(MVPP2_PRS_ENTRY *pe,
       continue;
 
     if (bits & BIT(i))
-      pe->tcam.byte[ai_idx] |= 1 << i;
+      pe->tcam.byte[AiIdx] |= 1 << i;
     else
-      pe->tcam.byte[ai_idx] &= ~(1 << i);
+      pe->tcam.byte[AiIdx] &= ~(1 << i);
   }
 
-  pe->tcam.byte[MVPP2_PRS_TCAM_EN_OFFS(ai_idx)] |= enable;
+  pe->tcam.byte[MVPP2_PRS_TCAM_EN_OFFS(AiIdx)] |= enable;
 }
 
 /* Get ai bits from tcam sw entry */
-STATIC INT32 mvpp2_prs_tcam_ai_get(MVPP2_PRS_ENTRY *pe)
+STATIC INT32 Mvpp2PrsTcamAiGet(MVPP2_PRS_ENTRY *pe)
 {
   return pe->tcam.byte[MVPP2_PRS_TCAM_AI_BYTE];
 }
 
 /* Get dword of data and its enable bits from tcam sw entry */
-STATIC VOID mvpp2_prs_tcam_data_dword_get(MVPP2_PRS_ENTRY *pe,
+STATIC VOID Mvpp2PrsTcamDataDwordGet(MVPP2_PRS_ENTRY *pe,
            UINT32 offs, UINT32 *word,
            UINT32 *enable)
 {
@@ -284,67 +284,67 @@ STATIC VOID mvpp2_prs_tcam_data_dword_get(MVPP2_PRS_ENTRY *pe,
 
   for (index = 0; index < 4; index++) {
     offset = (offs * 4) + index;
-    mvpp2_prs_tcam_data_byte_get(pe, offset,  &byte, &mask);
+    Mvpp2PrsTcamDataByteGet(pe, offset,  &byte, &mask);
     ((UINT8 *)word)[index] = byte;
     ((UINT8 *)enable)[index] = mask;
   }
 }
 
 /* Set ethertype in tcam sw entry */
-STATIC VOID mvpp2_prs_match_etype(MVPP2_PRS_ENTRY *pe, INT32 offset,
+STATIC VOID Mvpp2PrsMatchEtype(MVPP2_PRS_ENTRY *pe, INT32 offset,
           UINT16 ethertype)
 {
-  mvpp2_prs_tcam_data_byte_set(pe, offset + 0, ethertype >> 8, 0xff);
-  mvpp2_prs_tcam_data_byte_set(pe, offset + 1, ethertype & 0xff, 0xff);
+  Mvpp2PrsTcamDataByteSet(pe, offset + 0, ethertype >> 8, 0xff);
+  Mvpp2PrsTcamDataByteSet(pe, offset + 1, ethertype & 0xff, 0xff);
 }
 
 /* Set bits in sram sw entry */
-STATIC VOID mvpp2_prs_sram_bits_set(MVPP2_PRS_ENTRY *pe,
-               INT32 bit_num, INT32 val)
+STATIC VOID Mvpp2PrsSramBitsSet(MVPP2_PRS_ENTRY *pe,
+               INT32 BitNum, INT32 val)
 {
-  pe->sram.byte[MVPP2_BIT_TO_BYTE(bit_num)] |= (val << (bit_num % 8));
+  pe->sram.byte[MVPP2_BIT_TO_BYTE(BitNum)] |= (val << (BitNum % 8));
 }
 
 /* Clear bits in sram sw entry */
-STATIC VOID mvpp2_prs_sram_bits_clear(MVPP2_PRS_ENTRY *pe,
-           INT32 bit_num, INT32 val)
+STATIC VOID Mvpp2PrsSramBitsClear(MVPP2_PRS_ENTRY *pe,
+           INT32 BitNum, INT32 val)
 {
-  pe->sram.byte[MVPP2_BIT_TO_BYTE(bit_num)] &= ~(val << (bit_num % 8));
+  pe->sram.byte[MVPP2_BIT_TO_BYTE(BitNum)] &= ~(val << (BitNum % 8));
 }
 
 /* Update ri bits in sram sw entry */
-STATIC VOID mvpp2_prs_sram_ri_update(MVPP2_PRS_ENTRY *pe,
+STATIC VOID Mvpp2PrsSramRiUpdate(MVPP2_PRS_ENTRY *pe,
              UINT32 bits, UINT32 mask)
 {
   UINT32 i;
 
   for (i = 0; i < MVPP2_PRS_SRAM_RI_CTRL_BITS; i++) {
-    INT32 ri_off = MVPP2_PRS_SRAM_RI_OFFS;
+    INT32 RiOff = MVPP2_PRS_SRAM_RI_OFFS;
 
     if (!(mask & BIT(i)))
       continue;
 
     if (bits & BIT(i))
-      mvpp2_prs_sram_bits_set(pe, ri_off + i, 1);
+      Mvpp2PrsSramBitsSet(pe, RiOff + i, 1);
     else
-      mvpp2_prs_sram_bits_clear(pe, ri_off + i, 1);
+      Mvpp2PrsSramBitsClear(pe, RiOff + i, 1);
 
-    mvpp2_prs_sram_bits_set(pe, MVPP2_PRS_SRAM_RI_CTRL_OFFS + i, 1);
+    Mvpp2PrsSramBitsSet(pe, MVPP2_PRS_SRAM_RI_CTRL_OFFS + i, 1);
   }
 }
 
 /* Obtain ri bits from sram sw entry */
-STATIC INT32 mvpp2_prs_sram_ri_get(MVPP2_PRS_ENTRY *pe)
+STATIC INT32 Mvpp2PrsSramRiGet(MVPP2_PRS_ENTRY *pe)
 {
   return pe->sram.word[MVPP2_PRS_SRAM_RI_WORD];
 }
 
 /* Update ai bits in sram sw entry */
-STATIC VOID mvpp2_prs_sram_ai_update(MVPP2_PRS_ENTRY *pe,
+STATIC VOID Mvpp2PrsSramAiUpdate(MVPP2_PRS_ENTRY *pe,
              UINT32 bits, UINT32 mask)
 {
   UINT32 i;
-  INT32 ai_off = MVPP2_PRS_SRAM_AI_OFFS;
+  INT32 AiOff = MVPP2_PRS_SRAM_AI_OFFS;
 
   for (i = 0; i < MVPP2_PRS_SRAM_AI_CTRL_BITS; i++) {
 
@@ -352,24 +352,24 @@ STATIC VOID mvpp2_prs_sram_ai_update(MVPP2_PRS_ENTRY *pe,
       continue;
 
     if (bits & BIT(i))
-      mvpp2_prs_sram_bits_set(pe, ai_off + i, 1);
+      Mvpp2PrsSramBitsSet(pe, AiOff + i, 1);
     else
-      mvpp2_prs_sram_bits_clear(pe, ai_off + i, 1);
+      Mvpp2PrsSramBitsClear(pe, AiOff + i, 1);
 
-    mvpp2_prs_sram_bits_set(pe, MVPP2_PRS_SRAM_AI_CTRL_OFFS + i, 1);
+    Mvpp2PrsSramBitsSet(pe, MVPP2_PRS_SRAM_AI_CTRL_OFFS + i, 1);
   }
 }
 
 /* Read ai bits from sram sw entry */
-STATIC INT32 mvpp2_prs_sram_ai_get(MVPP2_PRS_ENTRY *pe)
+STATIC INT32 Mvpp2PrsSramAiGet(MVPP2_PRS_ENTRY *pe)
 {
   UINT8 bits;
-  INT32 ai_off = MVPP2_BIT_TO_BYTE(MVPP2_PRS_SRAM_AI_OFFS);
-  INT32 ai_en_off = ai_off + 1;
-  INT32 ai_shift = MVPP2_PRS_SRAM_AI_OFFS % 8;
+  INT32 AiOff = MVPP2_BIT_TO_BYTE(MVPP2_PRS_SRAM_AI_OFFS);
+  INT32 AiEnOff = AiOff + 1;
+  INT32 AiShift = MVPP2_PRS_SRAM_AI_OFFS % 8;
 
-  bits = (pe->sram.byte[ai_off] >> ai_shift) |
-         (pe->sram.byte[ai_en_off] << (8 - ai_shift));
+  bits = (pe->sram.byte[AiOff] >> AiShift) |
+         (pe->sram.byte[AiEnOff] << (8 - AiShift));
 
   return bits;
 }
@@ -377,28 +377,28 @@ STATIC INT32 mvpp2_prs_sram_ai_get(MVPP2_PRS_ENTRY *pe)
 /* In sram sw entry set lookup ID field of the tcam key to be used in the next
  * lookup INT32eration
  */
-STATIC VOID mvpp2_prs_sram_next_lu_set(MVPP2_PRS_ENTRY *pe,
+STATIC VOID Mvpp2PrsSramNextLuSet(MVPP2_PRS_ENTRY *pe,
                UINT32 lu)
 {
-  INT32 sram_next_off = MVPP2_PRS_SRAM_NEXT_LU_OFFS;
+  INT32 SramNextOff = MVPP2_PRS_SRAM_NEXT_LU_OFFS;
 
-  mvpp2_prs_sram_bits_clear(pe, sram_next_off,
+  Mvpp2PrsSramBitsClear(pe, SramNextOff,
           MVPP2_PRS_SRAM_NEXT_LU_MASK);
-  mvpp2_prs_sram_bits_set(pe, sram_next_off, lu);
+  Mvpp2PrsSramBitsSet(pe, SramNextOff, lu);
 }
 
 /* In the sram sw entry set sign and value of the next lookup offset
  * and the offset value generated to the classifier
  */
-STATIC VOID mvpp2_prs_sram_shift_set(MVPP2_PRS_ENTRY *pe, INT32 shift,
+STATIC VOID Mvpp2PrsSramShiftSet(MVPP2_PRS_ENTRY *pe, INT32 shift,
              UINT32 op)
 {
   /* Set sign */
   if (shift < 0) {
-    mvpp2_prs_sram_bits_set(pe, MVPP2_PRS_SRAM_SHIFT_SIGN_BIT, 1);
+    Mvpp2PrsSramBitsSet(pe, MVPP2_PRS_SRAM_SHIFT_SIGN_BIT, 1);
     shift = 0 - shift;
   } else {
-    mvpp2_prs_sram_bits_clear(pe, MVPP2_PRS_SRAM_SHIFT_SIGN_BIT, 1);
+    Mvpp2PrsSramBitsClear(pe, MVPP2_PRS_SRAM_SHIFT_SIGN_BIT, 1);
   }
 
   /* Set value */
@@ -406,33 +406,33 @@ STATIC VOID mvpp2_prs_sram_shift_set(MVPP2_PRS_ENTRY *pe, INT32 shift,
                  (UINT8)shift;
 
   /* Reset and set operation */
-  mvpp2_prs_sram_bits_clear(pe, MVPP2_PRS_SRAM_OP_SEL_SHIFT_OFFS,
+  Mvpp2PrsSramBitsClear(pe, MVPP2_PRS_SRAM_OP_SEL_SHIFT_OFFS,
           MVPP2_PRS_SRAM_OP_SEL_SHIFT_MASK);
-  mvpp2_prs_sram_bits_set(pe, MVPP2_PRS_SRAM_OP_SEL_SHIFT_OFFS, op);
+  Mvpp2PrsSramBitsSet(pe, MVPP2_PRS_SRAM_OP_SEL_SHIFT_OFFS, op);
 
   /* Set base offset as current */
-  mvpp2_prs_sram_bits_clear(pe, MVPP2_PRS_SRAM_OP_SEL_BASE_OFFS, 1);
+  Mvpp2PrsSramBitsClear(pe, MVPP2_PRS_SRAM_OP_SEL_BASE_OFFS, 1);
 }
 
 /* In the sram sw entry set sign and value of the user defined offset
  * generated to the classifier
  */
-STATIC VOID mvpp2_prs_sram_offset_set(MVPP2_PRS_ENTRY *pe,
+STATIC VOID Mvpp2PrsSramOffsetSet(MVPP2_PRS_ENTRY *pe,
               UINT32 type, INT32 offset,
               UINT32 op)
 {
   /* Set sign */
   if (offset < 0) {
-    mvpp2_prs_sram_bits_set(pe, MVPP2_PRS_SRAM_UDF_SIGN_BIT, 1);
+    Mvpp2PrsSramBitsSet(pe, MVPP2_PRS_SRAM_UDF_SIGN_BIT, 1);
     offset = 0 - offset;
   } else {
-    mvpp2_prs_sram_bits_clear(pe, MVPP2_PRS_SRAM_UDF_SIGN_BIT, 1);
+    Mvpp2PrsSramBitsClear(pe, MVPP2_PRS_SRAM_UDF_SIGN_BIT, 1);
   }
 
   /* Set value */
-  mvpp2_prs_sram_bits_clear(pe, MVPP2_PRS_SRAM_UDF_OFFS,
+  Mvpp2PrsSramBitsClear(pe, MVPP2_PRS_SRAM_UDF_OFFS,
           MVPP2_PRS_SRAM_UDF_MASK);
-  mvpp2_prs_sram_bits_set(pe, MVPP2_PRS_SRAM_UDF_OFFS, offset);
+  Mvpp2PrsSramBitsSet(pe, MVPP2_PRS_SRAM_UDF_OFFS, offset);
   pe->sram.byte[MVPP2_BIT_TO_BYTE(MVPP2_PRS_SRAM_UDF_OFFS +
           MVPP2_PRS_SRAM_UDF_BITS)] &=
         ~(MVPP2_PRS_SRAM_UDF_MASK >> (8 - (MVPP2_PRS_SRAM_UDF_OFFS % 8)));
@@ -441,14 +441,14 @@ STATIC VOID mvpp2_prs_sram_offset_set(MVPP2_PRS_ENTRY *pe,
         (offset >> (8 - (MVPP2_PRS_SRAM_UDF_OFFS % 8)));
 
   /* Set offset type */
-  mvpp2_prs_sram_bits_clear(pe, MVPP2_PRS_SRAM_UDF_TYPE_OFFS,
+  Mvpp2PrsSramBitsClear(pe, MVPP2_PRS_SRAM_UDF_TYPE_OFFS,
           MVPP2_PRS_SRAM_UDF_TYPE_MASK);
-  mvpp2_prs_sram_bits_set(pe, MVPP2_PRS_SRAM_UDF_TYPE_OFFS, type);
+  Mvpp2PrsSramBitsSet(pe, MVPP2_PRS_SRAM_UDF_TYPE_OFFS, type);
 
   /* Set offset operation */
-  mvpp2_prs_sram_bits_clear(pe, MVPP2_PRS_SRAM_OP_SEL_UDF_OFFS,
+  Mvpp2PrsSramBitsClear(pe, MVPP2_PRS_SRAM_OP_SEL_UDF_OFFS,
           MVPP2_PRS_SRAM_OP_SEL_UDF_MASK);
-  mvpp2_prs_sram_bits_set(pe, MVPP2_PRS_SRAM_OP_SEL_UDF_OFFS, op);
+  Mvpp2PrsSramBitsSet(pe, MVPP2_PRS_SRAM_OP_SEL_UDF_OFFS, op);
 
   pe->sram.byte[MVPP2_BIT_TO_BYTE(MVPP2_PRS_SRAM_OP_SEL_UDF_OFFS +
           MVPP2_PRS_SRAM_OP_SEL_UDF_BITS)] &=
@@ -460,64 +460,64 @@ STATIC VOID mvpp2_prs_sram_offset_set(MVPP2_PRS_ENTRY *pe,
            (op >> (8 - (MVPP2_PRS_SRAM_OP_SEL_UDF_OFFS % 8)));
 
   /* Set base offset as current */
-  mvpp2_prs_sram_bits_clear(pe, MVPP2_PRS_SRAM_OP_SEL_BASE_OFFS, 1);
+  Mvpp2PrsSramBitsClear(pe, MVPP2_PRS_SRAM_OP_SEL_BASE_OFFS, 1);
 }
 
 /* Find parser flow entry */
-STATIC MVPP2_PRS_ENTRY *mvpp2_prs_flow_find(MVPP2_SHARED *priv,
+STATIC MVPP2_PRS_ENTRY *Mvpp2PrsFlowFind(MVPP2_SHARED *priv,
                INT32 flow)
 {
   MVPP2_PRS_ENTRY *pe;
   INT32 tid;
   UINT32 dword, enable;
 
-  pe = mvpp2_alloc(sizeof(*pe));
+  pe = Mvpp2Alloc(sizeof(*pe));
   if (!pe)
     return MVPP2_NULL;
-  mvpp2_prs_tcam_lu_set(pe, MVPP2_PRS_LU_FLOWS);
+  Mvpp2PrsTcamLuSet(pe, MVPP2_PRS_LU_FLOWS);
 
   /* Go through the all entires with MVPP2_PRS_LU_FLOWS */
   for (tid = MVPP2_PRS_TCAM_SRAM_SIZE - 1; tid >= 0; tid--) {
     UINT8 bits;
 
-    if (!priv->prs_shadow[tid].valid ||
-        priv->prs_shadow[tid].lu != MVPP2_PRS_LU_FLOWS)
+    if (!priv->PrsShadow[tid].valid ||
+        priv->PrsShadow[tid].lu != MVPP2_PRS_LU_FLOWS)
       continue;
 
     pe->index = tid;
-    mvpp2_prs_hw_read(priv, pe);
+    Mvpp2PrsHwRead(priv, pe);
 
     /* Check result info, because there maybe
     *   several TCAM lines to generate the same flow */
-    mvpp2_prs_tcam_data_dword_get(pe, 0, &dword, &enable);
+    Mvpp2PrsTcamDataDwordGet(pe, 0, &dword, &enable);
     if ((dword != 0) || (enable != 0))
       continue;
 
-    bits = mvpp2_prs_sram_ai_get(pe);
+    bits = Mvpp2PrsSramAiGet(pe);
 
     /* Sram store classification lookup ID in AI bits [5:0] */
     if ((bits & MVPP2_PRS_FLOW_ID_MASK) == flow)
       return pe;
   }
-  mvpp2_free(pe);
+  Mvpp2Free(pe);
 
   return MVPP2_NULL;
 }
 
 /* Return first free tcam index, seeking from start to end */
-STATIC INT32 mvpp2_prs_tcam_first_free(MVPP2_SHARED *priv, UINT8 start,
+STATIC INT32 Mvpp2PrsTcamFirstFree(MVPP2_SHARED *priv, UINT8 start,
              UINT8 end)
 {
   INT32 tid;
 
   if (start > end)
-    mvpp2_swap(start, end);
+    Mvpp2Swap(start, end);
 
   if (end >= MVPP2_PRS_TCAM_SRAM_SIZE)
     end = MVPP2_PRS_TCAM_SRAM_SIZE - 1;
 
   for (tid = start; tid <= end; tid++) {
-    if (!priv->prs_shadow[tid].valid)
+    if (!priv->PrsShadow[tid].valid)
       return tid;
   }
 
@@ -525,133 +525,133 @@ STATIC INT32 mvpp2_prs_tcam_first_free(MVPP2_SHARED *priv, UINT8 start,
 }
 
 /* Enable/disable dropping all mac da's */
-STATIC VOID mvpp2_prs_mac_drop_all_set(MVPP2_SHARED *priv, INT32 port,
+STATIC VOID Mvpp2PrsMacDropAllSet(MVPP2_SHARED *priv, INT32 port,
                BOOLEAN add)
 {
   MVPP2_PRS_ENTRY pe;
 
-  if (priv->prs_shadow[MVPP2_PE_DROP_ALL].valid) {
+  if (priv->PrsShadow[MVPP2_PE_DROP_ALL].valid) {
     /* Entry exist - update port only */
     pe.index = MVPP2_PE_DROP_ALL;
-    mvpp2_prs_hw_read(priv, &pe);
+    Mvpp2PrsHwRead(priv, &pe);
   } else {
     /* Entry doesn't exist - create new */
-    mvpp2_memset(&pe, 0, sizeof(MVPP2_PRS_ENTRY));
-    mvpp2_prs_tcam_lu_set(&pe, MVPP2_PRS_LU_MAC);
+    Mvpp2Memset(&pe, 0, sizeof(MVPP2_PRS_ENTRY));
+    Mvpp2PrsTcamLuSet(&pe, MVPP2_PRS_LU_MAC);
     pe.index = MVPP2_PE_DROP_ALL;
 
     /* Non-promiscuous mode for all ports - DROP unknown packets */
-    mvpp2_prs_sram_ri_update(&pe, MVPP2_PRS_RI_DROP_MASK,
+    Mvpp2PrsSramRiUpdate(&pe, MVPP2_PRS_RI_DROP_MASK,
            MVPP2_PRS_RI_DROP_MASK);
 
-    mvpp2_prs_sram_bits_set(&pe, MVPP2_PRS_SRAM_LU_GEN_BIT, 1);
-    mvpp2_prs_sram_next_lu_set(&pe, MVPP2_PRS_LU_FLOWS);
+    Mvpp2PrsSramBitsSet(&pe, MVPP2_PRS_SRAM_LU_GEN_BIT, 1);
+    Mvpp2PrsSramNextLuSet(&pe, MVPP2_PRS_LU_FLOWS);
 
     /* Update shadow table */
-    mvpp2_prs_shadow_set(priv, pe.index, MVPP2_PRS_LU_MAC);
+    Mvpp2PrsShadowSet(priv, pe.index, MVPP2_PRS_LU_MAC);
 
     /* Mask all ports */
-    mvpp2_prs_tcam_port_map_set(&pe, 0);
+    Mvpp2PrsTcamPortMapSet(&pe, 0);
   }
 
   /* Update port mask */
-  mvpp2_prs_tcam_port_set(&pe, port, add);
+  Mvpp2PrsTcamPortSet(&pe, port, add);
 
-  mvpp2_prs_hw_write(priv, &pe);
+  Mvpp2PrsHwWrite(priv, &pe);
 }
 
 /* Set port to promiscuous mode */
-VOID mvpp2_prs_mac_promisc_set(MVPP2_SHARED *priv, INT32 port, BOOLEAN add)
+VOID Mvpp2PrsMacPromiscSet(MVPP2_SHARED *priv, INT32 port, BOOLEAN add)
 {
   MVPP2_PRS_ENTRY pe;
 
   /* Promiscuous mode - Accept unknown packets */
 
-  if (priv->prs_shadow[MVPP2_PE_MAC_PROMISCUOUS].valid) {
+  if (priv->PrsShadow[MVPP2_PE_MAC_PROMISCUOUS].valid) {
     /* Entry exist - update port only */
     pe.index = MVPP2_PE_MAC_PROMISCUOUS;
-    mvpp2_prs_hw_read(priv, &pe);
+    Mvpp2PrsHwRead(priv, &pe);
   } else {
     /* Entry doesn't exist - create new */
-    mvpp2_memset(&pe, 0, sizeof(MVPP2_PRS_ENTRY));
-    mvpp2_prs_tcam_lu_set(&pe, MVPP2_PRS_LU_MAC);
+    Mvpp2Memset(&pe, 0, sizeof(MVPP2_PRS_ENTRY));
+    Mvpp2PrsTcamLuSet(&pe, MVPP2_PRS_LU_MAC);
     pe.index = MVPP2_PE_MAC_PROMISCUOUS;
 
     /* Continue - set next lookup */
-    mvpp2_prs_sram_next_lu_set(&pe, MVPP2_PRS_LU_DSA);
+    Mvpp2PrsSramNextLuSet(&pe, MVPP2_PRS_LU_DSA);
 
     /* Set result info bits */
-    mvpp2_prs_sram_ri_update(&pe, MVPP2_PRS_RI_L2_UCAST,
+    Mvpp2PrsSramRiUpdate(&pe, MVPP2_PRS_RI_L2_UCAST,
            MVPP2_PRS_RI_L2_CAST_MASK);
 
     /* Shift to ethertype */
-    mvpp2_prs_sram_shift_set(&pe, 2 * MV_ETH_ALEN,
+    Mvpp2PrsSramShiftSet(&pe, 2 * MV_ETH_ALEN,
            MVPP2_PRS_SRAM_OP_SEL_SHIFT_ADD);
 
     /* Mask all ports */
-    mvpp2_prs_tcam_port_map_set(&pe, 0);
+    Mvpp2PrsTcamPortMapSet(&pe, 0);
 
     /* Update shadow table */
-    mvpp2_prs_shadow_set(priv, pe.index, MVPP2_PRS_LU_MAC);
+    Mvpp2PrsShadowSet(priv, pe.index, MVPP2_PRS_LU_MAC);
   }
 
   /* Update port mask */
-  mvpp2_prs_tcam_port_set(&pe, port, add);
+  Mvpp2PrsTcamPortSet(&pe, port, add);
 
-  mvpp2_prs_hw_write(priv, &pe);
+  Mvpp2PrsHwWrite(priv, &pe);
 }
 
 /* Accept multicast */
-VOID mvpp2_prs_mac_multi_set(MVPP2_SHARED *priv, INT32 port, INT32 index,
+VOID Mvpp2PrsMacMultiSet(MVPP2_SHARED *priv, INT32 port, INT32 index,
            BOOLEAN add)
 {
   MVPP2_PRS_ENTRY pe;
-  UINT8 da_mc;
+  UINT8 DaMc;
 
   /* Ethernet multicast address first byte is
    * 0x01 for IPv4 and 0x33 for IPv6
    */
-  da_mc = (index == MVPP2_PE_MAC_MC_ALL) ? 0x01 : 0x33;
+  DaMc = (index == MVPP2_PE_MAC_MC_ALL) ? 0x01 : 0x33;
 
-  if (priv->prs_shadow[index].valid) {
+  if (priv->PrsShadow[index].valid) {
     /* Entry exist - update port only */
     pe.index = index;
-    mvpp2_prs_hw_read(priv, &pe);
+    Mvpp2PrsHwRead(priv, &pe);
   } else {
     /* Entry doesn't exist - create new */
-    mvpp2_memset(&pe, 0, sizeof(MVPP2_PRS_ENTRY));
-    mvpp2_prs_tcam_lu_set(&pe, MVPP2_PRS_LU_MAC);
+    Mvpp2Memset(&pe, 0, sizeof(MVPP2_PRS_ENTRY));
+    Mvpp2PrsTcamLuSet(&pe, MVPP2_PRS_LU_MAC);
     pe.index = index;
 
     /* Continue - set next lookup */
-    mvpp2_prs_sram_next_lu_set(&pe, MVPP2_PRS_LU_DSA);
+    Mvpp2PrsSramNextLuSet(&pe, MVPP2_PRS_LU_DSA);
 
     /* Set result info bits */
-    mvpp2_prs_sram_ri_update(&pe, MVPP2_PRS_RI_L2_MCAST,
+    Mvpp2PrsSramRiUpdate(&pe, MVPP2_PRS_RI_L2_MCAST,
            MVPP2_PRS_RI_L2_CAST_MASK);
 
     /* Update tcam entry data first byte */
-    mvpp2_prs_tcam_data_byte_set(&pe, 0, da_mc, 0xff);
+    Mvpp2PrsTcamDataByteSet(&pe, 0, DaMc, 0xff);
 
     /* Shift to ethertype */
-    mvpp2_prs_sram_shift_set(&pe, 2 * MV_ETH_ALEN,
+    Mvpp2PrsSramShiftSet(&pe, 2 * MV_ETH_ALEN,
            MVPP2_PRS_SRAM_OP_SEL_SHIFT_ADD);
 
     /* Mask all ports */
-    mvpp2_prs_tcam_port_map_set(&pe, 0);
+    Mvpp2PrsTcamPortMapSet(&pe, 0);
 
     /* Update shadow table */
-    mvpp2_prs_shadow_set(priv, pe.index, MVPP2_PRS_LU_MAC);
+    Mvpp2PrsShadowSet(priv, pe.index, MVPP2_PRS_LU_MAC);
   }
 
   /* Update port mask */
-  mvpp2_prs_tcam_port_set(&pe, port, add);
+  Mvpp2PrsTcamPortSet(&pe, port, add);
 
-  mvpp2_prs_hw_write(priv, &pe);
+  Mvpp2PrsHwWrite(priv, &pe);
 }
 
 /* Set entry for dsa packets */
-STATIC VOID mvpp2_prs_dsa_tag_set(MVPP2_SHARED *priv, INT32 port,
+STATIC VOID Mvpp2PrsDsaTagSet(MVPP2_SHARED *priv, INT32 port,
              BOOLEAN add, BOOLEAN tagged,
              BOOLEAN extend)
 {
@@ -666,256 +666,256 @@ STATIC VOID mvpp2_prs_dsa_tag_set(MVPP2_SHARED *priv, INT32 port,
     shift = 4;
   }
 
-  if (priv->prs_shadow[tid].valid) {
+  if (priv->PrsShadow[tid].valid) {
     /* Entry exist - update port only */
     pe.index = tid;
-    mvpp2_prs_hw_read(priv, &pe);
+    Mvpp2PrsHwRead(priv, &pe);
   } else {
     /* Entry doesn't exist - create new */
-    mvpp2_memset(&pe, 0, sizeof(MVPP2_PRS_ENTRY));
-    mvpp2_prs_tcam_lu_set(&pe, MVPP2_PRS_LU_DSA);
+    Mvpp2Memset(&pe, 0, sizeof(MVPP2_PRS_ENTRY));
+    Mvpp2PrsTcamLuSet(&pe, MVPP2_PRS_LU_DSA);
     pe.index = tid;
 
     /* Shift 4 bytes if DSA tag or 8 bytes in case of EDSA tag*/
-    mvpp2_prs_sram_shift_set(&pe, shift,
+    Mvpp2PrsSramShiftSet(&pe, shift,
            MVPP2_PRS_SRAM_OP_SEL_SHIFT_ADD);
 
     /* Update shadow table */
-    mvpp2_prs_shadow_set(priv, pe.index, MVPP2_PRS_LU_DSA);
+    Mvpp2PrsShadowSet(priv, pe.index, MVPP2_PRS_LU_DSA);
 
     if (tagged) {
       /* Set tagged bit in DSA tag */
-      mvpp2_prs_tcam_data_byte_set(&pe, 0,
+      Mvpp2PrsTcamDataByteSet(&pe, 0,
             MVPP2_PRS_TCAM_DSA_TAGGED_BIT,
             MVPP2_PRS_TCAM_DSA_TAGGED_BIT);
       /* Clear all ai bits for next iteration */
-      mvpp2_prs_sram_ai_update(&pe, 0,
+      Mvpp2PrsSramAiUpdate(&pe, 0,
              MVPP2_PRS_SRAM_AI_MASK);
       /* If packet is tagged continue check vlans */
-      mvpp2_prs_sram_next_lu_set(&pe, MVPP2_PRS_LU_VLAN);
+      Mvpp2PrsSramNextLuSet(&pe, MVPP2_PRS_LU_VLAN);
     } else {
       /* Set result info bits to 'no vlans' */
-      mvpp2_prs_sram_ri_update(&pe, MVPP2_PRS_RI_VLAN_NONE,
+      Mvpp2PrsSramRiUpdate(&pe, MVPP2_PRS_RI_VLAN_NONE,
              MVPP2_PRS_RI_VLAN_MASK);
-      mvpp2_prs_sram_next_lu_set(&pe, MVPP2_PRS_LU_L2);
+      Mvpp2PrsSramNextLuSet(&pe, MVPP2_PRS_LU_L2);
     }
 
     /* Mask all ports */
-    mvpp2_prs_tcam_port_map_set(&pe, 0);
+    Mvpp2PrsTcamPortMapSet(&pe, 0);
   }
 
   /* Update port mask */
-  mvpp2_prs_tcam_port_set(&pe, port, add);
+  Mvpp2PrsTcamPortSet(&pe, port, add);
 
-  mvpp2_prs_hw_write(priv, &pe);
+  Mvpp2PrsHwWrite(priv, &pe);
 }
 
 /* Set entry for dsa ethertype */
-STATIC VOID mvpp2_prs_dsa_tag_ethertype_set(MVPP2_SHARED *priv, INT32 port,
+STATIC VOID Mvpp2PrsDsaTagEthertypeSet(MVPP2_SHARED *priv, INT32 port,
               BOOLEAN add, BOOLEAN tagged,
               BOOLEAN extend)
 {
   MVPP2_PRS_ENTRY pe;
-  INT32 tid, shift, port_mask;
+  INT32 tid, shift, PortMask;
 
   if (extend) {
     tid = tagged ? MVPP2_PE_ETYPE_EDSA_TAGGED :
           MVPP2_PE_ETYPE_EDSA_UNTAGGED;
-    port_mask = 0;
+    PortMask = 0;
     shift = 8;
   } else {
     tid = tagged ? MVPP2_PE_ETYPE_DSA_TAGGED :
           MVPP2_PE_ETYPE_DSA_UNTAGGED;
-    port_mask = MVPP2_PRS_PORT_MASK;
+    PortMask = MVPP2_PRS_PORT_MASK;
     shift = 4;
   }
 
-  if (priv->prs_shadow[tid].valid) {
+  if (priv->PrsShadow[tid].valid) {
     /* Entry exist - update port only */
     pe.index = tid;
-    mvpp2_prs_hw_read(priv, &pe);
+    Mvpp2PrsHwRead(priv, &pe);
   } else {
     /* Entry doesn't exist - create new */
-    mvpp2_memset(&pe, 0, sizeof(MVPP2_PRS_ENTRY));
-    mvpp2_prs_tcam_lu_set(&pe, MVPP2_PRS_LU_DSA);
+    Mvpp2Memset(&pe, 0, sizeof(MVPP2_PRS_ENTRY));
+    Mvpp2PrsTcamLuSet(&pe, MVPP2_PRS_LU_DSA);
     pe.index = tid;
 
     /* Set ethertype */
-    mvpp2_prs_match_etype(&pe, 0, MV_ETH_P_EDSA);
-    mvpp2_prs_match_etype(&pe, 2, 0);
+    Mvpp2PrsMatchEtype(&pe, 0, MV_ETH_P_EDSA);
+    Mvpp2PrsMatchEtype(&pe, 2, 0);
 
-    mvpp2_prs_sram_ri_update(&pe, MVPP2_PRS_RI_DSA_MASK,
+    Mvpp2PrsSramRiUpdate(&pe, MVPP2_PRS_RI_DSA_MASK,
            MVPP2_PRS_RI_DSA_MASK);
     /* Shift ethertype + 2 byte reserved + tag*/
-    mvpp2_prs_sram_shift_set(&pe, 2 + MVPP2_ETH_TYPE_LEN + shift,
+    Mvpp2PrsSramShiftSet(&pe, 2 + MVPP2_ETH_TYPE_LEN + shift,
            MVPP2_PRS_SRAM_OP_SEL_SHIFT_ADD);
 
     /* Update shadow table */
-    mvpp2_prs_shadow_set(priv, pe.index, MVPP2_PRS_LU_DSA);
+    Mvpp2PrsShadowSet(priv, pe.index, MVPP2_PRS_LU_DSA);
 
     if (tagged) {
       /* Set tagged bit in DSA tag */
-      mvpp2_prs_tcam_data_byte_set(&pe,
+      Mvpp2PrsTcamDataByteSet(&pe,
                  MVPP2_ETH_TYPE_LEN + 2 + 3,
              MVPP2_PRS_TCAM_DSA_TAGGED_BIT,
              MVPP2_PRS_TCAM_DSA_TAGGED_BIT);
       /* Clear all ai bits for next iteration */
-      mvpp2_prs_sram_ai_update(&pe, 0,
+      Mvpp2PrsSramAiUpdate(&pe, 0,
              MVPP2_PRS_SRAM_AI_MASK);
       /* If packet is tagged continue check vlans */
-      mvpp2_prs_sram_next_lu_set(&pe, MVPP2_PRS_LU_VLAN);
+      Mvpp2PrsSramNextLuSet(&pe, MVPP2_PRS_LU_VLAN);
     } else {
       /* Set result info bits to 'no vlans' */
-      mvpp2_prs_sram_ri_update(&pe, MVPP2_PRS_RI_VLAN_NONE,
+      Mvpp2PrsSramRiUpdate(&pe, MVPP2_PRS_RI_VLAN_NONE,
              MVPP2_PRS_RI_VLAN_MASK);
-      mvpp2_prs_sram_next_lu_set(&pe, MVPP2_PRS_LU_L2);
+      Mvpp2PrsSramNextLuSet(&pe, MVPP2_PRS_LU_L2);
     }
     /* Mask/unmask all ports, depending on dsa type */
-    mvpp2_prs_tcam_port_map_set(&pe, port_mask);
+    Mvpp2PrsTcamPortMapSet(&pe, PortMask);
   }
 
   /* Update port mask */
-  mvpp2_prs_tcam_port_set(&pe, port, add);
+  Mvpp2PrsTcamPortSet(&pe, port, add);
 
-  mvpp2_prs_hw_write(priv, &pe);
+  Mvpp2PrsHwWrite(priv, &pe);
 }
 
 /* Search for existing single/triple vlan entry */
-STATIC MVPP2_PRS_ENTRY *mvpp2_prs_vlan_find(MVPP2_SHARED *priv,
+STATIC MVPP2_PRS_ENTRY *Mvpp2PrsVlanFind(MVPP2_SHARED *priv,
                UINT16 tpid, INT32 ai)
 {
   MVPP2_PRS_ENTRY *pe;
   INT32 tid;
 
-  pe = mvpp2_alloc(sizeof(*pe));
+  pe = Mvpp2Alloc(sizeof(*pe));
   if (!pe)
     return MVPP2_NULL;
-  mvpp2_prs_tcam_lu_set(pe, MVPP2_PRS_LU_VLAN);
+  Mvpp2PrsTcamLuSet(pe, MVPP2_PRS_LU_VLAN);
 
   /* Go through the all entries with MVPP2_PRS_LU_VLAN */
   for (tid = MVPP2_PE_FIRST_FREE_TID;
        tid <= MVPP2_PE_LAST_FREE_TID; tid++) {
-    UINT32 ri_bits, ai_bits;
+    UINT32 RiBits, AiBits;
     BOOLEAN match;
 
-    if (!priv->prs_shadow[tid].valid ||
-        priv->prs_shadow[tid].lu != MVPP2_PRS_LU_VLAN)
+    if (!priv->PrsShadow[tid].valid ||
+        priv->PrsShadow[tid].lu != MVPP2_PRS_LU_VLAN)
       continue;
 
     pe->index = tid;
 
-    mvpp2_prs_hw_read(priv, pe);
-    match = mvpp2_prs_tcam_data_cmp(pe, 0, mvpp2_swab16(tpid));
+    Mvpp2PrsHwRead(priv, pe);
+    match = Mvpp2PrsTcamDataCmp(pe, 0, Mvpp2Swab16(tpid));
     if (!match)
       continue;
 
     /* Get vlan type */
-    ri_bits = mvpp2_prs_sram_ri_get(pe);
-    ri_bits &= MVPP2_PRS_RI_VLAN_MASK;
+    RiBits = Mvpp2PrsSramRiGet(pe);
+    RiBits &= MVPP2_PRS_RI_VLAN_MASK;
 
     /* Get current ai value from tcam */
-    ai_bits = mvpp2_prs_tcam_ai_get(pe);
+    AiBits = Mvpp2PrsTcamAiGet(pe);
     /* Clear double vlan bit */
-    ai_bits &= ~MVPP2_PRS_DBL_VLAN_AI_BIT;
+    AiBits &= ~MVPP2_PRS_DBL_VLAN_AI_BIT;
 
-    if (ai != ai_bits)
+    if (ai != AiBits)
       continue;
 
-    if (ri_bits == MVPP2_PRS_RI_VLAN_SINGLE ||
-        ri_bits == MVPP2_PRS_RI_VLAN_TRIPLE)
+    if (RiBits == MVPP2_PRS_RI_VLAN_SINGLE ||
+        RiBits == MVPP2_PRS_RI_VLAN_TRIPLE)
       return pe;
   }
-  mvpp2_free(pe);
+  Mvpp2Free(pe);
 
   return MVPP2_NULL;
 }
 
 /* Add/update single/triple vlan entry */
-INT32 mvpp2_prs_vlan_add(MVPP2_SHARED *priv, UINT16 tpid, INT32 ai,
-           UINT32 port_map)
+INT32 Mvpp2PrsVlanAdd(MVPP2_SHARED *priv, UINT16 tpid, INT32 ai,
+           UINT32 PortMap)
 {
   MVPP2_PRS_ENTRY *pe;
-  INT32 tid_aux, tid;
+  INT32 TidAux, tid;
   INT32 ret = 0;
 
-  pe = mvpp2_prs_vlan_find(priv, tpid, ai);
+  pe = Mvpp2PrsVlanFind(priv, tpid, ai);
 
   if (!pe) {
     /* Create new tcam entry */
-    tid = mvpp2_prs_tcam_first_free(priv, MVPP2_PE_LAST_FREE_TID,
+    tid = Mvpp2PrsTcamFirstFree(priv, MVPP2_PE_LAST_FREE_TID,
             MVPP2_PE_FIRST_FREE_TID);
     if (tid < 0)
       return tid;
 
-    pe = mvpp2_alloc(sizeof(*pe));
+    pe = Mvpp2Alloc(sizeof(*pe));
     if (!pe)
       return MVPP2_ENOMEM;
 
     /* Get last double vlan tid */
-    for (tid_aux = MVPP2_PE_LAST_FREE_TID;
-         tid_aux >= MVPP2_PE_FIRST_FREE_TID; tid_aux--) {
-      UINT32 ri_bits;
+    for (TidAux = MVPP2_PE_LAST_FREE_TID;
+         TidAux >= MVPP2_PE_FIRST_FREE_TID; TidAux--) {
+      UINT32 RiBits;
 
-      if (!priv->prs_shadow[tid_aux].valid ||
-          priv->prs_shadow[tid_aux].lu != MVPP2_PRS_LU_VLAN)
+      if (!priv->PrsShadow[TidAux].valid ||
+          priv->PrsShadow[TidAux].lu != MVPP2_PRS_LU_VLAN)
         continue;
 
-      pe->index = tid_aux;
-      mvpp2_prs_hw_read(priv, pe);
-      ri_bits = mvpp2_prs_sram_ri_get(pe);
-      if ((ri_bits & MVPP2_PRS_RI_VLAN_MASK) ==
+      pe->index = TidAux;
+      Mvpp2PrsHwRead(priv, pe);
+      RiBits = Mvpp2PrsSramRiGet(pe);
+      if ((RiBits & MVPP2_PRS_RI_VLAN_MASK) ==
           MVPP2_PRS_RI_VLAN_DOUBLE)
         break;
     }
 
-    if (tid <= tid_aux) {
+    if (tid <= TidAux) {
       ret = MVPP2_EINVAL;
       goto error;
     }
 
-    mvpp2_memset(pe, 0 , sizeof(MVPP2_PRS_ENTRY));
-    mvpp2_prs_tcam_lu_set(pe, MVPP2_PRS_LU_VLAN);
+    Mvpp2Memset(pe, 0 , sizeof(MVPP2_PRS_ENTRY));
+    Mvpp2PrsTcamLuSet(pe, MVPP2_PRS_LU_VLAN);
     pe->index = tid;
 
-    mvpp2_prs_match_etype(pe, 0, tpid);
+    Mvpp2PrsMatchEtype(pe, 0, tpid);
 
-    mvpp2_prs_sram_next_lu_set(pe, MVPP2_PRS_LU_L2);
+    Mvpp2PrsSramNextLuSet(pe, MVPP2_PRS_LU_L2);
     /* Shift 4 bytes - skip 1 vlan tag */
-    mvpp2_prs_sram_shift_set(pe, MVPP2_VLAN_TAG_LEN,
+    Mvpp2PrsSramShiftSet(pe, MVPP2_VLAN_TAG_LEN,
            MVPP2_PRS_SRAM_OP_SEL_SHIFT_ADD);
     /* Clear all ai bits for next iteration */
-    mvpp2_prs_sram_ai_update(pe, 0, MVPP2_PRS_SRAM_AI_MASK);
+    Mvpp2PrsSramAiUpdate(pe, 0, MVPP2_PRS_SRAM_AI_MASK);
 
     if (ai == MVPP2_PRS_SINGLE_VLAN_AI) {
-      mvpp2_prs_sram_ri_update(pe, MVPP2_PRS_RI_VLAN_SINGLE,
+      Mvpp2PrsSramRiUpdate(pe, MVPP2_PRS_RI_VLAN_SINGLE,
              MVPP2_PRS_RI_VLAN_MASK);
     } else {
       ai |= MVPP2_PRS_DBL_VLAN_AI_BIT;
-      mvpp2_prs_sram_ri_update(pe, MVPP2_PRS_RI_VLAN_TRIPLE,
+      Mvpp2PrsSramRiUpdate(pe, MVPP2_PRS_RI_VLAN_TRIPLE,
              MVPP2_PRS_RI_VLAN_MASK);
     }
-    mvpp2_prs_tcam_ai_update(pe, ai, MVPP2_PRS_SRAM_AI_MASK);
+    Mvpp2PrsTcamAiUpdate(pe, ai, MVPP2_PRS_SRAM_AI_MASK);
 
-    mvpp2_prs_shadow_set(priv, pe->index, MVPP2_PRS_LU_VLAN);
+    Mvpp2PrsShadowSet(priv, pe->index, MVPP2_PRS_LU_VLAN);
   }
   /* Update ports' mask */
-  mvpp2_prs_tcam_port_map_set(pe, port_map);
+  Mvpp2PrsTcamPortMapSet(pe, PortMap);
 
-  mvpp2_prs_hw_write(priv, pe);
+  Mvpp2PrsHwWrite(priv, pe);
 
 error:
-  mvpp2_free(pe);
+  Mvpp2Free(pe);
 
   return ret;
 }
 
 /* Get first free double vlan ai number */
-INT32 mvpp2_prs_double_vlan_ai_free_get(MVPP2_SHARED *priv)
+INT32 Mvpp2PrsDoubleVlanAiFreeGet(MVPP2_SHARED *priv)
 {
   INT32 i;
 
   for (i = 1; i < MVPP2_PRS_DBL_VLANS_MAX; i++) {
-    if (!priv->prs_double_vlans[i])
+    if (!priv->PrsDoubleVlans[i])
       return i;
   }
 
@@ -923,130 +923,130 @@ INT32 mvpp2_prs_double_vlan_ai_free_get(MVPP2_SHARED *priv)
 }
 
 /* Search for existing double vlan entry */
-MVPP2_PRS_ENTRY *mvpp2_prs_double_vlan_find(MVPP2_SHARED *priv,
+MVPP2_PRS_ENTRY *Mvpp2PrsDoubleVlanFind(MVPP2_SHARED *priv,
                UINT16 tpid1,
                UINT16 tpid2)
 {
   MVPP2_PRS_ENTRY *pe;
   INT32 tid;
 
-  pe = mvpp2_alloc(sizeof(*pe));
+  pe = Mvpp2Alloc(sizeof(*pe));
   if (!pe)
     return MVPP2_NULL;
-  mvpp2_prs_tcam_lu_set(pe, MVPP2_PRS_LU_VLAN);
+  Mvpp2PrsTcamLuSet(pe, MVPP2_PRS_LU_VLAN);
 
   /* Go through the all entries with MVPP2_PRS_LU_VLAN */
   for (tid = MVPP2_PE_FIRST_FREE_TID;
        tid <= MVPP2_PE_LAST_FREE_TID; tid++) {
-    UINT32 ri_mask;
+    UINT32 RiMask;
     BOOLEAN match;
 
-    if (!priv->prs_shadow[tid].valid ||
-        priv->prs_shadow[tid].lu != MVPP2_PRS_LU_VLAN)
+    if (!priv->PrsShadow[tid].valid ||
+        priv->PrsShadow[tid].lu != MVPP2_PRS_LU_VLAN)
       continue;
 
     pe->index = tid;
-    mvpp2_prs_hw_read(priv, pe);
+    Mvpp2PrsHwRead(priv, pe);
 
-    match = mvpp2_prs_tcam_data_cmp(pe, 0, mvpp2_swab16(tpid1))
-      && mvpp2_prs_tcam_data_cmp(pe, 4, mvpp2_swab16(tpid2));
+    match = Mvpp2PrsTcamDataCmp(pe, 0, Mvpp2Swab16(tpid1))
+      && Mvpp2PrsTcamDataCmp(pe, 4, Mvpp2Swab16(tpid2));
 
     if (!match)
       continue;
 
-    ri_mask = mvpp2_prs_sram_ri_get(pe) & MVPP2_PRS_RI_VLAN_MASK;
-    if (ri_mask == MVPP2_PRS_RI_VLAN_DOUBLE)
+    RiMask = Mvpp2PrsSramRiGet(pe) & MVPP2_PRS_RI_VLAN_MASK;
+    if (RiMask == MVPP2_PRS_RI_VLAN_DOUBLE)
       return pe;
   }
-  mvpp2_free(pe);
+  Mvpp2Free(pe);
 
   return MVPP2_NULL;
 }
 
 /* Add or update double vlan entry */
-INT32 mvpp2_prs_double_vlan_add(MVPP2_SHARED *priv, UINT16 tpid1,
+INT32 Mvpp2PrsDoubleVlanAdd(MVPP2_SHARED *priv, UINT16 tpid1,
             UINT16 tpid2,
-            UINT32 port_map)
+            UINT32 PortMap)
 {
   MVPP2_PRS_ENTRY *pe;
-  INT32 tid_aux, tid, ai, ret = 0;
+  INT32 TidAux, tid, ai, ret = 0;
 
-  pe = mvpp2_prs_double_vlan_find(priv, tpid1, tpid2);
+  pe = Mvpp2PrsDoubleVlanFind(priv, tpid1, tpid2);
 
   if (!pe) {
     /* Create new tcam entry */
-    tid = mvpp2_prs_tcam_first_free(priv, MVPP2_PE_FIRST_FREE_TID,
+    tid = Mvpp2PrsTcamFirstFree(priv, MVPP2_PE_FIRST_FREE_TID,
         MVPP2_PE_LAST_FREE_TID);
     if (tid < 0)
       return tid;
 
-    pe = mvpp2_alloc(sizeof(*pe));
+    pe = Mvpp2Alloc(sizeof(*pe));
     if (!pe)
       return MVPP2_ENOMEM;
 
     /* Set ai value for new double vlan entry */
-    ai = mvpp2_prs_double_vlan_ai_free_get(priv);
+    ai = Mvpp2PrsDoubleVlanAiFreeGet(priv);
     if (ai < 0) {
       ret = ai;
       goto error;
     }
 
     /* Get first single/triple vlan tid */
-    for (tid_aux = MVPP2_PE_FIRST_FREE_TID;
-         tid_aux <= MVPP2_PE_LAST_FREE_TID; tid_aux++) {
-      UINT32 ri_bits;
+    for (TidAux = MVPP2_PE_FIRST_FREE_TID;
+         TidAux <= MVPP2_PE_LAST_FREE_TID; TidAux++) {
+      UINT32 RiBits;
 
-      if (!priv->prs_shadow[tid_aux].valid ||
-          priv->prs_shadow[tid_aux].lu != MVPP2_PRS_LU_VLAN)
+      if (!priv->PrsShadow[TidAux].valid ||
+          priv->PrsShadow[TidAux].lu != MVPP2_PRS_LU_VLAN)
         continue;
 
-      pe->index = tid_aux;
-      mvpp2_prs_hw_read(priv, pe);
-      ri_bits = mvpp2_prs_sram_ri_get(pe);
-      ri_bits &= MVPP2_PRS_RI_VLAN_MASK;
-      if (ri_bits == MVPP2_PRS_RI_VLAN_SINGLE ||
-          ri_bits == MVPP2_PRS_RI_VLAN_TRIPLE)
+      pe->index = TidAux;
+      Mvpp2PrsHwRead(priv, pe);
+      RiBits = Mvpp2PrsSramRiGet(pe);
+      RiBits &= MVPP2_PRS_RI_VLAN_MASK;
+      if (RiBits == MVPP2_PRS_RI_VLAN_SINGLE ||
+          RiBits == MVPP2_PRS_RI_VLAN_TRIPLE)
         break;
     }
 
-    if (tid >= tid_aux) {
+    if (tid >= TidAux) {
       ret = MVPP2_ERANGE;
       goto error;
     }
 
-    mvpp2_memset(pe, 0, sizeof(MVPP2_PRS_ENTRY));
-    mvpp2_prs_tcam_lu_set(pe, MVPP2_PRS_LU_VLAN);
+    Mvpp2Memset(pe, 0, sizeof(MVPP2_PRS_ENTRY));
+    Mvpp2PrsTcamLuSet(pe, MVPP2_PRS_LU_VLAN);
     pe->index = tid;
 
-    priv->prs_double_vlans[ai] = TRUE;
+    priv->PrsDoubleVlans[ai] = TRUE;
 
-    mvpp2_prs_match_etype(pe, 0, tpid1);
-    mvpp2_prs_match_etype(pe, 4, tpid2);
+    Mvpp2PrsMatchEtype(pe, 0, tpid1);
+    Mvpp2PrsMatchEtype(pe, 4, tpid2);
 
-    mvpp2_prs_sram_next_lu_set(pe, MVPP2_PRS_LU_VLAN);
+    Mvpp2PrsSramNextLuSet(pe, MVPP2_PRS_LU_VLAN);
     /* Shift 8 bytes - skip 2 vlan tags */
-    mvpp2_prs_sram_shift_set(pe, 2 * MVPP2_VLAN_TAG_LEN,
+    Mvpp2PrsSramShiftSet(pe, 2 * MVPP2_VLAN_TAG_LEN,
            MVPP2_PRS_SRAM_OP_SEL_SHIFT_ADD);
-    mvpp2_prs_sram_ri_update(pe, MVPP2_PRS_RI_VLAN_DOUBLE,
+    Mvpp2PrsSramRiUpdate(pe, MVPP2_PRS_RI_VLAN_DOUBLE,
            MVPP2_PRS_RI_VLAN_MASK);
-    mvpp2_prs_sram_ai_update(pe, ai | MVPP2_PRS_DBL_VLAN_AI_BIT,
+    Mvpp2PrsSramAiUpdate(pe, ai | MVPP2_PRS_DBL_VLAN_AI_BIT,
            MVPP2_PRS_SRAM_AI_MASK);
 
-    mvpp2_prs_shadow_set(priv, pe->index, MVPP2_PRS_LU_VLAN);
+    Mvpp2PrsShadowSet(priv, pe->index, MVPP2_PRS_LU_VLAN);
   }
 
   /* Update ports' mask */
-  mvpp2_prs_tcam_port_map_set(pe, port_map);
-  mvpp2_prs_hw_write(priv, pe);
+  Mvpp2PrsTcamPortMapSet(pe, PortMap);
+  Mvpp2PrsHwWrite(priv, pe);
 
 error:
-  mvpp2_free(pe);
+  Mvpp2Free(pe);
   return ret;
 }
 
 /* IPv4 header parsing for fragmentation and L4 offset */
-STATIC INT32 mvpp2_prs_ip4_proto(MVPP2_SHARED *priv, UINT16 proto,
-             UINT32 ri, UINT32 ri_mask)
+STATIC INT32 Mvpp2PrsIp4Proto(MVPP2_SHARED *priv, UINT16 proto,
+             UINT32 ri, UINT32 RiMask)
 {
   MVPP2_PRS_ENTRY pe;
   INT32 tid;
@@ -1056,38 +1056,38 @@ STATIC INT32 mvpp2_prs_ip4_proto(MVPP2_SHARED *priv, UINT16 proto,
     return MVPP2_EINVAL;
 
   /* Fragmented packet */
-  tid = mvpp2_prs_tcam_first_free(priv, MVPP2_PE_FIRST_FREE_TID,
+  tid = Mvpp2PrsTcamFirstFree(priv, MVPP2_PE_FIRST_FREE_TID,
           MVPP2_PE_LAST_FREE_TID);
   if (tid < 0)
     return tid;
 
-  mvpp2_memset(&pe, 0, sizeof(MVPP2_PRS_ENTRY));
-  mvpp2_prs_tcam_lu_set(&pe, MVPP2_PRS_LU_IP4);
+  Mvpp2Memset(&pe, 0, sizeof(MVPP2_PRS_ENTRY));
+  Mvpp2PrsTcamLuSet(&pe, MVPP2_PRS_LU_IP4);
   pe.index = tid;
 
   /* Set next lu to IPv4 */
-  mvpp2_prs_sram_next_lu_set(&pe, MVPP2_PRS_LU_IP4);
-  mvpp2_prs_sram_shift_set(&pe, 12, MVPP2_PRS_SRAM_OP_SEL_SHIFT_ADD);
+  Mvpp2PrsSramNextLuSet(&pe, MVPP2_PRS_LU_IP4);
+  Mvpp2PrsSramShiftSet(&pe, 12, MVPP2_PRS_SRAM_OP_SEL_SHIFT_ADD);
   /* Set L4 offset */
-  mvpp2_prs_sram_offset_set(&pe, MVPP2_PRS_SRAM_UDF_TYPE_L4,
-          sizeof(mvpp2_iphdr) - 4,
+  Mvpp2PrsSramOffsetSet(&pe, MVPP2_PRS_SRAM_UDF_TYPE_L4,
+          sizeof(Mvpp2Iphdr) - 4,
           MVPP2_PRS_SRAM_OP_SEL_UDF_ADD);
-  mvpp2_prs_sram_ai_update(&pe, MVPP2_PRS_IPV4_DIP_AI_BIT,
+  Mvpp2PrsSramAiUpdate(&pe, MVPP2_PRS_IPV4_DIP_AI_BIT,
          MVPP2_PRS_IPV4_DIP_AI_BIT);
-  mvpp2_prs_sram_ri_update(&pe, ri | MVPP2_PRS_RI_IP_FRAG_MASK,
-         ri_mask | MVPP2_PRS_RI_IP_FRAG_MASK);
+  Mvpp2PrsSramRiUpdate(&pe, ri | MVPP2_PRS_RI_IP_FRAG_MASK,
+         RiMask | MVPP2_PRS_RI_IP_FRAG_MASK);
 
-  mvpp2_prs_tcam_data_byte_set(&pe, 5, proto, MVPP2_PRS_TCAM_PROTO_MASK);
-  mvpp2_prs_tcam_ai_update(&pe, 0, MVPP2_PRS_IPV4_DIP_AI_BIT);
+  Mvpp2PrsTcamDataByteSet(&pe, 5, proto, MVPP2_PRS_TCAM_PROTO_MASK);
+  Mvpp2PrsTcamAiUpdate(&pe, 0, MVPP2_PRS_IPV4_DIP_AI_BIT);
   /* Unmask all ports */
-  mvpp2_prs_tcam_port_map_set(&pe, MVPP2_PRS_PORT_MASK);
+  Mvpp2PrsTcamPortMapSet(&pe, MVPP2_PRS_PORT_MASK);
 
   /* Update shadow table and hw entry */
-  mvpp2_prs_shadow_set(priv, pe.index, MVPP2_PRS_LU_IP4);
-  mvpp2_prs_hw_write(priv, &pe);
+  Mvpp2PrsShadowSet(priv, pe.index, MVPP2_PRS_LU_IP4);
+  Mvpp2PrsHwWrite(priv, &pe);
 
   /* Not fragmented packet */
-  tid = mvpp2_prs_tcam_first_free(priv, MVPP2_PE_FIRST_FREE_TID,
+  tid = Mvpp2PrsTcamFirstFree(priv, MVPP2_PE_FIRST_FREE_TID,
           MVPP2_PE_LAST_FREE_TID);
   if (tid < 0)
     return tid;
@@ -1096,47 +1096,47 @@ STATIC INT32 mvpp2_prs_ip4_proto(MVPP2_SHARED *priv, UINT16 proto,
   /* Clear ri before updating */
   pe.sram.word[MVPP2_PRS_SRAM_RI_WORD] = 0x0;
   pe.sram.word[MVPP2_PRS_SRAM_RI_CTRL_WORD] = 0x0;
-  mvpp2_prs_sram_ri_update(&pe, ri, ri_mask);
+  Mvpp2PrsSramRiUpdate(&pe, ri, RiMask);
 
-  mvpp2_prs_tcam_data_byte_set(&pe, 2, 0x00, MVPP2_PRS_TCAM_PROTO_MASK_L);
-  mvpp2_prs_tcam_data_byte_set(&pe, 3, 0x00, MVPP2_PRS_TCAM_PROTO_MASK);
+  Mvpp2PrsTcamDataByteSet(&pe, 2, 0x00, MVPP2_PRS_TCAM_PROTO_MASK_L);
+  Mvpp2PrsTcamDataByteSet(&pe, 3, 0x00, MVPP2_PRS_TCAM_PROTO_MASK);
 
   /* Update shadow table and hw entry */
-  mvpp2_prs_shadow_set(priv, pe.index, MVPP2_PRS_LU_IP4);
-  mvpp2_prs_hw_write(priv, &pe);
+  Mvpp2PrsShadowSet(priv, pe.index, MVPP2_PRS_LU_IP4);
+  Mvpp2PrsHwWrite(priv, &pe);
 
   return 0;
 }
 
 /* IPv4 L3 multicast or broadcast */
-STATIC INT32 mvpp2_prs_ip4_cast(MVPP2_SHARED *priv, UINT16 l3_cast)
+STATIC INT32 Mvpp2PrsIp4Cast(MVPP2_SHARED *priv, UINT16 L3Cast)
 {
   MVPP2_PRS_ENTRY pe;
   INT32 mask, tid;
 
-  tid = mvpp2_prs_tcam_first_free(priv, MVPP2_PE_FIRST_FREE_TID,
+  tid = Mvpp2PrsTcamFirstFree(priv, MVPP2_PE_FIRST_FREE_TID,
           MVPP2_PE_LAST_FREE_TID);
   if (tid < 0)
     return tid;
 
-  mvpp2_memset(&pe, 0, sizeof(MVPP2_PRS_ENTRY));
-  mvpp2_prs_tcam_lu_set(&pe, MVPP2_PRS_LU_IP4);
+  Mvpp2Memset(&pe, 0, sizeof(MVPP2_PRS_ENTRY));
+  Mvpp2PrsTcamLuSet(&pe, MVPP2_PRS_LU_IP4);
   pe.index = tid;
 
-  switch (l3_cast) {
+  switch (L3Cast) {
   case MVPP2_PRS_L3_MULTI_CAST:
-    mvpp2_prs_tcam_data_byte_set(&pe, 0, MVPP2_PRS_IPV4_MC,
+    Mvpp2PrsTcamDataByteSet(&pe, 0, MVPP2_PRS_IPV4_MC,
                MVPP2_PRS_IPV4_MC_MASK);
-    mvpp2_prs_sram_ri_update(&pe, MVPP2_PRS_RI_L3_MCAST,
+    Mvpp2PrsSramRiUpdate(&pe, MVPP2_PRS_RI_L3_MCAST,
            MVPP2_PRS_RI_L3_ADDR_MASK);
     break;
   case  MVPP2_PRS_L3_BROAD_CAST:
     mask = MVPP2_PRS_IPV4_BC_MASK;
-    mvpp2_prs_tcam_data_byte_set(&pe, 0, mask, mask);
-    mvpp2_prs_tcam_data_byte_set(&pe, 1, mask, mask);
-    mvpp2_prs_tcam_data_byte_set(&pe, 2, mask, mask);
-    mvpp2_prs_tcam_data_byte_set(&pe, 3, mask, mask);
-    mvpp2_prs_sram_ri_update(&pe, MVPP2_PRS_RI_L3_BCAST,
+    Mvpp2PrsTcamDataByteSet(&pe, 0, mask, mask);
+    Mvpp2PrsTcamDataByteSet(&pe, 1, mask, mask);
+    Mvpp2PrsTcamDataByteSet(&pe, 2, mask, mask);
+    Mvpp2PrsTcamDataByteSet(&pe, 3, mask, mask);
+    Mvpp2PrsSramRiUpdate(&pe, MVPP2_PRS_RI_L3_BCAST,
            MVPP2_PRS_RI_L3_ADDR_MASK);
     break;
   default:
@@ -1144,24 +1144,24 @@ STATIC INT32 mvpp2_prs_ip4_cast(MVPP2_SHARED *priv, UINT16 l3_cast)
   }
 
   /* Finished: go to flowid generation */
-  mvpp2_prs_sram_next_lu_set(&pe, MVPP2_PRS_LU_FLOWS);
-  mvpp2_prs_sram_bits_set(&pe, MVPP2_PRS_SRAM_LU_GEN_BIT, 1);
+  Mvpp2PrsSramNextLuSet(&pe, MVPP2_PRS_LU_FLOWS);
+  Mvpp2PrsSramBitsSet(&pe, MVPP2_PRS_SRAM_LU_GEN_BIT, 1);
 
-  mvpp2_prs_tcam_ai_update(&pe, MVPP2_PRS_IPV4_DIP_AI_BIT,
+  Mvpp2PrsTcamAiUpdate(&pe, MVPP2_PRS_IPV4_DIP_AI_BIT,
          MVPP2_PRS_IPV4_DIP_AI_BIT);
   /* Unmask all ports */
-  mvpp2_prs_tcam_port_map_set(&pe, MVPP2_PRS_PORT_MASK);
+  Mvpp2PrsTcamPortMapSet(&pe, MVPP2_PRS_PORT_MASK);
 
   /* Update shadow table and hw entry */
-  mvpp2_prs_shadow_set(priv, pe.index, MVPP2_PRS_LU_IP4);
-  mvpp2_prs_hw_write(priv, &pe);
+  Mvpp2PrsShadowSet(priv, pe.index, MVPP2_PRS_LU_IP4);
+  Mvpp2PrsHwWrite(priv, &pe);
 
   return 0;
 }
 
 /* Set entries for protocols over IPv6  */
-STATIC INT32 mvpp2_prs_ip6_proto(MVPP2_SHARED *priv, UINT16 proto,
-             UINT32 ri, UINT32 ri_mask)
+STATIC INT32 Mvpp2PrsIp6Proto(MVPP2_SHARED *priv, UINT16 proto,
+             UINT32 ri, UINT32 RiMask)
 {
   MVPP2_PRS_ENTRY pe;
   INT32 tid;
@@ -1170,368 +1170,368 @@ STATIC INT32 mvpp2_prs_ip6_proto(MVPP2_SHARED *priv, UINT16 proto,
       (proto != MV_IPPR_ICMPV6) && (proto != MV_IPPR_IPIP))
     return MVPP2_EINVAL;
 
-  tid = mvpp2_prs_tcam_first_free(priv, MVPP2_PE_FIRST_FREE_TID,
+  tid = Mvpp2PrsTcamFirstFree(priv, MVPP2_PE_FIRST_FREE_TID,
           MVPP2_PE_LAST_FREE_TID);
   if (tid < 0)
     return tid;
 
-  mvpp2_memset(&pe, 0, sizeof(MVPP2_PRS_ENTRY));
-  mvpp2_prs_tcam_lu_set(&pe, MVPP2_PRS_LU_IP6);
+  Mvpp2Memset(&pe, 0, sizeof(MVPP2_PRS_ENTRY));
+  Mvpp2PrsTcamLuSet(&pe, MVPP2_PRS_LU_IP6);
   pe.index = tid;
 
   /* Finished: go to flowid generation */
-  mvpp2_prs_sram_next_lu_set(&pe, MVPP2_PRS_LU_FLOWS);
-  mvpp2_prs_sram_bits_set(&pe, MVPP2_PRS_SRAM_LU_GEN_BIT, 1);
-  mvpp2_prs_sram_ri_update(&pe, ri, ri_mask);
-  mvpp2_prs_sram_offset_set(&pe, MVPP2_PRS_SRAM_UDF_TYPE_L4,
-          sizeof(mvpp2_ipv6hdr) - 6,
+  Mvpp2PrsSramNextLuSet(&pe, MVPP2_PRS_LU_FLOWS);
+  Mvpp2PrsSramBitsSet(&pe, MVPP2_PRS_SRAM_LU_GEN_BIT, 1);
+  Mvpp2PrsSramRiUpdate(&pe, ri, RiMask);
+  Mvpp2PrsSramOffsetSet(&pe, MVPP2_PRS_SRAM_UDF_TYPE_L4,
+          sizeof(Mvpp2Ipv6hdr) - 6,
           MVPP2_PRS_SRAM_OP_SEL_UDF_ADD);
 
-  mvpp2_prs_tcam_data_byte_set(&pe, 0, proto, MVPP2_PRS_TCAM_PROTO_MASK);
-  mvpp2_prs_tcam_ai_update(&pe, MVPP2_PRS_IPV6_NO_EXT_AI_BIT,
+  Mvpp2PrsTcamDataByteSet(&pe, 0, proto, MVPP2_PRS_TCAM_PROTO_MASK);
+  Mvpp2PrsTcamAiUpdate(&pe, MVPP2_PRS_IPV6_NO_EXT_AI_BIT,
          MVPP2_PRS_IPV6_NO_EXT_AI_BIT);
   /* Unmask all ports */
-  mvpp2_prs_tcam_port_map_set(&pe, MVPP2_PRS_PORT_MASK);
+  Mvpp2PrsTcamPortMapSet(&pe, MVPP2_PRS_PORT_MASK);
 
   /* Write HW */
-  mvpp2_prs_shadow_set(priv, pe.index, MVPP2_PRS_LU_IP6);
-  mvpp2_prs_hw_write(priv, &pe);
+  Mvpp2PrsShadowSet(priv, pe.index, MVPP2_PRS_LU_IP6);
+  Mvpp2PrsHwWrite(priv, &pe);
 
   return 0;
 }
 
 /* IPv6 L3 multicast entry */
-STATIC INT32 mvpp2_prs_ip6_cast(MVPP2_SHARED *priv, UINT16 l3_cast)
+STATIC INT32 Mvpp2PrsIp6Cast(MVPP2_SHARED *priv, UINT16 L3Cast)
 {
   MVPP2_PRS_ENTRY pe;
   INT32 tid;
 
-  if (l3_cast != MVPP2_PRS_L3_MULTI_CAST)
+  if (L3Cast != MVPP2_PRS_L3_MULTI_CAST)
     return MVPP2_EINVAL;
 
-  tid = mvpp2_prs_tcam_first_free(priv, MVPP2_PE_FIRST_FREE_TID,
+  tid = Mvpp2PrsTcamFirstFree(priv, MVPP2_PE_FIRST_FREE_TID,
           MVPP2_PE_LAST_FREE_TID);
   if (tid < 0)
     return tid;
 
-  mvpp2_memset(&pe, 0, sizeof(MVPP2_PRS_ENTRY));
-  mvpp2_prs_tcam_lu_set(&pe, MVPP2_PRS_LU_IP6);
+  Mvpp2Memset(&pe, 0, sizeof(MVPP2_PRS_ENTRY));
+  Mvpp2PrsTcamLuSet(&pe, MVPP2_PRS_LU_IP6);
   pe.index = tid;
 
   /* Finished: go to flowid generation */
-  mvpp2_prs_sram_next_lu_set(&pe, MVPP2_PRS_LU_IP6);
-  mvpp2_prs_sram_ri_update(&pe, MVPP2_PRS_RI_L3_MCAST,
+  Mvpp2PrsSramNextLuSet(&pe, MVPP2_PRS_LU_IP6);
+  Mvpp2PrsSramRiUpdate(&pe, MVPP2_PRS_RI_L3_MCAST,
          MVPP2_PRS_RI_L3_ADDR_MASK);
-  mvpp2_prs_sram_ai_update(&pe, MVPP2_PRS_IPV6_NO_EXT_AI_BIT,
+  Mvpp2PrsSramAiUpdate(&pe, MVPP2_PRS_IPV6_NO_EXT_AI_BIT,
          MVPP2_PRS_IPV6_NO_EXT_AI_BIT);
   /* Shift back to IPv6 NH */
-  mvpp2_prs_sram_shift_set(&pe, -18, MVPP2_PRS_SRAM_OP_SEL_SHIFT_ADD);
+  Mvpp2PrsSramShiftSet(&pe, -18, MVPP2_PRS_SRAM_OP_SEL_SHIFT_ADD);
 
-  mvpp2_prs_tcam_data_byte_set(&pe, 0, MVPP2_PRS_IPV6_MC,
+  Mvpp2PrsTcamDataByteSet(&pe, 0, MVPP2_PRS_IPV6_MC,
              MVPP2_PRS_IPV6_MC_MASK);
-  mvpp2_prs_tcam_ai_update(&pe, 0, MVPP2_PRS_IPV6_NO_EXT_AI_BIT);
+  Mvpp2PrsTcamAiUpdate(&pe, 0, MVPP2_PRS_IPV6_NO_EXT_AI_BIT);
   /* Unmask all ports */
-  mvpp2_prs_tcam_port_map_set(&pe, MVPP2_PRS_PORT_MASK);
+  Mvpp2PrsTcamPortMapSet(&pe, MVPP2_PRS_PORT_MASK);
 
   /* Update shadow table and hw entry */
-  mvpp2_prs_shadow_set(priv, pe.index, MVPP2_PRS_LU_IP6);
-  mvpp2_prs_hw_write(priv, &pe);
+  Mvpp2PrsShadowSet(priv, pe.index, MVPP2_PRS_LU_IP6);
+  Mvpp2PrsHwWrite(priv, &pe);
 
   return 0;
 }
 
 /* Parser per-port initialization */
-STATIC VOID mvpp2_prs_hw_port_init(MVPP2_SHARED *priv, INT32 port,
-              INT32 lu_first, INT32 lu_max,
+STATIC VOID Mvpp2PrsHwPortInit(MVPP2_SHARED *priv, INT32 port,
+              INT32 LuFirst, INT32 LuMax,
               INT32 offset)
 {
   UINT32 val;
 
   /* Set lookup ID */
-  val = mvpp2_read(priv, MVPP2_PRS_INIT_LOOKUP_REG);
+  val = Mvpp2Read(priv, MVPP2_PRS_INIT_LOOKUP_REG);
   val &= ~MVPP2_PRS_PORT_LU_MASK(port);
-  val |=  MVPP2_PRS_PORT_LU_VAL(port, lu_first);
-  mvpp2_write(priv, MVPP2_PRS_INIT_LOOKUP_REG, val);
+  val |=  MVPP2_PRS_PORT_LU_VAL(port, LuFirst);
+  Mvpp2Write(priv, MVPP2_PRS_INIT_LOOKUP_REG, val);
 
   /* Set maximum number of loops for packet received from port */
-  val = mvpp2_read(priv, MVPP2_PRS_MAX_LOOP_REG(port));
+  val = Mvpp2Read(priv, MVPP2_PRS_MAX_LOOP_REG(port));
   val &= ~MVPP2_PRS_MAX_LOOP_MASK(port);
-  val |= MVPP2_PRS_MAX_LOOP_VAL(port, lu_max);
-  mvpp2_write(priv, MVPP2_PRS_MAX_LOOP_REG(port), val);
+  val |= MVPP2_PRS_MAX_LOOP_VAL(port, LuMax);
+  Mvpp2Write(priv, MVPP2_PRS_MAX_LOOP_REG(port), val);
 
   /* Set initial offset for packet header extraction for the first
    * searching loop
    */
-  val = mvpp2_read(priv, MVPP2_PRS_INIT_OFFS_REG(port));
+  val = Mvpp2Read(priv, MVPP2_PRS_INIT_OFFS_REG(port));
   val &= ~MVPP2_PRS_INIT_OFF_MASK(port);
   val |= MVPP2_PRS_INIT_OFF_VAL(port, offset);
-  mvpp2_write(priv, MVPP2_PRS_INIT_OFFS_REG(port), val);
+  Mvpp2Write(priv, MVPP2_PRS_INIT_OFFS_REG(port), val);
 }
 
 /* Default flow entries initialization for all ports */
-STATIC VOID mvpp2_prs_def_flow_init(MVPP2_SHARED *priv)
+STATIC VOID Mvpp2PrsDefFlowInit(MVPP2_SHARED *priv)
 {
   MVPP2_PRS_ENTRY pe;
   INT32 port;
 
   for (port = 0; port < MVPP2_MAX_PORTS; port++) {
-    mvpp2_memset(&pe, 0, sizeof(MVPP2_PRS_ENTRY));
-    mvpp2_prs_tcam_lu_set(&pe, MVPP2_PRS_LU_FLOWS);
+    Mvpp2Memset(&pe, 0, sizeof(MVPP2_PRS_ENTRY));
+    Mvpp2PrsTcamLuSet(&pe, MVPP2_PRS_LU_FLOWS);
     pe.index = MVPP2_PE_FIRST_DEFAULT_FLOW - port;
 
     /* Mask all ports */
-    mvpp2_prs_tcam_port_map_set(&pe, 0);
+    Mvpp2PrsTcamPortMapSet(&pe, 0);
 
     /* Set flow ID*/
-    mvpp2_prs_sram_ai_update(&pe, port, MVPP2_PRS_FLOW_ID_MASK);
-    mvpp2_prs_sram_bits_set(&pe, MVPP2_PRS_SRAM_LU_DONE_BIT, 1);
+    Mvpp2PrsSramAiUpdate(&pe, port, MVPP2_PRS_FLOW_ID_MASK);
+    Mvpp2PrsSramBitsSet(&pe, MVPP2_PRS_SRAM_LU_DONE_BIT, 1);
 
     /* Update shadow table and hw entry */
-    mvpp2_prs_shadow_set(priv, pe.index, MVPP2_PRS_LU_FLOWS);
-    mvpp2_prs_hw_write(priv, &pe);
+    Mvpp2PrsShadowSet(priv, pe.index, MVPP2_PRS_LU_FLOWS);
+    Mvpp2PrsHwWrite(priv, &pe);
   }
 }
 
 /* Set default entry for Marvell Header field */
-STATIC VOID mvpp2_prs_mh_init(MVPP2_SHARED *priv)
+STATIC VOID Mvpp2PrsMhInit(MVPP2_SHARED *priv)
 {
   MVPP2_PRS_ENTRY pe;
 
-  mvpp2_memset(&pe, 0, sizeof(MVPP2_PRS_ENTRY));
+  Mvpp2Memset(&pe, 0, sizeof(MVPP2_PRS_ENTRY));
 
   pe.index = MVPP2_PE_MH_DEFAULT;
-  mvpp2_prs_tcam_lu_set(&pe, MVPP2_PRS_LU_MH);
-  mvpp2_prs_sram_shift_set(&pe, MVPP2_MH_SIZE,
+  Mvpp2PrsTcamLuSet(&pe, MVPP2_PRS_LU_MH);
+  Mvpp2PrsSramShiftSet(&pe, MVPP2_MH_SIZE,
          MVPP2_PRS_SRAM_OP_SEL_SHIFT_ADD);
-  mvpp2_prs_sram_next_lu_set(&pe, MVPP2_PRS_LU_MAC);
+  Mvpp2PrsSramNextLuSet(&pe, MVPP2_PRS_LU_MAC);
 
   /* Unmask all ports */
-  mvpp2_prs_tcam_port_map_set(&pe, MVPP2_PRS_PORT_MASK);
+  Mvpp2PrsTcamPortMapSet(&pe, MVPP2_PRS_PORT_MASK);
 
   /* Update shadow table and hw entry */
-  mvpp2_prs_shadow_set(priv, pe.index, MVPP2_PRS_LU_MH);
-  mvpp2_prs_hw_write(priv, &pe);
+  Mvpp2PrsShadowSet(priv, pe.index, MVPP2_PRS_LU_MH);
+  Mvpp2PrsHwWrite(priv, &pe);
 }
 
 /* Set default entires (place holder) for promiscuous, non-promiscuous and
  * multicast MAC addresses
  */
-STATIC VOID mvpp2_prs_mac_init(MVPP2_SHARED *priv)
+STATIC VOID Mvpp2PrsMacInit(MVPP2_SHARED *priv)
 {
   MVPP2_PRS_ENTRY pe;
 
-  mvpp2_memset(&pe, 0, sizeof(MVPP2_PRS_ENTRY));
+  Mvpp2Memset(&pe, 0, sizeof(MVPP2_PRS_ENTRY));
 
   /* Non-promiscuous mode for all ports - DROP unknown packets */
   pe.index = MVPP2_PE_MAC_NON_PROMISCUOUS;
-  mvpp2_prs_tcam_lu_set(&pe, MVPP2_PRS_LU_MAC);
+  Mvpp2PrsTcamLuSet(&pe, MVPP2_PRS_LU_MAC);
 
-  mvpp2_prs_sram_ri_update(&pe, MVPP2_PRS_RI_DROP_MASK,
+  Mvpp2PrsSramRiUpdate(&pe, MVPP2_PRS_RI_DROP_MASK,
          MVPP2_PRS_RI_DROP_MASK);
-  mvpp2_prs_sram_bits_set(&pe, MVPP2_PRS_SRAM_LU_GEN_BIT, 1);
-  mvpp2_prs_sram_next_lu_set(&pe, MVPP2_PRS_LU_FLOWS);
+  Mvpp2PrsSramBitsSet(&pe, MVPP2_PRS_SRAM_LU_GEN_BIT, 1);
+  Mvpp2PrsSramNextLuSet(&pe, MVPP2_PRS_LU_FLOWS);
 
   /* Unmask all ports */
-  mvpp2_prs_tcam_port_map_set(&pe, MVPP2_PRS_PORT_MASK);
+  Mvpp2PrsTcamPortMapSet(&pe, MVPP2_PRS_PORT_MASK);
 
   /* Update shadow table and hw entry */
-  mvpp2_prs_shadow_set(priv, pe.index, MVPP2_PRS_LU_MAC);
-  mvpp2_prs_hw_write(priv, &pe);
+  Mvpp2PrsShadowSet(priv, pe.index, MVPP2_PRS_LU_MAC);
+  Mvpp2PrsHwWrite(priv, &pe);
 
   /* place holders only - no ports */
-  mvpp2_prs_mac_drop_all_set(priv, 0, FALSE);
-  mvpp2_prs_mac_promisc_set(priv, 0, FALSE);
-  mvpp2_prs_mac_multi_set(priv, MVPP2_PE_MAC_MC_ALL, 0, FALSE);
-  mvpp2_prs_mac_multi_set(priv, MVPP2_PE_MAC_MC_IP6, 0, FALSE);
+  Mvpp2PrsMacDropAllSet(priv, 0, FALSE);
+  Mvpp2PrsMacPromiscSet(priv, 0, FALSE);
+  Mvpp2PrsMacMultiSet(priv, MVPP2_PE_MAC_MC_ALL, 0, FALSE);
+  Mvpp2PrsMacMultiSet(priv, MVPP2_PE_MAC_MC_IP6, 0, FALSE);
 }
 
 /* Set default entries for various types of dsa packets */
-STATIC VOID mvpp2_prs_dsa_init(MVPP2_SHARED *priv)
+STATIC VOID Mvpp2PrsDsaInit(MVPP2_SHARED *priv)
 {
   MVPP2_PRS_ENTRY pe;
 
   /* None tagged EDSA entry - place holder */
-  mvpp2_prs_dsa_tag_set(priv, 0, FALSE, MVPP2_PRS_UNTAGGED,
+  Mvpp2PrsDsaTagSet(priv, 0, FALSE, MVPP2_PRS_UNTAGGED,
             MVPP2_PRS_EDSA);
 
   /* Tagged EDSA entry - place holder */
-  mvpp2_prs_dsa_tag_set(priv, 0, FALSE, MVPP2_PRS_TAGGED, MVPP2_PRS_EDSA);
+  Mvpp2PrsDsaTagSet(priv, 0, FALSE, MVPP2_PRS_TAGGED, MVPP2_PRS_EDSA);
 
   /* None tagged DSA entry - place holder */
-  mvpp2_prs_dsa_tag_set(priv, 0, FALSE, MVPP2_PRS_UNTAGGED,
+  Mvpp2PrsDsaTagSet(priv, 0, FALSE, MVPP2_PRS_UNTAGGED,
             MVPP2_PRS_DSA);
 
   /* Tagged DSA entry - place holder */
-  mvpp2_prs_dsa_tag_set(priv, 0, FALSE, MVPP2_PRS_TAGGED, MVPP2_PRS_DSA);
+  Mvpp2PrsDsaTagSet(priv, 0, FALSE, MVPP2_PRS_TAGGED, MVPP2_PRS_DSA);
 
   /* None tagged EDSA ethertype entry - place holder*/
-  mvpp2_prs_dsa_tag_ethertype_set(priv, 0, FALSE,
+  Mvpp2PrsDsaTagEthertypeSet(priv, 0, FALSE,
           MVPP2_PRS_UNTAGGED, MVPP2_PRS_EDSA);
 
   /* Tagged EDSA ethertype entry - place holder*/
-  mvpp2_prs_dsa_tag_ethertype_set(priv, 0, FALSE,
+  Mvpp2PrsDsaTagEthertypeSet(priv, 0, FALSE,
           MVPP2_PRS_TAGGED, MVPP2_PRS_EDSA);
 
   /* None tagged DSA ethertype entry */
-  mvpp2_prs_dsa_tag_ethertype_set(priv, 0, TRUE,
+  Mvpp2PrsDsaTagEthertypeSet(priv, 0, TRUE,
           MVPP2_PRS_UNTAGGED, MVPP2_PRS_DSA);
 
   /* Tagged DSA ethertype entry */
-  mvpp2_prs_dsa_tag_ethertype_set(priv, 0, TRUE,
+  Mvpp2PrsDsaTagEthertypeSet(priv, 0, TRUE,
           MVPP2_PRS_TAGGED, MVPP2_PRS_DSA);
 
   /* Set default entry, in case DSA or EDSA tag not found */
-  mvpp2_memset(&pe, 0, sizeof(MVPP2_PRS_ENTRY));
-  mvpp2_prs_tcam_lu_set(&pe, MVPP2_PRS_LU_DSA);
+  Mvpp2Memset(&pe, 0, sizeof(MVPP2_PRS_ENTRY));
+  Mvpp2PrsTcamLuSet(&pe, MVPP2_PRS_LU_DSA);
   pe.index = MVPP2_PE_DSA_DEFAULT;
-  mvpp2_prs_sram_next_lu_set(&pe, MVPP2_PRS_LU_VLAN);
+  Mvpp2PrsSramNextLuSet(&pe, MVPP2_PRS_LU_VLAN);
 
   /* Shift 0 bytes */
-  mvpp2_prs_sram_shift_set(&pe, 0, MVPP2_PRS_SRAM_OP_SEL_SHIFT_ADD);
-  mvpp2_prs_shadow_set(priv, pe.index, MVPP2_PRS_LU_MAC);
+  Mvpp2PrsSramShiftSet(&pe, 0, MVPP2_PRS_SRAM_OP_SEL_SHIFT_ADD);
+  Mvpp2PrsShadowSet(priv, pe.index, MVPP2_PRS_LU_MAC);
 
   /* Clear all sram ai bits for next iteration */
-  mvpp2_prs_sram_ai_update(&pe, 0, MVPP2_PRS_SRAM_AI_MASK);
+  Mvpp2PrsSramAiUpdate(&pe, 0, MVPP2_PRS_SRAM_AI_MASK);
 
   /* Unmask all ports */
-  mvpp2_prs_tcam_port_map_set(&pe, MVPP2_PRS_PORT_MASK);
+  Mvpp2PrsTcamPortMapSet(&pe, MVPP2_PRS_PORT_MASK);
 
-  mvpp2_prs_hw_write(priv, &pe);
+  Mvpp2PrsHwWrite(priv, &pe);
 }
 
 /* Match basic ethertypes */
-STATIC INT32 mvpp2_prs_etype_init(MVPP2_SHARED *priv)
+STATIC INT32 Mvpp2PrsEtypeInit(MVPP2_SHARED *priv)
 {
   MVPP2_PRS_ENTRY pe;
   INT32 tid;
 
   /* Ethertype: PPPoE */
-  tid = mvpp2_prs_tcam_first_free(priv, MVPP2_PE_FIRST_FREE_TID,
+  tid = Mvpp2PrsTcamFirstFree(priv, MVPP2_PE_FIRST_FREE_TID,
           MVPP2_PE_LAST_FREE_TID);
   if (tid < 0)
     return tid;
 
-  mvpp2_memset(&pe, 0, sizeof(MVPP2_PRS_ENTRY));
-  mvpp2_prs_tcam_lu_set(&pe, MVPP2_PRS_LU_L2);
+  Mvpp2Memset(&pe, 0, sizeof(MVPP2_PRS_ENTRY));
+  Mvpp2PrsTcamLuSet(&pe, MVPP2_PRS_LU_L2);
   pe.index = tid;
 
-  mvpp2_prs_match_etype(&pe, 0, MV_ETH_P_PPP_SES);
+  Mvpp2PrsMatchEtype(&pe, 0, MV_ETH_P_PPP_SES);
 
-  mvpp2_prs_sram_shift_set(&pe, MVPP2_PPPOE_HDR_SIZE,
+  Mvpp2PrsSramShiftSet(&pe, MVPP2_PPPOE_HDR_SIZE,
          MVPP2_PRS_SRAM_OP_SEL_SHIFT_ADD);
-  mvpp2_prs_sram_next_lu_set(&pe, MVPP2_PRS_LU_PPPOE);
-  mvpp2_prs_sram_ri_update(&pe, MVPP2_PRS_RI_PPPOE_MASK,
+  Mvpp2PrsSramNextLuSet(&pe, MVPP2_PRS_LU_PPPOE);
+  Mvpp2PrsSramRiUpdate(&pe, MVPP2_PRS_RI_PPPOE_MASK,
          MVPP2_PRS_RI_PPPOE_MASK);
 
   /* Update shadow table and hw entry */
-  mvpp2_prs_shadow_set(priv, pe.index, MVPP2_PRS_LU_L2);
-  priv->prs_shadow[pe.index].udf = MVPP2_PRS_UDF_L2_DEF;
-  priv->prs_shadow[pe.index].finish = FALSE;
-  mvpp2_prs_shadow_ri_set(priv, pe.index, MVPP2_PRS_RI_PPPOE_MASK,
+  Mvpp2PrsShadowSet(priv, pe.index, MVPP2_PRS_LU_L2);
+  priv->PrsShadow[pe.index].udf = MVPP2_PRS_UDF_L2_DEF;
+  priv->PrsShadow[pe.index].finish = FALSE;
+  Mvpp2PrsShadowRiSet(priv, pe.index, MVPP2_PRS_RI_PPPOE_MASK,
         MVPP2_PRS_RI_PPPOE_MASK);
-  mvpp2_prs_hw_write(priv, &pe);
+  Mvpp2PrsHwWrite(priv, &pe);
 
   /* Ethertype: ARP */
-  tid = mvpp2_prs_tcam_first_free(priv, MVPP2_PE_FIRST_FREE_TID,
+  tid = Mvpp2PrsTcamFirstFree(priv, MVPP2_PE_FIRST_FREE_TID,
           MVPP2_PE_LAST_FREE_TID);
   if (tid < 0)
     return tid;
 
-  mvpp2_memset(&pe, 0, sizeof(MVPP2_PRS_ENTRY));
-  mvpp2_prs_tcam_lu_set(&pe, MVPP2_PRS_LU_L2);
+  Mvpp2Memset(&pe, 0, sizeof(MVPP2_PRS_ENTRY));
+  Mvpp2PrsTcamLuSet(&pe, MVPP2_PRS_LU_L2);
   pe.index = tid;
 
-  mvpp2_prs_match_etype(&pe, 0, MV_ETH_P_ARP);
+  Mvpp2PrsMatchEtype(&pe, 0, MV_ETH_P_ARP);
 
   /* Generate flow in the next iteration*/
-  mvpp2_prs_sram_next_lu_set(&pe, MVPP2_PRS_LU_FLOWS);
-  mvpp2_prs_sram_bits_set(&pe, MVPP2_PRS_SRAM_LU_GEN_BIT, 1);
-  mvpp2_prs_sram_ri_update(&pe, MVPP2_PRS_RI_L3_ARP,
+  Mvpp2PrsSramNextLuSet(&pe, MVPP2_PRS_LU_FLOWS);
+  Mvpp2PrsSramBitsSet(&pe, MVPP2_PRS_SRAM_LU_GEN_BIT, 1);
+  Mvpp2PrsSramRiUpdate(&pe, MVPP2_PRS_RI_L3_ARP,
          MVPP2_PRS_RI_L3_PROTO_MASK);
   /* Set L3 offset */
-  mvpp2_prs_sram_offset_set(&pe, MVPP2_PRS_SRAM_UDF_TYPE_L3,
+  Mvpp2PrsSramOffsetSet(&pe, MVPP2_PRS_SRAM_UDF_TYPE_L3,
           MVPP2_ETH_TYPE_LEN,
           MVPP2_PRS_SRAM_OP_SEL_UDF_ADD);
 
   /* Update shadow table and hw entry */
-  mvpp2_prs_shadow_set(priv, pe.index, MVPP2_PRS_LU_L2);
-  priv->prs_shadow[pe.index].udf = MVPP2_PRS_UDF_L2_DEF;
-  priv->prs_shadow[pe.index].finish = TRUE;
-  mvpp2_prs_shadow_ri_set(priv, pe.index, MVPP2_PRS_RI_L3_ARP,
+  Mvpp2PrsShadowSet(priv, pe.index, MVPP2_PRS_LU_L2);
+  priv->PrsShadow[pe.index].udf = MVPP2_PRS_UDF_L2_DEF;
+  priv->PrsShadow[pe.index].finish = TRUE;
+  Mvpp2PrsShadowRiSet(priv, pe.index, MVPP2_PRS_RI_L3_ARP,
         MVPP2_PRS_RI_L3_PROTO_MASK);
-  mvpp2_prs_hw_write(priv, &pe);
+  Mvpp2PrsHwWrite(priv, &pe);
 
   /* Ethertype: LBTD */
-  tid = mvpp2_prs_tcam_first_free(priv, MVPP2_PE_FIRST_FREE_TID,
+  tid = Mvpp2PrsTcamFirstFree(priv, MVPP2_PE_FIRST_FREE_TID,
           MVPP2_PE_LAST_FREE_TID);
   if (tid < 0)
     return tid;
 
-  mvpp2_memset(&pe, 0, sizeof(MVPP2_PRS_ENTRY));
-  mvpp2_prs_tcam_lu_set(&pe, MVPP2_PRS_LU_L2);
+  Mvpp2Memset(&pe, 0, sizeof(MVPP2_PRS_ENTRY));
+  Mvpp2PrsTcamLuSet(&pe, MVPP2_PRS_LU_L2);
   pe.index = tid;
 
-  mvpp2_prs_match_etype(&pe, 0, MVPP2_IP_LBDT_TYPE);
+  Mvpp2PrsMatchEtype(&pe, 0, MVPP2_IP_LBDT_TYPE);
 
   /* Generate flow in the next iteration*/
-  mvpp2_prs_sram_next_lu_set(&pe, MVPP2_PRS_LU_FLOWS);
-  mvpp2_prs_sram_bits_set(&pe, MVPP2_PRS_SRAM_LU_GEN_BIT, 1);
-  mvpp2_prs_sram_ri_update(&pe, MVPP2_PRS_RI_CPU_CODE_RX_SPEC |
+  Mvpp2PrsSramNextLuSet(&pe, MVPP2_PRS_LU_FLOWS);
+  Mvpp2PrsSramBitsSet(&pe, MVPP2_PRS_SRAM_LU_GEN_BIT, 1);
+  Mvpp2PrsSramRiUpdate(&pe, MVPP2_PRS_RI_CPU_CODE_RX_SPEC |
          MVPP2_PRS_RI_UDF3_RX_SPECIAL,
          MVPP2_PRS_RI_CPU_CODE_MASK |
          MVPP2_PRS_RI_UDF3_MASK);
   /* Set L3 offset */
-  mvpp2_prs_sram_offset_set(&pe, MVPP2_PRS_SRAM_UDF_TYPE_L3,
+  Mvpp2PrsSramOffsetSet(&pe, MVPP2_PRS_SRAM_UDF_TYPE_L3,
           MVPP2_ETH_TYPE_LEN,
           MVPP2_PRS_SRAM_OP_SEL_UDF_ADD);
 
   /* Update shadow table and hw entry */
-  mvpp2_prs_shadow_set(priv, pe.index, MVPP2_PRS_LU_L2);
-  priv->prs_shadow[pe.index].udf = MVPP2_PRS_UDF_L2_DEF;
-  priv->prs_shadow[pe.index].finish = TRUE;
-  mvpp2_prs_shadow_ri_set(priv, pe.index, MVPP2_PRS_RI_CPU_CODE_RX_SPEC |
+  Mvpp2PrsShadowSet(priv, pe.index, MVPP2_PRS_LU_L2);
+  priv->PrsShadow[pe.index].udf = MVPP2_PRS_UDF_L2_DEF;
+  priv->PrsShadow[pe.index].finish = TRUE;
+  Mvpp2PrsShadowRiSet(priv, pe.index, MVPP2_PRS_RI_CPU_CODE_RX_SPEC |
         MVPP2_PRS_RI_UDF3_RX_SPECIAL,
         MVPP2_PRS_RI_CPU_CODE_MASK |
         MVPP2_PRS_RI_UDF3_MASK);
-  mvpp2_prs_hw_write(priv, &pe);
+  Mvpp2PrsHwWrite(priv, &pe);
 
   /* Ethertype: IPv4 without options */
-  tid = mvpp2_prs_tcam_first_free(priv, MVPP2_PE_FIRST_FREE_TID,
+  tid = Mvpp2PrsTcamFirstFree(priv, MVPP2_PE_FIRST_FREE_TID,
           MVPP2_PE_LAST_FREE_TID);
   if (tid < 0)
     return tid;
 
-  mvpp2_memset(&pe, 0, sizeof(MVPP2_PRS_ENTRY));
-  mvpp2_prs_tcam_lu_set(&pe, MVPP2_PRS_LU_L2);
+  Mvpp2Memset(&pe, 0, sizeof(MVPP2_PRS_ENTRY));
+  Mvpp2PrsTcamLuSet(&pe, MVPP2_PRS_LU_L2);
   pe.index = tid;
 
-  mvpp2_prs_match_etype(&pe, 0, MV_ETH_P_IP);
-  mvpp2_prs_tcam_data_byte_set(&pe, MVPP2_ETH_TYPE_LEN,
+  Mvpp2PrsMatchEtype(&pe, 0, MV_ETH_P_IP);
+  Mvpp2PrsTcamDataByteSet(&pe, MVPP2_ETH_TYPE_LEN,
              MVPP2_PRS_IPV4_HEAD | MVPP2_PRS_IPV4_IHL,
              MVPP2_PRS_IPV4_HEAD_MASK |
              MVPP2_PRS_IPV4_IHL_MASK);
 
-  mvpp2_prs_sram_next_lu_set(&pe, MVPP2_PRS_LU_IP4);
-  mvpp2_prs_sram_ri_update(&pe, MVPP2_PRS_RI_L3_IP4,
+  Mvpp2PrsSramNextLuSet(&pe, MVPP2_PRS_LU_IP4);
+  Mvpp2PrsSramRiUpdate(&pe, MVPP2_PRS_RI_L3_IP4,
          MVPP2_PRS_RI_L3_PROTO_MASK);
-  /* Skip eth_type + 4 bytes of IP header */
-  mvpp2_prs_sram_shift_set(&pe, MVPP2_ETH_TYPE_LEN + 4,
+  /* Skip EthType + 4 bytes of IP header */
+  Mvpp2PrsSramShiftSet(&pe, MVPP2_ETH_TYPE_LEN + 4,
          MVPP2_PRS_SRAM_OP_SEL_SHIFT_ADD);
   /* Set L3 offset */
-  mvpp2_prs_sram_offset_set(&pe, MVPP2_PRS_SRAM_UDF_TYPE_L3,
+  Mvpp2PrsSramOffsetSet(&pe, MVPP2_PRS_SRAM_UDF_TYPE_L3,
           MVPP2_ETH_TYPE_LEN,
           MVPP2_PRS_SRAM_OP_SEL_UDF_ADD);
 
   /* Update shadow table and hw entry */
-  mvpp2_prs_shadow_set(priv, pe.index, MVPP2_PRS_LU_L2);
-  priv->prs_shadow[pe.index].udf = MVPP2_PRS_UDF_L2_DEF;
-  priv->prs_shadow[pe.index].finish = FALSE;
-  mvpp2_prs_shadow_ri_set(priv, pe.index, MVPP2_PRS_RI_L3_IP4,
+  Mvpp2PrsShadowSet(priv, pe.index, MVPP2_PRS_LU_L2);
+  priv->PrsShadow[pe.index].udf = MVPP2_PRS_UDF_L2_DEF;
+  priv->PrsShadow[pe.index].finish = FALSE;
+  Mvpp2PrsShadowRiSet(priv, pe.index, MVPP2_PRS_RI_L3_IP4,
         MVPP2_PRS_RI_L3_PROTO_MASK);
-  mvpp2_prs_hw_write(priv, &pe);
+  Mvpp2PrsHwWrite(priv, &pe);
 
   /* Ethertype: IPv4 with options */
-  tid = mvpp2_prs_tcam_first_free(priv, MVPP2_PE_FIRST_FREE_TID,
+  tid = Mvpp2PrsTcamFirstFree(priv, MVPP2_PE_FIRST_FREE_TID,
           MVPP2_PE_LAST_FREE_TID);
   if (tid < 0)
     return tid;
@@ -1542,80 +1542,80 @@ STATIC INT32 mvpp2_prs_etype_init(MVPP2_SHARED *priv)
   pe.tcam.byte[MVPP2_PRS_TCAM_DATA_BYTE(MVPP2_ETH_TYPE_LEN)] = 0x0;
   pe.tcam.byte[MVPP2_PRS_TCAM_DATA_BYTE_EN(MVPP2_ETH_TYPE_LEN)] = 0x0;
 
-  mvpp2_prs_tcam_data_byte_set(&pe, MVPP2_ETH_TYPE_LEN,
+  Mvpp2PrsTcamDataByteSet(&pe, MVPP2_ETH_TYPE_LEN,
              MVPP2_PRS_IPV4_HEAD,
              MVPP2_PRS_IPV4_HEAD_MASK);
 
   /* Clear ri before updating */
   pe.sram.word[MVPP2_PRS_SRAM_RI_WORD] = 0x0;
   pe.sram.word[MVPP2_PRS_SRAM_RI_CTRL_WORD] = 0x0;
-  mvpp2_prs_sram_ri_update(&pe, MVPP2_PRS_RI_L3_IP4_OPT,
+  Mvpp2PrsSramRiUpdate(&pe, MVPP2_PRS_RI_L3_IP4_OPT,
          MVPP2_PRS_RI_L3_PROTO_MASK);
 
   /* Update shadow table and hw entry */
-  mvpp2_prs_shadow_set(priv, pe.index, MVPP2_PRS_LU_L2);
-  priv->prs_shadow[pe.index].udf = MVPP2_PRS_UDF_L2_DEF;
-  priv->prs_shadow[pe.index].finish = FALSE;
-  mvpp2_prs_shadow_ri_set(priv, pe.index, MVPP2_PRS_RI_L3_IP4_OPT,
+  Mvpp2PrsShadowSet(priv, pe.index, MVPP2_PRS_LU_L2);
+  priv->PrsShadow[pe.index].udf = MVPP2_PRS_UDF_L2_DEF;
+  priv->PrsShadow[pe.index].finish = FALSE;
+  Mvpp2PrsShadowRiSet(priv, pe.index, MVPP2_PRS_RI_L3_IP4_OPT,
         MVPP2_PRS_RI_L3_PROTO_MASK);
-  mvpp2_prs_hw_write(priv, &pe);
+  Mvpp2PrsHwWrite(priv, &pe);
 
   /* Ethertype: IPv6 without options */
-  tid = mvpp2_prs_tcam_first_free(priv, MVPP2_PE_FIRST_FREE_TID,
+  tid = Mvpp2PrsTcamFirstFree(priv, MVPP2_PE_FIRST_FREE_TID,
           MVPP2_PE_LAST_FREE_TID);
   if (tid < 0)
     return tid;
 
-  mvpp2_memset(&pe, 0, sizeof(MVPP2_PRS_ENTRY));
-  mvpp2_prs_tcam_lu_set(&pe, MVPP2_PRS_LU_L2);
+  Mvpp2Memset(&pe, 0, sizeof(MVPP2_PRS_ENTRY));
+  Mvpp2PrsTcamLuSet(&pe, MVPP2_PRS_LU_L2);
   pe.index = tid;
 
-  mvpp2_prs_match_etype(&pe, 0, MV_ETH_P_IPV6);
+  Mvpp2PrsMatchEtype(&pe, 0, MV_ETH_P_IPV6);
 
   /* Skip DIP of IPV6 header */
-  mvpp2_prs_sram_shift_set(&pe, MVPP2_ETH_TYPE_LEN + 8 +
+  Mvpp2PrsSramShiftSet(&pe, MVPP2_ETH_TYPE_LEN + 8 +
          MVPP2_MAX_L3_ADDR_SIZE,
          MVPP2_PRS_SRAM_OP_SEL_SHIFT_ADD);
-  mvpp2_prs_sram_next_lu_set(&pe, MVPP2_PRS_LU_IP6);
-  mvpp2_prs_sram_ri_update(&pe, MVPP2_PRS_RI_L3_IP6,
+  Mvpp2PrsSramNextLuSet(&pe, MVPP2_PRS_LU_IP6);
+  Mvpp2PrsSramRiUpdate(&pe, MVPP2_PRS_RI_L3_IP6,
          MVPP2_PRS_RI_L3_PROTO_MASK);
   /* Set L3 offset */
-  mvpp2_prs_sram_offset_set(&pe, MVPP2_PRS_SRAM_UDF_TYPE_L3,
+  Mvpp2PrsSramOffsetSet(&pe, MVPP2_PRS_SRAM_UDF_TYPE_L3,
           MVPP2_ETH_TYPE_LEN,
           MVPP2_PRS_SRAM_OP_SEL_UDF_ADD);
 
-  mvpp2_prs_shadow_set(priv, pe.index, MVPP2_PRS_LU_L2);
-  priv->prs_shadow[pe.index].udf = MVPP2_PRS_UDF_L2_DEF;
-  priv->prs_shadow[pe.index].finish = FALSE;
-  mvpp2_prs_shadow_ri_set(priv, pe.index, MVPP2_PRS_RI_L3_IP6,
+  Mvpp2PrsShadowSet(priv, pe.index, MVPP2_PRS_LU_L2);
+  priv->PrsShadow[pe.index].udf = MVPP2_PRS_UDF_L2_DEF;
+  priv->PrsShadow[pe.index].finish = FALSE;
+  Mvpp2PrsShadowRiSet(priv, pe.index, MVPP2_PRS_RI_L3_IP6,
         MVPP2_PRS_RI_L3_PROTO_MASK);
-  mvpp2_prs_hw_write(priv, &pe);
+  Mvpp2PrsHwWrite(priv, &pe);
 
   /* Default entry for MVPP2_PRS_LU_L2 - Unknown ethtype */
-  mvpp2_memset(&pe, 0, sizeof(MVPP2_PRS_ENTRY));
-  mvpp2_prs_tcam_lu_set(&pe, MVPP2_PRS_LU_L2);
+  Mvpp2Memset(&pe, 0, sizeof(MVPP2_PRS_ENTRY));
+  Mvpp2PrsTcamLuSet(&pe, MVPP2_PRS_LU_L2);
   pe.index = MVPP2_PE_ETH_TYPE_UN;
 
   /* Unmask all ports */
-  mvpp2_prs_tcam_port_map_set(&pe, MVPP2_PRS_PORT_MASK);
+  Mvpp2PrsTcamPortMapSet(&pe, MVPP2_PRS_PORT_MASK);
 
   /* Generate flow in the next iteration*/
-  mvpp2_prs_sram_bits_set(&pe, MVPP2_PRS_SRAM_LU_GEN_BIT, 1);
-  mvpp2_prs_sram_next_lu_set(&pe, MVPP2_PRS_LU_FLOWS);
-  mvpp2_prs_sram_ri_update(&pe, MVPP2_PRS_RI_L3_UN,
+  Mvpp2PrsSramBitsSet(&pe, MVPP2_PRS_SRAM_LU_GEN_BIT, 1);
+  Mvpp2PrsSramNextLuSet(&pe, MVPP2_PRS_LU_FLOWS);
+  Mvpp2PrsSramRiUpdate(&pe, MVPP2_PRS_RI_L3_UN,
          MVPP2_PRS_RI_L3_PROTO_MASK);
   /* Set L3 offset even it's unknown L3 */
-  mvpp2_prs_sram_offset_set(&pe, MVPP2_PRS_SRAM_UDF_TYPE_L3,
+  Mvpp2PrsSramOffsetSet(&pe, MVPP2_PRS_SRAM_UDF_TYPE_L3,
           MVPP2_ETH_TYPE_LEN,
           MVPP2_PRS_SRAM_OP_SEL_UDF_ADD);
 
   /* Update shadow table and hw entry */
-  mvpp2_prs_shadow_set(priv, pe.index, MVPP2_PRS_LU_L2);
-  priv->prs_shadow[pe.index].udf = MVPP2_PRS_UDF_L2_DEF;
-  priv->prs_shadow[pe.index].finish = TRUE;
-  mvpp2_prs_shadow_ri_set(priv, pe.index, MVPP2_PRS_RI_L3_UN,
+  Mvpp2PrsShadowSet(priv, pe.index, MVPP2_PRS_LU_L2);
+  priv->PrsShadow[pe.index].udf = MVPP2_PRS_UDF_L2_DEF;
+  priv->PrsShadow[pe.index].finish = TRUE;
+  Mvpp2PrsShadowRiSet(priv, pe.index, MVPP2_PRS_RI_L3_UN,
         MVPP2_PRS_RI_L3_PROTO_MASK);
-  mvpp2_prs_hw_write(priv, &pe);
+  Mvpp2PrsHwWrite(priv, &pe);
 
   return 0;
 }
@@ -1627,117 +1627,117 @@ STATIC INT32 mvpp2_prs_etype_init(MVPP2_SHARED *priv)
  * 0x8100
  * 0x88A8
  */
-STATIC INT32 mvpp2_prs_vlan_init(MVPP2_SHARED *priv)
+STATIC INT32 Mvpp2PrsVlanInit(MVPP2_SHARED *priv)
 {
   MVPP2_PRS_ENTRY pe;
   INT32 err;
 
   /* Double VLAN: 0x8100, 0x88A8 */
-  err = mvpp2_prs_double_vlan_add(priv, MV_ETH_P_8021Q, MV_ETH_P_8021AD,
+  err = Mvpp2PrsDoubleVlanAdd(priv, MV_ETH_P_8021Q, MV_ETH_P_8021AD,
           MVPP2_PRS_PORT_MASK);
   if (err)
     return err;
 
   /* Double VLAN: 0x8100, 0x8100 */
-  err = mvpp2_prs_double_vlan_add(priv, MV_ETH_P_8021Q, MV_ETH_P_8021Q,
+  err = Mvpp2PrsDoubleVlanAdd(priv, MV_ETH_P_8021Q, MV_ETH_P_8021Q,
           MVPP2_PRS_PORT_MASK);
   if (err)
     return err;
 
   /* Single VLAN: 0x88a8 */
-  err = mvpp2_prs_vlan_add(priv, MV_ETH_P_8021AD,
+  err = Mvpp2PrsVlanAdd(priv, MV_ETH_P_8021AD,
          MVPP2_PRS_SINGLE_VLAN_AI,
          MVPP2_PRS_PORT_MASK);
   if (err)
     return err;
 
   /* Single VLAN: 0x8100 */
-  err = mvpp2_prs_vlan_add(priv, MV_ETH_P_8021Q, MVPP2_PRS_SINGLE_VLAN_AI,
+  err = Mvpp2PrsVlanAdd(priv, MV_ETH_P_8021Q, MVPP2_PRS_SINGLE_VLAN_AI,
          MVPP2_PRS_PORT_MASK);
   if (err)
     return err;
 
   /* Set default double vlan entry */
-  mvpp2_memset(&pe, 0, sizeof(MVPP2_PRS_ENTRY));
-  mvpp2_prs_tcam_lu_set(&pe, MVPP2_PRS_LU_VLAN);
+  Mvpp2Memset(&pe, 0, sizeof(MVPP2_PRS_ENTRY));
+  Mvpp2PrsTcamLuSet(&pe, MVPP2_PRS_LU_VLAN);
   pe.index = MVPP2_PE_VLAN_DBL;
 
-  mvpp2_prs_sram_next_lu_set(&pe, MVPP2_PRS_LU_L2);
+  Mvpp2PrsSramNextLuSet(&pe, MVPP2_PRS_LU_L2);
   /* Clear ai for next iterations */
-  mvpp2_prs_sram_ai_update(&pe, 0, MVPP2_PRS_SRAM_AI_MASK);
-  mvpp2_prs_sram_ri_update(&pe, MVPP2_PRS_RI_VLAN_DOUBLE,
+  Mvpp2PrsSramAiUpdate(&pe, 0, MVPP2_PRS_SRAM_AI_MASK);
+  Mvpp2PrsSramRiUpdate(&pe, MVPP2_PRS_RI_VLAN_DOUBLE,
          MVPP2_PRS_RI_VLAN_MASK);
 
-  mvpp2_prs_tcam_ai_update(&pe, MVPP2_PRS_DBL_VLAN_AI_BIT,
+  Mvpp2PrsTcamAiUpdate(&pe, MVPP2_PRS_DBL_VLAN_AI_BIT,
          MVPP2_PRS_DBL_VLAN_AI_BIT);
   /* Unmask all ports */
-  mvpp2_prs_tcam_port_map_set(&pe, MVPP2_PRS_PORT_MASK);
+  Mvpp2PrsTcamPortMapSet(&pe, MVPP2_PRS_PORT_MASK);
 
   /* Update shadow table and hw entry */
-  mvpp2_prs_shadow_set(priv, pe.index, MVPP2_PRS_LU_VLAN);
-  mvpp2_prs_hw_write(priv, &pe);
+  Mvpp2PrsShadowSet(priv, pe.index, MVPP2_PRS_LU_VLAN);
+  Mvpp2PrsHwWrite(priv, &pe);
 
   /* Set default vlan none entry */
-  mvpp2_memset(&pe, 0, sizeof(MVPP2_PRS_ENTRY));
-  mvpp2_prs_tcam_lu_set(&pe, MVPP2_PRS_LU_VLAN);
+  Mvpp2Memset(&pe, 0, sizeof(MVPP2_PRS_ENTRY));
+  Mvpp2PrsTcamLuSet(&pe, MVPP2_PRS_LU_VLAN);
   pe.index = MVPP2_PE_VLAN_NONE;
 
-  mvpp2_prs_sram_next_lu_set(&pe, MVPP2_PRS_LU_L2);
-  mvpp2_prs_sram_ri_update(&pe, MVPP2_PRS_RI_VLAN_NONE,
+  Mvpp2PrsSramNextLuSet(&pe, MVPP2_PRS_LU_L2);
+  Mvpp2PrsSramRiUpdate(&pe, MVPP2_PRS_RI_VLAN_NONE,
          MVPP2_PRS_RI_VLAN_MASK);
 
   /* Unmask all ports */
-  mvpp2_prs_tcam_port_map_set(&pe, MVPP2_PRS_PORT_MASK);
+  Mvpp2PrsTcamPortMapSet(&pe, MVPP2_PRS_PORT_MASK);
 
   /* Update shadow table and hw entry */
-  mvpp2_prs_shadow_set(priv, pe.index, MVPP2_PRS_LU_VLAN);
-  mvpp2_prs_hw_write(priv, &pe);
+  Mvpp2PrsShadowSet(priv, pe.index, MVPP2_PRS_LU_VLAN);
+  Mvpp2PrsHwWrite(priv, &pe);
 
   return 0;
 }
 
 /* Set entries for PPPoE ethertype */
-STATIC INT32 mvpp2_prs_pppoe_init(MVPP2_SHARED *priv)
+STATIC INT32 Mvpp2PrsPppoeInit(MVPP2_SHARED *priv)
 {
   MVPP2_PRS_ENTRY pe;
   INT32 tid;
 
   /* IPv4 over PPPoE with options */
-  tid = mvpp2_prs_tcam_first_free(priv, MVPP2_PE_FIRST_FREE_TID,
+  tid = Mvpp2PrsTcamFirstFree(priv, MVPP2_PE_FIRST_FREE_TID,
           MVPP2_PE_LAST_FREE_TID);
   if (tid < 0)
     return tid;
 
-  mvpp2_memset(&pe, 0, sizeof(MVPP2_PRS_ENTRY));
-  mvpp2_prs_tcam_lu_set(&pe, MVPP2_PRS_LU_PPPOE);
+  Mvpp2Memset(&pe, 0, sizeof(MVPP2_PRS_ENTRY));
+  Mvpp2PrsTcamLuSet(&pe, MVPP2_PRS_LU_PPPOE);
   pe.index = tid;
 
-  mvpp2_prs_match_etype(&pe, 0, MV_PPP_IP);
+  Mvpp2PrsMatchEtype(&pe, 0, MV_PPP_IP);
 
-  mvpp2_prs_sram_next_lu_set(&pe, MVPP2_PRS_LU_IP4);
-  mvpp2_prs_sram_ri_update(&pe, MVPP2_PRS_RI_L3_IP4_OPT,
+  Mvpp2PrsSramNextLuSet(&pe, MVPP2_PRS_LU_IP4);
+  Mvpp2PrsSramRiUpdate(&pe, MVPP2_PRS_RI_L3_IP4_OPT,
          MVPP2_PRS_RI_L3_PROTO_MASK);
-  /* Skip eth_type + 4 bytes of IP header */
-  mvpp2_prs_sram_shift_set(&pe, MVPP2_ETH_TYPE_LEN + 4,
+  /* Skip EthType + 4 bytes of IP header */
+  Mvpp2PrsSramShiftSet(&pe, MVPP2_ETH_TYPE_LEN + 4,
          MVPP2_PRS_SRAM_OP_SEL_SHIFT_ADD);
   /* Set L3 offset */
-  mvpp2_prs_sram_offset_set(&pe, MVPP2_PRS_SRAM_UDF_TYPE_L3,
+  Mvpp2PrsSramOffsetSet(&pe, MVPP2_PRS_SRAM_UDF_TYPE_L3,
           MVPP2_ETH_TYPE_LEN,
           MVPP2_PRS_SRAM_OP_SEL_UDF_ADD);
 
   /* Update shadow table and hw entry */
-  mvpp2_prs_shadow_set(priv, pe.index, MVPP2_PRS_LU_PPPOE);
-  mvpp2_prs_hw_write(priv, &pe);
+  Mvpp2PrsShadowSet(priv, pe.index, MVPP2_PRS_LU_PPPOE);
+  Mvpp2PrsHwWrite(priv, &pe);
 
   /* IPv4 over PPPoE without options */
-  tid = mvpp2_prs_tcam_first_free(priv, MVPP2_PE_FIRST_FREE_TID,
+  tid = Mvpp2PrsTcamFirstFree(priv, MVPP2_PE_FIRST_FREE_TID,
           MVPP2_PE_LAST_FREE_TID);
   if (tid < 0)
     return tid;
 
   pe.index = tid;
 
-  mvpp2_prs_tcam_data_byte_set(&pe, MVPP2_ETH_TYPE_LEN,
+  Mvpp2PrsTcamDataByteSet(&pe, MVPP2_ETH_TYPE_LEN,
              MVPP2_PRS_IPV4_HEAD | MVPP2_PRS_IPV4_IHL,
              MVPP2_PRS_IPV4_HEAD_MASK |
              MVPP2_PRS_IPV4_IHL_MASK);
@@ -1745,86 +1745,86 @@ STATIC INT32 mvpp2_prs_pppoe_init(MVPP2_SHARED *priv)
   /* Clear ri before updating */
   pe.sram.word[MVPP2_PRS_SRAM_RI_WORD] = 0x0;
   pe.sram.word[MVPP2_PRS_SRAM_RI_CTRL_WORD] = 0x0;
-  mvpp2_prs_sram_ri_update(&pe, MVPP2_PRS_RI_L3_IP4,
+  Mvpp2PrsSramRiUpdate(&pe, MVPP2_PRS_RI_L3_IP4,
          MVPP2_PRS_RI_L3_PROTO_MASK);
 
   /* Update shadow table and hw entry */
-  mvpp2_prs_shadow_set(priv, pe.index, MVPP2_PRS_LU_PPPOE);
-  mvpp2_prs_hw_write(priv, &pe);
+  Mvpp2PrsShadowSet(priv, pe.index, MVPP2_PRS_LU_PPPOE);
+  Mvpp2PrsHwWrite(priv, &pe);
 
   /* IPv6 over PPPoE */
-  tid = mvpp2_prs_tcam_first_free(priv, MVPP2_PE_FIRST_FREE_TID,
+  tid = Mvpp2PrsTcamFirstFree(priv, MVPP2_PE_FIRST_FREE_TID,
           MVPP2_PE_LAST_FREE_TID);
   if (tid < 0)
     return tid;
 
-  mvpp2_memset(&pe, 0, sizeof(MVPP2_PRS_ENTRY));
-  mvpp2_prs_tcam_lu_set(&pe, MVPP2_PRS_LU_PPPOE);
+  Mvpp2Memset(&pe, 0, sizeof(MVPP2_PRS_ENTRY));
+  Mvpp2PrsTcamLuSet(&pe, MVPP2_PRS_LU_PPPOE);
   pe.index = tid;
 
-  mvpp2_prs_match_etype(&pe, 0, MV_PPP_IPV6);
+  Mvpp2PrsMatchEtype(&pe, 0, MV_PPP_IPV6);
 
-  mvpp2_prs_sram_next_lu_set(&pe, MVPP2_PRS_LU_IP6);
-  mvpp2_prs_sram_ri_update(&pe, MVPP2_PRS_RI_L3_IP6,
+  Mvpp2PrsSramNextLuSet(&pe, MVPP2_PRS_LU_IP6);
+  Mvpp2PrsSramRiUpdate(&pe, MVPP2_PRS_RI_L3_IP6,
          MVPP2_PRS_RI_L3_PROTO_MASK);
-  /* Skip eth_type + 4 bytes of IPv6 header */
-  mvpp2_prs_sram_shift_set(&pe, MVPP2_ETH_TYPE_LEN + 4,
+  /* Skip EthType + 4 bytes of IPv6 header */
+  Mvpp2PrsSramShiftSet(&pe, MVPP2_ETH_TYPE_LEN + 4,
          MVPP2_PRS_SRAM_OP_SEL_SHIFT_ADD);
   /* Set L3 offset */
-  mvpp2_prs_sram_offset_set(&pe, MVPP2_PRS_SRAM_UDF_TYPE_L3,
+  Mvpp2PrsSramOffsetSet(&pe, MVPP2_PRS_SRAM_UDF_TYPE_L3,
           MVPP2_ETH_TYPE_LEN,
           MVPP2_PRS_SRAM_OP_SEL_UDF_ADD);
 
   /* Update shadow table and hw entry */
-  mvpp2_prs_shadow_set(priv, pe.index, MVPP2_PRS_LU_PPPOE);
-  mvpp2_prs_hw_write(priv, &pe);
+  Mvpp2PrsShadowSet(priv, pe.index, MVPP2_PRS_LU_PPPOE);
+  Mvpp2PrsHwWrite(priv, &pe);
 
   /* Non-IP over PPPoE */
-  tid = mvpp2_prs_tcam_first_free(priv, MVPP2_PE_FIRST_FREE_TID,
+  tid = Mvpp2PrsTcamFirstFree(priv, MVPP2_PE_FIRST_FREE_TID,
           MVPP2_PE_LAST_FREE_TID);
   if (tid < 0)
     return tid;
 
-  mvpp2_memset(&pe, 0, sizeof(MVPP2_PRS_ENTRY));
-  mvpp2_prs_tcam_lu_set(&pe, MVPP2_PRS_LU_PPPOE);
+  Mvpp2Memset(&pe, 0, sizeof(MVPP2_PRS_ENTRY));
+  Mvpp2PrsTcamLuSet(&pe, MVPP2_PRS_LU_PPPOE);
   pe.index = tid;
 
-  mvpp2_prs_sram_ri_update(&pe, MVPP2_PRS_RI_L3_UN,
+  Mvpp2PrsSramRiUpdate(&pe, MVPP2_PRS_RI_L3_UN,
          MVPP2_PRS_RI_L3_PROTO_MASK);
 
   /* Finished: go to flowid generation */
-  mvpp2_prs_sram_next_lu_set(&pe, MVPP2_PRS_LU_FLOWS);
-  mvpp2_prs_sram_bits_set(&pe, MVPP2_PRS_SRAM_LU_GEN_BIT, 1);
+  Mvpp2PrsSramNextLuSet(&pe, MVPP2_PRS_LU_FLOWS);
+  Mvpp2PrsSramBitsSet(&pe, MVPP2_PRS_SRAM_LU_GEN_BIT, 1);
   /* Set L3 offset even if it's unknown L3 */
-  mvpp2_prs_sram_offset_set(&pe, MVPP2_PRS_SRAM_UDF_TYPE_L3,
+  Mvpp2PrsSramOffsetSet(&pe, MVPP2_PRS_SRAM_UDF_TYPE_L3,
           MVPP2_ETH_TYPE_LEN,
           MVPP2_PRS_SRAM_OP_SEL_UDF_ADD);
 
   /* Update shadow table and hw entry */
-  mvpp2_prs_shadow_set(priv, pe.index, MVPP2_PRS_LU_PPPOE);
-  mvpp2_prs_hw_write(priv, &pe);
+  Mvpp2PrsShadowSet(priv, pe.index, MVPP2_PRS_LU_PPPOE);
+  Mvpp2PrsHwWrite(priv, &pe);
 
   return 0;
 }
 
 /* Initialize entries for IPv4 */
-STATIC INT32 mvpp2_prs_ip4_init(MVPP2_SHARED *priv)
+STATIC INT32 Mvpp2PrsIp4Init(MVPP2_SHARED *priv)
 {
   MVPP2_PRS_ENTRY pe;
   INT32 err;
 
   /* Set entries for TCP, UDP and IGMP over IPv4 */
-  err = mvpp2_prs_ip4_proto(priv, MV_IPPR_TCP, MVPP2_PRS_RI_L4_TCP,
+  err = Mvpp2PrsIp4Proto(priv, MV_IPPR_TCP, MVPP2_PRS_RI_L4_TCP,
           MVPP2_PRS_RI_L4_PROTO_MASK);
   if (err)
     return err;
 
-  err = mvpp2_prs_ip4_proto(priv, MV_IPPR_UDP, MVPP2_PRS_RI_L4_UDP,
+  err = Mvpp2PrsIp4Proto(priv, MV_IPPR_UDP, MVPP2_PRS_RI_L4_UDP,
           MVPP2_PRS_RI_L4_PROTO_MASK);
   if (err)
     return err;
 
-  err = mvpp2_prs_ip4_proto(priv, MV_IPPR_IGMP,
+  err = Mvpp2PrsIp4Proto(priv, MV_IPPR_IGMP,
           MVPP2_PRS_RI_CPU_CODE_RX_SPEC |
           MVPP2_PRS_RI_UDF3_RX_SPECIAL,
           MVPP2_PRS_RI_CPU_CODE_MASK |
@@ -1833,83 +1833,83 @@ STATIC INT32 mvpp2_prs_ip4_init(MVPP2_SHARED *priv)
     return err;
 
   /* IPv4 Broadcast */
-  err = mvpp2_prs_ip4_cast(priv, MVPP2_PRS_L3_BROAD_CAST);
+  err = Mvpp2PrsIp4Cast(priv, MVPP2_PRS_L3_BROAD_CAST);
   if (err)
     return err;
 
   /* IPv4 Multicast */
-  err = mvpp2_prs_ip4_cast(priv, MVPP2_PRS_L3_MULTI_CAST);
+  err = Mvpp2PrsIp4Cast(priv, MVPP2_PRS_L3_MULTI_CAST);
   if (err)
     return err;
 
   /* Default IPv4 entry for unknown protocols */
-  mvpp2_memset(&pe, 0, sizeof(MVPP2_PRS_ENTRY));
-  mvpp2_prs_tcam_lu_set(&pe, MVPP2_PRS_LU_IP4);
+  Mvpp2Memset(&pe, 0, sizeof(MVPP2_PRS_ENTRY));
+  Mvpp2PrsTcamLuSet(&pe, MVPP2_PRS_LU_IP4);
   pe.index = MVPP2_PE_IP4_PROTO_UN;
 
   /* Set next lu to IPv4 */
-  mvpp2_prs_sram_next_lu_set(&pe, MVPP2_PRS_LU_IP4);
-  mvpp2_prs_sram_shift_set(&pe, 12, MVPP2_PRS_SRAM_OP_SEL_SHIFT_ADD);
+  Mvpp2PrsSramNextLuSet(&pe, MVPP2_PRS_LU_IP4);
+  Mvpp2PrsSramShiftSet(&pe, 12, MVPP2_PRS_SRAM_OP_SEL_SHIFT_ADD);
   /* Set L4 offset */
-  mvpp2_prs_sram_offset_set(&pe, MVPP2_PRS_SRAM_UDF_TYPE_L4,
-          sizeof(mvpp2_iphdr) - 4,
+  Mvpp2PrsSramOffsetSet(&pe, MVPP2_PRS_SRAM_UDF_TYPE_L4,
+          sizeof(Mvpp2Iphdr) - 4,
           MVPP2_PRS_SRAM_OP_SEL_UDF_ADD);
-  mvpp2_prs_sram_ai_update(&pe, MVPP2_PRS_IPV4_DIP_AI_BIT,
+  Mvpp2PrsSramAiUpdate(&pe, MVPP2_PRS_IPV4_DIP_AI_BIT,
          MVPP2_PRS_IPV4_DIP_AI_BIT);
-  mvpp2_prs_sram_ri_update(&pe, MVPP2_PRS_RI_L4_OTHER,
+  Mvpp2PrsSramRiUpdate(&pe, MVPP2_PRS_RI_L4_OTHER,
          MVPP2_PRS_RI_L4_PROTO_MASK);
 
-  mvpp2_prs_tcam_ai_update(&pe, 0, MVPP2_PRS_IPV4_DIP_AI_BIT);
+  Mvpp2PrsTcamAiUpdate(&pe, 0, MVPP2_PRS_IPV4_DIP_AI_BIT);
   /* Unmask all ports */
-  mvpp2_prs_tcam_port_map_set(&pe, MVPP2_PRS_PORT_MASK);
+  Mvpp2PrsTcamPortMapSet(&pe, MVPP2_PRS_PORT_MASK);
 
   /* Update shadow table and hw entry */
-  mvpp2_prs_shadow_set(priv, pe.index, MVPP2_PRS_LU_IP4);
-  mvpp2_prs_hw_write(priv, &pe);
+  Mvpp2PrsShadowSet(priv, pe.index, MVPP2_PRS_LU_IP4);
+  Mvpp2PrsHwWrite(priv, &pe);
 
   /* Default IPv4 entry for unicast address */
-  mvpp2_memset(&pe, 0, sizeof(MVPP2_PRS_ENTRY));
-  mvpp2_prs_tcam_lu_set(&pe, MVPP2_PRS_LU_IP4);
+  Mvpp2Memset(&pe, 0, sizeof(MVPP2_PRS_ENTRY));
+  Mvpp2PrsTcamLuSet(&pe, MVPP2_PRS_LU_IP4);
   pe.index = MVPP2_PE_IP4_ADDR_UN;
 
   /* Finished: go to flowid generation */
-  mvpp2_prs_sram_next_lu_set(&pe, MVPP2_PRS_LU_FLOWS);
-  mvpp2_prs_sram_bits_set(&pe, MVPP2_PRS_SRAM_LU_GEN_BIT, 1);
-  mvpp2_prs_sram_ri_update(&pe, MVPP2_PRS_RI_L3_UCAST,
+  Mvpp2PrsSramNextLuSet(&pe, MVPP2_PRS_LU_FLOWS);
+  Mvpp2PrsSramBitsSet(&pe, MVPP2_PRS_SRAM_LU_GEN_BIT, 1);
+  Mvpp2PrsSramRiUpdate(&pe, MVPP2_PRS_RI_L3_UCAST,
          MVPP2_PRS_RI_L3_ADDR_MASK);
 
-  mvpp2_prs_tcam_ai_update(&pe, MVPP2_PRS_IPV4_DIP_AI_BIT,
+  Mvpp2PrsTcamAiUpdate(&pe, MVPP2_PRS_IPV4_DIP_AI_BIT,
          MVPP2_PRS_IPV4_DIP_AI_BIT);
   /* Unmask all ports */
-  mvpp2_prs_tcam_port_map_set(&pe, MVPP2_PRS_PORT_MASK);
+  Mvpp2PrsTcamPortMapSet(&pe, MVPP2_PRS_PORT_MASK);
 
   /* Update shadow table and hw entry */
-  mvpp2_prs_shadow_set(priv, pe.index, MVPP2_PRS_LU_IP4);
-  mvpp2_prs_hw_write(priv, &pe);
+  Mvpp2PrsShadowSet(priv, pe.index, MVPP2_PRS_LU_IP4);
+  Mvpp2PrsHwWrite(priv, &pe);
 
   return 0;
 }
 
 /* Initialize entries for IPv6 */
-STATIC INT32 mvpp2_prs_ip6_init(MVPP2_SHARED *priv)
+STATIC INT32 Mvpp2PrsIp6Init(MVPP2_SHARED *priv)
 {
   MVPP2_PRS_ENTRY pe;
   INT32 tid, err;
 
   /* Set entries for TCP, UDP and ICMP over IPv6 */
-  err = mvpp2_prs_ip6_proto(priv, MV_IPPR_TCP,
+  err = Mvpp2PrsIp6Proto(priv, MV_IPPR_TCP,
           MVPP2_PRS_RI_L4_TCP,
           MVPP2_PRS_RI_L4_PROTO_MASK);
   if (err)
     return err;
 
-  err = mvpp2_prs_ip6_proto(priv, MV_IPPR_UDP,
+  err = Mvpp2PrsIp6Proto(priv, MV_IPPR_UDP,
           MVPP2_PRS_RI_L4_UDP,
           MVPP2_PRS_RI_L4_PROTO_MASK);
   if (err)
     return err;
 
-  err = mvpp2_prs_ip6_proto(priv, MV_IPPR_ICMPV6,
+  err = Mvpp2PrsIp6Proto(priv, MV_IPPR_ICMPV6,
           MVPP2_PRS_RI_CPU_CODE_RX_SPEC |
           MVPP2_PRS_RI_UDF3_RX_SPECIAL,
           MVPP2_PRS_RI_CPU_CODE_MASK |
@@ -1919,165 +1919,165 @@ STATIC INT32 mvpp2_prs_ip6_init(MVPP2_SHARED *priv)
 
   /* IPv4 is the last header. This is similar case as 6-TCP or 17-UDP */
   /* Result Info: UDF7=1, DS lite */
-  err = mvpp2_prs_ip6_proto(priv, MV_IPPR_IPIP,
+  err = Mvpp2PrsIp6Proto(priv, MV_IPPR_IPIP,
           MVPP2_PRS_RI_UDF7_IP6_LITE,
           MVPP2_PRS_RI_UDF7_MASK);
   if (err)
     return err;
 
   /* IPv6 multicast */
-  err = mvpp2_prs_ip6_cast(priv, MVPP2_PRS_L3_MULTI_CAST);
+  err = Mvpp2PrsIp6Cast(priv, MVPP2_PRS_L3_MULTI_CAST);
   if (err)
     return err;
 
   /* Entry for checking hop limit */
-  tid = mvpp2_prs_tcam_first_free(priv, MVPP2_PE_FIRST_FREE_TID,
+  tid = Mvpp2PrsTcamFirstFree(priv, MVPP2_PE_FIRST_FREE_TID,
           MVPP2_PE_LAST_FREE_TID);
   if (tid < 0)
     return tid;
 
-  mvpp2_memset(&pe, 0, sizeof(MVPP2_PRS_ENTRY));
-  mvpp2_prs_tcam_lu_set(&pe, MVPP2_PRS_LU_IP6);
+  Mvpp2Memset(&pe, 0, sizeof(MVPP2_PRS_ENTRY));
+  Mvpp2PrsTcamLuSet(&pe, MVPP2_PRS_LU_IP6);
   pe.index = tid;
 
   /* Finished: go to flowid generation */
-  mvpp2_prs_sram_next_lu_set(&pe, MVPP2_PRS_LU_FLOWS);
-  mvpp2_prs_sram_bits_set(&pe, MVPP2_PRS_SRAM_LU_GEN_BIT, 1);
-  mvpp2_prs_sram_ri_update(&pe, MVPP2_PRS_RI_L3_UN |
+  Mvpp2PrsSramNextLuSet(&pe, MVPP2_PRS_LU_FLOWS);
+  Mvpp2PrsSramBitsSet(&pe, MVPP2_PRS_SRAM_LU_GEN_BIT, 1);
+  Mvpp2PrsSramRiUpdate(&pe, MVPP2_PRS_RI_L3_UN |
          MVPP2_PRS_RI_DROP_MASK,
          MVPP2_PRS_RI_L3_PROTO_MASK |
          MVPP2_PRS_RI_DROP_MASK);
 
-  mvpp2_prs_tcam_data_byte_set(&pe, 1, 0x00, MVPP2_PRS_IPV6_HOP_MASK);
-  mvpp2_prs_tcam_ai_update(&pe, MVPP2_PRS_IPV6_NO_EXT_AI_BIT,
+  Mvpp2PrsTcamDataByteSet(&pe, 1, 0x00, MVPP2_PRS_IPV6_HOP_MASK);
+  Mvpp2PrsTcamAiUpdate(&pe, MVPP2_PRS_IPV6_NO_EXT_AI_BIT,
          MVPP2_PRS_IPV6_NO_EXT_AI_BIT);
 
   /* Update shadow table and hw entry */
-  mvpp2_prs_shadow_set(priv, pe.index, MVPP2_PRS_LU_IP4);
-  mvpp2_prs_hw_write(priv, &pe);
+  Mvpp2PrsShadowSet(priv, pe.index, MVPP2_PRS_LU_IP4);
+  Mvpp2PrsHwWrite(priv, &pe);
 
   /* Default IPv6 entry for unknown protocols */
-  mvpp2_memset(&pe, 0, sizeof(MVPP2_PRS_ENTRY));
-  mvpp2_prs_tcam_lu_set(&pe, MVPP2_PRS_LU_IP6);
+  Mvpp2Memset(&pe, 0, sizeof(MVPP2_PRS_ENTRY));
+  Mvpp2PrsTcamLuSet(&pe, MVPP2_PRS_LU_IP6);
   pe.index = MVPP2_PE_IP6_PROTO_UN;
 
   /* Finished: go to flowid generation */
-  mvpp2_prs_sram_next_lu_set(&pe, MVPP2_PRS_LU_FLOWS);
-  mvpp2_prs_sram_bits_set(&pe, MVPP2_PRS_SRAM_LU_GEN_BIT, 1);
-  mvpp2_prs_sram_ri_update(&pe, MVPP2_PRS_RI_L4_OTHER,
+  Mvpp2PrsSramNextLuSet(&pe, MVPP2_PRS_LU_FLOWS);
+  Mvpp2PrsSramBitsSet(&pe, MVPP2_PRS_SRAM_LU_GEN_BIT, 1);
+  Mvpp2PrsSramRiUpdate(&pe, MVPP2_PRS_RI_L4_OTHER,
          MVPP2_PRS_RI_L4_PROTO_MASK);
   /* Set L4 offset relatively to our current place */
-  mvpp2_prs_sram_offset_set(&pe, MVPP2_PRS_SRAM_UDF_TYPE_L4,
-          sizeof(mvpp2_ipv6hdr) - 4,
+  Mvpp2PrsSramOffsetSet(&pe, MVPP2_PRS_SRAM_UDF_TYPE_L4,
+          sizeof(Mvpp2Ipv6hdr) - 4,
           MVPP2_PRS_SRAM_OP_SEL_UDF_ADD);
 
-  mvpp2_prs_tcam_ai_update(&pe, MVPP2_PRS_IPV6_NO_EXT_AI_BIT,
+  Mvpp2PrsTcamAiUpdate(&pe, MVPP2_PRS_IPV6_NO_EXT_AI_BIT,
          MVPP2_PRS_IPV6_NO_EXT_AI_BIT);
   /* Unmask all ports */
-  mvpp2_prs_tcam_port_map_set(&pe, MVPP2_PRS_PORT_MASK);
+  Mvpp2PrsTcamPortMapSet(&pe, MVPP2_PRS_PORT_MASK);
 
   /* Update shadow table and hw entry */
-  mvpp2_prs_shadow_set(priv, pe.index, MVPP2_PRS_LU_IP4);
-  mvpp2_prs_hw_write(priv, &pe);
+  Mvpp2PrsShadowSet(priv, pe.index, MVPP2_PRS_LU_IP4);
+  Mvpp2PrsHwWrite(priv, &pe);
 
   /* Default IPv6 entry for unknown ext protocols */
-  mvpp2_memset(&pe, 0, sizeof(MVPP2_PRS_ENTRY));
-  mvpp2_prs_tcam_lu_set(&pe, MVPP2_PRS_LU_IP6);
+  Mvpp2Memset(&pe, 0, sizeof(MVPP2_PRS_ENTRY));
+  Mvpp2PrsTcamLuSet(&pe, MVPP2_PRS_LU_IP6);
   pe.index = MVPP2_PE_IP6_EXT_PROTO_UN;
 
   /* Finished: go to flowid generation */
-  mvpp2_prs_sram_next_lu_set(&pe, MVPP2_PRS_LU_FLOWS);
-  mvpp2_prs_sram_bits_set(&pe, MVPP2_PRS_SRAM_LU_GEN_BIT, 1);
-  mvpp2_prs_sram_ri_update(&pe, MVPP2_PRS_RI_L4_OTHER,
+  Mvpp2PrsSramNextLuSet(&pe, MVPP2_PRS_LU_FLOWS);
+  Mvpp2PrsSramBitsSet(&pe, MVPP2_PRS_SRAM_LU_GEN_BIT, 1);
+  Mvpp2PrsSramRiUpdate(&pe, MVPP2_PRS_RI_L4_OTHER,
          MVPP2_PRS_RI_L4_PROTO_MASK);
 
-  mvpp2_prs_tcam_ai_update(&pe, MVPP2_PRS_IPV6_EXT_AI_BIT,
+  Mvpp2PrsTcamAiUpdate(&pe, MVPP2_PRS_IPV6_EXT_AI_BIT,
          MVPP2_PRS_IPV6_EXT_AI_BIT);
   /* Unmask all ports */
-  mvpp2_prs_tcam_port_map_set(&pe, MVPP2_PRS_PORT_MASK);
+  Mvpp2PrsTcamPortMapSet(&pe, MVPP2_PRS_PORT_MASK);
 
   /* Update shadow table and hw entry */
-  mvpp2_prs_shadow_set(priv, pe.index, MVPP2_PRS_LU_IP4);
-  mvpp2_prs_hw_write(priv, &pe);
+  Mvpp2PrsShadowSet(priv, pe.index, MVPP2_PRS_LU_IP4);
+  Mvpp2PrsHwWrite(priv, &pe);
 
   /* Default IPv6 entry for unicast address */
-  mvpp2_memset(&pe, 0, sizeof(MVPP2_PRS_ENTRY));
-  mvpp2_prs_tcam_lu_set(&pe, MVPP2_PRS_LU_IP6);
+  Mvpp2Memset(&pe, 0, sizeof(MVPP2_PRS_ENTRY));
+  Mvpp2PrsTcamLuSet(&pe, MVPP2_PRS_LU_IP6);
   pe.index = MVPP2_PE_IP6_ADDR_UN;
 
   /* Finished: go to IPv6 again */
-  mvpp2_prs_sram_next_lu_set(&pe, MVPP2_PRS_LU_IP6);
-  mvpp2_prs_sram_ri_update(&pe, MVPP2_PRS_RI_L3_UCAST,
+  Mvpp2PrsSramNextLuSet(&pe, MVPP2_PRS_LU_IP6);
+  Mvpp2PrsSramRiUpdate(&pe, MVPP2_PRS_RI_L3_UCAST,
          MVPP2_PRS_RI_L3_ADDR_MASK);
-  mvpp2_prs_sram_ai_update(&pe, MVPP2_PRS_IPV6_NO_EXT_AI_BIT,
+  Mvpp2PrsSramAiUpdate(&pe, MVPP2_PRS_IPV6_NO_EXT_AI_BIT,
          MVPP2_PRS_IPV6_NO_EXT_AI_BIT);
   /* Shift back to IPV6 NH */
-  mvpp2_prs_sram_shift_set(&pe, -18, MVPP2_PRS_SRAM_OP_SEL_SHIFT_ADD);
+  Mvpp2PrsSramShiftSet(&pe, -18, MVPP2_PRS_SRAM_OP_SEL_SHIFT_ADD);
 
-  mvpp2_prs_tcam_ai_update(&pe, 0, MVPP2_PRS_IPV6_NO_EXT_AI_BIT);
+  Mvpp2PrsTcamAiUpdate(&pe, 0, MVPP2_PRS_IPV6_NO_EXT_AI_BIT);
   /* Unmask all ports */
-  mvpp2_prs_tcam_port_map_set(&pe, MVPP2_PRS_PORT_MASK);
+  Mvpp2PrsTcamPortMapSet(&pe, MVPP2_PRS_PORT_MASK);
 
   /* Update shadow table and hw entry */
-  mvpp2_prs_shadow_set(priv, pe.index, MVPP2_PRS_LU_IP6);
-  mvpp2_prs_hw_write(priv, &pe);
+  Mvpp2PrsShadowSet(priv, pe.index, MVPP2_PRS_LU_IP6);
+  Mvpp2PrsHwWrite(priv, &pe);
 
   return 0;
 }
 
 /* Parser default initialization */
-INT32 mvpp2_prs_default_init(MVPP2_SHARED *priv)
+INT32 Mvpp2PrsDefaultInit(MVPP2_SHARED *priv)
 {
   INT32 err, index, i;
 
   /* Enable tcam table */
-  mvpp2_write(priv, MVPP2_PRS_TCAM_CTRL_REG, MVPP2_PRS_TCAM_EN_MASK);
+  Mvpp2Write(priv, MVPP2_PRS_TCAM_CTRL_REG, MVPP2_PRS_TCAM_EN_MASK);
 
   /* Clear all tcam and sram entries */
   for (index = 0; index < MVPP2_PRS_TCAM_SRAM_SIZE; index++) {
-    mvpp2_write(priv, MVPP2_PRS_TCAM_IDX_REG, index);
+    Mvpp2Write(priv, MVPP2_PRS_TCAM_IDX_REG, index);
     for (i = 0; i < MVPP2_PRS_TCAM_WORDS; i++)
-      mvpp2_write(priv, MVPP2_PRS_TCAM_DATA_REG(i), 0);
+      Mvpp2Write(priv, MVPP2_PRS_TCAM_DATA_REG(i), 0);
 
-    mvpp2_write(priv, MVPP2_PRS_SRAM_IDX_REG, index);
+    Mvpp2Write(priv, MVPP2_PRS_SRAM_IDX_REG, index);
     for (i = 0; i < MVPP2_PRS_SRAM_WORDS; i++)
-      mvpp2_write(priv, MVPP2_PRS_SRAM_DATA_REG(i), 0);
+      Mvpp2Write(priv, MVPP2_PRS_SRAM_DATA_REG(i), 0);
   }
 
   /* Invalidate all tcam entries */
   for (index = 0; index < MVPP2_PRS_TCAM_SRAM_SIZE; index++)
-    mvpp2_prs_hw_inv(priv, index);
+    Mvpp2PrsHwInv(priv, index);
 
   /* Always start from lookup = 0 */
   for (index = 0; index < MVPP2_MAX_PORTS; index++)
-    mvpp2_prs_hw_port_init(priv, index, MVPP2_PRS_LU_MH,
+    Mvpp2PrsHwPortInit(priv, index, MVPP2_PRS_LU_MH,
                MVPP2_PRS_PORT_LU_MAX, 0);
 
-  mvpp2_prs_def_flow_init(priv);
+  Mvpp2PrsDefFlowInit(priv);
 
-  mvpp2_prs_mh_init(priv);
+  Mvpp2PrsMhInit(priv);
 
-  mvpp2_prs_mac_init(priv);
+  Mvpp2PrsMacInit(priv);
 
-  mvpp2_prs_dsa_init(priv);
+  Mvpp2PrsDsaInit(priv);
 
-  err = mvpp2_prs_etype_init(priv);
+  err = Mvpp2PrsEtypeInit(priv);
   if (err)
     return err;
 
-  err = mvpp2_prs_vlan_init(priv);
+  err = Mvpp2PrsVlanInit(priv);
   if (err)
     return err;
 
-  err = mvpp2_prs_pppoe_init(priv);
+  err = Mvpp2PrsPppoeInit(priv);
   if (err)
     return err;
 
-  err = mvpp2_prs_ip6_init(priv);
+  err = Mvpp2PrsIp6Init(priv);
   if (err)
     return err;
 
-  err = mvpp2_prs_ip4_init(priv);
+  err = Mvpp2PrsIp4Init(priv);
   if (err)
     return err;
 
@@ -2085,18 +2085,18 @@ INT32 mvpp2_prs_default_init(MVPP2_SHARED *priv)
 }
 
 /* Compare MAC DA with tcam entry data */
-STATIC BOOLEAN mvpp2_prs_mac_range_equals(MVPP2_PRS_ENTRY *pe,
+STATIC BOOLEAN Mvpp2PrsMacRangeEquals(MVPP2_PRS_ENTRY *pe,
                const UINT8 *da, UINT8 *mask)
 {
-  UINT8 tcam_byte, tcam_mask;
+  UINT8 TcamByte, TcamMask;
   INT32 index;
 
   for (index = 0; index < MV_ETH_ALEN; index++) {
-    mvpp2_prs_tcam_data_byte_get(pe, index, &tcam_byte, &tcam_mask);
-    if (tcam_mask != mask[index])
+    Mvpp2PrsTcamDataByteGet(pe, index, &TcamByte, &TcamMask);
+    if (TcamMask != mask[index])
       return FALSE;
 
-    if ((tcam_mask & tcam_byte) != (da[index] & mask[index]))
+    if ((TcamMask & TcamByte) != (da[index] & mask[index]))
       return FALSE;
   }
 
@@ -2105,42 +2105,42 @@ STATIC BOOLEAN mvpp2_prs_mac_range_equals(MVPP2_PRS_ENTRY *pe,
 
 /* Find tcam entry with matched pair <MAC DA, port> */
 STATIC MVPP2_PRS_ENTRY *
-mvpp2_prs_mac_da_range_find(MVPP2_SHARED *priv, INT32 pmap, const UINT8 *da,
-          UINT8 *mask, INT32 udf_type)
+Mvpp2PrsMacDaRangeFind(MVPP2_SHARED *priv, INT32 pmap, const UINT8 *da,
+          UINT8 *mask, INT32 UdfType)
 {
   MVPP2_PRS_ENTRY *pe;
   INT32 tid;
 
-  pe = mvpp2_alloc(sizeof(*pe));
+  pe = Mvpp2Alloc(sizeof(*pe));
   if (!pe)
     return MVPP2_NULL;
-  mvpp2_prs_tcam_lu_set(pe, MVPP2_PRS_LU_MAC);
+  Mvpp2PrsTcamLuSet(pe, MVPP2_PRS_LU_MAC);
 
   /* Go through the all entires with MVPP2_PRS_LU_MAC */
   for (tid = MVPP2_PE_FIRST_FREE_TID;
        tid <= MVPP2_PE_LAST_FREE_TID; tid++) {
-    UINT32 entry_pmap;
+    UINT32 EntryPmap;
 
-    if (!priv->prs_shadow[tid].valid ||
-        (priv->prs_shadow[tid].lu != MVPP2_PRS_LU_MAC) ||
-        (priv->prs_shadow[tid].udf != udf_type))
+    if (!priv->PrsShadow[tid].valid ||
+        (priv->PrsShadow[tid].lu != MVPP2_PRS_LU_MAC) ||
+        (priv->PrsShadow[tid].udf != UdfType))
       continue;
 
     pe->index = tid;
-    mvpp2_prs_hw_read(priv, pe);
-    entry_pmap = mvpp2_prs_tcam_port_map_get(pe);
+    Mvpp2PrsHwRead(priv, pe);
+    EntryPmap = Mvpp2PrsTcamPortMapGet(pe);
 
-    if (mvpp2_prs_mac_range_equals(pe, da, mask) &&
-        entry_pmap == pmap)
+    if (Mvpp2PrsMacRangeEquals(pe, da, mask) &&
+        EntryPmap == pmap)
       return pe;
   }
-  mvpp2_free(pe);
+  Mvpp2Free(pe);
 
   return MVPP2_NULL;
 }
 
 /* Update parser's mac da entry */
-INT32 mvpp2_prs_mac_da_accept(MVPP2_SHARED *priv, INT32 port,
+INT32 Mvpp2PrsMacDaAccept(MVPP2_SHARED *priv, INT32 port,
           const UINT8 *da, BOOLEAN add)
 {
   MVPP2_PRS_ENTRY *pe;
@@ -2149,7 +2149,7 @@ INT32 mvpp2_prs_mac_da_accept(MVPP2_SHARED *priv, INT32 port,
   INT32 tid;
 
   /* Scan TCAM and see if entry with this <MAC DA, port> already exist */
-  pe = mvpp2_prs_mac_da_range_find(priv, (1 << port), da, mask,
+  pe = Mvpp2PrsMacDaRangeFind(priv, (1 << port), da, mask,
            MVPP2_PRS_UDF_MAC_DEF);
 
   /* No such entry */
@@ -2161,149 +2161,149 @@ INT32 mvpp2_prs_mac_da_accept(MVPP2_SHARED *priv, INT32 port,
     /* Find first range mac entry*/
     for (tid = MVPP2_PE_FIRST_FREE_TID;
          tid <= MVPP2_PE_LAST_FREE_TID; tid++)
-      if (priv->prs_shadow[tid].valid &&
-          (priv->prs_shadow[tid].lu == MVPP2_PRS_LU_MAC) &&
-          (priv->prs_shadow[tid].udf ==
+      if (priv->PrsShadow[tid].valid &&
+          (priv->PrsShadow[tid].lu == MVPP2_PRS_LU_MAC) &&
+          (priv->PrsShadow[tid].udf ==
                    MVPP2_PRS_UDF_MAC_RANGE))
         break;
 
     /* Go through the all entries from first to last */
-    tid = mvpp2_prs_tcam_first_free(priv, MVPP2_PE_FIRST_FREE_TID,
+    tid = Mvpp2PrsTcamFirstFree(priv, MVPP2_PE_FIRST_FREE_TID,
             tid - 1);
     if (tid < 0)
       return tid;
 
-    pe = mvpp2_alloc(sizeof(*pe));
+    pe = Mvpp2Alloc(sizeof(*pe));
     if (!pe)
       return -1;
-    mvpp2_prs_tcam_lu_set(pe, MVPP2_PRS_LU_MAC);
+    Mvpp2PrsTcamLuSet(pe, MVPP2_PRS_LU_MAC);
     pe->index = tid;
 
     /* Mask all ports */
-    mvpp2_prs_tcam_port_map_set(pe, 0);
+    Mvpp2PrsTcamPortMapSet(pe, 0);
   }
 
   /* Update port mask */
-  mvpp2_prs_tcam_port_set(pe, port, add);
+  Mvpp2PrsTcamPortSet(pe, port, add);
 
   /* Invalidate the entry if no ports are left enabled */
-  pmap = mvpp2_prs_tcam_port_map_get(pe);
+  pmap = Mvpp2PrsTcamPortMapGet(pe);
   if (pmap == 0) {
     if (add) {
-      mvpp2_free(pe);
+      Mvpp2Free(pe);
       return -1;
     }
-    mvpp2_prs_hw_inv(priv, pe->index);
-    priv->prs_shadow[pe->index].valid = FALSE;
-    mvpp2_free(pe);
+    Mvpp2PrsHwInv(priv, pe->index);
+    priv->PrsShadow[pe->index].valid = FALSE;
+    Mvpp2Free(pe);
     return 0;
   }
 
   /* Continue - set next lookup */
-  mvpp2_prs_sram_next_lu_set(pe, MVPP2_PRS_LU_DSA);
+  Mvpp2PrsSramNextLuSet(pe, MVPP2_PRS_LU_DSA);
 
   /* Set match on DA */
   len = MV_ETH_ALEN;
   while (len--)
-    mvpp2_prs_tcam_data_byte_set(pe, len, da[len], 0xff);
+    Mvpp2PrsTcamDataByteSet(pe, len, da[len], 0xff);
 
   /* Set result info bits */
-  if (mvpp2_is_broadcast_ether_addr(da))
+  if (Mvpp2IsBroadcastEtherAddr(da))
     ri = MVPP2_PRS_RI_L2_BCAST;
-  else if (mvpp2_is_multicast_ether_addr(da))
+  else if (Mvpp2IsMulticastEtherAddr(da))
     ri = MVPP2_PRS_RI_L2_MCAST;
   else
     ri = MVPP2_PRS_RI_L2_UCAST | MVPP2_PRS_RI_MAC_ME_MASK;
 
-  mvpp2_prs_sram_ri_update(pe, ri, MVPP2_PRS_RI_L2_CAST_MASK |
+  Mvpp2PrsSramRiUpdate(pe, ri, MVPP2_PRS_RI_L2_CAST_MASK |
          MVPP2_PRS_RI_MAC_ME_MASK);
-  mvpp2_prs_shadow_ri_set(priv, pe->index, ri, MVPP2_PRS_RI_L2_CAST_MASK |
+  Mvpp2PrsShadowRiSet(priv, pe->index, ri, MVPP2_PRS_RI_L2_CAST_MASK |
         MVPP2_PRS_RI_MAC_ME_MASK);
 
   /* Shift to ethertype */
-  mvpp2_prs_sram_shift_set(pe, 2 * MV_ETH_ALEN,
+  Mvpp2PrsSramShiftSet(pe, 2 * MV_ETH_ALEN,
          MVPP2_PRS_SRAM_OP_SEL_SHIFT_ADD);
 
   /* Update shadow table and hw entry */
-  priv->prs_shadow[pe->index].udf = MVPP2_PRS_UDF_MAC_DEF;
-  mvpp2_prs_shadow_set(priv, pe->index, MVPP2_PRS_LU_MAC);
-  mvpp2_prs_hw_write(priv, pe);
+  priv->PrsShadow[pe->index].udf = MVPP2_PRS_UDF_MAC_DEF;
+  Mvpp2PrsShadowSet(priv, pe->index, MVPP2_PRS_LU_MAC);
+  Mvpp2PrsHwWrite(priv, pe);
 
-  mvpp2_free(pe);
+  Mvpp2Free(pe);
 
   return 0;
 }
 
 /* Delete all port's multicast simple (not range) entries */
-VOID mvpp2_prs_mcast_del_all(MVPP2_SHARED *priv, INT32 port)
+VOID Mvpp2PrsMcastDelAll(MVPP2_SHARED *priv, INT32 port)
 {
   MVPP2_PRS_ENTRY pe;
   INT32 index, tid;
 
   for (tid = MVPP2_PE_FIRST_FREE_TID;
        tid <= MVPP2_PE_LAST_FREE_TID; tid++) {
-    UINT8 da[MV_ETH_ALEN], da_mask[MV_ETH_ALEN];
+    UINT8 da[MV_ETH_ALEN], DaMask[MV_ETH_ALEN];
 
-    if (!priv->prs_shadow[tid].valid ||
-        (priv->prs_shadow[tid].lu != MVPP2_PRS_LU_MAC) ||
-        (priv->prs_shadow[tid].udf != MVPP2_PRS_UDF_MAC_DEF))
+    if (!priv->PrsShadow[tid].valid ||
+        (priv->PrsShadow[tid].lu != MVPP2_PRS_LU_MAC) ||
+        (priv->PrsShadow[tid].udf != MVPP2_PRS_UDF_MAC_DEF))
       continue;
 
     /* Only simple mac entries */
     pe.index = tid;
-    mvpp2_prs_hw_read(priv, &pe);
+    Mvpp2PrsHwRead(priv, &pe);
 
     /* Read mac addr from entry */
     for (index = 0; index < MV_ETH_ALEN; index++)
-      mvpp2_prs_tcam_data_byte_get(&pe, index, &da[index],
-                 &da_mask[index]);
+      Mvpp2PrsTcamDataByteGet(&pe, index, &da[index],
+                 &DaMask[index]);
 
-    if (mvpp2_is_multicast_ether_addr(da) &&
-        !mvpp2_is_broadcast_ether_addr(da))
+    if (Mvpp2IsMulticastEtherAddr(da) &&
+        !Mvpp2IsBroadcastEtherAddr(da))
       /* Delete this entry */
-      mvpp2_prs_mac_da_accept(priv, port, da, FALSE);
+      Mvpp2PrsMacDaAccept(priv, port, da, FALSE);
   }
 }
 
-INT32 mvpp2_prs_tag_mode_set(MVPP2_SHARED *priv, INT32 port, INT32 type)
+INT32 Mvpp2PrsTagModeSet(MVPP2_SHARED *priv, INT32 port, INT32 type)
 {
   switch (type) {
   case MVPP2_TAG_TYPE_EDSA:
     /* Add port to EDSA entries */
-    mvpp2_prs_dsa_tag_set(priv, port, TRUE,
+    Mvpp2PrsDsaTagSet(priv, port, TRUE,
               MVPP2_PRS_TAGGED, MVPP2_PRS_EDSA);
-    mvpp2_prs_dsa_tag_set(priv, port, TRUE,
+    Mvpp2PrsDsaTagSet(priv, port, TRUE,
               MVPP2_PRS_UNTAGGED, MVPP2_PRS_EDSA);
     /* Remove port from DSA entries */
-    mvpp2_prs_dsa_tag_set(priv, port, FALSE,
+    Mvpp2PrsDsaTagSet(priv, port, FALSE,
               MVPP2_PRS_TAGGED, MVPP2_PRS_DSA);
-    mvpp2_prs_dsa_tag_set(priv, port, FALSE,
+    Mvpp2PrsDsaTagSet(priv, port, FALSE,
               MVPP2_PRS_UNTAGGED, MVPP2_PRS_DSA);
     break;
 
   case MVPP2_TAG_TYPE_DSA:
     /* Add port to DSA entries */
-    mvpp2_prs_dsa_tag_set(priv, port, TRUE,
+    Mvpp2PrsDsaTagSet(priv, port, TRUE,
               MVPP2_PRS_TAGGED, MVPP2_PRS_DSA);
-    mvpp2_prs_dsa_tag_set(priv, port, TRUE,
+    Mvpp2PrsDsaTagSet(priv, port, TRUE,
               MVPP2_PRS_UNTAGGED, MVPP2_PRS_DSA);
     /* Remove port from EDSA entries */
-    mvpp2_prs_dsa_tag_set(priv, port, FALSE,
+    Mvpp2PrsDsaTagSet(priv, port, FALSE,
               MVPP2_PRS_TAGGED, MVPP2_PRS_EDSA);
-    mvpp2_prs_dsa_tag_set(priv, port, FALSE,
+    Mvpp2PrsDsaTagSet(priv, port, FALSE,
               MVPP2_PRS_UNTAGGED, MVPP2_PRS_EDSA);
     break;
 
   case MVPP2_TAG_TYPE_MH:
   case MVPP2_TAG_TYPE_NONE:
     /* Remove port form EDSA and DSA entries */
-    mvpp2_prs_dsa_tag_set(priv, port, FALSE,
+    Mvpp2PrsDsaTagSet(priv, port, FALSE,
               MVPP2_PRS_TAGGED, MVPP2_PRS_DSA);
-    mvpp2_prs_dsa_tag_set(priv, port, FALSE,
+    Mvpp2PrsDsaTagSet(priv, port, FALSE,
               MVPP2_PRS_UNTAGGED, MVPP2_PRS_DSA);
-    mvpp2_prs_dsa_tag_set(priv, port, FALSE,
+    Mvpp2PrsDsaTagSet(priv, port, FALSE,
               MVPP2_PRS_TAGGED, MVPP2_PRS_EDSA);
-    mvpp2_prs_dsa_tag_set(priv, port, FALSE,
+    Mvpp2PrsDsaTagSet(priv, port, FALSE,
               MVPP2_PRS_UNTAGGED, MVPP2_PRS_EDSA);
     break;
 
@@ -2316,40 +2316,40 @@ INT32 mvpp2_prs_tag_mode_set(MVPP2_SHARED *priv, INT32 port, INT32 type)
 }
 
 /* Set prs flow for the port */
-INT32 mvpp2_prs_def_flow(PP2DXE_PORT *port)
+INT32 Mvpp2PrsDefFlow(PP2DXE_PORT *port)
 {
   MVPP2_PRS_ENTRY *pe;
   INT32 tid;
 
-  pe = mvpp2_prs_flow_find(port->priv, port->id);
+  pe = Mvpp2PrsFlowFind(port->priv, port->id);
 
   /* Such entry not exist */
   if (!pe) {
     /* Go through the all entires from last to first */
-    tid = mvpp2_prs_tcam_first_free(port->priv,
+    tid = Mvpp2PrsTcamFirstFree(port->priv,
             MVPP2_PE_LAST_FREE_TID,
             MVPP2_PE_FIRST_FREE_TID);
     if (tid < 0)
       return tid;
 
-    pe = mvpp2_alloc(sizeof(*pe));
+    pe = Mvpp2Alloc(sizeof(*pe));
     if (!pe)
       return MVPP2_ENOMEM;
 
-    mvpp2_prs_tcam_lu_set(pe, MVPP2_PRS_LU_FLOWS);
+    Mvpp2PrsTcamLuSet(pe, MVPP2_PRS_LU_FLOWS);
     pe->index = tid;
 
     /* Set flow ID*/
-    mvpp2_prs_sram_ai_update(pe, port->id, MVPP2_PRS_FLOW_ID_MASK);
-    mvpp2_prs_sram_bits_set(pe, MVPP2_PRS_SRAM_LU_DONE_BIT, 1);
+    Mvpp2PrsSramAiUpdate(pe, port->id, MVPP2_PRS_FLOW_ID_MASK);
+    Mvpp2PrsSramBitsSet(pe, MVPP2_PRS_SRAM_LU_DONE_BIT, 1);
 
     /* Update shadow table */
-    mvpp2_prs_shadow_set(port->priv, pe->index, MVPP2_PRS_LU_FLOWS);
+    Mvpp2PrsShadowSet(port->priv, pe->index, MVPP2_PRS_LU_FLOWS);
   }
 
-  mvpp2_prs_tcam_port_map_set(pe, (1 << port->id));
-  mvpp2_prs_hw_write(port->priv, pe);
-  mvpp2_free(pe);
+  Mvpp2PrsTcamPortMapSet(pe, (1 << port->id));
+  Mvpp2PrsHwWrite(port->priv, pe);
+  Mvpp2Free(pe);
 
   return 0;
 }
@@ -2357,41 +2357,41 @@ INT32 mvpp2_prs_def_flow(PP2DXE_PORT *port)
 /* Classifier configuration routines */
 
 /* Update classification flow table registers */
-STATIC VOID mvpp2_cls_flow_write(MVPP2_SHARED *priv,
+STATIC VOID Mvpp2ClsFlowWrite(MVPP2_SHARED *priv,
          MVPP2_CLS_FLOW_ENTRY *fe)
 {
-  mvpp2_write(priv, MVPP2_CLS_FLOW_INDEX_REG, fe->index);
-  mvpp2_write(priv, MVPP2_CLS_FLOW_TBL0_REG,  fe->data[0]);
-  mvpp2_write(priv, MVPP2_CLS_FLOW_TBL1_REG,  fe->data[1]);
-  mvpp2_write(priv, MVPP2_CLS_FLOW_TBL2_REG,  fe->data[2]);
+  Mvpp2Write(priv, MVPP2_CLS_FLOW_INDEX_REG, fe->index);
+  Mvpp2Write(priv, MVPP2_CLS_FLOW_TBL0_REG,  fe->data[0]);
+  Mvpp2Write(priv, MVPP2_CLS_FLOW_TBL1_REG,  fe->data[1]);
+  Mvpp2Write(priv, MVPP2_CLS_FLOW_TBL2_REG,  fe->data[2]);
 }
 
 /* Update classification lookup table register */
-VOID mvpp2_cls_lookup_write(MVPP2_SHARED *priv,
+VOID Mvpp2ClsLookupWrite(MVPP2_SHARED *priv,
           MVPP2_CLS_LOOKUP_ENTRY *le)
 {
   UINT32 val;
 
   val = (le->way << MVPP2_CLS_LKP_INDEX_WAY_OFFS) | le->lkpid;
-  mvpp2_write(priv, MVPP2_CLS_LKP_INDEX_REG, val);
-  mvpp2_write(priv, MVPP2_CLS_LKP_TBL_REG, le->data);
+  Mvpp2Write(priv, MVPP2_CLS_LKP_INDEX_REG, val);
+  Mvpp2Write(priv, MVPP2_CLS_LKP_TBL_REG, le->data);
 }
 
 /* Classifier default initialization */
-VOID mvpp2_cls_init(MVPP2_SHARED *priv)
+VOID Mvpp2ClsInit(MVPP2_SHARED *priv)
 {
   MVPP2_CLS_LOOKUP_ENTRY le;
   MVPP2_CLS_FLOW_ENTRY fe;
   INT32 index;
 
   /* Enable classifier */
-  mvpp2_write(priv, MVPP2_CLS_MODE_REG, MVPP2_CLS_MODE_ACTIVE_MASK);
+  Mvpp2Write(priv, MVPP2_CLS_MODE_REG, MVPP2_CLS_MODE_ACTIVE_MASK);
 
   /* Clear classifier flow table */
-  mvpp2_memset(&fe.data, 0, MVPP2_CLS_FLOWS_TBL_DATA_WORDS);
+  Mvpp2Memset(&fe.data, 0, MVPP2_CLS_FLOWS_TBL_DATA_WORDS);
   for (index = 0; index < MVPP2_CLS_FLOWS_TBL_SIZE; index++) {
     fe.index = index;
-    mvpp2_cls_flow_write(priv, &fe);
+    Mvpp2ClsFlowWrite(priv, &fe);
   }
 
   /* Clear classifier lookup table */
@@ -2399,22 +2399,22 @@ VOID mvpp2_cls_init(MVPP2_SHARED *priv)
   for (index = 0; index < MVPP2_CLS_LKP_TBL_SIZE; index++) {
     le.lkpid = index;
     le.way = 0;
-    mvpp2_cls_lookup_write(priv, &le);
+    Mvpp2ClsLookupWrite(priv, &le);
 
     le.way = 1;
-    mvpp2_cls_lookup_write(priv, &le);
+    Mvpp2ClsLookupWrite(priv, &le);
   }
 }
 
-VOID mvpp2_cls_port_config(PP2DXE_PORT *port)
+VOID Mvpp2ClsPortConfig(PP2DXE_PORT *port)
 {
   MVPP2_CLS_LOOKUP_ENTRY le;
   UINT32 val;
 
   /* Set way for the port */
-  val = mvpp2_read(port->priv, MVPP2_CLS_PORT_WAY_REG);
+  val = Mvpp2Read(port->priv, MVPP2_CLS_PORT_WAY_REG);
   val &= ~MVPP2_CLS_PORT_WAY_MASK(port->id);
-  mvpp2_write(port->priv, MVPP2_CLS_PORT_WAY_REG, val);
+  Mvpp2Write(port->priv, MVPP2_CLS_PORT_WAY_REG, val);
 
   /* Pick the entry to be accessed in lookup ID decoding table
    * according to the way and lkpid.
@@ -2425,104 +2425,104 @@ VOID mvpp2_cls_port_config(PP2DXE_PORT *port)
 
   /* Set initial CPU queue for receiving packets */
   le.data &= ~MVPP2_CLS_LKP_TBL_RXQ_MASK;
-  le.data |= port->first_rxq;
+  le.data |= port->FirstRxq;
 
   /* Disable classification engines */
   le.data &= ~MVPP2_CLS_LKP_TBL_LOOKUP_EN_MASK;
 
   /* Update lookup ID table entry */
-  mvpp2_cls_lookup_write(port->priv, &le);
+  Mvpp2ClsLookupWrite(port->priv, &le);
 }
 
 /* Set CPU queue number for oversize packets */
-VOID mvpp2_cls_oversize_rxq_set(PP2DXE_PORT *port)
+VOID Mvpp2ClsOversizeRxqSet(PP2DXE_PORT *port)
 {
 
-  mvpp2_write(port->priv, MVPP2_CLS_OVERSIZE_RXQ_LOW_REG(port->id),
-        port->first_rxq & MVPP2_CLS_OVERSIZE_RXQ_LOW_MASK);
+  Mvpp2Write(port->priv, MVPP2_CLS_OVERSIZE_RXQ_LOW_REG(port->id),
+        port->FirstRxq & MVPP2_CLS_OVERSIZE_RXQ_LOW_MASK);
 
 #ifdef MVPP2_V1
-  mvpp2_write(port->priv, MVPP2_CLS_SWFWD_P2HQ_REG(port->id),
-        (port->first_rxq >> MVPP2_CLS_OVERSIZE_RXQ_LOW_BITS));
+  Mvpp2Write(port->priv, MVPP2_CLS_SWFWD_P2HQ_REG(port->id),
+        (port->FirstRxq >> MVPP2_CLS_OVERSIZE_RXQ_LOW_BITS));
 
-  val = mvpp2_read(port->priv, MVPP2_CLS_SWFWD_PCTRL_REG);
+  val = Mvpp2Read(port->priv, MVPP2_CLS_SWFWD_PCTRL_REG);
   val |= MVPP2_CLS_SWFWD_PCTRL_MASK(port->id);
-  mvpp2_write(port->priv, MVPP2_CLS_SWFWD_PCTRL_REG, val);
+  Mvpp2Write(port->priv, MVPP2_CLS_SWFWD_PCTRL_REG, val);
 #endif
 }
 
 /* BM helper routines */
 
 
-VOID mvpp2_bm_pool_hw_create(MVPP2_SHARED *priv,
-           MVPP2_BMS_POOL *bm_pool, INT32 size)
+VOID Mvpp2BmPoolHwCreate(MVPP2_SHARED *priv,
+           MVPP2_BMS_POOL *BmPool, INT32 size)
 {
 #ifdef MVPP2_V1
   UINT32 val;
 
-  mvpp2_write(priv, MVPP2_BM_POOL_BASE_REG(bm_pool->id),
-        bm_pool->phys_addr);
-  mvpp2_write(priv, MVPP2_BM_POOL_SIZE_REG(bm_pool->id), size);
+  Mvpp2Write(priv, MVPP2_BM_POOL_BASE_REG(BmPool->id),
+        BmPool->PhysAddr);
+  Mvpp2Write(priv, MVPP2_BM_POOL_SIZE_REG(BmPool->id), size);
 
-  val = mvpp2_read(priv, MVPP2_BM_POOL_CTRL_REG(bm_pool->id));
+  val = Mvpp2Read(priv, MVPP2_BM_POOL_CTRL_REG(BmPool->id));
   val |= MVPP2_BM_START_MASK;
-  mvpp2_write(priv, MVPP2_BM_POOL_CTRL_REG(bm_pool->id), val);
+  Mvpp2Write(priv, MVPP2_BM_POOL_CTRL_REG(BmPool->id), val);
 
-  bm_pool->type = MVPP2_BM_FREE;
-  bm_pool->size = size;
-  bm_pool->pkt_size = 0;
-  bm_pool->buf_num = 0;
+  BmPool->type = MVPP2_BM_FREE;
+  BmPool->size = size;
+  BmPool->PktSize = 0;
+  BmPool->BufNum = 0;
 #else
-  bm_pool->size = size;
+  BmPool->size = size;
 
-  mvpp2_write(priv, MVPP2_BM_POOL_BASE_REG(bm_pool->id),
-        lower_32_bits(bm_pool->phys_addr));
+  Mvpp2Write(priv, MVPP2_BM_POOL_BASE_REG(BmPool->id),
+        Lower32Bits(BmPool->PhysAddr));
 
-  mvpp2_write(priv, MVPP22_BM_POOL_BASE_HIGH_REG,
-  (upper_32_bits(bm_pool->phys_addr)&
+  Mvpp2Write(priv, MVPP22_BM_POOL_BASE_HIGH_REG,
+  (Upper32Bits(BmPool->PhysAddr)&
       MVPP22_BM_POOL_BASE_HIGH_REG));
-  mvpp2_write(priv, MVPP2_BM_POOL_SIZE_REG(bm_pool->id),
-          bm_pool->size);
+  Mvpp2Write(priv, MVPP2_BM_POOL_SIZE_REG(BmPool->id),
+          BmPool->size);
 #endif
 }
 
 /* Set pool buffer size */
-VOID mvpp2_bm_pool_bufsize_set(MVPP2_SHARED *priv,
-             MVPP2_BMS_POOL *bm_pool,
-             INT32 buf_size)
+VOID Mvpp2BmPoolBufsizeSet(MVPP2_SHARED *priv,
+             MVPP2_BMS_POOL *BmPool,
+             INT32 BufSize)
 {
   UINT32 val;
 
-  bm_pool->buf_size = buf_size;
+  BmPool->BufSize = BufSize;
 
-  val = MVPP2_ALIGN(buf_size, 1 << MVPP2_POOL_BUF_SIZE_OFFSET);
-  mvpp2_write(priv, MVPP2_POOL_BUF_SIZE_REG(bm_pool->id), val);
+  val = MVPP2_ALIGN(BufSize, 1 << MVPP2_POOL_BUF_SIZE_OFFSET);
+  Mvpp2Write(priv, MVPP2_POOL_BUF_SIZE_REG(BmPool->id), val);
 }
 
-VOID mvpp2_bm_stop(MVPP2_SHARED *priv, INT32 pool)
+VOID Mvpp2BmStop(MVPP2_SHARED *priv, INT32 pool)
 {
   UINT32 val, i;
 
   for (i = 0; i < MVPP2_BM_SIZE; i++)
-    mvpp2_read(priv, MVPP2_BM_PHY_ALLOC_REG(0));
+    Mvpp2Read(priv, MVPP2_BM_PHY_ALLOC_REG(0));
 
-  val = mvpp2_read(priv, MVPP2_BM_POOL_CTRL_REG(pool));
+  val = Mvpp2Read(priv, MVPP2_BM_POOL_CTRL_REG(pool));
   val |= MVPP2_BM_STOP_MASK;
-  mvpp2_write(priv, MVPP2_BM_POOL_CTRL_REG(pool), val);
+  Mvpp2Write(priv, MVPP2_BM_POOL_CTRL_REG(pool), val);
 
 }
 
-VOID mvpp2_bm_irq_clear(MVPP2_SHARED *priv, INT32 pool)
+VOID Mvpp2BmIrqClear(MVPP2_SHARED *priv, INT32 pool)
 {
   /* Mask BM all interrupts */
-  mvpp2_write(priv, MVPP2_BM_INTR_MASK_REG(pool), 0);
+  Mvpp2Write(priv, MVPP2_BM_INTR_MASK_REG(pool), 0);
   /* Clear BM cause register */
-  mvpp2_write(priv, MVPP2_BM_INTR_CAUSE_REG(pool), 0);
+  Mvpp2Write(priv, MVPP2_BM_INTR_CAUSE_REG(pool), 0);
 }
 
 /* Attach long pool to rxq */
-VOID mvpp2_rxq_long_pool_set(PP2DXE_PORT *port,
-           INT32 lrxq, INT32 long_pool)
+VOID Mvpp2RxqLongPoolSet(PP2DXE_PORT *port,
+           INT32 lrxq, INT32 LongPool)
 {
   UINT32 val;
   INT32 prxq;
@@ -2530,17 +2530,17 @@ VOID mvpp2_rxq_long_pool_set(PP2DXE_PORT *port,
   /* Get queue physical ID */
   prxq = port->rxqs[lrxq].id;
 
-  val = mvpp2_read(port->priv, MVPP2_RXQ_CONFIG_REG(prxq));
+  val = Mvpp2Read(port->priv, MVPP2_RXQ_CONFIG_REG(prxq));
   val &= ~MVPP2_RXQ_POOL_LONG_MASK;
-  val |= ((long_pool << MVPP2_RXQ_POOL_LONG_OFFS) &
+  val |= ((LongPool << MVPP2_RXQ_POOL_LONG_OFFS) &
         MVPP2_RXQ_POOL_LONG_MASK);
 
-  mvpp2_write(port->priv, MVPP2_RXQ_CONFIG_REG(prxq), val);
+  Mvpp2Write(port->priv, MVPP2_RXQ_CONFIG_REG(prxq), val);
 }
 
 /* Attach short pool to rxq */
-VOID mvpp2_rxq_short_pool_set(PP2DXE_PORT *port,
-            INT32 lrxq, INT32 short_pool)
+VOID Mvpp2RxqShortPoolSet(PP2DXE_PORT *port,
+            INT32 lrxq, INT32 ShortPool)
 {
   UINT32 val;
   INT32 prxq;
@@ -2548,65 +2548,65 @@ VOID mvpp2_rxq_short_pool_set(PP2DXE_PORT *port,
   /* Get queue physical ID */
   prxq = port->rxqs[lrxq].id;
 
-  val = mvpp2_read(port->priv, MVPP2_RXQ_CONFIG_REG(prxq));
+  val = Mvpp2Read(port->priv, MVPP2_RXQ_CONFIG_REG(prxq));
   val &= ~MVPP2_RXQ_POOL_SHORT_MASK;
-  val |= ((short_pool << MVPP2_RXQ_POOL_SHORT_OFFS) &
+  val |= ((ShortPool << MVPP2_RXQ_POOL_SHORT_OFFS) &
         MVPP2_RXQ_POOL_SHORT_MASK);
 
-  mvpp2_write(port->priv, MVPP2_RXQ_CONFIG_REG(prxq), val);
+  Mvpp2Write(port->priv, MVPP2_RXQ_CONFIG_REG(prxq), val);
 }
 
 /* Release multicast buffer */
-VOID mvpp2_bm_pool_mc_put(PP2DXE_PORT *port, INT32 pool,
-        UINT32 buf_phys_addr, UINT32 buf_virt_addr,
-        INT32 mc_id)
+VOID Mvpp2BmPoolMcPut(PP2DXE_PORT *port, INT32 pool,
+        UINT32 BufPhysAddr, UINT32 BufVirtAddr,
+        INT32 McId)
 {
   UINT32 val = 0;
 
-  val |= (mc_id & MVPP2_BM_MC_ID_MASK);
-  mvpp2_write(port->priv, MVPP2_BM_MC_RLS_REG, val);
+  val |= (McId & MVPP2_BM_MC_ID_MASK);
+  Mvpp2Write(port->priv, MVPP2_BM_MC_RLS_REG, val);
 
-  mvpp2_bm_pool_put(port->priv, pool,
-        buf_phys_addr | MVPP2_BM_PHY_RLS_MC_BUFF_MASK,
-        buf_virt_addr);
+  Mvpp2BmPoolPut(port->priv, pool,
+        BufPhysAddr | MVPP2_BM_PHY_RLS_MC_BUFF_MASK,
+        BufVirtAddr);
 }
 
 /* Refill BM pool */
-VOID mvpp2_pool_refill(PP2DXE_PORT *port, UINT32 bm,
-           UINT32 phys_addr, UINT32 cookie)
+VOID Mvpp2PoolRefill(PP2DXE_PORT *port, UINT32 bm,
+           UINT32 PhysAddr, UINT32 cookie)
 {
-  INT32 pool = mvpp2_bm_cookie_pool_get(bm);
+  INT32 pool = Mvpp2BmCookiePoolGet(bm);
 
-  mvpp2_bm_pool_put(port->priv, pool, phys_addr, cookie);
+  Mvpp2BmPoolPut(port->priv, pool, PhysAddr, cookie);
 }
 
 /* Mask the current CPU's Rx/Tx interrupts */
-VOID mvpp2_interrupts_mask(VOID *arg)
+VOID Mvpp2InterruptsMask(VOID *arg)
 {
   PP2DXE_PORT *port = arg;
 
-  mvpp2_write(port->priv, MVPP2_ISR_RX_TX_MASK_REG(port->id), 0);
+  Mvpp2Write(port->priv, MVPP2_ISR_RX_TX_MASK_REG(port->id), 0);
 }
 
 /* Unmask the current CPU's Rx/Tx interrupts */
-VOID mvpp2_interrupts_unmask(VOID *arg)
+VOID Mvpp2InterruptsUnmask(VOID *arg)
 {
   PP2DXE_PORT *port = arg;
 
-  mvpp2_write(port->priv, MVPP2_ISR_RX_TX_MASK_REG(port->id),
+  Mvpp2Write(port->priv, MVPP2_ISR_RX_TX_MASK_REG(port->id),
         (MVPP2_CAUSE_MISC_SUM_MASK |
          MVPP2_CAUSE_RXQ_OCCUP_DESC_ALL_MASK));
 }
 
 /* Port configuration routines */
 
-STATIC VOID mvpp2_port_mii_set(PP2DXE_PORT *port)
+STATIC VOID Mvpp2PortMiiSet(PP2DXE_PORT *port)
 {
   UINT32 val;
 
-  val = mvpp2_gmac_read(port, MVPP2_GMAC_CTRL_2_REG);
+  val = Mvpp2GmacRead(port, MVPP2_GMAC_CTRL_2_REG);
 
-  switch (port->phy_interface) {
+  switch (port->PhyInterface) {
   case MV_MODE_SGMII:
     val |= MVPP2_GMAC_INBAND_AN_MASK;
     break;
@@ -2616,236 +2616,236 @@ STATIC VOID mvpp2_port_mii_set(PP2DXE_PORT *port)
     val &= ~MVPP2_GMAC_PCS_ENABLE_MASK;
   }
 
-  mvpp2_gmac_write(port, MVPP2_GMAC_CTRL_2_REG, val);
+  Mvpp2GmacWrite(port, MVPP2_GMAC_CTRL_2_REG, val);
 }
 
-STATIC VOID mvpp2_port_fc_adv_enable(PP2DXE_PORT *port)
+STATIC VOID Mvpp2PortFcAdvEnable(PP2DXE_PORT *port)
 {
   UINT32 val;
 
-  val = mvpp2_gmac_read(port, MVPP2_GMAC_AUTONEG_CONFIG);
+  val = Mvpp2GmacRead(port, MVPP2_GMAC_AUTONEG_CONFIG);
   val |= MVPP2_GMAC_FC_ADV_EN;
-  mvpp2_gmac_write(port, MVPP2_GMAC_AUTONEG_CONFIG, val);
+  Mvpp2GmacWrite(port, MVPP2_GMAC_AUTONEG_CONFIG, val);
 }
 
-VOID mvpp2_port_enable(PP2DXE_PORT *port)
+VOID Mvpp2PortEnable(PP2DXE_PORT *port)
 {
   UINT32 val;
 
-  val = mvpp2_gmac_read(port, MVPP2_GMAC_CTRL_0_REG);
+  val = Mvpp2GmacRead(port, MVPP2_GMAC_CTRL_0_REG);
   val |= MVPP2_GMAC_PORT_EN_MASK;
   val |= MVPP2_GMAC_MIB_CNTR_EN_MASK;
-  mvpp2_gmac_write(port, MVPP2_GMAC_CTRL_0_REG, val);
+  Mvpp2GmacWrite(port, MVPP2_GMAC_CTRL_0_REG, val);
 }
 
-VOID mvpp2_port_disable(PP2DXE_PORT *port)
+VOID Mvpp2PortDisable(PP2DXE_PORT *port)
 {
   UINT32 val;
 
-  val = mvpp2_gmac_read(port, MVPP2_GMAC_CTRL_0_REG);
+  val = Mvpp2GmacRead(port, MVPP2_GMAC_CTRL_0_REG);
   val &= ~(MVPP2_GMAC_PORT_EN_MASK);
-  mvpp2_gmac_write(port, MVPP2_GMAC_CTRL_0_REG, val);
+  Mvpp2GmacWrite(port, MVPP2_GMAC_CTRL_0_REG, val);
 }
 
 /* Set IEEE 802.3x Flow Control Xon Packet Transmission Mode */
-STATIC VOID mvpp2_port_periodic_xon_disable(PP2DXE_PORT *port)
+STATIC VOID Mvpp2PortPeriodicXonDisable(PP2DXE_PORT *port)
 {
   UINT32 val;
 
-  val = mvpp2_gmac_read(port, MVPP2_GMAC_CTRL_1_REG) &
+  val = Mvpp2GmacRead(port, MVPP2_GMAC_CTRL_1_REG) &
             ~MVPP2_GMAC_PERIODIC_XON_EN_MASK;
-  mvpp2_gmac_write(port, MVPP2_GMAC_CTRL_1_REG, val);
+  Mvpp2GmacWrite(port, MVPP2_GMAC_CTRL_1_REG, val);
 }
 
 /* Configure loopback port */
 #ifdef MVPP2_V1
-STATIC VOID mvpp2_port_loopback_set(PP2DXE_PORT *port)
+STATIC VOID Mvpp2PortLoopbackSet(PP2DXE_PORT *port)
 {
   UINT32 val;
 
-  val = mvpp2_gmac_read(port, MVPP2_GMAC_CTRL_1_REG);
+  val = Mvpp2GmacRead(port, MVPP2_GMAC_CTRL_1_REG);
 
   if (port->speed == SPEED_1000)
     val |= MVPP2_GMAC_GMII_LB_EN_MASK;
   else
     val &= ~MVPP2_GMAC_GMII_LB_EN_MASK;
 
-  if (port->phy_interface == MV_MODE_SGMII)
+  if (port->PhyInterface == MV_MODE_SGMII)
     val |= MVPP2_GMAC_PCS_LB_EN_MASK;
   else
     val &= ~MVPP2_GMAC_PCS_LB_EN_MASK;
 
-  mvpp2_gmac_write(port, MVPP2_GMAC_CTRL_1_REG, val);
+  Mvpp2GmacWrite(port, MVPP2_GMAC_CTRL_1_REG, val);
 }
 #endif
 
-STATIC VOID mvpp2_port_reset(PP2DXE_PORT *port)
+STATIC VOID Mvpp2PortReset(PP2DXE_PORT *port)
 {
   UINT32 val;
 
-  val = mvpp2_gmac_read(port, MVPP2_GMAC_CTRL_2_REG) &
+  val = Mvpp2GmacRead(port, MVPP2_GMAC_CTRL_2_REG) &
         ~MVPP2_GMAC_PORT_RESET_MASK;
-  mvpp2_gmac_write(port, MVPP2_GMAC_CTRL_2_REG, val);
+  Mvpp2GmacWrite(port, MVPP2_GMAC_CTRL_2_REG, val);
 
-  while (mvpp2_gmac_read(port, MVPP2_GMAC_CTRL_2_REG) &
+  while (Mvpp2GmacRead(port, MVPP2_GMAC_CTRL_2_REG) &
          MVPP2_GMAC_PORT_RESET_MASK)
     continue;
 }
 
 /* Set defaults to the MVPP2 port */
-VOID mvpp2_defaults_set(PP2DXE_PORT *port)
+VOID Mvpp2DefaultsSet(PP2DXE_PORT *port)
 {
-  INT32 tx_port_num, val, queue, ptxq;
+  INT32 TxPortNum, val, queue, ptxq;
 
 #ifdef MVPP2_V1
   /* Configure port to loopback if needed */
   if (port->flags & MVPP2_F_LOOPBACK)
-    mvpp2_port_loopback_set(port);
+    Mvpp2PortLoopbackSet(port);
 
   /* Update TX FIFO MIN Threshold */
-  val = mvpp2_gmac_read(port, MVPP2_GMAC_PORT_FIFO_CFG_1_REG);
+  val = Mvpp2GmacRead(port, MVPP2_GMAC_PORT_FIFO_CFG_1_REG);
   val &= ~MVPP2_GMAC_TX_FIFO_MIN_TH_ALL_MASK;
   /* Min. TX threshold must be less than minimal packet length */
   val |= MVPP2_GMAC_TX_FIFO_MIN_TH_MASK(64 - 4 - 2);
-  mvpp2_gmac_write(port, MVPP2_GMAC_PORT_FIFO_CFG_1_REG, val);
+  Mvpp2GmacWrite(port, MVPP2_GMAC_PORT_FIFO_CFG_1_REG, val);
 #endif
 
   /* Disable Legacy WRR, Disable EJP, Release from reset */
-  tx_port_num = mvpp2_egress_port(port);
-  mvpp2_write(port->priv, MVPP2_TXP_SCHED_PORT_INDEX_REG,
-        tx_port_num);
-  mvpp2_write(port->priv, MVPP2_TXP_SCHED_CMD_1_REG, 0);
+  TxPortNum = Mvpp2EgressPort(port);
+  Mvpp2Write(port->priv, MVPP2_TXP_SCHED_PORT_INDEX_REG,
+        TxPortNum);
+  Mvpp2Write(port->priv, MVPP2_TXP_SCHED_CMD_1_REG, 0);
 
   /* Close bandwidth for all queues */
   for (queue = 0; queue < MVPP2_MAX_TXQ; queue++) {
-    ptxq = mvpp2_txq_phys(port->id, queue);
-    mvpp2_write(port->priv,
+    ptxq = Mvpp2TxqPhys(port->id, queue);
+    Mvpp2Write(port->priv,
           MVPP2_TXQ_SCHED_TOKEN_CNTR_REG(ptxq), 0);
   }
 
   /* Set refill period to 1 usec, refill tokens
    * and bucket size to maximum
    */
-  mvpp2_write(port->priv, MVPP2_TXP_SCHED_PERIOD_REG,
+  Mvpp2Write(port->priv, MVPP2_TXP_SCHED_PERIOD_REG,
         port->priv->tclk / MVPP2_USEC_PER_SEC);
-  val = mvpp2_read(port->priv, MVPP2_TXP_SCHED_REFILL_REG);
+  val = Mvpp2Read(port->priv, MVPP2_TXP_SCHED_REFILL_REG);
   val &= ~MVPP2_TXP_REFILL_PERIOD_ALL_MASK;
   val |= MVPP2_TXP_REFILL_PERIOD_MASK(1);
   val |= MVPP2_TXP_REFILL_TOKENS_ALL_MASK;
-  mvpp2_write(port->priv, MVPP2_TXP_SCHED_REFILL_REG, val);
+  Mvpp2Write(port->priv, MVPP2_TXP_SCHED_REFILL_REG, val);
   val = MVPP2_TXP_TOKEN_SIZE_MAX;
-  mvpp2_write(port->priv, MVPP2_TXP_SCHED_TOKEN_SIZE_REG, val);
+  Mvpp2Write(port->priv, MVPP2_TXP_SCHED_TOKEN_SIZE_REG, val);
 
   /* Set MaximumLowLatencyPacketSize value to 256 */
-  mvpp2_write(port->priv, MVPP2_RX_CTRL_REG(port->id),
+  Mvpp2Write(port->priv, MVPP2_RX_CTRL_REG(port->id),
         MVPP2_RX_USE_PSEUDO_FOR_CSUM_MASK |
         MVPP2_RX_LOW_LATENCY_PKT_SIZE(256));
 
 #ifdef MVPP2_V1
   /* Enable Rx cache snoop */
   INT32 lrxq;
-  for (lrxq = 0; lrxq < rxq_number; lrxq++) {
+  for (lrxq = 0; lrxq < RxqNumber; lrxq++) {
     queue = port->rxqs[lrxq].id;
-    val = mvpp2_read(port->priv, MVPP2_RXQ_CONFIG_REG(queue));
+    val = Mvpp2Read(port->priv, MVPP2_RXQ_CONFIG_REG(queue));
     val |= MVPP2_SNOOP_PKT_SIZE_MASK |
          MVPP2_SNOOP_BUF_HDR_MASK;
-    mvpp2_write(port->priv, MVPP2_RXQ_CONFIG_REG(queue), val);
+    Mvpp2Write(port->priv, MVPP2_RXQ_CONFIG_REG(queue), val);
   }
 #else
   /* Mask all interrupts to all present cpus */
-  mvpp2_interrupts_disable(port, 0x1);
+  Mvpp2InterruptsDisable(port, 0x1);
 #endif
 
 }
 
 /* Enable/disable receiving packets */
-VOID mvpp2_ingress_enable(PP2DXE_PORT *port)
+VOID Mvpp2IngressEnable(PP2DXE_PORT *port)
 {
   UINT32 val;
   INT32 lrxq, queue;
 
-  for (lrxq = 0; lrxq < rxq_number; lrxq++) {
+  for (lrxq = 0; lrxq < RxqNumber; lrxq++) {
     queue = port->rxqs[lrxq].id;
-    val = mvpp2_read(port->priv, MVPP2_RXQ_CONFIG_REG(queue));
+    val = Mvpp2Read(port->priv, MVPP2_RXQ_CONFIG_REG(queue));
     val &= ~MVPP2_RXQ_DISABLE_MASK;
-    mvpp2_write(port->priv, MVPP2_RXQ_CONFIG_REG(queue), val);
+    Mvpp2Write(port->priv, MVPP2_RXQ_CONFIG_REG(queue), val);
   }
 }
 
-VOID mvpp2_ingress_disable(PP2DXE_PORT *port)
+VOID Mvpp2IngressDisable(PP2DXE_PORT *port)
 {
   UINT32 val;
   INT32 lrxq, queue;
 
-  for (lrxq = 0; lrxq < rxq_number; lrxq++) {
+  for (lrxq = 0; lrxq < RxqNumber; lrxq++) {
     queue = port->rxqs[lrxq].id;
-    val = mvpp2_read(port->priv, MVPP2_RXQ_CONFIG_REG(queue));
+    val = Mvpp2Read(port->priv, MVPP2_RXQ_CONFIG_REG(queue));
     val |= MVPP2_RXQ_DISABLE_MASK;
-    mvpp2_write(port->priv, MVPP2_RXQ_CONFIG_REG(queue), val);
+    Mvpp2Write(port->priv, MVPP2_RXQ_CONFIG_REG(queue), val);
   }
 }
 
 /* Enable transmit via physical egress queue
  * - HW starts take descriptors from DRAM
  */
-VOID mvpp2_egress_enable(PP2DXE_PORT *port)
+VOID Mvpp2EgressEnable(PP2DXE_PORT *port)
 {
   UINT32 qmap;
   INT32 queue;
-  INT32 tx_port_num = mvpp2_egress_port(port);
+  INT32 TxPortNum = Mvpp2EgressPort(port);
 
   /* Enable all initialized TXs. */
   qmap = 0;
-  for (queue = 0; queue < txq_number; queue++) {
+  for (queue = 0; queue < TxqNumber; queue++) {
     MVPP2_TX_QUEUE *txq = &port->txqs[queue];
 
     if (txq->descs != MVPP2_NULL)
       qmap |= (1 << queue);
   }
 
-  mvpp2_write(port->priv, MVPP2_TXP_SCHED_PORT_INDEX_REG, tx_port_num);
-  mvpp2_write(port->priv, MVPP2_TXP_SCHED_Q_CMD_REG, qmap);
+  Mvpp2Write(port->priv, MVPP2_TXP_SCHED_PORT_INDEX_REG, TxPortNum);
+  Mvpp2Write(port->priv, MVPP2_TXP_SCHED_Q_CMD_REG, qmap);
 }
 
 /* Disable transmit via physical egress queue
  * - HW doesn't take descriptors from DRAM
  */
-VOID mvpp2_egress_disable(PP2DXE_PORT *port)
+VOID Mvpp2EgressDisable(PP2DXE_PORT *port)
 {
-  UINT32 reg_data;
+  UINT32 RegData;
   INT32 delay;
-  INT32 tx_port_num = mvpp2_egress_port(port);
+  INT32 TxPortNum = Mvpp2EgressPort(port);
 
   /* Issue stop command for active channels only */
-  mvpp2_write(port->priv, MVPP2_TXP_SCHED_PORT_INDEX_REG, tx_port_num);
-  reg_data = (mvpp2_read(port->priv, MVPP2_TXP_SCHED_Q_CMD_REG)) &
+  Mvpp2Write(port->priv, MVPP2_TXP_SCHED_PORT_INDEX_REG, TxPortNum);
+  RegData = (Mvpp2Read(port->priv, MVPP2_TXP_SCHED_Q_CMD_REG)) &
         MVPP2_TXP_SCHED_ENQ_MASK;
-  if (reg_data != 0)
-    mvpp2_write(port->priv, MVPP2_TXP_SCHED_Q_CMD_REG,
-          (reg_data << MVPP2_TXP_SCHED_DISQ_OFFSET));
+  if (RegData != 0)
+    Mvpp2Write(port->priv, MVPP2_TXP_SCHED_Q_CMD_REG,
+          (RegData << MVPP2_TXP_SCHED_DISQ_OFFSET));
 
   /* Wait for all Tx activity to terminate. */
   delay = 0;
   do {
     if (delay >= MVPP2_TX_DISABLE_TIMEOUT_MSEC) {
-      mvpp2_printf("Tx stop timed out, status=0x%08x\n",
-             reg_data);
+      Mvpp2Printf("Tx stop timed out, status=0x%08x\n",
+             RegData);
       break;
     }
-    mvpp2_mdelay(1);
+    Mvpp2Mdelay(1);
     delay++;
 
     /* Check port TX Command register that all
      * Tx queues are stopped
      */
-    reg_data = mvpp2_read(port->priv, MVPP2_TXP_SCHED_Q_CMD_REG);
-  } while (reg_data & MVPP2_TXP_SCHED_ENQ_MASK);
+    RegData = Mvpp2Read(port->priv, MVPP2_TXP_SCHED_Q_CMD_REG);
+  } while (RegData & MVPP2_TXP_SCHED_ENQ_MASK);
 }
 
 /* Rx descriptors helper methods */
 
 /* Set rx queue offset */
-STATIC VOID mvpp2_rxq_offset_set(PP2DXE_PORT *port,
+STATIC VOID Mvpp2RxqOffsetSet(PP2DXE_PORT *port,
          INT32 prxq, INT32 offset)
 {
   UINT32 val;
@@ -2853,20 +2853,20 @@ STATIC VOID mvpp2_rxq_offset_set(PP2DXE_PORT *port,
   /* Convert offset from bytes to units of 32 bytes */
   offset = offset >> 5;
 
-  val = mvpp2_read(port->priv, MVPP2_RXQ_CONFIG_REG(prxq));
+  val = Mvpp2Read(port->priv, MVPP2_RXQ_CONFIG_REG(prxq));
   val &= ~MVPP2_RXQ_PACKET_OFFSET_MASK;
 
   /* Offset is in */
   val |= ((offset << MVPP2_RXQ_PACKET_OFFSET_OFFS) &
         MVPP2_RXQ_PACKET_OFFSET_MASK);
 
-  mvpp2_write(port->priv, MVPP2_RXQ_CONFIG_REG(prxq), val);
+  Mvpp2Write(port->priv, MVPP2_RXQ_CONFIG_REG(prxq), val);
 }
 
 /* Obtain BM cookie information from descriptor */
-UINT32 mvpp2_bm_cookie_build(MVPP2_RX_DESC *rx_desc, INT32 cpu)
+UINT32 Mvpp2BmCookieBuild(MVPP2_RX_DESC *RxDesc, INT32 cpu)
 {
-  INT32 pool = (rx_desc->status & MVPP2_RXD_BM_POOL_ID_MASK) >>
+  INT32 pool = (RxDesc->status & MVPP2_RXD_BM_POOL_ID_MASK) >>
        MVPP2_RXD_BM_POOL_ID_OFFS;
 
   return ((pool & 0xFF) << MVPP2_BM_COOKIE_POOL_OFFS) |
@@ -2875,93 +2875,93 @@ UINT32 mvpp2_bm_cookie_build(MVPP2_RX_DESC *rx_desc, INT32 cpu)
 
 /* Tx descriptors helper methods */
 
-INT32 mvpp2_txq_drain_set(PP2DXE_PORT *port, INT32 txq, BOOLEAN en)
+INT32 Mvpp2TxqDrainSet(PP2DXE_PORT *port, INT32 txq, BOOLEAN en)
 {
-  UINT32 reg_val;
-  INT32 ptxq = mvpp2_txq_phys(port->id, txq);
+  UINT32 RegVal;
+  INT32 ptxq = Mvpp2TxqPhys(port->id, txq);
 
-  mvpp2_write(port->priv, MVPP2_TXQ_NUM_REG, ptxq);
-  reg_val = mvpp2_read(port->priv, MVPP2_TXQ_PREF_BUF_REG);
+  Mvpp2Write(port->priv, MVPP2_TXQ_NUM_REG, ptxq);
+  RegVal = Mvpp2Read(port->priv, MVPP2_TXQ_PREF_BUF_REG);
 
   if (en)
-    reg_val |= MVPP2_TXQ_DRAIN_EN_MASK;
+    RegVal |= MVPP2_TXQ_DRAIN_EN_MASK;
   else
-    reg_val &= ~MVPP2_TXQ_DRAIN_EN_MASK;
+    RegVal &= ~MVPP2_TXQ_DRAIN_EN_MASK;
 
-  mvpp2_write(port->priv, MVPP2_TXQ_PREF_BUF_REG, reg_val);
+  Mvpp2Write(port->priv, MVPP2_TXQ_PREF_BUF_REG, RegVal);
 
   return 0;
 }
 
 /* Get number of Tx descriptors waiting to be transmitted by HW */
-INT32 mvpp2_txq_pend_desc_num_get(PP2DXE_PORT *port,
+INT32 Mvpp2TxqPendDescNumGet(PP2DXE_PORT *port,
         MVPP2_TX_QUEUE *txq)
 {
   UINT32 val;
 
-  mvpp2_write(port->priv, MVPP2_TXQ_NUM_REG, txq->id);
-  val = mvpp2_read(port->priv, MVPP2_TXQ_PENDING_REG);
+  Mvpp2Write(port->priv, MVPP2_TXQ_NUM_REG, txq->id);
+  val = Mvpp2Read(port->priv, MVPP2_TXQ_PENDING_REG);
 
   return val & MVPP2_TXQ_PENDING_MASK;
 }
 
 /* Get number of occupied aggregated Tx descriptors */
-UINT32 mvpp2_aggr_txq_pend_desc_num_get(MVPP2_SHARED *pp2, int cpu)
+UINT32 Mvpp2AggrTxqPendDescNumGet(MVPP2_SHARED *pp2, int cpu)
 {
-  UINT32 reg_val;
+  UINT32 RegVal;
 
-  reg_val = mvpp2_read(pp2, MVPP2_AGGR_TXQ_STATUS_REG(cpu));
+  RegVal = Mvpp2Read(pp2, MVPP2_AGGR_TXQ_STATUS_REG(cpu));
 
-  return reg_val & MVPP2_AGGR_TXQ_PENDING_MASK;
+  return RegVal & MVPP2_AGGR_TXQ_PENDING_MASK;
 }
 
 /* Get pointer to next Tx descriptor to be processed (send) by HW */
 MVPP2_TX_DESC *
-mvpp2_txq_next_desc_get(MVPP2_TX_QUEUE *txq)
+Mvpp2TxqNextDescGet(MVPP2_TX_QUEUE *txq)
 {
-  INT32 tx_desc = txq->next_desc_to_proc;
+  INT32 TxDesc = txq->NextDescToProc;
 
-  txq->next_desc_to_proc = MVPP2_QUEUE_NEXT_DESC(txq, tx_desc);
-  return txq->descs + tx_desc;
+  txq->NextDescToProc = MVPP2_QUEUE_NEXT_DESC(txq, TxDesc);
+  return txq->descs + TxDesc;
 }
 
 /* Update HW with number of aggregated Tx descriptors to be sent */
-VOID mvpp2_aggr_txq_pend_desc_add(PP2DXE_PORT *port, INT32 pending)
+VOID Mvpp2AggrTxqPendDescAdd(PP2DXE_PORT *port, INT32 pending)
 {
   /* aggregated access - relevant TXQ number is written in TX desc */
-  mvpp2_write(port->priv, MVPP2_AGGR_TXQ_UPDATE_REG, pending);
+  Mvpp2Write(port->priv, MVPP2_AGGR_TXQ_UPDATE_REG, pending);
 }
 
 /* Check if there are enough free descriptors in aggregated txq.
  * If not, update the number of occupied descriptors and repeat the check.
  */
-INT32 mvpp2_aggr_desc_num_check(MVPP2_SHARED *priv,
-              MVPP2_TX_QUEUE *aggr_txq, INT32 num,
+INT32 Mvpp2AggrDescNumCheck(MVPP2_SHARED *priv,
+              MVPP2_TX_QUEUE *AggrTxq, INT32 num,
               INT32 cpu)
 {
-  if ((aggr_txq->count + num) > aggr_txq->size) {
+  if ((AggrTxq->count + num) > AggrTxq->size) {
     /* Update number of occupied aggregated Tx descriptors */
-    UINT32 val = mvpp2_read(priv, MVPP2_AGGR_TXQ_STATUS_REG(cpu));
+    UINT32 val = Mvpp2Read(priv, MVPP2_AGGR_TXQ_STATUS_REG(cpu));
 
-    aggr_txq->count = val & MVPP2_AGGR_TXQ_PENDING_MASK;
+    AggrTxq->count = val & MVPP2_AGGR_TXQ_PENDING_MASK;
   }
 
-  if ((aggr_txq->count + num) > aggr_txq->size)
+  if ((AggrTxq->count + num) > AggrTxq->size)
     return MVPP2_ENOMEM;
 
   return 0;
 }
 
 /* Reserved Tx descriptors allocation request */
-INT32 mvpp2_txq_alloc_reserved_desc(MVPP2_SHARED *priv,
+INT32 Mvpp2TxqAllocReservedDesc(MVPP2_SHARED *priv,
           MVPP2_TX_QUEUE *txq, INT32 num)
 {
   UINT32 val;
 
   val = (txq->id << MVPP2_TXQ_RSVD_REQ_Q_OFFSET) | num;
-  mvpp2_write(priv, MVPP2_TXQ_RSVD_REQ_REG, val);
+  Mvpp2Write(priv, MVPP2_TXQ_RSVD_REQ_REG, val);
 
-  val = mvpp2_read(priv, MVPP2_TXQ_RSVD_RSLT_REG);
+  val = Mvpp2Read(priv, MVPP2_TXQ_RSVD_RSLT_REG);
 
   return val & MVPP2_TXQ_RSVD_RSLT_MASK;
 }
@@ -2969,38 +2969,38 @@ INT32 mvpp2_txq_alloc_reserved_desc(MVPP2_SHARED *priv,
 /* Release the last allocated Tx descriptor. Useful to handle DMA
  * mapping failures in the Tx path.
  */
-VOID mvpp2_txq_desc_put(MVPP2_TX_QUEUE *txq)
+VOID Mvpp2TxqDescPut(MVPP2_TX_QUEUE *txq)
 {
-  if (txq->next_desc_to_proc == 0)
-    txq->next_desc_to_proc = txq->last_desc - 1;
+  if (txq->NextDescToProc == 0)
+    txq->NextDescToProc = txq->LastDesc - 1;
   else
-    txq->next_desc_to_proc--;
+    txq->NextDescToProc--;
 }
 
 /* Set Tx descriptors fields relevant for CSUM calculation */
-UINT32 mvpp2_txq_desc_csum(INT32 l3_offs, INT32 l3_proto,
-      INT32 ip_hdr_len, INT32 l4_proto)
+UINT32 Mvpp2TxqDescCsum(INT32 L3Offs, INT32 L3Proto,
+      INT32 IpHdrLen, INT32 L4Proto)
 {
   UINT32 command;
 
-  /* fields: L3_offset, IP_hdrlen, L3_type, G_IPv4_chk,
+  /* fields: L3_offset, IP_hdrlen, L3_type, G_IPV4Chk,
    * G_L4_chk, L4_type required only for checksum calculation
    */
-  command = (l3_offs << MVPP2_TXD_L3_OFF_SHIFT);
-  command |= (ip_hdr_len << MVPP2_TXD_IP_HLEN_SHIFT);
+  command = (L3Offs << MVPP2_TXD_L3_OFF_SHIFT);
+  command |= (IpHdrLen << MVPP2_TXD_IP_HLEN_SHIFT);
   command |= MVPP2_TXD_IP_CSUM_DISABLE;
 
-  if (l3_proto == mvpp2_swab16(MV_ETH_P_IP)) {
+  if (L3Proto == Mvpp2Swab16(MV_ETH_P_IP)) {
     command &= ~MVPP2_TXD_IP_CSUM_DISABLE;  /* enable IPv4 csum */
     command &= ~MVPP2_TXD_L3_IP6;   /* enable IPv4 */
   } else {
     command |= MVPP2_TXD_L3_IP6;    /* enable IPv6 */
   }
 
-  if (l4_proto == MV_IPPR_TCP) {
+  if (L4Proto == MV_IPPR_TCP) {
     command &= ~MVPP2_TXD_L4_UDP;   /* enable TCP */
     command &= ~MVPP2_TXD_L4_CSUM_FRAG; /* generate L4 csum */
-  } else if (l4_proto == MV_IPPR_UDP) {
+  } else if (L4Proto == MV_IPPR_UDP) {
     command |= MVPP2_TXD_L4_UDP;    /* enable UDP */
     command &= ~MVPP2_TXD_L4_CSUM_FRAG; /* generate L4 csum */
   } else {
@@ -3010,37 +3010,37 @@ UINT32 mvpp2_txq_desc_csum(INT32 l3_offs, INT32 l3_proto,
   return command;
 }
 
-VOID mvpp2_txq_sent_counter_clear(VOID *arg)
+VOID Mvpp2TxqSentCounterClear(VOID *arg)
 {
   PP2DXE_PORT *port = arg;
   INT32 queue;
 
-  for (queue = 0; queue < txq_number; queue++) {
+  for (queue = 0; queue < TxqNumber; queue++) {
     INT32 id = port->txqs[queue].id;
 
-    mvpp2_read(port->priv, MVPP2_TXQ_SENT_REG(id));
+    Mvpp2Read(port->priv, MVPP2_TXQ_SENT_REG(id));
   }
 }
 
 /* Change maximum receive size of the port */
-VOID mvpp2_gmac_max_rx_size_set(PP2DXE_PORT *port)
+VOID Mvpp2GmacMaxRxSizeSet(PP2DXE_PORT *port)
 {
   UINT32 val;
 
-  val = mvpp2_gmac_read(port, MVPP2_GMAC_CTRL_0_REG);
+  val = Mvpp2GmacRead(port, MVPP2_GMAC_CTRL_0_REG);
   val &= ~MVPP2_GMAC_MAX_RX_SIZE_MASK;
-  val |= (((port->pkt_size - MVPP2_MH_SIZE) / 2) <<
+  val |= (((port->PktSize - MVPP2_MH_SIZE) / 2) <<
                            MVPP2_GMAC_MAX_RX_SIZE_OFFS);
-  mvpp2_gmac_write(port, MVPP2_GMAC_CTRL_0_REG, val);
+  Mvpp2GmacWrite(port, MVPP2_GMAC_CTRL_0_REG, val);
 }
 
 /* Set max sizes for Tx queues */
-VOID mvpp2_txp_max_tx_size_set(PP2DXE_PORT *port)
+VOID Mvpp2TxpMaxTxSizeSet(PP2DXE_PORT *port)
 {
   UINT32  val, size, mtu;
-  INT32 txq, tx_port_num;
+  INT32 txq, TxPortNum;
 
-  mtu = port->pkt_size * 8;
+  mtu = port->PktSize * 8;
   if (mtu > MVPP2_TXP_MTU_MAX)
     mtu = MVPP2_TXP_MTU_MAX;
 
@@ -3048,27 +3048,27 @@ VOID mvpp2_txp_max_tx_size_set(PP2DXE_PORT *port)
   mtu = 3 * mtu;
 
   /* Indirect access to registers */
-  tx_port_num = mvpp2_egress_port(port);
-  mvpp2_write(port->priv, MVPP2_TXP_SCHED_PORT_INDEX_REG, tx_port_num);
+  TxPortNum = Mvpp2EgressPort(port);
+  Mvpp2Write(port->priv, MVPP2_TXP_SCHED_PORT_INDEX_REG, TxPortNum);
 
   /* Set MTU */
-  val = mvpp2_read(port->priv, MVPP2_TXP_SCHED_MTU_REG);
+  val = Mvpp2Read(port->priv, MVPP2_TXP_SCHED_MTU_REG);
   val &= ~MVPP2_TXP_MTU_MAX;
   val |= mtu;
-  mvpp2_write(port->priv, MVPP2_TXP_SCHED_MTU_REG, val);
+  Mvpp2Write(port->priv, MVPP2_TXP_SCHED_MTU_REG, val);
 
   /* TXP token size and all TXQs token size must be larger that MTU */
-  val = mvpp2_read(port->priv, MVPP2_TXP_SCHED_TOKEN_SIZE_REG);
+  val = Mvpp2Read(port->priv, MVPP2_TXP_SCHED_TOKEN_SIZE_REG);
   size = val & MVPP2_TXP_TOKEN_SIZE_MAX;
   if (size < mtu) {
     size = mtu;
     val &= ~MVPP2_TXP_TOKEN_SIZE_MAX;
     val |= size;
-    mvpp2_write(port->priv, MVPP2_TXP_SCHED_TOKEN_SIZE_REG, val);
+    Mvpp2Write(port->priv, MVPP2_TXP_SCHED_TOKEN_SIZE_REG, val);
   }
 
-  for (txq = 0; txq < txq_number; txq++) {
-    val = mvpp2_read(port->priv,
+  for (txq = 0; txq < TxqNumber; txq++) {
+    val = Mvpp2Read(port->priv,
          MVPP2_TXQ_SCHED_TOKEN_SIZE_REG(txq));
     size = val & MVPP2_TXQ_TOKEN_SIZE_MAX;
 
@@ -3076,7 +3076,7 @@ VOID mvpp2_txp_max_tx_size_set(PP2DXE_PORT *port)
       size = mtu;
       val &= ~MVPP2_TXQ_TOKEN_SIZE_MAX;
       val |= size;
-      mvpp2_write(port->priv,
+      Mvpp2Write(port->priv,
             MVPP2_TXQ_SCHED_TOKEN_SIZE_REG(txq),
             val);
     }
@@ -3086,225 +3086,225 @@ VOID mvpp2_txp_max_tx_size_set(PP2DXE_PORT *port)
 /* Set the number of packets that will be received before Rx INT32errupt
  * will be generated by HW.
  */
-VOID mvpp2_rx_pkts_coal_set(PP2DXE_PORT *port,
+VOID Mvpp2RxPktsCoalSet(PP2DXE_PORT *port,
           MVPP2_RX_QUEUE *rxq, UINT32 pkts)
 {
   UINT32 val;
 
   val = (pkts & MVPP2_OCCUPIED_THRESH_MASK);
-  mvpp2_write(port->priv, MVPP2_RXQ_NUM_REG, rxq->id);
-  mvpp2_write(port->priv, MVPP2_RXQ_THRESH_REG, val);
+  Mvpp2Write(port->priv, MVPP2_RXQ_NUM_REG, rxq->id);
+  Mvpp2Write(port->priv, MVPP2_RXQ_THRESH_REG, val);
 
-  rxq->pkts_coal = pkts;
+  rxq->PktsCoal = pkts;
 }
 
 /* Set the time delay in usec before Rx INT32errupt */
-VOID mvpp2_rx_time_coal_set(PP2DXE_PORT *port,
+VOID Mvpp2RxTimeCoalSet(PP2DXE_PORT *port,
           MVPP2_RX_QUEUE *rxq, UINT32 usec)
 {
   UINT32 val;
 
   val = (port->priv->tclk / MVPP2_USEC_PER_SEC) * usec;
-  mvpp2_write(port->priv, MVPP2_ISR_RX_THRESHOLD_REG(rxq->id), val);
+  Mvpp2Write(port->priv, MVPP2_ISR_RX_THRESHOLD_REG(rxq->id), val);
 
-  rxq->time_coal = usec;
+  rxq->TimeCoal = usec;
 }
 
 /* Rx/Tx queue initialization/cleanup methods */
 
-VOID mvpp2_rxq_hw_init(PP2DXE_PORT *port,
+VOID Mvpp2RxqHwInit(PP2DXE_PORT *port,
            MVPP2_RX_QUEUE *rxq)
 {
-  rxq->last_desc = rxq->size - 1;
+  rxq->LastDesc = rxq->size - 1;
 
   /* Zero occupied and non-occupied counters - direct access */
-  mvpp2_write(port->priv, MVPP2_RXQ_STATUS_REG(rxq->id), 0);
+  Mvpp2Write(port->priv, MVPP2_RXQ_STATUS_REG(rxq->id), 0);
 
   /* Set Rx descriptors queue starting address - indirect access */
-  mvpp2_write(port->priv, MVPP2_RXQ_NUM_REG, rxq->id);
+  Mvpp2Write(port->priv, MVPP2_RXQ_NUM_REG, rxq->id);
 #ifdef MVPP2_V1
-  mvpp2_write(port->priv, MVPP2_RXQ_DESC_ADDR_REG,
-      rxq->descs_phys >> MVPP21_DESC_ADDR_SHIFT);
+  Mvpp2Write(port->priv, MVPP2_RXQ_DESC_ADDR_REG,
+      rxq->DescsPhys >> MVPP21_DESC_ADDR_SHIFT);
 #else
-  mvpp2_write(port->priv, MVPP2_RXQ_DESC_ADDR_REG,
-      rxq->descs_phys >> MVPP22_DESC_ADDR_SHIFT);
+  Mvpp2Write(port->priv, MVPP2_RXQ_DESC_ADDR_REG,
+      rxq->DescsPhys >> MVPP22_DESC_ADDR_SHIFT);
 #endif
-  mvpp2_write(port->priv, MVPP2_RXQ_DESC_SIZE_REG, rxq->size);
-  mvpp2_write(port->priv, MVPP2_RXQ_INDEX_REG, 0);
+  Mvpp2Write(port->priv, MVPP2_RXQ_DESC_SIZE_REG, rxq->size);
+  Mvpp2Write(port->priv, MVPP2_RXQ_INDEX_REG, 0);
 
   /* Set Offset */
-  mvpp2_rxq_offset_set(port, rxq->id, MVPP2_RXQ_OFFSET);
+  Mvpp2RxqOffsetSet(port, rxq->id, MVPP2_RXQ_OFFSET);
 
   /* Set coalescing pkts and time */
-  mvpp2_rx_pkts_coal_set(port, rxq, MVPP2_RX_COAL_PKTS);
-  mvpp2_rx_time_coal_set(port, rxq, rxq->time_coal);
+  Mvpp2RxPktsCoalSet(port, rxq, MVPP2_RX_COAL_PKTS);
+  Mvpp2RxTimeCoalSet(port, rxq, rxq->TimeCoal);
 
   /* Add number of descriptors ready for receiving packets */
-  mvpp2_rxq_status_update(port, rxq->id, 0, rxq->size);
+  Mvpp2RxqStatusUpdate(port, rxq->id, 0, rxq->size);
 }
 
 /* Push packets received by the RXQ to BM pool */
-VOID mvpp2_rxq_drop_pkts(PP2DXE_PORT *port,
+VOID Mvpp2RxqDropPkts(PP2DXE_PORT *port,
        MVPP2_RX_QUEUE *rxq,
        INT32 cpu)
 {
-  INT32 rx_received;
+  INT32 RxReceived;
 
-  rx_received = mvpp2_rxq_received(port, rxq->id);
-  if (!rx_received)
+  RxReceived = Mvpp2RxqReceived(port, rxq->id);
+  if (!RxReceived)
     return;
 
 #ifdef MVPP2_V1
   INT32 i;
-  for (i = 0; i < rx_received; i++) {
-    MVPP2_RX_DESC *rx_desc = mvpp2_rxq_next_desc_get(rxq);
-    UINT32 bm = mvpp2_bm_cookie_build(rx_desc, cpu);
+  for (i = 0; i < RxReceived; i++) {
+    MVPP2_RX_DESC *RxDesc = Mvpp2RxqNextDescGet(rxq);
+    UINT32 bm = Mvpp2BmCookieBuild(RxDesc, cpu);
 
-    mvpp2_pool_refill(port, bm, rx_desc->buf_phys_addr,
-          rx_desc->buf_cookie);
+    Mvpp2PoolRefill(port, bm, RxDesc->BufPhysAddr,
+          RxDesc->BufCookie);
   }
 #endif
-  mvpp2_rxq_status_update(port, rxq->id, rx_received, rx_received);
+  Mvpp2RxqStatusUpdate(port, rxq->id, RxReceived, RxReceived);
 }
 
-VOID mvpp2_rxq_hw_deinit(PP2DXE_PORT *port,
+VOID Mvpp2RxqHwDeinit(PP2DXE_PORT *port,
        MVPP2_RX_QUEUE *rxq)
 {
   rxq->descs             = MVPP2_NULL;
-  rxq->last_desc         = 0;
-  rxq->next_desc_to_proc = 0;
-  rxq->descs_phys        = 0;
+  rxq->LastDesc         = 0;
+  rxq->NextDescToProc = 0;
+  rxq->DescsPhys        = 0;
 
   /* Clear Rx descriptors queue starting address and size;
    * free descriptor number
    */
-  mvpp2_write(port->priv, MVPP2_RXQ_STATUS_REG(rxq->id), 0);
-  mvpp2_write(port->priv, MVPP2_RXQ_NUM_REG, rxq->id);
-  mvpp2_write(port->priv, MVPP2_RXQ_DESC_ADDR_REG, 0);
-  mvpp2_write(port->priv, MVPP2_RXQ_DESC_SIZE_REG, 0);
+  Mvpp2Write(port->priv, MVPP2_RXQ_STATUS_REG(rxq->id), 0);
+  Mvpp2Write(port->priv, MVPP2_RXQ_NUM_REG, rxq->id);
+  Mvpp2Write(port->priv, MVPP2_RXQ_DESC_ADDR_REG, 0);
+  Mvpp2Write(port->priv, MVPP2_RXQ_DESC_SIZE_REG, 0);
 }
 
-VOID mvpp2_txq_hw_init(PP2DXE_PORT *port,
+VOID Mvpp2TxqHwInit(PP2DXE_PORT *port,
            MVPP2_TX_QUEUE *txq)
 {
-  INT32 desc, desc_per_txq, tx_port_num;
+  INT32 desc, DescPerTxq, TxPortNum;
   UINT32 val;
 
-  txq->last_desc = txq->size - 1;
+  txq->LastDesc = txq->size - 1;
 
   /* Set Tx descriptors queue starting address - indirect access */
-  mvpp2_write(port->priv, MVPP2_TXQ_NUM_REG, txq->id);
-  mvpp2_write(port->priv, MVPP2_TXQ_DESC_ADDR_REG, txq->descs_phys);
-  mvpp2_write(port->priv, MVPP2_TXQ_DESC_SIZE_REG, txq->size &
+  Mvpp2Write(port->priv, MVPP2_TXQ_NUM_REG, txq->id);
+  Mvpp2Write(port->priv, MVPP2_TXQ_DESC_ADDR_REG, txq->DescsPhys);
+  Mvpp2Write(port->priv, MVPP2_TXQ_DESC_SIZE_REG, txq->size &
                MVPP2_TXQ_DESC_SIZE_MASK);
-  mvpp2_write(port->priv, MVPP2_TXQ_INDEX_REG, 0);
-  mvpp2_write(port->priv, MVPP2_TXQ_RSVD_CLR_REG,
+  Mvpp2Write(port->priv, MVPP2_TXQ_INDEX_REG, 0);
+  Mvpp2Write(port->priv, MVPP2_TXQ_RSVD_CLR_REG,
         txq->id << MVPP2_TXQ_RSVD_CLR_OFFSET);
-  val = mvpp2_read(port->priv, MVPP2_TXQ_PENDING_REG);
+  val = Mvpp2Read(port->priv, MVPP2_TXQ_PENDING_REG);
   val &= ~MVPP2_TXQ_PENDING_MASK;
-  mvpp2_write(port->priv, MVPP2_TXQ_PENDING_REG, val);
+  Mvpp2Write(port->priv, MVPP2_TXQ_PENDING_REG, val);
 
   /* Calculate base address in prefetch buffer. We reserve 16 descriptors
    * for each existing TXQ.
    * TCONTS for PON port must be continuous from 0 to MVPP2_MAX_TCONT
    * GBE ports assumed to be continious from 0 to MVPP2_MAX_PORTS
    */
-  desc_per_txq = 16;
-  desc = (port->id * MVPP2_MAX_TXQ * desc_per_txq) +
-         (txq->log_id * desc_per_txq);
+  DescPerTxq = 16;
+  desc = (port->id * MVPP2_MAX_TXQ * DescPerTxq) +
+         (txq->LogId * DescPerTxq);
 
-  mvpp2_write(port->priv, MVPP2_TXQ_PREF_BUF_REG,
+  Mvpp2Write(port->priv, MVPP2_TXQ_PREF_BUF_REG,
         MVPP2_PREF_BUF_PTR(desc) | MVPP2_PREF_BUF_SIZE_16 |
-        MVPP2_PREF_BUF_THRESH(desc_per_txq/2));
+        MVPP2_PREF_BUF_THRESH(DescPerTxq/2));
 
   /* WRR / EJP configuration - indirect access */
-  tx_port_num = mvpp2_egress_port(port);
-  mvpp2_write(port->priv, MVPP2_TXP_SCHED_PORT_INDEX_REG, tx_port_num);
+  TxPortNum = Mvpp2EgressPort(port);
+  Mvpp2Write(port->priv, MVPP2_TXP_SCHED_PORT_INDEX_REG, TxPortNum);
 
-  val = mvpp2_read(port->priv, MVPP2_TXQ_SCHED_REFILL_REG(txq->log_id));
+  val = Mvpp2Read(port->priv, MVPP2_TXQ_SCHED_REFILL_REG(txq->LogId));
   val &= ~MVPP2_TXQ_REFILL_PERIOD_ALL_MASK;
   val |= MVPP2_TXQ_REFILL_PERIOD_MASK(1);
   val |= MVPP2_TXQ_REFILL_TOKENS_ALL_MASK;
-  mvpp2_write(port->priv, MVPP2_TXQ_SCHED_REFILL_REG(txq->log_id), val);
+  Mvpp2Write(port->priv, MVPP2_TXQ_SCHED_REFILL_REG(txq->LogId), val);
 
   val = MVPP2_TXQ_TOKEN_SIZE_MAX;
-  mvpp2_write(port->priv, MVPP2_TXQ_SCHED_TOKEN_SIZE_REG(txq->log_id),
+  Mvpp2Write(port->priv, MVPP2_TXQ_SCHED_TOKEN_SIZE_REG(txq->LogId),
         val);
 }
 
-VOID mvpp2_txq_hw_deinit(PP2DXE_PORT *port,
+VOID Mvpp2TxqHwDeinit(PP2DXE_PORT *port,
        MVPP2_TX_QUEUE *txq)
 {
   txq->descs             = MVPP2_NULL;
-  txq->last_desc         = 0;
-  txq->next_desc_to_proc = 0;
-  txq->descs_phys        = 0;
+  txq->LastDesc         = 0;
+  txq->NextDescToProc = 0;
+  txq->DescsPhys        = 0;
 
   /* Set minimum bandwidth for disabled TXQs */
-  mvpp2_write(port->priv, MVPP2_TXQ_SCHED_TOKEN_CNTR_REG(txq->id), 0);
+  Mvpp2Write(port->priv, MVPP2_TXQ_SCHED_TOKEN_CNTR_REG(txq->id), 0);
 
   /* Set Tx descriptors queue starting address and size */
-  mvpp2_write(port->priv, MVPP2_TXQ_NUM_REG, txq->id);
-  mvpp2_write(port->priv, MVPP2_TXQ_DESC_ADDR_REG, 0);
-  mvpp2_write(port->priv, MVPP2_TXQ_DESC_SIZE_REG, 0);
+  Mvpp2Write(port->priv, MVPP2_TXQ_NUM_REG, txq->id);
+  Mvpp2Write(port->priv, MVPP2_TXQ_DESC_ADDR_REG, 0);
+  Mvpp2Write(port->priv, MVPP2_TXQ_DESC_SIZE_REG, 0);
 }
 
 /* Allocate and initialize descriptors for aggr TXQ */
-VOID mvpp2_aggr_txq_hw_init(MVPP2_TX_QUEUE *aggr_txq,
-          INT32 desc_num, INT32 cpu,
+VOID Mvpp2AggrTxqHwInit(MVPP2_TX_QUEUE *AggrTxq,
+          INT32 DescNum, INT32 cpu,
           MVPP2_SHARED *priv)
 {
-  aggr_txq->last_desc = aggr_txq->size - 1;
+  AggrTxq->LastDesc = AggrTxq->size - 1;
 
   /* Aggr TXQ no reset WA */
-  aggr_txq->next_desc_to_proc = mvpp2_read(priv,
+  AggrTxq->NextDescToProc = Mvpp2Read(priv,
              MVPP2_AGGR_TXQ_INDEX_REG(cpu));
 
   /* Set Tx descriptors queue starting address */
   /* indirect access */
 #ifndef MVPP2_V1
-  mvpp2_write(priv, MVPP2_AGGR_TXQ_DESC_ADDR_REG(cpu), aggr_txq->descs_phys
+  Mvpp2Write(priv, MVPP2_AGGR_TXQ_DESC_ADDR_REG(cpu), AggrTxq->DescsPhys
       >> MVPP22_DESC_ADDR_SHIFT);
 #else
-  mvpp2_write(priv, MVPP2_AGGR_TXQ_DESC_ADDR_REG(cpu), aggr_txq->descs_phys
+  Mvpp2Write(priv, MVPP2_AGGR_TXQ_DESC_ADDR_REG(cpu), AggrTxq->DescsPhys
       >> MVPP21_DESC_ADDR_SHIFT);
 #endif
-  mvpp2_write(priv, MVPP2_AGGR_TXQ_DESC_SIZE_REG(cpu), desc_num
+  Mvpp2Write(priv, MVPP2_AGGR_TXQ_DESC_SIZE_REG(cpu), DescNum
       & MVPP2_AGGR_TXQ_DESC_SIZE_MASK);
 
 }
 
 /* Enable gmac */
-VOID mvpp2_port_power_up(PP2DXE_PORT *port)
+VOID Mvpp2PortPowerUp(PP2DXE_PORT *port)
 {
-  mvpp2_port_mii_set(port);
-  mvpp2_port_periodic_xon_disable(port);
-  mvpp2_port_fc_adv_enable(port);
-  mvpp2_port_reset(port);
+  Mvpp2PortMiiSet(port);
+  Mvpp2PortPeriodicXonDisable(port);
+  Mvpp2PortFcAdvEnable(port);
+  Mvpp2PortReset(port);
 }
 
 /* Initialize Rx FIFO's */
-VOID mvpp2_rx_fifo_init(MVPP2_SHARED *priv)
+VOID Mvpp2RxFifoInit(MVPP2_SHARED *priv)
 {
   INT32 port;
 
   for (port = 0; port < MVPP2_MAX_PORTS; port++) {
-    mvpp2_write(priv, MVPP2_RX_DATA_FIFO_SIZE_REG(port),
+    Mvpp2Write(priv, MVPP2_RX_DATA_FIFO_SIZE_REG(port),
           MVPP2_RX_FIFO_PORT_DATA_SIZE);
-    mvpp2_write(priv, MVPP2_RX_ATTR_FIFO_SIZE_REG(port),
+    Mvpp2Write(priv, MVPP2_RX_ATTR_FIFO_SIZE_REG(port),
           MVPP2_RX_FIFO_PORT_ATTR_SIZE);
   }
 
-  mvpp2_write(priv, MVPP2_RX_MIN_PKT_SIZE_REG,
+  Mvpp2Write(priv, MVPP2_RX_MIN_PKT_SIZE_REG,
         MVPP2_RX_FIFO_PORT_MIN_PKT);
-  mvpp2_write(priv, MVPP2_RX_FIFO_INIT_REG, 0x1);
+  Mvpp2Write(priv, MVPP2_RX_FIFO_INIT_REG, 0x1);
 }
 
-VOID mv_gop110_netc_active_port(PP2DXE_PORT *pp2_port, UINT32 port, UINT32 val)
+VOID MvGop110NetcActivePort(PP2DXE_PORT *Pp2Port, UINT32 port, UINT32 val)
 {
   UINT32 reg;
 
-  reg = mvpp2_rfu1_read(pp2_port->priv, MV_NETCOMP_PORTS_CONTROL_1);
+  reg = Mvpp2Rfu1Read(Pp2Port->priv, MV_NETCOMP_PORTS_CONTROL_1);
   reg &= ~(NETC_PORTS_ACTIVE_MASK(port));
 
   val <<= NETC_PORTS_ACTIVE_OFFSET(port);
@@ -3312,14 +3312,14 @@ VOID mv_gop110_netc_active_port(PP2DXE_PORT *pp2_port, UINT32 port, UINT32 val)
 
   reg |= val;
 
-  mvpp2_rfu1_write(pp2_port->priv, MV_NETCOMP_PORTS_CONTROL_1, reg);
+  Mvpp2Rfu1Write(Pp2Port->priv, MV_NETCOMP_PORTS_CONTROL_1, reg);
 }
 
-STATIC VOID mv_gop110_netc_xaui_enable(PP2DXE_PORT *pp2_port, UINT32 port, UINT32 val)
+STATIC VOID MvGop110NetcXauiEnable(PP2DXE_PORT *Pp2Port, UINT32 port, UINT32 val)
 {
   UINT32 reg;
 
-  reg = mvpp2_rfu1_read(pp2_port->priv, SD1_CONTROL_1_REG);
+  reg = Mvpp2Rfu1Read(Pp2Port->priv, SD1_CONTROL_1_REG);
   reg &= ~SD1_CONTROL_XAUI_EN_MASK;
 
   val <<= SD1_CONTROL_XAUI_EN_OFFSET;
@@ -3327,14 +3327,14 @@ STATIC VOID mv_gop110_netc_xaui_enable(PP2DXE_PORT *pp2_port, UINT32 port, UINT3
 
   reg |= val;
 
-  mvpp2_rfu1_write(pp2_port->priv, SD1_CONTROL_1_REG, reg);
+  Mvpp2Rfu1Write(Pp2Port->priv, SD1_CONTROL_1_REG, reg);
 }
 
-STATIC VOID mv_gop110_netc_rxaui0_enable(PP2DXE_PORT *pp2_port, UINT32 port, UINT32 val)
+STATIC VOID MvGop110NetcRxaui0Enable(PP2DXE_PORT *Pp2Port, UINT32 port, UINT32 val)
 {
   UINT32 reg;
 
-  reg = mvpp2_rfu1_read(pp2_port->priv, SD1_CONTROL_1_REG);
+  reg = Mvpp2Rfu1Read(Pp2Port->priv, SD1_CONTROL_1_REG);
   reg &= ~SD1_CONTROL_RXAUI0_L23_EN_MASK;
 
   val <<= SD1_CONTROL_RXAUI0_L23_EN_OFFSET;
@@ -3342,14 +3342,14 @@ STATIC VOID mv_gop110_netc_rxaui0_enable(PP2DXE_PORT *pp2_port, UINT32 port, UIN
 
   reg |= val;
 
-  mvpp2_rfu1_write(pp2_port->priv, SD1_CONTROL_1_REG, reg);
+  Mvpp2Rfu1Write(Pp2Port->priv, SD1_CONTROL_1_REG, reg);
 }
 
-STATIC VOID mv_gop110_netc_rxaui1_enable(PP2DXE_PORT *pp2_port, UINT32 port, UINT32 val)
+STATIC VOID MvGop110NetcRxaui1Enable(PP2DXE_PORT *Pp2Port, UINT32 port, UINT32 val)
 {
   UINT32 reg;
 
-  reg = mvpp2_rfu1_read(pp2_port->priv, SD1_CONTROL_1_REG);
+  reg = Mvpp2Rfu1Read(Pp2Port->priv, SD1_CONTROL_1_REG);
   reg &= ~SD1_CONTROL_RXAUI1_L45_EN_MASK;
 
   val <<= SD1_CONTROL_RXAUI1_L45_EN_OFFSET;
@@ -3357,14 +3357,14 @@ STATIC VOID mv_gop110_netc_rxaui1_enable(PP2DXE_PORT *pp2_port, UINT32 port, UIN
 
   reg |= val;
 
-  mvpp2_rfu1_write(pp2_port->priv, SD1_CONTROL_1_REG, reg);
+  Mvpp2Rfu1Write(Pp2Port->priv, SD1_CONTROL_1_REG, reg);
 }
 
-STATIC VOID mv_gop110_netc_mii_mode(PP2DXE_PORT *pp2_port, UINT32 port, UINT32 val)
+STATIC VOID MvGop110NetcMiiMode(PP2DXE_PORT *Pp2Port, UINT32 port, UINT32 val)
 {
   UINT32 reg;
 
-  reg = mvpp2_rfu1_read(pp2_port->priv, MV_NETCOMP_CONTROL_0);
+  reg = Mvpp2Rfu1Read(Pp2Port->priv, MV_NETCOMP_CONTROL_0);
   reg &= ~NETC_GBE_PORT1_MII_MODE_MASK;
 
   val <<= NETC_GBE_PORT1_MII_MODE_OFFSET;
@@ -3372,14 +3372,14 @@ STATIC VOID mv_gop110_netc_mii_mode(PP2DXE_PORT *pp2_port, UINT32 port, UINT32 v
 
   reg |= val;
 
-  mvpp2_rfu1_write(pp2_port->priv, MV_NETCOMP_CONTROL_0, reg);
+  Mvpp2Rfu1Write(Pp2Port->priv, MV_NETCOMP_CONTROL_0, reg);
 }
 
-STATIC VOID mv_gop110_netc_gop_reset(PP2DXE_PORT *pp2_port, UINT32 val)
+STATIC VOID MvGop110NetcGopReset(PP2DXE_PORT *Pp2Port, UINT32 val)
 {
   UINT32 reg;
 
-  reg = mvpp2_rfu1_read(pp2_port->priv, MV_GOP_SOFT_RESET_1_REG);
+  reg = Mvpp2Rfu1Read(Pp2Port->priv, MV_GOP_SOFT_RESET_1_REG);
   reg &= ~NETC_GOP_SOFT_RESET_MASK;
 
   val <<= NETC_GOP_SOFT_RESET_OFFSET;
@@ -3387,14 +3387,14 @@ STATIC VOID mv_gop110_netc_gop_reset(PP2DXE_PORT *pp2_port, UINT32 val)
 
   reg |= val;
 
-  mvpp2_rfu1_write(pp2_port->priv, MV_GOP_SOFT_RESET_1_REG, reg);
+  Mvpp2Rfu1Write(Pp2Port->priv, MV_GOP_SOFT_RESET_1_REG, reg);
 }
 
-STATIC VOID mv_gop110_netc_gop_clock_logic_set(PP2DXE_PORT *pp2_port, UINT32 val)
+STATIC VOID MvGop110NetcGopClockLogicSet(PP2DXE_PORT *Pp2Port, UINT32 val)
 {
   UINT32 reg;
 
-  reg = mvpp2_rfu1_read(pp2_port->priv, MV_NETCOMP_PORTS_CONTROL_0);
+  reg = Mvpp2Rfu1Read(Pp2Port->priv, MV_NETCOMP_PORTS_CONTROL_0);
   reg &= ~NETC_CLK_DIV_PHASE_MASK;
 
   val <<= NETC_CLK_DIV_PHASE_OFFSET;
@@ -3402,14 +3402,14 @@ STATIC VOID mv_gop110_netc_gop_clock_logic_set(PP2DXE_PORT *pp2_port, UINT32 val
 
   reg |= val;
 
-  mvpp2_rfu1_write(pp2_port->priv, MV_NETCOMP_PORTS_CONTROL_0, reg);
+  Mvpp2Rfu1Write(Pp2Port->priv, MV_NETCOMP_PORTS_CONTROL_0, reg);
 }
 
-STATIC VOID mv_gop110_netc_port_rf_reset(PP2DXE_PORT *pp2_port, UINT32 port, UINT32 val)
+STATIC VOID MvGop110NetcPortRfReset(PP2DXE_PORT *Pp2Port, UINT32 port, UINT32 val)
 {
   UINT32 reg;
 
-  reg = mvpp2_rfu1_read(pp2_port->priv, MV_NETCOMP_PORTS_CONTROL_1);
+  reg = Mvpp2Rfu1Read(Pp2Port->priv, MV_NETCOMP_PORTS_CONTROL_1);
   reg &= ~(NETC_PORT_GIG_RF_RESET_MASK(port));
 
   val <<= NETC_PORT_GIG_RF_RESET_OFFSET(port);
@@ -3417,10 +3417,10 @@ STATIC VOID mv_gop110_netc_port_rf_reset(PP2DXE_PORT *pp2_port, UINT32 port, UIN
 
   reg |= val;
 
-  mvpp2_rfu1_write(pp2_port->priv, MV_NETCOMP_PORTS_CONTROL_1, reg);
+  Mvpp2Rfu1Write(Pp2Port->priv, MV_NETCOMP_PORTS_CONTROL_1, reg);
 }
 
-STATIC VOID mv_gop110_netc_gbe_sgmii_mode_select(PP2DXE_PORT *pp2_port, UINT32 port,
+STATIC VOID MvGop110NetcGbeSgmiiModeSelect(PP2DXE_PORT *Pp2Port, UINT32 port,
             UINT32 val)
 {
   UINT32 reg, mask, offset;
@@ -3432,7 +3432,7 @@ STATIC VOID mv_gop110_netc_gbe_sgmii_mode_select(PP2DXE_PORT *pp2_port, UINT32 p
     mask = NETC_GBE_PORT1_SGMII_MODE_MASK;
     offset = NETC_GBE_PORT1_SGMII_MODE_OFFSET;
   }
-  reg = mvpp2_rfu1_read(pp2_port->priv, MV_NETCOMP_CONTROL_0);
+  reg = Mvpp2Rfu1Read(Pp2Port->priv, MV_NETCOMP_CONTROL_0);
   reg &= ~mask;
 
   val <<= offset;
@@ -3440,14 +3440,14 @@ STATIC VOID mv_gop110_netc_gbe_sgmii_mode_select(PP2DXE_PORT *pp2_port, UINT32 p
 
   reg |= val;
 
-  mvpp2_rfu1_write(pp2_port->priv, MV_NETCOMP_CONTROL_0, reg);
+  Mvpp2Rfu1Write(Pp2Port->priv, MV_NETCOMP_CONTROL_0, reg);
 }
 
-STATIC VOID mv_gop110_netc_bus_width_select(PP2DXE_PORT *pp2_port, UINT32 val)
+STATIC VOID MvGop110NetcBusWidthSelect(PP2DXE_PORT *Pp2Port, UINT32 val)
 {
   UINT32 reg;
 
-  reg = mvpp2_rfu1_read(pp2_port->priv, MV_NETCOMP_PORTS_CONTROL_0);
+  reg = Mvpp2Rfu1Read(Pp2Port->priv, MV_NETCOMP_PORTS_CONTROL_0);
   reg &= ~NETC_BUS_WIDTH_SELECT_MASK;
 
   val <<= NETC_BUS_WIDTH_SELECT_OFFSET;
@@ -3455,14 +3455,14 @@ STATIC VOID mv_gop110_netc_bus_width_select(PP2DXE_PORT *pp2_port, UINT32 val)
 
   reg |= val;
 
-  mvpp2_rfu1_write(pp2_port->priv, MV_NETCOMP_PORTS_CONTROL_0, reg);
+  Mvpp2Rfu1Write(Pp2Port->priv, MV_NETCOMP_PORTS_CONTROL_0, reg);
 }
 
-STATIC VOID mv_gop110_netc_sample_stages_timing(PP2DXE_PORT *pp2_port, UINT32 val)
+STATIC VOID MvGop110NetcSampleStagesTiming(PP2DXE_PORT *Pp2Port, UINT32 val)
 {
   UINT32 reg;
 
-  reg = mvpp2_rfu1_read(pp2_port->priv, MV_NETCOMP_PORTS_CONTROL_0);
+  reg = Mvpp2Rfu1Read(Pp2Port->priv, MV_NETCOMP_PORTS_CONTROL_0);
   reg &= ~NETC_GIG_RX_DATA_SAMPLE_MASK;
 
   val <<= NETC_GIG_RX_DATA_SAMPLE_OFFSET;
@@ -3470,54 +3470,54 @@ STATIC VOID mv_gop110_netc_sample_stages_timing(PP2DXE_PORT *pp2_port, UINT32 va
 
   reg |= val;
 
-  mvpp2_rfu1_write(pp2_port->priv, MV_NETCOMP_PORTS_CONTROL_0, reg);
+  Mvpp2Rfu1Write(Pp2Port->priv, MV_NETCOMP_PORTS_CONTROL_0, reg);
 }
 
-STATIC VOID mv_gop110_netc_mac_to_xgmii(PP2DXE_PORT *pp2_port, UINT32 port,
-          enum mv_netc_phase phase)
+STATIC VOID MvGop110NetcMacToXgmii(PP2DXE_PORT *Pp2Port, UINT32 port,
+          enum MvNetcPhase phase)
 {
   switch (phase) {
   case MV_NETC_FIRST_PHASE:
     /* Set Bus Width to HB mode = 1 */
-    mv_gop110_netc_bus_width_select(pp2_port, 1);
+    MvGop110NetcBusWidthSelect(Pp2Port, 1);
     /* Select RGMII mode */
-    mv_gop110_netc_gbe_sgmii_mode_select(pp2_port, port,
+    MvGop110NetcGbeSgmiiModeSelect(Pp2Port, port,
               MV_NETC_GBE_XMII);
     break;
   case MV_NETC_SECOND_PHASE:
     /* De-assert the relevant port HB reset */
-    mv_gop110_netc_port_rf_reset(pp2_port, port, 1);
+    MvGop110NetcPortRfReset(Pp2Port, port, 1);
     break;
   }
 }
 
-STATIC VOID mv_gop110_netc_mac_to_sgmii(PP2DXE_PORT *pp2_port, UINT32 port,
-          enum mv_netc_phase phase)
+STATIC VOID MvGop110NetcMacToSgmii(PP2DXE_PORT *Pp2Port, UINT32 port,
+          enum MvNetcPhase phase)
 {
   switch (phase) {
   case MV_NETC_FIRST_PHASE:
     /* Set Bus Width to HB mode = 1 */
-    mv_gop110_netc_bus_width_select(pp2_port, 1);
+    MvGop110NetcBusWidthSelect(Pp2Port, 1);
     /* Select SGMII mode */
     if (port >= 1)
-      mv_gop110_netc_gbe_sgmii_mode_select(pp2_port, port,
+      MvGop110NetcGbeSgmiiModeSelect(Pp2Port, port,
       MV_NETC_GBE_SGMII);
 
     /* Configure the sample stages */
-    mv_gop110_netc_sample_stages_timing(pp2_port, 0);
+    MvGop110NetcSampleStagesTiming(Pp2Port, 0);
     /* Configure the ComPhy Selector */
-    /* mv_gop110_netc_com_phy_selector_config(netComplex); */
+    /* MvGop110NetcComPhySelectorConfig(netComplex); */
     break;
   case MV_NETC_SECOND_PHASE:
     /* De-assert the relevant port HB reset */
-    mv_gop110_netc_port_rf_reset(pp2_port, port, 1);
+    MvGop110NetcPortRfReset(Pp2Port, port, 1);
     break;
   }
 }
 
-STATIC VOID mv_gop110_netc_mac_to_rxaui(PP2DXE_PORT *pp2_port, UINT32 port,
-          enum mv_netc_phase phase,
-          enum mv_netc_lanes lanes)
+STATIC VOID MvGop110NetcMacToRxaui(PP2DXE_PORT *Pp2Port, UINT32 port,
+          enum MvNetcPhase phase,
+          enum MvNetcLanes lanes)
 {
   /* Currently only RXAUI0 supported */
   if (port != 0)
@@ -3527,95 +3527,95 @@ STATIC VOID mv_gop110_netc_mac_to_rxaui(PP2DXE_PORT *pp2_port, UINT32 port,
   case MV_NETC_FIRST_PHASE:
     /* RXAUI Serdes/s Clock alignment */
     if (lanes == MV_NETC_LANE_23)
-      mv_gop110_netc_rxaui0_enable(pp2_port, port, 1);
+      MvGop110NetcRxaui0Enable(Pp2Port, port, 1);
     else
-      mv_gop110_netc_rxaui1_enable(pp2_port, port, 1);
+      MvGop110NetcRxaui1Enable(Pp2Port, port, 1);
     break;
   case MV_NETC_SECOND_PHASE:
     /* De-assert the relevant port HB reset */
-    mv_gop110_netc_port_rf_reset(pp2_port, port, 1);
+    MvGop110NetcPortRfReset(Pp2Port, port, 1);
     break;
   }
 }
 
-STATIC VOID mv_gop110_netc_mac_to_xaui(PP2DXE_PORT *pp2_port, UINT32 port,
-          enum mv_netc_phase phase)
+STATIC VOID MvGop110NetcMacToXaui(PP2DXE_PORT *Pp2Port, UINT32 port,
+          enum MvNetcPhase phase)
 {
   switch (phase) {
   case MV_NETC_FIRST_PHASE:
     /* RXAUI Serdes/s Clock alignment */
-    mv_gop110_netc_xaui_enable(pp2_port, port, 1);
+    MvGop110NetcXauiEnable(Pp2Port, port, 1);
     break;
   case MV_NETC_SECOND_PHASE:
     /* De-assert the relevant port HB reset */
-    mv_gop110_netc_port_rf_reset(pp2_port, port, 1);
+    MvGop110NetcPortRfReset(Pp2Port, port, 1);
     break;
   }
 }
 
-INT32 mv_gop110_netc_init(PP2DXE_PORT *pp2_port,
-      UINT32 net_comp_config, enum mv_netc_phase phase)
+INT32 MvGop110NetcInit(PP2DXE_PORT *Pp2Port,
+      UINT32 NetCompConfig, enum MvNetcPhase phase)
 {
-  UINT32 c = net_comp_config;
+  UINT32 c = NetCompConfig;
 
   if (c & MV_NETC_GE_MAC0_RXAUI_L23)
-    mv_gop110_netc_mac_to_rxaui(pp2_port, 0, phase, MV_NETC_LANE_23);
+    MvGop110NetcMacToRxaui(Pp2Port, 0, phase, MV_NETC_LANE_23);
 
   if (c & MV_NETC_GE_MAC0_RXAUI_L45)
-    mv_gop110_netc_mac_to_rxaui(pp2_port, 0, phase, MV_NETC_LANE_45);
+    MvGop110NetcMacToRxaui(Pp2Port, 0, phase, MV_NETC_LANE_45);
 
   if (c & MV_NETC_GE_MAC0_XAUI)
-    mv_gop110_netc_mac_to_xaui(pp2_port, 0, phase);
+    MvGop110NetcMacToXaui(Pp2Port, 0, phase);
 
   if (c & MV_NETC_GE_MAC2_SGMII)
-    mv_gop110_netc_mac_to_sgmii(pp2_port, 2, phase);
+    MvGop110NetcMacToSgmii(Pp2Port, 2, phase);
   else
-    mv_gop110_netc_mac_to_xgmii(pp2_port, 2, phase);
+    MvGop110NetcMacToXgmii(Pp2Port, 2, phase);
   if (c & MV_NETC_GE_MAC3_SGMII)
-    mv_gop110_netc_mac_to_sgmii(pp2_port, 3, phase);
+    MvGop110NetcMacToSgmii(Pp2Port, 3, phase);
   else {
-    mv_gop110_netc_mac_to_xgmii(pp2_port, 3, phase);
+    MvGop110NetcMacToXgmii(Pp2Port, 3, phase);
     if (c & MV_NETC_GE_MAC3_RGMII)
-      mv_gop110_netc_mii_mode(pp2_port, 3, MV_NETC_GBE_RGMII);
+      MvGop110NetcMiiMode(Pp2Port, 3, MV_NETC_GBE_RGMII);
     else
-      mv_gop110_netc_mii_mode(pp2_port, 3, MV_NETC_GBE_MII);
+      MvGop110NetcMiiMode(Pp2Port, 3, MV_NETC_GBE_MII);
   }
 
   /* Activate gop ports 0, 2, 3 */
-  mv_gop110_netc_active_port(pp2_port, 0, 1);
-  mv_gop110_netc_active_port(pp2_port, 2, 1);
-  mv_gop110_netc_active_port(pp2_port, 3, 1);
+  MvGop110NetcActivePort(Pp2Port, 0, 1);
+  MvGop110NetcActivePort(Pp2Port, 2, 1);
+  MvGop110NetcActivePort(Pp2Port, 3, 1);
 
   if (phase == MV_NETC_SECOND_PHASE) {
     /* Enable the GOP internal clock logic */
-    mv_gop110_netc_gop_clock_logic_set(pp2_port, 1);
+    MvGop110NetcGopClockLogicSet(Pp2Port, 1);
     /* De-assert GOP unit reset */
-    mv_gop110_netc_gop_reset(pp2_port, 1);
+    MvGop110NetcGopReset(Pp2Port, 1);
   }
   return 0;
 }
-UINT32 mvp_pp2x_gop110_netc_cfg_create(PP2DXE_PORT *pp2_port)
+UINT32 MvpPp2xGop110NetcCfgCreate(PP2DXE_PORT *Pp2Port)
 {
   UINT32 val = 0;
 
-    if (pp2_port->gop_index == 0) {
-      if (pp2_port->phy_interface ==
+    if (Pp2Port->GopIndex == 0) {
+      if (Pp2Port->PhyInterface ==
         MV_MODE_XAUI)
         val |= MV_NETC_GE_MAC0_XAUI;
-      else if (pp2_port->phy_interface ==
+      else if (Pp2Port->PhyInterface ==
         MV_MODE_RXAUI)
         val |= MV_NETC_GE_MAC0_RXAUI_L23;
     }
-    if (pp2_port->gop_index == 2) {
-      if (pp2_port->phy_interface ==
+    if (Pp2Port->GopIndex == 2) {
+      if (Pp2Port->PhyInterface ==
         MV_MODE_SGMII)
         val |= MV_NETC_GE_MAC2_SGMII;
     }
-    if (pp2_port->gop_index == 3) {
-      if (pp2_port->phy_interface ==
+    if (Pp2Port->GopIndex == 3) {
+      if (Pp2Port->PhyInterface ==
         MV_MODE_SGMII)
         val |= MV_NETC_GE_MAC3_SGMII;
-      else if (pp2_port->phy_interface ==
+      else if (Pp2Port->PhyInterface ==
         MV_MODE_RGMII)
         val |= MV_NETC_GE_MAC3_RGMII;
     }
@@ -3624,43 +3624,43 @@ UINT32 mvp_pp2x_gop110_netc_cfg_create(PP2DXE_PORT *pp2_port)
 }
 
 /*
-* mv_port_init
+* MvPortInit
 *       Init physical port. Configures the port mode and all it's elements
 *       accordingly.
 *       Does not verify that the selected mode/port number is valid at the
 *       core level.
 */
-INT32 mv_gop110_port_init(PP2DXE_PORT *pp2_port)
+INT32 MvGop110PortInit(PP2DXE_PORT *Pp2Port)
 {
 
-  switch (pp2_port->phy_interface) {
+  switch (Pp2Port->PhyInterface) {
   case MV_MODE_RGMII:
-    mv_gop110_gmac_reset(pp2_port, RESET);
+    MvGop110GmacReset(Pp2Port, RESET);
     /* configure PCS */
-    mv_gop110_gpcs_mode_cfg(pp2_port, FALSE);
-    mv_gop110_bypass_clk_cfg(pp2_port, TRUE);
+    MvGop110GpcsModeCfg(Pp2Port, FALSE);
+    MvGop110BypassClkCfg(Pp2Port, TRUE);
 
     /* configure MAC */
-    mv_gop110_gmac_mode_cfg(pp2_port);
+    MvGop110GmacModeCfg(Pp2Port);
     /* pcs unreset */
-    mv_gop110_gpcs_reset(pp2_port, UNRESET);
+    MvGop110GpcsReset(Pp2Port, UNRESET);
     /* mac unreset */
-    mv_gop110_gmac_reset(pp2_port, UNRESET);
+    MvGop110GmacReset(Pp2Port, UNRESET);
   break;
   case MV_MODE_SGMII:
   case MV_MODE_QSGMII:
     /* configure PCS */
-    mv_gop110_gpcs_mode_cfg(pp2_port, TRUE);
+    MvGop110GpcsModeCfg(Pp2Port, TRUE);
 
     /* configure MAC */
-    mv_gop110_gmac_mode_cfg(pp2_port);
+    MvGop110GmacModeCfg(Pp2Port);
     /* select proper Mac mode */
-    mv_gop110_xlg_2_gig_mac_cfg(pp2_port);
+    MvGop110Xlg2GigMacCfg(Pp2Port);
 
     /* pcs unreset */
-    mv_gop110_gpcs_reset(pp2_port, UNRESET);
+    MvGop110GpcsReset(Pp2Port, UNRESET);
     /* mac unreset */
-    mv_gop110_gmac_reset(pp2_port, UNRESET);
+    MvGop110GmacReset(Pp2Port, UNRESET);
   break;
   default:
     return -1;
@@ -3670,32 +3670,32 @@ INT32 mv_gop110_port_init(PP2DXE_PORT *pp2_port)
 }
 
 /* Set the MAC to reset or exit from reset */
-INT32 mv_gop110_gmac_reset(PP2DXE_PORT *pp2_port, enum mv_reset reset)
+INT32 MvGop110GmacReset(PP2DXE_PORT *Pp2Port, enum MvReset reset)
 {
-  UINT32 reg_addr;
+  UINT32 RegAddr;
   UINT32 val;
 
-  reg_addr = MVPP2_PORT_CTRL2_REG;
+  RegAddr = MVPP2_PORT_CTRL2_REG;
 
   /* read - modify - write */
-  val = mv_gop110_gmac_read(pp2_port, reg_addr);
+  val = MvGop110GmacRead(Pp2Port, RegAddr);
   if (reset == RESET)
     val |= MVPP2_PORT_CTRL2_PORTMACRESET_MASK;
   else
     val &= ~MVPP2_PORT_CTRL2_PORTMACRESET_MASK;
-  mv_gop110_gmac_write(pp2_port, reg_addr, val);
+  MvGop110GmacWrite(Pp2Port, RegAddr, val);
 
   return 0;
 }
 /*
-* mv_gop110_gpcs_mode_cfg
+* MvGop110GpcsModeCfg
 *Configure port to working with Gig PCS or don't.
 */
-INT32 mv_gop110_gpcs_mode_cfg(PP2DXE_PORT *pp2_port, BOOLEAN en)
+INT32 MvGop110GpcsModeCfg(PP2DXE_PORT *Pp2Port, BOOLEAN en)
 {
   UINT32 val;
 
-  val = mv_gop110_gmac_read(pp2_port, MVPP2_PORT_CTRL2_REG);
+  val = MvGop110GmacRead(Pp2Port, MVPP2_PORT_CTRL2_REG);
 
   if (en)
     val |= MVPP2_PORT_CTRL2_PCS_EN_MASK;
@@ -3703,16 +3703,16 @@ INT32 mv_gop110_gpcs_mode_cfg(PP2DXE_PORT *pp2_port, BOOLEAN en)
     val &= ~MVPP2_PORT_CTRL2_PCS_EN_MASK;
 
   /* enable / disable PCS on this port */
-  mv_gop110_gmac_write(pp2_port, MVPP2_PORT_CTRL2_REG, val);
+  MvGop110GmacWrite(Pp2Port, MVPP2_PORT_CTRL2_REG, val);
 
   return 0;
 }
 
-INT32 mv_gop110_bypass_clk_cfg(PP2DXE_PORT *pp2_port, BOOLEAN en)
+INT32 MvGop110BypassClkCfg(PP2DXE_PORT *Pp2Port, BOOLEAN en)
 {
   UINT32 val;
 
-  val = mv_gop110_gmac_read(pp2_port, MVPP2_PORT_CTRL2_REG);
+  val = MvGop110GmacRead(Pp2Port, MVPP2_PORT_CTRL2_REG);
 
   if (en)
     val |= MVPP2_PORT_CTRL2_CLK_125_BYPS_EN_MASK;
@@ -3720,119 +3720,119 @@ INT32 mv_gop110_bypass_clk_cfg(PP2DXE_PORT *pp2_port, BOOLEAN en)
     val &= ~MVPP2_PORT_CTRL2_CLK_125_BYPS_EN_MASK;
 
   /* enable / disable PCS on this port */
-  mv_gop110_gmac_write(pp2_port, MVPP2_PORT_CTRL2_REG, val);
+  MvGop110GmacWrite(Pp2Port, MVPP2_PORT_CTRL2_REG, val);
 
   return 0;
 }
 
-INT32 mv_gop110_gpcs_reset(PP2DXE_PORT *pp2_port, enum mv_reset act)
+INT32 MvGop110GpcsReset(PP2DXE_PORT *Pp2Port, enum MvReset act)
 {
-  UINT32 reg_data;
+  UINT32 RegData;
 
-  reg_data = mv_gop110_gmac_read(pp2_port, MVPP2_PORT_CTRL2_REG);
+  RegData = MvGop110GmacRead(Pp2Port, MVPP2_PORT_CTRL2_REG);
   if (act == RESET)
-    U32_SET_FIELD(reg_data, MVPP2_PORT_CTRL2_SGMII_MODE_MASK, 0);
+    U32_SET_FIELD(RegData, MVPP2_PORT_CTRL2_SGMII_MODE_MASK, 0);
   else
-    U32_SET_FIELD(reg_data, MVPP2_PORT_CTRL2_SGMII_MODE_MASK,
+    U32_SET_FIELD(RegData, MVPP2_PORT_CTRL2_SGMII_MODE_MASK,
       1 << MVPP2_PORT_CTRL2_SGMII_MODE_OFFS);
 
-  mv_gop110_gmac_write(pp2_port, MVPP2_PORT_CTRL2_REG, reg_data);
+  MvGop110GmacWrite(Pp2Port, MVPP2_PORT_CTRL2_REG, RegData);
   return 0;
 }
 
-VOID mv_gop110_xlg_2_gig_mac_cfg(PP2DXE_PORT *pp2_port)
+VOID MvGop110Xlg2GigMacCfg(PP2DXE_PORT *Pp2Port)
 {
-  UINT32 reg_val;
+  UINT32 RegVal;
 
   /* relevant only for MAC0 (XLG0 and GMAC0) */
-  if (pp2_port->gop_index > 0)
+  if (Pp2Port->GopIndex > 0)
     return;
 
   /* configure 1Gig MAC mode */
-  reg_val = mvpp2_xlg_read(pp2_port,
+  RegVal = Mvpp2XlgRead(Pp2Port,
           MV_XLG_PORT_MAC_CTRL3_REG);
-  U32_SET_FIELD(reg_val, MV_XLG_MAC_CTRL3_MACMODESELECT_MASK,
+  U32_SET_FIELD(RegVal, MV_XLG_MAC_CTRL3_MACMODESELECT_MASK,
     (0 << MV_XLG_MAC_CTRL3_MACMODESELECT_OFFS));
-  mvpp2_xlg_write(pp2_port, MV_XLG_PORT_MAC_CTRL3_REG,
-        reg_val);
+  Mvpp2XlgWrite(Pp2Port, MV_XLG_PORT_MAC_CTRL3_REG,
+        RegVal);
 }
 /* Set the internal mux's to the required MAC in the GOP */
-INT32 mv_gop110_gmac_mode_cfg(PP2DXE_PORT *pp2_port)
+INT32 MvGop110GmacModeCfg(PP2DXE_PORT *Pp2Port)
 {
-  UINT32 reg_addr;
+  UINT32 RegAddr;
   UINT32 val;
 
   /* Set TX FIFO thresholds */
-  switch (pp2_port->phy_interface) {
+  switch (Pp2Port->PhyInterface) {
   case MV_MODE_SGMII:
-    if (pp2_port->speed == MV_PORT_SPEED_2500)
-      mv_gop110_gmac_sgmii2_5_cfg(pp2_port);
+    if (Pp2Port->speed == MV_PORT_SPEED_2500)
+      MvGop110GmacSgmii25Cfg(Pp2Port);
     else
-      mv_gop110_gmac_sgmii_cfg(pp2_port);
+      MvGop110GmacSgmiiCfg(Pp2Port);
   break;
   case MV_MODE_RGMII:
-    mv_gop110_gmac_rgmii_cfg(pp2_port);
+    MvGop110GmacRgmiiCfg(Pp2Port);
   break;
   case MV_MODE_QSGMII:
-    mv_gop110_gmac_qsgmii_cfg(pp2_port);
+    MvGop110GmacQsgmiiCfg(Pp2Port);
   break;
   default:
     return -1;
   }
 
   /* Jumbo frame support - 0x1400*2= 0x2800 bytes */
-  val = mv_gop110_gmac_read(pp2_port, MVPP2_PORT_CTRL0_REG);
+  val = MvGop110GmacRead(Pp2Port, MVPP2_PORT_CTRL0_REG);
   U32_SET_FIELD(val, MVPP2_PORT_CTRL0_FRAMESIZELIMIT_MASK,
     (0x1400 << MVPP2_PORT_CTRL0_FRAMESIZELIMIT_OFFS));
-  mv_gop110_gmac_write(pp2_port, MVPP2_PORT_CTRL0_REG, val);
+  MvGop110GmacWrite(Pp2Port, MVPP2_PORT_CTRL0_REG, val);
 
   /* PeriodicXonEn disable */
-  reg_addr = MVPP2_PORT_CTRL1_REG;
-  val = mv_gop110_gmac_read(pp2_port, reg_addr);
+  RegAddr = MVPP2_PORT_CTRL1_REG;
+  val = MvGop110GmacRead(Pp2Port, RegAddr);
   val &= ~MVPP2_PORT_CTRL1_EN_PERIODIC_FC_XON_MASK;
-  mv_gop110_gmac_write(pp2_port, reg_addr, val);
+  MvGop110GmacWrite(Pp2Port, RegAddr, val);
 
   /* mask all ports interrupts */
-  mv_gop110_gmac_port_link_event_mask(pp2_port);
+  MvGop110GmacPortLinkEventMask(Pp2Port);
 
 #if MV_PP2x_INTERRUPT
   /* unmask link change interrupt */
-  val = mv_gop110_gmac_read(pp2_port, MVPP2_INTERRUPT_MASK_REG);
+  val = MvGop110GmacRead(Pp2Port, MVPP2_INTERRUPT_MASK_REG);
   val |= MVPP2_INTERRUPT_CAUSE_LINK_CHANGE_MASK;
   val |= 1; /* unmask summary bit */
-  mv_gop110_gmac_write(pp2_port, MVPP2_INTERRUPT_MASK_REG, val);
+  MvGop110GmacWrite(Pp2Port, MVPP2_INTERRUPT_MASK_REG, val);
 #endif
   return 0;
 }
 
-VOID mv_gop110_gmac_rgmii_cfg(PP2DXE_PORT *pp2_port)
+VOID MvGop110GmacRgmiiCfg(PP2DXE_PORT *Pp2Port)
 {
   UINT32 val, thresh, an;
 
   /*configure minimal level of the Tx FIFO before the lower part starts to read a packet*/
   thresh = MV_RGMII_TX_FIFO_MIN_TH;
-  val = mv_gop110_gmac_read(pp2_port, MVPP2_PORT_FIFO_CFG_1_REG);
+  val = MvGop110GmacRead(Pp2Port, MVPP2_PORT_FIFO_CFG_1_REG);
   U32_SET_FIELD(val, MVPP2_PORT_FIFO_CFG_1_TX_FIFO_MIN_TH_MASK,
     (thresh << MVPP2_PORT_FIFO_CFG_1_TX_FIFO_MIN_TH_OFFS));
-  mv_gop110_gmac_write(pp2_port, MVPP2_PORT_FIFO_CFG_1_REG, val);
+  MvGop110GmacWrite(Pp2Port, MVPP2_PORT_FIFO_CFG_1_REG, val);
 
   /* Disable bypass of sync module */
-  val = mv_gop110_gmac_read(pp2_port, MVPP2_PORT_CTRL4_REG);
+  val = MvGop110GmacRead(Pp2Port, MVPP2_PORT_CTRL4_REG);
   val |= MVPP2_PORT_CTRL4_SYNC_BYPASS_MASK;
   /* configure DP clock select according to mode */
   val &= ~MVPP2_PORT_CTRL4_DP_CLK_SEL_MASK;
   val |= MVPP2_PORT_CTRL4_QSGMII_BYPASS_ACTIVE_MASK;
   val |= MVPP2_PORT_CTRL4_EXT_PIN_GMII_SEL_MASK;
-  mv_gop110_gmac_write(pp2_port, MVPP2_PORT_CTRL4_REG, val);
+  MvGop110GmacWrite(Pp2Port, MVPP2_PORT_CTRL4_REG, val);
 
-  val = mv_gop110_gmac_read(pp2_port, MVPP2_PORT_CTRL2_REG);
+  val = MvGop110GmacRead(Pp2Port, MVPP2_PORT_CTRL2_REG);
   val &= ~MVPP2_PORT_CTRL2_DIS_PADING_OFFS;
-  mv_gop110_gmac_write(pp2_port, MVPP2_PORT_CTRL2_REG, val);
+  MvGop110GmacWrite(Pp2Port, MVPP2_PORT_CTRL2_REG, val);
 
-  val = mv_gop110_gmac_read(pp2_port, MVPP2_PORT_CTRL0_REG);
+  val = MvGop110GmacRead(Pp2Port, MVPP2_PORT_CTRL0_REG);
   /* configure GIG MAC to SGMII mode */
   val &= ~MVPP2_PORT_CTRL0_PORTTYPE_MASK;
-  mv_gop110_gmac_write(pp2_port, MVPP2_PORT_CTRL0_REG, val);
+  MvGop110GmacWrite(Pp2Port, MVPP2_PORT_CTRL0_REG, val);
 
   /* configure AN 0xb8e8 */
   an = MVPP2_PORT_AUTO_NEG_CFG_AN_BYPASS_EN_MASK |
@@ -3840,36 +3840,36 @@ VOID mv_gop110_gmac_rgmii_cfg(PP2DXE_PORT *pp2_port)
     MVPP2_PORT_AUTO_NEG_CFG_EN_FC_AN_MASK      |
     MVPP2_PORT_AUTO_NEG_CFG_EN_FDX_AN_MASK     |
     MVPP2_PORT_AUTO_NEG_CFG_CHOOSE_SAMPLE_TX_CONFIG_MASK;
-  mv_gop110_gmac_write(pp2_port, MVPP2_PORT_AUTO_NEG_CFG_REG, an);
+  MvGop110GmacWrite(Pp2Port, MVPP2_PORT_AUTO_NEG_CFG_REG, an);
 }
-VOID mv_gop110_gmac_sgmii2_5_cfg(PP2DXE_PORT *pp2_port)
+VOID MvGop110GmacSgmii25Cfg(PP2DXE_PORT *Pp2Port)
 {
   UINT32 val, thresh, an;
 
   /*configure minimal level of the Tx FIFO before the lower part starts to read a packet*/
   thresh = MV_SGMII2_5_TX_FIFO_MIN_TH;
-  val = mv_gop110_gmac_read(pp2_port, MVPP2_PORT_FIFO_CFG_1_REG);
+  val = MvGop110GmacRead(Pp2Port, MVPP2_PORT_FIFO_CFG_1_REG);
   U32_SET_FIELD(val, MVPP2_PORT_FIFO_CFG_1_TX_FIFO_MIN_TH_MASK,
     (thresh << MVPP2_PORT_FIFO_CFG_1_TX_FIFO_MIN_TH_OFFS));
-  mv_gop110_gmac_write(pp2_port, MVPP2_PORT_FIFO_CFG_1_REG, val);
+  MvGop110GmacWrite(Pp2Port, MVPP2_PORT_FIFO_CFG_1_REG, val);
 
   /* Disable bypass of sync module */
-  val = mv_gop110_gmac_read(pp2_port, MVPP2_PORT_CTRL4_REG);
+  val = MvGop110GmacRead(Pp2Port, MVPP2_PORT_CTRL4_REG);
   val |= MVPP2_PORT_CTRL4_SYNC_BYPASS_MASK;
   /* configure DP clock select according to mode */
   val |= MVPP2_PORT_CTRL4_DP_CLK_SEL_MASK;
   /* configure QSGMII bypass according to mode */
   val |= MVPP2_PORT_CTRL4_QSGMII_BYPASS_ACTIVE_MASK;
-  mv_gop110_gmac_write(pp2_port, MVPP2_PORT_CTRL4_REG, val);
+  MvGop110GmacWrite(Pp2Port, MVPP2_PORT_CTRL4_REG, val);
 
-  val = mv_gop110_gmac_read(pp2_port, MVPP2_PORT_CTRL2_REG);
+  val = MvGop110GmacRead(Pp2Port, MVPP2_PORT_CTRL2_REG);
   val |= MVPP2_PORT_CTRL2_DIS_PADING_OFFS;
-  mv_gop110_gmac_write(pp2_port, MVPP2_PORT_CTRL2_REG, val);
+  MvGop110GmacWrite(Pp2Port, MVPP2_PORT_CTRL2_REG, val);
 
-  val = mv_gop110_gmac_read(pp2_port, MVPP2_PORT_CTRL0_REG);
+  val = MvGop110GmacRead(Pp2Port, MVPP2_PORT_CTRL0_REG);
   /* configure GIG MAC to 1000Base-X mode connected to a fiber transceiver */
   val |= MVPP2_PORT_CTRL0_PORTTYPE_MASK;
-  mv_gop110_gmac_write(pp2_port, MVPP2_PORT_CTRL0_REG, val);
+  MvGop110GmacWrite(Pp2Port, MVPP2_PORT_CTRL0_REG, val);
 
   /* configure AN 0x9268 */
   an = MVPP2_PORT_AUTO_NEG_CFG_EN_PCS_AN_MASK |
@@ -3879,36 +3879,36 @@ VOID mv_gop110_gmac_sgmii2_5_cfg(PP2DXE_PORT *pp2_port)
     MVPP2_PORT_AUTO_NEG_CFG_ADV_PAUSE_MASK    |
     MVPP2_PORT_AUTO_NEG_CFG_SET_FULL_DX_MASK  |
     MVPP2_PORT_AUTO_NEG_CFG_CHOOSE_SAMPLE_TX_CONFIG_MASK;
-  mv_gop110_gmac_write(pp2_port, MVPP2_PORT_AUTO_NEG_CFG_REG, an);
+  MvGop110GmacWrite(Pp2Port, MVPP2_PORT_AUTO_NEG_CFG_REG, an);
 }
-VOID mv_gop110_gmac_sgmii_cfg(PP2DXE_PORT *pp2_port)
+VOID MvGop110GmacSgmiiCfg(PP2DXE_PORT *Pp2Port)
 {
   UINT32 val, thresh, an;
 
   /*configure minimal level of the Tx FIFO before the lower part starts to read a packet*/
   thresh = MV_SGMII_TX_FIFO_MIN_TH;
-  val = mv_gop110_gmac_read(pp2_port, MVPP2_PORT_FIFO_CFG_1_REG);
+  val = MvGop110GmacRead(Pp2Port, MVPP2_PORT_FIFO_CFG_1_REG);
   U32_SET_FIELD(val, MVPP2_PORT_FIFO_CFG_1_TX_FIFO_MIN_TH_MASK,
     (thresh << MVPP2_PORT_FIFO_CFG_1_TX_FIFO_MIN_TH_OFFS));
-  mv_gop110_gmac_write(pp2_port, MVPP2_PORT_FIFO_CFG_1_REG, val);
+  MvGop110GmacWrite(Pp2Port, MVPP2_PORT_FIFO_CFG_1_REG, val);
 
   /* Disable bypass of sync module */
-  val = mv_gop110_gmac_read(pp2_port, MVPP2_PORT_CTRL4_REG);
+  val = MvGop110GmacRead(Pp2Port, MVPP2_PORT_CTRL4_REG);
   val |= MVPP2_PORT_CTRL4_SYNC_BYPASS_MASK;
   /* configure DP clock select according to mode */
   val &= ~MVPP2_PORT_CTRL4_DP_CLK_SEL_MASK;
   /* configure QSGMII bypass according to mode */
   val |= MVPP2_PORT_CTRL4_QSGMII_BYPASS_ACTIVE_MASK;
-  mv_gop110_gmac_write(pp2_port, MVPP2_PORT_CTRL4_REG, val);
+  MvGop110GmacWrite(Pp2Port, MVPP2_PORT_CTRL4_REG, val);
 
-  val = mv_gop110_gmac_read(pp2_port, MVPP2_PORT_CTRL2_REG);
+  val = MvGop110GmacRead(Pp2Port, MVPP2_PORT_CTRL2_REG);
   val |= MVPP2_PORT_CTRL2_DIS_PADING_OFFS;
-  mv_gop110_gmac_write(pp2_port, MVPP2_PORT_CTRL2_REG, val);
+  MvGop110GmacWrite(Pp2Port, MVPP2_PORT_CTRL2_REG, val);
 
-  val = mv_gop110_gmac_read(pp2_port, MVPP2_PORT_CTRL0_REG);
+  val = MvGop110GmacRead(Pp2Port, MVPP2_PORT_CTRL0_REG);
   /* configure GIG MAC to SGMII mode */
   val &= ~MVPP2_PORT_CTRL0_PORTTYPE_MASK;
-  mv_gop110_gmac_write(pp2_port, MVPP2_PORT_CTRL0_REG, val);
+  MvGop110GmacWrite(Pp2Port, MVPP2_PORT_CTRL0_REG, val);
 
   /* configure AN */
   an = MVPP2_PORT_AUTO_NEG_CFG_EN_PCS_AN_MASK |
@@ -3917,38 +3917,38 @@ VOID mv_gop110_gmac_sgmii_cfg(PP2DXE_PORT *pp2_port)
     MVPP2_PORT_AUTO_NEG_CFG_EN_FC_AN_MASK     |
     MVPP2_PORT_AUTO_NEG_CFG_EN_FDX_AN_MASK    |
     MVPP2_PORT_AUTO_NEG_CFG_CHOOSE_SAMPLE_TX_CONFIG_MASK;
-  mv_gop110_gmac_write(pp2_port, MVPP2_PORT_AUTO_NEG_CFG_REG, an);
+  MvGop110GmacWrite(Pp2Port, MVPP2_PORT_AUTO_NEG_CFG_REG, an);
 }
 
-VOID mv_gop110_gmac_qsgmii_cfg(PP2DXE_PORT *pp2_port)
+VOID MvGop110GmacQsgmiiCfg(PP2DXE_PORT *Pp2Port)
 {
   UINT32 val, thresh, an;
 
   /*configure minimal level of the Tx FIFO before the lower part starts to read a packet*/
   thresh = MV_SGMII_TX_FIFO_MIN_TH;
-  val = mv_gop110_gmac_read(pp2_port, MVPP2_PORT_FIFO_CFG_1_REG);
+  val = MvGop110GmacRead(Pp2Port, MVPP2_PORT_FIFO_CFG_1_REG);
   U32_SET_FIELD(val, MVPP2_PORT_FIFO_CFG_1_TX_FIFO_MIN_TH_MASK,
     (thresh << MVPP2_PORT_FIFO_CFG_1_TX_FIFO_MIN_TH_OFFS));
-  mv_gop110_gmac_write(pp2_port, MVPP2_PORT_FIFO_CFG_1_REG, val);
+  MvGop110GmacWrite(Pp2Port, MVPP2_PORT_FIFO_CFG_1_REG, val);
 
   /* Disable bypass of sync module */
-  val = mv_gop110_gmac_read(pp2_port, MVPP2_PORT_CTRL4_REG);
+  val = MvGop110GmacRead(Pp2Port, MVPP2_PORT_CTRL4_REG);
   val |= MVPP2_PORT_CTRL4_SYNC_BYPASS_MASK;
   /* configure DP clock select according to mode */
   val &= ~MVPP2_PORT_CTRL4_DP_CLK_SEL_MASK;
   val &= ~MVPP2_PORT_CTRL4_EXT_PIN_GMII_SEL_MASK;
   /* configure QSGMII bypass according to mode */
   val &= ~MVPP2_PORT_CTRL4_QSGMII_BYPASS_ACTIVE_MASK;
-  mv_gop110_gmac_write(pp2_port, MVPP2_PORT_CTRL4_REG, val);
+  MvGop110GmacWrite(Pp2Port, MVPP2_PORT_CTRL4_REG, val);
 
-  val = mv_gop110_gmac_read(pp2_port, MVPP2_PORT_CTRL2_REG);
+  val = MvGop110GmacRead(Pp2Port, MVPP2_PORT_CTRL2_REG);
   val &= ~MVPP2_PORT_CTRL2_DIS_PADING_OFFS;
-  mv_gop110_gmac_write(pp2_port, MVPP2_PORT_CTRL2_REG, val);
+  MvGop110GmacWrite(Pp2Port, MVPP2_PORT_CTRL2_REG, val);
 
-  val = mv_gop110_gmac_read(pp2_port, MVPP2_PORT_CTRL0_REG);
+  val = MvGop110GmacRead(Pp2Port, MVPP2_PORT_CTRL0_REG);
   /* configure GIG MAC to SGMII mode */
   val &= ~MVPP2_PORT_CTRL0_PORTTYPE_MASK;
-  mv_gop110_gmac_write(pp2_port, MVPP2_PORT_CTRL0_REG, val);
+  MvGop110GmacWrite(Pp2Port, MVPP2_PORT_CTRL0_REG, val);
 
   /* configure AN 0xB8EC */
   an = MVPP2_PORT_AUTO_NEG_CFG_EN_PCS_AN_MASK |
@@ -3957,29 +3957,29 @@ VOID mv_gop110_gmac_qsgmii_cfg(PP2DXE_PORT *pp2_port)
     MVPP2_PORT_AUTO_NEG_CFG_EN_FC_AN_MASK     |
     MVPP2_PORT_AUTO_NEG_CFG_EN_FDX_AN_MASK    |
     MVPP2_PORT_AUTO_NEG_CFG_CHOOSE_SAMPLE_TX_CONFIG_MASK;
-  mv_gop110_gmac_write(pp2_port, MVPP2_PORT_AUTO_NEG_CFG_REG, an);
+  MvGop110GmacWrite(Pp2Port, MVPP2_PORT_AUTO_NEG_CFG_REG, an);
 }
 /*
-* mv_gop_phy_addr_cfg
+* MvGopPhyAddrCfg
 */
-INT32 mvpp2_smi_phy_addr_cfg(PP2DXE_PORT *pp2_port, INT32 port, INT32 addr)
+INT32 Mvpp2SmiPhyAddrCfg(PP2DXE_PORT *Pp2Port, INT32 port, INT32 addr)
 {
-  mvpp2_smi_write(pp2_port->priv, MV_SMI_PHY_ADDRESS_REG(port), addr);
+  Mvpp2SmiWrite(Pp2Port->priv, MV_SMI_PHY_ADDRESS_REG(port), addr);
 
   return 0;
 }
-BOOLEAN mv_gop110_port_is_link_up(PP2DXE_PORT *pp2_port)
+BOOLEAN MvGop110PortIsLinkUp(PP2DXE_PORT *Pp2Port)
 {
-  switch (pp2_port->phy_interface) {
+  switch (Pp2Port->PhyInterface) {
   case MV_MODE_RGMII:
   case MV_MODE_SGMII:
   case MV_MODE_QSGMII:
-    return mv_gop110_gmac_link_status_get(pp2_port);
+    return MvGop110GmacLinkStatusGet(Pp2Port);
   break;
   case MV_MODE_XAUI:
   case MV_MODE_RXAUI:
     gBS->Stall(1000);
-//    return mv_gop110_xlg_mac_link_status_get(pp2_port);
+//    return MvGop110XlgMacLinkStatusGet(Pp2Port);
     return FALSE;
   break;
   default:
@@ -3987,53 +3987,53 @@ BOOLEAN mv_gop110_port_is_link_up(PP2DXE_PORT *pp2_port)
   }
 }
 /* Get MAC link status */
-BOOLEAN mv_gop110_gmac_link_status_get(PP2DXE_PORT *pp2_port)
+BOOLEAN MvGop110GmacLinkStatusGet(PP2DXE_PORT *Pp2Port)
 {
-  UINT32 reg_addr;
+  UINT32 RegAddr;
   UINT32 val;
 
-  reg_addr = MVPP2_PORT_STATUS0_REG;
+  RegAddr = MVPP2_PORT_STATUS0_REG;
 
-  val = mv_gop110_gmac_read(pp2_port, reg_addr);
+  val = MvGop110GmacRead(Pp2Port, RegAddr);
   return (val & 1) ? TRUE : FALSE;
 }
 
 /* BM */
-INTN mvpp2_bm_pool_ctrl(MVPP2_SHARED *pp2, INTN pool, enum mvpp2_command cmd)
+INTN Mvpp2BmPoolCtrl(MVPP2_SHARED *pp2, INTN pool, enum Mvpp2Command cmd)
 {
-  UINT32 reg_val = 0;
-  reg_val = mvpp2_read(pp2, MVPP2_BM_POOL_CTRL_REG(pool));
+  UINT32 RegVal = 0;
+  RegVal = Mvpp2Read(pp2, MVPP2_BM_POOL_CTRL_REG(pool));
 
   switch (cmd) {
   case MVPP2_START:
-    reg_val |= MVPP2_BM_START_MASK;
+    RegVal |= MVPP2_BM_START_MASK;
     break;
 
   case MVPP2_STOP:
-    reg_val |= MVPP2_BM_STOP_MASK;
+    RegVal |= MVPP2_BM_STOP_MASK;
     break;
 
   default:
     return -1;
   }
-  mvpp2_write(pp2, MVPP2_BM_POOL_CTRL_REG(pool), reg_val);
+  Mvpp2Write(pp2, MVPP2_BM_POOL_CTRL_REG(pool), RegVal);
 
   return 0;
 }
 
-VOID mv_gop110_port_disable(PP2DXE_PORT *pp2_port)
+VOID MvGop110PortDisable(PP2DXE_PORT *Pp2Port)
 {
 
-  switch (pp2_port->phy_interface) {
+  switch (Pp2Port->PhyInterface) {
   case MV_MODE_RGMII:
   case MV_MODE_SGMII:
   case MV_MODE_QSGMII:
-    mv_gop110_gmac_port_disable(pp2_port);
+    MvGop110GmacPortDisable(Pp2Port);
   break;
 /*
   case MV_MODE_XAUI:
   case MV_MODE_RXAUI:
-    mv_gop110_xlg_mac_port_disable(gop, port_num);
+    MvGop110XlgMacPortDisable(gop, PortNum);
   break;
   */
 
@@ -4042,19 +4042,19 @@ VOID mv_gop110_port_disable(PP2DXE_PORT *pp2_port)
   }
 }
 
-VOID mv_gop110_port_enable(PP2DXE_PORT *pp2_port)
+VOID MvGop110PortEnable(PP2DXE_PORT *Pp2Port)
 {
 
-  switch (pp2_port->phy_interface) {
+  switch (Pp2Port->PhyInterface) {
   case MV_MODE_RGMII:
   case MV_MODE_SGMII:
   case MV_MODE_QSGMII:
-    mv_gop110_gmac_port_enable(pp2_port);
+    MvGop110GmacPortEnable(Pp2Port);
   break;
 /*
   case MV_MODE_XAUI:
   case MV_MODE_RXAUI:
-    mv_gop110_xlg_mac_port_disable(gop, port_num);
+    MvGop110XlgMacPortDisable(gop, PortNum);
   break;
   */
 
@@ -4064,50 +4064,50 @@ VOID mv_gop110_port_enable(PP2DXE_PORT *pp2_port)
 }
 
 /* Enable port and MIB counters */
-VOID mv_gop110_gmac_port_enable(PP2DXE_PORT *pp2_port)
+VOID MvGop110GmacPortEnable(PP2DXE_PORT *Pp2Port)
 {
-  UINT32 reg_val;
+  UINT32 RegVal;
 
-  reg_val = mv_gop110_gmac_read(pp2_port, MVPP2_PORT_CTRL0_REG);
-  reg_val |= MVPP2_PORT_CTRL0_PORTEN_MASK;
-  reg_val |= MVPP2_PORT_CTRL0_COUNT_EN_MASK;
+  RegVal = MvGop110GmacRead(Pp2Port, MVPP2_PORT_CTRL0_REG);
+  RegVal |= MVPP2_PORT_CTRL0_PORTEN_MASK;
+  RegVal |= MVPP2_PORT_CTRL0_COUNT_EN_MASK;
 
-  mv_gop110_gmac_write(pp2_port, MVPP2_PORT_CTRL0_REG, reg_val);
+  MvGop110GmacWrite(Pp2Port, MVPP2_PORT_CTRL0_REG, RegVal);
 }
 
 /* Disable port */
-VOID mv_gop110_gmac_port_disable(PP2DXE_PORT *pp2_port)
+VOID MvGop110GmacPortDisable(PP2DXE_PORT *Pp2Port)
 {
-  UINT32 reg_val;
+  UINT32 RegVal;
 
   /* mask all ports interrupts */
-  mv_gop110_gmac_port_link_event_mask(pp2_port);
+  MvGop110GmacPortLinkEventMask(Pp2Port);
 
-  reg_val = mv_gop110_gmac_read(pp2_port, MVPP2_PORT_CTRL0_REG);
-  reg_val &= ~MVPP2_PORT_CTRL0_PORTEN_MASK;
+  RegVal = MvGop110GmacRead(Pp2Port, MVPP2_PORT_CTRL0_REG);
+  RegVal &= ~MVPP2_PORT_CTRL0_PORTEN_MASK;
 
-  mv_gop110_gmac_write(pp2_port, MVPP2_PORT_CTRL0_REG, reg_val);
+  MvGop110GmacWrite(Pp2Port, MVPP2_PORT_CTRL0_REG, RegVal);
 }
 
-VOID mv_gop110_gmac_port_link_event_mask(PP2DXE_PORT *pp2_port)
+VOID MvGop110GmacPortLinkEventMask(PP2DXE_PORT *Pp2Port)
 {
-  UINT32 reg_val;
+  UINT32 RegVal;
 
-  reg_val = mv_gop110_gmac_read(pp2_port,
+  RegVal = MvGop110GmacRead(Pp2Port,
         MV_GMAC_INTERRUPT_SUM_MASK_REG);
-  reg_val &= ~MV_GMAC_INTERRUPT_SUM_CAUSE_LINK_CHANGE_MASK;
-  mv_gop110_gmac_write(pp2_port, MV_GMAC_INTERRUPT_SUM_MASK_REG,
-      reg_val);
+  RegVal &= ~MV_GMAC_INTERRUPT_SUM_CAUSE_LINK_CHANGE_MASK;
+  MvGop110GmacWrite(Pp2Port, MV_GMAC_INTERRUPT_SUM_MASK_REG,
+      RegVal);
 }
 
-INT32 mv_gop110_port_events_mask(PP2DXE_PORT *pp2_port)
+INT32 MvGop110PortEventsMask(PP2DXE_PORT *Pp2Port)
 {
 
-  switch (pp2_port->phy_interface) {
+  switch (Pp2Port->PhyInterface) {
   case MV_MODE_RGMII:
   case MV_MODE_SGMII:
   case MV_MODE_QSGMII:
-    mv_gop110_gmac_port_link_event_mask(pp2_port);
+    MvGop110GmacPortLinkEventMask(Pp2Port);
   break;
   default:
     return -1;
@@ -4115,15 +4115,15 @@ INT32 mv_gop110_port_events_mask(PP2DXE_PORT *pp2_port)
   return 0;
 }
 
-INT32 mv_gop110_fl_cfg(PP2DXE_PORT *pp2_port)
+INT32 MvGop110FlCfg(PP2DXE_PORT *Pp2Port)
 {
 
-  switch (pp2_port->phy_interface) {
+  switch (Pp2Port->PhyInterface) {
   case MV_MODE_RGMII:
   case MV_MODE_SGMII:
   case MV_MODE_QSGMII:
     /* disable AN */
-    mv_gop110_speed_duplex_set(pp2_port, pp2_port->speed,
+    MvGop110SpeedDuplexSet(Pp2Port, Pp2Port->speed,
               MV_PORT_DUPLEX_FULL);
   break;
 
@@ -4137,15 +4137,15 @@ INT32 mv_gop110_fl_cfg(PP2DXE_PORT *pp2_port)
   return 0;
 }
 /* set port speed and duplex */
-INT32 mv_gop110_speed_duplex_set(PP2DXE_PORT *pp2_port,
-      INT32 speed, enum mv_port_duplex duplex)
+INT32 MvGop110SpeedDuplexSet(PP2DXE_PORT *Pp2Port,
+      INT32 speed, enum MvPortDuplex duplex)
 {
 
-  switch (pp2_port->phy_interface) {
+  switch (Pp2Port->PhyInterface) {
   case MV_MODE_RGMII:
   case MV_MODE_SGMII:
   case MV_MODE_QSGMII:
-    mv_gop110_gmac_speed_duplex_set(pp2_port, speed, duplex);
+    MvGop110GmacSpeedDuplexSet(Pp2Port, speed, duplex);
   break;
 
   case MV_MODE_XAUI:
@@ -4161,30 +4161,30 @@ INT32 mv_gop110_speed_duplex_set(PP2DXE_PORT *pp2_port,
 /* Sets port speed to Auto Negotiation / 1000 / 100 / 10 Mbps.
 *  Sets port duplex to Auto Negotiation / Full / Half Duplex.
 */
-INT32 mv_gop110_gmac_speed_duplex_set(PP2DXE_PORT *pp2_port,
-  INT32 speed, enum mv_port_duplex duplex)
+INT32 MvGop110GmacSpeedDuplexSet(PP2DXE_PORT *Pp2Port,
+  INT32 speed, enum MvPortDuplex duplex)
 {
-  UINT32 reg_val;
+  UINT32 RegVal;
 
-  reg_val = mvpp2_gmac_read(pp2_port,
+  RegVal = Mvpp2GmacRead(Pp2Port,
           MVPP2_PORT_AUTO_NEG_CFG_REG);
 
   switch (speed) {
   case MV_PORT_SPEED_2500:
   case MV_PORT_SPEED_1000:
-    reg_val &= ~MVPP2_PORT_AUTO_NEG_CFG_EN_AN_SPEED_MASK;
-    reg_val |= MVPP2_PORT_AUTO_NEG_CFG_SET_GMII_SPEED_MASK;
+    RegVal &= ~MVPP2_PORT_AUTO_NEG_CFG_EN_AN_SPEED_MASK;
+    RegVal |= MVPP2_PORT_AUTO_NEG_CFG_SET_GMII_SPEED_MASK;
     /* the 100/10 bit doesn't matter in this case */
     break;
   case MV_PORT_SPEED_100:
-    reg_val &= ~MVPP2_PORT_AUTO_NEG_CFG_EN_AN_SPEED_MASK;
-    reg_val &= ~MVPP2_PORT_AUTO_NEG_CFG_SET_GMII_SPEED_MASK;
-    reg_val |= MVPP2_PORT_AUTO_NEG_CFG_SET_MII_SPEED_MASK;
+    RegVal &= ~MVPP2_PORT_AUTO_NEG_CFG_EN_AN_SPEED_MASK;
+    RegVal &= ~MVPP2_PORT_AUTO_NEG_CFG_SET_GMII_SPEED_MASK;
+    RegVal |= MVPP2_PORT_AUTO_NEG_CFG_SET_MII_SPEED_MASK;
     break;
   case MV_PORT_SPEED_10:
-    reg_val &= ~MVPP2_PORT_AUTO_NEG_CFG_EN_AN_SPEED_MASK;
-    reg_val &= ~MVPP2_PORT_AUTO_NEG_CFG_SET_GMII_SPEED_MASK;
-    reg_val &= ~MVPP2_PORT_AUTO_NEG_CFG_SET_MII_SPEED_MASK;
+    RegVal &= ~MVPP2_PORT_AUTO_NEG_CFG_EN_AN_SPEED_MASK;
+    RegVal &= ~MVPP2_PORT_AUTO_NEG_CFG_SET_GMII_SPEED_MASK;
+    RegVal &= ~MVPP2_PORT_AUTO_NEG_CFG_SET_MII_SPEED_MASK;
     break;
   default:
     return MVPP2_EINVAL;
@@ -4192,58 +4192,58 @@ INT32 mv_gop110_gmac_speed_duplex_set(PP2DXE_PORT *pp2_port,
 
   switch (duplex) {
   case MV_PORT_DUPLEX_AN:
-    reg_val  |= MVPP2_PORT_AUTO_NEG_CFG_EN_FDX_AN_MASK;
+    RegVal  |= MVPP2_PORT_AUTO_NEG_CFG_EN_FDX_AN_MASK;
     /* the other bits don't matter in this case */
     break;
   case MV_PORT_DUPLEX_HALF:
-    reg_val &= ~MVPP2_PORT_AUTO_NEG_CFG_EN_FDX_AN_MASK;
-    reg_val &= ~MVPP2_PORT_AUTO_NEG_CFG_SET_FULL_DX_MASK;
+    RegVal &= ~MVPP2_PORT_AUTO_NEG_CFG_EN_FDX_AN_MASK;
+    RegVal &= ~MVPP2_PORT_AUTO_NEG_CFG_SET_FULL_DX_MASK;
     break;
   case MV_PORT_DUPLEX_FULL:
-    reg_val &= ~MVPP2_PORT_AUTO_NEG_CFG_EN_FDX_AN_MASK;
-    reg_val |= MVPP2_PORT_AUTO_NEG_CFG_SET_FULL_DX_MASK;
+    RegVal &= ~MVPP2_PORT_AUTO_NEG_CFG_EN_FDX_AN_MASK;
+    RegVal |= MVPP2_PORT_AUTO_NEG_CFG_SET_FULL_DX_MASK;
     break;
   default:
     return MVPP2_EINVAL;
   }
 
-  mvpp2_gmac_write(pp2_port, MVPP2_PORT_AUTO_NEG_CFG_REG,
-        reg_val);
+  Mvpp2GmacWrite(Pp2Port, MVPP2_PORT_AUTO_NEG_CFG_REG,
+        RegVal);
   return 0;
 }
 
-VOID mvpp2_axi_config(MVPP2_SHARED *pp2)
+VOID Mvpp2AxiConfig(MVPP2_SHARED *pp2)
 {
   /* Config AXI Read&Write Normal and Soop mode  */
-  mvpp2_write(pp2, MVPP22_AXI_BM_WR_ATTR_REG,
+  Mvpp2Write(pp2, MVPP22_AXI_BM_WR_ATTR_REG,
     MVPP22_AXI_ATTR_SNOOP_CNTRL_BIT);
-  mvpp2_write(pp2, MVPP22_AXI_BM_RD_ATTR_REG,
+  Mvpp2Write(pp2, MVPP22_AXI_BM_RD_ATTR_REG,
     MVPP22_AXI_ATTR_SNOOP_CNTRL_BIT);
-  mvpp2_write(pp2, MVPP22_AXI_AGGRQ_DESCR_RD_ATTR_REG,
+  Mvpp2Write(pp2, MVPP22_AXI_AGGRQ_DESCR_RD_ATTR_REG,
     MVPP22_AXI_ATTR_SNOOP_CNTRL_BIT);
-  mvpp2_write(pp2, MVPP22_AXI_TXQ_DESCR_WR_ATTR_REG,
+  Mvpp2Write(pp2, MVPP22_AXI_TXQ_DESCR_WR_ATTR_REG,
     MVPP22_AXI_ATTR_SNOOP_CNTRL_BIT);
-  mvpp2_write(pp2, MVPP22_AXI_TXQ_DESCR_RD_ATTR_REG,
+  Mvpp2Write(pp2, MVPP22_AXI_TXQ_DESCR_RD_ATTR_REG,
     MVPP22_AXI_ATTR_SNOOP_CNTRL_BIT);
-  mvpp2_write(pp2, MVPP22_AXI_RXQ_DESCR_WR_ATTR_REG,
+  Mvpp2Write(pp2, MVPP22_AXI_RXQ_DESCR_WR_ATTR_REG,
     MVPP22_AXI_ATTR_SNOOP_CNTRL_BIT);
-  mvpp2_write(pp2, MVPP22_AXI_RX_DATA_WR_ATTR_REG,
+  Mvpp2Write(pp2, MVPP22_AXI_RX_DATA_WR_ATTR_REG,
     MVPP22_AXI_ATTR_SNOOP_CNTRL_BIT);
-  mvpp2_write(pp2, MVPP22_AXI_TX_DATA_RD_ATTR_REG,
+  Mvpp2Write(pp2, MVPP22_AXI_TX_DATA_RD_ATTR_REG,
     MVPP22_AXI_ATTR_SNOOP_CNTRL_BIT);
 }
 
 /* Cleanup Tx ports */
-VOID mvpp2_txp_clean(PP2DXE_PORT *pp, INT32 txp,
+VOID Mvpp2TxpClean(PP2DXE_PORT *pp, INT32 txp,
           MVPP2_TX_QUEUE *txq)
 {
   INT32 delay, pending;
-  UINT32 reg_val;
+  UINT32 RegVal;
 
-  mvpp2_write(pp->priv, MVPP2_TXQ_NUM_REG, txq->id);
-  reg_val = mvpp2_read(pp->priv, MVPP2_TXQ_PREF_BUF_REG);
-  reg_val |= MVPP2_TXQ_DRAIN_EN_MASK;
-  mvpp2_write(pp->priv, MVPP2_TXQ_PREF_BUF_REG, reg_val);
+  Mvpp2Write(pp->priv, MVPP2_TXQ_NUM_REG, txq->id);
+  RegVal = Mvpp2Read(pp->priv, MVPP2_TXQ_PREF_BUF_REG);
+  RegVal |= MVPP2_TXQ_DRAIN_EN_MASK;
+  Mvpp2Write(pp->priv, MVPP2_TXQ_PREF_BUF_REG, RegVal);
 
   /* The napi queue has been stopped so wait for all packets
    * to be transmitted.
@@ -4251,50 +4251,50 @@ VOID mvpp2_txp_clean(PP2DXE_PORT *pp, INT32 txp,
   delay = 0;
   do {
     if (delay >= MVPP2_TX_PENDING_TIMEOUT_MSEC) {
-      mvpp2_printf("port %d: cleaning queue %d timed out\n",
-            pp->id, txq->log_id);
+      Mvpp2Printf("port %d: cleaning queue %d timed out\n",
+            pp->id, txq->LogId);
       break;
     }
-    mvpp2_mdelay(1);
+    Mvpp2Mdelay(1);
     delay++;
 
-    pending = mvpp2_txq_pend_desc_num_get(pp, txq);
+    pending = Mvpp2TxqPendDescNumGet(pp, txq);
   } while (pending);
 
-  reg_val &= ~MVPP2_TXQ_DRAIN_EN_MASK;
-  mvpp2_write(pp->priv, MVPP2_TXQ_PREF_BUF_REG, reg_val);
+  RegVal &= ~MVPP2_TXQ_DRAIN_EN_MASK;
+  Mvpp2Write(pp->priv, MVPP2_TXQ_PREF_BUF_REG, RegVal);
 }
 
 /* Cleanup all Tx queues */
-VOID mvpp2_cleanup_txqs(PP2DXE_PORT *pp)
+VOID Mvpp2CleanupTxqs(PP2DXE_PORT *pp)
 {
   MVPP2_TX_QUEUE *txq;
   INT32 txp, queue;
-  UINT32 reg_val;
+  UINT32 RegVal;
 
-  reg_val = mvpp2_read(pp->priv, MVPP2_TX_PORT_FLUSH_REG);
+  RegVal = Mvpp2Read(pp->priv, MVPP2_TX_PORT_FLUSH_REG);
 
   /* Reset Tx ports and delete Tx queues */
-  for (txp = 0; txp < pp->txp_num; txp++) {
-    reg_val |= MVPP2_TX_PORT_FLUSH_MASK(pp->id);
-    mvpp2_write(pp->priv, MVPP2_TX_PORT_FLUSH_REG, reg_val);
+  for (txp = 0; txp < pp->TxpNum; txp++) {
+    RegVal |= MVPP2_TX_PORT_FLUSH_MASK(pp->id);
+    Mvpp2Write(pp->priv, MVPP2_TX_PORT_FLUSH_REG, RegVal);
 
-    for (queue = 0; queue < txq_number; queue++) {
-      txq = &pp->txqs[txp * txq_number + queue];
-      mvpp2_txp_clean(pp, txp, txq);
-      mvpp2_txq_hw_deinit(pp, txq);
+    for (queue = 0; queue < TxqNumber; queue++) {
+      txq = &pp->txqs[txp * TxqNumber + queue];
+      Mvpp2TxpClean(pp, txp, txq);
+      Mvpp2TxqHwDeinit(pp, txq);
     }
 
-    reg_val &= ~MVPP2_TX_PORT_FLUSH_MASK(pp->id);
-    mvpp2_write(pp->priv, MVPP2_TX_PORT_FLUSH_REG, reg_val);
+    RegVal &= ~MVPP2_TX_PORT_FLUSH_MASK(pp->id);
+    Mvpp2Write(pp->priv, MVPP2_TX_PORT_FLUSH_REG, RegVal);
   }
 }
 
 /* Cleanup all Rx queues */
-VOID mvpp2_cleanup_rxqs(PP2DXE_PORT *pp)
+VOID Mvpp2CleanupRxqs(PP2DXE_PORT *pp)
 {
   INT32 queue;
 
-  for (queue = 0; queue < rxq_number; queue++)
-    mvpp2_rxq_hw_deinit(pp, &pp->rxqs[queue]);
+  for (queue = 0; queue < RxqNumber; queue++)
+    Mvpp2RxqHwDeinit(pp, &pp->rxqs[queue]);
 }
