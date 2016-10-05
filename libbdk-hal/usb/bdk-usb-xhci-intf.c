@@ -132,6 +132,62 @@ const char* __bdk_usb_speed2token(const int speed)
     }
 }
 
+/*
+** Convert usb string descriptor to printable string
+** English only
+*/
+static void usbstring2printable(char *buf, EFI_USB_STRING_DESCRIPTOR *usbString)
+{
+    int rlength = (usbString->Length - 2)/sizeof(usbString->String[0]);
+    for(int i = 0; i < rlength; i++) {
+        buf[i] = usbString->String[i] & 0xff;
+    }
+    buf[rlength] = '\0';
+}
+static void usb_print_strings(USB_DEVICE *Device, const int indent)
+{
+    //find some kind of english in device languages
+    // Favor US-English
+    int eIndex = -1;
+    for (int i = 0; i< Device->TotalLangId; i++) {
+        if (Device->LangId[i] == 0x0409) {
+            // US English
+            eIndex = i;
+            break;
+        }
+        else if (( -1 == eIndex) && ((Device->LangId[i] & 0xff) == 0x9) ) {
+            // Some other kind of English
+            eIndex = i;
+        }
+    }
+    if (-1 != eIndex) {
+        char buf[128]; // USB string can not be longer then 126 printable characters
+        if ( Device->DevDesc->Desc.StrManufacturer) {
+            EFI_USB_STRING_DESCRIPTOR *mfg = UsbGetOneString(Device, Device->DevDesc->Desc.StrManufacturer, Device->LangId[eIndex]);
+            if (mfg) {
+                usbstring2printable(buf,mfg);
+                printf("%*s    Manufacturer: %s\n", indent, "",buf);
+                free(mfg);
+            }
+        }
+        if  (Device->DevDesc->Desc.StrProduct) {
+            EFI_USB_STRING_DESCRIPTOR *prod =  UsbGetOneString(Device, Device->DevDesc->Desc.StrProduct, Device->LangId[eIndex]);
+            if (prod) {
+                usbstring2printable(buf, prod);
+                printf("%*s    Product: %s\n",  indent, "", buf);
+                free(prod);
+            }
+        }
+        if  (Device->DevDesc->Desc.StrSerialNumber) {
+            EFI_USB_STRING_DESCRIPTOR *serial = UsbGetOneString(Device, Device->DevDesc->Desc.StrSerialNumber, Device->LangId[eIndex]);
+            if (serial) {
+                usbstring2printable(buf, serial);
+                printf("%*s    Serial Number: %s\n", indent, "", buf);
+                free(serial);
+            }
+        }
+    }
+}
 static void list_usb_interface(const USB_INTERFACE *UsbIf,const int tier, const int ifnum)
 {
     char buf[128];
@@ -185,7 +241,7 @@ static void list_usb_interface(const USB_INTERFACE *UsbIf,const int tier, const 
                        bdk_le16_to_cpu(Device->DevDesc->Desc.IdProduct),
                        __bdk_usb_speed2token(Device->Speed)
                     );
-
+                usb_print_strings(Device, 4*tier);
                 for(unsigned n=0; n < Device->NumOfInterface; n++) {
                     if (NULL == Device->Interfaces[n]) continue;
                     list_usb_interface(Device->Interfaces[n],Device->Tier,n);
@@ -267,7 +323,7 @@ int bdk_usb_HCList(bdk_node_t node, int usb_port)
                                bdk_le16_to_cpu(Device->DevDesc->Desc.IdProduct),
                                __bdk_usb_speed2token(Device->Speed)
                             );
-
+                        usb_print_strings(Device,0);
                         for(unsigned n=0; n < Device->NumOfInterface; n++) {
                             if (NULL == (UsbIf = Device->Interfaces[n])) continue;
                             list_usb_interface(Device->Interfaces[n], Device->Tier,n);
