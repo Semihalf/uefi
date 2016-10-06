@@ -335,7 +335,7 @@ static void ccpi_update_rx_equalization()
             int ccpi_lane = (qlm - 8) * 4 + lane;
             lane_state_t *lstate = &lane_state[ccpi_lane];
             /* Only do RX equalization on lanes in training */
-            if ((lstate->lane_state >= STATE_TRAINING_INIT) &&
+            if ((lstate->lane_state >= STATE_WAIT_TRAIN_PRESET) &&
                 (lstate->lane_state < STATE_WAIT_FOR_READY))
             {
                 /* Software control of RX equalization */
@@ -360,7 +360,7 @@ static void ccpi_update_rx_equalization()
             int ccpi_lane = (qlm - 8) * 4 + lane;
             lane_state_t *lstate = &lane_state[ccpi_lane];
             /* Only do RX equalization on lanes in training */
-            if ((lstate->lane_state >= STATE_TRAINING_INIT) &&
+            if ((lstate->lane_state >= STATE_WAIT_TRAIN_PRESET) &&
                 (lstate->lane_state < STATE_WAIT_FOR_READY))
             {
                 BDK_CSR_INIT(gserx_br_rxx_eer, node, BDK_GSERX_BR_RXX_EER(qlm, lane));
