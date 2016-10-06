@@ -913,9 +913,9 @@ static void lane_check_messaging(int ccpi_lane, bool is_master)
                     lane_change_state(ccpi_lane, STATE_TRAINING_INIT);
             }
             else
-                lstate->ld_cu.u--;
+                lstate->ld_cu.u -= 3;
         }
-        else if (response - 1 == request)
+        else if (response - 3 == request)
         {
             /* Partner is one behind, assume we just haven't gotten the update
                yet. Continue in current state */
