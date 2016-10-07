@@ -9,6 +9,7 @@
         (((midr) & MIDR_PARTNUM_MASK) >> MIDR_PARTNUM_SHIFT)
 
 #define T81PARTNUM 0xA2
+#define T98PARTNUM 0xB1
 
 static inline int CAVIUM_SOC_TYPE(void)
 {
@@ -17,12 +18,14 @@ static inline int CAVIUM_SOC_TYPE(void)
         return MIDR_PARTNUM(midr);
 }
 
-int thunder_get_lmc_per_node(void)
+static inline int thunder_get_lmc_per_node(void)
 {
 
 	switch (CAVIUM_SOC_TYPE()) {
         case T81PARTNUM :
 		return 1;
+	case T98PARTNUM :
+		return 6;
 	default:
 		return -1;
 	}
