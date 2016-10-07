@@ -38,6 +38,7 @@
 #include <xlat_tables.h>
 #include <thunder_private.h>
 #include <thunder_dt.h>
+#include <thunder_io.h>
 #include <stdio.h>
 
 #define BL2_NOLOAD_BASE (unsigned long)(&__NOLOAD_START__)
@@ -204,6 +205,9 @@ void bl2_platform_setup(void)
 	 * Do initial security configuration to allow DRAM/device access.
 	 */
 	thunder_security_setup();
+
+	/* Enumerate devices on ECAMs */
+	init_thunder_io(1);
 
         /* Initialise the IO layer and register platform IO devices */
         thunder_io_setup();
