@@ -14,6 +14,8 @@ typedef struct board_fdt {
 } board_fdt_t;
 
 int thunder_fill_board_details(int info);
+uint64_t thunder_get_ecam_config_addr(int node, int ecam);
+uint64_t thunder_get_ecam_config_size(int node, int ecam);
 
 extern board_fdt_t bfdt;
 #endif

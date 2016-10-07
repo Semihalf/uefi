@@ -28,4 +28,14 @@ int thunder_get_lmc_per_node(void)
 	}
 }
 
+static inline int thunder_get_num_ecams_per_node(void)
+{
+	switch (CAVIUM_SOC_TYPE()) {
+        case T81PARTNUM :
+                return 1;
+        default:
+                return -1;
+        }
+}
+
 #endif /* __THUDNER_COMMON_H__ */

@@ -117,3 +117,100 @@ int thunder_fill_board_details(int info)
 
 	return 0;
 }
+
+uint64_t thunder_get_ecam_config_addr(int node, int ecam)
+{
+        const void *fdt = fdt_ptr;
+        int offset = 0, dt_node, ret = 0, len;
+        uint64_t val = 0, range = 0;
+        uint64_t addr = CSR_PA(0, CAVM_ECAMX_PF_BAR2(ecam));
+        const char *nodename;
+        char name[32], *socname;
+        const uint64_t *prop;
+
+
+        if(fdt_check_header(fdt)) {
+                printf("ERROR: Invalid device tree\n");
+                return -1;
+        }
+
+        socname = node ? "/soc@100000000000" : "/soc@0"; 
+        offset = fdt_path_offset(fdt, socname);
+        if(offset < 0) {
+                printf("ERROR: FDT node /soc not found\n");
+                return -1;
+        }
+
+        /* Get the ranges property for soc node*/
+        if(node) {
+                prop = fdt_getprop(fdt, offset, "ranges", &len);
+                if(prop) {
+                        range = fdt64_to_cpu(*(prop + 2));
+                        if(!range) {
+                                printf("ERROR : range value not valid 0x%lx\n", range);
+                                return -1;
+                        }
+                }
+        }
+
+        for(dt_node = offset; dt_node >= 0; dt_node = fdt_next_node(fdt, dt_node, NULL)) {
+		nodename = fdt_get_name(fdt, dt_node, &ret);
+                snprintf(name, sizeof(name), "pci@%lx", addr);
+                if(!strcmp(nodename, name)) {
+                        prop = fdt_getprop(fdt, dt_node, "reg", &len);
+                        if(prop) {
+                                val = fdt64_to_cpu(*prop) | range;
+                                break;
+                        }
+                }
+        }
+
+        if(!val)
+                printf("ERROR : No valid ecam config read from DT node %d ecam %d\n",
+                                node, ecam);
+
+        return val;
+}
+
+uint64_t thunder_get_ecam_config_size(int node, int ecam)
+{
+        const void *fdt = fdt_ptr;
+        int offset = 0, dt_node, ret = 0, len;
+        uint64_t val = 0;
+        uint64_t addr = CSR_PA(0, CAVM_ECAMX_PF_BAR2(ecam));
+        const char *nodename;
+        char name[32], *socname;
+        const uint64_t *prop;
+
+        if(fdt_check_header(fdt)) {
+                printf("ERROR: Invalid device tree\n");
+                return -1;
+        }
+
+        socname = node ? "/soc@100000000000" : "/soc@0";
+        offset = fdt_path_offset(fdt, socname);
+        if(offset < 0) {
+                printf("ERROR: FDT node /soc not found\n");
+                return -1;
+        }
+
+        for(dt_node = offset; dt_node >= 0; dt_node = fdt_next_node(fdt, dt_node, NULL)) {
+                nodename = fdt_get_name(fdt, dt_node, &ret);
+                snprintf(name, sizeof(name), "pci@%lx", addr);
+                if(!strcmp(nodename, name))
+                {
+                        prop = fdt_getprop(fdt, dt_node, "reg", &len);
+                        if(prop) {
+                                val = fdt64_to_cpu(*(prop + 1));
+                                break;
+                        }
+                }
+        }
+
+        if(!val)
+                printf("ERROR : No valid ecam config read from DT node %d ecam %d\n",
+                                node, ecam);
+
+        return val;
+}
+
