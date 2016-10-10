@@ -429,7 +429,7 @@ retry:
        polling process times out system software moves to the next implemented
        port and returns to step 1. */
     /* Waiting for device detection, up to 500ms. PxCMD[DET] must be 1 or 3 */
-    uint64_t timeout = bdk_clock_get_count(BDK_CLOCK_TIME) + bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_TIME) * 5;
+    uint64_t timeout = bdk_clock_get_count(BDK_CLOCK_TIME) + bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_TIME) / 2;
     BDK_CSR_INIT(p0_ssts, node, BDK_SATAX_UAHC_P0_SSTS(controller));
     while ((p0_ssts.s.det != 1) && (p0_ssts.s.det != 3) &&
            (bdk_clock_get_count(BDK_CLOCK_TIME) <= timeout))
@@ -452,7 +452,7 @@ retry:
        PxTFD.STS.ERR are all '0', prior to the maximum allowed time as
        specified in the ATA/ATAPI-7 specification, the device is ready. */
     /* Wait for the device to be ready. BSY(7), DRQ(3), and ERR(0) must be clear */
-    if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_SATAX_UAHC_P0_TFD(controller), sts & 0x85, ==, 0, 500000))
+    if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_SATAX_UAHC_P0_TFD(controller), sts & 0x89, ==, 0, 500000))
     {
         if (retry_count < 3)
         {
