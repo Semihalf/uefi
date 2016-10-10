@@ -531,19 +531,19 @@ union bdk_pko_send_aura_s
                                                                  PKO SEND descriptor and the aura whose aura count may be decremented by
                                                                  this PKO_SEND_AURA_S.
 
-                                                                 For the FPA to not discard the free request, FPA_PF_MAP() must map
-                                                                 [AURA] and PKO_PF_VF()_GMCTL[GMID] as valid. */
+                                                                 PKO_PF_VF()_GMCTL[GMID] for the virtual function is the GMID associated
+                                                                 with [AURA]. For a successful aura update, FPA_PF_MAP() must map [AURA]
+                                                                 and PKO_PF_VF()_GMCTL[GMID] as valid. */
         uint64_t reserved_12_23        : 12;
         uint64_t alg                   : 4;  /**< [ 11:  8] Aura count adder algorithm. Combined with [OFFSET], determines the amount
                                                                  to decrement [AURA]'s aura count. Enumerated by PKO_AURAALG_E.
 
-                                                                 [ALG] may commonly be NOP, and PKO_SEND_AURA_S sudescriptor
-                                                                 usage may be infrequent, when the aura count corresponds to the number of
-                                                                 buffers. This is because all FPA buffer frees from PKO (including those
-                                                                 created while processing PKO_SEND_GATHER_S, PKO_SEND_LINK_S,
-                                                                 PKO_SEND_JUMP_S, or PKO_SEND_FREE_S subdescriptors) are optionally
-                                                                 subject to an FPA-automatic aura update which decrements the aura count
-                                                                 by one. See the FPA chapter.
+                                                                 PKO_SEND_AURA_S sudescriptor usage may be infrequent when the aura
+                                                                 count corresponds to the number of buffers. This is because all FPA
+                                                                 buffer frees from PKO (including those created while processing
+                                                                 PKO_SEND_GATHER_S, PKO_SEND_LINK_S, PKO_SEND_JUMP_S, or PKO_SEND_FREE_S
+                                                                 subdescriptors) are optionally subject to an FPA-automatic aura update
+                                                                 which decrements the aura count by one. See the FPA chapter.
 
                                                                  The aura count change will not occur until after PKO dequeues the PKO SEND
                                                                  descriptor and starts processing it. Otherwise, PKO may create the FPA
@@ -588,13 +588,12 @@ union bdk_pko_send_aura_s
         uint64_t alg                   : 4;  /**< [ 11:  8] Aura count adder algorithm. Combined with [OFFSET], determines the amount
                                                                  to decrement [AURA]'s aura count. Enumerated by PKO_AURAALG_E.
 
-                                                                 [ALG] may commonly be NOP, and PKO_SEND_AURA_S sudescriptor
-                                                                 usage may be infrequent, when the aura count corresponds to the number of
-                                                                 buffers. This is because all FPA buffer frees from PKO (including those
-                                                                 created while processing PKO_SEND_GATHER_S, PKO_SEND_LINK_S,
-                                                                 PKO_SEND_JUMP_S, or PKO_SEND_FREE_S subdescriptors) are optionally
-                                                                 subject to an FPA-automatic aura update which decrements the aura count
-                                                                 by one. See the FPA chapter.
+                                                                 PKO_SEND_AURA_S sudescriptor usage may be infrequent when the aura
+                                                                 count corresponds to the number of buffers. This is because all FPA
+                                                                 buffer frees from PKO (including those created while processing
+                                                                 PKO_SEND_GATHER_S, PKO_SEND_LINK_S, PKO_SEND_JUMP_S, or PKO_SEND_FREE_S
+                                                                 subdescriptors) are optionally subject to an FPA-automatic aura update
+                                                                 which decrements the aura count by one. See the FPA chapter.
 
                                                                  The aura count change will not occur until after PKO dequeues the PKO SEND
                                                                  descriptor and starts processing it. Otherwise, PKO may create the FPA
@@ -610,8 +609,9 @@ union bdk_pko_send_aura_s
                                                                  PKO SEND descriptor and the aura whose aura count may be decremented by
                                                                  this PKO_SEND_AURA_S.
 
-                                                                 For the FPA to not discard the free request, FPA_PF_MAP() must map
-                                                                 [AURA] and PKO_PF_VF()_GMCTL[GMID] as valid. */
+                                                                 PKO_PF_VF()_GMCTL[GMID] for the virtual function is the GMID associated
+                                                                 with [AURA]. For a successful aura update, FPA_PF_MAP() must map [AURA]
+                                                                 and PKO_PF_VF()_GMCTL[GMID] as valid. */
         uint64_t reserved_40_47        : 8;
         uint64_t p                     : 1;  /**< [ 48: 48] Reserved.
                                                                  Internal:
@@ -753,11 +753,19 @@ union bdk_pko_send_free_s
                                                                  Intent was to stripe an 8-bit CRC across these bits in the cacheline, but
                                                                  not implemented. */
         uint64_t reserved_40_47        : 8;
-        uint64_t aura                  : 16; /**< [ 39: 24] Aura number. The aura to use FPA frees. */
+        uint64_t aura                  : 16; /**< [ 39: 24] Aura number. The aura to free to.
+
+                                                                 PKO_PF_VF()_GMCTL[GMID] for the virtual function is the GMID associated
+                                                                 with [AURA]. For a successful free request, FPA_PF_MAP() must map [AURA]
+                                                                 and PKO_PF_VF()_GMCTL[GMID] as valid. */
         uint64_t reserved_0_23         : 24;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_23         : 24;
-        uint64_t aura                  : 16; /**< [ 39: 24] Aura number. The aura to use FPA frees. */
+        uint64_t aura                  : 16; /**< [ 39: 24] Aura number. The aura to free to.
+
+                                                                 PKO_PF_VF()_GMCTL[GMID] for the virtual function is the GMID associated
+                                                                 with [AURA]. For a successful free request, FPA_PF_MAP() must map [AURA]
+                                                                 and PKO_PF_VF()_GMCTL[GMID] as valid. */
         uint64_t reserved_40_47        : 8;
         uint64_t p                     : 1;  /**< [ 48: 48] Reserved.
                                                                  Internal:
@@ -991,12 +999,14 @@ union bdk_pko_send_gather_s
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
         uint64_t addr                  : 64; /**< [127: 64] ADDR is an IOVA L2/DRAM address of the first byte of packet data in the
-                                                                 segment.
+                                                                 segment. PKO_PF_VF()_GMCTL[STRM] for the virtual function is the stream ID used
+                                                                 for all references based off of [ADDR].
 
                                                                  The packet data pointed to is byte-invariant and endian settings do not matter. */
 #else /* Word 1 - Little Endian */
         uint64_t addr                  : 64; /**< [127: 64] ADDR is an IOVA L2/DRAM address of the first byte of packet data in the
-                                                                 segment.
+                                                                 segment. PKO_PF_VF()_GMCTL[STRM] for the virtual function is the stream ID used
+                                                                 for all references based off of [ADDR].
 
                                                                  The packet data pointed to is byte-invariant and endian settings do not matter. */
 #endif /* Word 1 - End */
@@ -2401,13 +2411,17 @@ union bdk_pko_send_jump_s
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
         uint64_t addr                  : 64; /**< [127: 64] The IOVA L2/DRAM address of the first byte of the next subdescriptor. [ADDR]
-                                                                 must be 128 byte aligned. PKO will ignore ADDR<3:0>.
+                                                                 must be 128 byte aligned. PKO will ignore ADDR<3:0>. PKO_PF_VF()_GMCTL[STRM]
+                                                                 for the virtual function is the stream ID used for all references based off
+                                                                 of [ADDR].
 
                                                                  If PKO_PF_VF()_GMCTL[BE] is set for this VF, [ADDR] points to big-endian
                                                                  instructions, otherwise little-endian. */
 #else /* Word 1 - Little Endian */
         uint64_t addr                  : 64; /**< [127: 64] The IOVA L2/DRAM address of the first byte of the next subdescriptor. [ADDR]
-                                                                 must be 128 byte aligned. PKO will ignore ADDR<3:0>.
+                                                                 must be 128 byte aligned. PKO will ignore ADDR<3:0>. PKO_PF_VF()_GMCTL[STRM]
+                                                                 for the virtual function is the stream ID used for all references based off
+                                                                 of [ADDR].
 
                                                                  If PKO_PF_VF()_GMCTL[BE] is set for this VF, [ADDR] points to big-endian
                                                                  instructions, otherwise little-endian. */
@@ -2588,7 +2602,8 @@ union bdk_pko_send_link_s
                                                                  contain a valid PKI_BUFLINK_S if the packet has more than [SIZE] bytes (i.e. the
                                                                  PKI_BUFLINK_S must be valid if PKO_SEND_HDR_S[TOTAL] minus the sum of all
                                                                  PKO_SEND_GATHER_S[SIZE]s and PKO_SEND_IMM_S[SIZE]s in the descriptor is greater
-                                                                 than [SIZE].)
+                                                                 than [SIZE].) PKO_PF_VF()_GMCTL[STRM] for the virtual function is the stream ID
+                                                                 used for all references based off of [ADDR].
 
                                                                  If PKO_PF_VF()_GMCTL[BE] is set for this VF, the next-buffer pointer inside the
                                                                  structure that [ADDR] points to is big-endian, else little-endian.  The packet
@@ -2599,7 +2614,8 @@ union bdk_pko_send_link_s
                                                                  contain a valid PKI_BUFLINK_S if the packet has more than [SIZE] bytes (i.e. the
                                                                  PKI_BUFLINK_S must be valid if PKO_SEND_HDR_S[TOTAL] minus the sum of all
                                                                  PKO_SEND_GATHER_S[SIZE]s and PKO_SEND_IMM_S[SIZE]s in the descriptor is greater
-                                                                 than [SIZE].)
+                                                                 than [SIZE].) PKO_PF_VF()_GMCTL[STRM] for the virtual function is the stream ID
+                                                                 used for all references based off of [ADDR].
 
                                                                  If PKO_PF_VF()_GMCTL[BE] is set for this VF, the next-buffer pointer inside the
                                                                  structure that [ADDR] points to is big-endian, else little-endian.  The packet
@@ -2692,12 +2708,16 @@ union bdk_pko_send_mem_s
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
         uint64_t addr                  : 64; /**< [127: 64] IOVA of the L2/DRAM address to be modified. [ADDR] must be naturally aligned to
-                                                                 the size specified in [DSZ]. If PKO_PF_VF()_GMCTL[BE] is set for this VF, [ADDR]
-                                                                 is a big-endian byte pointer. Otherwise, [ADDR] is a little-endian byte pointer. */
+                                                                 the size specified in [DSZ]. PKO_PF_VF()_GMCTL[STRM] for the virtual function is
+                                                                 the stream ID used for all references based off of [ADDR]. If PKO_PF_VF()_GMCTL[BE]
+                                                                 is set for this VF, [ADDR] is a big-endian byte pointer. Otherwise, [ADDR] is a
+                                                                 little-endian byte pointer. */
 #else /* Word 1 - Little Endian */
         uint64_t addr                  : 64; /**< [127: 64] IOVA of the L2/DRAM address to be modified. [ADDR] must be naturally aligned to
-                                                                 the size specified in [DSZ]. If PKO_PF_VF()_GMCTL[BE] is set for this VF, [ADDR]
-                                                                 is a big-endian byte pointer. Otherwise, [ADDR] is a little-endian byte pointer. */
+                                                                 the size specified in [DSZ]. PKO_PF_VF()_GMCTL[STRM] for the virtual function is
+                                                                 the stream ID used for all references based off of [ADDR]. If PKO_PF_VF()_GMCTL[BE]
+                                                                 is set for this VF, [ADDR] is a big-endian byte pointer. Otherwise, [ADDR] is a
+                                                                 little-endian byte pointer. */
 #endif /* Word 1 - End */
     } s;
     /* struct bdk_pko_send_mem_s_s cn; */
@@ -2742,14 +2762,22 @@ union bdk_pko_send_work_s
                                                                  not implemented. */
         uint64_t reserved_44_47        : 4;
         uint64_t grp                   : 10; /**< [ 43: 34] SSO group. The SSO group number to add work to. Note the upper two bits
-                                                                 correspond to a node number. */
+                                                                 correspond to a node number.
+
+                                                                 PKO_PF_VF()_GMCTL[GMID] for the virtual function is the GMID associated
+                                                                 with [GRP]. For a successful work add, SSO_PF_MAP() must map [GRP] and
+                                                                 PKO_PF_VF()_GMCTL[GMID] as valid. */
         uint64_t tt                    : 2;  /**< [ 33: 32] SSO tag type. The SSO tag type number to add work with. */
         uint64_t tag                   : 32; /**< [ 31:  0] Reserved. */
 #else /* Word 0 - Little Endian */
         uint64_t tag                   : 32; /**< [ 31:  0] Reserved. */
         uint64_t tt                    : 2;  /**< [ 33: 32] SSO tag type. The SSO tag type number to add work with. */
         uint64_t grp                   : 10; /**< [ 43: 34] SSO group. The SSO group number to add work to. Note the upper two bits
-                                                                 correspond to a node number. */
+                                                                 correspond to a node number.
+
+                                                                 PKO_PF_VF()_GMCTL[GMID] for the virtual function is the GMID associated
+                                                                 with [GRP]. For a successful work add, SSO_PF_MAP() must map [GRP] and
+                                                                 PKO_PF_VF()_GMCTL[GMID] as valid. */
         uint64_t reserved_44_47        : 4;
         uint64_t p                     : 1;  /**< [ 48: 48] Reserved.
                                                                  Internal:
@@ -3005,11 +3033,17 @@ union bdk_pko_dpfi_fpa_aura
         uint64_t reserved_12_63        : 52;
         uint64_t laura                 : 12; /**< [ 11:  0](R/W) FPA guest-aura to use for PKO command buffering allocations and frees. The
                                                                  FPA guest-aura selected by LAURA must correspond to a pool where the buffers (after
-                                                                 any FPA_POOL()_CFG[BUF_OFFSET]) are at least of size PKO_CONST[PDM_BUF_SIZE] (4KB). */
+                                                                 any FPA_POOL()_CFG[BUF_OFFSET]) are at least of size PKO_CONST[PDM_BUF_SIZE] (4KB).
+
+                                                                 PKO_DPFI_GMCTL[GMID] is the GMID associated with [LAURA]. For the FPA to not
+                                                                 discard the request, FPA_PF_MAP() must map [AURA] and PKO_DPFI_GMCTL[GMID] as valid. */
 #else /* Word 0 - Little Endian */
         uint64_t laura                 : 12; /**< [ 11:  0](R/W) FPA guest-aura to use for PKO command buffering allocations and frees. The
                                                                  FPA guest-aura selected by LAURA must correspond to a pool where the buffers (after
-                                                                 any FPA_POOL()_CFG[BUF_OFFSET]) are at least of size PKO_CONST[PDM_BUF_SIZE] (4KB). */
+                                                                 any FPA_POOL()_CFG[BUF_OFFSET]) are at least of size PKO_CONST[PDM_BUF_SIZE] (4KB).
+
+                                                                 PKO_DPFI_GMCTL[GMID] is the GMID associated with [LAURA]. For the FPA to not
+                                                                 discard the request, FPA_PF_MAP() must map [AURA] and PKO_DPFI_GMCTL[GMID] as valid. */
         uint64_t reserved_12_63        : 52;
 #endif /* Word 0 - End */
     } s;
@@ -3046,13 +3080,13 @@ union bdk_pko_dpfi_gmctl
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
         uint64_t gmid                  : 16; /**< [ 15:  0](R/W) Guest machine identifier. The GMID to send to FPA for descriptor buffer
-                                                                 allocations and frees.
+                                                                 allocations and frees. See PKO_DPFI_FPA_AURA[LAURA].
                                                                  Must be nonzero or FPA will drop requests; see FPA_PF_MAP().
 
                                                                  See also PKO_PF_VF()_GMCTL[GMID]. */
 #else /* Word 0 - Little Endian */
         uint64_t gmid                  : 16; /**< [ 15:  0](R/W) Guest machine identifier. The GMID to send to FPA for descriptor buffer
-                                                                 allocations and frees.
+                                                                 allocations and frees. See PKO_DPFI_FPA_AURA[LAURA].
                                                                  Must be nonzero or FPA will drop requests; see FPA_PF_MAP().
 
                                                                  See also PKO_PF_VF()_GMCTL[GMID]. */

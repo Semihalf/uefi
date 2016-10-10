@@ -865,13 +865,25 @@ static inline uint64_t BDK_BCH_PF_MSIX_VECX_CTL(unsigned long a)
  * Register (NCB) bch_pf_q#_gmctl
  *
  * BCH PF Queue Guest Machine Control Register
- * Internal:
- * Make register internal in CN81xx, visible in CN83xx.
  */
 union bdk_bch_pf_qx_gmctl
 {
     uint64_t u;
     struct bdk_bch_pf_qx_gmctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t gmid                  : 16; /**< [ 15:  0](R/W) Guest machine identifier. The GMID to send to FPA for all
+                                                                 buffer free operations initiated by this queue.
+                                                                 Must be nonzero or FPA will drop requests; see FPA_PF_MAP(). */
+#else /* Word 0 - Little Endian */
+        uint64_t gmid                  : 16; /**< [ 15:  0](R/W) Guest machine identifier. The GMID to send to FPA for all
+                                                                 buffer free operations initiated by this queue.
+                                                                 Must be nonzero or FPA will drop requests; see FPA_PF_MAP(). */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_bch_pf_qx_gmctl_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
@@ -888,8 +900,8 @@ union bdk_bch_pf_qx_gmctl
                                                                  Must be nonzero or FPA will drop requests; see FPA_PF_MAP(). */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_bch_pf_qx_gmctl_s cn; */
+    } cn81xx;
+    /* struct bdk_bch_pf_qx_gmctl_s cn83xx; */
 };
 typedef union bdk_bch_pf_qx_gmctl bdk_bch_pf_qx_gmctl_t;
 

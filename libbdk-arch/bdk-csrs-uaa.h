@@ -560,24 +560,13 @@ union bdk_uaax_ibrd
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_16_31        : 16;
-        uint32_t baud_divint           : 16; /**< [ 15:  0](R/W) Integer part of baud-rate divisor. See UAA(0..1)_FBRD. */
+        uint32_t baud_divint           : 16; /**< [ 15:  0](R/W) Integer part of baud-rate divisor. See UAA()_FBRD. */
 #else /* Word 0 - Little Endian */
-        uint32_t baud_divint           : 16; /**< [ 15:  0](R/W) Integer part of baud-rate divisor. See UAA(0..1)_FBRD. */
+        uint32_t baud_divint           : 16; /**< [ 15:  0](R/W) Integer part of baud-rate divisor. See UAA()_FBRD. */
         uint32_t reserved_16_31        : 16;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_uaax_ibrd_cn81xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_16_31        : 16;
-        uint32_t baud_divint           : 16; /**< [ 15:  0](R/W) Integer part of baud-rate divisor. See UAA(0..3)_FBRD. */
-#else /* Word 0 - Little Endian */
-        uint32_t baud_divint           : 16; /**< [ 15:  0](R/W) Integer part of baud-rate divisor. See UAA(0..3)_FBRD. */
-        uint32_t reserved_16_31        : 16;
-#endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_uaax_ibrd_s cn88xx; */
-    /* struct bdk_uaax_ibrd_cn81xx cn83xx; */
+    /* struct bdk_uaax_ibrd_s cn; */
 };
 typedef union bdk_uaax_ibrd bdk_uaax_ibrd_t;
 

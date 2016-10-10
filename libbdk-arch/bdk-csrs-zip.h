@@ -5036,15 +5036,11 @@ union bdk_zip_pf_quex_gmctl
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t gmid                  : 16; /**< [ 15:  0](R/W) Reserved.
-                                                                 Internal:
-                                                                 Guest machine identifier. The GMID to send to FPA for all buffer free operations, or
+        uint64_t gmid                  : 16; /**< [ 15:  0](R/W) Guest machine identifier. The GMID to send to FPA for all buffer free operations, or
                                                                  to SSO for all add-work operations initiated by this queue.  Must be nonzero or FPA/SSO
                                                                  will drop requests; see FPA_PF_MAP() and SSO_PF_MAP(). */
 #else /* Word 0 - Little Endian */
-        uint64_t gmid                  : 16; /**< [ 15:  0](R/W) Reserved.
-                                                                 Internal:
-                                                                 Guest machine identifier. The GMID to send to FPA for all buffer free operations, or
+        uint64_t gmid                  : 16; /**< [ 15:  0](R/W) Guest machine identifier. The GMID to send to FPA for all buffer free operations, or
                                                                  to SSO for all add-work operations initiated by this queue.  Must be nonzero or FPA/SSO
                                                                  will drop requests; see FPA_PF_MAP() and SSO_PF_MAP(). */
         uint64_t reserved_16_63        : 48;

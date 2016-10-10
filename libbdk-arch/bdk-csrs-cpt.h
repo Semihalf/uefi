@@ -3079,15 +3079,11 @@ union bdk_cptx_pf_qx_gmctl
                                                                  Reset such that VF0/index 0 is 0x1, VF1/index 1 is 0x2, etc.
 
                                                                  Maximum legal value is 64. */
-        uint64_t gmid                  : 16; /**< [ 15:  0](R/W) Reserved.
-                                                                 Internal:
-                                                                 Guest machine identifier. The GMID to send to FPA for all
+        uint64_t gmid                  : 16; /**< [ 15:  0](R/W) Guest machine identifier. The GMID to send to FPA for all
                                                                  buffer free, or to SSO for all submit work operations initiated by this queue.
                                                                  Must be nonzero or FPA/SSO will drop requests; see FPA_PF_MAP() and SSO_PF_MAP(). */
 #else /* Word 0 - Little Endian */
-        uint64_t gmid                  : 16; /**< [ 15:  0](R/W) Reserved.
-                                                                 Internal:
-                                                                 Guest machine identifier. The GMID to send to FPA for all
+        uint64_t gmid                  : 16; /**< [ 15:  0](R/W) Guest machine identifier. The GMID to send to FPA for all
                                                                  buffer free, or to SSO for all submit work operations initiated by this queue.
                                                                  Must be nonzero or FPA/SSO will drop requests; see FPA_PF_MAP() and SSO_PF_MAP(). */
         uint64_t strm                  : 8;  /**< [ 23: 16](R/W) Low 8 bits of the SMMU stream identifier to use when issuing requests.

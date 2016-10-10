@@ -10238,47 +10238,45 @@ union bdk_pcieepx_cfg515
                                                                    0x5 - 0x7 = Reserved. */
         uint32_t nlanes                : 5;  /**< [ 12:  8](R/W) Predetermined number of lanes.  Defines the number of
                                                                  lanes which are connected and not bad. Used to limit the
-                                                                 effective link width to ignore 'broken" or "unused" lanes that
+                                                                 effective link width to ignore "broken" or "unused" lanes that
                                                                  detect a receiver. Indicates the number of lanes to check for
                                                                  exit from electrical idle in Polling.Active and L2.Idle.
                                                                  0x1 = 1 lane.
                                                                  0x2 = 2 lanes.
                                                                  0x3 = 3 lanes.
-                                                                 ..
+                                                                 ...
                                                                  0x8 = 8 lanes.
-                                                                 0x9-0x1F =Reserved.
-                                                                 When you have unused lanes in your system, then you must
-                                                                 change the value in this register to reflect the number of
-                                                                 lanes. You must also change PCIEEP()_CFG452[LME]. */
+                                                                 0x9-0x1F = Reserved.
+
+                                                                 When there are unused lanes in the system, then this value must reflect the
+                                                                 number of lanes. PCIEEP()_CFG452[LME] must also be changed likewise. */
         uint32_t n_fts                 : 8;  /**< [  7:  0](R/W) N_FTS. Sets the number of fast training sequences (N_FTS) that the core advertises as its
                                                                  N_FTS during GEN2 Link training. This value is used to inform the link partner about the
                                                                  PHY's ability to recover synchronization after a low power state.
 
-                                                                 Do not set [N_FTS] to zero; doing so can cause the LTSSM to go into the recovery state
-                                                                 when
-                                                                 exiting from L0s. */
+                                                                 Do not set [N_FTS] to zero; doing so can cause the LTSSM to go into the recovery
+                                                                 state when exiting from L0s. */
 #else /* Word 0 - Little Endian */
         uint32_t n_fts                 : 8;  /**< [  7:  0](R/W) N_FTS. Sets the number of fast training sequences (N_FTS) that the core advertises as its
                                                                  N_FTS during GEN2 Link training. This value is used to inform the link partner about the
                                                                  PHY's ability to recover synchronization after a low power state.
 
-                                                                 Do not set [N_FTS] to zero; doing so can cause the LTSSM to go into the recovery state
-                                                                 when
-                                                                 exiting from L0s. */
+                                                                 Do not set [N_FTS] to zero; doing so can cause the LTSSM to go into the recovery
+                                                                 state when exiting from L0s. */
         uint32_t nlanes                : 5;  /**< [ 12:  8](R/W) Predetermined number of lanes.  Defines the number of
                                                                  lanes which are connected and not bad. Used to limit the
-                                                                 effective link width to ignore 'broken" or "unused" lanes that
+                                                                 effective link width to ignore "broken" or "unused" lanes that
                                                                  detect a receiver. Indicates the number of lanes to check for
                                                                  exit from electrical idle in Polling.Active and L2.Idle.
                                                                  0x1 = 1 lane.
                                                                  0x2 = 2 lanes.
                                                                  0x3 = 3 lanes.
-                                                                 ..
+                                                                 ...
                                                                  0x8 = 8 lanes.
-                                                                 0x9-0x1F =Reserved.
-                                                                 When you have unused lanes in your system, then you must
-                                                                 change the value in this register to reflect the number of
-                                                                 lanes. You must also change PCIEEP()_CFG452[LME]. */
+                                                                 0x9-0x1F = Reserved.
+
+                                                                 When there are unused lanes in the system, then this value must reflect the
+                                                                 number of lanes. PCIEEP()_CFG452[LME] must also be changed likewise. */
         uint32_t pdetlane              : 3;  /**< [ 15: 13](R/W) Predetermined lane for auto flip. This field defines which
                                                                  physical lane is connected to logical Lane0 by the flip
                                                                  operation performed in detect.
@@ -10323,47 +10321,45 @@ union bdk_pcieepx_cfg515
                                                                    0x5 - 0x7 = Reserved. */
         uint32_t nlanes                : 5;  /**< [ 12:  8](R/W) Predetermined number of lanes.  Defines the number of
                                                                  lanes which are connected and not bad. Used to limit the
-                                                                 effective link width to ignore 'broken" or "unused" lanes that
+                                                                 effective link width to ignore "broken" or "unused" lanes that
                                                                  detect a receiver. Indicates the number of lanes to check for
                                                                  exit from electrical idle in Polling.Active and L2.Idle.
                                                                  0x1 = 1 lane.
                                                                  0x2 = 2 lanes.
                                                                  0x3 = 3 lanes.
-                                                                 ..
+                                                                 ...
                                                                  0x8 = 8 lanes.
-                                                                 0x9-0x1F =Reserved.
-                                                                 When you have unused lanes in your system, then you must
-                                                                 change the value in this register to reflect the number of
-                                                                 lanes. You must also change PCIEEP()_CFG452[LME]. */
+                                                                 0x9-0x1F = Reserved.
+
+                                                                 When there are unused lanes in the system, then this value must reflect the
+                                                                 number of lanes. PCIEEP()_CFG452[LME] must also be changed likewise. */
         uint32_t n_fts                 : 8;  /**< [  7:  0](R/W) N_FTS. Sets the number of fast training sequences (N_FTS) that the core advertises as its
                                                                  N_FTS during GEN2 Link training. This value is used to inform the link partner about the
                                                                  PHY's ability to recover synchronization after a low power state.
 
-                                                                 Do not set [N_FTS] to zero; doing so can cause the LTSSM to go into the recovery state
-                                                                 when
-                                                                 exiting from L0s. */
+                                                                 Do not set [N_FTS] to zero; doing so can cause the LTSSM to go into the recovery
+                                                                 state when exiting from L0s. */
 #else /* Word 0 - Little Endian */
         uint32_t n_fts                 : 8;  /**< [  7:  0](R/W) N_FTS. Sets the number of fast training sequences (N_FTS) that the core advertises as its
                                                                  N_FTS during GEN2 Link training. This value is used to inform the link partner about the
                                                                  PHY's ability to recover synchronization after a low power state.
 
-                                                                 Do not set [N_FTS] to zero; doing so can cause the LTSSM to go into the recovery state
-                                                                 when
-                                                                 exiting from L0s. */
+                                                                 Do not set [N_FTS] to zero; doing so can cause the LTSSM to go into the recovery
+                                                                 state when exiting from L0s. */
         uint32_t nlanes                : 5;  /**< [ 12:  8](R/W) Predetermined number of lanes.  Defines the number of
                                                                  lanes which are connected and not bad. Used to limit the
-                                                                 effective link width to ignore 'broken" or "unused" lanes that
+                                                                 effective link width to ignore "broken" or "unused" lanes that
                                                                  detect a receiver. Indicates the number of lanes to check for
                                                                  exit from electrical idle in Polling.Active and L2.Idle.
                                                                  0x1 = 1 lane.
                                                                  0x2 = 2 lanes.
                                                                  0x3 = 3 lanes.
-                                                                 ..
+                                                                 ...
                                                                  0x8 = 8 lanes.
-                                                                 0x9-0x1F =Reserved.
-                                                                 When you have unused lanes in your system, then you must
-                                                                 change the value in this register to reflect the number of
-                                                                 lanes. You must also change PCIEEP()_CFG452[LME]. */
+                                                                 0x9-0x1F = Reserved.
+
+                                                                 When there are unused lanes in the system, then this value must reflect the
+                                                                 number of lanes. PCIEEP()_CFG452[LME] must also be changed likewise. */
         uint32_t pdetlane              : 3;  /**< [ 15: 13](R/W) Predetermined lane for auto flip. This field defines which
                                                                  physical lane is connected to logical Lane0 by the flip
                                                                  operation performed in detect.

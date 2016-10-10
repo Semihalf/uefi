@@ -5770,8 +5770,8 @@ static inline uint64_t BDK_GSERX_LANEX_SDS_PIN_MON_2(unsigned long a, unsigned l
  * Register (RSL) gser#_lane#_tx_cfg_0
  *
  * GSER Lane TX Configuration 0 Register
- * These registers are for diagnostic use only. These registers are reset by hardware only during
- * chip cold reset. The values of the CSR fields in these registers do not change during chip
+ * These registers are reset by hardware only during chip cold reset. The
+ * values of the CSR fields in these registers do not change during chip
  * warm or soft resets.
  */
 union bdk_gserx_lanex_tx_cfg_0
@@ -5793,26 +5793,18 @@ union bdk_gserx_lanex_tx_cfg_0
                                                                  Default swing encoding when GSER()_LANE()_TX_CFG_1[TX_SWING_OVRRD_EN] is
                                                                  asserted.
 
-                                                                 Recommended settings:
+                                                                 It is recommended to not use the GSER()_LANE()_TX_CFG_0[CFG_TX_SWING],
+                                                                 GSER()_LANE()_TX_CFG_1[TX_SWING_OVRRD_EN,TX_PREMPTAP_OVRRD_VAL], or
+                                                                 GSER()_LANE()_TX_PRE_EMPHASIS[CFG_TX_PREMPTAP] override registers for 10BASE-KR
+                                                                 or PCIe links in which the transmitter is adapted by the respective
+                                                                 hardware-controlled link training protocols.
 
-                                                                 When auto-negotiated link training is not present, including XFI and all
-                                                                 protocols <= 6.25 Gbaud except PCIe/SATA, the transmit swing should be manually
-                                                                 over-ridden. GSER()_LANE()_TX_CFG_1[TX_SWING_OVRRD_EN] should be set
-                                                                 and [CFG_TX_SWING] configures the swing. A transmit swing change should be
-                                                                 followed by a control interface configuration over-ride to force the
-                                                                 new setting - see GSER()_LANE()_PCS_CTLIFC_2[CTLIFC_OVRRD_REQ].
+                                                                 The [CFG_TX_SWING] value for transmitter swing should be derived from
+                                                                 signal integrity simulations with IBIS-AMI models supplied by Cavium.
 
-                                                                 [CFG_TX_SWING] should be derived from signal integrity simulations
-                                                                 with the IBIS-AMI model supplied by Cavium when auto-negotiated link
-                                                                 training is not present and link speed <= 6.25 Gbaud.
-
-                                                                 <pre>
-                                                                     Frequency          Possibly useful [CFG_TX_SWING] value
-                                                                     --------------------------------------------------------
-                                                                      6.25 Gbaud             0xa
-                                                                      10.3125 Gbaud          0xd
-                                                                      other                  0x7
-                                                                 </pre> */
+                                                                 A transmit swing change should be followed by a control interface configuration
+                                                                 over-ride to force the new setting - see
+                                                                 GSER()_LANE()_PCS_CTLIFC_2[CTLIFC_OVRRD_REQ]. */
         uint64_t fast_rdet_mode        : 1;  /**< [  2:  2](R/W/H) Assert to enable fast RX detection. For simulation purposes only. */
         uint64_t fast_tristate_mode    : 1;  /**< [  1:  1](R/W/H) Assert to enable fast tristate power up. For simulation purposes only. */
         uint64_t reserved_0            : 1;
@@ -5824,26 +5816,18 @@ union bdk_gserx_lanex_tx_cfg_0
                                                                  Default swing encoding when GSER()_LANE()_TX_CFG_1[TX_SWING_OVRRD_EN] is
                                                                  asserted.
 
-                                                                 Recommended settings:
+                                                                 It is recommended to not use the GSER()_LANE()_TX_CFG_0[CFG_TX_SWING],
+                                                                 GSER()_LANE()_TX_CFG_1[TX_SWING_OVRRD_EN,TX_PREMPTAP_OVRRD_VAL], or
+                                                                 GSER()_LANE()_TX_PRE_EMPHASIS[CFG_TX_PREMPTAP] override registers for 10BASE-KR
+                                                                 or PCIe links in which the transmitter is adapted by the respective
+                                                                 hardware-controlled link training protocols.
 
-                                                                 When auto-negotiated link training is not present, including XFI and all
-                                                                 protocols <= 6.25 Gbaud except PCIe/SATA, the transmit swing should be manually
-                                                                 over-ridden. GSER()_LANE()_TX_CFG_1[TX_SWING_OVRRD_EN] should be set
-                                                                 and [CFG_TX_SWING] configures the swing. A transmit swing change should be
-                                                                 followed by a control interface configuration over-ride to force the
-                                                                 new setting - see GSER()_LANE()_PCS_CTLIFC_2[CTLIFC_OVRRD_REQ].
+                                                                 The [CFG_TX_SWING] value for transmitter swing should be derived from
+                                                                 signal integrity simulations with IBIS-AMI models supplied by Cavium.
 
-                                                                 [CFG_TX_SWING] should be derived from signal integrity simulations
-                                                                 with the IBIS-AMI model supplied by Cavium when auto-negotiated link
-                                                                 training is not present and link speed <= 6.25 Gbaud.
-
-                                                                 <pre>
-                                                                     Frequency          Possibly useful [CFG_TX_SWING] value
-                                                                     --------------------------------------------------------
-                                                                      6.25 Gbaud             0xa
-                                                                      10.3125 Gbaud          0xd
-                                                                      other                  0x7
-                                                                 </pre> */
+                                                                 A transmit swing change should be followed by a control interface configuration
+                                                                 over-ride to force the new setting - see
+                                                                 GSER()_LANE()_PCS_CTLIFC_2[CTLIFC_OVRRD_REQ]. */
         uint64_t tx_cm_mode            : 1;  /**< [  8:  8](R/W/H) Assert to enable fast common-mode charge up. For simulation purposes only. */
         uint64_t tx_resetn_ovrrd_val   : 1;  /**< [  9:  9](R/W) TX P2S reset. Active high. Override value when
                                                                  GSER()_LANE()_PWR_CTRL[TX_P2S_RESET_OVRRD_EN] is set. */
@@ -5882,8 +5866,8 @@ static inline uint64_t BDK_GSERX_LANEX_TX_CFG_0(unsigned long a, unsigned long b
  * Register (RSL) gser#_lane#_tx_cfg_1
  *
  * GSER Lane TX Configuration 1 Register
- * These registers are for diagnostic use only. These registers are reset by hardware only during
- * chip cold reset. The values of the CSR fields in these registers do not change during chip
+ * These registers are reset by hardware only during chip cold reset. The
+ * values of the CSR fields in these registers do not change during chip
  * warm or soft resets.
  */
 union bdk_gserx_lanex_tx_cfg_1
@@ -5901,25 +5885,30 @@ union bdk_gserx_lanex_tx_cfg_1
                                                                  0x3 = 20-bit. */
         uint64_t tx_vboost_en_ovrrd_en : 1;  /**< [ 11: 11](R/W) Override enable for pcs_sds_txX_vboost_en, TX  vboost mode enable. */
         uint64_t tx_turbo_en_ovrrd_en  : 1;  /**< [ 10: 10](R/W) Override enable for pcs_sds_txX_turbo_en, Turbo mode enable. */
-        uint64_t tx_swing_ovrrd_en     : 1;  /**< [  9:  9](R/W) Override enable for pcs_sds_txX_swing, TX swing.
+        uint64_t tx_swing_ovrrd_en     : 1;  /**< [  9:  9](R/W) Override enable for pcs_sds_txX_swing, TX swing. See
+                                                                 GSER()_LANE()_TX_CFG_0[CFG_TX_SWING].
 
-                                                                 Recommended settings:
+                                                                 It is recommended to not use the GSER()_LANE()_TX_CFG_0[CFG_TX_SWING],
+                                                                 GSER()_LANE()_TX_CFG_1[TX_SWING_OVRRD_EN,TX_PREMPTAP_OVRRD_VAL], or
+                                                                 GSER()_LANE()_TX_PRE_EMPHASIS[CFG_TX_PREMPTAP] override registers for 10BASE-KR
+                                                                 or PCIe links in which the transmitter is adapted by the respective
+                                                                 hardware-controlled link training protocols.
 
-                                                                 When auto-negotiated link training is not present, including XFI and all
-                                                                 protocols <= 6.25 Gbaud except PCIe/SATA, the transmit swing should be manually
-                                                                 over-ridden. [TX_SWING_OVRRD_EN] should be set and
-                                                                 GSER()_LANE()_TX_CFG_0[CFG_TX_SWING] configures the swing. A transmit swing
-                                                                 change should be followed by a control interface configuration over-ride to
-                                                                 force the new setting - see GSER()_LANE()_PCS_CTLIFC_2[CTLIFC_OVRRD_REQ]. */
-        uint64_t tx_premptap_ovrrd_val : 1;  /**< [  8:  8](R/W) Override enable for pcs_sds_txX_preemptap, preemphasis control.
+                                                                 A transmit swing change should be followed by a control interface
+                                                                 configuration over-ride to force the new setting - see
+                                                                 GSER()_LANE()_PCS_CTLIFC_2[CTLIFC_OVRRD_REQ]. */
+        uint64_t tx_premptap_ovrrd_val : 1;  /**< [  8:  8](R/W) Override enable for pcs_sds_txX_preemptap, preemphasis control. When
+                                                                 over-riding,  [TX_PREMPTAP_OVRRD_VAL] should be set and
+                                                                 GSER()_LANE()_TX_PRE_EMPHASIS[CFG_TX_PREMPTAP] has the pre and post
+                                                                 cursor values.
 
-                                                                 Recommended settings:
+                                                                 It is recommended to not use the GSER()_LANE()_TX_CFG_0[CFG_TX_SWING],
+                                                                 GSER()_LANE()_TX_CFG_1[TX_SWING_OVRRD_EN,TX_PREMPTAP_OVRRD_VAL], or
+                                                                 GSER()_LANE()_TX_PRE_EMPHASIS[CFG_TX_PREMPTAP] override registers for 10BASE-KR
+                                                                 or PCIe links in which the transmitter is adapted by the respective
+                                                                 hardware-controlled link training protocols.
 
-                                                                 When auto-negotiated link training is not present, including XFI and all
-                                                                 protocols <= 6.25 Gbaud except PCIe/SATA, the transmit preemphasis pre and post
-                                                                 cursor values should be manually over-ridden.  [TX_PREMPTAP_OVRRD_VAL] should
-                                                                 be set and GSER()_LANE()_TX_PRE_EMPHASIS[CFG_TX_PREMPTAP] has the pre and post
-                                                                 cursor values. A preemphasis control change should be followed by a control
+                                                                 A preemphasis control change should be followed by a control
                                                                  interface configuration override to force the new setting - see
                                                                  GSER()_LANE()_PCS_CTLIFC_2[CTLIFC_OVRRD_REQ]. */
         uint64_t tx_elec_idle_ovrrd_en : 1;  /**< [  7:  7](R/W) Override enable for pcs_sds_txX_elec_idle, TX electrical idle. */
@@ -5963,27 +5952,32 @@ union bdk_gserx_lanex_tx_cfg_1
                                                                  specified from SMPL_RATE_OVRRD_VAL and the TX Power state machine control signal is
                                                                  ignored. */
         uint64_t tx_elec_idle_ovrrd_en : 1;  /**< [  7:  7](R/W) Override enable for pcs_sds_txX_elec_idle, TX electrical idle. */
-        uint64_t tx_premptap_ovrrd_val : 1;  /**< [  8:  8](R/W) Override enable for pcs_sds_txX_preemptap, preemphasis control.
+        uint64_t tx_premptap_ovrrd_val : 1;  /**< [  8:  8](R/W) Override enable for pcs_sds_txX_preemptap, preemphasis control. When
+                                                                 over-riding,  [TX_PREMPTAP_OVRRD_VAL] should be set and
+                                                                 GSER()_LANE()_TX_PRE_EMPHASIS[CFG_TX_PREMPTAP] has the pre and post
+                                                                 cursor values.
 
-                                                                 Recommended settings:
+                                                                 It is recommended to not use the GSER()_LANE()_TX_CFG_0[CFG_TX_SWING],
+                                                                 GSER()_LANE()_TX_CFG_1[TX_SWING_OVRRD_EN,TX_PREMPTAP_OVRRD_VAL], or
+                                                                 GSER()_LANE()_TX_PRE_EMPHASIS[CFG_TX_PREMPTAP] override registers for 10BASE-KR
+                                                                 or PCIe links in which the transmitter is adapted by the respective
+                                                                 hardware-controlled link training protocols.
 
-                                                                 When auto-negotiated link training is not present, including XFI and all
-                                                                 protocols <= 6.25 Gbaud except PCIe/SATA, the transmit preemphasis pre and post
-                                                                 cursor values should be manually over-ridden.  [TX_PREMPTAP_OVRRD_VAL] should
-                                                                 be set and GSER()_LANE()_TX_PRE_EMPHASIS[CFG_TX_PREMPTAP] has the pre and post
-                                                                 cursor values. A preemphasis control change should be followed by a control
+                                                                 A preemphasis control change should be followed by a control
                                                                  interface configuration override to force the new setting - see
                                                                  GSER()_LANE()_PCS_CTLIFC_2[CTLIFC_OVRRD_REQ]. */
-        uint64_t tx_swing_ovrrd_en     : 1;  /**< [  9:  9](R/W) Override enable for pcs_sds_txX_swing, TX swing.
+        uint64_t tx_swing_ovrrd_en     : 1;  /**< [  9:  9](R/W) Override enable for pcs_sds_txX_swing, TX swing. See
+                                                                 GSER()_LANE()_TX_CFG_0[CFG_TX_SWING].
 
-                                                                 Recommended settings:
+                                                                 It is recommended to not use the GSER()_LANE()_TX_CFG_0[CFG_TX_SWING],
+                                                                 GSER()_LANE()_TX_CFG_1[TX_SWING_OVRRD_EN,TX_PREMPTAP_OVRRD_VAL], or
+                                                                 GSER()_LANE()_TX_PRE_EMPHASIS[CFG_TX_PREMPTAP] override registers for 10BASE-KR
+                                                                 or PCIe links in which the transmitter is adapted by the respective
+                                                                 hardware-controlled link training protocols.
 
-                                                                 When auto-negotiated link training is not present, including XFI and all
-                                                                 protocols <= 6.25 Gbaud except PCIe/SATA, the transmit swing should be manually
-                                                                 over-ridden. [TX_SWING_OVRRD_EN] should be set and
-                                                                 GSER()_LANE()_TX_CFG_0[CFG_TX_SWING] configures the swing. A transmit swing
-                                                                 change should be followed by a control interface configuration over-ride to
-                                                                 force the new setting - see GSER()_LANE()_PCS_CTLIFC_2[CTLIFC_OVRRD_REQ]. */
+                                                                 A transmit swing change should be followed by a control interface
+                                                                 configuration over-ride to force the new setting - see
+                                                                 GSER()_LANE()_PCS_CTLIFC_2[CTLIFC_OVRRD_REQ]. */
         uint64_t tx_turbo_en_ovrrd_en  : 1;  /**< [ 10: 10](R/W) Override enable for pcs_sds_txX_turbo_en, Turbo mode enable. */
         uint64_t tx_vboost_en_ovrrd_en : 1;  /**< [ 11: 11](R/W) Override enable for pcs_sds_txX_vboost_en, TX  vboost mode enable. */
         uint64_t tx_widthsel_ovrrd_val : 2;  /**< [ 13: 12](R/W) Override value for pcs_sds_widthsel, TX parallel interface width setting.
@@ -6130,8 +6124,8 @@ static inline uint64_t BDK_GSERX_LANEX_TX_CFG_3(unsigned long a, unsigned long b
  * Register (RSL) gser#_lane#_tx_pre_emphasis
  *
  * GSER Lane TX Configuration Preemphasis Register
- * These registers are for diagnostic use only. These registers are reset by hardware only during
- * chip cold reset. The values of the CSR fields in these registers do not change during chip
+ * These registers are reset by hardware only during chip cold reset. The
+ * values of the CSR fields in these registers do not change during chip
  * warm or soft resets.
  */
 union bdk_gserx_lanex_tx_pre_emphasis
@@ -6142,60 +6136,42 @@ union bdk_gserx_lanex_tx_pre_emphasis
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_9_63         : 55;
         uint64_t cfg_tx_premptap       : 9;  /**< [  8:  0](R/W) Override preemphasis control. Applies when
-                                                                 GSER()_LANE()_TX_CFG_3[TX_PREMPTAP_OVRRD_EN] is asserted.
+                                                                 GSER()_LANE()_TX_CFG_1[TX_PREMPTAP_OVRRD_VAL] is asserted.
                                                                  <8:4> = Post-cursor.
                                                                  <3:0> = Pre-cursor.
 
-                                                                 Recommended settings:
+                                                                 It is recommended to not use the GSER()_LANE()_TX_CFG_0[CFG_TX_SWING],
+                                                                 GSER()_LANE()_TX_CFG_1[TX_SWING_OVRRD_EN,TX_PREMPTAP_OVRRD_VAL], or
+                                                                 GSER()_LANE()_TX_PRE_EMPHASIS[CFG_TX_PREMPTAP] override registers for 10BASE-KR
+                                                                 or PCIe links in which the transmitter is adapted by the respective
+                                                                 hardware-controlled link training protocols.
 
-                                                                 When auto-negotiated link training is not present, including XFI and all
-                                                                 protocols <= 6.25 Gbaud except PCIe/SATA, the transmit preemphasis pre and post
-                                                                 cursor values should be manually over-ridden.
-                                                                 GSER()_LANE()_TX_CFG_1[TX_PREMPTAP_OVRRD_VAL] should be set
-                                                                 and [CFG_TX_PREMPTAP] has the pre and post cursor values. A preemphasis
-                                                                 control change should be followed by a control interface configuration
-                                                                 over-ride to force the new setting - see
-                                                                 GSER()_LANE()_PCS_CTLIFC_2[CTLIFC_OVRRD_REQ].
+                                                                 The [CFG_TX_PREEMPTAP] value for transmitter pre-emphasis and
+                                                                 post-emphasis should be derived from signal integrity simulations
+                                                                 with IBIS-AMI models supplied by Cavium.
 
-                                                                 [CFG_TX_PREMPTAP] should be derived from signal integrity simulations
-                                                                 with the IBIS-AMI model supplied by Cavium when auto-negotiated link
-                                                                 training is not present and link speed <= 6.25 Gbaud.
-
-                                                                 <pre>
-                                                                    Frequency        Possibly useful [CFG_TX_PREMPTAP] value
-                                                                    --------------------------------------------------------
-                                                                     6,25 Gbaud            0xa0
-                                                                     10.3125 Gbaud         0xd0
-                                                                     other                 0x70
-                                                                 </pre> */
+                                                                 A preemphasis control change should be followed by a control interface
+                                                                 configuration over-ride to force the new setting - see
+                                                                 GSER()_LANE()_PCS_CTLIFC_2[CTLIFC_OVRRD_REQ]. */
 #else /* Word 0 - Little Endian */
         uint64_t cfg_tx_premptap       : 9;  /**< [  8:  0](R/W) Override preemphasis control. Applies when
-                                                                 GSER()_LANE()_TX_CFG_3[TX_PREMPTAP_OVRRD_EN] is asserted.
+                                                                 GSER()_LANE()_TX_CFG_1[TX_PREMPTAP_OVRRD_VAL] is asserted.
                                                                  <8:4> = Post-cursor.
                                                                  <3:0> = Pre-cursor.
 
-                                                                 Recommended settings:
+                                                                 It is recommended to not use the GSER()_LANE()_TX_CFG_0[CFG_TX_SWING],
+                                                                 GSER()_LANE()_TX_CFG_1[TX_SWING_OVRRD_EN,TX_PREMPTAP_OVRRD_VAL], or
+                                                                 GSER()_LANE()_TX_PRE_EMPHASIS[CFG_TX_PREMPTAP] override registers for 10BASE-KR
+                                                                 or PCIe links in which the transmitter is adapted by the respective
+                                                                 hardware-controlled link training protocols.
 
-                                                                 When auto-negotiated link training is not present, including XFI and all
-                                                                 protocols <= 6.25 Gbaud except PCIe/SATA, the transmit preemphasis pre and post
-                                                                 cursor values should be manually over-ridden.
-                                                                 GSER()_LANE()_TX_CFG_1[TX_PREMPTAP_OVRRD_VAL] should be set
-                                                                 and [CFG_TX_PREMPTAP] has the pre and post cursor values. A preemphasis
-                                                                 control change should be followed by a control interface configuration
-                                                                 over-ride to force the new setting - see
-                                                                 GSER()_LANE()_PCS_CTLIFC_2[CTLIFC_OVRRD_REQ].
+                                                                 The [CFG_TX_PREEMPTAP] value for transmitter pre-emphasis and
+                                                                 post-emphasis should be derived from signal integrity simulations
+                                                                 with IBIS-AMI models supplied by Cavium.
 
-                                                                 [CFG_TX_PREMPTAP] should be derived from signal integrity simulations
-                                                                 with the IBIS-AMI model supplied by Cavium when auto-negotiated link
-                                                                 training is not present and link speed <= 6.25 Gbaud.
-
-                                                                 <pre>
-                                                                    Frequency        Possibly useful [CFG_TX_PREMPTAP] value
-                                                                    --------------------------------------------------------
-                                                                     6,25 Gbaud            0xa0
-                                                                     10.3125 Gbaud         0xd0
-                                                                     other                 0x70
-                                                                 </pre> */
+                                                                 A preemphasis control change should be followed by a control interface
+                                                                 configuration over-ride to force the new setting - see
+                                                                 GSER()_LANE()_PCS_CTLIFC_2[CTLIFC_OVRRD_REQ]. */
         uint64_t reserved_9_63         : 55;
 #endif /* Word 0 - End */
     } s;

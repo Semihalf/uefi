@@ -605,16 +605,14 @@ union bdk_pki_buflink_s
                                                                  buffer returns. See PKO_SEND_HDR_S[DF,II].
 
                                                                  On a PKO SEND, PKO frees the surrounding buffer to FPA when:
-                                                                    PKO_SEND_HDR_S[DF] XOR (PKO_SEND_HDR_S[II] AND [I])
+                                                                    PKO_SEND_HDR_S[DF] XOR (NOT PKO_SEND_HDR_S[II] AND [I])
                                                                  is zero.
 
                                                                  PKO naturally aligns [ADDR] to 128 bytes before sending it to FPA as part of
                                                                  the buffer free. An FPA naturally-aligned pool is recommended, though opaque
                                                                  pool mode may also be possible. Refer to the FPA Chapter.
 
-                                                                 PKO frees the buffer to the last prior PKO_SEND_AURA_S[AURA] in the
-                                                                 PKO SEND descriptor, or to PKO_SEND_HDR_S[AURA] if there is not a prior
-                                                                 PKO_SEND_AURA_S in the descriptor.
+                                                                 PKO frees the buffer to PKO_SEND_LINK_S[AURA]. (See PKO_SEND_FREE_S[AURA].)
 
                                                                  PKO will not free [ADDR] to FPA until after it has finished reading
                                                                  this segment (and the PKI_BUFLINK_S that precedes this segment in
@@ -694,16 +692,14 @@ union bdk_pki_buflink_s
                                                                  buffer returns. See PKO_SEND_HDR_S[DF,II].
 
                                                                  On a PKO SEND, PKO frees the surrounding buffer to FPA when:
-                                                                    PKO_SEND_HDR_S[DF] XOR (PKO_SEND_HDR_S[II] AND [I])
+                                                                    PKO_SEND_HDR_S[DF] XOR (NOT PKO_SEND_HDR_S[II] AND [I])
                                                                  is zero.
 
                                                                  PKO naturally aligns [ADDR] to 128 bytes before sending it to FPA as part of
                                                                  the buffer free. An FPA naturally-aligned pool is recommended, though opaque
                                                                  pool mode may also be possible. Refer to the FPA Chapter.
 
-                                                                 PKO frees the buffer to the last prior PKO_SEND_AURA_S[AURA] in the
-                                                                 PKO SEND descriptor, or to PKO_SEND_HDR_S[AURA] if there is not a prior
-                                                                 PKO_SEND_AURA_S in the descriptor.
+                                                                 PKO frees the buffer to PKO_SEND_LINK_S[AURA]. (See PKO_SEND_FREE_S[AURA].)
 
                                                                  PKO will not free [ADDR] to FPA until after it has finished reading
                                                                  this segment (and the PKI_BUFLINK_S that precedes this segment in
@@ -732,16 +728,32 @@ union bdk_pki_buflink_s
                                                                  locations, and must contain a valid PKI_BUFLINK_S if the remaining packet bytes do
                                                                  not fit in the [SIZE] bytes available in this buffer/segment.
 
-                                                                 All valid [ADDR]'s created by PKI are naturally-aligned (to 128-bits).  Bits
-                                                                 <63:49> are a sign extension of bit <48>. */
+                                                                 All valid [ADDR]'s created by PKI are naturally-aligned to 128-bits.  Bits
+                                                                 <63:49> are a sign extension of bit <48>. PKI associates the stream ID
+                                                                 PKI_QPG_TBLB()[STRM] for all references based off [ADDR].
+
+                                                                 In the PKO case, PKO_PF_VF()_GMCTL[STRM] for the virtual function is the stream ID
+                                                                 used for all references based off of [ADDR]. If PKO_PF_VF()_GMCTL[BE] is set for
+                                                                 this VF, the next-buffer pointer inside the structure that [ADDR] points to is
+                                                                 big-endian, else little-endian.
+
+                                                                 The packet data pointed to is byte-invariant and endian settings do not matter. */
 #else /* Word 1 - Little Endian */
         uint64_t addr                  : 64; /**< [127: 64] Address. ADDR is the IOVA L2/DRAM address of the first byte of packet data in
                                                                  the buffer/segment. The 16 bytes prior to [ADDR] must always be valid readable L2/DRAM
                                                                  locations, and must contain a valid PKI_BUFLINK_S if the remaining packet bytes do
                                                                  not fit in the [SIZE] bytes available in this buffer/segment.
 
-                                                                 All valid [ADDR]'s created by PKI are naturally-aligned (to 128-bits).  Bits
-                                                                 <63:49> are a sign extension of bit <48>. */
+                                                                 All valid [ADDR]'s created by PKI are naturally-aligned to 128-bits.  Bits
+                                                                 <63:49> are a sign extension of bit <48>. PKI associates the stream ID
+                                                                 PKI_QPG_TBLB()[STRM] for all references based off [ADDR].
+
+                                                                 In the PKO case, PKO_PF_VF()_GMCTL[STRM] for the virtual function is the stream ID
+                                                                 used for all references based off of [ADDR]. If PKO_PF_VF()_GMCTL[BE] is set for
+                                                                 this VF, the next-buffer pointer inside the structure that [ADDR] points to is
+                                                                 big-endian, else little-endian.
+
+                                                                 The packet data pointed to is byte-invariant and endian settings do not matter. */
 #endif /* Word 1 - End */
     } s;
     /* struct bdk_pki_buflink_s_s cn; */
@@ -796,6 +808,12 @@ union bdk_pki_fewq_s
  *
  * PKI Instruction Header Structure
  * This structure defines the optional instruction header.
+ *
+ * When present, a PKI_INST_HDR_S is always stored in memory in big-endian
+ * byte order. That is, in the memory byte stream, the first byte memory byte
+ * always contains PKI_INST_HDR_S<63:56>, the second memory byte always contains
+ * PKI_INST_HDR_S<53:48>, etc.
+ *
  * Internal:
  * Parse engine, software, and external hardware may use this external definition,
  * but it is opaque to PKI HW.
@@ -1866,8 +1884,8 @@ union bdk_pki_wqe_s
                                                                  buffer. When PKI_STYLE()_BUF[DIS_WQ_DAT]=1, ADDR points to a the first data
                                                                  buffer.
 
-                                                                 All valid [ADDR]'s created by PKI are naturally-aligned (to 128-bits).  Bits
-                                                                 <63:49> are a sign extension of bit <48>.
+                                                                 [ADDR]<63:49> are a sign extension of bit <48>. PKI associates the stream ID
+                                                                 PKI_QPG_TBLB()[STRM] for all references based off [ADDR].
 
                                                                  PKI BE solely computes this field. */
 #else /* Word 3 - Little Endian */
@@ -1876,8 +1894,8 @@ union bdk_pki_wqe_s
                                                                  buffer. When PKI_STYLE()_BUF[DIS_WQ_DAT]=1, ADDR points to a the first data
                                                                  buffer.
 
-                                                                 All valid [ADDR]'s created by PKI are naturally-aligned (to 128-bits).  Bits
-                                                                 <63:49> are a sign extension of bit <48>.
+                                                                 [ADDR]<63:49> are a sign extension of bit <48>. PKI associates the stream ID
+                                                                 PKI_QPG_TBLB()[STRM] for all references based off [ADDR].
 
                                                                  PKI BE solely computes this field. */
 #endif /* Word 3 - End */
@@ -9039,33 +9057,39 @@ union bdk_pki_qpg_tblx
         uint64_t reserved_42_44        : 3;
         uint64_t grp_ok                : 10; /**< [ 41: 32](R/W) SSO guest-group to schedule packet to and to load PKI_WQE_S[GRP] with if no error is
                                                                  detected.
-                                                                 For the SSO to not discard the add-work request, FPA_PF_MAP() must map
-                                                                 [GRP_OK] and PKI_STRM()_CFG[GMID] as valid. */
+
+                                                                 PKI_STRM()_CFG[GMID] is the GMID associated with [GRP_OK]. For a successful SSO add-work
+                                                                 request, SSO_PF_MAP() must map [GRP_OK] and PKI_STRM()_CFG[GMID] as valid. */
         uint64_t grptag_bad            : 3;  /**< [ 31: 29](R/W) Number of PKI_WQE_S[TAG] bits to add into PKI_WQE_S[GRP] if an error is detected. */
         uint64_t reserved_26_28        : 3;
         uint64_t grp_bad               : 10; /**< [ 25: 16](R/W) SSO guest-group to schedule packet to and to load PKI_WQE_S[GRP] with if an
                                                                  error is detected.
-                                                                 For the SSO to not discard the add-work request, FPA_PF_MAP() must map
-                                                                 [GRP_BAD] and PKI_STRM()_CFG[GMID] as valid. */
+
+                                                                 PKI_STRM()_CFG[GMID] is the GMID associated with [GRP_BAD]. For a successful SSO add-work
+                                                                 request, SSO_PF_MAP() must map [GRP_BAD] and PKI_STRM()_CFG[GMID] as valid. */
         uint64_t reserved_12_15        : 4;
         uint64_t gaura                 : 12; /**< [ 11:  0](R/W) Guest-aura for QOS calculations and loading into PKI_WQE_S[AURA].
-                                                                 For the FPA to not discard the request, FPA_PF_MAP() must map
-                                                                 [AURA] and PKI_STRM()_CFG[GMID] as valid. */
+
+                                                                 PKI_STRM()_CFG[GMID] is the GMID associated with [GAURA]. For successful FPA requests,
+                                                                 FPA_PF_MAP() must map [GAURA] and PKI_STRM()_CFG[GMID] as valid. */
 #else /* Word 0 - Little Endian */
         uint64_t gaura                 : 12; /**< [ 11:  0](R/W) Guest-aura for QOS calculations and loading into PKI_WQE_S[AURA].
-                                                                 For the FPA to not discard the request, FPA_PF_MAP() must map
-                                                                 [AURA] and PKI_STRM()_CFG[GMID] as valid. */
+
+                                                                 PKI_STRM()_CFG[GMID] is the GMID associated with [GAURA]. For successful FPA requests,
+                                                                 FPA_PF_MAP() must map [GAURA] and PKI_STRM()_CFG[GMID] as valid. */
         uint64_t reserved_12_15        : 4;
         uint64_t grp_bad               : 10; /**< [ 25: 16](R/W) SSO guest-group to schedule packet to and to load PKI_WQE_S[GRP] with if an
                                                                  error is detected.
-                                                                 For the SSO to not discard the add-work request, FPA_PF_MAP() must map
-                                                                 [GRP_BAD] and PKI_STRM()_CFG[GMID] as valid. */
+
+                                                                 PKI_STRM()_CFG[GMID] is the GMID associated with [GRP_BAD]. For a successful SSO add-work
+                                                                 request, SSO_PF_MAP() must map [GRP_BAD] and PKI_STRM()_CFG[GMID] as valid. */
         uint64_t reserved_26_28        : 3;
         uint64_t grptag_bad            : 3;  /**< [ 31: 29](R/W) Number of PKI_WQE_S[TAG] bits to add into PKI_WQE_S[GRP] if an error is detected. */
         uint64_t grp_ok                : 10; /**< [ 41: 32](R/W) SSO guest-group to schedule packet to and to load PKI_WQE_S[GRP] with if no error is
                                                                  detected.
-                                                                 For the SSO to not discard the add-work request, FPA_PF_MAP() must map
-                                                                 [GRP_OK] and PKI_STRM()_CFG[GMID] as valid. */
+
+                                                                 PKI_STRM()_CFG[GMID] is the GMID associated with [GRP_OK]. For a successful SSO add-work
+                                                                 request, SSO_PF_MAP() must map [GRP_OK] and PKI_STRM()_CFG[GMID] as valid. */
         uint64_t reserved_42_44        : 3;
         uint64_t grptag_ok             : 3;  /**< [ 47: 45](R/W) Number of PKI_WQE_S[TAG] bits to add into PKI_WQE_S[GRP] if no error is detected. */
         uint64_t padd                  : 12; /**< [ 59: 48](R/W) Port to channel adder for calculating PKI_WQE_S[CHAN]. */
@@ -9115,7 +9139,10 @@ union bdk_pki_qpg_tblbx
         uint64_t ena_drop              : 1;  /**< [ 28: 28](R/W) Enable tail drop when maximum DROP level exceeded. See also
                                                                  FPA_AURA()_POOL_LEVELS[DROP] and FPA_AURA()_CNT_LEVELS[DROP]. */
         uint64_t reserved_24_27        : 4;
-        uint64_t strm                  : 8;  /**< [ 23: 16](R/W) Stream identifier bits <7:0>. */
+        uint64_t strm                  : 8;  /**< [ 23: 16](R/W) Stream identifier bits <7:0>.
+
+                                                                 Also indexes PKI_STRM()_CFG. PKI_STRM()_CFG[GMID] is needed to use
+                                                                 PKI_QPG_TBL()[GRP_OK,GRP_BAD,LAURA]. */
         uint64_t reserved_10_15        : 6;
         uint64_t dstat_id              : 10; /**< [  9:  0](R/W) Deep statistic bucket to use for traffic to this QPG. This determines which
                                                                  index of PKI_DSTAT()_STAT0..PKI_DSTAT()_STAT4 will increment. Additionally, if
@@ -9127,7 +9154,10 @@ union bdk_pki_qpg_tblbx
                                                                  PKI_STAT_CTL[MODE] = 0x2, then DSTAT_ID values 0-63 will increment
                                                                  PKI_STAT()_STAT0..PKI_STAT()_STAT18 and PKI_STAT()_HIST0..PKI_STAT()_HIST6. */
         uint64_t reserved_10_15        : 6;
-        uint64_t strm                  : 8;  /**< [ 23: 16](R/W) Stream identifier bits <7:0>. */
+        uint64_t strm                  : 8;  /**< [ 23: 16](R/W) Stream identifier bits <7:0>.
+
+                                                                 Also indexes PKI_STRM()_CFG. PKI_STRM()_CFG[GMID] is needed to use
+                                                                 PKI_QPG_TBL()[GRP_OK,GRP_BAD,LAURA]. */
         uint64_t reserved_24_27        : 4;
         uint64_t ena_drop              : 1;  /**< [ 28: 28](R/W) Enable tail drop when maximum DROP level exceeded. See also
                                                                  FPA_AURA()_POOL_LEVELS[DROP] and FPA_AURA()_CNT_LEVELS[DROP]. */
@@ -10380,7 +10410,8 @@ static inline uint64_t BDK_PKI_STAT_CTL_FUNC(void)
  * Register (NCB) pki_strm#_cfg
  *
  * PKI Stream ID Configuration Register
- * This register configures each stream.
+ * This register configures each stream. PKO indexes this array with
+ * PKI_QPG_TBLB()[STRM].
  */
 union bdk_pki_strmx_cfg
 {
@@ -10391,14 +10422,14 @@ union bdk_pki_strmx_cfg
         uint64_t reserved_16_63        : 48;
         uint64_t gmid                  : 16; /**< [ 15:  0](R/W) Guest machine identifier. The GMID to send to FPA for all
                                                                  buffer allocations/frees, or to SSO for all submit work operations related to
-                                                                 PKI_QPG_TBL()[AURA]/[GRP_OK]/[GRP_BAD].
+                                                                 PKI_QPG_TBL()[LAURA,GRP_OK,GRP_BAD].
                                                                  Must be nonzero or FPA/SSO will drop requests; see FPA_PF_MAP() and SSO_PF_MAP().
 
                                                                  To reconfigure see PKI_PBE_PCE_FLUSH_DETECT[FLUSH_STATE]. */
 #else /* Word 0 - Little Endian */
         uint64_t gmid                  : 16; /**< [ 15:  0](R/W) Guest machine identifier. The GMID to send to FPA for all
                                                                  buffer allocations/frees, or to SSO for all submit work operations related to
-                                                                 PKI_QPG_TBL()[AURA]/[GRP_OK]/[GRP_BAD].
+                                                                 PKI_QPG_TBL()[LAURA,GRP_OK,GRP_BAD].
                                                                  Must be nonzero or FPA/SSO will drop requests; see FPA_PF_MAP() and SSO_PF_MAP().
 
                                                                  To reconfigure see PKI_PBE_PCE_FLUSH_DETECT[FLUSH_STATE]. */
@@ -10590,7 +10621,8 @@ union bdk_pki_stylex_buf
         uint64_t reserved_33_63        : 31;
         uint64_t wqe_bend              : 1;  /**< [ 32: 32](R/W) WQE header big-endian. Changes write operations of PKI_WQE_S and PKI_BUFLINK_S
                                                                  to L2C to be big-endian. Does not change the data, which is properly endian
-                                                                 neutral (as ARM is byte-invariant). */
+                                                                 neutral (as ARM is byte-invariant). Also does not change the PKI_INST_HDR_S
+                                                                 format in memory. */
         uint64_t wqe_hsz               : 2;  /**< [ 31: 30](R/W) Work queue header size:
                                                                  0x0 = WORD0..5, standard PKI_WQE_S.
                                                                  0x1 = Reserved.
@@ -10611,7 +10643,10 @@ union bdk_pki_stylex_buf
                                                                    * ([WQE_SKIP] * (128/8)) + 6 <= [FIRST_SKIP], to insure the minimum of six
                                                                      work-queue entry words will fit within [FIRST_SKIP]. */
         uint64_t first_skip            : 6;  /**< [ 27: 22](R/W) The number of eight-byte words from the top of the first MBUF that the PKI
-                                                                 stores the next pointer. Must be even.
+                                                                 stores the next pointer.
+
+                                                                 [FIRST_SKIP] must be even, so the [FIRST_SKIP] distance must be a multiple
+                                                                 of 16 bytes.
 
                                                                  If [DIS_WQ_DAT]=1, legal values must satisfy:
                                                                    * [FIRST_SKIP] <= PKI_STYLE()_BUF[MB_SIZE] - 18.
@@ -10621,8 +10656,12 @@ union bdk_pki_stylex_buf
                                                                    * ([WQE_SKIP] * (128/8)) + X <= [FIRST_SKIP].
                                                                    _ X must be at least 0x6 to insure the minimum of six work-queue entry words. */
         uint64_t later_skip            : 6;  /**< [ 21: 16](R/W) The number of eight-byte words from the top of any MBUF that is not the first
-                                                                 MBUF that PKI writes the next-pointer to. Must be even, and legal values are 0
-                                                                 to PKI_STYLE()_BUF[MB_SIZE] - 18. */
+                                                                 MBUF that PKI writes the next-pointer to.
+
+                                                                 [LATER_SKIP] must be even, so the [LATER_SKIP] distance must be a multiple
+                                                                 of 16 bytes.
+
+                                                                 Legal [LATER_SKIP] values are even numbers 0 to PKI_STYLE()_BUF[MB_SIZE] - 18. */
         uint64_t opc_mode              : 2;  /**< [ 15: 14](R/W) Select the style of write to the L2C.
                                                                  0x0 = all packet data and next-buffer pointers are written through to memory.
                                                                  0x1 = all packet data and next-buffer pointers are written into the cache.
@@ -10642,8 +10681,13 @@ union bdk_pki_stylex_buf
         uint64_t mb_size               : 13; /**< [ 12:  0](R/W) The number of eight-byte words between the start of a buffer and the last word
                                                                  that PKI may write into that buffer. The total amount of data stored by PKI into
                                                                  the buffer will be MB_SIZE minus FIRST_SKIP or LATER_SKIP.
-                                                                 This must be even, in the range of 32 to 4096. This must be less than or equal
-                                                                 to the maximum size of every free page in every FPA pool this style may use.
+
+                                                                 [MB_SIZE] must be even, so the [MB_SIZE] distance must be a multiple
+                                                                 of 16 bytes.
+
+                                                                 Legal [MB_SIZE] values are even numbers in the range of 32 to 4096. This must be
+                                                                 less than or equal to the maximum size of every free page in every FPA pool this
+                                                                 style may use.
 
                                                                  If [DIS_WQ_DAT]=1, legal values must satisfy:
                                                                    * MB_SIZE >= (PKI_STYLE()_BUF[WQE_SKIP] * (128/8)) + 18
@@ -10657,8 +10701,13 @@ union bdk_pki_stylex_buf
         uint64_t mb_size               : 13; /**< [ 12:  0](R/W) The number of eight-byte words between the start of a buffer and the last word
                                                                  that PKI may write into that buffer. The total amount of data stored by PKI into
                                                                  the buffer will be MB_SIZE minus FIRST_SKIP or LATER_SKIP.
-                                                                 This must be even, in the range of 32 to 4096. This must be less than or equal
-                                                                 to the maximum size of every free page in every FPA pool this style may use.
+
+                                                                 [MB_SIZE] must be even, so the [MB_SIZE] distance must be a multiple
+                                                                 of 16 bytes.
+
+                                                                 Legal [MB_SIZE] values are even numbers in the range of 32 to 4096. This must be
+                                                                 less than or equal to the maximum size of every free page in every FPA pool this
+                                                                 style may use.
 
                                                                  If [DIS_WQ_DAT]=1, legal values must satisfy:
                                                                    * MB_SIZE >= (PKI_STYLE()_BUF[WQE_SKIP] * (128/8)) + 18
@@ -10685,10 +10734,17 @@ union bdk_pki_stylex_buf
                                                                  0x3 = the first two aligned cache blocks holding the WQE and front packet data are written
                                                                  to the L2 cache. All remaining cache blocks are not written to the L2 cache. */
         uint64_t later_skip            : 6;  /**< [ 21: 16](R/W) The number of eight-byte words from the top of any MBUF that is not the first
-                                                                 MBUF that PKI writes the next-pointer to. Must be even, and legal values are 0
-                                                                 to PKI_STYLE()_BUF[MB_SIZE] - 18. */
+                                                                 MBUF that PKI writes the next-pointer to.
+
+                                                                 [LATER_SKIP] must be even, so the [LATER_SKIP] distance must be a multiple
+                                                                 of 16 bytes.
+
+                                                                 Legal [LATER_SKIP] values are even numbers 0 to PKI_STYLE()_BUF[MB_SIZE] - 18. */
         uint64_t first_skip            : 6;  /**< [ 27: 22](R/W) The number of eight-byte words from the top of the first MBUF that the PKI
-                                                                 stores the next pointer. Must be even.
+                                                                 stores the next pointer.
+
+                                                                 [FIRST_SKIP] must be even, so the [FIRST_SKIP] distance must be a multiple
+                                                                 of 16 bytes.
 
                                                                  If [DIS_WQ_DAT]=1, legal values must satisfy:
                                                                    * [FIRST_SKIP] <= PKI_STYLE()_BUF[MB_SIZE] - 18.
@@ -10718,7 +10774,8 @@ union bdk_pki_stylex_buf
                                                                  contents. */
         uint64_t wqe_bend              : 1;  /**< [ 32: 32](R/W) WQE header big-endian. Changes write operations of PKI_WQE_S and PKI_BUFLINK_S
                                                                  to L2C to be big-endian. Does not change the data, which is properly endian
-                                                                 neutral (as ARM is byte-invariant). */
+                                                                 neutral (as ARM is byte-invariant). Also does not change the PKI_INST_HDR_S
+                                                                 format in memory. */
         uint64_t reserved_33_63        : 31;
 #endif /* Word 0 - End */
     } s;
