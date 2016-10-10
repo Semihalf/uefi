@@ -47,8 +47,11 @@ CSR3_ARGS+=--yaml-expand-inherits # Simplify field inherits
 CSR3_ARGS+=--yaml-strip-chippass # Remove chip pass lines since we're making a file per chip
 CSR3_ARGS+=--input *.csr # Remove chip pass lines since we're making a file per chip
 CSR3_ARGS+=--doc-replace # Use document names, not raw rtl names
-CSR3_ARGS+=--address-overlap 0 # Don't do address overlap checking as TNS fails
 CSR3=csr3 $(CSR3_ARGS) --yaml-pass
+
+CSR3_ARGS_T88=--address-overlap 0 # Don't do address overlap checking as TNS fails
+CSR3_ARGS_T88+=--bar-overlap 0 # Don't do address overlap checking as TNS fails
+CSR3_T88=csr3 $(CSR3_ARGS) $(CSR3_ARGS_T88) --yaml-pass
 
 .DEFAULT: help
 .SILENT: help
@@ -143,11 +146,11 @@ t98_pass_1.0.yaml: t98/*.csr
 t88: t88_pass_1.0.yaml t88_pass_1.1.yaml t88_pass_2.0.yaml
 
 t88_pass_1.0.yaml: t88/*.csr
-	cd t88 && $(CSR3) t88@1.0 > ../$@
+	cd t88 && $(CSR3_T88) t88@1.0 > ../$@
 t88_pass_1.1.yaml: t88/*.csr
-	cd t88 && $(CSR3) t88@1.1 > ../$@
+	cd t88 && $(CSR3_T88) t88@1.1 > ../$@
 t88_pass_2.0.yaml: t88/*.csr
-	cd t88 && $(CSR3) t88@2.0 > ../$@
+	cd t88 && $(CSR3_T88) t88@2.0 > ../$@
 
 #
 # t83
