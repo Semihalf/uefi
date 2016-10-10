@@ -88,7 +88,7 @@ typedef struct
     uint8_t     model_base; /* First two digits of the model number */
     uint16_t    num_balls;  /* Number of balls on package, included in SKU */
     const char  segment[4]; /* Market segment SKU is for, 2-3 character string */
-    uint16_t    fuses[32];  /* List of fuses required for operation of this SKU */
+    uint16_t    fuses[80];  /* List of fuses required for operation of this SKU */
 } model_sku_info_t;
 
 /***************************************************/
@@ -251,13 +251,208 @@ static const model_sku_info_t t83_sku_info[] =
     /* Index zero reserved for no fuses programmed */
     { 0x01, "CN", 83, 1676, "SCP",
         { /* List of fuses for this SKU */
-            // FIXME
             0 /* End of fuse list marker */
         }
     },
     { 0x02, "CN", 83, 1676, "CP",
         { /* List of fuses for this SKU */
-            BDK_MIO_FUS_FUSE_NUM_E_NOZIP, /* Just a guess, no info yet */
+            /* Disable all Nitrox cores, CPT0 and CPT1 */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(0), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(1), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(2), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(3), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(4), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(5), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(6), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(7), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(8), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(9), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(10), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(11), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(12), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(13), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(14), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(15), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(16), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(17), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(18), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(19), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(20), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(21), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(22), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(23), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(24), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(25), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(26), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(27), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(28), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(29), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(30), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(31), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(32), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(33), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(34), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(35), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(36), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(37), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(38), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(39), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(40), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(41), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(42), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(43), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(44), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(45), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(46), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(47), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT1_ENG_DISX(0), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT1_ENG_DISX(1), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT1_ENG_DISX(2), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT1_ENG_DISX(3), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT1_ENG_DISX(4), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT1_ENG_DISX(5), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT1_ENG_DISX(6), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT1_ENG_DISX(7), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT1_ENG_DISX(8), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT1_ENG_DISX(9), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT1_ENG_DISX(10), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT1_ENG_DISX(11), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT1_ENG_DISX(12), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT1_ENG_DISX(13), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT1_ENG_DISX(14), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT1_ENG_DISX(15), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT1_ENG_DISX(16), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT1_ENG_DISX(17), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT1_ENG_DISX(18), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT1_ENG_DISX(19), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT1_ENG_DISX(20), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT1_ENG_DISX(21), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT1_ENG_DISX(22), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT1_ENG_DISX(23), /* Nitrox */
+            0 /* End of fuse list marker */
+        }
+    },
+    { 0x02, "CN", 82, 1676, "SCP",
+        { /* List of fuses for this SKU */
+            BDK_MIO_FUS_FUSE_NUM_E_L2C_CRIPX(1),/* L2C is half size */
+            BDK_MIO_FUS_FUSE_NUM_E_LMC_DIS, /* Disable upper LMC */
+            /* Disable Nitrox cores CPT0[24-47] and CPT1[12-23] */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(24), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(25), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(26), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(27), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(28), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(29), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(30), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(31), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(32), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(33), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(34), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(35), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(36), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(37), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(38), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(39), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(40), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(41), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(42), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(43), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(44), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(45), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(46), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(47), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT1_ENG_DISX(12), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT1_ENG_DISX(13), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT1_ENG_DISX(14), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT1_ENG_DISX(15), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT1_ENG_DISX(16), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT1_ENG_DISX(17), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT1_ENG_DISX(18), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT1_ENG_DISX(19), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT1_ENG_DISX(20), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT1_ENG_DISX(21), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT1_ENG_DISX(22), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT1_ENG_DISX(23), /* Nitrox */
+            0 /* End of fuse list marker */
+        }
+    },
+    { 0x02, "CN", 82, 1676, "CP",
+        { /* List of fuses for this SKU */
+            BDK_MIO_FUS_FUSE_NUM_E_L2C_CRIPX(1),/* L2C is half size */
+            BDK_MIO_FUS_FUSE_NUM_E_LMC_DIS, /* Disable upper LMC */
+            /* Disable all Nitrox cores, CPT0 and CPT1 */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(0), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(1), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(2), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(3), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(4), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(5), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(6), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(7), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(8), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(9), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(10), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(11), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(12), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(13), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(14), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(15), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(16), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(17), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(18), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(19), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(20), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(21), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(22), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(23), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(24), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(25), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(26), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(27), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(28), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(29), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(30), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(31), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(32), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(33), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(34), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(35), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(36), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(37), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(38), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(39), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(40), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(41), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(42), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(43), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(44), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(45), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(46), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT0_ENG_DISX(47), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT1_ENG_DISX(0), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT1_ENG_DISX(1), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT1_ENG_DISX(2), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT1_ENG_DISX(3), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT1_ENG_DISX(4), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT1_ENG_DISX(5), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT1_ENG_DISX(6), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT1_ENG_DISX(7), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT1_ENG_DISX(8), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT1_ENG_DISX(9), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT1_ENG_DISX(10), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT1_ENG_DISX(11), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT1_ENG_DISX(12), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT1_ENG_DISX(13), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT1_ENG_DISX(14), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT1_ENG_DISX(15), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT1_ENG_DISX(16), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT1_ENG_DISX(17), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT1_ENG_DISX(18), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT1_ENG_DISX(19), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT1_ENG_DISX(20), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT1_ENG_DISX(21), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT1_ENG_DISX(22), /* Nitrox */
+            BDK_MIO_FUS_FUSE_NUM_E_CPT1_ENG_DISX(23), /* Nitrox */
             0 /* End of fuse list marker */
         }
     },
