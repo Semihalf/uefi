@@ -255,13 +255,14 @@ int bdk_twsix_write_ia(bdk_node_t node, int twsi_id, uint8_t dev_addr, uint16_t 
 {
     bdk_mio_twsx_sw_twsi_t sw_twsi_val;
     bdk_mio_twsx_sw_twsi_ext_t twsi_ext;
+    int retry_limit = 5;
     int to;
 
     if (num_bytes < 1 || num_bytes > 8 || ia_width_bytes < 0 || ia_width_bytes > 2)
         return -1;
 
+retry:
     twsi_ext.u = 0;
-
     sw_twsi_val.u = 0;
     sw_twsi_val.s.v = 1;
     sw_twsi_val.s.sovr = 1;
@@ -288,6 +289,10 @@ int bdk_twsix_write_ia(bdk_node_t node, int twsi_id, uint8_t dev_addr, uint16_t 
     if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_MIO_TWSX_SW_TWSI(twsi_id), v, ==, 0, 10000))
     {
         bdk_error("N%d.TWSI%d: Timeout waiting for operation to complete\n", node, twsi_id);
+        /* perform bus recovery */
+        bdk_twsix_recover_bus(node, twsi_id);
+        if (retry_limit-- > 0)
+            goto retry;
         return -1;
     }
 
@@ -303,5 +308,3 @@ int bdk_twsix_write_ia(bdk_node_t node, int twsi_id, uint8_t dev_addr, uint16_t 
 
     return 0;
 }
-
-
