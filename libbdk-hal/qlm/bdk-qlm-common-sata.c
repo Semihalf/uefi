@@ -360,6 +360,7 @@ int __bdk_qlm_set_sata(bdk_node_t node, int qlm, int baud_mhz, int sata_first, i
             c.s.timv = a_clk / 1000);
         /* Set speed */
         BDK_CSR_MODIFY(c, node, BDK_SATAX_UAHC_P0_SCTL(p),
+            c.s.ipm = 3; /* Disable parial and slumber power management */
             c.s.spd = spd);
         /* The following SATA setup is from the AHCI 1.3 spec, section
            10.1.1, Firmware Specific Initialization. */

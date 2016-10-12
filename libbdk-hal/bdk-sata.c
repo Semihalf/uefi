@@ -508,6 +508,8 @@ fail:
  */
 int bdk_sata_shutdown(bdk_node_t node, int controller)
 {
+    /* Remember the current speed limit and power management */
+    BDK_CSR_INIT(p0_sctl, node, BDK_SATAX_UAHC_P0_SCTL(controller));
     /* Perform a HBA reset */
     BDK_CSR_MODIFY(c, node, BDK_SATAX_UAHC_GBL_GHC(controller),
         c.s.hr = 1);
@@ -517,6 +519,10 @@ int bdk_sata_shutdown(bdk_node_t node, int controller)
         bdk_error("N%d.SATA%d: Timeout waiting for HBA reset to complete\n", node, controller);
         return -1;
     }
+    /* Restore the speed limit and power management */
+    BDK_CSR_MODIFY(c, node, BDK_SATAX_UAHC_P0_SCTL(controller),
+        c.s.ipm = p0_sctl.s.ipm;
+        c.s.spd = p0_sctl.s.spd);
     return 0;
 }
 
