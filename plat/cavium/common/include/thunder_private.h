@@ -55,6 +55,10 @@ int thunder_pwrc_setup(void);
 void thunder_twsi_send(unsigned int node, unsigned int twsi_num,
 			uint16_t addr, const uint8_t *buffer, size_t size);
 
+int spi_nor_init(void);
+int spi_nor_rw_data(int write, unsigned long addr, int size, void *buf, int buf_size);
+int spi_nor_erase_sect(uint32_t addr);
+
 #define THUNDER_IRQ_MASKED	(1ull << 32)
 
 /* Secure timer IRQ */

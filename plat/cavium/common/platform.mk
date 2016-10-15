@@ -39,6 +39,7 @@ BL2_SOURCES		+=	drivers/cavium/thunder_spi.c			\
 BL31_SOURCES		+=	drivers/arm/gic/common/gic_common.c		\
 				drivers/arm/gic/v3/gicv3_main.c			\
 				drivers/arm/gic/v3/gicv3_helpers.c		\
+				drivers/cavium/thunder_spi.c			\
 				lib/cpus/aarch64/thunder.S			\
 				plat/cavium/common/aarch64/thunder_helpers.S	\
 				plat/cavium/common/bl31_thunder_setup.c		\
