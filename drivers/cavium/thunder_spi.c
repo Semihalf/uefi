@@ -129,7 +129,7 @@ int spi_xfer(unsigned char *dout, unsigned char *din, int len, int cs, int last_
 	return 0;
 }
 
-int spi_nor_read(uint8_t *buf, int buf_size, uint32_t addr, int addr_len, int cs)
+static int spi_nor_read(uint8_t *buf, int buf_size, uint32_t addr, int addr_len, int cs)
 {
 	uint8_t cmd[9];
 	int i;
@@ -152,6 +152,109 @@ int spi_nor_read(uint8_t *buf, int buf_size, uint32_t addr, int addr_len, int cs
 
 	return buf_size;
 }
+
+static int spi_get_status(uint8_t *status, int cs)
+{
+	uint8_t cmd[1];
+
+	cmd[0] = SPI_NOR_CMD_RDSR;
+
+	if (spi_xfer(cmd, NULL, 1, cs, 0))
+		return -1;
+	if (spi_xfer(NULL, status, 1, cs, 1))
+		return -1;
+
+	return 0;
+}
+
+static int spi_nor_write(void *buf, int buf_size, uint32_t addr, int addr_len, int cs, int fast)
+{
+	uint8_t cmd[9];
+	uint8_t status;
+	int i;
+	int len = buf_size;
+	int total = 0;
+
+	if (addr_len != SPI_ADDRESSING_24BIT && addr_len != SPI_ADDRESSING_32BIT) {
+		printf("Unsupported addressing mode %d\n", addr_len);
+		return -1;
+	}
+
+	while (buf_size > 0) {
+		len = MIN(buf_size, SPI_PAGE_SIZE);
+
+		cmd[0] = SPI_NOR_CMD_WREN;
+
+		if (spi_xfer(cmd, NULL, 1, cs, 1))
+			return -1;
+
+		cmd[0] = SPI_NOR_CMD_PROGRAM;
+
+		for (i = 1; i <= (addr_len >> 3); i++)
+			cmd[i] = addr >> (addr_len - i * 8);
+
+		if (spi_xfer(cmd, NULL, (addr_len >> 3) + 1, cs, 0))
+			return -1;
+
+		if (spi_xfer(buf, NULL, len, cs, 1))
+			return -1;
+
+		do {
+			if (spi_get_status(&status, cs) < 0)
+				return -1;
+		} while (status & SPI_STATUS_WIP);
+
+		buf_size -= len;
+		addr += len;
+		total += len;
+		buf = (char *)buf + len;
+	}
+
+	cmd[0] = SPI_NOR_CMD_WRDI;
+
+	if (spi_xfer(cmd, NULL, 1, cs, 1))
+		return -1;
+
+	return total;
+}
+
+static int spi_nor_erase(uint32_t addr, int addr_len, int cs, int fast)
+{
+	uint8_t cmd[9];
+	uint8_t status;
+	int i;
+
+	if (addr_len != SPI_ADDRESSING_24BIT && addr_len != SPI_ADDRESSING_32BIT) {
+		printf("Unsupported addressing mode %d\n", addr_len);
+		return -1;
+	}
+
+	cmd[0] = SPI_NOR_CMD_WREN;
+
+	if (spi_xfer(cmd, NULL, 1, cs, 1))
+		return -1;
+
+	cmd[0] = SPI_NOR_CMD_ERASE;
+
+	for (i = 1; i <= (addr_len >> 3); i++)
+		cmd[i] = addr >> (addr_len - i * 8);
+
+	if (spi_xfer(cmd, NULL, (addr_len >> 3) + 1, cs, 1))
+		return -1;
+
+	cmd[0] = SPI_NOR_CMD_WRDI;
+
+	if (spi_xfer(cmd, NULL, 1, cs, 1))
+		return -1;
+
+	do {
+		if (spi_get_status(&status, cs))
+			return -1;
+	} while (status & SPI_STATUS_WIP);
+
+	return 0;
+}
+
 
 /* APIs to read from SPI NOR flash
  *
@@ -295,6 +398,47 @@ static int spi_dev_open(const uintptr_t dev_spec __attribute__((unused)),
 static const io_dev_connector_t spi_dev_connector = {
 	.dev_open = spi_dev_open
 };
+
+/*
+ * Functions necessary for implementing nor read/write svc calls outside of
+ * io_dev abstraction.
+ */
+
+int spi_nor_init()
+{
+	current_file.node = cavm_numa_local();
+
+	spi_config(CONFIG_SPI_FREQUENCY, 0, 0, 0, 0);
+	return 0;
+}
+
+int spi_nor_rw_data(int write, unsigned long addr, int size, void *buf, int buf_size)
+{
+	int cs = 0;
+	int ret;
+
+	if (buf_size < size) {
+		printf("%s::%d  buf size(0x%x) is less than requested read size(0x%x)\n",
+				__FILE__, __LINE__, buf_size, size);
+		return -1;
+	}
+
+	if (!write) {
+		ret = spi_nor_read(buf, size, addr, SPI_ADDRESSING_24BIT, cs);
+	} else {
+		ret = spi_nor_write(buf, size, addr, SPI_ADDRESSING_24BIT, cs, 0);
+	}
+
+	return ret;
+}
+
+int spi_nor_erase_sect(uint32_t addr)
+{
+	int cs = 0;
+
+	return spi_nor_erase(addr, SPI_ADDRESSING_24BIT, cs, 0);
+
+}
 
 /* Exported functions */
 
