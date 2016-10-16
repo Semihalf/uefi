@@ -56,6 +56,8 @@ void bl1_plat_arch_setup(void)
 	init_xlat_tables();
 
 	enable_mmu_el3(0);
+
+	set_secondary_cpu_jump_addr(BL1_RW_BASE);
 }
 
 void bl1_platform_setup(void)

@@ -318,17 +318,26 @@ const plat_psci_ops_t plat_thunder_psci_pm_ops = {
 
 extern uint64_t thunder_sec_entry_point;
 
+/*******************************************************************************
+ * Private function to program the mailbox for a cpu before it is released
+ * from reset. This function assumes that the Trusted mail box base is within
+ * the ARM_SHARED_RAM region
+ ******************************************************************************/
+void thunder_program_trusted_mailbox(uintptr_t address)
+{
+       uintptr_t *mailbox = (void *) MAILBOX_BASE;
+
+       *mailbox = address;
+}
+
 int plat_setup_psci_ops(uintptr_t sec_entrypoint,
 				const plat_psci_ops_t **psci_ops)
 {
+
 	*psci_ops = &plat_thunder_psci_pm_ops;
 
-	/*
-	 * Flush entrypoint variable to PoC since it will be
-	 * accessed after a reset with the caches turned off.
-	 */
-	thunder_sec_entry_point = sec_entrypoint;
-	flush_dcache_range((uint64_t)&thunder_sec_entry_point, sizeof(uint64_t));
+	/* Setup mailbox with entry point. */
+	thunder_program_trusted_mailbox(sec_entrypoint);
 
 	return 0;
 }

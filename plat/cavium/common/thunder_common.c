@@ -120,6 +120,15 @@ unsigned thunder_get_node_count(void)
 	return (l2c_oci_ctl.s.enaoci > 1) ? 2 : 1;
 }
 
+/*******************************************************************************
+ * Setup secondary CPU JUMP address from RESET
+ ******************************************************************************/
+
+void  set_secondary_cpu_jump_addr(unsigned int bl1_base)
+{
+       CSR_WRITE_PA(0, CAVM_MIO_BOOT_AP_JUMP, bl1_base);
+}
+
 void plat_add_mmio_map()
 {
 	unsigned long node, node_count;

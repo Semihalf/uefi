@@ -76,8 +76,16 @@ endfunc plat_get_my_entrypoint
 	 * -----------------------------------------------------
 	 */
 func plat_secondary_cold_boot_setup
+
+	mov_imm	x0, MAILBOX_BASE
+	/* Wait until the entrypoint gets populated */
+poll_mailbox:
+	ldr	x1, [x0]
+	cbz	x1, 1f
+	br	x1
+1:
 	wfe
-	ret
+	b	poll_mailbox
 endfunc plat_secondary_cold_boot_setup
 
 	/* ---------------------------------------------

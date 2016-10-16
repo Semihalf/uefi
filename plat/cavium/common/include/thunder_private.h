@@ -59,6 +59,7 @@ int spi_nor_init(void);
 int spi_nor_rw_data(int write, unsigned long addr, int size, void *buf, int buf_size);
 int spi_nor_erase_sect(uint32_t addr);
 
+void set_secondary_cpu_jump_addr(unsigned int bl1_base);
 #define THUNDER_IRQ_MASKED	(1ull << 32)
 
 /* Secure timer IRQ */
