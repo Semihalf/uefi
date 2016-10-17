@@ -73,6 +73,9 @@ local PCICONFIG_MIN_GNT             = 0x3e
 local PCICONFIG_MAX_LAT             = 0x3f
 local PCICONFIG_E_CAP_HDR           = 0x100
 
+-- Offsets into PCIe extended capabilities
+local PCIECONFIG_LINKSTATUS         = 0x12
+
 -- Config registers for bridges/switches
 local PCICONFIG_PRIMARY_BUS         = 0x18
 local PCICONFIG_SECONDARY_BUS       = 0x19
@@ -249,7 +252,7 @@ local function create_device(root, bus, deviceid, func, vparent)
             local cap_id = self:read8(cap_loc)
             local cap_next = self:read8(cap_loc + 1)
             if cap_id == 0x10 then
-                return true
+                return cap_loc
             end
             cap_loc = cap_next
         end
@@ -907,17 +910,6 @@ local function create_device(root, bus, deviceid, func, vparent)
     if newdev.isbridge then
         -- Device is a bridge/switch. Assign bus numbers so we can
         -- scan for subordinate devices
-
-        -- trim maxdev for pci RC ports
-        local max_device = 31
-        if (vendor == 0x177d) and (0 == newdev.bus) then
-            for _,list_id in ipairs(RC_LIST) do
-                if id == list_id then
-                    max_device = 0
-                    break
-                end
-            end
-        end
         if newdev:read8(PCICONFIG_SECONDARY_BUS) == 0 then
             newdev:write8(PCICONFIG_PRIMARY_BUS, newdev.bus)
             root.last_bus = root.last_bus + 1
@@ -929,6 +921,29 @@ local function create_device(root, bus, deviceid, func, vparent)
             root.last_bus = newdev:read8(PCICONFIG_SECONDARY_BUS)
             newdev.busnum = root.last_bus
         end
+        -- trim maxdev for pci RC ports
+        -- also check pcie link state, can not scan if the link is down
+        local max_device = 31
+        if (vendor == 0x177d) and (0 == newdev.bus) then
+            for _,list_id in ipairs(RC_LIST) do
+                if id == list_id then
+                    max_device = 0 -- trim maxdev
+                    local pcie_loc = newdev:cap_pcie()
+                    if pcie_loc then
+                        local linkstatus = newdev:read16(pcie_loc + PCIECONFIG_LINKSTATUS)
+                        -- check link status:
+                        -- DataLinkLayerLinkActive(bit13) should be high and LinkTraining(bit11) should be low
+                        if ( not bit64.btest(linkstatus,0x2000)) or bit64.btest(linkstatus,0x0800) then
+                            printf(" --  PCIeRc Bus %d Dev %2d.%d link is down\n",
+                                   newdev.bus, newdev.deviceid,newdev.func)
+                            return newdev
+                        end
+                    end
+                    break
+                end
+            end
+        end
+
         -- Scan for children
         newdev:scan(max_device)
         -- Update the last bus number now that we know how many busses
