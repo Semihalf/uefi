@@ -2,6 +2,7 @@
 #include <platform_def.h>
 #include <xlat_tables.h>
 #include <thunder_private.h>
+#include <thunder_common.h>
 
 void *fdt_ptr = (void *)~0;
 
@@ -145,43 +146,44 @@ void plat_add_mmio_map()
 
 void thunder_errata_fixes(void)
 {
-	uint64_t cvmctl_el1, cvmmemctl0_el1;
-	uint64_t midr;
+	uint64_t cvmctl_el1, cvmaccess_el1, cvmaccess_el2, cvmaccess_el3;
+	uint64_t cvmmemctl0_el1;
+	uint32_t midr;
 
-	midr = read_midr();
-	cvmctl_el1 = read_cvmctl_el1();
-	cvmmemctl0_el1 = read_cvmmemctl0_el1();
+	__asm__ __volatile__ ("mrs %0, s3_0_c0_c0_0" : "=r" (midr));
+	__asm__ __volatile__ ("mrs %0, s3_0_c11_c0_0" : "=r" (cvmctl_el1));
+	__asm__ __volatile__ ("mrs %0, s3_0_c11_c0_4" : "=r" (cvmmemctl0_el1));
 
-	if (IS_THUNDER_PASS(midr, 1, 0) || IS_THUNDER_PASS(midr, 1, 1)) {
-		/* Disable CAS and CASP which disables LSE */
-		set_bit(cvmctl_el1, 36);  /* Disable CAS */
-		set_bit(cvmctl_el1, 37);  /* Disable CASP */
-
-		set_bit(cvmctl_el1, 34);    /* Force WFE to nop */
-		unset_bit(cvmctl_el1, 33);  /* Disable v8.1 */
-	} else {
-		/*  All other chips we want to enable CAS/CASP and enable v8.1 support. */
-		unset_bit(cvmctl_el1, 36);  /* Enable CAS */
-		unset_bit(cvmctl_el1, 37);  /* Enable CASP */
-		set_bit(cvmctl_el1, 33);    /* Enable v8.1 */
-	}
-
-	if (IS_THUNDER_PASS(midr, 1, 0)) {
-		set_bit(cvmctl_el1, 5); /* force issue clock */
-	}
-
-	if (IS_THUNDER_PASS(midr, 2, 0)) {
-		set_bit (cvmmemctl0_el1, 55); /* Force DMB to wait for flushed write-buffer entries to be ACKed */
-	}
-
-	if (IS_THUNDER_PASS(midr, 1, 0) || IS_THUNDER_PASS(midr, 1, 1) || IS_THUNDER_PASS(midr, 2, 0)) {
-		set_bit (cvmctl_el1, 32);	/* Enable isb hazard so it always flushes the pipeline. */
-	}
+	/* All other chips we want to enable CAS/CASP and enable v8.1 support. */
+	unset_bit(cvmctl_el1, 36);  /* Enable CAS */
+	unset_bit(cvmctl_el1, 37);  /* Enable CASP */
+	set_bit(cvmctl_el1, 33);    /* Enable v8.1 */
 
 	/* Fix up defaults from the BDK which is broken and violates the ARM ARM. */
 	unset_bit (cvmmemctl0_el1, 17); /* Don't reset timer on merge as that violates the ARM ARM. */
 	unset_bit (cvmmemctl0_el1, 18); /* Set Write-buffer timeout for NSH entries to 218 cycles. */
 
-	write_cvmctl_el1(cvmctl_el1);
-	write_cvmmemctl0_el1(cvmmemctl0_el1);
+	if (MIDR_PARTNUM (midr) == T81PARTNUM) {
+		set_bit (cvmctl_el1, 40);
+		set_bit (cvmctl_el1, 41);
+		set_bit (cvmctl_el1, 42);
+		set_bit (cvmctl_el1, 43);
+	}
+
+	/* Fix up defaults from the BDK which is broken and violates the ARM ARM. */
+	unset_bit (cvmmemctl0_el1, 17); /* Don't reset timer on merge as that violates the ARM ARM. */
+	unset_bit (cvmmemctl0_el1, 18); /* Set Write-buffer timeout for NSH entries to 218 cycles. */
+	__asm__ __volatile__("msr s3_0_c11_c0_0, %0\n" : : "r" (cvmctl_el1));
+
+	__asm__ __volatile__("msr s3_0_c11_c0_4, %0\n" : : "r" (cvmmemctl0_el1));
+
+	__asm__ __volatile__ ("mrs %0, s3_0_c11_c0_3" : "=r" (cvmaccess_el1));
+
+	__asm__ __volatile__ ("mrs %0, s3_4_c11_c0_3" : "=r" (cvmaccess_el2));
+	cvmaccess_el2 &= ~0x100;
+	__asm__ __volatile__ ("msr s3_4_c11_c0_3, %0" : : "r" (cvmaccess_el2));
+
+	__asm__ __volatile__ ("mrs %0, s3_6_c11_c0_3" : "=r" (cvmaccess_el3));
+	cvmaccess_el3 &= ~0x100;
+	__asm__ __volatile__ ("msr s3_6_c11_c0_3, %0" : : "r" (cvmaccess_el3));
 }
