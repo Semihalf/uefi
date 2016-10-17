@@ -995,12 +995,12 @@ local function create_device(root, bus, deviceid, func, vparent)
                                 root.last_bus = max_bus
                             end
                         else
-                            printf(" VF: %d Dev %2d.%d VFs are not visible - initialVFs:%d totalVFs:%d numVFs:%d\n",
+                            printf(" -- VF Bus %d Dev %2d.%d VFs are not visible - initialVFs:%d totalVFs:%d numVFs:%d\n",
                                    newdev.bus, newdev.deviceid, newdev.func,
                                    sriov_vfs_ivf, sriov_vfs_tvf, sriov_nvf)
                         end
                     else
-                        printf(" VF: %d Dev %2d.%d VFs are disabled\n", newdev.bus, newdev.deviceid, newdev.func)
+                        printf(" -- VF Bus %d Dev %2d.%d VFs are disabled\n", newdev.bus, newdev.deviceid, newdev.func)
                     end
                 end
                 cap_loc = cap_next
