@@ -458,6 +458,8 @@ def writeReg(out, arch, reg):
             bar_index = 0x12;
         elif bar == "VF_BAR4":
             bar_index = 0x14;
+        elif bar == "LVF_BAR0":
+            bar_index = 0x10;
         else:
             assert False, "Invalid bar register %s for %s" % (bar, reg["name"])
         if bar != None:

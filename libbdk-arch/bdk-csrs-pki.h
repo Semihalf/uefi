@@ -3304,27 +3304,27 @@ union bdk_pki_clx_ecc_int
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_8_63         : 56;
-        uint64_t pcam1_dbe             : 1;  /**< [  7:  7](R/W1C/H) PCAM1 ECC double bit error. */
-        uint64_t pcam1_sbe             : 1;  /**< [  6:  6](R/W1C/H) PCAM1 ECC single bit error. */
-        uint64_t pcam0_dbe             : 1;  /**< [  5:  5](R/W1C/H) PCAM0 ECC double bit error. */
-        uint64_t pcam0_sbe             : 1;  /**< [  4:  4](R/W1C/H) PCAM0 ECC single bit error. */
-        uint64_t smem_dbe              : 1;  /**< [  3:  3](R/W1C/H) SMEM ECC double bit error. If
+        uint64_t pcam1_dbe             : 1;  /**< [  7:  7](R/W1C/H) PCAM1 ECC double-bit error. */
+        uint64_t pcam1_sbe             : 1;  /**< [  6:  6](R/W1C/H) PCAM1 ECC single-bit error. */
+        uint64_t pcam0_dbe             : 1;  /**< [  5:  5](R/W1C/H) PCAM0 ECC double-bit error. */
+        uint64_t pcam0_sbe             : 1;  /**< [  4:  4](R/W1C/H) PCAM0 ECC single-bit error. */
+        uint64_t smem_dbe              : 1;  /**< [  3:  3](R/W1C/H) SMEM ECC double-bit error. If
                                                                  SMEM_DBE is thrown, software may scrub the error by reloading PKI_CL()_SMEM(). */
-        uint64_t smem_sbe              : 1;  /**< [  2:  2](R/W1C/H) SMEM ECC single bit error. If
+        uint64_t smem_sbe              : 1;  /**< [  2:  2](R/W1C/H) SMEM ECC single-bit error. If
                                                                  SMEM_SBE is thrown, software may scrub the error by reloading PKI_CL()_SMEM(). */
         uint64_t dmem_perr             : 1;  /**< [  1:  1](R/W1C/H) DMEM parity error. */
         uint64_t rf_perr               : 1;  /**< [  0:  0](R/W1C/H) RF RAM parity error. */
 #else /* Word 0 - Little Endian */
         uint64_t rf_perr               : 1;  /**< [  0:  0](R/W1C/H) RF RAM parity error. */
         uint64_t dmem_perr             : 1;  /**< [  1:  1](R/W1C/H) DMEM parity error. */
-        uint64_t smem_sbe              : 1;  /**< [  2:  2](R/W1C/H) SMEM ECC single bit error. If
+        uint64_t smem_sbe              : 1;  /**< [  2:  2](R/W1C/H) SMEM ECC single-bit error. If
                                                                  SMEM_SBE is thrown, software may scrub the error by reloading PKI_CL()_SMEM(). */
-        uint64_t smem_dbe              : 1;  /**< [  3:  3](R/W1C/H) SMEM ECC double bit error. If
+        uint64_t smem_dbe              : 1;  /**< [  3:  3](R/W1C/H) SMEM ECC double-bit error. If
                                                                  SMEM_DBE is thrown, software may scrub the error by reloading PKI_CL()_SMEM(). */
-        uint64_t pcam0_sbe             : 1;  /**< [  4:  4](R/W1C/H) PCAM0 ECC single bit error. */
-        uint64_t pcam0_dbe             : 1;  /**< [  5:  5](R/W1C/H) PCAM0 ECC double bit error. */
-        uint64_t pcam1_sbe             : 1;  /**< [  6:  6](R/W1C/H) PCAM1 ECC single bit error. */
-        uint64_t pcam1_dbe             : 1;  /**< [  7:  7](R/W1C/H) PCAM1 ECC double bit error. */
+        uint64_t pcam0_sbe             : 1;  /**< [  4:  4](R/W1C/H) PCAM0 ECC single-bit error. */
+        uint64_t pcam0_dbe             : 1;  /**< [  5:  5](R/W1C/H) PCAM0 ECC double-bit error. */
+        uint64_t pcam1_sbe             : 1;  /**< [  6:  6](R/W1C/H) PCAM1 ECC single-bit error. */
+        uint64_t pcam1_dbe             : 1;  /**< [  7:  7](R/W1C/H) PCAM1 ECC double-bit error. */
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } s;
@@ -3952,7 +3952,7 @@ union bdk_pki_clx_pcamx_termx
                                                                  _ [TERM1]<n>=1, [TERM0]<n>=0: Match when data<n> == 1.
                                                                  _ [TERM1]<n>=1, [TERM0]<n>=1: Reserved. */
         uint64_t style0                : 8;  /**< [  7:  0](R/W) Previous interim style. The style that must have been calculated by the port
-                                                                 PKI_CL()_PKIND()_STYLE[STYLE] or as modified by previous CAM hits's
+                                                                 PKI_CL()_PKIND()_STYLE[STYLE] or as modified by previous CAM hits'
                                                                  PKI_CL()_PCAM()_ACTION()[STYLE_ADD]. This is used to form AND style matches.
 
                                                                  The field value is ternary, where each bit matches as follows:
@@ -3963,7 +3963,7 @@ union bdk_pki_clx_pcamx_termx
                                                                  _ [STYLE1]<n>=1, [STYLE0]<n>=1: Reserved. */
 #else /* Word 0 - Little Endian */
         uint64_t style0                : 8;  /**< [  7:  0](R/W) Previous interim style. The style that must have been calculated by the port
-                                                                 PKI_CL()_PKIND()_STYLE[STYLE] or as modified by previous CAM hits's
+                                                                 PKI_CL()_PKIND()_STYLE[STYLE] or as modified by previous CAM hits'
                                                                  PKI_CL()_PCAM()_ACTION()[STYLE_ADD]. This is used to form AND style matches.
 
                                                                  The field value is ternary, where each bit matches as follows:
@@ -5965,43 +5965,43 @@ union bdk_pki_ecc0_int
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t ldfif_dbe             : 1;  /**< [ 15: 15](R/W1C/H) LDFIF ECC double bit error. */
-        uint64_t ldfif_sbe             : 1;  /**< [ 14: 14](R/W1C/H) LDFIF ECC single bit error. */
-        uint64_t pbe_dbe               : 1;  /**< [ 13: 13](R/W1C/H) PBE ECC double bit error. */
-        uint64_t pbe_sbe               : 1;  /**< [ 12: 12](R/W1C/H) PBE ECC single bit error. */
-        uint64_t wadr_dbe              : 1;  /**< [ 11: 11](R/W1C/H) WADR ECC double bit error. */
-        uint64_t wadr_sbe              : 1;  /**< [ 10: 10](R/W1C/H) WADR ECC single bit error. */
-        uint64_t nxtptag_dbe           : 1;  /**< [  9:  9](R/W1C/H) NXTPTAG ECC double bit error. */
-        uint64_t nxtptag_sbe           : 1;  /**< [  8:  8](R/W1C/H) NXTPTAG ECC single bit error. */
-        uint64_t curptag_dbe           : 1;  /**< [  7:  7](R/W1C/H) CURPTAG ECC double bit error. */
-        uint64_t curptag_sbe           : 1;  /**< [  6:  6](R/W1C/H) CURPTAG ECC single bit error. */
-        uint64_t nxtblk_dbe            : 1;  /**< [  5:  5](R/W1C/H) NXTBLK ECC double bit error. */
-        uint64_t nxtblk_sbe            : 1;  /**< [  4:  4](R/W1C/H) NXTBLK ECC single bit error. */
-        uint64_t kmem_dbe              : 1;  /**< [  3:  3](R/W1C/H) KMEM ECC double bit error. If KMEM_DBE is
+        uint64_t ldfif_dbe             : 1;  /**< [ 15: 15](R/W1C/H) LDFIF ECC double-bit error. */
+        uint64_t ldfif_sbe             : 1;  /**< [ 14: 14](R/W1C/H) LDFIF ECC single-bit error. */
+        uint64_t pbe_dbe               : 1;  /**< [ 13: 13](R/W1C/H) PBE ECC double-bit error. */
+        uint64_t pbe_sbe               : 1;  /**< [ 12: 12](R/W1C/H) PBE ECC single-bit error. */
+        uint64_t wadr_dbe              : 1;  /**< [ 11: 11](R/W1C/H) WADR ECC double-bit error. */
+        uint64_t wadr_sbe              : 1;  /**< [ 10: 10](R/W1C/H) WADR ECC single-bit error. */
+        uint64_t nxtptag_dbe           : 1;  /**< [  9:  9](R/W1C/H) NXTPTAG ECC double-bit error. */
+        uint64_t nxtptag_sbe           : 1;  /**< [  8:  8](R/W1C/H) NXTPTAG ECC single-bit error. */
+        uint64_t curptag_dbe           : 1;  /**< [  7:  7](R/W1C/H) CURPTAG ECC double-bit error. */
+        uint64_t curptag_sbe           : 1;  /**< [  6:  6](R/W1C/H) CURPTAG ECC single-bit error. */
+        uint64_t nxtblk_dbe            : 1;  /**< [  5:  5](R/W1C/H) NXTBLK ECC double-bit error. */
+        uint64_t nxtblk_sbe            : 1;  /**< [  4:  4](R/W1C/H) NXTBLK ECC single-bit error. */
+        uint64_t kmem_dbe              : 1;  /**< [  3:  3](R/W1C/H) KMEM ECC double-bit error. If KMEM_DBE is
                                                                  thrown, software may scrub the error by reloading PKI_CL()_PKIND()_KMEM(). */
-        uint64_t kmem_sbe              : 1;  /**< [  2:  2](R/W1C/H) KMEM ECC single bit error. If KMEM_SBE is
+        uint64_t kmem_sbe              : 1;  /**< [  2:  2](R/W1C/H) KMEM ECC single-bit error. If KMEM_SBE is
                                                                  thrown, software may scrub the error by reloading PKI_CL()_PKIND()_KMEM(). */
-        uint64_t asm_dbe               : 1;  /**< [  1:  1](R/W1C/H) ASM ECC double bit error. */
-        uint64_t asm_sbe               : 1;  /**< [  0:  0](R/W1C/H) ASM ECC single bit error. */
+        uint64_t asm_dbe               : 1;  /**< [  1:  1](R/W1C/H) ASM ECC double-bit error. */
+        uint64_t asm_sbe               : 1;  /**< [  0:  0](R/W1C/H) ASM ECC single-bit error. */
 #else /* Word 0 - Little Endian */
-        uint64_t asm_sbe               : 1;  /**< [  0:  0](R/W1C/H) ASM ECC single bit error. */
-        uint64_t asm_dbe               : 1;  /**< [  1:  1](R/W1C/H) ASM ECC double bit error. */
-        uint64_t kmem_sbe              : 1;  /**< [  2:  2](R/W1C/H) KMEM ECC single bit error. If KMEM_SBE is
+        uint64_t asm_sbe               : 1;  /**< [  0:  0](R/W1C/H) ASM ECC single-bit error. */
+        uint64_t asm_dbe               : 1;  /**< [  1:  1](R/W1C/H) ASM ECC double-bit error. */
+        uint64_t kmem_sbe              : 1;  /**< [  2:  2](R/W1C/H) KMEM ECC single-bit error. If KMEM_SBE is
                                                                  thrown, software may scrub the error by reloading PKI_CL()_PKIND()_KMEM(). */
-        uint64_t kmem_dbe              : 1;  /**< [  3:  3](R/W1C/H) KMEM ECC double bit error. If KMEM_DBE is
+        uint64_t kmem_dbe              : 1;  /**< [  3:  3](R/W1C/H) KMEM ECC double-bit error. If KMEM_DBE is
                                                                  thrown, software may scrub the error by reloading PKI_CL()_PKIND()_KMEM(). */
-        uint64_t nxtblk_sbe            : 1;  /**< [  4:  4](R/W1C/H) NXTBLK ECC single bit error. */
-        uint64_t nxtblk_dbe            : 1;  /**< [  5:  5](R/W1C/H) NXTBLK ECC double bit error. */
-        uint64_t curptag_sbe           : 1;  /**< [  6:  6](R/W1C/H) CURPTAG ECC single bit error. */
-        uint64_t curptag_dbe           : 1;  /**< [  7:  7](R/W1C/H) CURPTAG ECC double bit error. */
-        uint64_t nxtptag_sbe           : 1;  /**< [  8:  8](R/W1C/H) NXTPTAG ECC single bit error. */
-        uint64_t nxtptag_dbe           : 1;  /**< [  9:  9](R/W1C/H) NXTPTAG ECC double bit error. */
-        uint64_t wadr_sbe              : 1;  /**< [ 10: 10](R/W1C/H) WADR ECC single bit error. */
-        uint64_t wadr_dbe              : 1;  /**< [ 11: 11](R/W1C/H) WADR ECC double bit error. */
-        uint64_t pbe_sbe               : 1;  /**< [ 12: 12](R/W1C/H) PBE ECC single bit error. */
-        uint64_t pbe_dbe               : 1;  /**< [ 13: 13](R/W1C/H) PBE ECC double bit error. */
-        uint64_t ldfif_sbe             : 1;  /**< [ 14: 14](R/W1C/H) LDFIF ECC single bit error. */
-        uint64_t ldfif_dbe             : 1;  /**< [ 15: 15](R/W1C/H) LDFIF ECC double bit error. */
+        uint64_t nxtblk_sbe            : 1;  /**< [  4:  4](R/W1C/H) NXTBLK ECC single-bit error. */
+        uint64_t nxtblk_dbe            : 1;  /**< [  5:  5](R/W1C/H) NXTBLK ECC double-bit error. */
+        uint64_t curptag_sbe           : 1;  /**< [  6:  6](R/W1C/H) CURPTAG ECC single-bit error. */
+        uint64_t curptag_dbe           : 1;  /**< [  7:  7](R/W1C/H) CURPTAG ECC double-bit error. */
+        uint64_t nxtptag_sbe           : 1;  /**< [  8:  8](R/W1C/H) NXTPTAG ECC single-bit error. */
+        uint64_t nxtptag_dbe           : 1;  /**< [  9:  9](R/W1C/H) NXTPTAG ECC double-bit error. */
+        uint64_t wadr_sbe              : 1;  /**< [ 10: 10](R/W1C/H) WADR ECC single-bit error. */
+        uint64_t wadr_dbe              : 1;  /**< [ 11: 11](R/W1C/H) WADR ECC double-bit error. */
+        uint64_t pbe_sbe               : 1;  /**< [ 12: 12](R/W1C/H) PBE ECC single-bit error. */
+        uint64_t pbe_dbe               : 1;  /**< [ 13: 13](R/W1C/H) PBE ECC double-bit error. */
+        uint64_t ldfif_sbe             : 1;  /**< [ 14: 14](R/W1C/H) LDFIF ECC single-bit error. */
+        uint64_t ldfif_dbe             : 1;  /**< [ 15: 15](R/W1C/H) LDFIF ECC double-bit error. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
@@ -6345,69 +6345,69 @@ union bdk_pki_ecc1_int
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_38_63        : 26;
-        uint64_t ncbwqe_dbe            : 1;  /**< [ 37: 37](R/W1C/H) NCB WQE HDR ECC double bit error. */
-        uint64_t ncbwqe_sbe            : 1;  /**< [ 36: 36](R/W1C/H) NCB WQE HDR ECC single bit error. */
-        uint64_t ncb_dbe               : 1;  /**< [ 35: 35](R/W1C/H) NCB MEM ECC double bit error. */
-        uint64_t ncb_sbe               : 1;  /**< [ 34: 34](R/W1C/H) NCB MEM ECC single bit error. */
-        uint64_t sws_dbe               : 1;  /**< [ 33: 33](R/W1C/H) PLC ECC double bit error. */
-        uint64_t sws_sbe               : 1;  /**< [ 32: 32](R/W1C/H) PLC ECC single bit error. */
-        uint64_t wqeout_dbe            : 1;  /**< [ 31: 31](R/W1C/H) PLC ECC double bit error. */
-        uint64_t wqeout_sbe            : 1;  /**< [ 30: 30](R/W1C/H) PLC ECC single bit error. */
-        uint64_t doa_dbe               : 1;  /**< [ 29: 29](R/W1C/H) PLC ECC double bit error. */
-        uint64_t doa_sbe               : 1;  /**< [ 28: 28](R/W1C/H) PLC ECC single bit error. */
-        uint64_t bpid_dbe              : 1;  /**< [ 27: 27](R/W1C/H) PLC ECC double bit error. */
-        uint64_t bpid_sbe              : 1;  /**< [ 26: 26](R/W1C/H) PLC ECC single bit error. */
+        uint64_t ncbwqe_dbe            : 1;  /**< [ 37: 37](R/W1C/H) NCB WQE HDR ECC double-bit error. */
+        uint64_t ncbwqe_sbe            : 1;  /**< [ 36: 36](R/W1C/H) NCB WQE HDR ECC single-bit error. */
+        uint64_t ncb_dbe               : 1;  /**< [ 35: 35](R/W1C/H) NCB MEM ECC double-bit error. */
+        uint64_t ncb_sbe               : 1;  /**< [ 34: 34](R/W1C/H) NCB MEM ECC single-bit error. */
+        uint64_t sws_dbe               : 1;  /**< [ 33: 33](R/W1C/H) PLC ECC double-bit error. */
+        uint64_t sws_sbe               : 1;  /**< [ 32: 32](R/W1C/H) PLC ECC single-bit error. */
+        uint64_t wqeout_dbe            : 1;  /**< [ 31: 31](R/W1C/H) PLC ECC double-bit error. */
+        uint64_t wqeout_sbe            : 1;  /**< [ 30: 30](R/W1C/H) PLC ECC single-bit error. */
+        uint64_t doa_dbe               : 1;  /**< [ 29: 29](R/W1C/H) PLC ECC double-bit error. */
+        uint64_t doa_sbe               : 1;  /**< [ 28: 28](R/W1C/H) PLC ECC single-bit error. */
+        uint64_t bpid_dbe              : 1;  /**< [ 27: 27](R/W1C/H) PLC ECC double-bit error. */
+        uint64_t bpid_sbe              : 1;  /**< [ 26: 26](R/W1C/H) PLC ECC single-bit error. */
         uint64_t reserved_20_25        : 6;
-        uint64_t plc_dbe               : 1;  /**< [ 19: 19](R/W1C/H) PLC ECC double bit error. */
-        uint64_t plc_sbe               : 1;  /**< [ 18: 18](R/W1C/H) PLC ECC single bit error. */
-        uint64_t pktwq_dbe             : 1;  /**< [ 17: 17](R/W1C/H) PKTWQ ECC double bit error. */
-        uint64_t pktwq_sbe             : 1;  /**< [ 16: 16](R/W1C/H) PKTWQ ECC single bit error. */
+        uint64_t plc_dbe               : 1;  /**< [ 19: 19](R/W1C/H) PLC ECC double-bit error. */
+        uint64_t plc_sbe               : 1;  /**< [ 18: 18](R/W1C/H) PLC ECC single-bit error. */
+        uint64_t pktwq_dbe             : 1;  /**< [ 17: 17](R/W1C/H) PKTWQ ECC double-bit error. */
+        uint64_t pktwq_sbe             : 1;  /**< [ 16: 16](R/W1C/H) PKTWQ ECC single-bit error. */
         uint64_t reserved_14_15        : 2;
-        uint64_t strm_dbe              : 1;  /**< [ 13: 13](R/W1C/H) STRM ECC double bit error. */
-        uint64_t strm_sbe              : 1;  /**< [ 12: 12](R/W1C/H) STRM ECC single bit error. */
-        uint64_t tag_dbe               : 1;  /**< [ 11: 11](R/W1C/H) TAG ECC double bit error. */
-        uint64_t tag_sbe               : 1;  /**< [ 10: 10](R/W1C/H) TAG ECC single bit error. */
+        uint64_t strm_dbe              : 1;  /**< [ 13: 13](R/W1C/H) STRM ECC double-bit error. */
+        uint64_t strm_sbe              : 1;  /**< [ 12: 12](R/W1C/H) STRM ECC single-bit error. */
+        uint64_t tag_dbe               : 1;  /**< [ 11: 11](R/W1C/H) TAG ECC double-bit error. */
+        uint64_t tag_sbe               : 1;  /**< [ 10: 10](R/W1C/H) TAG ECC single-bit error. */
         uint64_t reserved_8_9          : 2;
-        uint64_t chan_dbe              : 1;  /**< [  7:  7](R/W1C/H) CHAN ECC double bit error. */
-        uint64_t chan_sbe              : 1;  /**< [  6:  6](R/W1C/H) CHAN ECC single bit error. */
-        uint64_t pbtag_dbe             : 1;  /**< [  5:  5](R/W1C/H) PBTAG ECC double bit error. */
-        uint64_t pbtag_sbe             : 1;  /**< [  4:  4](R/W1C/H) PBTAG ECC single bit error. */
-        uint64_t stylewq_dbe           : 1;  /**< [  3:  3](R/W1C/H) STYLEWQ ECC double bit error. */
-        uint64_t stylewq_sbe           : 1;  /**< [  2:  2](R/W1C/H) STYLEWQ ECC single bit error. */
-        uint64_t qpg_dbe               : 1;  /**< [  1:  1](R/W1C/H) QPG ECC double bit error. */
-        uint64_t qpg_sbe               : 1;  /**< [  0:  0](R/W1C/H) QPG ECC single bit error. */
+        uint64_t chan_dbe              : 1;  /**< [  7:  7](R/W1C/H) CHAN ECC double-bit error. */
+        uint64_t chan_sbe              : 1;  /**< [  6:  6](R/W1C/H) CHAN ECC single-bit error. */
+        uint64_t pbtag_dbe             : 1;  /**< [  5:  5](R/W1C/H) PBTAG ECC double-bit error. */
+        uint64_t pbtag_sbe             : 1;  /**< [  4:  4](R/W1C/H) PBTAG ECC single-bit error. */
+        uint64_t stylewq_dbe           : 1;  /**< [  3:  3](R/W1C/H) STYLEWQ ECC double-bit error. */
+        uint64_t stylewq_sbe           : 1;  /**< [  2:  2](R/W1C/H) STYLEWQ ECC single-bit error. */
+        uint64_t qpg_dbe               : 1;  /**< [  1:  1](R/W1C/H) QPG ECC double-bit error. */
+        uint64_t qpg_sbe               : 1;  /**< [  0:  0](R/W1C/H) QPG ECC single-bit error. */
 #else /* Word 0 - Little Endian */
-        uint64_t qpg_sbe               : 1;  /**< [  0:  0](R/W1C/H) QPG ECC single bit error. */
-        uint64_t qpg_dbe               : 1;  /**< [  1:  1](R/W1C/H) QPG ECC double bit error. */
-        uint64_t stylewq_sbe           : 1;  /**< [  2:  2](R/W1C/H) STYLEWQ ECC single bit error. */
-        uint64_t stylewq_dbe           : 1;  /**< [  3:  3](R/W1C/H) STYLEWQ ECC double bit error. */
-        uint64_t pbtag_sbe             : 1;  /**< [  4:  4](R/W1C/H) PBTAG ECC single bit error. */
-        uint64_t pbtag_dbe             : 1;  /**< [  5:  5](R/W1C/H) PBTAG ECC double bit error. */
-        uint64_t chan_sbe              : 1;  /**< [  6:  6](R/W1C/H) CHAN ECC single bit error. */
-        uint64_t chan_dbe              : 1;  /**< [  7:  7](R/W1C/H) CHAN ECC double bit error. */
+        uint64_t qpg_sbe               : 1;  /**< [  0:  0](R/W1C/H) QPG ECC single-bit error. */
+        uint64_t qpg_dbe               : 1;  /**< [  1:  1](R/W1C/H) QPG ECC double-bit error. */
+        uint64_t stylewq_sbe           : 1;  /**< [  2:  2](R/W1C/H) STYLEWQ ECC single-bit error. */
+        uint64_t stylewq_dbe           : 1;  /**< [  3:  3](R/W1C/H) STYLEWQ ECC double-bit error. */
+        uint64_t pbtag_sbe             : 1;  /**< [  4:  4](R/W1C/H) PBTAG ECC single-bit error. */
+        uint64_t pbtag_dbe             : 1;  /**< [  5:  5](R/W1C/H) PBTAG ECC double-bit error. */
+        uint64_t chan_sbe              : 1;  /**< [  6:  6](R/W1C/H) CHAN ECC single-bit error. */
+        uint64_t chan_dbe              : 1;  /**< [  7:  7](R/W1C/H) CHAN ECC double-bit error. */
         uint64_t reserved_8_9          : 2;
-        uint64_t tag_sbe               : 1;  /**< [ 10: 10](R/W1C/H) TAG ECC single bit error. */
-        uint64_t tag_dbe               : 1;  /**< [ 11: 11](R/W1C/H) TAG ECC double bit error. */
-        uint64_t strm_sbe              : 1;  /**< [ 12: 12](R/W1C/H) STRM ECC single bit error. */
-        uint64_t strm_dbe              : 1;  /**< [ 13: 13](R/W1C/H) STRM ECC double bit error. */
+        uint64_t tag_sbe               : 1;  /**< [ 10: 10](R/W1C/H) TAG ECC single-bit error. */
+        uint64_t tag_dbe               : 1;  /**< [ 11: 11](R/W1C/H) TAG ECC double-bit error. */
+        uint64_t strm_sbe              : 1;  /**< [ 12: 12](R/W1C/H) STRM ECC single-bit error. */
+        uint64_t strm_dbe              : 1;  /**< [ 13: 13](R/W1C/H) STRM ECC double-bit error. */
         uint64_t reserved_14_15        : 2;
-        uint64_t pktwq_sbe             : 1;  /**< [ 16: 16](R/W1C/H) PKTWQ ECC single bit error. */
-        uint64_t pktwq_dbe             : 1;  /**< [ 17: 17](R/W1C/H) PKTWQ ECC double bit error. */
-        uint64_t plc_sbe               : 1;  /**< [ 18: 18](R/W1C/H) PLC ECC single bit error. */
-        uint64_t plc_dbe               : 1;  /**< [ 19: 19](R/W1C/H) PLC ECC double bit error. */
+        uint64_t pktwq_sbe             : 1;  /**< [ 16: 16](R/W1C/H) PKTWQ ECC single-bit error. */
+        uint64_t pktwq_dbe             : 1;  /**< [ 17: 17](R/W1C/H) PKTWQ ECC double-bit error. */
+        uint64_t plc_sbe               : 1;  /**< [ 18: 18](R/W1C/H) PLC ECC single-bit error. */
+        uint64_t plc_dbe               : 1;  /**< [ 19: 19](R/W1C/H) PLC ECC double-bit error. */
         uint64_t reserved_20_25        : 6;
-        uint64_t bpid_sbe              : 1;  /**< [ 26: 26](R/W1C/H) PLC ECC single bit error. */
-        uint64_t bpid_dbe              : 1;  /**< [ 27: 27](R/W1C/H) PLC ECC double bit error. */
-        uint64_t doa_sbe               : 1;  /**< [ 28: 28](R/W1C/H) PLC ECC single bit error. */
-        uint64_t doa_dbe               : 1;  /**< [ 29: 29](R/W1C/H) PLC ECC double bit error. */
-        uint64_t wqeout_sbe            : 1;  /**< [ 30: 30](R/W1C/H) PLC ECC single bit error. */
-        uint64_t wqeout_dbe            : 1;  /**< [ 31: 31](R/W1C/H) PLC ECC double bit error. */
-        uint64_t sws_sbe               : 1;  /**< [ 32: 32](R/W1C/H) PLC ECC single bit error. */
-        uint64_t sws_dbe               : 1;  /**< [ 33: 33](R/W1C/H) PLC ECC double bit error. */
-        uint64_t ncb_sbe               : 1;  /**< [ 34: 34](R/W1C/H) NCB MEM ECC single bit error. */
-        uint64_t ncb_dbe               : 1;  /**< [ 35: 35](R/W1C/H) NCB MEM ECC double bit error. */
-        uint64_t ncbwqe_sbe            : 1;  /**< [ 36: 36](R/W1C/H) NCB WQE HDR ECC single bit error. */
-        uint64_t ncbwqe_dbe            : 1;  /**< [ 37: 37](R/W1C/H) NCB WQE HDR ECC double bit error. */
+        uint64_t bpid_sbe              : 1;  /**< [ 26: 26](R/W1C/H) PLC ECC single-bit error. */
+        uint64_t bpid_dbe              : 1;  /**< [ 27: 27](R/W1C/H) PLC ECC double-bit error. */
+        uint64_t doa_sbe               : 1;  /**< [ 28: 28](R/W1C/H) PLC ECC single-bit error. */
+        uint64_t doa_dbe               : 1;  /**< [ 29: 29](R/W1C/H) PLC ECC double-bit error. */
+        uint64_t wqeout_sbe            : 1;  /**< [ 30: 30](R/W1C/H) PLC ECC single-bit error. */
+        uint64_t wqeout_dbe            : 1;  /**< [ 31: 31](R/W1C/H) PLC ECC double-bit error. */
+        uint64_t sws_sbe               : 1;  /**< [ 32: 32](R/W1C/H) PLC ECC single-bit error. */
+        uint64_t sws_dbe               : 1;  /**< [ 33: 33](R/W1C/H) PLC ECC double-bit error. */
+        uint64_t ncb_sbe               : 1;  /**< [ 34: 34](R/W1C/H) NCB MEM ECC single-bit error. */
+        uint64_t ncb_dbe               : 1;  /**< [ 35: 35](R/W1C/H) NCB MEM ECC double-bit error. */
+        uint64_t ncbwqe_sbe            : 1;  /**< [ 36: 36](R/W1C/H) NCB WQE HDR ECC single-bit error. */
+        uint64_t ncbwqe_dbe            : 1;  /**< [ 37: 37](R/W1C/H) NCB WQE HDR ECC double-bit error. */
         uint64_t reserved_38_63        : 26;
 #endif /* Word 0 - End */
     } s;
@@ -6783,14 +6783,14 @@ union bdk_pki_ecc2_int
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_2_63         : 62;
-        uint64_t imem_dbe              : 1;  /**< [  1:  1](R/W1C/H) IMEM ECC double bit error. If IMEM_DBE is
+        uint64_t imem_dbe              : 1;  /**< [  1:  1](R/W1C/H) IMEM ECC double-bit error. If IMEM_DBE is
                                                                  thrown, software may scrub the error by reloading PKI_IMEM(). */
-        uint64_t imem_sbe              : 1;  /**< [  0:  0](R/W1C/H) IMEM ECC single bit error. If IMEM_SBE is
+        uint64_t imem_sbe              : 1;  /**< [  0:  0](R/W1C/H) IMEM ECC single-bit error. If IMEM_SBE is
                                                                  thrown, software may scrub the error by reloading PKI_IMEM(). */
 #else /* Word 0 - Little Endian */
-        uint64_t imem_sbe              : 1;  /**< [  0:  0](R/W1C/H) IMEM ECC single bit error. If IMEM_SBE is
+        uint64_t imem_sbe              : 1;  /**< [  0:  0](R/W1C/H) IMEM ECC single-bit error. If IMEM_SBE is
                                                                  thrown, software may scrub the error by reloading PKI_IMEM(). */
-        uint64_t imem_dbe              : 1;  /**< [  1:  1](R/W1C/H) IMEM ECC double bit error. If IMEM_DBE is
+        uint64_t imem_dbe              : 1;  /**< [  1:  1](R/W1C/H) IMEM ECC double-bit error. If IMEM_DBE is
                                                                  thrown, software may scrub the error by reloading PKI_IMEM(). */
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
@@ -10640,7 +10640,7 @@ union bdk_pki_stylex_buf
                                                                    * [MB_SIZE] >= (PKI_STYLE()_BUF[WQE_SKIP] * (128/8)) + 18
 
                                                                  If [DIS_WQ_DAT]=0, legal values must satisfy:
-                                                                   * ([WQE_SKIP] * (128/8)) + 6 <= [FIRST_SKIP], to insure the minimum of six
+                                                                   * ([WQE_SKIP] * (128/8)) + 6 <= [FIRST_SKIP], to ensure the minimum of six
                                                                      work-queue entry words will fit within [FIRST_SKIP]. */
         uint64_t first_skip            : 6;  /**< [ 27: 22](R/W) The number of eight-byte words from the top of the first MBUF that the PKI
                                                                  stores the next pointer.
@@ -10654,7 +10654,7 @@ union bdk_pki_stylex_buf
                                                                  If [DIS_WQ_DAT]=0, legal values must satisfy:
                                                                    * [FIRST_SKIP] <= PKI_STYLE()_BUF[MB_SIZE] - 18.
                                                                    * ([WQE_SKIP] * (128/8)) + X <= [FIRST_SKIP].
-                                                                   _ X must be at least 0x6 to insure the minimum of six work-queue entry words. */
+                                                                   _ X must be at least 0x6 to ensure the minimum of six work-queue entry words. */
         uint64_t later_skip            : 6;  /**< [ 21: 16](R/W) The number of eight-byte words from the top of any MBUF that is not the first
                                                                  MBUF that PKI writes the next-pointer to.
 
@@ -10752,7 +10752,7 @@ union bdk_pki_stylex_buf
                                                                  If [DIS_WQ_DAT]=0, legal values must satisfy:
                                                                    * [FIRST_SKIP] <= PKI_STYLE()_BUF[MB_SIZE] - 18.
                                                                    * ([WQE_SKIP] * (128/8)) + X <= [FIRST_SKIP].
-                                                                   _ X must be at least 0x6 to insure the minimum of six work-queue entry words. */
+                                                                   _ X must be at least 0x6 to ensure the minimum of six work-queue entry words. */
         uint64_t wqe_skip              : 2;  /**< [ 29: 28](R/W) WQE start offset. The number of 128-byte cache lines to skip between the buffer
                                                                  pointer and WORD0 of the work-queue entry.
 
@@ -10760,7 +10760,7 @@ union bdk_pki_stylex_buf
                                                                    * [MB_SIZE] >= (PKI_STYLE()_BUF[WQE_SKIP] * (128/8)) + 18
 
                                                                  If [DIS_WQ_DAT]=0, legal values must satisfy:
-                                                                   * ([WQE_SKIP] * (128/8)) + 6 <= [FIRST_SKIP], to insure the minimum of six
+                                                                   * ([WQE_SKIP] * (128/8)) + 6 <= [FIRST_SKIP], to ensure the minimum of six
                                                                      work-queue entry words will fit within [FIRST_SKIP]. */
         uint64_t wqe_hsz               : 2;  /**< [ 31: 30](R/W) Work queue header size:
                                                                  0x0 = WORD0..5, standard PKI_WQE_S.
@@ -11132,21 +11132,21 @@ union bdk_pki_tag_secret
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t dst6                  : 16; /**< [ 63: 48](R/W) Secret for the destination tuple IPv6 tag CRC calculation. Typically identical to SRC6 to
-                                                                 insure tagging is symmetric between source/destination flows. Typically different from DST
+                                                                 ensure tagging is symmetric between source/destination flows. Typically different from DST
                                                                  for maximum security. */
         uint64_t src6                  : 16; /**< [ 47: 32](R/W) Secret for the source tuple IPv6 tag CRC calculation. Typically different from SRC for
                                                                  maximum security. */
         uint64_t dst                   : 16; /**< [ 31: 16](R/W) Secret for the destination tuple tag CRC calculation. Typically identical to SRC to
-                                                                 insure tagging is symmetric between source/destination flows. */
+                                                                 ensure tagging is symmetric between source/destination flows. */
         uint64_t src                   : 16; /**< [ 15:  0](R/W) Secret for the source tuple tag CRC calculation. */
 #else /* Word 0 - Little Endian */
         uint64_t src                   : 16; /**< [ 15:  0](R/W) Secret for the source tuple tag CRC calculation. */
         uint64_t dst                   : 16; /**< [ 31: 16](R/W) Secret for the destination tuple tag CRC calculation. Typically identical to SRC to
-                                                                 insure tagging is symmetric between source/destination flows. */
+                                                                 ensure tagging is symmetric between source/destination flows. */
         uint64_t src6                  : 16; /**< [ 47: 32](R/W) Secret for the source tuple IPv6 tag CRC calculation. Typically different from SRC for
                                                                  maximum security. */
         uint64_t dst6                  : 16; /**< [ 63: 48](R/W) Secret for the destination tuple IPv6 tag CRC calculation. Typically identical to SRC6 to
-                                                                 insure tagging is symmetric between source/destination flows. Typically different from DST
+                                                                 ensure tagging is symmetric between source/destination flows. Typically different from DST
                                                                  for maximum security. */
 #endif /* Word 0 - End */
     } s;

@@ -167,7 +167,7 @@
  * to future instructions which have ZIP_INST_S[BF] and ZIP_INST_S[IV] clear.
  *
  * If chaining hashes (ZIP_INST_S[BF] is clear or ZIP_INST_S[HMIF] is set), software
- * must insure that the dependent instructions will not be launched in parallel.  This
+ * must ensure that the dependent instructions will not be launched in parallel.  This
  * may be accomplished by waiting for an instruction to complete before submitting the
  * dependent instruction on the same file, or by assigning only a single engine to the
  * queue.
@@ -2988,10 +2988,10 @@ union bdk_zip_core_reset
                                                                  logic in ZIP_CTL.  This mode only takes effect if the REAC mode is also
                                                                  enabled. */
         uint64_t reserved_6_61         : 56;
-        uint64_t reset                 : 6;  /**< [  5:  0](R/W) When set, the conresponding core will be put into reset. When clear, the core is out of
+        uint64_t reset                 : 6;  /**< [  5:  0](R/W) When set, the corresponding core will be put into reset. When clear, the core is out of
                                                                  reset.  Bit[<a>] resets ZIP core <a>. */
 #else /* Word 0 - Little Endian */
-        uint64_t reset                 : 6;  /**< [  5:  0](R/W) When set, the conresponding core will be put into reset. When clear, the core is out of
+        uint64_t reset                 : 6;  /**< [  5:  0](R/W) When set, the corresponding core will be put into reset. When clear, the core is out of
                                                                  reset.  Bit[<a>] resets ZIP core <a>. */
         uint64_t reserved_6_61         : 56;
         uint64_t reac_plus             : 1;  /**< [ 62: 62](R/W) Internal:
@@ -3010,10 +3010,10 @@ union bdk_zip_core_reset
         uint64_t reac                  : 1;  /**< [ 63: 63](R/W) Reset ZIP engine after completion of each instruction, to limit exposure to
                                                                  corrupt commands and structures affecting subsequent commands. */
         uint64_t reserved_2_62         : 61;
-        uint64_t reset                 : 2;  /**< [  1:  0](R/W) When set, the conresponding core will be put into reset. When clear, the core is out of
+        uint64_t reset                 : 2;  /**< [  1:  0](R/W) When set, the corresponding core will be put into reset. When clear, the core is out of
                                                                  reset.  Bit[<a>] resets ZIP core <a>. */
 #else /* Word 0 - Little Endian */
-        uint64_t reset                 : 2;  /**< [  1:  0](R/W) When set, the conresponding core will be put into reset. When clear, the core is out of
+        uint64_t reset                 : 2;  /**< [  1:  0](R/W) When set, the corresponding core will be put into reset. When clear, the core is out of
                                                                  reset.  Bit[<a>] resets ZIP core <a>. */
         uint64_t reserved_2_62         : 61;
         uint64_t reac                  : 1;  /**< [ 63: 63](R/W) Reset ZIP engine after completion of each instruction, to limit exposure to
@@ -3056,7 +3056,7 @@ union bdk_zip_core_to_cfg
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t halt                  : 1;  /**< [ 63: 63](R/W) If set, when timeout is detected, control will halt input and output and set the
                                                                  completion code in result buffer to ZIP_COMP_E::TIMEOUT. If cleared (for
-                                                                 diagnostic use only), if ZIP core continues outputing after timeout period the
+                                                                 diagnostic use only), if ZIP core continues outputting after timeout period the
                                                                  instruction will still be finished by the ZIP core. */
         uint64_t ar                    : 1;  /**< [ 62: 62](R/W) Auto reset. This bit only takes effect when [HALT] is set. When [HALT] is cleared, [AR] is
                                                                  ignored.
@@ -3103,7 +3103,7 @@ union bdk_zip_core_to_cfg
                                                                  1 = On a timeout, the timed-out core will be auto-reset. */
         uint64_t halt                  : 1;  /**< [ 63: 63](R/W) If set, when timeout is detected, control will halt input and output and set the
                                                                  completion code in result buffer to ZIP_COMP_E::TIMEOUT. If cleared (for
-                                                                 diagnostic use only), if ZIP core continues outputing after timeout period the
+                                                                 diagnostic use only), if ZIP core continues outputting after timeout period the
                                                                  instruction will still be finished by the ZIP core. */
 #endif /* Word 0 - End */
     } s;
@@ -3112,7 +3112,7 @@ union bdk_zip_core_to_cfg
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t halt                  : 1;  /**< [ 63: 63](R/W) If set, when timeout is detected, control will halt input and output and set the
                                                                  completion code in result buffer to ZIP_COMP_E::TIMEOUT. If cleared (for
-                                                                 diagnostic use only), if ZIP core continues outputing after timeout period the
+                                                                 diagnostic use only), if ZIP core continues outputting after timeout period the
                                                                  instruction will still be finished by the ZIP core. */
         uint64_t ar                    : 1;  /**< [ 62: 62](R/W) Auto reset. This bit only takes effect when [HALT] is set. When [HALT] is cleared, [AR] is
                                                                  ignored.
@@ -3159,7 +3159,7 @@ union bdk_zip_core_to_cfg
                                                                  1 = On a timeout, the timed-out core will be auto-reset. */
         uint64_t halt                  : 1;  /**< [ 63: 63](R/W) If set, when timeout is detected, control will halt input and output and set the
                                                                  completion code in result buffer to ZIP_COMP_E::TIMEOUT. If cleared (for
-                                                                 diagnostic use only), if ZIP core continues outputing after timeout period the
+                                                                 diagnostic use only), if ZIP core continues outputting after timeout period the
                                                                  instruction will still be finished by the ZIP core. */
 #endif /* Word 0 - End */
     } cn88xx;

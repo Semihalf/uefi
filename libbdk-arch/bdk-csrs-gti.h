@@ -2363,8 +2363,8 @@ static inline uint64_t BDK_GTI_CTL_PIDR7_FUNC(void)
 /**
  * Register (NCB) gti_cwd_del3t
  *
- * GTI Per-core Watchdog Non-Maskable Interrupt Register
- * Generic timer per-core watchdog non-maskable interrupts.
+ * GTI Per-core Watchdog DEL3T Interrupt Register
+ * Generic timer per-core watchdog DEL3T interrupts.
  */
 union bdk_gti_cwd_del3t
 {
@@ -2373,9 +2373,9 @@ union bdk_gti_cwd_del3t
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_48_63        : 16;
-        uint64_t core                  : 48; /**< [ 47:  0](R/W1C/H) Per-core watchdog non-maskable interrupt. */
+        uint64_t core                  : 48; /**< [ 47:  0](R/W1C/H) Per-core watchdog DEL3T interrupt. */
 #else /* Word 0 - Little Endian */
-        uint64_t core                  : 48; /**< [ 47:  0](R/W1C/H) Per-core watchdog non-maskable interrupt. */
+        uint64_t core                  : 48; /**< [ 47:  0](R/W1C/H) Per-core watchdog DEL3T interrupt. */
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;
@@ -2437,7 +2437,7 @@ static inline uint64_t BDK_GTI_CWD_DEL3T_ENA_CLR_FUNC(void)
 /**
  * Register (NCB) gti_cwd_del3t_ena_set
  *
- * GTI Per-core Watchdog Non-Maskable Interrupt Enable Set Register
+ * GTI Per-core Watchdog DEL3T Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
 union bdk_gti_cwd_del3t_ena_set
@@ -2474,7 +2474,7 @@ static inline uint64_t BDK_GTI_CWD_DEL3T_ENA_SET_FUNC(void)
 /**
  * Register (NCB) gti_cwd_del3t_set
  *
- * GTI Per-core Watchdog Non-Maskable Interrupt Set Register
+ * GTI Per-core Watchdog DEL3T Interrupt Set Register
  * This register sets interrupt bits.
  */
 union bdk_gti_cwd_del3t_set

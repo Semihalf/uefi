@@ -4720,14 +4720,14 @@ union bdk_gicrx_setdel3tr_el1s
     struct bdk_gicrx_setdel3tr_el1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t vec                   : 32; /**< [ 31:  0](SWO) These write-only secure registers are used to generate non-maskable interrupts to the APs.
+        uint32_t vec                   : 32; /**< [ 31:  0](SWO) These write-only secure registers are used to generate DEL3T interrupts to the APs.
                                                                  The value written into these registers is not used. There is no interrupt ID for DEL3Ts.
                                                                  Whenever a register in this set is written, the DEL3T signal of the AP being
                                                                  managed by that register is asserted.
 
                                                                  Each register in this set is RAZ/WI for nonsecure accesses. */
 #else /* Word 0 - Little Endian */
-        uint32_t vec                   : 32; /**< [ 31:  0](SWO) These write-only secure registers are used to generate non-maskable interrupts to the APs.
+        uint32_t vec                   : 32; /**< [ 31:  0](SWO) These write-only secure registers are used to generate DEL3T interrupts to the APs.
                                                                  The value written into these registers is not used. There is no interrupt ID for DEL3Ts.
                                                                  Whenever a register in this set is written, the DEL3T signal of the AP being
                                                                  managed by that register is asserted.

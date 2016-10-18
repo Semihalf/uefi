@@ -109,10 +109,8 @@ union bdk_mpi_cfg
                                                                  0 = Clock idles to value given by IDLELO after completion of MPI/SPI transaction.
                                                                  1 = Clock never idles, requires SPI_CSn_L deassertion/assertion between commands. */
         uint64_t idlelo                : 1;  /**< [  1:  1](R/W) Clock idle low/clock invert.
-                                                                 0 = SPI_CK idles high, first transition is high-to-low. This mode corresponds to SPI Block
-                                                                 Guide options CPOL = 1, CPHA = 1.
-                                                                 1 = SPI_CK idles low, first transition is low-to-high. This mode corresponds to SPI Block
-                                                                 Guide options CPOL = 0, CPHA = 0. */
+                                                                 0 = SPI_CK idles high, first transition is high-to-low.
+                                                                 1 = SPI_CK idles low, first transition is low-to-high. */
         uint64_t enable                : 1;  /**< [  0:  0](R/W) MPI/SPI enable.
                                                                  0 = Pins are tristated.
                                                                  1 = Pins are driven. */
@@ -121,10 +119,8 @@ union bdk_mpi_cfg
                                                                  0 = Pins are tristated.
                                                                  1 = Pins are driven. */
         uint64_t idlelo                : 1;  /**< [  1:  1](R/W) Clock idle low/clock invert.
-                                                                 0 = SPI_CK idles high, first transition is high-to-low. This mode corresponds to SPI Block
-                                                                 Guide options CPOL = 1, CPHA = 1.
-                                                                 1 = SPI_CK idles low, first transition is low-to-high. This mode corresponds to SPI Block
-                                                                 Guide options CPOL = 0, CPHA = 0. */
+                                                                 0 = SPI_CK idles high, first transition is high-to-low.
+                                                                 1 = SPI_CK idles low, first transition is low-to-high. */
         uint64_t clk_cont              : 1;  /**< [  2:  2](R/W) Clock control.
                                                                  0 = Clock idles to value given by IDLELO after completion of MPI/SPI transaction.
                                                                  1 = Clock never idles, requires SPI_CSn_L deassertion/assertion between commands. */

@@ -5002,13 +5002,19 @@ union bdk_iobnx_ncb0_sdisx
                                                                  operation occurs it will result in a R/W to ECAM0_NOP_ZF.
 
                                                                  Index 0 corresponds to DIDs 63:0, index 1 to DIDs 127:64, index 2 to DISs
-                                                                 191:128, and index 3 to DIDs 255:192. */
+                                                                 191:128, and index 3 to DIDs 255:192.
+
+                                                                 Each IOB instance should be programmed identically, and should also be identical
+                                                                 to MRML_NCB()_SDEV. */
 #else /* Word 0 - Little Endian */
         uint64_t did                   : 64; /**< [ 63:  0](SR/W) When set a secure operation is required to access the NCBDID. If a nonsecure
                                                                  operation occurs it will result in a R/W to ECAM0_NOP_ZF.
 
                                                                  Index 0 corresponds to DIDs 63:0, index 1 to DIDs 127:64, index 2 to DISs
-                                                                 191:128, and index 3 to DIDs 255:192. */
+                                                                 191:128, and index 3 to DIDs 255:192.
+
+                                                                 Each IOB instance should be programmed identically, and should also be identical
+                                                                 to MRML_NCB()_SDEV. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_iobnx_ncb0_sdisx_s cn; */
@@ -5049,13 +5055,19 @@ union bdk_iobnx_ncb0_skillx
                                                                  to ECAM0_NOP_ZF. Write one to set, once set cannot be cleared until soft reset.
 
                                                                  Index 0 corresponds to DIDs 63:0, index 1 to DIDs 127:64, index 2 to DISs
-                                                                 191:128, and index 3 to DIDs 255:192. */
+                                                                 191:128, and index 3 to DIDs 255:192.
+
+                                                                 Each IOB instance should be programmed identically, and should also be identical
+                                                                 to MRML_NCB()_SKILL. */
 #else /* Word 0 - Little Endian */
         uint64_t skill                 : 64; /**< [ 63:  0](SR/W1S) NCB function kill. If set, any operation to this device will be will be directed
                                                                  to ECAM0_NOP_ZF. Write one to set, once set cannot be cleared until soft reset.
 
                                                                  Index 0 corresponds to DIDs 63:0, index 1 to DIDs 127:64, index 2 to DISs
-                                                                 191:128, and index 3 to DIDs 255:192. */
+                                                                 191:128, and index 3 to DIDs 255:192.
+
+                                                                 Each IOB instance should be programmed identically, and should also be identical
+                                                                 to MRML_NCB()_SKILL. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_iobnx_ncb0_skillx_s cn; */

@@ -9925,8 +9925,8 @@ union bdk_usbdrdx_uctl_intstat
         uint64_t ram0_dbe              : 1;  /**< [ 17: 17](R/W1C/H) Detected double-bit error on the UAHC Desc/Reg Cache (RAM0). */
         uint64_t ram0_sbe              : 1;  /**< [ 16: 16](R/W1C/H) Detected single-bit error on the UAHC Desc/Reg Cache (RAM0). */
         uint64_t reserved_8_15         : 8;
-        uint64_t dma_rd_err            : 1;  /**< [  7:  7](R/W1C/H) Received DMA read response error from NCBO */
-        uint64_t dma_wr_err            : 1;  /**< [  6:  6](R/W1C/H) Received DMA write response error from NCBO */
+        uint64_t dma_rd_err            : 1;  /**< [  7:  7](R/W1C/H) Received DMA read response fault error from NCBO. */
+        uint64_t dma_wr_err            : 1;  /**< [  6:  6](R/W1C/H) Received DMA write response fault error from NCBO. */
         uint64_t reserved_3_5          : 3;
         uint64_t xm_bad_dma            : 1;  /**< [  2:  2](R/W1C/H) Detected bad DMA access from UAHC to NCB. Error information is logged in
                                                                  USBDRD()_UCTL_SHIM_CFG[XM_BAD_DMA_*]. Received a DMA request from UAHC that violates the
@@ -9956,8 +9956,8 @@ union bdk_usbdrdx_uctl_intstat
                                                                  correctly
                                                                  and results may violate NCB protocols. */
         uint64_t reserved_3_5          : 3;
-        uint64_t dma_wr_err            : 1;  /**< [  6:  6](R/W1C/H) Received DMA write response error from NCBO */
-        uint64_t dma_rd_err            : 1;  /**< [  7:  7](R/W1C/H) Received DMA read response error from NCBO */
+        uint64_t dma_wr_err            : 1;  /**< [  6:  6](R/W1C/H) Received DMA write response fault error from NCBO. */
+        uint64_t dma_rd_err            : 1;  /**< [  7:  7](R/W1C/H) Received DMA read response fault error from NCBO. */
         uint64_t reserved_8_15         : 8;
         uint64_t ram0_sbe              : 1;  /**< [ 16: 16](R/W1C/H) Detected single-bit error on the UAHC Desc/Reg Cache (RAM0). */
         uint64_t ram0_dbe              : 1;  /**< [ 17: 17](R/W1C/H) Detected double-bit error on the UAHC Desc/Reg Cache (RAM0). */

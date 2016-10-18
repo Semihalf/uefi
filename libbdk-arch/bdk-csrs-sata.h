@@ -2994,8 +2994,8 @@ union bdk_satax_uctl_intstat
         uint64_t uahc_tx_sbe           : 1;  /**< [ 10: 10](R/W1C/H) Detected single-bit error on the UAHC Tx FIFO. */
         uint64_t uahc_fb_dbe           : 1;  /**< [  9:  9](R/W1C/H) Detected double-bit error on the UAHC FBS memory. */
         uint64_t uahc_fb_sbe           : 1;  /**< [  8:  8](R/W1C/H) Detected single-bit error on the UAHC FBS memory. */
-        uint64_t dma_rd_err            : 1;  /**< [  7:  7](R/W1C/H) Received DMA read response error from NCBO. */
-        uint64_t dma_wr_err            : 1;  /**< [  6:  6](R/W1C/H) Received DMA write response error from NCBO. */
+        uint64_t dma_rd_err            : 1;  /**< [  7:  7](R/W1C/H) Received DMA read response fault error from NCBO. */
+        uint64_t dma_wr_err            : 1;  /**< [  6:  6](R/W1C/H) Received DMA write response fault error from NCBO. */
         uint64_t xm_r_dbe              : 1;  /**< [  5:  5](R/W1C/H) Detected double-bit error on the UCTL AxiMaster read-data FIFO. */
         uint64_t xm_r_sbe              : 1;  /**< [  4:  4](R/W1C/H) Detected single-bit error on the UCTL AxiMaster read-data FIFO. */
         uint64_t xm_w_dbe              : 1;  /**< [  3:  3](R/W1C/H) Detected double-bit error on the UCTL AxiMaster write-data FIFO. */
@@ -3033,8 +3033,8 @@ union bdk_satax_uctl_intstat
         uint64_t xm_w_dbe              : 1;  /**< [  3:  3](R/W1C/H) Detected double-bit error on the UCTL AxiMaster write-data FIFO. */
         uint64_t xm_r_sbe              : 1;  /**< [  4:  4](R/W1C/H) Detected single-bit error on the UCTL AxiMaster read-data FIFO. */
         uint64_t xm_r_dbe              : 1;  /**< [  5:  5](R/W1C/H) Detected double-bit error on the UCTL AxiMaster read-data FIFO. */
-        uint64_t dma_wr_err            : 1;  /**< [  6:  6](R/W1C/H) Received DMA write response error from NCBO. */
-        uint64_t dma_rd_err            : 1;  /**< [  7:  7](R/W1C/H) Received DMA read response error from NCBO. */
+        uint64_t dma_wr_err            : 1;  /**< [  6:  6](R/W1C/H) Received DMA write response fault error from NCBO. */
+        uint64_t dma_rd_err            : 1;  /**< [  7:  7](R/W1C/H) Received DMA read response fault error from NCBO. */
         uint64_t uahc_fb_sbe           : 1;  /**< [  8:  8](R/W1C/H) Detected single-bit error on the UAHC FBS memory. */
         uint64_t uahc_fb_dbe           : 1;  /**< [  9:  9](R/W1C/H) Detected double-bit error on the UAHC FBS memory. */
         uint64_t uahc_tx_sbe           : 1;  /**< [ 10: 10](R/W1C/H) Detected single-bit error on the UAHC Tx FIFO. */

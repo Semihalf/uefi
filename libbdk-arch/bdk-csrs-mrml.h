@@ -448,9 +448,11 @@ union bdk_mrml_ncbx_sdev
     struct bdk_mrml_ncbx_sdev_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t sec                   : 64; /**< [ 63:  0](SR/W) NCB function secure.  Similar to MRML_RSL()_SDEV except applies to NCB devices. */
+        uint64_t sec                   : 64; /**< [ 63:  0](SR/W) NCB function secure.  Similar to MRML_RSL()_SDEV except applies to NCB devices.
+                                                                 Should be programmed identically to IOBN()_NCB0_SDIS(). */
 #else /* Word 0 - Little Endian */
-        uint64_t sec                   : 64; /**< [ 63:  0](SR/W) NCB function secure.  Similar to MRML_RSL()_SDEV except applies to NCB devices. */
+        uint64_t sec                   : 64; /**< [ 63:  0](SR/W) NCB function secure.  Similar to MRML_RSL()_SDEV except applies to NCB devices.
+                                                                 Should be programmed identically to IOBN()_NCB0_SDIS(). */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mrml_ncbx_sdev_s cn; */
@@ -483,9 +485,11 @@ union bdk_mrml_ncbx_skill
     struct bdk_mrml_ncbx_skill_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t skill                 : 64; /**< [ 63:  0](SR/W1S) NCB function kill.  Similar to MRML_RSL()_SKILL except applies to NCB devices. */
+        uint64_t skill                 : 64; /**< [ 63:  0](SR/W1S) NCB function kill.  Similar to MRML_RSL()_SKILL except applies to NCB devices.
+                                                                 Should be programmed identically to IOBN()_NCB0_SKILL(). */
 #else /* Word 0 - Little Endian */
-        uint64_t skill                 : 64; /**< [ 63:  0](SR/W1S) NCB function kill.  Similar to MRML_RSL()_SKILL except applies to NCB devices. */
+        uint64_t skill                 : 64; /**< [ 63:  0](SR/W1S) NCB function kill.  Similar to MRML_RSL()_SKILL except applies to NCB devices.
+                                                                 Should be programmed identically to IOBN()_NCB0_SKILL(). */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mrml_ncbx_skill_s cn; */
@@ -528,8 +532,9 @@ union bdk_mrml_rslx_sdev
                                                                  which mod-64 function, for 256 function bits total.
 
                                                                  For compatibility with ARM secure boot at least the following RSL devices typically
-                                                                 need to be marked secure: DAP, FUSF, IOBN, KEY, L2C, L2C_CBC, L2C_MCI, L2C_TAD, LMC,
-                                                                 MIO_BOOT, MIO_FUS, MRML, OCLA, OCX, PCCBR_MRML, RST, SLI, VRM.
+                                                                 need to be marked secure: DAP, DTX, FUSF, IOBN, KEY, L2C, L2C_CBC, L2C_MCI,
+                                                                 L2C_TAD, LMC, MIO_BOOT, MIO_FUS, MRML, OCLA, OCX, PCCBR_MRML, RST, SLI, VRM.
+                                                                 It is recommended that as many devices be made secure as possible.
 
                                                                  RSL function number 0xFF, which is not present but used internally by MRML, must
                                                                  be marked secure. */
@@ -540,8 +545,9 @@ union bdk_mrml_rslx_sdev
                                                                  which mod-64 function, for 256 function bits total.
 
                                                                  For compatibility with ARM secure boot at least the following RSL devices typically
-                                                                 need to be marked secure: DAP, FUSF, IOBN, KEY, L2C, L2C_CBC, L2C_MCI, L2C_TAD, LMC,
-                                                                 MIO_BOOT, MIO_FUS, MRML, OCLA, OCX, PCCBR_MRML, RST, SLI, VRM.
+                                                                 need to be marked secure: DAP, DTX, FUSF, IOBN, KEY, L2C, L2C_CBC, L2C_MCI,
+                                                                 L2C_TAD, LMC, MIO_BOOT, MIO_FUS, MRML, OCLA, OCX, PCCBR_MRML, RST, SLI, VRM.
+                                                                 It is recommended that as many devices be made secure as possible.
 
                                                                  RSL function number 0xFF, which is not present but used internally by MRML, must
                                                                  be marked secure. */

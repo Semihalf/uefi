@@ -3059,16 +3059,16 @@ union bdk_rst_tns_pll_ctl
         uint64_t reserved_23_25        : 3;
         uint64_t div_reset             : 1;  /**< [ 22: 22](R/W) Postscalar divider reset. */
         uint64_t ps_en                 : 4;  /**< [ 21: 18](R/W) PLL postscalar divide ratio. Determines the network clock speed.
-                                                                 0x0 = divide TNS PLL by 1.
-                                                                 0x1 = divide TNS PLL by 2.
-                                                                 0x2 = divide TNS PLL by 3.
-                                                                 0x3 = divide TNS PLL by 4.
-                                                                 0x4 = divide TNS PLL by 5.
-                                                                 0x5 = divide TNS PLL by 6.
-                                                                 0x6 = divide TNS PLL by 7.
-                                                                 0x7 = divide TNS PLL by 8.
-                                                                 0x8 = divide TNS PLL by 10.
-                                                                 0x9 = divide TNS PLL by 12.
+                                                                 0x0 = Divide TNS PLL by 1.
+                                                                 0x1 = Divide TNS PLL by 2.
+                                                                 0x2 = Divide TNS PLL by 3.
+                                                                 0x3 = Divide TNS PLL by 4.
+                                                                 0x4 = Divide TNS PLL by 5.
+                                                                 0x5 = Divide TNS PLL by 6.
+                                                                 0x6 = Divide TNS PLL by 7.
+                                                                 0x7 = Divide TNS PLL by 8.
+                                                                 0x8 = Divide TNS PLL by 10.
+                                                                 0x9 = Divide TNS PLL by 12.
                                                                  0xA-0xF = Reserved.
 
                                                                  [PS_EN] is not used when [DIV_RESET] = 1 */
@@ -3100,16 +3100,16 @@ union bdk_rst_tns_pll_ctl
                                                                  after [COUT_SEL] changes. */
         uint64_t reserved_15_17        : 3;
         uint64_t ps_en                 : 4;  /**< [ 21: 18](R/W) PLL postscalar divide ratio. Determines the network clock speed.
-                                                                 0x0 = divide TNS PLL by 1.
-                                                                 0x1 = divide TNS PLL by 2.
-                                                                 0x2 = divide TNS PLL by 3.
-                                                                 0x3 = divide TNS PLL by 4.
-                                                                 0x4 = divide TNS PLL by 5.
-                                                                 0x5 = divide TNS PLL by 6.
-                                                                 0x6 = divide TNS PLL by 7.
-                                                                 0x7 = divide TNS PLL by 8.
-                                                                 0x8 = divide TNS PLL by 10.
-                                                                 0x9 = divide TNS PLL by 12.
+                                                                 0x0 = Divide TNS PLL by 1.
+                                                                 0x1 = Divide TNS PLL by 2.
+                                                                 0x2 = Divide TNS PLL by 3.
+                                                                 0x3 = Divide TNS PLL by 4.
+                                                                 0x4 = Divide TNS PLL by 5.
+                                                                 0x5 = Divide TNS PLL by 6.
+                                                                 0x6 = Divide TNS PLL by 7.
+                                                                 0x7 = Divide TNS PLL by 8.
+                                                                 0x8 = Divide TNS PLL by 10.
+                                                                 0x9 = Divide TNS PLL by 12.
                                                                  0xA-0xF = Reserved.
 
                                                                  [PS_EN] is not used when [DIV_RESET] = 1 */

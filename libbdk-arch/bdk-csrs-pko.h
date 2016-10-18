@@ -9699,12 +9699,16 @@ union bdk_pko_pdm_cfg_dbg
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
         uint64_t cp_stall_thrshld      : 32; /**< [ 31:  0](R/W) Program this register to the 32-bit number of cycles to test for the PDM(CP)
-                                                                 stalled on inputs going into the ISRs. PKO_PDM_STS_W1C[CP_STALLED_THRSHLD_HIT]
-                                                                 indicates the threshold has been hit.  For diagnostic use only. */
+                                                                 stalled on inputs going into the ISRs. For diagnostic use only.
+
+                                                                 Internal:
+                                                                 PKO_PDM_STS_W1C[CP_STALLED_THRSHLD_HIT] indicates the threshold has been hit. */
 #else /* Word 0 - Little Endian */
         uint64_t cp_stall_thrshld      : 32; /**< [ 31:  0](R/W) Program this register to the 32-bit number of cycles to test for the PDM(CP)
-                                                                 stalled on inputs going into the ISRs. PKO_PDM_STS_W1C[CP_STALLED_THRSHLD_HIT]
-                                                                 indicates the threshold has been hit.  For diagnostic use only. */
+                                                                 stalled on inputs going into the ISRs. For diagnostic use only.
+
+                                                                 Internal:
+                                                                 PKO_PDM_STS_W1C[CP_STALLED_THRSHLD_HIT] indicates the threshold has been hit. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
