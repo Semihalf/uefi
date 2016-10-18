@@ -104,16 +104,24 @@ cavium,bdk {
 	    Bits[7:0]: TWSI address */
 	//PHY-ADDRESS.N%d.BGX%d.P%d = "-1";
 	// When board is running as Node 0
-	// BGX0 (QLM0) PHY addresses
+	// BGX0 (QLM2) PHY addresses
 	PHY-ADDRESS.N0.BGX0.P0 = "0xff000108";
 	PHY-ADDRESS.N0.BGX0.P1 = "0xff000109";
 	PHY-ADDRESS.N0.BGX0.P2 = "0xff00010a";
 	PHY-ADDRESS.N0.BGX0.P3 = "0xff00010b";
-	// BGX1 (QLM1) PHY addresses
+	// BGX1 (QLM3) PHY addresses
 	PHY-ADDRESS.N0.BGX1.P0 = "0xff00010c";
 	PHY-ADDRESS.N0.BGX1.P1 = "0xff00010d";
 	PHY-ADDRESS.N0.BGX1.P2 = "0xff00010e";
 	PHY-ADDRESS.N0.BGX1.P3 = "0xff00010f";
+	// BGX2 (DLM5-6) PHY addresses
+	PHY-ADDRESS.N0.BGX2.P0 = "0xff000008";
+	PHY-ADDRESS.N0.BGX2.P1 = "0xff000009";
+	PHY-ADDRESS.N0.BGX2.P2 = "0xff00000a";
+	PHY-ADDRESS.N0.BGX2.P3 = "0xff00000b";
+	// BGX3 (DLM4) PHY addresses
+	PHY-ADDRESS.N0.BGX3.P0 = "0xff00000c";
+	PHY-ADDRESS.N0.BGX3.P1 = "0xff00000d";
 
 	/* Independent enables for each on-chip BGX port. Use this to
 	disable ports that are not wired on a board. Default is that all
