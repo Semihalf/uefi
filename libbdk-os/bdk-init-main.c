@@ -189,6 +189,14 @@ void __bdk_init_node(bdk_node_t node)
         bdk_tns_initialize(node);
     }
 
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX_PASS1_X))
+    {
+        /* Errata (GIC-28835)  2016-10-18  CIM load balancers need tuning */
+        BDK_TRACE(INIT, "N%d: Initialize GIC-28835\n", node);
+        BDK_CSR_MODIFY(c, node, BDK_GIC_CFG_CTLR,
+            c.s.dis_cpu_if_load_balancer = 1);
+    }
+
     if (BDK_IS_REQUIRED(ERROR_DECODE) && !bdk_is_platform(BDK_PLATFORM_ASIM))
     {
         BDK_TRACE(INIT, "N%d: Enabling error reporting\n", node);
