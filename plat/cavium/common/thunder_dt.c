@@ -6,6 +6,7 @@
 #include <ctype.h>
 #include <thunder_dt.h>
 #include <thunder_private.h>
+#include <debug.h>
 
 #include <libfdt.h>
 
@@ -38,7 +39,7 @@ static int thunder_fdt_get(const void *fdt, int offset, const char *property, in
 
 	name = fdt_getprop(fdt, offset, property, &len);
 	if (!name) {
-		printf("WARNING: No %s is found\n", property);
+		WARN("No %s is found\n", property);
 		return -1;
 	} else {
 		return (int)strtol(name, NULL, base);
