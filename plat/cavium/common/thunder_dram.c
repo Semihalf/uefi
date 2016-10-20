@@ -17,6 +17,9 @@
 #include <platform_def.h>
 #include <thunder_private.h>
 #include <thunder_common.h>
+#include <thunder_dt.h>
+#include <string.h>
+#include <debug.h>
 
 static inline uint32_t popcnt(uint64_t val)
 {
@@ -51,6 +54,12 @@ uint64_t thunder_dram_size_node(unsigned node)
 	int lmc_per_node;
 	union cavm_lmcx_config lmcx_config;
 
+	/* Fix for ASIM */
+	if (!strcmp(bfdt.board_model, "asim-cn81xx"))
+		return 0x80000000; /* 2G for T81 */
+	else if (!strcmp(bfdt.board_model, "asim-cn83xx"))
+		return 0x40000000; /* 1G for T83 */
+
 	lmc_per_node = thunder_get_lmc_per_node();
 	if (lmc_per_node < 0) {
 		printf("Cannot obtain lmc_per_node count\n");
@@ -70,9 +79,11 @@ uint64_t thunder_dram_size_node(unsigned node)
 		memsize += rank_size * num_ranks;
 	}
 
-	/* Fix for ASIM */
-	if (memsize == 0)
+	/* Safenet for ASIM without configured DRAM size */
+	if (memsize == 0) {
+		ERROR("DRAM size for ASIM-platform not configured\n");
 		memsize = 4ull << 32;
+	}
 
 	return memsize;
 }
