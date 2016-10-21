@@ -40,6 +40,8 @@
 #include <thunder_dt.h>
 #include <thunder_io.h>
 #include <stdio.h>
+#include <debug.h>
+#include <libfdt.h>
 
 #define BL2_NOLOAD_BASE (unsigned long)(&__NOLOAD_START__)
 #define BL2_NOLOAD_LIMIT (unsigned long)(&__RW_END__)
@@ -289,6 +291,7 @@ void bl2_plat_set_bl33_ep_info(image_info_t *image,
 {
 	unsigned long el_status;
 	unsigned int mode;
+	uintptr_t bl33_fdt_address;
 
 	/* Figure out what mode we enter the non-secure world in */
 	el_status = read_id_aa64pfr0_el1() >> ID_AA64PFR0_EL2_SHIFT;
@@ -306,6 +309,23 @@ void bl2_plat_set_bl33_ep_info(image_info_t *image,
 	 */
 	bl33_ep_info->spsr = SPSR_64(mode, MODE_SP_ELX, DISABLE_ALL_EXCEPTIONS);
 	SET_SECURITY_STATE(bl33_ep_info->h.attr, NON_SECURE);
+
+	bl33_fdt_address = image->image_base + image->image_size;
+	VERBOSE("BL33: Image base: %lx, Image size: %d\n",
+		image->image_base, image->image_size);
+	VERBOSE("BL33: FDT address: %lx, FDT size: %d\n",
+		bl33_fdt_address, fdt_totalsize(fdt_ptr));
+
+	memcpy((void *)bl33_fdt_address, fdt_ptr, fdt_totalsize(fdt_ptr));
+
+	/*
+	 * Flush data to PoC ,because when booting
+	 * to BL33 caches will be turned off
+	 */
+	flush_dcache_range(bl33_fdt_address, fdt_totalsize(bl33_fdt_address));
+
+	/* Pass FDT address to BL33 */
+	bl33_ep_info->args.arg1 = bl33_fdt_address;
 }
 
 /*******************************************************************************
