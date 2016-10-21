@@ -129,11 +129,6 @@ void bl31_early_platform_setup(bl31_params_t *from_bl2,
 		bl32_image_ep_info = *from_bl2->bl32_ep_info;
 	bl33_image_ep_info = *from_bl2->bl33_ep_info;
 
-	/* Allow CVM CACHE instructions from EL1/EL2 */
-	write_cvm_access_el1(read_cvm_access_el1() & ~(1 << 8));
-	write_cvm_access_el2(read_cvm_access_el2() & ~(1 << 8));
-	write_cvm_access_el3(read_cvm_access_el3() & ~(1 << 8));
-
 	thunder_errata_fixes();
 }
 

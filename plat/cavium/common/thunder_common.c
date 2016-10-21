@@ -146,7 +146,7 @@ void plat_add_mmio_map()
 
 void thunder_errata_fixes(void)
 {
-	uint64_t cvmctl_el1, cvmaccess_el1, cvmaccess_el2, cvmaccess_el3;
+	uint64_t cvmctl_el1;
 	uint64_t cvmmemctl0_el1;
 	uint32_t midr;
 
@@ -177,13 +177,8 @@ void thunder_errata_fixes(void)
 
 	__asm__ __volatile__("msr s3_0_c11_c0_4, %0\n" : : "r" (cvmmemctl0_el1));
 
-	__asm__ __volatile__ ("mrs %0, s3_0_c11_c0_3" : "=r" (cvmaccess_el1));
-
-	__asm__ __volatile__ ("mrs %0, s3_4_c11_c0_3" : "=r" (cvmaccess_el2));
-	cvmaccess_el2 &= ~0x100;
-	__asm__ __volatile__ ("msr s3_4_c11_c0_3, %0" : : "r" (cvmaccess_el2));
-
-	__asm__ __volatile__ ("mrs %0, s3_6_c11_c0_3" : "=r" (cvmaccess_el3));
-	cvmaccess_el3 &= ~0x100;
-	__asm__ __volatile__ ("msr s3_6_c11_c0_3, %0" : : "r" (cvmaccess_el3));
+	/* Allow CVM CACHE instructions from EL1/EL2 */
+	write_cvm_access_el1(read_cvm_access_el1() & ~(1 << 8));
+	write_cvm_access_el2(read_cvm_access_el2() & ~(1 << 8));
+	write_cvm_access_el3(read_cvm_access_el3() & ~(1 << 8));
 }
