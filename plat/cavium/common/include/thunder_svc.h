@@ -38,6 +38,8 @@
 /* x1 - user buffer, x2 - buffer size */
 #define THUNDERX_FDT_GET		0x43000701
 
+/* x1 - character to print */
+#define THUNDERX_PUTC			0x43000a01
 
-#define THUNDERX_NUM_CALLS		15
+#define THUNDERX_NUM_CALLS		12
 #endif /* __THUNDER_SVC_H__ */

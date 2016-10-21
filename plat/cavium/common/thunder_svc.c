@@ -59,18 +59,20 @@ static int32_t thunder_svc_setup(void)
  * Top-level OEM Service SMC handler
  */
 uint64_t thunder_svc_smc_handler(uint32_t smc_fid,
-								uint64_t x1,
-								uint64_t x2,
-								uint64_t x3,
-								uint64_t x4,
-								void *cookie,
-								void *handle,
-								uint64_t flags)
+				 uint64_t x1,
+				 uint64_t x2,
+				 uint64_t x3,
+				 uint64_t x4,
+				 void *cookie,
+				 void *handle,
+				 uint64_t flags)
 {
 	unsigned int write;
 	uintptr_t offset, user_buf, size, xfer_len;
 	int64_t ret = 0;
 	uint64_t buffer[512 / sizeof(uint64_t)], par_el1;
+
+	VERBOSE("ThunderX Service Call: 0x%x\n", smc_fid);
 
 	switch (smc_fid) {
 	case THUNDERX_SVC_CALL_COUNT:
@@ -155,6 +157,9 @@ uint64_t thunder_svc_smc_handler(uint32_t smc_fid,
 		memcpy((void*)x1, fdt_ptr, size);
 
 		SMC_RET1(handle, size);
+	case THUNDERX_PUTC:
+		putchar(x1);
+		SMC_RET0(handle);
 	default:
 		WARN("Unimplemented ThunderX Service Call: 0x%x \n", smc_fid);
 		SMC_RET1(handle, SMC_UNK);
