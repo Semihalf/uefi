@@ -57,7 +57,9 @@ void bl31_plat_runtime_setup(void)
 	 * Finish the use of console driver in BL31 so that any runtime logs
 	 * from BL31 will be suppressed.
 	 */
+#ifndef DEBUG
 	console_uninit();
+#endif
 }
 
 #if !ENABLE_PLAT_COMPAT
