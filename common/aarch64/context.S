@@ -380,6 +380,12 @@ func restore_gp_registers_callee_eret
 	ldp	 x30, x17, [sp, #CTX_GPREGS_OFFSET + CTX_GPREG_LR]
 	msr	sp_el0, x17
 	ldp	x16, x17, [sp, #CTX_GPREGS_OFFSET + CTX_GPREG_X16]
+
+	/* AP-23154 -- post-icc_eoirx flush moved here, keep vectors short */
+	nop; nop; nop; nop
+	dsb sy
+	isb
+
 	eret
 endfunc	restore_gp_registers_callee_eret
 
