@@ -686,6 +686,7 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
             lane_mode = BDK_GSER_LMODE_E_R_5G_REFCLK15625_QSGMII;
             break;
         case BDK_QLM_MODE_SATA_2X1:
+        case BDK_QLM_MODE_SATA_4X1:
             BDK_CSR_MODIFY(c, node, BDK_GSERX_LANE_MODE(qlm), c.s.lmode = BDK_GSER_LMODE_E_R_8G_REFCLK100);
             /* SATA initialization is different than BGX. Call its init function
                and skip the rest of this routine */
