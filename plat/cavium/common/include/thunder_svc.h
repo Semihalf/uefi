@@ -35,9 +35,6 @@
 
 #define THUNDERX_NODE_COUNT		0x43000601
 
-/* x1 - user buffer, x2 - buffer size */
-#define THUNDERX_FDT_GET		0x43000701
-
 /* x1 - character to print */
 #define THUNDERX_PUTC			0x43000a01
 

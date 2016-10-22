@@ -70,7 +70,7 @@ uint64_t thunder_svc_smc_handler(uint32_t smc_fid,
 	unsigned int write;
 	uintptr_t offset, user_buf, size, xfer_len;
 	int64_t ret = 0;
-	uint64_t buffer[512 / sizeof(uint64_t)], par_el1;
+	uint64_t buffer[512 / sizeof(uint64_t)];
 
 	VERBOSE("ThunderX Service Call: 0x%x\n", smc_fid);
 
@@ -139,24 +139,6 @@ uint64_t thunder_svc_smc_handler(uint32_t smc_fid,
 		ret = thunder_get_node_count();
 		SMC_RET1(handle, ret);
 
-	case THUNDERX_FDT_GET:
-		// x1 - buffer pointer
-		// x2 - buffer size
-		size = fdt_totalsize(fdt_ptr);
-
-		__asm__ volatile("at s1e3w, %0" : : "r"(x1));
-		__asm__ volatile("mrs %0, par_el1" : "=r"(par_el1));
-
-		if (par_el1 & PAR_EL1_F)
-			SMC_RET1(handle, -EFAULT);
-
-		if (size > x2)
-			SMC_RET1(handle, -ENOMEM);
-
-		// copy FDT to non-secure memory
-		memcpy((void*)x1, fdt_ptr, size);
-
-		SMC_RET1(handle, size);
 	case THUNDERX_PUTC:
 		putchar(x1);
 		SMC_RET0(handle);
