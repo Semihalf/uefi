@@ -115,13 +115,15 @@ cavium,bdk {
 	PHY-ADDRESS.N0.BGX1.P2 = "0xff00010e";
 	PHY-ADDRESS.N0.BGX1.P3 = "0xff00010f";
 	// BGX2 (DLM5-6) PHY addresses
-	PHY-ADDRESS.N0.BGX2.P0 = "0xff000008";
-	PHY-ADDRESS.N0.BGX2.P1 = "0xff000009";
-	PHY-ADDRESS.N0.BGX2.P2 = "0xff00000a";
-	PHY-ADDRESS.N0.BGX2.P3 = "0xff00000b";
+	PHY-ADDRESS.N0.BGX2.P0 = "0xff000014";
+	PHY-ADDRESS.N0.BGX2.P1 = "0xff000015";
+	PHY-ADDRESS.N0.BGX2.P2 = "0xff000016";
+	PHY-ADDRESS.N0.BGX2.P3 = "0xff000017";
 	// BGX3 (DLM4) PHY addresses
-	PHY-ADDRESS.N0.BGX3.P0 = "0xff00000c";
-	PHY-ADDRESS.N0.BGX3.P1 = "0xff00000d";
+	PHY-ADDRESS.N0.BGX3.P0 = "0xff000010";
+	PHY-ADDRESS.N0.BGX3.P1 = "0xff000011";
+	PHY-ADDRESS.N0.BGX3.P2 = "0xff000012";
+	PHY-ADDRESS.N0.BGX3.P3 = "0xff000013";
 
 	/* Independent enables for each on-chip BGX port. Use this to
 	disable ports that are not wired on a board. Default is that all
