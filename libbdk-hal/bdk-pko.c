@@ -95,9 +95,9 @@ int bdk_pko_global_init(bdk_node_t node)
     BDK_CSR_MODIFY(c, node, BDK_PKO_DPFI_ENA,
         c.s.enable = 1);
     BDK_CSR_MODIFY(c, node, BDK_PKO_PTF_IOBP_CFG,
-        c.s.iobp1_ds_opt = 1; /* hrm recommendation */
-        c.s.iobp1_magic_addr = bdk_numa_get_address(bdk_numa_master(), 0) >> 7;
-        c.s.max_read_size = 16); /* Recommended by Joe Tompkins */
+        c.s.iobp1_ds_opt = 1; /* Optimize IOBP1 requests when data is to be dropped */
+        c.s.iobp1_magic_addr = bdk_numa_get_address(node, 0) >> 7;
+        c.s.max_read_size = 16); /* Maximum number of IOBP1 read requests outstanding */
     BDK_CSR_MODIFY(c, node, BDK_PKO_PDM_CFG,
         c.s.pko_pad_minlen = 60; /* When padding, min is 60 bytes before FCS */
         c.s.alloc_lds = 1; /* Allocate DQ fetches in L2 */
@@ -431,13 +431,13 @@ int bdk_pko_port_init(bdk_if_handle_t handle)
             c.s.pq_idx = pq;
             c.s.queue_number = sq_l2); /* Would be sql_l3 if PKO_CHANNEL_LEVEL[cc_level]=1 */
     }
-    handle->pko_queue = dq;
 
-    /* Have the PKO DQ watermarks count packets. This way they are equivalent
-       to the queue depth */
+    /* Have the PKO DQ watermarks count descriptors. This way they are
+       equivalent to the queue depth */
     BDK_CSR_MODIFY(c, handle->node, BDK_PKO_VFX_DQX_WM_CTL(dq / 8, dq & 7),
         c.s.kind = 1);
 
+    handle->pko_queue = dq;
     return 0;
 }
 
@@ -460,9 +460,9 @@ int bdk_pko_enable(bdk_node_t node)
     /* Read needed to make sure enable is done before accesses below */
     BDK_CSR_READ(node, BDK_PKO_ENABLE);
 
-    /* PDM needs to be enabled before opening channels*/
+    /* PDM needs to be enabled before opening channels */
     BDK_CSR_MODIFY(c, node, BDK_PKO_PDM_CFG,
-                   c.s.pdm_en = 1;);
+        c.s.pdm_en = 1;);
 
     /* Wait for PKO to be ready (100us) */
     if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_PKO_STATUS, pko_rdy, ==, 1, 100))
@@ -732,7 +732,7 @@ int bdk_pko_transmit(bdk_if_handle_t handle, const bdk_if_packet_t *packet)
     int lmt_status;
     uint64_t *gather_ptr = NULL;
     if (packet->segments > BDK_PKO_SEG_LIMIT) {
-        /* Gather array is in the buffer - we need to build it only once*/
+        /* Gather array is in the buffer - we need to build it only once */
         gather_ptr = bdk_phys_to_ptr(packet->packet[0].s.address + packet->packet[0].s.size);
         for (int seg = 0; seg < packet->segments; seg++)
         {
@@ -743,8 +743,8 @@ int bdk_pko_transmit(bdk_if_handle_t handle, const bdk_if_packet_t *packet)
         }
         BDK_WMB;
     }
-#define _LMTS_START 0 /* Number of the lowest lmt slot used*/
-    uint64_t io_address = BDK_PKO_VFX_DQX_OP_SENDX(handle->pko_queue / 8, handle->pko_queue & 7, _LMTS_START);
+
+    uint64_t io_address = BDK_PKO_VFX_DQX_OP_SENDX(handle->pko_queue / 8, handle->pko_queue & 7, 0);
     io_address = bdk_numa_get_address(handle->node, io_address);
 
     /* Build the two PKO comamnd words we need */
@@ -752,63 +752,62 @@ int bdk_pko_transmit(bdk_if_handle_t handle, const bdk_if_packet_t *packet)
     pko_send_hdr_s.u[0] = 0;
     pko_send_hdr_s.u[1] = 0;
     pko_send_hdr_s.s.df = 1;
-//--    pko_send_hdr_s.s.format = 0; /* We don't use this? */
     pko_send_hdr_s.s.total = packet->length;
 
     switch (packet->packet_type)
     {
-    default:
-    case BDK_IF_TYPE_UNKNOWN:
-        break;
-    case BDK_IF_TYPE_UDP4:
-        pko_send_hdr_s.s.ckl3 = 1;        /* L3 - IPv4 checksum enable */
-        pko_send_hdr_s.s.l3ptr = 14;      /* L2 header is 14 bytes */
-        pko_send_hdr_s.s.ckl4 = BDK_PKO_CKL4ALG_E_UDP; /* L4 - UDP checksum enable */
-        pko_send_hdr_s.s.l4ptr = 14 + 20; /* 14 bytes L2 + 20 bytes IPv4 */
-        break;
-    case BDK_IF_TYPE_TCP4:
-        pko_send_hdr_s.s.ckl3 = 1;        /* L3 - IPv4 checksum enable */
-        pko_send_hdr_s.s.l3ptr = 14;      /* L2 header is 14 bytes */
-        pko_send_hdr_s.s.ckl4 = BDK_PKO_CKL4ALG_E_TCP; /* L4 - TCP checksum enable */
-        pko_send_hdr_s.s.l4ptr = 14 + 20; /* 14 bytes L2 + 20 bytes IPv4 */
-        if (packet->mtu)
-        {
-            int headers = 14 + 20 + 20;
-            pko_send_hdr_s.s.tso = 1;     /* Use TCP offload */
-            pko_send_hdr_s.s.tso_sb = headers; /* 14 bytes L2 + 20 bytes IPv4, 20 bytes TCP */
-            pko_send_hdr_s.s.tso_mss = packet->mtu ; /* TCP MSS */
-        }
-        break;
+        case BDK_IF_TYPE_UDP4:
+            pko_send_hdr_s.s.ckl3 = 1;        /* L3 - IPv4 checksum enable */
+            pko_send_hdr_s.s.l3ptr = 14;      /* L2 header is 14 bytes */
+            pko_send_hdr_s.s.ckl4 = BDK_PKO_CKL4ALG_E_UDP; /* L4 - UDP checksum enable */
+            pko_send_hdr_s.s.l4ptr = 14 + 20; /* 14 bytes L2 + 20 bytes IPv4 */
+            break;
+        case BDK_IF_TYPE_TCP4:
+            pko_send_hdr_s.s.ckl3 = 1;        /* L3 - IPv4 checksum enable */
+            pko_send_hdr_s.s.l3ptr = 14;      /* L2 header is 14 bytes */
+            pko_send_hdr_s.s.ckl4 = BDK_PKO_CKL4ALG_E_TCP; /* L4 - TCP checksum enable */
+            pko_send_hdr_s.s.l4ptr = 14 + 20; /* 14 bytes L2 + 20 bytes IPv4 */
+            if (packet->mtu)
+            {
+                int headers = 14 + 20 + 20;
+                pko_send_hdr_s.s.tso = 1;     /* Use TCP offload */
+                pko_send_hdr_s.s.tso_sb = headers; /* 14 bytes L2 + 20 bytes IPv4, 20 bytes TCP */
+                pko_send_hdr_s.s.tso_mss = packet->mtu ; /* TCP MSS */
+            }
+            break;
+        default:
+            break;
     }
 
     do
     {
-        int lmstore_words = _LMTS_START;
-#undef _LMTS_START
-
+        int lmstore_words = 0;
         bdk_lmt_cancel();
         bdk_lmt_store(lmstore_words, pko_send_hdr_s.u[0]);
         lmstore_words++;
         bdk_lmt_store(lmstore_words, pko_send_hdr_s.u[1]);
         lmstore_words++;
 
-
         /* PKO allows a max of 15 minus header and decrement */
-        if ( gather_ptr ) {
-            /* Gather IO is too long for lmtst buffer, need to build it on the side
-             No need to free in the jump, gather array is part of data*/
+        if (gather_ptr)
+        {
+            /* Gather IO is too long for lmtst buffer, need to build it on
+               the side No need to free in the jump, gather array is part of
+               data */
             union bdk_pko_send_jump_s pko_send_jump_s;
             pko_send_jump_s.u[0] = 0;
             pko_send_jump_s.u[1] = 0;
             pko_send_jump_s.s.subdc = BDK_PKO_SENDSUBDC_E_JUMP;
             pko_send_jump_s.s.size = packet->segments;
-            pko_send_jump_s.s.addr = bdk_ptr_to_phys( gather_ptr);
+            pko_send_jump_s.s.addr = bdk_ptr_to_phys(gather_ptr);
 
             bdk_lmt_store(lmstore_words, pko_send_jump_s.u[0]);
             lmstore_words++;
             bdk_lmt_store(lmstore_words, pko_send_jump_s.u[1]);
             lmstore_words++;
-        } else {
+        }
+        else
+        {
             /* Descriptor fits in the lmtst buffer */
             for (int seg = 0; seg < packet->segments; seg++)
             {
