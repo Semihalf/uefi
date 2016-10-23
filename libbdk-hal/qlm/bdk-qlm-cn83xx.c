@@ -118,7 +118,15 @@ static int qlm_get_qlm_num(bdk_node_t node, bdk_if_t iftype, int interface, int 
                         else if (gserx_cfg.s.bgx_dual) /* 2 lanes together */
                             qlm = (index >= 1) ? 6 : 5;
                         else /* All lanes independent */
-                            qlm = (index >= 2) ? 6 : 5;
+                        {
+                            bdk_qlm_modes_t mode = bdk_qlm_get_mode(node, 5);
+                            if (mode == BDK_QLM_MODE_QSGMII_4X1)
+                                qlm = 5;
+                            else if (mode <= BDK_QLM_MODE_PCIE_1X8)
+                                qlm = 6;
+                            else
+                                qlm = (index >= 2) ? 6 : 5;
+                        }
                     }
                     else
                         qlm = 6;
