@@ -378,7 +378,7 @@ int bdk_pko_port_init(bdk_if_handle_t handle)
         if (fifo<0)
             return -1;
         pko_macx_cfg.s.fifo_num = fifo;
-        pko_macx_cfg.s.min_pad_ena = 0; /* Don't use padding due to Errata (PKO-20715) */
+        pko_macx_cfg.s.min_pad_ena = fcs_ena; /* Enable padding on ports using FCS */
         pko_macx_cfg.s.fcs_ena = fcs_ena; /* FCS */
         pko_macx_cfg.s.fcs_sop_off = 0; /* No FCS offset */
         pko_macx_cfg.s.skid_max_cnt = skid_max_cnt;
