@@ -111,13 +111,14 @@ def wait_for_bootstub_messages(cnx, powerCycle):
     except:
         pass
     cnx.matchRE("N0.LMC0 Configuration Completed: [0-9]+ MB", timeout=30)
-    if cnx.chip_model == "CN88XX":
+    if cnx.chip_model in ["CN88XX", "CN83XX"]:
         try:
             cnx.matchRE("N0.LMC1.DIMM0: .+\n")
             cnx.matchRE("N0.LMC1.DIMM1: .+\n")
         except:
             pass
         cnx.matchRE("N0.LMC1 Configuration Completed: [0-9]+ MB")
+    if cnx.chip_model == "CN88XX":
         try:
             cnx.matchRE("N0.LMC2.DIMM0: .+\n")
             cnx.matchRE("N0.LMC2.DIMM1: .+\n")

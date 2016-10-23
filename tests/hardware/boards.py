@@ -128,6 +128,8 @@ class Board_EVB(Board):
             result = m.waitforRE("EBB[0-9]{4} MCU Command>")
             if "EBB81" in result:
                 self.chip_model = "CN81XX"
+            elif "EBB83" in result:
+                self.chip_model = "CN83XX"
             else:
                 self.chip_model = "CN88XX"
             m.sendEcho("P -f -r")

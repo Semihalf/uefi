@@ -78,6 +78,12 @@ SUPPORTED_BOARDS = {
             "sata": [],
         }
     },
+    "ebb8304": {
+        "cnx": boards.Board_EVB,
+        "info": {
+            "sata": [0, 1, 2, 3, 4, 5],
+        }
+    },
 }
 
 #
