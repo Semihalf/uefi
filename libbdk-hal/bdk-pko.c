@@ -99,9 +99,9 @@ int bdk_pko_global_init(bdk_node_t node)
         c.s.iobp1_magic_addr = bdk_numa_get_address(bdk_numa_master(), 0) >> 7;
         c.s.max_read_size = 16); /* Recommended by Joe Tompkins */
     BDK_CSR_MODIFY(c, node, BDK_PKO_PDM_CFG,
-        c.s.dq_fc_sa = 0;
-        c.s.dq_fc_skid = DQ_FC_SKID; /* Allow for 1 page worth of requests in flight for flow control*/
-        c.s.pko_pad_minlen = 60);
+        c.s.pko_pad_minlen = 60; /* When padding, min is 60 bytes before FCS */
+        c.s.alloc_lds = 1; /* Allocate DQ fetches in L2 */
+        c.s.alloc_sts = 1); /* Allocate DQ stores in L2 */
     /* Configure format 0 so that if marking is used, yellow packets are
        marked with a 1 and red packets are marked with a 2. Set the mask
        so we change all four possible bits. Set the offset to 12, which causes
