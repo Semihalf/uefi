@@ -558,7 +558,11 @@ function TrafficGen.new()
             printf("Searching CSRs for prefix \"%s\". This is slow...\n", prefix)
             for name in cavium.csr() do
                 local s = name:sub(1,len)
-                if s == prefix then
+                if name:find("PKO_VFX_DQX_MP_STATEX", 1, true) or
+                    name:find("PKO_VFX_DQX_PD_STATEX", 1, true) or
+                    name:find("PKO_VFX_DQX_OP_", 1, true) then
+                    -- Skip, crashes core on CN83XX
+                elseif s == prefix then
                     local c = cavium.csr.lookup(name)
                     if nozero then
                         local v = c.read()
