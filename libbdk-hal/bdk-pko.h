@@ -46,10 +46,15 @@
  * @{
  */
 
-/*
-** Maximum number of segments which fit flat lmtstore operation.
-*/
-#define BDK_PKO_SEG_LIMIT 6 /* (15<lmtst slots> - 2<send_hdr_size>)/2<slots_per_command_or_gather> */
+/* Maximum number of segments which fit flat lmtstore operation.
+   1) LMTST for PKO can be a maximum of 15 64bit words
+   2) PKO descriptors are 2 64bit words each
+   3) Every send requires PKO_SEND_HDR_S for hardware
+   4) Every send requries PKO_SEND_MEM_S to decrement queue depth
+   So 15 words / 2 = 7 possible descriptors
+   7 - HDR - MEM = 5 descriptors left for GATHER */
+#define BDK_PKO_SEG_LIMIT 5
+
 /**
  * Perform global init of PKO
  *
