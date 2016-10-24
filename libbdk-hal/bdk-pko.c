@@ -347,13 +347,13 @@ int bdk_pko_port_init(bdk_if_handle_t handle)
         case BDK_IF_LBK:
             if (handle->interface == 2) {
                 lmac = BDK_PKO_LMAC_E_LOOPBACK_1;
-                fifo_size = 4;
-                skid_max_cnt = 2;
             } else {
                 lmac = BDK_PKO_LMAC_E_LOOPBACK_0;
-                fifo_size = 2; /* PKO-to-PKI can work with smaller fifo */
-                skid_max_cnt = 1;
             }
+            /* On CN83XX, if DLM4 is QSGMII you can have 16 total BGXs in use.
+               This leaves 4 FIFOs for LBK, so we're do 2 each, totalling 20 */
+            fifo_size = 2;
+            skid_max_cnt = 1;
             compressed_channel_id = BDK_PKI_CHAN_E_LBKX_CHX(handle->interface, handle->index);
             break;
         default:
