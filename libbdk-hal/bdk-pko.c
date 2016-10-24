@@ -48,7 +48,7 @@ typedef struct
 {
     int32_t pko_dq_depth[PKO_MAX_DQ]; /* Queue depth in packets (atomic int32) */
     uint64_t pko_free_fifo_mask;    /* PKO_PTGFX_CFG(5) is reserved for NULL MAC */
-    int pko_next_free_port_queue;   /* L1 = Port Queues are 0-15 (CN83XX) */
+    int pko_next_free_port_queue;   /* L1 = Port Queues are 0-31 (CN83XX) */
     int pko_next_free_l2_queue;     /* L2 = Channel Queues 0-255 (CN83XX) */
     int pko_next_free_l3_queue;     /* L3 = Channel Queues 0-255 (CN83XX) */
     int pko_next_free_descr_queue;  /* L6 = Descriptor Queues 0-255 (CN83XX) */
@@ -259,17 +259,20 @@ int bdk_pko_port_init(bdk_if_handle_t handle)
     int sq_l3;  /* L3 = schedule queue feeding L2 */
     int dq;     /* L4 = descriptor queue feeding L3 */
 
-    if (node_state->pko_next_free_l2_queue >= PKO_MAX_DQ)
+    BDK_CSR_INIT(pko_l2_const, handle->node, BDK_PKO_L2_CONST);
+    if (node_state->pko_next_free_l2_queue >= pko_l2_const.s.count)
     {
         bdk_error("pko_port_init: Ran out of L2 queues\n");
         return -1;
     }
-    if (node_state->pko_next_free_l3_queue >= PKO_MAX_DQ)
+    BDK_CSR_INIT(pko_l3_const, handle->node, BDK_PKO_L3_CONST);
+    if (node_state->pko_next_free_l3_queue >= pko_l3_const.s.count)
     {
         bdk_error("pko_port_init: Ran out of L3 queues\n");
         return -1;
     }
-    if (node_state->pko_next_free_descr_queue > PKO_MAX_DQ - PKO_QUEUES_PER_CHANNEL)
+    BDK_CSR_INIT(pko_dq_const, handle->node, BDK_PKO_DQ_CONST);
+    if (node_state->pko_next_free_descr_queue > pko_dq_const.s.count - PKO_QUEUES_PER_CHANNEL)
     {
         bdk_error("pko_port_init: Ran out of descriptor (L6) queues\n");
         return -1;
@@ -277,7 +280,8 @@ int bdk_pko_port_init(bdk_if_handle_t handle)
 
     if ((handle->index == 0) || (handle->iftype == BDK_IF_BGX))
     {
-        if (node_state->pko_next_free_port_queue >= 16)
+        BDK_CSR_INIT(pko_l1_const, handle->node, BDK_PKO_L1_CONST);
+        if (node_state->pko_next_free_port_queue >= pko_l1_const.s.count)
         {
             bdk_error("pko_port_init: Ran out of port (L1) queues\n");
             return -1;
