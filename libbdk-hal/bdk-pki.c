@@ -168,7 +168,10 @@ int bdk_pki_port_init(bdk_if_handle_t handle)
     /* Find the PKND for this port.
      * It relies on single-channel-per-bgx_port schema.
      */
-    handle->pknd = node_state->next_free_pknd++;
+    if ((handle->iftype == BDK_IF_PCIE) && handle->index)
+        handle->pknd = node_state->next_free_pknd - 1;
+    else
+        handle->pknd = node_state->next_free_pknd++;
 
     /* Setup QPG table per channel */
     int qpg = node_state->next_free_qpg_table++;

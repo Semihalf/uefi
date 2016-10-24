@@ -74,7 +74,7 @@ int bdk_pko_global_init(bdk_node_t node)
 
     BDK_CSR_INIT(pko_const, node, BDK_PKO_CONST);
     node_state->pko_free_fifo_mask = bdk_build_mask((pko_const.s.ptgfs - 1) * 4);
-    int num_buffers = 256;
+    int num_buffers = 512; /* Need 4 per DQ, assume 128 SDP */
     if (bdk_fpa_fill_pool(node, BDK_FPA_PKO_POOL, num_buffers))
         return -1;
     const int aura = BDK_FPA_PKO_POOL; /* Use 1:1 mapping aura */
@@ -344,9 +344,11 @@ int bdk_pko_port_init(bdk_if_handle_t handle)
         }
         case BDK_IF_PCIE:
             lmac = BDK_PKO_LMAC_E_DPI;
-            fifo_size = 4;
-            skid_max_cnt = 2;
-            compressed_channel_id = BDK_PKI_CHAN_E_DPI_CHX(handle->index);
+            /* On CN83XX, if DLM4 is QSGMII you can have 16 total BGXs in use.
+               This leaves 4 FIFOs for LBK and SDP, so we're do 1 each, totalling 20 */
+            fifo_size = 1;
+            skid_max_cnt = 0;
+            compressed_channel_id = BDK_PKI_CHAN_E_DPI_CHX(handle->interface * 64 + handle->index);
             break;
         case BDK_IF_LBK:
             if (handle->interface == 2) {
@@ -355,9 +357,9 @@ int bdk_pko_port_init(bdk_if_handle_t handle)
                 lmac = BDK_PKO_LMAC_E_LOOPBACK_0;
             }
             /* On CN83XX, if DLM4 is QSGMII you can have 16 total BGXs in use.
-               This leaves 4 FIFOs for LBK, so we're do 2 each, totalling 20 */
-            fifo_size = 2;
-            skid_max_cnt = 1;
+               This leaves 4 FIFOs for LBK and SDP, so we're do 1 each, totalling 20 */
+            fifo_size = 1;
+            skid_max_cnt = 0;
             compressed_channel_id = BDK_PKI_CHAN_E_LBKX_CHX(handle->interface, handle->index);
             break;
         default:

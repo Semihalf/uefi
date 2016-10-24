@@ -38,66 +38,102 @@
 ***********************license end**************************************/
 #include <bdk.h>
 
-/* This file is suppose to implement packet IO over PCIe. Not implemented yet */
+/* Packets over PCIe (SDP) */
 
 static int if_num_interfaces(bdk_node_t node)
 {
-    return 0;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 2; /* CN83XX has 2 End Point Functions (EPF) */
+    else
+        return 0;
 }
 
 static int if_num_ports(bdk_node_t node, int interface)
 {
-    return 0;
+    /* CN83XX uses PEM 0 and 2 */
+    int pcie_port = (interface) ? 2 : 0;
+
+    /* Make sure PEM is on */
+    BDK_CSR_INIT(pemx_on, node, BDK_PEMX_ON(pcie_port));
+    if (!pemx_on.s.pemon)
+        return 0;
+
+    /* Make sure PEM is EP */
+    BDK_CSR_INIT(pemx_cfg, node, BDK_PEMX_CFG(pcie_port));
+    if (pemx_cfg.s.hostmd)
+        return 0;
+
+    BDK_CSR_INIT(rinfo, node, BDK_SDPX_EPFX_RINFO(0, interface));
+    return rinfo.s.trs;
 }
 
 static int if_probe(bdk_if_handle_t handle)
 {
-    return -1;
+    /* Set the port name */
+    if (bdk_numa_is_only_one())
+        snprintf(handle->name, sizeof(handle->name), "SDP%d.%d", handle->interface, handle->index);
+    else
+        snprintf(handle->name, sizeof(handle->name), "N%d.SDP%d.%d", handle->node, handle->interface, handle->index);
+    handle->name[sizeof(handle->name)-1] = 0;
+
+    /* SDP only supports PKI / PKO */
+    handle->pko_queue = 1;
+    BDK_CSR_INIT(rinfo, handle->node, BDK_SDPX_EPFX_RINFO(0, handle->interface));
+    handle->pki_channel = BDK_PKI_CHAN_E_DPI_CHX(rinfo.s.srn + handle->index);
+
+    return 0;
 }
 
 static int if_init(bdk_if_handle_t handle)
 {
-    return -1;
+    /* Record the PKND for this port */
+    BDK_CSR_MODIFY(c, handle->node, BDK_SDPX_GBL_CONTROL(0),
+        c.s.bpkind = handle->pknd);
+    return 0;
 }
 
 static int if_enable(bdk_if_handle_t handle)
 {
-    return -1;
+    return 0; /* SDP is always enabled */
 }
 
 static int if_disable(bdk_if_handle_t handle)
 {
-    return -1;
+    return 0; /* SDP is always enabled, no disable */
 }
 
 static bdk_if_link_t if_link_get(bdk_if_handle_t handle)
 {
     bdk_if_link_t result;
     result.u64 = 0;
+
+    /* CN83XX uses PEM 0 and 2 */
+    int pcie_port = (handle->interface) ? 2 : 0;
+    BDK_CSR_INIT(pcieepx_cfg032, handle->node, BDK_PCIEEPX_CFG032(pcie_port));
+
+    result.s.lanes = pcieepx_cfg032.s.nlw;
+    switch (pcieepx_cfg032.s.ls)
+    {
+        case 3:
+            result.s.speed = 8000;
+            break;
+        case 2:
+            result.s.speed = 5000;
+            break;
+        default:
+            result.s.speed = 2500;
+            break;
+    }
+    result.s.full_duplex = 1;
+    result.s.up = 1;
+
     return result;
-}
-
-static void if_link_set(bdk_if_handle_t handle, bdk_if_link_t link_info)
-{
-}
-
-static int if_transmit(bdk_if_handle_t handle, const bdk_if_packet_t *packet)
-{
-    return -1;
-}
-
-static int if_loopback(bdk_if_handle_t handle, bdk_if_loopback_t loopback)
-{
-    return -1;
-}
-
-static int if_get_queue_depth(bdk_if_handle_t handle)
-{
-    return 0;
 }
 
 static const bdk_if_stats_t *if_get_stats(bdk_if_handle_t handle)
 {
+    bdk_pki_fill_rx_stats(handle);
+    bdk_pko_fill_tx_stats(handle);
     return &handle->stats;
 }
 
@@ -109,10 +145,8 @@ const __bdk_if_ops_t __bdk_if_ops_pcie = {
     .if_enable = if_enable,
     .if_disable = if_disable,
     .if_link_get = if_link_get,
-    .if_link_set = if_link_set,
-    .if_transmit = if_transmit,
-    .if_loopback = if_loopback,
-    .if_get_queue_depth = if_get_queue_depth,
+    .if_transmit = bdk_pko_transmit,
+    .if_get_queue_depth = bdk_pko_get_queue_depth,
     .if_get_stats = if_get_stats,
 };
 
