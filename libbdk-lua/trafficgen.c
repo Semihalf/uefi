@@ -667,13 +667,15 @@ static void packet_transmitter(int unused, tg_port_t *tg_port)
 
     /* Wait for transmit to be idle before freeing the packet */
     uint64_t timeout = bdk_clock_get_count(BDK_CLOCK_TIME) + bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_TIME);
-    while (bdk_if_get_queue_depth(tg_port->handle))
+    uint64_t queue_depth = bdk_if_get_queue_depth(tg_port->handle);
+    while (queue_depth)
     {
         if (bdk_clock_get_count(BDK_CLOCK_TIME) > timeout)
             break;
         bdk_wait_usec(100);
+        queue_depth = bdk_if_get_queue_depth(tg_port->handle);
     }
-    if (bdk_if_get_queue_depth(tg_port->handle) == 0)
+    if (queue_depth == 0)
         bdk_if_free(&packet);
     else
         bdk_error("%s: Transmit packet not freed as output queue still active\n", tg_port->handle->name);
