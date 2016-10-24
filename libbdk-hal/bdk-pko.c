@@ -99,6 +99,8 @@ int bdk_pko_global_init(bdk_node_t node)
         c.s.iobp1_magic_addr = bdk_numa_get_address(node, 0) >> 7;
         c.s.max_read_size = 16); /* Maximum number of IOBP1 read requests outstanding */
     BDK_CSR_MODIFY(c, node, BDK_PKO_PDM_CFG,
+        c.s.dq_fc_sa = 0;
+        c.s.dq_fc_skid = DQ_FC_SKID; /* Allow for 1 page worth of requests in flight for flow control*/
         c.s.pko_pad_minlen = 60; /* When padding, min is 60 bytes before FCS */
         c.s.alloc_lds = 1; /* Allocate DQ fetches in L2 */
         c.s.alloc_sts = 1); /* Allocate DQ stores in L2 */
