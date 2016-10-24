@@ -77,7 +77,6 @@ uint64_t __bdk_csr_read_slow(bdk_node_t node, bdk_csr_type_t type, int busnum, i
             return bdk_sysreg_read(node, bdk_get_core_num(), address);
 
         case BDK_CSR_TYPE_PCICONFIGRC:
-        case BDK_CSR_TYPE_PCICONFIGEP:
         {
             /* Don't allow PCIe register access if PCIe wasn't linked in */
             if (!bdk_pcie_config_read32)
@@ -135,6 +134,15 @@ uint64_t __bdk_csr_read_slow(bdk_node_t node, bdk_csr_type_t type, int busnum, i
             }
             return bdk_pcie_config_read32(node, 100 + dev_con.s.ecam, dev_con.s.bus, dev_con.s.func >> 3, dev_con.s.func & 7, address);
         }
+        case BDK_CSR_TYPE_PCICONFIGEP:
+        {
+            BDK_CSR_DEFINE(cfg_rd, BDK_PEMX_CFG_RD(busnum));
+            cfg_rd.u = 0;
+            cfg_rd.s.addr = address;
+            BDK_CSR_WRITE(node, BDK_PEMX_CFG_RD(busnum), cfg_rd.u);
+            cfg_rd.u = BDK_CSR_READ(node, BDK_PEMX_CFG_RD(busnum));
+            return cfg_rd.s.data;
+        }
     }
     return -1; /* Return -1 as this looks invalid in register dumps. Zero is too common as a good value */
 }
@@ -176,7 +184,6 @@ void __bdk_csr_write_slow(bdk_node_t node, bdk_csr_type_t type, int busnum, int 
             break;
 
         case BDK_CSR_TYPE_PCICONFIGRC:
-        case BDK_CSR_TYPE_PCICONFIGEP:
         {
             /* Don't allow PCIe register access if PCIe wasn't linked in */
             if (!bdk_pcie_config_write32)
@@ -233,6 +240,15 @@ void __bdk_csr_write_slow(bdk_node_t node, bdk_csr_type_t type, int busnum, int 
                     return;
             }
             bdk_pcie_config_write32(node, 100 + dev_con.s.ecam, dev_con.s.bus, dev_con.s.func >> 3, dev_con.s.func & 7, address, value);
+            break;
+        }
+        case BDK_CSR_TYPE_PCICONFIGEP:
+        {
+            BDK_CSR_DEFINE(cfg_wr, BDK_PEMX_CFG_WR(busnum));
+            cfg_wr.u = 0;
+            cfg_wr.s.addr = address;
+            cfg_wr.s.data = value;
+            BDK_CSR_WRITE(node, BDK_PEMX_CFG_WR(busnum), cfg_wr.u);
             break;
         }
     }
