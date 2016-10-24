@@ -74,7 +74,7 @@ int bdk_pko_global_init(bdk_node_t node)
 
     BDK_CSR_INIT(pko_const, node, BDK_PKO_CONST);
     node_state->pko_free_fifo_mask = bdk_build_mask((pko_const.s.ptgfs - 1) * 4);
-    int num_buffers = 512; /* Need 4 per DQ, assume 128 SDP */
+    int num_buffers = 4 * (128 * 8); /* Need 4 per DQ, assume 128 SDP plus 8 LBK */
     if (bdk_fpa_fill_pool(node, BDK_FPA_PKO_POOL, num_buffers))
         return -1;
     const int aura = BDK_FPA_PKO_POOL; /* Use 1:1 mapping aura */
