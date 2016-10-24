@@ -2063,7 +2063,7 @@ typedef union bdk_ddfx_pf_diag_camx bdk_ddfx_pf_diag_camx_t;
 static inline uint64_t BDK_DDFX_PF_DIAG_CAMX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_PF_DIAG_CAMX(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && ((b>=127)&&(b<=0))))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=127)))
         return 0x809000000800ll + 0ll * ((a) & 0x0) + 8ll * ((b) & 0x7f);
     __bdk_csr_fatal("DDFX_PF_DIAG_CAMX", 2, a, b, 0, 0);
 }
@@ -2099,7 +2099,7 @@ typedef union bdk_ddfx_pf_diag_dmemx bdk_ddfx_pf_diag_dmemx_t;
 static inline uint64_t BDK_DDFX_PF_DIAG_DMEMX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_PF_DIAG_DMEMX(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && ((b>=2047)&&(b<=0))))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=2047)))
         return 0x809000004000ll + 0ll * ((a) & 0x0) + 8ll * ((b) & 0x7ff);
     __bdk_csr_fatal("DDFX_PF_DIAG_DMEMX", 2, a, b, 0, 0);
 }
