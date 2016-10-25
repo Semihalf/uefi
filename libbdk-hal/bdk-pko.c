@@ -773,12 +773,10 @@ int bdk_pko_transmit(bdk_if_handle_t handle, const bdk_if_packet_t *packet)
 
     do
     {
-        int lmstore_words = 0;
         bdk_lmt_cancel();
-        bdk_lmt_store(lmstore_words, pko_send_hdr_s.u[0]);
-        lmstore_words++;
-        bdk_lmt_store(lmstore_words, pko_send_hdr_s.u[1]);
-        lmstore_words++;
+        volatile uint64_t *lmt_ptr = bdk_lmt_store_ptr();
+        *lmt_ptr++ = pko_send_hdr_s.u[0];
+        *lmt_ptr++ = pko_send_hdr_s.u[1];
 
         /* PKO allows a max of 15 minus header and decrement */
         if (gather_addr)
@@ -793,10 +791,8 @@ int bdk_pko_transmit(bdk_if_handle_t handle, const bdk_if_packet_t *packet)
             pko_send_jump_s.s.size = packet->segments + 1; /* +1 for DQ atomic */
             pko_send_jump_s.s.addr = gather_addr;
 
-            bdk_lmt_store(lmstore_words, pko_send_jump_s.u[0]);
-            lmstore_words++;
-            bdk_lmt_store(lmstore_words, pko_send_jump_s.u[1]);
-            lmstore_words++;
+            *lmt_ptr++ = pko_send_jump_s.u[0];
+            *lmt_ptr++ = pko_send_jump_s.u[1];
         }
         else
         {
@@ -805,10 +801,8 @@ int bdk_pko_transmit(bdk_if_handle_t handle, const bdk_if_packet_t *packet)
             {
                 union bdk_pko_send_gather_s pko_send_gather_s;
                 __bdk_pko_build_gather_subdesc(&packet->packet[seg],&pko_send_gather_s);
-                bdk_lmt_store(lmstore_words, pko_send_gather_s.u[0]);
-                lmstore_words++;
-                bdk_lmt_store(lmstore_words, pko_send_gather_s.u[1]);
-                lmstore_words++;
+                *lmt_ptr++ = pko_send_gather_s.u[0];
+                *lmt_ptr++ = pko_send_gather_s.u[1];
             }
 
             /* Build atomic OP to shrink the DQ depth when TX is complete */
@@ -821,10 +815,8 @@ int bdk_pko_transmit(bdk_if_handle_t handle, const bdk_if_packet_t *packet)
             pko_send_mem_s.s.dsz = BDK_PKO_MEMDSZ_E_B32;
             pko_send_mem_s.s.offset = 1;
 
-            bdk_lmt_store(lmstore_words, pko_send_mem_s.u[0]);
-            lmstore_words++;
-            bdk_lmt_store(lmstore_words, pko_send_mem_s.u[1]);
-            lmstore_words++;
+            *lmt_ptr++ = pko_send_mem_s.u[0];
+            *lmt_ptr++ = pko_send_mem_s.u[1];
         }
 
         /* Issue LMTST, retrying if hardware says we should */

@@ -61,15 +61,15 @@ static inline void bdk_lmt_cancel(void)
 }
 
 /**
- * Store to the LMTLINE area in 64bit words. Good programming practice would
- * to always store sequencially, incrementing offset by 1 for each word written.
+ * Return a volatile pointer to the LMTLINE area in 64bit words. Good programming
+ * practice would to always store sequencially, incrementing the pointer for each
+ * word written.
  *
- * @param offset Offset into LMTLINE in 64bit words (0-15)
- * @param data   Data to write
+ * @return Voltaile uint64_t pointer to LMTLINE
  */
-static inline void bdk_lmt_store(int offset, uint64_t data)
+static inline volatile uint64_t *bdk_lmt_store_ptr(void)
 {
-    *(volatile uint64_t *)(__BDK_LMTLINE + offset * 8) = data;
+    return (volatile uint64_t *)__BDK_LMTLINE;
 }
 
 /**
