@@ -119,6 +119,87 @@ int thunder_fill_board_details(int info)
 	return 0;
 }
 
+int thunder_get_ecam_offset(const char *prop)
+{
+	const void *fdt = fdt_ptr;
+	int offset, len;
+	const char *val = NULL;
+
+	if (fdt_check_header(fdt)) {
+		WARN("Invalid device tree\n");
+		return -1;
+	}
+
+	offset = fdt_path_offset(fdt, "/cavium,bdk");
+	if (offset < 0) {
+		WARN("WARNING: FDT node not found\n");
+		return offset;
+	}
+
+	for (offset = fdt_first_property_offset(fdt, offset);
+	     offset >= 0; offset = fdt_next_property_offset(fdt, offset)) {
+		val = fdt_getprop_by_offset(fdt, offset, NULL, &len);
+		if (strcmp(val, prop) == 0)
+			return offset;
+	}
+
+	return -1;
+}
+
+int thunder_get_next_offset(int offset)
+{
+	const void *fdt = fdt_ptr;
+
+	return fdt_next_property_offset(fdt, offset);
+}
+
+const char *thunder_get_prop_name(int offset)
+{
+	const void *fdt = fdt_ptr;
+	const char *name = NULL;
+	int len;
+
+	fdt_getprop_by_offset(fdt, offset, &name, &len);
+
+	return name;
+}
+
+const char *thunder_get_prop_value(int offset)
+{
+	const void *fdt = fdt_ptr;
+	const char *val = NULL;
+	int len;
+
+	val = fdt_getprop_by_offset(fdt, offset, NULL, &len);
+
+	return val;
+}
+
+int dts_get_num_from_str(const char *str)
+{
+	int i, num = 0;
+
+	for (i = 0; str[i] != '\0'; i++) {
+		if (str[i] >= '0' && str[i] <= '9')
+			num = num * 10 + (str[i] - '0');
+	}
+
+	return num;
+}
+
+int dts_get_substr_index(const char *str, char *substr, char sep)
+{
+	int i;
+	const char *p = str;
+
+	for (i = 0; (*p) != sep && (*p) != '\0'; i++, p++)
+		substr[i] = (*p);
+
+	substr[i] = '\0';
+
+	return i + 1;
+}
+
 uint64_t thunder_get_ecam_config_addr(int node, int ecam)
 {
         const void *fdt = fdt_ptr;
