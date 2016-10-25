@@ -415,7 +415,7 @@ int libdram_config(int node, const dram_config_t *dram_config, int ddr_clock_ove
 int libdram_tune(int node)
 {
     int tot_errs;
-    int l2c_num_locked = bdk_l2c_get_num_locked(node);
+    int l2c_is_locked = bdk_l2c_is_locked(node);
 
     dram_verbosity = bdk_config_get_int(BDK_CONFIG_DRAM_VERBOSE);
 
@@ -429,7 +429,7 @@ int libdram_tune(int node)
     // must test for L2C locked here, cannot go on with it unlocked
     // FIXME: but we only need to worry about Node 0???
     if (node == 0) {
-        if (l2c_num_locked == 0) { // is unlocked, must lock it now
+        if (!l2c_is_locked) { // is unlocked, must lock it now
             ddr_print("N%d: %s: L2C was unlocked - locking it now\n", node, __FUNCTION__);
             // FIXME: this should be common-ized; it currently matches bdk_init()...
             bdk_l2c_lock_mem_region(node, 0, bdk_l2c_get_cache_size_bytes(node) * 3 / 4);
@@ -445,7 +445,7 @@ int libdram_tune(int node)
 
     // FIXME: only for node 0, unlock L2C if it was unlocked before...
     if (node == 0) {
-        if (l2c_num_locked == 0) { // it was Node 0 and unlocked, must re-unlock it now
+        if (!l2c_is_locked) { // it was Node 0 and unlocked, must re-unlock it now
             ddr_print("N%d: Node 0 L2C was unlocked before - unlocking it now\n", node);
             // FIXME: this should be common-ized; it currently matches bdk_init()...
             bdk_l2c_unlock_mem_region(node, 0, bdk_l2c_get_cache_size_bytes(node) * 3 / 4);
@@ -577,7 +577,7 @@ int libdram_margin(int node)
 {
     int ret_rt, ret_wt, ret_rv, ret_wv;
     char *risk[2] = { "Low Risk", "Needs Review" };
-    int l2c_num_locked = bdk_l2c_get_num_locked(node);
+    int l2c_is_locked = bdk_l2c_is_locked(node);
 
     // for now, no margining on 81xx or 83xx, until L2C locking detect works on them...
     if (! CAVIUM_IS_MODEL(CAVIUM_CN88XX)) {
@@ -597,7 +597,7 @@ int libdram_margin(int node)
     // must test for L2C locked here, cannot go on with it unlocked
     // FIXME: but we only need to worry about Node 0???
     if (node == 0) {
-        if (l2c_num_locked == 0) { // is unlocked, must lock it now
+        if (!l2c_is_locked) { // is unlocked, must lock it now
             ddr_print("N%d: %s: L2C was unlocked - locking it now\n", node, __FUNCTION__);
             // FIXME: this should be common-ized; it currently matches bdk_init()...
             bdk_l2c_lock_mem_region(node, 0, bdk_l2c_get_cache_size_bytes(node) * 3 / 4);
@@ -640,7 +640,7 @@ int libdram_margin(int node)
 
     // FIXME: only for node 0, unlock L2C if it was unlocked before...
     if (node == 0) {
-        if (l2c_num_locked == 0) { // it was Node 0 and unlocked, must re-unlock it now
+        if (!l2c_is_locked) { // it was Node 0 and unlocked, must re-unlock it now
             ddr_print("N%d: Node 0 L2C was unlocked before - unlocking it now\n", node);
             // FIXME: this should be common-ized; it currently matches bdk_init()...
             bdk_l2c_unlock_mem_region(node, 0, bdk_l2c_get_cache_size_bytes(node) * 3 / 4);

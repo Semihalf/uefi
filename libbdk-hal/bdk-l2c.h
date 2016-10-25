@@ -170,10 +170,10 @@ int bdk_l2c_get_num_sets(bdk_node_t node);
 int bdk_l2c_get_num_assoc(bdk_node_t node);
 
 /**
- * Return the number of locked ways in the L2 Cache
+ * Return true if the BDK has locked itself in L2
  *
  * @return
  */
-int bdk_l2c_get_num_locked(bdk_node_t node);
+int bdk_l2c_is_locked(bdk_node_t node);
 
 /** @} */
