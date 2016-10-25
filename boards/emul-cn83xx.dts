@@ -49,6 +49,124 @@ cavium,bdk {
 
 	/* Timeout for the boot menu in seconds. */
 	BDK-BOOT-MENU-TIMEOUT = "0";
+
+	/* Properties for ECAM devices, following scheme is used:
+	   ECAM%d-NODE%d-BUS%d-DEV%d = "non-secure-visible[func,args]"
+	   To enable device, set visible to 1
+	*/
+	ECAM-BEGIN = "ECAM-BEGIN";
+	ECAM0-BUS0-DEV1-FUNC0 = "1";		/* PCCBR_MRML */
+	ECAM0-BUS0-DEV2-FUNC0 = "0";		/* SMMU0 */
+	ECAM0-BUS0-DEV3-FUNC0 = "1";		/* GIC */
+	ECAM0-BUS0-DEV4-FUNC0 = "0";		/* GTI */
+	ECAM0-BUS0-DEV6-FUNC0 = "0";		/* GPIO */
+	ECAM0-BUS0-DEV7-FUNC0 = "1";		/* MPI */
+	ECAM0-BUS0-DEV8-FUNC0 = "1";		/* MIO_PTP */
+	ECAM0-BUS0-DEV9-FUNC0 = "1";		/* PCCBR_RNM */
+	ECAM0-BUS0-DEV10-FUNC0 = "1";		/* PCCBR_BCH */
+	ECAM0-BUS0-DEV11-FUNC0 = "1";		/* NDF */
+	ECAM0-BUS0-DEV12-FUNC0 = "1";		/* PCCBR_CPT0 */
+	ECAM0-BUS0-DEV13-FUNC0 = "1";		/* PCCBR_CPT1 */
+	ECAM0-BUS0-DEV14-FUNC0 = "1";		/* PCCBR_RAD */
+	ECAM0-BUS0-DEV16-FUNC0 = "1";		/* PCCBR_SSO */
+	ECAM0-BUS0-DEV17-FUNC0 = "1";		/* PCCBR_SSOW */
+	ECAM0-BUS0-DEV18-FUNC0 = "1";		/* PCCBR_FPA */
+	ECAM0-BUS0-DEV19-FUNC0 = "1";		/* PCCBR_TIM */
+	ECAM0-BUS0-DEV20-FUNC0 = "1";		/* PCCBR_DPI0 */
+	ECAM0-BUS1-DEV0-FUNC0 = "1";		/* MRML */
+	ECAM0-BUS1-DEV0-FUNC1 = "1";		/* RST */
+	// 102 DAP
+	// 103 MIO_FUS
+	// 104 FUSF
+	ECAM0-BUS1-DEV0-FUNC5 = "1";		/* OCX */
+	// 108 NCSI
+	// 109 L2C
+	// 10A Serial GPIO
+	ECAM0-BUS1-DEV0-FUNC11 = "1";		/* SMI */
+	ECAM0-BUS1-DEV0-FUNC12 = "1";		/* MIO_EMM */
+	ECAM0-BUS1-DEV0-FUNC15 = "1";		/* PBUS */
+	// 10D KEY
+	// 10E MIO_BOOT
+	ECAM0-BUS1-DEV0-FUNC48 = "1";		/* L2C-TAD0 */
+	ECAM0-BUS1-DEV0-FUNC49 = "1";		/* L2C-TAD1 */
+	ECAM0-BUS1-DEV0-FUNC50 = "1";		/* L2C-TAD2 */
+	ECAM0-BUS1-DEV0-FUNC51 = "1";		/* L2C-TAD3 */
+	ECAM0-BUS1-DEV0-FUNC56 = "1";		/* L2C-CBC0 */
+	ECAM0-BUS1-DEV0-FUNC57 = "1";		/* L2C-CBC1 */
+	ECAM0-BUS1-DEV0-FUNC60 = "1";		/* L2C-MCI0 */
+	ECAM0-BUS1-DEV0-FUNC61 = "1";		/* L2C-MCI1 */
+	ECAM0-BUS1-DEV0-FUNC62 = "1";		/* L2C-MCI2 */
+	ECAM0-BUS1-DEV0-FUNC64 = "0";		/* UAA0 */
+	ECAM0-BUS1-DEV0-FUNC65 = "0";		/* UAA1 */
+	ECAM0-BUS1-DEV0-FUNC66 = "0";		/* UAA2 */
+	ECAM0-BUS1-DEV0-FUNC67 = "0";		/* UAA3 */
+	ECAM0-BUS1-DEV0-FUNC72 = "1,ecam_probe_twsi,0";		/* TWSI0 */
+	ECAM0-BUS1-DEV0-FUNC73 = "1,ecam_probe_twsi,1";		/* TWSI1 */
+	ECAM0-BUS1-DEV0-FUNC80 = "1,ecam_probe_lmc,0";		/* LMC0 */
+	ECAM0-BUS1-DEV0-FUNC81 = "1,ecam_probe_lmc,1";		/* LMC1 */
+	// 158 IOBN 0
+	// 159 IOBN 1
+	ECAM0-BUS1-DEV0-FUNC96 = "1";		/* OCLA0 */
+	ECAM0-BUS1-DEV0-FUNC97 = "1";		/* OCLA1 */
+	ECAM0-BUS1-DEV0-FUNC98 = "1";		/* OCLA2 */
+	ECAM0-BUS1-DEV0-FUNC104 = "1";		/* LBK0 */
+	ECAM0-BUS1-DEV0-FUNC105 = "1";		/* LBK1 */
+	ECAM0-BUS1-DEV0-FUNC106 = "1";		/* LBK2 */
+	ECAM0-BUS1-DEV0-FUNC107 = "1";		/* LBK3 */
+	ECAM0-BUS1-DEV0-FUNC112 = "0,ecam_probe_pem,0";		/* PEM0 */
+	ECAM0-BUS1-DEV0-FUNC113 = "0,ecam_probe_pem,1";		/* PEM1 */
+	ECAM0-BUS1-DEV0-FUNC114 = "0,ecam_probe_pem,2";		/* PEM2 */
+	ECAM0-BUS1-DEV0-FUNC115 = "0,ecam_probe_pem,3";		/* PEM3 */
+	ECAM0-BUS1-DEV0-FUNC128 = "1,ecam_probe_bgx,0";		/* BGX0 */
+	ECAM0-BUS1-DEV0-FUNC129 = "1,ecam_probe_bgx,1";		/* BGX1 */
+	ECAM0-BUS1-DEV0-FUNC130 = "1,ecam_probe_bgx,2";		/* BGX2 */
+	ECAM0-BUS1-DEV0-FUNC131 = "1,ecam_probe_bgx,3";		/* BGX3 */
+	// 1E0 GSER 0
+	// 1E1 GSER 1
+	// 1E2 GSER 2
+	// 1E3 GSER 3
+	// 1E4 GSER 4
+	// 1E5 GSER 5
+	// 1E6 GSER 6
+	// 1E7 GSER 7
+	// 1E8 GSER 8
+	// 1E9 GSER 9
+	// 1EA GSER 10
+	// 1EB GSER 11
+	// 1EC GSER 12
+	// 1ED GSER 13
+	ECAM0-BUS2-DEV0-FUNC0 = "1";		/* RNM */
+	ECAM0-BUS3-DEV0-FUNC0 = "1";		/* BCH */
+	ECAM0-BUS4-DEV0-FUNC0 = "1";		/* CPT0 */
+	ECAM0-BUS5-DEV0-FUNC0 = "1";		/* CPT1 */
+	ECAM0-BUS6-DEV0-FUNC0 = "1";		/* RAD */
+	ECAM0-BUS7-DEV0-FUNC0 = "1";		/* SSO */
+	ECAM0-BUS8-DEV0-FUNC0 = "1";		/* SSOW */
+	ECAM0-BUS9-DEV0-FUNC0 = "1";		/* FPA */
+	ECAM0-BUS10-DEV0-FUNC0 = "1";		/* TIM */
+	ECAM0-BUS11-DEV0-FUNC0 = "1";		/* DPI0 */
+
+	ECAM1-BUS0-DEV1-FUNC0 = "1";		/* SMMU1 */
+	// 0, 2, 0 SLI 0
+	ECAM1-BUS0-DEV4-FUNC0 = "1,ecam_probe_sata,0";		/* SATA0 */
+	ECAM1-BUS0-DEV5-FUNC0 = "1,ecam_probe_sata,1";		/* SATA1 */
+	ECAM1-BUS0-DEV6-FUNC0 = "1,ecam_probe_sata,2";		/* SATA2 */
+	ECAM1-BUS0-DEV7-FUNC0 = "1,ecam_probe_sata,3";		/* SATA3 */
+	ECAM1-BUS0-DEV8-FUNC0 = "1,ecam_probe_sata,4";		/* SATA4 */
+	ECAM1-BUS0-DEV9-FUNC0 = "1,ecam_probe_sata,5";		/* SATA5 */
+	ECAM1-BUS0-DEV12-FUNC0 = "1";		/* USBDRD0 */
+	ECAM1-BUS0-DEV13-FUNC0 = "1";		/* USBDRD1 */
+	ECAM1-BUS0-DEV16-FUNC0 = "1";		/* PCCBR_NIC */
+	ECAM1-BUS0-DEV17-FUNC0 = "1";		/* PCCBR_PKI */
+	ECAM1-BUS0-DEV18-FUNC0 = "1";		/* PCCBR_PKO */
+	ECAM1-BUS0-DEV19-FUNC0 = "1";		/* PCCBR_ZIP */
+	ECAM1-BUS0-DEV20-FUNC0 = "1";		/* PCCBR_DDF0 */
+	ECAM1-BUS1-DEV0-FUNC0 = "1";		/* NIC */
+	ECAM1-BUS2-DEV0-FUNC0 = "1";		/* PKI */
+	ECAM1-BUS3-DEV0-FUNC0 = "1";		/* PKO */
+	ECAM1-BUS4-DEV0-FUNC0 = "1";		/* ZIP */
+	ECAM1-BUS5-DEV0-FUNC0 = "1";		/* DDF0 */
+	ECAM-END = "ECAM-END";
 };
 };
 
