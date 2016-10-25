@@ -607,11 +607,11 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
                         c.s.soft_prst = !(flags & BDK_QLM_MODE_FLAG_ENDPOINT));
                     __bdk_qlm_setup_pem_reset(node, 3, flags & BDK_QLM_MODE_FLAG_ENDPOINT);
                     BDK_CSR_MODIFY(c, node, BDK_PEMX_CFG(3),
-                        c.s.lanes8 = 0;
+                        c.s.lanes8 = (mode == BDK_QLM_MODE_PCIE_1X4);
                         c.s.hostmd = !(flags & BDK_QLM_MODE_FLAG_ENDPOINT);
                         c.s.md = cfg_md);
                     /* x4 mode waits for DLM6 setup before turning on the PEM */
-                    if (mode == BDK_QLM_MODE_PCIE_1X4) {
+                    if (mode == BDK_QLM_MODE_PCIE_1X2) {
                         BDK_CSR_MODIFY(c, node, BDK_PEMX_CLK_EN(3),
                             c.s.pceclk_gate = 0;
                             c.s.csclk_gate = 0;);
@@ -805,7 +805,8 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
        ahead and setup the other inteface automatically */
     if ((qlm == 5) && ((mode == BDK_QLM_MODE_XAUI_1X4) ||
                        (mode == BDK_QLM_MODE_XLAUI_1X4) ||
-                       (mode == BDK_QLM_MODE_40G_KR4_1X4)))
+                       (mode == BDK_QLM_MODE_40G_KR4_1X4) ||
+                       (mode == BDK_QLM_MODE_PCIE_1X4)))
     {
         /* Use the same reference clock for the second DLM */
         BDK_CSR_WRITE(node, BDK_GSERX_REFCLK_SEL(qlm + 1),
