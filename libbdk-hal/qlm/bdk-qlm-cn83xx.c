@@ -279,6 +279,8 @@ static bdk_qlm_modes_t qlm_get_mode(bdk_node_t node, int qlm)
                 /* Can be 4 lanes of PEM3 */
                 return BDK_QLM_MODE_PCIE_1X4; /* PEM3 x4 */
             }
+            case 4: /* PEM2 x2 */
+                return BDK_QLM_MODE_PCIE_1X2; /* PEM2 x2 */
             case 5: /* PEM3 x2 or PEM3 x4 */
             {
                 BDK_CSR_INIT(pem3_cfg, node, BDK_PEMX_CFG(3));
