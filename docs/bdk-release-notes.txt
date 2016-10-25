@@ -8,6 +8,35 @@
 This document gives a short overview of the major changes
 incorporated into each BDK release.
 
+== thunder-release-v1.27-rc1 ==
+* CN83XX
+** First support for CN82XX and CN83XX
+* USB
+** Add Manufacturer, product and Serial Number for inserted devices to usb host
+controller status display.
+* SATA
+** Change QLM setting per new recommendations. This reverts commit
+18adfd92167d43e988ac42b4cf9a52b6c4b4e525, which was suppose to be an
+experiment but communicated as a permanent change.
+** Change QLM CTLE setting to match CSR description. CSRs as of 9/30/2016 show
+CTLE=0 for all SATA speeds.
+** Shutdown SATA controller on SATA init failure. If SATA initialization fails,
+perform a HBA reset to recover the controller. This way the next call won't
+fail due to left over state.
+** Disable parial and slumber power management
+* CCPI
+** Perform RX equalization during message check. Initial hardware equalization
+may be poor as the nodes come up asynchronously. Perform RX equalization during
+message check just like during training. This allows the SERDES to better tune
+for the incoming PRBS pattern.
+** Send 1/3 of the number of messages during message check. Now that we perform
+RX equalization between each message during message check, the time to perform
+the full check is long. Increment message counters by 3 so we send 1/3 the
+number of messages. This allows more bits in the training message to be checked
+and for the whole sequence to run faster.
+* TWSI
+** Perform bus recovery on writes as well as reads
+
 == thunder-release-v1.26 ==
 * CN80XX
 ** Workaround incorrect alternate package fusing. Due to a documentation mixup,
