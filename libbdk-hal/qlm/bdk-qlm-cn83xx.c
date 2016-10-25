@@ -866,6 +866,9 @@ static int qlm_get_gbaud_mhz(bdk_node_t node, int qlm)
                 }
                 break;
             }
+            case 4: /* PEM2 x2 */
+                pem = 2;
+                break;
             case 5: /* PEM3 x2 or x4 */
                 pem = 3;
                 break;
