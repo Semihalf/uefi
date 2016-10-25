@@ -47,6 +47,7 @@ static const uint16_t PKO_MAX_QUEUED = 256; /* Max number of packets allowed in 
 typedef struct
 {
     int32_t pko_dq_depth[PKO_MAX_DQ]; /* Queue depth in packets (atomic int32) */
+    uint64_t pko_dq_send[PKO_MAX_DQ]; /* The address of PKO_VFX_DQX_OP_SENDX */
     uint64_t pko_free_fifo_mask;    /* PKO_PTGFX_CFG(5) is reserved for NULL MAC */
     int pko_next_free_port_queue;   /* L1 = Port Queues are 0-31 (CN83XX) */
     int pko_next_free_l2_queue;     /* L2 = Channel Queues 0-255 (CN83XX) */
@@ -433,6 +434,11 @@ int bdk_pko_port_init(bdk_if_handle_t handle)
     BDK_CSR_MODIFY(c, handle->node, BDK_PKO_VFX_DQX_WM_CTL(dq / 8, dq & 7),
         c.s.kind = 1);
 
+    /* The calculation of PKO_VFX_DQX_OP_SENDX address is slow, so cache it
+       for the DQ */
+    node_state->pko_dq_send[dq] = BDK_PKO_VFX_DQX_OP_SENDX(dq / 8, dq & 7, 0);
+    node_state->pko_dq_send[dq] = bdk_numa_get_address(handle->node, node_state->pko_dq_send[dq]);
+
     handle->pko_queue = dq;
     return 0;
 }
@@ -731,8 +737,7 @@ int bdk_pko_transmit(bdk_if_handle_t handle, const bdk_if_packet_t *packet)
         BDK_WMB;
     }
 
-    uint64_t io_address = BDK_PKO_VFX_DQX_OP_SENDX(handle->pko_queue / 8, handle->pko_queue & 7, 0);
-    io_address = bdk_numa_get_address(handle->node, io_address);
+    uint64_t io_address = global_node_state[handle->node]->pko_dq_send[handle->pko_queue];
 
     /* Build the two PKO comamnd words we need */
     union bdk_pko_send_hdr_s pko_send_hdr_s;
