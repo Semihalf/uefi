@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <string.h>
+#include <debug.h>
 #include <thunder_private.h>
 #include "thunder_common.h"
 #include "thunder_dt.h"
@@ -15,6 +16,8 @@
 #define debug_io(x,...);
 #endif
 
+static struct ecam_device ecam_dev;
+
 extern const struct ecam_platform_defs ecam_defs;
 
 static const struct ecam_platform_defs *ecam_devices_ops_list[] = {
@@ -22,27 +25,132 @@ static const struct ecam_platform_defs *ecam_devices_ops_list[] = {
 	NULL
 };
 
-static const struct ecam_platform_defs *ecam_devices_ops = NULL;
-
-static void fixup_ecam(struct ecam_device *devs, int node, int ecam)
+static void parse_ecam_value(struct ecam_device *device, const char *value)
 {
-	int valid;
+	int i;
+	const char *p = value;
+	char val[2] = {0};
 
-	if (!devs) {
-		printf("WARNING : valid devs not found node %d ecam %d\n", node,
-		       ecam);
-		return;
+	device->ns_visible = 0;
+	device->probe_fn = NULL;
+	device->probe_arg = 0;
+
+	i = dts_get_substr_index(p, val, ',');
+	device->ns_visible = dts_get_num_from_str(val);
+	p = p + i - 1;
+
+	if ((*p) != '\0') {
+		/*
+		 * Check if we have probe function
+		 * for current device. If it's present,
+		 * set ns_visible attribute according
+		 * to probe return value
+		 */
+		device->ns_visible = -1;
+	}
+}
+
+static void parse_ecam_name(struct ecam_device *device, const char *name)
+{
+	int i = 0;
+	const char *p = name;
+	char prop[7];
+
+	i = dts_get_substr_index(p, prop, '-');
+	device->ecam_id = dts_get_num_from_str(prop);
+	p = p + i;
+
+	i = dts_get_substr_index(p, prop, '-');
+	device->bus = dts_get_num_from_str(prop);
+	p = p + i;
+
+	i = dts_get_substr_index(p, prop, '-');
+	device->dev = dts_get_num_from_str(prop);
+	p = p + i;
+
+	i = dts_get_substr_index(p, prop, '-');
+	device->fun = dts_get_num_from_str(prop);
+}
+
+static struct ecam_device *get_dev_idx(int node, int ecam,
+				       int bus, int dev, int func)
+{
+	int startoff, endoff, off;
+	const char *name, *val;
+	struct ecam_device *device = &ecam_dev;
+
+	if ((ecam | node << 2) != 0) {
+		WARN("valid devs not found node %d ecam %d\n",
+			node, ecam);
+		return NULL;
 	}
 
-	for (; devs->ecam_id >= 0; devs++) {
-		if (!devs->ns_visible)
-			continue;
+	startoff = thunder_get_ecam_offset("ECAM-BEGIN");
+	if (startoff < 0) {
+		ERROR("ECAM-BEGIN entry not found\n");
+		return NULL;
+	}
+
+	endoff = thunder_get_ecam_offset("ECAM-END");
+	if (endoff < 0) {
+		ERROR("ECAM-END entry not found\n");
+		return NULL;
+	}
+
+	/* skip the ECAM-BEGIN DTS entry */
+	off = thunder_get_next_offset(startoff);
+
+	/* get ECAM device from DTS */
+	while (off != endoff) {
+		name = thunder_get_prop_name(off);
+		/* parse name */
+		if (name != NULL)
+			parse_ecam_name(device, name);
+
+		val = thunder_get_prop_value(off);
+		/* parse value */
+		if (val != NULL)
+			parse_ecam_value(device, val);
+
+		if (device->ecam_id == ecam && device->bus == bus &&
+		    device->dev == dev && device->fun == func) {
+			debug_io("%s: Called ecam %d, bus %d, dev %d,\
+				  func %d\n", __func__, ecam, bus, dev, func);
+			debug_io("%s: DTS found: ecam %d, bus %d, dev %d,\
+				  func %d, ns_visible %d\n", __func__,
+				  device->ecam_id, device->bus, device->dev,
+				  device->fun, device->ns_visible);
+			return device;
+		}
+		off = thunder_get_next_offset(off);
+	}
+	return NULL;
+}
+
+static const struct ecam_platform_defs *ecam_devices_ops = NULL;
+
+static void probe_ecam_device(struct ecam_device *device, int node, int ecam_id)
+{
+	struct ecam_device *probe_table;
+	int valid;
+
+	probe_table = ecam_devices_ops->get_dev_idx(node, ecam_id);
+
+	/* need to match DTS device with probe_func table */
+	for (; probe_table->ecam_id >= 0; probe_table++) {
 		valid = TRUE;
-		if (devs->probe_fn)
-			valid = devs->probe_fn(node, devs->probe_arg);
-		if (!valid) {
-			devs->ns_visible = FALSE;
-			continue;
+		if (probe_table->ecam_id == device->ecam_id &&
+		    probe_table->bus == device->bus &&
+		    probe_table->dev == device->dev &&
+		    probe_table->fun == device->fun) {
+			/* found matching DTS device, call probe function */
+			valid = probe_table->probe_fn(node, probe_table->probe_arg);
+			/* if not valid, set ns_visible to 0 for specified device */
+			if (!valid)
+				device->ns_visible = FALSE;
+			else
+				device->ns_visible = TRUE;
+			break;
 		}
 	}
 }
@@ -90,29 +198,6 @@ static uint64_t get_bar_val(struct pcie_config *pconfig, int bar)
 		ret = (h << 32) | (l & ~0xfull);
 	}
 	return ret;
-}
-
-static struct ecam_device *get_dev_idx(int node, int ecam, int bus, int dev,
-				       int func)
-{
-	int i = 0;
-	struct ecam_device *devs;
-
-	devs = ecam_devices_ops->get_dev_idx(node, ecam);
-
-	if (!devs) {
-		printf("WARNING : valid devs not found  node %d ecam %d\n",
-		       node, ecam);
-		return NULL;
-	}
-	while (devs[i].ecam_id >= 0) {
-		if (devs[i].ecam_id == ecam && devs[i].bus == bus &&
-		    devs[i].dev == dev && devs[i].fun == func)
-			return &devs[i];
-
-		i++;
-	}
-	return NULL;
 }
 
 #ifdef DEBUG_ATF_IO
@@ -679,8 +764,13 @@ static inline int walk_through_functions(int node, int ecam,
 		func = (((uint64_t) pconfig) >> 12) & 0xffUL;
 		devs = get_dev_idx(node, ecam, bus, dev, func);
 
+
 		if (devs && pconfig->devid != 0xffffUL
 		    && pconfig->vendor_id != 0xffffUL) {
+			/* we don't know if device should be visible in ns world yet*/
+			if (devs->ns_visible == -1)
+				probe_ecam_device(devs, node, ecam);
+
 			find_and_call_init(node, pconfig->devid,
 					   pconfig->vendor_id, (uint64_t) pconfig,
 					   sizeof(struct pcie_config));
@@ -693,7 +783,6 @@ static inline int walk_through_functions(int node, int ecam,
 				vsec_ctl.s.nxtfn_ns = func;
 				cavm_write32(config_base + sizeof(struct pcie_config) * prev_ns_func +
 					     CAVM_PCCPF_XXX_VSEC_CTL, vsec_ctl.u);
-
 				enable_func(node, ecam, func);
 				prev_ns_func = func;
 			} else {
@@ -725,6 +814,10 @@ static inline int walk_through_devices(int node, int ecam,
 
 		if (devs && pconfig->devid != 0xffffUL
 		    && pconfig->vendor_id != 0xffffUL) {
+			/* we don't know if device should be visible in ns world yet*/
+			if (devs->ns_visible == -1)
+				probe_ecam_device(devs, node, ecam);
+
 			find_and_call_init(node, pconfig->devid,
 					   pconfig->vendor_id, (uint64_t) pconfig,
 					   sizeof(struct pcie_config));
@@ -769,9 +862,6 @@ int init_thunder_io(int node_count)
 	/* Enumeration */
 	for (node = 0; node < node_count; node++) {
 		for (ecam_id = 0; ecam_id < ecams_per_node; ecam_id++) {
-			fixup_ecam(ecam_devices_ops->get_dev_idx(node, ecam_id),
-				   node, ecam_id);
-
 			offset_ecams = (node * ecams_per_node) + ecam_id;
 
 			debug_io
