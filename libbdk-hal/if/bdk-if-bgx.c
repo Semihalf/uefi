@@ -402,11 +402,15 @@ static int bgx_setup_one_time(bdk_if_handle_t handle)
         fifo_size /= 4;
 
     /* Program the transmit threshold to use the whole FIFO. Leave 256 bytes
-       free so there is room for another packet to begin */
+       free so there is room for another packet to begin. Note that the
+       threshholds are limited to 10 bits */
+    int cnt = fifo_size / 16 - 16;
+    if (cnt > 0x3ff)
+        cnt = 0x3ff;
     BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_GMP_GMI_TXX_THRESH(handle->interface, handle->index),
-        c.s.cnt = fifo_size / 16 - 16);
+        c.s.cnt = cnt);
     BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_SMUX_TX_THRESH(handle->interface, handle->index),
-        c.s.cnt = fifo_size / 16 - 16);
+        c.s.cnt = cnt);
 
     /* Set the number of LMACs we will use */
     BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_CMR_TX_LMACS(handle->interface),
