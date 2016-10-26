@@ -382,6 +382,32 @@ static int bgx_setup_one_time(bdk_if_handle_t handle)
     BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_CMRX_RX_ID_MAP(handle->interface, handle->index),
         c.s.pknd = handle->pknd);
 
+    /* Determine the BGX FIFO size */
+    int fifo_size;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+    {
+        /* CN88XX lacks the BGXX_CONST register to determine the FIFO size,
+           use a hard coded value */
+        fifo_size = 0xc000;
+    }
+    else
+    {
+        /* Read the BGX fifo size*/
+        BDK_CSR_INIT(bgxx_const, handle->node, BDK_BGXX_CONST(handle->interface));
+        fifo_size = bgxx_const.s.tx_fifosz;
+    }
+    if (priv->num_port == 2)
+        fifo_size /= 2;
+    else if (priv->num_port >= 3)
+        fifo_size /= 4;
+
+    /* Program the transmit threshold to use the whole FIFO. Leave 256 bytes
+       free so there is room for another packet to begin */
+    BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_GMP_GMI_TXX_THRESH(handle->interface, handle->index),
+        c.s.cnt = fifo_size / 16 - 16);
+    BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_SMUX_TX_THRESH(handle->interface, handle->index),
+        c.s.cnt = fifo_size / 16 - 16);
+
     /* Set the number of LMACs we will use */
     BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_CMR_TX_LMACS(handle->interface),
         c.s.lmacs = priv->num_port);
