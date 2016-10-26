@@ -189,7 +189,7 @@ def wait_for_bootstub_messages(cnx, powerCycle):
         cnx.matchRE("Node 1: DRAM: [0-9]+ MB, [0-9]+ MHz, DDR[34] [UR]DIMM", timeout=60)
     for pcie in range(2*5):
         try:
-            cnx.matchRE("N[01]\\.PCIe[0-9]: Link .+\n", timeout=5)
+            cnx.matchRE("N[01]\\.PCIe[0-9]: .+\n", timeout=5)
         except:
             break
     cnx.match("Loading image file '/fatfs/diagnostics.bin'")
