@@ -53,6 +53,14 @@ int bdk_sso_init(bdk_node_t node)
     BDK_CSR_INIT(sso_const, node, BDK_SSO_CONST);
     BDK_CSR_INIT(sso_const1, node, BDK_SSO_CONST1);
 
+    /* No work slot retries */
+    BDK_CSR_MODIFY(c, node, BDK_SSO_GWE_CFG,
+        c.s.ws_retries = 0);
+    /* Set no-work timer, units of 1024 SCLK
+       0=1024 2=2048 3=3072 ... */
+    BDK_CSR_MODIFY(c, node, BDK_SSO_NW_TIM,
+        c.s.nw_tim = 0);
+
     /* Setup an FPA pool to store the SSO queues */
     /* Need two per group, one per hardware work slot (HWS) + some for
        memory spillage */
@@ -126,11 +134,6 @@ void bdk_sso_register_handle(bdk_if_handle_t handle)
         }
     }
     sso_map[handle->node][handle->pki_channel] = handle;
-    if (handle->index == 0)
-    {
-        if (bdk_thread_create(handle->node, 0, bdk_sso_thread_read, 0, NULL, 0))
-            bdk_error("%s: Failed to create SSO receive thread\n", handle->name);
-    }
 }
 
 /**
@@ -145,7 +148,7 @@ static int bdk_sso_wqe_to_packet(const void *work, bdk_if_packet_t *packet)
 {
     const union bdk_pki_wqe_s *wqe = work;
     const bdk_node_t input_node = wqe->s.node;
-    if (sso_map[input_node])
+    if (bdk_likely(sso_map[input_node]))
         packet->if_handle = sso_map[input_node][wqe->s.chan];
     else
         packet->if_handle = NULL;
@@ -153,7 +156,7 @@ static int bdk_sso_wqe_to_packet(const void *work, bdk_if_packet_t *packet)
     packet->segments = wqe->s.bufs;
     /* Error combines word2[errlev] and word2[opcode] into 11 bits */
     packet->rx_error = (wqe->s.errlev << 8) | wqe->s.opcode;
-    if (wqe->s.bufs > 12)
+    if (bdk_unlikely(wqe->s.bufs > 12))
         bdk_fatal("WQE has too many segments %d > 12\n", wqe->s.bufs);
 
     union bdk_pki_buflink_s buflink;
@@ -179,18 +182,15 @@ static int bdk_sso_wqe_to_packet(const void *work, bdk_if_packet_t *packet)
 
 
 /**
- * Function called as a thread body to continuously read from the SSO and process
- * packets
- *
- * @param arg    Unused
- * @param arg1   Unused
+ * Function called during bdk_thread_yield() to process work while we're idle
  */
-void bdk_sso_thread_read(int arg, void *arg1)
+void bdk_sso_process_work(void)
 {
+    bdk_if_packet_t packet;
     bdk_node_t node = bdk_numa_local();
     /* Build the offset into SSO */
     union bdk_ssow_get_work_addr_s work_offset = {  .u = 0 };
-    work_offset.s.waitw = 0; /* Don't wait */
+    work_offset.s.waitw = 1; /* Wait for work */
     work_offset.s.index_ggrp_mask = 1; /* Use mask_set 0*/
     work_offset.s.grouped = 0;	       /* ... */
     work_offset.s.indexed = 0;         /* ... */
@@ -206,17 +206,13 @@ void bdk_sso_thread_read(int arg, void *arg1)
         /* Do a GET_WORK */
         bdk_ssow_vhwsx_op_get_work1_t work1;
         work1.u = bdk_read64_uint64(work_address);
-        if (work1.u)
-        {
-            bdk_if_packet_t packet;
-            const union bdk_pki_wqe_s *wqe = bdk_phys_to_ptr(work1.u);
-            if (bdk_sso_wqe_to_packet(wqe, &packet) == 0)
-                bdk_if_dispatch_packet(&packet);
-            int aura = wqe->s.aura;
-            for (int s = 0; s < packet.segments; s++)
-                __bdk_fpa_raw_free(node, packet.packet[s].s.address & (0xffffffffffffffffULL ^ BDK_CACHE_LINE_MASK), aura, 0);
-            /* Fall through to poll again if there was work */
-        } else
-            bdk_wait_usec(1000);
+        if (!work1.u)
+            break;
+        const union bdk_pki_wqe_s *wqe = bdk_phys_to_ptr(work1.u);
+        if (bdk_sso_wqe_to_packet(wqe, &packet) == 0)
+            bdk_if_dispatch_packet(&packet);
+        int aura = wqe->s.aura;
+        for (int s = 0; s < packet.segments; s++)
+            __bdk_fpa_raw_free(node, packet.packet[s].s.address & (0xffffffffffffffffULL ^ BDK_CACHE_LINE_MASK), aura, 0);
     }
 }

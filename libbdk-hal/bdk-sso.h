@@ -62,12 +62,8 @@ extern int bdk_sso_init(bdk_node_t node);
 extern void bdk_sso_register_handle(bdk_if_handle_t handle);
 
 /**
- * Function called as a thread body to continuously read from the SSO and process
- * packets
- *
- * @param arg    Unused
- * @param arg1   Unused
+ * Function called during bdk_thread_yield() to process work while we're idle
  */
-extern void bdk_sso_thread_read(int arg, void *arg1);
+extern void bdk_sso_process_work(void);
 
 /** @} */

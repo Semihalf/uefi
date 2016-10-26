@@ -148,6 +148,9 @@ void bdk_thread_yield(void)
     if (bdk_unlikely(current->stack_canary != STACK_CANARY))
         bdk_fatal("bdk_thread_yield() detected a stack overflow\n");
 
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        bdk_sso_process_work();
+
     if (t_node->head == NULL)
         return;
 
@@ -286,6 +289,8 @@ void bdk_thread_destroy(void)
             }
             bdk_spinlock_unlock(&t_node->lock);
         }
+        if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+            bdk_sso_process_work();
         BDK_WFE;
     }
 }
