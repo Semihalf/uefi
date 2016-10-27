@@ -279,7 +279,7 @@ Mvpp2TxqDescCsum (
 
 VOID
 Mvpp2TxqSentCounterClear (
-  IN VOID *arg
+  IN OUT VOID *arg
   );
 
 VOID
@@ -295,47 +295,48 @@ Mvpp2TxpMaxTxSizeSet (
 VOID
 Mvpp2RxPktsCoalSet (
   IN PP2DXE_PORT *Port,
-  IN MVPP2_RX_QUEUE *Rxq,
-  IN UINT32 pkts
+  IN OUT MVPP2_RX_QUEUE *Rxq,
+  IN UINT32 Pkts
   );
 
 VOID
 Mvpp2RxTimeCoalSet (
   IN PP2DXE_PORT *Port,
-  IN MVPP2_RX_QUEUE *Rxq,
+  IN OUT MVPP2_RX_QUEUE *Rxq,
   IN UINT32 Usec
   );
 
 VOID
 Mvpp2AggrTxqHwInit (
-  IN MVPP2_TX_QUEUE *AggrTxq,
-  IN INT32 DescNum, INT32 Cpu,
+  IN OUT MVPP2_TX_QUEUE *AggrTxq,
+  IN INT32 DescNum,
+  IN INT32 Cpu,
   IN MVPP2_SHARED *Priv
   );
 
 VOID
 Mvpp2RxqHwInit (
   IN PP2DXE_PORT *Port,
-  IN MVPP2_RX_QUEUE *Rxq
+  IN OUT MVPP2_RX_QUEUE *Rxq
   );
 
 VOID
 Mvpp2RxqDropPkts (
   IN PP2DXE_PORT *Port,
-  IN MVPP2_RX_QUEUE *Rxq,
+  IN OUT MVPP2_RX_QUEUE *Rxq,
   IN INT32 Cpu
   );
 
 VOID
 Mvpp2TxqHwInit (
   IN PP2DXE_PORT *Port,
-  IN MVPP2_TX_QUEUE *Txq
+  IN OUT MVPP2_TX_QUEUE *Txq
   );
 
 VOID
 Mvpp2TxqHwDeinit (
   IN PP2DXE_PORT *Port,
-  IN MVPP2_TX_QUEUE *Txq
+  IN OUT MVPP2_TX_QUEUE *Txq
   );
 
 VOID
@@ -351,7 +352,7 @@ Mvpp2RxFifoInit (
 VOID
 Mvpp2RxqHwDeinit (
   IN PP2DXE_PORT *Port,
-  IN MVPP2_RX_QUEUE *Rxq
+  IN OUT MVPP2_RX_QUEUE *Rxq
   );
 
 INT32

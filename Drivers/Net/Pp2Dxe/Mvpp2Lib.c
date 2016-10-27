@@ -43,7 +43,7 @@ STATIC
 INT32
 Mvpp2PrsHwWrite (
   IN MVPP2_SHARED *Priv,
-  IN MVPP2_PRS_ENTRY *Pe
+  IN OUT MVPP2_PRS_ENTRY *Pe
   )
 {
   INT32 i;
@@ -75,7 +75,7 @@ STATIC
 INT32
 Mvpp2PrsHwRead (
   IN MVPP2_SHARED *Priv,
-  IN MVPP2_PRS_ENTRY *Pe
+  IN OUT MVPP2_PRS_ENTRY *Pe
   )
 {
   INT32 i;
@@ -151,7 +151,7 @@ Mvpp2PrsShadowRiSet (
 STATIC
 VOID
 Mvpp2PrsTcamLuSet (
-  IN MVPP2_PRS_ENTRY *Pe,
+  IN OUT MVPP2_PRS_ENTRY *Pe,
   IN UINT32 Lu
   )
 {
@@ -165,7 +165,7 @@ Mvpp2PrsTcamLuSet (
 STATIC
 VOID
 Mvpp2PrsTcamPortSet (
-  IN MVPP2_PRS_ENTRY *Pe,
+  IN OUT MVPP2_PRS_ENTRY *Pe,
   IN UINT32 PortId,
   IN BOOLEAN Add
   )
@@ -183,7 +183,7 @@ Mvpp2PrsTcamPortSet (
 STATIC
 VOID
 Mvpp2PrsTcamPortMapSet (
-  IN MVPP2_PRS_ENTRY *Pe,
+  IN OUT MVPP2_PRS_ENTRY *Pe,
   IN UINT32 PortMask
   )
 {
@@ -211,7 +211,7 @@ Mvpp2PrsTcamPortMapGet (
 STATIC
 VOID
 Mvpp2PrsTcamDataByteSet (
-  IN MVPP2_PRS_ENTRY *Pe,
+  IN OUT MVPP2_PRS_ENTRY *Pe,
   IN UINT32 Offs,
   IN UINT8 Byte,
   IN UINT8 Enable
@@ -259,27 +259,27 @@ Mvpp2PrsTcamDataCmp (
 STATIC
 VOID
 Mvpp2PrsTcamAiUpdate (
-  IN MVPP2_PRS_ENTRY *Pe,
-  IN UINT32 bits,
-  IN UINT32 enable
+  IN OUT MVPP2_PRS_ENTRY *Pe,
+  IN UINT32 Bits,
+  IN UINT32 Enable
   )
 {
   INT32 i, AiIdx = MVPP2_PRS_TCAM_AI_BYTE;
 
   for (i = 0; i < MVPP2_PRS_AI_BITS; i++) {
 
-    if (! (enable & BIT (i))) {
+    if (! (Enable & BIT (i))) {
       continue;
     }
 
-    if (bits & BIT (i)) {
+    if (Bits & BIT (i)) {
       Pe->Tcam.Byte[AiIdx] |= 1 << i;
     } else {
       Pe->Tcam.Byte[AiIdx] &= ~ (1 << i);
     }
   }
 
-  Pe->Tcam.Byte[MVPP2_PRS_TCAM_EN_OFFS (AiIdx)] |= enable;
+  Pe->Tcam.Byte[MVPP2_PRS_TCAM_EN_OFFS (AiIdx)] |= Enable;
 }
 
 /* Get ai bits from Tcam sw entry */
@@ -317,7 +317,7 @@ Mvpp2PrsTcamDataWordGet (
 STATIC
 VOID
 Mvpp2PrsMatchEtype (
-  IN MVPP2_PRS_ENTRY *Pe,
+  IN OUT MVPP2_PRS_ENTRY *Pe,
   IN INT32 Offset,
   IN UINT16 EtherType
   )
@@ -330,7 +330,7 @@ Mvpp2PrsMatchEtype (
 STATIC
 VOID
 Mvpp2PrsSramBitsSet (
-  IN MVPP2_PRS_ENTRY *Pe,
+  IN OUT MVPP2_PRS_ENTRY *Pe,
   IN INT32 BitNum,
   IN INT32 Val
   )
@@ -342,7 +342,7 @@ Mvpp2PrsSramBitsSet (
 STATIC
 VOID
 Mvpp2PrsSramBitsClear (
-  IN MVPP2_PRS_ENTRY *Pe,
+  IN OUT MVPP2_PRS_ENTRY *Pe,
   IN INT32 BitNum,
   IN INT32 Val
   )
@@ -354,7 +354,7 @@ Mvpp2PrsSramBitsClear (
 STATIC
 VOID
 Mvpp2PrsSramRiUpdate (
-  IN MVPP2_PRS_ENTRY *Pe,
+  IN OUT MVPP2_PRS_ENTRY *Pe,
   IN UINT32 bits,
   IN UINT32 Mask
   )
@@ -392,8 +392,8 @@ Mvpp2PrsSramRiGet (
 STATIC
 VOID
 Mvpp2PrsSramAiUpdate (
-  IN MVPP2_PRS_ENTRY *Pe,
-  IN UINT32 bits,
+  IN OUT MVPP2_PRS_ENTRY *Pe,
+  IN UINT32 Bits,
   UINT32 Mask
   )
 {
@@ -406,7 +406,7 @@ Mvpp2PrsSramAiUpdate (
       continue;
     }
 
-    if (bits & BIT (i)) {
+    if (Bits & BIT (i)) {
       Mvpp2PrsSramBitsSet (Pe, AiOff + i, 1);
     } else {
       Mvpp2PrsSramBitsClear (Pe, AiOff + i, 1);
@@ -441,7 +441,7 @@ Mvpp2PrsSramAiGet (
 STATIC
 VOID
 Mvpp2PrsSramNextLuSet (
-  IN MVPP2_PRS_ENTRY *Pe,
+  IN OUT MVPP2_PRS_ENTRY *Pe,
   IN UINT32 Lu
   )
 {
@@ -458,25 +458,25 @@ Mvpp2PrsSramNextLuSet (
 STATIC
 VOID
 Mvpp2PrsSramShiftSet (
-  IN MVPP2_PRS_ENTRY *Pe,
-  IN INT32 shift,
-  IN UINT32 op
+  IN OUT MVPP2_PRS_ENTRY *Pe,
+  IN INT32 Shift,
+  IN UINT32 Op
   )
 {
   /* Set sign */
-  if (shift < 0) {
+  if (Shift < 0) {
     Mvpp2PrsSramBitsSet (Pe, MVPP2_PRS_SRAM_SHIFT_SIGN_BIT, 1);
-    shift = 0 - shift;
+    Shift = 0 - Shift;
   } else {
     Mvpp2PrsSramBitsClear (Pe, MVPP2_PRS_SRAM_SHIFT_SIGN_BIT, 1);
   }
 
   /* Set value */
-  Pe->Sram.Byte[MVPP2_BIT_TO_BYTE(MVPP2_PRS_SRAM_SHIFT_OFFS)] = (UINT8)shift;
+  Pe->Sram.Byte[MVPP2_BIT_TO_BYTE(MVPP2_PRS_SRAM_SHIFT_OFFS)] = (UINT8)Shift;
 
   /* Reset and set operation */
   Mvpp2PrsSramBitsClear (Pe, MVPP2_PRS_SRAM_OP_SEL_SHIFT_OFFS, MVPP2_PRS_SRAM_OP_SEL_SHIFT_MASK);
-  Mvpp2PrsSramBitsSet (Pe, MVPP2_PRS_SRAM_OP_SEL_SHIFT_OFFS, op);
+  Mvpp2PrsSramBitsSet (Pe, MVPP2_PRS_SRAM_OP_SEL_SHIFT_OFFS, Op);
 
   /* Set base Offset as current */
   Mvpp2PrsSramBitsClear (Pe, MVPP2_PRS_SRAM_OP_SEL_BASE_OFFS, 1);
@@ -489,7 +489,7 @@ Mvpp2PrsSramShiftSet (
 STATIC
 VOID
 Mvpp2PrsSramOffsetSet (
-  IN MVPP2_PRS_ENTRY *Pe,
+  IN OUT MVPP2_PRS_ENTRY *Pe,
   IN UINT32 Type,
   IN INT32 Offset,
   IN UINT32 Op
@@ -587,21 +587,21 @@ STATIC
 INT32
 Mvpp2PrsTcamFirstFree (
   IN MVPP2_SHARED *Priv,
-  IN UINT8 start,
-  IN UINT8 end
+  IN UINT8 Start,
+  IN UINT8 End
   )
 {
   INT32 Tid;
 
-  if (start > end) {
-    Mvpp2Swap (start, end);
+  if (Start > End) {
+    Mvpp2Swap (Start, End);
   }
 
-  if (end >= MVPP2_PRS_TCAM_SRAM_SIZE) {
-    end = MVPP2_PRS_TCAM_SRAM_SIZE - 1;
+  if (End >= MVPP2_PRS_TCAM_SRAM_SIZE) {
+    End = MVPP2_PRS_TCAM_SRAM_SIZE - 1;
   }
 
-  for (Tid = start; Tid <= end; Tid++) {
+  for (Tid = Start; Tid <= End; Tid++) {
     if (!Priv->PrsShadow[Tid].Valid) {
       return Tid;
     }
@@ -754,19 +754,19 @@ Mvpp2PrsDsaTagSet (
   IN MVPP2_SHARED *Priv,
   IN INT32 PortId,
   IN BOOLEAN Add,
-  IN BOOLEAN tagged,
-  IN BOOLEAN extend
+  IN BOOLEAN Tagged,
+  IN BOOLEAN Extend
   )
 {
   MVPP2_PRS_ENTRY Pe;
-  INT32 Tid, shift;
+  INT32 Tid, Shift;
 
-  if (extend) {
-    Tid = tagged ? MVPP2_PE_EDSA_TAGGED : MVPP2_PE_EDSA_UNTAGGED;
-    shift = 8;
+  if (Extend) {
+    Tid = Tagged ? MVPP2_PE_EDSA_TAGGED : MVPP2_PE_EDSA_UNTAGGED;
+    Shift = 8;
   } else {
-    Tid = tagged ? MVPP2_PE_DSA_TAGGED : MVPP2_PE_DSA_UNTAGGED;
-    shift = 4;
+    Tid = Tagged ? MVPP2_PE_DSA_TAGGED : MVPP2_PE_DSA_UNTAGGED;
+    Shift = 4;
   }
 
   if (Priv->PrsShadow[Tid].Valid) {
@@ -780,19 +780,19 @@ Mvpp2PrsDsaTagSet (
     Pe.Index = Tid;
 
     /* Shift 4 bytes if DSA tag or 8 bytes in case of EDSA tag*/
-    Mvpp2PrsSramShiftSet (&Pe, shift, MVPP2_PRS_SRAM_OP_SEL_SHIFT_ADD);
+    Mvpp2PrsSramShiftSet (&Pe, Shift, MVPP2_PRS_SRAM_OP_SEL_SHIFT_ADD);
 
     /* Update shadow table */
     Mvpp2PrsShadowSet (Priv, Pe.Index, MVPP2_PRS_LU_DSA);
 
-    if (tagged) {
-      /* Set tagged bit in DSA tag */
+    if (Tagged) {
+      /* Set Tagged bit in DSA tag */
       Mvpp2PrsTcamDataByteSet (&Pe, 0, MVPP2_PRS_TCAM_DSA_TAGGED_BIT, MVPP2_PRS_TCAM_DSA_TAGGED_BIT);
 
       /* Clear all ai bits for next iteration */
       Mvpp2PrsSramAiUpdate (&Pe, 0, MVPP2_PRS_SRAM_AI_MASK);
 
-      /* If packet is tagged continue check vlans */
+      /* If packet is Tagged continue check vlans */
       Mvpp2PrsSramNextLuSet (&Pe, MVPP2_PRS_LU_VLAN);
     } else {
       /* Set result info bits to 'no vlans' */
@@ -817,21 +817,21 @@ Mvpp2PrsDsaTagEthertypeSet (
   IN MVPP2_SHARED *Priv,
   IN INT32 PortId,
   IN BOOLEAN Add,
-  IN BOOLEAN tagged,
-  IN BOOLEAN extend
+  IN BOOLEAN Tagged,
+  IN BOOLEAN Extend
   )
 {
   MVPP2_PRS_ENTRY Pe;
-  INT32 Tid, shift, PortMask;
+  INT32 Tid, Shift, PortMask;
 
-  if (extend) {
-    Tid = tagged ? MVPP2_PE_ETYPE_EDSA_TAGGED : MVPP2_PE_ETYPE_EDSA_UNTAGGED;
+  if (Extend) {
+    Tid = Tagged ? MVPP2_PE_ETYPE_EDSA_TAGGED : MVPP2_PE_ETYPE_EDSA_UNTAGGED;
     PortMask = 0;
-    shift = 8;
+    Shift = 8;
   } else {
-    Tid = tagged ? MVPP2_PE_ETYPE_DSA_TAGGED : MVPP2_PE_ETYPE_DSA_UNTAGGED;
+    Tid = Tagged ? MVPP2_PE_ETYPE_DSA_TAGGED : MVPP2_PE_ETYPE_DSA_UNTAGGED;
     PortMask = MVPP2_PRS_PORT_MASK;
-    shift = 4;
+    Shift = 4;
   }
 
   if (Priv->PrsShadow[Tid].Valid) {
@@ -855,14 +855,14 @@ Mvpp2PrsDsaTagEthertypeSet (
            MVPP2_PRS_RI_DSA_MASK);
 
     /* Shift ethertype + 2 Byte reserved + tag */
-    Mvpp2PrsSramShiftSet (&Pe, 2 + MVPP2_ETH_TYPE_LEN + shift,
+    Mvpp2PrsSramShiftSet (&Pe, 2 + MVPP2_ETH_TYPE_LEN + Shift,
            MVPP2_PRS_SRAM_OP_SEL_SHIFT_ADD);
 
     /* Update shadow table */
     Mvpp2PrsShadowSet (Priv, Pe.Index, MVPP2_PRS_LU_DSA);
 
-    if (tagged) {
-      /* Set tagged bit in DSA tag */
+    if (Tagged) {
+      /* Set Tagged bit in DSA tag */
       Mvpp2PrsTcamDataByteSet (
                       &Pe,
                       MVPP2_ETH_TYPE_LEN + 2 + 3,
@@ -873,7 +873,7 @@ Mvpp2PrsDsaTagEthertypeSet (
       /* Clear all ai bits for next iteration */
       Mvpp2PrsSramAiUpdate (&Pe, 0, MVPP2_PRS_SRAM_AI_MASK);
 
-      /* If packet is tagged continue check vlans */
+      /* If packet is Tagged continue check vlans */
       Mvpp2PrsSramNextLuSet (&Pe, MVPP2_PRS_LU_VLAN);
     } else {
       /* Set result info bits to 'no vlans' */
@@ -896,8 +896,8 @@ STATIC
 MVPP2_PRS_ENTRY *
 Mvpp2PrsVlanFind (
   IN MVPP2_SHARED *Priv,
-  IN UINT16 tpid,
-  IN INT32 ai
+  IN UINT16 Tpid,
+  IN INT32 Ai
   )
 {
   MVPP2_PRS_ENTRY *Pe;
@@ -922,7 +922,7 @@ Mvpp2PrsVlanFind (
     Pe->Index = Tid;
 
     Mvpp2PrsHwRead (Priv, Pe);
-    match = Mvpp2PrsTcamDataCmp (Pe, 0, Mvpp2Swab16 (tpid));
+    match = Mvpp2PrsTcamDataCmp (Pe, 0, Mvpp2Swab16 (Tpid));
     if (!match) {
       continue;
     }
@@ -931,13 +931,13 @@ Mvpp2PrsVlanFind (
     RiBits = Mvpp2PrsSramRiGet (Pe);
     RiBits &= MVPP2_PRS_RI_VLAN_MASK;
 
-    /* Get current ai value from Tcam */
+    /* Get current Ai value from Tcam */
     AiBits = Mvpp2PrsTcamAiGet (Pe);
 
     /* Clear double vlan bit */
     AiBits &= ~MVPP2_PRS_DBL_VLAN_AI_BIT;
 
-    if (ai != AiBits) {
+    if (Ai != AiBits) {
       continue;
     }
 
@@ -1057,8 +1057,8 @@ Mvpp2PrsDoubleVlanAiFreeGet (
 /* Search for existing double vlan entry */
 MVPP2_PRS_ENTRY *Mvpp2PrsDoubleVlanFind (
   IN MVPP2_SHARED *Priv,
-  IN UINT16 tpid1,
-  IN UINT16 tpid2
+  IN UINT16 Tpid1,
+  IN UINT16 Tpid2
   )
 {
   MVPP2_PRS_ENTRY *Pe;
@@ -1083,8 +1083,8 @@ MVPP2_PRS_ENTRY *Mvpp2PrsDoubleVlanFind (
     Pe->Index = Tid;
     Mvpp2PrsHwRead (Priv, Pe);
 
-    match = Mvpp2PrsTcamDataCmp (Pe, 0, Mvpp2Swab16 (tpid1)) &&
-            Mvpp2PrsTcamDataCmp (Pe, 4, Mvpp2Swab16 (tpid2));
+    match = Mvpp2PrsTcamDataCmp (Pe, 0, Mvpp2Swab16 (Tpid1)) &&
+            Mvpp2PrsTcamDataCmp (Pe, 4, Mvpp2Swab16 (Tpid2));
 
     if (!match) {
       continue;
@@ -1117,8 +1117,7 @@ Mvpp2PrsDoubleVlanAdd (
 
   if (!Pe) {
     /* Create new Tcam entry */
-    Tid = Mvpp2PrsTcamFirstFree (Priv, MVPP2_PE_FIRST_FREE_TID,
-        MVPP2_PE_LAST_FREE_TID);
+    Tid = Mvpp2PrsTcamFirstFree (Priv, MVPP2_PE_FIRST_FREE_TID, MVPP2_PE_LAST_FREE_TID);
     if (Tid < 0) {
       return Tid;
     }
@@ -1320,7 +1319,7 @@ STATIC
 INT32
 Mvpp2PrsIp6Proto (
   IN MVPP2_SHARED *Priv,
-  IN UINT16 proto,
+  IN UINT16 Proto,
   IN UINT32 Ri,
   IN UINT32 RiMask
   )
@@ -1328,8 +1327,8 @@ Mvpp2PrsIp6Proto (
   MVPP2_PRS_ENTRY Pe;
   INT32 Tid;
 
-  if ( (proto != MV_IPPR_TCP) && (proto != MV_IPPR_UDP) &&
-    (proto != MV_IPPR_ICMPV6) && (proto != MV_IPPR_IPIP))
+  if ( (Proto != MV_IPPR_TCP) && (Proto != MV_IPPR_UDP) &&
+    (Proto != MV_IPPR_ICMPV6) && (Proto != MV_IPPR_IPIP))
   {
     return MVPP2_EINVAL;
   }
@@ -1356,7 +1355,7 @@ Mvpp2PrsIp6Proto (
                   MVPP2_PRS_SRAM_OP_SEL_UDF_ADD
                 );
 
-  Mvpp2PrsTcamDataByteSet (&Pe, 0, proto, MVPP2_PRS_TCAM_PROTO_MASK);
+  Mvpp2PrsTcamDataByteSet (&Pe, 0, Proto, MVPP2_PRS_TCAM_PROTO_MASK);
   Mvpp2PrsTcamAiUpdate (&Pe, MVPP2_PRS_IPV6_NO_EXT_AI_BIT, MVPP2_PRS_IPV6_NO_EXT_AI_BIT);
 
   /* Unmask all Ports */
@@ -2125,9 +2124,7 @@ Mvpp2PrsIp6Init (
    * IPv4 is the last header. This is similar case as 6-TCP or 17-UDP
    * Result Info: UDF7=1, DS lite
    */
-  Err = Mvpp2PrsIp6Proto (Priv, MV_IPPR_IPIP,
-          MVPP2_PRS_RI_UDF7_IP6_LITE,
-          MVPP2_PRS_RI_UDF7_MASK);
+  Err = Mvpp2PrsIp6Proto (Priv, MV_IPPR_IPIP, MVPP2_PRS_RI_UDF7_IP6_LITE, MVPP2_PRS_RI_UDF7_MASK);
   if (Err != 0) {
     return Err;
   }
@@ -2139,8 +2136,7 @@ Mvpp2PrsIp6Init (
   }
 
   /* Entry for checking hop limit */
-  Tid = Mvpp2PrsTcamFirstFree (Priv, MVPP2_PE_FIRST_FREE_TID,
-          MVPP2_PE_LAST_FREE_TID);
+  Tid = Mvpp2PrsTcamFirstFree (Priv, MVPP2_PE_FIRST_FREE_TID, MVPP2_PE_LAST_FREE_TID);
   if (Tid < 0) {
     return Tid;
   }
@@ -2336,7 +2332,7 @@ STATIC
 MVPP2_PRS_ENTRY *
 Mvpp2PrsMacDaRangeFind (
   IN MVPP2_SHARED *Priv,
-  IN INT32 pmap,
+  IN INT32 Pmap,
   IN const UINT8 *Da,
   IN UINT8 *Mask,
   IN INT32 UdfType
@@ -2355,9 +2351,9 @@ Mvpp2PrsMacDaRangeFind (
   for (Tid = MVPP2_PE_FIRST_FREE_TID; Tid <= MVPP2_PE_LAST_FREE_TID; Tid++) {
     UINT32 EntryPmap;
 
-    if (!Priv->PrsShadow[Tid].Valid
-      || (Priv->PrsShadow[Tid].Lu != MVPP2_PRS_LU_MAC)
-      || (Priv->PrsShadow[Tid].Udf != UdfType))
+    if (!Priv->PrsShadow[Tid].Valid ||
+        (Priv->PrsShadow[Tid].Lu != MVPP2_PRS_LU_MAC) ||
+        (Priv->PrsShadow[Tid].Udf != UdfType))
     {
       continue;
     }
@@ -2366,7 +2362,7 @@ Mvpp2PrsMacDaRangeFind (
     Mvpp2PrsHwRead (Priv, Pe);
     EntryPmap = Mvpp2PrsTcamPortMapGet (Pe);
 
-    if (Mvpp2PrsMacRangeEquals (Pe, Da, Mask) && EntryPmap == pmap) {
+    if (Mvpp2PrsMacRangeEquals (Pe, Da, Mask) && EntryPmap == Pmap) {
       return Pe;
     }
   }
@@ -2386,7 +2382,7 @@ Mvpp2PrsMacDaAccept (
   )
 {
   MVPP2_PRS_ENTRY *Pe;
-  UINT32 pmap, len, Ri;
+  UINT32 Pmap, Len, Ri;
   UINT8 Mask[MV_ETH_ALEN] = { 0xff, 0xff, 0xff, 0xff, 0xff, 0xff };
   INT32 Tid;
 
@@ -2433,8 +2429,8 @@ Mvpp2PrsMacDaAccept (
   Mvpp2PrsTcamPortSet (Pe, PortId, Add);
 
   /* Invalidate the entry if no Ports are left enabled */
-  pmap = Mvpp2PrsTcamPortMapGet (Pe);
-  if (pmap == 0) {
+  Pmap = Mvpp2PrsTcamPortMapGet (Pe);
+  if (Pmap == 0) {
     if (Add) {
       Mvpp2Free (Pe);
       return -1;
@@ -2452,9 +2448,9 @@ Mvpp2PrsMacDaAccept (
   Mvpp2PrsSramNextLuSet (Pe, MVPP2_PRS_LU_DSA);
 
   /* Set match on DA */
-  len = MV_ETH_ALEN;
-  while (len--) {
-    Mvpp2PrsTcamDataByteSet (Pe, len, Da[len], 0xff);
+  Len = MV_ETH_ALEN;
+  while (Len--) {
+    Mvpp2PrsTcamDataByteSet (Pe, Len, Da[Len], 0xff);
   }
 
   /* Set result info bits */
@@ -2495,9 +2491,9 @@ Mvpp2PrsMcastDelAll (
   for (Tid = MVPP2_PE_FIRST_FREE_TID; Tid <= MVPP2_PE_LAST_FREE_TID; Tid++) {
     UINT8 Da[MV_ETH_ALEN], DaMask[MV_ETH_ALEN];
 
-    if (!Priv->PrsShadow[Tid].Valid
-      || (Priv->PrsShadow[Tid].Lu != MVPP2_PRS_LU_MAC)
-      || (Priv->PrsShadow[Tid].Udf != MVPP2_PRS_UDF_MAC_DEF))
+    if (!Priv->PrsShadow[Tid].Valid ||
+        (Priv->PrsShadow[Tid].Lu != MVPP2_PRS_LU_MAC) ||
+        (Priv->PrsShadow[Tid].Udf != MVPP2_PRS_UDF_MAC_DEF))
     {
       continue;
     }
@@ -2522,10 +2518,10 @@ INT32
 Mvpp2PrsTagModeSet (
   IN MVPP2_SHARED *Priv,
   IN INT32 PortId,
-  IN INT32 type
+  IN INT32 Type
   )
 {
-  switch (type) {
+  switch (Type) {
   case MVPP2_TAG_TYPE_EDSA:
     /* Add PortId to EDSA entries */
     Mvpp2PrsDsaTagSet (Priv, PortId, TRUE, MVPP2_PRS_TAGGED, MVPP2_PRS_EDSA);
@@ -2552,7 +2548,7 @@ Mvpp2PrsTagModeSet (
     Mvpp2PrsDsaTagSet (Priv, PortId, FALSE, MVPP2_PRS_UNTAGGED, MVPP2_PRS_EDSA);
     break;
   default:
-    if ( (type < 0) || (type > MVPP2_TAG_TYPE_EDSA)) {
+    if ( (Type < 0) || (Type > MVPP2_TAG_TYPE_EDSA)) {
       return MVPP2_EINVAL;
     }
   }
@@ -2622,7 +2618,7 @@ Mvpp2ClsFlowWrite (
 VOID
 Mvpp2ClsLookupWrite (
   IN MVPP2_SHARED *Priv,
-  IN MVPP2_CLS_LOOKUP_ENTRY *Le
+  IN OUT MVPP2_CLS_LOOKUP_ENTRY *Le
   )
 {
   UINT32 Val;
@@ -2865,12 +2861,12 @@ Mvpp2BmPoolMcPut (
 VOID
 Mvpp2PoolRefill (
   IN PP2DXE_PORT *Port,
-  IN UINT32 bm,
+  IN UINT32 Bm,
   IN UINT32 PhysAddr,
   IN UINT32 cookie
   )
 {
-  INT32 Pool = Mvpp2BmCookiePoolGet (bm);
+  INT32 Pool = Mvpp2BmCookiePoolGet (Bm);
 
   Mvpp2BmPoolPut (Port->Priv, Pool, PhysAddr, cookie);
 }
@@ -2879,13 +2875,13 @@ INTN
 Mvpp2BmPoolCtrl (
   IN MVPP2_SHARED *Priv,
   IN INTN Pool,
-  IN enum Mvpp2Command cmd
+  IN enum Mvpp2Command Cmd
   )
 {
   UINT32 RegVal = 0;
   RegVal = Mvpp2Read (Priv, MVPP2_BM_POOL_CTRL_REG(Pool));
 
-  switch (cmd) {
+  switch (Cmd) {
   case MVPP2_START:
     RegVal |= MVPP2_BM_START_MASK;
     break;
@@ -3427,7 +3423,7 @@ Mvpp2TxqDescCsum (
 /* Clear counter of sent packets */
 VOID
 Mvpp2TxqSentCounterClear (
-  IN VOID *arg
+  IN OUT VOID *arg
   )
 {
   PP2DXE_PORT *Port = arg;
@@ -3450,7 +3446,7 @@ Mvpp2GmacMaxRxSizeSet (
 
   Val = Mvpp2GmacRead (Port, MVPP2_GMAC_CTRL_0_REG);
   Val &= ~MVPP2_GMAC_MAX_RX_SIZE_MASK;
-  Val |= ( ( (Port->PktSize - MVPP2_MH_SIZE) / 2) << MVPP2_GMAC_MAX_RX_SIZE_OFFS);
+  Val |= (((Port->PktSize - MVPP2_MH_SIZE) / 2) << MVPP2_GMAC_MAX_RX_SIZE_OFFS);
   Mvpp2GmacWrite (Port, MVPP2_GMAC_CTRL_0_REG, Val);
 }
 
@@ -3511,24 +3507,24 @@ Mvpp2TxpMaxTxSizeSet (
 VOID
 Mvpp2RxPktsCoalSet (
   IN PP2DXE_PORT *Port,
-  IN MVPP2_RX_QUEUE *Rxq,
-  IN UINT32 pkts
+  IN OUT MVPP2_RX_QUEUE *Rxq,
+  IN UINT32 Pkts
   )
 {
   UINT32 Val;
 
-  Val = (pkts & MVPP2_OCCUPIED_THRESH_MASK);
+  Val = (Pkts & MVPP2_OCCUPIED_THRESH_MASK);
   Mvpp2Write (Port->Priv, MVPP2_RXQ_NUM_REG, Rxq->Id);
   Mvpp2Write (Port->Priv, MVPP2_RXQ_THRESH_REG, Val);
 
-  Rxq->PktsCoal = pkts;
+  Rxq->PktsCoal = Pkts;
 }
 
 /* Set the time Delay in Usec before Rx INT32errupt */
 VOID
 Mvpp2RxTimeCoalSet (
   IN PP2DXE_PORT *Port,
-  IN MVPP2_RX_QUEUE *Rxq,
+  IN OUT MVPP2_RX_QUEUE *Rxq,
   IN UINT32 Usec
   )
 {
@@ -3546,7 +3542,7 @@ Mvpp2RxTimeCoalSet (
 VOID
 Mvpp2RxqHwInit (
   IN PP2DXE_PORT *Port,
-  IN MVPP2_RX_QUEUE *Rxq
+  IN OUT MVPP2_RX_QUEUE *Rxq
   )
 {
   Rxq->LastDesc = Rxq->Size - 1;
@@ -3579,7 +3575,7 @@ Mvpp2RxqHwInit (
 VOID
 Mvpp2RxqDropPkts (
   IN PP2DXE_PORT *Port,
-  IN MVPP2_RX_QUEUE *Rxq,
+  IN OUT MVPP2_RX_QUEUE *Rxq,
   IN INT32 Cpu
   )
 {
@@ -3595,9 +3591,9 @@ Mvpp2RxqDropPkts (
 
   for (i = 0; i < RxReceived; i++) {
     MVPP2_RX_DESC *RxDesc = Mvpp2RxqNextDescGet (Rxq);
-    UINT32 bm = Mvpp2BmCookieBuild (RxDesc, Cpu);
+    UINT32 Bm = Mvpp2BmCookieBuild (RxDesc, Cpu);
 
-    Mvpp2PoolRefill (Port, bm, RxDesc->BufPhysAddr, RxDesc->BufCookie);
+    Mvpp2PoolRefill (Port, Bm, RxDesc->BufPhysAddr, RxDesc->BufCookie);
   }
 #endif
   Mvpp2RxqStatusUpdate (Port, Rxq->Id, RxReceived, RxReceived);
@@ -3606,7 +3602,7 @@ Mvpp2RxqDropPkts (
 VOID
 Mvpp2RxqHwDeinit (
   IN PP2DXE_PORT *Port,
-  IN MVPP2_RX_QUEUE *Rxq
+  IN OUT MVPP2_RX_QUEUE *Rxq
   )
 {
   Rxq->Descs = MVPP2_NULL;
@@ -3628,7 +3624,7 @@ Mvpp2RxqHwDeinit (
 VOID
 Mvpp2TxqHwInit (
   IN PP2DXE_PORT *Port,
-  IN MVPP2_TX_QUEUE *Txq
+  IN OUT MVPP2_TX_QUEUE *Txq
   )
 {
   INT32 Desc, DescPerTxq, TxPortNum;
@@ -3678,7 +3674,7 @@ Mvpp2TxqHwInit (
 VOID
 Mvpp2TxqHwDeinit (
   IN PP2DXE_PORT *Port,
-  IN MVPP2_TX_QUEUE *Txq
+  IN OUT MVPP2_TX_QUEUE *Txq
   )
 {
   Txq->Descs = MVPP2_NULL;
@@ -3698,8 +3694,9 @@ Mvpp2TxqHwDeinit (
 /* Allocate and initialize descriptors for aggr TXQ */
 VOID
 Mvpp2AggrTxqHwInit (
-  IN MVPP2_TX_QUEUE *AggrTxq,
-  IN INT32 DescNum, INT32 Cpu,
+  IN OUT MVPP2_TX_QUEUE *AggrTxq,
+  IN INT32 DescNum,
+  IN INT32 Cpu,
   IN MVPP2_SHARED *Priv
   )
 {
@@ -3985,10 +3982,10 @@ VOID
 MvGop110NetcMacToXgmii (
   IN PP2DXE_PORT *Port,
   IN UINT32 PortId,
-  IN enum MvNetcPhase phase
+  IN enum MvNetcPhase Phase
   )
 {
-  switch (phase) {
+  switch (Phase) {
   case MV_NETC_FIRST_PHASE:
 
     /* Set Bus Width to HB mode = 1 */
@@ -4010,10 +4007,10 @@ VOID
 MvGop110NetcMacToSgmii (
   IN PP2DXE_PORT *Port,
   IN UINT32 PortId,
-  IN enum MvNetcPhase phase
+  IN enum MvNetcPhase Phase
   )
 {
-  switch (phase) {
+  switch (Phase) {
   case MV_NETC_FIRST_PHASE:
 
     /* Set Bus Width to HB mode = 1 */
@@ -4040,19 +4037,19 @@ VOID
 MvGop110NetcMacToRxaui (
   IN PP2DXE_PORT *Port,
   IN UINT32 PortId,
-  IN enum MvNetcPhase phase,
-  IN enum MvNetcLanes lanes
+  IN enum MvNetcPhase Phase,
+  IN enum MvNetcLanes Lanes
   )
 {
   /* Currently only RXAUI0 supPorted */
   if (PortId != 0)
     return;
 
-  switch (phase) {
+  switch (Phase) {
   case MV_NETC_FIRST_PHASE:
 
     /* RXAUI Serdes/s Clock alignment */
-    if (lanes == MV_NETC_LANE_23) {
+    if (Lanes == MV_NETC_LANE_23) {
       MvGop110NetcRxaui0Enable (Port, PortId, 1);
     } else {
       MvGop110NetcRxaui1Enable (Port, PortId, 1);
@@ -4071,10 +4068,10 @@ VOID
 MvGop110NetcMacToXaui (
   IN PP2DXE_PORT *Port,
   IN UINT32 PortId,
-  IN enum MvNetcPhase phase
+  IN enum MvNetcPhase Phase
   )
 {
-  switch (phase) {
+  switch (Phase) {
   case MV_NETC_FIRST_PHASE:
 
     /* RXAUI Serdes/s Clock alignment */
@@ -4092,33 +4089,33 @@ INT32
 MvGop110NetcInit (
   IN PP2DXE_PORT *Port,
   IN UINT32 NetCompConfig,
-  IN enum MvNetcPhase phase
+  IN enum MvNetcPhase Phase
   )
 {
   UINT32 c = NetCompConfig;
 
   if (c & MV_NETC_GE_MAC0_RXAUI_L23) {
-    MvGop110NetcMacToRxaui (Port, 0, phase, MV_NETC_LANE_23);
+    MvGop110NetcMacToRxaui (Port, 0, Phase, MV_NETC_LANE_23);
   }
 
   if (c & MV_NETC_GE_MAC0_RXAUI_L45) {
-    MvGop110NetcMacToRxaui (Port, 0, phase, MV_NETC_LANE_45);
+    MvGop110NetcMacToRxaui (Port, 0, Phase, MV_NETC_LANE_45);
   }
 
   if (c & MV_NETC_GE_MAC0_XAUI) {
-    MvGop110NetcMacToXaui (Port, 0, phase);
+    MvGop110NetcMacToXaui (Port, 0, Phase);
   }
 
   if (c & MV_NETC_GE_MAC2_SGMII) {
-    MvGop110NetcMacToSgmii (Port, 2, phase);
+    MvGop110NetcMacToSgmii (Port, 2, Phase);
   } else {
-    MvGop110NetcMacToXgmii (Port, 2, phase);
+    MvGop110NetcMacToXgmii (Port, 2, Phase);
   }
 
   if (c & MV_NETC_GE_MAC3_SGMII) {
-    MvGop110NetcMacToSgmii (Port, 3, phase);
+    MvGop110NetcMacToSgmii (Port, 3, Phase);
   } else {
-    MvGop110NetcMacToXgmii (Port, 3, phase);
+    MvGop110NetcMacToXgmii (Port, 3, Phase);
     if (c & MV_NETC_GE_MAC3_RGMII) {
       MvGop110NetcMiiMode (Port, 3, MV_NETC_GBE_RGMII);
     } else {
@@ -4131,7 +4128,7 @@ MvGop110NetcInit (
   MvGop110NetcActivePort (Port, 2, 1);
   MvGop110NetcActivePort (Port, 3, 1);
 
-  if (phase == MV_NETC_SECOND_PHASE) {
+  if (Phase == MV_NETC_SECOND_PHASE) {
 
     /* Enable the GOP internal clock logic */
     MvGop110NetcGopClockLogicSet (Port, 1);
