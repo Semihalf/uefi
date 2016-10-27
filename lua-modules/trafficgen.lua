@@ -949,6 +949,8 @@ function TrafficGen.new()
             results_rx_mbps[size] = rx_mbps
             printf("Size %4d: TX %5d Mbps, RX %5d Mbps\n", size, tx_mbps, rx_mbps)
         end
+        -- Let the traffic drain before turning on validation
+        cavium.c.bdk_wait_usec(1 * USEC)
         printf("Perf test complete, turning validation on\n")
         for _,port in ipairs(known_ports) do
             cavium.trafficgen.set_config(port, {validate = true})
