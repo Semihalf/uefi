@@ -216,11 +216,11 @@
 
 #PciEmulation
   gMarvellTokenSpaceGuid.PcdPciEDevCount|0|UINT32|0x30000058
-  gMarvellTokenSpaceGuid.PcdPciEDevBaseAddress|{ 0 }|VOID*|0x30000059
-  gMarvellTokenSpaceGuid.PcdPciEDevRegSize|{ 0 }|VOID*|0x30000060
-  gMarvellTokenSpaceGuid.PcdPciEDevClassCode1|{ 0 }|VOID*|0x30000061
-  gMarvellTokenSpaceGuid.PcdPciEDevClassCode2|{ 0 }|VOID*|0x30000062
-  gMarvellTokenSpaceGuid.PcdPciEDevClassCode3|{ 0 }|VOID*|0x30000063
+  gMarvellTokenSpaceGuid.PcdPciEDevBaseAddress|{ 0x0 }|VOID*|0x30000059
+  gMarvellTokenSpaceGuid.PcdPciEDevRegSize|{ 0x0 }|VOID*|0x30000060
+  gMarvellTokenSpaceGuid.PcdPciEDevClassCode1|{ 0x0 }|VOID*|0x30000061
+  gMarvellTokenSpaceGuid.PcdPciEDevClassCode2|{ 0x0 }|VOID*|0x30000062
+  gMarvellTokenSpaceGuid.PcdPciEDevClassCode3|{ 0x0 }|VOID*|0x30000063
 
 #SATA
   gMarvellTokenSpaceGuid.PcdSataBaseAddress|0|UINT32|0x4000052
