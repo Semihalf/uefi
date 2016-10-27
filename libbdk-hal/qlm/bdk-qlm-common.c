@@ -145,9 +145,9 @@ void __bdk_qlm_setup_pem_reset(bdk_node_t node, int pem, int is_endpoint)
     /* Make sure is_endpoint is either 0 or 1 */
     is_endpoint = (is_endpoint != 0);
     BDK_CSR_MODIFY(c, node, BDK_RST_CTLX(pem),
-        c.s.prst_link = 0;          /* Link down causes soft reset */
-        c.s.rst_link = is_endpoint; /* EP PERST causes a soft reset */
-        c.s.rst_drv = !is_endpoint; /* Drive if RC */
+        c.s.prst_link = 0;          /* Link down doesn't automatically assert PERST */
+        c.s.rst_link = is_endpoint; /* Link down automatically assert soft reset for EP */
+        c.s.rst_drv = !is_endpoint; /* PERST is output for RC, input for EP */
         c.s.rst_rcv = is_endpoint;  /* Only read PERST in EP mode */
         c.s.rst_chip = 0);          /* PERST doesn't pull CHIP_RESET */
 }
