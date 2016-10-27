@@ -32,24 +32,24 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 *******************************************************************************/
 
+#include <Protocol/DevicePath.h>
 #include <Protocol/DriverBinding.h>
 #include <Protocol/SimpleNetwork.h>
-#include <Protocol/DevicePath.h>
 
 #include <Library/BaseLib.h>
 #include <Library/BaseMemoryLib.h>
-#include <Library/MemoryAllocationLib.h>
-#include <Library/IoLib.h>
-#include <Library/DebugLib.h>
-#include <Library/PcdLib.h>
-#include <Library/NetLib.h>
-#include <Library/UefiLib.h>
-#include <Library/UefiBootServicesTableLib.h>
 #include <Library/CacheMaintenanceLib.h>
+#include <Library/DebugLib.h>
+#include <Library/IoLib.h>
+#include <Library/MemoryAllocationLib.h>
+#include <Library/NetLib.h>
+#include <Library/PcdLib.h>
+#include <Library/UefiBootServicesTableLib.h>
+#include <Library/UefiLib.h>
 
 #include "Mvpp2LibHw.h"
-#include "Pp2Dxe.h"
 #include "Mvpp2Lib.h"
+#include "Pp2Dxe.h"
 
 #define ReturnUnlock(tpl, status) do { gBS->RestoreTPL (tpl); return (status); } while(0)
 MVPP2_SHARED *Mvpp2Shared;
@@ -1103,9 +1103,9 @@ Pp2DxeParsePortPcd (
   Pp2Context->Port.AlwaysUp = AlwaysUp[Pp2Context->Instance];
   Pp2Context->Port.Speed = Speed[Pp2Context->Instance];
   Pp2Context->Port.GmacBase = PcdGet64 (PcdPp2GmacBaseAddress) +
-    PcdGet32 (PcdPp2GmacObjSize) * Pp2Context->Port.GopIndex;
+    PcdGet32 (PcdPp2GmacDevSize) * Pp2Context->Port.GopIndex;
   Pp2Context->Port.XlgBase = PcdGet64 (PcdPp2XlgBaseAddress) +
-    PcdGet32 (PcdPp2XlgObjSize) * Pp2Context->Port.GopIndex;
+    PcdGet32 (PcdPp2XlgDevSize) * Pp2Context->Port.GopIndex;
 }
 
 EFI_STATUS
@@ -1193,12 +1193,12 @@ Pp2DxeInitialise (
   Mvpp2Shared->AggrTxqs->LogId = 0;
   Mvpp2Shared->AggrTxqs->Size = MVPP2_AGGR_TXQ_SIZE;
 
-  if (PcdGet32 (PcdPp2PortNumber) == 0) {
+  if (PcdGet32 (PcdPp2NumPorts) == 0) {
     DEBUG((DEBUG_ERROR, "Pp2Dxe: port number set to 0\n"));
     return EFI_INVALID_PARAMETER;
   }
 
-  for (Index = 0; Index < PcdGet32 (PcdPp2PortNumber); Index++) {
+  for (Index = 0; Index < PcdGet32 (PcdPp2NumPorts); Index++) {
 
     Pp2Context = AllocateZeroPool (sizeof (PP2DXE_CONTEXT));
     if (Pp2Context == NULL) {
