@@ -8,7 +8,7 @@
 This document gives a short overview of the major changes
 incorporated into each BDK release.
 
-== thunder-release-v1.27-rc1 ==
+== thunder-release-v1.27-rc3 ==
 * CN83XX
 ** First support for CN82XX and CN83XX
 * USB
@@ -36,6 +36,12 @@ number of messages. This allows more bits in the training message to be checked
 and for the whole sequence to run faster.
 * TWSI
 ** Perform bus recovery on writes as well as reads
+* Networking
+** Set the TX threshold of BGX to optimally use FIFOs
+** Delay before enabling validation after perf_test. The traffic-gen
+performance test was enabling the validation of packets before the test
+stopped moving traffic. This caused false errors to be reported at the end of
+perf_test.
 
 == thunder-release-v1.26 ==
 * CN80XX
