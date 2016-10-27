@@ -317,8 +317,8 @@ cavium,bdk {
 	during USB reset events. The default value assumes the SOC has no
 	control of the USB power and it is always on. */
 	//USB-PWR-GPIO.N%d.PORT%d = "-1";
-	USB-PWR-GPIO.N0.PORT0 = "11";
-	USB-PWR-GPIO.N0.PORT1 = "12";
+	USB-PWR-GPIO.N0.PORT0 = "20";
+	USB-PWR-GPIO.N0.PORT1 = "21";
 
 	/* Specify the polarity of a on-chip GPIO used to control power for
 	a USB port. The GPIO used is specified by USB-PWR-GPIO. Setting this
