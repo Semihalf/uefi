@@ -171,8 +171,9 @@ Pp2DxeBmStart (
   /* Fill BM pool with Buffers */
   for (Index = 0; Index < MVPP2_BM_SIZE; Index++) {
     Buff = (UINT8 *)(BufferLocation.RxBuffers + (Index * RX_BUFFER_SIZE));
-    if (!Buff)
+    if (Buff == NULL) {
       return EFI_OUT_OF_RESOURCES;
+    }
 
     BuffPhys = ALIGN_POINTER(Buff, BM_ALIGN);
     Mvpp2BmPoolPut(Mvpp2Shared, MVPP2_BM_POOL, (UINTN)BuffPhys, (UINTN)BuffPhys);
@@ -189,16 +190,15 @@ Pp2DxeStartDev (
 {
   PP2DXE_PORT *Port = &Pp2Context->Port;
 
-  Mvpp2IngressEnable(Port);
-
   /* Config classifier decoding table */
   Mvpp2ClsPortConfig(Port);
   Mvpp2ClsOversizeRxqSet(Port);
   MvGop110PortEventsMask(Port);
   MvGop110PortEnable(Port);
 
-  gBS->Stall(2000);
+  /* Enable transmit and receive */
   Mvpp2EgressEnable(Port);
+  Mvpp2IngressEnable(Port);
 }
 
 STATIC
@@ -214,7 +214,7 @@ Pp2DxeSetupRxqs (
   for (Queue = 0; Queue < RxqNumber; Queue++) {
     Rxq = &Pp2Context->Port.Rxqs[Queue];
     Rxq->DescsPhys = (DmaAddrT)Rxq->Descs;
-    if (!Rxq->Descs) {
+    if (Rxq->Descs == NULL) {
       Status = EFI_OUT_OF_RESOURCES;
       goto ErrCleanup;
     }
@@ -241,8 +241,8 @@ Pp2DxeSetupTxqs (
 
   for (Queue = 0; Queue < TxqNumber; Queue++) {
     Txq = &Pp2Context->Port.Txqs[Queue];
-    Txq->DescsPhys = (DmaAddrT) Txq->Descs;
-    if (!Txq->DescsPhys) {
+    Txq->DescsPhys = (DmaAddrT)Txq->Descs;
+    if (Txq->Descs == NULL) {
       Status = EFI_OUT_OF_RESOURCES;
       goto ErrCleanup;
     }
@@ -266,11 +266,12 @@ Pp2DxeSetupAggrTxqs (
 
   AggrTxq = Mvpp2Shared->AggrTxqs;
   AggrTxq->DescsPhys = (DmaAddrT)AggrTxq->Descs;
-  if (!AggrTxq->Descs)
+  if (AggrTxq->Descs == NULL) {
     return EFI_OUT_OF_RESOURCES;
+  }
   Mvpp2AggrTxqHwInit(AggrTxq, AggrTxq->Size, 0, Mvpp2Shared);
-  return EFI_SUCCESS;
 
+  return EFI_SUCCESS;
 }
 
 STATIC
@@ -280,13 +281,10 @@ Pp2DxeOpen (
   )
 {
   PP2DXE_PORT *Port = &Pp2Context->Port;
-  UINT8 MacBcast[NET_ETHER_ADDR_LEN] = { 0xff, 0xff, 0xff,
-        0xff, 0xff, 0xff };
+  UINT8 MacBcast[NET_ETHER_ADDR_LEN] = { 0xff, 0xff, 0xff, 0xff, 0xff, 0xff };
   UINT8 DevAddr[NET_ETHER_ADDR_LEN];
   INTN ret;
   EFI_STATUS Status;
-
-  DEBUG((DEBUG_INFO, "Pp2Dxe: Open\n"));
 
   CopyMem (DevAddr, Pp2Context->Snp.Mode->CurrentAddress.Addr, NET_ETHER_ADDR_LEN);
 
@@ -308,16 +306,19 @@ Pp2DxeOpen (
   }
 
   Status = Pp2DxeSetupRxqs(Pp2Context);
-  if (EFI_ERROR(Status))
+  if (EFI_ERROR(Status)) {
     return Status;
+  }
 
   Status = Pp2DxeSetupTxqs(Pp2Context);
-  if (EFI_ERROR(Status))
+  if (EFI_ERROR(Status)) {
     return Status;
+  }
 
   Status = Pp2DxeSetupAggrTxqs(Pp2Context);
-  if (EFI_ERROR(Status))
+  if (EFI_ERROR(Status)) {
     return Status;
+  }
 
   Pp2DxeStartDev(Pp2Context);
 
@@ -333,7 +334,6 @@ Pp2DxeLatePortInitialize (
   PP2DXE_PORT *Port = &Pp2Context->Port;
   INTN Queue;
 
-  DEBUG((DEBUG_INFO, "Pp2Dxe: LatePortInitialize\n"));
   Port->TxRingSize = MVPP2_MAX_TXD;
   Port->RxRingSize = MVPP2_MAX_RXD;
 
@@ -389,8 +389,6 @@ Pp2DxeLateInitialize (
   PP2DXE_PORT *Port = &Pp2Context->Port;
   EFI_STATUS Status;
 
-  DEBUG((DEBUG_INFO, "Pp2Dxe: Pp2DxeLateInitialize\n"));
-
   if (!Pp2Context->LateInitialized) {
     /* Full init on first call */
     Status = Pp2DxeLatePortInitialize(Pp2Context);
@@ -398,6 +396,7 @@ Pp2DxeLateInitialize (
       DEBUG((DEBUG_ERROR, "Pp2Dxe: late initialization failed\n"));
       return Status;
     }
+
     /* Attach pool to Rxq */
     Mvpp2RxqLongPoolSet(Port, 0, MVPP2_BM_POOL);
     Mvpp2RxqShortPoolSet(Port, 0, MVPP2_BM_POOL);
@@ -429,39 +428,33 @@ Pp2DxePhyInitialize (
 
   PhyAddresses = PcdGetPtr (PcdPhySmiAddresses);
   Status = gBS->LocateProtocol (
-      &gMarvellPhyProtocolGuid,
-      NULL,
-      (VOID **) &Pp2Context->Phy
-      );
-  if (EFI_ERROR(Status))
-    return Status;
+               &gMarvellPhyProtocolGuid,
+               NULL,
+               (VOID **) &Pp2Context->Phy
+             );
 
-  if (PhyAddresses[Pp2Context->Instance] == 0xff)
+  if (EFI_ERROR(Status)) {
+    return Status;
+  }
+
+  if (PhyAddresses[Pp2Context->Instance] == 0xff) {
     /* PHY iniitalization not required */
     return EFI_SUCCESS;
+  }
 
   Status = Pp2Context->Phy->Init(
-            Pp2Context->Phy,
-            PhyAddresses[Pp2Context->Instance],
-            Pp2Context->Port.PhyInterface,
-            &Pp2Context->PhyDev
-            );
-  if (EFI_ERROR(Status) && Status != EFI_TIMEOUT)
-    return Status;
-  Pp2Context->Phy->Status(Pp2Context->Phy, Pp2Context->PhyDev);
-  DEBUG((DEBUG_INFO,
-    "PHY%d: ",
-    Pp2Context->PhyDev->Addr));
-  DEBUG((DEBUG_INFO,
-    Pp2Context->PhyDev->LinkUp ? "link up, " : "link down, "));
-  DEBUG((DEBUG_INFO,
-    Pp2Context->PhyDev->FullDuplex ? "full duplex, " : "half duplex, "));
-  DEBUG((DEBUG_INFO,
-    Pp2Context->PhyDev->Speed == SPEED_10 ? "speed 10\n" :
-    (Pp2Context->PhyDev->Speed == SPEED_100 ? "speed 100\n" : "speed 1000\n")));
+               Pp2Context->Phy,
+               PhyAddresses[Pp2Context->Instance],
+               Pp2Context->Port.PhyInterface,
+               &Pp2Context->PhyDev
+             );
 
-  Mvpp2SmiPhyAddrCfg(&Pp2Context->Port, Pp2Context->Port.GopIndex,
-                     Pp2Context->PhyDev->Addr);
+  if (EFI_ERROR(Status) && Status != EFI_TIMEOUT) {
+    return Status;
+  }
+
+  Pp2Context->Phy->Status(Pp2Context->Phy, Pp2Context->PhyDev);
+  Mvpp2SmiPhyAddrCfg(&Pp2Context->Port, Pp2Context->Port.GopIndex, Pp2Context->PhyDev->Addr);
 
   return EFI_SUCCESS;
 }
@@ -469,9 +462,9 @@ Pp2DxePhyInitialize (
 EFI_STATUS
 EFIAPI
 Pp2DxeSnpInitialize (
-  IN EFI_SIMPLE_NETWORK_PROTOCOL                    *This,
-  IN UINTN                                          ExtraRxBufferSize  OPTIONAL,
-  IN UINTN                                          ExtraTxBufferSize  OPTIONAL
+  IN EFI_SIMPLE_NETWORK_PROTOCOL *This,
+  IN UINTN                       ExtraRxBufferSize  OPTIONAL,
+  IN UINTN                       ExtraTxBufferSize  OPTIONAL
   )
 {
   EFI_STATUS Status;
