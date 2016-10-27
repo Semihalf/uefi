@@ -380,6 +380,32 @@ static int qlm_set_sata(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
 }
 
 /**
+ * The SDK expects unused BGX LMACs to have DMAC_CTL=0. This is only needed on
+ * BGX that have no way for software to determine the in use LMACs. For CN83XX,
+ * this is most important on DLM4, BGX3.
+ *
+ * @param node   Node to setup
+ * @param bgx    BGX to update
+ * @param num_used_ports
+ *               Number of BGX in use
+ */
+static void disable_unused_bgx(bdk_node_t node, int bgx, int num_used_ports)
+{
+    /* Create a variable that contains the default DMAC control setup */
+    BDK_CSR_DEFINE(dmac_ctl, BDK_BGXX_CMRX_RX_DMAC_CTL(0, 0));
+    dmac_ctl.u = 0;
+    dmac_ctl.s.mcst_mode = 1;
+    dmac_ctl.s.bcst_accept = 1;
+
+    /* Mark used ports with the DMAC_CTL default and unused ports with zero */
+    for (int index = 0; index < 4; index++)
+    {
+        uint64_t v = (index < num_used_ports) ? dmac_ctl.u : 0;
+        BDK_CSR_WRITE(node, BDK_BGXX_CMRX_RX_DMAC_CTL(bgx, index), v);
+    }
+}
+
+/**
  * For chips that don't use pin strapping, this function programs
  * the QLM to the specified mode
  *
@@ -637,6 +663,8 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
         }
         case BDK_QLM_MODE_SGMII_4X1:
         case BDK_QLM_MODE_SGMII_2X1:
+            if (qlm == 4)
+                disable_unused_bgx(node, bgx_block, 2);
             lmac_type = 0; /* SGMII */
             is_bgx = 1;
             lane_mode = __bdk_qlm_get_lane_mode_for_speed_and_ref_clk("SGMII", qlm, ref_clk, baud_mhz);
@@ -644,6 +672,7 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
                 return -1;
             break;
         case BDK_QLM_MODE_XAUI_1X4:
+            disable_unused_bgx(node, bgx_block, 1);
             lmac_type = 1; /* XAUI */
             is_bgx = 5;
             lane_mode = __bdk_qlm_get_lane_mode_for_speed_and_ref_clk("XAUI", qlm, ref_clk, baud_mhz);
@@ -652,6 +681,8 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
             break;
         case BDK_QLM_MODE_RXAUI_2X2:
         case BDK_QLM_MODE_RXAUI_1X2:
+            if (qlm == 4)
+                disable_unused_bgx(node, bgx_block, 1);
             lmac_type = 2; /* RXAUI */
             is_bgx = 3;
             lane_mode = __bdk_qlm_get_lane_mode_for_speed_and_ref_clk("RXAUI", qlm, ref_clk, baud_mhz);
@@ -660,6 +691,8 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
             break;
         case BDK_QLM_MODE_XFI_4X1:
         case BDK_QLM_MODE_XFI_2X1:
+            if (qlm == 4)
+                disable_unused_bgx(node, bgx_block, 2);
             lmac_type = 3; /* 10G_R */
             is_bgx = 1;
             lane_mode = __bdk_qlm_get_lane_mode_for_speed_and_ref_clk("XFI", qlm, ref_clk, baud_mhz);
@@ -667,6 +700,7 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
                 return -1;
             break;
         case BDK_QLM_MODE_XLAUI_1X4:
+            disable_unused_bgx(node, bgx_block, 1);
             lmac_type = 4; /* 40G_R */
             is_bgx = 5;
             lane_mode = __bdk_qlm_get_lane_mode_for_speed_and_ref_clk("XLAUI", qlm, ref_clk, baud_mhz);
@@ -675,6 +709,8 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
             break;
         case BDK_QLM_MODE_10G_KR_4X1:
         case BDK_QLM_MODE_10G_KR_2X1:
+            if (qlm == 4)
+                disable_unused_bgx(node, bgx_block, 2);
             lmac_type = 3; /* 10G_R */
             is_bgx = 1;
             lane_mode = __bdk_qlm_get_lane_mode_for_speed_and_ref_clk("10G-KR", qlm, ref_clk, baud_mhz);
@@ -683,6 +719,7 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
             kr_mode = 1;
             break;
         case BDK_QLM_MODE_40G_KR4_1X4:
+            disable_unused_bgx(node, bgx_block, 1);
             lmac_type = 4; /* 40G_R */
             is_bgx = 5;
             lane_mode = __bdk_qlm_get_lane_mode_for_speed_and_ref_clk("40G-KR", qlm, ref_clk, baud_mhz);
@@ -691,6 +728,7 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
             kr_mode = 1;
             break;
         case BDK_QLM_MODE_QSGMII_4X1:
+            disable_unused_bgx(node, bgx_block, 4);
             lmac_type = 6; /* QSGMII */
             is_bgx = 1;
             lane_mode = BDK_GSER_LMODE_E_R_5G_REFCLK15625_QSGMII;
