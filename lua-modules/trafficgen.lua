@@ -567,7 +567,7 @@ function TrafficGen.new()
                     if nozero then
                         local v = c.read()
                         if v ~= 0 then
-                            c.display()
+                            c.display(v)
                         end
                     else
                         c.display()
