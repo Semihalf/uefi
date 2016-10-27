@@ -193,19 +193,19 @@
 
 #NET
   gMarvellTokenSpaceGuid.PcdPhySmiAddresses|{ 0x0 }|VOID*|0x3000024
-  gMarvellTokenSpaceGuid.PcdPp2SharedAddress|0|UINT64|0x40000026
-  gMarvellTokenSpaceGuid.PcdPp2PortNumber|0|UINT32|0x40000013
-  gMarvellTokenSpaceGuid.PcdPp2PortIds|{ 0x0 }|VOID*|0x3000025
-  gMarvellTokenSpaceGuid.PcdPp2GopIndexes|{ 0x0 }|VOID*|0x3000041
-  gMarvellTokenSpaceGuid.PcdPp2InterfaceAlwaysUp|{ 0x0 }|VOID*|0x3000075
-  gMarvellTokenSpaceGuid.PcdPp2InterfaceSpeed|{ 0x0 }|VOID*|0x3000076
-  gMarvellTokenSpaceGuid.PcdPp2GmacBaseAddress|0|UINT64|0x40000028
-  gMarvellTokenSpaceGuid.PcdPp2GmacObjSize|0|UINT32|0x3000026
-  gMarvellTokenSpaceGuid.PcdPp2XlgBaseAddress|0|UINT64|0x40000031
-  gMarvellTokenSpaceGuid.PcdPp2XlgObjSize|0|UINT32|0x3000030
-  gMarvellTokenSpaceGuid.PcdPp2Rfu1BaseAddress|0|UINT64|0x40000029
-  gMarvellTokenSpaceGuid.PcdPp2SmiBaseAddress|0|UINT64|0x40000030
-  gMarvellTokenSpaceGuid.PcdPp2ClockFrequency|0|UINT32|0x3000042
+  gMarvellTokenSpaceGuid.PcdPp2ClockFrequency|0|UINT32|0x3000026
+  gMarvellTokenSpaceGuid.PcdPp2GmacBaseAddress|0|UINT64|0x3000027
+  gMarvellTokenSpaceGuid.PcdPp2GmacObjSize|0|UINT32|0x3000028
+  gMarvellTokenSpaceGuid.PcdPp2GopIndexes|{ 0x0 }|VOID*|0x3000029
+  gMarvellTokenSpaceGuid.PcdPp2InterfaceAlwaysUp|{ 0x0 }|VOID*|0x300002A
+  gMarvellTokenSpaceGuid.PcdPp2InterfaceSpeed|{ 0x0 }|VOID*|0x300002B
+  gMarvellTokenSpaceGuid.PcdPp2PortIds|{ 0x0 }|VOID*|0x300002C
+  gMarvellTokenSpaceGuid.PcdPp2PortNumber|0|UINT32|0x300002D
+  gMarvellTokenSpaceGuid.PcdPp2Rfu1BaseAddress|0|UINT64|0x300002E
+  gMarvellTokenSpaceGuid.PcdPp2SharedAddress|0|UINT64|0x300002F
+  gMarvellTokenSpaceGuid.PcdPp2SmiBaseAddress|0|UINT64|0x3000030
+  gMarvellTokenSpaceGuid.PcdPp2XlgBaseAddress|0|UINT64|0x3000031
+  gMarvellTokenSpaceGuid.PcdPp2XlgObjSize|0|UINT32|0x3000032
 
 #ResetLib
   gMarvellTokenSpaceGuid.PcdResetRegAddress|0|UINT64|0x40000050
