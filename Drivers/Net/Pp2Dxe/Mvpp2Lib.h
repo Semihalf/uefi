@@ -565,22 +565,7 @@ Mvpp2BmCookiePoolGet (
   return (Cookie >> MVPP2_BM_COOKIE_POOL_OFFS) & 0xFF;
 }
 
-#ifdef MVPP2_V1
 /* Release buffer to BM */
-STATIC
-inline
-VOID
-Mvpp2BmPoolPut (
-  IN MVPP2_SHARED *Priv,
-  IN INT32 Pool,
-  IN UINT32 BufPhysAddr,
-  IN UINT32 BufVirtAddr
-  )
-{
-  Mvpp2Write(Port->Priv, MVPP2_BM_VIRT_RLS_REG, BufVirtAddr);
-  Mvpp2Write(Port->Priv, MVPP2_BM_PHY_RLS_REG(Pool), BufPhysAddr);
-}
-#else
 STATIC
 inline
 VOID
@@ -599,7 +584,6 @@ Mvpp2BmPoolPut (
   Mvpp2Write(Priv, MVPP2_BM_VIRT_RLS_REG, (UINT32)BufVirtAddr);
   Mvpp2Write(Priv, MVPP2_BM_PHY_RLS_REG(Pool), (UINT32)BufPhysAddr);
 }
-#endif
 
 STATIC
 inline

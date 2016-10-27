@@ -2704,18 +2704,6 @@ Mvpp2ClsOversizeRxqSet (
           MVPP2_CLS_OVERSIZE_RXQ_LOW_REG(Port->Id),
           Port->FirstRxq & MVPP2_CLS_OVERSIZE_RXQ_LOW_MASK
         );
-
-#ifdef MVPP2_V1
-  Mvpp2Write (
-          Port->Priv,
-          MVPP2_CLS_SWFWD_P2HQ_REG(Port->Id),
-          (Port->FirstRxq >> MVPP2_CLS_OVERSIZE_RXQ_LOW_BITS)
-        );
-
-  Val = Mvpp2Read (Port->Priv, MVPP2_CLS_SWFWD_PCTRL_REG);
-  Val |= MVPP2_CLS_SWFWD_PCTRL_MASK (Port->Id);
-  Mvpp2Write (Port->Priv, MVPP2_CLS_SWFWD_PCTRL_REG, Val);
-#endif
 }
 
 /* BM helper routines */
@@ -2727,28 +2715,11 @@ Mvpp2BmPoolHwCreate (
   IN INT32 Size
   )
 {
-#ifdef MVPP2_V1
-  UINT32 Val;
-
-  Mvpp2Write (Priv, MVPP2_BM_POOL_BASE_REG(BmPool->Id), BmPool->PhysAddr);
-  Mvpp2Write (Priv, MVPP2_BM_POOL_SIZE_REG(BmPool->Id), Size);
-
-  Val = Mvpp2Read (Priv, MVPP2_BM_POOL_CTRL_REG(BmPool->Id));
-  Val |= MVPP2_BM_START_MASK;
-  Mvpp2Write (Priv, MVPP2_BM_POOL_CTRL_REG(BmPool->Id), Val);
-
-  BmPool->type = MVPP2_BM_FREE;
-  BmPool->Size = Size;
-  BmPool->PktSize = 0;
-  BmPool->BufNum = 0;
-#else
   BmPool->Size = Size;
 
   Mvpp2Write (Priv, MVPP2_BM_POOL_BASE_REG(BmPool->Id), Lower32Bits (BmPool->PhysAddr));
-
   Mvpp2Write (Priv, MVPP22_BM_POOL_BASE_HIGH_REG, (Upper32Bits (BmPool->PhysAddr) & MVPP22_BM_POOL_BASE_HIGH_REG));
   Mvpp2Write (Priv, MVPP2_BM_POOL_SIZE_REG(BmPool->Id), BmPool->Size);
-#endif
 }
 
 /* Set Pool buffer Size */
@@ -3000,33 +2971,6 @@ Mvpp2PortPeriodicXonDisable (
 }
 
 /* Configure loopback Port */
-#ifdef MVPP2_V1
-STATIC
-VOID
-Mvpp2PortLoopbackSet (
-  IN PP2DXE_PORT *Port
-  )
-{
-  UINT32 Val;
-
-  Val = Mvpp2GmacRead (Port, MVPP2_GMAC_CTRL_1_REG);
-
-  if (Port->Speed == SPEED_1000) {
-    Val |= MVPP2_GMAC_GMII_LB_EN_MASK;
-  } else {
-    Val &= ~MVPP2_GMAC_GMII_LB_EN_MASK;
-  }
-
-  if (Port->PhyInterface == MV_MODE_SGMII) {
-    Val |= MVPP2_GMAC_PCS_LB_EN_MASK;
-  } else {
-    Val &= ~MVPP2_GMAC_PCS_LB_EN_MASK;
-  }
-
-  Mvpp2GmacWrite (Port, MVPP2_GMAC_CTRL_1_REG, Val);
-}
-#endif
-
 STATIC
 VOID
 Mvpp2PortReset (
@@ -3050,21 +2994,6 @@ Mvpp2DefaultsSet (
   )
 {
   INT32 TxPortNum, Val, Queue, pTxq;
-
-#ifdef MVPP2_V1
-  /* Configure Port to loopback if needed */
-  if (Port->flags & MVPP2_F_LOOPBACK) {
-    Mvpp2PortLoopbackSet (Port);
-  }
-
-  /* Update TX FIFO MIN Threshold */
-  Val = Mvpp2GmacRead (Port, MVPP2_GMAC_PORT_FIFO_CFG_1_REG);
-  Val &= ~MVPP2_GMAC_TX_FIFO_MIN_TH_ALL_MASK;
-
-  /* Min. TX threshold must be less than minimal packet length */
-  Val |= MVPP2_GMAC_TX_FIFO_MIN_TH_MASK (64 - 4 - 2);
-  Mvpp2GmacWrite (Port, MVPP2_GMAC_PORT_FIFO_CFG_1_REG, Val);
-#endif
 
   /* Disable Legacy WRR, Disable EJP, Release from Reset */
   TxPortNum = Mvpp2EgressPort (Port);
@@ -3095,19 +3024,8 @@ Mvpp2DefaultsSet (
           MVPP2_RX_USE_PSEUDO_FOR_CSUM_MASK | MVPP2_RX_LOW_LATENCY_PKT_SIZE (256)
         );
 
-#ifdef MVPP2_V1
-  /* Enable Rx cache snoop */
-  INT32 Lrxq;
-  for (Lrxq = 0; Lrxq < RxqNumber; Lrxq++) {
-    Queue = Port->Rxqs[Lrxq].Id;
-    Val = Mvpp2Read (Port->Priv, MVPP2_RXQ_CONFIG_REG(Queue));
-    Val |= MVPP2_SNOOP_PKT_SIZE_MASK | MVPP2_SNOOP_BUF_HDR_MASK;
-    Mvpp2Write (Port->Priv, MVPP2_RXQ_CONFIG_REG(Queue), Val);
-  }
-#else
   /* Mask all interrupts to all present cpus */
   Mvpp2InterruptsDisable (Port, 0x1);
-#endif
 }
 
 /* Enable/disable receiving packets */
@@ -3552,11 +3470,7 @@ Mvpp2RxqHwInit (
 
   /* Set Rx descriptors Queue starting Address - indirect access */
   Mvpp2Write (Port->Priv, MVPP2_RXQ_NUM_REG, Rxq->Id);
-#ifdef MVPP2_V1
-  Mvpp2Write (Port->Priv, MVPP2_RXQ_DESC_ADDR_REG, Rxq->DescsPhys >> MVPP21_DESC_ADDR_SHIFT);
-#else
   Mvpp2Write (Port->Priv, MVPP2_RXQ_DESC_ADDR_REG, Rxq->DescsPhys >> MVPP22_DESC_ADDR_SHIFT);
-#endif
   Mvpp2Write (Port->Priv, MVPP2_RXQ_DESC_SIZE_REG, Rxq->Size);
   Mvpp2Write (Port->Priv, MVPP2_RXQ_INDEX_REG, 0);
 
@@ -3586,16 +3500,6 @@ Mvpp2RxqDropPkts (
     return;
   }
 
-#ifdef MVPP2_V1
-  INT32 i;
-
-  for (i = 0; i < RxReceived; i++) {
-    MVPP2_RX_DESC *RxDesc = Mvpp2RxqNextDescGet (Rxq);
-    UINT32 Bm = Mvpp2BmCookieBuild (RxDesc, Cpu);
-
-    Mvpp2PoolRefill (Port, Bm, RxDesc->BufPhysAddr, RxDesc->BufCookie);
-  }
-#endif
   Mvpp2RxqStatusUpdate (Port, Rxq->Id, RxReceived, RxReceived);
 }
 
@@ -3706,13 +3610,8 @@ Mvpp2AggrTxqHwInit (
   AggrTxq->NextDescToProc = Mvpp2Read (Priv, MVPP2_AGGR_TXQ_INDEX_REG(Cpu));
 
   /* Set Tx descriptors Queue starting Address (indirect access) */
-#ifndef MVPP2_V1
   Mvpp2Write (Priv, MVPP2_AGGR_TXQ_DESC_ADDR_REG(Cpu), AggrTxq->DescsPhys >> MVPP22_DESC_ADDR_SHIFT);
-#else
-  Mvpp2Write (Priv, MVPP2_AGGR_TXQ_DESC_ADDR_REG(Cpu), AggrTxq->DescsPhys >> MVPP21_DESC_ADDR_SHIFT);
-#endif
   Mvpp2Write (Priv, MVPP2_AGGR_TXQ_DESC_SIZE_REG(Cpu), DescNum & MVPP2_AGGR_TXQ_DESC_SIZE_MASK);
-
 }
 
 /* Enable gmac */

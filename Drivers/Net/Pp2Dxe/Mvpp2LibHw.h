@@ -1843,39 +1843,20 @@ typedef struct {
   UINT8  PacketOffset; /* the offset from the buffer beginning */
   UINT8  PhysTxq;    /* destination queue ID     */
   UINT16 DataSize;   /* data size of transmitted packet in bytes */
-#ifdef MVPP2_V1
-  UINT32 BufPhysAddr; /* physical addr of transmitted buffer  */
-  UINT32 BufCookie;    /* cookie for access to TX buffer in tx path */
-  UINT32 reserved1[3];  /* HwCmd (for future use, BM, PON, PNC) */
-  UINT32 reserved2;   /* reserved (for future use)    */
-#else
   UINT64 RsrvdHwCmd1; /* HwCmd (BM, PON, PNC) */
   UINT64 BufPhysAddrHwCmd2;
   UINT64 BufCookieBmQsetHwCmd3;
-#endif
 } MVPP2_TX_DESC;
 
 typedef struct {
   UINT32 status;    /* info about received packet   */
   UINT16 reserved1;   /* ParserInfo (for future use, PnC)  */
   UINT16 DataSize;   /* size of received packet in bytes */
-#ifdef MVPP2_V1
-  UINT32 BufPhysAddr; /* physical address of the buffer */
-  UINT32 BufCookie;    /* cookie for access to RX buffer in rx path */
-  UINT16 reserved2;   /* GemPortId (for future use, PON)  */
-  UINT16 reserved3;   /* CsumL4 (for future use, PnC)  */
-  UINT8  reserved4;   /* BmQset (for future use, BM)   */
-  UINT8  reserved5;
-  UINT16 reserved6;   /* ClassifyInfo (for future use, PnC)  */
-  UINT32 reserved7;   /* FlowId (for future use, PnC) */
-  UINT32 reserved8;
-#else
   UINT16 RsrvdGem;   /* GemPortId (for future use, PON)  */
   UINT16 RsrvdL4csum;  /* CsumL4 (for future use, PnC)  */
   UINT32 RsrvdTimestamp;
   UINT64 BufPhysAddrKeyHash;
   UINT64 BufCookieBmQsetClsInfo;
-#endif
 } MVPP2_RX_DESC;
 
 union Mvpp2PrsTcamEntry {
