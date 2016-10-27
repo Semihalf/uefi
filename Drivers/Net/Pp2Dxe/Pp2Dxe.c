@@ -75,6 +75,57 @@ STATIC PP2_DEVICE_PATH Pp2DevicePathTemplate = {
   }
 };
 
+EFI_SIMPLE_NETWORK_PROTOCOL gPp2SnpTemplate = {
+  EFI_SIMPLE_NETWORK_PROTOCOL_REVISION,                 // Revision
+  Pp2SnpStart,                                          // Start
+  Pp2SnpStop,                                           // Stop
+  Pp2DxeSnpInitialize,                                  // Initialize
+  Pp2SnpReset,                                          // Reset
+  Pp2SnpShutdown,                                       // Shutdown
+  Pp2SnpReceiveFilters,                                 // ReceiveFilters
+  Pp2SnpStationAddress,                                 // StationAddress
+  Pp2SnpNetStat,                                        // Statistics
+  Pp2SnpIpToMac,                                        // MCastIpToMac
+  NULL,                                                 // NvData
+  Pp2SnpGetStatus,                                      // GetStatus
+  Pp2SnpTransmit,                                       // Transmit
+  Pp2SnpReceive,                                        // Receive
+  NULL,                                                 // WaitForPacket
+  NULL                                                  // Mode
+ };
+
+EFI_SIMPLE_NETWORK_MODE gPp2SnpModeTemplate = {
+  EfiSimpleNetworkStopped,                              // State
+  NET_ETHER_ADDR_LEN,                                   // HwAddressSize
+  sizeof (ETHER_HEAD),                                  // MediaHeaderSize
+  EFI_PAGE_SIZE,                                        // MaxPacketSize
+  0,                                                    // NvRamSize
+  0,                                                    // MvRamAccessSize
+  EFI_SIMPLE_NETWORK_RECEIVE_UNICAST | EFI_SIMPLE_NETWORK_RECEIVE_MULTICAST |
+  EFI_SIMPLE_NETWORK_RECEIVE_BROADCAST | EFI_SIMPLE_NETWORK_RECEIVE_PROMISCUOUS |
+  EFI_SIMPLE_NETWORK_RECEIVE_PROMISCUOUS_MULTICAST,     // ReceiveFilterMask
+  EFI_SIMPLE_NETWORK_RECEIVE_UNICAST | EFI_SIMPLE_NETWORK_RECEIVE_MULTICAST |
+  EFI_SIMPLE_NETWORK_RECEIVE_BROADCAST,                 // ReceiveFilterSetting
+  MAX_MCAST_FILTER_CNT,                                 // MacMCastFilterCount
+  0,                                                    // MCastFilterCount
+  {
+    {  { 0 } }
+  },                                                    // MCastFilter
+  {
+    { 0 }
+  },                                                    // CurrentAddress
+  {
+    { 0 }
+  },                                                    // BroadcastAddress
+  {
+    { 0 }
+  },                                                    // Permanent Address
+  NET_IFTYPE_ETHERNET,                                  // IfType
+  TRUE,                                                 // MacAddressChangeable
+  FALSE,                                                // MultipleTxSupported
+  TRUE,                                                 // MediaPresentSupported
+  FALSE                                                 // MediaPresent
+};
 #define QueueNext(off)  ((((off) + 1) >= QUEUE_DEPTH) ? 0 : ((off) + 1))
 
 STATIC
@@ -1014,50 +1065,24 @@ Pp2DxeSnpInstall (
   PP2_DEVICE_PATH *Pp2DevicePath;
 
   DEBUG((DEBUG_INFO, "Pp2Dxe%d: Installing protocols\n", Pp2Context->Instance));
-  Pp2Context->Snp.Mode = AllocateZeroPool (sizeof (EFI_SIMPLE_NETWORK_MODE));
+
   Pp2DevicePath = AllocateCopyPool (sizeof (PP2_DEVICE_PATH), &Pp2DevicePathTemplate);
   Pp2DevicePath->Pp2Mac.MacAddress.Addr[5] = Pp2Context->Instance + 1;
   Pp2Context->Signature = PP2DXE_SIGNATURE;
-  Pp2Context->Snp.Initialize = Pp2DxeSnpInitialize;
-  Pp2Context->Snp.Start = Pp2SnpStart;
-  Pp2Context->Snp.Stop = Pp2SnpStop;
-  Pp2Context->Snp.Reset = Pp2SnpReset;
-  Pp2Context->Snp.Shutdown = Pp2SnpShutdown;
-  Pp2Context->Snp.ReceiveFilters = Pp2SnpReceiveFilters;
-  Pp2Context->Snp.StationAddress = Pp2SnpStationAddress;
-  Pp2Context->Snp.Statistics = Pp2SnpNetStat;
-  Pp2Context->Snp.MCastIpToMac = Pp2SnpIpToMac;
-  Pp2Context->Snp.NvData = Pp2SnpNvData;
-  Pp2Context->Snp.GetStatus = Pp2SnpGetStatus;
-  Pp2Context->Snp.Transmit = Pp2SnpTransmit;
-  Pp2Context->Snp.Receive = Pp2SnpReceive;
-  Pp2Context->Snp.Revision = EFI_SIMPLE_NETWORK_PROTOCOL_REVISION;
+  Pp2Context->DevicePath = Pp2DevicePath;
 
-  Pp2Context->Snp.Mode->MacAddressChangeable = TRUE;
+  CopyMem (&Pp2Context->Snp, &gPp2SnpTemplate, sizeof (EFI_SIMPLE_NETWORK_PROTOCOL));
+
+  Pp2Context->Snp.Mode = AllocateZeroPool (sizeof (EFI_SIMPLE_NETWORK_MODE));
+  CopyMem (&Pp2Context->Snp.Mode, &gPp2SnpModeTemplate, sizeof (EFI_SIMPLE_NETWORK_MODE));
+
   CopyMem (Pp2Context->Snp.Mode->CurrentAddress.Addr, Pp2DevicePath->Pp2Mac.MacAddress.Addr, NET_ETHER_ADDR_LEN);
   CopyMem (Pp2Context->Snp.Mode->PermanentAddress.Addr, Pp2DevicePath->Pp2Mac.MacAddress.Addr, NET_ETHER_ADDR_LEN);
-  Pp2Context->Snp.Mode->State = EfiSimpleNetworkStopped;
-  Pp2Context->Snp.Mode->IfType = NET_IFTYPE_ETHERNET;
-  Pp2Context->Snp.Mode->HwAddressSize = NET_ETHER_ADDR_LEN;
-  Pp2Context->Snp.Mode->MediaHeaderSize = sizeof (ETHER_HEAD);
-  Pp2Context->Snp.Mode->MaxPacketSize = EFI_PAGE_SIZE;
-  Pp2Context->Snp.Mode->ReceiveFilterMask = EFI_SIMPLE_NETWORK_RECEIVE_UNICAST |
-             EFI_SIMPLE_NETWORK_RECEIVE_MULTICAST |
-             EFI_SIMPLE_NETWORK_RECEIVE_BROADCAST |
-             EFI_SIMPLE_NETWORK_RECEIVE_PROMISCUOUS |
-             EFI_SIMPLE_NETWORK_RECEIVE_PROMISCUOUS_MULTICAST;
-  Pp2Context->Snp.Mode->ReceiveFilterSetting = EFI_SIMPLE_NETWORK_RECEIVE_UNICAST |
-          EFI_SIMPLE_NETWORK_RECEIVE_MULTICAST |
-          EFI_SIMPLE_NETWORK_RECEIVE_BROADCAST;
-  Pp2Context->Snp.Mode->MaxMCastFilterCount = MAX_MCAST_FILTER_CNT;
-  Pp2Context->Snp.Mode->MCastFilterCount = 0;
-  Pp2Context->Snp.Mode->MediaPresentSupported = TRUE;
-  Pp2Context->Snp.Mode->MediaPresent = FALSE;
   ZeroMem (&Pp2Context->Snp.Mode->MCastFilter, MAX_MCAST_FILTER_CNT * sizeof(EFI_MAC_ADDRESS));
   SetMem (&Pp2Context->Snp.Mode->BroadcastAddress, sizeof (EFI_MAC_ADDRESS), 0xFF);
 
   Pp2DevicePath->Pp2Mac.IfType = Pp2Context->Snp.Mode->IfType;
-  Pp2Context->DevicePath = Pp2DevicePath;
+
   Status = gBS->InstallMultipleProtocolInterfaces (
       &Handle,
       &gEfiSimpleNetworkProtocolGuid, &Pp2Context->Snp,

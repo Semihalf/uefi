@@ -508,4 +508,106 @@ Mvpp2XlgRead (
   ASSERT (Port->XlgBase != 0);
   return MmioRead32 (Port->XlgBase + Offset);
 }
+
+EFI_STATUS
+EFIAPI
+Pp2SnpStart (
+  IN EFI_SIMPLE_NETWORK_PROTOCOL  *This
+  );
+
+EFI_STATUS
+EFIAPI
+Pp2SnpStop (
+  IN EFI_SIMPLE_NETWORK_PROTOCOL  *This
+  );
+
+EFI_STATUS
+EFIAPI
+Pp2DxeSnpInitialize (
+  IN EFI_SIMPLE_NETWORK_PROTOCOL *This,
+  IN UINTN                       ExtraRxBufferSize  OPTIONAL,
+  IN UINTN                       ExtraTxBufferSize  OPTIONAL
+  );
+
+EFI_STATUS
+EFIAPI
+Pp2SnpReset (
+  IN EFI_SIMPLE_NETWORK_PROTOCOL   *This,
+  IN BOOLEAN                       ExtendedVerification
+  );
+
+EFI_STATUS
+EFIAPI
+Pp2SnpShutdown (
+  IN EFI_SIMPLE_NETWORK_PROTOCOL  *This
+  );
+
+EFI_STATUS
+EFIAPI
+Pp2SnpReceiveFilters (
+  IN EFI_SIMPLE_NETWORK_PROTOCOL                             *This,
+  IN UINT32                                                  Enable,
+  IN UINT32                                                  Disable,
+  IN BOOLEAN                                                 ResetMCastFilter,
+  IN UINTN                                                   MCastFilterCnt     OPTIONAL,
+  IN EFI_MAC_ADDRESS                                         *MCastFilter OPTIONAL
+  );
+
+EFI_STATUS
+EFIAPI
+Pp2SnpStationAddress (
+  IN EFI_SIMPLE_NETWORK_PROTOCOL *Snp,
+  IN BOOLEAN Reset,
+  IN EFI_MAC_ADDRESS *NewMac
+);
+
+EFI_STATUS
+EFIAPI
+Pp2SnpNetStat (
+  IN EFI_SIMPLE_NETWORK_PROTOCOL          *This,
+  IN BOOLEAN                              Reset,
+  IN OUT UINTN                            *StatisticsSize   OPTIONAL,
+  OUT EFI_NETWORK_STATISTICS              *StatisticsTable  OPTIONAL
+  );
+
+EFI_STATUS
+EFIAPI
+Pp2SnpIpToMac (
+  IN EFI_SIMPLE_NETWORK_PROTOCOL          *This,
+  IN BOOLEAN                              IPv6,
+  IN EFI_IP_ADDRESS                       *IP,
+  OUT EFI_MAC_ADDRESS                     *MAC
+  );
+
+EFI_STATUS
+EFIAPI
+Pp2SnpGetStatus (
+  IN EFI_SIMPLE_NETWORK_PROTOCOL          *Snp,
+  OUT UINT32                              *InterruptStatus OPTIONAL,
+  OUT VOID                                **TxBuf OPTIONAL
+  );
+
+EFI_STATUS
+EFIAPI
+Pp2SnpTransmit (
+  IN EFI_SIMPLE_NETWORK_PROTOCOL          *This,
+  IN UINTN                                HeaderSize,
+  IN UINTN                                BufferSize,
+  IN VOID                                 *Buffer,
+  IN EFI_MAC_ADDRESS                      *SrcAddr  OPTIONAL,
+  IN EFI_MAC_ADDRESS                      *DestAddr OPTIONAL,
+  IN UINT16                               *ProtocolPtr OPTIONAL
+  );
+
+EFI_STATUS
+EFIAPI
+Pp2SnpReceive (
+  IN EFI_SIMPLE_NETWORK_PROTOCOL          *This,
+  OUT UINTN                               *HeaderSize OPTIONAL,
+  IN OUT UINTN                            *BufferSize,
+  OUT VOID                                *Buffer,
+  OUT EFI_MAC_ADDRESS                     *SrcAddr    OPTIONAL,
+  OUT EFI_MAC_ADDRESS                     *DstAddr   OPTIONAL,
+  OUT UINT16                              *Protocol   OPTIONAL
+  );
 #endif
