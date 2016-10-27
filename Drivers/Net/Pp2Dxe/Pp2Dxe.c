@@ -124,6 +124,10 @@ Pp2DxeBmPoolInit (
   UINT8 *PoolAddr;
   UINT32 PoolSize = (sizeof(VOID *) * MVPP2_BM_SIZE) * 2 + MVPP2_BM_POOL_PTR_ALIGN;
 
+  ASSERT(MVPP2_BM_POOL_PTR_ALIGN >= sizeof(UINTN));
+
+  PoolSize = (sizeof(VOID *) * MVPP2_BM_SIZE) * 2 + MVPP2_BM_POOL_PTR_ALIGN;
+
   for (Index = 0; Index < MVPP2_BM_POOLS_NUM; Index++) {
     /* BmIrqClear */
     Mvpp2BmIrqClear(Mvpp2Shared, Index);
@@ -142,7 +146,7 @@ Pp2DxeBmPoolInit (
 
   Mvpp2Shared->BmPools->Id = MVPP2_BM_POOL;
   Mvpp2Shared->BmPools->VirtAddr = (UINT32 *)PoolAddr;
-  Mvpp2Shared->BmPools->PhysAddr = (UINT64)PoolAddr;
+  Mvpp2Shared->BmPools->PhysAddr = (UINTN)PoolAddr;
 
   Mvpp2BmPoolHwCreate(Mvpp2Shared, Mvpp2Shared->BmPools, MVPP2_BM_SIZE);
 
@@ -156,22 +160,22 @@ Pp2DxeBmStart (
   VOID
   )
 {
-  UINT8 *buff, *BuffPhys;
+  UINT8 *Buff, *BuffPhys;
   INTN Index;
 
-  Mvpp2BmPoolCtrl(Mvpp2Shared, MVPP2_BM_POOL, MVPP2_START);
+  ASSERT(BM_ALIGN >= sizeof(UINTN));
 
+  Mvpp2BmPoolCtrl(Mvpp2Shared, MVPP2_BM_POOL, MVPP2_START);
   Mvpp2BmPoolBufsizeSet(Mvpp2Shared, Mvpp2Shared->BmPools, RX_BUFFER_SIZE);
 
-  /* Fill BM pool with buffers */
+  /* Fill BM pool with Buffers */
   for (Index = 0; Index < MVPP2_BM_SIZE; Index++) {
-    buff = (UINT8 *)(BufferLocation.RxBuffers + (Index * RX_BUFFER_SIZE));
-    if (!buff)
+    Buff = (UINT8 *)(BufferLocation.RxBuffers + (Index * RX_BUFFER_SIZE));
+    if (!Buff)
       return EFI_OUT_OF_RESOURCES;
 
-    BuffPhys = (UINT8 *)ALIGN_UP((UINT64)buff, BM_ALIGN);
-    Mvpp2BmPoolPut(Mvpp2Shared, MVPP2_BM_POOL,
-      (UINT64)BuffPhys, (UINT64)BuffPhys);
+    BuffPhys = ALIGN_POINTER(Buff, BM_ALIGN);
+    Mvpp2BmPoolPut(Mvpp2Shared, MVPP2_BM_POOL, (UINTN)BuffPhys, (UINTN)BuffPhys);
   }
 
   return EFI_SUCCESS;
@@ -922,7 +926,7 @@ Pp2SnpReceive (
   INTN ReceivedPackets;
   PP2DXE_CONTEXT *Pp2Context = INSTANCE_FROM_SNP(This);
   PP2DXE_PORT *Port = &Pp2Context->Port;
-  UINT64 PhysAddr, VirtAddr;
+  UINTN PhysAddr, VirtAddr;
   EFI_STATUS Status = EFI_SUCCESS;
   EFI_TPL SavedTpl;
   UINT32 StatusReg;
@@ -1127,9 +1131,6 @@ Pp2DxeInitialise (
   Mvpp2Shared->Rfu1Base = PcdGet64 (PcdPp2Rfu1BaseAddress);
   Mvpp2Shared->SmiBase = PcdGet64 (PcdPp2SmiBaseAddress);
   Mvpp2Shared->Tclk = PcdGet32 (PcdPp2ClockFrequency);
-  DEBUG((DEBUG_INFO, "Pp2Dxe: shared base is 0x%lx\n", Mvpp2Shared->Base));
-  DEBUG((DEBUG_INFO, "Pp2Dxe: RFU1 base is 0x%lx\n", Mvpp2Shared->Rfu1Base));
-  DEBUG((DEBUG_INFO, "Pp2Dxe: SMI base is 0x%lx\n", Mvpp2Shared->SmiBase));
 
   BufferSpace = UncachedAllocateAlignedPool (BD_SPACE, MVPP2_BUFFER_ALIGN_SIZE);
   if (BufferSpace == NULL) {
@@ -1141,15 +1142,15 @@ Pp2DxeInitialise (
   BufferLocation.TxDescs = (MVPP2_TX_DESC *)BufferSpace;
 
   BufferLocation.AggrTxDescs = (MVPP2_TX_DESC *)
-    ((UINT64)BufferSpace + MVPP2_MAX_TXD
+    ((UINTN)BufferSpace + MVPP2_MAX_TXD
     * sizeof(MVPP2_TX_DESC));
 
   BufferLocation.RxDescs = (MVPP2_RX_DESC *)
-    ((UINT64)BufferSpace +
+    ((UINTN)BufferSpace +
     (MVPP2_MAX_TXD + MVPP2_AGGR_TXQ_SIZE)
     * sizeof(MVPP2_TX_DESC));
 
-  BufferLocation.RxBuffers = (UINT64)
+  BufferLocation.RxBuffers = (UINTN)
     (BufferSpace + (MVPP2_MAX_TXD + MVPP2_AGGR_TXQ_SIZE)
     * sizeof(MVPP2_TX_DESC) +
     MVPP2_MAX_RXD * sizeof(MVPP2_RX_DESC));

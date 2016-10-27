@@ -56,14 +56,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "Mvpp2LibHw.h"
 
-#define PP2DXE_SIGNATURE                     SIGNATURE_32('P', 'P', '2', 'D')
-#define INSTANCE_FROM_SNP(a)                 CR((a), PP2DXE_CONTEXT, Snp, PP2DXE_SIGNATURE)
-
-#define IS_NOT_ALIGN(number, align)         ((number) & ((align) - 1))
-/* Macro for alignment up. For example, ALIGN_UP(0x0330, 0x20) = 0x0340 */
-#define ALIGN(x, a)                         (((x) + ((a) - 1)) & ~((a) - 1))
-#define ALIGN_UP(number, align)             (((number) & ((align) - 1)) ? \
-  (((number) + (align)) & ~((align)-1)) : (number))
+#define PP2DXE_SIGNATURE                    SIGNATURE_32('P', 'P', '2', 'D')
+#define INSTANCE_FROM_SNP(a)                CR((a), PP2DXE_CONTEXT, Snp, PP2DXE_SIGNATURE)
 
 /* OS API */
 #define Mvpp2Alloc(v)                       AllocateZeroPool(v)
@@ -79,7 +73,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define Mvpp2SwapBytes16(x)                 SwapBytes16((x))
 #define Mvpp2Iphdr                          EFI_IP4_HEADER
 #define Mvpp2Ipv6hdr                        EFI_IP6_HEADER
-#define MVPP2_ALIGN(x, m)                   ALIGN((x), (m))
+#define MVPP2_ALIGN(x, m)                   ALIGN_VALUE((x), (m))
 #define MVPP2_NULL                          NULL
 #define MVPP2_ENOMEM                        -1
 #define MVPP2_EINVAL                        -2
@@ -161,7 +155,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define MVPP2_BUFFER_ALIGN_SIZE            (1 << 20)
 
 /* RX constants */
-#define RX_BUFFER_SIZE                     (ALIGN(MTU + WRAP, ARCH_DMA_MINALIGN))
+#define RX_BUFFER_SIZE                     (ALIGN_VALUE(MTU + WRAP, ARCH_DMA_MINALIGN))
 #define MVPP2_RXQ_OFFSET                   0
 #define BUFF_HDR_OFFS                      32
 #define BM_ALIGN                           32
