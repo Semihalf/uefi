@@ -412,6 +412,13 @@ static int bgx_setup_one_time(bdk_if_handle_t handle)
     BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_SMUX_TX_THRESH(handle->interface, handle->index),
         c.s.cnt = cnt);
 
+    /* When using PKI with BGX divided into 4 ports, the default backpresure
+       assert level is too high. More packets arrive before a MTU packet is
+       removed, causing truncation */
+    if ((priv->num_port >= 3) && (handle->pki_channel != -1))
+        BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_CMRX_RX_BP_ON(handle->interface, handle->index),
+            c.s.mark = 128);
+
     /* Set the number of LMACs we will use */
     BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_CMR_TX_LMACS(handle->interface),
         c.s.lmacs = priv->num_port);
