@@ -1011,35 +1011,6 @@ drop:
   ReturnUnlock(SavedTpl, Status);
 }
 
-STATIC
-VOID
-Pp2DxeConfigureMacAddress (
-  IN PP2DXE_CONTEXT *Pp2Context,
-  IN PP2_DEVICE_PATH *Pp2DevicePath
-  )
-{
-  UINT8 *MacAddressPtr;
-  INTN Index;
-
-  switch (Pp2Context->Instance) {
-  case 0:
-    MacAddressPtr = PcdGetPtr (PcdPp2MacAddressPort0);
-    break;
-  case 1:
-    MacAddressPtr = PcdGetPtr (PcdPp2MacAddressPort1);
-    break;
-  case 2:
-    MacAddressPtr = PcdGetPtr (PcdPp2MacAddressPort2);
-    break;
-  default:
-    Pp2DevicePath->Pp2Mac.MacAddress.Addr[5] = Pp2Context->Instance + 1;
-    return;
-  }
-
-  for (Index = 0; Index < NET_ETHER_ADDR_LEN; Index++)
-    Pp2DevicePath->Pp2Mac.MacAddress.Addr[Index] = MacAddressPtr[Index];
-}
-
 EFI_STATUS
 Pp2DxeSnpInstall (
   IN PP2DXE_CONTEXT *Pp2Context
@@ -1052,7 +1023,7 @@ Pp2DxeSnpInstall (
   DEBUG((DEBUG_INFO, "Pp2Dxe%d: Installing protocols\n", Pp2Context->Instance));
   Pp2Context->Snp.Mode = AllocateZeroPool (sizeof (EFI_SIMPLE_NETWORK_MODE));
   Pp2DevicePath = AllocateCopyPool (sizeof (PP2_DEVICE_PATH), &Pp2DevicePathTemplate);
-  Pp2DxeConfigureMacAddress(Pp2Context, Pp2DevicePath);
+  Pp2DevicePath->Pp2Mac.MacAddress.Addr[5] = Pp2Context->Instance + 1;
   Pp2Context->Signature = PP2DXE_SIGNATURE;
   Pp2Context->Snp.Initialize = Pp2DxeSnpInitialize;
   Pp2Context->Snp.Start = Pp2SnpStart;
@@ -1070,8 +1041,8 @@ Pp2DxeSnpInstall (
   Pp2Context->Snp.Revision = EFI_SIMPLE_NETWORK_PROTOCOL_REVISION;
 
   Pp2Context->Snp.Mode->MacAddressChangeable = TRUE;
-  Pp2Context->Snp.Mode->CurrentAddress = Pp2DevicePath->Pp2Mac.MacAddress;
-  Pp2Context->Snp.Mode->PermanentAddress = Pp2DevicePath->Pp2Mac.MacAddress;
+  CopyMem (Pp2Context->Snp.Mode->CurrentAddress.Addr, Pp2DevicePath->Pp2Mac.MacAddress.Addr, NET_ETHER_ADDR_LEN);
+  CopyMem (Pp2Context->Snp.Mode->PermanentAddress.Addr, Pp2DevicePath->Pp2Mac.MacAddress.Addr, NET_ETHER_ADDR_LEN);
   Pp2Context->Snp.Mode->State = EfiSimpleNetworkStopped;
   Pp2Context->Snp.Mode->IfType = NET_IFTYPE_ETHERNET;
   Pp2Context->Snp.Mode->HwAddressSize = NET_ETHER_ADDR_LEN;
