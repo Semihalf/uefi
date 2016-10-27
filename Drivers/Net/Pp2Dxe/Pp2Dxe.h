@@ -36,38 +36,28 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define __PP2_DXE_H__
 
 #include <Protocol/Cpu.h>
-#include <Protocol/DriverBinding.h>
-#include <Protocol/SimpleNetwork.h>
 #include <Protocol/DevicePath.h>
-#include <Protocol/MvPhy.h>
+#include <Protocol/DriverBinding.h>
 #include <Protocol/Ip4.h>
 #include <Protocol/Ip6.h>
+#include <Protocol/MvPhy.h>
+#include <Protocol/SimpleNetwork.h>
 
 #include <Library/BaseLib.h>
 #include <Library/BaseMemoryLib.h>
-#include <Library/MemoryAllocationLib.h>
-#include <Library/UncachedMemoryAllocationLib.h>
-#include <Library/IoLib.h>
 #include <Library/DebugLib.h>
-#include <Library/PcdLib.h>
+#include <Library/IoLib.h>
+#include <Library/MemoryAllocationLib.h>
 #include <Library/NetLib.h>
-#include <Library/UefiLib.h>
+#include <Library/PcdLib.h>
 #include <Library/UefiBootServicesTableLib.h>
+#include <Library/UefiLib.h>
+#include <Library/UncachedMemoryAllocationLib.h>
 
 #include "Mvpp2LibHw.h"
 
 #define PP2DXE_SIGNATURE                     SIGNATURE_32('P', 'P', '2', 'D')
 #define INSTANCE_FROM_SNP(a)                 CR((a), PP2DXE_CONTEXT, Snp, PP2DXE_SIGNATURE)
-
-/* RX buffer constants */
-#define MVPP2_RX_PKT_SIZE(mtu) \
-  ALIGN((mtu) + MVPP2_MH_SIZE + MVPP2_VLAN_TAG_LEN + \
-        ETH_HLEN + ETH_FCS_LEN, MVPP2_CPU_D_CACHE_LINE_SIZE)
-
-#define MVPP2_RX_BUF_SIZE(PktSize)          ((PktSize))
-#define MVPP2_RX_TOTAL_SIZE(BufSize)        ((BufSize))
-#define MVPP2_RX_MAX_PKT_SIZE(TotalSize)    ((TotalSize))
-#define MVPP2_RXQ_OFFSET                    0
 
 #define IS_NOT_ALIGN(number, align)         ((number) & ((align) - 1))
 /* Macro for alignment up. For example, ALIGN_UP(0x0330, 0x20) = 0x0340 */
@@ -80,20 +70,16 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define Mvpp2Free(p)                        FreePool(p)
 #define Mvpp2Memset(a, v, s)                SetMem((a), (s), (v))
 #define Mvpp2Mdelay(t)                      gBS->Stall((t) * 1000)
-#define Mvpp2Prefetch(v)                    do {} while(0);
 #define Mvpp2Fls(v)                         1
 #define Mvpp2IsBroadcastEtherAddr(da)       1
 #define Mvpp2IsMulticastEtherAddr(da)       1
+#define Mvpp2Prefetch(v)                    do {} while(0);
 #define Mvpp2Printf(...)                    do {} while(0);
-#define Mvpp2Swap(a,b) \
-  do { typeof(a) __tmp = (a); (a) = (b); (b) = __tmp; } while (0)
-#define Mvpp2Swab16(x) \
-  ((UINT16)((((UINT16)(x) & (UINT16)0x00ffU) << 8) | \
-            (((UINT16)(x) & (UINT16)0xff00U) >> 8) ))
+#define Mvpp2SwapVariables(a,b)             do { typeof(a) __tmp = (a); (a) = (b); (b) = __tmp; } while (0)
+#define Mvpp2SwapBytes16(x)                 SwapBytes16((x))
 #define Mvpp2Iphdr                          EFI_IP4_HEADER
 #define Mvpp2Ipv6hdr                        EFI_IP6_HEADER
 #define MVPP2_ALIGN(x, m)                   ALIGN((x), (m))
-#define MVPP2_ALIGN_UP(number, align)       ALIGN_UP((number), (align))
 #define MVPP2_NULL                          NULL
 #define MVPP2_ENOMEM                        -1
 #define MVPP2_EINVAL                        -2
@@ -105,8 +91,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #define Upper32Bits(n)                      ((UINT32)(((n) >> 16) >> 16))
 #define Lower32Bits(n)                      ((UINT32)(n))
-
-#define __iomem
 
 #define ARCH_DMA_MINALIGN                   64
 
@@ -144,48 +128,54 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 /* Gop */
 /* Sets the field located at the specified in data.     */
-#define U32_SET_FIELD(data, mask, val)  \
-  ((data) = (((data) & ~(mask)) | (val)))
-#define MV_RGMII_TX_FIFO_MIN_TH            (0x41)
-#define MV_SGMII_TX_FIFO_MIN_TH            (0x5)
-#define MV_SGMII2_5_TX_FIFO_MIN_TH         (0xB)
+#define U32_SET_FIELD(data, mask, val)     ((data) = (((data) & ~(mask)) | (val)))
+#define MV_RGMII_TX_FIFO_MIN_TH            0x41
+#define MV_SGMII_TX_FIFO_MIN_TH            0x5
+#define MV_SGMII2_5_TX_FIFO_MIN_TH         0xB
 
 /* BM constants */
 #define MVPP2_BM_POOLS_NUM                 8
 #define MVPP2_BM_LONG_BUF_NUM              1024
 #define MVPP2_BM_SHORT_BUF_NUM             2048
-#define MVPP2_BM_POOL_SIZE_MAX             (16*1024 - MVPP2_BM_POOL_PTR_ALIGN/4)
+#define MVPP2_BM_POOL_SIZE_MAX             (SIZE_16KB - MVPP2_BM_POOL_PTR_ALIGN/4)
 #define MVPP2_BM_POOL_PTR_ALIGN            128
 #define MVPP2_BM_SWF_LONG_POOL(Port)       ((Port > 2) ? 2 : Port)
 #define MVPP2_BM_SWF_SHORT_POOL            3
 #define MVPP2_BM_POOL                      0
-#define MVPP2_BM_SIZE                     32
-/* BM short pool packet Size
+#define MVPP2_BM_SIZE                      32
+
+/*
+ * BM short pool packet Size
  * These value assure that for SWF the total number
  * of bytes allocated for each buffer will be 512
  */
-#define MVPP2_BM_SHORT_PKT_SIZE            MVPP2_RX_MAX_PKT_SIZE(512)
+#define MVPP2_BM_SHORT_PKT_SIZE            512
 
-/* Page table entries are set to 1MB, or multiples of 1MB
+/*
+ * Page table entries are set to 1MB, or multiples of 1MB
  * (not < 1MB). driver uses less bd's so use 1MB bdspace.
  */
 #define BD_SPACE                           (1 << 20)
 
-/* buffer has to be aligned to 1M */
+/* Buffer has to be aligned to 1M */
 #define MVPP2_BUFFER_ALIGN_SIZE            (1 << 20)
 
 /* RX constants */
+#define RX_BUFFER_SIZE                     (ALIGN(MTU + WRAP, ARCH_DMA_MINALIGN))
+#define MVPP2_RXQ_OFFSET                   0
 #define BUFF_HDR_OFFS                      32
 #define BM_ALIGN                           32
 #define ETH_HLEN                           14
-#define ETH_ALEN                           NET_ETHER_ADDR_LEN
 
 /* 2(HW hdr) 14(MAC hdr) 4(CRC) 32(extra for cache prefetch) */
 #define WRAP                              (2 + ETH_HLEN + 4 + 32)
 #define MTU                               1500
-#define RX_BUFFER_SIZE                    (ALIGN(MTU + WRAP, ARCH_DMA_MINALIGN))
 
-#define MVPP2_TX_SEND_TIMEOUT              10000
+/*
+ * Maximum retries of checking, wheter HW really sent the packet
+ * after it was done is software.
+ */
+#define MVPP2_TX_SEND_MAX_POLLING_COUNT   10000
 
 /* Structures */
 typedef struct {
@@ -279,10 +269,10 @@ typedef struct Pp2DxePort PP2DXE_PORT;
 /* Shared Packet Processor resources */
 typedef struct {
   /* Shared registers' base addresses */
-  UINT64 __iomem base;
-  UINT64 __iomem Rfu1Base;
-  UINT64 __iomem SmiBase;
-  VOID __iomem *LmsBase;
+  UINT64 Base;
+  UINT64 Rfu1Base;
+  UINT64 SmiBase;
+  VOID *LmsBase;
 
   /* List of pointers to Port structures */
   PP2DXE_PORT **PortList;
@@ -375,79 +365,151 @@ typedef struct {
   PP2_DEVICE_PATH             *DevicePath;
 } PP2DXE_CONTEXT;
 
-STATIC inline VOID Mvpp2Write(MVPP2_SHARED *Priv, UINT32 Offset,
-          UINT32 data)
+STATIC
+inline
+VOID
+Mvpp2Write (
+  IN MVPP2_SHARED *Priv,
+  IN UINT32 Offset,
+  IN UINT32 data
+  )
 {
-  ASSERT (Priv->base != 0);
-  MmioWrite32 (Priv->base + Offset, data);
+  ASSERT (Priv->Base != 0);
+  MmioWrite32 (Priv->Base + Offset, data);
 }
 
-STATIC inline UINT32 Mvpp2Read(MVPP2_SHARED *Priv, UINT32 Offset)
+STATIC
+inline
+UINT32
+Mvpp2Read (
+  IN MVPP2_SHARED *Priv,
+  IN UINT32 Offset
+  )
 {
-  ASSERT (Priv->base != 0);
-  return MmioRead32 (Priv->base + Offset);
+  ASSERT (Priv->Base != 0);
+  return MmioRead32 (Priv->Base + Offset);
 }
 
-STATIC inline UINT32 Mvpp2Rfu1Read(MVPP2_SHARED *Priv, UINT32 Offset)
+STATIC
+inline
+UINT32
+Mvpp2Rfu1Read (
+  IN MVPP2_SHARED *Priv,
+  UINT32 Offset
+  )
 {
   ASSERT (Priv->Rfu1Base != 0);
   return MmioRead32 (Priv->Rfu1Base + Offset);
 }
 
-STATIC inline UINT32 Mvpp2Rfu1Write(MVPP2_SHARED *Priv, UINT32 Offset,
-              UINT32 data)
+STATIC
+inline
+UINT32
+Mvpp2Rfu1Write (
+  IN MVPP2_SHARED *Priv,
+  IN UINT32 Offset,
+  IN UINT32 Data
+  )
 {
   ASSERT (Priv->Rfu1Base != 0);
-  return MmioWrite32 (Priv->Rfu1Base + Offset, data);
+  return MmioWrite32 (Priv->Rfu1Base + Offset, Data);
 }
 
-STATIC inline UINT32 Mvpp2SmiRead(MVPP2_SHARED *Priv, UINT32 Offset)
+STATIC
+inline
+UINT32
+Mvpp2SmiRead (
+  IN MVPP2_SHARED *Priv,
+  IN UINT32 Offset
+  )
 {
   ASSERT (Priv->SmiBase != 0);
   return MmioRead32 (Priv->SmiBase + Offset);
 }
 
-STATIC inline UINT32 Mvpp2SmiWrite(MVPP2_SHARED *Priv, UINT32 Offset,
-              UINT32 data)
+STATIC
+inline
+UINT32
+Mvpp2SmiWrite (
+  IN MVPP2_SHARED *Priv,
+  IN UINT32 Offset,
+  IN UINT32 Data
+  )
 {
   ASSERT (Priv->SmiBase != 0);
-  return MmioWrite32 (Priv->SmiBase + Offset, data);
+  return MmioWrite32 (Priv->SmiBase + Offset, Data);
 }
 
-STATIC inline VOID Mvpp2GmacWrite(PP2DXE_PORT *Port, UINT32 Offset,
-               UINT32 data)
+STATIC
+inline
+VOID
+Mvpp2GmacWrite (
+  IN PP2DXE_PORT *Port,
+  IN UINT32 Offset,
+  IN UINT32 Data
+  )
 {
-  ASSERT (Port->Priv->base != 0);
-  MmioWrite32 (Port->Priv->base + Offset, data);
+  ASSERT (Port->Priv->Base != 0);
+  MmioWrite32 (Port->Priv->Base + Offset, Data);
 }
 
-STATIC inline UINT32 Mvpp2GmacRead(PP2DXE_PORT *Port, UINT32 Offset)
+STATIC
+inline
+UINT32
+Mvpp2GmacRead (
+  IN PP2DXE_PORT *Port,
+  IN UINT32 Offset
+  )
 {
-  ASSERT (Port->Priv->base != 0);
-  return MmioRead32 (Port->Priv->base + Offset);
+  ASSERT (Port->Priv->Base != 0);
+  return MmioRead32 (Port->Priv->Base + Offset);
 }
 
-STATIC inline VOID MvGop110GmacWrite(PP2DXE_PORT *Port, UINT32 Offset,
-               UINT32 data)
+STATIC
+inline
+VOID
+MvGop110GmacWrite (
+  IN PP2DXE_PORT *Port,
+  IN UINT32 Offset,
+  IN UINT32 Data
+  )
 {
   ASSERT (Port->GmacBase != 0);
-  MmioWrite32 (Port->GmacBase + Offset, data);
+  MmioWrite32 (Port->GmacBase + Offset, Data);
 }
 
-STATIC inline UINT32 MvGop110GmacRead(PP2DXE_PORT *Port, UINT32 Offset)
+STATIC
+inline
+UINT32
+MvGop110GmacRead (
+  IN PP2DXE_PORT *Port,
+  IN UINT32 Offset
+  )
 {
   ASSERT (Port->GmacBase != 0);
   return MmioRead32 (Port->GmacBase + Offset);
 }
 
-STATIC inline VOID Mvpp2XlgWrite(PP2DXE_PORT *Port, UINT32 Offset,
-               UINT32 data)
+STATIC
+inline
+VOID
+Mvpp2XlgWrite (
+  IN PP2DXE_PORT *Port,
+  IN UINT32 Offset,
+  IN UINT32 Data
+  )
 {
   ASSERT (Port->XlgBase != 0);
-  MmioWrite32 (Port->XlgBase + Offset, data);
+  MmioWrite32 (Port->XlgBase + Offset, Data);
 }
 
-STATIC inline UINT32 Mvpp2XlgRead(PP2DXE_PORT *Port, UINT32 Offset)
+STATIC
+inline
+UINT32
+Mvpp2XlgRead (
+  IN PP2DXE_PORT *Port,
+  IN UINT32 Offset
+  )
 {
   ASSERT (Port->XlgBase != 0);
   return MmioRead32 (Port->XlgBase + Offset);

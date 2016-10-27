@@ -809,7 +809,7 @@ Pp2SnpTransmit (
   MVPP2_TX_QUEUE *AggrTxq = Mvpp2Shared->AggrTxqs;
   MVPP2_TX_DESC *TxDesc;
   INTN timeout = 0;
-  INTN TxDone;
+  INTN TxSent;
   UINT8 *DataPtr = Buffer;
   UINT16 Protocol;
   EFI_TPL SavedTpl;
@@ -886,26 +886,26 @@ Pp2SnpTransmit (
 
   /* Tx done processing */
   /* wait for agrregated to physical TXQ transfer */
-  TxDone = Mvpp2AggrTxqPendDescNumGet(Mvpp2Shared, 0);
+  TxSent = Mvpp2AggrTxqPendDescNumGet(Mvpp2Shared, 0);
   do {
-    if (timeout++ > MVPP2_TX_SEND_TIMEOUT) {
+    if (timeout++ > MVPP2_TX_SEND_MAX_POLLING_COUNT) {
       DEBUG((DEBUG_ERROR, "Pp2Dxe: transmit timeout\n"));
       ReturnUnlock(SavedTpl, EFI_TIMEOUT);
     }
-    TxDone = Mvpp2AggrTxqPendDescNumGet(Mvpp2Shared, 0);
-  } while (TxDone);
+    TxSent = Mvpp2AggrTxqPendDescNumGet(Mvpp2Shared, 0);
+  } while (TxSent);
 
   timeout = 0;
-  TxDone = Mvpp2TxqSentDescProc(Port, &Port->Txqs[0]);
+  TxSent = Mvpp2TxqSentDescProc(Port, &Port->Txqs[0]);
   /* wait for packet to be transmitted */
-  while (!TxDone) {
-    if (timeout++ > MVPP2_TX_SEND_TIMEOUT) {
+  while (!TxSent) {
+    if (timeout++ > MVPP2_TX_SEND_MAX_POLLING_COUNT) {
       DEBUG((DEBUG_ERROR, "Pp2Dxe: transmit timeout\n"));
       ReturnUnlock(SavedTpl, EFI_TIMEOUT);
     }
-    TxDone = Mvpp2TxqSentDescProc(Port, &Port->Txqs[0]);
+    TxSent = Mvpp2TxqSentDescProc(Port, &Port->Txqs[0]);
   }
-  /* TxDone has increased - hw sent packet */
+  /* TxSent has increased - hw sent packet */
 
   /* add buffer to completion queue and return */
   ReturnUnlock (SavedTpl, QueueInsert (Pp2Context, Buffer));
@@ -1127,11 +1127,11 @@ Pp2DxeInitialise (
     return EFI_OUT_OF_RESOURCES;
   }
 
-  Mvpp2Shared->base = PcdGet64 (PcdPp2SharedAddress);
+  Mvpp2Shared->Base = PcdGet64 (PcdPp2SharedAddress);
   Mvpp2Shared->Rfu1Base = PcdGet64 (PcdPp2Rfu1BaseAddress);
   Mvpp2Shared->SmiBase = PcdGet64 (PcdPp2SmiBaseAddress);
   Mvpp2Shared->Tclk = PcdGet32 (PcdPp2ClockFrequency);
-  DEBUG((DEBUG_INFO, "Pp2Dxe: shared base is 0x%lx\n", Mvpp2Shared->base));
+  DEBUG((DEBUG_INFO, "Pp2Dxe: shared base is 0x%lx\n", Mvpp2Shared->Base));
   DEBUG((DEBUG_INFO, "Pp2Dxe: RFU1 base is 0x%lx\n", Mvpp2Shared->Rfu1Base));
   DEBUG((DEBUG_INFO, "Pp2Dxe: SMI base is 0x%lx\n", Mvpp2Shared->SmiBase));
 

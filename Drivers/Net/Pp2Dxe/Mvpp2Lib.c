@@ -594,7 +594,7 @@ Mvpp2PrsTcamFirstFree (
   INT32 Tid;
 
   if (Start > End) {
-    Mvpp2Swap (Start, End);
+    Mvpp2SwapVariables (Start, End);
   }
 
   if (End >= MVPP2_PRS_TCAM_SRAM_SIZE) {
@@ -922,7 +922,7 @@ Mvpp2PrsVlanFind (
     Pe->Index = Tid;
 
     Mvpp2PrsHwRead (Priv, Pe);
-    match = Mvpp2PrsTcamDataCmp (Pe, 0, Mvpp2Swab16 (Tpid));
+    match = Mvpp2PrsTcamDataCmp (Pe, 0, Mvpp2SwapBytes16 (Tpid));
     if (!match) {
       continue;
     }
@@ -1083,8 +1083,8 @@ MVPP2_PRS_ENTRY *Mvpp2PrsDoubleVlanFind (
     Pe->Index = Tid;
     Mvpp2PrsHwRead (Priv, Pe);
 
-    match = Mvpp2PrsTcamDataCmp (Pe, 0, Mvpp2Swab16 (Tpid1)) &&
-            Mvpp2PrsTcamDataCmp (Pe, 4, Mvpp2Swab16 (Tpid2));
+    match = Mvpp2PrsTcamDataCmp (Pe, 0, Mvpp2SwapBytes16 (Tpid1)) &&
+            Mvpp2PrsTcamDataCmp (Pe, 4, Mvpp2SwapBytes16 (Tpid2));
 
     if (!match) {
       continue;
@@ -3318,7 +3318,7 @@ Mvpp2TxqDescCsum (
   command |= (IpHdrLen << MVPP2_TXD_IP_HLEN_SHIFT);
   command |= MVPP2_TXD_IP_CSUM_DISABLE;
 
-  if (L3Proto == Mvpp2Swab16 (MV_ETH_P_IP)) {
+  if (L3Proto == Mvpp2SwapBytes16 (MV_ETH_P_IP)) {
     command &= ~MVPP2_TXD_IP_CSUM_DISABLE;  /* enable IPv4 csum */
     command &= ~MVPP2_TXD_L3_IP6;           /* enable IPv4 */
   } else {
