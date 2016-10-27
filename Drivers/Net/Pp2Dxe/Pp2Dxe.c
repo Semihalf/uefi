@@ -52,14 +52,18 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "Pp2Dxe.h"
 
 #define ReturnUnlock(tpl, status) do { gBS->RestoreTPL (tpl); return (status); } while(0)
-MVPP2_SHARED *Mvpp2Shared;
-BUFFER_LOCATION BufferLocation;
 
-PP2_DEVICE_PATH Pp2DevicePathTemplate = {
+STATIC MVPP2_SHARED *Mvpp2Shared;
+STATIC BUFFER_LOCATION BufferLocation;
+STATIC PP2_DEVICE_PATH Pp2DevicePathTemplate = {
   {
     {
-      MESSAGING_DEVICE_PATH, MSG_MAC_ADDR_DP,
-      { (UINT8) (sizeof(MAC_ADDR_DEVICE_PATH)), (UINT8) ((sizeof(MAC_ADDR_DEVICE_PATH)) >> 8) }
+      MESSAGING_DEVICE_PATH,
+      MSG_MAC_ADDR_DP,
+      {
+        (UINT8) (sizeof(MAC_ADDR_DEVICE_PATH)),
+        (UINT8) ((sizeof(MAC_ADDR_DEVICE_PATH)) >> 8)
+      }
     },
     { { 0 } },
     0
@@ -81,8 +85,7 @@ QueueInsert (
   )
 {
 
-  if (QueueNext (Pp2Context->CompletionQueueTail) ==
-      Pp2Context->CompletionQueueHead) {
+  if (QueueNext (Pp2Context->CompletionQueueTail) == Pp2Context->CompletionQueueHead) {
     return EFI_OUT_OF_RESOURCES;
   }
 
@@ -119,6 +122,7 @@ Pp2DxeBmPoolInit (
 {
   INTN Index;
   UINT8 *PoolAddr;
+  UINT32 PoolSize = (sizeof(VOID *) * MVPP2_BM_SIZE) * 2 + MVPP2_BM_POOL_PTR_ALIGN;
 
   for (Index = 0; Index < MVPP2_BM_POOLS_NUM; Index++) {
     /* BmIrqClear */
@@ -127,23 +131,17 @@ Pp2DxeBmPoolInit (
 
   Mvpp2Shared->BmPools = AllocateZeroPool (sizeof(MVPP2_BMS_POOL));
 
-  if (!Mvpp2Shared->BmPools)
-    return EFI_OUT_OF_RESOURCES;
-
-  PoolAddr = AllocateZeroPool ((sizeof(VOID*) * MVPP2_BM_SIZE)*2 +
-      MVPP2_BM_POOL_PTR_ALIGN);
-
-  if (!PoolAddr) {
+  if (Mvpp2Shared->BmPools == NULL) {
     return EFI_OUT_OF_RESOURCES;
   }
-  if (IS_NOT_ALIGN((UINT64)PoolAddr,
-    MVPP2_BM_POOL_PTR_ALIGN))
-    PoolAddr =
-    (UINT8 *)ALIGN_UP((UINT64)PoolAddr,
-            MVPP2_BM_POOL_PTR_ALIGN);
+
+  PoolAddr = UncachedAllocateAlignedZeroPool (PoolSize, MVPP2_BM_POOL_PTR_ALIGN);
+  if (PoolAddr == NULL) {
+    return EFI_OUT_OF_RESOURCES;
+  }
 
   Mvpp2Shared->BmPools->Id = MVPP2_BM_POOL;
-  Mvpp2Shared->BmPools->VirtAddr = (UINT32*)PoolAddr;
+  Mvpp2Shared->BmPools->VirtAddr = (UINT32 *)PoolAddr;
   Mvpp2Shared->BmPools->PhysAddr = (UINT64)PoolAddr;
 
   Mvpp2BmPoolHwCreate(Mvpp2Shared, Mvpp2Shared->BmPools, MVPP2_BM_SIZE);
@@ -167,13 +165,11 @@ Pp2DxeBmStart (
 
   /* Fill BM pool with buffers */
   for (Index = 0; Index < MVPP2_BM_SIZE; Index++) {
-    buff = (UINT8 *)(BufferLocation.RxBuffers
-      + (Index * RX_BUFFER_SIZE));
+    buff = (UINT8 *)(BufferLocation.RxBuffers + (Index * RX_BUFFER_SIZE));
     if (!buff)
       return EFI_OUT_OF_RESOURCES;
 
-    BuffPhys = (UINT8 *)ALIGN_UP((UINT64)buff,
-      BM_ALIGN);
+    BuffPhys = (UINT8 *)ALIGN_UP((UINT64)buff, BM_ALIGN);
     Mvpp2BmPoolPut(Mvpp2Shared, MVPP2_BM_POOL,
       (UINT64)BuffPhys, (UINT64)BuffPhys);
   }
