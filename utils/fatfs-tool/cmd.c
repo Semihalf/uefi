@@ -113,7 +113,7 @@ static int dir_exists(const char *path)
 /*
  * Commands
  */
-static int mkfs(int argc, char **argv)
+static int mkfs(int argc, char **argv, FATFS *fatfs)
 {
 	argv++; /* skip to first argument */
 
@@ -142,7 +142,7 @@ static int mkfs(int argc, char **argv)
 	return 0;
 }
 
-static int mkdir(int argc, char **argv)
+static int mkdir(int argc, char **argv, FATFS *fatfs)
 {
 	argv++; /* skip to first argument */
 
@@ -164,7 +164,7 @@ static int mkdir(int argc, char **argv)
 	return 0;
 }
 
-static int cp(int argc, char **argv)
+static int cp(int argc, char **argv, FATFS *fatfs)
 {
 	CHAT("Copy files:\n");
 
@@ -207,7 +207,7 @@ static int cp(int argc, char **argv)
 	return 0;
 }
 
-static int ls(int argc, char **argv)
+static int ls(int argc, char **argv, FATFS *fatfs)
 {
 	CHAT("List files:\n");
 	char *path;
@@ -247,6 +247,13 @@ static int ls(int argc, char **argv)
 	}
 
 	f_closedir(&dir);
+	DWORD free_clusters;
+	res = f_getfree(path, &free_clusters, &fatfs);
+	if (res == FR_OK)
+	{
+		printf("\nFree clusters: %ld (%ld blocks)\n",
+			free_clusters, free_clusters * fatfs->csize);
+	}
 	return 0;
 }
 
@@ -256,7 +263,7 @@ static int ls(int argc, char **argv)
 static struct cmd_d
 {
 	const char	*cmd;
-	int			(*f)(int argc, char **argv);
+	int			(*f)(int argc, char **argv, FATFS *fatfs);
 }
 cmd_list[] =
 {
@@ -267,7 +274,7 @@ cmd_list[] =
 	{ NULL,		NULL },
 };
 
-int run_command(int argc, char **argv)
+int run_command(int argc, char **argv, FATFS *fatfs)
 {
 	struct cmd_d *cmd = cmd_list;
 
@@ -276,7 +283,7 @@ int run_command(int argc, char **argv)
 		if (0 == strcmp(*argv, cmd->cmd))
 		{
 			if (cmd->f)
-				return (*cmd->f)(argc, argv);
+				return (*cmd->f)(argc, argv, fatfs);
 			return -1;
 		}
 

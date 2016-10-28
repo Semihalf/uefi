@@ -39,6 +39,6 @@
 * ARISING OUT OF USE OR PERFORMANCE OF THE SOFTWARE LIES WITH YOU.
 ***********************license end**************************************/
 
-int run_command(int argc, char **argv);
+int run_command(int argc, char **argv, FATFS *fatfs);
 
 #endif /* _CMD_H_ */

@@ -126,7 +126,7 @@ int main(int argc, char **argv)
 	}
 
 	/* run the command that is left on the command line. */
-	rc = run_command(argc, argv);
+	rc = run_command(argc, argv, &fatfs);
 
 	if (rc == 0)
 		CHAT("Done.\n");
