@@ -8,7 +8,11 @@
 This document gives a short overview of the major changes
 incorporated into each BDK release.
 
-== thunder-release-v1.27-rc3 ==
+== thunder-release-v1.27-rc4 ==
+* DDR4
+** The common DDR4 config files, and the CRB-2S files, have been optimized to
+save space. There should be no functional changes, but the process was manual
+and has some risk
 * CN83XX
 ** First support for CN82XX and CN83XX
 * USB
@@ -23,7 +27,7 @@ CTLE=0 for all SATA speeds.
 ** Shutdown SATA controller on SATA init failure. If SATA initialization fails,
 perform a HBA reset to recover the controller. This way the next call won't
 fail due to left over state.
-** Disable parial and slumber power management
+** Disable partial and slumber power management
 * CCPI
 ** Perform RX equalization during message check. Initial hardware equalization
 may be poor as the nodes come up asynchronously. Perform RX equalization during
@@ -42,6 +46,9 @@ and for the whole sequence to run faster.
 performance test was enabling the validation of packets before the test
 stopped moving traffic. This caused false errors to be reported at the end of
 perf_test.
+* Misc
+** The fatfs-tool now shows the number of free clusters/blocks on "ls"
+** Official BDK builds are now done with GCC 6.1.0, aarch64-thunderx-elf-gcc (Cavium Inc. Version 2.1 build 27) 6.1.0
 
 == thunder-release-v1.26 ==
 * CN80XX
