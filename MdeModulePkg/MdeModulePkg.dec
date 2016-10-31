@@ -160,6 +160,9 @@
   ## @libraryclass  Provides services to authenticate a UEFI defined FMP Capsule.
   #
   FmpAuthenticationLib|Include/Library/FmpAuthenticationLib.h
+  ## @libraryclass   Provides a service to register non-discoverable device
+  ##
+  NonDiscoverableDeviceRegistrationLib|Include/Library/NonDiscoverableDeviceRegistrationLib.h
 
 [Guids]
   ## MdeModule package token space guid
