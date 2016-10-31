@@ -15,6 +15,8 @@
 #ifndef __NON_DISCOVERABLE_PCI_DEVICE_IO_H__
 #define __NON_DISCOVERABLE_PCI_DEVICE_IO_H__
 
+#include <PiDxe.h>
+
 #include <Library/BaseMemoryLib.h>
 #include <Library/DebugLib.h>
 #include <Library/MemoryAllocationLib.h>
@@ -25,6 +27,7 @@
 
 #include <Protocol/ComponentName.h>
 #include <Protocol/NonDiscoverableDevice.h>
+#include <Protocol/Cpu.h>
 #include <Protocol/PciIo.h>
 
 #define NON_DISCOVERABLE_PCI_DEVICE_SIG SIGNATURE_32 ('P', 'P', 'I', 'D')
@@ -32,6 +35,8 @@
 #define NON_DISCOVERABLE_PCI_DEVICE_FROM_PCI_IO(PciIoPointer) \
         CR (PciIoPointer, NON_DISCOVERABLE_PCI_DEVICE, PciIo, \
             NON_DISCOVERABLE_PCI_DEVICE_SIG)
+
+extern EFI_CPU_ARCH_PROTOCOL      *mCpu;
 
 typedef struct {
   UINT32                    Signature;

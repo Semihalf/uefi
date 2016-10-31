@@ -32,11 +32,13 @@
 [LibraryClasses]
   BaseMemoryLib
   DebugLib
+  DxeServicesTableLib
   MemoryAllocationLib
   UefiBootServicesTableLib
   UefiDriverEntryPoint
   UefiLib
 
 [Protocols]
+  gEfiCpuArchProtocolGuid                 ## CONSUMES
   gEfiPciIoProtocolGuid                   ## BY_START
   gNonDiscoverableDeviceProtocolGuid      ## TO_START
