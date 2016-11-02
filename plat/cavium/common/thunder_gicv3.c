@@ -1,6 +1,7 @@
 #include <arch.h>
 #include <platform_def.h>
 #include <thunder_private.h>
+#include <thunder_common.h>
 
 #undef GICD_SETSPI_NSR
 #undef GICD_CLRSPI_NSR
@@ -49,6 +50,14 @@ void thunder_gic_driver_init(void)
 	 * not need GIC interface base addresses to be configured.
 	 */
 #if IMAGE_BL31
+	/* ERRATUM GIC-28835 */
+	if (IS_THUNDER_83XX_PASS(CAVIUM_SOC_TYPE(), 1, 0)) {
+	        union cavm_gic_cfg_ctlr cfg_ctlr;
+	        cfg_ctlr.u = CSR_READ_PA(0, CAVM_GIC_CFG_CTLR);
+	        cfg_ctlr.s.dis_cpu_if_load_balancer = 1;
+	        CSR_WRITE_PA(0, CAVM_GIC_CFG_CTLR, cfg_ctlr.u);
+	}
+
 	thunder_gic_data.gicd_base = CSR_PA(0, CAVM_GIC_PF_BAR0);
 	thunder_gic_data.gicr_base = CSR_PA(0, CAVM_GIC_PF_BAR4);
 	gicv3_driver_init(&thunder_gic_data);
