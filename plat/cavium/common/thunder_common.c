@@ -80,38 +80,33 @@ void plat_add_mmio_map()
 #define set_bit(reg, bit) reg |= (1ULL<<(bit))
 #define unset_bit(reg, bit) reg &= ~(1ULL<<(bit))
 
-void thunder_errata_fixes(void)
+void thunder_cpu_setup(void)
 {
-	uint64_t cvmctl_el1;
-	uint64_t cvmmemctl0_el1;
-	uint32_t midr;
+	uint64_t cvmctl_el1, cvmmemctl0_el1;
 
-	__asm__ __volatile__ ("mrs %0, s3_0_c0_c0_0" : "=r" (midr));
-	__asm__ __volatile__ ("mrs %0, s3_0_c11_c0_0" : "=r" (cvmctl_el1));
-	__asm__ __volatile__ ("mrs %0, s3_0_c11_c0_4" : "=r" (cvmmemctl0_el1));
+	cvmctl_el1 = read_cvmctl_el1();
+	cvmmemctl0_el1 = read_cvmmemctl0_el1();
 
-	/* All other chips we want to enable CAS/CASP and enable v8.1 support. */
+	/* Enable CAS/CASP and enable v8.1 support. */
 	unset_bit(cvmctl_el1, 36);  /* Enable CAS */
 	unset_bit(cvmctl_el1, 37);  /* Enable CASP */
 	set_bit(cvmctl_el1, 33);    /* Enable v8.1 */
 
-	/* Fix up defaults from the BDK which is broken and violates the ARM ARM. */
-	unset_bit (cvmmemctl0_el1, 17); /* Don't reset timer on merge as that violates the ARM ARM. */
-	unset_bit (cvmmemctl0_el1, 18); /* Set Write-buffer timeout for NSH entries to 218 cycles. */
-
-	if (MIDR_PARTNUM (midr) == T81PARTNUM) {
-		set_bit (cvmctl_el1, 40);
-		set_bit (cvmctl_el1, 41);
-		set_bit (cvmctl_el1, 42);
-		set_bit (cvmctl_el1, 43);
-	}
+	/* Enable prefetcher */
+	set_bit(cvmctl_el1, 43);   /* Ignore the bp for next line prefetcher. */
+	if (CAVIUM_SOC_TYPE() == T81PARTNUM)
+		set_bit(cvmctl_el1, 42);   /* Use stride of 2. */
+	else if (CAVIUM_SOC_TYPE() == T83PARTNUM)
+		unset_bit(cvmctl_el1, 42); /* Don't cause a stride of 2 rather prefetch every line. */
+	set_bit(cvmctl_el1, 41);   /* Enable next line prefetcher. */
+	set_bit(cvmctl_el1, 40);   /* Enable delta prefetcher. */
 
 	/* Fix up defaults from the BDK which is broken and violates the ARM ARM. */
-	unset_bit (cvmmemctl0_el1, 17); /* Don't reset timer on merge as that violates the ARM ARM. */
-	unset_bit (cvmmemctl0_el1, 18); /* Set Write-buffer timeout for NSH entries to 218 cycles. */
-	__asm__ __volatile__("msr s3_0_c11_c0_0, %0\n" : : "r" (cvmctl_el1));
+	unset_bit(cvmmemctl0_el1, 17); /* Don't reset timer on merge as that violates the ARM ARM. */
+	unset_bit(cvmmemctl0_el1, 18); /* Set Write-buffer timeout for NSH entries to 218 cycles. */
 
-	__asm__ __volatile__("msr s3_0_c11_c0_4, %0\n" : : "r" (cvmmemctl0_el1));
+	write_cvmctl_el1(cvmctl_el1);
+	write_cvmmemctl0_el1(cvmmemctl0_el1);
 
 	/* Allow CVM CACHE instructions from EL1/EL2 */
 	write_cvm_access_el1(read_cvm_access_el1() & ~(1 << 8));
