@@ -321,10 +321,18 @@ static void init_gpio(int node, uint64_t config_base, uint64_t config_size)
 
 static inline int uaa_get_irq(int uaanr)
 {
-	if (uaanr)
-		return UAA1_IRQ;
-	else
+	switch (uaanr) {
+	case 0:
 		return UAA0_IRQ;
+	case 1:
+		return UAA1_IRQ;
+	case 2:
+		return UAA2_IRQ;
+	case 3:
+		return UAA3_IRQ;
+	default:
+		return -1;
+	}
 }
 
 static void init_uaa(int node, uint64_t config_base, uint64_t config_size)
@@ -334,12 +342,17 @@ static void init_uaa(int node, uint64_t config_base, uint64_t config_size)
 	uint16_t table_size = 0;
 	uint8_t bir = 0;
 	uint64_t vector_base = 0;
-	int i;
+	int i, uaa_irq;
 	union cavm_pccpf_xxx_vsec_ctl vsec_ctl;
 	vsec_ctl.u = cavm_read32(config_base + CAVM_PCCPF_XXX_VSEC_CTL);
 
 	/* not intialising node1 uaa */
 	if (node)
+		return;
+
+	uaa_irq = uaa_get_irq(vsec_ctl.s.inst_num);
+
+	if (uaa_irq < 0)
 		return;
 
 	debug_io("UAA(%d) Node(%d) init called config_base:%lx size:%lx\n",
@@ -362,12 +375,12 @@ static void init_uaa(int node, uint64_t config_base, uint64_t config_size)
 			    (i % 2) ? CAVM_GICD_CLRSPI_NSR : CAVM_GICD_SETSPI_NSR;
 			vector_base += 8;
 			printf("\r"); /* Need to revisit and remove this workaround */
-			*(uint64_t *) vector_base = uaa_get_irq(vsec_ctl.s.inst_num);
+			*(uint64_t *) vector_base = uaa_irq;
 			vector_base += 8;
 			debug_io("UAA(%d)-NODE(%d): Vector:%d address :%lx irq:%d\n",
 				 vsec_ctl.s.inst_num, node, i,
 				 ((i % 2) ? CAVM_GICD_CLRSPI_NSR : CAVM_GICD_SETSPI_NSR),
-				 uaa_get_irq(vsec_ctl.s.inst_num));
+				 uaa_irq);
 		}
 	}
 }

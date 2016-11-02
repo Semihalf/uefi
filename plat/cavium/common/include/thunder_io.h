@@ -22,6 +22,8 @@
 
 #define UAA0_IRQ		0x25
 #define UAA1_IRQ		0x26
+#define UAA2_IRQ		0x27
+#define UAA3_IRQ		0x28
 
 /*
  * TWSI-1 Secure IRQ for CLST events
