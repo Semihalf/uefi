@@ -49,6 +49,7 @@ void thunder_gic_driver_init(void)
 	 * not need GIC interface base addresses to be configured.
 	 */
 #if IMAGE_BL31
+#ifdef T98
 	unsigned node, node_count;
 
 	node_count = thunder_get_node_count();
@@ -61,11 +62,13 @@ void thunder_gic_driver_init(void)
 		cfg_ctlr.s.root_dist = (node == 0) ? 1 : 0;
 		CSR_WRITE_PA(node, CAVM_GIC_CFG_CTLR, cfg_ctlr.u);
 	}
+#endif
 
 	thunder_gic_data.gicd_base = CSR_PA(0, CAVM_GIC_PF_BAR0);
 	thunder_gic_data.gicr_base = CSR_PA(0, CAVM_GIC_PF_BAR4);
 	gicv3_driver_init(&thunder_gic_data);
 
+#ifdef T98
 	/* Init GIC redistributors for other nodes */
 
 	for (node = 1; node < node_count; node++)
@@ -74,6 +77,7 @@ void thunder_gic_driver_init(void)
 				thunder_gic_data.rdistif_num,
 				CSR_PA(node, CAVM_GIC_PF_BAR4),
 				thunder_gic_data.mpidr_to_core_pos);
+#endif
 #endif
 }
 
