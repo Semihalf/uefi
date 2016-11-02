@@ -321,10 +321,18 @@ static void init_gpio(int node, uint64_t config_base, uint64_t config_size)
 
 static inline int uaa_get_irq(int uaanr)
 {
-	if (uaanr)
-		return UAA1_IRQ;
-	else
+	switch (uaanr) {
+	case 0:
 		return UAA0_IRQ;
+	case 1:
+		return UAA1_IRQ;
+	case 2:
+		return UAA2_IRQ;
+	case 3:
+		return UAA3_IRQ;
+	default:
+		return UAA3_IRQ;
+	}
 }
 
 __unused static void init_uaa(int node, uint64_t config_base, uint64_t config_size)
