@@ -77,6 +77,10 @@ int thunder_fill_board_details(int info)
 			bfdt.board_model[i] = tolower(bfdt.board_model[i]);
 	}
 
+	/* The EBBs do not have BMC so rest of data is useless */
+	if(!strncmp(bfdt.board_model, "ebb", 3))
+		return 0;
+
 	config = thunder_fdt_get(fdt, offset, "BMC-BOOT-TWSI-CONFIG", 0);
 	if (config != -1) {
 		bfdt.bmc_boot_twsi_node = (config >> 16) & 0xff;
