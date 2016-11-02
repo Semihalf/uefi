@@ -82,10 +82,12 @@ void plat_add_mmio_map()
 
 void thunder_cpu_setup(void)
 {
-	uint64_t cvmctl_el1, cvmmemctl0_el1;
+	uint64_t cvmctl_el1, cvmmemctl0_el1, cvmmemctl1_el1, midr;
 
 	cvmctl_el1 = read_cvmctl_el1();
 	cvmmemctl0_el1 = read_cvmmemctl0_el1();
+	cvmmemctl1_el1 = read_cvmmemctl1_el1();
+	midr = CAVIUM_SOC_TYPE();
 
 	/* Enable CAS/CASP and enable v8.1 support. */
 	unset_bit(cvmctl_el1, 36);  /* Enable CAS */
@@ -94,12 +96,18 @@ void thunder_cpu_setup(void)
 
 	/* Enable prefetcher */
 	set_bit(cvmctl_el1, 43);   /* Ignore the bp for next line prefetcher. */
-	if (CAVIUM_SOC_TYPE() == T81PARTNUM)
+	if (midr == T81PARTNUM)
 		set_bit(cvmctl_el1, 42);   /* Use stride of 2. */
-	else if (CAVIUM_SOC_TYPE() == T83PARTNUM)
+	else if (midr == T83PARTNUM)
 		unset_bit(cvmctl_el1, 42); /* Don't cause a stride of 2 rather prefetch every line. */
 	set_bit(cvmctl_el1, 41);   /* Enable next line prefetcher. */
 	set_bit(cvmctl_el1, 40);   /* Enable delta prefetcher. */
+
+	if (midr == T81PARTNUM || midr == T83PARTNUM) {
+		set_bit(cvmmemctl1_el1, 3); /* Enable LMTST */
+		set_bit(cvmmemctl1_el1, 4); /* Enable SSO/PKO addr region */
+		set_bit(cvmmemctl1_el1, 6); /* Enable SSO switch tag */
+	}
 
 	/* Fix up defaults from the BDK which is broken and violates the ARM ARM. */
 	unset_bit(cvmmemctl0_el1, 17); /* Don't reset timer on merge as that violates the ARM ARM. */
@@ -107,6 +115,7 @@ void thunder_cpu_setup(void)
 
 	write_cvmctl_el1(cvmctl_el1);
 	write_cvmmemctl0_el1(cvmmemctl0_el1);
+	write_cvmmemctl1_el1(cvmmemctl1_el1);
 
 	/* Allow CVM CACHE instructions from EL1/EL2 */
 	write_cvm_access_el1(read_cvm_access_el1() & ~(1 << 8));
