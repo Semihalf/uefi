@@ -43,7 +43,7 @@ void thunder_security_setup(void);
 unsigned thunder_get_node_count(void);
 int thunder_dram_is_lmc_enabled(unsigned node, unsigned lmc);
 uint64_t thunder_dram_size_node(unsigned node);
-void thunder_errata_fixes(void);
+void thunder_cpu_setup(void);
 extern void *fdt_ptr;
 void thunder_gic_driver_init(void);
 void thunder_gic_init(void);

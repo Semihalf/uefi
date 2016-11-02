@@ -72,7 +72,7 @@ void bl1_early_platform_setup(void)
 {
 	const size_t bl1_size = BL1_RAM_LIMIT - BL1_RAM_BASE;
 
-	thunder_errata_fixes();
+	thunder_cpu_setup();
 
 	/* Do it here. Later this region will be mapped as RO. */
 	fdt_pack(fdt_ptr);
