@@ -1,6 +1,7 @@
 #include <arch.h>
 #include <platform_def.h>
 #include <thunder_private.h>
+#include <thunder_common.h>
 
 #undef GICD_SETSPI_NSR
 #undef GICD_CLRSPI_NSR
@@ -63,6 +64,13 @@ void thunder_gic_driver_init(void)
 		CSR_WRITE_PA(node, CAVM_GIC_CFG_CTLR, cfg_ctlr.u);
 	}
 #endif
+	/* ERRATUM GIC-28835 */
+	if (IS_THUNDER_PASS(CAVIUM_SOC_TYPE(), T83PARTNUM, 1, 0)) {
+	        union cavm_gic_cfg_ctlr cfg_ctlr;
+	        cfg_ctlr.u = CSR_READ_PA(0, CAVM_GIC_CFG_CTLR);
+	        cfg_ctlr.s.dis_cpu_if_load_balancer = 1;
+	        CSR_WRITE_PA(0, CAVM_GIC_CFG_CTLR, cfg_ctlr.u);
+	}
 
 	thunder_gic_data.gicd_base = CSR_PA(0, CAVM_GIC_PF_BAR0);
 	thunder_gic_data.gicr_base = CSR_PA(0, CAVM_GIC_PF_BAR4);
