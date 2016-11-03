@@ -30,10 +30,8 @@ DEFINE_RENAME_SYSREG_RW_FUNCS(cvm_access_el1, AP_CVM_ACCESS_EL1)
 DEFINE_RENAME_SYSREG_RW_FUNCS(cvm_access_el2, AP_CVM_ACCESS_EL2)
 DEFINE_RENAME_SYSREG_RW_FUNCS(cvm_access_el3, AP_CVM_ACCESS_EL3)
 
-#define T88_PN			0xa1
-
-#define IS_THUNDER_PASS(midr, hi, low)					\
-	((((midr) >> MIDR_PN_SHIFT & MIDR_PN_MASK) == T88_PN) &&	\
+#define IS_THUNDER_PASS(midr, partnum, hi, low)				\
+	((((midr) >> MIDR_PN_SHIFT & MIDR_PN_MASK) == (partnum)) &&	\
 	 (((midr) >> MIDR_VAR_SHIFT & MIDR_VAR_MASK) == (hi) - 1) &&	\
 	 (((midr) >> MIDR_REV_SHIFT & MIDR_REV_MASK) == (low)))
 

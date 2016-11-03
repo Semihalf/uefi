@@ -86,7 +86,6 @@ int thunder_wait_for_core(unsigned node)
 void thunder_pwrc_write_pponr(unsigned long mpidr)
 {
 	union cavm_rst_pp_reset pp_reset;
-	uint32_t midr;
 	unsigned long node, aff1_id, aff0_id, cavm_core_id;
 
 	node = ((mpidr >> MPIDR_AFF2_SHIFT) & MPIDR_AFFLVL_MASK);
@@ -121,20 +120,6 @@ void thunder_pwrc_write_pponr(unsigned long mpidr)
 		WARN("Failed to release core:%lu on node:%lu\n ",
 				cavm_core_id,node);
 	}
-
-	/* AP-23192: The DAP in T88 pass 1.0 has an issue where its state isn't cleared for
-	 *  cores in reset. Put the DAPs in reset as their associated cores are
-	 *  also in reset.
-	 */
-	midr = read_midr();
-
-	if (IS_THUNDER_PASS(midr, 1, 0)) {
-		union cavm_rst_dbg_reset dbg_reset;
-		dbg_reset.u = CSR_READ_PA(node, CAVM_RST_DBG_RESET);
-		dbg_reset.s.rst &= ~(1ull << cavm_core_id);
-		CSR_WRITE_PA(node, CAVM_RST_DBG_RESET, dbg_reset.u);
-	}
-
 }
 
 void thunder_pwrc_write_ppoffr(unsigned long mpidr)
