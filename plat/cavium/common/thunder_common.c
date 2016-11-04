@@ -4,6 +4,8 @@
 #include <thunder_private.h>
 #include <thunder_common.h>
 
+extern void plat_add_mmio_node(unsigned long node);
+
 void *fdt_ptr = (void *)~0;
 
 unsigned long plat_get_ns_image_entrypoint(void)
@@ -20,7 +22,7 @@ uint64_t plat_get_syscnt_freq(void)
 #define ROUND_DOWN(val, align)	((val) / (align) * (align))
 #define ROUND_UP(val, align)	(((val) + (align) - 1) / (align) * (align))
 
-static void add_map_record(unsigned long addr, unsigned long size, mmap_attr_t attr)
+void add_map_record(unsigned long addr, unsigned long size, mmap_attr_t attr)
 {
 	/* Round up to sensible boundry */
 	mmap_add_region(ROUND_DOWN(addr, 2*1024*1024),
@@ -43,72 +45,6 @@ static void plat_add_mmio_common(void)
 
 	attr = MT_MEMORY | MT_RW | MT_NS;
 	mmap_add_region(NS_IMAGE_BASE, NS_IMAGE_BASE, NS_IMAGE_MAX_SIZE, attr);
-}
-
-static void plat_add_mmio_node(unsigned long node)
-{
-	unsigned long attr;
-	int i;
-
-	attr = MT_DEVICE | MT_RW | MT_SECURE;
-	add_map_record(CSR_PA(node, CAVM_RST_PF_BAR0), CAVM_RST_PF_BAR0_SIZE, attr);
-	add_map_record(CSR_PA(node, CAVM_L2C_PF_BAR0), CAVM_L2C_PF_BAR0_SIZE, attr);
-	add_map_record(CSR_PA(node, CAVM_MIO_BOOT_PF_BAR0), CAVM_MIO_BOOT_PF_BAR0_SIZE, attr);
-	add_map_record(CSR_PA(node, CAVM_MIO_EMM_PF_BAR0), CAVM_MIO_EMM_PF_BAR0_SIZE, attr);
-	add_map_record(CSR_PA(node, CAVM_MPI_PF_BAR0), CAVM_MPI_PF_BAR0_SIZE, attr);
-	add_map_record(CSR_PA(node, CAVM_GIC_PF_BAR0), CAVM_GIC_PF_BAR0_SIZE, attr);
-	add_map_record(CSR_PA(node, CAVM_GIC_PF_BAR2), CAVM_GIC_PF_BAR2_SIZE, attr);
-	add_map_record(CSR_PA(node, CAVM_GIC_PF_BAR4), CAVM_GIC_PF_BAR4_SIZE, attr);
-	for (i = 0; i < 4; i++)
-		add_map_record(CSR_PA(node, CAVM_SMMUX_PF_BAR0(i)), CAVM_SMMUX_PF_BAR0_SIZE, attr);
-	for (i = 0; i < 4; i++)
-		add_map_record(CSR_PA(node, CAVM_SMMU_BAR_E_SMMUX_PF_BAR4(i)),
-CAVM_SMMU_BAR_E_SMMUX_PF_BAR4_SIZE, attr);
-	add_map_record(CSR_PA(node, CAVM_GTI_PF_BAR0), CAVM_GTI_PF_BAR0_SIZE, attr);
-	add_map_record(CSR_PA(node, CAVM_GTI_PF_BAR4), CAVM_GTI_PF_BAR4_SIZE, attr);
-
-	for (i = 0; i < 4; i++)
-		add_map_record(CSR_PA(node, CAVM_LMCX_PF_BAR0(i)), CAVM_LMCX_PF_BAR0_SIZE, attr);
-	for (i = 0; i < 6; i++)
-		add_map_record(CSR_PA(node, CAVM_MIO_TWSX_PF_BAR0(i)), CAVM_MIO_TWSX_PF_BAR0_SIZE, attr);
-	for (i = 0; i < 6; i++)
-		add_map_record(CSR_PA(node, CAVM_MIO_TWS_BAR_E_MIO_TWSX_PF_BAR4(i)), CAVM_MIO_TWS_BAR_E_MIO_TWSX_PF_BAR4_SIZE, attr);
-	for (i = 0; i < 4; i++)
-		add_map_record(CSR_PA(node, CAVM_L2C_CBCX_PF_BAR0(i)), CAVM_L2C_CBCX_PF_BAR0_SIZE, attr);
-	for (i = 0; i < 4; i++)
-		add_map_record(CSR_PA(node, CAVM_L2C_MCIX_PF_BAR0(i)), CAVM_L2C_MCIX_PF_BAR0_SIZE, attr);
-	for (i = 0; i < 8; i++)
-		add_map_record(CSR_PA(node, CAVM_L2C_TADX_PF_BAR0(i)), CAVM_L2C_TADX_PF_BAR0_SIZE, attr);
-	for (i = 0; i < 6; i++)
-		add_map_record(CSR_PA(node, CAVM_PEM_BAR_E_PEMX_PF_BAR4(i)),
-CAVM_PEM_BAR_E_PEMX_PF_BAR4_SIZE, attr);
-	for (i = 0; i < 13; i++)
-		add_map_record(CSR_PA(node, CAVM_GSERX_PF_BAR0(i)), CAVM_GSERX_PF_BAR0_SIZE, attr);
-	for (i = 0; i < 2; i++)
-		add_map_record(CSR_PA(node, CAVM_BGXX_PF_BAR0(i)), CAVM_BGXX_PF_BAR0_SIZE, attr);
-
-	add_map_record(CSR_PA(node, CAVM_DAP_PF_BAR0), CAVM_DAP_PF_BAR0_SIZE, attr);
-	add_map_record(CSR_PA(node, CAVM_CIM_CSR_BASE), CAVM_CIM_CSR_SIZE, attr);
-
-	add_map_record(CSR_PA(node, CAVM_OCX_PF_BAR0), CAVM_OCX_PF_BAR0_SIZE, attr);
-
-	add_map_record(CSR_PA(node, CAVM_GPIO_PF_BAR0), CAVM_GPIO_PF_BAR0_SIZE, attr);
-	add_map_record(CSR_PA(node, CAVM_GPIO_PF_BAR4), CAVM_GPIO_PF_BAR4_SIZE, attr);
-
-	for (i = 0; i < 2; i++)
-		add_map_record(CSR_PA(node, CAVM_UAAX_PF_BAR0(i)), CAVM_UAAX_PF_BAR0_SIZE, attr);
-	for (i = 0; i < 2; i++)
-		add_map_record(CSR_PA(node, CAVM_UAA_BAR_E_UAAX_PF_BAR4_CN81XX(i)),
-CAVM_UAA_BAR_E_UAAX_PF_BAR4_CN81XX_SIZE, attr);
-	for (i = 0; i < 4; i++)
-		add_map_record(CSR_PA(node, CAVM_ECAM_BAR_E_ECAMX_PF_BAR0(i)),
-CAVM_ECAM_BAR_E_ECAMX_PF_BAR0_SIZE, attr);
-	for (i = 0; i < 4; i++)
-		add_map_record(CSR_PA(node, CAVM_ECAMX_PF_BAR2(i)), CAVM_ECAMX_PF_BAR2_SIZE, attr);
-	for (i = 0; i < 6; i++)
-		add_map_record(CSR_PA(node, CAVM_PEMX_PF_BAR0(i)), CAVM_PEMX_PF_BAR0_SIZE, attr);
-	for (i = 0; i < 2; i++)
-		add_map_record(CSR_PA(node, CAVM_SLIX_PF_BAR0(i)), CAVM_SLIX_PF_BAR0_SIZE, attr);
 }
 
 unsigned thunder_get_node_count(void)
