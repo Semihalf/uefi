@@ -327,7 +327,7 @@ static inline int uaa_get_irq(int uaanr)
 		return UAA0_IRQ;
 }
 
-__unused static void init_uaa(int node, uint64_t config_base, uint64_t config_size)
+static void init_uaa(int node, uint64_t config_base, uint64_t config_size)
 {
 	struct pcie_config *pconfig = (struct pcie_config *)config_base;
 	uint8_t cap_pointer = pconfig->cap_pointer;
@@ -361,6 +361,7 @@ __unused static void init_uaa(int node, uint64_t config_base, uint64_t config_si
 			*(uint64_t *) vector_base =
 			    (i % 2) ? CAVM_GICD_CLRSPI_NSR : CAVM_GICD_SETSPI_NSR;
 			vector_base += 8;
+			printf("\r"); /* Need to revisit and remove this workaround */
 			*(uint64_t *) vector_base = uaa_get_irq(vsec_ctl.s.inst_num);
 			vector_base += 8;
 			debug_io("UAA(%d)-NODE(%d): Vector:%d address :%lx irq:%d\n",
@@ -522,7 +523,7 @@ void init_gti(int node, uint64_t config_base, uint64_t config_size)
 struct ecam_callback callbacks[] = {
 	{0xa008, 0x177d, init_smmu},
 	{0xa00a, 0x177d, init_gpio},
-//	{0xa00f, 0x177d, init_uaa},
+	{0xa00f, 0x177d, init_uaa},
 	{0xa012, 0x177d, init_twsi},
 	{0xa017, 0x177d, init_gti},
 	{0xa020, 0x177d, init_pem},
