@@ -127,7 +127,7 @@ uint64_t thunder_get_ecam_config_addr(int node, int ecam)
         uint64_t addr = CSR_PA(0, CAVM_ECAMX_PF_BAR2(ecam));
         const char *nodename;
         char name[32], *socname;
-        const uint64_t *prop;
+        const uint32_t *prop;
 
 
         if(fdt_check_header(fdt)) {
@@ -181,7 +181,7 @@ uint64_t thunder_get_ecam_config_size(int node, int ecam)
         uint64_t addr = CSR_PA(0, CAVM_ECAMX_PF_BAR2(ecam));
         const char *nodename;
         char name[32], *socname;
-        const uint64_t *prop;
+        const uint32_t *prop;
 
         if(fdt_check_header(fdt)) {
                 printf("ERROR: Invalid device tree\n");
@@ -202,7 +202,7 @@ uint64_t thunder_get_ecam_config_size(int node, int ecam)
                 {
                         prop = fdt_getprop(fdt, dt_node, "reg", &len);
                         if(prop) {
-                                val = fdt64_to_cpu(*(prop + 1));
+                                val = fdt32_to_cpu(*(prop + 3));
                                 break;
                         }
                 }

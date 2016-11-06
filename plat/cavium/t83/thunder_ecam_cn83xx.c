@@ -240,16 +240,12 @@ static int cn83xx_get_max_bus(int ecam)
 
 static uint64_t cn83xx_get_config_addr(int node, int ecam)
 {
-	/* TODO: Get this value from DTB */
-//	return thunder_get_ecam_config_addr(node, ecam);
-	return 0x848000000000;
+	return thunder_get_ecam_config_addr(node, ecam);
 }
 
 static uint64_t cn83xx_get_config_size(int node, int ecam)
 {
-	/* TODO: Get this value from DTB */
-//	return thunder_get_ecam_config_size(node, ecam);
-	return 0x02000000;
+	return thunder_get_ecam_config_size(node, ecam);
 }
 
 const struct ecam_platform_defs ecam_defs = {
