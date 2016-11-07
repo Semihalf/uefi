@@ -31,7 +31,7 @@ struct ecam_device{
 
 struct ecam_platform_defs {
 	int soc_type;
-	struct ecam_device *(*get_dev_idx)(int node, int ecam_id);
+	struct ecam_device *(*get_probe_table)(int node, int ecam_id);
 	int (*get_max_bus)(int ecam_id);
 	uint64_t (*get_config_addr)(int node, int ecam_id);
 	uint64_t (*get_config_size)(int node, int ecam_id);

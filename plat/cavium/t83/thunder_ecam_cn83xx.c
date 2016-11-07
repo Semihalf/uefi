@@ -74,7 +74,7 @@ static int ecam_probe_lmc(int node, unsigned long arg)
 	return thunder_dram_is_lmc_enabled(node, arg);
 }
 
-struct ecam_device devs0_cn83xx[] = {
+struct ecam_device probe_table_cn83xx[] = {
 	{0, 1 , 0,  72, TRUE, ecam_probe_twsi, 0}, /* TWSI 0 */
 	{0, 1 , 0,  73, TRUE, ecam_probe_twsi, 1}, /* TWSI 1 */
 	{0, 1 , 0,  80, TRUE, ecam_probe_lmc, 0}, /* LMC 0 */
@@ -96,14 +96,14 @@ struct ecam_device devs0_cn83xx[] = {
 	{-1, 0, 0, 0, 0, NULL, 0},
 };
 
-static struct ecam_device *cn83xx_get_dev_idx(int node, int ecam)
+static struct ecam_device *cn83xx_get_probe_table(int node, int ecam)
 {
 	int node_ecam = ecam | (node << 2);
 	struct ecam_device *devs = NULL;
 
 	switch (node_ecam) {
 	case 0:
-		devs = &devs0_cn83xx[0];
+		devs = &probe_table_cn83xx[0];
 		break;
 	}
 	return devs;
@@ -153,7 +153,7 @@ static uint64_t cn83xx_get_config_size(int node, int ecam)
 
 const struct ecam_platform_defs ecam_defs = {
 	.soc_type = T83PARTNUM,
-	.get_dev_idx = cn83xx_get_dev_idx,
+	.get_probe_table = cn83xx_get_probe_table,
 	.get_max_bus = cn83xx_get_max_bus,
 	.get_config_addr = cn83xx_get_config_addr,
 	.get_config_size = cn83xx_get_config_size,
