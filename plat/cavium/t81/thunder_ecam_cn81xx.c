@@ -68,7 +68,7 @@ static int ecam_probe_bgx(int node, unsigned long arg)
 	return (cfg_dlm0.s.bgx || cfg_dlm1.s.bgx);
 }
 
-struct ecam_device devs0_cn81xx[] = {
+struct ecam_device probe_table_cn81xx[] = {
 	{0, 0, 22, 0, TRUE, ecam_probe_sata, 3},	/* SATA 0 */
 	{0, 0, 23, 0, TRUE, ecam_probe_sata, 3},	/* SATA 1 */
 	{0, 1, 0, 72, TRUE, ecam_probe_twsi, 0},	/* TWSI 0 */
@@ -81,14 +81,14 @@ struct ecam_device devs0_cn81xx[] = {
 	{-1, 0, 0, 0, 0, NULL, 0},
 };
 
-static struct ecam_device *cn81xx_get_dev_idx(int node, int ecam)
+static struct ecam_device *cn81xx_get_probe_table(int node, int ecam)
 {
 	int node_ecam = ecam | (node << 2);
 	struct ecam_device *devs = NULL;
 
 	switch (node_ecam) {
 	case 0:
-		devs = &devs0_cn81xx[0];
+		devs = &probe_table_cn81xx[0];
 		break;
 	}
 	return devs;
@@ -134,7 +134,7 @@ static uint64_t cn81xx_get_config_size(int node, int ecam)
 
 const struct ecam_platform_defs ecam_defs = {
 	.soc_type = T81PARTNUM,
-	.get_dev_idx = cn81xx_get_dev_idx,
+	.get_probe_table = cn81xx_get_probe_table,
 	.get_max_bus = cn81xx_get_max_bus,
 	.get_config_addr = cn81xx_get_config_addr,
 	.get_config_size = cn81xx_get_config_size,

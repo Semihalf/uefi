@@ -134,8 +134,7 @@ static void probe_ecam_device(struct ecam_device *device, int node, int ecam_id)
 	struct ecam_device *probe_table;
 	int valid;
 
-	probe_table = ecam_devices_ops->get_dev_idx(node, ecam_id);
-
+	probe_table = ecam_devices_ops->get_probe_table(node, ecam_id);
 	/* need to match DTS device with probe_func table */
 	for (; probe_table->ecam_id >= 0; probe_table++) {
 		valid = TRUE;

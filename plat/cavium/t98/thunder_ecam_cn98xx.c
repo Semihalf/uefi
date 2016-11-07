@@ -18,7 +18,7 @@
 #include <thunder_dt.h>
 #include <thunder_ecam.h>
 
-struct ecam_device devs_cn98xx[] = {
+struct ecam_device probe_table_cn98xx[] = {
 	{0, 0, 1, 0, TRUE, -1, NULL, 0},	/* PCCBR_MRML */
 	{0, 0, 2, 0, FALSE, -1, NULL, 0},	/* SMMU 0 */
 	{0, 0, 3, 0, FALSE, -1, NULL, 0},	/* GIC */
@@ -152,14 +152,14 @@ struct ecam_device devs_cn98xx[] = {
 	{-1, 0, 0, 0, 0, -1, NULL, 0},
 };
 
-static struct ecam_device *cn98xx_get_dev_idx(int node, int ecam)
+static struct ecam_device *cn98xx_get_probe_table(int node, int ecam)
 {
 	int node_ecam = ecam | (node << 2);
 	struct ecam_device *devs = NULL;
 
 	switch (node_ecam) {
 	case 0:
-		devs = &devs_cn98xx[0];
+		devs = &probe_table_cn98xx[0];
 		break;
 	}
 	return devs;
@@ -186,7 +186,7 @@ static uint64_t cn98xx_get_config_size(int node, int ecam)
 
 const struct ecam_platform_defs ecam_defs = {
 	.soc_type = T98PARTNUM,
-	.get_dev_idx = cn98xx_get_dev_idx,
+	.get_probe_table = cn98xx_get_probe_table,
 	.get_max_bus = cn98xx_get_max_bus,
 	.get_config_addr = cn98xx_get_config_addr,
 	.get_config_size = cn98xx_get_config_size,
