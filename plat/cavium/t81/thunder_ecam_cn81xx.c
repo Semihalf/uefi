@@ -69,62 +69,15 @@ static int ecam_probe_bgx(int node, unsigned long arg)
 }
 
 struct ecam_device devs0_cn81xx[] = {
-	{0, 0, 1, 0, TRUE, NULL, 0},	/* PCCBR_MRML */
-	{0, 0, 2, 0, FALSE, NULL, 0},	/* SMMU 0 */
-	{0, 0, 3, 0, FALSE, NULL, 0},	/* GIC */
-	{0, 0, 4, 0, FALSE, NULL, 0},	/* GTI */
-	{0, 0, 6, 0, TRUE, NULL, 0},	/* GPIO */
-	{0, 0, 7, 0, TRUE, NULL, 0},	/* MPI */
-	{0, 0, 8, 0, FALSE, NULL, 0},	/* MIO_PTP */
-	{0, 0, 9, 0, TRUE, NULL, 0},	/* RNM */
-	{0, 0, 10, 0, TRUE, NULL, 0},	/* BCH */
-	{0, 0, 11, 0, TRUE, NULL, 0},	/* NAND */
-	{0, 0, 12, 0, TRUE, NULL, 0},	/* CPT bridge */
-	{0, 0, 13, 0, TRUE, NULL, 0},	/* PCM */
-	{0, 0, 14, 0, TRUE, NULL, 0},	/* SLI */
-	{0, 0, 15, 0, TRUE, NULL, 0},	/* PCCBR_NIC */
-	{0, 0, 16, 0, TRUE, NULL, 0},	/* USB 0 */
-	{0, 0, 17, 0, TRUE, NULL, 0},	/* USB 1 */
 	{0, 0, 22, 0, TRUE, ecam_probe_sata, 3},	/* SATA 0 */
 	{0, 0, 23, 0, TRUE, ecam_probe_sata, 3},	/* SATA 1 */
-
-	/* Bus1, ARI functions */
-	{0, 1, 0, 0, TRUE, NULL, 0},	/* MRML */
-	{0, 1, 0, 1, TRUE, NULL, 0},	/* RST */
-	{0, 1, 0, 2, FALSE, NULL, 0},	/* DAP */
-	{0, 1, 0, 3, FALSE, NULL, 0},	/* FUS */
-	{0, 1, 0, 4, FALSE, NULL, 0},	/* FUSF */
-	{0, 1, 0, 9, FALSE, NULL, 0},	/* L2C */
-	{0, 1, 0, 10, FALSE, NULL, 0},	/* SGP */
-	{0, 1, 0, 11, TRUE, NULL, 0},	/* SMI */
-	{0, 1, 0, 12, TRUE, NULL, 0},	/* MIO_EMM */
-	{0, 1, 0, 13, FALSE, NULL, 0},	/* KEY */
-	{0, 1, 0, 14, FALSE, NULL, 0},	/* BOOT BUS */
-	{0, 1, 0, 15, TRUE, NULL, 0},	/* PBUS */
-	{0, 1, 0, 16, TRUE, NULL, 0},	/* XCV */
-	{0, 1, 0, 48, TRUE, NULL, 0},	/* L2C-TAD 0 */
-	{0, 1, 0, 56, TRUE, NULL, 0},	/* L2C-CBC 0 */
-	{0, 1, 0, 60, TRUE, NULL, 0},	/* L2C-MCI 0 */
-	{0, 1, 0, 64, FALSE, NULL, 0},	/* UAA 0 */
-	{0, 1, 0, 65, FALSE, NULL, 0},	/* UAA 1 */
-	{0, 1, 0, 66, FALSE, NULL, 0},	/* UAA 2 */
-	{0, 1, 0, 67, FALSE, NULL, 0},	/* UAA 3 */
 	{0, 1, 0, 72, TRUE, ecam_probe_twsi, 0},	/* TWSI 0 */
 	{0, 1, 0, 73, TRUE, ecam_probe_twsi, 1},	/* TWSI 1 */
-	{0, 1, 0, 80, TRUE, NULL, 0},	/* LMC 0 */
-	{0, 1, 0, 96, TRUE, NULL, 0},	/* OCLA 0 */
-	{0, 1, 0, 97, TRUE, NULL, 0},	/* OCLA 1 */
 	{0, 1, 0, 112, FALSE, ecam_probe_pem, 0},	/* PEM 0 */
 	{0, 1, 0, 113, FALSE, ecam_probe_pem, 1},	/* PEM 1 */
 	{0, 1, 0, 114, FALSE, ecam_probe_pem, 2},	/* PEM 2 */
 	{0, 1, 0, 128, TRUE, ecam_probe_bgx, 0},	/* BGX 0 */
 	{0, 1, 0, 129, TRUE, ecam_probe_bgx, 2},	/* BGX 1 */
-	{0, 1, 0, 144, TRUE, NULL, 0},	/* RGX0 */
-
-	{0, 2, 0, 0, TRUE, NULL, 0},	/* RNM */
-	{0, 3, 0, 0, TRUE, NULL, 0},	/* BCH */
-	{0, 4, 0, 0, TRUE, NULL, 0},	/* CPT0 */
-	{0, 5, 0, 0, TRUE, NULL, 0},	/* NIC0 */
 	{-1, 0, 0, 0, 0, NULL, 0},
 };
 
