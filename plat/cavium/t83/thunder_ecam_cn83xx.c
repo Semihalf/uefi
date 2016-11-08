@@ -206,6 +206,9 @@ static struct ecam_device *cn83xx_get_dev_idx(int node, int ecam)
 	case 0:
 		devs = &devs0_cn83xx[0];
 		break;
+	case 1:
+		devs = &devs0_cn83xx[1];
+		break;
 	}
 	return devs;
 }
