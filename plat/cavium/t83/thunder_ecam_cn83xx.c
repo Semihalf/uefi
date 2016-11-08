@@ -251,7 +251,7 @@ static int cn83xx_disable_device_on_bus(int node, int bus)
 	return 0;
 }
 
-int max_bus_cn83xx[] = { 6, 0, 1, 0 };
+int max_bus_cn83xx[] = { 11, 5};
 
 static int cn83xx_get_max_bus(int ecam)
 {
