@@ -143,13 +143,8 @@
   gMarvellTokenSpaceGuid.PcdPciEDevCount|4
                                                 ## XHCI1       XHCI2       SATA      MMC
   gMarvellTokenSpaceGuid.PcdPciEDevBaseAddress|L"0xF2500000;0xF2510000;0xF2540000;0xF06E0000"
-  ## ClassCode1
-  gMarvellTokenSpaceGuid.PcdPciEDevClassCode1|L"0x30;0x30;0x01;0x01"
-  ## ClassCode2
-  gMarvellTokenSpaceGuid.PcdPciEDevClassCode2|L"0x03;0x03;0x06;0x05"
-  ## ClassCode3
-  gMarvellTokenSpaceGuid.PcdPciEDevClassCode3|L"0x0C;0x0C;0x01;0x08"
-  gMarvellTokenSpaceGuid.PcdPciEDevRegSize|L"0x10000;0x10000;0x30000;0x300"
+  gMarvellTokenSpaceGuid.PcdPciEDevType|{ 0x0, 0x0, 0x1, 0x2 }
+  gMarvellTokenSpaceGuid.PcdPciEDmaType|{ 0x0, 0x0, 0x0, 0x0 }
 
   #ResetLib
   gMarvellTokenSpaceGuid.PcdResetRegAddress|0xf06f0084

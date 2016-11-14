@@ -24,7 +24,6 @@
 
 [Sources.common]
   PciEmulation.c
-  PciRootBridgeIo.c
 
 [Packages]
   ArmPkg/ArmPkg.dec
@@ -37,14 +36,12 @@
 
 [LibraryClasses]
   BaseLib
-  DmaLib
-  DxeServicesTableLib
+  DebugLib
   IoLib
+  NonDiscoverableDeviceRegistrationLib
   ParsePcdLib
   UefiBootServicesTableLib
   UefiDriverEntryPoint
-  UefiLib
-  UefiRuntimeServicesTableLib
 
 [Protocols]
   gEfiDevicePathProtocolGuid
@@ -55,13 +52,9 @@
 
 [Pcd]
   gMarvellTokenSpaceGuid.PcdPciEDevBaseAddress
-  gMarvellTokenSpaceGuid.PcdPciEDevClassCode1
-  gMarvellTokenSpaceGuid.PcdPciEDevClassCode2
-  gMarvellTokenSpaceGuid.PcdPciEDevClassCode3
   gMarvellTokenSpaceGuid.PcdPciEDevCount
-  gMarvellTokenSpaceGuid.PcdPciEDevRegSize
-
-  gMarvellTokenSpaceGuid.PcdSataMapPortAddress
+  gMarvellTokenSpaceGuid.PcdPciEDevType
+  gMarvellTokenSpaceGuid.PcdPciEDmaType
 
 [Depex]
   TRUE
