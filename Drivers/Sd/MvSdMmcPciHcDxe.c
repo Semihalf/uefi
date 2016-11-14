@@ -891,7 +891,7 @@ SdIsReady (
   do {
     Status = SdCardSendStatus (This, Slot, Rca, &DevStatus);
     if (EFI_ERROR (Status)) {
-      DEBUG ((EFI_D_INFO, "Cannot read SD status\n"));
+      DEBUG ((EFI_D_ERROR, "Cannot read SD status\n"));
       return Status;
     }
     // Check device status
@@ -1280,9 +1280,9 @@ SdMmcPassThruPassThru (
   if (!Ret && DataTransfer) {
     if (MultiFlag) {
       SdSendStopTransmission(This, Slot);
-      if (!Read) {
-        return SdIsReady (This, Slot, CurrRca, 1000);
-      }
+    }
+    if (!Read) {
+      return SdIsReady (This, Slot, CurrRca, 1000);
     }
     return EFI_SUCCESS;
   }
