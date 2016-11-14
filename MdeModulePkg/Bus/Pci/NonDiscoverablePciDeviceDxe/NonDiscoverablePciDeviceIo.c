@@ -942,7 +942,7 @@ InitializePciIoProtocol (
     Dev->ConfigSpace.Hdr.ClassCode[1] = PCI_CLASS_SERIAL_USB;
     Dev->ConfigSpace.Hdr.ClassCode[2] = PCI_CLASS_SERIAL;
     Dev->BarIndex = 0;
-    Dev->BarSize = SIZE_2KB;
+    Dev->BarSize = SIZE_16KB;
     break;
 
   case NonDiscoverableDeviceTypeAhci:
@@ -958,7 +958,7 @@ InitializePciIoProtocol (
     Dev->ConfigSpace.Hdr.ClassCode[1] = PCI_SUBCLASS_SD_HOST_CONTROLLER;
     Dev->ConfigSpace.Hdr.ClassCode[2] = PCI_CLASS_SYSTEM_PERIPHERAL;
     Dev->BarIndex = 0;
-    Dev->BarSize = 0x100;
+    Dev->BarSize = 0x300;
     break;
 
   case NonDiscoverableDeviceTypeUfs:
