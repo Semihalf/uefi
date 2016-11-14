@@ -855,16 +855,79 @@ SdMmcPciHcDriverBindingStop (
   return Status;
 }
 
+extern
+EFI_STATUS
+SdCardSendStatus (
+  IN     EFI_SD_MMC_PASS_THRU_PROTOCOL  *PassThru,
+  IN     UINT8                          Slot,
+  IN     UINT16                         Rca,
+     OUT UINT32                         *DevStatus
+  );
 /**
-* +  Send command SD_STOP_TRANSMISSION to stop multiple block transfer.
-* +
-* +  @param[in]  Device            A pointer to the SD_DEVICE instance.
-* +
-* +  @retval EFI_SUCCESS           The request is executed successfully.
-* +  @retval Others                The request could not be executed
-* successfully.
-* +
-* +**/
+  Check if card is ready for next data transfer by reading its status.
+
+  @param[in]  This              A pointer to the EFI_SD_MMC_PASS_THRU_PROTOCOL instance.
+  @param[in]  Slot              The slot number of the SD card to send the command to.
+  @param[in]  Rca               The relative device address of addressed device.
+  @param[in]  Timeout           The timeout in miliseconds.
+
+  @retval EFI_SUCCESS           Card is ready for next data transfer.
+  @retval EFI_DEVICE_ERROR      Card status is erroneous.
+  @retval EFI_TIMEOUT           Card is busy.
+
+**/
+STATIC
+EFI_STATUS
+SdIsReady (
+  IN EFI_SD_MMC_PASS_THRU_PROTOCOL *This,
+  IN UINT8                         Slot,
+  IN UINT16                        Rca,
+  IN UINTN                         Timeout
+  )
+{
+  EFI_STATUS Status;
+  UINT32 DevStatus;
+
+  do {
+    Status = SdCardSendStatus (This, Slot, Rca, &DevStatus);
+    if (EFI_ERROR (Status)) {
+      DEBUG ((EFI_D_INFO, "Cannot read SD status\n"));
+      return Status;
+    }
+    // Check device status
+    if ((DevStatus & (1 << 8)) && (DevStatus & (0xf << 9)) != (7 << 9)) {
+      break;
+    } else if (DevStatus & ~0x0206BF7F) {
+      DEBUG ((EFI_D_ERROR, "SD Status error\n"));
+      return EFI_DEVICE_ERROR;
+    }
+
+    gBS->Stall (1000);
+  } while (Timeout--);
+
+  if (Timeout <= 0) {
+    DEBUG ((EFI_D_ERROR, "SD Status timeout\n"));
+    return EFI_TIMEOUT;
+  }
+
+  if (DevStatus & (1 << 7)) {
+    DEBUG ((EFI_D_ERROR, "SD switch error\n"));
+    return EFI_DEVICE_ERROR;
+  }
+
+  return EFI_SUCCESS;
+}
+
+/**
+  Send command SD_STOP_TRANSMISSION to stop multiple block transfer.
+
+  @param[in]  This              A pointer to the EFI_SD_MMC_PASS_THRU_PROTOCOL instance.
+  @param[in]  Slot              The slot number of the SD card to send the command to.
+
+  @retval EFI_SUCCESS           The request is executed successfully.
+  @retval Others                The request could not be executed successfully.
+
+**/
 EFI_STATUS
 SdSendStopTransmission (
   IN     EFI_SD_MMC_PASS_THRU_PROTOCOL *This,
@@ -897,6 +960,7 @@ SdSendStopTransmission (
   return Status;
 }
 
+STATIC UINT16 CurrRca = 0;
 /**
   Sends SD command to an SD card that is attached to the SD controller.
 
@@ -954,7 +1018,7 @@ SdMmcPassThruPassThru (
   UINT32 CmdTimeout = XENON_MMC_CMD_DEFAULT_TIMEOUT;
   UINT16 Cmd, BlockSize = 0x200, BlkCount = 0;
   UINT16 IntStatus, TimeoutCtrl, BlkSizeReg, Mode;
-  BOOLEAN MultiFlag = FALSE;
+  BOOLEAN MultiFlag = FALSE, SetRcaFlag = FALSE;
 
   Data = NULL;
 
@@ -995,6 +1059,9 @@ SdMmcPassThruPassThru (
   //
   if (Packet->SdMmcCmdBlk->CommandIndex == SD_WRITE_MULTIPLE_BLOCK || Packet->SdMmcCmdBlk->CommandIndex == SD_READ_MULTIPLE_BLOCK)
     MultiFlag = TRUE;
+
+  if (Packet->SdMmcCmdBlk->CommandIndex == SD_SET_RELATIVE_ADDR)
+    SetRcaFlag = TRUE;
 
   // Clear ERROR_IRQ status
   IntStatus = 0xFFFF;
@@ -1183,6 +1250,9 @@ SdMmcPassThruPassThru (
                    );
       }
       CopyMem (Packet->SdMmcStatusBlk, Response, sizeof (Response));
+      // Update RCA of current card
+      if (SetRcaFlag)
+        CurrRca = Packet->SdMmcStatusBlk->Resp0 >> 16;
     }
 
     IntStatus = Mask;
@@ -1208,8 +1278,12 @@ SdMmcPassThruPassThru (
       sizeof (Stat), &Stat);
 
   if (!Ret && DataTransfer) {
-    if (MultiFlag)
+    if (MultiFlag) {
       SdSendStopTransmission(This, Slot);
+      if (!Read) {
+        return SdIsReady (This, Slot, CurrRca, 1000);
+      }
+    }
     return EFI_SUCCESS;
   }
 
