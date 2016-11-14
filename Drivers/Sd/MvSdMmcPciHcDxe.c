@@ -856,6 +856,48 @@ SdMmcPciHcDriverBindingStop (
 }
 
 /**
+* +  Send command SD_STOP_TRANSMISSION to stop multiple block transfer.
+* +
+* +  @param[in]  Device            A pointer to the SD_DEVICE instance.
+* +
+* +  @retval EFI_SUCCESS           The request is executed successfully.
+* +  @retval Others                The request could not be executed
+* successfully.
+* +
+* +**/
+EFI_STATUS
+SdSendStopTransmission (
+  IN     EFI_SD_MMC_PASS_THRU_PROTOCOL *This,
+  IN     UINT8                         Slot
+  )
+{
+  EFI_STATUS                           Status;
+  EFI_SD_MMC_PASS_THRU_PROTOCOL        *PassThru;
+  EFI_SD_MMC_COMMAND_BLOCK             SdMmcCmdBlk;
+  EFI_SD_MMC_STATUS_BLOCK              SdMmcStatusBlk;
+  EFI_SD_MMC_PASS_THRU_COMMAND_PACKET  Packet;
+
+  PassThru = This;
+
+  ZeroMem (&SdMmcCmdBlk, sizeof (SdMmcCmdBlk));
+  ZeroMem (&SdMmcStatusBlk, sizeof (SdMmcStatusBlk));
+  ZeroMem (&Packet, sizeof (Packet));
+
+  Packet.SdMmcCmdBlk    = &SdMmcCmdBlk;
+  Packet.SdMmcStatusBlk = &SdMmcStatusBlk;
+  Packet.Timeout        = 2500 * 1000; // SD generic timeout
+
+  SdMmcCmdBlk.CommandIndex = SD_STOP_TRANSMISSION;
+  SdMmcCmdBlk.CommandType  = SdMmcCommandTypeAc;
+  SdMmcCmdBlk.ResponseType = SdMmcResponseTypeR1b;
+  SdMmcCmdBlk.CommandArgument = 0;
+
+  Status = PassThru->PassThru (PassThru, Slot, &Packet, NULL);
+
+  return Status;
+}
+
+/**
   Sends SD command to an SD card that is attached to the SD controller.
 
   The PassThru() function sends the SD command specified by Packet to the SD card
@@ -912,6 +954,7 @@ SdMmcPassThruPassThru (
   UINT32 CmdTimeout = XENON_MMC_CMD_DEFAULT_TIMEOUT;
   UINT16 Cmd, BlockSize = 0x200, BlkCount = 0;
   UINT16 IntStatus, TimeoutCtrl, BlkSizeReg, Mode;
+  BOOLEAN MultiFlag = FALSE;
 
   Data = NULL;
 
@@ -945,6 +988,13 @@ SdMmcPassThruPassThru (
   if (Packet->SdMmcCmdBlk->CommandIndex == SDIO_SEND_OP_COND) {
     return EFI_DEVICE_ERROR;
   }
+
+  //
+  // Mark if this is multiblock transfer, since some special acctions must be
+  // taken in such circumstances
+  //
+  if (Packet->SdMmcCmdBlk->CommandIndex == SD_WRITE_MULTIPLE_BLOCK || Packet->SdMmcCmdBlk->CommandIndex == SD_READ_MULTIPLE_BLOCK)
+    MultiFlag = TRUE;
 
   // Clear ERROR_IRQ status
   IntStatus = 0xFFFF;
@@ -1157,8 +1207,11 @@ SdMmcPassThruPassThru (
   SdMmcHcRwMmio (Private->PciIo, Slot, SD_MMC_HC_NOR_INT_STS, FALSE,
       sizeof (Stat), &Stat);
 
-  if (!Ret && DataTransfer)
+  if (!Ret && DataTransfer) {
+    if (MultiFlag)
+      SdSendStopTransmission(This, Slot);
     return EFI_SUCCESS;
+  }
 
   if (IntStatus & BIT15) {
     if (Packet->SdMmcCmdBlk != NULL)
