@@ -34,6 +34,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "XenonSdhci.h"
 
+STATIC
 VOID
 XenonSetMpp (
   VOID
@@ -47,6 +48,7 @@ XenonSetMpp (
   MmioWrite32 (MVEBU_IP_CONFIG_REG, Reg);
 }
 
+STATIC
 VOID
 XenonReadVersion (
   IN  EFI_PCI_IO_PROTOCOL   *PciIo,
@@ -57,6 +59,7 @@ XenonReadVersion (
   SdMmcHcRwMmio (PciIo, SD_BAR_INDEX,SD_MMC_HC_CTRL_VER, TRUE, 2, ControllerVersion);
 }
 
+STATIC
 VOID
 XenonSetFifo (
   IN     EFI_PCI_IO_PROTOCOL   *PciIo
@@ -68,6 +71,7 @@ XenonSetFifo (
 }
 
 // Auto Clock Gating
+STATIC
 VOID
 XenonSetAcg (
   IN     EFI_PCI_IO_PROTOCOL   *PciIo,
@@ -87,6 +91,7 @@ XenonSetAcg (
   SdMmcHcRwMmio (PciIo, SD_BAR_INDEX, SDHC_SYS_OP_CTRL, FALSE, 4, &Var);
 }
 
+STATIC
 VOID
 XenonSetSlot (
   IN EFI_PCI_IO_PROTOCOL *PciIo,
@@ -112,10 +117,11 @@ XenonSetSdio (
   IN UINTN Voltage
   )
 {
-
+  // Currently SDIO isn't supported
   return;
 }
 
+STATIC
 VOID
 XenonSetPower (
   IN EFI_PCI_IO_PROTOCOL *PciIo,
@@ -325,6 +331,7 @@ XenonPhyInit (
   return;
 }
 
+STATIC
 VOID
 XenonSetPhy (
   IN EFI_PCI_IO_PROTOCOL   *PciIo,
@@ -370,6 +377,7 @@ XenonSetPhy (
   XenonPhyInit (PciIo);
 }
 
+STATIC
 VOID
 XenonConfigureInterrupts (
   IN EFI_PCI_IO_PROTOCOL *PciIo
@@ -392,6 +400,7 @@ XenonConfigureInterrupts (
 }
 
 // Enable Parallel Transfer Mode
+STATIC
 VOID
 XenonSetParallelTransfer (
   IN EFI_PCI_IO_PROTOCOL *PciIo,
@@ -409,6 +418,7 @@ XenonSetParallelTransfer (
   SdMmcHcRwMmio(PciIo, SD_BAR_INDEX, SDHC_SYS_EXT_OP_CTRL, FALSE, 4, &Var);
 }
 
+STATIC
 VOID
 XenonSetTuning (
   IN EFI_PCI_IO_PROTOCOL   *PciIo,
@@ -464,6 +474,7 @@ XenonReset (
   }
 }
 
+STATIC
 VOID
 XenonTransferPio (
   IN SD_MMC_HC_PRIVATE_DATA *Private,
@@ -543,3 +554,40 @@ XenonTransferData (
   } while (!(IntStatus & BIT1)); // SDHCI_INT_DATA_END
   return EFI_SUCCESS;
 }
+
+EFI_STATUS
+XenonInit (
+  IN SD_MMC_HC_PRIVATE_DATA *Private
+  )
+{
+  EFI_PCI_IO_PROTOCOL *PciIo = Private->PciIo;
+
+  XenonSetMpp ();
+
+  XenonReadVersion (PciIo, &Private->ControllerVersion);
+
+  XenonSetFifo (PciIo);
+
+  XenonSetAcg (PciIo, FALSE);
+
+  // Hyperion has only one port
+  XenonSetSlot (PciIo, XENON_MMC_SLOT_ID_HYPERION, TRUE);
+
+  XenonSetPower (PciIo, MMC_VDD_165_195, eMMC_VCCQ_1_8V, XENON_MMC_MODE_SD_SDIO);
+
+  XenonSetClk (PciIo, Private, XENON_MMC_MAX_CLK);
+
+  XenonSetPhy (PciIo, MMC_TIMING_UHS_SDR50);
+
+  XenonConfigureInterrupts (PciIo);
+
+  // Enable parallel transfer
+  XenonSetParallelTransfer (PciIo, XENON_MMC_SLOT_ID_HYPERION, TRUE);
+
+  XenonSetTuning (PciIo, XENON_MMC_SLOT_ID_HYPERION, FALSE);
+
+  XenonSetAcg (PciIo, TRUE);
+
+  return EFI_SUCCESS;
+}
+  

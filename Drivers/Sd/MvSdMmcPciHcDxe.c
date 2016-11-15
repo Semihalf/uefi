@@ -577,31 +577,8 @@ SdMmcPciHcDriverBindingStart (
   Private->PciAttributes    = PciAttributes;
   InitializeListHead (&Private->Queue);
 
-  XenonSetMpp ();
-
-  XenonReadVersion (PciIo, &Private->ControllerVersion);
-
-  XenonSetFifo (PciIo);
-
-  XenonSetAcg (PciIo, FALSE);
-
-  // Hyperion has only one port
-  XenonSetSlot (PciIo, XENON_MMC_SLOT_ID_HYPERION, TRUE);
-
-  XenonSetPower (PciIo, MMC_VDD_165_195, eMMC_VCCQ_1_8V, XENON_MMC_MODE_SD_SDIO);
-
-  XenonSetClk (PciIo, Private, XENON_MMC_MAX_CLK);
-
-  XenonSetPhy (PciIo, MMC_TIMING_UHS_SDR50);
-
-  XenonConfigureInterrupts (PciIo);
-
-  // Enable parallel transfer
-  XenonSetParallelTransfer (PciIo, XENON_MMC_SLOT_ID_HYPERION, TRUE);
-
-  XenonSetTuning (PciIo, XENON_MMC_SLOT_ID_HYPERION, FALSE);
-
-  XenonSetAcg (PciIo, TRUE);
+  // Perform Xenon-specific init sequence
+  XenonInit (Private);
 
   for (Slot = 0; Slot < (XENON_MMC_SLOT_ID_HYPERION + 1); Slot++) {
     Private->Slot[Slot].Enable = TRUE;
@@ -615,6 +592,7 @@ SdMmcPciHcDriverBindingStart (
     if (Private->Capability[Slot].BaseClkFreq == 0)
       Private->Capability[Slot].BaseClkFreq = 0xff;
 
+    // Hack capabilities structure
     Private->Capability[Slot].Sdr104 = 0;
     Private->Capability[Slot].Ddr50 = 0;
     Private->Capability[Slot].Sdr50 = 0;
@@ -855,14 +833,6 @@ SdMmcPciHcDriverBindingStop (
   return Status;
 }
 
-extern
-EFI_STATUS
-SdCardSendStatus (
-  IN     EFI_SD_MMC_PASS_THRU_PROTOCOL  *PassThru,
-  IN     UINT8                          Slot,
-  IN     UINT16                         Rca,
-     OUT UINT32                         *DevStatus
-  );
 /**
   Check if card is ready for next data transfer by reading its status.
 
@@ -918,6 +888,35 @@ SdIsReady (
   return EFI_SUCCESS;
 }
 
+STATIC
+EFI_STATUS
+ClearIrqRegisters (
+  SD_MMC_HC_PRIVATE_DATA *Private,
+  UINT8                  Slot
+  )
+{
+  EFI_STATUS Status;
+  UINT32 IntStatus;
+
+  // Clear ERROR_IRQ status
+  IntStatus = 0xFFFF;
+  Status = SdMmcHcRwMmio (Private->PciIo, Slot, SD_MMC_HC_ERR_INT_STS, FALSE,
+    sizeof (IntStatus), &IntStatus);
+  if (EFI_ERROR (Status)) {
+    DEBUG((DEBUG_ERROR, "MvSdMmcPassThru: Cannot clear ERROR_IRQ status\n"));
+    return Status;
+  }
+
+  // Clear IRQ status
+  Status = SdMmcHcRwMmio (Private->PciIo, Slot, SD_MMC_HC_NOR_INT_STS, FALSE,
+    sizeof (IntStatus), &IntStatus);
+  if (EFI_ERROR (Status)) {
+    DEBUG((DEBUG_ERROR, "MvSdMmcPassThru: Cannot clear IRQ status\n"));
+    return Status;
+  }
+
+  return EFI_SUCCESS;
+}
 /**
   Send command SD_STOP_TRANSMISSION to stop multiple block transfer.
 
@@ -935,12 +934,9 @@ SdSendStopTransmission (
   )
 {
   EFI_STATUS                           Status;
-  EFI_SD_MMC_PASS_THRU_PROTOCOL        *PassThru;
   EFI_SD_MMC_COMMAND_BLOCK             SdMmcCmdBlk;
   EFI_SD_MMC_STATUS_BLOCK              SdMmcStatusBlk;
   EFI_SD_MMC_PASS_THRU_COMMAND_PACKET  Packet;
-
-  PassThru = This;
 
   ZeroMem (&SdMmcCmdBlk, sizeof (SdMmcCmdBlk));
   ZeroMem (&SdMmcStatusBlk, sizeof (SdMmcStatusBlk));
@@ -955,11 +951,62 @@ SdSendStopTransmission (
   SdMmcCmdBlk.ResponseType = SdMmcResponseTypeR1b;
   SdMmcCmdBlk.CommandArgument = 0;
 
-  Status = PassThru->PassThru (PassThru, Slot, &Packet, NULL);
+  Status = This->PassThru (This, Slot, &Packet, NULL);
 
   return Status;
 }
 
+EFI_STATUS
+WaitForInhibit (
+  IN SD_MMC_HC_PRIVATE_DATA              *Private,
+  IN EFI_SD_MMC_PASS_THRU_COMMAND_PACKET *Packet,
+  IN UINT8                               Slot,
+  IN BOOLEAN                             DataTransfer
+  )
+{
+  UINT32 Mask, PresentState, Time = 0;
+  UINT32 CmdTimeout = XENON_MMC_CMD_DEFAULT_TIMEOUT;
+
+  if (Packet->SdMmcCmdBlk != NULL)
+    Mask = BIT0; // SDHCI_CMD_INHIBIT
+  if (DataTransfer != FALSE)
+    Mask = BIT1; // SDHCI_DATA_INHIBIT
+
+  //
+  // We shouldn't wait for data inhibit for stop commands, even
+  // though they might use busy signaling
+  //
+  if (Packet->SdMmcCmdBlk->CommandIndex == SD_STOP_TRANSMISSION)
+    Mask &= ~BIT1;
+
+  SdMmcHcRwMmio (Private->PciIo, Slot, SD_MMC_HC_PRESENT_STATE, TRUE,
+    sizeof (PresentState), &PresentState);
+  while (PresentState & Mask) {
+    if (Time >= CmdTimeout) {
+      DEBUG((DEBUG_INFO, "MvSdMmcPassThru: SD/MMC busy\n"));
+      if (2 * CmdTimeout <= XENON_MMC_CMD_MAX_TIMEOUT) {
+        CmdTimeout += CmdTimeout;
+        DEBUG((DEBUG_INFO, "MvSdMmcPassThru: Timeout increasing to: %u ms\n",
+          CmdTimeout));
+      } else {
+        DEBUG((DEBUG_INFO, "MvSdMmcPassThru: Timeout...\n"));
+        if (Packet->SdMmcCmdBlk != NULL)
+          XenonReset (Private, Slot, 0x02); // CMD reset
+        if (DataTransfer)
+          XenonReset (Private, Slot, 0x04); // DATA reset
+        return EFI_TIMEOUT;
+      }
+    }
+    Time++;
+    gBS->Stall (1000);
+    SdMmcHcRwMmio (Private->PciIo, Slot, SD_MMC_HC_PRESENT_STATE, TRUE,
+    sizeof (PresentState), &PresentState);
+  }
+
+  return EFI_SUCCESS;
+}
+
+// Variable to store current card's Rca - used in polling card status
 STATIC UINT16 CurrRca = 0;
 /**
   Sends SD command to an SD card that is attached to the SD controller.
@@ -1013,9 +1060,8 @@ SdMmcPassThruPassThru (
   INTN Ret = 0;
   BOOLEAN Read = FALSE, DataTransfer;
   UINTN *Data, Index, DataLen = 0;
-  UINT32 Mask, PresentState, Argument, Time = 0;
+  UINT32 Mask, Argument;
   UINT32 Response[4], Stat = 0, Retry = 1000;
-  UINT32 CmdTimeout = XENON_MMC_CMD_DEFAULT_TIMEOUT;
   UINT16 Cmd, BlockSize = 0x200, BlkCount = 0;
   UINT16 IntStatus, TimeoutCtrl, BlkSizeReg, Mode;
   BOOLEAN MultiFlag = FALSE, SetRcaFlag = FALSE;
@@ -1054,32 +1100,32 @@ SdMmcPassThruPassThru (
   }
 
   //
-  // Mark if this is multiblock transfer, since some special acctions must be
-  // taken in such circumstances
+  // Mark if this is multiblock data transfer since some special
+  // acctions must be taken in such circumstances, i.e. it's necessary
+  // to send SD_STOP_TRANSMISSION command.
   //
-  if (Packet->SdMmcCmdBlk->CommandIndex == SD_WRITE_MULTIPLE_BLOCK || Packet->SdMmcCmdBlk->CommandIndex == SD_READ_MULTIPLE_BLOCK)
+  if (Packet->SdMmcCmdBlk->CommandIndex == SD_WRITE_MULTIPLE_BLOCK ||
+      Packet->SdMmcCmdBlk->CommandIndex == SD_READ_MULTIPLE_BLOCK) {
     MultiFlag = TRUE;
+  }
 
-  if (Packet->SdMmcCmdBlk->CommandIndex == SD_SET_RELATIVE_ADDR)
+  //
+  // Mark if this is command to set new relative card address (RCA),
+  // since it's necessary to have updated copy of current RCA in this
+  // layer - used in checking card status.
+  //
+  if (Packet->SdMmcCmdBlk->CommandIndex == SD_SET_RELATIVE_ADDR) {
     SetRcaFlag = TRUE;
-
-  // Clear ERROR_IRQ status
-  IntStatus = 0xFFFF;
-  Status = SdMmcHcRwMmio (Private->PciIo, Slot, SD_MMC_HC_ERR_INT_STS, FALSE,
-    sizeof (IntStatus), &IntStatus);
-  if (EFI_ERROR (Status)) {
-    return Status;
   }
 
-  // Clear IRQ status
-  Status    = SdMmcHcRwMmio (Private->PciIo, Slot, SD_MMC_HC_NOR_INT_STS, FALSE,
-    sizeof (IntStatus), &IntStatus);
-  if (EFI_ERROR (Status)) {
+  Status = ClearIrqRegisters (Private, Slot);
+  if (EFI_ERROR(Status)) {
     return Status;
   }
+  /* XXX: Trzeba wrzucić tutaj ciało powyższej funkcji bo jakiś crap jest */
 
   if (((Packet->InTransferLength != 0) && (Packet->InDataBuffer != NULL)) || 
-   ((Packet->OutTransferLength != 0) && (Packet->OutDataBuffer != NULL))) {
+      ((Packet->OutTransferLength != 0) && (Packet->OutDataBuffer != NULL))) {
     DataTransfer = FALSE;
   }
 
@@ -1096,44 +1142,15 @@ SdMmcPassThruPassThru (
     DataTransfer = TRUE;
   }
 
-  if (Packet->SdMmcCmdBlk != NULL)
-    Mask = BIT0; // SDHCI_CMD_INHIBIT
-  if (DataTransfer != FALSE)
-    Mask = BIT1; // SDHCI_DATA_INHIBIT
+  WaitForInhibit (Private, Packet, Slot, DataTransfer);
+  /* XXX: Trzeba wrzucić tutaj ciało powyższej funkcji bo jakiś crap jest */
 
-  //
-  // We shouldn't wait for data inihibit for stop commands, even
-  // though they might use busy signaling
-  //
-  if (Packet->SdMmcCmdBlk->CommandIndex == SD_STOP_TRANSMISSION)
-    Mask &= ~BIT1;
 
-  SdMmcHcRwMmio (Private->PciIo, Slot, SD_MMC_HC_PRESENT_STATE, TRUE,
-    sizeof (PresentState), &PresentState);
-  while (PresentState & Mask) {
-    if (Time >= CmdTimeout) {
-      DEBUG((DEBUG_INFO, "MMC busy\n"));
-      if (2 * CmdTimeout <= XENON_MMC_CMD_MAX_TIMEOUT) {
-        CmdTimeout += CmdTimeout;
-        DEBUG((DEBUG_INFO, "Timeout increasing to: %u ms\n", CmdTimeout));
-      } else {
-        DEBUG((DEBUG_INFO, "Timeout...\n"));
-        if (Packet->SdMmcCmdBlk != NULL)
-          XenonReset (Private, Slot, 0x02); // CMD reset
-        if (DataTransfer)
-          XenonReset (Private, Slot, 0x04); // DATA reset
-        return EFI_TIMEOUT;
-      }
-    }
-    Time++;
-    gBS->Stall (1000);
-    SdMmcHcRwMmio (Private->PciIo, Slot, SD_MMC_HC_PRESENT_STATE, TRUE,
-    sizeof (PresentState), &PresentState);
-  }
+/* XXX: Całe to wyrzuciłbym do funkcji IssueCmd */
 
   Mask = BIT0; // SDHCI_INT_RESPONSE
   if (Packet->SdMmcCmdBlk->ResponseType == SdMmcResponseTypeR1b ||
-    Packet->SdMmcCmdBlk->ResponseType == SdMmcResponseTypeR5b) {
+      Packet->SdMmcCmdBlk->ResponseType == SdMmcResponseTypeR5b) {
     Mask |= BIT1;
   }
 
@@ -1204,53 +1221,45 @@ SdMmcPassThruPassThru (
   SdMmcHcRwMmio (Private->PciIo, Slot, SD_MMC_HC_ARG1, FALSE, sizeof (Argument),
     &Argument);
 
-  //
   // Execute cmd
-  //
   SdMmcHcRwMmio (Private->PciIo, Slot, SD_MMC_HC_COMMAND, FALSE, sizeof (Cmd),
     &Cmd);
 
   do {
-    Status = SdMmcHcRwMmio (
-               Private->PciIo,
-               Slot,
-               SD_MMC_HC_NOR_INT_STS,
-               TRUE,
-               sizeof (IntStatus),
-               &IntStatus
-               );
+    Status = SdMmcHcRwMmio (Private->PciIo, Slot, SD_MMC_HC_NOR_INT_STS,
+               TRUE, sizeof (IntStatus), &IntStatus);
     if (EFI_ERROR (Status)) {
       return EFI_INVALID_PARAMETER;
     }
     if (IntStatus & BIT15) { // SDHCI_INT_STATUS
-      DEBUG((DEBUG_INFO, "SDHCI_INT_ERROR stat:%x\n", IntStatus));
+      DEBUG((DEBUG_INFO, "MvSdMmcPassThru: SDHCI_INT_ERROR stat:%x\n",
+        IntStatus));
       break;
     }
-
+    // Stall for 100 microseconds
     gBS->Stall (100);
-    if (--Retry == 0)
+    if (--Retry == 0) {
       break;
+    }
   } while ((IntStatus & Mask) != Mask);
 
   if (Retry == 0) {
-    DEBUG((DEBUG_ERROR, "Rx timeout\n"));
+    DEBUG((DEBUG_ERROR, "MvSdMmcPassThru: Rx timeout\n"));
     return EFI_TIMEOUT;
   }
 
   if ((IntStatus & (BIT15 | Mask)) == Mask) {
     if (Packet->SdMmcCmdBlk->CommandType != SdMmcCommandTypeBc) {
       for (Index = 0; Index < 4; Index++) {
-        Status = SdMmcHcRwMmio (
-                   Private->PciIo,
-                   Slot,
-                   SD_MMC_HC_RESPONSE + Index * 4,
-                   TRUE,
-                   sizeof (UINT32),
-                   &Response[Index]
-                   );
+        Status = SdMmcHcRwMmio (Private->PciIo, Slot,
+                   SD_MMC_HC_RESPONSE + Index * 4, TRUE, sizeof (UINT32),
+                   &Response[Index]);
       }
       CopyMem (Packet->SdMmcStatusBlk, Response, sizeof (Response));
-      // Update RCA of current card
+      //
+      // Update RCA of current card in order to use it later
+      // for polling card status
+      //
       if (SetRcaFlag)
         CurrRca = Packet->SdMmcStatusBlk->Resp0 >> 16;
     }
@@ -1262,21 +1271,32 @@ SdMmcPassThruPassThru (
     Ret = -1;
   }
 
+/* XXX: Tutaj koniec Issue command */
+
   if (!Ret && DataTransfer) {
     Status = XenonTransferData (Private, Slot, Data, DataLen, BlockSize,
       BlkCount, Read);
   }
 
-  // SDHCI_QUIRK_WAIT_SEND_CMD
+  // SDHCI_QUIRK_WAIT_SEND_CMD - 1 milisecond delay
   gBS->Stall (1000);
 
+  // Save current IRQ status
   SdMmcHcRwMmio (Private->PciIo, Slot, SD_MMC_HC_NOR_INT_STS, TRUE,
-      sizeof (IntStatus), &IntStatus);
+    sizeof (IntStatus), &IntStatus);
 
-  Stat = 0xFFFFFFFF;
+  // Clear IRQ
+  Stat = 0xFFFFFFFFULL;
   SdMmcHcRwMmio (Private->PciIo, Slot, SD_MMC_HC_NOR_INT_STS, FALSE,
-      sizeof (Stat), &Stat);
+    sizeof (Stat), &Stat);
 
+  //
+  // There are two quirks for DataTransfer commands:
+  // 1. For multipleblock write/read it's necessary to issue
+  // SD_STOP_TRANSMISSION command
+  // 2. For every write data comand, it's necessary to poll for
+  // card status before issuing next data transfer
+  //
   if (!Ret && DataTransfer) {
     if (MultiFlag) {
       SdSendStopTransmission(This, Slot);
@@ -1287,6 +1307,7 @@ SdMmcPassThruPassThru (
     return EFI_SUCCESS;
   }
 
+  // Check previously saved IRQ status for non-data commands
   if (IntStatus & BIT15) {
     if (Packet->SdMmcCmdBlk != NULL)
       XenonReset (Private, Slot, 0x02); // CMD
@@ -1302,16 +1323,12 @@ SdMmcPassThruPassThru (
     return EFI_SUCCESS;
   }
 
-  //
   // Immediately return for async I/O.
-  //
   if (Event != NULL) {
     return EFI_SUCCESS;
   }
 
-  //
   // Wait async I/O list is empty before execute sync I/O operation.
-  //
   while (TRUE) {
     OldTpl = gBS->RaiseTPL (TPL_CALLBACK);
     if (IsListEmpty (&Private->Queue)) {

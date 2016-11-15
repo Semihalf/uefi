@@ -233,80 +233,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define SDHCI_MAX_DIV_SPEC_200	256
 #define SDHCI_MAX_DIV_SPEC_300	2046
 
-VOID
-XenonSetMpp (
-  VOID
-  );
-
-VOID
-XenonReadVersion (
-  IN  EFI_PCI_IO_PROTOCOL   *PciIo,
-  OUT UINT32 *ControllerVersion
-  );
-
-VOID
-XenonSetFifo (
-  IN     EFI_PCI_IO_PROTOCOL   *PciIo
-  );
-
-VOID
-XenonSetSlot (
-  IN EFI_PCI_IO_PROTOCOL *PciIo,
-  IN UINT8 Slot,
-  IN BOOLEAN Enable
-  );
-
-VOID
-XenonSetAcg (
-  IN     EFI_PCI_IO_PROTOCOL   *PciIo,
-  IN BOOLEAN Enable
-  );
-
-VOID
-XenonSetSlot (
-  IN     EFI_PCI_IO_PROTOCOL   *PciIo,
-  IN UINT8 Slot,
-  IN BOOLEAN Enable
-  );
-
-VOID
-XenonSetPower (
-  IN EFI_PCI_IO_PROTOCOL *PciIo,
-  IN UINT32 Vcc,
-  IN UINT32 Vccq,
-  IN UINT8 Mode
-  );
-
 UINTN
 XenonSetClk (
   IN EFI_PCI_IO_PROTOCOL   *PciIo,
   IN SD_MMC_HC_PRIVATE_DATA *Private,
   IN UINT32 Clock
-  );
-
-VOID
-XenonSetPhy (
-  IN EFI_PCI_IO_PROTOCOL   *PciIo,
-  UINT8 Timing
-  );
-
-VOID
-XenonSetTuning (
-  IN EFI_PCI_IO_PROTOCOL   *PciIo,
-  IN UINT8 Slot,
-  IN BOOLEAN Enable
-  );
-
-VOID
-XenonConfigureInterrupts (
-  IN EFI_PCI_IO_PROTOCOL *PciIo
-  );
-
-VOID
-XenonSetParallelTransfer (
-  IN EFI_PCI_IO_PROTOCOL   *PciIo,
-  IN UINT8 Slot,
-  IN BOOLEAN Enable
   );
 
 VOID
@@ -321,15 +252,6 @@ XenonReset (
   IN UINT8 Mask
   );
 
-VOID
-XenonTransferPio (
-  IN SD_MMC_HC_PRIVATE_DATA *Private,
-  IN UINT8 Slot,
-  IN OUT VOID *Buffer,
-  IN UINT16 BlockSize,
-  IN BOOLEAN Read
-  );
-
 EFI_STATUS
 XenonTransferData (
   IN SD_MMC_HC_PRIVATE_DATA *Private,
@@ -339,4 +261,17 @@ XenonTransferData (
   IN UINT16 BlockSize,
   IN UINT16 Blocks,
   IN BOOLEAN Read
+  );
+
+EFI_STATUS
+XenonInit (
+  IN SD_MMC_HC_PRIVATE_DATA *Private
+  );
+
+EFI_STATUS
+SdCardSendStatus (
+  IN     EFI_SD_MMC_PASS_THRU_PROTOCOL  *PassThru,
+  IN     UINT8                          Slot,
+  IN     UINT16                         Rca,
+     OUT UINT32                         *DevStatus
   );
