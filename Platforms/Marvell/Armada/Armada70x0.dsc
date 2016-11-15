@@ -140,11 +140,11 @@
   gMarvellTokenSpaceGuid.PcdPp2XlgDevSize|0x1000
 
   #PciEmulation
-  gMarvellTokenSpaceGuid.PcdPciEDevCount|3
-                                                ## XHCI1       XHCI2       SATA
-  gMarvellTokenSpaceGuid.PcdPciEDevBaseAddress|L"0xF2500000;0xF2510000;0xF2540000"
-  gMarvellTokenSpaceGuid.PcdPciEDevType|{ 0x0, 0x0, 0x1 }
-  gMarvellTokenSpaceGuid.PcdPciEDmaType|{ 0x0, 0x0, 0x0 }
+  gMarvellTokenSpaceGuid.PcdPciEDevCount|4
+                                                ## XHCI1       XHCI2       SATA      MMC
+  gMarvellTokenSpaceGuid.PcdPciEDevBaseAddress|L"0xF2500000;0xF2510000;0xF2540000;0xF06E0000"
+  gMarvellTokenSpaceGuid.PcdPciEDevType|{ 0x0, 0x0, 0x1, 0x2 }
+  gMarvellTokenSpaceGuid.PcdPciEDmaType|{ 0x0, 0x0, 0x0, 0x0 }
 
   #ResetLib
   gMarvellTokenSpaceGuid.PcdResetRegAddress|0xf06f0084
