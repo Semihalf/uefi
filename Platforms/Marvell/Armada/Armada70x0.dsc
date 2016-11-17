@@ -141,7 +141,7 @@
 
   #PciEmulation
   gMarvellTokenSpaceGuid.PcdPciEXhci|{ 0x1, 0x1 }
-  gMarvellTokenSpaceGuid.PcdPciEAhci|{ 0x1 }
+  gMarvellTokenSpaceGuid.PcdPciEAhci|{ 0x0 }
   gMarvellTokenSpaceGuid.PcdPciESdhci|{ 0x1 }
 
   #ResetLib
