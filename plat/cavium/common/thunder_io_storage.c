@@ -44,8 +44,8 @@
 /* IO devices */
 static const io_dev_connector_t *fip_dev_con;
 static uintptr_t fip_dev_handle;
-static const io_dev_connector_t *spi_dev_con;
-static uintptr_t spi_dev_handle;
+static const io_dev_connector_t *blk_dev_con;
+static uintptr_t blk_dev_handle;
 
 static const io_block_spec_t fip_block_spec = {
 	.offset	= 0x580000,
@@ -115,7 +115,7 @@ static const io_uuid_spec_t nt_fw_cert_uuid_spec = {
 
 
 static int open_fip(const uintptr_t spec);
-static int open_spi(const uintptr_t spec);
+static int open_blk(const uintptr_t spec);
 
 struct plat_io_policy {
 	uintptr_t *dev_handle;
@@ -126,9 +126,9 @@ struct plat_io_policy {
 /* By default, ARM platforms load images from the FIP */
 static const struct plat_io_policy policies[] = {
 	[FIP_IMAGE_ID] = {
-		&spi_dev_handle,
+		&blk_dev_handle,
 		(uintptr_t)&fip_block_spec,
-		open_spi
+		open_blk
 	},
 	[BL2_IMAGE_ID] = {
 		&fip_dev_handle,
@@ -229,16 +229,16 @@ static int open_fip(const uintptr_t spec)
 }
 
 
-static int open_spi(const uintptr_t spec)
+static int open_blk(const uintptr_t spec)
 {
 	int result;
 	uintptr_t local_image_handle;
 
-	result = io_dev_init(spi_dev_handle, (uintptr_t)NULL);
+	result = io_dev_init(blk_dev_handle, (uintptr_t)NULL);
 	if (result == 0) {
-		result = io_open(spi_dev_handle, spec, &local_image_handle);
+		result = io_open(blk_dev_handle, spec, &local_image_handle);
 		if (result == 0) {
-			VERBOSE("Using SPI\n");
+			VERBOSE("Using SPI or (e)MMC\n");
 			io_close(local_image_handle);
 		}
 	}
@@ -258,9 +258,9 @@ void thunder_io_setup(void)
 	boot_medium = (gpio_strap.u) & 0x7;
 
 	if (boot_medium == 0x5)
-		io_result = register_io_dev_spi(&spi_dev_con);
+		io_result = register_io_dev_spi(&blk_dev_con);
 	else
-		io_result = register_io_dev_emmc(&spi_dev_con);
+		io_result = register_io_dev_emmc(&blk_dev_con);
 	assert(io_result == 0);
 
 	/* Open connections to devices and cache the handles */
@@ -268,8 +268,8 @@ void thunder_io_setup(void)
 				&fip_dev_handle);
 	assert(io_result == 0);
 
-	io_result = io_dev_open(spi_dev_con, (uintptr_t)NULL,
-				&spi_dev_handle);
+	io_result = io_dev_open(blk_dev_con, (uintptr_t)NULL,
+				&blk_dev_handle);
 	assert(io_result == 0);
 
 	/* Ignore improbable errors in release builds */
@@ -288,6 +288,7 @@ int plat_get_image_source(unsigned int image_id, uintptr_t *dev_handle,
 
 	policy = &policies[image_id];
 	result = policy->check(policy->image_spec);
+
 	if (result == 0) {
 		*image_spec = policy->image_spec;
 		*dev_handle = *(policy->dev_handle);
