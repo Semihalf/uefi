@@ -124,17 +124,20 @@ union cavm_mio_emm_rsp_sts mio_emm_cmd(uint32_t cmd_idx, uint32_t ctype_xor, uin
 	return emm_rsp_sts;
 }
 
-int sdmmc_rw_data(int write, unsigned int sector_addr, int size, uintptr_t buf, int buf_size)
+int sdmmc_rw_data(int write, unsigned int addr, int size, uintptr_t buf, int buf_size)
 {
 	int err = 0;
-	int blk_cnt, skip;
-	int round_size, sector_mode;
-	uintptr_t tmp_buf = TZDRAM_BASE;
+	int blk_cnt, blks, offset, bytes;
+	int round_size;
+	uintptr_t tmp_buf = TZDRAM_BASE + 512;
+	uint64_t val;
+	uint64_t ssd_idx = CAVM_PCC_DEV_CON_E_MIO_EMM >> 5;
+	uint64_t emm_ssd_mask = (1ULL << (CAVM_PCC_DEV_CON_E_MIO_EMM & 0x1F));
+
 	union cavm_mio_emm_dma mio_emm_dma;
 	union cavm_mio_emm_dma_cfg emm_dma_cfg;
 	union cavm_mio_emm_rsp_sts emm_rsp_sts;
-
-	//inv_dcache_range(tmp_buf, 512);
+	union cavm_smmux_nscr0 smmux_nscr0;
 
 	/* DMA engine address must be 64-bit aligned */
 	if (size == 0 || ((uintptr_t)buf & 0x7)) {
@@ -149,16 +152,19 @@ int sdmmc_rw_data(int write, unsigned int sector_addr, int size, uintptr_t buf, 
 				buf_size, size, round_size);
 	}
 
-	blk_cnt = round_size / mmc_drv.sector_size;
-	skip = sector_addr % mmc_drv.sector_size;
-	//err = mmc_rw_sector(write, addr, blk_cnt, buf);
+	smmux_nscr0.u = CSR_READ_PA(mmc_current_file.node, CAVM_SMMUX_NSCR0(0));
+	smmux_nscr0.s.nscfg = 2;
+	CSR_WRITE_PA(mmc_current_file.node, CAVM_SMMUX_NSCR0(0), smmux_nscr0.u);
 
-	sector_mode = 1; //mmc_drv.sector_mode;
+	val = CSR_READ_PA(mmc_current_file.node, CAVM_SMMUX_SSDRX(0, ssd_idx));
+	val &= ~emm_ssd_mask;
+	CSR_WRITE_PA(mmc_current_file.node, CAVM_SMMUX_SSDRX(0, ssd_idx), val);
+
+	blk_cnt = round_size / mmc_drv.sector_size;
+	offset  = addr % mmc_drv.sector_size;
 
 	while (blk_cnt > 0) {
-		int blks = blk_cnt;
-		if (blks > 128)
-			blks = 128;
+		blks = (blk_cnt > 8) ? 8 : blk_cnt;
 
 		emm_dma_cfg.u = 0;
 		mio_emm_dma.u = 0;
@@ -166,12 +172,12 @@ int sdmmc_rw_data(int write, unsigned int sector_addr, int size, uintptr_t buf, 
 		emm_dma_cfg.s.en = 1;
 		emm_dma_cfg.s.rw = write ? 1 : 0;
 		emm_dma_cfg.s.endian = 1;
-		emm_dma_cfg.s.size = ((blks << 9) >> 3) - 1;
+		emm_dma_cfg.s.size = (blks * mmc_drv.sector_size >> 3) - 1;
 
 		mio_emm_dma.s.dma_val = 1;
 		mio_emm_dma.s.bus_id = mmc_drv.bus_id;
-		mio_emm_dma.s.sector = sector_mode ? 1 : 0;
-		mio_emm_dma.s.card_addr = sector_mode ? sector_addr >> 9 : sector_addr;
+		mio_emm_dma.s.sector = 1;
+		mio_emm_dma.s.card_addr = addr / mmc_drv.sector_size;
 		mio_emm_dma.s.block_cnt = blks;
 
 		CSR_WRITE_PA(mmc_current_file.node, CAVM_MIO_EMM_DMA_ADR, tmp_buf);
@@ -202,28 +208,27 @@ int sdmmc_rw_data(int write, unsigned int sector_addr, int size, uintptr_t buf, 
 		} while (emm_dma_cfg.s.en);
 
 		blk_cnt -= blks;
-		sector_addr += 512 * blks;
+		addr += mmc_drv.sector_size * blks;
 
-		//tmp_buf += 512 * blks;
-		__asm__ __volatile__ ("dsb sy");
-		memcpy((void *)buf, (void *)(tmp_buf + skip), blk_cnt ? (512*blks - skip) : size);
-		buf += (512 * blks);
-		skip = 0; // make skip 0 as we don't need it next loop
-		//putchar('.');
+		inv_dcache_range(tmp_buf, blks * mmc_drv.sector_size);
+
+		asm volatile ("dsb sy");
+
+		bytes = blk_cnt ? (mmc_drv.sector_size * blks - offset) : size;
+
+		memcpy((void *)buf, (void *)(tmp_buf + offset), bytes);
+
+		buf += bytes;
+
+		offset = 0; // make skip 0 as we don't need it next loop
 	}
-
-	//putchar('\n');
-
-	__asm__ __volatile__ ("ic iallu");
-	__asm__ __volatile__ ("dsb sy");
-	__asm__ __volatile__ ("isb");
-	//buf = (char *)buf + skip;
 
 	return err ? 0 : buf_size;
 }
 
 int emmc_config()
 {
+#if 0
 	uint64_t val;
 	int clock;
 	int sec_cap = 0;
@@ -232,16 +237,14 @@ int emmc_config()
 	volatile union cavm_mio_emm_switch emm_switch, slow_switch;
 	volatile union cavm_mio_emm_rsp_sts emm_rsp_sts;
 	volatile unsigned long emm_rsp_lo;
-
+#endif
 
 	mmc_drv.bus_id = 0;
 	mmc_drv.sector_size = MMC_SECTOR_SIZE;
-
 	/* Set bit 1 to use eMMC bus 0 */
 	CSR_WRITE_PA(mmc_current_file.node, CAVM_MIO_EMM_CFG, 0x1);
 
-	return 0; // BDK does mmc init - NEEDS REVISIT
-
+#if 0
 	rst_boot.u = CSR_READ_PA(mmc_current_file.node, CAVM_RST_BOOT);
 
 	/* Clear GPIO_BIT_CFG8[TX_OE] to disable power / enable reset */
@@ -249,8 +252,8 @@ int emmc_config()
 	//gpio_bit_cfgx.s.tx_oe = 0;
 	//CSR_WRITE_PA(mmc_current_file.node,regs.gpio_base, GPIO_BIT_CFGX(8), gpio_bit_cfgx.u);
 	wait(200 * REF_FREQ);
-
 	val = (CSR_READ_PA(mmc_current_file.node, CAVM_GPIO_RX_DAT) >> 8) & 0x1;
+
 	if (val)
 		CSR_WRITE_PA(mmc_current_file.node, CAVM_GPIO_TX_CLR, 1 << 8);
 	else
@@ -259,6 +262,7 @@ int emmc_config()
 	gpio_bit_cfgx.u = 0;
 	gpio_bit_cfgx.s.tx_oe = 1;
 	CSR_WRITE_PA(mmc_current_file.node, CAVM_GPIO_BIT_CFGX(8), gpio_bit_cfgx.u);
+
 	wait(2 * REF_FREQ);
 
 	/* Set bit 1 to use eMMC bus 0 */
@@ -280,7 +284,7 @@ int emmc_config()
 	emm_switch.s.clk_hi = emm_switch.s.clk_lo = clock;
 	emm_switch.s.power_class = 10;
 	emm_switch.s.bus_width = BUS_8_BIT;
-	wait(1.2*REF_FREQ);
+	wait(1.2 * REF_FREQ);
 
 	CSR_WRITE_PA(mmc_current_file.node, CAVM_MIO_EMM_WDOG, 0x400);
 
@@ -314,12 +318,14 @@ int emmc_config()
 		/* TODO: retry */
 		return -1;
 	}
+
 	mmc_drv.sector_mode = emm_rsp_lo & (0x3UL << 37);
 	mmc_drv.bus_width = BUS_4_BIT;
 	emm_rsp_sts = mio_emm_cmd(MMC_CMD_ALL_SEND_CID, 0, 0, 0x0);
 	emm_rsp_sts = mio_emm_cmd(SD_CMD_SEND_RELATIVE_ADDR, 0, 0, 0x0);
 	mmc_drv.rca = (emm_rsp_lo >> 24) & 0xffff;
 	emm_rsp_sts = mio_emm_cmd(MMC_CMD_SELECT_CARD, 0, 0, mmc_drv.rca << 16);
+
 	CSR_WRITE_PA(mmc_current_file.node, CAVM_MIO_EMM_RCA, mmc_drv.rca);
 
 	/* Switch to new bus width etc.
@@ -328,8 +334,8 @@ int emmc_config()
 	mio_emm_cmd(MMC_CMD_APP_CMD, 0, 0, (mmc_drv.rca<<16));
 	emm_rsp_sts = mio_emm_cmd(MMC_CMD_SWITCH, 0, 0, mmc_drv.bus_width << 1);
 	emm_rsp_lo = CSR_READ_PA(mmc_current_file.node, CAVM_MIO_EMM_RSP_LO);
-	if (!emm_rsp_sts.s.rsp_timeout) {
 
+	if (!emm_rsp_sts.s.rsp_timeout) {
 		if (!(emm_rsp_lo >> (8 + 5) & 1)			// APP_CMD
 				&& (emm_rsp_lo >> (8 + 31) & 1)		// OUT_OF_RANGE
 				&& (emm_rsp_lo >> (8 + 19) & 1)){ 	// ERROR
@@ -361,6 +367,7 @@ int emmc_config()
 	}
 
 	INFO("%s %d: done\n", __func__, __LINE__);
+#endif
 	return 0;
 }
 
@@ -380,6 +387,7 @@ static int emmc_block_open(io_dev_info_t *dev_info, const uintptr_t spec,
 	 * spec at a time. When we have dynamic memory we can malloc and set
 	 * entity->info.
 	 */
+
 	if (mmc_current_file.in_use == 0) {
 		assert(block_spec != NULL);
 		assert(entity != NULL);
@@ -390,7 +398,9 @@ static int emmc_block_open(io_dev_info_t *dev_info, const uintptr_t spec,
 		mmc_current_file.file_pos = 0;
 		mmc_current_file.offset_address = block_spec->offset;
 		mmc_current_file.cs = 0; // XXX
+
 		entity->info = (uintptr_t)&mmc_current_file;
+
 		mmc_current_file.node = cavm_numa_local();
 
 		return emmc_config();
