@@ -45,6 +45,7 @@ typedef enum {
 	IO_TYPE_MEMMAP,
 	IO_TYPE_FIRMWARE_IMAGE_PACKAGE,
 	IO_TYPE_SPI,
+	IO_TYPE_EMMC,
 	IO_TYPE_MAX
 } io_type_t;
 
