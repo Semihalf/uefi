@@ -59,11 +59,28 @@ static int ecam_probe_bgx(int node, unsigned long arg)
 	union cavm_gserx_cfg cfg_dlm0;
 	union cavm_gserx_cfg cfg_dlm1;
 
-	/* On 81xx BGX is split across 2 DLMs, check both DLMs
+	cfg_dlm1.u = 0;
+
+	/* On 83xx BGX is split across 2 DLMs, check both DLMs
 	 * for marking BGX PCi device secure 
 	 */
-	cfg_dlm0.u = CSR_READ_PA(node, CAVM_GSERX_CFG(arg));
-	cfg_dlm1.u = CSR_READ_PA(node, CAVM_GSERX_CFG(arg + 1));
+	switch (arg) {
+	case 0:
+		cfg_dlm0.u = CSR_READ_PA(node, CAVM_GSERX_CFG(2));
+		break;
+	case 1:
+		cfg_dlm0.u = CSR_READ_PA(node, CAVM_GSERX_CFG(3));
+		break;
+	case 2:
+		cfg_dlm0.u = CSR_READ_PA(node, CAVM_GSERX_CFG(5));
+		cfg_dlm1.u = CSR_READ_PA(node, CAVM_GSERX_CFG(6));
+		break;
+	case 3:
+		cfg_dlm0.u = CSR_READ_PA(node, CAVM_GSERX_CFG(4));
+		break;
+	default:
+		cfg_dlm0.u = 0;
+	}
 
 	return (cfg_dlm0.s.bgx || cfg_dlm1.s.bgx);
 }
