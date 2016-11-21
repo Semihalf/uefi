@@ -34,9 +34,12 @@
 #include <io_driver.h>
 #include <io_fip.h>
 #include <io_spi.h>
+#include <io_mmc.h>
 #include <io_storage.h>
 #include <platform_def.h>
 #include <string.h>
+
+#include <cavm-arch.h>
 
 /* IO devices */
 static const io_dev_connector_t *fip_dev_con;
@@ -245,12 +248,19 @@ static int open_spi(const uintptr_t spec)
 
 void thunder_io_setup(void)
 {
-	int io_result;
+	int io_result, boot_medium;
+	cavm_gpio_strap_t gpio_strap;
 
 	io_result = register_io_dev_fip(&fip_dev_con);
 	assert(io_result == 0);
 
-	io_result = register_io_dev_spi(&spi_dev_con);
+	gpio_strap.u = CSR_READ_PA(0, CAVM_GPIO_STRAP);
+	boot_medium = (gpio_strap.u) & 0x7;
+
+	if (boot_medium == 0x5)
+		io_result = register_io_dev_spi(&spi_dev_con);
+	else
+		io_result = register_io_dev_emmc(&spi_dev_con);
 	assert(io_result == 0);
 
 	/* Open connections to devices and cache the handles */

@@ -226,11 +226,11 @@ void init_smmu(int node, uint64_t config_base, uint64_t config_size)
 	/* FIXME: Making devices non-secure from SMMU should be done differently */
 	for (int i = 0; i < 2048; i++) {
 		/* Only eMMC in SMMU0 is secure */
-		if (i == 8 && smmunr == 0) {
+		/*if (i == 8 && smmunr == 0) {
 			CSR_WRITE_PA((unsigned long)node,
 				     CAVM_SMMUX_SSDRX(smmunr, i), 0xffffcfff);
 			continue;
-		}
+		}*/
 
 		CSR_WRITE_PA((unsigned long)node, CAVM_SMMUX_SSDRX(smmunr, i),
 			     0xffffffff);

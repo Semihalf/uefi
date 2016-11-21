@@ -6,6 +6,7 @@ PLAT_INCLUDES		:=	-Icsr/include					\
 				-Iplat/cavium/common/include 			\
 
 PLAT_BL_COMMON_SOURCES	:=	drivers/arm/pl011/pl011_console.S		\
+				drivers/cavium/thunder_mmc.c			\
 				drivers/cavium/thunder_twsi.c			\
 				lib/aarch64/xlat_tables.c			\
 				${LIBFDT_DIR}/fdt.c				\
@@ -15,6 +16,7 @@ PLAT_BL_COMMON_SOURCES	:=	drivers/arm/pl011/pl011_console.S		\
 				plat/cavium/common/thunder_common.c		\
 				plat/cavium/common/thunder_dram.c		\
 				plat/cavium/common/thunder_dt.c			\
+				plat/cavium/common/thunder_io_storage.c		\
 
 BL1_SOURCES		+=	bl31/aarch64/crash_reporting.S			\
 				drivers/cavium/thunder_spi.c			\
@@ -23,7 +25,6 @@ BL1_SOURCES		+=	bl31/aarch64/crash_reporting.S			\
 				lib/cpus/aarch64/thunder.S			\
 				plat/cavium/common/aarch64/thunder_helpers.S	\
 				plat/cavium/common/bl1_thunder_setup.c		\
-				plat/cavium/common/thunder_io_storage.c		\
 				plat/common/aarch64/platform_up_stack.S		\
 
 BL2_SOURCES		+=	drivers/cavium/thunder_spi.c			\
@@ -32,7 +33,6 @@ BL2_SOURCES		+=	drivers/cavium/thunder_spi.c			\
 				plat/cavium/common/bl2_thunder_setup.c		\
 				plat/cavium/common/thunder_ecam.c		\
 				plat/cavium/common/thunder_gti.c		\
-				plat/cavium/common/thunder_io_storage.c		\
 				plat/cavium/common/thunder_security.c		\
 				plat/common/aarch64/platform_up_stack.S		\
 
