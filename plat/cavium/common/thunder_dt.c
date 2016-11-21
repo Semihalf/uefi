@@ -14,21 +14,21 @@ board_fdt_t bfdt;
 
 static void print_board_variables()
 {
-	printf("======================\n");
-	printf("BOARD MODEL = %s\n", bfdt.board_model);
-	printf("BMC BOOT TWSI node=%d bus=0x%x, addr=0x%x\n",
+	INFO("======================\n");
+	INFO("BOARD MODEL = %s\n", bfdt.board_model);
+	INFO("BMC BOOT TWSI node=%d bus=0x%x, addr=0x%x\n",
 		bfdt.bmc_boot_twsi_node,
 		bfdt.bmc_boot_twsi_bus,
 		bfdt.bmc_boot_twsi_addr);
-	printf("BMC IPMI TWSI node=%d bus=0x%x, addr=0x%x\n",
+	INFO("BMC IPMI TWSI node=%d bus=0x%x, addr=0x%x\n",
 		bfdt.bmc_ipmi_twsi_node,
 		bfdt.bmc_ipmi_twsi_bus,
 		bfdt.bmc_ipmi_twsi_addr);
-	printf("GPIO Shutdown pin IN = 0x%x\n",
+	INFO("GPIO Shutdown pin IN = 0x%x\n",
 		bfdt.gpio_shutdown_ctl_in);
-	printf("GPIO Shutdown pin OUT = 0x%x\n",
+	INFO("GPIO Shutdown pin OUT = 0x%x\n",
 		bfdt.gpio_shutdown_ctl_out);
-	printf("======================\n");
+	INFO("======================\n");
 
 }
 

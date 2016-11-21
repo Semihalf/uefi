@@ -101,7 +101,7 @@ void thunder_security_setup(void)
 
 		CSR_WRITE_PA(region->node, CAVM_L2C_ASC_REGIONX_ATTR(region->number), l2c_asc_attr.u);
 
-		printf("Mark memory region %d at node %d:: %lx to %lx as %ssecure (%lx)\n",
+		INFO("Mark memory region %d at node %d:: %lx to %lx as %ssecure (%lx)\n",
 			region->number, region->node,
 			CSR_READ_PA(region->node, CAVM_L2C_ASC_REGIONX_START(region->number)),
 			CSR_READ_PA(region->node, CAVM_L2C_ASC_REGIONX_END(region->number)),
