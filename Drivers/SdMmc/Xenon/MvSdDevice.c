@@ -901,6 +901,7 @@ SdCardSetBusMode (
 
   Status = SdCardSelect (PassThru, Slot, Rca);
   if (EFI_ERROR (Status)) {
+    DEBUG((DEBUG_ERROR, "SdCardSelect error = %r\n", Status));
     return Status;
   }
 
@@ -908,6 +909,7 @@ SdCardSetBusMode (
 
   Status = SdCardSwitchBusWidth (PciIo, PassThru, Slot, Rca, BusWidth);
   if (EFI_ERROR (Status)) {
+    DEBUG((DEBUG_ERROR, "SdCardSwitchBusWidth error = %r\n", Status));
     return Status;
   }
   //
@@ -915,6 +917,7 @@ SdCardSetBusMode (
   //
   Status = SdCardSwitch (PassThru, Slot, 0xF, 0xF, 0xF, 0xF, FALSE, SwitchResp);
   if (EFI_ERROR (Status)) {
+    DEBUG((DEBUG_ERROR, "SdCardSwitch error = %r\n", Status));
     return Status;
   }
   //
@@ -940,6 +943,7 @@ SdCardSetBusMode (
 
   Status = SdCardSwitch (PassThru, Slot, AccessMode, 0xF, 0xF, 0xF, TRUE, SwitchResp);
   if (EFI_ERROR (Status)) {
+    DEBUG((DEBUG_ERROR, "SdCardSwitch 2 error = %r\n", Status));
     return Status;
   }
 
@@ -948,7 +952,7 @@ SdCardSetBusMode (
     return EFI_DEVICE_ERROR;
   }
 
-  DEBUG ((DEBUG_INFO, "SdCardSetBusMode: Switch to AccessMode %d ClockFreq %d BusWidth %d\n", AccessMode, ClockFreq, BusWidth));
+  DEBUG ((DEBUG_ERROR, "SdCardSetBusMode: Switch to AccessMode %d ClockFreq %d BusWidth %d\n", AccessMode, ClockFreq, BusWidth));
 
   //
   // Set to Hight Speed timing
@@ -1172,10 +1176,12 @@ SdCardIdentification (
   //
   // Enter Data Tranfer Mode.
   //
-  DEBUG ((DEBUG_INFO, "SdCardIdentification: Found a SD device at slot [%d]\n", Slot));
+  DEBUG ((DEBUG_ERROR, "SdCardIdentification: Found a SD device at slot [%d]\n", Slot));
   Private->Slot[Slot].CardType = SdCardType;
 
   Status = SdCardSetBusMode (PciIo, PassThru, Slot, Rca, ((Ocr & BIT24) != 0));
+
+  DEBUG((DEBUG_ERROR, "SdCardIdentification: SetBusMode Status = %r\n", Status));
 
   return Status;
 
