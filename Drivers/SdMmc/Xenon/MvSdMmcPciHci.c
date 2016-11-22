@@ -33,46 +33,46 @@ DumpCapabilityReg (
   //
   // Dump Capability Data
   //
-  DEBUG ((DEBUG_INFO, " == Slot [%d] Capability is 0x%x ==\n", Slot, Capability));
-  DEBUG ((DEBUG_INFO, "   Timeout Clk Freq  %d%a\n", Capability->TimeoutFreq, (Capability->TimeoutUnit) ? "MHz" : "KHz"));
-  DEBUG ((DEBUG_INFO, "   Base Clk Freq     %dMHz\n", Capability->BaseClkFreq));
-  DEBUG ((DEBUG_INFO, "   Max Blk Len       %dbytes\n", 512 * (1 << Capability->MaxBlkLen)));
-  DEBUG ((DEBUG_INFO, "   8-bit Support     %a\n", Capability->BusWidth8 ? "TRUE" : "FALSE"));
-  DEBUG ((DEBUG_INFO, "   ADMA2 Support     %a\n", Capability->Adma2 ? "TRUE" : "FALSE"));
-  DEBUG ((DEBUG_INFO, "   HighSpeed Support %a\n", Capability->HighSpeed ? "TRUE" : "FALSE"));
-  DEBUG ((DEBUG_INFO, "   SDMA Support      %a\n", Capability->Sdma ? "TRUE" : "FALSE"));
-  DEBUG ((DEBUG_INFO, "   Suspend/Resume    %a\n", Capability->SuspRes ? "TRUE" : "FALSE"));
-  DEBUG ((DEBUG_INFO, "   Voltage 3.3       %a\n", Capability->Voltage33 ? "TRUE" : "FALSE"));
-  DEBUG ((DEBUG_INFO, "   Voltage 3.0       %a\n", Capability->Voltage30 ? "TRUE" : "FALSE"));
-  DEBUG ((DEBUG_INFO, "   Voltage 1.8       %a\n", Capability->Voltage18 ? "TRUE" : "FALSE"));
-  DEBUG ((DEBUG_INFO, "   64-bit Sys Bus    %a\n", Capability->SysBus64 ? "TRUE" : "FALSE"));
-  DEBUG ((DEBUG_INFO, "   Async Interrupt   %a\n", Capability->AsyncInt ? "TRUE" : "FALSE"));
-  DEBUG ((DEBUG_INFO, "   SlotType          "));
+  DEBUG ((DEBUG_ERROR, " == Slot [%d] Capability is 0x%x ==\n", Slot, Capability));
+  DEBUG ((DEBUG_ERROR, "   Timeout Clk Freq  %d%a\n", Capability->TimeoutFreq, (Capability->TimeoutUnit) ? "MHz" : "KHz"));
+  DEBUG ((DEBUG_ERROR, "   Base Clk Freq     %dMHz\n", Capability->BaseClkFreq));
+  DEBUG ((DEBUG_ERROR, "   Max Blk Len       %dbytes\n", 512 * (1 << Capability->MaxBlkLen)));
+  DEBUG ((DEBUG_ERROR, "   8-bit Support     %a\n", Capability->BusWidth8 ? "TRUE" : "FALSE"));
+  DEBUG ((DEBUG_ERROR, "   ADMA2 Support     %a\n", Capability->Adma2 ? "TRUE" : "FALSE"));
+  DEBUG ((DEBUG_ERROR, "   HighSpeed Support %a\n", Capability->HighSpeed ? "TRUE" : "FALSE"));
+  DEBUG ((DEBUG_ERROR, "   SDMA Support      %a\n", Capability->Sdma ? "TRUE" : "FALSE"));
+  DEBUG ((DEBUG_ERROR, "   Suspend/Resume    %a\n", Capability->SuspRes ? "TRUE" : "FALSE"));
+  DEBUG ((DEBUG_ERROR, "   Voltage 3.3       %a\n", Capability->Voltage33 ? "TRUE" : "FALSE"));
+  DEBUG ((DEBUG_ERROR, "   Voltage 3.0       %a\n", Capability->Voltage30 ? "TRUE" : "FALSE"));
+  DEBUG ((DEBUG_ERROR, "   Voltage 1.8       %a\n", Capability->Voltage18 ? "TRUE" : "FALSE"));
+  DEBUG ((DEBUG_ERROR, "   64-bit Sys Bus    %a\n", Capability->SysBus64 ? "TRUE" : "FALSE"));
+  DEBUG ((DEBUG_ERROR, "   Async Interrupt   %a\n", Capability->AsyncInt ? "TRUE" : "FALSE"));
+  DEBUG ((DEBUG_ERROR, "   SlotType          "));
   if (Capability->SlotType == 0x00) {
-    DEBUG ((DEBUG_INFO, "%a\n", "Removable Slot"));
+    DEBUG ((DEBUG_ERROR, "%a\n", "Removable Slot"));
   } else if (Capability->SlotType == 0x01) {
-    DEBUG ((DEBUG_INFO, "%a\n", "Embedded Slot"));
+    DEBUG ((DEBUG_ERROR, "%a\n", "Embedded Slot"));
   } else if (Capability->SlotType == 0x02) {
-    DEBUG ((DEBUG_INFO, "%a\n", "Shared Bus Slot"));
+    DEBUG ((DEBUG_ERROR, "%a\n", "Shared Bus Slot"));
   } else {
-    DEBUG ((DEBUG_INFO, "%a\n", "Reserved"));
+    DEBUG ((DEBUG_ERROR, "%a\n", "Reserved"));
   }
-  DEBUG ((DEBUG_INFO, "   SDR50  Support    %a\n", Capability->Sdr50 ? "TRUE" : "FALSE"));
-  DEBUG ((DEBUG_INFO, "   SDR104 Support    %a\n", Capability->Sdr104 ? "TRUE" : "FALSE"));
-  DEBUG ((DEBUG_INFO, "   DDR50  Support    %a\n", Capability->Ddr50 ? "TRUE" : "FALSE"));
-  DEBUG ((DEBUG_INFO, "   Driver Type A     %a\n", Capability->DriverTypeA ? "TRUE" : "FALSE"));
-  DEBUG ((DEBUG_INFO, "   Driver Type C     %a\n", Capability->DriverTypeC ? "TRUE" : "FALSE"));
-  DEBUG ((DEBUG_INFO, "   Driver Type D     %a\n", Capability->DriverTypeD ? "TRUE" : "FALSE"));
-  DEBUG ((DEBUG_INFO, "   Driver Type 4     %a\n", Capability->DriverType4 ? "TRUE" : "FALSE"));
+  DEBUG ((DEBUG_ERROR, "   SDR50  Support    %a\n", Capability->Sdr50 ? "TRUE" : "FALSE"));
+  DEBUG ((DEBUG_ERROR, "   SDR104 Support    %a\n", Capability->Sdr104 ? "TRUE" : "FALSE"));
+  DEBUG ((DEBUG_ERROR, "   DDR50  Support    %a\n", Capability->Ddr50 ? "TRUE" : "FALSE"));
+  DEBUG ((DEBUG_ERROR, "   Driver Type A     %a\n", Capability->DriverTypeA ? "TRUE" : "FALSE"));
+  DEBUG ((DEBUG_ERROR, "   Driver Type C     %a\n", Capability->DriverTypeC ? "TRUE" : "FALSE"));
+  DEBUG ((DEBUG_ERROR, "   Driver Type D     %a\n", Capability->DriverTypeD ? "TRUE" : "FALSE"));
+  DEBUG ((DEBUG_ERROR, "   Driver Type 4     %a\n", Capability->DriverType4 ? "TRUE" : "FALSE"));
   if (Capability->TimerCount == 0) {
-    DEBUG ((DEBUG_INFO, "   Retuning TimerCnt Disabled\n", 2 * (Capability->TimerCount - 1)));
+    DEBUG ((DEBUG_ERROR, "   Retuning TimerCnt Disabled\n", 2 * (Capability->TimerCount - 1)));
   } else {
-    DEBUG ((DEBUG_INFO, "   Retuning TimerCnt %dseconds\n", 2 * (Capability->TimerCount - 1)));
+    DEBUG ((DEBUG_ERROR, "   Retuning TimerCnt %dseconds\n", 2 * (Capability->TimerCount - 1)));
   }
-  DEBUG ((DEBUG_INFO, "   SDR50 Tuning      %a\n", Capability->TuningSDR50 ? "TRUE" : "FALSE"));
-  DEBUG ((DEBUG_INFO, "   Retuning Mode     Mode %d\n", Capability->RetuningMod + 1));
-  DEBUG ((DEBUG_INFO, "   Clock Multiplier  M = %d\n", Capability->ClkMultiplier + 1));
-  DEBUG ((DEBUG_INFO, "   HS 400            %a\n", Capability->Hs400 ? "TRUE" : "FALSE"));
+  DEBUG ((DEBUG_ERROR, "   SDR50 Tuning      %a\n", Capability->TuningSDR50 ? "TRUE" : "FALSE"));
+  DEBUG ((DEBUG_ERROR, "   Retuning Mode     Mode %d\n", Capability->RetuningMod + 1));
+  DEBUG ((DEBUG_ERROR, "   Clock Multiplier  M = %d\n", Capability->ClkMultiplier + 1));
+  DEBUG ((DEBUG_ERROR, "   HS 400            %a\n", Capability->Hs400 ? "TRUE" : "FALSE"));
   return;
 }
 
@@ -1125,7 +1125,7 @@ BuildAdmaDescTable (
   // for 32-bit address descriptor table.
   //
   if ((Data & (BIT0 | BIT1)) != 0) {
-    DEBUG ((DEBUG_INFO, "The buffer [0x%x] to construct ADMA desc is not aligned to 4 bytes boundary!\n", Data));
+    DEBUG ((DEBUG_ERROR, "The buffer [0x%x] to construct ADMA desc is not aligned to 4 bytes boundary!\n", Data));
   }
 
   Entries   = DivU64x32 ((DataLen + ADMA_MAX_DATA_PER_LINE - 1), ADMA_MAX_DATA_PER_LINE);
@@ -1418,6 +1418,8 @@ SdMmcCheckTrbEnv (
   return Status;
 }
 
+STATIC int counter = 100;
+
 /**
   Wait for the env to be ready for execute specified TRB.
 
@@ -1464,6 +1466,10 @@ SdMmcWaitTrbEnv (
     //
     gBS->Stall (1);
 
+    if (counter == 0)
+      break;
+
+    counter--;
     Timeout--;
   }
 
@@ -1671,6 +1677,17 @@ SdMmcCheckTrbResult (
 
   SwReset = 0;
   Packet  = Trb->Packet;
+
+  Status = SdMmcHcRwMmio (
+             Private->PciIo,
+             Trb->Slot,
+             SD_MMC_HC_NOR_INT_STS,
+             TRUE,
+             sizeof (IntStatus),
+             &IntStatus
+             );
+
+  gBS->Stall(1000);
   //
   // Check Trb execution result by reading Normal Interrupt Status register.
   //
@@ -1685,6 +1702,9 @@ SdMmcCheckTrbResult (
   if (EFI_ERROR (Status)) {
     goto Done;
   }
+
+  DEBUG((DEBUG_ERROR, "JSD: IntStatus register is equal = 0x%lx\n", IntStatus));
+
   //
   // Check Transfer Complete bit is set or not.
   //
@@ -1732,6 +1752,7 @@ SdMmcCheckTrbResult (
     if (EFI_ERROR (Status)) {
       goto Done;
     }
+    DEBUG((DEBUG_ERROR, "JSD: ErrIntStatus register is equal = 0x%lx\n", IntStatus));
     if ((IntStatus & 0x0F) != 0) {
       SwReset |= BIT1;
     }
