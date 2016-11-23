@@ -1171,7 +1171,7 @@ SdMmcPassThruPassThru (
     return EFI_D_ERROR;
   }
 
-  DEBUG((DEBUG_ERROR, "JSD: CommandIndex = %d\n", Packet->SdMmcCmdBlk->CommandIndex));
+//  DEBUG((DEBUG_ERROR, "JSD: CommandIndex = %d\n", Packet->SdMmcCmdBlk->CommandIndex));
 
   Trb = SdMmcCreateTrb (Private, Slot, Packet, Event);
   if (Trb == NULL) {
@@ -1196,28 +1196,28 @@ SdMmcPassThruPassThru (
     gBS->RestoreTPL (OldTpl);
   }
 
-  DEBUG((DEBUG_ERROR, "JSD: Checkpoint 1\n"));
+//  DEBUG((DEBUG_ERROR, "JSD: Checkpoint 1\n"));
   Status = SdMmcWaitTrbEnv (Private, Trb);
   if (EFI_ERROR (Status)) {
     goto Done;
   }
 
-  DEBUG((DEBUG_ERROR,"Data = 0x%lx\n", *(UINT64 *)Packet->InDataBuffer));
+//  DEBUG((DEBUG_ERROR,"Data = 0x%lx\n", *(UINT64 *)Packet->InDataBuffer));
 
-  DEBUG((DEBUG_ERROR, "JSD: Checkpoint 2\n"));
+//  DEBUG((DEBUG_ERROR, "JSD: Checkpoint 2\n"));
   Status = SdMmcExecTrb (Private, Trb);
   if (EFI_ERROR (Status)) {
     goto Done;
   }
 
-  DEBUG((DEBUG_ERROR,"Data = 0x%lx\n", *(UINT64 *)Trb->Packet->InDataBuffer));
+//  DEBUG((DEBUG_ERROR,"Data = 0x%lx\n", *(UINT64 *)Trb->Packet->InDataBuffer));
 
-  DEBUG((DEBUG_ERROR, "JSD: Checkpoint 3\n"));
+//  DEBUG((DEBUG_ERROR, "JSD: Checkpoint 3\n"));
   Status = SdMmcWaitTrbResult (Private, Trb);
   if (EFI_ERROR (Status)) {
     goto Done;
   }
-  DEBUG((DEBUG_ERROR, "JSD: Checkpoint 4\n"));
+//  DEBUG((DEBUG_ERROR, "JSD: Checkpoint 4\n"));
 
 Done:
   if ((Trb != NULL) && (Trb->AdmaDesc != NULL)) {

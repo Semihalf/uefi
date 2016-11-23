@@ -1643,6 +1643,28 @@ SdMmcExecTrb (
         break;
     }
   }
+
+// if (Packet->SdMmcCmdBlk->CommandIndex == SD_SWITCH_FUNC) {
+//  // Print all SD and XENON register here
+//  UINT16 *Ptr = (UINT16 *)0xf06e0000;
+//  int i;
+//  for (i = 0; i < (0xFF / 2); i++, Ptr++)
+//    DEBUG((DEBUG_ERROR, "REG[0x%p] = 0x%lx\n", Ptr, *Ptr));
+//  UINT32 *Ptr2 = (UINT32 *)0xf06e0100;
+//  for (i = 0; i < (0xE8 / 4); i++, Ptr2++)
+//    DEBUG((DEBUG_ERROR, "REG[0x%p] = 0x%lx\n", Ptr2, *Ptr2));
+//  } 
+
+    UINT16 TimeoutCtrl = 0xE;
+    SdMmcHcRwMmio (
+             Private->PciIo,
+             Trb->Slot,
+             SD_MMC_HC_TIMEOUT_CTRL,
+             FALSE,
+             sizeof (TimeoutCtrl),
+             &TimeoutCtrl
+           ); 
+
   //
   // Execute cmd
   //
@@ -1704,7 +1726,7 @@ SdMmcCheckTrbResult (
     goto Done;
   }
 
-  DEBUG((DEBUG_ERROR, "JSD: IntStatus register is equal = 0x%lx\n", IntStatus));
+//  DEBUG((DEBUG_ERROR, "JSD: IntStatus register is equal = 0x%lx\n", IntStatus));
 
   //
   // Check Transfer Complete bit is set or not.
@@ -1753,7 +1775,7 @@ SdMmcCheckTrbResult (
     if (EFI_ERROR (Status)) {
       goto Done;
     }
-    DEBUG((DEBUG_ERROR, "JSD: ErrIntStatus register is equal = 0x%lx\n", IntStatus));
+//    DEBUG((DEBUG_ERROR, "JSD: ErrIntStatus register is equal = 0x%lx\n", IntStatus));
     if ((IntStatus & 0x0F) != 0) {
       SwReset |= BIT1;
     }
