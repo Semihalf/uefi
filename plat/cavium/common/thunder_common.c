@@ -96,10 +96,7 @@ void thunder_cpu_setup(void)
 
 	/* Enable prefetcher */
 	set_bit(cvmctl_el1, 43);   /* Ignore the bp for next line prefetcher. */
-	if (midr == T81PARTNUM)
-		set_bit(cvmctl_el1, 42);   /* Use stride of 2. */
-	else if (midr == T83PARTNUM)
-		unset_bit(cvmctl_el1, 42); /* Don't cause a stride of 2 rather prefetch every line. */
+	set_bit(cvmctl_el1, 42);   /* Use stride of 2. */
 	set_bit(cvmctl_el1, 41);   /* Enable next line prefetcher. */
 	set_bit(cvmctl_el1, 40);   /* Enable delta prefetcher. */
 
