@@ -61,6 +61,26 @@ int spi_nor_rw_data(int write, unsigned long addr, int size, void *buf, int buf_
 int spi_nor_erase_sect(uint32_t addr);
 
 void set_secondary_cpu_jump_addr(unsigned int bl1_base);
+
+static uint8_t thunder_fuse_read_byte(int node, int byte_addr)
+{
+	union cavm_mio_fus_rcmd read_cmd;
+
+	read_cmd.u = 0;
+	read_cmd.s.addr = byte_addr;
+	read_cmd.s.pend = 1;
+	CSR_WRITE_PA(node, CAVM_MIO_FUS_RCMD, read_cmd.u);
+	while ((read_cmd.u = CSR_READ_PA(node, CAVM_MIO_FUS_RCMD)) &&
+		read_cmd.s.pend) ;
+
+	return read_cmd.s.dat;
+}
+
+static inline int thunder_fuse_read(int node, int fuse)
+{
+	return (thunder_fuse_read_byte(node, fuse >> 3) >> (fuse & 0x7)) & 1;
+}
+
 #define THUNDER_IRQ_MASKED	(1ull << 32)
 
 /* Secure timer IRQ */

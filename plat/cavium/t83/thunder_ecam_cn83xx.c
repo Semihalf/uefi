@@ -22,11 +22,6 @@
 #include "thunder_dt.h"
 #include "thunder_ecam.h"
 
-uint32_t thunder_fuse_read (int node, int i)
-{
-	return 0;
-}
-
 /* Probe for disabling TWSI busses from PCI scan */
 static int ecam_probe_twsi(int node, unsigned long arg)
 {
