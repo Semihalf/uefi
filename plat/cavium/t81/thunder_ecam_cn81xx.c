@@ -133,6 +133,7 @@ static struct ecam_device *cn81xx_get_dev_idx(int node, int ecam)
 		devs = &devs0_cn81xx[0];
 		break;
 	}
+
 	return devs;
 }
 
@@ -174,7 +175,7 @@ static uint64_t cn81xx_get_config_size(int node, int ecam)
 	return thunder_get_ecam_config_size(node, ecam);
 }
 
-const struct ecam_platform_defs ecam_defs = {
+const struct ecam_platform_defs ecam_devices_ops = {
 	.soc_type = T81PARTNUM,
 	.get_dev_idx = cn81xx_get_dev_idx,
 	.get_max_bus = cn81xx_get_max_bus,

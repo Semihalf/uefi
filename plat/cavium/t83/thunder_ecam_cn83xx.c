@@ -263,7 +263,7 @@ static uint64_t cn83xx_get_config_size(int node, int ecam)
 	return thunder_get_ecam_config_size(node, ecam);
 }
 
-const struct ecam_platform_defs ecam_defs = {
+const struct ecam_platform_defs ecam_devices_ops = {
 	.soc_type = T83PARTNUM,
 	.get_dev_idx = cn83xx_get_dev_idx,
 	.get_max_bus = cn83xx_get_max_bus,

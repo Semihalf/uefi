@@ -7,7 +7,7 @@
 #include "thunder_ecam.h"
 #include "thunder_io.h"
 
-//#define DEBUG_ATF_IO
+#undef DEBUG_ATF_IO
 
 #ifdef DEBUG_ATF_IO
 #define debug_io printf
@@ -15,14 +15,7 @@
 #define debug_io(x,...);
 #endif
 
-extern const struct ecam_platform_defs ecam_defs;
-
-static const struct ecam_platform_defs *ecam_devices_ops_list[] = {
-	&ecam_defs,
-	NULL
-};
-
-static const struct ecam_platform_defs *ecam_devices_ops = NULL;
+extern const struct ecam_platform_defs ecam_devices_ops;
 
 static void fixup_ecam(struct ecam_device *devs, int node, int ecam)
 {
@@ -98,7 +91,7 @@ static struct ecam_device *get_dev_idx(int node, int ecam, int bus, int dev,
 	int i = 0;
 	struct ecam_device *devs;
 
-	devs = ecam_devices_ops->get_dev_idx(node, ecam);
+	devs = ecam_devices_ops.get_dev_idx(node, ecam);
 
 	if (!devs) {
 		printf("WARNING : valid devs not found  node %d ecam %d\n",
@@ -647,9 +640,9 @@ static inline void enable_func(int node, int ecam, int func)
 
 static inline int skip_bus(int node, int ecam, int bus)
 {
-	if (ecam_devices_ops->disable_device_on_bus(node, bus))
+	if (ecam_devices_ops.disable_device_on_bus(node, bus))
 		return 1;
-	if (bus > ecam_devices_ops->get_max_bus(ecam))
+	if (bus > ecam_devices_ops.get_max_bus(ecam))
 		return 1;
 	return 0;
 }
@@ -743,45 +736,29 @@ static inline int walk_through_devices(int node, int ecam,
 
 int init_thunder_io(int node_count)
 {
-	int ecam_id = 0, i = 0;
+	int ecam_id = 0;
 	int bus, node, offset_ecams;
 	int ecams_per_node = thunder_get_num_ecams_per_node();
-	int soc_type = CAVIUM_SOC_TYPE();
 	uint64_t config_base;
 	uint64_t ecam_base;
 	uint64_t ecam_size;
 	struct pcie_config *pconfig;
 
-	/* Match ops with SoC type */
-	while (ecam_devices_ops_list[i]) {
-		if (soc_type == ecam_devices_ops_list[i]->soc_type) {
-			ecam_devices_ops = ecam_devices_ops_list[i];
-			break;
-		}
-		i++;
-	}
-
-	if (!ecam_devices_ops) {
-		printf("ERROR: valid SoC not found %d\n", soc_type);
-		return -1;
-	}
-
 	/* Enumeration */
 	for (node = 0; node < node_count; node++) {
 		for (ecam_id = 0; ecam_id < ecams_per_node; ecam_id++) {
-			fixup_ecam(ecam_devices_ops->get_dev_idx(node, ecam_id),
+			fixup_ecam(ecam_devices_ops.get_dev_idx(node, ecam_id),
 				   node, ecam_id);
 
 			offset_ecams = (node * ecams_per_node) + ecam_id;
 
-			debug_io
-			    ("starting Ecam(%d) of node %d offset_ecams %d scan..\n",
-			     ecam_id, node, offset_ecams);
+			debug_io("starting Ecam(%d) of node %d offset_ecams %d scan..\n",
+				 ecam_id, node, offset_ecams);
 
 			ecam_base =
-			    ecam_devices_ops->get_config_addr(node, ecam_id);
+			    ecam_devices_ops.get_config_addr(node, ecam_id);
 			ecam_size =
-			    ecam_devices_ops->get_config_size(node, ecam_id);
+			    ecam_devices_ops.get_config_size(node, ecam_id);
 
 			pconfig = (struct pcie_config *)ecam_base;
 
@@ -807,5 +784,6 @@ int init_thunder_io(int node_count)
 			}
 		}
 	}
+
 	return 0;
 }
