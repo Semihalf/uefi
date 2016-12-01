@@ -87,7 +87,7 @@ void thunder_cpu_setup(void)
 	cvmctl_el1 = read_cvmctl_el1();
 	cvmmemctl0_el1 = read_cvmmemctl0_el1();
 	cvmmemctl1_el1 = read_cvmmemctl1_el1();
-	midr = CAVIUM_SOC_TYPE();
+	midr = read_midr();
 
 	/* Enable CAS/CASP and enable v8.1 support. */
 	unset_bit(cvmctl_el1, 36);  /* Enable CAS */
@@ -100,7 +100,9 @@ void thunder_cpu_setup(void)
 	set_bit(cvmctl_el1, 41);   /* Enable next line prefetcher. */
 	set_bit(cvmctl_el1, 40);   /* Enable delta prefetcher. */
 
-	if (midr == T81PARTNUM || midr == T83PARTNUM) {
+	switch (MIDR_PARTNUM(midr)) {
+	case T81PARTNUM:
+	case T83PARTNUM:
 		set_bit(cvmmemctl1_el1, 3); /* Enable LMTST */
 		set_bit(cvmmemctl1_el1, 4); /* Enable SSO/PKO addr region */
 		set_bit(cvmmemctl1_el1, 6); /* Enable SSO switch tag */

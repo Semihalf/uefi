@@ -65,7 +65,7 @@ void thunder_gic_driver_init(void)
 	}
 #endif
 	/* ERRATUM GIC-28835 */
-	if (IS_THUNDER_PASS(CAVIUM_SOC_TYPE(), T83PARTNUM, 1, 0)) {
+	if (IS_THUNDER_PASS(read_midr(), T83PARTNUM, 1, 0)) {
 	        union cavm_gic_cfg_ctlr cfg_ctlr;
 	        cfg_ctlr.u = CSR_READ_PA(0, CAVM_GIC_CFG_CTLR);
 	        cfg_ctlr.s.dis_cpu_if_load_balancer = 1;
