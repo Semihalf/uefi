@@ -21,9 +21,11 @@
 #define PLAT_MAX_PWR_LVL		MPIDR_AFFLVL2
 
 #ifdef T81
-#define MIDR_REG			0x430F0A20
+#define THUNDER_MIDR			0x430F0A20
 #elif defined T83
-#define MIDR_REG			0x430F0A30
+#define THUNDER_MIDR			0x430F0A30
+#elif defined T88
+#define THUNDER_MIDR			0x430F0A10
 #endif
 
 /*******************************************************************************
