@@ -1,6 +1,15 @@
 #include <thunder_common.h>
 #include <thunder_private.h>
 
+int thunder_get_lmc_per_node(void)
+{
+	return 1;
+}
+
+int thunder_get_num_ecams_per_node(void)
+{
+	return 1;
+}
 
 void plat_add_mmio_node(unsigned long node)
 {
