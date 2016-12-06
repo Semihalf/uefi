@@ -259,6 +259,7 @@ uint64_t handle_irq_el3(uint32_t id, uint32_t flags, void *handle, void *cookie)
 	uint32_t irq;
 	uint32_t type = INTR_TYPE_EL3; // FIXME: fixed type for now
 	uint64_t rc = 0;
+	printf("Handling IRQ %d\n", id);
 
 	if (id == INTR_ID_UNAVAILABLE)
 		id = plat_ic_acknowledge_interrupt();

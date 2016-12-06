@@ -41,12 +41,14 @@ BL31_SOURCES		+=	drivers/arm/gic/common/gic_common.c		\
 				drivers/arm/gic/v3/gicv3_helpers.c		\
 				drivers/cavium/thunder_spi.c			\
 				lib/cpus/aarch64/thunder.S			\
+				lib/timers/timers.c				\
 				plat/cavium/common/aarch64/thunder_helpers.S	\
 				plat/cavium/common/bl31_thunder_setup.c		\
 				plat/cavium/common/thunder_gicv3.c		\
 				plat/cavium/common/thunder_pm.c			\
 				plat/cavium/common/thunder_pwrc.c		\
 				plat/cavium/common/thunder_svc.c		\
+				plat/cavium/common/thunder_timers.c		\
 				plat/cavium/common/thunder_topology.c		\
 				plat/common/aarch64/plat_psci_common.c		\
 				plat/common/aarch64/platform_mp_stack.S		\
