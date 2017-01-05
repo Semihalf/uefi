@@ -26,6 +26,7 @@ static const unsigned int g1s_interrupt_array[] = {
 /* Array of Group0 interrupts to be configured by the gic driver */
 static const unsigned int g0_interrupt_array[] = {
 //	PLAT_ARM_G0_IRQS
+	THUNDER_IRQ_SEC_PHY_TIMER,
 	THUNDER_IRQ_GPIO_PWR_S,
 	THUNDER_IRQ_GTI_WDOG,
 };
