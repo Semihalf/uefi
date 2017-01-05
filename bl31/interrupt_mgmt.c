@@ -34,6 +34,7 @@
 #include <errno.h>
 #include <interrupt_mgmt.h>
 #include <platform.h>
+#include <debug.h>
 #include <stdio.h>
 
 typedef struct intr_desc {
@@ -263,7 +264,7 @@ uint64_t handle_irq_el3(uint32_t id, uint32_t flags, void *handle, void *cookie)
 	if (id == INTR_ID_UNAVAILABLE)
 		id = plat_ic_acknowledge_interrupt();
 
-	printf("Handling IRQ %d\n", id);
+	VERBOSE("Handling IRQ %d\n", id);
 	intr_desc_t *intr_descs = intr_type_descs[type].intr_desc;
 
 	for (irq = 0; irq < MAX_INTRS; irq++) {
